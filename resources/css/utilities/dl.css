@@ -1,0 +1,15 @@
+.dl {
+    @apply grid;
+    @apply cols-auto-1fr;
+    @apply justify-start;
+}
+
+.dl dt {
+    @apply text-gray-400;
+    @apply pr-8;
+}
+
+.dl dt,
+.dl dd {
+    @apply py-2;
+}

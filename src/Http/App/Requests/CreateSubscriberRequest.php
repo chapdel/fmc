@@ -1,0 +1,36 @@
+<?php
+
+namespace Spatie\Mailcoach\Http\App\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+use Spatie\Mailcoach\Models\EmailList;
+use Spatie\Mailcoach\Rules\EmailListSubscriptionRule;
+
+class CreateSubscriberRequest extends FormRequest
+{
+    public function rules(): array
+    {
+        return [
+            'email' => ['required', 'email:rfc', new EmailListSubscriptionRule($this->emailList())],
+            'first_name' => 'nullable|string',
+            'last_name' => 'nullable|string',
+        ];
+    }
+
+    public function emailList(): EmailList
+    {
+        return request()->route()->parameter('emailList');
+    }
+
+    public function subscriberAttributes(): array
+    {
+        return $this->except(['email', '_token']);
+    }
+
+    public function messages()
+    {
+        return [
+            'email.unique' => 'There already is a subscriber with this email.',
+        ];
+    }
+}

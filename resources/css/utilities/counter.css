@@ -1,0 +1,21 @@
+.counter {
+    @apply align-middle;
+    @apply inline-flex;
+    @apply justify-center;
+    @apply items-center;
+    @apply ml-2;
+    @apply rounded-full;
+    @apply bg-gray-200;
+    @apply font-bold;
+    height: 2em;
+    min-width: 2em;
+    font-size: 10px;
+    font-variant-numeric: tabular-nums;
+    padding: 0 0.35rem;
+}
+
+.tabs .active .counter,
+.filters .filter-active .counter {
+    @apply bg-blue-500;
+    @apply text-white;
+}

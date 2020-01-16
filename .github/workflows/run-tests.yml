@@ -1,0 +1,56 @@
+name: run-tests
+
+on: [push]
+
+jobs:
+    test:
+
+        runs-on: ubuntu-latest
+        services:
+            redis:
+              image: redis
+              ports:
+                - 6379:6379
+              options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        strategy:
+            fail-fast: true
+            matrix:
+                php: [7.4]
+                laravel: [6.*]
+                dependency-version: [prefer-lowest, prefer-stable]
+                include:
+                    - laravel: 6.*
+                      testbench: 4.*
+
+        name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v1
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v1
+              with:
+                  php-version: ${{ matrix.php }}
+                  extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick
+                  coverage: none
+
+            - name: Install dependencies
+              run: |
+                  composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
+                  composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
+
+            - name: Execute tests
+              run: vendor/bin/phpunit
+              env:
+                REDIS_PORT: ${{ job.services.redis.ports[6379] }}
+
+            - name: Send Slack notification
+              uses: 8398a7/action-slack@v2
+              if: failure()
+              with:
+                status: ${{ job.status }}
+                author_name: ${{ github.actor }}
+              env:
+                SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

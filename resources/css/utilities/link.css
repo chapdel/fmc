@@ -1,0 +1,62 @@
+.link {
+    @apply text-blue-500;
+    @apply underline;
+    text-decoration-color: var(--blue-400);
+}
+
+.link-hover {
+    @apply text-blue-600;
+    text-decoration-color: var(--blue-500);
+}
+
+.link:hover {
+    @apply link-hover;
+}
+
+.links a {
+    @apply link;
+}
+
+.links a:hover {
+    @apply link-hover;
+}
+
+.link-dimmed {
+    @apply text-gray-400;
+    @apply underline;
+    text-decoration-color: var(--gray-300);
+}
+
+.link-dimmed-hover {
+    @apply text-gray-500;
+    text-decoration-color: var(--gray-400);
+}
+
+.link-dimmed:hover {
+    @apply link-dimmed-hover;
+}
+
+.links-dimmed a {
+    @apply link-dimmed;
+}
+
+.links-dimmed a:hover {
+    @apply link-dimmed-hover;
+}
+
+.link-icon {
+    @apply text-blue-500;
+}
+
+.link-icon .icon-label-text {
+    @apply underline;
+    text-decoration-color: var(--blue-400);
+}
+
+.link-icon:hover {
+    @apply text-blue-600;
+}
+
+.link-icon:hover .icon-label-text {
+    text-decoration-color: var(--blue-500);
+}

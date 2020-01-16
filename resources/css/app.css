@@ -1,0 +1,42 @@
+@charset 'UTF-8';
+
+@import './bootstrap.css';
+
+@import './utilities/link.css';
+@import './utilities/markup.css';
+
+@import './utilities/alert.css';
+@import './utilities/breadcrumb.css';
+@import './utilities/button.css';
+@import './utilities/card.css';
+@import './utilities/chart.css';
+@import './utilities/checkbox.css';
+@import './utilities/counter.css';
+@import './utilities/dl.css';
+@import './utilities/dropdown.css';
+@import './utilities/filter.css';
+@import './utilities/horses.css';
+@import './utilities/icon.css';
+@import './utilities/input.css';
+@import './utilities/form.css';
+@import './utilities/grid.css';
+@import './utilities/label.css';
+@import './utilities/layout.css';
+@import './utilities/modal.css';
+@import './utilities/navigation.css';
+@import './utilities/pagination.css';
+@import './utilities/progress-bar.css';
+@import './utilities/radio.css';
+@import './utilities/search.css';
+@import './utilities/select.css';
+@import './utilities/table.css';
+@import './utilities/tab.css';
+@import './utilities/tag.css';
+@import './utilities/toggle.css';
+@import './utilities/transitions.css';
+
+@import './vendor/choices.css';
+@import './vendor/flatpickr.css';
+
+@tailwind components;
+@tailwind utilities;

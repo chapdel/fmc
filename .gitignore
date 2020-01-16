@@ -1,0 +1,10 @@
+build
+composer.lock
+vendor
+!resources/css/vendor
+coverage
+.php_cs.cache
+node_modules
+mix-manifest.json
+auth.json
+.phpunit.result.cache

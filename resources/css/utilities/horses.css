@@ -1,0 +1,112 @@
+.horses-wrap {
+    width: 300px;
+    height: 300px;
+    @apply overflow-hidden;
+    @apply -m-6;
+}
+
+@screen md {
+    .horses-wrap {
+        @apply -mx-12;
+    }
+}
+
+.horses {
+    width: 300px;
+    height: 300px;
+    @apply block;
+    @apply overflow-hidden;
+}
+
+.horse-back,
+.horse-01,
+.horse-02 {
+    @apply absolute;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 300px;
+}
+
+.horse-01 {
+    animation: horse-01 5s 2s infinite;
+    transform-origin: 90% 45%;
+}
+
+@keyframes horse-01 {
+    0% {
+        transform: rotate(0deg);
+    }
+    10% {
+        transform: rotate(2deg);
+    }
+    15% {
+        transform: rotate(1deg);
+    }
+    20% {
+        transform: rotate(2deg);
+    }
+    24% {
+        transform: rotate(0.5deg);
+    }
+    28% {
+        transform: rotate(1.5deg);
+    }
+    32% {
+        transform: rotate(0.5deg);
+    }
+    50% {
+        transform: rotate(0deg);
+    }
+}
+
+.horse-02 {
+    animation: horse-02 6s infinite;
+    transform-origin: 40% 70%;
+}
+
+@keyframes horse-02 {
+    12% {
+        transform: rotate(0deg);
+    }
+    17% {
+        transform: rotate(-1deg);
+    }
+    21% {
+        transform: rotate(0.25deg);
+    }
+    26% {
+        transform: rotate(-0.75deg);
+    }
+    31% {
+        transform: rotate(0.25deg);
+    }
+    34% {
+        transform: rotate(-0.5deg);
+    }
+    38% {
+        transform: rotate(0deg);
+    }
+}
+
+.horse-button {
+    @apply absolute;
+    @apply inset-0;
+    @apply grid;
+    @apply place-center;
+    animation: horse-button 0.3s 0.5s forwards;
+    opacity: 0;
+    transform: scale(0);
+}
+
+@keyframes horse-button {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}

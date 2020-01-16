@@ -1,0 +1,64 @@
+.layout {
+    @apply grid;
+    gap: 1rem;
+    @apply p-6;
+    @apply max-w-layout;
+    @apply mx-auto;
+    @apply w-full;
+    @apply min-h-screen;
+    grid-template-areas:
+        'nav header-right'
+        'header header'
+        'main main'
+        'footer footer';
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto minmax(2.15rem, auto) 1fr auto;
+    z-index: 1;
+}
+
+@screen lg {
+    .layout {
+        @apply pt-16;
+        gap: 2rem 3rem;
+        grid-template-areas:
+            '. header header-right'
+            'nav main main'
+            '. footer footer';
+        grid-template-rows: minmax(2.15rem, auto) 1fr auto;
+        grid-template-columns: auto 1fr auto;
+    }
+}
+
+.layout-header {
+    grid-area: header;
+    @apply grid;
+    @apply items-center;
+    grid-template-columns: auto 1fr;
+    @apply text-white;
+}
+
+.layout-header-right {
+    grid-area: header-right;
+    @apply grid;
+    @apply items-center;
+    @apply text-white;
+}
+
+.layout-nav {
+    grid-area: nav;
+}
+
+.layout-main {
+    grid-area: main;
+    @apply -mx-6;
+}
+
+@screen lg {
+    .layout-main {
+        @apply mx-0;
+    }
+}
+
+.layout-footer {
+    grid-area: footer;
+}

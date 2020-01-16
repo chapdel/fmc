@@ -1,0 +1,18 @@
+.card {
+    @apply bg-white;
+    @apply shadow-lg;
+    @apply px-6;
+    @apply py-12;
+    @apply w-full;
+}
+
+.card::-webkit-scrollbar {
+    height: 0px; /* Remove scrollbar space */
+    background: transparent; /* Optional: just make scrollbar invisible */
+}
+
+@screen lg {
+    .card {
+        @apply p-12;
+    }
+}

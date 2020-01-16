@@ -1,0 +1,41 @@
+.select {
+    @apply h-10;
+    @apply max-w-full;
+}
+
+.select-arrow {
+    @apply pointer-events-none;
+    @apply absolute;
+    @apply top-0;
+    @apply right-0;
+    @apply grid;
+    @apply place-center;
+    @apply w-8;
+    @apply h-full;
+    @apply text-blue-600;
+    opacity: 0.75;
+}
+
+.select select {
+    @apply input;
+    -webkit-appearance: none;
+    appearance: none;
+    @apply pr-8;
+    @apply h-full;
+    @apply min-h-0;
+    @apply text-gray-800;
+    @apply border-2;
+    @apply border-transparent;
+}
+
+.select select:focus {
+    @apply border-blue-100;
+    @apply outline-none;
+    @apply bg-white;
+    @apply shadow-focus;
+}
+
+select:disabled {
+    @apply opacity-50;
+    @apply cursor-not-allowed;
+}

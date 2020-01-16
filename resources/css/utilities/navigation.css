@@ -1,0 +1,44 @@
+.navigation {
+    @apply grid;
+    @apply gapx-3;
+    @apply gapy-6;
+    @apply cols-auto;
+    @apply justify-start;
+    @apply text-2xl;
+}
+
+@screen lg {
+    .navigation {
+        grid-auto-flow: row;
+        @apply text-base;
+        @apply sticky;
+        top: 3rem;
+    }
+}
+
+.navigation .icon-label-text {
+    @apply hidden;
+}
+
+@screen lg {
+    .navigation .icon-label-text {
+        @apply block;
+        @apply font-semibold;
+        @apply leading-tight;
+        @apply opacity-50;
+        @apply text-base;
+    }
+
+    .navigation li:not(.active):hover .icon-label-text {
+        @apply opacity-75;
+    }
+
+    .navigation li.active .icon-label-text {
+        @apply opacity-100;
+    }
+}
+
+.navigation li.active .fas {
+    @apply text-blue-500;
+    @apply opacity-100;
+}

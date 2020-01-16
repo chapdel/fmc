@@ -1,0 +1,57 @@
+.tabs {
+    @apply bg-white;
+    @apply px-6;
+    @apply border-gray-100;
+    @apply border-b-2;
+    overflow-x: scroll;
+    margin-bottom: -2px;
+    z-index: 1;
+}
+
+.tabs::-webkit-scrollbar {
+    height: 0px; /* Remove scrollbar space */
+    background: transparent; /* Optional: just make scrollbar invisible */
+}
+
+@screen lg {
+    .tabs {
+        @apply px-12;
+    }
+}
+
+.tabs ul {
+    @apply grid;
+    @apply cols-auto;
+    @apply justify-start;
+    @apply gap-10;
+}
+
+.tabs li {
+    @apply cursor-pointer;
+    @apply font-semibold;
+    @apply border-b-2;
+    @apply border-transparent;
+    @apply text-gray-400;
+}
+
+.tabs li a {
+    @apply inline-block;
+    @apply px-1;
+    @apply pt-8;
+    @apply pb-3;
+}
+
+.tabs li:not(.active):hover {
+    @apply border-gray-200;
+    @apply text-gray-800;
+}
+
+.tabs li.active {
+    @apply border-blue-500;
+    @apply text-black;
+}
+
+.tabs li.active .fas {
+    @apply text-blue-500;
+    opacity: 1;
+}

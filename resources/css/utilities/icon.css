@@ -1,0 +1,58 @@
+.icon-label {
+    display: grid;
+    align-items: center;
+    justify-content: start;
+    grid-template-columns: minmax(1.25rem, auto) auto;
+    gap: 0.5rem;
+}
+
+.tabs .icon-label {
+    @apply -ml-2;
+}
+
+.button .icon-label,
+.button-secondary .icon-label {
+    @apply h-full;
+    @apply -mx-4;
+    @apply px-4;
+    @apply gap-2;
+}
+
+.link-icon .icon-label .fas,
+.button-icon .icon-label .fas,
+.button .icon-label .fas,
+.button-secondary .icon-label .fas {
+    font-size: 1.1em;
+}
+
+.dropdown-list .icon-label {
+    @apply -mx-4;
+    @apply -my-1;
+    @apply px-4;
+    @apply py-1;
+}
+
+.icon-label .fas {
+    justify-self: center;
+    @apply opacity-50;
+    font-size: 0.9em;
+    transition: opacity 0.3s ease;
+}
+
+.icon-label:hover .fas {
+    @apply opacity-75;
+}
+
+.icon-label-text {
+    @apply whitespace-no-wrap;
+}
+
+.icon-button {
+    @apply opacity-50;
+    transition: opacity 0.15s ease;
+}
+
+.dropdown-trigger-open .icon-button,
+.icon-button:hover {
+    @apply opacity-75;
+}

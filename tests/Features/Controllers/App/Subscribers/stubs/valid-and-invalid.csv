@@ -1,0 +1,5 @@
+email,first_name,last_name,extra_attributes.job_title
+freek@spatie.be,Freek,Van der Herten
+willem@spatie.be, "Willem", "Van Bockstal"
+rias@spatie.be, Rias,,developer
+invalid-email

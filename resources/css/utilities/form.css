@@ -1,0 +1,40 @@
+.form-grid {
+    @apply grid;
+    @apply gapy-6;
+    @apply max-w-full;
+}
+
+.form-row {
+    @apply grid;
+    @apply items-start;
+    @apply gap-2;
+    @apply max-w-lg;
+    grid-template-columns: 100%;
+}
+
+.form-buttons {
+    @apply grid;
+    @apply justify-start;
+    justify-items: start;
+    @apply items-center;
+    @apply gap-4;
+    @apply mt-4;
+}
+
+@screen sm {
+    .form-buttons {
+        @apply cols-auto;
+    }
+}
+
+.form-error {
+    @apply text-xs;
+    @apply text-red-400;
+    @apply flex;
+}
+
+.form-note {
+    @apply mt-2;
+    @apply text-gray-400;
+    @apply text-sm;
+}
