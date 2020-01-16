@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Support;
 
 use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 use PackageVersions\Versions;
 
 class Version
@@ -30,7 +31,9 @@ class Version
 
     public function getCurrentVersion(): string
     {
-        return Versions::getVersion('spatie/laravel-mailcoach');
+        $fullVersion = Versions::getVersion('spatie/laravel-mailcoach');
+
+        return Str::before($fullVersion, '@');
     }
 
     public function getLatestVersionInfo(): array
