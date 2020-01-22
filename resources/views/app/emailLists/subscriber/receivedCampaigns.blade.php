@@ -20,20 +20,20 @@
             </div>
         </div>
 
-        <table class="table">
+        <table class="table table-fixed">
             <thead>
                 <tr>
                     <th>Campaign</th>
-                    <th class="th-numeric">Opens</th>
-                    <th class="th-numeric">Clicks</th>
-                    <th class="th-numeric hidden | md:table-cell">Sent</th>
+                    <th class="w-32 th-numeric">Opens</th>
+                    <th class="w-32 th-numeric">Clicks</th>
+                    <th class="w-48 th-numeric hidden | md:table-cell">Sent</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($sends as $send)
                     <tr>
                         <td class="markup-links">
-                            <a href="{{ route('mailcoach.campaigns.summary', $send->campaign) }}">
+                            <a class="break-words" href="{{ route('mailcoach.campaigns.summary', $send->campaign) }}">
                                 {{ $send->campaign->name }}
                             </a>
                         </td>

@@ -20,25 +20,25 @@
         </div>
     </div>
 
-    <table class="table">
+    <table class="table table-fixed">
         <thead>
         <tr>
             <th>Email</th>
-            <th class="th-numeric">Date</th>
+            <th class="w-48 th-numeric hidden | md:table-cell">Date</th>
         </tr>
         </thead>
         <tbody>
         @foreach($unsubscribes as $unsubscribe)
             <tr>
                 <td class="markup-links">
-                    <a href="{{ route('mailcoach.emailLists.subscriber.details', [$unsubscribe->subscriber->emailList, $unsubscribe->subscriber]) }}">
+                    <a class="break-words" href="{{ route('mailcoach.emailLists.subscriber.details', [$unsubscribe->subscriber->emailList, $unsubscribe->subscriber]) }}">
                         {{ $unsubscribe->subscriber->email }}
                     </a>
                     <div class="td-secondary-line">
                         {{ $unsubscribe->subscriber->first_name }} {{ $unsubscribe->subscriber->last_name }}
                     </div>
                 </td>
-                <td class="td-numeric">{{ $unsubscribe->created_at->toMailcoachFormat() }}</td>
+                <td class="td-numeric hidden | md:table-cell">{{ $unsubscribe->created_at->toMailcoachFormat() }}</td>
             </tr>
         @endforeach
         </tbody>

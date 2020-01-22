@@ -21,19 +21,19 @@
                 </div>
             </div>
 
-            <table class="table">
+            <table class="table table-fixed">
                 <thead>
                     <tr>
                         <x-th sort-by="email">Email</x-th>
-                        <x-th sort-by="open_count" class="th-numeric">Opens</x-th>
-                        <x-th sort-by="-first_opened_at" sort-default class="th-numeric hidden | md:table-cell">First opened at</x-th>
+                        <x-th sort-by="open_count" class="w-32 th-numeric">Opens</x-th>
+                        <x-th sort-by="-first_opened_at" sort-default class="w-48 th-numeric hidden | md:table-cell">First opened at</x-th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($campaignOpens as $campaignOpen)
                         <tr>
                             <td class="markup-links">
-                                <a href="{{ route('mailcoach.emailLists.subscriber.details', [$campaign->emailList, $campaignOpen->subscriber_id]) }}">
+                                <a class="break-words" href="{{ route('mailcoach.emailLists.subscriber.details', [$campaign->emailList, $campaignOpen->subscriber_id]) }}">
                                     {{ $campaignOpen->subscriber_email }}
                                 </a>
                             </td>

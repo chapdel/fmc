@@ -2,7 +2,7 @@
     display: grid;
     align-items: center;
     justify-content: start;
-    grid-template-columns: minmax(1.25rem, auto) auto;
+    grid-template-columns: auto auto;
     gap: 0.5rem;
 }
 
@@ -37,6 +37,7 @@
     @apply opacity-50;
     font-size: 0.9em;
     transition: opacity 0.3s ease;
+    min-width: 1.25rem;
 }
 
 .icon-label:hover .fas {

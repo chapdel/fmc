@@ -29,20 +29,20 @@
         </div>
 
         @if($emailLists->count())
-            <table class="table">
+            <table class="table table-fixed">
                 <thead>
                 <tr>
                     <x-th sort-by="name" sort-default>Name</x-th>
-                    <x-th sort-by="-active_subscribers_count" class="th-numeric">Active</x-th>
-                    <x-th sort-by="-created_at" class="th-numeric hidden | md:table-cell">Created</x-th>
-                    <th></th>
+                    <x-th sort-by="-active_subscribers_count" class="w-32 th-numeric">Active</x-th>
+                    <x-th sort-by="-created_at" class="w-48 th-numeric hidden | md:table-cell">Created</x-th>
+                    <th class="w-12"></th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($emailLists as $emailList)
                     <tr>
                         <td class="markup-links">
-                            <a href="{{ route('mailcoach.emailLists.subscribers', $emailList) }}">
+                            <a class="break-words" href="{{ route('mailcoach.emailLists.subscribers', $emailList) }}">
                                 {{ $emailList->name }}
                             </a>
                         </td>

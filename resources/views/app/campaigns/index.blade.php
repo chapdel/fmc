@@ -45,16 +45,16 @@
     </div>
 
     @if($totalCampaignsCount)
-        <table class="table">
+        <table class="table table-fixed">
             <thead>
                 <tr>
                     <x-th class="w-4"></x-th>
                     <x-th sort-by="name">Name</x-th>
-                    <x-th sort-by="-sent_to_number_of_subscribers" class="th-numeric">Emails</x-th>
-                    <x-th sort-by="-unique_open_count" class="th-numeric hidden | md:table-cell">Unique opens</x-th>
-                    <x-th sort-by="-unique_click_count" class="th-numeric hidden | md:table-cell">Unique clicks</x-th>
-                    <x-th sort-by="-sent" sort-default class="th-numeric hidden | md:table-cell">Sent</x-th>
-                    <x-th></x-th>
+                    <x-th sort-by="-sent_to_number_of_subscribers" class="w-32 th-numeric">Emails</x-th>
+                    <x-th sort-by="-unique_open_count" class="w-32 th-numeric hidden | md:table-cell">Unique opens</x-th>
+                    <x-th sort-by="-unique_click_count" class="w-32 th-numeric hidden | md:table-cell">Unique clicks</x-th>
+                    <x-th sort-by="-sent" sort-default class="w-48 th-numeric hidden | md:table-cell">Sent</x-th>
+                    <x-th class="w-12"></x-th>
                 </tr>
             </thead>
             <tbody>

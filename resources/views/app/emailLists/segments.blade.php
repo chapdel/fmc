@@ -26,23 +26,23 @@
     </div>
 
     @if($emailList->segments()->count())
-        <table class="table">
+        <table class="table table-fixed">
             <thead>
             <tr>
                 <x-th sort-by="name">Name</x-th>
-                <x-th sort-by="-created_at" class="th-numeric">Created at</x-th>
-                <th></th>
+                <x-th sort-by="-created_at" class="w-48 th-numeric hidden | md:table-cell">Created at</x-th>
+                <th class="w-12"></th>
             </tr>
             </thead>
             <tbody>
             @foreach($segments as $segment)
                 <tr class="markup-links">
                     <td>
-                        <a href="{{ route('mailcoach.emailLists.segment.edit', [$segment->emailList, $segment]) }}">
+                        <a class="break-words" href="{{ route('mailcoach.emailLists.segment.edit', [$segment->emailList, $segment]) }}">
                             {{ $segment->name }}
                         </a>
                     </td>
-                    <td class="td-numeric">{{ $segment->created_at->toMailcoachFormat() }}</td>
+                    <td class="td-numeric hidden | md:table-cell">{{ $segment->created_at->toMailcoachFormat() }}</td>
                     <td class="td-action">
                         <div class="dropdown" data-dropdown>
                             <button class="icon-button" data-dropdown-trigger>

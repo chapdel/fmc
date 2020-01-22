@@ -75,19 +75,19 @@
     </div>
 
     @if($emailList->allSubscribers()->count())
-        <table class="table">
-            <thead>
+        <table class="table table-fixed">
+            <thead> 
             <tr>
                 <th class="w-4"></th>
                 <x-th sort-by="email">Email</x-th>
-                <th>Tags</th>
+                <th class="hidden | md:table-cell">Tags</th>
                 @if(request()->input('filter.status') === \Spatie\Mailcoach\Enums\SubscriptionStatus::UNSUBSCRIBED)
-                    <x-th sort-by="-unsubscribed_at" class="th-numeric hidden | md:table-cell">Unsubscribed at</x-th>
+                    <x-th sort-by="-unsubscribed_at" class="w-48 th-numeric hidden | md:table-cell">Unsubscribed at</x-th>
                 @else
-                    <x-th sort-by="-created_at" class="th-numeric hidden | md:table-cell">Subscribed at</x-th>
+                    <x-th sort-by="-created_at" class="w-48 th-numeric hidden | md:table-cell">Subscribed at</x-th>
                 @endif
 
-                <th></th>
+                <th class="w-12"></th>
             </tr>
             </thead>
             <tbody>
@@ -105,7 +105,7 @@
                         @endif
                     </td>
                     <td>
-                        <a class="link"
+                        <a class="break-words"
                            href="{{ route('mailcoach.emailLists.subscriber.details', [$subscriber->emailList, $subscriber]) }}">
                             {{ $subscriber->email }}
                         </a>
@@ -113,7 +113,7 @@
                             {{ $subscriber->first_name }} {{ $subscriber->last_name }}
                         </div>
                     </td>
-                    <td>
+                    <td class="hidden | md:table-cell">
                         @foreach($subscriber->tags()->pluck('name') as $tag)
                             <span class=tag>{{ $tag }}</span>
                         @endforeach
