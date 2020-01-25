@@ -55,18 +55,18 @@
         </div>
     </div>
 
-    <table class="table">
+    <table class="table table-fixed">
         <thead>
         <tr>
             <x-th sort-by="subscriber_email">Email address</x-th>
             <x-th sort-by="subscriber_email">Problem</x-th>
-            <x-th class="th-numeric hidden | md:table-cell" sort-by="-sent_at" sort-default>Sent at</x-th>
+            <x-th class="w-48 th-numeric hidden | md:table-cell" sort-by="-sent_at" sort-default>Sent at</x-th>
         </tr>
         </thead>
         <tbody>
         @foreach($sends as $send)
             <tr class="markup-links">
-                <td><a href="{{ route('mailcoach.emailLists.subscriber.details', [$send->subscriber->emailList, $send->subscriber]) }}">{{ $send->subscriber->email }}</a></td>
+                <td><a class="break-words" href="{{ route('mailcoach.emailLists.subscriber.details', [$send->subscriber->emailList, $send->subscriber]) }}">{{ $send->subscriber->email }}</a></td>
                 <td>{{ $send->failure_reason }}{{optional($send->latestFeedback())->formatted_type }}</td>
                 <td class="td-numeric hidden | md:table-cell">{{ optional($send->sent_at)->toMailcoachFormat() ?? '-' }}</td>
             </tr>

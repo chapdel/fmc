@@ -4,9 +4,7 @@
     <a class="link-dimmed inline-block truncate" style="max-width: 12rem" href="https://mailcoach.app">
         Mailcoach {{ $versionInfo->getCurrentVersion() }}
     </a>
-    <span>
-        by <a class="link-dimmed" href="https://spatie.be">SPATIE</a>
-    </span>
+    <span>&nbsp;by <a class="link-dimmed" href="https://spatie.be">SPATIE</a></span>
 
     @if(! $versionInfo->isLatest())
         <a class="ml-4 my-2 inline-flex items-center bg-green-200 text-green-800 rounded-sm px-2 leading-loose" href="/">

@@ -1,10 +1,11 @@
 .table {
+    @apply table-fixed;
     @apply border-collapse;
     @apply border-b;
     @apply border-gray-100;
-    width: calc(100% + 3rem);
+    width: calc(100% + 1.5rem);
     overflow-x: visible;
-    @apply -mx-6;
+    @apply -mx-3;
 }
 
 @screen lg {
@@ -27,13 +28,8 @@
 .table th,
 .table td {
     @apply py-3;
-    @apply pl-6;
+    @apply px-3;
     @apply align-top;
-}
-
-.table th:last-child,
-.table td:last-child {
-    @apply pr-6;
 }
 
 .table th {

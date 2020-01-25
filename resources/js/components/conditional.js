@@ -24,10 +24,10 @@ function getValue(controller) {
     return controller.value;
 }
 
-listen('change', '[data-conditional]', ({ target }) => {
-    toggleConditionals(target);
-});
-
 window.addEventListener('turbolinks:load', () => {
     $$('[data-conditional]').forEach(toggleConditionals);
+});
+
+listen('change', '[data-conditional]', ({ target }) => {
+    toggleConditionals(target);
 });

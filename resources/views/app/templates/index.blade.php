@@ -27,19 +27,19 @@
         </div>
 
         @if($templates->count())
-            <table class="table">
+            <table class="table table-fixed">
                 <thead>
                 <tr>
                     <x-th sort-by="name" sort-default>Name</x-th>
-                    <x-th sort-by="-updated_at" class="th-numeric">Last updated</x-th>
-                    <th></th>
+                    <x-th sort-by="-updated_at" class="w-48 th-numeric">Last updated</x-th>
+                    <th class="w-12"></th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($templates as $template)
                     <tr>
                         <td class="markup-links">
-                            <a href="{{ route('mailcoach.templates.edit', $template) }}">
+                            <a class="break-words" href="{{ route('mailcoach.templates.edit', $template) }}">
                                 {{ $template->name }}
                             </a>
                         </td>

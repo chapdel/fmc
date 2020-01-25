@@ -15,7 +15,7 @@
 @section('segment')
     @if($selectedSubscribersCount)
         <div class="table-overflow">
-            <table class="table">
+            <table class="table table-fixed">
                 <thead>
                 <tr>
                     <x-th sort-by="email">Email</x-th>
@@ -26,7 +26,7 @@
                 @foreach($subscribers as $subscriber)
                     <tr class="markup-links">
                         <td>
-                            <a href="{{ route('mailcoach.emailLists.subscriber.details', [$subscriber->emailList, $subscriber]) }}">
+                            <a class="break-words" href="{{ route('mailcoach.emailLists.subscriber.details', [$subscriber->emailList, $subscriber]) }}">
                                 {{ $subscriber->email }}
                             </a>
                             <div class="td-secondary-line">

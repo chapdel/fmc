@@ -13,15 +13,15 @@
 @section('content')
     <section class="card">
         @if (count($subscriberImports))
-            <table class="table mb-12">
+            <table class="table table-fixed mb-12">
                 <thead>
                 <tr>
-                    <th>Status</th>
-                    <th class="th-numeric">Started at</th>
+                    <th class="w-32">Status</th>
+                    <th class="w-48 th-numeric">Started at</th>
                     <th>List</th>
-                    <th class="th-numeric">Imported subscribers</th>
-                    <th class="th-numeric">Errors</th>
-                    <th></th>
+                    <th class="w-32 th-numeric">Imported subscribers</th>
+                    <th class="w-32 th-numeric">Errors</th>
+                    <th class="w-12"></th>
                 </tr>
                 </thead>
                 <tbody>

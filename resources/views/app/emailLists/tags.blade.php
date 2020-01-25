@@ -32,20 +32,20 @@
     </div>
 
     @if($tags->count())
-        <table class="table">
+        <table class="table table-fixed">
             <thead>
             <tr>
                 <x-th sort-by="name" sort-default>Name</x-th>
-                <x-th sort-by="subscriber_count" class="th-numeric">Subscribers</x-th>
-                <x-th sort-by="updated_at" class="th-numeric hidden | md:table-cell">Updated at</x-th>
-                <th></th>
+                <x-th sort-by="subscriber_count" class="w-32 th-numeric">Subscribers</x-th>
+                <x-th sort-by="updated_at" class="w-48 th-numeric hidden | md:table-cell">Updated at</x-th>
+                <th class="w-12"></th>
             </tr>
             </thead>
             <tbody>
             @foreach($tags as $tag)
                 <tr>
                     <td class="markup-links">
-                        <a href="{{ route('mailcoach.emailLists.tag.edit', [$emailList, $tag]) }}">
+                        <a class="break-words" href="{{ route('mailcoach.emailLists.tag.edit', [$emailList, $tag]) }}">
                             {{ $tag->name }}
                         </a>
                     </td>
