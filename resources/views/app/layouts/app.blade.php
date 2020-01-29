@@ -15,6 +15,8 @@
         <script type="text/javascript" src="{{ asset('vendor/mailcoach/app.js') }}" defer></script>
     </head>
     <body class="bg-blue-100">
+        <script>/**/</script><!-- Empty script to prevent FOUC in Firefox -->
+
         @include('mailcoach::app.layouts.partials.startBody')
 
         @include('mailcoach::app.layouts.partials.background')
