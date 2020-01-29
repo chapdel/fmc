@@ -25,7 +25,7 @@ abstract class TestCase extends Orchestra
     {
         parent::setUp();
 
-        $this->withFactories(__DIR__.'/database/factories');
+        $this->withFactories(__DIR__.'/../database/factories');
 
         Route::mailcoach('mailcoach');
 
