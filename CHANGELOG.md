@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 1.2.0 - 2020-01-31
+
+- add `guard` config option
+
 ## 1.1.0 - 2020-01-29
 
 - move factories to src, so tests of feedback packages can use them

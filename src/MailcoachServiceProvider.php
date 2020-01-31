@@ -19,6 +19,7 @@ use Spatie\Mailcoach\Commands\SendEmailListSummaryMailCommand;
 use Spatie\Mailcoach\Commands\SendScheduledCampaignsCommand;
 use Spatie\Mailcoach\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Http\App\Controllers\HomeController;
+use Spatie\Mailcoach\Http\App\Middleware\Authenticate;
 use Spatie\Mailcoach\Http\App\Middleware\Authorize;
 use Spatie\Mailcoach\Http\App\Middleware\SetMailcoachDefaults;
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
@@ -181,7 +182,12 @@ class MailcoachServiceProvider extends EventServiceProvider
 
             Route::prefix($url)->group(function () {
                 Route::prefix('')->group(__DIR__ . '/../routes/mailcoach-api.php');
-                Route::middleware(['web', Authorize::class, SetMailcoachDefaults::class])->group(__DIR__ . '/../routes/mailcoach-ui.php');
+                Route::middleware([
+                    'web',
+                    Authenticate::class,
+                    Authorize::class,
+                    SetMailcoachDefaults::class,
+                ])->group(__DIR__ . '/../routes/mailcoach-ui.php');
             });
         });
 

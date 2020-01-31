@@ -75,11 +75,11 @@ abstract class TestCase extends Orchestra
         });
     }
 
-    public function authenticate()
+    public function authenticate(string $guard = null)
     {
         $user = factory(User::class)->create();
 
-        $this->actingAs($user);
+        $this->actingAs($user, $guard);
     }
 
     public function assertMatchesHtmlSnapshotWithoutWhitespace(string $content)
