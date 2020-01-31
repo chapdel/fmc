@@ -22,7 +22,7 @@ class ConfirmSubscriberMail extends Mailable implements ShouldQueue
     {
         $this->subscriber = $subscriber;
 
-        $this->confirmationUrl = url(action(ConfirmSubscriberController::class, $subscriber->uuid));
+        $this->confirmationUrl = url(action('\\' . ConfirmSubscriberController::class, $subscriber->uuid));
 
         if ($redirectAfterConfirmedUrl !== '') {
             $this->confirmationUrl .= "?redirect={$redirectAfterConfirmedUrl}";

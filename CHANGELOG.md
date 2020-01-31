@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 1.2.1 - 2020-01-31
+
+- fix bug in `ConfirmSubscriberController` (#16)
+
 ## 1.2.0 - 2020-01-31
 
 - add `guard` config option
