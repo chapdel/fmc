@@ -29,6 +29,10 @@ class EmailListSummaryMail extends Mailable
     public function build()
     {
         $this
+            ->from(
+                $this->emailList->default_from_email,
+                $this->emailList->default_name
+            )
             ->subject("A summary of the '{$this->emailList->name}' list")
             ->markdown('mailcoach::mails.emailListSummary', [
                 'summary' => $this->emailList->summarize($this->summaryStartDateTime)

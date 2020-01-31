@@ -12,7 +12,7 @@ class ImportSubscribersResultMail extends Mailable
     use Queueable, SerializesModels;
 
     public string $theme = 'mailcoach::mails.layout.mailcoach';
-    
+
     public SubscriberImport $subscriberImport;
 
     public function __construct(SubscriberImport $subscriberImport)
@@ -22,6 +22,11 @@ class ImportSubscribersResultMail extends Mailable
 
     public function build()
     {
-        return $this->markdown('mailcoach::mails.importResults');
+        return $this
+            ->from(
+                $this->subscriberImport->emailList->default_from_email,
+                $this->subscriberImport->emailList->default_name
+            )
+            ->markdown('mailcoach::mails.importResults');
     }
 }
