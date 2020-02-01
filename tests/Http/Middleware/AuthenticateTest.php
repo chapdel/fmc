@@ -17,13 +17,13 @@ class AuthenticateTest extends TestCase
     }
 
     /** @test */
-    public function it_can_use_the_default_guard()
+    public function when_not_authenticated_it_redirects_to_the_login_route()
     {
         $this->get(route('mailcoach.campaigns'))->assertRedirect(route('login'));
     }
 
     /** @test */
-    public function the_default_behaviour_works()
+    public function when_authenticated_it_can_view_the_mailcoach_ui()
     {
         $this->authenticate();
 
@@ -31,7 +31,7 @@ class AuthenticateTest extends TestCase
     }
 
     /** @test */
-    public function it_will_fail_when_authentication_with_a_wrong_guard()
+    public function it_will_redirect_to_the_login_page_when_authenticated_with_the_wrong_guard()
     {
         config()->set('mailcoach.guard', 'api');
 
@@ -41,7 +41,7 @@ class AuthenticateTest extends TestCase
     }
 
     /** @test */
-    public function it_can_authenticate_using_the_guard_specified_in_the_config_file()
+    public function when_authenticated_with_the_right_guard_it_can_view_the_mailcoach_ui()
     {
         config()->set('mailcoach.guard', 'api');
 
