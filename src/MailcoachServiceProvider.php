@@ -182,12 +182,7 @@ class MailcoachServiceProvider extends EventServiceProvider
 
             Route::prefix($url)->group(function () {
                 Route::prefix('')->group(__DIR__ . '/../routes/mailcoach-api.php');
-                Route::middleware([
-                    'web',
-                    Authenticate::class,
-                    Authorize::class,
-                    SetMailcoachDefaults::class,
-                ])->group(__DIR__ . '/../routes/mailcoach-ui.php');
+                Route::middleware(config('mailcoach.middleware'))->group(__DIR__ . '/../routes/mailcoach-ui.php');
             });
         });
 
