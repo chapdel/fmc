@@ -2,7 +2,6 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
-
 ## 1.3.0 - 2020-02-01
 
 - add `middleware` config key
