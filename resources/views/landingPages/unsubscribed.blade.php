@@ -5,6 +5,6 @@
         Sorry to see you go.
     </p>
     <p class="mt-4">
-        You have been unsubscribed from list <strong class="font-semibold">{{ $subscriber->emailList->name }}<strong>.
+        You have been unsubscribed from list <strong class="font-semibold">{{ $subscriber->emailList->name }}</strong>.
     </p>
 @endsection
