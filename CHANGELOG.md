@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 1.4.0 - 2020-02-02
+
+- add `BounceRegisteredEvent` and `ComplaintRegisteredEvent`
+
 ## 1.3.1 - 2020-02-02
 
 - fix `CampaignSend` query class names
