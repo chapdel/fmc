@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 1.3.1 - 2020-02-02
+
+- fix `CampaignSend` query class names
+
 ## 1.3.0 - 2020-02-01
 
 - add `middleware` config key

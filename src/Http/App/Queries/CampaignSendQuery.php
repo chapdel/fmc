@@ -8,7 +8,7 @@ use Spatie\Mailcoach\Models\Subscriber;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class SendQuery extends QueryBuilder
+class CampaignSendQuery extends QueryBuilder
 {
     public function __construct(Subscriber $subscriber)
     {
