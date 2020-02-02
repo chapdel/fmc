@@ -9,8 +9,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Enums\CampaignSendFeedbackType;
 use Spatie\Mailcoach\Enums\SendFeedbackType;
+use Spatie\Mailcoach\Events\BounceRegisteredEvent;
 use Spatie\Mailcoach\Events\CampaignLinkClickedEvent;
 use Spatie\Mailcoach\Events\CampaignOpenedEvent;
+use Spatie\Mailcoach\Events\ComplaintRegisteredEvent;
 use Spatie\Mailcoach\Models\Concerns\HasUuid;
 
 class Send extends Model
@@ -162,6 +164,8 @@ class Send extends Model
 
         $this->subscriber->unsubscribe();
 
+        event(new BounceRegisteredEvent($this));
+
         return $this;
     }
 
@@ -172,6 +176,8 @@ class Send extends Model
         ]);
 
         $this->subscriber->unsubscribe();
+
+        event(new ComplaintRegisteredEvent($this));
 
         return $this;
     }
