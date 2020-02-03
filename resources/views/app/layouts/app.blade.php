@@ -16,7 +16,6 @@
 
         @if (config('mailcoach.editor.enabled'))
             <script id="unlayer" src="https://editor.unlayer.com/embed.js" defer></script>
-            <script type="text/javascript" src="{{ asset('vendor/mailcoach/unlayer.js') }}" defer></script>
         @endif
     </head>
     <body class="bg-blue-100">
