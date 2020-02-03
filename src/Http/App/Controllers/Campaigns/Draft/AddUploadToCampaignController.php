@@ -16,7 +16,7 @@ class AddUploadToCampaignController
         $this->validate($request, ['file' => 'required|image']);
 
         $upload = Upload::create();
-        $media = $upload->addMediaFromRequest('file')->toMediaCollection();
+        $media = $upload->addMediaFromRequest('file')->toMediaCollection('default', config('mailcoach.editor.uploads.disk_name'));
 
         $upload->campaigns()->attach($campaign);
 

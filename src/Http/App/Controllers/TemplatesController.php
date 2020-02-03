@@ -54,7 +54,7 @@ class TemplatesController
     public function addUpload(Template $template, Request $request)
     {
         $upload = Upload::create();
-        $media = $upload->addMediaFromRequest('file')->toMediaCollection();
+        $media = $upload->addMediaFromRequest('file')->toMediaCollection('default', config('mailcoach.editor.uploads.disk_name'));
 
         $upload->templates()->attach($template);
 

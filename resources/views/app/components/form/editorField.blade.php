@@ -11,6 +11,7 @@
 
         unlayer.init({
             id: 'editor',
+            projectId: '{{ config('mailcoach.editor.unlayer_project_id') }}',
             displayMode: 'email',
             features: {textEditor: {spellChecker: true}},
             tools: {form: {enabled: false}},
@@ -79,7 +80,9 @@
     <p class="form-error" role="alert">{{ $message }}</p>
     @enderror
 
-    <div id="editor" class="h-full -ml-5 pr-1 py-1" style="min-height: 75vh"></div>
+    <div class="overflow-hidden -mx-10 h-full">
+        <div id="editor" class="h-full -ml-2 pr-3 py-1" style="min-height: 75vh"></div>
+    </div>
     <input type="hidden" name="html" id="html" value="{{ $html }}">
     <input type="hidden" name="json" id="json" value="{{ json_encode($json) }}">
 </div>
