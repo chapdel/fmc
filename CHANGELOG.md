@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 1.4.2 - 2020-02-03
+
+- fix exception when trying to replace an attribute that is null
+
 ## 1.4.1 - 2020-02-03
 
 - make events properties public
