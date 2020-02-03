@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns;
 
 use Spatie\Mailcoach\Models\Campaign;
-use Spatie\MediaLibrary\Models\Media;
+use Spatie\Mailcoach\Models\Upload;
 
 class DuplicateCampaignController
 {
@@ -28,7 +28,7 @@ class DuplicateCampaignController
             'segment_description' => $duplicateCampaign->getSegment()->description($campaign),
         ]);
 
-        $campaign->media->each(fn (Media $media) => $duplicateCampaign->copyMedia($media->getPath())->toMediaCollection());
+        $campaign->uploads->each(fn (Upload $upload) => $duplicateCampaign->uploads()->attach($upload));
 
         flash()->success("Campaign {$campaign->name} was duplicated.");
 
