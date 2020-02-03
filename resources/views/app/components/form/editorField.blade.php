@@ -19,6 +19,8 @@
 
         initialized = true;
 
+        unlayer.loadDesign({!! json_encode($json) !!});
+
         unlayer.registerCallback('image', function(file, done) {
             var data = new FormData();
             data.append('file', file.attachments[0]);
@@ -34,20 +36,15 @@
                 // Make sure the response was valid
                 if (response.status >= 200 && response.status < 300) {
                     return response
-                } else {
-                    var error = new Error(response.statusText);
-                    error.response = response;
-                    throw error
                 }
-            }).then(response => {
-                return response.json()
-            }).then(data => {
-                // Pass the URL back to Unlayer to mark this upload as completed
-                done({ progress: 100, url: data.url })
-            })
-        });
 
-        unlayer.loadDesign({!! json_encode($json) !!});
+                var error = new Error(response.statusText);
+                error.response = response;
+                throw error
+            })
+            .then(response => response.json())
+            .then(data => done({ progress: 100, url: data.url }))
+        });
 
         const mergeTags = {};
         @foreach ($replacerHelpTexts as $replacerName => $replacerDescription)
