@@ -16,6 +16,7 @@ class CampaignContentController
     {
         $campaign->update([
             'html' => $request->html,
+            'json' => json_decode($request->json),
             'last_modified_at' => now(),
         ]);
 

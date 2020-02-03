@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Str;
@@ -49,6 +50,7 @@ class Campaign extends Model implements Feedable
         'campaigns_feed_enabled' => 'boolean',
         'last_modified_at' => 'datetime',
         'summary_mail_sent_at' => 'datetime',
+        'json' => 'json',
     ];
 
     public static function boot()
@@ -60,6 +62,11 @@ class Campaign extends Model implements Feedable
                 $campaign->status = CampaignStatus::DRAFT;
             }
         });
+    }
+
+    public function uploads(): BelongsToMany
+    {
+        return $this->belongsToMany(Upload::class, 'mailcoach_campaign_uploads');
     }
 
     public static function scopeSentBetween(Builder $query, Carbon $periodStart, Carbon $periodEnd): void
@@ -176,6 +183,11 @@ class Campaign extends Model implements Feedable
         }
 
         return true;
+    }
+
+    public function isHtmlCampaign(): bool
+    {
+        return $this->html && !$this->json;
     }
 
     public function hasValidHtml(): bool

@@ -13,15 +13,13 @@ use Illuminate\Support\Str;
 use Spatie\BladeX\Facades\BladeX;
 use Spatie\Mailcoach\Commands\CalculateStatisticsCommand;
 use Spatie\Mailcoach\Commands\DeleteOldUnconfirmedSubscribersCommand;
+use Spatie\Mailcoach\Commands\DeleteOldUploadsCommand;
 use Spatie\Mailcoach\Commands\RetryPendingSendsCommand;
 use Spatie\Mailcoach\Commands\SendCampaignSummaryMailCommand;
 use Spatie\Mailcoach\Commands\SendEmailListSummaryMailCommand;
 use Spatie\Mailcoach\Commands\SendScheduledCampaignsCommand;
 use Spatie\Mailcoach\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Http\App\Controllers\HomeController;
-use Spatie\Mailcoach\Http\App\Middleware\Authenticate;
-use Spatie\Mailcoach\Http\App\Middleware\Authorize;
-use Spatie\Mailcoach\Http\App\Middleware\SetMailcoachDefaults;
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\QueryStringComposer;
 use Spatie\Mailcoach\Http\App\ViewModels\BladeX\DateTimeFieldViewModel;
@@ -89,6 +87,7 @@ class MailcoachServiceProvider extends EventServiceProvider
                 SendEmailListSummaryMailCommand::class,
                 RetryPendingSendsCommand::class,
                 DeleteOldUnconfirmedSubscribersCommand::class,
+                DeleteOldUploadsCommand::class,
             ]);
         }
 
@@ -204,6 +203,9 @@ class MailcoachServiceProvider extends EventServiceProvider
         BladeX::component('mailcoach::app.components.form.selectField', 'select-field');
         BladeX::component('mailcoach::app.components.form.tagsField', 'tags-field');
         BladeX::component('mailcoach::app.components.form.textField', 'text-field');
+        BladeX::component('mailcoach::app.components.form.htmlField', 'html-field');
+        BladeX::component('mailcoach::app.components.form.editorField', 'editor-field')
+            ->viewModel(ReplacerHelpTextsViewModel::class);
         BladeX::component('mailcoach::app.components.form.dateField', 'date-field');
         BladeX::component('mailcoach::app.components.form.dateTimeField', 'date-time-field')
             ->viewModel(DateTimeFieldViewModel::class);

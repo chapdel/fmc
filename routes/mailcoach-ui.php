@@ -2,8 +2,9 @@
 
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\CampaignsIndexController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\DestroyCampaignController;
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignDeliveryController;
+use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\AddUploadToCampaignController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignContentController;
+use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignDeliveryController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignSettingsController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CreateCampaignController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\ScheduleCampaignController;
@@ -54,6 +55,7 @@ Route::prefix('campaigns')->group(function () {
 
             Route::get('content', ['\\' . CampaignContentController::class, 'edit'])->name('mailcoach.campaigns.content');
             Route::put('content', ['\\' . CampaignContentController::class, 'update'])->name('mailcoach.campaigns.updateContent');
+            Route::post('upload', '\\' . AddUploadToCampaignController::class)->name('mailcoach.campaigns.upload');
 
             Route::get('delivery', '\\' . CampaignDeliveryController::class)->name('mailcoach.campaigns.delivery');
 
@@ -73,7 +75,6 @@ Route::prefix('campaigns')->group(function () {
         Route::delete('/', '\\' . DestroyCampaignController::class)->name('mailcoach.campaigns.delete');
         Route::post('duplicate', '\\' . DuplicateCampaignController::class)->name('mailcoach.campaigns.duplicate');
         Route::post('retry-failed-sends', '\\' . RetryFailedSendsController::class)->name('mailcoach.campaigns.retry-failed-sends');
-
     });
 });
 
@@ -144,6 +145,7 @@ Route::prefix('templates')->group(function () {
     Route::prefix('{template}')->group(function () {
         Route::get('/', ['\\' . TemplatesController::class, 'edit'])->name('mailcoach.templates.edit');
         Route::put('/', ['\\' . TemplatesController::class, 'update']);
+        Route::post('/upload', ['\\' . TemplatesController::class, 'addUpload'])->name('mailcoach.templates.upload');
         Route::delete('/', ['\\' . TemplatesController::class, 'destroy'])->name('mailcoach.templates.delete');
     });
 });

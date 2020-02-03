@@ -11,6 +11,7 @@ class UpdateTemplateRequest extends FormRequest
         return [
             'name' => 'required',
             'html' => '',
+            'json' => 'nullable|json',
         ];
     }
 }

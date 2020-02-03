@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns;
 
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignSettingsController;
 use Spatie\Mailcoach\Models\Campaign;
+use Spatie\MediaLibrary\Models\Media;
 
 class DuplicateCampaignController
 {
@@ -15,6 +15,7 @@ class DuplicateCampaignController
             'subject' => $campaign->subject,
             'email_list_id' => $campaign->email_list_id,
             'html' => $campaign->html,
+            'json' => $campaign->json,
             'webview_html' => $campaign->webview_html,
             'track_opens' => $campaign->track_opens,
             'track_clicks' => $campaign->track_clicks,
@@ -26,6 +27,8 @@ class DuplicateCampaignController
         $duplicateCampaign->update([
             'segment_description' => $duplicateCampaign->getSegment()->description($campaign),
         ]);
+
+        $campaign->media->each(fn (Media $media) => $duplicateCampaign->copyMedia($media->getPath())->toMediaCollection());
 
         flash()->success("Campaign {$campaign->name} was duplicated.");
 
