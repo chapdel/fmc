@@ -19,7 +19,7 @@ trait ReplacesModelAttributes
 
                 return $value->$part
                         ?? $value[$part]
-                        ?? null;
+                        ?? '';
             }, $model);
 
             return $replace ?? $match;
