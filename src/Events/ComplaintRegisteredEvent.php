@@ -6,7 +6,7 @@ use Spatie\Mailcoach\Models\Send;
 
 class ComplaintRegisteredEvent
 {
-    private Send $send;
+    public Send $send;
 
     public function __construct(Send $send)
     {
