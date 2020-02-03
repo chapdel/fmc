@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 1.4.3 - 2020-02-03
+
+- lower required version for package-versions to ^1.2
+
 ## 1.4.2 - 2020-02-03
 
 - fix exception when trying to replace an attribute that is null
