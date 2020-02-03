@@ -22,8 +22,8 @@ class Upload extends Model implements HasMedia
         $this->addMediaConversion('image')
             ->fit(
                 Manipulations::FIT_MAX,
-                config('mailcoach.uploads.max_width', 1500),
-                config('mailcoach.uploads.max_height', 1500)
+                config('mailcoach.editor.uploads.max_width', 1500),
+                config('mailcoach.editor.uploads.max_height', 1500)
             )
             ->nonQueued();
     }
