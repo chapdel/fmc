@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 1.5.0 - 2020-02-04
+
+- add `endHead` partial
+
 ## 1.4.3 - 2020-02-03
 
 - lower required version for package-versions to ^1.2
