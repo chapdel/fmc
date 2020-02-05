@@ -19,9 +19,6 @@ use Spatie\Mailcoach\Commands\SendEmailListSummaryMailCommand;
 use Spatie\Mailcoach\Commands\SendScheduledCampaignsCommand;
 use Spatie\Mailcoach\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Http\App\Controllers\HomeController;
-use Spatie\Mailcoach\Http\App\Middleware\Authenticate;
-use Spatie\Mailcoach\Http\App\Middleware\Authorize;
-use Spatie\Mailcoach\Http\App\Middleware\SetMailcoachDefaults;
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\QueryStringComposer;
 use Spatie\Mailcoach\Http\App\ViewModels\BladeX\DateTimeFieldViewModel;
@@ -169,6 +166,12 @@ class MailcoachServiceProvider extends EventServiceProvider
         if (!class_exists('CreateEmailCampaignTables')) {
             $this->publishes([
                 __DIR__ . '/../database/migrations/create_mailcoach_tables.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_mailcoach_tables.php'),
+            ], 'mailcoach-migrations');
+        }
+
+        if (!class_exists('CreateMediaTable')) {
+            $this->publishes([
+                __DIR__ . '/../../laravel-medialibrary/database/migrations/create_media_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_media_table.php'),
             ], 'mailcoach-migrations');
         }
 
