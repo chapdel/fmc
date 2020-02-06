@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 1.6.0 - 2020-02-05
+
+- Add an X-MAILCOACH header to messages sent by Mailcoach
+
+## 1.5.1 - 2020-02-05
+
+- make sure the Mailcoach service provider publishes the medialibrary migration
+
 ## 1.5.0 - 2020-02-04
 
 - add `endHead` partial
