@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 1.6.1 - 2020-02-06
+
+- change `failure_reason` type from string to text
+
 ## 1.6.0 - 2020-02-05
 
 - Add an X-MAILCOACH header to messages sent by Mailcoach
