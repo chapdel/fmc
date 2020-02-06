@@ -28,6 +28,7 @@ class SendTestMailJobTest extends TestCase
             $this->assertEquals($campaign->subject, $mail->subject);
 
             $this->assertTrue($mail->hasTo($email));
+            $this->assertCount(1, $mail->callbacks);
 
             return true;
         });
