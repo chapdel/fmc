@@ -39,12 +39,14 @@ class Version
 
     public function getLatestVersionInfo(): array
     {
-        try {
-            $latestVersionInfo = Cache::remember('mailcoach-latest-version', CarbonInterval::day()->seconds, function () {
-                return $this->httpClient->getJson(static::$versionEndpoint);
-            });
-        } catch (Exception $exception) {
-
+        if (!Cache::has('mailcoach-latest-version-attempt-failed')) {
+            try {
+                $latestVersionInfo = Cache::remember('mailcoach-latest-version', CarbonInterval::day()->seconds, function () {
+                    return $this->httpClient->getJson(static::$versionEndpoint);
+                });
+            } catch (Exception $exception) {
+                Cache::put('mailcoach-latest-version-attempt-failed', 1, CarbonInterval::day()->seconds);
+            }
         }
 
         $defaults = [

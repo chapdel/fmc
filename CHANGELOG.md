@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 1.6.2 - 202-02-06
+
+- make latest version checking more robust
+
 ## 1.6.1 - 2020-02-06
 
 - change `failure_reason` type from string to text
