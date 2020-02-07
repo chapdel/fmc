@@ -2,7 +2,11 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
-## 1.6.2 - 202-02-06
+## 1.6.3 - 2020-02-07
+
+- make the `url` field of the `mailcoach_campaign_links` table bigger
+
+## 1.6.2 - 2020-02-07
 
 - make latest version checking more robust
 
