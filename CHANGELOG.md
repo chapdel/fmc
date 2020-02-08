@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 1.6.4 - 2020-02-08
+
+- fix `SendTypeFilter` file name
+
 ## 1.6.3 - 2020-02-07
 
 - make the `url` field of the `mailcoach_campaign_links` table bigger
