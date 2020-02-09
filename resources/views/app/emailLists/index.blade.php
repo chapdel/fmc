@@ -21,7 +21,7 @@
                 @include('mailcoach::app.emailLists.partials.create')
             </x-modal>
 
-            @if($emailLists->count())
+            @if($emailLists->count() || $searching)
                 <div class="table-filters">
                     <x-search placeholder="Filter lists…"/>
                 </div>
@@ -82,7 +82,11 @@
 
         @else
             <p class="alert alert-info">
-                You'll need at least one list to gather subscribers.
+                @if ($searching)
+                    No email lists found.
+                @else
+                    You'll need at least one list to gather subscribers.
+                @endif
             </p>
         @endif
     </section>

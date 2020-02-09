@@ -20,6 +20,7 @@ use Spatie\Mailcoach\Commands\SendScheduledCampaignsCommand;
 use Spatie\Mailcoach\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Http\App\Controllers\HomeController;
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
+use Spatie\Mailcoach\Http\App\ViewComposers\IndexComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\QueryStringComposer;
 use Spatie\Mailcoach\Http\App\ViewModels\BladeX\DateTimeFieldViewModel;
 use Spatie\Mailcoach\Http\App\ViewModels\BladeX\FilterViewModel;
@@ -197,6 +198,8 @@ class MailcoachServiceProvider extends EventServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'mailcoach');
 
         View::composer('mailcoach::*', QueryStringComposer::class);
+        View::composer('mailcoach::*.index', IndexComposer::class);
+
         View::composer('mailcoach::app.layouts.partials.footer', FooterComposer::class);
 
         BladeX::prefix('x');

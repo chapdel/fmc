@@ -14,7 +14,7 @@ class TagsController
     {
         $tagsQuery = new EmailListTagsQuery($emailList);
 
-        return view('mailcoach::app.emailLists.tags', [
+        return view('mailcoach::app.emailLists.tag.index', [
             'emailList' => $emailList,
             'tags' => $tagsQuery->paginate(),
             'totalTagsCount' => Tag::query()->emailList($emailList)->count(),

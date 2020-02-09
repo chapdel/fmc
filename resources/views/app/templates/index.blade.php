@@ -19,7 +19,7 @@
                 @include('mailcoach::app.templates.partials.create')
             </x-modal>
 
-            @if($templates->count())
+            @if($templates->count() || $searching)
                 <div class="table-filters">
                     <x-search placeholder="Filter templates…"/>
                 </div>
@@ -76,7 +76,11 @@
 
         @else
             <p class="alert alert-info">
-                DRY? No templates here.
+                @if ($searching)
+                    No templates found.
+                @else
+                    DRY? No templates here.
+                @endif
             </p>
         @endif
     </section>
