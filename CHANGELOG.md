@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 1.6.6 - 2020-02-09
+
+- fix caching latest version
+
 ## 1.6.5 - 2020-02-09
 
 - show exception message when html rule fails

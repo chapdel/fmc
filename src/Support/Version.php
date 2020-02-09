@@ -41,11 +41,11 @@ class Version
     {
         if (!Cache::has('mailcoach-latest-version-attempt-failed')) {
             try {
-                $latestVersionInfo = Cache::remember('mailcoach-latest-version', CarbonInterval::day()->seconds, function () {
+                $latestVersionInfo = Cache::remember('mailcoach-latest-version', CarbonInterval::day()->totalSeconds, function () {
                     return $this->httpClient->getJson(static::$versionEndpoint);
                 });
             } catch (Exception $exception) {
-                Cache::put('mailcoach-latest-version-attempt-failed', 1, CarbonInterval::day()->seconds);
+                Cache::put('mailcoach-latest-version-attempt-failed', 1, CarbonInterval::day()->totalSeconds);
             }
         }
 
