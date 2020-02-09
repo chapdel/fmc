@@ -28,6 +28,6 @@ class HtmlRule implements Rule
 
     public function message()
     {
-        return "This HTML is not valid ({$this->exception->getMessage()}).";
+        return "The HTML is not valid ({$this->exception->getMessage()}).";
     }
 }
