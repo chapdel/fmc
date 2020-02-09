@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 1.6.5 - 2020-02-09
+
+- show exception message when html rule fails
+
 ## 1.6.4 - 2020-02-08
 
 - fix `SendTypeFilter` file name
