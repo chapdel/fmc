@@ -8,6 +8,8 @@ use Illuminate\Contracts\Validation\Rule;
 
 class HtmlRule implements Rule
 {
+    private ?Exception $exception;
+
     public function passes($attribute, $value)
     {
         $dom = new DOMDocument('1.0', 'UTF-8');
@@ -17,6 +19,8 @@ class HtmlRule implements Rule
 
             return true;
         } catch (Exception $exception) {
+            $this->exception = $exception;
+
             return false;
         }
     }
@@ -24,6 +28,6 @@ class HtmlRule implements Rule
 
     public function message()
     {
-        return 'This HTML is not valid.';
+        return "This HTML is not valid ({$this->exception->getMessage()}).";
     }
 }
