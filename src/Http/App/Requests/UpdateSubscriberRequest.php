@@ -26,7 +26,9 @@ class UpdateSubscriberRequest extends FormRequest
 
     protected function getUniqueRule(): Unique
     {
-        $rule = Rule::unique('mailcoach_subscribers', 'email');
+        $emailList = $this->route('emailList');
+
+        $rule = Rule::unique('mailcoach_subscribers', 'email')->where('email_list_id', $emailList->id);
 
         $subscriber = $this->route('subscriber');
 
@@ -38,7 +40,7 @@ class UpdateSubscriberRequest extends FormRequest
     public function messages()
     {
         return [
-            'email.unique' => 'There already is a subscriber with this email.',
+            'email.unique' => 'There already is a subscriber on this list with this email.',
         ];
     }
 }

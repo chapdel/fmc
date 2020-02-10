@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 1.6.9 - 2020-02-10
+
+- `UpdateSubscriberRequest` will now handle lists that have a common email properly
+
 ## 1.6.8 - 2020-02-10
 
 - fix `subscribers` view
