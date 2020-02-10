@@ -33,13 +33,16 @@ class SendMailAction
         $personalisedHtml = $personalizeHtmlAction->execute(
             $pendingSend->campaign->email_html,
             $pendingSend,
-        );
+            );
 
         $convertHtmlToTextAction = Config::getActionClass('convert_html_to_text', ConvertHtmlToTextAction::class);
 
         $personalisedText = $convertHtmlToTextAction->execute($personalisedHtml);
 
-        $campaignMail = $pendingSend->campaign->getMailable()
+        /** @var \Spatie\Mailcoach\Mails\CampaignMail $campaignMail */
+        $campaignMail = $pendingSend->campaign->getMailable();
+
+        $campaignMail
             ->setSend($pendingSend)
             ->setHtmlContent($personalisedHtml)
             ->setTextContent($personalisedText)
