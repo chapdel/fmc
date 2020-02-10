@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 1.6.8 - 2020-02-10
+
+- fix `subscribers` view
+
 ## 1.6.7 - 2020-02-09
 
 - prevent hidden search field when there are no search results
