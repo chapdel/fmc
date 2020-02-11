@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 1.6.10 - 2020-02-11
+
+- The `ConvertHtmlToTextAction` will now suppress errors and warnings and try to deliver plain text at all times
+- Added the plain text version to the `SendTestMailAction`
+
 ## 1.6.9 - 2020-02-10
 
 - `UpdateSubscriberRequest` will now handle lists that have a common email properly
