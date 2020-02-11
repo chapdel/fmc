@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Events\CampaignMailSentEvent;
 use Spatie\Mailcoach\Models\Send;
 use Spatie\Mailcoach\Support\Config;
+use Swift_Message;
 
 class SendMailAction
 {
@@ -38,11 +39,17 @@ class SendMailAction
 
         $personalisedText = $convertHtmlToTextAction->execute($personalisedHtml);
 
-        $campaignMail = $pendingSend->campaign->getMailable()
+        /** @var \Spatie\Mailcoach\Mails\CampaignMail $campaignMail */
+        $campaignMail = $pendingSend->campaign->getMailable();
+
+        $campaignMail
             ->setSend($pendingSend)
             ->setHtmlContent($personalisedHtml)
             ->setTextContent($personalisedText)
-            ->subject($pendingSend->campaign->subject);
+            ->subject($pendingSend->campaign->subject)
+            ->withSwiftMessage(function (Swift_Message $message) {
+                $message->getHeaders()->addTextHeader('X-MAILCOACH', true);
+            });
 
         Mail::to($pendingSend->subscriber->email)->send($campaignMail);
 

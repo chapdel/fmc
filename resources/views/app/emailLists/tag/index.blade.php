@@ -24,7 +24,7 @@
             @include('mailcoach::app.emailLists.tag.partials.create')
         </x-modal>
 
-        @if($tags->count())
+        @if($tags->count() || $searching)
             <div class="table-filters">
                 <x-search placeholder="Filter tags…"/>
             </div>
@@ -75,7 +75,11 @@
         ></x-table-status>
     @else
         <p class="alert alert-info">
-            There are no tags for this list. Everyone equal!
+            @if($searching)
+                No tags found.
+            @else
+                There are no tags for this list. Everyone equal!
+            @endif
         </p>
     @endif
 @endsection

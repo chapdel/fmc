@@ -32,7 +32,7 @@
                             <x-form-button
                                 :action="route('mailcoach.emailLists.subscribers.export', $emailList) . '?' . request()->getQueryString()">
                                 <x-icon-label icon="fa-file"
-                                              :text="$emailList->allSubscribers()->count() === $subscribers->total() ? 'Export all subscribers' : 'Export ' . $subscribers->total() . ' ' . Str::plural('subscriber', $subscribers->total())"/>
+                                              :text="$emailList->allSubscribers()->count() === $subscribers->total() ? 'Export all subscribers' : 'Export ' . $subscribers->total() . ' ' . \Illuminate\Support\Str::plural('subscriber', $subscribers->total())"/>
                             </x-form-button>
                         </li>
                         <li>
@@ -76,7 +76,7 @@
 
     @if($emailList->allSubscribers()->count())
         <table class="table table-fixed">
-            <thead> 
+            <thead>
             <tr>
                 <th class="w-4"></th>
                 <x-th sort-by="email">Email</x-th>

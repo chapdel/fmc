@@ -140,7 +140,7 @@ class CreateMailcoachTables extends Migration
         Schema::create('mailcoach_campaign_links', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('campaign_id');
-            $table->string('url');
+            $table->string('url', 2048);
             $table->integer('click_count')->default(0);
             $table->integer('unique_click_count')->default(0);
             $table->nullableTimestamps();
@@ -159,7 +159,7 @@ class CreateMailcoachTables extends Migration
             $table->unsignedBigInteger('subscriber_id');
             $table->timestamp('sent_at')->nullable();
             $table->timestamp('failed_at')->nullable();
-            $table->string('failure_reason')->nullable();
+            $table->text('failure_reason')->nullable();
 
             $table->timestamps();
 

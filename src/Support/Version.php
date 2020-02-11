@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Support;
 
 use Carbon\CarbonInterval;
+use Exception;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use PackageVersions\Versions;
@@ -38,15 +39,21 @@ class Version
 
     public function getLatestVersionInfo(): array
     {
-        $latestVersionInfo = Cache::remember('mailcoach-latest-version', CarbonInterval::day()->seconds, function () {
-            return $this->httpClient->getJson(static::$versionEndpoint);
-        });
+        if (!Cache::has('mailcoach-latest-version-attempt-failed')) {
+            try {
+                $latestVersionInfo = Cache::remember('mailcoach-latest-version', CarbonInterval::day()->totalSeconds, function () {
+                    return $this->httpClient->getJson(static::$versionEndpoint);
+                });
+            } catch (Exception $exception) {
+                Cache::put('mailcoach-latest-version-attempt-failed', 1, CarbonInterval::day()->totalSeconds);
+            }
+        }
 
         $defaults = [
             'version' => 'unknown',
             'released_at' => 'unknown',
         ];
 
-        return array_merge($defaults, $latestVersionInfo);
+        return array_merge($defaults, $latestVersionInfo ?? []);
     }
 }

@@ -31,7 +31,7 @@
         "laravel/horizon": "^3.4",
         "league/html-to-markdown": "^4.9",
         "nesbot/carbon": "^2.26",
-        "ocramius/package-versions": "^1.5",
+        "ocramius/package-versions": "^1.2",
         "spatie/laravel-blade-x": "^2.4",
         "spatie/laravel-feed": "^2.6",
         "spatie/laravel-flash": "^1.3",
