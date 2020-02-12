@@ -2,9 +2,15 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
-## 1.6.10 - 2020-02-12
+
+## 1.6.11 - 2020-02-12
 
 - fix encoding of plain text part of sent mails
+
+## 1.6.10 - 2020-02-11
+
+- The `ConvertHtmlToTextAction` will now suppress errors and warnings and try to deliver plain text at all times
+- Added the plain text version to the `SendTestMailAction`
 
 ## 1.6.9 - 2020-02-10
 

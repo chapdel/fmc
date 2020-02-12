@@ -54,6 +54,6 @@ class Version
             'released_at' => 'unknown',
         ];
 
-        return array_merge($defaults, $latestVersionInfo);
+        return array_merge($defaults, $latestVersionInfo ?? []);
     }
 }
