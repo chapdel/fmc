@@ -11,7 +11,7 @@ class ConvertHtmlToTextAction
     {
         $converter = new HtmlConverter([
             'strip_tags' => true,
-            'suppress_errors' => true,
+            'suppress_errors' => false,
             'remove_nodes' => 'head script style',
         ]);
 
