@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 1.6.12 - 2020-02-16
+
+- change the mail content fields to have the `text` type in the db
+
 ## 1.6.11 - 2020-02-12
 
 - fix encoding of plain text part of sent mails
