@@ -103,7 +103,7 @@ class CreateMailcoachTables extends Migration
 
             $table->integer('sent_to_number_of_subscribers')->default(0);
 
-            $table->string('segment_class')->nullable();
+            $table->text('segment_class')->nullable();
             $table->unsignedBigInteger('segment_id')->nullable();
             $table->string('segment_description')->default(0);
 
