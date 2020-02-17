@@ -62,6 +62,9 @@ class CreateMailcoachTables extends Migration
                 ->foreign('email_list_id')
                 ->references('id')->on('mailcoach_email_lists')
                 ->onDelete('cascade');
+
+            $table
+                ->unique(['email_list_id', 'email']);
         });
 
         Schema::create('mailcoach_segments', function (Blueprint $table) {
