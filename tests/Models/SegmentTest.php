@@ -179,10 +179,10 @@ class SegmentTest extends TestCase
     public function it_can_segment_on_positive_and_negative_segments_all_required_in_one_go()
     {
         $subscriber1 = $this->createSubscriberWithTags('noTag@example.com', []);
-        $subscriber2 = $this->createSubscriberWithTags('noTag@example.com', ['tagA']);
-        $subscriber3 = $this->createSubscriberWithTags('tagA@example.com', ['tagA', 'tagB']);
-        $subscriber4 = $this->createSubscriberWithTags('tagB@example.com', ['tagA', 'tagB', 'tagC']);
-        $subscriber5 = $this->createSubscriberWithTags('tagAandTagB@example.com', ['tagA', 'tagB', 'tagC', 'tagD']);
+        $subscriber2 = $this->createSubscriberWithTags('tagA@example.com', ['tagA']);
+        $subscriber3 = $this->createSubscriberWithTags('tagABB@example.com', ['tagA', 'tagB']);
+        $subscriber4 = $this->createSubscriberWithTags('tagABC@example.com', ['tagA', 'tagB', 'tagC']);
+        $subscriber5 = $this->createSubscriberWithTags('tagABCD@example.com', ['tagA', 'tagB', 'tagC', 'tagD']);
 
         $subscribers = (TagSegment::create([
             'name' => 'testSegment',

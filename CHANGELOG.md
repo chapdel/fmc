@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 1.6.13 - 2020-02-17
+
+- add unique tag on `email_list_id` and `email` in the `mailcoach_subscribers` table
+
+## 1.6.12 - 2020-02-16
+
+- change the mail content fields to have the `text` type in the db
+
+## 1.6.11 - 2020-02-12
+
+- fix encoding of plain text part of sent mails
+
 ## 1.6.10 - 2020-02-11
 
 - The `ConvertHtmlToTextAction` will now suppress errors and warnings and try to deliver plain text at all times
