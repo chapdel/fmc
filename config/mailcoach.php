@@ -19,6 +19,14 @@ return [
         \Spatie\Mailcoach\Support\Replacers\UnsubscribeUrlReplacer::class,
     ],
 
+    /*
+     * Segments are classes that receive a Subscribers query and an EmailList.
+     * They must extend \Spatie\Mailcoach\Support\Segments\Segment.
+     */
+    'segments' => [
+
+    ],
+
     /**
      * Here you can configure the template editor. Optionally you can provide
      * an unlayer_project_id if you have custom blocks and tools defined.
