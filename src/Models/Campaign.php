@@ -251,15 +251,18 @@ class Campaign extends Model implements Feedable
         return $this;
     }
 
-    public function segment(string $segmentClass): self
+    /**
+     * @param \Spatie\Mailcoach\Support\Segments\Segment|string $segmentClassOrObject
+     */
+    public function segment($segmentClassOrObject): self
     {
         $this->ensureUpdatable();
 
-        if (!is_a($segmentClass, Segment::class, true)) {
-            throw CouldNotSendCampaign::invalidSegmentClass($this, $segmentClass);
+        if (!is_a($segmentClassOrObject, Segment::class, true)) {
+            throw CouldNotSendCampaign::invalidSegmentClass($this, $segmentClassOrObject);
         }
 
-        $this->update(['segment_class' => $segmentClass]);
+        $this->update(['segment_class' => serialize($segmentClassOrObject)]);
 
         return $this;
     }
@@ -386,6 +389,16 @@ class Campaign extends Model implements Feedable
     public function getSegment(): Segment
     {
         $segmentClass = $this->segment_class ?? EverySubscriberSegment::class;
+
+        try {
+            $segmentClass = unserialize($segmentClass);
+        } catch (\ErrorException $errorException) {
+            // Do nothing, it was not a serialized string
+        }
+
+        if ($segmentClass instanceof Segment) {
+            return $segmentClass->setCampaign($this);
+        }
 
         return app($segmentClass)->setCampaign($this);
     }

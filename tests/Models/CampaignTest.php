@@ -17,6 +17,7 @@ use Spatie\Mailcoach\Models\Send;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMail;
+use Spatie\Mailcoach\Tests\TestClasses\TestCustomInstanciatedQueryOnlyShouldSendToJohn;
 use Spatie\Mailcoach\Tests\TestClasses\TestCustomQueryOnlyShouldSendToJohn;
 use Spatie\Snapshots\MatchesSnapshots;
 use Spatie\TestTime\TestTime;
@@ -162,7 +163,18 @@ class CampaignTest extends TestCase
         $campaign = Campaign::create()
             ->segment(TestCustomQueryOnlyShouldSendToJohn::class);
 
-        $this->assertEquals(TestCustomQueryOnlyShouldSendToJohn::class, $campaign->segment_class);
+        $this->assertEquals(serialize(TestCustomQueryOnlyShouldSendToJohn::class), $campaign->segment_class);
+    }
+
+    /** @test * */
+    public function an_instantiated_segment_class_can_be_set()
+    {
+        $segment = new TestCustomInstanciatedQueryOnlyShouldSendToJohn('john@example.com');
+        $campaign = Campaign::create()
+            ->segment($segment);
+
+        $this->assertEquals(serialize($segment), $campaign->segment_class);
+        $this->assertEquals('john@example.com', $campaign->getSegment()->email);
     }
 
     /** @test */

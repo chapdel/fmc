@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 1.7.1 - 2020-02-17
+
+- add support for instantiated segments
+
+## 1.7.0 - 2020-02-17
+
+- add support for instantiated segments. EDIT: due to a merging error, this functionality was not added.
+
 ## 1.6.13 - 2020-02-17
 
 - add unique tag on `email_list_id` and `email` in the `mailcoach_subscribers` table
