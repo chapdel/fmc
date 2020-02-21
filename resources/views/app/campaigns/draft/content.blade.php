@@ -19,8 +19,8 @@
         method="POST"
         data-dirty-check
     >
-    @csrf
-    @method('PUT')
+        @csrf
+        @method('PUT')
         {!! app(config('mailcoach.editor'))->render($campaign) !!}
     </form>
 @endsection
