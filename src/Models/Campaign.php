@@ -179,11 +179,6 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         return true;
     }
 
-    public function isHtmlCampaign(): bool
-    {
-        return $this->html && !$this->structured_html;
-    }
-
     public function hasValidHtml(): bool
     {
         return (new HtmlRule())->passes('html', $this->html);
