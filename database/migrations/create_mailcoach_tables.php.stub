@@ -93,7 +93,7 @@ class CreateMailcoachTables extends Migration
             $table->string('status');
 
             $table->longText('html')->nullable();
-            $table->json('json')->nullable();
+            $table->longText('structured_html')->nullable();
             $table->longText('email_html')->nullable();
             $table->longText('webview_html')->nullable();
 
@@ -261,7 +261,7 @@ class CreateMailcoachTables extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->longText('html');
-            $table->json('json')->nullable();
+            $table->longText('structured_html')->nullable();
             $table->timestamps();
         });
 

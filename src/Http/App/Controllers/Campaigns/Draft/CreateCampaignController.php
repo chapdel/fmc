@@ -17,7 +17,7 @@ class CreateCampaignController
             'name' => $request->name,
             'subject' => $request->name,
             'html' => $request->template()->html,
-            'json' => $request->template()->json,
+            'structured_html' => $request->template()->structured_html,
             'track_opens' => true,
             'track_clicks' => true,
             'last_modified_at' => now(),

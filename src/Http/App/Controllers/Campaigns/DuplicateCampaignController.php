@@ -12,10 +12,10 @@ class DuplicateCampaignController
         /** @var \Spatie\Mailcoach\Models\Campaign $duplicateCampaign */
         $duplicateCampaign = Campaign::create([
             'name' => "Duplicate of {$campaign->name}",
-            'subject' => $campaign->subject,
+            'SUBJECT' => $campaign->subject,
             'email_list_id' => $campaign->email_list_id,
             'html' => $campaign->html,
-            'json' => $campaign->json,
+            'structured_html' => $campaign->structured_html,
             'webview_html' => $campaign->webview_html,
             'track_opens' => $campaign->track_opens,
             'track_clicks' => $campaign->track_clicks,

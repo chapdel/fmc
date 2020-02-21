@@ -23,7 +23,7 @@ class TemplatesController
         $template = Template::create([
             'name' => $request->name,
             'html' => $request->html ?? '',
-            'json' => json_decode($request->json),
+            'structured_html' => $request->structured_html,
         ]);
 
         flash()->success("Template {$template->name} was created.");
@@ -43,7 +43,7 @@ class TemplatesController
         $template->update([
             'name' => $request->name,
             'html' => $request->html ?? '',
-            'json' => json_decode($request->json),
+            'structured_html' => $request->structured_html,
         ]);
 
         flash()->success("Template {$template->name} was updated.");

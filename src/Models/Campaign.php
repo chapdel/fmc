@@ -50,7 +50,6 @@ class Campaign extends Model implements Feedable
         'campaigns_feed_enabled' => 'boolean',
         'last_modified_at' => 'datetime',
         'summary_mail_sent_at' => 'datetime',
-        'json' => 'json',
     ];
 
     public static function boot()
@@ -187,7 +186,7 @@ class Campaign extends Model implements Feedable
 
     public function isHtmlCampaign(): bool
     {
-        return $this->html && !$this->json;
+        return $this->html && !$this->structured_html;
     }
 
     public function hasValidHtml(): bool
