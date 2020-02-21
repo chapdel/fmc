@@ -20,21 +20,10 @@ return [
     ],
 
     /**
-     * Here you can configure the template editor. Optionally you can provide
-     * an unlayer_project_id if you have custom blocks and tools defined.
-     *
-     * The max_width & max_height options will resize images within these constraints.
-     * Images won't be upscaled and the original aspect ratio will be preserved.
+     * Here you can configure which template editor Mailcoach uses.
+     * By default this is a text editor that highlights HTML.
      */
     'editor' => \Spatie\Mailcoach\Support\Editor\TextEditor::class,
-    /*'editor' => [
-        'enabled' => true,
-        'uploads' => [
-            'disk_name' => env('MAILCOACH_UPLOAD_DISK', 'public'),
-            'max_width' => 1500,
-            'max_height' => 1500,
-        ],
-    ],*/
 
     /*
      * Here you can specify which jobs should run on which queues.
