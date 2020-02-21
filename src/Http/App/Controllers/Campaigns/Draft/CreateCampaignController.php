@@ -5,7 +5,6 @@ namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft;
 use Spatie\Mailcoach\Http\App\Requests\StoreCampaignRequest;
 use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Upload;
 use Spatie\Mailcoach\Support\Segments\EverySubscriberSegment;
 
 class CreateCampaignController
@@ -24,8 +23,6 @@ class CreateCampaignController
             'email_list_id' => optional(EmailList::orderBy('name')->first())->id,
             'segment_class' => EverySubscriberSegment::class,
         ]);
-
-        $request->template()->uploads->each(fn (Upload $upload) => $campaign->uploads()->attach($upload));
 
         $campaign->update(['segment_description' => (new EverySubscriberSegment())->description($campaign)]);
 

@@ -6,7 +6,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Str;
@@ -21,6 +20,7 @@ use Spatie\Mailcoach\Jobs\SendCampaignJob;
 use Spatie\Mailcoach\Jobs\SendTestMailJob;
 use Spatie\Mailcoach\Mails\CampaignMail;
 use Spatie\Mailcoach\Models\Concerns\CanBeScheduled;
+use Spatie\Mailcoach\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Models\Concerns\HasUuid;
 use Spatie\Mailcoach\Rules\HtmlRule;
 use Spatie\Mailcoach\Support\CalculateStatisticsLock;
@@ -29,7 +29,7 @@ use Spatie\Mailcoach\Support\Segments\Segment;
 use Spatie\Mailcoach\Support\Segments\SubscribersWithTagsSegment;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
-class Campaign extends Model implements Feedable
+class Campaign extends Model implements Feedable, HasHtmlContent
 {
     use HasUuid, CanBeScheduled;
 
@@ -61,11 +61,6 @@ class Campaign extends Model implements Feedable
                 $campaign->status = CampaignStatus::DRAFT;
             }
         });
-    }
-
-    public function uploads(): BelongsToMany
-    {
-        return $this->belongsToMany(Upload::class, 'mailcoach_campaign_uploads');
     }
 
     public static function scopeSentBetween(Builder $query, Carbon $periodStart, Carbon $periodEnd): void
@@ -572,5 +567,15 @@ class Campaign extends Model implements Feedable
     public function htmlWithInlinedCss(): string
     {
         return (new CssToInlineStyles())->convert($this->html ?? '');
+    }
+
+    public function getHtml(): ?string
+    {
+        return $this->html;
+    }
+
+    public function getStructuredHtml(): ?string
+    {
+        return $this->structured_html;
     }
 }

@@ -14,11 +14,8 @@
 
         <script type="text/javascript" src="{{ asset('vendor/mailcoach/app.js') }}" defer></script>
 
-        @if (config('mailcoach.editor.enabled'))
-            <script id="unlayer" src="https://editor.unlayer.com/embed.js" defer></script>
-        @endif
-
         @include('mailcoach::app.layouts.partials.endHead')
+        @stack('endHead')
     </head>
     <body class="bg-blue-100">
         <script>/**/</script><!-- Empty script to prevent FOUC in Firefox -->

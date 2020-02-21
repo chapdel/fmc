@@ -26,15 +26,15 @@ return [
      * The max_width & max_height options will resize images within these constraints.
      * Images won't be upscaled and the original aspect ratio will be preserved.
      */
-    'editor' => [
+    'editor' => \Spatie\Mailcoach\Support\Editor\TextEditor::class,
+    /*'editor' => [
         'enabled' => true,
-        'unlayer_project_id' => null,
         'uploads' => [
             'disk_name' => env('MAILCOACH_UPLOAD_DISK', 'public'),
             'max_width' => 1500,
             'max_height' => 1500,
         ],
-    ],
+    ],*/
 
     /*
      * Here you can specify which jobs should run on which queues.

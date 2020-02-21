@@ -2,11 +2,9 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers;
 
-use Illuminate\Http\Request;
 use Spatie\Mailcoach\Http\App\Queries\TemplatesQuery;
 use Spatie\Mailcoach\Http\App\Requests\UpdateTemplateRequest;
 use Spatie\Mailcoach\Models\Template;
-use Spatie\Mailcoach\Models\Upload;
 
 class TemplatesController
 {
@@ -49,16 +47,6 @@ class TemplatesController
         flash()->success("Template {$template->name} was updated.");
 
         return redirect()->route('mailcoach.templates');
-    }
-
-    public function addUpload(Template $template, Request $request)
-    {
-        $upload = Upload::create();
-        $media = $upload->addMediaFromRequest('file')->toMediaCollection('default', config('mailcoach.editor.uploads.disk_name'));
-
-        $upload->templates()->attach($template);
-
-        return response()->json(['url' => $media->getFullUrl('image')]);
     }
 
     public function destroy(Template $template)

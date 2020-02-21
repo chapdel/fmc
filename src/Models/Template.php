@@ -3,11 +3,11 @@
 namespace Spatie\Mailcoach\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Spatie\Mailcoach\Models\Concerns\HasHtmlContent;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-class Template extends Model implements HasMedia
+class Template extends Model implements HasMedia, HasHtmlContent
 {
     use HasMediaTrait;
 
@@ -19,13 +19,18 @@ class Template extends Model implements HasMedia
         'json' => 'json',
     ];
 
-    public function uploads(): BelongsToMany
-    {
-        return $this->belongsToMany(Upload::class, 'mailcoach_template_uploads');
-    }
-
     public function isHtmlTemplate(): bool
     {
         return $this->html && !$this->json;
+    }
+
+    public function getHtml(): ?string
+    {
+        return $this->html;
+    }
+
+    public function getStructuredHtml(): ?string
+    {
+        return $this->structured_html;
     }
 }

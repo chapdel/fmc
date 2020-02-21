@@ -13,7 +13,6 @@ use Illuminate\Support\Str;
 use Spatie\BladeX\Facades\BladeX;
 use Spatie\Mailcoach\Commands\CalculateStatisticsCommand;
 use Spatie\Mailcoach\Commands\DeleteOldUnconfirmedSubscribersCommand;
-use Spatie\Mailcoach\Commands\DeleteOldUploadsCommand;
 use Spatie\Mailcoach\Commands\RetryPendingSendsCommand;
 use Spatie\Mailcoach\Commands\SendCampaignSummaryMailCommand;
 use Spatie\Mailcoach\Commands\SendEmailListSummaryMailCommand;
@@ -88,7 +87,6 @@ class MailcoachServiceProvider extends EventServiceProvider
                 SendEmailListSummaryMailCommand::class,
                 RetryPendingSendsCommand::class,
                 DeleteOldUnconfirmedSubscribersCommand::class,
-                DeleteOldUploadsCommand::class,
             ]);
         }
 
@@ -213,8 +211,6 @@ class MailcoachServiceProvider extends EventServiceProvider
         BladeX::component('mailcoach::app.components.form.tagsField', 'tags-field');
         BladeX::component('mailcoach::app.components.form.textField', 'text-field');
         BladeX::component('mailcoach::app.components.form.htmlField', 'html-field');
-        BladeX::component('mailcoach::app.components.form.editorField', 'editor-field')
-            ->viewModel(ReplacerHelpTextsViewModel::class);
         BladeX::component('mailcoach::app.components.form.dateField', 'date-field');
         BladeX::component('mailcoach::app.components.form.dateTimeField', 'date-time-field')
             ->viewModel(DateTimeFieldViewModel::class);
