@@ -25,7 +25,7 @@ class ImportSubscribersResultMail extends Mailable
         return $this
             ->from(
                 $this->subscriberImport->emailList->default_from_email,
-                $this->subscriberImport->emailList->default_name
+                $this->subscriberImport->emailList->default_from_name
             )
             ->markdown('mailcoach::mails.importResults');
     }

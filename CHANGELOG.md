@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 1.7.2 - 2020-02-21
+
+- fix the default from name for campaigns
+
 ## 1.7.1 - 2020-02-17
 
 - add support for instantiated segments

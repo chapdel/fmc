@@ -25,7 +25,7 @@ class WelcomeMail extends Mailable implements ShouldQueue
         $this
             ->from(
                 $this->subscriber->emailList->default_from_email,
-                $this->subscriber->emailList->default_name
+                $this->subscriber->emailList->default_from_name
             )
             ->determineSubject()
             ->determineContent();
