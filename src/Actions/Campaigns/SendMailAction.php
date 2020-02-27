@@ -51,7 +51,7 @@ class SendMailAction
                 $message->getHeaders()->addTextHeader('X-MAILCOACH', true);
 
                 /** Postmark specific header */
-                $message->getHeaders()->addTextHeader('X-PM-SEND-UUID', $pendingSend->uuid);
+                $message->getHeaders()->addTextHeader('X-PM-Metadata-send-uuid', $pendingSend->uuid);
             });
 
         Mail::to($pendingSend->subscriber->email)->send($campaignMail);
