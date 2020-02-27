@@ -47,8 +47,11 @@ class SendMailAction
             ->setHtmlContent($personalisedHtml)
             ->setTextContent($personalisedText)
             ->subject($pendingSend->campaign->subject)
-            ->withSwiftMessage(function (Swift_Message $message) {
+            ->withSwiftMessage(function (Swift_Message $message) use ($pendingSend) {
                 $message->getHeaders()->addTextHeader('X-MAILCOACH', true);
+
+                /** Postmark specific header */
+                $message->getHeaders()->addTextHeader('X-PM-SEND-UUID', $pendingSend->uuid);
             });
 
         Mail::to($pendingSend->subscriber->email)->send($campaignMail);
