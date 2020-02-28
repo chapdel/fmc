@@ -182,7 +182,7 @@ class MailcoachServiceProvider extends EventServiceProvider
     protected function bootRoutes()
     {
         Route::macro('mailcoach', function (string $url = '') {
-            Route::get($url, HomeController::class)->name('mailcoach.home');
+            Route::get($url, '\\'.HomeController::class)->name('mailcoach.home');
 
             Route::prefix($url)->group(function () {
                 Route::prefix('')->group(__DIR__ . '/../routes/mailcoach-api.php');
