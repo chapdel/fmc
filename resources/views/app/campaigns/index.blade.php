@@ -13,13 +13,15 @@
 @section('content')
 <section class="card">
     <div class="table-actions">
-        <button class="button" data-modal-trigger="create-campaign">
-            <x-icon-label icon="fa-envelope-open" text="Create campaign" />
-        </button>
+        @if ($totalListsCount or $totalCampaignsCount)
+            <button class="button" data-modal-trigger="create-campaign">
+                <x-icon-label icon="fa-envelope-open" text="Create campaign" />
+            </button>
 
-        <x-modal title="Create campaign" name="create-campaign" :open="$errors->any()">
-            @include('mailcoach::app.campaigns.partials.create')
-        </x-modal>
+            <x-modal title="Create campaign" name="create-campaign" :open="$errors->any()">
+                @include('mailcoach::app.campaigns.partials.create')
+            </x-modal>
+        @endif
 
         @if($totalCampaignsCount)
             <div class="table-filters">
@@ -65,9 +67,15 @@
         <x-table-status name="campaign" :paginator="$campaigns" :total-count="$totalCampaignsCount"
         :show-all-url="route('mailcoach.campaigns')"></x-table-status>
     @else
-        <p class="alert alert-info">
-            No campaigns yet. Go write something!
-        </p>
+        @if ($totalListsCount)
+            <p class="alert alert-info">
+                No campaigns yet. Go write something!
+            </p>
+        @else
+            <p class="alert alert-info">
+                No campaigns yet, but you‘ll need a list first, go <a href="{{ route('mailcoach.emailLists') }}">create one</a>!
+            </p>
+        @endif
     @endif
 </section>
 @endsection
