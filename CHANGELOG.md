@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 1.8.0 - 2020-02-27
+
+- add support for Postmark
+
 ## 1.7.2 - 2020-02-21
 
 - fix the default from name for campaigns
