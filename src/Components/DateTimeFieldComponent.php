@@ -9,9 +9,12 @@ class DateTimeFieldComponent extends Component
 {
     public Carbon $value;
 
-    public function __construct(?Carbon $value = null)
+    public string $name;
+
+    public function __construct(string $name, ?Carbon $value = null)
     {
         $this->value = $value ?? now();
+        $this->name = $name;
     }
 
     public function hourOptions(): array
