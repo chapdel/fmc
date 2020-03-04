@@ -14,7 +14,9 @@ class SendWelcomeMailAction
             return;
         }
 
-        Mail::to($subscriber->email)->queue($this->getMailable($subscriber));
+        Mail::mailer($subscriber->emailList->transactional_mailer)
+            ->to($subscriber->email)
+            ->queue($this->getMailable($subscriber));
     }
 
     protected function getMailable(Subscriber $subscriber): Mailable

@@ -28,7 +28,9 @@ class SendEmailListSummaryMailCommand extends Command
                         $emailList->email_list_summary_sent_at ?? $emailList->created_at
                     );
 
-                    Mail::to($emailList->campaignReportRecipients())->queue($emailListSummaryMail);
+                    Mail::mailer(config('mailcoach.mailer') ?? config('mail.default'))
+                        ->to($emailList->campaignReportRecipients())
+                        ->queue($emailListSummaryMail);
 
                     $emailList->update(['email_list_summary_sent_at' => now()]);
                 }

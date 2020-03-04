@@ -33,6 +33,40 @@
 
         <hr class="border-t-2 border-gray-200 my-8">
 
+        <h2 class="markup-h2">Campaign mailer</h2>
+        <p class="alert alert-info text-sm">The mailer used for sending the campaign sends.</p>
+
+        <div class="form-row">
+            <div class="radio-group">
+                @foreach (config('mail.mailers') as $key => $settings)
+                <c-radio-field
+                    name="campaign_mailer"
+                    :option-value="$key"
+                    :value="$emailList->campaign_mailer"
+                    :label="$key"
+                />
+                @endforeach
+            </div>
+        </div>
+
+        <h2 class="markup-h2">Transactional mailer</h2>
+        <p class="alert alert-info text-sm">The mailer used for sending the double opt-in and confirmation mails.</p>
+
+        <div class="form-row">
+            <div class="radio-group">
+                @foreach (config('mail.mailers') as $key => $settings)
+                    <c-radio-field
+                        name="transactional_mailer"
+                        :option-value="$key"
+                        :value="$emailList->transactional_mailer"
+                        :label="$key"
+                    />
+                @endforeach
+            </div>
+        </div>
+
+        <hr class="border-t-2 border-gray-200 my-8">
+
         <h2 class="markup-h2">Reports</h2>
 
         <div class="form-row">

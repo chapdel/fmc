@@ -307,7 +307,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
 
         $this->markAsSending();
 
-        dispatch(new SendCampaignJob($this, $this->emailList));
+        dispatch(new SendCampaignJob($this));
 
         return $this;
     }

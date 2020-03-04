@@ -26,17 +26,33 @@ class EmailListSummaryMailTest extends TestCase
     }
 
     /** @test */
-    public function it_can_send_the_email_list_summary()
+    public function it_can_send_the_email_list_summary_with_the_correct_mailer()
     {
         Mail::fake();
+        config()->set('mailcoach.mailer', 'some-mailer');
 
         $this->artisan(SendEmailListSummaryMailCommand::class);
         Mail::assertQueued(EmailListSummaryMail::class, function (EmailListSummaryMail $mail) {
             $this->assertEquals('2019-01-01 00:00:00', $mail->summaryStartDateTime->toDateTimeString());
+            $this->assertEquals('some-mailer', $mail->mailer);
 
             return true;
         });
         $this->assertEquals('2019-01-01 00:00:00', $this->emailList->refresh()->email_list_summary_sent_at->format('Y-m-d H:i:s'));
+    }
+
+    /** @test */
+    public function it_can_send_the_email_list_summary_with_the_default_mailer()
+    {
+        Mail::fake();
+        config()->set('mail.default', 'some-mailer');
+
+        $this->artisan(SendEmailListSummaryMailCommand::class);
+        Mail::assertQueued(EmailListSummaryMail::class, function (EmailListSummaryMail $mail) {
+            $this->assertEquals('some-mailer', $mail->mailer);
+
+            return true;
+        });
     }
 
     /** @test */

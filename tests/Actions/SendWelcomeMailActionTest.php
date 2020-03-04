@@ -18,11 +18,14 @@ class SendWelcomeMailActionTest extends TestCase
 
         $this->subscriber = factory(Subscriber::class)->create();
 
-        $this->subscriber->emailList->update(['send_welcome_mail' => true]);
+        $this->subscriber->emailList->update([
+            'send_welcome_mail' => true,
+            'transactional_mailer' => 'some-mailer'
+        ]);
     }
 
     /** @test */
-    public function it_can_send_a_welcome_mail()
+    public function it_can_send_a_welcome_mail_with_the_correct_mailer()
     {
         Mail::fake();
 
@@ -30,6 +33,10 @@ class SendWelcomeMailActionTest extends TestCase
 
         $action->execute($this->subscriber);
 
-        Mail::assertQueued(WelcomeMail::class);
+        Mail::assertQueued(WelcomeMail::class, function (WelcomeMail $mail) {
+            $this->assertEquals('some-mailer', $mail->mailer);
+
+            return true;
+        });
     }
 }

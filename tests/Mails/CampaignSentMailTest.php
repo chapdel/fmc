@@ -34,16 +34,20 @@ class CampaignSentMailTest extends TestCase
         $this->emailList->update([
             'report_recipients' =>  'john@example.com,jane@example.com',
             'report_campaign_sent' => true,
+            'transactional_mailer' => 'some-transactional-mailer',
+            'campaign_mailer' => 'some-campaign-mailer',
         ]);
+
+        config()->set('mailcoach.mailer', 'some-mailer');
 
         event(new CampaignSentEvent($this->campaign));
 
         Mail::assertQueued(CampaignSentMail::class, function (CampaignSentMail $mail) {
-            return $mail->hasTo('john@example.com');
+            return $mail->hasTo('john@example.com') && $mail->mailer === 'some-mailer';
         });
 
         Mail::assertQueued(CampaignSentMail::class, function (CampaignSentMail $mail) {
-            return $mail->hasTo('jane@example.com');
+            return $mail->hasTo('jane@example.com') && $mail->mailer === 'some-mailer';
         });
     }
 

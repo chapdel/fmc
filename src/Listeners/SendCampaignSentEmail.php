@@ -16,6 +16,8 @@ class SendCampaignSentEmail
             return;
         }
 
-        Mail::to($campaign->emailList->campaignReportRecipients())->queue(new CampaignSentMail($campaign));
+        Mail::mailer(config('mailcoach.mailer') ?? config('mail.default'))
+            ->to($campaign->emailList->campaignReportRecipients())
+            ->queue(new CampaignSentMail($campaign));
     }
 }
