@@ -16,7 +16,7 @@
     @if($unsubscribes->count())
     <div class="table-actions">
         <div class="table-filters">
-            <c-search placeholder="Filter unsubscribes" />
+            <x-search placeholder="Filter unsubscribes" />
         </div>
     </div>
 
@@ -44,12 +44,12 @@
         </tbody>
     </table>
 
-    <c-table-status
+    <x-table-status
         name="unsubscribe"
         :paginator="$unsubscribes"
         :total-count="$totalUnsubscribes"
         :show-all-url="route('mailcoach.campaigns.unsubscribes', $campaign)"
-    ></c-table-status>
+    ></x-table-status>
 
     @else
         <p class="alert alert-success">

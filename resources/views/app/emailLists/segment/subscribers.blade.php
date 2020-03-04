@@ -18,7 +18,7 @@
             <table class="table table-fixed">
                 <thead>
                 <tr>
-                    <c-th sort-by="email">Email</c-th>
+                    <x-th sort-by="email">Email</x-th>
                     <th>Tags</th>
                 </tr>
                 </thead>
@@ -44,9 +44,9 @@
             </table>
         </div>
 
-        <c-table-status name="subscriber" :paginator="$subscribers" :total-count="$selectedSubscribersCount"
+        <x-table-status name="subscriber" :paginator="$subscribers" :total-count="$selectedSubscribersCount"
                         :show-all-url="route('mailcoach.emailLists.segment.subscribers', [$segment->emailList, $segment])">
-        </c-table-status>
+        </x-table-status>
     @else
         <p class="alert alert-info">
             This is a very exclusive segment. Nobody got selected.

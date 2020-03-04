@@ -20,12 +20,12 @@
 @section('content')
     <nav class="tabs">
         <ul>
-            <c-navigation-item :href="route('mailcoach.emailLists.segment.edit', [$segment->emailList, $segment])">
-                <c-icon-label icon="fa-chart-pie" text="Segment details" />
-            </c-navigation-item>
-            <c-navigation-item :href="route('mailcoach.emailLists.segment.subscribers', [$segment->emailList, $segment])">
-                <c-icon-label icon="fa-user" text="Population" :count="$selectedSubscribersCount" />
-            </c-navigation-item>
+            <x-navigation-item :href="route('mailcoach.emailLists.segment.edit', [$segment->emailList, $segment])">
+                <x-icon-label icon="fa-chart-pie" text="Segment details" />
+            </x-navigation-item>
+            <x-navigation-item :href="route('mailcoach.emailLists.segment.subscribers', [$segment->emailList, $segment])">
+                <x-icon-label icon="fa-user" text="Population" :count="$selectedSubscribersCount" />
+            </x-navigation-item>
         </ul>
     </nav>
 

@@ -55,7 +55,7 @@
             </footer>
         </div>
 
-        <c-modal title="Confirm" name="confirm">
+        <x-modal title="Confirm" name="confirm">
             Are you sure?
 
             <div class="form-buttons">
@@ -66,9 +66,9 @@
                     Cancel
                 </button>
             </div>
-        </c-modal>
+        </x-modal>
 
-        <c-modal title="Confirm navigation" name="dirty-warning">
+        <x-modal title="Confirm navigation" name="dirty-warning">
             There are unsaved changes. Are you sure you want to continue?
 
             <div class="form-buttons">
@@ -79,7 +79,7 @@
                     Cancel
                 </button>
             </div>
-        </c-modal>
+        </x-modal>
 
         @stack('modals')
     </body>

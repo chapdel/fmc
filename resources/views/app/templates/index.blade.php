@@ -12,16 +12,16 @@
     <section class="card">
         <div class="table-actions">
             <button class="button" data-modal-trigger="create-template">
-                <c-icon-label icon="fa-clipboard" text="Create template"/>
+                <x-icon-label icon="fa-clipboard" text="Create template"/>
             </button>
 
-            <c-modal title="Create template" name="create-template" :open="$errors->any()">
+            <x-modal title="Create template" name="create-template" :open="$errors->any()">
                 @include('mailcoach::app.templates.partials.create')
-            </c-modal>
+            </x-modal>
 
             @if($templates->count() || $searching)
                 <div class="table-filters">
-                    <c-search placeholder="Filter templates…"/>
+                    <x-search placeholder="Filter templates…"/>
                 </div>
             @endif
         </div>
@@ -30,8 +30,8 @@
             <table class="table table-fixed">
                 <thead>
                 <tr>
-                    <c-th sort-by="name" sort-default>Name</c-th>
-                    <c-th sort-by="-updated_at" class="w-48 th-numeric">Last updated</c-th>
+                    <x-th sort-by="name" sort-default>Name</x-th>
+                    <x-th sort-by="-updated_at" class="w-48 th-numeric">Last updated</x-th>
                     <th class="w-12"></th>
                 </tr>
                 </thead>
@@ -51,13 +51,13 @@
                                 </button>
                                 <ul class="dropdown-list dropdown-list-left | hidden" data-dropdown-list>
                                     <li>
-                                        <c-form-button
+                                        <x-form-button
                                             :action="route('mailcoach.templates.delete', $template)"
                                             method="DELETE"
                                             data-confirm="true"
                                         >
-                                            <c-icon-label icon="fa-trash-alt" text="Delete" :caution="true" />
-                                        </c-form-button>
+                                            <x-icon-label icon="fa-trash-alt" text="Delete" :caution="true" />
+                                        </x-form-button>
                                     </li>
                                 </ul>
                             </div>
@@ -67,12 +67,12 @@
                 </tbody>
             </table>
 
-            <c-table-status
+            <x-table-status
                 name="template"
                 :paginator="$templates"
                 :total-count="$totalTemplatesCount"
                 :show-all-url="route('mailcoach.templates')"
-            ></c-table-status>
+            ></x-table-status>
 
         @else
             <p class="alert alert-info">

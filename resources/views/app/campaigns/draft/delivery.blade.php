@@ -22,7 +22,7 @@
 
         <div class="flex items-end">
             <div class="flex-grow max-w-lg">
-                <c-text-field
+                <x-text-field
                     label="Test your email first"
                     placeholder="Email(s) comma separated"
                     name="emails"
@@ -33,7 +33,7 @@
             </div>
 
             <button type="submit" class="ml-2 button">
-                <c-icon-label icon="fa-paper-plane" text="Send test"/>
+                <x-icon-label icon="fa-paper-plane" text="Send test"/>
             </button>
         </div>
 
@@ -142,7 +142,7 @@
             <dd class="start-2 pb-4 mb-2 border-b-2 border-gray-100">
                 <a href="{{ route('mailcoach.campaigns.settings', $campaign) }}"
                    class="link-icon">
-                    <c-icon-label icon="fa-pencil-alt" text="Edit"/>
+                    <x-icon-label icon="fa-pencil-alt" text="Edit"/>
                 </a>
             </dd>
 
@@ -187,17 +187,17 @@
             <dd class="start-2 pb-4 mb-2 border-b-2 border-gray-100 buttons gap-4">
                 <a href="{{ route('mailcoach.campaigns.content', $campaign) }}"
                    class="link-icon">
-                    <c-icon-label icon="fa-pencil-alt" text="Edit"/>
+                    <x-icon-label icon="fa-pencil-alt" text="Edit"/>
                 </a>
 
                 @if($campaign->html && $campaign->hasValidHtml())
                     <button type="button" class="link-icon" data-modal-trigger="preview">
-                        <c-icon-label icon="fa-eye" text="Preview"/>
+                        <x-icon-label icon="fa-eye" text="Preview"/>
                     </button>
-                    <c-modal title="Preview" name="preview" large>
+                    <x-modal title="Preview" name="preview" large>
                         <iframe class="absolute" width="100%" height="100%"
                                 src="data:text/html;base64,{{ base64_encode($campaign->html) }}"></iframe>
-                    </c-modal>
+                    </x-modal>
                 @endif
             </dd>
 
@@ -220,20 +220,20 @@
                                 <strong>{{ $campaign->scheduled_at->toMailcoachFormat() }}</strong>.
                             </p>
                             <button type="submit" class="link-icon">
-                                <c-icon-label icon="fa-ban" text="Unschedule"/>
+                                <x-icon-label icon="fa-ban" text="Unschedule"/>
                             </button>
                         </form>
                     @else
                         <div class="">
                             <div class="radio-group">
-                                <c-radio-field
+                                <x-radio-field
                                     name="schedule"
                                     option-value="now"
                                     :value="$campaign->scheduled_at ? 'future' : 'now'"
                                     label="Send immediately"
                                     dataConditional="schedule"
                                 />
-                                <c-radio-field
+                                <x-radio-field
                                     name="schedule"
                                     option-value="future"
                                     :value="($campaign->scheduled_at || $errors->first('scheduled_at')) ? 'future' : 'now'"
@@ -249,10 +249,10 @@
                             >
                                 @csrf
                                 <div class="mt-6 flex items-end">
-                                    <c-date-time-field name="scheduled_at" :value="$campaign->scheduled_at" required />
+                                    <x-date-time-field name="scheduled_at" :value="$campaign->scheduled_at" required />
 
                                     <button type="submit" class="ml-6 button bg-orange-500 hover:bg-orange-600 focus:bg-orange-600">
-                                        <c-icon-label icon="fa-clock" text="Schedule delivery"/>
+                                        <x-icon-label icon="fa-clock" text="Schedule delivery"/>
                                     </button>
                                 </div>
                                 <p class="mt-2 text-xs text-gray-300">
@@ -267,10 +267,10 @@
                         data-conditional-schedule="now"
                     >
                         <button class="button" data-modal-trigger="send-campaign">
-                            <c-icon-label icon="fa-paper-plane" text="Send now"/>
+                            <x-icon-label icon="fa-paper-plane" text="Send now"/>
                         </button>
                     </div>
-                    <c-modal name="send-campaign">
+                    <x-modal name="send-campaign">
                         <div class="flex place-center">
                             <div class="horses-wrap">
                                 <div class="horses">
@@ -279,17 +279,17 @@
                                     <div class="horse-02"><img src="/vendor/mailcoach/images/horse-02.png"></div>
                                 </div>
                                 <div class="horse-button">
-                                    <c-form-button
+                                    <x-form-button
                                         :action="route('mailcoach.campaigns.send', $campaign)"
                                         class="button bg-red-500 shadow-2xl text-lg h-12"
                                     >
-                                        <c-icon-label icon="fa-paper-plane"
+                                        <x-icon-label icon="fa-paper-plane"
                                                       :text="'Send ' .  $campaign->segmentSubscriberCount() . ' ' . Illuminate\Support\Str::plural('email', $campaign->segmentSubscriberCount())"/>
-                                    </c-form-button>
+                                    </x-form-button>
                                 </div>
                             </div>
                         </div>
-                    </c-modal>
+                    </x-modal>
                 </dd>
             @endif
         </dl>

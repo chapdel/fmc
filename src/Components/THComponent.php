@@ -1,12 +1,12 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\App\ViewModels\BladeX;
+namespace Spatie\Mailcoach\Components;
 
 use Illuminate\Support\Str;
-use Spatie\BladeX\ViewModel;
+use Illuminate\View\Component;
 use Spatie\QueryString\QueryString;
 
-class THViewModel extends ViewModel
+class THComponent extends Component
 {
     public bool $sortable;
 
@@ -71,5 +71,10 @@ class THViewModel extends ViewModel
         }
 
         return $this->queryString->isActive('sort', '-' . $this->sortField);
+    }
+
+    public function render()
+    {
+        return view('mailcoach::app.components.table.th');
     }
 }

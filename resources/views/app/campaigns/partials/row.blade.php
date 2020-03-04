@@ -60,20 +60,20 @@
             </button>
             <ul class="dropdown-list dropdown-list-left | hidden" data-dropdown-list>
                 <li>
-                    <c-form-button
+                    <x-form-button
                         :action="route('mailcoach.campaigns.duplicate', $campaign)"
                     >
-                        <c-icon-label icon="fa-random" text="Duplicate" />
-                    </c-form-button>
+                        <x-icon-label icon="fa-random" text="Duplicate" />
+                    </x-form-button>
                 </li>
                 <li>
-                    <c-form-button
+                    <x-form-button
                         :action="route('mailcoach.campaigns.delete', $campaign)"
                         method="DELETE"
                         data-confirm="true"
                     >
-                        <c-icon-label icon="fa-trash-alt" text="Delete" :caution="true" />
-                    </c-form-button>
+                        <x-icon-label icon="fa-trash-alt" text="Delete" :caution="true" />
+                    </x-form-button>
                 </li>
             </ul>
         </div>

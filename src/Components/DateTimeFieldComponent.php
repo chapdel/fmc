@@ -1,11 +1,11 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\App\ViewModels\BladeX;
+namespace Spatie\Mailcoach\Components;
 
 use Illuminate\Support\Carbon;
-use Spatie\BladeX\ViewModel;
+use Illuminate\View\Component;
 
-class DateTimeFieldViewModel extends ViewModel
+class DateTimeFieldComponent extends Component
 {
     public Carbon $value;
 
@@ -26,5 +26,10 @@ class DateTimeFieldViewModel extends ViewModel
         return collect(range(0, 60, 15))->mapWithKeys(function (int $minutes) {
             return [$minutes => str_pad($minutes, 2, '0', STR_PAD_LEFT)];
         })->toArray();
+    }
+
+    public function render()
+    {
+        return view('mailcoach::app.components.form.dateTimeField');
     }
 }

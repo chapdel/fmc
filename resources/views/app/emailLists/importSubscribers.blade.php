@@ -54,25 +54,25 @@
                                 <ul class="dropdown-list dropdown-list-left | hidden" data-dropdown-list>
                                     <li>
                                         <a href="{{ $subscriberImport->getImportedSubscribersReportUrl() }}">
-                                            <c-icon-label icon="fa-list" text="Import report"/>
+                                            <x-icon-label icon="fa-list" text="Import report"/>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="{{ $subscriberImport->getErrorReportUrl() }}">
-                                            <c-icon-label icon="fa-exclamation-triangle" text="Error report"/>
+                                            <x-icon-label icon="fa-exclamation-triangle" text="Error report"/>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="{{ $subscriberImport->getImportFileUrl() }}">
-                                            <c-icon-label icon="fa-file-upload" text="Uploaded file"/>
+                                            <x-icon-label icon="fa-file-upload" text="Uploaded file"/>
                                         </a>
                                     </li>
                                     <li>
-                                        <c-form-button
+                                        <x-form-button
                                             :action="route('mailcoach.subscriberImport.delete', $subscriberImport->id)"
                                             method="DELETE" class="link-delete">
-                                            <c-icon-label icon="fa-trash-alt" text="Delete" :caution="true"/>
-                                        </c-form-button>
+                                            <x-icon-label icon="fa-trash-alt" text="Delete" :caution="true"/>
+                                        </x-form-button>
                                     </li>
                                 </ul>
                             </div>
@@ -89,7 +89,7 @@
 
             <div class=button>
                 <button class="font-semibold h-10" type="submit">
-                    <c-icon-label icon="fa-cloud-upload-alt" text="Import subscribers"/>
+                    <x-icon-label icon="fa-cloud-upload-alt" text="Import subscribers"/>
                 </button>
                 <input onchange="this.form.submit();" class="absolute inset-0 opacity-0 text-4xl" accept=".csv, .xlsx" type="file" id="file"
                        name="file" class="w-48 h-10"/>
@@ -103,9 +103,9 @@
         </form>
 
         <div class="mt-2">
-            <c-help class="mt-2">
+            <x-help class="mt-2">
                 Upload a CSV file with these columns: email, first_name, last_name, tags <a href="https://mailcoach.app/docs/app/lists/subscribers#importing-subscribers" class="link" target="_blank">(see documentation)</a>
-            </c-help>
+            </x-help>
 
 
         </div>

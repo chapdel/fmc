@@ -34,11 +34,11 @@
             @csrf
             @method('PUT')
 
-            <c-text-field label="Name" name="name" :value="$tag->name" required />
+            <x-text-field label="Name" name="name" :value="$tag->name" required />
 
             <div class="form-buttons">
                 <button type="submit" class="button">
-                    <c-icon-label icon="fa-tag" text="Save tag" />
+                    <x-icon-label icon="fa-tag" text="Save tag" />
                 </button>
             </div>
         </form>

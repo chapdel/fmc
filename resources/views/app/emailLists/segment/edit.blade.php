@@ -23,20 +23,20 @@
         @csrf
         @method('PUT')
 
-        <c-text-field label="Name" name="name" :value="$segment->name" type="name" required />
+        <x-text-field label="Name" name="name" :value="$segment->name" type="name" required />
 
         <div class="form-row">
             <label class=label>Include with tags</label>
             <div class="flex items-end">
                 <div class="flex-none">
-                    <c-select-field
+                    <x-select-field
                         name="positive_tags_operator"
                         :value="$segment->all_positive_tags_required ? 'all' : 'any'"
                         :options="['any' => 'Any', 'all' => 'All']"
                     />
                 </div>
                 <div class="ml-2 flex-grow">
-                    <c-tags-field
+                    <x-tags-field
                         name="positive_tags"
                         :value="$segment->positiveTags()->pluck('name')->toArray()"
                         :tags="$emailList->tags()->pluck('name')->toArray()"
@@ -49,14 +49,14 @@
             <label class=label>Exclude with tags</label>
             <div class="flex items-end">
                 <div class="flex-none">
-                    <c-select-field
+                    <x-select-field
                         name="negative_tags_operator"
                         :value="$segment->all_negative_tags_required ? 'all' : 'any'"
                         :options="['any' => 'Any', 'all' => 'All']"
                     />
                 </div>
                 <div class="ml-2 flex-grow">
-                    <c-tags-field
+                    <x-tags-field
                         name="negative_tags"
                         :value="$segment->negativeTags()->pluck('name')->toArray()"
                         :tags="$emailList->tags()->pluck('name')->toArray()"
@@ -68,7 +68,7 @@
 
         <div class="form-buttons">
             <button type="submit" class="button">
-                <c-icon-label icon="fa-chart-pie" text="Save" />
+                <x-icon-label icon="fa-chart-pie" text="Save" />
             </button>
         </div>
     </form>

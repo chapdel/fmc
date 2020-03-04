@@ -16,12 +16,12 @@
     <div class="table-actions">
         <div class=buttons>
             <button class="button" data-modal-trigger="create-segment">
-                <c-icon-label icon="fa-chart-pie" text="Add segment"/>
+                <x-icon-label icon="fa-chart-pie" text="Add segment"/>
             </button>
 
-            <c-modal title="Create segment" name="create-segment" :open="$errors->any()">
+            <x-modal title="Create segment" name="create-segment" :open="$errors->any()">
                 @include('mailcoach::app.emailLists.segment.partials.create')
-            </c-modal>
+            </x-modal>
         </div>
     </div>
 
@@ -29,8 +29,8 @@
         <table class="table table-fixed">
             <thead>
             <tr>
-                <c-th sort-by="name">Name</c-th>
-                <c-th sort-by="-created_at" class="w-48 th-numeric hidden | md:table-cell">Created at</c-th>
+                <x-th sort-by="name">Name</x-th>
+                <x-th sort-by="-created_at" class="w-48 th-numeric hidden | md:table-cell">Created at</x-th>
                 <th class="w-12"></th>
             </tr>
             </thead>
@@ -50,11 +50,11 @@
                             </button>
                             <ul class="dropdown-list dropdown-list-left | hidden" data-dropdown-list>
                                 <li>
-                                    <c-form-button
+                                    <x-form-button
                                         :action="route('mailcoach.emailLists.segment.delete', [$segment->emailList, $segment])"
                                         method="DELETE" data-confirm="true">
-                                        <c-icon-label icon="fa-trash-alt" text="Delete" :caution="true"/>
-                                    </c-form-button>
+                                        <x-icon-label icon="fa-trash-alt" text="Delete" :caution="true"/>
+                                    </x-form-button>
                                 </li>
                             </ul>
                         </div>
@@ -64,12 +64,12 @@
             </tbody>
         </table>
 
-        <c-table-status
+        <x-table-status
             name="segment"
             :paginator="$segments"
             :total-count="$totalSegmentsCount"
             :show-all-url="route('mailcoach.emailLists.segments', $emailList)">
-        </c-table-status>
+        </x-table-status>
     @else
         <p class="alert alert-info">
             No segments here. So you don't like putting people into groups?

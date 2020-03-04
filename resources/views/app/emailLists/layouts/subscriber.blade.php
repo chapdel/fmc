@@ -19,12 +19,12 @@
 @section('content')
     <nav class="tabs">
         <ul>
-            <c-navigation-item :href="route('mailcoach.emailLists.subscriber.details', [$subscriber->emailList, $subscriber])">
-                <c-icon-label icon="fa-user" text="Subscriber details" />
-            </c-navigation-item>
-            <c-navigation-item :href="route('mailcoach.emailLists.subscriber.receivedCampaigns', [$subscriber->emailList, $subscriber])">
-                <c-icon-label icon="fa-envelope-open" text="Received campaigns" :count="$totalSendsCount" />
-            </c-navigation-item>
+            <x-navigation-item :href="route('mailcoach.emailLists.subscriber.details', [$subscriber->emailList, $subscriber])">
+                <x-icon-label icon="fa-user" text="Subscriber details" />
+            </x-navigation-item>
+            <x-navigation-item :href="route('mailcoach.emailLists.subscriber.receivedCampaigns', [$subscriber->emailList, $subscriber])">
+                <x-icon-label icon="fa-envelope-open" text="Received campaigns" :count="$totalSendsCount" />
+            </x-navigation-item>
         </ul>
     </nav>
 

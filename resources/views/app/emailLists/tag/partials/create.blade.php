@@ -1,11 +1,11 @@
 <form class="form-grid" action="{{ route('mailcoach.emailLists.tag.store', $emailList) }}" method="POST">
     @csrf
 
-    <c-text-field label="Name" name="name" required />
+    <x-text-field label="Name" name="name" required />
 
     <div class="form-buttons">
         <button class="button">
-            <c-icon-label icon="fa-tag" text="Create tag"/>
+            <x-icon-label icon="fa-tag" text="Create tag"/>
         </button>
         <button type="button" class="button-cancel" data-modal-dismiss>
             Cancel

@@ -29,9 +29,9 @@
     </div>
 
     @if($campaign->usingCustomSegment())
-        <c-help>
+        <x-help>
             Using custom segment class ({{ $this->segment_class }}).
-        </c-help>
+        </x-help>
     @else
         <div class="form-row">
             @error('segment')
@@ -41,7 +41,7 @@
                 Segment
             </label>
             <div class="radio-group">
-                <c-radio-field
+                <x-radio-field
                     name="segment"
                     :value="$campaign->notSegmenting()"
                     option-value="entire_list"
@@ -49,7 +49,7 @@
                 />
                 <div class="flex items-center">
                     <div class="flex-shrink-none">
-                        <c-radio-field
+                        <x-radio-field
                             name="segment"
                             :value="$campaign->segmentingOnSubscriberTags()"
                             option-value="segment"

@@ -88,10 +88,10 @@
 
         <div class="mt-6 grid cols-3 gap-6 justify-start items-end max-w-xl">
             @if ($campaign->track_opens)
-                <c-statistic :href="route('mailcoach.campaigns.opens', $campaign)" class="start-1"
+                <x-statistic :href="route('mailcoach.campaigns.opens', $campaign)" class="start-1"
                              numClass="text-4xl font-semibold" :stat="$campaign->unique_open_count" label="Unique Opens"/>
-                <c-statistic :stat="$campaign->open_count" label="Opens"/>
-                <c-statistic :stat="$campaign->open_rate" label="Open Rate" suffix="%"/>
+                <x-statistic :stat="$campaign->open_count" label="Opens"/>
+                <x-statistic :stat="$campaign->open_rate" label="Open Rate" suffix="%"/>
             @else
                 <div class="start-1 span-3">
                     <div class="text-4xl font-semibold">–</div>
@@ -100,10 +100,10 @@
             @endif
 
             @if($campaign->track_clicks)
-                <c-statistic :href="route('mailcoach.campaigns.clicks', $campaign)" class="start-1"
+                <x-statistic :href="route('mailcoach.campaigns.clicks', $campaign)" class="start-1"
                              numClass="text-4xl font-semibold" :stat="$campaign->unique_click_count" label="Unique Clicks"/>
-                <c-statistic :stat="$campaign->click_count" label="Clicks"/>
-                <c-statistic :stat="$campaign->click_rate" label="Click Rate" suffix="%"/>
+                <x-statistic :stat="$campaign->click_count" label="Clicks"/>
+                <x-statistic :stat="$campaign->click_rate" label="Click Rate" suffix="%"/>
             @else
                 <div class="start-1 span-3">
                     <div class="text-4xl font-semibold">–</div>
@@ -111,14 +111,14 @@
                 </div>
             @endif
 
-            <c-statistic :href="route('mailcoach.campaigns.unsubscribes', $campaign)" numClass="text-4xl font-semibold"
+            <x-statistic :href="route('mailcoach.campaigns.unsubscribes', $campaign)" numClass="text-4xl font-semibold"
                          :stat="$campaign->unsubscribe_count" label="Unsubscribes"/>
-            <c-statistic :stat="$campaign->unsubscribe_rate" label="Unsubscribe Rate" suffix="%"/>
+            <x-statistic :stat="$campaign->unsubscribe_rate" label="Unsubscribe Rate" suffix="%"/>
 
-            <c-statistic :href="route('mailcoach.campaigns.outbox', $campaign) . '?filter[type]=bounced'"
+            <x-statistic :href="route('mailcoach.campaigns.outbox', $campaign) . '?filter[type]=bounced'"
                          class="start-1" numClass="text-4xl font-semibold" :stat="$campaign->bounce_count"
                          label="Bounces"/>
-            <c-statistic :stat="$campaign->bounce_rate" label="Bounce Rate" suffix="%"/>
+            <x-statistic :stat="$campaign->bounce_rate" label="Bounce Rate" suffix="%"/>
 
         </div>
     </div>
