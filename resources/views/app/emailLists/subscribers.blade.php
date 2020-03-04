@@ -8,12 +8,12 @@
     <div class="table-actions">
         <div class=buttons>
             <button class="button" data-modal-trigger="create-subscriber">
-                <x-icon-label icon="fa-user" text="Add subscriber"/>
+                <c-icon-label icon="fa-user" text="Add subscriber"/>
             </button>
 
-            <x-modal title="Create subscriber" name="create-subscriber" :open="$errors->any()">
+            <c-modal title="Create subscriber" name="create-subscriber" :open="$errors->any()">
                 @include('mailcoach::app.emailLists.subscriber.partials.create')
-            </x-modal>
+            </c-modal>
 
             <div class="dropdown" data-dropdown>
                 <button class="button" data-dropdown-trigger>
@@ -24,23 +24,23 @@
                 <ul class="dropdown-list dropdown-list-right | hidden" data-dropdown-list>
                     <li>
                         <a href="{{route('mailcoach.emailLists.import-subscribers', $emailList)}}">
-                            <x-icon-label icon="fa-cloud-upload-alt" text="Import subscribers"/>
+                            <c-icon-label icon="fa-cloud-upload-alt" text="Import subscribers"/>
                         </a>
                     </li>
                     @if($subscribers->count() > 0)
                         <li>
-                            <x-form-button
+                            <c-form-button
                                 :action="route('mailcoach.emailLists.subscribers.export', $emailList) . '?' . request()->getQueryString()">
-                                <x-icon-label icon="fa-file"
+                                <c-icon-label icon="fa-file"
                                               :text="$emailList->allSubscribers()->count() === $subscribers->total() ? 'Export all subscribers' : 'Export ' . $subscribers->total() . ' ' . \Illuminate\Support\Str::plural('subscriber', $subscribers->total())"/>
-                            </x-form-button>
+                            </c-form-button>
                         </li>
                         <li>
-                            <x-form-button
+                            <c-form-button
                                 :action="route('mailcoach.emailLists.destroy-unsubscribes', $emailList)"
                                 method="DELETE" data-confirm="true">
-                                <x-icon-label icon="fa-trash-alt" text="Delete unsubscribes" :caution="true"/>
-                            </x-form-button>
+                                <c-icon-label icon="fa-trash-alt" text="Delete unsubscribes" :caution="true"/>
+                            </c-form-button>
                         </li>
                     @endif
                 </ul>
@@ -49,27 +49,27 @@
 
         @if($emailList->allSubscribers()->count())
             <div class="table-filters">
-                <x-filters>
-                    <x-context :queryString="$queryString" attribute="status">
-                        <x-filter active-on="">
+                <c-filters>
+                    <c-context :queryString="$queryString" attribute="status">
+                        <c-filter active-on="">
                             All
-                            <x-counter :number="$emailList->allSubscribers()->count()"/>
-                        </x-filter>
-                        <x-filter active-on="unconfirmed">
+                            <c-counter :number="$emailList->allSubscribers()->count()"/>
+                        </c-filter>
+                        <c-filter active-on="unconfirmed">
                             Unconfirmed
-                            <x-counter :number="$emailList->allSubscribers()->unconfirmed()->count()"/>
-                        </x-filter>
-                        <x-filter active-on="subscribed">
+                            <c-counter :number="$emailList->allSubscribers()->unconfirmed()->count()"/>
+                        </c-filter>
+                        <c-filter active-on="subscribed">
                             Subscribed
-                            <x-counter :number="$emailList->allSubscribers()->subscribed()->count()"/>
-                        </x-filter>
-                        <x-filter active-on="unsubscribed">
+                            <c-counter :number="$emailList->allSubscribers()->subscribed()->count()"/>
+                        </c-filter>
+                        <c-filter active-on="unsubscribed">
                             Unsubscribed
-                            <x-counter :number="$emailList->allSubscribers()->unsubscribed()->count()"/>
-                        </x-filter>
-                    </x-context>
-                </x-filters>
-                <x-search placeholder="Filter subscribers…"/>
+                            <c-counter :number="$emailList->allSubscribers()->unsubscribed()->count()"/>
+                        </c-filter>
+                    </c-context>
+                </c-filters>
+                <c-search placeholder="Filter subscribers…"/>
             </div>
         @endif
     </div>
@@ -79,12 +79,12 @@
             <thead>
             <tr>
                 <th class="w-4"></th>
-                <x-th sort-by="email">Email</x-th>
+                <c-th sort-by="email">Email</c-th>
                 <th class="hidden | md:table-cell">Tags</th>
                 @if(request()->input('filter.status') === \Spatie\Mailcoach\Enums\SubscriptionStatus::UNSUBSCRIBED)
-                    <x-th sort-by="-unsubscribed_at" class="w-48 th-numeric hidden | md:table-cell">Unsubscribed at</x-th>
+                    <c-th sort-by="-unsubscribed_at" class="w-48 th-numeric hidden | md:table-cell">Unsubscribed at</c-th>
                 @else
-                    <x-th sort-by="-created_at" class="w-48 th-numeric hidden | md:table-cell">Subscribed at</x-th>
+                    <c-th sort-by="-created_at" class="w-48 th-numeric hidden | md:table-cell">Subscribed at</c-th>
                 @endif
 
                 <th class="w-12"></th>
@@ -130,44 +130,44 @@
                             <ul class="dropdown-list dropdown-list-left | hidden" data-dropdown-list>
                                 @if ($subscriber->isUnconfirmed())
                                     <li>
-                                        <x-form-button
+                                        <c-form-button
                                             :action="route('mailcoach.subscriber.resend-confirmation-mail', [$subscriber])"
                                             method="POST" data-confirm="true">
-                                            <x-icon-label icon="fa-envelope" text="Resend confirmation mail"/>
-                                        </x-form-button>
+                                            <c-icon-label icon="fa-envelope" text="Resend confirmation mail"/>
+                                        </c-form-button>
                                     </li>
                                     <li>
-                                        <x-form-button
+                                        <c-form-button
                                             :action="route('mailcoach.subscriber.confirm', [$subscriber])"
                                             method="POST" data-confirm="true">
-                                            <x-icon-label icon="fa-check" text="Confirm"/>
-                                        </x-form-button>
+                                            <c-icon-label icon="fa-check" text="Confirm"/>
+                                        </c-form-button>
                                     </li>
                                 @endif
                                 @if ($subscriber->isSubscribed())
                                     <li>
-                                        <x-form-button
+                                        <c-form-button
                                             :action="route('mailcoach.subscriber.unsubscribe', [$subscriber])"
                                             method="POST" data-confirm="true">
-                                            <x-icon-label icon="fa-ban" text="Unsubscribe"/>
-                                        </x-form-button>
+                                            <c-icon-label icon="fa-ban" text="Unsubscribe"/>
+                                        </c-form-button>
                                     </li>
                                 @endif
                                 @if ($subscriber->isUnsubscribed())
                                     <li>
-                                        <x-form-button
+                                        <c-form-button
                                             :action="route('mailcoach.subscriber.resubscribe', [$subscriber])"
                                             method="POST" data-confirm="true">
-                                            <x-icon-label icon="fa-redo" text="Resubscribe"/>
-                                        </x-form-button>
+                                            <c-icon-label icon="fa-redo" text="Resubscribe"/>
+                                        </c-form-button>
                                     </li>
                                 @endif
                                 <li>
-                                    <x-form-button
+                                    <c-form-button
                                         :action="route('mailcoach.emailLists.subscriber.delete', [$subscriber->emailList, $subscriber])"
                                         method="DELETE" data-confirm="true">
-                                        <x-icon-label icon="fa-trash-alt" text="Delete" :caution="true"/>
-                                    </x-form-button>
+                                        <c-icon-label icon="fa-trash-alt" text="Delete" :caution="true"/>
+                                    </c-form-button>
                                 </li>
                             </ul>
                         </div>
@@ -177,9 +177,9 @@
             </tbody>
         </table>
 
-        <x-table-status name="subscriber" :paginator="$subscribers" :total-count="$totalSubscriptionsCount"
+        <c-table-status name="subscriber" :paginator="$subscribers" :total-count="$totalSubscriptionsCount"
                         :show-all-url="route('mailcoach.campaigns')">
-        </x-table-status>
+        </c-table-status>
     @else
         <p class="alert alert-info">
             So where is everyone? This list is empty.

@@ -25,6 +25,8 @@ class AuthenticateTest extends TestCase
     /** @test */
     public function when_authenticated_it_can_view_the_mailcoach_ui()
     {
+        $this->withoutExceptionHandling();
+
         $this->authenticate();
 
         $this->get(route('mailcoach.campaigns'))->assertSuccessful();

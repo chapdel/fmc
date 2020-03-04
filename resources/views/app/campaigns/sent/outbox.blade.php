@@ -15,52 +15,52 @@
 @section('campaign')
     @if ($totalFailed > 0)
         <div class="table-actions">
-            <x-form-button
+            <c-form-button
             :action="route('mailcoach.campaigns.retry-failed-sends', [$campaign])"
             method="POST"
             data-confirm="true"
             class="mt-4 button"
             >
-                <x-icon-label icon="fa-exclamation-triangle" :text="'Try resending ' . $totalFailed . ' failed ' . \Illuminate\Support\Str::plural('email', $totalFailed)" />
-            </x-form-button>
+                <c-icon-label icon="fa-exclamation-triangle" :text="'Try resending ' . $totalFailed . ' failed ' . \Illuminate\Support\Str::plural('email', $totalFailed)" />
+            </c-form-button>
     </div>
     @endif
 
     <div class="table-actions">
         <div class="table-filters">
-            <x-filters>
-                <x-context :queryString="$queryString" attribute="type">
-                    <x-filter active-on="">
+            <c-filters>
+                <c-context :queryString="$queryString" attribute="type">
+                    <c-filter active-on="">
                         All <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalSends) }}</span>
-                    </x-filter>
-                    <x-filter active-on="pending">
+                    </c-filter>
+                    <c-filter active-on="pending">
                         Pending <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalPending) }}</span>
-                    </x-filter>
-                    <x-filter active-on="failed">
+                    </c-filter>
+                    <c-filter active-on="failed">
                         Failed <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalFailed) }}</span>
-                    </x-filter>
-                    <x-filter active-on="sent">
+                    </c-filter>
+                    <c-filter active-on="sent">
                         Sent <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalSent) }}</span>
-                    </x-filter>
-                    <x-filter active-on="bounced">
+                    </c-filter>
+                    <c-filter active-on="bounced">
                         Bounced <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalBounces) }}</span>
-                    </x-filter>
-                    <x-filter active-on="complained">
+                    </c-filter>
+                    <c-filter active-on="complained">
                         Complaints <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalComplaints) }}</span>
-                    </x-filter>
-                </x-context>
-            </x-filters>
+                    </c-filter>
+                </c-context>
+            </c-filters>
 
-            <x-search placeholder="Filter mails…"/>
+            <c-search placeholder="Filter mails…"/>
         </div>
     </div>
 
     <table class="table table-fixed">
         <thead>
         <tr>
-            <x-th sort-by="subscriber_email">Email address</x-th>
-            <x-th sort-by="subscriber_email">Problem</x-th>
-            <x-th class="w-48 th-numeric hidden | md:table-cell" sort-by="-sent_at" sort-default>Sent at</x-th>
+            <c-th sort-by="subscriber_email">Email address</c-th>
+            <c-th sort-by="subscriber_email">Problem</c-th>
+            <c-th class="w-48 th-numeric hidden | md:table-cell" sort-by="-sent_at" sort-default>Sent at</c-th>
         </tr>
         </thead>
         <tbody>
@@ -74,6 +74,6 @@
         </tbody>
     </table>
 
-    <x-table-status name="send" :paginator="$sends" :total-count="$totalSends"
-                    :show-all-url="route('mailcoach.campaigns.outbox', $campaign)"></x-table-status>
+    <c-table-status name="send" :paginator="$sends" :total-count="$totalSends"
+                    :show-all-url="route('mailcoach.campaigns.outbox', $campaign)"></c-table-status>
 @endsection

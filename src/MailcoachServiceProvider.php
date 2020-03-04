@@ -202,7 +202,7 @@ class MailcoachServiceProvider extends EventServiceProvider
 
         View::composer('mailcoach::app.layouts.partials.footer', FooterComposer::class);
 
-        BladeX::prefix('x');
+        BladeX::prefix('c');
 
         BladeX::component('mailcoach::app.components.form.checkboxField', 'checkbox-field');
         BladeX::component('mailcoach::app.components.form.radioField', 'radio-field');

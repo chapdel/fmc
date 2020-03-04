@@ -14,16 +14,16 @@
     <section class="card">
         <div class="table-actions">
             <button class="button" data-modal-trigger="create-list">
-                <x-icon-label icon="fa-address-book" text="Create list" />
+                <c-icon-label icon="fa-address-book" text="Create list" />
             </button>
 
-            <x-modal title="Create list" name="create-list" :open="$errors->any()">
+            <c-modal title="Create list" name="create-list" :open="$errors->any()">
                 @include('mailcoach::app.emailLists.partials.create')
-            </x-modal>
+            </c-modal>
 
             @if($emailLists->count() || $searching)
                 <div class="table-filters">
-                    <x-search placeholder="Filter lists…"/>
+                    <c-search placeholder="Filter lists…"/>
                 </div>
             @endif
         </div>
@@ -32,9 +32,9 @@
             <table class="table table-fixed">
                 <thead>
                 <tr>
-                    <x-th sort-by="name" sort-default>Name</x-th>
-                    <x-th sort-by="-active_subscribers_count" class="w-32 th-numeric">Active</x-th>
-                    <x-th sort-by="-created_at" class="w-48 th-numeric hidden | md:table-cell">Created</x-th>
+                    <c-th sort-by="name" sort-default>Name</c-th>
+                    <c-th sort-by="-active_subscribers_count" class="w-32 th-numeric">Active</c-th>
+                    <c-th sort-by="-created_at" class="w-48 th-numeric hidden | md:table-cell">Created</c-th>
                     <th class="w-12"></th>
                 </tr>
                 </thead>
@@ -57,13 +57,13 @@
                                 </button>
                                 <ul class="dropdown-list dropdown-list-left | hidden" data-dropdown-list>
                                     <li>
-                                        <x-form-button
+                                        <c-form-button
                                             :action="route('mailcoach.emailLists.delete', $emailList)"
                                             method="DELETE"
                                             data-confirm="true"
                                         >
-                                            <x-icon-label icon="fa-trash-alt" text="Delete" :caution="true" />
-                                        </x-form-button>
+                                            <c-icon-label icon="fa-trash-alt" text="Delete" :caution="true" />
+                                        </c-form-button>
                                     </li>
                                 </ul>
                             </div>
@@ -73,12 +73,12 @@
                 </tbody>
             </table>
 
-            <x-table-status
+            <c-table-status
                 name="list"
                 :paginator="$emailLists"
                 :total-count="$totalEmailListsCount"
                 :show-all-url="route('mailcoach.emailLists')"
-            ></x-table-status>
+            ></c-table-status>
 
         @else
             <p class="alert alert-info">

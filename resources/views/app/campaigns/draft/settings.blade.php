@@ -14,23 +14,23 @@
         @csrf
         @method('PUT')
 
-        <x-text-field label="Name" name="name" :value="$campaign->name" required />
+        <c-text-field label="Name" name="name" :value="$campaign->name" required />
 
-        <x-text-field label="Subject" name="subject" :value="$campaign->subject" />
+        <c-text-field label="Subject" name="subject" :value="$campaign->subject" />
 
         @include('mailcoach::app.campaigns.draft.partials.emailListFields')
 
         <div class="form-row">
             <label class="label">Track when…</label>
             <div class="checkbox-group">
-                <x-checkbox-field label="Someone opens this email" name="track_opens" :checked="$campaign->track_opens" />
-                <x-checkbox-field label="Links in the email are clicked" name="track_clicks" :checked="$campaign->track_clicks" />
+                <c-checkbox-field label="Someone opens this email" name="track_opens" :checked="$campaign->track_opens" />
+                <c-checkbox-field label="Links in the email are clicked" name="track_clicks" :checked="$campaign->track_clicks" />
             </div>
         </div>
 
         <div class="form-buttons">
             <button type="submit" class="button">
-                <x-icon-label icon="fa-cog" text="Save settings" />
+                <c-icon-label icon="fa-cog" text="Save settings" />
             </button>
         </div>
     </form>

@@ -20,9 +20,9 @@
 @section('content')
 <nav class="tabs">
     <ul>
-        <x-navigation-item :href="route('mailcoach.emailLists.tag.edit', [$tag->emailList, $tag])">
-            <x-icon-label icon="fa-tag" text="Tag details" />
-        </x-navigation-item>
+        <c-navigation-item :href="route('mailcoach.emailLists.tag.edit', [$tag->emailList, $tag])">
+            <c-icon-label icon="fa-tag" text="Tag details" />
+        </c-navigation-item>
     </ul>
 </nav>
 

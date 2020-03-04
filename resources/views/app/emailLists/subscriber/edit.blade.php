@@ -15,10 +15,10 @@
         @csrf
         @method('PUT')
 
-        <x-text-field label="Email" name="email" :value="$subscriber->email" type="email" required />
-        <x-text-field label="First name" name="first_name" :value="$subscriber->first_name" />
-        <x-text-field label="Last name" name="last_name" :value="$subscriber->last_name" />
-        <x-tags-field
+        <c-text-field label="Email" name="email" :value="$subscriber->email" type="email" required />
+        <c-text-field label="First name" name="first_name" :value="$subscriber->first_name" />
+        <c-text-field label="Last name" name="last_name" :value="$subscriber->last_name" />
+        <c-tags-field
             label="Tags"
             name="tags"
             :value="$subscriber->tags()->pluck('name')->toArray()"
@@ -28,7 +28,7 @@
 
         <div class="form-buttons">
             <button type="submit" class="button">
-                <x-icon-label icon="fa-user" text="Save" />
+                <c-icon-label icon="fa-user" text="Save" />
             </button>
         </div>
     </form>

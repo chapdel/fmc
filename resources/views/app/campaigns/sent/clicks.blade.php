@@ -17,16 +17,16 @@
         @if($campaign->click_count)
             <div class="table-actions">
                 <div class="table-filters">
-                    <x-search placeholder="Filter clicks…" />
+                    <c-search placeholder="Filter clicks…" />
                 </div>
             </div>
 
             <table class="table table-fixed">
                 <thead>
                     <tr>
-                        <x-th sort-by="link">Link</x-th>
-                        <x-th sort-by="-unique_click_count" class="w-32 th-numeric hidden | md:table-cell">Unique clicks</x-th>
-                        <x-th sort-by="-click_count" class="w-32 th-numeric">Clicks</x-th>
+                        <c-th sort-by="link">Link</c-th>
+                        <c-th sort-by="-unique_click_count" class="w-32 th-numeric hidden | md:table-cell">Unique clicks</c-th>
+                        <c-th sort-by="-click_count" class="w-32 th-numeric">Clicks</c-th>
                     <tr>
                 </thead>
                 <tbody>
@@ -40,12 +40,12 @@
                 </tbody>
             </table>
 
-            <x-table-status
+            <c-table-status
                 name="link"
                 :paginator="$links"
                 :total-count="$totalLinksCount"
                 :show-all-url="route('mailcoach.campaigns.clicks', $campaign)"
-            ></x-table-status>
+            ></c-table-status>
         @else
             <p class="alert alert-info">
                 No clicks yet. Stay tuned.

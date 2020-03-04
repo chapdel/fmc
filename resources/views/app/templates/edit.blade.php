@@ -23,11 +23,11 @@
             @csrf
             @method('PUT')
 
-            <x-text-field label="Name" name="name" :value="$template->name" required />
+            <c-text-field label="Name" name="name" :value="$template->name" required />
 
             {!! app(config('mailcoach.editor'))->render($template) !!}
         </form>
 
-        <x-replacer-help-texts />
+        <c-replacer-help-texts />
     </section>
 @endsection

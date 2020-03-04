@@ -17,16 +17,16 @@
         @if($campaign->open_count)
             <div class="table-actions">
                 <div class="table-filters">
-                    <x-search placeholder="Filter opens" />
+                    <c-search placeholder="Filter opens" />
                 </div>
             </div>
 
             <table class="table table-fixed">
                 <thead>
                     <tr>
-                        <x-th sort-by="email">Email</x-th>
-                        <x-th sort-by="open_count" class="w-32 th-numeric">Opens</x-th>
-                        <x-th sort-by="-first_opened_at" sort-default class="w-48 th-numeric hidden | md:table-cell">First opened at</x-th>
+                        <c-th sort-by="email">Email</c-th>
+                        <c-th sort-by="open_count" class="w-32 th-numeric">Opens</c-th>
+                        <c-th sort-by="-first_opened_at" sort-default class="w-48 th-numeric hidden | md:table-cell">First opened at</c-th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,12 +44,12 @@
                 </tbody>
             </table>
 
-            <x-table-status
+            <c-table-status
                 name="open"
                 :paginator="$campaignOpens"
                 :total-count="$totalCampaignOpensCount"
                 :show-all-url="route('mailcoach.campaigns.opens', $campaign)"
-            ></x-table-status>
+            ></c-table-status>
         @else
             <p class="alert alert-info">
                 No opens yet. Stay tuned.

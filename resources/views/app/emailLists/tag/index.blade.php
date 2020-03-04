@@ -17,16 +17,16 @@
 @section('emailList')
     <div class="table-actions">
         <button class="button" data-modal-trigger="create-tag">
-            <x-icon-label icon="fa-tag" text="Create tag"/>
+            <c-icon-label icon="fa-tag" text="Create tag"/>
         </button>
 
-        <x-modal title="Create tag" name="create-tag" :open="$errors->any()">
+        <c-modal title="Create tag" name="create-tag" :open="$errors->any()">
             @include('mailcoach::app.emailLists.tag.partials.create')
-        </x-modal>
+        </c-modal>
 
         @if($tags->count() || $searching)
             <div class="table-filters">
-                <x-search placeholder="Filter tags…"/>
+                <c-search placeholder="Filter tags…"/>
             </div>
         @endif
     </div>
@@ -35,9 +35,9 @@
         <table class="table table-fixed">
             <thead>
             <tr>
-                <x-th sort-by="name" sort-default>Name</x-th>
-                <x-th sort-by="subscriber_count" class="w-32 th-numeric">Subscribers</x-th>
-                <x-th sort-by="updated_at" class="w-48 th-numeric hidden | md:table-cell">Updated at</x-th>
+                <c-th sort-by="name" sort-default>Name</c-th>
+                <c-th sort-by="subscriber_count" class="w-32 th-numeric">Subscribers</c-th>
+                <c-th sort-by="updated_at" class="w-48 th-numeric hidden | md:table-cell">Updated at</c-th>
                 <th class="w-12"></th>
             </tr>
             </thead>
@@ -53,26 +53,26 @@
                     <td class="td-numeric hidden | md:table-cell">{{ $tag->updated_at->toMailcoachFormat() }}</td>
 
                     <td class="td-action">
-                        <x-form-button
+                        <c-form-button
                             :action="route('mailcoach.emailLists.tag.delete', [$emailList, $tag])"
                             method="DELETE"
                             data-confirm="true"
                             class="icon-button hover:text-red-500"
                         >
                             <i class="fas fa-trash-alt"></i>
-                        </x-form-button>
+                        </c-form-button>
                     </td>
                 </tr>
             @endforeach
             </tbody>
         </table>
 
-        <x-table-status
+        <c-table-status
             name="tag"
             :paginator="$tags"
             :total-count="$totalTagsCount"
             :show-all-url="route('mailcoach.emailLists.tags', $emailList)"
-        ></x-table-status>
+        ></c-table-status>
     @else
         <p class="alert alert-info">
             @if($searching)

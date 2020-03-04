@@ -18,21 +18,21 @@
 @section('content')
     <nav class="tabs">
         <ul>
-            <x-navigation-item :href="route('mailcoach.campaigns.summary', $campaign)">
-                <x-icon-label icon="fa-chart-area" text="Summary" />
-            </x-navigation-item>
-            <x-navigation-item :href="route('mailcoach.campaigns.opens', $campaign)">
-                <x-icon-label icon="fa-envelope-open-text" text="Opens" />
-            </x-navigation-item>
-            <x-navigation-item :href="route('mailcoach.campaigns.clicks', $campaign)">
-                <x-icon-label icon="fa-hand-pointer" text="Clicks" />
-            </x-navigation-item>
-            <x-navigation-item :href="route('mailcoach.campaigns.unsubscribes', $campaign)">
-                <x-icon-label icon="fa-user-slash" text="Unsubscribes" />
-            </x-navigation-item>
-            <x-navigation-item :href="route('mailcoach.campaigns.outbox', $campaign)">
-                <x-icon-label icon="fa-inbox" text="Outbox" />
-            </x-navigation-item>
+            <c-navigation-item :href="route('mailcoach.campaigns.summary', $campaign)">
+                <c-icon-label icon="fa-chart-area" text="Summary" />
+            </c-navigation-item>
+            <c-navigation-item :href="route('mailcoach.campaigns.opens', $campaign)">
+                <c-icon-label icon="fa-envelope-open-text" text="Opens" />
+            </c-navigation-item>
+            <c-navigation-item :href="route('mailcoach.campaigns.clicks', $campaign)">
+                <c-icon-label icon="fa-hand-pointer" text="Clicks" />
+            </c-navigation-item>
+            <c-navigation-item :href="route('mailcoach.campaigns.unsubscribes', $campaign)">
+                <c-icon-label icon="fa-user-slash" text="Unsubscribes" />
+            </c-navigation-item>
+            <c-navigation-item :href="route('mailcoach.campaigns.outbox', $campaign)">
+                <c-icon-label icon="fa-inbox" text="Outbox" />
+            </c-navigation-item>
         </ul>
     </nav>
 
