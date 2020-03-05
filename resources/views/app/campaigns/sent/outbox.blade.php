@@ -29,7 +29,7 @@
     <div class="table-actions">
         <div class="table-filters">
             <x-filters>
-                <x-filter :queryString="$queryString" attribute="type"active-on="">
+                <x-filter :queryString="$queryString" attribute="type" active-on="">
                     All <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalSends) }}</span>
                 </x-filter>
                 <x-filter :queryString="$queryString" attribute="type" active-on="pending">
