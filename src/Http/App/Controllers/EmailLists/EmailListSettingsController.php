@@ -20,6 +20,8 @@ class EmailListSettingsController
             'name' => $request->name,
             'default_from_email' => $request->default_from_email,
             'default_from_name' => $request->default_from_name,
+            'campaign_mailer' => $request->campaign_mailer,
+            'transactional_mailer' => $request->transactional_mailer,
             'campaigns_feed_enabled' => $request->campaigns_feed_enabled ?? false,
             'report_recipients' => $request->report_recipients,
             'report_campaign_sent' => $request->report_campaign_sent ?? false,

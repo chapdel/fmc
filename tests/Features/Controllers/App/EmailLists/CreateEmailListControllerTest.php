@@ -27,4 +27,44 @@ class CreateEmailListControllerTest extends TestCase
 
         $this->assertDatabaseHas('mailcoach_email_lists', $attributes);
     }
+
+    /** @test */
+    public function it_sets_mailers_based_on_the_mailcoach_mailer_config()
+    {
+        $this->authenticate();
+
+        config()->set('mailcoach.mailer', 'some-mailer');
+
+        $attributes = [
+            'name' => 'new list',
+        ];
+
+        $this->post(action(CreateEmailListController::class), $attributes);
+
+        $attributes['transactional_mailer'] = 'some-mailer';
+        $attributes['campaign_mailer'] = 'some-mailer';
+
+        $this->assertDatabaseHas('mailcoach_email_lists', $attributes);
+    }
+
+    /** @test */
+    public function it_sets_mailers_based_on_the_config()
+    {
+        $this->authenticate();
+
+        config()->set('mailcoach.mailer', 'some-mailer');
+        config()->set('mailcoach.transactional_mailer', 'some-transactional-mailer');
+        config()->set('mailcoach.campaign_mailer', 'some-campaign-mailer');
+
+        $attributes = [
+            'name' => 'new list',
+        ];
+
+        $this->post(action(CreateEmailListController::class), $attributes);
+
+        $attributes['transactional_mailer'] = 'some-transactional-mailer';
+        $attributes['campaign_mailer'] = 'some-campaign-mailer';
+
+        $this->assertDatabaseHas('mailcoach_email_lists', $attributes);
+    }
 }

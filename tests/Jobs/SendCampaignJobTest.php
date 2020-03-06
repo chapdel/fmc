@@ -32,17 +32,20 @@ class SendCampaignJobTest extends TestCase
             ->withSubscriberCount(3)
             ->create();
 
+        $this->campaign->emailList->update(['campaign_mailer' => 'some-mailer']);
+
         Mail::fake();
 
         Event::fake();
     }
 
     /** @test */
-    public function it_can_send_a_campaign()
+    public function it_can_send_a_campaign_with_the_correct_mailer()
     {
         dispatch(new SendCampaignJob($this->campaign));
 
         Mail::assertSent(CampaignMail::class, 3);
+        Mail::assertSent(CampaignMail::class, fn (CampaignMail $mail) => $mail->mailer === 'some-mailer');
 
         Event::assertDispatched(CampaignSentEvent::class, function (CampaignSentEvent $event) {
             $this->assertEquals($this->campaign->id, $event->campaign->id);

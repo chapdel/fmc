@@ -1,11 +1,11 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\App\ViewModels\BladeX;
+namespace Spatie\Mailcoach\Components;
 
-use Spatie\BladeX\ViewModel;
+use Illuminate\View\Component;
 use Spatie\Mailcoach\Support\Replacers\ReplacerWithHelpText;
 
-class ReplacerHelpTextsViewModel extends ViewModel
+class ReplacerHelpTextsComponent extends Component
 {
     public function replacerHelpTexts(): array
     {
@@ -13,5 +13,10 @@ class ReplacerHelpTextsViewModel extends ViewModel
             ->map(fn (string $className) => app($className))
             ->flatMap(fn (ReplacerWithHelpText $replacer) => $replacer->helpText())
             ->toArray();
+    }
+
+    public function render()
+    {
+        return view('mailcoach::app.components.replacerHelpTexts');
     }
 }

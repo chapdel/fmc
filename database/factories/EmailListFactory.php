@@ -9,4 +9,6 @@ $factory->define(EmailList::class, fn (Generator $faker) => [
     'uuid' => $faker->uuid,
     'default_from_email' => $faker->email,
     'default_from_name' => $faker->name,
+    'campaign_mailer' => config('mail.default') ?? 'array',
+    'transactional_mailer' => config('mail.default') ?? 'array',
 ]);

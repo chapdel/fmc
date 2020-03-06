@@ -249,7 +249,7 @@
                             >
                                 @csrf
                                 <div class="mt-6 flex items-end">
-                                    <x-date-time-field name="scheduled_at" :value="$campaign->scheduled_at" required />
+                                    <x-date-time-field :name="'scheduled_at'" :value="$campaign->scheduled_at" required />
 
                                     <button type="submit" class="ml-6 button bg-orange-500 hover:bg-orange-600 focus:bg-orange-600">
                                         <x-icon-label icon="fa-clock" text="Schedule delivery"/>

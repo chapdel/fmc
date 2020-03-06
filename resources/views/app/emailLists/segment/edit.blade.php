@@ -12,7 +12,7 @@
     >
         @if (! $emailList->tags()->count())
         <div class="alert alert-info markup-lists">
-            A segment is based on tags. 
+            A segment is based on tags.
             <ol class="mt-4">
                 <li><a href={{ route('mailcoach.emailLists.tags', $emailList) }}>Create some tags</a> for this list first.</li>
                 <li>Assign these tags to some of the <a href={{ route('mailcoach.emailLists.subscribers', $emailList) }}>subscribers</a>.</li>
@@ -21,11 +21,11 @@
         @endif
 
         @csrf
-        @method('PUT')       
-        
+        @method('PUT')
+
         <x-text-field label="Name" name="name" :value="$segment->name" type="name" required />
-        
-        <div class="form-row">    
+
+        <div class="form-row">
             <label class=label>Include with tags</label>
             <div class="flex items-end">
                 <div class="flex-none">
@@ -45,7 +45,7 @@
             </div>
         </div>
 
-        <div class="form-row">    
+        <div class="form-row">
             <label class=label>Exclude with tags</label>
             <div class="flex items-end">
                 <div class="flex-none">
@@ -64,7 +64,7 @@
                 </div>
             </div>
         </div>
-       
+
 
         <div class="form-buttons">
             <button type="submit" class="button">

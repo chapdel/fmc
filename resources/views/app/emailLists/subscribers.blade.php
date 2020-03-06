@@ -50,24 +50,22 @@
         @if($emailList->allSubscribers()->count())
             <div class="table-filters">
                 <x-filters>
-                    <x-context :queryString="$queryString" attribute="status">
-                        <x-filter active-on="">
-                            All
-                            <x-counter :number="$emailList->allSubscribers()->count()"/>
-                        </x-filter>
-                        <x-filter active-on="unconfirmed">
-                            Unconfirmed
-                            <x-counter :number="$emailList->allSubscribers()->unconfirmed()->count()"/>
-                        </x-filter>
-                        <x-filter active-on="subscribed">
-                            Subscribed
-                            <x-counter :number="$emailList->allSubscribers()->subscribed()->count()"/>
-                        </x-filter>
-                        <x-filter active-on="unsubscribed">
-                            Unsubscribed
-                            <x-counter :number="$emailList->allSubscribers()->unsubscribed()->count()"/>
-                        </x-filter>
-                    </x-context>
+                    <x-filter :queryString="$queryString" attribute="status" active-on="">
+                        All
+                        <x-counter :number="$emailList->allSubscribers()->count()"/>
+                    </x-filter>
+                    <x-filter :queryString="$queryString" attribute="status" active-on="unconfirmed">
+                        Unconfirmed
+                        <x-counter :number="$emailList->allSubscribers()->unconfirmed()->count()"/>
+                    </x-filter>
+                    <x-filter :queryString="$queryString" attribute="status" active-on="subscribed">
+                        Subscribed
+                        <x-counter :number="$emailList->allSubscribers()->subscribed()->count()"/>
+                    </x-filter>
+                    <x-filter :queryString="$queryString" attribute="status" active-on="unsubscribed">
+                        Unsubscribed
+                        <x-counter :number="$emailList->allSubscribers()->unsubscribed()->count()"/>
+                    </x-filter>
                 </x-filters>
                 <x-search placeholder="Filter subscribers…"/>
             </div>

@@ -13,31 +13,31 @@
 @section('content')
 <section class="card">
     <div class="table-actions">
-        <button class="button" data-modal-trigger="create-campaign">
-            <x-icon-label icon="fa-envelope-open" text="Create campaign" />
-        </button>
+        @if ($totalListsCount or $totalCampaignsCount)
+            <button class="button" data-modal-trigger="create-campaign">
+                <x-icon-label icon="fa-envelope-open" text="Create campaign" />
+            </button>
 
-        <x-modal title="Create campaign" name="create-campaign" :open="$errors->any()">
-            @include('mailcoach::app.campaigns.partials.create')
-        </x-modal>
+            <x-modal title="Create campaign" name="create-campaign" :open="$errors->any()">
+                @include('mailcoach::app.campaigns.partials.create')
+            </x-modal>
+        @endif
 
         @if($totalCampaignsCount)
             <div class="table-filters">
                 <x-filters>
-                    <x-context :queryString="$queryString" attribute="status">
-                        <x-filter active-on="">
-                            All <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalCampaignsCount) }}</span>
-                        </x-filter>
-                        <x-filter active-on="sent">
-                            Sent <span class="counter">{{ Illuminate\Support\Str::shortNumber($sentCampaignsCount) }}</span>
-                        </x-filter>
-                        <x-filter active-on="scheduled">
-                            Scheduled <span class="counter">{{ Illuminate\Support\Str::shortNumber($scheduledCampaignsCount) }}</span>
-                        </x-filter>
-                        <x-filter active-on="draft">
-                            Draft <span class="counter">{{ Illuminate\Support\Str::shortNumber($draftCampaignsCount) }}</span>
-                        </x-filter>
-                    </x-context>
+                    <x-filter active-on="" :queryString="$queryString" attribute="status">
+                        All <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalCampaignsCount) }}</span>
+                    </x-filter>
+                    <x-filter active-on="sent" :queryString="$queryString" attribute="status">
+                        Sent <span class="counter">{{ Illuminate\Support\Str::shortNumber($sentCampaignsCount) }}</span>
+                    </x-filter>
+                    <x-filter active-on="scheduled" :queryString="$queryString" attribute="status">
+                        Scheduled <span class="counter">{{ Illuminate\Support\Str::shortNumber($scheduledCampaignsCount) }}</span>
+                    </x-filter>
+                    <x-filter active-on="draft" :queryString="$queryString" attribute="status">
+                        Draft <span class="counter">{{ Illuminate\Support\Str::shortNumber($draftCampaignsCount) }}</span>
+                    </x-filter>
                 </x-filters>
                 <x-search placeholder="Filter campaigns…" />
             </div>
@@ -67,9 +67,15 @@
         <x-table-status name="campaign" :paginator="$campaigns" :total-count="$totalCampaignsCount"
         :show-all-url="route('mailcoach.campaigns')"></x-table-status>
     @else
-        <p class="alert alert-info">
-            No campaigns yet. Go write something!
-        </p>
+        @if ($totalListsCount)
+            <p class="alert alert-info">
+                No campaigns yet. Go write something!
+            </p>
+        @else
+            <p class="alert alert-info">
+                No campaigns yet, but you‘ll need a list first, go <a href="{{ route('mailcoach.emailLists') }}">create one</a>!
+            </p>
+        @endif
     @endif
 </section>
 @endsection

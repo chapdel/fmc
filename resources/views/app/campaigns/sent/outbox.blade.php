@@ -29,26 +29,24 @@
     <div class="table-actions">
         <div class="table-filters">
             <x-filters>
-                <x-context :queryString="$queryString" attribute="type">
-                    <x-filter active-on="">
-                        All <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalSends) }}</span>
-                    </x-filter>
-                    <x-filter active-on="pending">
-                        Pending <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalPending) }}</span>
-                    </x-filter>
-                    <x-filter active-on="failed">
-                        Failed <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalFailed) }}</span>
-                    </x-filter>
-                    <x-filter active-on="sent">
-                        Sent <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalSent) }}</span>
-                    </x-filter>
-                    <x-filter active-on="bounced">
-                        Bounced <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalBounces) }}</span>
-                    </x-filter>
-                    <x-filter active-on="complained">
-                        Complaints <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalComplaints) }}</span>
-                    </x-filter>
-                </x-context>
+                <x-filter :queryString="$queryString" attribute="type" active-on="">
+                    All <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalSends) }}</span>
+                </x-filter>
+                <x-filter :queryString="$queryString" attribute="type" active-on="pending">
+                    Pending <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalPending) }}</span>
+                </x-filter>
+                <x-filter :queryString="$queryString" attribute="type" active-on="failed">
+                    Failed <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalFailed) }}</span>
+                </x-filter>
+                <x-filter :queryString="$queryString" attribute="type" active-on="sent">
+                    Sent <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalSent) }}</span>
+                </x-filter>
+                <x-filter :queryString="$queryString" attribute="type" active-on="bounced">
+                    Bounced <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalBounces) }}</span>
+                </x-filter>
+                <x-filter :queryString="$queryString" attribute="type" active-on="complained">
+                    Complaints <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalComplaints) }}</span>
+                </x-filter>
             </x-filters>
 
             <x-search placeholder="Filter mails…"/>

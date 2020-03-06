@@ -1,4 +1,4 @@
-<th class="{{ $class ?? '' }}">
+<th {{ $attributes }}>
     @if($sortable)
         <a href="{{ $href }}" data-turbolinks-action="replace" data-turbolinks-preserve-scroll>
             {{ $slot }}

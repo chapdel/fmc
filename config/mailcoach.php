@@ -3,6 +3,24 @@
 return [
 
     /*
+     * The mailer used by Mailcoach for password resets and summary emails.
+     * Mailcoach will use the default Laravel mailer if this is not set.
+     */
+    'mailer' => null,
+
+    /*
+     * The default mailer used by Mailcoach for campaign sends. This can
+     * be overridden on a List level.
+     */
+    'campaign_mailer' => null,
+
+    /*
+     * The default mailer used by Mailcoach for double opt-in and confirmation mails.
+     * This can be overridden on a List level.
+     */
+    'transactional_mailer' => null,
+
+    /*
      * The date format used on all screens of the UI
      */
     'date_format' => 'Y-m-d H:i',
