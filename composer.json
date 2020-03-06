@@ -48,15 +48,15 @@
         "spatie/query-string": "^1.0",
         "spatie/simple-excel": "^1.2.2",
         "spatie/temporary-directory": "^1.2",
-        "symfony/css-selector": "^4.3|^5.0",
-        "symfony/dom-crawler": "^4.3.4|^5.0",
+        "symfony/css-selector": "^5.0",
+        "symfony/dom-crawler": "^5.0",
         "tijsverkoyen/css-to-inline-styles": "^2.2"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.16",
         "fzaninotto/faker": "^1.9",
         "orchestra/testbench": "^5.0",
-        "phpunit/phpunit": "^8.2",
+        "phpunit/phpunit": "^9.2",
         "predis/predis": "^1.1",
         "rector/rector": "^0.6.0",
         "spatie/phpunit-snapshot-assertions": "^4.0",
