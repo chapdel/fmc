@@ -26,7 +26,12 @@ class SendTestMailAction
                 $message->getHeaders()->addTextHeader('X-MAILCOACH', true);
             });
 
-        Mail::mailer($campaign->emailList->campaign_mailer)
+        $mailer = $campaign->emailList->campaign_mailer
+            ?? config('mailcoach.campaign_mailer')
+            ?? config('mailcoach.mailer')
+            ?? config('mail.default');
+
+        Mail::mailer($mailer)
             ->to($email)
             ->send($campaignMailable);
     }

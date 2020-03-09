@@ -57,7 +57,12 @@ class SendMailAction
                 $message->getHeaders()->addTextHeader('X-PM-Metadata-send-uuid', $pendingSend->uuid);
             });
 
-        Mail::mailer($campaign->emailList->campaign_mailer)
+        $mailer = $campaign->emailList->campaign_mailer
+            ?? config('mailcoach.campaign_mailer')
+            ?? config('mailcoach.mailer')
+            ?? config('mail.default');
+
+        Mail::mailer($mailer)
             ->to($pendingSend->subscriber->email)
             ->send($campaignMail);
 
