@@ -159,6 +159,10 @@
                 />
             </div>
 
+            <div class="form-grid" data-conditional-welcome-mail="send_default_welcome_mail">
+                <x-text-field label="Delay sending welcome mail" name="welcome_mail_delay_in_minutes" placeholder="Delay in minutes" />
+            </div>
+
             <div class="form-grid" data-conditional-welcome-mail="send_custom_welcome_mail">
                 <x-text-field label="Subject" name="welcome_mail_subject"
                               :value="$emailList->welcome_mail_subject" type="text"/>

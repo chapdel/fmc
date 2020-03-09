@@ -40,6 +40,7 @@ class EmailListSettingsController
             'welcome_mail_content' => $request->welcome_mail === UpdateEmailListSettingsRequest::WELCOME_MAIL_CUSTOM_CONTENT
                 ? $request->welcome_mail_content
                 : '',
+            'welcome_mail_delay_in_minutes' => $request->welcome_mail_delay_in_minutes,
             'confirmation_mail_subject' => $request->sendDefaultConfirmationMail() ? null : $request->confirmation_mail_subject,
             'confirmation_mail_content' => $request->sendDefaultConfirmationMail() ? null : $request->confirmation_mail_content,
         ]);

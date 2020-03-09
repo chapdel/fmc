@@ -39,6 +39,7 @@ class UpdateEmailListSettingsRequest extends FormRequest
             'welcome_mail' => Rule::in([static::WELCOME_MAIL_DISABLED, static::WELCOME_MAIL_DEFAULT_CONTENT, static::WELCOME_MAIL_CUSTOM_CONTENT]),
             'welcome_mail_subject' => 'required_if:welcome_mail,' . static::WELCOME_MAIL_CUSTOM_CONTENT,
             'welcome_mail_content' => 'required_if:welcome_mail,' . static::WELCOME_MAIL_CUSTOM_CONTENT,
+            'welcome_mail_delay_in_minutes' => 'required|numeric',
             'confirmation_mail' => Rule::in([static::CONFIRMATION_MAIL_DEFAULT, static::CONFIRMATION_MAIL_CUSTOM]),
             'confirmation_mail_subject' => 'required_if:custom_confirmation_mail,' . static::CONFIRMATION_MAIL_CUSTOM,
             'confirmation_mail_content' => 'required_if:custom_confirmation_mail,'. static::CONFIRMATION_MAIL_CUSTOM,
