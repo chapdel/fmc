@@ -8,7 +8,7 @@
     @apply grid;
     @apply items-start;
     @apply gap-2;
-    @apply max-w-lg;
+    @apply max-w-xl;
     grid-template-columns: 100%;
 }
 
