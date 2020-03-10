@@ -170,7 +170,9 @@
             </div>
 
             <div class="form-grid" data-conditional-unless-welcome-mail="do_not_send_welcome_mail">
-                <x-text-field label="Delay sending welcome mail" name="welcome_mail_delay_in_minutes"
+                <x-text-field label="Delay sending welcome mail in minutes"
+                              :value="$emailList->welcome_mail_delay_in_minutes"
+                              name="welcome_mail_delay_in_minutes"
                               placeholder="Delay in minutes"/>
             </div>
 
