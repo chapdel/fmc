@@ -35,7 +35,7 @@
 
         @if(count(config('mail.mailers')) > 1)
             <h2 class="markup-h2">Campaign mailer</h2>
-            <p class="alert alert-info text-sm">The mailer used for sending campaigns.</p>
+            <x-help>The mailer used for sending campaigns.</x-help>
 
             <div class="form-row">
                 <div class="radio-group">
@@ -51,7 +51,7 @@
             </div>
 
             <h2 class="markup-h2">Transactional mailer</h2>
-            <p class="alert alert-info text-sm">The mailer used for sending confirmation and welcome mails.</p>
+            <x-help>The mailer used for sending confirmation and welcome mails.</x-help>
 
             <div class="form-row">
                 <div class="radio-group">
@@ -106,7 +106,7 @@
             </div>
         </div>
 
-        <div data-conditional-post="true" class="pl-8 max-w-lg">
+        <div data-conditional-post="true" class="pl-8 max-w-xl">
             <x-tags-field
                 label="Optionally, allow following subscriber tags"
                 name="allowed_form_subscription_tags"

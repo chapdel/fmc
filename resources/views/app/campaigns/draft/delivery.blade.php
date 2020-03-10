@@ -21,7 +21,7 @@
         @csrf
 
         <div class="flex items-end">
-            <div class="flex-grow max-w-lg">
+            <div class="flex-grow max-w-xl">
                 <x-text-field
                     label="Test your email first"
                     placeholder="Email(s) comma separated"
