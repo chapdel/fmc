@@ -20,13 +20,15 @@ class SendMailJobTest extends TestCase
     }
 
     /** @test */
-    public function it_can_send_a_mail()
+    public function it_can_send_a_mail_with_the_correct_mailer()
     {
         $pendingSend = factory(Send::class)->create();
+        $pendingSend->campaign->emailList->update(['campaign_mailer' => 'some-mailer']);
 
         dispatch(new SendMailJob($pendingSend));
 
         Mail::assertSent(CampaignMail::class, function (CampaignMail $mail) use ($pendingSend) {
+            $this->assertEquals('some-mailer', $mail->mailer);
             $this->assertEquals($pendingSend->campaign->subject, $mail->subject);
             $this->assertTrue($mail->hasTo($pendingSend->subscriber->email));
             $this->assertCount(1, $mail->callbacks);

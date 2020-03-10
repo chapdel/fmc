@@ -33,7 +33,7 @@ class SendMailAction
         $personalisedHtml = $personalizeHtmlAction->execute(
             $pendingSend->campaign->email_html,
             $pendingSend,
-            );
+        );
 
         $convertHtmlToTextAction = Config::getActionClass('convert_html_to_text', ConvertHtmlToTextAction::class);
 
@@ -41,6 +41,9 @@ class SendMailAction
 
         /** @var \Spatie\Mailcoach\Mails\CampaignMail $campaignMail */
         $campaignMail = $pendingSend->campaign->getMailable();
+
+        /** @var \Spatie\Mailcoach\Models\Campaign $campaign */
+        $campaign = $pendingSend->campaign;
 
         $campaignMail
             ->setSend($pendingSend)
@@ -54,7 +57,14 @@ class SendMailAction
                 $message->getHeaders()->addTextHeader('X-PM-Metadata-send-uuid', $pendingSend->uuid);
             });
 
-        Mail::to($pendingSend->subscriber->email)->send($campaignMail);
+        $mailer = $campaign->emailList->campaign_mailer
+            ?? config('mailcoach.campaign_mailer')
+            ?? config('mailcoach.mailer')
+            ?? config('mail.default');
+
+        Mail::mailer($mailer)
+            ->to($pendingSend->subscriber->email)
+            ->send($campaignMail);
 
         $pendingSend->markAsSent();
 

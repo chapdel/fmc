@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns;
 
 use Spatie\Mailcoach\Http\App\Queries\CampaignsQuery;
 use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Models\EmailList;
 use Spatie\Mailcoach\Models\Template;
 
 class CampaignsIndexController
@@ -14,6 +15,7 @@ class CampaignsIndexController
             'campaigns' => $campaignsQuery->paginate(),
             'campaignsQuery' => $campaignsQuery,
             'totalCampaignsCount' => Campaign::count(),
+            'totalListsCount' => EmailList::count(),
             'sentCampaignsCount' => Campaign::sendingOrSent()->count(),
             'scheduledCampaignsCount' => Campaign::scheduled()->count(),
             'draftCampaignsCount' => Campaign::draft()->count(),

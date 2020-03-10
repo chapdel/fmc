@@ -58,7 +58,8 @@ class ImportSubscribersAction
         $temporaryDirectory->delete();
 
         if ($user) {
-            Mail::to($user->email)->send(new ImportSubscribersResultMail($subscriberImport));
+            Mail::mailer(config('mailcoach.mailer') ?? config('mail.default'))
+                ->to($user->email)->send(new ImportSubscribersResultMail($subscriberImport));
         }
     }
 

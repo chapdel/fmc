@@ -20,6 +20,8 @@ class EmailListSettingsController
             'name' => $request->name,
             'default_from_email' => $request->default_from_email,
             'default_from_name' => $request->default_from_name,
+            'campaign_mailer' => $request->campaign_mailer,
+            'transactional_mailer' => $request->transactional_mailer,
             'campaigns_feed_enabled' => $request->campaigns_feed_enabled ?? false,
             'report_recipients' => $request->report_recipients,
             'report_campaign_sent' => $request->report_campaign_sent ?? false,
@@ -38,6 +40,7 @@ class EmailListSettingsController
             'welcome_mail_content' => $request->welcome_mail === UpdateEmailListSettingsRequest::WELCOME_MAIL_CUSTOM_CONTENT
                 ? $request->welcome_mail_content
                 : '',
+            'welcome_mail_delay_in_minutes' => $request->welcome_mail_delay_in_minutes ?? 0,
             'confirmation_mail_subject' => $request->sendDefaultConfirmationMail() ? null : $request->confirmation_mail_subject,
             'confirmation_mail_content' => $request->sendDefaultConfirmationMail() ? null : $request->confirmation_mail_content,
         ]);

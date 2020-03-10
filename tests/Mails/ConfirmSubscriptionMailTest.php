@@ -20,7 +20,22 @@ class ConfirmSubscriptionMailTest extends TestCase
         $this->emailList = factory(EmailList::class)->create([
             'requires_confirmation' => true,
             'name' => 'my newsletter',
+            'transactional_mailer' => 'some-transactional-mailer',
         ]);
+    }
+
+    /** @test */
+    public function the_confirmation_mail_is_sent_with_the_correct_mailer()
+    {
+        Mail::fake();
+
+        Subscriber::createWithEmail('john@example.com')->subscribeTo($this->emailList);
+
+        Mail::assertQueued(ConfirmSubscriberMail::class, function (ConfirmSubscriberMail $mail) {
+            $this->assertEquals('some-transactional-mailer', $mail->mailer);
+
+            return true;
+        });
     }
 
     /** @test */
@@ -59,6 +74,8 @@ class ConfirmSubscriptionMailTest extends TestCase
     /** @test */
     public function the_confirmation_mail_has_default_content()
     {
+        $this->emailList->update(['transactional_mailer' => 'log']);
+
         $subscriber = Subscriber::createWithEmail('john@example.com', ['first_name' => 'John'])->subscribeTo($this->emailList);
 
         $content = (new ConfirmSubscriberMail($subscriber))->render();
@@ -69,6 +86,8 @@ class ConfirmSubscriptionMailTest extends TestCase
     /** @test */
     public function the_confirmation_mail_can_have_custom_content()
     {
+        $this->emailList->update(['transactional_mailer' => 'log']);
+
         Subscriber::$fakeUuid = 'my-uuid';
 
         $this->emailList->update(['confirmation_mail_content' => 'Hi ::subscriber.first_name::, press ::confirmUrl:: to subscribe to ::list.name::']);

@@ -14,6 +14,13 @@
 
 @section('segment')
     @if($selectedSubscribersCount)
+
+        @if($subscribersCount = $segment->emailList->subscribers->count())
+            <div class="alert alert-info mb-8">
+                Population is <strong>{{ round($selectedSubscribersCount / $subscribersCount * 100 , 2) }}%</strong> of list total of {{$subscribersCount}}.
+            </div>
+        @endif
+
         <div class="table-overflow">
             <table class="table table-fixed">
                 <thead>

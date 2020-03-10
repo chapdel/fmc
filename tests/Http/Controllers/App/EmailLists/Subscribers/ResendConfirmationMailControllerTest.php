@@ -11,14 +11,22 @@ use Spatie\Mailcoach\Tests\TestCase;
 class ResendConfirmationMailControllerTest extends TestCase
 {
     /** @test */
-    public function it_can_resend_the_confirmation_mail()
+    public function it_can_resend_the_confirmation_mail_with_the_correct_mailer()
     {
         $this->authenticate();
         Mail::fake();
 
-        $emailList = factory(EmailList::class)->create(['requires_confirmation' => true]);
+        $emailList = factory(EmailList::class)->create([
+            'requires_confirmation' => true,
+            'transactional_mailer' => 'some-mailer',
+        ]);
+
         $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($emailList);
-        Mail::assertQueued(ConfirmSubscriberMail::class, 1);
+        Mail::assertQueued(ConfirmSubscriberMail::class, function (ConfirmSubscriberMail $mail) {
+            $this->assertEquals('some-mailer', $mail->mailer);
+
+            return true;
+        });
 
         $this->post(route('mailcoach.subscriber.resend-confirmation-mail', $subscriber));
         Mail::assertQueued(ConfirmSubscriberMail::class, 2);

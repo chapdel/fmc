@@ -1,11 +1,11 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\App\ViewModels\BladeX;
+namespace Spatie\Mailcoach\Components;
 
-use Spatie\BladeX\ViewModel;
+use Illuminate\View\Component;
 use Spatie\QueryString\QueryString;
 
-class FilterViewModel extends ViewModel
+class FilterComponent extends Component
 {
     private QueryString $queryString;
 
@@ -34,5 +34,10 @@ class FilterViewModel extends ViewModel
         return $this->activeOn === ""
             ? ! $this->queryString->isActive("filter[{$this->attribute}]")
             : $this->queryString->isActive("filter[{$this->attribute}]", $this->activeOn);
+    }
+
+    public function render()
+    {
+        return view('mailcoach::app.components.filters.filter');
     }
 }

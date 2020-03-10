@@ -25,16 +25,7 @@
 
             <x-text-field label="Name" name="name" :value="$template->name" required />
 
-            <div class="form-row max-w-full">
-                <label class="label label-required" for="html">Template (HTML)</label>
-                <textarea class="input input-html" required rows="20" id="html" name="html">{{ $template->html }}</textarea>
-            </div>
-
-            <div class="form-buttons">
-                <button type="submit" class="button">
-                    <x-icon-label icon="fa-code" text="Save HTML" />
-                </button>
-            </div>
+            {!! app(config('mailcoach.editor'))->render($template) !!}
         </form>
 
         <x-replacer-help-texts />

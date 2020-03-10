@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Mailcoach\Enums\SubscriberImportStatus;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\ModelCleanup\GetsCleanedUp;
 
 class SubscriberImport extends Model implements HasMedia, GetsCleanedUp
 {
-    use HasMediaTrait;
+    use InteractsWithMedia;
 
     public $table = 'mailcoach_subscriber_imports';
 
@@ -38,7 +38,7 @@ class SubscriberImport extends Model implements HasMedia, GetsCleanedUp
         return $this->belongsTo(EmailList::class);
     }
 
-    public function registerMediaCollections()
+    public function registerMediaCollections(): void
     {
         $this
             ->addMediaCollection('importFile')

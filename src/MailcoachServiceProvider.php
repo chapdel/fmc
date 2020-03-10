@@ -6,27 +6,27 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
-use Spatie\BladeX\Facades\BladeX;
 use Spatie\Mailcoach\Commands\CalculateStatisticsCommand;
 use Spatie\Mailcoach\Commands\DeleteOldUnconfirmedSubscribersCommand;
 use Spatie\Mailcoach\Commands\RetryPendingSendsCommand;
 use Spatie\Mailcoach\Commands\SendCampaignSummaryMailCommand;
 use Spatie\Mailcoach\Commands\SendEmailListSummaryMailCommand;
 use Spatie\Mailcoach\Commands\SendScheduledCampaignsCommand;
+use Spatie\Mailcoach\Components\DateTimeFieldComponent;
+use Spatie\Mailcoach\Components\FilterComponent;
+use Spatie\Mailcoach\Components\ReplacerHelpTextsComponent;
+use Spatie\Mailcoach\Components\SearchComponent;
+use Spatie\Mailcoach\Components\THComponent;
 use Spatie\Mailcoach\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Http\App\Controllers\HomeController;
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\IndexComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\QueryStringComposer;
-use Spatie\Mailcoach\Http\App\ViewModels\BladeX\DateTimeFieldViewModel;
-use Spatie\Mailcoach\Http\App\ViewModels\BladeX\FilterViewModel;
-use Spatie\Mailcoach\Http\App\ViewModels\BladeX\ReplacerHelpTextsViewModel;
-use Spatie\Mailcoach\Http\App\ViewModels\BladeX\SearchViewModel;
-use Spatie\Mailcoach\Http\App\ViewModels\BladeX\THViewModel;
 use Spatie\Mailcoach\Listeners\SendCampaignSentEmail;
 use Spatie\Mailcoach\Support\HttpClient;
 use Spatie\Mailcoach\Support\Version;
@@ -202,39 +202,33 @@ class MailcoachServiceProvider extends EventServiceProvider
 
         View::composer('mailcoach::app.layouts.partials.footer', FooterComposer::class);
 
-        BladeX::prefix('x');
+        Blade::component('mailcoach::app.components.form.checkboxField', 'checkbox-field');
+        Blade::component('mailcoach::app.components.form.radioField', 'radio-field');
+        Blade::component('mailcoach::app.components.form.formButton', 'form-button');
+        Blade::component('mailcoach::app.components.form.selectField', 'select-field');
+        Blade::component('mailcoach::app.components.form.tagsField', 'tags-field');
+        Blade::component('mailcoach::app.components.form.textField', 'text-field');
+        Blade::component('mailcoach::app.components.form.htmlField', 'html-field');
+        Blade::component('mailcoach::app.components.form.dateField', 'date-field');
+        Blade::component(DateTimeFieldComponent::class, 'date-time-field');
 
-        BladeX::component('mailcoach::app.components.form.checkboxField', 'checkbox-field');
-        BladeX::component('mailcoach::app.components.form.radioField', 'radio-field');
-        BladeX::component('mailcoach::app.components.form.formButton', 'form-button');
-        BladeX::component('mailcoach::app.components.form.selectField', 'select-field');
-        BladeX::component('mailcoach::app.components.form.tagsField', 'tags-field');
-        BladeX::component('mailcoach::app.components.form.textField', 'text-field');
-        BladeX::component('mailcoach::app.components.form.dateField', 'date-field');
-        BladeX::component('mailcoach::app.components.form.dateTimeField', 'date-time-field')
-            ->viewModel(DateTimeFieldViewModel::class);
+        Blade::component('mailcoach::app.components.modal.modal', 'modal');
 
-        BladeX::component('mailcoach::app.components.modal.modal', 'modal');
+        Blade::component('mailcoach::app.components.table.tableStatus', 'table-status');
+        Blade::component(THComponent::class, 'th');
 
-        BladeX::component('mailcoach::app.components.table.tableStatus', 'table-status');
-        BladeX::component('mailcoach::app.components.table.th', 'th')
-            ->viewModel(THViewModel::class);
+        Blade::component('mailcoach::app.components.filters.filters', 'filters');
+        Blade::component(FilterComponent::class, 'filter');
 
-        BladeX::component('mailcoach::app.components.filters.filters', 'filters');
-        BladeX::component('mailcoach::app.components.filters.filter', 'filter')
-            ->viewModel(FilterViewModel::class);
+        Blade::component(SearchComponent::class, 'search');
+        Blade::component('mailcoach::app.components.statistic', 'statistic');
+        Blade::component('mailcoach::app.components.navigationItem', 'navigation-item');
+        Blade::component('mailcoach::app.components.iconLabel', 'icon-label');
 
-        BladeX::component('mailcoach::app.components.search', 'search')
-            ->viewModel(SearchViewModel::class);
-        BladeX::component('mailcoach::app.components.statistic', 'statistic');
-        BladeX::component('mailcoach::app.components.navigationItem', 'navigation-item');
-        BladeX::component('mailcoach::app.components.iconLabel', 'icon-label');
+        Blade::component('mailcoach::app.components.help', 'help');
+        Blade::component('mailcoach::app.components.counter', 'counter');
 
-        BladeX::component('mailcoach::app.components.help', 'help');
-        BladeX::component('mailcoach::app.components.counter', 'counter');
-
-        BladeX::component('mailcoach::app.components.replacerHelpTexts', 'replacer-help-texts')
-            ->viewModel(ReplacerHelpTextsViewModel::class);
+        Blade::component(ReplacerHelpTextsComponent::class, 'replacer-help-texts');
 
         return $this;
     }

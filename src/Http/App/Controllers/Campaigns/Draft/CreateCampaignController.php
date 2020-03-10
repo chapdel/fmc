@@ -11,10 +11,12 @@ class CreateCampaignController
 {
     public function __invoke(StoreCampaignRequest $request)
     {
+        /** @var Campaign $campaign */
         $campaign = Campaign::create([
             'name' => $request->name,
             'subject' => $request->name,
             'html' => $request->template()->html,
+            'structured_html' => $request->template()->structured_html,
             'track_opens' => true,
             'track_clicks' => true,
             'last_modified_at' => now(),

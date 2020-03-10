@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Mails\CampaignSummaryMail;
 use Spatie\Mailcoach\Models\Campaign;
@@ -21,7 +20,9 @@ class SendCampaignSummaryMailCommand extends Command
             ->sentDaysAgo(1)
             ->get()
             ->each(function (Campaign $campaign) {
-                Mail::to($campaign->emailList->campaignReportRecipients())->queue(new CampaignSummaryMail($campaign));
+                Mail::mailer(config('mailcoach.mailer') ?? config('mail.default'))
+                    ->to($campaign->emailList->campaignReportRecipients())
+                    ->queue(new CampaignSummaryMail($campaign));
 
                 $campaign->update(['summary_mail_sent_at' => now()]);
 

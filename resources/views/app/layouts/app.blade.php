@@ -13,7 +13,9 @@
         <meta name="turbolinks-cache-control" content="no-preview">
 
         <script type="text/javascript" src="{{ asset('vendor/mailcoach/app.js') }}" defer></script>
+
         @include('mailcoach::app.layouts.partials.endHead')
+        @stack('endHead')
     </head>
     <body class="bg-blue-100">
         <script>/**/</script><!-- Empty script to prevent FOUC in Firefox -->

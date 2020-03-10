@@ -14,7 +14,11 @@ class SendWelcomeMailAction
             return;
         }
 
-        Mail::to($subscriber->email)->queue($this->getMailable($subscriber));
+        $sendAt = now()->addMinutes($subscriber->emailList->welcome_mail_delay_in_minutes);
+
+        Mail::mailer($subscriber->emailList->transactional_mailer)
+            ->to($subscriber->email)
+            ->later($sendAt, $this->getMailable($subscriber));
     }
 
     protected function getMailable(Subscriber $subscriber): Mailable

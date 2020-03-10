@@ -2,8 +2,8 @@
 
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\CampaignsIndexController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\DestroyCampaignController;
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignDeliveryController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignContentController;
+use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignDeliveryController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignSettingsController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CreateCampaignController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\ScheduleCampaignController;
@@ -73,7 +73,6 @@ Route::prefix('campaigns')->group(function () {
         Route::delete('/', '\\' . DestroyCampaignController::class)->name('mailcoach.campaigns.delete');
         Route::post('duplicate', '\\' . DuplicateCampaignController::class)->name('mailcoach.campaigns.duplicate');
         Route::post('retry-failed-sends', '\\' . RetryFailedSendsController::class)->name('mailcoach.campaigns.retry-failed-sends');
-
     });
 });
 

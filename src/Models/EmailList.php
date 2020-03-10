@@ -26,6 +26,7 @@ class EmailList extends Model
         'requires_confirmation' => 'boolean',
         'allow_form_subscriptions' => 'boolean',
         'send_welcome_mail' => 'boolean',
+        'welcome_mail_delay_in_minutes' => 'integer',
         'report_campaign_sent' => 'boolean',
         'report_campaign_summary' => 'boolean',
         'report_email_list_summary' => 'boolean',

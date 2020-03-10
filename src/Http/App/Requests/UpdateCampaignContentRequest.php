@@ -10,7 +10,8 @@ class UpdateCampaignContentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'html' => ['required', new HtmlRule()]
+            'html' => ['required', new HtmlRule()],
+            'structured_html' => ['nullable']
         ];
     }
 }

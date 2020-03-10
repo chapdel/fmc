@@ -20,12 +20,15 @@ class SendTestMailJobTest extends TestCase
             'html' => 'my html',
         ]);
 
+        $campaign->emailList->update(['campaign_mailer' => 'some-mailer']);
+
         $email = 'john@example.com';
 
         dispatch(new SendTestMailJob($campaign, $email));
 
         Mail::assertSent(CampaignMail::class, function (CampaignMail $mail) use ($email, $campaign) {
             $this->assertEquals($campaign->subject, $mail->subject);
+            $this->assertEquals('some-mailer', $mail->mailer);
 
             $this->assertTrue($mail->hasTo($email));
             $this->assertCount(1, $mail->callbacks);

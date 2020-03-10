@@ -16,6 +16,7 @@ class CampaignContentController
     {
         $campaign->update([
             'html' => $request->html,
+            'structured_html' => $request->structured_html,
             'last_modified_at' => now(),
         ]);
 

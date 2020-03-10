@@ -20,6 +20,7 @@ use Spatie\Mailcoach\Jobs\SendCampaignJob;
 use Spatie\Mailcoach\Jobs\SendTestMailJob;
 use Spatie\Mailcoach\Mails\CampaignMail;
 use Spatie\Mailcoach\Models\Concerns\CanBeScheduled;
+use Spatie\Mailcoach\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Models\Concerns\HasUuid;
 use Spatie\Mailcoach\Rules\HtmlRule;
 use Spatie\Mailcoach\Support\CalculateStatisticsLock;
@@ -28,7 +29,7 @@ use Spatie\Mailcoach\Support\Segments\Segment;
 use Spatie\Mailcoach\Support\Segments\SubscribersWithTagsSegment;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
-class Campaign extends Model implements Feedable
+class Campaign extends Model implements Feedable, HasHtmlContent
 {
     use HasUuid, CanBeScheduled;
 
@@ -306,7 +307,7 @@ class Campaign extends Model implements Feedable
 
         $this->markAsSending();
 
-        dispatch(new SendCampaignJob($this, $this->emailList));
+        dispatch(new SendCampaignJob($this));
 
         return $this;
     }
@@ -561,5 +562,15 @@ class Campaign extends Model implements Feedable
     public function htmlWithInlinedCss(): string
     {
         return (new CssToInlineStyles())->convert($this->html ?? '');
+    }
+
+    public function getHtml(): ?string
+    {
+        return $this->html;
+    }
+
+    public function getStructuredHtml(): ?string
+    {
+        return $this->structured_html;
     }
 }

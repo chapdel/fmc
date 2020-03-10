@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Spatie\BladeX\BladeXServiceProvider;
 use Spatie\Feed\FeedServiceProvider;
 use Spatie\Mailcoach\Http\Front\Controllers\UnsubscribeController;
 use Spatie\Mailcoach\MailcoachServiceProvider;
@@ -43,7 +42,6 @@ abstract class TestCase extends Orchestra
         return [
             MailcoachServiceProvider::class,
             FeedServiceProvider::class,
-            BladeXServiceProvider::class,
             MediaLibraryServiceProvider::class,
         ];
     }

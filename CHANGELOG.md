@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.0.0 - 2020-03-10
+
+- add support for Laravel 7
+- add support for custom editors
+- add ability to use multiple mail configurations
+- add ability to send confirmation and welcome mails with a separate mail configuration
+- add option to delay welcome mail
+
+- drop support for Laravel 6
+
 ## 1.8.0 - 2020-02-27
 
 - add support for Postmark

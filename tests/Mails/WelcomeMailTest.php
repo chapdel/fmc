@@ -21,17 +21,22 @@ class WelcomeMailTest extends TestCase
             'name' => 'my newsletter',
             'requires_confirmation' => false,
             'send_welcome_mail' => true,
+            'transactional_mailer' => 'some-transactional-mailer',
         ]);
     }
 
     /** @test */
-    public function if_will_send_a_welcome_mail_when_a_subscriber_has_subscribed()
+    public function it_will_send_a_welcome_mail_when_a_subscriber_has_subscribed_with_the_correct_mailer()
     {
         Mail::fake();
 
         Subscriber::createWithEmail('john@example.com')->subscribeTo($this->emailList);
 
-        Mail::assertQueued(WelcomeMail::class);
+        Mail::assertQueued(WelcomeMail::class, function (WelcomeMail $mail) {
+            $this->assertEquals('some-transactional-mailer', $mail->mailer);
+
+            return true;
+        });
     }
 
     /** @test */
@@ -98,6 +103,8 @@ class WelcomeMailTest extends TestCase
     /** @test */
     public function the_welcome_mail_has_default_content()
     {
+        $this->emailList->update(['transactional_mailer' => 'log']);
+
         $subscriber = Subscriber::createWithEmail('john@example.com', ['first_name' => 'John'])->subscribeTo($this->emailList);
 
         $content = (new WelcomeMail($subscriber))->render();
@@ -108,6 +115,8 @@ class WelcomeMailTest extends TestCase
     /** @test */
     public function the_welcome_mail_can_have_custom_content()
     {
+        $this->emailList->update(['transactional_mailer' => 'log']);
+
         Subscriber::$fakeUuid = 'my-uuid';
 
         $this->emailList->update(['welcome_mail_content' => 'Hi ::subscriber.first_name::, welcome to ::list.name::. Here is a link to unsubscribe ::unsubscribeUrl::']);

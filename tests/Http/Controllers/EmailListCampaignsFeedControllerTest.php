@@ -34,7 +34,7 @@ class EmailListCampaignsFeedControllerTest extends TestCase
     {
         $this
             ->get(action(EmailListCampaignsFeedController::class, $this->emailList->uuid))
-            ->assertSee('<?xml');
+            ->assertSee('<?xml', false);
     }
 
     /** @test */

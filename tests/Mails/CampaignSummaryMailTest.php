@@ -39,6 +39,7 @@ class CampaignSummaryMailTest extends TestCase
     public function after_a_day_it_will_sent_a_summary()
     {
         Mail::fake();
+        config()->set('mailcoach.mailer', 'some-mailer');
 
         $this->artisan(SendCampaignSummaryMailCommand::class);
         Mail::assertNotQueued(CampaignSummaryMail::class);
@@ -52,13 +53,9 @@ class CampaignSummaryMailTest extends TestCase
         TestTime::addSecond();
         $this->artisan(SendCampaignSummaryMailCommand::class);
 
-        Mail::assertQueued(CampaignSummaryMail::class, function (CampaignSummaryMail $mail) {
-            return $mail->hasTo('john@example.com');
-        });
-
-        Mail::assertQueued(CampaignSummaryMail::class, function (CampaignSummaryMail $mail) {
-            return $mail->hasTo('jane@example.com');
-        });
+        Mail::assertQueued(CampaignSummaryMail::class, fn (CampaignSummaryMail $mail) => $mail->mailer === 'some-mailer');
+        Mail::assertQueued(CampaignSummaryMail::class, fn (CampaignSummaryMail $mail) => $mail->hasTo('john@example.com'));
+        Mail::assertQueued(CampaignSummaryMail::class, fn (CampaignSummaryMail $mail) => $mail->hasTo('jane@example.com'));
 
         $this->assertEquals(
             now()->format('YmdHis'),

@@ -15,12 +15,16 @@ class EmailSettingsControllerTest extends TestCase
 
         $emailList = EmailList::create([
             'name' => 'my list',
+            'campaign_mailer' => 'array',
+            'transactional_mailer' => 'array',
         ]);
 
         $attributes = [
             'name' => 'updated name',
             'default_from_email' => 'jane@example.com',
             'default_from_name' => 'Jane Doe',
+            'campaign_mailer' => 'log',
+            'transactional_mailer' => 'log',
         ];
 
         $this

@@ -1,9 +1,8 @@
-Subject: My subject
+<?php return 'Subject: My subject
 From: John Doe <john@example.com>
 To: freek@spatie.be
 MIME-Version: 1.0
 Content-Type: multipart/alternative;
-X-PM-Metadata-send-uuid: my-uuid
 X-MAILCOACH: 1
 mailcoach-send-uuid: my-uuid
 
@@ -20,3 +19,4 @@ Content-Transfer-Encoding: 8bit
 <html><ul><li>hey hey 😀</li></ul></html>
 
 
+';
