@@ -65,9 +65,9 @@
                     @endforeach
                 </div>
             </div>
-        @endif
 
-        <hr class="border-t-2 border-gray-200 my-8">
+            <hr class="border-t-2 border-gray-200 my-8">
+        @endif
 
         <h2 class="markup-h2">Reports</h2>
 
