@@ -33,42 +33,6 @@
 
         <hr class="border-t-2 border-gray-200 my-8">
 
-        @if(count(config('mail.mailers')) > 1)
-            <h2 class="markup-h2">Campaign mailer</h2>
-            <p class="alert alert-info text-sm">The mailer used for sending campaigns.</p>
-
-            <div class="form-row">
-                <div class="radio-group">
-                    @foreach (config('mail.mailers') as $key => $settings)
-                        <x-radio-field
-                            name="campaign_mailer"
-                            :option-value="$key"
-                            :value="$emailList->campaign_mailer"
-                            :label="$key"
-                        />
-                    @endforeach
-                </div>
-            </div>
-
-            <h2 class="markup-h2">Transactional mailer</h2>
-            <p class="alert alert-info text-sm">The mailer used for sending confirmation and welcome mails.</p>
-
-            <div class="form-row">
-                <div class="radio-group">
-                    @foreach (config('mail.mailers') as $key => $settings)
-                        <x-radio-field
-                            name="transactional_mailer"
-                            :option-value="$key"
-                            :value="$emailList->transactional_mailer"
-                            :label="$key"
-                        />
-                    @endforeach
-                </div>
-            </div>
-
-            <hr class="border-t-2 border-gray-200 my-8">
-        @endif
-
         <h2 class="markup-h2">Reports</h2>
 
         <div class="form-row">
@@ -260,6 +224,42 @@
             @endif
 
         </div>
+
+        @if(count(config('mail.mailers')) > 1)
+            <hr class="border-t-2 border-gray-200 my-8">
+
+            <h2 class="markup-h2">Campaign mailer</h2>
+            <p class="alert alert-info text-sm">The mailer used for sending campaigns.</p>
+
+            <div class="form-row">
+                <div class="radio-group">
+                    @foreach (config('mail.mailers') as $key => $settings)
+                        <x-radio-field
+                            name="campaign_mailer"
+                            :option-value="$key"
+                            :value="$emailList->campaign_mailer"
+                            :label="$key"
+                        />
+                    @endforeach
+                </div>
+            </div>
+
+            <h2 class="markup-h2">Transactional mailer</h2>
+            <p class="alert alert-info text-sm">The mailer used for sending confirmation and welcome mails.</p>
+
+            <div class="form-row">
+                <div class="radio-group">
+                    @foreach (config('mail.mailers') as $key => $settings)
+                        <x-radio-field
+                            name="transactional_mailer"
+                            :option-value="$key"
+                            :value="$emailList->transactional_mailer"
+                            :label="$key"
+                        />
+                    @endforeach
+                </div>
+            </div>
+        @endif
 
         <div class="form-buttons">
             <button type="submit" class="button">
