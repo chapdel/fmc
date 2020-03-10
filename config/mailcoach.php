@@ -9,14 +9,12 @@ return [
     'mailer' => null,
 
     /*
-     * The default mailer used by Mailcoach for campaign sends. This can
-     * be overridden on a List level.
+     * The default mailer used by Mailcoach for sending campaigns.
      */
     'campaign_mailer' => null,
 
     /*
-     * The default mailer used by Mailcoach for double opt-in and confirmation mails.
-     * This can be overridden on a List level.
+     * The default mailer used by Mailcoach for confirmation and welcome mails.
      */
     'transactional_mailer' => null,
 
