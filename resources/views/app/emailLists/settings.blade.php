@@ -33,37 +33,39 @@
 
         <hr class="border-t-2 border-gray-200 my-8">
 
-        <h2 class="markup-h2">Campaign mailer</h2>
-        <p class="alert alert-info text-sm">The mailer used for sending the campaign sends.</p>
+        @if(count(config('mail.mailers')) > 1)
+            <h2 class="markup-h2">Campaign mailer</h2>
+            <p class="alert alert-info text-sm">The mailer used for sending campaigns.</p>
 
-        <div class="form-row">
-            <div class="radio-group">
-                @foreach (config('mail.mailers') as $key => $settings)
-                <x-radio-field
-                    name="campaign_mailer"
-                    :option-value="$key"
-                    :value="$emailList->campaign_mailer"
-                    :label="$key"
-                />
-                @endforeach
+            <div class="form-row">
+                <div class="radio-group">
+                    @foreach (config('mail.mailers') as $key => $settings)
+                        <x-radio-field
+                            name="campaign_mailer"
+                            :option-value="$key"
+                            :value="$emailList->campaign_mailer"
+                            :label="$key"
+                        />
+                    @endforeach
+                </div>
             </div>
-        </div>
 
-        <h2 class="markup-h2">Transactional mailer</h2>
-        <p class="alert alert-info text-sm">The mailer used for sending the double opt-in and confirmation mails.</p>
+            <h2 class="markup-h2">Transactional mailer</h2>
+            <p class="alert alert-info text-sm">The mailer used for sending confirmation and welcome mails.</p>
 
-        <div class="form-row">
-            <div class="radio-group">
-                @foreach (config('mail.mailers') as $key => $settings)
-                    <x-radio-field
-                        name="transactional_mailer"
-                        :option-value="$key"
-                        :value="$emailList->transactional_mailer"
-                        :label="$key"
-                    />
-                @endforeach
+            <div class="form-row">
+                <div class="radio-group">
+                    @foreach (config('mail.mailers') as $key => $settings)
+                        <x-radio-field
+                            name="transactional_mailer"
+                            :option-value="$key"
+                            :value="$emailList->transactional_mailer"
+                            :label="$key"
+                        />
+                    @endforeach
+                </div>
             </div>
-        </div>
+        @endif
 
         <hr class="border-t-2 border-gray-200 my-8">
 
@@ -72,13 +74,18 @@
         <div class="form-row">
             <label class="label">Send a…</label>
             <div class="checkbox-group">
-                <x-checkbox-field label="Confirmation when a campaign gets sent to this list" name="report_campaign_sent" :checked="$emailList->report_campaign_sent" />
-                <x-checkbox-field label="Summary of opens, clicks & bounces a day after a campaign to this list has been sent" name="report_campaign_summary" :checked="$emailList->report_campaign_summary" />
-                <x-checkbox-field label="Weekly summary on the subscriber growth of this list" name="report_email_list_summary" :checked="$emailList->report_email_list_summary" />
+                <x-checkbox-field label="Confirmation when a campaign gets sent to this list"
+                                  name="report_campaign_sent" :checked="$emailList->report_campaign_sent"/>
+                <x-checkbox-field
+                    label="Summary of opens, clicks & bounces a day after a campaign to this list has been sent"
+                    name="report_campaign_summary" :checked="$emailList->report_campaign_summary"/>
+                <x-checkbox-field label="Weekly summary on the subscriber growth of this list"
+                                  name="report_email_list_summary" :checked="$emailList->report_email_list_summary"/>
             </div>
         </div>
 
-        <x-text-field placeholder="Email(s) comma separated" label="To…" name="report_recipients" :value="$emailList->report_recipients"/>
+        <x-text-field placeholder="Email(s) comma separated" label="To…" name="report_recipients"
+                      :value="$emailList->report_recipients"/>
 
         <hr class="border-t-2 border-gray-200 my-8">
 
@@ -86,7 +93,8 @@
 
         <div class="form-row max-w-full">
             <div class="checkbox-group">
-                <x-checkbox-field dataConditional="confirmation" label="Require confirmation" name="requires_confirmation"
+                <x-checkbox-field dataConditional="confirmation" label="Require confirmation"
+                                  name="requires_confirmation"
                                   :checked="$emailList->requires_confirmation"/>
 
                 <x-checkbox-field dataConditional="post" label="Allow POST from an external form"
@@ -106,7 +114,8 @@
                 :tags="$emailList->tags()->pluck('name')->toArray()"
             />
 
-            <p class="form-note">Learn more on <a href="https://mailcoach.app/docs/app/lists/settings#subscriptions" class="link-dimmed" target="_blank">these form
+            <p class="form-note">Learn more on <a href="https://mailcoach.app/docs/app/lists/settings#subscriptions"
+                                                  class="link-dimmed" target="_blank">these form
                     settings</a>.</p>
         </div>
 
@@ -115,7 +124,8 @@
         <h2 class="markup-h2">Landing pages</h2>
 
         <x-help>
-        Leave empty to use the defaults. <a class="link-dimmed" target="_blank" href="{{ route("mailcoach.landingPages.example")}}">Example</a>
+            Leave empty to use the defaults. <a class="link-dimmed" target="_blank"
+                                                href="{{ route("mailcoach.landingPages.example")}}">Example</a>
         </x-help>
 
         <div data-conditional-confirmation="true">
@@ -159,8 +169,9 @@
                 />
             </div>
 
-            <div class="form-grid" data-conditional-welcome-mail="send_default_welcome_mail">
-                <x-text-field label="Delay sending welcome mail" name="welcome_mail_delay_in_minutes" placeholder="Delay in minutes" />
+            <div class="form-grid" data-conditional-unless-welcome-mail="do_not_send_welcome_mail">
+                <x-text-field label="Delay sending welcome mail" name="welcome_mail_delay_in_minutes"
+                              placeholder="Delay in minutes"/>
             </div>
 
             <div class="form-grid" data-conditional-welcome-mail="send_custom_welcome_mail">
@@ -230,8 +241,11 @@
                         <div class="mt-12 markup-code alert alert-info text-sm">
                             You can use following placeholders in the subject and body of the confirmation mail:
                             <ul class="grid mt-2 gap-2">
-                                <li><code class="mr-2">::confirmUrl::</code>The url where the suscription can be confirmed</li>
-                                <li><code class="mr-2">::subscriber.first_name::</code>The first name of the subscriber</li>
+                                <li><code class="mr-2">::confirmUrl::</code>The url where the suscription can be
+                                    confirmed
+                                </li>
+                                <li><code class="mr-2">::subscriber.first_name::</code>The first name of the subscriber
+                                </li>
                                 <li><code class="mr-2">::list.name::</code>The name of this list</li>
                             </ul>
                         </div>
