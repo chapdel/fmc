@@ -11,13 +11,15 @@
         method="POST"
     >
         @if (! $emailList->tags()->count())
-        <div class="alert alert-info markup-lists">
-            A segment is based on tags.
-            <ol class="mt-4">
-                <li><a href={{ route('mailcoach.emailLists.tags', $emailList) }}>Create some tags</a> for this list first.</li>
-                <li>Assign these tags to some of the <a href={{ route('mailcoach.emailLists.subscribers', $emailList) }}>subscribers</a>.</li>
-            </ol>
-        </div>
+        <x-help>
+            <div class="markup-lists">
+                A segment is based on tags.
+                <ol class="mt-4">
+                    <li><a href={{ route('mailcoach.emailLists.tags', $emailList) }}>Create some tags</a> for this list first.</li>
+                    <li>Assign these tags to some of the <a href={{ route('mailcoach.emailLists.subscribers', $emailList) }}>subscribers</a>.</li>
+                </ol>
+            </div>
+        </x-help>
         @endif
 
         @csrf
