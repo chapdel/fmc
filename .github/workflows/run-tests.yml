@@ -29,8 +29,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   run-tests:
-    runs-on: ubuntu-latest
     needs: fix-code-style
+    runs-on: ubuntu-latest
+
     services:
       redis:
         image: redis
