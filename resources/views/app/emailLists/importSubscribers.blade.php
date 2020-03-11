@@ -102,12 +102,8 @@
 
         </form>
 
-        <div class="mt-2">
-            <x-help class="mt-2">
-                Upload a CSV file with these columns: email, first_name, last_name, tags <a href="https://mailcoach.app/docs/app/lists/subscribers#importing-subscribers" class="link" target="_blank">(see documentation)</a>
-            </x-help>
-
-
-        </div>
+        <p class="alert alert-info mt-6">
+            Upload a CSV file with these columns: email, first_name, last_name, tags <a href="https://mailcoach.app/docs/app/lists/subscribers#importing-subscribers" target="_blank">(see documentation)</a>
+        </p>
     </section>
 @endsection
