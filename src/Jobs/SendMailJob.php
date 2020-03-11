@@ -2,18 +2,12 @@
 
 namespace Spatie\Mailcoach\Jobs;
 
-use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Mail;
-use Spatie\Mailcoach\Actions\Campaigns\ConvertHtmlToTextAction;
-use Spatie\Mailcoach\Actions\Campaigns\PersonalizeHtmlAction;
-use Spatie\Mailcoach\Actions\Campaigns\SendCampaignAction;
 use Spatie\Mailcoach\Actions\Campaigns\SendMailAction;
-use Spatie\Mailcoach\Events\CampaignMailSentEvent;
 use Spatie\Mailcoach\Models\Send;
 use Spatie\Mailcoach\Support\Config;
 use Spatie\RateLimitedMiddleware\RateLimited;

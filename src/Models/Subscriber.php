@@ -11,7 +11,6 @@ use Illuminate\Support\Arr;
 use Spatie\Mailcoach\Actions\Subscribers\ConfirmSubscriberAction;
 use Spatie\Mailcoach\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Events\UnsubscribedEvent;
-use Spatie\Mailcoach\Http\Front\Controllers\UnsubscribeController;
 use Spatie\Mailcoach\Models\Concerns\HasExtraAttributes;
 use Spatie\Mailcoach\Models\Concerns\HasUuid;
 use Spatie\Mailcoach\Support\Config;
@@ -230,6 +229,4 @@ class Subscriber extends Model
     {
         return $this->status === SubscriptionStatus::UNSUBSCRIBED;
     }
-
-
 }

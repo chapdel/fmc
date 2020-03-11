@@ -2,13 +2,10 @@
 
 namespace Spatie\Mailcoach\Tests\Http\Controllers\App\EmailLists\Subscribers\UpdateStatus;
 
-
-use Illuminate\Support\Facades\Session;
 use Spatie\Mailcoach\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Models\EmailList;
 use Spatie\Mailcoach\Models\Subscriber;
 use Spatie\Mailcoach\Tests\TestCase;
-use Symfony\Component\HttpFoundation\Response;
 
 class ResubscribeControllerTest extends TestCase
 {

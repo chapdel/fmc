@@ -9,10 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Actions\Campaigns\CalculateStatisticsAction;
-use Spatie\Mailcoach\Actions\Campaigns\PersonalizeHtmlAction;
-use Spatie\Mailcoach\Events\CampaignStatisticsCalculatedEvent;
 use Spatie\Mailcoach\Models\Campaign;
-use Spatie\Mailcoach\Models\CampaignLink;
 use Spatie\Mailcoach\Support\CalculateStatisticsLock;
 use Spatie\Mailcoach\Support\Config;
 

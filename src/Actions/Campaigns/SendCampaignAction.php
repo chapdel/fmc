@@ -3,8 +3,6 @@
 namespace Spatie\Mailcoach\Actions\Campaigns;
 
 use Illuminate\Support\Str;
-use Spatie\Mailcoach\Actions\Campaigns\PrepareEmailHtmlAction;
-use Spatie\Mailcoach\Actions\Campaigns\PrepareWebviewHtmlAction;
 use Spatie\Mailcoach\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Jobs\SendMailJob;
 use Spatie\Mailcoach\Models\Campaign;

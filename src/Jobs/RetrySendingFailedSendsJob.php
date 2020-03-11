@@ -6,10 +6,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Spatie\Mailcoach\Actions\Campaigns\PrepareWebviewHtmlAction;
 use Spatie\Mailcoach\Actions\Campaigns\RetrySendingFailedSendsAction;
 use Spatie\Mailcoach\Models\Campaign;
-use Spatie\Mailcoach\Models\Send;
 use Spatie\Mailcoach\Support\Config;
 
 class RetrySendingFailedSendsJob

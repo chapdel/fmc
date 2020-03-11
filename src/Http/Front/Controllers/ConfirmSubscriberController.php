@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Http\Front\Controllers;
 
-use Spatie\Mailcoach\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Models\Subscriber;
 use Symfony\Component\HttpFoundation\Response;
 

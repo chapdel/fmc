@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Http\Front\Controllers;
 
-use Spatie\Mailcoach\Enums\CampaignStatus;
 use Spatie\Mailcoach\Models\Campaign;
 
 class CampaignWebviewController

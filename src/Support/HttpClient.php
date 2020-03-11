@@ -27,5 +27,4 @@ class HttpClient
 
         return json_decode($response, true) ?? [];
     }
-
 }

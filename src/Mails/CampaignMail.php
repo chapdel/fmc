@@ -118,5 +118,4 @@ class CampaignMail extends Mailable
 
         return $this;
     }
-
 }

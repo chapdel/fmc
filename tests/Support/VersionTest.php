@@ -1,9 +1,10 @@
 <?php
 
 namespace Spatie\Mailcoach\Tests\Support;
+
 use Illuminate\Support\Facades\Cache;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Support\Version;
+use Spatie\Mailcoach\Tests\TestCase;
 
 class VersionTest extends TestCase
 {
@@ -33,6 +34,5 @@ class VersionTest extends TestCase
         $this->assertArrayHasKey('released_at', $latestVersion);
 
         $this->assertNotEquals('unknown', $latestVersion['version']);
-
     }
 }

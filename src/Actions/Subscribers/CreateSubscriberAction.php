@@ -3,8 +3,6 @@
 namespace Spatie\Mailcoach\Actions\Subscribers;
 
 use Spatie\Mailcoach\Actions\Subscribers\Concerns\SendsWelcomeMail;
-use Spatie\Mailcoach\Actions\Subscribers\SendConfirmSubscriberMailAction;
-use Spatie\Mailcoach\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Events\SubscribedEvent;
 use Spatie\Mailcoach\Models\Subscriber;
 use Spatie\Mailcoach\Support\Config;

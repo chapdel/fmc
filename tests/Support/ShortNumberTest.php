@@ -21,6 +21,5 @@ class ShortNumberTest extends TestCase
         $this->assertEquals('1M', Str::shortNumber(1_000_000));
 
         $this->assertEquals('🤯', Str::shortNumber(1_000_000_000));
-
     }
 }

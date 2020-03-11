@@ -7,19 +7,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Str;
-use Spatie\Mailcoach\Actions\Campaigns\PrepareEmailHtmlAction;
-use Spatie\Mailcoach\Actions\Campaigns\PrepareWebviewHtmlAction;
-use Spatie\Mailcoach\Actions\Campaigns\RetrySendingFailedSendsAction;
 use Spatie\Mailcoach\Actions\Campaigns\SendCampaignAction;
-use Spatie\Mailcoach\Enums\SubscriptionStatus;
-use Spatie\Mailcoach\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Models\Campaign;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Send;
-use Spatie\Mailcoach\Models\Subscriber;
 use Spatie\Mailcoach\Support\Config;
-use Spatie\Mailcoach\Support\Segments\Segment;
 
 class SendCampaignJob implements ShouldQueue
 {

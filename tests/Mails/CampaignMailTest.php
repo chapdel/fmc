@@ -55,7 +55,7 @@ class CampaignMailTest extends TestCase
 
         $sentMessageHtml = '';
 
-        Event::listen(MessageSent::class, function(MessageSent $event) use (&$sentMessageHtml) {
+        Event::listen(MessageSent::class, function (MessageSent $event) use (&$sentMessageHtml) {
             $sentMessageHtml = $event->message->toString();
         });
 
