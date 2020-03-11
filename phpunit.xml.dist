@@ -20,7 +20,7 @@
         </whitelist>
     </filter>
     <php>
-        <env name="MAIL_DRIVER" value="log"/>
+        <env name="MAIL_MAILER" value="log"/>
         <env name="CACHE_DRIVER" value="redis"/>
         <env name="APP_KEY" value="base64:m+pDa0MKS1KpMlxzzdVEaqFHysv3IPhrx/3TFSWBqJA=" />
     </php>
