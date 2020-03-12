@@ -18,10 +18,8 @@ class SubscriberImport extends Model implements HasMedia, GetsCleanedUp
 
     public $guarded = [];
 
-    public static function boot()
+    public static function booted()
     {
-        parent::boot();
-
         static::creating(function (SubscriberImport $subscriberImport) {
             $subscriberImport->status = SubscriberImportStatus::PENDING;
         });

@@ -52,10 +52,8 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         'summary_mail_sent_at' => 'datetime',
     ];
 
-    public static function boot()
+    public static function booted()
     {
-        parent::boot();
-
         static::creating(function (Campaign $campaign) {
             if (!$campaign->status) {
                 $campaign->status = CampaignStatus::DRAFT;
