@@ -30,7 +30,7 @@
 
     @if($campaign->usingCustomSegment())
         <x-help>
-            Using custom segment class ({{ $this->segment_class }}).
+            Using custom segment class ({{ $emailList->segment_class }}).
         </x-help>
     @else
         <div class="form-row">
