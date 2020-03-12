@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.0.2 - 2020-03-11
+
+- Make sure referrer is always set
+
 ## 2.0.1 - 2020-03-11
 
 - use `booted` functions instead of `boot` in models
