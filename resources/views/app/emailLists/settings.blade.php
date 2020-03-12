@@ -79,7 +79,7 @@
                 :tags="$emailList->tags()->pluck('name')->toArray()"
             />
 
-            <p class="form-note">Learn more on <a href="https://mailcoach.app/docs/app/lists/settings#subscriptions"
+            <p class="form-note">Learn more on <a href="https://mailcoach.app/docs/v2/app/lists/settings#subscriptions"
                                                   class="link-dimmed" target="_blank">these form
                     settings</a>.</p>
         </div>
