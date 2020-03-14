@@ -24,7 +24,10 @@ class CreateSubscriberRequest extends FormRequest
 
     public function subscriberAttributes(): array
     {
-        return $this->except(['email', '_token']);
+        return [
+            'first_name' => $this->input('first_name'),
+            'last_name' => $this->input('last_name'),
+        ];
     }
 
     public function messages()
