@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.0.4 - 2020-03-20
+
+- fix error with groupBy in `CampaignOpensQuery`
+
 ## 2.0.3 - 2020-03-13
 
 - fix `CreateSubscriberRequest`
