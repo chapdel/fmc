@@ -11,7 +11,7 @@ class UpdateCampaignContentRequest extends FormRequest
     {
         return [
             'html' => ['required', new HtmlRule()],
-            'structured_html' => ['nullable']
+            'structured_html' => ['nullable'],
         ];
     }
 }

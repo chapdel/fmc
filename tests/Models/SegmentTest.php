@@ -54,7 +54,7 @@ class SegmentTest extends TestCase
         $this->assertArrayContainsSubscribers([
             $subscriberWithOneTag,
             $subscriberWithManyTags,
-            $subscriberWithAllTags
+            $subscriberWithAllTags,
         ], $subscribers);
     }
 
@@ -102,7 +102,7 @@ class SegmentTest extends TestCase
 
         $this->assertArrayContainsSubscribers([
             $subscriberWithoutTag,
-            $subscriberWithTagA
+            $subscriberWithTagA,
         ], $subscribers);
     }
 
@@ -139,7 +139,7 @@ class SegmentTest extends TestCase
         $subscribers = (TagSegment::create([
             'name' => 'testSegment',
             'email_list_id' => $this->emailList->id,
-            'all_negative_tags_required' => true
+            'all_negative_tags_required' => true,
         ])
             ->syncNegativeTags(['tagA', 'tagB'])
             ->getSubscribersQuery()
@@ -148,7 +148,7 @@ class SegmentTest extends TestCase
         $this->assertArrayContainsSubscribers([
             $subscriberWithoutTag,
             $subscriberWithTagA,
-            $subscriberWithTagB
+            $subscriberWithTagB,
         ], $subscribers);
     }
 
@@ -171,7 +171,7 @@ class SegmentTest extends TestCase
 
         $this->assertArrayContainsSubscribers([
             $subscriberWithTagA,
-            $subscriberWithTagB
+            $subscriberWithTagB,
         ], $subscribers);
     }
 
@@ -197,7 +197,7 @@ class SegmentTest extends TestCase
 
         $this->assertArrayContainsSubscribers([
             $subscriber3,
-            $subscriber4
+            $subscriber4,
         ], $subscribers);
     }
 

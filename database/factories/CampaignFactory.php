@@ -17,5 +17,5 @@ $factory->define(Campaign::class, fn (Generator $faker) => [
     'status' => CampaignStatus::DRAFT,
     'uuid' => $faker->uuid,
     'last_modified_at' => now(),
-    'email_list_id' => fn () => factory(EmailList::class)->create(['uuid' => (string)Str::uuid()])
+    'email_list_id' => fn () => factory(EmailList::class)->create(['uuid' => (string)Str::uuid()]),
 ]);

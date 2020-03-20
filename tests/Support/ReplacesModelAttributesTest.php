@@ -49,7 +49,6 @@ class ReplacesModelAttributesTest extends TestCase
         $this->assertEquals("This is ", $output);
     }
 
-
     /** @test */
     public function it_will_not_thrown_an_exception_when_trying_to_replace_a_non_existing_attribute()
     {

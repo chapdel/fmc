@@ -110,7 +110,7 @@ class SubscribeControllerTest extends TestCase
                 $this->payloadWithRedirects([
                     'first_name' => 'John',
                     'last_name' => 'Doe',
-                    'tags' => 'test1;test2;test3'
+                    'tags' => 'test1;test2;test3',
                 ])
             );
 
@@ -231,7 +231,7 @@ class SubscribeControllerTest extends TestCase
     public function payload(array $extraAttributes = [])
     {
         return array_merge([
-            'email' => 'john@example.com'
+            'email' => 'john@example.com',
         ], $extraAttributes);
     }
 

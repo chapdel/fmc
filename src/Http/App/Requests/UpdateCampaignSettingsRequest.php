@@ -41,7 +41,7 @@ class UpdateCampaignSettingsRequest extends FormRequest
 
     public function emailList(): ?EmailList
     {
-        if (!$this->email_list_id) {
+        if (! $this->email_list_id) {
             return null;
         }
 

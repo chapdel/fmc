@@ -12,7 +12,9 @@ class PendingSubscriber
 {
     public string $email;
 
-    public array $attributes = [];
+    public array
+
+ $attributes = [];
 
     public bool $respectDoubleOptIn = true;
 
@@ -22,7 +24,9 @@ class PendingSubscriber
 
     public bool $sendWelcomeMail = true;
 
-    public array $tags = [];
+    public array
+
+ $tags = [];
 
     public function __construct(string $email, array $attributes = [])
     {
@@ -75,7 +79,7 @@ class PendingSubscriber
         $this->emailList = $emailList;
 
         /** @var \Spatie\Mailcoach\Actions\Subscribers\CreateSubscriberAction $createSubscriberAction */
-        $createSubscriberAction =  Config::getActionClass('create_subscriber', CreateSubscriberAction::class);
+        $createSubscriberAction = Config::getActionClass('create_subscriber', CreateSubscriberAction::class);
 
         return $createSubscriberAction->execute($this);
     }

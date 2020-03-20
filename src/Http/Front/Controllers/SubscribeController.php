@@ -11,7 +11,7 @@ class SubscribeController
 {
     public function __invoke(CreateSubscriptionRequest $request)
     {
-        if (!$emailList = $request->emailList()) {
+        if (! $emailList = $request->emailList()) {
             abort(404, 'Could not find the list');
         }
 

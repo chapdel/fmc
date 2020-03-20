@@ -28,7 +28,7 @@ class CreateSubscriptionRequest extends FormRequest
             'redirect_after_subscribed',
             'redirect_after_already_subscribed',
             'redirect_after_subscription_pending',
-            'tags'
+            'tags',
         ]);
     }
 

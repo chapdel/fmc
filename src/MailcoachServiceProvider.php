@@ -37,7 +37,7 @@ class MailcoachServiceProvider extends EventServiceProvider
     protected $listen = [
         CampaignSentEvent::class => [
             SendCampaignSentEmail::class,
-        ]
+        ],
     ];
 
     public function boot()
@@ -95,7 +95,7 @@ class MailcoachServiceProvider extends EventServiceProvider
 
     protected function bootSupportMacros()
     {
-        if (!Collection::hasMacro('paginate')) {
+        if (! Collection::hasMacro('paginate')) {
             Collection::macro('paginate', function (int $perPage = 15, string $pageName = 'page', int $page = null, int $total = null, array $options = []): LengthAwarePaginator {
                 $page = $page ?: LengthAwarePaginator::resolveCurrentPage($pageName);
 
@@ -112,7 +112,7 @@ class MailcoachServiceProvider extends EventServiceProvider
             });
         }
 
-        if (!Str::hasMacro('shortNumber')) {
+        if (! Str::hasMacro('shortNumber')) {
             Str::macro('shortNumber', function (int $number, int $decimals = 1) {
                 if ($number < 1_000) {
                     $format = number_format($number, $decimals);
@@ -164,13 +164,13 @@ class MailcoachServiceProvider extends EventServiceProvider
             __DIR__ . '/../resources/dist' => public_path('vendor/mailcoach'),
         ], 'mailcoach-assets');
 
-        if (!class_exists('CreateEmailCampaignTables')) {
+        if (! class_exists('CreateEmailCampaignTables')) {
             $this->publishes([
                 __DIR__ . '/../database/migrations/create_mailcoach_tables.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_mailcoach_tables.php'),
             ], 'mailcoach-migrations');
         }
 
-        if (!class_exists('CreateMediaTable')) {
+        if (! class_exists('CreateMediaTable')) {
             $this->publishes([
                 __DIR__ . '/../../laravel-medialibrary/database/migrations/create_media_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_media_table.php'),
             ], 'mailcoach-migrations');

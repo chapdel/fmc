@@ -39,7 +39,7 @@ class Version
 
     public function getLatestVersionInfo(): array
     {
-        if (!Cache::has('mailcoach-latest-version-attempt-failed')) {
+        if (! Cache::has('mailcoach-latest-version-attempt-failed')) {
             try {
                 $latestVersionInfo = Cache::remember('mailcoach-latest-version', CarbonInterval::day()->totalSeconds, function () {
                     return $this->httpClient->getJson(static::$versionEndpoint);

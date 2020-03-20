@@ -35,7 +35,7 @@ class EmailListSummaryMail extends Mailable
             )
             ->subject("A summary of the '{$this->emailList->name}' list")
             ->markdown('mailcoach::mails.emailListSummary', [
-                'summary' => $this->emailList->summarize($this->summaryStartDateTime)
+                'summary' => $this->emailList->summarize($this->summaryStartDateTime),
             ]);
     }
 }

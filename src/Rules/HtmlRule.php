@@ -25,7 +25,6 @@ class HtmlRule implements Rule
         }
     }
 
-
     public function message()
     {
         return "The HTML is not valid ({$this->exception->getMessage()}).";

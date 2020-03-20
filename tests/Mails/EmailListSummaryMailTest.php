@@ -20,7 +20,7 @@ class EmailListSummaryMailTest extends TestCase
         parent::setUp();
 
         $this->emailList = factory(EmailList::class)->create([
-            'report_recipients' =>  'john@example.com,jane@example.com',
+            'report_recipients' => 'john@example.com,jane@example.com',
             'report_email_list_summary' => true,
         ]);
     }

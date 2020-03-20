@@ -43,7 +43,7 @@ class SendTest extends TestCase
 
         $this->assertDatabaseHas('mailcoach_send_feedback_items', [
             'send_id' => $send->id,
-            'type' => SendFeedbackType::BOUNCE
+            'type' => SendFeedbackType::BOUNCE,
         ]);
 
         $this->assertFalse($emailList->isSubscribed($subscriber->email));
@@ -71,7 +71,7 @@ class SendTest extends TestCase
 
         $this->assertDatabaseHas('mailcoach_send_feedback_items', [
             'send_id' => $send->id,
-            'type' => SendFeedbackType::COMPLAINT
+            'type' => SendFeedbackType::COMPLAINT,
         ]);
 
         $this->assertFalse($emailList->isSubscribed($subscriber->email));

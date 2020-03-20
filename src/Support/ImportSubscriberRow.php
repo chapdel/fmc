@@ -11,7 +11,9 @@ class ImportSubscriberRow
 {
     private EmailList $emailList;
 
-    private array $values = [];
+    private array
+
+ $values = [];
 
     public function __construct(EmailList $emailList, array $values)
     {
@@ -24,7 +26,7 @@ class ImportSubscriberRow
     {
         $validator = Validator::make($this->values, ['email' => 'required|email']);
 
-        return !$validator->fails();
+        return ! $validator->fails();
     }
 
     public function hasUnsubscribed(): bool

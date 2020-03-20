@@ -12,7 +12,7 @@ class ConfirmSubscriberController
         /** @var \Spatie\Mailcoach\Models\Subscriber $subscriber */
         $subscriber = Subscriber::findByUuid($subscriberUuid);
 
-        if (!$subscriber) {
+        if (! $subscriber) {
             return $this->couldNotFindSubscriptionResponse();
         }
 

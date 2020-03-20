@@ -55,7 +55,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
     public static function booted()
     {
         static::creating(function (Campaign $campaign) {
-            if (!$campaign->status) {
+            if (! $campaign->status) {
                 $campaign->status = CampaignStatus::DRAFT;
             }
         });
@@ -154,23 +154,23 @@ class Campaign extends Model implements Feedable, HasHtmlContent
 
     public function isReady(): bool
     {
-        if (!$this->html) {
+        if (! $this->html) {
             return false;
         }
 
-        if (!$this->hasValidHtml()) {
+        if (! $this->hasValidHtml()) {
             return false;
         }
 
-        if (!optional($this->emailList)->default_from_email) {
+        if (! optional($this->emailList)->default_from_email) {
             return false;
         }
 
-        if (!$this->subject) {
+        if (! $this->subject) {
             return false;
         }
 
-        if (!$this->emailListSubscriberCount()) {
+        if (! $this->emailListSubscriberCount()) {
             return false;
         }
 
@@ -189,7 +189,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
 
     public function isPending(): bool
     {
-        return !in_array($this->status, [
+        return ! in_array($this->status, [
             CampaignStatus::SENDING,
             CampaignStatus::SENT,
         ]);
@@ -241,7 +241,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
     {
         $this->ensureUpdatable();
 
-        if (!is_a($mailableClass, CampaignMail::class, true)) {
+        if (! is_a($mailableClass, CampaignMail::class, true)) {
             throw CouldNotSendCampaign::invalidMailableClass($this, $mailableClass);
         }
 
@@ -257,7 +257,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
     {
         $this->ensureUpdatable();
 
-        if (!is_a($segmentClassOrObject, Segment::class, true)) {
+        if (! is_a($segmentClassOrObject, Segment::class, true)) {
             throw CouldNotSendCampaign::invalidSegmentClass($this, $segmentClassOrObject);
         }
 
@@ -329,7 +329,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
             throw CouldNotSendCampaign::noListSet($this);
         }
 
-        if (!is_null($this->mailable)) {
+        if (! is_null($this->mailable)) {
             return;
         }
 
@@ -406,7 +406,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
     {
         $lock = new CalculateStatisticsLock($this);
 
-        if (!$lock->get()) {
+        if (! $lock->get()) {
             return;
         }
 
@@ -426,7 +426,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
 
     public function emailListSubscriberCount(): int
     {
-        if (!$this->emailList) {
+        if (! $this->emailList) {
             return 0;
         }
 
@@ -481,7 +481,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
     protected function markAsSending(): self
     {
         $this->update([
-            'status' => CampaignStatus::SENDING
+            'status' => CampaignStatus::SENDING,
         ]);
 
         return $this;
@@ -498,7 +498,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
             return false;
         }
 
-        if (!$this->last_modified_at) {
+        if (! $this->last_modified_at) {
             return false;
         }
 
@@ -536,7 +536,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
             return false;
         }
 
-        return !in_array($this->segment_class, [
+        return ! in_array($this->segment_class, [
             SubscribersWithTagsSegment::class,
             EverySubscriberSegment::class,
         ]);

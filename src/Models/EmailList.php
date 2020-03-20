@@ -87,7 +87,7 @@ class EmailList extends Model
 
     public function isSubscribed(string $email): bool
     {
-        if (!$subscriber = Subscriber::findForEmail($email, $this)) {
+        if (! $subscriber = Subscriber::findForEmail($email, $this)) {
             return false;
         }
 
@@ -96,7 +96,7 @@ class EmailList extends Model
 
     public function unsubscribe(string $email): bool
     {
-        if (!$subscriber = Subscriber::findForEmail($email, $this)) {
+        if (! $subscriber = Subscriber::findForEmail($email, $this)) {
             return false;
         }
 
@@ -107,7 +107,7 @@ class EmailList extends Model
 
     public function getSubscriptionStatus(string $email): ?string
     {
-        if (!$subscriber = Subscriber::findForEmail($email, $this)) {
+        if (! $subscriber = Subscriber::findForEmail($email, $this)) {
             return null;
         };
 
@@ -140,11 +140,11 @@ class EmailList extends Model
 
     public function hasCustomizedWelcomeMailFields(): bool
     {
-        if (!empty($this->welcome_mail_subject)) {
+        if (! empty($this->welcome_mail_subject)) {
             return true;
         }
 
-        if (!empty($this->welcome_mail_content)) {
+        if (! empty($this->welcome_mail_content)) {
             return true;
         }
 
@@ -153,11 +153,11 @@ class EmailList extends Model
 
     public function hasCustomizedConfirmationMailFields(): bool
     {
-        if (!empty($this->confirmation_mail_subject)) {
+        if (! empty($this->confirmation_mail_subject)) {
             return true;
         }
 
-        if (!empty($this->confirmation_mail_content)) {
+        if (! empty($this->confirmation_mail_content)) {
             return true;
         }
 

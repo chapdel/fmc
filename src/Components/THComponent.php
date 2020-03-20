@@ -22,7 +22,7 @@ class THComponent extends Component
 
     public function __construct(QueryString $queryString, string $sortBy = null, bool $sortDefault = false)
     {
-        $this->sortable = !is_null($sortBy);
+        $this->sortable = ! is_null($sortBy);
 
         $this->sortBy = $sortBy;
 
@@ -36,11 +36,11 @@ class THComponent extends Component
 
     public function href(): QueryString
     {
-        if (!$this->sortable) {
+        if (! $this->sortable) {
             return $this->queryString;
         }
 
-        if (!$this->sortDefault) {
+        if (! $this->sortDefault) {
             return $this->queryString->sort($this->sortBy);
         }
 
@@ -57,7 +57,7 @@ class THComponent extends Component
 
     public function isSortedAsc(): bool
     {
-        if ($this->sortDefault && !$this->queryString->isActive('sort') && !$this->sortDefaultDesc) {
+        if ($this->sortDefault && ! $this->queryString->isActive('sort') && ! $this->sortDefaultDesc) {
             return true;
         }
 
@@ -66,7 +66,7 @@ class THComponent extends Component
 
     public function isSortedDesc(): bool
     {
-        if ($this->sortDefault && !$this->queryString->isActive('sort') && $this->sortDefaultDesc) {
+        if ($this->sortDefault && ! $this->queryString->isActive('sort') && $this->sortDefaultDesc) {
             return true;
         }
 

@@ -57,7 +57,7 @@ class ConfirmSubscriberMail extends Mailable implements ShouldQueue
     {
         $customContent = $this->subscriber->emailList->confirmation_mail_content;
 
-        if (!empty($customContent)) {
+        if (! empty($customContent)) {
             $customContent = str_ireplace('::confirmUrl::', $this->confirmationUrl, $customContent);
 
             $customContent = $this->replacePlaceholders($customContent);

@@ -14,7 +14,7 @@ class DateTimeFieldRuleTest extends TestCase
             (new DateTimeFieldRule())->passes('datetime', [
                 'date' => now()->addDay()->format('Y-m-d'),
                 'hours' => '12',
-                'minutes' => '15'
+                'minutes' => '15',
             ])
         );
     }
@@ -33,7 +33,7 @@ class DateTimeFieldRuleTest extends TestCase
         $this->assertFalse(
             (new DateTimeFieldRule())->passes('datetime', [
                 'hours' => '12',
-                'minutes' => '15'
+                'minutes' => '15',
             ])
         );
     }
@@ -44,7 +44,7 @@ class DateTimeFieldRuleTest extends TestCase
         $this->assertFalse(
             (new DateTimeFieldRule())->passes('datetime', [
                 'date' => now()->addDay()->format('Y-m-d'),
-                'minutes' => '15'
+                'minutes' => '15',
             ])
         );
     }
@@ -67,7 +67,7 @@ class DateTimeFieldRuleTest extends TestCase
             (new DateTimeFieldRule())->passes('datetime', [
                 'date' => now()->subDay()->format('Y-m-d'),
                 'hours' => '12',
-                'minutes' => '15'
+                'minutes' => '15',
             ])
         );
     }

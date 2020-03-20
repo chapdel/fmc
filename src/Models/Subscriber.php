@@ -100,11 +100,11 @@ class Subscriber extends Model
 
     public function getStatusAttribute(): string
     {
-        if (!is_null($this->unsubscribed_at)) {
+        if (! is_null($this->unsubscribed_at)) {
             return SubscriptionStatus::UNSUBSCRIBED;
         }
 
-        if (!is_null($this->subscribed_at)) {
+        if (! is_null($this->subscribed_at)) {
             return SubscriptionStatus::SUBSCRIBED;
         }
 
@@ -202,6 +202,7 @@ class Subscriber extends Model
         $this->addTags($names);
 
         $this->tags()->detach($this->tags()->whereNotIn('name', $names)->pluck('mailcoach_tags.id'));
+
         return $this;
     }
 

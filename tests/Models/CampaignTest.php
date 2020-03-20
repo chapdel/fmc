@@ -342,17 +342,17 @@ class CampaignTest extends TestCase
 
         $scheduledInThePastCampaign = factory(Campaign::class)->create([
             'status' => CampaignStatus::DRAFT,
-            'scheduled_at' => now()->subSecond()
+            'scheduled_at' => now()->subSecond(),
         ]);
 
         $scheduledNowCampaign = factory(Campaign::class)->create([
             'status' => CampaignStatus::DRAFT,
-            'scheduled_at' => now()
+            'scheduled_at' => now(),
         ]);
 
         $scheduledInFutureCampaign = factory(Campaign::class)->create([
             'status' => CampaignStatus::DRAFT,
-            'scheduled_at' => now()->addSecond()
+            'scheduled_at' => now()->addSecond(),
         ]);
 
         $sendingCampaign = factory(Campaign::class)->create([
@@ -364,7 +364,7 @@ class CampaignTest extends TestCase
         ]);
 
         $this->assertModels([
-            $draftCampaign
+            $draftCampaign,
         ], Campaign::draft()->get());
 
         $this->assertModels([
@@ -428,7 +428,7 @@ class CampaignTest extends TestCase
                             }
                     </style>
                     <body>My body</body>
-                    </html>'
+                    </html>',
 
         ]);
 

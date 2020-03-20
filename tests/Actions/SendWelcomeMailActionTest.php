@@ -20,7 +20,7 @@ class SendWelcomeMailActionTest extends TestCase
 
         $this->subscriber->emailList->update([
             'send_welcome_mail' => true,
-            'transactional_mailer' => 'some-mailer'
+            'transactional_mailer' => 'some-mailer',
         ]);
     }
 

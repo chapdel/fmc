@@ -10,7 +10,9 @@ use Spatie\QueryBuilder\Filters\Filter;
 class FuzzyFilter implements Filter
 {
     /** @var string[] */
-    protected array $fields;
+    protected array
+
+ $fields;
 
     public function __construct(string ...$fields)
     {

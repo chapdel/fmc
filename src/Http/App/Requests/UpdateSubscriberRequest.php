@@ -15,7 +15,7 @@ class UpdateSubscriberRequest extends FormRequest
             'email' => ['required', 'email:rfc', $this->getUniqueRule()],
             'first_name' => 'nullable|string',
             'last_name' => 'nullable|string',
-            'tags' => 'array'
+            'tags' => 'array',
         ];
     }
 

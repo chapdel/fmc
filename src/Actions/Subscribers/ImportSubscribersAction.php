@@ -75,7 +75,7 @@ class ImportSubscribersAction
                 return new ImportSubscriberRow($emailList, $values);
             })
             ->filter(function (ImportSubscriberRow $row) use ($errorReport) {
-                if (!$row->hasValidEmail()) {
+                if (! $row->hasValidEmail()) {
                     $this->writeError($errorReport, $row, 'Does not have a valid email');
                 }
 
@@ -88,12 +88,12 @@ class ImportSubscribersAction
                     $this->writeError($errorReport, $row, 'This email address was unsubscribed in the past.');
                 }
 
-                return !$hasUnsubscribed;
+                return ! $hasUnsubscribed;
             })
             ->each(function (ImportSubscriberRow $row) use ($emailList, $succeededImportsReport) {
                 $attributes = array_merge($row->getAttributes(), ['extra_attributes' => $row->getExtraAttributes()]);
 
-                $subscriber =Subscriber::createWithEmail($row->getEmail(), $attributes)
+                $subscriber = Subscriber::createWithEmail($row->getEmail(), $attributes)
                     ->skipConfirmation()
                     ->doNotSendWelcomeMail()
                     ->subscribeTo($emailList);

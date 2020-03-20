@@ -84,7 +84,6 @@ class ImportSubscribersControllerTest extends TestCase
         $this->assertTrue($this->emailList->isSubscribed('john@example.com'));
     }
 
-
     /** @test */
     public function it_will_not_import_a_subscriber_that_is_already_on_the_list()
     {

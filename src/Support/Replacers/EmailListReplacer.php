@@ -12,7 +12,7 @@ class EmailListReplacer implements Replacer
     public function helpText(): array
     {
         return [
-            'list.name' =>  'The name of the email list this campaign is sent to',
+            'list.name' => 'The name of the email list this campaign is sent to',
         ];
     }
 

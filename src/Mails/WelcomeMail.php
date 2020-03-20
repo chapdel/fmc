@@ -48,7 +48,7 @@ class WelcomeMail extends Mailable implements ShouldQueue
     {
         $customContent = $this->subscriber->emailList->welcome_mail_content;
 
-        if (!empty($customContent)) {
+        if (! empty($customContent)) {
             $customContent = $this->replacePlaceholders($customContent);
 
             $customContent = str_ireplace('::unsubscribeUrl::', $this->subscriber->unsubscribeUrl(), $customContent);

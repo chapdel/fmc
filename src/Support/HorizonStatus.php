@@ -24,7 +24,7 @@ class HorizonStatus
 
     public function get(): string
     {
-        if (!$masters = $this->masterSupervisorRepository->all()) {
+        if (! $masters = $this->masterSupervisorRepository->all()) {
             return static::STATUS_INACTIVE;
         }
 

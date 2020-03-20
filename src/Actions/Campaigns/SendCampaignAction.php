@@ -73,7 +73,7 @@ class SendCampaignAction
             return;
         }
 
-        if (!$this->isValidSubscriptionForEmailList($subscriber, $campaign->emailList)) {
+        if (! $this->isValidSubscriptionForEmailList($subscriber, $campaign->emailList)) {
             return;
         }
 
@@ -101,7 +101,7 @@ class SendCampaignAction
 
     protected function isValidSubscriptionForEmailList(Subscriber $subscriber, EmailList $emailList): bool
     {
-        if (!$subscriber->isSubscribed()) {
+        if (! $subscriber->isSubscribed()) {
             return false;
         }
 

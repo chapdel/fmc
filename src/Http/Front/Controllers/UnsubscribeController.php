@@ -11,7 +11,7 @@ class UnsubscribeController
     public function __invoke(string $subscriberUuid, string $sendUuid = null)
     {
         /** @var \Spatie\Mailcoach\Models\Subscriber $subscriber */
-        if (!$subscriber = Subscriber::findByUuid($subscriberUuid)) {
+        if (! $subscriber = Subscriber::findByUuid($subscriberUuid)) {
             return view('mailcoach::landingPages.couldNotFindSubscription');
         }
 

@@ -18,7 +18,7 @@ class UpdateTagRequest extends FormRequest
                 'required',
                 Rule::unique('mailcoach_tags', 'name')
                     ->where('email_list_id', $emailList)
-                    ->ignore($tag->id)
+                    ->ignore($tag->id),
             ],
         ];
     }

@@ -16,7 +16,7 @@ class BooleanFilter implements Filter
 
     public function __invoke(Builder $query, $value, string $property): Builder
     {
-        if (!is_null($value)) {
+        if (! is_null($value)) {
             if ($value) {
                 $query->whereNotNull($this->field);
             } else {

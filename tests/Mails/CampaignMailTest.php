@@ -70,7 +70,7 @@ class CampaignMailTest extends TestCase
                     'Date',
                     ' boundary',
                     'List-Unsubscribe',
-                    '--_=_swift'
+                    '--_=_swift',
                 ]);
             })
             ->implode(PHP_EOL);

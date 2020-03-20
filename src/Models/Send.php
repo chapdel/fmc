@@ -88,7 +88,7 @@ class Send extends Model
 
     public function wasAlreadySent(): bool
     {
-        return !is_null($this->sent_at);
+        return ! is_null($this->sent_at);
     }
 
     public function storeTransportMessageId(string $transportMessageId)

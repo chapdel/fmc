@@ -30,7 +30,7 @@ class CampaignSummaryMailTest extends TestCase
         ]);
 
         $this->emailList->update([
-            'report_recipients' =>  'john@example.com,jane@example.com',
+            'report_recipients' => 'john@example.com,jane@example.com',
             'report_campaign_summary' => true,
         ]);
     }

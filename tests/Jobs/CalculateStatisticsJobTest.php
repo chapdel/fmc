@@ -192,7 +192,6 @@ class CalculateStatisticsJobTest extends TestCase
         return $this;
     }
 
-
     public function simulateClick(Campaign $campaign, string $url, $subscribers)
     {
         if ($subscribers instanceof Model) {
@@ -206,6 +205,7 @@ class CalculateStatisticsJobTest extends TestCase
                 ->first()
                 ->registerClick($url);
         });
+
         return $this;
     }
 }

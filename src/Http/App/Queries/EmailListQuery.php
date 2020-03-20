@@ -17,7 +17,7 @@ class EmailListQuery extends QueryBuilder
                 'active_subscribers_count' => Subscriber::query()
                     ->selectRaw('count(id)')
                     ->subscribed()
-                    ->whereColumn('mailcoach_subscribers.email_list_id', 'mailcoach_email_lists.id')
+                    ->whereColumn('mailcoach_subscribers.email_list_id', 'mailcoach_email_lists.id'),
             ]);
 
         parent::__construct($query);

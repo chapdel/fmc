@@ -12,7 +12,7 @@ class CreateTagRequest extends FormRequest
         $emailList = $this->route()->parameter('emailList');
 
         return [
-            'name' => ['required', Rule::unique('mailcoach_tags')->where('email_list_id', $emailList->id)]
+            'name' => ['required', Rule::unique('mailcoach_tags')->where('email_list_id', $emailList->id)],
         ];
     }
 }

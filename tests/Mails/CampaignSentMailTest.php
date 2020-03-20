@@ -32,7 +32,7 @@ class CampaignSentMailTest extends TestCase
         Mail::fake();
 
         $this->emailList->update([
-            'report_recipients' =>  'john@example.com,jane@example.com',
+            'report_recipients' => 'john@example.com,jane@example.com',
             'report_campaign_sent' => true,
             'transactional_mailer' => 'some-transactional-mailer',
             'campaign_mailer' => 'some-campaign-mailer',
