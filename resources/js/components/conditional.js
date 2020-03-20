@@ -10,7 +10,7 @@ function toggleConditionals(controller) {
     });
 
     $$(`[data-conditional-unless-${controller.dataset.conditional}]`).forEach(element => {
-        const isVisible = ! element.matches(`[data-conditional-unless-${controller.dataset.conditional}="${value}"]`);
+        const isVisible = !element.matches(`[data-conditional-unless-${controller.dataset.conditional}="${value}"]`);
 
         element.classList.toggle('hidden', !isVisible);
     });
