@@ -16,4 +16,9 @@ class Config
 
         return app($configuredClass);
     }
+
+    public static function getQueueConnection(): ?string
+    {
+        return config('mailcoach.queue_connection') ?? env('QUEUE_CONNECTION');
+    }
 }

@@ -28,6 +28,8 @@ class SendMailJob implements ShouldQueue
         $this->pendingSend = $pendingSend;
 
         $this->queue = config('mailcoach.perform_on_queue.send_mail_job');
+
+        $this->connection = $this->connection ?? Config::getQueueConnection();
     }
 
     public function handle()

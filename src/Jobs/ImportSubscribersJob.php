@@ -25,6 +25,10 @@ class ImportSubscribersJob implements ShouldQueue
         $this->subscriberImport = $subscriberImport;
 
         $this->user = $user;
+
+        $this->queue = config('mailcoach.perform_on_queue.import_subscribers_job');
+
+        $this->connection = $this->connection ?? Config::getQueueConnection();
     }
 
     public function handle()
