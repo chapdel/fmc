@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.1.10 - 2020-03-23
+
+- Fix ConfirmSubscriberController not defined when using route caching
+
 ## 2.1.0 - 2020-03-22
 
 - add `queue_connection` config option
