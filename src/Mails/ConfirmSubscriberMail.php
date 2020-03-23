@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Mails;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Spatie\Mailcoach\Http\Front\Controllers\ConfirmSubscriberController;
 use Spatie\Mailcoach\Mails\Concerns\ReplacesPlaceholders;
 use Spatie\Mailcoach\Models\Subscriber;
 
@@ -22,7 +21,7 @@ class ConfirmSubscriberMail extends Mailable implements ShouldQueue
     {
         $this->subscriber = $subscriber;
 
-        $this->confirmationUrl = url(action('\\' . ConfirmSubscriberController::class, $subscriber->uuid));
+        $this->confirmationUrl = url(route('mailcoach.confirm', $subscriber->uuid));
 
         if ($redirectAfterConfirmedUrl !== '') {
             $this->confirmationUrl .= "?redirect={$redirectAfterConfirmedUrl}";
