@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.1.0 - 2020-03-22
+
+- add `queue_connection` config option
+- add `perform_on_queue.import_subscribers_job` config option
+
 ## 2.0.4 - 2020-03-20
 
 - fix error with groupBy in `CampaignOpensQuery`
