@@ -13,7 +13,7 @@
 
         <meta name="turbolinks-cache-control" content="no-preview">
 
-        <script type="text/javascript" src="{{ asset('vendor/mailcoach/app.js') }}t={{ app(\Spatie\Mailcoach\Support\Version::class)->getHashedFullVersion() }}" defer></script>
+        <script type="text/javascript" src="{{ asset('vendor/mailcoach/app.js') }}?t={{ app(\Spatie\Mailcoach\Support\Version::class)->getHashedFullVersion() }}" defer></script>
 
         @include('mailcoach::app.layouts.partials.endHead')
         @stack('endHead')
