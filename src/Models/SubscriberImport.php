@@ -40,14 +40,17 @@ class SubscriberImport extends Model implements HasMedia, GetsCleanedUp
     {
         $this
             ->addMediaCollection('importFile')
+            ->useDisk(config('mailcoach.import_subscribers_disk'))
             ->singleFile();
 
         $this
             ->addMediaCollection('importedUsersReport')
+            ->useDisk(config('mailcoach.import_subscribers_disk'))
             ->singleFile();
 
         $this
             ->addMediaCollection('errorReport')
+            ->useDisk(config('mailcoach.import_subscribers_disk'))
             ->singleFile();
     }
 
