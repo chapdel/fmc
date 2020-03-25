@@ -2,9 +2,13 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.1.2 - 2020-03-25
+
+- fix icons
+
 ## 2.1.1 - 2020-03-23
 
-- Fix ConfirmSubscriberController not defined when using route caching
+- fix `ConfirmSubscriberController` not defined when using route caching
 
 ## 2.1.0 - 2020-03-22
 
