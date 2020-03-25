@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.2.1 - 2020-03-25
+
+- fix js asset url
+
 ## 2.2.0 - 2020-03-25
 
 -  add `import_subscribers_disk` config option
