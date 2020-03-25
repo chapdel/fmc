@@ -7,13 +7,13 @@
 
         <title>{{ isset($title) ? "{$title} | Mailcoach" : 'Mailcoach' }}</title>
 
-        <link rel="stylesheet" href="{{ asset('vendor/mailcoach/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('vendor/mailcoach/app.css') }}?t={{ app(\Spatie\Mailcoach\Support\Version::class)->getHashedFullVersion() }}">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.0/css/all.css">
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
 
         <meta name="turbolinks-cache-control" content="no-preview">
 
-        <script type="text/javascript" src="{{ asset('vendor/mailcoach/app.js') }}" defer></script>
+        <script type="text/javascript" src="{{ asset('vendor/mailcoach/app.js') }}t={{ app(\Spatie\Mailcoach\Support\Version::class)->getHashedFullVersion() }}" defer></script>
 
         @include('mailcoach::app.layouts.partials.endHead')
         @stack('endHead')

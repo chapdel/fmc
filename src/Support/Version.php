@@ -30,11 +30,19 @@ class Version
         return $latestVersionInfo['version'] === $this->getCurrentVersion();
     }
 
+    public function getFullVersion(): string
+    {
+        return Versions::getVersion('spatie/laravel-mailcoach');
+    }
+
+    public function getHashedFullVersion(): string
+    {
+        return md5($this->getFullVersion());
+    }
+
     public function getCurrentVersion(): string
     {
-        $fullVersion = Versions::getVersion('spatie/laravel-mailcoach');
-
-        return Str::before($fullVersion, '@');
+        return Str::before($this->getFullVersion(), '@');
     }
 
     public function getLatestVersionInfo(): array

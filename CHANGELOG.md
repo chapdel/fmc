@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.1.3 - 2020-03-25
+
+- version assets in blade views
+
 ## 2.1.2 - 2020-03-25
 
 - fix icons
