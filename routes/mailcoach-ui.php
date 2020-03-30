@@ -144,6 +144,7 @@ Route::prefix('templates')->group(function () {
         Route::get('/', ['\\' . TemplatesController::class, 'edit'])->name('mailcoach.templates.edit');
         Route::put('/', ['\\' . TemplatesController::class, 'update']);
         Route::delete('/', ['\\' . TemplatesController::class, 'destroy'])->name('mailcoach.templates.delete');
+        Route::post('duplicate', ['\\' . TemplatesController::class, 'duplicate'])->name('mailcoach.templates.duplicate');
     });
 });
 

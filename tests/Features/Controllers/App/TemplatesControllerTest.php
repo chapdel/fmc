@@ -60,4 +60,26 @@ class TemplatesControllerTest extends TestCase
 
         $this->assertCount(0, Template::get());
     }
+
+    /** @test */
+    public function it_can_duplicate_a_template()
+    {
+        $template = factory(Template::class)->create();
+
+        $this
+            ->post(action([TemplatesController::class, 'duplicate'], $template))
+            ->assertRedirect(route('mailcoach.templates.edit', 2))
+            ->assertSessionHasNoErrors();
+
+        $this->assertCount(2, Template::get());
+
+        $templates = Template::get();
+
+        $originalTemplate = $templates[0];
+        $duplicateTemplate = $templates[1];
+
+        $this->assertEquals("Duplicate of {$originalTemplate->name}", $duplicateTemplate->name);
+        $this->assertEquals($duplicateTemplate->html, $originalTemplate->html);
+        $this->assertEquals($duplicateTemplate->structured_html, $originalTemplate->structured_html);
+    }
 }

@@ -57,4 +57,18 @@ class TemplatesController
 
         return redirect()->route('mailcoach.templates');
     }
+
+    public function duplicate(Template $template)
+    {
+        /** @var \Spatie\Mailcoach\Models\Template $duplicateTemplate */
+        $duplicateTemplate = Template::create([
+            'name' => "Duplicate of {$template->name}",
+            'html' => $template->html,
+            'structured_html' => $template->structured_html,
+        ]);
+
+        flash()->success("Template {$template->name} was duplicated.");
+
+        return redirect()->route('mailcoach.templates.edit', $duplicateTemplate);
+    }
 }
