@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.2.2 - 2020-03-30
+
+- improve config file comments
+
 ## 2.2.1 - 2020-03-25
 
 - fix js asset url
