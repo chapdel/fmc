@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.4.0 - 2020-03-30
+
+- add duplicate segment action
+
 ## 2.3.0 - 2020-03-30
 
 - add duplicate template action
