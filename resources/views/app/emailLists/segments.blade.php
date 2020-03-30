@@ -51,6 +51,13 @@
                             <ul class="dropdown-list dropdown-list-left | hidden" data-dropdown-list>
                                 <li>
                                     <x-form-button
+                                        :action="route('mailcoach.emailLists.segment.duplicate', [$segment->emailList, $segment])"
+                                    >
+                                        <x-icon-label icon="fa-random" text="Duplicate" />
+                                    </x-form-button>
+                                </li>
+                                <li>
+                                    <x-form-button
                                         :action="route('mailcoach.emailLists.segment.delete', [$segment->emailList, $segment])"
                                         method="DELETE" data-confirm="true">
                                         <x-icon-label icon="fa-trash-alt" text="Delete" :caution="true"/>

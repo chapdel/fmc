@@ -5,7 +5,6 @@ namespace Spatie\Mailcoach\Tests\Feature\Controllers\App\Campaigns;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignSettingsController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\DuplicateCampaignController;
 use Spatie\Mailcoach\Models\Campaign;
-use Spatie\Mailcoach\Models\Tag;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class DuplicateCampaignControllerTest extends TestCase
@@ -17,8 +16,6 @@ class DuplicateCampaignControllerTest extends TestCase
 
         /** @var \Spatie\Mailcoach\Models\Campaign $originalCampaign */
         $originalCampaign = factory(Campaign::class)->create();
-
-        $tag = Tag::create(['name' => 'test', 'email_list_id' => $originalCampaign->email_list_id]);
 
         $this
             ->post(action(DuplicateCampaignController::class, $originalCampaign->id))

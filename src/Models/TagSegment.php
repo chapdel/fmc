@@ -55,14 +55,6 @@ class TagSegment extends Model
 
     protected function syncTags(array $tagNames, BelongsToMany $tagsRelation)
     {
-        $emailListTags = $this->emailList->tags()->pluck('name')->toArray();
-
-        foreach ($tagNames as $tag) {
-            if (! in_array($tag, $emailListTags)) {
-                throw CouldNotSegmentCampaign::tagDoesNotExistOnTheEmailList($tag, $this);
-            }
-        }
-
         $tags = Tag::query()->whereIn('name', $tagNames)->where('email_list_id', $this->email_list_id)->get();
 
         $tagsRelation->sync($tags);
