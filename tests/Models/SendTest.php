@@ -99,6 +99,20 @@ class SendTest extends TestCase
     }
 
     /** @test */
+    public function it_will_register_an_open_at_a_specific_time()
+    {
+        /** @var \Spatie\Mailcoach\Models\Send $send */
+        $send = factory(Send::class)->create();
+        $send->campaign->update(['track_opens' => true]);
+
+        $openedAt = now()->subHour()->setMicroseconds(0);
+
+        $send->registerOpen($openedAt);
+
+        $this->assertEquals($openedAt, $send->opens()->first()->created_at);
+    }
+
+    /** @test */
     public function it_will_not_register_a_click_of_an_unsubscribe_link()
     {
         /** @var \Spatie\Mailcoach\Models\Send $send */
