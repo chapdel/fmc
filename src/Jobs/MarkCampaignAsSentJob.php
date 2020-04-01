@@ -20,6 +20,9 @@ class MarkCampaignAsSentJob implements ShouldQueue
     /** @var string */
     public $queue;
 
+    /** We can have 60 tries on this, with a minute in between each one */
+    public int $tries = 60;
+
     public function __construct(Campaign $campaign)
     {
         $this->campaign = $campaign;
@@ -31,6 +34,12 @@ class MarkCampaignAsSentJob implements ShouldQueue
 
     public function handle()
     {
+        if ((int) $this->campaign->sendsCount() !== (int) $this->campaign->sent_to_number_of_subscribers) {
+            $this->release(60);
+
+            return;
+        }
+
         $this->campaign->markAsSent($this->campaign->sends()->count());
 
         event(new CampaignSentEvent($this->campaign));
