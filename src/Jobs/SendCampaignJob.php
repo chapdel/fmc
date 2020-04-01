@@ -31,8 +31,6 @@ class SendCampaignJob implements ShouldQueue
 
     public function handle()
     {
-        $this->campaign->markAsSending();
-
         /** @var \Spatie\Mailcoach\Actions\Campaigns\SendCampaignAction $sendCampaignAction */
         $sendCampaignAction = Config::getActionClass('send_campaign', SendCampaignAction::class);
 

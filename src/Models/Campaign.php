@@ -303,6 +303,8 @@ class Campaign extends Model implements Feedable, HasHtmlContent
             'last_modified_at' => now(),
         ]);
 
+        $this->markAsSending();
+
         dispatch(new SendCampaignJob($this));
 
         return $this;
@@ -476,7 +478,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         }
     }
 
-    public function markAsSending(): self
+    protected function markAsSending(): self
     {
         $this->update([
             'status' => CampaignStatus::SENDING,
