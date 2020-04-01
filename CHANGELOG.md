@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.4.1 - 2020-04-01
+
+- improve modal texts
+
 ## 2.4.0 - 2020-03-30
 
 - add duplicate segment action
