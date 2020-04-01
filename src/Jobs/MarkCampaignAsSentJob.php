@@ -7,11 +7,11 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Spatie\Mailcoach\Actions\Campaigns\SendCampaignAction;
+use Spatie\Mailcoach\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Support\Config;
 
-class SendCampaignJob implements ShouldQueue
+class MarkCampaignAsSentJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -31,11 +31,8 @@ class SendCampaignJob implements ShouldQueue
 
     public function handle()
     {
-        $this->campaign->markAsSending();
+        $this->campaign->markAsSent($this->campaign->sends()->count());
 
-        /** @var \Spatie\Mailcoach\Actions\Campaigns\SendCampaignAction $sendCampaignAction */
-        $sendCampaignAction = Config::getActionClass('send_campaign', SendCampaignAction::class);
-
-        $sendCampaignAction->execute($this->campaign);
+        event(new CampaignSentEvent($this->campaign));
     }
 }

@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Enums\CampaignStatus;
-use Spatie\Mailcoach\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Jobs\SendCampaignJob;
 use Spatie\Mailcoach\Mails\CampaignMail;
@@ -47,14 +46,8 @@ class SendCampaignJobTest extends TestCase
         Mail::assertSent(CampaignMail::class, 3);
         Mail::assertSent(CampaignMail::class, fn (CampaignMail $mail) => $mail->mailer === 'some-mailer');
 
-        Event::assertDispatched(CampaignSentEvent::class, function (CampaignSentEvent $event) {
-            $this->assertEquals($this->campaign->id, $event->campaign->id);
-
-            return true;
-        });
-
         $this->campaign->refresh();
-        $this->assertEquals(CampaignStatus::SENT, $this->campaign->status);
+        $this->assertEquals(CampaignStatus::SENDING, $this->campaign->status);
         $this->assertEquals(3, $this->campaign->sent_to_number_of_subscribers);
     }
 
@@ -87,12 +80,11 @@ class SendCampaignJobTest extends TestCase
     {
         $this->assertFalse($this->campaign->wasAlreadySent());
         dispatch(new SendCampaignJob($this->campaign));
-        $this->assertTrue($this->campaign->refresh()->wasAlreadySent());
+        $this->assertTrue($this->campaign->refresh()->isSending());
         Mail::assertSent(CampaignMail::class, 3);
 
         dispatch(new SendCampaignJob($this->campaign));
         Mail::assertSent(CampaignMail::class, 3);
-        Event::assertDispatched(CampaignSentEvent::class, 1);
     }
 
     /** @test */
