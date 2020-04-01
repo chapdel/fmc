@@ -65,7 +65,7 @@ class SendCampaignAction
         dispatch(new MarkCampaignAsSentJob($campaign));
     }
 
-    protected function sendMail(Campaign $campaign, Subscriber $subscriber, Segment $segment)
+    protected function sendMail(Campaign $campaign, Subscriber $subscriber, Segment $segment): void
     {
         if (! $segment->shouldSend($subscriber)) {
             return;
