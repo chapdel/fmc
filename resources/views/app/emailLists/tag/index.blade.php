@@ -57,6 +57,7 @@
                             :action="route('mailcoach.emailLists.tag.delete', [$emailList, $tag])"
                             method="DELETE"
                             data-confirm="true"
+                            :data-confirm-text="'Are you sure you want to delete tag ' . $tag->name . '?'"
                             class="icon-button hover:text-red-500"
                         >
                             <i class="fas fa-trash-alt"></i>

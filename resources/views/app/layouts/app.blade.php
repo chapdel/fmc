@@ -57,7 +57,7 @@
         </div>
 
         <x-modal title="Confirm" name="confirm">
-            Are you sure?
+            <span data-confirm-modal-text>Are you sure?</span>
 
             <div class="form-buttons">
                 <button type="button" class="button" data-modal-confirm>

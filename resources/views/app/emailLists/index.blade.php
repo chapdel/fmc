@@ -61,6 +61,7 @@
                                             :action="route('mailcoach.emailLists.delete', $emailList)"
                                             method="DELETE"
                                             data-confirm="true"
+                                            :data-confirm-text="'Are you sure you want to delete list ' . $emailList->name . '?'"
                                         >
                                             <x-icon-label icon="fa-trash-alt" text="Delete" :caution="true" />
                                         </x-form-button>

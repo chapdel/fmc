@@ -19,6 +19,7 @@
             :action="route('mailcoach.campaigns.retry-failed-sends', [$campaign])"
             method="POST"
             data-confirm="true"
+            :data-confirm-text="'Are you sure you want to resend ' . $totalFailed . ' mails?'"
             class="mt-4 button"
             >
                 <x-icon-label icon="fa-exclamation-triangle" :text="'Try resending ' . $totalFailed . ' failed ' . \Illuminate\Support\Str::plural('email', $totalFailed)" />

@@ -59,7 +59,7 @@
                                 <li>
                                     <x-form-button
                                         :action="route('mailcoach.emailLists.segment.delete', [$segment->emailList, $segment])"
-                                        method="DELETE" data-confirm="true">
+                                        method="DELETE" data-confirm="true" :data-confirm-text="'Are you sure you want to delete segment ' . $segment->name . '?'">
                                         <x-icon-label icon="fa-trash-alt" text="Delete" :caution="true"/>
                                     </x-form-button>
                                 </li>

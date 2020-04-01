@@ -62,6 +62,7 @@
                                             :action="route('mailcoach.templates.delete', $template)"
                                             method="DELETE"
                                             data-confirm="true"
+                                            :data-confirm-text="'Are you sure you want to delete template ' . $template->name . '?'"
                                         >
                                             <x-icon-label icon="fa-trash-alt" text="Delete" :caution="true" />
                                         </x-form-button>
