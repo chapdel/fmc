@@ -47,7 +47,7 @@ class SendCampaignJobTest extends TestCase
         Mail::assertSent(CampaignMail::class, fn (CampaignMail $mail) => $mail->mailer === 'some-mailer');
 
         $this->campaign->refresh();
-        $this->assertEquals(CampaignStatus::SENDING, $this->campaign->status);
+        $this->assertEquals(CampaignStatus::SENT, $this->campaign->status);
         $this->assertEquals(3, $this->campaign->sent_to_number_of_subscribers);
     }
 
@@ -80,7 +80,7 @@ class SendCampaignJobTest extends TestCase
     {
         $this->assertFalse($this->campaign->wasAlreadySent());
         dispatch(new SendCampaignJob($this->campaign));
-        $this->assertTrue($this->campaign->refresh()->isSending());
+        $this->assertTrue($this->campaign->refresh()->wasAlreadySent());
         Mail::assertSent(CampaignMail::class, 3);
 
         dispatch(new SendCampaignJob($this->campaign));

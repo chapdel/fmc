@@ -2,7 +2,9 @@
 
 namespace Spatie\Mailcoach\Actions\Campaigns;
 
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Str;
+use Spatie\Mailcoach\Jobs\MarkCampaignAsSentJob;
 use Spatie\Mailcoach\Jobs\SendMailJob;
 use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Models\EmailList;
@@ -57,24 +59,30 @@ class SendCampaignAction
 
         $campaign->update(['sent_to_number_of_subscribers' => $subscribersQuery->count()]);
 
-        $subscribersQuery->each(function (Subscriber $subscriber) use ($campaign, $segment) {
-            $this->sendMail($campaign, $subscriber, $segment);
-        });
+        $jobs = $subscribersQuery->cursor()->map(function (Subscriber $subscriber) use ($campaign, $segment) {
+            return $this->sendMail($campaign, $subscriber, $segment);
+        })->filter()->toArray();
+
+        dispatch(function () {
+            return;
+        })->chain(array_merge($jobs, [
+            new MarkCampaignAsSentJob($campaign),
+        ]));
     }
 
-    protected function sendMail(Campaign $campaign, Subscriber $subscriber, Segment $segment): void
+    protected function sendMail(Campaign $campaign, Subscriber $subscriber, Segment $segment): ?ShouldQueue
     {
         if (! $segment->shouldSend($subscriber)) {
-            return;
+            return null;
         }
 
         if (! $this->isValidSubscriptionForEmailList($subscriber, $campaign->emailList)) {
-            return;
+            return null;
         }
 
         $pendingSend = $this->createSend($campaign, $subscriber);
 
-        dispatch(new SendMailJob($pendingSend));
+        return new SendMailJob($pendingSend);
     }
 
     protected function createSend(Campaign $campaign, Subscriber $subscriber): Send

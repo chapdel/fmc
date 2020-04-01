@@ -16,7 +16,6 @@ use Spatie\Mailcoach\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Exceptions\CouldNotUpdateCampaign;
 use Spatie\Mailcoach\Jobs\CalculateStatisticsJob;
-use Spatie\Mailcoach\Jobs\MarkCampaignAsSentJob;
 use Spatie\Mailcoach\Jobs\SendCampaignJob;
 use Spatie\Mailcoach\Jobs\SendTestMailJob;
 use Spatie\Mailcoach\Mails\CampaignMail;
@@ -304,9 +303,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
             'last_modified_at' => now(),
         ]);
 
-        dispatch(new SendCampaignJob($this))->chain([
-            new MarkCampaignAsSentJob($this),
-        ]);
+        dispatch(new SendCampaignJob($this));
 
         return $this;
     }
