@@ -71,6 +71,7 @@
                         :action="route('mailcoach.campaigns.delete', $campaign)"
                         method="DELETE"
                         data-confirm="true"
+                        :data-confirm-text="'Are you sure you want to delete campaign ' . $campaign->name . '?'"
                     >
                         <x-icon-label icon="fa-trash-alt" text="Delete" :caution="true" />
                     </x-form-button>
