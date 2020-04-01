@@ -56,7 +56,6 @@ class SendCampaignJobTest extends TestCase
         $this->campaign->refresh();
         $this->assertEquals(CampaignStatus::SENT, $this->campaign->status);
         $this->assertEquals(3, $this->campaign->sent_to_number_of_subscribers);
-        Event::assertDispatched(CampaignSentEvent::class, 1);
     }
 
     /** @test */
@@ -93,6 +92,7 @@ class SendCampaignJobTest extends TestCase
 
         dispatch(new SendCampaignJob($this->campaign));
         Mail::assertSent(CampaignMail::class, 3);
+        Event::assertDispatched(CampaignSentEvent::class, 1);
     }
 
     /** @test */
