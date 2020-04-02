@@ -50,7 +50,7 @@ class MarkCampaignAsSentJobTest extends TestCase
         $this->assertEquals(CampaignStatus::SENT, $this->campaign->status);
     }
 
-    /** @test * */
+    /** @test */
     public function it_does_nothing_if_the_amount_of_current_sends_doesnt_match_the_intended_sends_and_releases()
     {
         $this->campaign->update(['sent_to_number_of_subscribers' => 1]);
