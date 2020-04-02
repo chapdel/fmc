@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.4.2 - 2020-04-02
+
+- fix invalid route action
+
 ## 2.4.1 - 2020-04-01
 
 - improve modal texts
