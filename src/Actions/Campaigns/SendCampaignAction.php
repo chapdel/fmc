@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Actions\Campaigns;
 
 use Illuminate\Support\Str;
-use Spatie\Mailcoach\Events\CampaignSentEvent;
+use Spatie\Mailcoach\Jobs\MarkCampaignAsSentJob;
 use Spatie\Mailcoach\Jobs\SendMailJob;
 use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Models\EmailList;
@@ -62,9 +62,7 @@ class SendCampaignAction
             $this->sendMail($campaign, $subscriber, $segment);
         });
 
-        $campaign->markAsSent($campaign->sends()->count());
-
-        event(new CampaignSentEvent($campaign));
+        dispatch(new MarkCampaignAsSentJob($campaign));
     }
 
     protected function sendMail(Campaign $campaign, Subscriber $subscriber, Segment $segment): void
