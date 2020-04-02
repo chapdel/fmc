@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.4.4 - 2020-04-02
+
+- fix sorting tags by subscriber_count
+
 ## 2.4.3 - 2020-04-02
 
 - send campaign sent confirmation only after all mails have been sent
