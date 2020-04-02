@@ -1,12 +1,12 @@
 @component('mail::message')
-Hey,
+@lang('Hey'),
 
-You are almost subscribed to the list **{{ $subscriber->emailList->name }}**.
+@lang('You are almost subscribed to the list **:emaillistname**.',['emaillistname'=>$subscriber->emailList->name]).
 
-Prove it is really you by pressing the button below.
+@lang('Prove it is really you by pressing the button below').
 
 @component('mail::button', ['url' => $confirmationUrl])
-    Confirm subscription
+    @lang('Confirm subscription')
 @endcomponent
 
 @endcomponent

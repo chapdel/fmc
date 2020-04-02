@@ -1,12 +1,12 @@
 @component('mail::message')
-Hi,
+@lang('Hi'),
 
-You are now subscribed to list **{{ $subscriber->emailList->name }}**.
+@lang('You are now subscribed to list :emaillistname',['emaillistname'=>$subscriber->emailList->name]).
 
-Happy to have you!
+@lang('Happy to have you')!
 
 @slot('subcopy')
-If you accidentally subscribed to this list, click here to <a href="{{ $subscriber->unsubscribeUrl() }}">unsubscribe</a>
+	@lang('If you accidentally subscribed to this list, click here to <a href=":unsubscribelink">unsubscribe</a>',['unsubscribelink'=>$subscriber->unsubscribeUrl()])
 @endslot
 
 @endcomponent

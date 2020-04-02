@@ -122,7 +122,7 @@ Route::prefix('email-lists')->group(function () {
                 Route::get('/details', ['\\' . EditSegmentController::class, 'edit'])->name('mailcoach.emailLists.segment.edit');
                 Route::put('/details', ['\\' . EditSegmentController::class, 'update']);
                 Route::delete('/', '\\' . DestroySegmentController::class)->name('mailcoach.emailLists.segment.delete');
-                Route::post('duplicate', DuplicateSegmentController::class)->name('mailcoach.emailLists.segment.duplicate');
+                Route::post('duplicate', '\\' .  DuplicateSegmentController::class)->name('mailcoach.emailLists.segment.duplicate');
             });
         });
     });
