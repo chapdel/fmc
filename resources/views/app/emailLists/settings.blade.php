@@ -170,7 +170,7 @@
             </x-help>
         @endif
 
-        <div class="form-grid" data-conditional-optin="true">
+        <div class="form-grid" data-conditional-confirmation="true">
             <hr class="border-t-2 border-gray-200 my-8">
 
             <h2 class="markup-h2">Confirmation mail</h2>
