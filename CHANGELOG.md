@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.4.5 - 2020-04-03
+
+- fix malformed ampersands in HTML validation
+
 ## 2.4.4 - 2020-04-02
 
 - fix sorting tags by subscriber_count
