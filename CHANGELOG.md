@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.4.6 - 2020-04-03
+
+- fix malformed ampersands when sending
+
+
 ## 2.4.5 - 2020-04-03
 
 - fix malformed ampersands in HTML validation
