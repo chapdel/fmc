@@ -15,6 +15,8 @@ class HtmlRule implements Rule
         $dom = new DOMDocument('1.0', 'UTF-8');
 
         try {
+            $value = preg_replace('/&(?!amp;)/', '&amp;', $value);
+
             $dom->loadHTML($value, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD | LIBXML_NOWARNING);
 
             return true;

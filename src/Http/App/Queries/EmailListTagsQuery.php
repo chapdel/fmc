@@ -27,7 +27,7 @@ class EmailListTagsQuery extends QueryBuilder
 
             ->where('email_list_id', $emailList->id)
             ->defaultSort('name')
-            ->allowedSorts('name', 'updated_at')
+            ->allowedSorts('name', 'updated_at', 'subscriber_count')
             ->allowedFilters(
                 AllowedFilter::custom('search', new FuzzyFilter(
                     'name'

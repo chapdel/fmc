@@ -29,7 +29,9 @@ class PrepareEmailHtmlAction
         $dom = new DOMDocument('1.0', 'UTF-8');
 
         try {
-            $dom->loadHTML($campaign->html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD | LIBXML_NOWARNING);
+            $html = preg_replace('/&(?!amp;)/', '&amp;', $campaign->html);
+
+            $dom->loadHTML($html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD | LIBXML_NOWARNING);
 
             return true;
         } catch (Exception $exception) {

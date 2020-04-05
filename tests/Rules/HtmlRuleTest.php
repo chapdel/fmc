@@ -15,6 +15,12 @@ class HtmlRuleTest extends TestCase
         $this->assertFalse($this->rulePasses('<html>>><html>'));
     }
 
+    /** @test * */
+    public function it_passes_with_ampersands()
+    {
+        $this->assertTrue($this->rulePasses('<html><a href="https://google.com?foo=true&bar=false">Test</a></html>'));
+    }
+
     protected function rulePasses(string $html)
     {
         return (new HtmlRule())->passes('html', $html);
