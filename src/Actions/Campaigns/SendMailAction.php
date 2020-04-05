@@ -28,15 +28,19 @@ class SendMailAction
             return;
         }
 
-        $personalizeHtmlAction = Config::getActionClass('personalize_html', PersonalizeHtmlAction::class);
+        /** @var \Spatie\Mailcoach\Actions\Campaigns\PersonalizeSubjectAction $personalizeSubjectAction */
+        $personalizeSubjectAction = Config::getActionClass('personalize_subject', PersonalizeSubjectAction::class);
+        $personalisedSubject = $personalizeSubjectAction->execute($pendingSend->campaign->subject, $pendingSend);
 
+        /** @var \Spatie\Mailcoach\Actions\Campaigns\PersonalizeHtmlAction $personalizeHtmlAction */
+        $personalizeHtmlAction = Config::getActionClass('personalize_html', PersonalizeHtmlAction::class);
         $personalisedHtml = $personalizeHtmlAction->execute(
             $pendingSend->campaign->email_html,
             $pendingSend,
         );
 
+        /** @var \Spatie\Mailcoach\Actions\Campaigns\ConvertHtmlToTextAction $convertHtmlToTextAction */
         $convertHtmlToTextAction = Config::getActionClass('convert_html_to_text', ConvertHtmlToTextAction::class);
-
         $personalisedText = $convertHtmlToTextAction->execute($personalisedHtml);
 
         /** @var \Spatie\Mailcoach\Mails\CampaignMail $campaignMail */
@@ -47,9 +51,9 @@ class SendMailAction
 
         $campaignMail
             ->setSend($pendingSend)
+            ->subject($personalisedSubject)
             ->setHtmlContent($personalisedHtml)
             ->setTextContent($personalisedText)
-            ->subject($pendingSend->campaign->subject)
             ->withSwiftMessage(function (Swift_Message $message) use ($pendingSend) {
                 $message->getHeaders()->addTextHeader('X-MAILCOACH', true);
 
