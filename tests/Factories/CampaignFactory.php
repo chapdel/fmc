@@ -8,7 +8,7 @@ use Spatie\Mailcoach\Models\Campaign;
 class CampaignFactory
 {
     /** @var int */
-    private int $subscriberCount;
+    private int $subscriberCount = 0;
 
     public function withSubscriberCount(int $subscriberCount)
     {

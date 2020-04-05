@@ -16,6 +16,7 @@ use Spatie\Mailcoach\Tests\TestClasses\CustomConfirmSubscriberAction;
 use Spatie\Mailcoach\Tests\TestClasses\CustomCreateSubscriberAction;
 use Spatie\Mailcoach\Tests\TestClasses\CustomImportSubscribersAction;
 use Spatie\Mailcoach\Tests\TestClasses\CustomPersonalizeHtmlAction;
+use Spatie\Mailcoach\Tests\TestClasses\CustomPersonalizeSubjectAction;
 use Spatie\Mailcoach\Tests\TestClasses\CustomPrepareEmailHtmlAction;
 use Spatie\Mailcoach\Tests\TestClasses\CustomPrepareWebviewHtmlAction;
 
@@ -25,6 +26,20 @@ class CustomizableActionTest extends TestCase
     public function the_personalize_html_action_can_be_customized()
     {
         config()->set('mailcoach.actions.personalize_html', CustomPersonalizeHtmlAction::class);
+
+        $campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
+            'status' => CampaignStatus::DRAFT,
+        ]);
+
+        dispatch(new SendCampaignJob($campaign));
+
+        $this->assertEquals('overridden@example.com', $campaign->emailList->subscribers->first()->email);
+    }
+
+    /** @test */
+    public function the_personalize_subject_action_can_be_customized()
+    {
+        config()->set('mailcoach.actions.personalize_subject', CustomPersonalizeSubjectAction::class);
 
         $campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
             'status' => CampaignStatus::DRAFT,
