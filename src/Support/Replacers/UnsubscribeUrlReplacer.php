@@ -13,10 +13,10 @@ class UnsubscribeUrlReplacer implements PersonalizedReplacer
         ];
     }
 
-    public function replace(string $html, Send $pendingSend): string
+    public function replace(string $text, Send $pendingSend): string
     {
         $unsubscribeUrl = $pendingSend->subscriber->unsubscribeUrl($pendingSend);
 
-        return str_ireplace('::unsubscribeUrl::', $unsubscribeUrl, $html);
+        return str_ireplace('::unsubscribeUrl::', $unsubscribeUrl, $text);
     }
 }

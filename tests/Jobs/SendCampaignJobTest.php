@@ -35,13 +35,13 @@ class SendCampaignJobTest extends TestCase
         $this->campaign->emailList->update(['campaign_mailer' => 'some-mailer']);
 
         Mail::fake();
-
-        Event::fake();
     }
 
     /** @test */
     public function it_can_send_a_campaign_with_the_correct_mailer()
     {
+        Event::fake();
+
         dispatch(new SendCampaignJob($this->campaign));
 
         Mail::assertSent(CampaignMail::class, 3);
@@ -61,6 +61,8 @@ class SendCampaignJobTest extends TestCase
     /** @test */
     public function it_will_not_create_mailcoach_sends_if_they_already_have_been_created()
     {
+        Event::fake();
+
         $emailList = factory(EmailList::class)->create();
 
         $campaign = factory(Campaign::class)->create([
@@ -85,6 +87,8 @@ class SendCampaignJobTest extends TestCase
     /** @test */
     public function a_campaign_that_was_sent_will_not_be_sent_again()
     {
+        Event::fake();
+
         $this->assertFalse($this->campaign->wasAlreadySent());
         dispatch(new SendCampaignJob($this->campaign));
         $this->assertTrue($this->campaign->refresh()->wasAlreadySent());
@@ -98,6 +102,8 @@ class SendCampaignJobTest extends TestCase
     /** @test */
     public function it_will_prepare_the_webview()
     {
+        Event::fake();
+
         $this->campaign->update([
             'html' => 'my html',
             'webview_html' => null,
@@ -111,6 +117,8 @@ class SendCampaignJobTest extends TestCase
     /** @test */
     public function it_will_not_send_invalid_html()
     {
+        Event::fake();
+
         $this->campaign->update([
             'track_clicks' => true,
             'html' => '<qsdfqlsmdkjm><<>><<',
@@ -124,6 +132,8 @@ class SendCampaignJobTest extends TestCase
     /** @test */
     public function the_queue_of_the_send_campaign_job_can_be_configured()
     {
+        Event::fake();
+
         Queue::fake();
 
         config()->set('mailcoach.perform_on_queue.send_campaign_job', 'custom-queue');
@@ -132,5 +142,48 @@ class SendCampaignJobTest extends TestCase
         dispatch(new SendCampaignJob($campaign));
 
         Queue::assertPushedOn('custom-queue', SendCampaignJob::class);
+    }
+
+    /** @test */
+    public function regular_placeholders_in_the_subject_will_be_replaced()
+    {
+        $campaign = (new CampaignFactory())
+            ->withSubscriberCount(1)
+            ->create([
+                'subject' => 'This is a mail sent to ::list.name::',
+            ]);
+
+        $campaign->emailList->update(['name' => 'my list']);
+
+        dispatch(new SendCampaignJob($campaign));
+
+        Mail::assertSent(CampaignMail::class, function (CampaignMail $mail) {
+            $this->assertEquals("This is a mail sent to my list", $mail->subject);
+
+            return true;
+        });
+    }
+
+    /** @test */
+    public function personalized_placeholders_in_the_subject_will_be_replaced()
+    {
+        $campaign = (new CampaignFactory())
+            ->create([
+                'subject' => 'This is a mail sent to ::subscriber.email::',
+            ]);
+
+
+        $subscriber = Subscriber::createWithEmail('john@example.com')
+            ->skipConfirmation()
+            ->subscribeTo($campaign->emailList);
+
+
+        dispatch(new SendCampaignJob($campaign));
+
+        Mail::assertSent(CampaignMail::class, function (CampaignMail $mail) use ($subscriber) {
+            $this->assertEquals("This is a mail sent to {$subscriber->email}", $mail->subject);
+
+            return true;
+        });
     }
 }

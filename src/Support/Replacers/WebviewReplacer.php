@@ -13,10 +13,10 @@ class WebviewReplacer implements Replacer
         ];
     }
 
-    public function replace(string $html, Campaign $campaign): string
+    public function replace(string $text, Campaign $campaign): string
     {
         $webviewUrl = $campaign->webviewUrl();
 
-        return str_ireplace('::webviewUrl::', $webviewUrl, $campaign->email_html);
+        return str_ireplace('::webviewUrl::', $webviewUrl, $text);
     }
 }
