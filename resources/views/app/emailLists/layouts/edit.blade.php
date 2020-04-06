@@ -32,6 +32,7 @@
             <x-navigation-item :href="route('mailcoach.emailLists.settings', $emailList)">
                 <x-icon-label icon="fa-cog" text="Settings" />
             </x-navigation-item>
+            @include('mailcoach::app.emailLists.layouts.partials.afterLastTab')
         </ul>
     </nav>
 
