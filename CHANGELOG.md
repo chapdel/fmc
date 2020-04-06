@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.6.2 - 2020-04-12
+
+- fix for sending campaigns using custom mailables
+
 ## 2.6.1 - 2020-04-11
 
 - format number of mails on confirmation dialog
