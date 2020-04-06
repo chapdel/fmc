@@ -148,16 +148,12 @@ class SendCampaignJobTest extends TestCase
     public function regular_placeholders_in_the_subject_will_be_replaced()
     {
         $campaign = (new CampaignFactory())
+            ->withSubscriberCount(1)
             ->create([
                 'subject' => 'This is a mail sent to ::list.name::',
             ]);
 
         $campaign->emailList->update(['name' => 'my list']);
-
-        $subscriber = Subscriber::createWithEmail('john@example.com')
-            ->skipConfirmation()
-            ->subscribeTo($campaign->emailList);
-
 
         dispatch(new SendCampaignJob($campaign));
 
