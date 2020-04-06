@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.6.0 - 2020-04-11
+
+- add view `mailcoach::app.emailLists.layouts.partials.afterLastTab`
+
 ## 2.5.0 - 2020-04-11
 
 - add ability to use replacers in the subject of a campaign
