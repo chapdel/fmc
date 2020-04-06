@@ -9,7 +9,6 @@ class PersonalizeSubjectAction
 {
     public function execute(string $subject, Send $pendingSend): string
     {
-
         /** @var \Spatie\Mailcoach\Models\Subscriber $subscriber */
         $subscriber = $pendingSend->subscriber;
 

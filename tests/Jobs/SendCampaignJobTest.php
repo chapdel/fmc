@@ -145,7 +145,31 @@ class SendCampaignJobTest extends TestCase
     }
 
     /** @test */
-    public function placeholders_in_the_subject_will_be_replaced()
+    public function regular_placeholders_in_the_subject_will_be_replaced()
+    {
+        $campaign = (new CampaignFactory())
+            ->create([
+                'subject' => 'This is a mail sent to ::list.name::',
+            ]);
+
+        $campaign->emailList->update(['name' => 'my list']);
+
+        $subscriber = Subscriber::createWithEmail('john@example.com')
+            ->skipConfirmation()
+            ->subscribeTo($campaign->emailList);
+
+
+        dispatch(new SendCampaignJob($campaign));
+
+        Mail::assertSent(CampaignMail::class, function (CampaignMail $mail) use ($subscriber) {
+            $this->assertEquals("This is a mail sent to my list", $mail->subject);
+
+            return true;
+        });
+    }
+
+    /** @test */
+    public function personalized_placeholders_in_the_subject_will_be_replaced()
     {
         $campaign = (new CampaignFactory())
             ->create([

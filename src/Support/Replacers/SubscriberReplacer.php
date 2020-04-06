@@ -17,10 +17,10 @@ class SubscriberReplacer implements PersonalizedReplacer
         ];
     }
 
-    public function replace(string $html, Send $send): string
+    public function replace(string $text, Send $send): string
     {
         $subscriber = $send->subscriber;
 
-        return $this->replaceModelAttributes($html, 'subscriber', $subscriber);
+        return $this->replaceModelAttributes($text, 'subscriber', $subscriber);
     }
 }

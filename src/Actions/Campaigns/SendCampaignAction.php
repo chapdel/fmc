@@ -21,9 +21,20 @@ class SendCampaignAction
         }
 
         $this
+            ->prepareSubject($campaign)
             ->prepareEmailHtml($campaign)
             ->prepareWebviewHtml($campaign)
             ->sendMailsForCampaign($campaign);
+    }
+
+    protected function prepareSubject(Campaign $campaign)
+    {
+        /** @var \Spatie\Mailcoach\Actions\Campaigns\PrepareSubjectAction $prepareSubjectAction */
+        $prepareSubjectAction = Config::getActionClass('prepare_subject', PrepareSubjectAction::class);
+
+        $prepareSubjectAction->execute($campaign);
+
+        return $this;
     }
 
     protected function prepareEmailHtml(Campaign $campaign)

@@ -16,8 +16,8 @@ class EmailListReplacer implements Replacer
         ];
     }
 
-    public function replace(string $html, Campaign $campaign): string
+    public function replace(string $text, Campaign $campaign): string
     {
-        return $this->replaceModelAttributes($html, 'list', $campaign->emailList);
+        return $this->replaceModelAttributes($text, 'list', $campaign->emailList);
     }
 }

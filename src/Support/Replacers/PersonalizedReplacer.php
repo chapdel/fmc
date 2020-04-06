@@ -6,5 +6,5 @@ use Spatie\Mailcoach\Models\Send;
 
 interface PersonalizedReplacer extends ReplacerWithHelpText
 {
-    public function replace(string $html, Send $pendingSend): string;
+    public function replace(string $text, Send $pendingSend): string;
 }
