@@ -161,7 +161,7 @@ class SendCampaignJobTest extends TestCase
 
         dispatch(new SendCampaignJob($campaign));
 
-        Mail::assertSent(CampaignMail::class, function (CampaignMail $mail) use ($subscriber) {
+        Mail::assertSent(CampaignMail::class, function (CampaignMail $mail) {
             $this->assertEquals("This is a mail sent to my list", $mail->subject);
 
             return true;
