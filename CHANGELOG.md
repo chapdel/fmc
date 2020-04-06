@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.5.0 - 2020-04-11
+
+- add ability to use replacers in the subject of a campaign
+
 ## 2.4.7 - 2020-04-10
 
 - fix sorting on email on the outbox screen
