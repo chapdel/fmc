@@ -284,7 +284,7 @@
                                         class="button bg-red-500 shadow-2xl text-lg h-12"
                                     >
                                         <x-icon-label icon="fa-paper-plane"
-                                                      :text="'Send ' .  $campaign->segmentSubscriberCount() . ' ' . Illuminate\Support\Str::plural('email', $campaign->segmentSubscriberCount())"/>
+                                                      :text="'Send ' .  number_format($campaign->segmentSubscriberCount()) . ' ' . Illuminate\Support\Str::plural('email', $campaign->segmentSubscriberCount())"/>
                                     </x-form-button>
                                 </div>
                             </div>
