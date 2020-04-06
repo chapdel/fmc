@@ -329,7 +329,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
             throw CouldNotSendCampaign::noListSet($this);
         }
 
-        if (! is_null($this->mailable)) {
+        if (! is_null($this->mailable_class)) {
             return;
         }
 
