@@ -2,23 +2,27 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
-## 2.6.2 - 2020-04-12
+## 2.6.3 - 2020-04-07
+
+- fix broken horses image on confirmation dialog
+
+## 2.6.2 - 2020-04-06
 
 - fix for sending campaigns using custom mailables
 
-## 2.6.1 - 2020-04-11
+## 2.6.1 - 2020-04-06
 
 - format number of mails on confirmation dialog
 
-## 2.6.0 - 2020-04-11
+## 2.6.1 - 2020-04-06
 
 - add view `mailcoach::app.emailLists.layouts.partials.afterLastTab`
 
-## 2.5.0 - 2020-04-11
+## 2.6.1 - 2020-04-06
 
 - add ability to use replacers in the subject of a campaign
 
-## 2.4.7 - 2020-04-10
+## 2.6.1 - 2020-04-06
 
 - fix sorting on email on the outbox screen
 
