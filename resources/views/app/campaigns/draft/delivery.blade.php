@@ -274,9 +274,9 @@
                         <div class="flex place-center">
                             <div class="horses-wrap">
                                 <div class="horses">
-                                    <div class="horses-back"><img src="/vendor/mailcoach/images/horses-back.png"></div>
-                                    <div class="horse-01"><img src="/vendor/mailcoach/images/horse-01.png"></div>
-                                    <div class="horse-02"><img src="/vendor/mailcoach/images/horse-02.png"></div>
+                                    <div class="horses-back"><img src="{{ asset('vendor/mailcoach/images/horses-back.png') }}"></div>
+                                    <div class="horse-01"><img src="{{ asset('vendor/mailcoach/images/horse-01.png') }}"></div>
+                                    <div class="horse-02"><img src="{{ asset('vendor/mailcoach/images/horse-02.png') }}"></div>
                                 </div>
                                 <div class="horse-button">
                                     <x-form-button
