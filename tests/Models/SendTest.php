@@ -39,11 +39,13 @@ class SendTest extends TestCase
             'subscriber_id' => $subscriber->id,
         ]);
 
-        $send->registerBounce();
+        $bouncedAt = now()->subHour();
+        $send->registerBounce($bouncedAt);
 
         $this->assertDatabaseHas('mailcoach_send_feedback_items', [
             'send_id' => $send->id,
             'type' => SendFeedbackType::BOUNCE,
+            'created_at' => $bouncedAt,
         ]);
 
         $this->assertFalse($emailList->isSubscribed($subscriber->email));
@@ -67,11 +69,13 @@ class SendTest extends TestCase
             'subscriber_id' => $subscriber->id,
         ]);
 
-        $send->registerComplaint();
+        $complainedAt = now()->subHour();
+        $send->registerComplaint($complainedAt);
 
         $this->assertDatabaseHas('mailcoach_send_feedback_items', [
             'send_id' => $send->id,
             'type' => SendFeedbackType::COMPLAINT,
+            'created_at' => $complainedAt,
         ]);
 
         $this->assertFalse($emailList->isSubscribed($subscriber->email));
