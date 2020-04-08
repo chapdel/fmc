@@ -147,10 +147,9 @@ class Send extends Model
         $campaignLink = CampaignLink::firstOrCreate([
             'campaign_id' => $this->campaign->id,
             'url' => $url,
-            'created_at' => $clickedAt ?? now(),
         ]);
 
-        $campaignClick = $campaignLink->registerClick($this);
+        $campaignClick = $campaignLink->registerClick($this, $clickedAt);
 
         event(new CampaignLinkClickedEvent($campaignClick));
 

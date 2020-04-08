@@ -127,6 +127,20 @@ class SendTest extends TestCase
     }
 
     /** @test */
+    public function it_can_register_a_click_at_a_given_time()
+    {
+        /** @var \Spatie\Mailcoach\Models\Send $send */
+        $send = factory(Send::class)->create();
+        $send->campaign->update(['track_clicks' => true]);
+
+        $clickedAt = now()->subDay()->setMilliseconds(0);
+        $send->registerClick('https://example.com', $clickedAt);
+
+        $this->assertCount(1, $send->clicks()->get());
+        $this->assertEquals($clickedAt, $send->clicks()->first()->created_at);
+    }
+
+    /** @test */
     public function registering_clicks_will_update_the_click_count()
     {
         /** @var \Spatie\Mailcoach\Models\Subscriber $subscriber */
