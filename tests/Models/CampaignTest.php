@@ -150,6 +150,20 @@ class CampaignTest extends TestCase
     }
 
     /** @test */
+    public function a_mailable_can_set_campaign_html()
+    {
+        $campaign = (new CampaignFactory())->create(['html' => 'null']);
+
+        $mailable = (new TestCampaignMail())->setCampaign($campaign);
+        app()->instance(TestCampaignMail::class, $mailable);
+
+        $campaign->useMailable(TestCampaignMail::class);
+        $campaign->content($campaign->contentFromMailable());
+
+        $this->assertEquals(app(TestCampaignMail::class)->viewHtml, $campaign->html);
+    }
+
+    /** @test */
     public function it_will_throw_an_exception_when_use_an_invalid_mailable_class()
     {
         $this->expectException(CouldNotSendCampaign::class);

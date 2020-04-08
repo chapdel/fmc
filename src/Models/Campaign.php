@@ -284,6 +284,14 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         return $this;
     }
 
+    public function contentFromMailable(): string
+    {
+        return $this
+            ->getMailable()
+            ->setCampaign($this)
+            ->render();
+    }
+
     public function send(): self
     {
         $this->ensureSendable();
@@ -302,6 +310,10 @@ class Campaign extends Model implements Feedable, HasHtmlContent
             'segment_description' => $this->getSegment()->description($this),
             'last_modified_at' => now(),
         ]);
+
+        if (! is_null($this->mailable_class)) {
+            $this->content($this->contentFromMailable());
+        }
 
         $this->markAsSending();
 
