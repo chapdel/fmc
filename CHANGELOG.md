@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.6.4 - 2020-04-08
+
+- fix custom mailable content
+
 ## 2.6.3 - 2020-04-07
 
 - fix broken horses image on confirmation dialog
