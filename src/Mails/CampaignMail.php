@@ -13,7 +13,7 @@ class CampaignMail extends Mailable
 {
     use SerializesModels;
 
-    public Campaign $campaign;
+    public ?Campaign $campaign = null;
 
     public ?Send $send = null;
 
