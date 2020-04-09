@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.7.0 - 2020-04-09
+
+- accept time in register feedback functions
+
 ## 2.6.4 - 2020-04-08
 
 - fix custom mailable content
