@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Models;
 
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -27,12 +28,13 @@ class CampaignLink extends Model
         return $this->hasMany(CampaignClick::class);
     }
 
-    public function registerClick(Send $send): CampaignClick
+    public function registerClick(Send $send, ?DateTimeInterface $clickedAt = null): CampaignClick
     {
         /** @var \Spatie\Mailcoach\Models\CampaignClick $campaignClick */
         $campaignClick = $this->clicks()->create([
             'send_id' => $send->id,
             'subscriber_id' => $send->subscriber->id,
+            'created_at' => $clickedAt ?? now(),
         ]);
 
         $numberOfTimesClickedBySubscriber = $this->clicks()

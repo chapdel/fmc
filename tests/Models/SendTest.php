@@ -39,11 +39,13 @@ class SendTest extends TestCase
             'subscriber_id' => $subscriber->id,
         ]);
 
-        $send->registerBounce();
+        $bouncedAt = now()->subHour();
+        $send->registerBounce($bouncedAt);
 
         $this->assertDatabaseHas('mailcoach_send_feedback_items', [
             'send_id' => $send->id,
             'type' => SendFeedbackType::BOUNCE,
+            'created_at' => $bouncedAt,
         ]);
 
         $this->assertFalse($emailList->isSubscribed($subscriber->email));
@@ -67,11 +69,13 @@ class SendTest extends TestCase
             'subscriber_id' => $subscriber->id,
         ]);
 
-        $send->registerComplaint();
+        $complainedAt = now()->subHour();
+        $send->registerComplaint($complainedAt);
 
         $this->assertDatabaseHas('mailcoach_send_feedback_items', [
             'send_id' => $send->id,
             'type' => SendFeedbackType::COMPLAINT,
+            'created_at' => $complainedAt,
         ]);
 
         $this->assertFalse($emailList->isSubscribed($subscriber->email));
@@ -99,6 +103,20 @@ class SendTest extends TestCase
     }
 
     /** @test */
+    public function it_will_register_an_open_at_a_specific_time()
+    {
+        /** @var \Spatie\Mailcoach\Models\Send $send */
+        $send = factory(Send::class)->create();
+        $send->campaign->update(['track_opens' => true]);
+
+        $openedAt = now()->subHour()->setMicroseconds(0);
+
+        $send->registerOpen($openedAt);
+
+        $this->assertEquals($openedAt, $send->opens()->first()->created_at);
+    }
+
+    /** @test */
     public function it_will_not_register_a_click_of_an_unsubscribe_link()
     {
         /** @var \Spatie\Mailcoach\Models\Send $send */
@@ -110,6 +128,20 @@ class SendTest extends TestCase
         $send->registerClick($unsubscribeUrl);
 
         $this->assertCount(0, $send->clicks()->get());
+    }
+
+    /** @test */
+    public function it_can_register_a_click_at_a_given_time()
+    {
+        /** @var \Spatie\Mailcoach\Models\Send $send */
+        $send = factory(Send::class)->create();
+        $send->campaign->update(['track_clicks' => true]);
+
+        $clickedAt = now()->subDay()->setMilliseconds(0);
+        $send->registerClick('https://example.com', $clickedAt);
+
+        $this->assertCount(1, $send->clicks()->get());
+        $this->assertEquals($clickedAt, $send->clicks()->first()->created_at);
     }
 
     /** @test */

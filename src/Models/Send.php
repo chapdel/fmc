@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Models;
 
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -98,7 +99,7 @@ class Send extends Model
         return $this;
     }
 
-    public function registerOpen(): ?CampaignOpen
+    public function registerOpen(?DateTimeInterface $openedAt = null): ?CampaignOpen
     {
         if (! $this->campaign->track_opens) {
             return null;
@@ -112,6 +113,7 @@ class Send extends Model
             'send_id' => $this->id,
             'campaign_id' => $this->campaign->id,
             'subscriber_id' => $this->subscriber->id,
+            'created_at' => $openedAt ?? now(),
         ]);
 
         event(new CampaignOpenedEvent($campaignOpen));
@@ -132,7 +134,7 @@ class Send extends Model
         return $latestOpen->created_at->diffInSeconds() < $seconds;
     }
 
-    public function registerClick(string $url): ?CampaignClick
+    public function registerClick(string $url, ?DateTimeInterface $clickedAt = null): ?CampaignClick
     {
         if (! $this->campaign->track_clicks) {
             return null;
@@ -147,7 +149,7 @@ class Send extends Model
             'url' => $url,
         ]);
 
-        $campaignClick = $campaignLink->registerClick($this);
+        $campaignClick = $campaignLink->registerClick($this, $clickedAt);
 
         event(new CampaignLinkClickedEvent($campaignClick));
 
@@ -156,10 +158,11 @@ class Send extends Model
         return $campaignClick;
     }
 
-    public function registerBounce()
+    public function registerBounce(?DateTimeInterface $bouncedAt = null)
     {
         $this->feedback()->create([
             'type' => SendFeedbackType::BOUNCE,
+            'created_at' => $bouncedAt ?? now(),
         ]);
 
         $this->subscriber->unsubscribe();
@@ -169,10 +172,11 @@ class Send extends Model
         return $this;
     }
 
-    public function registerComplaint()
+    public function registerComplaint(?DateTimeInterface $complainedAt = null)
     {
         $this->feedback()->create([
             'type' => SendFeedbackType::COMPLAINT,
+            'created_at' => $complainedAt ?? now(),
         ]);
 
         $this->subscriber->unsubscribe();
