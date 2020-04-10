@@ -42,7 +42,7 @@ class PrepareEmailHtmlActionTest extends TestCase
 
         $campaign->refresh();
 
-        $this->assertMatchesHtmlSnapshot($campaign->email_html);
+        $this->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->email_html);
     }
 
     /** @test */
