@@ -132,4 +132,16 @@ return [
      * be a disk that uses the `local` driver.
      */
     'import_subscribers_disk' => 'public',
+
+
+    'models' => [
+
+        /*
+         * The model you want to use as a Campaign model needs to extend the
+         * `Spatie\Mailcoach\Models\Campaign` model.
+         */
+
+        'campaign' => Spatie\Mailcoach\Models\Campaign::class,
+
+    ],
 ];
