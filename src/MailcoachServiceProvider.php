@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
+use Spatie\Mailcoach\MailcoachRegistrar;
 use Spatie\Mailcoach\Commands\CalculateStatisticsCommand;
 use Spatie\Mailcoach\Commands\DeleteOldUnconfirmedSubscribersCommand;
 use Spatie\Mailcoach\Commands\RetryPendingSendsCommand;
@@ -40,7 +41,7 @@ class MailcoachServiceProvider extends EventServiceProvider
         ],
     ];
 
-    public function boot()
+    public function boot(MailcoachRegistrar $mailcoachLoader)
     {
         parent::boot();
 
@@ -53,6 +54,9 @@ class MailcoachServiceProvider extends EventServiceProvider
             ->bootSupportMacros()
             ->bootTranslations()
             ->bootViews();
+
+
+        $this->app->singleton(MailcoachRegistrar::class, fn ($app) => $mailcoachLoader);
     }
 
     public function register()
