@@ -2,16 +2,16 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns;
 
-use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
+use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Traits\UsesCampaign;
 
 class DuplicateCampaignController
 {
     use UsesCampaign;
 
-    public function __invoke(CampaignConcern $campaign)
+    public function __invoke(Campaign $campaign)
     {
-        /** @var \Spatie\Mailcoach\Models\Concerns\Campaign $duplicateCampaign */
+        /** @var \Spatie\Mailcoach\Models\Campaign $duplicateCampaign */
         $duplicateCampaign = $this->getCampaignClass()::create([
             'name' => "Duplicate of {$campaign->name}",
             'subject' => $campaign->subject,

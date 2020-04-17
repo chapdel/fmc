@@ -7,7 +7,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Jobs\CalculateStatisticsJob;
-use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
+use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Traits\UsesCampaign;
 
 class CalculateStatisticsCommand extends Command
@@ -45,7 +45,7 @@ class CalculateStatisticsCommand extends Command
         ])->eachSpread(function (CarbonInterval $startInterval, CarbonInterval $endInterval, CarbonInterval $recalculateThreshold) {
             $this
                 ->findCampaignsWithStatisticsToRecalculate($startInterval, $endInterval, $recalculateThreshold)
-                ->each(function (CampaignConcern $campaign) {
+                ->each(function (Campaign $campaign) {
                     $this->info("Calculating statistics for campaign id {$campaign->id}...");
 
                     $campaign->dispatchCalculateStatistics();
@@ -63,7 +63,7 @@ class CalculateStatisticsCommand extends Command
 
         return $this->getCampaignClass()::sentBetween($periodStart, $periodEnd)
             ->get()
-            ->filter(function (CampaignConcern $campaign) use ($periodEnd, $periodStart, $recalculateThreshold) {
+            ->filter(function (Campaign $campaign) use ($periodEnd, $periodStart, $recalculateThreshold) {
                 if (is_null($campaign->statistics_calculated_at)) {
                     return true;
                 }
