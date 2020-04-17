@@ -8,21 +8,21 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Actions\Campaigns\SendTestMailAction;
-use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
+use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Support\Config;
 
 class SendTestMailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public CampaignConcern $campaign;
+    public Campaign $campaign;
 
     public string $email;
 
     /** @var string */
     public $queue;
 
-    public function __construct(CampaignConcern $campaign, string $email)
+    public function __construct(Campaign $campaign, string $email)
     {
         $this->campaign = $campaign;
 

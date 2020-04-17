@@ -2,13 +2,13 @@
 
 namespace Spatie\Mailcoach\Events;
 
-use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
+use Spatie\Mailcoach\Models\Campaign;
 
 class CampaignStatisticsCalculatedEvent
 {
-    public CampaignConcern $campaign;
+    public Campaign $campaign;
 
-    public function __construct(CampaignConcern $campaign)
+    public function __construct(Campaign $campaign)
     {
         $this->campaign = $campaign;
     }

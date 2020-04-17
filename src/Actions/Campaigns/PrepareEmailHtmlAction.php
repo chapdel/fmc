@@ -6,12 +6,12 @@ use DOMDocument;
 use Exception;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Exceptions\CouldNotSendCampaign;
-use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
+use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Support\Replacers\Replacer;
 
 class PrepareEmailHtmlAction
 {
-    public function execute(CampaignConcern $campaign)
+    public function execute(Campaign $campaign)
     {
         $this->ensureValidHtml($campaign);
 
@@ -24,7 +24,7 @@ class PrepareEmailHtmlAction
         $campaign->save();
     }
 
-    protected function ensureValidHtml(CampaignConcern $campaign)
+    protected function ensureValidHtml(Campaign $campaign)
     {
         $dom = new DOMDocument('1.0', 'UTF-8');
 
@@ -50,7 +50,7 @@ class PrepareEmailHtmlAction
         }
     }
 
-    protected function replacePlaceholders(CampaignConcern $campaign): void
+    protected function replacePlaceholders(Campaign $campaign): void
     {
         $campaign->email_html = collect(config('mailcoach.replacers'))
             ->map(fn (string $className) => app($className))

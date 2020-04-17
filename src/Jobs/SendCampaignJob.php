@@ -8,19 +8,19 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Actions\Campaigns\SendCampaignAction;
-use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
+use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Support\Config;
 
 class SendCampaignJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public CampaignConcern $campaign;
+    public Campaign $campaign;
 
     /** @var string */
     public $queue;
 
-    public function __construct(CampaignConcern $campaign)
+    public function __construct(Campaign $campaign)
     {
         $this->campaign = $campaign;
 

@@ -46,7 +46,7 @@ class SendMailAction
         /** @var \Spatie\Mailcoach\Mails\CampaignMail $campaignMail */
         $campaignMail = $pendingSend->campaign->getMailable();
 
-        /** @var \Spatie\Mailcoach\Models\Concerns\Campaign $campaign */
+        /** @var \Spatie\Mailcoach\Models\Campaign $campaign */
         $campaign = $pendingSend->campaign;
 
         $campaignMail

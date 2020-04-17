@@ -2,11 +2,11 @@
 
 namespace Spatie\Mailcoach\Actions\Campaigns;
 
-use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
+use Spatie\Mailcoach\Models\Campaign;
 
 class PrepareWebviewHtmlAction
 {
-    public function execute(CampaignConcern $campaign)
+    public function execute(Campaign $campaign)
     {
         $campaign->webview_html = $campaign->htmlWithInlinedCss();
 

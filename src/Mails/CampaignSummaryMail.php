@@ -4,17 +4,17 @@ namespace Spatie\Mailcoach\Mails;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
+use Spatie\Mailcoach\Models\Campaign;
 
 class CampaignSummaryMail extends Mailable implements ShouldQueue
 {
     public string $theme = 'mailcoach::mails.layout.mailcoach';
 
-    public CampaignConcern $campaign;
+    public Campaign $campaign;
 
     public string $summaryUrl;
 
-    public function __construct(CampaignConcern $campaign)
+    public function __construct(Campaign $campaign)
     {
         $this->campaign = $campaign;
 

@@ -3,16 +3,16 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft;
 
 use Spatie\Mailcoach\Http\App\Requests\UpdateCampaignContentRequest;
-use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
+use Spatie\Mailcoach\Models\Campaign;
 
 class CampaignContentController
 {
-    public function edit(CampaignConcern $campaign)
+    public function edit(Campaign $campaign)
     {
         return view('mailcoach::app.campaigns.draft.content', compact('campaign'));
     }
 
-    public function update(CampaignConcern $campaign, UpdateCampaignContentRequest $request)
+    public function update(Campaign $campaign, UpdateCampaignContentRequest $request)
     {
         $campaign->update([
             'html' => $request->html,

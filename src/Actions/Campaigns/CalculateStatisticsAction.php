@@ -3,12 +3,12 @@
 namespace Spatie\Mailcoach\Actions\Campaigns;
 
 use Spatie\Mailcoach\Events\CampaignStatisticsCalculatedEvent;
+use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Models\CampaignLink;
-use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
 
 class CalculateStatisticsAction
 {
-    public function execute(CampaignConcern $campaign)
+    public function execute(Campaign $campaign)
     {
         if ($campaign->sends()->count() > 0) {
             $this
@@ -21,7 +21,7 @@ class CalculateStatisticsAction
         event(new CampaignStatisticsCalculatedEvent($campaign));
     }
 
-    protected function calculateCampaignStatistics(CampaignConcern $campaign): self
+    protected function calculateCampaignStatistics(Campaign $campaign): self
     {
         $sentToNumberOfSubscribers = $campaign->sends()->count();
 
@@ -47,7 +47,7 @@ class CalculateStatisticsAction
         return $this;
     }
 
-    protected function calculateLinkStatistics(CampaignConcern $campaign): self
+    protected function calculateLinkStatistics(Campaign $campaign): self
     {
         $campaign->links->each(function (CampaignLink $link) {
             $link->update([
@@ -59,7 +59,7 @@ class CalculateStatisticsAction
         return $this;
     }
 
-    protected function calculateClickMetrics(CampaignConcern $campaign, int $sendToNumberOfSubscribers): array
+    protected function calculateClickMetrics(Campaign $campaign, int $sendToNumberOfSubscribers): array
     {
         $clickCount = $campaign->clicks()->count();
         $uniqueClickCount = $campaign->clicks()->groupBy('subscriber_id')->toBase()->getCountForPagination(['subscriber_id']);
@@ -68,7 +68,7 @@ class CalculateStatisticsAction
         return [$clickCount, $uniqueClickCount, $clickRate];
     }
 
-    protected function calculateOpenMetrics(CampaignConcern $campaign, int $sendToNumberOfSubscribers): array
+    protected function calculateOpenMetrics(Campaign $campaign, int $sendToNumberOfSubscribers): array
     {
         $openCount = $campaign->opens()->count();
         $uniqueOpenCount = $campaign->opens()->groupBy('subscriber_id')->toBase()->getCountForPagination(['subscriber_id']);
@@ -77,7 +77,7 @@ class CalculateStatisticsAction
         return [$openCount, $uniqueOpenCount, $openRate];
     }
 
-    protected function calculateUnsubscribeMetrics(CampaignConcern $campaign, int $sendToNumberOfSubscribers): array
+    protected function calculateUnsubscribeMetrics(Campaign $campaign, int $sendToNumberOfSubscribers): array
     {
         $unsubscribeCount = $campaign->unsubscribes()->count();
         $unsubscribeRate = round($unsubscribeCount / $sendToNumberOfSubscribers, 2) * 100;
@@ -85,7 +85,7 @@ class CalculateStatisticsAction
         return [$unsubscribeCount, $unsubscribeRate];
     }
 
-    protected function calculateBounceMetrics(CampaignConcern $campaign, int $sendToNumberOfSubscribers): array
+    protected function calculateBounceMetrics(Campaign $campaign, int $sendToNumberOfSubscribers): array
     {
         $bounceCount = $campaign->bounces()->count();
         $bounceRate = round($bounceCount / $sendToNumberOfSubscribers, 2) * 100;

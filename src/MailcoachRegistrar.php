@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach;
 
 use Illuminate\Support\Collection;
-use Spatie\Mailcoach\Models\Concerns\Campaign;
+use Spatie\Mailcoach\Models\Campaign;
 
 class MailcoachRegistrar
 {
@@ -22,7 +22,7 @@ class MailcoachRegistrar
     /**
      * Get an instance of the campaign class.
      *
-     * @return \Spatie\Mailcoach\Model\Concerns\Campaign
+     * @return \Spatie\Mailcoach\Model\Campaign
      */
     public function getCampaignClass(): Campaign
     {

@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Mails;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Models\Send;
-use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
+use Spatie\Mailcoach\Models\Campaign;
 use Swift_Message;
 use Swift_Mime_ContentEncoder_PlainContentEncoder;
 
@@ -13,7 +13,7 @@ class CampaignMail extends Mailable
 {
     use SerializesModels;
 
-    public ?CampaignConcern $campaign = null;
+    public ?Campaign $campaign = null;
 
     public ?Send $send = null;
 
@@ -30,7 +30,7 @@ class CampaignMail extends Mailable
         return $this;
     }
 
-    public function setCampaign(CampaignConcern $campaign)
+    public function setCampaign(Campaign $campaign)
     {
         $this->campaign = $campaign;
 

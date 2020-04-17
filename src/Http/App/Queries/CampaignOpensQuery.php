@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Http\App\Queries;
 
 use Spatie\Mailcoach\Http\App\Queries\Filters\FuzzyFilter;
 use Spatie\Mailcoach\Models\CampaignOpen;
-use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
+use Spatie\Mailcoach\Models\Campaign;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -12,7 +12,7 @@ class CampaignOpensQuery extends QueryBuilder
 {
     public int $totalCount;
 
-    public function __construct(CampaignConcern $campaign)
+    public function __construct(Campaign $campaign)
     {
         $query = CampaignOpen::query()
             ->selectRaw('

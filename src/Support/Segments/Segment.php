@@ -4,13 +4,13 @@ namespace Spatie\Mailcoach\Support\Segments;
 
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Mailcoach\Models\Subscriber;
-use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
+use Spatie\Mailcoach\Models\Campaign;
 
 abstract class Segment
 {
-    protected CampaignConcern $campaign;
+    protected Campaign $campaign;
 
-    public function setCampaign(CampaignConcern $campaign): self
+    public function setCampaign(Campaign $campaign): self
     {
         $this->campaign = $campaign;
 

@@ -19,7 +19,6 @@ use Spatie\Mailcoach\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Jobs\SendCampaignJob;
 use Spatie\Mailcoach\Jobs\SendTestMailJob;
 use Spatie\Mailcoach\Mails\CampaignMail;
-use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
 use Spatie\Mailcoach\Models\Concerns\CanBeScheduled;
 use Spatie\Mailcoach\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Models\Concerns\HasUuid;
@@ -30,7 +29,7 @@ use Spatie\Mailcoach\Support\Segments\Segment;
 use Spatie\Mailcoach\Support\Segments\SubscribersWithTagsSegment;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
-class Campaign extends Model implements CampaignConcern, Feedable, HasHtmlContent
+class Campaign extends Model implements Feedable, HasHtmlContent
 {
     use HasUuid, CanBeScheduled;
 
@@ -55,7 +54,7 @@ class Campaign extends Model implements CampaignConcern, Feedable, HasHtmlConten
 
     public static function booted()
     {
-        static::creating(function (CampaignConcern $campaign) {
+        static::creating(function (Campaign $campaign) {
             if (! $campaign->status) {
                 $campaign->status = CampaignStatus::DRAFT;
             }

@@ -29,7 +29,6 @@ use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\IndexComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\QueryStringComposer;
 use Spatie\Mailcoach\Listeners\SendCampaignSentEmail;
-use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
 use Spatie\Mailcoach\Support\HttpClient;
 use Spatie\Mailcoach\Support\Version;
 use Spatie\QueryString\QueryString;
@@ -54,8 +53,7 @@ class MailcoachServiceProvider extends EventServiceProvider
             ->bootRoutes()
             ->bootSupportMacros()
             ->bootTranslations()
-            ->bootViews()
-            ->bootModelBindings();
+            ->bootViews();
 
         $this->app->singleton(MailcoachRegistrar::class, fn ($app) => new MailcoachRegistrar());
     }
@@ -236,17 +234,6 @@ class MailcoachServiceProvider extends EventServiceProvider
         Blade::component(ReplacerHelpTextsComponent::class, 'replacer-help-texts');
 
         return $this;
-    }
-
-    protected function bootModelBindings()
-    {
-        $config = $this->app->config['mailcoach.models'];
-
-        if (! $config) {
-            return;
-        }
-
-        $this->app->bind(CampaignConcern::class, $config['campaign']);
     }
 
     protected function bootTranslations()

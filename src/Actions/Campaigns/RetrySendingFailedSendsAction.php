@@ -3,12 +3,12 @@
 namespace Spatie\Mailcoach\Actions\Campaigns;
 
 use Spatie\Mailcoach\Jobs\SendMailJob;
-use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
+use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Models\Send;
 
 class RetrySendingFailedSendsAction
 {
-    public function execute(CampaignConcern $campaign): int
+    public function execute(Campaign $campaign): int
     {
         $failedSendsCount = $campaign->sends()->getQuery()->failed()->update([
             'sent_at' => null,

@@ -2,11 +2,11 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft;
 
-use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
+use Spatie\Mailcoach\Models\Campaign;
 
 class SendCampaignController
 {
-    public function __invoke(CampaignConcern $campaign)
+    public function __invoke(Campaign $campaign)
     {
         if (! $campaign->isPending()) {
             flash()->error("Campaign {$campaign->name} could not be sent because it has already been sent.");
