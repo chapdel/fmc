@@ -41,7 +41,7 @@ class MailcoachServiceProvider extends EventServiceProvider
         ],
     ];
 
-    public function boot(MailcoachRegistrar $mailcoachLoader)
+    public function boot()
     {
         parent::boot();
 
@@ -55,8 +55,7 @@ class MailcoachServiceProvider extends EventServiceProvider
             ->bootTranslations()
             ->bootViews();
 
-
-        $this->app->singleton(MailcoachRegistrar::class, fn ($app) => $mailcoachLoader);
+        $this->app->singleton(MailcoachRegistrar::class, fn ($app) => new MailcoachRegistrar());
     }
 
     public function register()
