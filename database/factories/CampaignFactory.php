@@ -3,11 +3,10 @@
 use Faker\Generator;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Enums\CampaignStatus;
-use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Models\EmailList;
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(Campaign::class, fn (Generator $faker) => [
+$factory->define(config('mailcoach.models.campaign'), fn (Generator $faker) => [
     'subject' => $faker->sentence,
     'from_email' => $faker->email,
     'from_name' => $faker->name,

@@ -5,13 +5,14 @@ namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft;
 use Spatie\Mailcoach\Http\App\Requests\StoreCampaignRequest;
 use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Models\EmailList;
+use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
 use Spatie\Mailcoach\Support\Segments\EverySubscriberSegment;
 
 class CreateCampaignController
 {
     public function __invoke(StoreCampaignRequest $request)
     {
-        /** @var Campaign $campaign */
+        /** @var CampaignConcern $campaign */
         $campaign = Campaign::create([
             'name' => $request->name,
             'subject' => $request->name,

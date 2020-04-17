@@ -3,11 +3,11 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent;
 
 use Spatie\Mailcoach\Http\App\Queries\CampaignOpensQuery;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
 
 class CampaignOpensController
 {
-    public function __invoke(Campaign $campaign)
+    public function __invoke(CampaignConcern $campaign)
     {
         $campaignOpensQuery = new CampaignOpensQuery($campaign);
 

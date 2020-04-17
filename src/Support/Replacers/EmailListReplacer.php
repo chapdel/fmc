@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Support\Replacers;
 
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
 use Spatie\Mailcoach\Support\Replacers\Concerns\ReplacesModelAttributes;
 
 class EmailListReplacer implements Replacer
@@ -16,7 +16,7 @@ class EmailListReplacer implements Replacer
         ];
     }
 
-    public function replace(string $text, Campaign $campaign): string
+    public function replace(string $text, CampaignConcern $campaign): string
     {
         return $this->replaceModelAttributes($text, 'list', $campaign->emailList);
     }

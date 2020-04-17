@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Support\Replacers;
 
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
 
 class WebviewReplacer implements Replacer
 {
@@ -13,7 +13,7 @@ class WebviewReplacer implements Replacer
         ];
     }
 
-    public function replace(string $text, Campaign $campaign): string
+    public function replace(string $text, CampaignConcern $campaign): string
     {
         $webviewUrl = $campaign->webviewUrl();
 

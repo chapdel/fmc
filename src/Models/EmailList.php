@@ -42,7 +42,7 @@ class EmailList extends Model
 
     public function campaigns(): HasMany
     {
-        return $this->hasMany(Campaign::class);
+        return $this->hasMany(config('mailcoach.models.campaign'));
     }
 
     public function subscriberImports(): HasMany

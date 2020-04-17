@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Support;
 
 use Illuminate\Support\Facades\Cache;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
 
 class CalculateStatisticsLock
 {
@@ -11,7 +11,7 @@ class CalculateStatisticsLock
 
     private int $lockTimeInSeconds;
 
-    public function __construct(Campaign $campaign, int $lockTimeInSeconds = 10)
+    public function __construct(CampaignConcern $campaign, int $lockTimeInSeconds = 10)
     {
         $this->key = "calculate-statistics-lock-{$campaign->id}";
 

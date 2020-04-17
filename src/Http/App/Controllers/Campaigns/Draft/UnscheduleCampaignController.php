@@ -2,11 +2,11 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft;
 
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
 
 class UnscheduleCampaignController
 {
-    public function __invoke(Campaign $campaign)
+    public function __invoke(CampaignConcern $campaign)
     {
         $campaign->markAsUnscheduled();
 

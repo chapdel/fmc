@@ -3,13 +3,13 @@
 namespace Spatie\Mailcoach\Http\App\ViewModels;
 
 use Illuminate\Support\Collection;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
 use Spatie\Mailcoach\Support\Svg\BezierCurve;
 use Spatie\ViewModels\ViewModel;
 
 class CampaignSummaryViewModel extends ViewModel
 {
-    protected Campaign $campaign;
+    protected CampaignConcern $campaign;
 
     protected Collection $stats;
 
@@ -18,7 +18,7 @@ class CampaignSummaryViewModel extends ViewModel
     /** @var int */
     public $failedSendsCount;
 
-    public function __construct(Campaign $campaign)
+    public function __construct(CampaignConcern $campaign)
     {
         $this->campaign = $campaign;
 
@@ -31,7 +31,7 @@ class CampaignSummaryViewModel extends ViewModel
         $this->failedSendsCount;
     }
 
-    public function campaign(): Campaign
+    public function campaign(): CampaignConcern
     {
         return $this->campaign;
     }

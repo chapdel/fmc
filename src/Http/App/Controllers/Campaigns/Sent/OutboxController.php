@@ -3,11 +3,11 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent;
 
 use Spatie\Mailcoach\Http\App\Queries\CampaignSendsQuery;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
 
 class OutboxController
 {
-    public function __invoke(Campaign $campaign)
+    public function __invoke(CampaignConcern $campaign)
     {
         $sendsQuery = new CampaignSendsQuery($campaign);
 

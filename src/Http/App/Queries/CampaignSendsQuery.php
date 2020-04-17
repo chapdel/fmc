@@ -4,15 +4,15 @@ namespace Spatie\Mailcoach\Http\App\Queries;
 
 use Spatie\Mailcoach\Http\App\Queries\Filters\FuzzyFilter;
 use Spatie\Mailcoach\Http\App\Queries\Filters\SendTypeFilter;
-use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Models\Send;
 use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class CampaignSendsQuery extends QueryBuilder
 {
-    public function __construct(Campaign $campaign)
+    public function __construct(CampaignConcern $campaign)
     {
         parent::__construct(Send::query());
 

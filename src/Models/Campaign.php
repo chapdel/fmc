@@ -55,7 +55,7 @@ class Campaign extends Model implements CampaignConcern, Feedable, HasHtmlConten
 
     public static function booted()
     {
-        static::creating(function (Campaign $campaign) {
+        static::creating(function (CampaignConcern $campaign) {
             if (! $campaign->status) {
                 $campaign->status = CampaignStatus::DRAFT;
             }

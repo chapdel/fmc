@@ -2,19 +2,19 @@
 
 namespace Spatie\Mailcoach\Actions\Campaigns;
 
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
 use Spatie\Mailcoach\Support\Replacers\Replacer;
 
 class PrepareSubjectAction
 {
-    public function execute(Campaign $campaign)
+    public function execute(CampaignConcern $campaign)
     {
         $this->replacePlaceholdersInSubject($campaign);
 
         $campaign->save();
     }
 
-    protected function replacePlaceholdersInSubject(Campaign $campaign): void
+    protected function replacePlaceholdersInSubject(CampaignConcern $campaign): void
     {
         $campaign->subject = collect(config('mailcoach.replacers'))
             ->map(fn (string $className) => app($className))

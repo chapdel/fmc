@@ -3,13 +3,13 @@
 namespace Spatie\Mailcoach\Http\App\Queries;
 
 use Spatie\Mailcoach\Http\App\Queries\Filters\FuzzyFilter;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class CampaignUnsubscribesQuery extends QueryBuilder
 {
-    public function __construct(Campaign $campaign)
+    public function __construct(CampaignConcern $campaign)
     {
         parent::__construct($campaign->unsubscribes()->getQuery());
 

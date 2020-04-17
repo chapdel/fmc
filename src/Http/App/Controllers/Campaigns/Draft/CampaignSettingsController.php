@@ -3,12 +3,12 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft;
 
 use Spatie\Mailcoach\Http\App\Requests\UpdateCampaignSettingsRequest;
-use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Models\EmailList;
+use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
 
 class CampaignSettingsController
 {
-    public function edit(Campaign $campaign)
+    public function edit(CampaignConcern $campaign)
     {
         $emailLists = EmailList::all();
 
@@ -26,7 +26,7 @@ class CampaignSettingsController
         ]);
     }
 
-    public function update(Campaign $campaign, UpdateCampaignSettingsRequest $request)
+    public function update(CampaignConcern $campaign, UpdateCampaignSettingsRequest $request)
     {
         $campaign->update([
             'name' => $request->name,

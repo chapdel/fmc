@@ -2,9 +2,9 @@
 
 namespace Spatie\Mailcoach\Support\Replacers;
 
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
 
 interface Replacer extends ReplacerWithHelpText
 {
-    public function replace(string $text, Campaign $campaign): string;
+    public function replace(string $text, CampaignConcern $campaign): string;
 }

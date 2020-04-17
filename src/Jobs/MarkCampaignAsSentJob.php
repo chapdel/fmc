@@ -8,14 +8,14 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Events\CampaignSentEvent;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
 use Spatie\Mailcoach\Support\Config;
 
 class MarkCampaignAsSentJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public Campaign $campaign;
+    public CampaignConcern $campaign;
 
     /** @var string */
     public $queue;
@@ -23,7 +23,7 @@ class MarkCampaignAsSentJob implements ShouldQueue
     /** We will retry this on each minute for an entire day */
     public int $tries = 60 * 24;
 
-    public function __construct(Campaign $campaign)
+    public function __construct(CampaignConcern $campaign)
     {
         $this->campaign = $campaign;
 

@@ -3,13 +3,13 @@
 namespace Spatie\Mailcoach\Actions\Campaigns;
 
 use Illuminate\Support\Facades\Mail;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
 use Spatie\Mailcoach\Support\Config;
 use Swift_Message;
 
 class SendTestMailAction
 {
-    public function execute(Campaign $campaign, string $email)
+    public function execute(CampaignConcern $campaign, string $email)
     {
         $html = $campaign->htmlWithInlinedCss();
 

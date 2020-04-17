@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
 
 class TagSegment extends Model
 {
@@ -21,7 +22,7 @@ class TagSegment extends Model
 
     public function campaigns(): HasMany
     {
-        return $this->hasMany(Campaign::class);
+        return $this->hasMany(config('mailcoach.models.campaign'));
     }
 
     public function emailList(): BelongsTo
@@ -78,7 +79,7 @@ class TagSegment extends Model
         $this->buildNegativeTagsQuery($subscribersQuery);
     }
 
-    public function description(Campaign $campaign): string
+    public function description(CampaignConcern $campaign): string
     {
         return $this->name;
     }

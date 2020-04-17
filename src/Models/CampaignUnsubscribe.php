@@ -13,7 +13,7 @@ class CampaignUnsubscribe extends Model
 
     public function campaign(): BelongsTo
     {
-        return $this->belongsTo(Campaign::class, 'campaign_id');
+        return $this->belongsTo(config('mailcoach.models.campaign'), 'campaign_id');
     }
 
     public function subscriber(): BelongsTo

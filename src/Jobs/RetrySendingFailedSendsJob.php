@@ -7,19 +7,19 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Actions\Campaigns\RetrySendingFailedSendsAction;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
 use Spatie\Mailcoach\Support\Config;
 
 class RetrySendingFailedSendsJob
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public Campaign $campaign;
+    public CampaignConcern $campaign;
 
     /** @var string */
     public $queue;
 
-    public function __construct(Campaign $campaign)
+    public function __construct(CampaignConcern $campaign)
     {
         $this->campaign = $campaign;
 
