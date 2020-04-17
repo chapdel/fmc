@@ -3,11 +3,13 @@
 namespace Spatie\Mailcoach\Commands;
 
 use Illuminate\Console\Command;
-use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
+use Spatie\Mailcoach\Traits\UsesCampaign;
 
 class SendScheduledCampaignsCommand extends Command
 {
+    use UsesCampaign;
+
     public $signature = 'mailcoach:send-scheduled-campaigns';
 
     public $description = 'Send scheduled campaigns.';
@@ -16,7 +18,7 @@ class SendScheduledCampaignsCommand extends Command
     {
         $this->comment('Checking if there are scheduled campaigns that should be sent...');
 
-        Campaign::shouldBeSentNow()
+        $this->getCampaignClass()::shouldBeSentNow()
             ->each(function (CampaignConcern $campaign) {
                 $this->info("Sending campaign `{$campaign->name}` ({$campaign->id})...");
                 $campaign->update(['scheduled_at' => null]);

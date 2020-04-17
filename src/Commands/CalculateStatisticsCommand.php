@@ -7,11 +7,13 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Jobs\CalculateStatisticsJob;
-use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
+use Spatie\Mailcoach\Traits\UsesCampaign;
 
 class CalculateStatisticsCommand extends Command
 {
+    use UsesCampaign;
+
     public $signature = 'mailcoach:calculate-statistics {campaignId?}';
 
     public $description = 'Calculate the statistics of the recently sent campaigns';
@@ -25,7 +27,7 @@ class CalculateStatisticsCommand extends Command
         $campaignId = $this->argument('campaignId');
 
         $campaignId
-            ? dispatch_now(new CalculateStatisticsJob(Campaign::find($campaignId)))
+            ? dispatch_now(new CalculateStatisticsJob($this->getCampaignClass()::find($campaignId)))
             : $this->calculateStatisticsOfRecentCampaigns();
 
         $this->comment('All done!');
@@ -59,7 +61,7 @@ class CalculateStatisticsCommand extends Command
         $periodEnd = $this->now->copy()->subtract($startInterval);
         $periodStart = $this->now->copy()->subtract($endInterval);
 
-        return Campaign::sentBetween($periodStart, $periodEnd)
+        return $this->getCampaignClass()::sentBetween($periodStart, $periodEnd)
             ->get()
             ->filter(function (CampaignConcern $campaign) use ($periodEnd, $periodStart, $recalculateThreshold) {
                 if (is_null($campaign->statistics_calculated_at)) {

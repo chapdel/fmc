@@ -3,17 +3,19 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft;
 
 use Spatie\Mailcoach\Http\App\Requests\StoreCampaignRequest;
-use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Models\EmailList;
 use Spatie\Mailcoach\Models\Concerns\Campaign as CampaignConcern;
 use Spatie\Mailcoach\Support\Segments\EverySubscriberSegment;
+use Spatie\Mailcoach\Traits\UsesCampaign;
 
 class CreateCampaignController
 {
+    use UsesCampaign;
+
     public function __invoke(StoreCampaignRequest $request)
     {
         /** @var CampaignConcern $campaign */
-        $campaign = Campaign::create([
+        $campaign = $this->getCampaignClass()::create([
             'name' => $request->name,
             'subject' => $request->name,
             'html' => $request->template()->html,
