@@ -27,6 +27,6 @@ class CampaignOpen extends Model
 
     public function subscriber(): BelongsTo
     {
-        return $this->belongsTo(Subscriber::class, 'subscriber_id');
+        return $this->belongsTo(config('mailcoach.models.subscriber'), 'subscriber_id');
     }
 }

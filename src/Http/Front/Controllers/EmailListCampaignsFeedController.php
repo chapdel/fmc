@@ -4,13 +4,15 @@ namespace Spatie\Mailcoach\Http\Front\Controllers;
 
 use Spatie\Feed\Feed;
 use Spatie\Mailcoach\Enums\CampaignStatus;
-use Spatie\Mailcoach\Models\EmailList;
+use Spatie\Mailcoach\Traits\UsesEmailList;
 
 class EmailListCampaignsFeedController
 {
+    use UsesEmailList;
+
     public function __invoke(string $emailListUuid)
     {
-        if (! $emailList = EmailList::findByUuid($emailListUuid)) {
+        if (! $emailList = $this->getEmailListClass()::findByUuid($emailListUuid)) {
             abort(404);
         }
 

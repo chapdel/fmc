@@ -5,10 +5,13 @@ namespace Spatie\Mailcoach\Http\Front\Controllers;
 use Spatie\Mailcoach\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Http\Front\Requests\CreateSubscriptionRequest;
 use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Traits\UsesSubscriber;
 use Symfony\Component\HttpFoundation\Response;
 
 class SubscribeController
 {
+    use UsesSubscriber;
+
     public function __invoke(CreateSubscriptionRequest $request)
     {
         if (! $emailList = $request->emailList()) {
@@ -19,7 +22,7 @@ class SubscribeController
             return $this->getAlreadySubscribedResponse($request);
         }
 
-        $subscriber = Subscriber::createWithEmail($request->email)
+        $subscriber = $this->getSubscriberClass()::createWithEmail($request->email)
             ->withAttributes($request->subscriberAttributes())
             ->redirectAfterSubscribed($request->redirect_after_subscribed ?? '')
             ->syncTags($request->tags())

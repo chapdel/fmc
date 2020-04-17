@@ -33,7 +33,7 @@ class SubscriberImport extends Model implements HasMedia, GetsCleanedUp
 
     public function emailList(): BelongsTo
     {
-        return $this->belongsTo(EmailList::class);
+        return $this->belongsTo(config('mailcoach.models.email_list'));
     }
 
     public function registerMediaCollections(): void

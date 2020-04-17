@@ -1,10 +1,10 @@
 <?php
 
 use Faker\Generator;
-use Spatie\Mailcoach\Models\EmailList;
+
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(EmailList::class, fn (Generator $faker) => [
+$factory->define(config('mailcoach.models.email_list'), fn (Generator $faker) => [
     'name' => $faker->word,
     'uuid' => $faker->uuid,
     'default_from_email' => $faker->email,

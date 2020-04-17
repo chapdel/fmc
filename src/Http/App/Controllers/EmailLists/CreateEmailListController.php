@@ -3,13 +3,15 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists;
 
 use Spatie\Mailcoach\Http\App\Requests\StoreEmailListRequest;
-use Spatie\Mailcoach\Models\EmailList;
+use Spatie\Mailcoach\Traits\UsesEmailList;
 
 class CreateEmailListController
 {
+    use UsesEmailList;
+
     public function __invoke(StoreEmailListRequest $request)
     {
-        $emailList = EmailList::create([
+        $emailList = $this->getEmailListClass()::create([
             'name' => $request->name,
             'requires_confirmation' => true,
             'default_from_email' => $request->default_from_email,

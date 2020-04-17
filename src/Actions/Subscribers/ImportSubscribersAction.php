@@ -8,15 +8,17 @@ use Spatie\Mailcoach\Actions\Exception;
 use Spatie\Mailcoach\Enums\SubscriberImportStatus;
 use Spatie\Mailcoach\Mails\ImportSubscribersResultMail;
 use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Subscriber;
 use Spatie\Mailcoach\Models\SubscriberImport;
 use Spatie\Mailcoach\Support\ImportSubscriberRow;
+use Spatie\Mailcoach\Traits\UsesSubscriber;
 use Spatie\SimpleExcel\SimpleExcelReader;
 use Spatie\SimpleExcel\SimpleExcelWriter;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 class ImportSubscribersAction
 {
+    use UsesSubscriber;
+
     public function execute(SubscriberImport $subscriberImport, ?User $user = null)
     {
         $dateTime = $subscriberImport->created_at->format('Y-m-d H:i:s');
@@ -93,7 +95,7 @@ class ImportSubscribersAction
             ->each(function (ImportSubscriberRow $row) use ($emailList, $succeededImportsReport) {
                 $attributes = array_merge($row->getAttributes(), ['extra_attributes' => $row->getExtraAttributes()]);
 
-                $subscriber = Subscriber::createWithEmail($row->getEmail(), $attributes)
+                $subscriber = $this->getSubscriberClass()::createWithEmail($row->getEmail(), $attributes)
                     ->skipConfirmation()
                     ->doNotSendWelcomeMail()
                     ->subscribeTo($emailList);

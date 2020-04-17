@@ -45,7 +45,7 @@ class Subscriber extends Model
 
     public function emailList(): BelongsTo
     {
-        return $this->belongsTo(EmailList::class);
+        return $this->belongsTo(config('mailcoach.models.email_list'));
     }
 
     public function sends(): HasMany

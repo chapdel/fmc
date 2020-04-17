@@ -5,9 +5,12 @@ namespace Spatie\Mailcoach\Http\Front\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
 use Spatie\Mailcoach\Models\EmailList;
+use Spatie\Mailcoach\Traits\UsesEmailList;
 
 class CreateSubscriptionRequest extends FormRequest
 {
+    use UsesEmailList;
+
     public function rules()
     {
         return [
@@ -47,7 +50,7 @@ class CreateSubscriptionRequest extends FormRequest
 
     public function emailList(): ?EmailList
     {
-        return EmailList::query()
+        return $this->getEmailListClass()::query()
             ->where('uuid', $this->route()->parameter('emailListUuid'))
             ->where('allow_form_subscriptions', true)
             ->first();

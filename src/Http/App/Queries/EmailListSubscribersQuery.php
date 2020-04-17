@@ -6,15 +6,17 @@ use Spatie\Mailcoach\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Http\App\Queries\Filters\FuzzyFilter;
 use Spatie\Mailcoach\Http\App\Queries\Filters\SubscriberStatusFilter;
 use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Traits\UsesSubscriber;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class EmailListSubscribersQuery extends QueryBuilder
 {
+    use UsesSubscriber;
+
     public function __construct(EmailList $emailList)
     {
-        $subscribersQuery = Subscriber::query()
+        $subscribersQuery = $this->getSubscriberClass()::query()
             ->where('email_list_id', $emailList->id)
             ->with('emailList', 'tags');
 

@@ -7,19 +7,20 @@ use Spatie\Mailcoach\Events\SubscribedEvent;
 use Spatie\Mailcoach\Models\Subscriber;
 use Spatie\Mailcoach\Support\Config;
 use Spatie\Mailcoach\Support\PendingSubscriber;
+use Spatie\Mailcoach\Traits\UsesSubscriber;
 
 class CreateSubscriberAction
 {
-    use SendsWelcomeMail;
+    use SendsWelcomeMail, UsesSubscriber;
 
     public function execute(PendingSubscriber $pendingSubscriber): Subscriber
     {
-        $subscriber = Subscriber::findForEmail($pendingSubscriber->email, $pendingSubscriber->emailList);
+        $subscriber = $this->getSubscriberClass()::findForEmail($pendingSubscriber->email, $pendingSubscriber->emailList);
 
         $wasAlreadySubscribed = optional($subscriber)->isSubscribed();
 
         if (! $subscriber) {
-            $subscriber = Subscriber::make([
+            $subscriber = $this->getSubscriberClass()::make([
                 'email' => $pendingSubscriber->email,
                 'email_list_id' => $pendingSubscriber->emailList->id,
             ]);

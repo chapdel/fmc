@@ -3,14 +3,17 @@
 namespace Spatie\Mailcoach\Http\Front\Controllers;
 
 use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Traits\UsesSubscriber;
 use Symfony\Component\HttpFoundation\Response;
 
 class ConfirmSubscriberController
 {
+    use UsesSubscriber;
+
     public function __invoke(string $subscriberUuid)
     {
         /** @var \Spatie\Mailcoach\Models\Subscriber $subscriber */
-        $subscriber = Subscriber::findByUuid($subscriberUuid);
+        $subscriber = $this->getSubscriberClass()::findByUuid($subscriberUuid);
 
         if (! $subscriber) {
             return $this->couldNotFindSubscriptionResponse();

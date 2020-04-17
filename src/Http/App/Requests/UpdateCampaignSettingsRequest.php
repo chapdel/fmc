@@ -7,9 +7,12 @@ use Illuminate\Validation\Rule;
 use Spatie\Mailcoach\Models\EmailList;
 use Spatie\Mailcoach\Support\Segments\EverySubscriberSegment;
 use Spatie\Mailcoach\Support\Segments\SubscribersWithTagsSegment;
+use Spatie\Mailcoach\Traits\UsesEmailList;
 
 class UpdateCampaignSettingsRequest extends FormRequest
 {
+    use UsesEmailList;
+
     public function rules(): array
     {
         return [
@@ -45,6 +48,6 @@ class UpdateCampaignSettingsRequest extends FormRequest
             return null;
         }
 
-        return $emailList = EmailList::find($this->email_list_id);
+        return $emailList = $this->getEmailListClass()::find($this->email_list_id);
     }
 }
