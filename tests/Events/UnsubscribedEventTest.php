@@ -5,7 +5,6 @@ namespace Spatie\Mailcoach\Tests\Events;
 use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Events\UnsubscribedEvent;
 use Spatie\Mailcoach\Models\Subscriber;
-use Spatie\Mailcoach\Models\Subscription;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class UnsubscribedEventTest extends TestCase
