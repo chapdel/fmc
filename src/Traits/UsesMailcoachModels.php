@@ -4,10 +4,6 @@ namespace Spatie\Mailcoach\Traits;
 
 trait UsesMailcoachModels
 {
-    private string $campaignClass;
-    private string $emailListClass;
-    private string $subscriberClass;
-
     public function getCampaignClass(): string
     {
         return config('mailcoach.models.campaign');
