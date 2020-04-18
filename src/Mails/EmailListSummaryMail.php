@@ -10,7 +10,7 @@ class EmailListSummaryMail extends Mailable
 {
     public string $theme = 'mailcoach::mails.layout.mailcoach';
 
-    /** @var \Spatie\Mailcoach\Models\EmailList $emailList */
+    /** @var \Spatie\Mailcoach\Models\EmailList */
     public object $emailList;
 
     public Carbon $summaryStartDateTime;
