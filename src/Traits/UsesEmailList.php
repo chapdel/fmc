@@ -2,18 +2,12 @@
 
 namespace Spatie\Mailcoach\Traits;
 
-use Spatie\Mailcoach\MailcoachRegistrar;
-
 trait UsesEmailList
 {
-    private $emailListClass;
+    private string $emailListClass;
 
-    public function getEmailListClass()
+    public function getEmailListClass(): string
     {
-        if (! isset($this->emailListClass)) {
-            $this->emailListClass = app(MailcoachRegistrar::class)->getEmailListClass();
-        }
-
-        return $this->emailListClass;
+        return config('mailcoach.models.email_list');
     }
 }

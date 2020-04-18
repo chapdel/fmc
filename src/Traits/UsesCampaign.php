@@ -2,18 +2,12 @@
 
 namespace Spatie\Mailcoach\Traits;
 
-use Spatie\Mailcoach\MailcoachRegistrar;
-
 trait UsesCampaign
 {
-    private $campaignClass;
+    private string $campaignClass;
 
-    public function getCampaignClass()
+    public function getCampaignClass(): string
     {
-        if (! isset($this->campaignClass)) {
-            $this->campaignClass = app(MailcoachRegistrar::class)->getCampaignClass();
-        }
-
-        return $this->campaignClass;
+        return config('mailcoach.models.campaign');
     }
 }
