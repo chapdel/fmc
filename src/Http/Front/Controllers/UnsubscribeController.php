@@ -4,11 +4,11 @@ namespace Spatie\Mailcoach\Http\Front\Controllers;
 
 use Spatie\Mailcoach\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Models\Send;
-use Spatie\Mailcoach\Traits\UsesSubscriber;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class UnsubscribeController
 {
-    use UsesSubscriber;
+    use UsesMailcoachModels;
 
     public function __invoke(string $subscriberUuid, string $sendUuid = null)
     {

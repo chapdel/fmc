@@ -5,11 +5,11 @@ namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft;
 use Spatie\Mailcoach\Http\App\Requests\UpdateCampaignSettingsRequest;
 use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Traits\UsesEmailList;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class CampaignSettingsController
 {
-    use UsesEmailList;
+    use UsesMailcoachModels;
 
     public function edit(Campaign $campaign)
     {

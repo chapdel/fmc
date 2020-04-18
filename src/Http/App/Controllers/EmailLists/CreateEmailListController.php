@@ -3,11 +3,11 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists;
 
 use Spatie\Mailcoach\Http\App\Requests\StoreEmailListRequest;
-use Spatie\Mailcoach\Traits\UsesEmailList;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class CreateEmailListController
 {
-    use UsesEmailList;
+    use UsesMailcoachModels;
 
     public function __invoke(StoreEmailListRequest $request)
     {

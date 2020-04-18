@@ -7,11 +7,11 @@ use Illuminate\Validation\Rule;
 use Spatie\Mailcoach\Models\EmailList;
 use Spatie\Mailcoach\Support\Segments\EverySubscriberSegment;
 use Spatie\Mailcoach\Support\Segments\SubscribersWithTagsSegment;
-use Spatie\Mailcoach\Traits\UsesEmailList;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class UpdateCampaignSettingsRequest extends FormRequest
 {
-    use UsesEmailList;
+    use UsesMailcoachModels;
 
     public function rules(): array
     {

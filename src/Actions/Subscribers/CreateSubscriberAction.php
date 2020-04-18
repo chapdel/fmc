@@ -7,11 +7,11 @@ use Spatie\Mailcoach\Events\SubscribedEvent;
 use Spatie\Mailcoach\Models\Subscriber;
 use Spatie\Mailcoach\Support\Config;
 use Spatie\Mailcoach\Support\PendingSubscriber;
-use Spatie\Mailcoach\Traits\UsesSubscriber;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class CreateSubscriberAction
 {
-    use SendsWelcomeMail, UsesSubscriber;
+    use SendsWelcomeMail, UsesMailcoachModels;
 
     public function execute(PendingSubscriber $pendingSubscriber): Subscriber
     {

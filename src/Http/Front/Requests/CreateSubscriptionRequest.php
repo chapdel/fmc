@@ -5,11 +5,11 @@ namespace Spatie\Mailcoach\Http\Front\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
 use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Traits\UsesEmailList;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class CreateSubscriptionRequest extends FormRequest
 {
-    use UsesEmailList;
+    use UsesMailcoachModels;
 
     public function rules()
     {

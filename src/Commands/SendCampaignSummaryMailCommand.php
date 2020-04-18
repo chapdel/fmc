@@ -6,11 +6,11 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Mails\CampaignSummaryMail;
 use Spatie\Mailcoach\Models\Campaign;
-use Spatie\Mailcoach\Traits\UsesCampaign;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class SendCampaignSummaryMailCommand extends Command
 {
-    use UsesCampaign;
+    use UsesMailcoachModels;
 
     public $signature = 'mailcoach:send-campaign-summary-mail';
 

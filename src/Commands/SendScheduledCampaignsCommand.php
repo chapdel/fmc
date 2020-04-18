@@ -4,11 +4,11 @@ namespace Spatie\Mailcoach\Commands;
 
 use Illuminate\Console\Command;
 use Spatie\Mailcoach\Models\Campaign;
-use Spatie\Mailcoach\Traits\UsesCampaign;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class SendScheduledCampaignsCommand extends Command
 {
-    use UsesCampaign;
+    use UsesMailcoachModels;
 
     public $signature = 'mailcoach:send-scheduled-campaigns';
 

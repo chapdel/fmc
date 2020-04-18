@@ -8,11 +8,11 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Models\Campaign;
-use Spatie\Mailcoach\Traits\UsesCampaign;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class CalculateStatisticsCommand extends Command
 {
-    use UsesCampaign;
+    use UsesMailcoachModels;
 
     public $signature = 'mailcoach:calculate-statistics {campaignId?}';
 

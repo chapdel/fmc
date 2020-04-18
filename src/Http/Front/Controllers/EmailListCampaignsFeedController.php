@@ -4,11 +4,11 @@ namespace Spatie\Mailcoach\Http\Front\Controllers;
 
 use Spatie\Feed\Feed;
 use Spatie\Mailcoach\Enums\CampaignStatus;
-use Spatie\Mailcoach\Traits\UsesEmailList;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class EmailListCampaignsFeedController
 {
-    use UsesEmailList;
+    use UsesMailcoachModels;
 
     public function __invoke(string $emailListUuid)
     {

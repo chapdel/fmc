@@ -5,12 +5,11 @@ namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft;
 use Spatie\Mailcoach\Http\App\Requests\StoreCampaignRequest;
 use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Support\Segments\EverySubscriberSegment;
-use Spatie\Mailcoach\Traits\UsesCampaign;
-use Spatie\Mailcoach\Traits\UsesEmailList;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class CreateCampaignController
 {
-    use UsesCampaign, UsesEmailList;
+    use UsesMailcoachModels;
 
     public function __invoke(StoreCampaignRequest $request)
     {

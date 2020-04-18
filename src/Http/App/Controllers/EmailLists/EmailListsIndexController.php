@@ -3,11 +3,11 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists;
 
 use Spatie\Mailcoach\Http\App\Queries\EmailListQuery;
-use Spatie\Mailcoach\Traits\UsesEmailList;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class EmailListsIndexController
 {
-    use UsesEmailList;
+    use UsesMailcoachModels;
 
     public function __invoke(EmailListQuery $emailListQuery)
     {

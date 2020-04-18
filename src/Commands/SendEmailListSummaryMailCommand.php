@@ -6,11 +6,11 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Mails\EmailListSummaryMail;
 use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Traits\UsesEmailList;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class SendEmailListSummaryMailCommand extends Command
 {
-    use UsesEmailList;
+    use UsesMailcoachModels;
 
     protected $signature = 'mailcoach:send-email-list-summary-mail';
 

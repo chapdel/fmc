@@ -4,12 +4,11 @@ namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns;
 
 use Spatie\Mailcoach\Http\App\Queries\CampaignsQuery;
 use Spatie\Mailcoach\Models\Template;
-use Spatie\Mailcoach\Traits\UsesCampaign;
-use Spatie\Mailcoach\Traits\UsesEmailList;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class CampaignsIndexController
 {
-    use UsesCampaign, UsesEmailList;
+    use UsesMailcoachModels;
 
     public function __invoke(CampaignsQuery $campaignsQuery)
     {

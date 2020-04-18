@@ -3,11 +3,11 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns;
 
 use Spatie\Mailcoach\Models\Campaign;
-use Spatie\Mailcoach\Traits\UsesCampaign;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class DuplicateCampaignController
 {
-    use UsesCampaign;
+    use UsesMailcoachModels;
 
     public function __invoke(Campaign $campaign)
     {

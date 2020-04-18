@@ -10,11 +10,11 @@ use Illuminate\Database\Query\Builder;
 use Spatie\Mailcoach\Mails\ConfirmSubscriberMail;
 use Spatie\Mailcoach\Mails\WelcomeMail;
 use Spatie\Mailcoach\Models\Concerns\HasUuid;
-use Spatie\Mailcoach\Traits\UsesSubscriber;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class EmailList extends Model
 {
-    use HasUuid, UsesSubscriber;
+    use HasUuid, UsesMailcoachModels;
 
     public $guarded = [];
 

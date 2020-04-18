@@ -10,14 +10,14 @@ use Spatie\Mailcoach\Mails\ImportSubscribersResultMail;
 use Spatie\Mailcoach\Models\EmailList;
 use Spatie\Mailcoach\Models\SubscriberImport;
 use Spatie\Mailcoach\Support\ImportSubscriberRow;
-use Spatie\Mailcoach\Traits\UsesSubscriber;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 use Spatie\SimpleExcel\SimpleExcelReader;
 use Spatie\SimpleExcel\SimpleExcelWriter;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 class ImportSubscribersAction
 {
-    use UsesSubscriber;
+    use UsesMailcoachModels;
 
     public function execute(SubscriberImport $subscriberImport, ?User $user = null)
     {

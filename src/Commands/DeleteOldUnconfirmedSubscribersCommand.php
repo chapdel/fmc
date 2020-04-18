@@ -3,11 +3,11 @@
 namespace Spatie\Mailcoach\Commands;
 
 use Illuminate\Console\Command;
-use Spatie\Mailcoach\Traits\UsesSubscriber;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class DeleteOldUnconfirmedSubscribersCommand extends Command
 {
-    use UsesSubscriber;
+    use UsesMailcoachModels;
 
     public $signature = 'mailcoach:delete-old-unconfirmed-subscribers';
 

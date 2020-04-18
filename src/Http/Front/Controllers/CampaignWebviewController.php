@@ -2,11 +2,11 @@
 
 namespace Spatie\Mailcoach\Http\Front\Controllers;
 
-use Spatie\Mailcoach\Traits\UsesCampaign;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class CampaignWebviewController
 {
-    use UsesCampaign;
+    use UsesMailcoachModels;
 
     public function __invoke(string $campaignUuid)
     {

@@ -3,12 +3,12 @@
 namespace Spatie\Mailcoach\Http\Front\Controllers;
 
 use Spatie\Mailcoach\Models\Subscriber;
-use Spatie\Mailcoach\Traits\UsesSubscriber;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 use Symfony\Component\HttpFoundation\Response;
 
 class ConfirmSubscriberController
 {
-    use UsesSubscriber;
+    use UsesMailcoachModels;
 
     public function __invoke(string $subscriberUuid)
     {

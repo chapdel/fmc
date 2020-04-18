@@ -6,13 +6,13 @@ use Spatie\Mailcoach\Http\App\Queries\Filters\FuzzyFilter;
 use Spatie\Mailcoach\Http\App\Queries\Filters\SendTypeFilter;
 use Spatie\Mailcoach\Models\Send;
 use Spatie\Mailcoach\Models\Campaign;
-use Spatie\Mailcoach\Traits\UsesSubscriber;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class CampaignSendsQuery extends QueryBuilder
 {
-    use UsesSubscriber;
+    use UsesMailcoachModels;
 
     public function __construct(Campaign $campaign)
     {
