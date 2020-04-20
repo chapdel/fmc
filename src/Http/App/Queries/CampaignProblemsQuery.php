@@ -4,8 +4,8 @@ namespace Spatie\Mailcoach\Http\App\Queries;
 
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Mailcoach\Http\App\Queries\Filters\FuzzyFilter;
-use Spatie\Mailcoach\Models\SendFeedbackItem;
 use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Models\SendFeedbackItem;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 

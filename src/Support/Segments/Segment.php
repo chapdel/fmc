@@ -3,8 +3,8 @@
 namespace Spatie\Mailcoach\Support\Segments;
 
 use Illuminate\Database\Eloquent\Builder;
-use Spatie\Mailcoach\Models\Subscriber;
 use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Models\Subscriber;
 
 abstract class Segment
 {

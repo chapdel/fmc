@@ -18,7 +18,6 @@ class SendEmailListSummaryMailCommand extends Command
 
     public function handle()
     {
-
         $this->getEmailListClass()::query()
             ->where('report_email_list_summary', true)
             ->each(
