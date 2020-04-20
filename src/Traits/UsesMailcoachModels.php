@@ -16,6 +16,6 @@ trait UsesMailcoachModels
 
     public function getSubscriberClass(): string
     {
-        return config('mailcoach.models.campaign', \Spatie\Mailcoach\Models\Subscriber::class);
+        return config('mailcoach.models.subscriber', \Spatie\Mailcoach\Models\Subscriber::class);
     }
 }
