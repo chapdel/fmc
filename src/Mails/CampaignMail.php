@@ -4,8 +4,8 @@ namespace Spatie\Mailcoach\Mails;
 
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Spatie\Mailcoach\Models\Send;
 use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Models\Send;
 use Swift_Message;
 use Swift_Mime_ContentEncoder_PlainContentEncoder;
 

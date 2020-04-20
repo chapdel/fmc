@@ -2,7 +2,6 @@
 
 use Faker\Generator;
 
-
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 $factory->define(config('mailcoach.models.email_list'), fn (Generator $faker) => [
     'name' => $faker->word,
