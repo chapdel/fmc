@@ -24,18 +24,21 @@ class UsesMailcoachModelsTest extends TestCase
     /** @test */
     public function the_configured_campaign_model_extends_package_model()
     {
-        $this->assertTrue(is_a($this->email_list->getCampaignClass(), Campaign::class, true));
+        $class = $this->email_list->getCampaignClass();
+        $this->assertInstanceOf(Campaign::class, new $class);
     }
 
     /** @test */
     public function the_configured_email_list_model_extends_package_model()
     {
-        $this->assertTrue(is_a($this->email_list->getEmailListClass(), EmailList::class, true));
+        $class = $this->email_list->getEmailListClass();
+        $this->assertInstanceOf(EmailList::class, new $class);
     }
 
     /** @test */
     public function the_configured_subscriber_model_extends_package_model()
     {
-        $this->assertTrue(is_a($this->email_list->getSubscriberClass(), Subscriber::class, true));
+        $class = $this->email_list->getSubscriberClass();
+        $this->assertInstanceOf(Subscriber::class, new $class);
     }
 }
