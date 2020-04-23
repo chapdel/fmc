@@ -22,7 +22,7 @@
         "morphdom": "^2.5.10",
         "postcss-easy-import": "^3.0.0",
         "prettier": "^1.18.2",
-        "tailwindcss": "^1.0.0",
+        "tailwindcss": "~1.1.0",
         "turbolinks": "^5.2.0",
         "vue-template-compiler": "^2.6.10"
     },
