@@ -10,7 +10,6 @@ use Spatie\Mailcoach\Tests\TestCase;
 
 class UsesMailcoachModelsTest extends TestCase
 {
-
     /** @var \Spatie\Mailcoach\Models\EmailList */
     private EmailList $email_list;
 
