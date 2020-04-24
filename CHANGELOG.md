@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.7.2 - 2020-04-18
+
+- remove links in import confirmation mail
+
 ## 2.7.1 - 2020-04-09
 
 - make campaign on mailable nullable (#147)
