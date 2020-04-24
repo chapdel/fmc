@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.7.3 - 2020-04-24
+
+- allow chronos v2
+
 ## 2.7.2 - 2020-04-18
 
 - remove links in import confirmation mail

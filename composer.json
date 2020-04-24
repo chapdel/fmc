@@ -22,7 +22,7 @@
         "php": "^7.4",
         "ext-dom": "*",
         "ext-libxml": "*",
-        "cakephp/chronos": "^1.2.8",
+        "cakephp/chronos": "^1.2.8|^2.0",
         "guzzlehttp/guzzle": "^6.4",
         "illuminate/database": "^7.0",
         "illuminate/events": "^7.0",
