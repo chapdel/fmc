@@ -137,24 +137,21 @@ return [
     'models' => [
 
         /*
-         * The model you want to use as a Campaign model needs to extend the
-         * `Spatie\Mailcoach\Models\Campaign` model.
+         * The model you want to use as a Campaign model. It needs to be or
+         * extend the `Spatie\Mailcoach\Models\Campaign` model.
          */
-
         'campaign' => Spatie\Mailcoach\Models\Campaign::class,
 
         /*
-         * The model you want to use as a EmailList model needs to extend the
-         * `Spatie\Mailcoach\Models\EmailList` model.
+         * The model you want to use as a EmailList model. It needs to be or
+         * extend the `Spatie\Mailcoach\Models\EmailList` model.
          */
-
         'email_list' => Spatie\Mailcoach\Models\EmailList::class,
 
         /*
-         * The model you want to use as a Subscriber model needs to extend the
-         * `Spatie\Mailcoach\Models\Subscriber` model.
+         * The model you want to use as a Subscriber model. It needs to be or
+         * extend the `Spatie\Mailcoach\Models\Subscriber` model.
          */
-
         'subscriber' => Spatie\Mailcoach\Models\Subscriber::class,
 
     ],
