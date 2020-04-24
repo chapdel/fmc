@@ -7,7 +7,6 @@ use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Models\Send;
 use Swift_Message;
-use Swift_Mime_ContentEncoder_PlainContentEncoder;
 
 class CampaignMail extends Mailable
 {
@@ -62,8 +61,7 @@ class CampaignMail extends Mailable
             ->view('mailcoach::mails.campaignHtml')
             ->text('mailcoach::mails.campaignText')
             ->addUnsubscribeHeaders()
-            ->storeTransportMessageId()
-            ->setEncoders();
+            ->storeTransportMessageId();
     }
 
     protected function addUnsubscribeHeaders(): self
@@ -105,15 +103,6 @@ class CampaignMail extends Mailable
         }
         $this->withSwiftMessage(function (Swift_Message $message) {
             $this->send->storeTransportMessageId($message->getId());
-        });
-
-        return $this;
-    }
-
-    protected function setEncoders(): self
-    {
-        $this->withSwiftMessage(function (Swift_Message $message) {
-            $message->setEncoder(new Swift_Mime_ContentEncoder_PlainContentEncoder('8bit'));
         });
 
         return $this;
