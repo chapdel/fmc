@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.8.0 - 2020-04-24
+
+- make models extendible
+
 ## 2.7.4 - 2020-04-24
 
 - allow chronos v2
