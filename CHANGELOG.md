@@ -2,7 +2,7 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
-## 2.7.3 - 2020-04-24
+## 2.7.4 - 2020-04-24
 
 - allow chronos v2
 
