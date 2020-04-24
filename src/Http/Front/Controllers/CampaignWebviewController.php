@@ -2,13 +2,15 @@
 
 namespace Spatie\Mailcoach\Http\Front\Controllers;
 
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class CampaignWebviewController
 {
+    use UsesMailcoachModels;
+
     public function __invoke(string $campaignUuid)
     {
-        if (! $campaign = Campaign::findByUuid($campaignUuid)) {
+        if (! $campaign = $this->getCampaignClass()::findByUuid($campaignUuid)) {
             abort(404);
         }
 

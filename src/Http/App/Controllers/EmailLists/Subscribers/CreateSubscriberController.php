@@ -4,15 +4,17 @@ namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers;
 
 use Spatie\Mailcoach\Http\App\Requests\CreateSubscriberRequest;
 use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class CreateSubscriberController
 {
+    use UsesMailcoachModels;
+
     public function store(
         EmailList $emailList,
         CreateSubscriberRequest $updateSubscriberRequest
     ) {
-        Subscriber::createWithEmail($updateSubscriberRequest->email)
+        $this->getSubscriberClass()::createWithEmail($updateSubscriberRequest->email)
             ->withAttributes($updateSubscriberRequest->subscriberAttributes())
             ->skipConfirmation()
             ->subscribeTo($emailList);

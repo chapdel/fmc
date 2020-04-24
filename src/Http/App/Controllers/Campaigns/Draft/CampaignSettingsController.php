@@ -5,12 +5,15 @@ namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft;
 use Spatie\Mailcoach\Http\App\Requests\UpdateCampaignSettingsRequest;
 use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Models\EmailList;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class CampaignSettingsController
 {
+    use UsesMailcoachModels;
+
     public function edit(Campaign $campaign)
     {
-        $emailLists = EmailList::all();
+        $emailLists = $this->getEmailListClass()::all();
 
         return view('mailcoach::app.campaigns.draft.settings', [
             'campaign' => $campaign,

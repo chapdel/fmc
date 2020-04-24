@@ -3,16 +3,18 @@
 namespace Spatie\Mailcoach\Http\App\Queries;
 
 use Spatie\Mailcoach\Http\App\Queries\Filters\FuzzyFilter;
-use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class SubscribersQuery extends QueryBuilder
 {
+    use UsesMailcoachModels;
+
     public function __construct()
     {
         parent::__construct(
-            Subscriber::query()
+            $this->getSubscriberClass()::query()
                 ->with('emailList')
         );
 

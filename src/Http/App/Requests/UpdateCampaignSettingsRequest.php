@@ -7,9 +7,12 @@ use Illuminate\Validation\Rule;
 use Spatie\Mailcoach\Models\EmailList;
 use Spatie\Mailcoach\Support\Segments\EverySubscriberSegment;
 use Spatie\Mailcoach\Support\Segments\SubscribersWithTagsSegment;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class UpdateCampaignSettingsRequest extends FormRequest
 {
+    use UsesMailcoachModels;
+
     public function rules(): array
     {
         return [
@@ -25,7 +28,7 @@ class UpdateCampaignSettingsRequest extends FormRequest
 
     public function getSegmentClass(): string
     {
-        /** @var \Spatie\Mailcoach\Models\Campaign $campaign */
+        /** @var \Spatie\Mailcoach\Models\\Concerns\Campaign $campaign */
         $campaign = $this->route()->parameter('campaign');
 
         if ($campaign->usingCustomSegment()) {
@@ -45,6 +48,6 @@ class UpdateCampaignSettingsRequest extends FormRequest
             return null;
         }
 
-        return $emailList = EmailList::find($this->email_list_id);
+        return $emailList = $this->getEmailListClass()::find($this->email_list_id);
     }
 }

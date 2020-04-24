@@ -36,12 +36,12 @@ class Send extends Model
 
     public function subscriber(): BelongsTo
     {
-        return $this->belongsTo(Subscriber::class, 'subscriber_id');
+        return $this->belongsTo(config('mailcoach.models.subscriber'), 'subscriber_id');
     }
 
     public function campaign(): BelongsTo
     {
-        return $this->belongsTo(Campaign::class, 'campaign_id');
+        return $this->belongsTo(config('mailcoach.models.campaign'), 'campaign_id');
     }
 
     public function opens(): HasMany

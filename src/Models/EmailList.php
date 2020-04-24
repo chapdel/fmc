@@ -10,10 +10,11 @@ use Illuminate\Database\Query\Builder;
 use Spatie\Mailcoach\Mails\ConfirmSubscriberMail;
 use Spatie\Mailcoach\Mails\WelcomeMail;
 use Spatie\Mailcoach\Models\Concerns\HasUuid;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class EmailList extends Model
 {
-    use HasUuid;
+    use HasUuid, UsesMailcoachModels;
 
     public $guarded = [];
 
@@ -37,12 +38,12 @@ class EmailList extends Model
 
     public function allSubscribers(): HasMany
     {
-        return $this->hasMany(Subscriber::class);
+        return $this->hasMany(config('mailcoach.models.subscriber'));
     }
 
     public function campaigns(): HasMany
     {
-        return $this->hasMany(Campaign::class);
+        return $this->hasMany(config('mailcoach.models.campaign'));
     }
 
     public function subscriberImports(): HasMany
@@ -77,17 +78,17 @@ class EmailList extends Model
 
     public function subscribe(string $email, array $attributes = []): Subscriber
     {
-        return Subscriber::createWithEmail($email, $attributes)->subscribeTo($this);
+        return $this->getSubscriberClass()::createWithEmail($email, $attributes)->subscribeTo($this);
     }
 
     public function subscribeSkippingConfirmation(string $email, array $attributes = []): Subscriber
     {
-        return Subscriber::createWithEmail($email, $attributes)->skipConfirmation()->subscribeTo($this);
+        return $this->getSubscriberClass()::createWithEmail($email, $attributes)->skipConfirmation()->subscribeTo($this);
     }
 
     public function isSubscribed(string $email): bool
     {
-        if (! $subscriber = Subscriber::findForEmail($email, $this)) {
+        if (! $subscriber = $this->getSubscriberClass()::findForEmail($email, $this)) {
             return false;
         }
 
@@ -96,7 +97,7 @@ class EmailList extends Model
 
     public function unsubscribe(string $email): bool
     {
-        if (! $subscriber = Subscriber::findForEmail($email, $this)) {
+        if (! $subscriber = $this->getSubscriberClass()::findForEmail($email, $this)) {
             return false;
         }
 
@@ -107,7 +108,7 @@ class EmailList extends Model
 
     public function getSubscriptionStatus(string $email): ?string
     {
-        if (! $subscriber = Subscriber::findForEmail($email, $this)) {
+        if (! $subscriber = $this->getSubscriberClass()::findForEmail($email, $this)) {
             return null;
         };
 
