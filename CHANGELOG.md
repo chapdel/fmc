@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.8.1 - wip
+
+- add `WebhookCallProcessedEvent` for cleaning up old webhook calls
+
 ## 2.8.0 - 2020-04-24
 
 - make models extendible
