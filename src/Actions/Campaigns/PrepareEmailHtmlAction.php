@@ -15,9 +15,9 @@ class PrepareEmailHtmlAction
     {
         $this->ensureValidHtml($campaign);
 
-        $campaign->email_html = $campaign->htmlWithInlinedCss();
-
         $this->ensureEmailHtmlHasSingleRootElement($campaign);
+
+        $campaign->email_html = $campaign->htmlWithInlinedCss();
 
         $this->replacePlaceholders($campaign);
 
@@ -41,19 +41,17 @@ class PrepareEmailHtmlAction
 
     protected function ensureEmailHtmlHasSingleRootElement($campaign)
     {
-        $campaign->email_html = trim(
-            preg_replace('~<(?:!DOCTYPE|/?(?:html|body))[^>]*>\s*~i', '', $campaign->email_html)
+        $campaign->html = trim(
+            preg_replace('~<(?:!DOCTYPE|/?(?:html|body))[^>]*>\s*~i', '', $campaign->html)
         );
 
-        if (! Str::startsWith($campaign->email_html, '<html')) {
-            $campaign->email_html = '<html>' . $campaign->email_html;
+        if (! Str::startsWith($campaign->html, '<html')) {
+            $campaign->html = '<html>' . $campaign->html;
         }
 
-        if (! Str::endsWith($campaign->email_html, '</html>')) {
-            $campaign->email_html = $campaign->email_html . '</html>';
+        if (! Str::endsWith($campaign->html, '</html>')) {
+            $campaign->html = $campaign->html . '</html>';
         }
-
-        $campaign->email_html = '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">' . $campaign->email_html;
     }
 
     protected function replacePlaceholders(Campaign $campaign): void

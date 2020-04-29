@@ -65,7 +65,7 @@ class PrepareEmailHtmlActionTest extends TestCase
     /** @test */
     public function it_will_not_add_html_tags_before_the_doctype()
     {
-        $myHtml = '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd"><html><h1>Hello</h1><p>Hello world</p></html>';
+        $myHtml = '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd"><h1>Hello</h1><p>Hello world</p>';
 
         $campaign = factory(Campaign::class)->create([
             'track_clicks' => true,
