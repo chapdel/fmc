@@ -2,7 +2,7 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
-## 2.9.1 - 2020-04-27
+## 2.9.1 - 2020-04-29
 
 - fix subjects not getting replaced correctly
 
