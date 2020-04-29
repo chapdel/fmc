@@ -139,7 +139,7 @@
             @endif
 
 
-            <dd class="start-2 pb-4 mb-2 border-b-2 border-gray-100">
+            <dd class="col-start-2 pb-4 mb-2 border-b-2 border-gray-100">
                 <a href="{{ route('mailcoach.campaigns.settings', $campaign) }}"
                    class="link-icon">
                     <x-icon-label icon="fa-pencil-alt" text="Edit"/>
@@ -184,7 +184,7 @@
                 </dd>
             @endif
 
-            <dd class="start-2 pb-4 mb-2 border-b-2 border-gray-100 buttons gap-4">
+            <dd class="col-start-2 pb-4 mb-2 border-b-2 border-gray-100 buttons gap-4">
                 <a href="{{ route('mailcoach.campaigns.content', $campaign) }}"
                    class="link-icon">
                     <x-icon-label icon="fa-pencil-alt" text="Edit"/>
