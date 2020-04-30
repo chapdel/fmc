@@ -8,12 +8,13 @@ use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 
-class CampaignReplacerTest extends TestCase {
-
+class CampaignReplacerTest extends TestCase
+{
     use MatchesSnapshots;
 
     /** @test */
-    public function campaignname_should_replaced_in_subject() {
+    public function campaignname_should_replaced_in_subject()
+    {
         /** @var \Spatie\Mailcoach\Models\Campaign */
         $campaign = factory(Campaign::class)->create([
             'subject' => '::campaign.name::',
@@ -26,7 +27,8 @@ class CampaignReplacerTest extends TestCase {
     }
 
     /** @test */
-    public function campaignname_should_replaced_in_email_html() {
+    public function campaignname_should_replaced_in_email_html()
+    {
         $campaignName = 'test1234';
 
         /** @var \Spatie\Mailcoach\Models\Campaign */
