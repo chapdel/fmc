@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.11.0 - 2020-04-30
+
+- add `CampaignReplacer` (#226)
+
 ## 2.10.1 - 2020-04-30
 
 - Fix Error htmlspecialchars() in delivery tab
