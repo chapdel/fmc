@@ -14,9 +14,7 @@ class CampaignReplacerTest extends TestCase {
 
     /** @test */
     public function campaignname_should_replaced_in_subject() {
-        /**
-         * @var Campaign
-         */
+        /** @var \Spatie\Mailcoach\Models\Campaign */
         $campaign = factory(Campaign::class)->create([
             'subject' => '::campaign.name::',
         ]);
@@ -28,12 +26,10 @@ class CampaignReplacerTest extends TestCase {
     }
 
     /** @test */
-    public function campaignname_should_replaced_in_emailhtml() {
+    public function campaignname_should_replaced_in_email_html() {
         $campaignName = 'test1234';
 
-        /**
-         * @var Campaign
-         */
+        /** @var \Spatie\Mailcoach\Models\Campaign */
         $campaign = factory(Campaign::class)->create([
             'name' => $campaignName,
             'html' => '::campaign.name::',
@@ -41,7 +37,6 @@ class CampaignReplacerTest extends TestCase {
 
         $myHtml = '<html><!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd" ><body><p>' . $campaign->name . '</p></body></html>';
 
-        //$myHtml = '<html><body><p>' . $campaignName . '</p></body></html>';
         app(PrepareEmailHtmlAction::class)->execute($campaign);
         $campaign->refresh();
         $this->assertMatchesHtmlSnapshotWithoutWhitespace($myHtml);
