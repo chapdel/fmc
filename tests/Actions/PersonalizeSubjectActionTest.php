@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Tests\Actions;
 
-use Spatie\Mailcoach\Actions\Campaigns\PersonalizeHtmlAction;
 use Spatie\Mailcoach\Actions\Campaigns\PersonalizeSubjectAction;
 use Spatie\Mailcoach\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
@@ -57,11 +56,11 @@ class PersonalizeSubjectActionTest extends TestCase
 
     protected function assertActionResult(string $originalSubject, $expectedSubject)
     {
-        $actualOutputHtml = (new PersonalizeHtmlAction())->execute($originalSubject, $this->send);
+        $actualOutputHtml = (new PersonalizeSubjectAction())->execute($originalSubject, $this->send);
         $this->assertEquals($expectedSubject, $actualOutputHtml, "The personalize action did not produce the expected result. Expected: `{$expectedSubject}`, actual: `{$actualOutputHtml}`");
 
         $expectedOutputHtmlWithHtmlTags = "{$expectedSubject}";
-        $actualOutputHtmlWithHtmlTags = (new PersonalizeHtmlAction())->execute("$originalSubject", $this->send);
+        $actualOutputHtmlWithHtmlTags = (new PersonalizeSubjectAction())->execute("$originalSubject", $this->send);
 
         $this->assertEquals($expectedOutputHtmlWithHtmlTags, $actualOutputHtmlWithHtmlTags, "The personalize action did not produce the expected result when wrapped in html tags. Expected: `{$expectedOutputHtmlWithHtmlTags}`, actual: `{$actualOutputHtmlWithHtmlTags}`");
     }

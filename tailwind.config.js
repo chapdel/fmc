@@ -84,16 +84,21 @@ module.exports = {
             boxShadow: {
                 focus: '0 2px 2px var(--gray-100)',
             },
+            gridTemplateColumns: {
+                auto: 'auto',
+                'auto-1fr': 'auto 1fr',
+                '1fr-auto': '1fr auto',
+            },
             inset: {
                 full: '100%',
             },
-            minWidth: {
+            minHeight: {
                 4: '1rem',
                 6: '1.5rem',
                 8: '2rem',
                 10: '2.5rem',
             },
-            minHeight: {
+            minWidth: {
                 4: '1rem',
                 6: '1.5rem',
                 8: '2rem',

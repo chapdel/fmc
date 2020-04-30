@@ -2,6 +2,27 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.11.0 - 2020-04-30
+
+- add `CampaignReplacer` (#226)
+
+## 2.10.1 - 2020-04-30
+
+- Fix Error htmlspecialchars() in delivery tab
+- Fix custom segment display
+
+## 2.10.0 - 2020-04-30
+
+- refactor to Tailwind grid (#228)
+
+## 2.9.1 - 2020-04-29
+
+- fix subjects not getting replaced correctly
+
+## 2.9.0 - 2020-04-27
+
+- add `WebhookCallProcessedEvent` for cleaning up old webhook calls
+
 ## 2.8.0 - 2020-04-24
 
 - make models extendible

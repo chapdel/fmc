@@ -1,6 +1,6 @@
 .form-grid {
     @apply grid;
-    @apply gapy-6;
+    @apply row-gap-6;
     @apply max-w-full;
 }
 
@@ -23,7 +23,8 @@
 
 @screen sm {
     .form-buttons {
-        @apply cols-auto;
+        @apply grid-cols-auto;
+        @apply grid-flow-col;
     }
 }
 

@@ -1,8 +1,9 @@
 .navigation {
     @apply grid;
-    @apply gapx-3;
-    @apply gapy-6;
-    @apply cols-auto;
+    @apply col-gap-3;
+    @apply row-gap-6;
+    @apply grid-cols-auto;
+    @apply grid-flow-col;
     @apply justify-start;
     @apply text-2xl;
 }

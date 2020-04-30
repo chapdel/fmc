@@ -43,7 +43,8 @@
 
 .buttons {
     @apply grid;
-    @apply cols-auto;
+    @apply grid-cols-auto;
+    @apply grid-flow-col;
     @apply items-center;
     @apply justify-start;
     @apply gap-1;

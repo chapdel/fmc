@@ -33,6 +33,7 @@ return [
         \Spatie\Mailcoach\Support\Replacers\SubscriberReplacer::class,
         \Spatie\Mailcoach\Support\Replacers\EmailListReplacer::class,
         \Spatie\Mailcoach\Support\Replacers\UnsubscribeUrlReplacer::class,
+        \Spatie\Mailcoach\Support\Replacers\CampaignReplacer::class,
     ],
 
     /**
