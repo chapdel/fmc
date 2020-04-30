@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.10.0 - 2020-04-30
+
+- refactor to Tailwind grid (#228)
+
 ## 2.9.1 - 2020-04-29
 
 - fix subjects not getting replaced correctly
