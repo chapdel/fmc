@@ -17,7 +17,8 @@
     @apply my-1;
     @apply mr-3;
     @apply grid;
-    @apply cols-auto;
+    @apply grid-cols-auto;
+    @apply grid-flow-col;
     @apply items-center;
     @apply justify-start;
     @apply gap-3;

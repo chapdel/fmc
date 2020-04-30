@@ -21,7 +21,8 @@
 
 .tabs ul {
     @apply grid;
-    @apply cols-auto;
+    @apply grid-cols-auto;
+    @apply grid-flow-col;
     @apply justify-start;
     width: auto;
 }

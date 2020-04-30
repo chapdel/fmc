@@ -7,7 +7,8 @@
 .radio-label {
     @apply grid;
     @apply justify-start;
-    @apply cols-auto;
+    @apply grid-cols-auto;
+    @apply grid-flow-col;
     @apply gap-3;
     @apply min-h-0;
     @apply cursor-pointer;
