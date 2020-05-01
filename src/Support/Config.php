@@ -10,6 +10,10 @@ class Config
     {
         $configuredClass = config("mailcoach.actions.{$actionName}");
 
+        if (is_null($configuredClass)) {
+            $configuredClass = $actionClass;
+        }
+
         if (! is_a($configuredClass, $actionClass, true)) {
             throw InvalidConfig::invalidAction($actionName, $configuredClass ?? '', $actionClass);
         }

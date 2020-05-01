@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.11.2 - 2020-04-30
+
+- use default action is action class not set in config
+
 ## 2.11.1 - 2020-04-30
 
 - fix all filters being active all at once on list pages
