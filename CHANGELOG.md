@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.11.3 - 2020-05-04
+
+- wrong route in subscribers (#231)
+
 ## 2.11.2 - 2020-04-30
 
 - use default action is action class not set in config
