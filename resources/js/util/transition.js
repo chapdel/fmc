@@ -3,13 +3,15 @@ export function enter(element, transitionName = 'transition') {
         element.classList.remove('hidden');
 
         element.classList.add(`${transitionName}-enter`);
-        element.classList.add(`${transitionName}-enter-active`);
+        element.classList.add(`${transitionName}-enter-start`);
 
         nextFrame(() => {
-            element.classList.remove(`${transitionName}-enter`);
+            element.classList.remove(`${transitionName}-enter-start`);
+            element.classList.add(`${transitionName}-enter-end`);
 
             afterTransition(element, () => {
-                element.classList.remove(`${transitionName}-enter-active`);
+                element.classList.remove(`${transitionName}-enter-end`);
+                element.classList.remove(`${transitionName}-enter`);
 
                 nextFrame(() => {
                     resolve(element);
@@ -21,14 +23,17 @@ export function enter(element, transitionName = 'transition') {
 
 export function leave(element, transitionName = 'transition') {
     return new Promise(resolve => {
-        element.classList.add(`${transitionName}-leave-active`);
+        element.classList.add(`${transitionName}-leave`);
+        element.classList.add(`${transitionName}-leave-start`);
 
         nextFrame(() => {
-            element.classList.add(`${transitionName}-leave`);
+            element.classList.remove(`${transitionName}-leave-start`);
+            element.classList.add(`${transitionName}-leave-end`);
 
             afterTransition(element, () => {
-                element.classList.remove(`${transitionName}-leave-active`);
+                element.classList.remove(`${transitionName}-leave-end`);
                 element.classList.remove(`${transitionName}-leave`);
+
                 element.classList.add('hidden');
 
                 nextFrame(() => {
