@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.11.4 - 2020-05-06
+
+- fix display of custom segment classes
+
 ## 2.11.3 - 2020-05-04
 
 - wrong route in subscribers (#231)
