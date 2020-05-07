@@ -18,6 +18,7 @@ class SendTestMailJobTest extends TestCase
 
         $campaign = factory(Campaign::class)->create([
             'html' => 'my html',
+            'subject' => 'my subject',
         ]);
 
         $campaign->emailList->update(['campaign_mailer' => 'some-mailer']);
@@ -27,7 +28,7 @@ class SendTestMailJobTest extends TestCase
         dispatch(new SendTestMailJob($campaign, $email));
 
         Mail::assertSent(CampaignMail::class, function (CampaignMail $mail) use ($email, $campaign) {
-            $this->assertEquals($campaign->subject, $mail->subject);
+            $this->assertEquals('my subject', $mail->subject);
             $this->assertEquals('some-mailer', $mail->mailer);
 
             $this->assertTrue($mail->hasTo($email));
