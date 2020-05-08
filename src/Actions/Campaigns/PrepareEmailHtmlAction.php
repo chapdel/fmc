@@ -15,9 +15,9 @@ class PrepareEmailHtmlAction
     {
         $this->ensureValidHtml($campaign);
 
-        $campaign->email_html = $campaign->htmlWithInlinedCss();
-
         $this->ensureEmailHtmlHasSingleRootElement($campaign);
+
+        $campaign->email_html = $campaign->htmlWithInlinedCss();
 
         $this->replacePlaceholders($campaign);
 
@@ -41,12 +41,16 @@ class PrepareEmailHtmlAction
 
     protected function ensureEmailHtmlHasSingleRootElement($campaign)
     {
-        if (! Str::startsWith(trim($campaign->email_html), '<html')) {
-            $campaign->email_html = '<html>'.$campaign->email_html;
+        $campaign->html = trim(
+            preg_replace('~<(?:!DOCTYPE|/?(?:html|body))[^>]*>\s*~i', '', $campaign->html)
+        );
+
+        if (! Str::startsWith(trim($campaign->html), '<html')) {
+            $campaign->html = '<html>'.$campaign->html;
         }
 
-        if (! Str::endsWith(trim($campaign->email_html), '</html>')) {
-            $campaign->email_html = $campaign->email_html.'</html>';
+        if (! Str::endsWith(trim($campaign->html), '</html>')) {
+            $campaign->html = $campaign->html.'</html>';
         }
     }
 
