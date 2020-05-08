@@ -1,9 +1,9 @@
-.fade-enter-active,
-.fade-leave-active {
+.fade-enter,
+.fade-leave {
     transition: all 0.15s ease;
 }
 
-.fade-enter,
-.fade-leave {
+.fade-enter-start,
+.fade-leave-end {
     opacity: 0;
 }

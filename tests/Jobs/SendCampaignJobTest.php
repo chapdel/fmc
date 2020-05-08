@@ -85,6 +85,22 @@ class SendCampaignJobTest extends TestCase
     }
 
     /** @test */
+    public function it_will_use_the_right_subject()
+    {
+        Event::fake();
+
+        $this->campaign->subject('my subject');
+
+        dispatch(new SendCampaignJob($this->campaign));
+
+        Mail::assertSent(CampaignMail::class, function (CampaignMail $campaignMail) {
+            $this->assertEquals('my subject', $campaignMail->subject);
+
+            return true;
+        });
+    }
+
+    /** @test */
     public function a_campaign_that_was_sent_will_not_be_sent_again()
     {
         Event::fake();

@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Components;
 
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
 class DateTimeFieldComponent extends Component
@@ -17,18 +18,18 @@ class DateTimeFieldComponent extends Component
         $this->name = $name;
     }
 
-    public function hourOptions(): array
+    public function hourOptions(): Collection
     {
         return collect(range(0, 23))->mapWithKeys(function (int $hour) {
             return [$hour => str_pad($hour, 2, '0', STR_PAD_LEFT)];
-        })->toArray();
+        });
     }
 
-    public function minuteOptions(): array
+    public function minuteOptions(): Collection
     {
         return collect(range(0, 60, 15))->mapWithKeys(function (int $minutes) {
             return [$minutes => str_pad($minutes, 2, '0', STR_PAD_LEFT)];
-        })->toArray();
+        });
     }
 
     public function render()

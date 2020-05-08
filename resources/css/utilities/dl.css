@@ -1,6 +1,6 @@
 .dl {
     @apply grid;
-    @apply cols-auto-1fr;
+    @apply grid-cols-auto-1fr;
     @apply justify-start;
 }
 

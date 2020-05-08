@@ -2,6 +2,35 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.11.4 - 2020-05-06
+
+- fix display of custom segment classes
+
+## 2.11.3 - 2020-05-04
+
+- wrong route in subscribers (#231)
+
+## 2.11.2 - 2020-04-30
+
+- use default action is action class not set in config
+
+## 2.11.1 - 2020-04-30
+
+- fix all filters being active all at once on list pages
+
+## 2.11.0 - 2020-04-30
+
+- add `CampaignReplacer` (#226)
+
+## 2.10.1 - 2020-04-30
+
+- Fix Error htmlspecialchars() in delivery tab
+- Fix custom segment display
+
+## 2.10.0 - 2020-04-30
+
+- refactor to Tailwind grid (#228)
+
 ## 2.9.1 - 2020-04-29
 
 - fix subjects not getting replaced correctly
