@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.11.8 - 2020-05-14
+
+- Allow both `Carbon` and `CarbonImmutable` to be used (#235)
+
 ## 2.11.7 - 2020-05-14
 
 - fix display of campaign summary when the list of the campaign has been deleted
