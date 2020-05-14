@@ -47,6 +47,6 @@ class MarkCampaignAsSentJob implements ShouldQueue
 
     protected function allMailsHaveBeenSent(): bool
     {
-        return (int) $this->campaign->sendsCount() === (int) $this->campaign->sent_to_number_of_subscribers;
+        return (int) $this->campaign->sendsCount() === (int) $this->campaign->fresh()->sent_to_number_of_subscribers;
     }
 }

@@ -79,10 +79,14 @@ class SendCampaignAction
     protected function sendMail(Campaign $campaign, Subscriber $subscriber, Segment $segment): void
     {
         if (! $segment->shouldSend($subscriber)) {
+            $campaign->decrement('sent_to_number_of_subscribers');
+
             return;
         }
 
         if (! $this->isValidSubscriptionForEmailList($subscriber, $campaign->emailList)) {
+            $campaign->decrement('sent_to_number_of_subscribers');
+
             return;
         }
 

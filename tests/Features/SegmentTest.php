@@ -69,5 +69,6 @@ class SegmentTest extends TestCase
         Mail::assertSent(CampaignMail::class, 1);
         Mail::assertSent(CampaignMail::class, fn (CampaignMail $mail) => $mail->hasTo('john@example.com'));
         Mail::assertNotSent(CampaignMail::class, fn (CampaignMail $mail) => $mail->hasTo('jane@example.com'));
+        $this->assertTrue($this->campaign->fresh()->isSent());
     }
 }
