@@ -13,7 +13,7 @@ class EmailListSummaryMail extends Mailable
     /** @var \Spatie\Mailcoach\Models\EmailList */
     public object $emailList;
 
-    public Carbon $summaryStartDateTime;
+    public CarbonInterface $summaryStartDateTime;
 
     public string $emailListUrl;
 
