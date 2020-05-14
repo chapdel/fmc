@@ -52,7 +52,7 @@ class CalculateStatisticsAction
         $campaign->links->each(function (CampaignLink $link) {
             $link->update([
                 'click_count' => $link->clicks()->count(),
-                'unique_click_count' => $link->clicks()->select('subscriber_id')->groupBy('subscriber_id')->toBase()->getCountForPagination(['subscriber_id']),
+                'unique_click_count' => $link->clicks()->select('subscriber_id')->groupBy('subscriber_id')->toBase()->select('subscriber_id')->getCountForPagination(['subscriber_id']),
             ]);
         });
 
@@ -62,7 +62,7 @@ class CalculateStatisticsAction
     protected function calculateClickMetrics(Campaign $campaign, int $sendToNumberOfSubscribers): array
     {
         $clickCount = $campaign->clicks()->count();
-        $uniqueClickCount = $campaign->clicks()->groupBy('subscriber_id')->toBase()->getCountForPagination(['subscriber_id']);
+        $uniqueClickCount = $campaign->clicks()->groupBy('subscriber_id')->toBase()->select('subscriber_id')->getCountForPagination(['subscriber_id']);
         $clickRate = round($uniqueClickCount / $sendToNumberOfSubscribers, 2) * 100;
 
         return [$clickCount, $uniqueClickCount, $clickRate];
@@ -71,7 +71,7 @@ class CalculateStatisticsAction
     protected function calculateOpenMetrics(Campaign $campaign, int $sendToNumberOfSubscribers): array
     {
         $openCount = $campaign->opens()->count();
-        $uniqueOpenCount = $campaign->opens()->groupBy('subscriber_id')->toBase()->getCountForPagination(['subscriber_id']);
+        $uniqueOpenCount = $campaign->opens()->groupBy('subscriber_id')->toBase()->select('subscriber_id')->getCountForPagination(['subscriber_id']);
         $openRate = round($uniqueOpenCount / $sendToNumberOfSubscribers, 2) * 100;
 
         return [$openCount, $uniqueOpenCount, $openRate];

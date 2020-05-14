@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.11.6 - 2020-05-14
+
+- fix for sql_mode=only_full_group_by issue
+
 ## 2.11.5 - 2020-05-07
 
 - fix for `PrepareEmailHtmlAction` breaking html
