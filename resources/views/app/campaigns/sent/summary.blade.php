@@ -16,7 +16,11 @@
                         Campaign <a target="_blank"
                                     href="{{ $campaign->webviewUrl() }}">{{ $campaign->name }}</a>
                         is preparing to send to
-                        <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
+                        @if($campaign->emailList)
+                            <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
+                        @else
+                            &lt;deleted list&gt;
+                        @endif
                     </div>
                 </div>
             @else
@@ -34,8 +38,11 @@
                         is sending to
                         <strong>{{ $campaign->sendsCount() }}</strong>/{{ $campaign->sent_to_number_of_subscribers }} {{ \Illuminate\Support\Str::plural('subscriber', $campaign->sent_to_number_of_subscribers) }}
                         of
-                        <a
-                                href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
+                        @if($campaign->emailList)
+                            <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
+                        @else
+                            &lt;deleted list&gt;
+                        @endif
                         @if($campaign->usesSegment())
                             ({{ $campaign->segment_description }})
                         @endif
@@ -53,8 +60,11 @@
                     was delivered succesfully to
                     <strong>{{ $campaign->sent_to_number_of_subscribers - ($failedSendsCount ?? 0) }} {{ \Illuminate\Support\Str::plural('subscriber', $campaign->sent_to_number_of_subscribers) }}</strong>
                     of
-                    <a
-                            href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
+                    @if($campaign->emailList)
+                        <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
+                    @else
+                        &lt;deleted list&gt;
+                    @endif
                     @if($campaign->usesSegment())
                         ({{ $campaign->segment_description }})
                     @endif
