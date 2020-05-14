@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Models;
 
-use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -61,7 +61,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         });
     }
 
-    public static function scopeSentBetween(Builder $query, Carbon $periodStart, Carbon $periodEnd): void
+    public static function scopeSentBetween(Builder $query, CarbonInterface $periodStart, CarbonInterface $periodEnd): void
     {
         $query
             ->where('sent_at', '>=', $periodStart)
