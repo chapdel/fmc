@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Models;
 
-use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -176,7 +176,7 @@ class EmailList extends Model
         return array_map('trim', $recipients);
     }
 
-    public function summarize(Carbon $summaryStartDateTime): array
+    public function summarize(CarbonInterface $summaryStartDateTime): array
     {
         return [
             'total_number_of_subscribers' => $this->subscribers()->count(),

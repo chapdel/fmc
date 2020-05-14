@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Mails;
 
-use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Illuminate\Mail\Mailable;
 use Spatie\Mailcoach\Models\EmailList;
 
@@ -17,7 +17,7 @@ class EmailListSummaryMail extends Mailable
 
     public string $emailListUrl;
 
-    public function __construct(EmailList $emailList, Carbon $summaryStartDateTime)
+    public function __construct(EmailList $emailList, CarbonInterface $summaryStartDateTime)
     {
         $this->emailList = $emailList;
 
