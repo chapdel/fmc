@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Requests;
 
-use Carbon\CarbonInterface;
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 use Spatie\Mailcoach\Rules\DateTimeFieldRule;
 
@@ -15,7 +15,7 @@ class ScheduleCampaignRequest extends FormRequest
         ];
     }
 
-    public function getScheduledAt(): CarbonInterface
+    public function getScheduledAt(): Carbon
     {
         return (new DateTimeFieldRule())->parseDateTime($this->scheduled_at);
     }
