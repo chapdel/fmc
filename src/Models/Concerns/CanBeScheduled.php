@@ -2,13 +2,13 @@
 
 namespace Spatie\Mailcoach\Models\Concerns;
 
-use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Mailcoach\Enums\CampaignStatus;
 
 trait CanBeScheduled
 {
-    public function scheduleToBeSentAt(Carbon $carbon)
+    public function scheduleToBeSentAt(CarbonInterface $carbon)
     {
         $this->update([
             'scheduled_at' => $carbon,
