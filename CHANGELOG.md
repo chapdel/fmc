@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.12.0 - 2020-05-23
+
+- add support for defining the welcome mail job queue (#238)
+
 ## 2.11.8 - 2020-05-14
 
 - Allow both `Carbon` and `CarbonImmutable` to be used (#235)
