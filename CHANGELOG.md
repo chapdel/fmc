@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.13.0 - 2020-05-27
+
+- choose the email list when creating a campaign
+
 ## 2.12.0 - 2020-05-23
 
 - add support for defining the welcome mail job queue (#238)

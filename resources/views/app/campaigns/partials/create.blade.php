@@ -3,6 +3,8 @@
 
     <x-text-field label="Name" name="name" required />
 
+    <x-select-field label="Email list" :options="$emailListOptions" name="email_list_id" required />
+
     @if($templateOptions->count() > 1)
         <x-select-field label="Template" :options="$templateOptions" name="template_id" />
     @endif

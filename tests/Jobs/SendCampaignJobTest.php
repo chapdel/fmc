@@ -212,6 +212,7 @@ class SendCampaignJobTest extends TestCase
             ->mailable(CustomMailable::class)
             ->create([
                 'subject' => '::customreplacer::',
+                'email_html' => '::customreplacer::',
             ]);
 
         Subscriber::createWithEmail('john@example.com')

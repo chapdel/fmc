@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns;
 
 use Spatie\Mailcoach\Http\App\Queries\CampaignsQuery;
+use Spatie\Mailcoach\Models\EmailList;
 use Spatie\Mailcoach\Models\Template;
 use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
@@ -23,6 +24,8 @@ class CampaignsIndexController
             'templateOptions' => Template::orderBy('name')->get()
                 ->mapWithKeys(fn (Template $template) => [$template->id => $template->name])
                 ->prepend('-- None --', 0),
+            'emailListOptions' => $this->getEmailListClass()::orderBy('name')->get()
+                ->mapWithKeys(fn (EmailList $list) => [$list->id => $list->name]),
         ]);
     }
 }
