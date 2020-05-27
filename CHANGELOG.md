@@ -5,6 +5,7 @@ All notable changes to `laravel-mailcoach` will be documented in this file
 ## 2.13.0 - 2020-05-27
 
 - choose the email list when creating a campaign
+- fix error when viewing a campaign with a deleted segment
 
 ## 2.12.0 - 2020-05-23
 
