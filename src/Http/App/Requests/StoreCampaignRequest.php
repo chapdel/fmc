@@ -11,7 +11,7 @@ class StoreCampaignRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email_list_id' => 'required',
+            'email_list_id' => 'nullable',
         ];
     }
 
