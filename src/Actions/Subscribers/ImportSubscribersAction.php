@@ -2,9 +2,9 @@
 
 namespace Spatie\Mailcoach\Actions\Subscribers;
 
+use Exception;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Mail;
-use Spatie\Mailcoach\Actions\Exception;
 use Spatie\Mailcoach\Enums\SubscriberImportStatus;
 use Spatie\Mailcoach\Mails\ImportSubscribersResultMail;
 use Spatie\Mailcoach\Models\EmailList;
