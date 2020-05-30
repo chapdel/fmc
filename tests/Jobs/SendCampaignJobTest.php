@@ -16,6 +16,8 @@ use Spatie\Mailcoach\Models\Send;
 use Spatie\Mailcoach\Models\Subscriber;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
+use Spatie\Mailcoach\Tests\TestClasses\CustomMailable;
+use Spatie\Mailcoach\Tests\TestClasses\CustomReplacer;
 use Spatie\Snapshots\MatchesSnapshots;
 
 class SendCampaignJobTest extends TestCase
@@ -198,6 +200,31 @@ class SendCampaignJobTest extends TestCase
 
         Mail::assertSent(CampaignMail::class, function (CampaignMail $mail) use ($subscriber) {
             $this->assertEquals("This is a mail sent to {$subscriber->email}", $mail->subject);
+
+            return true;
+        });
+    }
+
+    /** @test * */
+    public function custom_replacers_work_with_custom_mailables()
+    {
+        $campaign = (new CampaignFactory())
+            ->mailable(CustomMailable::class)
+            ->create([
+                'subject' => '::customreplacer::',
+                'email_html' => '::customreplacer::',
+            ]);
+
+        Subscriber::createWithEmail('john@example.com')
+            ->skipConfirmation()
+            ->subscribeTo($campaign->emailList);
+
+        config()->set('mailcoach.replacers', array_merge(config('mailcoach.replacers'), [CustomReplacer::class]));
+
+        dispatch(new SendCampaignJob($campaign));
+
+        Mail::assertSent(CampaignMail::class, function (CampaignMail $mail) {
+            $this->assertEquals("The custom replacer works", $mail->subject);
 
             return true;
         });

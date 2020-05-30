@@ -22,7 +22,7 @@ class CreateCampaignController
             'track_opens' => true,
             'track_clicks' => true,
             'last_modified_at' => now(),
-            'email_list_id' => optional($this->getEmailListClass()::orderBy('name')->first())->id,
+            'email_list_id' => $request->email_list_id ?? optional($this->getEmailListClass()::orderBy('name')->first())->id,
             'segment_class' => EverySubscriberSegment::class,
         ]);
 

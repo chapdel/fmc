@@ -9,17 +9,25 @@ class SubscribersWithTagsSegment extends Segment
 {
     public function description(): string
     {
-        return $this->getTagSegmentModel()->name;
+        if ($this->getTagSegmentModel()) {
+            return $this->getTagSegmentModel()->name;
+        }
+
+        return 'deleted segment';
     }
 
     public function subscribersQuery(Builder $subscribersQuery): void
     {
         $tagSegment = $this->getTagSegmentModel();
 
+        if (! $tagSegment) {
+            return;
+        }
+
         $tagSegment->scopeOnTags($subscribersQuery);
     }
 
-    public function getTagSegmentModel(): TagSegmentModel
+    public function getTagSegmentModel(): ?TagSegmentModel
     {
         return TagSegmentModel::find($this->campaign->segment_id);
     }

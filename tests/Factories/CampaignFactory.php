@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Tests\Factories;
 
 use Carbon\Carbon;
+use Spatie\Mailcoach\Mails\CampaignMail;
 use Spatie\Mailcoach\Models\Campaign;
 
 class CampaignFactory
@@ -10,9 +11,18 @@ class CampaignFactory
     /** @var int */
     private int $subscriberCount = 0;
 
+    private string $mailable = CampaignMail::class;
+
     public function withSubscriberCount(int $subscriberCount)
     {
         $this->subscriberCount = $subscriberCount;
+
+        return $this;
+    }
+
+    public function mailable(string $mailable)
+    {
+        $this->mailable = $mailable;
 
         return $this;
     }
@@ -27,6 +37,7 @@ class CampaignFactory
 
         $campaign = factory(Campaign::class)
             ->create($attributes)
+            ->useMailable($this->mailable)
             ->to($emailList);
 
         return $campaign->refresh();

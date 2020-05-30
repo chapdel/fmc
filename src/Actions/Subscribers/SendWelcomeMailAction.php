@@ -18,7 +18,11 @@ class SendWelcomeMailAction
 
         Mail::mailer($subscriber->emailList->transactional_mailer)
             ->to($subscriber->email)
-            ->later($sendAt, $this->getMailable($subscriber));
+            ->later(
+                $sendAt,
+                $this->getMailable($subscriber),
+                config('mailcoach.perform_on_queue.send_welcome_mail_job', 'mailcoach')
+            );
     }
 
     protected function getMailable(Subscriber $subscriber): Mailable
