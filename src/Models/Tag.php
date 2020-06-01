@@ -19,7 +19,7 @@ class Tag extends Model
 
     public function emailList(): BelongsTo
     {
-        return $this->belongsTo(config('mailcoach.models.email_list'));
+        return $this->belongsTo(config('mailcoach.models.email_list'), 'email_list_id');
     }
 
     public function scopeEmailList(Builder $query, EmailList $emailList): void

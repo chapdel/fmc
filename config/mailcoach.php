@@ -156,5 +156,11 @@ return [
          */
         'subscriber' => Spatie\Mailcoach\Models\Subscriber::class,
 
+        /*
+         * The model you want to use as a Template model. It needs to be or
+         * extend the `Spatie\Mailcoach\Models\Template` model.
+         */
+        'template' => Spatie\Mailcoach\Models\Template::class,
+
     ],
 ];

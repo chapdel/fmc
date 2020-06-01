@@ -38,12 +38,12 @@ class EmailList extends Model
 
     public function allSubscribers(): HasMany
     {
-        return $this->hasMany(config('mailcoach.models.subscriber'));
+        return $this->hasMany(config('mailcoach.models.subscriber'), 'email_list_id');
     }
 
     public function campaigns(): HasMany
     {
-        return $this->hasMany(config('mailcoach.models.campaign'));
+        return $this->hasMany(config('mailcoach.models.campaign'), 'email_list_id');
     }
 
     public function subscriberImports(): HasMany
