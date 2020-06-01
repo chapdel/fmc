@@ -5,20 +5,23 @@ namespace Spatie\Mailcoach\Http\App\Controllers;
 use Spatie\Mailcoach\Http\App\Queries\TemplatesQuery;
 use Spatie\Mailcoach\Http\App\Requests\UpdateTemplateRequest;
 use Spatie\Mailcoach\Models\Template;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class TemplatesController
 {
+    use UsesMailcoachModels;
+
     public function index(TemplatesQuery $templatesQuery)
     {
         return view('mailcoach::app.templates.index', [
             'templates' => $templatesQuery->paginate(),
-            'totalTemplatesCount' => Template::count(),
+            'totalTemplatesCount' => $this->getTemplateClass()::count(),
         ]);
     }
 
     public function store(UpdateTemplateRequest $request)
     {
-        $template = Template::create([
+        $template = $this->getTemplateClass()::create([
             'name' => $request->name,
             'html' => $request->html ?? '',
             'structured_html' => $request->structured_html,
@@ -61,7 +64,7 @@ class TemplatesController
     public function duplicate(Template $template)
     {
         /** @var \Spatie\Mailcoach\Models\Template $duplicateTemplate */
-        $duplicateTemplate = Template::create([
+        $duplicateTemplate = $this->getTemplateClass()::create([
             'name' => "Duplicate of {$template->name}",
             'html' => $template->html,
             'structured_html' => $template->structured_html,

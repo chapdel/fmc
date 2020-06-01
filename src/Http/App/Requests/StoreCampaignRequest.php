@@ -4,9 +4,12 @@ namespace Spatie\Mailcoach\Http\App\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Spatie\Mailcoach\Models\Template;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class StoreCampaignRequest extends FormRequest
 {
+    use UsesMailcoachModels;
+
     public function rules(): array
     {
         return [
@@ -17,6 +20,8 @@ class StoreCampaignRequest extends FormRequest
 
     public function template(): Template
     {
-        return Template::find($this->template_id) ?? new Template();
+        $templateClass = $this->getTemplateClass();
+
+        return $templateClass::find($this->template_id) ?? new $templateClass();
     }
 }

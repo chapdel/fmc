@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Traits;
 use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Models\EmailList;
 use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Models\Template;
 
 trait UsesMailcoachModels
 {
@@ -21,5 +22,10 @@ trait UsesMailcoachModels
     public function getSubscriberClass(): string
     {
         return config('mailcoach.models.subscriber', Subscriber::class);
+    }
+
+    public function getTemplateClass(): string
+    {
+        return config('mailcoach.models.template', Template::class);
     }
 }

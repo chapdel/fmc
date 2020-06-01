@@ -105,7 +105,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
 
     public function emailList(): BelongsTo
     {
-        return $this->belongsTo(config('mailcoach.models.email_list'));
+        return $this->belongsTo(config('mailcoach.models.email_list'), 'email_list_id');
     }
 
     public function links(): HasMany
