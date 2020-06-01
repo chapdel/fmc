@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.14.0 - 2020-06-02
+
+- add support for custom/configurable models (#241)
+
 ## 2.13.0 - 2020-05-27
 
 - choose the email list when creating a campaign
