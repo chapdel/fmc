@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
-use Spatie\Mailcoach\Enums\CampaignSendFeedbackType;
 use Spatie\Mailcoach\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Events\BounceRegisteredEvent;
 use Spatie\Mailcoach\Events\CampaignLinkClickedEvent;
@@ -68,14 +67,14 @@ class Send extends Model
     {
         return $this
             ->hasMany(SendFeedbackItem::class)
-            ->where('type', CampaignSendFeedbackType::BOUNCE);
+            ->where('type', SendFeedbackType::BOUNCE);
     }
 
     public function complaints(): HasMany
     {
         return $this
             ->hasMany(SendFeedbackItem::class)
-            ->where('type', CampaignSendFeedbackType::COMPLAINT);
+            ->where('type', SendFeedbackType::COMPLAINT);
     }
 
     public function markAsSent()
