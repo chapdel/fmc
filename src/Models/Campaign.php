@@ -27,11 +27,14 @@ use Spatie\Mailcoach\Support\CalculateStatisticsLock;
 use Spatie\Mailcoach\Support\Segments\EverySubscriberSegment;
 use Spatie\Mailcoach\Support\Segments\Segment;
 use Spatie\Mailcoach\Support\Segments\SubscribersWithTagsSegment;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 class Campaign extends Model implements Feedable, HasHtmlContent
 {
-    use HasUuid, CanBeScheduled;
+    use CanBeScheduled,
+        HasUuid,
+        UsesMailcoachModels;
 
     public $table = 'mailcoach_campaigns';
 
@@ -582,5 +585,12 @@ class Campaign extends Model implements Feedable, HasHtmlContent
     public function getStructuredHtml(): ?string
     {
         return $this->structured_html;
+    }
+
+    public function resolveRouteBinding($value, $field = null)
+    {
+        $field ??= $this->getRouteKeyName();
+
+        return $this->getCampaignClass()::where($field, $value)->firstOrFail();
     }
 }

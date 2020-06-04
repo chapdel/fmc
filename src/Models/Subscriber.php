@@ -15,11 +15,13 @@ use Spatie\Mailcoach\Models\Concerns\HasExtraAttributes;
 use Spatie\Mailcoach\Models\Concerns\HasUuid;
 use Spatie\Mailcoach\Support\Config;
 use Spatie\Mailcoach\Support\PendingSubscriber;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class Subscriber extends Model
 {
     use HasUuid,
-        HasExtraAttributes;
+        HasExtraAttributes,
+        UsesMailcoachModels;
 
     public $table = 'mailcoach_subscribers';
 
@@ -229,5 +231,12 @@ class Subscriber extends Model
     public function isUnsubscribed(): bool
     {
         return $this->status === SubscriptionStatus::UNSUBSCRIBED;
+    }
+
+    public function resolveRouteBinding($value, $field = null)
+    {
+        $field ??= $this->getRouteKeyName();
+
+        return $this->getSubscriberClass()::where($field, $value)->firstOrFail();
     }
 }

@@ -30,10 +30,13 @@ use Spatie\Mailcoach\Http\App\ViewComposers\QueryStringComposer;
 use Spatie\Mailcoach\Listeners\SendCampaignSentEmail;
 use Spatie\Mailcoach\Support\HttpClient;
 use Spatie\Mailcoach\Support\Version;
+use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 use Spatie\QueryString\QueryString;
 
 class MailcoachServiceProvider extends EventServiceProvider
 {
+    use UsesMailcoachModels;
+
     protected $listen = [
         CampaignSentEvent::class => [
             SendCampaignSentEmail::class,
