@@ -190,4 +190,11 @@ class EmailList extends Model
                 ->count(),
         ];
     }
+
+    public function resolveRouteBinding($value, $field = null)
+    {
+        $field ??= "id";
+
+        return $this->getEmailListClass()::where($field, $value)->firstOrFail();
+    }
 }
