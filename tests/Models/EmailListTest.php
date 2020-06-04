@@ -2,12 +2,17 @@
 
 namespace Spatie\Mailcoach\Tests\Models;
 
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Exceptions\CouldNotSubscribe;
 use Spatie\Mailcoach\Models\EmailList;
 use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Models\Tag;
+use Spatie\Mailcoach\Models\TagSegment;
 use Spatie\Mailcoach\Tests\TestCase;
+use Spatie\Mailcoach\Tests\TestClasses\CustomEmailList;
+use Spatie\Mailcoach\Tests\TestClasses\CustomSubscriber;
 use Spatie\TestTime\TestTime;
 
 class EmailListTest extends TestCase
@@ -170,5 +175,20 @@ class EmailListTest extends TestCase
             'total_number_of_subscribers_gained' => 1,
             'total_number_of_unsubscribes_gained' => 0,
         ], $this->emailList->summarize(now()->subWeek()));
+    }
+
+    /** @test */
+    public function it_can_reference_tags_and_segments_when_using_a_custom_model()
+    {
+        factory(Tag::class, 2)->create(['email_list_id' => $this->emailList->id]);
+        TagSegment::create(['name' => 'testSegment', 'email_list_id' => $this->emailList->id]);
+
+        Config::set("mailcoach.models.email_list", CustomEmailList::class);
+        Config::set("mailcoach.models.subscriber", CustomSubscriber::class);
+
+        $list = CustomEmailList::find($this->emailList->id);
+
+        $this->assertEquals(2, $list->tags()->count());
+        $this->assertEquals(1, $list->segments()->count());
     }
 }

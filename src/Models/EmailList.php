@@ -48,19 +48,19 @@ class EmailList extends Model
 
     public function subscriberImports(): HasMany
     {
-        return $this->hasMany(SubscriberImport::class);
+        return $this->hasMany(SubscriberImport::class, 'email_list_id');
     }
 
     public function tags(): HasMany
     {
         return $this
-            ->hasMany(Tag::class)
+            ->hasMany(Tag::class, 'email_list_id')
             ->orderBy('name');
     }
 
     public function segments()
     {
-        return $this->hasMany(TagSegment::class);
+        return $this->hasMany(TagSegment::class, 'email_list_id');
     }
 
     public function scopeSummarySentMoreThanDaysAgo(Builder $query, int $days)
