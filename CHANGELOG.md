@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.14.1 - 2020-06-04
+
+- use custom models in route-model binding (#244)
+
 ## 2.14.0 - 2020-06-02
 
 - add support for custom/configurable models (#241)
