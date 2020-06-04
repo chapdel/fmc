@@ -589,7 +589,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
 
     public function resolveRouteBinding($value, $field = null)
     {
-        $field ??= "id";
+        $field ??= $this->getRouteKeyName();
 
         return $this->getCampaignClass()::where($field, $value)->firstOrFail();
     }

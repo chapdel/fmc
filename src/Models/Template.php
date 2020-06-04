@@ -30,7 +30,7 @@ class Template extends Model implements HasHtmlContent
 
     public function resolveRouteBinding($value, $field = null)
     {
-        $field ??= "id";
+        $field ??= $this->getRouteKeyName();
 
         return $this->getTemplateClass()::where($field, $value)->firstOrFail();
     }

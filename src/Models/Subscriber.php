@@ -199,13 +199,6 @@ class Subscriber extends Model
         return $this;
     }
 
-    public function resolveRouteBinding($value, $field = null)
-    {
-        $field ??= "id";
-
-        return $this->getSubscriberClass()::where($field, $value)->firstOrFail();
-    }
-
     public function syncTags(array $names)
     {
         $this->addTags($names);
@@ -238,5 +231,12 @@ class Subscriber extends Model
     public function isUnsubscribed(): bool
     {
         return $this->status === SubscriptionStatus::UNSUBSCRIBED;
+    }
+
+    public function resolveRouteBinding($value, $field = null)
+    {
+        $field ??= $this->getRouteKeyName();
+
+        return $this->getSubscriberClass()::where($field, $value)->firstOrFail();
     }
 }

@@ -193,7 +193,7 @@ class EmailList extends Model
 
     public function resolveRouteBinding($value, $field = null)
     {
-        $field ??= "id";
+        $field ??= $this->getRouteKeyName();
 
         return $this->getEmailListClass()::where($field, $value)->firstOrFail();
     }
