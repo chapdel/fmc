@@ -70,7 +70,7 @@
 
         <div class="form-buttons">
             <button type="submit" class="button">
-                <x-icon-label icon="fa-chart-pie" text="Save" />
+                <x-icon-label icon="fa-chart-pie" :text="__('Save')" />
             </button>
         </div>
     </form>

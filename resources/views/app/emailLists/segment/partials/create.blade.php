@@ -4,10 +4,10 @@
 
     <div class="form-buttons">
         <button class="button">
-            <x-icon-label icon="fa-chart-pie" text="Create segment" />
+            <x-icon-label icon="fa-chart-pie" :text="__('Create segment')" />
         </button>
         <button type="button" class="button-cancel" data-modal-dismiss>
-            Cancel
+            {{ __('Cancel') }}
         </button>
     </div>
 </form>

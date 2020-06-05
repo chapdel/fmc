@@ -13,7 +13,7 @@ class SubscribersWithTagsSegment extends Segment
             return $this->getTagSegmentModel()->name;
         }
 
-        return 'deleted segment';
+        return __('deleted segment');
     }
 
     public function subscribersQuery(Builder $subscribersQuery): void

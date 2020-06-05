@@ -238,7 +238,7 @@ class MailcoachServiceProvider extends EventServiceProvider
 
     protected function bootTranslations()
     {
-        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang/', 'mailcoach');
+        $this->loadJSONTranslationsFrom(__DIR__ . '/../resources/lang/');
 
         return $this;
     }

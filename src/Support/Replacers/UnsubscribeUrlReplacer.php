@@ -9,7 +9,7 @@ class UnsubscribeUrlReplacer implements PersonalizedReplacer
     public function helpText(): array
     {
         return [
-            'unsubscribeUrl' => 'The URL where users can unsubscribe',
+            'unsubscribeUrl' => __('The URL where users can unsubscribe'),
         ];
     }
 

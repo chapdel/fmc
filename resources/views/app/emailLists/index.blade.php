@@ -4,7 +4,7 @@
     <nav>
         <ul class="breadcrumbs">
             <li>
-                <span class="breadcrumb">Lists</span>
+                <span class="breadcrumb">{{ __('Lists') }}</span>
             </li>
         </ul>
     </nav>
@@ -14,7 +14,7 @@
     <section class="card">
         <div class="table-actions">
             <button class="button" data-modal-trigger="create-list">
-                <x-icon-label icon="fa-address-book" text="Create list" />
+                <x-icon-label icon="fa-address-book" :text="__('Create list')" />
             </button>
 
             <x-modal title="Create list" name="create-list" :open="$errors->any()">
@@ -23,7 +23,7 @@
 
             @if($emailLists->count() || $searching)
                 <div class="table-filters">
-                    <x-search placeholder="Filter lists…"/>
+                    <x-search :placeholder="__('Filter lists…')"/>
                 </div>
             @endif
         </div>
@@ -32,9 +32,9 @@
             <table class="table table-fixed">
                 <thead>
                 <tr>
-                    <x-th sort-by="name" sort-default>Name</x-th>
-                    <x-th sort-by="-active_subscribers_count" class="w-32 th-numeric">Active</x-th>
-                    <x-th sort-by="-created_at" class="w-48 th-numeric hidden | md:table-cell">Created</x-th>
+                    <x-th sort-by="name" sort-default>{{ __('Name') }}</x-th>
+                    <x-th sort-by="-active_subscribers_count" class="w-32 th-numeric">{{ __('Active') }}</x-th>
+                    <x-th sort-by="-created_at" class="w-48 th-numeric hidden | md:table-cell">{{ __('Created') }}</x-th>
                     <th class="w-12"></th>
                 </tr>
                 </thead>
@@ -63,7 +63,7 @@
                                             data-confirm="true"
                                             :data-confirm-text="'Are you sure you want to delete list ' . $emailList->name . '?'"
                                         >
-                                            <x-icon-label icon="fa-trash-alt" text="Delete" :caution="true" />
+                                            <x-icon-label icon="fa-trash-alt" :text="__('Delete')" :caution="true" />
                                         </x-form-button>
                                     </li>
                                 </ul>
@@ -84,9 +84,9 @@
         @else
             <p class="alert alert-info">
                 @if ($searching)
-                    No email lists found.
+                    {{ __('No email lists found.') }}
                 @else
-                    You'll need at least one list to gather subscribers.
+                    {{ __('You\'ll need at least one list to gather subscribers.') }}
                 @endif
             </p>
         @endif

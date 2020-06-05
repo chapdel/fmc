@@ -17,7 +17,7 @@
 @section('emailList')
     <div class="table-actions">
         <button class="button" data-modal-trigger="create-tag">
-            <x-icon-label icon="fa-tag" text="Create tag"/>
+            <x-icon-label icon="fa-tag" :text="__('Create tag')"/>
         </button>
 
         <x-modal title="Create tag" name="create-tag" :open="$errors->any()">
@@ -26,7 +26,7 @@
 
         @if($tags->count() || $searching)
             <div class="table-filters">
-                <x-search placeholder="Filter tags…"/>
+                <x-search :placeholder="__('Filter tags…')"/>
             </div>
         @endif
     </div>

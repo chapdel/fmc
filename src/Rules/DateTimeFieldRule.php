@@ -31,7 +31,7 @@ class DateTimeFieldRule implements Rule
         }
 
         if (! $dateTime->isFuture()) {
-            $this->message = 'Date time must be in the future.';
+            $this->message = __('Date time must be in the future.');
 
             return false;
         }

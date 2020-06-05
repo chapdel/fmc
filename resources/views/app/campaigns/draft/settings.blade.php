@@ -14,9 +14,9 @@
         @csrf
         @method('PUT')
 
-        <x-text-field label="Name" name="name" :value="$campaign->name" required />
+        <x-text-field :label="__('Name')" name="name" :value="$campaign->name" required />
 
-        <x-text-field label="Subject" name="subject" :value="$campaign->subject" />
+        <x-text-field :label="__('Subject')" name="subject" :value="$campaign->subject" />
 
         @include('mailcoach::app.campaigns.draft.partials.emailListFields')
 
@@ -30,7 +30,7 @@
 
         <div class="form-buttons">
             <button type="submit" class="button">
-                <x-icon-label icon="fa-cog" text="Save settings" />
+                <x-icon-label icon="fa-cog" :text="__('Save settings')" />
             </button>
         </div>
     </form>

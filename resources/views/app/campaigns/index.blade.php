@@ -15,10 +15,10 @@
     <div class="table-actions">
         @if ($totalListsCount or $totalCampaignsCount)
             <button class="button" data-modal-trigger="create-campaign">
-                <x-icon-label icon="fa-envelope-open" text="Create campaign" />
+                <x-icon-label icon="fa-envelope-open" :text="__('Create campaign')" />
             </button>
 
-            <x-modal title="Create campaign" name="create-campaign" :open="$errors->any()">
+            <x-modal :title="__('Create campaign')" name="create-campaign" :open="$errors->any()">
                 @include('mailcoach::app.campaigns.partials.create')
             </x-modal>
         @endif
@@ -27,16 +27,16 @@
             <div class="table-filters">
                 <x-filters>
                     <x-filter active-on="" :queryString="$queryString" attribute="status">
-                        All <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalCampaignsCount) }}</span>
+                        {{ __('All') }} <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalCampaignsCount) }}</span>
                     </x-filter>
                     <x-filter active-on="sent" :queryString="$queryString" attribute="status">
-                        Sent <span class="counter">{{ Illuminate\Support\Str::shortNumber($sentCampaignsCount) }}</span>
+                        {{ __('Sent') }} <span class="counter">{{ Illuminate\Support\Str::shortNumber($sentCampaignsCount) }}</span>
                     </x-filter>
                     <x-filter active-on="scheduled" :queryString="$queryString" attribute="status">
-                        Scheduled <span class="counter">{{ Illuminate\Support\Str::shortNumber($scheduledCampaignsCount) }}</span>
+                        {{ __('Scheduled') }} <span class="counter">{{ Illuminate\Support\Str::shortNumber($scheduledCampaignsCount) }}</span>
                     </x-filter>
                     <x-filter active-on="draft" :queryString="$queryString" attribute="status">
-                        Draft <span class="counter">{{ Illuminate\Support\Str::shortNumber($draftCampaignsCount) }}</span>
+                        {{ __('Draft') }} <span class="counter">{{ Illuminate\Support\Str::shortNumber($draftCampaignsCount) }}</span>
                     </x-filter>
                 </x-filters>
                 <x-search placeholder="Filter campaigns…" />

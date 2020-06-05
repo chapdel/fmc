@@ -38,7 +38,7 @@
 
             <div class="form-buttons">
                 <button type="submit" class="button">
-                    <x-icon-label icon="fa-tag" text="Save tag" />
+                    <x-icon-label icon="fa-tag" :text="__('Save tag')" />
                 </button>
             </div>
         </form>

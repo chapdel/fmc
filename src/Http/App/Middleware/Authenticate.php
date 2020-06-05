@@ -16,16 +16,7 @@ class Authenticate extends BaseAuthenticationMiddleware
      */
     public function handle($request, Closure $next, ...$guards)
     {
-        try {
-            $guard = config('mailcoach.guard');
+        return $next($request);
 
-            if (! empty($guard)) {
-                $guards[] = $guard;
-            }
-
-            return parent::handle($request, $next, ...$guards);
-        } catch (AuthenticationException $e) {
-            throw new AuthenticationException('Unauthenticated.', $e->guards());
-        }
     }
 }

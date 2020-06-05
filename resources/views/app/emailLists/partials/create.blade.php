@@ -7,7 +7,7 @@
 
     <div class="form-buttons">
         <button class="button">
-            <x-icon-label icon="fa-address-book" text="Create list" />
+            <x-icon-label icon="fa-address-book" :text="__('Create list')" />
         </button>
         <button type="button" class="button-cancel" data-modal-dismiss>
             Cancel

@@ -19,19 +19,19 @@
     <nav class="tabs">
         <ul>
             <x-navigation-item :href="route('mailcoach.campaigns.summary', $campaign)">
-                <x-icon-label icon="fa-chart-area" text="Summary" />
+                <x-icon-label icon="fa-chart-area" :text="__('Summary')" />
             </x-navigation-item>
             <x-navigation-item :href="route('mailcoach.campaigns.opens', $campaign)">
-                <x-icon-label icon="fa-envelope-open-text" text="Opens" />
+                <x-icon-label icon="fa-envelope-open-text" :text="__('Opens')" />
             </x-navigation-item>
             <x-navigation-item :href="route('mailcoach.campaigns.clicks', $campaign)">
-                <x-icon-label icon="fa-hand-pointer" text="Clicks" />
+                <x-icon-label icon="fa-hand-pointer" :text="__('Clicks')" />
             </x-navigation-item>
             <x-navigation-item :href="route('mailcoach.campaigns.unsubscribes', $campaign)">
-                <x-icon-label icon="fa-user-slash" text="Unsubscribes" />
+                <x-icon-label icon="fa-user-slash" :text="__('Unsubscribes')" />
             </x-navigation-item>
             <x-navigation-item :href="route('mailcoach.campaigns.outbox', $campaign)">
-                <x-icon-label icon="fa-inbox" text="Outbox" />
+                <x-icon-label icon="fa-inbox" :text="__('Outbox')" />
             </x-navigation-item>
         </ul>
     </nav>

@@ -54,24 +54,24 @@
                                 <ul class="dropdown-list dropdown-list-left | hidden" data-dropdown-list>
                                     <li>
                                         <a href="{{ $subscriberImport->getImportedSubscribersReportUrl() }}">
-                                            <x-icon-label icon="fa-list" text="Import report"/>
+                                            <x-icon-label icon="fa-list" :text="__('Import report')"/>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="{{ $subscriberImport->getErrorReportUrl() }}">
-                                            <x-icon-label icon="fa-exclamation-triangle" text="Error report"/>
+                                            <x-icon-label icon="fa-exclamation-triangle" :text="__('Error report')"/>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="{{ $subscriberImport->getImportFileUrl() }}">
-                                            <x-icon-label icon="fa-file-upload" text="Uploaded file"/>
+                                            <x-icon-label icon="fa-file-upload" :text="__('Uploaded file')"/>
                                         </a>
                                     </li>
                                     <li>
                                         <x-form-button
                                             :action="route('mailcoach.subscriberImport.delete', $subscriberImport->id)"
                                             method="DELETE" class="link-delete">
-                                            <x-icon-label icon="fa-trash-alt" text="Delete" :caution="true"/>
+                                            <x-icon-label icon="fa-trash-alt" :text="__('Delete')" :caution="true"/>
                                         </x-form-button>
                                     </li>
                                 </ul>
@@ -89,7 +89,7 @@
 
             <div class=button>
                 <button class="font-semibold h-10" type="submit">
-                    <x-icon-label icon="fa-cloud-upload-alt" text="Import subscribers"/>
+                    <x-icon-label icon="fa-cloud-upload-alt" :text="__('Import subscribers')"/>
                 </button>
                 <input onchange="this.form.submit();" class="absolute inset-0 opacity-0 text-4xl" accept=".csv, .xlsx" type="file" id="file"
                        name="file" class="w-48 h-10"/>

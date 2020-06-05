@@ -16,7 +16,7 @@
     <div class="table-actions">
         <div class=buttons>
             <button class="button" data-modal-trigger="create-segment">
-                <x-icon-label icon="fa-chart-pie" text="Add segment"/>
+                <x-icon-label icon="fa-chart-pie" :text="__('Add segment')"/>
             </button>
 
             <x-modal title="Create segment" name="create-segment" :open="$errors->any()">
@@ -53,14 +53,14 @@
                                     <x-form-button
                                         :action="route('mailcoach.emailLists.segment.duplicate', [$segment->emailList, $segment])"
                                     >
-                                        <x-icon-label icon="fa-random" text="Duplicate" />
+                                        <x-icon-label icon="fa-random" :text="__('Duplicate')" />
                                     </x-form-button>
                                 </li>
                                 <li>
                                     <x-form-button
                                         :action="route('mailcoach.emailLists.segment.delete', [$segment->emailList, $segment])"
                                         method="DELETE" data-confirm="true" :data-confirm-text="'Are you sure you want to delete segment ' . $segment->name . '?'">
-                                        <x-icon-label icon="fa-trash-alt" text="Delete" :caution="true"/>
+                                        <x-icon-label icon="fa-trash-alt" :text="__('Delete')" :caution="true"/>
                                     </x-form-button>
                                 </li>
                             </ul>

@@ -40,7 +40,7 @@ class ImportSubscribersAction
                 $errorReport
             );
         } catch (Exception $exception) {
-            $errorReport->addRow(['Could finish importing subscribers. This error occurred: ' . $exception->getMessage()]);
+            $errorReport->addRow([__('Could finish importing subscribers. This error occurred: :error', ['error' => $exception->getMessage()])]);
         }
 
         $subscriberImport->update([
@@ -78,7 +78,7 @@ class ImportSubscribersAction
             })
             ->filter(function (ImportSubscriberRow $row) use ($errorReport) {
                 if (! $row->hasValidEmail()) {
-                    $this->writeError($errorReport, $row, 'Does not have a valid email');
+                    $this->writeError($errorReport, $row, __('Does not have a valid email'));
                 }
 
                 return $row->hasValidEmail();
@@ -87,7 +87,7 @@ class ImportSubscribersAction
                 $hasUnsubscribed = $row->hasUnsubscribed();
 
                 if ($hasUnsubscribed) {
-                    $this->writeError($errorReport, $row, 'This email address was unsubscribed in the past.');
+                    $this->writeError($errorReport, $row, __('This email address was unsubscribed in the past.'));
                 }
 
                 return ! $hasUnsubscribed;

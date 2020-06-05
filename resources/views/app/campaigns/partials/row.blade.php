@@ -63,7 +63,7 @@
                     <x-form-button
                         :action="route('mailcoach.campaigns.duplicate', $campaign)"
                     >
-                        <x-icon-label icon="fa-random" text="Duplicate" />
+                        <x-icon-label icon="fa-random" :text="__('Duplicate')" />
                     </x-form-button>
                 </li>
                 <li>
@@ -73,7 +73,7 @@
                         data-confirm="true"
                         :data-confirm-text="'Are you sure you want to delete campaign ' . $campaign->name . '?'"
                     >
-                        <x-icon-label icon="fa-trash-alt" text="Delete" :caution="true" />
+                        <x-icon-label icon="fa-trash-alt" :text="__('Delete')" :caution="true" />
                     </x-form-button>
                 </li>
             </ul>

@@ -21,7 +21,7 @@
 <nav class="tabs">
     <ul>
         <x-navigation-item :href="route('mailcoach.emailLists.tag.edit', [$tag->emailList, $tag])">
-            <x-icon-label icon="fa-tag" text="Tag details" />
+            <x-icon-label icon="fa-tag" :text="__('Tag details')" />
         </x-navigation-item>
     </ul>
 </nav>

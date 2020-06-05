@@ -57,27 +57,27 @@
         </div>
 
         <x-modal title="Confirm" name="confirm">
-            <span data-confirm-modal-text>Are you sure?</span>
+            {{ __('Are you sure?') }}
 
             <div class="form-buttons">
                 <button type="button" class="button" data-modal-confirm>
-                    Confirm
+                    {{ __('Confirm') }}
                 </button>
                 <button type="button" class="button-cancel" data-modal-dismiss>
-                    Cancel
+                    {{ __('Cancel') }}
                 </button>
             </div>
         </x-modal>
 
         <x-modal title="Confirm navigation" name="dirty-warning">
-            There are unsaved changes. Are you sure you want to continue?
+            {{ __('There are unsaved changes. Are you sure you want to continue?') }}
 
             <div class="form-buttons">
                 <button type="button" class="button" data-modal-confirm>
-                    Continue
+                    {{ __('Continue') }}
                 </button>
                 <button type="button" class="button-cancel" data-modal-dismiss>
-                    Cancel
+                    {{ __('Cancel') }}
                 </button>
             </div>
         </x-modal>
