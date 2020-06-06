@@ -1,10 +1,10 @@
-@extends('mailcoach::app.layouts.app', ['title' => 'Campaigns'])
+@extends('mailcoach::app.layouts.app', ['title' => __('Campaigns')])
 
 @section('header')
 <nav>
     <ul class="breadcrumbs">
         <li>
-            <span class="breadcrumb">Campaigns</span>
+            <span class="breadcrumb">{{ __('Campaigns') }}</span>
         </li>
     </ul>
 </nav>
@@ -49,11 +49,11 @@
             <thead>
                 <tr>
                     <x-th class="w-4"></x-th>
-                    <x-th sort-by="name">Name</x-th>
-                    <x-th sort-by="-sent_to_number_of_subscribers" class="w-32 th-numeric">Emails</x-th>
-                    <x-th sort-by="-unique_open_count" class="w-32 th-numeric hidden | md:table-cell">Unique opens</x-th>
-                    <x-th sort-by="-unique_click_count" class="w-32 th-numeric hidden | md:table-cell">Unique clicks</x-th>
-                    <x-th sort-by="-sent" sort-default class="w-48 th-numeric hidden | md:table-cell">Sent</x-th>
+                    <x-th sort-by="name">{{ __('Name') }}</x-th>
+                    <x-th sort-by="-sent_to_number_of_subscribers" class="w-32 th-numeric">{{ __('Emails') }}</x-th>
+                    <x-th sort-by="-unique_open_count" class="w-32 th-numeric hidden | md:table-cell">{{ __('Unique opens') }}</x-th>
+                    <x-th sort-by="-unique_click_count" class="w-32 th-numeric hidden | md:table-cell">{{ __('Unique clicks') }}</x-th>
+                    <x-th sort-by="-sent" sort-default class="w-48 th-numeric hidden | md:table-cell">{{ __('Sent') }}</x-th>
                     <x-th class="w-12"></x-th>
                 </tr>
             </thead>
@@ -69,11 +69,11 @@
     @else
         @if ($totalListsCount)
             <p class="alert alert-info">
-                No campaigns yet. Go write something!
+                {{ __('No campaigns yet. Go write something!') }}
             </p>
         @else
             <p class="alert alert-info">
-                No campaigns yet, but you‘ll need a list first, go <a href="{{ route('mailcoach.emailLists') }}">create one</a>!
+                {{ __('No campaigns yet, but you‘ll need a list first, go <a href=":emailListsLink">create one</a>!', ['emailListsLink' => route('mailcoach.emailLists')]) }}
             </p>
         @endif
     @endif

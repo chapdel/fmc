@@ -1,4 +1,4 @@
-@extends('mailcoach::app.layouts.app', ['title' => 'Lists'])
+@extends('mailcoach::app.layouts.app', ['title' => __('Lists')])
 
 @section('header')
     <nav>
@@ -61,7 +61,7 @@
                                             :action="route('mailcoach.emailLists.delete', $emailList)"
                                             method="DELETE"
                                             data-confirm="true"
-                                            :data-confirm-text="'Are you sure you want to delete list ' . $emailList->name . '?'"
+                                            :data-confirm-text="__('Are you sure you want to delete list :emailListName?', ['emailListName' => $emailList->name])"
                                         >
                                             <x-icon-label icon="fa-trash-alt" :text="__('Delete')" :caution="true" />
                                         </x-form-button>
@@ -86,7 +86,7 @@
                 @if ($searching)
                     {{ __('No email lists found.') }}
                 @else
-                    {{ __('You\'ll need at least one list to gather subscribers.') }}
+                    {{ __("You'll need at least one list to gather subscribers.") }}
                 @endif
             </p>
         @endif

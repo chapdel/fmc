@@ -1,6 +1,6 @@
 @extends('mailcoach::app.campaigns.draft.layouts.edit', [
     'campaign' => $campaign,
-    'titlePrefix' => 'Delivery',
+    'titlePrefix' => __('Delivery'),
 ])
 
 @section('breadcrumbs')
@@ -62,11 +62,11 @@
             </h1>
             @if (! $campaign->htmlContainsUnsubscribeUrlPlaceHolder())
                 <p class="mt-4 alert alert-warning">
-                    {{ __('Campaign <strong>:campaign</strong> can be sent, but you might want to check your content.', ['campaign' => $campaign->name]) }}
+                    {!! __('Campaign <strong>:campaign</strong> can be sent, but you might want to check your content.', ['campaign' => $campaign->name]) !!}
                 </p>
             @else
                 <p class="mt-4 alert alert-success">
-                    {{ __('Campaign <strong>:campaign</strong> is ready to be sent.') }}
+                    {!! __('Campaign <strong>:campaign</strong> is ready to be sent.') !!}
                 </p>
             @endif
         @else
@@ -164,7 +164,7 @@
                     @if (! $campaign->htmlContainsUnsubscribeUrlPlaceHolder())
                         <p class="markup-code">
                             {{ __('Without a way to unsubscribe, there\'s a high chance that your subscribers will complain.') }}
-                            {{ __('Consider adding the <code>::unsubscribeUrl::</code> placeholder.') }}
+                            {!! __('Consider adding the <code>::unsubscribeUrl::</code> placeholder.') !!}
                         </p>
                     @else
                         <p class="markup-code">
@@ -215,7 +215,7 @@
                         <form method="POST" action="{{ route('mailcoach.campaigns.unschedule', $campaign) }}">
                             @csrf
                             <p class="mb-3">
-                                {{ __('This campaign is scheduled to be sent at <strong>:scheduledAt</strong>.', ['scheduledAt' => $campaign->scheduled_at->toMailcoachFormat()]) }}
+                                {!! __('This campaign is scheduled to be sent at <strong>:scheduledAt</strong>.', ['scheduledAt' => $campaign->scheduled_at->toMailcoachFormat()]) !!}
                             </p>
                             <button type="submit" class="link-icon">
                                 <x-icon-label icon="fa-ban" :text="__('Unschedule')"/>

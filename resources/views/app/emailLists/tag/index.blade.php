@@ -1,6 +1,6 @@
 @extends('mailcoach::app.emailLists.layouts.edit', [
     'emailList' => $emailList,
-    'titlePrefix' => 'Tags'
+    'titlePrefix' => __('Tags'),
 ])
 
 @section('breadcrumbs')
@@ -10,7 +10,7 @@
         </a>
     </li>
     <li>
-        <span class="breadcrumb">Tags</span>
+        <span class="breadcrumb">{{ __('Tags') }}</span>
     </li>
 @endsection
 
@@ -35,9 +35,9 @@
         <table class="table table-fixed">
             <thead>
             <tr>
-                <x-th sort-by="name" sort-default>Name</x-th>
-                <x-th sort-by="subscriber_count" class="w-32 th-numeric">Subscribers</x-th>
-                <x-th sort-by="updated_at" class="w-48 th-numeric hidden | md:table-cell">Updated at</x-th>
+                <x-th sort-by="name" sort-default>{{ __('Name') }}</x-th>
+                <x-th sort-by="subscriber_count" class="w-32 th-numeric">{{ __('Subscribers') }}</x-th>
+                <x-th sort-by="updated_at" class="w-48 th-numeric hidden | md:table-cell">{{ __('Updated at') }}</x-th>
                 <th class="w-12"></th>
             </tr>
             </thead>
@@ -57,7 +57,7 @@
                             :action="route('mailcoach.emailLists.tag.delete', [$emailList, $tag])"
                             method="DELETE"
                             data-confirm="true"
-                            :data-confirm-text="'Are you sure you want to delete tag ' . $tag->name . '?'"
+                            :data-confirm-text="__('Are you sure you want to delete tag :tagName?', ['tagName' => $tag->name])"
                             class="icon-button hover:text-red-500"
                         >
                             <i class="fas fa-trash-alt"></i>
@@ -77,9 +77,9 @@
     @else
         <p class="alert alert-info">
             @if($searching)
-                No tags found.
+                {{ __('No tags found.') }}
             @else
-                There are no tags for this list. Everyone equal!
+                {{ __('There are no tags for this list. Everyone equal!') }}
             @endif
         </p>
     @endif

@@ -7,7 +7,7 @@
         <ul class="breadcrumbs">
             <li>
                 <a href="{{ route('mailcoach.emailLists') }}">
-                    <span class="breadcrumb">Lists</span>
+                    <span class="breadcrumb">{{ __('Lists') }}</span>
                 </a>
             </li>
             <li><a href="{{ route('mailcoach.emailLists.subscribers', $subscriber->emailList) }}"><span class="breadcrumb">{{ $subscriber->emailList->name }}</span></a></li>

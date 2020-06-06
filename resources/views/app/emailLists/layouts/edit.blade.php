@@ -2,14 +2,12 @@
     'title' => (isset($titlePrefix) ?  $titlePrefix . ' | ' : '') . $emailList->name
 ])
 
-
-
 @section('header')
     <nav>
         <ul class="breadcrumbs">
             <li>
                 <a href="{{ route('mailcoach.emailLists') }}">
-                    <span class="breadcrumb">Lists</span>
+                    <span class="breadcrumb">{{ __('Lists') }}</span>
                 </a>
             </li>
             @yield('breadcrumbs')

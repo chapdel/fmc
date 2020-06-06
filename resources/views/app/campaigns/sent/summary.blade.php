@@ -13,13 +13,12 @@
                         <i class="fas fa-sync fa-spin text-blue-500"></i>
                     </div>
                     <div>
-                        Campaign <a target="_blank"
-                                    href="{{ $campaign->webviewUrl() }}">{{ $campaign->name }}</a>
-                        is preparing to send to
+                        {{ __('Campaign <a target="_blank" href=":webviewUrl">:campaignName</a> is preparing to send to', ['webviewUrl' => $campaign->webviewUrl(), 'campaignName' => $campaign->name]) }}
+
                         @if($campaign->emailList)
                             <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
                         @else
-                            &lt;deleted list&gt;
+                            &lt;{{ __('deleted list') }}&gt;
                         @endif
                     </div>
                 </div>
@@ -41,7 +40,7 @@
                         @if($campaign->emailList)
                             <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
                         @else
-                            &lt;deleted list&gt;
+                            &lt;{{ __('deleted list') }}&gt;
                         @endif
                         @if($campaign->usesSegment())
                             ({{ $campaign->segment_description }})
@@ -63,7 +62,7 @@
                     @if($campaign->emailList)
                         <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
                     @else
-                        &lt;deleted list&gt;
+                        &lt;{{ __('deleted list') }}&gt;
                     @endif
                     @if($campaign->usesSegment())
                         ({{ $campaign->segment_description }})
@@ -76,8 +75,7 @@
                 </div>
                 <div>
                     Delivery failed for <strong>{{ $failedSendsCount }}</strong> {{ \Illuminate\Support\Str::plural('subscriber', $failedSendsCount) }}.
-                    <a class="underline"
-                    href="{{ route('mailcoach.campaigns.outbox', $campaign) . '?filter[type]=failed' }}">Check the outbox</a>.
+                    <a class="underline" href="{{ route('mailcoach.campaigns.outbox', $campaign) . '?filter[type]=failed' }}">{{ __('Check the outbox') }}</a>.
                 </div>
                 @endif
 
@@ -85,7 +83,7 @@
             </div>
 
 
-            <h2 class="markup-h2 mt-12">24-hour performance</h2>
+            <h2 class="markup-h2 mt-12">{{ __('24-hour performance') }}</h2>
 
             <div class="mt-6">
                 @include('mailcoach::app.campaigns.partials.chart')
@@ -94,41 +92,41 @@
 
         <hr class="border-t-2 border-gray-200 my-8">
 
-        <h2 class="markup-h2">Statistics</h2>
+        <h2 class="markup-h2">{{ __('Statistics') }}</h2>
 
         <div class="mt-6 grid grid-cols-3 gap-6 justify-start items-end max-w-xl">
             @if ($campaign->track_opens)
                 <x-statistic :href="route('mailcoach.campaigns.opens', $campaign)" class="col-start-1"
-                             numClass="text-4xl font-semibold" :stat="$campaign->unique_open_count" label="Unique Opens"/>
-                <x-statistic :stat="$campaign->open_count" label="Opens"/>
-                <x-statistic :stat="$campaign->open_rate" label="Open Rate" suffix="%"/>
+                             numClass="text-4xl font-semibold" :stat="$campaign->unique_open_count" :label="__('Unique Opens')"/>
+                <x-statistic :stat="$campaign->open_count" :label="__('Opens')"/>
+                <x-statistic :stat="$campaign->open_rate" :label="__('Open Rate')" suffix="%"/>
             @else
                 <div class="col-start-1 col-span-3">
                     <div class="text-4xl font-semibold">–</div>
-                    <div class="text-sm">Opens not tracked</div>
+                    <div class="text-sm">{{ __('Opens not tracked') }}</div>
                 </div>
             @endif
 
             @if($campaign->track_clicks)
                 <x-statistic :href="route('mailcoach.campaigns.clicks', $campaign)" class="col-start-1"
-                             numClass="text-4xl font-semibold" :stat="$campaign->unique_click_count" label="Unique Clicks"/>
-                <x-statistic :stat="$campaign->click_count" label="Clicks"/>
-                <x-statistic :stat="$campaign->click_rate" label="Click Rate" suffix="%"/>
+                             numClass="text-4xl font-semibold" :stat="$campaign->unique_click_count" :label="__('Unique Clicks')"/>
+                <x-statistic :stat="$campaign->click_count" :label="__('Clicks')"/>
+                <x-statistic :stat="$campaign->click_rate" :label="__('Click Rate')" suffix="%"/>
             @else
                 <div class="col-start-1 col-span-3">
                     <div class="text-4xl font-semibold">–</div>
-                    <div class="text-sm">Clicks not tracked</div>
+                    <div class="text-sm">{{ __('Clicks not tracked') }}</div>
                 </div>
             @endif
 
             <x-statistic :href="route('mailcoach.campaigns.unsubscribes', $campaign)" numClass="text-4xl font-semibold"
-                         :stat="$campaign->unsubscribe_count" label="Unsubscribes"/>
-            <x-statistic :stat="$campaign->unsubscribe_rate" label="Unsubscribe Rate" suffix="%"/>
+                         :stat="$campaign->unsubscribe_count" :label="__('Unsubscribes')"/>
+            <x-statistic :stat="$campaign->unsubscribe_rate" :label="__('Unsubscribe Rate')" suffix="%"/>
 
             <x-statistic :href="route('mailcoach.campaigns.outbox', $campaign) . '?filter[type]=bounced'"
                          class="col-start-1" numClass="text-4xl font-semibold" :stat="$campaign->bounce_count"
-                         label="Bounces"/>
-            <x-statistic :stat="$campaign->bounce_rate" label="Bounce Rate" suffix="%"/>
+                         :label="__('Bounces')"/>
+            <x-statistic :stat="$campaign->bounce_rate" :label="__('Bounce Rate')" suffix="%"/>
 
         </div>
     </div>

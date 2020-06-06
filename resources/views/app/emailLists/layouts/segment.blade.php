@@ -7,11 +7,11 @@
         <ul class="breadcrumbs">
             <li>
                 <a href="{{ route('mailcoach.emailLists') }}">
-                    <span class="breadcrumb">Lists</span>
+                    <span class="breadcrumb">{{ __('Lists') }}</span>
                 </a>
             </li>
             <li><a href="{{ route('mailcoach.emailLists.subscribers', $segment->emailList) }}"><span class="breadcrumb">{{ $segment->emailList->name }}</span></a></li>
-            <li><a href="{{ route('mailcoach.emailLists.segments', $segment->emailList) }}"><span class="breadcrumb">Segments</span></a></li>
+            <li><a href="{{ route('mailcoach.emailLists.segments', $segment->emailList) }}"><span class="breadcrumb">{{ __('Segments') }}</span></a></li>
             @yield('breadcrumbs')
         </ul>
     </nav>

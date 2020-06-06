@@ -1,11 +1,11 @@
-@extends('mailcoach::app.layouts.app', ['title' => 'Import subscribers | ' . $emailList->name])
+@extends('mailcoach::app.layouts.app', ['title' => __('Import subscribers') . ' | ' . $emailList->name])
 
 @section('header')
     <nav>
         <ul class="breadcrumbs">
-            <li><a href="{{ route('mailcoach.emailLists') }}"><span class="breadcrumb">Lists</span></a></li>
+            <li><a href="{{ route('mailcoach.emailLists') }}"><span class="breadcrumb">{{ __('Lists') }}</span></a></li>
             <li><a href="{{ route('mailcoach.emailLists.subscribers', [$emailList]) }}"><span class="breadcrumb">{{ $emailList->name }}</span></a></li>
-            <li><span class="breadcrumb">Import subscribers</span></li>
+            <li><span class="breadcrumb">{{ __('Import subscribers') }}</span></li>
         </ul>
     </nav>
 @endsection
@@ -16,11 +16,11 @@
             <table class="table table-fixed mb-12">
                 <thead>
                 <tr>
-                    <th class="w-32">Status</th>
-                    <th class="w-48 th-numeric">Started at</th>
-                    <th>List</th>
-                    <th class="w-32 th-numeric">Imported subscribers</th>
-                    <th class="w-32 th-numeric">Errors</th>
+                    <th class="w-32">{{ __('Status') }}</th>
+                    <th class="w-48 th-numeric">{{ __('Started at') }}</th>
+                    <th>{{ __('List') }}</th>
+                    <th class="w-32 th-numeric">{{ __('Imported subscribers') }}</th>
+                    <th class="w-32 th-numeric">{{ __('Errors') }}</th>
                     <th class="w-12"></th>
                 </tr>
                 </thead>
@@ -30,13 +30,13 @@
                         <td>
                             @switch($subscriberImport->status)
                                 @case(\Spatie\Mailcoach\Enums\SubscriberImportStatus::PENDING)
-                                <i title="Scheduled" class="far fa-clock text-orange-500`"></i>
+                                <i title="{{ __('Scheduled') }}" class="far fa-clock text-orange-500`"></i>
                                 @break
                                 @case(\Spatie\Mailcoach\Enums\SubscriberImportStatus::IMPORTING)
-                                <i title="Importing" class="fas fa-sync fa-spin text-blue-500"></i>
+                                <i title="{{ __('Importing') }}" class="fas fa-sync fa-spin text-blue-500"></i>
                                 @break
                                 @case(\Spatie\Mailcoach\Enums\SubscriberImportStatus::COMPLETED)
-                                <i title="Completed" class="fas fa-check text-green-500"></i>
+                                <i title="{{ __('Completed') }}" class="fas fa-check text-green-500"></i>
                                 @break
                             @endswitch
                         </td>
@@ -103,7 +103,7 @@
         </form>
 
         <p class="alert alert-info mt-6">
-            Upload a CSV file with these columns: email, first_name, last_name, tags <a href="https://mailcoach.app/docs/v2/app/lists/subscribers#importing-subscribers" target="_blank">(see documentation)</a>
+            {!! __('Upload a CSV file with these columns: email, first_name, last_name, tags <a href=":link" target="_blank">(see documentation)</a>', ['link' => 'https://mailcoach.app/docs/v2/app/lists/subscribers#importing-subscribers']) !!}
         </p>
     </section>
 @endsection

@@ -1,7 +1,7 @@
 @component('mail::message')
 {{ __('Hi') }},
 
-{{ __('You are now subscribed to list :emaillistname',['emaillistname'=>$subscriber->emailList->name]) }}.
+{{ __('You are now subscribed to list :emailListName', ['emailListName'=>$subscriber->emailList->name]) }}.
 
 {{ __('Happy to have you') }}!
 

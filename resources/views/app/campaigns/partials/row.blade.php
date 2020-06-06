@@ -41,12 +41,12 @@
         @elseif($campaign->isSending())
             {{ optional($campaign->updated_at)->toMailcoachFormat() }}
             <div class="td-secondary-line">
-                In progress
+                {{ __('In progress') }}
             </div>
         @elseif($campaign->isScheduled())
             {{ optional($campaign->scheduled_at)->toMailcoachFormat() }}
             <div class="td-secondary-line">
-                Scheduled
+                {{ __('Scheduled') }}
             </div>
         @else
         -
@@ -71,7 +71,7 @@
                         :action="route('mailcoach.campaigns.delete', $campaign)"
                         method="DELETE"
                         data-confirm="true"
-                        :data-confirm-text="'Are you sure you want to delete campaign ' . $campaign->name . '?'"
+                        :data-confirm-text="__('Are you sure you want to delete campaign :campaignName?', ['campaignName' => $campaign->name])"
                     >
                         <x-icon-label icon="fa-trash-alt" :text="__('Delete')" :caution="true" />
                     </x-form-button>

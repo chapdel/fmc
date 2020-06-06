@@ -47,7 +47,7 @@ class EmailListSettingsController
 
         $emailList->allowedFormSubscriptionTags()->sync($request->allowedFormSubscriptionTags());
 
-        flash()->success("List {$emailList->name} was updated.");
+        flash()->success(__('List :emailList was updated', ['emailList' => $emailList->name]));
 
         return redirect()->route('mailcoach.emailLists.settings', $emailList->id);
     }

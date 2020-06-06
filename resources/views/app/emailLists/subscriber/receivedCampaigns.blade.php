@@ -1,6 +1,6 @@
 @extends('mailcoach::app.emailLists.layouts.subscriber', [
     'subscriber' => $subscriber,
-    'titlePrefix' => 'Received campaigns'
+    'titlePrefix' => __('Received campaigns'),
 ])
 
 @section('breadcrumbs')
@@ -9,24 +9,24 @@
             <span class="breadcrumb">{{ $subscriber->email }}</span>
         </a>
     </li>
-    <li><span class="breadcrumb">Received campaigns</span></li>
+    <li><span class="breadcrumb">{{ __('Received campaigns') }}</span></li>
 @endsection
 
 @section('subscriber')
     @if($sends->count())
         <div class="table-actions">
             <div class="table-filters">
-                <x-search placeholder="Filter campaigns…"/>
+                <x-search :placeholder="__('Filter campaigns…')"/>
             </div>
         </div>
 
         <table class="table table-fixed">
             <thead>
                 <tr>
-                    <th>Campaign</th>
-                    <th class="w-32 th-numeric">Opens</th>
-                    <th class="w-32 th-numeric">Clicks</th>
-                    <th class="w-48 th-numeric hidden | md:table-cell">Sent</th>
+                    <th>{{ __('Campaign') }}</th>
+                    <th class="w-32 th-numeric">{{ __('Opens') }}</th>
+                    <th class="w-32 th-numeric">{{ __('Clicks') }}</th>
+                    <th class="w-48 th-numeric hidden | md:table-cell">{{ __('Sent') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -53,7 +53,7 @@
         ></x-table-status>
     @else
         <p class="alert alert-info">
-            This user hasn't received any campaign yet.
+            {{ __("This user hasn't received any campaign yet.") }}
         </p>
     @endif
 @endsection

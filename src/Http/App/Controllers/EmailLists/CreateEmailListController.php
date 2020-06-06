@@ -20,7 +20,7 @@ class CreateEmailListController
             'transactional_mailer' => config('mailcoach.transactional_mailer') ?? config('mailcoach.mailer') ?? config('mail.default'),
         ]);
 
-        flash()->success("List {$emailList->name} was created.");
+        flash()->success(__('List :emailList was created', ['emailList' => $emailList->name]));
 
         return redirect()->route('mailcoach.emailLists.subscribers', $emailList);
     }

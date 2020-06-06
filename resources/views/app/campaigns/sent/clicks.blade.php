@@ -1,6 +1,6 @@
 @extends('mailcoach::app.campaigns.sent.layouts.show', [
     'campaign' => $campaign,
-    'titlePrefix' => 'Clicks',
+    'titlePrefix' => __('Clicks'),
 ])
 
 @section('breadcrumbs')
@@ -9,7 +9,7 @@
             <span class="breadcrumb">{{ $campaign->name }}</span>
         </a>
     </li>
-    <li><span class="breadcrumb">Clicks</span></li>
+    <li><span class="breadcrumb">{{ __('Clicks') }}</span></li>
 @endsection
 
 @section('campaign')
@@ -17,16 +17,16 @@
         @if($campaign->click_count)
             <div class="table-actions">
                 <div class="table-filters">
-                    <x-search placeholder="Filter clicks…" />
+                    <x-search :placeholder="__('Filter clicks…')" />
                 </div>
             </div>
 
             <table class="table table-fixed">
                 <thead>
                     <tr>
-                        <x-th sort-by="link">Link</x-th>
-                        <x-th sort-by="-unique_click_count" class="w-32 th-numeric hidden | md:table-cell">Unique clicks</x-th>
-                        <x-th sort-by="-click_count" class="w-32 th-numeric">Clicks</x-th>
+                        <x-th sort-by="link">{{ __('Link') }}</x-th>
+                        <x-th sort-by="-unique_click_count" class="w-32 th-numeric hidden | md:table-cell">{{ __('Unique clicks') }}</x-th>
+                        <x-th sort-by="-click_count" class="w-32 th-numeric">{{ __('Clicks') }}</x-th>
                     <tr>
                 </thead>
                 <tbody>
@@ -48,12 +48,12 @@
             ></x-table-status>
         @else
             <p class="alert alert-info">
-                No clicks yet. Stay tuned.
+                {{ __('No clicks yet. Stay tuned.') }}
             </p>
         @endif
     @else
         <p class="alert alert-info">
-            Click tracking was not enabled for this campaign.
+            {{ __('Click tracking was not enabled for this campaign.') }}
         </p>
     @endif
 @endsection

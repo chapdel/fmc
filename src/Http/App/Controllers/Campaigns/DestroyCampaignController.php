@@ -10,7 +10,7 @@ class DestroyCampaignController
     {
         $campaign->delete();
 
-        flash()->success("Campaign {$campaign->name} was deleted.");
+        flash()->success(__('Campaign :campaign was deleted.', ['campaign' => $campaign->name]));
 
         return redirect()->back();
     }

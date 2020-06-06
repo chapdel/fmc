@@ -1,6 +1,6 @@
 @extends('mailcoach::app.emailLists.layouts.edit', [
     'emailList' => $emailList,
-    'titlePrefix' => 'Settings'
+    'titlePrefix' => __('Settings'),
 ])
 
 @section('breadcrumbs')
@@ -9,7 +9,7 @@
             <span class="breadcrumb">{{ $emailList->name }}</span>
         </a>
     </li>
-    <li><span class="breadcrumb">Settings</span></li>
+    <li><span class="breadcrumb">{{ __('Settings') }}</span></li>
 @endsection
 
 @section('emailList')
@@ -65,15 +65,14 @@
                 <x-checkbox-field dataConditional="post" :label="__('Allow POST from an external form')"
                                   name="allow_form_subscriptions"
                                   :checked="$emailList->allow_form_subscriptions"/>
-                <code class="markup-code text-xs ml-8 -mt-1">&lt;form
-                    action="{{$emailList->incomingFormSubscriptionsUrl()}}"&gt;</code>
+                <code class="markup-code text-xs ml-8 -mt-1">&lt;form action="{{$emailList->incomingFormSubscriptionsUrl()}}"&gt;</code>
 
             </div>
         </div>
 
         <div data-conditional-post="true" class="pl-8 max-w-xl">
             <x-tags-field
-                label="Optionally, allow following subscriber tags"
+                :label="__('Optionally, allow following subscriber tags')"
                 name="allowed_form_subscription_tags"
                 :value="$emailList->allowedFormSubscriptionTags()->pluck('name')->toArray()"
                 :tags="$emailList->tags()->pluck('name')->toArray()"
@@ -192,11 +191,11 @@
                 </div>
 
                 <div class="form-grid" data-conditional-confirmation-mail="send_custom_confirmation_mail">
-                    <x-text-field label="Subject" name="confirmation_mail_subject"
+                    <x-text-field :label="__('Subject')" name="confirmation_mail_subject"
                                   :value="$emailList->confirmation_mail_subject" type="text"/>
 
                     <div class="form-row max-w-full">
-                        <label class="label label-required" for="html">Body (HTML)</label>
+                        <label class="label label-required" for="html">{{ __('Body (HTML)') }}</label>
                         <textarea class="input input-html" rows="20" id="html"
                                   name="confirmation_mail_content">{{ old('confirmation_mail_content', $emailList->confirmation_mail_content) }}</textarea>
                         @error('confirmation_mail_content')

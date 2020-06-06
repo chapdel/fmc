@@ -28,7 +28,7 @@ class CreateCampaignController
 
         $campaign->update(['segment_description' => (new EverySubscriberSegment())->description($campaign)]);
 
-        flash()->success("Campaign {$campaign->name} was created.");
+        flash()->success(__('Campaign :campaign was created.', ['campaign' => $campaign->name]));
 
         return redirect()->route('mailcoach.campaigns.settings', $campaign);
     }

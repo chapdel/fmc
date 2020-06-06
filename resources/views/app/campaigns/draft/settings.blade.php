@@ -21,10 +21,10 @@
         @include('mailcoach::app.campaigns.draft.partials.emailListFields')
 
         <div class="form-row">
-            <label class="label">Track when…</label>
+            <label class="label">{{ __('Track when…') }}</label>
             <div class="checkbox-group">
-                <x-checkbox-field label="Someone opens this email" name="track_opens" :checked="$campaign->track_opens" />
-                <x-checkbox-field label="Links in the email are clicked" name="track_clicks" :checked="$campaign->track_clicks" />
+                <x-checkbox-field :label="__('Someone opens this email')" name="track_opens" :checked="$campaign->track_opens" />
+                <x-checkbox-field :label="__('Links in the email are clicked')" name="track_clicks" :checked="$campaign->track_clicks" />
             </div>
         </div>
 

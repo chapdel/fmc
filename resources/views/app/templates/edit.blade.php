@@ -5,7 +5,7 @@
         <ul class="breadcrumbs">
             <li>
                 <a href="{{ route('mailcoach.templates') }}">
-                    <span class="breadcrumb"> {{ __('Templates') }}</span>
+                    <span class="breadcrumb">{{ __('Templates') }}</span>
                 </a>
             </li>
             <li><span class="breadcrumb">{{ $template->name }}</span></li>

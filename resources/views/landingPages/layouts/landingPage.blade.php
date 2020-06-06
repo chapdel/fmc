@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="pt-8 text-gray-400 text-xs text-center">
-                Powered by
+                {{ __('Powered by') }}
                 <a class="link-dimmed inline-flex items-center" href="https://mailcoach.app">
                     Mailcoach
                     <span class="h-5 ml-1">

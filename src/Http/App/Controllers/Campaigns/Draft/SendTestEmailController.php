@@ -11,7 +11,7 @@ class SendTestEmailController
     public function __invoke(Campaign $campaign, SendTestEmailRequest $request)
     {
         if (! $campaign->isPending()) {
-            flash()->error("Can't send a test email for campaign {$campaign->name} because it has already been sent.");
+            flash()->error(__('Can\'t send a test email for campaign :campaign because it has already been sent.', ['campaign' => $campaign->name]));
 
             return back();
         }
@@ -23,9 +23,9 @@ class SendTestEmailController
         if (count($request->sanitizedEmails()) > 1) {
             $emailCount = count($request->sanitizedEmails());
 
-            flash()->success("A test email was sent to {$emailCount} addresses.");
+            flash()->success(__('A test email was sent to :count addresses.', ['emailCount' => $emailCount]));
         } else {
-            flash()->success("A test email was sent to {$request->sanitizedEmails()[0]}.");
+            flash()->success(__('A test email was sent to :email.', ['email' => $request->sanitizedEmails()[0]]));
         }
 
         return back();

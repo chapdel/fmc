@@ -11,7 +11,7 @@ class DestroySubscriberController
     {
         $subscriber->delete();
 
-        flash()->success("Subscriber {$subscriber->email} was deleted.");
+        flash()->success(__('Subscriber :subscriber was deleted.', ['subscriber' => $subscriber->email]));
 
         return back();
     }

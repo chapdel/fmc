@@ -7,7 +7,7 @@
         <ul class="breadcrumbs">
             <li>
                 <a href={{ route('mailcoach.campaigns') }}>
-                    <span class="breadcrumb">Campaigns</span>
+                    <span class="breadcrumb">{{ __('Campaigns') }}</span>
                 </a>
             </li>
             @yield('breadcrumbs')

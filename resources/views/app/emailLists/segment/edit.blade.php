@@ -11,24 +11,24 @@
         method="POST"
     >
         @if (! $emailList->tags()->count())
-        <x-help>
-            <div class="markup-lists">
-                A segment is based on tags.
-                <ol class="mt-4">
-                    <li><a href={{ route('mailcoach.emailLists.tags', $emailList) }}>Create some tags</a> for this list first.</li>
-                    <li>Assign these tags to some of the <a href={{ route('mailcoach.emailLists.subscribers', $emailList) }}>subscribers</a>.</li>
-                </ol>
-            </div>
-        </x-help>
+            <x-help>
+                <div class="markup-lists">
+                    {{ __('A segment is based on tags.') }}
+                    <ol class="mt-4">
+                        <li>{!! __('<a href=":tagLink">Create some tags</a> for this list first.', ['tagLink' => route('mailcoach.emailLists.tags', $emailList)]) !!}</li>
+                        <li>{!! __('Assign these tags to some of the <a href=":subscriberslink">subscribers</a>.', ['subscriberslink' => route('mailcoach.emailLists.subscribers', $emailList)]) !!}</li>
+                    </ol>
+                </div>
+            </x-help>
         @endif
 
         @csrf
         @method('PUT')
 
-        <x-text-field label="Name" name="name" :value="$segment->name" type="name" required />
+        <x-text-field :label="__('Name')" name="name" :value="$segment->name" type="name" required />
 
         <div class="form-row">
-            <label class=label>Include with tags</label>
+            <label class=label>{{ __('Include with tags') }}</label>
             <div class="flex items-end">
                 <div class="flex-none">
                     <x-select-field
@@ -48,7 +48,7 @@
         </div>
 
         <div class="form-row">
-            <label class=label>Exclude with tags</label>
+            <label class=label>{{ __('Exclude with tags') }}</label>
             <div class="flex items-end">
                 <div class="flex-none">
                     <x-select-field

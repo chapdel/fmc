@@ -1,7 +1,7 @@
 @component('mail::message')
 {{ __('Hi') }},
 
-{{ __('Campaign **:campaignname** was sent to **:number_of_subscribers** subscribers (list :emaillistname) on :sentat',['campaignname'=>$campaign->name,'number_of_subscribers'=>($campaign->sent_to_number_of_subscribers ?? 0 ),'emaillistname'=>$campaign->emailList->name,'sentat'=>$campaign->sent_at->toMailcoachFormat()]) }}.
+{{ __('Campaign **:campaignName** was sent to **:numberOfSubscribers** subscribers (list :emailListName) on :sentAt', ['campaignName'=>$campaign->name,'numberOfSubscribers'=>($campaign->sent_to_number_of_subscribers ?? 0 ),'emailListName'=>$campaign->emailList->name,'sentAt'=>$campaign->sent_at->toMailcoachFormat()]) }}.
 
 
 <table class="stats">
