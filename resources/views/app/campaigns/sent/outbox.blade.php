@@ -13,7 +13,7 @@
 @endsection
 
 @section('campaign')
-    @if ($totalFailed > 0)
+    @if (true || $totalFailed > 0)
         <div class="table-actions">
             <x-form-button
             :action="route('mailcoach.campaigns.retry-failed-sends', [$campaign])"
@@ -22,7 +22,7 @@
             :data-confirm-text="__('Are you sure you want to resend :totalFailed mails?', ['totalFailed' => $totalFailed])"
             class="mt-4 button"
             >
-                <x-icon-label icon="fa-exclamation-triangle" :text="'Try resending ' . $totalFailed . ' failed ' . \Illuminate\Support\Str::plural('email', $totalFailed)" />
+                <x-icon-label icon="fa-exclamation-triangle" :text="__('Try resending :totalFailed :email', ['totalFailed' => $totalFailed, 'email' => trans_choice(__('email|emails'), $totalFailed)])" />
             </x-form-button>
     </div>
     @endif

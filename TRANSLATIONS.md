@@ -8,9 +8,9 @@ X Check app/ folder
 X Add all `__('')'` instances
 X Check the `messages` translation
 x Unlayer etc.
-- Alert confirm text
+x Alert confirm text
 X XXX was duplicated flash
-- Check Str::plural
+X Check Str::plural
 {{ trans_choice(__('There was 1 error.|There were :count errors.'), $subscriberImport->error_count) }}
 
 ## Sections

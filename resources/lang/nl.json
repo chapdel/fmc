@@ -2,9 +2,14 @@
     "Campaigns": "Nieuwsbrieven",
     "Lists": "Lijsten",
     "Templates": "Templates",
+    "Campaign": "Nieuwsbrief",
     "Displaying": "Toon",
-    "of": "van de",
+    "Displaying :count of :totalCount :resource": "Toon :count van de :totalCount :resource",
+    "is sending to :sendsCount/:sentToNumberOfSubscribers :subscriber of": "wordt verstuurd naar :sendsCount/:sentToNumberOfSubscribers :subscriber van",
+    "is preparing to send to": "wordt voorbereid om te versturen naar",
     "campaign|campaigns": "nieuwsbrief|nieuwsbrieven",
+    "email|emails": "e-mail|e-mails",
+    "subscriber|subscribers": "abonnee|abonnees",
     "list|lists": "lijst|lijsten",
     "Press to select": "Klik om te selecteren"
 }

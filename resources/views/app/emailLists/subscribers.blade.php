@@ -31,8 +31,12 @@
                         <li>
                             <x-form-button
                                 :action="route('mailcoach.emailLists.subscribers.export', $emailList) . '?' . request()->getQueryString()">
-                                <x-icon-label icon="fa-file"
-                                              :text="$emailList->allSubscribers()->count() === $subscribers->total() ? 'Export all subscribers' : 'Export ' . $subscribers->total() . ' ' . \Illuminate\Support\Str::plural('subscriber', $subscribers->total())"/>
+
+                                @if($emailList->allSubscribers()->count() === $subscribers->total())
+                                    <x-icon-label icon="fa-file" :text="__('Export all subscribers')"/>
+                                @else
+                                    <x-icon-label icon="fa-file" :text="__('Export :total :subscriber', ['total' => $subscribers->total(), 'subscriber' => trans_choice(__('subscriber|subscriber'), $subscribers->total())])"/>
+                                @endif
                             </x-form-button>
                         </li>
                         <li>

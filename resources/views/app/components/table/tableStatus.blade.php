@@ -1,5 +1,5 @@
 <p class="table-status">
-    {{ __('Displaying') }} {{ $paginator->count() }} {{ __('of') }} {{ $totalCount }} {{ trans_choice($name, $totalCount) }}.
+    {{ __('Displaying :count of :totalCount :resource', ['count' => $paginator->count(), 'totalCount' => $totalCount, 'resource' => trans_choice($name, $totalCount)]) }}.
     @if($paginator->total() !== $totalCount)
         <a href="{{ $showAllUrl }}" class="link-dimmed" data-turbolinks="false">
             {{ __('Show all') }}

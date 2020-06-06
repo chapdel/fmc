@@ -7,13 +7,16 @@
 @section('campaign')
     <div @if(!$campaign->sent_at || $campaign->sent_at->addDay()->isFuture()) id="campaign-summary" data-poll @endif>
         @if((! $campaign->isSent()) || (! $campaign->wasSentToAllSubscribers()))
-            @if (! $campaign->sent_to_number_of_subscribers)
+            @if ( $campaign->sent_to_number_of_subscribers)
                 <div class="flex alert alert-info">
                     <div class="mr-2">
                         <i class="fas fa-sync fa-spin text-blue-500"></i>
                     </div>
                     <div>
-                        {{ __('Campaign <a target="_blank" href=":webviewUrl">:campaignName</a> is preparing to send to', ['webviewUrl' => $campaign->webviewUrl(), 'campaignName' => $campaign->name]) }}
+                        {{ __('Campaign') }}
+                        <a target="_blank" href="{{ $campaign->webviewUrl() }}">{{ $campaign->name }}</a>
+
+                        {{ __('is preparing to send to') }}
 
                         @if($campaign->emailList)
                             <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
@@ -32,11 +35,15 @@
                         <i class="fas fa-sync fa-spin text-blue-500"></i>
                     </div>
                     <div>
-                        Campaign <a target="_blank"
-                                    href="{{ $campaign->webviewUrl() }}">{{ $campaign->name }}</a>
-                        is sending to
-                        <strong>{{ $campaign->sendsCount() }}</strong>/{{ $campaign->sent_to_number_of_subscribers }} {{ \Illuminate\Support\Str::plural('subscriber', $campaign->sent_to_number_of_subscribers) }}
-                        of
+                        {{ __('Campaign') }}
+                        <a target="_blank" href="{{ $campaign->webviewUrl() }}">{{ $campaign->name }}</a>
+
+                        {{ __('is sending to :sendsCount/:sentToNumberOfSubscribers :subscriber of', [
+                            'sendsCount' => $campaign->sendsCount(),
+                            'sentToNumberOfSubscribers' => $campaign->sent_to_number_of_subscribers,
+                            'subscriber' => trans_choice(__('subscriber|subscribers'), $campaign->sent_to_number_of_subscribers)
+                        ]) }}
+
                         @if($campaign->emailList)
                             <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
                         @else
@@ -54,11 +61,15 @@
                     <i class="fas fa-check text-green-500"></i>
                 </div>
                 <div>
-                    Campaign <a target="_blank"
-                                href="{{ $campaign->webviewUrl() }}">{{ $campaign->name }}</a>
-                    was delivered succesfully to
-                    <strong>{{ $campaign->sent_to_number_of_subscribers - ($failedSendsCount ?? 0) }} {{ \Illuminate\Support\Str::plural('subscriber', $campaign->sent_to_number_of_subscribers) }}</strong>
-                    of
+                    {{ __('Campaign') }}
+                    <a target="_blank" href="{{ $campaign->webviewUrl() }}">{{ $campaign->name }}</a>
+
+                    {{ __('was delivered succesfully to') }}
+
+                    <strong>{{ $campaign->sent_to_number_of_subscribers - ($failedSendsCount ?? 0) }} {{ trans_choice('subscriber|subscribers', $campaign->sent_to_number_of_subscribers) }}</strong>
+
+                    {{ __('of') }}
+
                     @if($campaign->emailList)
                         <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
                     @else
@@ -74,7 +85,7 @@
                     <i class="fas fa-times text-red-500"></i>
                 </div>
                 <div>
-                    Delivery failed for <strong>{{ $failedSendsCount }}</strong> {{ \Illuminate\Support\Str::plural('subscriber', $failedSendsCount) }}.
+                    {{ __('Delivery failed for') }} <strong>{{ $failedSendsCount }}</strong> {{ trans_choice('subscriber|subscribers', $failedSendsCount) }}.
                     <a class="underline" href="{{ route('mailcoach.campaigns.outbox', $campaign) . '?filter[type]=failed' }}">{{ __('Check the outbox') }}</a>.
                 </div>
                 @endif
