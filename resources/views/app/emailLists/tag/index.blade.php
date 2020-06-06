@@ -69,7 +69,7 @@
         </table>
 
         <x-table-status
-            name="tag"
+            :name="__('tag|tags')"
             :paginator="$tags"
             :total-count="$totalTagsCount"
             :show-all-url="route('mailcoach.emailLists.tags', $emailList)"

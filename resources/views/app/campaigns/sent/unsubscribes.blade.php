@@ -45,7 +45,7 @@
     </table>
 
     <x-table-status
-        name="unsubscribe"
+        :name="__('unsubscribe|unsubscribers')"
         :paginator="$unsubscribes"
         :total-count="$totalUnsubscribes"
         :show-all-url="route('mailcoach.campaigns.unsubscribes', $campaign)"

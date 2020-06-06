@@ -175,7 +175,7 @@
             </tbody>
         </table>
 
-        <x-table-status name="subscriber" :paginator="$subscribers" :total-count="$totalSubscriptionsCount"
+        <x-table-status :name="__('subscriber|subscribers')" :paginator="$subscribers" :total-count="$totalSubscriptionsCount"
                         :show-all-url="route('mailcoach.emailLists.subscribers', $emailList)">
         </x-table-status>
     @else

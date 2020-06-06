@@ -45,7 +45,7 @@
             </table>
 
             <x-table-status
-                name="open"
+                :name="__('open|opens')"
                 :paginator="$campaignOpens"
                 :total-count="$totalCampaignOpensCount"
                 :show-all-url="route('mailcoach.campaigns.opens', $campaign)"

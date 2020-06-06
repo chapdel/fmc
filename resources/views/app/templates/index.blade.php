@@ -76,7 +76,7 @@
             </table>
 
             <x-table-status
-                name="template"
+                :name="__('template|templates')"
                 :paginator="$templates"
                 :total-count="$totalTemplatesCount"
                 :show-all-url="route('mailcoach.templates')"

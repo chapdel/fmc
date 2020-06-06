@@ -34,7 +34,7 @@
                     <x-select-field
                         name="positive_tags_operator"
                         :value="$segment->all_positive_tags_required ? 'all' : 'any'"
-                        :options="['any' => 'Any', 'all' => 'All']"
+                        :options="['any' => __('Any'), 'all' => __('All')]"
                     />
                 </div>
                 <div class="ml-2 flex-grow">
@@ -54,7 +54,7 @@
                     <x-select-field
                         name="negative_tags_operator"
                         :value="$segment->all_negative_tags_required ? 'all' : 'any'"
-                        :options="['any' => 'Any', 'all' => 'All']"
+                        :options="['any' => __('Any'), 'all' => __('All')]"
                     />
                 </div>
                 <div class="ml-2 flex-grow">

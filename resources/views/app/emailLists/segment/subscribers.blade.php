@@ -51,7 +51,7 @@
             </table>
         </div>
 
-        <x-table-status name="subscriber" :paginator="$subscribers" :total-count="$selectedSubscribersCount"
+        <x-table-status :name="__('subscriber|subscribers')" :paginator="$subscribers" :total-count="$selectedSubscribersCount"
                         :show-all-url="route('mailcoach.emailLists.segment.subscribers', [$segment->emailList, $segment])">
         </x-table-status>
     @else

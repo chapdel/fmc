@@ -41,7 +41,7 @@
             </table>
 
             <x-table-status
-                name="link"
+                :name="__('link|links')"
                 :paginator="$links"
                 :total-count="$totalLinksCount"
                 :show-all-url="route('mailcoach.campaigns.clicks', $campaign)"

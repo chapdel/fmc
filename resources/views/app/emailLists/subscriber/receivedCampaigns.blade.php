@@ -46,7 +46,7 @@
         </table>
 
         <x-table-status
-            name="send"
+            :name="__('send|sends')"
             :paginator="$sends"
             :total-count="$totalSendsCount"
             :show-all-url="route('mailcoach.emailLists.subscribers', [$subscriber->emailList])"

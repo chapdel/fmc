@@ -2,6 +2,6 @@
 
 @section('content')
     <p>
-        {{ __('You were already unsubscribed from the list <strong class="font-semibold">:emailListName</strong>.', ['emailListName' => $emailList->name]) }}
+        {!! __('You were already unsubscribed from the list <strong class="font-semibold">:emailListName</strong>.', ['emailListName' => $emailList->name]) !!}
     </p>
 @endsection

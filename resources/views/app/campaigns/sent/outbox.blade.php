@@ -19,7 +19,7 @@
             :action="route('mailcoach.campaigns.retry-failed-sends', [$campaign])"
             method="POST"
             data-confirm="true"
-            :data-confirm-text="__('Are you sure you want to resend :totalFailed mails?', ['totalFailed' => $totalFailed'])"
+            :data-confirm-text="__('Are you sure you want to resend :totalFailed mails?', ['totalFailed' => $totalFailed])"
             class="mt-4 button"
             >
                 <x-icon-label icon="fa-exclamation-triangle" :text="'Try resending ' . $totalFailed . ' failed ' . \Illuminate\Support\Str::plural('email', $totalFailed)" />
@@ -73,6 +73,6 @@
         </tbody>
     </table>
 
-    <x-table-status name="send" :paginator="$sends" :total-count="$totalSends"
+    <x-table-status :name="__('send|sends')" :paginator="$sends" :total-count="$totalSends"
                     :show-all-url="route('mailcoach.campaigns.outbox', $campaign)"></x-table-status>
 @endsection

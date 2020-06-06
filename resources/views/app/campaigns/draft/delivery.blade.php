@@ -49,14 +49,14 @@
                     {{ __('Scheduled for delivery at :scheduledAt', ['scheduledAt' => $campaign->scheduled_at->toMailcoachFormat()]) }}
                 @else
                     {{ Illuminate\Support\Arr::random([
-                        'My time to shine!',
-                        'No more time to waste…',
-                        'Last part: deliver the thing!',
-                        'Ready to handle the compliments?',
-                        "Let's make some impact!",
-                        "Allright, let's do this!",
-                        'Everyone is sooo ready for this!',
-                        'Inboxes will be surprised…',
+                        __('My time to shine!'),
+                        __('No more time to waste…'),
+                        __('Last part: deliver the thing!'),
+                        __('Ready to handle the compliments?'),
+                        __("Let's make some impact!"),
+                        __("Allright, let's do this!"),
+                        __('Everyone is sooo ready for this!'),
+                        __('Inboxes will be surprised…'),
                     ]) }}
                 @endif
             </h1>
@@ -66,7 +66,7 @@
                 </p>
             @else
                 <p class="mt-4 alert alert-success">
-                    {!! __('Campaign <strong>:campaign</strong> is ready to be sent.') !!}
+                    {!! __('Campaign <strong>:campaign</strong> is ready to be sent.', ['campaign' => $campaign->name]) !!}
                 </p>
             @endif
         @else
@@ -106,7 +106,7 @@
                     <span class="counter text-xs">
                         {{ $campaign->segmentSubscriberCount() }}
                         <span class="ml-1 font-normal">
-                            {{ Illuminate\Support\Str::plural('subscriber', $campaign->segmentSubscriberCount()) }}
+                            {{ trans_choice(__('subscriber|subscribers'), $campaign->segmentSubscriberCount()) }}
                         </span>
                     </span>
                 </dd>

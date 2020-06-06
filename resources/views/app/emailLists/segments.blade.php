@@ -72,7 +72,7 @@
         </table>
 
         <x-table-status
-            name="segment"
+            :name="__('segment|segments')"
             :paginator="$segments"
             :total-count="$totalSegmentsCount"
             :show-all-url="route('mailcoach.emailLists.segments', $emailList)">

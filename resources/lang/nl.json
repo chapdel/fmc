@@ -1,5 +1,10 @@
 {
     "Campaigns": "Nieuwsbrieven",
     "Lists": "Lijsten",
-    "Templates": "Templates"
+    "Templates": "Templates",
+    "Displaying": "Toon",
+    "of": "van de",
+    "campaign|campaigns": "nieuwsbrief|nieuwsbrieven",
+    "list|lists": "lijst|lijsten",
+    "Press to select": "Klik om te selecteren"
 }

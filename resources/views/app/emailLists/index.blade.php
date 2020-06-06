@@ -75,7 +75,7 @@
             </table>
 
             <x-table-status
-                name="list"
+                :name="__('list|lists')"
                 :paginator="$emailLists"
                 :total-count="$totalEmailListsCount"
                 :show-all-url="route('mailcoach.emailLists')"

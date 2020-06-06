@@ -13,6 +13,17 @@
 
         <meta name="turbolinks-cache-control" content="no-preview">
 
+        <script>
+            window.__ = function (key) {
+                return {
+                    "Are you sure?": "{{ __('Are you sure?') }}",
+                    "Type to add tags": "{{ __('Type to add tags') }}",
+                    "No tags to choose from": "{{ __('No tags to choose from') }}",
+                    "Press to add": "{{ __('Press to add') }}",
+                    "Press to select": "{{ __('Press to select') }}",
+                }[key];
+            };
+        </script>
         <script type="text/javascript" src="{{ asset('vendor/mailcoach/app.js') }}?t={{ app(\Spatie\Mailcoach\Support\Version::class)->getHashedFullVersion() }}" defer></script>
 
         @include('mailcoach::app.layouts.partials.endHead')
@@ -57,7 +68,7 @@
         </div>
 
         <x-modal title="Confirm" name="confirm">
-            {{ __('Are you sure?') }}
+            <span data-confirm-modal-text>{{ __('Are you sure?') }}</span>
 
             <div class="form-buttons">
                 <button type="button" class="button" data-modal-confirm>

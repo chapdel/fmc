@@ -6,9 +6,9 @@
     </p>
     <p class="mt-4">
         @isset($subscriber)
-            {{ __('You are now subscribed to the list <strong class="font-semibold">:emailListName</strong>.', ['emailListName' => $subscriber->emailList->name]) }}
+            {!! __('You are now subscribed to the list <strong class="font-semibold">:emailListName</strong>.', ['emailListName' => $subscriber->emailList->name]) !!}
         @else
-            {{ __('You are now subscribed to the list <strong class="font-semibold">our dummy mailing list</strong>.') }}
+            {!! __('You are now subscribed to the list <strong class="font-semibold">our dummy mailing list</strong>.') !!}
         @endif
     </p>
 @endsection

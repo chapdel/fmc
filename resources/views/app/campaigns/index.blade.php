@@ -39,7 +39,7 @@
                         {{ __('Draft') }} <span class="counter">{{ Illuminate\Support\Str::shortNumber($draftCampaignsCount) }}</span>
                     </x-filter>
                 </x-filters>
-                <x-search placeholder="Filter campaigns…" />
+                <x-search :placeholder="__('Filter campaigns…')"/>
             </div>
         @endif
     </div>
@@ -64,7 +64,7 @@
             </tbody>
         </table>
 
-        <x-table-status name="campaign" :paginator="$campaigns" :total-count="$totalCampaignsCount"
+        <x-table-status :name="__('campaign|campaigns')" :paginator="$campaigns" :total-count="$totalCampaignsCount"
         :show-all-url="route('mailcoach.campaigns')"></x-table-status>
     @else
         @if ($totalListsCount)
