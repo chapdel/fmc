@@ -11,7 +11,7 @@
                 <x-icon-label icon="fa-user" :text="__('Add subscriber')"/>
             </button>
 
-            <x-modal title="Create subscriber" name="create-subscriber" :open="$errors->any()">
+            <x-modal :title="__('Create subscriber')" name="create-subscriber" :open="$errors->any()">
                 @include('mailcoach::app.emailLists.subscriber.partials.create')
             </x-modal>
 

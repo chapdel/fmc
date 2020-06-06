@@ -7,7 +7,7 @@
             <div class="modal">
                 @isset($title)
                     <header class="modal-header">
-                        <span class="modal-title">@lang($title)</span>
+                        <span class="modal-title">{{ $title }}</span>
                     </header>
                 @endisset
                 <div class="modal-content scrollbar">

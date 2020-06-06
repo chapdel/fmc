@@ -15,7 +15,7 @@
                 <x-icon-label icon="fa-clipboard" :text="__('Create template')"/>
             </button>
 
-            <x-modal title="Create template" name="create-template" :open="$errors->any()">
+            <x-modal :title="__('Create template')" name="create-template" :open="$errors->any()">
                 @include('mailcoach::app.templates.partials.create')
             </x-modal>
 

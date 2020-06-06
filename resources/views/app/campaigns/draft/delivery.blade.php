@@ -163,7 +163,7 @@
                 <dd>
                     @if (! $campaign->htmlContainsUnsubscribeUrlPlaceHolder())
                         <p class="markup-code">
-                            {{ __('Without a way to unsubscribe, there\'s a high chance that your subscribers will complain.') }}
+                            {{ __("Without a way to unsubscribe, there's a high chance that your subscribers will complain.") }}
                             {!! __('Consider adding the <code>::unsubscribeUrl::</code> placeholder.') !!}
                         </p>
                     @else
@@ -215,7 +215,9 @@
                         <form method="POST" action="{{ route('mailcoach.campaigns.unschedule', $campaign) }}">
                             @csrf
                             <p class="mb-3">
-                                {!! __('This campaign is scheduled to be sent at <strong>:scheduledAt</strong>.', ['scheduledAt' => $campaign->scheduled_at->toMailcoachFormat()]) !!}
+                                {{ __('This campaign is scheduled to be sent at') }}
+
+                                <strong>{{ $campaign->scheduled_at->toMailcoachFormat() }}</strong>.
                             </p>
                             <button type="submit" class="link-icon">
                                 <x-icon-label icon="fa-ban" :text="__('Unschedule')"/>

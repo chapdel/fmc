@@ -13,7 +13,7 @@
 
         <meta name="turbolinks-cache-control" content="no-preview">
 
-        <script>
+        <script type="text/javascript">
             window.__ = function (key) {
                 return {
                     "Are you sure?": "{{ __('Are you sure?') }}",
@@ -67,7 +67,7 @@
             </footer>
         </div>
 
-        <x-modal title="Confirm" name="confirm">
+        <x-modal :title="__('Confirm')" name="confirm">
             <span data-confirm-modal-text>{{ __('Are you sure?') }}</span>
 
             <div class="form-buttons">
@@ -80,7 +80,7 @@
             </div>
         </x-modal>
 
-        <x-modal title="Confirm navigation" name="dirty-warning">
+        <x-modal :title="__('Confirm navigation')" name="dirty-warning">
             {{ __('There are unsaved changes. Are you sure you want to continue?') }}
 
             <div class="form-buttons">

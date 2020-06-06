@@ -20,7 +20,7 @@
             <x-icon-label icon="fa-tag" :text="__('Create tag')"/>
         </button>
 
-        <x-modal title="Create tag" name="create-tag" :open="$errors->any()">
+        <x-modal :title="__('Create tag')" name="create-tag" :open="$errors->any()">
             @include('mailcoach::app.emailLists.tag.partials.create')
         </x-modal>
 

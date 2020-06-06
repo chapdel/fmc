@@ -17,7 +17,7 @@
                 <x-icon-label icon="fa-address-book" :text="__('Create list')" />
             </button>
 
-            <x-modal title="Create list" name="create-list" :open="$errors->any()">
+            <x-modal :title="__('Create list')" name="create-list" :open="$errors->any()">
                 @include('mailcoach::app.emailLists.partials.create')
             </x-modal>
 

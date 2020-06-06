@@ -13,7 +13,7 @@
 @endsection
 
 @section('campaign')
-    @if (true || $totalFailed > 0)
+    @if ($totalFailed > 0)
         <div class="table-actions">
             <x-form-button
             :action="route('mailcoach.campaigns.retry-failed-sends', [$campaign])"

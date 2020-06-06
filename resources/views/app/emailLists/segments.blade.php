@@ -19,7 +19,7 @@
                 <x-icon-label icon="fa-chart-pie" :text="__('Add segment')"/>
             </button>
 
-            <x-modal title="Create segment" name="create-segment" :open="$errors->any()">
+            <x-modal :title="__('Create segment')" name="create-segment" :open="$errors->any()">
                 @include('mailcoach::app.emailLists.segment.partials.create')
             </x-modal>
         </div>
