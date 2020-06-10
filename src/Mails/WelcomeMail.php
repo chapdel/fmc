@@ -36,7 +36,7 @@ class WelcomeMail extends Mailable implements ShouldQueue
         $customSubject = $this->subscriber->emailList->welcome_mail_subject;
 
         $subject = empty($customSubject)
-            ? "Welcome to {$this->subscriber->emailList->name}"
+            ? __('Welcome to :emailListName', ['emailListName' => $this->subscriber->emailList->name])
             : $this->replacePlaceholders($customSubject);
 
         $this->subject($subject);

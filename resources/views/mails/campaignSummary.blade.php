@@ -1,7 +1,7 @@
 @component('mail::message')
-@lang('Hi'),
+{{ __('Hi') }},
 
-@lang('Campaign **:campaignname** was sent to **:number_of_subscribers** subscribers (list :emaillistname) on :sentat',['campaignname'=>$campaign->name,'number_of_subscribers'=>($campaign->sent_to_number_of_subscribers ?? 0 ),'emaillistname'=>$campaign->emailList->name,'sentat'=>$campaign->sent_at->toMailcoachFormat()]).
+{{ __('Campaign **:campaignName** was sent to **:numberOfSubscribers** subscribers (list :emailListName) on :sentAt', ['campaignName'=>$campaign->name,'numberOfSubscribers'=>($campaign->sent_to_number_of_subscribers ?? 0 ),'emailListName'=>$campaign->emailList->name,'sentAt'=>$campaign->sent_at->toMailcoachFormat()]) }}.
 
 
 <table class="stats">
@@ -30,7 +30,7 @@
 @else
 <td colspan=3>
 <div class="text-4xl font-semibold">–</div>
-<div class="text-sm">@lang('Opens not tracked')</div>
+<div class="text-sm">{{ __('Opens not tracked') }}</div>
 </td>
 @endif
 </tr>
@@ -60,7 +60,7 @@
 @else
 <td colspan=3>
 <div class="text-4xl font-semibold">–</div>
-<div class="text-sm">@lang('Clicks not tracked')</div>
+<div class="text-sm">{{ __('Clicks not tracked') }}</div>
 </td>
 @endif
 </tr>
@@ -103,7 +103,7 @@
 </table>
 
 @component('mail::button', ['url' => $summaryUrl])
-	@lang('View summary')
+	{{ __('View summary') }}
 @endcomponent
 
 @endcomponent

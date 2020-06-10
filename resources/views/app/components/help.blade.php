@@ -1,3 +1,3 @@
-<p class="alert alert-info text-sm max-w-xl">
+<div class="alert alert-info text-sm max-w-xl">
     {{ $slot }}
-</p>
+</div>

@@ -13,7 +13,7 @@ class DuplicateCampaignController
     {
         /** @var \Spatie\Mailcoach\Models\Campaign $duplicateCampaign */
         $duplicateCampaign = $this->getCampaignClass()::create([
-            'name' => "Duplicate of {$campaign->name}",
+            'name' => __('Duplicate of') . ' ' . $campaign->name,
             'subject' => $campaign->subject,
             'email_list_id' => $campaign->email_list_id,
             'html' => $campaign->html,
@@ -30,7 +30,7 @@ class DuplicateCampaignController
             'segment_description' => $duplicateCampaign->getSegment()->description($campaign),
         ]);
 
-        flash()->success("Campaign {$campaign->name} was duplicated.");
+        flash()->success(__('Campaign :campaign was duplicated.', ['campaign' => $campaign->name]));
 
         return redirect()->route('mailcoach.campaigns.settings', $duplicateCampaign);
     }

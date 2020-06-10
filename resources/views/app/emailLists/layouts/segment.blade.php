@@ -7,11 +7,11 @@
         <ul class="breadcrumbs">
             <li>
                 <a href="{{ route('mailcoach.emailLists') }}">
-                    <span class="breadcrumb">Lists</span>
+                    <span class="breadcrumb">{{ __('Lists') }}</span>
                 </a>
             </li>
             <li><a href="{{ route('mailcoach.emailLists.subscribers', $segment->emailList) }}"><span class="breadcrumb">{{ $segment->emailList->name }}</span></a></li>
-            <li><a href="{{ route('mailcoach.emailLists.segments', $segment->emailList) }}"><span class="breadcrumb">Segments</span></a></li>
+            <li><a href="{{ route('mailcoach.emailLists.segments', $segment->emailList) }}"><span class="breadcrumb">{{ __('Segments') }}</span></a></li>
             @yield('breadcrumbs')
         </ul>
     </nav>
@@ -21,10 +21,10 @@
     <nav class="tabs">
         <ul>
             <x-navigation-item :href="route('mailcoach.emailLists.segment.edit', [$segment->emailList, $segment])">
-                <x-icon-label icon="fa-chart-pie" text="Segment details" />
+                <x-icon-label icon="fa-chart-pie" :text="__('Segment details')" />
             </x-navigation-item>
             <x-navigation-item :href="route('mailcoach.emailLists.segment.subscribers', [$segment->emailList, $segment])">
-                <x-icon-label icon="fa-user" text="Population" :count="$selectedSubscribersCount" />
+                <x-icon-label icon="fa-user" :text="__('Population')" :count="$selectedSubscribersCount" />
             </x-navigation-item>
         </ul>
     </nav>

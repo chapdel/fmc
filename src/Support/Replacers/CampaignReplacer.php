@@ -12,7 +12,7 @@ class CampaignReplacer implements Replacer
     public function helpText(): array
     {
         return [
-            'campaign.name' => 'The name of this campaign',
+            'campaign.name' => __('The name of this campaign'),
         ];
     }
 

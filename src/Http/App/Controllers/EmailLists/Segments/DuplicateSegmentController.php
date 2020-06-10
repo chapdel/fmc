@@ -12,7 +12,7 @@ class DuplicateSegmentController
     {
         /** @var \Spatie\Mailcoach\Models\TagSegment $duplicateSegment */
         $duplicateSegment = TagSegment::create([
-            'name' => "Duplicate of {$segment->name}",
+            'name' => __('Duplicate of') . ' ' . $segment->name,
             'email_list_id' => $segment->email_list_id,
         ]);
 
@@ -22,7 +22,7 @@ class DuplicateSegmentController
         $negativeTagNames = $segment->negativeTags->map(fn (Tag $tag) => $tag->name)->toArray();
         $duplicateSegment->syncNegativeTags($negativeTagNames);
 
-        flash()->success("Segment {$segment->name} was duplicated.");
+        flash()->success(__('Segment :segment was duplicated.', ['segment' => $segment->name]));
 
         return redirect()->route('mailcoach.emailLists.segment.edit', [
             $duplicateSegment->emailList,

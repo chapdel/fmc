@@ -19,7 +19,7 @@ class CreateSubscriberController
             ->skipConfirmation()
             ->subscribeTo($emailList);
 
-        flash()->success("Subscriber {$updateSubscriberRequest->email} was created.");
+        flash()->success(__('Subscriber :subscriber was created.', ['subscriber' => $updateSubscriberRequest->email]));
 
         return back();
     }

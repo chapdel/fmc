@@ -10,7 +10,7 @@ class DestroyAllUnsubscribedController
     {
         $emailList->allSubscribers()->unsubscribed()->delete();
 
-        flash()->success('All unsubscribes of the list have been deleted.');
+        flash()->success(__('All unsubscribers of the list have been deleted.'));
 
         return back();
     }

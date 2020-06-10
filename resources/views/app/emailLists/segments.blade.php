@@ -1,6 +1,6 @@
 @extends('mailcoach::app.emailLists.layouts.edit', [
     'emailList' => $emailList,
-    'titlePrefix' => 'Segments'
+    'titlePrefix' => __('Segments'),
 ])
 
 @section('breadcrumbs')
@@ -9,17 +9,17 @@
             <span class="breadcrumb">{{ $emailList->name }}</span>
         </a>
     </li>
-    <li><span class="breadcrumb">Segments</span></li>
+    <li><span class="breadcrumb">{{ __('Segments') }}</span></li>
 @endsection
 
 @section('emailList')
     <div class="table-actions">
         <div class=buttons>
             <button class="button" data-modal-trigger="create-segment">
-                <x-icon-label icon="fa-chart-pie" text="Add segment"/>
+                <x-icon-label icon="fa-chart-pie" :text="__('Add segment')"/>
             </button>
 
-            <x-modal title="Create segment" name="create-segment" :open="$errors->any()">
+            <x-modal :title="__('Create segment')" name="create-segment" :open="$errors->any()">
                 @include('mailcoach::app.emailLists.segment.partials.create')
             </x-modal>
         </div>
@@ -29,8 +29,8 @@
         <table class="table table-fixed">
             <thead>
             <tr>
-                <x-th sort-by="name">Name</x-th>
-                <x-th sort-by="-created_at" class="w-48 th-numeric hidden | md:table-cell">Created at</x-th>
+                <x-th sort-by="name">{{ __('Name') }}</x-th>
+                <x-th sort-by="-created_at" class="w-48 th-numeric hidden | md:table-cell">{{ __('Created at') }}</x-th>
                 <th class="w-12"></th>
             </tr>
             </thead>
@@ -53,14 +53,14 @@
                                     <x-form-button
                                         :action="route('mailcoach.emailLists.segment.duplicate', [$segment->emailList, $segment])"
                                     >
-                                        <x-icon-label icon="fa-random" text="Duplicate" />
+                                        <x-icon-label icon="fa-random" :text="__('Duplicate')" />
                                     </x-form-button>
                                 </li>
                                 <li>
                                     <x-form-button
                                         :action="route('mailcoach.emailLists.segment.delete', [$segment->emailList, $segment])"
-                                        method="DELETE" data-confirm="true" :data-confirm-text="'Are you sure you want to delete segment ' . $segment->name . '?'">
-                                        <x-icon-label icon="fa-trash-alt" text="Delete" :caution="true"/>
+                                        method="DELETE" data-confirm="true" :data-confirm-text="__('Are you sure you want to delete segment :segmentName?', ['segmentName' => $segment->name])">
+                                        <x-icon-label icon="fa-trash-alt" :text="__('Delete')" :caution="true"/>
                                     </x-form-button>
                                 </li>
                             </ul>
@@ -72,14 +72,14 @@
         </table>
 
         <x-table-status
-            name="segment"
+            :name="__('segment|segments')"
             :paginator="$segments"
             :total-count="$totalSegmentsCount"
             :show-all-url="route('mailcoach.emailLists.segments', $emailList)">
         </x-table-status>
     @else
         <p class="alert alert-info">
-            No segments here. So you don't like putting people into groups?
+            {{ __("No segments here. So you don't like putting people into groups?") }}
         </p>
     @endif
 @endsection

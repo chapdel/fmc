@@ -28,8 +28,6 @@ class EmailListSubscriptionRule implements Rule
 
     public function message()
     {
-        return __('mailcoach::messages.email_list_email', [
-            'attribute' => $this->attribute,
-        ]);
+        return __('This email address is already subscribed.');
     }
 }

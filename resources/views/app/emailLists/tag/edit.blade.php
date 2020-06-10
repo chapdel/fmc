@@ -5,7 +5,7 @@
         <ul class="breadcrumbs">
             <li>
                 <a href="{{ route('mailcoach.emailLists') }}">
-                    <span class="breadcrumb">Lists</span>
+                    <span class="breadcrumb">{{ __('Lists') }}</span>
                 </a>
             </li>
             <li>
@@ -15,7 +15,7 @@
             </li>
             <li>
                 <a href="{{ route('mailcoach.emailLists.tags', $emailList) }}">
-                    <span class="breadcrumb">Tags</span>
+                    <span class="breadcrumb">{{ __('Tags') }}</span>
                 </a>
             </li>
             <li>
@@ -34,11 +34,11 @@
             @csrf
             @method('PUT')
 
-            <x-text-field label="Name" name="name" :value="$tag->name" required />
+            <x-text-field :label="__('Name')" name="name" :value="$tag->name" required />
 
             <div class="form-buttons">
                 <button type="submit" class="button">
-                    <x-icon-label icon="fa-tag" text="Save tag" />
+                    <x-icon-label icon="fa-tag" :text="__('Save tag')" />
                 </button>
             </div>
         </form>

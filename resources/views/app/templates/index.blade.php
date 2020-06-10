@@ -3,7 +3,7 @@
 @section('header')
     <nav>
         <ul class="breadcrumbs">
-            <li><span class="breadcrumb">Templates</span></li>
+            <li><span class="breadcrumb">{{ __('Templates') }}</span></li>
         </ul>
     </nav>
 @endsection
@@ -12,16 +12,16 @@
     <section class="card">
         <div class="table-actions">
             <button class="button" data-modal-trigger="create-template">
-                <x-icon-label icon="fa-clipboard" text="Create template"/>
+                <x-icon-label icon="fa-clipboard" :text="__('Create template')"/>
             </button>
 
-            <x-modal title="Create template" name="create-template" :open="$errors->any()">
+            <x-modal :title="__('Create template')" name="create-template" :open="$errors->any()">
                 @include('mailcoach::app.templates.partials.create')
             </x-modal>
 
             @if($templates->count() || $searching)
                 <div class="table-filters">
-                    <x-search placeholder="Filter templates…"/>
+                    <x-search :placeholder="__('Filter templates…')"/>
                 </div>
             @endif
         </div>
@@ -30,8 +30,8 @@
             <table class="table table-fixed">
                 <thead>
                 <tr>
-                    <x-th sort-by="name" sort-default>Name</x-th>
-                    <x-th sort-by="-updated_at" class="w-48 th-numeric">Last updated</x-th>
+                    <x-th sort-by="name" sort-default>{{ __('Name') }}</x-th>
+                    <x-th sort-by="-updated_at" class="w-48 th-numeric">{{ __('Last updated') }}</x-th>
                     <th class="w-12"></th>
                 </tr>
                 </thead>
@@ -54,7 +54,7 @@
                                         <x-form-button
                                             :action="route('mailcoach.templates.duplicate', $template)"
                                         >
-                                            <x-icon-label icon="fa-random" text="Duplicate" />
+                                            <x-icon-label icon="fa-random" :text="__('Duplicate')" />
                                         </x-form-button>
                                     </li>
                                     <li>
@@ -62,9 +62,9 @@
                                             :action="route('mailcoach.templates.delete', $template)"
                                             method="DELETE"
                                             data-confirm="true"
-                                            :data-confirm-text="'Are you sure you want to delete template ' . $template->name . '?'"
+                                            :data-confirm-text="__('Are you sure you want to delete template :template?', ['template' => $template->name])"
                                         >
-                                            <x-icon-label icon="fa-trash-alt" text="Delete" :caution="true" />
+                                            <x-icon-label icon="fa-trash-alt" :text="__('Delete')" :caution="true" />
                                         </x-form-button>
                                     </li>
                                 </ul>
@@ -76,7 +76,7 @@
             </table>
 
             <x-table-status
-                name="template"
+                :name="__('template|templates')"
                 :paginator="$templates"
                 :total-count="$totalTemplatesCount"
                 :show-all-url="route('mailcoach.templates')"
@@ -85,9 +85,9 @@
         @else
             <p class="alert alert-info">
                 @if ($searching)
-                    No templates found.
+                    {{ __('No templates found.') }}
                 @else
-                    DRY? No templates here.
+                    {{ __('DRY? No templates here.') }}
                 @endif
             </p>
         @endif

@@ -10,7 +10,7 @@ class DestroySubscriberImportController
     {
         $subscriberImport->delete();
 
-        flash()->success('Import was deleted.');
+        flash()->success(__('Import was deleted.'));
 
         return back();
     }

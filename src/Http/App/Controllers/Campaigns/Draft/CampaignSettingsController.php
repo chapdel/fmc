@@ -44,7 +44,7 @@ class CampaignSettingsController
 
         $campaign->update(['segment_description' => $campaign->getSegment()->description($campaign)]);
 
-        flash()->success("Campaign {$campaign->name} was updated.");
+        flash()->success(__('Campaign :campaign was updated.', ['campaign' => $campaign->name]));
 
         return redirect()->route('mailcoach.campaigns.settings', $campaign->id);
     }

@@ -1,6 +1,6 @@
 @extends('mailcoach::app.emailLists.layouts.segment', [
     'segment' => $segment,
-    'titlePrefix' => 'Population'
+    'titlePrefix' => __('Population'),
 ])
 
 @section('breadcrumbs')
@@ -9,7 +9,7 @@
             <span class="breadcrumb">{{ $segment->name }}</span>
         </a>
     </li>
-    <li><span class="breadcrumb">Population</span></li>
+    <li><span class="breadcrumb">{{ __('Population') }}</span></li>
 @endsection
 
 @section('segment')
@@ -17,7 +17,7 @@
 
         @if($subscribersCount = $segment->emailList->subscribers->count())
             <div class="alert alert-info mb-8">
-                Population is <strong>{{ round($selectedSubscribersCount / $subscribersCount * 100 , 2) }}%</strong> of list total of {{$subscribersCount}}.
+                {!! __('Population is <strong>:percentage%</strong> of list total of :subscriberscount.', ['percentage' => round($selectedSubscribersCount / $subscribersCount * 100 , 2), 'subscriberscount' => $subscribersCount]) !!}
             </div>
         @endif
 
@@ -25,8 +25,8 @@
             <table class="table table-fixed">
                 <thead>
                 <tr>
-                    <x-th sort-by="email">Email</x-th>
-                    <th>Tags</th>
+                    <x-th sort-by="email">{{ __('Email') }}</x-th>
+                    <th>{{ __('Tags') }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -51,12 +51,12 @@
             </table>
         </div>
 
-        <x-table-status name="subscriber" :paginator="$subscribers" :total-count="$selectedSubscribersCount"
+        <x-table-status :name="__('subscriber|subscribers')" :paginator="$subscribers" :total-count="$selectedSubscribersCount"
                         :show-all-url="route('mailcoach.emailLists.segment.subscribers', [$segment->emailList, $segment])">
         </x-table-status>
     @else
         <p class="alert alert-info">
-            This is a very exclusive segment. Nobody got selected.
+            {{ __('This is a very exclusive segment. Nobody got selected.') }}
         </p>
     @endif
 @endsection

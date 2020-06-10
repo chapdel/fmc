@@ -1,10 +1,10 @@
-@extends('mailcoach::landingPages.layouts.landingPage', ['title' => 'Already subscribed'])
+@extends('mailcoach::landingPages.layouts.landingPage', ['title' => __('Already subscribed')])
 
 @section('content')
     <p>
-        You are a real fan!
+        {{ __('You are a real fan!') }}
     </p>
     <p class="mt-4">
-        You were already subscribed to this list.
+        {{ __('You were already subscribed to this list.') }}
     </p>
 @endsection

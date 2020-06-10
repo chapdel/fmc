@@ -9,7 +9,7 @@ class UnsubscribeController
     public function __invoke(Subscriber $subscriber)
     {
         if (! $subscriber->isSubscribed()) {
-            flash()->error('Can only unsubscribe a subscribed subscriber');
+            flash()->error(__('Can only unsubscribe a subscribed subscriber'));
 
             return back();
         }
@@ -18,7 +18,7 @@ class UnsubscribeController
             'unsubscribed_at' => now(),
         ]);
 
-        flash()->success("{$subscriber->email} has been unsubscribed.");
+        flash()->success(__(':subscriber has been unsubscribed.', ['subscriber' => $subscriber->email]));
 
         return back();
     }

@@ -8,11 +8,11 @@
 
     <div class="form-row">
         <label class="label label-required" for="email_list_id">
-            List
+            {{ __('List') }}
         </label>
         <div class="select">
             <select name="email_list_id" id="email_list_id" data-segments-email-list required>
-                <option disabled value="">--None--</option>
+                <option disabled value="">--{{ __('None') }}--</option>
                 @foreach($emailLists as $emailList)
                     <option
                         value="{{ $emailList->id }}"
@@ -30,7 +30,7 @@
 
     @if($campaign->usingCustomSegment())
         <x-help>
-            Using custom segment {{ $campaign->getSegment()->description() }}.
+            {{ __('Using custom segment') }} {{ $campaign->getSegment()->description() }}.
         </x-help>
     @else
         <div class="form-row">
@@ -38,14 +38,14 @@
                 <p class="form-error">{{ $message }}</p>
             @enderror
             <label class="label label-required" for="segment">
-                Segment
+                {{ __('Segment') }}
             </label>
             <div class="radio-group">
                 <x-radio-field
                     name="segment"
                     :value="$campaign->notSegmenting()"
                     option-value="entire_list"
-                    label="Entire list"
+                    :label="__('Entire list')"
                 />
                 <div class="flex items-center">
                     <div class="flex-shrink-none">
@@ -53,11 +53,11 @@
                             name="segment"
                             :value="$campaign->segmentingOnSubscriberTags()"
                             option-value="segment"
-                            label="Use segment"
+                            :label="__('Use segment')"
                         />
                     </div>
                     <div class="ml-4 | hidden" data-segments-create>
-                        <a class="link" href="#">Create a segment first</a>
+                        <a class="link" href="#">{{ __('Create a segment first') }}</a>
                     </div>
                     <div class="ml-4 -my-2 | hidden" data-segments-choose>
                         @error('segment_id')

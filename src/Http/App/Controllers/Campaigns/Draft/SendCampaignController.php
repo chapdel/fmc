@@ -9,14 +9,14 @@ class SendCampaignController
     public function __invoke(Campaign $campaign)
     {
         if (! $campaign->isPending()) {
-            flash()->error("Campaign {$campaign->name} could not be sent because it has already been sent.");
+            flash()->error(__('Campaign :campaign could not be sent because it has already been sent.', ['campaign' => $campaign->name]));
 
             return back();
         }
 
         $campaign->send();
 
-        flash()->success("Campaign {$campaign->name} is being sent.");
+        flash()->success(__('Campaign :campaign is being sent.', ['campaign' => $campaign->name]));
 
         return redirect()->route('mailcoach.campaigns.summary', $campaign->id);
     }

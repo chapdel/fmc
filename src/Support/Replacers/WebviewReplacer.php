@@ -9,7 +9,7 @@ class WebviewReplacer implements Replacer
     public function helpText(): array
     {
         return [
-            'webviewUrl' => 'This URL will display the HTML of the campaign',
+            'webviewUrl' => __('This URL will display the HTML of the campaign'),
         ];
     }
 

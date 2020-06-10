@@ -30,7 +30,7 @@ class ImportSubscribersController
 
         dispatch(new ImportSubscribersJob($subscriberImport, auth()->user()));
 
-        flash()->success('Your file has been uploaded. Follow the import status in the list below.');
+        flash()->success(__('Your file has been uploaded. Follow the import status in the list below.'));
 
         return redirect()->back();
     }

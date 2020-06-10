@@ -10,14 +10,14 @@ class ScheduleCampaignController
     public function __invoke(Campaign $campaign, ScheduleCampaignRequest $request)
     {
         if (! $campaign->isPending()) {
-            flash()->error("Campaign {$campaign->name} could not be scheduled because it has already been sent.");
+            flash()->error(__('Campaign :campaign could not be scheduled because it has already been sent.', ['campaign' => $campaign->name]));
 
             return back();
         }
 
         $campaign->scheduleToBeSentAt($request->getScheduledAt());
 
-        flash()->success("Campaign {$campaign->name} is scheduled for delivery.");
+        flash()->success(__('Campaign :campaign is scheduled for delivery.', ['campaign' => $campaign->name]));
 
         return redirect()->route('mailcoach.campaigns.delivery', $campaign->id);
     }

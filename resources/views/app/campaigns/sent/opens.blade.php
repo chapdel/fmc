@@ -1,6 +1,6 @@
 @extends('mailcoach::app.campaigns.sent.layouts.show', [
     'campaign' => $campaign,
-    'titlePrefix' => 'Opens',
+    'titlePrefix' => __('Opens'),
 ])
 
 @section('breadcrumbs')
@@ -9,7 +9,7 @@
             <span class="breadcrumb">{{ $campaign->name }}</span>
         </a>
     </li>
-    <li><span class="breadcrumb">Opens</span></li>
+    <li><span class="breadcrumb">{{ __('Opens') }}</span></li>
 @endsection
 
 @section('campaign')
@@ -17,16 +17,16 @@
         @if($campaign->open_count)
             <div class="table-actions">
                 <div class="table-filters">
-                    <x-search placeholder="Filter opens" />
+                    <x-search :placeholder="__('Filter opens…')" />
                 </div>
             </div>
 
             <table class="table table-fixed">
                 <thead>
                     <tr>
-                        <x-th sort-by="email">Email</x-th>
-                        <x-th sort-by="open_count" class="w-32 th-numeric">Opens</x-th>
-                        <x-th sort-by="-first_opened_at" sort-default class="w-48 th-numeric hidden | md:table-cell">First opened at</x-th>
+                        <x-th sort-by="email">{{ __('Email') }}</x-th>
+                        <x-th sort-by="open_count" class="w-32 th-numeric">{{ __('Opens') }}</x-th>
+                        <x-th sort-by="-first_opened_at" sort-default class="w-48 th-numeric hidden | md:table-cell">{{ __('First opened at') }}</x-th>
                     </tr>
                 </thead>
                 <tbody>
@@ -45,19 +45,19 @@
             </table>
 
             <x-table-status
-                name="open"
+                :name="__('open|opens')"
                 :paginator="$campaignOpens"
                 :total-count="$totalCampaignOpensCount"
                 :show-all-url="route('mailcoach.campaigns.opens', $campaign)"
             ></x-table-status>
         @else
             <p class="alert alert-info">
-                No opens yet. Stay tuned.
+                {{ __('No opens yet. Stay tuned.') }}
             </p>
         @endif
     @else
         <p class="alert alert-info">
-            Open tracking was not enabled for this campaign.
+            {{ __('Open tracking was not enabled for this campaign.') }}
         </p>
     @endif
 @endsection

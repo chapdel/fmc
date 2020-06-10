@@ -1,6 +1,6 @@
 @extends('mailcoach::app.campaigns.draft.layouts.edit', [
     'campaign' => $campaign,
-    'titlePrefix' => 'HTML',
+    'titlePrefix' => __('HTML'),
 ])
 
 @section('breadcrumbs')
@@ -9,7 +9,7 @@
             <span class="breadcrumb">{{ $campaign->name }}</span>
         </a>
     </li>
-    <li><span class="breadcrumb">Content</span></li>
+    <li><span class="breadcrumb">{{ __('Content') }}</span></li>
 @endsection
 
 @section('campaign')

@@ -11,7 +11,7 @@ class DestroySegmentController
     {
         $segment->delete();
 
-        flash()->success("Segment {$segment->name} was deleted.");
+        flash()->success(__('Segment :segment was deleted.', ['segment' => $segment->name]));
 
         return back();
     }

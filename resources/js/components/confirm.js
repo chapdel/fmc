@@ -11,14 +11,14 @@ listen('submit', '[data-confirm]', ({ event, target }) => {
     showModal('confirm', {
         onConfirm() {
             window.setTimeout(() => {
-                setModalText('Are you sure?');
+                setModalText(__('Are you sure?'));
             }, 150);
 
             target.submit();
         },
         onDismiss() {
             window.setTimeout(() => {
-                setModalText('Are you sure?');
+                setModalText(__('Are you sure?'));
             }, 150);
         },
     });

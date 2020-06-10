@@ -7,7 +7,7 @@
         <ul class="breadcrumbs">
             <li>
                 <a href={{ route('mailcoach.campaigns') }}>
-                    <span class="breadcrumb">Campaigns</span>
+                    <span class="breadcrumb">{{ __('Campaigns') }}</span>
                 </a>
             </li>
             @yield('breadcrumbs')
@@ -20,13 +20,13 @@
     <nav class="tabs">
         <ul>
             <x-navigation-item :href="route('mailcoach.campaigns.settings', $campaign)" data-dirty-warn>
-                <x-icon-label icon="fa-cog" text="Settings" />
+                <x-icon-label icon="fa-cog" :text="__('Settings')" />
             </x-navigation-item>
             <x-navigation-item :href="route('mailcoach.campaigns.content', $campaign)" data-dirty-warn>
-                <x-icon-label icon="fa-code" text="Content" />
+                <x-icon-label icon="fa-code" :text="__('Content')" />
             </x-navigation-item>
             <x-navigation-item :href="route('mailcoach.campaigns.delivery', $campaign)" data-dirty-warn>
-                <x-icon-label icon="fa-paper-plane" text="Delivery" />
+                <x-icon-label icon="fa-paper-plane" :text="__('Delivery')" />
             </x-navigation-item>
         </ul>
     </nav>

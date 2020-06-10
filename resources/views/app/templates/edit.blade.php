@@ -5,7 +5,7 @@
         <ul class="breadcrumbs">
             <li>
                 <a href="{{ route('mailcoach.templates') }}">
-                    <span class="breadcrumb"> Templates</span>
+                    <span class="breadcrumb">{{ __('Templates') }}</span>
                 </a>
             </li>
             <li><span class="breadcrumb">{{ $template->name }}</span></li>
@@ -23,7 +23,7 @@
             @csrf
             @method('PUT')
 
-            <x-text-field label="Name" name="name" :value="$template->name" required />
+            <x-text-field :label="__('Name')" name="name" :value="$template->name" required />
 
             {!! app(config('mailcoach.editor'))->render($template) !!}
         </form>

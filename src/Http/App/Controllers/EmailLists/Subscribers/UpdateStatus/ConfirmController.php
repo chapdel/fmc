@@ -17,7 +17,7 @@ class ConfirmController
             'unsubscribed_at' => null,
         ]);
 
-        flash()->success("{$subscriber->email} has been confirmed.");
+        flash()->success(__(':subscriber has been confirmed.', ['subscriber' => $subscriber->email]));
 
         return back();
     }
@@ -25,7 +25,7 @@ class ConfirmController
     protected function ensureUnconfirmedSubscriber(Subscriber $subscriber): void
     {
         if ($subscriber->status !== SubscriptionStatus::UNCONFIRMED) {
-            abort(Response::HTTP_UNPROCESSABLE_ENTITY, 'can only subscribe unconfirmed emails');
+            abort(Response::HTTP_UNPROCESSABLE_ENTITY, __('Can only subscribe unconfirmed emails'));
         }
     }
 }

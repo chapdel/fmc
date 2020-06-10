@@ -1,6 +1,6 @@
 @extends('mailcoach::app.campaigns.sent.layouts.show', [
     'campaign' => $campaign,
-    'titlePrefix' => 'Unsubscribes',
+    'titlePrefix' => __('Unsubscribes'),
 ])
 
 @section('breadcrumbs')
@@ -9,22 +9,22 @@
             <span class="breadcrumb">{{ $campaign->name }}</span>
         </a>
     </li>
-    <li><span class="breadcrumb">Unsubscribes</span></li>
+    <li><span class="breadcrumb">{{ __('Unsubscribes') }}</span></li>
 @endsection
 
 @section('campaign')
     @if($unsubscribes->count())
     <div class="table-actions">
         <div class="table-filters">
-            <x-search placeholder="Filter unsubscribes" />
+            <x-search :placeholder="__('Filter unsubscribes…')" />
         </div>
     </div>
 
     <table class="table table-fixed">
         <thead>
         <tr>
-            <th>Email</th>
-            <th class="w-48 th-numeric hidden | md:table-cell">Date</th>
+            <th>{{ __('Email') }}</th>
+            <th class="w-48 th-numeric hidden | md:table-cell">{{ __('Date') }}</th>
         </tr>
         </thead>
         <tbody>
@@ -45,7 +45,7 @@
     </table>
 
     <x-table-status
-        name="unsubscribe"
+        :name="__('unsubscribe|unsubscribers')"
         :paginator="$unsubscribes"
         :total-count="$totalUnsubscribes"
         :show-all-url="route('mailcoach.campaigns.unsubscribes', $campaign)"
@@ -54,7 +54,7 @@
     @else
         <p class="alert alert-success">
             <i class="fas fa-sun text-orange-500 mr-2"></i>
-            No unsubscribes have been received yet.
+            {{ __('No unsubscribes have been received yet.') }}
         </p>
     @endif
 @endsection

@@ -11,7 +11,7 @@ class CreateSegmentController
     {
         $segment = $emailList->segments()->create(['name' => $request->name]);
 
-        flash()->success("Segment {$segment->name} has been created");
+        flash()->success(__('Segment :segment has been created.', ['segment' => $segment->name]));
 
         return redirect()->route('mailcoach.emailLists.segment.edit', [$emailList, $segment]);
     }

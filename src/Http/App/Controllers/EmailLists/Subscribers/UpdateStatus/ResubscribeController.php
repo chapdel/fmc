@@ -9,7 +9,7 @@ class ResubscribeController
     public function __invoke(Subscriber $subscriber)
     {
         if (! $subscriber->isUnsubscribed()) {
-            flash()->error('Can only resubscribe unsubscribed subscribers');
+            flash()->error(__('Can only resubscribe unsubscribed subscribers'));
 
             return back();
         }
@@ -18,7 +18,7 @@ class ResubscribeController
             'unsubscribed_at' => null,
         ]);
 
-        flash()->success("{$subscriber->email} has been resubscribed.");
+        flash()->success(__(':subscriber has been resubscribed.', ['subscriber' => $subscriber->email]));
 
         return back();
     }

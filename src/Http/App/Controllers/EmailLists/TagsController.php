@@ -25,7 +25,7 @@ class TagsController
     {
         $tag = $emailList->tags()->create(['name' => $request->name]);
 
-        flash()->success("Tag {$tag->name} was created.");
+        flash()->success(__('Tag :tag was created', ['tag' => $tag->name]));
 
         return back();
     }
@@ -44,7 +44,7 @@ class TagsController
             'name' => $request->name,
         ]);
 
-        flash()->success("Tag {$tag->name} was updated.");
+        flash()->success(__('Tag :tag was updated', ['tag' => $tag->name]));
 
         return redirect()->route('mailcoach.emailLists.tags', $emailList);
     }
@@ -53,7 +53,7 @@ class TagsController
     {
         $tag->delete();
 
-        flash()->success("Tag {$tag->name} was deleted.");
+        flash()->success(__('Tag :tag was deleted', ['tag' => $tag->name]));
 
         return back();
     }

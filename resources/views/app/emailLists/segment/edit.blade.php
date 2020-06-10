@@ -11,30 +11,30 @@
         method="POST"
     >
         @if (! $emailList->tags()->count())
-        <x-help>
-            <div class="markup-lists">
-                A segment is based on tags.
-                <ol class="mt-4">
-                    <li><a href={{ route('mailcoach.emailLists.tags', $emailList) }}>Create some tags</a> for this list first.</li>
-                    <li>Assign these tags to some of the <a href={{ route('mailcoach.emailLists.subscribers', $emailList) }}>subscribers</a>.</li>
-                </ol>
-            </div>
-        </x-help>
+            <x-help>
+                <div class="markup-lists">
+                    {{ __('A segment is based on tags.') }}
+                    <ol class="mt-4">
+                        <li>{!! __('<a href=":tagLink">Create some tags</a> for this list first.', ['tagLink' => route('mailcoach.emailLists.tags', $emailList)]) !!}</li>
+                        <li>{!! __('Assign these tags to some of the <a href=":subscriberslink">subscribers</a>.', ['subscriberslink' => route('mailcoach.emailLists.subscribers', $emailList)]) !!}</li>
+                    </ol>
+                </div>
+            </x-help>
         @endif
 
         @csrf
         @method('PUT')
 
-        <x-text-field label="Name" name="name" :value="$segment->name" type="name" required />
+        <x-text-field :label="__('Name')" name="name" :value="$segment->name" type="name" required />
 
         <div class="form-row">
-            <label class=label>Include with tags</label>
+            <label class=label>{{ __('Include with tags') }}</label>
             <div class="flex items-end">
                 <div class="flex-none">
                     <x-select-field
                         name="positive_tags_operator"
                         :value="$segment->all_positive_tags_required ? 'all' : 'any'"
-                        :options="['any' => 'Any', 'all' => 'All']"
+                        :options="['any' => __('Any'), 'all' => __('All')]"
                     />
                 </div>
                 <div class="ml-2 flex-grow">
@@ -48,13 +48,13 @@
         </div>
 
         <div class="form-row">
-            <label class=label>Exclude with tags</label>
+            <label class=label>{{ __('Exclude with tags') }}</label>
             <div class="flex items-end">
                 <div class="flex-none">
                     <x-select-field
                         name="negative_tags_operator"
                         :value="$segment->all_negative_tags_required ? 'all' : 'any'"
-                        :options="['any' => 'Any', 'all' => 'All']"
+                        :options="['any' => __('Any'), 'all' => __('All')]"
                     />
                 </div>
                 <div class="ml-2 flex-grow">
@@ -70,7 +70,7 @@
 
         <div class="form-buttons">
             <button type="submit" class="button">
-                <x-icon-label icon="fa-chart-pie" text="Save" />
+                <x-icon-label icon="fa-chart-pie" :text="__('Save')" />
             </button>
         </div>
     </form>
