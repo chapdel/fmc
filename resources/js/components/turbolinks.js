@@ -1,14 +1,49 @@
 import Turbolinks from 'turbolinks';
-import { $, debounce, listen } from '../util';
+import { debounce, listen } from '../util';
 
 Turbolinks.start();
 
-let scrollPosition;
-let preserveSearchFocusOn;
+// Preserve scroll
 
-listen('click', '[data-turbolinks-preserve-scroll]', () => {
-    scrollPosition = window.scrollY;
-});
+let preservedScrollPosition = null;
+
+function preserveScrollPosition() {
+    preservedScrollPosition = window.scrollY;
+}
+
+function restoreScrollPosition() {
+    if (preservedScrollPosition) {
+        window.scrollTo(0, preservedScrollPosition);
+
+        preservedScrollPosition = null;
+    }
+}
+
+listen('click', '[data-turbolinks-preserve-scroll]', preserveScrollPosition);
+document.addEventListener('turbolinks:render', restoreScrollPosition);
+
+// Preserve focus
+
+let preservedFocus = null;
+
+function preserveFocus() {
+    if (document.activeElement) {
+        preservedFocus = document.activeElement.matches('[data-turbolinks-permanent]') ? document.activeElement : null;
+    }
+}
+
+function restoreFocus() {
+    if (preservedFocus) {
+        preservedFocus.focus();
+
+        preservedFocus = null;
+    }
+}
+
+document.addEventListener('turbolinks:before-visit', preserveFocus);
+document.addEventListener('turbolinks:render', restoreFocus);
+
+// Search bar
 
 listen(
     'input',
@@ -18,21 +53,8 @@ listen(
             ? target.dataset.turbolinksSearchUrl.replace('%search%', target.value)
             : target.dataset.turbolinksSearchClearUrl;
 
-        scrollPosition = window.scrollY;
-        preserveSearchFocusOn = document.activeElement.matches('[data-turbolinks-search]') ? url : null;
+        preserveScrollPosition();
 
         Turbolinks.visit(url, { action: 'replace' });
     }, 400)
 );
-
-document.addEventListener('turbolinks:render', () => {
-    if (preserveSearchFocusOn === window.location.href) {
-        $('[data-turbolinks-search]').focus();
-    }
-
-    if (scrollPosition) {
-        window.scrollTo(0, scrollPosition);
-
-        scrollPosition = undefined;
-    }
-});
