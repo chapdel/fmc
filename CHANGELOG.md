@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.15.0 - 2020-06-10
+
+- add translations (#247)
+
 ## 2.14.2 - 2020-06-08
 
 - fix relationship definitions to support custom models (#245)
