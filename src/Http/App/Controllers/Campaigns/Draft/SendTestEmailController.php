@@ -23,7 +23,7 @@ class SendTestEmailController
         if (count($request->sanitizedEmails()) > 1) {
             $emailCount = count($request->sanitizedEmails());
 
-            flash()->success(__('A test email was sent to :count addresses.', ['emailCount' => $emailCount]));
+            flash()->success(__('A test email was sent to :count addresses.', ['count' => $emailCount]));
         } else {
             flash()->success(__('A test email was sent to :email.', ['email' => $request->sanitizedEmails()[0]]));
         }
