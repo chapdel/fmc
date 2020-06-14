@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.15.2 - 2020-06-14
+
+- fix campaign sending progress bar (#251)
+
 ## 2.15.1 - 2020-06-10
 
 - fix typo in one of the translations
