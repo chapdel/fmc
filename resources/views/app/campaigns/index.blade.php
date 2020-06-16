@@ -73,7 +73,7 @@
             </p>
         @else
             <p class="alert alert-info">
-                {{ __('No campaigns yet, but you‘ll need a list first, go <a href=":emailListsLink">create one</a>!', ['emailListsLink' => route('mailcoach.emailLists')]) }}
+                {!! __('No campaigns yet, but you‘ll need a list first, go <a href=":emailListsLink">create one</a>!', ['emailListsLink' => route('mailcoach.emailLists')]) !!}
             </p>
         @endif
     @endif
