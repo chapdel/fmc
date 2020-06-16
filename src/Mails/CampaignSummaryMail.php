@@ -8,7 +8,7 @@ use Spatie\Mailcoach\Models\Campaign;
 
 class CampaignSummaryMail extends Mailable implements ShouldQueue
 {
-    public string $theme = 'mailcoach::mails.layout.mailcoach';
+    public $theme = 'mailcoach::mails.layout.mailcoach';
 
     public Campaign $campaign;
 

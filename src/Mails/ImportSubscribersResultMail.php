@@ -11,7 +11,7 @@ class ImportSubscribersResultMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public string $theme = 'mailcoach::mails.layout.mailcoach';
+    public $theme = 'mailcoach::mails.layout.mailcoach';
 
     public SubscriberImport $subscriberImport;
 

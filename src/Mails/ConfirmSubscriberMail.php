@@ -11,7 +11,7 @@ class ConfirmSubscriberMail extends Mailable implements ShouldQueue
 {
     use ReplacesPlaceholders;
 
-    public string $theme = 'mailcoach::mails.layout.mailcoach';
+    public $theme = 'mailcoach::mails.layout.mailcoach';
 
     public Subscriber $subscriber;
 

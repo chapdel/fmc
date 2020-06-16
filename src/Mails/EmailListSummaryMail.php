@@ -8,7 +8,7 @@ use Spatie\Mailcoach\Models\EmailList;
 
 class EmailListSummaryMail extends Mailable
 {
-    public string $theme = 'mailcoach::mails.layout.mailcoach';
+    public $theme = 'mailcoach::mails.layout.mailcoach';
 
     /** @var \Spatie\Mailcoach\Models\EmailList */
     public object $emailList;
