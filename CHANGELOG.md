@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.15.4 - 2020-06-16
+
+- fix theme
+
 ## 2.15.2 - 2020-06-14
 
 - fix campaign sending progress bar (#251)
