@@ -42,7 +42,7 @@ class PrepareEmailHtmlAction
     protected function ensureEmailHtmlHasSingleRootElement($campaign)
     {
         $campaign->html = trim(
-            preg_replace('~<(?:!DOCTYPE|/?(?:html|body))[^>]*>\s*~i', '', $campaign->html)
+            preg_replace('~<(?:!DOCTYPE|/?(?:html))[^>]*>\s*~i', '', $campaign->html)
         );
 
         if (! Str::startsWith(trim($campaign->html), '<html')) {
