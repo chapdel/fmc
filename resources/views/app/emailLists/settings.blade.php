@@ -86,8 +86,7 @@
         <h2 class="markup-h2">{{ __('Landing pages') }}</h2>
 
         <x-help>
-            {{ __('Leave empty to use the defaults. <a class="link-dimmed" target="_blank" href=":link">Example</a>', ['link' => route("mailcoach.landingPages.example")]) }}
-
+            {!! __('Leave empty to use the defaults. <a class="link-dimmed" target="_blank" href=":link">Example</a>', ['link' => route("mailcoach.landingPages.example")]) !!}
         </x-help>
 
         <div data-conditional-confirmation="true">
