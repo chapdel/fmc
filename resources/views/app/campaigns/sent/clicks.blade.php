@@ -25,7 +25,7 @@
                 <thead>
                     <tr>
                         <x-th sort-by="link">{{ __('Link') }}</x-th>
-                        <x-th sort-by="-unique_click_count" class="w-32 th-numeric hidden | md:table-cell">{{ __('Unique clicks') }}</x-th>
+                        <x-th sort-by="-unique_click_count" class="w-32 th-numeric hidden | md:table-cell">{{ __('Unique Clicks') }}</x-th>
                         <x-th sort-by="-click_count" class="w-32 th-numeric">{{ __('Clicks') }}</x-th>
                     <tr>
                 </thead>

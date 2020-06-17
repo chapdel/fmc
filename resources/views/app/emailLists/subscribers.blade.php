@@ -35,7 +35,7 @@
                                 @if($emailList->allSubscribers()->count() === $subscribers->total())
                                     <x-icon-label icon="fa-file" :text="__('Export all subscribers')"/>
                                 @else
-                                    <x-icon-label icon="fa-file" :text="__('Export :total :subscriber', ['total' => $subscribers->total(), 'subscriber' => trans_choice(__('subscriber|subscriber'), $subscribers->total())])"/>
+                                    <x-icon-label icon="fa-file" :text="__('Export :total :subscriber', ['total' => $subscribers->total(), 'subscriber' => trans_choice(__('subscriber|subscribers'), $subscribers->total())])"/>
                                 @endif
                             </x-form-button>
                         </li>

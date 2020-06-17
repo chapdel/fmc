@@ -152,7 +152,7 @@
                     <div class="mt-12 markup-code alert alert-info text-sm">
                         {{ __('You can use following placeholders in the subject and body of the welcome mail:') }}
                         <ul class="grid mt-2 gap-2">
-                            <li><code class="mr-2">::unsubscribeUrl::</code>{{ __('The url where users can unsubscribe') }}</li>
+                            <li><code class="mr-2">::unsubscribeUrl::</code>{{ __('The URL where users can unsubscribe') }}</li>
                             <li><code class="mr-2">::subscriber.first_name::</code>{{ __('The first name of the subscriber') }}</li>
                             <li><code class="mr-2">::subscriber.email::</code>{{ __('The email of the subscriber') }}</li>
                             <li><code class="mr-2">::list.name::</code>{{ __('The name of this list') }}</li>
@@ -204,7 +204,7 @@
                         <div class="mt-12 markup-code alert alert-info text-sm">
                             {{ __('You can use following placeholders in the subject and body of the confirmation mail:') }}
                             <ul class="grid mt-2 gap-2">
-                                <li><code class="mr-2">::confirmUrl::</code>{{ __('The url where the suscription can be confirmed') }}</li>
+                                <li><code class="mr-2">::confirmUrl::</code>{{ __('The URL where the subscription can be confirmed') }}</li>
                                 <li><code class="mr-2">::subscriber.first_name::</code>{{ __('The first name of the subscriber') }}</li>
                                 <li><code class="mr-2">::list.name::</code>{{ __('The name of this list') }}</li>
                             </ul>

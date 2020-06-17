@@ -77,7 +77,7 @@
     @else
         <p class="alert alert-info">
             @if($searching)
-                {{ __('No tags found.') }}
+                {{ __('No tags found') }}
             @else
                 {{ __('There are no tags for this list. Everyone equal!') }}
             @endif
