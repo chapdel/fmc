@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists;
 
+use Illuminate\Foundation\Auth\User;
 use Spatie\Mailcoach\Http\App\Requests\ImportSubscribersRequest;
 use Spatie\Mailcoach\Jobs\ImportSubscribersJob;
 use Spatie\Mailcoach\Models\EmailList;
@@ -28,7 +29,9 @@ class ImportSubscribersController
             ->addMediaFromRequest('file')
             ->toMediaCollection('importFile');
 
-        dispatch(new ImportSubscribersJob($subscriberImport, auth()->user()));
+        $user = auth()->user();
+
+        dispatch(new ImportSubscribersJob($subscriberImport, $user instanceof User ? $user : null));
 
         flash()->success(__('Your file has been uploaded. Follow the import status in the list below.'));
 
