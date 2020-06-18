@@ -8,7 +8,7 @@
             <span class="counter ml-0">{{ $count }} </span>
         </span>
     @else
-        <i class="fas {{ $icon ?? 'fa-arrow-right' }} {{ $caution ?? null ? 'text-red-500' : '' }}"></i>
+        <i class="fas fa-fw {{ $icon ?? 'fa-arrow-right' }} {{ $caution ?? null ? 'text-red-500' : '' }}"></i>
     @endisset
     <span class="icon-label-text">
         {{ $text ?? '' }}
