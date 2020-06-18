@@ -19,7 +19,7 @@
                     <th class="w-32">{{ __('Status') }}</th>
                     <th class="w-48 th-numeric">{{ __('Started at') }}</th>
                     <th>{{ __('List') }}</th>
-                    <th class="w-32 th-numeric">{{ __('Imported subscribers') }}</th>
+                    <th class="w-56 th-numeric">{{ __('Imported subscribers') }}</th>
                     <th class="w-32 th-numeric">{{ __('Errors') }}</th>
                     <th class="w-12"></th>
                 </tr>
