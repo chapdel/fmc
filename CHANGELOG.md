@@ -2,7 +2,11 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
-## 2.15.6
+## 2.15.7 - 2020-06-18
+
+- fix icon alignment in dropdowns (#262)
+
+## 2.15.6 - 2020-06-18
 
 - prevent Stripping of Email Body Element (#261)
 
