@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.15.6
+
+- prevent Stripping of Email Body Element (#261)
+
 ## 2.15.5 - 2020-06-17
 
 - translation fixes (#256)
