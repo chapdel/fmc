@@ -32,9 +32,15 @@ class ImportSubscribersAction
             ->noHeaderRow()
             ->addRow(['Error', 'Values']);
 
+        $localImportFile = $temporaryDirectory->path("import-file-{$dateTime}.csv");
+
+        file_put_contents($localImportFile, stream_get_contents(
+            $subscriberImport->getFirstMedia('importFile')->stream()
+        ));
+
         try {
             $this->importSubscribers(
-                $subscriberImport->getImportFilePath(),
+                $localImportFile,
                 $subscriberImport->emailList,
                 $succeededImportsReport,
                 $errorReport

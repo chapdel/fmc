@@ -53,17 +53,17 @@
                                 </button>
                                 <ul class="dropdown-list dropdown-list-left | hidden" data-dropdown-list>
                                     <li>
-                                        <a href="{{ $subscriberImport->getImportedSubscribersReportUrl() }}">
+                                        <a href="{{ route('mailcoach.subscriberImport.downloadAttachment', [$subscriberImport, 'importedUsersReport']) }}" download>
                                             <x-icon-label icon="fa-list" :text="__('Import report')"/>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{ $subscriberImport->getErrorReportUrl() }}">
+                                        <a href="{{ route('mailcoach.subscriberImport.downloadAttachment', [$subscriberImport, 'errorReport']) }}" download>
                                             <x-icon-label icon="fa-exclamation-triangle" :text="__('Error report')"/>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{ $subscriberImport->getImportFileUrl() }}">
+                                        <a href="{{ route('mailcoach.subscriberImport.downloadAttachment', [$subscriberImport, 'importFile']) }}" download>
                                             <x-icon-label icon="fa-file-upload" :text="__('Uploaded file')"/>
                                         </a>
                                     </li>
