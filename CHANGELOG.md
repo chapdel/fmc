@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.17.0 - 2020-06-21
+
+- add support for private filesystems for the import subscribers disk (#263)
+
 ## 2.16.0 - 2020-06-21
 
 - add dutch translations (#260)
