@@ -130,8 +130,7 @@ return [
     ],
 
     /*
-     * This disk will be used to store files regarding importing subscribers. This must
-     * be a disk that uses the `local` driver.
+     * This disk will be used to store files regarding importing subscribers.
      */
     'import_subscribers_disk' => 'public',
 

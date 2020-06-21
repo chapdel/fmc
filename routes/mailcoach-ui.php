@@ -41,6 +41,7 @@ use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\UpdateStatus\Re
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\UpdateStatus\UnsubscribeController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\TagsController;
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DestroySubscriberImportController;
+use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DownloadSubscriberImportAttachmentController;
 use Spatie\Mailcoach\Http\App\Controllers\TemplatesController;
 use Spatie\Mailcoach\Http\App\Middleware\EditableCampaign;
 
@@ -129,6 +130,7 @@ Route::prefix('email-lists')->group(function () {
 });
 
 Route::prefix('subscriber-import')->group(function () {
+    Route::get('{subscriberImport}/download-attachment/{collection}', '\\' . DownloadSubscriberImportAttachmentController::class)->name('mailcoach.subscriberImport.downloadAttachment');
     Route::delete('{subscriberImport}', '\\' . DestroySubscriberImportController::class)->name('mailcoach.subscriberImport.delete');
 });
 

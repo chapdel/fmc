@@ -54,26 +54,6 @@ class SubscriberImport extends Model implements HasMedia, GetsCleanedUp
             ->singleFile();
     }
 
-    public function getImportFilePath(): string
-    {
-        return $this->getFirstMediaPath('importFile');
-    }
-
-    public function getImportFileUrl(): string
-    {
-        return $this->getFirstMediaUrl('importFile');
-    }
-
-    public function getImportedSubscribersReportUrl(): string
-    {
-        return $this->getFirstMediaUrl('importedUsersReport');
-    }
-
-    public function getErrorReportUrl(): string
-    {
-        return $this->getFirstMediaUrl('errorReport');
-    }
-
     public static function cleanUp(Builder $query): Builder
     {
         return $query->where('created_at', '<', now()->subWeek());
