@@ -28,7 +28,7 @@ class CampaignSentMail extends Mailable implements ShouldQueue
                 $this->campaign->emailList->default_from_email,
                 $this->campaign->emailList->default_from_name
             )
-            ->subject(__("The campaign named ':campaignname' has been sent", ['campaignname' => $this->campaign->name]))
+            ->subject(__("The campaign named ':campaignName' has been sent", ['campaignName' => $this->campaign->name]))
             ->markdown('mailcoach::mails.campaignSent');
     }
 }

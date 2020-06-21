@@ -40,7 +40,7 @@ class ImportSubscribersAction
                 $errorReport
             );
         } catch (Exception $exception) {
-            $errorReport->addRow([__('Could finish importing subscribers. This error occurred: :error', ['error' => $exception->getMessage()])]);
+            $errorReport->addRow([__("Couldn't finish importing subscribers. This error occurred: :error", ['error' => $exception->getMessage()])]);
         }
 
         $subscriberImport->update([

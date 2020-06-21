@@ -51,8 +51,8 @@
                     <x-th class="w-4"></x-th>
                     <x-th sort-by="name">{{ __('Name') }}</x-th>
                     <x-th sort-by="-sent_to_number_of_subscribers" class="w-32 th-numeric">{{ __('Emails') }}</x-th>
-                    <x-th sort-by="-unique_open_count" class="w-32 th-numeric hidden | md:table-cell">{{ __('Unique opens') }}</x-th>
-                    <x-th sort-by="-unique_click_count" class="w-32 th-numeric hidden | md:table-cell">{{ __('Unique clicks') }}</x-th>
+                    <x-th sort-by="-unique_open_count" class="w-32 th-numeric hidden | md:table-cell">{{ __('Unique Opens') }}</x-th>
+                    <x-th sort-by="-unique_click_count" class="w-32 th-numeric hidden | md:table-cell">{{ __('Unique Clicks') }}</x-th>
                     <x-th sort-by="-sent" sort-default class="w-48 th-numeric hidden | md:table-cell">{{ __('Sent') }}</x-th>
                     <x-th class="w-12"></x-th>
                 </tr>
