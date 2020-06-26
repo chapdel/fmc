@@ -147,7 +147,6 @@ class TagTest extends TestCase
         $this->assertContains($this->anotherSubscriber->id, $tag1->subscribers->pluck('id'));
 
         $this->assertContains($this->subscriber->id, $tag2->subscribers->pluck('id'));
-
     }
 
     protected function assertSubscriberHasTags(array $expectedTagNames)
