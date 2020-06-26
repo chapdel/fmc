@@ -12,6 +12,9 @@ class TagTest extends TestCase
     private Subscriber $subscriber;
 
     /** @var \Spatie\Mailcoach\Models\Subscriber */
+    private Subscriber $anotherSubscriber;
+
+    /** @var \Spatie\Mailcoach\Models\Subscriber */
     private Subscriber $subscriberOfAnotherEmailList;
 
     public function setUp(): void
@@ -19,6 +22,10 @@ class TagTest extends TestCase
         parent::setUp();
 
         $this->subscriber = factory(Subscriber::class)->create();
+
+        $this->anotherSubscriber = factory(Subscriber::class)->create();
+        $this->anotherSubscriber->email_list_id = $this->subscriber->email_list_id;
+        $this->anotherSubscriber->save();
 
         $this->subscriberOfAnotherEmailList = factory(Subscriber::class)->create();
     }
@@ -122,6 +129,25 @@ class TagTest extends TestCase
             'email_list_id' => $this->subscriberOfAnotherEmailList->id,
             'name' => 'test1',
         ]);
+    }
+
+    /** @test */
+    public function subscribers_can_be_retrieved_by_tag()
+    {
+        $this->subscriber->syncTags(['testA', 'testB', 'test1', 'test2']);
+        $this->anotherSubscriber->syncTags(['test1']);
+
+        $tag1 = Tag::firstWhere('name', '=', 'test1');
+        $tag2 = Tag::firstWhere('name', '=', 'test2');
+
+        $this->assertSame(2, $tag1->subscribers->count());
+        $this->assertSame(1, $tag2->subscribers->count());
+
+        $this->assertContains($this->subscriber->id, $tag1->subscribers->pluck('id'));
+        $this->assertContains($this->anotherSubscriber->id, $tag1->subscribers->pluck('id'));
+
+        $this->assertContains($this->subscriber->id, $tag2->subscribers->pluck('id'));
+
     }
 
     protected function assertSubscriberHasTags(array $expectedTagNames)
