@@ -134,9 +134,6 @@ class TagTest extends TestCase
     /** @test */
     public function subscribers_can_be_retrieved_by_tag()
     {
-        // For this test to actually work (see also https://github.com/spatie/laravel-mailcoach/pull/264),
-        // it's important for the subscriber and tag IDs not to be the same,
-        // which is why some other tags are inserted before the tags that will be checked.
         $this->subscriber->syncTags(['testA', 'testB', 'test1', 'test2']);
         $this->anotherSubscriber->syncTags(['test1']);
 
