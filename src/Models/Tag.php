@@ -14,7 +14,7 @@ class Tag extends Model
 
     public function subscribers()
     {
-        return $this->belongsToMany(config('mailcoach.models.subscriber'), 'mailcoach_email_list_subscriber_tags', 'subscriber_id', 'tag_id');
+        return $this->belongsToMany(config('mailcoach.models.subscriber'), 'mailcoach_email_list_subscriber_tags', 'tag_id', 'subscriber_id');
     }
 
     public function emailList(): BelongsTo
