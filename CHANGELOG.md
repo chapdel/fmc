@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.19.1 - 2020-06-25
+
+- fix getting subscribers by tag (#264)
+
 ## 2.19.0 - 2020-06-25
 
 - add config setting to register (or not) blade components (#266)
