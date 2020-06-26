@@ -162,4 +162,21 @@ return [
         'template' => Spatie\Mailcoach\Models\Template::class,
 
     ],
+
+    'views' => [
+
+        /*
+         * The service provider registers several Blade components that are
+         * used in Mailcoach's views. If you are using the default Mailcoach
+         * views, leave this as true so they work as expected. If you have
+         * your own views and don't need/want Mailcoach to register these
+         * blade components (e.g., because of naming conflicts), you can
+         * change this setting to false and they won't be registered.
+         *
+         * If you change this setting, be sure to run `php artisan view:clear`
+         * so Laravel can recompile your views.
+         */
+        'use_blade_components' => true,
+
+    ],
 ];

@@ -71,7 +71,7 @@ class MailcoachServiceProvider extends EventServiceProvider
         });
     }
 
-    protected function bootCarbon()
+    protected function bootCarbon(): self
     {
         $mailcoachFormat = config('mailcoach.date_format');
 
@@ -80,7 +80,7 @@ class MailcoachServiceProvider extends EventServiceProvider
         return $this;
     }
 
-    protected function bootCommands()
+    protected function bootCommands(): self
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
@@ -96,7 +96,7 @@ class MailcoachServiceProvider extends EventServiceProvider
         return $this;
     }
 
-    protected function bootSupportMacros()
+    protected function bootSupportMacros(): self
     {
         if (! Collection::hasMacro('paginate')) {
             Collection::macro('paginate', function (int $perPage = 15, string $pageName = 'page', int $page = null, int $total = null, array $options = []): LengthAwarePaginator {
@@ -142,14 +142,14 @@ class MailcoachServiceProvider extends EventServiceProvider
         return $this;
     }
 
-    protected function bootGate()
+    protected function bootGate(): self
     {
         Gate::define('viewMailcoach', fn ($user = null) => app()->environment('local'));
 
         return $this;
     }
 
-    protected function bootPublishables()
+    protected function bootPublishables(): self
     {
         $this->publishes([
             __DIR__ . '/../resources/views' => resource_path('views/vendor/mailcoach'),
@@ -182,7 +182,7 @@ class MailcoachServiceProvider extends EventServiceProvider
         return $this;
     }
 
-    protected function bootRoutes()
+    protected function bootRoutes(): self
     {
         Route::macro('mailcoach', function (string $url = '') {
             Route::get($url, '\\'.HomeController::class)->name('mailcoach.home');
@@ -196,7 +196,7 @@ class MailcoachServiceProvider extends EventServiceProvider
         return $this;
     }
 
-    protected function bootViews()
+    protected function bootViews(): self
     {
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'mailcoach');
 
@@ -205,6 +205,22 @@ class MailcoachServiceProvider extends EventServiceProvider
 
         View::composer('mailcoach::app.layouts.partials.footer', FooterComposer::class);
 
+        if (config("mailcoach.views.use_blade_components", true)) {
+            $this->bootBladeComponents();
+        }
+
+        return $this;
+    }
+
+    protected function bootTranslations(): self
+    {
+        $this->loadJSONTranslationsFrom(__DIR__ . '/../resources/lang/');
+
+        return $this;
+    }
+
+    protected function bootBladeComponents(): self
+    {
         Blade::component('mailcoach::app.components.form.checkboxField', 'checkbox-field');
         Blade::component('mailcoach::app.components.form.radioField', 'radio-field');
         Blade::component('mailcoach::app.components.form.formButton', 'form-button');
@@ -232,13 +248,6 @@ class MailcoachServiceProvider extends EventServiceProvider
         Blade::component('mailcoach::app.components.counter', 'counter');
 
         Blade::component(ReplacerHelpTextsComponent::class, 'replacer-help-texts');
-
-        return $this;
-    }
-
-    protected function bootTranslations()
-    {
-        $this->loadJSONTranslationsFrom(__DIR__ . '/../resources/lang/');
 
         return $this;
     }
