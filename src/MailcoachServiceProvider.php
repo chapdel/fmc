@@ -205,6 +205,22 @@ class MailcoachServiceProvider extends EventServiceProvider
 
         View::composer('mailcoach::app.layouts.partials.footer', FooterComposer::class);
 
+        if (config("mailcoach.views.use_blade_components", true)) {
+            $this->bootBladeComponents();
+        }
+
+        return $this;
+    }
+
+    protected function bootTranslations()
+    {
+        $this->loadJSONTranslationsFrom(__DIR__ . '/../resources/lang/');
+
+        return $this;
+    }
+
+    protected function bootBladeComponents()
+    {
         Blade::component('mailcoach::app.components.form.checkboxField', 'checkbox-field');
         Blade::component('mailcoach::app.components.form.radioField', 'radio-field');
         Blade::component('mailcoach::app.components.form.formButton', 'form-button');
@@ -232,13 +248,6 @@ class MailcoachServiceProvider extends EventServiceProvider
         Blade::component('mailcoach::app.components.counter', 'counter');
 
         Blade::component(ReplacerHelpTextsComponent::class, 'replacer-help-texts');
-
-        return $this;
-    }
-
-    protected function bootTranslations()
-    {
-        $this->loadJSONTranslationsFrom(__DIR__ . '/../resources/lang/');
 
         return $this;
     }
