@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.19.2 - 2020-06-28
+
+- make sure very long error messages from SMTP get processed (#268)
+
 ## 2.19.1 - 2020-06-25
 
 - fix getting subscribers by tag (#264)
