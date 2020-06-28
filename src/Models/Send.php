@@ -218,6 +218,10 @@ class Send extends Model
 
     public function markAsFailed(string $failureReason): self
     {
+        if (strlen($failureReason) > 255) {
+            $failureReason = substr($failureReason, 0, 255);
+        }
+
         $this->update([
             'sent_at' => now(),
             'failed_at' => now(),
