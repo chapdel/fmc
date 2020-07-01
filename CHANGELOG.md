@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.20.1 - 2020-07-01
+
+- Fix another regression in the campaign summary
+
 ## 2.20.0 - 2020-07-01
 
 - Add a `retry_until_hours` setting to the throttling config

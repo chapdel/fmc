@@ -9,8 +9,7 @@
         @if((! $campaign->isSent()) || (! $campaign->wasSentToAllSubscribers()))
             @if (! $campaign->sent_to_number_of_subscribers)
                 <div class="progress-bar">
-                    <div class="progress-bar-value"
-                         style="width:{{ ($campaign->sendsCount() / $campaign->sent_to_number_of_subscribers) * 100 }}%"></div>
+                    <div class="progress-bar-value" style="width:0"></div>
                 </div>
 
                 <div class="mt-4 flex alert alert-info">
@@ -32,7 +31,7 @@
                 </div>
             @else
                 <div class="progress-bar">
-                    <div class="progress-bar-value" style="width:0%"></div>
+                    <div class="progress-bar-value" style="width:{{ ($campaign->sendsCount() / $campaign->sent_to_number_of_subscribers) * 100 }}%"></div>
                 </div>
                 <div class="mt-4 flex alert alert-info">
                     <div class="mr-2">
