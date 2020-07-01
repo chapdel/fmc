@@ -73,6 +73,7 @@ return [
         'allowed_number_of_jobs_in_timespan' => 10,
         'timespan_in_seconds' => 1,
         'release_in_seconds' => 5,
+        'retry_until_hours' => 24,
     ],
 
       /*

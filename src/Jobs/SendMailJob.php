@@ -56,6 +56,6 @@ class SendMailJob implements ShouldQueue
 
     public function retryUntil()
     {
-        return now()->addDay();
+        return now()->addHours(config('mailcoach.throttling.retry_until_hours', 24));
     }
 }
