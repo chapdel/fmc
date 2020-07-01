@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.19.4 - 2020-07-01
+
+- Fix a regression where the campaign summary was not showing the correct messaging
+
 ## 2.19.3 - 2020-07-01
 
 - Show a label in the footer when environment isn't `production` or debugging is on

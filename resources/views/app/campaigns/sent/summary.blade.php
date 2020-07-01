@@ -7,7 +7,7 @@
 @section('campaign')
     <div @if(!$campaign->sent_at || $campaign->sent_at->addDay()->isFuture()) id="campaign-summary" data-poll @endif>
         @if((! $campaign->isSent()) || (! $campaign->wasSentToAllSubscribers()))
-            @if ( $campaign->sent_to_number_of_subscribers)
+            @if (! $campaign->sent_to_number_of_subscribers)
                 <div class="progress-bar">
                     <div class="progress-bar-value"
                          style="width:{{ ($campaign->sendsCount() / $campaign->sent_to_number_of_subscribers) * 100 }}%"></div>
