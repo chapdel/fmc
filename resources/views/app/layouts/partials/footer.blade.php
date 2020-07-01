@@ -12,4 +12,11 @@
             {{ __('Upgrade available') }}
         </a>
     @endif
+
+    @if (! app()->environment('production') || config('app.debug'))
+        <span class="ml-4 my-2 inline-flex items-center bg-red-200 text-red-800 rounded-sm px-2 leading-loose">
+            <i class="fas fa-wrench opacity-50 mr-1"></i>
+            Env: {{ app()->environment() }} &mdash; Debug: {{ config('app.debug') ? 'true' : 'false' }}
+        </span>
+    @endif
 </div>
