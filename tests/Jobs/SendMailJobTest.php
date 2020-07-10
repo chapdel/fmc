@@ -73,6 +73,6 @@ class SendMailJobTest extends TestCase
 
         dispatch(new SendMailJob($pendingSend));
 
-        Mail::assertSent(TestCampaignMail::class, 1);
+        Mail::assertSent(CampaignMail::class, 1);
     }
 }

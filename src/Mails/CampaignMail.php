@@ -50,6 +50,18 @@ class CampaignMail extends Mailable
         return $this;
     }
 
+    public function subject($subject): self
+    {
+        if (! empty($this->subject)) {
+            return $this;
+        }
+
+        $this->subject = $subject;
+
+        return $this;
+    }
+
+
     public function build()
     {
         return $this

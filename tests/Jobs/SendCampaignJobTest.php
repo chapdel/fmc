@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\Jobs;
 
+use Illuminate\Mail\MailManager;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
@@ -16,8 +17,10 @@ use Spatie\Mailcoach\Models\Send;
 use Spatie\Mailcoach\Models\Subscriber;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
-use Spatie\Mailcoach\Tests\TestClasses\CustomMailable;
 use Spatie\Mailcoach\Tests\TestClasses\CustomReplacer;
+use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMail;
+use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMailWithNoSubject;
+use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMailWithSubjectReplacer;
 use Spatie\Snapshots\MatchesSnapshots;
 
 class SendCampaignJobTest extends TestCase
@@ -35,14 +38,13 @@ class SendCampaignJobTest extends TestCase
             ->create();
 
         $this->campaign->emailList->update(['campaign_mailer' => 'some-mailer']);
-
-        Mail::fake();
     }
 
     /** @test */
     public function it_can_send_a_campaign_with_the_correct_mailer()
     {
         Event::fake();
+        Mail::fake();
 
         dispatch(new SendCampaignJob($this->campaign));
 
@@ -64,6 +66,7 @@ class SendCampaignJobTest extends TestCase
     public function it_will_not_create_mailcoach_sends_if_they_already_have_been_created()
     {
         Event::fake();
+        Mail::fake();
 
         $emailList = factory(EmailList::class)->create();
 
@@ -90,6 +93,7 @@ class SendCampaignJobTest extends TestCase
     public function it_will_use_the_right_subject()
     {
         Event::fake();
+        Mail::fake();
 
         $this->campaign->subject('my subject');
 
@@ -106,6 +110,7 @@ class SendCampaignJobTest extends TestCase
     public function a_campaign_that_was_sent_will_not_be_sent_again()
     {
         Event::fake();
+        Mail::fake();
 
         $this->assertFalse($this->campaign->wasAlreadySent());
         dispatch(new SendCampaignJob($this->campaign));
@@ -121,6 +126,7 @@ class SendCampaignJobTest extends TestCase
     public function it_will_prepare_the_webview()
     {
         Event::fake();
+        Mail::fake();
 
         $this->campaign->update([
             'html' => 'my html',
@@ -136,6 +142,7 @@ class SendCampaignJobTest extends TestCase
     public function it_will_not_send_invalid_html()
     {
         Event::fake();
+        Mail::fake();
 
         $this->campaign->update([
             'track_clicks' => true,
@@ -151,6 +158,7 @@ class SendCampaignJobTest extends TestCase
     public function the_queue_of_the_send_campaign_job_can_be_configured()
     {
         Event::fake();
+        Mail::fake();
 
         Queue::fake();
 
@@ -165,6 +173,8 @@ class SendCampaignJobTest extends TestCase
     /** @test */
     public function regular_placeholders_in_the_subject_will_be_replaced()
     {
+        Mail::fake();
+
         $campaign = (new CampaignFactory())
             ->withSubscriberCount(1)
             ->create([
@@ -185,6 +195,8 @@ class SendCampaignJobTest extends TestCase
     /** @test */
     public function personalized_placeholders_in_the_subject_will_be_replaced()
     {
+        Mail::fake();
+
         $campaign = (new CampaignFactory())
             ->create([
                 'subject' => 'This is a mail sent to ::subscriber.email::',
@@ -206,10 +218,53 @@ class SendCampaignJobTest extends TestCase
     }
 
     /** @test * */
-    public function custom_replacers_work_with_custom_mailables()
+    public function custom_mailable_sends()
     {
         $campaign = (new CampaignFactory())
-            ->mailable(CustomMailable::class)
+            ->mailable(TestCampaignMail::class)
+            ->withSubscriberCount(1)
+            ->create();
+
+        $campaign->emailList->update(['campaign_mailer' => 'array']);
+
+        dispatch(new SendCampaignJob($campaign));
+
+        $messages = app(MailManager::class)->mailer('array')->getSwiftMailer()->getTransport()->messages();
+
+        $this->assertTrue($messages->filter(function (\Swift_Message $message) {
+            return $message->getSubject() === "This is the subject from the custom mailable.";
+        })->count() > 0);
+    }
+
+
+
+
+    /** @test * */
+    public function custom_mailable_subject_overrides_campaign_subject()
+    {
+        $campaign = (new CampaignFactory())
+            ->mailable(TestCampaignMail::class)
+            ->withSubscriberCount(1)
+            ->create([
+                'subject' => 'This subject comes from the campaign',
+            ]);
+
+        $campaign->emailList->update(['campaign_mailer' => 'array']);
+
+        dispatch(new SendCampaignJob($campaign));
+
+        $messages = app(MailManager::class)->mailer('array')->getSwiftMailer()->getTransport()->messages();
+
+        $this->assertTrue($messages->filter(function (\Swift_Message $message) {
+            return $message->getSubject() === "This is the subject from the custom mailable.";
+        })->count() > 0);
+    }
+
+    /** @test * */
+    public function custom_replacers_work_with_campaign_subject()
+    {
+        $campaign = (new CampaignFactory())
+            ->mailable(TestCampaignMailWithNoSubject::class)
             ->create([
                 'subject' => '::customreplacer::',
                 'email_html' => '::customreplacer::',
@@ -221,12 +276,38 @@ class SendCampaignJobTest extends TestCase
 
         config()->set('mailcoach.replacers', array_merge(config('mailcoach.replacers'), [CustomReplacer::class]));
 
+        $campaign->emailList->update(['campaign_mailer' => 'array']);
+
         dispatch(new SendCampaignJob($campaign));
 
-        Mail::assertSent(CampaignMail::class, function (CampaignMail $mail) {
-            $this->assertEquals("The custom replacer works", $mail->subject);
+        $messages = app(MailManager::class)->mailer('array')->getSwiftMailer()->getTransport()->messages();
 
-            return true;
-        });
+        $this->assertTrue($messages->filter(function (\Swift_Message $message) {
+            return $message->getSubject() === "The custom replacer works";
+        })->count() > 0);
+    }
+
+    /** @test * */
+    public function custom_replacers_work_with_subject_from_custom_mailable()
+    {
+        $campaign = (new CampaignFactory())
+            ->mailable(TestCampaignMailWithSubjectReplacer::class)
+            ->create();
+
+        Subscriber::createWithEmail('john@example.com')
+            ->skipConfirmation()
+            ->subscribeTo($campaign->emailList);
+
+        config()->set('mailcoach.replacers', array_merge(config('mailcoach.replacers'), [CustomReplacer::class]));
+
+        $campaign->emailList->update(['campaign_mailer' => 'array']);
+
+        dispatch(new SendCampaignJob($campaign));
+
+        $messages = app(MailManager::class)->mailer('array')->getSwiftMailer()->getTransport()->messages();
+
+        $this->assertTrue($messages->filter(function (\Swift_Message $message) {
+            return $message->getSubject() === "Custom Subject: The custom replacer works";
+        })->count() > 0);
     }
 }

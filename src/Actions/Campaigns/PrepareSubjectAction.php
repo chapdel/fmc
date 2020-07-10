@@ -9,6 +9,8 @@ class PrepareSubjectAction
 {
     public function execute(Campaign $campaign)
     {
+        $campaign->pullSubjectFromMailable();
+
         $this->replacePlaceholdersInSubject($campaign);
 
         $campaign->save();

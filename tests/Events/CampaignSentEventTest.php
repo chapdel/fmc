@@ -7,6 +7,7 @@ use Spatie\Mailcoach\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Jobs\SendCampaignJob;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
+use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMail;
 
 class CampaignSentEventTest extends TestCase
 {
@@ -15,7 +16,12 @@ class CampaignSentEventTest extends TestCase
     {
         Event::fake(CampaignSentEvent::class);
 
-        $campaign = (new CampaignFactory())->withSubscriberCount(3)->create();
+        $campaign = (new CampaignFactory())
+            ->withSubscriberCount(3)
+            ->mailable(TestCampaignMail::class)
+            ->create();
+
+        $campaign->content($campaign->contentFromMailable());
 
         dispatch(new SendCampaignJob($campaign));
 

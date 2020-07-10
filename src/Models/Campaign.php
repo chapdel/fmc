@@ -295,6 +295,27 @@ class Campaign extends Model implements Feedable, HasHtmlContent
             ->render();
     }
 
+    protected bool $hasPulledSubjectFromMailable = false;
+
+    public function pullSubjectFromMailable(): void
+    {
+        if ($this->hasPulledSubjectFromMailable) {
+            return;
+        }
+
+        if (! $this->hasCustomMailable()) {
+            return;
+        }
+
+        $mailable = $this->getMailable();
+        $mailable->build();
+
+        if (! empty($mailable->subject)) {
+            $this->subject($mailable->subject);
+            $this->hasPulledSubjectFromMailable = true;
+        }
+    }
+
     public function send(): self
     {
         $this->ensureSendable();
@@ -314,7 +335,9 @@ class Campaign extends Model implements Feedable, HasHtmlContent
             'last_modified_at' => now(),
         ]);
 
-        if (! is_null($this->mailable_class)) {
+        if ($this->hasCustomMailable()) {
+            $this->pullSubjectFromMailable();
+
             $this->content($this->contentFromMailable());
         }
 
@@ -344,7 +367,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
             throw CouldNotSendCampaign::noListSet($this);
         }
 
-        if (! is_null($this->mailable_class)) {
+        if ($this->hasCustomMailable()) {
             return;
         }
 
@@ -383,6 +406,10 @@ class Campaign extends Model implements Feedable, HasHtmlContent
      */
     public function sendTestMail($emails)
     {
+        if ($this->hasCustomMailable()) {
+            $this->pullSubjectFromMailable();
+        }
+
         collect($emails)->each(function (string $email) {
             dispatch(new SendTestMailJob($this, $email));
         });
@@ -572,9 +599,25 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         return $this->status == CampaignStatus::SENT;
     }
 
+    public function hasCustomMailable(): bool
+    {
+        if ($this->mailable_class === CampaignMail::class) {
+            return false;
+        }
+
+        return ! is_null($this->mailable_class);
+    }
+
     public function htmlWithInlinedCss(): string
     {
-        return (new CssToInlineStyles())->convert($this->html ?? '');
+        $html = $this->html;
+
+        if ($this->hasCustomMailable()) {
+            $html = $this->contentFromMailable();
+            $this->pullSubjectFromMailable();
+        }
+
+        return (new CssToInlineStyles())->convert($html ?? '');
     }
 
     public function getHtml(): ?string

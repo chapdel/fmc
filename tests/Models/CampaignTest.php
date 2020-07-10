@@ -17,6 +17,7 @@ use Spatie\Mailcoach\Models\Send;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMail;
+use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMailWithStaticHtml;
 use Spatie\Mailcoach\Tests\TestClasses\TestCustomInstanciatedQueryOnlyShouldSendToJohn;
 use Spatie\Mailcoach\Tests\TestClasses\TestCustomQueryOnlyShouldSendToJohn;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -447,6 +448,26 @@ class CampaignTest extends TestCase
         ]);
 
         $this->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->htmlWithInlinedCss());
+    }
+
+    /** @test */
+    public function it_can_inline_the_styles_of_the_html_with_custom_mailable()
+    {
+        /** @var Campaign $campaign */
+        $campaign = factory(Campaign::class)->create(['mailable_class' => TestCampaignMailWithStaticHtml::class]);
+        $campaign->content('');
+
+        $this->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->htmlWithInlinedCss());
+    }
+
+    /** @test */
+    public function it_can_pull_subject_from_custom_mailable()
+    {
+        /** @var Campaign $campaign */
+        $campaign = factory(Campaign::class)->create(['mailable_class' => TestCampaignMail::class, 'subject' => 'This is the campaign subject and should be overwritten.']);
+        $campaign->pullSubjectFromMailable();
+
+        $this->assertEquals($campaign->subject, 'This is the subject from the custom mailable.');
     }
 
     private function assertModels(array $expectedModels, Collection $actualModels)
