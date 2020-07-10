@@ -61,7 +61,6 @@ class CampaignMail extends Mailable
         return $this;
     }
 
-
     public function build()
     {
         return $this

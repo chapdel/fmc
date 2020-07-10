@@ -236,9 +236,6 @@ class SendCampaignJobTest extends TestCase
         })->count() > 0);
     }
 
-
-
-
     /** @test * */
     public function custom_mailable_subject_overrides_campaign_subject()
     {
