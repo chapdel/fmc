@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.21.0 - 2020-07-10
+
+- When subscribing an existing subscriber, tags will still be updated.
+
 ## 2.20.1 - 2020-07-01
 
 - Fix another regression in the campaign summary

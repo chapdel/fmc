@@ -19,6 +19,9 @@ class SubscribeController
         }
 
         if ($emailList->getSubscriptionStatus($request->email) === SubscriptionStatus::SUBSCRIBED) {
+            $subscriber = $this->getSubscriberClass()::findForEmail($request->email, $emailList);
+            $subscriber->addTags($request->tags());
+
             return $this->getAlreadySubscribedResponse($request);
         }
 

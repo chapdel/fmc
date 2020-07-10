@@ -131,6 +131,30 @@ class SubscribeControllerTest extends TestCase
     }
 
     /** @test */
+    public function it_will_add_tags_if_the_email_address_is_already_subscribed()
+    {
+        $tag1 = Tag::create(['name' => 'test1', 'email_list_id' => $this->emailList->id]);
+        $tag2 = Tag::create(['name' => 'test2', 'email_list_id' => $this->emailList->id]);
+        $tag3 = Tag::create(['name' => 'test3', 'email_list_id' => $this->emailList->id]);
+
+        $this->emailList->allowedFormSubscriptionTags()->sync([$tag1->id, $tag2->id, $tag3->id]);
+
+        $this->emailList->subscribe($this->payloadWithRedirects()['email']);
+        $subscriber = Subscriber::findForEmail($this->payloadWithRedirects()['email'], $this->emailList);
+        $subscriber->addTags(['test1', 'test2']);
+
+        $this->assertEquals(2, $subscriber->fresh()->tags()->count());
+
+        $this
+            ->post(action(SubscribeController::class, $this->emailList->uuid), $this->payloadWithRedirects([
+                'tags' => 'test3',
+            ]))
+            ->assertRedirect($this->payloadWithRedirects()['redirect_after_already_subscribed']);
+
+        $this->assertEquals(3, $subscriber->tags()->count());
+    }
+
+    /** @test */
     public function when_not_specified_on_the_form_it_will_redirect_to_the_redirect_after_already_subscribed_url_on_the_list()
     {
         $this->withoutExceptionHandling();
