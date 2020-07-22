@@ -2,12 +2,12 @@
 
 namespace Spatie\Mailcoach\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Mailcoach\Enums\SubscriberImportStatus;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\ModelCleanup\CleanupConfig;
 use Spatie\ModelCleanup\GetsCleanedUp;
 
 class SubscriberImport extends Model implements HasMedia, GetsCleanedUp
@@ -54,8 +54,8 @@ class SubscriberImport extends Model implements HasMedia, GetsCleanedUp
             ->singleFile();
     }
 
-    public static function cleanUp(Builder $query): Builder
+    public function cleanUp(CleanupConfig $config): void
     {
-        return $query->where('created_at', '<', now()->subWeek());
+        $config->olderThanDays(7);
     }
 }
