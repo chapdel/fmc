@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.22.0 - 2020-07-22
+
+- use model cleanup v3
+
 ## 2.21.1 - 2020-07-10
 
 - Testing fixes for Custom Mailables
