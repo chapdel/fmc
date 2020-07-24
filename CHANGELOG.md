@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.23.0 - 2020-07-22
+
+- use POST request to process unsubscribe (#273)
+
 ## 2.22.0 - 2020-07-22
 
 - use model cleanup v3
