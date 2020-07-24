@@ -69,7 +69,7 @@ abstract class TestCase extends Orchestra
     {
         $sends->each(function (Send $send) {
             $this
-                ->get(action(UnsubscribeController::class, [$send->subscriber->uuid, $send->uuid]));
+                ->post(action([UnsubscribeController::class, 'confirm'], [$send->subscriber->uuid, $send->uuid]));
         });
     }
 
