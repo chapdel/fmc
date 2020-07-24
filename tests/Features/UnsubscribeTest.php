@@ -45,6 +45,19 @@ class UnsubscribeTest extends TestCase
     }
 
     /** @test */
+    public function it_can_render_the_unsubscribe_confirmation_page()
+    {
+        $this->sendCampaign();
+
+        $this->assertEquals(SubscriptionStatus::SUBSCRIBED, $this->subscriber->status);
+
+        $this
+            ->get($this->mailedUnsubscribeLink)
+            ->assertSuccessful()
+            ->assertViewIs('mailcoach::landingPages.unsubscribe');
+    }
+
+    /** @test */
     public function it_can_unsubscribe_from_a_list()
     {
         $this->sendCampaign();
@@ -52,7 +65,7 @@ class UnsubscribeTest extends TestCase
         $this->assertEquals(SubscriptionStatus::SUBSCRIBED, $this->subscriber->status);
 
         $content = $this
-            ->get($this->mailedUnsubscribeLink)
+            ->post($this->mailedUnsubscribeLink)
             ->assertSuccessful()
             ->baseResponse->content();
 
@@ -76,7 +89,7 @@ class UnsubscribeTest extends TestCase
         $this->sendCampaign();
 
         $this
-            ->get($this->mailedUnsubscribeLink)
+            ->post($this->mailedUnsubscribeLink)
             ->assertSuccessful()
             ->assertViewIs('mailcoach::landingPages.unsubscribed');
     }
@@ -90,7 +103,7 @@ class UnsubscribeTest extends TestCase
         $this->sendCampaign();
 
         $this
-            ->get($this->mailedUnsubscribeLink)
+            ->post($this->mailedUnsubscribeLink)
             ->assertRedirect($url);
     }
 
@@ -99,7 +112,7 @@ class UnsubscribeTest extends TestCase
     {
         $this->sendCampaign();
 
-        $this->get($this->mailedUnsubscribeLink)->assertSuccessful();
+        $this->post($this->mailedUnsubscribeLink)->assertSuccessful();
         $response = $this->get($this->mailedUnsubscribeLink)->assertSuccessful()->baseResponse->content();
 
         $this->assertCount(1, CampaignUnsubscribe::all());
@@ -114,7 +127,7 @@ class UnsubscribeTest extends TestCase
 
         Send::truncate();
 
-        $this->get($this->mailedUnsubscribeLink)->assertSuccessful();
+        $this->post($this->mailedUnsubscribeLink)->assertSuccessful();
 
         $this->assertEquals(SubscriptionStatus::UNSUBSCRIBED, $this->subscriber->refresh()->status);
     }

@@ -10,7 +10,23 @@ class UnsubscribeController
 {
     use UsesMailcoachModels;
 
-    public function __invoke(string $subscriberUuid, string $sendUuid = null)
+    public function show(string $subscriberUuid, string $sendUuid = null)
+    {
+        /** @var \Spatie\Mailcoach\Models\Subscriber $subscriber */
+        if (! $subscriber = $this->getSubscriberClass()::findByUuid($subscriberUuid)) {
+            return view('mailcoach::landingPages.couldNotFindSubscription');
+        }
+
+        $emailList = $subscriber->emailList;
+
+        if ($subscriber->status === SubscriptionStatus::UNSUBSCRIBED) {
+            return view('mailcoach::landingPages.alreadyUnsubscribed', compact('emailList'));
+        }
+
+        return view('mailcoach::landingPages.unsubscribe', compact('emailList', 'subscriber'));
+    }
+
+    public function confirm(string $subscriberUuid, string $sendUuid = null)
     {
         /** @var \Spatie\Mailcoach\Models\Subscriber $subscriber */
         if (! $subscriber = $this->getSubscriberClass()::findByUuid($subscriberUuid)) {
