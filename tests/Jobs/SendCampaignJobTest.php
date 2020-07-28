@@ -6,6 +6,7 @@ use Illuminate\Mail\MailManager;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Str;
 use Spatie\Mailcoach\Enums\CampaignStatus;
 use Spatie\Mailcoach\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Exceptions\CouldNotSendCampaign;
@@ -21,6 +22,7 @@ use Spatie\Mailcoach\Tests\TestClasses\CustomReplacer;
 use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMail;
 use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMailWithNoSubject;
 use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMailWithSubjectReplacer;
+use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMailWithBodyReplacer;
 use Spatie\Snapshots\MatchesSnapshots;
 
 class SendCampaignJobTest extends TestCase
@@ -305,6 +307,30 @@ class SendCampaignJobTest extends TestCase
 
         $this->assertTrue($messages->filter(function (\Swift_Message $message) {
             return $message->getSubject() === "Custom Subject: The custom replacer works";
+        })->count() > 0);
+    }
+
+    /** @test * */
+    public function custom_replacers_work_in_body_from_custom_mailable()
+    {
+        $campaign = (new CampaignFactory())
+            ->mailable(TestCampaignMailWithBodyReplacer::class)
+            ->create();
+
+        Subscriber::createWithEmail('john@example.com')
+            ->skipConfirmation()
+            ->subscribeTo($campaign->emailList);
+
+        config()->set('mailcoach.replacers', array_merge(config('mailcoach.replacers'), [CustomReplacer::class]));
+
+        $campaign->emailList->update(['campaign_mailer' => 'array']);
+
+        dispatch(new SendCampaignJob($campaign));
+
+        $messages = app(MailManager::class)->mailer('array')->getSwiftMailer()->getTransport()->messages();
+
+        $this->assertTrue($messages->filter(function (\Swift_Message $message) {
+            return Str::contains($message->getBody(), 'The custom replacer works');
         })->count() > 0);
     }
 }

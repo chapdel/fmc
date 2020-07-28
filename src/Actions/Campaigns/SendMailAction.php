@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Actions\Campaigns;
 use Exception;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Events\CampaignMailSentEvent;
+use Spatie\Mailcoach\Mails\CampaignMail;
 use Spatie\Mailcoach\Models\Send;
 use Spatie\Mailcoach\Support\Config;
 use Swift_Message;
@@ -44,7 +45,7 @@ class SendMailAction
         $personalisedText = $convertHtmlToTextAction->execute($personalisedHtml);
 
         /** @var \Spatie\Mailcoach\Mails\CampaignMail $campaignMail */
-        $campaignMail = $pendingSend->campaign->getMailable();
+        $campaignMail = app(CampaignMail::class);
 
         /** @var \Spatie\Mailcoach\Models\Campaign $campaign */
         $campaign = $pendingSend->campaign;
