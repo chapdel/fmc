@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Actions\Campaigns;
 
 use Illuminate\Support\Facades\Mail;
+use Spatie\Mailcoach\Mails\CampaignMail;
 use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Support\Config;
 use Swift_Message;
@@ -17,7 +18,7 @@ class SendTestMailAction
 
         $text = $convertHtmlToTextAction->execute($html);
 
-        $campaignMailable = $campaign->getMailable()
+        $campaignMailable = app(CampaignMail::class)
             ->setCampaign($campaign)
             ->setHtmlContent($html)
             ->setTextContent($text)
