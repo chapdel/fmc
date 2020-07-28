@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.23.1 - 2020-07-28
+
+- fix bug that prevents replacement strings from working with a custom mailable (#274)
+
 ## 2.23.0 - 2020-07-22
 
 - use POST request to process unsubscribe (#273)
