@@ -20,9 +20,9 @@ use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomReplacer;
 use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMail;
+use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMailWithBodyReplacer;
 use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMailWithNoSubject;
 use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMailWithSubjectReplacer;
-use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMailWithBodyReplacer;
 use Spatie\Snapshots\MatchesSnapshots;
 
 class SendCampaignJobTest extends TestCase
