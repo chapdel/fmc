@@ -295,14 +295,8 @@ class Campaign extends Model implements Feedable, HasHtmlContent
             ->render();
     }
 
-    protected bool $hasPulledSubjectFromMailable = false;
-
     public function pullSubjectFromMailable(): void
     {
-        if ($this->hasPulledSubjectFromMailable) {
-            return;
-        }
-
         if (! $this->hasCustomMailable()) {
             return;
         }
@@ -312,7 +306,6 @@ class Campaign extends Model implements Feedable, HasHtmlContent
 
         if (! empty($mailable->subject)) {
             $this->subject($mailable->subject);
-            $this->hasPulledSubjectFromMailable = true;
         }
     }
 
@@ -614,7 +607,6 @@ class Campaign extends Model implements Feedable, HasHtmlContent
 
         if ($this->hasCustomMailable()) {
             $html = $this->contentFromMailable();
-            $this->pullSubjectFromMailable();
         }
 
         return (new CssToInlineStyles())->convert($html ?? '');

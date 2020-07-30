@@ -63,7 +63,7 @@ class SendTestMailJobTest extends TestCase
 
         $campaign->emailList->update(['campaign_mailer' => 'array']);
 
-        dispatch(new SendTestMailJob($campaign, $email));
+        $campaign->sendTestMail($email);
 
         $messages = app(MailManager::class)->mailer('array')->getSwiftMailer()->getTransport()->messages();
 

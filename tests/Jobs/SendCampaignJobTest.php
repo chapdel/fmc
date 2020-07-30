@@ -229,7 +229,7 @@ class SendCampaignJobTest extends TestCase
 
         $campaign->emailList->update(['campaign_mailer' => 'array']);
 
-        dispatch(new SendCampaignJob($campaign));
+        $campaign->send();
 
         $messages = app(MailManager::class)->mailer('array')->getSwiftMailer()->getTransport()->messages();
 
@@ -250,7 +250,7 @@ class SendCampaignJobTest extends TestCase
 
         $campaign->emailList->update(['campaign_mailer' => 'array']);
 
-        dispatch(new SendCampaignJob($campaign));
+        $campaign->send();
 
         $messages = app(MailManager::class)->mailer('array')->getSwiftMailer()->getTransport()->messages();
 
@@ -277,7 +277,7 @@ class SendCampaignJobTest extends TestCase
 
         $campaign->emailList->update(['campaign_mailer' => 'array']);
 
-        dispatch(new SendCampaignJob($campaign));
+        $campaign->send();
 
         $messages = app(MailManager::class)->mailer('array')->getSwiftMailer()->getTransport()->messages();
 
@@ -301,7 +301,7 @@ class SendCampaignJobTest extends TestCase
 
         $campaign->emailList->update(['campaign_mailer' => 'array']);
 
-        dispatch(new SendCampaignJob($campaign));
+        $campaign->send();
 
         $messages = app(MailManager::class)->mailer('array')->getSwiftMailer()->getTransport()->messages();
 
