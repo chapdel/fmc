@@ -41,11 +41,21 @@ class TemplatesControllerTest extends TestCase
         ]);
 
         $this
-            ->get(action([TemplatesController::class, 'index']) . '?filter[search]=test')
+            ->get(action([TemplatesController::class, 'index']) . '?filter[search]=two')
             ->assertSuccessful()
             ->assertJsonCount(1, 'data')
-            ->assertJsonFragment(['name' => 'two'])
-            ->assertDontSee('one');
+            ->assertJsonFragment(['name' => 'two']);
+    }
+
+    /** @test */
+    public function the_api_can_show_a_template()
+    {
+        $template = factory(Template::class)->create();
+
+        $this
+            ->get(action([TemplatesController::class, 'show'], $template))
+            ->assertSuccessful()
+            ->assertJsonFragment(['name' => $template->name]);
     }
 
     /** @test */
@@ -61,5 +71,37 @@ class TemplatesControllerTest extends TestCase
             ->assertSuccessful();
 
         $this->assertDatabaseHas('mailcoach_templates', $attributes);
+    }
+
+    /** @test */
+    public function a_template_can_be_updated_using_the_api()
+    {
+        $template = factory(Template::class)->create();
+
+        $attributes = [
+            'name' => 'updated template name',
+            'html' => 'updated template html',
+        ];
+
+        $this
+            ->put(action([TemplatesController::class, 'update'], $template), $attributes)
+            ->assertSuccessful();
+
+        $template = $template->refresh();
+
+        $this->assertEquals($attributes['name'], $template->name);
+        $this->assertEquals($attributes['html'], $template->html);
+    }
+
+    /** @test */
+    public function a_template_can_be_deleted_using_the_api()
+    {
+        $template = factory(Template::class)->create();
+
+        $this
+            ->delete(action([TemplatesController::class, 'destroy'], $template))
+            ->assertSuccessful();
+
+        $this->assertCount(0, Template::get());
     }
 }

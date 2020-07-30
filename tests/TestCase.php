@@ -16,6 +16,7 @@ use Spatie\Mailcoach\Http\Front\Controllers\UnsubscribeController;
 use Spatie\Mailcoach\MailcoachServiceProvider;
 use Spatie\Mailcoach\Models\Send;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
+use Spatie\QueryBuilder\QueryBuilderServiceProvider;
 use Spatie\TestTime\TestTime;
 
 abstract class TestCase extends Orchestra
@@ -43,6 +44,7 @@ abstract class TestCase extends Orchestra
             MailcoachServiceProvider::class,
             FeedServiceProvider::class,
             MediaLibraryServiceProvider::class,
+            QueryBuilderServiceProvider::class,
         ];
     }
 

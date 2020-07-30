@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\Controllers;
 
 use Spatie\Mailcoach\Actions\Templates\CreateTemplateAction;
+use Spatie\Mailcoach\Actions\Templates\UpdateTemplateAction;
 use Spatie\Mailcoach\Http\Api\Resources\TemplateResource;
 use Spatie\Mailcoach\Http\App\Queries\TemplatesQuery;
 use Spatie\Mailcoach\Http\App\Requests\TemplateRequest;
@@ -42,13 +43,12 @@ class TemplatesController
         ]);
     }
 
-    public function update(Template $template, TemplateRequest $request)
-    {
-        $template->update([
-            'name' => $request->name,
-            'html' => $request->html ?? '',
-            'structured_html' => $request->structured_html,
-        ]);
+    public function update(
+        Template $template,
+        TemplateRequest $request,
+        UpdateTemplateAction $updateTemplateAction
+    ) {
+        $updateTemplateAction->execute($template, $request->validated());
 
         flash()->success(__('Template :template was updated.', ['template' => $template->name]));
 
