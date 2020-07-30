@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers;
+namespace Spatie\Mailcoach\Tests\Http\Controllers\PublicApi;
 
 use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Support\Facades\Event;

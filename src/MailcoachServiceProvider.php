@@ -188,8 +188,15 @@ class MailcoachServiceProvider extends EventServiceProvider
             Route::get($url, '\\'.HomeController::class)->name('mailcoach.home');
 
             Route::prefix($url)->group(function () {
-                Route::prefix('')->group(__DIR__ . '/../routes/mailcoach-api.php');
-                Route::middleware(config('mailcoach.middleware'))->group(__DIR__ . '/../routes/mailcoach-ui.php');
+                Route::prefix('')->group(__DIR__ . '/../routes/mailcoach-public-api.php');
+
+                Route::prefix('')
+                    ->middleware(config('mailcoach.middleware')['web'])
+                    ->group(__DIR__ . '/../routes/mailcoach-ui.php');
+
+                Route::prefix('api')
+                    ->middleware(config('mailcoach.middleware')['api'])
+                    ->group(__DIR__ . '/../routes/mailcoach-api.php');
             });
         });
 
