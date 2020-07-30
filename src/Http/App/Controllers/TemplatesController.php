@@ -2,8 +2,10 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers;
 
+use Spatie\Mailcoach\Actions\Templates\CreateTemplateAction;
+use Spatie\Mailcoach\Http\Api\Resources\TemplateResource;
 use Spatie\Mailcoach\Http\App\Queries\TemplatesQuery;
-use Spatie\Mailcoach\Http\App\Requests\UpdateTemplateRequest;
+use Spatie\Mailcoach\Http\App\Requests\TemplateRequest;
 use Spatie\Mailcoach\Models\Template;
 use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
@@ -19,13 +21,14 @@ class TemplatesController
         ]);
     }
 
-    public function store(UpdateTemplateRequest $request)
+    public function show(Template $template)
     {
-        $template = $this->getTemplateClass()::create([
-            'name' => $request->name,
-            'html' => $request->html ?? '',
-            'structured_html' => $request->structured_html,
-        ]);
+        return new TemplateResource($template);
+    }
+
+    public function store(TemplateRequest $request, CreateTemplateAction $createTemplateAction)
+    {
+        $template = $createTemplateAction->execute($request->validated());
 
         flash()->success(__('Template :template was created.', ['template' => $template->name]));
 
@@ -39,7 +42,7 @@ class TemplatesController
         ]);
     }
 
-    public function update(Template $template, UpdateTemplateRequest $request)
+    public function update(Template $template, TemplateRequest $request)
     {
         $template->update([
             'name' => $request->name,

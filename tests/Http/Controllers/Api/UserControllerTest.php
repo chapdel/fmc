@@ -2,23 +2,24 @@
 
 namespace Spatie\Mailcoach\Tests\Http\Controllers\Api;
 
-use Illuminate\Foundation\Auth\User;
+use Spatie\Mailcoach\Http\Api\Controllers\UserController;
+use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\UsesApi;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class UserControllerTest extends TestCase
 {
+    use UsesApi;
+
     /** @test */
     public function it_can_detect_the_currently_logged_in_user()
     {
-        $user = factory(User::class)->create();
-
-        //$this->actingAs($user, 'api');
+        $this->loginToApi();
 
         $this
-            ->get('test')
+            ->get(action(UserController::class))
             ->assertSuccessful()
             ->assertJsonFragment([
-                'name' => $user->name,
+                'name' => auth()->user()->name,
             ]);
     }
 }

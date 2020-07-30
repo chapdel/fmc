@@ -132,6 +132,7 @@ return [
         ],
         'api' => [
             'api',
+            'auth:api',
         ],
     ],
 
@@ -183,6 +184,5 @@ return [
          * so Laravel can recompile your views.
          */
         'use_blade_components' => true,
-
     ],
 ];
