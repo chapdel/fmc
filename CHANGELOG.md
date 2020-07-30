@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.23.2 - 2020-07-30
+
+- fix a bug with Custom Mailables with subjects that did not send
+
 ## 2.23.1 - 2020-07-28
 
 - fix bug that prevents replacement strings from working with a custom mailable (#274)
