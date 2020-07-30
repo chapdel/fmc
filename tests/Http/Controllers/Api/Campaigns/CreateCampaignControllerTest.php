@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Campaigns\Draft;
+namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Campaigns;
 
-use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\Draft\CreateCampaignController;
+use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignsController;
 use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Models\EmailList;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\UsesApi;
@@ -31,7 +31,7 @@ class CreateCampaignControllerTest extends TestCase
         ];
 
         $this
-            ->postJson(action(CreateCampaignController::class), $attributes)
+            ->postJson(action([CampaignsController::class, 'store']), $attributes)
             ->assertSuccessful();
 
         $campaign = Campaign::first();

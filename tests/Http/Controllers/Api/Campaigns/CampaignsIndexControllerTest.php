@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Campaigns;
 
-use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignsIndexController;
+use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignsController;
 use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\UsesApi;
 use Spatie\Mailcoach\Tests\TestCase;
@@ -24,7 +24,7 @@ class CampaignsIndexControllerTest extends TestCase
         $templates = factory(Campaign::class, 3)->create();
 
         $this
-            ->getJson(action(CampaignsIndexController::class))
+            ->getJson(action([CampaignsController::class, 'index']))
             ->assertSuccessful()
             ->assertSeeText($templates->first()->name);
     }
@@ -41,7 +41,7 @@ class CampaignsIndexControllerTest extends TestCase
         ]);
 
         $this
-            ->getJson(action(CampaignsIndexController::class) . '?filter[search]=two')
+            ->getJson(action([CampaignsController::class, 'index']) . '?filter[search]=two')
             ->assertSuccessful()
             ->assertJsonCount(1, 'data')
             ->assertJsonFragment(['name' => 'two']);
