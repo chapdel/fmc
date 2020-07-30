@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Campaigns;
+namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Campaigns\Draft;
 
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\Draft\CreateCampaignController;
 use Spatie\Mailcoach\Models\Campaign;
