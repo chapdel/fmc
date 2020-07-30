@@ -16,7 +16,7 @@ class UserControllerTest extends TestCase
         $this->loginToApi();
 
         $this
-            ->get(action(UserController::class))
+            ->getJson(action(UserController::class))
             ->assertSuccessful()
             ->assertJsonFragment([
                 'name' => auth()->user()->name,

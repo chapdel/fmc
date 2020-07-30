@@ -24,7 +24,7 @@ class TemplatesControllerTest extends TestCase
         $templates = factory(Template::class, 3)->create();
 
         $this
-            ->get(action([TemplatesController::class, 'index']))
+            ->getJson(action([TemplatesController::class, 'index']))
             ->assertSuccessful()
             ->assertSeeText($templates->first()->name);
     }
@@ -41,7 +41,7 @@ class TemplatesControllerTest extends TestCase
         ]);
 
         $this
-            ->get(action([TemplatesController::class, 'index']) . '?filter[search]=two')
+            ->getJson(action([TemplatesController::class, 'index']) . '?filter[search]=two')
             ->assertSuccessful()
             ->assertJsonCount(1, 'data')
             ->assertJsonFragment(['name' => 'two']);
@@ -53,7 +53,7 @@ class TemplatesControllerTest extends TestCase
         $template = factory(Template::class)->create();
 
         $this
-            ->get(action([TemplatesController::class, 'show'], $template))
+            ->getJson(action([TemplatesController::class, 'show'], $template))
             ->assertSuccessful()
             ->assertJsonFragment(['name' => $template->name]);
     }
@@ -67,7 +67,7 @@ class TemplatesControllerTest extends TestCase
         ];
 
         $this
-            ->post(action([TemplatesController::class, 'store'], $attributes))
+            ->postJson(action([TemplatesController::class, 'store'], $attributes))
             ->assertSuccessful();
 
         $this->assertDatabaseHas('mailcoach_templates', $attributes);
@@ -84,7 +84,7 @@ class TemplatesControllerTest extends TestCase
         ];
 
         $this
-            ->put(action([TemplatesController::class, 'update'], $template), $attributes)
+            ->putJson(action([TemplatesController::class, 'update'], $template), $attributes)
             ->assertSuccessful();
 
         $template = $template->refresh();
@@ -99,7 +99,7 @@ class TemplatesControllerTest extends TestCase
         $template = factory(Template::class)->create();
 
         $this
-            ->delete(action([TemplatesController::class, 'destroy'], $template))
+            ->deleteJson(action([TemplatesController::class, 'destroy'], $template))
             ->assertSuccessful();
 
         $this->assertCount(0, Template::get());
