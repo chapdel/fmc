@@ -62,4 +62,16 @@ class SubscribersControllerTest extends TestCase
             ->assertSuccessful()
             ->assertJsonCount(1, 'data');
     }
+
+    /** @test */
+    public function it_can_show_a_subscriber()
+    {
+        /** @var Subscriber $subscriber */
+        $subscriber = factory(Subscriber::class)->create();
+
+        $this
+            ->getJson(action([SubscribersController::class, 'show'], $subscriber))
+            ->assertSuccessful()
+            ->assertJsonFragment(['email' => $subscriber->email]);
+    }
 }

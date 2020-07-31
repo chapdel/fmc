@@ -13,19 +13,19 @@ class EmailListResource extends JsonResource
             'uuid' => $this->uuid,
             'name' => $this->name,
             'active_subscribers_count' => (int)$this->active_subscribers_count,
-            'campaigns_feed_enabled' => $this->campaigns_feed_enabled,
+            'campaigns_feed_enabled' => (bool)$this->campaigns_feed_enabled,
 
             'default_from_email' => $this->default_from_email,
             'default_from_name' => $this->default_from_name,
 
-            'allow_form_subscriptions' => $this->allow_form_subscriptions,
+            'allow_form_subscriptions' => (bool)$this->allow_form_subscriptions,
 
             'redirect_after_subscribed' => $this->redirect_after_subscribed,
             'redirect_after_already_subscribed' => $this->redirect_after_already_subscribed,
             'redirect_after_subscription_pending' => $this->redirect_after_subscription_pending,
             'redirect_after_unsubscribed' => $this->redirect_after_unsubscribed,
 
-            'requires_confirmation' => $this->requires_confirmation,
+            'requires_confirmation' => (bool)$this->requires_confirmation,
             'confirmation_mail_subject' => $this->confirmation_mail_subject,
             'confirmation_mail_content' => $this->confirmation_mail_content,
             'confirmation_mailable_class' => $this->confirmation_mailable_class,
@@ -33,11 +33,11 @@ class EmailListResource extends JsonResource
             'campaign_mailer' => $this->campaign_mailer,
             'transactional_mailer' => $this->transactional_mailer,
 
-            'send_welcome_mail' => $this->send_welcome_mail,
+            'send_welcome_mail' => (bool)$this->send_welcome_mail,
             'welcome_mail_subject' => $this->welcome_mail_subject,
             'welcome_mail_content' => $this->welcome_mail_content,
             'welcome_mailable_class' => $this->welcome_mailable_class,
-            'welcome_mail_delay_in_minutes' => $this->welcome_mail_delay_in_minutes,
+            'welcome_mail_delay_in_minutes' => (int)$this->welcome_mail_delay_in_minutes,
 
             'report_recipients' => $this->report_recipients,
             'report_campaign_sent' => $this->report_campaign_sent,

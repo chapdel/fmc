@@ -27,5 +27,5 @@ Route::prefix('campaigns/{campaign}')->group(function () {
 });
 
 Route::apiResource('email-lists', EmailListsController::class);
-
-Route::apiResource('email-lists.subscribers', SubscribersController::class);
+Route::apiResource('email-lists.subscribers', SubscribersController::class)->only(['index', 'store']);
+Route::apiResource('subscribers', SubscribersController::class)->except(['index', 'store']);
