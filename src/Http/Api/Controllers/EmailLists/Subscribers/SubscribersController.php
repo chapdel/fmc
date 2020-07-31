@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers;
 
+use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Http\Api\Requests\StoreSubscriberRequest;
 use Spatie\Mailcoach\Http\Api\Resources\SubscriberResource;
 use Spatie\Mailcoach\Http\App\Queries\EmailListSubscribersQuery;
@@ -11,7 +12,7 @@ use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class SubscribersController
 {
-    use UsesMailcoachModels;
+    use UsesMailcoachModels, RespondsToApiRequests;
 
     public function index(EmailList $emailList)
     {
@@ -43,5 +44,12 @@ class SubscribersController
         $subscriber = $pendingSubscriber->subscribeTo($emailList);
 
         return new SubscriberResource($subscriber);
+    }
+
+    public function destroy(Subscriber $subscriber)
+    {
+        $subscriber->delete();
+
+        return $this->respondOk();
     }
 }

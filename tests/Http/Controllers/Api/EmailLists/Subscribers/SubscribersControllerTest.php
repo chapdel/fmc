@@ -74,4 +74,17 @@ class SubscribersControllerTest extends TestCase
             ->assertSuccessful()
             ->assertJsonFragment(['email' => $subscriber->email]);
     }
+
+    /** @test */
+    public function it_can_delete_a_subscriber()
+    {
+        /** @var Subscriber $subscriber */
+        $subscriber = factory(Subscriber::class)->create();
+
+        $this
+            ->deleteJson(action([SubscribersController::class, 'destroy'], $subscriber))
+            ->assertSuccessful();
+
+        $this->assertCount(0, Subscriber::all());
+    }
 }
