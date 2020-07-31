@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignOpensController;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignsController;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\SendCampaignController;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\SendTestEmailController;
@@ -15,4 +16,6 @@ Route::apiResource('campaigns', CampaignsController::class);
 Route::prefix('campaigns/{campaign}')->group(function () {
     Route::post('send-test', SendTestEmailController::class);
     Route::post('send', SendCampaignController::class);
+
+    Route::get('opens', CampaignOpensController::class);
 });

@@ -20,6 +20,9 @@ class SubscriberResource extends JsonResource
             'uuid' => $this->uuid,
             'subscribed_at' => $this->subscribed_at,
             'unsubscribed_at' => $this->unsubscribed_at,
+
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

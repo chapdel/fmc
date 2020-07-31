@@ -12,6 +12,9 @@ class TemplateResource extends JsonResource
             'name' => $this->name,
             'html' => $this->html,
             'structured_html' => $this->structured_html,
+
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

@@ -56,7 +56,8 @@ class CampaignResource extends JsonResource
 
             'summary_mail_sent_at' => $this->summary_mail_sent_at,
 
-
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }

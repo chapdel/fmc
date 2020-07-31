@@ -44,6 +44,9 @@ class EmailListResource extends JsonResource
             'report_email_list_summary' => $this->report_email_list_summary,
 
             'email_list_summary_sent_at' => $this->email_list_summary_sent_at,
+
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
     }
 }
