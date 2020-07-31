@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Campaigns;
 use Illuminate\Support\Facades\Bus;
 use Spatie\Mailcoach\Enums\CampaignStatus;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\SendTestEmailController;
+use Spatie\Mailcoach\Jobs\SendCampaignJob;
 use Spatie\Mailcoach\Jobs\SendTestMailJob;
 use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
@@ -67,5 +68,7 @@ class SendTestEmailControllerTest extends TestCase
         $this
             ->postJson(action(SendTestEmailController::class, $this->campaign), ['email' => 'test@example.com'])
             ->assertJsonValidationErrors('campaign');
+
+        Bus::assertNotDispatched(SendCampaignJob::class);
     }
 }
