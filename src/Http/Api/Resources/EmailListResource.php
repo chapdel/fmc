@@ -12,6 +12,7 @@ class EmailListResource extends JsonResource
             'id' => $this->id,
             'uuid' => $this->uuid,
             'name' => $this->name,
+            'active_subscribers_count' => (int)$this->active_subscribers_count,
             'campaigns_feed_enabled' => $this->campaigns_feed_enabled,
 
             'default_from_email' => $this->default_from_email,
