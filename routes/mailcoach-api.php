@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignClicksController;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignOpensController;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignsController;
+use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignUnsubscribesController;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\SendCampaignController;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\SendTestEmailController;
 use Spatie\Mailcoach\Http\Api\Controllers\TemplatesController;
@@ -20,4 +21,5 @@ Route::prefix('campaigns/{campaign}')->group(function () {
 
     Route::get('opens', CampaignOpensController::class);
     Route::get('clicks', CampaignClicksController::class);
+    Route::get('unsubscribes', CampaignUnsubscribesController::class);
 });

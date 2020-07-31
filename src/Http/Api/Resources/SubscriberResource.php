@@ -10,7 +10,7 @@ class SubscriberResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'email_list_id' => $this->email_list_id,
+            'email_list_id' => (int)$this->email_list_id,
 
             'email' => $this->email,
             'first_name' => $this->first_name,

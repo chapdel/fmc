@@ -12,7 +12,7 @@ class CampaignResource extends JsonResource
             'name' => $this->name,
             'uuid' => $this->uuid,
 
-            'email_list_id' => $this->email_list_id,
+            'email_list_id' => (int)$this->email_list_id,
             'email_list' => new EmailListResource($this->whenLoaded('emailList')),
 
             'segment' => new SegmentResource($this->whenLoaded('segment')),

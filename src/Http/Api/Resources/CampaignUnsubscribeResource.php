@@ -4,15 +4,17 @@ namespace Spatie\Mailcoach\Http\Api\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CampaignOpenResource extends JsonResource
+class CampaignUnsubscribeResource extends JsonResource
 {
     public function toArray($request)
     {
         return [
+            'campaign_id' => (int)$this->campaign_id,
+            'campaign' => new CampaignResource($this->whenLoaded('campaign')),
+
             'subscriber_id' => (int)$this->subscriber_id,
             'subscriber_email' => $this->subscriber->email,
-            'open_count' => (int)$this->open_count,
-            'first_opened_at' => $this->first_opened_at,
+            'subscriber' => new SubscriberResource($this->whenLoaded('subscriber')),
         ];
     }
 }
