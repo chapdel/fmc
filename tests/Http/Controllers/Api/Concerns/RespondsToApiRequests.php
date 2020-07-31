@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns;
 
 use Illuminate\Foundation\Auth\User;
 
-trait UsesApi
+trait RespondsToApiRequests
 {
     public function loginToApi()
     {

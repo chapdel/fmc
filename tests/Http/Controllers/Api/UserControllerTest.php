@@ -3,12 +3,12 @@
 namespace Spatie\Mailcoach\Tests\Http\Controllers\Api;
 
 use Spatie\Mailcoach\Http\Api\Controllers\UserController;
-use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\UsesApi;
+use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class UserControllerTest extends TestCase
 {
-    use UsesApi;
+    use RespondsToApiRequests;
 
     /** @test */
     public function it_can_detect_the_currently_logged_in_user()

@@ -19,7 +19,7 @@ class UpdateCampaignAction
             'name' => $attributes['name'],
             'subject' => $attributes['name'],
             'html' => $attributes['html'] ?? optional($template)->html,
-            'structured_html' => $template->structured_html,
+            'structured_html' => $attributes['structured_html'] ?? optional($template)->structured_html,
             'track_opens' => $attributes['track_opens'] ?? true,
             'track_clicks' => $attributes['track_clicks'] ?? true,
             'last_modified_at' => now(),

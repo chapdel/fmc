@@ -4,12 +4,12 @@ namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Campaigns;
 
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignsController;
 use Spatie\Mailcoach\Models\Campaign;
-use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\UsesApi;
+use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class CampaignsIndexControllerTest extends TestCase
 {
-    use UsesApi;
+    use RespondsToApiRequests;
 
     public function setUp(): void
     {
