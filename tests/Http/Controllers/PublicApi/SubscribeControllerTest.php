@@ -18,6 +18,8 @@ class SubscribeControllerTest extends TestCase
 
     private ?string $confirmSubscriptionLink;
 
+    private $email = 'info@spatie.be';
+
     public function setUp(): void
     {
         parent::setUp();
@@ -44,7 +46,7 @@ class SubscribeControllerTest extends TestCase
 
         $this->assertEquals(
             SubscriptionStatus::SUBSCRIBED,
-            $this->emailList->getSubscriptionStatus('john@example.com')
+            $this->emailList->getSubscriptionStatus($this->email)
         );
     }
 
@@ -255,7 +257,7 @@ class SubscribeControllerTest extends TestCase
     public function payload(array $extraAttributes = [])
     {
         return array_merge([
-            'email' => 'john@example.com',
+            'email' => $this->email,
         ], $extraAttributes);
     }
 

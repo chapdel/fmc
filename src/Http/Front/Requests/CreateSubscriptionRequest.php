@@ -19,7 +19,7 @@ class CreateSubscriptionRequest extends FormRequest
             'last_name' => '',
             'redirect_after_subscribed' => '',
             'redirect_after_already_subscribed' => '',
-            'redirect_after_subscription_pending',
+            'redirect_after_subscription_pending' => '',
             'tags' => '',
         ];
     }
