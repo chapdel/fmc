@@ -5,7 +5,6 @@ namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\EmailLists\Subscribers;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\ResendConfirmationMailController;
-use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\UnsubscribeController;
 use Spatie\Mailcoach\Mails\ConfirmSubscriberMail;
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
@@ -44,7 +43,7 @@ class ResendConfirmationMailControllerTest extends TestCase
         $subscriber = SubscriberFactory::new()->confirmed()->create();
 
         $this
-            ->postJson(action(UnsubscribeController::class, $subscriber))
+            ->postJson(action(ResendConfirmationMailController::class, $subscriber))
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
         Mail::assertNotQueued(ConfirmSubscriberMail::class);

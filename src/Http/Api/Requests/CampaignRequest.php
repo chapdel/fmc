@@ -16,8 +16,10 @@ class CampaignRequest extends FormRequest
     {
         return [
             'name' => ['required'],
+            'email_list_id' => ['required'],
+
             /* TODO: figure out why this validation is not working */
-            //'email_list_id' => ['required', 'exists:mailcoach_email_lists,id'],
+            // 'email_list_id' => ['required', 'exists:mailcoach_email_lists,id'],
             'segment_id' => [Rule::exists((new TagSegment())->getTable())],
             'html' => '',
             'mailable_class' => '',

@@ -11,7 +11,7 @@ class UpdateCampaignAction
 {
     use UsesMailcoachModels;
 
-    public function execute(Campaign  $campaign, array $attributes, Template $template = null): Campaign
+    public function execute(Campaign $campaign, array $attributes, Template $template = null): Campaign
     {
         $segmentClass = $attributes['segment_class'] ?? EverySubscriberSegment::class;
 
@@ -23,7 +23,7 @@ class UpdateCampaignAction
             'track_opens' => $attributes['track_opens'] ?? true,
             'track_clicks' => $attributes['track_clicks'] ?? true,
             'last_modified_at' => now(),
-            'email_list_id' => $request->email_list_id ?? optional($this->getEmailListClass()::orderBy('name')->first())->id,
+            'email_list_id' => $attributes['email_list_id'] ?? optional($this->getEmailListClass()::orderBy('name')->first())->id,
             'segment_class' => $segmentClass,
             'segment_description' => (new $segmentClass)->description(),
         ]);

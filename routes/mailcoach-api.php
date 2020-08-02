@@ -34,7 +34,7 @@ Route::apiResource('email-lists.subscribers', SubscribersController::class)->onl
 
 Route::apiResource('subscribers', SubscribersController::class)->except(['index', 'store']);
 Route::prefix('subscribers/{subscriber}')->group(function () {
-    Route::post('/', ConfirmSubscriberController::class);
-    Route::post('/', UnsubscribeController::class);
-    Route::post('/', ResendConfirmationMailController::class);
+    Route::post('confirm', ConfirmSubscriberController::class);
+    Route::post('unsubscribe', UnsubscribeController::class);
+    Route::post('resend-confirmation', ResendConfirmationMailController::class);
 });
