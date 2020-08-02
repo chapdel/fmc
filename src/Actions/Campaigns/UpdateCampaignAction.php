@@ -30,6 +30,6 @@ class UpdateCampaignAction
 
         $campaign->save();
 
-        return $campaign->fresh();
+        return $campaign->refresh();
     }
 }

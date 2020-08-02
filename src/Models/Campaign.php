@@ -331,7 +331,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         }
 
         $this->update([
-            'segment_description' => $this->getSegment()->description($this),
+            'segment_description' => $this->getSegment()->description(),
             'last_modified_at' => now(),
         ]);
 

@@ -28,7 +28,6 @@ use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\IndexComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\QueryStringComposer;
 use Spatie\Mailcoach\Listeners\SendCampaignSentEmail;
-use Spatie\Mailcoach\Support\HttpClient;
 use Spatie\Mailcoach\Support\Version;
 use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 use Spatie\QueryString\QueryString;
@@ -62,12 +61,10 @@ class MailcoachServiceProvider extends EventServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/mailcoach.php', 'mailcoach');
 
-        $this->app->singleton(QueryString::class, fn () => new QueryString(urldecode($this->app->request->getRequestUri())));
+        $this->app->singleton(QueryString::class, fn () => new QueryString(urldecode(request()->getRequestUri())));
 
         $this->app->singleton(Version::class, function () {
-            $httpClient = new HttpClient();
-
-            return new Version($httpClient);
+            return new Version();
         });
     }
 

@@ -29,7 +29,7 @@ class UpdateCampaignSettingsRequest extends FormRequest
 
     public function getSegmentClass(): string
     {
-        /** @var \Spatie\Mailcoach\Models\\Concerns\Campaign $campaign */
+        /** @var \Spatie\Mailcoach\Models\Campaign $campaign */
         $campaign = $this->route()->parameter('campaign');
 
         if ($campaign->usingCustomSegment()) {
@@ -49,6 +49,6 @@ class UpdateCampaignSettingsRequest extends FormRequest
             return null;
         }
 
-        return $emailList = $this->getEmailListClass()::find($this->email_list_id);
+        return $this->getEmailListClass()::find($this->email_list_id);
     }
 }

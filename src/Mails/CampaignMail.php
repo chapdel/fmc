@@ -20,7 +20,7 @@ class CampaignMail extends Mailable
 
     public string $textContent = '';
 
-    public function setSend(Send $send)
+    public function setSend(Send $send): self
     {
         $this->send = $send;
 
@@ -29,21 +29,21 @@ class CampaignMail extends Mailable
         return $this;
     }
 
-    public function setCampaign(Campaign $campaign)
+    public function setCampaign(Campaign $campaign): self
     {
         $this->campaign = $campaign;
 
         return $this;
     }
 
-    public function setHtmlContent(string $htmlContent = '')
+    public function setHtmlContent(string $htmlContent = ''): self
     {
-        $this->htmlContent = $htmlContent ?? '';
+        $this->htmlContent = $htmlContent;
 
         return $this;
     }
 
-    public function setTextContent(string $textContent)
+    public function setTextContent(string $textContent): self
     {
         $this->textContent = $textContent;
 

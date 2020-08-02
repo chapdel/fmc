@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Rules;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Carbon;
 use InvalidArgumentException;
 
 class DateTimeFieldRule implements Rule
@@ -12,7 +12,7 @@ class DateTimeFieldRule implements Rule
 
     public function passes($attribute, $value)
     {
-        $this->message = __('Invalid date time provided.');
+        $this->message = (string)__('Invalid date time provided.');
 
         if (! is_array($value)) {
             return false;

@@ -16,7 +16,7 @@ class SendTestEmailController
             return back();
         }
 
-        cache()->put('mailcoach-test-email-addresses', $request->emails, CarbonInterval::month()->totalSeconds);
+        cache()->put('mailcoach-test-email-addresses', $request->emails, (int)CarbonInterval::month()->totalSeconds);
 
         $campaign->sendTestMail($request->sanitizedEmails());
 

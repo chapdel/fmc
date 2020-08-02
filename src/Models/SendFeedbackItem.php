@@ -24,6 +24,6 @@ class SendFeedbackItem extends Model
             SendFeedbackType::COMPLAINT => __('Received complaint'),
         ];
 
-        return $formattedTypes[$this->type];
+        return (string)$formattedTypes[$this->type] ?? '';
     }
 }

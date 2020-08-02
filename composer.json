@@ -24,12 +24,12 @@
         "ext-libxml": "*",
         "cakephp/chronos": "^1.2.8|^2.0",
         "guzzlehttp/guzzle": "^6.4",
-        "illuminate/database": "^7.12",
-        "illuminate/events": "^7.12",
-        "illuminate/mail": "^7.12",
-        "illuminate/queue": "^7.12",
-        "illuminate/redis": "^7.12",
-        "illuminate/support": "^7.12",
+        "illuminate/database": "^7.21",
+        "illuminate/events": "^7.21",
+        "illuminate/mail": "^7.21",
+        "illuminate/queue": "^7.21",
+        "illuminate/redis": "^7.21",
+        "illuminate/support": "^7.21",
         "laravel/horizon": "^4.0",
         "league/html-to-markdown": "^4.9",
         "nesbot/carbon": "^2.26",
@@ -57,9 +57,11 @@
         "fzaninotto/faker": "^1.9",
         "orchestra/testbench": "^5.3",
         "phpunit/phpunit": "^9.2",
+        "psalm/plugin-laravel": "^1.2",
         "predis/predis": "^1.1",
         "spatie/phpunit-snapshot-assertions": "^4.2",
         "spatie/test-time": "^1.2",
+        "vimeo/psalm": "^3.11",
         "symfony/var-dumper": "^5.1"
     },
     "autoload": {
@@ -76,7 +78,8 @@
         "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
         "test": "vendor/bin/phpunit",
         "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
-        "split": "./split.sh"
+        "split": "./split.sh",
+        "psalm": "vendor/bin/psalm"
     },
     "config": {
         "sort-packages": true

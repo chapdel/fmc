@@ -17,6 +17,6 @@ class UpdateTemplateAction
             'structured_html' => $attributes['structured_html'] ?? null,
         ]);
 
-        return $template->fresh();
+        return $template->refresh();
     }
 }

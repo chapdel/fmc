@@ -27,7 +27,7 @@ class DuplicateCampaignController
         ]);
 
         $duplicateCampaign->update([
-            'segment_description' => $duplicateCampaign->getSegment()->description($campaign),
+            'segment_description' => $duplicateCampaign->getSegment()->description(),
         ]);
 
         flash()->success(__('Campaign :campaign was duplicated.', ['campaign' => $campaign->name]));
