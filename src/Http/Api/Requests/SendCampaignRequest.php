@@ -24,8 +24,6 @@ class SendCampaignRequest extends FormRequest
         /** @var \Spatie\Mailcoach\Models\Campaign $campaign */
         $campaign = $this->route('campaign');
 
-
-
         if (! $campaign->isDraft()) {
             $validator->errors()->add('campaign', 'You cannot send a campaign that already was sent.');
         }
