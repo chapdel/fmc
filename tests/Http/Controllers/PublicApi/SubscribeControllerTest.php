@@ -33,7 +33,6 @@ class SubscribeControllerTest extends TestCase
             'redirect_after_already_subscribed' => 'https://example.com/redirect-after-already-subscribed',
             'redirect_after_subscription_pending' => 'https://example.com/redirect-after-subscription-pending',
             'redirect_after_unsubscribed' => 'https://example.com/redirect-after-unsubscribed',
-
         ]);
     }
 
