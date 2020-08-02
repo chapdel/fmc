@@ -22,7 +22,9 @@ class SubscriberImport extends Model implements HasMedia, GetsCleanedUp
     public static function booted()
     {
         static::creating(function (SubscriberImport $subscriberImport) {
-            $subscriberImport->status = SubscriberImportStatus::PENDING;
+            if (empty($subscriberImport->status)) {
+                $subscriberImport->status = SubscriberImportStatus::PENDING;
+            }
         });
     }
 

@@ -10,5 +10,4 @@ $factory->define(SubscriberImport::class, fn (Generator $faker) => [
     'email_list_id' => factory(config('mailcoach.models.email_list')),
     'imported_subscribers_count' => $faker->numberBetween(1, 1000),
     'error_count' => $faker->numberBetween(1, 1000),
-
 ]);
