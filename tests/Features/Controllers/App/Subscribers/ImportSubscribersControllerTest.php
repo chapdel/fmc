@@ -112,6 +112,20 @@ class ImportSubscribersControllerTest extends TestCase
     }
 
     /** @test */
+    public function it_will_remove_existing_tags()
+    {
+        $subscriber = $this->emailList->subscribeSkippingConfirmation('john@example.com');
+
+        $subscriber->addTag('previousTag');
+
+        $this->uploadStub('single.csv');
+
+        $subscriber = Subscriber::findForEmail('john@example.com', $this->emailList);
+
+        $this->assertEquals(['tag1', 'tag2'], $subscriber->tags()->pluck('name')->toArray());
+    }
+
+    /** @test */
     public function by_default_it_will_not_subscribe_a_subscriber_that_has_unsubscribed_to_the_list_before()
     {
         $this->emailList->subscribeSkippingConfirmation('john@example.com');
