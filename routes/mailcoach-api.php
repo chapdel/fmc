@@ -10,6 +10,7 @@ use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\SendTestEmailController;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\EmailListsController;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\ConfirmSubscriberController;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\SubscribersController;
+use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\UnsubscribeController;
 use Spatie\Mailcoach\Http\Api\Controllers\TemplatesController;
 use Spatie\Mailcoach\Http\Api\Controllers\UserController;
 
@@ -33,4 +34,5 @@ Route::apiResource('email-lists.subscribers', SubscribersController::class)->onl
 Route::apiResource('subscribers', SubscribersController::class)->except(['index', 'store']);
 Route::prefix('subscribers/{subscriber}')->group(function () {
     Route::post('/', ConfirmSubscriberController::class);
+    Route::post('/', UnsubscribeController::class);
 });

@@ -9,6 +9,8 @@ class SubscriberFactory
 {
     private EmailList $emailList;
 
+    private bool $unsubscribed = false;
+
     public static function new(): self
     {
         return new static();
@@ -26,6 +28,13 @@ class SubscriberFactory
         return $this;
     }
 
+    public function unsubscribed()
+    {
+        $this->unsubscribed = true;
+
+        return $this;
+    }
+
     public function confirmed(): self
     {
         $this->emailList->update(['requires_confirmation' => false]);
@@ -35,6 +44,12 @@ class SubscriberFactory
 
     public function create(): Subscriber
     {
-        return Subscriber::createWithEmail('john@example.com')->subscribeTo($this->emailList);
+        $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($this->emailList);
+
+        if ($this->unsubscribed) {
+            $subscriber->unsubscribe();
+        }
+
+        return $subscriber->refresh();
     }
 }

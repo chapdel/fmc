@@ -14,9 +14,7 @@ class UnsubscribeController
             return back();
         }
 
-        $subscriber->update([
-            'unsubscribed_at' => now(),
-        ]);
+        $subscriber->unsubscribe();
 
         flash()->success(__(':subscriber has been unsubscribed.', ['subscriber' => $subscriber->email]));
 
