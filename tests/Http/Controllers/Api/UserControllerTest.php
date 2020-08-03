@@ -19,7 +19,7 @@ class UserControllerTest extends TestCase
             ->getJson(action(UserController::class))
             ->assertSuccessful()
             ->assertJsonFragment([
-                'name' => auth()->user()->name,
+                'email' => auth()->user()->email,
             ]);
     }
 }
