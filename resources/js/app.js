@@ -7,7 +7,7 @@ require('./components/dirty');
 require('./components/dismiss');
 require('./components/dropdown');
 require('./components/htmlPreview');
-require('./components/modal');
+window.showModal = require('./components/modal');
 require('./components/poll');
 require('./components/segments');
 require('./components/tags');
