@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.23.3 - 2020-08-06
+
+- require report recipients if reports are to be sent (#278)
+
 ## 2.23.2 - 2020-07-30
 
 - fix a bug with Custom Mailables with subjects that did not send
