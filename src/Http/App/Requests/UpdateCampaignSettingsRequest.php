@@ -18,8 +18,7 @@ class UpdateCampaignSettingsRequest extends FormRequest
         return [
             'name' => 'required',
             'subject' => '',
-            /**TODO: figure out why this validation is not working */
-            // 'email_list_id' => 'exists:mailcoach_email_lists,id',
+            'email_list_id' => Rule::exists($this->getEmailListTableName(), 'id'),
             'track_opens' => 'bool',
             'track_clicks' => 'bool',
             'segment' => [Rule::in(['entire_list', 'segment'])],

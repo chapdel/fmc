@@ -14,11 +14,9 @@ class CampaignRequest extends FormRequest
 
     public function rules()
     {
-        $emailListModel = config('mailcoach.models.email_list');
-
         return [
             'name' => ['required'],
-            'email_list_id' => ['required', Rule::exists((new $emailListModel)->getTable(), 'id')],
+            'email_list_id' => ['required', Rule::exists($this->getEmailListTableName(), 'id')],
             'segment_id' => [Rule::exists((new TagSegment())->getTable())],
             'html' => '',
             'mailable_class' => '',
