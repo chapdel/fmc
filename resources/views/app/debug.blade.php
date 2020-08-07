@@ -121,6 +121,22 @@
             <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold text-lg" colspan="2">Details</td>
         </tr>
         <tr>
+            <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">Environment</td>
+            <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5">
+                {{ app()->environment() }}
+            </td>
+        </tr>
+        <tr>
+            <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">Debug</td>
+            <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5">
+                @if (config('app.debug'))
+                    ON <i class="fas fa-exclamation-triangle text-orange-800 mr-1"></i>
+                @else
+                    OFF <i class="fas fa-check text-green-800 mr-1"></i>
+                @endif
+            </td>
+        </tr>
+        <tr>
             <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">User agent</td>
             <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5">
                 {{ $_SERVER['HTTP_USER_AGENT'] }}
