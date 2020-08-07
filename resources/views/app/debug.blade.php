@@ -137,6 +137,12 @@
             </td>
         </tr>
         <tr>
+            <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">App directory</td>
+            <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5">
+                {{ base_path() }}
+            </td>
+        </tr>
+        <tr>
             <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">User agent</td>
             <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5">
                 {{ $_SERVER['HTTP_USER_AGENT'] }}
