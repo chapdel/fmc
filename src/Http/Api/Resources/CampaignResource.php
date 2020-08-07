@@ -9,6 +9,7 @@ class CampaignResource extends JsonResource
     public function toArray($resource)
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'uuid' => $this->uuid,
 

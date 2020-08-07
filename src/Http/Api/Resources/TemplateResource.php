@@ -9,6 +9,7 @@ class TemplateResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'html' => $this->html,
             'structured_html' => $this->structured_html,
