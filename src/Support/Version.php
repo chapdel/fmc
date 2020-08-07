@@ -13,41 +13,41 @@ class Version
 {
     public static $versionEndpoint = 'https://mailcoach.app/api/latest-version';
 
-    public function isLatest(): bool
+    public function isLatest(string $packageName = 'laravel-mailcoach'): bool
     {
-        $latestVersionInfo = $this->getLatestVersionInfo();
+        $latestVersionInfo = $this->getLatestVersionInfo($packageName);
 
         if ($latestVersionInfo['version'] === 'unknown') {
             return true;
         }
 
-        return $latestVersionInfo['version'] === $this->getCurrentVersion();
+        return $latestVersionInfo['version'] === $this->getCurrentVersion($packageName);
     }
 
-    public function getFullVersion(): string
+    public function getFullVersion(string $packageName = 'laravel-mailcoach'): string
     {
-        return Versions::getVersion('spatie/laravel-mailcoach');
+        return Versions::getVersion("spatie/{$packageName}");
     }
 
-    public function getHashedFullVersion(): string
+    public function getHashedFullVersion(string $packageName = 'laravel-mailcoach'): string
     {
-        return md5($this->getFullVersion());
+        return md5($this->getFullVersion($packageName));
     }
 
-    public function getCurrentVersion(): string
+    public function getCurrentVersion(string $packageName = 'laravel-mailcoach'): string
     {
-        return Str::before($this->getFullVersion(), '@');
+        return Str::before($this->getFullVersion($packageName), '@');
     }
 
-    public function getLatestVersionInfo(): array
+    public function getLatestVersionInfo(string $packageName = 'laravel-mailcoach'): array
     {
-        if (! Cache::has('mailcoach-latest-version-attempt-failed')) {
+        if (! Cache::has("mailcoach-latest-version-attempt-failed-{$packageName}")) {
             try {
-                $latestVersionInfo = Cache::remember('mailcoach-latest-version', (int)CarbonInterval::day()->totalSeconds, function () {
-                    return Http::asJson()->get(static::$versionEndpoint)->json();
+                $latestVersionInfo = Cache::remember("mailcoach-latest-version-{$packageName}", (int)CarbonInterval::day()->totalSeconds, function () use ($packageName) {
+                    return Http::asJson()->get(static::$versionEndpoint . "?package={$packageName}")->json();
                 });
             } catch (Exception $exception) {
-                Cache::put('mailcoach-latest-version-attempt-failed', 1, (int)CarbonInterval::day()->totalSeconds);
+                Cache::put("mailcoach-latest-version-attempt-failed-{$packageName}", 1, (int)CarbonInterval::day()->totalSeconds);
             }
         }
 

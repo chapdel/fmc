@@ -17,6 +17,7 @@ use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignOpensController
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignSummaryController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignUnsubscribesController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\OutboxController;
+use Spatie\Mailcoach\Http\App\Controllers\DebugController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\CreateEmailListController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\DestroyEmailListController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\EmailListSettingsController;
@@ -44,6 +45,8 @@ use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DestroySubscriberImp
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DownloadSubscriberImportAttachmentController;
 use Spatie\Mailcoach\Http\App\Controllers\TemplatesController;
 use Spatie\Mailcoach\Http\App\Middleware\EditableCampaign;
+
+Route::get('debug', '\\' . DebugController::class)->name('debug');
 
 Route::prefix('campaigns')->group(function () {
     Route::get('/', '\\' . CampaignsIndexController::class)->name('mailcoach.campaigns');
