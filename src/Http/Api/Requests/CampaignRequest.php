@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Http\Api\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Spatie\Mailcoach\Models\EmailList;
 use Spatie\Mailcoach\Models\TagSegment;
 use Spatie\Mailcoach\Models\Template;
 use Spatie\Mailcoach\Traits\UsesMailcoachModels;
@@ -14,12 +15,11 @@ class CampaignRequest extends FormRequest
 
     public function rules()
     {
+        $emailListModel = config('mailcoach.models.email_list');
+
         return [
             'name' => ['required'],
-            'email_list_id' => ['required'],
-
-            /* TODO: figure out why this validation is not working */
-            // 'email_list_id' => ['required', 'exists:mailcoach_email_lists,id'],
+            'email_list_id' => ['required', Rule::exists((new $emailListModel)->getTable(), 'id')],
             'segment_id' => [Rule::exists((new TagSegment())->getTable())],
             'html' => '',
             'mailable_class' => '',
