@@ -68,30 +68,47 @@
             <tr>
                 <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold align-top">Mail config</td>
                 <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5">
-                    <p>
-                        Default mailer: <span class="font-mono">{{ config('mail.default') }}</span>
-                        @if (in_array(config('mail.default'), ['log', 'array', null]))
-                            <i class="fas fa-exclamation-triangle text-orange-800 mr-1"></i>
-                        @endif
-                    </p>
-                    <p>
-                        Mailcoach mailer: <span class="font-mono">{{ config('mailcoach.mailer') ?? 'null' }}</span>
-                        @if (in_array(config('mailcoach.mailer'), ['log', 'array']))
-                            <i class="fas fa-exclamation-triangle text-orange-800 mr-1"></i>
-                        @endif
-                    </p>
-                    <p>
-                        Campaign mailer: <span class="font-mono">{{ config('mailcoach.campaign_mailer') ?? 'null' }}</span>
-                        @if (in_array(config('mailcoach.campaign_mailer'), ['log', 'array']))
-                            <i class="fas fa-exclamation-triangle text-orange-800 mr-1"></i>
-                        @endif
-                    </p>
-                    <p>
-                        Transactional mailer: <span class="font-mono">{{ config('mailcoach.transactional_mailer') ?? 'null' }}</span>
-                        @if (in_array(config('mailcoach.transactional_mailer'), ['log', 'array']))
-                            <i class="fas fa-exclamation-triangle text-orange-800 mr-1"></i>
-                        @endif
-                    </p>
+                    <table>
+                        <tbody>
+
+                            <tr>
+                                <td class="pr-2">Default mailer:</td>
+                                <td>
+                                    <span class="font-mono">{{ config('mail.default') }}</span>
+                                    @if (in_array(config('mail.default'), ['log', 'array', null]))
+                                        <i class="fas fa-exclamation-triangle text-orange-800 mr-1"></i>
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="pr-2">Mailcoach mailer:</td>
+                                <td>
+                                    <span class="font-mono">{{ config('mailcoach.mailer') ?? 'null' }}</span>
+                                    @if (in_array(config('mailcoach.mailer'), ['log', 'array']))
+                                        <i class="fas fa-exclamation-triangle text-orange-800 mr-1"></i>
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="pr-2">Campaign mailer:</td>
+                                <td>
+                                    <span class="font-mono">{{ config('mailcoach.campaign_mailer') ?? 'null' }}</span>
+                                    @if (in_array(config('mailcoach.campaign_mailer'), ['log', 'array']))
+                                        <i class="fas fa-exclamation-triangle text-orange-800 mr-1"></i>
+                                    @endif
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="pr-2">Transactional mailer:</td>
+                                <td>
+                                    <span class="font-mono">{{ config('mailcoach.transactional_mailer') ?? 'null' }}</span>
+                                    @if (in_array(config('mailcoach.transactional_mailer'), ['log', 'array']))
+                                        <i class="fas fa-exclamation-triangle text-orange-800 mr-1"></i>
+                                    @endif
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </td>
             </tr>
         </tbody>
