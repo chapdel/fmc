@@ -69,7 +69,7 @@ class CalculateStatisticsJobTest extends TestCase
         $this->assertDatabaseHas('mailcoach_campaigns', [
             'id' => $campaign->id,
             'unsubscribe_count' => 3,
-            'unsubscribe_rate' => 60,
+            'unsubscribe_rate' => 6000,
         ]);
     }
 
@@ -90,7 +90,7 @@ class CalculateStatisticsJobTest extends TestCase
             'id' => $campaign->id,
             'open_count' => 4,
             'unique_open_count' => 3,
-            'open_rate' => 60,
+            'open_rate' => 6000,
         ]);
     }
 
@@ -121,7 +121,7 @@ class CalculateStatisticsJobTest extends TestCase
             'sent_to_number_of_subscribers' => 5,
             'click_count' => 7,
             'unique_click_count' => 3,
-            'click_rate' => 60,
+            'click_rate' => 6000,
         ]);
     }
 
@@ -168,7 +168,7 @@ class CalculateStatisticsJobTest extends TestCase
         dispatch_now(new CalculateStatisticsJob($campaign));
 
         $this->assertEquals(1, $campaign->bounce_count);
-        $this->assertEquals(33, $campaign->bounce_rate);
+        $this->assertEquals(3333, $campaign->bounce_rate);
     }
 
     /** @test */

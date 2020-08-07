@@ -113,7 +113,7 @@
                 <x-statistic :href="route('mailcoach.campaigns.opens', $campaign)" class="col-start-1"
                              numClass="text-4xl font-semibold" :stat="$campaign->unique_open_count" :label="__('Unique Opens')"/>
                 <x-statistic :stat="$campaign->open_count" :label="__('Opens')"/>
-                <x-statistic :stat="$campaign->open_rate" :label="__('Open Rate')" suffix="%"/>
+                <x-statistic :stat="$campaign->open_rate / 100" :label="__('Open Rate')" suffix="%"/>
             @else
                 <div class="col-start-1 col-span-3">
                     <div class="text-4xl font-semibold">–</div>
@@ -125,7 +125,7 @@
                 <x-statistic :href="route('mailcoach.campaigns.clicks', $campaign)" class="col-start-1"
                              numClass="text-4xl font-semibold" :stat="$campaign->unique_click_count" :label="__('Unique Clicks')"/>
                 <x-statistic :stat="$campaign->click_count" :label="__('Clicks')"/>
-                <x-statistic :stat="$campaign->click_rate" :label="__('Click Rate')" suffix="%"/>
+                <x-statistic :stat="$campaign->click_rate / 100" :label="__('Click Rate')" suffix="%"/>
             @else
                 <div class="col-start-1 col-span-3">
                     <div class="text-4xl font-semibold">–</div>
@@ -135,12 +135,12 @@
 
             <x-statistic :href="route('mailcoach.campaigns.unsubscribes', $campaign)" numClass="text-4xl font-semibold"
                          :stat="$campaign->unsubscribe_count" :label="__('Unsubscribes')"/>
-            <x-statistic :stat="$campaign->unsubscribe_rate" :label="__('Unsubscribe Rate')" suffix="%"/>
+            <x-statistic :stat="$campaign->unsubscribe_rate / 100" :label="__('Unsubscribe Rate')" suffix="%"/>
 
             <x-statistic :href="route('mailcoach.campaigns.outbox', $campaign) . '?filter[type]=bounced'"
                          class="col-start-1" numClass="text-4xl font-semibold" :stat="$campaign->bounce_count"
                          :label="__('Bounces')"/>
-            <x-statistic :stat="$campaign->bounce_rate" :label="__('Bounce Rate')" suffix="%"/>
+            <x-statistic :stat="$campaign->bounce_rate / 100" :label="__('Bounce Rate')" suffix="%"/>
 
         </div>
     </div>
