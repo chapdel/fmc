@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Http\Api\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Spatie\Mailcoach\Models\EmailList;
 use Spatie\Mailcoach\Models\TagSegment;
 use Spatie\Mailcoach\Models\Template;
 use Spatie\Mailcoach\Traits\UsesMailcoachModels;
