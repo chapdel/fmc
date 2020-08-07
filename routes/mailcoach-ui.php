@@ -14,6 +14,7 @@ use Spatie\Mailcoach\Http\App\Controllers\Campaigns\DuplicateCampaignController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\RetryFailedSendsController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignClicksController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignOpensController;
+use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignUsedSettingsController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignSummaryController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignUnsubscribesController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\OutboxController;
@@ -72,6 +73,7 @@ Route::prefix('campaigns')->group(function () {
         Route::get('opens', '\\' . CampaignOpensController::class)->name('mailcoach.campaigns.opens');
         Route::get('clicks', '\\' . CampaignClicksController::class)->name('mailcoach.campaigns.clicks');
         Route::get('unsubscribes', '\\' . CampaignUnsubscribesController::class)->name('mailcoach.campaigns.unsubscribes');
+        Route::get('used-settings', '\\' . CampaignUsedSettingsController::class)->name('mailcoach.campaigns.used-settings');
 
         Route::get('outbox', '\\' . OutboxController::class)->name('mailcoach.campaigns.outbox');
 

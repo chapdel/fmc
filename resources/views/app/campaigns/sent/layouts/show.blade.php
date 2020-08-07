@@ -33,6 +33,9 @@
             <x-navigation-item :href="route('mailcoach.campaigns.outbox', $campaign)">
                 <x-icon-label icon="fa-inbox" :text="__('Outbox')" />
             </x-navigation-item>
+            <x-navigation-item :href="route('mailcoach.campaigns.used-settings', $campaign)">
+                <x-icon-label icon="fa-cog" :text="__('Used settings')" />
+            </x-navigation-item>
         </ul>
     </nav>
 
