@@ -5,7 +5,6 @@ namespace Spatie\Mailcoach\Http\App\Controllers;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use PackageVersions\Versions;
-use Spatie\Mailcoach\Models\SendFeedbackItem;
 use Spatie\Mailcoach\Support\HorizonStatus;
 use Spatie\Mailcoach\Support\Version;
 

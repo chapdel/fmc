@@ -3,13 +3,8 @@
 namespace Spatie\Mailcoach\Tests\Commands;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Bus;
-use Spatie\Mailcoach\Commands\CalculateStatisticsCommand;
 use Spatie\Mailcoach\Commands\CleanupProcessedFeedbackCommand;
-use Spatie\Mailcoach\Jobs\CalculateStatisticsJob;
-use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Tests\TestCase;
-use Spatie\TestTime\TestTime;
 use Spatie\WebhookClient\Models\WebhookCall;
 
 class CleanupProcessedFeedbackCommandTest extends TestCase

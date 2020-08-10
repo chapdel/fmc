@@ -2,13 +2,8 @@
 
 namespace Spatie\Mailcoach\Commands;
 
-use Carbon\CarbonInterval;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Cache;
-use Spatie\Mailcoach\Jobs\CalculateStatisticsJob;
-use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 use Spatie\WebhookClient\Models\WebhookCall;
 
