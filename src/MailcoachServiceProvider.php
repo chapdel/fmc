@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Commands\CalculateStatisticsCommand;
+use Spatie\Mailcoach\Commands\CleanupProcessedFeedbackCommand;
 use Spatie\Mailcoach\Commands\DeleteOldUnconfirmedSubscribersCommand;
 use Spatie\Mailcoach\Commands\RetryPendingSendsCommand;
 use Spatie\Mailcoach\Commands\SendCampaignSummaryMailCommand;
@@ -87,6 +88,7 @@ class MailcoachServiceProvider extends EventServiceProvider
                 SendEmailListSummaryMailCommand::class,
                 RetryPendingSendsCommand::class,
                 DeleteOldUnconfirmedSubscribersCommand::class,
+                CleanupProcessedFeedbackCommand::class,
             ]);
         }
 
@@ -164,7 +166,7 @@ class MailcoachServiceProvider extends EventServiceProvider
             __DIR__ . '/../resources/dist' => public_path('vendor/mailcoach'),
         ], 'mailcoach-assets');
 
-        if (! class_exists('CreateEmailCampaignTables')) {
+        if (! class_exists('CreateMailcoachTables')) {
             $this->publishes([
                 __DIR__ . '/../database/migrations/create_mailcoach_tables.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_mailcoach_tables.php'),
             ], 'mailcoach-migrations');
@@ -173,6 +175,12 @@ class MailcoachServiceProvider extends EventServiceProvider
         if (! class_exists('CreateMediaTable')) {
             $this->publishes([
                 __DIR__ . '/../../laravel-medialibrary/database/migrations/create_media_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_media_table.php'),
+            ], 'mailcoach-migrations');
+        }
+
+        if (! class_exists('CreateWebhookCallsTable')) {
+            $this->publishes([
+                __DIR__ . '/../database/migrations/create_webhook_calls_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_webhook_calls_table.php'),
             ], 'mailcoach-migrations');
         }
 

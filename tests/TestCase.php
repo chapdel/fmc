@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Tests;
 use CreateMailcoachTables;
 use CreateMediaTable;
 use CreateUsersTable;
+use CreateWebhookCallsTable;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
@@ -65,6 +66,9 @@ abstract class TestCase extends Orchestra
 
         include_once __DIR__.'/database/migrations/create_users_table.php.stub';
         (new CreateUsersTable())->up();
+
+        include_once __DIR__.'/../database/migrations/create_webhook_calls_table.php.stub';
+        (new CreateWebhookCallsTable())->up();
     }
 
     protected function simulateUnsubscribes(Collection $sends)
