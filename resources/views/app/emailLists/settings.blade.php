@@ -56,6 +56,10 @@
 
         <h2 class="markup-h2">{{ __('Subscriptions') }}</h2>
 
+        <x-help>
+            {!! __('Learn more about <a href=":link" class="link-dimmed" target="_blank">subscription settings and forms</a>.', ['link' => 'https://mailcoach.app/docs/v2/app/lists/settings#subscriptions']) !!}
+        </x-help>
+
         <div class="form-row max-w-full">
             <div class="checkbox-group">
                 <x-checkbox-field dataConditional="confirmation" :label="__('Require confirmation')"
@@ -66,7 +70,6 @@
                                   name="allow_form_subscriptions"
                                   :checked="$emailList->allow_form_subscriptions"/>
                 <code class="markup-code text-xs ml-8 -mt-1">&lt;form action="{{$emailList->incomingFormSubscriptionsUrl()}}"&gt;</code>
-
             </div>
         </div>
 
@@ -77,8 +80,6 @@
                 :value="$emailList->allowedFormSubscriptionTags()->pluck('name')->toArray()"
                 :tags="$emailList->tags()->pluck('name')->toArray()"
             />
-
-            <p class="form-note">{{ __('Learn more on <a href=":link" class="link-dimmed" target="_blank">these form settings</a>.', ['link' => 'https://mailcoach.app/docs/v2/app/lists/settings#subscriptions']) }}</p>
         </div>
 
         <hr class="border-t-2 border-gray-200 my-8">
