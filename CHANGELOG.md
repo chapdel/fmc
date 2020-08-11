@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.23.4 - 2020-08-11
+
+- fix Carbon typehints to CarbonInterface
+
 ## 2.23.3 - 2020-08-06
 
 - require report recipients if reports are to be sent (#278)

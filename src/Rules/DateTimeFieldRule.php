@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Rules;
 
+use Carbon\CarbonInterface;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Carbon;
 use InvalidArgumentException;
@@ -50,7 +51,7 @@ class DateTimeFieldRule implements Rule
         return $this->message;
     }
 
-    public function parseDateTime(array $value): ?Carbon
+    public function parseDateTime(array $value): ?CarbonInterface
     {
         try {
             $hours = str_pad($value['hours'], 2, '0', STR_PAD_LEFT);

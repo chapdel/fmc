@@ -2,17 +2,17 @@
 
 namespace Spatie\Mailcoach\Components;
 
-use Illuminate\Support\Carbon;
+use Carbon\CarbonInterface;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
 class DateTimeFieldComponent extends Component
 {
-    public Carbon $value;
+    public CarbonInterface $value;
 
     public string $name;
 
-    public function __construct(string $name, ?Carbon $value = null)
+    public function __construct(string $name, ?CarbonInterface $value = null)
     {
         $this->value = $value ?? now();
         $this->name = $name;
