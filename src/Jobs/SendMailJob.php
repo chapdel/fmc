@@ -35,7 +35,7 @@ class SendMailJob implements ShouldQueue
 
     public function handle()
     {
-        if ($this->batch()->canceled()) {
+        if ($this->batch() && $this->batch()->canceled()) {
             $this->pendingSend->delete();
 
             return;

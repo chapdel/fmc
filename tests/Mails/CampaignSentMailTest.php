@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\Mails;
 
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Mails\CampaignSentMail;
@@ -43,11 +44,11 @@ class CampaignSentMailTest extends TestCase
         event(new CampaignSentEvent($this->campaign));
 
         Mail::assertQueued(CampaignSentMail::class, function (CampaignSentMail $mail) {
-            return $mail->hasTo('john@example.com') && $mail->mailer === 'some-mailer';
-        });
+            $this->assertEquals('some-mailer', $mail->mailer);
+            $this->assertTrue($mail->hasTo('john@example.com'));
+            $this->assertTrue($mail->hasTo('jane@example.com'));
 
-        Mail::assertQueued(CampaignSentMail::class, function (CampaignSentMail $mail) {
-            return $mail->hasTo('jane@example.com') && $mail->mailer === 'some-mailer';
+            return true;
         });
     }
 

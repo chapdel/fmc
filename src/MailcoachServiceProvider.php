@@ -2,14 +2,15 @@
 
 namespace Spatie\Mailcoach;
 
-use Illuminate\Foundation\Support\Providers\EventServiceProvider;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Commands\CalculateStatisticsCommand;
 use Spatie\Mailcoach\Commands\CleanupProcessedFeedbackCommand;
@@ -33,20 +34,12 @@ use Spatie\Mailcoach\Support\Version;
 use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 use Spatie\QueryString\QueryString;
 
-class MailcoachServiceProvider extends EventServiceProvider
+class MailcoachServiceProvider extends ServiceProvider
 {
     use UsesMailcoachModels;
 
-    protected $listen = [
-        CampaignSentEvent::class => [
-            SendCampaignSentEmail::class,
-        ],
-    ];
-
     public function boot()
     {
-        parent::boot();
-
         $this
             ->bootCarbon()
             ->bootCommands()
@@ -55,7 +48,8 @@ class MailcoachServiceProvider extends EventServiceProvider
             ->bootRoutes()
             ->bootSupportMacros()
             ->bootTranslations()
-            ->bootViews();
+            ->bootViews()
+            ->bootEvents();
     }
 
     public function register()
@@ -268,5 +262,10 @@ class MailcoachServiceProvider extends EventServiceProvider
         Blade::component(ReplacerHelpTextsComponent::class, 'replacer-help-texts');
 
         return $this;
+    }
+
+    private function bootEvents()
+    {
+        Event::listen(CampaignSentEvent::class, SendCampaignSentEmail::class);
     }
 }
