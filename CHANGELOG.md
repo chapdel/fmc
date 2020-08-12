@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.23.5 - 2020-08-12
+
+- fix Carbon macro to also work on CarbonImmutable
+
 ## 2.23.4 - 2020-08-11
 
 - fix Carbon typehints to CarbonInterface
