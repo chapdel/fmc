@@ -53,6 +53,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         'campaigns_feed_enabled' => 'boolean',
         'last_modified_at' => 'datetime',
         'summary_mail_sent_at' => 'datetime',
+        'mailable_arguments' => 'array',
     ];
 
     public static function booted()
@@ -240,7 +241,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         return $this;
     }
 
-    public function useMailable(string $mailableClass): self
+    public function useMailable(string $mailableClass, array $mailableArguments = []): self
     {
         $this->ensureUpdatable();
 
@@ -248,7 +249,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
             throw CouldNotSendCampaign::invalidMailableClass($this, $mailableClass);
         }
 
-        $this->update(['mailable_class' => $mailableClass]);
+        $this->update(['mailable_class' => $mailableClass, 'mailable_arguments' => $mailableArguments]);
 
         return $this;
     }
@@ -423,8 +424,9 @@ class Campaign extends Model implements Feedable, HasHtmlContent
     public function getMailable(): CampaignMail
     {
         $mailableClass = $this->mailable_class ?? CampaignMail::class;
+        $mailableArguments = $this->mailable_arguments ?? [];
 
-        return app($mailableClass);
+        return app($mailableClass, $mailableArguments);
     }
 
     public function getSegment(): Segment

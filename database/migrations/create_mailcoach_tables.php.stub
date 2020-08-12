@@ -105,6 +105,7 @@ class CreateMailcoachTables extends Migration
             $table->longText('webview_html')->nullable();
 
             $table->string('mailable_class')->nullable();
+            $table->json('mailable_arguments')->nullable();
 
             $table->boolean('track_opens')->default(false);
             $table->boolean('track_clicks')->default(false);

@@ -17,6 +17,7 @@ use Spatie\Mailcoach\Models\Send;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMail;
+use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMailWithArguments;
 use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMailWithStaticHtml;
 use Spatie\Mailcoach\Tests\TestClasses\TestCustomInstanciatedQueryOnlyShouldSendToJohn;
 use Spatie\Mailcoach\Tests\TestClasses\TestCustomQueryOnlyShouldSendToJohn;
@@ -468,6 +469,18 @@ class CampaignTest extends TestCase
         $campaign->pullSubjectFromMailable();
 
         $this->assertEquals($campaign->subject, 'This is the subject from the custom mailable.');
+    }
+
+    /** @test */
+    public function it_can_use_a_custom_mailable_with_arguments()
+    {
+        $campaign = factory(Campaign::class)->create();
+
+        $test_argument_value = 'This is a test value.';
+
+        $campaign->useMailable(TestCampaignMailWithArguments::class, ['test_argument' => $test_argument_value]);
+
+        $this->assertEquals($test_argument_value, $campaign->contentFromMailable());
     }
 
     private function assertModels(array $expectedModels, Collection $actualModels)
