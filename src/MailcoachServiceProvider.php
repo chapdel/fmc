@@ -184,6 +184,12 @@ class MailcoachServiceProvider extends EventServiceProvider
             ], 'mailcoach-migrations');
         }
 
+        if (! class_exists('CreateJobBatchesTable')) {
+            $this->publishes([
+                __DIR__ . '/../database/migrations/create_job_batches_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_job_batches_table.php'),
+            ], 'mailcoach-migrations');
+        }
+
         return $this;
     }
 

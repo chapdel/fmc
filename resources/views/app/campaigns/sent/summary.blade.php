@@ -29,6 +29,42 @@
                         @endif
                     </div>
                 </div>
+            @elseif ($campaign->isCancelled())
+                <div class="progress-bar">
+                    <div class="progress-bar-value" style="width:{{ ($campaign->sendsCount() / $campaign->sent_to_number_of_subscribers) * 100 }}%"></div>
+                </div>
+                <div class="mt-4 flex alert alert-info">
+                    <div class="mr-2">
+                        <i class="fas fa-ban text-red-500"></i>
+                    </div>
+                    <div class="flex justify-between items-center w-full">
+                        <p>
+                            <span class="inline-block">{{ __('Campaign') }}</span>
+                            <a class="inline-block" target="_blank" href="{{ $campaign->webviewUrl() }}">{{ $campaign->name }}</a>
+
+                            {{ __('sending is cancelled.', [
+                                'sendsCount' => $campaign->sendsCount(),
+                                'sentToNumberOfSubscribers' => $campaign->sent_to_number_of_subscribers,
+                                'subscriber' => trans_choice(__('subscriber|subscribers'), $campaign->sent_to_number_of_subscribers)
+                            ]) }}
+
+                            {{ __('It was sent to :sendsCount/:sentToNumberOfSubscribers :subscriber of', [
+                                'sendsCount' => $campaign->sendsCount(),
+                                'sentToNumberOfSubscribers' => $campaign->sent_to_number_of_subscribers,
+                                'subscriber' => trans_choice(__('subscriber|subscribers'), $campaign->sent_to_number_of_subscribers)
+                            ]) }}
+
+                            @if($campaign->emailList)
+                                <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
+                            @else
+                                &lt;{{ __('deleted list') }}&gt;
+                            @endif
+                            @if($campaign->usesSegment())
+                                ({{ $campaign->segment_description }})
+                            @endif
+                        </p>
+                    </div>
+                </div>
             @else
                 <div class="progress-bar">
                     <div class="progress-bar-value" style="width:{{ ($campaign->sendsCount() / $campaign->sent_to_number_of_subscribers) * 100 }}%"></div>
@@ -37,23 +73,29 @@
                     <div class="mr-2">
                         <i class="fas fa-sync fa-spin text-blue-500"></i>
                     </div>
-                    <div>
-                        {{ __('Campaign') }}
-                        <a target="_blank" href="{{ $campaign->webviewUrl() }}">{{ $campaign->name }}</a>
+                    <div class="flex justify-between items-center w-full">
+                        <p>
+                            <span class="inline-block">{{ __('Campaign') }}</span>
+                            <a class="inline-block" target="_blank" href="{{ $campaign->webviewUrl() }}">{{ $campaign->name }}</a>
 
-                        {{ __('is sending to :sendsCount/:sentToNumberOfSubscribers :subscriber of', [
-                            'sendsCount' => $campaign->sendsCount(),
-                            'sentToNumberOfSubscribers' => $campaign->sent_to_number_of_subscribers,
-                            'subscriber' => trans_choice(__('subscriber|subscribers'), $campaign->sent_to_number_of_subscribers)
-                        ]) }}
+                            {{ __('is sending to :sendsCount/:sentToNumberOfSubscribers :subscriber of', [
+                                'sendsCount' => $campaign->sendsCount(),
+                                'sentToNumberOfSubscribers' => $campaign->sent_to_number_of_subscribers,
+                                'subscriber' => trans_choice(__('subscriber|subscribers'), $campaign->sent_to_number_of_subscribers)
+                            ]) }}
 
-                        @if($campaign->emailList)
-                            <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
-                        @else
-                            &lt;{{ __('deleted list') }}&gt;
-                        @endif
-                        @if($campaign->usesSegment())
-                            ({{ $campaign->segment_description }})
+                            @if($campaign->emailList)
+                                <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
+                            @else
+                                &lt;{{ __('deleted list') }}&gt;
+                            @endif
+                            @if($campaign->usesSegment())
+                                ({{ $campaign->segment_description }})
+                            @endif
+                        </p>
+
+                        @if ($campaign->send_batch)
+                            <x-form-button class="text-red-500 underline" action="{{ route('mailcoach.campaigns.cancel-sending', $campaign) }}" dataConfirm dataConfirmText="{{ __('Are you sure you want to cancel sending this campaign?') }}">Cancel</x-form-button>
                         @endif
                     </div>
                 </div>

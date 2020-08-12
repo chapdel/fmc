@@ -3,7 +3,7 @@
         @include('mailcoach::app.campaigns.partials.campaignStatusIcon', ['status' => $campaign->status])
     </td>
     <td class="markup-links">
-        @if($campaign->isSent() || $campaign->isSending())
+        @if($campaign->isSent() || $campaign->isSending() || $campaign->isCancelled())
             <a href="{{ route('mailcoach.campaigns.summary', $campaign) }}">
                 {{ $campaign->name }}
             </a>
@@ -18,7 +18,11 @@
         @endif
     </td>
     <td class="td-numeric">
-        {{ $campaign->sent_to_number_of_subscribers ?: '-' }}
+        @if ($campaign->isCancelled())
+            {{ $campaign->sendsCount() ?: '-' }}
+        @else
+            {{ $campaign->sent_to_number_of_subscribers ?: '-' }}
+        @endif
     </td>
     <td class="td-numeric hidden | md:table-cell">
         @if($campaign->open_rate)

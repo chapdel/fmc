@@ -364,6 +364,10 @@ class Campaign extends Model implements Feedable, HasHtmlContent
             throw CouldNotSendCampaign::alreadySent($this);
         }
 
+        if ($this->isCancelled()) {
+            throw CouldNotSendCampaign::cancelled($this);
+        }
+
         if (is_null($this->emailList)) {
             throw CouldNotSendCampaign::noListSet($this);
         }
@@ -520,6 +524,10 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         if ($this->isSent()) {
             throw CouldNotSendCampaign::alreadySent($this);
         }
+
+        if ($this->isCancelled()) {
+            throw CouldNotSendCampaign::cancelled($this);
+        }
     }
 
     protected function markAsSending(): self
@@ -599,6 +607,11 @@ class Campaign extends Model implements Feedable, HasHtmlContent
     public function isSent(): bool
     {
         return $this->status == CampaignStatus::SENT;
+    }
+
+    public function isCancelled(): bool
+    {
+        return $this->status == CampaignStatus::CANCELLED;
     }
 
     public function hasCustomMailable(): bool

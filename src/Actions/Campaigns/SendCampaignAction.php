@@ -2,6 +2,8 @@
 
 namespace Spatie\Mailcoach\Actions\Campaigns;
 
+use Illuminate\Bus\Batchable;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Jobs\MarkCampaignAsSentJob;
 use Spatie\Mailcoach\Jobs\SendMailJob;
@@ -69,30 +71,36 @@ class SendCampaignAction
 
         $campaign->update(['sent_to_number_of_subscribers' => $subscribersQuery->count()]);
 
-        $subscribersQuery->each(function (Subscriber $subscriber) use ($campaign, $segment) {
-            $this->sendMail($campaign, $subscriber, $segment);
-        });
+        $jobs = $subscribersQuery->cursor()->map(function (Subscriber $subscriber) use ($campaign, $segment) {
+            return $this->createSendMailJob($campaign, $subscriber, $segment);
+        })->filter()->toArray();
+
+        $batch = Bus::batch($jobs)
+            ->allowFailures()
+            ->dispatch();
+
+        $campaign->update(['send_batch' => $batch->id]);
 
         dispatch(new MarkCampaignAsSentJob($campaign));
     }
 
-    protected function sendMail(Campaign $campaign, Subscriber $subscriber, Segment $segment): void
+    protected function createSendMailJob(Campaign $campaign, Subscriber $subscriber, Segment $segment): ?SendMailJob
     {
         if (! $segment->shouldSend($subscriber)) {
             $campaign->decrement('sent_to_number_of_subscribers');
 
-            return;
+            return null;
         }
 
         if (! $this->isValidSubscriptionForEmailList($subscriber, $campaign->emailList)) {
             $campaign->decrement('sent_to_number_of_subscribers');
 
-            return;
+            return null;
         }
 
         $pendingSend = $this->createSend($campaign, $subscriber);
 
-        dispatch(new SendMailJob($pendingSend));
+        return new SendMailJob($pendingSend);
     }
 
     protected function createSend(Campaign $campaign, Subscriber $subscriber): Send
