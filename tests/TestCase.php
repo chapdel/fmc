@@ -2,11 +2,11 @@
 
 namespace Spatie\Mailcoach\Tests;
 
+use CreateJobBatchesTable;
 use CreateMailcoachTables;
 use CreateMediaTable;
 use CreateUsersTable;
 use CreateWebhookCallsTable;
-use CreateJobBatchesTable;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;

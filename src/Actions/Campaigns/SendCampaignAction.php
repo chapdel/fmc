@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Actions\Campaigns;
 
-use Illuminate\Bus\Batchable;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Jobs\MarkCampaignAsSentJob;
