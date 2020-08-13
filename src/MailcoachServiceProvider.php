@@ -25,11 +25,13 @@ use Spatie\Mailcoach\Components\ReplacerHelpTextsComponent;
 use Spatie\Mailcoach\Components\SearchComponent;
 use Spatie\Mailcoach\Components\THComponent;
 use Spatie\Mailcoach\Events\CampaignSentEvent;
+use Spatie\Mailcoach\Events\WebhookCallProcessedEvent;
 use Spatie\Mailcoach\Http\App\Controllers\HomeController;
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\IndexComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\QueryStringComposer;
 use Spatie\Mailcoach\Listeners\SendCampaignSentEmail;
+use Spatie\Mailcoach\Listeners\SetWebhookCallProcessedAt;
 use Spatie\Mailcoach\Support\Version;
 use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 use Spatie\QueryString\QueryString;
@@ -267,5 +269,8 @@ class MailcoachServiceProvider extends ServiceProvider
     private function bootEvents()
     {
         Event::listen(CampaignSentEvent::class, SendCampaignSentEmail::class);
+        Event::listen(WebhookCallProcessedEvent::class, SetWebhookCallProcessedAt::class);
+
+        return $this;
     }
 }
