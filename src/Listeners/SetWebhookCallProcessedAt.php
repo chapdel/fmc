@@ -2,10 +2,7 @@
 
 namespace Spatie\Mailcoach\Listeners;
 
-use Illuminate\Support\Facades\Mail;
-use Spatie\Mailcoach\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Events\WebhookCallProcessedEvent;
-use Spatie\Mailcoach\Mails\CampaignSentMail;
 
 class SetWebhookCallProcessedAt
 {

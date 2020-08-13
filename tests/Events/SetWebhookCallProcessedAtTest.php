@@ -3,9 +3,7 @@
 namespace Spatie\Mailcoach\Tests\Events;
 
 use Illuminate\Support\Facades\Event;
-use Spatie\Mailcoach\Events\BounceRegisteredEvent;
 use Spatie\Mailcoach\Events\WebhookCallProcessedEvent;
-use Spatie\Mailcoach\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\WebhookClient\Models\WebhookCall;
 
