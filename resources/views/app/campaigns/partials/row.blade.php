@@ -27,7 +27,7 @@
     <td class="td-numeric hidden | md:table-cell">
         @if($campaign->open_rate)
             {{ $campaign->unique_open_count }}
-            <div class="td-secondary-line">{{ $campaign->open_rate }}%</div>
+            <div class="td-secondary-line">{{ $campaign->open_rate / 100 }}%</div>
         @else
             -
         @endif
@@ -35,7 +35,7 @@
     <td class="td-numeric hidden | md:table-cell">
         @if($campaign->click_rate)
             {{ $campaign->unique_click_count }}
-            <div class="td-secondary-line">{{ $campaign->click_rate }}%</div>
+            <div class="td-secondary-line">{{ $campaign->click_rate / 100 }}%</div>
         @else
             -
         @endif
