@@ -94,7 +94,7 @@
                             @endif
                         </p>
 
-                        @if ($campaign->send_batch)
+                        @if ($campaign->send_batch_id)
                             <x-form-button class="text-red-500 underline" action="{{ route('mailcoach.campaigns.cancel-sending', $campaign) }}" dataConfirm dataConfirmText="{{ __('Are you sure you want to cancel sending this campaign?') }}">Cancel</x-form-button>
                         @endif
                     </div>

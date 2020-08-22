@@ -14,7 +14,7 @@ class CancelSendingCampaignController
     public function __invoke(Campaign $campaign)
     {
         $batch = Bus::findBatch(
-            $campaign->send_batch
+            $campaign->send_batch_id
         );
 
         $batch->cancel();

@@ -78,7 +78,7 @@ class SendCampaignAction
             ->allowFailures()
             ->dispatch();
 
-        $campaign->update(['send_batch' => $batch->id]);
+        $campaign->update(['send_batch_id' => $batch->id]);
 
         dispatch(new MarkCampaignAsSentJob($campaign));
     }
