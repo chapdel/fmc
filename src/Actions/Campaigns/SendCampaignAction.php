@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Actions\Campaigns;
 
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\LazyCollection;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Jobs\MarkCampaignAsFullyDispatchedJob;
 use Spatie\Mailcoach\Jobs\MarkCampaignAsSentJob;
@@ -75,7 +76,7 @@ class SendCampaignAction
 
         $batch = Bus::batch([])
             ->allowFailures()
-            ->then(function () use ($campaign) {
+            ->finally(function () use ($campaign) {
                 if (! $campaign->refresh()->all_jobs_added_to_batch_at) {
                     return;
                 }
@@ -90,7 +91,10 @@ class SendCampaignAction
             ->cursor()
             ->map(fn (Subscriber $subscriber) => $this->createSendMailJob($campaign, $subscriber, $segment))
             ->filter()
-            ->each(fn (SendMailJob $sendMailJob) => $batch->add($sendMailJob));
+            ->chunk(1000)
+            ->each(function (LazyCollection $jobs) use ($batch) {
+                $batch->add($jobs);
+            });
 
         $batch->add(new MarkCampaignAsFullyDispatchedJob($campaign));
     }
