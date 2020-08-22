@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Actions\Campaigns;
 
+use Illuminate\Bus\Batch;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Jobs\MarkCampaignAsSentJob;
@@ -76,11 +77,12 @@ class SendCampaignAction
 
         $batch = Bus::batch($jobs)
             ->allowFailures()
+            ->then(function (Batch $batch) use ($campaign) {
+                dispatch(new MarkCampaignAsSentJob($campaign));
+            })
             ->dispatch();
 
         $campaign->update(['send_batch_id' => $batch->id]);
-
-        dispatch(new MarkCampaignAsSentJob($campaign));
     }
 
     protected function createSendMailJob(Campaign $campaign, Subscriber $subscriber, Segment $segment): ?SendMailJob
