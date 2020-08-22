@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Actions\Campaigns;
 
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Str;
+use Spatie\Mailcoach\Jobs\MarkCampaignAsFullyDispatchedJob;
 use Spatie\Mailcoach\Jobs\MarkCampaignAsSentJob;
 use Spatie\Mailcoach\Jobs\SendMailJob;
 use Spatie\Mailcoach\Models\Campaign;
@@ -70,20 +71,28 @@ class SendCampaignAction
 
         $campaign->update(['sent_to_number_of_subscribers' => $subscribersQuery->count()]);
 
-        $jobs = $subscribersQuery
-            ->cursor()
-            ->map(fn (Subscriber $subscriber) => $this->createSendMailJob($campaign, $subscriber, $segment))
-            ->filter()
-            ->toArray();
+        $campaign->update(['all_jobs_added_to_batch_at' => null]);
 
-        $batch = Bus::batch($jobs)
+        $batch = Bus::batch([])
             ->allowFailures()
             ->then(function () use ($campaign) {
+                if (! $campaign->refresh()->all_jobs_added_to_batch_at) {
+                    return;
+                }
+
                 dispatch(new MarkCampaignAsSentJob($campaign));
             })
             ->dispatch();
 
         $campaign->update(['send_batch_id' => $batch->id]);
+
+        $subscribersQuery
+            ->cursor()
+            ->map(fn (Subscriber $subscriber) => $this->createSendMailJob($campaign, $subscriber, $segment))
+            ->filter()
+            ->each(fn (SendMailJob $sendMailJob) => $batch->add($sendMailJob));
+
+        $batch->add(new MarkCampaignAsFullyDispatchedJob($campaign));
     }
 
     protected function createSendMailJob(Campaign $campaign, Subscriber $subscriber, Segment $segment): ?SendMailJob

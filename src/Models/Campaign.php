@@ -54,6 +54,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         'last_modified_at' => 'datetime',
         'summary_mail_sent_at' => 'datetime',
         'mailable_arguments' => 'array',
+        'all_jobs_added_to_batch_at' => 'datetime',
     ];
 
     public static function booted()
