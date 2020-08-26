@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.23.6 - 2020-08-25
+
+- fix scheduling options
+
 ## 2.23.5 - 2020-08-12
 
 - fix Carbon macro to also work on CarbonImmutable
