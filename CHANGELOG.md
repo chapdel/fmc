@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.23.5 - 2020-08-12
+
+- fix Carbon macro to also work on CarbonImmutable
+
+## 2.23.4 - 2020-08-11
+
+- fix Carbon typehints to CarbonInterface
+
+## 2.23.3 - 2020-08-06
+
+- require report recipients if reports are to be sent (#278)
+
 ## 2.23.2 - 2020-07-30
 
 - fix a bug with Custom Mailables with subjects that did not send

@@ -2,9 +2,9 @@
 
 namespace Spatie\Mailcoach\Commands;
 
+use Carbon\CarbonInterface;
 use Carbon\CarbonInterval;
 use Illuminate\Console\Command;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Models\Campaign;
@@ -18,7 +18,7 @@ class CalculateStatisticsCommand extends Command
 
     public $description = 'Calculate the statistics of the recently sent campaigns';
 
-    protected Carbon $now;
+    protected CarbonInterface $now;
 
     public function handle()
     {
