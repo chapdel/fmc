@@ -43,7 +43,7 @@ class CreateSubscriptionRequest extends FormRequest
         $attributes = [];
 
         foreach ($this->attributes as $key => $attributeValue) {
-            if (in_array(trim($key),$allowedEmailListAttributes)) {
+            if (in_array(trim($key), $allowedEmailListAttributes)) {
                 $attributes[$key] = $attributeValue;
             }
         }

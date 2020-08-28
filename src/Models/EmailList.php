@@ -76,7 +76,8 @@ class EmailList extends Model
             ->orderBy('name');
     }
 
-    public function setFormExtraAttributesAttribute($value) {
+    public function setFormExtraAttributesAttribute($value)
+    {
         $this->attributes['allowed_form_extra_attributes'] = array_map('trim', explode(',', $value));
     }
 
