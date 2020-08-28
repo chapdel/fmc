@@ -47,6 +47,7 @@ class CreateSubscriptionRequest extends FormRequest
                 $attributes[$key] = $attributeValue;
             }
         }
+
         return $attributes;
     }
 
