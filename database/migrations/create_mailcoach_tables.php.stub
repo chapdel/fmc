@@ -44,7 +44,7 @@ class CreateMailcoachTables extends Migration
             $table->boolean('report_email_list_summary')->default(false);
 
             $table->timestamp('email_list_summary_sent_at')->nullable();
-
+            $table->text('allowed_form_extra_attributes')->nullable();
             $table->timestamps();
         });
 

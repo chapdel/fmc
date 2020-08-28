@@ -81,6 +81,7 @@
                 :tags="$emailList->tags()->pluck('name')->toArray()"
             />
         </div>
+        <x-text-field :label="__('Optionally, allow following subscriber extra Attributes')" name="allowed_form_extra_attributes" :value="$emailList->allowed_form_extra_attributes"/>
 
         <hr class="border-t-2 border-gray-200 my-8">
 
