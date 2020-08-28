@@ -62,4 +62,18 @@ class ReplacesModelAttributesTest extends TestCase
 
         $this->assertEquals("This is ", $output);
     }
+
+    /** @test */
+    public function it_will_not_thrown_an_exception_when_trying_to_replace_a_non_existing_schemaless_attribute()
+    {
+        $subscriber = factory(Subscriber::class)->create();
+
+        $output = $this->classWithTrait->replaceModelAttributes(
+            "This is ::subscriber.extra_attributes.non_existing_attribute::",
+            'subscriber',
+            $subscriber
+        );
+
+        $this->assertEquals("This is ", $output);
+    }
 }
