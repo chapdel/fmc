@@ -301,7 +301,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
             return;
         }
 
-        $mailable = $this->getMailable();
+        $mailable = $this->getMailable()->setCampaign($this);
         $mailable->build();
 
         if (! empty($mailable->subject)) {
