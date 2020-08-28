@@ -2,7 +2,7 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
-## 2.23.7 - 2020-08-25
+## 2.23.7 - 2020-08-28
 
 - fix extra subscriber attributes that couldn't be null
 
