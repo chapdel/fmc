@@ -76,6 +76,16 @@ class EmailList extends Model
             ->orderBy('name');
     }
 
+    public function setFormExtraAttributesAttribute($value)
+    {
+        $this->attributes['allowed_form_extra_attributes'] = array_map('trim', explode(',', $value));
+    }
+
+    public function allowedFormExtraAttributes() : array
+    {
+        return explode(";", $this->allowed_form_extra_attributes);
+    }
+
     public function subscribe(string $email, array $attributes = []): Subscriber
     {
         return $this->getSubscriberClass()::createWithEmail($email, $attributes)->subscribeTo($this);

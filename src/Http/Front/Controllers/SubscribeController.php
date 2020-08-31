@@ -31,6 +31,9 @@ class SubscribeController
             ->syncTags($request->tags())
             ->subscribeTo($emailList);
 
+        $subscriber->extra_attributes = array_merge($subscriber->extra_attributes, $request->attributes());
+        $subscriber->save();
+
         return $subscriber->isUnconfirmed()
             ? $this->getSubscriptionPendingResponse($request, $subscriber)
             : $this->getSubscribedResponse($request, $subscriber);

@@ -21,6 +21,7 @@ class CreateSubscriptionRequest extends FormRequest
             'redirect_after_already_subscribed' => '',
             'redirect_after_subscription_pending' => '',
             'tags' => '',
+            'attributes' => '',
         ];
     }
 
@@ -33,6 +34,21 @@ class CreateSubscriptionRequest extends FormRequest
             'redirect_after_subscription_pending',
             'tags',
         ]);
+    }
+
+    public function attributes()
+    {
+        $allowedEmailListAttributes = $this->emailList()->allowedFormExtraAttributes();
+
+        $attributes = [];
+
+        foreach ($this->attributes as $key => $attributeValue) {
+            if (in_array(trim($key), $allowedEmailListAttributes)) {
+                $attributes[$key] = $attributeValue;
+            }
+        }
+
+        return $attributes;
     }
 
     public function tags(): array
