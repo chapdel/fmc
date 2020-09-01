@@ -3,10 +3,10 @@
 namespace Spatie\Mailcoach;
 
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
@@ -69,7 +69,7 @@ class MailcoachServiceProvider extends ServiceProvider
     {
         $mailcoachFormat = config('mailcoach.date_format');
 
-        Carbon::macro('toMailcoachFormat', fn () => self::this()->copy()->format($mailcoachFormat));
+        Date::macro('toMailcoachFormat', fn () => self::this()->copy()->format($mailcoachFormat));
 
         return $this;
     }

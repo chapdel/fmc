@@ -14,7 +14,7 @@ trait ReplacesModelAttributes
 
             $replace = $parts->reduce(function ($value, $part) {
                 if ($value instanceof SchemalessAttributes) {
-                    return $value->get($part);
+                    return $value->get($part) ?? '';
                 }
 
                 return $value->$part

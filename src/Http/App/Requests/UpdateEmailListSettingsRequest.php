@@ -25,7 +25,12 @@ class UpdateEmailListSettingsRequest extends FormRequest
             'campaign_mailer' => [Rule::in(array_keys(config('mail.mailers')))],
             'transactional_mailer' => [Rule::in(array_keys(config('mail.mailers')))],
             'campaigns_feed_enabled' => 'boolean',
-            'report_recipients' => [new Delimited('email')],
+            'report_recipients' => [
+                new Delimited('email'),
+                'required_if:report_email_list_summary,1',
+                'required_if:report_campaign_sent,1',
+                'required_if:report_campaign_summary,1',
+            ],
             'report_campaign_sent' => 'boolean',
             'report_campaign_summary' => 'boolean',
             'report_email_list_summary' => 'boolean',
