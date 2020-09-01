@@ -33,6 +33,7 @@ class CreateSubscriptionRequest extends FormRequest
             'redirect_after_already_subscribed',
             'redirect_after_subscription_pending',
             'tags',
+            'attributes',
         ]);
     }
 
@@ -42,7 +43,7 @@ class CreateSubscriptionRequest extends FormRequest
 
         $attributes = [];
 
-        foreach ($this->attributes as $key => $attributeValue) {
+        foreach ($this->get('attributes', []) as $key => $attributeValue) {
             if (in_array(trim($key), $allowedEmailListAttributes)) {
                 $attributes[$key] = $attributeValue;
             }
@@ -64,11 +65,11 @@ class CreateSubscriptionRequest extends FormRequest
         return array_filter($tags);
     }
 
-    public function emailList(): ?EmailList
+    public function emailList(): EmailList
     {
         return $this->getEmailListClass()::query()
             ->where('uuid', $this->route()->parameter('emailListUuid'))
             ->where('allow_form_subscriptions', true)
-            ->first();
+            ->firstOrFail();
     }
 }

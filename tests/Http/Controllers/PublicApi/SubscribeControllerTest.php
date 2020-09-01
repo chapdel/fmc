@@ -99,6 +99,8 @@ class SubscribeControllerTest extends TestCase
     /** @test */
     public function it_can_accept_attributes()
     {
+        $this->withoutExceptionHandling();
+
         $this->emailList->allowed_form_extra_attributes = 'attribute1;attribute2';
         $this->emailList->save();
 
@@ -106,17 +108,17 @@ class SubscribeControllerTest extends TestCase
             ->post(action(SubscribeController::class, $this->emailList->uuid), $this->payloadWithRedirects([
                 'attributes' => [
                     'attribute1' => 'foo',
-                    'attribute2' => 'forbidden',
-                    'attribute3' => 'bar',
-                    ],
+                    'attribute2' => 'bar',
+                    'attribute3' => 'forbidden',
+                ],
             ]))
             ->assertRedirect($this->payloadWithRedirects()['redirect_after_subscribed']);
 
         $subscriber = Subscriber::where('email', $this->payloadWithRedirects()['email'])->first();
 
         $this->assertEquals('foo', $subscriber->extra_attributes->attribute1);
-        $this->assertEmpty($subscriber->extra_attributes->attribute2);
-        $this->assertEquals('bar', $subscriber->extra_attributes->attribute3);
+        $this->assertEmpty($subscriber->extra_attributes->attribute3);
+        $this->assertEquals('bar', $subscriber->extra_attributes->attribute2);
     }
 
     /** @test */
