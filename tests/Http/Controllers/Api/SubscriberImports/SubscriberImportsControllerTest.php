@@ -21,13 +21,13 @@ class SubscriberImportsControllerTest extends TestCase
 
         $this->loginToApi();
 
-        $this->emailList = factory(EmailList::class)->create();
+        $this->emailList = EmailList::factory()->create();
     }
 
     /** @test */
     public function it_can_list_all_subscriber_imports()
     {
-        $subscriberImports = factory(SubscriberImport::class, 3)->create();
+        $subscriberImports = SubscriberImport::factory(3)->create();
 
         $response = $this
             ->getJson(action([SubscriberImportsController::class, 'index']))
@@ -42,7 +42,7 @@ class SubscriberImportsControllerTest extends TestCase
     /** @test */
     public function it_can_show_a_subscriber_import()
     {
-        $subscriberImport = factory(SubscriberImport::class)->create();
+        $subscriberImport = SubscriberImport::factory()->create();
 
         $this
             ->getJson(action([SubscriberImportsController::class, 'show'], $subscriberImport))
@@ -69,7 +69,7 @@ class SubscriberImportsControllerTest extends TestCase
     /** @test */
     public function it_can_update_a_subscriber_import()
     {
-        $subscriberImport = factory(SubscriberImport::class)->create([
+        $subscriberImport = SubscriberImport::factory()->create([
             'status' => SubscriberImportStatus::DRAFT,
         ]);
 
@@ -88,7 +88,7 @@ class SubscriberImportsControllerTest extends TestCase
     /** @test */
     public function it_can_delete_a_subscriber_import()
     {
-        $subscriberImport = factory(SubscriberImport::class)->create();
+        $subscriberImport = SubscriberImport::factory()->create();
 
         $this
             ->deleteJson(action([SubscriberImportsController::class, 'destroy'], $subscriberImport))

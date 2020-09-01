@@ -17,7 +17,7 @@ class SegmentTest extends TestCase
     {
         parent::setUp();
 
-        $this->emailList = factory(EmailList::class)->create();
+        $this->emailList = EmailList::factory()->create();
     }
 
     /** @test */
@@ -204,7 +204,7 @@ class SegmentTest extends TestCase
     protected function createSubscriberWithTags(string $email, array $tags = []): Subscriber
     {
         /** @var Subscriber $subscriber */
-        $subscriber = factory(Subscriber::class)->create([
+        $subscriber = Subscriber::factory()->create([
             'email' => $email,
             'email_list_id' => $this->emailList->id,
         ]);

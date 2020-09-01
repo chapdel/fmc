@@ -31,7 +31,7 @@ class CalculateStatisticsCommandTest extends TestCase
     ) {
         Bus::fake();
 
-        $campaign = factory(Campaign::class)->create([
+        $campaign = Campaign::factory()->create([
             'sent_at' => $sentAt,
             'statistics_calculated_at' => $statisticsCalculatedAt,
         ]);
@@ -74,7 +74,7 @@ class CalculateStatisticsCommandTest extends TestCase
     /** @test */
     public function it_can_recalculate_the_statistics_of_a_single_campaign()
     {
-        $campaign = factory(Campaign::class)->create([
+        $campaign = Campaign::factory()->create([
             'sent_at' => now()->subYear(),
             'statistics_calculated_at' => null,
         ]);

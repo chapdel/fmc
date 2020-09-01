@@ -11,7 +11,7 @@ class ImportSubscribersResultMailTest extends TestCase
     /** @test */
     public function it_can_render_the_import_subscribers_result_mail()
     {
-        $subscriberImport = factory(SubscriberImport::class)->create();
+        $subscriberImport = SubscriberImport::factory()->create();
 
         $this->assertIsString((new ImportSubscribersResultMail($subscriberImport))->render());
     }

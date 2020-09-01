@@ -21,7 +21,7 @@ class DeleteCampaignControllerTest extends TestCase
     /** @test */
     public function a_campaign_can_be_deleted_using_the_api()
     {
-        $campaign = factory(Campaign::class)->create();
+        $campaign = Campaign::factory()->create();
 
         $this
             ->deleteJson(action([CampaignsController::class, 'destroy'], $campaign))

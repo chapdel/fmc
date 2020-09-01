@@ -20,13 +20,13 @@ class SubscribersControllerTest extends TestCase
 
         $this->loginToApi();
 
-        $this->emailList = factory(EmailList::class)->create();
+        $this->emailList = EmailList::factory()->create();
     }
 
     /** @test */
     public function it_can_list_all_subscribers_of_an_email_list()
     {
-        $subscribers = factory(Subscriber::class, 3)->create([
+        $subscribers = Subscriber::factory(3)->create([
             'email_list_id' => $this->emailList->id,
         ]);
 
@@ -44,7 +44,7 @@ class SubscribersControllerTest extends TestCase
     public function it_can_filter_on_subscription_status()
     {
         /** @var Subscriber $subscriber */
-        $subscriber = factory(Subscriber::class)->create([
+        $subscriber = Subscriber::factory()->create([
             'email_list_id' => $this->emailList->id,
         ]);
 
@@ -67,7 +67,7 @@ class SubscribersControllerTest extends TestCase
     public function it_can_show_a_subscriber()
     {
         /** @var Subscriber $subscriber */
-        $subscriber = factory(Subscriber::class)->create();
+        $subscriber = Subscriber::factory()->create();
 
         $this
             ->getJson(action([SubscribersController::class, 'show'], $subscriber))
@@ -79,7 +79,7 @@ class SubscribersControllerTest extends TestCase
     public function it_can_delete_a_subscriber()
     {
         /** @var Subscriber $subscriber */
-        $subscriber = factory(Subscriber::class)->create();
+        $subscriber = Subscriber::factory()->create();
 
         $this
             ->deleteJson(action([SubscribersController::class, 'destroy'], $subscriber))

@@ -22,11 +22,11 @@ class UpdateCampaignControllerTest extends TestCase
     /** @test */
     public function a_campaign_can_be_updated_using_the_api()
     {
-        $campaign = factory(Campaign::class)->create();
+        $campaign = Campaign::factory()->create();
 
         $attributes = [
             'name' => 'name',
-            'email_list_id' => factory(EmailList::class)->create()->id,
+            'email_list_id' => EmailList::factory()->create()->id,
             'html' => 'html',
             'track_opens' => true,
             'track_clicks' => false,

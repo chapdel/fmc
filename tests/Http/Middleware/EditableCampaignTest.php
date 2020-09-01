@@ -16,7 +16,7 @@ class EditableCampaignTest extends TestCase
         $this->authenticate();
 
         /** @var \Spatie\Mailcoach\Models\Campaign $campaign */
-        $campaign = factory(Campaign::class)->create();
+        $campaign = Campaign::factory()->create();
 
         $this
             ->get(route('mailcoach.campaigns.settings', $campaign))

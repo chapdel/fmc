@@ -19,7 +19,7 @@ class CampaignUnsubscribesControllerTest extends TestCase
 
         $this->loginToApi();
 
-        $this->campaignUnsubscribe = factory(CampaignUnsubscribe::class)->create();
+        $this->campaignUnsubscribe = CampaignUnsubscribe::factory()->create();
     }
 
     /** @test */

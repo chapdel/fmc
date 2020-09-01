@@ -26,7 +26,7 @@ class SubscribeControllerTest extends TestCase
 
         $this->withExceptionHandling();
 
-        $this->emailList = factory(EmailList::class)->create([
+        $this->emailList = EmailList::factory()->create([
             'requires_confirmation' => false,
             'allow_form_subscriptions' => true,
             'redirect_after_subscribed' => 'https://example.com/redirect-after-subscribed',

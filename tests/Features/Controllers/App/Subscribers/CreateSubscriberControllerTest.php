@@ -15,7 +15,7 @@ class CreateSubscriberControllerTest extends TestCase
         $this->authenticate();
 
         /** @var EmailList $emailList */
-        $emailList = factory(EmailList::class)->create();
+        $emailList = EmailList::factory()->create();
 
         $attributes = [
             'email' => 'john@example.com',

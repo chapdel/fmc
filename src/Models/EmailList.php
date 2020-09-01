@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Models;
 
 use Carbon\CarbonInterface;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -14,7 +15,7 @@ use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class EmailList extends Model
 {
-    use HasUuid, UsesMailcoachModels;
+    use HasUuid, UsesMailcoachModels, HasFactory;
 
     public $guarded = [];
 

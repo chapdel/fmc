@@ -15,7 +15,7 @@ class DuplicateCampaignControllerTest extends TestCase
         $this->authenticate();
 
         /** @var \Spatie\Mailcoach\Models\Campaign $originalCampaign */
-        $originalCampaign = factory(Campaign::class)->create();
+        $originalCampaign = Campaign::factory()->create();
 
         $this
             ->post(action(DuplicateCampaignController::class, $originalCampaign->id))

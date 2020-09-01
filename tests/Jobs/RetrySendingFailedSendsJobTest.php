@@ -19,7 +19,7 @@ class RetrySendingFailedSendsJobTest extends TestCase
     {
         Mail::fake();
 
-        $campaign = factory(Campaign::class)->create(['html' => 'test']);
+        $campaign = Campaign::factory()->create(['html' => 'test']);
 
         $campaign->emailList->update(['campaign_mailer' => 'some-mailer']);
 

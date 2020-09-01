@@ -20,7 +20,7 @@ class StartSubscribersImportControllerTest extends TestCase
 
         $this->loginToApi();
 
-        $this->subscriberImport = factory(SubscriberImport::class, )->create([
+        $this->subscriberImport = SubscriberImport::factory()->create([
             'status' => SubscriberImportStatus::DRAFT,
             'subscribers_csv' => 'email' . PHP_EOL . 'john@example.com',
         ]);

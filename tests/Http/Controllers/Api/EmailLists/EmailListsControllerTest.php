@@ -21,7 +21,7 @@ class EmailListsControllerTest extends TestCase
     /** @test */
     public function it_can_list_all_email_lists()
     {
-        $emailLists = factory(EmailList::class, 3)->create();
+        $emailLists = EmailList::factory(3)->create();
 
         $this
             ->getJson(action([EmailListsController::class, 'index']))
@@ -32,11 +32,11 @@ class EmailListsControllerTest extends TestCase
     /** @test */
     public function it_can_search_email_lists()
     {
-        factory(EmailList::class)->create([
+        EmailList::factory()->create([
             'name' => 'one',
         ]);
 
-        factory(EmailList::class)->create([
+        EmailList::factory()->create([
             'name' => 'two',
         ]);
 
@@ -50,7 +50,7 @@ class EmailListsControllerTest extends TestCase
     /** @test */
     public function the_api_can_show_an_email_list()
     {
-        $emailList = factory(EmailList::class)->create();
+        $emailList = EmailList::factory()->create();
 
         $this
             ->getJson(action([EmailListsController::class, 'show'], $emailList))
@@ -77,7 +77,7 @@ class EmailListsControllerTest extends TestCase
     /** @test */
     public function an_email_list_can_be_updated_using_the_api()
     {
-        $emailList = factory(EmailList::class)->create();
+        $emailList = EmailList::factory()->create();
 
         $attributes = [
             'name' => 'email list name',
@@ -100,7 +100,7 @@ class EmailListsControllerTest extends TestCase
     /** @test */
     public function an_email_list_can_be_deleted_using_the_api()
     {
-        $template = factory(EmailList::class)->create();
+        $template = EmailList::factory()->create();
 
         $this
             ->deleteJson(action([EmailListsController::class, 'destroy'], $template))

@@ -2,13 +2,13 @@
 
 namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns;
 
-use Illuminate\Foundation\Auth\User;
+use Database\Factories\UserFactory;
 
 trait RespondsToApiRequests
 {
     public function loginToApi()
     {
-        $user = factory(User::class)->create();
+        $user = UserFactory::new()->create();
 
         $this->actingAs($user, 'api');
     }

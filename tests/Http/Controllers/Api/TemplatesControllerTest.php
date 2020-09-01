@@ -21,7 +21,7 @@ class TemplatesControllerTest extends TestCase
     /** @test */
     public function it_can_list_all_templates()
     {
-        $templates = factory(Template::class, 3)->create();
+        $templates = Template::factory(3)->create();
 
         $this
             ->getJson(action([TemplatesController::class, 'index']))
@@ -32,11 +32,11 @@ class TemplatesControllerTest extends TestCase
     /** @test */
     public function it_can_search_templates()
     {
-        factory(Template::class)->create([
+        Template::factory()->create([
             'name' => 'one',
         ]);
 
-        factory(Template::class)->create([
+        Template::factory()->create([
             'name' => 'two',
         ]);
 
@@ -50,7 +50,7 @@ class TemplatesControllerTest extends TestCase
     /** @test */
     public function the_api_can_show_a_template()
     {
-        $template = factory(Template::class)->create();
+        $template = Template::factory()->create();
 
         $this
             ->getJson(action([TemplatesController::class, 'show'], $template))
@@ -76,7 +76,7 @@ class TemplatesControllerTest extends TestCase
     /** @test */
     public function a_template_can_be_updated_using_the_api()
     {
-        $template = factory(Template::class)->create();
+        $template = Template::factory()->create();
 
         $attributes = [
             'name' => 'updated template name',
@@ -96,7 +96,7 @@ class TemplatesControllerTest extends TestCase
     /** @test */
     public function a_template_can_be_deleted_using_the_api()
     {
-        $template = factory(Template::class)->create();
+        $template = Template::factory()->create();
 
         $this
             ->deleteJson(action([TemplatesController::class, 'destroy'], $template))

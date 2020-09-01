@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\Models;
 
+use Database\Factories\CampaignSendFactory;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Mails\ConfirmSubscriberMail;
@@ -19,7 +20,7 @@ class SubscriberTest extends TestCase
     {
         parent::setUp();
 
-        $this->emailList = factory(EmailList::class)->create();
+        $this->emailList = EmailList::factory()->create();
 
         Mail::fake();
     }
@@ -88,7 +89,7 @@ class SubscriberTest extends TestCase
     /** @test */
     public function no_email_will_be_sent_when_adding_someone_that_was_already_subscribed()
     {
-        $subscriber = factory(Subscriber::class)->create();
+        $subscriber = Subscriber::factory()->create();
         $this->assertEquals(SubscriptionStatus::SUBSCRIBED, $subscriber->status);
         $subscriber->emailList->update(['requires_confirmation' => true]);
 
@@ -102,7 +103,7 @@ class SubscriberTest extends TestCase
     public function it_can_get_all_sends()
     {
         /** @var \Spatie\Mailcoach\Models\Send $send */
-        $send = factory(Send::class)->create();
+        $send = CampaignSendFactory::new()->create();
 
         /** @var \Spatie\Mailcoach\Models\Subscriber $subscriber */
         $subscriber = $send->subscriber;
@@ -118,7 +119,7 @@ class SubscriberTest extends TestCase
     public function it_can_get_all_opens()
     {
         /** @var \Spatie\Mailcoach\Models\Send $send */
-        $send = factory(Send::class)->create();
+        $send = CampaignSendFactory::new()->create();
         $send->campaign->update(['track_opens' => true]);
 
         $send->registerOpen();
@@ -137,7 +138,7 @@ class SubscriberTest extends TestCase
     public function it_can_get_all_clicks()
     {
         /** @var \Spatie\Mailcoach\Models\Send $send */
-        $send = factory(Send::class)->create();
+        $send = CampaignSendFactory::new()->create();
         $send->campaign->update(['track_clicks' => true]);
 
         $send->registerClick('https://example.com');

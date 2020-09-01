@@ -1,13 +1,22 @@
 <?php
 
-use Faker\Generator;
+namespace Database\Factories;
+
 use Spatie\Mailcoach\Models\CampaignClick;
 use Spatie\Mailcoach\Models\CampaignLink;
-use Spatie\Mailcoach\Models\Send;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Spatie\Mailcoach\Models\Subscriber;
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(CampaignClick::class, fn (Generator $faker) => [
-    'send_id' => factory(Send::class),
-    'campaign_link_id' => factory(CampaignLink::class),
-    'subscriber_id' => factory(config('mailcoach.models.subscriber')),
-]);
+class CampaignClickFactory extends Factory
+{
+    protected $model = CampaignClick::class;
+
+    public function definition()
+    {
+        return [
+            'send_id' => CampaignSendFactory::new(),
+            'campaign_link_id' => CampaignLink::factory(),
+            'subscriber_id' => Subscriber::factory(),
+        ];
+    }
+}

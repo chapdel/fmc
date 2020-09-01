@@ -14,7 +14,7 @@ class UnscheduleCampaignControllerTest extends TestCase
     {
         $this->authenticate();
 
-        $campaign = factory(Campaign::class)->create([
+        $campaign = Campaign::factory()->create([
             'scheduled_at' => now()->format('Y-m-d H:i:s'),
         ]);
 

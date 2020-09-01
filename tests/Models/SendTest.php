@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\Models;
 
+use Database\Factories\CampaignSendFactory;
 use Spatie\Mailcoach\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Models\Send;
@@ -14,7 +15,7 @@ class SendTest extends TestCase
     /** @test */
     public function it_can_be_found_by_its_transport_message_id()
     {
-        $send = factory(Send::class)->create([
+        $send = CampaignSendFactory::new()->create([
             'transport_message_id' => '1234',
         ]);
 
@@ -25,16 +26,16 @@ class SendTest extends TestCase
     public function it_will_unsubscribe_when_there_is_a_permanent_bounce()
     {
         /** @var \Spatie\Mailcoach\Models\Subscriber $subscriber */
-        $subscriber = factory(Subscriber::class)->create();
+        $subscriber = Subscriber::factory()->create();
 
         /** @var \Spatie\Mailcoach\Models\EmailList $emailList */
         $emailList = $subscriber->emailList;
 
-        $campaign = factory(Campaign::class)->create([
+        $campaign = Campaign::factory()->create([
             'email_list_id' => $emailList->id,
         ]);
 
-        $send = factory(Send::class)->create([
+        $send = CampaignSendFactory::new()->create([
             'campaign_id' => $campaign->id,
             'subscriber_id' => $subscriber->id,
         ]);
@@ -55,16 +56,16 @@ class SendTest extends TestCase
     public function it_can_receive_a_complaint()
     {
         /** @var \Spatie\Mailcoach\Models\Subscriber $subscriber */
-        $subscriber = factory(Subscriber::class)->create();
+        $subscriber = Subscriber::factory()->create();
 
         /** @var \Spatie\Mailcoach\Models\EmailList $emailList */
         $emailList = $subscriber->emailList;
 
-        $campaign = factory(Campaign::class)->create([
+        $campaign = Campaign::factory()->create([
             'email_list_id' => $emailList->id,
         ]);
 
-        $send = factory(Send::class)->create([
+        $send = CampaignSendFactory::new()->create([
             'campaign_id' => $campaign->id,
             'subscriber_id' => $subscriber->id,
         ]);
@@ -87,7 +88,7 @@ class SendTest extends TestCase
         TestTime::freeze();
 
         /** @var \Spatie\Mailcoach\Models\Send $send */
-        $send = factory(Send::class)->create();
+        $send = CampaignSendFactory::new()->create();
         $send->campaign->update(['track_opens' => true]);
 
         $send->registerOpen();
@@ -106,7 +107,7 @@ class SendTest extends TestCase
     public function it_will_register_an_open_at_a_specific_time()
     {
         /** @var \Spatie\Mailcoach\Models\Send $send */
-        $send = factory(Send::class)->create();
+        $send = CampaignSendFactory::new()->create();
         $send->campaign->update(['track_opens' => true]);
 
         $openedAt = now()->subHour()->setMicroseconds(0);
@@ -120,7 +121,7 @@ class SendTest extends TestCase
     public function it_will_not_register_a_click_of_an_unsubscribe_link()
     {
         /** @var \Spatie\Mailcoach\Models\Send $send */
-        $send = factory(Send::class)->create();
+        $send = CampaignSendFactory::new()->create();
         $send->campaign->update(['track_clicks' => true]);
 
         $unsubscribeUrl = $send->subscriber->unsubscribeUrl($send);
@@ -134,7 +135,7 @@ class SendTest extends TestCase
     public function it_can_register_a_click_at_a_given_time()
     {
         /** @var \Spatie\Mailcoach\Models\Send $send */
-        $send = factory(Send::class)->create();
+        $send = CampaignSendFactory::new()->create();
         $send->campaign->update(['track_clicks' => true]);
 
         $clickedAt = now()->subDay()->setMilliseconds(0);
@@ -148,28 +149,28 @@ class SendTest extends TestCase
     public function registering_clicks_will_update_the_click_count()
     {
         /** @var \Spatie\Mailcoach\Models\Subscriber $subscriber */
-        $subscriber = factory(Subscriber::class)->create();
+        $subscriber = Subscriber::factory()->create();
 
         /** @var \Spatie\Mailcoach\Models\EmailList $emailList */
         $emailList = $subscriber->emailList;
 
         /** @var \Spatie\Mailcoach\Models\Subscriber $anotherSubscriber */
-        $anotherSubscriber = factory(Subscriber::class)->create(['email_list_id' => $emailList->id]);
+        $anotherSubscriber = Subscriber::factory()->create(['email_list_id' => $emailList->id]);
 
         /** @var \Spatie\Mailcoach\Models\Campaign $campaign */
-        $campaign = factory(Campaign::class)->create([
+        $campaign = Campaign::factory()->create([
             'email_list_id' => $emailList->id,
             'track_clicks' => true,
         ]);
 
         /** @var \Spatie\Mailcoach\Models\Send $send */
-        $send = factory(Send::class)->create([
+        $send = CampaignSendFactory::new()->create([
             'campaign_id' => $campaign->id,
             'subscriber_id' => $subscriber->id,
         ]);
 
         /** @var \Spatie\Mailcoach\Models\Send $anotherSend */
-        $anotherSend = factory(Send::class)->create([
+        $anotherSend = CampaignSendFactory::new()->create([
             'campaign_id' => $campaign->id,
             'subscriber_id' => $anotherSubscriber->id,
         ]);

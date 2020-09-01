@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Mailcoach\Enums\SubscriberImportStatus;
@@ -13,7 +14,7 @@ use Spatie\ModelCleanup\GetsCleanedUp;
 
 class SubscriberImport extends Model implements HasMedia, GetsCleanedUp
 {
-    use InteractsWithMedia, HasUuid;
+    use InteractsWithMedia, HasUuid, HasFactory;
 
     public $table = 'mailcoach_subscriber_imports';
 

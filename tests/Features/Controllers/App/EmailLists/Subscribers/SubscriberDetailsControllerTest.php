@@ -19,7 +19,7 @@ class SubscriberDetailsControllerTest extends TestCase
 
         $this->authenticate();
 
-        $this->subscriber = factory(Subscriber::class)->create();
+        $this->subscriber = Subscriber::factory()->create();
     }
 
     public function tearDown(): void

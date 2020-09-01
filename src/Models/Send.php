@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Models;
 
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -17,7 +18,7 @@ use Spatie\Mailcoach\Models\Concerns\HasUuid;
 
 class Send extends Model
 {
-    use HasUuid;
+    use HasUuid, HasFactory;
 
     public $table = 'mailcoach_sends';
 

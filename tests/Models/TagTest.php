@@ -21,13 +21,13 @@ class TagTest extends TestCase
     {
         parent::setUp();
 
-        $this->subscriber = factory(Subscriber::class)->create();
+        $this->subscriber = Subscriber::factory()->create();
 
-        $this->anotherSubscriber = factory(Subscriber::class)->create();
+        $this->anotherSubscriber = Subscriber::factory()->create();
         $this->anotherSubscriber->email_list_id = $this->subscriber->email_list_id;
         $this->anotherSubscriber->save();
 
-        $this->subscriberOfAnotherEmailList = factory(Subscriber::class)->create();
+        $this->subscriberOfAnotherEmailList = Subscriber::factory()->create();
     }
 
     /** @test */

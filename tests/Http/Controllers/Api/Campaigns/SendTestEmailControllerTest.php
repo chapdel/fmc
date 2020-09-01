@@ -25,7 +25,7 @@ class SendTestEmailControllerTest extends TestCase
 
         $this->loginToApi();
 
-        $this->campaign = factory(Campaign::class)->create([
+        $this->campaign = Campaign::factory()->create([
             'status' => CampaignStatus::DRAFT,
         ]);
     }
@@ -33,7 +33,7 @@ class SendTestEmailControllerTest extends TestCase
     /** @test */
     public function a_test_email_can_be_sent_using_the_api()
     {
-        $campaign = factory(Campaign::class)->create();
+        $campaign = Campaign::factory()->create();
 
         $this
             ->postJson(action(SendTestEmailController::class, $campaign), ['email' => 'test@example.com'])
@@ -49,7 +49,7 @@ class SendTestEmailControllerTest extends TestCase
     /** @test */
     public function multiple_test_emails_can_be_sent_using_the_api()
     {
-        $campaign = factory(Campaign::class)->create();
+        $campaign = Campaign::factory()->create();
 
         $this
             ->postJson(action(SendTestEmailController::class, $campaign), ['email' => 'test@example.com,test2@example.com,test3@example.com'])

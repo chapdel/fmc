@@ -25,7 +25,7 @@ class CreateSubscriberControllerTest extends TestCase
 
         $this->loginToApi();
 
-        $this->emailList = factory(EmailList::class)->create([
+        $this->emailList = EmailList::factory()->create([
             'requires_confirmation' => true,
         ]);
 

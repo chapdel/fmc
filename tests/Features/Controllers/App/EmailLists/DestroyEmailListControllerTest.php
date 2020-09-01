@@ -14,7 +14,7 @@ class DestroyEmailListControllerTest extends TestCase
     {
         $this->authenticate();
 
-        $emailList = factory(EmailList::class)->create();
+        $emailList = EmailList::factory()->create();
 
         $this
             ->delete(action(DestroyEmailListController::class, $emailList->id))

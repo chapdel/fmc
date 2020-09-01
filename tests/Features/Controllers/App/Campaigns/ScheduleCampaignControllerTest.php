@@ -20,7 +20,7 @@ class ScheduleCampaignControllerTest extends TestCase
 
         $this->authenticate();
 
-        $this->campaign = factory(Campaign::class)->create([
+        $this->campaign = Campaign::factory()->create([
             'status' => CampaignStatus::DRAFT,
         ]);
 

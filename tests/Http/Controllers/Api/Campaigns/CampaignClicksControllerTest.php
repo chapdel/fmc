@@ -19,7 +19,7 @@ class CampaignClicksControllerTest extends TestCase
 
         $this->loginToApi();
 
-        $this->campaignClick = factory(CampaignClick::class)->create();
+        $this->campaignClick = CampaignClick::factory()->create();
     }
 
     /** @test */

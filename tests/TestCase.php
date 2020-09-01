@@ -7,6 +7,7 @@ use CreateMailcoachTables;
 use CreateMediaTable;
 use CreateUsersTable;
 use CreateWebhookCallsTable;
+use Database\Factories\UserFactory;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
@@ -26,8 +27,6 @@ abstract class TestCase extends Orchestra
     public function setUp(): void
     {
         parent::setUp();
-
-        $this->withFactories(__DIR__.'/../database/factories');
 
         Route::mailcoach('mailcoach');
 
@@ -85,7 +84,7 @@ abstract class TestCase extends Orchestra
 
     public function authenticate(string $guard = null)
     {
-        $user = factory(User::class)->create();
+        $user = UserFactory::new()->create();
 
         $this->actingAs($user, $guard);
     }

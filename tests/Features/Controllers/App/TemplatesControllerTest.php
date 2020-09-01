@@ -33,7 +33,7 @@ class TemplatesControllerTest extends TestCase
     /** @test */
     public function it_can_update_a_template()
     {
-        $template = factory(Template::class)->create();
+        $template = Template::factory()->create();
 
         $attributes = [
             'name' => 'template name',
@@ -52,7 +52,7 @@ class TemplatesControllerTest extends TestCase
     /** @test */
     public function it_can_delete_a_template()
     {
-        $template = factory(Template::class)->create();
+        $template = Template::factory()->create();
 
         $this
             ->delete(action([TemplatesController::class, 'destroy'], $template))
@@ -64,7 +64,7 @@ class TemplatesControllerTest extends TestCase
     /** @test */
     public function it_can_duplicate_a_template()
     {
-        $template = factory(Template::class)->create();
+        $template = Template::factory()->create();
 
         $this
             ->post(action([TemplatesController::class, 'duplicate'], $template))

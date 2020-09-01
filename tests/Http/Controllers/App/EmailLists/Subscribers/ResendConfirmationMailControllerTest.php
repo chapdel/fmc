@@ -16,7 +16,7 @@ class ResendConfirmationMailControllerTest extends TestCase
         $this->authenticate();
         Mail::fake();
 
-        $emailList = factory(EmailList::class)->create([
+        $emailList = EmailList::factory()->create([
             'requires_confirmation' => true,
             'transactional_mailer' => 'some-mailer',
         ]);

@@ -16,7 +16,7 @@ class CampaignReplacerTest extends TestCase
     public function campaignname_should_replaced_in_subject()
     {
         /** @var \Spatie\Mailcoach\Models\Campaign */
-        $campaign = factory(Campaign::class)->create([
+        $campaign = Campaign::factory()->create([
             'subject' => '::campaign.name::',
         ]);
 
@@ -32,7 +32,7 @@ class CampaignReplacerTest extends TestCase
         $campaignName = 'test1234';
 
         /** @var \Spatie\Mailcoach\Models\Campaign */
-        $campaign = factory(Campaign::class)->create([
+        $campaign = Campaign::factory()->create([
             'name' => $campaignName,
             'html' => '::campaign.name::',
         ]);

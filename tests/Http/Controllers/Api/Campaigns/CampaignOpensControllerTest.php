@@ -19,7 +19,7 @@ class CampaignOpensControllerTest extends TestCase
 
         $this->loginToApi();
 
-        $this->campaignOpen = factory(CampaignOpen::class)->create();
+        $this->campaignOpen = CampaignOpen::factory()->create();
     }
 
     /** @test */

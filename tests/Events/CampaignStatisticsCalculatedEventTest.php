@@ -15,7 +15,7 @@ class CampaignStatisticsCalculatedEventTest extends TestCase
     {
         Event::fake(CampaignStatisticsCalculatedEvent::class);
 
-        $campaign = factory(Campaign::class)->create();
+        $campaign = Campaign::factory()->create();
 
         dispatch(new CalculateStatisticsJob($campaign));
 

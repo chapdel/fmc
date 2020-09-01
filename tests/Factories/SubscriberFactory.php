@@ -18,7 +18,7 @@ class SubscriberFactory
 
     public function __construct()
     {
-        $this->emailList = factory(EmailList::class)->create(['requires_confirmation' => false]);
+        $this->emailList = EmailList::factory()->create(['requires_confirmation' => false]);
     }
 
     public function unconfirmed(): self

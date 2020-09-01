@@ -24,7 +24,7 @@ class CreateCampaignControllerTest extends TestCase
     {
         $attributes = [
             'name' => 'name',
-            'email_list_id' => factory(EmailList::class)->create()->id,
+            'email_list_id' => EmailList::factory()->create()->id,
             'html' => 'html',
             'track_opens' => true,
             'track_clicks' => false,

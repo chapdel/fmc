@@ -21,7 +21,7 @@ class CampaignsIndexControllerTest extends TestCase
     /** @test */
     public function it_can_list_campaign()
     {
-        $templates = factory(Campaign::class, 3)->create();
+        $templates = Campaign::factory(3)->create();
 
         $this
             ->getJson(action([CampaignsController::class, 'index']))
@@ -32,11 +32,11 @@ class CampaignsIndexControllerTest extends TestCase
     /** @test */
     public function it_can_search_campaigns()
     {
-        factory(Campaign::class)->create([
+        Campaign::factory()->create([
             'name' => 'one',
         ]);
 
-        factory(Campaign::class)->create([
+        Campaign::factory()->create([
             'name' => 'two',
         ]);
 

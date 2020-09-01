@@ -13,7 +13,7 @@ class DestroySubscriberControllerTest extends TestCase
     {
         $this->authenticate();
 
-        $subscriber = factory(Subscriber::class)->create();
+        $subscriber = Subscriber::factory()->create();
 
         $this
             ->delete(action(DestroySubscriberController::class, [$subscriber->emailList->id, $subscriber->id]))

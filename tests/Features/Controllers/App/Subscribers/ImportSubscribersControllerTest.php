@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\Feature\Controllers\App\Subscribers;
 
+use Database\Factories\UserFactory;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
@@ -24,9 +25,9 @@ class ImportSubscribersControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->emailList = factory(EmailList::class)->create();
+        $this->emailList = EmailList::factory()->create();
 
-        $this->user = factory(User::class)->create();
+        $this->user = UserFactory::new()->create();
         $this->actingAs($this->user);
 
         Mail::fake();

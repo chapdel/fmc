@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -21,7 +22,8 @@ class Subscriber extends Model
 {
     use HasUuid,
         HasExtraAttributes,
-        UsesMailcoachModels;
+        UsesMailcoachModels,
+        HasFactory;
 
     public $table = 'mailcoach_subscribers';
 

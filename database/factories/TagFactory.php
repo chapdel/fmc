@@ -1,9 +1,19 @@
 <?php
 
+namespace Database\Factories;
+
 use Faker\Generator;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Spatie\Mailcoach\Models\Tag;
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(Tag::class, fn (Generator $faker) => [
-    'name' => $faker->word,
-]);
+class TagFactory extends Factory
+{
+    protected $model = Tag::class;
+
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->word,
+        ];
+    }
+}

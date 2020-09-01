@@ -20,7 +20,7 @@ class CalculateStatisticsJobTest extends TestCase
     /** @test */
     public function a_campaign_with_no_subscribers_will_get_all_zeroes()
     {
-        $campaign = factory(Campaign::class)->create();
+        $campaign = Campaign::factory()->create();
 
         dispatch(new CalculateStatisticsJob($campaign));
 
@@ -41,7 +41,7 @@ class CalculateStatisticsJobTest extends TestCase
     {
         TestTime::freeze();
 
-        $campaign = factory(Campaign::class)->create();
+        $campaign = Campaign::factory()->create();
         $this->assertNull($campaign->statistics_calculated_at);
 
         dispatch(new CalculateStatisticsJob($campaign));
@@ -177,7 +177,7 @@ class CalculateStatisticsJobTest extends TestCase
         Queue::fake();
         config()->set('mailcoach.perform_on_queue.calculate_statistics_job', 'custom-queue');
 
-        $campaign = factory(Campaign::class)->create();
+        $campaign = Campaign::factory()->create();
         dispatch(new CalculateStatisticsJob($campaign));
         Queue::assertPushed(CalculateStatisticsJob::class);
     }

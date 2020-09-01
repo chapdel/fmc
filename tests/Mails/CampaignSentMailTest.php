@@ -20,9 +20,9 @@ class CampaignSentMailTest extends TestCase
     {
         parent::setUp();
 
-        $this->emailList = factory(EmailList::class)->create();
+        $this->emailList = EmailList::factory()->create();
 
-        $this->campaign = factory(Campaign::class)->create([
+        $this->campaign = Campaign::factory()->create([
             'email_list_id' => $this->emailList->id,
         ]);
     }

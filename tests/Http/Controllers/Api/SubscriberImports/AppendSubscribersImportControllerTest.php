@@ -23,7 +23,7 @@ class AppendSubscribersImportControllerTest extends TestCase
     {
         $initialSubscribersCsv = 'email' . PHP_EOL . 'john@example.com';
 
-        $subscriberImport = factory(SubscriberImport::class)->create([
+        $subscriberImport = SubscriberImport::factory()->create([
            'subscribers_csv' => $initialSubscribersCsv,
         ]);
 

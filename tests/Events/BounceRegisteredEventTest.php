@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\Events;
 
+use Database\Factories\CampaignSendFactory;
 use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Events\BounceRegisteredEvent;
 use Spatie\Mailcoach\Models\Send;
@@ -15,7 +16,7 @@ class BounceRegisteredEventTest extends TestCase
         Event::fake();
 
         /** @var Send $send */
-        $send = factory(Send::class)->create();
+        $send = CampaignSendFactory::new()->create();
 
         $send->registerBounce();
 

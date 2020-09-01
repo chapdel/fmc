@@ -26,11 +26,11 @@ class UpdateSubscriberActionTest extends TestCase
     {
         parent::setUp();
 
-        $this->subscriber = factory(Subscriber::class)->create();
+        $this->subscriber = Subscriber::factory()->create();
 
-        $this->emailList = factory(EmailList::class)->create();
+        $this->emailList = EmailList::factory()->create();
 
-        $this->anotherEmailList = factory(EmailList::class)->create();
+        $this->anotherEmailList = EmailList::factory()->create();
 
         $this->newAttributes = [
             'email' => 'john@example.com',

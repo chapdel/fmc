@@ -17,7 +17,7 @@ class CampaignWebviewControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->campaign = factory(Campaign::class)->create([
+        $this->campaign = Campaign::factory()->create([
             'webview_html' => 'my webview html',
         ]);
 

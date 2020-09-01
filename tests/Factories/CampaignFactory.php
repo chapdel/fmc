@@ -35,7 +35,7 @@ class CampaignFactory
                 'requires_confirmation' => false,
             ]);
 
-        $campaign = factory(Campaign::class)
+        $campaign = Campaign::factory()
             ->create($attributes)
             ->useMailable($this->mailable)
             ->to($emailList);
@@ -45,7 +45,7 @@ class CampaignFactory
 
     public static function createSentAt(string $dateTime): Campaign
     {
-        return factory(Campaign::class)->create([
+        return Campaign::factory()->create([
             'sent_at' => Carbon::createFromFormat('Y-m-d H:i:s', $dateTime),
         ]);
     }

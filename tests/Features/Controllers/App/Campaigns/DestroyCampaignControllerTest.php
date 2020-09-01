@@ -13,7 +13,7 @@ class DestroyCampaignControllerTest extends TestCase
     {
         $this->authenticate();
 
-        $campaign = factory(Campaign::class)->create();
+        $campaign = Campaign::factory()->create();
 
         $this
             ->delete(action(DestroyCampaignController::class, $campaign->id))

@@ -13,7 +13,7 @@ class CampaignHtmlControllerTest extends TestCase
     {
         $this->authenticate();
 
-        $campaign = factory(Campaign::class)->create();
+        $campaign = Campaign::factory()->create();
 
         $attributes = [
             'html' => 'updated_html',

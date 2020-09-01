@@ -22,7 +22,7 @@ class CampaignSettingsControllerTest extends TestCase
         $attributes = [
             'name' => 'updated name',
             'subject' => 'my subject',
-            'email_list_id' => factory(EmailList::class)->create()->id,
+            'email_list_id' => EmailList::factory()->create()->id,
             'track_opens' => true,
             'track_clicks' => true,
             'segment' => 'entire_list',
