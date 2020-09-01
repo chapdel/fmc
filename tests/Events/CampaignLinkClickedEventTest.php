@@ -6,7 +6,6 @@ use Database\Factories\CampaignSendFactory;
 use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Events\CampaignLinkClickedEvent;
 use Spatie\Mailcoach\Models\CampaignLink;
-use Spatie\Mailcoach\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class CampaignLinkClickedEventTest extends TestCase

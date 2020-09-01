@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Jobs\SendMailJob;
 use Spatie\Mailcoach\Mails\CampaignMail;
-use Spatie\Mailcoach\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMail;
 

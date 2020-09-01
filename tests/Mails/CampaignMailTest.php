@@ -5,7 +5,6 @@ namespace Spatie\Mailcoach\Tests\Mails;
 use Database\Factories\CampaignSendFactory;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Mails\CampaignMail;
-use Spatie\Mailcoach\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 

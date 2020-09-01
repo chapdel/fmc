@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Spatie\Mailcoach\Models\CampaignClick;
 use Spatie\Mailcoach\Models\CampaignLink;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Spatie\Mailcoach\Models\Subscriber;
 
 class CampaignClickFactory extends Factory

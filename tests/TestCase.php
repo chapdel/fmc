@@ -8,7 +8,6 @@ use CreateMediaTable;
 use CreateUsersTable;
 use CreateWebhookCallsTable;
 use Database\Factories\UserFactory;
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redis;

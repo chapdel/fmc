@@ -2,11 +2,9 @@
 
 namespace Database\Factories;
 
-use Faker\Generator;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Models\CampaignOpen;
-use Spatie\Mailcoach\Models\Send;
 use Spatie\Mailcoach\Models\Subscriber;
 
 class CampaignOpenFactory extends Factory

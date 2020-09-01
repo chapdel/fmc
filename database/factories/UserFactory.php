@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use Illuminate\Foundation\Auth\User;
 use \Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Foundation\Auth\User;
 
 class UserFactory extends Factory
 {

@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Tests\Features;
 
 use Database\Factories\UserFactory;
-use Illuminate\Foundation\Auth\User;
 use Spatie\Mailcoach\Enums\CampaignStatus;
 use Spatie\Mailcoach\Exceptions\InvalidConfig;
 use Spatie\Mailcoach\Jobs\ImportSubscribersJob;

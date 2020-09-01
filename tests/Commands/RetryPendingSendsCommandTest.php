@@ -6,7 +6,6 @@ use Database\Factories\CampaignSendFactory;
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Commands\RetryPendingSendsCommand;
 use Spatie\Mailcoach\Jobs\SendMailJob;
-use Spatie\Mailcoach\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class RetryPendingSendsCommandTest extends TestCase

@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Tests\Feature\Controllers\App\Subscribers;
 
 use Database\Factories\UserFactory;
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Enums\SubscriptionStatus;
