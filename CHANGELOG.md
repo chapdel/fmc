@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.23.9 - 2020-09-04
+
+- fix an issue where the original doctype was not being kept
+
 ## 2.23.8 - 2020-08-28
 
 - fix custom mailable campaign not set

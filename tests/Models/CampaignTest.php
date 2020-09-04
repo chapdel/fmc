@@ -434,20 +434,41 @@ class CampaignTest extends TestCase
     public function it_can_inline_the_styles_of_the_html()
     {
         /** @var Campaign $campaign */
-        $campaign = factory(Campaign::class)->create(['html' => '<<<HTML
-                    <html>
-                    <style>
+        $campaign = factory(Campaign::class)->create(['html' => '
+            <html>
+            <style>
 
-                        body {
-                            background-color: #e8eff6;
-                            }
-                    </style>
-                    <body>My body</body>
-                    </html>',
-
+                body {
+                    background-color: #e8eff6;
+                    }
+            </style>
+            <body>My body</body>
+            </html>',
         ]);
 
         $this->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->htmlWithInlinedCss());
+    }
+
+    /** @test */
+    public function it_doesnt_change_the_doctype()
+    {
+        /** @var Campaign $campaign */
+        $campaign = factory(Campaign::class)->create(['html' => '
+            <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+            <html>
+            <style>
+                body {
+                    background-color: #e8eff6;
+                }
+            </style>
+            <body>My body</body>
+            </html>',
+        ]);
+
+        $this->assertEquals(
+            '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">',
+            explode("\n", $campaign->htmlWithInlinedCss())[0]
+        );
     }
 
     /** @test */
