@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.23.10 - 2020-09-06
+
+- allow Guzzle 7
+
 ## 2.23.9 - 2020-09-04
 
 - fix an issue where the original doctype was not being kept
