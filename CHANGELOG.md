@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.23.12 - 2020-09-08
+
+- fix support for Laravel 8
+
 ## 2.23.11 - 2020-09-08
 
 - add support for Laravel 8
