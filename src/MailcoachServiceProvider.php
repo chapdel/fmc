@@ -7,6 +7,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
@@ -37,12 +38,6 @@ class MailcoachServiceProvider extends EventServiceProvider
 {
     use UsesMailcoachModels;
 
-    protected $listen = [
-        CampaignSentEvent::class => [
-            SendCampaignSentEmail::class,
-        ],
-    ];
-
     public function boot()
     {
         parent::boot();
@@ -55,7 +50,8 @@ class MailcoachServiceProvider extends EventServiceProvider
             ->bootRoutes()
             ->bootSupportMacros()
             ->bootTranslations()
-            ->bootViews();
+            ->bootViews()
+            ->registerEventListeners();
     }
 
     public function register()
@@ -248,6 +244,15 @@ class MailcoachServiceProvider extends EventServiceProvider
         Blade::component('mailcoach::app.components.counter', 'counter');
 
         Blade::component(ReplacerHelpTextsComponent::class, 'replacer-help-texts');
+
+        return $this;
+    }
+
+    protected function registerEventListeners(): self
+    {
+        Event::listen(CampaignSentEvent::class, function (CampaignSentEvent $event) {
+            (new SendCampaignSentEmail())->handle($event);
+        });
 
         return $this;
     }
