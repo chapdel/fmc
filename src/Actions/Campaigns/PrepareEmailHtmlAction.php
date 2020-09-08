@@ -41,8 +41,13 @@ class PrepareEmailHtmlAction
 
     protected function ensureEmailHtmlHasSingleRootElement($campaign)
     {
+        $doctTypeRegex = '~<(?:!DOCTYPE|/?(?:html))[^>]*>\s*~i';
+
+        preg_match($doctTypeRegex, $campaign->html, $matches);
+        $originalDoctype = $matches[0] ?? null;
+
         $campaign->html = trim(
-            preg_replace('~<(?:!DOCTYPE|/?(?:html))[^>]*>\s*~i', '', $campaign->html)
+            preg_replace($doctTypeRegex, '', $campaign->html)
         );
 
         if (! Str::startsWith(trim($campaign->html), '<html')) {
@@ -52,6 +57,8 @@ class PrepareEmailHtmlAction
         if (! Str::endsWith(trim($campaign->html), '</html>')) {
             $campaign->html = $campaign->html.'</html>';
         }
+
+        $campaign->html = $originalDoctype.$campaign->html;
     }
 
     protected function replacePlaceholders(Campaign $campaign): void

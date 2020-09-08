@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Feature\Controllers\App;
+namespace Spatie\Mailcoach\Tests\Features\Controllers\App;
 
 use Spatie\Mailcoach\Http\App\Controllers\TemplatesController;
 use Spatie\Mailcoach\Models\Template;

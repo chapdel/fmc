@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Feature\Controllers\App\Subscribers;
+namespace Spatie\Mailcoach\Tests\Features\Controllers\App\Subscribers;
 
 use Database\Factories\UserFactory;
 use Illuminate\Support\Facades\File;

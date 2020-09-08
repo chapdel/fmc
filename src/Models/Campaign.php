@@ -621,7 +621,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
 
     public function htmlWithInlinedCss(): string
     {
-        $html = $this->html;
+        $html = $this->getHtml();
 
         if ($this->hasCustomMailable()) {
             $html = $this->contentFromMailable();

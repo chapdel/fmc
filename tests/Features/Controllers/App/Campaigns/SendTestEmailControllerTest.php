@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Feature\Controllers\App\Campaigns;
+namespace Spatie\Mailcoach\Tests\Features\Controllers\App\Campaigns;
 
 use Illuminate\Support\Facades\Bus;
 use Spatie\Mailcoach\Enums\CampaignStatus;

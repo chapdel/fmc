@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Feature\Controllers\App\Campaigns;
+namespace Spatie\Mailcoach\Tests\Features\Controllers\App\Campaigns;
 
 use Illuminate\Support\Arr;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignSettingsController;

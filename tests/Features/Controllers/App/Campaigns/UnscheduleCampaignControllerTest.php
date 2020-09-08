@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Feature\Controllers\App\Campaigns;
+namespace Spatie\Mailcoach\Tests\Features\Controllers\App\Campaigns;
 
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignDeliveryController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\UnscheduleCampaignController;
