@@ -22,6 +22,8 @@ class UpdateEmailListSettingsRequest extends FormRequest
             'name' => 'required',
             'default_from_email' => 'required|email:rfc',
             'default_from_name' => '',
+            'default_replyto_email' => 'required|email:rfc',
+            'default_replyto_name' => '',
             'campaign_mailer' => [Rule::in(array_keys(config('mail.mailers')))],
             'transactional_mailer' => [Rule::in(array_keys(config('mail.mailers')))],
             'campaigns_feed_enabled' => 'boolean',

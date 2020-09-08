@@ -18,6 +18,9 @@ class EmailListResource extends JsonResource
             'default_from_email' => $this->default_from_email,
             'default_from_name' => $this->default_from_name,
 
+            'default_replyto_email' => $this->default_replyto_email,
+            'default_replyto_name' => $this->default_replyto_name,
+
             'allow_form_subscriptions' => (bool)$this->allow_form_subscriptions,
 
             'redirect_after_subscribed' => $this->redirect_after_subscribed,

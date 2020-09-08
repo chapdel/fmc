@@ -35,6 +35,10 @@ class ConfirmSubscriberMail extends Mailable implements ShouldQueue
                 $this->subscriber->emailList->default_from_email,
                 $this->subscriber->emailList->default_from_name
             )
+            ->replyTo(
+                $this->subscriber->emailList->default_replyto_email,
+                $this->subscriber->emailList->default_replyto_name
+            )
             ->determineSubject()
             ->determineContent();
     }
