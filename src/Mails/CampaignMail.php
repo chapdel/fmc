@@ -69,8 +69,8 @@ class CampaignMail extends Mailable
                 $this->campaign->from_name ?? $this->campaign->emailList->default_from_name ?? null
             )
             ->replyTo(
-                $this->campaign->from_email ?? $this->campaign->emailList->default_replyto_email,
-                $this->campaign->from_name ?? $this->campaign->emailList->default_replyto_name ?? null
+                $this->campaign->from_email ?? $this->campaign->emailList->default_reply_to_email,
+                $this->campaign->from_name ?? $this->campaign->emailList->default_reply_to_name ?? null
             )
             ->subject($this->subject)
             ->view('mailcoach::mails.campaignHtml')

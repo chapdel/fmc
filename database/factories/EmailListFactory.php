@@ -16,8 +16,8 @@ class EmailListFactory extends Factory
             'uuid' => $this->faker->uuid,
             'default_from_email' => $this->faker->email,
             'default_from_name' => $this->faker->name,
-            'default_replyto_email' => $this->faker->email,
-            'default_replyto_name' => $this->faker->name,
+            'default_reply_to_email' => $this->faker->email,
+            'default_reply_to_name' => $this->faker->name,
             'campaign_mailer' => config('mail.default') ?? 'array',
             'transactional_mailer' => config('mail.default') ?? 'array',
         ];

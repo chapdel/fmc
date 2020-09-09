@@ -93,7 +93,7 @@
                 </dt>
 
                 <dd>
-                    {{ $campaign->emailList->default_replyto_email }} {{ $campaign->emailList->default_replyto_name ? "({$campaign->emailList->default_replyto_name})" : '' }}
+                    {{ $campaign->emailList->default_reply_to_email }} {{ $campaign->emailList->default_reply_to_name ? "({$campaign->emailList->default_reply_to_name})" : '' }}
                 </dd>
             @endif
 
