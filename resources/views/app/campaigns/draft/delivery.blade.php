@@ -79,7 +79,7 @@
         >
             @if ($campaign->emailList)
                 <dt>
-                    <i class="mr-2 text-green-500 fas fa-check"></i>
+                    <i class="fas fa-check text-green-500 mr-2"></i>
                     {{ __('From') }}:
                 </dt>
 
@@ -88,7 +88,7 @@
                 </dd>
 
                 <dt>
-                    <i class="mr-2 text-green-500 fas fa-check"></i>
+                    <i class="fas fa-check text-green-500 mr-2k"></i>
                     {{ __('Reply-to') }}:
                 </dt>
 
@@ -99,9 +99,9 @@
 
             <dt>
                 @if($campaign->segmentSubscriberCount())
-                    <i class="mr-2 text-green-500 fas fa-check"></i>
+                    <i class="fas fa-check text-green-500 mr-2"></i>
                 @else
-                    <i class="mr-2 text-red-500 fas fa-times"></i>
+                    <i class="fas fa-times text-red-500 mr-2"></i>
                 @endif
                 {{ __('To') }}:
             </dt>
@@ -112,7 +112,7 @@
                     @if($campaign->usesSegment())
                         ({{ $campaign->getSegment()->description() }})
                     @endif
-                    <span class="text-xs counter">
+                    <span class="counter text-xs">
                         {{ $campaign->segmentSubscriberCount() }}
                         <span class="ml-1 font-normal">
                             {{ trans_choice(__('subscriber|subscribers'), $campaign->segmentSubscriberCount()) }}
@@ -131,9 +131,9 @@
 
             <dt>
                 @if($campaign->subject)
-                    <i class="mr-2 text-green-500 fas fa-check"></i>
+                    <i class="fas fa-check text-green-500 mr-2"></i>
                 @else
-                    <i class="mr-2 text-red-500 fas fa-times"></i>
+                    <i class="fas fa-times text-red-500 mr-2"></i>
                 @endif
                 {{ __('Subject') }}:
             </dt>
@@ -157,12 +157,12 @@
             <dt>
                 @if($campaign->html && $campaign->hasValidHtml())
                     @if (! $campaign->htmlContainsUnsubscribeUrlPlaceHolder())
-                        <i class="mr-2 text-orange-500 fas fa-exclamation-triangle"></i>
+                        <i class="fas fa-exclamation-triangle text-orange-500 mr-2"></i>
                     @else
-                        <i class="mr-2 text-green-500 fas fa-check"></i>
+                        <i class="fas fa-check text-green-500 mr-2"></i>
                     @endif
                 @else
-                    <i class="mr-2 text-red-500 fas fa-times"></i>
+                    <i class="fas fa-times text-red-500 mr-2"></i>
                 @endif
                 {{ __('Content') }}:
             </dt>
@@ -192,7 +192,7 @@
                 </dd>
             @endif
 
-            <dd class="col-start-2 gap-4 pb-4 mb-2 border-b-2 border-gray-100 buttons">
+            <dd class="col-start-2 pb-4 mb-2 border-b-2 border-gray-100 buttons gap-4">
                 <a href="{{ route('mailcoach.campaigns.content', $campaign) }}"
                    class="link-icon">
                     <x-icon-label icon="fa-pencil-alt" :text="__('Edit')"/>
@@ -212,9 +212,9 @@
             @if ($campaign->isReady())
                 <dt>
                     @if($campaign->scheduled_at)
-                        <i class="mr-2 text-orange-500 fas fa-clock"></i>
+                        <i class="fas fa-clock text-orange-500 mr-2"></i>
                     @else
-                        <i class="mr-2 fas fa-clock"></i>
+                        <i class="fas fa-clock mr-2"></i>
                     @endif
                     {{ __('Timing') }}
                 </dt>
@@ -257,10 +257,10 @@
                                 data-conditional-schedule="future"
                             >
                                 @csrf
-                                <div class="flex items-end mt-6">
+                                <div class="mt-6 flex items-end">
                                     <x-date-time-field :name="'scheduled_at'" :value="$campaign->scheduled_at" required />
 
-                                    <button type="submit" class="ml-6 bg-orange-500 button hover:bg-orange-600 focus:bg-orange-600">
+                                    <button type="submit" class="ml-6 button bg-orange-500 hover:bg-orange-600 focus:bg-orange-600">
                                         <x-icon-label icon="fa-clock" :text="__('Schedule delivery')"/>
                                     </button>
                                 </div>
@@ -290,7 +290,7 @@
                                 <div class="horse-button">
                                     <x-form-button
                                         :action="route('mailcoach.campaigns.send', $campaign)"
-                                        class="h-12 text-lg bg-red-500 shadow-2xl button"
+                                        class="button bg-red-500 shadow-2xl text-lg h-12"
                                     >
                                         @if ($campaign->segmentSubscriberCount() === 1)
                                             <x-icon-label icon="fa-paper-plane" :text="__('Send :subscribers email', ['subscribers' => number_format($campaign->segmentSubscriberCount())])"/>

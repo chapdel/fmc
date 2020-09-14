@@ -29,14 +29,14 @@
 
         <x-text-field :label="__('Reply-to name')" name="default_reply_to_name" :value="$emailList->default_reply_to_name"/>
 
-        <div class="max-w-full form-row">
+        <div class="form-row max-w-full">
             <label class="label">{{ __('Publish feed') }}</label>
             <x-checkbox-field :label="__('Make feed publicly available')" name="campaigns_feed_enabled"
                               :checked="$emailList->campaigns_feed_enabled"/>
-            <a class="ml-8 -mt-2 text-sm link" href="{{$emailList->feedUrl()}}">{{$emailList->feedUrl()}}</a>
+            <a class="text-sm link ml-8 -mt-2" href="{{$emailList->feedUrl()}}">{{$emailList->feedUrl()}}</a>
         </div>
 
-        <hr class="my-8 border-t-2 border-gray-200">
+        <hr class="border-t-2 border-gray-200 my-8">
 
 
         <h2 class="markup-h2">{{ __('Reports') }}</h2>
@@ -57,7 +57,7 @@
         <x-text-field :placeholder="__('Email(s) comma separated')" :label="__('To…')" name="report_recipients"
                       :value="$emailList->report_recipients"/>
 
-        <hr class="my-8 border-t-2 border-gray-200">
+        <hr class="border-t-2 border-gray-200 my-8">
 
         <h2 class="markup-h2">{{ __('Subscriptions') }}</h2>
 
@@ -65,7 +65,7 @@
             {!! __('Learn more about <a href=":link" class="link-dimmed" target="_blank">subscription settings and forms</a>.', ['link' => 'https://mailcoach.app/docs/v2/app/lists/settings#subscriptions']) !!}
         </x-help>
 
-        <div class="max-w-full form-row">
+        <div class="form-row max-w-full">
             <div class="checkbox-group">
                 <x-checkbox-field dataConditional="confirmation" :label="__('Require confirmation')"
                                   name="requires_confirmation"
@@ -74,11 +74,11 @@
                 <x-checkbox-field dataConditional="post" :label="__('Allow POST from an external form')"
                                   name="allow_form_subscriptions"
                                   :checked="$emailList->allow_form_subscriptions"/>
-                <code class="ml-8 -mt-1 text-xs markup-code">&lt;form action="{{$emailList->incomingFormSubscriptionsUrl()}}"&gt;</code>
+                <code class="markup-code text-xs ml-8 -mt-1">&lt;form action="{{$emailList->incomingFormSubscriptionsUrl()}}"&gt;</code>
             </div>
         </div>
 
-        <div data-conditional-post="true" class="max-w-xl pl-8">
+        <div data-conditional-post="true" class="pl-8 max-w-xl">
             <x-tags-field
                 :label="__('Optionally, allow following subscriber tags')"
                 name="allowed_form_subscription_tags"
@@ -88,7 +88,7 @@
         </div>
         <x-text-field :label="__('Optionally, allow following subscriber extra Attributes')" :placeholder="__('Attribute(s) comma separated: field1,field2')" name="allowed_form_extra_attributes" :value="$emailList->allowed_form_extra_attributes"/>
 
-        <hr class="my-8 border-t-2 border-gray-200">
+        <hr class="border-t-2 border-gray-200 my-8">
 
         <h2 class="markup-h2">{{ __('Landing pages') }}</h2>
 
@@ -108,7 +108,7 @@
         <x-text-field :label="__('Someone unsubscribed')" placeholder="https://" name="redirect_after_unsubscribed"
                       :value="$emailList->redirect_after_unsubscribed" type="text"/>
 
-        <hr class="my-8 border-t-2 border-gray-200">
+        <hr class="border-t-2 border-gray-200 my-8">
 
         <h2 class="markup-h2">{{ __('Welcome mail') }}</h2>
 
@@ -148,7 +148,7 @@
                 <x-text-field :label="__('Subject')" name="welcome_mail_subject"
                               :value="$emailList->welcome_mail_subject" type="text"/>
 
-                <div class="max-w-full form-row">
+                <div class="form-row max-w-full">
                     <label class="label label-required" for="html">{{ __('Body (HTML)') }}</label>
                     <textarea class="input input-html" rows="20" id="html"
                               name="welcome_mail_content">{{ old('welcome_mail_content', $emailList->welcome_mail_content) }}</textarea>
@@ -156,9 +156,9 @@
                     <p class="form-error">{{ $message }}</p>
                     @enderror
 
-                    <div class="mt-12 text-sm markup-code alert alert-info">
+                    <div class="mt-12 markup-code alert alert-info text-sm">
                         {{ __('You can use following placeholders in the subject and body of the welcome mail:') }}
-                        <ul class="grid gap-2 mt-2">
+                        <ul class="grid mt-2 gap-2">
                             <li><code class="mr-2">::unsubscribeUrl::</code>{{ __('The URL where users can unsubscribe') }}</li>
                             <li><code class="mr-2">::subscriber.first_name::</code>{{ __('The first name of the subscriber') }}</li>
                             <li><code class="mr-2">::subscriber.email::</code>{{ __('The email of the subscriber') }}</li>
@@ -174,7 +174,7 @@
         @endif
 
         <div class="form-grid" data-conditional-confirmation="true">
-            <hr class="my-8 border-t-2 border-gray-200">
+            <hr class="border-t-2 border-gray-200 my-8">
 
             <h2 class="markup-h2">{{ __('Confirmation mail') }}</h2>
 
@@ -200,7 +200,7 @@
                     <x-text-field :label="__('Subject')" name="confirmation_mail_subject"
                                   :value="$emailList->confirmation_mail_subject" type="text"/>
 
-                    <div class="max-w-full form-row">
+                    <div class="form-row max-w-full">
                         <label class="label label-required" for="html">{{ __('Body (HTML)') }}</label>
                         <textarea class="input input-html" rows="20" id="html"
                                   name="confirmation_mail_content">{{ old('confirmation_mail_content', $emailList->confirmation_mail_content) }}</textarea>
@@ -208,9 +208,9 @@
                         <p class="form-error">{{ $message }}</p>
                         @enderror
 
-                        <div class="mt-12 text-sm markup-code alert alert-info">
+                        <div class="mt-12 markup-code alert alert-info text-sm">
                             {{ __('You can use following placeholders in the subject and body of the confirmation mail:') }}
-                            <ul class="grid gap-2 mt-2">
+                            <ul class="grid mt-2 gap-2">
                                 <li><code class="mr-2">::confirmUrl::</code>{{ __('The URL where the subscription can be confirmed') }}</li>
                                 <li><code class="mr-2">::subscriber.first_name::</code>{{ __('The first name of the subscriber') }}</li>
                                 <li><code class="mr-2">::list.name::</code>{{ __('The name of this list') }}</li>
@@ -259,7 +259,7 @@
                 </div>
             </div>
 
-            <hr class="my-8 border-t-2 border-gray-200">
+            <hr class="border-t-2 border-gray-200 my-8">
         @endif
 
         <div class="form-buttons">
