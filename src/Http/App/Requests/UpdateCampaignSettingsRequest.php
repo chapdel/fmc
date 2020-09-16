@@ -18,7 +18,7 @@ class UpdateCampaignSettingsRequest extends FormRequest
         return [
             'name' => 'required',
             'subject' => '',
-            'email_list_id' => 'exists:mailcoach_email_lists,id',
+            'email_list_id' => Rule::exists($this->getEmailListTableName(), 'id'),
             'track_opens' => 'bool',
             'track_clicks' => 'bool',
             'segment' => [Rule::in(['entire_list', 'segment'])],
@@ -28,7 +28,7 @@ class UpdateCampaignSettingsRequest extends FormRequest
 
     public function getSegmentClass(): string
     {
-        /** @var \Spatie\Mailcoach\Models\\Concerns\Campaign $campaign */
+        /** @var \Spatie\Mailcoach\Models\Campaign $campaign */
         $campaign = $this->route()->parameter('campaign');
 
         if ($campaign->usingCustomSegment()) {
@@ -48,6 +48,6 @@ class UpdateCampaignSettingsRequest extends FormRequest
             return null;
         }
 
-        return $emailList = $this->getEmailListClass()::find($this->email_list_id);
+        return $this->getEmailListClass()::find($this->email_list_id);
     }
 }

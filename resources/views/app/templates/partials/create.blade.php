@@ -1,7 +1,7 @@
 <form class="form-grid" action="{{ route('mailcoach.templates.store') }}" method="POST">
     @csrf
 
-    <x-text-field :label="__('Name')" name="name" required />
+    <x-text-field :label="__('Name')" name="name" :placeholder="__('Newsletter template')" required />
 
     <div class="form-buttons">
         <button class="button">

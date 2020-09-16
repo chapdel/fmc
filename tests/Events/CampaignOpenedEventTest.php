@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\Events;
 
+use Database\Factories\CampaignSendFactory;
 use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Events\CampaignOpenedEvent;
 use Spatie\Mailcoach\Models\Send;
@@ -15,7 +16,7 @@ class CampaignOpenedEventTest extends TestCase
         Event::fake(CampaignOpenedEvent::class);
 
         /** @var Send $send */
-        $send = factory(Send::class)->create();
+        $send = CampaignSendFactory::new()->create();
 
         $send->campaign->update(['track_opens' => true]);
 
@@ -30,7 +31,7 @@ class CampaignOpenedEventTest extends TestCase
         Event::fake(CampaignOpenedEvent::class);
 
         /** @var Send $send */
-        $send = factory(Send::class)->create();
+        $send = CampaignSendFactory::new()->create();
 
         $send->campaign->update(['track_opens' => false]);
 

@@ -2,10 +2,10 @@
 
 namespace Spatie\Mailcoach\Tests\Events;
 
+use Database\Factories\CampaignSendFactory;
 use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Events\CampaignMailSentEvent;
 use Spatie\Mailcoach\Jobs\SendMailJob;
-use Spatie\Mailcoach\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class CampaignMailSentEventTest extends TestCase
@@ -15,7 +15,7 @@ class CampaignMailSentEventTest extends TestCase
     {
         Event::fake(CampaignMailSentEvent::class);
 
-        $send = factory(Send::class)->create();
+        $send = CampaignSendFactory::new()->create();
 
         dispatch(new SendMailJob($send));
 

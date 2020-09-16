@@ -21,7 +21,7 @@ class DateTimeFieldComponent extends Component
     public function hourOptions(): Collection
     {
         return collect(range(0, 23))->mapWithKeys(function (int $hour) {
-            return [$hour => str_pad($hour, 2, '0', STR_PAD_LEFT)];
+            return [$hour => str_pad((string)$hour, 2, '0', STR_PAD_LEFT)];
         });
     }
 

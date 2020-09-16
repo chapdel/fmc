@@ -15,7 +15,7 @@ class UnconfirmedSubscriberCreatedEventTest extends TestCase
         Event::fake(UnconfirmedSubscriberCreatedEvent::class);
 
         /** @var \Spatie\Mailcoach\Models\EmailList $emailList */
-        $emailList = factory(EmailList::class)->create([
+        $emailList = EmailList::factory()->create([
             'requires_confirmation' => true,
         ]);
 

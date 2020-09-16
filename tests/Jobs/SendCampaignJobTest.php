@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\Jobs;
 
+use Database\Factories\CampaignSendFactory;
 use Illuminate\Mail\MailManager;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
@@ -70,18 +71,18 @@ class SendCampaignJobTest extends TestCase
         Event::fake();
         Mail::fake();
 
-        $emailList = factory(EmailList::class)->create();
+        $emailList = EmailList::factory()->create();
 
-        $campaign = factory(Campaign::class)->create([
+        $campaign = Campaign::factory()->create([
             'email_list_id' => $emailList->id,
         ]);
 
-        $subscriber = factory(Subscriber::class)->create([
+        $subscriber = Subscriber::factory()->create([
             'email_list_id' => $emailList->id,
             'subscribed_at' => now(),
         ]);
 
-        factory(Send::class)->create([
+        CampaignSendFactory::new()->create([
             'subscriber_id' => $subscriber->id,
             'campaign_id' => $campaign->id,
         ]);
@@ -166,7 +167,7 @@ class SendCampaignJobTest extends TestCase
 
         config()->set('mailcoach.perform_on_queue.send_campaign_job', 'custom-queue');
 
-        $campaign = factory(Campaign::class)->create();
+        $campaign = Campaign::factory()->create();
         dispatch(new SendCampaignJob($campaign));
 
         Queue::assertPushedOn('custom-queue', SendCampaignJob::class);

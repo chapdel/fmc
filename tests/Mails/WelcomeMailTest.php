@@ -17,7 +17,7 @@ class WelcomeMailTest extends TestCase
     {
         parent::setUp();
 
-        $this->emailList = factory(EmailList::class)->create([
+        $this->emailList = EmailList::factory()->create([
             'name' => 'my newsletter',
             'requires_confirmation' => false,
             'send_welcome_mail' => true,

@@ -76,10 +76,10 @@ return [
         'retry_until_hours' => 24,
     ],
 
-      /*
-       * You can customize some of the behavior of this package by using our own custom action.
-       * Your custom action should always extend the one of the default ones.
-       */
+    /*
+     * You can customize some of the behavior of this package by using our own custom action.
+     * Your custom action should always extend the one of the default ones.
+     */
     'actions' => [
         /*
          * Actions concerning campaigns
@@ -120,14 +120,20 @@ return [
     'guard' => env('MAILCOACH_GUARD', null),
 
     /*
-     *  These middleware will be assigned to every Mailcoach UI route, giving you the chance
+     *  These middleware will be assigned to every Mailcoach routes, giving you the chance
      *  to add your own middleware to this stack or override any of the existing middleware.
      */
     'middleware' => [
-        'web',
-        Spatie\Mailcoach\Http\App\Middleware\Authenticate::class,
-        Spatie\Mailcoach\Http\App\Middleware\Authorize::class,
-        Spatie\Mailcoach\Http\App\Middleware\SetMailcoachDefaults::class,
+        'web' => [
+            'web',
+            Spatie\Mailcoach\Http\App\Middleware\Authenticate::class,
+            Spatie\Mailcoach\Http\App\Middleware\Authorize::class,
+            Spatie\Mailcoach\Http\App\Middleware\SetMailcoachDefaults::class,
+        ],
+        'api' => [
+            'api',
+            'auth:api',
+        ],
     ],
 
     /*
@@ -178,6 +184,5 @@ return [
          * so Laravel can recompile your views.
          */
         'use_blade_components' => true,
-
     ],
 ];

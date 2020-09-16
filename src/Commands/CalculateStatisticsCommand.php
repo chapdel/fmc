@@ -6,6 +6,7 @@ use Carbon\CarbonInterface;
 use Carbon\CarbonInterval;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Mailcoach\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Traits\UsesMailcoachModels;
@@ -22,6 +23,8 @@ class CalculateStatisticsCommand extends Command
 
     public function handle()
     {
+        Cache::put('mailcoach-last-schedule-run', now());
+
         $this->comment('Start calculating statistics...');
 
         $campaignId = $this->argument('campaignId');

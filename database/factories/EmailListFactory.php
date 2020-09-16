@@ -1,13 +1,23 @@
 <?php
 
-use Faker\Generator;
+namespace Database\Factories;
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(config('mailcoach.models.email_list'), fn (Generator $faker) => [
-    'name' => $faker->word,
-    'uuid' => $faker->uuid,
-    'default_from_email' => $faker->email,
-    'default_from_name' => $faker->name,
-    'campaign_mailer' => config('mail.default') ?? 'array',
-    'transactional_mailer' => config('mail.default') ?? 'array',
-]);
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Spatie\Mailcoach\Models\EmailList;
+
+class EmailListFactory extends Factory
+{
+    protected $model = EmailList::class;
+
+    public function definition()
+    {
+        return [
+            'name' => $this->faker->word,
+            'uuid' => $this->faker->uuid,
+            'default_from_email' => $this->faker->email,
+            'default_from_name' => $this->faker->name,
+            'campaign_mailer' => config('mail.default') ?? 'array',
+            'transactional_mailer' => config('mail.default') ?? 'array',
+        ];
+    }
+}

@@ -1,20 +1,49 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Spatie\Mailcoach\Http\Front\Controllers\CampaignWebviewController;
-use Spatie\Mailcoach\Http\Front\Controllers\ConfirmSubscriberController;
-use Spatie\Mailcoach\Http\Front\Controllers\EmailListCampaignsFeedController;
-use Spatie\Mailcoach\Http\Front\Controllers\SubscribeController;
-use Spatie\Mailcoach\Http\Front\Controllers\UnsubscribeController;
+use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignClicksController;
+use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignOpensController;
+use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignsController;
+use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignUnsubscribesController;
+use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\SendCampaignController;
+use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\SendTestEmailController;
+use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\EmailListsController;
+use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\ConfirmSubscriberController;
+use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\ResendConfirmationMailController;
+use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\SubscribersController;
+use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\UnsubscribeController;
+use Spatie\Mailcoach\Http\Api\Controllers\SubscriberImports\AppendSubscriberImportController;
+use Spatie\Mailcoach\Http\Api\Controllers\SubscriberImports\StartSubscriberImportController;
+use Spatie\Mailcoach\Http\Api\Controllers\SubscriberImports\SubscriberImportsController;
+use Spatie\Mailcoach\Http\Api\Controllers\TemplatesController;
+use Spatie\Mailcoach\Http\Api\Controllers\UserController;
 
-Route::get('/confirm-subscription/{subscriberUuid}', '\\' . ConfirmSubscriberController::class)->name('mailcoach.confirm');
+Route::get('user', UserController::class);
 
-Route::get('/unsubscribe/{subscriberUuid}/{sendUuid?}',  ['\\' .UnsubscribeController::class, 'show'])->name('mailcoach.unsubscribe');
+Route::apiResource('templates', TemplatesController::class);
 
-Route::post('/unsubscribe/{subscriberUuid}/{sendUuid?}',  ['\\' .UnsubscribeController::class, 'confirm']);
+Route::apiResource('campaigns', CampaignsController::class);
+Route::prefix('campaigns/{campaign}')->group(function () {
+    Route::post('send-test', SendTestEmailController::class);
+    Route::post('send', SendCampaignController::class);
 
-Route::get('webview/{campaignUuid}', '\\' . CampaignWebviewController::class)->name('mailcoach.webview');
+    Route::get('opens', CampaignOpensController::class);
+    Route::get('clicks', CampaignClicksController::class);
+    Route::get('unsubscribes', CampaignUnsubscribesController::class);
+});
 
-Route::get('feed/{emailListUuid}', '\\' . EmailListCampaignsFeedController::class)->name('mailcoach.feed');
+Route::apiResource('email-lists', EmailListsController::class);
+Route::apiResource('email-lists.subscribers', SubscribersController::class)->only(['index', 'store']);
 
-Route::post('subscribe/{emailListUuid}', '\\' . SubscribeController::class)->name('mailcoach.subscribe');
+Route::apiResource('subscribers', SubscribersController::class)->except(['index', 'store']);
+Route::prefix('subscribers/{subscriber}')->group(function () {
+    Route::post('confirm', ConfirmSubscriberController::class);
+    Route::post('unsubscribe', UnsubscribeController::class);
+    Route::post('resend-confirmation', ResendConfirmationMailController::class);
+});
+
+Route::apiResource('subscriber-imports', SubscriberImportsController::class);
+Route::prefix('subscriber-imports/{subscriberImport}')->group(function () {
+    Route::post('append', AppendSubscriberImportController::class);
+    Route::post('start', StartSubscriberImportController::class);
+});

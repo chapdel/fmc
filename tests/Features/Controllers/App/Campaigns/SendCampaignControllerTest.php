@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Feature\Controllers\App\Campaigns;
+namespace Spatie\Mailcoach\Tests\Features\Controllers\App\Campaigns;
 
 use Illuminate\Support\Facades\Bus;
 use Spatie\Mailcoach\Enums\CampaignStatus;
@@ -20,7 +20,7 @@ class SendCampaignControllerTest extends TestCase
 
         $this->authenticate();
 
-        $this->campaign = factory(Campaign::class)->create([
+        $this->campaign = Campaign::factory()->create([
             'status' => CampaignStatus::DRAFT,
         ]);
 

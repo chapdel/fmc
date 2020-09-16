@@ -1,6 +1,7 @@
 <?php
 
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\CampaignsIndexController;
+use Spatie\Mailcoach\Http\App\Controllers\Campaigns\CancelSendingCampaignController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\DestroyCampaignController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignContentController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignDeliveryController;
@@ -16,7 +17,9 @@ use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignClicksControlle
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignOpensController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignSummaryController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignUnsubscribesController;
+use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignUsedSettingsController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\OutboxController;
+use Spatie\Mailcoach\Http\App\Controllers\DebugController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\CreateEmailListController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\DestroyEmailListController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\EmailListSettingsController;
@@ -45,6 +48,8 @@ use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DownloadSubscriberIm
 use Spatie\Mailcoach\Http\App\Controllers\TemplatesController;
 use Spatie\Mailcoach\Http\App\Middleware\EditableCampaign;
 
+Route::get('debug', '\\' . DebugController::class)->name('debug');
+
 Route::prefix('campaigns')->group(function () {
     Route::get('/', '\\' . CampaignsIndexController::class)->name('mailcoach.campaigns');
     Route::post('/', '\\' . CreateCampaignController::class)->name('mailcoach.campaigns.store');
@@ -69,12 +74,14 @@ Route::prefix('campaigns')->group(function () {
         Route::get('opens', '\\' . CampaignOpensController::class)->name('mailcoach.campaigns.opens');
         Route::get('clicks', '\\' . CampaignClicksController::class)->name('mailcoach.campaigns.clicks');
         Route::get('unsubscribes', '\\' . CampaignUnsubscribesController::class)->name('mailcoach.campaigns.unsubscribes');
+        Route::get('used-settings', '\\' . CampaignUsedSettingsController::class)->name('mailcoach.campaigns.used-settings');
 
         Route::get('outbox', '\\' . OutboxController::class)->name('mailcoach.campaigns.outbox');
 
         Route::delete('/', '\\' . DestroyCampaignController::class)->name('mailcoach.campaigns.delete');
         Route::post('duplicate', '\\' . DuplicateCampaignController::class)->name('mailcoach.campaigns.duplicate');
         Route::post('retry-failed-sends', '\\' . RetryFailedSendsController::class)->name('mailcoach.campaigns.retry-failed-sends');
+        Route::post('cancel-sending', '\\' . CancelSendingCampaignController::class)->name('mailcoach.campaigns.cancel-sending');
     });
 });
 

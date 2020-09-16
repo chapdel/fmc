@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers;
+namespace Spatie\Mailcoach\Tests\Http\Controllers\PublicApi;
 
 use Spatie\Mailcoach\Enums\CampaignStatus;
 use Spatie\Mailcoach\Http\Front\Controllers\EmailListCampaignsFeedController;
@@ -18,11 +18,11 @@ class EmailListCampaignsFeedControllerTest extends TestCase
 
         $this->withExceptionHandling();
 
-        $this->emailList = factory(EmailList::class)->create([
+        $this->emailList = EmailList::factory()->create([
             'campaigns_feed_enabled' => true,
         ]);
 
-        factory(Campaign::class)->create([
+        Campaign::factory()->create([
             'email_list_id' => $this->emailList->id,
             'sent_at' => now(),
             'status' => CampaignStatus::SENT,

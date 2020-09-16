@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Rules;
 
 use Carbon\CarbonInterface;
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Date;
 use InvalidArgumentException;
 
 class DateTimeFieldRule implements Rule
@@ -13,7 +13,7 @@ class DateTimeFieldRule implements Rule
 
     public function passes($attribute, $value)
     {
-        $this->message = __('Invalid date time provided.');
+        $this->message = (string)__('Invalid date time provided.');
 
         if (! is_array($value)) {
             return false;
@@ -57,7 +57,7 @@ class DateTimeFieldRule implements Rule
             $hours = str_pad($value['hours'], 2, '0', STR_PAD_LEFT);
             $minutes = str_pad($value['minutes'], 2, '0', STR_PAD_LEFT);
 
-            return Carbon::createFromFormat(
+            return Date::createFromFormat(
                 'Y-m-d H:i',
                 "{$value['date']} {$hours}:{$minutes}"
             );

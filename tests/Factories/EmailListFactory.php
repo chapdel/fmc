@@ -19,7 +19,7 @@ class EmailListFactory
 
     public function create(array $attributes = []): EmailList
     {
-        $emailList = factory(EmailList::class)->create($attributes);
+        $emailList = EmailList::factory()->create($attributes);
 
         Collection::times($this->subscriberCount)
             ->each(function (int $i) use ($emailList) {

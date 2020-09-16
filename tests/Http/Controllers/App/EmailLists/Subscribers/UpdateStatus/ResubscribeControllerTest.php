@@ -19,7 +19,7 @@ class ResubscribeControllerTest extends TestCase
     /** @test */
     public function it_can_confirm_a_subscriber()
     {
-        $emailList = factory(EmailList::class)->create();
+        $emailList = EmailList::factory()->create();
 
         $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($emailList);
         $subscriber->unsubscribe();
@@ -37,7 +37,7 @@ class ResubscribeControllerTest extends TestCase
     public function it_will_only_resubscribe_unsubscribed_subscribers()
     {
         $this->withExceptionHandling();
-        $emailList = factory(EmailList::class)->create();
+        $emailList = EmailList::factory()->create();
         $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($emailList);
         $this->assertEquals(SubscriptionStatus::SUBSCRIBED, $subscriber->status);
 

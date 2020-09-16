@@ -2,10 +2,10 @@
 
 namespace Spatie\Mailcoach\Tests\Events;
 
+use Database\Factories\CampaignSendFactory;
 use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Events\CampaignLinkClickedEvent;
 use Spatie\Mailcoach\Models\CampaignLink;
-use Spatie\Mailcoach\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class CampaignLinkClickedEventTest extends TestCase
@@ -16,7 +16,7 @@ class CampaignLinkClickedEventTest extends TestCase
         Event::fake();
 
         /** @var \Spatie\Mailcoach\Models\Send $send */
-        $send = factory(Send::class)->create();
+        $send = CampaignSendFactory::new()->create();
         $send->campaign->update(['track_clicks' => true]);
 
         $send->registerClick('https://spatie.be');
@@ -48,7 +48,7 @@ class CampaignLinkClickedEventTest extends TestCase
         Event::fake();
 
         /** @var \Spatie\Mailcoach\Models\Send $send */
-        $send = factory(Send::class)->create();
+        $send = CampaignSendFactory::new()->create();
         $send->campaign->update(['track_clicks' => false]);
 
         $send->registerClick('https://spatie.be');

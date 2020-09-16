@@ -1,7 +1,7 @@
 <form class="form-grid" action="{{ route('mailcoach.campaigns.store') }}" method="POST">
     @csrf
 
-    <x-text-field :label="__('Name')" name="name" required />
+    <x-text-field :label="__('Name')" name="name" :placeholder="__('Newsletter #1')" required />
 
     <x-select-field :label="__('Email list')" :options="$emailListOptions" name="email_list_id" required />
 

@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Jobs;
 
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -14,7 +15,7 @@ use Spatie\RateLimitedMiddleware\RateLimited;
 
 class SendMailJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public bool $deleteWhenMissingModels = true;
 
@@ -34,6 +35,14 @@ class SendMailJob implements ShouldQueue
 
     public function handle()
     {
+        if (optional($this->batch())->canceled()) {
+            if (! $this->pendingSend->wasAlreadySent()) {
+                $this->pendingSend->delete();
+            }
+
+            return;
+        }
+
         /** @var \Spatie\Mailcoach\Actions\Campaigns\SendMailAction $sendMailAction */
         $sendMailAction = Config::getActionClass('send_mail', SendMailAction::class);
 

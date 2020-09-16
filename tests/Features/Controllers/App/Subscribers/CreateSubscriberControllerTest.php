@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Feature\Controllers\App\Subscribers;
+namespace Spatie\Mailcoach\Tests\Features\Controllers\App\Subscribers;
 
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\CreateSubscriberController;
 use Spatie\Mailcoach\Models\EmailList;
@@ -15,7 +15,7 @@ class CreateSubscriberControllerTest extends TestCase
         $this->authenticate();
 
         /** @var EmailList $emailList */
-        $emailList = factory(EmailList::class)->create();
+        $emailList = EmailList::factory()->create();
 
         $attributes = [
             'email' => 'john@example.com',

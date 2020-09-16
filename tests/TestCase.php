@@ -2,10 +2,12 @@
 
 namespace Spatie\Mailcoach\Tests;
 
+use CreateJobBatchesTable;
 use CreateMailcoachTables;
 use CreateMediaTable;
 use CreateUsersTable;
-use Illuminate\Foundation\Auth\User;
+use CreateWebhookCallsTable;
+use Database\Factories\UserFactory;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redis;
@@ -16,6 +18,7 @@ use Spatie\Mailcoach\Http\Front\Controllers\UnsubscribeController;
 use Spatie\Mailcoach\MailcoachServiceProvider;
 use Spatie\Mailcoach\Models\Send;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
+use Spatie\QueryBuilder\QueryBuilderServiceProvider;
 use Spatie\TestTime\TestTime;
 
 abstract class TestCase extends Orchestra
@@ -23,8 +26,6 @@ abstract class TestCase extends Orchestra
     public function setUp(): void
     {
         parent::setUp();
-
-        $this->withFactories(__DIR__.'/../database/factories');
 
         Route::mailcoach('mailcoach');
 
@@ -43,6 +44,7 @@ abstract class TestCase extends Orchestra
             MailcoachServiceProvider::class,
             FeedServiceProvider::class,
             MediaLibraryServiceProvider::class,
+            QueryBuilderServiceProvider::class,
         ];
     }
 
@@ -63,6 +65,12 @@ abstract class TestCase extends Orchestra
 
         include_once __DIR__.'/database/migrations/create_users_table.php.stub';
         (new CreateUsersTable())->up();
+
+        include_once __DIR__.'/../database/migrations/create_webhook_calls_table.php.stub';
+        (new CreateWebhookCallsTable())->up();
+
+        include_once __DIR__.'/../database/migrations/create_job_batches_table.php.stub';
+        (new CreateJobBatchesTable())->up();
     }
 
     protected function simulateUnsubscribes(Collection $sends)
@@ -75,7 +83,7 @@ abstract class TestCase extends Orchestra
 
     public function authenticate(string $guard = null)
     {
-        $user = factory(User::class)->create();
+        $user = UserFactory::new()->create();
 
         $this->actingAs($user, $guard);
     }

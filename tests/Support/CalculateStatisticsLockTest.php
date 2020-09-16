@@ -16,7 +16,7 @@ class CalculateStatisticsLockTest extends TestCase
     {
         parent::setUp();
 
-        $this->campaign = factory(Campaign::class)->create();
+        $this->campaign = Campaign::factory()->create();
 
         $this->lock = new CalculateStatisticsLock($this->campaign);
 

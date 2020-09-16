@@ -20,7 +20,7 @@ class CalculateStatisticsJobTest extends TestCase
     /** @test */
     public function a_campaign_with_no_subscribers_will_get_all_zeroes()
     {
-        $campaign = factory(Campaign::class)->create();
+        $campaign = Campaign::factory()->create();
 
         dispatch(new CalculateStatisticsJob($campaign));
 
@@ -41,7 +41,7 @@ class CalculateStatisticsJobTest extends TestCase
     {
         TestTime::freeze();
 
-        $campaign = factory(Campaign::class)->create();
+        $campaign = Campaign::factory()->create();
         $this->assertNull($campaign->statistics_calculated_at);
 
         dispatch(new CalculateStatisticsJob($campaign));
@@ -69,7 +69,7 @@ class CalculateStatisticsJobTest extends TestCase
         $this->assertDatabaseHas('mailcoach_campaigns', [
             'id' => $campaign->id,
             'unsubscribe_count' => 3,
-            'unsubscribe_rate' => 60,
+            'unsubscribe_rate' => 6000,
         ]);
     }
 
@@ -90,7 +90,7 @@ class CalculateStatisticsJobTest extends TestCase
             'id' => $campaign->id,
             'open_count' => 4,
             'unique_open_count' => 3,
-            'open_rate' => 60,
+            'open_rate' => 6000,
         ]);
     }
 
@@ -121,7 +121,7 @@ class CalculateStatisticsJobTest extends TestCase
             'sent_to_number_of_subscribers' => 5,
             'click_count' => 7,
             'unique_click_count' => 3,
-            'click_rate' => 60,
+            'click_rate' => 6000,
         ]);
     }
 
@@ -168,7 +168,7 @@ class CalculateStatisticsJobTest extends TestCase
         dispatch_now(new CalculateStatisticsJob($campaign));
 
         $this->assertEquals(1, $campaign->bounce_count);
-        $this->assertEquals(33, $campaign->bounce_rate);
+        $this->assertEquals(3333, $campaign->bounce_rate);
     }
 
     /** @test */
@@ -177,7 +177,7 @@ class CalculateStatisticsJobTest extends TestCase
         Queue::fake();
         config()->set('mailcoach.perform_on_queue.calculate_statistics_job', 'custom-queue');
 
-        $campaign = factory(Campaign::class)->create();
+        $campaign = Campaign::factory()->create();
         dispatch(new CalculateStatisticsJob($campaign));
         Queue::assertPushed(CalculateStatisticsJob::class);
     }

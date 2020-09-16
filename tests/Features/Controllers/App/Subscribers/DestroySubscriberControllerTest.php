@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Feature\Controllers\App\Subscribers;
+namespace Spatie\Mailcoach\Tests\Features\Controllers\App\Subscribers;
 
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\DestroySubscriberController;
 use Spatie\Mailcoach\Models\Subscriber;
@@ -13,7 +13,7 @@ class DestroySubscriberControllerTest extends TestCase
     {
         $this->authenticate();
 
-        $subscriber = factory(Subscriber::class)->create();
+        $subscriber = Subscriber::factory()->create();
 
         $this
             ->delete(action(DestroySubscriberController::class, [$subscriber->emailList->id, $subscriber->id]))

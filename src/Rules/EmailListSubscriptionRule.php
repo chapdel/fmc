@@ -9,7 +9,8 @@ use Spatie\Mailcoach\Models\EmailList;
 class EmailListSubscriptionRule implements Rule
 {
     /** @var \Spatie\Mailcoach\Models\EmailList */
-    protected EmailList $emailList;
+    protected EmailList
+        $emailList;
 
     /** @var string */
     protected string $attribute;
@@ -28,6 +29,6 @@ class EmailListSubscriptionRule implements Rule
 
     public function message()
     {
-        return __('This email address is already subscribed.');
+        return (string)__('This email address is already subscribed.');
     }
 }

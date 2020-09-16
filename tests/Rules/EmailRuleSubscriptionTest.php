@@ -19,7 +19,7 @@ class EmailRuleSubscriptionTest extends TestCase
     {
         parent::setUp();
 
-        $this->emailList = factory(EmailList::class)->create();
+        $this->emailList = EmailList::factory()->create();
 
         $this->rule = new EmailListSubscriptionRule($this->emailList);
     }
@@ -31,7 +31,7 @@ class EmailRuleSubscriptionTest extends TestCase
         $this->emailList->subscribe('john@example.com');
         $this->assertFalse($this->rule->passes('email', 'john@example.com'));
 
-        $otherEmailList = factory(EmailList::class)->create();
+        $otherEmailList = EmailList::factory()->create();
         $rule = new EmailListSubscriptionRule($otherEmailList);
         $this->assertTrue($rule->passes('email', 'john@example.com'));
     }
@@ -62,7 +62,7 @@ class EmailRuleSubscriptionTest extends TestCase
     {
         $this->emailList->subscribe('john@example.com');
 
-        $anotherEmailList = factory(EmailList::class)->create();
+        $anotherEmailList = EmailList::factory()->create();
 
         $this->assertTrue((new EmailListSubscriptionRule($anotherEmailList))->passes('email', 'john@example.com'));
     }

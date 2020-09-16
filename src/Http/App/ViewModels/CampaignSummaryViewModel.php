@@ -27,8 +27,6 @@ class CampaignSummaryViewModel extends ViewModel
         $this->limit = (ceil(max($this->stats->max('opens'), $this->stats->max('clicks')) * 1.1 / 10) * 10) ?: 1;
 
         $this->failedSendsCount = $this->campaign()->sends()->failed()->count();
-
-        $this->failedSendsCount;
     }
 
     public function campaign(): Campaign

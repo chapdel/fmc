@@ -1,11 +1,22 @@
 <?php
 
-use Faker\Generator;
+namespace Database\Factories;
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(config('mailcoach.models.subscriber'), fn (Generator $faker) => [
-    'email' => $faker->email,
-    'uuid' => $faker->uuid,
-    'subscribed_at' => now(),
-    'email_list_id' => factory(config('mailcoach.models.email_list')),
-]);
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Spatie\Mailcoach\Models\EmailList;
+use Spatie\Mailcoach\Models\Subscriber;
+
+class SubscriberFactory extends Factory
+{
+    protected $model = Subscriber::class;
+
+    public function definition()
+    {
+        return [
+            'email' => $this->faker->email,
+            'uuid' => $this->faker->uuid,
+            'subscribed_at' => now(),
+            'email_list_id' => EmailList::factory(),
+        ];
+    }
+}

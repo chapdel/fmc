@@ -16,7 +16,7 @@ class SendWelcomeMailActionTest extends TestCase
     {
         parent::setup();
 
-        $this->subscriber = factory(Subscriber::class)->create();
+        $this->subscriber = Subscriber::factory()->create();
 
         $this->subscriber->emailList->update([
             'send_welcome_mail' => true,

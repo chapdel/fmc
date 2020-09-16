@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<psalm
+    errorLevel="4"
+    findUnusedVariablesAndParams="true"
+    resolveFromConfigFile="true"
+    useDocblockPropertyTypes="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+>
+    <projectFiles>
+        <directory name="src"/>
+         <ignoreFiles>
+            <directory name="vendor" />
+        </ignoreFiles>
+    </projectFiles>
+
+    <issueHandlers>
+        <NullableReturnStatement>
+            <errorLevel type="suppress">
+                <file name="src/Http/App/Requests/ScheduleCampaignRequest.php"/>
+                <file name="src/Support/Segments/SubscribersWithTagsSegment.php"/>
+
+            </errorLevel>
+        </NullableReturnStatement>
+        <UndefinedMethod>
+            <errorLevel type="suppress">
+                <file name="src/MailcoachServiceProvider.php"/>
+            </errorLevel>
+        </UndefinedMethod>
+        <LessSpecificImplementedReturnType>
+            <errorLevel type="suppress">
+                <file name="src/Mails/CampaignMail.php"/>
+            </errorLevel>
+        </LessSpecificImplementedReturnType>
+        <InvalidReturnStatement>
+            <errorLevel type="suppress">
+                <file name="src/Support/Segments/SubscribersWithTagsSegment.php"/>
+            </errorLevel>
+        </InvalidReturnStatement>
+        <InvalidArgument>
+            <errorLevel type="suppress">
+                <file name="src/Support/Replacers/Concerns/ReplacesModelAttributes.php"/>
+            </errorLevel>
+        </InvalidArgument>
+        <InvalidNullableReturnType>
+            <errorLevel type="suppress">
+                <file name="src/Http/App/Requests/ScheduleCampaignRequest.php"/>
+            </errorLevel>
+        </InvalidNullableReturnType>
+        <InvalidReturnType>
+            <errorLevel type="suppress">
+                <file name="src/Support/Segments/SubscribersWithTagsSegment.php"/>
+            </errorLevel>
+        </InvalidReturnType>
+        <UndefinedMethod>
+            <errorLevel type="suppress">
+                <file name="src/Actions/Subscribers/ImportSubscribersAction.php"/>
+                <file name="src/MailcoachServiceProvider.php"/>
+            </errorLevel>
+        </UndefinedMethod>
+        <UndefinedClass>
+            <errorLevel type="suppress">
+                <referencedClass name="Swift_Message" />
+            </errorLevel>
+        </UndefinedClass>
+
+    </issueHandlers>
+</psalm>

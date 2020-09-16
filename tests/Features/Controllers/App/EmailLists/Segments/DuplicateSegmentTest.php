@@ -16,7 +16,7 @@ class DuplicateSegmentTest extends TestCase
         $this->authenticate();
 
         /** @var \Spatie\Mailcoach\Models\TagSegment $originalSegment */
-        $originalSegment = factory(TagSegment::class)->create();
+        $originalSegment = TagSegment::factory()->create();
 
         $positiveTags = ['positive-1', 'positive-2'];
         $negativeTags = ['negative-1', 'negative-2'];

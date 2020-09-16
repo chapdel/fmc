@@ -1,9 +1,18 @@
 <?php
 
-use Faker\Generator;
+namespace Database\Factories;
+
+use \Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Auth\User;
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(User::class, fn (Generator $faker) => [
-    'email' => $faker->email,
-]);
+class UserFactory extends Factory
+{
+    protected $model = User::class;
+
+    public function definition()
+    {
+        return [
+            'email' => $this->faker->email,
+        ];
+    }
+}

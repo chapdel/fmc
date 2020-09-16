@@ -15,7 +15,7 @@ class UnsubscribedEventTest extends TestCase
         Event::fake(UnsubscribedEvent::class);
 
         /** @var \Spatie\Mailcoach\Models\Subscriber $subscription */
-        $subscriber = factory(Subscriber::class)->create();
+        $subscriber = Subscriber::factory()->create();
 
         $subscriber->unsubscribe();
 

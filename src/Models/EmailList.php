@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Models;
 
 use Carbon\CarbonInterface;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -14,7 +15,7 @@ use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class EmailList extends Model
 {
-    use HasUuid, UsesMailcoachModels;
+    use HasUuid, UsesMailcoachModels, HasFactory;
 
     public $guarded = [];
 
@@ -74,6 +75,16 @@ class EmailList extends Model
         return $this
             ->belongsToMany(Tag::class, 'mailcoach_email_list_allow_form_subscription_tags', 'email_list_id', 'tag_id')
             ->orderBy('name');
+    }
+
+    public function setFormExtraAttributesAttribute($value)
+    {
+        $this->attributes['allowed_form_extra_attributes'] = array_map('trim', explode(',', $value));
+    }
+
+    public function allowedFormExtraAttributes() : array
+    {
+        return explode(";", $this->allowed_form_extra_attributes);
     }
 
     public function subscribe(string $email, array $attributes = []): Subscriber

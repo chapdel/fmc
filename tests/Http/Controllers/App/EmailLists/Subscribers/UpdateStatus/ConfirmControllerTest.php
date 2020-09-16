@@ -20,7 +20,7 @@ class ConfirmControllerTest extends TestCase
     /** @test */
     public function it_can_confirm_a_subscriber()
     {
-        $emailList = factory(EmailList::class)->create(['requires_confirmation' => true]);
+        $emailList = EmailList::factory()->create(['requires_confirmation' => true]);
 
         $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($emailList);
 
@@ -38,7 +38,7 @@ class ConfirmControllerTest extends TestCase
     {
         $this->withExceptionHandling();
 
-        $subscriber = factory(Subscriber::class)->create([
+        $subscriber = Subscriber::factory()->create([
             'unsubscribed_at' => now(),
             'subscribed_at' => now(),
         ]);

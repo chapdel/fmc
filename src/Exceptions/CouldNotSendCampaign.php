@@ -33,6 +33,11 @@ class CouldNotSendCampaign extends Exception
         return new static("The campaign with id `{$campaign->id}` can't be sent, because it was already sent.");
     }
 
+    public static function cancelled(Campaign $campaign): self
+    {
+        return new static("The campaign with id `{$campaign->id}` can't be sent, because it was cancelled.");
+    }
+
     public static function noListSet(Campaign $campaign): self
     {
         return new static("The campaign with id `{$campaign->id}` can't be sent, because there is no list set to send it to.");

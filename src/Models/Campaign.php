@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Models;
 
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -34,7 +35,8 @@ class Campaign extends Model implements Feedable, HasHtmlContent
 {
     use CanBeScheduled,
         HasUuid,
-        UsesMailcoachModels;
+        UsesMailcoachModels,
+        HasFactory;
 
     public $table = 'mailcoach_campaigns';
 
@@ -53,6 +55,8 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         'campaigns_feed_enabled' => 'boolean',
         'last_modified_at' => 'datetime',
         'summary_mail_sent_at' => 'datetime',
+        'mailable_arguments' => 'array',
+        'all_jobs_added_to_batch_at' => 'datetime',
     ];
 
     public static function booted()
@@ -240,7 +244,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         return $this;
     }
 
-    public function useMailable(string $mailableClass): self
+    public function useMailable(string $mailableClass, array $mailableArguments = []): self
     {
         $this->ensureUpdatable();
 
@@ -248,7 +252,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
             throw CouldNotSendCampaign::invalidMailableClass($this, $mailableClass);
         }
 
-        $this->update(['mailable_class' => $mailableClass]);
+        $this->update(['mailable_class' => $mailableClass, 'mailable_arguments' => $mailableArguments]);
 
         return $this;
     }
@@ -324,7 +328,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         }
 
         $this->update([
-            'segment_description' => $this->getSegment()->description($this),
+            'segment_description' => $this->getSegment()->description(),
             'last_modified_at' => now(),
         ]);
 
@@ -354,6 +358,10 @@ class Campaign extends Model implements Feedable, HasHtmlContent
 
         if ($this->isSent()) {
             throw CouldNotSendCampaign::alreadySent($this);
+        }
+
+        if ($this->isCancelled()) {
+            throw CouldNotSendCampaign::cancelled($this);
         }
 
         if (is_null($this->emailList)) {
@@ -416,8 +424,9 @@ class Campaign extends Model implements Feedable, HasHtmlContent
     public function getMailable(): CampaignMail
     {
         $mailableClass = $this->mailable_class ?? CampaignMail::class;
+        $mailableArguments = $this->mailable_arguments ?? [];
 
-        return app($mailableClass);
+        return app($mailableClass, $mailableArguments);
     }
 
     public function getSegment(): Segment
@@ -511,6 +520,10 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         if ($this->isSent()) {
             throw CouldNotSendCampaign::alreadySent($this);
         }
+
+        if ($this->isCancelled()) {
+            throw CouldNotSendCampaign::cancelled($this);
+        }
     }
 
     protected function markAsSending(): self
@@ -590,6 +603,11 @@ class Campaign extends Model implements Feedable, HasHtmlContent
     public function isSent(): bool
     {
         return $this->status == CampaignStatus::SENT;
+    }
+
+    public function isCancelled(): bool
+    {
+        return $this->status == CampaignStatus::CANCELLED;
     }
 
     public function hasCustomMailable(): bool

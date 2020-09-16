@@ -24,7 +24,7 @@ class SendScheduledCampaignsCommandTest extends TestCase
     /** @test */
     public function it_will_not_send_campaigns_that_are_not_scheduled()
     {
-        factory(Campaign::class)->create([
+        Campaign::factory()->create([
             'scheduled_at' => null,
             'status' => CampaignStatus::DRAFT,
         ]);
@@ -37,7 +37,7 @@ class SendScheduledCampaignsCommandTest extends TestCase
     /** @test */
     public function it_will_not_send_a_campaign_that_has_a_scheduled_at_in_the_future()
     {
-        factory(Campaign::class)->create([
+        Campaign::factory()->create([
             'scheduled_at' => now()->addSecond(),
             'status' => CampaignStatus::DRAFT,
         ]);
@@ -50,7 +50,7 @@ class SendScheduledCampaignsCommandTest extends TestCase
     /** @test */
     public function it_will_send_a_campaign_that_has_a_scheduled_at_set_to_in_the_past()
     {
-        factory(Campaign::class)->create([
+        Campaign::factory()->create([
             'scheduled_at' => now()->subSecond(),
             'status' => CampaignStatus::DRAFT,
         ]);
@@ -63,7 +63,7 @@ class SendScheduledCampaignsCommandTest extends TestCase
     /** @test */
     public function it_will_not_send_a_campaign_twice()
     {
-        factory(Campaign::class)->create([
+        Campaign::factory()->create([
             'scheduled_at' => now()->subSecond(),
             'status' => CampaignStatus::DRAFT,
         ]);

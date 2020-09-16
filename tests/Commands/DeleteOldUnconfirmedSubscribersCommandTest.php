@@ -19,7 +19,7 @@ class DeleteOldUnconfirmedSubscribersCommandTest extends TestCase
 
         TestTime::freeze('Y-m-d H:i:s', '2019-01-01 00:00:00');
 
-        $this->emailList = factory(EmailList::class)->create(['requires_confirmation' => true]);
+        $this->emailList = EmailList::factory()->create(['requires_confirmation' => true]);
     }
 
     /** @test */

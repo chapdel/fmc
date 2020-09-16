@@ -44,7 +44,6 @@ class SendMailAction
         $convertHtmlToTextAction = Config::getActionClass('convert_html_to_text', ConvertHtmlToTextAction::class);
         $personalisedText = $convertHtmlToTextAction->execute($personalisedHtml);
 
-        /** @var \Spatie\Mailcoach\Mails\CampaignMail $campaignMail */
         $campaignMail = app(CampaignMail::class);
 
         /** @var \Spatie\Mailcoach\Models\Campaign $campaign */

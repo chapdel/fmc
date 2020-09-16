@@ -26,15 +26,15 @@ class SegmentTest extends TestCase
 
         Mail::fake();
 
-        $this->campaign = factory(Campaign::class)->create();
+        $this->campaign = Campaign::factory()->create();
 
-        $this->emailList = factory(EmailList::class)->create();
+        $this->emailList = EmailList::factory()->create();
     }
 
     /** @test */
     public function it_will_not_send_a_mail_if_it_is_not_subscribed_to_the_list_of_the_campaign_even_if_the_segment_selects_it()
     {
-        factory(Subscriber::class)->create();
+        Subscriber::factory()->create();
 
         $this->campaign->segment(TestSegmentAllSubscribers::class)->sendTo($this->emailList);
 

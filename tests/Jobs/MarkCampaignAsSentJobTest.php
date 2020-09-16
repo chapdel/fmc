@@ -2,10 +2,8 @@
 
 namespace Spatie\Mailcoach\Tests\Jobs;
 
-use Illuminate\Queue\Events\JobProcessed;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Enums\CampaignStatus;
 use Spatie\Mailcoach\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Jobs\MarkCampaignAsSentJob;
@@ -48,22 +46,5 @@ class MarkCampaignAsSentJobTest extends TestCase
 
         $this->campaign->refresh();
         $this->assertEquals(CampaignStatus::SENT, $this->campaign->status);
-    }
-
-    /** @test */
-    public function it_does_nothing_if_the_amount_of_current_sends_doesnt_match_the_intended_sends_and_releases()
-    {
-        $this->campaign->update(['sent_to_number_of_subscribers' => 1]);
-
-        Queue::after(function (JobProcessed $event) {
-            $this->assertTrue($event->job->isReleased());
-            $this->assertEquals(1, $event->job->attempts());
-        });
-
-        dispatch(new MarkCampaignAsSentJob($this->campaign));
-
-        Event::assertNotDispatched(CampaignSentEvent::class);
-        $this->campaign->refresh();
-        $this->assertEquals(CampaignStatus::DRAFT, $this->campaign->status);
     }
 }

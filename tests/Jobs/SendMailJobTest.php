@@ -2,11 +2,11 @@
 
 namespace Spatie\Mailcoach\Tests\Jobs;
 
+use Database\Factories\CampaignSendFactory;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Jobs\SendMailJob;
 use Spatie\Mailcoach\Mails\CampaignMail;
-use Spatie\Mailcoach\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMail;
 
@@ -22,7 +22,7 @@ class SendMailJobTest extends TestCase
     /** @test */
     public function it_can_send_a_mail_with_the_correct_mailer()
     {
-        $pendingSend = factory(Send::class)->create();
+        $pendingSend = CampaignSendFactory::new()->create();
         $pendingSend->campaign->emailList->update(['campaign_mailer' => 'some-mailer']);
 
         dispatch(new SendMailJob($pendingSend));
@@ -40,7 +40,7 @@ class SendMailJobTest extends TestCase
     /** @test */
     public function it_will_not_resend_a_mail_that_has_already_been_sent()
     {
-        $pendingSend = factory(Send::class)->create();
+        $pendingSend = CampaignSendFactory::new()->create();
 
         $this->assertFalse($pendingSend->wasAlreadySent());
 
@@ -59,7 +59,7 @@ class SendMailJobTest extends TestCase
         Queue::fake();
         config()->set('mailcoach.perform_on_queue.send_mail_job', 'custom-queue');
 
-        $pendingSend = factory(Send::class)->create();
+        $pendingSend = CampaignSendFactory::new()->create();
         dispatch(new SendMailJob($pendingSend));
         Queue::assertPushedOn('custom-queue', SendMailJob::class);
     }
@@ -67,7 +67,7 @@ class SendMailJobTest extends TestCase
     /** @test */
     public function it_can_use_a_custom_mailable()
     {
-        $pendingSend = factory(Send::class)->create();
+        $pendingSend = CampaignSendFactory::new()->create();
 
         $pendingSend->campaign->useMailable(TestCampaignMail::class);
 

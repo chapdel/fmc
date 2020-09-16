@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Feature\Controllers\App\Campaigns;
+namespace Spatie\Mailcoach\Tests\Features\Controllers\App\Campaigns;
 
 use Illuminate\Support\Arr;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignSettingsController;
@@ -22,7 +22,7 @@ class CampaignSettingsControllerTest extends TestCase
         $attributes = [
             'name' => 'updated name',
             'subject' => 'my subject',
-            'email_list_id' => factory(EmailList::class)->create()->id,
+            'email_list_id' => EmailList::factory()->create()->id,
             'track_opens' => true,
             'track_clicks' => true,
             'segment' => 'entire_list',

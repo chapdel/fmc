@@ -23,11 +23,11 @@ class ImportSubscribersController
         /** @var \Spatie\Mailcoach\Models\SubscriberImport $subscriberImport */
         $subscriberImport = SubscriberImport::create([
             'email_list_id' => $emailList->id,
+            'subscribe_unsubscribed' => $request->subscribeUnsubscribed(),
+            'unsubscribe_others' => $request->unsubscribeMissing(),
         ]);
 
-        $subscriberImport
-            ->addMediaFromRequest('file')
-            ->toMediaCollection('importFile');
+        $this->addMediaToSubscriberImport($request, $subscriberImport);
 
         $user = auth()->user();
 
@@ -36,5 +36,23 @@ class ImportSubscribersController
         flash()->success(__('Your file has been uploaded. Follow the import status in the list below.'));
 
         return redirect()->back();
+    }
+
+    protected function addMediaToSubscriberImport(
+        ImportSubscribersRequest $request,
+        SubscriberImport $subscriberImport
+    ): void {
+        if ($request->has('file')) {
+            $subscriberImport
+                ->addMediaFromRequest('file')
+                ->toMediaCollection('importFile');
+
+            return;
+        }
+
+        $subscriberImport
+            ->addMediaFromString($request->subscribers_csv)
+            ->usingFileName('subscribers.csv')
+            ->toMediaCollection('importFile');
     }
 }

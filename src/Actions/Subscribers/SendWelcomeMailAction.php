@@ -21,7 +21,6 @@ class SendWelcomeMailAction
             ->later(
                 $sendAt,
                 $this->getMailable($subscriber),
-                config('mailcoach.perform_on_queue.send_welcome_mail_job', 'mailcoach')
             );
     }
 

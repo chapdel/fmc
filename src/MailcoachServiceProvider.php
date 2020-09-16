@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach;
 
-use Illuminate\Foundation\Support\Providers\EventServiceProvider;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
@@ -11,8 +10,10 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Commands\CalculateStatisticsCommand;
+use Spatie\Mailcoach\Commands\CleanupProcessedFeedbackCommand;
 use Spatie\Mailcoach\Commands\DeleteOldUnconfirmedSubscribersCommand;
 use Spatie\Mailcoach\Commands\RetryPendingSendsCommand;
 use Spatie\Mailcoach\Commands\SendCampaignSummaryMailCommand;
@@ -24,24 +25,23 @@ use Spatie\Mailcoach\Components\ReplacerHelpTextsComponent;
 use Spatie\Mailcoach\Components\SearchComponent;
 use Spatie\Mailcoach\Components\THComponent;
 use Spatie\Mailcoach\Events\CampaignSentEvent;
+use Spatie\Mailcoach\Events\WebhookCallProcessedEvent;
 use Spatie\Mailcoach\Http\App\Controllers\HomeController;
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\IndexComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\QueryStringComposer;
 use Spatie\Mailcoach\Listeners\SendCampaignSentEmail;
-use Spatie\Mailcoach\Support\HttpClient;
+use Spatie\Mailcoach\Listeners\SetWebhookCallProcessedAt;
 use Spatie\Mailcoach\Support\Version;
 use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 use Spatie\QueryString\QueryString;
 
-class MailcoachServiceProvider extends EventServiceProvider
+class MailcoachServiceProvider extends ServiceProvider
 {
     use UsesMailcoachModels;
 
     public function boot()
     {
-        parent::boot();
-
         $this
             ->bootCarbon()
             ->bootCommands()
@@ -51,19 +51,17 @@ class MailcoachServiceProvider extends EventServiceProvider
             ->bootSupportMacros()
             ->bootTranslations()
             ->bootViews()
-            ->registerEventListeners();
+            ->bootEvents();
     }
 
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/mailcoach.php', 'mailcoach');
 
-        $this->app->singleton(QueryString::class, fn () => new QueryString(urldecode($this->app->request->getRequestUri())));
+        $this->app->singleton(QueryString::class, fn () => new QueryString(urldecode(request()->getRequestUri())));
 
         $this->app->singleton(Version::class, function () {
-            $httpClient = new HttpClient();
-
-            return new Version($httpClient);
+            return new Version();
         });
     }
 
@@ -86,6 +84,7 @@ class MailcoachServiceProvider extends EventServiceProvider
                 SendEmailListSummaryMailCommand::class,
                 RetryPendingSendsCommand::class,
                 DeleteOldUnconfirmedSubscribersCommand::class,
+                CleanupProcessedFeedbackCommand::class,
             ]);
         }
 
@@ -163,7 +162,7 @@ class MailcoachServiceProvider extends EventServiceProvider
             __DIR__ . '/../resources/dist' => public_path('vendor/mailcoach'),
         ], 'mailcoach-assets');
 
-        if (! class_exists('CreateEmailCampaignTables')) {
+        if (! class_exists('CreateMailcoachTables')) {
             $this->publishes([
                 __DIR__ . '/../database/migrations/create_mailcoach_tables.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_mailcoach_tables.php'),
             ], 'mailcoach-migrations');
@@ -172,6 +171,18 @@ class MailcoachServiceProvider extends EventServiceProvider
         if (! class_exists('CreateMediaTable')) {
             $this->publishes([
                 __DIR__ . '/../../laravel-medialibrary/database/migrations/create_media_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_media_table.php'),
+            ], 'mailcoach-migrations');
+        }
+
+        if (! class_exists('CreateWebhookCallsTable')) {
+            $this->publishes([
+                __DIR__ . '/../database/migrations/create_webhook_calls_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_webhook_calls_table.php'),
+            ], 'mailcoach-migrations');
+        }
+
+        if (! class_exists('CreateJobBatchesTable')) {
+            $this->publishes([
+                __DIR__ . '/../database/migrations/create_job_batches_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_job_batches_table.php'),
             ], 'mailcoach-migrations');
         }
 
@@ -184,8 +195,15 @@ class MailcoachServiceProvider extends EventServiceProvider
             Route::get($url, '\\'.HomeController::class)->name('mailcoach.home');
 
             Route::prefix($url)->group(function () {
-                Route::prefix('')->group(__DIR__ . '/../routes/mailcoach-api.php');
-                Route::middleware(config('mailcoach.middleware'))->group(__DIR__ . '/../routes/mailcoach-ui.php');
+                Route::prefix('')->group(__DIR__ . '/../routes/mailcoach-public-api.php');
+
+                Route::prefix('')
+                    ->middleware(config('mailcoach.middleware')['web'])
+                    ->group(__DIR__ . '/../routes/mailcoach-ui.php');
+
+                Route::prefix('api')
+                    ->middleware(config('mailcoach.middleware')['api'])
+                    ->group(__DIR__ . '/../routes/mailcoach-api.php');
             });
         });
 
@@ -248,11 +266,10 @@ class MailcoachServiceProvider extends EventServiceProvider
         return $this;
     }
 
-    protected function registerEventListeners(): self
+    private function bootEvents()
     {
-        Event::listen(CampaignSentEvent::class, function (CampaignSentEvent $event) {
-            (new SendCampaignSentEmail())->handle($event);
-        });
+        Event::listen(CampaignSentEvent::class, SendCampaignSentEmail::class);
+        Event::listen(WebhookCallProcessedEvent::class, SetWebhookCallProcessedAt::class);
 
         return $this;
     }

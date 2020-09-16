@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers;
+namespace Spatie\Mailcoach\Tests\Http\Controllers\PublicApi;
 
 use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Support\Facades\Event;
@@ -18,20 +18,21 @@ class SubscribeControllerTest extends TestCase
 
     private ?string $confirmSubscriptionLink;
 
+    private $email = 'info@spatie.be';
+
     public function setUp(): void
     {
         parent::setUp();
 
         $this->withExceptionHandling();
 
-        $this->emailList = factory(EmailList::class)->create([
+        $this->emailList = EmailList::factory()->create([
             'requires_confirmation' => false,
             'allow_form_subscriptions' => true,
             'redirect_after_subscribed' => 'https://example.com/redirect-after-subscribed',
             'redirect_after_already_subscribed' => 'https://example.com/redirect-after-already-subscribed',
             'redirect_after_subscription_pending' => 'https://example.com/redirect-after-subscription-pending',
             'redirect_after_unsubscribed' => 'https://example.com/redirect-after-unsubscribed',
-
         ]);
     }
 
@@ -44,7 +45,7 @@ class SubscribeControllerTest extends TestCase
 
         $this->assertEquals(
             SubscriptionStatus::SUBSCRIBED,
-            $this->emailList->getSubscriptionStatus('john@doe.com')
+            $this->emailList->getSubscriptionStatus($this->email)
         );
     }
 
@@ -93,6 +94,31 @@ class SubscribeControllerTest extends TestCase
 
         $this->assertEquals('John', $subscriber->first_name);
         $this->assertEquals('Doe', $subscriber->last_name);
+    }
+
+    /** @test */
+    public function it_can_accept_attributes()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->emailList->allowed_form_extra_attributes = 'attribute1;attribute2';
+        $this->emailList->save();
+
+        $this
+            ->post(action(SubscribeController::class, $this->emailList->uuid), $this->payloadWithRedirects([
+                'attributes' => [
+                    'attribute1' => 'foo',
+                    'attribute2' => 'bar',
+                    'attribute3' => 'forbidden',
+                ],
+            ]))
+            ->assertRedirect($this->payloadWithRedirects()['redirect_after_subscribed']);
+
+        $subscriber = Subscriber::where('email', $this->payloadWithRedirects()['email'])->first();
+
+        $this->assertEquals('foo', $subscriber->extra_attributes->attribute1);
+        $this->assertEmpty($subscriber->extra_attributes->attribute3);
+        $this->assertEquals('bar', $subscriber->extra_attributes->attribute2);
     }
 
     /** @test */
@@ -255,7 +281,7 @@ class SubscribeControllerTest extends TestCase
     public function payload(array $extraAttributes = [])
     {
         return array_merge([
-            'email' => 'john@doe.com',
+            'email' => $this->email,
         ], $extraAttributes);
     }
 

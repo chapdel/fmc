@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers;
+namespace Spatie\Mailcoach\Tests\Http\Controllers\PublicApi;
 
 use Spatie\Mailcoach\Enums\CampaignStatus;
 use Spatie\Mailcoach\Http\Front\Controllers\CampaignWebviewController;
@@ -17,7 +17,7 @@ class CampaignWebviewControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->campaign = factory(Campaign::class)->create([
+        $this->campaign = Campaign::factory()->create([
             'webview_html' => 'my webview html',
         ]);
 

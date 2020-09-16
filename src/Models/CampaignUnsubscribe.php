@@ -2,11 +2,14 @@
 
 namespace Spatie\Mailcoach\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CampaignUnsubscribe extends Model
 {
+    use HasFactory;
+
     public $table = 'mailcoach_campaign_unsubscribes';
 
     protected $guarded = [];
