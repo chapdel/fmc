@@ -140,7 +140,19 @@ class ImportSubscribersControllerTest extends TestCase
         $this->assertCount(0, $this->emailList->subscribers);
     }
 
-    private function uploadStub(string $stubName)
+    /** @test */
+    public function it_can_handle_an_xlsx_file()
+    {
+        $this->uploadStub(
+            'excel.xlsx',
+            'excel.xlsx',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        );
+
+        $this->assertCount(1, $this->emailList->subscribers);
+    }
+
+    private function uploadStub(string $stubName, string $asFilename = 'import.csv', string $asMimetype = 'text/csv')
     {
         $stubPath = $this->getStubPath($stubName);
         $tempPath = $this->getTempPath($stubName);
@@ -149,8 +161,8 @@ class ImportSubscribersControllerTest extends TestCase
 
         $fileUpload = new UploadedFile(
             $tempPath,
-            'import.csv',
-            'text/csv',
+            $asFilename,
+            $asMimetype,
             filesize($stubPath)
         );
 
