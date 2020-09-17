@@ -336,7 +336,7 @@
     "unsubscribe|unsubscribers": "afmelden|afmeldingen",
     "Updated at": "Bijgewerkt op",
     "Upgrade available": "Upgrade beschikbaar",
-    "Upload a CSV file with these columns: email, first_name, last_name, tags <a href=\":link\" target=\"_blank\">(see documentation)</a>": "Upload een CSV-bestand met deze kolommen: email, first_name, last_name, tags <a href=\":link\" target=\"_blank\">(zie documentatie) </a>",
+    "Upload a CSV or XLSX file with these columns: email, first_name, last_name, tags <a href=\":link\" target=\"_blank\">(see documentation)</a>": "Upload een CSV- of XLSX-bestand met deze kolommen: email, first_name, last_name, tags <a href=\":link\" target=\"_blank\">(zie documentatie) </a>",
     "Uploaded file": "Geupload bestand",
     "Use segment": "Gebruik segment",
     "Using custom segment": "Aangepast segment gebruiken",

@@ -343,7 +343,7 @@
     "Unsubscribes": "Abmeldungen",
     "Updated at": "Aktualisiert am",
     "Upgrade available": "Upgrade verfügbar",
-    "Upload a CSV file with these columns: email, first_name, last_name, tags <a href=\":link\" target=\"_blank\">(see documentation)</a>": "Laden Sie eine CSV-Datei mit folgenden Spalten hoch: email, first_name, last_name, tags <a href=\":link\" target=\"_blank\">(siehe Dokumentation)</a>",
+    "Upload a CSV or XLSX file with these columns: email, first_name, last_name, tags <a href=\":link\" target=\"_blank\">(see documentation)</a>": "Laden Sie eine CSV- oder XLSX-Datei mit den folgenden Spalten hoch: email, first_name, last_name, tags <a href=\":link\" target=\"_blank\">(siehe Dokumentation)</a>",
     "Uploaded file": "Hochgeladene Datei",
     "Use segment": "Segment verwenden",
     "Using custom segment": "Verwenden eines benutzerdefinierten Segments",
