@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Tests\Models;
 
-use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
 use Illuminate\Support\Facades\Mail;
+use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
 use Spatie\Mailcoach\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Mails\ConfirmSubscriberMail;
 use Spatie\Mailcoach\Models\EmailList;
