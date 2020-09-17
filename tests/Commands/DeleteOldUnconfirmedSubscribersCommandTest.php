@@ -2,10 +2,12 @@
 
 namespace Spatie\Mailcoach\Tests\Commands;
 
+use Illuminate\Support\Facades\DB;
 use Spatie\Mailcoach\Commands\DeleteOldUnconfirmedSubscribersCommand;
 use Spatie\Mailcoach\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Models\EmailList;
 use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Models\Tag;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
@@ -46,5 +48,21 @@ class DeleteOldUnconfirmedSubscribersCommandTest extends TestCase
         TestTime::addMonth()->addSecond();
         $this->artisan(DeleteOldUnconfirmedSubscribersCommand::class)->assertExitCode(0);
         $this->assertCount(1, Subscriber::all());
+    }
+
+    /** @test */
+    public function it_will_detach_all_tags_when_deleting_a_subscriber()
+    {
+        $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($this->emailList);
+
+        $subscriber->addTag('test');
+
+        TestTime::addMonth()->addSecond();
+
+        $this->artisan(DeleteOldUnconfirmedSubscribersCommand::class)->assertExitCode(0);
+
+        $this->assertCount(0, Subscriber::all());
+        $this->assertCount(0, DB::table('mailcoach_email_list_subscriber_tags')->get());
+        $this->assertCount(1, Tag::all());
     }
 }
