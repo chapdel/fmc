@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Tests\Events;
 
-use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
 use Illuminate\Support\Facades\Event;
+use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
 use Spatie\Mailcoach\Events\CampaignLinkClickedEvent;
 use Spatie\Mailcoach\Models\CampaignLink;
 use Spatie\Mailcoach\Tests\TestCase;

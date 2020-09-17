@@ -2,9 +2,9 @@
 
 namespace Spatie\Mailcoach\Tests\Features\Controllers\App\Subscribers;
 
-use Spatie\Mailcoach\Database\Factories\UserFactory;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
+use Spatie\Mailcoach\Database\Factories\UserFactory;
 use Spatie\Mailcoach\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\ImportSubscribersController;
 use Spatie\Mailcoach\Mails\ImportSubscribersResultMail;

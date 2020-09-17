@@ -3,10 +3,10 @@
 namespace Spatie\Mailcoach\Tests\Models;
 
 use Carbon\Carbon;
-use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Queue;
+use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
 use Spatie\Mailcoach\Enums\CampaignStatus;
 use Spatie\Mailcoach\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Jobs\CalculateStatisticsJob;

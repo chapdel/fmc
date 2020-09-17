@@ -2,12 +2,12 @@
 
 namespace Spatie\Mailcoach\Tests\Jobs;
 
-use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
 use Illuminate\Mail\MailManager;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Str;
+use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
 use Spatie\Mailcoach\Enums\CampaignStatus;
 use Spatie\Mailcoach\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Exceptions\CouldNotSendCampaign;
