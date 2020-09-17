@@ -2,12 +2,12 @@
 
 namespace Spatie\Mailcoach\Http\App\Queries;
 
+use Illuminate\Support\Facades\DB;
 use Spatie\Mailcoach\Http\App\Queries\Filters\FuzzyFilter;
 use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Models\CampaignOpen;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
-use Illuminate\Support\Facades\DB;
 
 class CampaignOpensQuery extends QueryBuilder
 {
