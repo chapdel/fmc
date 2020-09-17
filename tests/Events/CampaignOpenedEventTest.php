@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\Events;
 
-use Database\Factories\CampaignSendFactory;
+use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
 use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Events\CampaignOpenedEvent;
 use Spatie\Mailcoach\Models\Send;

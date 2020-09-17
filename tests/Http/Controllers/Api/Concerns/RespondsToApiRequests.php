@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns;
 
-use Database\Factories\UserFactory;
+use Spatie\Mailcoach\Database\Factories\UserFactory;
 
 trait RespondsToApiRequests
 {

@@ -74,7 +74,7 @@
     "autoload-dev": {
         "psr-4": {
             "Spatie\\Mailcoach\\Tests\\": "tests",
-            "Database\\Factories\\": "database/factories"
+            "Spatie\\Mailcoach\\Database\\Factories\\": "database/factories"
         }
     },
     "scripts": {

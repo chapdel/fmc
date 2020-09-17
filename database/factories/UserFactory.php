@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Spatie\Mailcoach\Database\Factories;
 
 use \Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Auth\User;

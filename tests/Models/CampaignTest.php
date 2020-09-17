@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Tests\Models;
 
 use Carbon\Carbon;
-use Database\Factories\CampaignSendFactory;
+use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Queue;
@@ -435,7 +435,7 @@ class CampaignTest extends TestCase
     public function it_can_inline_the_styles_of_the_html()
     {
         /** @var Campaign $campaign */
-        $campaign = factory(Campaign::class)->create(['html' => '
+        $campaign = Campaign::factory()->create(['html' => '
             <html>
             <style>
 
@@ -454,7 +454,7 @@ class CampaignTest extends TestCase
     public function it_doesnt_change_the_doctype()
     {
         /** @var Campaign $campaign */
-        $campaign = factory(Campaign::class)->create(['html' => '
+        $campaign = Campaign::factory()->create(['html' => '
             <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
             <html>
             <style>

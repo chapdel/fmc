@@ -7,7 +7,8 @@ use CreateMailcoachTables;
 use CreateMediaTable;
 use CreateUsersTable;
 use CreateWebhookCallsTable;
-use Database\Factories\UserFactory;
+use Spatie\Mailcoach\Database\Factories\UserFactory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redis;
@@ -36,6 +37,12 @@ abstract class TestCase extends Orchestra
         Gate::define('viewMailcoach', fn () => true);
 
         TestTime::freeze();
+
+        Factory::guessFactoryNamesUsing(
+            function (string $modelName) {
+                return 'Spatie\\Mailcoach\\Database\\Factories\\' . class_basename($modelName) . 'Factory';
+            }
+        );
     }
 
     protected function getPackageProviders($app)

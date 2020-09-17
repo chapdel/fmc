@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\Jobs;
 
-use Database\Factories\CampaignSendFactory;
+use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
 use Illuminate\Mail\MailManager;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;

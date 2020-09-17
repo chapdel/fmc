@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\Features\Controllers\App\Subscribers;
 
-use Database\Factories\UserFactory;
+use Spatie\Mailcoach\Database\Factories\UserFactory;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Enums\SubscriptionStatus;

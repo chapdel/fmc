@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\Models;
 
-use Database\Factories\CampaignSendFactory;
+use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
 use Spatie\Mailcoach\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Models\Send;

@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\Actions;
 
-use Database\Factories\CampaignSendFactory;
+use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
 use Spatie\Mailcoach\Actions\Campaigns\PersonalizeHtmlAction;
 use Spatie\Mailcoach\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;

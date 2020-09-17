@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\Commands;
 
-use Database\Factories\CampaignSendFactory;
+use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Commands\RetryPendingSendsCommand;
 use Spatie\Mailcoach\Jobs\SendMailJob;
