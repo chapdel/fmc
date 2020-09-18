@@ -241,6 +241,29 @@ class CampaignTest extends TestCase
     }
 
     /** @test */
+    public function it_can_use_the_default_reply_to_email_and_name_set_on_the_email_list()
+    {
+        Bus::fake();
+
+        $list = EmailList::factory()->create([
+            'default_reply_to_email' => 'defaultEmailList@example.com',
+            'default_reply_to_name' => 'List name',
+        ]);
+
+        Campaign::create()
+            ->content('my content')
+            ->subject('test')
+            ->sendTo($list);
+
+        Bus::assertDispatched(SendCampaignJob::class, function (SendCampaignJob $job) {
+            $this->assertEquals('defaultEmailList@example.com', $job->campaign->reply_to_email);
+            $this->assertEquals('List name', $job->campaign->reply_to_name);
+
+            return true;
+        });
+    }
+
+    /** @test */
     public function it_will_prefer_the_email_and_from_name_from_the_campaign_over_the_defaults_set_on_the_email_list()
     {
         Bus::fake();
