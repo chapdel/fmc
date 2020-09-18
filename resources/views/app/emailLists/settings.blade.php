@@ -24,6 +24,11 @@
 
         <x-text-field :label="__('From name')" name="default_from_name" :value="$emailList->default_from_name"/>
 
+        <x-text-field :label="__('Reply-to email')" name="default_reply_to_email" :value="$emailList->default_reply_to_email"
+                      type="email"/>
+
+        <x-text-field :label="__('Reply-to name')" name="default_reply_to_name" :value="$emailList->default_reply_to_name"/>
+
         <div class="form-row max-w-full">
             <label class="label">{{ __('Publish feed') }}</label>
             <x-checkbox-field :label="__('Make feed publicly available')" name="campaigns_feed_enabled"

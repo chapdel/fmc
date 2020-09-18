@@ -20,6 +20,8 @@ class EmailListSettingsController
             'name' => $request->name,
             'default_from_email' => $request->default_from_email,
             'default_from_name' => $request->default_from_name,
+            'default_reply_to_email' => $request->default_reply_to_email,
+            'default_reply_to_name' => $request->default_reply_to_name,
             'campaign_mailer' => $request->campaign_mailer,
             'transactional_mailer' => $request->transactional_mailer,
             'campaigns_feed_enabled' => $request->campaigns_feed_enabled ?? false,

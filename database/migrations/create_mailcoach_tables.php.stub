@@ -17,6 +17,9 @@ class CreateMailcoachTables extends Migration
             $table->string('default_from_email')->nullable();
             $table->string('default_from_name')->nullable();
 
+            $table->string('default_reply_to_email')->nullable();
+            $table->string('default_reply_to_name')->nullable();
+
             $table->boolean('allow_form_subscriptions')->default(false);
 
             $table->string('redirect_after_subscribed')->nullable();

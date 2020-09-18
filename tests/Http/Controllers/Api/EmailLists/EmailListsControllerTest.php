@@ -65,6 +65,8 @@ class EmailListsControllerTest extends TestCase
             'name' => 'email list name',
             'default_from_email' => 'johndoe@example.com',
             'default_from_name' => 'john doe',
+            'default_reply_to_email' => 'johndoe@example.com',
+            'default_reply_to_name' => 'john doe',
         ];
 
         $this
@@ -83,6 +85,8 @@ class EmailListsControllerTest extends TestCase
             'name' => 'email list name',
             'default_from_email' => 'johndoe@example.com',
             'default_from_name' => 'john doe',
+            'default_reply_to_email' => 'johndoe@example.com',
+            'default_reply_to_name' => 'john doe',
         ];
 
         $this
@@ -95,6 +99,8 @@ class EmailListsControllerTest extends TestCase
         $this->assertEquals($attributes['name'], $emailList->name);
         $this->assertEquals($attributes['default_from_email'], $emailList->default_from_email);
         $this->assertEquals($attributes['default_from_name'], $emailList->default_from_name);
+        $this->assertEquals($attributes['default_reply_to_email'], $emailList->default_reply_to_email);
+        $this->assertEquals($attributes['default_reply_to_name'], $emailList->default_reply_to_name);
     }
 
     /** @test */

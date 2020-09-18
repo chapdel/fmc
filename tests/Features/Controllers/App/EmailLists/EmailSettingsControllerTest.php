@@ -23,6 +23,8 @@ class EmailSettingsControllerTest extends TestCase
             'name' => 'updated name',
             'default_from_email' => 'jane@example.com',
             'default_from_name' => 'Jane Doe',
+            'default_reply_to_email' => 'jane@example.com',
+            'default_reply_to_name' => 'Jane Doe',
             'campaign_mailer' => 'log',
             'transactional_mailer' => 'log',
         ];
@@ -60,6 +62,8 @@ class EmailSettingsControllerTest extends TestCase
                 'name' => 'updated name',
                 'default_from_email' => 'jane@example.com',
                 'default_from_name' => 'Jane Doe',
+                'default_reply_to_email' => 'jane@example.com',
+                'default_reply_to_name' => 'Jane Doe',
                 'campaign_mailer' => 'log',
                 'transactional_mailer' => 'log',
                 'report_recipients' => '',
