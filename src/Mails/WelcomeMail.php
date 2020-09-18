@@ -22,17 +22,22 @@ class WelcomeMail extends Mailable implements ShouldQueue
 
     public function build()
     {
-        $this
+        $mail = $this
             ->from(
                 $this->subscriber->emailList->default_from_email,
                 $this->subscriber->emailList->default_from_name
             )
-            ->replyTo(
-                $this->subscriber->emailList->default_reply_to_email,
-                $this->subscriber->emailList->default_reply_to_name
-            )
             ->determineSubject()
             ->determineContent();
+
+        if (! empty($this->subscriber->emailList->default_reply_to_email)) {
+            $mail->replyTo(
+                $this->subscriber->emailList->default_reply_to_email,
+                $this->subscriber->emailList->default_reply_to_name
+            );
+        }
+
+        return $mail;
     }
 
     protected function determineSubject(): self

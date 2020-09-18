@@ -22,7 +22,7 @@ class UpdateEmailListSettingsRequest extends FormRequest
             'name' => 'required',
             'default_from_email' => 'required|email:rfc',
             'default_from_name' => '',
-            'default_reply_to_email' => 'required|email:rfc',
+            'default_reply_to_email' => 'email:rfc',
             'default_reply_to_name' => '',
             'campaign_mailer' => [Rule::in(array_keys(config('mail.mailers')))],
             'transactional_mailer' => [Rule::in(array_keys(config('mail.mailers')))],

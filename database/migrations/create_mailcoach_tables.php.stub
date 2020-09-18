@@ -97,6 +97,10 @@ class CreateMailcoachTables extends Migration
             $table->uuid('uuid');
             $table->string('from_email')->nullable();
             $table->string('from_name')->nullable();
+
+            $table->string('reply_to_email')->nullable();
+            $table->string('reply_to_name')->nullable();
+
             $table->string('subject')->nullable();
 
             $table->unsignedBigInteger('email_list_id')->nullable();

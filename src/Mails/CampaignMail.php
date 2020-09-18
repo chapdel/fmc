@@ -63,20 +63,28 @@ class CampaignMail extends Mailable
 
     public function build()
     {
-        return $this
+        $mail = $this
             ->from(
                 $this->campaign->from_email ?? $this->campaign->emailList->default_from_email,
                 $this->campaign->from_name ?? $this->campaign->emailList->default_from_name ?? null
-            )
-            ->replyTo(
-                $this->campaign->from_email ?? $this->campaign->emailList->default_reply_to_email,
-                $this->campaign->from_name ?? $this->campaign->emailList->default_reply_to_name ?? null
             )
             ->subject($this->subject)
             ->view('mailcoach::mails.campaignHtml')
             ->text('mailcoach::mails.campaignText')
             ->addUnsubscribeHeaders()
             ->storeTransportMessageId();
+
+        $replyTo = $this->campaign->reply_to_email ?? $this->campaign->emailList->reply_to_email;
+
+        if (! empty($replyTo)) {
+            $mail->replyTo(
+                $this->campaign->emailList->default_reply_to_email,
+                $this->campaign->reply_to_name ?? $this->campaign->emailList->default_reply_to_name ?? null
+            );
+        }
+
+
+        return $mail;
     }
 
     protected function addUnsubscribeHeaders(): self

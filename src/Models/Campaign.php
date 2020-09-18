@@ -327,6 +327,16 @@ class Campaign extends Model implements Feedable, HasHtmlContent
             $this->save();
         }
 
+        if (empty($this->reply_to_email)) {
+            $this->reply_to_email = $this->emailList->default_reply_to_email;
+            $this->save();
+        }
+
+        if (empty($this->reply_to_name)) {
+            $this->reply_to_name = $this->emailList->default_reply_to_name;
+            $this->save();
+        }
+
         $this->update([
             'segment_description' => $this->getSegment()->description(),
             'last_modified_at' => now(),
