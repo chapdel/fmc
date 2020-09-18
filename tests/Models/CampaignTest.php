@@ -288,6 +288,31 @@ class CampaignTest extends TestCase
     }
 
     /** @test */
+    public function it_will_prefer_the_email_and_reply_to_name_from_the_campaign_over_the_defaults_set_on_the_email_list()
+    {
+        Bus::fake();
+
+        $list = EmailList::factory()->create([
+            'default_reply_to_email' => 'defaultEmailList@example.com',
+            'default_reply_to_name' => 'List name',
+        ]);
+
+        Campaign::create()
+            ->content('my content')
+            ->subject('test')
+            ->from('campaign@example.com', 'campaign from name')
+            ->replyTo('replyToCampaign@example.com', 'reply to from campaign')
+            ->sendTo($list);
+
+        Bus::assertDispatched(SendCampaignJob::class, function (SendCampaignJob $job) {
+            $this->assertEquals('replyToCampaign@example.com', $job->campaign->reply_to_email);
+            $this->assertEquals('reply to from campaign', $job->campaign->reply_to_name);
+
+            return true;
+        });
+    }
+
+    /** @test */
     public function it_has_a_scope_that_can_get_campaigns_sent_in_a_certain_period()
     {
         $sentAt1430 = CampaignFactory::createSentAt('2019-01-01 14:30:00');

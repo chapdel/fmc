@@ -217,6 +217,16 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         return $this;
     }
 
+    public function replyTo(string $email, string $name = null)
+    {
+        $this->update([
+            'reply_to_email' => $email,
+            'reply_to_name' => $name,
+        ]);
+
+        return $this;
+    }
+
     public function subject(string $subject): self
     {
         $this->ensureUpdatable();
@@ -328,6 +338,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         }
 
         if (empty($this->reply_to_email)) {
+            dd($this->reply_to_email);
             $this->reply_to_email = $this->emailList->default_reply_to_email;
             $this->save();
         }
