@@ -110,6 +110,21 @@ class SendCampaignJobTest extends TestCase
     }
 
     /** @test */
+    public function it_will_use_the_reply_to_fields()
+    {
+        Event::fake();
+        Mail::fake();
+
+        $this->campaign->replyTo('replyto@example.com', 'Reply to John Doe');
+
+        dispatch(new SendCampaignJob($this->campaign));
+
+        Mail::assertSent(CampaignMail::class, function (CampaignMail $campaignMail) {
+            return $campaignMail->build()->hasReplyTo('replyto@example.com', 'Reply to John Doe');
+        });
+    }
+
+    /** @test */
     public function a_campaign_that_was_sent_will_not_be_sent_again()
     {
         Event::fake();

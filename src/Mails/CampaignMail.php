@@ -78,7 +78,7 @@ class CampaignMail extends Mailable
 
         if (! empty($replyTo)) {
             $mail->replyTo(
-                $this->campaign->emailList->default_reply_to_email,
+                $replyTo,
                 $this->campaign->reply_to_name ?? $this->campaign->emailList->default_reply_to_name ?? null
             );
         }
