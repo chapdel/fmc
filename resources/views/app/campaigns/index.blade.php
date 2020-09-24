@@ -50,6 +50,7 @@
                 <tr>
                     <x-mailcoach::th class="w-4"></x-mailcoach::th>
                     <x-mailcoach::th sort-by="name">{{ __('Name') }}</x-mailcoach::th>
+                    <x-mailcoach::th sort-by="list">{{ __('List') }}</x-mailcoach::th>
                     <x-mailcoach::th sort-by="-sent_to_number_of_subscribers" class="w-32 th-numeric">{{ __('Emails') }}</x-mailcoach::th>
                     <x-mailcoach::th sort-by="-unique_open_count" class="w-32 th-numeric hidden | md:table-cell">{{ __('Unique Opens') }}</x-mailcoach::th>
                     <x-mailcoach::th sort-by="-unique_click_count" class="w-32 th-numeric hidden | md:table-cell">{{ __('Unique Clicks') }}</x-mailcoach::th>

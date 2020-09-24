@@ -17,11 +17,20 @@
             </a>
         @endif
     </td>
+    <td class="markup-links">
+        @if ($campaign->emailList)
+        <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">
+            {{ $campaign->emailList->name }}
+        </a>
+        @else
+            &ndash;
+        @endif
+    </td>
     <td class="td-numeric">
         @if ($campaign->isCancelled())
-            {{ $campaign->sendsCount() ?: '-' }}
+            {{ $campaign->sendsCount() ?: '–' }}
         @else
-            {{ $campaign->sent_to_number_of_subscribers ?: '-' }}
+            {{ $campaign->sent_to_number_of_subscribers ?: '–' }}
         @endif
     </td>
     <td class="td-numeric hidden | md:table-cell">
@@ -29,7 +38,7 @@
             {{ $campaign->unique_open_count }}
             <div class="td-secondary-line">{{ $campaign->open_rate / 100 }}%</div>
         @else
-            -
+            –
         @endif
     </td>
     <td class="td-numeric hidden | md:table-cell">
@@ -37,7 +46,7 @@
             {{ $campaign->unique_click_count }}
             <div class="td-secondary-line">{{ $campaign->click_rate / 100 }}%</div>
         @else
-            -
+            –
         @endif
     <td class="td-numeric hidden | md:table-cell">
         @if($campaign->isSent())
@@ -53,7 +62,7 @@
                 {{ __('Scheduled') }}
             </div>
         @else
-        -
+            –
         @endif
     </td>
 
