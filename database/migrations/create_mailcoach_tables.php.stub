@@ -141,7 +141,7 @@ class CreateMailcoachTables extends Migration
             $table->timestamp('scheduled_at')->nullable();
 
             $table->string('send_batch_id')->nullable();
-            $table->boolean('all_jobs_added_to_batch_at')->nullable();
+            $table->timestamp('all_jobs_added_to_batch_at')->nullable();
 
 
             $table->timestamp('last_modified_at')->nullable();
