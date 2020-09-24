@@ -14,6 +14,7 @@ use Spatie\Mailcoach\Jobs\SendTestMailJob;
 use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Models\EmailList;
 use Spatie\Mailcoach\Models\Send;
+use Spatie\Mailcoach\Support\Segments\EverySubscriberSegment;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMail;
@@ -489,6 +490,18 @@ class CampaignTest extends TestCase
         $campaign->pullSubjectFromMailable();
 
         $this->assertEquals($campaign->subject, 'This is the subject from the custom mailable.');
+    }
+
+    /** @test * */
+    public function it_wont_throw_on_unserializable_segment_class()
+    {
+        $campaign = factory(Campaign::class)->create([
+            'segment_class' => EverySubscriberSegment::class,
+        ]);
+
+        $campaign->getSegment();
+
+        $this->expectNotToPerformAssertions();
     }
 
     private function assertModels(array $expectedModels, Collection $actualModels)
