@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.23.14 - 2020-09-24
+
+- make sure no unserialize notices are thrown
+
 ## 2.23.13 - 2020-09-17
 
 - detach tags when deleting subscriber
