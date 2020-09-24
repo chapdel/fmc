@@ -29,9 +29,9 @@
     </div>
 
     @if($campaign->usingCustomSegment())
-        <x-help>
+        <x-mailcoach::help>
             {{ __('Using custom segment') }} {{ $campaign->getSegment()->description() }}.
-        </x-help>
+        </x-mailcoach::help>
     @else
         <div class="form-row">
             @error('segment')
@@ -41,7 +41,7 @@
                 {{ __('Segment') }}
             </label>
             <div class="radio-group">
-                <x-radio-field
+                <x-mailcoach::radio-field
                     name="segment"
                     :value="$campaign->notSegmenting()"
                     option-value="entire_list"
@@ -49,7 +49,7 @@
                 />
                 <div class="flex items-center">
                     <div class="flex-shrink-none">
-                        <x-radio-field
+                        <x-mailcoach::radio-field
                             name="segment"
                             :value="$campaign->segmentingOnSubscriberTags()"
                             option-value="segment"

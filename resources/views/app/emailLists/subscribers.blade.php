@@ -8,12 +8,12 @@
     <div class="table-actions">
         <div class=buttons>
             <button class="button" data-modal-trigger="create-subscriber">
-                <x-icon-label icon="fa-user" :text="__('Add subscriber')"/>
+                <x-mailcoach::icon-label icon="fa-user" :text="__('Add subscriber')"/>
             </button>
 
-            <x-modal :title="__('Create subscriber')" name="create-subscriber" :open="$errors->any()">
+            <x-mailcoach::modal :title="__('Create subscriber')" name="create-subscriber" :open="$errors->any()">
                 @include('mailcoach::app.emailLists.subscriber.partials.create')
-            </x-modal>
+            </x-mailcoach::modal>
 
             <div class="dropdown" data-dropdown>
                 <button class="button" data-dropdown-trigger>
@@ -24,27 +24,27 @@
                 <ul class="dropdown-list dropdown-list-right | hidden" data-dropdown-list>
                     <li>
                         <a href="{{route('mailcoach.emailLists.import-subscribers', $emailList)}}">
-                            <x-icon-label icon="fa-cloud-upload-alt" :text="__('Import subscribers')"/>
+                            <x-mailcoach::icon-label icon="fa-cloud-upload-alt" :text="__('Import subscribers')"/>
                         </a>
                     </li>
                     @if($subscribers->count() > 0)
                         <li>
-                            <x-form-button
+                            <x-mailcoach::form-button
                                 :action="route('mailcoach.emailLists.subscribers.export', $emailList) . '?' . request()->getQueryString()">
 
                                 @if($emailList->allSubscribers()->count() === $subscribers->total())
-                                    <x-icon-label icon="fa-file" :text="__('Export all subscribers')"/>
+                                    <x-mailcoach::icon-label icon="fa-file" :text="__('Export all subscribers')"/>
                                 @else
-                                    <x-icon-label icon="fa-file" :text="__('Export :total :subscriber', ['total' => $subscribers->total(), 'subscriber' => trans_choice(__('subscriber|subscribers'), $subscribers->total())])"/>
+                                    <x-mailcoach::icon-label icon="fa-file" :text="__('Export :total :subscriber', ['total' => $subscribers->total(), 'subscriber' => trans_choice(__('subscriber|subscribers'), $subscribers->total())])"/>
                                 @endif
-                            </x-form-button>
+                            </x-mailcoach::form-button>
                         </li>
                         <li>
-                            <x-form-button
+                            <x-mailcoach::form-button
                                 :action="route('mailcoach.emailLists.destroy-unsubscribes', $emailList)"
                                 method="DELETE" data-confirm="true" :data-confirm-text="__('Are you sure you want to delete unsubscribes in :emailList?', ['emailList' => $emailList->name])">
-                                <x-icon-label icon="fa-trash-alt" :text="__('Delete unsubscribes')" :caution="true"/>
-                            </x-form-button>
+                                <x-mailcoach::icon-label icon="fa-trash-alt" :text="__('Delete unsubscribes')" :caution="true"/>
+                            </x-mailcoach::form-button>
                         </li>
                     @endif
                 </ul>
@@ -53,25 +53,25 @@
 
         @if($emailList->allSubscribers()->count())
             <div class="table-filters">
-                <x-filters>
-                    <x-filter :queryString="$queryString" attribute="status" active-on="">
+                <x-mailcoach::filters>
+                    <x-mailcoach::filter :queryString="$queryString" attribute="status" active-on="">
                         {{ __('All') }}
-                        <x-counter :number="$emailList->allSubscribers()->count()"/>
-                    </x-filter>
-                    <x-filter :queryString="$queryString" attribute="status" active-on="unconfirmed">
+                        <x-mailcoach::counter :number="$emailList->allSubscribers()->count()"/>
+                    </x-mailcoach::filter>
+                    <x-mailcoach::filter :queryString="$queryString" attribute="status" active-on="unconfirmed">
                         {{ __('Unconfirmed') }}
-                        <x-counter :number="$emailList->allSubscribers()->unconfirmed()->count()"/>
-                    </x-filter>
-                    <x-filter :queryString="$queryString" attribute="status" active-on="subscribed">
+                        <x-mailcoach::counter :number="$emailList->allSubscribers()->unconfirmed()->count()"/>
+                    </x-mailcoach::filter>
+                    <x-mailcoach::filter :queryString="$queryString" attribute="status" active-on="subscribed">
                         {{ __('Subscribed') }}
-                        <x-counter :number="$emailList->allSubscribers()->subscribed()->count()"/>
-                    </x-filter>
-                    <x-filter :queryString="$queryString" attribute="status" active-on="unsubscribed">
+                        <x-mailcoach::counter :number="$emailList->allSubscribers()->subscribed()->count()"/>
+                    </x-mailcoach::filter>
+                    <x-mailcoach::filter :queryString="$queryString" attribute="status" active-on="unsubscribed">
                         {{ __('Unsubscribed') }}
-                        <x-counter :number="$emailList->allSubscribers()->unsubscribed()->count()"/>
-                    </x-filter>
-                </x-filters>
-                <x-search :placeholder="__('Filter subscribers…')"/>
+                        <x-mailcoach::counter :number="$emailList->allSubscribers()->unsubscribed()->count()"/>
+                    </x-mailcoach::filter>
+                </x-mailcoach::filters>
+                <x-mailcoach::search :placeholder="__('Filter subscribers…')"/>
             </div>
         @endif
     </div>
@@ -81,12 +81,12 @@
             <thead>
             <tr>
                 <th class="w-4"></th>
-                <x-th sort-by="email">{{ __('Email') }}</x-th>
+                <x-mailcoach::th sort-by="email">{{ __('Email') }}</x-mailcoach::th>
                 <th class="hidden | md:table-cell">{{ __('Tags') }}</th>
                 @if(request()->input('filter.status') === \Spatie\Mailcoach\Enums\SubscriptionStatus::UNSUBSCRIBED)
-                    <x-th sort-by="-unsubscribed_at" class="w-48 th-numeric hidden | md:table-cell">{{ __('Unsubscribed at') }}</x-th>
+                    <x-mailcoach::th sort-by="-unsubscribed_at" class="w-48 th-numeric hidden | md:table-cell">{{ __('Unsubscribed at') }}</x-mailcoach::th>
                 @else
-                    <x-th sort-by="-created_at" class="w-48 th-numeric hidden | md:table-cell">{{ __('Subscribed at') }}</x-th>
+                    <x-mailcoach::th sort-by="-created_at" class="w-48 th-numeric hidden | md:table-cell">{{ __('Subscribed at') }}</x-mailcoach::th>
                 @endif
 
                 <th class="w-12"></th>
@@ -132,44 +132,44 @@
                             <ul class="dropdown-list dropdown-list-left | hidden" data-dropdown-list>
                                 @if ($subscriber->isUnconfirmed())
                                     <li>
-                                        <x-form-button
+                                        <x-mailcoach::form-button
                                             :action="route('mailcoach.subscriber.resend-confirmation-mail', [$subscriber])"
                                             method="POST" data-confirm="true" :data-confirm-text="__('Are you sure you want to resend the confirmation mail :email?', ['email' => $subscriber->email])">
-                                            <x-icon-label icon="fa-envelope" :text="__('Resend confirmation mail')"/>
-                                        </x-form-button>
+                                            <x-mailcoach::icon-label icon="fa-envelope" :text="__('Resend confirmation mail')"/>
+                                        </x-mailcoach::form-button>
                                     </li>
                                     <li>
-                                        <x-form-button
+                                        <x-mailcoach::form-button
                                             :action="route('mailcoach.subscriber.confirm', [$subscriber])"
                                             method="POST" data-confirm="true" :data-confirm-text="__('Are you sure you want to confirm :email?', ['email' => $subscriber->email])">
-                                            <x-icon-label icon="fa-check" :text="__('Confirm')"/>
-                                        </x-form-button>
+                                            <x-mailcoach::icon-label icon="fa-check" :text="__('Confirm')"/>
+                                        </x-mailcoach::form-button>
                                     </li>
                                 @endif
                                 @if ($subscriber->isSubscribed())
                                     <li>
-                                        <x-form-button
+                                        <x-mailcoach::form-button
                                             :action="route('mailcoach.subscriber.unsubscribe', [$subscriber])"
                                             method="POST" data-confirm="true" :data-confirm-text="__('Are you sure you want to unsubscribe :email?', ['email' => $subscriber->email])">
-                                            <x-icon-label icon="fa-ban" :text="__('Unsubscribe')"/>
-                                        </x-form-button>
+                                            <x-mailcoach::icon-label icon="fa-ban" :text="__('Unsubscribe')"/>
+                                        </x-mailcoach::form-button>
                                     </li>
                                 @endif
                                 @if ($subscriber->isUnsubscribed())
                                     <li>
-                                        <x-form-button
+                                        <x-mailcoach::form-button
                                             :action="route('mailcoach.subscriber.resubscribe', [$subscriber])"
                                             method="POST" data-confirm="true" :data-confirm-text="__('Are you sure you want to resubscribe :email?', ['email' => $subscriber->email])">
-                                            <x-icon-label icon="fa-redo" :text="__('Resubscribe')"/>
-                                        </x-form-button>
+                                            <x-mailcoach::icon-label icon="fa-redo" :text="__('Resubscribe')"/>
+                                        </x-mailcoach::form-button>
                                     </li>
                                 @endif
                                 <li>
-                                    <x-form-button
+                                    <x-mailcoach::form-button
                                         :action="route('mailcoach.emailLists.subscriber.delete', [$subscriber->emailList, $subscriber])"
                                         method="DELETE" data-confirm="true" :data-confirm-text="__('Are you sure you want to delete subscriber :email?', ['email' => $subscriber->email])">
-                                        <x-icon-label icon="fa-trash-alt" :text="__('Delete')" :caution="true"/>
-                                    </x-form-button>
+                                        <x-mailcoach::icon-label icon="fa-trash-alt" :text="__('Delete')" :caution="true"/>
+                                    </x-mailcoach::form-button>
                                 </li>
                             </ul>
                         </div>
@@ -179,9 +179,9 @@
             </tbody>
         </table>
 
-        <x-table-status :name="__('subscriber|subscribers')" :paginator="$subscribers" :total-count="$totalSubscriptionsCount"
+        <x-mailcoach::table-status :name="__('subscriber|subscribers')" :paginator="$subscribers" :total-count="$totalSubscriptionsCount"
                         :show-all-url="route('mailcoach.emailLists.subscribers', $emailList)">
-        </x-table-status>
+        </x-mailcoach::table-status>
     @else
         <p class="alert alert-info">
             {{ __('So where is everyone? This list is empty.') }}

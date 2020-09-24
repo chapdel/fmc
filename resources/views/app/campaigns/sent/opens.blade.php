@@ -17,16 +17,16 @@
         @if($campaign->open_count)
             <div class="table-actions">
                 <div class="table-filters">
-                    <x-search :placeholder="__('Filter opens…')" />
+                    <x-mailcoach::search :placeholder="__('Filter opens…')" />
                 </div>
             </div>
 
             <table class="table table-fixed">
                 <thead>
                     <tr>
-                        <x-th sort-by="email">{{ __('Email') }}</x-th>
-                        <x-th sort-by="open_count" class="w-32 th-numeric">{{ __('Opens') }}</x-th>
-                        <x-th sort-by="-first_opened_at" sort-default class="w-48 th-numeric hidden | md:table-cell">{{ __('First opened at') }}</x-th>
+                        <x-mailcoach::th sort-by="email">{{ __('Email') }}</x-mailcoach::th>
+                        <x-mailcoach::th sort-by="open_count" class="w-32 th-numeric">{{ __('Opens') }}</x-mailcoach::th>
+                        <x-mailcoach::th sort-by="-first_opened_at" sort-default class="w-48 th-numeric hidden | md:table-cell">{{ __('First opened at') }}</x-mailcoach::th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,12 +44,12 @@
                 </tbody>
             </table>
 
-            <x-table-status
+            <x-mailcoach::table-status
                 :name="__('open|opens')"
                 :paginator="$campaignOpens"
                 :total-count="$totalCampaignOpensCount"
                 :show-all-url="route('mailcoach.campaigns.opens', $campaign)"
-            ></x-table-status>
+            ></x-mailcoach::table-status>
         @else
             <p class="alert alert-info">
                 {{ __('No opens yet. Stay tuned.') }}

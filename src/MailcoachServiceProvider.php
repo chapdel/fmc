@@ -235,33 +235,33 @@ class MailcoachServiceProvider extends ServiceProvider
 
     protected function bootBladeComponents(): self
     {
-        Blade::component('mailcoach::app.components.form.checkboxField', 'checkbox-field');
-        Blade::component('mailcoach::app.components.form.radioField', 'radio-field');
-        Blade::component('mailcoach::app.components.form.formButton', 'form-button');
-        Blade::component('mailcoach::app.components.form.selectField', 'select-field');
-        Blade::component('mailcoach::app.components.form.tagsField', 'tags-field');
-        Blade::component('mailcoach::app.components.form.textField', 'text-field');
-        Blade::component('mailcoach::app.components.form.htmlField', 'html-field');
-        Blade::component('mailcoach::app.components.form.dateField', 'date-field');
-        Blade::component(DateTimeFieldComponent::class, 'date-time-field');
+        Blade::component('mailcoach::app.components.form.checkboxField', 'mailcoach::checkbox-field');
+        Blade::component('mailcoach::app.components.form.radioField', 'mailcoach::radio-field');
+        Blade::component('mailcoach::app.components.form.formButton', 'mailcoach::form-button');
+        Blade::component('mailcoach::app.components.form.selectField', 'mailcoach::select-field');
+        Blade::component('mailcoach::app.components.form.tagsField', 'mailcoach::tags-field');
+        Blade::component('mailcoach::app.components.form.textField', 'mailcoach::text-field');
+        Blade::component('mailcoach::app.components.form.htmlField', 'mailcoach::html-field');
+        Blade::component('mailcoach::app.components.form.dateField', 'mailcoach::date-field');
+        Blade::component(DateTimeFieldComponent::class, 'mailcoach::date-time-field');
 
-        Blade::component('mailcoach::app.components.modal.modal', 'modal');
+        Blade::component('mailcoach::app.components.modal.modal', 'mailcoach::modal');
 
-        Blade::component('mailcoach::app.components.table.tableStatus', 'table-status');
-        Blade::component(THComponent::class, 'th');
+        Blade::component('mailcoach::app.components.table.tableStatus', 'mailcoach::table-status');
+        Blade::component(THComponent::class, 'mailcoach::th');
 
-        Blade::component('mailcoach::app.components.filters.filters', 'filters');
-        Blade::component(FilterComponent::class, 'filter');
+        Blade::component('mailcoach::app.components.filters.filters', 'mailcoach::filters');
+        Blade::component(FilterComponent::class, 'mailcoach::filter');
 
-        Blade::component(SearchComponent::class, 'search');
-        Blade::component('mailcoach::app.components.statistic', 'statistic');
-        Blade::component('mailcoach::app.components.navigationItem', 'navigation-item');
-        Blade::component('mailcoach::app.components.iconLabel', 'icon-label');
+        Blade::component(SearchComponent::class, 'mailcoach::search');
+        Blade::component('mailcoach::app.components.statistic', 'mailcoach::statistic');
+        Blade::component('mailcoach::app.components.navigationItem', 'mailcoach::navigation-item');
+        Blade::component('mailcoach::app.components.iconLabel', 'mailcoach::icon-label');
 
-        Blade::component('mailcoach::app.components.help', 'help');
-        Blade::component('mailcoach::app.components.counter', 'counter');
+        Blade::component('mailcoach::app.components.help', 'mailcoach::help');
+        Blade::component('mailcoach::app.components.counter', 'mailcoach::counter');
 
-        Blade::component(ReplacerHelpTextsComponent::class, 'replacer-help-texts');
+        Blade::component(ReplacerHelpTextsComponent::class, 'mailcoach::replacer-help-texts');
 
         return $this;
     }

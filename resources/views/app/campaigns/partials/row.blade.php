@@ -64,21 +64,21 @@
             </button>
             <ul class="dropdown-list dropdown-list-left | hidden" data-dropdown-list>
                 <li>
-                    <x-form-button
+                    <x-mailcoach::form-button
                         :action="route('mailcoach.campaigns.duplicate', $campaign)"
                     >
-                        <x-icon-label icon="fa-random" :text="__('Duplicate')" />
-                    </x-form-button>
+                        <x-mailcoach::icon-label icon="fa-random" :text="__('Duplicate')" />
+                    </x-mailcoach::form-button>
                 </li>
                 <li>
-                    <x-form-button
+                    <x-mailcoach::form-button
                         :action="route('mailcoach.campaigns.delete', $campaign)"
                         method="DELETE"
                         data-confirm="true"
                         :data-confirm-text="__('Are you sure you want to delete campaign :campaignName?', ['campaignName' => $campaign->name])"
                     >
-                        <x-icon-label icon="fa-trash-alt" :text="__('Delete')" :caution="true" />
-                    </x-form-button>
+                        <x-mailcoach::icon-label icon="fa-trash-alt" :text="__('Delete')" :caution="true" />
+                    </x-mailcoach::form-button>
                 </li>
             </ul>
         </div>
