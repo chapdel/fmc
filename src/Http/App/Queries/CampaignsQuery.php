@@ -24,6 +24,7 @@ class CampaignsQuery extends QueryBuilder
             ->defaultSort($sentSort)
             ->allowedSorts(
                 'name',
+                'email_list_id',
                 'unique_open_count',
                 'unique_click_count',
                 'unsubscribe_rate',
