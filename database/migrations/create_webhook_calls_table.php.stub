@@ -10,6 +10,7 @@ class CreateWebhookCallsTable extends Migration
     {
         Schema::create('webhook_calls', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('external_id')->nullable()->index();
 
             $table->string('name');
             $table->json('payload')->nullable();
