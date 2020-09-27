@@ -229,7 +229,7 @@
 
     <div class="button w-64">
         <a href="https://github.com/spatie/mailcoach-support/issues/new?body={{ urlencode($issueBody) }}" target="_blank" class="font-semibold h-10">
-            <x-icon-label icon="fa-question-circle" :text="__('Create a support issue')"/>
+            <x-mailcoach::icon-label icon="fa-question-circle" :text="__('Create a support issue')"/>
         </a>
     </div>
 </section>

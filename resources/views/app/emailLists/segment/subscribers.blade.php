@@ -25,7 +25,7 @@
             <table class="table table-fixed">
                 <thead>
                 <tr>
-                    <x-th sort-by="email">{{ __('Email') }}</x-th>
+                    <x-mailcoach::th sort-by="email">{{ __('Email') }}</x-mailcoach::th>
                     <th>{{ __('Tags') }}</th>
                 </tr>
                 </thead>
@@ -51,9 +51,9 @@
             </table>
         </div>
 
-        <x-table-status :name="__('subscriber|subscribers')" :paginator="$subscribers" :total-count="$selectedSubscribersCount"
+        <x-mailcoach::table-status :name="__('subscriber|subscribers')" :paginator="$subscribers" :total-count="$selectedSubscribersCount"
                         :show-all-url="route('mailcoach.emailLists.segment.subscribers', [$segment->emailList, $segment])">
-        </x-table-status>
+        </x-mailcoach::table-status>
     @else
         <p class="alert alert-info">
             {{ __('This is a very exclusive segment. Nobody got selected.') }}

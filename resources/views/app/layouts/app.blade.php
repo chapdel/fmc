@@ -67,7 +67,7 @@
             </footer>
         </div>
 
-        <x-modal :title="__('Confirm')" name="confirm">
+        <x-mailcoach::modal :title="__('Confirm')" name="confirm">
             <span data-confirm-modal-text>{{ __('Are you sure?') }}</span>
 
             <div class="form-buttons">
@@ -78,9 +78,9 @@
                     {{ __('Cancel') }}
                 </button>
             </div>
-        </x-modal>
+        </x-mailcoach::modal>
 
-        <x-modal :title="__('Confirm navigation')" name="dirty-warning">
+        <x-mailcoach::modal :title="__('Confirm navigation')" name="dirty-warning">
             {{ __('There are unsaved changes. Are you sure you want to continue?') }}
 
             <div class="form-buttons">
@@ -91,7 +91,7 @@
                     {{ __('Cancel') }}
                 </button>
             </div>
-        </x-modal>
+        </x-mailcoach::modal>
 
         @stack('modals')
     </body>

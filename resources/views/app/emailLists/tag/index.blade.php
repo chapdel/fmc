@@ -17,16 +17,16 @@
 @section('emailList')
     <div class="table-actions">
         <button class="button" data-modal-trigger="create-tag">
-            <x-icon-label icon="fa-tag" :text="__('Create tag')"/>
+            <x-mailcoach::icon-label icon="fa-tag" :text="__('Create tag')"/>
         </button>
 
-        <x-modal :title="__('Create tag')" name="create-tag" :open="$errors->any()">
+        <x-mailcoach::modal :title="__('Create tag')" name="create-tag" :open="$errors->any()">
             @include('mailcoach::app.emailLists.tag.partials.create')
-        </x-modal>
+        </x-mailcoach::modal>
 
         @if($tags->count() || $searching)
             <div class="table-filters">
-                <x-search :placeholder="__('Filter tags…')"/>
+                <x-mailcoach::search :placeholder="__('Filter tags…')"/>
             </div>
         @endif
     </div>
@@ -35,9 +35,9 @@
         <table class="table table-fixed">
             <thead>
             <tr>
-                <x-th sort-by="name" sort-default>{{ __('Name') }}</x-th>
-                <x-th sort-by="subscriber_count" class="w-32 th-numeric">{{ __('Subscribers') }}</x-th>
-                <x-th sort-by="updated_at" class="w-48 th-numeric hidden | md:table-cell">{{ __('Updated at') }}</x-th>
+                <x-mailcoach::th sort-by="name" sort-default>{{ __('Name') }}</x-mailcoach::th>
+                <x-mailcoach::th sort-by="subscriber_count" class="w-32 th-numeric">{{ __('Subscribers') }}</x-mailcoach::th>
+                <x-mailcoach::th sort-by="updated_at" class="w-48 th-numeric hidden | md:table-cell">{{ __('Updated at') }}</x-mailcoach::th>
                 <th class="w-12"></th>
             </tr>
             </thead>
@@ -53,7 +53,7 @@
                     <td class="td-numeric hidden | md:table-cell">{{ $tag->updated_at->toMailcoachFormat() }}</td>
 
                     <td class="td-action">
-                        <x-form-button
+                        <x-mailcoach::form-button
                             :action="route('mailcoach.emailLists.tag.delete', [$emailList, $tag])"
                             method="DELETE"
                             data-confirm="true"
@@ -61,19 +61,19 @@
                             class="icon-button hover:text-red-500"
                         >
                             <i class="fas fa-trash-alt"></i>
-                        </x-form-button>
+                        </x-mailcoach::form-button>
                     </td>
                 </tr>
             @endforeach
             </tbody>
         </table>
 
-        <x-table-status
+        <x-mailcoach::table-status
             :name="__('tag|tags')"
             :paginator="$tags"
             :total-count="$totalTagsCount"
             :show-all-url="route('mailcoach.emailLists.tags', $emailList)"
-        ></x-table-status>
+        ></x-mailcoach::table-status>
     @else
         <p class="alert alert-info">
             @if($searching)

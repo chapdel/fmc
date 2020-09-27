@@ -453,10 +453,9 @@ class Campaign extends Model implements Feedable, HasHtmlContent
     {
         $segmentClass = $this->segment_class ?? EverySubscriberSegment::class;
 
-        try {
-            $segmentClass = unserialize($segmentClass);
-        } catch (\ErrorException $errorException) {
-            // Do nothing, it was not a serialized string
+        $unserialized = @unserialize($segmentClass);
+        if ($unserialized !== false) {
+            $segmentClass = $unserialized;
         }
 
         if ($segmentClass instanceof Segment) {
