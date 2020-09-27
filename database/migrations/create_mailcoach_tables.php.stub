@@ -196,6 +196,8 @@ class CreateMailcoachTables extends Migration
                 ->onDelete('cascade');
 
             $table->unique('transport_message_id');
+
+            $table->index('uuid');
         });
 
         Schema::create('mailcoach_campaign_clicks', function (Blueprint $table) {
