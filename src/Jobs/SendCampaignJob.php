@@ -17,6 +17,8 @@ class SendCampaignJob implements ShouldQueue
 
     public Campaign $campaign;
 
+    public int $tries = 1;
+
     /** @var string */
     public $queue;
 
