@@ -200,6 +200,7 @@ class CreateMailcoachTables extends Migration
             $table->unique('transport_message_id');
 
             $table->index('uuid');
+            $table->index(['campaign_id', 'subscriber_id']);
         });
 
         Schema::create('mailcoach_campaign_clicks', function (Blueprint $table) {
