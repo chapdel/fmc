@@ -4,8 +4,8 @@ namespace Spatie\Mailcoach\Tests\Commands;
 
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Commands\RetryPendingSendsCommand;
+use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
 use Spatie\Mailcoach\Jobs\SendMailJob;
-use Spatie\Mailcoach\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class RetryPendingSendsCommandTest extends TestCase
@@ -15,11 +15,11 @@ class RetryPendingSendsCommandTest extends TestCase
     {
         Queue::fake();
 
-        $pendingSend = factory(Send::class)->create([
+        $pendingSend = CampaignSendFactory::new()->create([
             'sent_at' => null,
         ]);
 
-        $sentSend = factory(Send::class)->create([
+        $sentSend = CampaignSendFactory::new()->create([
             'sent_at' => now(),
         ]);
 

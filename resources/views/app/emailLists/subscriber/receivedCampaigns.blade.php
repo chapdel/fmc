@@ -16,7 +16,7 @@
     @if($sends->count())
         <div class="table-actions">
             <div class="table-filters">
-                <x-search :placeholder="__('Filter campaigns…')"/>
+                <x-mailcoach::search :placeholder="__('Filter campaigns…')"/>
             </div>
         </div>
 
@@ -45,12 +45,12 @@
             </tbody>
         </table>
 
-        <x-table-status
+        <x-mailcoach::table-status
             :name="__('send|sends')"
             :paginator="$sends"
             :total-count="$totalSendsCount"
             :show-all-url="route('mailcoach.emailLists.subscribers', [$subscriber->emailList])"
-        ></x-table-status>
+        ></x-mailcoach::table-status>
     @else
         <p class="alert alert-info">
             {{ __("This user hasn't received any campaign yet.") }}

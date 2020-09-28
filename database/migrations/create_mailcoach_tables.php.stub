@@ -17,6 +17,9 @@ class CreateMailcoachTables extends Migration
             $table->string('default_from_email')->nullable();
             $table->string('default_from_name')->nullable();
 
+            $table->string('default_reply_to_email')->nullable();
+            $table->string('default_reply_to_name')->nullable();
+
             $table->boolean('allow_form_subscriptions')->default(false);
 
             $table->string('redirect_after_subscribed')->nullable();
@@ -44,7 +47,7 @@ class CreateMailcoachTables extends Migration
             $table->boolean('report_email_list_summary')->default(false);
 
             $table->timestamp('email_list_summary_sent_at')->nullable();
-
+            $table->text('allowed_form_extra_attributes')->nullable();
             $table->timestamps();
         });
 
@@ -58,6 +61,9 @@ class CreateMailcoachTables extends Migration
             $table->json('extra_attributes')->nullable();
 
             $table->uuid('uuid');
+
+            $table->uuid('imported_via_import_uuid')->nullable();
+
             $table->timestamp('subscribed_at')->nullable();
             $table->timestamp('unsubscribed_at')->nullable();
             $table->nullableTimestamps();
@@ -69,6 +75,8 @@ class CreateMailcoachTables extends Migration
 
             $table
                 ->unique(['email_list_id', 'email']);
+
+            $table->index(['email_list_id', 'subscribed_at', 'unsubscribed_at'], 'email_list_subscribed_index');
         });
 
         Schema::create('mailcoach_segments', function (Blueprint $table) {
@@ -91,6 +99,10 @@ class CreateMailcoachTables extends Migration
             $table->uuid('uuid');
             $table->string('from_email')->nullable();
             $table->string('from_name')->nullable();
+
+            $table->string('reply_to_email')->nullable();
+            $table->string('reply_to_name')->nullable();
+
             $table->string('subject')->nullable();
 
             $table->unsignedBigInteger('email_list_id')->nullable();
@@ -102,6 +114,7 @@ class CreateMailcoachTables extends Migration
             $table->longText('webview_html')->nullable();
 
             $table->string('mailable_class')->nullable();
+            $table->json('mailable_arguments')->nullable();
 
             $table->boolean('track_opens')->default(false);
             $table->boolean('track_clicks')->default(false);
@@ -126,6 +139,10 @@ class CreateMailcoachTables extends Migration
             $table->timestamp('sent_at')->nullable();
             $table->timestamp('statistics_calculated_at')->nullable();
             $table->timestamp('scheduled_at')->nullable();
+
+            $table->string('send_batch_id')->nullable();
+            $table->timestamp('all_jobs_added_to_batch_at')->nullable();
+
 
             $table->timestamp('last_modified_at')->nullable();
 
@@ -181,6 +198,8 @@ class CreateMailcoachTables extends Migration
                 ->onDelete('cascade');
 
             $table->unique('transport_message_id');
+
+            $table->index('uuid');
             $table->index(['campaign_id', 'subscriber_id']);
         });
 
@@ -272,8 +291,12 @@ class CreateMailcoachTables extends Migration
 
         Schema::create('mailcoach_subscriber_imports', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->longText('subscribers_csv')->nullable();
+            $table->uuid('uuid');
             $table->string('status');
             $table->unsignedBigInteger('email_list_id');
+            $table->boolean('subscribe_unsubscribed')->default(false);
+            $table->boolean('unsubscribe_others')->default(false);
             $table->integer('imported_subscribers_count')->default(0);
             $table->integer('error_count')->default(0);
             $table->timestamps();

@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers;
 
 use Spatie\Mailcoach\Actions\Subscribers\UpdateSubscriberAction;
-use Spatie\Mailcoach\Http\App\Requests\UpdateSubscriberRequest;
+use Spatie\Mailcoach\Http\App\Requests\EmailLists\Subscribers\UpdateSubscriberRequest;
 use Spatie\Mailcoach\Http\App\ViewModels\SubscriberViewModel;
 use Spatie\Mailcoach\Models\EmailList;
 use Spatie\Mailcoach\Models\Subscriber;

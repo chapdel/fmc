@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Feature\Controllers\App\Subscribers;
+namespace Spatie\Mailcoach\Tests\Features\Controllers\App\Subscribers;
 
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
+use Spatie\Mailcoach\Database\Factories\UserFactory;
 use Spatie\Mailcoach\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\ImportSubscribersController;
 use Spatie\Mailcoach\Mails\ImportSubscribersResultMail;
@@ -24,9 +24,9 @@ class ImportSubscribersControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->emailList = factory(EmailList::class)->create();
+        $this->emailList = EmailList::factory()->create();
 
-        $this->user = factory(User::class)->create();
+        $this->user = UserFactory::new()->create();
         $this->actingAs($this->user);
 
         Mail::fake();
@@ -112,7 +112,21 @@ class ImportSubscribersControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_will_not_subscribe_a_subscriber_that_has_unsubscribed_to_the_list_before()
+    public function it_will_remove_existing_tags()
+    {
+        $subscriber = $this->emailList->subscribeSkippingConfirmation('john@example.com');
+
+        $subscriber->addTag('previousTag');
+
+        $this->uploadStub('single.csv');
+
+        $subscriber = Subscriber::findForEmail('john@example.com', $this->emailList);
+
+        $this->assertEquals(['tag1', 'tag2'], $subscriber->tags()->pluck('name')->toArray());
+    }
+
+    /** @test */
+    public function by_default_it_will_not_subscribe_a_subscriber_that_has_unsubscribed_to_the_list_before()
     {
         $this->emailList->subscribeSkippingConfirmation('john@example.com');
         $this->emailList->unsubscribe('john@example.com');
@@ -122,6 +136,41 @@ class ImportSubscribersControllerTest extends TestCase
         $this->assertFalse($this->emailList->isSubscribed('john@example.com'));
         $this->assertCount(0, $this->emailList->subscribers);
         $this->assertEquals(1, SubscriberImport::first()->error_count);
+    }
+
+    /** @test */
+    public function it_can_subscribe_subscribers_that_were_unsubscribed_before()
+    {
+        $this->emailList->subscribeSkippingConfirmation('john@example.com');
+        $this->emailList->unsubscribe('john@example.com');
+
+        $this->uploadStub('single.csv', ['subscribe_unsubscribed' => true]);
+
+        $this->assertTrue($this->emailList->isSubscribed('john@example.com'));
+        $this->assertCount(1, $this->emailList->subscribers);
+        $this->assertEquals(0, SubscriberImport::first()->error_count);
+    }
+
+    /** @test */
+    public function by_default_it_will_not_unsubscribe_any_existing_subscribers()
+    {
+        $this->emailList->subscribeSkippingConfirmation('paul@example.com');
+
+        $this->uploadStub('single.csv');
+
+        $this->assertTrue($this->emailList->isSubscribed('john@example.com'));
+        $this->assertTrue($this->emailList->isSubscribed('paul@example.com'));
+    }
+
+    /** @test */
+    public function it_can_unsubscribe_any_existing_subscribers_that_were_not_part_of_the_import()
+    {
+        $this->emailList->subscribeSkippingConfirmation('paul@example.com');
+
+        $this->uploadStub('single.csv', ['unsubscribe_others' => true]);
+
+        $this->assertTrue($this->emailList->isSubscribed('john@example.com'));
+        $this->assertFalse($this->emailList->isSubscribed('paul@example.com'));
     }
 
     /** @test */
@@ -140,7 +189,20 @@ class ImportSubscribersControllerTest extends TestCase
         $this->assertCount(0, $this->emailList->subscribers);
     }
 
-    private function uploadStub(string $stubName)
+    /** @test */
+    public function it_can_handle_an_xlsx_file()
+    {
+        $this->uploadStub(
+            'excel.xlsx',
+            [],
+            'excel.xlsx',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        );
+
+        $this->assertCount(1, $this->emailList->subscribers);
+    }
+
+    private function uploadStub(string $stubName, array $parameters = [], string $asFilename = 'import.csv', string $asMimetype = 'text/csv')
     {
         $stubPath = $this->getStubPath($stubName);
         $tempPath = $this->getTempPath($stubName);
@@ -149,15 +211,15 @@ class ImportSubscribersControllerTest extends TestCase
 
         $fileUpload = new UploadedFile(
             $tempPath,
-            'import.csv',
-            'text/csv',
+            $asFilename,
+            $asMimetype,
             filesize($stubPath)
         );
 
         $this->call(
             'post',
             action([ImportSubscribersController::class, 'import'], $this->emailList),
-            [],
+            $parameters,
             [],
             ['file' => $fileUpload]
         );

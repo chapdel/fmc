@@ -20,7 +20,7 @@ class SubscribedEventTest extends TestCase
     public function it_fires_an_event_when_someone_subscribes()
     {
         /** @var \Spatie\Mailcoach\Models\EmailList $emailList */
-        $emailList = factory(EmailList::class)->create([
+        $emailList = EmailList::factory()->create([
             'requires_confirmation' => false,
         ]);
 
@@ -37,7 +37,7 @@ class SubscribedEventTest extends TestCase
     public function it_will_not_fire_the_subscription_event_when_a_subscription_still_needs_to_be_confirmed()
     {
         /** @var \Spatie\Mailcoach\Models\EmailList $emailList */
-        $emailList = factory(EmailList::class)->create([
+        $emailList = EmailList::factory()->create([
             'requires_confirmation' => true,
         ]);
 
@@ -50,7 +50,7 @@ class SubscribedEventTest extends TestCase
     public function it_will_fire_the_subscribe_event_when_a_subscription_is_confirmed()
     {
         /** @var \Spatie\Mailcoach\Models\EmailList $emailList */
-        $emailList = factory(EmailList::class)->create([
+        $emailList = EmailList::factory()->create([
             'requires_confirmation' => true,
         ]);
 

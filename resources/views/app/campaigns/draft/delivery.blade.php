@@ -22,7 +22,7 @@
 
         <div class="flex items-end">
             <div class="flex-grow max-w-xl">
-                <x-text-field
+                <x-mailcoach::text-field
                     :label="__('Test your email first')"
                     :placeholder="__('Email(s) comma separated')"
                     name="emails"
@@ -33,7 +33,7 @@
             </div>
 
             <button type="submit" class="ml-2 button">
-                <x-icon-label icon="fa-paper-plane" :text="__('Send test')"/>
+                <x-mailcoach::icon-label icon="fa-paper-plane" :text="__('Send test')"/>
             </button>
         </div>
 
@@ -85,6 +85,15 @@
 
                 <dd>
                     {{ $campaign->emailList->default_from_email }} {{ $campaign->emailList->default_from_name ? "({$campaign->emailList->default_from_name})" : '' }}
+                </dd>
+
+                <dt>
+                    <i class="fas fa-check text-green-500 mr-2k"></i>
+                    {{ __('Reply-to') }}:
+                </dt>
+
+                <dd>
+                    {{ $campaign->emailList->default_reply_to_email }} {{ $campaign->emailList->default_reply_to_name ? "({$campaign->emailList->default_reply_to_name})" : '' }}
                 </dd>
             @endif
 
@@ -141,7 +150,7 @@
             <dd class="col-start-2 pb-4 mb-2 border-b-2 border-gray-100">
                 <a href="{{ route('mailcoach.campaigns.settings', $campaign) }}"
                    class="link-icon">
-                    <x-icon-label icon="fa-pencil-alt" :text="__('Edit')"/>
+                    <x-mailcoach::icon-label icon="fa-pencil-alt" :text="__('Edit')"/>
                 </a>
             </dd>
 
@@ -186,17 +195,17 @@
             <dd class="col-start-2 pb-4 mb-2 border-b-2 border-gray-100 buttons gap-4">
                 <a href="{{ route('mailcoach.campaigns.content', $campaign) }}"
                    class="link-icon">
-                    <x-icon-label icon="fa-pencil-alt" :text="__('Edit')"/>
+                    <x-mailcoach::icon-label icon="fa-pencil-alt" :text="__('Edit')"/>
                 </a>
 
                 @if($campaign->html && $campaign->hasValidHtml())
                     <button type="button" class="link-icon" data-modal-trigger="preview">
-                        <x-icon-label icon="fa-eye" :text="__('Preview')"/>
+                        <x-mailcoach::icon-label icon="fa-eye" :text="__('Preview')"/>
                     </button>
-                    <x-modal :title="__('Preview')" name="preview" large>
+                    <x-mailcoach::modal :title="__('Preview')" name="preview" large>
                         <iframe class="absolute" width="100%" height="100%"
                                 src="data:text/html;base64,{{ base64_encode($campaign->html) }}"></iframe>
-                    </x-modal>
+                    </x-mailcoach::modal>
                 @endif
             </dd>
 
@@ -220,20 +229,20 @@
                                 <strong>{{ $campaign->scheduled_at->toMailcoachFormat() }}</strong>.
                             </p>
                             <button type="submit" class="link-icon">
-                                <x-icon-label icon="fa-ban" :text="__('Unschedule')"/>
+                                <x-mailcoach::icon-label icon="fa-ban" :text="__('Unschedule')"/>
                             </button>
                         </form>
                     @else
                         <div class="">
                             <div class="radio-group">
-                                <x-radio-field
+                                <x-mailcoach::radio-field
                                     name="schedule"
                                     option-value="now"
                                     :value="$campaign->scheduled_at ? 'future' : 'now'"
                                     :label="__('Send immediately')"
                                     dataConditional="schedule"
                                 />
-                                <x-radio-field
+                                <x-mailcoach::radio-field
                                     name="schedule"
                                     option-value="future"
                                     :value="($campaign->scheduled_at || $errors->first('scheduled_at')) ? 'future' : 'now'"
@@ -249,10 +258,10 @@
                             >
                                 @csrf
                                 <div class="mt-6 flex items-end">
-                                    <x-date-time-field :name="'scheduled_at'" :value="$campaign->scheduled_at" required />
+                                    <x-mailcoach::date-time-field :name="'scheduled_at'" :value="$campaign->scheduled_at" required />
 
                                     <button type="submit" class="ml-6 button bg-orange-500 hover:bg-orange-600 focus:bg-orange-600">
-                                        <x-icon-label icon="fa-clock" :text="__('Schedule delivery')"/>
+                                        <x-mailcoach::icon-label icon="fa-clock" :text="__('Schedule delivery')"/>
                                     </button>
                                 </div>
                                 <p class="mt-2 text-xs text-gray-300">
@@ -267,10 +276,10 @@
                         data-conditional-schedule="now"
                     >
                         <button class="button" data-modal-trigger="send-campaign">
-                            <x-icon-label icon="fa-paper-plane" :text="__('Send now')"/>
+                            <x-mailcoach::icon-label icon="fa-paper-plane" :text="__('Send now')"/>
                         </button>
                     </div>
-                    <x-modal name="send-campaign">
+                    <x-mailcoach::modal name="send-campaign">
                         <div class="flex place-center">
                             <div class="horses-wrap">
                                 <div class="horses">
@@ -279,20 +288,20 @@
                                     <div class="horse-02"><img src="{{ asset('vendor/mailcoach/images/horse-02.png') }}"></div>
                                 </div>
                                 <div class="horse-button">
-                                    <x-form-button
+                                    <x-mailcoach::form-button
                                         :action="route('mailcoach.campaigns.send', $campaign)"
                                         class="button bg-red-500 shadow-2xl text-lg h-12"
                                     >
                                         @if ($campaign->segmentSubscriberCount() === 1)
-                                            <x-icon-label icon="fa-paper-plane" :text="__('Send :subscribers email', ['subscribers' => number_format($campaign->segmentSubscriberCount())])"/>
+                                            <x-mailcoach::icon-label icon="fa-paper-plane" :text="__('Send :subscribers email', ['subscribers' => number_format($campaign->segmentSubscriberCount())])"/>
                                         @else
-                                            <x-icon-label icon="fa-paper-plane" :text="__('Send :subscribers emails', ['subscribers' => number_format($campaign->segmentSubscriberCount())])"/>
+                                            <x-mailcoach::icon-label icon="fa-paper-plane" :text="__('Send :subscribers emails', ['subscribers' => number_format($campaign->segmentSubscriberCount())])"/>
                                         @endif
-                                    </x-form-button>
+                                    </x-mailcoach::form-button>
                                 </div>
                             </div>
                         </div>
-                    </x-modal>
+                    </x-mailcoach::modal>
                 </dd>
             @endif
         </dl>

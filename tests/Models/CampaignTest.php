@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Queue;
+use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
 use Spatie\Mailcoach\Enums\CampaignStatus;
 use Spatie\Mailcoach\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Jobs\CalculateStatisticsJob;
@@ -13,11 +14,11 @@ use Spatie\Mailcoach\Jobs\SendCampaignJob;
 use Spatie\Mailcoach\Jobs\SendTestMailJob;
 use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Send;
 use Spatie\Mailcoach\Support\Segments\EverySubscriberSegment;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMail;
+use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMailWithArguments;
 use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMailWithStaticHtml;
 use Spatie\Mailcoach\Tests\TestClasses\TestCustomInstanciatedQueryOnlyShouldSendToJohn;
 use Spatie\Mailcoach\Tests\TestClasses\TestCustomQueryOnlyShouldSendToJohn;
@@ -96,7 +97,7 @@ class CampaignTest extends TestCase
     /** @test */
     public function it_can_add_a_list()
     {
-        $list = factory(EmailList::class)->create();
+        $list = EmailList::factory()->create();
 
         $this->campaign->to($list);
 
@@ -106,7 +107,7 @@ class CampaignTest extends TestCase
     /** @test */
     public function it_can_be_sent()
     {
-        $list = factory(EmailList::class)->create();
+        $list = EmailList::factory()->create();
 
         $campaign = Campaign::create()
             ->from('test@example.com')
@@ -125,7 +126,7 @@ class CampaignTest extends TestCase
     /** @test */
     public function it_has_a_shorthand_to_set_the_list_and_send_it_in_one_go()
     {
-        $list = factory(EmailList::class)->create();
+        $list = EmailList::factory()->create();
 
         $campaign = Campaign::create()
             ->from('test@example.com')
@@ -206,7 +207,7 @@ class CampaignTest extends TestCase
     {
         Bus::fake();
 
-        $list = factory(EmailList::class)->create();
+        $list = EmailList::factory()->create();
 
         Campaign::create()
             ->from('test@example.com')
@@ -222,7 +223,7 @@ class CampaignTest extends TestCase
     {
         Bus::fake();
 
-        $list = factory(EmailList::class)->create([
+        $list = EmailList::factory()->create([
             'default_from_email' => 'defaultEmailList@example.com',
             'default_from_name' => 'List name',
         ]);
@@ -241,11 +242,34 @@ class CampaignTest extends TestCase
     }
 
     /** @test */
+    public function it_can_use_the_default_reply_to_email_and_name_set_on_the_email_list()
+    {
+        Bus::fake();
+
+        $list = EmailList::factory()->create([
+            'default_reply_to_email' => 'defaultEmailList@example.com',
+            'default_reply_to_name' => 'List name',
+        ]);
+
+        Campaign::create()
+            ->content('my content')
+            ->subject('test')
+            ->sendTo($list);
+
+        Bus::assertDispatched(SendCampaignJob::class, function (SendCampaignJob $job) {
+            $this->assertEquals('defaultEmailList@example.com', $job->campaign->reply_to_email);
+            $this->assertEquals('List name', $job->campaign->reply_to_name);
+
+            return true;
+        });
+    }
+
+    /** @test */
     public function it_will_prefer_the_email_and_from_name_from_the_campaign_over_the_defaults_set_on_the_email_list()
     {
         Bus::fake();
 
-        $list = factory(EmailList::class)->create([
+        $list = EmailList::factory()->create([
             'default_from_email' => 'defaultEmailList@example.com',
             'default_from_name' => 'List name',
         ]);
@@ -259,6 +283,31 @@ class CampaignTest extends TestCase
         Bus::assertDispatched(SendCampaignJob::class, function (SendCampaignJob $job) {
             $this->assertEquals('campaign@example.com', $job->campaign->from_email);
             $this->assertEquals('campaign from name', $job->campaign->from_name);
+
+            return true;
+        });
+    }
+
+    /** @test */
+    public function it_will_prefer_the_email_and_reply_to_name_from_the_campaign_over_the_defaults_set_on_the_email_list()
+    {
+        Bus::fake();
+
+        $list = EmailList::factory()->create([
+            'default_reply_to_email' => 'defaultEmailList@example.com',
+            'default_reply_to_name' => 'List name',
+        ]);
+
+        Campaign::create()
+            ->content('my content')
+            ->subject('test')
+            ->from('campaign@example.com', 'campaign from name')
+            ->replyTo('replyToCampaign@example.com', 'reply to from campaign')
+            ->sendTo($list);
+
+        Bus::assertDispatched(SendCampaignJob::class, function (SendCampaignJob $job) {
+            $this->assertEquals('replyToCampaign@example.com', $job->campaign->reply_to_email);
+            $this->assertEquals('reply to from campaign', $job->campaign->reply_to_name);
 
             return true;
         });
@@ -352,30 +401,30 @@ class CampaignTest extends TestCase
     {
         Campaign::truncate();
 
-        $draftCampaign = factory(Campaign::class)->create([
+        $draftCampaign = Campaign::factory()->create([
             'status' => CampaignStatus::DRAFT,
         ]);
 
-        $scheduledInThePastCampaign = factory(Campaign::class)->create([
+        $scheduledInThePastCampaign = Campaign::factory()->create([
             'status' => CampaignStatus::DRAFT,
             'scheduled_at' => now()->subSecond(),
         ]);
 
-        $scheduledNowCampaign = factory(Campaign::class)->create([
+        $scheduledNowCampaign = Campaign::factory()->create([
             'status' => CampaignStatus::DRAFT,
             'scheduled_at' => now(),
         ]);
 
-        $scheduledInFutureCampaign = factory(Campaign::class)->create([
+        $scheduledInFutureCampaign = Campaign::factory()->create([
             'status' => CampaignStatus::DRAFT,
             'scheduled_at' => now()->addSecond(),
         ]);
 
-        $sendingCampaign = factory(Campaign::class)->create([
+        $sendingCampaign = Campaign::factory()->create([
             'status' => CampaignStatus::SENDING,
         ]);
 
-        $sentCampaign = factory(Campaign::class)->create([
+        $sentCampaign = Campaign::factory()->create([
             'status' => CampaignStatus::SENT,
         ]);
 
@@ -412,12 +461,12 @@ class CampaignTest extends TestCase
             'last_modified_at' => now(),
         ]);
 
-        factory(Send::class)->create([
+        CampaignSendFactory::new()->create([
             'campaign_id' => $this->campaign->id,
             'sent_at' => now(),
         ]);
 
-        $send = factory(Send::class)->create([
+        $send = CampaignSendFactory::new()->create([
             'campaign_id' => $this->campaign->id,
             'sent_at' => null,
         ]);
@@ -435,7 +484,7 @@ class CampaignTest extends TestCase
     public function it_can_inline_the_styles_of_the_html()
     {
         /** @var Campaign $campaign */
-        $campaign = factory(Campaign::class)->create(['html' => '
+        $campaign = Campaign::factory()->create(['html' => '
             <html>
             <style>
 
@@ -454,7 +503,7 @@ class CampaignTest extends TestCase
     public function it_doesnt_change_the_doctype()
     {
         /** @var Campaign $campaign */
-        $campaign = factory(Campaign::class)->create(['html' => '
+        $campaign = Campaign::factory()->create(['html' => '
             <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
             <html>
             <style>
@@ -476,7 +525,7 @@ class CampaignTest extends TestCase
     public function it_can_inline_the_styles_of_the_html_with_custom_mailable()
     {
         /** @var Campaign $campaign */
-        $campaign = factory(Campaign::class)->create(['mailable_class' => TestCampaignMailWithStaticHtml::class]);
+        $campaign = Campaign::factory()->create(['mailable_class' => TestCampaignMailWithStaticHtml::class]);
         $campaign->content('');
 
         $this->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->htmlWithInlinedCss());
@@ -486,16 +535,28 @@ class CampaignTest extends TestCase
     public function it_can_pull_subject_from_custom_mailable()
     {
         /** @var Campaign $campaign */
-        $campaign = factory(Campaign::class)->create(['mailable_class' => TestCampaignMail::class, 'subject' => 'This is the campaign subject and should be overwritten.']);
+        $campaign = Campaign::factory()->create(['mailable_class' => TestCampaignMail::class, 'subject' => 'This is the campaign subject and should be overwritten.']);
         $campaign->pullSubjectFromMailable();
 
         $this->assertEquals($campaign->subject, 'This is the subject from the custom mailable.');
     }
 
+    /** @test */
+    public function it_can_use_a_custom_mailable_with_arguments()
+    {
+        $campaign = Campaign::factory()->create();
+
+        $test_argument_value = 'This is a test value.';
+
+        $campaign->useMailable(TestCampaignMailWithArguments::class, ['test_argument' => $test_argument_value]);
+
+        $this->assertEquals($test_argument_value, $campaign->contentFromMailable());
+    }
+
     /** @test * */
     public function it_wont_throw_on_unserializable_segment_class()
     {
-        $campaign = factory(Campaign::class)->create([
+        $campaign = Campaign::factory()->create([
             'segment_class' => EverySubscriberSegment::class,
         ]);
 

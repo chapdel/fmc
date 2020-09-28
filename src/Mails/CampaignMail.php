@@ -20,7 +20,7 @@ class CampaignMail extends Mailable
 
     public string $textContent = '';
 
-    public function setSend(Send $send)
+    public function setSend(Send $send): self
     {
         $this->send = $send;
 
@@ -29,21 +29,21 @@ class CampaignMail extends Mailable
         return $this;
     }
 
-    public function setCampaign(Campaign $campaign)
+    public function setCampaign(Campaign $campaign): self
     {
         $this->campaign = $campaign;
 
         return $this;
     }
 
-    public function setHtmlContent(string $htmlContent = '')
+    public function setHtmlContent(string $htmlContent = ''): self
     {
-        $this->htmlContent = $htmlContent ?? '';
+        $this->htmlContent = $htmlContent;
 
         return $this;
     }
 
-    public function setTextContent(string $textContent)
+    public function setTextContent(string $textContent): self
     {
         $this->textContent = $textContent;
 
@@ -63,7 +63,7 @@ class CampaignMail extends Mailable
 
     public function build()
     {
-        return $this
+        $mail = $this
             ->from(
                 $this->campaign->from_email ?? $this->campaign->emailList->default_from_email,
                 $this->campaign->from_name ?? $this->campaign->emailList->default_from_name ?? null
@@ -73,6 +73,18 @@ class CampaignMail extends Mailable
             ->text('mailcoach::mails.campaignText')
             ->addUnsubscribeHeaders()
             ->storeTransportMessageId();
+
+        $replyTo = $this->campaign->reply_to_email ?? $this->campaign->emailList->reply_to_email;
+
+        if (! empty($replyTo)) {
+            $mail->replyTo(
+                $replyTo,
+                $this->campaign->reply_to_name ?? $this->campaign->emailList->default_reply_to_name ?? null
+            );
+        }
+
+
+        return $mail;
     }
 
     protected function addUnsubscribeHeaders(): self

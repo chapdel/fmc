@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Str;
+use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
 use Spatie\Mailcoach\Enums\CampaignStatus;
 use Spatie\Mailcoach\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Exceptions\CouldNotSendCampaign;
@@ -70,18 +71,18 @@ class SendCampaignJobTest extends TestCase
         Event::fake();
         Mail::fake();
 
-        $emailList = factory(EmailList::class)->create();
+        $emailList = EmailList::factory()->create();
 
-        $campaign = factory(Campaign::class)->create([
+        $campaign = Campaign::factory()->create([
             'email_list_id' => $emailList->id,
         ]);
 
-        $subscriber = factory(Subscriber::class)->create([
+        $subscriber = Subscriber::factory()->create([
             'email_list_id' => $emailList->id,
             'subscribed_at' => now(),
         ]);
 
-        factory(Send::class)->create([
+        CampaignSendFactory::new()->create([
             'subscriber_id' => $subscriber->id,
             'campaign_id' => $campaign->id,
         ]);
@@ -105,6 +106,21 @@ class SendCampaignJobTest extends TestCase
             $this->assertEquals('my subject', $campaignMail->subject);
 
             return true;
+        });
+    }
+
+    /** @test */
+    public function it_will_use_the_reply_to_fields()
+    {
+        Event::fake();
+        Mail::fake();
+
+        $this->campaign->replyTo('replyto@example.com', 'Reply to John Doe');
+
+        dispatch(new SendCampaignJob($this->campaign));
+
+        Mail::assertSent(CampaignMail::class, function (CampaignMail $campaignMail) {
+            return $campaignMail->build()->hasReplyTo('replyto@example.com', 'Reply to John Doe');
         });
     }
 
@@ -166,7 +182,7 @@ class SendCampaignJobTest extends TestCase
 
         config()->set('mailcoach.perform_on_queue.send_campaign_job', 'custom-queue');
 
-        $campaign = factory(Campaign::class)->create();
+        $campaign = Campaign::factory()->create();
         dispatch(new SendCampaignJob($campaign));
 
         Queue::assertPushedOn('custom-queue', SendCampaignJob::class);

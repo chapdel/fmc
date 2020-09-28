@@ -2,13 +2,14 @@
 
 namespace Spatie\Mailcoach\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Mailcoach\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class Template extends Model implements HasHtmlContent
 {
-    use UsesMailcoachModels;
+    use UsesMailcoachModels, HasFactory;
 
     public $table = 'mailcoach_templates';
 

@@ -2,12 +2,15 @@
 
 namespace Spatie\Mailcoach\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Mailcoach\Enums\SendFeedbackType;
 
 class SendFeedbackItem extends Model
 {
+    use HasFactory;
+
     public $table = 'mailcoach_send_feedback_items';
 
     protected $guarded = [];
@@ -24,6 +27,6 @@ class SendFeedbackItem extends Model
             SendFeedbackType::COMPLAINT => __('Received complaint'),
         ];
 
-        return $formattedTypes[$this->type];
+        return (string)$formattedTypes[$this->type] ?? '';
     }
 }

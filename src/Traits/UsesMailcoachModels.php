@@ -28,4 +28,14 @@ trait UsesMailcoachModels
     {
         return config('mailcoach.models.template', Template::class);
     }
+
+    public function getEmailListTableName(): string
+    {
+        /** @var \Illuminate\Database\Eloquent\Model $emailList */
+        $emailListClass = $this->getEmailListClass();
+
+        $emailList = new $emailListClass;
+
+        return $emailList->getTable();
+    }
 }

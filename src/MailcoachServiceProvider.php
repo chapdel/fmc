@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach;
 
-use Illuminate\Foundation\Support\Providers\EventServiceProvider;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
@@ -11,8 +10,10 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Commands\CalculateStatisticsCommand;
+use Spatie\Mailcoach\Commands\CleanupProcessedFeedbackCommand;
 use Spatie\Mailcoach\Commands\DeleteOldUnconfirmedSubscribersCommand;
 use Spatie\Mailcoach\Commands\RetryPendingSendsCommand;
 use Spatie\Mailcoach\Commands\SendCampaignSummaryMailCommand;
@@ -24,24 +25,23 @@ use Spatie\Mailcoach\Components\ReplacerHelpTextsComponent;
 use Spatie\Mailcoach\Components\SearchComponent;
 use Spatie\Mailcoach\Components\THComponent;
 use Spatie\Mailcoach\Events\CampaignSentEvent;
+use Spatie\Mailcoach\Events\WebhookCallProcessedEvent;
 use Spatie\Mailcoach\Http\App\Controllers\HomeController;
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\IndexComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\QueryStringComposer;
 use Spatie\Mailcoach\Listeners\SendCampaignSentEmail;
-use Spatie\Mailcoach\Support\HttpClient;
+use Spatie\Mailcoach\Listeners\SetWebhookCallProcessedAt;
 use Spatie\Mailcoach\Support\Version;
 use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 use Spatie\QueryString\QueryString;
 
-class MailcoachServiceProvider extends EventServiceProvider
+class MailcoachServiceProvider extends ServiceProvider
 {
     use UsesMailcoachModels;
 
     public function boot()
     {
-        parent::boot();
-
         $this
             ->bootCarbon()
             ->bootCommands()
@@ -51,19 +51,17 @@ class MailcoachServiceProvider extends EventServiceProvider
             ->bootSupportMacros()
             ->bootTranslations()
             ->bootViews()
-            ->registerEventListeners();
+            ->bootEvents();
     }
 
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/mailcoach.php', 'mailcoach');
 
-        $this->app->singleton(QueryString::class, fn () => new QueryString(urldecode($this->app->request->getRequestUri())));
+        $this->app->singleton(QueryString::class, fn () => new QueryString(urldecode(request()->getRequestUri())));
 
         $this->app->singleton(Version::class, function () {
-            $httpClient = new HttpClient();
-
-            return new Version($httpClient);
+            return new Version();
         });
     }
 
@@ -86,6 +84,7 @@ class MailcoachServiceProvider extends EventServiceProvider
                 SendEmailListSummaryMailCommand::class,
                 RetryPendingSendsCommand::class,
                 DeleteOldUnconfirmedSubscribersCommand::class,
+                CleanupProcessedFeedbackCommand::class,
             ]);
         }
 
@@ -163,7 +162,7 @@ class MailcoachServiceProvider extends EventServiceProvider
             __DIR__ . '/../resources/dist' => public_path('vendor/mailcoach'),
         ], 'mailcoach-assets');
 
-        if (! class_exists('CreateEmailCampaignTables')) {
+        if (! class_exists('CreateMailcoachTables')) {
             $this->publishes([
                 __DIR__ . '/../database/migrations/create_mailcoach_tables.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_mailcoach_tables.php'),
             ], 'mailcoach-migrations');
@@ -172,6 +171,18 @@ class MailcoachServiceProvider extends EventServiceProvider
         if (! class_exists('CreateMediaTable')) {
             $this->publishes([
                 __DIR__ . '/../../laravel-medialibrary/database/migrations/create_media_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_media_table.php'),
+            ], 'mailcoach-migrations');
+        }
+
+        if (! class_exists('CreateWebhookCallsTable')) {
+            $this->publishes([
+                __DIR__ . '/../database/migrations/create_webhook_calls_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_webhook_calls_table.php'),
+            ], 'mailcoach-migrations');
+        }
+
+        if (! class_exists('CreateJobBatchesTable')) {
+            $this->publishes([
+                __DIR__ . '/../database/migrations/create_job_batches_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_job_batches_table.php'),
             ], 'mailcoach-migrations');
         }
 
@@ -184,8 +195,15 @@ class MailcoachServiceProvider extends EventServiceProvider
             Route::get($url, '\\'.HomeController::class)->name('mailcoach.home');
 
             Route::prefix($url)->group(function () {
-                Route::prefix('')->group(__DIR__ . '/../routes/mailcoach-api.php');
-                Route::middleware(config('mailcoach.middleware'))->group(__DIR__ . '/../routes/mailcoach-ui.php');
+                Route::prefix('')->group(__DIR__ . '/../routes/mailcoach-public-api.php');
+
+                Route::prefix('')
+                    ->middleware(config('mailcoach.middleware')['web'])
+                    ->group(__DIR__ . '/../routes/mailcoach-ui.php');
+
+                Route::prefix('api')
+                    ->middleware(config('mailcoach.middleware')['api'])
+                    ->group(__DIR__ . '/../routes/mailcoach-api.php');
             });
         });
 
@@ -217,42 +235,41 @@ class MailcoachServiceProvider extends EventServiceProvider
 
     protected function bootBladeComponents(): self
     {
-        Blade::component('mailcoach::app.components.form.checkboxField', 'checkbox-field');
-        Blade::component('mailcoach::app.components.form.radioField', 'radio-field');
-        Blade::component('mailcoach::app.components.form.formButton', 'form-button');
-        Blade::component('mailcoach::app.components.form.selectField', 'select-field');
-        Blade::component('mailcoach::app.components.form.tagsField', 'tags-field');
-        Blade::component('mailcoach::app.components.form.textField', 'text-field');
-        Blade::component('mailcoach::app.components.form.htmlField', 'html-field');
-        Blade::component('mailcoach::app.components.form.dateField', 'date-field');
-        Blade::component(DateTimeFieldComponent::class, 'date-time-field');
+        Blade::component('mailcoach::app.components.form.checkboxField', 'mailcoach::checkbox-field');
+        Blade::component('mailcoach::app.components.form.radioField', 'mailcoach::radio-field');
+        Blade::component('mailcoach::app.components.form.formButton', 'mailcoach::form-button');
+        Blade::component('mailcoach::app.components.form.selectField', 'mailcoach::select-field');
+        Blade::component('mailcoach::app.components.form.tagsField', 'mailcoach::tags-field');
+        Blade::component('mailcoach::app.components.form.textField', 'mailcoach::text-field');
+        Blade::component('mailcoach::app.components.form.htmlField', 'mailcoach::html-field');
+        Blade::component('mailcoach::app.components.form.dateField', 'mailcoach::date-field');
+        Blade::component(DateTimeFieldComponent::class, 'mailcoach::date-time-field');
 
-        Blade::component('mailcoach::app.components.modal.modal', 'modal');
+        Blade::component('mailcoach::app.components.modal.modal', 'mailcoach::modal');
 
-        Blade::component('mailcoach::app.components.table.tableStatus', 'table-status');
-        Blade::component(THComponent::class, 'th');
+        Blade::component('mailcoach::app.components.table.tableStatus', 'mailcoach::table-status');
+        Blade::component(THComponent::class, 'mailcoach::th');
 
-        Blade::component('mailcoach::app.components.filters.filters', 'filters');
-        Blade::component(FilterComponent::class, 'filter');
+        Blade::component('mailcoach::app.components.filters.filters', 'mailcoach::filters');
+        Blade::component(FilterComponent::class, 'mailcoach::filter');
 
-        Blade::component(SearchComponent::class, 'search');
-        Blade::component('mailcoach::app.components.statistic', 'statistic');
-        Blade::component('mailcoach::app.components.navigationItem', 'navigation-item');
-        Blade::component('mailcoach::app.components.iconLabel', 'icon-label');
+        Blade::component(SearchComponent::class, 'mailcoach::search');
+        Blade::component('mailcoach::app.components.statistic', 'mailcoach::statistic');
+        Blade::component('mailcoach::app.components.navigationItem', 'mailcoach::navigation-item');
+        Blade::component('mailcoach::app.components.iconLabel', 'mailcoach::icon-label');
 
-        Blade::component('mailcoach::app.components.help', 'help');
-        Blade::component('mailcoach::app.components.counter', 'counter');
+        Blade::component('mailcoach::app.components.help', 'mailcoach::help');
+        Blade::component('mailcoach::app.components.counter', 'mailcoach::counter');
 
-        Blade::component(ReplacerHelpTextsComponent::class, 'replacer-help-texts');
+        Blade::component(ReplacerHelpTextsComponent::class, 'mailcoach::replacer-help-texts');
 
         return $this;
     }
 
-    protected function registerEventListeners(): self
+    private function bootEvents()
     {
-        Event::listen(CampaignSentEvent::class, function (CampaignSentEvent $event) {
-            (new SendCampaignSentEmail())->handle($event);
-        });
+        Event::listen(CampaignSentEvent::class, SendCampaignSentEmail::class);
+        Event::listen(WebhookCallProcessedEvent::class, SetWebhookCallProcessedAt::class);
 
         return $this;
     }

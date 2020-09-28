@@ -1,5 +1,4 @@
 require('./components/turbolinks');
-
 require('./components/conditional');
 require('./components/confirm');
 require('./components/datepicker');

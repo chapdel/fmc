@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Feature\Controllers\App\EmailLists;
+namespace Spatie\Mailcoach\Tests\Features\Controllers\App\EmailLists;
 
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\CreateEmailListController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\SubscribersIndexController;
@@ -15,6 +15,7 @@ class CreateEmailListControllerTest extends TestCase
 
         $attributes = [
             'name' => 'new list',
+            'default_from_email' => 'john@example.com',
         ];
 
         $this
@@ -37,9 +38,11 @@ class CreateEmailListControllerTest extends TestCase
 
         $attributes = [
             'name' => 'new list',
+            'default_from_email' => 'john@example.com',
         ];
 
-        $this->post(action(CreateEmailListController::class), $attributes);
+        $this
+            ->postJson(action(CreateEmailListController::class), $attributes);
 
         $attributes['transactional_mailer'] = 'some-mailer';
         $attributes['campaign_mailer'] = 'some-mailer';
@@ -58,6 +61,7 @@ class CreateEmailListControllerTest extends TestCase
 
         $attributes = [
             'name' => 'new list',
+            'default_from_email' => 'john@example.com',
         ];
 
         $this->post(action(CreateEmailListController::class), $attributes);

@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Feature\Controllers\App\Campaigns;
+namespace Spatie\Mailcoach\Tests\Features\Controllers\App\Campaigns;
 
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignDeliveryController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\UnscheduleCampaignController;
@@ -14,7 +14,7 @@ class UnscheduleCampaignControllerTest extends TestCase
     {
         $this->authenticate();
 
-        $campaign = factory(Campaign::class)->create([
+        $campaign = Campaign::factory()->create([
             'scheduled_at' => now()->format('Y-m-d H:i:s'),
         ]);
 

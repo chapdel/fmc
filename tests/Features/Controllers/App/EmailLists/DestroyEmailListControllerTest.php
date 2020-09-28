@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Feature\Controllers\App\EmailLists;
+namespace Spatie\Mailcoach\Tests\Features\Controllers\App\EmailLists;
 
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\DestroyEmailListController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\EmailListsIndexController;
@@ -14,7 +14,7 @@ class DestroyEmailListControllerTest extends TestCase
     {
         $this->authenticate();
 
-        $emailList = factory(EmailList::class)->create();
+        $emailList = EmailList::factory()->create();
 
         $this
             ->delete(action(DestroyEmailListController::class, $emailList->id))

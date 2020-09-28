@@ -11,7 +11,7 @@ class ImportSubscriberRow
 {
     private EmailList $emailList;
 
-    private array $values = [];
+    private array $values;
 
     public function __construct(EmailList $emailList, array $values)
     {

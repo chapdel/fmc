@@ -18,7 +18,7 @@ class SendTestMailJobTest extends TestCase
     {
         Mail::fake();
 
-        $campaign = factory(Campaign::class)->create([
+        $campaign = Campaign::factory()->create([
             'html' => 'my html',
             'subject' => 'my subject',
         ]);
@@ -46,7 +46,7 @@ class SendTestMailJobTest extends TestCase
         Queue::fake();
         config()->set('mailcoach.perform_on_queue.send_test_mail_job', 'custom-queue');
 
-        $campaign = factory(Campaign::class)->create();
+        $campaign = Campaign::factory()->create();
         dispatch(new SendTestMailJob($campaign, 'john@example.com'));
         Queue::assertPushedOn('custom-queue', SendTestMailJob::class);
     }
@@ -54,7 +54,7 @@ class SendTestMailJobTest extends TestCase
     /** @test */
     public function it_can_send_a_test_email_using_a_custom_mailable()
     {
-        $campaign = factory(Campaign::class)->create();
+        $campaign = Campaign::factory()->create();
 
         $campaign->emailList->update(['campaign_mailer' => 'some-mailer']);
         $campaign->useMailable(TestCampaignMail::class);

@@ -16,7 +16,7 @@ class PrepareEmailHtmlActionTest extends TestCase
     {
         $myHtml = '<h1>Hello</h1><p>Hello world</p>';
 
-        $campaign = factory(Campaign::class)->create([
+        $campaign = Campaign::factory()->create([
             'track_clicks' => true,
             'html' => $myHtml,
         ]);
@@ -33,7 +33,7 @@ class PrepareEmailHtmlActionTest extends TestCase
     {
         $myHtml = '<html><a href="https://google.com?foo=true&bar=false">Test</a></html>';
 
-        $campaign = factory(Campaign::class)->create([
+        $campaign = Campaign::factory()->create([
             'track_clicks' => true,
             'html' => $myHtml,
         ]);
@@ -50,7 +50,7 @@ class PrepareEmailHtmlActionTest extends TestCase
     {
         $myHtml = '<html><h1>Hello</h1><p>Hello world</p></html>';
 
-        $campaign = factory(Campaign::class)->create([
+        $campaign = Campaign::factory()->create([
             'track_clicks' => true,
             'html' => $myHtml,
         ]);
@@ -67,7 +67,7 @@ class PrepareEmailHtmlActionTest extends TestCase
     {
         $myHtml = '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd"><h1>Hello</h1><p>Hello world</p>';
 
-        $campaign = factory(Campaign::class)->create([
+        $campaign = Campaign::factory()->create([
             'track_clicks' => true,
             'html' => $myHtml,
         ]);
@@ -84,7 +84,7 @@ class PrepareEmailHtmlActionTest extends TestCase
     {
         $myHtml = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><h1>Hello</h1><p>Hello world</p>';
 
-        $campaign = factory(Campaign::class)->create([
+        $campaign = Campaign::factory()->create([
             'track_clicks' => true,
             'html' => $myHtml,
         ]);

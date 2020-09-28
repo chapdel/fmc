@@ -24,7 +24,7 @@ class DoubleOptInTest extends TestCase
         parent::setUp();
 
         /* @var \Spatie\Mailcoach\Models\EmailList $emailList */
-        $this->emailList = factory(EmailList::class)->create(['requires_confirmation' => true]);
+        $this->emailList = EmailList::factory()->create(['requires_confirmation' => true]);
 
         Event::listen(MessageSent::class, function (MessageSent $event) {
             $link = (new Crawler($event->message->getBody()))

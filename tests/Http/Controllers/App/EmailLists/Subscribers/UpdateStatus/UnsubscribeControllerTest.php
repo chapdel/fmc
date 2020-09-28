@@ -19,7 +19,7 @@ class UnsubscribeControllerTest extends TestCase
     /** @test */
     public function it_can_unsubscribe_a_subscriber()
     {
-        $emailList = factory(EmailList::class)->create();
+        $emailList = EmailList::factory()->create();
 
         $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($emailList);
 
@@ -37,7 +37,7 @@ class UnsubscribeControllerTest extends TestCase
     {
         $this->withExceptionHandling();
 
-        $emailList = factory(EmailList::class)->create();
+        $emailList = EmailList::factory()->create();
         $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($emailList);
         $subscriber->unsubscribe();
 

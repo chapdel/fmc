@@ -17,7 +17,7 @@ class ConfirmSubscriptionMailTest extends TestCase
     {
         parent::setUp();
 
-        $this->emailList = factory(EmailList::class)->create([
+        $this->emailList = EmailList::factory()->create([
             'requires_confirmation' => true,
             'name' => 'my newsletter',
             'transactional_mailer' => 'some-transactional-mailer',

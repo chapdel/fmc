@@ -2,7 +2,10 @@
 
 namespace Spatie\Mailcoach\Actions\Campaigns;
 
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\LazyCollection;
 use Illuminate\Support\Str;
+use Spatie\Mailcoach\Jobs\MarkCampaignAsFullyDispatchedJob;
 use Spatie\Mailcoach\Jobs\MarkCampaignAsSentJob;
 use Spatie\Mailcoach\Jobs\SendMailJob;
 use Spatie\Mailcoach\Models\Campaign;
@@ -69,30 +72,51 @@ class SendCampaignAction
 
         $campaign->update(['sent_to_number_of_subscribers' => $subscribersQuery->count()]);
 
-        $subscribersQuery->each(function (Subscriber $subscriber) use ($campaign, $segment) {
-            $this->sendMail($campaign, $subscriber, $segment);
-        });
+        $campaign->update(['all_jobs_added_to_batch_at' => null]);
 
-        dispatch(new MarkCampaignAsSentJob($campaign));
+        $batch = Bus::batch([])
+            ->allowFailures()
+            ->finally(function () use ($campaign) {
+                if (! $campaign->refresh()->all_jobs_added_to_batch_at) {
+                    return;
+                }
+
+                dispatch(new MarkCampaignAsSentJob($campaign));
+            })
+            ->name($campaign->getBatchName())
+            ->dispatch();
+
+        $campaign->update(['send_batch_id' => $batch->id]);
+
+        $subscribersQuery
+            ->cursor()
+            ->map(fn (Subscriber $subscriber) => $this->createSendMailJob($campaign, $subscriber, $segment))
+            ->filter()
+            ->chunk(1000)
+            ->each(function (LazyCollection $jobs) use ($batch) {
+                $batch->add($jobs);
+            });
+
+        $batch->add(new MarkCampaignAsFullyDispatchedJob($campaign));
     }
 
-    protected function sendMail(Campaign $campaign, Subscriber $subscriber, Segment $segment): void
+    protected function createSendMailJob(Campaign $campaign, Subscriber $subscriber, Segment $segment): ?SendMailJob
     {
         if (! $segment->shouldSend($subscriber)) {
             $campaign->decrement('sent_to_number_of_subscribers');
 
-            return;
+            return null;
         }
 
         if (! $this->isValidSubscriptionForEmailList($subscriber, $campaign->emailList)) {
             $campaign->decrement('sent_to_number_of_subscribers');
 
-            return;
+            return null;
         }
 
         $pendingSend = $this->createSend($campaign, $subscriber);
 
-        dispatch(new SendMailJob($pendingSend));
+        return new SendMailJob($pendingSend);
     }
 
     protected function createSend(Campaign $campaign, Subscriber $subscriber): Send

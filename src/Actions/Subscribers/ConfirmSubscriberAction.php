@@ -10,11 +10,24 @@ class ConfirmSubscriberAction
 {
     use SendsWelcomeMail;
 
+    protected bool $sendWelcomeMail = true;
+
+    public function doNotSendWelcomeMail(): self
+    {
+        $this->sendWelcomeMail = false;
+
+        return $this;
+    }
+
     public function execute(Subscriber $subscriber)
     {
-        $subscriber->update(['subscribed_at' => now()]);
+        $subscriber->update([
+            'subscribed_at' => now(),
+        ]);
 
-        $this->sendWelcomeMail($subscriber);
+        if ($this->sendWelcomeMail) {
+            $this->sendWelcomeMail($subscriber);
+        }
 
         event(new SubscribedEvent($subscriber));
     }

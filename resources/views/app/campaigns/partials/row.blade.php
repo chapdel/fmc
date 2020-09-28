@@ -3,7 +3,7 @@
         @include('mailcoach::app.campaigns.partials.campaignStatusIcon', ['status' => $campaign->status])
     </td>
     <td class="markup-links">
-        @if($campaign->isSent() || $campaign->isSending())
+        @if($campaign->isSent() || $campaign->isSending() || $campaign->isCancelled())
             <a href="{{ route('mailcoach.campaigns.summary', $campaign) }}">
                 {{ $campaign->name }}
             </a>
@@ -17,23 +17,36 @@
             </a>
         @endif
     </td>
+    <td class="markup-links">
+        @if ($campaign->emailList)
+        <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">
+            {{ $campaign->emailList->name }}
+        </a>
+        @else
+            &ndash;
+        @endif
+    </td>
     <td class="td-numeric">
-        {{ $campaign->sent_to_number_of_subscribers ?: '-' }}
+        @if ($campaign->isCancelled())
+            {{ $campaign->sendsCount() ?: '–' }}
+        @else
+            {{ $campaign->sent_to_number_of_subscribers ?: '–' }}
+        @endif
     </td>
     <td class="td-numeric hidden | md:table-cell">
         @if($campaign->open_rate)
             {{ $campaign->unique_open_count }}
-            <div class="td-secondary-line">{{ $campaign->open_rate }}%</div>
+            <div class="td-secondary-line">{{ $campaign->open_rate / 100 }}%</div>
         @else
-            -
+            –
         @endif
     </td>
     <td class="td-numeric hidden | md:table-cell">
         @if($campaign->click_rate)
             {{ $campaign->unique_click_count }}
-            <div class="td-secondary-line">{{ $campaign->click_rate }}%</div>
+            <div class="td-secondary-line">{{ $campaign->click_rate / 100 }}%</div>
         @else
-            -
+            –
         @endif
     <td class="td-numeric hidden | md:table-cell">
         @if($campaign->isSent())
@@ -49,7 +62,7 @@
                 {{ __('Scheduled') }}
             </div>
         @else
-        -
+            –
         @endif
     </td>
 
@@ -60,21 +73,21 @@
             </button>
             <ul class="dropdown-list dropdown-list-left | hidden" data-dropdown-list>
                 <li>
-                    <x-form-button
+                    <x-mailcoach::form-button
                         :action="route('mailcoach.campaigns.duplicate', $campaign)"
                     >
-                        <x-icon-label icon="fa-random" :text="__('Duplicate')" />
-                    </x-form-button>
+                        <x-mailcoach::icon-label icon="fa-random" :text="__('Duplicate')" />
+                    </x-mailcoach::form-button>
                 </li>
                 <li>
-                    <x-form-button
+                    <x-mailcoach::form-button
                         :action="route('mailcoach.campaigns.delete', $campaign)"
                         method="DELETE"
                         data-confirm="true"
                         :data-confirm-text="__('Are you sure you want to delete campaign :campaignName?', ['campaignName' => $campaign->name])"
                     >
-                        <x-icon-label icon="fa-trash-alt" :text="__('Delete')" :caution="true" />
-                    </x-form-button>
+                        <x-mailcoach::icon-label icon="fa-trash-alt" :text="__('Delete')" :caution="true" />
+                    </x-mailcoach::form-button>
                 </li>
             </ul>
         </div>

@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft;
 
-use Spatie\Mailcoach\Http\App\Requests\UpdateCampaignSettingsRequest;
+use Spatie\Mailcoach\Http\App\Requests\Campaigns\UpdateCampaignSettingsRequest;
 use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Models\EmailList;
 use Spatie\Mailcoach\Traits\UsesMailcoachModels;
@@ -42,7 +42,7 @@ class CampaignSettingsController
             'segment_id' => $request->segment_id,
         ]);
 
-        $campaign->update(['segment_description' => $campaign->getSegment()->description($campaign)]);
+        $campaign->update(['segment_description' => $campaign->getSegment()->description()]);
 
         flash()->success(__('Campaign :campaign was updated.', ['campaign' => $campaign->name]));
 

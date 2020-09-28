@@ -63,7 +63,7 @@ class CalculateStatisticsAction
     {
         $clickCount = $campaign->clicks()->count();
         $uniqueClickCount = $campaign->clicks()->groupBy('subscriber_id')->toBase()->select('subscriber_id')->getCountForPagination(['subscriber_id']);
-        $clickRate = round($uniqueClickCount / $sendToNumberOfSubscribers, 2) * 100;
+        $clickRate = round($uniqueClickCount / $sendToNumberOfSubscribers, 4) * 10000;
 
         return [$clickCount, $uniqueClickCount, $clickRate];
     }
@@ -72,7 +72,7 @@ class CalculateStatisticsAction
     {
         $openCount = $campaign->opens()->count();
         $uniqueOpenCount = $campaign->opens()->groupBy('subscriber_id')->toBase()->select('subscriber_id')->getCountForPagination(['subscriber_id']);
-        $openRate = round($uniqueOpenCount / $sendToNumberOfSubscribers, 2) * 100;
+        $openRate = round($uniqueOpenCount / $sendToNumberOfSubscribers, 4) * 10000;
 
         return [$openCount, $uniqueOpenCount, $openRate];
     }
@@ -80,7 +80,7 @@ class CalculateStatisticsAction
     protected function calculateUnsubscribeMetrics(Campaign $campaign, int $sendToNumberOfSubscribers): array
     {
         $unsubscribeCount = $campaign->unsubscribes()->count();
-        $unsubscribeRate = round($unsubscribeCount / $sendToNumberOfSubscribers, 2) * 100;
+        $unsubscribeRate = round($unsubscribeCount / $sendToNumberOfSubscribers, 4) * 10000;
 
         return [$unsubscribeCount, $unsubscribeRate];
     }
@@ -88,7 +88,7 @@ class CalculateStatisticsAction
     protected function calculateBounceMetrics(Campaign $campaign, int $sendToNumberOfSubscribers): array
     {
         $bounceCount = $campaign->bounces()->count();
-        $bounceRate = round($bounceCount / $sendToNumberOfSubscribers, 2) * 100;
+        $bounceRate = round($bounceCount / $sendToNumberOfSubscribers, 4) * 10000;
 
         return [$bounceCount, $bounceRate];
     }

@@ -2,9 +2,11 @@
 
 namespace Spatie\Mailcoach\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Mailcoach\Enums\SubscriberImportStatus;
+use Spatie\Mailcoach\Models\Concerns\HasUuid;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\ModelCleanup\CleanupConfig;
@@ -12,7 +14,7 @@ use Spatie\ModelCleanup\GetsCleanedUp;
 
 class SubscriberImport extends Model implements HasMedia, GetsCleanedUp
 {
-    use InteractsWithMedia;
+    use InteractsWithMedia, HasUuid, HasFactory;
 
     public $table = 'mailcoach_subscriber_imports';
 
@@ -21,7 +23,9 @@ class SubscriberImport extends Model implements HasMedia, GetsCleanedUp
     public static function booted()
     {
         static::creating(function (SubscriberImport $subscriberImport) {
-            $subscriberImport->status = SubscriberImportStatus::PENDING;
+            if (empty($subscriberImport->status)) {
+                $subscriberImport->status = SubscriberImportStatus::PENDING;
+            }
         });
     }
 

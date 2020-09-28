@@ -31,6 +31,10 @@ class SubscribeController
             ->syncTags($request->tags())
             ->subscribeTo($emailList);
 
+        $subscriber->extra_attributes = array_merge((array) $subscriber->extra_attributes, $request->attributes());
+
+        $subscriber->save();
+
         return $subscriber->isUnconfirmed()
             ? $this->getSubscriptionPendingResponse($request, $subscriber)
             : $this->getSubscribedResponse($request, $subscriber);
@@ -38,7 +42,7 @@ class SubscribeController
 
     protected function getSubscriptionPendingResponse(CreateSubscriptionRequest $request, Subscriber $subscriber): Response
     {
-        if ($urlFromRequest = $request->redirect_after_subscription_pending) {
+        if ($request->redirect_after_subscription_pending) {
             return redirect()->to($request->redirect_after_subscription_pending);
         }
 
@@ -51,7 +55,7 @@ class SubscribeController
 
     protected function getSubscribedResponse(CreateSubscriptionRequest $request, Subscriber $subscriber): Response
     {
-        if ($urlFromRequest = $request->redirect_after_subscribed) {
+        if ($request->redirect_after_subscribed) {
             return redirect()->to($request->redirect_after_subscribed);
         }
 

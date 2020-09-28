@@ -13,8 +13,8 @@ class DestroyAllUnsubscribedControllerTest extends TestCase
     {
         $this->authenticate();
 
-        $emailList = factory(EmailList::class)->create(['requires_confirmation' => false]);
-        $anotherEmailList = factory(EmailList::class)->create(['requires_confirmation' => false]);
+        $emailList = EmailList::factory()->create(['requires_confirmation' => false]);
+        $anotherEmailList = EmailList::factory()->create(['requires_confirmation' => false]);
 
         $subscriber = Subscriber::createWithEmail('subscribed@example.com')->subscribeTo($emailList);
 

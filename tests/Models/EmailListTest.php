@@ -24,7 +24,7 @@ class EmailListTest extends TestCase
     {
         parent::setUp();
 
-        $this->emailList = factory(EmailList::class)->create();
+        $this->emailList = EmailList::factory()->create();
     }
 
     /** @test */
@@ -180,7 +180,7 @@ class EmailListTest extends TestCase
     /** @test */
     public function it_can_reference_tags_and_segments_when_using_a_custom_model()
     {
-        factory(Tag::class, 2)->create(['email_list_id' => $this->emailList->id]);
+        Tag::factory(2)->create(['email_list_id' => $this->emailList->id]);
         TagSegment::create(['name' => 'testSegment', 'email_list_id' => $this->emailList->id]);
 
         Config::set("mailcoach.models.email_list", CustomEmailList::class);

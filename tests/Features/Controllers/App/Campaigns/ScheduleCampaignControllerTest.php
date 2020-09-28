@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Feature\Controllers\App\Campaigns;
+namespace Spatie\Mailcoach\Tests\Features\Controllers\App\Campaigns;
 
 use Spatie\Mailcoach\Enums\CampaignStatus;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignDeliveryController;
@@ -20,7 +20,7 @@ class ScheduleCampaignControllerTest extends TestCase
 
         $this->authenticate();
 
-        $this->campaign = factory(Campaign::class)->create([
+        $this->campaign = Campaign::factory()->create([
             'status' => CampaignStatus::DRAFT,
         ]);
 
