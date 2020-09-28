@@ -2,6 +2,17 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.0.0 - 2020-09-27
+
+- add API
+- add used configuration screen
+- add reply-to email and name
+- add debug page
+- improved subscriber import
+- use Laravel 8 queued job batches
+- use class based factories
+- stability improvements
+
 ## 2.23.15 - 2020-09-27
 
 - add `$tries = 1` to `SendCampaignJob`
