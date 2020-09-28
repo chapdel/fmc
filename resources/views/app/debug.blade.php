@@ -208,6 +208,7 @@
                 @endif
             </td>
         </tr>
+        @if (class_exists(\Spatie\MailcoachUi\MailcoachUiServiceProvider::class))
         <tr>
             <td class="pr-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">mailcoach-ui</td>
             @php($issueBody.="**mailcoach-ui version**: " . $versionInfo->getCurrentVersion('mailcoach-ui') . "\n")
@@ -221,6 +222,7 @@
                 @endif
             </td>
         </tr>
+        @endif
         </tbody>
     </table>
 </section>
