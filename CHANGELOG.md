@@ -12,6 +12,7 @@ All notable changes to `laravel-mailcoach` will be documented in this file
 - use Laravel 8 queued job batches
 - use class based factories
 - stability improvements
+- drop support for Laravel 7
 
 ## 2.23.15 - 2020-09-27
 
