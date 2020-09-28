@@ -18,7 +18,7 @@
     <issueHandlers>
         <NullableReturnStatement>
             <errorLevel type="suppress">
-                <file name="src/Http/App/Requests/ScheduleCampaignRequest.php"/>
+                <file name="src/Http/App/Requests/Campaigns/ScheduleCampaignRequest.php"/>
                 <file name="src/Support/Segments/SubscribersWithTagsSegment.php"/>
 
             </errorLevel>
@@ -36,21 +36,32 @@
         <InvalidReturnStatement>
             <errorLevel type="suppress">
                 <file name="src/Support/Segments/SubscribersWithTagsSegment.php"/>
+                <file name="src/Components/DateTimeFieldComponent.php"/>
+                <file name="src/Components/FilterComponent.php"/>
+                <file name="src/Components/ReplacerHelpTextsComponent.php"/>
+                <file name="src/Components/SearchComponent.php"/>
+                <file name="src/Components/THComponent.php"/>
             </errorLevel>
         </InvalidReturnStatement>
         <InvalidArgument>
             <errorLevel type="suppress">
                 <file name="src/Support/Replacers/Concerns/ReplacesModelAttributes.php"/>
+                <file name="src/Actions/Campaigns/SendCampaignAction.php"/>
             </errorLevel>
         </InvalidArgument>
         <InvalidNullableReturnType>
             <errorLevel type="suppress">
-                <file name="src/Http/App/Requests/ScheduleCampaignRequest.php"/>
+                <file name="src/Http/App/Requests/Campaigns/ScheduleCampaignRequest.php"/>
             </errorLevel>
         </InvalidNullableReturnType>
         <InvalidReturnType>
             <errorLevel type="suppress">
                 <file name="src/Support/Segments/SubscribersWithTagsSegment.php"/>
+                <file name="src/Components/DateTimeFieldComponent.php"/>
+                <file name="src/Components/FilterComponent.php"/>
+                <file name="src/Components/ReplacerHelpTextsComponent.php"/>
+                <file name="src/Components/SearchComponent.php"/>
+                <file name="src/Components/THComponent.php"/>
             </errorLevel>
         </InvalidReturnType>
         <UndefinedMethod>

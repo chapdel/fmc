@@ -55,7 +55,7 @@ class SendMailAction
             ->setHtmlContent($personalisedHtml)
             ->setTextContent($personalisedText)
             ->withSwiftMessage(function (Swift_Message $message) use ($pendingSend) {
-                $message->getHeaders()->addTextHeader('X-MAILCOACH', true);
+                $message->getHeaders()->addTextHeader('X-MAILCOACH', 'true');
 
                 /** Postmark specific header */
                 $message->getHeaders()->addTextHeader('X-PM-Metadata-send-uuid', $pendingSend->uuid);

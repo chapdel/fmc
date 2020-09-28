@@ -438,7 +438,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
 
     public function webviewUrl(): string
     {
-        return url(route('mailcoach.webview', $this->uuid));
+        return (string)url(route('mailcoach.webview', $this->uuid));
     }
 
     public function getMailable(): CampaignMail

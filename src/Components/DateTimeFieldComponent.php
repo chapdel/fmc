@@ -28,7 +28,7 @@ class DateTimeFieldComponent extends Component
     public function minuteOptions(): Collection
     {
         return collect(range(0, 59, 15))->mapWithKeys(function (int $minutes) {
-            return [$minutes => str_pad($minutes, 2, '0', STR_PAD_LEFT)];
+            return [$minutes => str_pad((string)$minutes, 2, '0', STR_PAD_LEFT)];
         });
     }
 

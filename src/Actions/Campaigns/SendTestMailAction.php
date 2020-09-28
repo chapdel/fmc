@@ -24,7 +24,7 @@ class SendTestMailAction
             ->setTextContent($text)
             ->subject($campaign->subject)
             ->withSwiftMessage(function (Swift_Message $message) {
-                $message->getHeaders()->addTextHeader('X-MAILCOACH', true);
+                $message->getHeaders()->addTextHeader('X-MAILCOACH', 'true');
             });
 
         $mailer = $campaign->emailList->campaign_mailer

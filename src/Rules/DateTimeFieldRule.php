@@ -57,10 +57,13 @@ class DateTimeFieldRule implements Rule
             $hours = str_pad($value['hours'], 2, '0', STR_PAD_LEFT);
             $minutes = str_pad($value['minutes'], 2, '0', STR_PAD_LEFT);
 
-            return Date::createFromFormat(
+            /** @var CarbonInterface $dateTime */
+            $dateTime =  Date::createFromFormat(
                 'Y-m-d H:i',
                 "{$value['date']} {$hours}:{$minutes}"
             );
+
+            return $dateTime;
         } catch (InvalidArgumentException $exception) {
             return null;
         }
