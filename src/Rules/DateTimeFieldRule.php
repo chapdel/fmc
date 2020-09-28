@@ -58,7 +58,7 @@ class DateTimeFieldRule implements Rule
             $minutes = str_pad($value['minutes'], 2, '0', STR_PAD_LEFT);
 
             /** @var CarbonInterface $dateTime */
-            $dateTime =  Date::createFromFormat(
+            $dateTime = Date::createFromFormat(
                 'Y-m-d H:i',
                 "{$value['date']} {$hours}:{$minutes}"
             );
