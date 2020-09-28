@@ -23,4 +23,6 @@
         @method('PUT')
         {!! app(config('mailcoach.editor'))->render($campaign) !!}
     </form>
+
+    <x-mailcoach::replacer-help-texts />
 @endsection

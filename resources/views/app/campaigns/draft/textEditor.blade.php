@@ -14,5 +14,3 @@
         <iframe class="absolute" width="100%" height="100%" data-html-preview-target></iframe>
     </x-mailcoach::modal>
 </div>
-
-<x-mailcoach::replacer-help-texts />
