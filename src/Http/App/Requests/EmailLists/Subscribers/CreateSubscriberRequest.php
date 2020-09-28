@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\App\Requests;
+namespace Spatie\Mailcoach\Http\App\Requests\EmailLists\Subscribers;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Spatie\Mailcoach\Models\EmailList;

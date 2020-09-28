@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments;
 
-use Spatie\Mailcoach\Http\App\Requests\UpdateSegmentRequest;
+use Spatie\Mailcoach\Http\App\Requests\EmailLists\UpdateSegmentRequest;
 use Spatie\Mailcoach\Models\EmailList;
 use Spatie\Mailcoach\Models\TagSegment;
 

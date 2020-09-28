@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists;
 
 use Spatie\Mailcoach\Actions\EmailLists\UpdateEmailListAction;
-use Spatie\Mailcoach\Http\App\Requests\UpdateEmailListSettingsRequest;
+use Spatie\Mailcoach\Http\App\Requests\EmailLists\UpdateEmailListSettingsRequest;
 use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class CreateEmailListController

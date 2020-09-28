@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft;
 
-use Spatie\Mailcoach\Http\App\Requests\UpdateCampaignSettingsRequest;
+use Spatie\Mailcoach\Http\App\Requests\Campaigns\UpdateCampaignSettingsRequest;
 use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Models\EmailList;
 use Spatie\Mailcoach\Traits\UsesMailcoachModels;

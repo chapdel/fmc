@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft;
 
 use Carbon\CarbonInterval;
-use Spatie\Mailcoach\Http\App\Requests\SendTestEmailRequest;
+use Spatie\Mailcoach\Http\App\Requests\Campaigns\SendTestEmailRequest;
 use Spatie\Mailcoach\Models\Campaign;
 
 class SendTestEmailController
