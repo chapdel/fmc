@@ -17,10 +17,10 @@
         @csrf
         @method('PUT')
 
-        <x-mailcoach::text-field :label="__('Name')" name="name" :value="$emailList->name"/>
+        <x-mailcoach::text-field :label="__('Name')" name="name" :value="$emailList->name" required/>
 
         <x-mailcoach::text-field :label="__('From email')" name="default_from_email" :value="$emailList->default_from_email"
-                      type="email"/>
+                      type="email" required/>
 
         <x-mailcoach::text-field :label="__('From name')" name="default_from_name" :value="$emailList->default_from_name"/>
 
