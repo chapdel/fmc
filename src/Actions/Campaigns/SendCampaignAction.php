@@ -83,6 +83,7 @@ class SendCampaignAction
 
                 dispatch(new MarkCampaignAsSentJob($campaign));
             })
+            ->name($campaign->getBatchName())
             ->dispatch();
 
         $campaign->update(['send_batch_id' => $batch->id]);

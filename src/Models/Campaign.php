@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Str;
+use phpDocumentor\Reflection\Types\String_;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
 use Spatie\Mailcoach\Enums\CampaignStatus;
@@ -664,5 +665,10 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         $field ??= $this->getRouteKeyName();
 
         return $this->getCampaignClass()::where($field, $value)->firstOrFail();
+    }
+
+    public function getBatchName(): string
+    {
+        return Str::slug("{$this->name} ({$this->id})");
     }
 }
