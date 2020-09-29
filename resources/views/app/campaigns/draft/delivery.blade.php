@@ -86,15 +86,17 @@
                 <dd>
                     {{ $campaign->emailList->default_from_email }} {{ $campaign->emailList->default_from_name ? "({$campaign->emailList->default_from_name})" : '' }}
                 </dd>
+            
+                @if ($campaign->emailList->default_reply_to_email)
+                    <dt>
+                        <i class="fas fa-check text-green-500 mr-2"></i>
+                        {{ __('Reply-to') }}:
+                    </dt>
 
-                <dt>
-                    <i class="fas fa-check text-green-500 mr-2k"></i>
-                    {{ __('Reply-to') }}:
-                </dt>
-
-                <dd>
-                    {{ $campaign->emailList->default_reply_to_email }} {{ $campaign->emailList->default_reply_to_name ? "({$campaign->emailList->default_reply_to_name})" : '' }}
-                </dd>
+                    <dd>
+                        {{ $campaign->emailList->default_reply_to_email }} {{ $campaign->emailList->default_reply_to_name ? "({$campaign->emailList->default_reply_to_name})" : '' }}
+                    </dd>
+                @endif
             @endif
 
             <dt>
