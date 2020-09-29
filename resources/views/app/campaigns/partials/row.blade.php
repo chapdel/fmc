@@ -17,7 +17,7 @@
             </a>
         @endif
     </td>
-    <td class="markup-links table-cell text-right">
+    <td class="markup-links table-cell">
         @if ($campaign->emailList)
         <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">
             {{ $campaign->emailList->name }}
