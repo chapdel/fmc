@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.0.4 - 2020-09-29
+
+- margin tweak on reply-to
+
 ## 3.0.3 - 2020-09-29
 
 - improve campaign index spacing & styles
