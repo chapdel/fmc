@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.0.1 - 2020-09-29
+
+- don't limit exception message on failed sends
+
 ## 3.0.0 - 2020-09-27
 
 - add API
