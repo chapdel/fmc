@@ -17,11 +17,16 @@
             </a>
         @endif
     </td>
-    <td class="markup-links">
+    <td class="markup-links table-cell text-right">
         @if ($campaign->emailList)
         <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">
             {{ $campaign->emailList->name }}
         </a>
+        @if($campaign->usesSegment())
+            <div class="td-secondary-line">
+                {{ $campaign->getSegment()->description() }}
+            </div>
+        @endif
         @else
             &ndash;
         @endif

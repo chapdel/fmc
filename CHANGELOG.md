@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.0.2 - 2020-09-29
+
+- show segment in campaign overview
+
 ## 3.0.1 - 2020-09-29
 
 - don't limit exception message on failed sends
