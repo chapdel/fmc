@@ -221,7 +221,7 @@ class Send extends Model
         $this->update([
             'sent_at' => now(),
             'failed_at' => now(),
-            'failure_reason' => Str::limit($failureReason, 255),
+            'failure_reason' => $failureReason,
         ]);
 
         return $this;

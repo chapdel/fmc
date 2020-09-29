@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 2.23.16 - 2020-09-29
+
+- don't limit exception message on failed sends
+
 ## 2.23.15 - 2020-09-27
 
 - add `$tries = 1` to `SendCampaignJob`
