@@ -164,7 +164,7 @@ class Send extends Model
             'created_at' => $bouncedAt ?? now(),
         ]);
 
-        $this->subscriber->unsubscribe();
+        $this->subscriber->unsubscribe($this);
 
         event(new BounceRegisteredEvent($this));
 
@@ -178,7 +178,7 @@ class Send extends Model
             'created_at' => $complainedAt ?? now(),
         ]);
 
-        $this->subscriber->unsubscribe();
+        $this->subscriber->unsubscribe($this);
 
         event(new ComplaintRegisteredEvent($this));
 
