@@ -16,7 +16,10 @@ class DebugController
         $hasQueueConnection = config('queue.connections.mailcoach-redis') && ! empty(config('queue.connections.mailcoach-redis'));
         $mysqlVersion = $this->mysqlVersion();
         $horizonVersion = Versions::getVersion("laravel/horizon");
-        $webhookTableCount = DB::table('webhook_calls')->whereNull('processed_at')->count();
+        $webhookTableCount = DB::table('webhook_calls')
+            ->where('name', 'like', '%-feedback')
+            ->whereNull('processed_at')
+            ->count();
         $lastScheduleRun = Cache::get('mailcoach-last-schedule-run');
 
         return view('mailcoach::app.debug', compact(

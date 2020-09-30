@@ -41,13 +41,13 @@
                 </td>
             </tr>
             <tr>
-                <td class="pr-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">Horizon</td>
+                <td class="pr-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">Horizon running</td>
                 @php($issueBody.='**Horizon**: ' . ($horizonStatus->is(\Spatie\Mailcoach\Support\HorizonStatus::STATUS_ACTIVE) ? 'Active' : 'Inactive') . "\n")
                 <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5">
                     @if($horizonStatus->is(\Spatie\Mailcoach\Support\HorizonStatus::STATUS_ACTIVE))
-                        <i class="fas fa-check-circle text-green-800 mr-1"></i>
+                        <i class="fas fa-check text-green-800 mr-1"></i>
                     @else
-                        <i class="fas fa-times-circle text-red-800 mr-1"></i>
+                        <i class="fas fa-check text-red-800 mr-1"></i>
                         {!! __('<strong>Horizon</strong> is not active on your server. <a class="text-blue-800" target="_blank" href=":docsLink">Read the docs</a>.', ['docsLink' => 'https://mailcoach.app/docs']) !!}
                     @endif
                 </td>
@@ -57,7 +57,7 @@
                 @php($issueBody.='**Queue** connection: ' . ($hasQueueConnection ? 'OK' : 'Not OK') . "\n")
                 <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5">
                     @if($hasQueueConnection)
-                        <i class="fas fa-check-circle text-green-800 mr-1"></i> Queue connection settings for <code>mailcoach-redis</code> exist.
+                        <i class="fas fa-check text-green-800 mr-1"></i> Queue connection settings for <code>mailcoach-redis</code> exist.
                     @else
                         <i class="fas fa-times-circle text-red-800 mr-1"></i>
                         {!! __('No valid <strong>queue connection</strong> found. Configure a queue connection with the <strong>mailcoach-redis</strong> key. <a class="text-blue-800" target="_blank" href=":docsLink">Read the docs</a>.', ['docsLink' => 'https://mailcoach.app/docs']) !!}
