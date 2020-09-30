@@ -30,6 +30,15 @@ All notable changes to `laravel-mailcoach` will be documented in this file
 - stability improvements
 - drop support for Laravel 7
 
+## 2.23.17 - 2020-09-30
+
+- pass send to unsubscribe and complaint methods
+
+## 2.23.16 - 2020-09-29
+
+- don't limit exception message on failed sends
+
+>>>>>>> v2
 ## 2.23.15 - 2020-09-27
 
 - add `$tries = 1` to `SendCampaignJob`
