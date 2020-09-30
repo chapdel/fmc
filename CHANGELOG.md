@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.0.5 - 2020-09-30
+
+- pass send to unsubscribe and complaint methods
+
 ## 3.0.4 - 2020-09-29
 
 - margin tweak on reply-to
