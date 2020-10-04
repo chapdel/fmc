@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.1.0 - 2020-10-04
+
+- add German translations
+
 ## 3.0.6 - 2020-09-30
 
 - improve debug page
