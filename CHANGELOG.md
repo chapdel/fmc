@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.1.2 - 2020-10-04
+
+- format other numbers on campaign index view
+
 ## 3.1.1 - 2020-10-04
 
 - format send count on campaign index screen
