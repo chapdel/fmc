@@ -33,9 +33,9 @@
     </td>
     <td class="td-numeric">
         @if ($campaign->isCancelled())
-            {{ $campaign->sendsCount() ?: '–' }}
+            {{ $campaign->sendsCount() ? number_format($campaign->sendsCount()) : '–' }}
         @else
-            {{ $campaign->sent_to_number_of_subscribers ?: '–' }}
+            {{ number_format($campaign->sent_to_number_of_subscribers) ?: '–' }}
         @endif
     </td>
     <td class="td-numeric hidden | md:table-cell">
