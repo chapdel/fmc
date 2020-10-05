@@ -103,7 +103,7 @@
         </form>
 
         <p class="alert alert-info mt-6">
-            {!! __('Upload a CSV file with these columns: email, first_name, last_name, tags <a href=":link" target="_blank">(see documentation)</a>', ['link' => 'https://mailcoach.app/docs/v2/app/lists/subscribers#importing-subscribers']) !!}
+            {!! __('Upload a CSV or XLSX file with these columns: email, first_name, last_name, tags <a href=":link" target="_blank">(see documentation)</a>', ['link' => 'https://mailcoach.app/docs/v2/app/lists/subscribers#importing-subscribers']) !!}
         </p>
     </section>
 @endsection
