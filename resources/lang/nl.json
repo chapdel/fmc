@@ -339,6 +339,8 @@
     "To": "Naar",
     "Total number of subscribers": "Totaal aantal abonnees",
     "To…": "Naar…",
+    "Track clicks": "Aantal keer geklikt bijhouden",
+    "Track opens": "Aantal keer geopend bijhouden",
     "Track when…": "Bijhouden wanneer...",
     "Transactional mailer": "Transactionele mailer",
     "Try resending :totalFailed :email": "Probeer opnieuw :totalFailed :email te te verzenden",
