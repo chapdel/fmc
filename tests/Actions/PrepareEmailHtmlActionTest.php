@@ -46,7 +46,7 @@ class PrepareEmailHtmlActionTest extends TestCase
     }
 
     /** @test */
-    public function it_will_not_add_html_tags_if_the_are_already_present()
+    public function it_will_not_add_html_tags_if_they_are_already_present()
     {
         $myHtml = '<html><head></head><body><h1>Hello</h1><p>Hello world</p></body></html>';
 
