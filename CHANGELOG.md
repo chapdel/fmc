@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.2.0 - 2020-10-05
+
+- add Dutch translations
+
 ## 3.1.3 - 2020-10-05
 
 - fix some timezone issues
