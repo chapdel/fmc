@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.1.3 - 2020-10-05
+
+- fix some timezone issues
+- fix <html> being added on the campaign html
+
 ## 3.1.2 - 2020-10-04
 
 - format other numbers on campaign index view

@@ -41,16 +41,16 @@ class PrepareEmailHtmlAction
 
     protected function ensureEmailHtmlHasSingleRootElement($campaign)
     {
-        $doctTypeRegex = '~<(?:!DOCTYPE|/?(?:html))[^>]*>\s*~i';
+        $docTypeRegex = '~<(?:!DOCTYPE|/?(?:html))[^>]*>\s*~i';
 
-        preg_match($doctTypeRegex, $campaign->html, $matches);
+        preg_match($docTypeRegex, $campaign->html, $matches);
         $originalDoctype = $matches[0] ?? null;
 
         $campaign->html = trim(
-            preg_replace($doctTypeRegex, '', $campaign->html)
+            preg_replace($docTypeRegex, '', $campaign->html)
         );
 
-        if (! Str::startsWith(trim($campaign->html), '<html')) {
+        if (! Str::startsWith(trim($campaign->html), '<html') && $originalDoctype !== '<html>') {
             $campaign->html = '<html>'.$campaign->html;
         }
 
