@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft;
 
+use Illuminate\Support\Facades\Date;
 use Spatie\Mailcoach\Models\Campaign;
 
 class CampaignDeliveryController

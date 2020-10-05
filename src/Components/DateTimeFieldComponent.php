@@ -14,7 +14,7 @@ class DateTimeFieldComponent extends Component
 
     public function __construct(string $name, ?CarbonInterface $value = null)
     {
-        $this->value = $value ?? now();
+        $this->value = $value ?? now()->setTimezone(config('app.timezone'))->addHour()->startOfHour();
         $this->name = $name;
     }
 

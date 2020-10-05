@@ -60,7 +60,8 @@ class DateTimeFieldRule implements Rule
             /** @var CarbonInterface $dateTime */
             $dateTime = Date::createFromFormat(
                 'Y-m-d H:i',
-                "{$value['date']} {$hours}:{$minutes}"
+                "{$value['date']} {$hours}:{$minutes}",
+                config('app.timezone'),
             );
 
             return $dateTime;

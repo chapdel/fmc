@@ -11,7 +11,7 @@ trait CanBeScheduled
     public function scheduleToBeSentAt(CarbonInterface $carbon)
     {
         $this->update([
-            'scheduled_at' => $carbon,
+            'scheduled_at' => $carbon->utc(),
             'last_modified_at' => now(),
         ]);
 
