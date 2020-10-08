@@ -52,7 +52,7 @@ class CreateSubscriberAction
         }
 
         if ($subscriber->isSubscribed()) {
-            if ($pendingSubscriber->sendWelcomeMail) {
+            if ($pendingSubscriber->sendWelcomeMail && ! $wasAlreadySubscribed) {
                 $this->sendWelcomeMail($subscriber);
             }
 

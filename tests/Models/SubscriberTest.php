@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
 use Spatie\Mailcoach\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Mails\ConfirmSubscriberMail;
+use Spatie\Mailcoach\Mails\WelcomeMail;
 use Spatie\Mailcoach\Models\EmailList;
 use Spatie\Mailcoach\Models\Subscriber;
 use Spatie\Mailcoach\Tests\TestCase;
@@ -66,6 +67,39 @@ class SubscriberTest extends TestCase
 
             return true;
         });
+    }
+
+    /** @test */
+    public function it_will_send_a_welcome_mail_if_the_list_has_welcome_mails()
+    {
+        $this->emailList->update([
+            'send_welcome_mail' => true,
+        ]);
+
+        $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($this->emailList);
+        $this->assertTrue($this->emailList->isSubscribed('john@example.com'));
+
+        Mail::assertQueued(WelcomeMail::class, function (WelcomeMail $mail) use ($subscriber) {
+            $this->assertEquals($subscriber->uuid, $mail->subscriber->uuid);
+
+            return true;
+        });
+    }
+
+    /** @test */
+    public function it_will_only_send_a_welcome_mail_once()
+    {
+        $this->emailList->update([
+            'send_welcome_mail' => true,
+        ]);
+
+        Subscriber::createWithEmail('john@example.com')->subscribeTo($this->emailList);
+        $this->assertTrue($this->emailList->isSubscribed('john@example.com'));
+
+        Subscriber::createWithEmail('john@example.com')->subscribeTo($this->emailList);
+        $this->assertTrue($this->emailList->isSubscribed('john@example.com'));
+
+        Mail::assertQueued(WelcomeMail::class, 1);
     }
 
     /** @test */
