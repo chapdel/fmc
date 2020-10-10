@@ -1,6 +1,6 @@
 @extends('mailcoach::app.campaigns.sent.layouts.show', [
     'campaign' => $campaign,
-    'titlePrefix' => __('Outbox'),
+    'titlePrefix' => __('Used settings'),
 ])
 
 @section('breadcrumbs')
@@ -16,31 +16,31 @@
     <table>
         <tbody>
             <tr>
-                <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">Name</td>
+                <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">{{ __('Name') }}</td>
                 <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5">
                     {{ $campaign->name }}
                 </td>
             </tr>
             <tr>
-                <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">Subject</td>
+                <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">{{ __('Subject') }}</td>
                 <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5">
                     {{ $campaign->subject }}
                 </td>
             </tr>
             <tr>
-                <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">List</td>
+                <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">{{ __('List') }}</td>
                 <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5">
                     {{ $campaign->emailList->name }}
                 </td>
             </tr>
             <tr>
-                <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">Segment</td>
+                <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">{{ __('Segment') }}</td>
                 <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5">
                     {{ $campaign->segment_description }}
                 </td>
             </tr>
             <tr>
-                <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">Track opens</td>
+                <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">{{ __('Track opens') }}</td>
                 <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5">
                     @if ($campaign->track_opens)
                         <i class="fas fa-check-circle text-green-800"></i>
@@ -50,7 +50,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">Track clicks</td>
+                <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">{{ __('Track clicks') }}</td>
                 <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5">
                     @if ($campaign->track_clicks)
                         <i class="fas fa-check-circle text-green-800"></i>
