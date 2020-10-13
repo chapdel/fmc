@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.2.3 - 2020-10-13
+
+- fix subscription confirmation mail copy
+
 ## 3.2.2 - 2020-10-10
 
 - translate the sent settings screen (#338)
