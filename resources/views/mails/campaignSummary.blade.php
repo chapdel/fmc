@@ -22,7 +22,7 @@
 </td>
 <td>
 @include('mailcoach::mails.partials.statistic', [
-'stat' => $campaign->open_rate,
+'stat' => number_format(($campaign->open_rate / 100), 2),
 'suffix' => '%',
 'label' => __('Open Rate'),
 ])
@@ -52,7 +52,7 @@
 </td>
 <td>
 @include('mailcoach::mails.partials.statistic', [
-'stat' => $campaign->click_rate,
+'stat' => number_format(($campaign->click_rate / 100), 2),
 'suffix' => '%',
 'label' => __('Clicks Rate'),
 ])
@@ -75,7 +75,7 @@
 </td>
 <td>
 @include('mailcoach::mails.partials.statistic', [
-'stat' => $campaign->unsubscribe_rate,
+'stat' => number_format(($campaign->unsubscribe_rate / 100), 2),
 'label' => __('Unsubscribe Rate'),
 'suffix' => '%'
 ])
@@ -93,7 +93,7 @@
 </td>
 <td>
 @include('mailcoach::mails.partials.statistic', [
-'stat' => $campaign->bounce_rate,
+'stat' => number_format(($campaign->bounce_rate / 100), 2),
 'label' => 'Bounce Rate',
 'suffix' => '%'
 ])
