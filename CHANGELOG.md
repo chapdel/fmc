@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.2.2 - 2020-10-10
+
+- translate the sent settings screen (#338)
+
+## 3.2.1 - 2020-10-05
+
+- fix: only send a welcome mail if the user wasn't already subscribed
+
 ## 3.2.0 - 2020-10-05
 
 - add Dutch translations
