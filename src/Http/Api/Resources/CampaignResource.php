@@ -40,14 +40,14 @@ class CampaignResource extends JsonResource
             'open_count' => $this->open_count,
 
             'unique_open_count' => $this->unique_open_count,
-            'open_rate' => $this->open_rate,
+            'open_rate' => $this->open_rate / 100,
             'click_count' => $this->click_count,
             'unique_click_count' => $this->unique_click_count,
-            'click_rate' => $this->click_rate,
+            'click_rate' => $this->click_rate / 100,
             'unsubscribe_count' => $this->unsubscribe_count,
-            'unsubscribe_rate' => $this->unsubscribe_rate,
+            'unsubscribe_rate' => $this->unsubscribe_rate / 100,
             'bounce_count' => $this->bounce_count,
-            'bounce_rate' => $this->bounce_rate,
+            'bounce_rate' => $this->bounce_rate / 100,
 
             'sent_at' => $this->sent_at,
             'statistics_calculated_at' => $this->statistics_calculated_at,
