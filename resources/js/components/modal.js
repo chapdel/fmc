@@ -8,6 +8,14 @@ export function showModal(name, { onConfirm = noop, onDismiss = noop } = {}) {
     const releaseFocus = trapFocus(modal);
 
     bindCloseListeners(modal, { onConfirm, onDismiss, onClose: releaseFocus });
+
+    updateUrl(true);
+}
+
+function updateUrl(open) {
+    const url = new URL(window.location.href);
+    url.searchParams[open ? 'append' : 'delete']('modal', true);
+    window.history.pushState({}, '', url.href);
 }
 
 function bindCloseListeners(modal, { onConfirm, onDismiss, onClose }) {
@@ -34,6 +42,8 @@ function bindCloseListeners(modal, { onConfirm, onDismiss, onClose }) {
         window.removeEventListener('keydown', handleEscape);
         modal.removeEventListener('confirm', handleConfirm);
         modal.removeEventListener('dismiss', handleDismiss);
+
+        updateUrl(false);
     }
 
     window.addEventListener('keydown', handleEscape);
