@@ -8,6 +8,12 @@ export function showModal(name, { onConfirm = noop, onDismiss = noop } = {}) {
     const releaseFocus = trapFocus(modal);
 
     bindCloseListeners(modal, { onConfirm, onDismiss, onClose: releaseFocus });
+
+    updateUrl(true);
+}
+
+function updateUrl(open) {
+    window.history.replaceState({}, '', window.location.pathname + window.location.search + (open ? '#modal' : ''));
 }
 
 function bindCloseListeners(modal, { onConfirm, onDismiss, onClose }) {
@@ -34,6 +40,8 @@ function bindCloseListeners(modal, { onConfirm, onDismiss, onClose }) {
         window.removeEventListener('keydown', handleEscape);
         modal.removeEventListener('confirm', handleConfirm);
         modal.removeEventListener('dismiss', handleDismiss);
+
+        updateUrl(false);
     }
 
     window.addEventListener('keydown', handleEscape);
@@ -78,3 +86,12 @@ document.addEventListener('turbolinks:load', () => {
             });
         });
 });
+
+if (window.location.hash.includes('#modal')) {
+    const modal = document.querySelector('[data-modal]');
+
+    if (modal) {
+        const modalName = modal.getAttribute('data-modal');
+        showModal(modalName);
+    }
+}
