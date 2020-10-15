@@ -100,8 +100,7 @@ class CampaignSummaryMailTest extends TestCase
     /** @test */
     public function the_mail_contains_correct_statistics()
     {
-        $this->campaign
-            ->update([
+        $this->campaign->update([
             'sent_to_number_of_subscribers' => 8018,
             'open_count' => 5516,
             'unique_open_count' => 3192,
@@ -111,9 +110,9 @@ class CampaignSummaryMailTest extends TestCase
             'click_rate' => 1182,
             'unsubscribe_count' => 15,
             'unsubscribe_rate' => 19,
+            'track_clicks' => true,
+            'track_opens' => true,
             ]);
-
-        $this->campaign->refresh();
 
         $mail = (new CampaignSummaryMail($this->campaign));
         $html = $mail->render();
