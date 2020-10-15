@@ -13,9 +13,7 @@ export function showModal(name, { onConfirm = noop, onDismiss = noop } = {}) {
 }
 
 function updateUrl(open) {
-    const url = new URL(window.location.href);
-    url.searchParams[open ? 'append' : 'delete']('modal', true);
-    window.history.pushState({}, '', url.href);
+    window.history.replaceState({}, '', window.location.pathname + window.location.search + (open ? '#modal' : ''));
 }
 
 function bindCloseListeners(modal, { onConfirm, onDismiss, onClose }) {
@@ -88,3 +86,12 @@ document.addEventListener('turbolinks:load', () => {
             });
         });
 });
+
+if (window.location.hash.includes('#modal')) {
+    const modal = document.querySelector('[data-modal]');
+
+    if (modal) {
+        const modalName = modal.getAttribute('data-modal');
+        showModal(modalName);
+    }
+}
