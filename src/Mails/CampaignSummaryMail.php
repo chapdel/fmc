@@ -21,9 +21,9 @@ class CampaignSummaryMail extends Mailable implements ShouldQueue
         $this->summaryUrl = route('mailcoach.campaigns.summary', $this->campaign);
     }
 
-    public function build(): self
+    public function build()
     {
-        return $this
+        $this
             ->from(
                 $this->campaign->emailList->default_from_email,
                 $this->campaign->emailList->default_from_name
