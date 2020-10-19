@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.2.4 - 2020-10-19
+
+- fix open and click rates on campaign summery mail (#343)
+
 ## 3.2.3 - 2020-10-13
 
 - fix subscription confirmation mail copy
