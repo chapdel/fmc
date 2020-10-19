@@ -96,4 +96,35 @@ class CampaignSummaryMailTest extends TestCase
     {
         $this->assertIsString((new CampaignSummaryMail($this->campaign))->render());
     }
+
+    /** @test */
+    public function the_mail_contains_correct_statistics()
+    {
+        $this->campaign->update([
+            'sent_to_number_of_subscribers' => 8018,
+            'open_count' => 5516,
+            'unique_open_count' => 3192,
+            'open_rate' => 3981,
+            'click_count' => 2972,
+            'unique_click_count' => 948,
+            'click_rate' => 1182,
+            'unsubscribe_count' => 15,
+            'unsubscribe_rate' => 19,
+            'track_clicks' => true,
+            'track_opens' => true,
+            ]);
+
+        $mail = (new CampaignSummaryMail($this->campaign));
+        $html = $mail->render();
+
+        $this->assertStringContainsString('8018', $html);
+        $this->assertStringContainsString('5516', $html);
+        $this->assertStringContainsString('3192', $html);
+        $this->assertStringContainsString('39.81', $html);
+        $this->assertStringContainsString('2972', $html);
+        $this->assertStringContainsString('948', $html);
+        $this->assertStringContainsString('11.82', $html);
+        $this->assertStringContainsString('15', $html);
+        $this->assertStringContainsString('0.19', $html);
+    }
 }
