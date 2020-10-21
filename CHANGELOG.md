@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.2.6 - 2020-10-21
+
+- save attributes on list (#356)
+
 ## 3.2.5 - 2020-10-21
 
 - disable autocomplete on search inputs (#353)
