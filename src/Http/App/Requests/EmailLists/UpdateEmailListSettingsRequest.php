@@ -37,6 +37,7 @@ class UpdateEmailListSettingsRequest extends FormRequest
             'report_campaign_summary' => 'boolean',
             'report_email_list_summary' => 'boolean',
             'allow_form_subscriptions' => 'boolean',
+            'allowed_form_extra_attributes' => '',
             'requires_confirmation' => 'boolean',
             'allowed_form_subscription_tags' => 'array',
             'redirect_after_subscribed' => '',

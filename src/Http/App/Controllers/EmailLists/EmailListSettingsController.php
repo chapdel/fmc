@@ -30,6 +30,7 @@ class EmailListSettingsController
             'report_campaign_summary' => $request->report_campaign_summary ?? false,
             'report_email_list_summary' => $request->report_email_list_summary ?? false,
             'allow_form_subscriptions' => $request->allow_form_subscriptions ?? false,
+            'allowed_form_extra_attributes' => $request->allowed_form_extra_attributes,
             'requires_confirmation' => $request->requires_confirmation ?? false,
             'redirect_after_subscribed' => $request->redirect_after_subscribed,
             'redirect_after_already_subscribed' => $request->redirect_after_already_subscribed,
