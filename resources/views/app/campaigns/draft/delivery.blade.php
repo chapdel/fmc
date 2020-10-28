@@ -36,10 +36,6 @@
                 <x-mailcoach::icon-label icon="fa-paper-plane" :text="__('Send test')"/>
             </button>
         </div>
-
-        @error('emails')
-        <p class="form-error">{{ $message }}</p>
-        @enderror
     </form>
 
     <div class="mt-12">
@@ -86,7 +82,7 @@
                 <dd>
                     {{ $campaign->emailList->default_from_email }} {{ $campaign->emailList->default_from_name ? "({$campaign->emailList->default_from_name})" : '' }}
                 </dd>
-            
+
                 @if ($campaign->emailList->default_reply_to_email)
                     <dt>
                         <i class="fas fa-check text-green-500 mr-2"></i>
