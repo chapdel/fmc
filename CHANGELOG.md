@@ -2,7 +2,7 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
-## 3.2.7 - 2020-10-28
+## 3.2.8 - 2020-10-28
 
 - fix for #358
 
