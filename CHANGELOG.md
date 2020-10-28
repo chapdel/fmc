@@ -6,6 +6,10 @@ All notable changes to `laravel-mailcoach` will be documented in this file
 
 - fix for #358
 
+## 3.2.7 - 2020-10-28
+
+- remove duplicate error message
+
 ## 3.2.6 - 2020-10-21
 
 - save attributes on list (#356)
