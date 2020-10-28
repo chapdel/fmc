@@ -30,7 +30,7 @@ class FuzzyFilter implements Filter
         return $query;
     }
 
-    public function addDirectFields(Builder $query, $values)
+    public function addDirectFields(Builder $query, $values): FuzzyFilter
     {
         collect($this->fields)
             ->reject(fn (string $field) => Str::contains($field, '.'))
@@ -43,14 +43,14 @@ class FuzzyFilter implements Filter
         return $this;
     }
 
-    public function addRelationShipFields(Builder $query, $values)
+    public function addRelationShipFields(Builder $query, $values): FuzzyFilter
     {
         collect($this->fields)
             ->filter(fn (string $field) => Str::contains($field, '.'))
             ->each(function (string $field) use ($query, $values) {
-                foreach ($values as $value) {
-                    [$relation, $field] = explode('.', $field);
+                [$relation, $field] = explode('.', $field);
 
+                foreach ($values as $value) {
                     $query->orWhereHas($relation, function (Builder $query) use ($field, $value) {
                         $query->where($field, 'LIKE', "%{$value}%");
                     });
