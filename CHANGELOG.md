@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.2.9 - 2020-10-29
+
+- use a custom error message when sending a campaign test email
+
 ## 3.2.8 - 2020-10-28
 
 - fix for #358

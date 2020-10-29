@@ -10,7 +10,7 @@ class SendTestEmailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'emails' => ['required', (new Delimited('email'))->min(1)->max(10)],
+            'emails' => ['required', (new Delimited('email', $this->messages()))->min(1)->max(10)],
         ];
     }
 
