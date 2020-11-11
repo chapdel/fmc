@@ -84,7 +84,7 @@ class EmailList extends Model
 
     public function allowedFormExtraAttributes() : array
     {
-        return explode(";", $this->allowed_form_extra_attributes);
+        return explode(",", $this->allowed_form_extra_attributes);
     }
 
     public function subscribe(string $email, array $attributes = []): Subscriber
