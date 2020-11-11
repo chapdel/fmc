@@ -101,7 +101,7 @@ class SubscribeControllerTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $this->emailList->allowed_form_extra_attributes = 'attribute1;attribute2';
+        $this->emailList->allowed_form_extra_attributes = 'attribute1,attribute2';
         $this->emailList->save();
 
         $this

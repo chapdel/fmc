@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.2.10 - 2020-11-11
+
+- use `,` as a delimiter for `allowed_form_extra_attributes`
+
 ## 3.2.9 - 2020-10-29
 
 - use a custom error message when sending a campaign test email
