@@ -13,6 +13,7 @@ class SubscriberImportRequest extends FormRequest
             'email_list_id' => 'required',
             'subscribe_unsubscribed' => 'boolean',
             'unsubscribe_others' => 'boolean',
+            'replace_tags' => 'boolean',
         ];
     }
 }

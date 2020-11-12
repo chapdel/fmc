@@ -126,11 +126,9 @@ class ImportSubscribersAction
                 $subscriber = $this->getSubscriberClass()::createWithEmail($row->getEmail(), $attributes)
                     ->skipConfirmation()
                     ->doNotSendWelcomeMail()
+                    ->tags($row->tags())
+                    ->replaceTags($subscriberImport->replace_tags)
                     ->subscribeTo($emailList);
-
-                if (! is_null($row->tags())) {
-                    $subscriber->syncTags($row->tags());
-                }
 
                 $subscriber->update(['imported_via_import_uuid' => $subscriberImport->uuid]);
 

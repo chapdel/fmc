@@ -28,7 +28,8 @@ class SubscribeController
         $subscriber = $this->getSubscriberClass()::createWithEmail($request->email)
             ->withAttributes($request->subscriberAttributes())
             ->redirectAfterSubscribed($request->redirect_after_subscribed ?? '')
-            ->syncTags($request->tags())
+            ->tags($request->tags())
+            ->replaceTags()
             ->subscribeTo($emailList);
 
         $subscriber->extra_attributes = array_merge((array) $subscriber->extra_attributes, $request->attributes());

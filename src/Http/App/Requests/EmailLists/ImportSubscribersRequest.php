@@ -10,6 +10,7 @@ class ImportSubscribersRequest extends FormRequest
     {
         return [
             // 'file' => 'file:csv,xlsx',
+            'replace_tags' => 'boolean',
         ];
     }
 
@@ -21,5 +22,10 @@ class ImportSubscribersRequest extends FormRequest
     public function unsubscribeMissing(): bool
     {
         return $this->has('unsubscribe_others');
+    }
+
+    public function replaceTags(): bool
+    {
+        return $this->has('replace_tags');
     }
 }
