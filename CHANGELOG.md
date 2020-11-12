@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.2.11 - 2020-11-12
+
+- allow medialibrary v9
+
 ## 3.2.10 - 2020-11-11
 
 - use `,` as a delimiter for `allowed_form_extra_attributes`
