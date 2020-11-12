@@ -88,7 +88,7 @@
             @csrf
 
             <div class="form-row mb-6">
-                @error('tags_mode')
+                @error('replace_tags')
                 <p class="form-error">{{ $message }}</p>
                 @enderror
 
