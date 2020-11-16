@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.2.12 - 2020-11-16
+
+- fix variable name in NL translations (#367)
+
 ## 3.2.11 - 2020-11-12
 
 - allow medialibrary v9
