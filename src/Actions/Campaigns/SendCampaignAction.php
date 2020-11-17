@@ -84,6 +84,7 @@ class SendCampaignAction
                 dispatch(new MarkCampaignAsSentJob($campaign));
             })
             ->name($campaign->getBatchName())
+            ->onQueue(config('mailcoach.perform_on_queue.send_mail_job'))
             ->dispatch();
 
         $campaign->update(['send_batch_id' => $batch->id]);
