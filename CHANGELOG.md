@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.2.13 - 2020-11-17
+
+- fix mails being sent on default queue for campaign batch (#368)
+
 ## 3.2.12 - 2020-11-16
 
 - fix variable name in NL translations (#367)
