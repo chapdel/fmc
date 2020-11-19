@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.3.0 - 2020-11-19
+
+- `extra_attributes` & `tags` can now be passed to the create subscribers API endpoint.
+- `tags` are now included in Subscriber responses from the API
+
 ## 3.2.13 - 2020-11-17
 
 - fix mails being sent on default queue for campaign batch (#368)

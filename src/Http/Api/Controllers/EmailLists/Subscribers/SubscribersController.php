@@ -43,6 +43,10 @@ class SubscribersController
 
         $subscriber = $pendingSubscriber->subscribeTo($emailList);
 
+        if ($request->has('tags')) {
+            $subscriber->syncTags($request->get('tags'));
+        }
+
         return new SubscriberResource($subscriber);
     }
 

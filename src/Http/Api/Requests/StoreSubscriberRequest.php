@@ -12,8 +12,11 @@ class StoreSubscriberRequest extends FormRequest
     {
         return [
             'email' => ['required', 'email:rfc', new EmailListSubscriptionRule($this->emailList())],
-            'first_name' => 'nullable|string',
-            'last_name' => 'nullable|string',
+            'first_name' => ['nullable', 'string'],
+            'last_name' => ['nullable', 'string'],
+            'extra_attributes' => ['nullable', 'array'],
+            'tags' => ['nullable', 'array'],
+            'tags.*' => ['string'],
         ];
     }
 
@@ -27,6 +30,7 @@ class StoreSubscriberRequest extends FormRequest
         return [
             'first_name' => $this->input('first_name'),
             'last_name' => $this->input('last_name'),
+            'extra_attributes' => $this->input('extra_attributes'),
         ];
     }
 

@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Http\Api\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/** @mixin \Spatie\Mailcoach\Models\Subscriber */
 class SubscriberResource extends JsonResource
 {
     public function toArray($request)
@@ -16,6 +17,7 @@ class SubscriberResource extends JsonResource
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'extra_attributes' => $this->extra_attributes,
+            'tags' => $this->tags->pluck('name'),
 
             'uuid' => $this->uuid,
             'subscribed_at' => $this->subscribed_at,
