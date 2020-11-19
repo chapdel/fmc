@@ -74,8 +74,14 @@ class CampaignSummaryViewModel extends ViewModel
             return collect();
         }
 
-        return Collection::times(24)->map(function (int $number) {
-            $datetime = $this->campaign->sent_at->toImmutable()->addHours($number - 1);
+        $start = $this->campaign->sent_at->toImmutable();
+
+        if ($this->campaign->opens()->count() > 0 && $this->campaign->opens()->first()->created_at < $start) {
+            $start = $this->campaign->opens()->first()->created_at->toImmutable();
+        }
+
+        return Collection::times(24)->map(function (int $number) use ($start) {
+            $datetime = $start->addHours($number - 1);
 
             return [
                 'label' => $datetime->format('H:i'),

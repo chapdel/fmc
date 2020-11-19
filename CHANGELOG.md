@@ -6,6 +6,7 @@ All notable changes to `laravel-mailcoach` will be documented in this file
 
 - `extra_attributes` & `tags` can now be passed to the create subscribers API endpoint.
 - `tags` are now included in Subscriber responses from the API
+- Campaign graph now starts from first open if there are opens while the campaign is still sending
 
 ## 3.2.13 - 2020-11-17
 
