@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.4.0 - 2020-11-30
+
+- add support for PHP 8.0
+
 ## 3.3.0 - 2020-11-19
 
 - `extra_attributes` & `tags` can now be passed to the create subscribers API endpoint.
