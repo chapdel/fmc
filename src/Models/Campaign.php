@@ -476,7 +476,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         dispatch(new CalculateStatisticsJob($this));
     }
 
-    public function toFeedItem()
+    public function toFeedItem(): FeedItem
     {
         return (new FeedItem())
             ->author('Mailcoach')
