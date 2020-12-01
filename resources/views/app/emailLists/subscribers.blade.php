@@ -116,8 +116,8 @@
                         </div>
                     </td>
                     <td class="hidden | md:table-cell">
-                        @foreach($subscriber->tags()->pluck('name') as $tag)
-                            <span class=tag>{{ $tag }}</span>
+                        @foreach($subscriber->tags as $tag)
+                            @include('mailcoach::app.partials.tag')
                         @endforeach
                     </td>
                     <td class="td-numeric hidden | md:table-cell">{{
