@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.5.0 - 2020-12-30
+
+- add partial for tags (#375)
+
 ## 3.4.0 - 2020-11-30
 
 - add support for PHP 8.0
