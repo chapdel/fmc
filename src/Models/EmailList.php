@@ -39,14 +39,7 @@ class EmailList extends Model
 
     public function allSubscribers(): HasMany
     {
-        $query = $this
-            ->hasMany(config('mailcoach.models.subscriber'), 'email_list_id');
-
-        if (config('database.connections.' . config('database.default') . '.driver') === 'mysql') {
-            $query->fromRaw("{$this->getSubscriberTableName()} use index (email_list_subscribed_index)");
-        }
-
-        return $query;
+        return $this->hasMany(config('mailcoach.models.subscriber'), 'email_list_id');
     }
 
     public function campaigns(): HasMany

@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.6.3 - 2020-12-07
+
+- Fix issue with index in multi-tenant setup
+
 ## 3.6.2 - 2020-12-07
 
 - ensure index exists when using MySQL

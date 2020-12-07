@@ -54,8 +54,7 @@ class MailcoachServiceProvider extends ServiceProvider
             ->bootSupportMacros()
             ->bootTranslations()
             ->bootViews()
-            ->bootEvents()
-            ->ensureIndexesExist();
+            ->bootEvents();
     }
 
     public function register()
@@ -276,17 +275,5 @@ class MailcoachServiceProvider extends ServiceProvider
         Event::listen(WebhookCallProcessedEvent::class, SetWebhookCallProcessedAt::class);
 
         return $this;
-    }
-
-    private function ensureIndexesExist()
-    {
-        if (config('database.connections.' . config('database.default') . '.driver') === 'mysql') {
-            $indexes = DB::select(DB::raw('SHOW INDEXES FROM ' . $this->getSubscriberTableName()));
-            if (! collect($indexes)->pluck('Key_name')->contains('email_list_subscribed_index')) {
-                Schema::table($this->getSubscriberTableName(), function (Blueprint $table) {
-                    $table->index(['email_list_id', 'subscribed_at', 'unsubscribed_at'], 'email_list_subscribed_index');
-                });
-            }
-        }
     }
 }
