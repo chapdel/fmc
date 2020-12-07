@@ -24,9 +24,9 @@
                                 numClass="text-4xl font-semibold" :stat="number_format($startUnsubscribeCount)" :label="__('Unsubscribes (30 days)')"/>
         <x-mailcoach::statistic :stat="$churnRate" :label="__('Churn Rate')" suffix="%"/>
         <div></div>
-        <x-mailcoach::statistic :stat="$averageOpenRate" :label="__('Average Open Rate')" suffix="%"/>
-        <x-mailcoach::statistic :stat="$averageClickRate" :label="__('Average Click Rate')" suffix="%"/>
-        <x-mailcoach::statistic :stat="$averageUnsubscribeRate" :label="__('Average Unsubscribe Rate')" suffix="%"/>
-        <x-mailcoach::statistic :stat="$averageBounceRate" :label="__('Average Bounce Rate')" suffix="%"/>
+        <x-mailcoach::statistic :stat="number_format($averageOpenRate, 2)" :label="__('Average Open Rate')" suffix="%"/>
+        <x-mailcoach::statistic :stat="number_format($averageClickRate, 2)" :label="__('Average Click Rate')" suffix="%"/>
+        <x-mailcoach::statistic :stat="number_format($averageUnsubscribeRate, 2)" :label="__('Average Unsubscribe Rate')" suffix="%"/>
+        <x-mailcoach::statistic :stat="number_format($averageBounceRate, 2)" :label="__('Average Bounce Rate')" suffix="%"/>
     </div>
 @endsection

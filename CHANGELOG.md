@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.6.1 - 2020-12-07
+
+- improve number formatting
+
 ## 3.6.0 - 2020-12-07
 
 - add list level metrics
