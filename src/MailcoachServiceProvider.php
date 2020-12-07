@@ -2,13 +2,16 @@
 
 namespace Spatie\Mailcoach;
 
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
@@ -51,7 +54,8 @@ class MailcoachServiceProvider extends ServiceProvider
             ->bootSupportMacros()
             ->bootTranslations()
             ->bootViews()
-            ->bootEvents();
+            ->bootEvents()
+            ->ensureIndexesExist();
     }
 
     public function register()
@@ -272,5 +276,17 @@ class MailcoachServiceProvider extends ServiceProvider
         Event::listen(WebhookCallProcessedEvent::class, SetWebhookCallProcessedAt::class);
 
         return $this;
+    }
+
+    private function ensureIndexesExist()
+    {
+        if (config('database.connections.' . config('database.default') . '.driver') === 'mysql') {
+            $indexes = DB::select(DB::raw('SHOW INDEXES FROM ' . $this->getSubscriberTableName()));
+            if (! collect($indexes)->pluck('Key_name')->contains('email_list_subscribed_index')) {
+                Schema::table($this->getSubscriberTableName(), function (Blueprint $table) {
+                    $table->index(['email_list_id', 'subscribed_at', 'unsubscribed_at'], 'email_list_subscribed_index');
+                });
+            }
+        }
     }
 }

@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.6.2 - 2020-12-07
+
+- ensure index exists when using MySQL
+
 ## 3.6.1 - 2020-12-07
 
 - improve number formatting
