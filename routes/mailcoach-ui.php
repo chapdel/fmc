@@ -39,6 +39,7 @@ use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\ResendConfirmat
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\SubscriberDetailsController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\SubscribersExportController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\SubscribersIndexController;
+use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\SummaryController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\UpdateStatus\ConfirmController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\UpdateStatus\ResubscribeController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\UpdateStatus\UnsubscribeController;
@@ -90,6 +91,7 @@ Route::prefix('email-lists')->group(function () {
     Route::post('/', '\\' . CreateEmailListController::class)->name('mailcoach.emailLists.store');
 
     Route::prefix('{emailList}')->group(function () {
+        Route::get('summary', '\\' . SummaryController::class)->name('mailcoach.emailLists.summary');
         Route::get('subscribers', '\\' . SubscribersIndexController::class)->name('mailcoach.emailLists.subscribers');
         Route::post('subscribers/export', '\\' . SubscribersExportController::class)->name('mailcoach.emailLists.subscribers.export');
 

@@ -18,8 +18,11 @@
 @section('content')
     <nav class="tabs">
         <ul>
+            <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.summary', $emailList)">
+                <x-mailcoach::icon-label icon="fa-chart-area" :text="__('Summary')" />
+            </x-mailcoach::navigation-item>
             <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.subscribers', $emailList)">
-                <x-mailcoach::icon-label icon="fa-users" :text="__('Subscribers')" :count="$emailList->subscribers()->count() ?? 0" />
+                <x-mailcoach::icon-label icon="fa-users" :text="__('Subscribers')" :count="number_format($emailList->subscribers()->count() ?? 0)" />
             </x-mailcoach::navigation-item>
             <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.tags', $emailList)">
                 <x-mailcoach::icon-label icon="fa-tag" :text="__('Tags')" />

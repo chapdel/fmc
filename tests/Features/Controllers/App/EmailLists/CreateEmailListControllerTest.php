@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Tests\Features\Controllers\App\EmailLists;
 
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\CreateEmailListController;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\SubscribersIndexController;
+use Spatie\Mailcoach\Http\App\Controllers\EmailLists\EmailListSettingsController;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class CreateEmailListControllerTest extends TestCase
@@ -24,7 +24,7 @@ class CreateEmailListControllerTest extends TestCase
                 $attributes
             )
             ->assertSessionHasNoErrors()
-            ->assertRedirect(action(SubscribersIndexController::class, 1));
+            ->assertRedirect(action([EmailListSettingsController::class, 'edit'], 1));
 
         $this->assertDatabaseHas('mailcoach_email_lists', $attributes);
     }

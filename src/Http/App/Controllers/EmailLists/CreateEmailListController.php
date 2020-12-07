@@ -20,6 +20,6 @@ class CreateEmailListController
 
         flash()->success(__('List :emailList was created', ['emailList' => $emailList->name]));
 
-        return redirect()->route('mailcoach.emailLists.subscribers', $emailList);
+        return redirect()->route('mailcoach.emailLists.settings', $emailList);
     }
 }

@@ -48,7 +48,7 @@ class BezierCurve
     {
         $previous = $previous ?: $current;
         $next = $next ?: $current;
-        $smoothing = 0.125;
+        $smoothing = $previous ? 0 : 0.125;
 
         $opposedLine = $this->line($previous, $next);
         $angle = $opposedLine['angle'] + ($reverse ? pi() : 0);

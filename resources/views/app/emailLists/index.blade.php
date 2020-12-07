@@ -42,11 +42,11 @@
                 @foreach($emailLists as $emailList)
                     <tr>
                         <td class="markup-links">
-                            <a class="break-words" href="{{ route('mailcoach.emailLists.subscribers', $emailList) }}">
+                            <a class="break-words" href="{{ route('mailcoach.emailLists.summary', $emailList) }}">
                                 {{ $emailList->name }}
                             </a>
                         </td>
-                        <td class="td-numeric">{{ $emailList->active_subscribers_count }}</td>
+                        <td class="td-numeric">{{ number_format($emailList->active_subscribers_count) }}</td>
                         <td class="td-numeric hidden | md:table-cell">
                             {{ $emailList->created_at->toMailcoachFormat() }}
                         </td>

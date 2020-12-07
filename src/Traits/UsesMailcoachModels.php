@@ -38,4 +38,14 @@ trait UsesMailcoachModels
 
         return $emailList->getTable();
     }
+
+    public function getSubscriberTableName(): string
+    {
+        /** @var \Illuminate\Database\Eloquent\Model $subscriber */
+        $subscriberClass = $this->getSubscriberClass();
+
+        $subscriber = new $subscriberClass;
+
+        return $subscriber->getTable();
+    }
 }
