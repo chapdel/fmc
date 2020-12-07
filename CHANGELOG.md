@@ -2,7 +2,11 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
-## 3.5.0 - 2020-12-30
+## 3.6.0 - 2020-12-07
+
+- add list level metrics
+
+## 3.5.0 - 2020-11-30
 
 - add partial for tags (#375)
 
