@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.6.4 - 2020-12-08
+
+- Make sure the email list graph is scoped by email list
+
 ## 3.6.3 - 2020-12-07
 
 - Fix issue with index in multi-tenant setup
