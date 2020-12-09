@@ -88,28 +88,28 @@ class SubscribersControllerTest extends TestCase
         $this->assertCount(0, Subscriber::all());
     }
 
-	/** @test */
-	public function it_can_update_a_subscriber()
-	{
-		/** @var Subscriber $subscriber */
-		$subscriber = Subscriber::factory()
-			->for(EmailList::factory(), 'emailList')
-			->create();
+    /** @test */
+    public function it_can_update_a_subscriber()
+    {
+        /** @var Subscriber $subscriber */
+        $subscriber = Subscriber::factory()
+            ->for(EmailList::factory(), 'emailList')
+            ->create();
 
-		$attributes = [
-			'email' => 'janedoe@example.com',
-			'first_name' => 'Jane',
-			'last_name' => 'Doe',
-			'tags' => ['test1', 'test2']
-		];
-		$this
-			->patchJson(action([SubscribersController::class, 'update'], $subscriber), $attributes)
-			->assertSuccessful();
+        $attributes = [
+            'email' => 'janedoe@example.com',
+            'first_name' => 'Jane',
+            'last_name' => 'Doe',
+            'tags' => ['test1', 'test2'],
+        ];
+        $this
+            ->patchJson(action([SubscribersController::class, 'update'], $subscriber), $attributes)
+            ->assertSuccessful();
 
-		$subscriber->refresh();
-		$this->assertEquals($attributes['email'], $subscriber->email);
-		$this->assertEquals($attributes['first_name'], $subscriber->first_name);
-		$this->assertEquals($attributes['last_name'], $subscriber->last_name);
-		$this->assertEquals($attributes['tags'], $subscriber->tags->pluck('name')->toArray());
+        $subscriber->refresh();
+        $this->assertEquals($attributes['email'], $subscriber->email);
+        $this->assertEquals($attributes['first_name'], $subscriber->first_name);
+        $this->assertEquals($attributes['last_name'], $subscriber->last_name);
+        $this->assertEquals($attributes['tags'], $subscriber->tags->pluck('name')->toArray());
     }
 }

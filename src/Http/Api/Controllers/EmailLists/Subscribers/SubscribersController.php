@@ -59,14 +59,14 @@ class SubscribersController
         return $this->respondOk();
     }
 
-	public function update(Subscriber $subscriber, UpdateSubscriberRequest $request, UpdateSubscriberAction $updateSubscriberAction)
-	{
-		$updateSubscriberAction->execute(
-			$subscriber,
-			$request->subscriberAttributes(),
-			$request->tags ?? [],
-		);
+    public function update(Subscriber $subscriber, UpdateSubscriberRequest $request, UpdateSubscriberAction $updateSubscriberAction)
+    {
+        $updateSubscriberAction->execute(
+            $subscriber,
+            $request->subscriberAttributes(),
+            $request->tags ?? [],
+        );
 
-		return new SubscriberResource($subscriber->refresh());
-	}
+        return new SubscriberResource($subscriber->refresh());
+    }
 }
