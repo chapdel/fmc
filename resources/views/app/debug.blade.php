@@ -175,8 +175,8 @@
             </td>
         </tr>
         <tr>
-            <td class="pr-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">MySQL</td>
-            @php($issueBody.="**MySQL version**: " . $mysqlVersion . "\n")
+            <td class="pr-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold capitalize">{{ config('database.default') }}</td>
+            @php($issueBody.="**" . config('database.default') . " version**: " . $mysqlVersion . "\n")
             <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5 font-mono">
                 {{ $mysqlVersion }}
             </td>

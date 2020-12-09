@@ -35,8 +35,8 @@ class DebugController
 
     private function mysqlVersion(): string
     {
-        $results = DB::select((string)DB::raw("select version()"));
+        $results = DB::select('select version() as version');
 
-        return (string) $results[0]->{'version()'};
+        return (string) $results[0]->version;
     }
 }
