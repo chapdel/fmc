@@ -61,7 +61,8 @@
         "predis/predis": "^1.1",
         "spatie/phpunit-snapshot-assertions": "^4.2",
         "spatie/test-time": "^1.2",
-        "symfony/var-dumper": "^5.1"
+        "symfony/var-dumper": "^5.1",
+        "friendsofphp/php-cs-fixer": "^2.17"
     },
     "autoload": {
         "psr-4": {
