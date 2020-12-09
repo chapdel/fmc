@@ -32,6 +32,8 @@ class EmailListCampaignsFeedControllerTest extends TestCase
     /** @test */
     public function it_can_generate_a_feed()
     {
+        $this->withoutExceptionHandling();
+
         $this
             ->get(action(EmailListCampaignsFeedController::class, $this->emailList->uuid))
             ->assertSee('<?xml', false);
