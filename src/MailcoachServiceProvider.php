@@ -139,7 +139,7 @@ class MailcoachServiceProvider extends ServiceProvider
 
     protected function bootGate(): self
     {
-        Gate::define('viewMailcoach', fn ($user = null) => app()->environment('local'));
+        Gate::define('viewMailcoach', fn () => app()->environment('local'));
 
         return $this;
     }

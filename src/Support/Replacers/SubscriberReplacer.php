@@ -17,9 +17,9 @@ class SubscriberReplacer implements PersonalizedReplacer
         ];
     }
 
-    public function replace(string $text, Send $send): string
+    public function replace(string $text, Send $pendingSend): string
     {
-        $subscriber = $send->subscriber;
+        $subscriber = $pendingSend->subscriber;
 
         return $this->replaceModelAttributes($text, 'subscriber', $subscriber);
     }

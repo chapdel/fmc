@@ -55,7 +55,7 @@ class ImportSubscriberRow
     public function getExtraAttributes(): array
     {
         return collect($this->values)
-            ->reject(fn ($value, string $key) => in_array($key, ['email', 'first_name', 'last_name']))
+            ->reject(fn ($_value, string $key) => in_array($key, ['email', 'first_name', 'last_name']))
             ->map(fn ($value, string $key) => [$key, $value])
             ->reduce(function (array $result, $keyValuePair) {
                 [$key, $value] = $keyValuePair;

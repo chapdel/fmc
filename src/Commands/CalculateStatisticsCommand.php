@@ -66,7 +66,7 @@ class CalculateStatisticsCommand extends Command
 
         return $this->getCampaignClass()::sentBetween($periodStart, $periodEnd)
             ->get()
-            ->filter(function (Campaign $campaign) use ($periodEnd, $periodStart, $recalculateThreshold) {
+            ->filter(function (Campaign $campaign) use ($recalculateThreshold) {
                 if (is_null($campaign->statistics_calculated_at)) {
                     return true;
                 }
