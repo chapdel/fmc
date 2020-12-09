@@ -10,7 +10,7 @@
     <button type="button" class="link-icon" data-modal-trigger="preview">
         <x-mailcoach::icon-label icon="fa-eye" :text="__('Preview')"/>
     </button>
-    <x-mailcoach::modal :title="__('Preview')" name="preview" large :open="Request::get('modal')">
+    <x-mailcoach::modal :title="__('Preview') . ' - ' . $campaign->subject" name="preview" large :open="Request::get('modal')">
         <iframe class="absolute" width="100%" height="100%" data-html-preview-target></iframe>
     </x-mailcoach::modal>
 </div>

@@ -10,6 +10,7 @@ class TextEditor implements Editor
     {
         return (string)view('mailcoach::app.campaigns.draft.textEditor', [
             'html' => $model->getHtml(),
+            'campaign' => $model,
         ])->render();
     }
 }

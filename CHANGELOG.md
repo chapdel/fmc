@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.6.5 - 2020-12-09
+
+- Debug database version now works on postgres
+- Add subject of campaign to preview modal
+
 ## 3.6.4 - 2020-12-08
 
 - Make sure the email list graph is scoped by email list
