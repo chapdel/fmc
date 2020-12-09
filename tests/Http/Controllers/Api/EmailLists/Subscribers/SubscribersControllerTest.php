@@ -92,7 +92,10 @@ class SubscribersControllerTest extends TestCase
 	public function it_can_update_a_subscriber()
 	{
 		/** @var Subscriber $subscriber */
-		$subscriber = Subscriber::factory()->create();
+		$subscriber = Subscriber::factory()
+			->for(EmailList::factory(), 'emailList')
+			->create();
+
 		$attributes = [
 			'email' => 'janedoe@example.com',
 			'first_name' => 'Jane',
@@ -107,6 +110,6 @@ class SubscribersControllerTest extends TestCase
 		$this->assertEquals($attributes['email'], $subscriber->email);
 		$this->assertEquals($attributes['first_name'], $subscriber->first_name);
 		$this->assertEquals($attributes['last_name'], $subscriber->last_name);
-		$this->assertEquals($attributes['tags'], $subscriber->tags);
+		$this->assertEquals($attributes['tags'], $subscriber->tags->pluck('name')->toArray());
     }
 }
