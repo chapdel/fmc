@@ -2,10 +2,12 @@
 
 namespace Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers;
 
+use Spatie\Mailcoach\Actions\Subscribers\UpdateSubscriberAction;
 use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Http\Api\Requests\StoreSubscriberRequest;
 use Spatie\Mailcoach\Http\Api\Resources\SubscriberResource;
 use Spatie\Mailcoach\Http\App\Queries\EmailListSubscribersQuery;
+use Spatie\Mailcoach\Http\App\Requests\EmailLists\Subscribers\UpdateSubscriberRequest;
 use Spatie\Mailcoach\Models\EmailList;
 use Spatie\Mailcoach\Models\Subscriber;
 use Spatie\Mailcoach\Traits\UsesMailcoachModels;
@@ -56,4 +58,15 @@ class SubscribersController
 
         return $this->respondOk();
     }
+
+	public function update(Subscriber $subscriber, UpdateSubscriberRequest $request, UpdateSubscriberAction $updateSubscriberAction)
+	{
+		$updateSubscriberAction->execute(
+			$subscriber,
+			$request->subscriberAttributes(),
+			$request->tags ?? [],
+		);
+
+		return new SubscriberResource($subscriber->refresh());
+	}
 }

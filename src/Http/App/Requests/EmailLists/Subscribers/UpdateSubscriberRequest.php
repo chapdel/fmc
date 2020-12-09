@@ -28,9 +28,13 @@ class UpdateSubscriberRequest extends FormRequest
     {
         $emailList = $this->route('emailList');
 
-        $rule = Rule::unique('mailcoach_subscribers', 'email')->where('email_list_id', $emailList->id);
+	    $subscriber = $this->route('subscriber');
 
-        $subscriber = $this->route('subscriber');
+        if(!$emailList){
+        	$emailList = $subscriber->emailList;
+        }
+
+        $rule = Rule::unique('mailcoach_subscribers', 'email')->where('email_list_id', $emailList->id);
 
         $rule->ignore($subscriber->id);
 
