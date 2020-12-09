@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.7.0 - 2020-12-09
+
+- add update method on SubscribersController.php (#383)
+
 ## 3.6.5 - 2020-12-09
 
 - Debug database version now works on postgres
