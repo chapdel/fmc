@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Models\Concerns;
 
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Date;
 use Spatie\Mailcoach\Enums\CampaignStatus;
 
 trait CanBeScheduled
@@ -39,6 +40,15 @@ trait CanBeScheduled
     {
         $query
             ->scheduled()
-            ->where('scheduled_at', '<=', now()->format('Y-m-d H:i:s'));
+            ->where('scheduled_at', '<=', now()->utc()->format('Y-m-d H:i:s'));
+    }
+
+    public function getScheduledAtAttribute($timestamp)
+    {
+        if (! $timestamp) {
+            return null;
+        }
+
+        return Date::parse($timestamp, 'utc');
     }
 }

@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.8.1 - 2020-12-10
+
+- Fix a display issue with timezones
+
 ## 3.8.0 - 2020-12-10
 
 - Test emails are now prefixed with "[Test]"
