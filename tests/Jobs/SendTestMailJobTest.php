@@ -30,7 +30,7 @@ class SendTestMailJobTest extends TestCase
         dispatch(new SendTestMailJob($campaign, $email));
 
         Mail::assertSent(CampaignMail::class, function (CampaignMail $mail) use ($email, $campaign) {
-            $this->assertEquals('my subject', $mail->subject);
+            $this->assertEquals('[Test] my subject', $mail->subject);
             $this->assertEquals('some-mailer', $mail->mailer);
 
             $this->assertTrue($mail->hasTo($email));
@@ -68,7 +68,7 @@ class SendTestMailJobTest extends TestCase
         $messages = app(MailManager::class)->mailer('array')->getSwiftMailer()->getTransport()->messages();
 
         $this->assertTrue($messages->filter(function (\Swift_Message $message) {
-            return $message->getSubject() === "This is the subject from the custom mailable.";
+            return $message->getSubject() === "[Test] This is the subject from the custom mailable.";
         })->count() > 0);
     }
 }

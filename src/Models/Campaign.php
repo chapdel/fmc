@@ -3,12 +3,15 @@
 namespace Spatie\Mailcoach\Models;
 
 use Carbon\CarbonInterface;
+use DOMDocument;
+use DOMElement;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
@@ -649,6 +652,19 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         return (new CssToInlineStyles())->convert($html ?? '');
     }
 
+    public function htmlLinks(): Collection
+    {
+        $dom = new DOMDocument('1.0', 'UTF-8');
+        $dom->loadHTML($this->getHtml());
+
+        return collect($dom->getElementsByTagName('a'))
+            ->map(function (DOMElement $link) {
+                return $link->getAttribute('href');
+            })->reject(function (string $url) {
+                return str_contains($url, '::');
+            });
+    }
+
     public function getHtml(): ?string
     {
         return $this->html;
@@ -657,6 +673,11 @@ class Campaign extends Model implements Feedable, HasHtmlContent
     public function getStructuredHtml(): ?string
     {
         return $this->structured_html;
+    }
+
+    public function sizeInKb(): int
+    {
+        return ceil(mb_strlen($this->getHtml(), '8bit') / 1000);
     }
 
     public function resolveRouteBinding($value, $field = null)

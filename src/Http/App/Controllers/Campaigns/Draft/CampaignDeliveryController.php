@@ -10,6 +10,7 @@ class CampaignDeliveryController
     {
         return view('mailcoach::app.campaigns.draft.delivery', [
             'campaign' => $campaign,
+            'links' => $campaign->htmlLinks(),
         ]);
     }
 }

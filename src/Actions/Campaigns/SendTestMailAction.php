@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Actions\Campaigns;
 
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Spatie\Mailcoach\Mails\CampaignMail;
 use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Support\Config;
@@ -22,9 +23,10 @@ class SendTestMailAction
             ->setCampaign($campaign)
             ->setHtmlContent($html)
             ->setTextContent($text)
-            ->subject($campaign->subject)
+            ->subject("[Test] {$campaign->subject}")
             ->withSwiftMessage(function (Swift_Message $message) {
                 $message->getHeaders()->addTextHeader('X-MAILCOACH', 'true');
+                $message->getHeaders()->addTextHeader('X-Entity-Ref-ID', Str::uuid()->toString());
             });
 
         $mailer = $campaign->emailList->campaign_mailer

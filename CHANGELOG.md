@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.8.0 - 2020-12-10
+
+- Test emails are now prefixed with "[Test]"
+- Test emails have a X-Entity-Ref-ID header to prevent threading
+- The delivery screen now shows a warning if your message is above 102kb, which could cause clipping in Gmail
+- The delivery screen now shows the links found in your campaign, so you can verify they are correct.
+
 ## 3.7.0 - 2020-12-09
 
 - add update method on SubscribersController.php (#383)

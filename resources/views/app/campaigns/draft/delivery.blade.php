@@ -56,7 +56,7 @@
                     ]) }}
                 @endif
             </h1>
-            @if (! $campaign->htmlContainsUnsubscribeUrlPlaceHolder())
+            @if (! $campaign->htmlContainsUnsubscribeUrlPlaceHolder() || $campaign->sizeInKb() > 102)
                 <p class="mt-4 alert alert-warning">
                     {!! __('Campaign <strong>:campaign</strong> can be sent, but you might want to check your content.', ['campaign' => $campaign->name]) !!}
                 </p>
@@ -154,7 +154,7 @@
 
             <dt>
                 @if($campaign->html && $campaign->hasValidHtml())
-                    @if (! $campaign->htmlContainsUnsubscribeUrlPlaceHolder())
+                    @if (! $campaign->htmlContainsUnsubscribeUrlPlaceHolder() || $campaign->sizeInKb() >= 102)
                         <i class="fas fa-exclamation-triangle text-orange-500 mr-2"></i>
                     @else
                         <i class="fas fa-check text-green-500 mr-2"></i>
@@ -168,15 +168,22 @@
 
             @if($campaign->html && $campaign->hasValidHtml())
                 <dd>
-                    @if (! $campaign->htmlContainsUnsubscribeUrlPlaceHolder())
-                        <p class="markup-code">
-                            {{ __("Without a way to unsubscribe, there's a high chance that your subscribers will complain.") }}
-                            {!! __('Consider adding the <code>::unsubscribeUrl::</code> placeholder.') !!}
-                        </p>
-                    @else
+                    @if ($campaign->htmlContainsUnsubscribeUrlPlaceHolder() && $campaign->sizeInKb() < 102)
                         <p class="markup-code">
                             {{ __('Content seems fine.') }}
                         </p>
+                    @else
+                        @if (! $campaign->htmlContainsUnsubscribeUrlPlaceHolder())
+                            <p class="markup-code mb-4">
+                                {{ __("Without a way to unsubscribe, there's a high chance that your subscribers will complain.") }}
+                                {!! __('Consider adding the <code>::unsubscribeUrl::</code> placeholder.') !!}
+                            </p>
+                        @endif
+                        @if ($campaign->sizeInKb() >= 102)
+                            <p class="markup-code mb-4">
+                                {{ __("Your email's content size is larger than 102kb (:size). This could cause Gmail to clip your campaign.", ['size' => "{$campaign->sizeInKb()}kb"]) }}
+                            </p>
+                        @endif
                     @endif
                 </dd>
 
@@ -204,6 +211,28 @@
                         <iframe class="absolute" width="100%" height="100%"
                                 src="data:text/html;base64,{{ base64_encode($campaign->html) }}"></iframe>
                     </x-mailcoach::modal>
+                @endif
+            </dd>
+
+            <dt>
+                <i class="fas fa-link mr-2"></i>
+                {{ __('Links') }}:
+            </dt>
+
+            <dd class="col-start-2 pb-4 mb-2 border-b-2 border-gray-100 buttons gap-4">
+                @if (count($links))
+                    <div>
+                        <p class="markup-code mb-4">
+                            {{ __("The following links were found in your campaign, make sure they are valid.") }}
+                        </p>
+                        @foreach ($links as $url)
+                            <p class="mb-2"><a target="_blank" class="link" href="{{ $url }}">{{ $url }}</a></p>
+                        @endforeach
+                    </div>
+                @else
+                    <p class="markup-code mb-4">
+                        {{ __("No links were found in your campaign.") }}
+                    </p>
                 @endif
             </dd>
 
