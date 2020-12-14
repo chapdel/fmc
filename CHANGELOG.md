@@ -4,7 +4,7 @@ All notable changes to `laravel-mailcoach` will be documented in this file
 
 ## 3.9.0 - 2020-12-14
 
-- a `Send` model to config file
+- add `Send` model to config file
 
 ## 3.8.1 - 2020-12-10
 
