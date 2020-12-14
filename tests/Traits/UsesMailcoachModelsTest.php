@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Tests\Traits;
 
 use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Models\EmailList;
+use Spatie\Mailcoach\Models\Send;
 use Spatie\Mailcoach\Models\Subscriber;
 use Spatie\Mailcoach\Models\Template;
 use Spatie\Mailcoach\Tests\Factories\EmailListFactory;
@@ -47,5 +48,12 @@ class UsesMailcoachModelsTest extends TestCase
     {
         $class = $this->email_list->getTemplateClass();
         $this->assertInstanceOf(Template::class, new $class);
+    }
+
+    /** @test */
+    public function the_configured_send_model_extends_package_model()
+    {
+        $class = $this->email_list->getSendClass();
+        $this->assertInstanceOf(Send::class, new $class);
     }
 }

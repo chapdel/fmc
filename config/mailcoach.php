@@ -158,6 +158,12 @@ return [
         'email_list' => Spatie\Mailcoach\Models\EmailList::class,
 
         /*
+         * The model you want to use as a EmailList model. It needs to be or
+         * extend the `Spatie\Mailcoach\Models\Send` model.
+         */
+        'send' => Spatie\Mailcoach\Models\Send::class,
+
+        /*
          * The model you want to use as a Subscriber model. It needs to be or
          * extend the `Spatie\Mailcoach\Models\Subscriber` model.
          */
@@ -168,7 +174,6 @@ return [
          * extend the `Spatie\Mailcoach\Models\Template` model.
          */
         'template' => Spatie\Mailcoach\Models\Template::class,
-
     ],
 
     'views' => [
