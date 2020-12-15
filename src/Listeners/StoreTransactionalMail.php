@@ -19,7 +19,7 @@ class StoreTransactionalMail
             'to' => $message->getTo(),
             'cc' => $message->getCc(),
             'bcc' => $message->getBcc(),
-            'body' => $message->getBody()
+            'body' => $message->getBody(),
         ]);
 
         Send::create([
