@@ -179,8 +179,9 @@ class CreateMailcoachTables extends Migration
             $table->bigIncrements('id');
             $table->uuid('uuid');
             $table->string('transport_message_id')->nullable();
-            $table->unsignedBigInteger('campaign_id');
-            $table->unsignedBigInteger('subscriber_id');
+            $table->unsignedBigInteger('campaign_id')->nullable();
+            $table->unsignedBigInteger('subscriber_id')->nullable();
+            $table->unsignedBigInteger('transactional_mail_id')->nullable();
             $table->timestamp('sent_at')->nullable();
             $table->timestamp('failed_at')->nullable();
             $table->text('failure_reason')->nullable();
@@ -197,10 +198,17 @@ class CreateMailcoachTables extends Migration
                 ->references('id')->on('mailcoach_subscribers')
                 ->onDelete('cascade');
 
+            $table
+                ->foreign('transactional_mail_id')
+                ->references('id')->on('mailcoach_transactional_mail_id')
+                ->onDelete('cascade');
+
+
             $table->unique('transport_message_id');
 
             $table->index('uuid');
             $table->index(['campaign_id', 'subscriber_id']);
+            $table->index(['transactional_mail_id']);
         });
 
         Schema::create('mailcoach_campaign_clicks', function (Blueprint $table) {
@@ -351,8 +359,6 @@ class CreateMailcoachTables extends Migration
                 ->onDelete('cascade');
         });
 
-
-
         Schema::create('mailcoach_positive_segment_tags', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('segment_id');
@@ -383,6 +389,18 @@ class CreateMailcoachTables extends Migration
                 ->foreign('tag_id')
                 ->references('id')->on('mailcoach_tags')
                 ->onDelete('cascade');
+        });
+
+        Schema::create('mailcoach_transactional_mails', function(Blueprint $table) {
+            $table->id();
+
+            $table->json('from');
+            $table->json('to');
+            $table->json('cc')->nullable();
+            $table->json('bcc')->nullable();
+            $table->longText('body')->nullable();
+
+            $table->timestamps();
         });
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach;
 
+use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
@@ -32,6 +33,7 @@ use Spatie\Mailcoach\Http\App\ViewComposers\IndexComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\QueryStringComposer;
 use Spatie\Mailcoach\Listeners\SendCampaignSentEmail;
 use Spatie\Mailcoach\Listeners\SetWebhookCallProcessedAt;
+use Spatie\Mailcoach\Listeners\StoreTransactionalMail;
 use Spatie\Mailcoach\Support\Version;
 use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 use Spatie\QueryString\QueryString;
@@ -270,6 +272,7 @@ class MailcoachServiceProvider extends ServiceProvider
     {
         Event::listen(CampaignSentEvent::class, SendCampaignSentEmail::class);
         Event::listen(WebhookCallProcessedEvent::class, SetWebhookCallProcessedAt::class);
+        Event::listen(MessageSending::class, StoreTransactionalMail::class);
 
         return $this;
     }

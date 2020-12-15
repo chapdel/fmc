@@ -12,6 +12,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\Feed\FeedServiceProvider;
 use Spatie\Mailcoach\Database\Factories\UserFactory;
@@ -43,6 +44,8 @@ abstract class TestCase extends Orchestra
                 return 'Spatie\\Mailcoach\\Database\\Factories\\' . class_basename($modelName) . 'Factory';
             }
         );
+
+        View::addLocation(__DIR__ . '/views');
     }
 
     protected function getPackageProviders($app)
