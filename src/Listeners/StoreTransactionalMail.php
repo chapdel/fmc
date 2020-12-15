@@ -5,21 +5,28 @@ namespace Spatie\Mailcoach\Listeners;
 use Illuminate\Mail\Events\MessageSending;
 use Spatie\Mailcoach\Models\Send;
 use Spatie\Mailcoach\Models\TransactionalMail;
+use Spatie\Mailcoach\Support\TransactionalMailMessageConfig;
 
 class StoreTransactionalMail
 {
-    public function handle(MessageSending $sending)
+    public function handle(MessageSending $sending): void
     {
-        ray($sending->data);
-
         $message = $sending->message;
+
+        $messageConfig = TransactionalMailMessageConfig::createForMessage($message);
+
+        if (! $messageConfig->shouldStore()) {
+            return;
+        }
 
         $transactionalMail = TransactionalMail::create([
             'from' => $message->getFrom(),
             'to' => $message->getTo(),
             'cc' => $message->getCc(),
             'bcc' => $message->getBcc(),
-            'body' => $message->getBody()
+            'body' => $message->getBody(),
+            'track_opens' => $messageConfig->trackOpens(),
+            'track_clicks' => $messageConfig->trackClicks(),
         ]);
 
         Send::create([

@@ -174,6 +174,12 @@ return [
          * extend the `Spatie\Mailcoach\Models\Template` model.
          */
         'template' => Spatie\Mailcoach\Models\Template::class,
+
+        /*
+         * The model you want to use as a TransactionalMail model. It needs to be or
+         * extend the `Spatie\Mailcoach\Models\TransactionalMail` model.
+         */
+        'transactional_mail' => Spatie\Mailcoach\Models\TransactionalMail::class,
     ],
 
     'views' => [
