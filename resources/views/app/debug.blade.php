@@ -230,7 +230,7 @@
     <h2 class="py-4 whitespace-no-wrap text-sm leading-5 font-bold text-lg">Having trouble?</h2>
 
     <div class="button w-64">
-        <a href="https://github.com/spatie/mailcoach-support/issues/new?body={{ urlencode($issueBody) }}" target="_blank" class="font-semibold h-10">
+        <a href="https://github.com/spatie/laravel-mailcoach/issues/new?body={{ urlencode($issueBody) }}" target="_blank" class="font-semibold h-10">
             <x-mailcoach::icon-label icon="fa-question-circle" :text="__('Create a support issue')"/>
         </a>
     </div>
