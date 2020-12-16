@@ -20,6 +20,7 @@ class StoreTransactionalMail
         }
 
         $transactionalMail = TransactionalMail::create([
+            'subject'=> $message->getSubject(),
             'from' => $this->convertToNamedArray($message->getFrom()),
             'to' => $this->convertToNamedArray($message->getTo()),
             'cc' => $this->convertToNamedArray($message->getCc()),
@@ -27,13 +28,13 @@ class StoreTransactionalMail
             'body' => $message->getBody(),
             'track_opens' => $messageConfig->trackOpens(),
             'track_clicks' => $messageConfig->trackClicks(),
+            'mailable_class' => $messageConfig->getMailableClass(),
         ]);
 
         $send = Send::create([
             'transactional_mail_id' => $transactionalMail->id,
             'sent_at' => now(),
         ]);
-
 
         $send->storeTransportMessageId($message->getId());
     }

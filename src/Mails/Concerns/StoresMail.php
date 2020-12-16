@@ -7,7 +7,7 @@ use Swift_Message;
 use Swift_Mime_Headers_AbstractHeader;
 
 /** @mixin \Illuminate\Mail\Mailable */
-trait StoreMail
+trait StoresMail
 {
     protected bool $trackOpens = false;
 
@@ -57,7 +57,9 @@ trait StoreMail
 
     protected function setMailCoachTrackingHeaders(): self
     {
+        ray('setting track headers');
         $this->withSwiftMessage(function (Swift_Message $message) {
+            ray('in setMailcoachTrackingHeaders');
             $this->removeExistingMailcoachHeaders($message);
 
             if ($this->trackOpens) {
@@ -72,8 +74,21 @@ trait StoreMail
                 $this->addMailcoachHeader($message, TransactionalMailMessageConfig::HEADER_NAME_STORE);
             }
 
-
             $this->addMailcoachHeader($message, TransactionalMailMessageConfig::HEADER_NAME_MAILABLE_CLASS, get_class($this));
+
+        });
+
+        return $this;
+    }
+
+    protected function setMailableClassHeader(string $className): self
+    {
+        ray('in setMailableClassHeader');
+        $this->withSwiftMessage(function (Swift_Message $message) use ($className) {
+            $message->getHeaders()->removeAll(TransactionalMailMessageConfig::HEADER_NAME_MAILABLE_CLASS);
+
+            ray('setting header');
+            $this->addMailcoachHeader($message, TransactionalMailMessageConfig::HEADER_NAME_MAILABLE_CLASS, $className);
         });
 
         return $this;

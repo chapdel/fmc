@@ -24,4 +24,11 @@ class TransactionalMail extends Model
     {
         return $this->hasOne(Send::class, 'transactional_mail_id');
     }
+
+    public function resend(): self
+    {
+
+    }
+
+
 }

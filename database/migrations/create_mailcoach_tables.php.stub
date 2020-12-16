@@ -394,6 +394,8 @@ class CreateMailcoachTables extends Migration
         Schema::create('mailcoach_transactional_mails', function(Blueprint $table) {
             $table->id();
 
+            $table->text('subject');
+
             $table->json('from');
             $table->json('to');
             $table->json('cc')->nullable();
@@ -402,6 +404,8 @@ class CreateMailcoachTables extends Migration
 
             $table->boolean('track_opens')->default(false);
             $table->boolean('track_clicks')->default(false);
+
+            $table->string('mailable_class');
 
             $table->timestamps();
         });

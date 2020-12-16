@@ -17,7 +17,11 @@ class StoreTransactionalMailTest extends TestCase
     /** @test */
     public function a_transactional_mail_will_be_stored_in_the_db()
     {
-        $this->sendTestMail();
+        $this->sendTestMail(function(TestTransactionMail $mail) {
+            $mail
+                ->subject('This is the subject')
+                ->trackOpensAndClicks();
+        });
 
         $this->assertCount(1, TransactionalMail::get());
         $this->assertCount(1, Send::get());
@@ -28,11 +32,14 @@ class StoreTransactionalMailTest extends TestCase
             [['email' => config('mail.from.address'), 'name' => config('mail.from.name')]],
             $transactionalMail->from,
         );
+        $this->assertEquals('This is the subject', $transactionalMail->subject);
         $this->assertStringContainsString('This is the content for John Doe', $transactionalMail->body);
         $this->assertTrue($transactionalMail->track_opens);
         $this->assertTrue($transactionalMail->track_clicks);
+        $this->assertEquals(TestTransactionMail::class, $transactionalMail->mailable_class);
         $this->assertInstanceOf(Send::class, $transactionalMail->send);
         $this->assertInstanceOf(TransactionalMail::class, Send::first()->transactionalMail);
+
     }
 
     /** @test */

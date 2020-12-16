@@ -48,7 +48,7 @@ class TransactionalMailMessageConfig
 
     public function getMailableClass(): string
     {
-        return $this->message->getHeaders()->has(static::HEADER_NAME_MAILABLE_CLASS);
+        return $this->message->getHeaders()->get(static::HEADER_NAME_MAILABLE_CLASS)->getFieldBody();
     }
 
     public static function getHeaderNames(): array

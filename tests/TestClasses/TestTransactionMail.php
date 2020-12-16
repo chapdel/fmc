@@ -2,15 +2,16 @@
 
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
+use Closure;
 use Illuminate\Mail\Mailable;
-use Spatie\Mailcoach\Mails\Concerns\StoreMail;
+use Spatie\Mailcoach\Mails\Concerns\StoresMail;
 
 class
 TestTransactionMail extends Mailable
 {
-    use StoreMail;
+    use StoresMail;
 
-    public static ?\Closure $buildUsing = null;
+    public static ?Closure $buildUsing = null;
 
     public string $name = 'John Doe';
 
