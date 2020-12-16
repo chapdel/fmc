@@ -9,7 +9,7 @@ class CreateMailcoachTables extends Migration
     public function up()
     {
         Schema::create('mailcoach_email_lists', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->uuid('uuid');
             $table->string('name');
             $table->string('campaigns_feed_enabled')->default(true);
@@ -52,7 +52,7 @@ class CreateMailcoachTables extends Migration
         });
 
         Schema::create('mailcoach_subscribers', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('email_list_id');
 
             $table->string('email');
@@ -80,7 +80,7 @@ class CreateMailcoachTables extends Migration
         });
 
         Schema::create('mailcoach_segments', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('name');
             $table->boolean('all_positive_tags_required')->default(false);
             $table->boolean('all_negative_tags_required')->default(false);
@@ -94,7 +94,7 @@ class CreateMailcoachTables extends Migration
         });
 
         Schema::create('mailcoach_campaigns', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('name')->nullable();
             $table->uuid('uuid');
 
@@ -163,7 +163,7 @@ class CreateMailcoachTables extends Migration
         });
 
         Schema::create('mailcoach_campaign_links', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('campaign_id');
             $table->string('url', 2048);
             $table->integer('click_count')->default(0);
@@ -177,7 +177,7 @@ class CreateMailcoachTables extends Migration
         });
 
         Schema::create('mailcoach_sends', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->uuid('uuid');
             $table->string('transport_message_id')->nullable();
             $table->unsignedBigInteger('campaign_id')->nullable();
@@ -213,7 +213,7 @@ class CreateMailcoachTables extends Migration
         });
 
         Schema::create('mailcoach_campaign_clicks', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
 
             $table->unsignedBigInteger('send_id');
             $table->unsignedBigInteger('campaign_link_id');
@@ -237,7 +237,7 @@ class CreateMailcoachTables extends Migration
         });
 
         Schema::create('mailcoach_campaign_opens', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('send_id');
 
             $table->unsignedBigInteger('campaign_id');
@@ -261,7 +261,7 @@ class CreateMailcoachTables extends Migration
         });
 
         Schema::create('mailcoach_campaign_unsubscribes', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('campaign_id');
             $table->unsignedBigInteger('subscriber_id');
             $table->timestamps();
@@ -278,7 +278,7 @@ class CreateMailcoachTables extends Migration
         });
 
         Schema::create('mailcoach_send_feedback_items', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('type');
             $table->unsignedBigInteger('send_id');
             $table->json('extra_attributes')->nullable();
@@ -291,7 +291,7 @@ class CreateMailcoachTables extends Migration
         });
 
         Schema::create('mailcoach_templates', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('name');
             $table->longText('html');
             $table->longText('structured_html')->nullable();
@@ -299,7 +299,7 @@ class CreateMailcoachTables extends Migration
         });
 
         Schema::create('mailcoach_subscriber_imports', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->longText('subscribers_csv')->nullable();
             $table->uuid('uuid');
             $table->string('status');
@@ -318,7 +318,7 @@ class CreateMailcoachTables extends Migration
         });
 
         Schema::create('mailcoach_tags', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('name');
             $table->unsignedBigInteger('email_list_id');
             $table->timestamps();
@@ -330,7 +330,7 @@ class CreateMailcoachTables extends Migration
         });
 
         Schema::create('mailcoach_email_list_subscriber_tags', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('subscriber_id');
             $table->unsignedBigInteger('tag_id');
 
@@ -346,7 +346,7 @@ class CreateMailcoachTables extends Migration
         });
 
         Schema::create('mailcoach_email_list_allow_form_subscription_tags', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('email_list_id');
             $table->unsignedBigInteger('tag_id');
 
@@ -362,7 +362,7 @@ class CreateMailcoachTables extends Migration
         });
 
         Schema::create('mailcoach_positive_segment_tags', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('segment_id');
             $table->unsignedBigInteger('tag_id');
 
@@ -378,7 +378,7 @@ class CreateMailcoachTables extends Migration
         });
 
         Schema::create('mailcoach_negative_segment_tags', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('segment_id');
             $table->unsignedBigInteger('tag_id');
 
@@ -430,7 +430,7 @@ class CreateMailcoachTables extends Migration
         });
 
         Schema::create('mailcoach_automations', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('email_list_id')->nullable();
             $table->uuid('uuid');
             $table->string('name')->nullable();
@@ -456,7 +456,7 @@ class CreateMailcoachTables extends Migration
         });
 
         Schema::create('mailcoach_automation_actions', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('automation_id')->nullable();
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->uuid('uuid');
@@ -477,7 +477,7 @@ class CreateMailcoachTables extends Migration
         });
 
         Schema::create('mailcoach_automation_action_subscriber', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('action_id');
             $table->unsignedBigInteger('subscriber_id');
             $table->timestamp('run_at')->nullable();
