@@ -165,49 +165,46 @@ class CreateMailcoachTables extends Migration
 
         Schema::create('mailcoach_campaign_links', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('campaign_id');
+            $table
+                ->foreignId('campaign_id')
+                ->constrained('mailcoach_campaigns')
+                ->cascadeOnDelete();
+
             $table->string('url', 2048);
             $table->integer('click_count')->default(0);
             $table->integer('unique_click_count')->default(0);
             $table->nullableTimestamps();
-
-            $table
-                ->foreign('campaign_id')
-                ->references('id')->on('mailcoach_campaigns')
-                ->onDelete('cascade');
         });
 
         Schema::create('mailcoach_sends', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
             $table->string('transport_message_id')->nullable();
-            $table->unsignedBigInteger('campaign_id')->nullable();
-            $table->unsignedBigInteger('subscriber_id')->nullable();
-            $table->unsignedBigInteger('transactional_mail_id')->nullable();
+            $table
+                ->foreignId('campaign_id')
+                ->nullable()
+                ->constrained('mailcoach_campaigns')
+                ->cascadeOnDelete();
+
+            $table
+                ->foreignId('subscriber_id')
+                ->nullable()
+                ->constrained('mailcoach_subscribers')
+                ->cascadeOnDelete();
+
+            $table
+                ->foreignId('transactional_mail_id')
+                ->nullable()
+                ->constrained('mailcoach_transactional_mails')
+                ->cascadeOnDelete();
+
             $table->timestamp('sent_at')->nullable();
             $table->timestamp('failed_at')->nullable();
             $table->text('failure_reason')->nullable();
 
             $table->timestamps();
 
-            $table
-                ->foreign('campaign_id')
-                ->references('id')->on('mailcoach_campaigns')
-                ->onDelete('cascade');
-
-            $table
-                ->foreign('subscriber_id')
-                ->references('id')->on('mailcoach_subscribers')
-                ->onDelete('cascade');
-
-            $table
-                ->foreign('transactional_mail_id')
-                ->references('id')->on('mailcoach_transactional_mail_id')
-                ->onDelete('cascade');
-
-
             $table->unique('transport_message_id');
-
             $table->index('uuid');
             $table->index(['campaign_id', 'subscriber_id']);
             $table->index(['transactional_mail_id']);
