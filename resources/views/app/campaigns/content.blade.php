@@ -26,7 +26,7 @@
         </form>
     @else
         <div>
-            <x-html-field :label="__('Body (HTML)')" name="html" :value="$campaign->html" :disabled="! $campaign->isEditable()"></x-html-field>
+            <x-mailcoach::html-field :label="__('Body (HTML)')" name="html" :value="$campaign->html" :disabled="! $campaign->isEditable()" />
         </div>
     @endif
 

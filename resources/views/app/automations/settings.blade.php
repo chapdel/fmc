@@ -21,11 +21,11 @@
         @csrf
         @method('PUT')
 
-        <x-text-field :label="__('Name')" name="name" :value="$automation->name" required />
+        <x-mailcoach::text-field :label="__('Name')" name="name" :value="$automation->name" required />
 
         @include('mailcoach::app.campaigns.partials.emailListFields', ['segmentable' => $automation])
 
-        <x-select-field
+        <x-mailcoach::select-field
             :label="__('Trigger')"
             name="trigger"
             :options="$triggerOptions"
@@ -48,7 +48,7 @@
 
         <div class="form-buttons">
             <button type="submit" class="button">
-                <x-icon-label icon="fa-cog" :text="__('Save')" />
+                <x-mailcoach::icon-label icon="fa-cog" :text="__('Save')" />
             </button>
         </div>
     </form>
