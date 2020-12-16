@@ -4,6 +4,12 @@ All notable changes to `laravel-mailcoach` will be documented in this file
 
 ## 4.0.0 - xxxx-xx-xx
 
+notes for upgrading:
+
+- add transactional tables
+- rename campaign opens to opens
+- rename campaign clicks to clicks
+
 ## 3.9.2 - 2020-12-15
 
 - use laravel-mailcoach for support

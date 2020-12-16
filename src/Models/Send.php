@@ -14,6 +14,8 @@ use Spatie\Mailcoach\Events\BounceRegisteredEvent;
 use Spatie\Mailcoach\Events\CampaignLinkClickedEvent;
 use Spatie\Mailcoach\Events\CampaignOpenedEvent;
 use Spatie\Mailcoach\Events\ComplaintRegisteredEvent;
+use Spatie\Mailcoach\Events\TransactionalMailLinkClickedEvent;
+use Spatie\Mailcoach\Events\TransactionalMailOpenedEvent;
 use Spatie\Mailcoach\Models\Concerns\HasUuid;
 
 class Send extends Model
@@ -28,6 +30,11 @@ class Send extends Model
         'sent_at',
         'failed_at',
     ];
+
+    public function concernsCampaign(): bool
+    {
+        return ! is_null($this->campaign_id);
+    }
 
     public static function findByTransportMessageId(string $transportMessageId): ?Model
     {
@@ -44,6 +51,11 @@ class Send extends Model
         return $this->belongsTo(config('mailcoach.models.campaign'), 'campaign_id');
     }
 
+    public function transactionalMail(): BelongsTo
+    {
+        return $this->belongsTo(TransactionalMail::class, 'transactional_mail_id');
+    }
+
     public function opens(): HasMany
     {
         return $this->hasMany(CampaignOpen::class, 'send_id');
@@ -52,6 +64,16 @@ class Send extends Model
     public function clicks(): HasMany
     {
         return $this->hasMany(CampaignClick::class, 'send_id');
+    }
+
+    public function transactionalMailOpens(): HasMany
+    {
+        return $this->hasMany(TransactionalMailOpen::class, 'send_id');
+    }
+
+    public function transactionalMailClicks(): HasMany
+    {
+        return $this->hasMany(TransactionalMailClick::class, 'send_id');
     }
 
     public function feedback(): HasMany
@@ -99,13 +121,20 @@ class Send extends Model
         return $this;
     }
 
-    public function registerOpen(?DateTimeInterface $openedAt = null): ?CampaignOpen
+    public function registerOpen(?DateTimeInterface $openedAt = null): CampaignOpen|TransactionalMailOpen|null
+    {
+        return $this->concernsCampaign()
+            ? $this->registerCampaignOpen($openedAt)
+            : $this->registerTransactionalMailOpen($openedAt);
+    }
+
+    public function registerCampaignOpen(?DateTimeInterface $openedAt = null): ?CampaignOpen
     {
         if (! $this->campaign->track_opens) {
             return null;
         }
 
-        if ($this->wasOpenedInTheLastSeconds(5)) {
+        if ($this->wasOpenedInTheLastSeconds($this->opens(), 5)) {
             return null;
         }
 
@@ -123,9 +152,29 @@ class Send extends Model
         return $campaignOpen;
     }
 
-    protected function wasOpenedInTheLastSeconds(int $seconds): bool
+    public function registerTransactionalMailOpen(?DateTimeInterface $openedAt = null): ?TransactionalMailOpen
     {
-        $latestOpen = $this->opens()->latest()->first();
+        if (! $this->transactionalMail->track_opens) {
+            return null;
+        }
+
+        if ($this->wasOpenedInTheLastSeconds($this->transactionalMailOpens(), 5)) {
+            return null;
+        }
+
+        $transactionalMailOpen = TransactionalMailOpen::create([
+            'send_id' => $this->id,
+            'created_at' => $openedAt ?? now(),
+        ]);
+
+        event(new TransactionalMailOpenedEvent($transactionalMailOpen));
+
+        return $transactionalMailOpen;
+    }
+
+    protected function wasOpenedInTheLastSeconds(HasMany $relation, int $seconds): bool
+    {
+        $latestOpen = $relation->latest()->first();
 
         if (! $latestOpen) {
             return false;
@@ -134,7 +183,14 @@ class Send extends Model
         return $latestOpen->created_at->diffInSeconds() < $seconds;
     }
 
-    public function registerClick(string $url, ?DateTimeInterface $clickedAt = null): ?CampaignClick
+    public function registerClick(string $url, ?DateTimeInterface $clickedAt = null): CampaignClick|TransactionalMailClick|null
+    {
+        return $this->concernsCampaign()
+            ? $this->registerCampaignClick($url, $clickedAt)
+            : $this->registerTransactionalMailClick($url, $clickedAt);
+    }
+
+    protected function registerCampaignClick(string $url, ?DateTimeInterface $clickedAt = null): ?CampaignClick
     {
         if (! $this->campaign->track_clicks) {
             return null;
@@ -158,6 +214,22 @@ class Send extends Model
         return $campaignClick;
     }
 
+    protected function registerTransactionalMailClick(string $url, ?DateTimeInterface $clickedAt = null): ?TransactionalMailClick
+    {
+        if (! $this->transactionalMail->track_clicks) {
+            return null;
+        }
+
+        $transactionalMailClick = TransactionalMailClick::create([
+            'send_id' => $this->id,
+            'url' => $url,
+        ]);
+
+        event(new TransactionalMailLinkClickedEvent($transactionalMailClick));
+
+        return $transactionalMailClick;
+    }
+
     public function registerBounce(?DateTimeInterface $bouncedAt = null)
     {
         $this->feedback()->create([
@@ -165,7 +237,7 @@ class Send extends Model
             'created_at' => $bouncedAt ?? now(),
         ]);
 
-        $this->subscriber->unsubscribe($this);
+        optional($this->subscriber)->unsubscribe($this);
 
         event(new BounceRegisteredEvent($this));
 
@@ -179,7 +251,7 @@ class Send extends Model
             'created_at' => $complainedAt ?? now(),
         ]);
 
-        $this->subscriber->unsubscribe($this);
+        optional($this->subscriber)->unsubscribe($this);
 
         event(new ComplaintRegisteredEvent($this));
 
