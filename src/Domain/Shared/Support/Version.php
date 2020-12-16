@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Shared\Support;
 
 use Carbon\CarbonInterval;
+use Composer\InstalledVersions;
 use Exception;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
@@ -26,7 +27,7 @@ class Version
 
     public function getFullVersion(string $packageName = 'laravel-mailcoach'): string
     {
-        return Versions::getVersion("spatie/{$packageName}");
+        return InstalledVersions::getVersion("spatie/{$packageName}");
     }
 
     public function getHashedFullVersion(string $packageName = 'laravel-mailcoach'): string
