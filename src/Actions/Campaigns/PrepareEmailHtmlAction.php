@@ -11,7 +11,7 @@ use Spatie\Mailcoach\Support\Replacers\Replacer;
 
 class PrepareEmailHtmlAction
 {
-    public function execute(Campaign $campaign)
+    public function execute(Campaign $campaign): void
     {
         $this->ensureValidHtml($campaign);
 
@@ -39,7 +39,7 @@ class PrepareEmailHtmlAction
         }
     }
 
-    protected function ensureEmailHtmlHasSingleRootElement($campaign)
+    protected function ensureEmailHtmlHasSingleRootElement($campaign): void
     {
         $docTypeRegex = '~<(?:!DOCTYPE|/?(?:html))[^>]*>\s*~i';
 

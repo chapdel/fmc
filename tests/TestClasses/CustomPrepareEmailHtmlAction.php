@@ -7,7 +7,7 @@ use Spatie\Mailcoach\Models\Campaign;
 
 class CustomPrepareEmailHtmlAction extends PrepareEmailHtmlAction
 {
-    public function execute(Campaign $campaign)
+    public function execute(Campaign $campaign): void
     {
         $campaign->emailList->subscribers->first()->update(['email' => 'overridden@example.com']);
 

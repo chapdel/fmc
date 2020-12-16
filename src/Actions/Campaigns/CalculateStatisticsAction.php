@@ -8,7 +8,7 @@ use Spatie\Mailcoach\Models\CampaignLink;
 
 class CalculateStatisticsAction
 {
-    public function execute(Campaign $campaign)
+    public function execute(Campaign $campaign): void
     {
         if ($campaign->sends()->count() > 0) {
             $this

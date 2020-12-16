@@ -17,7 +17,7 @@ use Spatie\Mailcoach\Support\Segments\Segment;
 
 class SendCampaignAction
 {
-    public function execute(Campaign $campaign)
+    public function execute(Campaign $campaign): void
     {
         if ($campaign->wasAlreadySent()) {
             return;
@@ -30,7 +30,7 @@ class SendCampaignAction
             ->sendMailsForCampaign($campaign);
     }
 
-    protected function prepareSubject(Campaign $campaign)
+    protected function prepareSubject(Campaign $campaign): self
     {
         /** @var \Spatie\Mailcoach\Actions\Campaigns\PrepareSubjectAction $prepareSubjectAction */
         $prepareSubjectAction = Config::getActionClass('prepare_subject', PrepareSubjectAction::class);
@@ -40,7 +40,7 @@ class SendCampaignAction
         return $this;
     }
 
-    protected function prepareEmailHtml(Campaign $campaign)
+    protected function prepareEmailHtml(Campaign $campaign): self
     {
         /** @var \Spatie\Mailcoach\Actions\Campaigns\PrepareEmailHtmlAction $prepareEmailHtmlAction */
         $prepareEmailHtmlAction = Config::getActionClass('prepare_email_html', PrepareEmailHtmlAction::class);
@@ -50,7 +50,7 @@ class SendCampaignAction
         return $this;
     }
 
-    protected function prepareWebviewHtml(Campaign $campaign)
+    protected function prepareWebviewHtml(Campaign $campaign): self
     {
         /** @var \Spatie\Mailcoach\Actions\Campaigns\PrepareWebviewHtmlAction $prepareWebviewHtmlAction */
         $prepareWebviewHtmlAction = Config::getActionClass('prepare_webview_html', PrepareWebviewHtmlAction::class);
@@ -60,7 +60,7 @@ class SendCampaignAction
         return $this;
     }
 
-    protected function sendMailsForCampaign(Campaign $campaign)
+    protected function sendMailsForCampaign(Campaign $campaign): self
     {
         $campaign->update(['segment_description' => $campaign->getSegment()->description()]);
 
@@ -78,7 +78,7 @@ class SendCampaignAction
             ->allowFailures()
             ->finally(function () use ($campaign) {
                 if (! $campaign->refresh()->all_jobs_added_to_batch_at) {
-                    return;
+                    return $this;
                 }
 
                 dispatch(new MarkCampaignAsSentJob($campaign));
@@ -99,6 +99,8 @@ class SendCampaignAction
             });
 
         $batch->add(new MarkCampaignAsFullyDispatchedJob($campaign));
+
+        return $this;
     }
 
     protected function createSendMailJob(Campaign $campaign, Subscriber $subscriber, Segment $segment): ?SendMailJob

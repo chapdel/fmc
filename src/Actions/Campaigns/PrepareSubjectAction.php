@@ -7,7 +7,7 @@ use Spatie\Mailcoach\Support\Replacers\Replacer;
 
 class PrepareSubjectAction
 {
-    public function execute(Campaign $campaign)
+    public function execute(Campaign $campaign): void
     {
         $this->replacePlaceholdersInSubject($campaign);
 

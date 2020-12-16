@@ -17,7 +17,7 @@ class ConvertHtmlToTextAction
 
         try {
             $text = $converter->convert($html);
-        } catch (Exception $exception) {
+        } catch (Exception) {
             $text = '';
         }
 

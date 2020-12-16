@@ -7,7 +7,7 @@ use Spatie\Mailcoach\Models\Subscriber;
 
 class CustomConfirmSubscriberAction extends ConfirmSubscriberAction
 {
-    public function execute(Subscriber $subscriber)
+    public function execute(Subscriber $subscriber): void
     {
         $subscriber->update(['email' => 'overridden@example.com']);
 

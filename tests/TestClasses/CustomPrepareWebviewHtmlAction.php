@@ -7,7 +7,7 @@ use Spatie\Mailcoach\Models\Campaign;
 
 class CustomPrepareWebviewHtmlAction extends PrepareWebviewHtmlAction
 {
-    public function execute(Campaign $campaign)
+    public function execute(Campaign $campaign): void
     {
         $campaign->emailList->subscribers->first()->update(['email' => 'overridden@example.com']);
 

@@ -12,7 +12,7 @@ use Swift_Message;
 
 class SendMailAction
 {
-    public function execute(Send $pendingSend)
+    public function execute(Send $pendingSend): void
     {
         try {
             $this->sendMail($pendingSend);
