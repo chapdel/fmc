@@ -1,1 +1,1 @@
-test
+This is the content for {{ $name }}

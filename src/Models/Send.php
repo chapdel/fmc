@@ -14,6 +14,7 @@ use Spatie\Mailcoach\Events\BounceRegisteredEvent;
 use Spatie\Mailcoach\Events\CampaignLinkClickedEvent;
 use Spatie\Mailcoach\Events\CampaignOpenedEvent;
 use Spatie\Mailcoach\Events\ComplaintRegisteredEvent;
+use Spatie\Mailcoach\Events\TransactionalMailLinkClickedEvent;
 use Spatie\Mailcoach\Events\TransactionalMailOpenedEvent;
 use Spatie\Mailcoach\Models\Concerns\HasUuid;
 
@@ -72,7 +73,7 @@ class Send extends Model
 
     public function transactionalMailClicks(): HasMany
     {
-        return $this->hasMany(TransactionalMailClick::class, 'transactional_mail_clicks');
+        return $this->hasMany(TransactionalMailClick::class, 'send_id');
     }
 
     public function feedback(): HasMany
@@ -213,7 +214,7 @@ class Send extends Model
         return $campaignClick;
     }
 
-    protected function registerTransactionalMailClick(string $url, ?DateTimeInterface $clickedAt = null): ?CampaignClick
+    protected function registerTransactionalMailClick(string $url, ?DateTimeInterface $clickedAt = null): ?TransactionalMailClick
     {
         if (! $this->transactionalMail->track_clicks) {
             return null;
@@ -224,7 +225,7 @@ class Send extends Model
             'url' => $url,
         ]);
 
-        event(new TransactionalMailClick($transactionalMailClick));
+        event(new TransactionalMailLinkClickedEvent($transactionalMailClick));
 
         return $transactionalMailClick;
     }

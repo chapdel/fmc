@@ -27,6 +27,35 @@ trait StoreMail
         return $this;
     }
 
+    public function trackOpens(): self
+    {
+        $this->store = true;
+        $this->trackOpens = true;
+
+        $this->setMailCoachTrackingHeaders();
+
+        return $this;
+    }
+
+    public function trackClicks(): self
+    {
+        $this->store = true;
+        $this->trackClicks = true;
+
+        $this->setMailCoachTrackingHeaders();
+
+        return $this;
+    }
+
+    public function store(): self
+    {
+        $this->store = true;
+
+        $this->setMailCoachTrackingHeaders();
+
+        return $this;
+    }
+
     protected function setMailCoachTrackingHeaders(): self
     {
         $this->withSwiftMessage(function (Swift_Message $message) {

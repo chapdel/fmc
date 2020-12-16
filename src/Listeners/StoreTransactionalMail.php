@@ -20,18 +20,29 @@ class StoreTransactionalMail
         }
 
         $transactionalMail = TransactionalMail::create([
-            'from' => $message->getFrom(),
-            'to' => $message->getTo(),
-            'cc' => $message->getCc(),
-            'bcc' => $message->getBcc(),
+            'from' => $this->convertToNamedArray($message->getFrom()),
+            'to' => $this->convertToNamedArray($message->getTo()),
+            'cc' => $this->convertToNamedArray($message->getCc()),
+            'bcc' => $this->convertToNamedArray($message->getBcc()),
             'body' => $message->getBody(),
             'track_opens' => $messageConfig->trackOpens(),
             'track_clicks' => $messageConfig->trackClicks(),
         ]);
 
-        Send::create([
+        $send = Send::create([
             'transactional_mail_id' => $transactionalMail->id,
             'sent_at' => now(),
         ]);
+
+
+        $send->storeTransportMessageId($message->getId());
+    }
+
+    public function convertToNamedArray(?array $persons): array
+    {
+        return collect($persons ?? [])
+            ->map(fn(?string $name, string $email) => compact('email', 'name'))
+            ->values()
+            ->toArray();
     }
 }
