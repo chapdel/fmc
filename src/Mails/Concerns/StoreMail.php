@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Mails\Concerns;
 
-use Illuminate\Support\Str;
 use Spatie\Mailcoach\Support\TransactionalMailMessageConfig;
 use Swift_Message;
 use Swift_Mime_Headers_AbstractHeader;
@@ -74,7 +73,7 @@ trait StoreMail
             }
 
 
-            $this->addMailcoachHeader($message,TransactionalMailMessageConfig::HEADER_NAME_MAILABLE_CLASS, get_class($this));
+            $this->addMailcoachHeader($message, TransactionalMailMessageConfig::HEADER_NAME_MAILABLE_CLASS, get_class($this));
         });
 
         return $this;
@@ -95,8 +94,7 @@ trait StoreMail
         Swift_Message $message,
         string $headerName,
         string $headerValue = ''
-    ): self
-    {
+    ): self {
         $message
             ->getHeaders()
             ->addTextHeader(
@@ -106,5 +104,4 @@ trait StoreMail
 
         return $this;
     }
-
 }
