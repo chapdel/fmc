@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.9.4 - 2020-12-16
+
+- Fix an issue with HTML loading in the delivery tab (#384)
+
 ## 3.9.3 - 2020-12-16
 
 - trim values from import source (#392)
