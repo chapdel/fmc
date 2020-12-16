@@ -9,7 +9,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Support\Config;
+use Spatie\Mailcoach\Domain\Shared\Support\Config;
 
 class MarkCampaignAsSentJob implements ShouldQueue
 {

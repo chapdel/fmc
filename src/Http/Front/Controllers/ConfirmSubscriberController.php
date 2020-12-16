@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Http\Front\Controllers;
 
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Symfony\Component\HttpFoundation\Response;
 
 class ConfirmSubscriberController

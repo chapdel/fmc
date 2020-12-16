@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Support\Svg;
+namespace Spatie\Mailcoach\Domain\Campaign\Support\Svg;
 
 class BezierCurve
 {

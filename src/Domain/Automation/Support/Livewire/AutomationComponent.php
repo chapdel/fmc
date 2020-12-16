@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire;
 use Illuminate\Support\MessageBag;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 abstract class AutomationComponent extends Component
 {

@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Campaign\Mails\EmailListSummaryMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
-use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class SendEmailListSummaryMailCommand extends Command
 {

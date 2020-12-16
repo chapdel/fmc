@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Http\Front\Controllers;
 
 use Spatie\Feed\Feed;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
-use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class EmailListCampaignsFeedController
 {

@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Domain\Campaign\Exceptions;
 use Exception;
 use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Support\Segments\Segment;
+use Spatie\Mailcoach\Domain\Campaign\Support\Segments\Segment;
 
 class CouldNotSendCampaign extends Exception
 {

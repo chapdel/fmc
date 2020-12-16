@@ -10,7 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\ImportSubscribersAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\SubscriberImport;
-use Spatie\Mailcoach\Support\Config;
+use Spatie\Mailcoach\Domain\Shared\Support\Config;
 
 class ImportSubscribersJob implements ShouldQueue
 {

@@ -5,8 +5,8 @@ namespace Spatie\Mailcoach\Http\App\Controllers;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use PackageVersions\Versions;
-use Spatie\Mailcoach\Support\HorizonStatus;
-use Spatie\Mailcoach\Support\Version;
+use Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus;
+use Spatie\Mailcoach\Domain\Shared\Support\Version;
 
 class DebugController
 {

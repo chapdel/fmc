@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Components;
 
 use Illuminate\View\Component;
-use Spatie\Mailcoach\Support\Replacers\ReplacerWithHelpText;
+use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\ReplacerWithHelpText;
 
 class ReplacerHelpTextsComponent extends Component
 {

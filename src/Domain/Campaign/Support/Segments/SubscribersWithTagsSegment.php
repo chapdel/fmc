@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Support\Segments;
+namespace Spatie\Mailcoach\Domain\Campaign\Support\Segments;
 
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Mailcoach\Domain\Campaign\Models\TagSegment as TagSegmentModel;

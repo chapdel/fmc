@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Support;
+namespace Spatie\Mailcoach\Domain\TransactionalMail\Support;
 
 use Swift_Message;
 

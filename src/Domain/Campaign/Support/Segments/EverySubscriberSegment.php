@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Support\Segments;
+namespace Spatie\Mailcoach\Domain\Campaign\Support\Segments;
 
 class EverySubscriberSegment extends Segment
 {

@@ -42,9 +42,9 @@
             </tr>
             <tr>
                 <td class="pr-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">Horizon running</td>
-                @php($issueBody.='**Horizon**: ' . ($horizonStatus->is(\Spatie\Mailcoach\Support\HorizonStatus::STATUS_ACTIVE) ? 'Active' : 'Inactive') . "\n")
+                @php($issueBody.='**Horizon**: ' . ($horizonStatus->is(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::STATUS_ACTIVE) ? 'Active' : 'Inactive') . "\n")
                 <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5">
-                    @if($horizonStatus->is(\Spatie\Mailcoach\Support\HorizonStatus::STATUS_ACTIVE))
+                    @if($horizonStatus->is(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::STATUS_ACTIVE))
                         <i class="fas fa-check text-green-800 mr-1"></i>
                     @else
                         <i class="fas fa-check text-red-800 mr-1"></i>

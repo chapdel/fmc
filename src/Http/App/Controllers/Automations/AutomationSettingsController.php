@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Http\App\Controllers\Automations;
 use Spatie\Mailcoach\Http\App\Requests\AutomationRequest;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
-use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class AutomationSettingsController
 {

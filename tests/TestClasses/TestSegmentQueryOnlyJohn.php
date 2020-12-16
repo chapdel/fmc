@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
 use Illuminate\Database\Eloquent\Builder;
-use Spatie\Mailcoach\Support\Segments\Segment;
+use Spatie\Mailcoach\Domain\Campaign\Support\Segments\Segment;
 
 class TestSegmentQueryOnlyJohn extends Segment
 {

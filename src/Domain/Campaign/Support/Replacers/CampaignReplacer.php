@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\Mailcoach\Support\Replacers;
+namespace Spatie\Mailcoach\Domain\Campaign\Support\Replacers;
 
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Support\Replacers\Concerns\ReplacesModelAttributes;
+use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\Concerns\ReplacesModelAttributes;
 
 class CampaignReplacer implements Replacer
 {

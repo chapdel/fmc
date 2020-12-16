@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers;
 
 use Spatie\Mailcoach\Http\App\Requests\EmailLists\Subscribers\CreateSubscriberRequest;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
-use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class CreateSubscriberController
 {

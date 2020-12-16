@@ -8,7 +8,7 @@ use Spatie\Mailcoach\Http\Api\Requests\CampaignRequest;
 use Spatie\Mailcoach\Http\Api\Resources\CampaignResource;
 use Spatie\Mailcoach\Http\App\Queries\CampaignsQuery;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class CampaignsController
 {

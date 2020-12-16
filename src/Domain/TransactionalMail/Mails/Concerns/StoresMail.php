@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns;
 
-use Spatie\Mailcoach\Support\TransactionalMailMessageConfig;
+use Spatie\Mailcoach\Domain\TransactionalMail\Support\TransactionalMailMessageConfig;
 use Swift_Message;
 use Swift_Mime_Headers_AbstractHeader;
 

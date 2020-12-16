@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Http\App\Controllers\Automations;
 
 use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Automation\Actions\CreateAutomationAction;
-use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class CreateAutomationController
 {

@@ -16,9 +16,9 @@ use Spatie\Mailcoach\Domain\Campaign\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Campaign\Events\UnsubscribedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasExtraAttributes;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
-use Spatie\Mailcoach\Support\Config;
-use Spatie\Mailcoach\Support\PendingSubscriber;
-use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Shared\Support\Config;
+use Spatie\Mailcoach\Domain\Campaign\Support\PendingSubscriber;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class Subscriber extends Model
 {

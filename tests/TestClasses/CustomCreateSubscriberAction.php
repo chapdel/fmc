@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Tests\TestClasses;
 
 use Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\CreateSubscriberAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
-use Spatie\Mailcoach\Support\PendingSubscriber;
+use Spatie\Mailcoach\Domain\Campaign\Support\PendingSubscriber;
 
 class CustomCreateSubscriberAction extends CreateSubscriberAction
 {

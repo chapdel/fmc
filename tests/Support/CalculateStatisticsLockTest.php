@@ -3,13 +3,13 @@
 namespace Spatie\Mailcoach\Tests\Support;
 
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Support\CalculateStatisticsLock;
+use Spatie\Mailcoach\Domain\Campaign\Support\CalculateStatisticsLock;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
 class CalculateStatisticsLockTest extends TestCase
 {
-    /** @var \Spatie\Mailcoach\Support\CalculateStatisticsLock */
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Support\CalculateStatisticsLock */
     private CalculateStatisticsLock $lock;
 
     public function setUp(): void

@@ -7,7 +7,7 @@ use Exception;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Support\Replacers\Replacer;
+use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\Replacer;
 
 class PrepareEmailHtmlAction
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Support\Replacers;
+namespace Spatie\Mailcoach\Domain\Campaign\Support\Replacers;
 
 interface ReplacerWithHelpText
 {

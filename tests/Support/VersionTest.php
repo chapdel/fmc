@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Tests\Support;
 
 use Illuminate\Support\Facades\Cache;
-use Spatie\Mailcoach\Support\Version;
+use Spatie\Mailcoach\Domain\Shared\Support\Version;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class VersionTest extends TestCase

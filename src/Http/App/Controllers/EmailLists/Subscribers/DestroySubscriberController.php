@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers;
 use Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\DeleteSubscriberAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
-use Spatie\Mailcoach\Support\Config;
+use Spatie\Mailcoach\Domain\Shared\Support\Config;
 
 class DestroySubscriberController
 {

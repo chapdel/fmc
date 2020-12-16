@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Support\Replacers\Concerns;
+namespace Spatie\Mailcoach\Domain\Campaign\Support\Replacers\Concerns;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\SchemalessAttributes\SchemalessAttributes;

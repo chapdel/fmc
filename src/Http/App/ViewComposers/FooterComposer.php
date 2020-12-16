@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\ViewComposers;
 
 use Illuminate\View\View;
-use Spatie\Mailcoach\Support\Version;
+use Spatie\Mailcoach\Domain\Shared\Support\Version;
 
 class FooterComposer
 {

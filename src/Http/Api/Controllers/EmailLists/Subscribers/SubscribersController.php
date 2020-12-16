@@ -10,7 +10,7 @@ use Spatie\Mailcoach\Http\App\Queries\EmailListSubscribersQuery;
 use Spatie\Mailcoach\Http\App\Requests\EmailLists\Subscribers\UpdateSubscriberRequest;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class SubscribersController
 {
@@ -30,7 +30,7 @@ class SubscribersController
 
     public function store(StoreSubscriberRequest $request, EmailList $emailList)
     {
-        /** @var \Spatie\Mailcoach\Support\PendingSubscriber $pendingSubscriber */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Support\PendingSubscriber $pendingSubscriber */
         $pendingSubscriber = $this
             ->getSubscriberClass()::createWithEmail($request->email)
             ->withAttributes($request->subscriberAttributes());

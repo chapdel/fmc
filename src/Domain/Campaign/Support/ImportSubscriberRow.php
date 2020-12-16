@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Support;
+namespace Spatie\Mailcoach\Domain\Campaign\Support;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;

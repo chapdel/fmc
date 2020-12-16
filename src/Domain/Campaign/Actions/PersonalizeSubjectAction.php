@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Campaign\Actions;
 
 use Spatie\Mailcoach\Domain\Campaign\Models\Send;
-use Spatie\Mailcoach\Support\Replacers\PersonalizedReplacer;
+use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\PersonalizedReplacer;
 
 class PersonalizeSubjectAction
 {

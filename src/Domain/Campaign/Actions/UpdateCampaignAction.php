@@ -5,8 +5,8 @@ namespace Spatie\Mailcoach\Domain\Campaign\Actions;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
-use Spatie\Mailcoach\Support\Segments\EverySubscriberSegment;
-use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Campaign\Support\Segments\EverySubscriberSegment;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class UpdateCampaignAction
 {

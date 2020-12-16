@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\TagSegment;
-use Spatie\Mailcoach\Support\Segments\EverySubscriberSegment;
-use Spatie\Mailcoach\Support\Segments\Segment;
-use Spatie\Mailcoach\Support\Segments\SubscribersWithTagsSegment;
+use Spatie\Mailcoach\Domain\Campaign\Support\Segments\EverySubscriberSegment;
+use Spatie\Mailcoach\Domain\Campaign\Support\Segments\Segment;
+use Spatie\Mailcoach\Domain\Campaign\Support\Segments\SubscribersWithTagsSegment;
 
 /**
  * @property string $segment_class
@@ -27,7 +27,7 @@ trait SendsToSegment
     }
 
     /**
-     * @param \Spatie\Mailcoach\Support\Segments\Segment|string $segmentClassOrObject
+     * @param \Spatie\Mailcoach\Domain\Campaign\Support\Segments\Segment|string $segmentClassOrObject
      */
     public function segment($segmentClassOrObject): self
     {

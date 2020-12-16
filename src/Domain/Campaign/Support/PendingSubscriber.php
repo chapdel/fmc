@@ -1,12 +1,13 @@
 <?php
 
-namespace Spatie\Mailcoach\Support;
+namespace Spatie\Mailcoach\Domain\Campaign\Support;
 
 use Illuminate\Support\Facades\Validator;
 use Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\CreateSubscriberAction;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSubscribe;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Shared\Support\Config;
 
 class PendingSubscriber
 {

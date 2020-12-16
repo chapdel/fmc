@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Campaign\Actions;
 
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Support\Replacers\Replacer;
+use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\Replacer;
 
 class PrepareSubjectAction
 {

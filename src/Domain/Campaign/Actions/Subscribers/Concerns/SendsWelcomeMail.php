@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\Concerns;
 
 use Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\SendWelcomeMailAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
-use Spatie\Mailcoach\Support\Config;
+use Spatie\Mailcoach\Domain\Shared\Support\Config;
 
 trait SendsWelcomeMail
 {

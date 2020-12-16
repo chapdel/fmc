@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Domain\Campaign\Commands;
 
 use Illuminate\Console\Command;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class SendScheduledCampaignsCommand extends Command
 {

@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Domain\Campaign\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
-use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\WebhookClient\Models\WebhookCall;
 
 class CleanupProcessedFeedbackCommand extends Command

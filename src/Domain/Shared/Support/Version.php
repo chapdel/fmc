@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Support;
+namespace Spatie\Mailcoach\Domain\Shared\Support;
 
 use Carbon\CarbonInterval;
 use Exception;

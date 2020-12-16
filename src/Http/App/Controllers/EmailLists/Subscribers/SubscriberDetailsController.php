@@ -7,7 +7,7 @@ use Spatie\Mailcoach\Http\App\Requests\EmailLists\Subscribers\UpdateSubscriberRe
 use Spatie\Mailcoach\Http\App\ViewModels\SubscriberViewModel;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
-use Spatie\Mailcoach\Support\Config;
+use Spatie\Mailcoach\Domain\Shared\Support\Config;
 
 class SubscriberDetailsController
 {

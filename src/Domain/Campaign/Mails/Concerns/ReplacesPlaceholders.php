@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Campaign\Mails\Concerns;
 
-use Spatie\Mailcoach\Support\Replacers\Concerns\ReplacesModelAttributes;
+use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\Concerns\ReplacesModelAttributes;
 
 trait ReplacesPlaceholders
 {
