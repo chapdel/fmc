@@ -11,7 +11,7 @@ class CampaignOpensController
     {
         $campaignOpensQuery = new CampaignOpensQuery($campaign);
 
-        return view('mailcoach::app.campaigns.sent.opens', [
+        return view('mailcoach::app.campaigns.opens', [
             'campaign' => $campaign,
             'campaignOpens' => $campaignOpensQuery->paginate(),
             'totalCampaignOpensCount' => $campaignOpensQuery->totalCount,

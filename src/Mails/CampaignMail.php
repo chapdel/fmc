@@ -65,8 +65,13 @@ class CampaignMail extends Mailable
     {
         $mail = $this
             ->from(
-                $this->campaign->from_email ?? $this->campaign->emailList->default_from_email,
-                $this->campaign->from_name ?? $this->campaign->emailList->default_from_name ?? null
+                $this->campaign->from_email
+                    ?? $this->campaign->emailList->default_from_email
+                    ?? optional($this->send)->subscriber->emailList->default_from_email,
+                $this->campaign->from_name
+                    ?? $this->campaign->emailList->default_from_name
+                    ?? optional($this->send)->subscriber->emailList->default_from_name
+                    ?? null
             )
             ->subject($this->subject)
             ->view('mailcoach::mails.campaignHtml')
@@ -74,15 +79,20 @@ class CampaignMail extends Mailable
             ->addUnsubscribeHeaders()
             ->storeTransportMessageId();
 
-        $replyTo = $this->campaign->reply_to_email ?? $this->campaign->emailList->reply_to_email;
+        $replyTo = $this->campaign->reply_to_email
+            ?? $this->campaign->emailList->reply_to_email
+            ?? optional($this->send)->subscriber->emailList->reply_to_email
+            ?? null;
 
         if (! empty($replyTo)) {
             $mail->replyTo(
                 $replyTo,
-                $this->campaign->reply_to_name ?? $this->campaign->emailList->default_reply_to_name ?? null
+                $this->campaign->reply_to_name
+                    ?? $this->campaign->emailList->default_reply_to_name
+                    ?? optional($this->send)->subscriber->emailList->default_reply_to_name
+                    ?? null
             );
         }
-
 
         return $mail;
     }

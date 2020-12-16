@@ -18,6 +18,10 @@ class EmailListReplacer implements Replacer
 
     public function replace(string $text, Campaign $campaign): string
     {
+        if (! $campaign->emailList) {
+            return $text;
+        }
+
         return $this->replaceModelAttributes($text, 'list', $campaign->emailList);
     }
 }

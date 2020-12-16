@@ -13,7 +13,11 @@
             id="{{ $name }}"
             {{ ($required ?? false) ? 'required' : '' }}
             @isset($dataConditional) data-conditional="{{ $dataConditional }}" @endisset
+            {{ $attributes->except(['options']) }}
         >
+            @isset($placeholder)
+                <option value="" disabled hidden @unless(old($name, $value ?? null)) selected @endunless>{{ $placeholder }}</option>
+            @endisset
             @foreach($options as $optionValue => $label)
                 <option value="{{ $optionValue }}" @if(old($name, $value ?? null) == $optionValue) selected @endif>
                     {{ $label }}

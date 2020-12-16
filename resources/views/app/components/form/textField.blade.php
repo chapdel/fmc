@@ -16,5 +16,7 @@
         placeholder="{{ $placeholder ?? '' }}"
         value="{{ old($name, $value ?? '') }}"
         {{ ($required ?? false) ? 'required' : '' }}
+        {!! $attributes ?? '' !!}
+        @if($disabled ?? false) disabled @endif
     >
 </div>

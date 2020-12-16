@@ -14,5 +14,6 @@
         id="{{ $name }}"
         name="{{ $name }}"
         data-html-preview-source
+        @if($disabled ?? false) disabled @endif
     >{{ old($name, $value ?? '') }}</textarea>
 </div>

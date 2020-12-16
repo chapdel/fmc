@@ -21,11 +21,11 @@ class CouldNotSendCampaign extends Exception
         return new static("The campaign with id `{$campaign->id}` can't be sent, because an invalid mailable class `{$invalidMailableClass}` is set. A valid mailable class must extend `{$mustExtend}`.");
     }
 
-    public static function invalidSegmentClass(Campaign $campaign, string $invalidSegmentClass): self
+    public static function invalidSegmentClass($sendsToSegment, string $invalidSegmentClass): self
     {
         $mustExtend = Segment::class;
 
-        return new static("The campaign with id `{$campaign->id}` can't be sent, because an invalid segment class `{$invalidSegmentClass}` is set. A valid segment class must implement `{$mustExtend}`.");
+        return new static("The campaign with id `{$sendsToSegment->id}` can't be sent, because an invalid segment class `{$invalidSegmentClass}` is set. A valid segment class must implement `{$mustExtend}`.");
     }
 
     public static function alreadySent(Campaign $campaign): self

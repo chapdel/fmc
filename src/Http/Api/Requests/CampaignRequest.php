@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Http\Api\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Spatie\Mailcoach\Enums\CampaignStatus;
 use Spatie\Mailcoach\Models\TagSegment;
 use Spatie\Mailcoach\Models\Template;
 use Spatie\Mailcoach\Traits\UsesMailcoachModels;
@@ -16,6 +17,7 @@ class CampaignRequest extends FormRequest
     {
         return [
             'name' => ['required'],
+            'type' => ['nullable', Rule::in([CampaignStatus::DRAFT, CampaignStatus::AUTOMATED])],
             'email_list_id' => ['required', Rule::exists($this->getEmailListTableName(), 'id')],
             'segment_id' => [Rule::exists((new TagSegment())->getTable())],
             'html' => '',

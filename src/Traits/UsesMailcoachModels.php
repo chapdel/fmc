@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Traits;
 
+use Spatie\Mailcoach\Models\Automation;
 use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Models\EmailList;
 use Spatie\Mailcoach\Models\Send;
@@ -11,12 +12,12 @@ use Spatie\Mailcoach\Models\TransactionalMail;
 
 trait UsesMailcoachModels
 {
-    public function getCampaignClass(): string
+    public static function getCampaignClass(): string
     {
         return config('mailcoach.models.campaign', Campaign::class);
     }
 
-    public function getEmailListClass(): string
+    public static function getEmailListClass(): string
     {
         return config('mailcoach.models.email_list', EmailList::class);
     }
@@ -26,12 +27,17 @@ trait UsesMailcoachModels
         return config('mailcoach.models.send', Send::class);
     }
 
-    public function getSubscriberClass(): string
+    public static function getAutomationClass(): string
+    {
+        return config('mailcoach.models.automation', Automation::class);
+    }
+
+    public static function getSubscriberClass(): string
     {
         return config('mailcoach.models.subscriber', Subscriber::class);
     }
 
-    public function getTemplateClass(): string
+    public static function getTemplateClass(): string
     {
         return config('mailcoach.models.template', Template::class);
     }
@@ -41,10 +47,10 @@ trait UsesMailcoachModels
         return config('mailcoach.models.transactional_mail', TransactionalMail::class);
     }
 
-    public function getEmailListTableName(): string
+    public static function getEmailListTableName(): string
     {
         /** @var \Illuminate\Database\Eloquent\Model $emailList */
-        $emailListClass = $this->getEmailListClass();
+        $emailListClass = self::getEmailListClass();
 
         $emailList = new $emailListClass;
 
@@ -59,5 +65,15 @@ trait UsesMailcoachModels
         $subscriber = new $subscriberClass;
 
         return $subscriber->getTable();
+    }
+
+    public static function getCampaignTableName(): string
+    {
+        /** @var \Illuminate\Database\Eloquent\Model $campaign */
+        $campaignClass = self::getCampaignClass();
+
+        $campaign = new $campaignClass;
+
+        return $campaign->getTable();
     }
 }

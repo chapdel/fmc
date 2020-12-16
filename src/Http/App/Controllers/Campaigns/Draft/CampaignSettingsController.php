@@ -15,7 +15,7 @@ class CampaignSettingsController
     {
         $emailLists = $this->getEmailListClass()::all();
 
-        return view('mailcoach::app.campaigns.draft.settings', [
+        return view('mailcoach::app.campaigns.settings', [
             'campaign' => $campaign,
             'emailLists' => $emailLists,
             'segmentsData' => $emailLists->map(function (EmailList $emailList) {
@@ -31,16 +31,23 @@ class CampaignSettingsController
 
     public function update(Campaign $campaign, UpdateCampaignSettingsRequest $request)
     {
-        $campaign->update([
+        $campaign->fill([
             'name' => $request->name,
             'subject' => $request->subject,
-            'email_list_id' => $request->email_list_id,
             'track_opens' => $request->track_opens ?? false,
             'track_clicks' => $request->track_clicks ?? false,
             'last_modified_at' => now(),
-            'segment_class' => $request->getSegmentClass(),
-            'segment_id' => $request->segment_id,
         ]);
+
+        if (! $campaign->isAutomated()) {
+            $campaign->fill([
+                'email_list_id' => $request->email_list_id,
+                'segment_class' => $request->getSegmentClass(),
+                'segment_id' => $request->segment_id,
+            ]);
+        }
+
+        $campaign->save();
 
         $campaign->update(['segment_description' => $campaign->getSegment()->description()]);
 

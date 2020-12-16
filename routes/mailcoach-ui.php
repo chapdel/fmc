@@ -1,5 +1,12 @@
 <?php
 
+use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationActionsController;
+use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationSettingsController;
+use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationsIndexController;
+use Spatie\Mailcoach\Http\App\Controllers\Automations\CreateAutomationController;
+use Spatie\Mailcoach\Http\App\Controllers\Automations\DestroyAutomationController;
+use Spatie\Mailcoach\Http\App\Controllers\Automations\DuplicateAutomationController;
+use Spatie\Mailcoach\Http\App\Controllers\Automations\ToggleAutomationStatusController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\CampaignsIndexController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\CancelSendingCampaignController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\DestroyCampaignController;
@@ -17,7 +24,6 @@ use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignClicksControlle
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignOpensController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignSummaryController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignUnsubscribesController;
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignUsedSettingsController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\OutboxController;
 use Spatie\Mailcoach\Http\App\Controllers\DebugController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\CreateEmailListController;
@@ -56,14 +62,13 @@ Route::prefix('campaigns')->group(function () {
     Route::post('/', '\\' . CreateCampaignController::class)->name('mailcoach.campaigns.store');
 
     Route::prefix('{campaign}')->group(function () {
+        Route::get('settings', ['\\' . CampaignSettingsController::class, 'edit'])->name('mailcoach.campaigns.settings');
+        Route::get('content', ['\\' . CampaignContentController::class, 'edit'])->name('mailcoach.campaigns.content');
+        Route::get('delivery', '\\' . CampaignDeliveryController::class)->name('mailcoach.campaigns.delivery');
+
         Route::middleware('\\' . EditableCampaign::class)->group(function () {
-            Route::get('settings', ['\\' . CampaignSettingsController::class, 'edit'])->name('mailcoach.campaigns.settings');
             Route::put('settings', ['\\' . CampaignSettingsController::class, 'update']);
-
-            Route::get('content', ['\\' . CampaignContentController::class, 'edit'])->name('mailcoach.campaigns.content');
             Route::put('content', ['\\' . CampaignContentController::class, 'update'])->name('mailcoach.campaigns.updateContent');
-
-            Route::get('delivery', '\\' . CampaignDeliveryController::class)->name('mailcoach.campaigns.delivery');
 
             Route::post('send-test-email', '\\' . SendTestEmailController::class)->name('mailcoach.campaigns.sendTestEmail');
             Route::post('schedule', '\\' . ScheduleCampaignController::class)->name('mailcoach.campaigns.schedule');
@@ -75,7 +80,6 @@ Route::prefix('campaigns')->group(function () {
         Route::get('opens', '\\' . CampaignOpensController::class)->name('mailcoach.campaigns.opens');
         Route::get('clicks', '\\' . CampaignClicksController::class)->name('mailcoach.campaigns.clicks');
         Route::get('unsubscribes', '\\' . CampaignUnsubscribesController::class)->name('mailcoach.campaigns.unsubscribes');
-        Route::get('used-settings', '\\' . CampaignUsedSettingsController::class)->name('mailcoach.campaigns.used-settings');
 
         Route::get('outbox', '\\' . OutboxController::class)->name('mailcoach.campaigns.outbox');
 
@@ -134,6 +138,26 @@ Route::prefix('email-lists')->group(function () {
                 Route::delete('/', '\\' . DestroySegmentController::class)->name('mailcoach.emailLists.segment.delete');
                 Route::post('duplicate', '\\' .  DuplicateSegmentController::class)->name('mailcoach.emailLists.segment.duplicate');
             });
+        });
+    });
+});
+
+Route::prefix('automations')->group(function () {
+    Route::get('/', '\\' . AutomationsIndexController::class)->name('mailcoach.automations');
+    Route::post('/', '\\' . CreateAutomationController::class)->name('mailcoach.automations.store');
+
+    Route::prefix('{automation}')->group(function () {
+        Route::get('/settings', ['\\' . AutomationSettingsController::class, 'edit'])->name('mailcoach.automations.settings');
+        Route::put('/settings', ['\\' . AutomationSettingsController::class, 'update'])->name('mailcoach.automations.settings');
+
+        Route::delete('/', '\\' . DestroyAutomationController::class)->name('mailcoach.automations.delete');
+        Route::post('duplicate', '\\' . DuplicateAutomationController::class)->name('mailcoach.automations.duplicate');
+        Route::post('toggle-status', '\\' . ToggleAutomationStatusController::class)->name('mailcoach.automations.toggleStatus');
+
+        Route::prefix('actions')->group(function () {
+            Route::get('/', ['\\' . AutomationActionsController::class, 'index'])->name('mailcoach.automations.actions');
+            Route::post('/', ['\\' . AutomationActionsController::class, 'store'])->name('mailcoach.automations.actions.store');
+            Route::delete('{action}', ['\\' . AutomationActionsController::class, 'destroy'])->name('mailcoach.automations.actions.delete');
         });
     });
 });

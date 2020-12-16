@@ -13,6 +13,7 @@
 
         <meta name="turbolinks-cache-control" content="no-preview">
 
+        {!! \Livewire\Livewire::styles() !!}
         <script type="text/javascript">
             window.__ = function (key) {
                 return {
@@ -94,5 +95,6 @@
         </x-mailcoach::modal>
 
         @stack('modals')
+        {!! \Livewire\Livewire::scripts() !!}
     </body>
 </html>

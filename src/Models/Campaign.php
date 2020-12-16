@@ -8,7 +8,6 @@ use DOMElement;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Collection;
@@ -26,11 +25,9 @@ use Spatie\Mailcoach\Mails\CampaignMail;
 use Spatie\Mailcoach\Models\Concerns\CanBeScheduled;
 use Spatie\Mailcoach\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Models\Concerns\HasUuid;
+use Spatie\Mailcoach\Models\Concerns\SendsToSegment;
 use Spatie\Mailcoach\Rules\HtmlRule;
 use Spatie\Mailcoach\Support\CalculateStatisticsLock;
-use Spatie\Mailcoach\Support\Segments\EverySubscriberSegment;
-use Spatie\Mailcoach\Support\Segments\Segment;
-use Spatie\Mailcoach\Support\Segments\SubscribersWithTagsSegment;
 use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
@@ -39,7 +36,8 @@ class Campaign extends Model implements Feedable, HasHtmlContent
     use CanBeScheduled,
         HasUuid,
         UsesMailcoachModels,
-        HasFactory;
+        HasFactory,
+        SendsToSegment;
 
     public $table = 'mailcoach_campaigns';
 
@@ -86,6 +84,13 @@ class Campaign extends Model implements Feedable, HasHtmlContent
             ->orderBy('created_at');
     }
 
+    public function scopeAutomated(Builder $query): void
+    {
+        $query
+            ->where('status', CampaignStatus::AUTOMATED)
+            ->orderBy('created_at');
+    }
+
     public function scopeSendingOrSent(Builder $query): void
     {
         $query->whereIn('status', [CampaignStatus::SENDING, CampaignStatus::SENT]);
@@ -111,11 +116,6 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         $query
             ->whereNotNull('sent_at')
             ->where('sent_at', '<=', now()->subDays($daysAgo)->toDateTimeString());
-    }
-
-    public function emailList(): BelongsTo
-    {
-        return $this->belongsTo(config('mailcoach.models.email_list'), 'email_list_id');
     }
 
     public function links(): HasMany
@@ -157,11 +157,6 @@ class Campaign extends Model implements Feedable, HasHtmlContent
             ->where('type', SendFeedbackType::COMPLAINT);
     }
 
-    public function tagSegment(): BelongsTo
-    {
-        return $this->belongsTo(TagSegment::class);
-    }
-
     public function isReady(): bool
     {
         if (! $this->html) {
@@ -172,11 +167,15 @@ class Campaign extends Model implements Feedable, HasHtmlContent
             return false;
         }
 
-        if (! optional($this->emailList)->default_from_email) {
+        if (! $this->subject) {
             return false;
         }
 
-        if (! $this->subject) {
+        if ($this->status === CampaignStatus::AUTOMATED) {
+            return true;
+        }
+
+        if (! optional($this->emailList)->default_from_email) {
             return false;
         }
 
@@ -208,6 +207,24 @@ class Campaign extends Model implements Feedable, HasHtmlContent
     public function isScheduled(): bool
     {
         return $this->isDraft() && $this->scheduled_at;
+    }
+
+    public function isAutomated(): bool
+    {
+        return $this->status === CampaignStatus::AUTOMATED;
+    }
+
+    public function isEditable(): bool
+    {
+        if ($this->isSending()) {
+            return false;
+        }
+
+        if ($this->isSent()) {
+            return false;
+        }
+
+        return true;
     }
 
     public function from(string $email, string $name = null)
@@ -266,22 +283,6 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         }
 
         $this->update(['mailable_class' => $mailableClass, 'mailable_arguments' => $mailableArguments]);
-
-        return $this;
-    }
-
-    /**
-     * @param \Spatie\Mailcoach\Support\Segments\Segment|string $segmentClassOrObject
-     */
-    public function segment($segmentClassOrObject): self
-    {
-        $this->ensureUpdatable();
-
-        if (! is_a($segmentClassOrObject, Segment::class, true)) {
-            throw CouldNotSendCampaign::invalidSegmentClass($this, $segmentClassOrObject);
-        }
-
-        $this->update(['segment_class' => serialize($segmentClassOrObject)]);
 
         return $this;
     }
@@ -425,6 +426,11 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         return $this->isSent();
     }
 
+    public function wasAlreadySentToSubscriber(Subscriber $subscriber): bool
+    {
+        return $this->sends()->whereNotNull('sent_at')->where('subscriber_id', $subscriber->id)->exists();
+    }
+
     /**
      * @param string|array $emails
      */
@@ -450,22 +456,6 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         $mailableArguments = $this->mailable_arguments ?? [];
 
         return app($mailableClass, $mailableArguments);
-    }
-
-    public function getSegment(): Segment
-    {
-        $segmentClass = $this->segment_class ?? EverySubscriberSegment::class;
-
-        $unserialized = @unserialize($segmentClass);
-        if ($unserialized !== false) {
-            $segmentClass = $unserialized;
-        }
-
-        if ($segmentClass instanceof Segment) {
-            return $segmentClass->setCampaign($this);
-        }
-
-        return app($segmentClass)->setCampaign($this);
     }
 
     public function dispatchCalculateStatistics()
@@ -497,26 +487,6 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         }
 
         return $this->emailList->subscribers()->count();
-    }
-
-    public function baseSubscribersQuery(): Builder
-    {
-        return $this
-            ->emailList
-            ->subscribers()
-            ->subscribed()
-            ->getQuery();
-    }
-
-    public function segmentSubscriberCount(): int
-    {
-        if (! $this->emailList) {
-            return 0;
-        }
-
-        return tap($this->baseSubscribersQuery(), function (Builder $query) {
-            $this->getSegment()->subscribersQuery($query);
-        })->count();
     }
 
     public function sendsCount(): int
@@ -557,11 +527,6 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         return $this;
     }
 
-    public function usesSegment(): bool
-    {
-        return $this->segment_class !== EverySubscriberSegment::class;
-    }
-
     public function hasTroublesSendingOutMails(): bool
     {
         if ($this->status !== CampaignStatus::SENDING) {
@@ -589,29 +554,6 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         return true;
     }
 
-    public function segmentingOnSubscriberTags(): bool
-    {
-        return $this->segment_class === SubscribersWithTagsSegment::class;
-    }
-
-    public function notSegmenting(): bool
-    {
-        return is_null($this->segment_class)
-            || $this->segment_class === EverySubscriberSegment::class;
-    }
-
-    public function usingCustomSegment(): bool
-    {
-        if (is_null($this->segment_class)) {
-            return false;
-        }
-
-        return ! in_array($this->segment_class, [
-            SubscribersWithTagsSegment::class,
-            EverySubscriberSegment::class,
-        ]);
-    }
-
     public function isDraft(): bool
     {
         return $this->status === CampaignStatus::DRAFT;
@@ -625,6 +567,11 @@ class Campaign extends Model implements Feedable, HasHtmlContent
     public function isSent(): bool
     {
         return $this->status == CampaignStatus::SENT;
+    }
+
+    public function isSendingOrSent(): bool
+    {
+        return $this->isSending() || $this->isSent();
     }
 
     public function isCancelled(): bool

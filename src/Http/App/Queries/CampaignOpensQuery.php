@@ -20,6 +20,7 @@ class CampaignOpensQuery extends QueryBuilder
         $query = CampaignOpen::query()
             ->selectRaw("
                 {$prefix}mailcoach_campaign_opens.subscriber_id as subscriber_id,
+                {$prefix}mailcoach_subscribers.email_list_id as subscriber_email_list_id,
                 {$prefix}mailcoach_subscribers.email as subscriber_email,
                 count({$prefix}mailcoach_campaign_opens.subscriber_id) as open_count,
                 min({$prefix}mailcoach_campaign_opens.created_at) AS first_opened_at
@@ -35,7 +36,7 @@ class CampaignOpensQuery extends QueryBuilder
         $this
             ->defaultSort('-first_opened_at')
             ->allowedSorts('email', 'open_count', 'first_opened_at')
-            ->groupBy('mailcoach_campaign_opens.subscriber_id', 'mailcoach_subscribers.email')
+            ->groupBy('mailcoach_campaign_opens.subscriber_id', 'mailcoach_subscribers.email_list_id', 'mailcoach_subscribers.email')
             ->allowedFilters(
                 AllowedFilter::custom(
                     'search',

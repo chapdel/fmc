@@ -8,7 +8,7 @@ class TextEditor implements Editor
 {
     public function render(HasHtmlContent $model): string
     {
-        return (string)view('mailcoach::app.campaigns.draft.textEditor', [
+        return (string)view('mailcoach::app.campaigns.partials.textEditor', [
             'html' => $model->getHtml(),
             'campaign' => $model,
         ])->render();

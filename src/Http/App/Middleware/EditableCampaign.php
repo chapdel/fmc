@@ -13,8 +13,8 @@ class EditableCampaign
             return $next($request);
         }
 
-        return $campaign->isSending() || $campaign->isSent()
-            ? redirect()->route('mailcoach.campaigns.summary', $campaign)
-            : $next($request);
+        return $campaign->isEditable()
+            ? $next($request)
+            : redirect()->route('mailcoach.campaigns.summary', $campaign);
     }
 }

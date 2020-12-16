@@ -11,7 +11,7 @@ class OutboxController
     {
         $sendsQuery = new CampaignSendsQuery($campaign);
 
-        return view('mailcoach::app.campaigns.sent.outbox', [
+        return view('mailcoach::app.campaigns.outbox', [
             'campaign' => $campaign,
             'sends' => $sendsQuery->paginate(),
             'totalSends' => $campaign->sends()->count(),

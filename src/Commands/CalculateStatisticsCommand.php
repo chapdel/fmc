@@ -5,8 +5,10 @@ namespace Spatie\Mailcoach\Commands;
 use Carbon\CarbonInterface;
 use Carbon\CarbonInterval;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Spatie\Mailcoach\Enums\CampaignStatus;
 use Spatie\Mailcoach\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Traits\UsesMailcoachModels;
@@ -64,7 +66,9 @@ class CalculateStatisticsCommand extends Command
         $periodEnd = $this->now->copy()->subtract($startInterval);
         $periodStart = $this->now->copy()->subtract($endInterval);
 
-        return $this->getCampaignClass()::sentBetween($periodStart, $periodEnd)
+        return $this->getCampaignClass()::where(function (Builder $query) use ($periodEnd, $periodStart) {
+            $query->sentBetween($periodStart, $periodEnd)->orWhere('status', CampaignStatus::AUTOMATED);
+        })
             ->get()
             ->filter(function (Campaign $campaign) use ($recalculateThreshold) {
                 if (is_null($campaign->statistics_calculated_at)) {

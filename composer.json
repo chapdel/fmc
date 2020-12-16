@@ -42,6 +42,7 @@
         "illuminate/support": "^8.0",
         "laravel/horizon": "^5.0",
         "league/html-to-markdown": "^4.10",
+        "livewire/livewire": "^2.3",
         "nesbot/carbon": "^2.37",
         "ocramius/package-versions": "^1.9",
         "spatie/laravel-feed": "^3.0",

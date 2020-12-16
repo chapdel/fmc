@@ -42,6 +42,21 @@ return [
      */
     'editor' => \Spatie\Mailcoach\Support\Editor\TextEditor::class,
 
+    'automation' => [
+        'actions' => [
+            \Spatie\Mailcoach\Support\Automation\Actions\AddTagsAction::class,
+            \Spatie\Mailcoach\Support\Automation\Actions\CampaignAction::class,
+            \Spatie\Mailcoach\Support\Automation\Actions\EnsureTagsExistAction::class,
+            \Spatie\Mailcoach\Support\Automation\Actions\HaltAction::class,
+            \Spatie\Mailcoach\Support\Automation\Actions\RemoveTagsAction::class,
+            \Spatie\Mailcoach\Support\Automation\Actions\WaitAction::class,
+        ],
+        'triggers' => [
+            \Spatie\Mailcoach\Support\Automation\Triggers\SubscribedAutomationTrigger::class,
+            \Spatie\Mailcoach\Support\Automation\Triggers\DateTrigger::class,
+        ],
+    ],
+
     /*
      * Here you can specify which jobs should run on which queues.
      * Use an empty string to use the default queue.
@@ -180,6 +195,12 @@ return [
          * extend the `Spatie\Mailcoach\Models\TransactionalMail` model.
          */
         'transactional_mail' => Spatie\Mailcoach\Models\TransactionalMail::class,
+
+        /*
+         * The model you want to use as an Automation model. It needs to be or
+         * extend the `Spatie\Mailcoach\Models\Automation` model.
+         */
+        'automation' => Spatie\Mailcoach\Models\Automation::class,
     ],
 
     'views' => [

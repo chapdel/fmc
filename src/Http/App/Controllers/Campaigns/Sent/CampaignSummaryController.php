@@ -11,6 +11,6 @@ class CampaignSummaryController
     {
         $viewModel = new CampaignSummaryViewModel($campaign);
 
-        return view('mailcoach::app.campaigns.sent.summary', $viewModel);
+        return view('mailcoach::app.campaigns.summary', $viewModel);
     }
 }

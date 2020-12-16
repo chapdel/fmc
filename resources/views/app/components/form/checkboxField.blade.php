@@ -11,6 +11,7 @@
     class="checkbox"
     @isset($dataConditional) data-conditional="{{ $dataConditional }}" @endisset
     @if(old($name, $checked)) checked @endif
+    @if($disabled ?? false) disabled @endif
     >
     <span>{{ $label }}</span>
 </label>

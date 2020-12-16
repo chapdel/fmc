@@ -27,7 +27,7 @@ document.addEventListener('turbolinks:load', () => {
 
         const hasSegments = selectedEmailList.segments.length > 0;
 
-        segmentCheck.disabled = !hasSegments;
+        segmentCheck.disabled = !hasSegments || segmentCheck.readOnly;
 
         segmentsCreate.classList.toggle('hidden', hasSegments);
 
