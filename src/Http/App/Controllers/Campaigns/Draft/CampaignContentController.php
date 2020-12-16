@@ -9,7 +9,7 @@ class CampaignContentController
 {
     public function edit(Campaign $campaign)
     {
-        return view('mailcoach::app.campaigns.draft.content', compact('campaign'));
+        return view('mailcoach::app.campaigns.content', compact('campaign'));
     }
 
     public function update(Campaign $campaign, UpdateCampaignContentRequest $request)

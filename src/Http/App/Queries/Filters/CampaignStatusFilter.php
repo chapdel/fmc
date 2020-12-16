@@ -21,6 +21,10 @@ class CampaignStatusFilter implements Filter
             return $query->draft();
         }
 
+        if ($value === 'automated') {
+            return $query->automated();
+        }
+
         return $query;
     }
 }

@@ -10,6 +10,7 @@ class CampaignOpenResource extends JsonResource
     {
         return [
             'subscriber_id' => (int)$this->subscriber_id,
+            'subscriber_email_list_id' => (int)$this->subscriber_email_list_id,
             'subscriber_email' => $this->subscriber->email,
             'open_count' => (int)$this->open_count,
             'first_opened_at' => $this->first_opened_at,

@@ -2,6 +2,8 @@
 
 namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Campaigns;
 
+use Illuminate\Support\Arr;
+use Spatie\Mailcoach\Enums\CampaignStatus;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignsController;
 use Spatie\Mailcoach\Models\Campaign;
 use Spatie\Mailcoach\Models\EmailList;
@@ -24,6 +26,7 @@ class CreateCampaignControllerTest extends TestCase
     {
         $attributes = [
             'name' => 'name',
+            'type' => CampaignStatus::DRAFT,
             'email_list_id' => EmailList::factory()->create()->id,
             'html' => 'html',
             'track_opens' => true,
@@ -36,7 +39,7 @@ class CreateCampaignControllerTest extends TestCase
 
         $campaign = Campaign::first();
 
-        foreach ($attributes as $attributeName => $attributeValue) {
+        foreach (Arr::except($attributes, ['type']) as $attributeName => $attributeValue) {
             $this->assertEquals($attributeValue, $campaign->$attributeName);
         }
     }

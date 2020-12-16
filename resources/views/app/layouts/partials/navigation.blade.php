@@ -13,6 +13,12 @@
             <span class="icon-label-text">{{ __('Lists') }}</span>
         </span>
     </x-mailcoach::navigation-item>
+    <x-mailcoach::navigation-item :href="route('mailcoach.automations')">
+        <span class="icon-label">
+            <i class="fas fa-magic"></i>
+            <span class="icon-label-text">{{ __('Automations') }}</span>
+        </span>
+    </x-mailcoach::navigation-item>
     <x-mailcoach::navigation-item :href="route('mailcoach.templates')">
         <span class="icon-label">
             <i class="fas fa-clipboard"></i>

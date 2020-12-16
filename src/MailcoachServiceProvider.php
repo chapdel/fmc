@@ -10,13 +10,17 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Livewire\Livewire;
 use Spatie\Mailcoach\Commands\CalculateStatisticsCommand;
 use Spatie\Mailcoach\Commands\CleanupProcessedFeedbackCommand;
 use Spatie\Mailcoach\Commands\DeleteOldUnconfirmedSubscribersCommand;
 use Spatie\Mailcoach\Commands\RetryPendingSendsCommand;
+use Spatie\Mailcoach\Commands\RunAutomationActionsCommand;
+use Spatie\Mailcoach\Commands\RunAutomationTriggersCommand;
 use Spatie\Mailcoach\Commands\SendCampaignSummaryMailCommand;
 use Spatie\Mailcoach\Commands\SendEmailListSummaryMailCommand;
 use Spatie\Mailcoach\Commands\SendScheduledCampaignsCommand;
@@ -28,12 +32,21 @@ use Spatie\Mailcoach\Components\THComponent;
 use Spatie\Mailcoach\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Events\WebhookCallProcessedEvent;
 use Spatie\Mailcoach\Http\App\Controllers\HomeController;
+use Spatie\Mailcoach\Support\Automation\Livewire\Components\TagChainComponent;
+use Spatie\Mailcoach\Support\Automation\Livewire\AutomationBuilder;
+use Spatie\Mailcoach\Support\Automation\Livewire\Actions\AddTagsActionComponent;
+use Spatie\Mailcoach\Support\Automation\Livewire\Actions\CampaignActionComponent;
+use Spatie\Mailcoach\Http\App\ViewComposers\CampaignActionComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\IndexComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\QueryStringComposer;
 use Spatie\Mailcoach\Listeners\SendCampaignSentEmail;
 use Spatie\Mailcoach\Listeners\SetWebhookCallProcessedAt;
 use Spatie\Mailcoach\Listeners\StoreTransactionalMail;
+use Spatie\Mailcoach\Models\Automation;
+use Spatie\Mailcoach\Support\Automation\Livewire\Actions\EnsureTagsExistActionComponent;
+use Spatie\Mailcoach\Support\Automation\Livewire\Actions\RemoveTagsActionComponent;
+use Spatie\Mailcoach\Support\Automation\Livewire\Actions\WaitActionComponent;
 use Spatie\Mailcoach\Support\Version;
 use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 use Spatie\QueryString\QueryString;
@@ -53,7 +66,8 @@ class MailcoachServiceProvider extends ServiceProvider
             ->bootSupportMacros()
             ->bootTranslations()
             ->bootViews()
-            ->bootEvents();
+            ->bootEvents()
+            ->bootTriggers();
     }
 
     public function register()
@@ -87,6 +101,8 @@ class MailcoachServiceProvider extends ServiceProvider
                 RetryPendingSendsCommand::class,
                 DeleteOldUnconfirmedSubscribersCommand::class,
                 CleanupProcessedFeedbackCommand::class,
+                RunAutomationActionsCommand::class,
+                RunAutomationTriggersCommand::class,
             ]);
         }
 
@@ -221,9 +237,13 @@ class MailcoachServiceProvider extends ServiceProvider
 
         View::composer('mailcoach::app.layouts.partials.footer', FooterComposer::class);
 
+        View::composer('mailcoach::app.automations.partials.actions.campaignAction', CampaignActionComposer::class);
+
         if (config("mailcoach.views.use_blade_components", true)) {
             $this->bootBladeComponents();
         }
+
+        $this->bootLivewireComponents();
 
         return $this;
     }
@@ -268,6 +288,20 @@ class MailcoachServiceProvider extends ServiceProvider
         return $this;
     }
 
+    protected function bootLivewireComponents(): self
+    {
+        Livewire::component('action-builder', AutomationBuilder::class);
+
+        Livewire::component('campaign-action', CampaignActionComponent::class);
+        Livewire::component('add-tags-action', AddTagsActionComponent::class);
+        Livewire::component('remove-tags-action', RemoveTagsActionComponent::class);
+        Livewire::component('wait-action', WaitActionComponent::class);
+        Livewire::component('ensure-tags-exist-action', EnsureTagsExistActionComponent::class);
+        Livewire::component('tag-chain', TagChainComponent::class);
+
+        return $this;
+    }
+
     private function bootEvents()
     {
         Event::listen(CampaignSentEvent::class, SendCampaignSentEmail::class);
@@ -275,5 +309,20 @@ class MailcoachServiceProvider extends ServiceProvider
         Event::listen(MessageSending::class, StoreTransactionalMail::class);
 
         return $this;
+    }
+
+    private function bootTriggers()
+    {
+        if (Schema::hasTable('mailcoach_automations')) {
+            $automations = cache()->rememberForever('mailcoach-automations', function () {
+                return Automation::all();
+            });
+
+            $automations->each(function (Automation $automation) {
+                if ($automation->trigger) {
+                    Event::subscribe($automation->trigger);
+                }
+            });
+        }
     }
 }

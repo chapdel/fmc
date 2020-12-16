@@ -9,7 +9,7 @@ class CampaignUnsubscribesController
 {
     public function __invoke(Campaign $campaign)
     {
-        return view('mailcoach::app.campaigns.sent.unsubscribes', [
+        return view('mailcoach::app.campaigns.unsubscribes', [
             'campaign' => $campaign,
             'unsubscribes' => (new CampaignUnsubscribesQuery($campaign))->paginate(),
             'totalUnsubscribes' => $campaign->unsubscribes()->count(),

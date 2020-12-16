@@ -11,7 +11,7 @@ class CampaignClicksController
     {
         $campaignLinksQuery = new CampaignLinksQuery($campaign);
 
-        return view('mailcoach::app.campaigns.sent.clicks', [
+        return view('mailcoach::app.campaigns.clicks', [
             'campaign' => $campaign,
             'links' => $campaignLinksQuery->paginate(),
             'totalLinksCount' => $campaign->links()->count(),

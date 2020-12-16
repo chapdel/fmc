@@ -3,11 +3,33 @@
 
     <x-mailcoach::text-field :label="__('Name')" name="name" :placeholder="__('Newsletter #1')" required />
 
-    <x-mailcoach::select-field :label="__('Email list')" :options="$emailListOptions" name="email_list_id" required />
+    <x-mailcoach::select-field
+        :label="__('Type')"
+        :options="[
+            \Spatie\Mailcoach\Enums\CampaignStatus::DRAFT => __('Regular campaign'),
+            \Spatie\Mailcoach\Enums\CampaignStatus::AUTOMATED => __('Automation campaign'),
+        ]"
+        name="type"
+        data-conditional="type"
+        required
+    />
 
-    @if($templateOptions->count() > 1)
-        <x-mailcoach::select-field :label="__('Template')" :options="$templateOptions" name="template_id" />
-    @endif
+    <div data-conditional-type="draft">
+        <x-mailcoach::select-field
+            :label="__('Email list')"
+            :options="$emailListOptions"
+            name="email_list_id"
+            required
+        />
+
+        @if($templateOptions->count() > 1)
+            <x-mailcoach::select-field
+                :label="__('Template')"
+                :options="$templateOptions"
+                name="template_id"
+            />
+        @endif
+    </div>
 
     <div class="form-buttons">
         <button class="button">

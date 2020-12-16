@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
+use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\Feed\FeedServiceProvider;
 use Spatie\Mailcoach\Database\Factories\UserFactory;
@@ -51,6 +52,7 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
+            LivewireServiceProvider::class,
             MailcoachServiceProvider::class,
             FeedServiceProvider::class,
             MediaLibraryServiceProvider::class,
@@ -105,5 +107,11 @@ abstract class TestCase extends Orchestra
         $contentWithoutWhitespace = str_replace(PHP_EOL, '', $contentWithoutWhitespace);
 
         $this->assertMatchesHtmlSnapshot($contentWithoutWhitespace);
+    }
+
+    public function refreshServiceProvider()
+    {
+        // We need to do this since the service provider loads from the database
+        app(MailcoachServiceProvider::class, ['app' => $this->app])->boot();
     }
 }

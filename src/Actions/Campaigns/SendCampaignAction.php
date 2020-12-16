@@ -91,7 +91,7 @@ class SendCampaignAction
 
         $subscribersQuery
             ->cursor()
-            ->map(fn (Subscriber $subscriber) => $this->createSendMailJob($campaign, $subscriber, $segment))
+            ->map(fn (Subscriber $subscriber) => $this->createSendMailJob($campaign, $campaign->emailList, $subscriber, $segment))
             ->filter()
             ->chunk(1000)
             ->each(function (LazyCollection $jobs) use ($batch) {
@@ -103,15 +103,15 @@ class SendCampaignAction
         return $this;
     }
 
-    protected function createSendMailJob(Campaign $campaign, Subscriber $subscriber, Segment $segment): ?SendMailJob
+    protected function createSendMailJob(Campaign $campaign, EmailList $emailList, Subscriber $subscriber, Segment $segment = null): ?SendMailJob
     {
-        if (! $segment->shouldSend($subscriber)) {
+        if ($segment && ! $segment->shouldSend($subscriber)) {
             $campaign->decrement('sent_to_number_of_subscribers');
 
             return null;
         }
 
-        if (! $this->isValidSubscriptionForEmailList($subscriber, $campaign->emailList)) {
+        if (! $this->isValidSubscriptionForEmailList($subscriber, $emailList)) {
             $campaign->decrement('sent_to_number_of_subscribers');
 
             return null;

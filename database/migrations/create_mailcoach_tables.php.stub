@@ -97,6 +97,7 @@ class CreateMailcoachTables extends Migration
             $table->bigIncrements('id');
             $table->string('name')->nullable();
             $table->uuid('uuid');
+
             $table->string('from_email')->nullable();
             $table->string('from_name')->nullable();
 
@@ -426,6 +427,71 @@ class CreateMailcoachTables extends Migration
             $table->longText('url');
 
             $table->timestamps();
+        });
+
+        Schema::create('mailcoach_automations', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('email_list_id')->nullable();
+            $table->uuid('uuid');
+            $table->string('name')->nullable();
+            $table->text('trigger')->nullable();
+            $table->string('interval')->nullable();
+            $table->string('status');
+
+            $table->text('segment_class')->nullable();
+            $table->unsignedBigInteger('segment_id')->nullable();
+            $table->string('segment_description')->default(0);
+
+            $table->timestamps();
+
+            $table
+                ->foreign('email_list_id')
+                ->references('id')->on('mailcoach_email_lists')
+                ->onDelete('cascade');
+
+            $table
+                ->foreign('segment_id')
+                ->references('id')->on('mailcoach_segments')
+                ->onDelete('set null');
+        });
+
+        Schema::create('mailcoach_automation_actions', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('automation_id')->nullable();
+            $table->unsignedBigInteger('parent_id')->nullable();
+            $table->uuid('uuid');
+            $table->string('key')->nullable();
+            $table->text('action')->nullable();
+            $table->integer('order');
+            $table->timestamps();
+
+            $table
+                ->foreign('automation_id')
+                ->references('id')->on('mailcoach_automations')
+                ->onDelete('cascade');
+
+            $table
+                ->foreign('parent_id')
+                ->references('id')->on('mailcoach_automation_actions')
+                ->onDelete('cascade');
+        });
+
+        Schema::create('mailcoach_automation_action_subscriber', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('action_id');
+            $table->unsignedBigInteger('subscriber_id');
+            $table->timestamp('run_at')->nullable();
+            $table->timestamps();
+
+            $table
+                ->foreign('action_id')
+                ->references('id')->on('mailcoach_automation_actions')
+                ->onDelete('cascade');
+
+            $table
+                ->foreign('subscriber_id')
+                ->references('id')->on('mailcoach_subscribers')
+                ->onDelete('cascade');
         });
     }
 }

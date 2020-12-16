@@ -79,6 +79,11 @@ class Subscriber extends Model
             ->orderBy('name');
     }
 
+    public function actions(): BelongsToMany
+    {
+        return $this->belongsToMany(Action::class, 'mailcoach_automation_action_subscriber')->withTimestamps();
+    }
+
     public function unsubscribe(Send $send = null)
     {
         $this->update(['unsubscribed_at' => now()]);
@@ -233,6 +238,11 @@ class Subscriber extends Model
     public function isUnsubscribed(): bool
     {
         return $this->status === SubscriptionStatus::UNSUBSCRIBED;
+    }
+
+    public function inAutomation(Automation $automation): bool
+    {
+        return $this->actions()->where('automation_id', $automation->id)->count() > 0;
     }
 
     public function resolveRouteBinding($value, $field = null)

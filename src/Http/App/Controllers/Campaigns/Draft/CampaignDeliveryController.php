@@ -8,7 +8,7 @@ class CampaignDeliveryController
 {
     public function __invoke(Campaign $campaign)
     {
-        return view('mailcoach::app.campaigns.draft.delivery', [
+        return view('mailcoach::app.campaigns.delivery', [
             'campaign' => $campaign,
             'links' => $campaign->htmlLinks(),
         ]);
