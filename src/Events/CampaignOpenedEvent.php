@@ -6,10 +6,8 @@ use Spatie\Mailcoach\Models\CampaignOpen;
 
 class CampaignOpenedEvent
 {
-    public CampaignOpen $campaignOpen;
 
-    public function __construct(CampaignOpen $campaignOpen)
-    {
-        $this->campaignOpen = $campaignOpen;
-    }
+    public function __construct(
+        public CampaignOpen $campaignOpen
+    ) {}
 }

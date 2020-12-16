@@ -7,14 +7,8 @@ use Spatie\Mailcoach\Models\Subscriber;
 
 class UnsubscribedEvent
 {
-    public Subscriber $subscriber;
-
-    public ?Send $send;
-
-    public function __construct(Subscriber $subscriber, Send $send = null)
-    {
-        $this->subscriber = $subscriber;
-
-        $this->send = $send;
-    }
+    public function __construct(
+        public Subscriber $subscriber,
+        public ?Send $send = null
+    ) {}
 }

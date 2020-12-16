@@ -6,10 +6,7 @@ use Spatie\Mailcoach\Models\CampaignClick;
 
 class CampaignLinkClickedEvent
 {
-    public CampaignClick $campaignClick;
-
-    public function __construct(CampaignClick $campaignClick)
-    {
-        $this->campaignClick = $campaignClick;
-    }
+    public function __construct(
+        public CampaignClick $campaignClick
+    ) {}
 }

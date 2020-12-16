@@ -6,10 +6,8 @@ use Spatie\Mailcoach\Models\Subscriber;
 
 class UnconfirmedSubscriberCreatedEvent
 {
-    public Subscriber $subscriber;
 
-    public function __construct(Subscriber $subscriber)
-    {
-        $this->subscriber = $subscriber;
-    }
+    public function __construct(
+        public Subscriber $subscriber
+    ) {}
 }
