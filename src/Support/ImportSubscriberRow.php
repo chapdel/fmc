@@ -17,7 +17,7 @@ class ImportSubscriberRow
     {
         $this->emailList = $emailList;
 
-        $this->values = array_change_key_case($values, CASE_LOWER);
+        $this->values = array_map('trim', array_change_key_case($values, CASE_LOWER));
     }
 
     public function hasValidEmail(): bool
