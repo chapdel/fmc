@@ -12,9 +12,7 @@ class PendingSubscriber
 {
     public string $email;
 
-    public array
-
- $attributes = [];
+    public array $attributes = [];
 
     public bool $respectDoubleOptIn = true;
 
@@ -24,9 +22,9 @@ class PendingSubscriber
 
     public bool $sendWelcomeMail = true;
 
-    public array
+    public ?array $tags = [];
 
- $tags = [];
+    public bool $replaceTags = false;
 
     public function __construct(string $email, array $attributes = [])
     {
@@ -60,16 +58,30 @@ class PendingSubscriber
         return $this;
     }
 
-    public function syncTags(array $tags): self
+    public function doNotSendWelcomeMail(): self
+    {
+        $this->sendWelcomeMail = false;
+
+        return $this;
+    }
+
+    public function tags(?array $tags): self
     {
         $this->tags = $tags;
 
         return $this;
     }
 
-    public function doNotSendWelcomeMail(): self
+    public function replaceTags(bool $replaceTags = true): self
     {
-        $this->sendWelcomeMail = false;
+        $this->replaceTags = $replaceTags;
+
+        return $this;
+    }
+
+    public function appendTags(): self
+    {
+        $this->replaceTags = false;
 
         return $this;
     }

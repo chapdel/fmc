@@ -25,6 +25,7 @@ class ImportSubscribersController
             'email_list_id' => $emailList->id,
             'subscribe_unsubscribed' => $request->subscribeUnsubscribed(),
             'unsubscribe_others' => $request->unsubscribeMissing(),
+            'replace_tags' => $request->replaceTags(),
         ]);
 
         $this->addMediaToSubscriberImport($request, $subscriberImport);

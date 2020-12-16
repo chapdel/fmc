@@ -33,6 +33,7 @@ class SubscriberImport extends Model implements HasMedia, GetsCleanedUp
         'imported_subscribers_count' => 'integer',
         'error_count' => 'integer',
         'mailcoach_email_lists_ids' => 'array',
+        'replace_tags' => 'boolean',
     ];
 
     public function emailList(): BelongsTo

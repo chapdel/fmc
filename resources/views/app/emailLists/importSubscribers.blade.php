@@ -83,11 +83,34 @@
             </table>
         @endif
 
-        <form class="flex" enctype="multipart/form-data" method="POST"
+        <form class="flex flex-col items-start" enctype="multipart/form-data" method="POST"
               action="{{ route('mailcoach.emailLists.import-subscribers', $emailList) }}">
             @csrf
 
-            <div class=button>
+            <div class="form-row mb-6">
+                @error('replace_tags')
+                <p class="form-error">{{ $message }}</p>
+                @enderror
+
+                <label class="label label-required" for="tags_mode">
+                    {{ __('Tags') }}
+                </label>
+                <div class="radio-group">
+                    <x-mailcoach::radio-field
+                        name="replace_tags"
+                        option-value="false"
+                        :value="true"
+                        :label="__('Append')"
+                    />
+                    <x-mailcoach::radio-field
+                        name="replace_tags"
+                        option-value="true"
+                        :label="__('Replace')"
+                    />
+                </div>
+            </div>
+
+            <div class="button">
                 <button class="font-semibold h-10" type="submit">
                     <x-mailcoach::icon-label icon="fa-cloud-upload-alt" :text="__('Import subscribers')"/>
                 </button>
@@ -98,8 +121,6 @@
             @error('file')
             <p class="form-error">{{ $message }}</p>
             @enderror
-
-
         </form>
 
         <p class="alert alert-info mt-6">

@@ -112,17 +112,34 @@ class ImportSubscribersControllerTest extends TestCase
     }
 
     /** @test */
-    public function it_will_remove_existing_tags()
+    public function it_will_remove_existing_tags_if_replace_tags_is_enabled()
     {
         $subscriber = $this->emailList->subscribeSkippingConfirmation('john@example.com');
 
         $subscriber->addTag('previousTag');
 
-        $this->uploadStub('single.csv');
+        $this->uploadStub('single.csv', [
+            'replace_tags' => true,
+        ]);
 
         $subscriber = Subscriber::findForEmail('john@example.com', $this->emailList);
 
         $this->assertEquals(['tag1', 'tag2'], $subscriber->tags()->pluck('name')->toArray());
+    }
+
+    /** @test */
+    public function it_will_not_remove_existing_tags_if_replace_tags_is_disabled()
+    {
+        $subscriber = $this->emailList->subscribeSkippingConfirmation('john@example.com');
+
+        $subscriber->addTag('previousTag');
+
+        // replace_tags is false by default.
+        $this->uploadStub('single.csv');
+
+        $subscriber = Subscriber::findForEmail('john@example.com', $this->emailList);
+
+        $this->assertEquals(['previousTag', 'tag1', 'tag2'], $subscriber->tags()->pluck('name')->toArray());
     }
 
     /** @test */

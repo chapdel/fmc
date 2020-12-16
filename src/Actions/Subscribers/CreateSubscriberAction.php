@@ -43,7 +43,11 @@ class CreateSubscriberAction
 
         $subscriber->save();
 
-        $subscriber->syncTags($pendingSubscriber->tags);
+        if ($pendingSubscriber->replaceTags) {
+            $subscriber->syncTags($pendingSubscriber->tags);
+        } elseif ($pendingSubscriber->tags) {
+            $subscriber->addTags($pendingSubscriber->tags);
+        }
 
         if ($subscriber->isUnconfirmed()) {
             $sendConfirmSubscriberMailAction = Config::getActionClass('send_confirm_subscriber_mail', SendConfirmSubscriberMailAction::class);

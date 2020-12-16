@@ -305,6 +305,7 @@ class CreateMailcoachTables extends Migration
             $table->unsignedBigInteger('email_list_id');
             $table->boolean('subscribe_unsubscribed')->default(false);
             $table->boolean('unsubscribe_others')->default(false);
+            $table->boolean('replace_tags')->default(false);
             $table->integer('imported_subscribers_count')->default(0);
             $table->integer('error_count')->default(0);
             $table->timestamps();
