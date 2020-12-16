@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Campaigns;
 
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignClicksController;
-use Spatie\Mailcoach\Models\CampaignClick;
+use Spatie\Mailcoach\Domain\Campaign\Models\CampaignClick;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestCase;
 

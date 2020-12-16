@@ -3,10 +3,10 @@
 namespace Spatie\Mailcoach\Support;
 
 use Illuminate\Support\Facades\Validator;
-use Spatie\Mailcoach\Actions\Subscribers\CreateSubscriberAction;
-use Spatie\Mailcoach\Exceptions\CouldNotSubscribe;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\CreateSubscriberAction;
+use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSubscribe;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 
 class PendingSubscriber
 {
@@ -90,7 +90,7 @@ class PendingSubscriber
     {
         $this->emailList = $emailList;
 
-        /** @var \Spatie\Mailcoach\Actions\Subscribers\CreateSubscriberAction $createSubscriberAction */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\CreateSubscriberAction $createSubscriberAction */
         $createSubscriberAction = Config::getActionClass('create_subscriber', CreateSubscriberAction::class);
 
         return $createSubscriberAction->execute($this);

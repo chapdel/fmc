@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Support\Segments;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 
 abstract class Segment
 {

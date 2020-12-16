@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Http\Api\Controllers\Campaigns;
 
 use Spatie\Mailcoach\Http\Api\Resources\CampaignClickResource;
 use Spatie\Mailcoach\Http\App\Queries\CampaignLinksQuery;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 
 class CampaignClicksController
 {

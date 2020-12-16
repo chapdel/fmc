@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Tests\Commands;
 
 use Carbon\Carbon;
-use Spatie\Mailcoach\Commands\CleanupProcessedFeedbackCommand;
+use Spatie\Mailcoach\Domain\Campaign\Commands\CleanupProcessedFeedbackCommand;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\WebhookClient\Models\WebhookCall;
 

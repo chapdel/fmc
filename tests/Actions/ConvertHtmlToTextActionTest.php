@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\Actions;
 
-use Spatie\Mailcoach\Actions\Campaigns\ConvertHtmlToTextAction;
+use Spatie\Mailcoach\Domain\Campaign\Actions\ConvertHtmlToTextAction;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 

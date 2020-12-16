@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Tests\Features\Controllers\App\Campaigns;
 
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignDeliveryController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\UnscheduleCampaignController;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class UnscheduleCampaignControllerTest extends TestCase

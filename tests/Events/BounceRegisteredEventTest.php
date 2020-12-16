@@ -4,8 +4,8 @@ namespace Spatie\Mailcoach\Tests\Events;
 
 use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
-use Spatie\Mailcoach\Events\BounceRegisteredEvent;
-use Spatie\Mailcoach\Models\Send;
+use Spatie\Mailcoach\Domain\Campaign\Events\BounceRegisteredEvent;
+use Spatie\Mailcoach\Domain\Campaign\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class BounceRegisteredEventTest extends TestCase

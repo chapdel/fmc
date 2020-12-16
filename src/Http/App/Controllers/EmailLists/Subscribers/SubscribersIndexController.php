@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers;
 
 use Spatie\Mailcoach\Http\App\Queries\EmailListSubscribersQuery;
-use Spatie\Mailcoach\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 
 class SubscribersIndexController
 {

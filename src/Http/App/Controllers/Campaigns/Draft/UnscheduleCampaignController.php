@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft;
 
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 
 class UnscheduleCampaignController
 {

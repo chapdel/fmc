@@ -3,9 +3,9 @@
 namespace Spatie\Mailcoach\Tests\Http\Controllers\App\EmailLists\Subscribers;
 
 use Illuminate\Support\Facades\Mail;
-use Spatie\Mailcoach\Mails\ConfirmSubscriberMail;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Mails\ConfirmSubscriberMail;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class ResendConfirmationMailControllerTest extends TestCase

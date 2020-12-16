@@ -2,9 +2,9 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\Automations;
 
-use Spatie\Mailcoach\Enums\AutomationStatus;
-use Spatie\Mailcoach\Models\Automation;
-use Spatie\Mailcoach\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
+use Spatie\Mailcoach\Domain\Automation\Models\Automation;
+use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
 
 class ToggleAutomationStatusController
 {

@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\Features\Controllers\App\Campaigns;
 
-use Spatie\Mailcoach\Enums\CampaignStatus;
+use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignSettingsController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CreateCampaignController;
 use Spatie\Mailcoach\Tests\TestCase;

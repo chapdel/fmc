@@ -5,30 +5,30 @@ namespace Spatie\Mailcoach\Tests\Features;
 use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
-use Spatie\Mailcoach\Enums\SubscriptionStatus;
+use Spatie\Mailcoach\Domain\Campaign\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Http\Front\Controllers\UnsubscribeController;
-use Spatie\Mailcoach\Jobs\SendCampaignJob;
-use Spatie\Mailcoach\Models\Campaign;
-use Spatie\Mailcoach\Models\CampaignUnsubscribe;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Send;
-use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\CampaignUnsubscribe;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\Send;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
 class UnsubscribeTest extends TestCase
 {
-    /** @var \Spatie\Mailcoach\Models\Campaign */
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign */
     private Campaign $campaign;
 
     /** @var string */
     private string $mailedUnsubscribeLink;
 
-    /** @var \Spatie\Mailcoach\Models\EmailList */
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList */
     private EmailList $emailList;
 
-    /** @var \Spatie\Mailcoach\Models\Subscriber */
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber */
     private Subscriber $subscriber;
 
     public function setUp(): void

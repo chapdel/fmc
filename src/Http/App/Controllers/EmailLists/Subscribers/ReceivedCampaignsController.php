@@ -3,9 +3,9 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers;
 
 use Spatie\Mailcoach\Http\App\Queries\CampaignSendQuery;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Send;
-use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\Send;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 
 class ReceivedCampaignsController
 {

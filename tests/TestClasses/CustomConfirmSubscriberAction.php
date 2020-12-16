@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
-use Spatie\Mailcoach\Actions\Subscribers\ConfirmSubscriberAction;
-use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\ConfirmSubscriberAction;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 
 class CustomConfirmSubscriberAction extends ConfirmSubscriberAction
 {

@@ -3,11 +3,11 @@
 namespace Spatie\Mailcoach\Tests\Features\Controllers\App\Campaigns;
 
 use Illuminate\Support\Facades\Bus;
-use Spatie\Mailcoach\Enums\CampaignStatus;
+use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\SendCampaignController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignSummaryController;
-use Spatie\Mailcoach\Jobs\SendCampaignJob;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class SendCampaignControllerTest extends TestCase

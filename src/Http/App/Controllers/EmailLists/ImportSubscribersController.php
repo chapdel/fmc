@@ -4,9 +4,9 @@ namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists;
 
 use Illuminate\Foundation\Auth\User;
 use Spatie\Mailcoach\Http\App\Requests\EmailLists\ImportSubscribersRequest;
-use Spatie\Mailcoach\Jobs\ImportSubscribersJob;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\SubscriberImport;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\ImportSubscribersJob;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\SubscriberImport;
 
 class ImportSubscribersController
 {
@@ -20,7 +20,7 @@ class ImportSubscribersController
 
     public function import(EmailList $emailList, ImportSubscribersRequest $request)
     {
-        /** @var \Spatie\Mailcoach\Models\SubscriberImport $subscriberImport */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\SubscriberImport $subscriberImport */
         $subscriberImport = SubscriberImport::create([
             'email_list_id' => $emailList->id,
             'subscribe_unsubscribed' => $request->subscribeUnsubscribed(),

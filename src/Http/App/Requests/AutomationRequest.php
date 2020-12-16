@@ -4,11 +4,11 @@ namespace Spatie\Mailcoach\Http\App\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Spatie\Mailcoach\Models\Concerns\AutomationTrigger;
-use Spatie\Mailcoach\Models\EmailList;
+use Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationTrigger;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Support\Segments\EverySubscriberSegment;
 use Spatie\Mailcoach\Support\Segments\SubscribersWithTagsSegment;
-use Spatie\Mailcoach\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
 
 class AutomationRequest extends FormRequest
 {
@@ -27,7 +27,7 @@ class AutomationRequest extends FormRequest
 
     public function getSegmentClass(): string
     {
-        /** @var \Spatie\Mailcoach\Models\Campaign $campaign */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */
         $automation = $this->route()->parameter('automation');
 
         if ($automation->usingCustomSegment()) {

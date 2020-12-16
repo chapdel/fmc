@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Spatie\Mailcoach\Models\Action;
+use Spatie\Mailcoach\Domain\Automation\Models\Action;
 
 class ActionFactory extends Factory
 {

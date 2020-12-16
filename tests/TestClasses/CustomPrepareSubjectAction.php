@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
-use Spatie\Mailcoach\Actions\Campaigns\PrepareSubjectAction;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Actions\PrepareSubjectAction;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 
 class CustomPrepareSubjectAction extends PrepareSubjectAction
 {

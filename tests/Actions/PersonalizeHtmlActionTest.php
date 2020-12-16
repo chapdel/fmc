@@ -2,17 +2,17 @@
 
 namespace Spatie\Mailcoach\Tests\Actions;
 
-use Spatie\Mailcoach\Actions\Campaigns\PersonalizeHtmlAction;
+use Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeHtmlAction;
 use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
-use Spatie\Mailcoach\Models\Send;
+use Spatie\Mailcoach\Domain\Campaign\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class PersonalizeHtmlActionTest extends TestCase
 {
-    /** @var \Spatie\Mailcoach\Models\Send */
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send */
     private Send $send;
 
-    /** @var \Spatie\Mailcoach\Actions\Campaigns\PersonalizeHtmlAction */
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeHtmlAction */
     private PersonalizeHtmlAction $personalizeHtmlAction;
 
     public function setUp(): void

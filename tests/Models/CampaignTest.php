@@ -7,13 +7,13 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
-use Spatie\Mailcoach\Enums\CampaignStatus;
-use Spatie\Mailcoach\Exceptions\CouldNotSendCampaign;
-use Spatie\Mailcoach\Jobs\CalculateStatisticsJob;
-use Spatie\Mailcoach\Jobs\SendCampaignJob;
-use Spatie\Mailcoach\Jobs\SendTestMailJob;
-use Spatie\Mailcoach\Models\Campaign;
-use Spatie\Mailcoach\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
+use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\CalculateStatisticsJob;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\SendTestMailJob;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Support\Segments\EverySubscriberSegment;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
@@ -29,7 +29,7 @@ class CampaignTest extends TestCase
 {
     use MatchesSnapshots;
 
-    /** @var \Spatie\Mailcoach\Models\Campaign */
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign */
     private Campaign $campaign;
 
     public function setUp(): void
@@ -146,7 +146,7 @@ class CampaignTest extends TestCase
     /** @test */
     public function a_mailable_can_be_set()
     {
-        /** @var \Spatie\Mailcoach\Models\Campaign $campaign */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */
         $campaign = Campaign::create()->useMailable(TestCampaignMail::class);
 
         $this->assertEquals(TestCampaignMail::class, $campaign->mailable_class);

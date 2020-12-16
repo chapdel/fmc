@@ -2,13 +2,13 @@
 
 namespace Spatie\Mailcoach\Http\Api\Controllers;
 
-use Spatie\Mailcoach\Actions\Templates\CreateTemplateAction;
-use Spatie\Mailcoach\Actions\Templates\UpdateTemplateAction;
+use Spatie\Mailcoach\Domain\Campaign\Actions\Templates\CreateTemplateAction;
+use Spatie\Mailcoach\Domain\Campaign\Actions\Templates\UpdateTemplateAction;
 use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Http\Api\Resources\TemplateResource;
 use Spatie\Mailcoach\Http\App\Queries\TemplatesQuery;
 use Spatie\Mailcoach\Http\App\Requests\TemplateRequest;
-use Spatie\Mailcoach\Models\Template;
+use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 
 class TemplatesController
 {

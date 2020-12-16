@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent;
 
 use Spatie\Mailcoach\Http\App\ViewModels\CampaignSummaryViewModel;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 
 class CampaignSummaryController
 {

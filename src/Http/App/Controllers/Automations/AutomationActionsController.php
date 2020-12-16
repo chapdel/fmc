@@ -3,10 +3,10 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\Automations;
 
 use Illuminate\Http\Request;
-use Spatie\Mailcoach\Actions\Automations\AddActionToAutomationAction;
-use Spatie\Mailcoach\Models\Action;
-use Spatie\Mailcoach\Models\Automation;
-use Spatie\Mailcoach\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Automation\Actions\AddActionToAutomationAction;
+use Spatie\Mailcoach\Domain\Automation\Models\Action;
+use Spatie\Mailcoach\Domain\Automation\Models\Automation;
+use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
 
 class AutomationActionsController
 {
@@ -39,7 +39,7 @@ class AutomationActionsController
 
         foreach ($actions as $index => $action) {
             $actionClass = $action['class'];
-            /** @var \Spatie\Mailcoach\Models\Concerns\AutomationAction $action */
+            /** @var \Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationAction $action */
             $action = $actionClass::make($action['data']);
             $action->store($automation, $index);
         }

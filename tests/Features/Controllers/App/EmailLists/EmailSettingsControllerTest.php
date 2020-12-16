@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Tests\Features\Controllers\App\EmailLists;
 
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\EmailListSettingsController;
-use Spatie\Mailcoach\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class EmailSettingsControllerTest extends TestCase

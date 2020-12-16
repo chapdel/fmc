@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Tests\Mails;
 
-use Spatie\Mailcoach\Mails\ImportSubscribersResultMail;
-use Spatie\Mailcoach\Models\SubscriberImport;
+use Spatie\Mailcoach\Domain\Campaign\Mails\ImportSubscribersResultMail;
+use Spatie\Mailcoach\Domain\Campaign\Models\SubscriberImport;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class ImportSubscribersResultMailTest extends TestCase

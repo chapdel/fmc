@@ -3,10 +3,10 @@
 namespace Spatie\Mailcoach\Tests\Support\Automation\Actions;
 
 use Illuminate\Support\Facades\Queue;
-use Spatie\Mailcoach\Jobs\SendCampaignToSubscriberJob;
-use Spatie\Mailcoach\Models\Campaign;
-use Spatie\Mailcoach\Models\Subscriber;
-use Spatie\Mailcoach\Support\Automation\Actions\CampaignAction;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignToSubscriberJob;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\CampaignAction;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Tests\TestCase;

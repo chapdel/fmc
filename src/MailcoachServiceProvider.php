@@ -15,40 +15,40 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
-use Spatie\Mailcoach\Commands\CalculateStatisticsCommand;
-use Spatie\Mailcoach\Commands\CleanupProcessedFeedbackCommand;
-use Spatie\Mailcoach\Commands\DeleteOldUnconfirmedSubscribersCommand;
-use Spatie\Mailcoach\Commands\RetryPendingSendsCommand;
-use Spatie\Mailcoach\Commands\RunAutomationActionsCommand;
-use Spatie\Mailcoach\Commands\RunAutomationTriggersCommand;
-use Spatie\Mailcoach\Commands\SendCampaignSummaryMailCommand;
-use Spatie\Mailcoach\Commands\SendEmailListSummaryMailCommand;
-use Spatie\Mailcoach\Commands\SendScheduledCampaignsCommand;
+use Spatie\Mailcoach\Domain\Campaign\Commands\CalculateStatisticsCommand;
+use Spatie\Mailcoach\Domain\Campaign\Commands\CleanupProcessedFeedbackCommand;
+use Spatie\Mailcoach\Domain\Campaign\Commands\DeleteOldUnconfirmedSubscribersCommand;
+use Spatie\Mailcoach\Domain\Campaign\Commands\RetryPendingSendsCommand;
+use Spatie\Mailcoach\Domain\Campaign\Commands\RunAutomationActionsCommand;
+use Spatie\Mailcoach\Domain\Campaign\Commands\RunAutomationTriggersCommand;
+use Spatie\Mailcoach\Domain\Campaign\Commands\SendCampaignSummaryMailCommand;
+use Spatie\Mailcoach\Domain\Campaign\Commands\SendEmailListSummaryMailCommand;
+use Spatie\Mailcoach\Domain\Campaign\Commands\SendScheduledCampaignsCommand;
 use Spatie\Mailcoach\Components\DateTimeFieldComponent;
 use Spatie\Mailcoach\Components\FilterComponent;
 use Spatie\Mailcoach\Components\ReplacerHelpTextsComponent;
 use Spatie\Mailcoach\Components\SearchComponent;
 use Spatie\Mailcoach\Components\THComponent;
-use Spatie\Mailcoach\Events\CampaignSentEvent;
-use Spatie\Mailcoach\Events\WebhookCallProcessedEvent;
+use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
+use Spatie\Mailcoach\Domain\Campaign\Events\WebhookCallProcessedEvent;
 use Spatie\Mailcoach\Http\App\Controllers\HomeController;
-use Spatie\Mailcoach\Support\Automation\Livewire\Components\TagChainComponent;
-use Spatie\Mailcoach\Support\Automation\Livewire\AutomationBuilder;
-use Spatie\Mailcoach\Support\Automation\Livewire\Actions\AddTagsActionComponent;
-use Spatie\Mailcoach\Support\Automation\Livewire\Actions\CampaignActionComponent;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\TagChainComponent;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationBuilder;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\AddTagsActionComponent;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\CampaignActionComponent;
 use Spatie\Mailcoach\Http\App\ViewComposers\CampaignActionComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\IndexComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\QueryStringComposer;
-use Spatie\Mailcoach\Listeners\SendCampaignSentEmail;
-use Spatie\Mailcoach\Listeners\SetWebhookCallProcessedAt;
-use Spatie\Mailcoach\Listeners\StoreTransactionalMail;
-use Spatie\Mailcoach\Models\Automation;
-use Spatie\Mailcoach\Support\Automation\Livewire\Actions\EnsureTagsExistActionComponent;
-use Spatie\Mailcoach\Support\Automation\Livewire\Actions\RemoveTagsActionComponent;
-use Spatie\Mailcoach\Support\Automation\Livewire\Actions\WaitActionComponent;
+use Spatie\Mailcoach\Domain\Campaign\Listeners\SendCampaignSentEmail;
+use Spatie\Mailcoach\Domain\Campaign\Listeners\SetWebhookCallProcessedAt;
+use Spatie\Mailcoach\Domain\TransactionalMail\Listeners\StoreTransactionalMail;
+use Spatie\Mailcoach\Domain\Automation\Models\Automation;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\EnsureTagsExistActionComponent;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\RemoveTagsActionComponent;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\WaitActionComponent;
 use Spatie\Mailcoach\Support\Version;
-use Spatie\Mailcoach\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
 use Spatie\QueryString\QueryString;
 
 class MailcoachServiceProvider extends ServiceProvider
@@ -85,7 +85,10 @@ class MailcoachServiceProvider extends ServiceProvider
     {
         $mailcoachFormat = config('mailcoach.date_format');
 
-        Date::macro('toMailcoachFormat', fn () => self::this()->copy()->setTimezone(config('app.timezone'))->format($mailcoachFormat));
+        Date::macro(
+            'toMailcoachFormat',
+            fn () => self::this()->copy()->setTimezone(config('app.timezone'))->format($mailcoachFormat)
+        );
 
         return $this;
     }

@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Tests\TestClasses;
 
 use Closure;
 use Illuminate\Mail\Mailable;
-use Spatie\Mailcoach\Mails\Concerns\StoresMail;
+use Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns\StoresMail;
 
 class
 TestTransactionMail extends Mailable

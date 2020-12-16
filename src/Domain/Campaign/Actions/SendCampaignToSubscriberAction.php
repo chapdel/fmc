@@ -1,0 +1,33 @@
+<?php
+
+namespace Spatie\Mailcoach\Domain\Campaign\Actions;
+
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+
+class SendCampaignToSubscriberAction extends SendCampaignAction
+{
+    public function execute(Campaign $campaign, Subscriber $subscriber = null): void
+    {
+        if ($campaign->wasAlreadySentToSubscriber($subscriber)) {
+            return;
+        }
+
+        if (! $subscriber) {
+            return;
+        }
+
+        $this
+            ->prepareSubject($campaign)
+            ->prepareEmailHtml($campaign)
+            ->prepareWebviewHtml($campaign)
+            ->sendMail($campaign, $subscriber);
+    }
+
+    protected function sendMail(Campaign $campaign, Subscriber $subscriber = null)
+    {
+        $campaign->update(['segment_description' => $campaign->getSegment()->description()]);
+
+        dispatch($this->createSendMailJob($campaign, $subscriber->emailList, $subscriber));
+    }
+}

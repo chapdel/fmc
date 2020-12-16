@@ -5,15 +5,15 @@ namespace Spatie\Mailcoach\Tests\Models;
 use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Queue;
-use Spatie\Mailcoach\Commands\RunAutomationActionsCommand;
-use Spatie\Mailcoach\Enums\AutomationStatus;
-use Spatie\Mailcoach\Jobs\SendCampaignToSubscriberJob;
-use Spatie\Mailcoach\Models\Automation;
-use Spatie\Mailcoach\Models\Campaign;
-use Spatie\Mailcoach\Support\Automation\Actions\CampaignAction;
-use Spatie\Mailcoach\Support\Automation\Actions\HaltAction;
-use Spatie\Mailcoach\Support\Automation\Actions\WaitAction;
-use Spatie\Mailcoach\Support\Automation\Triggers\SubscribedAutomationTrigger;
+use Spatie\Mailcoach\Domain\Campaign\Commands\RunAutomationActionsCommand;
+use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignToSubscriberJob;
+use Spatie\Mailcoach\Domain\Automation\Models\Automation;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\CampaignAction;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
+use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedAutomationTrigger;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -23,7 +23,7 @@ class AutomationTest extends TestCase
 {
     use MatchesSnapshots;
 
-    /** @var \Spatie\Mailcoach\Models\Campaign */
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign */
     private Campaign $campaign;
 
     public function setUp(): void

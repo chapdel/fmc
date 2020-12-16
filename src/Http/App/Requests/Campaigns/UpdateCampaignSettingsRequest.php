@@ -4,10 +4,10 @@ namespace Spatie\Mailcoach\Http\App\Requests\Campaigns;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Spatie\Mailcoach\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Support\Segments\EverySubscriberSegment;
 use Spatie\Mailcoach\Support\Segments\SubscribersWithTagsSegment;
-use Spatie\Mailcoach\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
 
 class UpdateCampaignSettingsRequest extends FormRequest
 {
@@ -28,7 +28,7 @@ class UpdateCampaignSettingsRequest extends FormRequest
 
     public function getSegmentClass(): string
     {
-        /** @var \Spatie\Mailcoach\Models\Campaign $campaign */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */
         $campaign = $this->route()->parameter('campaign');
 
         if ($campaign->usingCustomSegment()) {

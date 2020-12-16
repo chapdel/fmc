@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\UpdateStatus;
 
-use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 
 class ResubscribeController
 {

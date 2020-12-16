@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Http\App\ViewModels;
 
-use Spatie\Mailcoach\Models\Subscriber;
-use Spatie\Mailcoach\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
 use Spatie\ViewModels\ViewModel;
 
 class SubscriberViewModel extends ViewModel

@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
-use Spatie\Mailcoach\Models\Template;
+use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 
 class CustomTemplate extends Template
 {

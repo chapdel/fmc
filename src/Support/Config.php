@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Support;
 
-use Spatie\Mailcoach\Exceptions\InvalidConfig;
+use Spatie\Mailcoach\Domain\Campaign\Exceptions\InvalidConfig;
 
 class Config
 {

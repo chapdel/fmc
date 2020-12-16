@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Tests\Factories;
 
 use Illuminate\Support\Collection;
-use Spatie\Mailcoach\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 
 class EmailListFactory
 {

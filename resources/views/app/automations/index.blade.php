@@ -41,7 +41,7 @@
                     <tr>
                         <td>
                             <x-form-button :action="route('mailcoach.automations.toggleStatus', $automation)">
-                                @if($automation->status === \Spatie\Mailcoach\Enums\AutomationStatus::PAUSED)
+                                @if($automation->status === \Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus::PAUSED)
                                     <span title="{{ __('Paused') }}" class="far fa-pause-circle text-orange-500"></span>
                                 @else
                                     <span title="{{ __('Sent') }}" class="fas fa-sync fa-spin text-green-500"></span>

@@ -4,9 +4,9 @@ namespace Spatie\Mailcoach\Http\App\Requests\Campaigns;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Spatie\Mailcoach\Enums\CampaignStatus;
-use Spatie\Mailcoach\Models\Template;
-use Spatie\Mailcoach\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
+use Spatie\Mailcoach\Domain\Campaign\Models\Template;
+use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
 
 class StoreCampaignRequest extends FormRequest
 {

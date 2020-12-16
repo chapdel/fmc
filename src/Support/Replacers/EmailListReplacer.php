@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Support\Replacers;
 
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Support\Replacers\Concerns\ReplacesModelAttributes;
 
 class EmailListReplacer implements Replacer

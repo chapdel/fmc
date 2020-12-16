@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Tests\Features\Controllers\App;
 
 use Spatie\Mailcoach\Http\App\Controllers\TemplatesController;
-use Spatie\Mailcoach\Models\Template;
+use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class TemplatesControllerTest extends TestCase

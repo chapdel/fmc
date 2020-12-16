@@ -4,8 +4,8 @@ namespace Spatie\Mailcoach\Support;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Spatie\Mailcoach\Enums\SubscriptionStatus;
-use Spatie\Mailcoach\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Enums\SubscriptionStatus;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 
 class ImportSubscriberRow
 {

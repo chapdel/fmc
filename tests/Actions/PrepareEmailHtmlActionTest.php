@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Tests\Actions;
 
-use Spatie\Mailcoach\Actions\Campaigns\PrepareEmailHtmlAction;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Actions\PrepareEmailHtmlAction;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 

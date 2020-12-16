@@ -5,15 +5,15 @@ namespace Spatie\Mailcoach\Tests\Features;
 use Carbon\CarbonInterval;
 use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Facades\DB;
-use Spatie\Mailcoach\Enums\CampaignStatus;
-use Spatie\Mailcoach\Models\Action;
-use Spatie\Mailcoach\Models\Automation;
-use Spatie\Mailcoach\Models\Campaign;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Support\Automation\Actions\CampaignAction;
-use Spatie\Mailcoach\Support\Automation\Actions\EnsureTagsExistAction;
-use Spatie\Mailcoach\Support\Automation\Actions\WaitAction;
-use Spatie\Mailcoach\Support\Automation\Triggers\SubscribedAutomationTrigger;
+use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
+use Spatie\Mailcoach\Domain\Automation\Models\Action;
+use Spatie\Mailcoach\Domain\Automation\Models\Automation;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\CampaignAction;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\EnsureTagsExistAction;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
+use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedAutomationTrigger;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class AutomationTest extends TestCase

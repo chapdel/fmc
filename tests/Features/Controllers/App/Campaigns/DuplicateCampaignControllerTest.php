@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Tests\Features\Controllers\App\Campaigns;
 
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignSettingsController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\DuplicateCampaignController;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class DuplicateCampaignControllerTest extends TestCase
@@ -14,7 +14,7 @@ class DuplicateCampaignControllerTest extends TestCase
     {
         $this->authenticate();
 
-        /** @var \Spatie\Mailcoach\Models\Campaign $originalCampaign */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $originalCampaign */
         $originalCampaign = Campaign::factory()->create();
 
         $this

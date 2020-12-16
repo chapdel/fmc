@@ -5,9 +5,9 @@ namespace Spatie\Mailcoach\Tests\Jobs;
 use Illuminate\Mail\MailManager;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
-use Spatie\Mailcoach\Jobs\SendTestMailJob;
-use Spatie\Mailcoach\Mails\CampaignMail;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\SendTestMailJob;
+use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignMail;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMail;
 

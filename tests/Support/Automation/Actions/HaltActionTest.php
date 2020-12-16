@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Tests\Support\Automation\Actions;
 
-use Spatie\Mailcoach\Models\Subscriber;
-use Spatie\Mailcoach\Support\Automation\Actions\HaltAction;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class HaltActionTest extends TestCase

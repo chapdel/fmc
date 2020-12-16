@@ -2,17 +2,17 @@
 
 namespace Spatie\Mailcoach\Tests\Rules;
 
-use Spatie\Mailcoach\Enums\SubscriptionStatus;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Rules\EmailListSubscriptionRule;
+use Spatie\Mailcoach\Domain\Campaign\Enums\SubscriptionStatus;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Rules\EmailListSubscriptionRule;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class EmailRuleSubscriptionTest extends TestCase
 {
-    /** @var \Spatie\Mailcoach\Models\EmailList */
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList */
     private EmailList $emailList;
 
-    /** @var \Spatie\Mailcoach\Rules\EmailListSubscriptionRule */
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Rules\EmailListSubscriptionRule */
     private EmailListSubscriptionRule $rule;
 
     public function setUp(): void

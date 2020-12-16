@@ -3,10 +3,10 @@
 namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Campaigns;
 
 use Illuminate\Support\Arr;
-use Spatie\Mailcoach\Enums\CampaignStatus;
+use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignsController;
-use Spatie\Mailcoach\Models\Campaign;
-use Spatie\Mailcoach\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestCase;
 

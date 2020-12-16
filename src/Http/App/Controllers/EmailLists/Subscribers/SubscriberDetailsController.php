@@ -2,11 +2,11 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers;
 
-use Spatie\Mailcoach\Actions\Subscribers\UpdateSubscriberAction;
+use Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\UpdateSubscriberAction;
 use Spatie\Mailcoach\Http\App\Requests\EmailLists\Subscribers\UpdateSubscriberRequest;
 use Spatie\Mailcoach\Http\App\ViewModels\SubscriberViewModel;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Support\Config;
 
 class SubscriberDetailsController

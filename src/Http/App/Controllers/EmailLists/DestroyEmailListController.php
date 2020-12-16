@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists;
 
-use Spatie\Mailcoach\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 
 class DestroyEmailListController
 {

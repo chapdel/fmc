@@ -2,9 +2,9 @@
 
 namespace Spatie\Mailcoach\Tests\Support;
 
-use Spatie\Mailcoach\Actions\Campaigns\PrepareEmailHtmlAction;
-use Spatie\Mailcoach\Actions\Campaigns\PrepareSubjectAction;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Actions\PrepareEmailHtmlAction;
+use Spatie\Mailcoach\Domain\Campaign\Actions\PrepareSubjectAction;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 
@@ -15,7 +15,7 @@ class CampaignReplacerTest extends TestCase
     /** @test */
     public function campaignname_should_replaced_in_subject()
     {
-        /** @var \Spatie\Mailcoach\Models\Campaign */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign */
         $campaign = Campaign::factory()->create([
             'subject' => '::campaign.name::',
         ]);
@@ -31,7 +31,7 @@ class CampaignReplacerTest extends TestCase
     {
         $campaignName = 'test1234';
 
-        /** @var \Spatie\Mailcoach\Models\Campaign */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign */
         $campaign = Campaign::factory()->create([
             'name' => $campaignName,
             'html' => '::campaign.name::',

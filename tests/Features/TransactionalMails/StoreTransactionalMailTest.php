@@ -4,11 +4,11 @@ namespace Spatie\Mailcoach\Tests\Features\TransactionalMails;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
-use Spatie\Mailcoach\Events\TransactionalMailLinkClickedEvent;
-use Spatie\Mailcoach\Events\TransactionalMailOpenedEvent;
-use Spatie\Mailcoach\Models\Send;
-use Spatie\Mailcoach\Models\TransactionalMail;
-use Spatie\Mailcoach\Models\TransactionalMailOpen;
+use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailLinkClickedEvent;
+use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailOpenedEvent;
+use Spatie\Mailcoach\Domain\Campaign\Models\Send;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailOpen;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestTransactionMail;
 

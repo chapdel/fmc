@@ -3,11 +3,11 @@
 namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\EmailLists\Subscribers;
 
 use Illuminate\Support\Facades\Mail;
-use Spatie\Mailcoach\Enums\SubscriptionStatus;
+use Spatie\Mailcoach\Domain\Campaign\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\SubscribersController;
-use Spatie\Mailcoach\Mails\ConfirmSubscriberMail;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Mails\ConfirmSubscriberMail;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestCase;
 

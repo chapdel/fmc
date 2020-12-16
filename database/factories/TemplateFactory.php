@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Spatie\Mailcoach\Models\Template;
+use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 
 class TemplateFactory extends Factory
 {

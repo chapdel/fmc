@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Http\Api\Controllers\Campaigns;
 
 use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Http\Api\Requests\SendTestEmailRequest;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 
 class SendTestEmailController
 {

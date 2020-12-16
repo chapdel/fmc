@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Tests\Features\Controllers\App\EmailLists\Subscribers
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Route;
-use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomSubscriber;
 

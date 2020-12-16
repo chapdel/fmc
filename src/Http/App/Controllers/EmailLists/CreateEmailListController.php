@@ -2,9 +2,9 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists;
 
-use Spatie\Mailcoach\Actions\EmailLists\UpdateEmailListAction;
+use Spatie\Mailcoach\Domain\Campaign\Actions\EmailLists\UpdateEmailListAction;
 use Spatie\Mailcoach\Http\App\Requests\EmailLists\UpdateEmailListSettingsRequest;
-use Spatie\Mailcoach\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
 
 class CreateEmailListController
 {

@@ -3,13 +3,13 @@
 namespace Spatie\Mailcoach\Tests\Features;
 
 use Spatie\Mailcoach\Database\Factories\UserFactory;
-use Spatie\Mailcoach\Enums\CampaignStatus;
-use Spatie\Mailcoach\Exceptions\InvalidConfig;
-use Spatie\Mailcoach\Jobs\ImportSubscribersJob;
-use Spatie\Mailcoach\Jobs\SendCampaignJob;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Subscriber;
-use Spatie\Mailcoach\Models\SubscriberImport;
+use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
+use Spatie\Mailcoach\Domain\Campaign\Exceptions\InvalidConfig;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\ImportSubscribersJob;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Models\SubscriberImport;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomConfirmSubscriberAction;
@@ -98,7 +98,7 @@ class CustomizableActionTest extends TestCase
     {
         config()->set('mailcoach.actions.create_subscriber', CustomCreateSubscriberAction::class);
 
-        /** @var \Spatie\Mailcoach\Models\EmailList $emailList */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList $emailList */
         $emailList = EmailList::factory()->create();
 
         $subscriber = $emailList->subscribe('john@example.com');
@@ -127,7 +127,7 @@ class CustomizableActionTest extends TestCase
     {
         config()->set('mailcoach.actions.create_subscriber', 'invalid-action');
 
-        /** @var \Spatie\Mailcoach\Models\EmailList $emailList */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList $emailList */
         $emailList = EmailList::factory()->create();
 
         $this->expectException(InvalidConfig::class);

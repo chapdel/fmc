@@ -3,8 +3,8 @@
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
 use Exception;
-use Spatie\Mailcoach\Actions\Campaigns\PersonalizeHtmlAction;
-use Spatie\Mailcoach\Models\Send;
+use Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeHtmlAction;
+use Spatie\Mailcoach\Domain\Campaign\Models\Send;
 
 class FailingPersonalizeHtmlForJohnAction extends PersonalizeHtmlAction
 {

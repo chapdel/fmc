@@ -3,7 +3,7 @@
 
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Support\Replacers\Replacer;
 
 class CustomReplacer implements Replacer

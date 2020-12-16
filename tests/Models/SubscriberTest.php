@@ -4,16 +4,16 @@ namespace Spatie\Mailcoach\Tests\Models;
 
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
-use Spatie\Mailcoach\Enums\SubscriptionStatus;
-use Spatie\Mailcoach\Mails\ConfirmSubscriberMail;
-use Spatie\Mailcoach\Mails\WelcomeMail;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Enums\SubscriptionStatus;
+use Spatie\Mailcoach\Domain\Campaign\Mails\ConfirmSubscriberMail;
+use Spatie\Mailcoach\Domain\Campaign\Mails\WelcomeMail;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class SubscriberTest extends TestCase
 {
-    /** @var \Spatie\Mailcoach\Models\EmailList EmailList */
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList EmailList */
     private EmailList $emailList;
 
     public function setUp(): void
@@ -135,10 +135,10 @@ class SubscriberTest extends TestCase
     /** @test */
     public function it_can_get_all_sends()
     {
-        /** @var \Spatie\Mailcoach\Models\Send $send */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $send */
         $send = CampaignSendFactory::new()->create();
 
-        /** @var \Spatie\Mailcoach\Models\Subscriber $subscriber */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber $subscriber */
         $subscriber = $send->subscriber;
 
         $sends = $subscriber->sends;
@@ -151,13 +151,13 @@ class SubscriberTest extends TestCase
     /** @test */
     public function it_can_get_all_opens()
     {
-        /** @var \Spatie\Mailcoach\Models\Send $send */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $send */
         $send = CampaignSendFactory::new()->create();
         $send->campaign->update(['track_opens' => true]);
 
         $send->registerOpen();
 
-        /** @var \Spatie\Mailcoach\Models\Subscriber $subscriber */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber $subscriber */
         $subscriber = $send->subscriber;
 
         $opens = $subscriber->opens;
@@ -170,7 +170,7 @@ class SubscriberTest extends TestCase
     /** @test */
     public function it_can_get_all_clicks()
     {
-        /** @var \Spatie\Mailcoach\Models\Send $send */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $send */
         $send = CampaignSendFactory::new()->create();
         $send->campaign->update(['track_clicks' => true]);
 
@@ -178,7 +178,7 @@ class SubscriberTest extends TestCase
         $send->registerClick('https://another-domain.com');
         $send->registerClick('https://example.com');
 
-        /** @var \Spatie\Mailcoach\Models\Subscriber $subscriber */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber $subscriber */
         $subscriber = $send->subscriber;
 
         $clicks = $subscriber->clicks;

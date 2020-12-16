@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Tests\Features\Controllers\App\Subscribers;
 
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\DestroySubscriberController;
-use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class DestroySubscriberControllerTest extends TestCase

@@ -2,13 +2,13 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers;
 
-use Spatie\Mailcoach\Actions\Templates\CreateTemplateAction;
-use Spatie\Mailcoach\Actions\Templates\UpdateTemplateAction;
+use Spatie\Mailcoach\Domain\Campaign\Actions\Templates\CreateTemplateAction;
+use Spatie\Mailcoach\Domain\Campaign\Actions\Templates\UpdateTemplateAction;
 use Spatie\Mailcoach\Http\Api\Resources\TemplateResource;
 use Spatie\Mailcoach\Http\App\Queries\TemplatesQuery;
 use Spatie\Mailcoach\Http\App\Requests\TemplateRequest;
-use Spatie\Mailcoach\Models\Template;
-use Spatie\Mailcoach\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Campaign\Models\Template;
+use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
 
 class TemplatesController
 {
@@ -66,7 +66,7 @@ class TemplatesController
 
     public function duplicate(Template $template)
     {
-        /** @var \Spatie\Mailcoach\Models\Template $duplicateTemplate */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Template $duplicateTemplate */
         $duplicateTemplate = $this->getTemplateClass()::create([
             'name' => __('Duplicate of') . ' ' . $template->name,
             'html' => $template->html,

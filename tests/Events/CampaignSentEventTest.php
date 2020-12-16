@@ -3,8 +3,8 @@
 namespace Spatie\Mailcoach\Tests\Events;
 
 use Illuminate\Support\Facades\Event;
-use Spatie\Mailcoach\Events\CampaignSentEvent;
-use Spatie\Mailcoach\Jobs\SendCampaignJob;
+use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMail;

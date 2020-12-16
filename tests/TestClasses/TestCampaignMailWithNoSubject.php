@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
 use Faker\Generator;
-use Spatie\Mailcoach\Mails\CampaignMail;
+use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignMail;
 
 class TestCampaignMailWithNoSubject extends CampaignMail
 {

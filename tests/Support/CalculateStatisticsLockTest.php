@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\Support;
 
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Support\CalculateStatisticsLock;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;

@@ -3,9 +3,9 @@
 namespace Spatie\Mailcoach\Tests\Mails;
 
 use Illuminate\Support\Facades\Mail;
-use Spatie\Mailcoach\Commands\SendEmailListSummaryMailCommand;
-use Spatie\Mailcoach\Mails\EmailListSummaryMail;
-use Spatie\Mailcoach\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Commands\SendEmailListSummaryMailCommand;
+use Spatie\Mailcoach\Domain\Campaign\Mails\EmailListSummaryMail;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 

@@ -3,8 +3,8 @@
 namespace Spatie\Mailcoach\Http\Front\Controllers;
 
 use Spatie\Feed\Feed;
-use Spatie\Mailcoach\Enums\CampaignStatus;
-use Spatie\Mailcoach\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
+use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
 
 class EmailListCampaignsFeedController
 {

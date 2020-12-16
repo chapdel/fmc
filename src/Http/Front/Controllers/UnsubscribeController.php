@@ -2,9 +2,9 @@
 
 namespace Spatie\Mailcoach\Http\Front\Controllers;
 
-use Spatie\Mailcoach\Enums\SubscriptionStatus;
-use Spatie\Mailcoach\Models\Send;
-use Spatie\Mailcoach\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Campaign\Enums\SubscriptionStatus;
+use Spatie\Mailcoach\Domain\Campaign\Models\Send;
+use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
 
 class UnsubscribeController
 {
@@ -12,7 +12,7 @@ class UnsubscribeController
 
     public function show(string $subscriberUuid, string $sendUuid = null)
     {
-        /** @var \Spatie\Mailcoach\Models\Subscriber $subscriber */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber $subscriber */
         if (! $subscriber = $this->getSubscriberClass()::findByUuid($subscriberUuid)) {
             return view('mailcoach::landingPages.couldNotFindSubscription');
         }
@@ -28,7 +28,7 @@ class UnsubscribeController
 
     public function confirm(string $subscriberUuid, string $sendUuid = null)
     {
-        /** @var \Spatie\Mailcoach\Models\Subscriber $subscriber */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber $subscriber */
         if (! $subscriber = $this->getSubscriberClass()::findByUuid($subscriberUuid)) {
             return view('mailcoach::landingPages.couldNotFindSubscription');
         }
@@ -39,7 +39,7 @@ class UnsubscribeController
             return view('mailcoach::landingPages.alreadyUnsubscribed', compact('emailList'));
         }
 
-        /** @var \Spatie\Mailcoach\Models\Send $send */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $send */
         $send = Send::findByUuid($sendUuid ?? '');
         $subscriber->unsubscribe($send);
 

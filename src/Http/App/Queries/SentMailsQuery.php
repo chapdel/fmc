@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\Queries;
 
 use Spatie\Mailcoach\Http\App\Queries\Filters\FuzzyFilter;
-use Spatie\Mailcoach\Models\Send;
+use Spatie\Mailcoach\Domain\Campaign\Models\Send;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 

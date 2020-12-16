@@ -21,7 +21,7 @@ class SendCampaignRequest extends FormRequest
 
     public function after(Validator $validator)
     {
-        /** @var \Spatie\Mailcoach\Models\Campaign $campaign */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */
         $campaign = $this->route('campaign');
 
         if (! $campaign->isDraft()) {

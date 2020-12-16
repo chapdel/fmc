@@ -4,8 +4,8 @@ namespace Spatie\Mailcoach\Tests\Features\Controllers\App\EmailLists\Segments;
 
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\DuplicateSegmentController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\EditSegmentController;
-use Spatie\Mailcoach\Models\Tag;
-use Spatie\Mailcoach\Models\TagSegment;
+use Spatie\Mailcoach\Domain\Campaign\Models\Tag;
+use Spatie\Mailcoach\Domain\Campaign\Models\TagSegment;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class DuplicateSegmentTest extends TestCase
@@ -15,7 +15,7 @@ class DuplicateSegmentTest extends TestCase
     {
         $this->authenticate();
 
-        /** @var \Spatie\Mailcoach\Models\TagSegment $originalSegment */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\TagSegment $originalSegment */
         $originalSegment = TagSegment::factory()->create();
 
         $positiveTags = ['positive-1', 'positive-2'];

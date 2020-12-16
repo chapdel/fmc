@@ -3,11 +3,11 @@
 namespace Spatie\Mailcoach\Http\Api\Controllers\SubscriberImports;
 
 use Illuminate\Http\Response;
-use Spatie\Mailcoach\Enums\SubscriberImportStatus;
+use Spatie\Mailcoach\Domain\Campaign\Enums\SubscriberImportStatus;
 use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Http\Api\Requests\SubscriberImportRequest;
 use Spatie\Mailcoach\Http\Api\Resources\SubscriberImportResource;
-use Spatie\Mailcoach\Models\SubscriberImport;
+use Spatie\Mailcoach\Domain\Campaign\Models\SubscriberImport;
 
 class SubscriberImportsController
 {

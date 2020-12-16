@@ -4,10 +4,10 @@ namespace Spatie\Mailcoach\Tests\Mails;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
-use Spatie\Mailcoach\Events\CampaignSentEvent;
-use Spatie\Mailcoach\Mails\CampaignSentMail;
-use Spatie\Mailcoach\Models\Campaign;
-use Spatie\Mailcoach\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
+use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignSentMail;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class CampaignSentMailTest extends TestCase

@@ -2,17 +2,17 @@
 
 namespace Spatie\Mailcoach\Tests\Traits;
 
-use Spatie\Mailcoach\Models\Campaign;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Send;
-use Spatie\Mailcoach\Models\Subscriber;
-use Spatie\Mailcoach\Models\Template;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\Send;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Tests\Factories\EmailListFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class UsesMailcoachModelsTest extends TestCase
 {
-    /** @var \Spatie\Mailcoach\Models\EmailList */
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList */
     private EmailList $email_list;
 
     public function setUp(): void

@@ -4,9 +4,9 @@ namespace Spatie\Mailcoach\Tests\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Bus;
-use Spatie\Mailcoach\Commands\CalculateStatisticsCommand;
-use Spatie\Mailcoach\Jobs\CalculateStatisticsJob;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Commands\CalculateStatisticsCommand;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\CalculateStatisticsJob;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 

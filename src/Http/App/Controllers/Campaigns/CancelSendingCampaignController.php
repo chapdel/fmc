@@ -3,9 +3,9 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns;
 
 use Illuminate\Support\Facades\Bus;
-use Spatie\Mailcoach\Enums\CampaignStatus;
-use Spatie\Mailcoach\Models\Campaign;
-use Spatie\Mailcoach\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
 
 class CancelSendingCampaignController
 {

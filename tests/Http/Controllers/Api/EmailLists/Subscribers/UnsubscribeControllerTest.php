@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\EmailLists\Subscribers;
 
 use Illuminate\Http\Response;
-use Spatie\Mailcoach\Enums\SubscriptionStatus;
+use Spatie\Mailcoach\Domain\Campaign\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\UnsubscribeController;
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;

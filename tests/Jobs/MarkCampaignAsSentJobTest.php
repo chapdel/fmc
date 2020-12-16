@@ -4,10 +4,10 @@ namespace Spatie\Mailcoach\Tests\Jobs;
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
-use Spatie\Mailcoach\Enums\CampaignStatus;
-use Spatie\Mailcoach\Events\CampaignSentEvent;
-use Spatie\Mailcoach\Jobs\MarkCampaignAsSentJob;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
+use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\MarkCampaignAsSentJob;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;

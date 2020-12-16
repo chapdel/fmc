@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Tests\Factories;
 
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 
 class SubscriberFactory
 {

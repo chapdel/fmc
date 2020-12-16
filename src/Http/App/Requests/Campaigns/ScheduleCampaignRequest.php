@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Http\App\Requests\Campaigns;
 
 use Carbon\CarbonInterface;
 use Illuminate\Foundation\Http\FormRequest;
-use Spatie\Mailcoach\Rules\DateTimeFieldRule;
+use Spatie\Mailcoach\Domain\Campaign\Rules\DateTimeFieldRule;
 
 class ScheduleCampaignRequest extends FormRequest
 {

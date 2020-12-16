@@ -3,9 +3,9 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns;
 
 use Spatie\Mailcoach\Http\App\Queries\CampaignsQuery;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Template;
-use Spatie\Mailcoach\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\Template;
+use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
 
 class CampaignsIndexController
 {

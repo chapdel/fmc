@@ -3,9 +3,9 @@
 namespace Spatie\Mailcoach\Tests\Events;
 
 use Illuminate\Support\Facades\Event;
-use Spatie\Mailcoach\Events\CampaignStatisticsCalculatedEvent;
-use Spatie\Mailcoach\Jobs\CalculateStatisticsJob;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Events\CampaignStatisticsCalculatedEvent;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\CalculateStatisticsJob;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class CampaignStatisticsCalculatedEventTest extends TestCase

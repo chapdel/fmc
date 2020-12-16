@@ -29,13 +29,13 @@
                     <tr>
                         <td>
                             @switch($subscriberImport->status)
-                                @case(\Spatie\Mailcoach\Enums\SubscriberImportStatus::PENDING)
+                                @case(\Spatie\Mailcoach\Domain\Campaign\Enums\SubscriberImportStatus::PENDING)
                                 <i title="{{ __('Scheduled') }}" class="far fa-clock text-orange-500`"></i>
                                 @break
-                                @case(\Spatie\Mailcoach\Enums\SubscriberImportStatus::IMPORTING)
+                                @case(\Spatie\Mailcoach\Domain\Campaign\Enums\SubscriberImportStatus::IMPORTING)
                                 <i title="{{ __('Importing') }}" class="fas fa-sync fa-spin text-blue-500"></i>
                                 @break
-                                @case(\Spatie\Mailcoach\Enums\SubscriberImportStatus::COMPLETED)
+                                @case(\Spatie\Mailcoach\Domain\Campaign\Enums\SubscriberImportStatus::COMPLETED)
                                 <i title="{{ __('Completed') }}" class="fas fa-check text-green-500"></i>
                                 @break
                             @endswitch

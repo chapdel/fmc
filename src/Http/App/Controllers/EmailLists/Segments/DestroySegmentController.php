@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments;
 
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\TagSegment;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\TagSegment;
 
 class DestroySegmentController
 {

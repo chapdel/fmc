@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\Front\Controllers;
 
-use Spatie\Mailcoach\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
 
 class CampaignWebviewController
 {

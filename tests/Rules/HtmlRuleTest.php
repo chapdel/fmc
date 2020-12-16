@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\Rules;
 
-use Spatie\Mailcoach\Rules\HtmlRule;
+use Spatie\Mailcoach\Domain\Campaign\Rules\HtmlRule;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class HtmlRuleTest extends TestCase

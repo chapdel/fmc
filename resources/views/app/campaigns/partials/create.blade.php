@@ -6,8 +6,8 @@
     <x-mailcoach::select-field
         :label="__('Type')"
         :options="[
-            \Spatie\Mailcoach\Enums\CampaignStatus::DRAFT => __('Regular campaign'),
-            \Spatie\Mailcoach\Enums\CampaignStatus::AUTOMATED => __('Automation campaign'),
+            \Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus::DRAFT => __('Regular campaign'),
+            \Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus::AUTOMATED => __('Automation campaign'),
         ]"
         name="type"
         data-conditional="type"

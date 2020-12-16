@@ -3,8 +3,8 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\Automations;
 
 use Illuminate\Http\Request;
-use Spatie\Mailcoach\Actions\Automations\CreateAutomationAction;
-use Spatie\Mailcoach\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Automation\Actions\CreateAutomationAction;
+use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
 
 class CreateAutomationController
 {

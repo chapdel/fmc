@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Tests\Features;
 use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
-use Spatie\Mailcoach\Jobs\SendCampaignJob;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Symfony\Component\DomCrawler\Crawler;

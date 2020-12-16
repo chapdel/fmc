@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
-use Spatie\Mailcoach\Actions\Campaigns\PersonalizeSubjectAction;
-use Spatie\Mailcoach\Models\Send;
+use Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeSubjectAction;
+use Spatie\Mailcoach\Domain\Campaign\Models\Send;
 
 class CustomPersonalizeSubjectAction extends PersonalizeSubjectAction
 {

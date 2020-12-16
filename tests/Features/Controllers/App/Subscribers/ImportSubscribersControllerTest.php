@@ -5,19 +5,19 @@ namespace Spatie\Mailcoach\Tests\Features\Controllers\App\Subscribers;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Database\Factories\UserFactory;
-use Spatie\Mailcoach\Enums\SubscriptionStatus;
+use Spatie\Mailcoach\Domain\Campaign\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\ImportSubscribersController;
-use Spatie\Mailcoach\Mails\ImportSubscribersResultMail;
-use Spatie\Mailcoach\Mails\WelcomeMail;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Subscriber;
-use Spatie\Mailcoach\Models\SubscriberImport;
+use Spatie\Mailcoach\Domain\Campaign\Mails\ImportSubscribersResultMail;
+use Spatie\Mailcoach\Domain\Campaign\Mails\WelcomeMail;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Models\SubscriberImport;
 use Spatie\Mailcoach\Tests\TestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ImportSubscribersControllerTest extends TestCase
 {
-    /** @var \Spatie\Mailcoach\Models\EmailList */
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList */
     protected $emailList;
 
     public function setUp(): void
@@ -67,7 +67,7 @@ class ImportSubscribersControllerTest extends TestCase
         $this->assertCount(1, $this->emailList->subscribers);
         $this->assertTrue($this->emailList->isSubscribed('john@example.com'));
 
-        /** @var \Spatie\Mailcoach\Models\Subscriber $subscriber */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber $subscriber */
         $subscriber = Subscriber::first();
         $this->assertEquals('John', $subscriber->first_name);
         $this->assertEquals('Doe', $subscriber->last_name);

@@ -3,10 +3,10 @@
 namespace Spatie\Mailcoach\Tests\Features;
 
 use Illuminate\Support\Facades\Mail;
-use Spatie\Mailcoach\Mails\CampaignMail;
-use Spatie\Mailcoach\Models\Campaign;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignMail;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestCustomQueryOnlyShouldSendToJohn;
 use Spatie\Mailcoach\Tests\TestClasses\TestSegmentAllSubscribers;
@@ -14,10 +14,10 @@ use Spatie\Mailcoach\Tests\TestClasses\TestSegmentQueryOnlyJohn;
 
 class SegmentTest extends TestCase
 {
-    /** @var \Spatie\Mailcoach\Models\Campaign */
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign */
     private Campaign $campaign;
 
-    /** @var \Spatie\Mailcoach\Models\EmailList */
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList */
     private EmailList $emailList;
 
     public function setUp(): void

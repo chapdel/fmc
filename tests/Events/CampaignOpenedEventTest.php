@@ -4,8 +4,8 @@ namespace Spatie\Mailcoach\Tests\Events;
 
 use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
-use Spatie\Mailcoach\Events\CampaignOpenedEvent;
-use Spatie\Mailcoach\Models\Send;
+use Spatie\Mailcoach\Domain\Campaign\Events\CampaignOpenedEvent;
+use Spatie\Mailcoach\Domain\Campaign\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class CampaignOpenedEventTest extends TestCase

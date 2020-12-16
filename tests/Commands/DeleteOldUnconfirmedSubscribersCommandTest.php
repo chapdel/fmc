@@ -3,11 +3,11 @@
 namespace Spatie\Mailcoach\Tests\Commands;
 
 use Illuminate\Support\Facades\DB;
-use Spatie\Mailcoach\Commands\DeleteOldUnconfirmedSubscribersCommand;
-use Spatie\Mailcoach\Enums\SubscriptionStatus;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Subscriber;
-use Spatie\Mailcoach\Models\Tag;
+use Spatie\Mailcoach\Domain\Campaign\Commands\DeleteOldUnconfirmedSubscribersCommand;
+use Spatie\Mailcoach\Domain\Campaign\Enums\SubscriptionStatus;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Models\Tag;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 

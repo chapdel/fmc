@@ -2,9 +2,9 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\Automations;
 
-use Spatie\Mailcoach\Models\Action;
-use Spatie\Mailcoach\Models\Automation;
-use Spatie\Mailcoach\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Automation\Models\Action;
+use Spatie\Mailcoach\Domain\Automation\Models\Automation;
+use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
 
 class DuplicateAutomationController
 {
@@ -12,7 +12,7 @@ class DuplicateAutomationController
 
     public function __invoke(Automation $automation)
     {
-        /** @var \Spatie\Mailcoach\Models\Automation $duplicateAutomation */
+        /** @var \Spatie\Mailcoach\Domain\Automation\Models\Automation $duplicateAutomation */
         $duplicateAutomation = $this->getAutomationClass()::create([
             'name' => __('Duplicate of') . ' ' . $automation->name,
         ]);

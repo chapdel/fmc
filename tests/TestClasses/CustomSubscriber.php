@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
-use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 
 class CustomSubscriber extends Subscriber
 {

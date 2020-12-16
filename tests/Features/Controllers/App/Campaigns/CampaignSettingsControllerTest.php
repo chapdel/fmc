@@ -4,8 +4,8 @@ namespace Spatie\Mailcoach\Tests\Features\Controllers\App\Campaigns;
 
 use Illuminate\Support\Arr;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignSettingsController;
-use Spatie\Mailcoach\Models\Campaign;
-use Spatie\Mailcoach\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class CampaignSettingsControllerTest extends TestCase

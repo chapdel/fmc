@@ -3,8 +3,8 @@
 namespace Spatie\Mailcoach\Tests\Events;
 
 use Illuminate\Support\Facades\Event;
-use Spatie\Mailcoach\Events\UnsubscribedEvent;
-use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Events\UnsubscribedEvent;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class UnsubscribedEventTest extends TestCase
@@ -14,7 +14,7 @@ class UnsubscribedEventTest extends TestCase
     {
         Event::fake(UnsubscribedEvent::class);
 
-        /** @var \Spatie\Mailcoach\Models\Subscriber $subscription */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber $subscription */
         $subscriber = Subscriber::factory()->create();
 
         $subscriber->unsubscribe();

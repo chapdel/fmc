@@ -2,16 +2,16 @@
 
 namespace Spatie\Mailcoach\Tests\Features\Controllers\App\Campaigns;
 
-use Spatie\Mailcoach\Enums\CampaignStatus;
+use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignDeliveryController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\ScheduleCampaignController;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
 class ScheduleCampaignControllerTest extends TestCase
 {
-    /** @var \Spatie\Mailcoach\Models\Campaign */
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign */
     private $campaign;
 
     public function setUp(): void

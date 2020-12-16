@@ -19,7 +19,7 @@ use Spatie\Feed\FeedServiceProvider;
 use Spatie\Mailcoach\Database\Factories\UserFactory;
 use Spatie\Mailcoach\Http\Front\Controllers\UnsubscribeController;
 use Spatie\Mailcoach\MailcoachServiceProvider;
-use Spatie\Mailcoach\Models\Send;
+use Spatie\Mailcoach\Domain\Campaign\Models\Send;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 use Spatie\QueryBuilder\QueryBuilderServiceProvider;
 use Spatie\TestTime\TestTime;

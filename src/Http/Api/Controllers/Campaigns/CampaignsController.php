@@ -2,13 +2,13 @@
 
 namespace Spatie\Mailcoach\Http\Api\Controllers\Campaigns;
 
-use Spatie\Mailcoach\Actions\Campaigns\UpdateCampaignAction;
+use Spatie\Mailcoach\Domain\Campaign\Actions\UpdateCampaignAction;
 use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Http\Api\Requests\CampaignRequest;
 use Spatie\Mailcoach\Http\Api\Resources\CampaignResource;
 use Spatie\Mailcoach\Http\App\Queries\CampaignsQuery;
-use Spatie\Mailcoach\Models\Campaign;
-use Spatie\Mailcoach\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
 
 class CampaignsController
 {

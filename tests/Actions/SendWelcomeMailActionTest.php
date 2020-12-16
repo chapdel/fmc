@@ -3,9 +3,9 @@
 namespace Spatie\Mailcoach\Tests\Actions;
 
 use Illuminate\Support\Facades\Mail;
-use Spatie\Mailcoach\Actions\Subscribers\SendWelcomeMailAction;
-use Spatie\Mailcoach\Mails\WelcomeMail;
-use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\SendWelcomeMailAction;
+use Spatie\Mailcoach\Domain\Campaign\Mails\WelcomeMail;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class SendWelcomeMailActionTest extends TestCase

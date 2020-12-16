@@ -3,8 +3,8 @@
 namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\EmailLists\Subscribers;
 
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\SubscribersController;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestCase;
 

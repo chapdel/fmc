@@ -5,8 +5,8 @@ namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists;
 use Spatie\Mailcoach\Http\App\Queries\EmailListTagsQuery;
 use Spatie\Mailcoach\Http\App\Requests\EmailLists\CreateTagRequest;
 use Spatie\Mailcoach\Http\App\Requests\EmailLists\UpdateTagRequest;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Tag;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\Tag;
 
 class TagsController
 {

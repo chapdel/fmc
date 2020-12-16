@@ -4,8 +4,8 @@ namespace Spatie\Mailcoach\Http\App\Queries;
 
 use Illuminate\Database\Query\Builder;
 use Spatie\Mailcoach\Http\App\Queries\Filters\FuzzyFilter;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Tag;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\Tag;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 

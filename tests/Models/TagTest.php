@@ -2,19 +2,19 @@
 
 namespace Spatie\Mailcoach\Tests\Models;
 
-use Spatie\Mailcoach\Models\Subscriber;
-use Spatie\Mailcoach\Models\Tag;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Models\Tag;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class TagTest extends TestCase
 {
-    /** @var \Spatie\Mailcoach\Models\Subscriber */
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber */
     private Subscriber $subscriber;
 
-    /** @var \Spatie\Mailcoach\Models\Subscriber */
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber */
     private Subscriber $anotherSubscriber;
 
-    /** @var \Spatie\Mailcoach\Models\Subscriber */
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber */
     private Subscriber $subscriberOfAnotherEmailList;
 
     public function setUp(): void

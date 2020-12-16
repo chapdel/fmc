@@ -3,9 +3,9 @@
 namespace Spatie\Mailcoach\Tests\Mails;
 
 use Illuminate\Support\Facades\Mail;
-use Spatie\Mailcoach\Mails\WelcomeMail;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Mails\WelcomeMail;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomWelcomeMail;
 

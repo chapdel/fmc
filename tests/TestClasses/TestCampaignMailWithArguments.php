@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
-use Spatie\Mailcoach\Mails\CampaignMail;
+use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignMail;
 
 class TestCampaignMailWithArguments extends CampaignMail
 {

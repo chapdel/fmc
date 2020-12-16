@@ -3,10 +3,10 @@
 namespace Tests\Feature\Commands;
 
 use Illuminate\Support\Facades\Bus;
-use Spatie\Mailcoach\Commands\SendScheduledCampaignsCommand;
-use Spatie\Mailcoach\Enums\CampaignStatus;
-use Spatie\Mailcoach\Jobs\SendCampaignJob;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Commands\SendScheduledCampaignsCommand;
+use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 

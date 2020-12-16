@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\Automations;
 
 use Spatie\Mailcoach\Http\App\Queries\AutomationsQuery;
-use Spatie\Mailcoach\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Support\Traits\UsesMailcoachModels;
 
 class AutomationsIndexController
 {

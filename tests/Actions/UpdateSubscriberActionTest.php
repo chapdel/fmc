@@ -2,21 +2,21 @@
 
 namespace Spatie\Mailcoach\Tests\Actions;
 
-use Spatie\Mailcoach\Actions\Subscribers\UpdateSubscriberAction;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\UpdateSubscriberAction;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Support\Config;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class UpdateSubscriberActionTest extends TestCase
 {
-    /** @var \Spatie\Mailcoach\Models\Subscriber */
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber */
     private $subscriber;
 
-    /** @var \Spatie\Mailcoach\Models\EmailList */
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList */
     private $emailList;
 
-    /** @var \Spatie\Mailcoach\Models\EmailList */
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList */
     private $anotherEmailList;
 
     /** @var array */

@@ -3,12 +3,12 @@
 namespace Spatie\Mailcoach\Tests\Support;
 
 use Illuminate\Support\Facades\Date;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class CanBeScheduledTest extends TestCase
 {
-    /** @var \Spatie\Mailcoach\Models\Campaign */
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign */
     protected $campaign;
 
     public function setUp(): void

@@ -8,7 +8,7 @@ class EditableCampaign
 {
     public function handle(Request $request, $next)
     {
-        /** @var \Spatie\Mailcoach\Models\Campaign|null $campaign */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign|null $campaign */
         if (! $campaign = $request->route()->parameter('campaign')) {
             return $next($request);
         }

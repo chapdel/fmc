@@ -3,10 +3,10 @@
 namespace Spatie\Mailcoach\Tests\Models;
 
 use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
-use Spatie\Mailcoach\Enums\SendFeedbackType;
-use Spatie\Mailcoach\Models\Campaign;
-use Spatie\Mailcoach\Models\Send;
-use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\Send;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
@@ -25,10 +25,10 @@ class SendTest extends TestCase
     /** @test */
     public function it_will_unsubscribe_when_there_is_a_permanent_bounce()
     {
-        /** @var \Spatie\Mailcoach\Models\Subscriber $subscriber */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber $subscriber */
         $subscriber = Subscriber::factory()->create();
 
-        /** @var \Spatie\Mailcoach\Models\EmailList $emailList */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList $emailList */
         $emailList = $subscriber->emailList;
 
         $campaign = Campaign::factory()->create([
@@ -55,10 +55,10 @@ class SendTest extends TestCase
     /** @test */
     public function it_can_receive_a_complaint()
     {
-        /** @var \Spatie\Mailcoach\Models\Subscriber $subscriber */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber $subscriber */
         $subscriber = Subscriber::factory()->create();
 
-        /** @var \Spatie\Mailcoach\Models\EmailList $emailList */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList $emailList */
         $emailList = $subscriber->emailList;
 
         $campaign = Campaign::factory()->create([
@@ -87,7 +87,7 @@ class SendTest extends TestCase
     {
         TestTime::freeze();
 
-        /** @var \Spatie\Mailcoach\Models\Send $send */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $send */
         $send = CampaignSendFactory::new()->create();
         $send->campaign->update(['track_opens' => true]);
 
@@ -106,7 +106,7 @@ class SendTest extends TestCase
     /** @test */
     public function it_will_register_an_open_at_a_specific_time()
     {
-        /** @var \Spatie\Mailcoach\Models\Send $send */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $send */
         $send = CampaignSendFactory::new()->create();
         $send->campaign->update(['track_opens' => true]);
 
@@ -120,7 +120,7 @@ class SendTest extends TestCase
     /** @test */
     public function it_will_not_register_a_click_of_an_unsubscribe_link()
     {
-        /** @var \Spatie\Mailcoach\Models\Send $send */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $send */
         $send = CampaignSendFactory::new()->create();
         $send->campaign->update(['track_clicks' => true]);
 
@@ -134,7 +134,7 @@ class SendTest extends TestCase
     /** @test */
     public function it_can_register_a_click_at_a_given_time()
     {
-        /** @var \Spatie\Mailcoach\Models\Send $send */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $send */
         $send = CampaignSendFactory::new()->create();
         $send->campaign->update(['track_clicks' => true]);
 
@@ -148,28 +148,28 @@ class SendTest extends TestCase
     /** @test */
     public function registering_clicks_will_update_the_click_count()
     {
-        /** @var \Spatie\Mailcoach\Models\Subscriber $subscriber */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber $subscriber */
         $subscriber = Subscriber::factory()->create();
 
-        /** @var \Spatie\Mailcoach\Models\EmailList $emailList */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList $emailList */
         $emailList = $subscriber->emailList;
 
-        /** @var \Spatie\Mailcoach\Models\Subscriber $anotherSubscriber */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber $anotherSubscriber */
         $anotherSubscriber = Subscriber::factory()->create(['email_list_id' => $emailList->id]);
 
-        /** @var \Spatie\Mailcoach\Models\Campaign $campaign */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */
         $campaign = Campaign::factory()->create([
             'email_list_id' => $emailList->id,
             'track_clicks' => true,
         ]);
 
-        /** @var \Spatie\Mailcoach\Models\Send $send */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $send */
         $send = CampaignSendFactory::new()->create([
             'campaign_id' => $campaign->id,
             'subscriber_id' => $subscriber->id,
         ]);
 
-        /** @var \Spatie\Mailcoach\Models\Send $anotherSend */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $anotherSend */
         $anotherSend = CampaignSendFactory::new()->create([
             'campaign_id' => $campaign->id,
             'subscriber_id' => $anotherSubscriber->id,
@@ -180,7 +180,7 @@ class SendTest extends TestCase
 
         $campaignClick = $send->registerClick($linkA);
 
-        /** @var \Spatie\Mailcoach\Models\CampaignLink $campaignLinkA */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink $campaignLinkA */
         $campaignLinkA = $campaignClick->link;
 
         $this->assertEquals(1, $campaignLinkA->click_count);
@@ -200,7 +200,7 @@ class SendTest extends TestCase
 
         $campaignClick = $send->registerClick($linkB);
 
-        /** @var \Spatie\Mailcoach\Models\CampaignLink $campaignLinkA */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink $campaignLinkA */
         $campaignLinkB = $campaignClick->link;
 
         $this->assertEquals(1, $campaignLinkB->click_count);

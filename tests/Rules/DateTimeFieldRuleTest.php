@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\Rules;
 
-use Spatie\Mailcoach\Rules\DateTimeFieldRule;
+use Spatie\Mailcoach\Domain\Campaign\Rules\DateTimeFieldRule;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class DateTimeFieldRuleTest extends TestCase
