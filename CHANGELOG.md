@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.9.3 - 2020-12-16
+
+- trim values from import source (#392)
+
 ## 3.9.2 - 2020-12-15
 
 - use laravel-mailcoach for support
