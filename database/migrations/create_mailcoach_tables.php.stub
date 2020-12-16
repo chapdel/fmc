@@ -53,7 +53,10 @@ class CreateMailcoachTables extends Migration
 
         Schema::create('mailcoach_subscribers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('email_list_id');
+            $table
+                ->foreignId('email_list_id')
+                ->constrained('mailcoach_email_lists')
+                ->cascadeOnDelete();
 
             $table->string('email');
             $table->string('first_name')->nullable();
@@ -69,14 +72,14 @@ class CreateMailcoachTables extends Migration
             $table->nullableTimestamps();
 
             $table
-                ->foreign('email_list_id')
-                ->references('id')->on('mailcoach_email_lists')
-                ->onDelete('cascade');
-
-            $table
                 ->unique(['email_list_id', 'email']);
 
-            $table->index(['email_list_id', 'subscribed_at', 'unsubscribed_at'], 'email_list_subscribed_index');
+            $table->index([
+                'email_list_id',
+                'subscribed_at',
+                'unsubscribed_at'
+            ],
+            'email_list_subscribed_index');
         });
 
         Schema::create('mailcoach_segments', function (Blueprint $table) {
@@ -84,13 +87,12 @@ class CreateMailcoachTables extends Migration
             $table->string('name');
             $table->boolean('all_positive_tags_required')->default(false);
             $table->boolean('all_negative_tags_required')->default(false);
-            $table->unsignedBigInteger('email_list_id');
-            $table->timestamps();
-
             $table
-                ->foreign('email_list_id')
-                ->references('id')->on('mailcoach_email_lists')
-                ->onDelete('cascade');
+                ->foreignId('email_list_id')
+                ->constrained('mailcoach_email_lists')
+                ->cascadeOnDelete();
+
+            $table->timestamps();
         });
 
         Schema::create('mailcoach_campaigns', function (Blueprint $table) {
@@ -106,7 +108,12 @@ class CreateMailcoachTables extends Migration
 
             $table->string('subject')->nullable();
 
-            $table->unsignedBigInteger('email_list_id')->nullable();
+            $table
+                ->foreignId('email_list_id')
+                ->nullable()
+                ->constrained('mailcoach_email_lists')
+                ->nullOnDelete();
+
             $table->string('status');
 
             $table->longText('html')->nullable();
@@ -121,9 +128,14 @@ class CreateMailcoachTables extends Migration
             $table->boolean('track_clicks')->default(false);
 
             $table->integer('sent_to_number_of_subscribers')->default(0);
-
             $table->text('segment_class')->nullable();
-            $table->unsignedBigInteger('segment_id')->nullable();
+
+            $table
+                ->foreignId('segment_id')
+                ->nullable()
+                ->constrained('mailcoach_segments')
+                ->nullOnDelete();
+
             $table->string('segment_description')->default(0);
 
             $table->integer('open_count')->default(0);
@@ -144,22 +156,11 @@ class CreateMailcoachTables extends Migration
             $table->string('send_batch_id')->nullable();
             $table->timestamp('all_jobs_added_to_batch_at')->nullable();
 
-
             $table->timestamp('last_modified_at')->nullable();
 
             $table->timestamp('summary_mail_sent_at')->nullable();
 
             $table->timestamps();
-
-            $table
-                ->foreign('email_list_id')
-                ->references('id')->on('mailcoach_email_lists')
-                ->onDelete('set null');
-
-            $table
-                ->foreign('segment_id')
-                ->references('id')->on('mailcoach_segments')
-                ->onDelete('set null');
         });
 
         Schema::create('mailcoach_campaign_links', function (Blueprint $table) {
@@ -393,7 +394,7 @@ class CreateMailcoachTables extends Migration
                 ->onDelete('cascade');
         });
 
-        Schema::create('mailcoach_transactional_mails', function(Blueprint $table) {
+        Schema::create('mailcoach_transactional_mails', function (Blueprint $table) {
             $table->id();
 
             $table->text('subject');
@@ -412,7 +413,7 @@ class CreateMailcoachTables extends Migration
             $table->timestamps();
         });
 
-        Schema::create('mailcoach_transactional_mail_opens', function(Blueprint $table) {
+        Schema::create('mailcoach_transactional_mail_opens', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('send_id')->constrained('mailcoach_sends');
@@ -420,7 +421,7 @@ class CreateMailcoachTables extends Migration
             $table->timestamps();
         });
 
-        Schema::create('mailcoach_transactional_mail_clicks', function(Blueprint $table) {
+        Schema::create('mailcoach_transactional_mail_clicks', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('send_id')->constrained('mailcoach_sends');
