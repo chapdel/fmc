@@ -655,7 +655,9 @@ class Campaign extends Model implements Feedable, HasHtmlContent
     public function htmlLinks(): Collection
     {
         $dom = new DOMDocument('1.0', 'UTF-8');
-        $dom->loadHTML($this->getHtml());
+        $value = preg_replace('/&(?!amp;)/', '&amp;', $this->getHtml());
+
+        $dom->loadHTML($value, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD | LIBXML_NOWARNING);
 
         return collect($dom->getElementsByTagName('a'))
             ->map(function (DOMElement $link) {
