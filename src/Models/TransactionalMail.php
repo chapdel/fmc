@@ -4,6 +4,8 @@ namespace Spatie\Mailcoach\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Mail;
+use Spatie\Mailcoach\Mails\ResendTransactionalMail;
 
 class TransactionalMail extends Model
 {
@@ -27,8 +29,8 @@ class TransactionalMail extends Model
 
     public function resend(): self
     {
+        Mail::queue(new ResendTransactionalMail($this));
 
+        return $this;
     }
-
-
 }
