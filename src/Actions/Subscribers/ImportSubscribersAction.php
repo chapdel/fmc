@@ -21,7 +21,7 @@ class ImportSubscribersAction
 {
     use UsesMailcoachModels;
 
-    public function execute(SubscriberImport $subscriberImport, ?User $user = null)
+    public function execute(SubscriberImport $subscriberImport, ?User $user = null): void
     {
         $dateTime = $subscriberImport->created_at->format('Y-m-d H:i:s');
 

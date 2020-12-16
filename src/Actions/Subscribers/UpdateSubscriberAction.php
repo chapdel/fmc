@@ -6,7 +6,7 @@ use Spatie\Mailcoach\Models\Subscriber;
 
 class UpdateSubscriberAction
 {
-    public function execute(Subscriber $subscriber, array $attributes, array $tags = [])
+    public function execute(Subscriber $subscriber, array $attributes, array $tags = []): void
     {
         $subscriber->fill($attributes);
 

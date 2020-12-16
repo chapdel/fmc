@@ -8,7 +8,7 @@ use Spatie\Mailcoach\Models\Subscriber;
 
 class SendWelcomeMailAction
 {
-    public function execute(Subscriber $subscriber)
+    public function execute(Subscriber $subscriber): void
     {
         if (! $subscriber->emailList->send_welcome_mail) {
             return;

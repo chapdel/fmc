@@ -23,7 +23,7 @@ class SendMailAction
         }
     }
 
-    protected function sendMail(Send $pendingSend)
+    protected function sendMail(Send $pendingSend): void
     {
         if ($pendingSend->wasAlreadySent()) {
             return;

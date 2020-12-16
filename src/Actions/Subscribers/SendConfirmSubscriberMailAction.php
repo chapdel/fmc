@@ -8,7 +8,7 @@ use Spatie\Mailcoach\Models\Subscriber;
 
 class SendConfirmSubscriberMailAction
 {
-    public function execute(Subscriber $subscriber, string $redirectAfterSubscribed = '')
+    public function execute(Subscriber $subscriber, string $redirectAfterSubscribed = ''): void
     {
         if (! $subscriber->isUnconfirmed()) {
             return;

@@ -11,7 +11,7 @@ use Swift_Message;
 
 class SendTestMailAction
 {
-    public function execute(Campaign $campaign, string $email)
+    public function execute(Campaign $campaign, string $email): void
     {
         $html = $campaign->htmlWithInlinedCss();
 

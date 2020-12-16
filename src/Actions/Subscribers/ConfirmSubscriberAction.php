@@ -19,7 +19,7 @@ class ConfirmSubscriberAction
         return $this;
     }
 
-    public function execute(Subscriber $subscriber)
+    public function execute(Subscriber $subscriber): void
     {
         $subscriber->update([
             'subscribed_at' => now(),

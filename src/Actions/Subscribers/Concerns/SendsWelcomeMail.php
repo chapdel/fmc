@@ -9,7 +9,7 @@ use Spatie\Mailcoach\Support\Config;
 
 trait SendsWelcomeMail
 {
-    protected function sendWelcomeMail(Subscriber $subscriber)
+    protected function sendWelcomeMail(Subscriber $subscriber): void
     {
         $sendWelcomeMailAction = Config::getActionClass('send_welcome_mail', SendWelcomeMailAction::class);
 
