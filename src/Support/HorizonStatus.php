@@ -10,12 +10,9 @@ class HorizonStatus
     public const STATUS_INACTIVE = 'inactive';
     public const STATUS_PAUSED = 'paused';
 
-    private MasterSupervisorRepository $masterSupervisorRepository;
-
-    public function __construct(MasterSupervisorRepository $masterSupervisorRepository)
-    {
-        $this->masterSupervisorRepository = $masterSupervisorRepository;
-    }
+    public function __construct(
+        private MasterSupervisorRepository $masterSupervisorRepository
+    ) {}
 
     public function is(string $status): bool
     {

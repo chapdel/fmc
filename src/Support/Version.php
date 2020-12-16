@@ -11,7 +11,7 @@ use PackageVersions\Versions;
 
 class Version
 {
-    public static $versionEndpoint = 'https://mailcoach.app/api/latest-version';
+    public static string $versionEndpoint = 'https://mailcoach.app/api/latest-version';
 
     public function isLatest(string $packageName = 'laravel-mailcoach'): bool
     {

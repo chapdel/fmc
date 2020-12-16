@@ -147,12 +147,7 @@ class Subscriber extends Model
             ->whereNotNull('unsubscribed_at');
     }
 
-    /**
-     * @param string|array $name
-     *
-     * @return self
-     */
-    public function addTag($name)
+    public function addTag(string|iterable $name): self
     {
         $names = Arr::wrap($name);
 
@@ -185,12 +180,7 @@ class Subscriber extends Model
             ->exists();
     }
 
-    /**
-     * @param string|array $name
-     *
-     * @return self
-     */
-    public function removeTag($name)
+    public function removeTag(string|array $name): self
     {
         $names = Arr::wrap($name);
 

@@ -11,17 +11,14 @@ class TransactionalMailMessageConfig
     public const HEADER_NAME_STORE = 'mailcoach-transactional-mail-config-store';
     public const HEADER_NAME_MAILABLE_CLASS = 'mailcoach-transactional-mail-config-mailable-class';
 
-    protected Swift_Message $message;
-
     public static function createForMessage(Swift_Message $message): self
     {
         return new self($message);
     }
 
-    protected function __construct(Swift_Message $message)
-    {
-        $this->message = $message;
-    }
+    protected function __construct(
+        protected Swift_Message $message
+    ) {}
 
     public function trackOpens(): bool
     {

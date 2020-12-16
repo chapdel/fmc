@@ -431,10 +431,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         return $this->sends()->whereNotNull('sent_at')->where('subscriber_id', $subscriber->id)->exists();
     }
 
-    /**
-     * @param string|array $emails
-     */
-    public function sendTestMail($emails)
+    public function sendTestMail(string|array $emails): void
     {
         if ($this->hasCustomMailable()) {
             $this->pullSubjectFromMailable();

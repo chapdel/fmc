@@ -15,8 +15,7 @@ class CampaignSummaryViewModel extends ViewModel
 
     protected int $limit;
 
-    /** @var int */
-    public $failedSendsCount;
+    public int $failedSendsCount = 0;
 
     public function __construct(Campaign $campaign)
     {

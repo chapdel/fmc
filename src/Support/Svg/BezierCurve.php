@@ -4,13 +4,9 @@ namespace Spatie\Mailcoach\Support\Svg;
 
 class BezierCurve
 {
-    /** @var array */
-    protected $points;
-
-    public function __construct(array $points)
-    {
-        $this->points = $points;
-    }
+    public function __construct(
+        protected array $points
+    ) {}
 
     public function toPath(): string
     {

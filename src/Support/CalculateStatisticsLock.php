@@ -20,7 +20,7 @@ class CalculateStatisticsLock
 
     public function get(): bool
     {
-        $cachedValue = Cache::get($this->key, null);
+        $cachedValue = Cache::get($this->key);
 
         if (is_null($cachedValue)) {
             $this->setLock();
@@ -42,7 +42,7 @@ class CalculateStatisticsLock
         Cache::set($this->key, 0);
     }
 
-    protected function setLock()
+    protected function setLock(): void
     {
         Cache::set($this->key, now()->addSeconds($this->lockTimeInSeconds)->timestamp);
     }

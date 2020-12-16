@@ -8,11 +8,8 @@ use Spatie\Mailcoach\Models\EmailList;
 
 class EmailListSubscriptionRule implements Rule
 {
-    /** @var \Spatie\Mailcoach\Models\EmailList */
-    protected EmailList
-        $emailList;
+    protected EmailList $emailList;
 
-    /** @var string */
     protected string $attribute;
 
     public function __construct(EmailList $emailList)
