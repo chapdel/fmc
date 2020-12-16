@@ -67,7 +67,9 @@ class CalculateStatisticsCommand extends Command
         $periodStart = $this->now->copy()->subtract($endInterval);
 
         return $this->getCampaignClass()::where(function (Builder $query) use ($periodEnd, $periodStart) {
-            $query->sentBetween($periodStart, $periodEnd)->orWhere('status', CampaignStatus::AUTOMATED);
+            $query
+                ->sentBetween($periodStart, $periodEnd)
+                ->orWhere('status', CampaignStatus::AUTOMATED);
         })
             ->get()
             ->filter(function (Campaign $campaign) use ($recalculateThreshold) {

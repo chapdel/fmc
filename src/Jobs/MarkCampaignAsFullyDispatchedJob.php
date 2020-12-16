@@ -14,12 +14,9 @@ class MarkCampaignAsFullyDispatchedJob implements ShouldQueue
 {
     use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public Campaign $campaign;
-
-    public function __construct(Campaign $campaign)
-    {
-        $this->campaign = $campaign;
-    }
+    public function __construct(
+        public Campaign $campaign
+    ) {}
 
     public function handle()
     {

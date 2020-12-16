@@ -7,7 +7,7 @@ use Spatie\Mailcoach\Models\Subscriber;
 
 class SendCampaignToSubscriberAction extends SendCampaignAction
 {
-    public function execute(Campaign $campaign, Subscriber $subscriber = null)
+    public function execute(Campaign $campaign, Subscriber $subscriber = null): void
     {
         if ($campaign->wasAlreadySentToSubscriber($subscriber)) {
             return;
