@@ -80,8 +80,9 @@ class Action extends Model
 
                 $this->subscribers()->updateExistingPivot($subscriber, ['run_at' => now()], false);
 
-                if ($this->next()) {
-                    $this->next()->subscribers()->attach($subscriber);
+                if ($nextAction = $action->nextAction($subscriber)) {
+                    $nextAction->subscribers()->attach($subscriber);
+
                     $this->subscribers()->detach($subscriber);
                 }
             });

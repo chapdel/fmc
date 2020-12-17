@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Tests\Domain\Automation\Triggers;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Queue;
-use Spatie\Mailcoach\Domain\Campaign\Commands\RunAutomationTriggersCommand;
+use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationTriggersCommand;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\CampaignAction;

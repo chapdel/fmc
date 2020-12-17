@@ -19,6 +19,8 @@ class CampaignAction extends AutomationAction
 
     public function __construct(Campaign $campaign)
     {
+        parent::__construct();
+
         $this->campaign = $campaign;
     }
 

@@ -7,9 +7,10 @@ use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Queue;
+use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
-use Spatie\Mailcoach\Domain\Campaign\Commands\RunAutomationActionsCommand;
+use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationActionsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
@@ -153,7 +154,6 @@ class AutomationTest extends TestCase
     /** @test * */
     public function it_can_sync_actions_successfully()
     {
-        $this->markTestSkipped('TODO: Saving has changed');
         $automation = Automation::create()
             ->name('Welcome email')
             ->to($this->campaign->emailList)
@@ -162,36 +162,44 @@ class AutomationTest extends TestCase
 
         $this->assertEquals([], $automation->actions->toArray());
 
+        $waitAction = new WaitAction(CarbonInterval::day());
+        $waitAction->uuid = Str::uuid()->toString();
+
         $automation->chain([
-            new WaitAction(CarbonInterval::days(1)),
+            $waitAction,
         ]);
 
         $this->assertEquals([
-            serialize(new WaitAction(CarbonInterval::days(1))),
+            serialize($waitAction),
         ], $automation->actions()->pluck('action')->map(fn ($action) => serialize($action))->toArray());
+
         $firstId = $automation->actions()->first()->id;
 
+        $campaignAction = new CampaignAction($this->campaign);
+        $campaignAction->uuid = Str::uuid()->toString();
+
         $automation->chain([
-            new WaitAction(CarbonInterval::days(1)),
-            new CampaignAction($this->campaign),
+            $waitAction,
+            $campaignAction,
         ]);
 
         $this->assertEquals([
-            serialize(new WaitAction(CarbonInterval::days(1))),
-            serialize(new CampaignAction($this->campaign)),
+            serialize($waitAction),
+            serialize($campaignAction),
         ], $automation->actions()->pluck('action')->map(fn ($action) => serialize($action))->toArray());
         $this->assertEquals($firstId, $automation->actions()->first()->id); // ID hasn't changed, so it didn't delete the action
 
+        $wait2days = new WaitAction(CarbonInterval::days(2));
         $automation->chain([
-            new WaitAction(CarbonInterval::days(1)),
-            new CampaignAction($this->campaign),
-            new WaitAction(CarbonInterval::days(2)),
+            $waitAction,
+            $campaignAction,
+            $wait2days,
         ]);
 
         $this->assertEquals([
-            serialize(new WaitAction(CarbonInterval::days(1))),
-            serialize(new CampaignAction($this->campaign)),
-            serialize(new WaitAction(CarbonInterval::days(2))),
+            serialize($waitAction),
+            serialize($campaignAction),
+            serialize($wait2days),
         ], $automation->actions()->pluck('action')->map(fn ($action) => serialize($action))->toArray());
         $this->assertEquals($firstId, $automation->actions()->first()->id); // ID hasn't changed, so it didn't delete the action
     }

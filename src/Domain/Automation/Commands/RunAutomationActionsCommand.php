@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Campaign\Commands;
+namespace Spatie\Mailcoach\Domain\Automation\Commands;
 
 use Illuminate\Console\Command;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;

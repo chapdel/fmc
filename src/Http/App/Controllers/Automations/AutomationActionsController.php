@@ -32,21 +32,9 @@ class AutomationActionsController
         Automation $automation,
         Request $request,
     ) {
-        $newActions = collect(json_decode($request->get('actions'), associative: true));
+        $newActions = json_decode($request->get('actions'), associative: true);
 
-        $automation->actions()->each(function ($existingAction) use ($newActions) {
-            if (! $newActions->pluck('uuid')->contains($existingAction->uuid)) {
-                $existingAction->delete();
-            }
-        });
-
-        $newActions->each(function ($action, $index) use ($automation) {
-            $actionClass = $action['class'];
-            $uuid = $action['uuid'];
-            /** @var \Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationAction $action */
-            $action = $actionClass::make($action['data']);
-            $action->store($uuid, $automation, $index);
-        });
+        $automation->chain($newActions);
 
         flash()->success(__('Actions successfully saved to automation :automation.', [
             'automation' => $automation->name,

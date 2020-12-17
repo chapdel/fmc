@@ -18,7 +18,10 @@ class EnsureTagsExistAction extends AutomationAction
         private CarbonInterval $checkFor,
         private array $tags,
         private array $defaultActions = [],
-    ) {}
+        ?string $uuid = null,
+    ) {
+        parent::__construct($uuid);
+    }
 
     public static function getName(): string
     {
@@ -148,15 +151,33 @@ class EnsureTagsExistAction extends AutomationAction
         ];
     }
 
-    public function shouldHalt(Subscriber $subscriber): bool
-    {
-        return false; // TODO
-        return $this->haltIfDoesntExist && ! $subscriber->hasTag($this->tag);
-    }
-
     public function shouldContinue(Subscriber $subscriber): bool
     {
-        return true; // TODO
-        return $subscriber->hasTag($this->tag);
+        foreach ($this->tags as $tag) {
+            if ($subscriber->hasTag($tag['tag'])) {
+                return true;
+            }
+        }
+
+        /** @var \Illuminate\Support\Carbon $addedToActionAt */
+        $addedToActionAt = $subscriber->pivot->created_at;
+        return $addedToActionAt->add($this->checkFor)->isPast();
+    }
+
+    public function nextAction(Subscriber $subscriber): ?Action
+    {
+        $parentAction = Action::findByUuid($this->uuid);
+
+        foreach ($this->tags as $tag) {
+            if ($subscriber->hasTag($tag['tag']) && isset($tag['actions'][0])) {
+                return $parentAction->children->where('key', $tag['tag'])->first();
+            }
+        }
+
+        if (isset($this->defaultActions[0])) {
+            return $parentAction->children->where('key', 'default')->first();
+        }
+
+        return parent::nextAction($subscriber);
     }
 }

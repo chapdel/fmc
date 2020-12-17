@@ -99,25 +99,24 @@ class Automation extends Model
 
     public function chain(array $chain): self
     {
-        $newChain = array_filter($chain, function ($action) {
-            return $action instanceof AutomationAction;
+        $newActions = collect($chain);
+
+        $this->actions()->each(function ($existingAction) use ($newActions) {
+            if (! $newActions->pluck('uuid')->contains($existingAction->uuid)) {
+                $existingAction->delete();
+            }
         });
 
-        foreach ($newChain as $index => $newAction) {
-            $oldAction = $this->actions()->where('uuid', $newAction->uuid)->first();
-
-            if ($oldAction) {
-                $oldAction->update(['order' => $index]);
-            } else {
-                $this->addAction($newAction, $index);
+        $newActions->each(function ($action, $index) {
+            if (! $action instanceof AutomationAction) {
+                $uuid = $action['uuid'];
+                $actionClass = $action['class'];
+                /** @var \Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationAction $action */
+                $action = $actionClass::make($action['data']);
             }
-        }
 
-        foreach ($this->actions()->whereNull('parent_id')->get() as $oldAction) {
-            if (! in_array(serialize($oldAction->action), array_map('serialize', $newChain))) {
-                $oldAction->delete();
-            }
-        }
+            $action->store($uuid ?? $action->uuid ?? Str::uuid()->toString(), $this, $index);
+        });
 
         return $this->fresh('actions');
     }

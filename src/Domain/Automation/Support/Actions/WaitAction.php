@@ -12,6 +12,8 @@ class WaitAction extends AutomationAction
 
     public function __construct(CarbonInterval $interval)
     {
+        parent::__construct();
+
         $this->interval = $interval;
     }
 

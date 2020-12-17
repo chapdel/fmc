@@ -35,4 +35,15 @@ abstract class AutomationAction extends AutomationStep
             'action' => $this,
         ]);
     }
+
+    public function nextAction(Subscriber $subscriber): ?Action
+    {
+        $action = Action::findByUuid($this->uuid);
+
+        if (! $action->parent_id) {
+            return $action->automation->actions->where('order', '>', $action->order)->first();
+        }
+
+        return $action->parent->children->where('order', '>', $action->order)->first();
+    }
 }

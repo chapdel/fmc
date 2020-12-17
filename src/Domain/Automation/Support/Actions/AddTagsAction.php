@@ -13,6 +13,8 @@ class AddTagsAction extends AutomationAction
 
     public function __construct(array $tags)
     {
+        parent::__construct();
+
         $this->tags = $tags;
     }
 
