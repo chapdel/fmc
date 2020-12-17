@@ -570,4 +570,34 @@ class CampaignTest extends TestCase
         $this->assertEquals(count($expectedModels), $actualModels->count());
         $this->assertEquals(collect($expectedModels)->pluck('id')->toArray(), $actualModels->pluck('id')->toArray());
     }
+
+    /** @test */
+    public function it_gets_links()
+    {
+        $myHtml = '<html><a href="https://google.com">Test</a></html>';
+
+        $campaign = Campaign::factory()->create([
+            'track_clicks' => true,
+            'html' => $myHtml,
+        ]);
+
+        $links = $campaign->htmlLinks();
+        $this->assertEquals(1, $links->count());
+        $this->assertEquals('https://google.com', $links->first());
+    }
+
+    /** @test */
+    public function it_gets_links_with_ampersands()
+    {
+        $myHtml = '<html><a href="https://google.com?foo=true&bar=false">Test</a></html>';
+
+        $campaign = Campaign::factory()->create([
+            'track_clicks' => true,
+            'html' => $myHtml,
+        ]);
+
+        $links = $campaign->htmlLinks();
+        $this->assertEquals(1, $links->count());
+        $this->assertEquals('https://google.com?foo=true&bar=false', $links->first());
+    }
 }

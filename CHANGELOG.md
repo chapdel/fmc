@@ -10,6 +10,18 @@ notes for upgrading:
 - rename campaign opens to opens
 - rename campaign clicks to clicks
 
+## 3.9.5 - 2020-12-17
+
+- Refactor import subscribers action (#395)
+
+## 3.9.4 - 2020-12-16
+
+- Fix an issue with HTML loading in the delivery tab (#384)
+
+## 3.9.3 - 2020-12-16
+
+- trim values from import source (#392)
+
 ## 3.9.2 - 2020-12-15
 
 - use laravel-mailcoach for support
