@@ -326,66 +326,58 @@ class CreateMailcoachTables extends Migration
 
         Schema::create('mailcoach_email_list_subscriber_tags', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('subscriber_id');
-            $table->unsignedBigInteger('tag_id');
 
             $table
-                ->foreign('subscriber_id')
-                ->references('id')->on('mailcoach_subscribers')
-                ->onDelete('cascade');
+                ->foreignId('subscriber_id')
+                ->constrained('mailcoach_subscribers')
+                ->nullOnDelete();
 
             $table
-                ->foreign('tag_id')
-                ->references('id')->on('mailcoach_tags')
-                ->onDelete('cascade');
+                ->foreignId('tag_id')
+                ->constrained('mailcoach_tags')
+                ->nullOnDelete();
         });
 
         Schema::create('mailcoach_email_list_allow_form_subscription_tags', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('email_list_id');
-            $table->unsignedBigInteger('tag_id');
 
             $table
-                ->foreign('email_list_id', 'email_list_tags_email_list_id_index')
-                ->references('id')->on('mailcoach_email_lists')
-                ->onDelete('cascade');
+                ->foreignId('email_list_id')
+                ->constrained('mailcoach_email_lists')
+                ->nullOnDelete();
 
             $table
-                ->foreign('tag_id', 'email_list_tags_tag_id_index')
-                ->references('id')->on('mailcoach_tags')
-                ->onDelete('cascade');
+                ->foreignId('tag_id')
+                ->constrained('mailcoach_tags')
+                ->nullOnDelete();
         });
 
         Schema::create('mailcoach_positive_segment_tags', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('segment_id');
-            $table->unsignedBigInteger('tag_id');
 
             $table
-                ->foreign('segment_id')
-                ->references('id')->on('mailcoach_segments')
-                ->onDelete('cascade');
+                ->foreignId('segment_id')
+                ->constrained('mailcoach_segments')
+                ->nullOnDelete();
 
             $table
-                ->foreign('tag_id')
-                ->references('id')->on('mailcoach_tags')
-                ->onDelete('cascade');
+                ->foreignId('tag_id')
+                ->constrained('mailcoach_tags')
+                ->nullOnDelete();
         });
 
         Schema::create('mailcoach_negative_segment_tags', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('segment_id');
-            $table->unsignedBigInteger('tag_id');
 
             $table
-                ->foreign('segment_id')
-                ->references('id')->on('mailcoach_segments')
-                ->onDelete('cascade');
+                ->foreignId('segment_id')
+                ->constrained('mailcoach_segments')
+                ->nullOnDelete();
 
             $table
-                ->foreign('tag_id')
-                ->references('id')->on('mailcoach_tags')
-                ->onDelete('cascade');
+                ->foreignId('tag_id')
+                ->constrained('mailcoach_tags')
+                ->nullOnDelete();
         });
 
         Schema::create('mailcoach_transactional_mails', function (Blueprint $table) {
