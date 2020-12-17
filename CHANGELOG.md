@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.9.5 - 2020-12-17
+
+- Refactor import subscribers action (#395)
+
 ## 3.9.4 - 2020-12-16
 
 - Fix an issue with HTML loading in the delivery tab (#384)
