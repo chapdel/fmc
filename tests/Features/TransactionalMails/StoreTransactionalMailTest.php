@@ -9,11 +9,14 @@ use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailOpenedEven
 use Spatie\Mailcoach\Domain\Campaign\Models\Send;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailOpen;
+use Spatie\Mailcoach\Tests\Features\TransactionalMails\Concerns\SendsTestTransactionalMail;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestTransactionMail;
 
 class StoreTransactionalMailTest extends TestCase
 {
+    use SendsTestTransactionalMail;
+
     /** @test */
     public function a_transactional_mail_will_be_stored_in_the_db()
     {
@@ -141,14 +144,5 @@ class StoreTransactionalMailTest extends TestCase
         $this->assertCount(1, $send->transactionalMailClicks);
 
         Event::assertDispatched(TransactionalMailLinkClickedEvent::class);
-    }
-
-    protected function sendTestMail(callable $buildUsing = null): void
-    {
-        TestTransactionMail::$buildUsing = $buildUsing ?? function(TestTransactionMail $mail) {
-            $mail->trackOpensAndClicks();
-        };
-
-        Mail::to('john@example.com')->send(new TestTransactionMail());
     }
 }

@@ -23,8 +23,6 @@ TestTransactionMail extends Mailable
             (self::$buildUsing)($this);
         }
 
-        ray($this->trackOpens, $this->trackClicks);
-
         return $this;
     }
 }

@@ -30,7 +30,7 @@ class TransactionalMail extends Model
 
     public function resend(): self
     {
-        Mail::queue(new ResendTransactionalMail($this));
+        Mail::send(new ResendTransactionalMail($this));
 
         return $this;
     }

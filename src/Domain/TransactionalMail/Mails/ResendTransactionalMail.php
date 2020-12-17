@@ -14,10 +14,7 @@ class ResendTransactionalMail extends Mailable
 
     public function __construct(
         public TransactionalMail $originalMail
-    ) {}
-
-    public function build()
-    {
+    ) {
         $this
             ->from($this->convertPersonsToMailableFormat($this->originalMail->from))
             ->to($this->convertPersonsToMailableFormat($this->originalMail->to))
@@ -33,17 +30,24 @@ class ResendTransactionalMail extends Mailable
         if ($this->originalMail->track_clicks) {
             $this->trackClicks();
         }
+    }
+
+    public function build()
+    {
+        $this->view('mailcoach::mails.transactionalMailResend');
 
         $this->setMailableClassHeader($this->originalMail->mailable_class);
     }
 
     protected function convertPersonsToMailableFormat(array $persons): array
     {
+        return $persons;
+
         return collect($persons)
             ->mapWithKeys(function (array $person) {
+                ray($person);
                 return [$person['email'] => $person['name'] ?? null];
             })
             ->toArray();
-
     }
 }

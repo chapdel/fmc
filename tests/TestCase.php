@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\View;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\Feed\FeedServiceProvider;
+use Spatie\LaravelRay\RayServiceProvider;
 use Spatie\Mailcoach\Database\Factories\UserFactory;
 use Spatie\Mailcoach\Http\Front\Controllers\UnsubscribeController;
 use Spatie\Mailcoach\MailcoachServiceProvider;
@@ -57,6 +58,7 @@ abstract class TestCase extends Orchestra
             FeedServiceProvider::class,
             MediaLibraryServiceProvider::class,
             QueryBuilderServiceProvider::class,
+            RayServiceProvider::class,
         ];
     }
 
