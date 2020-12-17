@@ -85,6 +85,19 @@ class ImportSubscribersControllerTest extends TestCase
     }
 
     /** @test */
+    public function it_will_trim_the_subscriber_row_values()
+    {
+        $this->uploadStub('with-whitespace.csv');
+
+        $subscriber = Subscriber::findForEmail('john@example.com', $this->emailList);
+
+        $this->assertNotEmpty($subscriber);
+        $this->assertEquals('John', $subscriber->first_name);
+        $this->assertEquals('Doe', $subscriber->last_name);
+        $this->assertEquals('Developer', $subscriber->extra_attributes->job_title);
+    }
+
+    /** @test */
     public function it_will_not_import_a_subscriber_that_is_already_on_the_list()
     {
         Subscriber::createWithEmail('john@example.com')

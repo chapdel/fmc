@@ -1,0 +1,2 @@
+email,first_name,last_name,extra_attributes.job_title,tags
+john@example.com ,John, Doe ,Developer ,tag1;tag2
