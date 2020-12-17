@@ -226,7 +226,7 @@ class ImportSubscribersAction
             ->addRow(['Error', 'Values']);
     }
 
-    private function getErrorCount(): int
+    protected function getErrorCount(): int
     {
         return $this->errorReport->getNumberOfRows() - 1;
     }
