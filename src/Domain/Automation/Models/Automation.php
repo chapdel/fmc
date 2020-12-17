@@ -121,13 +121,6 @@ class Automation extends Model
         return $this->fresh('actions');
     }
 
-    public function addAction(AutomationAction $action, ?int $order = null)
-    {
-        $action->store(Str::uuid()->toString(), $this, $order);
-
-        return $this;
-    }
-
     public function start(): self
     {
         if (! $this->emailList()->count() > 0) {
