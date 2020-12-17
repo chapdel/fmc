@@ -1,11 +1,11 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Features\TransactionalMails;
+namespace Spatie\Mailcoach\Tests\Domain\TransactionalMail;
 
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\ResendTransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
-use Spatie\Mailcoach\Tests\Features\TransactionalMails\Concerns\SendsTestTransactionalMail;
+use Spatie\Mailcoach\Tests\Domain\TransactionalMail\Concerns\SendsTestTransactionalMail;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestTransactionMail;
 

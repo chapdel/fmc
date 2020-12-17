@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Features\TransactionalMails\Concerns;
+namespace Spatie\Mailcoach\Tests\Domain\TransactionalMail\Concerns;
 
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Tests\TestClasses\TestTransactionMail;
