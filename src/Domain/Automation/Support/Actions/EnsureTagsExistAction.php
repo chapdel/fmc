@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
 
 use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Str;
 use Livewire\CreateBladeView;
 use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
@@ -113,14 +114,13 @@ class EnsureTagsExistAction extends AutomationAction
 
     private function storeChildAction($action, Automation $automation, Action $parent, string $key, int $order): Action
     {
-        $uuid = $action['uuid'];
-
         if (! $action instanceof AutomationAction) {
+            $uuid = $action['uuid'];
             $action = $action['class']::make($action['data']);
         }
 
         return Action::updateOrCreate([
-            'uuid' => $uuid,
+            'uuid' => $uuid ?? Str::uuid()->toString(),
         ], [
             'automation_id' => $automation->id,
             'parent_id' => $parent->id,

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
 use Spatie\Mailcoach\Domain\Automation\Exceptions\CouldNotStartAutomation;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
@@ -123,7 +124,7 @@ class Automation extends Model
 
     public function addAction(AutomationAction $action, ?int $order = null)
     {
-        $action->store($this, $order);
+        $action->store(Str::uuid()->toString(), $this, $order);
 
         return $this;
     }
