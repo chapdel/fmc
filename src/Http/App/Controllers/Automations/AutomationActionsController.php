@@ -16,6 +16,7 @@ class AutomationActionsController
     {
         $actions = $automation->actions
             ->map(fn(Action $action) => [
+                'uuid' => $action->uuid,
                 'class' => get_class($action->action),
                 'data' => $action->action->toArray(),
             ])
@@ -30,33 +31,24 @@ class AutomationActionsController
     public function store(
         Automation $automation,
         Request $request,
-        AddActionToAutomationAction $addActionToAutomationAction
     ) {
-        // TODO: Need a sync, no clean slate
-        $automation->actions()->delete();
+        $newActions = collect(json_decode($request->get('actions'), associative: true));
 
-        $actions = json_decode($request->get('actions'), associative: true);
+        $automation->actions()->each(function ($existingAction) use ($newActions) {
+            if (! $newActions->pluck('uuid')->contains($existingAction->uuid)) {
+                $existingAction->delete();
+            }
+        });
 
-        foreach ($actions as $index => $action) {
+        $newActions->each(function ($action, $index) use ($automation) {
             $actionClass = $action['class'];
+            $uuid = $action['uuid'];
             /** @var \Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationAction $action */
             $action = $actionClass::make($action['data']);
-            $action->store($automation, $index);
-        }
+            $action->store($uuid, $automation, $index);
+        });
 
         flash()->success(__('Actions successfully saved to automation :automation.', [
-            'automation' => $automation->name,
-        ]));
-
-        return redirect()->route('mailcoach.automations.actions', $automation);
-    }
-
-    public function destroy(Automation $automation, Action $action)
-    {
-        $automation->actions->find($action)->delete();
-
-        flash()->success(__('Action :action successfully deleted from automation :automation.', [
-            'action' => $action->action->getName(),
             'automation' => $automation->name,
         ]));
 

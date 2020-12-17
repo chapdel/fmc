@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire;
 
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
@@ -37,19 +38,20 @@ class AutomationBuilder extends AutomationComponent
                 return [$action => $action::getName()];
             });
 
-        return view('mailcoach::app.automations.components.actionBuilder', [
+        return view('mailcoach::app.automations.components.automationBuilder', [
             'actionOptions' => $actionOptions,
             'actions' => $this->actions,
         ]);
     }
 
-    public function addAction(string $actionClass): void
+    public function addAction(string $actionClass, int $index): void
     {
-        $this->actions[] = [
+        array_splice($this->actions, $index, 0, [[
+            'uuid' => Str::uuid()->toString(),
             'editing' => $actionClass::getComponent() ? true : false,
             'class' => $actionClass,
             'data' => [],
-        ];
+        ]]);
 
         $this->emitUp('automationBuilderUpdated', $this->getData());
     }

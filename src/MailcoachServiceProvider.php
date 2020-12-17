@@ -293,7 +293,7 @@ class MailcoachServiceProvider extends ServiceProvider
 
     protected function bootLivewireComponents(): self
     {
-        Livewire::component('action-builder', AutomationBuilder::class);
+        Livewire::component('automation-builder', AutomationBuilder::class);
 
         Livewire::component('campaign-action', CampaignActionComponent::class);
         Livewire::component('add-tags-action', AddTagsActionComponent::class);

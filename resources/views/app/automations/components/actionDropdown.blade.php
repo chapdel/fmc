@@ -6,7 +6,7 @@
         <ul class="dropdown-list w-56 dropdown-list-left | hidden" data-dropdown-list>
             @foreach ($actionOptions as $actionClass => $actionName)
                 <li>
-                    <a href="#" wire:click.prevent="addAction('{{ addslashes($actionClass) }}')">
+                    <a href="#" wire:click.prevent="addAction('{{ addslashes($actionClass) }}', {{ $index }})">
                         <span class="icon-label">
                             {{ $actionName }}
                         </span>
