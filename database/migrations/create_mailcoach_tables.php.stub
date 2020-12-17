@@ -180,6 +180,7 @@ class CreateMailcoachTables extends Migration
             $table->id();
             $table->uuid('uuid');
             $table->string('transport_message_id')->nullable();
+
             $table
                 ->foreignId('campaign_id')
                 ->nullable()
@@ -234,43 +235,41 @@ class CreateMailcoachTables extends Migration
 
         Schema::create('mailcoach_campaign_opens', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('send_id');
 
-            $table->unsignedBigInteger('campaign_id');
-            $table->unsignedBigInteger('subscriber_id')->nullable();
+            $table
+                ->foreignId('send_id')
+                ->constrained('mailcoach_sends')
+                ->cascadeOnDelete();
+
+            $table
+                ->foreignId('campaign_id')
+                ->nullable()
+                ->constrained('mailcoach_campaigns')
+                ->cascadeOnDelete();
+
+            $table
+                ->foreignId('subscriber_id')
+                ->nullable()
+                ->constrained('mailcoach_subscribers')
+                ->cascadeOnDelete();
+
             $table->nullableTimestamps();
-
-            $table
-                ->foreign('send_id')
-                ->references('id')->on('mailcoach_sends')
-                ->onDelete('cascade');
-
-            $table
-                ->foreign('campaign_id')
-                ->references('id')->on('mailcoach_campaigns')
-                ->onDelete('cascade');
-
-            $table
-                ->foreign('subscriber_id')
-                ->references('id')->on('mailcoach_subscribers')
-                ->onDelete('set null');
         });
 
         Schema::create('mailcoach_campaign_unsubscribes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('campaign_id');
-            $table->unsignedBigInteger('subscriber_id');
+
+            $table
+                ->foreignId('campaign_id')
+                ->constrained('mailcoach_campaigns')
+                ->cascadeOnDelete();
+
+            $table
+                ->foreignId('subscriber_id')
+                ->constrained('mailcoach_subscribers')
+                ->cascadeOnDelete();
+
             $table->timestamps();
-
-            $table
-                ->foreign('campaign_id')
-                ->references('id')->on('mailcoach_campaigns')
-                ->onDelete('cascade');
-
-            $table
-                ->foreign('subscriber_id')
-                ->references('id')->on('mailcoach_subscribers')
-                ->onDelete('cascade');
         });
 
         Schema::create('mailcoach_send_feedback_items', function (Blueprint $table) {
