@@ -3,10 +3,10 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Models\Concerns;
 
-use Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationAction;
-
 abstract class AutomationStep
 {
+    public ?string $uuid = null;
+
     abstract public static function make(array $data): self;
 
     public function toArray(): array

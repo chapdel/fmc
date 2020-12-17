@@ -157,7 +157,6 @@ Route::prefix('automations')->group(function () {
         Route::prefix('actions')->group(function () {
             Route::get('/', ['\\' . AutomationActionsController::class, 'index'])->name('mailcoach.automations.actions');
             Route::post('/', ['\\' . AutomationActionsController::class, 'store'])->name('mailcoach.automations.actions.store');
-            Route::delete('{action}', ['\\' . AutomationActionsController::class, 'destroy'])->name('mailcoach.automations.actions.delete');
         });
     });
 });

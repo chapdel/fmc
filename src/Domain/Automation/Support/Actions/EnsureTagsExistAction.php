@@ -72,41 +72,62 @@ class EnsureTagsExistAction extends AutomationAction
         return 'ensure-tags-exist-action';
     }
 
-    public function store(Automation $automation, ?int $order = null): Action
+    public function store(string $uuid, Automation $automation, ?int $order = null): Action
     {
-        $actionModel = parent::store($automation, $order);
+        $parent = parent::store($uuid, $automation, $order);
+
+        $newChildrenUuids = collect($this->tags)->flatMap(function ($tag) {
+            return $tag['actions'];
+        })->pluck('uuid')->merge(collect($this->defaultActions)->pluck('uuid'));
+
+        $parent->children()->each(function (Action $existingChild) use ($newChildrenUuids) {
+            if (! $newChildrenUuids->contains($existingChild->uuid)) {
+                $existingChild->delete();
+            }
+        });
 
         foreach ($this->tags as $tag) {
-            foreach ($tag['actions'] as $action) {
-                if (! $action instanceof AutomationAction) {
-                    $action = $action['class']::make($action['data']);
-                }
-
-                Action::create([
-                    'automation_id' => $automation->id,
-                    'parent_id' => $actionModel->id,
-                    'key' => $tag['tag'],
-                    'order' => $actionModel->children()->max('order') + 1,
-                    'action' => $action,
-                ]);
+            foreach ($tag['actions'] as $index => $action) {
+                $this->storeChildAction(
+                    action: $action,
+                    automation: $automation,
+                    parent: $parent,
+                    key: $tag['tag'],
+                    order: $index
+                );
             }
         }
 
-        foreach ($this->defaultActions as $action) {
-            if (! $action instanceof AutomationAction) {
-                $action = $action['class']::make($action['data']);
-            }
-
-            Action::create([
-                'automation_id' => $automation->id,
-                'parent_id' => $actionModel->id,
-                'key' => 'default',
-                'order' => $actionModel->children()->max('order') + 1,
-                'action' => $action,
-            ]);
+        foreach ($this->defaultActions as $index => $action) {
+            $this->storeChildAction(
+                action: $action,
+                automation: $automation,
+                parent: $parent,
+                key: 'default',
+                order: $index
+            );
         }
 
-        return $actionModel;
+        return $parent;
+    }
+
+    private function storeChildAction($action, Automation $automation, Action $parent, string $key, int $order): Action
+    {
+        $uuid = $action['uuid'];
+
+        if (! $action instanceof AutomationAction) {
+            $action = $action['class']::make($action['data']);
+        }
+
+        return Action::updateOrCreate([
+            'uuid' => $uuid,
+        ], [
+            'automation_id' => $automation->id,
+            'parent_id' => $parent->id,
+            'key' => $key,
+            'order' => $order,
+            'action' => $action,
+        ]);
     }
 
     public static function make(array $data): self

@@ -20,7 +20,7 @@
     >
         @csrf
         @method('POST')
-        <livewire:action-builder :automation="$automation" :actionData="['actions' => $actions]" />
+        <livewire:automation-builder :automation="$automation" :actionData="['actions' => $actions]" />
 
         <div>
             <button type="submit" class="button">

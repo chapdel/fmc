@@ -11,8 +11,6 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 
 abstract class AutomationAction extends AutomationStep
 {
-    public ?string $uuid = null;
-
     public function run(Subscriber $subscriber): void
     {
     }
@@ -27,11 +25,12 @@ abstract class AutomationAction extends AutomationStep
         return false;
     }
 
-    public function store(Automation $automation, ?int $order = null): Action
+    public function store(string $uuid, Automation $automation, ?int $order = null): Action
     {
-        return Action::create([
+        return Action::updateOrCreate([
+            'uuid' => $uuid,
+        ], [
             'automation_id' => $automation->id,
-            'uuid' => Str::uuid()->toString(),
             'order' => $order ?? $automation->actions()->max('order') + 1,
             'action' => $this,
         ]);

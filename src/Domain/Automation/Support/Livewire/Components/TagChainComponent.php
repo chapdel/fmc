@@ -69,7 +69,7 @@ class TagChainComponent extends Component
                     />
                 </div>
 
-                <livewire:action-builder :automation="$automation" :actionData="['actions' => $actions]" />
+                <livewire:automation-builder :automation="$automation" :actionData="['actions' => $actions]" />
             </div>
         blade;
     }
