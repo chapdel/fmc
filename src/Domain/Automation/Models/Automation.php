@@ -110,12 +110,12 @@ class Automation extends Model
         $newActions->each(function ($action, $index) {
             if (! $action instanceof AutomationAction) {
                 $uuid = $action['uuid'];
-                $actionClass = $action['class'];
                 /** @var \Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationAction $action */
-                $action = $actionClass::make($action['data']);
+                $action = $action['class']::make($action['data']);
+                $action->uuid = $uuid;
             }
 
-            $action->store($uuid ?? $action->uuid ?? Str::uuid()->toString(), $this, $index);
+            $action->store($action->uuid ?? Str::uuid()->toString(), $this, $index);
         });
 
         return $this->fresh('actions');

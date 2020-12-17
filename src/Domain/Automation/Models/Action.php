@@ -29,9 +29,13 @@ class Action extends Model
         $this->attributes['action'] = serialize($value);
     }
 
-    public function getActionAttribute(string $value)
+    public function getActionAttribute(string $value): AutomationAction
     {
-        return unserialize($value);
+        /** @var AutomationAction $action */
+        $action = unserialize($value);
+        $action->uuid = $this->uuid;
+
+        return $action;
     }
 
     public function subscribers(): BelongsToMany

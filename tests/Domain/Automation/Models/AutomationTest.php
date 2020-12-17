@@ -171,7 +171,7 @@ class AutomationTest extends TestCase
 
         $this->assertEquals([
             serialize($waitAction),
-        ], $automation->actions()->pluck('action')->map(fn ($action) => serialize($action))->toArray());
+        ], $automation->actions()->get()->pluck('action')->map(fn ($action) => serialize($action))->toArray());
 
         $firstId = $automation->actions()->first()->id;
 
@@ -186,7 +186,7 @@ class AutomationTest extends TestCase
         $this->assertEquals([
             serialize($waitAction),
             serialize($campaignAction),
-        ], $automation->actions()->pluck('action')->map(fn ($action) => serialize($action))->toArray());
+        ], $automation->actions()->get()->pluck('action')->map(fn ($action) => serialize($action))->toArray());
         $this->assertEquals($firstId, $automation->actions()->first()->id); // ID hasn't changed, so it didn't delete the action
 
         $wait2days = new WaitAction(CarbonInterval::days(2));
@@ -200,7 +200,7 @@ class AutomationTest extends TestCase
             serialize($waitAction),
             serialize($campaignAction),
             serialize($wait2days),
-        ], $automation->actions()->pluck('action')->map(fn ($action) => serialize($action))->toArray());
+        ], $automation->actions()->get()->pluck('action')->map(fn ($action) => serialize($action))->toArray());
         $this->assertEquals($firstId, $automation->actions()->first()->id); // ID hasn't changed, so it didn't delete the action
     }
 
