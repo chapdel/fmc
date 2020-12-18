@@ -41,8 +41,21 @@ class Action extends Model
     public function subscribers(): BelongsToMany
     {
         return $this->belongsToMany(Subscriber::class, 'mailcoach_automation_action_subscriber')
-            ->withPivot(['completed_at', 'halted_at'])
+            ->withPivot(['completed_at', 'halted_at', 'run_at'])
             ->withTimestamps();
+    }
+
+    public function activeSubscribers(): BelongsToMany
+    {
+        return $this->subscribers()
+            ->wherePivotNull('halted_at')
+            ->wherePivotNull('run_at');
+    }
+
+    public function completedSubscribers(): BelongsToMany
+    {
+        return $this->subscribers()
+            ->wherePivotNotNull('run_at');
     }
 
     public function automation(): BelongsTo
@@ -73,22 +86,26 @@ class Action extends Model
             ->each(function (Subscriber $subscriber) {
                 /** @var AutomationAction $action */
                 $action = $this->action;
-                $action->run($subscriber);
 
-                if ($action->shouldHalt($subscriber)) {
-                    $this->subscribers()->updateExistingPivot($subscriber, ['halted_at' => now()], touch: false);
+                if (is_null($subscriber->pivot->run_at)) {
+                    $action->run($subscriber);
 
-                    return;
+                    if ($action->shouldHalt($subscriber)) {
+                        $this->subscribers()->updateExistingPivot($subscriber, ['halted_at' => now()], touch: false);
+
+                        return;
+                    }
+
+                    if (! $action->shouldContinue($subscriber)) {
+                        return;
+                    }
+
+                    $this->subscribers()->updateExistingPivot($subscriber, ['run_at' => now()], touch: false);
                 }
-
-                if (! $action->shouldContinue($subscriber)) {
-                    return;
-                }
-
-                $this->subscribers()->updateExistingPivot($subscriber, ['completed_at' => now()], touch: false);
 
                 if ($nextAction = $action->nextAction($subscriber)) {
                     $nextAction->subscribers()->attach($subscriber);
+                    $this->subscribers()->updateExistingPivot($subscriber, ['completed_at' => now()], touch: false);
                 }
             });
     }

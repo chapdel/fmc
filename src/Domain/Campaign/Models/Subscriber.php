@@ -85,13 +85,17 @@ class Subscriber extends Model
     public function actions(): BelongsToMany
     {
         return $this->belongsToMany(Action::class, 'mailcoach_automation_action_subscriber')
-            ->withPivot(['completed_at', 'halted_at'])
+            ->withPivot(['completed_at', 'halted_at', 'run_at'])
             ->withTimestamps();
     }
 
     public function currentAction(Automation $automation): ?Action
     {
-        return $this->actions()->where('automation_id', $automation->id)->wherePivotNull('completed_at')->latest()->first();
+        return $this->actions()
+            ->where('automation_id', $automation->id)
+            ->wherePivotNull('completed_at')
+            ->latest()
+            ->first();
     }
 
     public function unsubscribe(Send $send = null)

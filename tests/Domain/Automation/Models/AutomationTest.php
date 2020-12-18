@@ -305,6 +305,7 @@ class AutomationTest extends TestCase
         Artisan::call(RunAutomationActionsCommand::class);
         Queue::assertPushed(SendCampaignToSubscriberJob::class, 3);
 
-        $this->assertNull($subscriber->currentAction($automation));
+        $this->assertInstanceOf(CampaignAction::class, $subscriber->currentAction($automation)->action);
+        $this->assertNotNull($subscriber->currentAction($automation)->pivot->run_at);
     }
 }
