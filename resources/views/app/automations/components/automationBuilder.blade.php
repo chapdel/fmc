@@ -31,6 +31,10 @@
             @else
                 <div>{!! $action['class']::make($action['data'])->getDescription() !!}</div>
             @endif
+            <div class="mt-4">
+                <p><strong>Active: </strong> {{ $action['active'] ?? 0 }}</p>
+                <p><strong>Completed: </strong> {{ $action['completed'] ?? 0 }}</p>
+            </div>
         </div>
         @unless($loop->last)
             @include('mailcoach::app.automations.components.actionDropdown', ['index' => $index + 1])

@@ -40,10 +40,18 @@ abstract class AutomationAction extends AutomationStep
     {
         $action = Action::findByUuid($this->uuid);
 
+        if ($action->children->count()) {
+            return $action->children->first();
+        }
+
         if (! $action->parent_id) {
             return $action->automation->actions->where('order', '>', $action->order)->first();
         }
 
-        return $action->parent->children->where('order', '>', $action->order)->first();
+        if ($nextAction = $action->parent->children->where('order', '>', $action->order)->first()) {
+            return $nextAction;
+        }
+
+        return $action->automation->actions->where('order', '>', $action->parent->order)->first();
     }
 }

@@ -487,6 +487,8 @@ class CreateMailcoachTables extends Migration
             $table->unsignedBigInteger('action_id');
             $table->unsignedBigInteger('subscriber_id');
             $table->timestamp('run_at')->nullable();
+            $table->timestamp('completed_at')->nullable();
+            $table->timestamp('halted_at')->nullable();
             $table->timestamps();
 
             $table

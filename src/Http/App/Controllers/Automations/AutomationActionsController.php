@@ -13,11 +13,15 @@ class AutomationActionsController
 
     public function index(Automation $automation)
     {
-        $actions = $automation->actions
+        $actions = $automation->actions()
+            ->withCount(['completedSubscribers', 'activeSubscribers'])
+            ->get()
             ->map(fn(Action $action) => [
                 'uuid' => $action->uuid,
                 'class' => get_class($action->action),
                 'data' => $action->action->toArray(),
+                'active' => $action->active_subscribers_count,
+                'completed' => $action->completed_subscribers_count,
             ])
             ->toArray();
 
