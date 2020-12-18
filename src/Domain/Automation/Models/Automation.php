@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
 use Spatie\Mailcoach\Domain\Automation\Exceptions\CouldNotStartAutomation;
-use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationAction;
 use Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationTrigger;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
@@ -60,6 +59,11 @@ class Automation extends Model
     public function actions(): HasMany
     {
         return $this->hasMany(Action::class)->whereNull('parent_id')->orderBy('order');
+    }
+
+    public function allActions(): HasMany
+    {
+        return $this->hasMany(Action::class)->orderBy('order');
     }
 
     public function emailList(): BelongsTo

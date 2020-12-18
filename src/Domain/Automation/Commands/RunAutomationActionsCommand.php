@@ -25,7 +25,7 @@ class RunAutomationActionsCommand extends Command
             ->where('status', AutomationStatus::STARTED)
             ->cursor()
             ->each(function (Automation $automation) {
-                $automation->actions->each(function (Action $action) {
+                $automation->allActions()->each(function (Action $action) {
                     $action->run();
                 });
             });

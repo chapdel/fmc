@@ -108,7 +108,7 @@ class AutomationTest extends TestCase
         Artisan::call(RunAutomationActionsCommand::class);
 
         Queue::assertNothingPushed();
-        $this->assertEquals(0, $automation->actions->first()->subscribers()->count());
+        $this->assertEquals(1, $automation->actions->first()->subscribers()->count());
         $this->assertEquals(0, $automation->actions->last()->subscribers()->count());
     }
 
@@ -147,7 +147,7 @@ class AutomationTest extends TestCase
         Artisan::call(RunAutomationActionsCommand::class);
 
         Queue::assertPushed(SendCampaignToSubscriberJob::class);
-        $this->assertEquals(0, $automation->actions->first()->subscribers()->count());
+        $this->assertEquals(1, $automation->actions->first()->subscribers()->count());
         $this->assertEquals(1, $automation->actions->last()->subscribers()->count());
     }
 
@@ -205,19 +205,16 @@ class AutomationTest extends TestCase
     }
 
     /** @test * */
-    public function it_can_create_a_complicated_automation()
+    public function it_can_create_and_run_a_complicated_automation()
     {
+        /** @var EmailList $emailList */
         $emailList = EmailList::factory()->create();
 
         $campaign1 = Campaign::factory()->create([
             'status' => CampaignStatus::AUTOMATED,
         ]);
 
-        $tagsDontExist = Campaign::factory()->create([
-            'status' => CampaignStatus::AUTOMATED,
-        ]);
-
-        Automation::create()
+        $automation = Automation::create()
             ->name('Getting started with Mailcoach')
             ->to($emailList)
             ->trigger(new SubscribedAutomationTrigger())
@@ -238,28 +235,76 @@ class AutomationTest extends TestCase
                     [
                         'tag' => 'mc::campaign-1-opened',
                         'actions' => [
-                            new WaitAction(CarbonInterval::day()), // Wait one day
-                            new CampaignAction($campaign1), // Send first email
+                            new WaitAction(CarbonInterval::days(2)), // Wait 2 days
                         ]
                     ],
                 ],
                     defaultActions: [
-                    new CampaignAction($tagsDontExist),
+                    new WaitAction(CarbonInterval::days(2)), // Wait 2 days
                 ],
                 ),
                 new WaitAction(CarbonInterval::days(3)), // Wait 3 days
                 new CampaignAction($campaign1),
-            ]);
+            ])->start();
+
+        $this->refreshServiceProvider();
 
         $this->assertEquals(1, Automation::count());
         tap(Automation::first(), function (Automation $automation) {
             $this->assertEquals(CarbonInterval::minutes(10), $automation->interval);
             $this->assertInstanceOf(SubscribedAutomationTrigger::class, $automation->trigger);
         });
-        $this->assertEquals(10, Action::count());
+        $this->assertEquals(9, Action::count());
 
         $this->assertEquals(2, Action::where('key', 'mc::campaign-1-clicked-1')->count());
-        $this->assertEquals(2, Action::where('key', 'mc::campaign-1-opened')->count());
+        $this->assertEquals(1, Action::where('key', 'mc::campaign-1-opened')->count());
         $this->assertEquals(1, Action::where('key', 'default')->count());
+
+        $subscriber = $automation->emailList->subscribe('john@doe.com');
+
+        // Wait for a day
+        $this->assertInstanceOf(WaitAction::class, $subscriber->currentAction($automation)->action);
+        Artisan::call(RunAutomationActionsCommand::class);
+        $this->assertInstanceOf(WaitAction::class, $subscriber->currentAction($automation)->action);
+        TestTime::addDay()->addSecond();
+        Artisan::call(RunAutomationActionsCommand::class);
+
+        // CampaignAction continues straight to next action after running
+        Queue::assertPushed(SendCampaignToSubscriberJob::class);
+        $this->assertInstanceOf(EnsureTagsExistAction::class, $subscriber->currentAction($automation)->action);
+
+
+        // EnsureTagsExist checks for 3 days
+        TestTime::addDay()->addSecond();
+        Artisan::call(RunAutomationActionsCommand::class);
+        $this->assertInstanceOf(EnsureTagsExistAction::class, $subscriber->currentAction($automation)->action);
+        TestTime::addDays(2)->addSecond();
+        $this->assertInstanceOf(EnsureTagsExistAction::class, $subscriber->currentAction($automation)->action);
+
+        // Adding a tag causes it to go to the next
+        $subscriber->addTag('mc::campaign-1-clicked-1');
+        Artisan::call(RunAutomationActionsCommand::class);
+        $this->assertInstanceOf(WaitAction::class, $subscriber->currentAction($automation)->action);
+        $this->assertEquals(CarbonInterval::day(), $subscriber->currentAction($automation)->action->interval);
+
+        // Wait for a day
+        TestTime::addDays(2)->addSecond();
+        Artisan::call(RunAutomationActionsCommand::class);
+
+        // Campaign Action sends again
+        Queue::assertPushed(SendCampaignToSubscriberJob::class, 2);
+
+        $this->assertInstanceOf(WaitAction::class, $subscriber->currentAction($automation)->action);
+        $this->assertEquals(CarbonInterval::days(3), $subscriber->currentAction($automation)->action->interval);
+
+        // Wait for 3 days
+        TestTime::addDays(3)->addSecond();
+        Artisan::call(RunAutomationActionsCommand::class);
+
+        // Execute last CampaignAction
+        Artisan::call(RunAutomationActionsCommand::class);
+        Queue::assertPushed(SendCampaignToSubscriberJob::class, 3);
+
+        $this->assertNull($subscriber->currentAction($automation));
     }
 }

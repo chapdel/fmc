@@ -40,7 +40,9 @@ class Action extends Model
 
     public function subscribers(): BelongsToMany
     {
-        return $this->belongsToMany(Subscriber::class, 'mailcoach_automation_action_subscriber')->withTimestamps();
+        return $this->belongsToMany(Subscriber::class, 'mailcoach_automation_action_subscriber')
+            ->withPivot(['completed_at', 'halted_at'])
+            ->withTimestamps();
     }
 
     public function automation(): BelongsTo
@@ -55,7 +57,7 @@ class Action extends Model
 
     public function children(): HasMany
     {
-        return $this->hasMany(Action::class, 'parent_id');
+        return $this->hasMany(Action::class, 'parent_id')->orderBy('order');
     }
 
     public function next(): ?Action
@@ -66,14 +68,15 @@ class Action extends Model
     public function run()
     {
         $this->subscribers()
-            ->wherePivotNull('run_at')
+            ->wherePivotNull('halted_at')
+            ->wherePivotNull('completed_at')
             ->each(function (Subscriber $subscriber) {
                 /** @var AutomationAction $action */
                 $action = $this->action;
                 $action->run($subscriber);
 
                 if ($action->shouldHalt($subscriber)) {
-                    $this->subscribers()->detach($subscriber);
+                    $this->subscribers()->updateExistingPivot($subscriber, ['halted_at' => now()], touch: false);
 
                     return;
                 }
@@ -82,12 +85,10 @@ class Action extends Model
                     return;
                 }
 
-                $this->subscribers()->updateExistingPivot($subscriber, ['run_at' => now()], false);
+                $this->subscribers()->updateExistingPivot($subscriber, ['completed_at' => now()], touch: false);
 
                 if ($nextAction = $action->nextAction($subscriber)) {
                     $nextAction->subscribers()->attach($subscriber);
-
-                    $this->subscribers()->detach($subscriber);
                 }
             });
     }

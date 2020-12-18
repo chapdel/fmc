@@ -8,7 +8,7 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 
 class WaitAction extends AutomationAction
 {
-    private CarbonInterval $interval;
+    public CarbonInterval $interval;
 
     public function __construct(CarbonInterval $interval)
     {
