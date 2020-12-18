@@ -444,6 +444,22 @@ class CreateMailcoachTables extends Migration
             $table->timestamps();
         });
 
+        Schema::create('mailcoach_transactional_mail_templates', function (Blueprint $table) {
+            $table->id();
+
+            $table->text('subject');
+            $table->json('from');
+            $table->json('cc')->nullable();
+            $table->json('bcc')->nullable();
+            $table->longText('body')->nullable();
+
+            $table->boolean('store_mail')->default(false);
+            $table->boolean('track_opens')->default(false);
+            $table->boolean('track_clicks')->default(false);
+
+            $table->timestamps();
+        });
+
         Schema::create('mailcoach_automation_actions', function (Blueprint $table) {
             $table->id();
 

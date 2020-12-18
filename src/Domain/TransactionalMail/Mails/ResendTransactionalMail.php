@@ -34,7 +34,7 @@ class ResendTransactionalMail extends Mailable
 
     public function build()
     {
-        $this->view('mailcoach::mails.transactionalMailResend');
+        $this->view('mails.transactionalMails.resend');
 
         $this->setMailableClassHeader($this->originalMail->mailable_class);
     }

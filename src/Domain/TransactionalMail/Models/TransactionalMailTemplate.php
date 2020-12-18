@@ -2,7 +2,15 @@
 
 namespace Spatie\Mailcoach\Domain\TransactionalMail\Models;
 
-class TransactionalMailTemplate
+use Illuminate\Database\Eloquent\Model;
+
+class TransactionalMailTemplate extends Model
 {
+    public $casts = [
+        'store_mail' => 'boolean',
+        'track_opens' => 'boolean',
+        'track_clicks' => 'boolean',
+    ];
+
 
 }
