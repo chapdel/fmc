@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\Domain\Campaign\Models;
 
-use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
+use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Send;
@@ -15,7 +15,7 @@ class SendTest extends TestCase
     /** @test */
     public function it_can_be_found_by_its_transport_message_id()
     {
-        $send = CampaignSendFactory::new()->create([
+        $send = SendFactory::new()->create([
             'transport_message_id' => '1234',
         ]);
 
@@ -35,7 +35,7 @@ class SendTest extends TestCase
             'email_list_id' => $emailList->id,
         ]);
 
-        $send = CampaignSendFactory::new()->create([
+        $send = SendFactory::new()->create([
             'campaign_id' => $campaign->id,
             'subscriber_id' => $subscriber->id,
         ]);
@@ -65,7 +65,7 @@ class SendTest extends TestCase
             'email_list_id' => $emailList->id,
         ]);
 
-        $send = CampaignSendFactory::new()->create([
+        $send = SendFactory::new()->create([
             'campaign_id' => $campaign->id,
             'subscriber_id' => $subscriber->id,
         ]);
@@ -88,7 +88,7 @@ class SendTest extends TestCase
         TestTime::freeze();
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $send */
-        $send = CampaignSendFactory::new()->create();
+        $send = SendFactory::new()->create();
         $send->campaign->update(['track_opens' => true]);
 
         $send->registerOpen();
@@ -107,7 +107,7 @@ class SendTest extends TestCase
     public function it_will_register_an_open_at_a_specific_time()
     {
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $send */
-        $send = CampaignSendFactory::new()->create();
+        $send = SendFactory::new()->create();
         $send->campaign->update(['track_opens' => true]);
 
         $openedAt = now()->subHour()->setMicroseconds(0);
@@ -121,7 +121,7 @@ class SendTest extends TestCase
     public function it_will_not_register_a_click_of_an_unsubscribe_link()
     {
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $send */
-        $send = CampaignSendFactory::new()->create();
+        $send = SendFactory::new()->create();
         $send->campaign->update(['track_clicks' => true]);
 
         $unsubscribeUrl = $send->subscriber->unsubscribeUrl($send);
@@ -135,7 +135,7 @@ class SendTest extends TestCase
     public function it_can_register_a_click_at_a_given_time()
     {
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $send */
-        $send = CampaignSendFactory::new()->create();
+        $send = SendFactory::new()->create();
         $send->campaign->update(['track_clicks' => true]);
 
         $clickedAt = now()->subDay()->setMilliseconds(0);
@@ -164,13 +164,13 @@ class SendTest extends TestCase
         ]);
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $send */
-        $send = CampaignSendFactory::new()->create([
+        $send = SendFactory::new()->create([
             'campaign_id' => $campaign->id,
             'subscriber_id' => $subscriber->id,
         ]);
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $anotherSend */
-        $anotherSend = CampaignSendFactory::new()->create([
+        $anotherSend = SendFactory::new()->create([
             'campaign_id' => $campaign->id,
             'subscriber_id' => $anotherSubscriber->id,
         ]);

@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Tests\Domain\Campaign\Events;
 
 use Illuminate\Support\Facades\Event;
-use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
+use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignMailSentEvent;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendMailJob;
 use Spatie\Mailcoach\Tests\TestCase;
@@ -15,7 +15,7 @@ class CampaignMailSentEventTest extends TestCase
     {
         Event::fake(CampaignMailSentEvent::class);
 
-        $send = CampaignSendFactory::new()->create();
+        $send = SendFactory::new()->create();
 
         dispatch(new SendMailJob($send));
 

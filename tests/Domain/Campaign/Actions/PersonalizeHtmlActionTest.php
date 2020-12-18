@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Tests\Domain\Campaign\Actions;
 
 use Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeHtmlAction;
-use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
+use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Campaign\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 
@@ -19,7 +19,7 @@ class PersonalizeHtmlActionTest extends TestCase
     {
         parent::setUp();
 
-        $this->send = CampaignSendFactory::new()->create();
+        $this->send = SendFactory::new()->create();
 
         $subscriber = $this->send->subscriber;
         $subscriber->uuid = 'my-uuid';

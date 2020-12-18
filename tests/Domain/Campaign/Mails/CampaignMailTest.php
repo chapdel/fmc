@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Tests\Domain\Campaign\Mails;
 
 use Illuminate\Support\Facades\Mail;
-use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
+use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignMail;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -16,7 +16,7 @@ class CampaignMailTest extends TestCase
     public function it_will_set_transport_id()
     {
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $send */
-        $send = CampaignSendFactory::new()->create();
+        $send = SendFactory::new()->create();
 
         $campaignMailable = (new CampaignMail())
             ->setCampaign($send->campaign)

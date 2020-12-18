@@ -14,7 +14,7 @@ class CampaignClickFactory extends Factory
     public function definition()
     {
         return [
-            'send_id' => CampaignSendFactory::new(),
+            'send_id' => SendFactory::new(),
             'campaign_link_id' => CampaignLink::factory(),
             'subscriber_id' => Subscriber::factory(),
         ];

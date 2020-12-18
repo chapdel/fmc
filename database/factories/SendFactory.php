@@ -7,7 +7,7 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Send;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 
-class CampaignSendFactory extends Factory
+class SendFactory extends Factory
 {
     protected $model = Send::class;
 

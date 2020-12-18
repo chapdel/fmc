@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Tests\Domain\Campaign\Events;
 
 use Illuminate\Support\Facades\Event;
-use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
+use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Campaign\Events\ComplaintRegisteredEvent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
@@ -16,7 +16,7 @@ class ComplaintRegisteredEventTest extends TestCase
         Event::fake();
 
         /** @var Send $send */
-        $send = CampaignSendFactory::new()->create();
+        $send = SendFactory::new()->create();
 
         $send->registerComplaint();
 

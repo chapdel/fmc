@@ -14,7 +14,7 @@ class CampaignOpenFactory extends Factory
     public function definition()
     {
         return [
-            'send_id' => CampaignSendFactory::new(),
+            'send_id' => SendFactory::new(),
             'campaign_id' => Campaign::factory(),
             'subscriber_id' => Subscriber::factory(),
         ];

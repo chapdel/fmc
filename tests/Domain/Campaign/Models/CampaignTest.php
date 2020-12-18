@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Queue;
-use Spatie\Mailcoach\Database\Factories\CampaignSendFactory;
+use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\CalculateStatisticsJob;
@@ -461,12 +461,12 @@ class CampaignTest extends TestCase
             'last_modified_at' => now(),
         ]);
 
-        CampaignSendFactory::new()->create([
+        SendFactory::new()->create([
             'campaign_id' => $this->campaign->id,
             'sent_at' => now(),
         ]);
 
-        $send = CampaignSendFactory::new()->create([
+        $send = SendFactory::new()->create([
             'campaign_id' => $this->campaign->id,
             'sent_at' => null,
         ]);
