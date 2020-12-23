@@ -4,6 +4,7 @@
 namespace Spatie\Mailcoach\Domain\Automation\Models\Concerns;
 
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -27,8 +28,7 @@ abstract class AutomationTrigger extends AutomationStep
         return [];
     }
 
-    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber|\Illuminate\Support\Collection|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder|array */
-    public function fire($subscribers): void
+    protected function fire(Subscriber|Collection|QueryBuilder|EloquentBuilder|array $subscribers): void
     {
         if ($subscribers instanceof EloquentBuilder || $subscribers instanceof QueryBuilder) {
             $subscribers = $subscribers->cursor();

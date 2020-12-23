@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Support\Triggers;
 use Carbon\CarbonInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
+use JetBrains\PhpStorm\ArrayShape;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationTrigger;
 
@@ -14,6 +15,8 @@ class DateTrigger extends AutomationTrigger
 
     public function __construct(CarbonInterface $date)
     {
+        parent::__construct();
+
         $this->date = $date;
     }
 
@@ -37,11 +40,6 @@ class DateTrigger extends AutomationTrigger
         return [
             'date' => ['required', 'date'],
         ];
-    }
-
-    public static function createFromRequest(Request $request): AutomationTrigger
-    {
-        return new self(Date::parse($request->get('date')));
     }
 
     public function trigger(Automation $automation): void

@@ -2,13 +2,10 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers;
 
-use Carbon\CarbonInterface;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationTriggerComponent;
 
 class DateTriggerComponent extends AutomationTriggerComponent
 {
-    public ?CarbonInterface $date = null;
-
     public function render()
     {
         return <<<'blade'
