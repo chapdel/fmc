@@ -19,7 +19,7 @@ class ResendTransactionalMailTest extends TestCase
         $this->sendTestMail();
 
         /** @var TransactionalMail $originalMail */
-        $this->sendTestMail(function(TestTransactionMail $testTransactionMail) {
+        $this->sendTestMail(function (TestTransactionMail $testTransactionMail) {
             $testTransactionMail
                 ->trackOpensAndClicks()
                 ->from('ringo@example.com', 'Ringo')
@@ -45,7 +45,8 @@ class ResendTransactionalMailTest extends TestCase
                 $this->assertMatchingPersons($originalMail, $resentMail, 'bcc');
 
                 return true;
-            });
+            }
+        );
 
         $this->assertCount(2, TransactionalMail::get());
     }
@@ -53,7 +54,7 @@ class ResendTransactionalMailTest extends TestCase
     protected function assertMatchingPersons(TransactionalMail $originalMail, ResendTransactionalMail $resentMail, string $field)
     {
         $this->assertGreaterThan(0, count($resentMail->to));
-        foreach($originalMail->$field as $person) {
+        foreach ($originalMail->$field as $person) {
             $this->assertTrue(in_array($person['email'], collect($resentMail->$field)->pluck('address')->toArray()));
         }
     }

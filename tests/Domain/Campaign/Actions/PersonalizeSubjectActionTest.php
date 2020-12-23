@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Tests\Domain\Campaign\Actions;
 
-use Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeSubjectAction;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
+use Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeSubjectAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 

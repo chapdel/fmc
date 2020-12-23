@@ -2,12 +2,10 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
 
-use Illuminate\Http\Request;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Validation\Rule;
+use Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationAction;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignToSubscriberJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 

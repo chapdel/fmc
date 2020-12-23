@@ -3,8 +3,8 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft;
 
 use Spatie\Mailcoach\Domain\Campaign\Actions\UpdateCampaignAction;
-use Spatie\Mailcoach\Http\App\Requests\Campaigns\StoreCampaignRequest;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Http\App\Requests\Campaigns\StoreCampaignRequest;
 
 class CreateCampaignController
 {

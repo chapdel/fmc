@@ -3,12 +3,12 @@
 namespace Spatie\Mailcoach\Http\Api\Controllers\EmailLists;
 
 use Spatie\Mailcoach\Domain\Campaign\Actions\EmailLists\UpdateEmailListAction;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Http\Api\Requests\EmailListRequest;
 use Spatie\Mailcoach\Http\Api\Resources\EmailListResource;
 use Spatie\Mailcoach\Http\App\Queries\EmailListQuery;
-use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
-use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class EmailListsController
 {

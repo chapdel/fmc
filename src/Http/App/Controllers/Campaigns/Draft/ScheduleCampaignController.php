@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft;
 
-use Spatie\Mailcoach\Http\App\Requests\Campaigns\ScheduleCampaignRequest;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Http\App\Requests\Campaigns\ScheduleCampaignRequest;
 
 class ScheduleCampaignController
 {

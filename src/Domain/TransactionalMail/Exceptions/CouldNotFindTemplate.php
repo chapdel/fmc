@@ -9,7 +9,7 @@ class CouldNotFindTemplate extends Exception
 {
     public static function make(string $templateName, Mailable $mailable): self
     {
-        $mailableClass =  $mailable::class;
+        $mailableClass = $mailable::class;
 
         return new static("Could not send mailable `$mailableClass` because no template named `$templateName` could be found.");
     }

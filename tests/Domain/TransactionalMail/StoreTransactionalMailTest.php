@@ -3,9 +3,9 @@
 namespace Spatie\Mailcoach\Tests\Domain\TransactionalMail;
 
 use Illuminate\Support\Facades\Event;
+use Spatie\Mailcoach\Domain\Campaign\Models\Send;
 use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailLinkClickedEvent;
 use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailOpenedEvent;
-use Spatie\Mailcoach\Domain\Campaign\Models\Send;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Tests\Domain\TransactionalMail\Concerns\SendsTestTransactionalMail;
 use Spatie\Mailcoach\Tests\TestCase;
@@ -18,7 +18,7 @@ class StoreTransactionalMailTest extends TestCase
     /** @test */
     public function a_transactional_mail_will_be_stored_in_the_db()
     {
-        $this->sendTestMail(function(TestTransactionMail $mail) {
+        $this->sendTestMail(function (TestTransactionMail $mail) {
             $mail
                 ->subject('This is the subject')
                 ->trackOpensAndClicks();
@@ -40,13 +40,12 @@ class StoreTransactionalMailTest extends TestCase
         $this->assertEquals(TestTransactionMail::class, $transactionalMail->mailable_class);
         $this->assertInstanceOf(Send::class, $transactionalMail->send);
         $this->assertInstanceOf(TransactionalMail::class, Send::first()->transactionalMail);
-
     }
 
     /** @test */
     public function it_can_store_the_various_recipients()
     {
-        $this->sendTestMail(function(TestTransactionMail $testTransactionMail) {
+        $this->sendTestMail(function (TestTransactionMail $testTransactionMail) {
             $testTransactionMail
                 ->trackOpensAndClicks()
                 ->from('ringo@example.com', 'Ringo')
@@ -81,7 +80,7 @@ class StoreTransactionalMailTest extends TestCase
     /** @test */
     public function only_opens_on_transactional_mails_can_be_tracked()
     {
-        $this->sendTestMail(function(TestTransactionMail $mail) {
+        $this->sendTestMail(function (TestTransactionMail $mail) {
             $mail->trackOpens();
         });
 
@@ -93,7 +92,7 @@ class StoreTransactionalMailTest extends TestCase
     /** @test */
     public function only_click_on_transactional_mails_can_be_tracked()
     {
-        $this->sendTestMail(function(TestTransactionMail $mail) {
+        $this->sendTestMail(function (TestTransactionMail $mail) {
             $mail->store();
         });
 
@@ -105,7 +104,8 @@ class StoreTransactionalMailTest extends TestCase
     /** @test */
     public function by_default_it_will_not_store_any_mails()
     {
-        $this->sendTestMail(function(TestTransactionMail $mail) {});
+        $this->sendTestMail(function (TestTransactionMail $mail) {
+        });
 
         $this->assertCount(0, TransactionalMail::get());
     }

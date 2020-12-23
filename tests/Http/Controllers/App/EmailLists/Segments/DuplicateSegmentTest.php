@@ -2,10 +2,10 @@
 
 namespace Spatie\Mailcoach\Tests\Http\Controllers\App\EmailLists\Segments;
 
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\DuplicateSegmentController;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\EditSegmentController;
 use Spatie\Mailcoach\Domain\Campaign\Models\Tag;
 use Spatie\Mailcoach\Domain\Campaign\Models\TagSegment;
+use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\DuplicateSegmentController;
+use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\EditSegmentController;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class DuplicateSegmentTest extends TestCase

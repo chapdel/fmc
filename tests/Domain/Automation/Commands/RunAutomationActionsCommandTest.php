@@ -64,5 +64,4 @@ class RunAutomationActionsCommandTest extends TestCase
 
         $this->assertEquals(Carbon::create(2021, 01, 01, 10, 10), $automation->fresh()->run_at);
     }
-
 }

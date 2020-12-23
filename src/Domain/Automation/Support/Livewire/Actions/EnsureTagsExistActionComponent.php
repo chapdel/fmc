@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions;
 
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationActionComponent;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationComponent;
 
 class EnsureTagsExistActionComponent extends AutomationActionComponent
 {
@@ -58,7 +57,7 @@ class EnsureTagsExistActionComponent extends AutomationActionComponent
     {
         $this->tags[] = [
             'tag' => '',
-            'actions' => []
+            'actions' => [],
         ];
     }
 

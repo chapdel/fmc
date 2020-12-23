@@ -4,9 +4,9 @@ namespace Spatie\Mailcoach\Tests\Http\Controllers\App\Campaigns;
 
 use Illuminate\Support\Facades\Bus;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\SendTestEmailController;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendTestMailJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\SendTestEmailController;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class SendTestEmailControllerTest extends TestCase

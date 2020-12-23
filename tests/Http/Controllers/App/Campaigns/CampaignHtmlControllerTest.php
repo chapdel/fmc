@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Tests\Http\Controllers\App\Campaigns;
 
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignContentController;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignContentController;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class CampaignHtmlControllerTest extends TestCase

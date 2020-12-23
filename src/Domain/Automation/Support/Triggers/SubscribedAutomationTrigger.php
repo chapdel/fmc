@@ -3,8 +3,8 @@
 namespace Spatie\Mailcoach\Domain\Automation\Support\Triggers;
 
 use Illuminate\Http\Request;
-use Spatie\Mailcoach\Domain\Campaign\Events\SubscribedEvent;
 use Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationTrigger;
+use Spatie\Mailcoach\Domain\Campaign\Events\SubscribedEvent;
 
 class SubscribedAutomationTrigger extends AutomationTrigger
 {

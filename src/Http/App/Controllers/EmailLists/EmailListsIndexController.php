@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists;
 
-use Spatie\Mailcoach\Http\App\Queries\EmailListQuery;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Http\App\Queries\EmailListQuery;
 
 class EmailListsIndexController
 {

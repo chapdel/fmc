@@ -3,10 +3,10 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists;
 
 use Illuminate\Foundation\Auth\User;
-use Spatie\Mailcoach\Http\App\Requests\EmailLists\ImportSubscribersRequest;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\ImportSubscribersJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\SubscriberImport;
+use Spatie\Mailcoach\Http\App\Requests\EmailLists\ImportSubscribersRequest;
 
 class ImportSubscribersController
 {

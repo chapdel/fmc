@@ -4,8 +4,8 @@ namespace Spatie\Mailcoach\Tests\Domain\Automation\Actions;
 
 use Carbon\CarbonInterval;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
-use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;

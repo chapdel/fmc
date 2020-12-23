@@ -3,8 +3,8 @@
 namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\SubscriberImports;
 
 use Spatie\Mailcoach\Domain\Campaign\Enums\SubscriberImportStatus;
-use Spatie\Mailcoach\Http\Api\Controllers\SubscriberImports\StartSubscriberImportController;
 use Spatie\Mailcoach\Domain\Campaign\Models\SubscriberImport;
+use Spatie\Mailcoach\Http\Api\Controllers\SubscriberImports\StartSubscriberImportController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestCase;
 

@@ -3,9 +3,6 @@
 namespace Spatie\Mailcoach\Domain\Automation\Support\Triggers;
 
 use Carbon\CarbonInterface;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Date;
-use JetBrains\PhpStorm\ArrayShape;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationTrigger;
 

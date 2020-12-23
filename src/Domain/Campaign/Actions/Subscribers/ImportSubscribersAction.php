@@ -66,15 +66,16 @@ class ImportSubscribersAction
 
             SimpleExcelReader::create($localImportFile)
                 ->getRows()
-                ->map(fn(array $values) => new ImportSubscriberRow($this->subscriberImport->emailList, $values))
-                ->filter(fn(ImportSubscriberRow $row) => $this->validateSubscriberEmail($row))
-                ->filter(fn(ImportSubscriberRow $row) => $this->validateSubscriberStatus($row))
-                ->each(fn(ImportSubscriberRow $row) => $this->importSubscriber($row));
-
+                ->map(fn (array $values) => new ImportSubscriberRow($this->subscriberImport->emailList, $values))
+                ->filter(fn (ImportSubscriberRow $row) => $this->validateSubscriberEmail($row))
+                ->filter(fn (ImportSubscriberRow $row) => $this->validateSubscriberStatus($row))
+                ->each(fn (ImportSubscriberRow $row) => $this->importSubscriber($row));
         } catch (Exception $exception) {
             $this->errorReport->addRow([
-                __("Couldn't finish importing subscribers. This error occurred: :error",
-                    ['error' => $exception->getMessage()])
+                __(
+                    "Couldn't finish importing subscribers. This error occurred: :error",
+                    ['error' => $exception->getMessage()]
+                ),
             ]);
         }
 
@@ -125,7 +126,7 @@ class ImportSubscribersAction
 
     protected function unsubscribeMissing(): self
     {
-        if ($this->getErrorCount() || !$this->subscriberImport['unsubscribe_others']) {
+        if ($this->getErrorCount() || ! $this->subscriberImport['unsubscribe_others']) {
             return $this;
         }
 
@@ -138,7 +139,7 @@ class ImportSubscribersAction
                     ->orWhereNull('imported_via_import_uuid');
             })
             ->cursor()
-            ->each(fn(Subscriber $subscriber) => $subscriber->unsubscribe());
+            ->each(fn (Subscriber $subscriber) => $subscriber->unsubscribe());
 
         return $this;
     }
@@ -152,7 +153,7 @@ class ImportSubscribersAction
 
     protected function sendResultReport(): self
     {
-        if (!$this->user) {
+        if (! $this->user) {
             return $this;
         }
 
@@ -184,7 +185,7 @@ class ImportSubscribersAction
 
     protected function validateSubscriberEmail(ImportSubscriberRow $row): bool
     {
-        if (!$row->hasValidEmail()) {
+        if (! $row->hasValidEmail()) {
             $this->writeError($row, __('Does not have a valid email'));
         }
 
@@ -203,7 +204,7 @@ class ImportSubscribersAction
             $this->writeError($row, __('This email address was unsubscribed in the past.'));
         }
 
-        return !$hasUnsubscribed;
+        return ! $hasUnsubscribed;
     }
 
     protected function getTemporaryDirectory(): TemporaryDirectory

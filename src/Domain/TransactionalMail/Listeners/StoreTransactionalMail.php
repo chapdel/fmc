@@ -20,7 +20,7 @@ class StoreTransactionalMail
         }
 
         $transactionalMail = TransactionalMail::create([
-            'subject'=> $message->getSubject(),
+            'subject' => $message->getSubject(),
             'from' => $this->convertToNamedArray($message->getFrom()),
             'to' => $this->convertToNamedArray($message->getTo()),
             'cc' => $this->convertToNamedArray($message->getCc()),
@@ -42,7 +42,7 @@ class StoreTransactionalMail
     public function convertToNamedArray(?array $persons): array
     {
         return collect($persons ?? [])
-            ->map(fn(?string $name, string $email) => compact('email', 'name'))
+            ->map(fn (?string $name, string $email) => compact('email', 'name'))
             ->values()
             ->toArray();
     }

@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers;
 
-use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
 use Symfony\Component\HttpFoundation\Response;
 
 class UnsubscribeController

@@ -2,9 +2,9 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers;
 
-use Spatie\Mailcoach\Http\App\Queries\EmailListSubscribersQuery;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Http\App\Queries\EmailListSubscribersQuery;
 use Spatie\SimpleExcel\SimpleExcelWriter;
 
 class SubscribersExportController

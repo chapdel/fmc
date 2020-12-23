@@ -2,14 +2,8 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components;
 
-use Illuminate\Validation\Rule;
 use Livewire\Component;
-use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationComponent;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\ValidationRules\Rules\Delimited;
 
 class TagChainComponent extends Component
 {
