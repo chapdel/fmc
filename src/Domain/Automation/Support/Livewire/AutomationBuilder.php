@@ -8,7 +8,7 @@ use Livewire\Component;
 use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 
-class AutomationBuilder extends AutomationComponent
+class AutomationBuilder extends AutomationActionComponent
 {
     public string $name = '';
 

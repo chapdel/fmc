@@ -14,8 +14,8 @@ class AutomationSettingsController
     public function edit(Automation $automation)
     {
         $triggerOptions = collect(config('mailcoach.automation.triggers'))
-            ->map(function (string $trigger) {
-                return $trigger::getName();
+            ->mapWithKeys(function (string $trigger) {
+                return [$trigger => $trigger::getName()];
             });
 
         $emailLists = $this->getEmailListClass()::all();
@@ -41,6 +41,7 @@ class AutomationSettingsController
     ) {
         $automation->update([
             'name' => $request->get('name'),
+            'interval' => $request->get('interval'),
             'email_list_id' => $request->email_list_id,
             'segment_class' => $request->getSegmentClass(),
             'segment_id' => $request->segment_id,

@@ -22,14 +22,21 @@ class DateTrigger extends AutomationTrigger
         return __('On a date');
     }
 
-    public static function getConfigView(): ?string
+    public static function getComponent(): ?string
     {
-        return 'mailcoach::app.automations.partials.triggers.dateTrigger';
+        return 'date-trigger';
     }
 
     public static function make(array $data): self
     {
         return new self($data['date']);
+    }
+
+    public static function rules(): array
+    {
+        return [
+            'date' => ['required', 'date'],
+        ];
     }
 
     public static function createFromRequest(Request $request): AutomationTrigger

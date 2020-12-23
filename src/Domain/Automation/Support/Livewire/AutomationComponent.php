@@ -13,38 +13,14 @@ abstract class AutomationComponent extends Component
 
     public Automation $automation;
 
-    public int $index = 0;
-
-    public string $actionClass;
-
-    public array $actionData = [];
-
-    protected $listeners = ['validationFailed'];
+    public array $componentData = [];
 
     public function mount()
     {
-        foreach ($this->actionData as $key => $value) {
+        foreach ($this->componentData as $key => $value) {
             $this->$key = $value;
         }
     }
 
-    public function validationFailed(array $errors)
-    {
-        $this->setErrorBag(new MessageBag($errors));
-    }
-
-    public function rules(): array
-    {
-        return [];
-    }
-
-    public function updated($fieldName): void
-    {
-        $this->resetValidation($fieldName);
-
-        $this->emitUp('actionUpdated', $this->getData());
-    }
-
-    abstract public function getData(): array;
     abstract public function render();
 }

@@ -218,7 +218,7 @@ class AutomationTest extends TestCase
             ->name('Getting started with Mailcoach')
             ->to($emailList)
             ->trigger(new SubscribedAutomationTrigger())
-            ->interval(CarbonInterval::minutes(10)) // Run through the automation and check actions every 10 min
+            ->runEvery(CarbonInterval::minutes(10)) // Run through the automation and check actions every 10 min
             ->chain([
                 new WaitAction(CarbonInterval::day()), // Wait one day
                 new CampaignAction($campaign1), // Send first email

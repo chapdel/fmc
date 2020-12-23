@@ -441,6 +441,7 @@ class CreateMailcoachTables extends Migration
 
             $table->string('segment_description')->default(0);
 
+            $table->timestamp('run_at')->nullable();
             $table->timestamps();
         });
 

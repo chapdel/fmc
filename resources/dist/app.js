@@ -9154,7 +9154,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function toggleConditionals(controller) {
-  const value = getValue(controller);
+  const value = getValue(controller).replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0'); // addslashes
+
   Object(_util__WEBPACK_IMPORTED_MODULE_0__["$$"])(`[data-conditional-${controller.dataset.conditional}]`).forEach(element => {
     const isVisible = element.matches(`[data-conditional-${controller.dataset.conditional}="${value}"]`);
     element.classList.toggle('hidden', !isVisible);

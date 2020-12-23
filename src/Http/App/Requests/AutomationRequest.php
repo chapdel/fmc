@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Validation\Rule;
 use Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationTrigger;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
@@ -16,13 +17,20 @@ class AutomationRequest extends FormRequest
 
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => 'required',
             'email_list_id' => Rule::exists($this->getEmailListTableName(), 'id'),
             'segment' => [Rule::in(['entire_list', 'segment'])],
             'segment_id' => ['required_if:segment,tag_segment'],
-            'trigger' => ['required'],
+            'trigger' => ['required', Rule::in(config('mailcoach.automation.triggers'))],
+            'interval' => ['required'],
         ];
+
+        if ($this->has('trigger')) {
+            $rules = array_merge($rules, $this->get('trigger')::rules());
+        }
+
+        return $rules;
     }
 
     public function getSegmentClass(): string
@@ -52,8 +60,8 @@ class AutomationRequest extends FormRequest
 
     public function trigger(): AutomationTrigger
     {
-        $triggerClass = config('mailcoach.automation.triggers')[$this->get('trigger')];
-
-        return $triggerClass::createFromRequest($this);
+        return $this->get('trigger')::make([
+            'date' => Date::parse($this->get('date')),
+        ]);
     }
 }

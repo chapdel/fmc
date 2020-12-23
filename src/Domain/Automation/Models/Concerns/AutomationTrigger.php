@@ -22,6 +22,11 @@ abstract class AutomationTrigger extends AutomationStep
     {
     }
 
+    public static function rules(): array
+    {
+        return [];
+    }
+
     /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber|\Illuminate\Support\Collection|\Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder|array */
     public function fire($subscribers): void
     {

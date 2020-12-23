@@ -12,6 +12,11 @@ class CouldNotStartAutomation extends Exception
         return new static("The automation with id `{$automation->id}` can't be started, because it is already started.");
     }
 
+    public static function noInterval(Automation $automation): self
+    {
+        return new static("The automation with id `{$automation->id}` can't be started, because it has no interval.");
+    }
+
     public static function noActions(Automation $automation): self
     {
         return new static("The automation with id `{$automation->id}` can't be started, because it has no actions to run.");

@@ -25,25 +25,27 @@
 
         @include('mailcoach::app.campaigns.partials.emailListFields', ['segmentable' => $automation])
 
+        <x-mailcoach::text-field :label="__('Interval')" name="interval" :value="$automation->interval ?? '10 minutes'" required />
+
         <x-mailcoach::select-field
             :label="__('Trigger')"
             name="trigger"
             :options="$triggerOptions"
             placeholder="Select a trigger"
             data-conditional="trigger"
-            value="{{ $triggerOptions->search(optional($automation->trigger)->getName()) }}"
+            required
+            value="{{ $automation->trigger::class }}"
         />
 
-        @foreach ($triggerOptions as $index => $triggerName)
-            <div data-conditional-trigger="{{ $index }}">
-                @if (config('mailcoach.automation.triggers')[$index] && config('mailcoach.automation.triggers')[$index]::getComponent())
-                    <div class="mt-6">
-                        @livewire(config('mailcoach.automation.triggers')[$index]::getComponent(), [
-                            'triggerClass' => $selectedActionClass,
-                        ], key(config('mailcoach.automation.triggers')[$index]))
-                    </div>
-                @endif
-            </div>
+        @foreach ($triggerOptions as $triggerClass => $triggerName)
+            @if ($triggerClass::getComponent())
+                <div data-conditional-trigger="{{ $triggerClass }}">
+                    @livewire($triggerClass::getComponent(), [
+                        'triggerClass' => $triggerClass,
+                        'automation' => $automation,
+                    ], key($triggerClass))
+                </div>
+            @endif
         @endforeach
 
         <div class="form-buttons">
