@@ -10,12 +10,15 @@ use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationTriggersCommand;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\CampaignAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\DateTrigger;
+use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
+use Spatie\Mailcoach\Domain\Automation\Support\Triggers\TagAddedTrigger;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-class DateTriggerTest extends TestCase
+class SubscribedTriggerTest extends TestCase
 {
     private Campaign $campaign;
 
@@ -29,13 +32,13 @@ class DateTriggerTest extends TestCase
     }
 
     /** @test * */
-    public function it_triggers_on_a_specific_date()
+    public function it_triggers_when_a_subscriber_is_subscribed()
     {
         Queue::fake();
 
         TestTime::setTestNow(Carbon::create(2020, 01, 01));
 
-        $trigger = new DateTrigger(Carbon::create(2020, 01, 02));
+        $trigger = new SubscribedTrigger();
 
         $automation = Automation::create()
             ->name('New year!')
@@ -47,15 +50,11 @@ class DateTriggerTest extends TestCase
             ])
             ->start();
 
-        $this->campaign->emailList->subscribe('john@doe.com');
+        $this->refreshServiceProvider();
 
-        Artisan::call(RunAutomationTriggersCommand::class);
+        $this->assertEmpty($automation->actions->first()->fresh()->subscribers);
 
-        $this->assertEmpty($automation->actions->first()->subscribers);
-
-        TestTime::addDay();
-
-        Artisan::call(RunAutomationTriggersCommand::class);
+        $this->campaign->emailList->subscribeSkippingConfirmation('john@doe.com');
 
         $this->assertEquals(1, $automation->actions()->first()->subscribers->count());
     }

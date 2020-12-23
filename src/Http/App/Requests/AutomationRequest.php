@@ -60,8 +60,6 @@ class AutomationRequest extends FormRequest
 
     public function trigger(): AutomationTrigger
     {
-        return $this->get('trigger')::make([
-            'date' => Date::parse($this->get('date')),
-        ]);
+        return $this->get('trigger')::make($this->all());
     }
 }

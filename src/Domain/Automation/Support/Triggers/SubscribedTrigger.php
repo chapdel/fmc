@@ -2,11 +2,10 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Support\Triggers;
 
-use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationTrigger;
 use Spatie\Mailcoach\Domain\Campaign\Events\SubscribedEvent;
 
-class SubscribedAutomationTrigger extends AutomationTrigger
+class SubscribedTrigger extends AutomationTrigger
 {
     public static function getName(): string
     {
@@ -26,12 +25,7 @@ class SubscribedAutomationTrigger extends AutomationTrigger
         );
     }
 
-    public static function make(array $data): self
-    {
-        return new self();
-    }
-
-    public static function createFromRequest(Request $request): AutomationTrigger
+    public static function make(array $data = []): self
     {
         return new self();
     }

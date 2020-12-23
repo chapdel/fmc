@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Automation\Support\Triggers;
 
 use Carbon\CarbonInterface;
+use Illuminate\Support\Facades\Date;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationTrigger;
 
@@ -29,7 +30,7 @@ class DateTrigger extends AutomationTrigger
 
     public static function make(array $data): self
     {
-        return new self($data['date']);
+        return new self(Date::parse($data['date']));
     }
 
     public static function rules(): array

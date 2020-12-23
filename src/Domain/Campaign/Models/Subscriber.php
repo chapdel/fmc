@@ -14,6 +14,7 @@ use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\ConfirmSubscriberAction;
 use Spatie\Mailcoach\Domain\Campaign\Enums\SubscriptionStatus;
+use Spatie\Mailcoach\Domain\Campaign\Events\TagAddedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Events\UnsubscribedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasExtraAttributes;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
@@ -181,6 +182,8 @@ class Subscriber extends Model
             ]);
 
             $this->tags()->attach($tag);
+
+            event(new TagAddedEvent($this, $tag));
         }
 
         return $this;

@@ -31,6 +31,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\WaitActionCompon
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationBuilder;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\TagChainComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\DateTriggerComponent;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\TagAddedTriggerComponent;
 use Spatie\Mailcoach\Domain\Campaign\Commands\CalculateStatisticsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Commands\CleanupProcessedFeedbackCommand;
 use Spatie\Mailcoach\Domain\Campaign\Commands\DeleteOldUnconfirmedSubscribersCommand;
@@ -304,6 +305,7 @@ class MailcoachServiceProvider extends ServiceProvider
         Livewire::component('tag-chain', TagChainComponent::class);
 
         Livewire::component('date-trigger', DateTriggerComponent::class);
+        Livewire::component('tag-added-trigger', TagAddedTriggerComponent::class);
 
         return $this;
     }

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Artisan;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationActionsCommand;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
-use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedAutomationTrigger;
+use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\TestTime\TestTime;
 
@@ -19,7 +19,7 @@ class RunAutomationActionsCommandTest extends TestCase
     {
         $automation = Automation::create()
             ->to(EmailList::factory()->create())
-            ->trigger(new SubscribedAutomationTrigger())
+            ->trigger(new SubscribedTrigger())
             ->runEvery(CarbonInterval::minute())
             ->chain([
                 new HaltAction(),
@@ -43,7 +43,7 @@ class RunAutomationActionsCommandTest extends TestCase
 
         $automation = Automation::create()
             ->to(EmailList::factory()->create())
-            ->trigger(new SubscribedAutomationTrigger())
+            ->trigger(new SubscribedTrigger())
             ->runEvery(CarbonInterval::minutes(10))
             ->chain([
                 new HaltAction(),
