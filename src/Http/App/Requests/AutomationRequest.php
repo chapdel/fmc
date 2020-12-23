@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Http\App\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Date;
 use Illuminate\Validation\Rule;
 use Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationTrigger;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;

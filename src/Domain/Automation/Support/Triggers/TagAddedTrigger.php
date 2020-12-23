@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Domain\Automation\Support\Triggers;
 
 use Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationTrigger;
-use Spatie\Mailcoach\Domain\Campaign\Events\SubscribedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Events\TagAddedEvent;
 
 class TagAddedTrigger extends AutomationTrigger

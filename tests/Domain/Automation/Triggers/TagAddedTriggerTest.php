@@ -4,12 +4,9 @@ namespace Spatie\Mailcoach\Tests\Domain\Automation\Triggers;
 
 use Carbon\CarbonInterval;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Queue;
-use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationTriggersCommand;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\CampaignAction;
-use Spatie\Mailcoach\Domain\Automation\Support\Triggers\DateTrigger;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\TagAddedTrigger;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
