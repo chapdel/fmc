@@ -180,6 +180,7 @@ class Subscriber extends Model
             $tag = Tag::firstOrCreate([
                 'name' => $name,
                 'email_list_id' => $this->emailList->id,
+            ], [
                 'type' => $type ?? TagType::DEFAULT,
             ]);
 
