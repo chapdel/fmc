@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\Domain\Campaign\Models;
 
+use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Models\Tag;
 use Spatie\Mailcoach\Tests\TestCase;
@@ -45,6 +46,18 @@ class TagTest extends TestCase
 
         $this->assertEquals($this->subscriber->emailList->id, $tag->emailList->id);
         $this->assertEquals($this->subscriber->uuid, $tag->subscribers()->first()->uuid);
+    }
+
+    /** @test * */
+    public function a_tag_can_have_a_type()
+    {
+        $this->subscriber->addTag('test1', TagType::MAILCOACH);
+
+        $this->assertSubscriberHasTags(['test1']);
+
+        $tag = Tag::first();
+
+        $this->assertEquals(TagType::MAILCOACH, $tag->type);
     }
 
     /** @test */

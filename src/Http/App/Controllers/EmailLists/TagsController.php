@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists;
 
+use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\Tag;
 use Spatie\Mailcoach\Http\App\Queries\EmailListTagsQuery;
@@ -18,12 +19,17 @@ class TagsController
             'emailList' => $emailList,
             'tags' => $tagsQuery->paginate(),
             'totalTagsCount' => Tag::query()->emailList($emailList)->count(),
+            'totalDefault' => Tag::query()->where('type', TagType::DEFAULT)->emailList($emailList)->count(),
+            'totalMailcoach' => Tag::query()->where('type', TagType::MAILCOACH)->emailList($emailList)->count(),
         ]);
     }
 
     public function store(CreateTagRequest $request, EmailList $emailList)
     {
-        $tag = $emailList->tags()->create(['name' => $request->name]);
+        $tag = $emailList->tags()->create([
+            'name' => $request->name,
+            'type' => TagType::DEFAULT,
+        ]);
 
         flash()->success(__('Tag :tag was created', ['tag' => $tag->name]));
 

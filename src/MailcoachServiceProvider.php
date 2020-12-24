@@ -39,8 +39,12 @@ use Spatie\Mailcoach\Domain\Campaign\Commands\RetryPendingSendsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Commands\SendCampaignSummaryMailCommand;
 use Spatie\Mailcoach\Domain\Campaign\Commands\SendEmailListSummaryMailCommand;
 use Spatie\Mailcoach\Domain\Campaign\Commands\SendScheduledCampaignsCommand;
+use Spatie\Mailcoach\Domain\Campaign\Events\CampaignLinkClickedEvent;
+use Spatie\Mailcoach\Domain\Campaign\Events\CampaignOpenedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Domain\Campaign\Events\WebhookCallProcessedEvent;
+use Spatie\Mailcoach\Domain\Campaign\Listeners\AddCampaignClickedTag;
+use Spatie\Mailcoach\Domain\Campaign\Listeners\AddCampaignOpenedTag;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\SendCampaignSentEmail;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\SetWebhookCallProcessedAt;
 use Spatie\Mailcoach\Domain\Shared\Support\Version;
@@ -315,6 +319,8 @@ class MailcoachServiceProvider extends ServiceProvider
         Event::listen(CampaignSentEvent::class, SendCampaignSentEmail::class);
         Event::listen(WebhookCallProcessedEvent::class, SetWebhookCallProcessedAt::class);
         Event::listen(MessageSending::class, StoreTransactionalMail::class);
+        Event::listen(CampaignOpenedEvent::class, AddCampaignOpenedTag::class);
+        Event::listen(CampaignLinkClickedEvent::class, AddCampaignClickedTag::class);
 
         return $this;
     }

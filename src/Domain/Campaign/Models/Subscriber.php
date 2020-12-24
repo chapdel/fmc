@@ -14,6 +14,7 @@ use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\ConfirmSubscriberAction;
 use Spatie\Mailcoach\Domain\Campaign\Enums\SubscriptionStatus;
+use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Domain\Campaign\Events\TagAddedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Events\UnsubscribedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasExtraAttributes;
@@ -162,14 +163,14 @@ class Subscriber extends Model
             ->whereNotNull('unsubscribed_at');
     }
 
-    public function addTag(string|iterable $name): self
+    public function addTag(string|iterable $name, string $type = null): self
     {
         $names = Arr::wrap($name);
 
-        return $this->addTags($names);
+        return $this->addTags($names, $type);
     }
 
-    public function addTags(array $names)
+    public function addTags(array $names, string $type = null)
     {
         foreach ($names as $name) {
             if ($this->hasTag($name)) {
@@ -179,6 +180,7 @@ class Subscriber extends Model
             $tag = Tag::firstOrCreate([
                 'name' => $name,
                 'email_list_id' => $this->emailList->id,
+                'type' => $type ?? TagType::DEFAULT,
             ]);
 
             $this->tags()->attach($tag);

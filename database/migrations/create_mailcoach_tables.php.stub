@@ -315,6 +315,7 @@ class CreateMailcoachTables extends Migration
         Schema::create('mailcoach_tags', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('type')->default('default');
 
             $table
                 ->foreignId('email_list_id')
