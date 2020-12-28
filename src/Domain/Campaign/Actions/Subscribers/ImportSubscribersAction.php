@@ -66,11 +66,10 @@ class ImportSubscribersAction
 
             SimpleExcelReader::create($localImportFile)
                 ->getRows()
-                ->map(fn(array $values) => new ImportSubscriberRow($this->subscriberImport->emailList, $values))
-                ->filter(fn(ImportSubscriberRow $row) => $this->validateSubscriberEmail($row))
-                ->filter(fn(ImportSubscriberRow $row) => $this->validateSubscriberStatus($row))
-                ->each(fn(ImportSubscriberRow $row) => $this->importSubscriber($row));
-
+                ->map(fn (array $values) => new ImportSubscriberRow($this->subscriberImport->emailList, $values))
+                ->filter(fn (ImportSubscriberRow $row) => $this->validateSubscriberEmail($row))
+                ->filter(fn (ImportSubscriberRow $row) => $this->validateSubscriberStatus($row))
+                ->each(fn (ImportSubscriberRow $row) => $this->importSubscriber($row));
         } catch (Exception $exception) {
             $this->errorReport->addRow([
                 __("Couldn't finish importing subscribers. This error occurred: :error",
@@ -125,7 +124,7 @@ class ImportSubscribersAction
 
     protected function unsubscribeMissing(): self
     {
-        if ($this->getErrorCount() || !$this->subscriberImport['unsubscribe_others']) {
+        if ($this->getErrorCount() || ! $this->subscriberImport['unsubscribe_others']) {
             return $this;
         }
 
@@ -152,7 +151,7 @@ class ImportSubscribersAction
 
     protected function sendResultReport(): self
     {
-        if (!$this->user) {
+        if (! $this->user) {
             return $this;
         }
 
