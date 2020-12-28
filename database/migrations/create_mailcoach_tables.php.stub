@@ -79,7 +79,7 @@ class CreateMailcoachTables extends Migration
                 'subscribed_at',
                 'unsubscribed_at'
             ],
-            'email_list_subscribed_index');
+                'email_list_subscribed_index');
         });
 
         Schema::create('mailcoach_segments', function (Blueprint $table) {
@@ -174,6 +174,25 @@ class CreateMailcoachTables extends Migration
             $table->integer('click_count')->default(0);
             $table->integer('unique_click_count')->default(0);
             $table->nullableTimestamps();
+        });
+
+        Schema::create('mailcoach_transactional_mails', function (Blueprint $table) {
+            $table->id();
+
+            $table->text('subject');
+
+            $table->json('from');
+            $table->json('to');
+            $table->json('cc')->nullable();
+            $table->json('bcc')->nullable();
+            $table->longText('body')->nullable();
+
+            $table->boolean('track_opens')->default(false);
+            $table->boolean('track_clicks')->default(false);
+
+            $table->string('mailable_class');
+
+            $table->timestamps();
         });
 
         Schema::create('mailcoach_sends', function (Blueprint $table) {
@@ -301,6 +320,7 @@ class CreateMailcoachTables extends Migration
 
             $table
                 ->foreignId('email_list_id')
+                ->nullable()
                 ->constrained('mailcoach_email_lists')
                 ->nullOnDelete();
 
@@ -319,6 +339,7 @@ class CreateMailcoachTables extends Migration
 
             $table
                 ->foreignId('email_list_id')
+                ->nullable()
                 ->constrained('mailcoach_email_lists')
                 ->nullOnDelete();
 
@@ -330,11 +351,13 @@ class CreateMailcoachTables extends Migration
 
             $table
                 ->foreignId('subscriber_id')
+                ->nullable()
                 ->constrained('mailcoach_subscribers')
                 ->nullOnDelete();
 
             $table
                 ->foreignId('tag_id')
+                ->nullable()
                 ->constrained('mailcoach_tags')
                 ->nullOnDelete();
         });
@@ -344,12 +367,16 @@ class CreateMailcoachTables extends Migration
 
             $table
                 ->foreignId('email_list_id')
+                ->nullable()
                 ->constrained('mailcoach_email_lists')
+                ->index('tags_email_list_id')
                 ->nullOnDelete();
 
             $table
                 ->foreignId('tag_id')
+                ->nullable()
                 ->constrained('mailcoach_tags')
+                ->index('tags_tag_id')
                 ->nullOnDelete();
         });
 
@@ -358,11 +385,13 @@ class CreateMailcoachTables extends Migration
 
             $table
                 ->foreignId('segment_id')
+                ->nullable()
                 ->constrained('mailcoach_segments')
                 ->nullOnDelete();
 
             $table
                 ->foreignId('tag_id')
+                ->nullable()
                 ->constrained('mailcoach_tags')
                 ->nullOnDelete();
         });
@@ -372,32 +401,15 @@ class CreateMailcoachTables extends Migration
 
             $table
                 ->foreignId('segment_id')
+                ->nullable()
                 ->constrained('mailcoach_segments')
                 ->nullOnDelete();
 
             $table
                 ->foreignId('tag_id')
+                ->nullable()
                 ->constrained('mailcoach_tags')
                 ->nullOnDelete();
-        });
-
-        Schema::create('mailcoach_transactional_mails', function (Blueprint $table) {
-            $table->id();
-
-            $table->text('subject');
-
-            $table->json('from');
-            $table->json('to');
-            $table->json('cc')->nullable();
-            $table->json('bcc')->nullable();
-            $table->longText('body')->nullable();
-
-            $table->boolean('track_opens')->default(false);
-            $table->boolean('track_clicks')->default(false);
-
-            $table->string('mailable_class');
-
-            $table->timestamps();
         });
 
         Schema::create('mailcoach_transactional_mail_opens', function (Blueprint $table) {
