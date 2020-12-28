@@ -53,7 +53,9 @@ use Spatie\Mailcoach\Http\App\Controllers\EmailLists\TagsController;
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DestroySubscriberImportController;
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DownloadSubscriberImportAttachmentController;
 use Spatie\Mailcoach\Http\App\Controllers\TemplatesController;
+use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailsIndexController;
 use Spatie\Mailcoach\Http\App\Middleware\EditableCampaign;
+use Illuminate\Support\Facades\Route;
 
 Route::get('debug', '\\' . DebugController::class)->name('debug');
 
@@ -159,6 +161,10 @@ Route::prefix('automations')->group(function () {
             Route::post('/', ['\\' . AutomationActionsController::class, 'store'])->name('mailcoach.automations.actions.store');
         });
     });
+});
+
+Route::prefix('transactional-mails')->group(function() {
+    Route::get('/', '\\' . TransactionalMailsIndexController::class)->name('mailcoach.transactionalMails');
 });
 
 Route::prefix('subscriber-import')->group(function () {

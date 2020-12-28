@@ -25,5 +25,11 @@
             <span class="icon-label-text">{{ __('Templates') }}</span>
         </span>
     </x-mailcoach::navigation-item>
+    <x-mailcoach::navigation-item :href="route('mailcoach.transactionalMails')">
+        <span class="icon-label">
+            <i class="fas fa-envelope"></i>
+            <span class="icon-label-text">{{ __('Transactional mails') }}</span>
+        </span>
+    </x-mailcoach::navigation-item>
     @include('mailcoach::app.layouts.partials.afterLastMenuItem')
 </ul>
