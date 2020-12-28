@@ -26,6 +26,10 @@ class Automation extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'run_at' => 'datetime',
+    ];
+
     public function setTriggerAttribute(AutomationTrigger $value)
     {
         $this->attributes['trigger'] = serialize($value);
@@ -94,7 +98,7 @@ class Automation extends Model
         return $this;
     }
 
-    public function interval(CarbonInterval $interval): self
+    public function runEvery(CarbonInterval $interval): self
     {
         $this->update(['interval' => $interval]);
 
@@ -127,6 +131,10 @@ class Automation extends Model
 
     public function start(): self
     {
+        if (! $this->interval) {
+            throw CouldNotStartAutomation::noInterval($this);
+        }
+
         if (! $this->emailList()->count() > 0) {
             throw CouldNotStartAutomation::noListSet($this);
         }

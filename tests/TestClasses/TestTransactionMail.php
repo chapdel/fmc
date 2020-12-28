@@ -6,8 +6,7 @@ use Closure;
 use Illuminate\Mail\Mailable;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns\StoresMail;
 
-class
-TestTransactionMail extends Mailable
+class TestTransactionMail extends Mailable
 {
     use StoresMail;
 

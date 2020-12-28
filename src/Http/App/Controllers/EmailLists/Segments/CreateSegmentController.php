@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments;
 
-use Spatie\Mailcoach\Http\App\Queries\CreateSegmentRequest;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Http\App\Queries\CreateSegmentRequest;
 
 class CreateSegmentController
 {

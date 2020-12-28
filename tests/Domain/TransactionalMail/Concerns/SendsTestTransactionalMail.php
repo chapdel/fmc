@@ -9,9 +9,9 @@ trait SendsTestTransactionalMail
 {
     protected function sendTestMail(callable $buildUsing = null): void
     {
-        TestTransactionMail::$buildUsing = $buildUsing ?? function(TestTransactionMail $mail) {
-                $mail->trackOpensAndClicks();
-            };
+        TestTransactionMail::$buildUsing = $buildUsing ?? function (TestTransactionMail $mail) {
+            $mail->trackOpensAndClicks();
+        };
 
         Mail::to('john@example.com')->send(new TestTransactionMail());
     }

@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent;
 
-use Spatie\Mailcoach\Http\App\Queries\CampaignUnsubscribesQuery;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Http\App\Queries\CampaignUnsubscribesQuery;
 
 class CampaignUnsubscribesController
 {

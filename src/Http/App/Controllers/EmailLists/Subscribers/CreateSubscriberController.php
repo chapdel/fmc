@@ -2,9 +2,9 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers;
 
-use Spatie\Mailcoach\Http\App\Requests\EmailLists\Subscribers\CreateSubscriberRequest;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Http\App\Requests\EmailLists\Subscribers\CreateSubscriberRequest;
 
 class CreateSubscriberController
 {

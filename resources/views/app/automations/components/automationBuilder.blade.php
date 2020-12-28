@@ -23,9 +23,8 @@
             @if ($action['editing'] ?? false && $action['class']::getComponent())
                 <div class="mt-6">
                     @livewire($action['class']::getComponent(), [
-                        'actionClass' => $action['class'],
                         'automation' => $automation,
-                        'actionData' => $action['data'] ?? [],
+                        'componentData' => $action['data'] ?? [],
                     ], key($index))
                 </div>
             @else

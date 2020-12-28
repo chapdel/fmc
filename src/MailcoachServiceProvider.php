@@ -15,40 +15,46 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
-use Spatie\Mailcoach\Domain\Campaign\Commands\CalculateStatisticsCommand;
-use Spatie\Mailcoach\Domain\Campaign\Commands\CleanupProcessedFeedbackCommand;
-use Spatie\Mailcoach\Domain\Campaign\Commands\DeleteOldUnconfirmedSubscribersCommand;
-use Spatie\Mailcoach\Domain\Campaign\Commands\RetryPendingSendsCommand;
-use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationActionsCommand;
-use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationTriggersCommand;
-use Spatie\Mailcoach\Domain\Campaign\Commands\SendCampaignSummaryMailCommand;
-use Spatie\Mailcoach\Domain\Campaign\Commands\SendEmailListSummaryMailCommand;
-use Spatie\Mailcoach\Domain\Campaign\Commands\SendScheduledCampaignsCommand;
 use Spatie\Mailcoach\Components\DateTimeFieldComponent;
 use Spatie\Mailcoach\Components\FilterComponent;
 use Spatie\Mailcoach\Components\ReplacerHelpTextsComponent;
 use Spatie\Mailcoach\Components\SearchComponent;
 use Spatie\Mailcoach\Components\THComponent;
-use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
-use Spatie\Mailcoach\Domain\Campaign\Events\WebhookCallProcessedEvent;
-use Spatie\Mailcoach\Http\App\Controllers\HomeController;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\TagChainComponent;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationBuilder;
+use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationActionsCommand;
+use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationTriggersCommand;
+use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\AddTagsActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\CampaignActionComponent;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\EnsureTagsExistActionComponent;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\RemoveTagsActionComponent;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\WaitActionComponent;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationBuilder;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\TagChainComponent;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\DateTriggerComponent;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\TagAddedTriggerComponent;
+use Spatie\Mailcoach\Domain\Campaign\Commands\CalculateStatisticsCommand;
+use Spatie\Mailcoach\Domain\Campaign\Commands\CleanupProcessedFeedbackCommand;
+use Spatie\Mailcoach\Domain\Campaign\Commands\DeleteOldUnconfirmedSubscribersCommand;
+use Spatie\Mailcoach\Domain\Campaign\Commands\RetryPendingSendsCommand;
+use Spatie\Mailcoach\Domain\Campaign\Commands\SendCampaignSummaryMailCommand;
+use Spatie\Mailcoach\Domain\Campaign\Commands\SendEmailListSummaryMailCommand;
+use Spatie\Mailcoach\Domain\Campaign\Commands\SendScheduledCampaignsCommand;
+use Spatie\Mailcoach\Domain\Campaign\Events\CampaignLinkClickedEvent;
+use Spatie\Mailcoach\Domain\Campaign\Events\CampaignOpenedEvent;
+use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
+use Spatie\Mailcoach\Domain\Campaign\Events\WebhookCallProcessedEvent;
+use Spatie\Mailcoach\Domain\Campaign\Listeners\AddCampaignClickedTag;
+use Spatie\Mailcoach\Domain\Campaign\Listeners\AddCampaignOpenedTag;
+use Spatie\Mailcoach\Domain\Campaign\Listeners\SendCampaignSentEmail;
+use Spatie\Mailcoach\Domain\Campaign\Listeners\SetWebhookCallProcessedAt;
+use Spatie\Mailcoach\Domain\Shared\Support\Version;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\TransactionalMail\Listeners\StoreTransactionalMail;
+use Spatie\Mailcoach\Http\App\Controllers\HomeController;
 use Spatie\Mailcoach\Http\App\ViewComposers\CampaignActionComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\IndexComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\QueryStringComposer;
-use Spatie\Mailcoach\Domain\Campaign\Listeners\SendCampaignSentEmail;
-use Spatie\Mailcoach\Domain\Campaign\Listeners\SetWebhookCallProcessedAt;
-use Spatie\Mailcoach\Domain\TransactionalMail\Listeners\StoreTransactionalMail;
-use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\EnsureTagsExistActionComponent;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\RemoveTagsActionComponent;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\WaitActionComponent;
-use Spatie\Mailcoach\Domain\Shared\Support\Version;
-use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\QueryString\QueryString;
 
 class MailcoachServiceProvider extends ServiceProvider
@@ -302,6 +308,9 @@ class MailcoachServiceProvider extends ServiceProvider
         Livewire::component('ensure-tags-exist-action', EnsureTagsExistActionComponent::class);
         Livewire::component('tag-chain', TagChainComponent::class);
 
+        Livewire::component('date-trigger', DateTriggerComponent::class);
+        Livewire::component('tag-added-trigger', TagAddedTriggerComponent::class);
+
         return $this;
     }
 
@@ -310,6 +319,8 @@ class MailcoachServiceProvider extends ServiceProvider
         Event::listen(CampaignSentEvent::class, SendCampaignSentEmail::class);
         Event::listen(WebhookCallProcessedEvent::class, SetWebhookCallProcessedAt::class);
         Event::listen(MessageSending::class, StoreTransactionalMail::class);
+        Event::listen(CampaignOpenedEvent::class, AddCampaignOpenedTag::class);
+        Event::listen(CampaignLinkClickedEvent::class, AddCampaignClickedTag::class);
 
         return $this;
     }

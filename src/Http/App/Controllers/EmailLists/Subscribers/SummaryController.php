@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers;
 
-use Spatie\Mailcoach\Http\App\ViewModels\EmailListSummaryViewModel;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Http\App\ViewModels\EmailListSummaryViewModel;
 
 class SummaryController
 {

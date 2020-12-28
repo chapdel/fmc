@@ -2,10 +2,10 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns;
 
-use Spatie\Mailcoach\Http\App\Queries\CampaignsQuery;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Http\App\Queries\CampaignsQuery;
 
 class CampaignsIndexController
 {

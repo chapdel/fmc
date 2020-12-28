@@ -4,11 +4,11 @@ namespace Spatie\Mailcoach\Http\App\Controllers;
 
 use Spatie\Mailcoach\Domain\Campaign\Actions\Templates\CreateTemplateAction;
 use Spatie\Mailcoach\Domain\Campaign\Actions\Templates\UpdateTemplateAction;
+use Spatie\Mailcoach\Domain\Campaign\Models\Template;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Api\Resources\TemplateResource;
 use Spatie\Mailcoach\Http\App\Queries\TemplatesQuery;
 use Spatie\Mailcoach\Http\App\Requests\TemplateRequest;
-use Spatie\Mailcoach\Domain\Campaign\Models\Template;
-use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class TemplatesController
 {

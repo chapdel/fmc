@@ -3,9 +3,9 @@
 namespace Spatie\Mailcoach\Http\Front\Controllers;
 
 use Spatie\Mailcoach\Domain\Campaign\Enums\SubscriptionStatus;
-use Spatie\Mailcoach\Http\Front\Requests\CreateSubscriptionRequest;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Http\Front\Requests\CreateSubscriptionRequest;
 use Symfony\Component\HttpFoundation\Response;
 
 class SubscribeController

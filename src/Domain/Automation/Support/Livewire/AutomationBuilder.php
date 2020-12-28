@@ -4,11 +4,9 @@ namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Livewire\Component;
 use Livewire\Livewire;
-use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 
-class AutomationBuilder extends AutomationComponent
+class AutomationBuilder extends AutomationActionComponent
 {
     public string $name = '';
 
@@ -60,6 +58,7 @@ class AutomationBuilder extends AutomationComponent
     {
         $this->actions = array_map(function ($action) {
             $action['editing'] = false;
+
             return $action;
         }, $this->actions);
 
@@ -86,7 +85,8 @@ class AutomationBuilder extends AutomationComponent
         $this->emitUp('automationBuilderUpdated', $this->getData());
     }
 
-    public function removeAction(int $index) {
+    public function removeAction(int $index)
+    {
         unset($this->actions[$index]);
 
         $this->actions = array_values($this->actions);

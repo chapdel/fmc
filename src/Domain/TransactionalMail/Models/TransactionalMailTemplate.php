@@ -11,6 +11,4 @@ class TransactionalMailTemplate extends Model
         'track_opens' => 'boolean',
         'track_clicks' => 'boolean',
     ];
-
-
 }

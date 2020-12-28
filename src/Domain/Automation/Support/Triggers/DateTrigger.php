@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Domain\Automation\Support\Triggers;
 
 use Carbon\CarbonInterface;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationTrigger;
@@ -14,6 +13,8 @@ class DateTrigger extends AutomationTrigger
 
     public function __construct(CarbonInterface $date)
     {
+        parent::__construct();
+
         $this->date = $date;
     }
 
@@ -22,19 +23,21 @@ class DateTrigger extends AutomationTrigger
         return __('On a date');
     }
 
-    public static function getConfigView(): ?string
+    public static function getComponent(): ?string
     {
-        return 'mailcoach::app.automations.partials.triggers.dateTrigger';
+        return 'date-trigger';
     }
 
     public static function make(array $data): self
     {
-        return new self($data['date']);
+        return new self(Date::parse($data['date']));
     }
 
-    public static function createFromRequest(Request $request): AutomationTrigger
+    public static function rules(): array
     {
-        return new self(Date::parse($request->get('date')));
+        return [
+            'date' => ['required', 'date'],
+        ];
     }
 
     public function trigger(Automation $automation): void

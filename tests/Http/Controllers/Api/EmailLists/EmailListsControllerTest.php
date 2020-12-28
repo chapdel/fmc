@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\EmailLists;
 
-use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\EmailListsController;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\EmailListsController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestCase;
 

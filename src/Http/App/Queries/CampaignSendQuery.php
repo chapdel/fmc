@@ -2,9 +2,9 @@
 
 namespace Spatie\Mailcoach\Http\App\Queries;
 
-use Spatie\Mailcoach\Http\App\Queries\Filters\FuzzyFilter;
 use Spatie\Mailcoach\Domain\Campaign\Models\Send;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Http\App\Queries\Filters\FuzzyFilter;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 

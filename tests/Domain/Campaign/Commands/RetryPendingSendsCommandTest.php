@@ -3,8 +3,8 @@
 namespace Spatie\Mailcoach\Tests\Domain\Campaign\Commands;
 
 use Illuminate\Support\Facades\Queue;
-use Spatie\Mailcoach\Domain\Campaign\Commands\RetryPendingSendsCommand;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
+use Spatie\Mailcoach\Domain\Campaign\Commands\RetryPendingSendsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendMailJob;
 use Spatie\Mailcoach\Tests\TestCase;
 

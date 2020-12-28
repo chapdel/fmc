@@ -2,9 +2,9 @@
 
 namespace Spatie\Mailcoach\Http\Api\Controllers\SubscriberImports;
 
+use Spatie\Mailcoach\Domain\Campaign\Models\SubscriberImport;
 use Spatie\Mailcoach\Http\Api\Requests\AppendSubscriberImportRequest;
 use Spatie\Mailcoach\Http\Api\Resources\SubscriberImportResource;
-use Spatie\Mailcoach\Domain\Campaign\Models\SubscriberImport;
 
 class AppendSubscriberImportController
 {

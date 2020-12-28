@@ -72,8 +72,10 @@ class ImportSubscribersAction
                 ->each(fn (ImportSubscriberRow $row) => $this->importSubscriber($row));
         } catch (Exception $exception) {
             $this->errorReport->addRow([
-                __("Couldn't finish importing subscribers. This error occurred: :error",
-                    ['error' => $exception->getMessage()])
+                __(
+                    "Couldn't finish importing subscribers. This error occurred: :error",
+                    ['error' => $exception->getMessage()]
+                ),
             ]);
         }
 
@@ -137,7 +139,7 @@ class ImportSubscribersAction
                     ->orWhereNull('imported_via_import_uuid');
             })
             ->cursor()
-            ->each(fn(Subscriber $subscriber) => $subscriber->unsubscribe());
+            ->each(fn (Subscriber $subscriber) => $subscriber->unsubscribe());
 
         return $this;
     }
@@ -183,7 +185,7 @@ class ImportSubscribersAction
 
     protected function validateSubscriberEmail(ImportSubscriberRow $row): bool
     {
-        if (!$row->hasValidEmail()) {
+        if (! $row->hasValidEmail()) {
             $this->writeError($row, __('Does not have a valid email'));
         }
 
@@ -202,7 +204,7 @@ class ImportSubscribersAction
             $this->writeError($row, __('This email address was unsubscribed in the past.'));
         }
 
-        return !$hasUnsubscribed;
+        return ! $hasUnsubscribed;
     }
 
     protected function getTemporaryDirectory(): TemporaryDirectory

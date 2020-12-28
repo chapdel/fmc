@@ -2,9 +2,9 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions;
 
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationComponent;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationActionComponent;
 
-class EnsureTagsExistActionComponent extends AutomationComponent
+class EnsureTagsExistActionComponent extends AutomationActionComponent
 {
     public string $checkFor = '';
 
@@ -57,7 +57,7 @@ class EnsureTagsExistActionComponent extends AutomationComponent
     {
         $this->tags[] = [
             'tag' => '',
-            'actions' => []
+            'actions' => [],
         ];
     }
 

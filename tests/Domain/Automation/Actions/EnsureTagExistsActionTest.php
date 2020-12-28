@@ -7,11 +7,11 @@ use Illuminate\Support\Carbon;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\CampaignAction;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\EnsureTagsExistAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Automation\Support\Actions\EnsureTagsExistAction;
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
@@ -44,13 +44,13 @@ class EnsureTagExistsActionTest extends TestCase
                             'tag' => 'some-tag',
                             'actions' => [
                                 new CampaignAction($this->campaign),
-                            ]
-                        ]
+                            ],
+                        ],
                     ],
                     [
                         new HaltAction(),
                     ]
-                )
+                ),
             ]);
 
         // Attach a dummy action so we have a pivot table

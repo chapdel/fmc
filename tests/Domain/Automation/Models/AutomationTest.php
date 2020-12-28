@@ -20,7 +20,7 @@ use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\CampaignAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\EnsureTagsExistAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
-use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedAutomationTrigger;
+use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -58,7 +58,8 @@ class AutomationTest extends TestCase
         $automation = Automation::create()
             ->name('Welcome email')
             ->to($this->campaign->emailList)
-            ->trigger(new SubscribedAutomationTrigger)
+            ->runEvery(CarbonInterval::minute())
+            ->trigger(new SubscribedTrigger)
             ->chain([
                 new CampaignAction($this->campaign),
             ])
@@ -89,7 +90,8 @@ class AutomationTest extends TestCase
         $automation = Automation::create()
             ->name('Welcome email')
             ->to($this->campaign->emailList)
-            ->trigger(new SubscribedAutomationTrigger)
+            ->runEvery(CarbonInterval::minute())
+            ->trigger(new SubscribedTrigger)
             ->chain([
                 new HaltAction,
                 new CampaignAction($this->campaign),
@@ -119,8 +121,9 @@ class AutomationTest extends TestCase
 
         $automation = Automation::create()
             ->name('Welcome email')
+            ->runEvery(CarbonInterval::minute())
             ->to($this->campaign->emailList)
-            ->trigger(new SubscribedAutomationTrigger)
+            ->trigger(new SubscribedTrigger)
             ->chain([
                 new WaitAction(CarbonInterval::days(1)),
                 new CampaignAction($this->campaign),
@@ -156,8 +159,9 @@ class AutomationTest extends TestCase
     {
         $automation = Automation::create()
             ->name('Welcome email')
+            ->runEvery(CarbonInterval::minute())
             ->to($this->campaign->emailList)
-            ->trigger(new SubscribedAutomationTrigger)
+            ->trigger(new SubscribedTrigger)
             ->chain([]);
 
         $this->assertEquals([], $automation->actions->toArray());
@@ -217,8 +221,8 @@ class AutomationTest extends TestCase
         $automation = Automation::create()
             ->name('Getting started with Mailcoach')
             ->to($emailList)
-            ->trigger(new SubscribedAutomationTrigger())
-            ->interval(CarbonInterval::minutes(10)) // Run through the automation and check actions every 10 min
+            ->trigger(new SubscribedTrigger())
+            ->runEvery(CarbonInterval::minutes(10)) // Run through the automation and check actions every 10 min
             ->chain([
                 new WaitAction(CarbonInterval::day()), // Wait one day
                 new CampaignAction($campaign1), // Send first email
@@ -252,7 +256,7 @@ class AutomationTest extends TestCase
         $this->assertEquals(1, Automation::count());
         tap(Automation::first(), function (Automation $automation) {
             $this->assertEquals(CarbonInterval::minutes(10), $automation->interval);
-            $this->assertInstanceOf(SubscribedAutomationTrigger::class, $automation->trigger);
+            $this->assertInstanceOf(SubscribedTrigger::class, $automation->trigger);
         });
         $this->assertEquals(9, Action::count());
 

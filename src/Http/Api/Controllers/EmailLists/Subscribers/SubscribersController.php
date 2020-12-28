@@ -3,14 +3,14 @@
 namespace Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers;
 
 use Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\UpdateSubscriberAction;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Http\Api\Requests\StoreSubscriberRequest;
 use Spatie\Mailcoach\Http\Api\Resources\SubscriberResource;
 use Spatie\Mailcoach\Http\App\Queries\EmailListSubscribersQuery;
 use Spatie\Mailcoach\Http\App\Requests\EmailLists\Subscribers\UpdateSubscriberRequest;
-use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
-use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class SubscribersController
 {

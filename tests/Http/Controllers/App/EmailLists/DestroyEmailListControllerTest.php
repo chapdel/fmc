@@ -2,9 +2,9 @@
 
 namespace Spatie\Mailcoach\Tests\Http\Controllers\App\EmailLists;
 
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\DestroyEmailListController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\EmailListsIndexController;
-use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class DestroyEmailListControllerTest extends TestCase

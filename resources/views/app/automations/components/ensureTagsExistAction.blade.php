@@ -22,6 +22,6 @@
     </div>
     <div class="mt-4">
         <h2 class="font-bold mb-2">Default actions</h2>
-        <livewire:automation-builder name="default-actions" :automation="$automation" :actionData="['actions' => $defaultActions]" />
+        <livewire:automation-builder name="default-actions" :automation="$automation" :componentData="['actions' => $defaultActions]" />
     </div>
 </div>

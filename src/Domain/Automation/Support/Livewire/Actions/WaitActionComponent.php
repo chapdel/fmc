@@ -2,9 +2,9 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions;
 
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationComponent;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationActionComponent;
 
-class WaitActionComponent extends AutomationComponent
+class WaitActionComponent extends AutomationActionComponent
 {
     public string $duration = '';
 

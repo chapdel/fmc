@@ -21,13 +21,18 @@ class RunAutomationActionsCommand extends Command
         $this->comment('Start running actions...');
 
         Automation::query()
-            ->whereHas('actions')
             ->where('status', AutomationStatus::STARTED)
             ->cursor()
             ->each(function (Automation $automation) {
+                if (! is_null($automation->run_at) && $automation->run_at->add($automation->interval)->isFuture()) {
+                    return;
+                }
+
                 $automation->allActions()->each(function (Action $action) {
                     $action->run();
                 });
+
+                $automation->update(['run_at' => now()]);
             });
 
         $this->comment('All done!');

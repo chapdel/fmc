@@ -24,14 +24,26 @@
             @include('mailcoach::app.emailLists.tag.partials.create')
         </x-mailcoach::modal>
 
-        @if($tags->count() || $searching)
+        @if($totalTagsCount > 0 || $searching)
             <div class="table-filters">
+                <x-mailcoach::filters>
+                    <x-mailcoach::filter :queryString="$queryString" attribute="type" active-on="">
+                        {{ __('All') }} <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalTagsCount) }}</span>
+                    </x-mailcoach::filter>
+                    <x-mailcoach::filter :queryString="$queryString" attribute="type" active-on="{{ \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::DEFAULT }}">
+                        {{ __('Default') }} <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalDefault) }}</span>
+                    </x-mailcoach::filter>
+                    <x-mailcoach::filter :queryString="$queryString" attribute="type" active-on="{{ \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::MAILCOACH }}">
+                        {{ __('Mailcoach') }} <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalMailcoach) }}</span>
+                    </x-mailcoach::filter>
+                </x-mailcoach::filters>
+
                 <x-mailcoach::search :placeholder="__('Filter tags…')"/>
             </div>
         @endif
     </div>
 
-    @if($tags->count())
+    @if($totalTagsCount > 0)
         <table class="table table-fixed">
             <thead>
             <tr>
@@ -45,9 +57,13 @@
             @foreach($tags as $tag)
                 <tr>
                     <td class="markup-links">
-                        <a class="break-words" href="{{ route('mailcoach.emailLists.tag.edit', [$emailList, $tag]) }}">
+                        @if ($tag->type === \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::DEFAULT)
+                            <a class="break-words" href="{{ route('mailcoach.emailLists.tag.edit', [$emailList, $tag]) }}">
+                                {{ $tag->name }}
+                            </a>
+                        @else
                             {{ $tag->name }}
-                        </a>
+                        @endif
                     </td>
                     <td class="td-numeric">{{ $tag->subscriber_count }}</td>
                     <td class="td-numeric hidden | md:table-cell">{{ $tag->updated_at->toMailcoachFormat() }}</td>

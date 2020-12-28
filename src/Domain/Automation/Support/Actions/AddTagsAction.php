@@ -2,10 +2,8 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
 
-use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
-use Spatie\ValidationRules\Rules\Delimited;
 
 class AddTagsAction extends AutomationAction
 {
