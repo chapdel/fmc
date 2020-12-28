@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationActionsController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationSettingsController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationsIndexController;
@@ -55,7 +56,6 @@ use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DownloadSubscriberIm
 use Spatie\Mailcoach\Http\App\Controllers\TemplatesController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailsIndexController;
 use Spatie\Mailcoach\Http\App\Middleware\EditableCampaign;
-use Illuminate\Support\Facades\Route;
 
 Route::get('debug', '\\' . DebugController::class)->name('debug');
 
@@ -163,7 +163,7 @@ Route::prefix('automations')->group(function () {
     });
 });
 
-Route::prefix('transactional-mails')->group(function() {
+Route::prefix('transactional-mails')->group(function () {
     Route::get('/', '\\' . TransactionalMailsIndexController::class)->name('mailcoach.transactionalMails');
 });
 
