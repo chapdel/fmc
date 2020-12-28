@@ -19,9 +19,10 @@ class TransactionalMailsQuery extends QueryBuilder
         parent::__construct($this->getTransactionalMailClass()::query());
 
         $this
-            ->defaultSort('-sent-at')
+            ->defaultSort('-created_at')
             ->allowedSorts(
                 'subject',
+                'created_at',
             )
             ->allowedFilters(
                 AllowedFilter::custom('search', new FuzzyFilter('subject')),

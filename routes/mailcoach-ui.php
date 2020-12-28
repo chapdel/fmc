@@ -56,6 +56,7 @@ use Spatie\Mailcoach\Http\App\Controllers\TemplatesController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailsIndexController;
 use Spatie\Mailcoach\Http\App\Middleware\EditableCampaign;
 use Illuminate\Support\Facades\Route;
+use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ShowTransactionalMailController;
 
 Route::get('debug', '\\' . DebugController::class)->name('debug');
 
@@ -165,6 +166,10 @@ Route::prefix('automations')->group(function () {
 
 Route::prefix('transactional-mails')->group(function() {
     Route::get('/', '\\' . TransactionalMailsIndexController::class)->name('mailcoach.transactionalMails');
+
+    Route::prefix('{transactionalMail}')->group(function() {
+        Route::get('/', '\\' . ShowTransactionalMailController::class)->name('mailcoach.transactionalMail.show');
+    });
 });
 
 Route::prefix('subscriber-import')->group(function () {

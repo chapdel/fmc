@@ -24,17 +24,19 @@
             <table class="table table-fixed">
                 <thead>
                 <tr>
-                    <x-mailcoach::th class="w-4"></x-mailcoach::th>
-                    <x-mailcoach::th sort-by="subject">{{ __('Name') }}</x-mailcoach::th>
-                    <x-mailcoach::th sort-by="-sent" sort-default class="w-48 th-numeric hidden | md:table-cell">{{ __('Sent') }}</x-mailcoach::th>
+                    <x-mailcoach::th sort-by="subject">{{ __('Subject') }}</x-mailcoach::th>
+                    <x-mailcoach::th>{{ __('To') }}</x-mailcoach::th>
+
+                    <x-mailcoach::th sort-by="-created_at" sort-default class="w-48 th-numeric hidden | md:table-cell">{{ __('Sent') }}</x-mailcoach::th>
                     <x-mailcoach::th class="w-12"></x-mailcoach::th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($transactionalMails as $transactionalMail)
                     <tr>
-                        <td>{{ $transactionalMail->subject }}</td>
-                        <td>{{ $transactionalMail->sent_at }}</td>
+                        <td><a href="{{ route('mailcoach.transactionalMail.show', $transactionalMail) }}">{{ $transactionalMail->subject }}</a></td>
+                        <td>{{ $transactionalMail->toString() }}</td>
+                        <td>{{ $transactionalMail->created_at }}</td>
                     </tr>
                 @endforeach
                 </tbody>
