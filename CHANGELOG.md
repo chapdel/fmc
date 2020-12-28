@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.9.6 - 2020-12-28
+
+- fix for empty campaign
+
 ## 3.9.5 - 2020-12-17
 
 - Refactor import subscribers action (#395)
