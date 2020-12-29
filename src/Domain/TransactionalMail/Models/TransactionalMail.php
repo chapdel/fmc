@@ -37,28 +37,39 @@ class TransactionalMail extends Model
 
     public function opens(): HasManyThrough
     {
-        return $this->hasManyThrough(
-            TransactionalMailOpen::class,
-            Send::class,
-            'transactional_mail_id'
-        );
+        return $this
+            ->hasManyThrough(
+                TransactionalMailOpen::class,
+                Send::class,
+                'transactional_mail_id'
+            )
+            ->orderBy('created_at');
     }
 
     public function clicks(): HasManyThrough
     {
-        return $this->hasManyThrough(
-            TransactionalMailClick::class,
-            Send::class,
-            'transactional_mail_id'
-        );
+        return $this
+            ->hasManyThrough(
+                TransactionalMailClick::class,
+                Send::class,
+                'transactional_mail_id'
+            )
+            ->orderBy('created_at');
     }
 
     public function clicksPerUrl(): Collection
     {
-        return DB::table($this->table)
-            ->where('send_id', $this->send_id)
+        return $this->clicks
             ->groupBy('url')
-            ->get();
+            ->map(function ($group, $url) {
+                return [
+                    'url' => $url,
+                    'count' => $group->count(),
+                    'first_clicked_at' => $group->first()->created_at,
+                ];
+            })
+            ->sortByDesc('count')
+            ->values();
     }
 
     public function resend(): self

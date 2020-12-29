@@ -32,4 +32,24 @@ class TransactionalMailTest extends TestCase
         $this->assertCount(0, $transactionalMailWithoutClick->clicks);
         $this->assertCount(1, $transactionalMailWithClick->clicks);
     }
+
+    /** @test */
+    public function it_can_group_clicks_per_url()
+    {
+        /** @var \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail $transactionalMail */
+        $transactionalMail = TransactionalMailFactory::new()
+            ->withClick(['url' => 'https://spatie.be'], 2)
+            ->withClick(['url' => 'https://mailcoach.app'], 3)
+            ->create();
+
+        $this->assertCount(5, $transactionalMail->clicks);
+
+        $groupedPerUrl = $transactionalMail->clicksPerUrl();
+
+        $this->assertEquals($groupedPerUrl[0]['url'], 'https://mailcoach.app');
+        $this->assertEquals($groupedPerUrl[0]['count'], 3);
+
+        $this->assertEquals($groupedPerUrl[1]['url'], 'https://spatie.be');
+        $this->assertEquals($groupedPerUrl[1]['count'], 2);
+    }
 }
