@@ -71,7 +71,7 @@ class TransactionalMail extends Model
     public function toString(): string
     {
         return collect($this->to)
-            ->map(function($person) {
+            ->map(function ($person) {
                 return $person['email'];
             })
             ->implode(', ');
