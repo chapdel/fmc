@@ -17,6 +17,7 @@ use Illuminate\Support\Str;
 use Livewire\Livewire;
 use Spatie\Mailcoach\Components\DateTimeFieldComponent;
 use Spatie\Mailcoach\Components\FilterComponent;
+use Spatie\Mailcoach\Components\MailPersonsComponent;
 use Spatie\Mailcoach\Components\ReplacerHelpTextsComponent;
 use Spatie\Mailcoach\Components\SearchComponent;
 use Spatie\Mailcoach\Components\THComponent;
@@ -291,6 +292,8 @@ class MailcoachServiceProvider extends ServiceProvider
 
         Blade::component('mailcoach::app.components.help', 'mailcoach::help');
         Blade::component('mailcoach::app.components.counter', 'mailcoach::counter');
+        Blade::component(MailPersonsComponent::class, 'mailcoach::mail-persons');
+
 
         Blade::component(ReplacerHelpTextsComponent::class, 'mailcoach::replacer-help-texts');
 
