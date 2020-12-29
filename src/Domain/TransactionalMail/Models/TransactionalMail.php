@@ -72,6 +72,8 @@ class TransactionalMail extends Model
 
     public function resend(): self
     {
+        ray('resending');
+
         Mail::send(new ResendTransactionalMail($this));
 
         return $this;

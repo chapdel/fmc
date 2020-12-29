@@ -49,10 +49,9 @@
 
     </ul>
 
+    <x-mailcoach::form-button action="{{ route('mailcoach.transactionalMail.resend', $transactionalMail) }}">
+        Resend
+    </x-mailcoach::form-button>
+
     <iframe width="560" height="315" src="{{ route('mailcoach.transactionalMail.body', $transactionalMail) }}"/>
-
-
-
-
-
 @endsection

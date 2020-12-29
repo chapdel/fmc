@@ -54,6 +54,7 @@ use Spatie\Mailcoach\Http\App\Controllers\EmailLists\TagsController;
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DestroySubscriberImportController;
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DownloadSubscriberImportAttachmentController;
 use Spatie\Mailcoach\Http\App\Controllers\TemplatesController;
+use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ResendTransactionalMailController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ShowTransactionalMailBodyController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ShowTransactionalMailController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailsIndexController;
@@ -171,6 +172,7 @@ Route::prefix('transactional-mails')->group(function () {
     Route::prefix('{transactionalMail}')->group(function () {
         Route::get('/', '\\' . ShowTransactionalMailController::class)->name('mailcoach.transactionalMail.show');
         Route::get('body', '\\' . ShowTransactionalMailBodyController::class)->name('mailcoach.transactionalMail.body');
+        Route::post('resend', '\\' . ResendTransactionalMailController::class)->name('mailcoach.transactionalMail.resend');
     });
 });
 
