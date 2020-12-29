@@ -31,6 +31,8 @@ abstract class TestCase extends Orchestra
     {
         parent::setUp();
 
+        ray()->enable();
+
         Route::mailcoach('mailcoach');
 
         $this->withoutExceptionHandling();
