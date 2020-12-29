@@ -12,8 +12,6 @@
     <x-mailcoach::mail-persons label="Cc" :persons="$transactionalMail->cc"/>
     <x-mailcoach::mail-persons label="Bcc" :persons="$transactionalMail->bcc"/>
 
-    <iframe width="560" height="315" src="{{ route('mailcoach.transactionalMail.body', $transactionalMail) }}"/>
-
     <h3>Opens</h3>
     <ul>
         @forelse($transactionalMail->opens as $open)
@@ -50,6 +48,10 @@
         @endif
 
     </ul>
+
+    <iframe width="560" height="315" src="{{ route('mailcoach.transactionalMail.body', $transactionalMail) }}"/>
+
+
 
 
 
