@@ -54,10 +54,10 @@ use Spatie\Mailcoach\Http\App\Controllers\EmailLists\TagsController;
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DestroySubscriberImportController;
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DownloadSubscriberImportAttachmentController;
 use Spatie\Mailcoach\Http\App\Controllers\TemplatesController;
+use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ShowTransactionalMailBodyController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ShowTransactionalMailController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailsIndexController;
 use Spatie\Mailcoach\Http\App\Middleware\EditableCampaign;
-use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ShowTransactionalMailBodyController;
 
 Route::get('debug', '\\' . DebugController::class)->name('debug');
 

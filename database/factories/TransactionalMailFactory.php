@@ -23,8 +23,6 @@ class TransactionalMailFactory extends Factory
         ];
     }
 
-
-
     protected function person(): array
     {
         return [
