@@ -51,7 +51,7 @@ Route::prefix('subscriber-imports/{subscriberImport}')->group(function () {
     Route::post('start', StartSubscriberImportController::class);
 });
 
-Route::prefix('transactional-mails')->group(function() {
+Route::prefix('transactional-mails')->group(function () {
     Route::get('/', TransactionalMailsController::class);
     Route::get('{transactionalMail}', ShowTransactionalMailController::class);
     Route::post('{transactionalMail}/resend', ResendTransactionalMailController::class);

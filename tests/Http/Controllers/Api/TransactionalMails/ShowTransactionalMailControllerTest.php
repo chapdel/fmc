@@ -28,7 +28,7 @@ class ShowTransactionalMailControllerTest extends TestCase
             ->get(action(ShowTransactionalMailController::class, $transactionalMail))
             ->assertSuccessful()
             ->assertJsonFragment([
-                'subject' => $transactionalMail->subject
+                'subject' => $transactionalMail->subject,
             ]);
     }
 }
