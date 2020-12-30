@@ -20,7 +20,7 @@ class Config
         return self::getActionClass($configuredClass, $actionName, $actionClass);
     }
 
-    protected static function getActionClass(?string $configuredClass,string $actionName, string $actionClass): object
+    protected static function getActionClass(?string $configuredClass, string $actionName, string $actionClass): object
     {
         if (is_null($configuredClass)) {
             $configuredClass = $actionClass;

@@ -27,7 +27,7 @@ class RenderTemplateAction
 
     protected function executeReplacers(string $body, TransactionalMailTemplate $template, Mailable $mailable): string
     {
-        foreach($template->replacers() as $replacer) {
+        foreach ($template->replacers() as $replacer) {
             $body = $replacer->replace($body, $mailable, $template);
         }
 
@@ -46,9 +46,9 @@ class RenderTemplateAction
         try {
             eval('?>'.$generated);
         }
-            // If we caught an exception, we'll silently flush the output
-            // buffer so that no partially rendered views get thrown out
-            // to the client and confuse the user with junk.
+        // If we caught an exception, we'll silently flush the output
+        // buffer so that no partially rendered views get thrown out
+        // to the client and confuse the user with junk.
         catch (Exception $exception) {
             ob_get_clean();
 

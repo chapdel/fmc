@@ -71,7 +71,7 @@ class TransactionalMailTemplate extends Model
     public function replacers(): Collection
     {
         return collect($this->replacers ?? [])
-            ->map(function(string $replacerName): TransactionalMailReplacer {
+            ->map(function (string $replacerName): TransactionalMailReplacer {
                 $replacerClass = config("mailcoach.transactional.replacers.{$replacerName}");
 
                 if (is_null($replacerClass)) {
