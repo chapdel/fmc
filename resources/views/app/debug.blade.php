@@ -121,20 +121,20 @@
                             </tr>
                             <tr>
                                 <td class="pr-2">Campaign mailer:</td>
-                                @php($issueBody.="**Campaign mailer**: " . (config('mailcoach.campaign_mailer') ?? 'null') . "\n")
+                                @php($issueBody.="**Campaign mailer**: " . (config('mailcoach.campaigns.mailer') ?? 'null') . "\n")
                                 <td>
-                                    <span class="font-mono">{{ config('mailcoach.campaign_mailer') ?? 'null' }}</span>
-                                    @if (in_array(config('mailcoach.campaign_mailer'), ['log', 'array']))
+                                    <span class="font-mono">{{ config('mailcoach.campaigns.mailer') ?? 'null' }}</span>
+                                    @if (in_array(config('mailcoach.campaigns.mailer'), ['log', 'array']))
                                         <i class="fas fa-exclamation-triangle text-orange-800 mr-1"></i>
                                     @endif
                                 </td>
                             </tr>
                             <tr>
                                 <td class="pr-2">Transactional mailer:</td>
-                                @php($issueBody.="**Transactional mailer**: " . (config('mailcoach.transactional_mailer') ?? 'null') . "\n")
+                                @php($issueBody.="**Transactional mailer**: " . (config('mailcoach.transactional.mailer') ?? 'null') . "\n")
                                 <td>
-                                    <span class="font-mono">{{ config('mailcoach.transactional_mailer') ?? 'null' }}</span>
-                                    @if (in_array(config('mailcoach.transactional_mailer'), ['log', 'array']))
+                                    <span class="font-mono">{{ config('mailcoach.transactional.mailer') ?? 'null' }}</span>
+                                    @if (in_array(config('mailcoach.transactional.mailer'), ['log', 'array']))
                                         <i class="fas fa-exclamation-triangle text-orange-800 mr-1"></i>
                                     @endif
                                 </td>

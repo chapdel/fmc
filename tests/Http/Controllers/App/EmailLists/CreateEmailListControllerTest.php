@@ -56,8 +56,8 @@ class CreateEmailListControllerTest extends TestCase
         $this->authenticate();
 
         config()->set('mailcoach.mailer', 'some-mailer');
-        config()->set('mailcoach.transactional_mailer', 'some-transactional-mailer');
-        config()->set('mailcoach.campaign_mailer', 'some-campaign-mailer');
+        config()->set('mailcoach.transactional.mailer', 'some-transactional-mailer');
+        config()->set('mailcoach.campaigns.mailer', 'some-campaign-mailer');
 
         $attributes = [
             'name' => 'new list',

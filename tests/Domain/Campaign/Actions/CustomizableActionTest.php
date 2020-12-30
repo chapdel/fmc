@@ -26,7 +26,7 @@ class CustomizableActionTest extends TestCase
     /** @test */
     public function the_personalize_html_action_can_be_customized()
     {
-        config()->set('mailcoach.actions.personalize_html', CustomPersonalizeHtmlAction::class);
+        config()->set('mailcoach.campaigns.actions.personalize_html', CustomPersonalizeHtmlAction::class);
 
         $campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
             'status' => CampaignStatus::DRAFT,
@@ -40,7 +40,7 @@ class CustomizableActionTest extends TestCase
     /** @test */
     public function the_personalize_subject_action_can_be_customized()
     {
-        config()->set('mailcoach.actions.personalize_subject', CustomPersonalizeSubjectAction::class);
+        config()->set('mailcoach.campaigns.actions.personalize_subject', CustomPersonalizeSubjectAction::class);
 
         $campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
             'status' => CampaignStatus::DRAFT,
@@ -54,7 +54,7 @@ class CustomizableActionTest extends TestCase
     /** @test */
     public function the_prepare_email_html_action_can_be_customized()
     {
-        config()->set('mailcoach.actions.prepare_email_html', CustomPrepareEmailHtmlAction::class);
+        config()->set('mailcoach.campaigns.actions.prepare_email_html', CustomPrepareEmailHtmlAction::class);
 
         $campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
             'status' => CampaignStatus::DRAFT,
@@ -68,7 +68,7 @@ class CustomizableActionTest extends TestCase
     /** @test */
     public function the_prepare_subject_action_can_be_customized()
     {
-        config()->set('mailcoach.actions.prepare_subject', CustomPrepareSubjectAction::class);
+        config()->set('mailcoach.campaigns.actions.prepare_subject', CustomPrepareSubjectAction::class);
 
         $campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
             'status' => CampaignStatus::DRAFT,
@@ -82,7 +82,7 @@ class CustomizableActionTest extends TestCase
     /** @test */
     public function the_prepare_webview_html_action_can_be_customized()
     {
-        config()->set('mailcoach.actions.prepare_webview_html', CustomPrepareWebviewHtmlAction::class);
+        config()->set('mailcoach.campaigns.actions.prepare_webview_html', CustomPrepareWebviewHtmlAction::class);
 
         $campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
             'status' => CampaignStatus::DRAFT,
@@ -96,7 +96,7 @@ class CustomizableActionTest extends TestCase
     /** @test */
     public function the_create_subscriber_action_can_be_customized()
     {
-        config()->set('mailcoach.actions.create_subscriber', CustomCreateSubscriberAction::class);
+        config()->set('mailcoach.campaigns.actions.create_subscriber', CustomCreateSubscriberAction::class);
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList $emailList */
         $emailList = EmailList::factory()->create();
@@ -109,7 +109,7 @@ class CustomizableActionTest extends TestCase
     /** @test */
     public function the_confirm_subscription_class_can_be_customized()
     {
-        config()->set('mailcoach.actions.confirm_subscriber', CustomConfirmSubscriberAction::class);
+        config()->set('mailcoach.campaigns.actions.confirm_subscriber', CustomConfirmSubscriberAction::class);
 
         $emailList = EmailList::factory()->create([
             'requires_confirmation' => true,
@@ -125,7 +125,7 @@ class CustomizableActionTest extends TestCase
     /** @test */
     public function a_wrongly_configured_class_will_result_in_an_exception()
     {
-        config()->set('mailcoach.actions.create_subscriber', 'invalid-action');
+        config()->set('mailcoach.campaigns.actions.create_subscriber', 'invalid-action');
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList $emailList */
         $emailList = EmailList::factory()->create();
@@ -138,7 +138,7 @@ class CustomizableActionTest extends TestCase
     /** @test */
     public function the_import_subscribers_class_can_be_customized()
     {
-        config()->set('mailcoach.actions.import_subscribers', CustomImportSubscribersAction::class);
+        config()->set('mailcoach.campaigns.actions.import_subscribers', CustomImportSubscribersAction::class);
 
         $subscriberImport = SubscriberImport::factory()->create();
 

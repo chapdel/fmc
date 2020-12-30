@@ -15,7 +15,7 @@ class PersonalizeHtmlAction
         $html = str_ireplace('::sendUuid::', $pendingSend->uuid, $html);
         $html = str_ireplace('::subscriber.uuid::', $subscriber->uuid, $html);
 
-        return collect(config('mailcoach.replacers'))
+        return collect(config('mailcoach.campaigns.replacers'))
             ->map(fn (string $className) => app($className))
             ->filter(fn (object $class) => $class instanceof PersonalizedReplacer)
             ->reduce(fn (string $html, PersonalizedReplacer $replacer) => $replacer->replace($html, $pendingSend), $html);

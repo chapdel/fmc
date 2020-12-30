@@ -28,7 +28,7 @@ class SendCampaignToSubscriberJob implements ShouldQueue
         $this->campaign = $campaign;
         $this->subscriber = $subscriber;
 
-        $this->queue = config('mailcoach.perform_on_queue.send_campaign_job');
+        $this->queue = config('mailcoach.campaigns.perform_on_queue.send_campaign_job');
 
         $this->connection = $this->connection ?? Config::getQueueConnection();
     }

@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
      * The mailer used by Mailcoach for password resets and summary emails.
      * Mailcoach will use the default Laravel mailer if this is not set.
@@ -9,38 +8,100 @@ return [
     'mailer' => null,
 
     /*
-     * The default mailer used by Mailcoach for sending campaigns.
-     */
-    'campaign_mailer' => null,
-
-    /*
-     * The default mailer used by Mailcoach for confirmation and welcome mails.
-     */
-    'transactional_mailer' => null,
-
-    /*
      * The date format used on all screens of the UI
      */
     'date_format' => 'Y-m-d H:i',
 
-    /*
-     * Replacers are classes that can make replacements in the html of a campaign.
-     *
-     * You can use a replacer to create placeholders.
-     */
-    'replacers' => [
-        \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\WebviewCampaignReplacer::class,
-        \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\SubscriberReplacer::class,
-        \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\EmailListCampaignReplacer::class,
-        \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\UnsubscribeUrlReplacer::class,
-        \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\CampaignNameCampaignReplacer::class,
-    ],
+    'campaigns' => [
+        /*
+         * The default mailer used by Mailcoach for sending campaigns.
+         */
+        'mailer' => null,
 
-    /**
-     * Here you can configure which template editor Mailcoach uses.
-     * By default this is a text editor that highlights HTML.
-     */
-    'editor' => \Spatie\Mailcoach\Domain\Campaign\Support\Editor\TextEditor::class,
+        /*
+         * Replacers are classes that can make replacements in the html of a campaign.
+         *
+         * You can use a replacer to create placeholders.
+         */
+        'replacers' => [
+            \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\WebviewCampaignReplacer::class,
+            \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\SubscriberReplacer::class,
+            \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\EmailListCampaignReplacer::class,
+            \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\UnsubscribeUrlReplacer::class,
+            \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\CampaignNameCampaignReplacer::class,
+        ],
+
+        /**
+         * Here you can configure which template editor Mailcoach uses.
+         * By default this is a text editor that highlights HTML.
+         */
+        'editor' => \Spatie\Mailcoach\Domain\Campaign\Support\Editor\TextEditor::class,
+
+        /*
+         * Here you can specify which jobs should run on which queues.
+         * Use an empty string to use the default queue.
+         */
+        'perform_on_queue' => [
+            'calculate_statistics_job' => 'mailcoach',
+            'send_campaign_job' => 'send-campaign',
+            'send_mail_job' => 'send-mail',
+            'send_test_mail_job' => 'mailcoach',
+            'send_welcome_mail_job' => 'mailcoach',
+            'process_feedback_job' => 'mailcoach-feedback',
+            'import_subscribers_job' => 'mailcoach',
+        ],
+
+        /*
+         * By default only 10 mails per second will be sent to avoid overwhelming your
+         * e-mail sending service. To use this feature you must have Redis installed.
+         */
+        'throttling' => [
+            'enabled' => true,
+            'redis_connection_name' => 'default',
+            'redis_key' => 'laravel-mailcoach',
+            'allowed_number_of_jobs_in_timespan' => 10,
+            'timespan_in_seconds' => 1,
+            'release_in_seconds' => 5,
+            'retry_until_hours' => 24,
+        ],
+
+        /*
+         * You can customize some of the behavior of this package by using our own custom action.
+         * Your custom action should always extend the one of the default ones.
+         */
+        'actions' => [
+            /*
+             * Actions concerning campaigns
+             */
+            'calculate_statistics' => \Spatie\Mailcoach\Domain\Campaign\Actions\CalculateStatisticsAction::class,
+            'prepare_email_html' => \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareEmailHtmlAction::class,
+            'prepare_subject' => \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareSubjectAction::class,
+            'prepare_webview_html' => \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareWebviewHtmlAction::class,
+            'convert_html_to_text' => \Spatie\Mailcoach\Domain\Campaign\Actions\ConvertHtmlToTextAction::class,
+            'personalize_html' => \Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeHtmlAction::class,
+            'personalize_subject' => \Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeSubjectAction::class,
+            'retry_sending_failed_sends' => \Spatie\Mailcoach\Domain\Campaign\Actions\RetrySendingFailedSendsAction::class,
+            'send_campaign' => \Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignAction::class,
+            'send_mail' => \Spatie\Mailcoach\Domain\Campaign\Actions\SendMailAction::class,
+            'send_test_mail' => \Spatie\Mailcoach\Domain\Campaign\Actions\SendTestMailAction::class,
+
+            /*
+             * Actions concerning subscribers
+             */
+            'confirm_subscriber' => \Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\ConfirmSubscriberAction::class,
+            'create_subscriber' => \Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\CreateSubscriberAction::class,
+            'delete_subscriber' => \Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\DeleteSubscriberAction::class,
+            'import_subscribers' => \Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\ImportSubscribersAction::class,
+            'send_confirm_subscriber_mail' => \Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\SendConfirmSubscriberMailAction::class,
+            'send_welcome_mail' => \Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\SendWelcomeMailAction::class,
+            'update_subscriber' => \Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\UpdateSubscriberAction::class,
+        ],
+
+        /*
+         * This disk will be used to store files regarding importing subscribers.
+         */
+        'import_subscribers_disk' => 'public',
+    ],
 
     'automation' => [
         'actions' => [
@@ -58,19 +119,13 @@ return [
         ],
     ],
 
-    /*
-     * Here you can specify which jobs should run on which queues.
-     * Use an empty string to use the default queue.
-     */
-    'perform_on_queue' => [
-        'calculate_statistics_job' => 'mailcoach',
-        'send_campaign_job' => 'send-campaign',
-        'send_mail_job' => 'send-mail',
-        'send_test_mail_job' => 'mailcoach',
-        'send_welcome_mail_job' => 'mailcoach',
-        'process_feedback_job' => 'mailcoach-feedback',
-        'import_subscribers_job' => 'mailcoach',
+    'transactional' => [
+        /*
+         * The default mailer used by Mailcoach for confirmation and welcome mails.
+         */
+        'mailer' => null,
     ],
+
 
     /*
      * Here you can specify on which connection Mailcoach's jobs will be dispatched.
@@ -78,51 +133,6 @@ return [
      */
     'queue_connection' => '',
 
-    /*
-     * By default only 10 mails per second will be sent to avoid overwhelming your
-     * e-mail sending service. To use this feature you must have Redis installed.
-     */
-    'throttling' => [
-        'enabled' => true,
-        'redis_connection_name' => 'default',
-        'redis_key' => 'laravel-mailcoach',
-        'allowed_number_of_jobs_in_timespan' => 10,
-        'timespan_in_seconds' => 1,
-        'release_in_seconds' => 5,
-        'retry_until_hours' => 24,
-    ],
-
-    /*
-     * You can customize some of the behavior of this package by using our own custom action.
-     * Your custom action should always extend the one of the default ones.
-     */
-    'actions' => [
-        /*
-         * Actions concerning campaigns
-         */
-        'calculate_statistics' => \Spatie\Mailcoach\Domain\Campaign\Actions\CalculateStatisticsAction::class,
-        'prepare_email_html' => \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareEmailHtmlAction::class,
-        'prepare_subject' => \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareSubjectAction::class,
-        'prepare_webview_html' => \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareWebviewHtmlAction::class,
-        'convert_html_to_text' => \Spatie\Mailcoach\Domain\Campaign\Actions\ConvertHtmlToTextAction::class,
-        'personalize_html' => \Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeHtmlAction::class,
-        'personalize_subject' => \Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeSubjectAction::class,
-        'retry_sending_failed_sends' => \Spatie\Mailcoach\Domain\Campaign\Actions\RetrySendingFailedSendsAction::class,
-        'send_campaign' => \Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignAction::class,
-        'send_mail' => \Spatie\Mailcoach\Domain\Campaign\Actions\SendMailAction::class,
-        'send_test_mail' => \Spatie\Mailcoach\Domain\Campaign\Actions\SendTestMailAction::class,
-
-        /*
-         * Actions concerning subscribers
-         */
-        'confirm_subscriber' => \Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\ConfirmSubscriberAction::class,
-        'create_subscriber' => \Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\CreateSubscriberAction::class,
-        'delete_subscriber' => \Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\DeleteSubscriberAction::class,
-        'import_subscribers' => \Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\ImportSubscribersAction::class,
-        'send_confirm_subscriber_mail' => \Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\SendConfirmSubscriberMailAction::class,
-        'send_welcome_mail' => \Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\SendWelcomeMailAction::class,
-        'update_subscriber' => \Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\UpdateSubscriberAction::class,
-    ],
 
     /*
      * Unauthorized users will get redirected to this route.
@@ -153,14 +163,8 @@ return [
         ],
     ],
 
-    /*
-     * This disk will be used to store files regarding importing subscribers.
-     */
-    'import_subscribers_disk' => 'public',
-
 
     'models' => [
-
         /*
          * The model you want to use as a Campaign model. It needs to be or
          * extend the `Spatie\Mailcoach\Models\Campaign` model.
@@ -205,7 +209,6 @@ return [
     ],
 
     'views' => [
-
         /*
          * The service provider registers several Blade components that are
          * used in Mailcoach's views. If you are using the default Mailcoach

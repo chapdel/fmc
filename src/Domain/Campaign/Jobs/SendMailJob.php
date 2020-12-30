@@ -28,7 +28,7 @@ class SendMailJob implements ShouldQueue
     {
         $this->pendingSend = $pendingSend;
 
-        $this->queue = config('mailcoach.perform_on_queue.send_mail_job');
+        $this->queue = config('mailcoach.campaigns.perform_on_queue.send_mail_job');
 
         $this->connection = $this->connection ?? Config::getQueueConnection();
     }
@@ -51,7 +51,7 @@ class SendMailJob implements ShouldQueue
 
     public function middleware()
     {
-        $throttlingConfig = config('mailcoach.throttling');
+        $throttlingConfig = config('mailcoach.campaigns.throttling');
 
         $rateLimitedMiddleware = (new RateLimited())
             ->enabled($throttlingConfig['enabled'])
@@ -65,6 +65,6 @@ class SendMailJob implements ShouldQueue
 
     public function retryUntil()
     {
-        return now()->addHours(config('mailcoach.throttling.retry_until_hours', 24));
+        return now()->addHours(config('mailcoach.campaigns.throttling.retry_until_hours', 24));
     }
 }

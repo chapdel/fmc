@@ -57,7 +57,7 @@ class SendMailJobTest extends TestCase
     public function the_queue_of_the_send_mail_job_can_be_configured()
     {
         Queue::fake();
-        config()->set('mailcoach.perform_on_queue.send_mail_job', 'custom-queue');
+        config()->set('mailcoach.campaigns.perform_on_queue.send_mail_job', 'custom-queue');
 
         $pendingSend = SendFactory::new()->create();
         dispatch(new SendMailJob($pendingSend));

@@ -30,7 +30,7 @@ class SendTestMailAction
             });
 
         $mailer = $campaign->emailList->campaign_mailer
-            ?? config('mailcoach.campaign_mailer')
+            ?? config('mailcoach.campaigns.mailer')
             ?? config('mailcoach.mailer')
             ?? config('mail.default');
 

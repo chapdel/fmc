@@ -9,7 +9,7 @@ class ReplacerHelpTextsComponent extends Component
 {
     public function replacerHelpTexts(): array
     {
-        return collect(config('mailcoach.replacers'))
+        return collect(config('mailcoach.campaigns.replacers'))
             ->map(fn (string $className) => app($className))
             ->flatMap(fn (ReplacerWithHelpText $replacer) => $replacer->helpText())
             ->toArray();

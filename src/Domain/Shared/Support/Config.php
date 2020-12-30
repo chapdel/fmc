@@ -8,7 +8,7 @@ class Config
 {
     public static function getActionClass(string $actionName, string $actionClass): object
     {
-        $configuredClass = config("mailcoach.actions.{$actionName}");
+        $configuredClass = config("mailcoach.campaigns.actions.{$actionName}");
 
         if (is_null($configuredClass)) {
             $configuredClass = $actionClass;

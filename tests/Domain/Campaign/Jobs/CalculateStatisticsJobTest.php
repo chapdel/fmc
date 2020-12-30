@@ -175,7 +175,7 @@ class CalculateStatisticsJobTest extends TestCase
     public function the_queue_of_the_calculate_statistics_job_can_be_configured()
     {
         Queue::fake();
-        config()->set('mailcoach.perform_on_queue.calculate_statistics_job', 'custom-queue');
+        config()->set('mailcoach.campaigns.perform_on_queue.calculate_statistics_job', 'custom-queue');
 
         $campaign = Campaign::factory()->create();
         dispatch(new CalculateStatisticsJob($campaign));

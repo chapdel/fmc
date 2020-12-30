@@ -25,7 +25,7 @@ class CalculateStatisticsJob implements ShouldQueue
     {
         $this->campaign = $campaign;
 
-        $this->queue = config('mailcoach.perform_on_queue.calculate_statistics_job');
+        $this->queue = config('mailcoach.campaigns.perform_on_queue.calculate_statistics_job');
 
         $this->connection = $this->connection ?? Config::getQueueConnection();
     }

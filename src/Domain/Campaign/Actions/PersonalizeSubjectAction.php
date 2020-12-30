@@ -15,7 +15,7 @@ class PersonalizeSubjectAction
         $subject = str_ireplace('::sendUuid::', $pendingSend->uuid, $subject);
         $subject = str_ireplace('::subscriber.uuid::', $subscriber->uuid, $subject);
 
-        return collect(config('mailcoach.replacers'))
+        return collect(config('mailcoach.campaigns.replacers'))
             ->map(fn (string $className) => app($className))
             ->filter(fn (object $class) => $class instanceof PersonalizedReplacer)
             ->reduce(fn (string $subject, PersonalizedReplacer $replacer) => $replacer->replace($subject, $pendingSend), $subject);

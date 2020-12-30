@@ -22,7 +22,7 @@
         >
             @csrf
             @method('PUT')
-            {!! app(config('mailcoach.editor'))->render($campaign) !!}
+            {!! app(config('mailcoach.campaigns.editor'))->render($campaign) !!}
         </form>
     @else
         <div>

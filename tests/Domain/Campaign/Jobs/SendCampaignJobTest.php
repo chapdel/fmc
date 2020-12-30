@@ -180,7 +180,7 @@ class SendCampaignJobTest extends TestCase
 
         Queue::fake();
 
-        config()->set('mailcoach.perform_on_queue.send_campaign_job', 'custom-queue');
+        config()->set('mailcoach.campaigns.perform_on_queue.send_campaign_job', 'custom-queue');
 
         $campaign = Campaign::factory()->create();
         dispatch(new SendCampaignJob($campaign));
@@ -289,7 +289,7 @@ class SendCampaignJobTest extends TestCase
             ->skipConfirmation()
             ->subscribeTo($campaign->emailList);
 
-        config()->set('mailcoach.replacers', array_merge(config('mailcoach.replacers'), [CustomCampaignReplacer::class]));
+        config()->set('mailcoach.campaigns.replacers', array_merge(config('mailcoach.campaigns.replacers'), [CustomCampaignReplacer::class]));
 
         $campaign->emailList->update(['campaign_mailer' => 'array']);
 
@@ -313,7 +313,7 @@ class SendCampaignJobTest extends TestCase
             ->skipConfirmation()
             ->subscribeTo($campaign->emailList);
 
-        config()->set('mailcoach.replacers', array_merge(config('mailcoach.replacers'), [CustomCampaignReplacer::class]));
+        config()->set('mailcoach.campaigns.replacers', array_merge(config('mailcoach.campaigns.replacers'), [CustomCampaignReplacer::class]));
 
         $campaign->emailList->update(['campaign_mailer' => 'array']);
 
@@ -337,7 +337,7 @@ class SendCampaignJobTest extends TestCase
             ->skipConfirmation()
             ->subscribeTo($campaign->emailList);
 
-        config()->set('mailcoach.replacers', array_merge(config('mailcoach.replacers'), [CustomCampaignReplacer::class]));
+        config()->set('mailcoach.campaigns.replacers', array_merge(config('mailcoach.campaigns.replacers'), [CustomCampaignReplacer::class]));
 
         $campaign->emailList->update(['campaign_mailer' => 'array']);
 

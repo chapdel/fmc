@@ -25,7 +25,7 @@
 
             <x-mailcoach::text-field :label="__('Name')" name="name" :value="$template->name" required />
 
-            {!! app(config('mailcoach.editor'))->render($template) !!}
+            {!! app(config('mailcoach.campaigns.editor'))->render($template) !!}
         </form>
 
         <x-mailcoach::replacer-help-texts />
