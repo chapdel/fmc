@@ -3,7 +3,7 @@ title: Amazon SES
 weight: 2
 ---
 
-Mailcoach supports sending mails via Amazon SES. This page contains instructions to [set up Amazon SES in the standalone Mailcoach app](TODO: add link) and [in a Laravel app with `laravel-mailcoach`](TODO: add link).
+Mailcoach supports sending mails via Amazon SES. This page contains instructions to [set up Amazon SES in the standalone Mailcoach app](/docs/laravel-mailcoach/v4/mail-configuration/amazon-ses#using-amazon-ses-in-the-mailcoach-standalone-app) and [in a Laravel app with `laravel-mailcoach`](/docs/laravel-mailcoach/v4/mail-configuration/amazon-ses#handling-amazon-ses-feedback-in-an-existing-laravel-app).
 
 ## Using Amazon SES in the Mailcoach standalone app
 
@@ -109,25 +109,25 @@ Route::sesFeedback('ses-feedback');
 #### Simple Email Service Setup
 1. In your AWS Management Console, create a configuration set if you haven't already
 
-![screenshot](/images/docs/v3/package/ses-feedback/1.create-configuration-set.png)
+![screenshot](/docs/laravel-mailcoach/v4/images/ses-feedback/1.create-configuration-set.png)
 
-2. Add a SNS destination in the Event Destinations and make sure to check the event types you would like to receive
+2. Add an SNS destination in the Event Destinations and make sure to check the event types you would like to receive
 
-![screenshot](/images/docs/v3/package/ses-feedback/2-1-add-destination.png)
+![screenshot](/docs/laravel-mailcoach/v4/images/ses-feedback/2-1-add-destination.png)
 
-![screenshot](/images/docs/v3/package/ses-feedback/2-2-add-destination.png)
+![screenshot](/docs/laravel-mailcoach/v4/images/ses-feedback/2-2-add-destination.png)
 
 3. Create a new topic for this destination
 
-![screenshot](/images/docs/v3/package/ses-feedback/3-create-new-topic.png)
+![screenshot](/docs/laravel-mailcoach/v4/images/ses-feedback/3-create-new-topic.png)
 
 #### Simple Notification Service Setup
 
 > First, make sure your endpoint is accessible, if you're installing this locally you'll need to share your local environment using `valet share` or a service like `ngrok`
 
-![screenshot](/images/docs/v3/package/ses-feedback/4-1-create-subscription.png)
+![screenshot](/docs/laravel-mailcoach/v4/images/ses-feedback/4-1-create-subscription.png)
 
-![screenshot](/images/docs/v3/package/ses-feedback/4-2-create-subscription.png)
+![screenshot](/docs/laravel-mailcoach/v4/images/ses-feedback/4-2-create-subscription.png)
 
 1. Create a subscription for the topic you just created, use `HTTPS` as the Protocol
 2. Enter the endpoint you just created the route for
@@ -136,7 +136,7 @@ Route::sesFeedback('ses-feedback');
 5. You can leave all other settings on their defaults
 6. Your subscription should be automatically confirmed if the endpoint was reachable
 
-![screenshot](/images/docs/v3/package/ses-feedback/5-subscription-confirmed.png)
+![screenshot](/docs/laravel-mailcoach/v4/images/ses-feedback/5-subscription-confirmed.png)
 
 ### Setting the configuration name in your Laravel app
 
@@ -150,7 +150,6 @@ Here's an example for a configuration set that is named `mailcoach`:
 'ses_feedback' => [
     'configuration_set' => 'mailcoach',
 ]
-
 ```
 
 ### Using the correct mail driver

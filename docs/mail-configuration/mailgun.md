@@ -3,7 +3,7 @@ title: Mailgun
 weight: 3
 ---
 
-Mailcoach supports sending mails via Mailgun. This page contains instructions to [set up Mailgun in the standalone Mailcoach app](TODO: add link) and [in a Laravel app with `laravel-mailcoach`](TODO: add link).
+Mailcoach supports sending mails via Mailgun. This page contains instructions to [set up Mailgun in the standalone Mailcoach app](/docs/laravel-mailcoach/v4/mail-configuration/mailgun#using-mailgun-in-the-mailcoach-standalone-app) and [in a Laravel app with `laravel-mailcoach`](/docs/laravel-mailcoach/v4/mail-configuration/mailgun#handling-mailgun-feedback-in-an-existing-laravel-app).
 
 ## Using Mailgun in the Mailcoach standalone app
 
@@ -46,11 +46,11 @@ Go to your _Mail configuration_ page in Mailcoach, and fill in the fields:
 - Secret: the _API key_ you copied in the last step
 - Endpoint: the _API base URL_ that you copied in the last step, but without the `https://` and everything after the top-level domain (`.net` in my case)
 
-### Handling Mailgun feedback in an existing Laravel app
+## Handling Mailgun feedback in an existing Laravel app
 
 The `spatie/laravel-mailcoach-mailgun-feedback` package can handle bounce feedback coming from Mailgun. All e-mail address that permanently bounce will be unsubscribed from all lists.
 
-You can install the add-on package via composer:
+You can install the add-on package via Composer:
 
 ```bash
 composer require spatie/laravel-mailcoach-mailgun-feedback:^4.0

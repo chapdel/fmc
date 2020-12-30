@@ -3,7 +3,7 @@ title: Postmark
 weight: 5
 ---
 
-Mailcoach supports sending mails via Postmark. This page contains instructions to [set up Postmark in the standalone Mailcoach app](TODO: add link) and [in a Laravel app with `laravel-mailcoach`](TODO: add link).
+Mailcoach supports sending mails via Postmark. This page contains instructions to [set up Postmark in the standalone Mailcoach app](/docs/laravel-mailcoach/v4/mail-configuration/postmark#using-postmark-in-the-mailcoach-standalone-app) and [in a Laravel app with `laravel-mailcoach`](/docs/laravel-mailcoach/v4/mail-configuration/postmark#handling-mailgun-feedback-in-an-existing-laravel-app).
 
 ## Using Postmark in the Mailcoach standalone app
 
@@ -19,11 +19,11 @@ The webhook should be sent to `https://<your-domain>/postmark-feedback`
 
 You should add a custom header named `mailcoach-signature`, and you can choose a value that you should keep secret. You must turn on the `Open`, `Bounce`, `Spam Complaint` and `Link Click`.
 
-![screenshot](https://mailcoach.app/images/docs/v3/package/postmark/postmark-webhooks.png)
+![screenshot](https://mailcoach.app/docs/laravel-mailcoach/v4/images/postmark/postmark-webhooks.png)
 
 On the settings screen in Postmark, you should also enable open and link tracking.
 
-![screenshot](https://mailcoach.app/images/docs/v3/package/postmark/postmark-tracking.png)
+![screenshot](https://mailcoach.app/docs/laravel-mailcoach/v4/images/postmark/postmark-tracking.png)
 
 ### Configuring Mailcoach
 
@@ -71,11 +71,11 @@ You should add a custom header named `mailcoach-signature`, and you can choose a
 
 you must add the `Open`, `Bounce`, `Spam Complaint` and `Link Click` webhooks and point them to the route you configured.
 
-![screenshot](https://mailcoach.app/images/docs/v3/package/postmark/postmark-webhooks.png)
+![screenshot](https://mailcoach.app/docs/laravel-mailcoach/v4/images/postmark/postmark-webhooks.png)
 
 On the settings screen in Postmark, you should also enable open and link tracking
 
-![screenshot](https://mailcoach.app/images/docs/v3/package/postmark/postmark-tracking.png)
+![screenshot](https://mailcoach.app/docs/laravel-mailcoach/v4/images/postmark/postmark-tracking.png)
 
 
 In the `mailcoach` config file you must add this section.
