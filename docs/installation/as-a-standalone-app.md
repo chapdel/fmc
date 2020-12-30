@@ -5,7 +5,7 @@ weight: 4
 
 If you don't know Laravel, but have basic PHP knowledge and know how to deploy to a server, you can follow these instructions.
 
-You can create a new Laravel application with Mailcoach preinstalled into using `Composer`. This application will also have authorization screens (login, password reset) and user management.
+You can create a new Laravel application with Mailcoach preinstalled into using Composer. This application will also have authorization screens (login, password reset) and user management.
 
 ### Creating the application
 
@@ -15,7 +15,8 @@ You can create the application with Mailcoach pre-installed using this command
 composer create-project spatie/Mailcoach
 ```
 
-During the execution of this command Composer will ask for a user and a password. The user is the email address you used when registering at [mailcoach.app](https://mailcoach.app). The password is the key of [a Mailcoach license](/docs/v3/app/general/getting-a-license).
+During the execution of this command Composer will ask for a user and a password. The user is the email address 
+of your spatie.be account. The password is the key of your [Mailcoach license](/products/mailcoach).
 
 ### Creating the database
 
@@ -31,10 +32,10 @@ After that you can create an initial user by executing `php artisan mailcoach:ma
 
 Now that you are logged in you must configure the email sending service you'd like to use. Here are set up instructions for
 
-- [Amazon SES](/docs/v3/app/mail-configuration/amazon-ses)
-- [SendGrid](/docs/v3/app/mail-configuration/sendgrid)
-- [Mailgun](/docs/v3/app/mail-configuration/mailgun)
-- [Postmark](/docs/v3/app/mail-configuration/postmark)
+- [Amazon SES](/docs/laravel-mailcoach/v4/mail-configuration/amazon-ses)
+- [SendGrid](/docs/laravel-mailcoach/v4/mail-configuration/sendgrid)
+- [Mailgun](/docs/laravel-mailcoach/v4/mail-configuration/mailgun)
+- [Postmark](/docs/laravel-mailcoach/v4/mail-configuration/postmark)
 
 ### Running Horizon
 

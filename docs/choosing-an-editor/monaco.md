@@ -6,7 +6,7 @@ weight: 3
 <a href="https://microsoft.github.io/monaco-editor/">Monaco</a> is a powerful code editor created by Microsoft. It
 provides code highlighting, auto completion and much more.
 
-![screenshot](/images/docs/v3/app/editors/monaco.png)
+![screenshot](/images/docs/laravel-mailcoach/v4/editors/monaco.png)
 
 ## Configuration via the UI
 
@@ -14,7 +14,7 @@ When you've installed Mailcoach as a standalone app or via the 1-click-installer
 
 On the editor configuration you can customize the looks of the Monaco editor.
 
-![screenshot](/images/docs/v3/app/editors/monaco-config.png)
+![screenshot](/images/docs/laravel-mailcoach/v4/editors/monaco-config.png)
 
 ## Manual installation
 

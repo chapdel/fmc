@@ -107,9 +107,9 @@ This option can be enabled to prevent spam, both to and from your mailing list. 
 
 You can also configure Mailcoach to use a custom page and/or send out custom confirmation emails that you created yourself. Refer to the 2 options that become available when checking this box:
 
-- [Confirm subscription](/docs/v3/app/lists/settings#landing-pages) in the _Landing pages_ section.
+- [Confirm subscription](/docs/laravel-mailcoach/v4/lists/settings#landing-pages) in the _Landing pages_ section.
 
-- [Confirmation mail](/docs/v3/app/lists/settings#confirmation-mail) at the bottom of the page.
+- [Confirmation mail](/docs/laravel-mailcoach/v4/lists/settings#confirmation-mail) at the bottom of the page.
 
 #### Allow POST from an external form
 
@@ -225,7 +225,7 @@ Tags describe something about the user the tag is attached to.
 
 Tags only need a name, that should describe what the tag says about a user. For example, a tag's name could be "_bought-product-A_", which would be assigned to subscribers that have bought a certain item in your (web)shop. Users can be assigned multiple tags. Tags by themselves are not used for anything in Mailcoach as long as they are not grouped into a segment.
 
-Tags can be assigned to users manually by clicking their email address in the subscriber list, or automatically when they subscribe through a form, read about this [here](/docs/v3/app/lists/settings#subscriptions).
+Tags can be assigned to users manually by clicking their email address in the subscriber list, or automatically when they subscribe through a form, read about this [here](/docs/laravel-mailcoach/v4/lists/settings#subscriptions).
 
 ![screenshot](/docs/laravel-mailcoach/v4/images/lists/tags-on-subscriber.png)
 

@@ -27,9 +27,9 @@ The name of a campaign is only used within your Mailcoach UI. Subscribers will n
 
 The value for the _Subject_ field is used as the subject for sent emails.
 
-The _List_ menu allows you to pick one of your lists, which you can further narrow down by picking one of its _Segments_ right below it. You can read more about tags and segments [here](/docs/v3/app/lists/tags-and-segments).
+The _List_ menu allows you to pick one of your lists, which you can further narrow down by picking one of its _Segments_ right below it. You can read more about tags and segments [here](/docs/laravel-mailcoach/v4/lists/tags-and-segments).
 
-Finally, the tracking options allow you to track how many subscribers have opened your email and whether they clicked any of the links you included. You can see what the result of this tracking looks like in the [Campaign statistics](/docs/v3/app/campaigns/campaign-statistics) section of the documentation.
+Finally, the tracking options allow you to track how many subscribers have opened your email and whether they clicked any of the links you included. You can see what the result of this tracking looks like in the [Campaign statistics](/docs/laravel-mailcoach/v4/campaigns/campaign-statistics) section of the documentation.
 
 ### Content
 
@@ -62,7 +62,7 @@ When sending a campaign, all the emails that need to be sent out will be placed 
 
 ![screenshot](/docs/laravel-mailcoach/v4/images/campaigns/campaign-statistics-sending.png)
 
-For more information on what these statistics mean, continue reading in the [campaign's statistics](/docs/v3/app/campaigns/campaign-statistics) section of the documentation.
+For more information on what these statistics mean, continue reading in the [campaign's statistics](/docs/laravel-mailcoach/v4/campaigns/campaign-statistics) section of the documentation.
 
 ## Campaign statistics
 
@@ -74,7 +74,7 @@ This page contains all the statistics for a campaign that was sent. These statis
 
 This page shows a summary of the statistics for your campaign. At a glance, you can see how many people opened your email and clicked any links you included, and also how many people unsubscribed from your mailing list as a result of this campaign and how often the emails bounced.
 
-A bounce means that an email could not be delivered to a certain email address, this could happen for several reasons. You can better find out why in the [_Outbox_](/docs/v3/app/campaigns/campaign-statistics#outbox) tab.
+A bounce means that an email could not be delivered to a certain email address, this could happen for several reasons. You can better find out why in the [_Outbox_](/docs/laravel-mailcoach/v4/campaigns/campaign-statistics#outbox) tab.
 
 ### Opens and clicks
 

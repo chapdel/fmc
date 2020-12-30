@@ -9,7 +9,7 @@ This package is called `spatie/laravel-mailcoach` Installing Mailcoach as a pack
 
 ## Getting a license
 
-In order to install Mailcoach, you'll need to [get a license](/docs/v3/app/general/getting-a-license) first.
+In order to install Mailcoach, you'll need to [get a license](/docs/laravel-mailcoach/v4/general/getting-a-license) first.
 
 ## Installation via composer
 
