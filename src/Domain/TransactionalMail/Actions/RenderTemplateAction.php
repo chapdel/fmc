@@ -34,7 +34,7 @@ class RenderTemplateAction
         return $body;
     }
 
-    protected function compileBlade(string $bladeString, array $arguments)
+    protected function compileBlade(string $bladeString, array $arguments): string
     {
         $generated = Blade::compileString($bladeString);
 
