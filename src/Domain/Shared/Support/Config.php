@@ -6,10 +6,22 @@ use Spatie\Mailcoach\Domain\Campaign\Exceptions\InvalidConfig;
 
 class Config
 {
-    public static function getActionClass(string $actionName, string $actionClass): object
+    public static function getCampaignActionClass(string $actionName, string $actionClass): object
     {
         $configuredClass = config("mailcoach.campaigns.actions.{$actionName}");
 
+        return self::getActionClass($configuredClass, $actionName, $actionClass);
+    }
+
+    public static function getTransactionalActionClass(string $actionName, string $actionClass): object
+    {
+        $configuredClass = config("mailcoach.transactional.actions.{$actionName}");
+
+        return self::getActionClass($configuredClass, $actionName, $actionClass);
+    }
+
+    protected static function getActionClass(?string $configuredClass,string $actionName, string $actionClass): object
+    {
         if (is_null($configuredClass)) {
             $configuredClass = $actionClass;
         }

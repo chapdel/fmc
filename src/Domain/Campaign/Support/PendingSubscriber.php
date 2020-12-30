@@ -92,7 +92,7 @@ class PendingSubscriber
         $this->emailList = $emailList;
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\CreateSubscriberAction $createSubscriberAction */
-        $createSubscriberAction = Config::getActionClass('create_subscriber', CreateSubscriberAction::class);
+        $createSubscriberAction = Config::getCampaignActionClass('create_subscriber', CreateSubscriberAction::class);
 
         return $createSubscriberAction->execute($this);
     }

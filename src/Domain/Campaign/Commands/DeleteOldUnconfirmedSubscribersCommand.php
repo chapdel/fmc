@@ -23,7 +23,7 @@ class DeleteOldUnconfirmedSubscribersCommand extends Command
         $cutOffDate = now()->subMonth()->toDateTimeString();
 
         /** @var DeleteSubscriberAction $deleteSubscriberAction */
-        $deleteSubscriberAction = Config::getActionClass('delete_subscriber', DeleteSubscriberAction::class);
+        $deleteSubscriberAction = Config::getCampaignActionClass('delete_subscriber', DeleteSubscriberAction::class);
 
         $deletedSubscribersCount = $this->getSubscriberClass()::unconfirmed()
             ->where('created_at', '<', $cutOffDate)

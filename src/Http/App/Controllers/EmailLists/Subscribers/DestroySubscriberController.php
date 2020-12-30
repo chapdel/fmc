@@ -12,7 +12,7 @@ class DestroySubscriberController
     public function __invoke(EmailList $emailList, Subscriber $subscriber)
     {
         /** @var DeleteSubscriberAction $deleteSubscriberAction */
-        $deleteSubscriberAction = Config::getActionClass('delete_subscriber', DeleteSubscriberAction::class);
+        $deleteSubscriberAction = Config::getCampaignActionClass('delete_subscriber', DeleteSubscriberAction::class);
 
         $deleteSubscriberAction->execute($subscriber);
 

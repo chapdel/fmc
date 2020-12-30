@@ -138,7 +138,7 @@ class Subscriber extends Model
 
     public function confirm()
     {
-        $action = Config::getActionClass('confirm_subscriber', ConfirmSubscriberAction::class);
+        $action = Config::getCampaignActionClass('confirm_subscriber', ConfirmSubscriberAction::class);
 
         return $action->execute($this);
     }

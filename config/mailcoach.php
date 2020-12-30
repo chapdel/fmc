@@ -1,17 +1,6 @@
 <?php
 
 return [
-    /*
-     * The mailer used by Mailcoach for password resets and summary emails.
-     * Mailcoach will use the default Laravel mailer if this is not set.
-     */
-    'mailer' => null,
-
-    /*
-     * The date format used on all screens of the UI
-     */
-    'date_format' => 'Y-m-d H:i',
-
     'campaigns' => [
         /*
          * The default mailer used by Mailcoach for sending campaigns.
@@ -121,11 +110,25 @@ return [
 
     'transactional' => [
         /*
-         * The default mailer used by Mailcoach for confirmation and welcome mails.
+         * The default mailer used by Mailcoach for transactional mails.
          */
         'mailer' => null,
+
+        'actions' => [
+            'send_test' => \Spatie\Mailcoach\Domain\TransactionalMail\Actions\SendTestForTransactionalMailTemplateAction::class,
+        ]
     ],
 
+    /*
+     * The mailer used by Mailcoach for password resets and summary emails.
+     * Mailcoach will use the default Laravel mailer if this is not set.
+     */
+    'mailer' => null,
+
+    /*
+     * The date format used on all screens of the UI
+     */
+    'date_format' => 'Y-m-d H:i',
 
     /*
      * Here you can specify on which connection Mailcoach's jobs will be dispatched.

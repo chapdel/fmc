@@ -34,7 +34,7 @@ class CalculateStatisticsJob implements ShouldQueue
     {
         try {
             /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\CalculateStatisticsAction $calculateStatistics */
-            $calculateStatistics = Config::getActionClass('calculate_statistics', CalculateStatisticsAction::class);
+            $calculateStatistics = Config::getCampaignActionClass('calculate_statistics', CalculateStatisticsAction::class);
 
             $calculateStatistics->execute($this->campaign);
         } catch (Exception $exception) {

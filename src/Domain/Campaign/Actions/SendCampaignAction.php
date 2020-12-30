@@ -33,7 +33,7 @@ class SendCampaignAction
     protected function prepareSubject(Campaign $campaign): self
     {
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareSubjectAction $prepareSubjectAction */
-        $prepareSubjectAction = Config::getActionClass('prepare_subject', PrepareSubjectAction::class);
+        $prepareSubjectAction = Config::getCampaignActionClass('prepare_subject', PrepareSubjectAction::class);
 
         $prepareSubjectAction->execute($campaign);
 
@@ -43,7 +43,7 @@ class SendCampaignAction
     protected function prepareEmailHtml(Campaign $campaign): self
     {
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareEmailHtmlAction $prepareEmailHtmlAction */
-        $prepareEmailHtmlAction = Config::getActionClass('prepare_email_html', PrepareEmailHtmlAction::class);
+        $prepareEmailHtmlAction = Config::getCampaignActionClass('prepare_email_html', PrepareEmailHtmlAction::class);
 
         $prepareEmailHtmlAction->execute($campaign);
 
@@ -53,7 +53,7 @@ class SendCampaignAction
     protected function prepareWebviewHtml(Campaign $campaign): self
     {
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareWebviewHtmlAction $prepareWebviewHtmlAction */
-        $prepareWebviewHtmlAction = Config::getActionClass('prepare_webview_html', PrepareWebviewHtmlAction::class);
+        $prepareWebviewHtmlAction = Config::getCampaignActionClass('prepare_webview_html', PrepareWebviewHtmlAction::class);
 
         $prepareWebviewHtmlAction->execute($campaign);
 

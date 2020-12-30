@@ -44,7 +44,7 @@ class SendMailJob implements ShouldQueue
         }
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\SendMailAction $sendMailAction */
-        $sendMailAction = Config::getActionClass('send_mail', SendMailAction::class);
+        $sendMailAction = Config::getCampaignActionClass('send_mail', SendMailAction::class);
 
         $sendMailAction->execute($this->pendingSend);
     }

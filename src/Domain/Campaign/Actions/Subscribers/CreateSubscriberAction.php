@@ -50,7 +50,7 @@ class CreateSubscriberAction
         }
 
         if ($subscriber->isUnconfirmed()) {
-            $sendConfirmSubscriberMailAction = Config::getActionClass('send_confirm_subscriber_mail', SendConfirmSubscriberMailAction::class);
+            $sendConfirmSubscriberMailAction = Config::getCampaignActionClass('send_confirm_subscriber_mail', SendConfirmSubscriberMailAction::class);
 
             $sendConfirmSubscriberMailAction->execute($subscriber, $pendingSubscriber->redirectAfterSubscribed);
         }

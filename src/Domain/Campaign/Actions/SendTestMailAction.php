@@ -15,7 +15,7 @@ class SendTestMailAction
     {
         $html = $campaign->htmlWithInlinedCss();
 
-        $convertHtmlToTextAction = Config::getActionClass('convert_html_to_text', ConvertHtmlToTextAction::class);
+        $convertHtmlToTextAction = Config::getCampaignActionClass('convert_html_to_text', ConvertHtmlToTextAction::class);
 
         $text = $convertHtmlToTextAction->execute($html);
 

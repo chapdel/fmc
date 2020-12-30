@@ -11,7 +11,7 @@ trait SendsWelcomeMail
 {
     protected function sendWelcomeMail(Subscriber $subscriber): void
     {
-        $sendWelcomeMailAction = Config::getActionClass('send_welcome_mail', SendWelcomeMailAction::class);
+        $sendWelcomeMailAction = Config::getCampaignActionClass('send_welcome_mail', SendWelcomeMailAction::class);
 
         $sendWelcomeMailAction->execute($subscriber);
     }

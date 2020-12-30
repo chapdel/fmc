@@ -36,7 +36,7 @@ class SendTestMailJob implements ShouldQueue
     public function handle()
     {
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\SendTestMailAction $sendTestMailAction */
-        $sendTestMailAction = Config::getActionClass('send_test_mail', SendTestMailAction::class);
+        $sendTestMailAction = Config::getCampaignActionClass('send_test_mail', SendTestMailAction::class);
 
         $sendTestMailAction->execute($this->campaign, $this->email);
     }

@@ -21,7 +21,7 @@ class SubscriberDetailsController
         Subscriber $subscriber,
         UpdateSubscriberRequest $request
     ) {
-        $updateSubscriberAction = Config::getActionClass('update_subscriber', UpdateSubscriberAction::class);
+        $updateSubscriberAction = Config::getCampaignActionClass('update_subscriber', UpdateSubscriberAction::class);
 
         $updateSubscriberAction->execute(
             $subscriber,

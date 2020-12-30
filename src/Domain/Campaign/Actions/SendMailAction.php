@@ -30,18 +30,18 @@ class SendMailAction
         }
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeSubjectAction $personalizeSubjectAction */
-        $personalizeSubjectAction = Config::getActionClass('personalize_subject', PersonalizeSubjectAction::class);
+        $personalizeSubjectAction = Config::getCampaignActionClass('personalize_subject', PersonalizeSubjectAction::class);
         $personalisedSubject = $personalizeSubjectAction->execute($pendingSend->campaign->subject, $pendingSend);
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeHtmlAction $personalizeHtmlAction */
-        $personalizeHtmlAction = Config::getActionClass('personalize_html', PersonalizeHtmlAction::class);
+        $personalizeHtmlAction = Config::getCampaignActionClass('personalize_html', PersonalizeHtmlAction::class);
         $personalisedHtml = $personalizeHtmlAction->execute(
             $pendingSend->campaign->email_html,
             $pendingSend,
         );
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\ConvertHtmlToTextAction $convertHtmlToTextAction */
-        $convertHtmlToTextAction = Config::getActionClass('convert_html_to_text', ConvertHtmlToTextAction::class);
+        $convertHtmlToTextAction = Config::getCampaignActionClass('convert_html_to_text', ConvertHtmlToTextAction::class);
         $personalisedText = $convertHtmlToTextAction->execute($personalisedHtml);
 
         $campaignMail = app(CampaignMail::class);

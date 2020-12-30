@@ -34,7 +34,7 @@ class ImportSubscribersJob implements ShouldQueue
     public function handle()
     {
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\ImportSubscribersAction $importSubscribersAction */
-        $importSubscribersAction = Config::getActionClass('import_subscribers', ImportSubscribersAction::class);
+        $importSubscribersAction = Config::getCampaignActionClass('import_subscribers', ImportSubscribersAction::class);
 
         $importSubscribersAction->execute($this->subscriberImport, $this->user);
     }

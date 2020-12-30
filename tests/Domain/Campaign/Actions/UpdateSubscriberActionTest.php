@@ -42,7 +42,7 @@ class UpdateSubscriberActionTest extends TestCase
     /** @test */
     public function it_can_update_the_attributes_of_a_subscriber()
     {
-        $updateSubscriberAction = Config::getActionClass('update_subscriber', UpdateSubscriberAction::class);
+        $updateSubscriberAction = Config::getCampaignActionClass('update_subscriber', UpdateSubscriberAction::class);
 
         $updateSubscriberAction->execute(
             $this->subscriber,

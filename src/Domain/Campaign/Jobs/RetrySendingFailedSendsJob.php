@@ -31,7 +31,7 @@ class RetrySendingFailedSendsJob
     public function handle()
     {
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\RetrySendingFailedSendsAction $retrySendingFailedSendsAction */
-        $retrySendingFailedSendsAction = Config::getActionClass('retry_sending_failed_sends', RetrySendingFailedSendsAction::class);
+        $retrySendingFailedSendsAction = Config::getCampaignActionClass('retry_sending_failed_sends', RetrySendingFailedSendsAction::class);
 
         $retrySendingFailedSendsAction->execute($this->campaign);
     }

@@ -36,7 +36,7 @@ class SendCampaignToSubscriberJob implements ShouldQueue
     public function handle()
     {
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignToSubscriberAction $sendCampaignToSubscriberAction */
-        $sendCampaignToSubscriberAction = Config::getActionClass('send_campaign_to_subscriber', SendCampaignToSubscriberAction::class);
+        $sendCampaignToSubscriberAction = Config::getCampaignActionClass('send_campaign_to_subscriber', SendCampaignToSubscriberAction::class);
         $sendCampaignToSubscriberAction->execute($this->campaign, $this->subscriber);
     }
 }
