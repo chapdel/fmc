@@ -5,13 +5,13 @@ weight: 2
 
 [Unlayer](https://unlayer.com) is a beautiful wysiwyg editor, that requires no knowledge of HTML. It also offers image uploads.
 
-![screenshot](/images/docs/laravel-mailcoach/v4/editors/unlayer.png)
+![screenshot](/docs/laravel-mailcoach/v4/images/editors/unlayer.png)
 
 ## Configuration via the UI
 
 When you've installed Mailcoach as a standalone app or via the 1-click-installer you can choose this editor via the UI.
 
-![screenshot](/images/docs/laravel-mailcoach/v4/editors/unlayer.png)
+![screenshot](/docs/laravel-mailcoach/v4/images/editors/unlayer.png)
 
 ## Manual installation
 
