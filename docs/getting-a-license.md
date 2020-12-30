@@ -1,6 +1,6 @@
 ---
 title: Getting a license
-weight: 1
+weight: 3
 ---
 
 In order to use Mailcoach, you must buy a license. You can buy a license at [our store](https://spatie.be/products/mailcoach.app).
