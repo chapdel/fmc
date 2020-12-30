@@ -2,13 +2,16 @@
 
 namespace Spatie\Mailcoach\Domain\TransactionalMail\Models;
 
-use Blade;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Mail\Mailable;
+use Illuminate\Support\Collection;
+use Spatie\Mailcoach\Domain\Shared\Support\Config;
+use Spatie\Mailcoach\Domain\TransactionalMail\Actions\RenderTemplateAction;
 use Spatie\Mailcoach\Domain\TransactionalMail\Exceptions\InvalidTemplate;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns\UsesMailcoachTemplate;
+use Spatie\Mailcoach\Domain\TransactionalMail\Support\Replacers\TransactionalMailReplacer;
 
 class TransactionalMailTemplate extends Model
 {
@@ -26,6 +29,8 @@ class TransactionalMailTemplate extends Model
         'to' => 'array',
         'cc' => 'array',
         'bcc' => 'array',
+        'allows_blade_compilation' => 'boolean',
+        'replacers' => 'array',
     ];
 
     public function isValid(): bool
@@ -63,29 +68,28 @@ class TransactionalMailTemplate extends Model
         return $mailableClass::testInstance();
     }
 
-    public function render(array $arguments): string
+    public function replacers(): Collection
     {
-        $generated = Blade::compileString($this->body);
+        return collect($this->replacers ?? [])
+            ->map(function(string $replacerName): TransactionalMailReplacer {
+                $replacerClass = config("mailcoach.transactional.replacers.{$replacerName}");
 
-        ob_start() and extract($arguments, EXTR_SKIP);
+                if (is_null($replacerClass)) {
+                    throw InvalidTemplate::replacerNotFound($this, $replacerName);
+                }
 
-        // We'll include the view contents for parsing within a catcher
-        // so we can avoid any WSOD errors. If an exception occurs we
-        // will throw it out to the exception handler.
-        try {
-            eval('?>'.$generated);
-        }
-        // If we caught an exception, we'll silently flush the output
-        // buffer so that no partially rendered views get thrown out
-        // to the client and confuse the user with junk.
-        catch (Exception $e) {
-            ob_get_clean();
+                if (! is_a($replacerClass, TransactionalMailReplacer::class, true)) {
+                    throw InvalidTemplate::invalidReplacer($this, $replacerName, $replacerClass);
+                }
 
-            throw $e;
-        }
+                return app()->make($replacerClass);
+            });
+    }
 
-        $content = ob_get_clean();
+    public function render(Mailable $mailable): string
+    {
+        $action = Config::getTransactionalActionClass('render_template', RenderTemplateAction::class);
 
-        return $content;
+        return $action->execute($this, $mailable);
     }
 }

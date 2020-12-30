@@ -12,6 +12,7 @@ trait UsesMailcoachTemplate
 
     public function template(string $name): self
     {
+        /** @var TransactionalMailTemplate $template */
         $template = TransactionalMailTemplate::firstWhere('name', $name);
 
         if (! $template) {
@@ -25,7 +26,8 @@ trait UsesMailcoachTemplate
         $this->cc($template->cc);
         $this->bcc($template->bcc);
 
-        $content = $template->render($this->buildViewData());
+        $content = $template->render($this);
+
         $this->view('mailcoach::mails.transactionalMails.template', compact('content'));
 
         if ($template->track_opens) {

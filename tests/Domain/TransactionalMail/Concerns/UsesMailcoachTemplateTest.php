@@ -7,9 +7,42 @@ use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailableWithTemplate;
+use Spatie\Mailcoach\Tests\TestClasses\TestTransactionalMailReplacer;
 
 class UsesMailcoachTemplateTest extends TestCase
 {
+    /** @test */
+    public function it_can_render_the_template_containing_blade_variables()
+    {
+        /** @var TransactionalMailTemplate $template */
+        $template = TransactionalMailTemplate::factory()->create([
+            'name' => 'test-template',
+            'body' => 'test html {{ $argument }}',
+            'test_using_mailable' => TestMailableWithTemplate::class,
+            'allows_blade_compilation' => true,
+        ]);
+
+        $mailable = $template->getMailable();
+
+        $this->assertStringContainsString('test html test-argument', $mailable->render());
+    }
+
+    /** @test */
+    public function it_will_not_compile_blade_if_it_is_not_allowed()
+    {
+        /** @var TransactionalMailTemplate $template */
+        $template = TransactionalMailTemplate::factory()->create([
+            'name' => 'test-template',
+            'body' => 'test html {{ $argument }}',
+            'test_using_mailable' => TestMailableWithTemplate::class,
+            'allows_blade_compilation' => false,
+        ]);
+
+        $mailable = $template->getMailable();
+
+        $this->assertStringContainsString('test html {{ $argument }}', $mailable->render());
+    }
+
     /** @test */
     public function it_will_use_cc_and_bcc_when_sending_out_a_mail_using_the_template()
     {
@@ -35,17 +68,23 @@ class UsesMailcoachTemplateTest extends TestCase
     }
 
     /** @test */
-    public function it_can_render_the_template_containing_blade_variables()
+    public function it_will_can_use_replacers_to_replace_content()
     {
         /** @var TransactionalMailTemplate $template */
         $template = TransactionalMailTemplate::factory()->create([
             'name' => 'test-template',
-            'body' => 'test html {{ $argument }}',
+            'body' => 'test html ::argument::',
             'test_using_mailable' => TestMailableWithTemplate::class,
+            'allows_blade_compilation' => false,
+            'replacers' => ['test'],
+        ]);
+
+        config()->set('mailcoach.transactional.replacers', [
+            'test' => TestTransactionalMailReplacer::class,
         ]);
 
         $mailable = $template->getMailable();
 
-        $this->assertStringContainsString('test html test-argument', $mailable->render());
+        $this->assertStringContainsString('test html test-argument-from-replacer', $mailable->render());
     }
 }

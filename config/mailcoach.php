@@ -114,8 +114,18 @@ return [
          */
         'mailer' => null,
 
+        /*
+         * Replacers are classes that can make replacements in the body of transactional mails.
+         *
+         * You can use replacers to create placeholders.
+         */
+        'replacers' => [
+            //
+        ],
+
         'actions' => [
             'send_test' => \Spatie\Mailcoach\Domain\TransactionalMail\Actions\SendTestForTransactionalMailTemplateAction::class,
+            'render_template' => \Spatie\Mailcoach\Domain\TransactionalMail\Actions\RenderTemplateAction::class,
         ]
     ],
 

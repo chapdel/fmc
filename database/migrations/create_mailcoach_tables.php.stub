@@ -526,10 +526,11 @@ class CreateMailcoachTables extends Migration
             $table->json('bcc')->nullable();
             $table->longText('body')->nullable();
             $table->string('type'); // html, blade, markdown
-            $table->text('allowed_replacers')->nullable();
+            $table->json('replacers')->nullable();
             $table->boolean('track_opens')->default(false);
             $table->boolean('track_clicks')->default(false);
             $table->text('test_using_mailable')->nullable();
+            $table->boolean('allows_blade_compilation')->default(false);
             $table->timestamps();
         });
     }
