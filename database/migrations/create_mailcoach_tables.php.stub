@@ -515,5 +515,22 @@ class CreateMailcoachTables extends Migration
                 ->references('id')->on('mailcoach_subscribers')
                 ->onDelete('cascade');
         });
+
+        Schema::create('mailcoach_transactions_mail_templates', function (Blueprint $table) {
+            $table->string('label');
+            $table->string('name');
+            $table->string('subject')->nullable();
+            $table->text('from')->nullable();
+            $table->json('to')->nullable();
+            $table->json('cc')->nullable();
+            $table->json('bcc')->nullable();
+            $table->longText('body')->nullable();
+            $table->string('type'); // html, blade, markdown
+            $table->text('allowed_replacers')->nullable();
+            $table->boolean('track_opens')->default(false);
+            $table->boolean('track_clicks')->default(false);
+            $table->text('test_using_mailable')->nullable();
+            $table->timestamps();
+        });
     }
 }

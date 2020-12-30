@@ -8,7 +8,9 @@ use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 /** @mixin \Illuminate\Mail\Mailable */
 trait UsesMailcoachTemplate
 {
-    public function template(string $name)
+    use StoresMail;
+
+    public function template(string $name): self
     {
         $template = TransactionalMailTemplate::firstWhere('name', $name);
 
@@ -16,6 +18,29 @@ trait UsesMailcoachTemplate
             throw CouldNotFindTemplate::make($name, $this);
         }
 
-        $this->view();
+        $this->subject($template->subject);
+
+        $this->from($template->from);
+        $this->to($template->to);
+        $this->cc($template->cc);
+        $this->bcc($template->bcc);
+
+        $content = $template->render($this->buildViewData());
+        $this->view('mailcoach::mails.transactionalMails.template', compact('content'));
+
+        if ($template->track_opens) {
+            $this->trackOpens();
+        }
+
+        if ($template->track_clicks) {
+            $this->trackClicks();
+        }
+
+        return $this;
+    }
+
+    protected static function testInstance(): self
+    {
+        return new self();
     }
 }

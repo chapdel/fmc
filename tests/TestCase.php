@@ -32,6 +32,7 @@ abstract class TestCase extends Orchestra
         parent::setUp();
 
         ray()->enable();
+        ray()->newScreen();
 
         Route::mailcoach('mailcoach');
 
