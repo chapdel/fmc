@@ -84,14 +84,14 @@ Note: If you have created a new Amazon SES account, you will need to request a s
 
 ## Handling Amazon SES feedback in an existing Laravel app
 
-You should follow these instructions when you've installed Mailcoach in an existing app.
+You should only follow these instructions when you've installed Mailcoach in an existing app.
 
 `laravel-mailcoach-ses-feedback` can handle bounce feedback coming from SES. All e-mail addresses that permanently bounce will be unsubscribed from all lists.
 
 You can install the add-on package via composer:
 
 ```bash
-composer require spatie/laravel-mailcoach-ses-feedback:^2.0
+composer require spatie/laravel-mailcoach-ses-feedback:^4.0
 ```
 
 ### Adding the webhooks route
