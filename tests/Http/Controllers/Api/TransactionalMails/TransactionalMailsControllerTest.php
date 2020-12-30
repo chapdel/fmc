@@ -3,9 +3,7 @@
 namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\TransactionalMails;
 
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
-use Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails\ShowTransactionalMailController;
 use Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails\TransactionalMailsController;
-use Spatie\Mailcoach\Tests\Factories\TransactionalMailFactory;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestCase;
 
@@ -37,7 +35,7 @@ class TransactionalMailsControllerTest extends TestCase
     /** @test */
     public function it_can_search__mails_with_a_certain_subject()
     {
-                $transactionalMails = $this
+        $transactionalMails = $this
                     ->get(action(TransactionalMailsController::class). '?filter[search]=ba')
                     ->assertSuccessful()
                     ->json('data');
@@ -45,6 +43,5 @@ class TransactionalMailsControllerTest extends TestCase
         $this->assertCount(2, $transactionalMails);
 
         $this->assertEquals('bar', $transactionalMails[0]['subject']);
-
     }
 }
