@@ -19,7 +19,7 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Send;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
-use Spatie\Mailcoach\Tests\TestClasses\CustomReplacer;
+use Spatie\Mailcoach\Tests\TestClasses\CustomCampaignReplacer;
 use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMail;
 use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMailWithBodyReplacer;
 use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMailWithNoSubject;
@@ -289,7 +289,7 @@ class SendCampaignJobTest extends TestCase
             ->skipConfirmation()
             ->subscribeTo($campaign->emailList);
 
-        config()->set('mailcoach.replacers', array_merge(config('mailcoach.replacers'), [CustomReplacer::class]));
+        config()->set('mailcoach.replacers', array_merge(config('mailcoach.replacers'), [CustomCampaignReplacer::class]));
 
         $campaign->emailList->update(['campaign_mailer' => 'array']);
 
@@ -313,7 +313,7 @@ class SendCampaignJobTest extends TestCase
             ->skipConfirmation()
             ->subscribeTo($campaign->emailList);
 
-        config()->set('mailcoach.replacers', array_merge(config('mailcoach.replacers'), [CustomReplacer::class]));
+        config()->set('mailcoach.replacers', array_merge(config('mailcoach.replacers'), [CustomCampaignReplacer::class]));
 
         $campaign->emailList->update(['campaign_mailer' => 'array']);
 
@@ -337,7 +337,7 @@ class SendCampaignJobTest extends TestCase
             ->skipConfirmation()
             ->subscribeTo($campaign->emailList);
 
-        config()->set('mailcoach.replacers', array_merge(config('mailcoach.replacers'), [CustomReplacer::class]));
+        config()->set('mailcoach.replacers', array_merge(config('mailcoach.replacers'), [CustomCampaignReplacer::class]));
 
         $campaign->emailList->update(['campaign_mailer' => 'array']);
 

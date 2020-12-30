@@ -29,11 +29,11 @@ return [
      * You can use a replacer to create placeholders.
      */
     'replacers' => [
-        \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\WebviewReplacer::class,
+        \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\WebviewCampaignReplacer::class,
         \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\SubscriberReplacer::class,
-        \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\EmailListReplacer::class,
+        \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\EmailListCampaignReplacer::class,
         \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\UnsubscribeUrlReplacer::class,
-        \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\CampaignReplacer::class,
+        \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\CampaignNameCampaignReplacer::class,
     ],
 
     /**

@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Domain\Campaign\Support\Replacers;
 
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 
-class WebviewReplacer implements Replacer
+class WebviewCampaignReplacer implements CampaignReplacer
 {
     public function helpText(): array
     {

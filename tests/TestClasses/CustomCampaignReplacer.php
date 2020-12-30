@@ -4,9 +4,9 @@
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\Replacer;
+use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\CampaignReplacer;
 
-class CustomReplacer implements Replacer
+class CustomCampaignReplacer implements CampaignReplacer
 {
     public function helpText(): array
     {

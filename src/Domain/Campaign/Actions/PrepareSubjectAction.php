@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Campaign\Actions;
 
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\Replacer;
+use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\CampaignReplacer;
 
 class PrepareSubjectAction
 {
@@ -18,7 +18,7 @@ class PrepareSubjectAction
     {
         $campaign->subject = collect(config('mailcoach.replacers'))
             ->map(fn (string $className) => app($className))
-            ->filter(fn (object $class) => $class instanceof Replacer)
-            ->reduce(fn (string $subject, Replacer $replacer) => $replacer->replace($subject, $campaign), $campaign->subject);
+            ->filter(fn (object $class) => $class instanceof CampaignReplacer)
+            ->reduce(fn (string $subject, CampaignReplacer $replacer) => $replacer->replace($subject, $campaign), $campaign->subject);
     }
 }

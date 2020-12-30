@@ -7,7 +7,7 @@ use Exception;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\Replacer;
+use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\CampaignReplacer;
 
 class PrepareEmailHtmlAction
 {
@@ -65,7 +65,7 @@ class PrepareEmailHtmlAction
     {
         $campaign->email_html = collect(config('mailcoach.replacers'))
             ->map(fn (string $className) => app($className))
-            ->filter(fn (object $class) => $class instanceof Replacer)
-            ->reduce(fn (string $html, Replacer $replacer) => $replacer->replace($html, $campaign), $campaign->email_html);
+            ->filter(fn (object $class) => $class instanceof CampaignReplacer)
+            ->reduce(fn (string $html, CampaignReplacer $replacer) => $replacer->replace($html, $campaign), $campaign->email_html);
     }
 }
