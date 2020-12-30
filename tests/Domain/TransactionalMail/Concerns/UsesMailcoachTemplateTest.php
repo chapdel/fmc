@@ -26,7 +26,7 @@ class UsesMailcoachTemplateTest extends TestCase
 
         Mail::to('john@example.com')->send($mailable);
 
-        Mail::assertSent(function(TestMailableWithTemplate $mail) {
+        Mail::assertSent(function (TestMailableWithTemplate $mail) {
             $this->assertTrue($mail->hasCc('jane@example.com'));
             $this->assertTrue($mail->hasBcc('tarzan@example.com'));
 

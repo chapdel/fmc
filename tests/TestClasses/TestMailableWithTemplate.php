@@ -3,7 +3,6 @@
 
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
-
 use Illuminate\Mail\Mailable;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns\UsesMailcoachTemplate;
 

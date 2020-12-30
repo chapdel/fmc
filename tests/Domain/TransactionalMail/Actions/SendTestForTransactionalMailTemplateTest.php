@@ -26,7 +26,7 @@ class SendTestForTransactionalMailTemplateTest extends TestCase
             $template,
         );
 
-        Mail::assertSent(function(TestMailableWithTemplate $mail) {
+        Mail::assertSent(function (TestMailableWithTemplate $mail) {
             $this->assertTrue($mail->hasTo('john@example.com'));
 
             return true;
@@ -50,7 +50,7 @@ class SendTestForTransactionalMailTemplateTest extends TestCase
             $template,
         );
 
-        Mail::assertSent(function(TestMailableWithTemplate $mail) {
+        Mail::assertSent(function (TestMailableWithTemplate $mail) {
             $this->assertFalse($mail->hasCc('jane@example.com'));
             $this->assertFalse($mail->hasBcc('tarzan@example.com'));
 
