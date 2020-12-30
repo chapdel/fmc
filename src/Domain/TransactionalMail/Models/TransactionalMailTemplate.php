@@ -56,7 +56,7 @@ class TransactionalMailTemplate extends Model
 
         $traits = class_uses_recursive($mailableClass);
 
-        if (!in_array(UsesMailcoachTemplate::class, $traits)) {
+        if (! in_array(UsesMailcoachTemplate::class, $traits)) {
             throw InvalidTemplate::mailableClassNotValid($this);
         }
 
@@ -72,16 +72,16 @@ class TransactionalMailTemplate extends Model
         // We'll include the view contents for parsing within a catcher
         // so we can avoid any WSOD errors. If an exception occurs we
         // will throw it out to the exception handler.
-        try
-        {
+        try {
             eval('?>'.$generated);
         }
-            // If we caught an exception, we'll silently flush the output
-            // buffer so that no partially rendered views get thrown out
-            // to the client and confuse the user with junk.
-        catch (Exception $e)
-        {
-            ob_get_clean(); throw $e;
+        // If we caught an exception, we'll silently flush the output
+        // buffer so that no partially rendered views get thrown out
+        // to the client and confuse the user with junk.
+        catch (Exception $e) {
+            ob_get_clean();
+
+            throw $e;
         }
 
         $content = ob_get_clean();
