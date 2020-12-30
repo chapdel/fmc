@@ -1,6 +1,6 @@
 ---
 title: Installation using the 1-click installer
-weight: 3
+weight: 5
 ---
 
 If you don't have any PHP or Laravel knowledge, you can still use Mailcoach.

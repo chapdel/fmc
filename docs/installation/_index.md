@@ -1,4 +1,4 @@
 ---
-title: Basic usage
+title: Installation
 weight: 1
 ---

@@ -1,4 +1,4 @@
 ---
-title: Working with campaign
+title: Working with campaigns
 weight: 5
 ---

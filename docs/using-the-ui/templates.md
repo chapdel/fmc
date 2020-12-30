@@ -7,7 +7,7 @@ Templates provide a starting point for a campaign's email content.
 
 ## Creating a template
 
-![screenshot](https://mailcoach.app/images/docs/v3/app/templates/create.png)
+![screenshot](/docs/laravel-mailcoach/v4/images/templates/create.png)
 
 You can preview what this template will look like in a user's email client by creating a campaign based on this template, and visiting the campaign's _Content_ tab.
 

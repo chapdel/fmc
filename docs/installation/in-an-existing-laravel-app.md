@@ -1,6 +1,6 @@
 ---
 title: In an existing Laravel app
-weight: 1
+weight: 3
 ---
 
 If you have experience with Laravel and/or PHP, and have a Laravel 8 application, you can install Mailcoach as a package inside it. 

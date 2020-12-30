@@ -1,6 +1,6 @@
 ---
 title: As a standalone app
-weight: 2
+weight: 4
 ---
 
 If you don't know Laravel, but have basic PHP knowledge and know how to deploy to a server, you can follow these instructions.
@@ -25,7 +25,7 @@ Next, you must update the values of the `DB_*` entries in `.env` so they match y
 
 After that you can create an initial user by executing `php artisan mailcoach:make-user`. You can use the created user to login at Mailcoach. New user can be made on the users screen in mailcoach.
 
-![Users screen](https://mailcoach.app/images/docs/v3/app/getting-started/users.png)
+![Users screen](/docs/laravel-mailcoach/v4/images/getting-started/users.png)
 
 ### Configure the email sending service
 

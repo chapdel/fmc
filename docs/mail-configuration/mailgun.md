@@ -17,7 +17,7 @@ Go to your _Domain settings_ in Mailgun and make sure the _Click tracking_ and _
 
 Mailgun needs to know where to send your campaigns' statistics. Go to your Mailcoach _Mail config_ page (in the user menu on the top right), select _Mailgun_ as your driver, and copy the webhook that is mentioned in your Mail configuration:
 
-![screenshot](https://mailcoach.app/images/docs/v3/app/mail-configuration/mailgun-copy-webhook.png)
+![screenshot](/docs/laravel-mailcoach/v4/images/mail-configuration/mailgun-copy-webhook.png)
 
 Then, go to the _Webhooks_ submenu in Mailgun, and, with the webhook URL that you copied in the last step, add new webhooks for the following event types: _Clicks_, _Opens_, _Permanent Failure_, and _Spam Complaints_:
 
@@ -25,21 +25,21 @@ Then, go to the _Webhooks_ submenu in Mailgun, and, with the webhook URL that yo
 
 For Mailcoach to know the statistics are trustworthy, it needs to know your Mailgun HTTP webhook signing key, which you can find on the same page:
 
-![screenshot](https://mailcoach.app/images/docs/v3/app/mail-configuration/mailgun-copy-webhook-signing-key.png)
+![screenshot](/docs/laravel-mailcoach/v4/images/mail-configuration/mailgun-copy-webhook-signing-key.png)
 
 Copy it, and paste it in the _Webhook signing secret_ field in your mail configuration:
 
-![screenshot](https://mailcoach.app/images/docs/v3/app/mail-configuration/mailgun-copy-webhook-signing-key.png)
+![screenshot](/docs/laravel-mailcoach/v4/images/mail-configuration/mailgun-copy-webhook-signing-key.png)
 
 ### Configuring Mailcoach
 
 Mailcoach still needs to know where to send its emails, so go to _Overview_ page in your Mailgun dashboard, select the _API_ option, then _cURL_ and take note of the _API key_ and _API base URL_ that are now visible:
 
-![screenshot](https://mailcoach.app/images/docs/v3/app/mail-configuration/mailgun-api-key.png)
+![screenshot](/docs/laravel-mailcoach/v4/images/mail-configuration/mailgun-api-key.png)
 
 Go to your _Mail configuration_ page in Mailcoach, and fill in the fields:
 
-![screenshot](https://mailcoach.app/images/docs/v3/app/mail-configuration/mailgun-setup-mail-config.png)
+![screenshot](/docs/laravel-mailcoach/v4/images/mail-configuration/mailgun-setup-mail-config.png)
 
 - Mails per second: this will be different according to your Mailgun plan, you can find an appropriate value for this in your Mailgun dashboard
 - Domain: the same domain you did the setup for in Mailgun
