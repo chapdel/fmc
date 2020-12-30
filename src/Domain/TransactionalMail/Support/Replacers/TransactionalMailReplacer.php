@@ -10,5 +10,4 @@ interface TransactionalMailReplacer
     public function helpText(): array;
 
     public function replace(string $text, Mailable $mailable): string;
-
 }
