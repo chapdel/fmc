@@ -11,7 +11,7 @@ class TestTransactionalMailReplacer implements TransactionalMailReplacer
     public function helpText(): array
     {
         return [
-            'test' => 'A test replacer'
+            'test' => 'A test replacer',
         ];
     }
 
