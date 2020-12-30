@@ -7,6 +7,12 @@ If you don't have any PHP or Laravel knowledge, you can still use Mailcoach.
 
 You can use a one click installer to provision a new server at DigitalOcean. This new server will have Mailcoach and all its dependencies pre-installed. 
 
+## Getting a license
+
+In order to install Mailcoach, you'll need to [get a license](/docs/laravel-mailcoach/v4/general/getting-a-license) first.
+
+## Using the 1-click installer
+
 You can start the Mailcoach 1-click installer at [the market place of Digital Ocean](https://marketplace.digitalocean.com/apps/mailcoach?refcode=daf998eae49e).
 
 This video that walks you through the process.

@@ -7,6 +7,10 @@ If you don't know Laravel, but have basic PHP knowledge and know how to deploy t
 
 You can create a new Laravel application with Mailcoach preinstalled into using Composer. This application will also have authorization screens (login, password reset) and user management.
 
+## Getting a license
+
+In order to install Mailcoach, you'll need to [get a license](/docs/laravel-mailcoach/v4/general/getting-a-license) first.
+
 ### Creating the application
 
 You can create the application with Mailcoach pre-installed using this command

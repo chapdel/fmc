@@ -46,7 +46,7 @@ This is the content you should put in `auth.json`:
 With the configuration above in place, you'll be able to install the package into your project using this command:
 
 ```bash
-composer require "spatie/laravel-mailcoach:^4.0.0"
+composer require "spatie/laravel-mailcoach:^4.0"
 ```
 
 ## Publish the config file
@@ -310,10 +310,10 @@ To use different mailers, fill in the name of configured mailers in the `campaig
 
 To configure tracking open, clicks, bounces & complaints, follow the instruction on the dedicated docs page of each supported service.
 
-- [Amazon SES](/docs/v3/package/handling-feedback/amazon-ses)
-- [Mailgun](/docs/v3/package/handling-feedback/mailgun)
-- [Sendgrid](/docs/v3/package/handling-feedback/sendgrid)
-- [Postmark](/docs/v3/package/handling-feedback/postmark)
+- [Amazon SES](/docs/laravel-mailcoach/v4/mail-configuration/amazon-ses)
+- [Mailgun](/docs/laravel-mailcoach/v4/mail-configuration/mailgun)
+- [Sendgrid](/docs/laravel-mailcoach/v4/mail-configuration/sendgrid)
+- [Postmark](/docs/laravel-mailcoach/v4/mail-configuration/postmark)
 
 ## Prepare the database
 
