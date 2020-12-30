@@ -7,13 +7,13 @@ Email lists are used to group a collection of subscribers. You can use tags and 
 
 ## Overview
 
-![](https://mailcoach.app/images/docs/v3/app/lists/index.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/lists/index.png)
 
 On the lists index page, you get an overview of all the email lists you can manage, with the number of active subscribers shown. If the list requires confirmation, this number only includes subscribers that have confirmed their subscription. People that have unsubscribed, or don't have a valid email address (anymore), will not be counted in the "active" subscribers amount.
 
 ## Creating a list
 
-![](https://mailcoach.app/images/docs/v3/app/lists/create.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/lists/create.png)
 
 When creating a new list, you must enter a name for the list, and the email and name that campaigns will be sent from. The _From email_ will be the sender for any email campaigns that target this list. This will usually be an email address that you configured while setting up your mail configuration with Mailgun / Amazon SES / SendGrid / …
 
@@ -23,7 +23,7 @@ The _From name_ value is used as the sender's name in received emails. If you le
 
 The subscribers page shows an overview of all the email addresses that have subscribed to this email list. When clicking on an email address, you can see some more of their details, and which campaigns they have already received while on this list.
 
-![](https://mailcoach.app/images/docs/v3/app/lists/subscribers-index.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/lists/subscribers-index.png)
 
 ### Statuses
 
@@ -47,29 +47,29 @@ You can manually revert an unsubscribe by using the action menu, but we strongly
 
 ### Importing subscribers
 
-![](https://mailcoach.app/images/docs/v3/app/lists/subscribers-import.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/lists/subscribers-import.png)
 
 You can easily import a list of subscribers into an existing list. Upload a CSV file with these columns: `email`, `first_name`, `last_name` and `tags`, and Mailcoach will start importing these into the list. When you want to attach multiple tags to a subscriber, use `;` as the delimiter.  You can follow the progress of the import, see any errors that occurred during the process, and download the uploaded file by using the action menu on the right.
 
-![](https://mailcoach.app/images/docs/v3/app/lists/subscribers-import-page.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/lists/subscribers-import-page.png)
 
 Email addresses that have the _unsubscribed_ status will not be resubscribed when running an import. Confirmation mails will not be sent out to users, even if you have enabled double opt-in for this list. Imported email addresses that had not already unsubscribed, will receive the _Confirmed_ status and will receive any subsequently sent campaigns.
 
 Because these lists can get quite large and an import might take a while, we send you an email to inform you when Mailcoach has finished importing the subscribers:
 
-![](https://mailcoach.app/images/docs/v3/app/lists/subscribers-import-report.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/lists/subscribers-import-report.png)
 
 ### Exporting subscribers
 
 You can also export the entire list or parts of it. By filtering by name, email address, status or tags, you can choose which lines will be included in an export. An export will create a CSV file with email addresses, first names, last names, and tags.
 
-![](https://mailcoach.app/images/docs/v3/app/lists/subscribers-export.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/lists/subscribers-export.png)
 
 ## Settings
 
 ### General settings
 
-![](https://mailcoach.app/images/docs/v3/app/lists/settings-general.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/lists/settings-general.png)
 
 The first field, _name_, is simply the name of this mailing list. Subscribers will see it in places like the subscription confirmation page and when unsubscribing, so make sure the name is not too technical and that it explains well what the purpose of the list is.
 
@@ -81,21 +81,21 @@ You can also publish the mailing list to a public URL, to be consumed by an RSS 
 
 ### Reports
 
-![](https://mailcoach.app/images/docs/v3/app/lists/settings-reports.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/lists/settings-reports.png)
 
 You and your colleagues can receive some statistics about this list and any campaigns sent to it. Fill in all the email addresses you want to send these reports to in the "To…" field, each separated by a comma.
 
 - "Confirmation when a campaign gets sent to this list": Receive an email when a campaign is **sent**. If you scheduled a campaign, this report will be sent when the scheduled date is reached.
 
-![](https://mailcoach.app/images/docs/v3/app/lists/reports-campaign-sent.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/lists/reports-campaign-sent.png)
 
 - "Summary of opens, clicks & bounces a day after a campaign to this list has been sent": 24 hours after sending a campaign, you will receive an email report with the opens, clicks, and bounces.
 
-![](https://mailcoach.app/images/docs/v3/app/lists/reports-campaign-summary.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/lists/reports-campaign-summary.png)
 
 - "Weekly summary on the subscriber growth of this list": Every Monday morning you will receive an email report with the changes in subscribers to your list.
 
-![](https://mailcoach.app/images/docs/v3/app/lists/reports-list-summary.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/lists/reports-list-summary.png)
 
 ### Subscriptions
 
@@ -113,7 +113,7 @@ You can also configure Mailcoach to use a custom page and/or send out custom con
 
 #### Allow POST from an external form
 
-![](https://mailcoach.app/images/docs/v3/app/lists/settings-subscriptions-external-form.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/lists/settings-subscriptions-external-form.png)
 
 By enabling this option, you can create forms on your website that allow people to subscribe themselves to your list. Simply set the action (endpoint) of your form to the URL that was generated for this mailing list, and make sure to send at least a value for the "email" field in form submits, like so:
 
@@ -187,11 +187,11 @@ Finally, Mailcoach can also redirect users after they subscribe. There are some 
 
 ### Landing pages
 
-![](https://mailcoach.app/images/docs/v3/app/lists/settings-landing-pages.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/lists/settings-landing-pages.png)
 
 These are the different pages that users will be sent to upon different interactions with your mailing list. We provide some default landing pages for these, but you can configure your own.
 
-![](https://mailcoach.app/images/docs/v3/app/lists/settings-default-confirmation.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/lists/settings-default-confirmation.png)
 
 When creating custom landing pages, you don't need to provide any actions or buttons on these landing pages. They are simply the place users will be redirected to after performing an action on your list.
 
@@ -199,19 +199,19 @@ These values can be overridden by the values from the hidden redirect fields cre
 
 ### Welcome mail
 
-![](https://mailcoach.app/images/docs/v3/app/lists/settings-welcome-mail.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/lists/settings-welcome-mail.png)
 
 Mailcoach can send welcome emails after people subscribe (or confirm) to your mailing list. We provide a default, but you can create your own by checking the _Send customized welcome mail_ option. In your custom mail, you can enter some placeholders, that Mailcoach will fill upon sending your email.
 
 ### Confirmation mail
 
-![](https://mailcoach.app/images/docs/v3/app/lists/settings-confirmation-mail.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/lists/settings-confirmation-mail.png)
 
 This email will be sent to new subscribers if you have the _Require confirmation_ option enabled.
 
 Again, you can use the default that we created for you, or you can create a custom mail and use some of the available placeholders. Make sure to include the `::confirmUrl::` in this email, so people can confirm their subscription to your mailing list. After clicking this link, they will be redirected to your _Someone subscribed_ landing page.
 
-![](https://mailcoach.app/images/docs/v3/app/lists/settings-default-confirmation-mail.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/lists/settings-default-confirmation-mail.png)
 
 ## Tags and segments
 
@@ -219,7 +219,7 @@ Tags and segments are used to divide a subscriber list into parts that can be ta
 
 ### Tags
 
-![](https://mailcoach.app/images/docs/v3/app/lists/tags.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/lists/tags.png)
 
 Tags describe something about the user the tag is attached to.
 
@@ -227,14 +227,14 @@ Tags only need a name, that should describe what the tag says about a user. For 
 
 Tags can be assigned to users manually by clicking their email address in the subscriber list, or automatically when they subscribe through a form, read about this [here](/docs/v3/app/lists/settings#subscriptions).
 
-![](https://mailcoach.app/images/docs/v3/app/lists/tags-on-subscriber.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/lists/tags-on-subscriber.png)
 
 ### Segments
 
 A segment is a group of tags that can be targeted by an email campaign. An example of a segment could be "_bought-any-product_" or when using negative selectors "_have-not-bought-any-product_".
 
-![](https://mailcoach.app/images/docs/v3/app/lists/segments.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/lists/segments.png)
 
 When creating a campaign, you can choose to send it to an entire mailing list, or one of its segments:
 
-![](https://mailcoach.app/images/docs/v3/app/lists/segments-on-campaign.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/lists/segments-on-campaign.png)

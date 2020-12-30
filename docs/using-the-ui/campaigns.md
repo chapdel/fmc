@@ -5,7 +5,7 @@ weight: 2
 
 An email campaign is a set of emails that can be sent to an email list (or part of it).
 
-![](https://mailcoach.app/images/docs/v3/app/campaigns/index.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/campaigns/index.png)
 
 The _Campaigns_ index page summarizes some information about your campaigns. You can see the status of the campaign (editing, scheduled, sending or sent), the number of people it was sent to, the number of times it was opened and how many links were clicked, and when it was or will be sent. The percentage below the opens and clicks is as part of the total amount of subscribers that received your email. You can use the action menu to the right of a campaign to duplicate or remove it.
 
@@ -13,13 +13,13 @@ The _Campaigns_ index page summarizes some information about your campaigns. You
 
 When creating a campaign, you can either create a new one from scratch or duplicate an existing one to copy most of its settings:
 
-![](https://mailcoach.app/images/docs/v3/app/campaigns/creating-a-campaign-index.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/campaigns/creating-a-campaign-index.png)
 
 When creating a new campaign, you can choose which of your templates, if any, you want to use as a base for your email's content. You can also choose to duplicate an existing campaign. Use these actions to save time when creating a new campaign.
 
 ### Settings
 
-![](https://mailcoach.app/images/docs/v3/app/campaigns/creating-a-campaign-settings.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/campaigns/creating-a-campaign-settings.png)
 
 Most of the settings for creating a new campaign are pretty self-explanatory:
 
@@ -33,7 +33,7 @@ Finally, the tracking options allow you to track how many subscribers have opene
 
 ### Content
 
-![](https://mailcoach.app/images/docs/v3/app/campaigns/creating-a-campaign-content.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/campaigns/creating-a-campaign-content.png)
 
 This is the content of the email that will be sent to your subscribers. If you selected a template while creating your campaign, the field will be prefilled with that template. If you duplicated another campaign, this field will be the same as that campaign's content.
 
@@ -50,7 +50,7 @@ Since we are sending out mails in UTF-8, it's good practice to include following
 
 ### Delivery
 
-![](https://mailcoach.app/images/docs/v3/app/campaigns/creating-a-campaign-delivery.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/campaigns/creating-a-campaign-delivery.png)
 
 This page provides a final checklist that you should go over before sending a campaign. It shows a summary of the campaign's settings, like how many people will be sent an email, the subject and any issues we found with your email's content.
 
@@ -60,7 +60,7 @@ Finally, you can set the timing for this campaign: whether to send it right now 
 
 When sending a campaign, all the emails that need to be sent out will be placed in a queue, and you will be redirected to a page where you can track the progress and see your campaign's statistics trickling in:
 
-![](https://mailcoach.app/images/docs/v3/app/campaigns/campaign-statistics-sending.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/campaigns/campaign-statistics-sending.png)
 
 For more information on what these statistics mean, continue reading in the [campaign's statistics](/docs/v3/app/campaigns/campaign-statistics) section of the documentation.
 
@@ -70,7 +70,7 @@ This page contains all the statistics for a campaign that was sent. These statis
 
 ### Summary
 
-![](https://mailcoach.app/images/docs/v3/app/campaigns/campaign-statistics-overview.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/campaigns/campaign-statistics-overview.png)
 
 This page shows a summary of the statistics for your campaign. At a glance, you can see how many people opened your email and clicked any links you included, and also how many people unsubscribed from your mailing list as a result of this campaign and how often the emails bounced.
 
@@ -78,23 +78,23 @@ A bounce means that an email could not be delivered to a certain email address, 
 
 ### Opens and clicks
 
-![](https://mailcoach.app/images/docs/v3/app/campaigns/campaign-statistics-opens.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/campaigns/campaign-statistics-opens.png)
 
 In the _Opens_ tab, you can see which subscribers have already opened your email, and when.
 
-![](https://mailcoach.app/images/docs/v3/app/campaigns/campaign-statistics-clicks.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/campaigns/campaign-statistics-clicks.png)
 
 The _Clicks_ tab has information on which links were opened and how many times. The _Unique clicks_ column concerns how many unique users have clicked your link.
 
 ## Unsubscribes
 
-![](https://mailcoach.app/images/docs/v3/app/campaigns/campaign-statistics-unsubscribes.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/campaigns/campaign-statistics-unsubscribes.png)
 
 You can also see how many people, regrettably, clicked the unsubscribe link in this campaign.
 
 ### Outbox
 
-![](https://mailcoach.app/images/docs/v3/app/campaigns/campaign-statistics-outbox.png)
+![screenshot](https://mailcoach.app/images/docs/v3/app/campaigns/campaign-statistics-outbox.png)
 
 Here, you can see a collection of all the individual emails that were sent to your subscribers, and whether they encountered any issues upon arriving at their destination.
 
