@@ -1,6 +1,6 @@
 ---
 title: Troubleshooting
-weight: 2
+weight: 4
 ---
 
 Found yourself stuck using Mailcoach, found a bug, or want to request a feature?
