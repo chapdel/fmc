@@ -363,11 +363,11 @@ php artisan vendor:publish --tag mailcoach-assets --force
 To ensure that these assets get republished each time Mailcoach is updated, we highly recommend you add the following command to the `post-update-cmd` of the `scripts` section of your `composer.json`.
 
 ```php
-    "scripts": {
-        "post-update-cmd": [
-            "@php artisan vendor:publish --tag mailcoach-assets --force"
-        ]
-    }
+"scripts": {
+    "post-update-cmd": [
+        "@php artisan vendor:publish --tag mailcoach-assets --force"
+    ]
+}
 ```
 
 ## Install and configure redis
