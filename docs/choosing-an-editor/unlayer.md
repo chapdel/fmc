@@ -9,9 +9,7 @@ weight: 2
 
 ## Configuration via the UI
 
-When you've installed Mailcoach as a standalone app or via the 1-click-installer you can choose this editor via the UI.
-
-![screenshot](/docs/laravel-mailcoach/v4/images/editors/unlayer.png)
+When you've installed Mailcoach as a standalone app or via the 1-click-installer you can choose this editor via the UI on the settings screen.
 
 ## Manual installation
 

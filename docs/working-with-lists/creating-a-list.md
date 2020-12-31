@@ -29,11 +29,11 @@ $emailList->update([
 ]);
 ```
 
-When sending a campaign to this email list these defaults will be used if you send a campaign that doesn't have a a from or reply to of its own.
+When sending a campaign to this email list these defaults will be used if you send a campaign that doesn't have a from or reply to of its own.
 
 ### Specifying the mailers to be used
 
-By default, Mailcoach sends all mails using the default mailer of your Laravel app. In the `mailcoach.php` config file, [you can override this](https://mailcoach.app/docs/v3/package/general/installation-and-setup#configure-an-email-sending-service).
+By default, Mailcoach sends all mails using the default mailer of your Laravel app. In the `mailcoach.php` config file, [you can override this](/docs/laravel-mailcoach/v4/installation/in-an-existing-laravel-app#configure-an-email-sending-service).
 
 At the time of creating your EmailList, the `transactional_mailer` and `campaign_mailer` attributes will be set based on your configuration settings. Any future change in your configuration settings will not automatically apply to the EmailList.
 
