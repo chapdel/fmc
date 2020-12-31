@@ -13,7 +13,7 @@ First off, make sure you have created an account with Mailgun and that you have 
 
 Go to your _Domain settings_ in Mailgun and make sure the _Click tracking_ and _Open tracking_ options are enabled:
 
-![screenshot](/images/docs/v3/mailgun-domain-settings.png)
+![screenshot](/docs/laravel-mailcoach/v4/images/mailgun-domain-settings.png)
 
 Mailgun needs to know where to send your campaigns' statistics. Go to your Mailcoach _Mail config_ page (in the user menu on the top right), select _Mailgun_ as your driver, and copy the webhook that is mentioned in your Mail configuration:
 
@@ -21,7 +21,7 @@ Mailgun needs to know where to send your campaigns' statistics. Go to your Mailc
 
 Then, go to the _Webhooks_ submenu in Mailgun, and, with the webhook URL that you copied in the last step, add new webhooks for the following event types: _Clicks_, _Opens_, _Permanent Failure_, and _Spam Complaints_:
 
-![screenshot](/images/docs/v3/mailgun-webhooks.png)
+![screenshot](/docs/laravel-mailcoach/v4/images/mailgun-webhooks.png)
 
 For Mailcoach to know the statistics are trustworthy, it needs to know your Mailgun HTTP webhook signing key, which you can find on the same page:
 
@@ -73,11 +73,11 @@ At Mailgun you must [configure a new webhook](https://www.mailgun.com/blog/a-gui
 
 At the webhooks settings screen, on mailgun, you must add the `clicked`, `complained`, `opened` and `permanent_fail` webhooks and point them to the route you configured. In the screenshot below we configured the webhooks using a `ngrok.io` domain.
 
-![Mailgun webhooks](/images/docs/v3/mailgun-webhooks.png)
+![Mailgun webhooks](/docs/laravel-mailcoach/v4/images/mailgun-webhooks.png)
 
 At the domain settings you must enable click and open tracking
 
-![Mailgun webhooks](/images/docs/v3/mailgun-domain-settings.png)
+![Mailgun webhooks](/docs/laravel-mailcoach/v4/images/mailgun-domain-settings.png)
 
 
 In the `mailcoach` config file you must add this section.

@@ -74,11 +74,11 @@ At Sendgrid you must [configure a new webhook](https://sendgrid.com/docs/for-dev
 
 At the webhooks settings screen at sendgrid you must add the `Bounced`, `Opened`, `Clicked` and `Mark as Spam` webhooks and point them to the route your configured. In the screenshot below we configured the webhooks using a `ngrok.io` domain with a `?secret=yolo-no-real-signature` appended to the webhook url.
 
-![Sendgrid webhooks](/images/docs/v3/sendgrid-webhooks.png)
+![Sendgrid webhooks](/docs/laravel-mailcoach/v4/images/sendgrid-webhooks.png)
 
 At the Tracking settings you must enable click and open tracking
 
-![Mailgun webhooks](/images/docs/v3/sendgrid-tracking-settings.png)
+![Mailgun webhooks](/docs/laravel-mailcoach/v4/images/sendgrid-tracking-settings.png)
 
 In the `mailcoach` config file you must add this section.
 
