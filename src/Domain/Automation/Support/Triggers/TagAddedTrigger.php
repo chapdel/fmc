@@ -33,19 +33,14 @@ class TagAddedTrigger extends AutomationTrigger
         ];
     }
 
-    public function handleSubscribed(TagAddedEvent $event)
-    {
-        if ($event->tag->name === $this->tag) {
-            $this->fire($event->subscriber);
-        }
-    }
-
     public function subscribe($events): void
     {
         $events->listen(
             TagAddedEvent::class,
             function ($event) {
-                $this->handleSubscribed($event);
+                if ($event->tag->name === $this->tag) {
+                    $this->fire($event->subscriber);
+                }
             }
         );
     }

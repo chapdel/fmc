@@ -33,19 +33,14 @@ class TagRemovedTrigger extends AutomationTrigger
         ];
     }
 
-    public function handleTagRemoved(TagRemovedEvent $event)
-    {
-        if ($event->tag->name === $this->tag) {
-            $this->fire($event->subscriber);
-        }
-    }
-
     public function subscribe($events): void
     {
         $events->listen(
             TagRemovedEvent::class,
             function ($event) {
-                $this->handleTagRemoved($event);
+                if ($event->tag->name === $this->tag) {
+                    $this->fire($event->subscriber);
+                }
             }
         );
     }
