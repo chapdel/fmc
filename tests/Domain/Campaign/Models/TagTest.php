@@ -2,7 +2,9 @@
 
 namespace Spatie\Mailcoach\Tests\Domain\Campaign\Models;
 
+use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
+use Spatie\Mailcoach\Domain\Campaign\Events\TagRemovedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Models\Tag;
 use Spatie\Mailcoach\Tests\TestCase;
@@ -98,6 +100,20 @@ class TagTest extends TestCase
             ->removeTags(['test1', 'test3']);
 
         $this->assertSubscriberHasTags(['test2']);
+    }
+
+    /** @test */
+    public function removing_tags_fires_events()
+    {
+        Event::fake();
+
+        $this->subscriber
+            ->addTags(['test1', 'test2', 'test3'])
+            ->removeTags(['test1', 'test3']);
+
+        $this->assertSubscriberHasTags(['test2']);
+
+        Event::assertDispatched(TagRemovedEvent::class, 2);
     }
 
     /** @test */

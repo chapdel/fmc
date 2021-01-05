@@ -105,6 +105,7 @@ return [
             \Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger::class,
             \Spatie\Mailcoach\Domain\Automation\Support\Triggers\DateTrigger::class,
             \Spatie\Mailcoach\Domain\Automation\Support\Triggers\TagAddedTrigger::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\Triggers\TagRemovedTrigger::class,
         ],
     ],
 

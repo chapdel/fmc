@@ -33,6 +33,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationBuilder;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\TagChainComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\DateTriggerComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\TagAddedTriggerComponent;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\TagRemovedTriggerComponent;
 use Spatie\Mailcoach\Domain\Campaign\Commands\CalculateStatisticsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Commands\CleanupProcessedFeedbackCommand;
 use Spatie\Mailcoach\Domain\Campaign\Commands\DeleteOldUnconfirmedSubscribersCommand;
@@ -313,6 +314,7 @@ class MailcoachServiceProvider extends ServiceProvider
 
         Livewire::component('date-trigger', DateTriggerComponent::class);
         Livewire::component('tag-added-trigger', TagAddedTriggerComponent::class);
+        Livewire::component('tag-removed-trigger', TagRemovedTriggerComponent::class);
 
         return $this;
     }

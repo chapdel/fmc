@@ -16,6 +16,7 @@ use Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\ConfirmSubscriberAction
 use Spatie\Mailcoach\Domain\Campaign\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Domain\Campaign\Events\TagAddedEvent;
+use Spatie\Mailcoach\Domain\Campaign\Events\TagRemovedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Events\UnsubscribedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasExtraAttributes;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
@@ -209,9 +210,13 @@ class Subscriber extends Model
 
     public function removeTags(array $names)
     {
-        $this
-            ->tags()
-            ->detach($this->tags()->whereIn('name', $names)->pluck('mailcoach_tags.id'));
+        $tags = $this->tags()->whereIn('name', $names)->get();
+
+        foreach ($tags as $tag) {
+            event(new TagRemovedEvent($this, $tag));
+        }
+
+        $this->tags()->detach($tags->pluck('id'));
 
         return $this;
     }
