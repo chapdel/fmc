@@ -42,7 +42,7 @@ class DateTrigger extends AutomationTrigger
 
     public function trigger(Automation $automation): void
     {
-        if (! now()->isSameDay($this->date->startOfDay())) {
+        if (! now()->startOfMinute()->equalTo($this->date->startOfMinute())) {
             return;
         }
 

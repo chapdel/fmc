@@ -5,9 +5,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions;
 use Illuminate\Validation\Rule;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationActionComponent;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationComponent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class CampaignActionComponent extends AutomationActionComponent
 {

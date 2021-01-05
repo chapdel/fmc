@@ -16,7 +16,10 @@ abstract class AutomationStep
         }
     }
 
-    abstract public static function make(array $data): self;
+    public static function make(array $data)
+    {
+        return new static();
+    }
 
     public function toArray(): array
     {
