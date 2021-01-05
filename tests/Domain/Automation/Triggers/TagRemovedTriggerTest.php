@@ -7,7 +7,6 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\CampaignAction;
-use Spatie\Mailcoach\Domain\Automation\Support\Triggers\TagAddedTrigger;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\TagRemovedTrigger;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
