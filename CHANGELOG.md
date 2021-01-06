@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.9.7 - 2021-01-06
+
+- fixed an issue with large segments
+
 ## 3.9.6 - 2020-12-28
 
 - fix for empty campaign
