@@ -13,25 +13,8 @@ class AutomationSettingsController
 
     public function edit(Automation $automation)
     {
-        $triggerOptions = collect(config('mailcoach.automation.triggers'))
-            ->mapWithKeys(function (string $trigger) {
-                return [$trigger => $trigger::getName()];
-            });
-
-        $emailLists = $this->getEmailListClass()::all();
-
         return view('mailcoach::app.automations.settings', [
             'automation' => $automation,
-            'triggerOptions' => $triggerOptions,
-            'emailLists' => $emailLists,
-            'segmentsData' => $emailLists->map(function (EmailList $emailList) {
-                return [
-                    'id' => $emailList->id,
-                    'name' => $emailList->name,
-                    'segments' => $emailList->segments->map->only('id', 'name'),
-                    'createSegmentUrl' => route('mailcoach.emailLists.segments', $emailList),
-                ];
-            }),
         ]);
     }
 

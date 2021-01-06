@@ -6,6 +6,7 @@ use Carbon\CarbonInterface;
 use Illuminate\Support\Facades\Date;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationTrigger;
+use Spatie\Mailcoach\Domain\Campaign\Rules\DateTimeFieldRule;
 
 class DateTrigger extends AutomationTrigger
 {
@@ -30,13 +31,13 @@ class DateTrigger extends AutomationTrigger
 
     public static function make(array $data): self
     {
-        return new self(Date::parse($data['date']));
+        return new self((new DateTimeFieldRule())->parseDateTime($data['date']));
     }
 
     public static function rules(): array
     {
         return [
-            'date' => ['required', 'date'],
+            'date' => ['required', new DateTimeFieldRule()],
         ];
     }
 

@@ -30,6 +30,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\EnsureTagsExistA
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\RemoveTagsActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\WaitActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationBuilder;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\AutomationSettingsComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\TagChainComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\DateTriggerComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\TagAddedTriggerComponent;
@@ -303,6 +304,7 @@ class MailcoachServiceProvider extends ServiceProvider
 
     protected function bootLivewireComponents(): self
     {
+        Livewire::component('automation-settings', AutomationSettingsComponent::class);
         Livewire::component('automation-builder', AutomationBuilder::class);
 
         Livewire::component('campaign-action', CampaignActionComponent::class);
