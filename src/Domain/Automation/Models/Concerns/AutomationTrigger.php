@@ -28,7 +28,7 @@ abstract class AutomationTrigger extends AutomationStep
         return [];
     }
 
-    protected function fire(Subscriber|Collection|QueryBuilder|EloquentBuilder|array $subscribers): void
+    public function fire(Subscriber|Collection|QueryBuilder|EloquentBuilder|array $subscribers): void
     {
         if ($subscribers instanceof EloquentBuilder || $subscribers instanceof QueryBuilder) {
             $subscribers = $subscribers->cursor();
