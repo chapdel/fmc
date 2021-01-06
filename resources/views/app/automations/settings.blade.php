@@ -34,7 +34,7 @@
             placeholder="Select a trigger"
             data-conditional="trigger"
             required
-            value="{{ $automation->trigger::class }}"
+            value="{{ $automation->trigger ? $automation->trigger::class : '' }}"
         />
 
         @foreach ($triggerOptions as $triggerClass => $triggerName)
@@ -43,7 +43,7 @@
                     @livewire($triggerClass::getComponent(), [
                         'triggerClass' => $triggerClass,
                         'automation' => $automation,
-                    ], key($triggerClass))
+                    ])
                 </div>
             @endif
         @endforeach

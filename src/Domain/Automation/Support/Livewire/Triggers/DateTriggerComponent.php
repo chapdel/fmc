@@ -10,7 +10,7 @@ class DateTriggerComponent extends AutomationTriggerComponent
     {
         return <<<'blade'
             <div>
-                <x-mailcoach::date-field
+                <x-mailcoach::date-time-field
                     :label="__('Date')"
                     name="date"
                     :value="$automation->trigger->date ?? null"
