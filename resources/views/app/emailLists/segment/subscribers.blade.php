@@ -15,7 +15,7 @@
 @section('segment')
     @if($selectedSubscribersCount)
 
-        @if($subscribersCount = $segment->emailList->subscribers->count())
+        @if($subscribersCount = $segment->emailList->subscribers()->count())
             <div class="alert alert-info mb-8">
                 {!! __('Population is <strong>:percentage%</strong> of list total of :subscribersCount.', ['percentage' => round($selectedSubscribersCount / $subscribersCount * 100 , 2), 'subscribersCount' => $subscribersCount]) !!}
             </div>
