@@ -102,6 +102,7 @@ return [
             \Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction::class,
         ],
         'triggers' => [
+            \Spatie\Mailcoach\Domain\Automation\Support\Triggers\NoTrigger::class,
             \Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger::class,
             \Spatie\Mailcoach\Domain\Automation\Support\Triggers\DateTrigger::class,
             \Spatie\Mailcoach\Domain\Automation\Support\Triggers\TagAddedTrigger::class,
