@@ -30,9 +30,12 @@ use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\EnsureTagsExistA
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\RemoveTagsActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\WaitActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationBuilder;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\AutomationSettingsComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\TagChainComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\DateTriggerComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\TagAddedTriggerComponent;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\TagRemovedTriggerComponent;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\WebhookTriggerComponent;
 use Spatie\Mailcoach\Domain\Campaign\Commands\CalculateStatisticsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Commands\CleanupProcessedFeedbackCommand;
 use Spatie\Mailcoach\Domain\Campaign\Commands\DeleteOldUnconfirmedSubscribersCommand;
@@ -302,6 +305,7 @@ class MailcoachServiceProvider extends ServiceProvider
 
     protected function bootLivewireComponents(): self
     {
+        Livewire::component('automation-settings', AutomationSettingsComponent::class);
         Livewire::component('automation-builder', AutomationBuilder::class);
 
         Livewire::component('campaign-action', CampaignActionComponent::class);
@@ -313,6 +317,8 @@ class MailcoachServiceProvider extends ServiceProvider
 
         Livewire::component('date-trigger', DateTriggerComponent::class);
         Livewire::component('tag-added-trigger', TagAddedTriggerComponent::class);
+        Livewire::component('tag-removed-trigger', TagRemovedTriggerComponent::class);
+        Livewire::component('webhook-trigger', WebhookTriggerComponent::class);
 
         return $this;
     }

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Spatie\Mailcoach\Http\Api\Controllers\Automations\TriggerAutomationController;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignClicksController;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignOpensController;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignsController;
@@ -55,4 +56,8 @@ Route::prefix('transactional-mails')->group(function () {
     Route::get('/', TransactionalMailsController::class);
     Route::get('{transactionalMail}', ShowTransactionalMailController::class);
     Route::post('{transactionalMail}/resend', ResendTransactionalMailController::class);
+});
+
+Route::prefix('automations')->group(function () {
+    Route::post('{automation}/trigger/{subscriber}', TriggerAutomationController::class);
 });

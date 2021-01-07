@@ -146,8 +146,32 @@ class EnsureTagsExistAction extends AutomationAction
     {
         return [
             'checkFor' => $this->checkFor->forHumans(),
-            'tags' => $this->tags,
-            'defaultActions' => $this->defaultActions,
+            'tags' => collect($this->tags)->map(function ($tag) {
+                $tag['actions'] = collect($tag['actions'])->map(function ($action) {
+                    if (! $action instanceof AutomationAction) {
+                        return $action;
+                    }
+
+                    return [
+                        'uuid' => $action->uuid,
+                        'class' => $action::class,
+                        'data' => $action->toArray(),
+                    ];
+                })->toArray();
+
+                return $tag;
+            })->toArray(),
+            'defaultActions' => collect($this->defaultActions)->map(function ($action) {
+                if (! $action instanceof AutomationAction) {
+                    return $action;
+                }
+
+                return [
+                    'uuid' => $action->uuid,
+                    'class' => $action::class,
+                    'data' => $action->toArray(),
+                ];
+            })->toArray(),
         ];
     }
 

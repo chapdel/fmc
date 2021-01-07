@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Shared\Support;
 
+use RedisException;
 use Laravel\Horizon\Contracts\MasterSupervisorRepository;
 
 class HorizonStatus
@@ -21,7 +22,13 @@ class HorizonStatus
 
     public function get(): string
     {
-        if (! $masters = $this->masterSupervisorRepository->all()) {
+        try {
+            $masters = $this->masterSupervisorRepository->all();
+        } catch (RedisException $exception) {
+            $masters = false;
+        }
+
+        if (!$masters) {
             return static::STATUS_INACTIVE;
         }
 

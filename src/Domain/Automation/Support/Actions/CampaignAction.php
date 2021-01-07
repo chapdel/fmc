@@ -51,10 +51,6 @@ class CampaignAction extends AutomationAction
 
     public function run(Subscriber $subscriber): void
     {
-        if ($this->campaign->sends()->where('subscriber_id', $subscriber->id)->exists()) {
-            return;
-        }
-
         SendCampaignToSubscriberJob::dispatch($this->campaign, $subscriber);
     }
 }

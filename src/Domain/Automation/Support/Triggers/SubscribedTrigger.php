@@ -12,21 +12,13 @@ class SubscribedTrigger extends AutomationTrigger
         return __('When a user subscribes');
     }
 
-    public function handleSubscribed(SubscribedEvent $event)
-    {
-        $this->fire($event->subscriber);
-    }
-
     public function subscribe($events): void
     {
         $events->listen(
             SubscribedEvent::class,
-            self::class.'@handleSubscribed',
+            function ($event) {
+                $this->fire($event->subscriber);
+            }
         );
-    }
-
-    public static function make(array $data = []): self
-    {
-        return new self();
     }
 }

@@ -4,16 +4,16 @@ namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers;
 
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationTriggerComponent;
 
-class DateTriggerComponent extends AutomationTriggerComponent
+class TagRemovedTriggerComponent extends AutomationTriggerComponent
 {
     public function render()
     {
         return <<<'blade'
             <div>
-                <x-mailcoach::date-time-field
-                    :label="__('Date')"
-                    name="date"
-                    :value="$automation->trigger->date ?? null"
+                <x-mailcoach::text-field
+                    :label="__('Tag')"
+                    name="tag"
+                    :value="$automation->trigger->tag ?? null"
                     required
                 />
             </div>
