@@ -21,6 +21,7 @@ class WebhookTriggerComponent extends AutomationTriggerComponent
             -H 'Content-Type: application/json'
             -d '{"subscribers":[1, 2, 3]}'
         </code></pre>
+                <p class="my-4">The automation will only trigger for subscribed subscribers of the automation's email list & segment.</p>
             </div>
         blade;
     }

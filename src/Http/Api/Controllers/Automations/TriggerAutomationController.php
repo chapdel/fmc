@@ -22,21 +22,7 @@ class TriggerAutomationController
 
         abort_unless($automation->trigger instanceof WebhookTrigger, 400, "This automation does not have a Webhook trigger.");
 
-        $subscribers = Subscriber::whereIn('id', $request->get('subscribers'))->get();
-
-        $subscribers = $subscribers->filter(function (Subscriber $subscriber) use ($automation) {
-            if (! $subscriber->emailList->is($automation->emailList)) {
-                return false;
-            }
-
-            if (! $subscriber->isSubscribed()) {
-                return false;
-            }
-
-            return true;
-        });
-
-        $automation->trigger->fire($subscribers);
+        $automation->trigger->fire(Subscriber::whereIn('id', $request->get('subscribers')));
 
         return response()->json();
     }

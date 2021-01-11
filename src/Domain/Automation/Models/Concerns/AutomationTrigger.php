@@ -12,9 +12,12 @@ use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationStep;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 abstract class AutomationTrigger extends AutomationStep
 {
+    use UsesMailcoachModels;
+
     public function trigger(Automation $automation): void
     {
     }
@@ -57,6 +60,10 @@ abstract class AutomationTrigger extends AutomationStep
                         }
 
                         if (! $subscriber->isSubscribed()) {
+                            return;
+                        }
+
+                        if (! $automation->newSubscribersQuery()->where($this->getSubscriberTableName() . '.id', $subscriber->id)->count()) {
                             return;
                         }
 
