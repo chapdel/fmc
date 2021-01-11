@@ -60,8 +60,9 @@ class WebhookTriggerTest extends TestCase
 
         $this->loginToApi();
 
-        $this->post(action(TriggerAutomationController::class, [$automation, $subscriber]))
-            ->assertSuccessful();
+        $this->post(action(TriggerAutomationController::class, [$automation]), [
+            'subscribers' => [$subscriber->id],
+        ])->assertSuccessful();
 
         $this->assertEquals(1, $automation->actions()->first()->subscribers->count());
     }

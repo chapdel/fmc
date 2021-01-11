@@ -48,8 +48,9 @@ class TriggerAutomationControllerTest extends TestCase
 
         $subscriber = $this->campaign->emailList->subscribe('john@doe.com');
 
-        $this->postJson(action(TriggerAutomationController::class, [$automation, $subscriber]))
-            ->assertStatus(200);
+        $this->postJson(action(TriggerAutomationController::class, [$automation]), [
+            'subscribers' => [$subscriber->id]
+        ])->assertStatus(200);
     }
 
     /** @test * */
@@ -69,16 +70,15 @@ class TriggerAutomationControllerTest extends TestCase
 
         $subscriber = $this->campaign->emailList->subscribe('john@doe.com');
 
-        $this->postJson(action(TriggerAutomationController::class, [$automation, $subscriber]))
-            ->assertStatus(400)
-            ->assertSee('This automation does not have a Webhook trigger.');
+        $this->postJson(action(TriggerAutomationController::class, [$automation]), [
+            'subscribers' => [$subscriber->id],
+        ])->assertStatus(400)
+          ->assertSee('This automation does not have a Webhook trigger.');
     }
 
     /** @test * */
-    public function it_needs_a_subscriber_from_the_email_list()
+    public function it_only_handles_subscribers_from_the_email_list()
     {
-        $this->withExceptionHandling();
-
         $automation = Automation::create()
             ->name('New year!')
             ->runEvery(CarbonInterval::minute())
@@ -89,11 +89,14 @@ class TriggerAutomationControllerTest extends TestCase
             ])
             ->start();
 
-        $subscriber = SubscriberFactory::new()->create();
+        $subscriber1 = $this->campaign->emailList->subscribe('john@doe.com');
+        $subscriber2 = SubscriberFactory::new()->create();
 
-        $this->postJson(action(TriggerAutomationController::class, [$automation, $subscriber]))
-            ->assertStatus(401)
-            ->assertSee('This subscriber does not belong to the automation email list.');
+        $this->postJson(action(TriggerAutomationController::class, [$automation]), [
+            'subscribers' => [$subscriber1->id, $subscriber2->id],
+        ])->assertSuccessful();
+
+        $this->assertEquals(1, $automation->actions()->first()->subscribers->count());
     }
 
     /** @test * */
@@ -111,11 +114,14 @@ class TriggerAutomationControllerTest extends TestCase
             ])
             ->start();
 
-        $subscriber = $this->campaign->emailList->subscribe('john@doe.com');
-        $subscriber->unsubscribe();
+        $subscriber1 = $this->campaign->emailList->subscribe('john1@doe.com');
+        $subscriber2 = $this->campaign->emailList->subscribe('john2@doe.com');
+        $subscriber2->unsubscribe();
 
-        $this->postJson(action(TriggerAutomationController::class, [$automation, $subscriber]))
-            ->assertStatus(401)
-            ->assertSee('This subscriber is not subscribed.');
+        $this->postJson(action(TriggerAutomationController::class, [$automation]), [
+            'subscribers' => [$subscriber1->id, $subscriber2->id],
+        ])->assertSuccessful();
+
+        $this->assertEquals(1, $automation->actions()->first()->subscribers->count());
     }
 }

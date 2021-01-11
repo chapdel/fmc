@@ -59,5 +59,5 @@ Route::prefix('transactional-mails')->group(function () {
 });
 
 Route::prefix('automations')->group(function () {
-    Route::post('{automation}/trigger/{subscriber}', TriggerAutomationController::class);
+    Route::post('{automation}/trigger', TriggerAutomationController::class);
 });
