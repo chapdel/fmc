@@ -49,7 +49,7 @@ class TriggerAutomationControllerTest extends TestCase
         $subscriber = $this->campaign->emailList->subscribe('john@doe.com');
 
         $this->postJson(action(TriggerAutomationController::class, [$automation]), [
-            'subscribers' => [$subscriber->id]
+            'subscribers' => [$subscriber->id],
         ])->assertStatus(200);
     }
 
