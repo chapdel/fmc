@@ -129,6 +129,13 @@ class Automation extends Model
         return $this->fresh('actions');
     }
 
+    public function pause(): self
+    {
+        $this->update(['status' => AutomationStatus::PAUSED]);
+
+        return $this;
+    }
+
     public function start(): self
     {
         if (! $this->interval) {

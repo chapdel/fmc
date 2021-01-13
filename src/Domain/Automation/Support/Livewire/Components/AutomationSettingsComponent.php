@@ -48,6 +48,16 @@ class AutomationSettingsComponent extends Component
         $this->selectedTrigger = $triggerClass;
     }
 
+    public function pause(): void
+    {
+        $this->automation->pause();
+    }
+
+    public function start(): void
+    {
+        $this->automation->start();
+    }
+
     public function render()
     {
         return view('mailcoach::app.automations.partials.settingsForm');
