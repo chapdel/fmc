@@ -39,7 +39,7 @@
                         </td>
                         <td class="td-numeric">{{ $send->opens()->count() }}</td>
                         <td class="td-numeric">{{ $send->clicks()->count() }}</td>
-                        <td class="td-numeric hidden | md:table-cell">{{ $send->sent_at->toMailcoachFormat() }}</td>
+                        <td class="td-numeric hidden | md:table-cell">{{ $send->sent_at?->toMailcoachFormat() }}</td>
                     </tr>
                 @endforeach
             </tbody>
