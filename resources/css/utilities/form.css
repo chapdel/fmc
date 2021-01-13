@@ -1,6 +1,6 @@
 .form-grid {
     @apply grid;
-    @apply row-gap-6;
+    @apply gap-y-6;
     @apply max-w-full;
 }
 

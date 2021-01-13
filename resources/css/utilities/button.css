@@ -5,7 +5,7 @@
     @apply text-white;
     @apply border;
     @apply border-transparent;
-    @apply whitespace-no-wrap;
+    @apply whitespace-nowrap;
     @apply rounded-sm;
     @apply shadow-focus;
     @apply font-semibold;

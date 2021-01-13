@@ -1,7 +1,7 @@
 .navigation {
     @apply grid;
-    @apply col-gap-3;
-    @apply row-gap-6;
+    @apply gap-x-3;
+    @apply gap-y-6;
     @apply grid-cols-auto;
     @apply grid-flow-col;
     @apply justify-start;

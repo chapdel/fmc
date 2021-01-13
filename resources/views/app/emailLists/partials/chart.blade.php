@@ -85,7 +85,7 @@
         @foreach($stats as $index => $stat)
             <li class="flex-1 text-center">
                 @if($index % 4 === 0)
-                    <span class="whitespace-no-wrap">{{ $stat['label'] }}</span>
+                    <span class="whitespace-nowrap">{{ $stat['label'] }}</span>
                 @endif
             </li>
         @endforeach

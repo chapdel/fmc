@@ -35,7 +35,7 @@
 .table th {
     @apply text-left;
     @apply font-semibold;
-    @apply whitespace-no-wrap;
+    @apply whitespace-nowrap;
     @apply uppercase;
     @apply text-xs;
     @apply tracking-wider;
@@ -57,7 +57,7 @@
 .table tbody .td-numeric {
     @apply text-right;
     font-variant-numeric: tabular-nums;
-    @apply whitespace-no-wrap;
+    @apply whitespace-nowrap;
 }
 
 .table thead a {

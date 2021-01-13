@@ -45,7 +45,7 @@
 }
 
 .icon-label-text {
-    @apply whitespace-no-wrap;
+    @apply whitespace-nowrap;
 }
 
 .icon-button {

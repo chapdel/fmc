@@ -16,12 +16,12 @@
     <table>
         <tbody>
             <tr>
-                <td class="pr-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold text-lg" colspan="2">Health</td>
+                <td class="pr-2 py-4 whitespace-nowrap text-sm leading-5 font-bold text-lg" colspan="2">Health</td>
                 @php($issueBody.='**Environment**: ' . app()->environment() . "\n")
             </tr>
             <tr>
-                <td class="pr-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">Environment</td>
-                <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5">
+                <td class="pr-2 py-4 whitespace-nowrap text-sm leading-5 font-bold">Environment</td>
+                <td class="px-2 py-4 whitespace-nowrap text-sm leading-5">
                     @if (app()->environment('local'))
                         <i class="fas fa-exclamation-triangle text-orange-800 mr-1"></i> {{ app()->environment() }}
                     @else
@@ -30,9 +30,9 @@
                 </td>
             </tr>
             <tr>
-                <td class="pr-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">Debug</td>
+                <td class="pr-2 py-4 whitespace-nowrap text-sm leading-5 font-bold">Debug</td>
                 @php($issueBody.='**Debug**: ' . (config('app.debug') ? 'ON' : 'OFF') . "\n")
-                <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5">
+                <td class="px-2 py-4 whitespace-nowrap text-sm leading-5">
                     @if (config('app.debug'))
                         <i class="fas fa-exclamation-triangle text-orange-800 mr-1"></i> ON
                     @else
@@ -41,9 +41,9 @@
                 </td>
             </tr>
             <tr>
-                <td class="pr-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">Horizon running</td>
+                <td class="pr-2 py-4 whitespace-nowrap text-sm leading-5 font-bold">Horizon running</td>
                 @php($issueBody.='**Horizon**: ' . ($horizonStatus->is(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::STATUS_ACTIVE) ? 'Active' : 'Inactive') . "\n")
-                <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5">
+                <td class="px-2 py-4 whitespace-nowrap text-sm leading-5">
                     @if($horizonStatus->is(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::STATUS_ACTIVE))
                         <i class="fas fa-check text-green-800 mr-1"></i>
                     @else
@@ -53,9 +53,9 @@
                 </td>
             </tr>
             <tr>
-                <td class="pr-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">Queue connection</td>
+                <td class="pr-2 py-4 whitespace-nowrap text-sm leading-5 font-bold">Queue connection</td>
                 @php($issueBody.='**Queue** connection: ' . ($hasQueueConnection ? 'OK' : 'Not OK') . "\n")
-                <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5">
+                <td class="px-2 py-4 whitespace-nowrap text-sm leading-5">
                     @if($hasQueueConnection)
                         <i class="fas fa-check text-green-800 mr-1"></i> Queue connection settings for <code>mailcoach-redis</code> exist.
                     @else
@@ -65,9 +65,9 @@
                 </td>
             </tr>
             <tr>
-                <td class="pr-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">Webhooks</td>
+                <td class="pr-2 py-4 whitespace-nowrap text-sm leading-5 font-bold">Webhooks</td>
                 @php($issueBody.='**Webhooks**: ' . $webhookTableCount . " unprocessed webhooks\n")
-                <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5">
+                <td class="px-2 py-4 whitespace-nowrap text-sm leading-5">
                     @if($webhookTableCount === 0)
                         <i class="fas fa-check-circle text-green-800 mr-1"></i> No unprocessed webhooks
                     @else
@@ -77,8 +77,8 @@
                 </td>
             </tr>
             <tr>
-                <td class="pr-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">Schedule</td>
-                <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5">
+                <td class="pr-2 py-4 whitespace-nowrap text-sm leading-5 font-bold">Schedule</td>
+                <td class="px-2 py-4 whitespace-nowrap text-sm leading-5">
                     @if ($lastScheduleRun && now()->diffInMinutes($lastScheduleRun) < 10)
                         @php($issueBody.='**Schedule**: ran ' . now()->diffInMinutes($lastScheduleRun) . " minute(s) ago\n")
                         <i class="fas fa-check-circle text-green-800 mr-1"></i>
@@ -95,8 +95,8 @@
                 </td>
             </tr>
             <tr>
-                <td class="pr-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold align-top">Mail config</td>
-                <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5">
+                <td class="pr-2 py-4 whitespace-nowrap text-sm leading-5 font-bold align-top">Mail config</td>
+                <td class="px-2 py-4 whitespace-nowrap text-sm leading-5">
                     <table>
                         <tbody>
                             <tr>
@@ -150,55 +150,55 @@
     <table>
         <tbody>
         <tr>
-            <td class="pr-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold text-lg" colspan="2">Details</td>
+            <td class="pr-2 py-4 whitespace-nowrap text-sm leading-5 font-bold text-lg" colspan="2">Details</td>
             @php($issueBody.="\n\n## Technical details\n\n")
         </tr>
         <tr>
-            <td class="pr-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">App directory</td>
+            <td class="pr-2 py-4 whitespace-nowrap text-sm leading-5 font-bold">App directory</td>
             @php($issueBody.="**App directory**: " . base_path() . "\n")
-            <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5">
+            <td class="px-2 py-4 whitespace-nowrap text-sm leading-5">
                 {{ base_path() }}
             </td>
         </tr>
         <tr>
-            <td class="pr-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">User agent</td>
+            <td class="pr-2 py-4 whitespace-nowrap text-sm leading-5 font-bold">User agent</td>
             @php($issueBody.="**User agent**: " . $_SERVER['HTTP_USER_AGENT'] . "\n")
-            <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5">
+            <td class="px-2 py-4 whitespace-nowrap text-sm leading-5">
                 {{ $_SERVER['HTTP_USER_AGENT'] }}
             </td>
         </tr>
         <tr>
-            <td class="pr-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">PHP</td>
+            <td class="pr-2 py-4 whitespace-nowrap text-sm leading-5 font-bold">PHP</td>
             @php($issueBody.="**PHP version**: " . PHP_VERSION . "\n")
-            <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5 font-mono">
+            <td class="px-2 py-4 whitespace-nowrap text-sm leading-5 font-mono">
                 {{ PHP_VERSION }}
             </td>
         </tr>
         <tr>
-            <td class="pr-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold capitalize">{{ config('database.default') }}</td>
+            <td class="pr-2 py-4 whitespace-nowrap text-sm leading-5 font-bold capitalize">{{ config('database.default') }}</td>
             @php($issueBody.="**" . config('database.default') . " version**: " . $mysqlVersion . "\n")
-            <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5 font-mono">
+            <td class="px-2 py-4 whitespace-nowrap text-sm leading-5 font-mono">
                 {{ $mysqlVersion }}
             </td>
         </tr>
         <tr>
-            <td class="pr-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">Laravel</td>
+            <td class="pr-2 py-4 whitespace-nowrap text-sm leading-5 font-bold">Laravel</td>
             @php($issueBody.="**Laravel version**: " . app()->version() . "\n")
-            <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5 font-mono">
+            <td class="px-2 py-4 whitespace-nowrap text-sm leading-5 font-mono">
                 {{ app()->version() }}
             </td>
         </tr>
         <tr>
-            <td class="pr-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">Horizon</td>
+            <td class="pr-2 py-4 whitespace-nowrap text-sm leading-5 font-bold">Horizon</td>
             @php($issueBody.="**Horizon version**: " . $horizonVersion . "\n")
-            <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5 font-mono">
+            <td class="px-2 py-4 whitespace-nowrap text-sm leading-5 font-mono">
                 {{ $horizonVersion }}
             </td>
         </tr>
         <tr>
-            <td class="pr-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">laravel-mailcoach</td>
+            <td class="pr-2 py-4 whitespace-nowrap text-sm leading-5 font-bold">laravel-mailcoach</td>
             @php($issueBody.="**laravel-mailcoach version**: " . $versionInfo->getCurrentVersion('laravel-mailcoach') . "\n")
-            <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5 font-mono">
+            <td class="px-2 py-4 whitespace-nowrap text-sm leading-5 font-mono">
                 {{ $versionInfo->getCurrentVersion('laravel-mailcoach') }}
                 @if(! $versionInfo->isLatest('laravel-mailcoach'))
                     <span class="font-sans text-xs inline-flex items-center bg-green-200 text-green-800 rounded-sm px-1 leading-relaxed">
@@ -210,9 +210,9 @@
         </tr>
         @if (class_exists(\Spatie\MailcoachUi\MailcoachUiServiceProvider::class))
         <tr>
-            <td class="pr-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">mailcoach-ui</td>
+            <td class="pr-2 py-4 whitespace-nowrap text-sm leading-5 font-bold">mailcoach-ui</td>
             @php($issueBody.="**mailcoach-ui version**: " . $versionInfo->getCurrentVersion('mailcoach-ui') . "\n")
-            <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5 font-mono">
+            <td class="px-2 py-4 whitespace-nowrap text-sm leading-5 font-mono">
                 {{ $versionInfo->getCurrentVersion('mailcoach-ui') }}
                 @if(! $versionInfo->isLatest('mailcoach-ui'))
                     <span class="font-sans text-xs inline-flex items-center bg-green-200 text-green-800 rounded-sm px-1 leading-relaxed">
@@ -227,7 +227,7 @@
     </table>
 </section>
 <section class="card mt-4">
-    <h2 class="py-4 whitespace-no-wrap text-sm leading-5 font-bold text-lg">Having trouble?</h2>
+    <h2 class="py-4 whitespace-nowrap text-sm leading-5 font-bold text-lg">Having trouble?</h2>
 
     <div class="button w-64">
         <a href="https://github.com/spatie/laravel-mailcoach/issues/new?body={{ urlencode($issueBody) }}" target="_blank" class="font-semibold h-10">
