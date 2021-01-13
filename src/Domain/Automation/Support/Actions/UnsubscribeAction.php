@@ -6,11 +6,16 @@ use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 
-class HaltAction extends AutomationAction
+class UnsubscribeAction extends AutomationAction
 {
     public static function getName(): string
     {
-        return __('Halt the automation');
+        return __('Unsubscribe');
+    }
+
+    public function run(Subscriber $subscriber): void
+    {
+        $subscriber->unsubscribe();
     }
 
     public function shouldHalt(Subscriber $subscriber): bool

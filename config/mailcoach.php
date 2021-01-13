@@ -97,9 +97,10 @@ return [
             \Spatie\Mailcoach\Domain\Automation\Support\Actions\AddTagsAction::class,
             \Spatie\Mailcoach\Domain\Automation\Support\Actions\CampaignAction::class,
             \Spatie\Mailcoach\Domain\Automation\Support\Actions\EnsureTagsExistAction::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction::class,
             \Spatie\Mailcoach\Domain\Automation\Support\Actions\RemoveTagsAction::class,
             \Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\Actions\UnsubscribeAction::class,
         ],
         'triggers' => [
             \Spatie\Mailcoach\Domain\Automation\Support\Triggers\NoTrigger::class,
