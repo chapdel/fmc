@@ -116,7 +116,7 @@
                         </div>
                     </td>
                     <td class="hidden | md:table-cell">
-                        @foreach($subscriber->tags as $tag)
+                        @foreach($subscriber->tags->where('type', \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::DEFAULT) as $tag)
                             @include('mailcoach::app.partials.tag')
                         @endforeach
                     </td>

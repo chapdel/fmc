@@ -221,11 +221,11 @@ class Subscriber extends Model
         return $this;
     }
 
-    public function syncTags(array $names)
+    public function syncTags(array $names, string $type = 'default')
     {
         $this->addTags($names);
 
-        $this->tags()->detach($this->tags()->whereNotIn('name', $names)->pluck('mailcoach_tags.id'));
+        $this->tags()->detach($this->tags()->where('type', $type)->whereNotIn('name', $names)->pluck('mailcoach_tags.id'));
 
         return $this;
     }

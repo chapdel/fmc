@@ -22,7 +22,7 @@
             :label="__('Tags')"
             name="tags"
             :value="$subscriber->tags()->pluck('name')->toArray()"
-            :tags="$subscriber->emailList->tags()->pluck('name')->toArray()"
+            :tags="$subscriber->emailList->tags()->where('type', \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::DEFAULT)->pluck('name')->toArray()"
             allow-create
         />
 
