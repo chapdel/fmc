@@ -239,7 +239,10 @@
                             {{ __("The following links were found in your campaign, make sure they are valid.") }}
                         </p>
                         @foreach ($links as $url)
-                            <p class="mb-2"><a target="_blank" class="link" href="{{ $url }}">{{ $url }}</a></p>
+                            <p class="mb-2">
+                                <a target="_blank" class="link" href="{{ $url }}">{{ $url }}</a>
+                                <span class="mb-2 tag">{{ "campaign-{$campaign->id}-clicked-" . \Spatie\Mailcoach\Domain\Shared\Support\LinkHasher::hash($url) }}</span>
+                            </p>
                         @endforeach
                     </div>
                 @else
@@ -247,6 +250,21 @@
                         {{ __("No links were found in your campaign.") }}
                     </p>
                 @endif
+            </dd>
+
+            <dt>
+                <i class="fas fa-tag mr-2"></i>
+                {{ __('Tags') }}:
+            </dt>
+
+            <dd class="col-start-2 pb-4 mb-2 border-b-2 border-gray-100 buttons gap-4">
+                <div>
+                    <p class="markup-code mb-2">
+                        {{ __("The following tags will be added to subscribers when they open or click the campaign:") }}
+                    </p>
+                    <p class="mb-2 tag">{{ "campaign-{$campaign->id}-opened" }}</p>
+                    <p class="mb-2 tag">{{ "campaign-{$campaign->id}-clicked" }}</p>
+                </div>
             </dd>
 
             @if ($campaign->isReady() && !$campaign->isAutomated())

@@ -6,6 +6,7 @@ use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
 use Spatie\Mailcoach\Domain\Campaign\Models\Tag;
+use Spatie\Mailcoach\Domain\Shared\Support\LinkHasher;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class AddCampaignClickedTagTest extends TestCase
@@ -22,6 +23,9 @@ class AddCampaignClickedTagTest extends TestCase
         $this->assertCount(1, CampaignLink::get());
 
         $this->assertTrue($send->subscriber->hasTag("campaign-{$send->campaign->id}-clicked"));
+
+        $hash = LinkHasher::hash('https://spatie.be');
+        $this->assertTrue($send->subscriber->hasTag("campaign-{$send->campaign->id}-clicked-{$hash}"));
 
         tap(Tag::first(), function (Tag $tag) {
             $this->assertEquals(TagType::MAILCOACH, $tag->type);
