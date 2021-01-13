@@ -18,6 +18,13 @@
         wire:change="setSelectedTrigger($event.target.value)"
     />
 
+    @if ($selectedTrigger && $selectedTrigger::getComponent())
+        @livewire($selectedTrigger::getComponent(), [
+            'triggerClass' => $selectedTrigger,
+            'automation' => $automation,
+        ], key($selectedTrigger))
+    @endif
+
     @include('mailcoach::app.campaigns.partials.emailListFields', ['segmentable' => $automation])
 
     <x-mailcoach::select-field
@@ -33,13 +40,6 @@
         ]"
         required
     />
-
-    @if ($selectedTrigger && $selectedTrigger::getComponent())
-        @livewire($selectedTrigger::getComponent(), [
-            'triggerClass' => $selectedTrigger,
-            'automation' => $automation,
-        ])
-    @endif
 
     <div class="form-buttons">
         <button type="submit" class="button">
