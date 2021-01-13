@@ -12,9 +12,7 @@ class PendingSubscriber
 {
     public string $email;
 
-    public array
-
- $attributes = [];
+    public array $attributes = [];
 
     public bool $respectDoubleOptIn = true;
 
@@ -24,9 +22,7 @@ class PendingSubscriber
 
     public bool $sendWelcomeMail = true;
 
-    public array
-
- $tags = [];
+    public array $tags = [];
 
     public function __construct(string $email, array $attributes = [])
     {
