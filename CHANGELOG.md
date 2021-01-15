@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+
+## 3.10.0 - 2021-01-15
+
+- Allow filling the subject in the createCampaignAction
+- Fix an issue on the campaign details when a list was deleted
+
 ## 3.9.8 - 2021-01-08
 
 - Fix php constraint
