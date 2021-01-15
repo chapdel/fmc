@@ -44,7 +44,7 @@
                                 @if($automation->status === \Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus::PAUSED)
                                     <span title="{{ __('Paused') }}" class="far fa-pause-circle text-orange-500"></span>
                                 @else
-                                    <span title="{{ __('Sent') }}" class="fas fa-sync fa-spin text-green-500"></span>
+                                    <span title="{{ __('Sent') }}" class="far fa-sync fa-spin text-green-500"></span>
                                 @endif
                             </x-mailcoach::form-button>
                         </td>
@@ -57,7 +57,7 @@
                         <td class="td-action">
                             <div class="dropdown" data-dropdown>
                                 <button class="icon-button" data-dropdown-trigger>
-                                    <i class="fas fa-ellipsis-v | dropdown-trigger-rotate"></i>
+                                    <i class="far fa-ellipsis-v | dropdown-trigger-rotate"></i>
                                 </button>
                                 <ul class="dropdown-list dropdown-list-left | hidden" data-dropdown-list>
                                     <li>

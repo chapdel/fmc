@@ -16,10 +16,11 @@
 .button:focus,
 .button.dropdown-trigger-open {
     @apply bg-blue-600;
-    @apply text-white;
 }
 
 .button:active {
+    @apply shadow-inner;
+    @apply bg-blue-600;
     transform: translateY(1px);
 }
 

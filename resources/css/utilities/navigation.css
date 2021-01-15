@@ -1,20 +1,10 @@
 .navigation {
     @apply grid;
-    @apply gap-x-3;
-    @apply gap-y-6;
-    @apply grid-cols-auto;
-    @apply grid-flow-col;
+    @apply items-center;
     @apply justify-start;
-    @apply text-2xl;
-}
-
-@screen lg {
-    .navigation {
-        grid-auto-flow: row;
-        @apply text-base;
-        @apply sticky;
-        top: 3rem;
-    }
+    @apply gap-x-6;
+    @apply lg:gap-x-8;
+    @apply grid-flow-col;
 }
 
 .navigation .icon-label-text {
@@ -24,22 +14,18 @@
 @screen lg {
     .navigation .icon-label-text {
         @apply block;
-        @apply font-semibold;
         @apply leading-tight;
-        @apply opacity-50;
         @apply text-base;
     }
 
-    .navigation li:not(.active):hover .icon-label-text {
-        @apply opacity-75;
-    }
-
-    .navigation li.active .icon-label-text {
-        @apply opacity-100;
+    .navigation li:not(.active):hover {
+        @apply text-blue-500;
     }
 }
 
-.navigation li.active .fas {
+.navigation li.active  {
     @apply text-blue-500;
+}
+.navigation li.active [class*='fa-'] {
     @apply opacity-100;
 }

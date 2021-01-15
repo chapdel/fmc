@@ -76,7 +76,7 @@
                             :data-confirm-text="__('Are you sure you want to delete tag :tagName?', ['tagName' => $tag->name])"
                             class="icon-button hover:text-red-500"
                         >
-                            <i class="fas fa-trash-alt"></i>
+                            <i class="far fa-trash-alt"></i>
                         </x-mailcoach::form-button>
                     </td>
                 </tr>

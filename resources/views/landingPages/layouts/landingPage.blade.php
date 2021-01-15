@@ -10,7 +10,7 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.0/css/all.css">
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     </head>
-    <body class="bg-blue-100">
+    <body class="bg-blue-100 bg-opacity-50">
         <div class="min-h-screen flex flex-col p-6">
             <div class="flex-grow flex items-center justify-center">
                 <div class="w-full max-w-xl">

@@ -36,6 +36,7 @@
 .flatpickr-current-month .flatpickr-monthDropdown-months,
 .flatpickr-current-month .numInputWrapper {
     @apply bg-blue-100;
+    @apply bg-opacity-50;
     @apply rounded-sm;
     @apply h-6;
     @apply appearance-none;
@@ -43,6 +44,7 @@
 
 .flatpickr-current-month .flatpickr-monthDropdown-months:hover {
     @apply bg-blue-100;
+    @apply bg-opacity-50;
 }
 
 .flatpickr-current-month .flatpickr-monthDropdown-months,

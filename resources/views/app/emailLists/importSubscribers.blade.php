@@ -33,10 +33,10 @@
                                 <i title="{{ __('Scheduled') }}" class="far fa-clock text-orange-500`"></i>
                                 @break
                                 @case(\Spatie\Mailcoach\Domain\Campaign\Enums\SubscriberImportStatus::IMPORTING)
-                                <i title="{{ __('Importing') }}" class="fas fa-sync fa-spin text-blue-500"></i>
+                                <i title="{{ __('Importing') }}" class="far fa-sync fa-spin text-blue-500"></i>
                                 @break
                                 @case(\Spatie\Mailcoach\Domain\Campaign\Enums\SubscriberImportStatus::COMPLETED)
-                                <i title="{{ __('Completed') }}" class="fas fa-check text-green-500"></i>
+                                <i title="{{ __('Completed') }}" class="far fa-check text-green-500"></i>
                                 @break
                             @endswitch
                         </td>
@@ -49,7 +49,7 @@
                         <td class="td-action">
                             <div class="dropdown" data-dropdown>
                                 <button class="icon-button" data-dropdown-trigger>
-                                    <i class="fas fa-ellipsis-v | dropdown-trigger-rotate"></i>
+                                    <i class="far fa-ellipsis-v | dropdown-trigger-rotate"></i>
                                 </button>
                                 <ul class="dropdown-list dropdown-list-left | hidden" data-dropdown-list>
                                     <li>

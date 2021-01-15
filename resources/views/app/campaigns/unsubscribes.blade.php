@@ -53,7 +53,7 @@
 
     @else
         <p class="alert alert-success">
-            <i class="fas fa-sun text-orange-500 mr-2"></i>
+            <i class="far fa-sun text-orange-500 mr-2"></i>
             {{ __('No unsubscribes have been received yet.') }}
         </p>
     @endif

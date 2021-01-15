@@ -1,88 +1,30 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
+const colors = require('tailwindcss/colors');
+
 module.exports = {
     important: true,
     theme: {
         colors: {
             transparent: 'transparent',
-            white: '#fff',
-            black: '#402938',
-            blue: {
-                100: '#e8eff6',
-                200: '#c0e0fa',
-                300: '#97c6f3',
-                400: '#5baaf9',
-                500: '#3399ff',
-                600: '#2c7fd1',
-                700: '#2565a3',
-                800: '#1d4a75',
-                900: '#0b2642',
-            },
-            green: {
-                100: '#ebf9ea',
-                200: '#c7f0bf',
-                300: '#b6e4b3',
-                400: '#87ca8a',
-                500: '#5bba64',
-                600: '#429b59',
-                700: '#337c4d',
-                800: '#235c41',
-                900: '#133d35',
-            },
-            orange: {
-                100: '#f5f1e4',
-                200: '#fde4a0',
-                300: '#f6cc6e',
-                400: '#fcc95c',
-                500: '#ffca2b',
-                600: '#da9215',
-                700: '#995218',
-                800: '#74431b',
-                900: '4f331d',
-            },
-            red: {
-                100: '#f0e7e6',
-                200: '#f0d2d1',
-                300: '#de9fa6',
-                400: '#cc6875',
-                500: '#cc344c',
-                600: '#a93147',
-                700: '#862f42',
-                800: '#632c3d',
-                900: '#402938',
-            },
-            gray: {
-                100: '#f8f7f6',
-                200: '#e5e3e1',
-                300: '#b8b5b0',
-                400: '#918f8b',
-                500: '#6b6a67',
-                600: '#575654',
-                700: '#4f4e4c',
-                800: '#3d3c3b',
-                900: '#242323',
-            },
-        },
-        fontFamily: {
-            sans: [
-                'Inter',
-                '-apple-system',
-                'BlinkMacSystemFont',
-                '"Segoe UI"',
-                'Roboto',
-                '"Helvetica Neue"',
-                'Arial',
-                '"Noto Sans"',
-                'sans-serif',
-                '"Apple Color Emoji"',
-                '"Segoe UI Emoji"',
-                '"Segoe UI Symbol"',
-                '"Noto Color Emoji"',
-            ],
-            serif: ['Playfair Display', 'serif'],
-            mono: ['SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
+            current: 'currentColor',
+            black: colors.black,
+            white: colors.white,
+            gray: colors.coolGray,
+            blue: colors.blue,
+            red: colors.rose,
+            green: colors.emerald,
+            yellow: colors.amber,
+            orange: colors.orange,
         },
         extend: {
+            fontFamily: {
+                sans: [
+                    'Inter',
+                    ...defaultTheme.fontFamily.sans,
+                ]
+            },
             boxShadow: {
-                focus: '0 2px 2px #c0e0fa',
+                focus: '0 2px 2px #e5e3e1' ,
             },
             gridTemplateColumns: {
                 auto: 'auto',
@@ -105,13 +47,17 @@ module.exports = {
                 10: '2.5rem',
             },
             maxWidth: {
-                layout: '80rem',
+                layout: '90rem',
             },
         },
     },
     variants: {
         extend: {
             display: ['hover', 'group-hover'],
+            scale: ['group-hover'],
         }
     },
+    corePlugins: {
+        ringWidth: false,
+    }
 };

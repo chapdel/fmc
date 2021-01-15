@@ -4,11 +4,18 @@
     @apply pr-1;
     @apply rounded-full;
     @apply bg-blue-100;
+    @apply bg-opacity-50;
     @apply border-2;
     @apply border-transparent;
     @apply text-sm;
     @apply text-blue-800;
+    @apply placeholder-blue-500;
+    @apply placeholder-opacity-50;
     width: 12rem;
+}
+
+.search input:focus {
+    @apply placeholder-opacity-0;
 }
 
 .search-icon {
@@ -19,7 +26,7 @@
     height: 2rem;
     @apply grid;
     @apply place-center;
-    @apply text-blue-800;
+    @apply text-blue-500;
     @apply text-sm;
     @apply pointer-events-none;
     font-size: 0.8em;

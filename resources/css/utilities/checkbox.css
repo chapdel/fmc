@@ -27,6 +27,7 @@
     width: 1.5em;
     height: 1.5em;
     @apply bg-blue-100;
+    @apply bg-opacity-50;
     @apply border-2;
     @apply border-transparent;
     @apply rounded-sm;

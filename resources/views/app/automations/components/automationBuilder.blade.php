@@ -9,15 +9,15 @@
             <div class="flex items-center absolute top-0 right-0 mt-4 mr-4 gap-2">
                 @if ($action['editing'] ?? false)
                     <button class="text-blue-400" type="button" wire:click="saveAction({{ $index }})">
-                        <i class="fas fa-save"></i>
+                        <i class="far fa-save"></i>
                     </button>
                 @elseif (collect($actions)->where('editing', true)->count() === 0)
                     <button class="text-blue-400" type="button" wire:click="editAction({{ $index }})">
-                        <i class="fas fa-edit"></i>
+                        <i class="far fa-edit"></i>
                     </button>
                 @endif
                 <button class="text-red-400" type="button" wire:click="removeAction({{ $index }})">
-                    <i class="fas fa-trash"></i>
+                    <i class="far fa-trash"></i>
                 </button>
             </div>
             @if ($action['editing'] ?? false && $action['class']::getComponent())

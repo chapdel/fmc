@@ -80,7 +80,7 @@
             @if (! $campaign->isAutomated())
                 @if ($campaign->emailList)
                     <dt>
-                        <i class="fas fa-check text-green-500 mr-2"></i>
+                        <i class="far fa-check text-green-500 mr-2"></i>
                         {{ __('From') }}:
                     </dt>
 
@@ -90,7 +90,7 @@
 
                     @if ($campaign->emailList->default_reply_to_email)
                         <dt>
-                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <i class="far fa-check text-green-500 mr-2"></i>
                             {{ __('Reply-to') }}:
                         </dt>
 
@@ -106,9 +106,9 @@
 
                 <dt>
                     @if($campaign->segmentSubscriberCount())
-                        <i class="fas fa-check text-green-500 mr-2"></i>
+                        <i class="far fa-check text-green-500 mr-2"></i>
                     @else
-                        <i class="fas fa-times text-red-500 mr-2"></i>
+                        <i class="far fa-times text-red-500 mr-2"></i>
                     @endif
                     {{ __('To') }}:
                 </dt>
@@ -139,9 +139,9 @@
 
             <dt>
                 @if($campaign->subject)
-                    <i class="fas fa-check text-green-500 mr-2"></i>
+                    <i class="far fa-check text-green-500 mr-2"></i>
                 @else
-                    <i class="fas fa-times text-red-500 mr-2"></i>
+                    <i class="far fa-times text-red-500 mr-2"></i>
                 @endif
                 {{ __('Subject') }}:
             </dt>
@@ -166,12 +166,12 @@
             <dt>
                 @if($campaign->html && $campaign->hasValidHtml())
                     @if (! $campaign->htmlContainsUnsubscribeUrlPlaceHolder() || $campaign->sizeInKb() >= 102)
-                        <i class="fas fa-exclamation-triangle text-orange-500 mr-2"></i>
+                        <i class="far fa-exclamation-triangle text-orange-500 mr-2"></i>
                     @else
-                        <i class="fas fa-check text-green-500 mr-2"></i>
+                        <i class="far fa-check text-green-500 mr-2"></i>
                     @endif
                 @else
-                    <i class="fas fa-times text-red-500 mr-2"></i>
+                    <i class="far fa-times text-red-500 mr-2"></i>
                 @endif
                 {{ __('Content') }}:
             </dt>
@@ -228,7 +228,7 @@
             </dd>
 
             <dt>
-                <i class="fas fa-link mr-2"></i>
+                <i class="far fa-link mr-2"></i>
                 {{ __('Links') }}:
             </dt>
 
@@ -253,7 +253,7 @@
             </dd>
 
             <dt>
-                <i class="fas fa-tag mr-2"></i>
+                <i class="far fa-tag mr-2"></i>
                 {{ __('Tags') }}:
             </dt>
 
@@ -270,9 +270,9 @@
             @if ($campaign->isReady() && !$campaign->isAutomated())
                 <dt>
                     @if($campaign->scheduled_at)
-                        <i class="fas fa-clock text-orange-500 mr-2"></i>
+                        <i class="far fa-clock text-orange-500 mr-2"></i>
                     @else
-                        <i class="fas fa-clock mr-2"></i>
+                        <i class="far fa-clock mr-2"></i>
                     @endif
                     {{ __('Timing') }}
                 </dt>
@@ -331,7 +331,7 @@
                         @if ($campaign->isAutomated())
                             <div class="flex alert alert-info">
                                 <div class="mr-2">
-                                    <i class="fas fa-magic text-blue-500"></i>
+                                    <i class="far fa-magic text-blue-500"></i>
                                 </div>
                                 <div>
                                     {{ __('Campaign') }}
@@ -343,7 +343,7 @@
                         @elseif (! $campaign->sent_to_number_of_subscribers)
                             <div class="flex alert alert-info">
                                 <div class="mr-2">
-                                    <i class="fas fa-sync fa-spin text-blue-500"></i>
+                                    <i class="far fa-sync fa-spin text-blue-500"></i>
                                 </div>
                                 <div>
                                     {{ __('Campaign') }}
@@ -361,7 +361,7 @@
                         @elseif ($campaign->isCancelled())
                             <div class="flex alert alert-info">
                                 <div class="mr-2">
-                                    <i class="fas fa-ban text-red-500"></i>
+                                    <i class="far fa-ban text-red-500"></i>
                                 </div>
                                 <div class="flex justify-between items-center w-full">
                                     <p>
@@ -394,7 +394,7 @@
                         @else
                             <div class="flex alert alert-info">
                                 <div class="mr-2">
-                                    <i class="fas fa-sync fa-spin text-blue-500"></i>
+                                    <i class="far fa-sync fa-spin text-blue-500"></i>
                                 </div>
                                 <div class="flex justify-between items-center w-full">
                                     <p>

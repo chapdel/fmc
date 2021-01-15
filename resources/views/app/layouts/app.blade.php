@@ -30,36 +30,29 @@
         @include('mailcoach::app.layouts.partials.endHead')
         @stack('endHead')
     </head>
-    <body class="bg-blue-100">
+    <body class="bg-gray-100">
         <script>/**/</script><!-- Empty script to prevent FOUC in Firefox -->
-
-        @include('mailcoach::app.layouts.partials.startBody')
-
-        @include('mailcoach::app.layouts.partials.background')
-
-        @include('mailcoach::app.layouts.partials.flash')
-
+        
         <div class="layout">
-            <header class="layout-header text-white">
-                <a href="{{ route('mailcoach.home') }}" class="hidden h-8 opacity-50 mr-1 | hover:opacity-75 | lg:block">
-                    @include('mailcoach::app.layouts.partials.logoSvg')
-                </a>
+            <aside class="layout-flash">
+                @include('mailcoach::app.layouts.partials.startBody')
+            </aside>
+            
+            
+            <header class="layout-header">
+                @include('mailcoach::app.layouts.partials.navigation')
 
-                <div>
+                {{-- <div>
                     @yield('header')
-                </div>
-
+                </div> --}}
             </header>
 
             <nav class="layout-header-right">
                 @include('mailcoach::app.layouts.partials.headerRight')
             </nav>
 
-            <nav class="layout-nav text-white">
-                @include('mailcoach::app.layouts.partials.navigation')
-            </nav>
-
             <main class="layout-main">
+                @include('mailcoach::app.layouts.partials.flash')
                 @yield('content')
             </main>
 

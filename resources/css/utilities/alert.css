@@ -2,7 +2,7 @@
     @apply px-6;
     @apply py-4;
     @apply border-l-4;
-    @apply rounded-sm;
+    @apply rounded;
 }
 
 .alert a {
@@ -11,11 +11,11 @@
 
 .alert-flash {
     @apply cursor-pointer;
-    @apply fixed;
+    @apply absolute;
     @apply right-0;
     @apply grid;
     @apply justify-start;
-    @apply ml-6;
+    @apply m-6;
     @apply bg-white;
     @apply shadow-2xl;
     @apply max-w-4xl;
@@ -33,7 +33,7 @@
 }
 
 .alert-success {
-    @apply bg-green-200;
+    @apply bg-green-100;
     @apply text-green-800;
     @apply border-green-500;
 }
@@ -52,7 +52,7 @@
 }
 
 .alert-warning {
-    @apply bg-orange-200;
+    @apply bg-orange-100;
     @apply text-orange-800;
     @apply border-orange-500;
 }
@@ -63,7 +63,7 @@
 
 .alert-danger,
 .alert-error {
-    @apply bg-red-200;
+    @apply bg-red-100;
     @apply text-red-800;
     @apply border-red-500;
 }

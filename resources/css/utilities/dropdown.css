@@ -8,11 +8,12 @@
     @apply top-full;
     @apply mt-4;
     @apply py-2;
-    @apply shadow-lg;
+    @apply shadow-xl;
     @apply z-10;
-    @apply bg-blue-100;
+    @apply bg-white;
     @apply text-gray-700;
-    width: min-content;
+    @apply border;
+    @apply border-gray-200;
     left: 50%;
     transform: translateX(-50%);
 }
@@ -32,8 +33,11 @@
     top: 0;
     width: 1rem;
     height: 1rem;
-    @apply bg-blue-100;
+    @apply bg-white;
     transform: translate(-50%, -50%) rotate(45deg);
+    @apply border-l;
+    @apply border-t;
+    @apply border-gray-200;
 }
 
 .dropdown-list-left:before {
@@ -57,12 +61,17 @@
     @apply w-full;
     @apply px-4;
     @apply py-1;
-    @apply bg-blue-100;
+}
+
+.dropdown-list li.active a{
+    @apply text-blue-500;
 }
 
 .dropdown-list a:hover,
 .dropdown-list button:hover {
-    @apply bg-blue-200;
+    @apply bg-blue-100;
+    @apply bg-opacity-50;
+    @apply text-blue-500;
 }
 
 .dropdown-trigger-rotate {

@@ -18,7 +18,7 @@
             <div class="dropdown" data-dropdown>
                 <button class="button" data-dropdown-trigger>
                     <span class="icon-button">
-                        <i class="fas fa-ellipsis-v | dropdown-trigger-rotate"></i>
+                        <i class="far fa-ellipsis-v | dropdown-trigger-rotate"></i>
                     </span>
                 </button>
                 <ul class="dropdown-list dropdown-list-right | hidden" data-dropdown-list>
@@ -97,13 +97,13 @@
                 <tr>
                     <td>
                         @if ($subscriber->isUnconfirmed())
-                            <i class="fas fa-question-circle text-orange-500" title="{{ __('Unconfirmed') }}"></i>
+                            <i class="far fa-question-circle text-orange-500" title="{{ __('Unconfirmed') }}"></i>
                         @endif
                         @if ($subscriber->isSubscribed())
-                            <i class="fas fa-check text-green-500" title="{{ __('Subscribed') }}"></i>
+                            <i class="far fa-check text-green-500" title="{{ __('Subscribed') }}"></i>
                         @endif
                         @if ($subscriber->isUnsubscribed())
-                            <i class="fas fa-ban text-gray-400" title="{{ __('Unsubscribed') }}"></i>
+                            <i class="far fa-ban text-gray-400" title="{{ __('Unsubscribed') }}"></i>
                         @endif
                     </td>
                     <td>
@@ -127,7 +127,7 @@
                     <td class="td-action">
                         <div class="dropdown" data-dropdown>
                             <button class="icon-button" data-dropdown-trigger>
-                                <i class="fas fa-ellipsis-v | dropdown-trigger-rotate"></i>
+                                <i class="far fa-ellipsis-v | dropdown-trigger-rotate"></i>
                             </button>
                             <ul class="dropdown-list dropdown-list-left | hidden" data-dropdown-list>
                                 @if ($subscriber->isUnconfirmed())

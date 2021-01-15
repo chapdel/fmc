@@ -23,9 +23,9 @@
                 <td class="pr-2 py-4 whitespace-nowrap text-sm leading-5 font-bold">Environment</td>
                 <td class="px-2 py-4 whitespace-nowrap text-sm leading-5">
                     @if (app()->environment('local'))
-                        <i class="fas fa-exclamation-triangle text-orange-800 mr-1"></i> {{ app()->environment() }}
+                        <i class="far fa-exclamation-triangle text-orange-800 mr-1"></i> {{ app()->environment() }}
                     @else
-                        <i class="fas fa-check text-green-800 mr-1"></i> {{ app()->environment() }}
+                        <i class="far fa-check text-green-800 mr-1"></i> {{ app()->environment() }}
                     @endif
                 </td>
             </tr>
@@ -34,9 +34,9 @@
                 @php($issueBody.='**Debug**: ' . (config('app.debug') ? 'ON' : 'OFF') . "\n")
                 <td class="px-2 py-4 whitespace-nowrap text-sm leading-5">
                     @if (config('app.debug'))
-                        <i class="fas fa-exclamation-triangle text-orange-800 mr-1"></i> ON
+                        <i class="far fa-exclamation-triangle text-orange-800 mr-1"></i> ON
                     @else
-                        <i class="fas fa-check text-green-800 mr-1"></i> OFF
+                        <i class="far fa-check text-green-800 mr-1"></i> OFF
                     @endif
                 </td>
             </tr>
@@ -45,9 +45,9 @@
                 @php($issueBody.='**Horizon**: ' . ($horizonStatus->is(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::STATUS_ACTIVE) ? 'Active' : 'Inactive') . "\n")
                 <td class="px-2 py-4 whitespace-nowrap text-sm leading-5">
                     @if($horizonStatus->is(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::STATUS_ACTIVE))
-                        <i class="fas fa-check text-green-800 mr-1"></i>
+                        <i class="far fa-check text-green-800 mr-1"></i>
                     @else
-                        <i class="fas fa-check text-red-800 mr-1"></i>
+                        <i class="far fa-check text-red-800 mr-1"></i>
                         {!! __('<strong>Horizon</strong> is not active on your server. <a class="text-blue-800" target="_blank" href=":docsLink">Read the docs</a>.', ['docsLink' => 'https://mailcoach.app/docs']) !!}
                     @endif
                 </td>
@@ -57,9 +57,9 @@
                 @php($issueBody.='**Queue** connection: ' . ($hasQueueConnection ? 'OK' : 'Not OK') . "\n")
                 <td class="px-2 py-4 whitespace-nowrap text-sm leading-5">
                     @if($hasQueueConnection)
-                        <i class="fas fa-check text-green-800 mr-1"></i> Queue connection settings for <code>mailcoach-redis</code> exist.
+                        <i class="far fa-check text-green-800 mr-1"></i> Queue connection settings for <code>mailcoach-redis</code> exist.
                     @else
-                        <i class="fas fa-times-circle text-red-800 mr-1"></i>
+                        <i class="far fa-times-circle text-red-800 mr-1"></i>
                         {!! __('No valid <strong>queue connection</strong> found. Configure a queue connection with the <strong>mailcoach-redis</strong> key. <a class="text-blue-800" target="_blank" href=":docsLink">Read the docs</a>.', ['docsLink' => 'https://mailcoach.app/docs']) !!}
                     @endif
                 </td>
@@ -69,9 +69,9 @@
                 @php($issueBody.='**Webhooks**: ' . $webhookTableCount . " unprocessed webhooks\n")
                 <td class="px-2 py-4 whitespace-nowrap text-sm leading-5">
                     @if($webhookTableCount === 0)
-                        <i class="fas fa-check-circle text-green-800 mr-1"></i> No unprocessed webhooks
+                        <i class="far fa-check-circle text-green-800 mr-1"></i> No unprocessed webhooks
                     @else
-                        <i class="fas fa-exclamation-triangle text-orange-800 mr-1"></i>
+                        <i class="far fa-exclamation-triangle text-orange-800 mr-1"></i>
                         {{ $webhookTableCount }} unprocessed webhooks
                     @endif
                 </td>
@@ -81,15 +81,15 @@
                 <td class="px-2 py-4 whitespace-nowrap text-sm leading-5">
                     @if ($lastScheduleRun && now()->diffInMinutes($lastScheduleRun) < 10)
                         @php($issueBody.='**Schedule**: ran ' . now()->diffInMinutes($lastScheduleRun) . " minute(s) ago\n")
-                        <i class="fas fa-check-circle text-green-800 mr-1"></i>
+                        <i class="far fa-check-circle text-green-800 mr-1"></i>
                         Ran {{ now()->diffInMinutes($lastScheduleRun) }} minute(s) ago
                     @elseif ($lastScheduleRun)
                         @php($issueBody.='**Schedule**: ran ' . now()->diffInMinutes($lastScheduleRun) . " minute(s) ago\n")
-                        <i class="fas fa-exclamation-triangle text-orange-800 mr-1"></i>
+                        <i class="far fa-exclamation-triangle text-orange-800 mr-1"></i>
                         Ran {{ now()->diffInMinutes($lastScheduleRun) }} minute(s) ago
                     @else
                         @php($issueBody.="**Schedule**: hasn't run\n")
-                        <i class="fas fa-times-circle text-red-800 mr-1"></i>
+                        <i class="far fa-times-circle text-red-800 mr-1"></i>
                         Schedule hasn't run
                     @endif
                 </td>
@@ -105,7 +105,7 @@
                                 <td>
                                     <span class="font-mono">{{ config('mail.default') }}</span>
                                     @if (in_array(config('mail.default'), ['log', 'array', null]))
-                                        <i class="fas fa-exclamation-triangle text-orange-800 mr-1"></i>
+                                        <i class="far fa-exclamation-triangle text-orange-800 mr-1"></i>
                                     @endif
                                 </td>
                             </tr>
@@ -115,7 +115,7 @@
                                 <td>
                                     <span class="font-mono">{{ config('mailcoach.mailer') ?? 'null' }}</span>
                                     @if (in_array(config('mailcoach.mailer'), ['log', 'array']))
-                                        <i class="fas fa-exclamation-triangle text-orange-800 mr-1"></i>
+                                        <i class="far fa-exclamation-triangle text-orange-800 mr-1"></i>
                                     @endif
                                 </td>
                             </tr>
@@ -125,7 +125,7 @@
                                 <td>
                                     <span class="font-mono">{{ config('mailcoach.campaigns.mailer') ?? 'null' }}</span>
                                     @if (in_array(config('mailcoach.campaigns.mailer'), ['log', 'array']))
-                                        <i class="fas fa-exclamation-triangle text-orange-800 mr-1"></i>
+                                        <i class="far fa-exclamation-triangle text-orange-800 mr-1"></i>
                                     @endif
                                 </td>
                             </tr>
@@ -135,7 +135,7 @@
                                 <td>
                                     <span class="font-mono">{{ config('mailcoach.transactional.mailer') ?? 'null' }}</span>
                                     @if (in_array(config('mailcoach.transactional.mailer'), ['log', 'array']))
-                                        <i class="fas fa-exclamation-triangle text-orange-800 mr-1"></i>
+                                        <i class="far fa-exclamation-triangle text-orange-800 mr-1"></i>
                                     @endif
                                 </td>
                             </tr>
@@ -202,7 +202,7 @@
                 {{ $versionInfo->getCurrentVersion('laravel-mailcoach') }}
                 @if(! $versionInfo->isLatest('laravel-mailcoach'))
                     <span class="font-sans text-xs inline-flex items-center bg-green-200 text-green-800 rounded-sm px-1 leading-relaxed">
-                        <i class="fas fa-horse-head opacity-50 mr-1"></i>
+                        <i class="far fa-horse-head opacity-75 mr-1"></i>
                         {{ __('Upgrade available') }}
                     </span>
                 @endif
@@ -216,7 +216,7 @@
                 {{ $versionInfo->getCurrentVersion('mailcoach-ui') }}
                 @if(! $versionInfo->isLatest('mailcoach-ui'))
                     <span class="font-sans text-xs inline-flex items-center bg-green-200 text-green-800 rounded-sm px-1 leading-relaxed">
-                        <i class="fas fa-horse-head opacity-50 mr-1"></i>
+                        <i class="far fa-horse-head opacity-75 mr-1"></i>
                         {{ __('Upgrade available') }}
                     </span>
                 @endif

@@ -10,7 +10,7 @@
             @if ($campaign->isAutomated())
                 <div class="flex alert alert-info">
                     <div class="mr-2">
-                        <i class="fas fa-magic text-blue-500"></i>
+                        <i class="far fa-magic text-blue-500"></i>
                     </div>
                     <div>
                         {{ __('Campaign') }}
@@ -26,7 +26,7 @@
 
                 <div class="mt-4 flex alert alert-info">
                     <div class="mr-2">
-                        <i class="fas fa-sync fa-spin text-blue-500"></i>
+                        <i class="far fa-sync fa-spin text-blue-500"></i>
                     </div>
                     <div>
                         {{ __('Campaign') }}
@@ -47,7 +47,7 @@
                 </div>
                 <div class="mt-4 flex alert alert-info">
                     <div class="mr-2">
-                        <i class="fas fa-ban text-red-500"></i>
+                        <i class="far fa-ban text-red-500"></i>
                     </div>
                     <div class="flex justify-between items-center w-full">
                         <p>
@@ -83,7 +83,7 @@
                 </div>
                 <div class="mt-4 flex alert alert-info">
                     <div class="mr-2">
-                        <i class="fas fa-sync fa-spin text-blue-500"></i>
+                        <i class="far fa-sync fa-spin text-blue-500"></i>
                     </div>
                     <div class="flex justify-between items-center w-full">
                         <p>
@@ -115,7 +115,7 @@
         @else
             <div class="grid grid-cols-auto-1fr gap-2 alert alert-success">
                 <div>
-                    <i class="fas fa-check text-green-500"></i>
+                    <i class="far fa-check text-green-500"></i>
                 </div>
                 <div>
                     {{ __('Campaign') }}
@@ -139,7 +139,7 @@
 
                 @if($failedSendsCount)
                     <div>
-                        <i class="fas fa-times text-red-500"></i>
+                        <i class="far fa-times text-red-500"></i>
                     </div>
                     <div>
                         {{ __('Delivery failed for') }} <strong>{{ $failedSendsCount }}</strong> {{ trans_choice('subscriber|subscribers', $failedSendsCount) }}.

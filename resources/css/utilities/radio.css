@@ -31,6 +31,7 @@
     @apply border-2;
     @apply border-transparent;
     @apply bg-blue-100;
+    @apply bg-opacity-50;
     @apply rounded-full;
     @apply overflow-hidden;
     content: '';
