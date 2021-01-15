@@ -30,7 +30,11 @@
             <tr>
                 <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5 font-bold">{{ __('List') }}</td>
                 <td class="px-2 py-4 whitespace-no-wrap text-sm leading-5">
-                    {{ $campaign->emailList->name }}
+                    @if($campaign->emailList)
+                        {{ $campaign->emailList->name }}
+                    @else
+                        &lt;{{ __('deleted list') }}&gt;
+                    @endif
                 </td>
             </tr>
             <tr>
