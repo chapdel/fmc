@@ -6,10 +6,11 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Spatie\Mailcoach\Mails\Concerns\ReplacesPlaceholders;
 use Spatie\Mailcoach\Models\Subscriber;
+use Illuminate\Queue\SerializesModels;
 
 class WelcomeMail extends Mailable implements ShouldQueue
 {
-    use ReplacesPlaceholders;
+    use SerializesModels, ReplacesPlaceholders;
 
     public $theme = 'mailcoach::mails.layout.mailcoach';
 
