@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.10.1 - 2021-01-18
+
+- Fix welcome mail to use latest subscriber details #426
 
 ## 3.10.0 - 2021-01-15
 
