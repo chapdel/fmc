@@ -11,6 +11,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
+use Spatie\Mailcoach\Tests\TestClasses\TestSegmentQueryOnlyJohn;
 use Spatie\TestTime\TestTime;
 
 class SubscribedTriggerTest extends TestCase
@@ -52,5 +53,37 @@ class SubscribedTriggerTest extends TestCase
         $this->campaign->emailList->subscribeSkippingConfirmation('john@doe.com');
 
         $this->assertEquals(1, $automation->actions()->first()->subscribers->count());
+    }
+
+    /** @test * */
+    public function it_only_triggers_when_the_subscriber_is_part_of_the_segment()
+    {
+        Queue::fake();
+
+        TestTime::setTestNow(Carbon::create(2020, 01, 01));
+
+        $trigger = new SubscribedTrigger();
+
+        /** @var Automation $automation */
+        $automation = Automation::create()
+            ->name('New year!')
+            ->runEvery(CarbonInterval::minute())
+            ->to($this->campaign->emailList)
+            ->segment(TestSegmentQueryOnlyJohn::class)
+            ->trigger($trigger)
+            ->chain([
+                new CampaignAction($this->campaign),
+            ])
+            ->start();
+
+        $this->refreshServiceProvider();
+
+        $this->assertEmpty($automation->actions->first()->fresh()->subscribers);
+
+        $this->campaign->emailList->subscribeSkippingConfirmation('jane@doe.com');
+        $this->campaign->emailList->subscribeSkippingConfirmation('john@example.com');
+
+        $this->assertEquals(1, $automation->actions()->first()->subscribers->count());
+        $this->assertEquals('john@example.com', $automation->actions()->first()->subscribers->first()->email);
     }
 }
