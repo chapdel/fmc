@@ -2,35 +2,59 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions;
 
+use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationActionComponent;
 
 class WaitActionComponent extends AutomationActionComponent
 {
-    public string $duration = '';
+    public int $length = 1;
+
+    public string $unit = 'days';
+
+    public array $units = [
+        'minutes' => 'Minute',
+        'hours' => 'Hour',
+        'days' => 'Day',
+        'weeks' => 'Week',
+        'months' => 'Month',
+    ];
 
     public function getData(): array
     {
         return [
-            'duration' => $this->duration,
+            'length' => $this->length,
+            'unit' => Str::plural($this->unit),
         ];
     }
 
     public function rules(): array
     {
         return [
-            'duration' => ['required'],
+            'length' => ['required'],
+            'unit' => ['required'],
         ];
     }
 
     public function render()
     {
         return <<<'blade'
-            <div>
+            <div class="flex gap-4">
                 <x-mailcoach::text-field
-                    :label="__('Duration')"
+                    :label="__('Length')"
                     :required="true"
-                    name="duration"
-                    wire:model="duration"
+                    name="length"
+                    wire:model="length"
+                />
+                <x-mailcoach::select-field
+                    :label="__('Unit')"
+                    :required="true"
+                    name="unit"
+                    wire:model="unit"
+                    :options="
+                        collect($units)
+                            ->mapWithKeys(fn ($label, $value) => [$value => \Illuminate\Support\Str::plural($label, $length)])
+                            ->toArray()
+                    "
                 />
             </div>
         blade;
