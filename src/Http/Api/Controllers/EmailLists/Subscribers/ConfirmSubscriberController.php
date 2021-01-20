@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\ConfirmSubscriberAction;
 use Spatie\Mailcoach\Domain\Campaign\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
@@ -11,13 +12,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ConfirmSubscriberController
 {
-    use RespondsToApiRequests;
+    use AuthorizesRequests,
+        RespondsToApiRequests;
 
     public function __invoke(
         ConfirmSubscriberRequest $request,
         Subscriber $subscriber,
         ConfirmSubscriberAction $confirmSubscriberAction
     ) {
+        $this->authorize("update", $subscriber->emailList);
+
         $this->ensureUnconfirmedSubscriber($subscriber);
 
         $confirmSubscriberAction->doNotSendWelcomeMail()->execute($subscriber);

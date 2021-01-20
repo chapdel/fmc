@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\UpdateSubscriberAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
@@ -14,10 +15,14 @@ use Spatie\Mailcoach\Http\App\Requests\EmailLists\Subscribers\UpdateSubscriberRe
 
 class SubscribersController
 {
-    use UsesMailcoachModels, RespondsToApiRequests;
+    use AuthorizesRequests,
+        UsesMailcoachModels,
+        RespondsToApiRequests;
 
     public function index(EmailList $emailList)
     {
+        $this->authorize("view", $emailList);
+
         $subscribers = new EmailListSubscribersQuery($emailList);
 
         return SubscriberResource::collection($subscribers->paginate());
@@ -25,11 +30,15 @@ class SubscribersController
 
     public function show(Subscriber $subscriber)
     {
+        $this->authorize("view", $subscriber->emailList);
+
         return new SubscriberResource($subscriber);
     }
 
     public function store(StoreSubscriberRequest $request, EmailList $emailList)
     {
+        $this->authorize("update", $emailList);
+
         /** @var \Spatie\Mailcoach\Domain\Campaign\Support\PendingSubscriber $pendingSubscriber */
         $pendingSubscriber = $this
             ->getSubscriberClass()::createWithEmail($request->email)
@@ -54,6 +63,8 @@ class SubscribersController
 
     public function destroy(Subscriber $subscriber)
     {
+        $this->authorize("update", $subscriber->emailList);
+
         $subscriber->delete();
 
         return $this->respondOk();
@@ -61,6 +72,8 @@ class SubscribersController
 
     public function update(Subscriber $subscriber, UpdateSubscriberRequest $request, UpdateSubscriberAction $updateSubscriberAction)
     {
+        $this->authorize("update", $subscriber->emailList);
+
         $updateSubscriberAction->execute(
             $subscriber,
             $request->subscriberAttributes(),

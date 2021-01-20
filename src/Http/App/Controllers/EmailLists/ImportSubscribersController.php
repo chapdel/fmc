@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Auth\User;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\ImportSubscribersJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
@@ -10,8 +11,12 @@ use Spatie\Mailcoach\Http\App\Requests\EmailLists\ImportSubscribersRequest;
 
 class ImportSubscribersController
 {
+    use AuthorizesRequests;
+
     public function showImportScreen(EmailList $emailList)
     {
+        $this->authorize('update', $emailList);
+
         return view('mailcoach::app.emailLists.importSubscribers', [
             'emailList' => $emailList,
             'subscriberImports' => $emailList->subscriberImports()->latest()->get(),
@@ -20,6 +25,8 @@ class ImportSubscribersController
 
     public function import(EmailList $emailList, ImportSubscribersRequest $request)
     {
+        $this->authorize('update', $emailList);
+
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\SubscriberImport $subscriberImport */
         $subscriberImport = SubscriberImport::create([
             'email_list_id' => $emailList->id,

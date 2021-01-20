@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Campaign\Actions\Templates\CreateTemplateAction;
 use Spatie\Mailcoach\Domain\Campaign\Actions\Templates\UpdateTemplateAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
@@ -12,10 +13,13 @@ use Spatie\Mailcoach\Http\App\Requests\TemplateRequest;
 
 class TemplatesController
 {
-    use UsesMailcoachModels;
+    use AuthorizesRequests,
+        UsesMailcoachModels;
 
     public function index(TemplatesQuery $templatesQuery)
     {
+        $this->authorize('viewAny', Template::class);
+
         return view('mailcoach::app.templates.index', [
             'templates' => $templatesQuery->paginate(),
             'totalTemplatesCount' => $this->getTemplateClass()::count(),
@@ -24,11 +28,15 @@ class TemplatesController
 
     public function show(Template $template)
     {
+        $this->authorize('view', $template);
+
         return new TemplateResource($template);
     }
 
     public function store(TemplateRequest $request, CreateTemplateAction $createTemplateAction)
     {
+        $this->authorize('create', Template::class);
+
         $template = $createTemplateAction->execute($request->validated());
 
         flash()->success(__('Template :template was created.', ['template' => $template->name]));
@@ -38,6 +46,8 @@ class TemplatesController
 
     public function edit(Template $template)
     {
+        $this->authorize('update', $template);
+
         return view('mailcoach::app.templates.edit', [
             'template' => $template,
         ]);
@@ -48,6 +58,8 @@ class TemplatesController
         TemplateRequest $request,
         UpdateTemplateAction $updateTemplateAction
     ) {
+        $this->authorize('update', $template);
+
         $updateTemplateAction->execute($template, $request->validated());
 
         flash()->success(__('Template :template was updated.', ['template' => $template->name]));
@@ -57,6 +69,8 @@ class TemplatesController
 
     public function destroy(Template $template)
     {
+        $this->authorize('delete', $template);
+
         $template->delete();
 
         flash()->success(__('Template :template was deleted.', ['template' => $template->name]));
@@ -66,6 +80,8 @@ class TemplatesController
 
     public function duplicate(Template $template)
     {
+        $this->authorize('create', Template::class);
+
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Template $duplicateTemplate */
         $duplicateTemplate = $this->getTemplateClass()::create([
             'name' => __('Duplicate of') . ' ' . $template->name,

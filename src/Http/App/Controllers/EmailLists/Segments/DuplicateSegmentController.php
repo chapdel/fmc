@@ -2,14 +2,19 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\Tag;
 use Spatie\Mailcoach\Domain\Campaign\Models\TagSegment;
 
 class DuplicateSegmentController
 {
+    use AuthorizesRequests;
+
     public function __invoke(EmailList $emailList, TagSegment $segment)
     {
+        $this->authorize('update', $emailList);
+
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\TagSegment $duplicateSegment */
         $duplicateSegment = TagSegment::create([
             'name' => __('Duplicate of') . ' ' . $segment->name,

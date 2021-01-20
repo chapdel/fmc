@@ -2,13 +2,18 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Queries\CampaignSendsQuery;
 
 class OutboxController
 {
+    use AuthorizesRequests;
+
     public function __invoke(Campaign $campaign)
     {
+        $this->authorize('view', $campaign);
+
         $sendsQuery = new CampaignSendsQuery($campaign);
 
         return view('mailcoach::app.campaigns.outbox', [

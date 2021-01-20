@@ -3,13 +3,18 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft;
 
 use Carbon\CarbonInterval;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Requests\Campaigns\SendTestEmailRequest;
 
 class SendTestEmailController
 {
+    use AuthorizesRequests;
+
     public function __invoke(Campaign $campaign, SendTestEmailRequest $request)
     {
+        $this->authorize('view', $campaign);
+
         if (! $campaign->isPending()) {
             flash()->error(__("Cannot send a test email for campaign :campaign because it has already been sent.", ['campaign' => $campaign->name]));
 

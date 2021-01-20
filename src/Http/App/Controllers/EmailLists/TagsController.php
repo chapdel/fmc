@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\Tag;
@@ -11,8 +12,12 @@ use Spatie\Mailcoach\Http\App\Requests\EmailLists\UpdateTagRequest;
 
 class TagsController
 {
+    use AuthorizesRequests;
+
     public function index(EmailList $emailList)
     {
+        $this->authorize('view', $emailList);
+
         $tagsQuery = new EmailListTagsQuery($emailList);
 
         return view('mailcoach::app.emailLists.tag.index', [
@@ -26,6 +31,8 @@ class TagsController
 
     public function store(CreateTagRequest $request, EmailList $emailList)
     {
+        $this->authorize('update', $emailList);
+
         $tag = $emailList->tags()->create([
             'name' => $request->name,
             'type' => TagType::DEFAULT,
@@ -38,6 +45,8 @@ class TagsController
 
     public function edit(EmailList $emailList, Tag $tag)
     {
+        $this->authorize('update', $emailList);
+
         return view('mailcoach::app.emailLists.tag.edit', [
             'emailList' => $emailList,
             'tag' => $tag,
@@ -46,6 +55,8 @@ class TagsController
 
     public function update(UpdateTagRequest $request, EmailList $emailList, Tag $tag)
     {
+        $this->authorize('update', $emailList);
+
         $tag->update([
             'name' => $request->name,
         ]);
@@ -57,6 +68,8 @@ class TagsController
 
     public function destroy(EmailList $emailList, Tag $tag)
     {
+        $this->authorize('update', $emailList);
+
         $tag->delete();
 
         flash()->success(__('Tag :tag was deleted', ['tag' => $tag->name]));

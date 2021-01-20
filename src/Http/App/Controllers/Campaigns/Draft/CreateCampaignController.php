@@ -2,18 +2,23 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Campaign\Actions\UpdateCampaignAction;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Requests\Campaigns\StoreCampaignRequest;
 
 class CreateCampaignController
 {
-    use UsesMailcoachModels;
+    use AuthorizesRequests,
+        UsesMailcoachModels;
 
     public function __invoke(
         StoreCampaignRequest $request,
         UpdateCampaignAction $updateCampaignAction
     ) {
+        $this->authorize("create", Campaign::class);
+
         $campaignClass = $this->getCampaignClass();
 
         $campaign = new $campaignClass;

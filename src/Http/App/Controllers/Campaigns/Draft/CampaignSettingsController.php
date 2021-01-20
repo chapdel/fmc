@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -9,10 +10,13 @@ use Spatie\Mailcoach\Http\App\Requests\Campaigns\UpdateCampaignSettingsRequest;
 
 class CampaignSettingsController
 {
-    use UsesMailcoachModels;
+    use AuthorizesRequests,
+        UsesMailcoachModels;
 
     public function edit(Campaign $campaign)
     {
+        $this->authorize('update', $campaign);
+
         $emailLists = $this->getEmailListClass()::all();
 
         return view('mailcoach::app.campaigns.settings', [
@@ -31,6 +35,8 @@ class CampaignSettingsController
 
     public function update(Campaign $campaign, UpdateCampaignSettingsRequest $request)
     {
+        $this->authorize('update', $campaign);
+
         $campaign->fill([
             'name' => $request->name,
             'subject' => $request->subject,

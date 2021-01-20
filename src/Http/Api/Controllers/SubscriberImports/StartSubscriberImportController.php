@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\Api\Controllers\SubscriberImports;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Response;
 use Spatie\Mailcoach\Domain\Campaign\Enums\SubscriberImportStatus;
@@ -11,10 +12,13 @@ use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
 
 class StartSubscriberImportController
 {
+    use AuthorizesRequests;
     use RespondsToApiRequests;
 
     public function __invoke(SubscriberImport $subscriberImport)
     {
+        $this->authorize("update", $subscriberImport->emailList);
+
         if ($subscriberImport->status !== SubscriberImportStatus::DRAFT) {
             abort(Response::HTTP_UNPROCESSABLE_ENTITY, 'Cannot start a non-draft import.');
         }

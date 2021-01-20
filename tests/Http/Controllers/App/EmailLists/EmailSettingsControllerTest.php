@@ -3,8 +3,10 @@
 namespace Spatie\Mailcoach\Tests\Http\Controllers\App\EmailLists;
 
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Campaign\Policies\EmailListPolicy;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\EmailListSettingsController;
 use Spatie\Mailcoach\Tests\TestCase;
+use Spatie\Mailcoach\Tests\TestClasses\CustomEmailListDenyAllPolicy;
 
 class EmailSettingsControllerTest extends TestCase
 {
@@ -78,5 +80,37 @@ class EmailSettingsControllerTest extends TestCase
                 )
                 ->assertSessionHasErrors(["report_recipients"]);
         }
+    }
+
+    /** @test */
+    public function it_authorizes_access_with_custom_policy()
+    {
+        app()->bind(EmailListPolicy::class, CustomEmailListDenyAllPolicy::class);
+
+        $this->authenticate();
+
+        $emailList = EmailList::create([
+            'name' => 'my list',
+            'campaign_mailer' => 'array',
+            'transactional_mailer' => 'array',
+        ]);
+
+        $this
+            ->withExceptionHandling()
+            ->get(action([EmailListSettingsController::class, 'edit'], $emailList->id))
+            ->assertForbidden();
+
+        $this
+            ->withExceptionHandling()
+            ->put(route('mailcoach.emailLists.update-settings', $emailList), $this->validUpdateData())
+            ->assertForbidden();
+    }
+
+    private function validUpdateData()
+    {
+        return [
+            'name' => 'Jane',
+            'default_from_email' => 'jane@example.com',
+        ];
     }
 }

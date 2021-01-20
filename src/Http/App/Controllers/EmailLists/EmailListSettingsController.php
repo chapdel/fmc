@@ -2,13 +2,18 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Http\App\Requests\EmailLists\UpdateEmailListSettingsRequest;
 
 class EmailListSettingsController
 {
+    use AuthorizesRequests;
+
     public function edit(EmailList $emailList)
     {
+        $this->authorize('update', $emailList);
+
         return view('mailcoach::app.emailLists.settings', [
             'emailList' => $emailList,
         ]);
@@ -16,6 +21,8 @@ class EmailListSettingsController
 
     public function update(EmailList $emailList, UpdateEmailListSettingsRequest $request)
     {
+        $this->authorize('update', $emailList);
+
         $emailList->update([
             'name' => $request->name,
             'default_from_email' => $request->default_from_email,

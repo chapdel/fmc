@@ -2,9 +2,11 @@
 
 namespace Spatie\Mailcoach\Tests\Http\Controllers\App\EmailLists;
 
+use Spatie\Mailcoach\Domain\Campaign\Policies\EmailListPolicy;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\CreateEmailListController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\EmailListSettingsController;
 use Spatie\Mailcoach\Tests\TestCase;
+use Spatie\Mailcoach\Tests\TestClasses\CustomEmailListDenyAllPolicy;
 
 class CreateEmailListControllerTest extends TestCase
 {
@@ -70,5 +72,26 @@ class CreateEmailListControllerTest extends TestCase
         $attributes['campaign_mailer'] = 'some-campaign-mailer';
 
         $this->assertDatabaseHas('mailcoach_email_lists', $attributes);
+    }
+
+    /** @test */
+    public function it_authorizes_access_with_custom_policy()
+    {
+        app()->bind(EmailListPolicy::class, CustomEmailListDenyAllPolicy::class);
+
+        $this->authenticate();
+
+        $attributes = [
+            'name' => 'new list',
+            'default_from_email' => 'john@example.com',
+        ];
+
+        $this
+            ->withExceptionHandling()
+            ->post(
+                action(CreateEmailListController::class),
+                $attributes
+            )
+            ->assertForbidden();
     }
 }

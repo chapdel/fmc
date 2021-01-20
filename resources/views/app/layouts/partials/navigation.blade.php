@@ -9,12 +9,14 @@
     
     @include('mailcoach::app.layouts.partials.beforeFirstMenuItem')
 
+    @can("viewAny", \Spatie\Mailcoach\Domain\Campaign\Models\Campaign::class)
     <x-mailcoach::navigation-item :href="route('mailcoach.campaigns')">
         <span class="icon-label">
             <i class="far fa-envelope-open"></i>
             <span class="icon-label-text">{{ __('Campaigns') }}</span>
         </span>
     </x-mailcoach::navigation-item>
+    @endcan
 
     <x-mailcoach::navigation-item :href="route('mailcoach.automations')">
         <span class="icon-label">
@@ -30,14 +32,16 @@
         </span>
     </x-mailcoach::navigation-item>
 
+    @can("viewAny", \Spatie\Mailcoach\Domain\Campaign\Models\EmailList::class)
     <x-mailcoach::navigation-item :href="route('mailcoach.emailLists')">
         <span class="icon-label">
             <i class="far fa-address-book"></i>
             <span class="icon-label-text">{{ __('Lists') }}</span>
         </span>
     </x-mailcoach::navigation-item>
+    @endcan
 
-    <x-mailcoach::navigation-item :href="route('mailcoach.templates')">
+    <x-mailcoach::navigation-item :href="route('mailcoach.transactionalMails')">
         <span class="icon-label">
             <i class="far fa-clipboard"></i>
             <span class="icon-label-text">{{ __('Templates') }}</span>

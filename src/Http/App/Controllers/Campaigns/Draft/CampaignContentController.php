@@ -2,18 +2,25 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Requests\Campaigns\UpdateCampaignContentRequest;
 
 class CampaignContentController
 {
+    use AuthorizesRequests;
+
     public function edit(Campaign $campaign)
     {
+        $this->authorize('update', $campaign);
+
         return view('mailcoach::app.campaigns.content', compact('campaign'));
     }
 
     public function update(Campaign $campaign, UpdateCampaignContentRequest $request)
     {
+        $this->authorize('update', $campaign);
+
         $campaign->update([
             'html' => $request->html,
             'structured_html' => $request->structured_html,

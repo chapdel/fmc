@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Http\App\Queries\EmailListSubscribersQuery;
@@ -9,8 +10,12 @@ use Spatie\SimpleExcel\SimpleExcelWriter;
 
 class SubscribersExportController
 {
+    use AuthorizesRequests;
+
     public function __invoke(EmailList $emailList)
     {
+        $this->authorize('view', $emailList);
+
         $subscribersQuery = new EmailListSubscribersQuery($emailList);
 
         $subscriberCsv = SimpleExcelWriter::streamDownload("{$emailList->name} subscribers .csv");

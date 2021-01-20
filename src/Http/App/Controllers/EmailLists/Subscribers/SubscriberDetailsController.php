@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\UpdateSubscriberAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
@@ -11,8 +12,12 @@ use Spatie\Mailcoach\Http\App\ViewModels\SubscriberViewModel;
 
 class SubscriberDetailsController
 {
+    use AuthorizesRequests;
+
     public function edit(EmailList $emailList, Subscriber $subscriber)
     {
+        $this->authorize('view', $emailList);
+
         return view('mailcoach::app.emailLists.subscriber.edit', new SubscriberViewModel($subscriber));
     }
 
@@ -21,6 +26,8 @@ class SubscriberDetailsController
         Subscriber $subscriber,
         UpdateSubscriberRequest $request
     ) {
+        $this->authorize('update', $emailList);
+
         $updateSubscriberAction = Config::getCampaignActionClass('update_subscriber', UpdateSubscriberAction::class);
 
         $updateSubscriberAction->execute(
