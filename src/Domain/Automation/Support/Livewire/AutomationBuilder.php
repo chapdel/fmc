@@ -14,7 +14,7 @@ class AutomationBuilder extends AutomationActionComponent
 
     public array $editingActionData = [];
 
-    protected $listeners = ['actionUpdated', 'validationFailed'];
+    protected $listeners = ['actionUpdated', 'validationFailed', 'saveActions'];
 
     public function actionUpdated(array $actionData)
     {

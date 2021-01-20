@@ -12,6 +12,10 @@
     transition: background-color 0.15s ease;
 }
 
+.button:disabled {
+    @apply opacity-50;
+}
+
 .button:hover,
 .button:focus,
 .button.dropdown-trigger-open {
