@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Http\App\Controllers;
 
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-use PackageVersions\Versions;
+use Composer\InstalledVersions;
 use Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus;
 use Spatie\Mailcoach\Domain\Shared\Support\Version;
 
@@ -15,7 +15,7 @@ class DebugController
         $versionInfo = app(Version::class);
         $hasQueueConnection = config('queue.connections.mailcoach-redis') && ! empty(config('queue.connections.mailcoach-redis'));
         $mysqlVersion = $this->mysqlVersion();
-        $horizonVersion = Versions::getVersion("laravel/horizon");
+        $horizonVersion = InstalledVersions::getVersion("laravel/horizon");
         $webhookTableCount = DB::table('webhook_calls')
             ->where('name', 'like', '%-feedback')
             ->whereNull('processed_at')
