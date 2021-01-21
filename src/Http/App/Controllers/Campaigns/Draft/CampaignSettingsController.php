@@ -42,6 +42,7 @@ class CampaignSettingsController
             'subject' => $request->subject,
             'track_opens' => $request->track_opens ?? false,
             'track_clicks' => $request->track_clicks ?? false,
+            'utm_tags' => $request->utm_tags ?? false,
             'last_modified_at' => now(),
         ]);
 

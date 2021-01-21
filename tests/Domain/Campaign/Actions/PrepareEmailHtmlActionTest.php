@@ -95,4 +95,44 @@ class PrepareEmailHtmlActionTest extends TestCase
 
         $this->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->email_html);
     }
+
+    /** @test * */
+    public function it_will_add_utm_tags()
+    {
+        $myHtml = '<html><body><h1>Hello</h1><a href="https://spatie.be">Hello world</a></body></html>';
+
+        $campaign = Campaign::factory()->create([
+            'track_clicks' => true,
+            'html' => $myHtml,
+            'utm_tags' => true,
+            'name' => 'My Campaign',
+        ]);
+
+        app(PrepareEmailHtmlAction::class)->execute($campaign);
+
+        $campaign->refresh();
+
+        $this->assertStringContainsString("https://spatie.be?utm_source=newsletter&utm_medium=email&utm_campaign=My Campaign", $campaign->email_html);
+        $this->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->email_html);
+    }
+
+    /** @test * */
+    public function it_will_add_utm_tags_to_links_that_already_have_query_parameters()
+    {
+        $myHtml = '<html><body><h1>Hello</h1><a href="https://spatie.be?foo=bar">Hello world</a></body></html>';
+
+        $campaign = Campaign::factory()->create([
+            'track_clicks' => true,
+            'html' => $myHtml,
+            'utm_tags' => true,
+            'name' => 'My Campaign',
+        ]);
+
+        app(PrepareEmailHtmlAction::class)->execute($campaign);
+
+        $campaign->refresh();
+
+        $this->assertStringContainsString("https://spatie.be?foo=bar&utm_source=newsletter&utm_medium=email&utm_campaign=My Campaign", $campaign->email_html);
+        $this->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->email_html);
+    }
 }

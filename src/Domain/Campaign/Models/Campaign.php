@@ -46,6 +46,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
     public $casts = [
         'track_opens' => 'boolean',
         'track_clicks' => 'boolean',
+        'utm_tags' => 'boolean',
         'open_rate' => 'integer',
         'click_rate' => 'integer',
         'send_to_number_of_subscribers' => 'integer',
@@ -270,6 +271,15 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         $this->ensureUpdatable();
 
         $this->update(['track_clicks' => $bool]);
+
+        return $this;
+    }
+
+    public function utmTags(bool $bool = true): self
+    {
+        $this->ensureUpdatable();
+
+        $this->update(['utm_tags' => $bool]);
 
         return $this;
     }

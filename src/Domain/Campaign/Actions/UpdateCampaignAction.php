@@ -26,6 +26,7 @@ class UpdateCampaignAction
             'structured_html' => $attributes['structured_html'] ?? optional($template)->structured_html,
             'track_opens' => $attributes['track_opens'] ?? true,
             'track_clicks' => $attributes['track_clicks'] ?? true,
+            'utm_tags' => $attributes['utm_tags'] ?? true,
             'last_modified_at' => now(),
         ]);
 

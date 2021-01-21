@@ -21,6 +21,7 @@ class UpdateCampaignSettingsRequest extends FormRequest
             'email_list_id' => Rule::exists($this->getEmailListTableName(), 'id'),
             'track_opens' => 'bool',
             'track_clicks' => 'bool',
+            'utm_tags' => 'bool',
             'segment' => [Rule::in(['entire_list', 'segment'])],
             'segment_id' => ['required_if:segment,tag_segment'],
         ];

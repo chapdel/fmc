@@ -24,6 +24,7 @@ class CampaignRequest extends FormRequest
             'mailable_class' => '',
             'track_opens' => 'boolean',
             'track_clicks' => 'boolean',
+            'utm_tags' => 'boolean',
             'schedule_at' => 'date_format:Y-m-d H:i:s',
         ];
     }

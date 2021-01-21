@@ -30,6 +30,21 @@
             </div>
         </div>
 
+        <div class="form-row">
+            <label class="label">{{ __('UTM Tags') }}</label>
+            <div class="mb-2">
+                <p class="text-sm mb-2">{{ __('When checked, the following UTM Tags will automatically get added to any links in your campaign:') }}</p>
+                <ul>
+                    <li><strong>utm_source</strong>: newsletter</li>
+                    <li><strong>utm_medium</strong>: email</li>
+                    <li><strong>utm_campaign</strong>: {{ $campaign->name }}</li>
+                </ul>
+            </div>
+            <div class="checkbox-group">
+                <x-mailcoach::checkbox-field :label="__('Automatically add UTM tags')" name="utm_tags" :checked="$campaign->utm_tags" />
+            </div>
+        </div>
+
         @if ($campaign->isEditable())
             <div class="form-buttons">
                 <button type="submit" class="button">

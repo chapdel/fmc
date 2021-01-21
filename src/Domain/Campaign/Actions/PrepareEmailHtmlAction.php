@@ -21,6 +21,10 @@ class PrepareEmailHtmlAction
 
         $this->replacePlaceholders($campaign);
 
+        if ($campaign->utm_tags) {
+            $this->addUtmTags($campaign);
+        }
+
         $campaign->save();
     }
 
@@ -67,5 +71,17 @@ class PrepareEmailHtmlAction
             ->map(fn (string $className) => app($className))
             ->filter(fn (object $class) => $class instanceof CampaignReplacer)
             ->reduce(fn (string $html, CampaignReplacer $replacer) => $replacer->replace($html, $campaign), $campaign->email_html);
+    }
+
+    private function addUtmTags(Campaign $campaign): void
+    {
+        $utmTags = "utm_source=newsletter&utm_medium=email&utm_campaign={$campaign->name}";
+
+        $campaign->email_html = $campaign->htmlLinks()
+            ->reduce(function (string $html, string $link) use ($utmTags) {
+                $newLink = $link . (parse_url($link, PHP_URL_QUERY) ? '&' : '?') . $utmTags;
+
+                return str_replace($link, $newLink . '', $html);
+            }, $campaign->email_html);
     }
 }
