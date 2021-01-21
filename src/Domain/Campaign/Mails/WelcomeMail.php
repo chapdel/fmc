@@ -4,11 +4,13 @@ namespace Spatie\Mailcoach\Domain\Campaign\Mails;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\Campaign\Mails\Concerns\ReplacesPlaceholders;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 
 class WelcomeMail extends Mailable implements ShouldQueue
 {
+    use SerializesModels;
     use ReplacesPlaceholders;
 
     public $theme = 'mailcoach::mails.layout.mailcoach';
