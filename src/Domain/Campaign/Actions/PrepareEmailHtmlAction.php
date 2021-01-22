@@ -75,7 +75,8 @@ class PrepareEmailHtmlAction
 
     private function addUtmTags(Campaign $campaign): void
     {
-        $utmTags = "utm_source=newsletter&utm_medium=email&utm_campaign={$campaign->name}";
+        $campaignName = urlencode($campaign->name);
+        $utmTags = "utm_source=newsletter&utm_medium=email&utm_campaign={$campaignName}";
 
         $campaign->email_html = $campaign->htmlLinks()
             ->reduce(function (string $html, string $link) use ($utmTags) {
