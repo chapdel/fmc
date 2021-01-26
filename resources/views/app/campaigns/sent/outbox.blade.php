@@ -67,7 +67,7 @@
             <tr class="markup-links">
                 <td>
                     @if ($send->subscriber)
-                        <a class="break-words" href="{{ route('mailcoach.emailLists.subscriber.details', [$send->subscriber->emailList, $send->subscriber]) }}">{{ $send->subscriber->email }}</a></td>
+                        <a class="break-words" href="{{ route('mailcoach.emailLists.subscriber.details', [$send->subscriber->emailList, $send->subscriber]) }}">{{ $send->subscriber->email }}</a>
                     @else
                         &lt;{{ __('deleted subscriber') }}&gt;
                     @endif
