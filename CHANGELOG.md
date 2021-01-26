@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.10.2 - 2021-01-26
+
+- Fix an issue on the campaign details when a subscriber was deleted
+
 ## 3.10.1 - 2021-01-18
 
 - Fix welcome mail to use latest subscriber details #426
