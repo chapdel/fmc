@@ -4,9 +4,9 @@ namespace Spatie\Mailcoach\Mails;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Mails\Concerns\ReplacesPlaceholders;
 use Spatie\Mailcoach\Models\Subscriber;
-use Illuminate\Queue\SerializesModels;
 
 class WelcomeMail extends Mailable implements ShouldQueue
 {
