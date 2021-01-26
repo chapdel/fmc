@@ -2,7 +2,6 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
-
 ## 4.0.0 - xxxx-xx-xx
 
 notes for upgrading:
@@ -10,6 +9,31 @@ notes for upgrading:
 - add transactional tables
 - rename campaign opens to opens
 - rename campaign clicks to clicks
+
+## 3.10.3 - 2021-01-26
+
+- Fix stray closing tag
+
+## 3.10.2 - 2021-01-26
+
+- Fix an issue on the campaign details when a subscriber was deleted
+
+## 3.10.1 - 2021-01-18
+
+- Fix welcome mail to use latest subscriber details #426
+
+## 3.10.0 - 2021-01-15
+
+- Allow filling the subject in the UpdateCampaignAction
+- Fix an issue on the campaign details when a list was deleted
+
+## 3.9.8 - 2021-01-08
+
+- Fix php constraint
+
+## 3.9.7 - 2021-01-06
+
+- fixed an issue with large segments
 
 ## 3.9.6 - 2020-12-28
 
