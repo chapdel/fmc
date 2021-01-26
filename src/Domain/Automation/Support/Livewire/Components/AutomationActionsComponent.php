@@ -2,12 +2,8 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components;
 
-use Illuminate\Support\Collection;
-use Illuminate\Validation\ValidationException;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationBuilder;
-use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class AutomationActionsComponent extends Component

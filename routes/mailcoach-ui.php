@@ -1,9 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
-use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationActionsController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationSettingsController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationsIndexController;

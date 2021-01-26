@@ -2,9 +2,9 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers;
 
+use Composer\InstalledVersions;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-use Composer\InstalledVersions;
 use Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus;
 use Spatie\Mailcoach\Domain\Shared\Support\Version;
 
