@@ -55,6 +55,20 @@ class PersonalizeHtmlActionTest extends TestCase
         $this->assertActionResult('::subscriber.extra_attributes.non-existing::', '::subscriber.extra_attributes.non-existing::');
     }
 
+    /** @test */
+    public function it_can_replace_unsubscribe_url()
+    {
+        $this->assertActionResult('::unsubscribeUrl::', $this->send->subscriber->unsubscribeUrl($this->send));
+    }
+
+    /** @test */
+    public function it_can_replace_unsubscribe_tag_url()
+    {
+        $this->send->subscriber->addTag('some tag');
+
+        $this->assertActionResult('::unsubscribeTag::some tag::', $this->send->subscriber->unsubscribeTagUrl('some tag'));
+    }
+
     protected function assertActionResult(string $inputHtml, $expectedOutputHtml)
     {
         $actualOutputHtml = (new PersonalizeHtmlAction())->execute($inputHtml, $this->send);

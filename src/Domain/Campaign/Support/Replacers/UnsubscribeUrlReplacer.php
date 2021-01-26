@@ -10,6 +10,7 @@ class UnsubscribeUrlReplacer implements PersonalizedReplacer
     {
         return [
             'unsubscribeUrl' => __('The URL where users can unsubscribe'),
+            'unsubscribeTag::your tag' => __('The URL where users can be removed from a specific tag'),
         ];
     }
 
@@ -17,6 +18,18 @@ class UnsubscribeUrlReplacer implements PersonalizedReplacer
     {
         $unsubscribeUrl = $pendingSend->subscriber->unsubscribeUrl($pendingSend);
 
-        return str_ireplace('::unsubscribeUrl::', $unsubscribeUrl, $text);
+        $text = str_ireplace('::unsubscribeUrl::', $unsubscribeUrl, $text);
+
+        preg_match_all('/::unsubscribeTag::(.*)::/', $text, $matches, PREG_SET_ORDER);
+
+        foreach ($matches as $match) {
+            [$key, $tag] = $match;
+
+            $unsubscribeTagUrl = $pendingSend->subscriber->unsubscribeTagUrl($tag);
+
+            $text = str_ireplace($key, $unsubscribeTagUrl, $text);
+        }
+
+        return $text;
     }
 }
