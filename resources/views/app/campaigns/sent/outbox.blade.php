@@ -65,7 +65,13 @@
         <tbody>
         @foreach($sends as $send)
             <tr class="markup-links">
-                <td><a class="break-words" href="{{ route('mailcoach.emailLists.subscriber.details', [$send->subscriber->emailList, $send->subscriber]) }}">{{ $send->subscriber->email }}</a></td>
+                <td>
+                    @if ($send->subscriber)
+                        <a class="break-words" href="{{ route('mailcoach.emailLists.subscriber.details', [$send->subscriber->emailList, $send->subscriber]) }}">{{ $send->subscriber->email }}</a></td>
+                    @else
+                        &lt;{{ __('deleted subscriber') }}&gt;
+                    @endif
+                </td>
                 <td>{{ $send->failure_reason }}{{optional($send->latestFeedback())->formatted_type }}</td>
                 <td class="td-numeric hidden | md:table-cell">{{ optional($send->sent_at)->toMailcoachFormat() ?? '-' }}</td>
             </tr>
