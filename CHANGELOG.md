@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.10.3 - 2021-01-26
+
+- Fix stray closing tag
+
 ## 3.10.2 - 2021-01-26
 
 - Fix an issue on the campaign details when a subscriber was deleted
