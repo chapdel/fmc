@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Arr;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
@@ -20,8 +19,8 @@ use Spatie\Mailcoach\Domain\Campaign\Events\TagRemovedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Events\UnsubscribedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasExtraAttributes;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
-use Spatie\Mailcoach\Domain\Shared\Support\Config;
 use Spatie\Mailcoach\Domain\Campaign\Support\PendingSubscriber;
+use Spatie\Mailcoach\Domain\Shared\Support\Config;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class Subscriber extends Model
@@ -169,7 +168,7 @@ class Subscriber extends Model
             ->whereNotNull('unsubscribed_at');
     }
 
-    public function addTag(string|iterable $name, string $type = null): self
+    public function addTag(string | iterable $name, string $type = null): self
     {
         $names = Arr::wrap($name);
 
@@ -206,7 +205,7 @@ class Subscriber extends Model
             ->exists();
     }
 
-    public function removeTag(string|array $name): self
+    public function removeTag(string | array $name): self
     {
         $names = Arr::wrap($name);
 

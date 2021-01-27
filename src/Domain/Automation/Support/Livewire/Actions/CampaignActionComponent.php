@@ -9,11 +9,14 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 
 class CampaignActionComponent extends AutomationActionComponent
 {
-    public int|string $campaign_id = '';
+    public int |
+
+string $campaign_id = '';
 
     public array $campaignOptions;
 
-    public function mount() {
+    public function mount()
+    {
         parent::mount();
 
         $this->campaignOptions = Campaign::query()

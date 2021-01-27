@@ -18,7 +18,8 @@ class TransactionalMailMessageConfig
 
     protected function __construct(
         protected Swift_Message $message
-    ) {}
+    ) {
+    }
 
     public function trackOpens(): bool
     {

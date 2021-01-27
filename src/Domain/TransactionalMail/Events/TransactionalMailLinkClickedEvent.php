@@ -8,5 +8,6 @@ class TransactionalMailLinkClickedEvent
 {
     public function __construct(
         public TransactionalMailClick $campaignClick,
-    ) {}
+    ) {
+    }
 }

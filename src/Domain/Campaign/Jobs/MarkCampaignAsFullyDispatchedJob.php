@@ -16,7 +16,8 @@ class MarkCampaignAsFullyDispatchedJob implements ShouldQueue
 
     public function __construct(
         public Campaign $campaign
-    ) {}
+    ) {
+    }
 
     public function handle()
     {

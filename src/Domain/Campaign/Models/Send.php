@@ -14,9 +14,9 @@ use Spatie\Mailcoach\Domain\Campaign\Events\BounceRegisteredEvent;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignLinkClickedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignOpenedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Events\ComplaintRegisteredEvent;
+use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
 use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailLinkClickedEvent;
 use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailOpenedEvent;
-use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailClick;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailOpen;
@@ -124,7 +124,7 @@ class Send extends Model
         return $this;
     }
 
-    public function registerOpen(?DateTimeInterface $openedAt = null): CampaignOpen|TransactionalMailOpen|null
+    public function registerOpen(?DateTimeInterface $openedAt = null): CampaignOpen | TransactionalMailOpen | null
     {
         return $this->concernsCampaign()
             ? $this->registerCampaignOpen($openedAt)
@@ -186,7 +186,7 @@ class Send extends Model
         return $latestOpen->created_at->diffInSeconds() < $seconds;
     }
 
-    public function registerClick(string $url, ?DateTimeInterface $clickedAt = null): CampaignClick|TransactionalMailClick|null
+    public function registerClick(string $url, ?DateTimeInterface $clickedAt = null): CampaignClick | TransactionalMailClick | null
     {
         return $this->concernsCampaign()
             ? $this->registerCampaignClick($url, $clickedAt)

@@ -8,5 +8,6 @@ class CampaignLinkClickedEvent
 {
     public function __construct(
         public CampaignClick $campaignClick
-    ) {}
+    ) {
+    }
 }

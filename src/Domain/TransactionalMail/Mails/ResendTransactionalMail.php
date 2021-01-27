@@ -46,6 +46,7 @@ class ResendTransactionalMail extends Mailable
         return collect($persons)
             ->mapWithKeys(function (array $person) {
                 ray($person);
+
                 return [$person['email'] => $person['name'] ?? null];
             })
             ->toArray();

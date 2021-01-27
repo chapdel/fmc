@@ -8,5 +8,6 @@ class CampaignStatisticsCalculatedEvent
 {
     public function __construct(
         public Campaign $campaign
-    ) {}
+    ) {
+    }
 }

@@ -10,5 +10,6 @@ class UnsubscribedEvent
     public function __construct(
         public Subscriber $subscriber,
         public ?Send $send = null
-    ) {}
+    ) {
+    }
 }

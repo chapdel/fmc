@@ -8,5 +8,6 @@ class WebhookCallProcessedEvent
 {
     public function __construct(
         public WebhookCall $webhookCall
-    ) {}
+    ) {
+    }
 }

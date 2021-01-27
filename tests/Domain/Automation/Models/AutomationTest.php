@@ -3,24 +3,22 @@
 namespace Spatie\Mailcoach\Tests\Domain\Automation\Models;
 
 use Carbon\CarbonInterval;
-use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Str;
-use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
-use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationActionsCommand;
-use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
+use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\CampaignAction;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\EnsureTagsExistAction;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
+use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
+use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignToSubscriberJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
-use Spatie\Mailcoach\Domain\Automation\Support\Actions\CampaignAction;
-use Spatie\Mailcoach\Domain\Automation\Support\Actions\EnsureTagsExistAction;
-use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
-use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -240,7 +238,7 @@ class AutomationTest extends TestCase
                         'tag' => 'mc::campaign-1-opened',
                         'actions' => [
                             new WaitAction(CarbonInterval::days(2)), // Wait 2 days
-                        ]
+                        ],
                     ],
                 ],
                     defaultActions: [

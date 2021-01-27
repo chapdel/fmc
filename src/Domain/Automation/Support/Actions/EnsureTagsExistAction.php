@@ -3,10 +3,8 @@
 namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
 
 use Carbon\CarbonInterval;
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Str;
 use Livewire\CreateBladeView;
-use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationAction;
@@ -185,6 +183,7 @@ class EnsureTagsExistAction extends AutomationAction
 
         /** @var \Illuminate\Support\Carbon $addedToActionAt */
         $addedToActionAt = $subscriber->pivot->created_at;
+
         return $addedToActionAt->add($this->checkFor)->isPast();
     }
 

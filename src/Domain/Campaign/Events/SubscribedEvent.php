@@ -8,5 +8,6 @@ class SubscribedEvent
 {
     public function __construct(
         public Subscriber $subscriber
-    ) {}
+    ) {
+    }
 }

@@ -3,7 +3,6 @@
 
 namespace Spatie\Mailcoach\Tests\Factories;
 
-
 use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Domain\Campaign\Models\Send;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
@@ -44,7 +43,7 @@ class TransactionalMailFactory
         return $this;
     }
 
-    public function create(array $attributes = []): TransactionalMail|Collection
+    public function create(array $attributes = []): TransactionalMail | Collection
     {
         $transactionalMails = TransactionalMail::factory()
             ->count($this->count)
