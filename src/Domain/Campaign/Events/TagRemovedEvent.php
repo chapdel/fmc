@@ -10,5 +10,6 @@ class TagRemovedEvent
     public function __construct(
         public Subscriber $subscriber,
         public Tag $tag,
-    ) {}
+    ) {
+    }
 }

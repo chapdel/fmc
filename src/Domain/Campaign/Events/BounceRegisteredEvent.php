@@ -8,5 +8,6 @@ class BounceRegisteredEvent
 {
     public function __construct(
         public Send $send
-    ) {}
+    ) {
+    }
 }

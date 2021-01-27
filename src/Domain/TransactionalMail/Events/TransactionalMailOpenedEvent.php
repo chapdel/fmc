@@ -8,5 +8,6 @@ class TransactionalMailOpenedEvent
 {
     public function __construct(
         public TransactionalMailOpen $transactionalMailOpen,
-    ) {}
+    ) {
+    }
 }

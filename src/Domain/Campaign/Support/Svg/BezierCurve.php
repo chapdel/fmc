@@ -6,7 +6,8 @@ class BezierCurve
 {
     public function __construct(
         protected array $points
-    ) {}
+    ) {
+    }
 
     public function toPath(): string
     {

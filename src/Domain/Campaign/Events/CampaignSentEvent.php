@@ -8,5 +8,6 @@ class CampaignSentEvent
 {
     public function __construct(
         public Campaign $campaign
-    ) {}
+    ) {
+    }
 }

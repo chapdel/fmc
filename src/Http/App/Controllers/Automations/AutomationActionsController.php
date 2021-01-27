@@ -16,7 +16,7 @@ class AutomationActionsController
         $actions = $automation->actions()
             ->withCount(['completedSubscribers', 'activeSubscribers'])
             ->get()
-            ->map(fn(Action $action) => [
+            ->map(fn (Action $action) => [
                 'uuid' => $action->uuid,
                 'class' => get_class($action->action),
                 'data' => $action->action->toArray(),

@@ -4,7 +4,6 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates;
 
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Http\App\Queries\TransactionalMailQuery;
 use Spatie\Mailcoach\Http\App\Queries\TransactionalMailTemplateQuery;
 
 class TransactionalMailTemplateIndexController
