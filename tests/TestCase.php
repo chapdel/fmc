@@ -117,6 +117,8 @@ abstract class TestCase extends Orchestra
     public function refreshServiceProvider()
     {
         // We need to do this since the service provider loads from the database
-        app(MailcoachServiceProvider::class, ['app' => $this->app])->boot();
+        app(MailcoachServiceProvider::class, ['app' => $this->app])
+            ->register()
+            ->boot();
     }
 }

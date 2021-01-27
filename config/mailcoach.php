@@ -219,6 +219,12 @@ return [
         'transactional_mail' => \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail::class,
 
         /*
+         * The model you want to use as a TransactionalMailTemplate model. It needs to be or
+         * extend the `Spatie\Mailcoach\Models\TransactionalMailTemplate` model.
+         */
+        'transactional_mail_template' => \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate::class,
+
+        /*
          * The model you want to use as an Automation model. It needs to be or
          * extend the `Spatie\Mailcoach\Models\Automation` model.
          */

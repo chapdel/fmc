@@ -3,13 +3,13 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\TransactionalMails;
 
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Http\App\Queries\TransactionalMailsQuery;
+use Spatie\Mailcoach\Http\App\Queries\TransactionalMailQuery;
 
-class TransactionalMailsIndexController
+class TransactionalMailIndexController
 {
     use UsesMailcoachModels;
 
-    public function __invoke(TransactionalMailsQuery $transactionalMailsQuery)
+    public function __invoke(TransactionalMailQuery $transactionalMailsQuery)
     {
         return view('mailcoach::app.transactionalMails.index', [
             'transactionalMails' => $transactionalMailsQuery->paginate(),

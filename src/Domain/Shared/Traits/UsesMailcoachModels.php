@@ -9,6 +9,7 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Send;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 
 trait UsesMailcoachModels
 {
@@ -45,6 +46,11 @@ trait UsesMailcoachModels
     public function getTransactionalMailClass(): string
     {
         return config('mailcoach.models.transactional_mail', TransactionalMail::class);
+    }
+
+    public function getTransactionalMailTemplateClass(): string
+    {
+        return config('mailcoach.models.transactional_mail_template', TransactionalMailTemplate::class);
     }
 
     public static function getEmailListTableName(): string

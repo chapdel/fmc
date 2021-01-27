@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\Mailcoach\Components\DateTimeFieldComponent;
 use Spatie\Mailcoach\Components\FilterComponent;
 use Spatie\Mailcoach\Components\MailPersonsComponent;
@@ -62,52 +64,24 @@ use Spatie\Mailcoach\Http\App\ViewComposers\IndexComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\QueryStringComposer;
 use Spatie\QueryString\QueryString;
 
-class MailcoachServiceProvider extends ServiceProvider
+class MailcoachServiceProvider extends PackageServiceProvider
 {
     use UsesMailcoachModels;
 
-    public function boot()
+    public function configurePackage(Package $package): void
     {
-        $this
-            ->bootCarbon()
-            ->bootCommands()
-            ->bootGate()
-            ->bootPublishables()
-            ->bootRoutes()
-            ->bootSupportMacros()
-            ->bootTranslations()
-            ->bootViews()
-            ->bootEvents()
-            ->bootTriggers();
-    }
-
-    public function register()
-    {
-        $this->mergeConfigFrom(__DIR__ . '/../config/mailcoach.php', 'mailcoach');
-
-        $this->app->singleton(QueryString::class, fn () => new QueryString(urldecode(request()->getRequestUri())));
-
-        $this->app->singleton(Version::class, function () {
-            return new Version();
-        });
-    }
-
-    protected function bootCarbon(): self
-    {
-        $mailcoachFormat = config('mailcoach.date_format');
-
-        Date::macro(
-            'toMailcoachFormat',
-            fn () => self::this()->copy()->setTimezone(config('app.timezone'))->format($mailcoachFormat)
-        );
-
-        return $this;
-    }
-
-    protected function bootCommands(): self
-    {
-        if ($this->app->runningInConsole()) {
-            $this->commands([
+        $package
+            ->name('laravel-mailcoach')
+            ->hasConfigFile()
+            ->hasTranslations()
+            ->hasViews()
+            ->hasAssets()
+            ->hasMigrations([
+                'create_job_batches_table',
+                'create_mailcoach_tables',
+                'create_webhook_calls_table',
+            ])
+            ->hasCommands([
                 CalculateStatisticsCommand::class,
                 SendScheduledCampaignsCommand::class,
                 SendCampaignSummaryMailCommand::class,
@@ -118,7 +92,38 @@ class MailcoachServiceProvider extends ServiceProvider
                 RunAutomationActionsCommand::class,
                 RunAutomationTriggersCommand::class,
             ]);
-        }
+    }
+
+    public function packageRegistered()
+    {
+        $this->app->singleton(QueryString::class, fn () => new QueryString(urldecode(request()->getRequestUri())));
+
+        $this->app->singleton(Version::class, function () {
+            return new Version();
+        });
+    }
+
+    public function packageBooted()
+    {
+        $this
+            ->bootCarbon()
+            ->bootGate()
+            ->bootRoutes()
+            ->bootSupportMacros()
+            ->bootTranslations()
+            ->bootViews()
+            ->bootEvents()
+            ->bootTriggers();
+    }
+
+    protected function bootCarbon(): self
+    {
+        $mailcoachFormat = config('mailcoach.date_format');
+
+        Date::macro(
+            'toMailcoachFormat',
+            fn () => self::this()->copy()->setTimezone(config('app.timezone'))->format($mailcoachFormat)
+        );
 
         return $this;
     }
@@ -176,51 +181,6 @@ class MailcoachServiceProvider extends ServiceProvider
         return $this;
     }
 
-    protected function bootPublishables(): self
-    {
-        $this->publishes([
-            __DIR__ . '/../resources/views' => resource_path('views/vendor/mailcoach'),
-        ], 'mailcoach-views');
-
-        $this->publishes([
-            __DIR__ . '/../resources/lang' => resource_path('lang/vendor/mailcoach'),
-        ], 'mailcoach-lang');
-
-        $this->publishes([
-            __DIR__ . '/../config/mailcoach.php' => config_path('mailcoach.php'),
-        ], 'mailcoach-config');
-
-        $this->publishes([
-            __DIR__ . '/../resources/dist' => public_path('vendor/mailcoach'),
-        ], 'mailcoach-assets');
-
-        if (! class_exists('CreateMailcoachTables')) {
-            $this->publishes([
-                __DIR__ . '/../database/migrations/create_mailcoach_tables.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_mailcoach_tables.php'),
-            ], 'mailcoach-migrations');
-        }
-
-        if (! class_exists('CreateMediaTable')) {
-            $this->publishes([
-                __DIR__ . '/../../laravel-medialibrary/database/migrations/create_media_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_media_table.php'),
-            ], 'mailcoach-migrations');
-        }
-
-        if (! class_exists('CreateWebhookCallsTable')) {
-            $this->publishes([
-                __DIR__ . '/../database/migrations/create_webhook_calls_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_webhook_calls_table.php'),
-            ], 'mailcoach-migrations');
-        }
-
-        if (! class_exists('CreateJobBatchesTable')) {
-            $this->publishes([
-                __DIR__ . '/../database/migrations/create_job_batches_table.php.stub' => database_path('migrations/' . date('Y_m_d_His', time()) . '_create_job_batches_table.php'),
-            ], 'mailcoach-migrations');
-        }
-
-        return $this;
-    }
-
     protected function bootRoutes(): self
     {
         Route::macro('mailcoach', function (string $url = '') {
@@ -244,8 +204,6 @@ class MailcoachServiceProvider extends ServiceProvider
 
     protected function bootViews(): self
     {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'mailcoach');
-
         View::composer('mailcoach::*', QueryStringComposer::class);
         View::composer('mailcoach::*.index', IndexComposer::class);
 

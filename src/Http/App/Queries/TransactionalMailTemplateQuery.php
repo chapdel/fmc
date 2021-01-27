@@ -7,22 +7,22 @@ use Spatie\Mailcoach\Http\App\Queries\Filters\FuzzyFilter;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class TransactionalMailsQuery extends QueryBuilder
+class TransactionalMailTemplateQuery extends QueryBuilder
 {
     use UsesMailcoachModels;
 
     public function __construct()
     {
-        parent::__construct($this->getTransactionalMailClass()::query());
+        parent::__construct($this->getTransactionalMailTemplateClass()::query());
 
         $this
             ->defaultSort('-created_at')
             ->allowedSorts(
-                'subject',
+                'name',
                 'created_at',
             )
             ->allowedFilters(
-                AllowedFilter::custom('search', new FuzzyFilter('subject')),
+                AllowedFilter::custom('search', new FuzzyFilter('name', 'subject')),
             );
     }
 }

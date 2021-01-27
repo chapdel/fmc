@@ -462,6 +462,8 @@ class CreateMailcoachTables extends Migration
         Schema::create('mailcoach_transactional_mail_templates', function (Blueprint $table) {
             $table->id();
 
+            $table->string('name');
+
             $table->text('subject');
             $table->json('from');
             $table->json('cc')->nullable();
