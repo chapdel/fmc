@@ -1,5 +1,5 @@
 .button {
-    @apply px-4;
+    @apply px-6;
     @apply h-10;
     @apply bg-blue-500;
     @apply text-white;

@@ -1,7 +1,7 @@
 .card {
     @apply bg-white;
     @apply shadow-lg;
-    @apply rounded;
+    @apply lg:rounded;
     @apply w-full;
     @apply flex-grow;
 }
@@ -24,7 +24,7 @@
     @apply from-blue-800;
     @apply to-blue-900;
     @apply text-blue-200;
-    @apply rounded-l;
+    @apply lg:rounded-l;
     @apply px-8;
     @apply py-10;
     width: 12rem;
@@ -40,9 +40,6 @@
     @apply py-2;
     @apply font-semibold;
     @apply text-right;
-}
-
-.card-nav .active {
 }
 
 .card-nav .active a,

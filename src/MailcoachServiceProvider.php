@@ -252,13 +252,14 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.components.iconLabel', 'mailcoach::icon-label');
 
         Blade::component('mailcoach::app.components.help', 'mailcoach::help');
+        Blade::component('mailcoach::app.components.warning', 'mailcoach::warning');
         Blade::component('mailcoach::app.components.counter', 'mailcoach::counter');
         Blade::component(MailPersonsComponent::class, 'mailcoach::mail-persons');
 
         Blade::component('mailcoach::app.components.card', 'mailcoach::card');
         Blade::component('mailcoach::app.components.cardNav', 'mailcoach::card-nav');
 
-        Blade::component('mailcoach::app.components.submitButton', 'mailcoach::submit-button');
+        Blade::component('mailcoach::app.components.button', 'mailcoach::button');
 
         Blade::component(ReplacerHelpTextsComponent::class, 'mailcoach::replacer-help-texts');
 

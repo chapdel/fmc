@@ -17,7 +17,7 @@
     @apply justify-start;
     justify-items: start;
     @apply items-center;
-    @apply gap-4;
+    @apply gap-8;
     @apply mt-4;
 }
 
