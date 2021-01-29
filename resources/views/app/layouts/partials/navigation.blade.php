@@ -1,13 +1,20 @@
 <ul class="navigation">
     
-    <a href="{{ route('mailcoach.home') }}" 
+    <x-mailcoach::navigation-item :href="route('mailcoach.home')">
+        <span class="icon-label">
+        <span 
         class="group w-10 h-10 flex items-center justify-center bg-gradient-to-b from-blue-500 to-blue-600 text-white rounded-full">
-        <span class="w-6 h-6 transform group-hover:scale-90 transition-transform duration-150">
-            @include('mailcoach::app.layouts.partials.logoSvg')
+            <span class="w-6 h-6 transform group-hover:scale-90 transition-transform duration-150">
+                @include('mailcoach::app.layouts.partials.logoSvg')
+            </span>
         </span>
-    </a>
-    
+        <span class="icon-label-text">Dashboard</span>
+        </span>
+    </x-mailcoach::navigation-item>
+
     @include('mailcoach::app.layouts.partials.beforeFirstMenuItem')
+    
+    <li class="h-8 border-l border-gray-300"></li>
 
     @can("viewAny", \Spatie\Mailcoach\Domain\Campaign\Models\Campaign::class)
     <x-mailcoach::navigation-item :href="route('mailcoach.campaigns')">
@@ -25,13 +32,6 @@
         </span>
     </x-mailcoach::navigation-item>
 
-    <x-mailcoach::navigation-item :href="route('mailcoach.transactionalMails')">
-        <span class="icon-label">
-            <i class="far fa-exchange-alt"></i>
-            <span class="icon-label-text">{{ __('Transactional mails') }}</span>
-        </span>
-    </x-mailcoach::navigation-item>
-
     @can("viewAny", \Spatie\Mailcoach\Domain\Campaign\Models\EmailList::class)
     <x-mailcoach::navigation-item :href="route('mailcoach.emailLists')">
         <span class="icon-label">
@@ -41,10 +41,12 @@
     </x-mailcoach::navigation-item>
     @endcan
 
+    <li class="h-8 border-l border-gray-300"></li>
+
     <x-mailcoach::navigation-item :href="route('mailcoach.transactionalMails')">
         <span class="icon-label">
-            <i class="far fa-clipboard"></i>
-            <span class="icon-label-text">{{ __('Templates') }}</span>
+            <i class="far fa-exchange-alt"></i>
+            <span class="icon-label-text">{{ __('Transactional mails') }}</span>
         </span>
     </x-mailcoach::navigation-item>
 

@@ -1,6 +1,7 @@
 .markup-h1 {
-    @apply font-semibold;
-    @apply text-2xl;
+    @apply font-bold;
+    @apply text-xl;
+    @apply mb-8;
 }
 
 .markup-h2 {

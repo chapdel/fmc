@@ -4,6 +4,7 @@
     justify-content: start;
     grid-template-columns: auto auto;
     gap: 0.5rem;
+    @apply whitespace-nowrap;
 }
 
 .tabs .icon-label {

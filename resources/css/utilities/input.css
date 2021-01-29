@@ -44,6 +44,7 @@ input:read-only {
     @apply outline-none;
     @apply bg-white;
     @apply shadow-focus;
+    @apply placeholder-transparent;
 }
 
 @screen lg {
