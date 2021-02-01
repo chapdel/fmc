@@ -26,7 +26,7 @@
     @apply text-blue-200;
     @apply lg:rounded-l;
     @apply px-8;
-    @apply py-10;
+    @apply py-12;
     width: 12rem;
 }
 

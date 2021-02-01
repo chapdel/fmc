@@ -29,8 +29,8 @@
 
 .tabs li {
     @apply cursor-pointer;
-    @apply font-semibold;
-    @apply text-gray-400;
+    @apply font-bold;
+    @apply text-xl;
     @apply pr-10;
 }
 
@@ -39,11 +39,11 @@
     @apply pb-3;
 }
 
-.tabs li:not(.active):hover a {
-    @apply text-gray-800;
+.tabs li:not(.active) a {
+    @apply text-gray-600;
 }
 
-.tabs li.active a {
+.tabs li:not(.active) a:hover {
     @apply text-black;
 }
 

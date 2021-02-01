@@ -9,23 +9,21 @@
 
 .navigation .icon-label-text {
     @apply hidden;
+    @apply lg:block;
+    @apply lg:leading-tight;
+    @apply lg:text-base;
 }
 
-@screen lg {
-    .navigation .icon-label-text {
-        @apply block;
-        @apply leading-tight;
-        @apply text-base;
-    }
-
-    .navigation li:not(.active):hover {
-        @apply text-blue-500;
-    }
+.navigation-group  {
+    @apply navigation; 
+    @apply px-4;
+    @apply h-14;
+    @apply rounded;
+    @apply bg-gray-200;
+    @apply bg-opacity-50;
 }
 
-.navigation li.active  {
+.navigation-group li:hover,
+.navigation-group li.active {
     @apply text-blue-500;
-}
-.navigation li.active [class*='fa-'] {
-    @apply opacity-100;
 }

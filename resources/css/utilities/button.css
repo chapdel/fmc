@@ -14,35 +14,40 @@
 
 .button:disabled {
     @apply opacity-50;
+    @apply cursor-not-allowed;
 }
 
-.button:hover,
-.button:focus,
+.button:not(:disabled):hover,
+.button:not(:disabled):focus,
 .button.dropdown-trigger-open {
     @apply bg-blue-600;
 }
 
-.button:active {
+.button:not(:disabled):active {
     @apply shadow-inner;
     @apply bg-blue-600;
     transform: translateY(1px);
 }
 
 .button-secondary {
-    @apply button;
-    @apply bg-blue-100;
-    @apply text-gray-500;
+    @apply underline;
+    @apply whitespace-nowrap;
+    @apply text-blue-500;
     @apply shadow-none;
     transition: background-color 0.15s ease;
 }
 
-.button-secondary:hover,
-.button-secondary:focus {
-    @apply bg-blue-200;
-    @apply text-gray-600;
+.button-secondary:disabled {
+    @apply opacity-50;
+    @apply cursor-not-allowed;
 }
 
-.button-secondary:active {
+.button-secondary:not(:disabled):hover,
+.button-secondary:not(:disabled):focus {
+    @apply text-blue-700
+}
+
+.button-secondary:not(:disabled):active {
     transform: translateY(1px);
 }
 

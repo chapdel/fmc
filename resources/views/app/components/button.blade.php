@@ -1,3 +1,8 @@
-<button type="{{ $type ?? 'submit'}}" class="button" data-modal-trigger={{ $dataModalTrigger ?? '' }}>
+<button 
+    type="{{ $type ?? 'submit'}}" 
+    class="{{ (isset($secondary) && $secondary) ? 'button-secondary' : 'button'  }}" 
+    data-modal-trigger="{{ $dataModalTrigger ?? '' }}"
+    {{ (isset($disabled) && $disabled) ? 'disabled' : '' }}
+>
     {{ $label ?? __('Save')  }}
 </button>
