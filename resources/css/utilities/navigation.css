@@ -19,16 +19,7 @@
     @apply lg:text-base;
 }
 
-.navigation-group  {
-    @apply navigation; 
-    @apply px-6;
-    @apply h-12;
-    @apply rounded;
-    @apply bg-gray-200;
-    @apply bg-opacity-50;
-}
-
-.navigation-group li:hover,
-.navigation-group li.active {
+.navigation li a:hover,
+.navigation li.active {
     @apply text-blue-500;
 }

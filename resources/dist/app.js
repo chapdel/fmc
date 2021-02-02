@@ -9376,6 +9376,60 @@ Object(_util__WEBPACK_IMPORTED_MODULE_0__["listen"])('click', '[data-dropdown-tr
     window.addEventListener('click', handleClick);
   });
 });
+Object(_util__WEBPACK_IMPORTED_MODULE_0__["listen"])('mouseover', '[data-dropdown-trigger-hover]', ({
+  target
+}) => {
+  const dropdownList = Object(_util__WEBPACK_IMPORTED_MODULE_0__["$"])('[data-dropdown-list]', target.closest('[data-dropdown]'));
+
+  if (!dropdownList.classList.contains('hidden')) {
+    return;
+  }
+
+  const dropdownLists = Object(_util__WEBPACK_IMPORTED_MODULE_0__["$$"])('[data-dropdown-list]');
+  const dropdownTriggers = Object(_util__WEBPACK_IMPORTED_MODULE_0__["$$"])('[data-dropdown-trigger-hover');
+  dropdownLists.forEach(list => {
+    if (list.classList.contains('hidden')) {
+      return;
+    }
+
+    Object(_util__WEBPACK_IMPORTED_MODULE_0__["leave"])(list, 'fade');
+  });
+  dropdownTriggers.forEach(trigger => {
+    trigger.classList.remove('dropdown-trigger-open');
+  });
+  Object(_util__WEBPACK_IMPORTED_MODULE_0__["enter"])(dropdownList, 'fade');
+  target.classList.add('dropdown-trigger-open');
+
+  function handleClick(event) {
+    if (target.contains(event.target)) {
+      return;
+    }
+
+    Object(_util__WEBPACK_IMPORTED_MODULE_0__["leave"])(dropdownList, 'fade');
+    target.classList.remove('dropdown-trigger-open');
+    window.removeEventListener('click', handleClick);
+  }
+
+  setTimeout(() => {
+    window.addEventListener('click', handleClick);
+  });
+});
+Object(_util__WEBPACK_IMPORTED_MODULE_0__["listen"])('mouseover', '[data-dropdown-close-all]', ({
+  target
+}) => {
+  const dropdownLists = Object(_util__WEBPACK_IMPORTED_MODULE_0__["$$"])('[data-dropdown-list]');
+  const dropdownTriggers = Object(_util__WEBPACK_IMPORTED_MODULE_0__["$$"])('[data-dropdown-trigger-hover');
+  dropdownLists.forEach(list => {
+    if (list.classList.contains('hidden')) {
+      return;
+    }
+
+    Object(_util__WEBPACK_IMPORTED_MODULE_0__["leave"])(list, 'fade');
+  });
+  dropdownTriggers.forEach(trigger => {
+    trigger.classList.remove('dropdown-trigger-open');
+  });
+});
 
 /***/ }),
 

@@ -30,10 +30,13 @@
 
 .card-nav {
     grid-area: card-nav;
+    @apply grid;
+    @apply grid-cols-1;
+    @apply lg:content-start;
+    @apply lg:justify-items-end;
     @apply bg-gradient-to-b;
     @apply from-blue-800;
     @apply to-blue-900;
-    @apply text-blue-200;
     @apply rounded-t;
     @apply lg:rounded-tr-none;
     @apply lg:rounded-l;
@@ -41,12 +44,6 @@
     @apply py-6;
     @apply lg:py-12;
     @apply w-full;
-}
-
-.card-nav ul {
-    @apply grid;
-    @apply text-sm;
-    @apply lg:justify-items-end;
 }
 
 .card-nav-title {
@@ -59,18 +56,60 @@
     @apply text-xs;
     @apply uppercase;
     @apply tracking-widest;
-    @apply mb-4;
+    @apply mb-2;
+    @apply pb-2;
+    @apply border-b;
+    @apply border-blue-200;
+    @apply border-opacity-25;
 }
 
 .card-nav li {
     @apply py-2;
     @apply font-semibold;
     @apply lg:text-right;
+    @apply text-blue-200;
 }
 
 .card-nav .active a,
 .card-nav a:hover {
     @apply text-white;
+}
+
+.card-nav-sub {
+    @apply -mx-4;
+    @apply px-4;
+    @apply py-4;
+    @apply bg-white;
+    @apply rounded-sm;
+    @apply text-sm;
+    @apply shadow;
+    @apply w-48;
+}
+
+.card-nav-sub-title {
+    @apply text-gray-700;
+    @apply text-right;
+    @apply font-semibold;
+    @apply text-xs;
+    @apply truncate;
+    @apply mb-2;
+    @apply pb-2;
+    @apply border-b;
+    @apply border-gray-200;
+}
+
+.card-nav-sub li {
+    @apply py-2;
+    @apply font-semibold;
+    @apply lg:text-right;
+    @apply max-w-full;
+    @apply text-black;
+    @apply text-sm;
+}
+
+.card-nav-sub .active a,
+.card-nav-sub a:hover {
+    @apply text-blue-500;
 }
 
 .card-main {
