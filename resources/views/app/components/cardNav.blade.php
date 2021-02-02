@@ -1,5 +1,5 @@
 <nav class="card-nav">
-    <h4 class="text-blue-200 text-opacity-50 flex justify-end font-bold text-xs uppercase tracking-widest mb-4">
+    <h4 class="card-nav-title">
         {{ $title ?? '' }}
     </h4>
     <ul>

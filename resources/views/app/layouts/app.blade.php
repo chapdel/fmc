@@ -33,30 +33,24 @@
     <body class="bg-gray-100">
         <script>/**/</script><!-- Empty script to prevent FOUC in Firefox -->
         
-        <div class="layout">
-            <aside class="layout-flash">
+        <div class="mx-auto grid w-full max-w-layout min-h-screen px-6 z-auto"
+         style="grid-template-rows: auto auto 1fr auto">
+            <aside>
                 @include('mailcoach::app.layouts.partials.startBody')
             </aside>
             
-            
-            <header class="layout-header">
+            <header class="flex items-center justify-between px-6 py-8">
                 @include('mailcoach::app.layouts.partials.navigation')
 
-                {{-- <div>
-                    @yield('header')
-                </div> --}}
+                @include('mailcoach::app.layouts.partials.headerRight')
             </header>
 
-            <nav class="layout-header-right">
-                @include('mailcoach::app.layouts.partials.headerRight')
-            </nav>
-
-            <main class="layout-main">
+            <main class="flex flex-col">
                 @include('mailcoach::app.layouts.partials.flash')
                 @yield('content')
             </main>
 
-            <footer class="layout-footer">
+            <footer class="px-6 py-8">
                 @include('mailcoach::app.layouts.partials.footer')
             </footer>
         </div>

@@ -1,6 +1,6 @@
-<div class="card {{ $nav ? 'card-split' : '' }}">
+<div class="card {{ isset($nav) ? 'card-split' : '' }}">
         
-        {{ $nav }}
+        {{ $nav ?? '' }}
 
         <section class="card-main">
             {{ $slot }}

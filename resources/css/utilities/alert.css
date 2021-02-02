@@ -13,7 +13,7 @@
     @apply cursor-pointer;
     @apply absolute;
     @apply right-0;
-    @apply -top-4;
+    @apply top-4;
     @apply lg:-right-4;
     @apply grid;
     @apply justify-start;

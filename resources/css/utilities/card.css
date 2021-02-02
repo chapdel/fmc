@@ -14,8 +14,18 @@
 .card-split {
     @apply grid;
     grid-template-areas:        
-        'card-nav card-main';
-    grid-template-columns: auto 1fr;
+        'card-nav'
+        'card-main';
+    grid-template-rows: auto 1fr;
+}
+
+@screen lg{
+    .card-split {
+        grid-template-areas:        
+            'card-nav card-main';
+        grid-template-columns: 11.5rem 1fr;
+        grid-template-rows: 1fr;
+    }
 }
 
 .card-nav {
@@ -24,22 +34,38 @@
     @apply from-blue-800;
     @apply to-blue-900;
     @apply text-blue-200;
+    @apply rounded-t;
+    @apply lg:rounded-tr-none;
     @apply lg:rounded-l;
     @apply px-8;
-    @apply py-12;
-    width: 12rem;
+    @apply py-6;
+    @apply lg:py-12;
+    @apply w-full;
 }
 
 .card-nav ul {
     @apply grid;
-    @apply justify-items-end;
     @apply text-sm;
+    @apply lg:justify-items-end;
+}
+
+.card-nav-title {
+    @apply hidden;
+    @apply lg:block;
+    @apply text-blue-200;
+    @apply text-opacity-50;
+    @apply text-right;
+    @apply font-bold;
+    @apply text-xs;
+    @apply uppercase;
+    @apply tracking-widest;
+    @apply mb-4;
 }
 
 .card-nav li {
     @apply py-2;
     @apply font-semibold;
-    @apply text-right;
+    @apply lg:text-right;
 }
 
 .card-nav .active a,
@@ -49,6 +75,7 @@
 
 .card-main {
     grid-area: card-main;
-    @apply px-12;
+    @apply px-8;
+    @apply lg:px-12;
     @apply py-10;
 }

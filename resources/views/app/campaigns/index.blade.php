@@ -1,22 +1,10 @@
-@extends('mailcoach::app.layouts.app', ['title' => __('Campaigns')])
+@extends('mailcoach::app.campaigns.layouts.index', ['title' => __('Campaigns')])
 
-@section('header')
-<nav>
-    <ul class="breadcrumbs">
-        <li>
-            <span class="breadcrumb">{{ __('Campaigns') }}</span>
-        </li>
-    </ul>
-</nav>
-@endsection
-
-@section('content')
-<section class="card">
+@section('campaigns')
+    
     <div class="table-actions">
         @if ($totalListsCount or $totalCampaignsCount)
-            <button class="button" data-modal-trigger="create-campaign">
-                <x-mailcoach::icon-label icon="fa-envelope-open" :text="__('Create campaign')" />
-            </button>
+            <x-mailcoach::button dataModalTrigger="create-campaign" :label="__('Create campaign')" />
 
             <x-mailcoach::modal :title="__('Create campaign')" name="create-campaign" :open="$errors->any()">
                 @include('mailcoach::app.campaigns.partials.create')
@@ -72,14 +60,14 @@
         :show-all-url="route('mailcoach.campaigns')"></x-mailcoach::table-status>
     @else
         @if ($totalListsCount)
-            <p class="alert alert-info">
+            <x-mailcoach::help>
                 {{ __('No campaigns yet. Go write something!') }}
-            </p>
+            </x-mailcoach::help>
         @else
-            <p class="alert alert-info">
+            <x-mailcoach::help>
                 {!! __('No campaigns yet, but you‘ll need a list first, go <a href=":emailListsLink">create one</a>!', ['emailListsLink' => route('mailcoach.emailLists')]) !!}
-            </p>
+            </x-mailcoach::help>
         @endif
     @endif
-</section>
+
 @endsection

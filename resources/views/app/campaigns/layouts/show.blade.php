@@ -2,19 +2,6 @@
     'title' => (isset($titlePrefix) ?  $titlePrefix . ' | ' : '') . $campaign->name
 ])
 
-@section('header')
-    <nav>
-        <ul class="breadcrumbs">
-            <li>
-                <a href={{ route('mailcoach.campaigns') }}>
-                    <span class="breadcrumb">{{ __('Campaigns') }}</span>
-                </a>
-            </li>
-            @yield('breadcrumbs')
-        </ul>
-    </nav>
-@endsection
-
 @section('content')
     <nav class="tabs">
         <ul>

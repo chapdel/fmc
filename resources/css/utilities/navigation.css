@@ -2,9 +2,14 @@
     @apply grid;
     @apply items-center;
     @apply justify-start;
-    @apply gap-x-6;
-    @apply lg:gap-x-8;
+    @apply gap-x-8;
     @apply grid-flow-col;
+}
+
+
+.navigation .icon-label {
+    @apply gap-0;
+    @apply lg:gap-1.5;
 }
 
 .navigation .icon-label-text {
@@ -16,8 +21,8 @@
 
 .navigation-group  {
     @apply navigation; 
-    @apply px-4;
-    @apply h-14;
+    @apply px-6;
+    @apply h-12;
     @apply rounded;
     @apply bg-gray-200;
     @apply bg-opacity-50;
