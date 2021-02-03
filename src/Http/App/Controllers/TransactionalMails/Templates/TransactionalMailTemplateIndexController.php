@@ -12,7 +12,7 @@ class TransactionalMailTemplateIndexController
 
     public function __invoke(TransactionalMailTemplateQuery $transactionalMailTemplateQuery)
     {
-        return view('mailcoach::app.transactionalMail.templates.index', [
+        return view('mailcoach::app.transactionalMails.templates.index', [
             'templates' => $transactionalMailTemplateQuery->paginate(),
             'templatesQuery' => $transactionalMailTemplateQuery,
             'templatesCount' => $this->getTransactionalMailTemplateClass()::count(),

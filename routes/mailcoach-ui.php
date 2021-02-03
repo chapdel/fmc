@@ -58,6 +58,7 @@ use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ResendTransactional
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ShowTransactionalMailBodyController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ShowTransactionalMailController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\EditTransactionalMailTemplateController;
+use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\TransactionalMailTemplateIndexController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailIndexController;
 use Spatie\Mailcoach\Http\App\Middleware\EditableCampaign;
 
@@ -171,7 +172,7 @@ Route::prefix('transactional-mails')->group(function () {
     Route::get('/', '\\' . TransactionalMailIndexController::class)->name('mailcoach.transactionalMails');
 
     Route::prefix('templates')->group(function () {
-        Route::get('/', '\\' . TransactionalMailIndexController::class)->name('mailcoach.transactionalMails.templates');
+        Route::get('/', '\\' . TransactionalMailTemplateIndexController::class)->name('mailcoach.transactionalMails.templates');
 
         Route::prefix('{transactionalMailTemplate}')->group(function () {
             Route::get('/', '\\' . EditTransactionalMailTemplateController::class)->name('mailcoach.transactionalMail.edit');

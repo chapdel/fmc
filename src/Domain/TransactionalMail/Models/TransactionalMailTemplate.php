@@ -15,7 +15,7 @@ use Spatie\Mailcoach\Domain\TransactionalMail\Support\Replacers\TransactionalMai
 
 class TransactionalMailTemplate extends Model
 {
-    public $table = 'mailcoach_transactions_mail_templates';
+    public $table = 'mailcoach_transactional_mail_templates';
 
     use HasFactory;
 
