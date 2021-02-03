@@ -13,9 +13,9 @@ class TransactionalMailTemplateIndexController
     public function __invoke(TransactionalMailTemplateQuery $transactionalMailTemplateQuery)
     {
         return view('mailcoach::app.transactionalMail.templates.index', [
-            'transactionalMails' => $transactionalMailTemplateQuery->paginate(),
-            'transactionalMailsQuery' => $transactionalMailTemplateQuery,
-            'transactionalMailsCount' => $this->getTransactionalMailTemplateClass()::count(),
+            'templates' => $transactionalMailTemplateQuery->paginate(),
+            'templatesQuery' => $transactionalMailTemplateQuery,
+            'templatesCount' => $this->getTransactionalMailTemplateClass()::count(),
         ]);
     }
 }
