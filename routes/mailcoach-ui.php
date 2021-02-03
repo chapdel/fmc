@@ -60,6 +60,7 @@ use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ShowTransactionalMa
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\EditTransactionalMailTemplateController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\TransactionalMailTemplateIndexController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailIndexController;
+use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailTemplatesController;
 use Spatie\Mailcoach\Http\App\Middleware\EditableCampaign;
 
 Route::get('debug', '\\' . DebugController::class)->name('debug');
@@ -143,7 +144,7 @@ Route::prefix('email-lists')->group(function () {
                 Route::get('/details', ['\\' . EditSegmentController::class, 'edit'])->name('mailcoach.emailLists.segment.edit');
                 Route::put('/details', ['\\' . EditSegmentController::class, 'update']);
                 Route::delete('/', '\\' . DestroySegmentController::class)->name('mailcoach.emailLists.segment.delete');
-                Route::post('duplicate', '\\' .  DuplicateSegmentController::class)->name('mailcoach.emailLists.segment.duplicate');
+                Route::post('duplicate', '\\' . DuplicateSegmentController::class)->name('mailcoach.emailLists.segment.duplicate');
             });
         });
     });
@@ -172,10 +173,15 @@ Route::prefix('transactional-mails')->group(function () {
     Route::get('/', '\\' . TransactionalMailIndexController::class)->name('mailcoach.transactionalMails');
 
     Route::prefix('templates')->group(function () {
-        Route::get('/', '\\' . TransactionalMailTemplateIndexController::class)->name('mailcoach.transactionalMails.templates');
+        Route::get('/', ['\\' . TransactionalMailTemplatesController::class, 'index'])->name('mailcoach.transactionalMails.templates');
+
+        Route::post('/', ['\\' . TransactionalMailTemplatesController::class, 'store'])->name('mailcoach.transactionalMails.templates.store');
 
         Route::prefix('{transactionalMailTemplate}')->group(function () {
-            Route::get('/', '\\' . EditTransactionalMailTemplateController::class)->name('mailcoach.transactionalMail.edit');
+            Route::get('/', ['\\' . TransactionalMailTemplatesController::class, 'edit'])->name('mailcoach.transactionalMails.templates.edit');
+            Route::put('/', ['\\' . TransactionalMailTemplatesController::class, 'update']);
+            Route::delete('/', ['\\' . TransactionalMailTemplatesController::class, 'destroy'])->name('mailcoach.transactionalMails.templates.delete');
+            Route::post('duplicate', ['\\' . TransactionalMailTemplatesController::class, 'duplicate'])->name('mailcoach.transactionalMails.templates.duplicate');
         });
     });
 

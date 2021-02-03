@@ -464,8 +464,8 @@ class CreateMailcoachTables extends Migration
 
             $table->string('name');
 
-            $table->text('subject');
-            $table->json('from');
+            $table->text('subject')->nullable();
+            $table->json('from')->nullable();
             $table->json('cc')->nullable();
             $table->json('bcc')->nullable();
             $table->longText('body')->nullable();

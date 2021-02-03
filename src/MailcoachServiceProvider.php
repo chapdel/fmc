@@ -56,6 +56,7 @@ use Spatie\Mailcoach\Domain\Campaign\Listeners\SetWebhookCallProcessedAt;
 use Spatie\Mailcoach\Domain\Shared\Support\Version;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Listeners\StoreTransactionalMail;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 use Spatie\Mailcoach\Http\App\Controllers\HomeController;
 use Spatie\Mailcoach\Http\App\ViewComposers\CampaignActionComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
@@ -182,6 +183,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootRoutes(): self
     {
+        Route::model('transactionalMailTemplate', TransactionalMailTemplate::class);
+
         Route::macro('mailcoach', function (string $url = '') {
             Route::get($url, '\\'.HomeController::class)->name('mailcoach.home');
 
@@ -197,6 +200,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
                     ->group(__DIR__ . '/../routes/mailcoach-api.php');
             });
         });
+
+
 
         return $this;
     }
