@@ -1,52 +1,65 @@
 <ul class="navigation">
+    <x-mailcoach::navigation-item :href="route('mailcoach.home')">
+        <span class="icon-label">
+            <span 
+            class="group w-10 h-10 flex items-center justify-center bg-gradient-to-b from-blue-500 to-blue-600 text-white rounded-full">
+                <span class="w-6 h-6 transform group-hover:scale-90 transition-transform duration-150">
+                    @include('mailcoach::app.layouts.partials.logoSvg')
+                </span>
+            </span>
+            <span class="icon-label-text font-semibold">Mailcoach</span>
+        </span>
+    </x-mailcoach::navigation-item>
+
+
+    <li class="opacity-0">|</li>
     
-    <a href="{{ route('mailcoach.home') }}" 
-        class="group w-10 h-10 flex items-center justify-center bg-gradient-to-b from-blue-500 to-blue-600 text-white rounded-full">
-        <span class="w-6 h-6 transform group-hover:scale-90 transition-transform duration-150">
-            @include('mailcoach::app.layouts.partials.logoSvg')
-        </span>
-    </a>
-    
-    @include('mailcoach::app.layouts.partials.beforeFirstMenuItem')
+            @include('mailcoach::app.layouts.partials.beforeFirstMenuItem')
+            
+            @can("viewAny", \Spatie\Mailcoach\Domain\Campaign\Models\Campaign::class)
+            <x-mailcoach::navigation-dropdown :href="route('mailcoach.campaigns')" icon="far fa-envelope-open" :label="__('Campaigns')">
+                <x-mailcoach::navigation-item :href="route('mailcoach.campaigns')">
+                    <x-mailcoach::icon-label icon="far fa-fw fa-list-ul" :text="__('Overview')" />
+                </x-mailcoach::navigation-item>
+                <x-mailcoach::navigation-item :href="route('mailcoach.templates')">
+                    <x-mailcoach::icon-label icon="far fa-fw fa-file-code" :text="__('Templates')" />
+                </x-mailcoach::navigation-item>
+            </x-mailcoach::navigation-dropdown>
+            @endcan
 
-    @can("viewAny", \Spatie\Mailcoach\Domain\Campaign\Models\Campaign::class)
-    <x-mailcoach::navigation-item :href="route('mailcoach.campaigns')">
-        <span class="icon-label">
-            <i class="far fa-envelope-open"></i>
-            <span class="icon-label-text">{{ __('Campaigns') }}</span>
-        </span>
-    </x-mailcoach::navigation-item>
-    @endcan
+            <x-mailcoach::navigation-dropdown :href="route('mailcoach.automations')" icon="far fa-magic" :label="__('Automations')">
+                <x-mailcoach::navigation-item :href="route('mailcoach.automations')">
+                    <x-mailcoach::icon-label icon="far fa-fw fa-project-diagram" :text="__('Flows')" />
+                </x-mailcoach::navigation-item>
+                <x-mailcoach::navigation-item href="#">
+                    <x-mailcoach::icon-label icon="far fa-fw fa-envelope" :text="__('Mails')" />
+                </x-mailcoach::navigation-item>
+            </x-mailcoach::navigation-dropdown>
+            
 
-    <x-mailcoach::navigation-item :href="route('mailcoach.automations')">
-        <span class="icon-label">
-            <i class="far fa-magic"></i>
-            <span class="icon-label-text">{{ __('Automations') }}</span>
-        </span>
-    </x-mailcoach::navigation-item>
+            @can("viewAny", \Spatie\Mailcoach\Domain\Campaign\Models\EmailList::class)
+            
+            <x-mailcoach::navigation-item :href="route('mailcoach.emailLists')">
+                <span class="icon-label" data-dropdown-close-all>
+                    <i class="far fa-address-book"></i>
+                    <span class="icon-label-text font-semibold">{{ __('Lists') }}</span>
+                </span>
+            </x-mailcoach::navigation-item>
+            @endcan
 
-    <x-mailcoach::navigation-item :href="route('mailcoach.transactionalMails')">
-        <span class="icon-label">
-            <i class="far fa-exchange-alt"></i>
-            <span class="icon-label-text">{{ __('Transactional mails') }}</span>
-        </span>
-    </x-mailcoach::navigation-item>
+            <li class="opacity-0">|</li>
 
-    @can("viewAny", \Spatie\Mailcoach\Domain\Campaign\Models\EmailList::class)
-    <x-mailcoach::navigation-item :href="route('mailcoach.emailLists')">
-        <span class="icon-label">
-            <i class="far fa-address-book"></i>
-            <span class="icon-label-text">{{ __('Lists') }}</span>
-        </span>
-    </x-mailcoach::navigation-item>
-    @endcan
+            <x-mailcoach::navigation-dropdown :href="route('mailcoach.transactionalMails')" icon="far fa-exchange-alt" :label="__('Transactional Mails')">
+                <x-mailcoach::navigation-item :href="route('mailcoach.transactionalMails')">
+                    <x-mailcoach::icon-label icon="far fa-fw fa-list-ul" :text="__('Log')" />
+                </x-mailcoach::navigation-item>
+                <x-mailcoach::navigation-item href="#">
+                    <x-mailcoach::icon-label icon="far fa-fw fa-file-code" :text="__('Templates')" />
+                </x-mailcoach::navigation-item>
+            </x-mailcoach::navigation-dropdown>
 
-    <x-mailcoach::navigation-item :href="route('mailcoach.transactionalMails')">
-        <span class="icon-label">
-            <i class="far fa-clipboard"></i>
-            <span class="icon-label-text">{{ __('Templates') }}</span>
-        </span>
-    </x-mailcoach::navigation-item>
-
-    @include('mailcoach::app.layouts.partials.afterLastMenuItem')
+            @include('mailcoach::app.layouts.partials.afterLastMenuItem')
+       
 </ul>
+
+

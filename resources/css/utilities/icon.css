@@ -3,7 +3,8 @@
     align-items: center;
     justify-content: start;
     grid-template-columns: auto auto;
-    gap: 0.5rem;
+    gap: 0.65rem;
+    @apply whitespace-nowrap;
 }
 
 .tabs .icon-label {

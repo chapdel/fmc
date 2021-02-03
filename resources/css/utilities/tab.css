@@ -1,22 +1,22 @@
 .tabs {
     @apply bg-white;
-    @apply px-6;
-    @apply border-gray-100;
-    @apply border-b-2;
     overflow-x: scroll;
-    margin-bottom: -2px;
     z-index: 1;
+    @apply mb-8;
+}
+
+.tabs:before {
+    content: '';
+    @apply absolute;
+    @apply bottom-0;
+    @apply w-full;
+    height: 2px;
+    @apply bg-gray-100;
 }
 
 .tabs::-webkit-scrollbar {
     height: 0px; /* Remove scrollbar space */
     background: transparent; /* Optional: just make scrollbar invisible */
-}
-
-@screen lg {
-    .tabs {
-        @apply px-12;
-    }
 }
 
 .tabs ul {
@@ -29,31 +29,31 @@
 
 .tabs li {
     @apply cursor-pointer;
-    @apply font-semibold;
-    @apply text-gray-400;
+    @apply font-bold;
+    @apply text-xl;
     @apply pr-10;
 }
 
 .tabs li a {
     @apply inline-block;
-    @apply px-1;
-    @apply pt-8;
     @apply pb-3;
-    @apply border-b-2;
-    @apply border-transparent;
 }
 
-.tabs li:not(.active):hover a {
-    @apply border-gray-200;
-    @apply text-gray-800;
+.tabs li:not(.active) a {
+    @apply text-gray-600;
 }
 
-.tabs li.active a {
-    @apply border-blue-500;
+.tabs li:not(.active) a:hover {
     @apply text-black;
 }
 
-.tabs li.active .fas {
-    @apply text-blue-500;
-    opacity: 1;
+.tabs li.active a:before {
+    content: '';
+    @apply absolute;
+    @apply bottom-0;
+    @apply w-full;
+    height: 2px;
+    @apply bg-gradient-to-l;
+    @apply from-blue-500;
+    @apply to-blue-700;
 }

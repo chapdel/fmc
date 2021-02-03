@@ -1,53 +1,47 @@
-@extends('mailcoach::app.layouts.app', [
-    'title' => (isset($titlePrefix) ?  $titlePrefix . ' | ' : '') . $campaign->name
-])
-
-@section('header')
-    <nav>
-        <ul class="breadcrumbs">
-            <li>
-                <a href={{ route('mailcoach.campaigns') }}>
-                    <span class="breadcrumb">{{ __('Campaigns') }}</span>
-                </a>
-            </li>
-            @yield('breadcrumbs')
-        </ul>
-    </nav>
-@endsection
+@extends('mailcoach::app.layouts.app')
 
 @section('content')
-    <nav class="tabs">
-        <ul>
-            @if ($campaign->isAutomated() || $campaign->isSendingOrSent())
-                <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.summary', $campaign)">
-                    <x-mailcoach::icon-label icon="fa-chart-area" :text="__('Summary')" />
+    <x-mailcoach::card>
+        <x-slot name="nav">
+            <x-mailcoach::card-nav :title="__('Campaigns')">
+                <x-mailcoach::navigation-item :href="route('mailcoach.campaigns')">
+                    {{ __('Overview') }}
                 </x-mailcoach::navigation-item>
-                <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.opens', $campaign)">
-                    <x-mailcoach::icon-label icon="fa-envelope-open-text" :text="__('Opens')" />
-                </x-mailcoach::navigation-item>
-                <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.clicks', $campaign)">
-                    <x-mailcoach::icon-label icon="fa-hand-pointer" :text="__('Clicks')" />
-                </x-mailcoach::navigation-item>
-                <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.unsubscribes', $campaign)">
-                    <x-mailcoach::icon-label icon="fa-user-slash" :text="__('Unsubscribes')" />
-                </x-mailcoach::navigation-item>
-                <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.outbox', $campaign)">
-                    <x-mailcoach::icon-label icon="fa-inbox" :text="__('Outbox')" />
-                </x-mailcoach::navigation-item>
-            @endif
-            <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.settings', $campaign)" data-dirty-warn>
-                <x-mailcoach::icon-label icon="fa-cog" :text="__('Settings')" />
-            </x-mailcoach::navigation-item>
-            <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.content', $campaign)" data-dirty-warn>
-                <x-mailcoach::icon-label icon="fa-code" :text="__('Content')" />
-            </x-mailcoach::navigation-item>
-            <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.delivery', $campaign)" data-dirty-warn>
-                <x-mailcoach::icon-label icon="fa-paper-plane" :text="__('Delivery')" />
-            </x-mailcoach::navigation-item>
-        </ul>
-    </nav>
+                <li>
+                    <div class="card-nav-sub">
+                        <h4 class="card-nav-sub-title">
+                            {{ $campaign->name }}
+                        </h4>
+                        <ul>
+                            @if ($campaign->isAutomated() || $campaign->isSendingOrSent())
+                                <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.summary', $campaign)">
+                                    <x-mailcoach::icon-label icon="far fa-chart-bar" :text="__('Performance')" invers />
+                                </x-mailcoach::navigation-item>
+                                
+                            @endif
 
-    <section class="card ">
+                            <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.settings', $campaign)" data-dirty-warn>
+                                <x-mailcoach::icon-label icon="far fa-cog" :text="__('Settings')" invers />
+                            </x-mailcoach::navigation-item>
+                            <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.content', $campaign)" data-dirty-warn>
+                                <x-mailcoach::icon-label icon="far fa-feather" :text="__('Content')" invers />
+                            </x-mailcoach::navigation-item>
+                            <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.delivery', $campaign)" data-dirty-warn>
+                                <x-mailcoach::icon-label icon="far fa-paper-plane" :text="__('Send')" invers />
+                            </x-mailcoach::navigation-item>
+                        </ul>
+                    </div>
+                </li>
+                <x-mailcoach::navigation-item :href="route('mailcoach.templates')">
+                    {{ __('Templates') }}
+                </x-mailcoach::navigation-item>
+
+                
+            </x-mailcoach::card-nav>
+        </x-slot>
+    
         @yield('campaign')
-    </section>
+       
+    </x-mailcoach::card>
+
 @endsection

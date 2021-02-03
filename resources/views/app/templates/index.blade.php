@@ -1,19 +1,9 @@
-@extends('mailcoach::app.layouts.app', ['title' => 'Templates'])
+@extends('mailcoach::app.campaigns.layouts.index', ['title' => __('Templates')])
 
-@section('header')
-    <nav>
-        <ul class="breadcrumbs">
-            <li><span class="breadcrumb">{{ __('Templates') }}</span></li>
-        </ul>
-    </nav>
-@endsection
+@section('campaigns')
 
-@section('content')
-    <section class="card">
         <div class="table-actions">
-            <button class="button" data-modal-trigger="create-template">
-                <x-mailcoach::icon-label icon="fa-clipboard" :text="__('Create template')"/>
-            </button>
+            <x-mailcoach::button dataModalTrigger="create-template" :label="__('Create template')"/>
 
             <x-mailcoach::modal :title="__('Create template')" name="create-template" :open="$errors->any()">
                 @include('mailcoach::app.templates.partials.create')
@@ -83,13 +73,13 @@
             ></x-mailcoach::table-status>
 
         @else
-            <p class="alert alert-info">
+            <x-mailcoach::help>
                 @if ($searching)
                     {{ __('No templates found.') }}
                 @else
                     {{ __('DRY? No templates here.') }}
                 @endif
-            </p>
+            </x-mailcoach::help>
         @endif
-    </section>
+
 @endsection

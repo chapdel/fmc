@@ -2,30 +2,24 @@
     @apply grid;
     @apply items-center;
     @apply justify-start;
-    @apply gap-x-6;
-    @apply lg:gap-x-8;
+    @apply gap-x-8;
     @apply grid-flow-col;
+}
+
+
+.navigation .icon-label {
+    @apply gap-0;
+    @apply lg:gap-1.5;
 }
 
 .navigation .icon-label-text {
     @apply hidden;
+    @apply lg:block;
+    @apply lg:leading-tight;
+    @apply lg:text-base;
 }
 
-@screen lg {
-    .navigation .icon-label-text {
-        @apply block;
-        @apply leading-tight;
-        @apply text-base;
-    }
-
-    .navigation li:not(.active):hover {
-        @apply text-blue-500;
-    }
-}
-
-.navigation li.active  {
+.navigation li a:hover,
+.navigation li.active {
     @apply text-blue-500;
-}
-.navigation li.active [class*='fa-'] {
-    @apply opacity-100;
 }

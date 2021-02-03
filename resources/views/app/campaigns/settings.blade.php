@@ -1,10 +1,7 @@
-@extends('mailcoach::app.campaigns.layouts.show', ['campaign' => $campaign])
-
-@section('breadcrumbs')
-    <li><span class="breadcrumb">{{ $campaign->name }}</span></li>
-@endsection
+@extends('mailcoach::app.campaigns.layouts.show', ['title' => __('Settings') . " | " . $campaign->name ])
 
 @section('campaign')
+    <h1 class="markup-h1">{{ __('Campaign Settings') }}</h1>
     <form
         class="form-grid"
         action="{{ route('mailcoach.campaigns.settings', $campaign) }}"

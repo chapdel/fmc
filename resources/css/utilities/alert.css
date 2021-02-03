@@ -13,23 +13,23 @@
     @apply cursor-pointer;
     @apply absolute;
     @apply right-0;
+    @apply top-4;
+    @apply lg:-right-4;
     @apply grid;
     @apply justify-start;
-    @apply m-6;
     @apply bg-white;
     @apply shadow-2xl;
     @apply max-w-4xl;
-    top: 1rem;
-    transform: translateX(100%);
-    opacity: 0;
+    @apply opacity-0;
+    @apply translate-x-full;
     transition: opacity ease 0.8s, transform ease 0.6s;
     z-index: 100000;
 }
 
 .alert-flash-visible {
-    transform: translateX(0);
-    transition-duration: 0.3s;
-    opacity: 100;
+    @apply translate-x-0;
+    @apply opacity-100;
+    @apply duration-300;
 }
 
 .alert-success {

@@ -32,11 +32,7 @@
     </div>
 
     <div class="form-buttons">
-        <button class="button">
-            <x-mailcoach::icon-label icon="fa-envelope-open" :text="__('Create campaign')" />
-        </button>
-        <button type="button" class="button-cancel" data-modal-dismiss>
-            {{ __('Cancel') }}
-        </button>
+        <x-mailcoach::button :label="__('Create campaign')" />
+        <x-mailcoach::button-cancel />
     </div>
 </form>
