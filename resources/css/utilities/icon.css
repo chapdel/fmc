@@ -1,22 +1,10 @@
 .icon-label {
-    display: grid;
+    display: inline-grid;
     align-items: center;
     justify-content: start;
     grid-template-columns: auto auto;
     gap: 0.65rem;
     @apply whitespace-nowrap;
-}
-
-.tabs .icon-label {
-    @apply -ml-2;
-}
-
-.button .icon-label,
-.button-secondary .icon-label {
-    @apply h-full;
-    @apply -mx-4;
-    @apply px-4;
-    @apply gap-2;
 }
 
 .dropdown-list .icon-label {

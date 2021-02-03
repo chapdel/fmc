@@ -8,7 +8,7 @@
     @apply max-w-full;
     @apply min-h-10;
     @apply px-2;
-    @apply rounded-sm;
+    @apply rounded;
     @apply text-gray-800;
     @apply bg-blue-100;
     @apply bg-opacity-50;

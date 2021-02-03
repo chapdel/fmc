@@ -16,6 +16,7 @@
     @apply border-gray-200;
     left: 50%;
     transform: translateX(-50%);
+    @apply min-w-32;
 }
 
 .dropdown-list-left {
@@ -59,7 +60,7 @@
 .dropdown-list button {
     @apply block;
     @apply w-full;
-    @apply px-4;
+    @apply px-6;
     @apply py-1;
 }
 

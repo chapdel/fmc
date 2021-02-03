@@ -30,7 +30,7 @@
     @apply bg-opacity-50;
     @apply border-2;
     @apply border-transparent;
-    @apply rounded-sm;
+    @apply rounded;
     @apply overflow-hidden;
     content: '';
 }

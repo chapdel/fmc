@@ -6,7 +6,7 @@
     @apply border;
     @apply border-transparent;
     @apply whitespace-nowrap;
-    @apply rounded-sm;
+    @apply rounded;
     @apply shadow-focus;
     @apply font-semibold;
     transition: background-color 0.15s ease;

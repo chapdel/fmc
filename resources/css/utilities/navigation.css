@@ -1,25 +1,44 @@
 .navigation {
     @apply grid;
-    @apply items-center;
-    @apply justify-start;
-    @apply gap-x-8;
-    @apply grid-flow-col;
+    @apply grid-cols-1;
+    @apply gap-6;
+    @apply content-start;
 }
 
-
-.navigation .icon-label {
-    @apply gap-0;
-    @apply lg:gap-1.5;
+.navigation li {
+    @apply py-1;
+    @apply text-sm;
+    @apply font-semibold;
+    @apply text-blue-200;
+    @apply text-right;
 }
 
-.navigation .icon-label-text {
-    @apply hidden;
-    @apply lg:block;
-    @apply lg:leading-tight;
-    @apply lg:text-base;
+.navigation .active a,
+.navigation a:hover,
+.navigation button:hover {
+    @apply text-white;
 }
 
-.navigation li a:hover,
-.navigation li.active {
-    @apply text-blue-500;
+.navigation h3 {
+    @apply block;
+    @apply text-blue-200;
+    @apply text-opacity-50;
+    @apply font-bold;
+    @apply text-xs;
+    @apply uppercase;
+    @apply tracking-widest;
+    @apply mb-2;
+    @apply pt-2;
+    @apply pl-2;
+    @apply border-t;
+    @apply border-blue-200;
+    @apply border-opacity-25;
+}
+
+.navigation-back {
+    @apply uppercase; 
+    @apply tracking-widest; 
+    @apply font-bold; 
+    @apply text-blue-200; 
+    @apply hover:text-white text-xs;
 }

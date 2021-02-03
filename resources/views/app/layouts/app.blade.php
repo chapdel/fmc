@@ -33,24 +33,39 @@
     <body class="bg-gray-100">
         <script>/**/</script><!-- Empty script to prevent FOUC in Firefox -->
         
-        <div class="mx-auto grid w-full max-w-layout min-h-screen px-6 z-auto"
-         style="grid-template-rows: auto auto 1fr auto">
+        <div class="mx-auto grid w-full max-w-layout min-h-screen p-6 z-auto"
+         style="grid-template-rows: auto 1fr auto">
             <aside>
                 @include('mailcoach::app.layouts.partials.startBody')
             </aside>
             
-            <header class="flex items-center justify-between px-6 py-8">
-                @include('mailcoach::app.layouts.partials.navigation')
+            <div class="card card-split">
+                <nav class="card-nav">
+                    <ul class="pb-8 flex items-center justify-between">
+                        <li>
+                            @yield('up')
+                        </li>
+                        <x-mailcoach::navigation-item :href="route('mailcoach.home')">
+                                <span 
+                                class="w-10 h-10 flex items-center justify-center bg-gradient-to-b from-blue-500 to-blue-600 text-white rounded-full">
+                                    <span class="w-6 h-6 transform group-hover:scale-90 transition-transform duration-150">
+                                        @include('mailcoach::app.layouts.partials.logoSvg')
+                                    </span>
+                                </span>
+                        </x-mailcoach::navigation-item>
+                    </ul>
 
-                @include('mailcoach::app.layouts.partials.headerRight')
-            </header>
+                    @yield('nav')
 
-            <main class="flex flex-col">
-                @include('mailcoach::app.layouts.partials.flash')
-                @yield('content')
-            </main>
+                </nav>
 
-            <footer class="px-6 py-8">
+                <main class="card-main">
+                    @include('mailcoach::app.layouts.partials.flash')
+                    @yield('main')
+                </main>
+            </div>
+
+            <footer class="px-6 pt-6">
                 @include('mailcoach::app.layouts.partials.footer')
             </footer>
         </div>
@@ -59,12 +74,8 @@
             <span data-confirm-modal-text>{{ __('Are you sure?') }}</span>
 
             <div class="form-buttons">
-                <button type="button" class="button" data-modal-confirm>
-                    {{ __('Confirm') }}
-                </button>
-                <button type="button" class="button-cancel" data-modal-dismiss>
-                    {{ __('Cancel') }}
-                </button>
+                <x-mailcoach::button type="button" data-modal-confirm :label=" __('Confirm')" />
+                <x-mailcoach::button-cancel :label=" __('Confirm')" />
             </div>
         </x-mailcoach::modal>
 
@@ -72,12 +83,8 @@
             {{ __('There are unsaved changes. Are you sure you want to continue?') }}
 
             <div class="form-buttons">
-                <button type="button" class="button" data-modal-confirm>
-                    {{ __('Continue') }}
-                </button>
-                <button type="button" class="button-cancel" data-modal-dismiss>
-                    {{ __('Cancel') }}
-                </button>
+                <x-mailcoach::button type="button" data-modal-confirm :label=" __('Confirm')" />
+                <x-mailcoach::button-cancel :label=" __('Confirm')" />
             </div>
         </x-mailcoach::modal>
 

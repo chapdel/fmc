@@ -1,8 +1,5 @@
 <button 
-    type="{{ $type ?? 'submit'}}" 
-    class="{{ (isset($secondary) && $secondary) ? 'button-secondary' : 'button'  }}" 
-    data-modal-trigger="{{ $dataModalTrigger ?? '' }}"
-    {{ (isset($disabled) && $disabled) ? 'disabled' : '' }}
+    {{ $attributes->merge(['type' => 'submit', 'class' => 'button'])->except(['label']) }}
 >
     {{ $label ?? __('Save')  }}
 </button>
