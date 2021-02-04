@@ -77,16 +77,13 @@
     </td>
 
     <td class="td-action">
-        <div class="dropdown" data-dropdown>
-            <button class="icon-button" data-dropdown-trigger>
-                <i class="far fa-ellipsis-v | dropdown-trigger-rotate"></i>
-            </button>
-            <ul class="dropdown-list dropdown-list-left | hidden" data-dropdown-list>
+         <x-mailcoach::dropdown direction="left">
+            <ul>    
                 <li>
                     <x-mailcoach::form-button
                         :action="route('mailcoach.campaigns.duplicate', $campaign)"
                     >
-                        <x-mailcoach::icon-label icon="fa-random" :text="__('Duplicate')" />
+                        <x-mailcoach::icon-label icon="far fa-random" :text="__('Duplicate')" />
                     </x-mailcoach::form-button>
                 </li>
                 <li>
@@ -96,10 +93,10 @@
                         data-confirm="true"
                         :data-confirm-text="__('Are you sure you want to delete campaign :campaignName?', ['campaignName' => $campaign->name])"
                     >
-                        <x-mailcoach::icon-label icon="fa-trash-alt" :text="__('Delete')" :caution="true" />
+                        <x-mailcoach::icon-label icon="far fa-trash-alt" :text="__('Delete')" :caution="true" />
                     </x-mailcoach::form-button>
                 </li>
             </ul>
-        </div>
+        </x-mailcoach::dropdown>
     </td>
 </tr>

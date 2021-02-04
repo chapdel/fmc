@@ -253,24 +253,26 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
         Blade::component(SearchComponent::class, 'mailcoach::search');
         Blade::component('mailcoach::app.components.statistic', 'mailcoach::statistic');
-        Blade::component('mailcoach::app.components.navigation', 'mailcoach::navigation');
-        Blade::component('mailcoach::app.components.navigationItem', 'mailcoach::navigation-item');
-        Blade::component('mailcoach::app.components.navigationGroup', 'mailcoach::navigation-group');
-        Blade::component('mailcoach::app.components.navigationTabs', 'mailcoach::navigation-tabs');
-        Blade::component('mailcoach::app.components.navigationBack', 'mailcoach::navigation-back');
         Blade::component('mailcoach::app.components.iconLabel', 'mailcoach::icon-label');
+
+        Blade::component('mailcoach::app.components.navigation.root', 'mailcoach::navigation');
+        Blade::component('mailcoach::app.components.navigation.item', 'mailcoach::navigation-item');
+        Blade::component('mailcoach::app.components.navigation.group', 'mailcoach::navigation-group');
+        Blade::component('mailcoach::app.components.navigation.tabs', 'mailcoach::navigation-tabs');
+        Blade::component('mailcoach::app.components.navigation.back', 'mailcoach::navigation-back');
 
         Blade::component('mailcoach::app.components.help', 'mailcoach::help');
         Blade::component('mailcoach::app.components.warning', 'mailcoach::warning');
         Blade::component('mailcoach::app.components.counter', 'mailcoach::counter');
         Blade::component(MailPersonsComponent::class, 'mailcoach::mail-persons');
 
-
-        Blade::component('mailcoach::app.components.button', 'mailcoach::button');
-        Blade::component('mailcoach::app.components.buttonSecondary', 'mailcoach::button-secondary');
-        Blade::component('mailcoach::app.components.buttonCancel', 'mailcoach::button-cancel');
+        Blade::component('mailcoach::app.components.button.primary', 'mailcoach::button');
+        Blade::component('mailcoach::app.components.button.secondary', 'mailcoach::button-secondary');
+        Blade::component('mailcoach::app.components.button.cancel', 'mailcoach::button-cancel');
 
         Blade::component(ReplacerHelpTextsComponent::class, 'mailcoach::replacer-help-texts');
+
+        Blade::component('mailcoach::app.components.dropdown', 'mailcoach::dropdown');
 
         return $this;
     }

@@ -29,7 +29,8 @@
     @apply tracking-widest;
     @apply mb-2;
     @apply pt-2;
-    @apply pl-2;
+    @apply px-1;
+    @apply -mr-1;
     @apply border-t;
     @apply border-blue-200;
     @apply border-opacity-25;

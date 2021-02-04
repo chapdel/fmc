@@ -51,23 +51,18 @@
                             {{ $emailList->created_at->toMailcoachFormat() }}
                         </td>
                         <td class="td-action">
-                            <div class="dropdown" data-dropdown>
-                                <button class="icon-button" data-dropdown-trigger>
-                                    <i class="far fa-ellipsis-v | dropdown-trigger-rotate"></i>
-                                </button>
-                                <ul class="dropdown-list dropdown-list-left | hidden" data-dropdown-list>
-                                    <li>
-                                        <x-mailcoach::form-button
-                                            :action="route('mailcoach.emailLists.delete', $emailList)"
-                                            method="DELETE"
-                                            data-confirm="true"
-                                            :data-confirm-text="__('Are you sure you want to delete list :emailListName?', ['emailListName' => $emailList->name])"
-                                        >
-                                            <x-mailcoach::icon-label icon="fa-trash-alt" :text="__('Delete')" :caution="true" />
-                                        </x-mailcoach::form-button>
-                                    </li>
-                                </ul>
-                            </div>
+                            <x-mailcoach::dropdown direction="left">
+                                <li>
+                                    <x-mailcoach::form-button
+                                        :action="route('mailcoach.emailLists.delete', $emailList)"
+                                        method="DELETE"
+                                        data-confirm="true"
+                                        :data-confirm-text="__('Are you sure you want to delete list :emailListName?', ['emailListName' => $emailList->name])"
+                                    >
+                                        <x-mailcoach::icon-label icon="fa-trash-alt" :text="__('Delete')" :caution="true" />
+                                    </x-mailcoach::form-button>
+                                </li>
+                            </x-mailcoach::dropdown>
                         </td>
                     </tr>
                 @endforeach

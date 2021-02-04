@@ -15,13 +15,8 @@
                 @include('mailcoach::app.emailLists.subscriber.partials.create')
             </x-mailcoach::modal>
 
-            <div class="dropdown" data-dropdown>
-                <button class="button" data-dropdown-trigger>
-                    <span class="icon-button">
-                        <i class="far fa-ellipsis-v | dropdown-trigger-rotate"></i>
-                    </span>
-                </button>
-                <ul class="dropdown-list dropdown-list-right | hidden" data-dropdown-list>
+            <x-mailcoach::dropdown direction="right">
+                <ul>
                     <li>
                         <a href="{{route('mailcoach.emailLists.import-subscribers', $emailList)}}">
                             <x-mailcoach::icon-label icon="fa-cloud-upload-alt" :text="__('Import subscribers')"/>
@@ -48,7 +43,7 @@
                         </li>
                     @endif
                 </ul>
-            </div>
+            </x-mailcoach::dropdown>
         </div>
 
         @if($emailList->allSubscribers()->count())
@@ -125,11 +120,8 @@
     ? $subscriber->unsubscribed_at->toMailcoachFormat()
     : $subscriber->created_at->toMailcoachFormat() }}</td>
                     <td class="td-action">
-                        <div class="dropdown" data-dropdown>
-                            <button class="icon-button" data-dropdown-trigger>
-                                <i class="far fa-ellipsis-v | dropdown-trigger-rotate"></i>
-                            </button>
-                            <ul class="dropdown-list dropdown-list-left | hidden" data-dropdown-list>
+                        <x-mailcoach::dropdown direction="left">
+                            <ul>
                                 @if ($subscriber->isUnconfirmed())
                                     <li>
                                         <x-mailcoach::form-button
@@ -172,7 +164,7 @@
                                     </x-mailcoach::form-button>
                                 </li>
                             </ul>
-                        </div>
+                        </x-mailcoach::dropdown>
                     </td>
                 </tr>
             @endforeach

@@ -20,7 +20,7 @@ class TemplatesController
     {
         $this->authorize('viewAny', Template::class);
 
-        return view('mailcoach::app.templates.index', [
+        return view('mailcoach::app.campaigns.templates.index', [
             'templates' => $templatesQuery->paginate(),
             'totalTemplatesCount' => $this->getTemplateClass()::count(),
         ]);
@@ -48,7 +48,7 @@ class TemplatesController
     {
         $this->authorize('update', $template);
 
-        return view('mailcoach::app.templates.edit', [
+        return view('mailcoach::app.campaigns.templates.edit', [
             'template' => $template,
         ]);
     }

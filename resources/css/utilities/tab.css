@@ -2,6 +2,7 @@
     @apply bg-white;
     overflow-x: scroll;
     z-index: 1;
+    @apply mt-2;
     @apply mb-8;
 }
 

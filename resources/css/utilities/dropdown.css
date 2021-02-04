@@ -62,6 +62,7 @@
     @apply w-full;
     @apply px-6;
     @apply py-1;
+    @apply text-left;
 }
 
 .dropdown-list li.active a{

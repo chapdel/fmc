@@ -47,11 +47,8 @@
                         <td class="td-numeric">{{ $subscriberImport->imported_subscribers_count }}</td>
                         <td class="td-numeric">{{ $subscriberImport->error_count }}</td>
                         <td class="td-action">
-                            <div class="dropdown" data-dropdown>
-                                <button class="icon-button" data-dropdown-trigger>
-                                    <i class="far fa-ellipsis-v | dropdown-trigger-rotate"></i>
-                                </button>
-                                <ul class="dropdown-list dropdown-list-left | hidden" data-dropdown-list>
+                            <x-mailcoach::dropdown direction="left">
+                                <ul>
                                     <li>
                                         <a href="{{ route('mailcoach.subscriberImport.downloadAttachment', [$subscriberImport, 'importedUsersReport']) }}" download>
                                             <x-mailcoach::icon-label icon="fa-list" :text="__('Import report')"/>
@@ -75,7 +72,7 @@
                                         </x-mailcoach::form-button>
                                     </li>
                                 </ul>
-                            </div>
+                            </x-mailcoach::dropdown>
                         </td>
                     </tr>
                 @endforeach

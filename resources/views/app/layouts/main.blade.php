@@ -6,9 +6,9 @@
         @include('mailcoach::app.layouts.partials.beforeFirstMenuItem')
 
         @can("viewAny", \Spatie\Mailcoach\Domain\Campaign\Models\Campaign::class)
-        <x-mailcoach::navigation-group icon="far fa-envelope-open" :title="__('Campaigns')">
+        <x-mailcoach::navigation-group icon="far fa-envelope-open" :title="__('Newsletter')">
             <x-mailcoach::navigation-item :href="route('mailcoach.campaigns')">
-                {{ __('Emails') }}
+                {{ __('Campaigns') }}
             </x-mailcoach::navigation-item>
             <x-mailcoach::navigation-item :href="route('mailcoach.templates')">
                 {{ __('Templates') }}
@@ -21,7 +21,7 @@
                 {{ __('Flows') }}
             </x-mailcoach::navigation-item>
             <x-mailcoach::navigation-item :href="route('mailcoach.templates')">
-                {{ __('Content') }}
+                {{ __('Emails') }}
             </x-mailcoach::navigation-item>
         </x-mailcoach::navigation-group>
 

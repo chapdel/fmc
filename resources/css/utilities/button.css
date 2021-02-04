@@ -1,7 +1,9 @@
 .button {
     @apply px-6;
     @apply h-10;
-    @apply bg-blue-600;
+    @apply bg-gradient-to-b; 
+    @apply from-blue-500;
+    @apply to-blue-600;
     @apply text-white;
     @apply border;
     @apply border-transparent;
@@ -20,12 +22,13 @@
 .button:not(:disabled):hover,
 .button:not(:disabled):focus,
 .button.dropdown-trigger-open {
-    @apply bg-blue-700;
+    @apply bg-gradient-to-b; 
+    @apply from-blue-600;
+    @apply to-blue-700;
 }
 
 .button:not(:disabled):active {
     @apply shadow-inner;
-    @apply bg-blue-700;
     transform: translateY(1px);
 }
 
