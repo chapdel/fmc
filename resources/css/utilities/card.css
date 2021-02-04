@@ -46,5 +46,5 @@
     grid-area: card-main;
     @apply px-8;
     @apply lg:px-12;
-    @apply py-8;
+    @apply py-10;
 }

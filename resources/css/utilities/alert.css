@@ -13,7 +13,7 @@
     @apply cursor-pointer;
     @apply absolute;
     @apply right-0;
-    @apply top-4;
+    @apply top-6;
     @apply lg:-right-4;
     @apply grid;
     @apply justify-start;
@@ -35,7 +35,7 @@
 .alert-success {
     @apply bg-green-100;
     @apply text-green-800;
-    @apply border-green-500;
+    @apply border-green-300;
 }
 
 .alert-success a {
@@ -44,7 +44,7 @@
 
 .alert-info {
     @apply bg-gray-100;
-    @apply border-gray-200;
+    @apply border-gray-300;
 }
 
 .alert-info a {
@@ -54,7 +54,7 @@
 .alert-warning {
     @apply bg-orange-100;
     @apply text-orange-800;
-    @apply border-orange-500;
+    @apply border-orange-300;
 }
 
 .alert-warning a {
@@ -65,7 +65,7 @@
 .alert-error {
     @apply bg-red-100;
     @apply text-red-800;
-    @apply border-red-500;
+    @apply border-red-300;
 }
 
 .alert-danger a,

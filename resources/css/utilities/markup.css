@@ -1,7 +1,6 @@
 .markup-h1 {
     @apply font-bold;
     @apply text-xl;
-    @apply mt-2;
     @apply mb-8;
 }
 
