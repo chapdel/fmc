@@ -46,5 +46,6 @@
     grid-area: card-main;
     @apply px-8;
     @apply lg:px-16;
-    @apply py-8;
+    @apply pt-8;
+    @apply pb-16;
 }

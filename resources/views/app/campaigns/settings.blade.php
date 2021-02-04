@@ -1,7 +1,7 @@
 @extends('mailcoach::app.campaigns.layouts.show', ['title' => __('Settings')])
 
 @section('campaign')
-    <h1 class="markup-h1">{{ __('Campaign Settings') }}</h1>
+    <h1 class="markup-h1">{{ __('Settings') }}</h1>
     <form
         class="form-grid"
         action="{{ route('mailcoach.campaigns.settings', $campaign) }}"
@@ -29,24 +29,23 @@
 
         <div class="form-row">
             <label class="label">{{ __('UTM Tags') }}</label>
-            <div class="mb-2">
-                <p class="text-sm mb-2">{{ __('When checked, the following UTM Tags will automatically get added to any links in your campaign:') }}</p>
-                <ul>
-                    <li><strong>utm_source</strong>: newsletter</li>
-                    <li><strong>utm_medium</strong>: email</li>
-                    <li><strong>utm_campaign</strong>: {{ $campaign->name }}</li>
-                </ul>
-            </div>
             <div class="checkbox-group">
                 <x-mailcoach::checkbox-field :label="__('Automatically add UTM tags')" name="utm_tags" :checked="$campaign->utm_tags" />
             </div>
         </div>
+        
+        <x-mailcoach::help>
+            <p class="text-sm mb-2">{{ __('When checked, the following UTM Tags will automatically get added to any links in your campaign:') }}</p>
+            <ul>
+                <li><strong>utm_source</strong>: newsletter</li>
+                <li><strong>utm_medium</strong>: email</li>
+                <li><strong>utm_campaign</strong>: {{ $campaign->name }}</li>
+            </ul>
+        </x-mailcoach::help>
 
         @if ($campaign->isEditable())
             <div class="form-buttons">
-                <button type="submit" class="button">
-                    <x-mailcoach::icon-label icon="fa-cog" :text="__('Save settings')" />
-                </button>
+                <x-mailcoach::button :label="__('Save settings')" />
             </div>
         @endif
     </form>
