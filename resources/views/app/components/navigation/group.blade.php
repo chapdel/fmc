@@ -2,7 +2,9 @@
     <div class="flex justify-end">
         <h3 class="truncate">
             <span class="icon-label icon-label-invers">
-                <i class="fa-fw {{ $icon ?? 'far fa-info-circle' }}"></i>
+                @isset($icon)
+                <i class="fa-fw {{ $icon }}"></i>
+                @endisset
                 <span class="icon-label-text">
                     {{ $title ?? '' }}
                 </span>

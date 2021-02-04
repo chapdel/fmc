@@ -2,19 +2,6 @@
     'title' => (isset($titlePrefix) ?  $titlePrefix . ' | ' : '') . $automation->name
 ])
 
-@section('header')
-    <nav>
-        <ul class="breadcrumbs">
-            <li>
-                <a href={{ route('mailcoach.automations') }}>
-                    <span class="breadcrumb">{{ __('Automations') }}</span>
-                </a>
-            </li>
-            @yield('breadcrumbs')
-        </ul>
-    </nav>
-@endsection
-
 @section('content')
     <nav class="tabs">
         <ul>

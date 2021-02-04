@@ -2,7 +2,7 @@
     display: inline-grid;
     align-items: center;
     justify-content: start;
-    grid-template-columns: auto auto;
+    @apply grid-flow-col;
     gap: 0.65rem;
     @apply whitespace-nowrap;
 }
