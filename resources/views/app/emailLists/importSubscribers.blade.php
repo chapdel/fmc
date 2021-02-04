@@ -68,7 +68,7 @@
                                         <x-mailcoach::form-button
                                             :action="route('mailcoach.subscriberImport.delete', $subscriberImport->id)"
                                             method="DELETE" class="link-delete">
-                                            <x-mailcoach::icon-label icon="fa-trash-alt" :text="__('Delete')" :caution="true"/>
+                                            <x-mailcoach::icon-label icon="far fa-trash-alt" :text="__('Delete')" :caution="true"/>
                                         </x-mailcoach::form-button>
                                     </li>
                                 </ul>

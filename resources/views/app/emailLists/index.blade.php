@@ -1,21 +1,8 @@
-@extends('mailcoach::app.layouts.app', ['title' => __('Lists')])
+@extends('mailcoach::app.layouts.main', ['title' => __('Lists')])
 
-@section('header')
-    <nav>
-        <ul class="breadcrumbs">
-            <li>
-                <span class="breadcrumb">{{ __('Lists') }}</span>
-            </li>
-        </ul>
-    </nav>
-@endsection
-
-@section('content')
-    <section class="card">
+@section('main')
         <div class="table-actions">
-            <button class="button" data-modal-trigger="create-list">
-                <x-mailcoach::icon-label icon="fa-address-book" :text="__('Create list')" />
-            </button>
+            <x-mailcoach::button data-modal-trigger="create-list" icon="fa-address-book" :label="__('Create list')" />
 
             <x-mailcoach::modal :title="__('Create list')" name="create-list" :open="$errors->any()">
                 @include('mailcoach::app.emailLists.partials.create')
@@ -59,7 +46,7 @@
                                         data-confirm="true"
                                         :data-confirm-text="__('Are you sure you want to delete list :emailListName?', ['emailListName' => $emailList->name])"
                                     >
-                                        <x-mailcoach::icon-label icon="fa-trash-alt" :text="__('Delete')" :caution="true" />
+                                        <x-mailcoach::icon-label icon="far fa-trash-alt" :text="__('Delete')" :caution="true" />
                                     </x-mailcoach::form-button>
                                 </li>
                             </x-mailcoach::dropdown>
@@ -77,13 +64,12 @@
             ></x-mailcoach::table-status>
 
         @else
-            <p class="alert alert-info">
+            <x-mailcoach::help>
                 @if ($searching)
                     {{ __('No email lists found.') }}
                 @else
                     {{ __("You'll need at least one list to gather subscribers.") }}
                 @endif
-            </p>
+            </x-mailcoach::help>
         @endif
-    </section>
 @endsection

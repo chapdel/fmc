@@ -91,12 +91,12 @@
             :show-all-url="route('mailcoach.emailLists.tags', $emailList)"
         ></x-mailcoach::table-status>
     @else
-        <p class="alert alert-info">
+        <x-mailcoach::help>
             @if($searching)
                 {{ __('No tags found') }}
             @else
                 {{ __('There are no tags for this list. Everyone equal!') }}
             @endif
-        </p>
+        </x-mailcoach::help>
     @endif
 @endsection

@@ -38,7 +38,7 @@
                             <x-mailcoach::form-button
                                 :action="route('mailcoach.emailLists.destroy-unsubscribes', $emailList)"
                                 method="DELETE" data-confirm="true" :data-confirm-text="__('Are you sure you want to delete unsubscribes in :emailList?', ['emailList' => $emailList->name])">
-                                <x-mailcoach::icon-label icon="fa-trash-alt" :text="__('Delete unsubscribes')" :caution="true"/>
+                                <x-mailcoach::icon-label icon="far fa-trash-alt" :text="__('Delete unsubscribes')" :caution="true"/>
                             </x-mailcoach::form-button>
                         </li>
                     @endif
@@ -160,7 +160,7 @@
                                     <x-mailcoach::form-button
                                         :action="route('mailcoach.emailLists.subscriber.delete', [$subscriber->emailList, $subscriber])"
                                         method="DELETE" data-confirm="true" :data-confirm-text="__('Are you sure you want to delete subscriber :email?', ['email' => $subscriber->email])">
-                                        <x-mailcoach::icon-label icon="fa-trash-alt" :text="__('Delete')" :caution="true"/>
+                                        <x-mailcoach::icon-label icon="far fa-trash-alt" :text="__('Delete')" :caution="true"/>
                                     </x-mailcoach::form-button>
                                 </li>
                             </ul>
@@ -175,8 +175,8 @@
                         :show-all-url="route('mailcoach.emailLists.subscribers', $emailList)">
         </x-mailcoach::table-status>
     @else
-        <p class="alert alert-info">
+        <x-mailcoach::help>
             {{ __('So where is everyone? This list is empty.') }}
-        </p>
+        </x-mailcoach::help>
     @endif
 @endsection

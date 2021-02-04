@@ -47,13 +47,13 @@
                 :show-all-url="route('mailcoach.campaigns.clicks', $campaign)"
             ></x-mailcoach::table-status>
         @else
-            <p class="alert alert-info">
+            <x-mailcoach::help>
                 {{ __('No clicks yet. Stay tuned.') }}
-            </p>
+            </x-mailcoach::help>
         @endif
     @else
-        <p class="alert alert-info">
+        <x-mailcoach::help>
             {{ __('Click tracking was not enabled for this campaign.') }}
-        </p>
+        </x-mailcoach::help>
     @endif
 @endsection

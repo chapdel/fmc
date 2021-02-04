@@ -50,14 +50,14 @@
                                     <x-mailcoach::form-button
                                         :action="route('mailcoach.emailLists.segment.duplicate', [$segment->emailList, $segment])"
                                     >
-                                        <x-mailcoach::icon-label icon="fa-random" :text="__('Duplicate')" />
+                                        <x-mailcoach::icon-label icon="far fa-random" :text="__('Duplicate')" />
                                     </x-mailcoach::form-button>
                                 </li>
                                 <li>
                                     <x-mailcoach::form-button
                                         :action="route('mailcoach.emailLists.segment.delete', [$segment->emailList, $segment])"
                                         method="DELETE" data-confirm="true" :data-confirm-text="__('Are you sure you want to delete segment :segmentName?', ['segmentName' => $segment->name])">
-                                        <x-mailcoach::icon-label icon="fa-trash-alt" :text="__('Delete')" :caution="true"/>
+                                        <x-mailcoach::icon-label icon="far fa-trash-alt" :text="__('Delete')" :caution="true"/>
                                     </x-mailcoach::form-button>
                                 </li>
                             </ul>
@@ -75,8 +75,8 @@
             :show-all-url="route('mailcoach.emailLists.segments', $emailList)">
         </x-mailcoach::table-status>
     @else
-        <p class="alert alert-info">
+        <x-mailcoach::help>
             {{ __("No segments here. So you don't like putting people into groups?") }}
-        </p>
+        </x-mailcoach::help>
     @endif
 @endsection

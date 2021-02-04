@@ -55,8 +55,8 @@
                         :show-all-url="route('mailcoach.emailLists.segment.subscribers', [$segment->emailList, $segment])">
         </x-mailcoach::table-status>
     @else
-        <p class="alert alert-info">
+        <x-mailcoach::help>
             {{ __('This is a very exclusive segment. Nobody got selected.') }}
-        </p>
+        </x-mailcoach::help>
     @endif
 @endsection

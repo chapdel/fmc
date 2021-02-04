@@ -52,8 +52,8 @@
             :show-all-url="route('mailcoach.emailLists.subscribers', [$subscriber->emailList])"
         ></x-mailcoach::table-status>
     @else
-        <p class="alert alert-info">
+        <x-mailcoach::help>
             {{ __("This user hasn't received any campaign yet.") }}
-        </p>
+        </x-mailcoach::help>
     @endif
 @endsection

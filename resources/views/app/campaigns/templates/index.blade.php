@@ -41,7 +41,7 @@
                                         <x-mailcoach::form-button
                                             :action="route('mailcoach.templates.duplicate', $template)"
                                         >
-                                            <x-mailcoach::icon-label icon="fa-random" :text="__('Duplicate')" />
+                                            <x-mailcoach::icon-label icon="far fa-random" :text="__('Duplicate')" />
                                         </x-mailcoach::form-button>
                                     </li>
                                     <li>
@@ -51,7 +51,7 @@
                                             data-confirm="true"
                                             :data-confirm-text="__('Are you sure you want to delete template :template?', ['template' => $template->name])"
                                         >
-                                            <x-mailcoach::icon-label icon="fa-trash-alt" :text="__('Delete')" :caution="true" />
+                                            <x-mailcoach::icon-label icon="far fa-trash-alt" :text="__('Delete')" :caution="true" />
                                         </x-mailcoach::form-button>
                                     </li>
                                 </ul>

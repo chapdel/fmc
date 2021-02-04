@@ -45,9 +45,9 @@
             <x-mailcoach::table-status :name="__('mail|mails')" :paginator="$transactionalMails" :total-count="$transactionalMailsCount"
                                        :show-all-url="route('mailcoach.transactionalMails')"></x-mailcoach::table-status>
         @else
-                <p class="alert alert-info">
-                    {!! __('No transactional mails have been sent yet!') !!}
-                </p>
+            <x-mailcoach::help>
+                {!! __('No transactional mails have been sent yet!') !!}
+            </x-mailcoach::help>
         @endif
     </section>
 @endsection

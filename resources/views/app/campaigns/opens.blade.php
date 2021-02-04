@@ -51,13 +51,13 @@
                 :show-all-url="route('mailcoach.campaigns.opens', $campaign)"
             ></x-mailcoach::table-status>
         @else
-            <p class="alert alert-info">
+            <x-mailcoach::help>
                 {{ __('No opens yet. Stay tuned.') }}
-            </p>
+            </x-mailcoach::help>
         @endif
     @else
-        <p class="alert alert-info">
+        <x-mailcoach::help>
             {{ __('Open tracking was not enabled for this campaign.') }}
-        </p>
+        </x-mailcoach::help>
     @endif
 @endsection

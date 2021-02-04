@@ -46,7 +46,7 @@
                                         <x-mailcoach::form-button
                                             :action="route('mailcoach.transactionalMails.templates.duplicate', $template)"
                                         >
-                                            <x-mailcoach::icon-label icon="fa-random" :text="__('Duplicate')" />
+                                            <x-mailcoach::icon-label icon="far fa-random" :text="__('Duplicate')" />
                                         </x-mailcoach::form-button>
                                     </li>
                                     <li>
@@ -56,7 +56,7 @@
                                             data-confirm="true"
                                             :data-confirm-text="__('Are you sure you want to delete template :template?', ['template' => $template->name])"
                                         >
-                                            <x-mailcoach::icon-label icon="fa-trash-alt" :text="__('Delete')" :caution="true" />
+                                            <x-mailcoach::icon-label icon="far fa-trash-alt" :text="__('Delete')" :caution="true" />
                                         </x-mailcoach::form-button>
                                     </li>
                                 </ul>
@@ -73,9 +73,9 @@
                 :total-count="$templatesCount"
                 :show-all-url="route('mailcoach.templates')"></x-mailcoach::table-status>
         @else
-            <p class="alert alert-info">
+            <x-mailcoach::help>
                 {!! __('You have not created any templates yet') !!}
-            </p>
+            </x-mailcoach::help>
         @endif
     </section>
 @endsection

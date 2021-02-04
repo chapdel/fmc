@@ -1,15 +1,6 @@
-@extends('mailcoach::app.layouts.app', ['title' => 'Automations'])
+@extends('mailcoach::app.layouts.main', ['title' => 'Automations'])
 
-@section('header')
-    <nav>
-        <ul class="breadcrumbs">
-            <li><span class="breadcrumb">{{ __('Automations') }}</span></li>
-        </ul>
-    </nav>
-@endsection
-
-@section('content')
-    <section class="card">
+@section('main')
         <div class="table-actions">
             <button class="button" data-modal-trigger="create-automation">
                 <x-mailcoach::icon-label icon="fa-clipboard" :text="__('Create automation')"/>
@@ -61,7 +52,7 @@
                                         <x-mailcoach::form-button
                                             :action="route('mailcoach.automations.duplicate', $automation)"
                                         >
-                                            <x-mailcoach::icon-label icon="fa-random" :text="__('Duplicate')" />
+                                            <x-mailcoach::icon-label icon="far fa-random" :text="__('Duplicate')" />
                                         </x-mailcoach::form-button>
                                     </li>
                                     <li>
@@ -71,7 +62,7 @@
                                             data-confirm="true"
                                             :data-confirm-text="__('Are you sure you want to delete automation :automation?', ['automation' => $automation->name])"
                                         >
-                                            <x-mailcoach::icon-label icon="fa-trash-alt" :text="__('Delete')" :caution="true" />
+                                            <x-mailcoach::icon-label icon="far fa-trash-alt" :text="__('Delete')" :caution="true" />
                                         </x-mailcoach::form-button>
                                     </li>
                                 </ul>
@@ -90,9 +81,8 @@
             />
 
         @else
-            <p class="alert alert-info">
+            <x-mailcoach::help>
                 {{ __('No automations found.') }}
-            </p>
+            </x-mailcoach::help>
         @endif
-    </section>
 @endsection
