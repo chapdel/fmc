@@ -1,4 +1,4 @@
-@extends('mailcoach::app.campaigns.layouts.show', [
+@extends('mailcoach::app.campaigns.layouts.campaign', [
     'campaign' => $campaign,
     'titlePrefix' => __('HTML'),
 ])

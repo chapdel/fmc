@@ -1,18 +1,10 @@
-@extends('mailcoach::app.automations.layouts.edit', [
+@extends('mailcoach::app.automations.layouts.automation', [
     'automation' => $automation,
-    'titlePrefix' => __('Actions'),
+    'title' => __('Actions'),
 ])
 
-@section('breadcrumbs')
-    <li>
-        <a href="{{ route('mailcoach.automations.settings', $automation) }}">
-            <span class="breadcrumb">{{ $automation->name }}</span>
-        </a>
-    </li>
-    <li><span class="breadcrumb">{{ __('Actions') }}</span></li>
-@endsection
-
 @section('automation')
+    <h1 class="markup-h1">{{ __('Actions') }}</h1>
     <livewire:automation-actions :automation="$automation" :actions="$actions" />
 @endsection
 

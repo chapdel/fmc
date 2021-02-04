@@ -16,11 +16,11 @@
         </x-mailcoach::navigation-group>
         @endcan
 
-        <x-mailcoach::navigation-group icon="far fa-magic" :title="__('Automation')">
+        <x-mailcoach::navigation-group icon="far fa-magic" :title="__('Drip')">
             <x-mailcoach::navigation-item :href="route('mailcoach.automations')">
-                {{ __('Flows') }}
+                {{ __('Automations') }}
             </x-mailcoach::navigation-item>
-            <x-mailcoach::navigation-item :href="route('mailcoach.automations')">
+            <x-mailcoach::navigation-item :href="route('mailcoach.campaigns')">
                 {{ __('Emails') }}
             </x-mailcoach::navigation-item>
         </x-mailcoach::navigation-group>

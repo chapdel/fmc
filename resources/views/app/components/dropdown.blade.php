@@ -1,5 +1,5 @@
 <div class="dropdown" data-dropdown>
-    <button class="hover:text-blue-500" data-dropdown-trigger>
+    <button type="button" class="hover:text-blue-500" data-dropdown-trigger>
         @if(isset($trigger))
             {{ $trigger }}
         @else

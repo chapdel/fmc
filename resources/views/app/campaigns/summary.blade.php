@@ -1,4 +1,4 @@
-@extends('mailcoach::app.campaigns.layouts.show', ['campaign' => $campaign])
+@extends('mailcoach::app.campaigns.layouts.campaign', ['campaign' => $campaign])
 
 @section('breadcrumbs')
     <li><span class="breadcrumb">{{ $campaign->name }}</span></li>

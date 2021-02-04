@@ -1,4 +1,4 @@
-@extends('mailcoach::app.campaigns.layouts.show', ['title' => __('Settings')])
+@extends('mailcoach::app.campaigns.layouts.campaign', ['title' => __('Settings')])
 
 @section('campaign')
     <h1 class="markup-h1">{{ __('Settings') }}</h1>
