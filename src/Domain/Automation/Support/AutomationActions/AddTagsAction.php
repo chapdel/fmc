@@ -9,6 +9,11 @@ class AddTagsAction extends AutomationAction
 {
     public array $tags;
 
+    public static function make(array $data): self
+    {
+        return new self(explode(',', $data['tags']));
+    }
+
     public function __construct(array $tags)
     {
         parent::__construct();
@@ -21,19 +26,14 @@ class AddTagsAction extends AutomationAction
         return __('Add tags');
     }
 
-    public function getDescription(): string
-    {
-        return implode(', ', $this->tags);
-    }
-
     public static function getComponent(): ?string
     {
         return 'add-tags-action';
     }
 
-    public static function make(array $data): self
+    public function getDescription(): string
     {
-        return new self(explode(',', $data['tags']));
+        return implode(', ', $this->tags);
     }
 
     public function toArray(): array

@@ -15,6 +15,11 @@ class CampaignAction extends AutomationAction
 
     public Campaign $campaign;
 
+    public static function make(array $data): self
+    {
+        return new self(self::getCampaignClass()::find($data['campaign_id']));
+    }
+
     public function __construct(Campaign $campaign)
     {
         parent::__construct();
@@ -37,10 +42,7 @@ class CampaignAction extends AutomationAction
         return "{$this->campaign->name}";
     }
 
-    public static function make(array $data): self
-    {
-        return new self(self::getCampaignClass()::find($data['campaign_id']));
-    }
+
 
     public function toArray(): array
     {
