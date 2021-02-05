@@ -1,10 +1,7 @@
-@extends('mailcoach::app.emailLists.layouts.subscriber', [
-    'subscriber' => $subscriber
+@extends('mailcoach::app.emailLists.subscribers.layouts.subscriber', [
+    'subscriber' => $subscriber,
+    'emailList' => $subscriber->emailList,
 ])
-
-@section('breadcrumbs')
-    <li><span class="breadcrumb">{{ $subscriber->email }}</span></li>
-@endsection
 
 @section('subscriber')
     <form

@@ -1,9 +1,5 @@
 @extends('mailcoach::app.campaigns.layouts.campaign', ['campaign' => $campaign])
 
-@section('breadcrumbs')
-    <li><span class="breadcrumb">{{ $campaign->name }}</span></li>
-@endsection
-
 @section('campaign')
 
     <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.opens', $campaign)">

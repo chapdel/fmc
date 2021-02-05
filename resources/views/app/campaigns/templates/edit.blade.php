@@ -1,7 +1,6 @@
-@extends('mailcoach::app.layouts.main', ['title' => $template->name])
+@extends('mailcoach::app.layouts.main', ['title' => $template->name, 'subTitle' => __('Templates')])
 
 @section('main')
-    <h1 class="markup-h1">{{ $template->name }}</h1>
     <form
         class="form-grid"
         action="{{ route('mailcoach.templates.edit', $template) }}"

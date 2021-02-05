@@ -1,18 +1,7 @@
-@extends('mailcoach::app.emailLists.layouts.edit', [
+@extends('mailcoach::app.emailLists.layouts.emailList', [
     'emailList' => $emailList,
-    'titlePrefix' => __('Tags'),
+    'title' => __('Tags'),
 ])
-
-@section('breadcrumbs')
-    <li>
-        <a href="{{ route('mailcoach.emailLists.subscribers', $emailList) }}">
-            <span class="breadcrumb">{{ $emailList->name }}</span>
-        </a>
-    </li>
-    <li>
-        <span class="breadcrumb">{{ __('Tags') }}</span>
-    </li>
-@endsection
 
 @section('emailList')
     <div class="table-actions">
@@ -21,7 +10,7 @@
         </button>
 
         <x-mailcoach::modal :title="__('Create tag')" name="create-tag" :open="$errors->any()">
-            @include('mailcoach::app.emailLists.tag.partials.create')
+            @include('mailcoach::app.emailLists.tags.partials.create')
         </x-mailcoach::modal>
 
         @if($totalTagsCount > 0 || $searching)

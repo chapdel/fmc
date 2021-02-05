@@ -1,18 +1,15 @@
-@extends('mailcoach::app.emailLists.layouts.edit', ['emailList' => $emailList])
-
-@section('breadcrumbs')
-    <li><span class="breadcrumb">{{ $emailList->name }}</span></li>
-@endsection
+@extends('mailcoach::app.emailLists.layouts.emailList', [
+    'emailList' => $emailList,
+    'title' => __('Subscribers')
+])
 
 @section('emailList')
     <div class="table-actions">
         <div class=buttons>
-            <button class="button" data-modal-trigger="create-subscriber">
-                <x-mailcoach::icon-label icon="fa-user" :text="__('Add subscriber')"/>
-            </button>
+            <x-mailcoach::button type="button" data-modal-trigger="create-subscriber" :label="__('Add subscriber')"/>
 
             <x-mailcoach::modal :title="__('Create subscriber')" name="create-subscriber" :open="$errors->any()">
-                @include('mailcoach::app.emailLists.subscriber.partials.create')
+                @include('mailcoach::app.emailLists.subscribers.partials.create')
             </x-mailcoach::modal>
 
             <x-mailcoach::dropdown direction="right">

@@ -16,7 +16,7 @@ class SubscribersIndexController
 
         $subscribersQuery = new EmailListSubscribersQuery($emailList);
 
-        return view('mailcoach::app.emailLists.subscribers', [
+        return view('mailcoach::app.emailLists.subscribers.index', [
             'subscribers' => $subscribersQuery->paginate(),
             'emailList' => $emailList,
             'totalSubscriptionsCount' => $emailList->subscribers()->count(),

@@ -1,16 +1,7 @@
-@extends('mailcoach::app.emailLists.layouts.edit', [
+@extends('mailcoach::app.emailLists.layouts.emailList', [
     'emailList' => $emailList,
-    'titlePrefix' => __('Settings'),
+    'title' => __('Settings'),
 ])
-
-@section('breadcrumbs')
-    <li>
-        <a href="{{ route('mailcoach.emailLists.subscribers', $emailList) }}">
-            <span class="breadcrumb">{{ $emailList->name }}</span>
-        </a>
-    </li>
-    <li><span class="breadcrumb">{{ __('Settings') }}</span></li>
-@endsection
 
 @section('emailList')
     <form class="form-grid" action="{{ route('mailcoach.emailLists.settings', $emailList) }}" method="POST">

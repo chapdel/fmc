@@ -3,15 +3,6 @@
     'titlePrefix' => __('Opens'),
 ])
 
-@section('breadcrumbs')
-    <li>
-        <a href="{{ route('mailcoach.campaigns.summary', $campaign) }}">
-            <span class="breadcrumb">{{ $campaign->name }}</span>
-        </a>
-    </li>
-    <li><span class="breadcrumb">{{ __('Opens') }}</span></li>
-@endsection
-
 @section('campaign')
     @if($campaign->track_opens)
         @if($campaign->open_count)

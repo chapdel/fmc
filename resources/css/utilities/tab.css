@@ -2,17 +2,7 @@
     @apply bg-white;
     overflow-x: scroll;
     z-index: 1;
-    @apply mt-2;
-    @apply mb-8;
-}
-
-.tabs:before {
-    content: '';
-    @apply absolute;
-    @apply bottom-0;
-    @apply w-full;
-    height: 2px;
-    @apply bg-gray-100;
+    @apply mb-10;
 }
 
 .tabs::-webkit-scrollbar {
@@ -21,23 +11,25 @@
 }
 
 .tabs ul {
-    @apply grid;
+    @apply inline-grid;
     @apply grid-cols-auto;
     @apply grid-flow-col;
     @apply justify-start;
     width: auto;
+    @apply bg-gray-100;
+    @apply rounded-full;
+    @apply px-6;
 }
 
 .tabs li {
     @apply cursor-pointer;
     @apply font-bold;
-    @apply text-xl;
-    @apply pr-10;
+    @apply px-4;
 }
 
 .tabs li a {
     @apply inline-block;
-    @apply pb-3;
+    @apply py-3;
 }
 
 .tabs li:not(.active) a {

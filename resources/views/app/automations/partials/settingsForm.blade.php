@@ -42,17 +42,15 @@
     />
 
     <div class="form-buttons">
-        <button type="submit" class="button">
-            <x-mailcoach::icon-label icon="fa-cog" :text="__('Save')" />
-        </button>
+        <x-mailcoach::button :label="__('Save')" />
 
         @if ($automation->status === \Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus::STARTED)
             <button type="submit" class="button bg-orange-500" wire:click.prevent="pause">
-                <x-mailcoach::icon-label icon="fa-pause" :text="__('Pause')" />
+                <x-mailcoach::icon-label icon="fas fa-pause" :text="__('Pause')" />
             </button>
         @else
             <button type="submit" class="button bg-green-500"  wire:click.prevent="start">
-                <x-mailcoach::icon-label icon="fa-play" :text="__('Start')" />
+                <x-mailcoach::icon-label icon="fas fa-play" :text="__('Start')" />
             </button>
         @endif
     </div>

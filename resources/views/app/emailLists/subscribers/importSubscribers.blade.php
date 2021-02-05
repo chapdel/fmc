@@ -1,4 +1,4 @@
-@extends('mailcoach::app.layouts.app', ['title' => __('Import subscribers') . ' | ' . $emailList->name])
+@extends('mailcoach::app.layouts.main', ['title' => __('Import subscribers') . ' | ' . $emailList->name])
 
 @section('header')
     <nav>
@@ -10,7 +10,7 @@
     </nav>
 @endsection
 
-@section('content')
+@section('main')
     <section class="card">
         @if (count($subscriberImports))
             <table class="table table-fixed mb-12">

@@ -18,7 +18,7 @@ class ReceivedCampaignsController
 
         $sendQuery = new CampaignSendQuery($subscriber);
 
-        return view('mailcoach::app.emailLists.subscriber.receivedCampaigns', [
+        return view('mailcoach::app.emailLists.subscribers.receivedCampaigns', [
             'subscriber' => $subscriber,
             'sends' => $sendQuery->paginate(),
             'totalSendsCount' => Send::query()->where('subscriber_id', $subscriber->id)->count(),

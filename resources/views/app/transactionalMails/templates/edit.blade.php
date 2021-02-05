@@ -1,4 +1,4 @@
-@extends('mailcoach::app.layouts.app', ['title' => $template->name])
+@extends('mailcoach::app.layouts.main', ['title' => $template->name])
 
 @section('header')
     <nav>
@@ -13,7 +13,7 @@
     </nav>
 @endsection
 
-@section('content')
+@section('main')
     <section class="card">
         <form
             class="form-grid"

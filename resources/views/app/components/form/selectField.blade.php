@@ -25,7 +25,7 @@
             @endforeach
         </select>
         <div class="select-arrow">
-            <i class="far fa-angle-down"></i>
+            <i class="fas fa-angle-down"></i>
         </div>
     </div>
 </div>

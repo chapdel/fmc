@@ -1,16 +1,4 @@
-@extends('mailcoach::app.emailLists.layouts.segment', [
-    'segment' => $segment,
-    'titlePrefix' => __('Population'),
-])
-
-@section('breadcrumbs')
-    <li>
-        <a href="{{ route('mailcoach.emailLists.segment.edit', [$segment->emailList, $segment]) }}">
-            <span class="breadcrumb">{{ $segment->name }}</span>
-        </a>
-    </li>
-    <li><span class="breadcrumb">{{ __('Population') }}</span></li>
-@endsection
+@extends('mailcoach::app.emailLists.segments.layouts.segment', ['segment' => $segment])
 
 @section('segment')
     @if($selectedSubscribersCount)

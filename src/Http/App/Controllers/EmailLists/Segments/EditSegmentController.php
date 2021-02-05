@@ -17,7 +17,7 @@ class EditSegmentController
 
         $selectedSubscribersCount = $segment->getSubscribersQuery()->count();
 
-        return view('mailcoach::app.emailLists.segment.edit', [
+        return view('mailcoach::app.emailLists.segments.edit', [
             'emailList' => $emailList,
             'segment' => $segment,
             'selectedSubscribersCount' => $selectedSubscribersCount,

@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="referrer" content="always">
 
-        <title>{{ isset($title) ? "{$title} | Mailcoach" : 'Mailcoach' }}</title>
+        <title>{{ isset($title) ? "{$title} |" : '' }} {{ isset($subTitle) ? "{$subTitle} |" : '' }} Mailcoach</title>
 
         <link rel="stylesheet" href="{{ asset('vendor/mailcoach/app.css') }}?t={{ app(\Spatie\Mailcoach\Domain\Shared\Support\Version::class)->getHashedFullVersion() }}">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.0/css/all.css">
@@ -41,14 +41,19 @@
             
             <div class="card card-split">
                 <nav class="card-nav">
-
                     @yield('nav')
-
                 </nav>
 
                 <main class="card-main">
                     @include('mailcoach::app.layouts.partials.flash')
-                    @yield('content')
+                    
+                    <h1 class="markup-h1">
+                        @isset($subTitle)
+                            <div class="markup-h1-sub">{{ $subTitle }}</div>
+                        @endif
+                        {{ $title ?? '' }}
+                    </h1>
+                    @yield('app')
                 </main>
             </div>
 

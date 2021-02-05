@@ -16,7 +16,7 @@ class SegmentSubscribersIndexController
 
         $selectedSubscribersCount = $segment->getSubscribersQuery()->count();
 
-        return view('mailcoach::app.emailLists.segment.subscribers', [
+        return view('mailcoach::app.emailLists.segments.subscribers', [
             'emailList' => $emailList,
             'segment' => $segment,
             'subscribers' => $segment->getSubscribersQuery()->paginate(),

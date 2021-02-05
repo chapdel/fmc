@@ -1,8 +1,4 @@
-@extends('mailcoach::app.emailLists.layouts.segment', ['segment' => $segment])
-
-@section('breadcrumbs')
-    <li><span class="breadcrumb">{{ $segment->name }}</span></li>
-@endsection
+@extends('mailcoach::app.emailLists.segments.layouts.segment', ['segment' => $segment])
 
 @section('segment')
     <form

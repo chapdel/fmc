@@ -3,15 +3,6 @@
     'titlePrefix' => __('Outbox'),
 ])
 
-@section('breadcrumbs')
-    <li>
-        <a href="{{ route('mailcoach.campaigns.summary', $campaign) }}">
-            <span class="breadcrumb">{{ $campaign->name }}</span>
-        </a>
-    </li>
-    <li><span class="breadcrumb">{{ __('Outbox') }}</span></li>
-@endsection
-
 @section('campaign')
     @if ($totalFailed > 0)
         <div class="table-actions">
