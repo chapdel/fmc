@@ -16,7 +16,7 @@ class SubscribedTrigger extends AutomationTrigger implements TriggeredByEvents
         $events->listen(
             SubscribedEvent::class,
             function ($event) {
-                $this->fireAutomation($event->subscriber);
+                $this->runAutomation($event->subscriber);
             }
         );
     }

@@ -38,7 +38,7 @@ class TagAddedTrigger extends AutomationTrigger implements TriggeredByEvents
             TagAddedEvent::class,
             function ($event) {
                 if ($event->tag->name === $this->tag) {
-                    $this->fireAutomation($event->subscriber);
+                    $this->runAutomation($event->subscriber);
                 }
             }
         );

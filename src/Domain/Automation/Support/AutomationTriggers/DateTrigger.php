@@ -45,6 +45,6 @@ class DateTrigger extends AutomationTrigger implements TriggeredBySchedule
             return;
         }
 
-        $this->fireAutomation($automation->newSubscribersQuery());
+        $this->runAutomation($automation->newSubscribersQuery());
     }
 }

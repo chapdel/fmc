@@ -38,7 +38,7 @@ class TagRemovedTrigger extends AutomationTrigger implements TriggeredByEvents
             TagRemovedEvent::class,
             function ($event) {
                 if ($event->tag->name === $this->tag) {
-                    $this->fireAutomation($event->subscriber);
+                    $this->runAutomation($event->subscriber);
                 }
             }
         );
