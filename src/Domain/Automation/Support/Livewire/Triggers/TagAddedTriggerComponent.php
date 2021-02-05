@@ -9,6 +9,5 @@ class TagAddedTriggerComponent extends AutomationTriggerComponent
     public function render()
     {
         return view('mailcoach::app.automations.components.triggers.tagAddedTrigger');
-
     }
 }

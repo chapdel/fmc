@@ -32,7 +32,7 @@ class AutomationBuilder extends AutomationActionComponent
     public function render()
     {
         $actionOptions = collect(config('mailcoach.automation.actions'))
-            ->flatMap(fn(string $action) => [$action => $action::getName()]);
+            ->flatMap(fn (string $action) => [$action => $action::getName()]);
 
         return view('mailcoach::app.automations.components.automationBuilder', [
             'actionOptions' => $actionOptions,
