@@ -1,25 +1,14 @@
-@isset($title)   
-    @php
-        $fullTitle = $title;
-        $maxLength = 24;
-        $partLength = floor(($maxLength - 1)/2);
-        $titleTruncated = strlen($fullTitle) > $maxLength ? 
-            substr($fullTitle, 0, $partLength ) . '…' . substr($fullTitle, -$partLength )
-            : $fullTitle;
-    @endphp
-
-    <div class="rounded-tl px-8 py-8 bg-blue-900">
+@isset($backHref)
+    <div class="px-8 py-8">
         <div class="flex items-center justify-between">
-            @isset($backHref)
-                <a href="{{ $backHref }}" class="text-blue-100 text-sm font-semibold hover:text-white">
-                    <span class="icon-label">
-                        <i class="text-blue-500 fas fa-angle-left"></i>
-                        <span class="icon-label-text">
-                            {{ $backLabel ?? '' }}
-                        </span>
+            <a href="{{ $backHref }}" class="text-blue-100 text-sm font-semibold hover:text-white">
+                <span class="icon-label">
+                    <i class="text-blue-500 fas fa-angle-left"></i>
+                    <span class="icon-label-text">
+                        {{ $backLabel ?? '' }}
                     </span>
-                </a>
-            @endisset
+                </span>
+            </a>
 
             <a class="ml-3" href="{{ route('mailcoach.home') }}">
                 <span 
@@ -30,13 +19,22 @@
                 </span>
             </a>
         </div>
+    </div>
+@endisset    
 
-        <h2 class="hidden uppercase tracking-wider text-right text-xs text-blue-100 font-semibold">
+<div class="navigation {{ isset($backHref) ? 'navigation-sub' : '' }}">
+    @isset($title)   
+        @php
+            $maxLength = 24;
+            $partLength = floor(($maxLength - 1)/2);
+            $titleTruncated = strlen($title) > $maxLength ? 
+                substr($title, 0, $partLength ) . '…' . substr($title, -$partLength )
+                : $title;
+        @endphp
+        <h2 class="-mt-4 -mx-2 px-2 pb-4 border-b border-black border-opacity-10 uppercase tracking-wider text-center text-xs text-blue-100 font-semibold">
             {{ $titleTruncated }}
         </h2>
-    </div>
-@endisset
+    @endisset
 
-<div class="navigation">
     {{ $slot }}
 </div>

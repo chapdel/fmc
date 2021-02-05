@@ -35,7 +35,7 @@
                                         <x-mailcoach::form-button
                                             :action="route('mailcoach.transactionalMails.templates.duplicate', $template)"
                                         >
-                                            <x-mailcoach::icon-label icon="far fa-random" :text="__('Duplicate')" />
+                                            <x-mailcoach::icon-label icon="fas fa-random" :text="__('Duplicate')" />
                                         </x-mailcoach::form-button>
                                     </li>
                                     <li>

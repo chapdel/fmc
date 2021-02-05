@@ -1,6 +1,7 @@
 @extends('mailcoach::app.emailLists.layouts.emailList',[
     'title' => $tag->name,
-    'originTitle' => __('Tags')
+    'originTitle' => __('Tags'),
+    'originHref' => route('mailcoach.emailLists.tags', ['emailList' => $tag->emailList])
 ])
 
 @section('emailList')

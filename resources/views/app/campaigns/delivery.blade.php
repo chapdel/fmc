@@ -1,55 +1,18 @@
 @extends('mailcoach::app.campaigns.layouts.campaign', [
     'campaign' => $campaign,
-    'title' => __('Delivery'),
+    'title' => __('Send'),
 ])
 
 @section('campaign')
-    @if ($campaign->isEditable())
-        <form
-            action="{{ route('mailcoach.campaigns.sendTestEmail', $campaign) }}"
-            method="POST"
-            data-dirty-check
-        >
-            @csrf
-
-            <div class="flex items-end">
-                <div class="flex-grow max-w-xl">
-                    <x-mailcoach::text-field
-                        :label="__('Test your email first')"
-                        :placeholder="__('Email(s) comma separated')"
-                        name="emails"
-                        :required="true"
-                        type="text"
-                        :value="cache()->get('mailcoach-test-email-addresses')"
-                    />
-                </div>
-
-                <button type="submit" class="ml-2 button">
-                    <x-mailcoach::icon-label icon="fa-paper-plane" :text="__('Send test')"/>
-                </button>
-            </div>
-        </form>
-    @endif
 
     <div>
         @if ($campaign->isEditable())
             @if($campaign->isReady())
-                <h1 class="markup-h1">
                     @if($campaign->scheduled_at)
-                        {{ __('Scheduled for delivery at :scheduledAt', ['scheduledAt' => $campaign->scheduled_at->toMailcoachFormat()]) }}
-                    @else
-                        {{ Illuminate\Support\Arr::random([
-                            __('My time to shine!'),
-                            __('No more time to waste…'),
-                            __('Last part: deliver the thing!'),
-                            __('Ready to handle the compliments?'),
-                            __("Let's make some impact!"),
-                            __("Allright, let's do this!"),
-                            __('Everyone is sooo ready for this!'),
-                            __('Inboxes will be surprised…'),
-                        ]) }}
+                        <x-mailcoach::warning>
+                            {{ __('Scheduled for delivery at :scheduledAt', ['scheduledAt' => $campaign->scheduled_at->toMailcoachFormat()]) }}
+                        </x-mailcoach::warning>
                     @endif
-                </h1>
                 @if (! $campaign->htmlContainsUnsubscribeUrlPlaceHolder() || $campaign->sizeInKb() > 102)
                     <p class="mt-4 alert alert-warning">
                         {!! __('Campaign <strong>:campaign</strong> can be sent, but you might want to check your content.', ['campaign' => $campaign->name]) !!}
@@ -60,7 +23,6 @@
                     </p>
                 @endif
             @else
-                <h1 class="markup-h1">{{ __('Almost there…') }}</h1>
                 <p class="mt-4 alert alert-error">{{ __('You need to check some settings before you can deliver this campaign.') }}</p>
             @endif
         @endif
