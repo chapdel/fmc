@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Schema;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailableWithTemplate;
 
