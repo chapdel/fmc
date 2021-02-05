@@ -41,8 +41,6 @@ class CampaignAction extends AutomationAction
         return "{$this->campaign->name}";
     }
 
-
-
     public function toArray(): array
     {
         return [
