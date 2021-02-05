@@ -25,7 +25,6 @@ use Spatie\Mailcoach\Components\THComponent;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationActionsCommand;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationTriggersCommand;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Domain\Automation\Support\Triggers\TriggeredByEvents;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\AddTagsActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\CampaignActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\EnsureTagsExistActionComponent;
@@ -39,6 +38,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\DateTriggerComp
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\TagAddedTriggerComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\TagRemovedTriggerComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\WebhookTriggerComponent;
+use Spatie\Mailcoach\Domain\Automation\Support\Triggers\TriggeredByEvents;
 use Spatie\Mailcoach\Domain\Campaign\Commands\CalculateStatisticsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Commands\CleanupProcessedFeedbackCommand;
 use Spatie\Mailcoach\Domain\Campaign\Commands\DeleteOldUnconfirmedSubscribersCommand;
