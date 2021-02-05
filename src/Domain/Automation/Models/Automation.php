@@ -53,8 +53,6 @@ class Automation extends Model
         return unserialize($value);
     }
 
-
-
     public function name(string $name): self
     {
         $this->update(compact('name'));

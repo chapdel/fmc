@@ -2,9 +2,13 @@
     @apply font-bold;
     @apply text-xl;
     @apply mt-2;
-    @apply mb-8;
+    @apply mb-12;
 }
 
+.markup-h1-small {
+    @apply font-normal;
+    @apply text-blue-700;
+}
 .markup-h2 {
     @apply text-lg;
     @apply font-semibold;

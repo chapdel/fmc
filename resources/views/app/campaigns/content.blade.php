@@ -1,16 +1,7 @@
 @extends('mailcoach::app.campaigns.layouts.campaign', [
     'campaign' => $campaign,
-    'titlePrefix' => __('HTML'),
+    'title' => __('Content'),
 ])
-
-@section('breadcrumbs')
-    <li>
-        <a href="{{ route('mailcoach.campaigns.settings', $campaign) }}">
-            <span class="breadcrumb">{{ $campaign->name }}</span>
-        </a>
-    </li>
-    <li><span class="breadcrumb">{{ __('Content') }}</span></li>
-@endsection
 
 @section('campaign')
     @if ($campaign->isEditable())

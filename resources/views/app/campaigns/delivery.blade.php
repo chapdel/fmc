@@ -1,6 +1,6 @@
 @extends('mailcoach::app.campaigns.layouts.campaign', [
     'campaign' => $campaign,
-    'titlePrefix' => __('Delivery'),
+    'title' => __('Delivery'),
 ])
 
 @section('breadcrumbs')
