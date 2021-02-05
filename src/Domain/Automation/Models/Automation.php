@@ -28,6 +28,8 @@ class Automation extends Model
 
     protected $casts = [
         'run_at' => 'datetime',
+        'last_ran_at' => 'datetime',
+
     ];
 
     public static function booted()
@@ -166,5 +168,7 @@ class Automation extends Model
     public function run(Subscriber $subscriber): void
     {
         $this->actions()->first()->subscribers()->attach($subscriber);
+
+        $this->update(['last_ran_at' => now()]);
     }
 }
