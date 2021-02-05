@@ -2,8 +2,6 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Support\AutomationTriggers;
 
-use Spatie\Mailcoach\Domain\Automation\Support\AutomationTriggers\AutomationTrigger;
-
 class WebhookTrigger extends AutomationTrigger
 {
     public static function getName(): string
