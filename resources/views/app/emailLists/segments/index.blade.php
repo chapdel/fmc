@@ -1,16 +1,7 @@
-@extends('mailcoach::app.emailLists.layouts.edit', [
+@extends('mailcoach::app.emailLists.layouts.emailList', [
     'emailList' => $emailList,
-    'titlePrefix' => __('Segments'),
+    'title' => __('Segments'),
 ])
-
-@section('breadcrumbs')
-    <li>
-        <a href="{{ route('mailcoach.emailLists.subscribers', $emailList) }}">
-            <span class="breadcrumb">{{ $emailList->name }}</span>
-        </a>
-    </li>
-    <li><span class="breadcrumb">{{ __('Segments') }}</span></li>
-@endsection
 
 @section('emailList')
     <div class="table-actions">
@@ -20,7 +11,7 @@
             </button>
 
             <x-mailcoach::modal :title="__('Create segment')" name="create-segment" :open="$errors->any()">
-                @include('mailcoach::app.emailLists.segment.partials.create')
+                @include('mailcoach::app.emailLists.segments.partials.create')
             </x-mailcoach::modal>
         </div>
     </div>

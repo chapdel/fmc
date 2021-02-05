@@ -1,8 +1,7 @@
-@extends('mailcoach::app.emailLists.layouts.edit', ['emailList' => $emailList])
-
-@section('breadcrumbs')
-    <li><span class="breadcrumb">{{ $emailList->name }}</span></li>
-@endsection
+@extends('mailcoach::app.emailLists.layouts.emailList', [
+    'emailList' => $emailList,
+    'title' => __('Performance')
+]) 
 
 @section('emailList')
     @include('mailcoach::app.emailLists.partials.chart')

@@ -16,7 +16,7 @@ class SegmentsIndexController
 
         $segmentsQuery = new SegmentsQuery($emailList);
 
-        return view('mailcoach::app.emailLists.segments', [
+        return view('mailcoach::app.emailLists.segments.index', [
             'segments' => $segmentsQuery->paginate(),
             'emailList' => $emailList,
             'totalSegmentsCount' => $emailList->segments()->count(),

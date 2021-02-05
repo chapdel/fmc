@@ -3,15 +3,6 @@
     'titlePrefix' => __('Unsubscribes'),
 ])
 
-@section('breadcrumbs')
-    <li>
-        <a href="{{ route('mailcoach.campaigns.summary', $campaign) }}">
-            <span class="breadcrumb">{{ $campaign->name }}</span>
-        </a>
-    </li>
-    <li><span class="breadcrumb">{{ __('Unsubscribes') }}</span></li>
-@endsection
-
 @section('campaign')
     @if($unsubscribes->count())
     <div class="table-actions">

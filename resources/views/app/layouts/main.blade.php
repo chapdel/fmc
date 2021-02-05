@@ -27,7 +27,7 @@
         </x-mailcoach::navigation-group>
         @endcan
 
-        <x-mailcoach::navigation-group icon="far fa-magic" :title="__('Drip')">
+        <x-mailcoach::navigation-group icon="fas fa-magic" :title="__('Drip')">
             <x-mailcoach::navigation-item :href="route('mailcoach.automations')">
                 {{ __('Automations') }}
             </x-mailcoach::navigation-item>
@@ -60,6 +60,6 @@
 
 @endsection
 
-@section('content')
+@section('app')
     @yield('main')
 @endsection

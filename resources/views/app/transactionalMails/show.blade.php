@@ -1,9 +1,5 @@
 @extends('mailcoach::app.transactionalMails.layouts.details', ['transactionalMail' => $transactionalMail])
 
-@section('breadcrumbs')
-    <li><span class="breadcrumb">{{ $transactionalMail->subject }}</span></li>
-@endsection
-
 @section('transactionalMail')
     Subject: {{ $transactionalMail->subject }}<br/>
 

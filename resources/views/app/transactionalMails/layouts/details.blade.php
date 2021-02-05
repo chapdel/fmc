@@ -1,4 +1,4 @@
-@extends('mailcoach::app.layouts.app', [
+@extends('mailcoach::app.layouts.main', [
     'title' => (isset($titlePrefix) ?  $titlePrefix . ' | ' : '') . $transactionalMail->subject
 ])
 
@@ -15,7 +15,7 @@
     </nav>
 @endsection
 
-@section('content')
+@section('main')
     <nav class="tabs">
         <ul>
             <x-mailcoach::navigation-item :href="route('mailcoach.transactionalMail.show', $transactionalMail)">

@@ -18,7 +18,7 @@ class SubscriberDetailsController
     {
         $this->authorize('view', $emailList);
 
-        return view('mailcoach::app.emailLists.subscriber.edit', new SubscriberViewModel($subscriber));
+        return view('mailcoach::app.emailLists.subscribers.edit', new SubscriberViewModel($subscriber));
     }
 
     public function update(

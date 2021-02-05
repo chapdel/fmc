@@ -5,7 +5,8 @@
     @apply items-center;
     @apply ml-2;
     @apply rounded-full;
-    @apply bg-gray-200;
+    @apply bg-blue-200;
+    @apply text-blue-900;
     @apply font-bold;
     height: 2em;
     min-width: 2em;
@@ -14,7 +15,7 @@
     padding: 0 0.35rem;
 }
 
-.tabs .active .counter,
+.navigation .counter,
 .filters .filter-active .counter {
     @apply bg-blue-500;
     @apply text-white;

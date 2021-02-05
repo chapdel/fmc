@@ -1,4 +1,4 @@
-@extends('mailcoach::app.layouts.app', ['title' => ($title ?? '')   . ' | ' .  $campaign->name ])
+@extends('mailcoach::app.layouts.main', ['subTitle' => $campaign->name ])
 
 @section('nav')
      <x-mailcoach::navigation :title="$campaign->name" :backHref="route('mailcoach.campaigns')" :backLabel="__('Campaigns')">
@@ -41,10 +41,6 @@
     </x-mailcoach::navigation>
 @endsection
 
-@section('content')   
-        <h1 class="markup-h1 mb-12">
-            <div class="font-normal text-blue-700">{{ $campaign->name }}</div>
-            {{ $title }}
-        </h1>
-        @yield('campaign')
+@section('main')   
+    @yield('campaign')
 @endsection

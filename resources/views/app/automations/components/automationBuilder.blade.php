@@ -19,7 +19,7 @@
                     @endif
                 @endif
                 <button class="text-red-400" type="button" wire:click="removeAction({{ $index }})">
-                    <i class="far fa-trash"></i>
+                    <i class="far fa-trash-alt"></i>
                 </button>
             </div>
             @if ($action['editing'] ?? false && $action['class']::getComponent())

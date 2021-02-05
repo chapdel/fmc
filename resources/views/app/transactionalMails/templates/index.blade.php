@@ -1,17 +1,6 @@
-@extends('mailcoach::app.layouts.app', ['title' => __('Transactional mail templates')])
+@extends('mailcoach::app.layouts.main', ['title' => __('Transactional mail templates')])
 
-@section('header')
-    <nav>
-        <ul class="breadcrumbs">
-            <li>
-                <span class="breadcrumb">{{ __('Transactional mail templates') }}</span>
-            </li>
-        </ul>
-    </nav>
-@endsection
-
-@section('content')
-    <section class="card">
+@section('main')
         <div class="table-actions">
             <x-mailcoach::button dataModalTrigger="create-template" :label="__('Create template')"/>
 

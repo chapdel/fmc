@@ -2,11 +2,14 @@
     @apply font-bold;
     @apply text-xl;
     @apply mt-2;
-    @apply mb-12;
+    @apply mb-10;
 }
 
-.markup-h1-small {
-    @apply font-normal;
+.markup-h1-sub {
+    @apply font-semibold;
+    @apply text-sm;
+    @apply uppercase;
+    @apply tracking-wider;
     @apply text-blue-700;
 }
 .markup-h2 {

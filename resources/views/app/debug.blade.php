@@ -1,4 +1,4 @@
-@extends('mailcoach::app.layouts.app', ['title' => __('Debug')])
+@extends('mailcoach::app.layouts.main', ['title' => __('Debug')])
 
 @section('header')
     <nav>
@@ -10,7 +10,7 @@
     </nav>
 @endsection
 
-@section('content')
+@section('main')
 @php($issueBody = "## Describe your issue\n\n\n\n---\n## Health check:\n\n")
 <section class="card">
     <table>

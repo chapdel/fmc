@@ -1,16 +1,7 @@
-@extends('mailcoach::app.emailLists.layouts.subscriber', [
+@extends('mailcoach::app.emailLists.subscribers.layouts.subscriber', [
     'subscriber' => $subscriber,
-    'titlePrefix' => __('Received campaigns'),
+    'emailList' => $subscriber->emailList,
 ])
-
-@section('breadcrumbs')
-    <li>
-        <a href="{{ route('mailcoach.emailLists.subscriber.details', [$subscriber->emailList, $subscriber]) }}">
-            <span class="breadcrumb">{{ $subscriber->email }}</span>
-        </a>
-    </li>
-    <li><span class="breadcrumb">{{ __('Received campaigns') }}</span></li>
-@endsection
 
 @section('subscriber')
     @if($sends->count())

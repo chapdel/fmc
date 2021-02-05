@@ -15,8 +15,7 @@
     @apply text-right;
 }
 
-.navigation li a,
-.navigation li button  {
+.navigation li :is(a, button)  {
     @apply -mx-2;
     @apply px-2;
     @apply rounded;
@@ -24,6 +23,10 @@
     @apply inline-flex;
     @apply items-center;
     @apply text-blue-100;
+}
+
+.navigation :is(a:hover, button:hover) {
+    @apply text-white;
 }
 
 .navigation :is(.active a, a:hover, button:hover):after {
@@ -39,6 +42,7 @@
     @apply rounded-full;
     @apply bg-blue-500;
 }
+
 
 .navigation h3 {
     @apply block;
