@@ -26,6 +26,5 @@ class RemoveTagsActionComponent extends AutomationActionComponent
     public function render()
     {
         return view('mailcoach::app.automations.components.actions.removeTagsAction');
-
     }
 }

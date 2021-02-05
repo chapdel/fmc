@@ -9,6 +9,5 @@ class TagRemovedTriggerComponent extends AutomationTriggerComponent
     public function render()
     {
         return view('mailcoach::app.automations.components.triggers.tagRemoved');
-
     }
 }

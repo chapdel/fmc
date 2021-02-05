@@ -41,7 +41,6 @@ string $campaign_id = '';
 
     public function render()
     {
-       return view('mailcoach::app.automations.components.actions.campaignAction');
-
+        return view('mailcoach::app.automations.components.actions.campaignAction');
     }
 }

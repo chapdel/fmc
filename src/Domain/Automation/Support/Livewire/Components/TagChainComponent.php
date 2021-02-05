@@ -54,6 +54,5 @@ class TagChainComponent extends Component
     public function render()
     {
         return view('mailcoach::app.automations.components.tagChain');
-
     }
 }
