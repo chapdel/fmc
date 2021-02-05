@@ -1,6 +1,6 @@
 @extends('mailcoach::landingPages.layouts.landingPage', ['title' => __('Unsubscribed')])
 
-@section('main')
+@section('landing')
     <p class="mt-4">
         {!! __('Are you sure you want to unsubscribe from list <strong class="font-semibold">:emailListName</strong>?', ['emailListName' => $subscriber->emailList->name]) !!}
     </p>

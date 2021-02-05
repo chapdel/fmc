@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="referrer" content="always">
 
-        <title>{{ isset($title) ? "{$title} |" : '' }} {{ isset($subTitle) ? "{$subTitle} |" : '' }} Mailcoach</title>
+        <title>{{ isset($title) ? "{$title} |" : '' }} {{ isset($originTitle) ? "{$originTitle} |" : '' }} Mailcoach</title>
 
         <link rel="stylesheet" href="{{ asset('vendor/mailcoach/app.css') }}?t={{ app(\Spatie\Mailcoach\Domain\Shared\Support\Version::class)->getHashedFullVersion() }}">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.0/css/all.css">
@@ -48,8 +48,14 @@
                     @include('mailcoach::app.layouts.partials.flash')
                     
                     <h1 class="markup-h1">
-                        @isset($subTitle)
-                            <div class="markup-h1-sub">{{ $subTitle }}</div>
+                        @isset($originTitle)
+                            <div class="markup-h1-sub">
+                                @isset($originHref)
+                                    <a href="{{ $originHref }}">{{ $originTitle }}</a>
+                                @else
+                                    {{ $originTitle }}
+                                @endif
+                            </div>
                         @endif
                         {{ $title ?? '' }}
                     </h1>

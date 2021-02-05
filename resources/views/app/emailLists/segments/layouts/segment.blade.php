@@ -1,6 +1,7 @@
 @extends('mailcoach::app.emailLists.layouts.emailList', [
     'title' => $segment->name,
-    'subTitle' => __('Segments')
+    'originTitle' => __('Segments'),
+    'originHref' => route('mailcoach.emailLists.segments', ['emailList' => $segment->emailList])
 ])
 
 @section('emailList')

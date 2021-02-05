@@ -1,6 +1,6 @@
 @extends('mailcoach::landingPages.layouts.landingPage', ['title' => __('Subscribed')])
 
-@section('main')
+@section('landing')
     <p>
         {{ __('Happy to have you!') }}
     </p>

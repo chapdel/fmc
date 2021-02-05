@@ -1,5 +1,5 @@
 @extends('mailcoach::app.layouts.main', [
-    'subTitle' => $subTitle ?? $emailList->name
+    'originTitle' => $originTitle ?? $emailList->name
 ])
 
 @section('nav')

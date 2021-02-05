@@ -1,4 +1,4 @@
-@extends('mailcoach::app.layouts.main', ['subTitle' => $automation->name ])
+@extends('mailcoach::app.layouts.main', ['originTitle' => $automation->name ])
 
 @section('nav')
      <x-mailcoach::navigation :title="$automation->name" :backHref="route('mailcoach.automations')" :backLabel="__('Automations')">

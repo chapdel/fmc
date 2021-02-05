@@ -16,7 +16,7 @@
                 <div class="w-full max-w-xl">
                     <div class="card shadow-2xl border-l-8 border-blue-500">
                         <div class="text-lg md:text-xl lg:text-2xl">
-                            @yield('content')
+                            @yield('landing')
                         </div>
                     </div>
                 </div>

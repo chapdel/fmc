@@ -1,6 +1,6 @@
 @extends('mailcoach::app.emailLists.layouts.emailList', [
     'title' => $subscriber->email,
-    'subTitle' => __('Subscribers')
+    'originTitle' => __('Subscribers')
 ])
 
 @section('emailList')

@@ -1,4 +1,4 @@
-@extends('mailcoach::app.layouts.main', ['title' => $template->name, 'subTitle' => __('Templates')])
+@extends('mailcoach::app.layouts.main', ['title' => $template->name, 'originTitle' => __('Templates')])
 
 @section('main')
     <form
