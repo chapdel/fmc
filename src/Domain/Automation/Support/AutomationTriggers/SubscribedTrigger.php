@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Support\AutomationTriggers;
 
 use Spatie\Mailcoach\Domain\Campaign\Events\SubscribedEvent;
 
-class SubscribedTrigger extends AutomationTrigger
+class SubscribedTrigger extends AutomationTrigger implements TriggeredByEvents
 {
     public static function getName(): string
     {
@@ -16,7 +16,7 @@ class SubscribedTrigger extends AutomationTrigger
         $events->listen(
             SubscribedEvent::class,
             function ($event) {
-                $this->fire($event->subscriber);
+                $this->fireAutomation($event->subscriber);
             }
         );
     }

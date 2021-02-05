@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Support\AutomationTriggers;
 
 use Spatie\Mailcoach\Domain\Campaign\Events\TagAddedEvent;
 
-class TagAddedTrigger extends AutomationTrigger
+class TagAddedTrigger extends AutomationTrigger implements TriggeredByEvents
 {
     public string $tag = '';
 
@@ -38,7 +38,7 @@ class TagAddedTrigger extends AutomationTrigger
             TagAddedEvent::class,
             function ($event) {
                 if ($event->tag->name === $this->tag) {
-                    $this->fire($event->subscriber);
+                    $this->fireAutomation($event->subscriber);
                 }
             }
         );

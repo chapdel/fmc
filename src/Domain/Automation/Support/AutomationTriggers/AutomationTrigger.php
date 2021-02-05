@@ -17,20 +17,12 @@ abstract class AutomationTrigger extends AutomationStep
 {
     use UsesMailcoachModels;
 
-    public function trigger(Automation $automation): void
-    {
-    }
-
-    public function subscribe($events): void
-    {
-    }
-
     public static function rules(): array
     {
         return [];
     }
 
-    public function fire(Subscriber | Collection | QueryBuilder | EloquentBuilder | array $subscribers): void
+    public function fireAutomation(Subscriber | Collection | QueryBuilder | EloquentBuilder | array $subscribers): void
     {
         if ($subscribers instanceof EloquentBuilder || $subscribers instanceof QueryBuilder) {
             $subscribers = $subscribers->cursor();

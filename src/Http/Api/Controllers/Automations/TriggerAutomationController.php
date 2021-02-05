@@ -22,7 +22,7 @@ class TriggerAutomationController
 
         abort_unless($automation->trigger instanceof WebhookTrigger, 400, "This automation does not have a Webhook trigger.");
 
-        $automation->trigger->fire(Subscriber::whereIn('id', $request->get('subscribers')));
+        $automation->trigger->fireAutomation(Subscriber::whereIn('id', $request->get('subscribers')));
 
         return response()->json();
     }
