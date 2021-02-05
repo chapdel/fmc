@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Automation\Support\AutomationActions;
+namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
 
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignToSubscriberJob;

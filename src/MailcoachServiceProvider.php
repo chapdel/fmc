@@ -25,7 +25,7 @@ use Spatie\Mailcoach\Components\THComponent;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationActionsCommand;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationTriggersCommand;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Domain\Automation\Support\AutomationTriggers\TriggeredByEvents;
+use Spatie\Mailcoach\Domain\Automation\Support\Triggers\TriggeredByEvents;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\AddTagsActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\CampaignActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\EnsureTagsExistActionComponent;
@@ -317,7 +317,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
             });
 
             $automations->each(function (Automation $automation) {
-                /** @var \Spatie\Mailcoach\Domain\Automation\Support\AutomationTriggers\AutomationTrigger|null $trigger */
+                /** @var \Spatie\Mailcoach\Domain\Automation\Support\Triggers\AutomationTrigger|null $trigger */
                 $trigger = $automation->trigger;
 
                 if (! $trigger) {

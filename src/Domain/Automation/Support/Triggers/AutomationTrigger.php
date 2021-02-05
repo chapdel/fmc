@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Spatie\Mailcoach\Domain\Automation\Support\AutomationTriggers;
+namespace Spatie\Mailcoach\Domain\Automation\Support\Triggers;
 
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder as QueryBuilder;

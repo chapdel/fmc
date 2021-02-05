@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Automation\Support\AutomationTriggers;
+namespace Spatie\Mailcoach\Domain\Automation\Support\Triggers;
 
-use Spatie\Mailcoach\Domain\Campaign\Events\TagAddedEvent;
+use Spatie\Mailcoach\Domain\Campaign\Events\TagRemovedEvent;
 
-class TagAddedTrigger extends AutomationTrigger implements TriggeredByEvents
+class TagRemovedTrigger extends AutomationTrigger implements TriggeredByEvents
 {
     public string $tag = '';
 
@@ -17,12 +17,12 @@ class TagAddedTrigger extends AutomationTrigger implements TriggeredByEvents
 
     public static function getName(): string
     {
-        return __('When a tag gets added to a subscriber');
+        return __('When a tag gets removed from a subscriber');
     }
 
     public static function getComponent(): ?string
     {
-        return 'tag-added-trigger';
+        return 'tag-removed-trigger';
     }
 
     public static function rules(): array
@@ -35,7 +35,7 @@ class TagAddedTrigger extends AutomationTrigger implements TriggeredByEvents
     public function subscribe($events): void
     {
         $events->listen(
-            TagAddedEvent::class,
+            TagRemovedEvent::class,
             function ($event) {
                 if ($event->tag->name === $this->tag) {
                     $this->runAutomation($event->subscriber);

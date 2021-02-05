@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Automation\Support\AutomationTriggers;
+namespace Spatie\Mailcoach\Domain\Automation\Support\Triggers;
 
 use Carbon\CarbonInterface;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
