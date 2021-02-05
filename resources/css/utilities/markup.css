@@ -10,7 +10,7 @@
     @apply text-sm;
     @apply uppercase;
     @apply tracking-wider;
-    @apply text-blue-700;
+    @apply text-gray-500;
 }
 .markup-h2 {
     @apply text-lg;

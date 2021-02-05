@@ -51,7 +51,7 @@
                         @isset($originTitle)
                             <div class="markup-h1-sub">
                                 @isset($originHref)
-                                    <a href="{{ $originHref }}">{{ $originTitle }}</a>
+                                    <a class="text-blue-500" href="{{ $originHref }}">{{ $originTitle }}</a>
                                 @else
                                     {{ $originTitle }}
                                 @endif

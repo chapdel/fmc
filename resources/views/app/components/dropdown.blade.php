@@ -3,7 +3,7 @@
         @if(isset($trigger))
             {{ $trigger }}
         @else
-            <i class="far fa-ellipsis-v | dropdown-trigger-rotate"></i>
+            <i class="fas fa-ellipsis-v | dropdown-trigger-rotate"></i>
         @endif
     </button>
     <div class="dropdown-list {{ isset($direction) ? 'dropdown-list-' . $direction : '' }} | hidden" data-dropdown-list>

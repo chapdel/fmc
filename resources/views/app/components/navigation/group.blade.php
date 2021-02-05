@@ -1,3 +1,11 @@
+@php
+    $maxLength = 22;
+    $partLength = floor(($maxLength - 1)/2);
+    $titleTruncated = strlen($title) > $maxLength ? 
+        substr($title, 0, $partLength ) . '…' . substr($title, -$partLength )
+        : $title;
+@endphp
+
 <div class="navigation-group">
     <div class="flex justify-end">
         <h3 class="truncate">
@@ -6,7 +14,7 @@
                 <i class="fa-fw {{ $icon }}"></i>
                 @endisset
                 <span class="icon-label-text">
-                    {{ $title ?? '' }}
+                    {{ $titleTruncated ?? '' }}
                 </span>
             </span>
         </h3>

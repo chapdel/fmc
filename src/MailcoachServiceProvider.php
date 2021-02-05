@@ -261,8 +261,11 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.components.navigation.group', 'mailcoach::navigation-group');
         Blade::component('mailcoach::app.components.navigation.tabs', 'mailcoach::navigation-tabs');
 
-        Blade::component('mailcoach::app.components.help', 'mailcoach::help');
-        Blade::component('mailcoach::app.components.warning', 'mailcoach::warning');
+        Blade::component('mailcoach::app.components.alert.help', 'mailcoach::help');
+        Blade::component('mailcoach::app.components.alert.warning', 'mailcoach::warning');
+        Blade::component('mailcoach::app.components.alert.error', 'mailcoach::error');
+        Blade::component('mailcoach::app.components.alert.success', 'mailcoach::success');
+
         Blade::component('mailcoach::app.components.counter', 'mailcoach::counter');
         Blade::component(MailPersonsComponent::class, 'mailcoach::mail-persons');
 

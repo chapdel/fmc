@@ -3,7 +3,7 @@
 @section('nav')
      <x-mailcoach::navigation :title="$campaign->name" :backHref="route('mailcoach.campaigns')" :backLabel="__('Campaigns')">
         @if (true || $campaign->isAutomated() || $campaign->isSendingOrSent())
-        <x-mailcoach::navigation-group icon="far fa-chart-line" :title="__('Performance')">
+        <x-mailcoach::navigation-group icon="fas fa-chart-line" :title="__('Performance')">
                 <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.summary', $campaign)" data-dirty-warn>
                     {{ __('Summary') }}
                 </x-mailcoach::navigation-item>

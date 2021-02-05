@@ -5,8 +5,8 @@
     @apply items-center;
     @apply ml-2;
     @apply rounded-full;
-    @apply bg-blue-200;
-    @apply text-blue-900;
+    @apply bg-gray-300;
+    @apply bg-opacity-25;
     @apply font-bold;
     height: 2em;
     min-width: 2em;

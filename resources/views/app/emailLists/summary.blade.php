@@ -6,11 +6,7 @@
 @section('emailList')
     @include('mailcoach::app.emailLists.partials.chart')
 
-    <hr class="border-t-2 border-gray-200 my-8">
-
-    <h2 class="markup-h2">{{ __('Statistics') }}</h2>
-
-    <div class="mt-6 grid grid-cols-4 gap-6 justify-start items-end">
+    <div class="mt-10 grid grid-cols-4 gap-6 justify-start items-end">
         <x-mailcoach::statistic :href="route('mailcoach.emailLists.subscribers', $emailList)" class="col-start-1"
                                 numClass="text-4xl font-semibold" :stat="number_format($totalSubscriptionsCount)" :label="__('Subscribers')"/>
         <x-mailcoach::statistic :href="route('mailcoach.emailLists.subscribers', $emailList)"
