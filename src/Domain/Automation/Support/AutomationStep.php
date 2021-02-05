@@ -4,7 +4,6 @@
 namespace Spatie\Mailcoach\Domain\Automation\Support;
 
 use Illuminate\Support\Str;
-use Spatie\Mailcoach\Domain\Automation\Support\AutomationActions\AutomationAction;
 
 abstract class AutomationStep
 {

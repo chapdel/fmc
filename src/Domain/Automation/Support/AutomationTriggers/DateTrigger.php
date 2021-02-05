@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Domain\Automation\Support\AutomationTriggers;
 
 use Carbon\CarbonInterface;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Domain\Automation\Support\AutomationTriggers\AutomationTrigger;
 use Spatie\Mailcoach\Domain\Campaign\Rules\DateTimeFieldRule;
 
 class DateTrigger extends AutomationTrigger
