@@ -32,9 +32,7 @@ class AutomationBuilder extends AutomationActionComponent
     public function render()
     {
         $actionOptions = collect(config('mailcoach.automation.actions'))
-            ->flatMap(function (string $action) {
-                return [$action => $action::getName()];
-            });
+            ->flatMap(fn(string $action) => [$action => $action::getName()]);
 
         return view('mailcoach::app.automations.components.automationBuilder', [
             'actionOptions' => $actionOptions,
@@ -94,7 +92,7 @@ class AutomationBuilder extends AutomationActionComponent
         $this->emitUp('automationBuilderUpdated', $this->getData());
     }
 
-    private function validateAction(int $index): array
+    protected function validateAction(int $index): array
     {
         $componentClass = $this->actions[$index]['class']::getComponent();
         if (! $componentClass) {

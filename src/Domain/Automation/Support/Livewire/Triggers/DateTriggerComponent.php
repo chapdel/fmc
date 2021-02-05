@@ -8,15 +8,6 @@ class DateTriggerComponent extends AutomationTriggerComponent
 {
     public function render()
     {
-        return <<<'blade'
-            <div>
-                <x-mailcoach::date-time-field
-                    :label="__('Date')"
-                    name="date"
-                    :value="$automation->trigger->date ?? null"
-                    required
-                />
-            </div>
-        blade;
+        return view('mailcoach::app.automations.components.triggers.dateTrigger');
     }
 }

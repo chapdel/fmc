@@ -25,15 +25,7 @@ class RemoveTagsActionComponent extends AutomationActionComponent
 
     public function render()
     {
-        return <<<'blade'
-            <div>
-                <x-mailcoach::text-field
-                    :label="__('Tags to remove')"
-                    :required="true"
-                    name="tags"
-                    wire:model="tags"
-                />
-            </div>
-        blade;
+        return view('mailcoach::app.automations.components.actions.removeTagsAction');
+
     }
 }

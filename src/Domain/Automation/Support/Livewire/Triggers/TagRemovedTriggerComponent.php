@@ -8,15 +8,7 @@ class TagRemovedTriggerComponent extends AutomationTriggerComponent
 {
     public function render()
     {
-        return <<<'blade'
-            <div>
-                <x-mailcoach::text-field
-                    :label="__('Tag')"
-                    name="tag"
-                    :value="$automation->trigger->tag ?? null"
-                    required
-                />
-            </div>
-        blade;
+        return view('mailcoach::app.automations.components.triggers.tagRemoved');
+
     }
 }

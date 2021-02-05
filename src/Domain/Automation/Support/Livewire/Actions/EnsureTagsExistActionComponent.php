@@ -63,6 +63,6 @@ class EnsureTagsExistActionComponent extends AutomationActionComponent
 
     public function render()
     {
-        return view('mailcoach::app.automations.components.ensureTagsExistAction');
+        return view('mailcoach::app.automations.components.actions.ensureTagsExistAction');
     }
 }

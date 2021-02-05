@@ -12,9 +12,9 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 class EnsureTagsExistAction extends AutomationAction
 {
     public function __construct(
-        private CarbonInterval $checkFor,
-        private array $tags,
-        private array $defaultActions = [],
+        protected CarbonInterval $checkFor,
+        protected array $tags,
+        protected array $defaultActions = [],
         ?string $uuid = null,
     ) {
         parent::__construct($uuid);
@@ -112,7 +112,7 @@ class EnsureTagsExistAction extends AutomationAction
         return $parent;
     }
 
-    private function storeChildAction($action, Automation $automation, Action $parent, string $key, int $order): Action
+    protected function storeChildAction($action, Automation $automation, Action $parent, string $key, int $order): Action
     {
         if (! $action instanceof AutomationAction) {
             $uuid = $action['uuid'];
