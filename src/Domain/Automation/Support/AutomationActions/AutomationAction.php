@@ -1,10 +1,11 @@
 <?php
 
 
-namespace Spatie\Mailcoach\Domain\Automation\Models\Concerns;
+namespace Spatie\Mailcoach\Domain\Automation\Support\AutomationActions;
 
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
+use Spatie\Mailcoach\Domain\Automation\Support\AutomationStep;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 
 abstract class AutomationAction extends AutomationStep

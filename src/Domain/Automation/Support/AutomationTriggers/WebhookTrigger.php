@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Automation\Support\Triggers;
+namespace Spatie\Mailcoach\Domain\Automation\Support\AutomationTriggers;
 
-use Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationTrigger;
+use Spatie\Mailcoach\Domain\Automation\Support\AutomationTriggers\AutomationTrigger;
 
 class WebhookTrigger extends AutomationTrigger
 {

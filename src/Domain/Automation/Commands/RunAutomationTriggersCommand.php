@@ -26,7 +26,7 @@ class RunAutomationTriggersCommand extends Command
             ->each(function (Automation $automation) {
                 $this->info("Triggering automation id `{$automation->id}`");
 
-                /** @var \Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationTrigger $trigger */
+                /** @var \Spatie\Mailcoach\Domain\Automation\Support\AutomationTriggers\AutomationTrigger $trigger */
                 $trigger = $automation->trigger;
 
                 $trigger->trigger($automation);

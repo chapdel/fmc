@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
+namespace Spatie\Mailcoach\Domain\Automation\Support\AutomationActions;
 
 use Illuminate\Queue\SerializesModels;
-use Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationAction;
+use Spatie\Mailcoach\Domain\Automation\Support\AutomationActions\AutomationAction;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignToSubscriberJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;

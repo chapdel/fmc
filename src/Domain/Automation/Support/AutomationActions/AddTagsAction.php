@@ -1,11 +1,11 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
+namespace Spatie\Mailcoach\Domain\Automation\Support\AutomationActions;
 
-use Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationAction;
+use Spatie\Mailcoach\Domain\Automation\Support\AutomationActions\AutomationAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 
-class RemoveTagsAction extends AutomationAction
+class AddTagsAction extends AutomationAction
 {
     public array $tags;
 
@@ -18,7 +18,7 @@ class RemoveTagsAction extends AutomationAction
 
     public static function getName(): string
     {
-        return __('Remove tags');
+        return __('Add tags');
     }
 
     public function getDescription(): string
@@ -28,7 +28,7 @@ class RemoveTagsAction extends AutomationAction
 
     public static function getComponent(): ?string
     {
-        return 'remove-tags-action';
+        return 'add-tags-action';
     }
 
     public static function make(array $data): self
@@ -45,6 +45,6 @@ class RemoveTagsAction extends AutomationAction
 
     public function run(Subscriber $subscriber): void
     {
-        $subscriber->removeTags($this->tags);
+        $subscriber->addTags($this->tags);
     }
 }

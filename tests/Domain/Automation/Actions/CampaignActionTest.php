@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Tests\Domain\Automation\Actions;
 
 use Illuminate\Support\Facades\Queue;
-use Spatie\Mailcoach\Domain\Automation\Support\Actions\CampaignAction;
+use Spatie\Mailcoach\Domain\Automation\Support\AutomationActions\CampaignAction;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignToSubscriberJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;

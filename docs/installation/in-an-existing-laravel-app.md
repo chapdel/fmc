@@ -154,17 +154,17 @@ return [
 
     'automation' => [
         'actions' => [
-            \Spatie\Mailcoach\Domain\Automation\Support\Actions\AddTagsAction::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Actions\CampaignAction::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Actions\EnsureTagsExistAction::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Actions\RemoveTagsAction::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\AutomationActions\AddTagsAction::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\AutomationActions\CampaignAction::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\AutomationActions\EnsureTagsExistAction::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\AutomationActions\HaltAction::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\AutomationActions\RemoveTagsAction::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\AutomationActions\WaitAction::class,
         ],
         'triggers' => [
-            \Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Triggers\DateTrigger::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Triggers\TagAddedTrigger::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\AutomationTriggers\SubscribedTrigger::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\AutomationTriggers\DateTrigger::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\AutomationTriggers\TagAddedTrigger::class,
         ],
     ],
 

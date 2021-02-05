@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
+namespace Spatie\Mailcoach\Domain\Automation\Support\AutomationActions;
 
 use Carbon\CarbonInterval;
 use Illuminate\Support\Str;
-use Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationAction;
+use Spatie\Mailcoach\Domain\Automation\Support\AutomationActions\AutomationAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 
 class WaitAction extends AutomationAction

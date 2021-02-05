@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
 use Spatie\Mailcoach\Domain\Automation\Exceptions\CouldNotStartAutomation;
-use Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationAction;
-use Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationTrigger;
+use Spatie\Mailcoach\Domain\Automation\Support\AutomationActions\AutomationAction;
+use Spatie\Mailcoach\Domain\Automation\Support\AutomationTriggers\AutomationTrigger;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\SendsToSegment;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
@@ -120,7 +120,7 @@ class Automation extends Model
         $newActions->each(function ($action, $index) {
             if (! $action instanceof AutomationAction) {
                 $uuid = $action['uuid'];
-                /** @var \Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationAction $action */
+                /** @var \Spatie\Mailcoach\Domain\Automation\Support\AutomationActions\AutomationAction $action */
                 $action = $action['class']::make($action['data']);
                 $action->uuid = $uuid;
             }

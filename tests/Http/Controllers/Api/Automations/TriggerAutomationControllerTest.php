@@ -4,9 +4,9 @@ namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Campaigns;
 
 use Carbon\CarbonInterval;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Domain\Automation\Support\Actions\CampaignAction;
-use Spatie\Mailcoach\Domain\Automation\Support\Triggers\DateTrigger;
-use Spatie\Mailcoach\Domain\Automation\Support\Triggers\WebhookTrigger;
+use Spatie\Mailcoach\Domain\Automation\Support\AutomationActions\CampaignAction;
+use Spatie\Mailcoach\Domain\Automation\Support\AutomationTriggers\DateTrigger;
+use Spatie\Mailcoach\Domain\Automation\Support\AutomationTriggers\WebhookTrigger;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\Api\Controllers\Automations\TriggerAutomationController;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
