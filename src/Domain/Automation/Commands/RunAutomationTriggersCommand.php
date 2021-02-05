@@ -24,7 +24,12 @@ class RunAutomationTriggersCommand extends Command
             ->where('status', AutomationStatus::STARTED)
             ->cursor()
             ->each(function (Automation $automation) {
-                $automation->trigger->trigger($automation);
+                $this->info("Triggering automation id `{$automation->id}`");
+
+                /** @var \Spatie\Mailcoach\Domain\Automation\Models\Concerns\AutomationTrigger $trigger */
+                $trigger = $automation->trigger;
+
+                $trigger->trigger($automation);
             });
 
         $this->comment('All done!');

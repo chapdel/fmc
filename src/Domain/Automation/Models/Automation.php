@@ -30,16 +30,6 @@ class Automation extends Model
         'run_at' => 'datetime',
     ];
 
-    public function setTriggerAttribute(AutomationTrigger $value)
-    {
-        $this->attributes['trigger'] = serialize($value);
-    }
-
-    public function getTriggerAttribute(?string $value)
-    {
-        return unserialize($value);
-    }
-
     public static function booted()
     {
         static::creating(function (Automation $automation) {
@@ -52,6 +42,18 @@ class Automation extends Model
             cache()->forget('mailcoach-automations');
         });
     }
+
+    public function setTriggerAttribute(AutomationTrigger $value)
+    {
+        $this->attributes['trigger'] = serialize($value);
+    }
+
+    public function getTriggerAttribute(?string $value)
+    {
+        return unserialize($value);
+    }
+
+
 
     public function name(string $name): self
     {

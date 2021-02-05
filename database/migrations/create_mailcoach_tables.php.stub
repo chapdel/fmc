@@ -459,24 +459,6 @@ class CreateMailcoachTables extends Migration
             $table->timestamps();
         });
 
-        Schema::create('mailcoach_transactional_mail_templates', function (Blueprint $table) {
-            $table->id();
-
-            $table->string('name');
-
-            $table->text('subject')->nullable();
-            $table->json('from')->nullable();
-            $table->json('cc')->nullable();
-            $table->json('bcc')->nullable();
-            $table->longText('body')->nullable();
-
-            $table->boolean('store_mail')->default(false);
-            $table->boolean('track_opens')->default(false);
-            $table->boolean('track_clicks')->default(false);
-
-            $table->timestamps();
-        });
-
         Schema::create('mailcoach_automation_actions', function (Blueprint $table) {
             $table->id();
 
@@ -519,17 +501,19 @@ class CreateMailcoachTables extends Migration
                 ->onDelete('cascade');
         });
 
-        Schema::create('mailcoach_transactions_mail_templates', function (Blueprint $table) {
-            $table->string('label');
+        Schema::create('mailcoach_transactional_mail_templates', function (Blueprint $table) {
+            $table->id();
+            $table->json('cc')->nullable();
+            $table->string('label')->nullable();
             $table->string('name');
             $table->string('subject')->nullable();
             $table->text('from')->nullable();
             $table->json('to')->nullable();
-            $table->json('cc')->nullable();
             $table->json('bcc')->nullable();
             $table->longText('body')->nullable();
             $table->string('type'); // html, blade, markdown
             $table->json('replacers')->nullable();
+            $table->boolean('store_mail')->default(false);
             $table->boolean('track_opens')->default(false);
             $table->boolean('track_clicks')->default(false);
             $table->text('test_using_mailable')->nullable();

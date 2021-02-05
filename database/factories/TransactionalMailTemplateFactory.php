@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Schema;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailableWithTemplate;
 
@@ -13,7 +14,6 @@ class TransactionalMailTemplateFactory extends Factory
     public function definition()
     {
         return [
-            'label' => $this->faker->word,
             'name' => $this->faker->word,
             'subject' => $this->faker->sentence,
             'from' => $this->faker->email,
