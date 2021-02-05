@@ -62,7 +62,10 @@ abstract class AutomationTrigger extends AutomationStep
                             return;
                         }
 
-                        if (! $automation->newSubscribersQuery()->where($this->getSubscriberTableName() . '.id', $subscriber->id)->count()) {
+                        if (! $automation
+                            ->newSubscribersQuery()
+                            ->where("{$this->getSubscriberTableName()}.id", $subscriber->id)
+                            ->count()) {
                             return;
                         }
 
