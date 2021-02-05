@@ -1,6 +1,17 @@
 @extends('mailcoach::app.layouts.app')
 
 @section('nav')
+    <div class="flex justify-end px-8 pt-8">
+        <a href="{{ route('mailcoach.home') }}">
+            <span 
+            class="group w-10 h-10 flex items-center justify-center bg-gradient-to-b from-blue-500 to-blue-600 text-white rounded-full">
+                <span class="flex items-center justify-center w-6 h-6 transform group-hover:scale-90 transition-transform duration-150">
+                    @include('mailcoach::app.layouts.partials.logoSvg')
+                </span>
+            </span>
+        </a>
+    </div>
+
     <x-mailcoach::navigation>
 
         @include('mailcoach::app.layouts.partials.beforeFirstMenuItem')
@@ -20,7 +31,7 @@
             <x-mailcoach::navigation-item :href="route('mailcoach.automations')">
                 {{ __('Automations') }}
             </x-mailcoach::navigation-item>
-            <x-mailcoach::navigation-item :href="route('mailcoach.campaigns')">
+            <x-mailcoach::navigation-item :href="route('mailcoach.automations')">
                 {{ __('Emails') }}
             </x-mailcoach::navigation-item>
         </x-mailcoach::navigation-group>
@@ -42,11 +53,13 @@
             </x-mailcoach::navigation-item>
         </x-mailcoach::navigation-group>
 
-         @include('mailcoach::app.layouts.partials.afterLastMenuItem')
+        @include('mailcoach::app.layouts.partials.afterLastMenuItem')
        
+        @include('mailcoach::app.layouts.partials.headerRight')
     </x-mailcoach::navigation>
 
-    <div class="mt-auto pt-8 flex justify-end">
-        @include('mailcoach::app.layouts.partials.headerRight')
-    </div>
+@endsection
+
+@section('content')
+    @yield('main')
 @endsection

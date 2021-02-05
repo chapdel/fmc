@@ -38,7 +38,6 @@
     @apply rounded-t;
     @apply lg:rounded-tr-none;
     @apply lg:rounded-l;
-    @apply p-8;
     @apply w-full;
 }
 

@@ -1,7 +1,6 @@
 @extends('mailcoach::app.campaigns.layouts.campaign', ['title' => __('Settings')])
 
 @section('campaign')
-    <h1 class="markup-h1">{{ __('Settings') }}</h1>
     <form
         class="form-grid"
         action="{{ route('mailcoach.campaigns.settings', $campaign) }}"

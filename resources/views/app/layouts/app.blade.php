@@ -41,23 +41,6 @@
             
             <div class="card card-split">
                 <nav class="card-nav">
-                    <ul class="pb-8 flex items-center justify-between">
-                        <li>
-                            @yield('up')
-                        </li>
-                        <x-mailcoach::navigation-item :href="route('mailcoach.home')">
-                                <span 
-                                class="group w-10 h-10 flex items-center justify-center bg-gradient-to-b from-blue-500 to-blue-600 text-white rounded-full">
-                                    <span class="flex items-center justify-center w-6 h-6 transform group-hover:scale-90 transition-transform duration-150">
-                                        @isset($logoIcon)
-                                            <i class="text-xl {{ $logoIcon }}"></i>
-                                        @else
-                                            @include('mailcoach::app.layouts.partials.logoSvg')
-                                        @endisset
-                                    </span>
-                                </span>
-                        </x-mailcoach::navigation-item>
-                    </ul>
 
                     @yield('nav')
 
@@ -65,7 +48,7 @@
 
                 <main class="card-main">
                     @include('mailcoach::app.layouts.partials.flash')
-                    @yield('main')
+                    @yield('content')
                 </main>
             </div>
 
