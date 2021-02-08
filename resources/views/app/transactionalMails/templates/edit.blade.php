@@ -1,4 +1,4 @@
-@extends('mailcoach::app.layouts.main', ['title' => $template->name])
+@extends('mailcoach::app.transactionalMails.templates.layouts.details', ['title' => $template->name])
 
 @section('header')
     <nav>
