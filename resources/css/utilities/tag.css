@@ -2,8 +2,8 @@
     @apply inline-flex;
     @apply items-center;
     @apply rounded-full;
-    @apply bg-blue-300;
-    @apply text-white;
+    @apply bg-yellow-100;
+    @apply text-yellow-700;
     @apply px-2;
     margin: 0 3px 3px 0;
     @apply text-xs;

@@ -71,3 +71,16 @@
 .button-cancel:focus {
     @apply link-dimmed-hover;
 }
+
+
+.button-red {
+    @apply from-red-500;
+    @apply to-red-600;
+}
+
+.button-red:not(:disabled):hover,
+.button-red:not(:disabled):focus,
+.button-red.dropdown-trigger-open {
+    @apply from-red-600;
+    @apply to-red-700;
+}

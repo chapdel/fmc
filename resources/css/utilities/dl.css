@@ -5,11 +5,20 @@
 }
 
 .dl dt {
-    @apply text-gray-400;
-    @apply pr-8;
+    @apply font-semibold;
+    @apply whitespace-nowrap;
+    @apply pr-12;
 }
+
+.dl dd {
+    @apply grid;
+    @apply gap-4;
+}
+
 
 .dl dt,
 .dl dd {
     @apply py-2;
+    @apply border-b;
+    @apply border-gray-100;
 }

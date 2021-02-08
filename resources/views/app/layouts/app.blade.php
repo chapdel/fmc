@@ -82,7 +82,7 @@
 
             <div class="form-buttons">
                 <x-mailcoach::button type="button" data-modal-confirm :label=" __('Confirm')" />
-                <x-mailcoach::button-cancel :label=" __('Confirm')" />
+                <x-mailcoach::button-cancel :label=" __('Cancel')" />
             </div>
         </x-mailcoach::modal>
 

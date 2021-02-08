@@ -89,3 +89,9 @@ code.markup-code,
     @apply rounded-sm;
     @apply text-gray-600;
 }
+
+.markup-dl {
+    @apply grid;
+    @apply gap-4;
+    grid-template-columns: auto 1fr;
+}

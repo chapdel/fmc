@@ -1,6 +1,6 @@
 @extends('mailcoach::app.campaigns.layouts.campaign', [
     'campaign' => $campaign,
-    'titlePrefix' => __('Unsubscribes'),
+    'title' => __('Unsubscribes'),
 ])
 
 @section('campaign')
@@ -43,9 +43,8 @@
     ></x-mailcoach::table-status>
 
     @else
-        <p class="alert alert-success">
-            <i class="far fa-sun text-orange-500 mr-2"></i>
+        <x-mailcoach::success>
             {{ __('No unsubscribes have been received yet.') }}
-        </p>
+        </x-mailcoach::success>
     @endif
 @endsection

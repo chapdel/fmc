@@ -1,5 +1,3 @@
-<h2 class="markup-h2">{{ __('Statistics') }}</h2>
-
 <div class="mt-6 grid grid-cols-3 gap-6 justify-start items-end max-w-xl">
     @if ($campaign->track_opens)
         <x-mailcoach::statistic :href="route('mailcoach.campaigns.opens', $campaign)" class="col-start-1"

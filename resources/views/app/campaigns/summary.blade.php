@@ -1,20 +1,10 @@
-@extends('mailcoach::app.campaigns.layouts.campaign', ['campaign' => $campaign])
+@extends('mailcoach::app.campaigns.layouts.campaign', 
+    ['campaign' => $campaign,
+    'title' => __('Performance')]
+
+)
 
 @section('campaign')
-
-    <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.opens', $campaign)">
-                                {{ __('Opens') }}
-                            </x-mailcoach::navigation-item>
-                            <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.clicks', $campaign)">
-                                {{ __('Clicks') }}
-                            </x-mailcoach::navigation-item>
-                            <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.unsubscribes', $campaign)">
-                                {{ __('Unsubscribes') }}
-                            </x-mailcoach::navigation-item>
-                            <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.outbox', $campaign)">
-                                {{ __('Outbox') }}
-                            </x-mailcoach::navigation-item>
-                            
     <div @if(!$campaign->sent_at || $campaign->sent_at->addDay()->isFuture() || $campaign->isAutomated()) id="campaign-summary" data-poll @endif>
         @if((! $campaign->isSent()) || (! $campaign->wasSentToAllSubscribers()))
             @if ($campaign->isAutomated())
@@ -167,8 +157,6 @@
                 @include('mailcoach::app.campaigns.partials.chart')
             </div>
         @endif
-
-        <hr class="border-t-2 border-gray-200 my-8">
 
         @include('mailcoach::app.campaigns.partials.statistics')
     </div>

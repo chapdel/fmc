@@ -13,7 +13,7 @@
             :data-confirm-text="__('Are you sure you want to resend :totalFailed mails?', ['totalFailed' => $totalFailed])"
             class="mt-4 button"
             >
-                <x-mailcoach::icon-label icon="fa-exclamation-triangle" :text="__('Try resending :totalFailed :email', ['totalFailed' => $totalFailed, 'email' => trans_choice(__('email|emails'), $totalFailed)])" />
+                {{ __('Try resending :totalFailed :email', ['totalFailed' => $totalFailed, 'email' => trans_choice(__('email|emails'), $totalFailed)]) }}
             </x-mailcoach::form-button>
     </div>
     @endif
