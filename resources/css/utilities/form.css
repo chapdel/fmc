@@ -4,6 +4,32 @@
     @apply max-w-full;
 }
 
+.form-fieldset {
+    @apply grid;
+    @apply gap-y-8;
+    @apply max-w-full;
+    @apply bg-gray-100;
+    @apply bg-opacity-50;
+    @apply rounded;
+    @apply -mx-6;
+    @apply p-6;
+}
+
+.form-fieldset legend {
+    @apply uppercase; 
+    @apply tracking-wider;
+    @apply text-xs;
+    @apply font-semibold;
+    @apply bg-gray-100;
+    @apply bg-opacity-50;
+    @apply text-gray-500;
+    @apply rounded;
+    @apply -mx-2;
+    @apply px-2;
+    @apply py-1;
+}
+
+
 .form-row {
     @apply grid;
     @apply items-start;

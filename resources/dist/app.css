@@ -1609,6 +1609,39 @@ code.markup-code, .markup-code code{
   max-width: 100%;
 }
 
+.form-fieldset {
+  display: grid;
+  row-gap: 2rem;
+  max-width: 100%;
+  --tw-bg-opacity: 1;
+  background-color: rgba(243, 244, 246, var(--tw-bg-opacity));
+  --tw-bg-opacity: 0.5;
+  border-radius: 0.25rem;
+  margin-left: -1.5rem;
+  margin-right: -1.5rem;
+  padding: 1.5rem;
+}
+
+.form-fieldset legend {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 600;
+  --tw-bg-opacity: 1;
+  background-color: rgba(243, 244, 246, var(--tw-bg-opacity));
+  --tw-bg-opacity: 0.5;
+  --tw-text-opacity: 1;
+  color: rgba(107, 114, 128, var(--tw-text-opacity));
+  border-radius: 0.25rem;
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
 .form-row {
   display: grid;
   align-items: flex-start;

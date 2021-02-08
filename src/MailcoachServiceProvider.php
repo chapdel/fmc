@@ -242,6 +242,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.components.form.textField', 'mailcoach::text-field');
         Blade::component('mailcoach::app.components.form.htmlField', 'mailcoach::html-field');
         Blade::component('mailcoach::app.components.form.dateField', 'mailcoach::date-field');
+        Blade::component('mailcoach::app.components.form.fieldset', 'mailcoach::fieldset');
         Blade::component(DateTimeFieldComponent::class, 'mailcoach::date-time-field');
 
         Blade::component('mailcoach::app.components.modal.modal', 'mailcoach::modal');
