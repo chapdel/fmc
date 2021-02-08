@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\App\Controllers\TransactionalMails;
+namespace Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;

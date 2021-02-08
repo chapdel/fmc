@@ -11,7 +11,7 @@
                                           data-dirty-warn>
                 {{ __('Content') }}
             </x-mailcoach::navigation-item>
-            <x-mailcoach::navigation-item :href="route('mailcoach.transactionalMails.templates.edit', $template)"
+            <x-mailcoach::navigation-item :href="route('mailcoach.transactionalMails.templates.settings', $template)"
                                           data-dirty-warn>
                 {{ __('Settings') }}
             </x-mailcoach::navigation-item>
