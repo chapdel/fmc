@@ -12,7 +12,9 @@ class UpdateTemplateAction
     public function execute(TransactionalMailTemplate $template, array $attributes)
     {
         $template->update([
+            'subject' => $attributes['subject'],
             'name' => $attributes['name'],
+            'body' => $attributes['html'],
         ]);
 
         return $template->refresh();

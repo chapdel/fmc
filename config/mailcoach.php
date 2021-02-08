@@ -21,7 +21,7 @@ return [
         ],
 
         /**
-         * Here you can configure which template editor Mailcoach uses.
+         * Here you can configure which campaign template editor Mailcoach uses.
          * By default this is a text editor that highlights HTML.
          */
         'editor' => \Spatie\Mailcoach\Domain\Campaign\Support\Editor\TextEditor::class,
@@ -130,7 +130,13 @@ return [
         'actions' => [
             'send_test' => \Spatie\Mailcoach\Domain\TransactionalMail\Actions\SendTestForTransactionalMailTemplateAction::class,
             'render_template' => \Spatie\Mailcoach\Domain\TransactionalMail\Actions\RenderTemplateAction::class,
-        ]
+        ],
+
+        /**
+         * Here you can configure which transactional mail template editor Mailcoach uses.
+         * By default this is a text editor that highlights HTML.
+         */
+        'editor' => \Spatie\Mailcoach\Domain\Campaign\Support\Editor\TextEditor::class,
     ],
 
     /*

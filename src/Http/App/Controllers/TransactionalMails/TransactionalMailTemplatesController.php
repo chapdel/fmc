@@ -39,7 +39,6 @@ class TransactionalMailTemplatesController
 
     public function edit(TransactionalMailTemplate $template)
     {
-        ray($template);
         $this->authorize('update', $template);
 
         return view('mailcoach::app.transactionalMails.templates.edit', [

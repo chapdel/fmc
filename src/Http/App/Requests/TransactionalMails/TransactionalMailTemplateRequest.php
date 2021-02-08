@@ -10,6 +10,8 @@ class TransactionalMailTemplateRequest extends FormRequest
     {
         return [
             'name' => 'required',
+            'subject' => 'required',
+            'html' => 'required',
         ];
     }
 }
