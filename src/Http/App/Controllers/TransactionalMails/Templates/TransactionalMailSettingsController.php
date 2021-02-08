@@ -13,6 +13,5 @@ class TransactionalMailSettingsController
 
     public function update()
     {
-
     }
 }

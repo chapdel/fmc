@@ -58,8 +58,8 @@ use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ResendTransactional
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ShowTransactionalMailBodyController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ShowTransactionalMailController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\TransactionalMailSettingsController;
-use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailIndexController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\TransactionalMailTemplatesController;
+use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailIndexController;
 use Spatie\Mailcoach\Http\App\Middleware\EditableCampaign;
 
 Route::get('debug', '\\' . DebugController::class)->name('debug');
