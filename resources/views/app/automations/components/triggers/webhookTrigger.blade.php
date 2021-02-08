@@ -1,4 +1,4 @@
-<div class="form-row">
+<div class="form-field">
     <p>Send an authenticated <code>POST</code> request to the following endpoint with an array of subscriber ids, make sure you've set up the <a class="link" href="https://spatie.be/docs/laravel-mailcoach/v4/api/introduction">Mailcoach API</a>.</p>
     <p class="max-w-full overflow-x-auto bg-blue-100 p-2"><code class="whitespace-nowrap">{{ action(\Spatie\Mailcoach\Http\Api\Controllers\Automations\TriggerAutomationController::class, [$this->automation]) }}</code></p>
     <p class="mt-4">Example POST request:</p>

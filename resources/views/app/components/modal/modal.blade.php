@@ -2,7 +2,7 @@
     <div class="modal-backdrop | {{ ($open ?? false) ? '' : 'hidden' }}" data-modal="{{ $name }}" data-modal-backdrop>
         <div class="modal-wrapper @isset($large) modal-wrapper-lg @endisset">
             <button class="modal-close" tabindex="-1" data-modal-dismiss>
-                <i class="far fa-times"></i>
+                <i class="fas fa-times"></i>
             </button>
             <div class="modal">
                 @isset($title)

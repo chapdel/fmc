@@ -20,7 +20,7 @@
 
         <x-mailcoach::text-field :label="__('Reply-to name')" name="default_reply_to_name" :value="$emailList->default_reply_to_name"/>
 
-        <div class="form-row max-w-full">
+        <div class="form-field max-w-full">
             <label class="label">{{ __('Publish feed') }}</label>
             <x-mailcoach::checkbox-field :label="__('Make feed publicly available')" name="campaigns_feed_enabled"
                               :checked="$emailList->campaigns_feed_enabled"/>
@@ -32,7 +32,7 @@
 
         <h2 class="markup-h2">{{ __('Reports') }}</h2>
 
-        <div class="form-row">
+        <div class="form-field">
             <label class="label">{{ __('Send a…') }}</label>
             <div class="checkbox-group">
                 <x-mailcoach::checkbox-field :label="__('Confirmation when a campaign gets sent to this list')"
@@ -56,7 +56,7 @@
             {!! __('Learn more about <a href=":link" class="link-dimmed" target="_blank">subscription settings and forms</a>.', ['link' => 'https://mailcoach.app/docs/v2/app/lists/settings#subscriptions']) !!}
         </x-mailcoach::help>
 
-        <div class="form-row max-w-full">
+        <div class="form-field max-w-full">
             <div class="checkbox-group">
                 <x-mailcoach::checkbox-field dataConditional="confirmation" :label="__('Require confirmation')"
                                   name="requires_confirmation"
@@ -139,7 +139,7 @@
                 <x-mailcoach::text-field :label="__('Subject')" name="welcome_mail_subject"
                               :value="$emailList->welcome_mail_subject" type="text"/>
 
-                <div class="form-row max-w-full">
+                <div class="form-field max-w-full">
                     <label class="label label-required" for="html">{{ __('Body (HTML)') }}</label>
                     <textarea class="input input-html" rows="20" id="html"
                               name="welcome_mail_content">{{ old('welcome_mail_content', $emailList->welcome_mail_content) }}</textarea>
@@ -191,7 +191,7 @@
                     <x-mailcoach::text-field :label="__('Subject')" name="confirmation_mail_subject"
                                   :value="$emailList->confirmation_mail_subject" type="text"/>
 
-                    <div class="form-row max-w-full">
+                    <div class="form-field max-w-full">
                         <label class="label label-required" for="html">{{ __('Body (HTML)') }}</label>
                         <textarea class="input input-html" rows="20" id="html"
                                   name="confirmation_mail_content">{{ old('confirmation_mail_content', $emailList->confirmation_mail_content) }}</textarea>
@@ -221,7 +221,7 @@
             <h2 class="markup-h2">{{ __('Campaign mailer') }}</h2>
             <x-mailcoach::help>{{ __('The mailer used for sending campaigns.') }}</x-mailcoach::help>
 
-            <div class="form-row">
+            <div class="form-field">
                 <div class="radio-group">
                     @foreach (config('mail.mailers') as $key => $settings)
                         <x-mailcoach::radio-field
@@ -237,7 +237,7 @@
             <h2 class="markup-h2">{{ __('Transactional mailer') }}</h2>
             <x-mailcoach::help>{{ __('The mailer used for sending confirmation and welcome mails.') }}</x-mailcoach::help>
 
-            <div class="form-row">
+            <div class="form-field">
                 <div class="radio-group">
                     @foreach (config('mail.mailers') as $key => $settings)
                         <x-mailcoach::radio-field

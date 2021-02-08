@@ -61,7 +61,7 @@
                     @if($campaign->segmentSubscriberCount())
                         <i class="far fa-check text-green-500 mr-2"></i>
                     @else
-                        <i class="far fa-times text-red-500 mr-2"></i>
+                        <i class="fas fa-times text-red-500 mr-2"></i>
                     @endif
                     {{ __('To') }}:
                 </dt>
@@ -94,7 +94,7 @@
                 @if($campaign->subject)
                     <i class="far fa-check text-green-500 mr-2"></i>
                 @else
-                    <i class="far fa-times text-red-500 mr-2"></i>
+                    <i class="fas fa-times text-red-500 mr-2"></i>
                 @endif
                 {{ __('Subject') }}:
             </dt>
@@ -124,7 +124,7 @@
                         <i class="far fa-check text-green-500 mr-2"></i>
                     @endif
                 @else
-                    <i class="far fa-times text-red-500 mr-2"></i>
+                    <i class="fas fa-times text-red-500 mr-2"></i>
                 @endif
                 {{ __('Content') }}:
             </dt>

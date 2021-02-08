@@ -23,7 +23,7 @@
 
         <x-mailcoach::text-field :label="__('Name')" name="name" :value="$segment->name" type="name" required />
 
-        <div class="form-row">
+        <div class="form-field">
             <label class=label>{{ __('Include with tags') }}</label>
             <div class="flex items-end">
                 <div class="flex-none">
@@ -43,7 +43,7 @@
             </div>
         </div>
 
-        <div class="form-row">
+        <div class="form-field">
             <label class=label>{{ __('Exclude with tags') }}</label>
             <div class="flex items-end">
                 <div class="flex-none">

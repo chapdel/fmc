@@ -18,7 +18,7 @@
             @include('mailcoach::app.campaigns.partials.emailListFields', ['segmentable' => $campaign])
         @endif
 
-        <div class="form-row">
+        <div class="form-field">
             <label class="label">{{ __('Track when…') }}</label>
             <div class="checkbox-group">
                 <x-mailcoach::checkbox-field :label="__('Someone opens this email')" name="track_opens" :checked="$campaign->track_opens" />
@@ -26,7 +26,7 @@
             </div>
         </div>
 
-        <div class="form-row">
+        <div class="form-field">
             <label class="label">{{ __('UTM Tags') }}</label>
             <div class="checkbox-group">
                 <x-mailcoach::checkbox-field :label="__('Automatically add UTM tags')" name="utm_tags" :checked="$campaign->utm_tags" />

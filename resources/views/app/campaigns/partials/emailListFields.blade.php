@@ -6,7 +6,7 @@
         <p class="form-error">{{ $message }}</p>
     @enderror
 
-    <div class="form-row">
+    <div class="form-field">
         <label class="label label-required" for="email_list_id">
             {{ __('List') }}
         </label>
@@ -33,7 +33,7 @@
             {{ __('Using custom segment') }} {{ $campaign->getSegment()->description() }}.
         </x-mailcoach::help>
     @else
-        <div class="form-row">
+        <div class="form-field">
             @error('segment')
                 <p class="form-error">{{ $message }}</p>
             @enderror

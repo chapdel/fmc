@@ -1,4 +1,4 @@
-<div class="form-row max-w-full">
+<div class="form-field max-w-full">
     @if($label ?? null)
         <label class="{{ ($required ?? false) ? 'label label-required' : 'label' }}" for="{{ $name }}">
             {{ $label }}

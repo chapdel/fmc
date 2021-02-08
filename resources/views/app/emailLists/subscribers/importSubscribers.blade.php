@@ -84,7 +84,7 @@
               action="{{ route('mailcoach.emailLists.import-subscribers', $emailList) }}">
             @csrf
 
-            <div class="form-row mb-6">
+            <div class="form-field mb-6">
                 @error('replace_tags')
                 <p class="form-error">{{ $message }}</p>
                 @enderror

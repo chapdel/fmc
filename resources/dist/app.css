@@ -1549,6 +1549,8 @@ code.markup-code, .markup-code code{
 }
 
 .dropdown-trigger-rotate {
+  --tw-text-opacity: 1;
+  color: rgba(107, 114, 128, var(--tw-text-opacity));
   transition: transform 0.15s ease;
 }
 
@@ -1608,6 +1610,15 @@ code.markup-code, .markup-code code{
 }
 
 .form-row {
+  display: grid;
+  align-items: flex-start;
+  -moz-column-gap: 1rem;
+       column-gap: 1rem;
+  max-width: 36rem;
+  grid-auto-flow: column;
+}
+
+.form-field {
   display: grid;
   align-items: flex-start;
   gap: 0.375rem;
@@ -1922,6 +1933,14 @@ code.markup-code, .markup-code code{
   --tw-border-opacity: 1;
   border-color: rgba(191, 219, 254, var(--tw-border-opacity));
   --tw-border-opacity: 0.5;
+}
+
+.input-sm {
+  width: 25%;
+}
+
+.input-md {
+  width: 50%;
 }
 
 .input-textarea {
@@ -2415,30 +2434,30 @@ input:read-only {
   padding-left: 0.75rem;
   padding-right: 0.25rem;
   border-radius: 9999px;
+  --tw-text-opacity: 1;
+  color: rgba(31, 41, 55, var(--tw-text-opacity));
   --tw-bg-opacity: 1;
   background-color: rgba(219, 234, 254, var(--tw-bg-opacity));
   --tw-bg-opacity: 0.5;
-  border-width: 2px;
-  border-color: transparent;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  --tw-text-opacity: 1;
-  color: rgba(30, 64, 175, var(--tw-text-opacity));
+  border-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgba(191, 219, 254, var(--tw-border-opacity));
+  --tw-border-opacity: 0.5;
 }
 
 .search input::-moz-placeholder{
   --tw-placeholder-opacity: 1;
-  color: rgba(59, 130, 246, var(--tw-placeholder-opacity));
+  color: rgba(107, 114, 128, var(--tw-placeholder-opacity));
 }
 
 .search input:-ms-input-placeholder{
   --tw-placeholder-opacity: 1;
-  color: rgba(59, 130, 246, var(--tw-placeholder-opacity));
+  color: rgba(107, 114, 128, var(--tw-placeholder-opacity));
 }
 
 .search input::placeholder{
   --tw-placeholder-opacity: 1;
-  color: rgba(59, 130, 246, var(--tw-placeholder-opacity));
+  color: rgba(107, 114, 128, var(--tw-placeholder-opacity));
 }
 
 .search input::-moz-placeholder{
@@ -2454,19 +2473,9 @@ input:read-only {
 }
 
 .search input{
+  font-size: 0.875rem;
+  line-height: 1.25rem;
   width: 12rem;
-}
-
-.search input:focus::-moz-placeholder{
-  --tw-placeholder-opacity: 0;
-}
-
-.search input:focus:-ms-input-placeholder{
-  --tw-placeholder-opacity: 0;
-}
-
-.search input:focus::placeholder{
-  --tw-placeholder-opacity: 0;
 }
 
 .search-icon {
@@ -2495,7 +2504,22 @@ input:read-only {
 
 .search input:focus {
   --tw-border-opacity: 1;
-  border-color: rgba(219, 234, 254, var(--tw-border-opacity));
+  border-color: rgba(96, 165, 250, var(--tw-border-opacity));
+}
+
+.search input:focus::-moz-placeholder{
+  --tw-placeholder-opacity: 0;
+}
+
+.search input:focus:-ms-input-placeholder{
+  --tw-placeholder-opacity: 0;
+}
+
+.search input:focus::placeholder{
+  --tw-placeholder-opacity: 0;
+}
+
+.search input:focus{
   outline: 2px solid transparent;
   outline-offset: 2px;
   --tw-bg-opacity: 1;

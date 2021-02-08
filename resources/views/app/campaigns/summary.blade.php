@@ -149,7 +149,7 @@
 
                 @if($failedSendsCount)
                     <div>
-                        <i class="far fa-times text-red-500"></i>
+                        <i class="fas fa-times text-red-500"></i>
                     </div>
                     <div>
                         {{ __('Delivery failed for') }} <strong>{{ $failedSendsCount }}</strong> {{ trans_choice('subscriber|subscribers', $failedSendsCount) }}.

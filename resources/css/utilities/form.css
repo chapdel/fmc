@@ -7,6 +7,14 @@
 .form-row {
     @apply grid;
     @apply items-start;
+    @apply gap-x-4;
+    @apply max-w-xl;
+    @apply grid-flow-col;
+}
+
+.form-field {
+    @apply grid;
+    @apply items-start;
     @apply gap-1.5;
     @apply max-w-xl;
     grid-template-columns: 100%;

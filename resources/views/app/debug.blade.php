@@ -59,7 +59,7 @@
                     @if($hasQueueConnection)
                         <i class="far fa-check text-green-800 mr-1"></i> Queue connection settings for <code>mailcoach-redis</code> exist.
                     @else
-                        <i class="far fa-times-circle text-red-800 mr-1"></i>
+                        <i class="fas fa-times-circle text-red-800 mr-1"></i>
                         {!! __('No valid <strong>queue connection</strong> found. Configure a queue connection with the <strong>mailcoach-redis</strong> key. <a class="text-blue-800" target="_blank" href=":docsLink">Read the docs</a>.', ['docsLink' => 'https://mailcoach.app/docs']) !!}
                     @endif
                 </td>
@@ -89,7 +89,7 @@
                         Ran {{ now()->diffInMinutes($lastScheduleRun) }} minute(s) ago
                     @else
                         @php($issueBody.="**Schedule**: hasn't run\n")
-                        <i class="far fa-times-circle text-red-800 mr-1"></i>
+                        <i class="fas fa-times-circle text-red-800 mr-1"></i>
                         Schedule hasn't run
                     @endif
                 </td>
