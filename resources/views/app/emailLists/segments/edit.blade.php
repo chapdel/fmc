@@ -1,6 +1,7 @@
-@extends('mailcoach::app.emailLists.segments.layouts.segment', ['segment' => $segment])
-
-@section('segment')
+<x-mailcoach::layout-segment 
+    :segment="$segment"
+    :selectedSubscribersCount="$selectedSubscribersCount"
+>
     <form
         class="form-grid"
         action="{{ route('mailcoach.emailLists.segment.edit',[$segment->emailList, $segment]) }}"
@@ -65,9 +66,7 @@
 
 
         <div class="form-buttons">
-            <button type="submit" class="button">
-                <x-mailcoach::icon-label icon="fa-chart-pie" :text="__('Save')" />
-            </button>
+            <x-mailcoach::button :label="__('Save segment')" />
         </div>
     </form>
-@endsection
+</x-mailcoach::layout-segment>

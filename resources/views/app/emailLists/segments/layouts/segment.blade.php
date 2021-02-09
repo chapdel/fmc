@@ -1,10 +1,9 @@
-@extends('mailcoach::app.emailLists.layouts.emailList', [
-    'title' => $segment->name,
-    'originTitle' => __('Segments'),
-    'originHref' => route('mailcoach.emailLists.segments', ['emailList' => $segment->emailList])
-])
-
-@section('emailList')
+<x-mailcoach::layout-list 
+    :title="$segment->name"
+    :originTitle="__('Segments')"
+    :originHref="route('mailcoach.emailLists.segments', ['emailList' => $segment->emailList])" 
+    :emailList="$segment->emailList"
+>
     <nav class="tabs">
         <ul>
             <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.segment.edit', [$segment->emailList, $segment])">
@@ -16,5 +15,5 @@
         </ul>
     </nav>
 
-    @yield('segment')
-@endsection
+    {{ $slot }}
+</x-mailcoach::layout-list> 

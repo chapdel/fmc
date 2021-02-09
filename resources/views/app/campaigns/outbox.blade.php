@@ -1,9 +1,4 @@
-@extends('mailcoach::app.campaigns.layouts.campaign', [
-    'campaign' => $campaign,
-    'titlePrefix' => __('Outbox'),
-])
-
-@section('campaign')
+<x-mailcoach::layout-campaign :title="__('Outbox')" :campaign="$campaign">
     @if ($totalFailed > 0)
         <div class="table-actions">
             <x-mailcoach::form-button
@@ -72,4 +67,4 @@
 
     <x-mailcoach::table-status :name="__('send|sends')" :paginator="$sends" :total-count="$totalSends"
                     :show-all-url="route('mailcoach.campaigns.outbox', $campaign)"></x-mailcoach::table-status>
-@endsection
+</x-mailcoach::layout-campaign>

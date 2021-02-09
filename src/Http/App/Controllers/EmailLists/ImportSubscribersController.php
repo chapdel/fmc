@@ -17,7 +17,7 @@ class ImportSubscribersController
     {
         $this->authorize('update', $emailList);
 
-        return view('mailcoach::app.emailLists.importSubscribers', [
+        return view('mailcoach::app.emailLists.subscribers.import', [
             'emailList' => $emailList,
             'subscriberImports' => $emailList->subscriberImports()->latest()->get(),
         ]);

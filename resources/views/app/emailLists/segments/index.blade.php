@@ -1,14 +1,7 @@
-@extends('mailcoach::app.emailLists.layouts.emailList', [
-    'emailList' => $emailList,
-    'title' => __('Segments'),
-])
-
-@section('emailList')
+<x-mailcoach::layout-list :title="__('Segments')" :emailList="$emailList">
     <div class="table-actions">
         <div class=buttons>
-            <button class="button" data-modal-trigger="create-segment">
-                <x-mailcoach::icon-label icon="fa-chart-pie" :text="__('Add segment')"/>
-            </button>
+            <x-mailcoach::button ata-modal-trigger="create-segment" :label="__('Add segment')"/>
 
             <x-mailcoach::modal :title="__('Create segment')" name="create-segment" :open="$errors->any()">
                 @include('mailcoach::app.emailLists.segments.partials.create')
@@ -70,4 +63,4 @@
             {{ __("No segments here. So you don't like putting people into groups?") }}
         </x-mailcoach::help>
     @endif
-@endsection
+</x-mailcoach::layout-list>

@@ -1,6 +1,4 @@
-@extends('mailcoach::app.layouts.main', ['title' => __('Transactional Mails')])
-
-@section('main')
+<x-mailcoach::layout-main :title="__('Transactional Mails')">
     <div class="table-actions">
         @if($transactionalMailsCount)
             <div class="table-filters">
@@ -37,4 +35,4 @@
             {!! __('No transactional mails have been sent yet!') !!}
         </x-mailcoach::help>
     @endif
-@endsection
+</x-mailcoach::layout-main>

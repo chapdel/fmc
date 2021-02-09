@@ -1,9 +1,4 @@
-@extends('mailcoach::app.emailLists.subscribers.layouts.subscriber', [
-    'subscriber' => $subscriber,
-    'emailList' => $subscriber->emailList,
-])
-
-@section('subscriber')
+<x-mailcoach::layout-subscriber :subscriber="$subscriber">
     @if($sends->count())
         <div class="table-actions">
             <div class="table-filters">
@@ -47,4 +42,4 @@
             {{ __("This user hasn't received any campaign yet.") }}
         </x-mailcoach::help>
     @endif
-@endsection
+</x-mailcoach::layout-subscriber>

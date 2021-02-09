@@ -1,10 +1,4 @@
-@extends('mailcoach::app.campaigns.layouts.campaign', [
-    'campaign' => $campaign,
-    'title' => __('Send'),
-])
-
-@section('campaign')
-
+<x-mailcoach::layout-campaign :title="__('Send')" :campaign="$campaign">
     <div>
         @if ($campaign->isEditable())
             <div class="grid gap-2">
@@ -395,5 +389,4 @@
             @endif
         </dl>
     </div>
-
-@endsection
+</x-mailcoach::layout-campaign>

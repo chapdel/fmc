@@ -1,6 +1,4 @@
-@extends('mailcoach::app.layouts.main', ['title' => __('Campaigns')])
-
-@section('main')
+<x-mailcoach::layout-main :title="__('Campaigns')">
         <div class="table-actions">
             @if ($totalListsCount or $totalCampaignsCount)
                 <x-mailcoach::button data-modal-trigger="create-campaign" :label="__('Create campaign')" />
@@ -68,4 +66,5 @@
                 </x-mailcoach::help>
             @endif
         @endif
-@endsection
+
+</x-mailcoach::layout-main>

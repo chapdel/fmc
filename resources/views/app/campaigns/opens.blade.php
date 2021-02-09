@@ -1,9 +1,4 @@
-@extends('mailcoach::app.campaigns.layouts.campaign', [
-    'campaign' => $campaign,
-    'title' => __('Opens'),
-])
-
-@section('campaign')
+<x-mailcoach::layout-campaign :title="__('Opens')" :campaign="$campaign">
     @if($campaign->track_opens)
         @if($campaign->open_count)
             <div class="table-actions">
@@ -51,4 +46,4 @@
             {{ __('Open tracking was not enabled for this campaign.') }}
         </x-mailcoach::help>
     @endif
-@endsection
+</x-mailcoach::layout-campaign>

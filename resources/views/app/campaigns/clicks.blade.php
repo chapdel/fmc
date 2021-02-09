@@ -1,9 +1,4 @@
-@extends('mailcoach::app.campaigns.layouts.campaign', [
-    'campaign' => $campaign,
-    'title' => __('Clicks'),
-])
-
-@section('campaign')
+<x-mailcoach::layout-campaign :title="__('Clicks')" :campaign="$campaign">
     @if($campaign->track_clicks)
         @if($campaign->click_count)
             <div class="table-actions">
@@ -47,4 +42,4 @@
             {{ __('Click tracking was not enabled for this campaign.') }}
         </x-mailcoach::help>
     @endif
-@endsection
+</x-mailcoach::layout-campaign>

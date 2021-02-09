@@ -1,9 +1,4 @@
-@extends('mailcoach::app.emailLists.layouts.emailList', [
-    'emailList' => $emailList,
-    'title' => __('Tags'),
-])
-
-@section('emailList')
+<x-mailcoach::layout-list :title="__('Tags')" :emailList="$emailList">
     <div class="table-actions">
         <button class="button" data-modal-trigger="create-tag">
             <x-mailcoach::icon-label icon="fa-tag" :text="__('Create tag')"/>
@@ -88,4 +83,4 @@
             @endif
         </x-mailcoach::help>
     @endif
-@endsection
+</x-mailcoach::layout-list>

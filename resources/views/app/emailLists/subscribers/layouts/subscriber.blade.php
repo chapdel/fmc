@@ -1,10 +1,9 @@
-@extends('mailcoach::app.emailLists.layouts.emailList', [
-    'title' => $subscriber->email,
-    'originTitle' => __('Subscribers'),
-    'originHref' => route('mailcoach.emailLists.subscribers', ['emailList' => $subscriber->emailList])
-])
-
-@section('emailList')
+<x-mailcoach::layout-list 
+    :title="$subscriber->email"
+    :originTitle="__('Subscribers')"
+    :originHref="route('mailcoach.emailLists.subscribers', ['emailList' => $subscriber->emailList])" 
+    :emailList="$subscriber->emailList"
+>
     <nav class="tabs">
         <ul>
             <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.subscriber.details', [$subscriber->emailList, $subscriber])">
@@ -16,5 +15,5 @@
         </ul>
     </nav>
 
-    @yield('subscriber')
-@endsection
+    {{ $slot }}
+</x-mailcoach::layout-list>

@@ -1,9 +1,4 @@
-@extends('mailcoach::app.campaigns.layouts.campaign', [
-    'campaign' => $campaign,
-    'title' => __('Content'),
-])
-
-@section('campaign')
+<x-mailcoach::layout-campaign :title="__('Content')" :campaign="$campaign">
     @if ($campaign->isEditable())
         <form
             class="form-grid"
@@ -22,4 +17,4 @@
     @endif
 
     <x-mailcoach::replacer-help-texts />
-@endsection
+</x-mailcoach::layout-campaign>

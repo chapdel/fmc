@@ -278,6 +278,16 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
         Blade::component('mailcoach::app.components.dropdown', 'mailcoach::dropdown');
 
+        Blade::component('mailcoach::app.layouts.app', 'mailcoach::layout');
+        Blade::component('mailcoach::app.layouts.main', 'mailcoach::layout-main');
+        Blade::component('mailcoach::app.automations.layouts.automation', 'mailcoach::layout-automation');
+        Blade::component('mailcoach::app.campaigns.layouts.campaign', 'mailcoach::layout-campaign');
+        Blade::component('mailcoach::app.emailLists.layouts.emailList', 'mailcoach::layout-list');
+        Blade::component('mailcoach::app.emailLists.segments.layouts.segment', 'mailcoach::layout-segment');
+        Blade::component('mailcoach::app.emailLists.subscribers.layouts.subscriber', 'mailcoach::layout-subscriber');
+        Blade::component('mailcoach::app.transactionalMails.layouts.transactional', 'mailcoach::layout-transactional');
+        Blade::component('mailcoach::app.transactionalMails.templates.layouts.template', 'mailcoach::layout-transactional-template');
+
         return $this;
     }
 

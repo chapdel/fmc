@@ -1,9 +1,5 @@
-@extends('mailcoach::app.emailLists.layouts.emailList', [
-    'emailList' => $emailList,
-    'title' => __('Performance')
-]) 
+<x-mailcoach::layout-list :title="__('Performance')" :emailList="$emailList">
 
-@section('emailList')
     @include('mailcoach::app.emailLists.partials.chart')
 
     <div class="mt-10 grid grid-cols-4 gap-6 justify-start items-end">
@@ -24,4 +20,4 @@
         <x-mailcoach::statistic :stat="number_format($averageUnsubscribeRate, 2)" :label="__('Average Unsubscribe Rate')" suffix="%"/>
         <x-mailcoach::statistic :stat="number_format($averageBounceRate, 2)" :label="__('Average Bounce Rate')" suffix="%"/>
     </div>
-@endsection
+</x-mailcoach::layout-list>

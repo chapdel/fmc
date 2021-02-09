@@ -1,7 +1,4 @@
-@extends('mailcoach::app.transactionalMails.templates.layouts.details', ['title' => $template->name])
-
-@section('main')
-    <section class="card">
+<x-mailcoach::layout-transactional-template :title="Details">
         <form
             class="form-grid"
             method="POST"
@@ -16,5 +13,4 @@
         </form>
 
         <x-mailcoach::replacer-help-texts />
-    </section>
-@endsection
+</x-mailcoach::layout-transactional-template>

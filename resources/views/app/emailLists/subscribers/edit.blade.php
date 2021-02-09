@@ -1,9 +1,4 @@
-@extends('mailcoach::app.emailLists.subscribers.layouts.subscriber', [
-    'subscriber' => $subscriber,
-    'emailList' => $subscriber->emailList,
-])
-
-@section('subscriber')
+<x-mailcoach::layout-subscriber :subscriber="$subscriber">
     <form
         class="form-grid"
         action="{{ route('mailcoach.emailLists.subscriber.details',[$subscriber->emailList, $subscriber]) }}"
@@ -29,4 +24,4 @@
             </button>
         </div>
     </form>
-@endsection
+</x-mailcoach::layout-subscriber>

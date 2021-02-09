@@ -1,6 +1,4 @@
-@extends('mailcoach::app.layouts.main', ['title' => __('Transactional mail templates')])
-
-@section('main')
+<x-mailcoach::layout-main :title="__('Transactional Mail Templates')">
         <div class="table-actions">
             <x-mailcoach::button dataModalTrigger="create-template" :label="__('Create template')"/>
 
@@ -67,4 +65,4 @@
             </x-mailcoach::help>
         @endif
     </section>
-@endsection
+</x-mailcoach::layout-main>

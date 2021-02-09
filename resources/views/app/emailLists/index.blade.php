@@ -1,6 +1,4 @@
-@extends('mailcoach::app.layouts.main', ['title' => __('Lists')])
-
-@section('main')
+<x-mailcoach::layout-main :title="__('Lists')">
     <div class="table-actions">
         <x-mailcoach::button data-modal-trigger="create-list" icon="fa-address-book" :label="__('Create list')" />
 
@@ -72,4 +70,4 @@
             @endif
         </x-mailcoach::help>
     @endif
-@endsection
+</x-mailcoach::layout-main>

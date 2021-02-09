@@ -1,9 +1,4 @@
-@extends('mailcoach::app.campaigns.layouts.campaign', [
-    'campaign' => $campaign,
-    'title' => __('Unsubscribes'),
-])
-
-@section('campaign')
+<x-mailcoach::layout-campaign :title="__('Unsubscribes')" :campaign="$campaign">
     @if($unsubscribes->count())
     <div class="table-actions">
         <div class="table-filters">
@@ -47,4 +42,4 @@
             {{ __('No unsubscribes have been received yet.') }}
         </x-mailcoach::success>
     @endif
-@endsection
+</x-mailcoach::layout-campaign>

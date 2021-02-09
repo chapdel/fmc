@@ -1,10 +1,9 @@
-@extends('mailcoach::app.emailLists.layouts.emailList',[
-    'title' => $tag->name,
-    'originTitle' => __('Tags'),
-    'originHref' => route('mailcoach.emailLists.tags', ['emailList' => $tag->emailList])
-])
-
-@section('emailList')
+<x-mailcoach::layout-list 
+    :title="$tag->name" 
+    :originTitle="__('Tags')"
+    :originHref="route('mailcoach.emailLists.tags', ['emailList' => $emailList])"
+    :emailList="$emailList"
+>
     <form
         class="form-grid"
         action="{{ route('mailcoach.emailLists.tag.edit', [$emailList, $tag]) }}"
@@ -16,9 +15,7 @@
         <x-mailcoach::text-field :label="__('Name')" name="name" :value="$tag->name" required />
 
         <div class="form-buttons">
-            <button type="submit" class="button">
-                <x-mailcoach::icon-label icon="fa-tag" :text="__('Save tag')" />
-            </button>
+            <x-mailcoach::button :label="__('Save tag')" />
         </div>
     </form>
-@endsection
+</x-mailcoach::layout-list>

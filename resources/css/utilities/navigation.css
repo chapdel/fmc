@@ -5,7 +5,8 @@
     @apply content-start;
     @apply sticky;
     @apply top-0;
-    @apply p-8;
+    @apply px-8;
+    @apply pb-8;
 }
 
 .navigation li {

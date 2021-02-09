@@ -1,6 +1,4 @@
-@extends('mailcoach::app.layouts.main', ['title' => 'Automations'])
-
-@section('main')
+<x-mailcoach::layout-main :title="__('Automations')">
     <div class="table-actions">
         <x-mailcoach::button data-modal-trigger="create-automation" :label="__('Create automation')"/>
 
@@ -83,4 +81,4 @@
             {{ __('No automations found.') }}
         </x-mailcoach::help>
     @endif
-@endsection
+</x-mailcoach::layout-main>

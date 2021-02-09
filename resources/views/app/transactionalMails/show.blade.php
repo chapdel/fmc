@@ -1,6 +1,8 @@
-@extends('mailcoach::app.transactionalMails.layouts.details', ['transactionalMail' => $transactionalMail])
+<x-mailcoach::layout-transactional 
+    :title="__('Details')"
+    :transactionalMail="$transactionalMail"
+>
 
-@section('transactionalMail')
     Subject: {{ $transactionalMail->subject }}<br/>
 
     <x-mailcoach::mail-persons label="From" :persons="$transactionalMail->from"/>
@@ -50,4 +52,4 @@
     </x-mailcoach::form-button>
 
     <iframe width="560" height="315" src="{{ route('mailcoach.transactionalMail.body', $transactionalMail) }}"/>
-@endsection
+</x-mailcoach::layout-transactional>

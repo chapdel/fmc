@@ -1,6 +1,7 @@
-@extends('mailcoach::app.emailLists.segments.layouts.segment', ['segment' => $segment])
-
-@section('segment')
+<x-mailcoach::layout-segment 
+    :segment="$segment"
+    :selectedSubscribersCount="$selectedSubscribersCount"
+>
     @if($selectedSubscribersCount)
 
         @if($subscribersCount = $segment->emailList->subscribers()->count())
@@ -47,4 +48,4 @@
             {{ __('This is a very exclusive segment. Nobody got selected.') }}
         </x-mailcoach::help>
     @endif
-@endsection
+</x-mailcoach::layout-segment>

@@ -1,9 +1,4 @@
-@extends('mailcoach::app.emailLists.layouts.emailList', [
-    'emailList' => $emailList,
-    'title' => __('Settings'),
-])
-
-@section('emailList')
+<x-mailcoach::layout-list :title="__('Settings')" :emailList="$emailList">
     <form class="form-grid" action="{{ route('mailcoach.emailLists.settings', $emailList) }}" method="POST">
         @csrf
         @method('PUT')
@@ -259,4 +254,5 @@
             </button>
         </div>
     </form>
-@endsection
+</x-mailcoach::layout-list>
+

@@ -1,10 +1,4 @@
-@extends('mailcoach::app.campaigns.layouts.campaign', 
-    ['campaign' => $campaign,
-    'title' => __('Performance')]
-
-)
-
-@section('campaign')
+<x-mailcoach::layout-campaign :title="__('Performance')" :campaign="$campaign">
     <div @if(!$campaign->sent_at || $campaign->sent_at->addDay()->isFuture() || $campaign->isAutomated()) id="campaign-summary" data-poll @endif>
         @if((! $campaign->isSent()) || (! $campaign->wasSentToAllSubscribers()))
             @if ($campaign->isAutomated())
@@ -160,4 +154,4 @@
 
         @include('mailcoach::app.campaigns.partials.statistics')
     </div>
-@endsection
+</x-mailcoach::layout-campaign>

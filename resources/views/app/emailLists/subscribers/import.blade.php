@@ -1,17 +1,4 @@
-@extends('mailcoach::app.layouts.main', ['title' => __('Import subscribers') . ' | ' . $emailList->name])
-
-@section('header')
-    <nav>
-        <ul class="breadcrumbs">
-            <li><a href="{{ route('mailcoach.emailLists') }}"><span class="breadcrumb">{{ __('Lists') }}</span></a></li>
-            <li><a href="{{ route('mailcoach.emailLists.subscribers', [$emailList]) }}"><span class="breadcrumb">{{ $emailList->name }}</span></a></li>
-            <li><span class="breadcrumb">{{ __('Import subscribers') }}</span></li>
-        </ul>
-    </nav>
-@endsection
-
-@section('main')
-    <section class="card">
+<x-mailcoach::layout-list :title="__('Import subscribers')" :emailList="$emailList">
         @if (count($subscriberImports))
             <table class="table table-fixed mb-12">
                 <thead>
@@ -80,11 +67,11 @@
             </table>
         @endif
 
-        <form class="flex flex-col items-start" enctype="multipart/form-data" method="POST"
+        <form class="form-grid" enctype="multipart/form-data" method="POST"
               action="{{ route('mailcoach.emailLists.import-subscribers', $emailList) }}">
             @csrf
 
-            <div class="form-field mb-6">
+            <div class="form-field">
                 @error('replace_tags')
                 <p class="form-error">{{ $message }}</p>
                 @enderror
@@ -107,21 +94,23 @@
                 </div>
             </div>
 
-            <div class="button">
-                <button class="font-semibold h-10" type="submit">
-                    <x-mailcoach::icon-label icon="fa-cloud-upload-alt" :text="__('Import subscribers')"/>
-                </button>
-                <input onchange="this.form.submit();" class="absolute inset-0 opacity-0 text-4xl" accept=".csv, .xlsx" type="file" id="file"
-                       name="file" class="w-48 h-10"/>
+            <div class="form-buttons">
+                <div class="button">
+                    <button class="font-semibold h-10" type="submit">
+                        {{ __('Import subscribers') }}
+                    </button>
+                    <input onchange="this.form.submit();" class="absolute inset-0 opacity-0 text-4xl" accept=".csv, .xlsx" type="file" id="file"
+                        name="file" class="w-48 h-10"/>
+                </div>
             </div>
 
             @error('file')
             <p class="form-error">{{ $message }}</p>
             @enderror
+        
+            <x-mailcoach::help>
+                {!! __('Upload a CSV or XLSX file with these columns: email, first_name, last_name, tags <a href=":link" target="_blank">(see documentation)</a>', ['link' => 'https://mailcoach.app/docs/v2/app/lists/subscribers#importing-subscribers']) !!}
+            </x-mailcoach::help>
         </form>
 
-        <p class="alert alert-info mt-6">
-            {!! __('Upload a CSV or XLSX file with these columns: email, first_name, last_name, tags <a href=":link" target="_blank">(see documentation)</a>', ['link' => 'https://mailcoach.app/docs/v2/app/lists/subscribers#importing-subscribers']) !!}
-        </p>
-    </section>
-@endsection
+</x-mailcoach::layout-list>

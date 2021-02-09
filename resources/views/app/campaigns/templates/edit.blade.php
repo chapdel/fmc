@@ -1,6 +1,8 @@
-@extends('mailcoach::app.layouts.main', ['title' => $template->name, 'originTitle' => __('Templates')])
-
-@section('main')
+<x-mailcoach::layout-main 
+    :title="$template->name"
+    :originTitle="__('Templates')"
+    :originHref="route('mailcoach.templates')"
+>
     <form
         class="form-grid"
         action="{{ route('mailcoach.templates.edit', $template) }}"
@@ -15,4 +17,4 @@
     </form>
 
     <x-mailcoach::replacer-help-texts />
-@endsection
+</x-mailcoach::layout-main>

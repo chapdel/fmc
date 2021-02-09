@@ -1,9 +1,3 @@
-@extends('mailcoach::app.automations.layouts.automation', [
-    'automation' => $automation,
-    'title' => __('Actions'),
-])
-
-@section('automation')
+<x-mailcoach::layout-automation :title="__('Actions')" :automation="$automation">
     <livewire:automation-actions :automation="$automation" :actions="$actions" />
-@endsection
-
+</x-mailcoach::layout-automation>

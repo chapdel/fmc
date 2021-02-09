@@ -1,9 +1,4 @@
-@extends('mailcoach::app.emailLists.layouts.emailList', [
-    'emailList' => $emailList,
-    'title' => __('Subscribers')
-])
-
-@section('emailList')
+<x-mailcoach::layout-list :title="__('Subscribers')" :emailList="$emailList">
     <div class="table-actions">
         <div class=buttons>
             <x-mailcoach::button type="button" data-modal-trigger="create-subscriber" :label="__('Add subscriber')"/>
@@ -176,4 +171,4 @@
             {{ __('So where is everyone? This list is empty.') }}
         </x-mailcoach::help>
     @endif
-@endsection
+</x-mailcoach::layout-list>

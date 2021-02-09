@@ -41,7 +41,7 @@
             
             <div class="card card-split">
                 <nav class="card-nav">
-                    @yield('nav')
+                    {{ $nav ?? '' }}
                 </nav>
 
                 <main class="card-main">
@@ -59,7 +59,7 @@
                         @endif
                         {{ $title ?? '' }}
                     </h1>
-                    @yield('app')
+                    {{ $slot }}
                 </main>
             </div>
 

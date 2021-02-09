@@ -1,6 +1,4 @@
-@extends('mailcoach::app.campaigns.layouts.campaign', ['title' => __('Settings')])
-
-@section('campaign')
+<x-mailcoach::layout-campaign :title="__('Settings')" :campaign="$campaign">
     <form
         class="form-grid"
         action="{{ route('mailcoach.campaigns.settings', $campaign) }}"
@@ -50,4 +48,4 @@
             </div>
         @endif
     </form>
-@endsection
+</x-mailcoach::layout-campaign>
