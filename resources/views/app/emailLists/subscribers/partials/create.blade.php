@@ -5,9 +5,7 @@
     <x-mailcoach::text-field :label="__('Last name')" name="last_name" />
 
     <div class="form-buttons">
-        <button class="button">
-            <x-mailcoach::icon-label icon="fa-user" :text="__('Add subscriber')" />
-        </button>
+        <x-mailcoach::button :label="__('Add subscriber')" />
         <button type="button" class="button-cancel" data-modal-dismiss>
             {{ __('Cancel') }}
         </button>

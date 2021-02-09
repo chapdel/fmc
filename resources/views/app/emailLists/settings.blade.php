@@ -88,6 +88,56 @@
                         :value="$emailList->redirect_after_unsubscribed" type="text"/>
          </x-mailcoach::fieldset>
 
+        <div data-conditional-confirmation="true">
+            <x-mailcoach::fieldset :legend="__('Confirmation mail')">
+                @if(empty($emailList->confirmation_mailable_class))
+                    <div class="radio-group">
+                        <x-mailcoach::radio-field
+                            name="confirmation_mail"
+                            option-value="send_default_confirmation_mail"
+                            :value="! $emailList->hasCustomizedConfirmationMailFields()"
+                            :label="__('Send default confirmation mail')"
+                            data-conditional="confirmation-mail"
+                        />
+                        <x-mailcoach::radio-field
+                            name="confirmation_mail"
+                            option-value="send_custom_confirmation_mail"
+                            :value="$emailList->hasCustomizedConfirmationMailFields()"
+                            :label="__('Send customized confirmation mail')"
+                            data-conditional="confirmation-mail"
+                        />
+                    </div>
+
+                    <div class="form-grid" data-conditional-confirmation-mail="send_custom_confirmation_mail">
+                        <x-mailcoach::text-field :label="__('Subject')" name="confirmation_mail_subject"
+                                    :value="$emailList->confirmation_mail_subject" type="text"/>
+
+                        <div class="form-field max-w-full">
+                            <label class="label label-required" for="html">{{ __('Body (HTML)') }}</label>
+                            <textarea class="input input-html" rows="20" id="html"
+                                    name="confirmation_mail_content">{{ old('confirmation_mail_content', $emailList->confirmation_mail_content) }}</textarea>
+                            @error('confirmation_mail_content')
+                            <p class="form-error">{{ $message }}</p>
+                            @enderror
+
+                            <div class="mt-12 markup-code alert alert-info text-sm">
+                                {{ __('You can use following placeholders in the subject and body of the confirmation mail:') }}
+                                <ul class="grid mt-2 gap-2">
+                                    <li><code class="mr-2">::confirmUrl::</code>{{ __('The URL where the subscription can be confirmed') }}</li>
+                                    <li><code class="mr-2">::subscriber.first_name::</code>{{ __('The first name of the subscriber') }}</li>
+                                    <li><code class="mr-2">::list.name::</code>{{ __('The name of this list') }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <x-mailcoach::help>
+                        {{ __('A custom mailable (:mailable) will be used.', ['mailable' => $emailList->welcome_mailable_class]) }}
+                    </x-mailcoach::help>
+                @endif
+            </x-mailcoach::fieldset>
+        </div>
+        
         <x-mailcoach::fieldset :legend="__('Welcome Mail')">
 
             @if(empty($emailList->welcome_mailable_class))
@@ -152,56 +202,6 @@
             @endif
         </x-mailcoach::fieldset>
 
-
-        <div data-conditional-confirmation="true">
-            <x-mailcoach::fieldset :legend="__('Confirmation mail')">
-                @if(empty($emailList->confirmation_mailable_class))
-                    <div class="radio-group">
-                        <x-mailcoach::radio-field
-                            name="confirmation_mail"
-                            option-value="send_default_confirmation_mail"
-                            :value="! $emailList->hasCustomizedConfirmationMailFields()"
-                            :label="__('Send default confirmation mail')"
-                            data-conditional="confirmation-mail"
-                        />
-                        <x-mailcoach::radio-field
-                            name="confirmation_mail"
-                            option-value="send_custom_confirmation_mail"
-                            :value="$emailList->hasCustomizedConfirmationMailFields()"
-                            :label="__('Send customized confirmation mail')"
-                            data-conditional="confirmation-mail"
-                        />
-                    </div>
-
-                    <div class="form-grid" data-conditional-confirmation-mail="send_custom_confirmation_mail">
-                        <x-mailcoach::text-field :label="__('Subject')" name="confirmation_mail_subject"
-                                    :value="$emailList->confirmation_mail_subject" type="text"/>
-
-                        <div class="form-field max-w-full">
-                            <label class="label label-required" for="html">{{ __('Body (HTML)') }}</label>
-                            <textarea class="input input-html" rows="20" id="html"
-                                    name="confirmation_mail_content">{{ old('confirmation_mail_content', $emailList->confirmation_mail_content) }}</textarea>
-                            @error('confirmation_mail_content')
-                            <p class="form-error">{{ $message }}</p>
-                            @enderror
-
-                            <div class="mt-12 markup-code alert alert-info text-sm">
-                                {{ __('You can use following placeholders in the subject and body of the confirmation mail:') }}
-                                <ul class="grid mt-2 gap-2">
-                                    <li><code class="mr-2">::confirmUrl::</code>{{ __('The URL where the subscription can be confirmed') }}</li>
-                                    <li><code class="mr-2">::subscriber.first_name::</code>{{ __('The first name of the subscriber') }}</li>
-                                    <li><code class="mr-2">::list.name::</code>{{ __('The name of this list') }}</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                @else
-                    <x-mailcoach::help>
-                        {{ __('A custom mailable (:mailable) will be used.', ['mailable' => $emailList->welcome_mailable_class]) }}
-                    </x-mailcoach::help>
-                @endif
-            </x-mailcoach::fieldset>
-        </div>
 
         @if(count(config('mail.mailers')) > 1)
             <x-mailcoach::fieldset :legend="__('Mailers')">
