@@ -1,6 +1,6 @@
 <x-mailcoach::layout-main :title="__('Transactional Mail Templates')">
         <div class="table-actions">
-            <x-mailcoach::button dataModalTrigger="create-template" :label="__('Create template')"/>
+            <x-mailcoach::button data-modal-trigger="create-template" :label="__('Create template')"/>
 
             <x-mailcoach::modal :title="__('Create template')" name="create-template" :open="$errors->any()">
                 @include('mailcoach::app.transactionalMails.templates.partials.create')

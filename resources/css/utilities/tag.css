@@ -2,9 +2,10 @@
     @apply inline-flex;
     @apply items-center;
     @apply rounded-full;
-    @apply bg-yellow-100;
-    @apply text-yellow-700;
+    @apply bg-blue-400;
+    @apply text-white;
     @apply px-2;
+    @apply py-1;
     margin: 0 3px 3px 0;
     @apply text-xs;
     @apply no-underline;

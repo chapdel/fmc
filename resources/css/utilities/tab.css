@@ -16,37 +16,41 @@
     @apply grid-flow-col;
     @apply justify-start;
     width: auto;
-    @apply bg-gray-100;
-    @apply rounded-full;
-    @apply px-6;
 }
 
 .tabs li {
     @apply cursor-pointer;
     @apply font-bold;
-    @apply px-4;
 }
 
 .tabs li a {
+    @apply bg-blue-100;
+    @apply bg-opacity-50;
     @apply inline-block;
     @apply py-3;
+    @apply px-6;
+}
+
+.tabs li:first-child a {
+    @apply rounded-l-full;
+
+}
+
+.tabs li:last-child a {
+    @apply rounded-r-full;
+
+}
+
+.tabs li.active a {
+    @apply bg-blue-200;
+    @apply bg-opacity-75;
 }
 
 .tabs li:not(.active) a {
-    @apply text-gray-600;
+    @apply text-gray-500;
+    @apply text-opacity-50;
 }
 
 .tabs li:not(.active) a:hover {
     @apply text-black;
-}
-
-.tabs li.active a:before {
-    content: '';
-    @apply absolute;
-    @apply bottom-0;
-    @apply w-full;
-    height: 2px;
-    @apply bg-gradient-to-l;
-    @apply from-blue-500;
-    @apply to-blue-700;
 }

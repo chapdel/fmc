@@ -8,8 +8,7 @@
                     </div>
                     <div>
                         {{ __('Campaign') }}
-                        <a target="_blank" href="{{ $campaign->webviewUrl() }}">{{ $campaign->name }}</a>
-
+                        <strong>{{ $campaign->name }}</strong>
                         {{ __('is an automated campaign.') }}
                     </div>
                 </div>
@@ -24,14 +23,17 @@
                     </div>
                     <div>
                         {{ __('Campaign') }}
-                        <a target="_blank" href="{{ $campaign->webviewUrl() }}">{{ $campaign->name }}</a>
-
+                        <strong>{{ $campaign->name }}</strong>
                         {{ __('is preparing to send to') }}
 
                         @if($campaign->emailList)
                             <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
                         @else
                             &lt;{{ __('deleted list') }}&gt;
+                        @endif
+
+                        @if($campaign->usesSegment())
+                            ({{ $campaign->segment_description }})
                         @endif
                     </div>
                 </div>
@@ -41,12 +43,12 @@
                 </div>
                 <div class="mt-4 flex alert alert-info">
                     <div class="mr-2">
-                        <i class="far fa-ban text-red-500"></i>
+                        <i class="fas fa-ban text-red-500"></i>
                     </div>
                     <div class="flex justify-between items-center w-full">
                         <p>
                             <span class="inline-block">{{ __('Campaign') }}</span>
-                            <a class="inline-block" target="_blank" href="{{ $campaign->webviewUrl() }}">{{ $campaign->name }}</a>
+                            <strong>{{ $campaign->name }}</strong>
 
                             {{ __('sending is cancelled.', [
                                 'sendsCount' => $campaign->sendsCount(),
@@ -65,6 +67,7 @@
                             @else
                                 &lt;{{ __('deleted list') }}&gt;
                             @endif
+
                             @if($campaign->usesSegment())
                                 ({{ $campaign->segment_description }})
                             @endif
@@ -77,12 +80,12 @@
                 </div>
                 <div class="mt-4 flex alert alert-info">
                     <div class="mr-2">
-                        <i class="far fa-sync fa-spin text-blue-500"></i>
+                        <i class="fas fa-sync fa-spin text-blue-500"></i>
                     </div>
                     <div class="flex justify-between items-center w-full">
                         <p>
                             <span class="inline-block">{{ __('Campaign') }}</span>
-                            <a class="inline-block" target="_blank" href="{{ $campaign->webviewUrl() }}">{{ $campaign->name }}</a>
+                            <strong>{{ $campaign->name }}</strong>
 
                             {{ __('is sending to :sendsCount/:sentToNumberOfSubscribers :subscriber of', [
                                 'sendsCount' => $campaign->sendsCount(),
@@ -109,14 +112,12 @@
         @else
             <div class="grid grid-cols-auto-1fr gap-2 alert alert-success">
                 <div>
-                    <i class="far fa-check text-green-500"></i>
+                    <i class="fas fa-check text-green-500"></i>
                 </div>
                 <div>
                     {{ __('Campaign') }}
-                    <a target="_blank" href="{{ $campaign->webviewUrl() }}">{{ $campaign->name }}</a>
-
+                    <strong>{{ $campaign->name }}</strong>
                     {{ __('was delivered successfully to') }}
-
                     <strong>{{ $campaign->sent_to_number_of_subscribers - ($failedSendsCount ?? 0) }} {{ trans_choice('subscriber|subscribers', $campaign->sent_to_number_of_subscribers) }}</strong>
 
                     {{ __('of') }}

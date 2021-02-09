@@ -1,4 +1,4 @@
-<x-mailcoach::layout-subscriber :subscriber="$subscriber">
+<x-mailcoach::layout-subscriber :subscriber="$subscriber" :totalSendsCount="$totalSendsCount">
     @if($sends->count())
         <div class="table-actions">
             <div class="table-filters">

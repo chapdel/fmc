@@ -223,7 +223,7 @@
     @apply inline-flex;
     @apply items-center;
     @apply rounded-full;
-    @apply bg-blue-300;
+    @apply bg-blue-400;
     @apply text-white;
     @apply pl-3;
     @apply py-1;

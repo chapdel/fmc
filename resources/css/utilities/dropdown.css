@@ -76,11 +76,10 @@
     @apply text-blue-500;
 }
 
-.dropdown-trigger-rotate {
-    @apply text-gray-500;
+.dropdown-trigger i {
     transition: transform 0.15s ease;
 }
 
-.dropdown-trigger-open .dropdown-trigger-rotate {
+.dropdown-trigger-open .dropdown-trigger i{
     transform: rotate(-90deg);
 }

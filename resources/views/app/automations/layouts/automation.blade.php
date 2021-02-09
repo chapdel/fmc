@@ -16,21 +16,6 @@
                     {{ __('Run') }}
                 </x-mailcoach::navigation-item>
             </x-mailcoach::navigation-group>
-
-            <x-mailcoach::navigation-group icon="fas fa-chart-line" :title="__('Performance')">
-                    <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.summary', $automation)" data-dirty-warn>
-                        {{ __('Summary') }}
-                    </x-mailcoach::navigation-item>
-                    <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.opens', $automation)" data-dirty-warn>
-                        {{ __('Opens') }}
-                    </x-mailcoach::navigation-item>
-                    <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.clicks', $automation)" data-dirty-warn>
-                        {{ __('Clicks') }}
-                    </x-mailcoach::navigation-item>
-                    <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.unsubscribes', $automation)" data-dirty-warn>
-                        {{ __('Unsubscribes') }}
-                    </x-mailcoach::navigation-item>
-            </x-mailcoach::navigation-group>
         </x-mailcoach::navigation>
     </x-slot>     
 

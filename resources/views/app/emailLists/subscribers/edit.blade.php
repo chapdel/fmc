@@ -1,4 +1,4 @@
-<x-mailcoach::layout-subscriber :subscriber="$subscriber">
+<x-mailcoach::layout-subscriber :subscriber="$subscriber" :totalSendsCount="$totalSendsCount">
     <form
         class="form-grid"
         action="{{ route('mailcoach.emailLists.subscriber.details',[$subscriber->emailList, $subscriber]) }}"
@@ -19,9 +19,7 @@
         />
 
         <div class="form-buttons">
-            <button type="submit" class="button">
-                <x-mailcoach::icon-label icon="fa-user" :text="__('Save')" />
-            </button>
+            <x-mailcoach::button :label="__('Save subscriber')" />
         </div>
     </form>
 </x-mailcoach::layout-subscriber>

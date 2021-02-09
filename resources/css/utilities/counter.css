@@ -5,16 +5,19 @@
     @apply items-center;
     @apply ml-2;
     @apply rounded-full;
-    @apply bg-gray-300;
-    @apply bg-opacity-25;
     @apply font-bold;
     height: 2em;
     min-width: 2em;
     font-size: 10px;
     font-variant-numeric: tabular-nums;
     padding: 0 0.35rem;
+    @apply bg-blue-200;
+    @apply bg-opacity-75;
+    @apply text-blue-800;
+    @apply shadow-sm;
 }
 
+.tabs .active .counter,
 .navigation .counter,
 .filters .filter-active .counter {
     @apply bg-blue-500;

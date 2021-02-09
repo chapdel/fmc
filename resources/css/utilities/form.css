@@ -15,18 +15,13 @@
     @apply p-6;
 }
 
-.form-fieldset legend {
+.form-fieldset .legend {
     @apply uppercase; 
-    @apply tracking-wider;
-    @apply text-xs;
+    @apply tracking-widest;
+    @apply text-sm;
     @apply font-semibold;
-    @apply bg-gray-100;
-    @apply bg-opacity-50;
-    @apply text-gray-500;
-    @apply rounded;
-    @apply -mx-2;
-    @apply px-2;
-    @apply py-1;
+    @apply text-yellow-600;
+    @apply -mb-4;
 }
 
 
