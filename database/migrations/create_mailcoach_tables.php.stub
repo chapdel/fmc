@@ -519,7 +519,6 @@ class CreateMailcoachTables extends Migration
             $table->boolean('track_opens')->default(false);
             $table->boolean('track_clicks')->default(false);
             $table->text('test_using_mailable')->nullable();
-            $table->boolean('allows_blade_compilation')->default(false);
             $table->timestamps();
         });
     }

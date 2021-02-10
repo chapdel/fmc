@@ -30,7 +30,6 @@ class TransactionalMailTemplate extends Model implements HasHtmlContent
         'to' => 'array',
         'cc' => 'array',
         'bcc' => 'array',
-        'allows_blade_compilation' => 'boolean',
         'replacers' => 'array',
     ];
 

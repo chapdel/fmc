@@ -19,7 +19,7 @@ class UsesMailcoachTemplateTest extends TestCase
             'name' => 'test-template',
             'body' => 'test html {{ $argument }}',
             'test_using_mailable' => TestMailableWithTemplate::class,
-            'allows_blade_compilation' => true,
+            'type' => 'blade',
         ]);
 
         $mailable = $template->getMailable();
@@ -35,7 +35,7 @@ class UsesMailcoachTemplateTest extends TestCase
             'name' => 'test-template',
             'body' => 'test html {{ $argument }}',
             'test_using_mailable' => TestMailableWithTemplate::class,
-            'allows_blade_compilation' => false,
+            'type' => 'html',
         ]);
 
         $mailable = $template->getMailable();
@@ -75,7 +75,6 @@ class UsesMailcoachTemplateTest extends TestCase
             'name' => 'test-template',
             'body' => 'test html ::argument::',
             'test_using_mailable' => TestMailableWithTemplate::class,
-            'allows_blade_compilation' => false,
             'replacers' => ['test'],
         ]);
 

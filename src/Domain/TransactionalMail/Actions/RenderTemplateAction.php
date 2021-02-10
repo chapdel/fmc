@@ -20,7 +20,7 @@ class RenderTemplateAction
 
     protected function renderTemplateBody(TransactionalMailTemplate $template, Mailable $mailable): string
     {
-        return $template->allows_blade_compilation
+        return $template->type === 'blade'
             ? $this->compileBlade($template->body, $mailable->buildViewData())
             : $template->body;
     }
