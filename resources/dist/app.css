@@ -1659,6 +1659,11 @@ code.markup-code, .markup-code code{
   padding: 1.5rem;
 }
 
+.form-fieldset-clean {
+  --tw-bg-opacity: 1;
+  background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
+}
+
 .form-fieldset .legend {
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -2590,8 +2595,7 @@ select:disabled {
 }
 
 .table th, .table td{
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
+  padding-right: 1.5rem;
 }
 
 .table th, .table td{
@@ -2609,11 +2613,13 @@ select:disabled {
 }
 
 .table tbody tr:nth-child(even) {
-  background-color: #f7f9fc;
+  --tw-bg-opacity: 1;
+  background-color: rgba(229, 231, 235, var(--tw-bg-opacity));
+  --tw-bg-opacity: 0.2;
 }
 
 .table tbody tr:nth-child(even) .td-action {
-  background-color: #f7f9fc;
+  background-color: transparent;
 }
 
 .tr-h-double td {

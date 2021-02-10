@@ -25,12 +25,12 @@
             </thead>
             <tbody>
             @foreach($transactionalMails as $transactionalMail)
-                <tr>
+                <tr class="markup-links">
                     <td><a href="{{ route('mailcoach.transactionalMail.show', $transactionalMail) }}">{{ $transactionalMail->subject }}</a></td>
                     <td>{{ $transactionalMail->toString() }}</td>
-                    <td>{{ $transactionalMail->opens->count() }}</td>
-                    <td>{{ $transactionalMail->clicks->count() }}</td>
-                    <td>{{ $transactionalMail->created_at }}</td>
+                    <td class="td-numeric hidden | md:table-cell">{{ $transactionalMail->opens->count() }}</td>
+                    <td class="td-numeric hidden | md:table-cell">{{ $transactionalMail->clicks->count() }}</td>
+                    <td class="td-numeric hidden | md:table-cell">{{ $transactionalMail->created_at }}</td>
                 </tr>
             @endforeach
             </tbody>

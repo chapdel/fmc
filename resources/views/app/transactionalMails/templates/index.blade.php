@@ -61,7 +61,7 @@
                 :show-all-url="route('mailcoach.templates')"></x-mailcoach::table-status>
         @else
             <x-mailcoach::help>
-                {!! __('You have not created any templates yet') !!}
+                {!! __('You have not created any templates yet.') !!}
             </x-mailcoach::help>
         @endif
     </section>

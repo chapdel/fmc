@@ -271,7 +271,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.components.alert.success', 'mailcoach::success');
 
         Blade::component('mailcoach::app.components.counter', 'mailcoach::counter');
-        Blade::component(MailPersonsComponent::class, 'mailcoach::mail-persons');
+        Blade::component('mailcoach::app.components.addressDefinition', 'mailcoach::address-definition');
+        Blade::component('mailcoach::app.components.webview', 'mailcoach::web-view');
 
         Blade::component('mailcoach::app.components.button.primary', 'mailcoach::button');
         Blade::component('mailcoach::app.components.button.secondary', 'mailcoach::button-secondary');
