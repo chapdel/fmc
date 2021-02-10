@@ -8,6 +8,7 @@
                             {{ __('Scheduled for delivery at :scheduledAt', ['scheduledAt' => $campaign->scheduled_at->toMailcoachFormat()]) }}
                         </x-mailcoach::warning>
                     @endif
+
                     @if (! $campaign->htmlContainsUnsubscribeUrlPlaceHolder() || $campaign->sizeInKb() > 102)
                         <x-mailcoach::warning>
                             {!! __('Campaign <strong>:campaign</strong> can be sent, but you might want to check your content.', ['campaign' => $campaign->name]) !!}
@@ -31,8 +32,7 @@
             @if (! $campaign->isAutomated())
                 @if ($campaign->emailList)
                     <dt>
-                        <i class="far fa-check text-green-500 mr-2"></i>
-                        {{ __('From') }}:
+                        <x-mailcoach::health-label :test="true" :label="__('From')" />
                     </dt>
 
                     <dd>
@@ -41,8 +41,7 @@
 
                     @if ($campaign->emailList->default_reply_to_email)
                         <dt>
-                            <i class="far fa-check text-green-500 mr-2"></i>
-                            {{ __('Reply-to') }}:
+                            <x-mailcoach::health-label :test="true" :label="__('Reply-to')" />
                         </dt>
 
                         <dd>
@@ -52,16 +51,11 @@
                 @endif
 
                 <dt>
-                    @if($campaign->segmentSubscriberCount())
-                        <i class="far fa-check text-green-500 mr-2"></i>
-                    @else
-                        <i class="fas fa-times text-red-500 mr-2"></i>
-                    @endif
-                    {{ __('To') }}:
+                    <x-mailcoach::health-label :test="$campaign->segmentSubscriberCount()" :label="__('To')" />
                 </dt>
 
-                @if($campaign->emailListSubscriberCount())
-                    <dd>
+                <dd>
+                    @if($campaign->emailListSubscriberCount())
                         <div>
                             {{ $campaign->emailList->name }}
                             @if($campaign->usesSegment())
@@ -74,46 +68,28 @@
                                 </span>
                             </span>
                         </div>
-                    </dd>
-                @else
-                    <dd>
-                        @if($campaign->emailList)
-                            {{ __('Selected list has no subscribers') }}
-                        @else
-                            {{ __('No list selected') }}
-                        @endif
-                    </dd>
-                @endif
-            @endif
-
-            <dt>
-                @if($campaign->subject)
-                    <i class="far fa-check text-green-500 mr-2"></i>
-                @else
-                    <i class="fas fa-times text-red-500 mr-2"></i>
-                @endif
-                {{ __('Subject') }}:
-            </dt>
-
-            @if($campaign->subject)
-                <dd>{{ $campaign->subject }}</dd>
-            @else
-                <dd>
-                    {{ __('Subject is empty') }}
+                    @elseif($campaign->emailList)
+                        {{ __('Selected list has no subscribers') }}
+                    @else
+                        {{ __('No list selected') }}
+                    @endif
                 </dd>
             @endif
 
             <dt>
+                <x-mailcoach::health-label :test="$campaign->subject" :label="__('Subject')" />
+            </dt>
+
+            <dd>
+                {{ $campaign->subject ?? __('Subject is empty') }}
+            </dd>
+
+            <dt>
                 @if($campaign->html && $campaign->hasValidHtml())
-                    @if (! $campaign->htmlContainsUnsubscribeUrlPlaceHolder() || $campaign->sizeInKb() >= 102)
-                        <i class="far fa-exclamation-triangle text-orange-500 mr-2"></i>
-                    @else
-                        <i class="far fa-check text-green-500 mr-2"></i>
-                    @endif
+                    <x-mailcoach::health-label :test="$campaign->htmlContainsUnsubscribeUrlPlaceHolder() && $campaign->sizeInKb() < 102" warn :label="__('Content')" />
                 @else
-                    <i class="fas fa-times text-red-500 mr-2"></i>
+                    <x-mailcoach::health-label :test="false"  :label="__('Content')" />
                 @endif
-                {{ __('Content') }}:
             </dt>
 
 
@@ -162,8 +138,12 @@
             </dd>
 
             <dt>
-                <i class="far fa-link text-gray-300 mr-2"></i>
-                {{ __('Links') }}:
+                <span class="inline-flex items-center">
+                    <x-mailcoach::rounded-icon :type="count($links) ? 'info' : 'neutral'" icon="far fa-link" class="mr-2"/>
+                    <span class="ml-2">
+                        {{ __('Links') }}
+                    </span>
+                </span>
             </dt>
 
             <dd>
@@ -187,8 +167,12 @@
             </dd>
 
             <dt>
-                <i class="far fa-tag text-gray-300 mr-2"></i>
-                {{ __('Tags') }}:
+                <span class="inline-flex items-center">
+                    <x-mailcoach::rounded-icon type="neutral" icon="far fa-tag" class="mr-2"/>
+                    <span class="ml-2">
+                        {{ __('Tags') }}
+                    </span>
+                </span>
             </dt>
 
             <dd>
@@ -203,12 +187,12 @@
 
             @if ($campaign->isReady() && !$campaign->isAutomated())
                 <dt>
-                    @if($campaign->scheduled_at)
-                        <i class="far fa-clock text-orange-500 mr-2"></i>
-                    @else
-                        <i class="far fa-clock text-gray-300 mr-2"></i>
-                    @endif
-                    {{ __('Timing') }}
+                    <span class="inline-flex items-center">
+                        <x-mailcoach::rounded-icon :type="$campaign->scheduled_at ? 'warning' : 'neutral'" icon="far fa-clock" class="mr-2"/>
+                        <span class="ml-2">
+                            {{ __('Timing') }}
+                        </span>
+                    </span>
                 </dt>
 
                 <dd>
