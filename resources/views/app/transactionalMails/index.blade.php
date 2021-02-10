@@ -13,8 +13,14 @@
             <tr>
                 <x-mailcoach::th sort-by="subject">{{ __('Subject') }}</x-mailcoach::th>
                 <x-mailcoach::th>{{ __('To') }}</x-mailcoach::th>
-
-                <x-mailcoach::th sort-by="-created_at" sort-default class="w-48 th-numeric hidden | md:table-cell">{{ __('Sent') }}</x-mailcoach::th>
+                <x-mailcoach::th class="w-24 th-numeric hidden | md:table-cell">
+                    {{ __('Opens') }}
+                </x-mailcoach::th>
+                <x-mailcoach::th class="w-24 th-numeric hidden | md:table-cell">
+                    {{ __('Clicks') }}
+                </x-mailcoach::th>
+                <x-mailcoach::th sort-by="-created_at" sort-default class="w-48 th-numeric hidden | md:table-cell">{{ __('Sent') }}
+                </x-mailcoach::th>
             </tr>
             </thead>
             <tbody>
@@ -22,6 +28,8 @@
                 <tr>
                     <td><a href="{{ route('mailcoach.transactionalMail.show', $transactionalMail) }}">{{ $transactionalMail->subject }}</a></td>
                     <td>{{ $transactionalMail->toString() }}</td>
+                    <td>{{ $transactionalMail->opens->count() }}</td>
+                    <td>{{ $transactionalMail->clicks->count() }}</td>
                     <td>{{ $transactionalMail->created_at }}</td>
                 </tr>
             @endforeach
