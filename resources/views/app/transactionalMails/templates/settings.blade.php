@@ -6,14 +6,19 @@
             @csrf
             @method('PUT')
 
+            <x-mailcoach::help>
+                <p class="text-sm mb-2">{{ __('Blade templates have the ability to run arbitrary PHP code. Only select Blade if you trust all users that have access to the Mailcoach UI.') }}</p>
+            </x-mailcoach::help>
+
+
             <x-mailcoach::select-field
                 :label="__('Type')"
                 name="type"
                 :value="$template->type"
                 :options="[
-                    'blade' => 'Blade',
                     'html' => 'HTML',
                     'markdown' => 'Markdown',
+                    'blade' => 'Blade',
                 ]"
             />
 

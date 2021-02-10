@@ -2,6 +2,17 @@
     @csrf
 
     <x-mailcoach::text-field :label="__('Name')" name="name" :placeholder="__('Transactional mail template')" required />
+
+    <x-mailcoach::select-field
+        :label="__('Type')"
+        name="type"
+        :options="[
+                    'html' => 'HTML',
+                    'markdown' => 'Markdown',
+                    'blade' => 'Blade',
+                ]"
+    />
+
 @ray($errors)
     <div class="form-buttons">
         <x-mailcoach::button :label="__('Create template')" />

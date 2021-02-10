@@ -12,6 +12,7 @@ class CreateTemplateAction
     {
         return $this->getTransactionalMailTemplateClass()::create([
             'name' => $attributes['name'],
+            'type' => $attributes['type'],
         ]);
     }
 }

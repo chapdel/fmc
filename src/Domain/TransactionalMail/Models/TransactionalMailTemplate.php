@@ -68,6 +68,11 @@ class TransactionalMailTemplate extends Model implements HasHtmlContent
         return $mailableClass::testInstance();
     }
 
+    public function canBeTested(): bool
+    {
+        return ! is_null($this->test_using_mailable);
+    }
+
     public function replacers(): Collection
     {
         return collect($this->replacers ?? [])
