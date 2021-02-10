@@ -13,6 +13,7 @@ class SendTestEmailController
 
     public function __invoke(Campaign $campaign, SendTestEmailRequest $request)
     {
+
         $this->authorize('view', $campaign);
 
         if (! $campaign->isPending()) {

@@ -448,6 +448,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         }
 
         collect($emails)->each(function (string $email) {
+
             dispatch(new SendTestMailJob($this, $email));
         });
     }

@@ -12,7 +12,7 @@
                 {{ $campaign->name }}
             </a>
         @else
-            <a href="{{ route('mailcoach.campaigns.settings', $campaign) }}">
+            <a href="{{ route('mailcoach.campaigns.content', $campaign) }}">
                 {{ $campaign->name }}
             </a>
         @endif
@@ -78,7 +78,7 @@
 
     <td class="td-action">
          <x-mailcoach::dropdown direction="left">
-            <ul>    
+            <ul>
                 <li>
                     <x-mailcoach::form-button
                         :action="route('mailcoach.campaigns.duplicate', $campaign)"

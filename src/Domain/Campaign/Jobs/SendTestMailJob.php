@@ -31,10 +31,12 @@ class SendTestMailJob implements ShouldQueue
         $this->queue = config('mailcoach.campaigns.perform_on_queue.send_test_mail_job');
 
         $this->connection = $this->connection ?? Config::getQueueConnection();
+
     }
 
     public function handle()
     {
+
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\SendTestMailAction $sendTestMailAction */
         $sendTestMailAction = Config::getCampaignActionClass('send_test_mail', SendTestMailAction::class);
 

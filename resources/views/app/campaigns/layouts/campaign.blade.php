@@ -1,11 +1,11 @@
-<x-mailcoach::layout 
+<x-mailcoach::layout
     :originTitle="$originTitle ?? $campaign->name"
     :originHref="$originHref ?? null"
     :title="$title ?? null"
 >
     <x-slot name="nav">
         <x-mailcoach::navigation :title="$campaign->name" :backHref="route('mailcoach.campaigns')" :backLabel="__('Campaigns')">
-            @if (true || $campaign->isAutomated() || $campaign->isSendingOrSent())
+            @if ($campaign->isAutomated() || $campaign->isSendingOrSent())
             <x-mailcoach::navigation-group icon="fas fa-chart-line" :title="__('Performance')">
                     <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.summary', $campaign)" data-dirty-warn>
                         {{ __('Summary') }}
@@ -29,7 +29,7 @@
                 <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.content', $campaign)" data-dirty-warn>
                     {{ __('Content') }}
                 </x-mailcoach::navigation-item>
-        
+
                 @if ($campaign->isSendingOrSent())
                     <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.outbox', $campaign)" data-dirty-warn>
                         {{ __('Outbox') }}
@@ -43,6 +43,6 @@
 
         </x-mailcoach::navigation>
     </x-slot>
-  
+
     {{ $slot }}
 </x-mailcoach::layout>
