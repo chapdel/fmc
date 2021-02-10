@@ -3,7 +3,6 @@
 
 namespace Spatie\Mailcoach\Http\App\Requests\TransactionalMails;
 
-
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateTransactionalMailSettingsRequest extends FormRequest
