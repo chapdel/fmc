@@ -37,7 +37,7 @@ class TransactionalMailTemplate extends Model implements HasHtmlContent
     {
         try {
             $this->validate();
-        } catch (Exception $exception) {
+        } catch (Exception) {
             return false;
         }
 
