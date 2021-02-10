@@ -1,4 +1,4 @@
-<x-mailcoach::layout-transactional-template :title="Settings">
+<x-mailcoach::layout-transactional-template title="Settings" :template="$template">
         <form
             class="form-grid"
             method="POST"
