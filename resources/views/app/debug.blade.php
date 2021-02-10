@@ -6,7 +6,7 @@
         <dl class="dl markup-links">
             @php($issueBody.='**Environment**: ' . app()->environment() . "\n")
             <dt>
-                <x-mailcoach::health-icon :test="!app()->environment('local')" warn :label="__('Environment')" />  
+                <x-mailcoach::health-label :test="!app()->environment('local')" warn :label="__('Environment')" />  
             </dt>
             <dd>
                 <div>
@@ -16,7 +16,7 @@
 
             @php($issueBody.='**Debug**: ' . (config('app.debug') ? 'ON' : 'OFF') . "\n")
             <dt>
-                <x-mailcoach::health-icon :test="!config('app.debug')" warn :label="__('Debug')" />
+                <x-mailcoach::health-label :test="!config('app.debug')" warn :label="__('Debug')" />
             </dt>
             <dd>
                 {{ config('app.debug') ? 'ON' : 'OFF' }}
@@ -24,7 +24,7 @@
 
             @php($issueBody.='**Horizon**: ' . ($horizonStatus->is(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::STATUS_ACTIVE) ? 'Active' : 'Inactive') . "\n")
             <dt>
-                <x-mailcoach::health-icon :test="$horizonStatus->is(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::STATUS_ACTIVE)" :label="__('Horizon')" />
+                <x-mailcoach::health-label :test="$horizonStatus->is(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::STATUS_ACTIVE)" :label="__('Horizon')" />
             </dt>
             <dd>
                 <p>
@@ -38,7 +38,7 @@
 
             @php($issueBody.='**Queue** connection: ' . ($hasQueueConnection ? 'OK' : 'Not OK') . "\n")
             <dt>
-                <x-mailcoach::health-icon :test="$hasQueueConnection"  :label="__('Queue connection')" />
+                <x-mailcoach::health-label :test="$hasQueueConnection"  :label="__('Queue connection')" />
             </dt>
             <dd>
                 <p>
@@ -52,7 +52,7 @@
 
             @php($issueBody.='**Webhooks**: ' . $webhookTableCount . " unprocessed webhooks\n")
             <dt>
-                <x-mailcoach::health-icon :test="$webhookTableCount === 0"  :label="__('Webhooks')" />
+                <x-mailcoach::health-label :test="$webhookTableCount === 0"  :label="__('Webhooks')" />
             </dt>
             <dd>
                 @if($webhookTableCount === 0)
@@ -65,13 +65,13 @@
             <dt>
                 @if ($lastScheduleRun && now()->diffInMinutes($lastScheduleRun) < 10)
                     @php($issueBody.='**Schedule**: ran ' . now()->diffInMinutes($lastScheduleRun) . " minute(s) ago\n")
-                    <x-mailcoach::health-icon :test="true"  :label="__('Schedule')" />
+                    <x-mailcoach::health-label :test="true"  :label="__('Schedule')" />
                 @elseif ($lastScheduleRun)
                     @php($issueBody.='**Schedule**: ran ' . now()->diffInMinutes($lastScheduleRun) . " minute(s) ago\n")
-                    <x-mailcoach::health-icon :test="false" warn  :label="__('Schedule')" />
+                    <x-mailcoach::health-label :test="false" warn  :label="__('Schedule')" />
                 @else
                     @php($issueBody.="**Schedule**: hasn't run\n")
-                    <x-mailcoach::health-icon :test="false" :label="__('Schedule')" />
+                    <x-mailcoach::health-label :test="false" :label="__('Schedule')" />
                 @endif
             </dt>
             <dd>
@@ -88,7 +88,7 @@
         <dl class="dl">
             @php($issueBody.="**Default mailer**: " . config('mail.default') . "\n")
             <dt>
-                <x-mailcoach::health-icon :test="!in_array(config('mail.default'), ['log', 'array', null])" warn :label="__('Default mailer')" />
+                <x-mailcoach::health-label :test="!in_array(config('mail.default'), ['log', 'array', null])" warn :label="__('Default mailer')" />
             </dt>
             <dd>
                 <code>{{ config('mail.default') }}</code>
@@ -96,7 +96,7 @@
 
             @php($issueBody.="**Mailcoach mailer**: " . (config('mailcoach.mailer') ?? 'null') . "\n")
             <dt>
-                <x-mailcoach::health-icon :test="!in_array(config('mailcoach.mailer'), ['log', 'array'])" warn :label="__('Mailcoach mailer')" />
+                <x-mailcoach::health-label :test="!in_array(config('mailcoach.mailer'), ['log', 'array'])" warn :label="__('Mailcoach mailer')" />
             </dt>
             <dd>
                 <code>{{ config('mailcoach.mailer') ?? 'null' }}</code>
@@ -104,7 +104,7 @@
 
             @php($issueBody.="**Campaign mailer**: " . (config('mailcoach.campaigns.mailer') ?? 'null') . "\n")
             <dt>
-                <x-mailcoach::health-icon :test="!in_array(config('mailcoach.campaigns.mailer'), ['log', 'array'])" warn :label="__('Campaign mailer')" />
+                <x-mailcoach::health-label :test="!in_array(config('mailcoach.campaigns.mailer'), ['log', 'array'])" warn :label="__('Campaign mailer')" />
             </dt>
             <dd>
                 <code>{{ config('mailcoach.campaigns.mailer') ?? 'null' }}</code>
@@ -112,7 +112,7 @@
 
             @php($issueBody.="**Transactional mailer**: " . (config('mailcoach.transactional.mailer') ?? 'null') . "\n")
             <dt>
-                <x-mailcoach::health-icon :test="!in_array(config('mailcoach.transactional.mailer'), ['log', 'array'])" warn :label="__('Transactional mailer')" />
+                <x-mailcoach::health-label :test="!in_array(config('mailcoach.transactional.mailer'), ['log', 'array'])" warn :label="__('Transactional mailer')" />
             </dt>
             <dd>
                 <code>{{ config('mailcoach.transactional.mailer') ?? 'null' }}</code>

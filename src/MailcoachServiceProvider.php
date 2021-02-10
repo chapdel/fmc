@@ -257,7 +257,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component(SearchComponent::class, 'mailcoach::search');
         Blade::component('mailcoach::app.components.statistic', 'mailcoach::statistic');
         Blade::component('mailcoach::app.components.iconLabel', 'mailcoach::icon-label');
-        Blade::component('mailcoach::app.components.healthIcon', 'mailcoach::health-icon');
+        Blade::component('mailcoach::app.components.healthLabel', 'mailcoach::health-label');
+        Blade::component('mailcoach::app.components.roundedIcon', 'mailcoach::rounded-icon');
 
         Blade::component('mailcoach::app.components.navigation.root', 'mailcoach::navigation');
         Blade::component('mailcoach::app.components.navigation.item', 'mailcoach::navigation-item');
