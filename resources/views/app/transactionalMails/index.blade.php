@@ -1,4 +1,4 @@
-<x-mailcoach::layout-main :title="__('Transactional Mails')">
+<x-mailcoach::layout-main :title="__('Transactional log')">
     <div class="table-actions">
         @if($transactionalMailsCount)
             <div class="table-filters">

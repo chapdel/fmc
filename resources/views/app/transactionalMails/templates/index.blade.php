@@ -1,4 +1,4 @@
-<x-mailcoach::layout-main :title="__('Transactional Mail Templates')">
+<x-mailcoach::layout-main :title="__('Transactional templates')">
         <div class="table-actions">
             <x-mailcoach::button data-modal-trigger="create-template" :label="__('Create template')"/>
 
