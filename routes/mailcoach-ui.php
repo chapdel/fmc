@@ -56,10 +56,11 @@ use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DownloadSubscriberIm
 use Spatie\Mailcoach\Http\App\Controllers\TemplatesController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ResendTransactionalMailController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ShowTransactionalMailBodyController;
-use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ShowTransactionalMailController;
+use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailContentController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\TransactionalMailSettingsController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\TransactionalMailTemplatesController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailIndexController;
+use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailPerformanceController;
 use Spatie\Mailcoach\Http\App\Middleware\EditableCampaign;
 
 Route::get('debug', '\\' . DebugController::class)->name('debug');
@@ -172,9 +173,11 @@ Route::prefix('transactional-mail-log')->group(function () {
     Route::get('/', '\\' . TransactionalMailIndexController::class)->name('mailcoach.transactionalMails');
 
     Route::prefix('{transactionalMail}')->group(function () {
-        Route::get('/', '\\' . ShowTransactionalMailController::class)->name('mailcoach.transactionalMail.show');
+        Route::get('content', '\\' . TransactionalMailContentController::class)->name('mailcoach.transactionalMail.show');
         Route::get('body', '\\' . ShowTransactionalMailBodyController::class)->name('mailcoach.transactionalMail.body');
-        Route::post('resend', '\\' . ResendTransactionalMailController::class)->name('mailcoach.transactionalMail.resend');
+        Route::get('performance', '\\' . TransactionalMailPerformanceController::class)->name('mailcoach.transactionalMail.performance');
+        Route::get('resend', [ResendTransactionalMailController::class, 'show'])->name('mailcoach.transactionalMail.resend');
+        Route::post('resend', [ResendTransactionalMailController::class, 'resend']);
     });
 });
 
