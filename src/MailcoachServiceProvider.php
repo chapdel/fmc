@@ -19,7 +19,6 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\Mailcoach\Components\CampaignReplacerHelpTextsComponent;
 use Spatie\Mailcoach\Components\DateTimeFieldComponent;
 use Spatie\Mailcoach\Components\FilterComponent;
-use Spatie\Mailcoach\Components\MailPersonsComponent;
 use Spatie\Mailcoach\Components\SearchComponent;
 use Spatie\Mailcoach\Components\THComponent;
 use Spatie\Mailcoach\Components\TransactionalMailTemplateReplacerHelpTextsComponent;
