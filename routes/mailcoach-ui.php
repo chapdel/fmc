@@ -168,29 +168,29 @@ Route::prefix('automations')->group(function () {
     });
 });
 
-Route::prefix('transactional-mails')->group(function () {
+Route::prefix('transactional-mail-log')->group(function () {
     Route::get('/', '\\' . TransactionalMailIndexController::class)->name('mailcoach.transactionalMails');
-
-    Route::prefix('templates')->group(function () {
-        Route::get('/', ['\\' . TransactionalMailTemplatesController::class, 'index'])->name('mailcoach.transactionalMails.templates');
-
-        Route::post('/', ['\\' . TransactionalMailTemplatesController::class, 'store'])->name('mailcoach.transactionalMails.templates.store');
-
-        Route::prefix('{transactionalMailTemplate}')->group(function () {
-            Route::get('/', ['\\' . TransactionalMailTemplatesController::class, 'edit'])->name('mailcoach.transactionalMails.templates.edit');
-            Route::put('/', ['\\' . TransactionalMailTemplatesController::class, 'update']);
-            Route::delete('/', ['\\' . TransactionalMailTemplatesController::class, 'destroy'])->name('mailcoach.transactionalMails.templates.delete');
-            Route::post('duplicate', ['\\' . TransactionalMailTemplatesController::class, 'duplicate'])->name('mailcoach.transactionalMails.templates.duplicate');
-
-            Route::get('settings', ['\\' . TransactionalMailSettingsController::class, 'edit'])->name('mailcoach.transactionalMails.templates.settings');
-            Route::put('settings', ['\\' . TransactionalMailSettingsController::class, 'update']);
-        });
-    });
 
     Route::prefix('{transactionalMail}')->group(function () {
         Route::get('/', '\\' . ShowTransactionalMailController::class)->name('mailcoach.transactionalMail.show');
         Route::get('body', '\\' . ShowTransactionalMailBodyController::class)->name('mailcoach.transactionalMail.body');
         Route::post('resend', '\\' . ResendTransactionalMailController::class)->name('mailcoach.transactionalMail.resend');
+    });
+});
+
+Route::prefix('transactional-mail-templates')->group(function () {
+    Route::get('/', ['\\' . TransactionalMailTemplatesController::class, 'index'])->name('mailcoach.transactionalMails.templates');
+
+    Route::post('/', ['\\' . TransactionalMailTemplatesController::class, 'store'])->name('mailcoach.transactionalMails.templates.store');
+
+    Route::prefix('{transactionalMailTemplate}')->group(function () {
+        Route::get('/', ['\\' . TransactionalMailTemplatesController::class, 'edit'])->name('mailcoach.transactionalMails.templates.edit');
+        Route::put('/', ['\\' . TransactionalMailTemplatesController::class, 'update']);
+        Route::delete('/', ['\\' . TransactionalMailTemplatesController::class, 'destroy'])->name('mailcoach.transactionalMails.templates.delete');
+        Route::post('duplicate', ['\\' . TransactionalMailTemplatesController::class, 'duplicate'])->name('mailcoach.transactionalMails.templates.duplicate');
+
+        Route::get('settings', ['\\' . TransactionalMailSettingsController::class, 'edit'])->name('mailcoach.transactionalMails.templates.settings');
+        Route::put('settings', ['\\' . TransactionalMailSettingsController::class, 'update']);
     });
 });
 
