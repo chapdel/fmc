@@ -3,191 +3,188 @@
 @php($issueBody = "## Describe your issue\n\n\n\n---\n## Health check:\n\n")
 <div class="form-grid">
     <x-mailcoach::fieldset :legend="__('Health')">
-        @php($issueBody.='**Environment**: ' . app()->environment() . "\n")
-        <dl class="dl">
-            <dt>Environment</dt>
+        <dl class="dl markup-links">
+            @php($issueBody.='**Environment**: ' . app()->environment() . "\n")
+            <dt>
+                <x-mailcoach::health-icon :test="!app()->environment('local')" warn :label="__('Environment')" />  
+            </dt>
             <dd>
                 <div>
-                    @if (app()->environment('local'))
-                        <i class="far fa-exclamation-triangle text-orange-500 mr-1"></i> {{ app()->environment() }}
-                    @else
-                        <i class="far fa-check text-green-500 mr-1"></i> {{ app()->environment() }}
-                    @endif
+                    {{ app()->environment() }}
                 </div>
             </dd>
 
-            <dt>Debug</dt>
             @php($issueBody.='**Debug**: ' . (config('app.debug') ? 'ON' : 'OFF') . "\n")
+            <dt>
+                <x-mailcoach::health-icon :test="!config('app.debug')" warn :label="__('Debug')" />
+            </dt>
             <dd>
-                @if (config('app.debug'))
-                    <i class="far fa-exclamation-triangle text-orange-500 mr-1"></i> ON
-                @else
-                    <i class="far fa-check text-green-500 mr-1"></i> OFF
-                @endif
+                {{ config('app.debug') ? 'ON' : 'OFF' }}
             </dd>
 
-            <dt>Horizon running</dt>
             @php($issueBody.='**Horizon**: ' . ($horizonStatus->is(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::STATUS_ACTIVE) ? 'Active' : 'Inactive') . "\n")
+            <dt>
+                <x-mailcoach::health-icon :test="$horizonStatus->is(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::STATUS_ACTIVE)" :label="__('Horizon')" />
+            </dt>
             <dd>
+                <p>
                 @if($horizonStatus->is(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::STATUS_ACTIVE))
-                    <i class="far fa-check text-green-500 mr-1"></i>
+                    {{ __('Active') }}
                 @else
-                    <i class="far fa-check text-red-500 mr-1"></i>
-                    {!! __('<strong>Horizon</strong> is not active on your server. <a class="text-blue-500" target="_blank" href=":docsLink">Read the docs</a>.', ['docsLink' => 'https://mailcoach.app/docs']) !!}
+                    {!! __('Horizon is inactive. <a target="_blank" href=":docsLink">Read the docs</a>.', ['docsLink' => 'https://mailcoach.app/docs']) !!}
                 @endif
+                </p>
             </dd>
 
-            <dt>Queue connection</dt>
             @php($issueBody.='**Queue** connection: ' . ($hasQueueConnection ? 'OK' : 'Not OK') . "\n")
+            <dt>
+                <x-mailcoach::health-icon :test="$hasQueueConnection"  :label="__('Queue connection')" />
+            </dt>
             <dd>
-                @if($hasQueueConnection)
-                    <i class="far fa-check text-green-500 mr-1"></i> Queue connection settings for <code>mailcoach-redis</code> exist.
-                @else
-                    <i class="fas fa-times-circle text-red-500 mr-1"></i>
-                    {!! __('No valid <strong>queue connection</strong> found. Configure a queue connection with the <strong>mailcoach-redis</strong> key. <a class="text-blue-500" target="_blank" href=":docsLink">Read the docs</a>.', ['docsLink' => 'https://mailcoach.app/docs']) !!}
-                @endif
+                <p>
+                    @if($hasQueueConnection)
+                    {!! __('Queue connection settings for <code>mailcoach-redis</code> exist.') !!}
+                    @else
+                        {!! __('No valid <strong>queue connection</strong> found. Configure a queue connection with the <strong>mailcoach-redis</strong> key. <a target="_blank" href=":docsLink">Read the docs</a>.', ['docsLink' => 'https://mailcoach.app/docs']) !!}
+                    @endif
+                </p>
             </dd>
 
-            <dt>Webhooks</dt>
             @php($issueBody.='**Webhooks**: ' . $webhookTableCount . " unprocessed webhooks\n")
+            <dt>
+                <x-mailcoach::health-icon :test="$webhookTableCount === 0"  :label="__('Webhooks')" />
+            </dt>
             <dd>
                 @if($webhookTableCount === 0)
-                    <i class="far fa-check-circle text-green-500 mr-1"></i> No unprocessed webhooks
+                    {{ __('All webhooks are processed.') }} 
                 @else
-                    <i class="far fa-exclamation-triangle text-orange-500 mr-1"></i>
-                    {{ $webhookTableCount }} unprocessed webhooks
+                    {{ __(':count unprocessed webhooks.', ['count' => $webhookTableCount ]) }}
                 @endif
             </dd>
 
-            <dt>Schedule</dt>
-            <dd>
+            <dt>
                 @if ($lastScheduleRun && now()->diffInMinutes($lastScheduleRun) < 10)
                     @php($issueBody.='**Schedule**: ran ' . now()->diffInMinutes($lastScheduleRun) . " minute(s) ago\n")
-                    <i class="far fa-check-circle text-green-500 mr-1"></i>
-                    Ran {{ now()->diffInMinutes($lastScheduleRun) }} minute(s) ago
+                    <x-mailcoach::health-icon :test="true"  :label="__('Schedule')" />
                 @elseif ($lastScheduleRun)
                     @php($issueBody.='**Schedule**: ran ' . now()->diffInMinutes($lastScheduleRun) . " minute(s) ago\n")
-                    <i class="far fa-exclamation-triangle text-orange-500 mr-1"></i>
-                    Ran {{ now()->diffInMinutes($lastScheduleRun) }} minute(s) ago
+                    <x-mailcoach::health-icon :test="false" warn  :label="__('Schedule')" />
                 @else
                     @php($issueBody.="**Schedule**: hasn't run\n")
-                    <i class="fas fa-times-circle text-red-500 mr-1"></i>
-                    Schedule hasn't run
+                    <x-mailcoach::health-icon :test="false" :label="__('Schedule')" />
                 @endif
-            </dd>
-
-            <dt>Mail config</dt>
+            </dt>
             <dd>
-                <table>
-                    <tbody>
-                        <tr>
-                            <td class="pr-2">Default mailer:</td>
-                            @php($issueBody.="**Default mailer**: " . config('mail.default') . "\n")
-                            <td>
-                                <span class="font-mono">{{ config('mail.default') }}</span>
-                                @if (in_array(config('mail.default'), ['log', 'array', null]))
-                                    <i class="far fa-exclamation-triangle text-orange-500 mr-1"></i>
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="pr-2">Mailcoach mailer:</td>
-                            @php($issueBody.="**Mailcoach mailer**: " . (config('mailcoach.mailer') ?? 'null') . "\n")
-                            <td>
-                                <span class="font-mono">{{ config('mailcoach.mailer') ?? 'null' }}</span>
-                                @if (in_array(config('mailcoach.mailer'), ['log', 'array']))
-                                    <i class="far fa-exclamation-triangle text-orange-500 mr-1"></i>
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="pr-2">Campaign mailer:</td>
-                            @php($issueBody.="**Campaign mailer**: " . (config('mailcoach.campaigns.mailer') ?? 'null') . "\n")
-                            <td>
-                                <span class="font-mono">{{ config('mailcoach.campaigns.mailer') ?? 'null' }}</span>
-                                @if (in_array(config('mailcoach.campaigns.mailer'), ['log', 'array']))
-                                    <i class="far fa-exclamation-triangle text-orange-500 mr-1"></i>
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="pr-2">Transactional mailer:</td>
-                            @php($issueBody.="**Transactional mailer**: " . (config('mailcoach.transactional.mailer') ?? 'null') . "\n")
-                            <td>
-                                <span class="font-mono">{{ config('mailcoach.transactional.mailer') ?? 'null' }}</span>
-                                @if (in_array(config('mailcoach.transactional.mailer'), ['log', 'array']))
-                                    <i class="far fa-exclamation-triangle text-orange-500 mr-1"></i>
-                                @endif
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                @if ($lastScheduleRun)
+                    {{ __('Ran :lastRun minute(s) ago.', ['lastRun' => now()->diffInMinutes($lastScheduleRun) ]) }}
+                @else
+                     {{ __('Schedule hasn\'t run.') }}
+                @endif
             </dd>
         </dl>
     </x-mailcoach::fieldset>
-    <x-mailcoach::fieldset :legend="__('Details')">
+
+    <x-mailcoach::fieldset :legend="__('Mailers')">
+        <dl class="dl">
+            @php($issueBody.="**Default mailer**: " . config('mail.default') . "\n")
+            <dt>
+                <x-mailcoach::health-icon :test="!in_array(config('mail.default'), ['log', 'array', null])" warn :label="__('Default mailer')" />
+            </dt>
+            <dd>
+                <code>{{ config('mail.default') }}</code>
+            </dd>
+
+            @php($issueBody.="**Mailcoach mailer**: " . (config('mailcoach.mailer') ?? 'null') . "\n")
+            <dt>
+                <x-mailcoach::health-icon :test="!in_array(config('mailcoach.mailer'), ['log', 'array'])" warn :label="__('Mailcoach mailer')" />
+            </dt>
+            <dd>
+                <code>{{ config('mailcoach.mailer') ?? 'null' }}</code>
+            </dd>
+
+            @php($issueBody.="**Campaign mailer**: " . (config('mailcoach.campaigns.mailer') ?? 'null') . "\n")
+            <dt>
+                <x-mailcoach::health-icon :test="!in_array(config('mailcoach.campaigns.mailer'), ['log', 'array'])" warn :label="__('Campaign mailer')" />
+            </dt>
+            <dd>
+                <code>{{ config('mailcoach.campaigns.mailer') ?? 'null' }}</code>
+            </dd>
+
+            @php($issueBody.="**Transactional mailer**: " . (config('mailcoach.transactional.mailer') ?? 'null') . "\n")
+            <dt>
+                <x-mailcoach::health-icon :test="!in_array(config('mailcoach.transactional.mailer'), ['log', 'array'])" warn :label="__('Transactional mailer')" />
+            </dt>
+            <dd>
+                <code>{{ config('mailcoach.transactional.mailer') ?? 'null' }}</code>
+            </dd>
+        </dl>
+    </x-mailcoach::fieldset>
+    <x-mailcoach::fieldset :legend="__('Technical Details')">
         @php($issueBody.="\n\n## Technical details\n\n")
         <dl class="dl">
-           
-                <dt>App directory</dt>
                 @php($issueBody.="**App directory**: " . base_path() . "\n")
+                <dt>App directory</dt>
                 <dd>
-                    {{ base_path() }}
+                    <code>{{ base_path() }}</code>
                 </dd>
            
-                <dt>User agent</dt>
                 @php($issueBody.="**User agent**: " . $_SERVER['HTTP_USER_AGENT'] . "\n")
+                <dt>User agent</dt>
                 <dd>
-                    {{ $_SERVER['HTTP_USER_AGENT'] }}
+                    <code>{{ $_SERVER['HTTP_USER_AGENT'] }}</code>
                 </dd>
            
-                <dt>PHP</dt>
                 @php($issueBody.="**PHP version**: " . PHP_VERSION . "\n")
+                <dt>PHP</dt>
                 <dd>
-                    {{ PHP_VERSION }}
+                    <code>{{ PHP_VERSION }}</code>
                 </dd>
             
-                <dt>{{ config('database.default') }}</dt>
                 @php($issueBody.="**" . config('database.default') . " version**: " . $mysqlVersion . "\n")
+                <dt>{{ config('database.default') }}</dt>
                 <dd>
-                    {{ $mysqlVersion }}
+                    <code>{{ $mysqlVersion }}</code>
                 </dd>
            
-                <dt>Laravel</dt>
                 @php($issueBody.="**Laravel version**: " . app()->version() . "\n")
+                <dt>Laravel</dt>
                 <dd>
-                    {{ app()->version() }}
+                    <code>{{ app()->version() }}</code>
                 </dd>
            
-                <dt>Horizon</dt>
                 @php($issueBody.="**Horizon version**: " . $horizonVersion . "\n")
+                <dt>Horizon</dt>
                 <dd>
-                    {{ $horizonVersion }}
+                    <code>{{ $horizonVersion }}</code>
                 </dd>
          
-                <dt>laravel-mailcoach</dt>
                 @php($issueBody.="**laravel-mailcoach version**: " . $versionInfo->getCurrentVersion('laravel-mailcoach') . "\n")
+                <dt>laravel-mailcoach</dt>
                 <dd>
-                    {{ $versionInfo->getCurrentVersion('laravel-mailcoach') }}
-                    @if(! $versionInfo->isLatest('laravel-mailcoach'))
-                        <span class="font-sans text-xs inline-flex items-center bg-gray-200 bg-opacity-50 text-gray-600 rounded-sm px-1 leading-relaxed">
-                            <i class="far fa-horse-head opacity-75 mr-1"></i>
-                            {{ __('Upgrade available') }}
-                        </span>
-                    @endif
+                    <div class="flex items-center space-x-2">
+                        <code>{{ $versionInfo->getCurrentVersion('laravel-mailcoach') }}</code>
+                        @if(! $versionInfo->isLatest('laravel-mailcoach'))
+                            <span class="font-sans text-xs inline-flex items-center bg-gray-200 bg-opacity-50 text-gray-600 rounded-sm px-1 leading-relaxed">
+                                <i class="far fa-horse-head opacity-75 mr-1"></i>
+                                {{ __('Upgrade available') }}
+                            </span>
+                        @endif
+                    </div>
                 </dd>
 
             @if (class_exists(\Spatie\MailcoachUi\MailcoachUiServiceProvider::class))
-                <dt>mailcoach-ui</dt>
                 @php($issueBody.="**mailcoach-ui version**: " . $versionInfo->getCurrentVersion('mailcoach-ui') . "\n")
+                <dt>mailcoach-ui</dt>
                 <dd>
-                    {{ $versionInfo->getCurrentVersion('mailcoach-ui') }}
-                    @if(! $versionInfo->isLatest('mailcoach-ui'))
-                        <span class="font-sans text-xs inline-flex items-center bg-gray-200 bg-opacity-50 text-gray-600 rounded-sm px-1 leading-relaxed">
-                            <i class="far fa-horse-head opacity-75 mr-1"></i>
-                            {{ __('Upgrade available') }}
-                        </span>
-                    @endif
+                    <div class="flex items-center space-x-2">
+                        <code>{{ $versionInfo->getCurrentVersion('mailcoach-ui') }}</code>
+                        @if(! $versionInfo->isLatest('mailcoach-ui'))
+                            <span class="font-sans text-xs inline-flex items-center bg-gray-200 bg-opacity-50 text-gray-600 rounded-sm px-1 leading-relaxed">
+                                <i class="far fa-horse-head opacity-75 mr-1"></i>
+                                {{ __('Upgrade available') }}
+                            </span>
+                        @endif
+                    </div>
                 </dd>
             @endif
 
