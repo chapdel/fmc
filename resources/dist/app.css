@@ -1649,7 +1649,6 @@ code.markup-code, .markup-code code{
 .form-fieldset {
   display: grid;
   row-gap: 2rem;
-  max-width: 100%;
   --tw-bg-opacity: 1;
   background-color: rgba(243, 244, 246, var(--tw-bg-opacity));
   --tw-bg-opacity: 0.5;
