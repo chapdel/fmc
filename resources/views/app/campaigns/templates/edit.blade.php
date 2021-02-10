@@ -1,4 +1,4 @@
-<x-mailcoach::layout-main 
+<x-mailcoach::layout-main
     :title="$template->name"
     :originTitle="__('Templates')"
     :originHref="route('mailcoach.templates')"
@@ -16,5 +16,5 @@
         {!! app(config('mailcoach.campaigns.editor'))->render($template) !!}
     </form>
 
-    <x-mailcoach::replacer-help-texts />
+    <x-mailcoach::campaign-replacer-help-texts />
 </x-mailcoach::layout-main>

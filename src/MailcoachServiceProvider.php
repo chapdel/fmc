@@ -19,9 +19,10 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\Mailcoach\Components\DateTimeFieldComponent;
 use Spatie\Mailcoach\Components\FilterComponent;
 use Spatie\Mailcoach\Components\MailPersonsComponent;
-use Spatie\Mailcoach\Components\ReplacerHelpTextsComponent;
+use Spatie\Mailcoach\Components\CampaignReplacerHelpTextsComponent;
 use Spatie\Mailcoach\Components\SearchComponent;
 use Spatie\Mailcoach\Components\THComponent;
+use Spatie\Mailcoach\Components\TransactionalMailTemplateReplacerHelpTextsComponent;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationActionsCommand;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationTriggersCommand;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
@@ -275,7 +276,9 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.components.button.secondary', 'mailcoach::button-secondary');
         Blade::component('mailcoach::app.components.button.cancel', 'mailcoach::button-cancel');
 
-        Blade::component(ReplacerHelpTextsComponent::class, 'mailcoach::replacer-help-texts');
+        Blade::component(CampaignReplacerHelpTextsComponent::class, 'mailcoach::campaign-replacer-help-texts');
+
+        Blade::component(TransactionalMailTemplateReplacerHelpTextsComponent::class, 'mailcoach::transactional-mail-template-replacer-help-texts');
 
         Blade::component('mailcoach::app.components.dropdown', 'mailcoach::dropdown');
 

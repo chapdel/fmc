@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Components;
 use Illuminate\View\Component;
 use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\ReplacerWithHelpText;
 
-class ReplacerHelpTextsComponent extends Component
+class CampaignReplacerHelpTextsComponent extends Component
 {
     public function replacerHelpTexts(): array
     {

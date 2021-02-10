@@ -124,7 +124,7 @@ return [
          * You can use replacers to create placeholders.
          */
         'replacers' => [
-            //
+            \Spatie\Mailcoach\Domain\TransactionalMail\Support\Replacers\SubjectReplacer::class,
         ],
 
         'actions' => [

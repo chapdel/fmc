@@ -16,5 +16,5 @@
         </div>
     @endif
 
-    <x-mailcoach::replacer-help-texts />
+    <x-mailcoach::campaign-replacer-help-texts />
 </x-mailcoach::layout-campaign>

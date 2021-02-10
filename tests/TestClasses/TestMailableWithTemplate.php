@@ -30,6 +30,4 @@ class TestMailableWithTemplate extends Mailable
     {
         return new self('test-argument');
     }
-
-    // {{ $user->email }}   [email]
 }
