@@ -14,7 +14,11 @@ class CampaignContentController
     {
         $this->authorize('update', $campaign);
 
-        return view('mailcoach::app.campaigns.content', compact('campaign'));
+        $viewName = $campaign->isEditable()
+            ? 'content'
+            : 'contentReadOnly';
+
+        return view("mailcoach::app.campaigns.{$viewName}", compact('campaign'));
     }
 
     public function update(Campaign $campaign, UpdateCampaignContentRequest $request)

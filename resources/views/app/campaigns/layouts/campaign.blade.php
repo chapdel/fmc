@@ -19,6 +19,11 @@
                     <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.unsubscribes', $campaign)" data-dirty-warn>
                         {{ __('Unsubscribes') }}
                     </x-mailcoach::navigation-item>
+
+                    <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.outbox', $campaign)" data-dirty-warn>
+                        {{ __('Outbox') }}
+                    </x-mailcoach::navigation-item>
+
             </x-mailcoach::navigation-group>
             @endif
 
@@ -30,11 +35,7 @@
                     {{ __('Content') }}
                 </x-mailcoach::navigation-item>
 
-                @if ($campaign->isSendingOrSent())
-                    <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.outbox', $campaign)" data-dirty-warn>
-                        {{ __('Outbox') }}
-                    </x-mailcoach::navigation-item>
-                @else
+                @if (! $campaign->isSendingOrSent())
                     <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.delivery', $campaign)" data-dirty-warn>
                         {{ __('Send') }}
                     </x-mailcoach::navigation-item>

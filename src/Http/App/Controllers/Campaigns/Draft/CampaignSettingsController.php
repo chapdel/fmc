@@ -19,7 +19,11 @@ class CampaignSettingsController
 
         $emailLists = $this->getEmailListClass()::all();
 
-        return view('mailcoach::app.campaigns.settings', [
+        $viewName = $campaign->isEditable()
+            ? 'settings'
+            : 'settingsReadOnly';
+
+        return view("mailcoach::app.campaigns.{$viewName}", [
             'campaign' => $campaign,
             'emailLists' => $emailLists,
             'segmentsData' => $emailLists->map(function (EmailList $emailList) {

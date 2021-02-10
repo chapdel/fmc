@@ -8,9 +8,9 @@
         @csrf
         @method('PUT')
 
-        <x-mailcoach::text-field :label="__('Name')" name="name" :value="$campaign->name" required :disabled="! $campaign->isEditable()" />
+        <x-mailcoach::text-field :label="__('Name')" name="name" :value="$campaign->name" required  />
 
-        <x-mailcoach::text-field :label="__('Subject')" name="subject" :value="$campaign->subject" :disabled="! $campaign->isEditable()" />
+        <x-mailcoach::text-field :label="__('Subject')" name="subject" :value="$campaign->subject"  />
 
         @if (! $campaign->isAutomated())
             @include('mailcoach::app.campaigns.partials.emailListFields', ['segmentable' => $campaign])
@@ -31,7 +31,7 @@
                     <x-mailcoach::checkbox-field :label="__('Automatically add UTM tags')" name="utm_tags" :checked="$campaign->utm_tags" />
                 </div>
             </div>
-            
+
             <x-mailcoach::help>
                 <p class="text-sm mb-2">{{ __('When checked, the following UTM Tags will automatically get added to any links in your campaign:') }}</p>
                 <ul>
@@ -42,10 +42,8 @@
             </x-mailcoach::help>
         </x-mailcoach::fieldset>
 
-        @if ($campaign->isEditable())
             <div class="form-buttons">
                 <x-mailcoach::button :label="__('Save settings')" />
             </div>
-        @endif
     </form>
 </x-mailcoach::layout-campaign>
