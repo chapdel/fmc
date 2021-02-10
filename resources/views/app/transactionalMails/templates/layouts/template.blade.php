@@ -1,8 +1,4 @@
-@extends('mailcoach::app.layouts.main', [
-    'title' => (isset($titlePrefix) ?  $titlePrefix . ' | ' : '') . $template->name
-])
-
-<x-mailcoach::layout 
+<x-mailcoach::layout
     :originTitle="$originTitle ?? $template->name"
     :originHref="$originHref ?? null"
     :title="$title ?? null"
