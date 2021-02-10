@@ -117,8 +117,8 @@ Route::prefix('email-lists')->group(function () {
 
         Route::delete('unsubscribes', '\\' . DestroyAllUnsubscribedController::class)->name('mailcoach.emailLists.destroy-unsubscribes');
 
-        Route::get('import-subscribers', ['\\' . ImportSubscribersController::class, 'showImportScreen'])->name('mailcoach.emailLists.import-subscribers');
-        Route::post('import-subscribers', ['\\' . ImportSubscribersController::class, 'import']);
+        Route::get('subscribers/import-subscribers', ['\\' . ImportSubscribersController::class, 'showImportScreen'])->name('mailcoach.emailLists.import-subscribers');
+        Route::post('subscribers/import-subscribers', ['\\' . ImportSubscribersController::class, 'import']);
 
         Route::get('settings', ['\\' . EmailListSettingsController::class, 'edit'])->name('mailcoach.emailLists.settings');
         Route::put('settings', ['\\' . EmailListSettingsController::class, 'update'])->name('mailcoach.emailLists.update-settings');
