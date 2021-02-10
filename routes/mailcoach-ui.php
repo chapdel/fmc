@@ -187,8 +187,8 @@ Route::prefix('transactional-mail-templates')->group(function () {
     Route::post('/', ['\\' . TransactionalMailTemplatesController::class, 'store'])->name('mailcoach.transactionalMails.templates.store');
 
     Route::prefix('{transactionalMailTemplate}')->group(function () {
-        Route::get('/', ['\\' . TransactionalMailTemplatesController::class, 'edit'])->name('mailcoach.transactionalMails.templates.edit');
-        Route::put('/', ['\\' . TransactionalMailTemplatesController::class, 'update']);
+        Route::get('content', ['\\' . TransactionalMailTemplatesController::class, 'edit'])->name('mailcoach.transactionalMails.templates.edit');
+        Route::put('content', ['\\' . TransactionalMailTemplatesController::class, 'update']);
         Route::delete('/', ['\\' . TransactionalMailTemplatesController::class, 'destroy'])->name('mailcoach.transactionalMails.templates.delete');
         Route::post('duplicate', ['\\' . TransactionalMailTemplatesController::class, 'duplicate'])->name('mailcoach.transactionalMails.templates.duplicate');
 
