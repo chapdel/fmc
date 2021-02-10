@@ -1,5 +1,5 @@
 <div>
-    <x-mailcoach::html-field :label="__('Body (HTML)')" name="html"
+    <x-mailcoach::html-field :label="__('Body')" name="html"
                              :value="old('html', $html)"></x-mailcoach::html-field>
 </div>
 
