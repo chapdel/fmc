@@ -23,7 +23,7 @@
                 </thead>
                 <tbody>
                 @foreach($templates as $template)
-                    <tr>
+                    <tr class="markup-links">
                         <td><a href="{{ route('mailcoach.transactionalMails.templates.edit', $template) }}">{{ $template->name }}</a></td>
 
                         <td class="td-action">

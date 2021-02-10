@@ -6,8 +6,7 @@
     <x-slot name="nav">
         <x-mailcoach::navigation :title="$template->name" :backHref="route('mailcoach.transactionalMails.templates')"
                                 :backLabel="__('Templates')">
-            <x-mailcoach::navigation-group icon="" title="">
-
+            <x-mailcoach::navigation-group>
                 <x-mailcoach::navigation-item :href="route('mailcoach.transactionalMails.templates.edit', $template)"
                                             data-dirty-warn>
                     {{ __('Content') }}
