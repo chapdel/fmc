@@ -56,9 +56,9 @@ use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DownloadSubscriberIm
 use Spatie\Mailcoach\Http\App\Controllers\TemplatesController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ResendTransactionalMailController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ShowTransactionalMailBodyController;
-use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailContentController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\TransactionalMailSettingsController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\TransactionalMailTemplatesController;
+use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailContentController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailIndexController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailPerformanceController;
 use Spatie\Mailcoach\Http\App\Middleware\EditableCampaign;
