@@ -39,7 +39,7 @@ class EnsureTagsExistAction extends AutomationAction
                             <div class="mb-4">
                                 <span>{{ $index + 1 }}. {{ $action['class']::getName() }}</span>
                                 @if ($description = $action['class']::make($action['data'])->getDescription())
-                                    <span class="bg-gray-100 px-2 py-1">{{ $description }}</span>
+                                    <span class="px-2 py-1">{{ $description }}</span>
                                 @endif
                             </div>
                         @endforeach
@@ -51,7 +51,7 @@ class EnsureTagsExistAction extends AutomationAction
                         <div class="mb-4">
                             <span>{{ $index + 1 }}. {{ $action['class']::getName() }}</span>
                             @if ($description = $action['class']::make($action['data'])->getDescription())
-                                <span class="bg-gray-100 px-2 py-1">{{ $description }}</span>
+                                <span class="px-2 py-1">{{ $description }}</span>
                             @endif
                         </div>
                     @endforeach

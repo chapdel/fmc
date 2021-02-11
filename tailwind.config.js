@@ -55,6 +55,7 @@ module.exports = {
     variants: {
         extend: {
             display: ['hover', 'group-hover'],
+            zIndex: ['hover'],
             scale: ['group-hover'],
         }
     },

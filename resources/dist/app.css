@@ -2723,6 +2723,22 @@ select:disabled {
   text-decoration: none;
 }
 
+.tag-action {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0.25rem;
+  --tw-bg-opacity: 1;
+  background-color: rgba(229, 231, 235, var(--tw-bg-opacity));
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  margin: 0 3px 3px 0;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  text-decoration: none;
+}
+
 .toggle {
   text-align: left;
 }
@@ -27525,6 +27541,34 @@ span.flatpickr-weekday {
 }
 
 .focus-within\:z-auto:focus-within{
+  z-index: auto !important;
+}
+
+.hover\:z-0:hover{
+  z-index: 0 !important;
+}
+
+.hover\:z-10:hover{
+  z-index: 10 !important;
+}
+
+.hover\:z-20:hover{
+  z-index: 20 !important;
+}
+
+.hover\:z-30:hover{
+  z-index: 30 !important;
+}
+
+.hover\:z-40:hover{
+  z-index: 40 !important;
+}
+
+.hover\:z-50:hover{
+  z-index: 50 !important;
+}
+
+.hover\:z-auto:hover{
   z-index: auto !important;
 }
 
@@ -54890,6 +54934,34 @@ span.flatpickr-weekday {
     z-index: auto !important;
   }
 
+  .sm\:hover\:z-0:hover{
+    z-index: 0 !important;
+  }
+
+  .sm\:hover\:z-10:hover{
+    z-index: 10 !important;
+  }
+
+  .sm\:hover\:z-20:hover{
+    z-index: 20 !important;
+  }
+
+  .sm\:hover\:z-30:hover{
+    z-index: 30 !important;
+  }
+
+  .sm\:hover\:z-40:hover{
+    z-index: 40 !important;
+  }
+
+  .sm\:hover\:z-50:hover{
+    z-index: 50 !important;
+  }
+
+  .sm\:hover\:z-auto:hover{
+    z-index: auto !important;
+  }
+
   .sm\:focus\:z-0:focus{
     z-index: 0 !important;
   }
@@ -82184,6 +82256,34 @@ span.flatpickr-weekday {
   }
 
   .md\:focus-within\:z-auto:focus-within{
+    z-index: auto !important;
+  }
+
+  .md\:hover\:z-0:hover{
+    z-index: 0 !important;
+  }
+
+  .md\:hover\:z-10:hover{
+    z-index: 10 !important;
+  }
+
+  .md\:hover\:z-20:hover{
+    z-index: 20 !important;
+  }
+
+  .md\:hover\:z-30:hover{
+    z-index: 30 !important;
+  }
+
+  .md\:hover\:z-40:hover{
+    z-index: 40 !important;
+  }
+
+  .md\:hover\:z-50:hover{
+    z-index: 50 !important;
+  }
+
+  .md\:hover\:z-auto:hover{
     z-index: auto !important;
   }
 
@@ -109484,6 +109584,34 @@ span.flatpickr-weekday {
     z-index: auto !important;
   }
 
+  .lg\:hover\:z-0:hover{
+    z-index: 0 !important;
+  }
+
+  .lg\:hover\:z-10:hover{
+    z-index: 10 !important;
+  }
+
+  .lg\:hover\:z-20:hover{
+    z-index: 20 !important;
+  }
+
+  .lg\:hover\:z-30:hover{
+    z-index: 30 !important;
+  }
+
+  .lg\:hover\:z-40:hover{
+    z-index: 40 !important;
+  }
+
+  .lg\:hover\:z-50:hover{
+    z-index: 50 !important;
+  }
+
+  .lg\:hover\:z-auto:hover{
+    z-index: auto !important;
+  }
+
   .lg\:focus\:z-0:focus{
     z-index: 0 !important;
   }
@@ -136781,6 +136909,34 @@ span.flatpickr-weekday {
     z-index: auto !important;
   }
 
+  .xl\:hover\:z-0:hover{
+    z-index: 0 !important;
+  }
+
+  .xl\:hover\:z-10:hover{
+    z-index: 10 !important;
+  }
+
+  .xl\:hover\:z-20:hover{
+    z-index: 20 !important;
+  }
+
+  .xl\:hover\:z-30:hover{
+    z-index: 30 !important;
+  }
+
+  .xl\:hover\:z-40:hover{
+    z-index: 40 !important;
+  }
+
+  .xl\:hover\:z-50:hover{
+    z-index: 50 !important;
+  }
+
+  .xl\:hover\:z-auto:hover{
+    z-index: auto !important;
+  }
+
   .xl\:focus\:z-0:focus{
     z-index: 0 !important;
   }
@@ -164075,6 +164231,34 @@ span.flatpickr-weekday {
   }
 
   .\32xl\:focus-within\:z-auto:focus-within{
+    z-index: auto !important;
+  }
+
+  .\32xl\:hover\:z-0:hover{
+    z-index: 0 !important;
+  }
+
+  .\32xl\:hover\:z-10:hover{
+    z-index: 10 !important;
+  }
+
+  .\32xl\:hover\:z-20:hover{
+    z-index: 20 !important;
+  }
+
+  .\32xl\:hover\:z-30:hover{
+    z-index: 30 !important;
+  }
+
+  .\32xl\:hover\:z-40:hover{
+    z-index: 40 !important;
+  }
+
+  .\32xl\:hover\:z-50:hover{
+    z-index: 50 !important;
+  }
+
+  .\32xl\:hover\:z-auto:hover{
     z-index: auto !important;
   }
 

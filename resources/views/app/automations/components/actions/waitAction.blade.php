@@ -1,4 +1,4 @@
-<div class="flex gap-4">
+<div class="form-row">
     <x-mailcoach::text-field
         :label="__('Length')"
         :required="true"

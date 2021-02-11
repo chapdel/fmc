@@ -7,9 +7,7 @@
     @method('POST')
     <livewire:automation-builder :automation="$automation" :componentData="['actions' => $actions]" />
 
-    <div>
-        <button type="submit" class="button" {{ $editing ? 'disabled="disabled"' : '' }}>
-            <x-mailcoach::icon-label icon="fa-save" :text="__('Save')" />
-        </button>
+    <div class="form-buttons">
+        <x-mailcoach::button :label="__('Save Flow')" :disabled="$editing" />
     </div>
 </form>

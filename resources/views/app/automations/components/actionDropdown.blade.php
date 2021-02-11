@@ -1,7 +1,7 @@
-<div class="flex justify-center items-center my-6">
+<div class="flex justify-center items-center my-1">
     <x-mailcoach::dropdown direction="left">
         <x-slot name="trigger">
-            <i class="far fa-plus | block text-2xl icon-button"></i>
+            <div class="button w-6 h-6 p-0 flex items-center justify-center rounded-full"><i class="far fa-plus text-xs"></i></button>
         </x-slot>
         
         @foreach ($actionOptions as $actionClass => $actionName)
