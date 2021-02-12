@@ -33,7 +33,7 @@ class CampaignAction extends AutomationAction
 
     public static function getName(): string
     {
-        return __('Send a campaign');
+        return __('Send an email');
     }
 
     public function getDescription(): string

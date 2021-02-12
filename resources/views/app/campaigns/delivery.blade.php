@@ -61,7 +61,7 @@
                             @if($campaign->usesSegment())
                                 ({{ $campaign->getSegment()->description() }})
                             @endif
-                            <span class="counter text-xs">
+                            <span class="ml-2 tag-neutral text-xs">
                                 {{ $campaign->segmentSubscriberCount() }}
                                 <span class="ml-1 font-normal">
                                     {{ trans_choice(__('subscriber|subscribers'), $campaign->segmentSubscriberCount()) }}

@@ -11,7 +11,7 @@
     @apply no-underline;
 }
 
-.tag-action {
+.tag-neutral {
     @apply inline-flex;
     @apply items-center;
     @apply rounded;

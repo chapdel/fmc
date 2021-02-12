@@ -7,14 +7,14 @@
         
         <x-mailcoach::fieldset>
             <x-slot name="legend">
-                <span class="flex items-center space-x-2">
+                <header class="flex items-center space-x-2">
                     <span class="w-6 h-6 rounded-full inline-flex items-center justify-center text-xs leading-none font-semibold bg-yellow-200 text-yellow-600 shadow">
                         {{ $index + 1 }}
                     </span>
                     <span>
                         {{ $action['class']::getName() }}
                     </span>
-                </span>
+                </header>
             </x-slot>
 
             <div class="flex items-center absolute top-4 right-4 space-x-3">
@@ -43,18 +43,17 @@
                         ], key($index))
                     </div>
                 @else
-                    <div class="tag-action">{!! $action['class']::make($action['data'])->getDescription() !!}</div>
+                    <div class="tag-neutral">{!! $action['class']::make($action['data'])->getDescription() !!}</div>
                 @endif
                 
-                <dl class="dl text-sm">
-                        <dt>Active</dt> 
-                        <dd>{{ $action['active'] ?? 0 }}</dd>
-                        <dt>Completed</dt> 
-                        <dd>{{ $action['completed'] ?? 0 }}</dd>
+                <dl class="mt-4 dl text-xs">
+                    <dt>Active</dt> 
+                    <dd>{{ $action['active'] ?? 0 }}</dd>
+                    <dt>Completed</dt> 
+                    <dd>{{ $action['completed'] ?? 0 }}</dd>
                 </dl>
             </div>
         </x-mailcoach::fieldset>
-
 
         @unless($loop->last)
             @include('mailcoach::app.automations.components.actionDropdown', ['index' => $index + 1])

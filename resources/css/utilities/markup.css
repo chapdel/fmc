@@ -23,6 +23,13 @@
     @apply text-gray-700;
 }
 
+.markup-h4 {
+    @apply font-semibold;
+    @apply text-xs;
+    @apply uppercase;
+    @apply tracking-widest;
+}
+
 .markup h1 {
     @apply markup-h1;
     @apply mb-8;

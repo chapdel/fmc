@@ -22,7 +22,7 @@ class EnsureTagsExistAction extends AutomationAction
 
     public static function getName(): string
     {
-        return __('Ensure tags exist');
+        return __('Check tags');
     }
 
     public function getDescription(): string
@@ -30,32 +30,40 @@ class EnsureTagsExistAction extends AutomationAction
         $checkFor = $this->checkFor->forHumans();
 
         $template = <<<'blade'
-            <div>
-                <p class="mb-4">Checking for {{ $checkFor }} on the following tags.</p>
-                <div class="mb-4">
-                    @foreach ($tags as $tag)
-                        <strong>{{ $tag['tag'] }}</strong>
-                        @foreach ($tag['actions'] as $index => $action)
-                            <div class="mb-4">
-                                <span>{{ $index + 1 }}. {{ $action['class']::getName() }}</span>
-                                @if ($description = $action['class']::make($action['data'])->getDescription())
-                                    <span class="px-2 py-1">{{ $description }}</span>
-                                @endif
-                            </div>
+            <div class="grid grid-cols-2">
+                <section class="p-6">
+                    <h4 class="mb-4 markup-h4">Checking following tags for {{ $checkFor }}</h4>
+                    <div class="grid justify-items-start gap-2">
+                        @foreach ($tags as $tag)
+                            <div class=tag>{{ $tag['tag'] }}</div>
+                            <dl class="dl">
+                            @foreach ($tag['actions'] as $index => $action)
+                                    <dt>{{ $index + 1 }}. {{ $action['class']::getName() }}</dt>
+                                    <dd>
+                                        @if ($description = $action['class']::make($action['data'])->getDescription())
+                                            {{ $description }}
+                                        @endif
+                                    </dd>
+                            @endforeach
+                            </dl>
                         @endforeach
-                    @endforeach
-                </div>
-                <div>
-                    <strong>Default when no tag matches</strong>
+                    </div>
+                </section>
+                <section class="p-6 border-l border-gray-300">
+                    <h4 class="mb-4 markup-h4">Default</strong> when no tag matches</h4>
+                    <div class="grid justify-items-start gap-2">
                     @foreach ($defaultActions as $index => $action)
-                        <div class="mb-4">
-                            <span>{{ $index + 1 }}. {{ $action['class']::getName() }}</span>
+                        <dl class="dl">
+                            <dt>{{ $index + 1 }}. {{ $action['class']::getName() }}</dt>
+                            <dd>
                             @if ($description = $action['class']::make($action['data'])->getDescription())
-                                <span class="px-2 py-1">{{ $description }}</span>
+                                {{ $description }}
                             @endif
-                        </div>
+                            </dd>
+                        </dl>
                     @endforeach
-                </div>
+                    </div>
+                </section>
             </div>
         blade;
 

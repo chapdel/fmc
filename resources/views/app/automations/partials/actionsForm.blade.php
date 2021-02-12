@@ -8,6 +8,6 @@
     <livewire:automation-builder :automation="$automation" :componentData="['actions' => $actions]" />
 
     <div class="form-buttons">
-        <x-mailcoach::button :label="__('Save Flow')" :disabled="$editing" />
+        <x-mailcoach::button :label="__('Save actions')" :disabled="$editing" />
     </div>
 </form>

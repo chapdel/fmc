@@ -11,7 +11,7 @@
 
 
                 <x-mailcoach::select-field
-                    :label="__('Type')"
+                    :label="__('Format')"
                     name="type"
                     :value="$template->type"
                     :options="[

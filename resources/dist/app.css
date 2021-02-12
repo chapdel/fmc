@@ -767,6 +767,14 @@ html {
   color: rgba(55, 65, 81, var(--tw-text-opacity));
 }
 
+.markup-h4 {
+  font-weight: 600;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
 .markup h1 {
   font-weight: 700;
   font-size: 1.25rem;
@@ -1478,7 +1486,11 @@ code.markup-code, .markup-code code{
 
 .dl dt, .dl dd{
   --tw-border-opacity: 1;
-  border-color: rgba(243, 244, 246, var(--tw-border-opacity));
+  border-color: rgba(156, 163, 175, var(--tw-border-opacity));
+}
+
+.dl dt, .dl dd{
+  --tw-border-opacity: 0.2;
 }
 
 .dropdown {
@@ -2723,7 +2735,7 @@ select:disabled {
   text-decoration: none;
 }
 
-.tag-action {
+.tag-neutral {
   display: inline-flex;
   align-items: center;
   border-radius: 0.25rem;

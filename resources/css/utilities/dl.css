@@ -20,5 +20,6 @@
 .dl dd {
     @apply py-2;
     @apply border-b;
-    @apply border-gray-100;
+    @apply border-gray-400;
+    @apply border-opacity-20;
 }
