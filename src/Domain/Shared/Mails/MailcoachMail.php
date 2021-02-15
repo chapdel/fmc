@@ -22,11 +22,11 @@ class MailcoachMail extends Mailable
 
     public ?string $fromEmail = null;
 
-    public ?string $fromName= null;
+    public ?string $fromName = null;
 
     public ?string $replyToEmail = null;
 
-    public ?string $replyToName= null;
+    public ?string $replyToName = null;
 
     public $htmlView = null;
 

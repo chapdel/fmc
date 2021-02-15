@@ -17,12 +17,12 @@ use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotUpdateCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendTestMailJob;
-use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Spatie\Mailcoach\Domain\Campaign\Models\SendFeedbackItem;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Support\CalculateStatisticsLock;
+use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
