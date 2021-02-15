@@ -10,6 +10,4 @@
     <i title="{{ __('Sending') }}" class="fas fa-sync fa-spin text-blue-500" />
 @elseif ($status === \Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus::CANCELLED)
     <i title="{{ __('Cancelled') }}" class="fas fa-ban text-red-500" />
-@elseif ($status === \Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus::AUTOMATED)
-    <i title="{{ __('Automated') }}" class="fas fa-magic text-green-500" />
 @endif

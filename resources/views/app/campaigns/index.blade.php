@@ -24,7 +24,6 @@
                             {{ __('Draft') }} <span class="counter">{{ Illuminate\Support\Str::shortNumber($draftCampaignsCount) }}</span>
                         </x-mailcoach::filter>
                         <x-mailcoach::filter active-on="automated" :queryString="$queryString" attribute="status">
-                            {{ __('Automated') }} <span class="counter">{{ Illuminate\Support\Str::shortNumber($automatedCampaignsCount) }}</span>
                         </x-mailcoach::filter>
                     </x-mailcoach::filters>
                     <x-mailcoach::search :placeholder="__('Filter campaigns…')"/>
