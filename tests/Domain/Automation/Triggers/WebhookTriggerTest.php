@@ -11,11 +11,9 @@ use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\WebhookTrigger;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Http\Api\Controllers\Automations\TriggerAutomationController;
-use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
@@ -36,7 +34,6 @@ class WebhookTriggerTest extends TestCase
 
         $this->emailList = EmailList::factory()->create();
     }
-
 
     /** @test * */
     public function it_triggers_when_a_call_is_made_to_an_endpoint()
