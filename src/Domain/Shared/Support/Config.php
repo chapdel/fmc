@@ -13,6 +13,13 @@ class Config
         return self::getActionClass($configuredClass, $actionName, $actionClass);
     }
 
+    public static function getAutomationActionClass(string $actionName, string $actionClass): object
+    {
+        $configuredClass = config("mailcoach.automation.actions.{$actionName}");
+
+        return self::getActionClass($configuredClass, $actionName, $actionClass);
+    }
+
     public static function getTransactionalActionClass(string $actionName, string $actionClass): object
     {
         $configuredClass = config("mailcoach.transactional.actions.{$actionName}");

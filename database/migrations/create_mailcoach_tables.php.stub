@@ -208,15 +208,21 @@ class CreateMailcoachTables extends Migration
                 ->cascadeOnDelete();
 
             $table
-                ->foreignId('subscriber_id')
+                ->foreignId('automation_mail_id')
                 ->nullable()
-                ->constrained('mailcoach_subscribers')
+                ->constrained('mailcoach_automation_mails')
                 ->cascadeOnDelete();
 
             $table
                 ->foreignId('transactional_mail_id')
                 ->nullable()
                 ->constrained('mailcoach_transactional_mails')
+                ->cascadeOnDelete();
+
+            $table
+                ->foreignId('subscriber_id')
+                ->nullable()
+                ->constrained('mailcoach_subscribers')
                 ->cascadeOnDelete();
 
             $table->timestamp('sent_at')->nullable();
@@ -527,6 +533,22 @@ class CreateMailcoachTables extends Migration
 
             $table->foreignId('send_id')->constrained('mailcoach_sends');
             $table->longText('url');
+
+            $table->timestamps();
+        });
+
+        Schema::create('mailcoach_automation_mail_unsubscribes', function (Blueprint $table) {
+            $table->id();
+
+            $table
+                ->foreignId('automation_mail_id')
+                ->constrained('mailcoach_automation_mails')
+                ->cascadeOnDelete();
+
+            $table
+                ->foreignId('subscriber_id')
+                ->constrained('mailcoach_subscribers')
+                ->cascadeOnDelete();
 
             $table->timestamps();
         });

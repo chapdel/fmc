@@ -16,7 +16,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
-use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignToSubscriberJob;
+use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailToSubscriberJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
@@ -29,7 +29,7 @@ class AutomationTest extends TestCase
     use MatchesSnapshots;
 
     /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign */
-    private Campaign $campaign;
+    protected Campaign $campaign;
 
     public function setUp(): void
     {
@@ -74,8 +74,8 @@ class AutomationTest extends TestCase
 
         Artisan::call(RunAutomationActionsCommand::class);
 
-        Queue::assertPushed(SendCampaignToSubscriberJob::class, function (SendCampaignToSubscriberJob $job) {
-            $this->assertTrue($job->campaign->is($this->campaign));
+        Queue::assertPushed(SendAutomationMailToSubscriberJob::class, function (SendAutomationMailToSubscriberJob $job) {
+            $this->assertTrue($job->automationMail->is($this->campaign));
             $this->assertEquals('john@doe.com', $job->subscriber->email);
 
             return true;
@@ -147,7 +147,7 @@ class AutomationTest extends TestCase
 
         Artisan::call(RunAutomationActionsCommand::class);
 
-        Queue::assertPushed(SendCampaignToSubscriberJob::class);
+        Queue::assertPushed(SendAutomationMailToSubscriberJob::class);
         $this->assertEquals(1, $automation->actions->first()->subscribers()->count());
         $this->assertEquals(1, $automation->actions->last()->subscribers()->count());
     }
@@ -272,7 +272,7 @@ class AutomationTest extends TestCase
         Artisan::call(RunAutomationActionsCommand::class);
 
         // CampaignAction continues straight to next action after running
-        Queue::assertPushed(SendCampaignToSubscriberJob::class);
+        Queue::assertPushed(SendAutomationMailToSubscriberJob::class);
         $this->assertInstanceOf(EnsureTagsExistAction::class, $subscriber->currentAction($automation)->action);
 
 
@@ -294,7 +294,7 @@ class AutomationTest extends TestCase
         Artisan::call(RunAutomationActionsCommand::class);
 
         // Campaign Action sends again
-        Queue::assertPushed(SendCampaignToSubscriberJob::class, 2);
+        Queue::assertPushed(SendAutomationMailToSubscriberJob::class, 2);
 
         $this->assertInstanceOf(WaitAction::class, $subscriber->currentAction($automation)->action);
         $this->assertEquals(CarbonInterval::days(3), $subscriber->currentAction($automation)->action->interval);
@@ -305,7 +305,7 @@ class AutomationTest extends TestCase
 
         // Execute last CampaignAction
         Artisan::call(RunAutomationActionsCommand::class);
-        Queue::assertPushed(SendCampaignToSubscriberJob::class, 3);
+        Queue::assertPushed(SendAutomationMailToSubscriberJob::class, 3);
 
         $this->assertInstanceOf(SendAutomationMailAction::class, $subscriber->currentAction($automation)->action);
         $this->assertNotNull($subscriber->currentAction($automation)->pivot->run_at);

@@ -1,10 +1,11 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Campaign\Actions;
+namespace Spatie\Mailcoach\Domain\Automation\Actions;
 
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\LazyCollection;
 use Illuminate\Support\Str;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\MarkCampaignAsFullyDispatchedJob;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\MarkCampaignAsSentJob;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendMailJob;
@@ -15,9 +16,9 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Support\Segments\Segment;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
 
-class SendCampaignAction
+class SendAutomationMailAction
 {
-    public function execute(Campaign $automationMail): void
+    public function execute(AutomationMail $automationMail): void
     {
         if ($automationMail->wasAlreadySent()) {
             return;
@@ -27,7 +28,7 @@ class SendCampaignAction
             ->prepareSubject($automationMail)
             ->prepareEmailHtml($automationMail)
             ->prepareWebviewHtml($automationMail)
-            ->sendMailsForCampaign($automationMail);
+            ->send($automationMail);
     }
 
     protected function prepareSubject(Campaign $campaign): self

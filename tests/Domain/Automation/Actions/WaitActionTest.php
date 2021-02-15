@@ -12,7 +12,7 @@ use Spatie\TestTime\TestTime;
 
 class WaitActionTest extends TestCase
 {
-    private Subscriber $subscriber;
+    protected Subscriber $subscriber;
 
     public function setUp(): void
     {

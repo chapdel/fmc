@@ -131,4 +131,4 @@ The `rules` method allows you to specify rules for the fields you've created in 
 
 ## Registering your custom trigger
 
-You can register your custom trigger by adding the classname to the `mailcoach.automation.triggers` config key.
+You can register your custom trigger by adding the classname to the `mailcoach.automation.flows.triggers` config key.

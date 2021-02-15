@@ -21,7 +21,7 @@ class AutomationRequest extends FormRequest
             'email_list_id' => Rule::exists($this->getEmailListTableName(), 'id'),
             'segment' => [Rule::in(['entire_list', 'segment'])],
             'segment_id' => ['required_if:segment,tag_segment'],
-            'trigger' => ['required', Rule::in(config('mailcoach.automation.triggers'))],
+            'trigger' => ['required', Rule::in(config('mailcoach.automation.flows.triggers'))],
             'interval' => ['required'],
         ];
 

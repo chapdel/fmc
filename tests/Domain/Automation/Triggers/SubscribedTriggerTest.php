@@ -16,7 +16,7 @@ use Spatie\TestTime\TestTime;
 
 class SubscribedTriggerTest extends TestCase
 {
-    private Campaign $campaign;
+    protected Campaign $campaign;
 
     public function setUp(): void
     {

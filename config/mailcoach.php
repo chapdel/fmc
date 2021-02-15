@@ -62,7 +62,7 @@ return [
             /*
              * Actions concerning campaigns
              */
-            'calculate_statistics' => \Spatie\Mailcoach\Domain\Campaign\Actions\CalculateStatisticsAction::class,
+            'calculate_statistics' => \Spatie\Mailcoach\Domain\Shared\Actions\CalculateStatisticsAction::class,
             'prepare_email_html' => \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareEmailHtmlAction::class,
             'prepare_subject' => \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareSubjectAction::class,
             'prepare_webview_html' => \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareWebviewHtmlAction::class,
@@ -94,21 +94,31 @@ return [
 
     'automation' => [
         'actions' => [
-            \Spatie\Mailcoach\Domain\Automation\Support\Actions\AddTagsAction::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Actions\EnsureTagsExistAction::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Actions\RemoveTagsAction::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Actions\UnsubscribeAction::class,
+            'send_automation_mail_to_subscriber' => \Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailToSubscriberAction::class,
         ],
-        'triggers' => [
-            \Spatie\Mailcoach\Domain\Automation\Support\Triggers\NoTrigger::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Triggers\DateTrigger::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Triggers\TagAddedTrigger::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Triggers\TagRemovedTrigger::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Triggers\WebhookTrigger::class,
+
+        'flows' => [
+            'actions' => [
+                \Spatie\Mailcoach\Domain\Automation\Support\Actions\AddTagsAction::class,
+                \Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction::class,
+                \Spatie\Mailcoach\Domain\Automation\Support\Actions\EnsureTagsExistAction::class,
+                \Spatie\Mailcoach\Domain\Automation\Support\Actions\RemoveTagsAction::class,
+                \Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction::class,
+                \Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction::class,
+                \Spatie\Mailcoach\Domain\Automation\Support\Actions\UnsubscribeAction::class,
+            ],
+            'triggers' => [
+                \Spatie\Mailcoach\Domain\Automation\Support\Triggers\NoTrigger::class,
+                \Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger::class,
+                \Spatie\Mailcoach\Domain\Automation\Support\Triggers\DateTrigger::class,
+                \Spatie\Mailcoach\Domain\Automation\Support\Triggers\TagAddedTrigger::class,
+                \Spatie\Mailcoach\Domain\Automation\Support\Triggers\TagRemovedTrigger::class,
+                \Spatie\Mailcoach\Domain\Automation\Support\Triggers\WebhookTrigger::class,
+            ],
+        ],
+
+        'perform_on_queue' => [
+            'send_automation_mail_to_subscriber_job' => 'send-automation-mail',
         ],
     ],
 

@@ -8,8 +8,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Spatie\Mailcoach\Domain\Campaign\Actions\CalculateStatisticsAction;
+use Spatie\Mailcoach\Domain\Shared\Actions\CalculateStatisticsAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\Sendable;
 use Spatie\Mailcoach\Domain\Campaign\Support\CalculateStatisticsLock;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
 
@@ -17,13 +18,13 @@ class CalculateStatisticsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public Campaign $campaign;
+    public Sendable $sendable;
 
     public $queue;
 
-    public function __construct(Campaign $campaign)
+    public function __construct(Sendable $sendable)
     {
-        $this->campaign = $campaign;
+        $this->sendable = $sendable;
 
         $this->queue = config('mailcoach.campaigns.perform_on_queue.calculate_statistics_job');
 
@@ -33,14 +34,14 @@ class CalculateStatisticsJob implements ShouldQueue
     public function handle()
     {
         try {
-            /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\CalculateStatisticsAction $calculateStatistics */
+            /** @var \Spatie\Mailcoach\Domain\Shared\Actions\CalculateStatisticsAction $calculateStatistics */
             $calculateStatistics = Config::getCampaignActionClass('calculate_statistics', CalculateStatisticsAction::class);
 
-            $calculateStatistics->execute($this->campaign);
+            $calculateStatistics->execute($this->sendable);
         } catch (Exception $exception) {
             report($exception);
         }
 
-        (new CalculateStatisticsLock($this->campaign))->release();
+        (new CalculateStatisticsLock($this->sendable))->release();
     }
 }

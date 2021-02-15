@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
 
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
-use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignToSubscriberJob;
+use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailToSubscriberJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -51,6 +51,6 @@ class SendAutomationMailAction extends AutomationAction
 
     public function run(Subscriber $subscriber): void
     {
-        SendCampaignToSubscriberJob::dispatch($this->automationMail, $subscriber);
+        $this->automationMail->send($subscriber);
     }
 }

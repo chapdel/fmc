@@ -18,7 +18,7 @@ class AutomationActionTest extends TestCase
     use MatchesSnapshots;
 
     /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign */
-    private Campaign $campaign;
+    protected Campaign $campaign;
 
     public function setUp(): void
     {

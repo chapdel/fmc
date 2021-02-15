@@ -3,30 +3,31 @@
 namespace Spatie\Mailcoach\Tests\Domain\Automation\Actions;
 
 use Illuminate\Support\Facades\Queue;
+use Spatie\Mailcoach\Domain\Automation\Models\Automation;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
-use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignToSubscriberJob;
+use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailToSubscriberJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 
-class CampaignActionTest extends TestCase
+class SendAutomationMailActionTest extends TestCase
 {
-    private Subscriber $subscriber;
+    protected Subscriber $subscriber;
 
-    private Campaign $campaign;
+    protected AutomationMail $automationMail;
 
-    private SendAutomationMailAction $action;
+    protected SendAutomationMailAction $action;
 
     public function setUp(): void
     {
         parent::setUp();
 
         $this->subscriber = SubscriberFactory::new()->confirmed()->create();
-        $this->campaign = (new CampaignFactory())->create();
-        $this->campaign->update(['email_list_id' => $this->subscriber->email_list_id]);
-        $this->action = new SendAutomationMailAction($this->campaign);
+        $this->automationMail = AutomationMail::factory()->create();
+        $this->action = new SendAutomationMailAction($this->automationMail);
     }
 
     /** @test * */
@@ -42,15 +43,15 @@ class CampaignActionTest extends TestCase
     }
 
     /** @test * */
-    public function it_sends_a_campaign_to_the_subscriber()
+    public function it_sends_an_automation_mail_to_the_subscriber()
     {
         Queue::fake();
 
         $this->action->run($this->subscriber);
 
-        Queue::assertPushed(SendCampaignToSubscriberJob::class, function (SendCampaignToSubscriberJob $sendCampaignJob) {
+        Queue::assertPushed(SendAutomationMailToSubscriberJob::class, function (SendAutomationMailToSubscriberJob $sendCampaignJob) {
             $this->assertTrue($this->subscriber->is($sendCampaignJob->subscriber));
-            $this->assertTrue($this->campaign->is($sendCampaignJob->campaign));
+            $this->assertTrue($this->automationMail->is($sendCampaignJob->automationMail));
 
             return true;
         });
@@ -63,6 +64,6 @@ class CampaignActionTest extends TestCase
 
         $this->action->run($this->subscriber);
 
-        $this->assertEquals(1, $this->campaign->sends->count());
+        $this->assertEquals(1, $this->automationMail->sends->count());
     }
 }

@@ -17,7 +17,7 @@ use Spatie\TestTime\TestTime;
 
 class DateTriggerTest extends TestCase
 {
-    private Campaign $campaign;
+    protected Campaign $campaign;
 
     public function setUp(): void
     {

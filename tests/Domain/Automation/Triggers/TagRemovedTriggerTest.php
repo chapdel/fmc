@@ -16,7 +16,7 @@ use Spatie\TestTime\TestTime;
 
 class TagRemovedTriggerTest extends TestCase
 {
-    private Campaign $campaign;
+    protected Campaign $campaign;
 
     public function setUp(): void
     {

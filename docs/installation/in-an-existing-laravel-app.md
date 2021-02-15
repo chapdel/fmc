@@ -122,7 +122,7 @@ return [
             /*
              * Actions concerning campaigns
              */
-            'calculate_statistics' => \Spatie\Mailcoach\Domain\Campaign\Actions\CalculateStatisticsAction::class,
+            'calculate_statistics' => \Spatie\Mailcoach\Domain\Shared\Actions\CalculateStatisticsAction::class,
             'prepare_email_html' => \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareEmailHtmlAction::class,
             'prepare_subject' => \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareSubjectAction::class,
             'prepare_webview_html' => \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareWebviewHtmlAction::class,

@@ -18,11 +18,11 @@ use Spatie\TestTime\TestTime;
 
 class EnsureTagExistsActionTest extends TestCase
 {
-    private Campaign $campaign;
+    protected Campaign $campaign;
 
-    private Subscriber $subscriber;
+    protected Subscriber $subscriber;
 
-    private Action $actionModel;
+    protected Action $actionModel;
 
     public function setUp(): void
     {

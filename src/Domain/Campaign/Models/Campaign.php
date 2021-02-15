@@ -31,34 +31,19 @@ use Spatie\Mailcoach\Domain\Campaign\Support\CalculateStatisticsLock;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
-class Campaign extends Model implements Feedable, HasHtmlContent
+class Campaign extends Sendable implements Feedable, HasHtmlContent
 {
-    use CanBeScheduled,
-        HasUuid,
-        UsesMailcoachModels,
-        HasFactory,
-        SendsToSegment;
+    use CanBeScheduled;
+    use SendsToSegment;
 
     public $table = 'mailcoach_campaigns';
 
-    protected $guarded = [];
-
     public $casts = [
-        'track_opens' => 'boolean',
-        'track_clicks' => 'boolean',
-        'utm_tags' => 'boolean',
-        'open_rate' => 'integer',
-        'click_rate' => 'integer',
         'send_to_number_of_subscribers' => 'integer',
-        'sent_at' => 'datetime',
-        'requires_confirmation' => 'boolean',
-        'statistics_calculated_at' => 'datetime',
         'scheduled_at' => 'datetime',
         'campaigns_feed_enabled' => 'boolean',
-        'last_modified_at' => 'datetime',
-        'summary_mail_sent_at' => 'datetime',
-        'mailable_arguments' => 'array',
         'all_jobs_added_to_batch_at' => 'datetime',
+        'summary_mail_sent_at' => 'datetime',
     ];
 
     public static function booted()
@@ -82,13 +67,6 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         $query
             ->where('status', CampaignStatus::DRAFT)
             ->whereNull('scheduled_at')
-            ->orderBy('created_at');
-    }
-
-    public function scopeAutomated(Builder $query): void
-    {
-        $query
-            ->where('status', CampaignStatus::AUTOMATED)
             ->orderBy('created_at');
     }
 
@@ -172,10 +150,6 @@ class Campaign extends Model implements Feedable, HasHtmlContent
             return false;
         }
 
-        if ($this->status === CampaignStatus::AUTOMATED) {
-            return true;
-        }
-
         if (! optional($this->emailList)->default_from_email) {
             return false;
         }
@@ -185,16 +159,6 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         }
 
         return true;
-    }
-
-    public function hasValidHtml(): bool
-    {
-        return (new HtmlRule())->passes('html', $this->html);
-    }
-
-    public function htmlContainsUnsubscribeUrlPlaceHolder(): bool
-    {
-        return Str::contains($this->html, '::unsubscribeUrl::');
     }
 
     public function isPending(): bool
@@ -210,11 +174,6 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         return $this->isDraft() && $this->scheduled_at;
     }
 
-    public function isAutomated(): bool
-    {
-        return $this->status === CampaignStatus::AUTOMATED;
-    }
-
     public function isEditable(): bool
     {
         if ($this->isSending()) {
@@ -228,61 +187,6 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         return true;
     }
 
-    public function from(string $email, string $name = null)
-    {
-        $this->update([
-            'from_email' => $email,
-            'from_name' => $name,
-        ]);
-
-        return $this;
-    }
-
-    public function replyTo(string $email, string $name = null)
-    {
-        $this->update([
-            'reply_to_email' => $email,
-            'reply_to_name' => $name,
-        ]);
-
-        return $this;
-    }
-
-    public function subject(string $subject): self
-    {
-        $this->ensureUpdatable();
-
-        $this->update(compact('subject'));
-
-        return $this;
-    }
-
-    public function trackOpens(bool $bool = true): self
-    {
-        $this->ensureUpdatable();
-
-        $this->update(['track_opens' => $bool]);
-
-        return $this;
-    }
-
-    public function trackClicks(bool $bool = true): self
-    {
-        $this->ensureUpdatable();
-
-        $this->update(['track_clicks' => $bool]);
-
-        return $this;
-    }
-
-    public function utmTags(bool $bool = true): self
-    {
-        $this->ensureUpdatable();
-
-        $this->update(['utm_tags' => $bool]);
-
-        return $this;
-    }
 
     public function useMailable(string $mailableClass, array $mailableArguments = []): self
     {
@@ -302,15 +206,6 @@ class Campaign extends Model implements Feedable, HasHtmlContent
         $this->ensureUpdatable();
 
         $this->update(['email_list_id' => $emailList->id]);
-
-        return $this;
-    }
-
-    public function content(string $html): self
-    {
-        $this->ensureUpdatable();
-
-        $this->update(compact('html'));
 
         return $this;
     }
@@ -454,7 +349,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
 
     public function webviewUrl(): string
     {
-        return (string)url(route('mailcoach.webview', $this->uuid));
+        return (string)url(route('mailcoach.campaign.webview', $this->uuid));
     }
 
     public function getMailable(): CampaignMail
