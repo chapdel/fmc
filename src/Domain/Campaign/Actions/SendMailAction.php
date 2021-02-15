@@ -59,7 +59,8 @@ class SendMailAction
                 $campaign->from_name
                 ?? $campaign->emailList->default_from_name
                 ?? optional($pendingSend)->subscriber->emailList->default_from_name
-                ?? null)
+                ?? null
+            )
             ->setHtmlContent($personalisedHtml)
             ->setTextContent($personalisedText)
             ->setHtmlView('mailcoach::mails.campaignHtml')
@@ -77,7 +78,6 @@ class SendMailAction
             ?? null;
 
         if ($replyTo) {
-
             $replyToName = $this->campaign->reply_to_name
                 ?? $this->campaign->emailList->default_reply_to_name
                 ?? optional($pendingSend)->subscriber->emailList->default_reply_to_name
