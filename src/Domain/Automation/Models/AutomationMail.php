@@ -19,13 +19,11 @@ use Spatie\Mailcoach\Domain\Campaign\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendTestMailJob;
 use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
-use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
-use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\SendsToSegment;
-use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Campaign\Models\Sendable;
 use Spatie\Mailcoach\Domain\Campaign\Models\SendFeedbackItem;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Support\CalculateStatisticsLock;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 class AutomationMail extends Sendable implements Feedable, HasHtmlContent

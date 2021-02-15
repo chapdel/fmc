@@ -4,9 +4,6 @@ namespace Spatie\Mailcoach\Domain\Automation\Exceptions;
 
 use Exception;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
-use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignMail;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Campaign\Support\Segments\Segment;
 
 class CouldNotSendAutomationMail extends Exception
 {

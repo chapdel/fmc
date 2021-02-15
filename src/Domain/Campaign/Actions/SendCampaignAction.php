@@ -10,9 +10,9 @@ use Spatie\Mailcoach\Domain\Campaign\Jobs\MarkCampaignAsSentJob;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
-use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Support\Segments\Segment;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
 
 class SendCampaignAction

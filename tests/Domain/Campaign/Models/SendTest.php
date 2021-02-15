@@ -5,8 +5,8 @@ namespace Spatie\Mailcoach\Tests\Domain\Campaign\Models;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 

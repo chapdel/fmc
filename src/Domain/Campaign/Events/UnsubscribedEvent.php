@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Domain\Campaign\Events;
 
-use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
 class UnsubscribedEvent
 {
