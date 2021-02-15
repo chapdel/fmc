@@ -10,8 +10,6 @@ use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\EnsureTagsExistAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
-use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Tests\TestCase;
