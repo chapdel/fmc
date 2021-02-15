@@ -9,6 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
+use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailLinkClickedEvent;
+use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailOpenedEvent;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailClick;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailOpen;
 use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Domain\Campaign\Events\BounceRegisteredEvent;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignLinkClickedEvent;
@@ -43,6 +48,16 @@ class Send extends Model
         return ! is_null($this->campaign_id);
     }
 
+    public function concernsAutomationMail(): bool
+    {
+        return ! is_null($this->automation_mail_id);
+    }
+
+    public function concernsTransactionalMail(): bool
+    {
+        return ! is_null($this->transactional_mail_id);
+    }
+
     public static function findByTransportMessageId(string $transportMessageId): ?Model
     {
         return static::where('transport_message_id', $transportMessageId)->first();
@@ -58,6 +73,11 @@ class Send extends Model
         return $this->belongsTo(config('mailcoach.models.campaign'), 'campaign_id');
     }
 
+    public function automationMail(): BelongsTo
+    {
+        return $this->belongsTo(AutomationMail::class, 'automation_mail_id');
+    }
+
     public function transactionalMail(): BelongsTo
     {
         return $this->belongsTo(TransactionalMail::class, 'transactional_mail_id');
@@ -71,6 +91,16 @@ class Send extends Model
     public function clicks(): HasMany
     {
         return $this->hasMany(CampaignClick::class, 'send_id');
+    }
+
+    public function automationMailOpens(): HasMany
+    {
+        return $this->hasMany(AutomationMailOpen::class, 'send_id');
+    }
+
+    public function automationMailClicks(): HasMany
+    {
+        return $this->hasMany(AutomationMailClick::class, 'send_id');
     }
 
     public function transactionalMailOpens(): HasMany
@@ -128,11 +158,21 @@ class Send extends Model
         return $this;
     }
 
-    public function registerOpen(?DateTimeInterface $openedAt = null): CampaignOpen | TransactionalMailOpen | null
+    public function registerOpen(?DateTimeInterface $openedAt = null): CampaignOpen | AutomationMailOpen | TransactionalMailOpen | null
     {
-        return $this->concernsCampaign()
-            ? $this->registerCampaignOpen($openedAt)
-            : $this->registerTransactionalMailOpen($openedAt);
+        if ($this->concernsCampaign()) {
+            return $this->registerCampaignOpen($openedAt);
+        }
+
+        if ($this->concernsAutomationMail()) {
+            return $this->registerAutomationMailOpen($openedAt);
+        }
+
+        if ($this->concernsTransactionalMail()) {
+            return $this->registerTransactionalMailOpen($openedAt);
+        }
+
+        return null;
     }
 
     public function registerCampaignOpen(?DateTimeInterface $openedAt = null): ?CampaignOpen
@@ -157,6 +197,26 @@ class Send extends Model
         $this->campaign->dispatchCalculateStatistics();
 
         return $campaignOpen;
+    }
+
+    public function registerAutomationMailOpen(?DateTimeInterface $openedAt = null): ?AutomationMailOpen
+    {
+        if (! $this->transactionalMail->track_opens) {
+            return null;
+        }
+
+        if ($this->wasOpenedInTheLastSeconds($this->automationMailOpens(), 5)) {
+            return null;
+        }
+
+        $automationMailOpen = AutomationMailOpen::create([
+            'send_id' => $this->id,
+            'created_at' => $openedAt ?? now(),
+        ]);
+
+        event(new AutomationMailOpenedEvent($automationMailOpen));
+
+        return $automationMailOpen;
     }
 
     public function registerTransactionalMailOpen(?DateTimeInterface $openedAt = null): ?TransactionalMailOpen
@@ -190,11 +250,21 @@ class Send extends Model
         return $latestOpen->created_at->diffInSeconds() < $seconds;
     }
 
-    public function registerClick(string $url, ?DateTimeInterface $clickedAt = null): CampaignClick | TransactionalMailClick | null
+    public function registerClick(string $url, ?DateTimeInterface $clickedAt = null): CampaignClick | AutomationMailClick | TransactionalMailClick | null
     {
-        return $this->concernsCampaign()
-            ? $this->registerCampaignClick($url, $clickedAt)
-            : $this->registerTransactionalMailClick($url, $clickedAt);
+        if ($this->concernsCampaign()) {
+            return $this->registerCampaignClick($url, $clickedAt);
+        }
+
+        if ($this->concernsAutomationMail()) {
+            return $this->registerAutomationMailClick($url, $clickedAt);
+        }
+
+        if ($this->concernsTransactionalMail()) {
+            return $this->registerTransactionalMailClick($url, $clickedAt);
+        }
+
+        return null;
     }
 
     protected function registerCampaignClick(string $url, ?DateTimeInterface $clickedAt = null): ?CampaignClick
@@ -219,6 +289,22 @@ class Send extends Model
         $this->campaign->dispatchCalculateStatistics();
 
         return $campaignClick;
+    }
+
+    protected function registerAutomationMailClick(string $url, ?DateTimeInterface $clickedAt = null): ?AutomationMailClick
+    {
+        if (! $this->automationMail->track_clicks) {
+            return null;
+        }
+
+        $transactionalMailClick = AutomationMailClick::create([
+            'send_id' => $this->id,
+            'url' => $url,
+        ]);
+
+        event(new AutomationMailLinkClickedEvent($transactionalMailClick));
+
+        return $transactionalMailClick;
     }
 
     protected function registerTransactionalMailClick(string $url, ?DateTimeInterface $clickedAt = null): ?TransactionalMailClick
