@@ -6,8 +6,6 @@ use Carbon\CarbonInterface;
 use DOMDocument;
 use DOMElement;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Collection;
@@ -24,9 +22,7 @@ use Spatie\Mailcoach\Domain\Campaign\Jobs\SendTestMailJob;
 use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\CanBeScheduled;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
-use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\SendsToSegment;
-use Spatie\Mailcoach\Domain\Campaign\Rules\HtmlRule;
 use Spatie\Mailcoach\Domain\Campaign\Support\CalculateStatisticsLock;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -187,7 +183,6 @@ class Campaign extends Sendable implements Feedable, HasHtmlContent
 
         return true;
     }
-
 
     public function useMailable(string $mailableClass, array $mailableArguments = []): self
     {
