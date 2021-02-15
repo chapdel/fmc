@@ -5,7 +5,10 @@ namespace Spatie\Mailcoach\Domain\Automation\Actions;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\LazyCollection;
 use Illuminate\Support\Str;
+use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailJob;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
 
@@ -30,8 +33,8 @@ class SendAutomationMailToSubscriberAction
 
     protected function prepareSubject(AutomationMail $automationMail): self
     {
-        /** @var \Spatie\Mailcoach\Domain\AutomationMail\Actions\PrepareSubjectAction $prepareSubjectAction */
-        $prepareSubjectAction = Config::getAutomationMailActionClass('prepare_subject', PrepareSubjectAction::class);
+        /** @var \Spatie\Mailcoach\Domain\Automation\Actions\PrepareSubjectAction $prepareSubjectAction */
+        $prepareSubjectAction = Config::getAutomationActionClass('prepare_subject', PrepareSubjectAction::class);
 
         $prepareSubjectAction->execute($automationMail);
 
@@ -40,8 +43,8 @@ class SendAutomationMailToSubscriberAction
 
     protected function prepareEmailHtml(AutomationMail $automationMail): self
     {
-        /** @var \Spatie\Mailcoach\Domain\AutomationMail\Actions\PrepareEmailHtmlAction $prepareEmailHtmlAction */
-        $prepareEmailHtmlAction = Config::getAutomationMailActionClass('prepare_email_html', PrepareEmailHtmlAction::class);
+        /** @var \Spatie\Mailcoach\Domain\Automation\Actions\PrepareEmailHtmlAction $prepareEmailHtmlAction */
+        $prepareEmailHtmlAction = Config::getAutomationActionClass('prepare_email_html', PrepareEmailHtmlAction::class);
 
         $prepareEmailHtmlAction->execute($automationMail);
 
@@ -50,79 +53,17 @@ class SendAutomationMailToSubscriberAction
 
     protected function prepareWebviewHtml(AutomationMail $automationMail): self
     {
-        /** @var \Spatie\Mailcoach\Domain\AutomationMail\Actions\PrepareWebviewHtmlAction $prepareWebviewHtmlAction */
-        $prepareWebviewHtmlAction = Config::getAutomationMailActionClass('prepare_webview_html', PrepareWebviewHtmlAction::class);
+        /** @var \Spatie\Mailcoach\Domain\Automation\Actions\PrepareWebviewHtmlAction $prepareWebviewHtmlAction */
+        $prepareWebviewHtmlAction = Config::getAutomationActionClass('prepare_webview_html', PrepareWebviewHtmlAction::class);
 
         $prepareWebviewHtmlAction->execute($automationMail);
 
         return $this;
     }
 
-    protected function sendMailsForAutomationMail(AutomationMail $automationMail): self
-    {
-        $automationMail->update(['segment_description' => $automationMail->getSegment()->description()]);
-
-        $subscribersQuery = $automationMail->baseSubscribersQuery();
-
-        $segment = $automationMail->getSegment();
-
-        $segment->subscribersQuery($subscribersQuery);
-
-        $automationMail->update(['sent_to_number_of_subscribers' => $subscribersQuery->count()]);
-
-        $automationMail->update(['all_jobs_added_to_batch_at' => null]);
-
-        $batch = Bus::batch([])
-            ->allowFailures()
-            ->finally(function () use ($automationMail) {
-                if (! $automationMail->refresh()->all_jobs_added_to_batch_at) {
-                    return $this;
-                }
-
-                dispatch(new MarkAutomationMailAsSentJob($automationMail));
-            })
-            ->name($automationMail->getBatchName())
-            ->onQueue(config('mailcoach.automationMails.perform_on_queue.send_mail_job'))
-            ->dispatch();
-
-        $automationMail->update(['send_batch_id' => $batch->id]);
-
-        $subscribersQuery
-            ->cursor()
-            ->map(fn (Subscriber $subscriber) => $this->createSendMailJob($automationMail, $automationMail->emailList, $subscriber, $segment))
-            ->filter()
-            ->chunk(1000)
-            ->each(function (LazyCollection $jobs) use ($batch) {
-                $batch->add($jobs);
-            });
-
-        $batch->add(new MarkAutomationMailAsFullyDispatchedJob($automationMail));
-
-        return $this;
-    }
-
-    protected function createSendMailJob(AutomationMail $automationMail, EmailList $emailList, Subscriber $subscriber, Segment $segment = null): ?SendMailJob
-    {
-        if ($segment && ! $segment->shouldSend($subscriber)) {
-            $automationMail->decrement('sent_to_number_of_subscribers');
-
-            return null;
-        }
-
-        if (! $this->isValidSubscriptionForEmailList($subscriber, $emailList)) {
-            $automationMail->decrement('sent_to_number_of_subscribers');
-
-            return null;
-        }
-
-        $pendingSend = $this->createSend($automationMail, $subscriber);
-
-        return new SendMailJob($pendingSend);
-    }
-
     protected function createSend(AutomationMail $automationMail, Subscriber $subscriber): Send
     {
-        /** @var \Spatie\Mailcoach\Domain\AutomationMail\Models\Send $pendingSend */
+        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $pendingSend */
         $pendingSend = $automationMail->sends()
             ->where('subscriber_id', $subscriber->id)
             ->first();
@@ -137,24 +78,10 @@ class SendAutomationMailToSubscriberAction
         ]);
     }
 
-    protected function isValidSubscriptionForEmailList(Subscriber $subscriber, EmailList $emailList): bool
-    {
-        if (! $subscriber->isSubscribed()) {
-            return false;
-        }
-
-        if ((int)$subscriber->email_list_id !== (int)$emailList->id) {
-            return false;
-        }
-
-        return true;
-    }
-
     protected function sendMail(AutomationMail $automationMail, Subscriber $subscriber)
     {
-        $automationMail->update(['segment_description' => $automationMail->getSegment()->description()]);
+        $pendingSend = $this->createSend($automationMail, $subscriber);
 
-        dispatch($this->createSendMailJob($automationMail, $subscriber->emailList, $subscriber));
+        dispatch(new SendAutomationMailJob($pendingSend));
     }
-
 }

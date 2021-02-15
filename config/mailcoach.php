@@ -95,6 +95,20 @@ return [
     'automation' => [
         'actions' => [
             'send_automation_mail_to_subscriber' => \Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailToSubscriberAction::class,
+            'prepare_subject' => \Spatie\Mailcoach\Domain\Automation\Actions\PrepareSubjectAction::class,
+            'prepare_webview_html' => \Spatie\Mailcoach\Domain\Automation\Actions\PrepareWebviewHtmlAction::class,
+
+            'convert_html_to_text' => \Spatie\Mailcoach\Domain\Automation\Actions\ConvertHtmlToTextAction::class,
+            'prepare_email_html' => \Spatie\Mailcoach\Domain\Automation\Actions\PrepareEmailHtmlAction::class,
+            'personalize_html' => \Spatie\Mailcoach\Domain\Automation\Actions\PersonalizeHtmlAction::class,
+            'personalize_subject' => \Spatie\Mailcoach\Domain\Automation\Actions\PersonalizeSubjectAction::class,
+            ],
+
+        'replacers' => [
+            \Spatie\Mailcoach\Domain\Automation\Support\Replacers\WebviewAutomationMailReplacer::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\Replacers\SubscriberReplacer::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\Replacers\UnsubscribeUrlReplacer::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\Replacers\AutomationMailNameAutomationMailReplacer::class,
         ],
 
         'flows' => [
@@ -119,6 +133,7 @@ return [
 
         'perform_on_queue' => [
             'send_automation_mail_to_subscriber_job' => 'send-automation-mail',
+            'send_automation_mail_job' => 'send-mail'
         ],
     ],
 
@@ -214,7 +229,7 @@ return [
          * The model you want to use as a EmailList model. It needs to be or
          * extend the `Spatie\Mailcoach\Models\Send` model.
          */
-        'send' => Spatie\Mailcoach\Domain\Campaign\Models\Send::class,
+        'send' => \Spatie\Mailcoach\Domain\Shared\Models\Send::class,
 
         /*
          * The model you want to use as a Subscriber model. It needs to be or

@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Campaign\Actions;
 
-use Spatie\Mailcoach\Domain\Campaign\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\PersonalizedReplacer;
 
 class PersonalizeHtmlAction

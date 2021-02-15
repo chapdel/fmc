@@ -7,10 +7,10 @@ use Illuminate\Support\LazyCollection;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\MarkCampaignAsFullyDispatchedJob;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\MarkCampaignAsSentJob;
-use Spatie\Mailcoach\Domain\Campaign\Jobs\SendMailJob;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
-use Spatie\Mailcoach\Domain\Campaign\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Support\Segments\Segment;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
@@ -103,7 +103,7 @@ class SendCampaignAction
         return $this;
     }
 
-    protected function createSendMailJob(Campaign $campaign, EmailList $emailList, Subscriber $subscriber, Segment $segment = null): ?SendMailJob
+    protected function createSendMailJob(Campaign $campaign, EmailList $emailList, Subscriber $subscriber, Segment $segment = null): ?SendCampaignMailJob
     {
         if ($segment && ! $segment->shouldSend($subscriber)) {
             $campaign->decrement('sent_to_number_of_subscribers');
@@ -119,12 +119,12 @@ class SendCampaignAction
 
         $pendingSend = $this->createSend($campaign, $subscriber);
 
-        return new SendMailJob($pendingSend);
+        return new SendCampaignMailJob($pendingSend);
     }
 
     protected function createSend(Campaign $campaign, Subscriber $subscriber): Send
     {
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $pendingSend */
+        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $pendingSend */
         $pendingSend = $campaign->sends()
             ->where('subscriber_id', $subscriber->id)
             ->first();

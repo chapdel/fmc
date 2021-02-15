@@ -15,7 +15,7 @@ class CampaignMailTest extends TestCase
     /** @test */
     public function it_will_set_transport_id()
     {
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $send */
+        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
         $send = SendFactory::new()->create();
 
         $campaignMailable = (new CampaignMail())

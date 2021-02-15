@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Campaign\Models;
+namespace Spatie\Mailcoach\Domain\Shared\Models;
 
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Builder;
@@ -14,7 +14,11 @@ use Spatie\Mailcoach\Domain\Campaign\Events\BounceRegisteredEvent;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignLinkClickedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignOpenedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Events\ComplaintRegisteredEvent;
+use Spatie\Mailcoach\Domain\Campaign\Models\CampaignClick;
+use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
+use Spatie\Mailcoach\Domain\Campaign\Models\CampaignOpen;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
+use Spatie\Mailcoach\Domain\Campaign\Models\SendFeedbackItem;
 use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailLinkClickedEvent;
 use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailOpenedEvent;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;

@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Domain\Campaign\Mails;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Campaign\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Swift_Message;
 
 class CampaignMail extends Mailable

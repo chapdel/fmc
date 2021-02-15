@@ -15,7 +15,7 @@ class CampaignLinkClickedEventTest extends TestCase
     {
         Event::fake();
 
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $send */
+        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
         $send = SendFactory::new()->create();
         $send->campaign->update(['track_clicks' => true]);
 
@@ -47,7 +47,7 @@ class CampaignLinkClickedEventTest extends TestCase
     {
         Event::fake();
 
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $send */
+        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
         $send = SendFactory::new()->create();
         $send->campaign->update(['track_clicks' => false]);
 

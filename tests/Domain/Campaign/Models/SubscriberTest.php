@@ -135,7 +135,7 @@ class SubscriberTest extends TestCase
     /** @test */
     public function it_can_get_all_sends()
     {
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $send */
+        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
         $send = SendFactory::new()->create();
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber $subscriber */
@@ -151,7 +151,7 @@ class SubscriberTest extends TestCase
     /** @test */
     public function it_can_get_all_opens()
     {
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $send */
+        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
         $send = SendFactory::new()->create();
         $send->campaign->update(['track_opens' => true]);
 
@@ -170,7 +170,7 @@ class SubscriberTest extends TestCase
     /** @test */
     public function it_can_get_all_clicks()
     {
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $send */
+        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
         $send = SendFactory::new()->create();
         $send->campaign->update(['track_clicks' => true]);
 

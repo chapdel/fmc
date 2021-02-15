@@ -254,7 +254,7 @@ return [
          * The model you want to use as a EmailList model. It needs to be or
          * extend the `Spatie\Mailcoach\Models\Send` model.
          */
-        'send' => Spatie\Mailcoach\Domain\Campaign\Models\Send::class,
+        'send' => \Spatie\Mailcoach\Domain\Shared\Models\Send::class,
 
         /*
          * The model you want to use as a Subscriber model. It needs to be or
@@ -405,7 +405,7 @@ After Horizon is installed, don't forget to set `QUEUE_CONNECTION` in your `.env
         ],
         'mailcoach-heavy' => [
             'connection' => 'mailcoach-redis',
-            'queue' => ['send-campaign'],
+            'queue' => ['send-campaign', 'send-automation-mail'],
             'balance' => 'auto',
             'processes' => 3,
             'tries' => 1,
@@ -432,7 +432,7 @@ After Horizon is installed, don't forget to set `QUEUE_CONNECTION` in your `.env
         ],
         'mailcoach-heavy' => [
             'connection' => 'mailcoach-redis',
-            'queue' => ['send-campaign'],
+            'queue' => ['send-campaign', 'send-automation-mail'],
             'balance' => 'auto',
             'processes' => 3,
             'tries' => 1,

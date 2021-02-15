@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Tests\Domain\Campaign\Events;
 use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Campaign\Events\ComplaintRegisteredEvent;
-use Spatie\Mailcoach\Domain\Campaign\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class ComplaintRegisteredEventTest extends TestCase

@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Tests\Domain\Campaign\Models;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Campaign\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
@@ -87,7 +87,7 @@ class SendTest extends TestCase
     {
         TestTime::freeze();
 
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $send */
+        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
         $send = SendFactory::new()->create();
         $send->campaign->update(['track_opens' => true]);
 
@@ -106,7 +106,7 @@ class SendTest extends TestCase
     /** @test */
     public function it_will_register_an_open_at_a_specific_time()
     {
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $send */
+        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
         $send = SendFactory::new()->create();
         $send->campaign->update(['track_opens' => true]);
 
@@ -120,7 +120,7 @@ class SendTest extends TestCase
     /** @test */
     public function it_will_not_register_a_click_of_an_unsubscribe_link()
     {
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $send */
+        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
         $send = SendFactory::new()->create();
         $send->campaign->update(['track_clicks' => true]);
 
@@ -134,7 +134,7 @@ class SendTest extends TestCase
     /** @test */
     public function it_can_register_a_click_at_a_given_time()
     {
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $send */
+        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
         $send = SendFactory::new()->create();
         $send->campaign->update(['track_clicks' => true]);
 
@@ -163,13 +163,13 @@ class SendTest extends TestCase
             'track_clicks' => true,
         ]);
 
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $send */
+        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
         $send = SendFactory::new()->create([
             'campaign_id' => $campaign->id,
             'subscriber_id' => $subscriber->id,
         ]);
 
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $anotherSend */
+        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $anotherSend */
         $anotherSend = SendFactory::new()->create([
             'campaign_id' => $campaign->id,
             'subscriber_id' => $anotherSubscriber->id,

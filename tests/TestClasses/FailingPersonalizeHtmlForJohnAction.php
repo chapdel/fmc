@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Tests\TestClasses;
 
 use Exception;
 use Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeHtmlAction;
-use Spatie\Mailcoach\Domain\Campaign\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
 class FailingPersonalizeHtmlForJohnAction extends PersonalizeHtmlAction
 {

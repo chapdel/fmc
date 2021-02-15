@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Campaign\Events;
 
-use Spatie\Mailcoach\Domain\Campaign\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
 class CampaignMailSentEvent
 {

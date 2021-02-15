@@ -14,7 +14,7 @@ class AddCampaignClickedTagTest extends TestCase
     /** @test * */
     public function it_adds_a_tag_when_a_campaign_link_is_clicked()
     {
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $send */
+        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
         $send = SendFactory::new()->create();
         $send->campaign->update(['track_clicks' => true]);
 
