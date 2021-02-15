@@ -14,7 +14,7 @@
             <thead>
             <tr>
                 <x-mailcoach::th sort-by="name">{{ __('Name') }}</x-mailcoach::th>
-                <x-mailcoach::th sort-by="-created_at" class="w-48 th-numeric hidden | md:table-cell">{{ __('Created at') }}</x-mailcoach::th>
+                <x-mailcoach::th sort-by="-created_at" class="w-48 th-numeric hidden | xl:table-cell">{{ __('Created at') }}</x-mailcoach::th>
                 <th class="w-12"></th>
             </tr>
             </thead>
@@ -26,7 +26,7 @@
                             {{ $segment->name }}
                         </a>
                     </td>
-                    <td class="td-numeric hidden | md:table-cell">{{ $segment->created_at->toMailcoachFormat() }}</td>
+                    <td class="td-numeric hidden | xl:table-cell">{{ $segment->created_at->toMailcoachFormat() }}</td>
                     <td class="td-action">
                         <x-mailcoach::dropdown direction="left">
                             <ul>

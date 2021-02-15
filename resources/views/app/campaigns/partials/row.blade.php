@@ -38,7 +38,7 @@
             {{ number_format($campaign->sent_to_number_of_subscribers) ?: '–' }}
         @endif
     </td>
-    <td class="td-numeric hidden | md:table-cell">
+    <td class="td-numeric hidden | xl:table-cell">
         @if($campaign->open_rate)
             {{ number_format($campaign->unique_open_count) }}
             <div class="td-secondary-line">{{ $campaign->open_rate / 100 }}%</div>
@@ -46,14 +46,14 @@
             –
         @endif
     </td>
-    <td class="td-numeric hidden | md:table-cell">
+    <td class="td-numeric hidden | xl:table-cell">
         @if($campaign->click_rate)
             {{ number_format($campaign->unique_click_count) }}
             <div class="td-secondary-line">{{ $campaign->click_rate / 100 }}%</div>
         @else
             –
         @endif
-    <td class="td-numeric hidden | md:table-cell">
+    <td class="td-numeric hidden | xl:table-cell">
         @if($campaign->isSent())
             {{ optional($campaign->sent_at)->toMailcoachFormat() }}
         @elseif($campaign->isSending())

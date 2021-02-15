@@ -45,7 +45,7 @@
         <tr>
             <x-mailcoach::th sort-by="subscriber_email">{{ __('Email address') }}</x-mailcoach::th>
             <x-mailcoach::th sort-by="subscriber_email">{{ __('Problem') }}</x-mailcoach::th>
-            <x-mailcoach::th class="w-48 th-numeric hidden | md:table-cell" sort-by="-sent_at" sort-default>{{ __('Sent at') }}</x-mailcoach::th>
+            <x-mailcoach::th class="w-48 th-numeric hidden | xl:table-cell" sort-by="-sent_at" sort-default>{{ __('Sent at') }}</x-mailcoach::th>
         </tr>
         </thead>
         <tbody>
@@ -59,7 +59,7 @@
                     @endif
                 </td>
                 <td>{{ $send->failure_reason }}{{optional($send->latestFeedback())->formatted_type }}</td>
-                <td class="td-numeric hidden | md:table-cell">{{ optional($send->sent_at)->toMailcoachFormat() ?? '-' }}</td>
+                <td class="td-numeric hidden | xl:table-cell">{{ optional($send->sent_at)->toMailcoachFormat() ?? '-' }}</td>
             </tr>
         @endforeach
         </tbody>

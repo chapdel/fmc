@@ -1,7 +1,5 @@
 <ul class="navigation">
     
-
-
     <li class="opacity-0">|</li>
 
             @include('mailcoach::app.layouts.partials.beforeFirstMenuItem')

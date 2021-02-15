@@ -8,6 +8,12 @@
 
             @include('mailcoach::app.layouts.partials.beforeFirstMenuItem')
 
+            <x-mailcoach::navigation-group class="lg:hidden">
+                <x-mailcoach::navigation-item :href="route('mailcoach.home')">
+                        {{ __('Dashboard') }}
+                </x-mailcoach::navigation-item>
+            </x-mailcoach::navigation-group>
+
             @can("viewAny", \Spatie\Mailcoach\Domain\Campaign\Models\Campaign::class)
             <x-mailcoach::navigation-group icon="far fa-envelope-open" :title="__('Newsletter')">
                 <x-mailcoach::navigation-item :href="route('mailcoach.campaigns')">

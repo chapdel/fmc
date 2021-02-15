@@ -10,7 +10,7 @@
         <thead>
         <tr>
             <th>{{ __('Email') }}</th>
-            <th class="w-48 th-numeric hidden | md:table-cell">{{ __('Date') }}</th>
+            <th class="w-48 th-numeric hidden | xl:table-cell">{{ __('Date') }}</th>
         </tr>
         </thead>
         <tbody>
@@ -24,7 +24,7 @@
                         {{ $unsubscribe->subscriber->first_name }} {{ $unsubscribe->subscriber->last_name }}
                     </div>
                 </td>
-                <td class="td-numeric hidden | md:table-cell">{{ $unsubscribe->created_at->toMailcoachFormat() }}</td>
+                <td class="td-numeric hidden | xl:table-cell">{{ $unsubscribe->created_at->toMailcoachFormat() }}</td>
             </tr>
         @endforeach
         </tbody>

@@ -1,9 +1,10 @@
 .card {
     @apply bg-white;
     @apply shadow-lg;
-    @apply lg:rounded;
     @apply w-full;
     @apply flex-grow;
+    @apply rounded;
+    @apply overflow-hidden;
 }
 
 .card::-webkit-scrollbar {
@@ -11,16 +12,9 @@
     background: transparent; /* Optional: just make scrollbar invisible */
 }
 
-.card-split {
-    @apply grid;
-    grid-template-areas:        
-        'card-nav'
-        'card-main';
-    grid-template-rows: auto 1fr;
-}
-
-@screen lg{
+@screen lg {
     .card-split {
+        @apply grid;
         grid-template-areas:        
             'card-nav card-main';
         grid-template-columns: 16rem 1fr;
@@ -35,10 +29,18 @@
     @apply bg-gradient-to-b;
     @apply from-blue-800;
     @apply to-blue-900;
-    @apply rounded-t;
-    @apply lg:rounded-tr-none;
-    @apply lg:rounded-l;
     @apply w-full;
+    @apply z-50;
+}
+
+.card-nav .navigation {
+    @apply hidden;
+}
+
+@screen lg {
+    .card-nav .navigation {
+        @apply grid;
+    }
 }
 
 .card-main {

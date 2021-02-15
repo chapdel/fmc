@@ -1186,17 +1186,10 @@ code.markup-code, .markup-code code{
   background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
   --tw-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
-
-@media (min-width: 1024px){
-  .card{
-    border-radius: 0.25rem;
-  }
-}
-
-.card{
   width: 100%;
   flex-grow: 1;
+  border-radius: 0.25rem;
+  overflow: hidden;
 }
 
 .card::-webkit-scrollbar {
@@ -1204,16 +1197,9 @@ code.markup-code, .markup-code code{
   background: transparent; /* Optional: just make scrollbar invisible */
 }
 
-.card-split {
-  display: grid;
-  grid-template-areas:        
-        'card-nav'
-        'card-main';
-  grid-template-rows: auto 1fr;
-}
-
-@media (min-width: 1024px){
+@media (min-width: 1024px) {
   .card-split {
+    display: grid;
     grid-template-areas:        
             'card-nav card-main';
     grid-template-columns: 16rem 1fr;
@@ -1229,25 +1215,22 @@ code.markup-code, .markup-code code{
   --tw-gradient-from: #1e40af;
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(30, 64, 175, 0));
   --tw-gradient-to: #1e3a8a;
-  border-top-left-radius: 0.25rem;
-  border-top-right-radius: 0.25rem;
-}
-
-@media (min-width: 1024px){
-  .card-nav{
-    border-top-right-radius: 0px;
-  }
-}
-
-@media (min-width: 1024px){
-  .card-nav{
-    border-top-left-radius: 0.25rem;
-    border-bottom-left-radius: 0.25rem;
-  }
-}
-
-.card-nav{
   width: 100%;
+  z-index: 50;
+}
+
+.flatpickr-day.card-nav .navigation {
+  visibility: hidden;
+}
+
+.card-nav .navigation{
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .card-nav .navigation {
+    display: grid;
+  }
 }
 
 .card-main {
@@ -1736,11 +1719,9 @@ code.markup-code, .markup-code code{
 }
 
 .icon-label {
-  display: inline-grid;
+  display: flex;
   align-items: center;
   justify-content: start;
-  grid-auto-flow: column;
-  gap: 0.65rem;
   white-space: nowrap;
 }
 
@@ -1759,6 +1740,7 @@ code.markup-code, .markup-code code{
   justify-self: center;
   opacity: 0.75;
   transition: opacity 0.3s ease;
+  margin-right: 0.5rem;
 }
 
 .icon-label-text {
@@ -2032,8 +2014,21 @@ input:read-only {
   padding: 0px !important;
 }
 
-.navigation {
-  display: grid;
+.flatpickr-day.navigation {
+  visibility: hidden;
+}
+
+.navigation{
+  display: none;
+}
+
+@media (min-width: 1024px){
+  .navigation{
+    display: grid;
+  }
+}
+
+.navigation{
   grid-template-columns: repeat(1, minmax(0, 1fr));
   gap: 1.5rem;
   align-content: flex-start;
@@ -2045,13 +2040,22 @@ input:read-only {
   padding-bottom: 2rem;
 }
 
+.navigation.navigation-shown {
+  display: grid;
+}
+
 .navigation li {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
   font-size: 0.875rem;
   line-height: 1.25rem;
   font-weight: 600;
-  text-align: right;
+}
+
+@media (min-width: 1024px){
+  .navigation li{
+    text-align: right;
+  }
 }
 
 .navigation li :is(a, button)  {
@@ -2075,8 +2079,18 @@ input:read-only {
 .navigation :is(.active a, a:hover, button:hover):after {
   content: '';
   position: absolute;
-  left: 100%;
+  right: 100%;
+}
+
+@media (min-width: 1024px){
+  .navigation :is(.active a, a:hover, button:hover):after{
+    left: 100%;
+  }
+}
+
+.navigation :is(.active a, a:hover, button:hover):after{
   margin-left: 0.25rem;
+  margin-right: 0.25rem;
   top: 50%;
   --tw-translate-x: 0;
   --tw-translate-y: 0;
@@ -2113,6 +2127,16 @@ input:read-only {
   border-color: rgba(0, 0, 0, var(--tw-border-opacity));
   --tw-border-opacity: 0.2;
   background-image: linear-gradient(to bottom, rgba(0,0,0,0.15), rgba(0,0,0,0.05) 5%, rgba(0,0,0,0) 30%);
+}
+
+.navigation .icon-label {
+  flex-direction: row-reverse;
+}
+
+@media (min-width: 1024px){
+  .navigation .icon-label{
+    flex-direction: row;
+  }
 }
 
 .pagination {
@@ -16096,7 +16120,7 @@ span.flatpickr-weekday {
 }
 
 .max-w-layout{
-  max-width: 90rem !important;
+  max-width: 100rem !important;
 }
 
 .min-h-0{
@@ -43490,7 +43514,7 @@ span.flatpickr-weekday {
   }
 
   .sm\:max-w-layout{
-    max-width: 90rem !important;
+    max-width: 100rem !important;
   }
 
   .sm\:min-h-0{
@@ -70815,7 +70839,7 @@ span.flatpickr-weekday {
   }
 
   .md\:max-w-layout{
-    max-width: 90rem !important;
+    max-width: 100rem !important;
   }
 
   .md\:min-h-0{
@@ -98140,7 +98164,7 @@ span.flatpickr-weekday {
   }
 
   .lg\:max-w-layout{
-    max-width: 90rem !important;
+    max-width: 100rem !important;
   }
 
   .lg\:min-h-0{
@@ -125465,7 +125489,7 @@ span.flatpickr-weekday {
   }
 
   .xl\:max-w-layout{
-    max-width: 90rem !important;
+    max-width: 100rem !important;
   }
 
   .xl\:min-h-0{
@@ -152790,7 +152814,7 @@ span.flatpickr-weekday {
   }
 
   .\32xl\:max-w-layout{
-    max-width: 90rem !important;
+    max-width: 100rem !important;
   }
 
   .\32xl\:min-h-0{

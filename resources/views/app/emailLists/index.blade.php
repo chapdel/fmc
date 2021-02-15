@@ -19,7 +19,7 @@
             <tr>
                 <x-mailcoach::th sort-by="name" sort-default>{{ __('Name') }}</x-mailcoach::th>
                 <x-mailcoach::th sort-by="-active_subscribers_count" class="w-32 th-numeric">{{ __('Active') }}</x-mailcoach::th>
-                <x-mailcoach::th sort-by="-created_at" class="w-48 th-numeric hidden | md:table-cell">{{ __('Created') }}</x-mailcoach::th>
+                <x-mailcoach::th sort-by="-created_at" class="w-48 th-numeric hidden | xl:table-cell">{{ __('Created') }}</x-mailcoach::th>
                 <th class="w-12"></th>
             </tr>
             </thead>
@@ -32,7 +32,7 @@
                         </a>
                     </td>
                     <td class="td-numeric">{{ number_format($emailList->active_subscribers_count) }}</td>
-                    <td class="td-numeric hidden | md:table-cell">
+                    <td class="td-numeric hidden | xl:table-cell">
                         {{ $emailList->created_at->toMailcoachFormat() }}
                     </td>
                     <td class="td-action">

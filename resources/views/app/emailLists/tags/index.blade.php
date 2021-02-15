@@ -31,7 +31,7 @@
             <tr>
                 <x-mailcoach::th sort-by="name" sort-default>{{ __('Name') }}</x-mailcoach::th>
                 <x-mailcoach::th sort-by="subscriber_count" class="w-32 th-numeric">{{ __('Subscribers') }}</x-mailcoach::th>
-                <x-mailcoach::th sort-by="updated_at" class="w-48 th-numeric hidden | md:table-cell">{{ __('Updated at') }}</x-mailcoach::th>
+                <x-mailcoach::th sort-by="updated_at" class="w-48 th-numeric hidden | xl:table-cell">{{ __('Updated at') }}</x-mailcoach::th>
                 <th class="w-12"></th>
             </tr>
             </thead>
@@ -48,7 +48,7 @@
                         @endif
                     </td>
                     <td class="td-numeric">{{ $tag->subscriber_count }}</td>
-                    <td class="td-numeric hidden | md:table-cell">{{ $tag->updated_at->toMailcoachFormat() }}</td>
+                    <td class="td-numeric hidden | xl:table-cell">{{ $tag->updated_at->toMailcoachFormat() }}</td>
 
                     <td class="td-action">
                         <x-mailcoach::form-button

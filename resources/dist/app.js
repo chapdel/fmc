@@ -9133,6 +9133,8 @@ __webpack_require__(/*! ./components/htmlPreview */ "./resources/js/components/h
 
 __webpack_require__(/*! ./components/modal */ "./resources/js/components/modal.js");
 
+__webpack_require__(/*! ./components/nav */ "./resources/js/components/nav.js");
+
 __webpack_require__(/*! ./components/poll */ "./resources/js/components/poll.js");
 
 __webpack_require__(/*! ./components/segments */ "./resources/js/components/segments.js");
@@ -9520,6 +9522,31 @@ if (window.location.hash.includes('#modal')) {
     showModal(modalName);
   }
 }
+
+/***/ }),
+
+/***/ "./resources/js/components/nav.js":
+/*!****************************************!*\
+  !*** ./resources/js/components/nav.js ***!
+  \****************************************/
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util */ "./resources/js/util/index.js");
+
+Object(_util__WEBPACK_IMPORTED_MODULE_0__["listen"])('click', '[data-navigation-trigger]', ({
+  event
+}) => {
+  if (window.innerWidth > 1024) {
+    return true;
+  }
+
+  event.preventDefault();
+  const nav = Object(_util__WEBPACK_IMPORTED_MODULE_0__["$"])('[data-navigation]');
+  nav.classList.toggle('navigation-shown');
+});
 
 /***/ }),
 

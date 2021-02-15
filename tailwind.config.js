@@ -48,7 +48,7 @@ module.exports = {
                 32: '8rem',
             },
             maxWidth: {
-                layout: '90rem',
+                layout: '100rem',
             },
         },
     },
