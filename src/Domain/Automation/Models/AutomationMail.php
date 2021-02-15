@@ -170,36 +170,8 @@ class AutomationMail extends Sendable implements Feedable, HasHtmlContent
 
     protected function ensureSendable()
     {
-        if ($this->isSending()) {
-            throw CouldNotSendCampaign::beingSent($this);
-        }
-
-        if ($this->isSent()) {
-            throw CouldNotSendCampaign::alreadySent($this);
-        }
-
-        if ($this->isCancelled()) {
-            throw CouldNotSendCampaign::cancelled($this);
-        }
-
-        if (is_null($this->emailList)) {
-            throw CouldNotSendCampaign::noListSet($this);
-        }
-
         if ($this->hasCustomMailable()) {
             return;
-        }
-
-        if (empty($this->from_email) && empty($this->emailList->default_from_email)) {
-            throw CouldNotSendCampaign::noFromEmailSet($this);
-        }
-
-        if (empty($this->subject)) {
-            throw CouldNotSendCampaign::noSubjectSet($this);
-        }
-
-        if (empty($this->html)) {
-            throw CouldNotSendCampaign::noContent($this);
         }
     }
 

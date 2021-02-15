@@ -11,6 +11,7 @@ use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
 use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailToSubscriberJob;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\EnsureTagsExistAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
@@ -28,8 +29,9 @@ class AutomationTest extends TestCase
 {
     use MatchesSnapshots;
 
-    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign */
-    protected Campaign $campaign;
+    protected AutomationMail $automationMail;
+
+    protected EmailList $emailList;
 
     public function setUp(): void
     {
@@ -37,13 +39,13 @@ class AutomationTest extends TestCase
 
         Queue::fake();
 
-        $this->campaign = (new CampaignFactory())->create([
-            'subject' => 'Welcome',
-        ]);
+        $this->automationMail = AutomationMail::factory()->create(['subject' => 'Welcome']);
+
+        $this->emailList = EmailList::factory()->create();
     }
 
     /** @test */
-    public function the_default_status_is_draft()
+    public function the_default_status_is_paused()
     {
         $automation = Automation::create();
 
@@ -53,13 +55,14 @@ class AutomationTest extends TestCase
     /** @test */
     public function it_can_run_a_welcome_automation()
     {
+        /** @var Automation $automation */
         $automation = Automation::create()
             ->name('Welcome email')
-            ->to($this->campaign->emailList)
+            ->to($this->emailList)
             ->runEvery(CarbonInterval::minute())
             ->trigger(new SubscribedTrigger)
             ->chain([
-                new SendAutomationMailAction($this->campaign),
+                new SendAutomationMailAction($this->automationMail),
             ])
             ->start();
 
@@ -68,14 +71,14 @@ class AutomationTest extends TestCase
         $this->assertEquals(1, $automation->actions()->count());
         $this->assertEquals(0, $automation->actions()->first()->subscribers->count());
 
-        $this->campaign->emailList->subscribe('john@doe.com');
+        $this->emailList->subscribe('john@doe.com');
 
         $this->assertEquals(1, $automation->actions()->first()->subscribers->count());
 
         Artisan::call(RunAutomationActionsCommand::class);
 
         Queue::assertPushed(SendAutomationMailToSubscriberJob::class, function (SendAutomationMailToSubscriberJob $job) {
-            $this->assertTrue($job->automationMail->is($this->campaign));
+            $this->assertEquals($job->automationMail->id, $this->automationMail->id);
             $this->assertEquals('john@doe.com', $job->subscriber->email);
 
             return true;
@@ -87,12 +90,12 @@ class AutomationTest extends TestCase
     {
         $automation = Automation::create()
             ->name('Welcome email')
-            ->to($this->campaign->emailList)
+            ->to($this->emailList)
             ->runEvery(CarbonInterval::minute())
             ->trigger(new SubscribedTrigger)
             ->chain([
                 new HaltAction,
-                new SendAutomationMailAction($this->campaign),
+                new SendAutomationMailAction($this->automationMail),
             ])
             ->start();
 
@@ -101,7 +104,7 @@ class AutomationTest extends TestCase
         $this->assertEquals(2, $automation->actions->count());
         $this->assertEquals(0, $automation->actions->first()->subscribers()->count());
 
-        $this->campaign->emailList->subscribe('john@doe.com');
+        $this->emailList->subscribe('john@doe.com');
 
         $this->assertEquals(1, $automation->actions->first()->subscribers()->count());
 
@@ -120,11 +123,11 @@ class AutomationTest extends TestCase
         $automation = Automation::create()
             ->name('Welcome email')
             ->runEvery(CarbonInterval::minute())
-            ->to($this->campaign->emailList)
+            ->to($this->emailList)
             ->trigger(new SubscribedTrigger)
             ->chain([
                 new WaitAction(CarbonInterval::days(1)),
-                new SendAutomationMailAction($this->campaign),
+                new SendAutomationMailAction($this->automationMail),
             ])
             ->start();
 
@@ -133,7 +136,7 @@ class AutomationTest extends TestCase
         $this->assertEquals(2, $automation->actions->count());
         $this->assertEquals(0, $automation->actions->first()->subscribers()->count());
 
-        $this->campaign->emailList->subscribe('john@doe.com');
+        $this->emailList->subscribe('john@doe.com');
 
         $this->assertEquals(1, $automation->actions->first()->subscribers()->count());
 
@@ -158,8 +161,8 @@ class AutomationTest extends TestCase
         $automation = Automation::create()
             ->name('Welcome email')
             ->runEvery(CarbonInterval::minute())
-            ->to($this->campaign->emailList)
-            ->trigger(new SubscribedTrigger)
+            ->to($this->emailList)
+            ->trigger(new SubscribedTrigger())
             ->chain([]);
 
         $this->assertEquals([], $automation->actions->toArray());
@@ -177,7 +180,7 @@ class AutomationTest extends TestCase
 
         $firstId = $automation->actions()->first()->id;
 
-        $campaignAction = new SendAutomationMailAction($this->campaign);
+        $campaignAction = new SendAutomationMailAction($this->automationMail);
         $campaignAction->uuid = Str::uuid()->toString();
 
         $automation->chain([

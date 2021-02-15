@@ -435,6 +435,8 @@ class CreateMailcoachTables extends Migration
             $table->longText('html')->nullable();
             $table->longText('structured_html')->nullable();
             $table->longText('email_html')->nullable();
+            $table->longText('webview_html')->nullable();
+
 
             $table->string('mailable_class')->nullable();
             $table->json('mailable_arguments')->nullable();
