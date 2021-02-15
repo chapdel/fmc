@@ -48,15 +48,10 @@ class CampaignSettingsController
             'track_clicks' => $request->track_clicks ?? false,
             'utm_tags' => $request->utm_tags ?? false,
             'last_modified_at' => now(),
+            'email_list_id' => $request->email_list_id,
+            'segment_class' => $request->getSegmentClass(),
+            'segment_id' => $request->segment_id,
         ]);
-
-        if (! $campaign->isAutomated()) {
-            $campaign->fill([
-                'email_list_id' => $request->email_list_id,
-                'segment_class' => $request->getSegmentClass(),
-                'segment_id' => $request->segment_id,
-            ]);
-        }
 
         $campaign->save();
 

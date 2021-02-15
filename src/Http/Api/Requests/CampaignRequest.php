@@ -17,7 +17,7 @@ class CampaignRequest extends FormRequest
     {
         return [
             'name' => ['required'],
-            'type' => ['nullable', Rule::in([CampaignStatus::DRAFT, CampaignStatus::AUTOMATED])],
+            'type' => ['nullable', Rule::in([CampaignStatus::DRAFT])],
             'email_list_id' => ['required', Rule::exists($this->getEmailListTableName(), 'id')],
             'segment_id' => [Rule::exists((new TagSegment())->getTable())],
             'html' => '',

@@ -215,9 +215,7 @@ class AutomationTest extends TestCase
         /** @var EmailList $emailList */
         $emailList = EmailList::factory()->create();
 
-        $campaign1 = Campaign::factory()->create([
-            'status' => CampaignStatus::AUTOMATED,
-        ]);
+        $automatedMail1 = AutomationMail::factory()->create();
 
         $automation = Automation::create()
             ->name('Getting started with Mailcoach')
@@ -226,7 +224,7 @@ class AutomationTest extends TestCase
             ->runEvery(CarbonInterval::minutes(10)) // Run through the automation and check actions every 10 min
             ->chain([
                 new WaitAction(CarbonInterval::day()), // Wait one day
-                new SendAutomationMailAction($campaign1), // Send first email
+                new SendAutomationMailAction($automatedMail1), // Send first email
                 new EnsureTagsExistAction(
                     checkFor: CarbonInterval::days(3), // Keep checking tags for 3 days, if not they get the default or halted
                     tags: [
@@ -234,7 +232,7 @@ class AutomationTest extends TestCase
                         'tag' => 'mc::campaign-1-clicked-1',
                         'actions' => [
                             new WaitAction(CarbonInterval::day()), // Wait one day
-                            new SendAutomationMailAction($campaign1), // Send first email
+                            new SendAutomationMailAction($automatedMail1), // Send first email
                         ],
                     ],
                     [
@@ -249,7 +247,7 @@ class AutomationTest extends TestCase
                 ],
                 ),
                 new WaitAction(CarbonInterval::days(3)), // Wait 3 days
-                new SendAutomationMailAction($campaign1),
+                new SendAutomationMailAction($automatedMail1),
             ])->start();
 
         $this->refreshServiceProvider();
