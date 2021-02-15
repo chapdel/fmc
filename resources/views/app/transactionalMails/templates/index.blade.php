@@ -23,7 +23,7 @@
                 </thead>
                 <tbody>
                 @foreach($templates as $template)
-                    <tr>
+                    <tr class="markup-links">
                         <td><a href="{{ route('mailcoach.transactionalMails.templates.edit', $template) }}">{{ $template->name }}</a></td>
 
                         <td class="td-action">
@@ -61,7 +61,7 @@
                 :show-all-url="route('mailcoach.templates')"></x-mailcoach::table-status>
         @else
             <x-mailcoach::help>
-                {!! __('You have not created any templates yet') !!}
+                {!! __('You have not created any templates yet.') !!}
             </x-mailcoach::help>
         @endif
     </section>

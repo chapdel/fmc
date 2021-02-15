@@ -10,3 +10,15 @@
     @apply text-xs;
     @apply no-underline;
 }
+
+.tag-neutral {
+    @apply inline-flex;
+    @apply items-center;
+    @apply rounded;
+    @apply bg-gray-200;
+    @apply px-2;
+    @apply py-1;
+    margin: 0 3px 3px 0;
+    @apply text-xs;
+    @apply no-underline;
+}

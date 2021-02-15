@@ -61,7 +61,7 @@
                             @if($campaign->usesSegment())
                                 ({{ $campaign->getSegment()->description() }})
                             @endif
-                            <span class="counter text-xs">
+                            <span class="ml-2 tag-neutral text-xs">
                                 {{ $campaign->segmentSubscriberCount() }}
                                 <span class="ml-1 font-normal">
                                     {{ trans_choice(__('subscriber|subscribers'), $campaign->segmentSubscriberCount()) }}
@@ -86,7 +86,7 @@
 
             <dt>
                 @if($campaign->html && $campaign->hasValidHtml())
-                    <x-mailcoach::health-label :test="$campaign->htmlContainsUnsubscribeUrlPlaceHolder() && $campaign->sizeInKb() < 102" warn :label="__('Content')" />
+                    <x-mailcoach::health-label :test="$campaign->htmlContainsUnsubscribeUrlPlaceHolder() && $campaign->sizeInKb() < 102"warning:label="__('Content')" />
                 @else
                     <x-mailcoach::health-label :test="false"  :label="__('Content')" />
                 @endif

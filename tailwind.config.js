@@ -48,13 +48,14 @@ module.exports = {
                 32: '8rem',
             },
             maxWidth: {
-                layout: '90rem',
+                layout: '100rem',
             },
         },
     },
     variants: {
         extend: {
             display: ['hover', 'group-hover'],
+            zIndex: ['hover'],
             scale: ['group-hover'],
         }
     },

@@ -13,24 +13,24 @@
             <tr>
                 <x-mailcoach::th sort-by="subject">{{ __('Subject') }}</x-mailcoach::th>
                 <x-mailcoach::th>{{ __('To') }}</x-mailcoach::th>
-                <x-mailcoach::th class="w-24 th-numeric hidden | md:table-cell">
+                <x-mailcoach::th class="w-24 th-numeric hidden | xl:table-cell">
                     {{ __('Opens') }}
                 </x-mailcoach::th>
-                <x-mailcoach::th class="w-24 th-numeric hidden | md:table-cell">
+                <x-mailcoach::th class="w-24 th-numeric hidden | xl:table-cell">
                     {{ __('Clicks') }}
                 </x-mailcoach::th>
-                <x-mailcoach::th sort-by="-created_at" sort-default class="w-48 th-numeric hidden | md:table-cell">{{ __('Sent') }}
+                <x-mailcoach::th sort-by="-created_at" sort-default class="w-48 th-numeric hidden | xl:table-cell">{{ __('Sent') }}
                 </x-mailcoach::th>
             </tr>
             </thead>
             <tbody>
             @foreach($transactionalMails as $transactionalMail)
-                <tr>
+                <tr class="markup-links">
                     <td><a href="{{ route('mailcoach.transactionalMail.show', $transactionalMail) }}">{{ $transactionalMail->subject }}</a></td>
                     <td>{{ $transactionalMail->toString() }}</td>
-                    <td>{{ $transactionalMail->opens->count() }}</td>
-                    <td>{{ $transactionalMail->clicks->count() }}</td>
-                    <td>{{ $transactionalMail->created_at }}</td>
+                    <td class="td-numeric hidden | xl:table-cell">{{ $transactionalMail->opens->count() }}</td>
+                    <td class="td-numeric hidden | xl:table-cell">{{ $transactionalMail->clicks->count() }}</td>
+                    <td class="td-numeric hidden | xl:table-cell">{{ $transactionalMail->created_at }}</td>
                 </tr>
             @endforeach
             </tbody>

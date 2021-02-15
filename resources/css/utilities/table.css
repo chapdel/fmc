@@ -28,7 +28,7 @@
 .table th,
 .table td {
     @apply py-3;
-    @apply px-3;
+    @apply pr-6;
     @apply align-top;
 }
 
@@ -42,11 +42,12 @@
 }
 
 .table tbody tr:nth-child(even) {
-    background-color: #f7f9fc;
+    @apply bg-gray-200;
+    @apply bg-opacity-20;
 }
 
 .table tbody tr:nth-child(even) .td-action {
-    background-color: #f7f9fc;
+    @apply bg-transparent;
 }
 
 .tr-h-double td {

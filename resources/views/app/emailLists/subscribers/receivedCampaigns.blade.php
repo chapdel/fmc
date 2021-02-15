@@ -12,7 +12,7 @@
                     <th>{{ __('Campaign') }}</th>
                     <th class="w-32 th-numeric">{{ __('Opens') }}</th>
                     <th class="w-32 th-numeric">{{ __('Clicks') }}</th>
-                    <th class="w-48 th-numeric hidden | md:table-cell">{{ __('Sent') }}</th>
+                    <th class="w-48 th-numeric hidden | xl:table-cell">{{ __('Sent') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,7 +25,7 @@
                         </td>
                         <td class="td-numeric">{{ $send->opens()->count() }}</td>
                         <td class="td-numeric">{{ $send->clicks()->count() }}</td>
-                        <td class="td-numeric hidden | md:table-cell">{{ $send->sent_at?->toMailcoachFormat() }}</td>
+                        <td class="td-numeric hidden | xl:table-cell">{{ $send->sent_at?->toMailcoachFormat() }}</td>
                     </tr>
                 @endforeach
             </tbody>

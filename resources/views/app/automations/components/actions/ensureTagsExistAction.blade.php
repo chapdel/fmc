@@ -8,19 +8,17 @@
         />
     </div>
 
-    <div class="flex flex-wrap">
+    <div class="grid grid-cols-2">
         @foreach ($tags as $index => $tag)
-            <fieldset class="w-1/3 border-2 border-blue-100 p-2">
+            <x-mailcoach::fieldset>
                 <livewire:tag-chain :automation="$automation" :initial="$tag" :key="$index" :index="$index" />
-            </fieldset>
+            </x-mailcoach::fieldset>
         @endforeach
-        <div class="w-full mt-4">
-            <button type="button" class="button" wire:click.prevent="addTag()">
-                <x-mailcoach::icon-label icon="fa-tag" :text="__('Add tag check')" />
-            </button>
-        </div>
     </div>
-    <div class="mt-4">
+    <div class="w-full mt-4">
+        <x-mailcoach::button :label="__('Add tag check')" wire:click.prevent="addTag()" />
+    </div>
+    <div class="mt-6">
         <h2 class="font-bold mb-2">Default actions</h2>
         <livewire:automation-builder name="default-actions" :automation="$automation" :componentData="['actions' => $defaultActions]" />
     </div>

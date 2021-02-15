@@ -2,26 +2,21 @@
     :title="__('Content')"
     :transactionalMail="$transactionalMail"
 >
+        <dl class="dl contents-start">
+            <dt>Subject</dt>
+            <dd>{{ $transactionalMail->subject }}</dd>
+        
+            <x-mailcoach::address-definition label="From" :addresses="$transactionalMail->from"/>
+            <x-mailcoach::address-definition label="To" :addresses="$transactionalMail->to"/>
+            <x-mailcoach::address-definition label="Cc" :addresses="$transactionalMail->cc"/>
+            <x-mailcoach::address-definition label="Bcc" :addresses="$transactionalMail->bcc"/>
+        
+            <dt class="flex items-start">
+                <div>{{ __('Body') }}</div>
+            </dt>
+            <dd>
+                <x-mailcoach::web-view src="{{ route('mailcoach.transactionalMail.body', $transactionalMail) }}"/>
+            </dd>
+        </dl>
 
-    Subject: {{ $transactionalMail->subject }}<br/>
-
-    <x-mailcoach::mail-persons label="From" :persons="$transactionalMail->from"/>
-    <x-mailcoach::mail-persons label="To" :persons="$transactionalMail->to"/>
-    <x-mailcoach::mail-persons label="Cc" :persons="$transactionalMail->cc"/>
-    <x-mailcoach::mail-persons label="Bcc" :persons="$transactionalMail->bcc"/>
-
-    <h3>Opens</h3>
-    <ul>
-        @forelse($transactionalMail->opens as $open)
-            <li>{{ $open->created_at }}</li>
-        @empty
-            This mail hasn't been opened yet.
-        @endforelse
-    </ul>
-
-    <x-mailcoach::form-button action="{{ route('mailcoach.transactionalMail.resend', $transactionalMail) }}">
-        Resend
-    </x-mailcoach::form-button>
-
-    <iframe width="560" height="315" src="{{ route('mailcoach.transactionalMail.body', $transactionalMail) }}"/>
 </x-mailcoach::layout-transactional>

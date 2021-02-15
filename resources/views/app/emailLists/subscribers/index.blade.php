@@ -69,11 +69,11 @@
             <tr>
                 <th class="w-4"></th>
                 <x-mailcoach::th sort-by="email">{{ __('Email') }}</x-mailcoach::th>
-                <th class="hidden | md:table-cell">{{ __('Tags') }}</th>
+                <th class="hidden | xl:table-cell">{{ __('Tags') }}</th>
                 @if(request()->input('filter.status') === \Spatie\Mailcoach\Domain\Campaign\Enums\SubscriptionStatus::UNSUBSCRIBED)
-                    <x-mailcoach::th sort-by="-unsubscribed_at" class="w-48 th-numeric hidden | md:table-cell">{{ __('Unsubscribed at') }}</x-mailcoach::th>
+                    <x-mailcoach::th sort-by="-unsubscribed_at" class="w-48 th-numeric hidden | xl:table-cell">{{ __('Unsubscribed at') }}</x-mailcoach::th>
                 @else
-                    <x-mailcoach::th sort-by="-created_at" class="w-48 th-numeric hidden | md:table-cell">{{ __('Subscribed at') }}</x-mailcoach::th>
+                    <x-mailcoach::th sort-by="-created_at" class="w-48 th-numeric hidden | xl:table-cell">{{ __('Subscribed at') }}</x-mailcoach::th>
                 @endif
 
                 <th class="w-12"></th>
@@ -102,12 +102,12 @@
                             {{ $subscriber->first_name }} {{ $subscriber->last_name }}
                         </div>
                     </td>
-                    <td class="hidden | md:table-cell">
+                    <td class="hidden | xl:table-cell">
                         @foreach($subscriber->tags->where('type', \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::DEFAULT) as $tag)
                             @include('mailcoach::app.partials.tag')
                         @endforeach
                     </td>
-                    <td class="td-numeric hidden | md:table-cell">{{
+                    <td class="td-numeric hidden | xl:table-cell">{{
     $subscriber->isUnsubscribed()
     ? $subscriber->unsubscribed_at->toMailcoachFormat()
     : $subscriber->created_at->toMailcoachFormat() }}</td>

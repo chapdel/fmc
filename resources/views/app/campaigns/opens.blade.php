@@ -12,7 +12,7 @@
                     <tr>
                         <x-mailcoach::th sort-by="email">{{ __('Email') }}</x-mailcoach::th>
                         <x-mailcoach::th sort-by="open_count" class="w-32 th-numeric">{{ __('Opens') }}</x-mailcoach::th>
-                        <x-mailcoach::th sort-by="-first_opened_at" sort-default class="w-48 th-numeric hidden | md:table-cell">{{ __('First opened at') }}</x-mailcoach::th>
+                        <x-mailcoach::th sort-by="-first_opened_at" sort-default class="w-48 th-numeric hidden | xl:table-cell">{{ __('First opened at') }}</x-mailcoach::th>
                     </tr>
                 </thead>
                 <tbody>
@@ -24,7 +24,7 @@
                                 </a>
                             </td>
                             <td class="td-numeric">{{ $campaignOpen->open_count }}</td>
-                            <td class="td-numeric hidden | md:table-cell">{{ $campaignOpen->first_opened_at->toMailcoachFormat() }}</td>
+                            <td class="td-numeric hidden | xl:table-cell">{{ $campaignOpen->first_opened_at->toMailcoachFormat() }}</td>
                         </tr>
                     @endforeach
                 </tbody>

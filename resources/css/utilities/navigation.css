@@ -1,5 +1,6 @@
 .navigation {
-    @apply grid;
+    @apply hidden;
+    @apply lg:grid;
     @apply grid-cols-1;
     @apply gap-6;
     @apply content-start;
@@ -9,11 +10,15 @@
     @apply pb-8;
 }
 
+.navigation.navigation-shown {
+    @apply grid;
+}
+
 .navigation li {
     @apply py-1;
     @apply text-sm;
     @apply font-semibold;
-    @apply text-right;
+    @apply lg:text-right;
 }
 
 .navigation li :is(a, button)  {
@@ -33,8 +38,9 @@
 .navigation :is(.active a, a:hover, button:hover):after {
     content: '';
     @apply absolute;
-    @apply left-full;
-    @apply ml-1;
+    @apply right-full;
+    @apply lg:left-full;
+    @apply mx-1;
     @apply top-1/2;
     @apply transform;
     @apply -translate-y-1/2;
@@ -61,4 +67,9 @@
     @apply border-black;
     @apply border-opacity-20;
     background-image: linear-gradient(to bottom, rgba(0,0,0,0.15), rgba(0,0,0,0.05) 5%, rgba(0,0,0,0) 30%);
+}
+
+.navigation .icon-label {
+    @apply flex-row-reverse;
+    @apply lg:flex-row;
 }

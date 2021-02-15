@@ -6,23 +6,30 @@
             @csrf
             @method('PUT')
 
-            <x-mailcoach::help>
-                <p class="text-sm mb-2">{{ __('Blade templates have the ability to run arbitrary PHP code. Only select Blade if you trust all users that have access to the Mailcoach UI.') }}</p>
-            </x-mailcoach::help>
+            <x-mailcoach::fieldset :legend="__('General')">
+                
 
 
-            <x-mailcoach::select-field
-                :label="__('Type')"
-                name="type"
-                :value="$template->type"
-                :options="[
-                    'html' => 'HTML',
-                    'markdown' => 'Markdown',
-                    'blade' => 'Blade',
-                ]"
-            />
+                <x-mailcoach::select-field
+                    :label="__('Format')"
+                    name="type"
+                    :value="$template->type"
+                    :options="[
+                        'html' => 'HTML',
+                        'markdown' => 'Markdown',
+                        'blade' => 'Blade',
+                    ]"
+                    data-conditional="type"
+                />
 
-            <x-mailcoach::checkbox-field :label="__('Store mail')" name="store_mail" :checked="$template->store_mail" />
+                <div data-conditional-type="blade">
+                <x-mailcoach::warning>
+                    <p class="text-sm mb-2">{{ __('Blade templates have the ability to run arbitrary PHP code. Only select Blade if you trust all users that have access to the Mailcoach UI.') }}</p>
+                </x-mailcoach::warning>
+                </div>
+
+                <x-mailcoach::checkbox-field :label="__('Store mail')" name="store_mail" :checked="$template->store_mail" />
+            </x-mailcoach::fieldset>
 
             <x-mailcoach::fieldset :legend="__('Tracking')">
                 <div class="form-field">

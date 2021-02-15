@@ -1,9 +1,7 @@
 .icon-label {
-    display: inline-grid;
+    display: flex;
     align-items: center;
     justify-content: start;
-    @apply grid-flow-col;
-    gap: 0.65rem;
     @apply whitespace-nowrap;
 }
 
@@ -18,6 +16,7 @@
     justify-self: center;
     @apply opacity-75;
     transition: opacity 0.3s ease;
+    @apply mr-2;
 }
 
 .icon-label-text {

@@ -7,12 +7,15 @@
 .form-fieldset {
     @apply grid;
     @apply gap-y-8;
-    @apply max-w-full;
     @apply bg-gray-100;
     @apply bg-opacity-50;
     @apply rounded;
     @apply -mx-6;
     @apply p-6;
+}
+
+.form-fieldset-clean {
+    @apply bg-white;
 }
 
 .form-fieldset .legend {

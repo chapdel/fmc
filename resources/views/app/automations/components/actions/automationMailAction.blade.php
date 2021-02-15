@@ -1,9 +1,9 @@
 <div>
     <x-mailcoach::select-field
-        label="Mail"
-        name="automation_mail_id"
-        wire:model="automation_mail_id"
-        :placeholder="__('Select an automated mail')"
-        :options="['' => 'Select an automated mail'] + $campaignOptions"
+        :label="__('Email')"
+        name="campaign_id"
+        wire:model="campaign_id"
+        :placeholder="__('Select an email')"
+        :options="['' => 'Select an email'] + $campaignOptions"
     />
 </div>

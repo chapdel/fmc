@@ -25,6 +25,6 @@ class AddTagsActionComponent extends AutomationActionComponent
 
     public function render()
     {
-        return view('mailcoach::app.automations.components.actions.addTagsActions');
+        return view('mailcoach::app.automations.components.actions.addTagsAction');
     }
 }
