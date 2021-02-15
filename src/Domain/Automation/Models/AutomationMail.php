@@ -15,7 +15,6 @@ class AutomationMail extends Model
 
     public $guarded = [];
 
-
     public function opens(): HasManyThrough
     {
         return $this
