@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Tests\Domain\Automation\Actions;
 
 use Illuminate\Support\Facades\Queue;
-use Spatie\Mailcoach\Domain\Automation\Support\Actions\CampaignAction;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignToSubscriberJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
@@ -17,7 +17,7 @@ class CampaignActionTest extends TestCase
 
     private Campaign $campaign;
 
-    private CampaignAction $action;
+    private SendAutomationMailAction $action;
 
     public function setUp(): void
     {
@@ -26,7 +26,7 @@ class CampaignActionTest extends TestCase
         $this->subscriber = SubscriberFactory::new()->confirmed()->create();
         $this->campaign = (new CampaignFactory())->create();
         $this->campaign->update(['email_list_id' => $this->subscriber->email_list_id]);
-        $this->action = new CampaignAction($this->campaign);
+        $this->action = new SendAutomationMailAction($this->campaign);
     }
 
     /** @test * */

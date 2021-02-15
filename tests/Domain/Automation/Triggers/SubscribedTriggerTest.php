@@ -6,7 +6,7 @@ use Carbon\CarbonInterval;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Domain\Automation\Support\Actions\CampaignAction;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
@@ -42,7 +42,7 @@ class SubscribedTriggerTest extends TestCase
             ->to($this->campaign->emailList)
             ->trigger($trigger)
             ->chain([
-                new CampaignAction($this->campaign),
+                new SendAutomationMailAction($this->campaign),
             ])
             ->start();
 
@@ -72,7 +72,7 @@ class SubscribedTriggerTest extends TestCase
             ->segment(TestSegmentQueryOnlyJohn::class)
             ->trigger($trigger)
             ->chain([
-                new CampaignAction($this->campaign),
+                new SendAutomationMailAction($this->campaign),
             ])
             ->start();
 

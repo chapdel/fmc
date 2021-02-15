@@ -95,7 +95,7 @@ return [
     'automation' => [
         'actions' => [
             \Spatie\Mailcoach\Domain\Automation\Support\Actions\AddTagsAction::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Actions\CampaignAction::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction::class,
             \Spatie\Mailcoach\Domain\Automation\Support\Actions\EnsureTagsExistAction::class,
             \Spatie\Mailcoach\Domain\Automation\Support\Actions\RemoveTagsAction::class,
             \Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction::class,
@@ -235,6 +235,12 @@ return [
          * extend the `Spatie\Mailcoach\Models\Automation` model.
          */
         'automation' => \Spatie\Mailcoach\Domain\Automation\Models\Automation::class,
+
+        /*
+         * The model you want to use as an Automation model. It needs to be or
+         * extend the `Spatie\Mailcoach\Models\Automation` model.
+         */
+        'automation_mail' => \Spatie\Mailcoach\Domain\Automation\Models\AutomationMail::class,
     ],
 
     'views' => [

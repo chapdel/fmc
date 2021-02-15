@@ -10,7 +10,7 @@ use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationActionsCommand;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Domain\Automation\Support\Actions\CampaignAction;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\EnsureTagsExistAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
@@ -59,7 +59,7 @@ class AutomationTest extends TestCase
             ->runEvery(CarbonInterval::minute())
             ->trigger(new SubscribedTrigger)
             ->chain([
-                new CampaignAction($this->campaign),
+                new SendAutomationMailAction($this->campaign),
             ])
             ->start();
 
@@ -92,7 +92,7 @@ class AutomationTest extends TestCase
             ->trigger(new SubscribedTrigger)
             ->chain([
                 new HaltAction,
-                new CampaignAction($this->campaign),
+                new SendAutomationMailAction($this->campaign),
             ])
             ->start();
 
@@ -124,7 +124,7 @@ class AutomationTest extends TestCase
             ->trigger(new SubscribedTrigger)
             ->chain([
                 new WaitAction(CarbonInterval::days(1)),
-                new CampaignAction($this->campaign),
+                new SendAutomationMailAction($this->campaign),
             ])
             ->start();
 
@@ -177,7 +177,7 @@ class AutomationTest extends TestCase
 
         $firstId = $automation->actions()->first()->id;
 
-        $campaignAction = new CampaignAction($this->campaign);
+        $campaignAction = new SendAutomationMailAction($this->campaign);
         $campaignAction->uuid = Str::uuid()->toString();
 
         $automation->chain([
@@ -223,7 +223,7 @@ class AutomationTest extends TestCase
             ->runEvery(CarbonInterval::minutes(10)) // Run through the automation and check actions every 10 min
             ->chain([
                 new WaitAction(CarbonInterval::day()), // Wait one day
-                new CampaignAction($campaign1), // Send first email
+                new SendAutomationMailAction($campaign1), // Send first email
                 new EnsureTagsExistAction(
                     checkFor: CarbonInterval::days(3), // Keep checking tags for 3 days, if not they get the default or halted
                     tags: [
@@ -231,7 +231,7 @@ class AutomationTest extends TestCase
                         'tag' => 'mc::campaign-1-clicked-1',
                         'actions' => [
                             new WaitAction(CarbonInterval::day()), // Wait one day
-                            new CampaignAction($campaign1), // Send first email
+                            new SendAutomationMailAction($campaign1), // Send first email
                         ],
                     ],
                     [
@@ -246,7 +246,7 @@ class AutomationTest extends TestCase
                 ],
                 ),
                 new WaitAction(CarbonInterval::days(3)), // Wait 3 days
-                new CampaignAction($campaign1),
+                new SendAutomationMailAction($campaign1),
             ])->start();
 
         $this->refreshServiceProvider();
@@ -307,7 +307,7 @@ class AutomationTest extends TestCase
         Artisan::call(RunAutomationActionsCommand::class);
         Queue::assertPushed(SendCampaignToSubscriberJob::class, 3);
 
-        $this->assertInstanceOf(CampaignAction::class, $subscriber->currentAction($automation)->action);
+        $this->assertInstanceOf(SendAutomationMailAction::class, $subscriber->currentAction($automation)->action);
         $this->assertNotNull($subscriber->currentAction($automation)->pivot->run_at);
     }
 }

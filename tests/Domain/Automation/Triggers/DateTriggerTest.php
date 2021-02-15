@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationTriggersCommand;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Domain\Automation\Support\Actions\CampaignAction;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\DateTrigger;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
@@ -43,7 +43,7 @@ class DateTriggerTest extends TestCase
             ->to($this->campaign->emailList)
             ->trigger($trigger)
             ->chain([
-                new CampaignAction($this->campaign),
+                new SendAutomationMailAction($this->campaign),
             ])
             ->start();
 

@@ -3,53 +3,54 @@
 namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
 
 use Illuminate\Queue\SerializesModels;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignToSubscriberJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
-class CampaignAction extends AutomationAction
+class SendAutomationMailAction extends AutomationAction
 {
     use SerializesModels, UsesMailcoachModels;
 
-    public Campaign $campaign;
+    public AutomationMail $automationMail;
 
     public static function make(array $data): self
     {
-        return new self(self::getCampaignClass()::find($data['campaign_id']));
+        return new self(self::getAutomationMailClass()::find($data['automation_mail_id']));
     }
 
-    public function __construct(Campaign $campaign)
+    public function __construct(AutomationMail $automationMail)
     {
         parent::__construct();
 
-        $this->campaign = $campaign;
+        $this->automationMail = $automationMail;
     }
 
     public static function getComponent(): ?string
     {
-        return 'campaign-action';
+        return 'automation-mail-action';
     }
 
     public static function getName(): string
     {
-        return __('Send a campaign');
+        return __('Send a mail');
     }
 
     public function getDescription(): string
     {
-        return "{$this->campaign->name}";
+        return "{$this->automationMail->name}";
     }
 
     public function toArray(): array
     {
         return [
-            'campaign_id' => $this->campaign->id,
+            'campaign_id' => $this->automationMail->id,
         ];
     }
 
     public function run(Subscriber $subscriber): void
     {
-        SendCampaignToSubscriberJob::dispatch($this->campaign, $subscriber);
+        SendCampaignToSubscriberJob::dispatch($this->automationMail, $subscriber);
     }
 }

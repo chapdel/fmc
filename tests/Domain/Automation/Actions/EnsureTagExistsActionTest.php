@@ -6,7 +6,7 @@ use Carbon\CarbonInterval;
 use Illuminate\Support\Carbon;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Domain\Automation\Support\Actions\CampaignAction;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\EnsureTagsExistAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
@@ -43,7 +43,7 @@ class EnsureTagExistsActionTest extends TestCase
                         [
                             'tag' => 'some-tag',
                             'actions' => [
-                                new CampaignAction($this->campaign),
+                                new SendAutomationMailAction($this->campaign),
                             ],
                         ],
                     ],
@@ -98,6 +98,6 @@ class EnsureTagExistsActionTest extends TestCase
 
         $this->subscriber->addTag('some-tag');
 
-        $this->assertInstanceOf(CampaignAction::class, $this->actionModel->action->nextAction($this->subscriber)->action);
+        $this->assertInstanceOf(SendAutomationMailAction::class, $this->actionModel->action->nextAction($this->subscriber)->action);
     }
 }

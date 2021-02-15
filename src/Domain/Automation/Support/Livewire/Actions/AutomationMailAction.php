@@ -6,21 +6,20 @@ use Illuminate\Validation\Rule;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationActionComponent;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
-class CampaignActionComponent extends AutomationActionComponent
+class AutomationMailAction extends AutomationActionComponent
 {
-    public int |
+    use UsesMailcoachModels;
 
-string $campaign_id = '';
-
+    public int | string $campaign_id = '';
     public array $campaignOptions;
 
     public function mount()
     {
         parent::mount();
 
-        $this->campaignOptions = Campaign::query()
-            ->where('status', CampaignStatus::AUTOMATED)
+        $this->campaignOptions = self::getAutomationMailClass()::query()
             ->pluck('name', 'id')
             ->toArray();
     }
@@ -28,19 +27,19 @@ string $campaign_id = '';
     public function getData(): array
     {
         return [
-            'campaign_id' => $this->campaign_id,
+            'automation_mail_id' => $this->automation_mail_id,
         ];
     }
 
     public function rules(): array
     {
         return [
-            'campaign_id' => ['required', Rule::exists(self::getCampaignTableName(), 'id')],
+            'automation_mail_id' => ['required', Rule::exists(self::getAutomationMailClass(), 'id')],
         ];
     }
 
     public function render()
     {
-        return view('mailcoach::app.automations.components.actions.campaignAction');
+        return view('mailcoach::app.automations.components.actions.automationMailAction');
     }
 }

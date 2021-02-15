@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Campaigns;
 
 use Carbon\CarbonInterval;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Domain\Automation\Support\Actions\CampaignAction;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\DateTrigger;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\WebhookTrigger;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
@@ -42,7 +42,7 @@ class TriggerAutomationControllerTest extends TestCase
             ->to($this->campaign->emailList)
             ->trigger(new WebhookTrigger())
             ->chain([
-                new CampaignAction($this->campaign),
+                new SendAutomationMailAction($this->campaign),
             ])
             ->start();
 
@@ -64,7 +64,7 @@ class TriggerAutomationControllerTest extends TestCase
             ->to($this->campaign->emailList)
             ->trigger(new DateTrigger(now()))
             ->chain([
-                new CampaignAction($this->campaign),
+                new SendAutomationMailAction($this->campaign),
             ])
             ->start();
 
@@ -85,7 +85,7 @@ class TriggerAutomationControllerTest extends TestCase
             ->to($this->campaign->emailList)
             ->trigger(new WebhookTrigger())
             ->chain([
-                new CampaignAction($this->campaign),
+                new SendAutomationMailAction($this->campaign),
             ])
             ->start();
 
@@ -110,7 +110,7 @@ class TriggerAutomationControllerTest extends TestCase
             ->to($this->campaign->emailList)
             ->trigger(new WebhookTrigger())
             ->chain([
-                new CampaignAction($this->campaign),
+                new SendAutomationMailAction($this->campaign),
             ])
             ->start();
 
