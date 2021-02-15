@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Actions;
 
-use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Automation\Support\Replacers\PersonalizedReplacer;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
 class PersonalizeSubjectAction
 {
