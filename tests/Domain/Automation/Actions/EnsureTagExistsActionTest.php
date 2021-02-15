@@ -6,6 +6,7 @@ use Carbon\CarbonInterval;
 use Illuminate\Support\Carbon;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\EnsureTagsExistAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
@@ -18,7 +19,7 @@ use Spatie\TestTime\TestTime;
 
 class EnsureTagExistsActionTest extends TestCase
 {
-    protected Campaign $campaign;
+    protected AutomationMail $automationMail;
 
     protected Subscriber $subscriber;
 
@@ -31,9 +32,7 @@ class EnsureTagExistsActionTest extends TestCase
         TestTime::setTestNow(Carbon::create(2021, 01, 01));
 
         $this->subscriber = SubscriberFactory::new()->confirmed()->create();
-        $this->campaign = Campaign::factory()->create([
-            'status' => CampaignStatus::AUTOMATED,
-        ]);
+        $this->automationMail = AutomationMail::factory()->create();
 
         $automation = Automation::create()
             ->chain([
@@ -43,7 +42,7 @@ class EnsureTagExistsActionTest extends TestCase
                         [
                             'tag' => 'some-tag',
                             'actions' => [
-                                new SendAutomationMailAction($this->campaign),
+                                new SendAutomationMailAction($this->automationMail),
                             ],
                         ],
                     ],
