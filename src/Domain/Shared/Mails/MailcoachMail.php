@@ -77,6 +77,33 @@ class MailcoachMail extends Mailable
     {
         $this->campaign = $campaign;
 
+        $this->setFrom(
+            $campaign->from_email
+            ?? $campaign->emailList->default_from_email
+            ?? optional($this->send)->subscriber->emailList->default_from_email,
+            $campaign->from_name
+            ?? $campaign->emailList->default_from_name
+            ?? optional($this->send)->subscriber->emailList->default_from_name
+            ?? null
+        );
+
+        $replyTo = $this->campaign->reply_to_email
+            ?? $this->campaign->emailList->reply_to_email
+            ?? optional($this->send)->subscriber->emailList->reply_to_email
+            ?? null;
+
+        if ($replyTo) {
+            $replyToName = $this->campaign->reply_to_name
+                ?? $this->campaign->emailList->default_reply_to_name
+                ?? optional($this->send)->subscriber->emailList->default_reply_to_name
+                ?? null;
+            $this->setReplyTo($replyTo, $replyToName);
+        }
+
+        $this
+            ->setHtmlView('mailcoach::mails.campaignHtml')
+            ->setTextView('mailcoach::mails.campaignText');
+
         return $this;
     }
 
@@ -107,6 +134,7 @@ class MailcoachMail extends Mailable
 
     public function build()
     {
+
         $mail = $this
             ->from($this->fromEmail, $this->fromName)
             ->subject($this->subject)

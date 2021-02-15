@@ -6,9 +6,11 @@ use Carbon\CarbonInterval;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\TagRemovedTrigger;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
@@ -16,16 +18,19 @@ use Spatie\TestTime\TestTime;
 
 class TagRemovedTriggerTest extends TestCase
 {
-    protected Campaign $campaign;
+    protected AutomationMail $automationMail;
+
+    protected EmailList $emailList;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->campaign = (new CampaignFactory())->create([
-            'subject' => 'Welcome',
-        ]);
+        $this->automationMail = AutomationMail::factory()->create(['subject' => 'Welcome']);
+
+        $this->emailList = EmailList::factory()->create();
     }
+
 
     /** @test * */
     public function it_triggers_when_a_tag_is_removed_from_a_subscriber()
@@ -39,16 +44,16 @@ class TagRemovedTriggerTest extends TestCase
         $automation = Automation::create()
             ->name('New year!')
             ->runEvery(CarbonInterval::minute())
-            ->to($this->campaign->emailList)
+            ->to($this->emailList)
             ->trigger($trigger)
             ->chain([
-                new SendAutomationMailAction($this->campaign),
+                new SendAutomationMailAction($this->automationMail),
             ])
             ->start();
 
         $this->refreshServiceProvider();
 
-        $this->campaign->emailList->subscribe('john@doe.com');
+        $this->emailList->subscribe('john@doe.com');
 
         Subscriber::first()->addTag('opened');
 
