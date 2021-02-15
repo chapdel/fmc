@@ -13,12 +13,12 @@ use Illuminate\Support\Str;
 use Spatie\Feed\Feedable;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendTestMailJob;
-use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
+use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Rules\HtmlRule;
 use Spatie\Mailcoach\Domain\Campaign\Support\CalculateStatisticsLock;
+use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
