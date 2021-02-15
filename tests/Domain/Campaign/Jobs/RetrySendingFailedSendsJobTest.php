@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeHtmlAction;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\RetrySendingFailedSendsJob;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
-use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignMail;
+use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Tests\TestCase;
@@ -29,9 +29,9 @@ class RetrySendingFailedSendsJobTest extends TestCase
         config()->set('mailcoach.campaigns.actions.personalize_html', FailingPersonalizeHtmlForJohnAction::class);
         dispatch(new SendCampaignJob($campaign->fresh()));
 
-        Mail::assertSent(CampaignMail::class, 1);
-        Mail::assertSent(CampaignMail::class, fn (CampaignMail $mail) => $mail->hasTo($jane->email));
-        Mail::assertSent(CampaignMail::class, fn (CampaignMail $mail) => $mail->mailer === 'some-mailer');
+        Mail::assertSent(MailcoachMail::class, 1);
+        Mail::assertSent(MailcoachMail::class, fn (MailcoachMail $mail) => $mail->hasTo($jane->email));
+        Mail::assertSent(MailcoachMail::class, fn (MailcoachMail $mail) => $mail->mailer === 'some-mailer');
 
         $failedSends = $campaign->sends()->failed()->get();
 
@@ -42,8 +42,8 @@ class RetrySendingFailedSendsJobTest extends TestCase
         config()->set('mailcoach.campaigns.actions.personalize_html', PersonalizeHtmlAction::class);
         dispatch(new RetrySendingFailedSendsJob($campaign));
 
-        Mail::assertSent(CampaignMail::class, 2);
-        Mail::assertSent(CampaignMail::class, fn (CampaignMail $mail) => $mail->hasTo($john->email));
-        Mail::assertSent(CampaignMail::class, fn (CampaignMail $mail) => $mail->mailer === 'some-mailer');
+        Mail::assertSent(MailcoachMail::class, 2);
+        Mail::assertSent(MailcoachMail::class, fn (MailcoachMail $mail) => $mail->hasTo($john->email));
+        Mail::assertSent(MailcoachMail::class, fn (MailcoachMail $mail) => $mail->mailer === 'some-mailer');
     }
 }

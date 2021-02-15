@@ -3,9 +3,9 @@
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
 use Faker\Generator;
-use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignMail;
+use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 
-class TestCampaignMailWithStaticHtml extends CampaignMail
+class TestMailcoachMailWithStaticHtml extends MailcoachMail
 {
     public $viewHtml;
 

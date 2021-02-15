@@ -6,10 +6,10 @@ use Illuminate\Mail\MailManager;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendTestMailJob;
-use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignMail;
+use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Tests\TestCase;
-use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMail;
+use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
 
 class SendTestMailJobTest extends TestCase
 {
@@ -29,7 +29,7 @@ class SendTestMailJobTest extends TestCase
 
         dispatch(new SendTestMailJob($campaign, $email));
 
-        Mail::assertSent(CampaignMail::class, function (CampaignMail $mail) use ($email, $campaign) {
+        Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) use ($email, $campaign) {
             $this->assertEquals('[Test] my subject', $mail->subject);
             $this->assertEquals('some-mailer', $mail->mailer);
 
@@ -57,7 +57,7 @@ class SendTestMailJobTest extends TestCase
         $campaign = Campaign::factory()->create();
 
         $campaign->emailList->update(['campaign_mailer' => 'some-mailer']);
-        $campaign->useMailable(TestCampaignMail::class);
+        $campaign->useMailable(TestMailcoachMail::class);
 
         $email = 'john@example.com';
 

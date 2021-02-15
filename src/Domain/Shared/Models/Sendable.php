@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 use Spatie\Feed\Feedable;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendTestMailJob;
-use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignMail;
+use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
 use Spatie\Mailcoach\Domain\Campaign\Rules\HtmlRule;
@@ -186,9 +186,9 @@ abstract class Sendable extends Model implements Feedable, HasHtmlContent
 
     abstract public function webviewUrl(): string;
 
-    public function getMailable(): CampaignMail
+    public function getMailable(): MailcoachMail
     {
-        $mailableClass = $this->mailable_class ?? CampaignMail::class;
+        $mailableClass = $this->mailable_class ?? MailcoachMail::class;
         $mailableArguments = $this->mailable_arguments ?? [];
 
         return app($mailableClass, $mailableArguments);
@@ -214,7 +214,7 @@ abstract class Sendable extends Model implements Feedable, HasHtmlContent
 
     public function hasCustomMailable(): bool
     {
-        if ($this->mailable_class === CampaignMail::class) {
+        if ($this->mailable_class === MailcoachMail::class) {
             return false;
         }
 

@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
-use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignMail;
+use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Tests\TestCase;
-use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMail;
+use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
 
 class SendMailJobTest extends TestCase
 {
@@ -27,7 +27,7 @@ class SendMailJobTest extends TestCase
 
         dispatch(new SendCampaignMailJob($pendingSend));
 
-        Mail::assertSent(CampaignMail::class, function (CampaignMail $mail) use ($pendingSend) {
+        Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) use ($pendingSend) {
             $this->assertEquals('some-mailer', $mail->mailer);
             $this->assertEquals($pendingSend->campaign->subject, $mail->subject);
             $this->assertTrue($mail->hasTo($pendingSend->subscriber->email));
@@ -47,10 +47,10 @@ class SendMailJobTest extends TestCase
         dispatch(new SendCampaignMailJob($pendingSend));
 
         $this->assertTrue($pendingSend->refresh()->wasAlreadySent());
-        Mail::assertSent(CampaignMail::class, 1);
+        Mail::assertSent(MailcoachMail::class, 1);
 
         dispatch(new SendCampaignMailJob($pendingSend));
-        Mail::assertSent(CampaignMail::class, 1);
+        Mail::assertSent(MailcoachMail::class, 1);
     }
 
     /** @test */
@@ -69,10 +69,10 @@ class SendMailJobTest extends TestCase
     {
         $pendingSend = SendFactory::new()->create();
 
-        $pendingSend->campaign->useMailable(TestCampaignMail::class);
+        $pendingSend->campaign->useMailable(TestMailcoachMail::class);
 
         dispatch(new SendCampaignMailJob($pendingSend));
 
-        Mail::assertSent(CampaignMail::class, 1);
+        Mail::assertSent(MailcoachMail::class, 1);
     }
 }

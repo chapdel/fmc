@@ -17,9 +17,9 @@ use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Support\Segments\EverySubscriberSegment;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
-use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMail;
-use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMailWithArguments;
-use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMailWithStaticHtml;
+use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
+use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithArguments;
+use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithStaticHtml;
 use Spatie\Mailcoach\Tests\TestClasses\TestCustomInstanciatedQueryOnlyShouldSendToJohn;
 use Spatie\Mailcoach\Tests\TestClasses\TestCustomQueryOnlyShouldSendToJohn;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -147,9 +147,9 @@ class CampaignTest extends TestCase
     public function a_mailable_can_be_set()
     {
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */
-        $campaign = Campaign::create()->useMailable(TestCampaignMail::class);
+        $campaign = Campaign::create()->useMailable(TestMailcoachMail::class);
 
-        $this->assertEquals(TestCampaignMail::class, $campaign->mailable_class);
+        $this->assertEquals(TestMailcoachMail::class, $campaign->mailable_class);
     }
 
     /** @test */
@@ -157,13 +157,13 @@ class CampaignTest extends TestCase
     {
         $campaign = (new CampaignFactory())->create(['html' => 'null']);
 
-        $mailable = (new TestCampaignMail())->setCampaign($campaign);
-        app()->instance(TestCampaignMail::class, $mailable);
+        $mailable = (new TestMailcoachMail())->setCampaign($campaign);
+        app()->instance(TestMailcoachMail::class, $mailable);
 
-        $campaign->useMailable(TestCampaignMail::class);
+        $campaign->useMailable(TestMailcoachMail::class);
         $campaign->content($campaign->contentFromMailable());
 
-        $this->assertEquals(app(TestCampaignMail::class)->viewHtml, $campaign->html);
+        $this->assertEquals(app(TestMailcoachMail::class)->viewHtml, $campaign->html);
     }
 
     /** @test */
@@ -525,7 +525,7 @@ class CampaignTest extends TestCase
     public function it_can_inline_the_styles_of_the_html_with_custom_mailable()
     {
         /** @var Campaign $campaign */
-        $campaign = Campaign::factory()->create(['mailable_class' => TestCampaignMailWithStaticHtml::class]);
+        $campaign = Campaign::factory()->create(['mailable_class' => TestMailcoachMailWithStaticHtml::class]);
         $campaign->content('');
 
         $this->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->htmlWithInlinedCss());
@@ -535,7 +535,7 @@ class CampaignTest extends TestCase
     public function it_can_pull_subject_from_custom_mailable()
     {
         /** @var Campaign $campaign */
-        $campaign = Campaign::factory()->create(['mailable_class' => TestCampaignMail::class, 'subject' => 'This is the campaign subject and should be overwritten.']);
+        $campaign = Campaign::factory()->create(['mailable_class' => TestMailcoachMail::class, 'subject' => 'This is the campaign subject and should be overwritten.']);
         $campaign->pullSubjectFromMailable();
 
         $this->assertEquals($campaign->subject, 'This is the subject from the custom mailable.');
@@ -548,7 +548,7 @@ class CampaignTest extends TestCase
 
         $test_argument_value = 'This is a test value.';
 
-        $campaign->useMailable(TestCampaignMailWithArguments::class, ['test_argument' => $test_argument_value]);
+        $campaign->useMailable(TestMailcoachMailWithArguments::class, ['test_argument' => $test_argument_value]);
 
         $this->assertEquals($test_argument_value, $campaign->contentFromMailable());
     }

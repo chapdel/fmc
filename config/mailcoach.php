@@ -93,6 +93,11 @@ return [
     ],
 
     'automation' => [
+        /*
+         * The default mailer used by Mailcoach for automation mails.
+         */
+        'mailer' => null,
+
         'actions' => [
             'send_automation_mail_to_subscriber' => \Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailToSubscriberAction::class,
             'prepare_subject' => \Spatie\Mailcoach\Domain\Automation\Actions\PrepareSubjectAction::class,

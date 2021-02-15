@@ -4,8 +4,8 @@ namespace Spatie\Mailcoach\Domain\Automation\Actions;
 
 use Exception;
 use Illuminate\Support\Facades\Mail;
-use Spatie\Mailcoach\Domain\Campaign\Events\CampaignMailSentEvent;
-use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignMail;
+use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailSentEvent;
+use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
 use Swift_Message;
@@ -44,16 +44,19 @@ class SendMailAction
         $convertHtmlToTextAction = Config::getAutomationActionClass('convert_html_to_text', ConvertHtmlToTextAction::class);
         $personalisedText = $convertHtmlToTextAction->execute($personalisedHtml);
 
-        $campaignMail = app(CampaignMail::class);
+        $mailcoachMail = app(MailcoachMail::class);
 
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */
-        $campaign = $pendingSend->campaign;
+        $automationMail = $pendingSend->automationMail;
 
-        $campaignMail
+        $mailcoachMail
             ->setSend($pendingSend)
             ->subject($personalisedSubject)
+            ->setFrom($automationMail->from_email, $automationMail->from_name)
+            ->setReplyTo($automationMail->reply_to_email, $automationMail->reply_to_name)
             ->setHtmlContent($personalisedHtml)
             ->setTextContent($personalisedText)
+            ->setHtmlView('mailcoach::mails.automation.automationHtml')
+            ->setTextView('mailcoach::mails.automation.automationText')
             ->withSwiftMessage(function (Swift_Message $message) use ($pendingSend) {
                 $message->getHeaders()->addTextHeader('X-MAILCOACH', 'true');
 
@@ -61,17 +64,16 @@ class SendMailAction
                 $message->getHeaders()->addTextHeader('X-PM-Metadata-send-uuid', $pendingSend->uuid);
             });
 
-        $mailer = $campaign->emailList->campaign_mailer
-            ?? config('mailcoach.campaigns.mailer')
+        $mailer = config('mailcoach.automation.mailer')
             ?? config('mailcoach.mailer')
             ?? config('mail.default');
 
         Mail::mailer($mailer)
             ->to($pendingSend->subscriber->email)
-            ->send($campaignMail);
+            ->send($mailcoachMail);
 
         $pendingSend->markAsSent();
 
-        event(new CampaignMailSentEvent($pendingSend));
+        event(new AutomationMailSentEvent($pendingSend));
     }
 }

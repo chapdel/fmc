@@ -17,7 +17,7 @@ use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotUpdateCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendTestMailJob;
-use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignMail;
+use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Sendable;
 use Spatie\Mailcoach\Domain\Campaign\Models\SendFeedbackItem;
@@ -107,7 +107,7 @@ class AutomationMail extends Sendable implements Feedable, HasHtmlContent
     {
         $this->ensureUpdatable();
 
-        if (! is_a($mailableClass, CampaignMail::class, true)) {
+        if (! is_a($mailableClass, MailcoachMail::class, true)) {
             throw CouldNotSendCampaign::invalidMailableClass($this, $mailableClass);
         }
 
@@ -245,9 +245,9 @@ class AutomationMail extends Sendable implements Feedable, HasHtmlContent
         return (string)url(route('mailcoach.campaign.webview', $this->uuid));
     }
 
-    public function getMailable(): CampaignMail
+    public function getMailable(): MailcoachMail
     {
-        $mailableClass = $this->mailable_class ?? CampaignMail::class;
+        $mailableClass = $this->mailable_class ?? MailcoachMail::class;
         $mailableArguments = $this->mailable_arguments ?? [];
 
         return app($mailableClass, $mailableArguments);
@@ -376,7 +376,7 @@ class AutomationMail extends Sendable implements Feedable, HasHtmlContent
 
     public function hasCustomMailable(): bool
     {
-        if ($this->mailable_class === CampaignMail::class) {
+        if ($this->mailable_class === MailcoachMail::class) {
             return false;
         }
 

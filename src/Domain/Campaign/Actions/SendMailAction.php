@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Domain\Campaign\Actions;
 use Exception;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignMailSentEvent;
-use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignMail;
+use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
 use Swift_Message;
@@ -44,16 +44,36 @@ class SendMailAction
         $convertHtmlToTextAction = Config::getCampaignActionClass('convert_html_to_text', ConvertHtmlToTextAction::class);
         $personalisedText = $convertHtmlToTextAction->execute($personalisedHtml);
 
-        $campaignMail = app(CampaignMail::class);
+        $mailcoachMail = app(MailcoachMail::class);
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */
         $campaign = $pendingSend->campaign;
 
-        $campaignMail
+        $replyTo = $this->campaign->reply_to_email
+            ?? $this->campaign->emailList->reply_to_email
+            ?? optional($pendingSend)->subscriber->emailList->reply_to_email
+            ?? null;
+
+        $replyToName = $this->campaign->reply_to_name
+        ?? $this->campaign->emailList->default_reply_to_name
+        ?? optional($pendingSend)->subscriber->emailList->default_reply_to_name
+        ?? null;
+
+        $mailcoachMail
             ->setSend($pendingSend)
             ->subject($personalisedSubject)
+            ->setFrom($campaign->from_email
+                ?? $campaign->emailList->default_from_email
+                ?? optional($pendingSend)->subscriber->emailList->default_from_email,
+                $campaign->from_name
+                ?? $campaign->emailList->default_from_name
+                ?? optional($pendingSend)->subscriber->emailList->default_from_name
+                ?? null)
+            ->setReplyTo($replyTo, $replyToName)
             ->setHtmlContent($personalisedHtml)
             ->setTextContent($personalisedText)
+            ->setHtmlView('mailcoach::mails.campaignHtml')
+            ->setTextView('mailcoach::mails.campaignText')
             ->withSwiftMessage(function (Swift_Message $message) use ($pendingSend) {
                 $message->getHeaders()->addTextHeader('X-MAILCOACH', 'true');
 
@@ -68,7 +88,7 @@ class SendMailAction
 
         Mail::mailer($mailer)
             ->to($pendingSend->subscriber->email)
-            ->send($campaignMail);
+            ->send($mailcoachMail);
 
         $pendingSend->markAsSent();
 

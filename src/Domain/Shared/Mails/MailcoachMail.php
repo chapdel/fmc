@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Campaign\Mails;
+namespace Spatie\Mailcoach\Domain\Shared\Mails;
 
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -8,7 +8,7 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Swift_Message;
 
-class CampaignMail extends Mailable
+class MailcoachMail extends Mailable
 {
     use SerializesModels;
 
@@ -20,11 +20,55 @@ class CampaignMail extends Mailable
 
     public string $textContent = '';
 
+    public ?string $fromEmail = null;
+
+    public ?string $fromName= null;
+
+    public ?string $replyToEmail = null;
+
+    public ?string $replyToName= null;
+
+    public $htmlView = null;
+
+    public $textView = null;
+
     public function setSend(Send $send): self
     {
         $this->send = $send;
 
         $this->campaign = $send->campaign;
+
+        return $this;
+    }
+
+    public function setFrom(string $fromEmail, string $fromName = null): self
+    {
+        $this->fromEmail = $fromEmail;
+
+        $this->fromName = $fromName;
+
+        return $this;
+    }
+
+    public function setReplyTo(string $replyToEmail, string $replyToName = null): self
+    {
+        $this->replyToEmail = $replyToEmail;
+
+        $this->replyToName = $replyToName;
+
+        return $this;
+    }
+
+    public function setHtmlView(string $htmlView): self
+    {
+        $this->htmlView = $htmlView;
+
+        return $this;
+    }
+
+    public function setTextView(string $textView): self
+    {
+        $this->textView = $textView;
 
         return $this;
     }
@@ -64,34 +108,15 @@ class CampaignMail extends Mailable
     public function build()
     {
         $mail = $this
-            ->from(
-                $this->campaign->from_email
-                    ?? $this->campaign->emailList->default_from_email
-                    ?? optional($this->send)->subscriber->emailList->default_from_email,
-                $this->campaign->from_name
-                    ?? $this->campaign->emailList->default_from_name
-                    ?? optional($this->send)->subscriber->emailList->default_from_name
-                    ?? null
-            )
+            ->from($this->fromEmail, $this->fromName)
             ->subject($this->subject)
-            ->view('mailcoach::mails.campaignHtml')
-            ->text('mailcoach::mails.campaignText')
+            ->view($this->htmlView)
+            ->text($this->textView)
             ->addUnsubscribeHeaders()
             ->storeTransportMessageId();
 
-        $replyTo = $this->campaign->reply_to_email
-            ?? $this->campaign->emailList->reply_to_email
-            ?? optional($this->send)->subscriber->emailList->reply_to_email
-            ?? null;
-
-        if (! empty($replyTo)) {
-            $mail->replyTo(
-                $replyTo,
-                $this->campaign->reply_to_name
-                    ?? $this->campaign->emailList->default_reply_to_name
-                    ?? optional($this->send)->subscriber->emailList->default_reply_to_name
-                    ?? null
-            );
+        if ($this->replyToEmail) {
+            $mail->replyTo($this->replyToEmail, $this->replyToName);
         }
 
         return $mail;
