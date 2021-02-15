@@ -134,7 +134,6 @@ class MailcoachMail extends Mailable
 
     public function build()
     {
-
         $mail = $this
             ->from($this->fromEmail, $this->fromName)
             ->subject($this->subject)

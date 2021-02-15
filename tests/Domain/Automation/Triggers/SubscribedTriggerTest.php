@@ -9,9 +9,7 @@ use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
-use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestSegmentQueryOnlyJohn;
 use Spatie\TestTime\TestTime;
@@ -30,7 +28,6 @@ class SubscribedTriggerTest extends TestCase
 
         $this->emailList = EmailList::factory()->create();
     }
-
 
     /** @test * */
     public function it_triggers_when_a_subscriber_is_subscribed()
