@@ -6,9 +6,11 @@ use Carbon\CarbonInterval;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestSegmentQueryOnlyJohn;
@@ -16,16 +18,19 @@ use Spatie\TestTime\TestTime;
 
 class SubscribedTriggerTest extends TestCase
 {
-    protected Campaign $campaign;
+    protected AutomationMail $automationMail;
+
+    protected EmailList $emailList;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->campaign = (new CampaignFactory())->create([
-            'subject' => 'Welcome',
-        ]);
+        $this->automationMail = AutomationMail::factory()->create(['subject' => 'Welcome']);
+
+        $this->emailList = EmailList::factory()->create();
     }
+
 
     /** @test * */
     public function it_triggers_when_a_subscriber_is_subscribed()
@@ -39,10 +44,10 @@ class SubscribedTriggerTest extends TestCase
         $automation = Automation::create()
             ->name('New year!')
             ->runEvery(CarbonInterval::minute())
-            ->to($this->campaign->emailList)
+            ->to($this->emailList)
             ->trigger($trigger)
             ->chain([
-                new SendAutomationMailAction($this->campaign),
+                new SendAutomationMailAction($this->automationMail),
             ])
             ->start();
 
@@ -50,7 +55,7 @@ class SubscribedTriggerTest extends TestCase
 
         $this->assertEmpty($automation->actions->first()->fresh()->subscribers);
 
-        $this->campaign->emailList->subscribeSkippingConfirmation('john@doe.com');
+        $this->emailList->subscribeSkippingConfirmation('john@doe.com');
 
         $this->assertEquals(1, $automation->actions()->first()->subscribers->count());
     }
