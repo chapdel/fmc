@@ -3,9 +3,9 @@
 namespace Spatie\Mailcoach\Domain\Campaign\Exceptions;
 
 use Exception;
-use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Support\Segments\Segment;
+use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 
 class CouldNotSendCampaign extends Exception
 {

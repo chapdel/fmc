@@ -3,10 +3,10 @@
 namespace Spatie\Mailcoach\Tests\Domain\Campaign;
 
 use Illuminate\Support\Facades\Mail;
-use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestCustomQueryOnlyShouldSendToJohn;
 use Spatie\Mailcoach\Tests\TestClasses\TestSegmentAllSubscribers;

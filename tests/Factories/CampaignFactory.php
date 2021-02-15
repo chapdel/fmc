@@ -3,8 +3,8 @@
 namespace Spatie\Mailcoach\Tests\Factories;
 
 use Carbon\Carbon;
-use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 
 class CampaignFactory
 {

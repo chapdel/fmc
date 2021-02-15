@@ -62,13 +62,15 @@ class SendMailAction
         $mailcoachMail
             ->setSend($pendingSend)
             ->subject($personalisedSubject)
-            ->setFrom($campaign->from_email
+            ->setFrom(
+                $campaign->from_email
                 ?? $campaign->emailList->default_from_email
                 ?? optional($pendingSend)->subscriber->emailList->default_from_email,
                 $campaign->from_name
                 ?? $campaign->emailList->default_from_name
                 ?? optional($pendingSend)->subscriber->emailList->default_from_name
-                ?? null)
+                ?? null
+            )
             ->setReplyTo($replyTo, $replyToName)
             ->setHtmlContent($personalisedHtml)
             ->setTextContent($personalisedText)
