@@ -69,15 +69,15 @@ class SubscribedTriggerTest extends TestCase
 
         $trigger = new SubscribedTrigger();
 
-        /** @var Automation $automation */
+        /** @var Auto@mation $automation */
         $automation = Automation::create()
             ->name('New year!')
             ->runEvery(CarbonInterval::minute())
-            ->to($this->campaign->emailList)
+            ->to($this->emailList)
             ->segment(TestSegmentQueryOnlyJohn::class)
             ->trigger($trigger)
             ->chain([
-                new SendAutomationMailAction($this->campaign),
+                new SendAutomationMailAction($this->automationMail),
             ])
             ->start();
 
@@ -85,8 +85,8 @@ class SubscribedTriggerTest extends TestCase
 
         $this->assertEmpty($automation->actions->first()->fresh()->subscribers);
 
-        $this->campaign->emailList->subscribeSkippingConfirmation('jane@doe.com');
-        $this->campaign->emailList->subscribeSkippingConfirmation('john@example.com');
+        $this->emailList->subscribeSkippingConfirmation('jane@doe.com');
+        $this->emailList->subscribeSkippingConfirmation('john@example.com');
 
         $this->assertEquals(1, $automation->actions()->first()->subscribers->count());
         $this->assertEquals('john@example.com', $automation->actions()->first()->subscribers->first()->email);
