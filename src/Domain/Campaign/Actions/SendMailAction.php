@@ -49,16 +49,6 @@ class SendMailAction
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */
         $campaign = $pendingSend->campaign;
 
-        $replyTo = $this->campaign->reply_to_email
-            ?? $this->campaign->emailList->reply_to_email
-            ?? optional($pendingSend)->subscriber->emailList->reply_to_email
-            ?? null;
-
-        $replyToName = $this->campaign->reply_to_name
-        ?? $this->campaign->emailList->default_reply_to_name
-        ?? optional($pendingSend)->subscriber->emailList->default_reply_to_name
-        ?? null;
-
         $mailcoachMail
             ->setSend($pendingSend)
             ->subject($personalisedSubject)
@@ -69,7 +59,6 @@ class SendMailAction
                 ?? $campaign->emailList->default_from_name
                 ?? optional($pendingSend)->subscriber->emailList->default_from_name
                 ?? null)
-            ->setReplyTo($replyTo, $replyToName)
             ->setHtmlContent($personalisedHtml)
             ->setTextContent($personalisedText)
             ->setHtmlView('mailcoach::mails.campaignHtml')
@@ -80,6 +69,20 @@ class SendMailAction
                 /** Postmark specific header */
                 $message->getHeaders()->addTextHeader('X-PM-Metadata-send-uuid', $pendingSend->uuid);
             });
+
+        $replyTo = $this->campaign->reply_to_email
+            ?? $this->campaign->emailList->reply_to_email
+            ?? optional($pendingSend)->subscriber->emailList->reply_to_email
+            ?? null;
+
+        if ($replyTo) {
+
+            $replyToName = $this->campaign->reply_to_name
+                ?? $this->campaign->emailList->default_reply_to_name
+                ?? optional($pendingSend)->subscriber->emailList->default_reply_to_name
+                ?? null;
+            $mailcoachMail->setReplyTo($replyTo, $replyToName);
+        }
 
         $mailer = $campaign->emailList->campaign_mailer
             ?? config('mailcoach.campaigns.mailer')

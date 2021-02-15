@@ -17,7 +17,7 @@ class StoreCampaignRequest extends FormRequest
         return [
             'name' => 'required',
             'email_list_id' => 'nullable',
-            'type' => ['required', Rule::in([CampaignStatus::DRAFT, CampaignStatus::AUTOMATED])],
+            'type' => ['required', Rule::in([CampaignStatus::DRAFT])],
         ];
     }
 

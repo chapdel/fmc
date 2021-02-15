@@ -25,6 +25,7 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\SendsToSegment;
 use Spatie\Mailcoach\Domain\Campaign\Support\CalculateStatisticsLock;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 class Campaign extends Sendable implements Feedable, HasHtmlContent

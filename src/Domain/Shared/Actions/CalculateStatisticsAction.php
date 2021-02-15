@@ -8,7 +8,7 @@ use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailLink;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignStatisticsCalculatedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
-use Spatie\Mailcoach\Domain\Campaign\Models\Sendable;
+use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 
 class CalculateStatisticsAction
 {

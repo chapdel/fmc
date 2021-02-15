@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Campaign\Support;
 
 use Illuminate\Support\Facades\Cache;
-use Spatie\Mailcoach\Domain\Campaign\Models\Sendable;
+use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 
 class CalculateStatisticsLock
 {

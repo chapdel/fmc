@@ -26,7 +26,6 @@ class CampaignsIndexController
             'sentCampaignsCount' => $this->getCampaignClass()::sendingOrSent()->count(),
             'scheduledCampaignsCount' => $this->getCampaignClass()::scheduled()->count(),
             'draftCampaignsCount' => $this->getCampaignClass()::draft()->count(),
-            'automatedCampaignsCount' => $this->getCampaignClass()::automated()->count(),
             'templateOptions' => $this->getTemplateClass()::orderBy('name')->get()
                 ->mapWithKeys(fn (Template $template) => [$template->id => $template->name])
                 ->prepend('-- None --', 0),
