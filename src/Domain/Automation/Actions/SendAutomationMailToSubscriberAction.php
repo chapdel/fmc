@@ -156,5 +156,4 @@ class SendAutomationMailToSubscriberAction
 
         dispatch($this->createSendMailJob($automationMail, $subscriber->emailList, $subscriber));
     }
-
 }

@@ -2,10 +2,8 @@
 
 namespace Spatie\Mailcoach\Domain\Campaign\Models;
 
-use Carbon\CarbonInterface;
 use DOMDocument;
 use DOMElement;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -13,19 +11,11 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Spatie\Feed\Feedable;
-use Spatie\Feed\FeedItem;
-use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
-use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
-use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
-use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotUpdateCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\CalculateStatisticsJob;
-use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendTestMailJob;
 use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignMail;
-use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\CanBeScheduled;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
-use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\SendsToSegment;
 use Spatie\Mailcoach\Domain\Campaign\Rules\HtmlRule;
 use Spatie\Mailcoach\Domain\Campaign\Support\CalculateStatisticsLock;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -57,7 +47,7 @@ abstract class Sendable extends Model implements Feedable, HasHtmlContent
 
     abstract public function clicks(): HasManyThrough;
 
-    abstract public function opens(): HasManyThrough|HasMany;
+    abstract public function opens(): HasManyThrough | HasMany;
 
     abstract public function sends(): HasMany;
 

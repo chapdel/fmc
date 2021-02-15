@@ -4,15 +4,16 @@ namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions;
 
 use Illuminate\Validation\Rule;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationActionComponent;
-use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class AutomationMailAction extends AutomationActionComponent
 {
     use UsesMailcoachModels;
 
-    public int | string $campaign_id = '';
+    public int |
+
+ string $campaign_id = '';
+
     public array $campaignOptions;
 
     public function mount()

@@ -3,9 +3,9 @@
 namespace Spatie\Mailcoach\Domain\Shared\Actions;
 
 use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailStatisticsCalculatedEvent;
-use Spatie\Mailcoach\Domain\Campaign\Events\CampaignStatisticsCalculatedEvent;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailLink;
+use Spatie\Mailcoach\Domain\Campaign\Events\CampaignStatisticsCalculatedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
 use Spatie\Mailcoach\Domain\Campaign\Models\Sendable;
@@ -56,7 +56,7 @@ class CalculateStatisticsAction
 
     protected function calculateLinkStatistics(Sendable $sendable): self
     {
-        $sendable->links()->each(function (CampaignLink|AutomationMailLink $link) {
+        $sendable->links()->each(function (CampaignLink | AutomationMailLink $link) {
             $link->update([
                 'click_count' => $link->clicks()->count(),
                 'unique_click_count' => $link->clicks()->select('subscriber_id')->groupBy('subscriber_id')->toBase()->select('subscriber_id')->getCountForPagination(['subscriber_id']),
