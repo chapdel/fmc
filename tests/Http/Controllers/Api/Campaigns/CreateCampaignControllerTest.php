@@ -16,7 +16,7 @@ class CreateCampaignControllerTest extends TestCase
 {
     use RespondsToApiRequests;
 
-    private array $postAttributes;
+    protected array $postAttributes;
 
     public function setUp(): void
     {
@@ -52,7 +52,7 @@ class CreateCampaignControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    private function getPostAttributes(): array
+    protected function getPostAttributes(): array
     {
         return [
             'name' => 'name',

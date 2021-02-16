@@ -9,9 +9,9 @@ use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 class CampaignFactory
 {
     /** @var int */
-    private int $subscriberCount = 0;
+    protected int $subscriberCount = 0;
 
-    private string $mailable = MailcoachMail::class;
+    protected string $mailable = MailcoachMail::class;
 
     public function withSubscriberCount(int $subscriberCount)
     {

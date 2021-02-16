@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Campaign\Actions;
+namespace Spatie\Mailcoach\Tests\Domain\Audience\Actions;
 
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\SendWelcomeMailAction;
@@ -10,7 +10,7 @@ use Spatie\Mailcoach\Tests\TestCase;
 
 class SendWelcomeMailActionTest extends TestCase
 {
-    private Subscriber $subscriber;
+    protected Subscriber $subscriber;
 
     public function setUp(): void
     {

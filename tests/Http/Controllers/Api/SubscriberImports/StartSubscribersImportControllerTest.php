@@ -12,7 +12,7 @@ class StartSubscribersImportControllerTest extends TestCase
 {
     use RespondsToApiRequests;
 
-    private SubscriberImport $subscriberImport;
+    protected SubscriberImport $subscriberImport;
 
     public function setUp(): void
     {

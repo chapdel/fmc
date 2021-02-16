@@ -7,9 +7,9 @@ use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 
 class SubscriberFactory
 {
-    private EmailList $emailList;
+    protected EmailList $emailList;
 
-    private bool $unsubscribed = false;
+    protected bool $unsubscribed = false;
 
     public static function new(): self
     {

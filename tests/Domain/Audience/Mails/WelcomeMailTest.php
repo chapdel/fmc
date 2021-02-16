@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Campaign\Mails;
+namespace Spatie\Mailcoach\Tests\Domain\Audience\Mails;
 
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
@@ -11,7 +11,7 @@ use Spatie\Mailcoach\Tests\TestClasses\CustomWelcomeMail;
 
 class WelcomeMailTest extends TestCase
 {
-    private EmailList $emailList;
+    protected EmailList $emailList;
 
     public function setUp(): void
     {

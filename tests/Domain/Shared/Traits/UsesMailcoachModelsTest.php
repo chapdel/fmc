@@ -13,7 +13,7 @@ use Spatie\Mailcoach\Tests\TestCase;
 class UsesMailcoachModelsTest extends TestCase
 {
     /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList */
-    private EmailList $email_list;
+    protected EmailList $email_list;
 
     public function setUp(): void
     {

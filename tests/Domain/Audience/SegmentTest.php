@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Campaign;
+namespace Spatie\Mailcoach\Tests\Domain\Audience;
 
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
@@ -14,11 +14,9 @@ use Spatie\Mailcoach\Tests\TestClasses\TestSegmentQueryOnlyJohn;
 
 class SegmentTest extends TestCase
 {
-    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign */
-    private Campaign $campaign;
+    protected Campaign $campaign;
 
-    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList */
-    private EmailList $emailList;
+    protected EmailList $emailList;
 
     public function setUp(): void
     {

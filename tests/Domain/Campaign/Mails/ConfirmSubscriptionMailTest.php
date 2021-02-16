@@ -11,7 +11,7 @@ use Spatie\Mailcoach\Tests\TestClasses\CustomConfirmSubscriberMail;
 
 class ConfirmSubscriptionMailTest extends TestCase
 {
-    private EmailList $emailList;
+    protected EmailList $emailList;
 
     public function setUp(): void
     {

@@ -15,7 +15,7 @@ class SendTestEmailControllerTest extends TestCase
 {
     use RespondsToApiRequests;
 
-    private Campaign $campaign;
+    protected Campaign $campaign;
 
     public function setUp(): void
     {

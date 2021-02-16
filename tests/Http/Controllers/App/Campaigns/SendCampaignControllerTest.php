@@ -12,7 +12,7 @@ use Spatie\Mailcoach\Tests\TestCase;
 
 class SendCampaignControllerTest extends TestCase
 {
-    private Campaign $campaign;
+    protected Campaign $campaign;
 
     public function setUp(): void
     {

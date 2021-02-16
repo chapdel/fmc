@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Campaign\Models;
+namespace Spatie\Mailcoach\Tests\Domain\Audience\Models;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
@@ -11,7 +11,7 @@ use Spatie\Mailcoach\Tests\TestCase;
 
 class SegmentTest extends TestCase
 {
-    private EmailList $emailList;
+    protected EmailList $emailList;
 
     public function setUp(): void
     {

@@ -9,7 +9,7 @@ use Spatie\Mailcoach\Tests\TestCase;
 
 class ReplacesModelAttributesTest extends TestCase
 {
-    private ?object $classWithTrait;
+    protected ?object $classWithTrait;
 
     public function setUp(): void
     {

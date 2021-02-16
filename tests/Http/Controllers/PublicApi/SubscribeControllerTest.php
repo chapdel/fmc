@@ -14,11 +14,11 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class SubscribeControllerTest extends TestCase
 {
-    private EmailList $emailList;
+    protected EmailList $emailList;
 
-    private ?string $confirmSubscriptionLink;
+    protected ?string $confirmSubscriptionLink;
 
-    private $email = 'info@spatie.be';
+    protected $email = 'info@spatie.be';
 
     public function setUp(): void
     {

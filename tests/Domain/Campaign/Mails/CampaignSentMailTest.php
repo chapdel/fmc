@@ -12,9 +12,9 @@ use Spatie\Mailcoach\Tests\TestCase;
 
 class CampaignSentMailTest extends TestCase
 {
-    private Campaign $campaign;
+    protected Campaign $campaign;
 
-    private EmailList $emailList;
+    protected EmailList $emailList;
 
     public function setUp(): void
     {

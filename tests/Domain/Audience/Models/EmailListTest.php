@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Campaign\Models;
+namespace Spatie\Mailcoach\Tests\Domain\Audience\Models;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
@@ -17,8 +17,7 @@ use Spatie\TestTime\TestTime;
 
 class EmailListTest extends TestCase
 {
-    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList */
-    private EmailList $emailList;
+    protected EmailList $emailList;
 
     public function setUp(): void
     {

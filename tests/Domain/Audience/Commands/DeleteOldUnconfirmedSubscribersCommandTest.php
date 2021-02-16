@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Campaign\Commands;
+namespace Spatie\Mailcoach\Tests\Domain\Audience\Commands;
 
 use Illuminate\Support\Facades\DB;
 use Spatie\Mailcoach\Domain\Audience\Commands\DeleteOldUnconfirmedSubscribersCommand;
@@ -13,7 +13,7 @@ use Spatie\TestTime\TestTime;
 
 class DeleteOldUnconfirmedSubscribersCommandTest extends TestCase
 {
-    private EmailList $emailList;
+    protected EmailList $emailList;
 
     public function setUp(): void
     {

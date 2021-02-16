@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Campaign\Mails;
+namespace Spatie\Mailcoach\Tests\Domain\Audience\Mails;
 
 use Spatie\Mailcoach\Domain\Audience\Mails\ImportSubscribersResultMail;
 use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;

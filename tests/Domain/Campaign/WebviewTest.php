@@ -13,7 +13,7 @@ use Symfony\Component\DomCrawler\Crawler;
 class WebviewTest extends TestCase
 {
     /** @var string */
-    private string $webviewUrl;
+    protected string $webviewUrl;
 
     public function setUp(): void
     {

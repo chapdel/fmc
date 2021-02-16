@@ -30,7 +30,7 @@ class SendCampaignJobTest extends TestCase
 {
     use MatchesSnapshots;
 
-    private Campaign $campaign;
+    protected Campaign $campaign;
 
     public function setUp(): void
     {

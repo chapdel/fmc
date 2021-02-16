@@ -10,7 +10,7 @@ use Spatie\Mailcoach\Tests\TestCase;
 
 class EmailListCampaignsFeedControllerTest extends TestCase
 {
-    private EmailList $emailList;
+    protected EmailList $emailList;
 
     public function setUp(): void
     {

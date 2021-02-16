@@ -12,7 +12,7 @@ use Spatie\TestTime\TestTime;
 class ScheduleCampaignControllerTest extends TestCase
 {
     /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign */
-    private $campaign;
+    protected $campaign;
 
     public function setUp(): void
     {

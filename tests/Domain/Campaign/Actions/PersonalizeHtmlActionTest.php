@@ -10,10 +10,10 @@ use Spatie\Mailcoach\Tests\TestCase;
 class PersonalizeHtmlActionTest extends TestCase
 {
     /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send */
-    private Send $send;
+    protected Send $send;
 
     /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeHtmlAction */
-    private PersonalizeHtmlAction $personalizeHtmlAction;
+    protected PersonalizeHtmlAction $personalizeHtmlAction;
 
     public function setUp(): void
     {

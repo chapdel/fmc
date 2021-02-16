@@ -8,7 +8,7 @@ use Spatie\Mailcoach\Tests\TestCase;
 
 class VersionTest extends TestCase
 {
-    private Version $version;
+    protected Version $version;
 
     public function setUp(): void
     {

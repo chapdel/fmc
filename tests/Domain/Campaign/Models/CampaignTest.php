@@ -30,7 +30,7 @@ class CampaignTest extends TestCase
     use MatchesSnapshots;
 
     /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign */
-    private Campaign $campaign;
+    protected Campaign $campaign;
 
     public function setUp(): void
     {
@@ -565,7 +565,7 @@ class CampaignTest extends TestCase
         $this->expectNotToPerformAssertions();
     }
 
-    private function assertModels(array $expectedModels, Collection $actualModels)
+    protected function assertModels(array $expectedModels, Collection $actualModels)
     {
         $this->assertEquals(count($expectedModels), $actualModels->count());
         $this->assertEquals(collect($expectedModels)->pluck('id')->toArray(), $actualModels->pluck('id')->toArray());

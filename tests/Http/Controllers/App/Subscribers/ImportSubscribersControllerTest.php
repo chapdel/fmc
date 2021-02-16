@@ -232,7 +232,7 @@ class ImportSubscribersControllerTest extends TestCase
         $this->assertCount(1, $this->emailList->subscribers);
     }
 
-    private function uploadStub(string $stubName, array $parameters = [], string $asFilename = 'import.csv', string $asMimetype = 'text/csv')
+    protected function uploadStub(string $stubName, array $parameters = [], string $asFilename = 'import.csv', string $asMimetype = 'text/csv')
     {
         $stubPath = $this->getStubPath($stubName);
         $tempPath = $this->getTempPath($stubName);
@@ -255,12 +255,12 @@ class ImportSubscribersControllerTest extends TestCase
         );
     }
 
-    private function getStubPath(string $name): string
+    protected function getStubPath(string $name): string
     {
         return __DIR__ . '/stubs/' . $name;
     }
 
-    private function getTempPath(string $name): string
+    protected function getTempPath(string $name): string
     {
         return __DIR__ . '/temp/' . $name;
     }

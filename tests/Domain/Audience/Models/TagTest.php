@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Campaign\Models;
+namespace Spatie\Mailcoach\Tests\Domain\Audience\Models;
 
 use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Domain\Audience\Events\TagRemovedEvent;
@@ -11,14 +11,11 @@ use Spatie\Mailcoach\Tests\TestCase;
 
 class TagTest extends TestCase
 {
-    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber */
-    private Subscriber $subscriber;
+    protected Subscriber $subscriber;
 
-    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber */
-    private Subscriber $anotherSubscriber;
+    protected Subscriber $anotherSubscriber;
 
-    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber */
-    private Subscriber $subscriberOfAnotherEmailList;
+    protected Subscriber $subscriberOfAnotherEmailList;
 
     public function setUp(): void
     {

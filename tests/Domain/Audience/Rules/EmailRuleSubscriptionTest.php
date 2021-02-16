@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Campaign\Rules;
+namespace Spatie\Mailcoach\Tests\Domain\Audience\Rules;
 
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
@@ -9,11 +9,9 @@ use Spatie\Mailcoach\Tests\TestCase;
 
 class EmailRuleSubscriptionTest extends TestCase
 {
-    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList */
-    private EmailList $emailList;
+    protected EmailList $emailList;
 
-    /** @var \Spatie\Mailcoach\Domain\Audience\Rules\EmailListSubscriptionRule */
-    private EmailListSubscriptionRule $rule;
+    protected EmailListSubscriptionRule $rule;
 
     public function setUp(): void
     {

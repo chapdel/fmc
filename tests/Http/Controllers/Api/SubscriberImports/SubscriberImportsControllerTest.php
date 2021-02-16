@@ -13,7 +13,7 @@ class SubscriberImportsControllerTest extends TestCase
 {
     use RespondsToApiRequests;
 
-    private EmailList $emailList;
+    protected EmailList $emailList;
 
     public function setUp(): void
     {

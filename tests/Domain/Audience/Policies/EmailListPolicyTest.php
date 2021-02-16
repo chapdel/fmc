@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Campaign\Policies;
+namespace Spatie\Mailcoach\Tests\Domain\Audience\Policies;
 
 use Illuminate\Contracts\Auth\Access\Authorizable;
 use Illuminate\Foundation\Auth\User;
@@ -13,8 +13,7 @@ use Spatie\Mailcoach\Tests\TestClasses\CustomEmailListDenyAllPolicy;
 
 class EmailListPolicyTest extends TestCase
 {
-    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList */
-    private EmailList $emailList;
+    protected EmailList $emailList;
 
     public function setUp(): void
     {
@@ -64,7 +63,7 @@ class EmailListPolicyTest extends TestCase
             ->assertForbidden();
     }
 
-    private function postCreateList(Authorizable $asUser)
+    protected function postCreateList(Authorizable $asUser)
     {
         return $this
             ->withExceptionHandling()

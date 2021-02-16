@@ -10,7 +10,7 @@ use Spatie\TestTime\TestTime;
 class CalculateStatisticsLockTest extends TestCase
 {
     /** @var \Spatie\Mailcoach\Domain\Campaign\Support\CalculateStatisticsLock */
-    private CalculateStatisticsLock $lock;
+    protected CalculateStatisticsLock $lock;
 
     public function setUp(): void
     {

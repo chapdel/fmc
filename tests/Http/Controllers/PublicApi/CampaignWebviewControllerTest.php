@@ -9,9 +9,9 @@ use Spatie\Mailcoach\Tests\TestCase;
 
 class CampaignWebviewControllerTest extends TestCase
 {
-    private Campaign $campaign;
+    protected Campaign $campaign;
 
-    private string $webviewUrl;
+    protected string $webviewUrl;
 
     public function setUp(): void
     {

@@ -8,8 +8,7 @@ use Spatie\Mailcoach\Tests\TestCase;
 
 class CanBeScheduledTest extends TestCase
 {
-    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign */
-    protected $campaign;
+    protected Campaign $campaign;
 
     public function setUp(): void
     {

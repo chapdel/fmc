@@ -15,9 +15,9 @@ class CreateSubscriberControllerTest extends TestCase
 {
     use RespondsToApiRequests;
 
-    private EmailList $emailList;
+    protected EmailList $emailList;
 
-    private array $attributes;
+    protected array $attributes;
 
     public function setUp(): void
     {

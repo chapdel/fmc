@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Campaign\Actions;
+namespace Spatie\Mailcoach\Tests\Domain\Audience\Actions;
 
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\UpdateSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
@@ -10,17 +10,13 @@ use Spatie\Mailcoach\Tests\TestCase;
 
 class UpdateSubscriberActionTest extends TestCase
 {
-    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber */
-    private $subscriber;
+    protected Subscriber $subscriber;
 
-    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList */
-    private $emailList;
+    protected EmailList $emailList;
 
-    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList */
-    private $anotherEmailList;
+    protected EmailList $anotherEmailList;
 
-    /** @var array */
-    private $newAttributes;
+    protected array $newAttributes;
 
     public function setUp(): void
     {

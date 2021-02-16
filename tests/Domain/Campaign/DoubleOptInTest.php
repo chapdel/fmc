@@ -14,10 +14,10 @@ use Symfony\Component\DomCrawler\Crawler;
 class DoubleOptInTest extends TestCase
 {
     /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList */
-    private EmailList $emailList;
+    protected EmailList $emailList;
 
     /** @var string */
-    private string $mailedLink;
+    protected string $mailedLink;
 
     public function setUp(): void
     {

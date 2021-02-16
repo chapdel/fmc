@@ -52,6 +52,7 @@ class CalculateStatisticsJobTest extends TestCase
     public function it_can_calculate_statistics_regarding_unsubscribes()
     {
         $campaign = (new CampaignFactory())->withSubscriberCount(5)->create();
+
         dispatch(new SendCampaignJob($campaign));
 
         dispatch(new CalculateStatisticsJob($campaign));

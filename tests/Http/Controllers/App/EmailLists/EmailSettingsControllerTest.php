@@ -106,7 +106,7 @@ class EmailSettingsControllerTest extends TestCase
             ->assertForbidden();
     }
 
-    private function validUpdateData()
+    protected function validUpdateData()
     {
         return [
             'name' => 'Jane',

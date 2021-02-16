@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Campaign\Events;
+namespace Spatie\Mailcoach\Tests\Domain\Audience\Events;
 
 use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Domain\Audience\Events\UnconfirmedSubscriberCreatedEvent;
