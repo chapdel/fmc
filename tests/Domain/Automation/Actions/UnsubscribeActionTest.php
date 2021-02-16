@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Tests\Domain\Automation\Actions;
 
-use Spatie\Mailcoach\Domain\Automation\Support\Actions\UnsubscribeAction;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\UnsubscribeAction;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class UnsubscribeActionTest extends TestCase

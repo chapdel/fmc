@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 
 class TagSegment extends Model

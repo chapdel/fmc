@@ -3,10 +3,10 @@
 namespace Spatie\Mailcoach\Tests\Domain\Campaign\Models;
 
 use Illuminate\Support\Facades\Event;
-use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Domain\Audience\Events\TagRemovedEvent;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag;
+use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class TagTest extends TestCase

@@ -3,12 +3,12 @@
 namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Campaigns;
 
 use Carbon\CarbonInterval;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\DateTrigger;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\WebhookTrigger;
-use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Http\Api\Controllers\Automations\TriggerAutomationController;
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
