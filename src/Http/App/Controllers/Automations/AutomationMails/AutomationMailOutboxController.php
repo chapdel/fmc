@@ -5,14 +5,29 @@ namespace Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails;
 use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Http\App\Queries\AutomationMailSendsQuery;
+use Spatie\Mailcoach\Http\App\Queries\CampaignSendsQuery;
 
 class AutomationMailOutboxController
 {
     use AuthorizesRequests;
 
-    public function __invoke(AutomationMail $mail)
+    public function __invoke(AutomationMail $automationMail)
     {
-        /** TODO */
-        throw new Exception('not implemented yet');
+        $this->authorize('view', $automationMail);
+
+        $sendsQuery = new AutomationMailSendsQuery($automationMail);
+
+        return view('mailcoach::app.automations.mails.outbox', [
+            'mail' => $automationMail,
+            'sends' => $sendsQuery->paginate(),
+            'totalSends' => $automationMail->sends()->count(),
+            'totalPending' => $automationMail->sends()->pending()->count(),
+            'totalSent' => $automationMail->sends()->sent()->count(),
+            'totalFailed' => $automationMail->sends()->failed()->count(),
+            'totalBounces' => $automationMail->sends()->bounced()->count(),
+            'totalComplaints' => $automationMail->sends()->complained()->count(),
+        ]);
     }
 }
