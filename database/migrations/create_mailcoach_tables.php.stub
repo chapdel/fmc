@@ -528,6 +528,18 @@ class CreateMailcoachTables extends Migration
 
             $table->foreignId('send_id')->constrained('mailcoach_sends');
 
+            $table
+                ->foreignId('subscriber_id')
+                ->nullable()
+                ->constrained('mailcoach_subscribers')
+                ->cascadeOnDelete();
+
+            $table
+                ->foreignId('automation_mail_id')
+                ->nullable()
+                ->constrained('mailcoach_automation_mails')
+                ->cascadeOnDelete();
+
             $table->timestamps();
         });
 
@@ -535,6 +547,13 @@ class CreateMailcoachTables extends Migration
             $table->id();
 
             $table->foreignId('send_id')->constrained('mailcoach_sends');
+
+            $table
+                ->foreignId('subscriber_id')
+                ->nullable()
+                ->constrained('mailcoach_subscribers')
+                ->cascadeOnDelete();
+
             $table->longText('url');
 
             $table->timestamps();

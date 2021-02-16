@@ -5,7 +5,6 @@
 >
     <x-slot name="nav">
         <x-mailcoach::navigation :title="$mail->name" :backHref="route('mailcoach.automations.mails')" :backLabel="__('Emails')">
-
                 <x-mailcoach::navigation-group icon="fas fa-chart-line" :title="__('Performance')">
                     <x-mailcoach::navigation-item :href="route('mailcoach.automations.mails.summary', $mail)" data-dirty-warn>
                         {{ __('Summary') }}
