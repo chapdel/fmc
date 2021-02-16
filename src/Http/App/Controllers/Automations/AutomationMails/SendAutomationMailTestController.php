@@ -3,7 +3,6 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails;
 
-
 use Carbon\CarbonInterval;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
@@ -39,4 +38,3 @@ class SendAutomationMailTestController
         flash()->success(__('A test email was sent to :email.', ['email' => $request->sanitizedEmails()[0]]));
     }
 }
-
