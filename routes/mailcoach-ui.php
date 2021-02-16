@@ -13,6 +13,7 @@ use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\Automation
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\CreateAutomationMailController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\DestroyAutomationMailController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\DuplicateAutomationMailController;
+use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\SendAutomationMailTestController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationSettingsController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationsIndexController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\CreateAutomationController;
@@ -28,7 +29,7 @@ use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignSettingsContro
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CreateCampaignController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\ScheduleCampaignController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\SendCampaignController;
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\SendTestEmailController;
+use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\SendCampaignTestController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\UnscheduleCampaignController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\DuplicateCampaignController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\RetryFailedSendsController;
@@ -89,7 +90,7 @@ Route::prefix('campaigns')->group(function () {
             Route::put('settings', ['\\' . CampaignSettingsController::class, 'update']);
             Route::put('content', ['\\' . CampaignContentController::class, 'update'])->name('mailcoach.campaigns.updateContent');
 
-            Route::post('send-test-email', '\\' . SendTestEmailController::class)->name('mailcoach.campaigns.sendTestEmail');
+            Route::post('send-test-email', '\\' . SendCampaignTestController::class)->name('mailcoach.campaigns.sendTestEmail');
             Route::post('schedule', '\\' . ScheduleCampaignController::class)->name('mailcoach.campaigns.schedule');
             Route::post('unschedule', '\\' . UnscheduleCampaignController::class)->name('mailcoach.campaigns.unschedule');
             Route::post('send', '\\' . SendCampaignController::class)->name('mailcoach.campaigns.send');
@@ -196,6 +197,7 @@ Route::prefix('drip-emails')->group(function () {
         Route::get('outbox', '\\' . AutomationMailOutboxController::class)->name('mailcoach.automations.mails.outbox');
         Route::get('content', [AutomationMailContentController::class, 'edit'])->name('mailcoach.automations.mails.content');
         Route::put('content', [AutomationMailContentController::class, 'update'])->name('mailcoach.automations.mails.updateContent');
+        Route::post('send-test-email', '\\' . SendAutomationMailTestController::class)->name('mailcoach.automations.mails.sendTestEmail');
     });
 });
 

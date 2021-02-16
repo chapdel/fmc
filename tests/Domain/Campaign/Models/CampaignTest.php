@@ -13,7 +13,7 @@ use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
-use Spatie\Mailcoach\Domain\Campaign\Jobs\SendTestMailJob;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignTestJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
@@ -341,7 +341,7 @@ class CampaignTest extends TestCase
 
         $this->campaign->sendTestMail($email);
 
-        Bus::assertDispatched(SendTestMailJob::class, function (SendTestMailJob $job) use ($email) {
+        Bus::assertDispatched(SendCampaignTestJob::class, function (SendCampaignTestJob $job) use ($email) {
             $this->assertEquals($this->campaign->id, $job->campaign->id);
             $this->assertEquals($email, $job->email);
 
@@ -356,9 +356,9 @@ class CampaignTest extends TestCase
 
         $this->campaign->sendTestMail(['john@example.com', 'paul@example.com']);
 
-        Bus::assertDispatched(SendTestMailJob::class, fn (SendTestMailJob $job) => $job->email === 'john@example.com');
+        Bus::assertDispatched(SendCampaignTestJob::class, fn (SendCampaignTestJob $job) => $job->email === 'john@example.com');
 
-        Bus::assertDispatched(SendTestMailJob::class, fn (SendTestMailJob $job) => $job->email === 'paul@example.com');
+        Bus::assertDispatched(SendCampaignTestJob::class, fn (SendCampaignTestJob $job) => $job->email === 'paul@example.com');
     }
 
     /** @test */

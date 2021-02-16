@@ -17,7 +17,7 @@ use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotUpdateCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\CalculateStatisticsJob;
-use Spatie\Mailcoach\Domain\Campaign\Jobs\SendTestMailJob;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignTestJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Campaign\Support\CalculateStatisticsLock;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
@@ -208,7 +208,7 @@ class AutomationMail extends Sendable implements Feedable, HasHtmlContent
         }
 
         collect($emails)->each(function (string $email) {
-            dispatch(new SendTestMailJob($this, $email));
+            dispatch(new SendCampaignTestJob($this, $email));
         });
     }
 

@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Campaigns;
 use Illuminate\Support\Facades\Bus;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
-use Spatie\Mailcoach\Domain\Campaign\Jobs\SendTestMailJob;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignTestJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\SendTestEmailController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
@@ -39,7 +39,7 @@ class SendTestEmailControllerTest extends TestCase
             ->postJson(action(SendTestEmailController::class, $campaign), ['email' => 'test@example.com'])
             ->assertSuccessful();
 
-        Bus::assertDispatched(function (SendTestMailJob $job) {
+        Bus::assertDispatched(function (SendCampaignTestJob $job) {
             $this->assertEquals('test@example.com', $job->email);
 
             return true;
@@ -55,7 +55,7 @@ class SendTestEmailControllerTest extends TestCase
             ->postJson(action(SendTestEmailController::class, $campaign), ['email' => 'test@example.com,test2@example.com,test3@example.com'])
             ->assertSuccessful();
 
-        Bus::assertDispatchedTimes(SendTestMailJob::class, 3);
+        Bus::assertDispatchedTimes(SendCampaignTestJob::class, 3);
     }
 
     /** @test */

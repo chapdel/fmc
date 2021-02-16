@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Tests\Domain\Campaign\Jobs;
 use Illuminate\Mail\MailManager;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
-use Spatie\Mailcoach\Domain\Campaign\Jobs\SendTestMailJob;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignTestJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Tests\TestCase;
@@ -27,7 +27,7 @@ class SendTestMailJobTest extends TestCase
 
         $email = 'john@example.com';
 
-        dispatch(new SendTestMailJob($campaign, $email));
+        dispatch(new SendCampaignTestJob($campaign, $email));
 
         Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) use ($email, $campaign) {
             $this->assertEquals('[Test] my subject', $mail->subject);
@@ -47,8 +47,8 @@ class SendTestMailJobTest extends TestCase
         config()->set('mailcoach.campaigns.perform_on_queue.send_test_mail_job', 'custom-queue');
 
         $campaign = Campaign::factory()->create();
-        dispatch(new SendTestMailJob($campaign, 'john@example.com'));
-        Queue::assertPushedOn('custom-queue', SendTestMailJob::class);
+        dispatch(new SendCampaignTestJob($campaign, 'john@example.com'));
+        Queue::assertPushedOn('custom-queue', SendCampaignTestJob::class);
     }
 
     /** @test */

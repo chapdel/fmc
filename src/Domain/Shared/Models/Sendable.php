@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 use Spatie\Feed\Feedable;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\CalculateStatisticsJob;
-use Spatie\Mailcoach\Domain\Campaign\Jobs\SendTestMailJob;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignTestJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
 use Spatie\Mailcoach\Domain\Campaign\Rules\HtmlRule;
@@ -182,7 +182,7 @@ abstract class Sendable extends Model implements Feedable, HasHtmlContent
         }
 
         collect($emails)->each(function (string $email) {
-            dispatch(new SendTestMailJob($this, $email));
+            dispatch(new SendCampaignTestJob($this, $email));
         });
     }
 

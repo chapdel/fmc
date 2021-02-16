@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Http\App\Requests\Campaigns;
 use Illuminate\Foundation\Http\FormRequest;
 use Spatie\ValidationRules\Rules\Delimited;
 
-class SendTestEmailRequest extends FormRequest
+class SendCampaignTestRequest extends FormRequest
 {
     public function rules(): array
     {

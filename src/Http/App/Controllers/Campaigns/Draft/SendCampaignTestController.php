@@ -5,13 +5,13 @@ namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft;
 use Carbon\CarbonInterval;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Http\App\Requests\Campaigns\SendTestEmailRequest;
+use Spatie\Mailcoach\Http\App\Requests\Campaigns\SendCampaignTestRequest;
 
-class SendTestEmailController
+class SendCampaignTestController
 {
     use AuthorizesRequests;
 
-    public function __invoke(Campaign $campaign, SendTestEmailRequest $request)
+    public function __invoke(Campaign $campaign, SendCampaignTestRequest $request)
     {
         $this->authorize('view', $campaign);
 
@@ -30,7 +30,7 @@ class SendTestEmailController
         return back();
     }
 
-    protected function flashSuccessMessage(SendTestEmailRequest $request): void
+    protected function flashSuccessMessage(SendCampaignTestRequest $request): void
     {
         if (count($request->sanitizedEmails()) > 1) {
             $emailCount = count($request->sanitizedEmails());

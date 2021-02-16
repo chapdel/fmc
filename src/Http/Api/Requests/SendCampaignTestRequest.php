@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 use Spatie\ValidationRules\Rules\Delimited;
 
-class SendTestEmailRequest extends FormRequest
+class SendCampaignTestRequest extends FormRequest
 {
     public function rules(): array
     {

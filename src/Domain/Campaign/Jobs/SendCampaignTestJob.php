@@ -11,7 +11,7 @@ use Spatie\Mailcoach\Domain\Campaign\Actions\SendTestMailAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
 
-class SendTestMailJob implements ShouldQueue
+class SendCampaignTestJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -35,7 +35,6 @@ class SendTestMailJob implements ShouldQueue
 
     public function handle()
     {
-
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\SendTestMailAction $sendTestMailAction */
         $sendTestMailAction = Config::getCampaignActionClass('send_test_mail', SendTestMailAction::class);
 

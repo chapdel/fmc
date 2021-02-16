@@ -20,9 +20,6 @@ class AutomationMailContentController
 
     public function update(AutomationMail $mail, UpdateCampaignContentRequest $request)
     {
-        /** TODO */
-        throw new Exception("Create right action");
-
         $this->authorize('update', $mail);
 
         $mail->update([
