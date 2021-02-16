@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Http\Api\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Validator;
 use Spatie\ValidationRules\Rules\Delimited;
 
