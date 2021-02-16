@@ -20,11 +20,11 @@ return [
             \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\CampaignNameCampaignReplacer::class,
         ],
 
-        /**
+        /*
          * Here you can configure which campaign template editor Mailcoach uses.
          * By default this is a text editor that highlights HTML.
          */
-        'editor' => \Spatie\Mailcoach\Domain\Campaign\Support\Editor\TextEditor::class,
+        'editor' => \Spatie\Mailcoach\Domain\Shared\Support\Editor\TextEditor::class,
 
         /*
          * Here you can specify which jobs should run on which queues.
@@ -59,9 +59,6 @@ return [
          * Your custom action should always extend the one of the default ones.
          */
         'actions' => [
-            /*
-             * Actions concerning campaigns
-             */
             'calculate_statistics' => \Spatie\Mailcoach\Domain\Shared\Actions\CalculateStatisticsAction::class,
             'prepare_email_html' => \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareEmailHtmlAction::class,
             'prepare_subject' => \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareSubjectAction::class,
@@ -81,6 +78,12 @@ return [
          * The default mailer used by Mailcoach for automation mails.
          */
         'mailer' => null,
+
+        /*
+         * Here you can configure which automation mail template editor Mailcoach uses.
+         * By default this is a text editor that highlights HTML.
+         */
+        'editor' => \Spatie\Mailcoach\Domain\Shared\Support\Editor\TextEditor::class,
 
         'actions' => [
             'send_automation_mail_to_subscriber' => \Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailToSubscriberAction::class,
@@ -167,7 +170,7 @@ return [
          * Here you can configure which transactional mail template editor Mailcoach uses.
          * By default this is a text editor that highlights HTML.
          */
-        'editor' => \Spatie\Mailcoach\Domain\Campaign\Support\Editor\TextEditor::class,
+        'editor' => \Spatie\Mailcoach\Domain\Shared\Support\Editor\TextEditor::class,
     ],
 
     /*

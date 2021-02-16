@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Campaign\Support\Editor;
+namespace Spatie\Mailcoach\Domain\Shared\Support\Editor;
 
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
