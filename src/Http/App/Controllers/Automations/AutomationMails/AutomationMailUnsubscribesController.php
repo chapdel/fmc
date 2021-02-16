@@ -2,12 +2,9 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails;
 
-use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Queries\AutomationMailUnsubscribesQuery;
-use Spatie\Mailcoach\Http\App\Queries\CampaignUnsubscribesQuery;
 
 class AutomationMailUnsubscribesController
 {
