@@ -5,11 +5,11 @@ namespace Spatie\Mailcoach\Tests;
 use Carbon\CarbonInterval;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Artisan;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationActionsCommand;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
-use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\TestTime\TestTime;
 
 class RunAutomationActionsCommandTest extends TestCase

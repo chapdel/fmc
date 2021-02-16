@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Mails\ConfirmSubscriberMail;
-use Spatie\Mailcoach\Domain\Campaign\Mails\WelcomeMail;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Mails\WelcomeMail;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class SubscriberTest extends TestCase

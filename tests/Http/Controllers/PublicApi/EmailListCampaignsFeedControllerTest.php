@@ -2,9 +2,9 @@
 
 namespace Spatie\Mailcoach\Tests\Http\Controllers\PublicApi;
 
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Http\Front\Controllers\EmailListCampaignsFeedController;
 use Spatie\Mailcoach\Tests\TestCase;
 

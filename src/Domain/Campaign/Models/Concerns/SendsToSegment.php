@@ -4,11 +4,11 @@ namespace Spatie\Mailcoach\Domain\Campaign\Models\Concerns;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\EverySubscriberSegment;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\Segment;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\SubscribersWithTagsSegment;
+use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
 
 /**
  * @property string $segment_class

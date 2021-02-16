@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Domain\Audience\Support\Segments;
 
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Mailcoach\Domain\Audience\Models\TagSegment as TagSegmentModel;
-use Spatie\Mailcoach\Domain\Audience\Support\Segments\Segment;
 
 class SubscribersWithTagsSegment extends Segment
 {

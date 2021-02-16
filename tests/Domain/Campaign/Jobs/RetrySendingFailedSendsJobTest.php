@@ -3,11 +3,11 @@
 namespace Spatie\Mailcoach\Tests\Domain\Campaign\Jobs;
 
 use Illuminate\Support\Facades\Mail;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeHtmlAction;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\RetrySendingFailedSendsJob;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\FailingPersonalizeHtmlForJohnAction;

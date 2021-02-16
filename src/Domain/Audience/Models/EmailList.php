@@ -11,10 +11,6 @@ use Illuminate\Database\Query\Builder;
 use Spatie\Mailcoach\Domain\Audience\Mails\ConfirmSubscriberMail;
 use Spatie\Mailcoach\Domain\Campaign\Mails\WelcomeMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
-use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
-use Spatie\Mailcoach\Domain\Audience\Models\Tag;
-use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class EmailList extends Model

@@ -3,9 +3,9 @@
 namespace Spatie\Mailcoach\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignClick;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
-use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 
 class CampaignClickFactory extends Factory
 {

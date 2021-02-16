@@ -3,8 +3,8 @@
 namespace Spatie\Mailcoach\Tests\Domain\Campaign\Listeners;
 
 use Spatie\Mailcoach\Database\Factories\SendFactory;
-use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag;
+use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 

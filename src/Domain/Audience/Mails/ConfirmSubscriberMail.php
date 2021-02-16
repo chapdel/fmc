@@ -4,8 +4,8 @@ namespace Spatie\Mailcoach\Domain\Audience\Mails;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Spatie\Mailcoach\Domain\Campaign\Mails\Concerns\ReplacesPlaceholders;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Mails\Concerns\ReplacesPlaceholders;
 
 class ConfirmSubscriberMail extends Mailable implements ShouldQueue
 {

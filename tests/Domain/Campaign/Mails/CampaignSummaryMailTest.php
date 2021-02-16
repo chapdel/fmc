@@ -3,10 +3,10 @@
 namespace Spatie\Mailcoach\Tests\Domain\Campaign\Mails;
 
 use Illuminate\Support\Facades\Mail;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Commands\SendCampaignSummaryMailCommand;
 use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignSummaryMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
