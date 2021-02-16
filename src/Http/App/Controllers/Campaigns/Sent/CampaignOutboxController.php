@@ -6,7 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Queries\CampaignSendsQuery;
 
-class OutboxController
+class CampaignOutboxController
 {
     use AuthorizesRequests;
 

@@ -36,7 +36,7 @@ use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignClicksControlle
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignOpensController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignSummaryController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignUnsubscribesController;
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\OutboxController;
+use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignOutboxController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\TemplatesController;
 use Spatie\Mailcoach\Http\App\Controllers\DebugController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\CreateEmailListController;
@@ -100,7 +100,7 @@ Route::prefix('campaigns')->group(function () {
         Route::get('clicks', '\\' . CampaignClicksController::class)->name('mailcoach.campaigns.clicks');
         Route::get('unsubscribes', '\\' . CampaignUnsubscribesController::class)->name('mailcoach.campaigns.unsubscribes');
 
-        Route::get('outbox', '\\' . OutboxController::class)->name('mailcoach.campaigns.outbox');
+        Route::get('outbox', '\\' . CampaignOutboxController::class)->name('mailcoach.campaigns.outbox');
 
         Route::delete('/', '\\' . DestroyCampaignController::class)->name('mailcoach.campaigns.delete');
         Route::post('duplicate', '\\' . DuplicateCampaignController::class)->name('mailcoach.campaigns.duplicate');
