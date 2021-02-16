@@ -225,6 +225,7 @@ class AutomationMail extends Sendable implements Feedable, HasHtmlContent
         return app($mailableClass, $mailableArguments);
     }
 
+    /** TODO: make automation specific */
     public function dispatchCalculateStatistics()
     {
         $lock = new CalculateStatisticsLock($this);

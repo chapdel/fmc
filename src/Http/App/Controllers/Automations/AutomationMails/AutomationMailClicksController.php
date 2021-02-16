@@ -5,6 +5,8 @@ namespace Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails;
 use Exception;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailLink;
+use Spatie\Mailcoach\Http\App\Queries\AutomationMailLinksQuery;
 
 class AutomationMailClicksController
 {
@@ -12,7 +14,14 @@ class AutomationMailClicksController
 
     public function __invoke(AutomationMail $mail)
     {
-        /** TODO */
-        throw new Exception('not implemented yet');
+        $this->authorize('view', $mail);
+
+        $campaignLinksQuery = new AutomationMailLinksQuery($mail);
+
+        return view('mailcoach::app.automations.mails.clicks', [
+            'mail' => $mail,
+            'links' => $campaignLinksQuery->paginate(),
+            'totalLinksCount' => $mail->links()->count(),
+        ]);
     }
 }

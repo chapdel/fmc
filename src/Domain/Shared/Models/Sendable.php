@@ -196,6 +196,7 @@ abstract class Sendable extends Model implements Feedable, HasHtmlContent
         return app($mailableClass, $mailableArguments);
     }
 
+    /** TODO: verify if this function can be removed */
     public function dispatchCalculateStatistics()
     {
         $lock = new CalculateStatisticsLock($this);

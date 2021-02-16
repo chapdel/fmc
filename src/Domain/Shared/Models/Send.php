@@ -14,6 +14,7 @@ use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailLinkClickedEvent;
 use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailOpenedEvent;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailClick;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailLink;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailOpen;
 use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Domain\Campaign\Events\BounceRegisteredEvent;
@@ -296,14 +297,23 @@ class Send extends Model
             return null;
         }
 
-        $transactionalMailClick = AutomationMailClick::create([
-            'send_id' => $this->id,
+        if (Str::startsWith($url, route('mailcoach.unsubscribe', ''))) {
+            return null;
+        }
+
+        /** @var AutomationMailLink $automationMailLink */
+        $automationMailLink = AutomationMailLink::firstOrCreate([
+            'automation_mail_id' => $this->automationMail->id,
             'url' => $url,
         ]);
 
-        event(new AutomationMailLinkClickedEvent($transactionalMailClick));
+        $automationMailLink = $automationMailLink->registerClick($this, $clickedAt);
 
-        return $transactionalMailClick;
+        event(new AutomationMailLinkClickedEvent($automationMailLink));
+
+        $this->automationMail->dispatchCalculateStatistics();
+
+        return $automationMailLink;
     }
 
     protected function registerTransactionalMailClick(string $url, ?DateTimeInterface $clickedAt = null): ?TransactionalMailClick
