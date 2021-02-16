@@ -31,6 +31,7 @@ abstract class Sendable extends Model implements Feedable, HasHtmlContent
     protected $guarded = [];
 
     public $baseCasts = [
+        'id' => 'int',
         'track_opens' => 'boolean',
         'track_clicks' => 'boolean',
         'utm_tags' => 'boolean',
