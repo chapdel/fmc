@@ -9,7 +9,7 @@ class PersonalizeHtmlAction
 {
     public function execute($html, Send $pendingSend): string
     {
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber $subscriber */
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
         $subscriber = $pendingSend->subscriber;
 
         $html = str_ireplace('::sendUuid::', $pendingSend->uuid, $html);

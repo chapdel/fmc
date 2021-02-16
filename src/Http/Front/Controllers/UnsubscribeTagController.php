@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\Front\Controllers;
 
-use Spatie\Mailcoach\Domain\Campaign\Enums\SubscriptionStatus;
+use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class UnsubscribeTagController
@@ -11,7 +11,7 @@ class UnsubscribeTagController
 
     public function show(string $subscriberUuid, string $tag)
     {
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber $subscriber */
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
         if (! $subscriber = $this->getSubscriberClass()::findByUuid($subscriberUuid)) {
             return view('mailcoach::landingPages.couldNotFindSubscription');
         }
@@ -27,7 +27,7 @@ class UnsubscribeTagController
 
     public function confirm(string $subscriberUuid, string $tag)
     {
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber $subscriber */
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
         if (! $subscriber = $this->getSubscriberClass()::findByUuid($subscriberUuid)) {
             return view('mailcoach::landingPages.couldNotFindSubscription');
         }

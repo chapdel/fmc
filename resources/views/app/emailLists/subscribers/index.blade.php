@@ -70,7 +70,7 @@
                 <th class="w-4"></th>
                 <x-mailcoach::th sort-by="email">{{ __('Email') }}</x-mailcoach::th>
                 <th class="hidden | xl:table-cell">{{ __('Tags') }}</th>
-                @if(request()->input('filter.status') === \Spatie\Mailcoach\Domain\Campaign\Enums\SubscriptionStatus::UNSUBSCRIBED)
+                @if(request()->input('filter.status') === \Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus::UNSUBSCRIBED)
                     <x-mailcoach::th sort-by="-unsubscribed_at" class="w-48 th-numeric hidden | xl:table-cell">{{ __('Unsubscribed at') }}</x-mailcoach::th>
                 @else
                     <x-mailcoach::th sort-by="-created_at" class="w-48 th-numeric hidden | xl:table-cell">{{ __('Subscribed at') }}</x-mailcoach::th>

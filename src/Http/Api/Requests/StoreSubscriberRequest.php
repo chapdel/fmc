@@ -3,8 +3,8 @@
 namespace Spatie\Mailcoach\Http\Api\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
-use Spatie\Mailcoach\Domain\Campaign\Rules\EmailListSubscriptionRule;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Rules\EmailListSubscriptionRule;
 
 class StoreSubscriberRequest extends FormRequest
 {

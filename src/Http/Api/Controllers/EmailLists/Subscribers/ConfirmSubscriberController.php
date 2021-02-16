@@ -3,9 +3,9 @@
 namespace Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\ConfirmSubscriberAction;
-use Spatie\Mailcoach\Domain\Campaign\Enums\SubscriptionStatus;
-use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\ConfirmSubscriberAction;
+use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Http\Api\Requests\ConfirmSubscriberRequest;
 use Symfony\Component\HttpFoundation\Response;

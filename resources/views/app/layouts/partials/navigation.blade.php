@@ -1,5 +1,5 @@
 <ul class="navigation">
-    
+
     <li class="opacity-0">|</li>
 
             @include('mailcoach::app.layouts.partials.beforeFirstMenuItem')
@@ -25,7 +25,7 @@
             </x-mailcoach::navigation-dropdown>
 
 
-            @can("viewAny", \Spatie\Mailcoach\Domain\Campaign\Models\EmailList::class)
+            @can("viewAny", \Spatie\Mailcoach\Domain\Audience\Models\EmailList::class)
 
             <x-mailcoach::navigation-item :href="route('mailcoach.emailLists')">
                 <span class="icon-label">

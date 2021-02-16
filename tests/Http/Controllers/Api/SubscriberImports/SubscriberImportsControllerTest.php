@@ -2,9 +2,9 @@
 
 namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\SubscriberImports;
 
-use Spatie\Mailcoach\Domain\Campaign\Enums\SubscriberImportStatus;
-use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
-use Spatie\Mailcoach\Domain\Campaign\Models\SubscriberImport;
+use Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
 use Spatie\Mailcoach\Http\Api\Controllers\SubscriberImports\SubscriberImportsController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestCase;

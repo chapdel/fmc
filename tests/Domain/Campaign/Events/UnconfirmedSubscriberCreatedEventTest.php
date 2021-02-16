@@ -3,8 +3,8 @@
 namespace Spatie\Mailcoach\Tests\Domain\Campaign\Events;
 
 use Illuminate\Support\Facades\Event;
-use Spatie\Mailcoach\Domain\Campaign\Events\UnconfirmedSubscriberCreatedEvent;
-use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Events\UnconfirmedSubscriberCreatedEvent;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class UnconfirmedSubscriberCreatedEventTest extends TestCase
@@ -14,7 +14,7 @@ class UnconfirmedSubscriberCreatedEventTest extends TestCase
     {
         Event::fake(UnconfirmedSubscriberCreatedEvent::class);
 
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList $emailList */
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
         $emailList = EmailList::factory()->create([
             'requires_confirmation' => true,
         ]);

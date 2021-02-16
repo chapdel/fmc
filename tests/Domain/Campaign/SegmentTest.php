@@ -4,8 +4,8 @@ namespace Spatie\Mailcoach\Tests\Domain\Campaign;
 
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
-use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestCustomQueryOnlyShouldSendToJohn;
@@ -17,7 +17,7 @@ class SegmentTest extends TestCase
     /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign */
     private Campaign $campaign;
 
-    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList */
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList */
     private EmailList $emailList;
 
     public function setUp(): void

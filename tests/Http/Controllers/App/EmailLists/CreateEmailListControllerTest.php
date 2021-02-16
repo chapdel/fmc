@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\Http\Controllers\App\EmailLists;
 
-use Spatie\Mailcoach\Domain\Campaign\Policies\EmailListPolicy;
+use Spatie\Mailcoach\Domain\Audience\Policies\EmailListPolicy;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\CreateEmailListController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\EmailListSettingsController;
 use Spatie\Mailcoach\Tests\TestCase;

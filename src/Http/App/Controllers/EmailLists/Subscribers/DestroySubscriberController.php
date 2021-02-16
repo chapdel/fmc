@@ -3,9 +3,9 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\DeleteSubscriberAction;
-use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
-use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\DeleteSubscriberAction;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
 
 class DestroySubscriberController
@@ -17,7 +17,7 @@ class DestroySubscriberController
         $this->authorize('update', $emailList);
 
         /** @var DeleteSubscriberAction $deleteSubscriberAction */
-        $deleteSubscriberAction = Config::getCampaignActionClass('delete_subscriber', DeleteSubscriberAction::class);
+        $deleteSubscriberAction = Config::getAudienceActionClass('delete_subscriber', DeleteSubscriberAction::class);
 
         $deleteSubscriberAction->execute($subscriber);
 

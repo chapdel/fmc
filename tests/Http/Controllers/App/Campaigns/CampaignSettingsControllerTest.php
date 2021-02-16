@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Tests\Http\Controllers\App\Campaigns;
 
 use Illuminate\Support\Arr;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignSettingsController;
 use Spatie\Mailcoach\Tests\TestCase;
 

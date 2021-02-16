@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class AutomationSettingsComponent extends Component

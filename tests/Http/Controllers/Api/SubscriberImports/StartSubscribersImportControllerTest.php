@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\SubscriberImports;
 
-use Spatie\Mailcoach\Domain\Campaign\Enums\SubscriberImportStatus;
-use Spatie\Mailcoach\Domain\Campaign\Models\SubscriberImport;
+use Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus;
+use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
 use Spatie\Mailcoach\Http\Api\Controllers\SubscriberImports\StartSubscriberImportController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestCase;
@@ -33,7 +33,7 @@ class StartSubscribersImportControllerTest extends TestCase
             ->postJson(action(StartSubscriberImportController::class, $this->subscriberImport))
             ->assertSuccessful();
 
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList $emailList */
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
         $emailList = $this->subscriberImport->emailList;
 
         $this->assertTrue($emailList->isSubscribed('john@example.com'));

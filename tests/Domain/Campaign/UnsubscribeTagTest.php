@@ -5,11 +5,11 @@ namespace Spatie\Mailcoach\Tests\Domain\Campaign;
 use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
-use Spatie\Mailcoach\Domain\Campaign\Enums\SubscriptionStatus;
+use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
-use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
@@ -23,10 +23,10 @@ class UnsubscribeTagTest extends TestCase
     /** @var string */
     private string $mailedUnsubscribeLink;
 
-    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList */
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList */
     private EmailList $emailList;
 
-    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber */
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber */
     private Subscriber $subscriber;
 
     public function setUp(): void

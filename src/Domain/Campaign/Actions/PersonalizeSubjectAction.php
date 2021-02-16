@@ -9,7 +9,7 @@ class PersonalizeSubjectAction
 {
     public function execute(string $subject, Send $pendingSend): string
     {
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber $subscriber */
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
         $subscriber = $pendingSend->subscriber;
 
         $subject = str_ireplace('::sendUuid::', $pendingSend->uuid, $subject);

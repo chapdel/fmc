@@ -3,8 +3,8 @@
 namespace Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\SendConfirmSubscriberMailAction;
-use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\SendConfirmSubscriberMailAction;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
 use Symfony\Component\HttpFoundation\Response;
 

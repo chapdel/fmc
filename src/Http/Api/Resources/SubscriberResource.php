@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Http\Api\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber */
+/** @mixin \Spatie\Mailcoach\Domain\Audience\Models\Subscriber */
 class SubscriberResource extends JsonResource
 {
     public function toArray($request)

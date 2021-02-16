@@ -4,8 +4,8 @@ namespace Spatie\Mailcoach\Tests\TestClasses;
 
 use Exception;
 use Illuminate\Foundation\Auth\User;
-use Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\ImportSubscribersAction;
-use Spatie\Mailcoach\Domain\Campaign\Models\SubscriberImport;
+use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\ImportSubscribersAction;
+use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
 
 class CustomImportSubscribersAction extends ImportSubscribersAction
 {

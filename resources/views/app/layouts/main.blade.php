@@ -34,7 +34,7 @@
                 </x-mailcoach::navigation-item>
             </x-mailcoach::navigation-group>
 
-            @can("viewAny", \Spatie\Mailcoach\Domain\Campaign\Models\EmailList::class)
+            @can("viewAny", \Spatie\Mailcoach\Domain\Audience\Models\EmailList::class)
             <x-mailcoach::navigation-group icon="far fa-address-book" :title="__('Audience')">
                 <x-mailcoach::navigation-item :href="route('mailcoach.emailLists')">
                     {{ __('Lists') }}
@@ -52,7 +52,7 @@
             </x-mailcoach::navigation-group>
 
             @include('mailcoach::app.layouts.partials.afterLastMenuItem')
-        
+
             @include('mailcoach::app.layouts.partials.headerRight')
         </x-mailcoach::navigation>
 

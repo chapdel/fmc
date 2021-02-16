@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\EmailLists\Subscribers;
 
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
-use Spatie\Mailcoach\Domain\Campaign\Mails\ConfirmSubscriberMail;
+use Spatie\Mailcoach\Domain\Audience\Mails\ConfirmSubscriberMail;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\ResendConfirmationMailController;
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;

@@ -2,9 +2,9 @@
 
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
-use Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\CreateSubscriberAction;
-use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Campaign\Support\PendingSubscriber;
+use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\CreateSubscriberAction;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Audience\Support\PendingSubscriber;
 
 class CustomCreateSubscriberAction extends CreateSubscriberAction
 {

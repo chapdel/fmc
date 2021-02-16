@@ -2,21 +2,21 @@
 
 namespace Spatie\Mailcoach\Tests\Domain\Campaign\Actions;
 
-use Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\UpdateSubscriberAction;
-use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
-use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\UpdateSubscriberAction;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class UpdateSubscriberActionTest extends TestCase
 {
-    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber */
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber */
     private $subscriber;
 
-    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList */
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList */
     private $emailList;
 
-    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList */
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList */
     private $anotherEmailList;
 
     /** @var array */
@@ -42,7 +42,7 @@ class UpdateSubscriberActionTest extends TestCase
     /** @test */
     public function it_can_update_the_attributes_of_a_subscriber()
     {
-        $updateSubscriberAction = Config::getCampaignActionClass('update_subscriber', UpdateSubscriberAction::class);
+        $updateSubscriberAction = Config::getAutomationActionClass('update_subscriber', UpdateSubscriberAction::class);
 
         $updateSubscriberAction->execute(
             $this->subscriber,

@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Http\Api\Controllers\SubscriberImports;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Spatie\Mailcoach\Domain\Campaign\Models\SubscriberImport;
+use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
 use Spatie\Mailcoach\Http\Api\Requests\AppendSubscriberImportRequest;
 use Spatie\Mailcoach\Http\Api\Resources\SubscriberImportResource;
 

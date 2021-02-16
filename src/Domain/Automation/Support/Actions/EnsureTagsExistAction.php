@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use Livewire\CreateBladeView;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 
 class EnsureTagsExistAction extends AutomationAction
 {

@@ -4,12 +4,12 @@ namespace Spatie\Mailcoach\Tests\Domain\Campaign\Models;
 
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
-use Spatie\Mailcoach\Domain\Campaign\Enums\SubscriptionStatus;
-use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSubscribe;
-use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
-use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Campaign\Models\Tag;
-use Spatie\Mailcoach\Domain\Campaign\Models\TagSegment;
+use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
+use Spatie\Mailcoach\Domain\Audience\Exceptions\CouldNotSubscribe;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Audience\Models\Tag;
+use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomEmailList;
 use Spatie\Mailcoach\Tests\TestClasses\CustomSubscriber;
@@ -17,7 +17,7 @@ use Spatie\TestTime\TestTime;
 
 class EmailListTest extends TestCase
 {
-    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList */
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList */
     private EmailList $emailList;
 
     public function setUp(): void

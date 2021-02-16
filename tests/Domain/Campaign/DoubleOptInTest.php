@@ -5,15 +5,15 @@ namespace Spatie\Mailcoach\Tests\Domain\Campaign;
 use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
-use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
-use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Http\Front\Controllers\ConfirmSubscriberController;
 use Spatie\Mailcoach\Tests\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
 class DoubleOptInTest extends TestCase
 {
-    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList */
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList */
     private EmailList $emailList;
 
     /** @var string */
@@ -23,7 +23,7 @@ class DoubleOptInTest extends TestCase
     {
         parent::setUp();
 
-        /* @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList $emailList */
+        /* @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
         $this->emailList = EmailList::factory()->create(['requires_confirmation' => true]);
 
         Event::listen(MessageSent::class, function (MessageSent $event) {

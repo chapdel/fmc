@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Http\App\Queries\SegmentsQuery;
 
 class SegmentsIndexController

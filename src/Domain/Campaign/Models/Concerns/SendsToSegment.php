@@ -5,14 +5,14 @@ namespace Spatie\Mailcoach\Domain\Campaign\Models\Concerns;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
-use Spatie\Mailcoach\Domain\Campaign\Models\TagSegment;
-use Spatie\Mailcoach\Domain\Campaign\Support\Segments\EverySubscriberSegment;
-use Spatie\Mailcoach\Domain\Campaign\Support\Segments\Segment;
-use Spatie\Mailcoach\Domain\Campaign\Support\Segments\SubscribersWithTagsSegment;
+use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
+use Spatie\Mailcoach\Domain\Audience\Support\Segments\EverySubscriberSegment;
+use Spatie\Mailcoach\Domain\Audience\Support\Segments\Segment;
+use Spatie\Mailcoach\Domain\Audience\Support\Segments\SubscribersWithTagsSegment;
 
 /**
  * @property string $segment_class
- * @property \Spatie\Mailcoach\Domain\Campaign\Models\EmailList|null $emailList
+ * @property \Spatie\Mailcoach\Domain\Audience\Models\EmailList|null $emailList
  */
 trait SendsToSegment
 {
@@ -27,7 +27,7 @@ trait SendsToSegment
     }
 
     /**
-     * @param \Spatie\Mailcoach\Domain\Campaign\Support\Segments\Segment|string $segmentClassOrObject
+     * @param \Spatie\Mailcoach\Domain\Audience\Support\Segments\Segment|string $segmentClassOrObject
      */
     public function segment($segmentClassOrObject): self
     {

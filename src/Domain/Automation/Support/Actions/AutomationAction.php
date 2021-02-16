@@ -6,7 +6,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Support\AutomationStep;
-use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 
 abstract class AutomationAction extends AutomationStep
 {

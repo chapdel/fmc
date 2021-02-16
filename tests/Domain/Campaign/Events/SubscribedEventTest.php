@@ -3,8 +3,8 @@
 namespace Spatie\Mailcoach\Tests\Domain\Campaign\Events;
 
 use Illuminate\Support\Facades\Event;
-use Spatie\Mailcoach\Domain\Campaign\Events\SubscribedEvent;
-use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Events\SubscribedEvent;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class SubscribedEventTest extends TestCase
@@ -19,7 +19,7 @@ class SubscribedEventTest extends TestCase
     /** @test */
     public function it_fires_an_event_when_someone_subscribes()
     {
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList $emailList */
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
         $emailList = EmailList::factory()->create([
             'requires_confirmation' => false,
         ]);
@@ -36,7 +36,7 @@ class SubscribedEventTest extends TestCase
     /** @test */
     public function it_will_not_fire_the_subscription_event_when_a_subscription_still_needs_to_be_confirmed()
     {
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList $emailList */
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
         $emailList = EmailList::factory()->create([
             'requires_confirmation' => true,
         ]);
@@ -49,7 +49,7 @@ class SubscribedEventTest extends TestCase
     /** @test */
     public function it_will_fire_the_subscribe_event_when_a_subscription_is_confirmed()
     {
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList $emailList */
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
         $emailList = EmailList::factory()->create([
             'requires_confirmation' => true,
         ]);

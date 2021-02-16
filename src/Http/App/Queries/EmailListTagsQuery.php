@@ -3,8 +3,8 @@
 namespace Spatie\Mailcoach\Http\App\Queries;
 
 use Illuminate\Database\Query\Builder;
-use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
-use Spatie\Mailcoach\Domain\Campaign\Models\Tag;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Http\App\Queries\Filters\FuzzyFilter;
 use Spatie\Mailcoach\Http\App\Queries\Filters\TagTypeFilter;
 use Spatie\QueryBuilder\AllowedFilter;

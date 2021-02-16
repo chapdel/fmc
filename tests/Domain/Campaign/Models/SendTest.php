@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Tests\Domain\Campaign\Models;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
@@ -25,10 +25,10 @@ class SendTest extends TestCase
     /** @test */
     public function it_will_unsubscribe_when_there_is_a_permanent_bounce()
     {
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber $subscriber */
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
         $subscriber = Subscriber::factory()->create();
 
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList $emailList */
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
         $emailList = $subscriber->emailList;
 
         $campaign = Campaign::factory()->create([
@@ -55,10 +55,10 @@ class SendTest extends TestCase
     /** @test */
     public function it_can_receive_a_complaint()
     {
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber $subscriber */
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
         $subscriber = Subscriber::factory()->create();
 
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList $emailList */
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
         $emailList = $subscriber->emailList;
 
         $campaign = Campaign::factory()->create([
@@ -148,13 +148,13 @@ class SendTest extends TestCase
     /** @test */
     public function registering_clicks_will_update_the_click_count()
     {
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber $subscriber */
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
         $subscriber = Subscriber::factory()->create();
 
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList $emailList */
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
         $emailList = $subscriber->emailList;
 
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber $anotherSubscriber */
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $anotherSubscriber */
         $anotherSubscriber = Subscriber::factory()->create(['email_list_id' => $emailList->id]);
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */

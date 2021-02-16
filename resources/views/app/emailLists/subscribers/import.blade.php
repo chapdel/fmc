@@ -16,13 +16,13 @@
                     <tr>
                         <td>
                             @switch($subscriberImport->status)
-                                @case(\Spatie\Mailcoach\Domain\Campaign\Enums\SubscriberImportStatus::PENDING)
+                                @case(\Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus::PENDING)
                                 <i title="{{ __('Scheduled') }}" class="far fa-clock text-orange-500`"></i>
                                 @break
-                                @case(\Spatie\Mailcoach\Domain\Campaign\Enums\SubscriberImportStatus::IMPORTING)
+                                @case(\Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus::IMPORTING)
                                 <i title="{{ __('Importing') }}" class="far fa-sync fa-spin text-blue-500"></i>
                                 @break
-                                @case(\Spatie\Mailcoach\Domain\Campaign\Enums\SubscriberImportStatus::COMPLETED)
+                                @case(\Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus::COMPLETED)
                                 <i title="{{ __('Completed') }}" class="far fa-check text-green-500"></i>
                                 @break
                             @endswitch
@@ -107,7 +107,7 @@
             @error('file')
             <p class="form-error">{{ $message }}</p>
             @enderror
-        
+
             <x-mailcoach::help>
                 {!! __('Upload a CSV or XLSX file with these columns: email, first_name, last_name, tags <a href=":link" target="_blank">(see documentation)</a>', ['link' => 'https://mailcoach.app/docs/v2/app/lists/subscribers#importing-subscribers']) !!}
             </x-mailcoach::help>

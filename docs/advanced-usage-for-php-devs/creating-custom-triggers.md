@@ -24,7 +24,7 @@ When creating an event based trigger, you'll need to implement the `subscribe` m
 We can look at the `SubscribedTrigger` as an example:
 
 ```php
-use Spatie\Mailcoach\Domain\Campaign\Events\SubscribedEvent;
+use Spatie\Mailcoach\Domain\Audience\Events\SubscribedEvent;
 
 public function subscribe($events): void
 {

@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Support\Triggers;
 
-use Spatie\Mailcoach\Domain\Campaign\Events\TagAddedEvent;
+use Spatie\Mailcoach\Domain\Audience\Events\TagAddedEvent;
 
 class TagAddedTrigger extends AutomationTrigger implements TriggeredByEvents
 {

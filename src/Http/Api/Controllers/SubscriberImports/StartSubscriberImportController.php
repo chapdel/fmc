@@ -5,9 +5,9 @@ namespace Spatie\Mailcoach\Http\Api\Controllers\SubscriberImports;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Response;
-use Spatie\Mailcoach\Domain\Campaign\Enums\SubscriberImportStatus;
-use Spatie\Mailcoach\Domain\Campaign\Jobs\ImportSubscribersJob;
-use Spatie\Mailcoach\Domain\Campaign\Models\SubscriberImport;
+use Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus;
+use Spatie\Mailcoach\Domain\Audience\Jobs\ImportSubscribersJob;
+use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
 use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
 
 class StartSubscriberImportController

@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Support\Triggers;
 
-use Spatie\Mailcoach\Domain\Campaign\Events\SubscribedEvent;
+use Spatie\Mailcoach\Domain\Audience\Events\SubscribedEvent;
 
 class SubscribedTrigger extends AutomationTrigger implements TriggeredByEvents
 {

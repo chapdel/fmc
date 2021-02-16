@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
-use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Campaign\Support\Segments\Segment;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Audience\Support\Segments\Segment;
 
 class TestCustomQueryOnlyShouldSendToJohn extends Segment
 {

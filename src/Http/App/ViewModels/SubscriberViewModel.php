@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\ViewModels;
 
-use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\ViewModels\ViewModel;
 

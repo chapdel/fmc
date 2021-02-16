@@ -3,9 +3,9 @@
 namespace Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\UpdateSubscriberAction;
-use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
-use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\UpdateSubscriberAction;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Http\Api\Requests\StoreSubscriberRequest;
@@ -39,7 +39,7 @@ class SubscribersController
     {
         $this->authorize("update", $emailList);
 
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Support\PendingSubscriber $pendingSubscriber */
+        /** @var \Spatie\Mailcoach\Domain\Audience\Support\PendingSubscriber $pendingSubscriber */
         $pendingSubscriber = $this
             ->getSubscriberClass()::createWithEmail($request->email)
             ->withAttributes($request->subscriberAttributes());

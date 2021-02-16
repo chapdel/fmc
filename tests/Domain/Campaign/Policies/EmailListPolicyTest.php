@@ -5,15 +5,15 @@ namespace Spatie\Mailcoach\Tests\Domain\Campaign\Policies;
 use Illuminate\Contracts\Auth\Access\Authorizable;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Gate;
-use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
-use Spatie\Mailcoach\Domain\Campaign\Policies\EmailListPolicy;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Policies\EmailListPolicy;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\CreateEmailListController;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomEmailListDenyAllPolicy;
 
 class EmailListPolicyTest extends TestCase
 {
-    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\EmailList */
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList */
     private EmailList $emailList;
 
     public function setUp(): void

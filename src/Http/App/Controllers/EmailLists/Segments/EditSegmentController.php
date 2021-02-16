@@ -3,8 +3,8 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
-use Spatie\Mailcoach\Domain\Campaign\Models\TagSegment;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
 use Spatie\Mailcoach\Http\App\Requests\EmailLists\UpdateSegmentRequest;
 
 class EditSegmentController

@@ -4,10 +4,10 @@ namespace Spatie\Mailcoach\Tests\Http\Controllers\PublicApi;
 
 use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Support\Facades\Event;
-use Spatie\Mailcoach\Domain\Campaign\Enums\SubscriptionStatus;
-use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
-use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Campaign\Models\Tag;
+use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Http\Front\Controllers\SubscribeController;
 use Spatie\Mailcoach\Tests\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
@@ -140,7 +140,7 @@ class SubscribeControllerTest extends TestCase
                 ])
             );
 
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber $subscriber */
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
         $subscriber = Subscriber::where('email', $this->payloadWithRedirects()['email'])->first();
 
         $this->assertEquals(['test1', 'test3'], $subscriber->tags()->pluck('name')->toArray());
@@ -265,7 +265,7 @@ class SubscribeControllerTest extends TestCase
             ->post(action(SubscribeController::class, $this->emailList->uuid), $this->payloadWithRedirects())
             ->assertRedirect($this->payloadWithRedirects()['redirect_after_subscription_pending']);
 
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber $subscriber */
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
         $subscriber = Subscriber::where('email', $this->payloadWithRedirects()['email'])->first();
         $this->assertEquals(SubscriptionStatus::UNCONFIRMED, $subscriber->refresh()->status);
 

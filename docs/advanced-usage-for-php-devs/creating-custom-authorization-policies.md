@@ -12,7 +12,7 @@ Policies are resolved via the Laravel service container, so swapping out a defau
 one of your own is as simple as binding it in a service provider:
 
 ```php
-use \Spatie\Mailcoach\Domain\Campaign\Policies\EmailListPolicy;
+use Spatie\Mailcoach\Domain\Audience\Policies\EmailListPolicy;
 ...
     public function register()
     {

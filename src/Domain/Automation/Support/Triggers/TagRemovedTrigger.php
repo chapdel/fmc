@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Support\Triggers;
 
-use Spatie\Mailcoach\Domain\Campaign\Events\TagRemovedEvent;
+use Spatie\Mailcoach\Domain\Audience\Events\TagRemovedEvent;
 
 class TagRemovedTrigger extends AutomationTrigger implements TriggeredByEvents
 {

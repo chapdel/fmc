@@ -137,13 +137,13 @@ return [
             /*
              * Actions concerning subscribers
              */
-            'confirm_subscriber' => \Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\ConfirmSubscriberAction::class,
-            'create_subscriber' => \Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\CreateSubscriberAction::class,
-            'delete_subscriber' => \Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\DeleteSubscriberAction::class,
-            'import_subscribers' => \Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\ImportSubscribersAction::class,
-            'send_confirm_subscriber_mail' => \Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\SendConfirmSubscriberMailAction::class,
-            'send_welcome_mail' => \Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\SendWelcomeMailAction::class,
-            'update_subscriber' => \Spatie\Mailcoach\Domain\Campaign\Actions\Subscribers\UpdateSubscriberAction::class,
+            'confirm_subscriber' => \Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\ConfirmSubscriberAction::class,
+            'create_subscriber' => \Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\CreateSubscriberAction::class,
+            'delete_subscriber' => \Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\DeleteSubscriberAction::class,
+            'import_subscribers' => \Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\ImportSubscribersAction::class,
+            'send_confirm_subscriber_mail' => \Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\SendConfirmSubscriberMailAction::class,
+            'send_welcome_mail' => \Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\SendWelcomeMailAction::class,
+            'update_subscriber' => \Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\UpdateSubscriberAction::class,
         ],
 
         /*
@@ -248,7 +248,7 @@ return [
          * The model you want to use as a EmailList model. It needs to be or
          * extend the `Spatie\Mailcoach\Models\EmailList` model.
          */
-        'email_list' => Spatie\Mailcoach\Domain\Campaign\Models\EmailList::class,
+        'email_list' => \Spatie\Mailcoach\Domain\Audience\Models\EmailList::class,
 
         /*
          * The model you want to use as a EmailList model. It needs to be or
@@ -260,7 +260,7 @@ return [
          * The model you want to use as a Subscriber model. It needs to be or
          * extend the `Spatie\Mailcoach\Models\Subscriber` model.
          */
-        'subscriber' => Spatie\Mailcoach\Domain\Campaign\Models\Subscriber::class,
+        'subscriber' => \Spatie\Mailcoach\Domain\Audience\Models\Subscriber::class,
 
         /*
          * The model you want to use as a Template model. It needs to be or
