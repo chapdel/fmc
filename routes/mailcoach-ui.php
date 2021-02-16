@@ -26,6 +26,7 @@ use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignOpensController
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignSummaryController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignUnsubscribesController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\OutboxController;
+use Spatie\Mailcoach\Http\App\Controllers\Campaigns\TemplatesController;
 use Spatie\Mailcoach\Http\App\Controllers\DebugController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\CreateEmailListController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\DestroyEmailListController;
@@ -53,7 +54,6 @@ use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\UpdateStatus\Un
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\TagsController;
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DestroySubscriberImportController;
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DownloadSubscriberImportAttachmentController;
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\TemplatesController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ResendTransactionalMailController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ShowTransactionalMailBodyController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\TransactionalMailSettingsController;
