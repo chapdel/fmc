@@ -23,7 +23,7 @@ use Spatie\Mailcoach\Domain\Campaign\Models\CampaignClick;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignOpen;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
-use Spatie\Mailcoach\Domain\Campaign\Models\SendFeedbackItem;
+use Spatie\Mailcoach\Domain\Shared\Models\SendFeedbackItem;
 use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailLinkClickedEvent;
 use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailOpenedEvent;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;

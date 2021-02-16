@@ -196,6 +196,37 @@ class CreateMailcoachTables extends Migration
             $table->timestamps();
         });
 
+        Schema::create('mailcoach_automation_mails', function (Blueprint $table) {
+            $table->id();
+            $table->string('name')->nullable();
+            $table->uuid('uuid');
+
+            $table->string('from_email')->nullable();
+            $table->string('from_name')->nullable();
+
+            $table->string('reply_to_email')->nullable();
+            $table->string('reply_to_name')->nullable();
+
+            $table->string('subject')->nullable();
+
+            $table->longText('html')->nullable();
+            $table->longText('structured_html')->nullable();
+            $table->longText('email_html')->nullable();
+            $table->longText('webview_html')->nullable();
+
+
+            $table->string('mailable_class')->nullable();
+            $table->json('mailable_arguments')->nullable();
+
+            $table->boolean('track_opens')->default(false);
+            $table->boolean('track_clicks')->default(false);
+            $table->boolean('utm_tags')->default(false);
+
+            $table->timestamp('last_modified_at')->nullable();
+            $table->timestamps();
+        });
+
+
         Schema::create('mailcoach_sends', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid');
@@ -419,36 +450,6 @@ class CreateMailcoachTables extends Migration
                 ->nullOnDelete();
         });
 
-        Schema::create('mailcoach_automation_mails', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->nullable();
-            $table->uuid('uuid');
-
-            $table->string('from_email')->nullable();
-            $table->string('from_name')->nullable();
-
-            $table->string('reply_to_email')->nullable();
-            $table->string('reply_to_name')->nullable();
-
-            $table->string('subject')->nullable();
-
-            $table->longText('html')->nullable();
-            $table->longText('structured_html')->nullable();
-            $table->longText('email_html')->nullable();
-            $table->longText('webview_html')->nullable();
-
-
-            $table->string('mailable_class')->nullable();
-            $table->json('mailable_arguments')->nullable();
-
-            $table->boolean('track_opens')->default(false);
-            $table->boolean('track_clicks')->default(false);
-            $table->boolean('utm_tags')->default(false);
-
-            $table->timestamp('last_modified_at')->nullable();
-            $table->timestamps();
-        });
-
         Schema::create('mailcoach_automations', function (Blueprint $table) {
             $table->id();
 
@@ -542,9 +543,11 @@ class CreateMailcoachTables extends Migration
         Schema::create('mailcoach_automation_mail_unsubscribes', function (Blueprint $table) {
             $table->id();
 
+            $table->unsignedBigInteger('automation_mail_id');
+
             $table
-                ->foreignId('automation_mail_id')
-                ->constrained('mailcoach_automation_mails')
+                ->foreign('automation_mail_id', 'auto_unsub_automation_mail_id')
+                ->references('id')->on('mailcoach_automation_mails')
                 ->cascadeOnDelete();
 
             $table
