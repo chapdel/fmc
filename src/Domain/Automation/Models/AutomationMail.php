@@ -416,7 +416,6 @@ class AutomationMail extends Sendable implements Feedable, HasHtmlContent
     public function fromEmail(): string
     {
         return $this->from_email ?? config('mail.from.address');
-
     }
 
     public function fromName(): ?string
