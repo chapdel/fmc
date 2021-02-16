@@ -10,10 +10,10 @@ class AutomationWebviewController
 
     public function __invoke(string $automationUuid)
     {
-        if (! $automation = self::getAutomationMailClass()::findByUuid($automationUuid)) {
+        if (! $mail = self::getAutomationMailClass()::findByUuid($automationUuid)) {
             abort(404);
         }
 
-        return view('mailcoach::campaign.webview', compact('automation'));
+        return view('mailcoach::automation.webview', compact('mail'));
     }
 }

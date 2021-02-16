@@ -55,7 +55,7 @@ class SendAutomationMailActionTest extends TestCase
     }
 
     /** @test * */
-    public function it_wont_send_a_campaign_twice()
+    public function it_wont_send_an_automation_mail_twice()
     {
         $this->action->run($this->subscriber);
 

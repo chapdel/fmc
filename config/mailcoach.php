@@ -69,7 +69,7 @@ return [
             'retry_sending_failed_sends' => \Spatie\Mailcoach\Domain\Campaign\Actions\RetrySendingFailedSendsAction::class,
             'send_campaign' => \Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignAction::class,
             'send_mail' => \Spatie\Mailcoach\Domain\Campaign\Actions\SendMailAction::class,
-            'send_test_mail' => \Spatie\Mailcoach\Domain\Campaign\Actions\SendTestMailAction::class,
+            'send_test_mail' => \Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignTestAction::class,
         ],
     ],
 
@@ -94,7 +94,9 @@ return [
             'prepare_email_html' => \Spatie\Mailcoach\Domain\Automation\Actions\PrepareEmailHtmlAction::class,
             'personalize_html' => \Spatie\Mailcoach\Domain\Automation\Actions\PersonalizeHtmlAction::class,
             'personalize_subject' => \Spatie\Mailcoach\Domain\Automation\Actions\PersonalizeSubjectAction::class,
-            ],
+            'send_test_mail' => \Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailTestAction::class,
+
+        ],
 
         'replacers' => [
             \Spatie\Mailcoach\Domain\Automation\Support\Replacers\WebviewAutomationMailReplacer::class,
@@ -125,7 +127,8 @@ return [
 
         'perform_on_queue' => [
             'send_automation_mail_to_subscriber_job' => 'send-automation-mail',
-            'send_automation_mail_job' => 'send-mail'
+            'send_automation_mail_job' => 'send-mail',
+            'send_test_mail_job' => 'mailcoach',
         ],
     ],
 

@@ -132,7 +132,7 @@ return [
             'retry_sending_failed_sends' => \Spatie\Mailcoach\Domain\Campaign\Actions\RetrySendingFailedSendsAction::class,
             'send_campaign' => \Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignAction::class,
             'send_mail' => \Spatie\Mailcoach\Domain\Campaign\Actions\SendMailAction::class,
-            'send_test_mail' => \Spatie\Mailcoach\Domain\Campaign\Actions\SendTestMailAction::class,
+            'send_test_mail' => \Spatie\Mailcoach\Domain\Campaign\Actions\SendAutomationMailTestAction::class,
 
             /*
              * Actions concerning subscribers

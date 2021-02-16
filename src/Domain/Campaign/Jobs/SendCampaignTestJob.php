@@ -7,7 +7,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Spatie\Mailcoach\Domain\Campaign\Actions\SendTestMailAction;
+use Spatie\Mailcoach\Domain\Campaign\Actions\SendAutomationMailTestAction;
+use Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignTestAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
 
@@ -35,9 +36,9 @@ class SendCampaignTestJob implements ShouldQueue
 
     public function handle()
     {
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\SendTestMailAction $sendTestMailAction */
-        $sendTestMailAction = Config::getCampaignActionClass('send_test_mail', SendTestMailAction::class);
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignTestAction $sendCampaignTestAction */
+        $sendCampaignTestAction = Config::getCampaignActionClass('send_test_mail', SendCampaignTestAction::class);
 
-        $sendTestMailAction->execute($this->campaign, $this->email);
+        $sendCampaignTestAction->execute($this->campaign, $this->email);
     }
 }

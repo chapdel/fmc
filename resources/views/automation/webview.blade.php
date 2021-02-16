@@ -1,1 +1,1 @@
-{!! $automation->webview_html !!}
+{!! $mail->webview_html !!}

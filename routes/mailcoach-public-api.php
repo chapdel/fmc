@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Spatie\Mailcoach\Http\Front\Controllers\AutomationWebviewController;
 use Spatie\Mailcoach\Http\Front\Controllers\CampaignWebviewController;
 use Spatie\Mailcoach\Http\Front\Controllers\ConfirmSubscriberController;
 use Spatie\Mailcoach\Http\Front\Controllers\EmailListCampaignsFeedController;
@@ -19,7 +20,7 @@ Route::post('/unsubscribe/{subscriberUuid}/{sendUuid?}',  ['\\' .UnsubscribeCont
 Route::post('/unsubscribe-tag/{subscriberUuid}/{tag}',  ['\\' . UnsubscribeTagController::class, 'confirm']);
 
 Route::get('webview/campaign/{campaignUuid}', '\\' . CampaignWebviewController::class)->name('mailcoach.campaign.webview');
-Route::get('webview/automation/{campaignUuid}', '\\' . CampaignWebviewController::class)->name('mailcoach.automation.webview');
+Route::get('webview/automation/{campaignUuid}', '\\' . AutomationWebviewController::class)->name('mailcoach.automations.webview');
 
 
 Route::get('feed/{emailListUuid}', '\\' . EmailListCampaignsFeedController::class)->name('mailcoach.feed');

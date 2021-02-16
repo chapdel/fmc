@@ -9,7 +9,7 @@ use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
 use Swift_Message;
 
-class SendTestMailAction
+class SendCampaignTestAction
 {
     public function execute(Campaign $campaign, string $email): void
     {
