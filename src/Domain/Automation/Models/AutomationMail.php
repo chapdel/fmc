@@ -41,7 +41,7 @@ class AutomationMail extends Sendable implements Feedable, HasHtmlContent
             ->hasManyThrough(
                 AutomationMailOpen::class,
                 Send::class,
-                'transactional_mail_id'
+                'automation_mail_id'
             )
             ->orderBy('created_at');
     }
@@ -52,7 +52,7 @@ class AutomationMail extends Sendable implements Feedable, HasHtmlContent
             ->hasManyThrough(
                 AutomationMailClick::class,
                 Send::class,
-                'transactional_mail_id'
+                'automation_mail_id'
             )
             ->orderBy('created_at');
     }

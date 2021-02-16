@@ -16,8 +16,9 @@
                     {{ __('Run') }}
                 </x-mailcoach::navigation-item>
             </x-mailcoach::navigation-group>
+
         </x-mailcoach::navigation>
-    </x-slot>     
+    </x-slot>
 
     {{ $slot }}
 </x-mailcoach::layout>

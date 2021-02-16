@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Audience\Policies;
+namespace Spatie\Mailcoach\Domain\Automation\Policies;
 
 use Illuminate\Contracts\Auth\Access\Authorizable;
 

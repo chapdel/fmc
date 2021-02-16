@@ -3,13 +3,13 @@
 namespace Spatie\Mailcoach\Http\App\ViewModels;
 
 use Illuminate\Support\Collection;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Shared\Support\Svg\BezierCurve;
 use Spatie\ViewModels\ViewModel;
 
-class CampaignSummaryViewModel extends ViewModel
+class AutomationMailSummaryViewModel extends ViewModel
 {
-    protected Campaign $campaign;
+    protected AutomationMail $mail;
 
     protected Collection $stats;
 
@@ -17,20 +17,20 @@ class CampaignSummaryViewModel extends ViewModel
 
     public int $failedSendsCount = 0;
 
-    public function __construct(Campaign $campaign)
+    public function __construct(AutomationMail $mail)
     {
-        $this->campaign = $campaign;
+        $this->mail = $mail;
 
         $this->stats = $this->createStats();
 
         $this->limit = (ceil(max($this->stats->max('opens'), $this->stats->max('clicks')) * 1.1 / 10) * 10) ?: 1;
 
-        $this->failedSendsCount = $this->campaign()->sends()->failed()->count();
+        $this->failedSendsCount = $this->mail()->sends()->failed()->count();
     }
 
-    public function campaign(): Campaign
+    public function mail(): AutomationMail
     {
-        return $this->campaign;
+        return $this->mail;
     }
 
     public function stats(): Collection
@@ -69,14 +69,10 @@ class CampaignSummaryViewModel extends ViewModel
 
     protected function createStats(): Collection
     {
-        if (! $this->campaign->wasAlreadySent()) {
-            return collect();
-        }
+        $start = $this->mail->created_at->toImmutable();
 
-        $start = $this->campaign->sent_at->toImmutable();
-
-        if ($this->campaign->opens()->count() > 0 && $this->campaign->opens()->first()->created_at < $start) {
-            $start = $this->campaign->opens()->first()->created_at->toImmutable();
+        if ($this->mail->opens()->count() > 0 && $this->mail->opens()->first()->created_at < $start) {
+            $start = $this->mail->opens()->first()->created_at->toImmutable();
         }
 
         return Collection::times(24)->map(function (int $number) use ($start) {
@@ -84,8 +80,8 @@ class CampaignSummaryViewModel extends ViewModel
 
             return [
                 'label' => $datetime->format('H:i'),
-                'opens' => $this->campaign->opens()->whereBetween('mailcoach_campaign_opens.created_at', [$datetime, $datetime->addHour()])->count(),
-                'clicks' => $this->campaign->clicks()->whereBetween('mailcoach_campaign_clicks.created_at', [$datetime, $datetime->addHour()])->count(),
+                'opens' => $this->mail->opens()->whereBetween('mailcoach_automation_mail_opens.created_at', [$datetime, $datetime->addHour()])->count(),
+                'clicks' => $this->mail->clicks()->whereBetween('mailcoach_automation_mail_clicks.created_at', [$datetime, $datetime->addHour()])->count(),
             ];
         });
     }

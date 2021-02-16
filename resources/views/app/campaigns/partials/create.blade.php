@@ -2,20 +2,6 @@
     @csrf
 
     <x-mailcoach::text-field :label="__('Name')" name="name" :placeholder="__('Newsletter #1')" required />
-
-{{--
-    <x-mailcoach::select-field
-        :label="__('Type')"
-        :options="[
-            \Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus::DRAFT => __('Regular campaign'),
-            \Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus::AUTOMATED => __('Automation campaign'),
-        ]"
-        name="type"
-        data-conditional="type"
-        required
-    />
---}}
-
     <div class="form-grid" data-conditional-type="draft">
         <x-mailcoach::select-field
             :label="__('Email list')"

@@ -2,6 +2,17 @@
 
 use Illuminate\Support\Facades\Route;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationActionsController;
+use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailClicksController;
+use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailContentController;
+use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailOpensController;
+use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailOutboxController;
+use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailSettingsController;
+use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailsIndexController;
+use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailSummaryController;
+use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailUnsubscribersController;
+use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\CreateAutomationMailController;
+use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\DestroyAutomationMailController;
+use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\DuplicateAutomationMailController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationSettingsController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationsIndexController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\CreateAutomationController;
@@ -150,7 +161,7 @@ Route::prefix('email-lists')->group(function () {
     });
 });
 
-Route::prefix('automations')->group(function () {
+Route::prefix('drip-automations')->group(function () {
     Route::get('/', '\\' . AutomationsIndexController::class)->name('mailcoach.automations');
     Route::post('/', '\\' . CreateAutomationController::class)->name('mailcoach.automations.store');
 
@@ -166,6 +177,25 @@ Route::prefix('automations')->group(function () {
             Route::get('/', ['\\' . AutomationActionsController::class, 'index'])->name('mailcoach.automations.actions');
             Route::post('/', ['\\' . AutomationActionsController::class, 'store'])->name('mailcoach.automations.actions.store');
         });
+    });
+});
+
+Route::prefix('drip-emails')->group(function () {
+    Route::get('/', '\\' . AutomationMailsIndexController::class)->name('mailcoach.automations.mails');
+    Route::post('/', '\\' . CreateAutomationMailController::class)->name('mailcoach.automations.mails.store');
+
+    Route::prefix('{automationMail}')->group(function () {
+        Route::get('summary', '\\' . AutomationMailSummaryController::class)->name('mailcoach.automations.mails.summary');
+        Route::post('duplicate', '\\' . DuplicateAutomationMailController::class)->name('mailcoach.automations.mails.duplicate');
+        Route::delete('/', '\\' . DestroyAutomationMailController::class)->name('mailcoach.automations.mails.delete');
+        Route::get('settings', ['\\' . AutomationMailSettingsController::class, 'edit'])->name('mailcoach.automations.mails.settings');
+        Route::put('settings', ['\\' . AutomationMailSettingsController::class, 'update']);
+        Route::get('opens', '\\' . AutomationMailOpensController::class)->name('mailcoach.automations.mails.opens');
+        Route::get('clicks', '\\' . AutomationMailClicksController::class)->name('mailcoach.automations.mails.clicks');
+        Route::get('unsubscribes', '\\' . AutomationMailUnsubscribersController::class)->name('mailcoach.automations.mails.unsubscribes');
+        Route::get('outbox', '\\' . AutomationMailOutboxController::class)->name('mailcoach.automations.mails.outbox');
+        Route::get('content', [AutomationMailContentController::class, 'edit'])->name('mailcoach.automations.mails.content');
+        Route::put('content', [AutomationMailContentController::class, 'update'])->name('mailcoach.automations.mails.updateContent');
     });
 });
 

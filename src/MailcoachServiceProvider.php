@@ -27,6 +27,7 @@ use Spatie\Mailcoach\Domain\Audience\Commands\SendEmailListSummaryMailCommand;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationActionsCommand;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationTriggersCommand;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\AddTagsActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\AutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\EnsureTagsExistActionComponent;
@@ -185,6 +186,9 @@ class MailcoachServiceProvider extends PackageServiceProvider
     protected function bootRoutes(): self
     {
         Route::model('transactionalMailTemplate', TransactionalMailTemplate::class);
+        Route::bind('automationMail', function(string $value) {
+            return AutomationMail::find($value);
+        });
 
         Route::macro('mailcoach', function (string $url = '') {
             Route::get($url, '\\'.HomeController::class)->name('mailcoach.home');
@@ -292,6 +296,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.emailLists.subscribers.layouts.subscriber', 'mailcoach::layout-subscriber');
         Blade::component('mailcoach::app.transactionalMails.layouts.transactional', 'mailcoach::layout-transactional');
         Blade::component('mailcoach::app.transactionalMails.templates.layouts.template', 'mailcoach::layout-transactional-template');
+        Blade::component('mailcoach::app.automations.mails.layouts.automationMail', 'mailcoach::layout-automation-mail');
 
         return $this;
     }

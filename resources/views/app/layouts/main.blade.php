@@ -29,7 +29,7 @@
                 <x-mailcoach::navigation-item :href="route('mailcoach.automations')">
                     {{ __('Automations') }}
                 </x-mailcoach::navigation-item>
-                <x-mailcoach::navigation-item :href="route('mailcoach.automations')">
+                <x-mailcoach::navigation-item :href="route('mailcoach.automations.mails')">
                     {{ __('Emails') }}
                 </x-mailcoach::navigation-item>
             </x-mailcoach::navigation-group>
