@@ -15,9 +15,6 @@ class AutomationMailContentController
     {
         $this->authorize('update', $mail);
 
-        /** TODO */
-        throw new Exception("Copy view from campaigns");
-
         return view("mailcoach::app.automations.mails.content", compact('mail'));
     }
 
