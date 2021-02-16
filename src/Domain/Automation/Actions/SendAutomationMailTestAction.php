@@ -21,8 +21,7 @@ class SendAutomationMailTestAction
         $text = $convertHtmlToTextAction->execute($html);
 
         $mailable = app(MailcoachMail::class)
-            ->setFrom($mail->from_email, $mail->from_name)
-            ->setReplyTo($mail->reply_to_email, $mail->reply_to_name)
+            ->setFrom($mail->fromEmail()  , $mail->fromName())
             ->setHtmlContent($html)
             ->setTextContent($text)
             ->setHtmlView('mailcoach::mails.automation.automationHtml')
@@ -32,6 +31,10 @@ class SendAutomationMailTestAction
                 $message->getHeaders()->addTextHeader('X-MAILCOACH', 'true');
                 $message->getHeaders()->addTextHeader('X-Entity-Ref-ID', Str::uuid()->toString());
             });
+
+        if ($mail->reply_to_email) {
+            $mailable->setReplyTo($mail->reply_to_email, $mail->reply_to_name);
+        }
 
         $mailer = config('mailcoach.automation.mailer')
             ?? config('mailcoach.mailer')

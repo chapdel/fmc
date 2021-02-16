@@ -46,13 +46,13 @@ class SendMailAction
 
         $mailcoachMail = app(MailcoachMail::class);
 
+        /** @var \Spatie\Mailcoach\Domain\Automation\Models\AutomationMail $automationMail */
         $automationMail = $pendingSend->automationMail;
 
         $mailcoachMail
             ->setSend($pendingSend)
             ->subject($personalisedSubject)
-            ->setFrom($automationMail->from_email, $automationMail->from_name)
-            ->setReplyTo($automationMail->reply_to_email, $automationMail->reply_to_name)
+            ->setFrom($automationMail->fromEmail(), $automationMail->fromName())
             ->setHtmlContent($personalisedHtml)
             ->setTextContent($personalisedText)
             ->setHtmlView('mailcoach::mails.automation.automationHtml')
@@ -63,6 +63,10 @@ class SendMailAction
                 /** Postmark specific header */
                 $message->getHeaders()->addTextHeader('X-PM-Metadata-send-uuid', $pendingSend->uuid);
             });
+
+        if ($automationMail->reply_to_email) {
+            $mailcoachMail->setReplyTo($automationMail->reply_to_email, $automationMail->reply_to_name);
+        }
 
         $mailer = config('mailcoach.automation.mailer')
             ?? config('mailcoach.mailer')

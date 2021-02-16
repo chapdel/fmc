@@ -412,4 +412,15 @@ class AutomationMail extends Sendable implements Feedable, HasHtmlContent
     {
         return Str::slug("{$this->name} ({$this->id})");
     }
+
+    public function fromEmail(): string
+    {
+        return $this->from_email ?? config('mail.from.address');
+
+    }
+
+    public function fromName(): ?string
+    {
+        return $this->from_name;
+    }
 }
