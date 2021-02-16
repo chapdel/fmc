@@ -208,15 +208,21 @@ class CreateMailcoachTables extends Migration
                 ->cascadeOnDelete();
 
             $table
-                ->foreignId('subscriber_id')
+                ->foreignId('automation_mail_id')
                 ->nullable()
-                ->constrained('mailcoach_subscribers')
+                ->constrained('mailcoach_automation_mails')
                 ->cascadeOnDelete();
 
             $table
                 ->foreignId('transactional_mail_id')
                 ->nullable()
                 ->constrained('mailcoach_transactional_mails')
+                ->cascadeOnDelete();
+
+            $table
+                ->foreignId('subscriber_id')
+                ->nullable()
+                ->constrained('mailcoach_subscribers')
                 ->cascadeOnDelete();
 
             $table->timestamp('sent_at')->nullable();
@@ -413,20 +419,33 @@ class CreateMailcoachTables extends Migration
                 ->nullOnDelete();
         });
 
-        Schema::create('mailcoach_transactional_mail_opens', function (Blueprint $table) {
+        Schema::create('mailcoach_automation_mails', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->nullable();
+            $table->uuid('uuid');
 
-            $table->foreignId('send_id')->constrained('mailcoach_sends');
+            $table->string('from_email')->nullable();
+            $table->string('from_name')->nullable();
 
-            $table->timestamps();
-        });
+            $table->string('reply_to_email')->nullable();
+            $table->string('reply_to_name')->nullable();
 
-        Schema::create('mailcoach_transactional_mail_clicks', function (Blueprint $table) {
-            $table->id();
+            $table->string('subject')->nullable();
 
-            $table->foreignId('send_id')->constrained('mailcoach_sends');
-            $table->longText('url');
+            $table->longText('html')->nullable();
+            $table->longText('structured_html')->nullable();
+            $table->longText('email_html')->nullable();
+            $table->longText('webview_html')->nullable();
 
+
+            $table->string('mailable_class')->nullable();
+            $table->json('mailable_arguments')->nullable();
+
+            $table->boolean('track_opens')->default(false);
+            $table->boolean('track_clicks')->default(false);
+            $table->boolean('utm_tags')->default(false);
+
+            $table->timestamp('last_modified_at')->nullable();
             $table->timestamps();
         });
 
@@ -501,6 +520,56 @@ class CreateMailcoachTables extends Migration
                 ->foreign('subscriber_id')
                 ->references('id')->on('mailcoach_subscribers')
                 ->onDelete('cascade');
+        });
+
+        Schema::create('mailcoach_automation_mail_opens', function (Blueprint $table) {
+            $table->id();
+
+            $table->foreignId('send_id')->constrained('mailcoach_sends');
+
+            $table->timestamps();
+        });
+
+        Schema::create('mailcoach_automation_mail_clicks', function (Blueprint $table) {
+            $table->id();
+
+            $table->foreignId('send_id')->constrained('mailcoach_sends');
+            $table->longText('url');
+
+            $table->timestamps();
+        });
+
+        Schema::create('mailcoach_automation_mail_unsubscribes', function (Blueprint $table) {
+            $table->id();
+
+            $table
+                ->foreignId('automation_mail_id')
+                ->constrained('mailcoach_automation_mails')
+                ->cascadeOnDelete();
+
+            $table
+                ->foreignId('subscriber_id')
+                ->constrained('mailcoach_subscribers')
+                ->cascadeOnDelete();
+
+            $table->timestamps();
+        });
+
+        Schema::create('mailcoach_transactional_mail_opens', function (Blueprint $table) {
+            $table->id();
+
+            $table->foreignId('send_id')->constrained('mailcoach_sends');
+
+            $table->timestamps();
+        });
+
+        Schema::create('mailcoach_transactional_mail_clicks', function (Blueprint $table) {
+            $table->id();
+
+            $table->foreignId('send_id')->constrained('mailcoach_sends');
+            $table->longText('url');
+
+            $table->timestamps();
         });
 
         Schema::create('mailcoach_transactional_mail_templates', function (Blueprint $table) {

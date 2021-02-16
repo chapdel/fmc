@@ -3,9 +3,9 @@
 namespace Spatie\Mailcoach\Domain\Campaign\Exceptions;
 
 use Exception;
-use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Support\Segments\Segment;
+use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 
 class CouldNotSendCampaign extends Exception
 {
@@ -16,7 +16,7 @@ class CouldNotSendCampaign extends Exception
 
     public static function invalidMailableClass(Campaign $campaign, string $invalidMailableClass): self
     {
-        $mustExtend = CampaignMail::class;
+        $mustExtend = MailcoachMail::class;
 
         return new static("The campaign with id `{$campaign->id}` can't be sent, because an invalid mailable class `{$invalidMailableClass}` is set. A valid mailable class must extend `{$mustExtend}`.");
     }

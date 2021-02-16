@@ -4,8 +4,8 @@ namespace Spatie\Mailcoach\Domain\Campaign\Actions;
 
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
 use Swift_Message;
 
@@ -19,7 +19,7 @@ class SendTestMailAction
 
         $text = $convertHtmlToTextAction->execute($html);
 
-        $campaignMailable = app(CampaignMail::class)
+        $campaignMailable = app(MailcoachMail::class)
             ->setCampaign($campaign)
             ->setHtmlContent($html)
             ->setTextContent($text)

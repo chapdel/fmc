@@ -5,8 +5,8 @@ namespace Spatie\Mailcoach\Domain\Campaign\Actions;
 use Exception;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignMailSentEvent;
-use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignMail;
-use Spatie\Mailcoach\Domain\Campaign\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
 use Swift_Message;
 
@@ -44,13 +44,14 @@ class SendMailAction
         $convertHtmlToTextAction = Config::getCampaignActionClass('convert_html_to_text', ConvertHtmlToTextAction::class);
         $personalisedText = $convertHtmlToTextAction->execute($personalisedHtml);
 
-        $campaignMail = app(CampaignMail::class);
+        $mailcoachMail = app(MailcoachMail::class);
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */
         $campaign = $pendingSend->campaign;
 
-        $campaignMail
+        $mailcoachMail
             ->setSend($pendingSend)
+            ->setCampaign($campaign)
             ->subject($personalisedSubject)
             ->setHtmlContent($personalisedHtml)
             ->setTextContent($personalisedText)
@@ -68,7 +69,7 @@ class SendMailAction
 
         Mail::mailer($mailer)
             ->to($pendingSend->subscriber->email)
-            ->send($campaignMail);
+            ->send($mailcoachMail);
 
         $pendingSend->markAsSent();
 

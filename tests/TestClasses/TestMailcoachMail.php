@@ -3,9 +3,9 @@
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
 use Faker\Generator;
-use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignMail;
+use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 
-class TestCampaignMailWithNoSubject extends CampaignMail
+class TestMailcoachMail extends MailcoachMail
 {
     public $viewHtml;
 
@@ -18,6 +18,7 @@ class TestCampaignMailWithNoSubject extends CampaignMail
 
     public function build()
     {
-        return $this->html($this->viewHtml);
+        return $this->html($this->viewHtml)
+                            ->subject('This is the subject from the custom mailable.');
     }
 }

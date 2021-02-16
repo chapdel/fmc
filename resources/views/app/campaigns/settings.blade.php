@@ -12,9 +12,7 @@
 
         <x-mailcoach::text-field :label="__('Subject')" name="subject" :value="$campaign->subject"  />
 
-        @if (! $campaign->isAutomated())
-            @include('mailcoach::app.campaigns.partials.emailListFields', ['segmentable' => $campaign])
-        @endif
+        @include('mailcoach::app.campaigns.partials.emailListFields', ['segmentable' => $campaign])
 
         <x-mailcoach::fieldset :legend="__('Tracking')">
             <div class="form-field">

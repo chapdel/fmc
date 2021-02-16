@@ -3,7 +3,7 @@
         @include('mailcoach::app.campaigns.partials.campaignStatusIcon', ['status' => $campaign->status])
     </td>
     <td class="markup-links">
-        @if($campaign->isSent() || $campaign->isSending() || $campaign->isCancelled() || $campaign->isAutomated())
+        @if($campaign->isSent() || $campaign->isSending() || $campaign->isCancelled())
             <a href="{{ route('mailcoach.campaigns.summary', $campaign) }}">
                 {{ $campaign->name }}
             </a>
@@ -32,7 +32,7 @@
         @endif
     </td>
     <td class="td-numeric">
-        @if ($campaign->isCancelled() || $campaign->isAutomated())
+        @if ($campaign->isCancelled())
             {{ $campaign->sendsCount() ? number_format($campaign->sendsCount()) : '–' }}
         @else
             {{ number_format($campaign->sent_to_number_of_subscribers) ?: '–' }}
@@ -60,11 +60,6 @@
             {{ optional($campaign->updated_at)->toMailcoachFormat() }}
             <div class="td-secondary-line">
                 {{ __('In progress') }}
-            </div>
-        @elseif($campaign->isAutomated())
-            {{ optional($campaign->updated_at)->toMailcoachFormat() }}
-            <div class="td-secondary-line">
-                {{ __('Continuous') }}
             </div>
         @elseif($campaign->isScheduled())
             {{ optional($campaign->scheduled_at)->toMailcoachFormat() }}

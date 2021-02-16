@@ -4,12 +4,12 @@ namespace Spatie\Mailcoach\Tests\Domain\Campaign\Actions;
 
 use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeHtmlAction;
-use Spatie\Mailcoach\Domain\Campaign\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class PersonalizeHtmlActionTest extends TestCase
 {
-    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send */
+    /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send */
     private Send $send;
 
     /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeHtmlAction */

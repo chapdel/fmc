@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
-use Spatie\Mailcoach\Domain\Campaign\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\ResendTransactionalMail;
 
 class TransactionalMail extends Model
@@ -72,8 +72,6 @@ class TransactionalMail extends Model
 
     public function resend(): self
     {
-        ray('resending');
-
         Mail::send(new ResendTransactionalMail($this));
 
         return $this;

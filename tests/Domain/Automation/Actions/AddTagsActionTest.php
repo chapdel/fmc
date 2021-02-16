@@ -9,9 +9,9 @@ use Spatie\Mailcoach\Tests\TestCase;
 
 class AddTagsActionTest extends TestCase
 {
-    private Subscriber $subscriber;
+    protected Subscriber $subscriber;
 
-    private AddTagsAction $action;
+    protected AddTagsAction $action;
 
     public function setUp(): void
     {

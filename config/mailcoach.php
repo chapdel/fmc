@@ -62,7 +62,7 @@ return [
             /*
              * Actions concerning campaigns
              */
-            'calculate_statistics' => \Spatie\Mailcoach\Domain\Campaign\Actions\CalculateStatisticsAction::class,
+            'calculate_statistics' => \Spatie\Mailcoach\Domain\Shared\Actions\CalculateStatisticsAction::class,
             'prepare_email_html' => \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareEmailHtmlAction::class,
             'prepare_subject' => \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareSubjectAction::class,
             'prepare_webview_html' => \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareWebviewHtmlAction::class,
@@ -93,22 +93,52 @@ return [
     ],
 
     'automation' => [
+        /*
+         * The default mailer used by Mailcoach for automation mails.
+         */
+        'mailer' => null,
+
         'actions' => [
-            \Spatie\Mailcoach\Domain\Automation\Support\Actions\AddTagsAction::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Actions\CampaignAction::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Actions\EnsureTagsExistAction::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Actions\RemoveTagsAction::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Actions\UnsubscribeAction::class,
+            'send_automation_mail_to_subscriber' => \Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailToSubscriberAction::class,
+            'prepare_subject' => \Spatie\Mailcoach\Domain\Automation\Actions\PrepareSubjectAction::class,
+            'prepare_webview_html' => \Spatie\Mailcoach\Domain\Automation\Actions\PrepareWebviewHtmlAction::class,
+
+            'convert_html_to_text' => \Spatie\Mailcoach\Domain\Automation\Actions\ConvertHtmlToTextAction::class,
+            'prepare_email_html' => \Spatie\Mailcoach\Domain\Automation\Actions\PrepareEmailHtmlAction::class,
+            'personalize_html' => \Spatie\Mailcoach\Domain\Automation\Actions\PersonalizeHtmlAction::class,
+            'personalize_subject' => \Spatie\Mailcoach\Domain\Automation\Actions\PersonalizeSubjectAction::class,
+            ],
+
+        'replacers' => [
+            \Spatie\Mailcoach\Domain\Automation\Support\Replacers\WebviewAutomationMailReplacer::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\Replacers\SubscriberReplacer::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\Replacers\UnsubscribeUrlReplacer::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\Replacers\AutomationMailNameAutomationMailReplacer::class,
         ],
-        'triggers' => [
-            \Spatie\Mailcoach\Domain\Automation\Support\Triggers\NoTrigger::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Triggers\DateTrigger::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Triggers\TagAddedTrigger::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Triggers\TagRemovedTrigger::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Triggers\WebhookTrigger::class,
+
+        'flows' => [
+            'actions' => [
+                \Spatie\Mailcoach\Domain\Automation\Support\Actions\AddTagsAction::class,
+                \Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction::class,
+                \Spatie\Mailcoach\Domain\Automation\Support\Actions\EnsureTagsExistAction::class,
+                \Spatie\Mailcoach\Domain\Automation\Support\Actions\RemoveTagsAction::class,
+                \Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction::class,
+                \Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction::class,
+                \Spatie\Mailcoach\Domain\Automation\Support\Actions\UnsubscribeAction::class,
+            ],
+            'triggers' => [
+                \Spatie\Mailcoach\Domain\Automation\Support\Triggers\NoTrigger::class,
+                \Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger::class,
+                \Spatie\Mailcoach\Domain\Automation\Support\Triggers\DateTrigger::class,
+                \Spatie\Mailcoach\Domain\Automation\Support\Triggers\TagAddedTrigger::class,
+                \Spatie\Mailcoach\Domain\Automation\Support\Triggers\TagRemovedTrigger::class,
+                \Spatie\Mailcoach\Domain\Automation\Support\Triggers\WebhookTrigger::class,
+            ],
+        ],
+
+        'perform_on_queue' => [
+            'send_automation_mail_to_subscriber_job' => 'send-automation-mail',
+            'send_automation_mail_job' => 'send-mail'
         ],
     ],
 
@@ -204,7 +234,7 @@ return [
          * The model you want to use as a EmailList model. It needs to be or
          * extend the `Spatie\Mailcoach\Models\Send` model.
          */
-        'send' => Spatie\Mailcoach\Domain\Campaign\Models\Send::class,
+        'send' => \Spatie\Mailcoach\Domain\Shared\Models\Send::class,
 
         /*
          * The model you want to use as a Subscriber model. It needs to be or
@@ -235,6 +265,12 @@ return [
          * extend the `Spatie\Mailcoach\Models\Automation` model.
          */
         'automation' => \Spatie\Mailcoach\Domain\Automation\Models\Automation::class,
+
+        /*
+         * The model you want to use as an Automation model. It needs to be or
+         * extend the `Spatie\Mailcoach\Models\Automation` model.
+         */
+        'automation_mail' => \Spatie\Mailcoach\Domain\Automation\Models\AutomationMail::class,
     ],
 
     'views' => [

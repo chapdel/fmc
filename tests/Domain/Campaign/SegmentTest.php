@@ -3,10 +3,10 @@
 namespace Spatie\Mailcoach\Tests\Domain\Campaign;
 
 use Illuminate\Support\Facades\Mail;
-use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestCustomQueryOnlyShouldSendToJohn;
 use Spatie\Mailcoach\Tests\TestClasses\TestSegmentAllSubscribers;
@@ -51,11 +51,11 @@ class SegmentTest extends TestCase
             ->segment(TestSegmentQueryOnlyJohn::class)
             ->sendTo($this->emailList);
 
-        Mail::assertSent(CampaignMail::class, 1);
+        Mail::assertSent(MailcoachMail::class, 1);
 
-        Mail::assertSent(CampaignMail::class, fn (CampaignMail $mail) => $mail->hasTo('john@example.com'));
+        Mail::assertSent(MailcoachMail::class, fn (MailcoachMail $mail) => $mail->hasTo('john@example.com'));
 
-        Mail::assertNotSent(CampaignMail::class, fn (CampaignMail $mail) => $mail->hasTo('jane@example.com'));
+        Mail::assertNotSent(MailcoachMail::class, fn (MailcoachMail $mail) => $mail->hasTo('jane@example.com'));
     }
 
     /** @test */
@@ -66,9 +66,9 @@ class SegmentTest extends TestCase
         $this->campaign
             ->segment(TestCustomQueryOnlyShouldSendToJohn::class)
             ->sendTo($this->emailList);
-        Mail::assertSent(CampaignMail::class, 1);
-        Mail::assertSent(CampaignMail::class, fn (CampaignMail $mail) => $mail->hasTo('john@example.com'));
-        Mail::assertNotSent(CampaignMail::class, fn (CampaignMail $mail) => $mail->hasTo('jane@example.com'));
+        Mail::assertSent(MailcoachMail::class, 1);
+        Mail::assertSent(MailcoachMail::class, fn (MailcoachMail $mail) => $mail->hasTo('john@example.com'));
+        Mail::assertNotSent(MailcoachMail::class, fn (MailcoachMail $mail) => $mail->hasTo('jane@example.com'));
         $this->assertTrue($this->campaign->fresh()->isSent());
     }
 }

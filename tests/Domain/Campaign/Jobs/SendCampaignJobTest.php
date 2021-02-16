@@ -12,18 +12,18 @@ use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
-use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
-use Spatie\Mailcoach\Domain\Campaign\Models\Send;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomCampaignReplacer;
-use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMail;
-use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMailWithBodyReplacer;
-use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMailWithNoSubject;
-use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMailWithSubjectReplacer;
+use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
+use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithBodyReplacer;
+use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithNoSubject;
+use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithSubjectReplacer;
 use Spatie\Snapshots\MatchesSnapshots;
 
 class SendCampaignJobTest extends TestCase
@@ -51,8 +51,8 @@ class SendCampaignJobTest extends TestCase
 
         dispatch(new SendCampaignJob($this->campaign));
 
-        Mail::assertSent(CampaignMail::class, 3);
-        Mail::assertSent(CampaignMail::class, fn (CampaignMail $mail) => $mail->mailer === 'some-mailer');
+        Mail::assertSent(MailcoachMail::class, 3);
+        Mail::assertSent(MailcoachMail::class, fn (MailcoachMail $mail) => $mail->mailer === 'some-mailer');
 
         Event::assertDispatched(CampaignSentEvent::class, function (CampaignSentEvent $event) {
             $this->assertEquals($this->campaign->id, $event->campaign->id);
@@ -102,7 +102,7 @@ class SendCampaignJobTest extends TestCase
 
         dispatch(new SendCampaignJob($this->campaign));
 
-        Mail::assertSent(CampaignMail::class, function (CampaignMail $campaignMail) {
+        Mail::assertSent(MailcoachMail::class, function (MailcoachMail $campaignMail) {
             $this->assertEquals('my subject', $campaignMail->subject);
 
             return true;
@@ -119,7 +119,7 @@ class SendCampaignJobTest extends TestCase
 
         dispatch(new SendCampaignJob($this->campaign));
 
-        Mail::assertSent(CampaignMail::class, function (CampaignMail $campaignMail) {
+        Mail::assertSent(MailcoachMail::class, function (MailcoachMail $campaignMail) {
             return $campaignMail->build()->hasReplyTo('replyto@example.com', 'Reply to John Doe');
         });
     }
@@ -133,10 +133,10 @@ class SendCampaignJobTest extends TestCase
         $this->assertFalse($this->campaign->wasAlreadySent());
         dispatch(new SendCampaignJob($this->campaign));
         $this->assertTrue($this->campaign->refresh()->wasAlreadySent());
-        Mail::assertSent(CampaignMail::class, 3);
+        Mail::assertSent(MailcoachMail::class, 3);
 
         dispatch(new SendCampaignJob($this->campaign));
-        Mail::assertSent(CampaignMail::class, 3);
+        Mail::assertSent(MailcoachMail::class, 3);
         Event::assertDispatched(CampaignSentEvent::class, 1);
     }
 
@@ -203,7 +203,7 @@ class SendCampaignJobTest extends TestCase
 
         dispatch(new SendCampaignJob($campaign));
 
-        Mail::assertSent(CampaignMail::class, function (CampaignMail $mail) {
+        Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) {
             $this->assertEquals("This is a mail sent to my list", $mail->subject);
 
             return true;
@@ -228,7 +228,7 @@ class SendCampaignJobTest extends TestCase
 
         dispatch(new SendCampaignJob($campaign));
 
-        Mail::assertSent(CampaignMail::class, function (CampaignMail $mail) use ($subscriber) {
+        Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) use ($subscriber) {
             $this->assertEquals("This is a mail sent to {$subscriber->email}", $mail->subject);
 
             return true;
@@ -239,7 +239,7 @@ class SendCampaignJobTest extends TestCase
     public function custom_mailable_sends()
     {
         $campaign = (new CampaignFactory())
-            ->mailable(TestCampaignMail::class)
+            ->mailable(TestMailcoachMail::class)
             ->withSubscriberCount(1)
             ->create();
 
@@ -258,7 +258,7 @@ class SendCampaignJobTest extends TestCase
     public function custom_mailable_subject_overrides_campaign_subject()
     {
         $campaign = (new CampaignFactory())
-            ->mailable(TestCampaignMail::class)
+            ->mailable(TestMailcoachMail::class)
             ->withSubscriberCount(1)
             ->create([
                 'subject' => 'This subject comes from the campaign',
@@ -279,7 +279,7 @@ class SendCampaignJobTest extends TestCase
     public function custom_replacers_work_with_campaign_subject()
     {
         $campaign = (new CampaignFactory())
-            ->mailable(TestCampaignMailWithNoSubject::class)
+            ->mailable(TestMailcoachMailWithNoSubject::class)
             ->create([
                 'subject' => '::customreplacer::',
                 'email_html' => '::customreplacer::',
@@ -306,7 +306,7 @@ class SendCampaignJobTest extends TestCase
     public function custom_replacers_work_with_subject_from_custom_mailable()
     {
         $campaign = (new CampaignFactory())
-            ->mailable(TestCampaignMailWithSubjectReplacer::class)
+            ->mailable(TestMailcoachMailWithSubjectReplacer::class)
             ->create();
 
         Subscriber::createWithEmail('john@example.com')
@@ -330,7 +330,7 @@ class SendCampaignJobTest extends TestCase
     public function custom_replacers_work_in_body_from_custom_mailable()
     {
         $campaign = (new CampaignFactory())
-            ->mailable(TestCampaignMailWithBodyReplacer::class)
+            ->mailable(TestMailcoachMailWithBodyReplacer::class)
             ->create();
 
         Subscriber::createWithEmail('john@example.com')

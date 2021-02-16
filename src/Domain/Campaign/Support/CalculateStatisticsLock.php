@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Campaign\Support;
 
 use Illuminate\Support\Facades\Cache;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 
 class CalculateStatisticsLock
 {
@@ -11,9 +11,9 @@ class CalculateStatisticsLock
 
     private int $lockTimeInSeconds;
 
-    public function __construct(Campaign $campaign, int $lockTimeInSeconds = 10)
+    public function __construct(Sendable $sendable, int $lockTimeInSeconds = 10)
     {
-        $this->key = "calculate-statistics-lock-{$campaign->id}";
+        $this->key = "calculate-statistics-lock-{$sendable->uuid}";
 
         $this->lockTimeInSeconds = $lockTimeInSeconds;
     }

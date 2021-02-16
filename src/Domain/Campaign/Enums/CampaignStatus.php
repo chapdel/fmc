@@ -8,5 +8,4 @@ class CampaignStatus
     const SENDING = 'sending';
     const SENT = 'sent';
     const CANCELLED = 'cancelled';
-    const AUTOMATED = 'automated';
 }

@@ -7,7 +7,7 @@ use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
-use Spatie\Mailcoach\Tests\TestClasses\TestCampaignMail;
+use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
 
 class CampaignSentEventTest extends TestCase
 {
@@ -18,7 +18,7 @@ class CampaignSentEventTest extends TestCase
 
         $campaign = (new CampaignFactory())
             ->withSubscriberCount(3)
-            ->mailable(TestCampaignMail::class)
+            ->mailable(TestMailcoachMail::class)
             ->create();
 
         $campaign->content($campaign->contentFromMailable());

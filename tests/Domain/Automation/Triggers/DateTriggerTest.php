@@ -8,24 +8,26 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationTriggersCommand;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Domain\Automation\Support\Actions\CampaignAction;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\DateTrigger;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
 class DateTriggerTest extends TestCase
 {
-    private Campaign $campaign;
+    protected AutomationMail $automationMail;
+
+    protected EmailList $emailList;
 
     public function setUp(): void
     {
         parent::setUp();
 
-        $this->campaign = (new CampaignFactory())->create([
-            'subject' => 'Welcome',
-        ]);
+        $this->automationMail = AutomationMail::factory()->create(['subject' => 'Welcome']);
+
+        $this->emailList = EmailList::factory()->create();
     }
 
     /** @test * */
@@ -40,14 +42,14 @@ class DateTriggerTest extends TestCase
         $automation = Automation::create()
             ->name('New year!')
             ->runEvery(CarbonInterval::minute())
-            ->to($this->campaign->emailList)
+            ->to($this->emailList)
             ->trigger($trigger)
             ->chain([
-                new CampaignAction($this->campaign),
+                new SendAutomationMailAction($this->automationMail),
             ])
             ->start();
 
-        $this->campaign->emailList->subscribe('john@doe.com');
+        $this->emailList->subscribe('john@doe.com');
 
         Artisan::call(RunAutomationTriggersCommand::class);
 

@@ -9,9 +9,9 @@ use Spatie\Mailcoach\Tests\TestCase;
 
 class RemoveTagsActionTest extends TestCase
 {
-    private Subscriber $subscriber;
+    protected Subscriber $subscriber;
 
-    private RemoveTagsAction $action;
+    protected RemoveTagsAction $action;
 
     public function setUp(): void
     {

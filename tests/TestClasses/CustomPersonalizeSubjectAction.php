@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
 use Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeSubjectAction;
-use Spatie\Mailcoach\Domain\Campaign\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
 class CustomPersonalizeSubjectAction extends PersonalizeSubjectAction
 {

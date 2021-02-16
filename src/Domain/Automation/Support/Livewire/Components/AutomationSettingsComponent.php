@@ -24,7 +24,7 @@ class AutomationSettingsComponent extends Component
 
     public function mount()
     {
-        $this->triggerOptions = collect(config('mailcoach.automation.triggers'))
+        $this->triggerOptions = collect(config('mailcoach.automation.flows.triggers'))
             ->mapWithKeys(function (string $trigger) {
                 return [$trigger => $trigger::getName()];
             });

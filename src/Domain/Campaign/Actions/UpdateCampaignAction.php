@@ -18,9 +18,7 @@ class UpdateCampaignAction
 
         $campaign->fill([
             'name' => $attributes['name'],
-            'status' => ($attributes['type'] ?? null) === CampaignStatus::AUTOMATED
-                ? CampaignStatus::AUTOMATED
-                : ($campaign->status ?? CampaignStatus::DRAFT),
+            'status' => CampaignStatus::DRAFT,
             'subject' => $attributes['subject'] ?? $attributes['name'],
             'html' => $attributes['html'] ?? optional($template)->html,
             'structured_html' => $attributes['structured_html'] ?? optional($template)->structured_html,
@@ -28,15 +26,10 @@ class UpdateCampaignAction
             'track_clicks' => $attributes['track_clicks'] ?? true,
             'utm_tags' => $attributes['utm_tags'] ?? true,
             'last_modified_at' => now(),
+            'email_list_id' => $attributes['email_list_id'] ?? optional($this->getEmailListClass()::orderBy('name')->first())->id,
+            'segment_class' => $segmentClass,
+            'segment_description' => (new $segmentClass)->description(),
         ]);
-
-        if (! $campaign->isAutomated()) {
-            $campaign->fill([
-                'email_list_id' => $attributes['email_list_id'] ?? optional($this->getEmailListClass()::orderBy('name')->first())->id,
-                'segment_class' => $segmentClass,
-                'segment_description' => (new $segmentClass)->description(),
-            ]);
-        }
 
         $campaign->save();
 

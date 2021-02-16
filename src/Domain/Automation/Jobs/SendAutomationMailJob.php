@@ -1,21 +1,20 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Campaign\Jobs;
+namespace Spatie\Mailcoach\Domain\Automation\Jobs;
 
-use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\Campaign\Actions\SendMailAction;
-use Spatie\Mailcoach\Domain\Campaign\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
 use Spatie\RateLimitedMiddleware\RateLimited;
 
-class SendMailJob implements ShouldQueue
+class SendAutomationMailJob implements ShouldQueue
 {
-    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public bool $deleteWhenMissingModels = true;
 
@@ -28,23 +27,15 @@ class SendMailJob implements ShouldQueue
     {
         $this->pendingSend = $pendingSend;
 
-        $this->queue = config('mailcoach.campaigns.perform_on_queue.send_mail_job');
+        $this->queue = config('mailcoach.automation.perform_on_queue.send_automation_mail_job');
 
         $this->connection = $this->connection ?? Config::getQueueConnection();
     }
 
     public function handle()
     {
-        if (optional($this->batch())->canceled()) {
-            if (! $this->pendingSend->wasAlreadySent()) {
-                $this->pendingSend->delete();
-            }
-
-            return;
-        }
-
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\SendMailAction $sendMailAction */
-        $sendMailAction = Config::getCampaignActionClass('send_mail', SendMailAction::class);
+        /** @var \Spatie\Mailcoach\Domain\Automation\Actions\SendMailAction $sendMailAction */
+        $sendMailAction = Config::getAutomationActionClass('send_mail', SendMailAction::class);
 
         $sendMailAction->execute($this->pendingSend);
     }

@@ -6,11 +6,10 @@ use Carbon\CarbonInterval;
 use Illuminate\Support\Carbon;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Domain\Automation\Support\Actions\CampaignAction;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\EnsureTagsExistAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
-use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Tests\TestCase;
@@ -18,11 +17,11 @@ use Spatie\TestTime\TestTime;
 
 class EnsureTagExistsActionTest extends TestCase
 {
-    private Campaign $campaign;
+    protected AutomationMail $automationMail;
 
-    private Subscriber $subscriber;
+    protected Subscriber $subscriber;
 
-    private Action $actionModel;
+    protected Action $actionModel;
 
     public function setUp(): void
     {
@@ -31,9 +30,7 @@ class EnsureTagExistsActionTest extends TestCase
         TestTime::setTestNow(Carbon::create(2021, 01, 01));
 
         $this->subscriber = SubscriberFactory::new()->confirmed()->create();
-        $this->campaign = Campaign::factory()->create([
-            'status' => CampaignStatus::AUTOMATED,
-        ]);
+        $this->automationMail = AutomationMail::factory()->create();
 
         $automation = Automation::create()
             ->chain([
@@ -43,7 +40,7 @@ class EnsureTagExistsActionTest extends TestCase
                         [
                             'tag' => 'some-tag',
                             'actions' => [
-                                new CampaignAction($this->campaign),
+                                new SendAutomationMailAction($this->automationMail),
                             ],
                         ],
                     ],
@@ -98,6 +95,6 @@ class EnsureTagExistsActionTest extends TestCase
 
         $this->subscriber->addTag('some-tag');
 
-        $this->assertInstanceOf(CampaignAction::class, $this->actionModel->action->nextAction($this->subscriber)->action);
+        $this->assertInstanceOf(SendAutomationMailAction::class, $this->actionModel->action->nextAction($this->subscriber)->action);
     }
 }

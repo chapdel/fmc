@@ -4,12 +4,12 @@ namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Campaigns;
 
 use Carbon\CarbonInterval;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Domain\Automation\Support\Actions\CampaignAction;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\DateTrigger;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\WebhookTrigger;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
 use Spatie\Mailcoach\Http\Api\Controllers\Automations\TriggerAutomationController;
-use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestCase;
@@ -18,7 +18,9 @@ class TriggerAutomationControllerTest extends TestCase
 {
     use RespondsToApiRequests;
 
-    private Campaign $campaign;
+    protected AutomationMail $automationMail;
+
+    protected EmailList $emailList;
 
     public function setUp(): void
     {
@@ -26,9 +28,11 @@ class TriggerAutomationControllerTest extends TestCase
 
         $this->loginToApi();
 
-        $this->campaign = (new CampaignFactory())->create([
+        $this->automationMail = AutomationMail::factory()->create([
             'subject' => 'Welcome',
         ]);
+
+        $this->emailList = EmailList::factory()->create();
     }
 
     /** @test * */
@@ -39,14 +43,14 @@ class TriggerAutomationControllerTest extends TestCase
         $automation = Automation::create()
             ->name('New year!')
             ->runEvery(CarbonInterval::minute())
-            ->to($this->campaign->emailList)
+            ->to($this->emailList)
             ->trigger(new WebhookTrigger())
             ->chain([
-                new CampaignAction($this->campaign),
+                new SendAutomationMailAction($this->automationMail),
             ])
             ->start();
 
-        $subscriber = $this->campaign->emailList->subscribe('john@doe.com');
+        $subscriber = $this->emailList->subscribe('john@doe.com');
 
         $this->postJson(action(TriggerAutomationController::class, [$automation]), [
             'subscribers' => [$subscriber->id],
@@ -61,14 +65,14 @@ class TriggerAutomationControllerTest extends TestCase
         $automation = Automation::create()
             ->name('New year!')
             ->runEvery(CarbonInterval::minute())
-            ->to($this->campaign->emailList)
+            ->to($this->emailList)
             ->trigger(new DateTrigger(now()))
             ->chain([
-                new CampaignAction($this->campaign),
+                new SendAutomationMailAction($this->automationMail),
             ])
             ->start();
 
-        $subscriber = $this->campaign->emailList->subscribe('john@doe.com');
+        $subscriber = $this->emailList->subscribe('john@doe.com');
 
         $this->postJson(action(TriggerAutomationController::class, [$automation]), [
             'subscribers' => [$subscriber->id],
@@ -82,14 +86,14 @@ class TriggerAutomationControllerTest extends TestCase
         $automation = Automation::create()
             ->name('New year!')
             ->runEvery(CarbonInterval::minute())
-            ->to($this->campaign->emailList)
+            ->to($this->emailList)
             ->trigger(new WebhookTrigger())
             ->chain([
-                new CampaignAction($this->campaign),
+                new SendAutomationMailAction($this->automationMail),
             ])
             ->start();
 
-        $subscriber1 = $this->campaign->emailList->subscribe('john@doe.com');
+        $subscriber1 = $this->emailList->subscribe('john@doe.com');
         $subscriber2 = SubscriberFactory::new()->create();
 
         $this->postJson(action(TriggerAutomationController::class, [$automation]), [
@@ -107,15 +111,15 @@ class TriggerAutomationControllerTest extends TestCase
         $automation = Automation::create()
             ->name('New year!')
             ->runEvery(CarbonInterval::minute())
-            ->to($this->campaign->emailList)
+            ->to($this->emailList)
             ->trigger(new WebhookTrigger())
             ->chain([
-                new CampaignAction($this->campaign),
+                new SendAutomationMailAction($this->automationMail),
             ])
             ->start();
 
-        $subscriber1 = $this->campaign->emailList->subscribe('john1@doe.com');
-        $subscriber2 = $this->campaign->emailList->subscribe('john2@doe.com');
+        $subscriber1 = $this->emailList->subscribe('john1@doe.com');
+        $subscriber2 = $this->emailList->subscribe('john2@doe.com');
         $subscriber2->unsubscribe();
 
         $this->postJson(action(TriggerAutomationController::class, [$automation]), [

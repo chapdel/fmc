@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Http\Front\Controllers;
 
 use Spatie\Mailcoach\Domain\Campaign\Enums\SubscriptionStatus;
-use Spatie\Mailcoach\Domain\Campaign\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class UnsubscribeController
@@ -39,7 +39,7 @@ class UnsubscribeController
             return view('mailcoach::landingPages.alreadyUnsubscribed', compact('emailList'));
         }
 
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Send $send */
+        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
         $send = Send::findByUuid($sendUuid ?? '');
         $subscriber->unsubscribe($send);
 

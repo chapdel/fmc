@@ -8,7 +8,6 @@ use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
-use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -68,8 +67,7 @@ class CalculateStatisticsCommand extends Command
 
         return $this->getCampaignClass()::where(function (Builder $query) use ($periodEnd, $periodStart) {
             $query
-                ->sentBetween($periodStart, $periodEnd)
-                ->orWhere('status', CampaignStatus::AUTOMATED);
+                ->sentBetween($periodStart, $periodEnd);
         })
             ->get()
             ->filter(function (Campaign $campaign) use ($recalculateThreshold) {

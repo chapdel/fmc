@@ -138,4 +138,4 @@ The `toArray()` method is used to return the data in a format fit for processing
 
 ## Registering your custom action
 
-You can register your custom action by adding the classname to the `mailcoach.automation.actions` config key.
+You can register your custom action by adding the classname to the `mailcoach.automation.flows.actions` config key.

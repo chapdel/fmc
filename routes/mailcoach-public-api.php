@@ -18,7 +18,9 @@ Route::post('/unsubscribe/{subscriberUuid}/{sendUuid?}',  ['\\' .UnsubscribeCont
 
 Route::post('/unsubscribe-tag/{subscriberUuid}/{tag}',  ['\\' . UnsubscribeTagController::class, 'confirm']);
 
-Route::get('webview/{campaignUuid}', '\\' . CampaignWebviewController::class)->name('mailcoach.webview');
+Route::get('webview/campaign/{campaignUuid}', '\\' . CampaignWebviewController::class)->name('mailcoach.campaign.webview');
+Route::get('webview/automation/{campaignUuid}', '\\' . CampaignWebviewController::class)->name('mailcoach.automation.webview');
+
 
 Route::get('feed/{emailListUuid}', '\\' . EmailListCampaignsFeedController::class)->name('mailcoach.feed');
 

@@ -20,6 +20,7 @@ use Spatie\Mailcoach\Domain\Campaign\Events\UnsubscribedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasExtraAttributes;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
 use Spatie\Mailcoach\Domain\Campaign\Support\PendingSubscriber;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 

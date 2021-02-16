@@ -8,6 +8,6 @@
 
 @foreach ($actionOptions as $index => $actionName)
     <div data-conditional-action="{{ $index }}">
-        @includeIf(config('mailcoach.automation.actions')[$index]::getConfigView(), ['prefix' => $prefix ?? ''])
+        @includeIf(config('mailcoach.automation.flows.actions')[$index]::getConfigView(), ['prefix' => $prefix ?? ''])
     </div>
 @endforeach

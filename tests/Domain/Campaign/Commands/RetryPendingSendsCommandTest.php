@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Tests\Domain\Campaign\Commands;
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Campaign\Commands\RetryPendingSendsCommand;
-use Spatie\Mailcoach\Domain\Campaign\Jobs\SendMailJob;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class RetryPendingSendsCommandTest extends TestCase
@@ -25,7 +25,7 @@ class RetryPendingSendsCommandTest extends TestCase
 
         $this->artisan(RetryPendingSendsCommand::class)->assertExitCode(0);
 
-        Queue::assertPushed(SendMailJob::class, 1);
-        Queue::assertPushed(SendMailJob::class, fn (SendMailJob $job) => $job->pendingSend->id === $pendingSend->id);
+        Queue::assertPushed(SendCampaignMailJob::class, 1);
+        Queue::assertPushed(SendCampaignMailJob::class, fn (SendCampaignMailJob $job) => $job->pendingSend->id === $pendingSend->id);
     }
 }

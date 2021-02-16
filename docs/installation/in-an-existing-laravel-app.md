@@ -122,7 +122,7 @@ return [
             /*
              * Actions concerning campaigns
              */
-            'calculate_statistics' => \Spatie\Mailcoach\Domain\Campaign\Actions\CalculateStatisticsAction::class,
+            'calculate_statistics' => \Spatie\Mailcoach\Domain\Shared\Actions\CalculateStatisticsAction::class,
             'prepare_email_html' => \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareEmailHtmlAction::class,
             'prepare_subject' => \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareSubjectAction::class,
             'prepare_webview_html' => \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareWebviewHtmlAction::class,
@@ -155,7 +155,7 @@ return [
     'automation' => [
         'actions' => [
             \Spatie\Mailcoach\Domain\Automation\Support\Actions\AddTagsAction::class,
-            \Spatie\Mailcoach\Domain\Automation\Support\Actions\CampaignAction::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction::class,
             \Spatie\Mailcoach\Domain\Automation\Support\Actions\EnsureTagsExistAction::class,
             \Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction::class,
             \Spatie\Mailcoach\Domain\Automation\Support\Actions\RemoveTagsAction::class,
@@ -254,7 +254,7 @@ return [
          * The model you want to use as a EmailList model. It needs to be or
          * extend the `Spatie\Mailcoach\Models\Send` model.
          */
-        'send' => Spatie\Mailcoach\Domain\Campaign\Models\Send::class,
+        'send' => \Spatie\Mailcoach\Domain\Shared\Models\Send::class,
 
         /*
          * The model you want to use as a Subscriber model. It needs to be or
@@ -405,7 +405,7 @@ After Horizon is installed, don't forget to set `QUEUE_CONNECTION` in your `.env
         ],
         'mailcoach-heavy' => [
             'connection' => 'mailcoach-redis',
-            'queue' => ['send-campaign'],
+            'queue' => ['send-campaign', 'send-automation-mail'],
             'balance' => 'auto',
             'processes' => 3,
             'tries' => 1,
@@ -432,7 +432,7 @@ After Horizon is installed, don't forget to set `QUEUE_CONNECTION` in your `.env
         ],
         'mailcoach-heavy' => [
             'connection' => 'mailcoach-redis',
-            'queue' => ['send-campaign'],
+            'queue' => ['send-campaign', 'send-automation-mail'],
             'balance' => 'auto',
             'processes' => 3,
             'tries' => 1,

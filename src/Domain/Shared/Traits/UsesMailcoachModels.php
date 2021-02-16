@@ -3,11 +3,12 @@
 namespace Spatie\Mailcoach\Domain\Shared\Traits;
 
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
-use Spatie\Mailcoach\Domain\Campaign\Models\Send;
 use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 
@@ -31,6 +32,11 @@ trait UsesMailcoachModels
     public static function getAutomationClass(): string
     {
         return config('mailcoach.models.automation', Automation::class);
+    }
+
+    public static function getAutomationMailClass(): string
+    {
+        return config('mailcoach.models.automation_mail', AutomationMail::class);
     }
 
     public static function getSubscriberClass(): string
@@ -75,11 +81,21 @@ trait UsesMailcoachModels
 
     public static function getCampaignTableName(): string
     {
-        /** @var \Illuminate\Database\Eloquent\Model $campaign */
         $campaignClass = self::getCampaignClass();
 
+        /** @var \Illuminate\Database\Eloquent\Model $campaign */
         $campaign = new $campaignClass;
 
         return $campaign->getTable();
+    }
+
+    public static function getAutomationMailTableName(): string
+    {
+        $automationMailClass = self::getAutomationMailClass();
+
+        /** @var \Illuminate\Database\Eloquent\Model $automationMail */
+        $automationMail = new $automationMailClass;
+
+        return $automationMail->getTable();
     }
 }

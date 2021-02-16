@@ -2,9 +2,9 @@
 
 namespace Spatie\Mailcoach\Domain\Campaign\Actions;
 
-use Spatie\Mailcoach\Domain\Campaign\Jobs\SendMailJob;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Campaign\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
 class RetrySendingFailedSendsAction
 {
@@ -17,7 +17,7 @@ class RetrySendingFailedSendsAction
         ]);
 
         $campaign->sends()->getQuery()->pending()->each(function (Send $pendingSend) {
-            dispatch(new SendMailJob($pendingSend));
+            dispatch(new SendCampaignMailJob($pendingSend));
         });
 
         return $failedSendsCount;
