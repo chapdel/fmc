@@ -5,8 +5,6 @@ namespace Spatie\Mailcoach\Domain\TransactionalMail\Actions;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 use Spatie\Mailcoach\Http\App\Requests\TransactionalMails\TransactionalMailTemplateRequest;
-use Spatie\Mailcoach\Http\App\Requests\TransactionalMails\UpdateTransactionalMailSettingsRequest;
-use Spatie\ValidationRules\Rules\Delimited;
 
 class UpdateTemplateAction
 {

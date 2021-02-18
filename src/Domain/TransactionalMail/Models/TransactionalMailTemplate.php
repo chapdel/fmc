@@ -122,5 +122,4 @@ class TransactionalMailTemplate extends Model implements HasHtmlContent
     {
         return implode(',', $this->bcc ?? []);
     }
-
 }

@@ -26,15 +26,15 @@ trait UsesMailcoachTemplate
             $this->from($template->from);
         }
 
-        foreach($template->to as $to) {
+        foreach ($template->to as $to) {
             $this->to($to);
         }
 
-        foreach($template->cc as $cc) {
+        foreach ($template->cc as $cc) {
             $this->cc($cc);
         }
 
-        foreach($template->bcc as $bcc) {
+        foreach ($template->bcc as $bcc) {
             $this->bcc($bcc);
         }
 
