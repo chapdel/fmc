@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Components;
 
 use Illuminate\View\Component;
-use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\ReplacerWithHelpText;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 use Spatie\Mailcoach\Domain\TransactionalMail\Support\Replacers\TransactionalMailReplacer;
 
