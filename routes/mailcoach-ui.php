@@ -19,6 +19,7 @@ use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationsIndexController
 use Spatie\Mailcoach\Http\App\Controllers\Automations\CreateAutomationController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\DestroyAutomationController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\DuplicateAutomationController;
+use Spatie\Mailcoach\Http\App\Controllers\Automations\RunAutomationController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\ToggleAutomationStatusController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\CampaignsIndexController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\CancelSendingCampaignController;
@@ -167,8 +168,10 @@ Route::prefix('drip-automations')->group(function () {
     Route::post('/', '\\' . CreateAutomationController::class)->name('mailcoach.automations.store');
 
     Route::prefix('{automation}')->group(function () {
-        Route::get('/settings', ['\\' . AutomationSettingsController::class, 'edit'])->name('mailcoach.automations.settings');
-        Route::put('/settings', ['\\' . AutomationSettingsController::class, 'update'])->name('mailcoach.automations.settings');
+        Route::get('settings', ['\\' . AutomationSettingsController::class, 'edit'])->name('mailcoach.automations.settings');
+        Route::put('settings', ['\\' . AutomationSettingsController::class, 'update']);
+        Route::get('run', ['\\' . RunAutomationController::class, 'edit'])->name('mailcoach.automations.run');
+        Route::put('run', ['\\' . RunAutomationController::class, 'update']);
 
         Route::delete('/', '\\' . DestroyAutomationController::class)->name('mailcoach.automations.delete');
         Route::post('duplicate', '\\' . DuplicateAutomationController::class)->name('mailcoach.automations.duplicate');

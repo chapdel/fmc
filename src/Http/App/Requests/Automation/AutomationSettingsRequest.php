@@ -10,7 +10,7 @@ use Spatie\Mailcoach\Domain\Audience\Support\Segments\SubscribersWithTagsSegment
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\AutomationTrigger;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
-class AutomationRequest extends FormRequest
+class AutomationSettingsRequest extends FormRequest
 {
     use UsesMailcoachModels;
 

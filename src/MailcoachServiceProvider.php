@@ -36,6 +36,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\WaitActionCompon
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationBuilder;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\AutomationActionsComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\AutomationSettingsComponent;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\RunAutomationComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\TagChainComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\DateTriggerComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\TagAddedTriggerComponent;
@@ -305,6 +306,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
     {
         Livewire::component('automation-actions', AutomationActionsComponent::class);
         Livewire::component('automation-settings', AutomationSettingsComponent::class);
+        Livewire::component('run-automation', RunAutomationComponent::class);
         Livewire::component('automation-builder', AutomationBuilder::class);
 
         Livewire::component('automation-mail-action', AutomationMailAction::class);
