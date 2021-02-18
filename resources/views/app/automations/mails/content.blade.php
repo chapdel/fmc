@@ -11,4 +11,6 @@
         {!! app(config('mailcoach.automation.editor'))->render($mail) !!}
     </form>
 
+    <x-mailcoach::automation-mail-replacer-help-texts />
+
 </x-mailcoach::layout-automation-mail>
