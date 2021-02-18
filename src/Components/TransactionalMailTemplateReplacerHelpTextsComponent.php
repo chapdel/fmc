@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Components;
 use Illuminate\View\Component;
 use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\ReplacerWithHelpText;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
+use Spatie\Mailcoach\Domain\TransactionalMail\Support\Replacers\TransactionalMailReplacer;
 
 class TransactionalMailTemplateReplacerHelpTextsComponent extends Component
 {
@@ -16,9 +17,11 @@ class TransactionalMailTemplateReplacerHelpTextsComponent extends Component
     public function replacerHelpTexts(): array
     {
         return collect($this->template->replacers)
+            ->map(fn (string $replacerKeyInConfig) => config("mailcoach.transactional.replacers.{$replacerKeyInConfig}"))
+            ->filter()
             ->filter(fn (string $className) => class_exists($className))
             ->map(fn (string $className) => app($className))
-            ->flatMap(fn (ReplacerWithHelpText $replacer) => $replacer->helpText())
+            ->flatMap(fn (TransactionalMailReplacer $replacer) => $replacer->helpText())
             ->toArray();
     }
 

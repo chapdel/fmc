@@ -12,7 +12,6 @@ trait UsesMailcoachTemplate
 
     public function template(string $name): self
     {
-        ray('in template');
         /** @var TransactionalMailTemplate $template */
         $template = TransactionalMailTemplate::firstWhere('name', $name);
 
