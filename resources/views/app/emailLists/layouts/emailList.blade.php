@@ -10,8 +10,10 @@
                     {{__('Performance')}}
                 </x-mailcoach::navigation-item>
                 <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.subscribers', $emailList)">
-                    <span class="counter mr-2">{{ number_format($emailList->subscribers()->count() ?? 0) }}</span>
-                    {{ __('Subscribers')}} 
+                    <span class="flex items-center lg:flex-row-reverse">
+                        {{ __('Subscribers')}} 
+                        <span class="counter mx-2">{{ number_format($emailList->subscribers()->count() ?? 0) }}</span>
+                    </span>
                 </x-mailcoach::navigation-item>
         
                 <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.tags', $emailList)">

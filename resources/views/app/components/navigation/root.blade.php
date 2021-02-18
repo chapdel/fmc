@@ -33,7 +33,9 @@
                 substr($title, 0, $partLength ) . '…' . substr($title, -$partLength )
                 : $title;
         @endphp
-        <h2 class="-mx-2 px-2 py-4 border-b border-black border-opacity-10 uppercase tracking-wider lg:text-right text-xs text-blue-500 font-semibold whitespace-nowrap">
+        <h2 class="
+            col-span-2 sm:col-span-4 lg:col-span-1
+            -mx-2 px-2 py-4 border-b border-black border-opacity-10 uppercase tracking-wider lg:text-right text-xs text-blue-500 font-semibold whitespace-nowrap">
             <span class="hidden lg:block">{{ $titleTruncated }}</span>
             <span class="lg:hidden block">{{ $title }}</span>
         </h2>
