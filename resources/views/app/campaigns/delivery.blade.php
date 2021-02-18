@@ -86,7 +86,8 @@
                 @if($campaign->html && $campaign->hasValidHtml())
                     <x-mailcoach::health-label
                         :test="$campaign->htmlContainsUnsubscribeUrlPlaceHolder() && $campaign->sizeInKb() < 102"
-                        warning:label="__('Content')"/>
+                        warning="true" 
+                        :label="__('Content')"/>
                 @else
                     <x-mailcoach::health-label :test="false" :label="__('Content')"/>
                 @endif
