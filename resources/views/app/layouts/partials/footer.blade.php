@@ -5,10 +5,13 @@
         Mailcoach {{ $versionInfo->getCurrentVersion() }}
     </a>
     <span>&nbsp;{{ __('by') }} <a class="link-dimmed" href="https://spatie.be">SPATIE</a></span>
+
+    @if(Auth::check())
     <span class="mx-2">•</span>
     <a class="link-dimmed inline-block truncate" style="max-width: 12rem" href="{{ route('debug') }}">
         Debug
     </a>
+    @endif
 
     @if(! $versionInfo->isLatest())
         <a class="ml-4 my-2 inline-flex items-center bg-gray-200 bg-opacity-50 text-gray-600 rounded-sm px-2 leading-loose" href="/">

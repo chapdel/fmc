@@ -6,7 +6,7 @@
         <dl class="dl markup-links">
             @php($issueBody.='**Environment**: ' . app()->environment() . "\n")
             <dt>
-                <x-mailcoach::health-label :test="!app()->environment('local')"warning:label="__('Environment')" />  
+                <x-mailcoach::health-label :test="!app()->environment('local')" warning="true" :label="__('Environment')" />  
             </dt>
             <dd>
                 <div>
@@ -16,7 +16,7 @@
 
             @php($issueBody.='**Debug**: ' . (config('app.debug') ? 'ON' : 'OFF') . "\n")
             <dt>
-                <x-mailcoach::health-label :test="!config('app.debug')"warning:label="__('Debug')" />
+                <x-mailcoach::health-label :test="!config('app.debug')" warning="true" :label="__('Debug')" />
             </dt>
             <dd>
                 {{ config('app.debug') ? 'ON' : 'OFF' }}
@@ -68,7 +68,7 @@
                     <x-mailcoach::health-label :test="true"  :label="__('Schedule')" />
                 @elseif ($lastScheduleRun)
                     @php($issueBody.='**Schedule**: ran ' . now()->diffInMinutes($lastScheduleRun) . " minute(s) ago\n")
-                    <x-mailcoach::health-label :test="false"warning :label="__('Schedule')" />
+                    <x-mailcoach::health-label :test="false"warning="true" :label="__('Schedule')" />
                 @else
                     @php($issueBody.="**Schedule**: hasn't run\n")
                     <x-mailcoach::health-label :test="false" :label="__('Schedule')" />
@@ -88,7 +88,7 @@
         <dl class="dl">
             @php($issueBody.="**Default mailer**: " . config('mail.default') . "\n")
             <dt>
-                <x-mailcoach::health-label :test="!in_array(config('mail.default'), ['log', 'array', null])"warning:label="__('Default mailer')" />
+                <x-mailcoach::health-label :test="!in_array(config('mail.default'), ['log', 'array', null])" warning="true" :label="__('Default mailer')" />
             </dt>
             <dd>
                 <code>{{ config('mail.default') }}</code>
@@ -96,7 +96,7 @@
 
             @php($issueBody.="**Mailcoach mailer**: " . (config('mailcoach.mailer') ?? 'null') . "\n")
             <dt>
-                <x-mailcoach::health-label :test="!in_array(config('mailcoach.mailer'), ['log', 'array'])"warning:label="__('Mailcoach mailer')" />
+                <x-mailcoach::health-label :test="!in_array(config('mailcoach.mailer'), ['log', 'array'])" warning="true" :label="__('Mailcoach mailer')" />
             </dt>
             <dd>
                 <code>{{ config('mailcoach.mailer') ?? 'null' }}</code>
@@ -104,7 +104,7 @@
 
             @php($issueBody.="**Campaign mailer**: " . (config('mailcoach.campaigns.mailer') ?? 'null') . "\n")
             <dt>
-                <x-mailcoach::health-label :test="!in_array(config('mailcoach.campaigns.mailer'), ['log', 'array'])"warning:label="__('Campaign mailer')" />
+                <x-mailcoach::health-label :test="!in_array(config('mailcoach.campaigns.mailer'), ['log', 'array'])" warning="true" :label="__('Campaign mailer')" />
             </dt>
             <dd>
                 <code>{{ config('mailcoach.campaigns.mailer') ?? 'null' }}</code>
@@ -112,7 +112,7 @@
 
             @php($issueBody.="**Transactional mailer**: " . (config('mailcoach.transactional.mailer') ?? 'null') . "\n")
             <dt>
-                <x-mailcoach::health-label :test="!in_array(config('mailcoach.transactional.mailer'), ['log', 'array'])"warning:label="__('Transactional mailer')" />
+                <x-mailcoach::health-label :test="!in_array(config('mailcoach.transactional.mailer'), ['log', 'array'])" warning="true" :label="__('Transactional mailer')" />
             </dt>
             <dd>
                 <code>{{ config('mailcoach.transactional.mailer') ?? 'null' }}</code>
