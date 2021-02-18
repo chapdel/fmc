@@ -12,9 +12,6 @@
                 <x-mailcoach::navigation-item :href="route('mailcoach.automations.actions', $automation)" data-dirty-warn>
                     {{ __('Actions') }}
                 </x-mailcoach::navigation-item>
-                <x-mailcoach::navigation-item :href="route('mailcoach.automations.settings', $automation)" data-dirty-warn>
-                    {{ __('Run') }}
-                </x-mailcoach::navigation-item>
             </x-mailcoach::navigation-group>
 
         </x-mailcoach::navigation>
