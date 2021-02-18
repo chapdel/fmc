@@ -7,7 +7,12 @@
             @method('PUT')
 
             <x-mailcoach::fieldset :legend="__('General')">
-                
+
+
+                <x-mailcoach::text-field :label="__('Name')" name="name" :value="$template->name" required />
+                <x-mailcoach::help>
+                    This name is used by the application to retrieve this template. Do not change it without updating the code of your app.
+                </x-mailcoach::help>
 
 
                 <x-mailcoach::select-field

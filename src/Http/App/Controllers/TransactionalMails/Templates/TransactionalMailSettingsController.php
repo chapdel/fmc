@@ -15,6 +15,7 @@ class TransactionalMailSettingsController
     public function update(UpdateTransactionalMailSettingsRequest $request, TransactionalMailTemplate $template)
     {
         $template->update([
+            'name' => $request->name,
             'type' => $request->type,
             'store_mail' => $request->boolean('store_mail'),
             'track_opens' => $request->boolean('track_opens'),

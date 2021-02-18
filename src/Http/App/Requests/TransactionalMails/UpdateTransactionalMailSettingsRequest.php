@@ -10,6 +10,7 @@ class UpdateTransactionalMailSettingsRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'name' => 'required',
             'type' => 'required',
             'store_mail' => '',
             'track_opens' => '',

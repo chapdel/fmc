@@ -53,11 +53,11 @@ class TransactionalMailTemplatesController
     ) {
         $this->authorize('update', $template);
 
-        $updateTemplateAction->execute($template, $request->validated());
+        $updateTemplateAction->execute($template, $request);
 
         flash()->success(__('Template :template was updated.', ['template' => $template->name]));
 
-        return redirect()->route('mailcoach.transactionalMails.templates');
+        return redirect()->back();
     }
 
     public function destroy(TransactionalMailTemplate $template)
@@ -75,11 +75,9 @@ class TransactionalMailTemplatesController
     {
         $this->authorize('create', TransactionalMailTemplate::class);
 
+
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Template $duplicateTemplate */
-        $duplicateTemplate = $this->getTransactionalMailTemplateClass()::create([
-            'name' => __('Duplicate of') . ' ' . $template->name,
-            // TODO: add other attributes
-        ]);
+        $duplicateTemplate = $template->replicate();
 
         flash()->success(__('Template :template was duplicated.', ['template' => $template->name]));
 

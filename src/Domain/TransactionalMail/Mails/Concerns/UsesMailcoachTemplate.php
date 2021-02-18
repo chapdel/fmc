@@ -12,6 +12,7 @@ trait UsesMailcoachTemplate
 
     public function template(string $name): self
     {
+        ray('in template');
         /** @var TransactionalMailTemplate $template */
         $template = TransactionalMailTemplate::firstWhere('name', $name);
 
@@ -21,10 +22,21 @@ trait UsesMailcoachTemplate
 
         $this->subject($template->subject);
 
-        $this->from($template->from);
-        $this->to($template->to);
-        $this->cc($template->cc);
-        $this->bcc($template->bcc);
+        if ($template->from) {
+            $this->from($template->from);
+        }
+
+        foreach($template->to as $to) {
+            $this->to($to);
+        }
+
+        foreach($template->cc as $cc) {
+            $this->cc($cc);
+        }
+
+        foreach($template->bcc as $bcc) {
+            $this->bcc($bcc);
+        }
 
         $content = $template->render($this);
 
