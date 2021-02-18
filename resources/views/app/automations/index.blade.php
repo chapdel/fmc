@@ -26,13 +26,21 @@
             <tbody>
             @foreach($automations as $automation)
                 <tr>
-                    <td>
+                    <td class="group align-center">
+                        <div class="w-5 h-5">
                         <x-mailcoach::form-button :action="route('mailcoach.automations.toggleStatus', $automation)">
                             @if($automation->status === \Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus::PAUSED)
-                                <span title="{{ __('Paused') }}" class="fas fa-pause-circle text-orange-500"></span>
+                                <span class="group-hover:opacity-0 fas fa-magic text-gray-400"></span>
+                                <span title="{{ __('Start Automation') }}" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100" >
+                                    <x-mailcoach::rounded-icon class="w-5 h-5" type="success" icon="fas fa-play"/>
+                                </span>
                             @else
-                                <span title="{{ __('Sent') }}" class="fas fa-sync fa-spin text-green-500"></span>
+                                <span class="group-hover:opacity-0 fas fa-sync fa-spin text-green-500"></span>
+                                <span title="{{ __('Pause Automation') }}" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100" >
+                                    <x-mailcoach::rounded-icon class="w-5 h-5" type="warning" icon="fas fa-pause"/>
+                                </span>
                             @endif
+                            </div>
                         </x-mailcoach::form-button>
                     </td>
                     <td class="markup-links">

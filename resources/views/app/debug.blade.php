@@ -68,7 +68,7 @@
                     <x-mailcoach::health-label :test="true"  :label="__('Schedule')" />
                 @elseif ($lastScheduleRun)
                     @php($issueBody.='**Schedule**: ran ' . now()->diffInMinutes($lastScheduleRun) . " minute(s) ago\n")
-                    <x-mailcoach::health-label :test="false"warning="true" :label="__('Schedule')" />
+                    <x-mailcoach::health-label :test="false" warning="true" :label="__('Schedule')" />
                 @else
                     @php($issueBody.="**Schedule**: hasn't run\n")
                     <x-mailcoach::health-label :test="false" :label="__('Schedule')" />
