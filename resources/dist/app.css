@@ -1721,7 +1721,7 @@ code.markup-code, .markup-code code{
 .icon-label {
   display: flex;
   align-items: center;
-  justify-content: start;
+  justify-content: flex-start;
   white-space: nowrap;
 }
 
@@ -1860,11 +1860,11 @@ input:read-only {
 }
 
 .justify-self-start {
-  justify-self: start;
+  justify-self: flex-start;
 }
 
 .justify-self-end {
-  justify-self: end;
+  justify-self: flex-end;
 }
 
 .justify-self-center {
@@ -31795,11 +31795,11 @@ span.flatpickr-weekday {
   }
 
   .sm\:justify-self-start {
-    justify-self: start;
+    justify-self: flex-start;
   }
 
   .sm\:justify-self-end {
-    justify-self: end;
+    justify-self: flex-end;
   }
 
   .sm\:justify-self-center {
@@ -59120,11 +59120,11 @@ span.flatpickr-weekday {
   }
 
   .md\:justify-self-start {
-    justify-self: start;
+    justify-self: flex-start;
   }
 
   .md\:justify-self-end {
-    justify-self: end;
+    justify-self: flex-end;
   }
 
   .md\:justify-self-center {
@@ -86445,11 +86445,11 @@ span.flatpickr-weekday {
   }
 
   .lg\:justify-self-start {
-    justify-self: start;
+    justify-self: flex-start;
   }
 
   .lg\:justify-self-end {
-    justify-self: end;
+    justify-self: flex-end;
   }
 
   .lg\:justify-self-center {
@@ -113770,11 +113770,11 @@ span.flatpickr-weekday {
   }
 
   .xl\:justify-self-start {
-    justify-self: start;
+    justify-self: flex-start;
   }
 
   .xl\:justify-self-end {
-    justify-self: end;
+    justify-self: flex-end;
   }
 
   .xl\:justify-self-center {
@@ -141095,11 +141095,11 @@ span.flatpickr-weekday {
   }
 
   .\32xl\:justify-self-start {
-    justify-self: start;
+    justify-self: flex-start;
   }
 
   .\32xl\:justify-self-end {
-    justify-self: end;
+    justify-self: flex-end;
   }
 
   .\32xl\:justify-self-center {
