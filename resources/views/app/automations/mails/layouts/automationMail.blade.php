@@ -25,7 +25,7 @@
 
                 </x-mailcoach::navigation-group>
 
-            <x-mailcoach::navigation-group icon="far fa-envelope-open" :title="__('Campaign')">
+            <x-mailcoach::navigation-group icon="far fa-envelope-open" :title="__('Email')">
                 <x-mailcoach::navigation-item :href="route('mailcoach.automations.mails.settings', $mail)" data-dirty-warn>
                     {{ __('Settings') }}
                 </x-mailcoach::navigation-item>
