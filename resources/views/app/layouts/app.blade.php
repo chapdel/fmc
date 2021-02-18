@@ -39,28 +39,32 @@
                 @include('mailcoach::app.layouts.partials.startBody')
             </aside>
             
-            <div class="card card-split">
-                <nav class="card-nav">
-                    {{ $nav ?? '' }}
-                </nav>
+            
+            <div>
+                @include('mailcoach::app.layouts.partials.flash')
 
-                <main class="card-main">
-                    @include('mailcoach::app.layouts.partials.flash')
-                    
-                    <h1 class="markup-h1">
-                        @isset($originTitle)
-                            <div class="markup-h1-sub">
-                                @isset($originHref)
-                                    <a class="text-blue-500" href="{{ $originHref }}">{{ $originTitle }}</a>
-                                @else
-                                    {{ $originTitle }}
-                                @endif
-                            </div>
-                        @endif
-                        {{ $title ?? '' }}
-                    </h1>
-                    {{ $slot }}
-                </main>
+                <div class="h-full card card-split">
+                    <nav class="card-nav">
+                        {{ $nav ?? '' }}
+                    </nav>
+
+                    <main class="card-main">
+                        
+                        <h1 class="markup-h1">
+                            @isset($originTitle)
+                                <div class="markup-h1-sub">
+                                    @isset($originHref)
+                                        <a class="text-blue-500" href="{{ $originHref }}">{{ $originTitle }}</a>
+                                    @else
+                                        {{ $originTitle }}
+                                    @endif
+                                </div>
+                            @endif
+                            {{ $title ?? '' }}
+                        </h1>
+                        {{ $slot }}
+                    </main>
+                </div>
             </div>
 
             <footer class="px-6 pt-6">

@@ -14,14 +14,14 @@
     @endif
 
     @if(! $versionInfo->isLatest())
-        <a class="ml-4 my-2 inline-flex items-center bg-gray-200 bg-opacity-50 text-gray-600 rounded-sm px-2 leading-loose" href="/">
+        <a class="ml-4 my-2 inline-flex items-center bg-gray-400 bg-opacity-25 text-gray-600 rounded-sm px-2 leading-loose" href="/">
             <i class="far fa-horse-head opacity-75 mr-1"></i>
             {{ __('Upgrade available') }}
         </a>
     @endif
 
     @if (! app()->environment('production') || config('app.debug'))
-        <span class="ml-4 my-2 inline-flex items-center bg-gray-200 bg-opacity-50 text-red-600 rounded-sm px-2 leading-loose">
+        <span class="ml-4 my-2 inline-flex items-center bg-gray-400 bg-opacity-25 text-red-600 rounded-sm px-2 leading-loose">
             <i class="far fa-wrench opacity-75 mr-1"></i>
             Env: {{ app()->environment() }} &mdash; Debug: {{ config('app.debug') ? 'true' : 'false' }}
         </span>
