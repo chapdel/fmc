@@ -1,7 +1,7 @@
 .icon-label {
     display: flex;
     align-items: center;
-    justify-content: start;
+    @apply justify-start;
     @apply whitespace-nowrap;
 }
 

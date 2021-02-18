@@ -12,6 +12,9 @@
 
 .navigation.navigation-shown {
     @apply grid;
+    @apply grid-cols-2;
+    @apply sm:grid-cols-4;
+    @apply lg:grid-cols-1;
 }
 
 .navigation li {
@@ -62,7 +65,7 @@
     @apply pb-1;
 }
 
-.navigation-sub {
+.navigation.navigation-sub {
     @apply border-t;
     @apply border-black;
     @apply border-opacity-20;

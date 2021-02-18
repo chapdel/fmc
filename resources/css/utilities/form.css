@@ -47,7 +47,7 @@
 .form-buttons {
     @apply grid;
     @apply justify-start;
-    justify-items: start;
+    @apply justify-items-start;
     @apply items-center;
     @apply gap-8;
     @apply mt-4;
