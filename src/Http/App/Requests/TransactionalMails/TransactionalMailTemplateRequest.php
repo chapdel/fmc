@@ -42,6 +42,6 @@ class TransactionalMailTemplateRequest extends FormRequest
             return [];
         }
 
-        return explode(',', $value);
+        return array_map('trim', explode(',', $value));
     }
 }
