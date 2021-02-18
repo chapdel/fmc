@@ -69,6 +69,7 @@ use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DestroySubscriberImp
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DownloadSubscriberImportAttachmentController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ResendTransactionalMailController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ShowTransactionalMailBodyController;
+use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\SendTransactionalMailTestController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\TransactionalMailSettingsController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\TransactionalMailTemplatesController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailContentController;
@@ -229,6 +230,7 @@ Route::prefix('transactional-mail-templates')->group(function () {
 
         Route::get('settings', ['\\' . TransactionalMailSettingsController::class, 'edit'])->name('mailcoach.transactionalMails.templates.settings');
         Route::put('settings', ['\\' . TransactionalMailSettingsController::class, 'update']);
+        Route::post('send-test-email', '\\' . SendTransactionalMailTestController::class)->name('mailcoach.transactionalMails.templates.sendTestEmail');
     });
 });
 

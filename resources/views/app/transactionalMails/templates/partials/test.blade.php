@@ -1,5 +1,5 @@
 <form
-    action="{{ route('mailcoach.campaigns.sendTestEmail', $template) }}"
+    action="{{ route('mailcoach.transactionalMails.templates.sendTestEmail', $template) }}"
     method="POST"
     data-dirty-check
 >

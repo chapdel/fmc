@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Domain\TransactionalMail\Actions;
 use Exception;
 use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 
 class RenderTemplateAction
@@ -20,9 +21,11 @@ class RenderTemplateAction
 
     protected function renderTemplateBody(TransactionalMailTemplate $template, Mailable $mailable): string
     {
-        return $template->type === 'blade'
-            ? $this->compileBlade($template->body, $mailable->buildViewData())
-            : $template->body;
+        return match($template->type) {
+            'blade' => $this->compileBlade($template->body, $mailable->buildViewData()),
+            'markdown' => Str::of($template->body)->markdown(),
+            default => $template->body,
+        };
     }
 
     protected function executeReplacers(string $body, TransactionalMailTemplate $template, Mailable $mailable): string
