@@ -661,6 +661,7 @@ class Campaign extends Model implements Feedable, HasHtmlContent
             return collect();
         }
 
+        libxml_use_internal_errors(true);
         $dom->loadHTML($value, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD | LIBXML_NOWARNING);
 
         return collect($dom->getElementsByTagName('a'))
