@@ -82,6 +82,17 @@ class CreateMailcoachTables extends Migration
                 'email_list_subscribed_index');
         });
 
+        Schema::create('mailcoach_inactive_subscribers', function (Blueprint $table) {
+            $table->id();
+            $table
+                ->foreignId('subscriber_id')
+                ->constrained('mailcoach_subscribers')
+                ->cascadeOnDelete();
+
+            $table->timestamp('unsubscribe_at')->nullable();
+            $table->nullableTimestamps();
+        });
+
         Schema::create('mailcoach_segments', function (Blueprint $table) {
             $table->id();
             $table->string('name');

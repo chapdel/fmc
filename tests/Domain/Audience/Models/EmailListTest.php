@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\Domain\Audience\Models;
 
+use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
@@ -10,6 +11,9 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
+use Spatie\Mailcoach\Domain\Campaign\Mails\ReconfirmationMail;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\InactiveSubscriber;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomEmailList;
 use Spatie\Mailcoach\Tests\TestClasses\CustomSubscriber;
@@ -23,7 +27,7 @@ class EmailListTest extends TestCase
     {
         parent::setUp();
 
-        $this->emailList = EmailList::factory()->create();
+        $this->emailList = EmailList::factory()->create(['name' => 'Mailcoach Subscribers']);
     }
 
     /** @test */
@@ -189,5 +193,56 @@ class EmailListTest extends TestCase
 
         $this->assertEquals(2, $list->tags()->count());
         $this->assertEquals(1, $list->segments()->count());
+    }
+
+    /** @test * */
+    public function it_can_send_a_cleanup_email_for_subscribers_that_havent_opened_campaigns()
+    {
+        Mail::fake();
+        TestTime::setTestNow(now()->startOfSecond());
+
+        $subscriber = $this->emailList->subscribeSkippingConfirmation('john@example.com');
+        $subscriber2 = $this->emailList->subscribeSkippingConfirmation('jane@example.com');
+
+        $campaign1 = Campaign::create()
+            ->from('test@example.com')
+            ->subject('test')
+            ->content('my content')
+            ->to($this->emailList)
+            ->send();
+
+        Campaign::create()
+            ->from('test@example.com')
+            ->subject('test')
+            ->content('my content')
+            ->to($this->emailList)
+            ->send();
+
+        $subscriber2->opens()->create([
+            'campaign_id' => $campaign1->id,
+            'send_id' => $subscriber2->sends()->first()->id,
+        ]);
+
+        $this->assertEquals(2, Campaign::count());
+        $this->assertEquals(1, $subscriber2->opens()->count());
+        $this->assertEquals(1, $campaign1->opens()->count());
+
+        $this->emailList
+            ->unsubscribeInactiveSubscribers()
+            ->didNotOpenPastNumberOfCampaigns(2)
+            ->unsubscribeAfter(CarbonInterval::days(2))
+            ->sendReconfirmationMail();
+
+        $this->assertEquals(1, InactiveSubscriber::count());
+        tap(InactiveSubscriber::first(), function (InactiveSubscriber $inactiveSubscriber) use ($subscriber) {
+            $this->assertEquals($subscriber->id, $inactiveSubscriber->subscriber_id);
+            $this->assertEquals(now()->addDays(2), $inactiveSubscriber->unsubscribe_at);
+        });
+
+        Mail::assertQueued(ReconfirmationMail::class, function (ReconfirmationMail $reconfirmationMail) {
+            $this->assertTrue($reconfirmationMail->hasTo('john@example.com'));
+
+            return true;
+        });
     }
 }

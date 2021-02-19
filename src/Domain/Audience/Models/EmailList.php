@@ -11,6 +11,7 @@ use Illuminate\Database\Query\Builder;
 use Spatie\Mailcoach\Domain\Audience\Mails\ConfirmSubscriberMail;
 use Spatie\Mailcoach\Domain\Campaign\Mails\WelcomeMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
+use Spatie\Mailcoach\Domain\Campaign\Support\PendingSubscriberCleanup;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class EmailList extends Model
@@ -200,6 +201,11 @@ class EmailList extends Model
                 ->where('unsubscribed_at', '>', $summaryStartDateTime->toDateTimeString())
                 ->count(),
         ];
+    }
+
+    public function unsubscribeInactiveSubscribers(): PendingSubscriberCleanup
+    {
+        return new PendingSubscriberCleanup($this);
     }
 
     public function resolveRouteBinding($value, $field = null)
