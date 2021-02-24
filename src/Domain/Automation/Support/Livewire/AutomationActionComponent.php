@@ -2,10 +2,6 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire;
 
-use Illuminate\Support\MessageBag;
-use Spatie\Mailcoach\Domain\Automation\Models\Action;
-use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-
 class AutomationActionComponent extends AutomationComponent
 {
     public array $action;

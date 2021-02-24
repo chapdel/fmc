@@ -17,7 +17,7 @@ class WaitActionComponentTest extends TestCase
             ->call('validate')
             ->assertHasErrors([
                 'length' => ['required'],
-                'unit' => 'required'
+                'unit' => 'required',
             ]);
     }
 
@@ -67,7 +67,7 @@ class WaitActionComponentTest extends TestCase
             ->set('unit', 'days')
             ->assertEmitted('actionUpdated', [
                 'length' => 5,
-                'unit' => 'days'
+                'unit' => 'days',
             ]);
     }
 }

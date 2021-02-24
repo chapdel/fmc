@@ -10,7 +10,9 @@ class AutomationMailActionComponent extends AutomationActionComponent
 {
     use UsesMailcoachModels;
 
-    public int|string $automation_mail_id = '';
+    public int |
+
+string $automation_mail_id = '';
 
     public array $campaignOptions;
 
@@ -33,7 +35,7 @@ class AutomationMailActionComponent extends AutomationActionComponent
         return [
             'automation_mail_id' => [
                 'required',
-                Rule::exists(self::getAutomationMailClass(), 'id')
+                Rule::exists(self::getAutomationMailClass(), 'id'),
             ],
         ];
     }

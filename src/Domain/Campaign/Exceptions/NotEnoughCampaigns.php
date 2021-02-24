@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Domain\Campaign\Exceptions;
 
 use Exception;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 
 class NotEnoughCampaigns extends Exception
 {

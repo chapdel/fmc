@@ -14,7 +14,7 @@ class AutomationBuilder extends AutomationActionComponent
         'actionSaved',
         'actionDeleted',
         'validationFailed',
-        'saveActions'
+        'saveActions',
     ];
 
     public function actionSaved(string $uuid, array $actionData)
