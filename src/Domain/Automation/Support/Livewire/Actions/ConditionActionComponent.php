@@ -37,7 +37,7 @@ class ConditionActionComponent extends AutomationActionComponent
     public function getData(): array
     {
         return [
-            'length' => $this->length,
+            'length' => (int) $this->length,
             'unit' => $this->unit,
             'condition' => $this->condition,
             'conditionData' => $this->conditionData,

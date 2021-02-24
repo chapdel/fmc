@@ -22,7 +22,9 @@
 
     <x-slot name="content">
         <div class="tag-neutral">
-            {!! \Carbon\CarbonInterval::createFromDateString("{$length} {$unit}")->cascade()->forHumans() !!}
+            @if ($length && $unit && $interval = \Carbon\CarbonInterval::createFromDateString("{$length} {$unit}"))
+                {!! $interval->cascade()->forHumans() !!}
+            @endif
         </div>
     </x-slot>
 </x-mailcoach::automation-action>

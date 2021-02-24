@@ -12,7 +12,7 @@
     <x-slot name="content">
         @if ($automation_mail_id)
             <div class="tag-neutral">
-                {{ \Spatie\Mailcoach\Domain\Automation\Models\AutomationMail::find($automation_mail_id)->name }}
+                {{ optional(\Spatie\Mailcoach\Domain\Automation\Models\AutomationMail::find($automation_mail_id))->name }}
             </div>
         @endif
     </x-slot>

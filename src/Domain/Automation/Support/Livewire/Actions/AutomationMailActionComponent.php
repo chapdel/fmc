@@ -10,9 +10,7 @@ class AutomationMailActionComponent extends AutomationActionComponent
 {
     use UsesMailcoachModels;
 
-    public int |
-
-string $automation_mail_id = '';
+    public int|string $automation_mail_id = '';
 
     public array $campaignOptions;
 

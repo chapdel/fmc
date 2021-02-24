@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Support\Conditions;
 use Illuminate\Validation\Rule;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailOpen;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class HasOpenedAutomationMail implements Condition
@@ -43,7 +44,8 @@ class HasOpenedAutomationMail implements Condition
 
     public function check(): bool
     {
-        return $this->subscriber->opens()
+        return AutomationMailOpen::query()
+            ->where('subscriber_id', $this->subscriber->id)
             ->where('automation_mail_id', $this->data['automation_mail_id'])
             ->exists();
     }
