@@ -9,7 +9,8 @@ class HasTagCondition implements Condition
     public function __construct(
         private Subscriber $subscriber,
         private array $data,
-    ) {}
+    ) {
+    }
 
     public static function getName(): string
     {

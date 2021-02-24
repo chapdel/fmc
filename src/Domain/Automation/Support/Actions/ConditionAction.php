@@ -120,9 +120,9 @@ class ConditionAction extends AutomationAction
         ];
     }
 
-    private function actionToArray(array|AutomationAction $action): array
+    private function actionToArray(array | AutomationAction $action): array
     {
-        if (!$action instanceof AutomationAction) {
+        if (! $action instanceof AutomationAction) {
             return $action;
         }
 

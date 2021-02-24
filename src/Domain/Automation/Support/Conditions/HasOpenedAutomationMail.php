@@ -14,7 +14,8 @@ class HasOpenedAutomationMail implements Condition
     public function __construct(
         private Subscriber $subscriber,
         private array $data,
-    ) {}
+    ) {
+    }
 
     public static function getName(): string
     {
@@ -23,7 +24,7 @@ class HasOpenedAutomationMail implements Condition
 
     public static function getDescription(array $data): string
     {
-        if (! isset($data['automation_mail_id']) || !$data['automation_mail_id']) {
+        if (! isset($data['automation_mail_id']) || ! $data['automation_mail_id']) {
             return '';
         }
 
