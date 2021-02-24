@@ -22,11 +22,6 @@ class WaitAction extends AutomationAction
         return __('Wait for a duration');
     }
 
-    public function getDescription(): string
-    {
-        return $this->interval->cascade()->forHumans();
-    }
-
     public static function getComponent(): ?string
     {
         return 'wait-action';

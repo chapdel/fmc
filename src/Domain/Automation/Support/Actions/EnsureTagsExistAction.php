@@ -25,57 +25,6 @@ class EnsureTagsExistAction extends AutomationAction
         return __('Check tags');
     }
 
-    public function getDescription(): string
-    {
-        $checkFor = $this->checkFor->forHumans();
-
-        $template = <<<'blade'
-            <div class="grid grid-cols-2">
-                <section class="p-6">
-                    <h4 class="mb-4 markup-h4">Checking following tags for {{ $checkFor }}</h4>
-                    <div class="grid justify-items-start gap-2">
-                        @foreach ($tags as $tag)
-                            <div class=tag>{{ $tag['tag'] }}</div>
-                            <dl class="dl">
-                            @foreach ($tag['actions'] as $index => $action)
-                                    <dt>{{ $index + 1 }}. {{ $action['class']::getName() }}</dt>
-                                    <dd>
-                                        @if ($description = $action['class']::make($action['data'])->getDescription())
-                                            {{ $description }}
-                                        @endif
-                                    </dd>
-                            @endforeach
-                            </dl>
-                        @endforeach
-                    </div>
-                </section>
-                <section class="p-6 border-l border-gray-300">
-                    <h4 class="mb-4 markup-h4">Default</strong> when no tag matches</h4>
-                    <div class="grid justify-items-start gap-2">
-                    @foreach ($defaultActions as $index => $action)
-                        <dl class="dl">
-                            <dt>{{ $index + 1 }}. {{ $action['class']::getName() }}</dt>
-                            <dd>
-                            @if ($description = $action['class']::make($action['data'])->getDescription())
-                                {{ $description }}
-                            @endif
-                            </dd>
-                        </dl>
-                    @endforeach
-                    </div>
-                </section>
-            </div>
-        blade;
-
-        $view = app('view')->make(CreateBladeView::fromString($template), [
-            'tags' => $this->tags,
-            'checkFor' => $checkFor,
-            'defaultActions' => $this->defaultActions,
-        ]);
-
-        return $view->render();
-    }
-
     public static function getComponent(): ?string
     {
         return 'ensure-tags-exist-action';

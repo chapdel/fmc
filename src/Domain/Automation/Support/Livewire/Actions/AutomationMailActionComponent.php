@@ -6,20 +6,16 @@ use Illuminate\Validation\Rule;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationActionComponent;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
-class AutomationMailAction extends AutomationActionComponent
+class AutomationMailActionComponent extends AutomationActionComponent
 {
     use UsesMailcoachModels;
 
-    public int |
-
- string $campaign_id = '';
+    public int|string $automation_mail_id = '';
 
     public array $campaignOptions;
 
     public function mount()
     {
-        parent::mount();
-
         $this->campaignOptions = self::getAutomationMailClass()::query()
             ->pluck('name', 'id')
             ->toArray();
@@ -35,7 +31,10 @@ class AutomationMailAction extends AutomationActionComponent
     public function rules(): array
     {
         return [
-            'automation_mail_id' => ['required', Rule::exists(self::getAutomationMailClass(), 'id')],
+            'automation_mail_id' => [
+                'required',
+                Rule::exists(self::getAutomationMailClass(), 'id')
+            ],
         ];
     }
 

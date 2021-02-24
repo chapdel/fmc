@@ -35,15 +35,10 @@ class SendAutomationMailAction extends AutomationAction
         return __('Send an email');
     }
 
-    public function getDescription(): string
-    {
-        return "{$this->automationMail->name}";
-    }
-
     public function toArray(): array
     {
         return [
-            'campaign_id' => $this->automationMail->id,
+            'automation_mail_id' => $this->automationMail->id,
         ];
     }
 

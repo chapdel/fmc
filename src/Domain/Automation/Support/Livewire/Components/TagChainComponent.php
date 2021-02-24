@@ -17,12 +17,6 @@ class TagChainComponent extends Component
 
     protected $listeners = ['automationBuilderUpdated'];
 
-    public function mount(array $initial)
-    {
-        $this->tag = $initial['tag'] ?? '';
-        $this->actions = $initial['actions'] ?? [];
-    }
-
     public function getData(): array
     {
         return [

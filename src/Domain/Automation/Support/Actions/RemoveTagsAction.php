@@ -10,7 +10,7 @@ class RemoveTagsAction extends AutomationAction
 
     public static function make(array $data): self
     {
-        return new self(explode(',', $data['tags']));
+        return new self(explode(',', $data['tags'] ?? ''));
     }
 
     public function __construct(array $tags)

@@ -3,13 +3,12 @@
 namespace Spatie\Mailcoach\Domain\Campaign\Support;
 
 use Carbon\CarbonInterval;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Campaign\Actions\RetrieveInactiveSubscribersAction;
 use Spatie\Mailcoach\Domain\Campaign\Mails\ReconfirmationMail;
-use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\InactiveSubscriber;
-use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 
 class PendingSubscriberCleanup
 {

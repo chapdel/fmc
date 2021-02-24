@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotDetermineInactiveSubscribers;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\NotEnoughCampaigns;
-use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 
 class RetrieveInactiveSubscribersAction
 {

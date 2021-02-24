@@ -12,14 +12,5 @@ abstract class AutomationComponent extends Component
 
     public Automation $automation;
 
-    public array $componentData = [];
-
-    public function mount()
-    {
-        foreach ($this->componentData as $key => $value) {
-            $this->$key = $value;
-        }
-    }
-
     abstract public function render();
 }

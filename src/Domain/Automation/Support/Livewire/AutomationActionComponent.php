@@ -3,32 +3,58 @@
 namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire;
 
 use Illuminate\Support\MessageBag;
+use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
-abstract class AutomationActionComponent extends AutomationComponent
+class AutomationActionComponent extends AutomationComponent
 {
-    use UsesMailcoachModels;
+    public array $action;
+
+    public string $uuid;
+
+    public bool $editing = false;
+
+    public bool $editable = true;
+
+    public bool $deletable = true;
 
     public int $index = 0;
-
-    protected $listeners = ['validationFailed'];
-
-    public function validationFailed(array $errors)
-    {
-        $this->setErrorBag(new MessageBag($errors));
-    }
 
     public function rules(): array
     {
         return [];
     }
 
-    public function updated($fieldName): void
+    public function edit()
     {
-        $this->resetValidation($fieldName);
+        $this->editing = true;
 
-        $this->emitUp('actionUpdated', $this->getData());
+        $this->emitUp('editAction', $this->uuid);
     }
 
-    abstract public function getData(): array;
+    public function save()
+    {
+        if (! empty($this->rules())) {
+            $this->validate();
+        }
+
+        $this->emitUp('actionSaved', $this->uuid, $this->getData());
+
+        $this->editing = false;
+    }
+
+    public function delete()
+    {
+        $this->emitUp('actionDeleted', $this->uuid);
+    }
+
+    public function getData(): array
+    {
+        return [];
+    }
+
+    public function render()
+    {
+        return view('mailcoach::app.automations.components.automationAction');
+    }
 }

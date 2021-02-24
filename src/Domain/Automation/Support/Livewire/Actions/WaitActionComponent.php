@@ -2,12 +2,12 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions;
 
-use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationActionComponent;
 
 class WaitActionComponent extends AutomationActionComponent
 {
-    public int $length = 1;
+    public string $length = '1';
 
     public string $unit = 'days';
 
@@ -22,16 +22,22 @@ class WaitActionComponent extends AutomationActionComponent
     public function getData(): array
     {
         return [
-            'length' => $this->length,
-            'unit' => Str::plural($this->unit),
+            'length' => (int) $this->length,
+            'unit' => $this->unit,
         ];
     }
 
     public function rules(): array
     {
         return [
-            'length' => ['required'],
-            'unit' => ['required'],
+            'length' => ['required', 'integer', 'min:1'],
+            'unit' => ['required', Rule::in([
+                'minutes',
+                'hours',
+                'days',
+                'weeks',
+                'months',
+            ])],
         ];
     }
 

@@ -2,9 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire;
 
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Livewire\Livewire;
 
 class AutomationBuilder extends AutomationActionComponent
 {
@@ -12,13 +10,58 @@ class AutomationBuilder extends AutomationActionComponent
 
     public array $actions = [];
 
-    public array $editingActionData = [];
+    protected $listeners = [
+        'actionSaved',
+        'actionDeleted',
+        'validationFailed',
+        'saveActions'
+    ];
 
-    protected $listeners = ['actionUpdated', 'validationFailed', 'saveActions'];
-
-    public function actionUpdated(array $actionData)
+    public function actionSaved(string $uuid, array $actionData)
     {
-        $this->editingActionData = $actionData;
+        $index = collect($this->actions)->search(function ($action) use ($uuid) {
+            return $action['uuid'] === $uuid;
+        });
+
+        $this->actions[$index]['data'] = $actionData;
+
+        $this->emitUp('automationBuilderUpdated', $this->getData());
+    }
+
+    public function actionDeleted(string $uuid)
+    {
+        $index = collect($this->actions)->search(function ($action) use ($uuid) {
+            return $action['uuid'] === $uuid;
+        });
+
+        unset($this->actions[$index]);
+
+        $this->actions = array_values($this->actions);
+
+        $this->emitUp('automationBuilderUpdated', $this->getData());
+    }
+
+    public function addAction(string $actionClass, int $index): void
+    {
+        $uuid = Str::uuid()->toString();
+        $editable = (bool) $actionClass::getComponent();
+
+        array_splice($this->actions, $index, 0, [[
+            'uuid' => $uuid,
+            'class' => $actionClass,
+            'data' => [
+                'editing' => $editable,
+                'editable' => $editable,
+            ],
+            'active' => 0,
+            'completed' => 0,
+        ]]);
+
+        if ($editable) {
+            $this->emitUp('editAction', $uuid);
+        }
+
+        $this->emitUp('automationBuilderUpdated', $this->getData());
     }
 
     public function getData(): array
@@ -40,76 +83,10 @@ class AutomationBuilder extends AutomationActionComponent
         ]);
     }
 
-    public function addAction(string $actionClass, int $index): void
-    {
-        array_splice($this->actions, $index, 0, [[
-            'uuid' => Str::uuid()->toString(),
-            'editing' => $actionClass::getComponent() ? true : false,
-            'class' => $actionClass,
-            'data' => [],
-        ]]);
-
-        $this->emitUp('automationBuilderUpdated', $this->getData());
-    }
-
-    public function editAction(int $index)
-    {
-        $this->actions = array_map(function ($action) {
-            $action['editing'] = false;
-
-            return $action;
-        }, $this->actions);
-
-        $this->actions[$index]['editing'] = true;
-        $this->editingActionData = $this->actions[$index]['data'];
-    }
-
-    public function saveAction(int $index)
-    {
-        $data = $this->validateAction($index);
-
-        $this->actions[$index]['data'] = $data;
-        $this->actions[$index]['editing'] = false;
-
-        $this->editingActionData = [];
-
-        $this->emitUp('automationBuilderUpdated', $this->getData());
-    }
-
     public function updated($fieldName): void
     {
         $this->resetValidation($fieldName);
 
         $this->emitUp('automationBuilderUpdated', $this->getData());
-    }
-
-    public function removeAction(int $index)
-    {
-        unset($this->actions[$index]);
-
-        $this->actions = array_values($this->actions);
-
-        $this->emitUp('automationBuilderUpdated', $this->getData());
-    }
-
-    protected function validateAction(int $index): array
-    {
-        $componentClass = $this->actions[$index]['class']::getComponent();
-        if (! $componentClass) {
-            return [];
-        }
-
-        $component = Livewire::getInstance($componentClass, 1);
-
-        $validator = Validator::make(
-            $this->editingActionData,
-            $component->rules()
-        );
-
-        if ($validator->fails()) {
-            $this->emitTo($componentClass, 'validationFailed', $validator->errors());
-        }
-
-        return $validator->validate();
     }
 }

@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Campaign\Exceptions;
 
 use Exception;
-use Spatie\Mailcoach\Domain\Campaign\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 
 class CouldNotDetermineInactiveSubscribers extends Exception
 {

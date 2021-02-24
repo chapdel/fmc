@@ -5,9 +5,9 @@
 >
     @csrf
     @method('POST')
-    <livewire:automation-builder :automation="$automation" :componentData="['actions' => $actions]" />
+    <livewire:automation-builder :automation="$automation" :actions="$actions" />
 
     <div class="form-buttons">
-        <x-mailcoach::button :label="__('Save actions')" :disabled="$editing" />
+        <x-mailcoach::button :label="__('Save actions')" :disabled="count($editingActions) > 0" />
     </div>
 </form>

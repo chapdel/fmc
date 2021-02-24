@@ -30,11 +30,6 @@ class AddTagsAction extends AutomationAction
         return 'add-tags-action';
     }
 
-    public function getDescription(): string
-    {
-        return implode(', ', $this->tags);
-    }
-
     public function toArray(): array
     {
         return [

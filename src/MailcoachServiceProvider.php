@@ -30,12 +30,13 @@ use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationTriggersCommand;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\AddTagsActionComponent;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\AutomationMailAction;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\AutomationMailActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\EnsureTagsExistActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\RemoveTagsActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\WaitActionComponent;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationBuilder;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\AutomationActionsComponent;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\AutomationActionsFormComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\AutomationSettingsComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\RunAutomationComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\TagChainComponent;
@@ -62,7 +63,6 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Listeners\StoreTransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 use Spatie\Mailcoach\Http\App\Controllers\HomeController;
-use Spatie\Mailcoach\Http\App\ViewComposers\CampaignActionComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\IndexComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\QueryStringComposer;
@@ -302,17 +302,20 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.transactionalMails.templates.layouts.template', 'mailcoach::layout-transactional-template');
         Blade::component('mailcoach::app.automations.mails.layouts.automationMail', 'mailcoach::layout-automation-mail');
 
+        Blade::component('mailcoach::app.automations.components.automationAction', 'mailcoach::automation-action');
+
         return $this;
     }
 
     protected function bootLivewireComponents(): self
     {
-        Livewire::component('automation-actions', AutomationActionsComponent::class);
+        Livewire::component('automation-actions', AutomationActionsFormComponent::class);
         Livewire::component('automation-settings', AutomationSettingsComponent::class);
         Livewire::component('run-automation', RunAutomationComponent::class);
         Livewire::component('automation-builder', AutomationBuilder::class);
 
-        Livewire::component('automation-mail-action', AutomationMailAction::class);
+        Livewire::component('automation-action', AutomationActionComponent::class);
+        Livewire::component('automation-mail-action', AutomationMailActionComponent::class);
         Livewire::component('add-tags-action', AddTagsActionComponent::class);
         Livewire::component('remove-tags-action', RemoveTagsActionComponent::class);
         Livewire::component('wait-action', WaitActionComponent::class);

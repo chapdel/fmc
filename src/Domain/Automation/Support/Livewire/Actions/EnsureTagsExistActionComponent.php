@@ -49,6 +49,8 @@ class EnsureTagsExistActionComponent extends AutomationActionComponent
         return [
             'checkFor' => ['required'],
             'tags' => ['nullable', 'array'],
+            'tags.*.tag' => ['required', 'string'],
+            'tags.*.actions' => ['required', 'array'],
             'defaultActions' => ['nullable', 'array'],
         ];
     }
@@ -59,6 +61,11 @@ class EnsureTagsExistActionComponent extends AutomationActionComponent
             'tag' => '',
             'actions' => [],
         ];
+    }
+
+    public function removeTag(int $index): void
+    {
+        unset($this->tags[$index]);
     }
 
     public function render()
