@@ -6,10 +6,13 @@ namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum;
 use Spatie\Mailcoach\Domain\Automation\Support\AutomationStep;
 
 abstract class AutomationAction extends AutomationStep
 {
+    abstract public static function getCategory(): ActionCategoryEnum;
+
     public function run(Subscriber $subscriber): void
     {
     }

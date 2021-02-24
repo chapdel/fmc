@@ -35,6 +35,7 @@
         "livewire/livewire": "^2.4",
         "nesbot/carbon": "^2.37",
         "spatie/laravel-feed": "^3.0",
+        "spatie/enum": "^3.7",
         "spatie/laravel-flash": "^1.6",
         "spatie/laravel-json-api-paginate": "^1.7",
         "spatie/laravel-medialibrary": "^9.0",

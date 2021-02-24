@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
 use Carbon\CarbonInterval;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum;
 
 class WaitAction extends AutomationAction
 {
@@ -15,6 +16,11 @@ class WaitAction extends AutomationAction
         parent::__construct();
 
         $this->interval = $interval;
+    }
+
+    public static function getCategory(): ActionCategoryEnum
+    {
+        return ActionCategoryEnum::pause();
     }
 
     public static function getName(): string

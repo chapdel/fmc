@@ -3,10 +3,16 @@
 namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
 
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum;
 
 class RemoveTagsAction extends AutomationAction
 {
     public array $tags;
+
+    public static function getCategory(): ActionCategoryEnum
+    {
+        return ActionCategoryEnum::tags();
+    }
 
     public static function make(array $data): self
     {

@@ -34,11 +34,13 @@ class AutomationBuilder extends AutomationActionComponent
             return $action['uuid'] === $uuid;
         });
 
-        unset($this->actions[$index]);
+        if ($index !== false) {
+            unset($this->actions[$index]);
 
-        $this->actions = array_values($this->actions);
+            $this->actions = array_values($this->actions);
 
-        $this->emitUp('automationBuilderUpdated', $this->getData());
+            $this->emitUp('automationBuilderUpdated', $this->getData());
+        }
     }
 
     public function addAction(string $actionClass, int $index): void
@@ -75,7 +77,7 @@ class AutomationBuilder extends AutomationActionComponent
     public function render()
     {
         $actionOptions = collect(config('mailcoach.automation.flows.actions'))
-            ->flatMap(fn (string $action) => [$action => $action::getName()]);
+            ->groupBy(fn (string $action) => $action::getCategory()->value);
 
         return view('mailcoach::app.automations.components.automationBuilder', [
             'actionOptions' => $actionOptions,

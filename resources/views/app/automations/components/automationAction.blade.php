@@ -31,20 +31,20 @@
         <div class="relative z-10">
             @if ($editing)
                 <div class="mb-4">
-                    <div class="form-row">
+                    <div>
                         {{ $form ?? '' }}
                     </div>
                 </div>
             @else
                 {{ $content ?? '' }}
-            @endif
 
-            <dl class="mt-4 dl text-xs">
-                <dt>Active</dt>
-                <dd>{{ $action['active'] ?? 0 }}</dd>
-                <dt>Completed</dt>
-                <dd>{{ $action['completed'] ?? 0 }}</dd>
-            </dl>
+                <dl class="mt-4 dl text-xs">
+                    <dt>Active</dt>
+                    <dd>{{ $action['active'] ?? 0 }}</dd>
+                    <dt>Completed</dt>
+                    <dd>{{ $action['completed'] ?? 0 }}</dd>
+                </dl>
+            @endif
         </div>
     </div>
 </x-mailcoach::fieldset>

@@ -3,12 +3,18 @@
 namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
 
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum;
 
 class UnsubscribeAction extends AutomationAction
 {
     public static function getName(): string
     {
         return __('Unsubscribe');
+    }
+
+    public static function getCategory(): ActionCategoryEnum
+    {
+        return ActionCategoryEnum::react();
     }
 
     public function run(Subscriber $subscriber): void

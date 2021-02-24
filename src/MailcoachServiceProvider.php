@@ -31,7 +31,7 @@ use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\AddTagsActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\AutomationMailActionComponent;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\EnsureTagsExistActionComponent;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\ConditionActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\RemoveTagsActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\WaitActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationActionComponent;
@@ -40,6 +40,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\AutomationAct
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\AutomationSettingsComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\RunAutomationComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\TagChainComponent;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Conditions\SubscriberHasTagConditionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\DateTriggerComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\TagAddedTriggerComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\TagRemovedTriggerComponent;
@@ -319,7 +320,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('add-tags-action', AddTagsActionComponent::class);
         Livewire::component('remove-tags-action', RemoveTagsActionComponent::class);
         Livewire::component('wait-action', WaitActionComponent::class);
-        Livewire::component('ensure-tags-exist-action', EnsureTagsExistActionComponent::class);
+        Livewire::component('condition-action', ConditionActionComponent::class);
         Livewire::component('tag-chain', TagChainComponent::class);
 
         Livewire::component('date-trigger', DateTriggerComponent::class);

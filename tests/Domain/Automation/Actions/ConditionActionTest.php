@@ -8,14 +8,15 @@ use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
-use Spatie\Mailcoach\Domain\Automation\Support\Actions\EnsureTagsExistAction;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\ConditionAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
+use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasTagCondition;
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-class EnsureTagExistsActionTest extends TestCase
+class ConditionActionTest extends TestCase
 {
     protected AutomationMail $automationMail;
 
@@ -34,19 +35,16 @@ class EnsureTagExistsActionTest extends TestCase
 
         $automation = Automation::create()
             ->chain([
-                new EnsureTagsExistAction(
+                new ConditionAction(
                     CarbonInterval::day(),
                     [
-                        [
-                            'tag' => 'some-tag',
-                            'actions' => [
-                                new SendAutomationMailAction($this->automationMail),
-                            ],
-                        ],
+                        new SendAutomationMailAction($this->automationMail),
                     ],
                     [
                         new HaltAction(),
-                    ]
+                    ],
+                    HasTagCondition::class,
+                    ['tag' => 'some-tag']
                 ),
             ]);
 

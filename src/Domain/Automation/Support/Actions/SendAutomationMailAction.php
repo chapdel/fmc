@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class SendAutomationMailAction extends AutomationAction
@@ -12,6 +13,11 @@ class SendAutomationMailAction extends AutomationAction
     use SerializesModels, UsesMailcoachModels;
 
     public AutomationMail $automationMail;
+
+    public static function getCategory(): ActionCategoryEnum
+    {
+        return ActionCategoryEnum::react();
+    }
 
     public static function make(array $data): self
     {

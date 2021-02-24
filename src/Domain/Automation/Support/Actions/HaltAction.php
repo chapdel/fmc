@@ -3,9 +3,15 @@
 namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
 
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum;
 
 class HaltAction extends AutomationAction
 {
+    public static function getCategory(): ActionCategoryEnum
+    {
+        return ActionCategoryEnum::pause();
+    }
+
     public static function getName(): string
     {
         return __('Halt the automation');
