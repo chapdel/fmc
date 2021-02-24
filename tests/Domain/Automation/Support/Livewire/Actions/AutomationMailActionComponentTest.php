@@ -44,7 +44,7 @@ class AutomationMailActionComponentTest extends TestCase
             'action' => $this->action,
             'uuid' => Str::uuid()->toString(),
         ])->assertViewHas('campaignOptions', [
-            $mail->id => $mail->name
+            $mail->id => $mail->name,
         ]);
     }
 

@@ -5,10 +5,8 @@ namespace Spatie\Mailcoach\Tests\Domain\Automation\Support\Livewire\Actions;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\RemoveTagsAction;
-use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\RemoveTagsActionComponent;
 use Spatie\Mailcoach\Tests\TestCase;
-use Spatie\ValidationRules\Rules\Delimited;
 
 class RemoveTagsActionComponentTest extends TestCase
 {
