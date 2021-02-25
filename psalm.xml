@@ -19,7 +19,7 @@
         <NullableReturnStatement>
             <errorLevel type="suppress">
                 <file name="src/Http/App/Requests/Campaigns/ScheduleCampaignRequest.php"/>
-                <file name="src/Support/Segments/SubscribersWithTagsSegment.php"/>
+                <file name="src/Domain/Audience/Support/Segments/SubscribersWithTagsSegment.php"/>
 
             </errorLevel>
         </NullableReturnStatement>
@@ -28,25 +28,21 @@
                 <file name="src/MailcoachServiceProvider.php"/>
             </errorLevel>
         </UndefinedMethod>
-        <LessSpecificImplementedReturnType>
-            <errorLevel type="suppress">
-                <file name="src/Mails/CampaignMail.php"/>
-            </errorLevel>
-        </LessSpecificImplementedReturnType>
         <InvalidReturnStatement>
             <errorLevel type="suppress">
-                <file name="src/Support/Segments/SubscribersWithTagsSegment.php"/>
+                <file name="src/Domain/Audience/Support/Segments/SubscribersWithTagsSegment.php"/>
                 <file name="src/Components/DateTimeFieldComponent.php"/>
                 <file name="src/Components/FilterComponent.php"/>
-                <file name="src/Components/ReplacerHelpTextsComponent.php"/>
+                <file name="src/Components/CampaignReplacerHelpTextsComponent.php"/>
+                <file name="src/Components/AutomationMailReplacerHelpTextsComponent.php"/>
                 <file name="src/Components/SearchComponent.php"/>
                 <file name="src/Components/THComponent.php"/>
             </errorLevel>
         </InvalidReturnStatement>
         <InvalidArgument>
             <errorLevel type="suppress">
-                <file name="src/Support/Replacers/Concerns/ReplacesModelAttributes.php"/>
-                <file name="src/Actions/Campaigns/SendCampaignAction.php"/>
+                <file name="src/Domain/Campaign/Support/Replacers/Concerns/ReplacesModelAttributes.php"/>
+                <file name="src/Domain/Campaign/Actions/SendCampaignAction.php"/>
             </errorLevel>
         </InvalidArgument>
         <InvalidNullableReturnType>
@@ -56,17 +52,18 @@
         </InvalidNullableReturnType>
         <InvalidReturnType>
             <errorLevel type="suppress">
-                <file name="src/Support/Segments/SubscribersWithTagsSegment.php"/>
+                <file name="src/Domain/Audience/Support/Segments/SubscribersWithTagsSegment.php"/>
                 <file name="src/Components/DateTimeFieldComponent.php"/>
                 <file name="src/Components/FilterComponent.php"/>
-                <file name="src/Components/ReplacerHelpTextsComponent.php"/>
+                <file name="src/Components/AutomationMailReplacerHelpTextsComponent.php"/>
+                <file name="src/Components/CampaignReplacerHelpTextsComponent.php"/>
                 <file name="src/Components/SearchComponent.php"/>
                 <file name="src/Components/THComponent.php"/>
             </errorLevel>
         </InvalidReturnType>
         <UndefinedMethod>
             <errorLevel type="suppress">
-                <file name="src/Actions/Subscribers/ImportSubscribersAction.php"/>
+                <file name="src/Domain/Audience/Actions/Subscribers/ImportSubscribersAction.php"/>
                 <file name="src/MailcoachServiceProvider.php"/>
             </errorLevel>
         </UndefinedMethod>
