@@ -87,7 +87,7 @@ class TransactionalMailTemplate extends Model implements HasHtmlContent
                     throw InvalidTemplate::invalidReplacer($this, $replacerName, $replacerClass);
                 }
 
-                return resolve()->make($replacerClass);
+                return resolve($replacerClass);
             });
     }
 
