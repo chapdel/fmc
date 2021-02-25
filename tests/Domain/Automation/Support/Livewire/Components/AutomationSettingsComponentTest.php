@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Tests\Domain\Automation\Support\Livewire\Components;
 
 use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\UnsubscribeAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;

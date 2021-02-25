@@ -5,10 +5,8 @@ namespace Spatie\Mailcoach\Tests\Domain\Automation\Actions;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailTestAction;
-use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailSentEvent;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
-use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 
 class SendAutomationMailTestActionTest extends TestCase
