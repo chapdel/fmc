@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Http\Front\Controllers;
 
-use Spatie\Mailcoach\Domain\Campaign\Models\InactiveSubscriber;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Models\InactiveSubscriber;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Symfony\Component\HttpFoundation\Response;
 
