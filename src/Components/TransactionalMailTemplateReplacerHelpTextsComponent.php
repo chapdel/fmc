@@ -19,7 +19,7 @@ class TransactionalMailTemplateReplacerHelpTextsComponent extends Component
             ->map(fn (string $replacerKeyInConfig) => config("mailcoach.transactional.replacers.{$replacerKeyInConfig}"))
             ->filter()
             ->filter(fn (string $className) => class_exists($className))
-            ->map(fn (string $className) => app($className))
+            ->map(fn (string $className) => resolve($className))
             ->flatMap(fn (TransactionalMailReplacer $replacer) => $replacer->helpText())
             ->toArray();
     }

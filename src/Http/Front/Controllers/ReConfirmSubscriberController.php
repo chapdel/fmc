@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Http\Front\Controllers;
 
 use Spatie\Mailcoach\Domain\Campaign\Models\InactiveSubscriber;
-use Spatie\Mailcoach\Domain\Campaign\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -13,7 +13,7 @@ class ReConfirmSubscriberController
 
     public function __invoke(string $subscriberUuid)
     {
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Subscriber $subscriber */
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
         $subscriber = $this->getSubscriberClass()::findByUuid($subscriberUuid);
 
         $inactiveSubscriber = InactiveSubscriber::where('subscriber_id')->first();

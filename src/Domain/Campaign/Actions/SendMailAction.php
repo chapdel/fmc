@@ -44,7 +44,7 @@ class SendMailAction
         $convertHtmlToTextAction = Config::getCampaignActionClass('convert_html_to_text', ConvertHtmlToTextAction::class);
         $personalisedText = $convertHtmlToTextAction->execute($personalisedHtml);
 
-        $mailcoachMail = app(MailcoachMail::class);
+        $mailcoachMail = resolve(MailcoachMail::class);
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */
         $campaign = $pendingSend->campaign;

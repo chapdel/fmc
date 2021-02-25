@@ -9,6 +9,6 @@ class FooterComposer
 {
     public function compose(View $view)
     {
-        $view->with('versionInfo', app(Version::class));
+        $view->with('versionInfo', resolve(Version::class));
     }
 }

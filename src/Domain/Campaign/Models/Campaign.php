@@ -348,7 +348,7 @@ class Campaign extends Sendable implements Feedable, HasHtmlContent
 
     public function webviewUrl(): string
     {
-        return (string)url(route('mailcoach.campaign.webview', $this->uuid));
+        return url(route('mailcoach.campaign.webview', $this->uuid));
     }
 
     public function getMailable(): MailcoachMail
@@ -356,7 +356,7 @@ class Campaign extends Sendable implements Feedable, HasHtmlContent
         $mailableClass = $this->mailable_class ?? MailcoachMail::class;
         $mailableArguments = $this->mailable_arguments ?? [];
 
-        return app($mailableClass, $mailableArguments);
+        return resolve($mailableClass, $mailableArguments);
     }
 
     public function dispatchCalculateStatistics()
@@ -527,11 +527,6 @@ class Campaign extends Sendable implements Feedable, HasHtmlContent
     public function getStructuredHtml(): ?string
     {
         return $this->structured_html;
-    }
-
-    public function sizeInKb(): int
-    {
-        return ceil(mb_strlen($this->getHtml(), '8bit') / 1000);
     }
 
     public function resolveRouteBinding($value, $field = null)

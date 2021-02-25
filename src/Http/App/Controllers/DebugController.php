@@ -12,7 +12,7 @@ class DebugController
 {
     public function __invoke(HorizonStatus $horizonStatus)
     {
-        $versionInfo = app(Version::class);
+        $versionInfo = resolve(Version::class);
         $hasQueueConnection = config('queue.connections.mailcoach-redis') && ! empty(config('queue.connections.mailcoach-redis'));
         $mysqlVersion = $this->mysqlVersion();
         $horizonVersion = InstalledVersions::getVersion("laravel/horizon");

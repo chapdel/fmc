@@ -126,10 +126,12 @@ class Automation extends Model
                 $action->uuid = $uuid;
             }
 
-            $action->store($action->uuid ?? Str::uuid()->toString(), $this, $index);
+            $action->store($action->uuid, $this, $index);
         });
 
-        return $this->fresh('actions');
+        $this->fresh('actions');
+
+        return $this;
     }
 
     public function pause(): self

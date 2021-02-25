@@ -15,12 +15,11 @@ class AutomationMailsIndexController
     public function __invoke(AutomatedMailQuery $automatedMailQuery)
     {
         $this->authorize("viewAny", AutomationMail::class);
-        ray(AutomationMail::get());
 
         return view('mailcoach::app.automations.mails.index', [
-            'mails' => ray()->pass($automatedMailQuery->paginate()),
+            'mails' => $automatedMailQuery->paginate(),
             'mailsQuery' => $automatedMailQuery,
-            'totalMailsCount' => ray()->pass($this->getAutomationMailClass()::count()),
+            'totalMailsCount' => $this->getAutomationMailClass()::count(),
         ]);
     }
 }

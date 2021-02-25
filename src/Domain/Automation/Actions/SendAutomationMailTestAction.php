@@ -19,7 +19,7 @@ class SendAutomationMailTestAction
 
         $text = $convertHtmlToTextAction->execute($html);
 
-        $mailable = app(MailcoachMail::class)
+        $mailable = resolve(MailcoachMail::class)
             ->setFrom($mail->fromEmail(), $mail->fromName())
             ->setHtmlContent($html)
             ->setTextContent($text)

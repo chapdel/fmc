@@ -41,10 +41,10 @@ class Config
         }
 
         if (! is_a($configuredClass, $actionClass, true)) {
-            throw InvalidConfig::invalidAction($actionName, $configuredClass ?? '', $actionClass);
+            throw InvalidConfig::invalidAction($actionName, $configuredClass, $actionClass);
         }
 
-        return app($configuredClass);
+        return resolve($configuredClass);
     }
 
     public static function getQueueConnection(): ?string

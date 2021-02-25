@@ -68,7 +68,7 @@ class PrepareEmailHtmlAction
     protected function replacePlaceholders(Campaign $campaign): void
     {
         $campaign->email_html = collect(config('mailcoach.campaigns.replacers'))
-            ->map(fn (string $className) => app($className))
+            ->map(fn (string $className) => resolve($className))
             ->filter(fn (object $class) => $class instanceof CampaignReplacer)
             ->reduce(fn (string $html, CampaignReplacer $replacer) => $replacer->replace($html, $campaign), $campaign->email_html);
     }

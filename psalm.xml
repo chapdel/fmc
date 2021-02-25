@@ -11,7 +11,7 @@
     <projectFiles>
         <directory name="src"/>
          <ignoreFiles>
-            <directory name="vendor" />
+            <directory name="vendor"/>
         </ignoreFiles>
     </projectFiles>
 
@@ -69,9 +69,20 @@
         </UndefinedMethod>
         <UndefinedClass>
             <errorLevel type="suppress">
-                <referencedClass name="Swift_Message" />
+                <referencedClass name="Swift_Message"/>
             </errorLevel>
         </UndefinedClass>
 
+        <!-- @todo: Can't get this to work within a package? Ide helper or migrations somehow? -->
+        <UndefinedMagicPropertyFetch>
+            <errorLevel type="suppress">
+                <directory name="src"/>
+            </errorLevel>
+        </UndefinedMagicPropertyFetch>
+        <UndefinedThisPropertyFetch>
+            <errorLevel type="suppress">
+                <directory name="src"/>
+            </errorLevel>
+        </UndefinedThisPropertyFetch>
     </issueHandlers>
-</psalm>
+<plugins><pluginClass class="Psalm\LaravelPlugin\Plugin"/></plugins></psalm>

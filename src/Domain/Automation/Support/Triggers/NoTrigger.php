@@ -6,6 +6,6 @@ class NoTrigger extends AutomationTrigger
 {
     public static function getName(): string
     {
-        return __('No trigger');
+        return (string) __('No trigger');
     }
 }

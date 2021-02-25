@@ -193,7 +193,7 @@ abstract class Sendable extends Model implements Feedable, HasHtmlContent
         $mailableClass = $this->mailable_class ?? MailcoachMail::class;
         $mailableArguments = $this->mailable_arguments ?? [];
 
-        return app($mailableClass, $mailableArguments);
+        return resolve($mailableClass, $mailableArguments);
     }
 
     /** TODO: verify if this function can be removed */
@@ -266,6 +266,6 @@ abstract class Sendable extends Model implements Feedable, HasHtmlContent
 
     public function sizeInKb(): int
     {
-        return ceil(mb_strlen($this->getHtml(), '8bit') / 1000);
+        return (int) ceil(mb_strlen($this->getHtml(), '8bit') / 1000);
     }
 }

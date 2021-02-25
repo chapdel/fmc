@@ -163,11 +163,6 @@ class AutomationMail extends Sendable implements Feedable, HasHtmlContent
         return $this;
     }
 
-    public function sendTo(EmailList $emailList): self
-    {
-        return $this->to($emailList)->send();
-    }
-
     protected function ensureSendable()
     {
         if ($this->hasCustomMailable()) {
@@ -214,7 +209,7 @@ class AutomationMail extends Sendable implements Feedable, HasHtmlContent
 
     public function webviewUrl(): string
     {
-        return (string)url(route('mailcoach.automations.webview', $this->uuid));
+        return url(route('mailcoach.automations.webview', $this->uuid));
     }
 
     public function getMailable(): MailcoachMail
@@ -222,7 +217,7 @@ class AutomationMail extends Sendable implements Feedable, HasHtmlContent
         $mailableClass = $this->mailable_class ?? MailcoachMail::class;
         $mailableArguments = $this->mailable_arguments ?? [];
 
-        return app($mailableClass, $mailableArguments);
+        return resolve($mailableClass, $mailableArguments);
     }
 
     /** TODO: make automation specific */
@@ -394,11 +389,6 @@ class AutomationMail extends Sendable implements Feedable, HasHtmlContent
     public function getStructuredHtml(): ?string
     {
         return $this->structured_html;
-    }
-
-    public function sizeInKb(): int
-    {
-        return ceil(mb_strlen($this->getHtml(), '8bit') / 1000);
     }
 
     public function resolveRouteBinding($value, $field = null)

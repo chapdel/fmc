@@ -19,7 +19,7 @@ class SendCampaignTestAction
 
         $text = $convertHtmlToTextAction->execute($html);
 
-        $campaignMailable = app(MailcoachMail::class)
+        $campaignMailable = resolve(MailcoachMail::class)
             ->setCampaign($campaign)
             ->setHtmlContent($html)
             ->setTextContent($text)

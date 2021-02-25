@@ -54,7 +54,7 @@ trait SendsToSegment
             return $segmentClass->setSegmentable($this);
         }
 
-        return app($segmentClass)->setSegmentable($this);
+        return resolve($segmentClass)->setSegmentable($this);
     }
 
     public function segmentSubscriberCount(): int

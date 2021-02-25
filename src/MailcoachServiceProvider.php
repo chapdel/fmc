@@ -179,7 +179,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootGate(): self
     {
-        Gate::define('viewMailcoach', fn () => app()->environment('local'));
+        Gate::define('viewMailcoach', fn () => $this->app->environment('local'));
 
         return $this;
     }
@@ -218,8 +218,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
         View::composer('mailcoach::*.index', IndexComposer::class);
 
         View::composer('mailcoach::app.layouts.partials.footer', FooterComposer::class);
-
-        View::composer('mailcoach::app.automations.partials.actions.campaignAction', CampaignActionComposer::class);
 
         if (config("mailcoach.views.use_blade_components", true)) {
             $this->bootBladeComponents();

@@ -67,25 +67,24 @@ class PendingSubscriberCleanup
 
     public function sendReconfirmationMail(): void
     {
-        $query = app(RetrieveInactiveSubscribersAction::class)->execute(
+        $query = resolve(RetrieveInactiveSubscribersAction::class)->execute(
             $this->emailList,
             $this->didNotOpenPastNumberOfCampaigns,
             $this->didNotClickPastNumberOfCampaigns,
         );
 
-        $query->cursor()
-            ->each(function (Subscriber $subscriber) {
-                $mail = (new ReconfirmationMail($subscriber, $this->redirectAfterReconfirmation))
-                    ->build()
-                    ->to($subscriber->email)
-                    ->subject($this->subject);
+        $query->each(function (Subscriber $subscriber) {
+            $mail = (new ReconfirmationMail($subscriber, $this->redirectAfterReconfirmation))
+                ->build()
+                ->to($subscriber->email)
+                ->subject($this->subject);
 
-                Mail::send($mail);
+            Mail::send($mail);
 
-                InactiveSubscriber::create([
-                    'subscriber_id' => $subscriber->id,
-                    'unsubscribe_at' => now()->add($this->unsubscribeAfter),
-                ]);
-            });
+            InactiveSubscriber::create([
+                'subscriber_id' => $subscriber->id,
+                'unsubscribe_at' => now()->add($this->unsubscribeAfter),
+            ]);
+        });
     }
 }

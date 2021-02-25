@@ -28,7 +28,7 @@ class AddTagsAction extends AutomationAction
 
     public static function getName(): string
     {
-        return __('Add tags');
+        return (string) __('Add tags');
     }
 
     public static function getComponent(): ?string

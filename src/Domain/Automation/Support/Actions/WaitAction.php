@@ -25,7 +25,7 @@ class WaitAction extends AutomationAction
 
     public static function getName(): string
     {
-        return __('Wait for a duration');
+        return (string) __('Wait for a duration');
     }
 
     public static function getComponent(): ?string

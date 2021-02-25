@@ -95,10 +95,10 @@ class SendCampaignAction
             ->filter()
             ->chunk(1000)
             ->each(function (LazyCollection $jobs) use ($batch) {
-                $batch->add($jobs);
+                $batch->add($jobs->all());
             });
 
-        $batch->add(new MarkCampaignAsFullyDispatchedJob($campaign));
+        $batch->add([new MarkCampaignAsFullyDispatchedJob($campaign)]);
 
         return $this;
     }

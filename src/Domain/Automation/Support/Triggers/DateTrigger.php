@@ -19,7 +19,7 @@ class DateTrigger extends AutomationTrigger implements TriggeredBySchedule
 
     public static function getName(): string
     {
-        return __('On a date');
+        return (string) __('On a date');
     }
 
     public static function getComponent(): ?string

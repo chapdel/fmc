@@ -17,10 +17,6 @@ class SendAutomationMailToSubscriberAction
             return;
         }
 
-        if (! $subscriber) {
-            return;
-        }
-
         $this
             ->prepareSubject($automationMail)
             ->prepareEmailHtml($automationMail)

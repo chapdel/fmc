@@ -10,7 +10,7 @@ class AutomationMailReplacerHelpTextsComponent extends Component
     public function replacerHelpTexts(): array
     {
         return collect(config('mailcoach.automation.replacers'))
-            ->map(fn (string $className) => app($className))
+            ->map(fn (string $className) => resolve($className))
             ->flatMap(fn (ReplacerWithHelpText $replacer) => $replacer->helpText())
             ->toArray();
     }

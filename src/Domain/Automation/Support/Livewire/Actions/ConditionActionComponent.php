@@ -48,7 +48,9 @@ class ConditionActionComponent extends AutomationActionComponent
 
     public function updatedCondition()
     {
-        foreach (array_keys($this->condition::rules()) as $key) {
+        /** @var \Spatie\Mailcoach\Domain\Automation\Support\Conditions\Condition $condition */
+        $condition = $this->condition;
+        foreach (array_keys($condition::rules()) as $key) {
             if (! isset($this->conditionData[$key])) {
                 $this->conditionData[$key] = '';
             }

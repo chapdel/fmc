@@ -28,6 +28,6 @@ class SendWelcomeMailAction
     {
         $mailableClass = $subscriber->emailList->welcomeMailableClass();
 
-        return app()->makeWith($mailableClass, ['subscriber' => $subscriber]);
+        return resolve($mailableClass, ['subscriber' => $subscriber]);
     }
 }

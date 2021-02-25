@@ -29,7 +29,7 @@ class ConditionAction extends AutomationAction
 
     public static function getName(): string
     {
-        return __('Yes/No condition');
+        return (string) __('Yes/No condition');
     }
 
     public static function getComponent(): ?string
