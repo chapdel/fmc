@@ -63,14 +63,14 @@ class CalculateStatisticsJobTest extends TestCase
             'unsubscribe_rate' => 0,
         ]);
 
-        $sends = $campaign->sends()->take(3)->get();
+        $sends = $campaign->sends()->take(1)->get();
         $this->simulateUnsubscribes($sends);
         dispatch(new CalculateStatisticsJob($campaign));
 
         $this->assertDatabaseHas('mailcoach_campaigns', [
             'id' => $campaign->id,
-            'unsubscribe_count' => 3,
-            'unsubscribe_rate' => 6000,
+            'unsubscribe_count' => 1,
+            'unsubscribe_rate' => 2000,
         ]);
     }
 
