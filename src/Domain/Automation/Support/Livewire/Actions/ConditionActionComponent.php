@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions;
 
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasClickedAutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasOpenedAutomationMail;
@@ -70,15 +71,15 @@ class ConditionActionComponent extends AutomationActionComponent
 
     public function automationBuilderUpdated(array $data): void
     {
-        if (! in_array($data['name'], ['yes-actions', 'no-actions'])) {
+        if (! Str::startsWith($data['name'], $this->uuid)) {
             return;
         }
 
-        if ($data['name'] === 'yes-actions') {
+        if ($data['name'] === $this->uuid . '-yes-actions') {
             $this->yesActions = $data['actions'];
         }
 
-        if ($data['name'] === 'no-actions') {
+        if ($data['name'] === $this->uuid . '-no-actions') {
             $this->noActions = $data['actions'];
         }
 

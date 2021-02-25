@@ -32,14 +32,14 @@
     </head>
     <body class="bg-gray-100">
         <script>/**/</script><!-- Empty script to prevent FOUC in Firefox -->
-        
+
         <div class="mx-auto grid w-full max-w-layout min-h-screen p-6 z-auto"
          style="grid-template-rows: auto 1fr auto">
             <aside>
                 @include('mailcoach::app.layouts.partials.startBody')
             </aside>
-            
-            
+
+
             <div>
                 @include('mailcoach::app.layouts.partials.flash')
 
@@ -49,7 +49,7 @@
                     </nav>
 
                     <main class="card-main">
-                        
+
                         <h1 class="markup-h1">
                             @isset($originTitle)
                                 <div class="markup-h1-sub">

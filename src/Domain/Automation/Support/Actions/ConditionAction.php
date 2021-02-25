@@ -114,7 +114,7 @@ class ConditionAction extends AutomationAction
             'yesActions' => collect($this->yesActions)->map(function ($action) {
                 return $this->actionToArray($action);
             })->toArray(),
-            'noActions' => collect($this->yesActions)->map(function ($action) {
+            'noActions' => collect($this->noActions)->map(function ($action) {
                 return $this->actionToArray($action);
             })->toArray(),
         ];
