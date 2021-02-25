@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\Automations;
 
 use Illuminate\Http\Request;
-use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 

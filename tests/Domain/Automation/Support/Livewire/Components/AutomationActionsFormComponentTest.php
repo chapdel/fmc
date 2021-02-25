@@ -75,7 +75,7 @@ class AutomationActionsFormComponentTest extends TestCase
                     ],
                     "active" => 0,
                     "completed" => 0,
-                ]
+                ],
             ],
         ])->assertViewHas('actions', [
             [
@@ -87,7 +87,7 @@ class AutomationActionsFormComponentTest extends TestCase
                 ],
                 "active" => 0,
                 "completed" => 0,
-            ]
+            ],
         ]);
     }
 }

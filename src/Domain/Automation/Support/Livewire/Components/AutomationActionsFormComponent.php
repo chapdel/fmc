@@ -15,7 +15,7 @@ class AutomationActionsFormComponent extends Component
         'automationBuilderUpdated',
         'editAction',
         'actionSaved',
-        'actionDeleted'
+        'actionDeleted',
     ];
 
     public Automation $automation;
