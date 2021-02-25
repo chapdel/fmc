@@ -1,0 +1,449 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+   <title></title>
+   <meta charset="utf8"><meta http-equiv="x-ua-compatible" content="ie=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="x-apple-disable-message-reformatting"><!--[if mso]>
+    <xml>
+        <o:officedocumentsettings>
+            <o:pixelsperinch>96</o:pixelsperinch>
+        </o:officedocumentsettings>
+    </xml>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        td, th, div, p, a, h1, h2, h3, h4, h5, h6 {
+            font-family: "Segoe UI", sans-serif;
+            mso-line-height-rule: exactly;
+        }
+    </style>
+    <![endif]-->
+   <style type="text/css">body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            word-break: break-word;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        img {
+            border: 0;
+            line-height: 100%;
+            vertical-align: middle;
+        }
+
+        a {
+            color: #3182ce;
+        }
+
+        .bg-gray-200 {
+            background-color: #edf2f7 !important;
+        }
+
+        .bg-blue-100 {
+            background-color: #ebf8ff !important;
+        }
+
+        .border-collapse {
+            border-collapse: collapse !important;
+        }
+
+        .border-gray-200 {
+            border-color: #edf2f7 !important;
+        }
+
+        .border-gray-400 {
+            border-color: #cbd5e0 !important;
+        }
+
+        .border-blue-200 {
+            border-color: #bee3f8 !important;
+        }
+
+        .border-solid {
+            border-style: solid !important;
+        }
+
+        .border-0 {
+            border-width: 0 !important;
+        }
+
+        .border-b-4 {
+            border-bottom-width: 4px !important;
+        }
+
+        .border-t {
+            border-top-width: 1px !important;
+        }
+
+        .border-b {
+            border-bottom-width: 1px !important;
+        }
+
+        .font-bold {
+            font-weight: 700 !important;
+        }
+
+        .leading-20 {
+            line-height: 20px !important;
+        }
+
+        .leading-24 {
+            line-height: 24px !important;
+        }
+
+        .list-inside {
+            list-style-position: inside !important;
+        }
+
+        .m-0 {
+            margin: 0 !important;
+        }
+
+        .mx-auto {
+            margin-left: auto !important;
+            margin-right: auto !important;
+        }
+
+        .mb-2 {
+            margin-bottom: 2px !important;
+        }
+
+        .mb-4 {
+            margin-bottom: 4px !important;
+        }
+
+        .mb-12 {
+            margin-bottom: 12px !important;
+        }
+
+        .mb-16 {
+            margin-bottom: 16px !important;
+        }
+
+        .p-0 {
+            padding: 0 !important;
+        }
+
+        .p-16 {
+            padding: 16px !important;
+        }
+
+        .p-24 {
+            padding: 24px !important;
+        }
+
+        .px-4 {
+            padding-left: 4px !important;
+            padding-right: 4px !important;
+        }
+
+        .py-24 {
+            padding-top: 24px !important;
+            padding-bottom: 24px !important;
+        }
+
+        .px-24 {
+            padding-left: 24px !important;
+            padding-right: 24px !important;
+        }
+
+        .py-32 {
+            padding-top: 32px !important;
+            padding-bottom: 32px !important;
+        }
+
+        .pl-0 {
+            padding-left: 0 !important;
+        }
+
+        .pt-24 {
+            padding-top: 24px !important;
+        }
+
+        .pb-32 {
+            padding-bottom: 32px !important;
+        }
+
+        .text-center {
+            text-align: center !important;
+        }
+
+        .text-gray-600 {
+            color: #718096 !important;
+        }
+
+        .text-gray-700 {
+            color: #4a5568 !important;
+        }
+
+        .text-gray-800 {
+            color: #2d3748 !important;
+        }
+
+        .text-gray-900 {
+            color: #1a202c !important;
+        }
+
+        .text-sm {
+            font-size: 14px !important;
+        }
+
+        .text-lg {
+            font-size: 18px !important;
+        }
+
+        .text-xl {
+            font-size: 20px !important;
+        }
+
+        .underline {
+            text-decoration: underline !important;
+        }
+
+        .no-underline {
+            text-decoration: none !important;
+        }
+
+        .w-48 {
+            width: 48px !important;
+        }
+
+        .w-600 {
+            width: 600px !important;
+        }
+
+        .w-full {
+            width: 100% !important;
+        }
+
+        @media  screen {
+            img {
+                max-width: 100%;
+            }
+
+            .all-font-sans {
+                font-family: Whitney SSm A, Whitney SSm B, -apple-system, "Segoe UI", sans-serif !important;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .sm-w-full {
+                width: 100% !important;
+            }
+        }
+   </style>
+   <link href="https://cloud.typography.com/6194432/6581412/css/fonts.css" rel="stylesheet" />
+</head>
+<body>
+<table cellpadding="0" cellspacing="0" class="all-font-sans text-gray-900 leading-24 w-600 mx-auto sm-w-full" role="presentation">
+   <tbody>
+      <tr>
+         <td class="px-24 py-32">
+         <table cellpadding="0" cellspacing="0" class="border-collapse" role="presentation">
+            <tbody>
+               <tr>
+                  <td class="text-sm text-center py-48"><a class="text-gray-700 underline" href="https://sendy.freek.dev/w/gMTJ0B9fBhUbUnImSK1gog">View email in browser</a></td>
+               </tr>
+               <tr>
+                  <td class="pb-32">
+                  <table cellpadding="0" cellspacing="0" class="mx-auto leading-16" role="presentation">
+                     <tbody>
+                        <tr>
+                           <td class="p-16 w-48"><a class="no-underline" href="https://freek.dev"><img alt="freek.dev" src="https://freek.dev/images/murzicoon.png" width="48" /> </a></td>
+                           <td class="p-16 pl-0">
+                           <p class="m-0 text-xl font-bold" style="line-height: 30px">FREEK.DEV</p>
+
+                           <p class="m-0 text-gray-700">Hi, welcome to the 94th freek.dev newsletter!</p>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="border-solid border-0 border-t border-b border-gray-200">
+                  <table cellpadding="0" cellspacing="0" class="w-full py-24" role="presentation">
+                     <tbody>
+                        <tr>
+                           <td>
+                           <p class="m-0 mb-2 text-lg font-bold"><a class="text-gray-900 no-underline" href="https://freek.dev/1500-sending-a-welcome-notification-to-new-users-of-a-laravel-app">Sending a welcome notification to new users of a Laravel app</a></p>
+
+                           <p class="m-0 text-gray-800">To onboard new users created by other users, I&#39;ve created a new package&nbsp;which can send a welcome notification to new users that allows them to set an initial password.</p>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="border-solid border-0 border-t border-b border-gray-200">
+                  <table cellpadding="0" cellspacing="0" class="w-full py-24" role="presentation">
+                     <tbody>
+                        <tr>
+                           <td>
+                           <p class="m-0 mb-2 text-lg font-bold"><a class="text-gray-900 no-underline" href="https://pomb.us/build-your-own-react/">Build your own React</a></p>
+
+                           <p class="m-0 text-gray-800">In a very cool post, Rodrigo Pombo explains the internals of React by rewriting it&#39;s core from scratch.</p>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="border-solid border-0 border-t border-b border-gray-200">
+                  <table cellpadding="0" cellspacing="0" class="w-full py-24" role="presentation">
+                     <tbody>
+                        <tr>
+                           <td>
+                           <p class="m-0 mb-2 text-lg font-bold"><a class="text-gray-900 no-underline" href="https://jessarcher.com/blog/closing-modals-with-the-back-button-in-a-vue-spa/">Closing Modals with the Back Button in a Vue SPA</a></p>
+
+                           <p class="m-0 text-gray-800">Jess Archer recently gave an excellent talk at Laracon AU. In a new blogpost she explains one one tips given during her talk: how to close modals in a Vue app by using the back button.</p>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="border-solid border-0 border-t border-b border-gray-200">
+                  <table cellpadding="0" cellspacing="0" class="w-full py-24" role="presentation">
+                     <tbody>
+                        <tr>
+                           <td>
+                           <p class="m-0 mb-2 text-lg font-bold"><a class="text-gray-900 no-underline" href="https://mailcoach.app">Self-host your newsletters and email campaigns</a></p>
+
+                           <p class="m-0 text-gray-800">My team and I are currently building Mailcoach, both a stand alone app and Laravel package to send out newsletters.</p>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="border-solid border-0 border-t border-b border-gray-200">
+                  <table cellpadding="0" cellspacing="0" class="w-full py-24" role="presentation">
+                     <tbody>
+                        <tr>
+                           <td>
+                           <p class="m-0 mb-2 text-lg font-bold"><a class="text-gray-900 no-underline" href="https://stitcher.io/blog/laravel-custom-relation-classes">Creating custom relations in Laravel</a></p>
+
+                           <p class="m-0 text-gray-800">My colleague Brent solved a performance by creating a custom relation.</p>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="border-solid border-0 border-t border-b border-gray-200">
+                  <table cellpadding="0" cellspacing="0" class="w-full py-24" role="presentation">
+                     <tbody>
+                        <tr>
+                           <td>
+                           <p class="m-0 mb-2 text-lg font-bold"><a class="text-gray-900 no-underline" href="https://freek.dev/1492-improving-artisan-commands">Improving Artisan commands</a></p>
+
+                           <p class="m-0 text-gray-800">In this small blog post, I&#39;d like to give you a couple of tips to make your Artisan commands better.&nbsp;</p>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="border-solid border-0 border-t border-b border-gray-200">
+                  <table cellpadding="0" cellspacing="0" class="w-full py-24" role="presentation">
+                     <tbody>
+                        <tr>
+                           <td>
+                           <p class="m-0 mb-2 text-lg font-bold"><a class="text-gray-900 no-underline" href="https://tideways.com/profiler/blog/what-is-garbage-collection-in-php-and-how-do-you-make-the-most-of-it">What Is Garbage Collection in PHP And How Do You Make The Most Of It?</a></p>
+
+                           <p class="m-0 text-gray-800">On the Tideways blog, Benjamin Eberlei explains PHPs garbage collection internals.</p>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="border-solid border-0 border-t border-b border-gray-200">
+                  <table cellpadding="0" cellspacing="0" class="w-full py-24" role="presentation">
+                     <tbody>
+                        <tr>
+                           <td>
+                           <p class="m-0 mb-2 text-lg font-bold"><a class="text-gray-900 no-underline" href="https://jasonmccreary.me/articles/crafting-maintainable-laravel-applications/">Crafting maintainable Laravel applications</a></p>
+
+                           <p class="m-0 text-gray-800">At Laracon AU, Jason McCreary gave an excellen talk on how to create maintainable Laravel apps. On his blog he published a written down version of the talk.</p>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="py-32">
+                  <table cellpadding="0" cellspacing="0" class="w-full" role="presentation">
+                     <tbody>
+                        <tr>
+                           <td class="bg-blue-100 border-solid border-0 border-b-4 border-blue-200 p-24">
+                           <p class="m-0 text-xl mb-12 font-bold">Meanwhile on Twitter</p>
+
+                           <ul class="m-0 p-0 list-inside">
+                              <li class="m-0"><a class="text-gray-800" href="https://twitter.com/TejasKumar_/status/1194326690924617728">Cherry pick the keys for JSON.stringify to serialize</a></li>
+                              <li class="m-0"><a class="text-gray-800" href="https://twitter.com/_stefanzweifel/status/1194323457477091329">Add query-constraints when eager loading relationships</a></li>
+                              <li class="m-0"><a class="text-gray-800" href="https://twitter.com/neilkeena/status/1191410346075901953">Mutating form request data</a></li>
+                           </ul>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="pb-32">
+                  <table cellpadding="0" cellspacing="0" class="w-full" role="presentation">
+                     <tbody>
+                        <tr>
+                           <td class="bg-gray-200 border-solid border-0 border-b-4 border-gray-400 p-24">
+                           <p class="m-0 text-xl mb-12 font-bold">From the archives</p>
+
+                           <ul class="m-0 p-0 list-inside">
+                              <li class="m-0 mb-4"><a class="text-gray-800" href="https://freek.dev/1212-building-a-realtime-dashboard-powered-by-laravel-vue-pusher-and-tailwind-2018-edition">Building a realtime dashboard powered by Laravel, Vue, Pusher and Tailwind (2018 edition)</a></li>
+                              <li class="m-0 mb-4"><a class="text-gray-800" href="https://freek.dev/1210-a-better-way-to-register-routes-in-laravel">A better way to register routes in Laravel</a></li>
+                              <li class="m-0 mb-4"><a class="text-gray-800" href="https://freek.dev/1209-how-php-conferences-can-be-improved">How PHP conferences can be improved</a></li>
+                              <li class="m-0 mb-4"><a class="text-gray-800" href="https://timacdonald.me/loading-eloquent-relationship-counts/">Loading Eloquent relationship counts</a></li>
+                              <li class="m-0 mb-4"><a class="text-gray-800" href="https://freek.dev/1208-calling-an-invokable-in-an-instance-variable">Calling an invokable in an instance variable</a></li>
+                              <li class="m-0 mb-4"><a class="text-gray-800" href="https://zaengle.com/blog/using-v-model-on-nested-vue-components">Using v-model on Nested Vue Components</a></li>
+                              <li class="m-0 mb-4"><a class="text-gray-800" href="https://adelf.pro/2018/authorization-packages">Are you sure you need entrust or laravel-permission to implement your authorization?</a></li>
+                              <li class="m-0 mb-4"><a class="text-gray-800" href="https://freek.dev/1206-other-peoples-setup">Other people&#39;s setup</a></li>
+                              <li class="m-0 mb-4"><a class="text-gray-800" href="https://alexvanderbist.com/posts/2018/fixing-imagick-error-unauthorized">Fixing Imagick&#39;s &ldquo;not authorized&rdquo; exception</a></li>
+                              <li class="m-0 mb-4"><a class="text-gray-800" href="https://ohdear.app/blog/automatic-monitoring-of-laravel-forge-managed-sites">Automatic monitoring of Laravel Forge managed sites</a></li>
+                              <li class="m-0 mb-4"><a class="text-gray-800" href="https://nickjanetakis.com/blog/ngrok-lvhme-nipio-a-trilogy-for-local-development-and-testing">ngrok, lvh.me and nip.io: A Trilogy for Local Development and Testing</a></li>
+                              <li class="m-0 mb-4"><a class="text-gray-800" href="https://justinjackson.ca/speak">Why geeks should speak</a></li>
+                              <li class="m-0 mb-4"><a class="text-gray-800" href="https://freek.dev/1200-making-nova-fields-translatable">Making Nova fields translatable</a></li>
+                              <li class="m-0 mb-4"><a class="text-gray-800" href="https://ma.ttias.be/laravel-telescope-data-long-column-content/">Laravel Telescope: Data too long for column &lsquo;content&rsquo;</a></li>
+                           </ul>
+                           </td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  </td>
+               </tr>
+               <tr>
+                  <td class="text-sm text-gray-600 leading-20 pt-24 border-solid border-0 border-t border-gray-200">
+                  <p class="m-0 mb-16">Advertisement opportunities at <a class="text-gray-600" href=" https://freek.dev/advertising">freek.dev/advertising</a>.</p>
+
+                  <p class="m-0">You are receiving this mail because you&#39;ve subscribed at <a class="text-gray-600" href="https://freek.dev">freek.dev</a>. Opt out any time. <a class="text-gray-600" href="https://sendy.freek.dev/unsubscribe-success.php?c=73">Unsubscribe</a>.</p>
+                  </td>
+               </tr>
+            </tbody>
+         </table>
+         </td>
+      </tr>
+   </tbody>
+</table>
+</body>
+</html>

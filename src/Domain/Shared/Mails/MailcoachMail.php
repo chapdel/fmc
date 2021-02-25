@@ -56,6 +56,8 @@ class MailcoachMail extends Mailable
 
         $this->replyToName = $replyToName;
 
+        $this->replyTo($replyToEmail, $replyToName);
+
         return $this;
     }
 

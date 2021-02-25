@@ -29,14 +29,17 @@ class SendMailAction
             return;
         }
 
+        /** @var \Spatie\Mailcoach\Domain\Automation\Models\AutomationMail $automationMail */
+        $automationMail = $pendingSend->automationMail;
+
         /** @var \Spatie\Mailcoach\Domain\Automation\Actions\PersonalizeSubjectAction $personalizeSubjectAction */
         $personalizeSubjectAction = Config::getAutomationActionClass('personalize_subject', PersonalizeSubjectAction::class);
-        $personalisedSubject = $personalizeSubjectAction->execute($pendingSend->campaign->subject, $pendingSend);
+        $personalisedSubject = $personalizeSubjectAction->execute($automationMail->subject, $pendingSend);
 
         /** @var \Spatie\Mailcoach\Domain\Automation\Actions\PersonalizeHtmlAction $personalizeHtmlAction */
         $personalizeHtmlAction = Config::getAutomationActionClass('personalize_html', PersonalizeHtmlAction::class);
         $personalisedHtml = $personalizeHtmlAction->execute(
-            $pendingSend->campaign->email_html,
+            $automationMail->email_html,
             $pendingSend,
         );
 
@@ -44,10 +47,7 @@ class SendMailAction
         $convertHtmlToTextAction = Config::getAutomationActionClass('convert_html_to_text', ConvertHtmlToTextAction::class);
         $personalisedText = $convertHtmlToTextAction->execute($personalisedHtml);
 
-        $mailcoachMail = app(MailcoachMail::class);
-
-        /** @var \Spatie\Mailcoach\Domain\Automation\Models\AutomationMail $automationMail */
-        $automationMail = $pendingSend->automationMail;
+        $mailcoachMail = resolve(MailcoachMail::class);
 
         $mailcoachMail
             ->setSend($pendingSend)

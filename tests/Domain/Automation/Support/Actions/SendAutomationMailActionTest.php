@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Automation\Actions;
+namespace Spatie\Mailcoach\Tests\Domain\Automation\Support\Actions;
 
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
