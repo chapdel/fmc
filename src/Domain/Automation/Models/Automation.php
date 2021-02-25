@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Models;
 
 use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -20,7 +21,7 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class Automation extends Model
 {
-    use HasUuid, UsesMailcoachModels, SendsToSegment;
+    use HasUuid, UsesMailcoachModels, SendsToSegment, HasFactory;
 
     public $table = 'mailcoach_automations';
 

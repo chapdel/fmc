@@ -61,4 +61,14 @@ class SendMailActionTest extends TestCase
             return true;
         });
     }
+
+    /** @test * */
+    public function it_wont_send_again_if_the_send_was_already_sent()
+    {
+        $this->action->execute($this->send);
+        $this->action->execute($this->send);
+
+        Mail::assertSent(MailcoachMail::class, 1);
+        Event::assertDispatched(AutomationMailSentEvent::class, 1);
+    }
 }
