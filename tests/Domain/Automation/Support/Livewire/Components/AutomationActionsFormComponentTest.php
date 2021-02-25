@@ -52,7 +52,7 @@ class AutomationActionsFormComponentTest extends TestCase
     }
 
     /** @test * */
-    public function it_updates_actions_when_the_builder_is_updated()
+    public function it_updates_actions_when_the_default_builder_is_updated()
     {
         /** @var Automation $automation */
         $automation = Automation::factory()->create();
@@ -65,6 +65,7 @@ class AutomationActionsFormComponentTest extends TestCase
         ])->assertSee(json_encode([
             $automation->actions->first()->toLivewireArray(),
         ]))->emit('automationBuilderUpdated', [
+            'name' => 'default',
             'actions' => [
                 [
                     "uuid" => "486b38a0-1421-43c9-ab3f-debd0e959650",
@@ -88,6 +89,27 @@ class AutomationActionsFormComponentTest extends TestCase
                 "active" => 0,
                 "completed" => 0,
             ],
+        ]);
+    }
+
+    /** @test * */
+    public function it_doesnt_update_when_other_builders_get_updated()
+    {
+        /** @var Automation $automation */
+        $automation = Automation::factory()->create();
+        $automation->chain([
+            new UnsubscribeAction(),
+        ]);
+
+        Livewire::test('automation-actions', [
+            'automation' => $automation,
+        ])->assertSee(json_encode([
+            $automation->actions->first()->toLivewireArray(),
+        ]))->emit('automationBuilderUpdated', [
+            'name' => 'some-other',
+            'actions' => [],
+        ])->assertViewHas('actions', [
+            $automation->actions->first()->toLivewireArray(),
         ]);
     }
 }

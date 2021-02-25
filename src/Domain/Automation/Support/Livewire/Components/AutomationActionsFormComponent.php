@@ -63,6 +63,10 @@ class AutomationActionsFormComponent extends Component
 
     public function automationBuilderUpdated($data)
     {
+        if ($data['name'] !== 'default') {
+            return;
+        }
+
         $this->actions = $data['actions'];
     }
 }

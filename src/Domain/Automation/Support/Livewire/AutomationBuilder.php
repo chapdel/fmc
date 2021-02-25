@@ -23,6 +23,10 @@ class AutomationBuilder extends AutomationActionComponent
             return $action['uuid'] === $uuid;
         });
 
+        if ($index === false) {
+            return;
+        }
+
         $this->actions[$index]['data'] = $actionData;
 
         $this->emitUp('automationBuilderUpdated', $this->getData());
@@ -34,13 +38,15 @@ class AutomationBuilder extends AutomationActionComponent
             return $action['uuid'] === $uuid;
         });
 
-        if ($index !== false) {
-            unset($this->actions[$index]);
-
-            $this->actions = array_values($this->actions);
-
-            $this->emitUp('automationBuilderUpdated', $this->getData());
+        if ($index === false) {
+            return;
         }
+
+        unset($this->actions[$index]);
+
+        $this->actions = array_values($this->actions);
+
+        $this->emitUp('automationBuilderUpdated', $this->getData());
     }
 
     public function addAction(string $actionClass, int $index): void
