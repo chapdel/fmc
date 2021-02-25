@@ -77,6 +77,17 @@ class Action extends Model
         return $this->automation->actions->where('order', '>', $this->order)->first();
     }
 
+    public function toLivewireArray(): array
+    {
+        return [
+            'uuid' => $this->uuid,
+            'class' => get_class($this->action),
+            'data' => $this->action->toArray(),
+            'active' => (int) ($this->active_subscribers_count ?? 0),
+            'completed' => (int) ($this->completed_subscribers_count ?? 0),
+        ];
+    }
+
     public function run()
     {
         $this->subscribers()

@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components;
 
 use Livewire\Component;
+use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
@@ -10,13 +11,27 @@ class AutomationActionsFormComponent extends Component
 {
     use UsesMailcoachModels;
 
-    protected $listeners = ['automationBuilderUpdated', 'editAction', 'actionSaved', 'actionDeleted'];
+    protected $listeners = [
+        'automationBuilderUpdated',
+        'editAction',
+        'actionSaved',
+        'actionDeleted'
+    ];
 
     public Automation $automation;
 
     public array $editingActions = [];
 
-    public array $actions;
+    public array $actions = [];
+
+    public function mount()
+    {
+        $this->actions = $this->automation->actions()
+            ->withCount(['completedSubscribers', 'activeSubscribers'])
+            ->get()
+            ->map(fn (Action $action) => $action->toLivewireArray())
+            ->toArray();
+    }
 
     public function editAction(string $uuid)
     {
