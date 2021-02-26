@@ -195,29 +195,6 @@ class AutomationMail extends Sendable
         dispatch(new CalculateStatisticsJob($this));
     }
 
-    public function emailListSubscriberCount(): int
-    {
-        if (! $this->emailList) {
-            return 0;
-        }
-
-        return $this->emailList->subscribers()->count();
-    }
-
-    public function sendsCount(): int
-    {
-        return $this->sends()->whereNotNull('sent_at')->count();
-    }
-
-    public function wasSentToAllSubscribers(): bool
-    {
-        if (! $this->isSent()) {
-            return false;
-        }
-
-        return $this->sends()->pending()->count() === 0;
-    }
-
     public function hasCustomMailable(): bool
     {
         if ($this->mailable_class === MailcoachMail::class) {
@@ -225,17 +202,6 @@ class AutomationMail extends Sendable
         }
 
         return ! is_null($this->mailable_class);
-    }
-
-    public function htmlWithInlinedCss(): string
-    {
-        $html = $this->getHtml();
-
-        if ($this->hasCustomMailable()) {
-            $html = $this->contentFromMailable();
-        }
-
-        return (new CssToInlineStyles())->convert($html ?? '');
     }
 
     public function resolveRouteBinding($value, $field = null)
