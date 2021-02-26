@@ -27,7 +27,7 @@ abstract class AutomationAction extends AutomationStep
         return false;
     }
 
-    public function store(string $uuid, Automation $automation, ?int $order = null): Action
+    public function store(string $uuid, Automation $automation, ?int $order = null, ?int $parent_id = null, ?string $key = null): Action
     {
         return Action::updateOrCreate([
             'uuid' => $uuid,
@@ -35,6 +35,8 @@ abstract class AutomationAction extends AutomationStep
             'automation_id' => $automation->id,
             'order' => $order ?? $automation->actions()->max('order') + 1,
             'action' => $this,
+            'parent_id' => $parent_id,
+            'key' => $key,
         ]);
     }
 

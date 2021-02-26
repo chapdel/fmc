@@ -37,9 +37,9 @@ class ConditionAction extends AutomationAction
         return 'condition-action';
     }
 
-    public function store(string $uuid, Automation $automation, ?int $order = null): Action
+    public function store(string $uuid, Automation $automation, ?int $order = null, ?int $parent_id = null, ?string $key = null): Action
     {
-        $parent = parent::store($uuid, $automation, $order);
+        $parent = parent::store($uuid, $automation, $order, $parent_id, $key);
 
         $newChildrenUuids = collect($this->yesActions)->pluck('uuid')
             ->merge(collect($this->noActions)->pluck('uuid'));
@@ -80,15 +80,13 @@ class ConditionAction extends AutomationAction
             $action = $action['class']::make($action['data']);
         }
 
-        return Action::updateOrCreate([
-            'uuid' => $uuid ?? Str::uuid()->toString(),
-        ], [
-            'automation_id' => $automation->id,
-            'parent_id' => $parent->id,
-            'key' => $key,
-            'order' => $order,
-            'action' => $action,
-        ]);
+        return $action->store(
+            $uuid ?? Str::uuid()->toString(),
+            $automation,
+            $order,
+            $parent->id,
+            $key,
+        );
     }
 
     public static function make(array $data): self

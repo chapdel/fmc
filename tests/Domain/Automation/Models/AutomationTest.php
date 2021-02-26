@@ -19,6 +19,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasTagCondition;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 use Spatie\TestTime\TestTime;
@@ -34,8 +35,6 @@ class AutomationTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-
-        Queue::fake();
 
         $this->automationMail = AutomationMail::factory()->create(['subject' => 'Welcome']);
 
@@ -53,6 +52,8 @@ class AutomationTest extends TestCase
     /** @test */
     public function it_can_run_a_welcome_automation()
     {
+        Queue::fake();
+
         /** @var Automation $automation */
         $automation = Automation::create()
             ->name('Welcome email')
@@ -86,6 +87,8 @@ class AutomationTest extends TestCase
     /** @test */
     public function a_halted_action_will_stop_the_automation()
     {
+        Queue::fake();
+
         $automation = Automation::create()
             ->name('Welcome email')
             ->to($this->emailList)
@@ -116,6 +119,8 @@ class AutomationTest extends TestCase
     /** @test */
     public function it_continues_once_the_action_returns_true()
     {
+        Queue::fake();
+
         TestTime::freeze();
 
         $automation = Automation::create()
@@ -156,6 +161,8 @@ class AutomationTest extends TestCase
     /** @test * */
     public function it_can_sync_actions_successfully()
     {
+        Queue::fake();
+
         $automation = Automation::create()
             ->name('Welcome email')
             ->runEvery(CarbonInterval::minute())
@@ -212,6 +219,8 @@ class AutomationTest extends TestCase
     /** @test * */
     public function it_can_create_and_run_a_complicated_automation()
     {
+        Queue::fake();
+
         /** @var EmailList $emailList */
         $emailList = EmailList::factory()->create();
 
@@ -300,5 +309,99 @@ class AutomationTest extends TestCase
 
         $this->assertInstanceOf(SendAutomationMailAction::class, $subscriber->currentAction($automation)->action);
         $this->assertNotNull($subscriber->currentAction($automation)->pivot->run_at);
+    }
+
+    /** @test * */
+    public function it_handles_nested_conditions_correctly()
+    {
+        TestTime::freeze();
+
+        /** @var EmailList $emailList */
+        $emailList = EmailList::factory()->create();
+
+        $automatedMail1 = AutomationMail::factory()->create();
+        $automatedMail2 = AutomationMail::factory()->create();
+        $automatedMail3 = AutomationMail::factory()->create();
+
+        $automation = Automation::create()
+            ->name('Testing nested conditions')
+            ->to($emailList)
+            ->trigger(new SubscribedTrigger())
+            ->runEvery(CarbonInterval::minutes(10)) // Run through the automation and check actions every 10 min
+            ->chain([
+                new ConditionAction(
+                    checkFor: CarbonInterval::day(),
+                    yesActions: [
+                        new ConditionAction(
+                            checkFor: CarbonInterval::day(),
+                            yesActions: [
+                                new SendAutomationMailAction($automatedMail1)
+                            ],
+                            noActions: [
+                                new SendAutomationMailAction($automatedMail2)
+                            ],
+                            condition: HasTagCondition::class,
+                            conditionData: ['tag' => 'yes-tag-2'],
+                        ),
+                    ],
+                    noActions: [
+                        new SendAutomationMailAction($automatedMail3)
+                    ],
+                    condition: HasTagCondition::class,
+                    conditionData: ['tag' => 'yes-tag-1']
+                ),
+                new WaitAction(CarbonInterval::days(3)),
+            ])->start();
+
+        $this->refreshServiceProvider();
+
+        $this->assertEquals(6, Action::count());
+
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber1 */
+        $subscriber1 = $automation->emailList->subscribe('subscriber1@example.com');
+        $subscriber1->addTags(['yes-tag-1', 'yes-tag-2']); // Should receive mail 1
+
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber2 */
+        $subscriber2 = $automation->emailList->subscribe('subscriber2@example.com');
+        $subscriber2->addTags(['yes-tag-1']); // Should receive mail 2
+
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber3 */
+        $subscriber3 = $automation->emailList->subscribe('subscriber3@example.com'); // Should receive mail 3
+
+        Artisan::call(RunAutomationActionsCommand::class);
+
+        // Subscriber 1 went straight through all the "yes" paths to the send
+        $this->assertEquals(WaitAction::class, $subscriber1->currentAction($automation)->action::class);
+        $this->assertEquals(['length' => '3', 'unit' => 'days'], $subscriber1->currentAction($automation)->action->toArray());
+
+        // And has received automationmail 1
+        $this->assertSame(1, $subscriber1->sends()->count());
+        $this->assertSame($automatedMail1->id, $subscriber1->sends->first()->automationMail->id);
+
+        $this->assertEquals('yes-tag-2', $subscriber2->currentAction($automation)->action->toArray()['conditionData']['tag']);
+        $this->assertEquals('yes-tag-1', $subscriber3->currentAction($automation)->action->toArray()['conditionData']['tag']);
+
+        TestTime::addDay();
+
+        Artisan::call(RunAutomationActionsCommand::class);
+
+        // Subscriber 2 went through the first yes, and second no
+        $this->assertEquals(WaitAction::class, $subscriber2->currentAction($automation)->action::class);
+        $this->assertEquals(['length' => '3', 'unit' => 'days'], $subscriber2->currentAction($automation)->action->toArray());
+
+        // And received automationmail 2
+        $this->assertSame(1, $subscriber2->sends()->count());
+        $this->assertSame($automatedMail2->id, $subscriber2->sends->first()->automationMail->id);
+
+        // Subscriber 3 went through the first no
+        $this->assertEquals(WaitAction::class, $subscriber3->currentAction($automation)->action::class);
+        $this->assertEquals(['length' => '3', 'unit' => 'days'], $subscriber3->currentAction($automation)->action->toArray());
+
+        // And received automationmail 3
+        $this->assertSame(1, $subscriber3->sends()->count());
+        $this->assertSame($automatedMail3->id, $subscriber3->sends->first()->automationMail->id);
+
+        // Only 3 mails were sent in total
+        $this->assertEquals(3, Send::count());
     }
 }
