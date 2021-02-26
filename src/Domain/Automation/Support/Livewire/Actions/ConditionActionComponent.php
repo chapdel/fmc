@@ -67,6 +67,8 @@ class ConditionActionComponent extends AutomationActionComponent
         ])->mapWithKeys(function ($class) {
             return [$class => $class::getName()];
         })->toArray();
+
+        $this->unit = Str::plural($this->unit);
     }
 
     public function automationBuilderUpdated(array $data): void
@@ -90,13 +92,7 @@ class ConditionActionComponent extends AutomationActionComponent
     {
         $rules = [
             'length' => ['required', 'integer', 'min:1'],
-            'unit' => ['required', Rule::in([
-                'minutes',
-                'hours',
-                'days',
-                'weeks',
-                'months',
-            ])],
+            'unit' => ['required', Rule::in(array_keys($this->units))],
             'condition' => ['required'],
             'conditionData' => ['required', 'array'],
             'yesActions' => ['nullable', 'array'],
