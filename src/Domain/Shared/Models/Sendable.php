@@ -76,8 +76,6 @@ abstract class Sendable extends Model implements Feedable, HasHtmlContent
         return Str::contains($this->html, '::unsubscribeUrl::');
     }
 
-    abstract public function isEditable(): bool;
-
     public function from(string $email, string $name = null)
     {
         $this->update([
@@ -168,7 +166,10 @@ abstract class Sendable extends Model implements Feedable, HasHtmlContent
         }
     }
 
-    abstract protected function ensureSendable();
+    protected function ensureSendable()
+    {
+
+    }
 
     public function wasAlreadySentToSubscriber(Subscriber $subscriber): bool
     {

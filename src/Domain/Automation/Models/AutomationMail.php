@@ -98,10 +98,6 @@ class AutomationMail extends Sendable implements Feedable, HasHtmlContent
         return true;
     }
 
-    public function isEditable(): bool
-    {
-        return true;
-    }
 
     public function useMailable(string $mailableClass, array $mailableArguments = []): self
     {
@@ -161,13 +157,6 @@ class AutomationMail extends Sendable implements Feedable, HasHtmlContent
         dispatch(new SendAutomationMailToSubscriberJob($this, $subscriber));
 
         return $this;
-    }
-
-    protected function ensureSendable()
-    {
-        if ($this->hasCustomMailable()) {
-            return;
-        }
     }
 
     public function markAsSent(int $numberOfSubscribers): self
