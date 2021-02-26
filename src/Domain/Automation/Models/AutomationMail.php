@@ -266,72 +266,6 @@ class AutomationMail extends Sendable implements Feedable, HasHtmlContent
         return $this->sends()->pending()->count() === 0;
     }
 
-    protected function ensureUpdatable(): void
-    {
-        return true;
-    }
-
-    protected function markAsSending(): self
-    {
-        $this->update([
-            'status' => CampaignStatus::SENDING,
-        ]);
-
-        return $this;
-    }
-
-    public function hasTroublesSendingOutMails(): bool
-    {
-        if ($this->status !== CampaignStatus::SENDING) {
-            return false;
-        }
-
-        if (! $this->last_modified_at) {
-            return false;
-        }
-
-        if ($this->last_modified_at->diffInHours() < 1) {
-            return false;
-        }
-
-        $latestSend = $this
-            ->sends()
-            ->whereNotNull('sent_at')
-            ->orderByDesc('sent_at')
-            ->first();
-
-        if ($latestSend->sent_at->diffInHours() < 1) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public function isDraft(): bool
-    {
-        return $this->status === CampaignStatus::DRAFT;
-    }
-
-    public function isSending(): bool
-    {
-        return $this->status == CampaignStatus::SENDING;
-    }
-
-    public function isSent(): bool
-    {
-        return $this->status == CampaignStatus::SENT;
-    }
-
-    public function isSendingOrSent(): bool
-    {
-        return $this->isSending() || $this->isSent();
-    }
-
-    public function isCancelled(): bool
-    {
-        return $this->status == CampaignStatus::CANCELLED;
-    }
-
     public function hasCustomMailable(): bool
     {
         if ($this->mailable_class === MailcoachMail::class) {
@@ -352,45 +286,11 @@ class AutomationMail extends Sendable implements Feedable, HasHtmlContent
         return (new CssToInlineStyles())->convert($html ?? '');
     }
 
-    public function htmlLinks(): Collection
-    {
-        $dom = new DOMDocument('1.0', 'UTF-8');
-        $value = preg_replace('/&(?!amp;)/', '&amp;', $this->getHtml());
-
-        if ($value === '') {
-            return collect();
-        }
-
-        $dom->loadHTML($value, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD | LIBXML_NOWARNING);
-
-        return collect($dom->getElementsByTagName('a'))
-            ->map(function (DOMElement $link) {
-                return $link->getAttribute('href');
-            })->reject(function (string $url) {
-                return str_contains($url, '::');
-            });
-    }
-
-    public function getHtml(): ?string
-    {
-        return $this->html;
-    }
-
-    public function getStructuredHtml(): ?string
-    {
-        return $this->structured_html;
-    }
-
     public function resolveRouteBinding($value, $field = null)
     {
         $field ??= $this->getRouteKeyName();
 
-        return $this->getCampaignClass()::where($field, $value)->firstOrFail();
-    }
-
-    public function getBatchName(): string
-    {
-        return Str::slug("{$this->name} ({$this->id})");
+        return $this->getAutomationMailClass()::where($field, $value)->firstOrFail();
     }
 
     public function fromEmail(): string

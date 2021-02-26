@@ -213,7 +213,10 @@ abstract class Sendable extends Model implements Feedable, HasHtmlContent
         return $this->sends()->whereNotNull('sent_at')->count();
     }
 
-    abstract protected function ensureUpdatable(): void;
+    protected function ensureUpdatable(): void
+    {
+
+    }
 
     public function hasCustomMailable(): bool
     {
