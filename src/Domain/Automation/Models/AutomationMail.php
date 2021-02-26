@@ -268,17 +268,7 @@ class AutomationMail extends Sendable implements Feedable, HasHtmlContent
 
     protected function ensureUpdatable(): void
     {
-        if ($this->isSending()) {
-            throw CouldNotUpdateCampaign::beingSent($this);
-        }
-
-        if ($this->isSent()) {
-            throw CouldNotSendCampaign::alreadySent($this);
-        }
-
-        if ($this->isCancelled()) {
-            throw CouldNotSendCampaign::cancelled($this);
-        }
+        return true;
     }
 
     protected function markAsSending(): self
