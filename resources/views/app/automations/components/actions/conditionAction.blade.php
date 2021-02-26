@@ -133,7 +133,7 @@
                         <section class="px-4 border-l border-gray-300">
                             <h4 class="mb-4 markup-h4"><strong>Condition passes</strong></h4>
                             <div class="grid justify-items-start gap-2">
-                                <div class="grid grid-cols-1 gap-4">
+                                <div class="grid grid-cols-1 gap-4 w-full">
                                     @foreach ($yesActions as $index => $action)
                                         @livewire($action['class']::getComponent() ?: 'automation-action', array_merge([
                                             'index' => $index,
@@ -150,7 +150,7 @@
                         <section class="px-4 border-l border-gray-300">
                             <h4 class="mb-4 markup-h4"><strong>Condition fails</strong></h4>
                             <div class="grid justify-items-start gap-2">
-                                <div class="grid grid-cols-1 gap-4">
+                                <div class="grid grid-cols-1 gap-4 w-full">
                                     @foreach ($noActions as $index => $action)
                                         @livewire($action['class']::getComponent() ?: 'automation-action', array_merge([
                                             'index' => $index,
