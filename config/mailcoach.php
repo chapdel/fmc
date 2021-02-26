@@ -59,7 +59,6 @@ return [
          * Your custom action should always extend the one of the default ones.
          */
         'actions' => [
-            'calculate_statistics' => \Spatie\Mailcoach\Domain\Shared\Actions\CalculateStatisticsAction::class,
             'prepare_email_html' => \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareEmailHtmlAction::class,
             'prepare_subject' => \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareSubjectAction::class,
             'prepare_webview_html' => \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareWebviewHtmlAction::class,
@@ -174,6 +173,12 @@ return [
          * By default this is a text editor that highlights HTML.
          */
         'editor' => \Spatie\Mailcoach\Domain\Shared\Support\Editor\TextEditor::class,
+    ],
+
+    'shared' => [
+        'actions' => [
+            'calculate_statistics' => \Spatie\Mailcoach\Domain\Shared\Actions\CalculateStatisticsAction::class,
+        ],
     ],
 
     /*

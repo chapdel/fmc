@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Campaign\Jobs;
+namespace Spatie\Mailcoach\Domain\Shared\Jobs;
 
 use Exception;
 use Illuminate\Bus\Queueable;
@@ -34,7 +34,7 @@ class CalculateStatisticsJob implements ShouldQueue
     {
         try {
             /** @var \Spatie\Mailcoach\Domain\Shared\Actions\CalculateStatisticsAction $calculateStatistics */
-            $calculateStatistics = Config::getCampaignActionClass('calculate_statistics', CalculateStatisticsAction::class);
+            $calculateStatistics = Config::getSharedActionClass('calculate_statistics', CalculateStatisticsAction::class);
 
             $calculateStatistics->execute($this->sendable);
         } catch (Exception $exception) {

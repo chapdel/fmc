@@ -17,7 +17,7 @@ use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotUpdateCampaign;
-use Spatie\Mailcoach\Domain\Campaign\Jobs\CalculateStatisticsJob;
+use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Campaign\Support\CalculateStatisticsLock;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
@@ -159,23 +159,6 @@ class AutomationMail extends Sendable implements Feedable, HasHtmlContent
         return $this;
     }
 
-    public function markAsSent(int $numberOfSubscribers): self
-    {
-        $this->update([
-            'status' => CampaignStatus::SENT,
-            'sent_at' => now(),
-            'statistics_calculated_at' => now(),
-            'sent_to_number_of_subscribers' => $numberOfSubscribers,
-        ]);
-
-        return $this;
-    }
-
-    public function wasAlreadySent(): bool
-    {
-        return $this->isSent();
-    }
-
     public function wasAlreadySentToSubscriber(Subscriber $subscriber): bool
     {
         return $this
@@ -209,7 +192,6 @@ class AutomationMail extends Sendable implements Feedable, HasHtmlContent
         return resolve($mailableClass, $mailableArguments);
     }
 
-    /** TODO: make automation specific */
     public function dispatchCalculateStatistics()
     {
         $lock = new CalculateStatisticsLock($this);
@@ -219,17 +201,6 @@ class AutomationMail extends Sendable implements Feedable, HasHtmlContent
         }
 
         dispatch(new CalculateStatisticsJob($this));
-    }
-
-    public function toFeedItem(): FeedItem
-    {
-        return (new FeedItem())
-            ->author('Mailcoach')
-            ->link($this->webviewUrl())
-            ->title($this->subject)
-            ->id($this->uuid)
-            ->summary('')
-            ->updated($this->sent_at);
     }
 
     public function emailListSubscriberCount(): int
