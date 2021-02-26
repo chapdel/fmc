@@ -22,7 +22,7 @@ use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
-abstract class Sendable extends Model implements Feedable, HasHtmlContent
+abstract class Sendable extends Model implements HasHtmlContent
 {
     use HasUuid;
     use HasFactory;

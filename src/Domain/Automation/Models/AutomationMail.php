@@ -5,19 +5,12 @@ namespace Spatie\Mailcoach\Domain\Automation\Models;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Spatie\Feed\Feedable;
-use Spatie\Feed\FeedItem;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailTestJob;
 use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailToSubscriberJob;
-use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
-<<<<<<< HEAD
-use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotUpdateCampaign;
 use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
-=======
-use Spatie\Mailcoach\Domain\Campaign\Jobs\CalculateStatisticsJob;
->>>>>>> 07992b5b8858294673f9d0de649cb3d91a4ad827
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Campaign\Support\CalculateStatisticsLock;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
@@ -26,7 +19,7 @@ use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Spatie\Mailcoach\Domain\Shared\Models\SendFeedbackItem;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
-class AutomationMail extends Sendable implements Feedable, HasHtmlContent
+class AutomationMail extends Sendable
 {
     public $table = 'mailcoach_automation_mails';
 

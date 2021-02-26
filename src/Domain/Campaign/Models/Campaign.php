@@ -31,7 +31,7 @@ use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Spatie\Mailcoach\Domain\Shared\Models\SendFeedbackItem;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
-class Campaign extends Sendable implements Feedable, HasHtmlContent
+class Campaign extends Sendable implements Feedable
 {
     use CanBeScheduled;
     use SendsToSegment;
