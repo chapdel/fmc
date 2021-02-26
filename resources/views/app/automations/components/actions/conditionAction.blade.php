@@ -12,11 +12,11 @@
 
     <div class="relative">
         <div class="flex items-center absolute top-4 right-4 space-x-3 z-20">
-            @if ($editing)
+            @if ($editing && count($editingActions) === 0)
                 <button type="button" wire:click="save">
                     <i class="icon-button hover:text-green-500 fas fa-check"></i>
                 </button>
-            @elseif ($editable)
+            @elseif ($editable && !$editing)
                 <button type="button" wire:click="edit">
                     <i class="icon-button far fa-edit"></i>
                 </button>

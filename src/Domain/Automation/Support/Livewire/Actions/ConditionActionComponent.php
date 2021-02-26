@@ -23,6 +23,8 @@ class ConditionActionComponent extends AutomationActionComponent
         'months' => 'Month',
     ];
 
+    public array $editingActions = [];
+
     public array $yesActions = [];
 
     public array $noActions = [];
@@ -33,7 +35,7 @@ class ConditionActionComponent extends AutomationActionComponent
 
     public array $conditionData = [];
 
-    protected $listeners = ['automationBuilderUpdated'];
+    protected $listeners = ['automationBuilderUpdated', 'editAction', 'actionSaved', 'actionDeleted'];
 
     public function getData(): array
     {
@@ -86,6 +88,29 @@ class ConditionActionComponent extends AutomationActionComponent
         }
 
         $this->emitUp('actionUpdated', $this->getData());
+    }
+
+    public function editAction(string $uuid)
+    {
+        $this->editingActions[] = $uuid;
+    }
+
+    public function actionSaved(string $uuid)
+    {
+        $actions = array_filter($this->editingActions, function ($actionUuid) use ($uuid) {
+            return $actionUuid !== $uuid;
+        });
+
+        $this->editingActions = $actions;
+    }
+
+    public function actionDeleted(string $uuid)
+    {
+        $actions = array_filter($this->editingActions, function ($actionUuid) use ($uuid) {
+            return $actionUuid !== $uuid;
+        });
+
+        $this->editingActions = $actions;
     }
 
     public function rules(): array
