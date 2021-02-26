@@ -335,17 +335,17 @@ class AutomationTest extends TestCase
                         new ConditionAction(
                             checkFor: CarbonInterval::day(),
                             yesActions: [
-                                new SendAutomationMailAction($automatedMail1)
+                                new SendAutomationMailAction($automatedMail1),
                             ],
                             noActions: [
-                                new SendAutomationMailAction($automatedMail2)
+                                new SendAutomationMailAction($automatedMail2),
                             ],
                             condition: HasTagCondition::class,
                             conditionData: ['tag' => 'yes-tag-2'],
                         ),
                     ],
                     noActions: [
-                        new SendAutomationMailAction($automatedMail3)
+                        new SendAutomationMailAction($automatedMail3),
                     ],
                     condition: HasTagCondition::class,
                     conditionData: ['tag' => 'yes-tag-1']
