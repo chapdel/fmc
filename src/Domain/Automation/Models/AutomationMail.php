@@ -2,12 +2,8 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Models;
 
-use DOMDocument;
-use DOMElement;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
@@ -16,7 +12,6 @@ use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailToSubscriberJob;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
-use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotUpdateCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Campaign\Support\CalculateStatisticsLock;
@@ -97,7 +92,6 @@ class AutomationMail extends Sendable implements Feedable, HasHtmlContent
 
         return true;
     }
-
 
     public function useMailable(string $mailableClass, array $mailableArguments = []): self
     {

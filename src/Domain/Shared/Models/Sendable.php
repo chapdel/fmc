@@ -168,7 +168,6 @@ abstract class Sendable extends Model implements Feedable, HasHtmlContent
 
     protected function ensureSendable()
     {
-
     }
 
     public function wasAlreadySentToSubscriber(Subscriber $subscriber): bool
@@ -216,7 +215,6 @@ abstract class Sendable extends Model implements Feedable, HasHtmlContent
 
     protected function ensureUpdatable(): void
     {
-
     }
 
     public function hasCustomMailable(): bool
