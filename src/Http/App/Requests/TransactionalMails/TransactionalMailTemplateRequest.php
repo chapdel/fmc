@@ -10,6 +10,7 @@ class TransactionalMailTemplateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'name' => '',
             'type' => '',
             'subject' => '',
             'to' => new Delimited('email'),
