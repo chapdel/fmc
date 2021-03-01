@@ -1,4 +1,4 @@
 ---
 title: Mail configuration
-weight: 2
+weight: 3
 ---
