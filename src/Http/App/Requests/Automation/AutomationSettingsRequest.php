@@ -22,7 +22,6 @@ class AutomationSettingsRequest extends FormRequest
             'segment' => [Rule::in(['entire_list', 'segment'])],
             'segment_id' => ['required_if:segment,tag_segment'],
             'trigger' => ['required', Rule::in(config('mailcoach.automation.flows.triggers'))],
-            'interval' => ['required'],
         ];
 
         if ($this->has('trigger')) {

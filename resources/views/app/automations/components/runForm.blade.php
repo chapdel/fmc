@@ -11,6 +11,7 @@
             <x-mailcoach::select-field
                 name="interval"
                 :value="$automation->interval ?? '1 minute'"
+                wire:model="interval"
                 :options="[
                     '1 minute' => 'Every minute',
                     '10 minutes' => 'Every 10 minutes',
@@ -21,7 +22,7 @@
                 required
             />
 
-            <x-mailcoach::button class="ml-1" :label="__('Save')" />
+            <x-mailcoach::button class="ml-1" :label="__('Save')" wire:click="saveInterval" />
         </div>
     </x-mailcoach::fieldset>
 

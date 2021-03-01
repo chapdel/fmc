@@ -12,6 +12,8 @@ class RunAutomationComponent extends Component
 
     public Automation $automation;
 
+    public string $interval;
+
     public function pause(): void
     {
         $this->automation->pause();
@@ -22,8 +24,18 @@ class RunAutomationComponent extends Component
         $this->automation->start();
     }
 
+    public function mount()
+    {
+        $this->interval = $this->automation->interval;
+    }
+
+    public function saveInterval()
+    {
+        $this->automation->update(['interval' => $this->interval]);
+    }
+
     public function render()
     {
-        return view('mailcoach::app.automations.partials.runForm');
+        return view('mailcoach::app.automations.components.runForm');
     }
 }
