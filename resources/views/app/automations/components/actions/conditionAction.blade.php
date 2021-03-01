@@ -4,7 +4,7 @@
             <span class="w-6 h-6 rounded-full inline-flex items-center justify-center text-xs leading-none font-semibold bg-yellow-200 text-yellow-600">
                 {{ $index + 1 }}
             </span>
-            <span class="font-normal">
+            <span class="font-normal whitespace-nowrap">
                 Check for
                 <span class="legend-accent">
                     {{ \Carbon\CarbonInterval::createFromDateString("{$length} {$unit}") }}
