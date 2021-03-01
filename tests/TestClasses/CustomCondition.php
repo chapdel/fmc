@@ -7,7 +7,9 @@ use Spatie\Mailcoach\Domain\Automation\Support\Conditions\Condition;
 
 class CustomCondition implements Condition
 {
-    public function __construct(private Subscriber $subscriber, private array $data) {}
+    public function __construct(private Subscriber $subscriber, private array $data)
+    {
+    }
 
     public static function getName(): string
     {

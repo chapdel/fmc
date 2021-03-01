@@ -80,8 +80,8 @@ class ConditionActionComponent extends AutomationActionComponent
         $this->conditionOptions = $defaultConditions
             ->merge($customConditions)
             ->mapWithKeys(function ($class) {
-            return [$class => $class::getName()];
-        })->toArray();
+                return [$class => $class::getName()];
+            })->toArray();
 
         $this->unit = Str::plural($this->unit);
     }
