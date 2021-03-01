@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Tests\Domain\Audience\Models;
 
-use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
@@ -11,9 +10,6 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
-use Spatie\Mailcoach\Domain\Campaign\Mails\ReconfirmationMail;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Campaign\Models\InactiveSubscriber;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomEmailList;
 use Spatie\Mailcoach\Tests\TestClasses\CustomSubscriber;
