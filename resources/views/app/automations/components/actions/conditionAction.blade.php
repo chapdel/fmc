@@ -146,20 +146,17 @@
                 </div>
             @else
                 <div class="grid gap-6 flex-grow">
-                    @if ($condition)
-                        <div>
-                            <span class="tag-neutral whitespace-nowrap">
-                                {{ $condition::getName() }}&nbsp;<span class="font-semibold">{{ $condition::getDescription($conditionData) }}</span>?
-                            </span>
-                        </div>
-                    @endif
-
                     <div class="grid gap-6 w-full">
                         <section class="border-l-4 border-green-400 bg-white bg-opacity-50">
                             <div class="grid gap-4 px-12 pb-8 border-green-500 border-opacity-20 border-r border-t border-b rounded-r">
                                 <h2 class="justify-self-start -ml-12 -mt-px h-8 px-2 inline-flex items-center bg-green-400 text-white rounded-br space-x-2">
                                     <i class="far far fa-thumbs-up"></i>
-                                    <span class="markup-h4">@lang('If')</span>
+                                     @if ($condition)
+                                        <span class="markup-h4 whitespace-nowrap">
+                                            <span class="font-normal">@lang('If') {{ $condition::getName() }}</span>
+                                            <span class="font-semibold tracking-normal normal-case">{{ $condition::getDescription($conditionData) }}</span>?
+                                        </span>
+                                    @endif
                                 </h2>
                                 @foreach ($yesActions as $index => $action)
                                     @livewire($action['class']::getComponent() ?: 'automation-action', array_merge([
@@ -177,7 +174,9 @@
                             <div class="grid gap-4 px-12 pb-8 border-red-500 border-opacity-20 border-r border-t border-b rounded-r">
                                 <h2 class="justify-self-start -ml-12 -mt-px h-8 px-2 inline-flex items-center bg-red-400 text-white rounded-br space-x-2">
                                     <i class="far far fa-thumbs-down"></i>
-                                    <span class="markup-h4">@lang('Else')</span>
+                                    <span class="markup-h4">
+                                        <span class="font-normal">@lang('Else')</span>
+                                    </span>
                                 </h2>
                                 @foreach ($noActions as $index => $action)
                                     @livewire($action['class']::getComponent() ?: 'automation-action', array_merge([
