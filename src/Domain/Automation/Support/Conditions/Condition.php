@@ -12,7 +12,5 @@ interface Condition
 
     public static function getDescription(array $data): string;
 
-    public static function rules(): array;
-
     public function check(): bool;
 }

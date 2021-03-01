@@ -105,6 +105,11 @@ return [
         ],
 
         'flows' => [
+            /**
+             * The available actions in the automation flows. You can add custom
+             * actions to this array, make sure they extend
+             * \Spatie\Mailcoach\Domain\Automation\Support\Actions\AutomationAction
+             */
             'actions' => [
                 \Spatie\Mailcoach\Domain\Automation\Support\Actions\AddTagsAction::class,
                 \Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction::class,
@@ -114,6 +119,12 @@ return [
                 \Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction::class,
                 \Spatie\Mailcoach\Domain\Automation\Support\Actions\UnsubscribeAction::class,
             ],
+
+            /**
+             * The available triggers in the automation settings. You can add
+             * custom triggers to this array, make sure they extend
+             * \Spatie\Mailcoach\Domain\Automation\Support\Triggers\AutomationTrigger
+             */
             'triggers' => [
                 \Spatie\Mailcoach\Domain\Automation\Support\Triggers\NoTrigger::class,
                 \Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger::class,
@@ -122,6 +133,13 @@ return [
                 \Spatie\Mailcoach\Domain\Automation\Support\Triggers\TagRemovedTrigger::class,
                 \Spatie\Mailcoach\Domain\Automation\Support\Triggers\WebhookTrigger::class,
             ],
+
+            /**
+             * Custom conditions for the ConditionAction, these have to implement the
+             * \Spatie\Mailcoach\Domain\Automation\Support\Conditions\Condition
+             * interface.
+             */
+            'conditions' => []
         ],
 
         'perform_on_queue' => [

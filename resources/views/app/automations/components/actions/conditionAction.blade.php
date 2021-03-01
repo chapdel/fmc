@@ -88,6 +88,7 @@
                                     name="conditionData.automation_mail_id"
                                     wire:model="conditionData.automation_mail_id"
                                     :placeholder="__('Select a mail')"
+                                    :required="true"
                                     :options="\Spatie\Mailcoach\Domain\Automation\Models\AutomationMail::pluck('name', 'id')"
                                 />
 
@@ -97,12 +98,14 @@
                                         name="conditionData.automation_mail_link_url"
                                         wire:model="conditionData.automation_mail_link_url"
                                         :placeholder="__('Select a link')"
+                                        :required="false"
                                         :options="
-                                    \Spatie\Mailcoach\Domain\Automation\Models\AutomationMail::find($conditionData['automation_mail_id'])
-                                        ->htmlLinks()
-                                        ->mapWithKeys(fn ($url) => [$url => $url])
-                                        ->toArray()
-                                "
+                                            ['' => __('Any link')] +
+                                            \Spatie\Mailcoach\Domain\Automation\Models\AutomationMail::find($conditionData['automation_mail_id'])
+                                                ->htmlLinks()
+                                                ->mapWithKeys(fn ($url) => [$url => $url])
+                                                ->toArray()
+                                        "
                                     />
                                 @endif
                                 @break

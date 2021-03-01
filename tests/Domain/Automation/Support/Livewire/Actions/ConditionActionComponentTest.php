@@ -9,6 +9,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Actions\ConditionAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasTagCondition;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\ConditionActionComponent;
 use Spatie\Mailcoach\Tests\TestCase;
+use Spatie\Mailcoach\Tests\TestClasses\CustomCondition;
 
 class ConditionActionComponentTest extends TestCase
 {
@@ -62,6 +63,25 @@ class ConditionActionComponentTest extends TestCase
             ->assertHasErrors([
                 'conditionData.tag' => 'required',
             ]);
+    }
+
+    /** @test * */
+    public function it_shows_custom_conditions()
+    {
+        config()->set('mailcoach.automation.flows.conditions', [
+            CustomCondition::class,
+        ]);
+
+        Livewire::test(ConditionActionComponent::class, [
+            'automation' => $this->automation,
+            'action' => $this->action,
+            'uuid' => Str::uuid()->toString(),
+            'editing' => true,
+        ])
+            ->assertSee('A custom condition')
+            ->set('editing', false)
+            ->set('condition', CustomCondition::class)
+            ->assertSee('Some description');
     }
 
     /** @test * */

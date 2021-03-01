@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions;
 
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Spatie\Mailcoach\Domain\Automation\Support\Conditions\Condition;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasClickedAutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasOpenedAutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasTagCondition;
@@ -53,6 +54,11 @@ class ConditionActionComponent extends AutomationActionComponent
     {
         /** @var \Spatie\Mailcoach\Domain\Automation\Support\Conditions\Condition $condition */
         $condition = $this->condition;
+
+        if (! method_exists($condition, 'rules')) {
+            return;
+        }
+
         foreach (array_keys($condition::rules()) as $key) {
             if (! isset($this->conditionData[$key])) {
                 $this->conditionData[$key] = '';
@@ -62,11 +68,18 @@ class ConditionActionComponent extends AutomationActionComponent
 
     public function mount()
     {
-        $this->conditionOptions = collect([
+        $defaultConditions = collect([
             HasTagCondition::class,
             HasOpenedAutomationMail::class,
             HasClickedAutomationMail::class,
-        ])->mapWithKeys(function ($class) {
+        ]);
+
+        $customConditions = collect(config('mailcoach.automation.flows.conditions', []))
+            ->filter(fn ($condition) => in_array(Condition::class, class_implements($condition)));
+
+        $this->conditionOptions = $defaultConditions
+            ->merge($customConditions)
+            ->mapWithKeys(function ($class) {
             return [$class => $class::getName()];
         })->toArray();
 
@@ -123,6 +136,10 @@ class ConditionActionComponent extends AutomationActionComponent
             'yesActions' => ['nullable', 'array'],
             'noActions' => ['nullable', 'array'],
         ];
+
+        if (! method_exists($this->condition, 'rules')) {
+            return $rules;
+        }
 
         $conditionRules = collect($this->condition ? $this->condition::rules() : [])->mapWithKeys(function ($rules, $key) {
             return ["conditionData.{$key}" => $rules];

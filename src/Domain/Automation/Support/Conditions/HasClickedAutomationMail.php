@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Support\Conditions;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\Rule;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
@@ -29,15 +30,13 @@ class HasClickedAutomationMail implements Condition
             return '';
         }
 
-        if (! isset($data['automation_mail_link_url']) || ! $data['automation_mail_link_url']) {
-            return '';
-        }
-
         $mail = AutomationMail::find($data['automation_mail_id']);
 
         return (string) __(':mail - :url', [
             'mail' => $mail->name,
-            'url' => $data['automation_mail_link_url'],
+            'url' => isset($data['automation_mail_link_url']) && $data['automation_mail_link_url']
+                ? $data['automation_mail_link_url']
+                : __('Any link'),
         ]);
     }
 
@@ -49,16 +48,24 @@ class HasClickedAutomationMail implements Condition
                 Rule::exists(self::getAutomationMailTableName(), 'id'),
             ],
             'automation_mail_link_url' => [
-                'required',
+                'nullable',
+                'string',
             ],
         ];
     }
 
     public function check(): bool
     {
-        return AutomationMailClick::query()
+        $query = AutomationMailClick::query()
             ->where('subscriber_id', $this->subscriber->id)
-            ->where('url', $this->data['automation_mail_link_url'])
-            ->exists();
+            ->whereHas('send', function (Builder $query) {
+                $query->where('automation_mail_id', $this->data['automation_mail_id']);
+            });
+
+        if ($this->data['automation_mail_link_url'] ?? false) {
+            $query->where('url', $this->data['automation_mail_link_url']);
+        }
+
+        return $query->exists();
     }
 }
