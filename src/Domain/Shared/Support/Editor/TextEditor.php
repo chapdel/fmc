@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Domain\Shared\Support\Editor;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
+use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 
 class TextEditor implements Editor
@@ -12,7 +13,7 @@ class TextEditor implements Editor
     public function render(HasHtmlContent $model): string
     {
         return match($model::class) {
-            Campaign::class => $this->renderForCampaign($model),
+            Campaign::class, Template::class => $this->renderForCampaign($model),
             AutomationMail::class => $this->renderForAutomationMail($model),
             TransactionalMailTemplate::class => $this->renderForTransactionalMailTemplate($model),
         };
