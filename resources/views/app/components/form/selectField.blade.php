@@ -4,9 +4,6 @@
         {{ $label }}
     </label>
     @endisset
-    @error($name)
-        <p class="form-error" role="alert">{{ $message }}</p>
-    @enderror
     <div class="select">
         <select
             name="{{ $name }}"
@@ -28,4 +25,7 @@
             <i class="fas fa-angle-down"></i>
         </div>
     </div>
+    @error($name)
+        <p class="form-error" role="alert">{{ $message }}</p>
+    @enderror
 </div>

@@ -4,9 +4,6 @@
         {{ $label }}
     </label>
     @endif
-    @error($name)
-        <p class="form-error" role="alert">{{ $message }}</p>
-    @enderror
     <input
         autocomplete="off"
         type="{{ $type ?? 'text' }}"
@@ -19,4 +16,7 @@
         {!! $attributes ?? '' !!}
         @if($disabled ?? false) disabled @endif
     >
+    @error($name)
+        <p class="form-error" role="alert">{{ $message }}</p>
+    @enderror
 </div>

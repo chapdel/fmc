@@ -4,9 +4,6 @@
         {{ $label }}
     </label>
     @endif
-    @error($name)
-        <p class="form-error" role="alert">{{ $message }}</p>
-    @enderror
     <input
         type="text"
         name="{{ $name }}"
@@ -17,4 +14,7 @@
         placeholder="{{ $placeholder ?? '' }}"
         {{ ($required ?? false) ? 'required' : '' }}
     >
+    @error($name)
+        <p class="form-error" role="alert">{{ $message }}</p>
+    @enderror
 </div>

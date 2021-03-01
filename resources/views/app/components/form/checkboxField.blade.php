@@ -1,7 +1,3 @@
-@error($name)
-    <p class="form-error" role="alert">{{ $message }}</p>
-@enderror
-
 <label class="checkbox-label" for="{{ $name }}">
     <input
     type="checkbox"
@@ -15,4 +11,7 @@
     >
     <span>{{ $label }}</span>
 </label>
+@error($name)
+    <p class="form-error" role="alert">{{ $message }}</p>
+@enderror
 

@@ -26,9 +26,9 @@ class ActionCategoryEnum extends Enum
     {
         return [
             'tags' => 'fa-tag',
-            'check' => 'fa-check',
+            'check' => 'fa-random',
             'pause' => 'fa-clock',
-            'react' => 'fa-random',
+            'react' => 'fa-cogs',
         ];
     }
 }

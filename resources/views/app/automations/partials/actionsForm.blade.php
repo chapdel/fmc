@@ -7,7 +7,7 @@
     @method('POST')
     <livewire:automation-builder name="default" :automation="$automation" :actions="$actions" />
 
-    <div class="form-buttons">
+    <div class="mb-48 form-buttons">
         <x-mailcoach::button :label="__('Save actions')" :disabled="count($editingActions) > 0" />
     </div>
 </form>
