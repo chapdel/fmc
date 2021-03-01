@@ -1,6 +1,6 @@
 ---
 title: Working with extra attributes on subscribers
-weight: 8
+weight: 9
 ---
 
 When subscribing you can add extra attributes. Here's an example where `first_name` and `last_name` are added.

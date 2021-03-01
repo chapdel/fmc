@@ -1,6 +1,6 @@
 ---
 title: Creating custom triggers
-weight: 10
+weight: 3
 ---
 
 If you're creating automations, you might run into a situation where you would like to have custom triggers for your automation. Mailcoach allows you to extend the available triggers easily.

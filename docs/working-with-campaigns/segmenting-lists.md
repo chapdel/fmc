@@ -1,6 +1,6 @@
 ---
 title: Segmenting lists
-weight: 5
+weight: 10
 ---
 
 If you wish to send a campaign to only a part of an email list you can use a segment when sending your campaign. A segment is a class that is responsible for selecting subscribers on an email list. It should always extend `Spatie\Mailcoach\Support\Segments\Segment`

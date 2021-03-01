@@ -1,6 +1,6 @@
 ---
 title: Creating custom actions
-weight: 11
+weight: 2
 ---
 
 If you're creating automations, you might run into a situation where you would like to have custom actions for your automation. Mailcoach allows you to extend the available actions easily.

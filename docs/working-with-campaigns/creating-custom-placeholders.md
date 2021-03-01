@@ -1,6 +1,6 @@
 ---
 title: Creating custom placeholders
-weight: 1
+weight: 8
 ---
 
 By default, Mailcoach offers a couple of placeholders you can use in the subject or content of your campaign, such as `webviewUrl` and `unsubscribeUrl`.
