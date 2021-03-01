@@ -4,9 +4,6 @@
             {{ $label }}
         </label>
     @endif
-    @error($name)
-    <p class="form-error" role="alert">{{ $message }}</p>
-    @enderror
     <textarea
         class="input input-html"
         {{ ($required ?? false) ? 'required' : '' }}
@@ -16,4 +13,7 @@
         data-html-preview-source
         @if($disabled ?? false) disabled @endif
     >{{ old($name, $value ?? '') }}</textarea>
+    @error($name)
+    <p class="form-error" role="alert">{{ $message }}</p>
+    @enderror
 </div>

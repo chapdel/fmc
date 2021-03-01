@@ -129,7 +129,7 @@
                         <div class="grid gap-4 px-12 pb-8 border-green-500 border-opacity-20 border-r border-t border-b rounded-r">
                             <h2 class="justify-self-start -ml-12 -mt-px h-8 px-2 inline-flex items-center bg-green-400 text-white rounded-br space-x-2">
                                 <i class="far far fa-thumbs-up"></i>
-                                <span class="markup-h4">@lang('Yes')</span>
+                                <span class="markup-h4">@lang('If')</span>
                             </h2>
                             <livewire:automation-builder name="{{ $uuid }}-yes-actions" :automation="$automation" :actions="$yesActions" key="{{ $uuid }}-yes-actions" />
                         </div>
@@ -138,7 +138,7 @@
                         <div class="grid gap-4 px-12 pb-8 border-red-500 border-opacity-20 border-r border-t border-b rounded-r">
                             <h2 class="justify-self-start -ml-12 -mt-px h-8 px-2 inline-flex items-center bg-red-400 text-white rounded-br space-x-2">
                                 <i class="far far fa-thumbs-down"></i>
-                                <span class="markup-h4">@lang('No')</span>
+                                <span class="markup-h4">@lang('Else')</span>
                             </h2>
                             <livewire:automation-builder name="{{ $uuid }}-no-actions" :automation="$automation" :actions="$noActions" key="{{ $uuid}}-no-actions" />
                         </div>
@@ -159,7 +159,7 @@
                             <div class="grid gap-4 px-12 pb-8 border-green-500 border-opacity-20 border-r border-t border-b rounded-r">
                                 <h2 class="justify-self-start -ml-12 -mt-px h-8 px-2 inline-flex items-center bg-green-400 text-white rounded-br space-x-2">
                                     <i class="far far fa-thumbs-up"></i>
-                                    <span class="markup-h4">@lang('Yes')</span>
+                                    <span class="markup-h4">@lang('If')</span>
                                 </h2>
                                 @foreach ($yesActions as $index => $action)
                                     @livewire($action['class']::getComponent() ?: 'automation-action', array_merge([
@@ -177,7 +177,7 @@
                             <div class="grid gap-4 px-12 pb-8 border-red-500 border-opacity-20 border-r border-t border-b rounded-r">
                                 <h2 class="justify-self-start -ml-12 -mt-px h-8 px-2 inline-flex items-center bg-red-400 text-white rounded-br space-x-2">
                                     <i class="far far fa-thumbs-down"></i>
-                                    <span class="markup-h4">@lang('No')</span>
+                                    <span class="markup-h4">@lang('Else')</span>
                                 </h2>
                                 @foreach ($noActions as $index => $action)
                                     @livewire($action['class']::getComponent() ?: 'automation-action', array_merge([

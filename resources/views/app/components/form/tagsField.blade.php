@@ -4,9 +4,6 @@
             {{ $label }}
         </label>
     @endisset
-    @error($name)
-        <p class="form-error" role="alert">{{ $message }}</p>
-    @enderror
     <select
         name="{{ $name }}[]"
         id="{{ $name }}"
@@ -17,4 +14,7 @@
         @isset($allowCreate) data-tags-allow-create @endisset
         {!! $attributes->except(['value', 'tags', 'required', 'multiple', 'name', 'allowCreate']) ?? '' !!}
     ></select>
+    @error($name)
+        <p class="form-error" role="alert">{{ $message }}</p>
+    @enderror
 </div>
