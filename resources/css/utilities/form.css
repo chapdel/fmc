@@ -6,12 +6,22 @@
 
 .form-fieldset {
     @apply grid;
-    @apply gap-y-8;
-    @apply bg-gray-100;
-    @apply bg-opacity-50;
+    @apply gap-y-6;
+    @apply bg-gray-200;
+    @apply bg-opacity-30;
     @apply rounded;
     @apply -mx-6;
     @apply p-6;
+    @apply shadow-sm;
+    @apply border;
+    @apply border-transparent;
+}
+
+.form-fieldset-focus {
+    @apply bg-blue-100;
+    @apply bg-opacity-30;
+    @apply border-blue-200;
+    @apply shadow-md;
 }
 
 .form-fieldset-clean {
@@ -24,23 +34,29 @@
     @apply text-sm;
     @apply font-semibold;
     @apply text-yellow-600;
-    @apply -mb-4;
 }
 
 
-.form-row {
+.legend-accent {
+    @apply font-semibold;
+    @apply normal-case;
+    @apply tracking-normal;
+    @apply truncate
+}
+
+.form-actions {
     @apply grid;
     @apply items-start;
     @apply gap-x-4;
-    @apply max-w-xl;
-    @apply grid-flow-col;
+    @apply gap-y-8;
+    @apply grid-cols-12;
 }
 
 .form-field {
     @apply grid;
     @apply items-start;
     @apply gap-1.5;
-    @apply max-w-xl;
+    @apply sm:max-w-xl;
     grid-template-columns: 100%;
 }
 

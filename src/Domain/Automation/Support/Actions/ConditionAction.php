@@ -29,7 +29,7 @@ class ConditionAction extends AutomationAction
 
     public static function getName(): string
     {
-        return (string) __('Yes/No condition');
+        return (string) __('Check for a period');
     }
 
     public static function getComponent(): ?string

@@ -72,7 +72,6 @@
     @apply link-dimmed-hover;
 }
 
-
 .button-red {
     @apply from-red-500;
     @apply to-red-600;
@@ -83,4 +82,38 @@
 .button-red.dropdown-trigger-open {
     @apply from-red-600;
     @apply to-red-700;
+}
+
+.button-rounded {
+    @apply p-0;
+    @apply h-6;
+    @apply w-6;
+    @apply flex;
+    @apply items-center;
+    @apply justify-center;
+    @apply rounded-full;
+    @apply text-gray-600;
+    @apply bg-white;
+    @apply text-sm;
+    @apply border;
+    @apply border-gray-300;
+    @apply whitespace-nowrap;
+    transition: background-color 0.15s ease;
+}
+
+.button-rounded:disabled {
+    @apply opacity-50;
+    @apply cursor-not-allowed;
+}
+
+.button-rounded:not(:disabled):hover,
+.button-rounded:not(:disabled):focus,
+.button-rounded.dropdown-trigger-open {
+    @apply bg-yellow-200;
+    @apply text-yellow-600;
+}
+
+.button-rounded:not(:disabled):active {
+    @apply shadow-inner;
+    transform: translateY(1px);
 }
