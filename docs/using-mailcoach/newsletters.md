@@ -1,5 +1,5 @@
 ---
-title: Campaigns
+title: Newsletters
 weight: 2
 ---
 
@@ -99,3 +99,19 @@ You can also see how many people, regrettably, clicked the unsubscribe link in t
 Here, you can see a collection of all the individual emails that were sent to your subscribers, and whether they encountered any issues upon arriving at their destination.
 
 If you're sending this campaign to a large mailing list, some emails may not have been sent yet, but don't worry, it should clear up within a couple of minutes.
+
+## Using templates
+Templates provide a starting point for a campaign's email content.
+
+![screenshot](/docs/laravel-mailcoach/v4/images/templates/create.png)
+
+You can preview what this template will look like in a user's email client by creating a campaign based on this template, and visiting the campaign's _Content_ tab.
+
+You can use placeholders for certain Mailcoach actions in your links:
+
+- `::webViewUrl::` This URL will display the HTML of the campaign
+- `::subscriber.first_name::` The first name of the subscriber
+- `::subscriber.email::` The email of the subscriber
+- `::list.name::` The name of email list this campaign is sent to
+- `::unsubscribeUrl::` The URL where users can unsubscribe
+

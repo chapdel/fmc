@@ -1,6 +1,6 @@
 ---
-title: Lists
-weight: 3
+title: Audience
+weight: 4
 ---
 
 Email lists are used to group a collection of subscribers. You can use tags and segments to further divide a list into parts that you want to target.
