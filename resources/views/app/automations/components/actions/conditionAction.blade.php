@@ -5,7 +5,7 @@
                 {{ $index + 1 }}
             </span>
             <span class="font-normal">
-                Check for 
+                Check for
                 <span class="legend-accent">
                     {{ \Carbon\CarbonInterval::createFromDateString("{$length} {$unit}") }}
                 </span>
@@ -24,7 +24,7 @@
             </button>
         @endif
         @if ($deletable)
-            <button type="button" wire:click="delete">
+            <button type="button" onclick="confirm('{{ __('Are you sure you want to delete this action?') }}') || event.stopImmediatePropagation()" wire:click="delete">
                 <i class="icon-button hover:text-red-500 far fa-trash-alt"></i>
             </button>
         @endif
@@ -32,7 +32,7 @@
 
         <div class="grid gap-6">
             @if ($editing)
-                <div class="form-grid">                        
+                <div class="form-grid">
                     <div class="form-actions">
                         <div class="col-span-8 sm:col-span-4">
                             <x-mailcoach::text-field
@@ -192,7 +192,7 @@
                             </div>
                         </section>
                     </div>
-                    
+
                     <dl class="-mx-6 -mb-6 px-6 py-2 text-right text-xs text-gray-500  bg-gray-300 bg-opacity-10">
                         Active
                         <span class="font-semibold variant-numeric-tabular">{{ $action['active'] ?? 0 }}</span>
