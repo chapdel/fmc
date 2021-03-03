@@ -99,7 +99,6 @@ class Action extends Model
                 $action = $this->action;
 
                 if (is_null($subscriber->pivot->run_at)) {
-
                     $action->run($subscriber);
 
                     if ($action->shouldHalt($subscriber)) {

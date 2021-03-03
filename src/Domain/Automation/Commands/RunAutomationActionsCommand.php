@@ -24,7 +24,6 @@ class RunAutomationActionsCommand extends Command
             ->where('status', AutomationStatus::STARTED)
             ->cursor()
             ->each(function (Automation $automation) {
-
                 if (! is_null($automation->run_at) && $automation->run_at->add($automation->interval)->isFuture()) {
                     return;
                 }
