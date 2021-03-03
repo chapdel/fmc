@@ -426,7 +426,7 @@ class AutomationTest extends TestCase
             ->trigger(new SubscribedTrigger())
             ->runEvery(CarbonInterval::minutes(10))
             ->chain([
-                new SendAutomationMailAction($automationMail)
+                new SendAutomationMailAction($automationMail),
             ])
             ->start();
 
@@ -443,7 +443,7 @@ class AutomationTest extends TestCase
         $messages = app(MailManager::class)->mailer('array')->getSwiftMailer()->getTransport()->messages();
 
         $this->assertTrue($messages->filter(function (Swift_Message $message) {
-                return $message->getSubject() === "This is the subject from the custom mailable.";
+            return $message->getSubject() === "This is the subject from the custom mailable.";
         })->count() > 0);
     }
 }
