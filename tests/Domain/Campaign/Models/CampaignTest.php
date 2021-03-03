@@ -157,7 +157,7 @@ class CampaignTest extends TestCase
     {
         $campaign = (new CampaignFactory())->create(['html' => 'null']);
 
-        $mailable = (new TestMailcoachMail())->setCampaign($campaign);
+        $mailable = (new TestMailcoachMail())->setSendable($campaign);
         app()->instance(TestMailcoachMail::class, $mailable);
 
         $campaign->useMailable(TestMailcoachMail::class);

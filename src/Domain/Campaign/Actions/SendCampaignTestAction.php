@@ -20,7 +20,7 @@ class SendCampaignTestAction
         $text = $convertHtmlToTextAction->execute($html);
 
         $campaignMailable = resolve(MailcoachMail::class)
-            ->setCampaign($campaign)
+            ->setSendable($campaign)
             ->setHtmlContent($html)
             ->setTextContent($text)
             ->subject("[Test] {$campaign->subject}")

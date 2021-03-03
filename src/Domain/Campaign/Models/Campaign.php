@@ -212,7 +212,7 @@ class Campaign extends Sendable implements Feedable
     {
         return $this
             ->getMailable()
-            ->setCampaign($this)
+            ->setSendable($this)
             ->render();
     }
 
@@ -222,7 +222,7 @@ class Campaign extends Sendable implements Feedable
             return;
         }
 
-        $mailable = $this->getMailable()->setCampaign($this);
+        $mailable = $this->getMailable()->setSendable($this);
         $mailable->build();
 
         if (! empty($mailable->subject)) {

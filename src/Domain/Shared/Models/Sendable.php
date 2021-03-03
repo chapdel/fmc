@@ -147,7 +147,7 @@ abstract class Sendable extends Model implements HasHtmlContent
     {
         return $this
             ->getMailable()
-            ->setCampaign($this)
+            ->setSendable($this)
             ->render();
     }
 
@@ -157,7 +157,7 @@ abstract class Sendable extends Model implements HasHtmlContent
             return;
         }
 
-        $mailable = $this->getMailable()->setCampaign($this);
+        $mailable = $this->getMailable()->setSendable($this);
         $mailable->build();
 
         if (! empty($mailable->subject)) {

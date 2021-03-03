@@ -51,7 +51,7 @@ class SendMailAction
 
         $mailcoachMail
             ->setSend($pendingSend)
-            ->setCampaign($campaign)
+            ->setSendable($campaign)
             ->subject($personalisedSubject)
             ->setHtmlContent($personalisedHtml)
             ->setTextContent($personalisedText)

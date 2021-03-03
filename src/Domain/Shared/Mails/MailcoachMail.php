@@ -13,7 +13,7 @@ class MailcoachMail extends Mailable
 {
     use SerializesModels;
 
-    public ?Sendable $campaign = null;
+    public ?Sendable $sendable = null;
 
     public ?Send $send = null;
 
@@ -37,7 +37,7 @@ class MailcoachMail extends Mailable
     {
         $this->send = $send;
 
-        $this->campaign = $send->campaign;
+        $this->sendable = $send->campaign;
 
         return $this;
     }
@@ -76,28 +76,28 @@ class MailcoachMail extends Mailable
         return $this;
     }
 
-    public function setCampaign(Sendable $campaign): self
+    public function setSendable(Sendable $sendable): self
     {
-        $this->campaign = $campaign;
+        $this->sendable = $sendable;
 
         $this->setFrom(
-            $campaign->from_email
-            ?? $campaign->emailList->default_from_email
+            $sendable->from_email
+            ?? $sendable->emailList->default_from_email
             ?? optional($this->send)->subscriber->emailList->default_from_email,
-            $campaign->from_name
-            ?? $campaign->emailList->default_from_name
+            $sendable->from_name
+            ?? $sendable->emailList->default_from_name
             ?? optional($this->send)->subscriber->emailList->default_from_name
             ?? null
         );
 
-        $replyTo = $this->campaign->reply_to_email
-            ?? $this->campaign->emailList->reply_to_email
+        $replyTo = $this->sendable->reply_to_email
+            ?? $this->sendable->emailList->reply_to_email
             ?? optional($this->send)->subscriber->emailList->reply_to_email
             ?? null;
 
         if ($replyTo) {
-            $replyToName = $this->campaign->reply_to_name
-                ?? $this->campaign->emailList->default_reply_to_name
+            $replyToName = $this->sendable->reply_to_name
+                ?? $this->sendable->emailList->default_reply_to_name
                 ?? optional($this->send)->subscriber->emailList->default_reply_to_name
                 ?? null;
             $this->setReplyTo($replyTo, $replyToName);

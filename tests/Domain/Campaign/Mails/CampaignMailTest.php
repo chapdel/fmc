@@ -19,7 +19,7 @@ class CampaignMailTest extends TestCase
         $send = SendFactory::new()->create();
 
         $campaignMailable = (new MailcoachMail())
-            ->setCampaign($send->campaign)
+            ->setSendable($send->campaign)
             ->setSend($send)
             ->setHtmlContent('dummy content')
             ->subject('test mail');
