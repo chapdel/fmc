@@ -17,18 +17,11 @@ class AutomationActionTest extends TestCase
 {
     use MatchesSnapshots;
 
-    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign */
-    protected Campaign $campaign;
-
     public function setUp(): void
     {
         parent::setUp();
 
         Queue::fake();
-
-        $this->campaign = (new CampaignFactory())->create([
-            'subject' => 'Welcome',
-        ]);
     }
 
     /** @test * */

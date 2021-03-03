@@ -6,13 +6,14 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Swift_Message;
 
 class MailcoachMail extends Mailable
 {
     use SerializesModels;
 
-    public ?Campaign $campaign = null;
+    public ?Sendable $campaign = null;
 
     public ?Send $send = null;
 
@@ -75,7 +76,7 @@ class MailcoachMail extends Mailable
         return $this;
     }
 
-    public function setCampaign(Campaign $campaign): self
+    public function setCampaign(Sendable $campaign): self
     {
         $this->campaign = $campaign;
 

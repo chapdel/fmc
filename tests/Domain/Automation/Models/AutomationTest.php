@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Tests\Domain\Automation\Models;
 
 use Carbon\CarbonInterval;
+use Illuminate\Mail\MailManager;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Str;
@@ -21,8 +22,10 @@ use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasTagCondition;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
+use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
 use Spatie\Snapshots\MatchesSnapshots;
 use Spatie\TestTime\TestTime;
+use Swift_Message;
 
 class AutomationTest extends TestCase
 {
@@ -403,5 +406,44 @@ class AutomationTest extends TestCase
 
         // Only 3 mails were sent in total
         $this->assertEquals(3, Send::count());
+    }
+
+    /** @test */
+    public function the_automation_mail_can_use_custom_mailable()
+    {
+        config()->set('mailcoach.automation.mailer', 'array');
+
+        /** @var EmailList $emailList */
+        $emailList = EmailList::factory()->create();
+
+        $automationMail = AutomationMail::factory()->create();
+
+        $automationMail->useMailable(TestMailcoachMail::class);
+
+        $automation = Automation::create()
+            ->name('Getting started with Mailcoach')
+            ->to($emailList)
+            ->trigger(new SubscribedTrigger())
+            ->runEvery(CarbonInterval::minutes(10))
+            ->chain([
+                new SendAutomationMailAction($automationMail)
+            ])
+            ->start();
+
+        $this->refreshServiceProvider();
+
+        $this->assertEquals(1, Action::count());
+
+        $automation->emailList->subscribe('subscriber@example.com');
+
+        TestTime::addDay();
+
+        Artisan::call(RunAutomationActionsCommand::class);
+
+        $messages = app(MailManager::class)->mailer('array')->getSwiftMailer()->getTransport()->messages();
+
+        $this->assertTrue($messages->filter(function (Swift_Message $message) {
+                return $message->getSubject() === "This is the subject from the custom mailable.";
+        })->count() > 0);
     }
 }

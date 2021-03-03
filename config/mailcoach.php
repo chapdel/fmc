@@ -85,6 +85,7 @@ return [
         'editor' => \Spatie\Mailcoach\Domain\Shared\Support\Editor\TextEditor::class,
 
         'actions' => [
+            'send_mail' => \Spatie\Mailcoach\Domain\Automation\Actions\SendMailAction::class,
             'send_automation_mail_to_subscriber' => \Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailToSubscriberAction::class,
             'prepare_subject' => \Spatie\Mailcoach\Domain\Automation\Actions\PrepareSubjectAction::class,
             'prepare_webview_html' => \Spatie\Mailcoach\Domain\Automation\Actions\PrepareWebviewHtmlAction::class,

@@ -94,10 +94,12 @@ class Action extends Model
             ->wherePivotNull('halted_at')
             ->wherePivotNull('completed_at')
             ->each(function (Subscriber $subscriber) {
+
                 /** @var AutomationAction $action */
                 $action = $this->action;
 
                 if (is_null($subscriber->pivot->run_at)) {
+
                     $action->run($subscriber);
 
                     if ($action->shouldHalt($subscriber)) {

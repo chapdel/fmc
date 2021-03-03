@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Spatie\Mailcoach\Domain\Campaign\Actions\SendMailAction;
+use Spatie\Mailcoach\Domain\Automation\Actions\SendMailAction;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
 use Spatie\RateLimitedMiddleware\RateLimited;
@@ -34,6 +34,7 @@ class SendAutomationMailJob implements ShouldQueue
 
     public function handle()
     {
+
         /** @var \Spatie\Mailcoach\Domain\Automation\Actions\SendMailAction $sendMailAction */
         $sendMailAction = Config::getAutomationActionClass('send_mail', SendMailAction::class);
 
