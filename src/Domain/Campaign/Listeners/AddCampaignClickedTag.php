@@ -13,7 +13,11 @@ class AddCampaignClickedTag
         $campaign = $event->campaignClick->link->campaign;
         $subscriber = $event->campaignClick->subscriber;
 
-        $hash = LinkHasher::hash($event->campaignClick->link->url);
+        $hash = LinkHasher::hash(
+            $event->campaignClick->send->campaign,
+            $event->campaignClick->link->url,
+            'clicked'
+        );
 
         $subscriber->addTag("campaign-{$campaign->id}-clicked", TagType::MAILCOACH);
         $subscriber->addTag("campaign-{$campaign->id}-clicked-{$hash}", TagType::MAILCOACH);

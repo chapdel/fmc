@@ -11,6 +11,8 @@
                 <thead>
                     <tr>
                         <x-mailcoach::th sort-by="link">{{ __('Link') }}</x-mailcoach::th>
+                        <x-mailcoach::th>{{ __('Tag') }}</x-mailcoach::th>
+
                         <x-mailcoach::th sort-by="-unique_click_count" class="w-32 th-numeric hidden | xl:table-cell">{{ __('Unique Clicks') }}</x-mailcoach::th>
                         <x-mailcoach::th sort-by="-click_count" class="w-32 th-numeric">{{ __('Clicks') }}</x-mailcoach::th>
                     <tr>
@@ -19,6 +21,8 @@
                     @foreach($links as $link)
                     <tr>
                         <td class="markup-links"><a class="break-words" href="{{ $link->url }}">{{ $link->url }}</a></td>
+                        <td><span
+                                class="tag">{{ \Spatie\Mailcoach\Domain\Shared\Support\LinkHasher::hash($campaign, $link->url) }}</span></td>
                         <td class="td-numeric hidden | xl:table-cell">{{ $link->unique_click_count }}</td>
                         <td class="td-numeric">{{ $link->click_count }}</td>
                     </tr>

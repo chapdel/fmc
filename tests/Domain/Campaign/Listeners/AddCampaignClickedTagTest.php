@@ -24,7 +24,11 @@ class AddCampaignClickedTagTest extends TestCase
 
         $this->assertTrue($send->subscriber->hasTag("campaign-{$send->campaign->id}-clicked"));
 
-        $hash = LinkHasher::hash('https://spatie.be');
+        $hash = LinkHasher::hash(
+            $send->campaign,
+            'https://spatie.be',
+            'clicked',
+        );
         $this->assertTrue($send->subscriber->hasTag("campaign-{$send->campaign->id}-clicked-{$hash}"));
 
         tap(Tag::first(), function (Tag $tag) {

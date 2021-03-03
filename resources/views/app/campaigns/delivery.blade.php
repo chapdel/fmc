@@ -157,8 +157,6 @@
                         @foreach ($links as $url)
                             <li>
                                 <a target="_blank" class="link" href="{{ $url }}">{{ $url }}</a>
-                                <span
-                                    class="tag">{{ "campaign-{$campaign->id}-clicked-" . \Spatie\Mailcoach\Domain\Shared\Support\LinkHasher::hash($url) }}</span>
                             </li>
                         @endforeach
                     </ul>
