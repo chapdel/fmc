@@ -27,6 +27,5 @@ class LinkHasher
         $slug = Str::slug($slug);
 
         return Str::limit($slug, 30, '');
-
     }
 }
