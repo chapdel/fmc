@@ -13,7 +13,8 @@ class TextEditor implements Editor
     public function render(HasHtmlContent $model): string
     {
         return match($model::class) {
-            Campaign::class, Template::class => $this->renderForCampaign($model),
+            Campaign::class => $this->renderForCampaign($model),
+            Template::class => $this->renderForCampaignTemplate($model),
             AutomationMail::class => $this->renderForAutomationMail($model),
             TransactionalMailTemplate::class => $this->renderForTransactionalMailTemplate($model),
         };
@@ -24,6 +25,14 @@ class TextEditor implements Editor
         return (string)view('mailcoach::app.campaigns.partials.textEditor', [
             'html' => $model->getHtml(),
             'campaign' => $model,
+        ])->render();
+    }
+
+    protected function renderForCampaignTemplate(HasHtmlContent $model): string
+    {
+        return (string)view('mailcoach::app.campaigns.templates.partials.textEditor', [
+            'html' => $model->getHtml(),
+            'template' => $model,
         ])->render();
     }
 
