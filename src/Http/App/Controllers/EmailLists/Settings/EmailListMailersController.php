@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Http\App\Requests\EmailLists\Settings\UpdateEmailListGeneralSettingsRequest;
 use Spatie\Mailcoach\Http\App\Requests\EmailLists\Settings\UpdateEmailListMailersRequest;
 
 class EmailListMailersController
