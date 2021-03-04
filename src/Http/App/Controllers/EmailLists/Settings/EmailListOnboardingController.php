@@ -6,7 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Http\App\Requests\EmailLists\UpdateEmailListGeneralSettingsRequest;
 
-class EmailListGeneralSettingsController
+class EmailListOnboardingController
 {
     use AuthorizesRequests;
 
@@ -14,7 +14,7 @@ class EmailListGeneralSettingsController
     {
         $this->authorize('update', $emailList);
 
-        return view('mailcoach::app.emailLists.settings.general', [
+        return view('mailcoach::app.emailLists.settings.onboarding', [
             'emailList' => $emailList,
         ]);
     }

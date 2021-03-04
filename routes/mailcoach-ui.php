@@ -52,6 +52,8 @@ use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\DuplicateSegmentCo
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\EditSegmentController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\SegmentsIndexController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\SegmentSubscribersIndexController;
+use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListMailersController;
+use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListOnboardingController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\CreateSubscriberController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\DestroyAllUnsubscribedController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\DestroySubscriberController;
@@ -134,8 +136,14 @@ Route::prefix('email-lists')->group(function () {
         Route::get('subscribers/import-subscribers', ['\\' . ImportSubscribersController::class, 'showImportScreen'])->name('mailcoach.emailLists.import-subscribers');
         Route::post('subscribers/import-subscribers', ['\\' . ImportSubscribersController::class, 'import']);
 
-        Route::get('settings', ['\\' . EmailListGeneralSettingsController::class, 'edit'])->name('mailcoach.emailLists.settings');
-        Route::put('settings', ['\\' . EmailListGeneralSettingsController::class, 'update'])->name('mailcoach.emailLists.update-settings');
+        Route::get('general-settings', ['\\' . EmailListGeneralSettingsController::class, 'edit'])->name('mailcoach.emailLists.general-settings');
+        Route::put('general-settings', ['\\' . EmailListGeneralSettingsController::class, 'update']);
+
+        Route::get('onboarding', ['\\' . EmailListOnboardingController::class, 'edit'])->name('mailcoach.emailLists.onboarding');
+        Route::put('onboarding', ['\\' . EmailListOnboardingController::class, 'update']);
+
+        Route::get('mailers', ['\\' . EmailListMailersController::class, 'edit'])->name('mailcoach.emailLists.mailers');
+        Route::put('mailers', ['\\' . EmailListMailersController::class, 'update']);
 
         Route::prefix('tags')->group(function () {
             Route::get('/', ['\\' . TagsController::class, 'index'])->name('mailcoach.emailLists.tags');
