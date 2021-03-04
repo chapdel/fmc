@@ -1,12 +1,12 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists;
+namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Http\App\Requests\EmailLists\UpdateEmailListSettingsRequest;
+use Spatie\Mailcoach\Http\App\Requests\EmailLists\UpdateEmailListGeneralSettingsRequest;
 
-class EmailListSettingsController
+class EmailListGeneralSettingsController
 {
     use AuthorizesRequests;
 
@@ -19,7 +19,7 @@ class EmailListSettingsController
         ]);
     }
 
-    public function update(EmailList $emailList, UpdateEmailListSettingsRequest $request)
+    public function update(EmailList $emailList, UpdateEmailListGeneralSettingsRequest $request)
     {
         $this->authorize('update', $emailList);
 
@@ -44,10 +44,10 @@ class EmailListSettingsController
             'redirect_after_subscription_pending' => $request->redirect_after_subscription_pending,
             'redirect_after_unsubscribed' => $request->redirect_after_unsubscribed,
             'send_welcome_mail' => $request->sendWelcomeMail(),
-            'welcome_mail_subject' => $request->welcome_mail === UpdateEmailListSettingsRequest::WELCOME_MAIL_CUSTOM_CONTENT
+            'welcome_mail_subject' => $request->welcome_mail === UpdateEmailListGeneralSettingsRequest::WELCOME_MAIL_CUSTOM_CONTENT
                 ? $request->welcome_mail_subject
                 : '',
-            'welcome_mail_content' => $request->welcome_mail === UpdateEmailListSettingsRequest::WELCOME_MAIL_CUSTOM_CONTENT
+            'welcome_mail_content' => $request->welcome_mail === UpdateEmailListGeneralSettingsRequest::WELCOME_MAIL_CUSTOM_CONTENT
                 ? $request->welcome_mail_content
                 : '',
             'welcome_mail_delay_in_minutes' => $request->welcome_mail_delay_in_minutes ?? 0,

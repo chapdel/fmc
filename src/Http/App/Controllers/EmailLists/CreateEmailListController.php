@@ -6,14 +6,14 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Audience\Actions\EmailLists\UpdateEmailListAction;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Http\App\Requests\EmailLists\UpdateEmailListSettingsRequest;
+use Spatie\Mailcoach\Http\App\Requests\EmailLists\UpdateEmailListGeneralSettingsRequest;
 
 class CreateEmailListController
 {
     use AuthorizesRequests,
         UsesMailcoachModels;
 
-    public function __invoke(UpdateEmailListSettingsRequest $request, UpdateEmailListAction $updateEmailListAction)
+    public function __invoke(UpdateEmailListGeneralSettingsRequest $request, UpdateEmailListAction $updateEmailListAction)
     {
         $this->authorize('create', EmailList::class);
 

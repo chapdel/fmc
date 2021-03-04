@@ -43,7 +43,7 @@ use Spatie\Mailcoach\Http\App\Controllers\Campaigns\TemplatesController;
 use Spatie\Mailcoach\Http\App\Controllers\DebugController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\CreateEmailListController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\DestroyEmailListController;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\EmailListSettingsController;
+use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListGeneralSettingsController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\EmailListsIndexController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\ImportSubscribersController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\CreateSegmentController;
@@ -134,8 +134,8 @@ Route::prefix('email-lists')->group(function () {
         Route::get('subscribers/import-subscribers', ['\\' . ImportSubscribersController::class, 'showImportScreen'])->name('mailcoach.emailLists.import-subscribers');
         Route::post('subscribers/import-subscribers', ['\\' . ImportSubscribersController::class, 'import']);
 
-        Route::get('settings', ['\\' . EmailListSettingsController::class, 'edit'])->name('mailcoach.emailLists.settings');
-        Route::put('settings', ['\\' . EmailListSettingsController::class, 'update'])->name('mailcoach.emailLists.update-settings');
+        Route::get('settings', ['\\' . EmailListGeneralSettingsController::class, 'edit'])->name('mailcoach.emailLists.settings');
+        Route::put('settings', ['\\' . EmailListGeneralSettingsController::class, 'update'])->name('mailcoach.emailLists.update-settings');
 
         Route::prefix('tags')->group(function () {
             Route::get('/', ['\\' . TagsController::class, 'index'])->name('mailcoach.emailLists.tags');

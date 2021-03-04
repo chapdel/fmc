@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use Spatie\ValidationRules\Rules\Delimited;
 
-class UpdateEmailListSettingsRequest extends FormRequest
+class UpdateEmailListGeneralSettingsRequest extends FormRequest
 {
     const WELCOME_MAIL_DISABLED = 'do_not_send_welcome_mail';
     const WELCOME_MAIL_DEFAULT_CONTENT = 'send_default_welcome_mail';

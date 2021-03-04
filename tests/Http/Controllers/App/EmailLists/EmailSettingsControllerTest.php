@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Tests\Http\Controllers\App\EmailLists;
 
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Policies\EmailListPolicy;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\EmailListSettingsController;
+use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListGeneralSettingsController;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomEmailListDenyAllPolicy;
 
@@ -33,11 +33,11 @@ class EmailSettingsControllerTest extends TestCase
 
         $this
             ->put(
-                action([EmailListSettingsController::class, 'update'], $emailList->id),
+                action([EmailListGeneralSettingsController::class, 'update'], $emailList->id),
                 $attributes
             )
             ->assertSessionHasNoErrors()
-            ->assertRedirect(action([EmailListSettingsController::class, 'edit'], $emailList->id));
+            ->assertRedirect(action([EmailListGeneralSettingsController::class, 'edit'], $emailList->id));
 
         $this->assertDatabaseHas('mailcoach_email_lists', $attributes);
     }
@@ -75,7 +75,7 @@ class EmailSettingsControllerTest extends TestCase
             $this
                 ->withExceptionHandling()
                 ->put(
-                    action([EmailListSettingsController::class, 'update'], $emailList->id),
+                    action([EmailListGeneralSettingsController::class, 'update'], $emailList->id),
                     $attributes
                 )
                 ->assertSessionHasErrors(["report_recipients"]);
@@ -97,7 +97,7 @@ class EmailSettingsControllerTest extends TestCase
 
         $this
             ->withExceptionHandling()
-            ->get(action([EmailListSettingsController::class, 'edit'], $emailList->id))
+            ->get(action([EmailListGeneralSettingsController::class, 'edit'], $emailList->id))
             ->assertForbidden();
 
         $this

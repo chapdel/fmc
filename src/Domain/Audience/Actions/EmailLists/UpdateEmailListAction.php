@@ -3,11 +3,11 @@
 namespace Spatie\Mailcoach\Domain\Audience\Actions\EmailLists;
 
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Http\App\Requests\EmailLists\UpdateEmailListSettingsRequest;
+use Spatie\Mailcoach\Http\App\Requests\EmailLists\UpdateEmailListGeneralSettingsRequest;
 
 class UpdateEmailListAction
 {
-    public function execute(EmailList $emailList, UpdateEmailListSettingsRequest $request): EmailList
+    public function execute(EmailList $emailList, UpdateEmailListGeneralSettingsRequest $request): EmailList
     {
         $emailList->fill([
             'name' => $request->name,
@@ -29,10 +29,10 @@ class UpdateEmailListAction
             'redirect_after_subscription_pending' => $request->redirect_after_subscription_pending ?? null,
             'redirect_after_unsubscribed' => $request->redirect_after_unsubscribed ?? null,
             'send_welcome_mail' => $request->sendWelcomeMail(),
-            'welcome_mail_subject' => $request->welcome_mail === UpdateEmailListSettingsRequest::WELCOME_MAIL_CUSTOM_CONTENT
+            'welcome_mail_subject' => $request->welcome_mail === UpdateEmailListGeneralSettingsRequest::WELCOME_MAIL_CUSTOM_CONTENT
                 ? $request->welcome_mail_subject
                 : '',
-            'welcome_mail_content' => $request->welcome_mail === UpdateEmailListSettingsRequest::WELCOME_MAIL_CUSTOM_CONTENT
+            'welcome_mail_content' => $request->welcome_mail === UpdateEmailListGeneralSettingsRequest::WELCOME_MAIL_CUSTOM_CONTENT
                 ? $request->welcome_mail_content
                 : '',
             'welcome_mail_delay_in_minutes' => $request->welcome_mail_delay_in_minutes ?? 0,

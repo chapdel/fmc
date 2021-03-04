@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Tests\Http\Controllers\App\EmailLists;
 
 use Spatie\Mailcoach\Domain\Audience\Policies\EmailListPolicy;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\CreateEmailListController;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\EmailListSettingsController;
+use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListGeneralSettingsController;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomEmailListDenyAllPolicy;
 
@@ -26,7 +26,7 @@ class CreateEmailListControllerTest extends TestCase
                 $attributes
             )
             ->assertSessionHasNoErrors()
-            ->assertRedirect(action([EmailListSettingsController::class, 'edit'], 1));
+            ->assertRedirect(action([EmailListGeneralSettingsController::class, 'edit'], 1));
 
         $this->assertDatabaseHas('mailcoach_email_lists', $attributes);
     }
