@@ -83,7 +83,7 @@ You can also publish the mailing list to a public URL, to be consumed by an RSS 
 
 ![screenshot](/docs/laravel-mailcoach/v4/images/lists/settings-reports.png)
 
-You and your colleagues can receive some statistics about this list and any campaigns sent to it. Fill in all the email addresses you want to send these reports to in the "To…" field, each separated by a comma.
+You and your colleagues can receive some statistics about this list and any campaigns sent to it. Fill in all the email addresses you want to send these reports to in the "Email…" field, each separated by a comma.
 
 - "Confirmation when a campaign gets sent to this list": Receive an email when a campaign is **sent**. If you scheduled a campaign, this report will be sent when the scheduled date is reached.
 
@@ -97,23 +97,17 @@ You and your colleagues can receive some statistics about this list and any camp
 
 ![screenshot](/docs/laravel-mailcoach/v4/images/lists/reports-list-summary.png)
 
-### Subscriptions
+### Onboarding
 
 #### Require confirmation (double opt-in)
+
+![screenshot](/docs/laravel-mailcoach/v4/images/lists/onboarding.png)
 
 When checking the "Require confirmation" checkbox, Mailcoach will send double opt-in emails to new subscribers. This will require them to confirm their email address before receiving any emails. By default, this email will include a link to a Mailcoach page, asking the person to confirm their subscription.
 
 This option can be enabled to prevent spam, both to and from your mailing list. If you disable this option and have a public-facing subscription form, you can reasonably expect a lot of bots to subscribe to your mailing list, causing your mailing costs to go up, reports to be skewed and a general decline in the health of your list.
 
-You can also configure Mailcoach to use a custom page and/or send out custom confirmation emails that you created yourself. Refer to the 2 options that become available when checking this box:
-
-- [Confirm subscription](/docs/laravel-mailcoach/v4/lists/settings#landing-pages) in the _Landing pages_ section.
-
-- [Confirmation mail](/docs/laravel-mailcoach/v4/lists/settings#confirmation-mail) at the bottom of the page.
-
 #### Allow POST from an external form
-
-![screenshot](/docs/laravel-mailcoach/v4/images/lists/settings-subscriptions-external-form.png)
 
 By enabling this option, you can create forms on your website that allow people to subscribe themselves to your list. Simply set the action (endpoint) of your form to the URL that was generated for this mailing list, and make sure to send at least a value for the "email" field in form submits, like so:
 
