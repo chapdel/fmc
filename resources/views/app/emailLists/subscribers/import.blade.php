@@ -82,13 +82,13 @@
                 <div class="radio-group">
                     <x-mailcoach::radio-field
                         name="replace_tags"
-                        option-value="false"
+                        option-value="append"
                         :value="true"
                         :label="__('Append')"
                     />
                     <x-mailcoach::radio-field
                         name="replace_tags"
-                        option-value="true"
+                        option-value="replace"
                         :label="__('Replace')"
                     />
                 </div>
