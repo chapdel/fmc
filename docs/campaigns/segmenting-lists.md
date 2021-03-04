@@ -93,4 +93,4 @@ No matter what you do in `subscribersQuery`, the package will never mail people 
 
 ## Accessing the Campaign model
 
-If you need to get any `campaign` details somewhere in your segment logic, you can use `$this->campaign` to access the model object of the campaign that is being sent.
+If you need to get any `campaign` details somewhere in your segment logic, you can use `$this->segmentable` to access the model object of the campaign that is being sent.

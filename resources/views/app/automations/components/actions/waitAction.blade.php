@@ -31,5 +31,4 @@
         />
         </div>
     </x-slot>
-
 </x-mailcoach::automation-action>
