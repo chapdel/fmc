@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Tests\Domain\Automation\Support\Conditions;
 
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailClick;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasClickedAutomationMail;
@@ -13,10 +14,11 @@ class HasClickedAutomationMailTest extends TestCase
     /** @test * */
     public function it_checks_correctly_that_a_user_clicked_an_automation_mail()
     {
+        $automation = Automation::factory()->create();
         $subscriber = Subscriber::factory()->create();
         $automationMail = AutomationMail::factory()->create();
 
-        $condition = new HasClickedAutomationMail($subscriber, [
+        $condition = new HasClickedAutomationMail($automation, $subscriber, [
             'automation_mail_id' => $automationMail->id,
             'automation_mail_link_url' => 'https://spatie.be',
         ]);
@@ -35,10 +37,11 @@ class HasClickedAutomationMailTest extends TestCase
     /** @test * */
     public function it_returns_false_if_a_link_is_specified_and_its_not_the_link()
     {
+        $automation = Automation::factory()->create();
         $subscriber = Subscriber::factory()->create();
         $automationMail = AutomationMail::factory()->create();
 
-        $condition = new HasClickedAutomationMail($subscriber, [
+        $condition = new HasClickedAutomationMail($automation, $subscriber, [
             'automation_mail_id' => $automationMail->id,
             'automation_mail_link_url' => 'https://example.com',
         ]);
@@ -57,10 +60,11 @@ class HasClickedAutomationMailTest extends TestCase
     /** @test * */
     public function it_returns_true_if_a_link_isnt_specified_and_any_link_was_clicked()
     {
+        $automation = Automation::factory()->create();
         $subscriber = Subscriber::factory()->create();
         $automationMail = AutomationMail::factory()->create();
 
-        $condition = new HasClickedAutomationMail($subscriber, [
+        $condition = new HasClickedAutomationMail($automation, $subscriber, [
             'automation_mail_id' => $automationMail->id,
         ]);
 

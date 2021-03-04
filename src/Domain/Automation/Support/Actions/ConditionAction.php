@@ -133,9 +133,11 @@ class ConditionAction extends AutomationAction
 
     public function shouldContinue(Subscriber $subscriber): bool
     {
+        $action = Action::findByUuid($this->uuid);
+
         /** @var \Spatie\Mailcoach\Domain\Automation\Support\Conditions\Condition $condition */
         $conditionClass = $this->condition;
-        $condition = new $conditionClass($subscriber, $this->conditionData);
+        $condition = new $conditionClass($action->automation, $subscriber, $this->conditionData);
 
         if ($condition->check()) {
             return true;
@@ -149,11 +151,12 @@ class ConditionAction extends AutomationAction
 
     public function nextAction(Subscriber $subscriber): ?Action
     {
+        $action = Action::findByUuid($this->uuid);
         $parentAction = Action::findByUuid($this->uuid);
 
         /** @var \Spatie\Mailcoach\Domain\Automation\Support\Conditions\Condition $condition */
         $conditionClass = $this->condition;
-        $condition = new $conditionClass($subscriber, $this->conditionData);
+        $condition = new $conditionClass($action->automation, $subscriber, $this->conditionData);
 
         if ($condition->check()) {
             if (isset($this->yesActions[0])) {

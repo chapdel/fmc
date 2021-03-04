@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Support\Conditions;
 
 use Illuminate\Validation\Rule;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailOpen;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -13,6 +14,7 @@ class HasOpenedAutomationMail implements Condition
     use UsesMailcoachModels;
 
     public function __construct(
+        private Automation $automation,
         private Subscriber $subscriber,
         private array $data,
     ) {
