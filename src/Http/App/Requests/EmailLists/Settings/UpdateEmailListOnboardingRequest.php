@@ -1,13 +1,13 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\App\Requests\EmailLists;
+namespace Spatie\Mailcoach\Http\App\Requests\EmailLists\Settings;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use Spatie\ValidationRules\Rules\Delimited;
 
-class UpdateEmailListGeneralSettingsRequest extends FormRequest
+class UpdateEmailListOnboardingRequest extends FormRequest
 {
     const WELCOME_MAIL_DISABLED = 'do_not_send_welcome_mail';
     const WELCOME_MAIL_DEFAULT_CONTENT = 'send_default_welcome_mail';
@@ -19,23 +19,6 @@ class UpdateEmailListGeneralSettingsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
-            'default_from_email' => 'required|email:rfc',
-            'default_from_name' => '',
-            'default_reply_to_email' => 'nullable|email:rfc',
-            'default_reply_to_name' => '',
-            'campaign_mailer' => [Rule::in(array_keys(config('mail.mailers')))],
-            'transactional_mailer' => [Rule::in(array_keys(config('mail.mailers')))],
-            'campaigns_feed_enabled' => 'boolean',
-            'report_recipients' => [
-                new Delimited('email'),
-                'required_if:report_email_list_summary,1',
-                'required_if:report_campaign_sent,1',
-                'required_if:report_campaign_summary,1',
-            ],
-            'report_campaign_sent' => 'boolean',
-            'report_campaign_summary' => 'boolean',
-            'report_email_list_summary' => 'boolean',
             'allow_form_subscriptions' => 'boolean',
             'allowed_form_extra_attributes' => '',
             'requires_confirmation' => 'boolean',
