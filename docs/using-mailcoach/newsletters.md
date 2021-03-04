@@ -3,11 +3,13 @@ title: Newsletters
 weight: 2
 ---
 
-An email campaign is a set of emails that can be sent to an email list (or part of it).
+An email campaign is a set of emails that can be sent to an email list (or a segment of a list).
 
 ![screenshot](/docs/laravel-mailcoach/v4/images/campaigns/index.png)
 
-The _Campaigns_ index page summarizes some information about your campaigns. You can see the status of the campaign (editing, scheduled, sending or sent), the number of people it was sent to, the number of times it was opened and how many links were clicked, and when it was or will be sent. The percentage below the opens and clicks is as part of the total amount of subscribers that received your email. You can use the action menu to the right of a campaign to duplicate or remove it.
+The _Campaigns_ index page summarizes some information about your campaigns. You can see the status of the campaign (editing, scheduled, sending or sent), the number of people it was sent to, the number of times it was opened and how many links were clicked, and when it was or will be sent. 
+
+The percentage below the opens and clicks is as part of the total amount of subscribers that received your email.
 
 ## Creating a campaign
 
@@ -41,12 +43,11 @@ You can -_and should_- use placeholders in your emails. We strongly suggest incl
 
 While editing your email, you can see what it will look like for subscribers by clicking the _Preview_ button.
 
-Since we are sending out mails in UTF-8, it's good practice to include following charset definition in the `<head>` of your HTML as well. This way, special characters will also correctly show up in your preview.
+Since we are sending out mails in UTF-8, it's good practice including following charset definition in the `<head>` of your HTML as well. This way, special characters will also correctly show up in your preview.
 
 ```HTML
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 ```
-
 
 ### Delivery
 
@@ -66,7 +67,7 @@ For more information on what these statistics mean, continue reading in the [cam
 
 ## Campaign statistics
 
-This page contains all the statistics for a campaign that was sent. These statistics will be updated regularly so you can closely track the success of your campaigns.
+This page contains all the statistics for a campaign that was sent. These statistics will be updated regularly, so you can closely track the success of your campaigns.
 
 ### Summary
 
@@ -80,11 +81,11 @@ A bounce means that an email could not be delivered to a certain email address, 
 
 ![screenshot](/docs/laravel-mailcoach/v4/images/campaigns/campaign-statistics-opens.png)
 
-In the _Opens_ tab, you can see which subscribers have already opened your email, and when.
+On the _Opens_ screen, you can see which subscribers have already opened your email, and when.
 
 ![screenshot](/docs/laravel-mailcoach/v4/images/campaigns/campaign-statistics-clicks.png)
 
-The _Clicks_ tab has information on which links were opened and how many times. The _Unique clicks_ column concerns how many unique users have clicked your link.
+The _Clicks_ screen has information on which links were opened and how many times. The _Unique clicks_ column concerns how many unique users have clicked your link.
 
 ## Unsubscribes
 
@@ -114,4 +115,3 @@ You can use placeholders for certain Mailcoach actions in your links:
 - `::subscriber.email::` The email of the subscriber
 - `::list.name::` The name of email list this campaign is sent to
 - `::unsubscribeUrl::` The URL where users can unsubscribe
-
