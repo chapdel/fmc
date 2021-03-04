@@ -51,9 +51,9 @@ use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\DuplicateSegmentCo
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\EditSegmentController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\SegmentsIndexController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\SegmentSubscribersIndexController;
+use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListGeneralSettingsController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListMailersController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListOnboardingController;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListGeneralSettingsController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\CreateSubscriberController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\DestroyAllUnsubscribedController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\DestroySubscriberController;
