@@ -12,7 +12,8 @@ class CustomCondition implements Condition
         private Automation $automation,
         private Subscriber $subscriber,
         private array $data
-    ) {}
+    ) {
+    }
 
     public static function getName(): string
     {
