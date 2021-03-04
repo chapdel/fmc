@@ -3,9 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\Requests\EmailLists\Settings;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
-use Spatie\ValidationRules\Rules\Delimited;
 
 class UpdateEmailListMailersRequest extends FormRequest
 {
