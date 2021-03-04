@@ -38,7 +38,7 @@ class WebviewReplacer implements Replacer
 }
 ```
 
-After creating a replacer you must register it in the `replacers` config key of the `mailcoach` config file.
+After creating a replacer you must register it in the `campaigns.replacers` config key of the `mailcoach` config file.
 
 ## Creating a personalized replacer
 

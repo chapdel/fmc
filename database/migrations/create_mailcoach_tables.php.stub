@@ -214,13 +214,24 @@ class CreateMailcoachTables extends Migration
             $table->longText('email_html')->nullable();
             $table->longText('webview_html')->nullable();
 
-
             $table->string('mailable_class')->nullable();
             $table->json('mailable_arguments')->nullable();
 
             $table->boolean('track_opens')->default(false);
             $table->boolean('track_clicks')->default(false);
             $table->boolean('utm_tags')->default(false);
+
+            $table->integer('sent_to_number_of_subscribers')->default(0);
+            $table->integer('open_count')->default(0);
+            $table->integer('unique_open_count')->default(0);
+            $table->integer('open_rate')->default(0);
+            $table->integer('click_count')->default(0);
+            $table->integer('unique_click_count')->default(0);
+            $table->integer('click_rate')->default(0);
+            $table->integer('unsubscribe_count')->default(0);
+            $table->integer('unsubscribe_rate')->default(0);
+            $table->integer('bounce_count')->default(0);
+            $table->integer('bounce_rate')->default(0);
 
             $table->timestamp('last_modified_at')->nullable();
             $table->timestamps();
