@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Support\Conditions;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\Rule;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailClick;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -14,6 +15,7 @@ class HasClickedAutomationMail implements Condition
     use UsesMailcoachModels;
 
     public function __construct(
+        private Automation $automation,
         private Subscriber $subscriber,
         private array $data,
     ) {

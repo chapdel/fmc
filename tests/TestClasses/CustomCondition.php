@@ -3,13 +3,16 @@
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\Condition;
 
 class CustomCondition implements Condition
 {
-    public function __construct(private Subscriber $subscriber, private array $data)
-    {
-    }
+    public function __construct(
+        private Automation $automation,
+        private Subscriber $subscriber,
+        private array $data
+    ) {}
 
     public static function getName(): string
     {
