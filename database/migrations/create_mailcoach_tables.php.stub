@@ -594,7 +594,10 @@ class CreateMailcoachTables extends Migration
         Schema::create('mailcoach_transactional_mail_opens', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('send_id')->constrained('mailcoach_sends');
+            $table
+                ->foreignId('send_id')
+                ->constrained('mailcoach_sends')
+                ->cascadeOnDelete();
 
             $table->timestamps();
         });
@@ -602,7 +605,11 @@ class CreateMailcoachTables extends Migration
         Schema::create('mailcoach_transactional_mail_clicks', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('send_id')->constrained('mailcoach_sends');
+            $table
+                ->foreignId('send_id')
+                ->constrained('mailcoach_sends')
+                ->cascadeOnDelete();
+
             $table->longText('url');
 
             $table->timestamps();
