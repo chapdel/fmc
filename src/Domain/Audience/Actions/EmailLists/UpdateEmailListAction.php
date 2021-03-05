@@ -8,7 +8,7 @@ use Spatie\Mailcoach\Http\App\Requests\EmailLists\Settings\UpdateEmailListGenera
 
 class UpdateEmailListAction
 {
-    public function execute(EmailList $emailList, UpdateEmailListGeneralSettingsRequest|UpdateEmailListSettingsRequest $request): EmailList
+    public function execute(EmailList $emailList, UpdateEmailListGeneralSettingsRequest | UpdateEmailListSettingsRequest $request): EmailList
     {
         $emailList->fill([
             'name' => $request->name,
