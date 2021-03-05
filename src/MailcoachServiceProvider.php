@@ -25,6 +25,7 @@ use Spatie\Mailcoach\Components\THComponent;
 use Spatie\Mailcoach\Components\TransactionalMailTemplateReplacerHelpTextsComponent;
 use Spatie\Mailcoach\Domain\Audience\Commands\DeleteOldUnconfirmedSubscribersCommand;
 use Spatie\Mailcoach\Domain\Audience\Commands\SendEmailListSummaryMailCommand;
+use Spatie\Mailcoach\Domain\Automation\Commands\CalculateAutomationMailStatisticsCommand;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationActionsCommand;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationTriggersCommand;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
@@ -45,8 +46,6 @@ use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\TagRemovedTrigg
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\WebhookTriggerComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\TriggeredByEvents;
 use Spatie\Mailcoach\Domain\Campaign\Commands\CalculateStatisticsCommand;
-use Spatie\Mailcoach\Domain\Campaign\Commands\CleanupProcessedFeedbackCommand;
-use Spatie\Mailcoach\Domain\Campaign\Commands\RetryPendingSendsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Commands\SendCampaignSummaryMailCommand;
 use Spatie\Mailcoach\Domain\Campaign\Commands\SendScheduledCampaignsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignLinkClickedEvent;
@@ -57,6 +56,8 @@ use Spatie\Mailcoach\Domain\Campaign\Listeners\AddCampaignClickedTag;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\AddCampaignOpenedTag;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\SendCampaignSentEmail;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\SetWebhookCallProcessedAt;
+use Spatie\Mailcoach\Domain\Shared\Commands\CleanupProcessedFeedbackCommand;
+use Spatie\Mailcoach\Domain\Shared\Commands\RetryPendingSendsCommand;
 use Spatie\Mailcoach\Domain\Shared\Support\Version;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Listeners\StoreTransactionalMail;
@@ -87,6 +88,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
             ])
             ->hasCommands([
                 CalculateStatisticsCommand::class,
+                CalculateAutomationMailStatisticsCommand::class,
                 SendScheduledCampaignsCommand::class,
                 SendCampaignSummaryMailCommand::class,
                 SendEmailListSummaryMailCommand::class,

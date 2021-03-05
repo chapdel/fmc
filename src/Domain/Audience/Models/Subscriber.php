@@ -17,6 +17,7 @@ use Spatie\Mailcoach\Domain\Audience\Events\UnsubscribedEvent;
 use Spatie\Mailcoach\Domain\Audience\Support\PendingSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailUnsubscribe;
 use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignClick;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignOpen;
@@ -109,12 +110,23 @@ class Subscriber extends Model
         $this->update(['unsubscribed_at' => now()]);
 
         if ($send) {
-            CampaignUnsubscribe::firstOrCreate([
-                'campaign_id' => $send->campaign->id,
-                'subscriber_id' => $send->subscriber->id,
-            ]);
+            if ($send->campaign_id) {
+                CampaignUnsubscribe::firstOrCreate([
+                    'campaign_id' => $send->campaign->id,
+                    'subscriber_id' => $send->subscriber->id,
+                ]);
 
-            $send->campaign->dispatchCalculateStatistics();
+                $send->campaign->dispatchCalculateStatistics();
+            }
+
+            if ($send->automation_mail_id) {
+                AutomationMailUnsubscribe::firstOrCreate([
+                    'automation_mail_id' => $send->automationMail->id,
+                    'subscriber_id' => $send->subscriber->id,
+                ]);
+
+                $send->automationMail->dispatchCalculateStatistics();
+            }
         }
 
         event(new UnsubscribedEvent($this, $send));

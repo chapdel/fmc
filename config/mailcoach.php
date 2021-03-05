@@ -31,7 +31,6 @@ return [
          * Use an empty string to use the default queue.
          */
         'perform_on_queue' => [
-            'calculate_statistics_job' => 'mailcoach',
             'send_campaign_job' => 'send-campaign',
             'send_mail_job' => 'send-mail',
             'send_test_mail_job' => 'mailcoach',
@@ -195,6 +194,14 @@ return [
     ],
 
     'shared' => [
+        /*
+         * Here you can specify which jobs should run on which queues.
+         * Use an empty string to use the default queue.
+         */
+        'perform_on_queue' => [
+            'calculate_statistics_job' => 'mailcoach',
+        ],
+
         'actions' => [
             'calculate_statistics' => \Spatie\Mailcoach\Domain\Shared\Actions\CalculateStatisticsAction::class,
         ],

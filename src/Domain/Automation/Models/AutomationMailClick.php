@@ -19,4 +19,9 @@ class AutomationMailClick extends Model
     {
         return $this->belongsTo(Send::class, 'send_id');
     }
+
+    public function link(): BelongsTo
+    {
+        return $this->belongsTo(AutomationMailLink::class, 'automation_mail_link_id');
+    }
 }

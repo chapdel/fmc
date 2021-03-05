@@ -6,6 +6,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailClick;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailLink;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasClickedAutomationMail;
 use Spatie\Mailcoach\Tests\TestCase;
 
@@ -25,9 +26,12 @@ class HasClickedAutomationMailTest extends TestCase
 
         $this->assertFalse($condition->check());
 
-        $click = AutomationMailClick::factory()->create([
-            'subscriber_id' => $subscriber->id,
+        $link = AutomationMailLink::factory()->create([
             'url' => 'https://spatie.be',
+        ]);
+        $click = AutomationMailClick::factory()->create([
+            'automation_mail_link_id' => $link->id,
+            'subscriber_id' => $subscriber->id,
         ]);
         $click->send->update(['automation_mail_id' => $automationMail->id]);
 
@@ -48,9 +52,12 @@ class HasClickedAutomationMailTest extends TestCase
 
         $this->assertFalse($condition->check());
 
-        $click = AutomationMailClick::factory()->create([
-            'subscriber_id' => $subscriber->id,
+        $link = AutomationMailLink::factory()->create([
             'url' => 'https://spatie.be',
+        ]);
+        $click = AutomationMailClick::factory()->create([
+            'automation_mail_link_id' => $link->id,
+            'subscriber_id' => $subscriber->id,
         ]);
         $click->send->update(['automation_mail_id' => $automationMail->id]);
 
@@ -70,9 +77,12 @@ class HasClickedAutomationMailTest extends TestCase
 
         $this->assertFalse($condition->check());
 
-        $click = AutomationMailClick::factory()->create([
-            'subscriber_id' => $subscriber->id,
+        $link = AutomationMailLink::factory()->create([
             'url' => 'https://spatie.be',
+        ]);
+        $click = AutomationMailClick::factory()->create([
+            'automation_mail_link_id' => $link->id,
+            'subscriber_id' => $subscriber->id,
         ]);
         $click->send->update(['automation_mail_id' => $automationMail->id]);
 
