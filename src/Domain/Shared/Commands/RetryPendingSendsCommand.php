@@ -24,7 +24,7 @@ class RetryPendingSendsCommand extends Command
             ->whereNotNull('campaign_id')
             ->each(function (Send $send) {
                 dispatch(new SendCampaignMailJob($send));
-        });
+            });
 
         Send::query()
             ->whereNull('sent_at')

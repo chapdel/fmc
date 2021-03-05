@@ -8,9 +8,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Spatie\Mailcoach\Domain\Shared\Support\CalculateStatisticsLock;
 use Spatie\Mailcoach\Domain\Shared\Actions\CalculateStatisticsAction;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
+use Spatie\Mailcoach\Domain\Shared\Support\CalculateStatisticsLock;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
 
 class CalculateStatisticsJob implements ShouldQueue
