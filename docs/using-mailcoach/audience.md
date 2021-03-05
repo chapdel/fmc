@@ -81,8 +81,6 @@ You can also publish the mailing list to a public URL, to be consumed by an RSS 
 
 ### Reports
 
-![screenshot](/docs/laravel-mailcoach/v4/images/lists/settings-reports.png)
-
 You and your colleagues can receive some statistics about this list and any campaigns sent to it. Fill in all the email addresses you want to send these reports to in the "Email…" field, each separated by a comma.
 
 - "Confirmation when a campaign gets sent to this list": Receive an email when a campaign is **sent**. If you scheduled a campaign, this report will be sent when the scheduled date is reached.
