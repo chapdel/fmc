@@ -79,17 +79,17 @@ class CalculateStatisticsJobTest extends TestCase
     /** @test */
     public function it_can_calculate_statistics_regarding_unsubscribes()
     {
+        Subscriber::$fakeUuid = null;
+
         $campaign = (new CampaignFactory())->withSubscriberCount(5)->create();
         $automationMail = AutomationMail::factory()->create();
 
-        dispatch(new SendCampaignJob($campaign));
-        dispatch(new SendAutomationMailJob(Send::factory()->create([
+        $send = Send::factory()->create([
             'automation_mail_id' => $automationMail->id,
             'campaign_id' => null,
-        ])));
-
-        dispatch(new CalculateStatisticsJob($campaign));
-        dispatch(new CalculateStatisticsJob($automationMail));
+        ]);
+        dispatch_now(new SendCampaignJob($campaign));
+        dispatch_now(new SendAutomationMailJob($send));
 
         $this->assertDatabaseHas('mailcoach_campaigns', [
             'id' => $campaign->id,
@@ -105,11 +105,10 @@ class CalculateStatisticsJobTest extends TestCase
 
         $sends = $campaign->sends()->take(1)->get();
         $this->simulateUnsubscribes($sends);
-        dispatch(new CalculateStatisticsJob($campaign));
+        dispatch_now(new CalculateStatisticsJob($campaign));
 
-        $sends = $automationMail->sends()->take(1)->get();
-        $this->simulateUnsubscribes($sends);
-        dispatch(new CalculateStatisticsJob($automationMail));
+        $this->simulateUnsubscribes(collect([$send]));
+        dispatch_now(new CalculateStatisticsJob($automationMail));
 
         $this->assertDatabaseHas('mailcoach_campaigns', [
             'id' => $campaign->id,
