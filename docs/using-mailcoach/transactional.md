@@ -11,7 +11,7 @@ When installed into an existing Laravel app, Mailcoach can log your transactiona
 
 When installed in a Laravel application, Mailcoach can log and display any sent mail in the UI.  It can optionally track opens and clicks of those transactional mails.
 
-[transactional mails list](/docs/laravel-mailcoach/v4/images/transactional/index.png)
+![transactional mails list](/docs/laravel-mailcoach/v4/images/transactional/index.png)
 
 On the "Content" screen you can see the content of a mail.
 
@@ -20,11 +20,11 @@ t](/docs/laravel-mailcoach/v4/images/transactional/content.png)
 
 If you've enabled tracking, then the opens and clicks of a mail can be seen on the "Performance" screen.
 
-[transactional mails performance](/docs/laravel-mailcoach/v4/images/transactional/performance.png)
+![transactional mails performance](/docs/laravel-mailcoach/v4/images/transactional/performance.png)
 
 A transactional mail can be resent on the "Resend" screen.
 
-[transactional mails resend](/docs/laravel-mailcoach/v4/images/transactional/resend.png)
+![transactional mails resend](/docs/laravel-mailcoach/v4/images/transactional/resend.png)
 
 ### Defining transactional mail templates
 
@@ -34,11 +34,11 @@ On the "Templates" screen can  define and edit templates containing the style an
 
 On the "Content" screen you can define the content of a transactional mail. You can [define placeholders](/docs/laravel-mailcoach/v4/transactional-mails/using-templates#using-replacers) that users of the template can use.
 
-[transactional template content](/docs/laravel-mailcoach/v4/images/transactional/template-content.png)
+![transactional template content](/docs/laravel-mailcoach/v4/images/transactional/template-content.png)
 
 On the "Settings" screen of the template you can select the [format of the template](https://spatie.be/docs/laravel-mailcoach/v4/transactional-mails/using-templates#using-template-types), and specify how it should be tracked.
 
-[transactional template settings](/docs/laravel-mailcoach/v4/images/transactional/template-content.png)
+![transactional template settings](/docs/laravel-mailcoach/v4/images/transactional/template-content.png)
 
 ## Getting started
 
