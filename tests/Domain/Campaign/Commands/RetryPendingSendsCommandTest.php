@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Tests\Domain\Campaign\Commands;
 
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
-use Spatie\Mailcoach\Domain\Campaign\Commands\RetryPendingSendsCommand;
+use Spatie\Mailcoach\Domain\Shared\Commands\RetryPendingSendsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
 use Spatie\Mailcoach\Tests\TestCase;
 

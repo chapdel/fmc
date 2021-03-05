@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Campaign\Commands;
+namespace Spatie\Mailcoach\Domain\Shared\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;

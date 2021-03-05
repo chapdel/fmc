@@ -65,7 +65,9 @@ class HasClickedAutomationMail implements Condition
             });
 
         if ($this->data['automation_mail_link_url'] ?? false) {
-            $query->where('url', $this->data['automation_mail_link_url']);
+            $query->whereHas('link', function (Builder $query) {
+                $query->where('url', $this->data['automation_mail_link_url']);
+            });
         }
 
         return $query->exists();

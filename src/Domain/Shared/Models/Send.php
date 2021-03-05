@@ -201,7 +201,7 @@ class Send extends Model
 
     public function registerAutomationMailOpen(?DateTimeInterface $openedAt = null): ?AutomationMailOpen
     {
-        if (! $this->transactionalMail->track_opens) {
+        if (! $this->automationMail->track_opens) {
             return null;
         }
 
@@ -211,6 +211,8 @@ class Send extends Model
 
         $automationMailOpen = AutomationMailOpen::create([
             'send_id' => $this->id,
+            'automation_mail_id' => $this->automationMail->id,
+            'subscriber_id' => $this->subscriber->id,
             'created_at' => $openedAt ?? now(),
         ]);
 

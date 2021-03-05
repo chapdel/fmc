@@ -9,7 +9,7 @@ use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailTestJob;
 use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailToSubscriberJob;
 use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
-use Spatie\Mailcoach\Domain\Campaign\Support\CalculateStatisticsLock;
+use Spatie\Mailcoach\Domain\Shared\Support\CalculateStatisticsLock;
 use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;

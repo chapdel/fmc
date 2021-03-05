@@ -57,9 +57,13 @@ class CalculateStatisticsAction
     protected function calculateLinkStatistics(Sendable $sendable): self
     {
         $sendable->links()->each(function (CampaignLink | AutomationMailLink $link) {
+            $tableName = $link instanceof CampaignLink
+                ? 'mailcoach_campaign_clicks'
+                : 'mailcoach_automation_mail_clicks';
+
             $link->update([
                 'click_count' => $link->clicks()->count(),
-                'unique_click_count' => $link->clicks()->select('subscriber_id')->groupBy('subscriber_id')->toBase()->select('subscriber_id')->getCountForPagination(['subscriber_id']),
+                'unique_click_count' => $link->clicks()->select("{$tableName}.subscriber_id")->groupBy("{$tableName}.subscriber_id")->toBase()->select("{$tableName}.subscriber_id")->getCountForPagination(['subscriber_id']),
             ]);
         });
 
@@ -68,8 +72,12 @@ class CalculateStatisticsAction
 
     protected function calculateClickMetrics(Sendable $sendable, int $sendToNumberOfSubscribers): array
     {
+        $tableName = $sendable instanceof Campaign
+            ? 'mailcoach_campaign_clicks'
+            : 'mailcoach_automation_mail_clicks';
+
         $clickCount = $sendable->clicks()->count();
-        $uniqueClickCount = $sendable->clicks()->groupBy('subscriber_id')->toBase()->select('subscriber_id')->getCountForPagination(['subscriber_id']);
+        $uniqueClickCount = $sendable->clicks()->groupBy("{$tableName}.subscriber_id")->toBase()->select("{$tableName}.subscriber_id")->getCountForPagination(['subscriber_id']);
         $clickRate = round($uniqueClickCount / $sendToNumberOfSubscribers, 4) * 10000;
 
         return [$clickCount, $uniqueClickCount, $clickRate];
@@ -77,8 +85,12 @@ class CalculateStatisticsAction
 
     protected function calculateOpenMetrics(Sendable $sendable, int $sendToNumberOfSubscribers): array
     {
+        $tableName = $sendable instanceof Campaign
+            ? 'mailcoach_campaign_opens'
+            : 'mailcoach_automation_mail_opens';
+
         $openCount = $sendable->opens()->count();
-        $uniqueOpenCount = $sendable->opens()->groupBy('subscriber_id')->toBase()->select('subscriber_id')->getCountForPagination(['subscriber_id']);
+        $uniqueOpenCount = $sendable->opens()->groupBy("{$tableName}.subscriber_id")->toBase()->select("{$tableName}.subscriber_id")->getCountForPagination(['subscriber_id']);
         $openRate = round($uniqueOpenCount / $sendToNumberOfSubscribers, 4) * 10000;
 
         return [$openCount, $uniqueOpenCount, $openRate];

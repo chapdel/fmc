@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Campaign\Support;
+namespace Spatie\Mailcoach\Domain\Shared\Support;
 
 use Illuminate\Support\Facades\Cache;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
