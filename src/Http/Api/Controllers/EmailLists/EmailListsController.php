@@ -8,6 +8,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Http\Api\Requests\EmailListGeneralRequest;
+use Spatie\Mailcoach\Http\Api\Requests\UpdateEmailListSettingsRequest;
 use Spatie\Mailcoach\Http\Api\Resources\EmailListResource;
 use Spatie\Mailcoach\Http\App\Queries\EmailListQuery;
 
@@ -31,7 +32,7 @@ class EmailListsController
         return new EmailListResource($emailList);
     }
 
-    public function store(EmailListGeneralRequest $request, UpdateEmailListAction $updateEmailListAction)
+    public function store(UpdateEmailListSettingsRequest $request, UpdateEmailListAction $updateEmailListAction)
     {
         $this->authorize("create", EmailList::class);
 
@@ -44,7 +45,7 @@ class EmailListsController
         return new EmailListResource($emailList);
     }
 
-    public function update(EmailListGeneralRequest $request, EmailList $emailList, UpdateEmailListAction $updateEmailListAction)
+    public function update(UpdateEmailListSettingsRequest $request, EmailList $emailList, UpdateEmailListAction $updateEmailListAction)
     {
         $this->authorize("update", $emailList);
 

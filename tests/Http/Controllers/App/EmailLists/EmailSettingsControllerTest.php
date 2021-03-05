@@ -17,8 +17,6 @@ class EmailSettingsControllerTest extends TestCase
 
         $emailList = EmailList::create([
             'name' => 'my list',
-            'campaign_mailer' => 'array',
-            'transactional_mailer' => 'array',
         ]);
 
         $attributes = [
@@ -27,8 +25,6 @@ class EmailSettingsControllerTest extends TestCase
             'default_from_name' => 'Jane Doe',
             'default_reply_to_email' => 'jane@example.com',
             'default_reply_to_name' => 'Jane Doe',
-            'campaign_mailer' => 'log',
-            'transactional_mailer' => 'log',
         ];
 
         $this
@@ -102,7 +98,7 @@ class EmailSettingsControllerTest extends TestCase
 
         $this
             ->withExceptionHandling()
-            ->put(route('mailcoach.emailLists.update-settings', $emailList), $this->validUpdateData())
+            ->put(route('mailcoach.emailLists.general-settings', $emailList), $this->validUpdateData())
             ->assertForbidden();
     }
 

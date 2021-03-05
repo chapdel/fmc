@@ -38,6 +38,6 @@ class EmailListGeneralSettingsController
 
         flash()->success(__('List :emailList was updated', ['emailList' => $emailList->name]));
 
-        return back();
+        return redirect()->route('mailcoach.emailLists.general-settings', $emailList);
     }
 }
