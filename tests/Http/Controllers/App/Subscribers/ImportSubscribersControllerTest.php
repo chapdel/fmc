@@ -35,6 +35,8 @@ class ImportSubscribersControllerTest extends TestCase
     /** @test */
     public function it_can_subscribe_multiple_emails_in_one_go()
     {
+        $this->withoutExceptionHandling();
+
         $this->uploadStub('valid-and-invalid.csv');
 
         $this->assertCount(3, $this->emailList->subscribers);
@@ -132,7 +134,7 @@ class ImportSubscribersControllerTest extends TestCase
         $subscriber->addTag('previousTag');
 
         $this->uploadStub('single.csv', [
-            'replace_tags' => true,
+            'replace_tags' => 'replace',
         ]);
 
         $subscriber = Subscriber::findForEmail('john@example.com', $this->emailList);

@@ -10,7 +10,7 @@ class ImportSubscribersRequest extends FormRequest
     public function rules()
     {
         return [
-             'file' => 'file:csv,xlsx',
+            // 'file' => 'file:csv,xlsx',
             'replace_tags' => Rule::in(['append', 'replace']),
         ];
     }
