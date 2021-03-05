@@ -31,9 +31,7 @@ Go to your Mailcoach Mail configuration page (under your user menu), make sure y
 
 ### Tracking events
 
-If you are not there already, go to your Mailcoach Mail configuration page (under your user menu), make sure your driver is set to _SendGrid_, and choose a value for your _Webhook signing secret_. This should be an unguessable string, but don't use any passwords that you're already using. This secret will be used by Mailcoach to verify incoming events from SendGrid:
-
-![screenshot](/docs/laravel-mailcoach/v4/images/mail-configuration/sendgrid-webhook-signing-key.png)
+If you are not there already, go to your Mailcoach Mail configuration page (under your user menu), make sure your driver is set to _SendGrid_, and choose a value for your _Webhook signing secret_. This should be an unguessable string, but don't use any passwords that you're already using. This secret will be used by Mailcoach to verify incoming events from SendGrid.
 
 Also, copy the webhook URL that is mentioned on the same page and save your configuration.
 
