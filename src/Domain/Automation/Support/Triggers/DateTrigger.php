@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Domain\Automation\Support\Triggers;
 
 use Carbon\CarbonInterface;
-use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Campaign\Rules\DateTimeFieldRule;
 
 class DateTrigger extends AutomationTrigger implements TriggeredBySchedule

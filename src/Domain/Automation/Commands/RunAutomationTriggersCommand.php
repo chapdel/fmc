@@ -5,7 +5,6 @@ namespace Spatie\Mailcoach\Domain\Automation\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
-use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\Trigger;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\TriggeredBySchedule;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;

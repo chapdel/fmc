@@ -6,15 +6,12 @@ use Carbon\CarbonInterval;
 use Illuminate\Mail\MailManager;
 use Illuminate\Queue\Connectors\SyncConnector;
 use Illuminate\Queue\QueueManager;
-use Illuminate\Queue\SyncQueue;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationActionsCommand;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
-use Spatie\Mailcoach\Domain\Automation\Jobs\RunAutomationForSubscriberJob;
-use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailJob;
 use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailToSubscriberJob;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
@@ -95,9 +92,9 @@ class AutomationTest extends TestCase
     /** @test */
     public function a_halted_action_will_stop_the_automation()
     {
-       Queue::fake();
+        Queue::fake();
 
-       $emailList = EmailList::factory()->create();
+        $emailList = EmailList::factory()->create();
 
         $automation = Automation::create()
             ->name('Welcome email')
