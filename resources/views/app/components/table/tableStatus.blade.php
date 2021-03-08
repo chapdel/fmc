@@ -7,4 +7,4 @@
     @endif
 </p>
 
-{{ $paginator->appends(request()->input())->links() }}
+{{ $paginator->appends(request()->input())->links('mailcoach::app.components.table.pagination') }}
