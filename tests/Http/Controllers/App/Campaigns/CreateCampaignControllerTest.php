@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Tests\Http\Controllers\App\Campaigns;
 
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignSettingsController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CreateCampaignController;
 use Spatie\Mailcoach\Tests\TestCase;
@@ -16,7 +17,7 @@ class CreateCampaignControllerTest extends TestCase
 
         $this
             ->post(action(CreateCampaignController::class), ['name' => 'my campaign', 'type' => CampaignStatus::DRAFT])
-            ->assertRedirect(action([CampaignSettingsController::class, 'edit'], 1));
+            ->assertRedirect(action([CampaignSettingsController::class, 'edit'], Campaign::first()->id));
 
         $this->assertDatabaseHas('mailcoach_campaigns', ['name' => 'my campaign']);
     }

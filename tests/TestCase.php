@@ -7,11 +7,15 @@ use CreateMailcoachTables;
 use CreateMediaTable;
 use CreateUsersTable;
 use CreateWebhookCallsTable;
+use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
@@ -27,6 +31,8 @@ use Spatie\TestTime\TestTime;
 
 abstract class TestCase extends Orchestra
 {
+    use RefreshDatabase;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -65,29 +71,44 @@ abstract class TestCase extends Orchestra
         ];
     }
 
+    protected function refreshTestDatabase()
+    {
+        if (! RefreshDatabaseState::$migrated) {
+            Schema::dropAllTables();
+
+            include_once __DIR__.'/../database/migrations/create_mailcoach_tables.php.stub';
+            (new CreateMailcoachTables())->up();
+
+            include_once __DIR__.'/../vendor/spatie/laravel-medialibrary/database/migrations/create_media_table.php.stub';
+            (new CreateMediaTable())->up();
+
+            include_once __DIR__.'/database/migrations/create_users_table.php.stub';
+            (new CreateUsersTable())->up();
+
+            include_once __DIR__.'/../database/migrations/create_webhook_calls_table.php.stub';
+            (new CreateWebhookCallsTable())->up();
+
+            include_once __DIR__.'/../database/migrations/create_job_batches_table.php.stub';
+            (new CreateJobBatchesTable())->up();
+
+            $this->app[Kernel::class]->setArtisan(null);
+
+            RefreshDatabaseState::$migrated = true;
+        }
+
+        $this->beginDatabaseTransaction();
+    }
+
     protected function getEnvironmentSetUp($app)
     {
-        config()->set('database.default', 'sqlite');
-        config()->set('database.connections.sqlite', [
-            'driver' => 'sqlite',
-            'database' => ':memory:',
+        config()->set('database.default', 'mysql');
+        config()->set('database.connections.mysql', [
+            'driver' => 'mysql',
+            'database' => 'mailcoach_tests',
+            'host' => '127.0.0.1',
+            'username' => 'root',
             'prefix' => '',
         ]);
-
-        include_once __DIR__.'/../database/migrations/create_mailcoach_tables.php.stub';
-        (new CreateMailcoachTables())->up();
-
-        include_once __DIR__.'/../vendor/spatie/laravel-medialibrary/database/migrations/create_media_table.php.stub';
-        (new CreateMediaTable())->up();
-
-        include_once __DIR__.'/database/migrations/create_users_table.php.stub';
-        (new CreateUsersTable())->up();
-
-        include_once __DIR__.'/../database/migrations/create_webhook_calls_table.php.stub';
-        (new CreateWebhookCallsTable())->up();
-
-        include_once __DIR__.'/../database/migrations/create_job_batches_table.php.stub';
-        (new CreateJobBatchesTable())->up();
     }
 
     protected function simulateUnsubscribes(Collection $sends)

@@ -17,6 +17,10 @@ class UpgradeMailcoachV3ToV4 extends Migration
         Schema::table('mailcoach_campaigns', function (Blueprint $table) {
             $table->boolean('utm_tags')->default(false)->after('track_clicks');
         });
+        
+        Schema::table('mailcoach_subscribers', function (Blueprint $table) {
+            $table->index(['email_list_id', 'created_at'], 'email_list_id_created_at');
+        });
 
         Schema::create('mailcoach_transactional_mails', function (Blueprint $table) {
             $table->id();
@@ -195,6 +199,19 @@ class UpgradeMailcoachV3ToV4 extends Migration
 
             $table->timestamps();
         });
+        
+        Schema::create('mailcoach_automation_mail_links', function (Blueprint $table) {
+            $table->id();
+            $table
+                ->foreignId('automation_mail_id')
+                ->constrained('mailcoach_automation_mails')
+                ->cascadeOnDelete();
+
+            $table->string('url', 2048);
+            $table->integer('click_count')->default(0);
+            $table->integer('unique_click_count')->default(0);
+            $table->nullableTimestamps();
+        });
 
         Schema::create('mailcoach_automation_mail_clicks', function (Blueprint $table) {
             $table->id();
@@ -229,19 +246,6 @@ class UpgradeMailcoachV3ToV4 extends Migration
                 ->cascadeOnDelete();
 
             $table->timestamps();
-        });
-
-        Schema::create('mailcoach_automation_mail_links', function (Blueprint $table) {
-            $table->id();
-            $table
-                ->foreignId('automation_mail_id')
-                ->constrained('mailcoach_automation_mails')
-                ->cascadeOnDelete();
-
-            $table->string('url', 2048);
-            $table->integer('click_count')->default(0);
-            $table->integer('unique_click_count')->default(0);
-            $table->nullableTimestamps();
         });
 
         Schema::create('mailcoach_transactional_mail_opens', function (Blueprint $table) {

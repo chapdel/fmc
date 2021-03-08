@@ -100,7 +100,7 @@ class UnsubscribeTagTest extends TestCase
     {
         $this->sendCampaign();
 
-        Send::truncate();
+        Send::all()->each->delete();
 
         $this->post($this->mailedUnsubscribeLink)->assertSuccessful();
 

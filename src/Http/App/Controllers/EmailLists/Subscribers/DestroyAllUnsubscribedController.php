@@ -13,7 +13,7 @@ class DestroyAllUnsubscribedController
     {
         $this->authorize('update', $emailList);
 
-        $emailList->allSubscribers()->unsubscribed()->delete();
+        $emailList->allSubscribersWithoutIndex()->unsubscribed()->delete();
 
         flash()->success(__('All unsubscribers of the list have been deleted.'));
 

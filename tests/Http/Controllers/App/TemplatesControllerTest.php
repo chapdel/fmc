@@ -68,7 +68,7 @@ class TemplatesControllerTest extends TestCase
 
         $this
             ->post(action([TemplatesController::class, 'duplicate'], $template))
-            ->assertRedirect(route('mailcoach.templates.edit', 2))
+            ->assertRedirect(route('mailcoach.templates.edit', Template::orderByDesc('id')->first()))
             ->assertSessionHasNoErrors();
 
         $this->assertCount(2, Template::get());

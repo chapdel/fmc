@@ -79,7 +79,7 @@ class Subscriber extends Model
 
     public function uniqueClicks(): HasMany
     {
-        return $this->clicks()->groupBy('campaign_link_id');
+        return $this->clicks()->groupBy('campaign_link_id')->addSelect('campaign_link_id');
     }
 
     public function tags(): BelongsToMany

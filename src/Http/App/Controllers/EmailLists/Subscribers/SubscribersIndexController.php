@@ -19,7 +19,10 @@ class SubscribersIndexController
         return view('mailcoach::app.emailLists.subscribers.index', [
             'subscribers' => $subscribersQuery->paginate(),
             'emailList' => $emailList,
+            'allSubscriptionsCount' => $emailList->allSubscribers()->count(),
             'totalSubscriptionsCount' => $emailList->subscribers()->count(),
+            'unconfirmedCount' => $emailList->allSubscribers()->unconfirmed()->count(),
+            'unsubscribedCount' => $emailList->allSubscribers()->unsubscribed()->count(),
             'activeFilter' => request()->get('filter')['status'] ?? '',
         ]);
     }

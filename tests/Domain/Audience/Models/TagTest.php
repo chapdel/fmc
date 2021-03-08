@@ -147,12 +147,12 @@ class TagTest extends TestCase
         $this->subscriberOfAnotherEmailList->addTag('test1');
 
         $this->assertDatabaseHas('mailcoach_tags', [
-            'email_list_id' => $this->subscriber->id,
+            'email_list_id' => $this->subscriber->emailList->id,
             'name' => 'test1',
         ]);
 
         $this->assertDatabaseHas('mailcoach_tags', [
-            'email_list_id' => $this->subscriberOfAnotherEmailList->id,
+            'email_list_id' => $this->subscriberOfAnotherEmailList->emailList->id,
             'name' => 'test1',
         ]);
     }
