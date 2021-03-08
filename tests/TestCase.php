@@ -13,6 +13,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
@@ -142,5 +143,12 @@ abstract class TestCase extends Orchestra
         app(MailcoachServiceProvider::class, ['app' => $this->app])
             ->register()
             ->boot();
+    }
+
+    public function processQueuedJobs()
+    {
+        foreach (Queue::pushedJobs() as $job) {
+            $job[0]['job']->handle();
+        }
     }
 }

@@ -3,6 +3,9 @@
 namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Campaigns;
 
 use Carbon\CarbonInterval;
+use Illuminate\Queue\Connectors\SyncConnector;
+use Illuminate\Queue\QueueManager;
+use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
@@ -44,7 +47,7 @@ class TriggerAutomationControllerTest extends TestCase
             ->name('New year!')
             ->runEvery(CarbonInterval::minute())
             ->to($this->emailList)
-            ->trigger(new WebhookTrigger())
+            ->triggerOn(new WebhookTrigger())
             ->chain([
                 new SendAutomationMailAction($this->automationMail),
             ])
@@ -66,7 +69,7 @@ class TriggerAutomationControllerTest extends TestCase
             ->name('New year!')
             ->runEvery(CarbonInterval::minute())
             ->to($this->emailList)
-            ->trigger(new DateTrigger(now()))
+            ->triggerOn(new DateTrigger(now()))
             ->chain([
                 new SendAutomationMailAction($this->automationMail),
             ])
@@ -87,7 +90,7 @@ class TriggerAutomationControllerTest extends TestCase
             ->name('New year!')
             ->runEvery(CarbonInterval::minute())
             ->to($this->emailList)
-            ->trigger(new WebhookTrigger())
+            ->triggerOn(new WebhookTrigger())
             ->chain([
                 new SendAutomationMailAction($this->automationMail),
             ])
@@ -106,13 +109,19 @@ class TriggerAutomationControllerTest extends TestCase
     /** @test * */
     public function it_needs_a_subscribed_subscriber()
     {
+        $manager = new QueueManager($this->app);
+        $manager->addConnector('sync', function () {
+            return new SyncConnector();
+        });
+        Queue::swap($manager);
+
         $this->withExceptionHandling();
 
         $automation = Automation::create()
             ->name('New year!')
             ->runEvery(CarbonInterval::minute())
             ->to($this->emailList)
-            ->trigger(new WebhookTrigger())
+            ->triggerOn(new WebhookTrigger())
             ->chain([
                 new SendAutomationMailAction($this->automationMail),
             ])

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
+use Spatie\Mailcoach\Domain\Automation\Models\Trigger;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\WebhookTrigger;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
@@ -20,9 +21,17 @@ class TriggerAutomationController
             'subscribers.*' => ['integer', Rule::exists($this->getSubscriberTableName(), 'id')],
         ]);
 
-        abort_unless($automation->trigger instanceof WebhookTrigger, 400, "This automation does not have a Webhook trigger.");
+        $webhookTriggers = $automation->triggers->filter(function (Trigger $trigger) {
+            return $trigger->trigger instanceof WebhookTrigger;
+        });
 
-        $automation->trigger->runAutomation(Subscriber::whereIn('id', $request->get('subscribers')));
+        abort_unless($webhookTriggers->count() > 0, 400, "This automation does not have a Webhook trigger.");
+
+        $webhookTriggers->each(function (Trigger $trigger) use ($request) {
+            $trigger
+                ->getAutomationTrigger()
+                ->runAutomation(Subscriber::whereIn('id', $request->get('subscribers')));
+        });
 
         return response()->json();
     }

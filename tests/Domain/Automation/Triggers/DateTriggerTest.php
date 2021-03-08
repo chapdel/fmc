@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationTriggersCommand;
+use Spatie\Mailcoach\Domain\Automation\Jobs\RunAutomationForSubscriberJob;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
@@ -43,7 +44,7 @@ class DateTriggerTest extends TestCase
             ->name('New year!')
             ->runEvery(CarbonInterval::minute())
             ->to($this->emailList)
-            ->trigger($trigger)
+            ->triggerOn($trigger)
             ->chain([
                 new SendAutomationMailAction($this->automationMail),
             ])
@@ -59,6 +60,14 @@ class DateTriggerTest extends TestCase
 
         Artisan::call(RunAutomationTriggersCommand::class);
 
-        $this->assertEquals(1, $automation->actions()->first()->subscribers->count());
+        Queue::assertPushed(
+            RunAutomationForSubscriberJob::class,
+            function (RunAutomationForSubscriberJob $job) use ($automation) {
+                $this->assertSame('john@doe.com', $job->subscriber->email);
+                $this->assertSame($automation->id, $job->automation->id);
+
+                return true;
+            }
+        );
     }
 }

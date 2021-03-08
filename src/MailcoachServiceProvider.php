@@ -30,6 +30,7 @@ use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationActionsCommand;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationTriggersCommand;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
+use Spatie\Mailcoach\Domain\Automation\Models\Trigger;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\AddTagsActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\AutomationMailActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\ConditionActionComponent;
@@ -342,25 +343,16 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     private function bootTriggers()
     {
-        if (Schema::hasTable('mailcoach_automations')) {
-            $automations = cache()->rememberForever('mailcoach-automations', function () {
-                return Automation::all();
-            });
+        if (Schema::hasTable('mailcoach_automation_triggers')) {
+            $triggers = Trigger::with(['automation'])->get();
 
-            $automations->each(function (Automation $automation) {
-                /** @var \Spatie\Mailcoach\Domain\Automation\Support\Triggers\AutomationTrigger|null $trigger */
-                $trigger = $automation->trigger;
-
-                if (! $trigger) {
-                    return;
-                }
-
-                if (! $trigger instanceof TriggeredByEvents) {
-                    return;
-                }
-
-                Event::subscribe($automation->trigger);
-            });
+            $triggers
+                ->filter(fn (Trigger $trigger) => $trigger->trigger instanceof TriggeredByEvents)
+                ->each(function (Trigger $trigger) {
+                    if ($trigger->automation) {
+                        Event::subscribe($trigger->trigger->setAutomation($trigger->automation));
+                    }
+                });
         }
     }
 }

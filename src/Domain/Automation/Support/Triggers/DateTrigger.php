@@ -39,12 +39,12 @@ class DateTrigger extends AutomationTrigger implements TriggeredBySchedule
         ];
     }
 
-    public function trigger(Automation $automation): void
+    public function trigger(): void
     {
         if (! now()->startOfMinute()->equalTo($this->date->startOfMinute())) {
             return;
         }
 
-        $this->runAutomation($automation->newSubscribersQuery());
+        $this->runAutomation($this->automation->newSubscribersQuery());
     }
 }

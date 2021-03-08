@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasOneOrMany;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
@@ -39,25 +41,34 @@ class Automation extends Model
                 $automation->status = AutomationStatus::PAUSED;
             }
         });
-
-        static::saved(function () {
-            cache()->forget('mailcoach-automations');
-        });
-    }
-
-    public function setTriggerAttribute(AutomationTrigger $value)
-    {
-        $this->attributes['trigger'] = serialize($value);
-    }
-
-    public function getTriggerAttribute(?string $value)
-    {
-        return unserialize($value);
     }
 
     public function name(string $name): self
     {
         $this->update(compact('name'));
+
+        return $this;
+    }
+
+    public function triggers(): HasMany
+    {
+        return $this->hasMany(Trigger::class);
+    }
+
+    public function triggerClass(): string
+    {
+        if ($trigger = $this->triggers->first()) {
+            return $trigger->getAutomationTrigger()::class;
+        }
+
+        return '';
+    }
+
+    public function triggerOn(AutomationTrigger $automationTrigger): self
+    {
+        $trigger = $this->triggers()->firstOrCreate();
+        $trigger->trigger = $automationTrigger;
+        $trigger->save();
 
         return $this;
     }
@@ -89,13 +100,6 @@ class Automation extends Model
     public function to(EmailList $emailList): self
     {
         $this->update(['email_list_id' => $emailList->id]);
-
-        return $this;
-    }
-
-    public function trigger(AutomationTrigger $trigger): self
-    {
-        $this->update(['trigger' => $trigger]);
 
         return $this;
     }
@@ -150,7 +154,7 @@ class Automation extends Model
             throw CouldNotStartAutomation::noListSet($this);
         }
 
-        if (! $this->trigger) {
+        if (! $this->triggers()->count() > 0) {
             throw CouldNotStartAutomation::noTrigger($this);
         }
 

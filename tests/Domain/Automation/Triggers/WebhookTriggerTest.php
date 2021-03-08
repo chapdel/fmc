@@ -5,12 +5,15 @@ namespace Spatie\Mailcoach\Tests\Domain\Automation\Triggers;
 use Carbon\CarbonInterval;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationTriggersCommand;
+use Spatie\Mailcoach\Domain\Automation\Jobs\RunAutomationForSubscriberJob;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
+use Spatie\Mailcoach\Domain\Automation\Models\Trigger;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\WebhookTrigger;
 use Spatie\Mailcoach\Http\Api\Controllers\Automations\TriggerAutomationController;
@@ -46,7 +49,7 @@ class WebhookTriggerTest extends TestCase
             ->name('New year!')
             ->runEvery(CarbonInterval::minute())
             ->to($this->emailList)
-            ->trigger(new WebhookTrigger())
+            ->triggerOn(new WebhookTrigger())
             ->chain([
                 new SendAutomationMailAction($this->automationMail),
             ])
@@ -66,6 +69,14 @@ class WebhookTriggerTest extends TestCase
             'subscribers' => [$subscriber->id],
         ])->assertSuccessful();
 
-        $this->assertEquals(1, $automation->actions()->first()->subscribers->count());
+        Queue::assertPushed(
+            RunAutomationForSubscriberJob::class,
+            function (RunAutomationForSubscriberJob $job) use ($subscriber, $automation) {
+                $this->assertSame($subscriber->email, $job->subscriber->email);
+                $this->assertSame($automation->id, $job->automation->id);
+
+                return true;
+            }
+        );
     }
 }

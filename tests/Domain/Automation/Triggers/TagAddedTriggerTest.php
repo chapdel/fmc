@@ -7,8 +7,10 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Automation\Jobs\RunAutomationForSubscriberJob;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
+use Spatie\Mailcoach\Domain\Automation\Models\Trigger;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\TagAddedTrigger;
 use Spatie\Mailcoach\Tests\TestCase;
@@ -32,8 +34,6 @@ class TagAddedTriggerTest extends TestCase
     /** @test * */
     public function it_triggers_when_a_subscriber_gets_a_tag()
     {
-        Queue::fake();
-
         TestTime::setTestNow(Carbon::create(2020, 01, 01));
 
         $trigger = new TagAddedTrigger('opened');
@@ -42,7 +42,7 @@ class TagAddedTriggerTest extends TestCase
             ->name('New year!')
             ->runEvery(CarbonInterval::minute())
             ->to($this->emailList)
-            ->trigger($trigger)
+            ->triggerOn($trigger)
             ->chain([
                 new SendAutomationMailAction($this->automationMail),
             ])

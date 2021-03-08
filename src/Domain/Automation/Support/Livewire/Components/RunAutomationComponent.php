@@ -26,7 +26,7 @@ class RunAutomationComponent extends Component
 
     public function mount()
     {
-        $this->interval = $this->automation->interval;
+        $this->interval = $this->automation->interval ?? '1 minute';
     }
 
     public function saveInterval()

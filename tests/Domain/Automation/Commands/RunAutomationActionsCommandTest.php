@@ -19,7 +19,7 @@ class RunAutomationActionsCommandTest extends TestCase
     {
         $automation = Automation::create()
             ->to(EmailList::factory()->create())
-            ->trigger(new SubscribedTrigger())
+            ->triggerOn(new SubscribedTrigger())
             ->runEvery(CarbonInterval::minute())
             ->chain([
                 new HaltAction(),
@@ -43,7 +43,7 @@ class RunAutomationActionsCommandTest extends TestCase
 
         $automation = Automation::create()
             ->to(EmailList::factory()->create())
-            ->trigger(new SubscribedTrigger())
+            ->triggerOn(new SubscribedTrigger())
             ->runEvery(CarbonInterval::minutes(10))
             ->chain([
                 new HaltAction(),
