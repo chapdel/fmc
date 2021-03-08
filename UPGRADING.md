@@ -118,7 +118,6 @@ class UpgradeMailcoachV3ToV4 extends Migration
 
             $table->uuid('uuid');
             $table->string('name')->nullable();
-            $table->text('trigger')->nullable();
             $table->string('interval')->nullable();
             $table->string('status');
 
@@ -157,6 +156,20 @@ class UpgradeMailcoachV3ToV4 extends Migration
             $table->string('key')->nullable();
             $table->text('action')->nullable();
             $table->integer('order');
+            $table->timestamps();
+        });
+        
+        Schema::create('mailcoach_automation_triggers', function (Blueprint $table) {
+            $table->id();
+
+            $table
+                ->foreignId('automation_id')
+                ->nullable()
+                ->constrained('mailcoach_automations')
+                ->cascadeOnDelete();
+
+            $table->uuid('uuid');
+            $table->text('trigger')->nullable();
             $table->timestamps();
         });
 
