@@ -3,7 +3,7 @@ title: Introduction
 weight: 1
 ---
 
-Before try to install Mailcoach, make sure you have [a valid license](/docs/laravel-mailcoach/v4/installation/getting-a-license).
+Before installing Mailcoach, make sure you have [a valid license](/docs/laravel-mailcoach/v4/installation/getting-a-license).
 
 There are three ways to install Mailcoach:
 
