@@ -107,6 +107,7 @@ abstract class TestCase extends Orchestra
             'database' => 'mailcoach_tests',
             'host' => '127.0.0.1',
             'username' => 'root',
+            'password' => env('DB_PASSWORD', ''),
             'prefix' => '',
         ]);
     }
