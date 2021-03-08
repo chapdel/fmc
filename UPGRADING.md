@@ -347,6 +347,16 @@ If you're using any of the Mailcoach classes in your own project, make sure to v
 
 - All Campaign actions were moved from `\Spatie\Mailcoach\Actions\Campaigns` to `\Spatie\Mailcoach\Domain\Campaign\Actions`
 
+### Scheduled jobs
+
+Add these new scheduled jobs to your application's schedule:
+
+```php
+$schedule->command('mailcoach:run-automation-triggers')->everyMinute()->runInBackground();
+$schedule->command('mailcoach:run-automation-actions')->everyMinute()->runInBackground();
+$schedule->command('mailcoach:calculate-automation-mail-statistics')->everyMinute();
+```
+
 ## Upgrading from v2 to v3
 
 ### Laravel 8
