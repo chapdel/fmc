@@ -46,7 +46,10 @@ class EmailList extends Model
         $query = $query->from(DB::raw($query->getQuery()->from . ' USE INDEX (email_list_subscribed_index)'));
 
         return $this->newHasMany(
-            $query, $this, $this->getSubscriberTableName().'.email_list_id', 'id'
+            $query,
+            $this,
+            $this->getSubscriberTableName().'.email_list_id',
+            'id'
         );
     }
 
