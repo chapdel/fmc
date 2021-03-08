@@ -68,7 +68,7 @@
             </div>
             <x-mailcoach::text-field :label="__('Optionally, allow following subscriber extra Attributes')" :placeholder="__('Attribute(s) comma separated: field1,field2')" name="allowed_form_extra_attributes" :value="$emailList->allowed_form_extra_attributes"/>
         </x-mailcoach::fieldset>
-        
+
 
         <x-mailcoach::fieldset :legend="__('Landing Pages')">
             <x-mailcoach::help>
@@ -132,12 +132,12 @@
                     </div>
                 @else
                     <x-mailcoach::help>
-                        {{ __('A custom mailable (:mailable) will be used.', ['mailable' => $emailList->welcome_mailable_class]) }}
+                        {{ __('A custom mailable (:mailable) will be used.', ['mailable' => $emailList->confirmation_mailable_class]) }}
                     </x-mailcoach::help>
                 @endif
             </x-mailcoach::fieldset>
         </div>
-        
+
         <x-mailcoach::fieldset :legend="__('Welcome Mail')">
 
             @if(empty($emailList->welcome_mailable_class))
@@ -205,7 +205,7 @@
 
         @if(count(config('mail.mailers')) > 1)
             <x-mailcoach::fieldset :legend="__('Mailers')">
-            
+
             <div class="form-field">
                 <label class="label">{{ __('Campaign mailer') }}</label>
                 <div class="radio-group">
