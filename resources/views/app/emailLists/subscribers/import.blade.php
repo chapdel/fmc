@@ -38,17 +38,17 @@
                                 <ul>
                                     <li>
                                         <a href="{{ route('mailcoach.subscriberImport.downloadAttachment', [$subscriberImport, 'importedUsersReport']) }}" download>
-                                            <x-mailcoach::icon-label icon="fa-list" :text="__('Import report')"/>
+                                            <x-mailcoach::icon-label icon="far fa-list-alt" :text="__('Import report')"/>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="{{ route('mailcoach.subscriberImport.downloadAttachment', [$subscriberImport, 'errorReport']) }}" download>
-                                            <x-mailcoach::icon-label icon="fa-exclamation-triangle" :text="__('Error report')"/>
+                                            <x-mailcoach::icon-label icon="far fa-times-circle" :text="__('Error report')"/>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="{{ route('mailcoach.subscriberImport.downloadAttachment', [$subscriberImport, 'importFile']) }}" download>
-                                            <x-mailcoach::icon-label icon="fa-file-upload" :text="__('Uploaded file')"/>
+                                            <x-mailcoach::icon-label icon="far fa-file" :text="__('Uploaded file')"/>
                                         </a>
                                     </li>
                                     <li>

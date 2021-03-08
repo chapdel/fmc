@@ -10,7 +10,9 @@
                 <span class="counter ml-0">{{ $count }} </span>
             </span>
         @else
-            <i class="{{ $icon ?? 'far fa-arrow-right' }} {{ $caution ?? null ? 'text-red-500' : '' }}"></i>
+            <span class="w-5 flex justify-center">
+                <i class="{{ $icon ?? 'far fa-arrow-right' }} {{ $caution ?? null ? 'text-red-500' : '' }}"></i>
+            </span>
         @endisset
     @endif
 
