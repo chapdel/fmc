@@ -47,9 +47,7 @@ This screen allows you to configure the interval at which subscribers will move 
 
 The Start/Pause button is pretty self-explanatory, it allows you start & pause the automation.
 
-# Automation mails
-
-## Creating an automation mail
+## Automation mails
 
 When creating an automation mail, you can either create a new one from scratch or duplicate an existing one to copy most of its settings:
 
@@ -91,11 +89,11 @@ This page provides a final checklist that you should go over before sending an a
 
 You can also send a test email to yourself for a final review before sending it out to your subscribers' mailboxes.
 
-## Campaign summary
-
-This page contains all the statistics for an automation mail that is being sent. These statistics will be updated regularly, so you can closely track the success of your mails.
+## Mail statistics
 
 ### Summary
+
+This page contains all the statistics for an automation mail that is being sent. These statistics will be updated regularly, so you can closely track the success of your mails.
 
 ![screenshot](/docs/laravel-mailcoach/v4/images/automations/automation-mail-statistics-overview.png)
 
@@ -113,7 +111,7 @@ On the _Opens_ screen, you can see which subscribers have already opened your em
 
 The _Clicks_ screen has information on which links were opened and how many times. The _Unique clicks_ column concerns how many unique users have clicked your link.
 
-## Unsubscribes
+### Unsubscribes
 
 ![screenshot](/docs/laravel-mailcoach/v4/images/automations/automation-mail-statistics-unsubscribes.png)
 
