@@ -28,6 +28,10 @@ use Spatie\Mailcoach\Domain\Audience\Commands\SendEmailListSummaryMailCommand;
 use Spatie\Mailcoach\Domain\Automation\Commands\CalculateAutomationMailStatisticsCommand;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationActionsCommand;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationTriggersCommand;
+use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailLinkClickedEvent;
+use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailOpenedEvent;
+use Spatie\Mailcoach\Domain\Automation\Listeners\AddAutomationMailClickedTag;
+use Spatie\Mailcoach\Domain\Automation\Listeners\AddAutomationMailOpenedTag;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Models\Trigger;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\AddTagsActionComponent;
@@ -336,6 +340,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Event::listen(MessageSending::class, StoreTransactionalMail::class);
         Event::listen(CampaignOpenedEvent::class, AddCampaignOpenedTag::class);
         Event::listen(CampaignLinkClickedEvent::class, AddCampaignClickedTag::class);
+        Event::listen(AutomationMailOpenedEvent::class, AddAutomationMailOpenedTag::class);
+        Event::listen(AutomationMailLinkClickedEvent::class, AddAutomationMailClickedTag::class);
 
         return $this;
     }

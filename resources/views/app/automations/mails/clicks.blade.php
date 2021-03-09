@@ -30,7 +30,7 @@
                 :name="__('link|links')"
                 :paginator="$links"
                 :total-count="$totalLinksCount"
-                :show-all-url="route('mailcoach.mails.clicks', $mail)"
+                :show-all-url="route('mailcoach.automations.mails.clicks', $mail)"
             ></x-mailcoach::table-status>
         @else
             <x-mailcoach::help>

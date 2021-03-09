@@ -15,6 +15,10 @@ class AutomationMailOpen extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'first_opened_at' => 'datetime',
+    ];
+
     public function send(): BelongsTo
     {
         return $this->belongsTo(Send::class, 'send_id');

@@ -14,7 +14,7 @@
                 </x-mailcoach::navigation-item>
                 <x-mailcoach::navigation-item :href="route('mailcoach.automations.run', $automation)" data-dirty-warn>
                     <span class="flex items-center lg:flex-row-reverse">
-                        {{ __('Run')}} 
+                        {{ __('Run')}}
                         <span class="mx-2">
                             @if($automation->status === \Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus::STARTED)
                                 <span class="fas fa-sync fa-spin text-green-500"></span>
