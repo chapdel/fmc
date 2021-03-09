@@ -11,10 +11,10 @@ class AddAutomationMailClickedTag
     public function handle(AutomationMailLinkClickedEvent $event)
     {
         $mail = $event->automationMailClick->link->automationMail;
-        $subscriber = $event->automationMailClick->subscriber;
+        $subscriber = $event->automationMailClick->send->subscriber;
 
         $hash = LinkHasher::hash(
-            $event->automationMailClick->send->automationMail,
+            $event->automationMailClick->link->automationMail,
             $event->automationMailClick->link->url,
             'clicked'
         );
