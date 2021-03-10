@@ -52,7 +52,7 @@ abstract class TestCase extends Orchestra
         TestTime::freeze();
 
         Factory::guessFactoryNamesUsing(
-            fn(string $modelName) => 'Spatie\\Mailcoach\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
+            fn (string $modelName) => 'Spatie\\Mailcoach\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
         );
 
         View::addLocation(__DIR__ . '/views');
