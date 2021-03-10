@@ -120,14 +120,30 @@ class ConditionAction extends AutomationAction
 
     private function actionToArray(array | AutomationAction $action): array
     {
+        $actionModel = Action::query()
+            ->where(
+                'uuid',
+                is_array($action)
+                ? $action['uuid']
+                : $action->uuid,
+            )
+            ->withCount(['completedSubscribers', 'activeSubscribers'])
+            ->first();
+
         if (! $action instanceof AutomationAction) {
-            return $action;
+            return array_merge($action, [
+                'active' => (int) ($actionModel->active_subscribers_count ?? 0),
+                'completed' => (int) ($actionModel->completed_subscribers_count ?? 0),
+            ]);
         }
+
 
         return [
             'uuid' => $action->uuid,
             'class' => $action::class,
             'data' => $action->toArray(),
+            'active' => (int) ($actionModel->active_subscribers_count ?? 0),
+            'completed' => (int) ($actionModel->completed_subscribers_count ?? 0),
         ];
     }
 
