@@ -25,6 +25,13 @@ class UpgradeMailcoachV3ToV4 extends Migration
         
         Schema::table('mailcoach_subscribers', function (Blueprint $table) {
             $table->index(['email_list_id', 'created_at'], 'email_list_id_created_at');
+            
+            // This index might already exist, then you don't need to add it.
+            $table->index([
+                'email_list_id',
+                'subscribed_at',
+                'unsubscribed_at'
+            ], 'email_list_subscribed_index');
         });
 
         Schema::create('mailcoach_transactional_mails', function (Blueprint $table) {
