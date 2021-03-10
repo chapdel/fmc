@@ -1,10 +1,9 @@
 ---
-name: Bug report
-about: Create a report to help us improve Mailcoach
+name: Reproducable Bug report
+about: Report a reproducable bug to help us improve Mailcoach
 title: ''
 labels: ''
 assignees: ''
-
 ---
 
 **Before creating a new bug report**
