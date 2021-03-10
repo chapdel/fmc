@@ -325,13 +325,13 @@ Publish the new views using
 php artisan vendor:publish --tag=mailcoach-views
 ```
 
-##@ Namespace changes
+### Namespace changes
 
 Most namespaces have been changed to a new Domain based structure separated into `Audience`, `Campaign`, `Automation`, `TransactionalMail` and `Shared`.
 
 If you're using any of the Mailcoach classes in your own project, make sure to validate the namespace imports. Below are some of the most impactful old namespaces and their resulting namespace:
 
-###@ Audience
+#### Audience
 - `\Spatie\Mailcoach\Models\Subscriber` has been moved to `\Spatie\Mailcoach\Domain\Audience\Models\Subscriber`
 - `\Spatie\Mailcoach\Models\EmailList` has been moved to `\Spatie\Mailcoach\Domain\Audience\Models\EmailList`
 - `\Spatie\Mailcoach\Models\Tag` has been moved to `\Spatie\Mailcoach\Domain\Audience\Models\Tag`
