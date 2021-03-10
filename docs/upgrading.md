@@ -5,6 +5,23 @@ weight: 4
 
 ## From v3 to v4
 
+### Update your dependencies
+
+These are all the new package versions, make sure any you're using are up to date in your `composer.json`
+
+```json
+{
+    "spatie/laravel-mailcoach": "^4.0",
+    "spatie/laravel-mailcoach-mailgun-feedback": "^3.0",
+    "spatie/laravel-mailcoach-monaco": "^2.0",
+    "spatie/laravel-mailcoach-postmark-feedback": "^3.0",
+    "spatie/laravel-mailcoach-sendgrid-feedback": "^3.0",
+    "spatie/laravel-mailcoach-ses-feedback": "^3.0",
+    "spatie/laravel-mailcoach-unlayer": "^2.0",
+    "spatie/laravel-welcome-notification": "^2.0",
+}
+```
+
 ### Upgrading the database schema
 
 There's been a lot of changes to the database, use the migration below to update your database to the latest schema:
@@ -358,6 +375,32 @@ If you're using any of the Mailcoach classes in your own project, make sure to v
 - `\Spatie\Mailcoach\Enums\CampaignStatus` has been moved to `\Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus`
 
 - All Campaign actions were moved from `\Spatie\Mailcoach\Actions\Campaigns` to `\Spatie\Mailcoach\Domain\Campaign\Actions`
+
+#### Segments
+
+If you have campaigns with existing segmentation, you can use the following Artisan command in your `routes/console.php` file to migrate those namespaces automatically:
+
+```php
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+
+Artisan::command('migrate-mailcoach', function () {
+    Campaign::each(function (Campaign $campaign) {
+        if ($campaign->segment_class === 'Spatie\Mailcoach\Support\Segments\SubscribersWithTagsSegment') {
+            $campaign->update([
+                'segment_class' => 'Spatie\Mailcoach\Domain\Audience\Support\Segments\SubscribersWithTagsSegment',
+            ]);
+        }
+
+        if ($campaign->segment_class === 'Spatie\Mailcoach\Support\Segments\EverySubscriberSegment') {
+            $campaign->update([
+                'segment_class' => 'Spatie\Mailcoach\Domain\Audience\Support\Segments\EverySubscriberSegment',
+            ]);
+        }
+    });
+});
+```
+
+You can then run `php artisan migrate-mailcoach` to run the command.
 
 ### Scheduled jobs
 
