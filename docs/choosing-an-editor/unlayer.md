@@ -18,7 +18,7 @@ When you've installed Mailcoach in an existing Laravel app, you must manually in
 You can install the add-on package via Composer:
 
 ```bash
-composer require spatie/laravel-mailcoach-unlayer:^4.0
+composer require spatie/laravel-mailcoach-unlayer:^2.0
 ```
 
 ### Publish and run the migration
