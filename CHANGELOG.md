@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 3.10.4 - 2021-02-19
+
+- HTML errors should not prevent loading of links in HTML
+
 ## 3.10.3 - 2021-01-26
 
 - Fix stray closing tag
