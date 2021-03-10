@@ -310,7 +310,7 @@ class UpgradeMailcoachV3ToV4 extends Migration
 The `mailcoach.php` config file has changed significantly, republish the file using
 
 ```bash
-php artisan vendor:publish --tag=laravel-mailcoach-config
+php artisan vendor:publish --tag=mailcoach-config
 ```
 
 Make sure to bring over any customizations you did to the old config file.
@@ -322,7 +322,7 @@ If you had customized views, you'll need to reapply your own customizations to t
 Publish the new views using
 
 ```bash
-php artisan vendor:publish --tag=laravel-mailcoach-views
+php artisan vendor:publish --tag=mailcoach-views
 ```
 
 ##@ Namespace changes
@@ -362,7 +362,7 @@ $schedule->command('mailcoach:run-automation-actions')->everyMinute()->runInBack
 $schedule->command('mailcoach:calculate-automation-mail-statistics')->everyMinute();
 ```
 
-## Upgrading from v2 to v3
+## From v2 to v3
 
 ### Laravel 8
 
