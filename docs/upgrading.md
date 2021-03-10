@@ -362,7 +362,7 @@ $schedule->command('mailcoach:run-automation-actions')->everyMinute()->runInBack
 $schedule->command('mailcoach:calculate-automation-mail-statistics')->everyMinute();
 ```
 
-## Upgrading from v2 to v3
+## From v2 to v3
 
 ### Laravel 8
 
