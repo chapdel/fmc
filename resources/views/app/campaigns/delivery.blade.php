@@ -350,7 +350,7 @@
                             <div class="grid gap-8 p-6">
                                 <p class="text-lg">
 
-                                    {{ __('Are you sure you want to launch this campaign to') }}
+                                    {{ __('Are you sure you want to send this campaign to') }}
                                     <strong class="font-semibold">
                                         {{ number_format($campaign->segmentSubscriberCount()) }}
                                         {{ $campaign->segmentSubscriberCount() === 1 ? __('subscriber') : __('subscribers') }}
@@ -361,7 +361,7 @@
                                     :action="route('mailcoach.campaigns.send', $campaign)"
                                     class="button button-red"
                                 >
-                                    {{ __('Yes, launch now!')}}
+                                    {{ __('Yes, send now!')}}
                                 </x-mailcoach::form-button>
                             </div>
                         </x-mailcoach::modal>
