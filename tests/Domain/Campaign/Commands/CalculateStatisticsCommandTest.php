@@ -79,7 +79,7 @@ class CalculateStatisticsCommandTest extends TestCase
             'statistics_calculated_at' => null,
         ]);
 
-        $this->artisan(CalculateStatisticsCommand::class, ['campaignId' => 1])->assertExitCode(0);
+        $this->artisan(CalculateStatisticsCommand::class, ['campaignId' => $campaign->id])->assertExitCode(0);
 
         $this->assertNotNull($campaign->refresh()->statistics_calculated_at);
     }

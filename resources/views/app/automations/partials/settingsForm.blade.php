@@ -14,7 +14,7 @@
         :options="$triggerOptions"
         placeholder="Select a trigger"
         required
-        value="{{ old('trigger', $automation->trigger ? $automation->trigger::class : '') }}"
+        value="{{ old('trigger', $automation->triggerClass()) }}"
         wire:change="setSelectedTrigger($event.target.value)"
     />
 

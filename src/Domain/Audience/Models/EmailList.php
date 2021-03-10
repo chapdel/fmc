@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\DB;
 use Spatie\Mailcoach\Domain\Audience\Mails\ConfirmSubscriberMail;
 use Spatie\Mailcoach\Domain\Campaign\Mails\WelcomeMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
@@ -38,6 +39,21 @@ class EmailList extends Model
     }
 
     public function allSubscribers(): HasMany
+    {
+        $query = $this->hasMany(config('mailcoach.models.subscriber'), 'email_list_id')
+            ->getQuery();
+
+        $query = $query->from(DB::raw($query->getQuery()->from . ' USE INDEX (email_list_subscribed_index)'));
+
+        return $this->newHasMany(
+            $query,
+            $this,
+            $this->getSubscriberTableName().'.email_list_id',
+            'id'
+        );
+    }
+
+    public function allSubscribersWithoutIndex(): HasMany
     {
         return $this->hasMany(config('mailcoach.models.subscriber'), 'email_list_id');
     }

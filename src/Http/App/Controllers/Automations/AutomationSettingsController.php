@@ -28,7 +28,7 @@ class AutomationSettingsController
             'segment_id' => $request->segment_id,
         ]);
 
-        $automation->trigger($request->trigger());
+        $automation->triggerOn($request->trigger());
 
         $automation->update(['segment_description' => $automation->getSegment()->description()]);
 

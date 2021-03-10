@@ -80,6 +80,7 @@ class EmailListsControllerTest extends TestCase
     public function an_email_list_can_be_updated_using_the_api()
     {
         $emailList = EmailList::factory()->create();
+        $id = $emailList->id;
 
         $attributes = [
             'name' => 'email list name',
@@ -95,7 +96,7 @@ class EmailListsControllerTest extends TestCase
 
         $emailList = $emailList->refresh();
 
-        $this->assertEquals(1, $emailList->id);
+        $this->assertEquals($id, $emailList->id);
         $this->assertEquals($attributes['name'], $emailList->name);
         $this->assertEquals($attributes['default_from_email'], $emailList->default_from_email);
         $this->assertEquals($attributes['default_from_name'], $emailList->default_from_name);

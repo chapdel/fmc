@@ -1,5 +1,5 @@
 <div class="dropdown" data-dropdown>
-    <button type="button" class="{{ $triggerClass ?? 'opacity-75 hover:opacity-100' }}" data-dropdown-trigger>
+    <button type="button" class="{{ $triggerClass ?? 'opacity-75 hover:opacity-100' }} @if(! isset($trigger)) px-2 @endif" data-dropdown-trigger>
         @if(isset($trigger))
             {{ $trigger }}
         @else

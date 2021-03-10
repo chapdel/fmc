@@ -36,10 +36,10 @@ class DuplicateSegmentTest extends TestCase
 
         $this
             ->post($duplicateSegmentEndpoint)
-            ->assertRedirect(action([EditSegmentController::class, 'edit'], [$originalSegment->emailList->id,  2]));
+            ->assertRedirect(action([EditSegmentController::class, 'edit'], [$originalSegment->emailList->id, TagSegment::orderByDesc('id')->first()->id]));
 
         /** @var TagSegment $duplicatedSegment */
-        $duplicatedSegment = TagSegment::find(2);
+        $duplicatedSegment = TagSegment::find(TagSegment::orderByDesc('id')->first()->id);
 
         $this->assertEquals(
             "Duplicate of {$originalSegment->name}",

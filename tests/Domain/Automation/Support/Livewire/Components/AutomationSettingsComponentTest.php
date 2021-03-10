@@ -17,6 +17,7 @@ class AutomationSettingsComponentTest extends TestCase
     {
         /** @var Automation $automation */
         $automation = Automation::factory()->create();
+        $automation->triggerOn(new SubscribedTrigger());
         $automation->chain([
             new UnsubscribeAction(),
         ]);

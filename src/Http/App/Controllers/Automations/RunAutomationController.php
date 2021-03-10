@@ -25,9 +25,6 @@ class RunAutomationController
             'interval' => $request->get('interval'),
         ]);
 
-        /* TODO Rias: do we have to trigger something here? */
-        //$automation->trigger($request->trigger());
-
         flash()->success(__('Automation :automation was updated.', ['automation' => $automation->name]));
 
         return redirect()->route('mailcoach.automations.run', $automation);

@@ -34,7 +34,7 @@
         :name="__('unsubscribe|unsubscribers')"
         :paginator="$unsubscribes"
         :total-count="$totalUnsubscribes"
-        :show-all-url="route('mailcoach.campaigns.unsubscribes', $campaign)"
+        :show-all-url="route('mailcoach.automations.mails.unsubscribes', $mail)"
     ></x-mailcoach::table-status>
 
     @else

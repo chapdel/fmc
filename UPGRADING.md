@@ -17,6 +17,10 @@ class UpgradeMailcoachV3ToV4 extends Migration
         Schema::table('mailcoach_campaigns', function (Blueprint $table) {
             $table->boolean('utm_tags')->default(false)->after('track_clicks');
         });
+        
+        Schema::table('mailcoach_subscribers', function (Blueprint $table) {
+            $table->index(['email_list_id', 'created_at'], 'email_list_id_created_at');
+        });
 
         Schema::create('mailcoach_transactional_mails', function (Blueprint $table) {
             $table->id();
@@ -114,7 +118,6 @@ class UpgradeMailcoachV3ToV4 extends Migration
 
             $table->uuid('uuid');
             $table->string('name')->nullable();
-            $table->text('trigger')->nullable();
             $table->string('interval')->nullable();
             $table->string('status');
 
@@ -153,6 +156,20 @@ class UpgradeMailcoachV3ToV4 extends Migration
             $table->string('key')->nullable();
             $table->text('action')->nullable();
             $table->integer('order');
+            $table->timestamps();
+        });
+        
+        Schema::create('mailcoach_automation_triggers', function (Blueprint $table) {
+            $table->id();
+
+            $table
+                ->foreignId('automation_id')
+                ->nullable()
+                ->constrained('mailcoach_automations')
+                ->cascadeOnDelete();
+
+            $table->uuid('uuid');
+            $table->text('trigger')->nullable();
             $table->timestamps();
         });
 
@@ -195,6 +212,19 @@ class UpgradeMailcoachV3ToV4 extends Migration
 
             $table->timestamps();
         });
+        
+        Schema::create('mailcoach_automation_mail_links', function (Blueprint $table) {
+            $table->id();
+            $table
+                ->foreignId('automation_mail_id')
+                ->constrained('mailcoach_automation_mails')
+                ->cascadeOnDelete();
+
+            $table->string('url', 2048);
+            $table->integer('click_count')->default(0);
+            $table->integer('unique_click_count')->default(0);
+            $table->nullableTimestamps();
+        });
 
         Schema::create('mailcoach_automation_mail_clicks', function (Blueprint $table) {
             $table->id();
@@ -229,19 +259,6 @@ class UpgradeMailcoachV3ToV4 extends Migration
                 ->cascadeOnDelete();
 
             $table->timestamps();
-        });
-
-        Schema::create('mailcoach_automation_mail_links', function (Blueprint $table) {
-            $table->id();
-            $table
-                ->foreignId('automation_mail_id')
-                ->constrained('mailcoach_automation_mails')
-                ->cascadeOnDelete();
-
-            $table->string('url', 2048);
-            $table->integer('click_count')->default(0);
-            $table->integer('unique_click_count')->default(0);
-            $table->nullableTimestamps();
         });
 
         Schema::create('mailcoach_transactional_mail_opens', function (Blueprint $table) {
@@ -329,6 +346,16 @@ If you're using any of the Mailcoach classes in your own project, make sure to v
 - `\Spatie\Mailcoach\Enums\CampaignStatus` has been moved to `\Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus`
 
 - All Campaign actions were moved from `\Spatie\Mailcoach\Actions\Campaigns` to `\Spatie\Mailcoach\Domain\Campaign\Actions`
+
+### Scheduled jobs
+
+Add these new scheduled jobs to your application's schedule:
+
+```php
+$schedule->command('mailcoach:run-automation-triggers')->everyMinute()->runInBackground();
+$schedule->command('mailcoach:run-automation-actions')->everyMinute()->runInBackground();
+$schedule->command('mailcoach:calculate-automation-mail-statistics')->everyMinute();
+```
 
 ## Upgrading from v2 to v3
 

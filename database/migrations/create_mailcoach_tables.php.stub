@@ -80,6 +80,8 @@ class CreateMailcoachTables extends Migration
                 'unsubscribed_at'
             ],
                 'email_list_subscribed_index');
+
+            $table->index(['email_list_id', 'created_at'], 'email_list_id_created_at');
         });
 
         Schema::create('mailcoach_segments', function (Blueprint $table) {
@@ -473,7 +475,6 @@ class CreateMailcoachTables extends Migration
 
             $table->uuid('uuid');
             $table->string('name')->nullable();
-            $table->text('trigger')->nullable();
             $table->string('interval')->nullable();
             $table->string('status');
 
@@ -512,6 +513,20 @@ class CreateMailcoachTables extends Migration
             $table->string('key')->nullable();
             $table->text('action')->nullable();
             $table->integer('order');
+            $table->timestamps();
+        });
+
+        Schema::create('mailcoach_automation_triggers', function (Blueprint $table) {
+            $table->id();
+
+            $table
+                ->foreignId('automation_id')
+                ->nullable()
+                ->constrained('mailcoach_automations')
+                ->cascadeOnDelete();
+
+            $table->uuid('uuid');
+            $table->text('trigger')->nullable();
             $table->timestamps();
         });
 
@@ -555,6 +570,19 @@ class CreateMailcoachTables extends Migration
             $table->timestamps();
         });
 
+        Schema::create('mailcoach_automation_mail_links', function (Blueprint $table) {
+            $table->id();
+            $table
+                ->foreignId('automation_mail_id')
+                ->constrained('mailcoach_automation_mails')
+                ->cascadeOnDelete();
+
+            $table->string('url', 2048);
+            $table->integer('click_count')->default(0);
+            $table->integer('unique_click_count')->default(0);
+            $table->nullableTimestamps();
+        });
+
         Schema::create('mailcoach_automation_mail_clicks', function (Blueprint $table) {
             $table->id();
 
@@ -586,19 +614,6 @@ class CreateMailcoachTables extends Migration
                 ->cascadeOnDelete();
 
             $table->timestamps();
-        });
-
-        Schema::create('mailcoach_automation_mail_links', function (Blueprint $table) {
-            $table->id();
-            $table
-                ->foreignId('automation_mail_id')
-                ->constrained('mailcoach_automation_mails')
-                ->cascadeOnDelete();
-
-            $table->string('url', 2048);
-            $table->integer('click_count')->default(0);
-            $table->integer('unique_click_count')->default(0);
-            $table->nullableTimestamps();
         });
 
         Schema::create('mailcoach_transactional_mail_opens', function (Blueprint $table) {

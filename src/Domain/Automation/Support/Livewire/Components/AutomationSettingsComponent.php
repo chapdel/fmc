@@ -40,7 +40,7 @@ class AutomationSettingsComponent extends Component
             ];
         });
 
-        $this->selectedTrigger = old('trigger', $this->automation->trigger ? $this->automation->trigger::class : '');
+        $this->selectedTrigger = old('trigger', $this->automation->triggerClass());
     }
 
     public function setSelectedTrigger(string $triggerClass): void

@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Domain\Automation\Support\Triggers;
 
 use Carbon\CarbonInterface;
-use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Campaign\Rules\DateTimeFieldRule;
 
 class DateTrigger extends AutomationTrigger implements TriggeredBySchedule
@@ -39,12 +38,12 @@ class DateTrigger extends AutomationTrigger implements TriggeredBySchedule
         ];
     }
 
-    public function trigger(Automation $automation): void
+    public function trigger(): void
     {
         if (! now()->startOfMinute()->equalTo($this->date->startOfMinute())) {
             return;
         }
 
-        $this->runAutomation($automation->newSubscribersQuery());
+        $this->runAutomation($this->automation->newSubscribersQuery());
     }
 }

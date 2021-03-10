@@ -10,7 +10,7 @@ Automation::create()
     ->name('Welcome email')
     ->to($emailList)
     ->runEvery(CarbonInterval::minute())
-    ->trigger(new SubscribedTrigger)
+    ->triggerOn(new SubscribedTrigger)
     ->chain([
         new SendAutomationMailAction($automationMail),
     ])

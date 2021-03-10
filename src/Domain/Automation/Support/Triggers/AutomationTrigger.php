@@ -8,7 +8,7 @@ use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
+use Spatie\Mailcoach\Domain\Automation\Jobs\RunAutomationForSubscriberJob;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Support\AutomationStep;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -16,6 +16,15 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 abstract class AutomationTrigger extends AutomationStep
 {
     use UsesMailcoachModels;
+
+    protected Automation $automation;
+
+    public function setAutomation(Automation $automation): static
+    {
+        $this->automation = $automation;
+
+        return $this;
+    }
 
     public static function rules(): array
     {
@@ -38,31 +47,7 @@ abstract class AutomationTrigger extends AutomationStep
 
         $subscribers
             ->each(function (Subscriber $subscriber) {
-                Automation::query()
-                    ->where('status', AutomationStatus::STARTED)
-                    ->where('email_list_id', $subscriber->email_list_id)
-                    ->each(function (Automation $automation) use ($subscriber) {
-                        if (get_class($automation->trigger) !== static::class) {
-                            return;
-                        }
-
-                        if ($subscriber->inAutomation($automation)) {
-                            return;
-                        }
-
-                        if (! $subscriber->isSubscribed()) {
-                            return;
-                        }
-
-                        if (! $automation
-                            ->newSubscribersQuery()
-                            ->where("{$this->getSubscriberTableName()}.id", $subscriber->id)
-                            ->count()) {
-                            return;
-                        }
-
-                        $automation->run($subscriber);
-                    });
+                dispatch(new RunAutomationForSubscriberJob($this->automation, $subscriber));
             });
     }
 }

@@ -19,7 +19,7 @@
                             <x-mailcoach::form-button
                                 :action="route('mailcoach.emailLists.subscribers.export', $emailList) . '?' . request()->getQueryString()">
 
-                                @if($emailList->allSubscribers()->count() === $subscribers->total())
+                                @if($allSubscriptionsCount === $subscribers->total())
                                     <x-mailcoach::icon-label icon="fa-fw fas fa-file" :text="__('Export all subscribers')"/>
                                 @else
                                     <x-mailcoach::icon-label icon="fa-fw fas fa-file" :text="__('Export :total :subscriber', ['total' => $subscribers->total(), 'subscriber' => trans_choice(__('subscriber|subscribers'), $subscribers->total())])"/>
@@ -38,24 +38,24 @@
             </x-mailcoach::dropdown>
         </div>
 
-        @if($emailList->allSubscribers()->count())
+        @if($allSubscriptionsCount)
             <div class="table-filters">
                 <x-mailcoach::filters>
                     <x-mailcoach::filter :queryString="$queryString" attribute="status" active-on="">
                         {{ __('All') }}
-                        <x-mailcoach::counter :number="$emailList->allSubscribers()->count()"/>
+                        <x-mailcoach::counter :number="$allSubscriptionsCount"/>
                     </x-mailcoach::filter>
                     <x-mailcoach::filter :queryString="$queryString" attribute="status" active-on="unconfirmed">
                         {{ __('Unconfirmed') }}
-                        <x-mailcoach::counter :number="$emailList->allSubscribers()->unconfirmed()->count()"/>
+                        <x-mailcoach::counter :number="$unconfirmedCount"/>
                     </x-mailcoach::filter>
                     <x-mailcoach::filter :queryString="$queryString" attribute="status" active-on="subscribed">
                         {{ __('Subscribed') }}
-                        <x-mailcoach::counter :number="$emailList->allSubscribers()->subscribed()->count()"/>
+                        <x-mailcoach::counter :number="$totalSubscriptionsCount"/>
                     </x-mailcoach::filter>
                     <x-mailcoach::filter :queryString="$queryString" attribute="status" active-on="unsubscribed">
                         {{ __('Unsubscribed') }}
-                        <x-mailcoach::counter :number="$emailList->allSubscribers()->unsubscribed()->count()"/>
+                        <x-mailcoach::counter :number="$unsubscribedCount"/>
                     </x-mailcoach::filter>
                 </x-mailcoach::filters>
                 <x-mailcoach::search :placeholder="__('Filter subscribers…')"/>
@@ -63,7 +63,7 @@
         @endif
     </div>
 
-    @if($emailList->allSubscribers()->count())
+    @if($allSubscriptionsCount)
         <table class="table table-fixed">
             <thead>
             <tr>

@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
 
 class AutomationFactory extends Factory
 {
@@ -17,7 +16,6 @@ class AutomationFactory extends Factory
         return [
             'email_list_id' => EmailList::factory(),
             'name' => $this->faker->sentence,
-            'trigger' => new SubscribedTrigger(),
             'interval' => '1 minute',
             'status' => AutomationStatus::PAUSED,
         ];

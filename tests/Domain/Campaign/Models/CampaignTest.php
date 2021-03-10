@@ -399,7 +399,7 @@ class CampaignTest extends TestCase
     /** @test */
     public function it_has_scopes_to_get_campaigns_in_various_states()
     {
-        Campaign::truncate();
+        Campaign::all()->each->delete();
 
         $draftCampaign = Campaign::factory()->create([
             'status' => CampaignStatus::DRAFT,

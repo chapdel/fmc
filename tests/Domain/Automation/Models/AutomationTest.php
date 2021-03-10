@@ -4,6 +4,8 @@ namespace Spatie\Mailcoach\Tests\Domain\Automation\Models;
 
 use Carbon\CarbonInterval;
 use Illuminate\Mail\MailManager;
+use Illuminate\Queue\Connectors\SyncConnector;
+use Illuminate\Queue\QueueManager;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Str;
@@ -33,15 +35,11 @@ class AutomationTest extends TestCase
 
     protected AutomationMail $automationMail;
 
-    protected EmailList $emailList;
-
     public function setUp(): void
     {
         parent::setUp();
 
         $this->automationMail = AutomationMail::factory()->create(['subject' => 'Welcome']);
-
-        $this->emailList = EmailList::factory()->create();
     }
 
     /** @test */
@@ -57,12 +55,14 @@ class AutomationTest extends TestCase
     {
         Queue::fake();
 
+        $emailList = EmailList::factory()->create();
+
         /** @var Automation $automation */
         $automation = Automation::create()
             ->name('Welcome email')
-            ->to($this->emailList)
+            ->to($emailList)
             ->runEvery(CarbonInterval::minute())
-            ->trigger(new SubscribedTrigger)
+            ->triggerOn(new SubscribedTrigger)
             ->chain([
                 new SendAutomationMailAction($this->automationMail),
             ])
@@ -73,7 +73,9 @@ class AutomationTest extends TestCase
         $this->assertEquals(1, $automation->actions()->count());
         $this->assertEquals(0, $automation->actions()->first()->subscribers->count());
 
-        $this->emailList->subscribe('john@doe.com');
+        $emailList->subscribe('john@doe.com');
+
+        $this->processQueuedJobs();
 
         $this->assertEquals(1, $automation->actions()->first()->subscribers->count());
 
@@ -92,11 +94,13 @@ class AutomationTest extends TestCase
     {
         Queue::fake();
 
+        $emailList = EmailList::factory()->create();
+
         $automation = Automation::create()
             ->name('Welcome email')
-            ->to($this->emailList)
+            ->to($emailList)
             ->runEvery(CarbonInterval::minute())
-            ->trigger(new SubscribedTrigger)
+            ->triggerOn(new SubscribedTrigger)
             ->chain([
                 new HaltAction,
                 new SendAutomationMailAction($this->automationMail),
@@ -108,13 +112,15 @@ class AutomationTest extends TestCase
         $this->assertEquals(2, $automation->actions->count());
         $this->assertEquals(0, $automation->actions->first()->subscribers()->count());
 
-        $this->emailList->subscribe('john@doe.com');
+        $emailList->subscribe('john@doe.com');
+
+        $this->processQueuedJobs();
 
         $this->assertEquals(1, $automation->actions->first()->subscribers()->count());
 
         Artisan::call(RunAutomationActionsCommand::class);
 
-        Queue::assertNothingPushed();
+        Queue::assertNotPushed(SendAutomationMailToSubscriberJob::class);
         $this->assertEquals(1, $automation->actions->first()->subscribers()->count());
         $this->assertEquals(0, $automation->actions->last()->subscribers()->count());
     }
@@ -123,14 +129,15 @@ class AutomationTest extends TestCase
     public function it_continues_once_the_action_returns_true()
     {
         Queue::fake();
-
         TestTime::freeze();
+
+        $emailList = EmailList::factory()->create();
 
         $automation = Automation::create()
             ->name('Welcome email')
             ->runEvery(CarbonInterval::minute())
-            ->to($this->emailList)
-            ->trigger(new SubscribedTrigger)
+            ->to($emailList)
+            ->triggerOn(new SubscribedTrigger)
             ->chain([
                 new WaitAction(CarbonInterval::days(1)),
                 new SendAutomationMailAction($this->automationMail),
@@ -142,13 +149,15 @@ class AutomationTest extends TestCase
         $this->assertEquals(2, $automation->actions->count());
         $this->assertEquals(0, $automation->actions->first()->subscribers()->count());
 
-        $this->emailList->subscribe('john@doe.com');
+        $emailList->subscribe('john@doe.com');
+
+        $this->processQueuedJobs();
 
         $this->assertEquals(1, $automation->actions->first()->subscribers()->count());
 
         Artisan::call(RunAutomationActionsCommand::class);
 
-        Queue::assertNothingPushed();
+        Queue::assertNotPushed(SendAutomationMailToSubscriberJob::class);
         $this->assertEquals(1, $automation->actions->first()->subscribers()->count());
         $this->assertEquals(0, $automation->actions->last()->subscribers()->count());
 
@@ -166,11 +175,13 @@ class AutomationTest extends TestCase
     {
         Queue::fake();
 
+        $emailList = EmailList::factory()->create();
+
         $automation = Automation::create()
             ->name('Welcome email')
             ->runEvery(CarbonInterval::minute())
-            ->to($this->emailList)
-            ->trigger(new SubscribedTrigger())
+            ->to($emailList)
+            ->triggerOn(new SubscribedTrigger())
             ->chain([]);
 
         $this->assertEquals([], $automation->actions->toArray());
@@ -232,7 +243,7 @@ class AutomationTest extends TestCase
         $automation = Automation::create()
             ->name('Getting started with Mailcoach')
             ->to($emailList)
-            ->trigger(new SubscribedTrigger())
+            ->triggerOn(new SubscribedTrigger())
             ->runEvery(CarbonInterval::minutes(10)) // Run through the automation and check actions every 10 min
             ->chain([
                 new WaitAction(CarbonInterval::day()), // Wait one day
@@ -258,7 +269,7 @@ class AutomationTest extends TestCase
         $this->assertEquals(1, Automation::count());
         tap(Automation::first(), function (Automation $automation) {
             $this->assertEquals(CarbonInterval::minutes(10), $automation->interval);
-            $this->assertInstanceOf(SubscribedTrigger::class, $automation->trigger);
+            $this->assertInstanceOf(SubscribedTrigger::class, $automation->triggers->first()->getAutomationTrigger());
         });
         $this->assertEquals(8, Action::count());
 
@@ -266,6 +277,8 @@ class AutomationTest extends TestCase
         $this->assertEquals(1, Action::where('key', 'noActions')->count());
 
         $subscriber = $automation->emailList->subscribe('john@doe.com');
+
+        $this->processQueuedJobs();
 
         // Wait for a day
         $this->assertInstanceOf(WaitAction::class, $subscriber->currentAction($automation)->action);
@@ -329,7 +342,7 @@ class AutomationTest extends TestCase
         $automation = Automation::create()
             ->name('Testing nested conditions')
             ->to($emailList)
-            ->trigger(new SubscribedTrigger())
+            ->triggerOn(new SubscribedTrigger())
             ->runEvery(CarbonInterval::minutes(10)) // Run through the automation and check actions every 10 min
             ->chain([
                 new ConditionAction(
@@ -411,6 +424,12 @@ class AutomationTest extends TestCase
     /** @test */
     public function the_automation_mail_can_use_custom_mailable()
     {
+        $manager = new QueueManager($this->app);
+        $manager->addConnector('sync', function () {
+            return new SyncConnector();
+        });
+        Queue::swap($manager);
+
         config()->set('mailcoach.automation.mailer', 'array');
 
         /** @var EmailList $emailList */
@@ -423,7 +442,7 @@ class AutomationTest extends TestCase
         $automation = Automation::create()
             ->name('Getting started with Mailcoach')
             ->to($emailList)
-            ->trigger(new SubscribedTrigger())
+            ->triggerOn(new SubscribedTrigger())
             ->runEvery(CarbonInterval::minutes(10))
             ->chain([
                 new SendAutomationMailAction($automationMail),

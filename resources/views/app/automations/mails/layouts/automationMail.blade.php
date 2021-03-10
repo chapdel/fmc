@@ -32,6 +32,9 @@
                 <x-mailcoach::navigation-item :href="route('mailcoach.automations.mails.content', $mail)" data-dirty-warn>
                     {{ __('Content') }}
                 </x-mailcoach::navigation-item>
+                <x-mailcoach::navigation-item :href="route('mailcoach.automations.mails.delivery', $mail)" data-dirty-warn>
+                    {{ __('Delivery') }}
+                </x-mailcoach::navigation-item>
             </x-mailcoach::navigation-group>
 
         </x-mailcoach::navigation>

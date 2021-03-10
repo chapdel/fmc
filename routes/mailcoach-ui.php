@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationActionsController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailClicksController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailContentController;
+use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailDeliveryController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailOpensController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailOutboxController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailSettingsController;
@@ -172,7 +173,7 @@ Route::prefix('email-lists')->group(function () {
     });
 });
 
-Route::prefix('drip-automations')->group(function () {
+Route::prefix('automations')->group(function () {
     Route::get('/', '\\' . AutomationsIndexController::class)->name('mailcoach.automations');
     Route::post('/', '\\' . CreateAutomationController::class)->name('mailcoach.automations.store');
 
@@ -193,7 +194,7 @@ Route::prefix('drip-automations')->group(function () {
     });
 });
 
-Route::prefix('drip-emails')->group(function () {
+Route::prefix('automation-emails')->group(function () {
     Route::get('/', '\\' . AutomationMailsIndexController::class)->name('mailcoach.automations.mails');
     Route::post('/', '\\' . CreateAutomationMailController::class)->name('mailcoach.automations.mails.store');
 
@@ -209,6 +210,7 @@ Route::prefix('drip-emails')->group(function () {
         Route::get('outbox', '\\' . AutomationMailOutboxController::class)->name('mailcoach.automations.mails.outbox');
         Route::get('content', [AutomationMailContentController::class, 'edit'])->name('mailcoach.automations.mails.content');
         Route::put('content', [AutomationMailContentController::class, 'update'])->name('mailcoach.automations.mails.updateContent');
+        Route::get('delivery', '\\' . AutomationMailDeliveryController::class)->name('mailcoach.automations.mails.delivery');
         Route::post('send-test-email', '\\' . SendAutomationMailTestController::class)->name('mailcoach.automations.mails.sendTestEmail');
     });
 });

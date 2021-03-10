@@ -15,8 +15,6 @@ class CreateAutomationAction
             'name' => $attributes['name'],
         ]);
 
-        cache()->forget('mailcoach-automations');
-
         return $automation;
     }
 }

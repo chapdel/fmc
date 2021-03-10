@@ -17,7 +17,7 @@
                     </span>
                 </x-mailcoach::navigation-item>
 
-                <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.tags', $emailList)">
+                <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.tags', $emailList) . '?filter[type]=default'">
                     {{ __('Tags') }}
                 </x-mailcoach::navigation-item>
                 <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.segments', $emailList)">

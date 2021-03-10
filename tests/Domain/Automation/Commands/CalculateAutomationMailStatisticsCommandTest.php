@@ -34,7 +34,7 @@ class CalculateAutomationMailStatisticsCommandTest extends TestCase
         Automation::create()
             ->runEvery(CarbonInterval::minute())
             ->to(EmailList::factory()->create())
-            ->trigger(new SubscribedTrigger)
+            ->triggerOn(new SubscribedTrigger)
             ->chain([
                 new SendAutomationMailAction($automationMail),
             ])->start();

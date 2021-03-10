@@ -17,11 +17,12 @@ class DuplicateCampaignControllerTest extends TestCase
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $originalCampaign */
         $originalCampaign = Campaign::factory()->create();
 
-        $this
-            ->post(action(DuplicateCampaignController::class, $originalCampaign->id))
-            ->assertRedirect(action([CampaignSettingsController::class, 'edit'], 2));
+        $response = $this
+            ->post(action(DuplicateCampaignController::class, $originalCampaign->id));
 
-        $duplicatedCampaign = Campaign::find(2);
+        $duplicatedCampaign = Campaign::orderByDesc('id')->first();
+
+        $response->assertRedirect(action([CampaignSettingsController::class, 'edit'], $duplicatedCampaign->id));
 
         $this->assertEquals(
             "Duplicate of {$originalCampaign->name}",
