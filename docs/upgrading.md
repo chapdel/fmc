@@ -114,6 +114,11 @@ class UpgradeMailcoachV3ToV4 extends Migration
 
         Schema::table('mailcoach_sends', function (Blueprint $table) {
             $table
+                ->foreignId('campaign_id')
+                ->nullable()
+                ->change();
+            
+            $table
                 ->foreignId('automation_mail_id')
                 ->nullable()
                 ->constrained('mailcoach_automation_mails')
@@ -410,6 +415,21 @@ Add these new scheduled jobs to your application's schedule:
 $schedule->command('mailcoach:run-automation-triggers')->everyMinute()->runInBackground();
 $schedule->command('mailcoach:run-automation-actions')->everyMinute()->runInBackground();
 $schedule->command('mailcoach:calculate-automation-mail-statistics')->everyMinute();
+```
+
+### Automation mail queue
+
+Make sure to add the 'send-automation-mail', queue to the 'mailcoach-general' key in your `horizon.php` config file.
+
+```
+'mailcoach-general' => [
+    'connection' => 'mailcoach-redis',
+    'queue' => ['mailcoach', 'mailcoach-feedback', 'send-mail', 'send-automation-mail'],
+    'balance' => 'auto',
+    'processes' => 10,
+    'tries' => 2,
+    'timeout' => 60 * 60,
+],
 ```
 
 ## From v2 to v3
