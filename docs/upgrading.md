@@ -117,6 +117,11 @@ class UpgradeMailcoachV3ToV4 extends Migration
                 ->foreignId('campaign_id')
                 ->nullable()
                 ->change();
+                
+            $table
+                ->foreignId('subscriber_id')
+                ->nullable()
+                ->change();
             
             $table
                 ->foreignId('automation_mail_id')
