@@ -45,6 +45,9 @@ class PrepareEmailHtmlAction
 
     protected function ensureEmailHtmlHasSingleRootElement($automationMail): void
     {
+        // TODO: make sure this works reliably
+        return;
+
         $docTypeRegex = '~<(?:!DOCTYPE|/?(?:html))[^>]*>\s*~i';
 
         preg_match($docTypeRegex, $automationMail->html, $matches);
