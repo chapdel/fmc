@@ -121,7 +121,9 @@ class ConditionAction extends AutomationAction
     private function actionToArray(array | AutomationAction $action): array
     {
         $actionModel = Action::query()
-            ->where('uuid', is_array($action)
+            ->where(
+                'uuid',
+                is_array($action)
                 ? $action['uuid']
                 : $action->uuid,
             )
