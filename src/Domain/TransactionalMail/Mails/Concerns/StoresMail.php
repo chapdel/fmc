@@ -68,6 +68,10 @@ trait StoresMail
                 $this->addMailcoachHeader($message, TransactionalMailMessageConfig::HEADER_NAME_CLICKS);
             }
 
+            if ($this->trackOpens || $this->trackClicks) {
+                $this->addMailcoachHeader($message, 'X-MAILCOACH', 'true');
+            }
+
             if ($this->store) {
                 $this->addMailcoachHeader($message, TransactionalMailMessageConfig::HEADER_NAME_STORE);
             }
