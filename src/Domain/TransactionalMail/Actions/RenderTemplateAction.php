@@ -3,7 +3,9 @@
 namespace Spatie\Mailcoach\Domain\TransactionalMail\Actions;
 
 use Exception;
+use Illuminate\Container\Container;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Str;
 use Illuminate\View\Factory;
@@ -42,7 +44,11 @@ class RenderTemplateAction
 
     protected function compileBlade(string $bladeString, array $arguments): string
     {
-        $arguments['__env'] = app(Factory::class);
+        $markdown = Container::getInstance()->make(Markdown::class);
+
+        $arguments['__env'] = app(Factory::class)->replaceNamespace(
+            'mail', $markdown->htmlComponentPaths()
+        );
 
         $generated = Blade::compileString($bladeString);
 
