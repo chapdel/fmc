@@ -26,7 +26,7 @@ class RenderTemplateAction
         return match($template->type) {
             'blade' => $this->compileBlade($template->body, $mailable->buildViewData()),
             'markdown' => Markdown::parse($template->body),
-            'blade-markdown' => Markdown::parse($this->compileBlade($template->body, $mailable->buildViewData())),
+            'blade-markdown' => Markdown::parse($this->compileBlade($template->body, $mailable->buildViewData(), $mailable->theme)),
 
             default => $template->body,
         };
@@ -41,9 +41,13 @@ class RenderTemplateAction
         return $body;
     }
 
-    protected function compileBlade(string $bladeString, array $arguments): string
+    protected function compileBlade(string $bladeString, array $arguments, string $theme = null): string
     {
         $markdown = Container::getInstance()->make(Markdown::class);
+
+        if ($theme) {
+            $markdown->theme($theme);
+        }
 
         $tempDir = new TemporaryDirectory();
         $tempDir->create();
