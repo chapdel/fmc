@@ -3,15 +3,19 @@
 
     <x-mailcoach::text-field :label="__('Name')" name="name" :placeholder="__('Transactional mail template')" required />
 
+    <?php
+        $editor = config('mailcoach.transactional.editor', \Spatie\Mailcoach\Domain\Shared\Support\Editor\TextEditor::class);
+        $editorName = (new ReflectionClass($editor))->getShortName();
+    ?>
     <x-mailcoach::select-field
         :label="__('Type')"
         name="type"
         :options="[
-                    'html' => 'HTML',
-                    'markdown' => 'Markdown',
-                    'blade' => 'Blade',
-                    'blade-markdown' => 'Blade with Markdown',
-                ]"
+            'html' => 'HTML (' . $editorName . ')',
+            'markdown' => 'Markdown',
+            'blade' => 'Blade',
+            'blade-markdown' => 'Blade with Markdown',
+        ]"
     />
 
 @ray($errors)

@@ -15,12 +15,16 @@
                 </x-mailcoach::help>
 
 
+                <?php
+                    $editor = config('mailcoach.transactional.editor', \Spatie\Mailcoach\Domain\Shared\Support\Editor\TextEditor::class);
+                    $editorName = (new ReflectionClass($editor))->getShortName();
+                ?>
                 <x-mailcoach::select-field
                     :label="__('Format')"
                     name="type"
                     :value="$template->type"
                     :options="[
-                        'html' => 'HTML',
+                        'html' => 'HTML (' . $editorName . ')',
                         'markdown' => 'Markdown',
                         'blade' => 'Blade',
                         'blade-markdown' => 'Blade with Markdown',
