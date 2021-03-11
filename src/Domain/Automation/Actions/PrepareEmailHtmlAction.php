@@ -43,7 +43,7 @@ class PrepareEmailHtmlAction
 
     protected function replacePlaceholders(AutomationMail $automationMail): void
     {
-        $automationMail->email_html = collect(config('mailcoach.campaigns.replacers'))
+        $automationMail->email_html = collect(config('mailcoach.automation.replacers'))
             ->map(fn (string $className) => resolve($className))
             ->filter(fn (object $class) => $class instanceof AutomationMailReplacer)
             ->reduce(fn (string $html, AutomationMailReplacer $replacer) => $replacer->replace($html, $automationMail), $automationMail->email_html);
@@ -51,8 +51,8 @@ class PrepareEmailHtmlAction
 
     private function addUtmTags(AutomationMail $automationMail): void
     {
-        $campaignName = urlencode($automationMail->name);
-        $utmTags = "utm_source=newsletter&utm_medium=email&utm_campaign={$campaignName}";
+        $name = urlencode($automationMail->name);
+        $utmTags = "utm_source=newsletter&utm_medium=email&utm_campaign={$name}";
 
         $automationMail->email_html = $automationMail->htmlLinks()
             ->reduce(function (string $html, string $link) use ($utmTags) {
