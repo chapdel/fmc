@@ -2,18 +2,13 @@
 
 namespace Spatie\Mailcoach\Domain\TransactionalMail\Actions;
 
-use Exception;
 use Illuminate\Container\Container;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Markdown;
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\HtmlString;
-use Illuminate\Support\Str;
 use Illuminate\View\Factory;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
-use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 class RenderTemplateAction
 {
