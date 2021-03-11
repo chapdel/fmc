@@ -8,9 +8,12 @@ use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailableWithTemplate;
 use Spatie\Mailcoach\Tests\TestClasses\TestTransactionalMailReplacer;
+use Spatie\Snapshots\MatchesSnapshots;
 
 class UsesMailcoachTemplateTest extends TestCase
 {
+    use MatchesSnapshots;
+
     /** @test */
     public function it_can_render_the_template_containing_blade_variables()
     {
@@ -39,8 +42,8 @@ class UsesMailcoachTemplateTest extends TestCase
         ]);
 
         $mailable = $template->getMailable();
-        dd($mailable->render());
-        $this->assertStringContainsString('Hi all', $mailable->render());
+
+        $this->assertMatchesSnapshot($mailable->render());
     }
 
     /** @test */
