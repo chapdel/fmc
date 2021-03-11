@@ -7,7 +7,6 @@ use Illuminate\Container\Container;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Str;
 use Illuminate\View\Factory;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 
