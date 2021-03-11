@@ -48,7 +48,7 @@ class RenderTemplateAction
 
         $arguments['__env'] = app(Factory::class)->replaceNamespace(
             'mail',
-            $markdown->htmlComponentPaths()
+            $markdown->htmlComponentPaths(),
         );
 
         $generated = Blade::compileString($bladeString);
