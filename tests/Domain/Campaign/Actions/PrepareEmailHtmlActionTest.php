@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Tests\Domain\Campaign\Actions;
 
 use Spatie\Mailcoach\Domain\Campaign\Actions\PrepareEmailHtmlAction;
+use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -10,6 +11,23 @@ use Spatie\Snapshots\MatchesSnapshots;
 class PrepareEmailHtmlActionTest extends TestCase
 {
     use MatchesSnapshots;
+
+    /** @test * */
+    public function it_throws_on_invalid_html()
+    {
+        $myHtml = '<h1>Hello<html><p>Hello world</p>';
+
+        $campaign = Campaign::factory()->create([
+            'track_clicks' => true,
+            'html' => $myHtml,
+        ]);
+
+        $this->expectException(CouldNotSendCampaign::class);
+
+        app(PrepareEmailHtmlAction::class)->execute($campaign);
+
+        $campaign->refresh();
+    }
 
     /** @test */
     public function it_will_automatically_add_html_tags()

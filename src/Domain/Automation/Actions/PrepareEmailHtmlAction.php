@@ -2,14 +2,18 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Actions;
 
-use DOMDocument;
 use Exception;
 use Spatie\Mailcoach\Domain\Automation\Exceptions\CouldNotSendAutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Replacers\AutomationMailReplacer;
+use Spatie\Mailcoach\Domain\Shared\Actions\CreateDomDocumentFromHtmlAction;
 
 class PrepareEmailHtmlAction
 {
+    public function __construct(
+        private CreateDomDocumentFromHtmlAction $createDomDocumentFromHtmlAction
+    ) {}
+
     public function execute(AutomationMail $automationMail): void
     {
         $this->ensureValidHtml($automationMail);
@@ -27,12 +31,8 @@ class PrepareEmailHtmlAction
 
     protected function ensureValidHtml(AutomationMail $automationMail)
     {
-        $dom = new DOMDocument('1.0', 'UTF-8');
-
         try {
-            $html = preg_replace('/&(?!amp;)/', '&amp;', $automationMail->html);
-
-            $dom->loadHTML($html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD | LIBXML_NOWARNING);
+            $this->createDomDocumentFromHtmlAction->execute($automationMail->html, false);
 
             return true;
         } catch (Exception $exception) {
