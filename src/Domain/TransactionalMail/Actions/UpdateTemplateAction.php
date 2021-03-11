@@ -15,6 +15,7 @@ class UpdateTemplateAction
         $template->update([
             'subject' => $request->subject,
             'body' => $request->html,
+            'structured_html' => $request->structured_html,
             'to' => $request->to(),
             'cc' => $request->cc(),
             'bcc' => $request->bcc(),
