@@ -25,7 +25,7 @@ class PrepareEmailHtmlActionTest extends TestCase
 
         $campaign->refresh();
 
-        $this->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->email_html);
+        $this->assertMatchesHtmlSnapshot($campaign->email_html);
     }
 
     /** @test */
@@ -42,7 +42,7 @@ class PrepareEmailHtmlActionTest extends TestCase
 
         $campaign->refresh();
 
-        $this->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->email_html);
+        $this->assertMatchesHtmlSnapshot($campaign->email_html);
     }
 
     /** @test */
@@ -59,7 +59,7 @@ class PrepareEmailHtmlActionTest extends TestCase
 
         $campaign->refresh();
 
-        $this->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->email_html);
+        $this->assertMatchesHtmlSnapshot($campaign->email_html);
     }
 
     /** @test */
@@ -76,7 +76,7 @@ class PrepareEmailHtmlActionTest extends TestCase
 
         $campaign->refresh();
 
-        $this->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->email_html);
+        $this->assertMatchesHtmlSnapshot($campaign->email_html);
     }
 
     /** @test * */
@@ -93,7 +93,7 @@ class PrepareEmailHtmlActionTest extends TestCase
 
         $campaign->refresh();
 
-        $this->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->email_html);
+        $this->assertMatchesHtmlSnapshot($campaign->email_html);
     }
 
     /** @test * */
@@ -113,7 +113,7 @@ class PrepareEmailHtmlActionTest extends TestCase
         $campaign->refresh();
 
         $this->assertStringContainsString("https://spatie.be?utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail", $campaign->email_html);
-        $this->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->email_html);
+        $this->assertMatchesHtmlSnapshot($campaign->email_html);
     }
 
     /** @test * */
@@ -133,6 +133,6 @@ class PrepareEmailHtmlActionTest extends TestCase
         $campaign->refresh();
 
         $this->assertStringContainsString("https://spatie.be?foo=bar&utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail", $campaign->email_html);
-        $this->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->email_html);
+        $this->assertMatchesHtmlSnapshot($campaign->email_html);
     }
 }

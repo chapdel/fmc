@@ -15,8 +15,6 @@ class PrepareEmailHtmlAction
     {
         $this->ensureValidHtml($campaign);
 
-        $this->ensureEmailHtmlHasSingleRootElement($campaign);
-
         $campaign->email_html = $campaign->htmlWithInlinedCss();
 
         $this->replacePlaceholders($campaign);
@@ -41,31 +39,6 @@ class PrepareEmailHtmlAction
         } catch (Exception $exception) {
             throw CouldNotSendCampaign::invalidContent($campaign, $exception);
         }
-    }
-
-    protected function ensureEmailHtmlHasSingleRootElement($campaign): void
-    {
-        // TODO: make sure this works reliably
-        return;
-
-        $docTypeRegex = '~<(?:!DOCTYPE|/?(?:html))[^>]*>\s*~i';
-
-        preg_match($docTypeRegex, $campaign->html, $matches);
-        $originalDoctype = $matches[0] ?? null;
-
-        $campaign->html = trim(
-            preg_replace($docTypeRegex, '', $campaign->html)
-        );
-
-        if (! Str::startsWith(trim($campaign->html), '<html') && $originalDoctype !== '<html>') {
-            $campaign->html = '<html>'.$campaign->html;
-        }
-
-        if (! Str::endsWith(trim($campaign->html), '</html>')) {
-            $campaign->html = $campaign->html.'</html>';
-        }
-
-        $campaign->html = $originalDoctype.$campaign->html;
     }
 
     protected function replacePlaceholders(Campaign $campaign): void

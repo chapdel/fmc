@@ -15,8 +15,6 @@ class PrepareEmailHtmlAction
     {
         $this->ensureValidHtml($automationMail);
 
-        $this->ensureEmailHtmlHasSingleRootElement($automationMail);
-
         $automationMail->email_html = $automationMail->htmlWithInlinedCss();
 
         $this->replacePlaceholders($automationMail);
@@ -41,31 +39,6 @@ class PrepareEmailHtmlAction
         } catch (Exception $exception) {
             throw CouldNotSendAutomationMail::invalidContent($automationMail, $exception);
         }
-    }
-
-    protected function ensureEmailHtmlHasSingleRootElement($automationMail): void
-    {
-        // TODO: make sure this works reliably
-        return;
-
-        $docTypeRegex = '~<(?:!DOCTYPE|/?(?:html))[^>]*>\s*~i';
-
-        preg_match($docTypeRegex, $automationMail->html, $matches);
-        $originalDoctype = $matches[0] ?? null;
-
-        $automationMail->html = trim(
-            preg_replace($docTypeRegex, '', $automationMail->html)
-        );
-
-        if (! Str::startsWith(trim($automationMail->html), '<html') && $originalDoctype !== '<html>') {
-            $automationMail->html = '<html>'.$automationMail->html;
-        }
-
-        if (! Str::endsWith(trim($automationMail->html), '</html>')) {
-            $automationMail->html = $automationMail->html.'</html>';
-        }
-
-        $automationMail->html = $originalDoctype.$automationMail->html;
     }
 
     protected function replacePlaceholders(AutomationMail $automationMail): void
