@@ -2,20 +2,22 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Actions;
 
-use DOMDocument;
 use Exception;
-use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Automation\Exceptions\CouldNotSendAutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Replacers\AutomationMailReplacer;
+use Spatie\Mailcoach\Domain\Shared\Actions\CreateDomDocumentFromHtmlAction;
 
 class PrepareEmailHtmlAction
 {
+    public function __construct(
+        private CreateDomDocumentFromHtmlAction $createDomDocumentFromHtmlAction
+    ) {
+    }
+
     public function execute(AutomationMail $automationMail): void
     {
         $this->ensureValidHtml($automationMail);
-
-        $this->ensureEmailHtmlHasSingleRootElement($automationMail);
 
         $automationMail->email_html = $automationMail->htmlWithInlinedCss();
 
@@ -30,12 +32,8 @@ class PrepareEmailHtmlAction
 
     protected function ensureValidHtml(AutomationMail $automationMail)
     {
-        $dom = new DOMDocument('1.0', 'UTF-8');
-
         try {
-            $html = preg_replace('/&(?!amp;)/', '&amp;', $automationMail->html);
-
-            $dom->loadHTML($html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD | LIBXML_NOWARNING);
+            $this->createDomDocumentFromHtmlAction->execute($automationMail->html, false);
 
             return true;
         } catch (Exception $exception) {
@@ -43,34 +41,9 @@ class PrepareEmailHtmlAction
         }
     }
 
-    protected function ensureEmailHtmlHasSingleRootElement($automationMail): void
-    {
-        // TODO: make sure this works reliably
-        return;
-
-        $docTypeRegex = '~<(?:!DOCTYPE|/?(?:html))[^>]*>\s*~i';
-
-        preg_match($docTypeRegex, $automationMail->html, $matches);
-        $originalDoctype = $matches[0] ?? null;
-
-        $automationMail->html = trim(
-            preg_replace($docTypeRegex, '', $automationMail->html)
-        );
-
-        if (! Str::startsWith(trim($automationMail->html), '<html') && $originalDoctype !== '<html>') {
-            $automationMail->html = '<html>'.$automationMail->html;
-        }
-
-        if (! Str::endsWith(trim($automationMail->html), '</html>')) {
-            $automationMail->html = $automationMail->html.'</html>';
-        }
-
-        $automationMail->html = $originalDoctype.$automationMail->html;
-    }
-
     protected function replacePlaceholders(AutomationMail $automationMail): void
     {
-        $automationMail->email_html = collect(config('mailcoach.campaigns.replacers'))
+        $automationMail->email_html = collect(config('mailcoach.automation.replacers'))
             ->map(fn (string $className) => resolve($className))
             ->filter(fn (object $class) => $class instanceof AutomationMailReplacer)
             ->reduce(fn (string $html, AutomationMailReplacer $replacer) => $replacer->replace($html, $automationMail), $automationMail->email_html);
@@ -78,8 +51,8 @@ class PrepareEmailHtmlAction
 
     private function addUtmTags(AutomationMail $automationMail): void
     {
-        $campaignName = urlencode($automationMail->name);
-        $utmTags = "utm_source=newsletter&utm_medium=email&utm_campaign={$campaignName}";
+        $name = urlencode($automationMail->name);
+        $utmTags = "utm_source=newsletter&utm_medium=email&utm_campaign={$name}";
 
         $automationMail->email_html = $automationMail->htmlLinks()
             ->reduce(function (string $html, string $link) use ($utmTags) {

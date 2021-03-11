@@ -3,12 +3,9 @@
 namespace Spatie\Mailcoach\Domain\Campaign\Models;
 
 use Carbon\CarbonInterface;
-use DOMDocument;
-use DOMElement;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
@@ -497,35 +494,6 @@ class Campaign extends Sendable implements Feedable
         }
 
         return (new CssToInlineStyles())->convert($html ?? '');
-    }
-
-    public function htmlLinks(): Collection
-    {
-        $dom = new DOMDocument('1.0', 'UTF-8');
-        $value = preg_replace('/&(?!amp;)/', '&amp;', $this->getHtml());
-
-        if ($value === '') {
-            return collect();
-        }
-
-        $dom->loadHTML($value, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD | LIBXML_NOWARNING);
-
-        return collect($dom->getElementsByTagName('a'))
-            ->map(function (DOMElement $link) {
-                return $link->getAttribute('href');
-            })->reject(function (string $url) {
-                return str_contains($url, '::');
-            });
-    }
-
-    public function getHtml(): ?string
-    {
-        return $this->html;
-    }
-
-    public function getStructuredHtml(): ?string
-    {
-        return $this->structured_html;
     }
 
     public function resolveRouteBinding($value, $field = null)

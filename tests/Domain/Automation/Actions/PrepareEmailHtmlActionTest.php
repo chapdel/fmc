@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Tests\Domain\Automation\Actions;
 
 use Spatie\Mailcoach\Domain\Automation\Actions\PrepareEmailHtmlAction;
+use Spatie\Mailcoach\Domain\Automation\Exceptions\CouldNotSendAutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
@@ -10,6 +11,23 @@ use Spatie\Snapshots\MatchesSnapshots;
 class PrepareEmailHtmlActionTest extends TestCase
 {
     use MatchesSnapshots;
+
+    /** @test * */
+    public function it_throws_on_invalid_html()
+    {
+        $myHtml = '<h1>Hello<html><p>Hello world</p>';
+
+        $campaign = AutomationMail::factory()->create([
+            'track_clicks' => true,
+            'html' => $myHtml,
+        ]);
+
+        $this->expectException(CouldNotSendAutomationMail::class);
+
+        app(PrepareEmailHtmlAction::class)->execute($campaign);
+
+        $campaign->refresh();
+    }
 
     /** @test */
     public function it_will_automatically_add_html_tags()
@@ -25,7 +43,7 @@ class PrepareEmailHtmlActionTest extends TestCase
 
         $campaign->refresh();
 
-        $this->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->email_html);
+        $this->assertMatchesHtmlSnapshot($campaign->email_html);
     }
 
     /** @test */
@@ -42,7 +60,7 @@ class PrepareEmailHtmlActionTest extends TestCase
 
         $campaign->refresh();
 
-        $this->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->email_html);
+        $this->assertMatchesHtmlSnapshot($campaign->email_html);
     }
 
     /** @test */
@@ -59,7 +77,7 @@ class PrepareEmailHtmlActionTest extends TestCase
 
         $campaign->refresh();
 
-        $this->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->email_html);
+        $this->assertMatchesHtmlSnapshot($campaign->email_html);
     }
 
     /** @test */
@@ -76,7 +94,7 @@ class PrepareEmailHtmlActionTest extends TestCase
 
         $campaign->refresh();
 
-        $this->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->email_html);
+        $this->assertMatchesHtmlSnapshot($campaign->email_html);
     }
 
     /** @test * */
@@ -93,7 +111,7 @@ class PrepareEmailHtmlActionTest extends TestCase
 
         $campaign->refresh();
 
-        $this->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->email_html);
+        $this->assertMatchesHtmlSnapshot($campaign->email_html);
     }
 
     /** @test * */
@@ -113,7 +131,7 @@ class PrepareEmailHtmlActionTest extends TestCase
         $campaign->refresh();
 
         $this->assertStringContainsString("https://spatie.be?utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail", $campaign->email_html);
-        $this->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->email_html);
+        $this->assertMatchesHtmlSnapshot($campaign->email_html);
     }
 
     /** @test * */
@@ -133,6 +151,6 @@ class PrepareEmailHtmlActionTest extends TestCase
         $campaign->refresh();
 
         $this->assertStringContainsString("https://spatie.be?foo=bar&utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail", $campaign->email_html);
-        $this->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->email_html);
+        $this->assertMatchesHtmlSnapshot($campaign->email_html);
     }
 }

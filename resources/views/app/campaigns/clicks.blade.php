@@ -21,8 +21,7 @@
                     @foreach($links as $link)
                     <tr>
                         <td class="markup-links"><a class="break-words" href="{{ $link->url }}">{{ $link->url }}</a></td>
-                        <td><span
-                                class="tag">{{ \Spatie\Mailcoach\Domain\Shared\Support\LinkHasher::hash($campaign, $link->url) }}</span></td>
+                        <td><span class="tag-neutral">{{ \Spatie\Mailcoach\Domain\Shared\Support\LinkHasher::hash($campaign, $link->url) }}</span></td>
                         <td class="td-numeric hidden | xl:table-cell">{{ $link->unique_click_count }}</td>
                         <td class="td-numeric">{{ $link->click_count }}</td>
                     </tr>

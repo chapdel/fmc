@@ -13,16 +13,16 @@ class TestMailcoachMailWithBodyReplacer extends MailcoachMail
     {
         $faker = app(Generator::class);
 
-        $html = '<<<HTML
-        <html>
-        <style>
+        $html = '
+            <html>
+            <style>
 
-            body {
-                background-color: #e8eff6;
-                }
-        </style>
-        <body>::customreplacer::</body>
-        </html>';
+                body {
+                    background-color: #e8eff6;
+                    }
+            </style>
+            <body>::customreplacer::</body>
+            </html>';
 
         $this->viewHtml = $html;
     }

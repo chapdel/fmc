@@ -2,20 +2,22 @@
 
 namespace Spatie\Mailcoach\Domain\Campaign\Actions;
 
-use DOMDocument;
 use Exception;
-use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\CampaignReplacer;
+use Spatie\Mailcoach\Domain\Shared\Actions\CreateDomDocumentFromHtmlAction;
 
 class PrepareEmailHtmlAction
 {
+    public function __construct(
+        private CreateDomDocumentFromHtmlAction $createDomDocumentFromHtmlAction
+    ) {
+    }
+
     public function execute(Campaign $campaign): void
     {
         $this->ensureValidHtml($campaign);
-
-        $this->ensureEmailHtmlHasSingleRootElement($campaign);
 
         $campaign->email_html = $campaign->htmlWithInlinedCss();
 
@@ -30,42 +32,13 @@ class PrepareEmailHtmlAction
 
     protected function ensureValidHtml(Campaign $campaign)
     {
-        $dom = new DOMDocument('1.0', 'UTF-8');
-
         try {
-            $html = preg_replace('/&(?!amp;)/', '&amp;', $campaign->html);
-
-            $dom->loadHTML($html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD | LIBXML_NOWARNING);
+            $this->createDomDocumentFromHtmlAction->execute($campaign->html, false);
 
             return true;
         } catch (Exception $exception) {
             throw CouldNotSendCampaign::invalidContent($campaign, $exception);
         }
-    }
-
-    protected function ensureEmailHtmlHasSingleRootElement($campaign): void
-    {
-        // TODO: make sure this works reliably
-        return;
-
-        $docTypeRegex = '~<(?:!DOCTYPE|/?(?:html))[^>]*>\s*~i';
-
-        preg_match($docTypeRegex, $campaign->html, $matches);
-        $originalDoctype = $matches[0] ?? null;
-
-        $campaign->html = trim(
-            preg_replace($docTypeRegex, '', $campaign->html)
-        );
-
-        if (! Str::startsWith(trim($campaign->html), '<html') && $originalDoctype !== '<html>') {
-            $campaign->html = '<html>'.$campaign->html;
-        }
-
-        if (! Str::endsWith(trim($campaign->html), '</html>')) {
-            $campaign->html = $campaign->html.'</html>';
-        }
-
-        $campaign->html = $originalDoctype.$campaign->html;
     }
 
     protected function replacePlaceholders(Campaign $campaign): void
