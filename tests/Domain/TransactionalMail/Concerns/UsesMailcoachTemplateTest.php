@@ -28,6 +28,22 @@ class UsesMailcoachTemplateTest extends TestCase
     }
 
     /** @test */
+    public function it_can_render_a_template_containing_markdown_and_blade_variables()
+    {
+        /** @var TransactionalMailTemplate $template */
+        $template = TransactionalMailTemplate::factory()->create([
+            'name' => 'test-template',
+            'body' => file_get_contents(__DIR__ . '/stubs/blade-markdown.blade.php'),
+            'test_using_mailable' => TestMailableWithTemplate::class,
+            'type' => 'blade-markdown',
+        ]);
+
+        $mailable = $template->getMailable();
+
+        $this->assertStringContainsString('Hi all', $mailable->render());
+    }
+
+    /** @test */
     public function it_will_not_compile_blade_if_it_is_not_allowed()
     {
         /** @var TransactionalMailTemplate $template */

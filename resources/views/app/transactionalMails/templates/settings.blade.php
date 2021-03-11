@@ -38,6 +38,12 @@
                 </x-mailcoach::warning>
                 </div>
 
+                <div data-conditional-type="blade-markdown">
+                    <x-mailcoach::warning>
+                        <p class="text-sm mb-2">{{ __('Blade templates have the ability to run arbitrary PHP code. Only select Blade if you trust all users that have access to the Mailcoach UI.') }}</p>
+                    </x-mailcoach::warning>
+                </div>
+
                 <x-mailcoach::checkbox-field :label="__('Store mail')" name="store_mail" :checked="$template->store_mail" />
             </x-mailcoach::fieldset>
 
