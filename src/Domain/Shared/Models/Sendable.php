@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Domain\Shared\Models;
 
-use DOMDocument;
 use DOMElement;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

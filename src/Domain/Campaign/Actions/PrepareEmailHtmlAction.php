@@ -12,7 +12,8 @@ class PrepareEmailHtmlAction
 {
     public function __construct(
         private CreateDomDocumentFromHtmlAction $createDomDocumentFromHtmlAction
-    ) {}
+    ) {
+    }
 
     public function execute(Campaign $campaign): void
     {
