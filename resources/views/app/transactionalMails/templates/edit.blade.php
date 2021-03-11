@@ -19,7 +19,6 @@
         <x-mailcoach::text-field :label="__('Subject')" name="subject" :value="$template->subject" required/>
 
         {!! app(config('mailcoach.transactional.editor'))->render($template) !!}
-
     </form>
 
     <x-mailcoach::transactional-mail-template-replacer-help-texts :template="$template"/>

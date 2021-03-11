@@ -17,6 +17,7 @@ class TransactionalMailTemplateRequest extends FormRequest
             'cc' => new Delimited('email'),
             'bcc' => new Delimited('email'),
             'html' => '',
+            'structured_html' => '',
         ];
     }
 

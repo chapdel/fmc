@@ -189,6 +189,7 @@ class CreateMailcoachTables extends Migration
             $table->json('cc')->nullable();
             $table->json('bcc')->nullable();
             $table->longText('body')->nullable();
+            $table->longText('structured_html')->nullable();
 
             $table->boolean('track_opens')->default(false);
             $table->boolean('track_clicks')->default(false);
