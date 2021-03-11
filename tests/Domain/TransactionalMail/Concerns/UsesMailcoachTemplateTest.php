@@ -39,7 +39,7 @@ class UsesMailcoachTemplateTest extends TestCase
         ]);
 
         $mailable = $template->getMailable();
-
+dd($mailable->render());
         $this->assertStringContainsString('Hi all', $mailable->render());
     }
 
