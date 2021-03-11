@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Str;
+use Illuminate\View\Factory;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 
 class RenderTemplateAction
@@ -41,6 +42,8 @@ class RenderTemplateAction
 
     protected function compileBlade(string $bladeString, array $arguments): string
     {
+        $arguments['__env'] = app(Factory::class);
+
         $generated = Blade::compileString($bladeString);
 
         ob_start() and extract($arguments, EXTR_SKIP);
