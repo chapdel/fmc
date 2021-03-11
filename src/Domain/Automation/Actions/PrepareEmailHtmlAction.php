@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Domain\Automation\Actions;
 
 use DOMDocument;
 use Exception;
-use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Automation\Exceptions\CouldNotSendAutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Replacers\AutomationMailReplacer;

@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Domain\Campaign\Actions;
 
 use DOMDocument;
 use Exception;
-use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\CampaignReplacer;
