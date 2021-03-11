@@ -20,6 +20,8 @@
                     {{ __('Clicks') }}
                 </x-mailcoach::th>
                 <x-mailcoach::th sort-by="-created_at" sort-default class="w-48 th-numeric hidden | xl:table-cell">{{ __('Sent') }}
+                    <x-mailcoach::th class="w-12"></x-mailcoach::th>
+
                 </x-mailcoach::th>
             </tr>
             </thead>
@@ -31,6 +33,22 @@
                     <td class="td-numeric hidden | xl:table-cell">{{ $transactionalMail->opens->count() }}</td>
                     <td class="td-numeric hidden | xl:table-cell">{{ $transactionalMail->clicks->count() }}</td>
                     <td class="td-numeric hidden | xl:table-cell">{{ $transactionalMail->created_at }}</td>
+                    <td class="td-action">
+                        <x-mailcoach::dropdown direction="left">
+                            <ul>
+                                <li>
+                                    <x-mailcoach::form-button
+                                        :action="route('mailcoach.transactionalMail.delete', $transactionalMail)"
+                                        method="DELETE"
+                                        data-confirm="true"
+                                        :data-confirm-text="__('Are you sure you want to delete this transactional mail from the log?')"
+                                    >
+                                        <x-mailcoach::icon-label icon="far fa-trash-alt" :text="__('Delete')" :caution="true" />
+                                    </x-mailcoach::form-button>
+                                </li>
+                            </ul>
+                        </x-mailcoach::dropdown>
+                    </td>
                 </tr>
             @endforeach
             </tbody>

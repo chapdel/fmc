@@ -214,8 +214,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
             });
         });
 
-
-
         return $this;
     }
 

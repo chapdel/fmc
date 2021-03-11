@@ -70,6 +70,7 @@ use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\UpdateStatus\Un
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\TagsController;
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DestroySubscriberImportController;
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DownloadSubscriberImportAttachmentController;
+use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\DestroyTransactionalMailController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ResendTransactionalMailController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ShowTransactionalMailBodyController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\SendTransactionalMailTestController;
@@ -224,6 +225,7 @@ Route::prefix('transactional-mail-log')->group(function () {
         Route::get('performance', '\\' . TransactionalMailPerformanceController::class)->name('mailcoach.transactionalMail.performance');
         Route::get('resend', [ResendTransactionalMailController::class, 'show'])->name('mailcoach.transactionalMail.resend');
         Route::post('resend', [ResendTransactionalMailController::class, 'resend']);
+        Route::delete('/', '\\' . DestroyTransactionalMailController::class)->name('mailcoach.transactionalMail.delete');
     });
 });
 
