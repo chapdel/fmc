@@ -7,8 +7,13 @@ use Illuminate\Container\Container;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\HtmlString;
+use Illuminate\Support\Str;
 use Illuminate\View\Factory;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
+use Spatie\TemporaryDirectory\TemporaryDirectory;
+use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 class RenderTemplateAction
 {
@@ -45,32 +50,18 @@ class RenderTemplateAction
     {
         $markdown = Container::getInstance()->make(Markdown::class);
 
-        $arguments['__env'] = app(Factory::class)->replaceNamespace(
-            'mail',
-            $markdown->htmlComponentPaths(),
-        );
+        $tempDir = new TemporaryDirectory();
+        $tempDir->create();
+        $path = $tempDir->path('temporary-template-view.blade.php');
 
-        $generated = Blade::compileString($bladeString);
+        File::put($path, $bladeString);
 
-        ob_start() and extract($arguments, EXTR_SKIP);
+        app(Factory::class)->addLocation($tempDir->path());
 
-        // We'll include the view contents for parsing within a catcher
-        // so we can avoid any WSOD errors. If an exception occurs we
-        // will throw it out to the exception handler.
-        try {
-            eval('?>'.$generated);
-        }
-        // If we caught an exception, we'll silently flush the output
-        // buffer so that no partially rendered views get thrown out
-        // to the client and confuse the user with junk.
-        catch (Exception $exception) {
-            ob_get_clean();
+        $html = $markdown->render('temporary-template-view', $arguments)->toHtml();
 
-            throw $exception;
-        }
+        $tempDir->delete();
 
-        $content = ob_get_clean();
-
-        return $content;
+        return $html;
     }
 }

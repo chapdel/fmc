@@ -1,6 +1,6 @@
 @component('mail::message')
 
-#Title
+# Title
 
 Hi all!
 
