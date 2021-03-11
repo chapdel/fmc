@@ -10,6 +10,7 @@
                     'html' => 'HTML',
                     'markdown' => 'Markdown',
                     'blade' => 'Blade',
+                    'blade-markdown' => 'Blade with Markdown',
                 ]"
     />
 
