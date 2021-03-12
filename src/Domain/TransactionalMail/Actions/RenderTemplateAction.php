@@ -26,7 +26,7 @@ class RenderTemplateAction
         return match($template->type) {
             'blade' => $this->compileBlade($template->body, $mailable->buildViewData()),
             'markdown' => Markdown::parse($template->body),
-            'blade-markdown' => Markdown::parse($this->compileBlade($template->body, $mailable->buildViewData(), $mailable->theme)),
+            'blade-markdown' => $this->compileBlade($template->body, $mailable->buildViewData(), $mailable->theme),
 
             default => $template->body,
         };
