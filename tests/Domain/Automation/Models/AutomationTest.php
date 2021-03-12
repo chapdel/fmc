@@ -484,7 +484,7 @@ class AutomationTest extends TestCase
                 new SplitAction(
                     [new SendAutomationMailAction($this->automationMail)],
                     [new SendAutomationMailAction($this->automationMail)],
-                )
+                ),
             ])
             ->start();
 

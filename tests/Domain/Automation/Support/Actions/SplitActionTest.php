@@ -2,17 +2,13 @@
 
 namespace Spatie\Mailcoach\Tests\Domain\Automation\Support\Actions;
 
-use Carbon\CarbonInterval;
 use Illuminate\Support\Carbon;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
-use Spatie\Mailcoach\Domain\Automation\Support\Actions\ConditionAction;
-use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SplitAction;
-use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasTagCondition;
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;

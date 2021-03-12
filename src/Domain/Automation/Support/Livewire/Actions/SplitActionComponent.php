@@ -3,11 +3,6 @@
 namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions;
 
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
-use Spatie\Mailcoach\Domain\Automation\Support\Conditions\Condition;
-use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasClickedAutomationMail;
-use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasOpenedAutomationMail;
-use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasTagCondition;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationActionComponent;
 
 class SplitActionComponent extends AutomationActionComponent
