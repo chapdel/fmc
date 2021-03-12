@@ -8,6 +8,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailClick;
+use Spatie\Mailcoach\Domain\Shared\Actions\AddUtmTagsToUrlAction;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class HasClickedAutomationMail implements Condition
@@ -65,8 +66,15 @@ class HasClickedAutomationMail implements Condition
             });
 
         if ($this->data['automation_mail_link_url'] ?? false) {
-            $query->whereHas('link', function (Builder $query) {
-                $query->where('url', $this->data['automation_mail_link_url']);
+            $mail = AutomationMail::find($this->data['automation_mail_id']);
+            $url = $this->data['automation_mail_link_url'];
+
+            if ($mail->utm_tags) {
+                $url = app(AddUtmTagsToUrlAction::class)->execute($url, $mail->name);
+            }
+
+            $query->whereHas('link', function (Builder $query) use ($url) {
+                $query->where('url', $url);
             });
         }
 

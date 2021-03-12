@@ -6,12 +6,14 @@ use Exception;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\CampaignReplacer;
+use Spatie\Mailcoach\Domain\Shared\Actions\AddUtmTagsToUrlAction;
 use Spatie\Mailcoach\Domain\Shared\Actions\CreateDomDocumentFromHtmlAction;
 
 class PrepareEmailHtmlAction
 {
     public function __construct(
-        private CreateDomDocumentFromHtmlAction $createDomDocumentFromHtmlAction
+        private CreateDomDocumentFromHtmlAction $createDomDocumentFromHtmlAction,
+        private AddUtmTagsToUrlAction $addUtmTagsToUrlAction,
     ) {
     }
 
@@ -51,12 +53,9 @@ class PrepareEmailHtmlAction
 
     private function addUtmTags(Campaign $campaign): void
     {
-        $campaignName = urlencode($campaign->name);
-        $utmTags = "utm_source=newsletter&utm_medium=email&utm_campaign={$campaignName}";
-
         $campaign->email_html = $campaign->htmlLinks()
-            ->reduce(function (string $html, string $link) use ($utmTags) {
-                $newLink = $link . (parse_url($link, PHP_URL_QUERY) ? '&' : '?') . $utmTags;
+            ->reduce(function (string $html, string $link) use ($campaign) {
+                $newLink = $this->addUtmTagsToUrlAction->execute($link, $campaign->name);
 
                 return str_replace($link, $newLink . '', $html);
             }, $campaign->email_html);

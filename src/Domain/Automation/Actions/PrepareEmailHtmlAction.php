@@ -6,12 +6,14 @@ use Exception;
 use Spatie\Mailcoach\Domain\Automation\Exceptions\CouldNotSendAutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Replacers\AutomationMailReplacer;
+use Spatie\Mailcoach\Domain\Shared\Actions\AddUtmTagsToUrlAction;
 use Spatie\Mailcoach\Domain\Shared\Actions\CreateDomDocumentFromHtmlAction;
 
 class PrepareEmailHtmlAction
 {
     public function __construct(
-        private CreateDomDocumentFromHtmlAction $createDomDocumentFromHtmlAction
+        private CreateDomDocumentFromHtmlAction $createDomDocumentFromHtmlAction,
+        private AddUtmTagsToUrlAction $addUtmTagsToUrlAction,
     ) {
     }
 
@@ -51,12 +53,9 @@ class PrepareEmailHtmlAction
 
     private function addUtmTags(AutomationMail $automationMail): void
     {
-        $name = urlencode($automationMail->name);
-        $utmTags = "utm_source=newsletter&utm_medium=email&utm_campaign={$name}";
-
         $automationMail->email_html = $automationMail->htmlLinks()
-            ->reduce(function (string $html, string $link) use ($utmTags) {
-                $newLink = $link . (parse_url($link, PHP_URL_QUERY) ? '&' : '?') . $utmTags;
+            ->reduce(function (string $html, string $link) use ($automationMail) {
+                $newLink = $this->addUtmTagsToUrlAction->execute($link, $automationMail->name);
 
                 return str_replace($link, $newLink . '', $html);
             }, $automationMail->email_html);

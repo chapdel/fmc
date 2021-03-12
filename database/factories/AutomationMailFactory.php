@@ -12,6 +12,7 @@ class AutomationMailFactory extends Factory
     public function definition()
     {
         return [
+            'name' => $this->faker->sentence,
             'subject' => $this->faker->sentence,
             'from_email' => $this->faker->email,
             'from_name' => $this->faker->name,
