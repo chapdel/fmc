@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Domain\TransactionalMail\Actions;
 
-use Illuminate\Container\Container;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\File;
