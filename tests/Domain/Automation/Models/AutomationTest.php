@@ -19,6 +19,7 @@ use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\ConditionAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\SplitAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasTagCondition;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
@@ -464,5 +465,43 @@ class AutomationTest extends TestCase
         $this->assertTrue($messages->filter(function (Swift_Message $message) {
             return $message->getSubject() === "This is the subject from the custom mailable.";
         })->count() > 0);
+    }
+
+    /** @test */
+    public function it_can_run_a_split_automation()
+    {
+        Queue::fake();
+
+        $emailList = EmailList::factory()->create();
+
+        /** @var Automation $automation */
+        $automation = Automation::create()
+            ->name('Welcome email')
+            ->to($emailList)
+            ->runEvery(CarbonInterval::minute())
+            ->triggerOn(new SubscribedTrigger)
+            ->chain([
+                new SplitAction(
+                    [new SendAutomationMailAction($this->automationMail)],
+                    [new SendAutomationMailAction($this->automationMail)],
+                )
+            ])
+            ->start();
+
+        $this->refreshServiceProvider();
+
+        $this->assertEquals(1, $automation->actions()->count());
+        $this->assertEquals(3, $automation->allActions()->count());
+        $this->assertEquals(0, $automation->actions()->first()->subscribers->count());
+
+        $emailList->subscribe('john@doe.com');
+
+        $this->processQueuedJobs();
+
+        $this->assertEquals(1, $automation->actions()->first()->subscribers->count());
+
+        Artisan::call(RunAutomationActionsCommand::class);
+
+        Queue::assertPushed(SendAutomationMailToSubscriberJob::class, 2);
     }
 }

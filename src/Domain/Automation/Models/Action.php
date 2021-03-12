@@ -114,8 +114,11 @@ class Action extends Model
                     $this->subscribers()->updateExistingPivot($subscriber, ['run_at' => now()], touch: false);
                 }
 
-                if ($nextAction = $action->nextAction($subscriber)) {
-                    $nextAction->subscribers()->attach($subscriber);
+                $nextActions = $action->nextActions($subscriber);
+                if (count(array_filter($nextActions))) {
+                    foreach ($nextActions as $nextAction) {
+                        $nextAction->subscribers()->attach($subscriber);
+                    }
                     $this->subscribers()->updateExistingPivot($subscriber, ['completed_at' => now()], touch: false);
                 }
             });

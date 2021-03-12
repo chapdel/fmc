@@ -40,22 +40,23 @@ abstract class AutomationAction extends AutomationStep
         ]);
     }
 
-    public function nextAction(Subscriber $subscriber): ?Action
+    /** @return Action[] */
+    public function nextActions(Subscriber $subscriber): array
     {
         $action = Action::findByUuid($this->uuid);
 
         if ($action->children->count()) {
-            return $action->children->first();
+            return [$action->children->first()];
         }
 
         if (! $action->parent_id) {
-            return $action->automation->actions->where('order', '>', $action->order)->first();
+            return [$action->automation->actions->where('order', '>', $action->order)->first()];
         }
 
         if ($nextAction = $action->parent->children->where('order', '>', $action->order)->first()) {
-            return $nextAction;
+            return [$nextAction];
         }
 
-        return $action->automation->actions->where('order', '>', $action->parent->order)->first();
+        return [$action->automation->actions->where('order', '>', $action->parent->order)->first()];
     }
 }

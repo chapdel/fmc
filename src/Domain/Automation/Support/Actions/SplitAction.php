@@ -9,14 +9,11 @@ use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum;
 
-class ConditionAction extends AutomationAction
+class SplitAction extends AutomationAction
 {
     public function __construct(
-        protected CarbonInterval $checkFor,
-        protected array $yesActions = [],
-        protected array $noActions = [],
-        protected string $condition = '',
-        protected array $conditionData = [],
+        protected array $leftActions = [],
+        protected array $rightActions = [],
         ?string $uuid = null,
     ) {
         parent::__construct($uuid);
@@ -29,20 +26,20 @@ class ConditionAction extends AutomationAction
 
     public static function getName(): string
     {
-        return (string) __('If/Else');
+        return (string) __('Split');
     }
 
     public static function getComponent(): ?string
     {
-        return 'condition-action';
+        return 'split-action';
     }
 
     public function store(string $uuid, Automation $automation, ?int $order = null, ?int $parent_id = null, ?string $key = null): Action
     {
         $parent = parent::store($uuid, $automation, $order, $parent_id, $key);
 
-        $newChildrenUuids = collect($this->yesActions)->pluck('uuid')
-            ->merge(collect($this->noActions)->pluck('uuid'));
+        $newChildrenUuids = collect($this->leftActions)->pluck('uuid')
+            ->merge(collect($this->rightActions)->pluck('uuid'));
 
         $parent->children()->each(function (Action $existingChild) use ($newChildrenUuids) {
             if (! $newChildrenUuids->contains($existingChild->uuid)) {
@@ -50,22 +47,22 @@ class ConditionAction extends AutomationAction
             }
         });
 
-        foreach ($this->yesActions as $index => $action) {
+        foreach ($this->leftActions as $index => $action) {
             $this->storeChildAction(
                 action: $action,
                 automation: $automation,
                 parent: $parent,
-                key: 'yesActions',
+                key: 'leftActions',
                 order: $index
             );
         }
 
-        foreach ($this->noActions as $index => $action) {
+        foreach ($this->rightActions as $index => $action) {
             $this->storeChildAction(
                 action: $action,
                 automation: $automation,
                 parent: $parent,
-                key: 'noActions',
+                key: 'rightActions',
                 order: $index
             );
         }
@@ -92,27 +89,18 @@ class ConditionAction extends AutomationAction
     public static function make(array $data): self
     {
         return new self(
-            CarbonInterval::createFromDateString("{$data['length']} {$data['unit']}"),
-            $data['yesActions'],
-            $data['noActions'],
-            $data['condition'],
-            $data['conditionData'],
+            $data['leftActions'],
+            $data['rightActions'],
         );
     }
 
     public function toArray(): array
     {
-        [$length, $unit] = explode(' ', $this->checkFor->forHumans());
-
         return [
-            'length' => $length,
-            'unit' => $unit,
-            'condition' => $this->condition,
-            'conditionData' => $this->conditionData,
-            'yesActions' => collect($this->yesActions)->map(function ($action) {
+            'leftActions' => collect($this->leftActions)->map(function ($action) {
                 return $this->actionToArray($action);
             })->toArray(),
-            'noActions' => collect($this->noActions)->map(function ($action) {
+            'rightActions' => collect($this->rightActions)->map(function ($action) {
                 return $this->actionToArray($action);
             })->toArray(),
         ];
@@ -137,7 +125,6 @@ class ConditionAction extends AutomationAction
             ]);
         }
 
-
         return [
             'uuid' => $action->uuid,
             'class' => $action::class,
@@ -147,41 +134,21 @@ class ConditionAction extends AutomationAction
         ];
     }
 
-    public function shouldContinue(Subscriber $subscriber): bool
-    {
-        $action = Action::findByUuid($this->uuid);
-
-        /** @var \Spatie\Mailcoach\Domain\Automation\Support\Conditions\Condition $condition */
-        $conditionClass = $this->condition;
-        $condition = new $conditionClass($action->automation, $subscriber, $this->conditionData);
-
-        if ($condition->check()) {
-            return true;
-        }
-
-        /** @var \Illuminate\Support\Carbon $addedToActionAt */
-        $addedToActionAt = $subscriber->pivot->created_at;
-
-        return $addedToActionAt->add($this->checkFor)->isPast();
-    }
-
     public function nextActions(Subscriber $subscriber): array
     {
-        $action = Action::findByUuid($this->uuid);
         $parentAction = Action::findByUuid($this->uuid);
 
-        /** @var \Spatie\Mailcoach\Domain\Automation\Support\Conditions\Condition $condition */
-        $conditionClass = $this->condition;
-        $condition = new $conditionClass($action->automation, $subscriber, $this->conditionData);
+        $actions = [];
+        if (isset($this->leftActions[0])) {
+            $actions[] = $parentAction->children->where('key', 'leftActions')->first();
+        }
 
-        if ($condition->check()) {
-            if (isset($this->yesActions[0])) {
-                return [$parentAction->children->where('key', 'yesActions')->first()];
-            }
-        } else {
-            if (isset($this->noActions[0])) {
-                return [$parentAction->children->where('key', 'noActions')->first()];
-            }
+        if (isset($this->rightActions[0])) {
+            $actions[] = $parentAction->children->where('key', 'rightActions')->first();
+        }
+
+        if (count($actions)) {
+            return $actions;
         }
 
         return parent::nextActions($subscriber);

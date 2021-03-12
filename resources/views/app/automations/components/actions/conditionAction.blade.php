@@ -43,7 +43,7 @@
                                 type="number"
                             />
                         </div>
-                        <div class="col-span-4 sm:col-span-2">
+                        <div class="col-span-4 sm:col-span-4">
                             <x-mailcoach::select-field
                                 :label="__('Unit')"
                                 :required="true"
@@ -152,7 +152,7 @@
                                 <h2 class="justify-self-start -ml-12 -mt-px h-8 px-2 inline-flex items-center bg-green-400 text-white rounded-br space-x-2">
                                     <i class="far far fa-thumbs-up"></i>
                                      @if ($condition)
-                                        <span class="markup-h4 whitespace-nowrap">
+                                        <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">
                                             <span class="font-normal">@lang('If') {{ $condition::getName() }}</span>
                                             <span class="font-semibold tracking-normal normal-case">{{ $condition::getDescription($conditionData) }}</span>?
                                         </span>

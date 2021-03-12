@@ -70,8 +70,8 @@ class AutomationActionTest extends TestCase
         $parentModel2 = $parentAction2->store(Str::uuid()->toString(), $automation);
 
         $this->assertEquals(4, Action::count());
-        $this->assertTrue($child1->is($parentAction->nextAction($subscriber)));
-        $this->assertTrue($child2->is($child1->action->nextAction($subscriber)));
-        $this->assertTrue($parentModel2->is($child2->action->nextAction($subscriber)));
+        $this->assertTrue($child1->is($parentAction->nextActions($subscriber)[0]));
+        $this->assertTrue($child2->is($child1->action->nextActions($subscriber)[0]));
+        $this->assertTrue($parentModel2->is($child2->action->nextActions($subscriber)[0]));
     }
 }

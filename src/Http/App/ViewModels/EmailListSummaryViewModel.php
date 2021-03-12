@@ -157,6 +157,7 @@ class EmailListSummaryViewModel extends ViewModel
             ->selectRaw("count(*) as subscribed_count, date(subscribed_at) as subscribed_day")
             ->where('email_list_id', $this->emailList->id)
             ->where('subscribed_at', '>=', $this->start)
+            ->where('subscribed_at', '<=', now())
             ->whereNull('unsubscribed_at')
             ->groupBy('subscribed_day')
             ->get();
@@ -165,6 +166,7 @@ class EmailListSummaryViewModel extends ViewModel
             ->selectRaw("count(*) as unsubscribe_count, date(unsubscribed_at) as unsubscribe_day")
             ->where('email_list_id', $this->emailList->id)
             ->where('unsubscribed_at', '>=', $this->start)
+            ->where('unsubscribed_at', '<=', now())
             ->whereNotNull('unsubscribed_at')
             ->groupBy('unsubscribe_day')
             ->get();

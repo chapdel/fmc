@@ -11,14 +11,17 @@ use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\ConditionAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\SplitAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasTagCondition;
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-class ConditionActionTest extends TestCase
+class SplitActionTest extends TestCase
 {
-    protected AutomationMail $automationMail;
+    protected AutomationMail $automationMail1;
+
+    protected AutomationMail $automationMail2;
 
     protected Subscriber $subscriber;
 
@@ -31,20 +34,18 @@ class ConditionActionTest extends TestCase
         TestTime::setTestNow(Carbon::create(2021, 01, 01));
 
         $this->subscriber = SubscriberFactory::new()->confirmed()->create();
-        $this->automationMail = AutomationMail::factory()->create();
+        $this->automationMail1 = AutomationMail::factory()->create();
+        $this->automationMail2 = AutomationMail::factory()->create();
 
         $automation = Automation::create()
             ->chain([
-                new ConditionAction(
-                    CarbonInterval::day(),
+                new SplitAction(
                     [
-                        new SendAutomationMailAction($this->automationMail),
+                        new SendAutomationMailAction($this->automationMail1),
                     ],
                     [
-                        new HaltAction(),
+                        new SendAutomationMailAction($this->automationMail2),
                     ],
-                    HasTagCondition::class,
-                    ['tag' => 'some-tag']
                 ),
             ]);
 
@@ -55,44 +56,18 @@ class ConditionActionTest extends TestCase
     }
 
     /** @test * */
-    public function it_doesnt_continue_while_checking_and_the_subscriber_doesnt_have_the_tag()
-    {
-        $this->assertFalse($this->actionModel->action->shouldContinue($this->subscriber));
-
-        TestTime::addDay();
-
-        $this->assertFalse($this->actionModel->action->shouldContinue($this->subscriber));
-
-        TestTime::addSecond();
-
-        $this->assertTrue($this->actionModel->action->shouldContinue($this->subscriber));
-    }
-
-    /** @test * */
-    public function it_continues_as_soon_as_the_subscriber_has_the_tag()
-    {
-        $this->assertFalse($this->actionModel->action->shouldContinue($this->subscriber));
-
-        $this->subscriber->addTag('some-tag');
-
-        $this->assertTrue($this->actionModel->action->shouldContinue($this->subscriber));
-    }
-
-    /** @test * */
     public function it_doesnt_halt()
     {
         $this->assertFalse($this->actionModel->action->shouldHalt($this->subscriber));
     }
 
     /** @test * */
-    public function it_determines_the_correct_next_action()
+    public function it_determines_the_correct_next_actions()
     {
-        TestTime::addDays(2);
-
-        $this->assertInstanceOf(HaltAction::class, $this->actionModel->action->nextActions($this->subscriber)[0]->action);
-
-        $this->subscriber->addTag('some-tag');
-
         $this->assertInstanceOf(SendAutomationMailAction::class, $this->actionModel->action->nextActions($this->subscriber)[0]->action);
+        $this->assertEquals($this->automationMail1->id, $this->actionModel->action->nextActions($this->subscriber)[0]->action->automationMail->id);
+
+        $this->assertInstanceOf(SendAutomationMailAction::class, $this->actionModel->action->nextActions($this->subscriber)[1]->action);
+        $this->assertEquals($this->automationMail2->id, $this->actionModel->action->nextActions($this->subscriber)[1]->action->automationMail->id);
     }
 }
