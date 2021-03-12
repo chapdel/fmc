@@ -26,7 +26,12 @@ class RenderTemplateAction
         return match($template->type) {
             'blade' => $this->compileBlade($template->body, $mailable->buildViewData()),
             'markdown' => Markdown::parse($template->body),
-            'blade-markdown' => $this->compileBlade($template->body, $mailable->buildViewData(), $mailable->theme),
+            'blade-markdown' => $this->compileBlade(
+                bladeString: $template->body,
+                data: $mailable->buildViewData(),
+                markdown: true,
+                theme: $mailable->theme
+            ),
 
             default => $template->body,
         };
@@ -41,23 +46,26 @@ class RenderTemplateAction
         return $body;
     }
 
-    protected function compileBlade(string $bladeString, array $arguments, string $theme = null): string
+    protected function compileBlade(string $bladeString, array $data, bool $markdown = false, string $theme = null): string
     {
-        $markdown = Container::getInstance()->make(Markdown::class);
-
-        if ($theme) {
-            $markdown->theme($theme);
-        }
-
         $tempDir = new TemporaryDirectory();
         $tempDir->create();
         $path = $tempDir->path('temporary-template-view.blade.php');
 
         File::put($path, $bladeString);
 
-        app(Factory::class)->addLocation($tempDir->path());
+        $viewFactory = app(Factory::class);
+        $viewFactory->addLocation($tempDir->path());
+        $viewFactory->flushFinderCache();
 
-        $html = $markdown->render('temporary-template-view', $arguments)->toHtml();
+        if ($markdown) {
+            $html = app(Markdown::class)
+                ->theme($theme ?? 'default')
+                ->render('temporary-template-view', $data)
+                ->toHtml();
+        } else {
+            $html = $viewFactory->make('temporary-template-view', $data)->render();
+        }
 
         $tempDir->delete();
 
