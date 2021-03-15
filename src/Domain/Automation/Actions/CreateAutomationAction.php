@@ -11,10 +11,9 @@ class CreateAutomationAction
 
     public function execute(array $attributes): Automation
     {
-        $automation = $this->getAutomationClass()::create([
+        return $this->getAutomationClass()::create([
             'name' => $attributes['name'],
+            'interval' => '1 minute',
         ]);
-
-        return $automation;
     }
 }
