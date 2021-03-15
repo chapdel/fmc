@@ -69,7 +69,7 @@ class Automation extends Model
 
     public function triggerOn(AutomationTrigger $automationTrigger): self
     {
-        $trigger = $this->triggers()->firstOrCreate();
+        $trigger = $this->triggers()->firstOrCreate([]);
         $trigger->trigger = $automationTrigger;
         $trigger->save();
 

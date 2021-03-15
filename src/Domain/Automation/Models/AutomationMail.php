@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Models;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Automation\Exceptions\CouldNotSendAutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailTestJob;
 use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailToSubscriberJob;
 use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
@@ -93,7 +94,7 @@ class AutomationMail extends Sendable
         $this->ensureUpdatable();
 
         if (! is_a($mailableClass, MailcoachMail::class, true)) {
-            throw CouldNotSendCampaign::invalidMailableClass($this, $mailableClass);
+            throw CouldNotSendAutomationMail::invalidMailableClass($this, $mailableClass);
         }
 
         $this->update(['mailable_class' => $mailableClass, 'mailable_arguments' => $mailableArguments]);

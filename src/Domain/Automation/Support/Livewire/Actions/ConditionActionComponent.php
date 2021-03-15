@@ -59,6 +59,7 @@ class ConditionActionComponent extends AutomationActionComponent
             return;
         }
 
+        /** @var HasTagCondition|HasOpenedAutomationMail|HasClickedAutomationMail $condition */
         foreach (array_keys($condition::rules()) as $key) {
             if (! isset($this->conditionData[$key])) {
                 $this->conditionData[$key] = '';
