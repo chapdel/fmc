@@ -85,7 +85,11 @@
                                         name="conditionData.automation_mail_id"
                                         wire:model="conditionData.automation_mail_id"
                                         :placeholder="__('Select a mail')"
-                                        :options="\Spatie\Mailcoach\Domain\Automation\Models\AutomationMail::pluck('name', 'id')"
+                                        :options="
+                                            \Spatie\Mailcoach\Domain\Automation\Models\AutomationMail::query()
+                                                ->where('track_opens', true)
+                                                ->pluck('name', 'id')
+                                        "
                                     />
                                 </div>
                             @break
@@ -97,7 +101,11 @@
                                         wire:model="conditionData.automation_mail_id"
                                         :placeholder="__('Select a mail')"
                                         :required="true"
-                                        :options="\Spatie\Mailcoach\Domain\Automation\Models\AutomationMail::pluck('name', 'id')"
+                                        :options="
+                                            \Spatie\Mailcoach\Domain\Automation\Models\AutomationMail::query()
+                                                ->where('track_clicks', true)
+                                                ->pluck('name', 'id')
+                                        "
                                     />
                                 </div>
 
