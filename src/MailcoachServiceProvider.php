@@ -46,10 +46,10 @@ use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\AutomationAct
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\AutomationSettingsComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\RunAutomationComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\DateTriggerComponent;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\NoTriggerComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\TagAddedTriggerComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\TagRemovedTriggerComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\WebhookTriggerComponent;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\NoTriggerComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\TriggeredByEvents;
 use Spatie\Mailcoach\Domain\Campaign\Commands\CalculateStatisticsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Commands\SendCampaignSummaryMailCommand;
