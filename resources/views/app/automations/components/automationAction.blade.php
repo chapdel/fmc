@@ -40,10 +40,10 @@
 
         <dl class="-mx-6 -mb-6 px-6 py-2 text-right text-xs text-gray-500  bg-gray-300 bg-opacity-10">
             Active
-            <span class="font-semibold variant-numeric-tabular">{{ $action['active'] ?? 0 }}</span>
+            <span class="font-semibold variant-numeric-tabular">{{ number_format($action['active'] ?? 0) }}</span>
             <span class="text-gray-400 px-2">•</span>
             Completed
-            <span class="font-semibold variant-numeric-tabular">{{ $action['completed'] ?? 0 }}</span>
+            <span class="font-semibold variant-numeric-tabular">{{ number_format($action['completed'] ?? 0) }}</span>
         </dl>
     @endif
 </x-mailcoach::fieldset>
