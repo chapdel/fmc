@@ -49,6 +49,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\DateTriggerComp
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\TagAddedTriggerComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\TagRemovedTriggerComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\WebhookTriggerComponent;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\NoTriggerComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\TriggeredByEvents;
 use Spatie\Mailcoach\Domain\Campaign\Commands\CalculateStatisticsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Commands\SendCampaignSummaryMailCommand;
@@ -329,6 +330,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('tag-added-trigger', TagAddedTriggerComponent::class);
         Livewire::component('tag-removed-trigger', TagRemovedTriggerComponent::class);
         Livewire::component('webhook-trigger', WebhookTriggerComponent::class);
+        Livewire::component('no-trigger', NoTriggerComponent::class);
 
         return $this;
     }

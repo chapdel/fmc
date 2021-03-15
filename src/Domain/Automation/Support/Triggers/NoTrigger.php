@@ -8,4 +8,9 @@ class NoTrigger extends AutomationTrigger
     {
         return (string) __('No trigger');
     }
+
+    public static function getComponent(): ?string
+    {
+        return 'no-trigger';
+    }
 }
