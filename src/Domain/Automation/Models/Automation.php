@@ -137,6 +137,10 @@ class Automation extends Model
 
         $this->fresh('actions');
 
+        if ($this->status === AutomationStatus::STARTED && $this->actions->count() === 0) {
+            $this->pause();
+        }
+
         return $this;
     }
 
