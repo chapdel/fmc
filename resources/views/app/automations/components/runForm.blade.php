@@ -27,6 +27,18 @@
     </x-mailcoach::fieldset>
 
     <x-mailcoach::fieldset :legend="__('Run automation')">
+        @if ($error)
+            <div class="alert alert-error shadow-lg mb-6">
+                <div class="max-w-layout mx-auto grid gap-1">
+                    <div class="flex items-baseline">
+                        <span class="w-6"><i class="fas fa-times opacity-50"></i></span>
+                        <span class="ml-2 text-sm">
+                            {{ $error }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        @endif
         <div>
         @if ($automation->status === \Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus::STARTED)
             <button class="button" type="button" wire:click.prevent="pause">

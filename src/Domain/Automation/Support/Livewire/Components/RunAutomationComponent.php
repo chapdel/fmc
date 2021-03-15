@@ -14,6 +14,8 @@ class RunAutomationComponent extends Component
 
     public string $interval;
 
+    public string $error = '';
+
     public function pause(): void
     {
         $this->automation->pause();
@@ -21,7 +23,11 @@ class RunAutomationComponent extends Component
 
     public function start(): void
     {
-        $this->automation->start();
+        try {
+            $this->automation->start();
+        } catch (\Exception $e) {
+            $this->error = $e->getMessage();
+        }
     }
 
     public function mount()
