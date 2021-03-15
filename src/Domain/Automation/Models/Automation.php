@@ -53,6 +53,11 @@ class Automation extends Model
         return $this->hasMany(Trigger::class);
     }
 
+    public function getTrigger(): ?AutomationTrigger
+    {
+        return $this->triggers->first()?->trigger;
+    }
+
     public function triggerClass(): string
     {
         if ($trigger = $this->triggers->first()) {

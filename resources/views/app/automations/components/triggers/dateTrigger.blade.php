@@ -2,7 +2,7 @@
     <x-mailcoach::date-time-field
         :label="__('Date')"
         name="date"
-        :value="$automation->trigger->date ?? null"
+        :value="$automation->getTrigger()->date ?? null"
         required
     />
 </div>

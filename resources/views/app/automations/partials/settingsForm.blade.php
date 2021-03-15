@@ -20,7 +20,7 @@
 
     @if ($selectedTrigger && $selectedTrigger::getComponent())
         @livewire($selectedTrigger::getComponent(), [
-            'triggerClass' => $selectedTrigger,
+            'triggerClass' => $automation->triggerClass(),
             'automation' => $automation,
         ], key($selectedTrigger))
     @endif
