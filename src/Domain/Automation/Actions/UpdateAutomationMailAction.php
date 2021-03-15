@@ -16,9 +16,9 @@ class UpdateAutomationMailAction
             'subject' => $attributes['subject'] ?? $attributes['name'],
             'html' => $attributes['html'] ?? '',
             'structured_html' => $attributes['structured_html'] ?? '',
-            'track_opens' => $attributes['track_opens'] ?? true,
-            'track_clicks' => $attributes['track_clicks'] ?? true,
-            'utm_tags' => $attributes['utm_tags'] ?? true,
+            'track_opens' => $attributes['track_opens'] ?? false,
+            'track_clicks' => $attributes['track_clicks'] ?? false,
+            'utm_tags' => $attributes['utm_tags'] ?? false,
             'last_modified_at' => now(),
         ]);
 
