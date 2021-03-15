@@ -24,6 +24,8 @@ class AutomationActionsFormComponent extends Component
 
     public array $actions = [];
 
+    public bool $unsavedChanges = false;
+
     public function mount()
     {
         $this->actions = $this->automation->actions()
@@ -36,6 +38,7 @@ class AutomationActionsFormComponent extends Component
     public function editAction(string $uuid)
     {
         $this->editingActions[] = $uuid;
+        $this->unsavedChanges = true;
     }
 
     public function actionSaved(string $uuid)
