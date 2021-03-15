@@ -43,7 +43,7 @@ class UsesMailcoachTemplateTest extends TestCase
 
         $mailable = $template->getMailable();
 
-        $this->assertMatchesSnapshot($mailable->render());
+        $this->assertMatchesHtmlSnapshotWithoutWhitespace($mailable->render());
     }
 
     /** @test */
