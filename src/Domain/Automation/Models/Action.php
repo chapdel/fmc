@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Automation\Jobs\RunActionForSubscriberJob;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\AutomationAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
 
@@ -93,34 +94,9 @@ class Action extends Model
         $this->subscribers()
             ->wherePivotNull('halted_at')
             ->wherePivotNull('completed_at')
+            ->cursor()
             ->each(function (Subscriber $subscriber) {
-
-                /** @var AutomationAction $action */
-                $action = $this->action;
-
-                if (is_null($subscriber->pivot->run_at)) {
-                    $action->run($subscriber);
-
-                    if ($action->shouldHalt($subscriber)) {
-                        $this->subscribers()->updateExistingPivot($subscriber, ['halted_at' => now()], touch: false);
-
-                        return;
-                    }
-
-                    if (! $action->shouldContinue($subscriber)) {
-                        return;
-                    }
-
-                    $this->subscribers()->updateExistingPivot($subscriber, ['run_at' => now()], touch: false);
-                }
-
-                $nextActions = $action->nextActions($subscriber);
-                if (count(array_filter($nextActions))) {
-                    foreach ($nextActions as $nextAction) {
-                        $nextAction->subscribers()->attach($subscriber);
-                    }
-                    $this->subscribers()->updateExistingPivot($subscriber, ['completed_at' => now()], touch: false);
-                }
+                dispatch(new RunActionForSubscriberJob($this, $subscriber));
             });
     }
 }

@@ -144,6 +144,7 @@ return [
         ],
 
         'perform_on_queue' => [
+            'run_action_for_subscriber_job' => 'mailcoach',
             'run_automation_for_subscriber_job' => 'mailcoach',
             'send_automation_mail_to_subscriber_job' => 'send-automation-mail',
             'send_automation_mail_job' => 'send-mail',

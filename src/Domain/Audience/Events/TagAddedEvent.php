@@ -10,6 +10,5 @@ class TagAddedEvent
     public function __construct(
         public Subscriber $subscriber,
         public Tag $tag,
-    ) {
-    }
+    ) {}
 }
