@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Commands;
 
 use Illuminate\Console\Command;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
+use Spatie\Mailcoach\Domain\Automation\Jobs\RunAutomationActionJob;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -28,9 +29,13 @@ class RunAutomationActionsCommand extends Command
                     return;
                 }
 
-                $this->info("Running all actions for automation id `{$automation->id}`");
+                $this->info("Dispatching jobs for all actions for automation id `{$automation->id}`");
 
-                $automation->allActions()->each(fn (Action $action) => $action->run());
+                $automation->allActions()->each(function (Action $action) {
+                    $this->info("Dispatching job for action `{$action->id}`");
+
+                    return dispatch(new RunAutomationActionJob($action));
+                });
 
                 $automation->update(['run_at' => now()]);
             });

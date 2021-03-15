@@ -7,11 +7,13 @@ use Illuminate\Mail\MailManager;
 use Illuminate\Queue\Connectors\SyncConnector;
 use Illuminate\Queue\QueueManager;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationActionsCommand;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
+use Spatie\Mailcoach\Domain\Automation\Jobs\RunActionForSubscriberJob;
 use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailToSubscriberJob;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
@@ -23,6 +25,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Actions\SplitAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasTagCondition;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
+use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
@@ -54,7 +57,7 @@ class AutomationTest extends TestCase
     /** @test */
     public function it_can_run_a_welcome_automation()
     {
-        Queue::fake();
+        Mail::fake();
 
         $emailList = EmailList::factory()->create();
 
@@ -76,15 +79,12 @@ class AutomationTest extends TestCase
 
         $emailList->subscribe('john@doe.com');
 
-        $this->processQueuedJobs();
-
         $this->assertEquals(1, $automation->actions()->first()->subscribers->count());
 
         Artisan::call(RunAutomationActionsCommand::class);
 
-        Queue::assertPushed(SendAutomationMailToSubscriberJob::class, function (SendAutomationMailToSubscriberJob $job) {
-            $this->assertEquals($job->automationMail->id, $this->automationMail->id);
-            $this->assertEquals('john@doe.com', $job->subscriber->email);
+        Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) {
+            $this->assertTrue($mail->hasTo('john@doe.com'));
 
             return true;
         });
@@ -129,7 +129,7 @@ class AutomationTest extends TestCase
     /** @test */
     public function it_continues_once_the_action_returns_true()
     {
-        Queue::fake();
+        Mail::fake();
         TestTime::freeze();
 
         $emailList = EmailList::factory()->create();
@@ -152,13 +152,11 @@ class AutomationTest extends TestCase
 
         $emailList->subscribe('john@doe.com');
 
-        $this->processQueuedJobs();
-
         $this->assertEquals(1, $automation->actions->first()->subscribers()->count());
 
         Artisan::call(RunAutomationActionsCommand::class);
 
-        Queue::assertNotPushed(SendAutomationMailToSubscriberJob::class);
+        Mail::assertNothingSent();
         $this->assertEquals(1, $automation->actions->first()->subscribers()->count());
         $this->assertEquals(0, $automation->actions->last()->subscribers()->count());
 
@@ -166,7 +164,7 @@ class AutomationTest extends TestCase
 
         Artisan::call(RunAutomationActionsCommand::class);
 
-        Queue::assertPushed(SendAutomationMailToSubscriberJob::class);
+        Mail::assertSent(MailcoachMail::class);
         $this->assertEquals(1, $automation->actions->first()->subscribers()->count());
         $this->assertEquals(1, $automation->actions->last()->subscribers()->count());
     }
@@ -234,12 +232,14 @@ class AutomationTest extends TestCase
     /** @test * */
     public function it_can_create_and_run_a_complicated_automation()
     {
-        Queue::fake();
+        Mail::fake();
 
         /** @var EmailList $emailList */
         $emailList = EmailList::factory()->create();
 
         $automatedMail1 = AutomationMail::factory()->create();
+        $automatedMail2 = AutomationMail::factory()->create();
+        $automatedMail3 = AutomationMail::factory()->create();
 
         $automation = Automation::create()
             ->name('Getting started with Mailcoach')
@@ -253,7 +253,7 @@ class AutomationTest extends TestCase
                     checkFor: CarbonInterval::days(3), // Keep checking tags for 3 days, if not they get the default or halted
                     yesActions: [
                         new WaitAction(CarbonInterval::day()), // Wait one day
-                        new SendAutomationMailAction($automatedMail1), // Send first email
+                        new SendAutomationMailAction($automatedMail2), // Send first email
                     ],
                     noActions: [
                         new WaitAction(CarbonInterval::days(2)), // Wait 2 days
@@ -262,7 +262,7 @@ class AutomationTest extends TestCase
                     conditionData: ['tag' => 'mc::campaign-1-clicked-1']
                 ),
                 new WaitAction(CarbonInterval::days(3)), // Wait 3 days
-                new SendAutomationMailAction($automatedMail1),
+                new SendAutomationMailAction($automatedMail3),
             ])->start();
 
         $this->refreshServiceProvider();
@@ -279,8 +279,6 @@ class AutomationTest extends TestCase
 
         $subscriber = $automation->emailList->subscribe('john@doe.com');
 
-        $this->processQueuedJobs();
-
         // Wait for a day
         $this->assertInstanceOf(WaitAction::class, $subscriber->currentAction($automation)->action);
         Artisan::call(RunAutomationActionsCommand::class);
@@ -289,13 +287,13 @@ class AutomationTest extends TestCase
         Artisan::call(RunAutomationActionsCommand::class);
 
         // CampaignAction continues straight to next action after running
-        Queue::assertPushed(SendAutomationMailToSubscriberJob::class);
+        Mail::assertSent(MailcoachMail::class, 1);
         $this->assertInstanceOf(ConditionAction::class, $subscriber->currentAction($automation)->action);
-
 
         // EnsureTagsExist checks for 3 days
         TestTime::addDay()->addSecond();
         Artisan::call(RunAutomationActionsCommand::class);
+
         $this->assertInstanceOf(ConditionAction::class, $subscriber->currentAction($automation)->action);
         TestTime::addDays(2)->addSecond();
         $this->assertInstanceOf(ConditionAction::class, $subscriber->currentAction($automation)->action);
@@ -311,7 +309,7 @@ class AutomationTest extends TestCase
         Artisan::call(RunAutomationActionsCommand::class);
 
         // Campaign Action sends again
-        Queue::assertPushed(SendAutomationMailToSubscriberJob::class, 2);
+        Mail::assertSent(MailcoachMail::class, 2);
 
         $this->assertInstanceOf(WaitAction::class, $subscriber->currentAction($automation)->action);
         $this->assertEquals(CarbonInterval::days(3), $subscriber->currentAction($automation)->action->interval);
@@ -322,7 +320,7 @@ class AutomationTest extends TestCase
 
         // Execute last CampaignAction
         Artisan::call(RunAutomationActionsCommand::class);
-        Queue::assertPushed(SendAutomationMailToSubscriberJob::class, 3);
+        Mail::assertSent(MailcoachMail::class, 3);
 
         $this->assertInstanceOf(SendAutomationMailAction::class, $subscriber->currentAction($automation)->action);
         $this->assertNotNull($subscriber->currentAction($automation)->pivot->run_at);
@@ -470,9 +468,11 @@ class AutomationTest extends TestCase
     /** @test */
     public function it_can_run_a_split_automation()
     {
-        Queue::fake();
+        Mail::fake();
 
         $emailList = EmailList::factory()->create();
+
+        $automationMail2 = AutomationMail::factory()->create(['subject' => 'Welcome 2']);
 
         /** @var Automation $automation */
         $automation = Automation::create()
@@ -483,7 +483,7 @@ class AutomationTest extends TestCase
             ->chain([
                 new SplitAction(
                     [new SendAutomationMailAction($this->automationMail)],
-                    [new SendAutomationMailAction($this->automationMail)],
+                    [new SendAutomationMailAction($automationMail2)],
                 ),
             ])
             ->start();
@@ -496,12 +496,10 @@ class AutomationTest extends TestCase
 
         $emailList->subscribe('john@doe.com');
 
-        $this->processQueuedJobs();
-
         $this->assertEquals(1, $automation->actions()->first()->subscribers->count());
 
         Artisan::call(RunAutomationActionsCommand::class);
 
-        Queue::assertPushed(SendAutomationMailToSubscriberJob::class, 2);
+        Mail::assertSent(MailcoachMail::class, 2);
     }
 }

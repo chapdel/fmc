@@ -46,10 +46,14 @@ class RunActionForSubscriberJob implements ShouldQueue
         /** @var AutomationAction $action */
         $action = $this->action->action;
 
-        /** @var Subscriber $subscriber */
+        /** @var ?Subscriber $subscriber */
         $subscriber = $this->action->subscribers()
             ->withPivot('run_at')
-            ->findOrFail($this->subscriber->id);
+            ->find($this->subscriber->id);
+
+        if (! $subscriber) {
+            return;
+        }
 
         if (is_null($subscriber->pivot->run_at)) {
             $action->run($subscriber);
