@@ -554,7 +554,9 @@ class CreateMailcoachTables extends Migration
         Schema::create('mailcoach_automation_mail_opens', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('send_id')->constrained('mailcoach_sends');
+            $table->foreignId('send_id')
+                ->constrained('mailcoach_sends')
+                ->cascadeOnDelete();
 
             $table
                 ->foreignId('subscriber_id')
@@ -587,8 +589,13 @@ class CreateMailcoachTables extends Migration
         Schema::create('mailcoach_automation_mail_clicks', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('send_id')->constrained('mailcoach_sends');
-            $table->foreignId('automation_mail_link_id')->constrained('mailcoach_automation_mail_links');
+            $table->foreignId('send_id')
+                ->constrained('mailcoach_sends')
+                ->cascadeOnDelete();
+
+            $table->foreignId('automation_mail_link_id')
+                ->constrained('mailcoach_automation_mail_links')
+                ->cascadeOnDelete();
 
             $table
                 ->foreignId('subscriber_id')
