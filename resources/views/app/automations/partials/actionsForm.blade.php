@@ -9,7 +9,7 @@
 
     <div class="mb-48">
         @if ($unsavedChanges)
-            <div class="alert alert-warning shadow-lg max-w-sm">
+            <div class="alert alert-warning shadow-lg">
                 <div class="max-w-layout mx-auto grid gap-1">
                     <div class="flex items-baseline">
                         <span class="w-6"><i class="fas fa-save opacity-50"></i></span>
