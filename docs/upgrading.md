@@ -348,6 +348,29 @@ php artisan vendor:publish --tag=mailcoach-config
 
 Make sure to bring over any customizations you did to the old config file.
 
+#### Horizon config
+
+This is the new recommended horizon config, the only real change is the addition of `send-automation-mail`:
+
+```php
+'mailcoach-general' => [
+    'connection' => 'mailcoach-redis',
+    'queue' => ['mailcoach', 'mailcoach-feedback', 'send-mail', 'send-automation-mail'],
+    'balance' => 'auto',
+    'processes' => 10,
+    'tries' => 2,
+    'timeout' => 60 * 60,
+],
+'mailcoach-heavy' => [
+    'connection' => 'mailcoach-redis',
+    'queue' => ['send-campaign'],
+    'balance' => 'auto',
+    'processes' => 3,
+    'tries' => 1,
+    'timeout' => 60 * 60,
+],
+```
+
 ### View changes
 
 If you had customized views, you'll need to reapply your own customizations to the new views.
