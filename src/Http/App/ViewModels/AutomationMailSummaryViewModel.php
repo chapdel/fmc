@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Http\App\ViewModels;
 
 use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
-use Spatie\Mailcoach\Domain\Shared\Support\Svg\BezierCurve;
 use Spatie\ViewModels\ViewModel;
 
 class AutomationMailSummaryViewModel extends ViewModel
