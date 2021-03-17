@@ -31,7 +31,7 @@
                 @if($horizonStatus->is(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::STATUS_ACTIVE))
                     {{ __('Active') }}
                 @else
-                    {!! __('Horizon is inactive. <a target="_blank" href=":docsLink">Read the docs</a>.', ['docsLink' => 'https://mailcoach.app/docs']) !!}
+                    {!! __('Horizon is inactive. <a target="_blank" href=":docsLink">Read the docs</a>.', ['docsLink' => 'https://spatie.be/docs/laravel-mailcoach']) !!}
                 @endif
                 </p>
             </dd>
@@ -45,7 +45,7 @@
                     @if($hasQueueConnection)
                     {!! __('Queue connection settings for <code>mailcoach-redis</code> exist.') !!}
                     @else
-                        {!! __('No valid <strong>queue connection</strong> found. Configure a queue connection with the <strong>mailcoach-redis</strong> key. <a target="_blank" href=":docsLink">Read the docs</a>.', ['docsLink' => 'https://mailcoach.app/docs']) !!}
+                        {!! __('No valid <strong>queue connection</strong> found. Configure a queue connection with the <strong>mailcoach-redis</strong> key. <a target="_blank" href=":docsLink">Read the docs</a>.', ['docsLink' => 'https://spatie.be/docs/laravel-mailcoach']) !!}
                     @endif
                 </p>
             </dd>

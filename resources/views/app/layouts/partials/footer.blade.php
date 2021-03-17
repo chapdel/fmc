@@ -1,5 +1,5 @@
 <div class="flex flex-wrap items-center justify-center text-gray-600 text-xs">
-    <a class="link-dimmed" href="https://mailcoach.app/docs" target="_blank">{{ __('Documentation') }}</a>
+    <a class="link-dimmed" href="https://spatie.be/docs/laravel-mailcoach" target="_blank">{{ __('Documentation') }}</a>
     <span class="mx-2">•</span>
     <a class="link-dimmed inline-block truncate" style="max-width: 12rem" href="https://mailcoach.app">
         Mailcoach {{ $versionInfo->getCurrentVersion() }}
