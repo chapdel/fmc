@@ -43,30 +43,6 @@ class AutomationMailSummaryViewModel extends ViewModel
         return $this->limit;
     }
 
-    public function opensPath(): string
-    {
-        $points = $this->stats
-            ->pluck('opens')
-            ->map(function (int $opens, int $index) {
-                return [$index, 100 - ($opens / $this->limit) * 100];
-            })
-            ->toArray();
-
-        return (new BezierCurve([[0, 100], ...$points, [24,100]]))->toPath();
-    }
-
-    public function clicksPath(): string
-    {
-        $points = $this->stats
-            ->pluck('clicks')
-            ->map(function (int $clicks, int $index) {
-                return [$index, 100 - ($clicks / $this->limit) * 100];
-            })
-            ->toArray();
-
-        return (new BezierCurve([[0, 100], ...$points, [24,100]]))->toPath();
-    }
-
     protected function createStats(): Collection
     {
         $start = $this->mail->created_at->toImmutable();

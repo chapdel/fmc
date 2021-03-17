@@ -27,13 +27,6 @@
             <div class="col-start-2 text-sm text-green-600">{{ $mail->created_at->toMailcoachFormat() }}</div>
         </div>
 
-
-        <h2 class="markup-h2 mt-12">{{ __('24-hour performance') }}</h2>
-
-        <div class="mt-6">
-            @include('mailcoach::app.automations.mails.partials.chart')
-        </div>
-
         @include('mailcoach::app.automations.mails.partials.statistics')
     </div>
 </x-mailcoach::layout-automation-mail>
