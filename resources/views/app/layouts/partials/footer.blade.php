@@ -1,4 +1,4 @@
-<div class="flex flex-wrap items-center justify-center text-gray-600 text-xs">
+<div class="my-2 flex flex-wrap items-center justify-center text-gray-600 text-xs">
     <a class="link-dimmed inline-block truncate" style="max-width: 12rem" href="https://mailcoach.app">
         Mailcoach {{ $versionInfo->getCurrentVersion() }}
     </a>
@@ -14,7 +14,7 @@
         </a>
         
         @if(! $versionInfo->isLatest())
-            <a class="ml-4 my-2 inline-flex items-center bg-gray-400 bg-opacity-25 text-gray-600 rounded-sm px-2 leading-loose" href="/">
+            <a class="ml-4 inline-flex items-center bg-gray-400 bg-opacity-25 text-gray-600 rounded-sm px-2 leading-loose" href="/">
                 <i class="fas fa-horse-head opacity-75 mr-1"></i>
                 {{ __('Upgrade available') }}
             </a>
@@ -23,7 +23,7 @@
 
 
     @if (! app()->environment('production') || config('app.debug'))
-        <span class="ml-4 my-2 inline-flex items-center bg-gray-400 bg-opacity-25 text-red-600 rounded-sm px-2 leading-loose">
+        <span class="ml-4 inline-flex items-center bg-gray-400 bg-opacity-25 text-red-600 rounded-sm px-2 leading-loose">
             <i class="fas fa-wrench opacity-75 mr-1"></i>
             Env: {{ app()->environment() }} &mdash; Debug: {{ config('app.debug') ? 'true' : 'false' }}
         </span>
