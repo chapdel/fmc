@@ -5,7 +5,7 @@
                 {{ $index + 1 }}
             </span>
             <span class="font-normal whitespace-nowrap">
-                Split
+                {{ __('Branch out') }}
             </span>
         </header>
     </x-slot>
@@ -29,23 +29,41 @@
 
         <div class="grid gap-6">
             @if ($editing)
-                <div class="grid grid-cols-2 gap-6 w-full">
+                <div class="grid gap-6 w-full">
                     <section class="border-l-4 border-blue-400 bg-white bg-opacity-50">
                         <div class="grid gap-4 px-12 pb-8 border-blue-500 border-opacity-20 border-r border-t border-b rounded-r">
+                            <h2 class="justify-self-start -ml-12 -mt-px h-8 px-2 inline-flex items-center bg-blue-400 text-white rounded-br space-x-2">
+                                <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">
+                                    <span class="font-normal">{{ __('Branch') }}</span>
+                                    A
+                                </span>
+                            </h2>
                             <livewire:automation-builder name="{{ $uuid }}-left-actions" :automation="$automation" :actions="$leftActions" key="{{ $uuid }}-left-actions" />
                         </div>
                     </section>
                     <section class="border-l-4 border-blue-400 bg-white bg-opacity-50">
                         <div class="grid gap-4 px-12 pb-8 border-blue-500 border-opacity-20 border-r border-t border-b rounded-r">
+                            <h2 class="justify-self-start -ml-12 -mt-px h-8 px-2 inline-flex items-center bg-blue-400 text-white rounded-br space-x-2">
+                                <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">
+                                    <span class="font-normal">{{ __('Branch') }}</span>
+                                    B
+                                </span>
+                            </h2>
                             <livewire:automation-builder name="{{ $uuid }}-right-actions" :automation="$automation" :actions="$rightActions" key="{{ $uuid}}-right-actions" />
                         </div>
                     </section>
                 </div>
             @else
                 <div class="grid gap-6 flex-grow">
-                    <div class="grid grid-cols-2 gap-6 w-full">
-                        <section class="border-l-4 border-blue-400 bg-white bg-opacity-50">
-                            <div class="grid gap-4 px-12 py-8 border-blue-500 border-opacity-20 border-r border-t border-b rounded-r">
+                    <div class="grid gap-6 w-full">
+                        <section class="border-l-4 border-blue-500 bg-white bg-opacity-50">
+                            <div class="grid gap-4 px-12 pb-8 border-blue-500 border-opacity-20 border-r border-t border-b rounded-r">
+                                <h2 class="justify-self-start -ml-12 -mt-px h-8 px-2 inline-flex items-center bg-blue-500 text-white rounded-br space-x-2">
+                                    <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">
+                                        <span class="font-normal">{{ __('Branch') }}</span>
+                                        A
+                                    </span>
+                                </h2>
                                 @foreach ($leftActions as $index => $action)
                                     @livewire($action['class']::getComponent() ?: 'automation-action', array_merge([
                                         'index' => $index,
@@ -58,8 +76,14 @@
                                 @endforeach
                             </div>
                         </section>
-                        <section class="border-l-4 border-blue-400 bg-white bg-opacity-50">
-                            <div class="grid gap-4 px-12 py-8 border-blue-500 border-opacity-20 border-r border-t border-b rounded-r">
+                        <section class="border-l-4 border-blue-500 bg-white bg-opacity-50">
+                            <div class="grid gap-4 px-12 pb-8 border-blue-500 border-opacity-20 border-r border-t border-b rounded-r">
+                                <h2 class="justify-self-start -ml-12 -mt-px h-8 px-2 inline-flex items-center bg-blue-500 text-white rounded-br space-x-2">
+                                    <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">
+                                        <span class="font-normal">{{ __('Branch') }}</span>
+                                        B
+                                    </span>
+                                </h2>
                                 @foreach ($rightActions as $index => $action)
                                     @livewire($action['class']::getComponent() ?: 'automation-action', array_merge([
                                         'index' => $index,
