@@ -4,11 +4,13 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <link rel="preconnect" href="https://fonts.gstatic.com"> 
+
         <title>{{ isset($title) ? "{$title} | Mailcoach" : 'Mailcoach' }}</title>
 
         <link rel="stylesheet" href="{{ asset('vendor/mailcoach/app.css') }}">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.0/css/all.css">
-        <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     </head>
     <body class="bg-gray-100">
     <img style="mix-blend-mode: multiply;" class="fixed w-full bottom-0 opacity-10" src="{{ asset('vendor/mailcoach/images/auth-footer.jpg') }}">
