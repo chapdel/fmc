@@ -8,7 +8,7 @@
         <div style="min-width:40rem" class="max-w-full px-1 py-4 grid items-start gap-8 grid-cols-2">
             @foreach ($actionOptions as $category => $actions)
             <div>
-                <h4 class="mb-2 px-6 markup-h4 text-yellow-600">
+                <h4 class="mb-2 px-6 markup-h4 text-yellow-700">
                     <i class="fa-fw fas {{ \Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum::icons()[$category] }}"></i>
                     {{ \Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum::make($category)->label }}
                 </h4>

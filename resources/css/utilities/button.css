@@ -110,7 +110,7 @@
 .button-rounded:not(:disabled):focus,
 .button-rounded.dropdown-trigger-open {
     @apply bg-yellow-200;
-    @apply text-yellow-600;
+    @apply text-yellow-700;
 }
 
 .button-rounded:not(:disabled):active {

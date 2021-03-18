@@ -1,7 +1,7 @@
 <x-mailcoach::fieldset :focus="$editing">
     <x-slot name="legend">
         <header class="flex items-center space-x-2">
-            <span class="w-6 h-6 rounded-full inline-flex items-center justify-center text-xs leading-none font-semibold bg-yellow-200 text-yellow-600">
+            <span class="w-6 h-6 rounded-full inline-flex items-center justify-center text-xs leading-none font-semibold bg-yellow-200 text-yellow-700">
                 {{ $index + 1 }}
             </span>
             <span class="font-normal whitespace-nowrap">
