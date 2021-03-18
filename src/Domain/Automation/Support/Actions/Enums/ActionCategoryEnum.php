@@ -16,9 +16,9 @@ class ActionCategoryEnum extends Enum
     {
         return [
             'tags' => 'Tags',
-            'check' => 'Check',
+            'check' => 'Route',
             'pause' => 'Pause',
-            'react' => 'React',
+            'react' => 'Respond',
         ];
     }
 

@@ -21,5 +21,5 @@
     {{ $typeCss[$type] }}
     {{ $class ?? '' }}
 ">
-    <i style="font-size: 9px" class="text-white {{ $icon ?? 'fas fa-info' }} "></i>
+    <i style="font-size: 8px" class="text-white fa-fw {{ $icon ?? 'fas fa-info' }} "></i>
 </span>

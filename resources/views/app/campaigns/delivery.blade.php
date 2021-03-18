@@ -140,7 +140,7 @@
 
             <dt>
                 <span class="inline-flex items-center">
-                    <x-mailcoach::rounded-icon :type="count($links) ? 'info' : 'neutral'" icon="far fa-link"
+                    <x-mailcoach::rounded-icon :type="count($links) ? 'info' : 'neutral'" icon="fas fa-link"
                                                class="mr-2"/>
                     <span class="ml-2">
                         {{ __('Links') }}
@@ -169,7 +169,7 @@
 
             <dt>
                 <span class="inline-flex items-center">
-                    <x-mailcoach::rounded-icon type="neutral" icon="far fa-tag" class="mr-2"/>
+                    <x-mailcoach::rounded-icon type="neutral" icon="fas fa-tag" class="mr-2"/>
                     <span class="ml-2">
                         {{ __('Tags') }}
                     </span>
