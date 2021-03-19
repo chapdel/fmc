@@ -3,6 +3,11 @@ const colors = require('tailwindcss/colors');
 
 module.exports = {
     important: true,
+    purge: [
+        './resources/**/*.blade.php',
+        './resources/**/*.js',
+        '../mailcoach-ui/resources/**/*.blade.php',
+      ],
     theme: {
         colors: {
             transparent: 'transparent',

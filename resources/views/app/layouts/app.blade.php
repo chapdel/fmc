@@ -5,11 +5,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="referrer" content="always">
 
+        <link rel="preconnect" href="https://fonts.gstatic.com"> 
+
         <title>{{ isset($title) ? "{$title} |" : '' }} {{ isset($originTitle) ? "{$originTitle} |" : '' }} Mailcoach</title>
 
         <link rel="stylesheet" href="{{ asset('vendor/mailcoach/app.css') }}?t={{ app(\Spatie\Mailcoach\Domain\Shared\Support\Version::class)->getHashedFullVersion() }}">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.0/css/all.css">
-        <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
         <meta name="turbolinks-cache-control" content="no-preview">
 

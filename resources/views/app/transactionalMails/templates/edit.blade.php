@@ -6,7 +6,6 @@
         @csrf
         @method('PUT')
 
-
         <x-mailcoach::fieldset :legend="__('Recipients')">
             <x-mailcoach::help>
                 These recipients will be merged with the ones when the mail is sent. You can specify multiple recipients comma separated
@@ -20,6 +19,16 @@
 
         {!! app(config('mailcoach.transactional.editor'))->render($template) !!}
     </form>
+
+    <x-mailcoach::modal :title="__('Preview') . ' - ' . $mail->subject" name="preview" large :open="Request::get('modal')">
+        <iframe class="absolute" width="100%" height="100%" data-html-preview-target></iframe>
+    </x-mailcoach::modal>
+
+    @if($template->canBeTested())
+        <x-mailcoach::modal :title="__('Send Test')" name="send-test">
+            @include('mailcoach::app.transactionalMails.templates.partials.test')
+        </x-mailcoach::modal>
+    @endif
 
     <x-mailcoach::transactional-mail-template-replacer-help-texts :template="$template"/>
 
