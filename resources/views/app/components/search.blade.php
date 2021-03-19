@@ -8,6 +8,6 @@
         data-turbolinks-search-url="{{ url($queryString->filter('search', '%search%')) }}"
         data-turbolinks-search-clear-url="{{ url($queryString->disable('filter[search]')) }}">
     <div class="search-icon">
-        <i class="far fa-search"></i>
+        <i class="fas fa-search"></i>
     </div>
 </div>
