@@ -20,7 +20,7 @@
         {!! app(config('mailcoach.transactional.editor'))->render($template) !!}
     </form>
 
-    <x-mailcoach::modal :title="__('Preview') . ' - ' . $mail->subject" name="preview" large :open="Request::get('modal')">
+    <x-mailcoach::modal :title="__('Preview') . ' - ' . $template->subject" name="preview" large :open="Request::get('modal')">
         <iframe class="absolute" width="100%" height="100%" data-html-preview-target></iframe>
     </x-mailcoach::modal>
 
