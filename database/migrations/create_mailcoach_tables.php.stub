@@ -658,6 +658,7 @@ class CreateMailcoachTables extends Migration
             $table->json('to')->nullable();
             $table->json('bcc')->nullable();
             $table->longText('body')->nullable();
+            $table->longText('structured_html')->nullable();
             $table->string('type'); // html, blade, markdown
             $table->json('replacers')->nullable();
             $table->boolean('store_mail')->default(false);
