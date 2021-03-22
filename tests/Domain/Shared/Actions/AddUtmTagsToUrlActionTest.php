@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Tests\Domain\Shared\Actions;
 
-use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Shared\Actions\AddUtmTagsToUrlAction;
 use Spatie\Mailcoach\Tests\TestCase;
 
