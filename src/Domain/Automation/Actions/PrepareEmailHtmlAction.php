@@ -53,11 +53,16 @@ class PrepareEmailHtmlAction
 
     private function addUtmTags(AutomationMail $automationMail): void
     {
-        $automationMail->email_html = $automationMail->htmlLinks()
-            ->reduce(function (string $html, string $link) use ($automationMail) {
+        $replacements = $automationMail->htmlLinks()
+            ->mapWithKeys(function (string $link) use ($automationMail) {
                 $newLink = $this->addUtmTagsToUrlAction->execute($link, $automationMail->name);
 
-                return str_replace($link, $newLink . '', $html);
-            }, $automationMail->email_html);
+                return [$link => $newLink];
+            });
+
+        $automationMail->email_html = strtr(
+            $automationMail->email_html,
+            $replacements->toArray(),
+        );
     }
 }

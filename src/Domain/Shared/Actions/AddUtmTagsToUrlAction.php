@@ -6,9 +6,27 @@ class AddUtmTagsToUrlAction
 {
     public function execute(string $url, string $campaignName): string
     {
-        $campaignName = urlencode($campaignName);
-        $utmTags = "utm_source=newsletter&utm_medium=email&utm_campaign={$campaignName}";
+        $tags = [
+            'utm_source' => 'newsletter',
+            'utm_medium' => 'email',
+            'utm_campaign' => $campaignName,
+        ];
 
-        return $url . (parse_url($url, PHP_URL_QUERY) ? '&' : '?') . $utmTags;
+        $parsedUrl = parse_url($url);
+        $parsedQuery = $tags;
+
+        if (! empty($parsedUrl['query'])) {
+            parse_str($parsedUrl['query'], $parsedQuery);
+            foreach ($tags as $key => $value) {
+                if (empty($parsedQuery[$key])) {
+                    $parsedQuery[$key] = $value;
+                }
+            }
+        }
+
+        $query = http_build_query($parsedQuery);
+        $path = $parsedUrl['path'] ?? '';
+
+        return "{$parsedUrl['scheme']}://{$parsedUrl['host']}{$path}?{$query}";
     }
 }

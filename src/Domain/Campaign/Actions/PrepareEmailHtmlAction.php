@@ -53,11 +53,16 @@ class PrepareEmailHtmlAction
 
     private function addUtmTags(Campaign $campaign): void
     {
-        $campaign->email_html = $campaign->htmlLinks()
-            ->reduce(function (string $html, string $link) use ($campaign) {
+        $replacements = $campaign->htmlLinks()
+            ->mapWithKeys(function (string $link) use ($campaign) {
                 $newLink = $this->addUtmTagsToUrlAction->execute($link, $campaign->name);
 
-                return str_replace($link, $newLink . '', $html);
-            }, $campaign->email_html);
+                return [$link => $newLink];
+            });
+
+        $campaign->email_html = strtr(
+            $campaign->email_html,
+            $replacements->toArray(),
+        );
     }
 }
