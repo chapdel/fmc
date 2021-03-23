@@ -1,5 +1,5 @@
 .dropdown {
-    @apply inline-block;
+    @apply inline-flex;
 }
 
 .dropdown-list {

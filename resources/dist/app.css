@@ -1519,7 +1519,7 @@ code.markup-code, .markup-code code{
 }
 
 .dropdown {
-  display: inline-block;
+  display: inline-flex;
 }
 
 .dropdown-list {
