@@ -134,21 +134,39 @@
 
                 <div class="grid gap-6 w-full">
                     <section class="border-l-4 border-green-400 bg-white bg-opacity-50">
-                        <div class="grid gap-4 px-12 pb-8 border-green-500 border-opacity-20 border-r border-t border-b rounded-r">
-                            <h2 class="justify-self-start -ml-12 -mt-px h-8 px-2 inline-flex items-center bg-green-400 text-white rounded-br space-x-2">
-                                <i class="far far fa-thumbs-up"></i>
-                                <span class="markup-h4">@lang('If')</span>
-                            </h2>
-                            <livewire:automation-builder name="{{ $uuid }}-yes-actions" :automation="$automation" :actions="$yesActions" key="{{ $uuid }}-yes-actions" />
+                        <div x-data="{ collapsed: false }" :class="{ 'pb-8': !collapsed }" class="grid gap-4 px-12 border-green-500 border-opacity-20 border-r border-t border-b rounded-r">
+                            <div class="flex items-center">
+                                <h2 class="justify-self-start -ml-12 -mt-px -mb-px h-8 px-2 inline-flex items-center bg-green-400 text-white rounded-br space-x-2">
+                                    <i class="far far fa-thumbs-up"></i>
+                                    <span class="markup-h4">@lang('If')</span>
+                                </h2>
+                                <span x-show="collapsed" class="text-gray-500 text-sm ml-4">{{ count($yesActions) }} {{ trans_choice('action|actions', count($yesActions)) }}</span>
+                                <button class="ml-auto -mr-8" type="button">
+                                    <i x-show="!collapsed" @click="collapsed = true" class="fas fa-chevron-up"></i>
+                                    <i x-show="collapsed" @click="collapsed = false" class="fas fa-chevron-down"></i>
+                                </button>
+                            </div>
+                            <div x-show="!collapsed">
+                                <livewire:automation-builder name="{{ $uuid }}-yes-actions" :automation="$automation" :actions="$yesActions" key="{{ $uuid }}-yes-actions" />
+                            </div>
                         </div>
                     </section>
                     <section class="border-l-4 border-red-400 bg-white bg-opacity-50">
-                        <div class="grid gap-4 px-12 pb-8 border-red-500 border-opacity-20 border-r border-t border-b rounded-r">
-                            <h2 class="justify-self-start -ml-12 -mt-px h-8 px-2 inline-flex items-center bg-red-400 text-white rounded-br space-x-2">
-                                <i class="far far fa-thumbs-down"></i>
-                                <span class="markup-h4">@lang('Else')</span>
-                            </h2>
-                            <livewire:automation-builder name="{{ $uuid }}-no-actions" :automation="$automation" :actions="$noActions" key="{{ $uuid}}-no-actions" />
+                        <div x-data="{ collapsed: false }" :class="{ 'pb-8': !collapsed }" class="grid gap-4 px-12 border-red-500 border-opacity-20 border-r border-t border-b rounded-r">
+                            <div class="flex items-center">
+                                <h2 class="justify-self-start -ml-12 -mt-px -mb-px h-8 px-2 inline-flex items-center bg-red-400 text-white rounded-br space-x-2">
+                                    <i class="far far fa-thumbs-down"></i>
+                                    <span class="markup-h4">@lang('Else')</span>
+                                </h2>
+                                <span x-show="collapsed" class="text-gray-500 text-sm ml-4">{{ count($noActions) }} {{ trans_choice('action|actions', count($noActions)) }}</span>
+                                <button class="ml-auto -mr-8" type="button">
+                                    <i x-show="!collapsed" @click="collapsed = true" class="fas fa-chevron-up"></i>
+                                    <i x-show="collapsed" @click="collapsed = false" class="fas fa-chevron-down"></i>
+                                </button>
+                            </div>
+                            <div x-show="!collapsed">
+                                <livewire:automation-builder name="{{ $uuid }}-no-actions" :automation="$automation" :actions="$noActions" key="{{ $uuid}}-no-actions" />
+                            </div>
                         </div>
                     </section>
                 </div>
@@ -156,46 +174,64 @@
                 <div class="grid gap-6 flex-grow">
                     <div class="grid gap-6 w-full">
                         <section class="border-l-4 border-green-400 bg-white bg-opacity-50">
-                            <div class="grid gap-4 px-12 pb-8 border-green-500 border-opacity-20 border-r border-t border-b rounded-r">
-                                <h2 class="justify-self-start -ml-12 -mt-px h-8 px-2 inline-flex items-center bg-green-400 text-white rounded-br space-x-2">
-                                    <i class="far far fa-thumbs-up"></i>
-                                     @if ($condition)
-                                        <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">
-                                            <span class="font-normal">@lang('If') {{ $condition::getName() }}</span>
-                                            <span class="font-semibold tracking-normal normal-case">{{ $condition::getDescription($conditionData) }}</span>?
-                                        </span>
-                                    @endif
-                                </h2>
-                                @foreach ($yesActions as $index => $action)
-                                    @livewire($action['class']::getComponent() ?: 'automation-action', array_merge([
-                                        'index' => $index,
-                                        'uuid' => $action['uuid'],
-                                        'action' => $action,
-                                        'automation' => $automation,
-                                        'editable' => false,
-                                        'deletable' => false,
-                                    ], ($action['data'] ?? [])), key('yes' . $index . $action['uuid']))
-                                @endforeach
+                            <div x-data="{ collapsed: false }" :class="{ 'pb-8': !collapsed }" class="grid gap-4 px-12 border-green-500 border-opacity-20 border-r border-t border-b rounded-r">
+                                <div class="flex items-center">
+                                    <h2 class="justify-self-start -ml-12 -mt-px -mb-px h-8 px-2 inline-flex items-center bg-green-400 text-white rounded-br space-x-2">
+                                        <i class="far fa-thumbs-up"></i>
+                                         @if ($condition)
+                                            <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">
+                                                <span class="font-normal">@lang('If') {{ $condition::getName() }}</span>
+                                                <span class="font-semibold tracking-normal normal-case">{{ $condition::getDescription($conditionData) }}</span>?
+                                            </span>
+                                        @endif
+                                    </h2>
+                                    <span x-show="collapsed" class="text-gray-500 text-sm ml-4">{{ count($yesActions) }} {{ trans_choice('action|actions', count($yesActions)) }}</span>
+                                    <button class="ml-auto -mr-8" type="button">
+                                        <i x-show="!collapsed" @click="collapsed = true" class="fas fa-chevron-up"></i>
+                                        <i x-show="collapsed" @click="collapsed = false" class="fas fa-chevron-down"></i>
+                                    </button>
+                                </div>
+                                <div x-show="!collapsed">
+                                    @foreach ($yesActions as $index => $action)
+                                        @livewire($action['class']::getComponent() ?: 'automation-action', array_merge([
+                                            'index' => $index,
+                                            'uuid' => $action['uuid'],
+                                            'action' => $action,
+                                            'automation' => $automation,
+                                            'editable' => false,
+                                            'deletable' => false,
+                                        ], ($action['data'] ?? [])), key('yes' . $index . $action['uuid']))
+                                    @endforeach
+                                </div>
                             </div>
                         </section>
                         <section class="border-l-4 border-red-400 bg-white bg-opacity-50">
-                            <div class="grid gap-4 px-12 pb-8 border-red-500 border-opacity-20 border-r border-t border-b rounded-r">
-                                <h2 class="justify-self-start -ml-12 -mt-px h-8 px-2 inline-flex items-center bg-red-400 text-white rounded-br space-x-2">
-                                    <i class="far far fa-thumbs-down"></i>
-                                    <span class="markup-h4">
-                                        <span class="font-normal">@lang('Else')</span>
-                                    </span>
-                                </h2>
-                                @foreach ($noActions as $index => $action)
-                                    @livewire($action['class']::getComponent() ?: 'automation-action', array_merge([
-                                        'index' => $index,
-                                        'uuid' => $action['uuid'],
-                                        'action' => $action,
-                                        'automation' => $automation,
-                                        'editable' => false,
-                                        'deletable' => false,
-                                    ], ($action['data'] ?? [])), key('no' . $index . $action['uuid']))
-                                @endforeach
+                            <div x-data="{ collapsed: false }" :class="{ 'pb-8': !collapsed }" class="grid gap-4 px-12 pb-8 border-red-500 border-opacity-20 border-r border-t border-b rounded-r">
+                                <div class="flex items-center">
+                                    <h2 class="justify-self-start -ml-12 -mt-px -mb-px h-8 px-2 inline-flex items-center bg-red-400 text-white rounded-br space-x-2">
+                                        <i class="far far fa-thumbs-down"></i>
+                                        <span class="markup-h4">
+                                            <span class="font-normal">@lang('Else')</span>
+                                        </span>
+                                    </h2>
+                                    <span x-show="collapsed" class="text-gray-500 text-sm ml-4">{{ count($noActions) }} {{ trans_choice('action|actions', count($noActions)) }}</span>
+                                    <button class="ml-auto -mr-8" type="button">
+                                        <i x-show="!collapsed" @click="collapsed = true" class="fas fa-chevron-up"></i>
+                                        <i x-show="collapsed" @click="collapsed = false" class="fas fa-chevron-down"></i>
+                                    </button>
+                                </div>
+                                <div x-show="!collapsed">
+                                    @foreach ($noActions as $index => $action)
+                                        @livewire($action['class']::getComponent() ?: 'automation-action', array_merge([
+                                            'index' => $index,
+                                            'uuid' => $action['uuid'],
+                                            'action' => $action,
+                                            'automation' => $automation,
+                                            'editable' => false,
+                                            'deletable' => false,
+                                        ], ($action['data'] ?? [])), key('no' . $index . $action['uuid']))
+                                    @endforeach
+                                </div>
                             </div>
                         </section>
                     </div>

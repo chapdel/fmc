@@ -1,3 +1,5 @@
+import 'alpinejs';
+
 require('./components/turbolinks');
 require('./components/conditional');
 require('./components/confirm');
