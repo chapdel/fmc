@@ -77,14 +77,14 @@
 
 .td-secondary-line {
     @apply text-xs;
-    @apply text-gray-300;
+    @apply text-gray-500;
     @apply leading-tight;
 }
 
 .table-status {
     @apply py-8;
     @apply text-xs;
-    @apply text-gray-300;
+    @apply text-gray-500;
     @apply text-center;
 }
 
