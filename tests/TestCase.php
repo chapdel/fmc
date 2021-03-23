@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
+use Illuminate\Testing\Concerns\TestDatabases;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\Feed\FeedServiceProvider;
@@ -33,6 +34,7 @@ use Spatie\TestTime\TestTime;
 abstract class TestCase extends Orchestra
 {
     use RefreshDatabase;
+    use TestDatabases;
 
     public function setUp(): void
     {
@@ -72,7 +74,7 @@ abstract class TestCase extends Orchestra
 
     protected function refreshTestDatabase()
     {
-        if (! RefreshDatabaseState::$migrated) {
+        if (! Schema::hasTable('mailcoach_campaigns')) {
             Schema::dropAllTables();
 
             include_once __DIR__.'/../database/migrations/create_mailcoach_tables.php.stub';
@@ -108,7 +110,13 @@ abstract class TestCase extends Orchestra
             'username' => 'root',
             'password' => env('DB_PASSWORD', ''),
             'prefix' => '',
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
         ]);
+
+        [$testDatabase] = $this->ensureTestDatabaseExists('mailcoach_tests');
+
+        $this->switchToDatabase($testDatabase);
     }
 
     protected function simulateUnsubscribes(Collection $sends)

@@ -46,7 +46,7 @@ jobs:
           composer update --prefer-dist --no-interaction --no-suggest
 
       - name: Execute tests
-        run: vendor/bin/phpunit
+        run: composer test
         env:
           REDIS_PORT: ${{ job.services.redis.ports[6379] }}
           DB_PASSWORD: root

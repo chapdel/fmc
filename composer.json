@@ -55,6 +55,7 @@
         "tijsverkoyen/css-to-inline-styles": "^2.2"
     },
     "require-dev": {
+        "brianium/paratest": "^6.2",
         "fakerphp/faker": "^1.9",
         "friendsofphp/php-cs-fixer": "^2.17",
         "laravel/framework": "^8.0",
@@ -82,7 +83,7 @@
     },
     "scripts": {
         "format": "vendor/bin/php-cs-fixer fix --allow-risky=yes",
-        "test": "vendor/bin/phpunit",
+        "test": "vendor/bin/paratest",
         "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
         "split": "./split.sh",
         "psalm": "vendor/bin/psalm"
