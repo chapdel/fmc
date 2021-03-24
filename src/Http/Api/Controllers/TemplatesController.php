@@ -2,20 +2,24 @@
 
 namespace Spatie\Mailcoach\Http\Api\Controllers;
 
-use Spatie\Mailcoach\Actions\Templates\CreateTemplateAction;
-use Spatie\Mailcoach\Actions\Templates\UpdateTemplateAction;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Spatie\Mailcoach\Domain\Campaign\Actions\Templates\CreateTemplateAction;
+use Spatie\Mailcoach\Domain\Campaign\Actions\Templates\UpdateTemplateAction;
+use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Http\Api\Resources\TemplateResource;
 use Spatie\Mailcoach\Http\App\Queries\TemplatesQuery;
 use Spatie\Mailcoach\Http\App\Requests\TemplateRequest;
-use Spatie\Mailcoach\Models\Template;
 
 class TemplatesController
 {
-    use RespondsToApiRequests;
+    use AuthorizesRequests,
+        RespondsToApiRequests;
 
     public function index(TemplatesQuery $templatesQuery)
     {
+        $this->authorize("viewAny", Template::class);
+
         $templates = $templatesQuery->paginate();
 
         return TemplateResource::collection($templates);
@@ -23,6 +27,8 @@ class TemplatesController
 
     public function show(Template $template)
     {
+        $this->authorize("view", $template);
+
         return new TemplateResource($template);
     }
 
@@ -30,6 +36,8 @@ class TemplatesController
         TemplateRequest $request,
         CreateTemplateAction $createTemplateAction
     ) {
+        $this->authorize("create", Template::class);
+
         $template = $createTemplateAction->execute($request->validated());
 
         return new TemplateResource($template);
@@ -40,6 +48,8 @@ class TemplatesController
         TemplateRequest $request,
         UpdateTemplateAction $updateTemplateAction
     ) {
+        $this->authorize("update", $template);
+
         $template = $updateTemplateAction->execute($template, $request->validated());
 
         return new TemplateResource($template);
@@ -47,6 +57,8 @@ class TemplatesController
 
     public function destroy(Template $template)
     {
+        $this->authorize("delete", $template);
+
         $template->delete();
 
         return $this->respondOk();

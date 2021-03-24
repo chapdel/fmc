@@ -7,6 +7,5 @@
 /phpunit.xml.dist   export-ignore
 /tests              export-ignore
 /.editorconfig      export-ignore
-/.circleci          export-ignore
 /split.sh           export-ignore
 

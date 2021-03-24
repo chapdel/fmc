@@ -1,43 +1,56 @@
 .button {
-    @apply px-4;
+    @apply px-6;
     @apply h-10;
-    @apply bg-blue-500;
+    @apply bg-gradient-to-b; 
+    @apply from-blue-500;
+    @apply to-blue-600;
     @apply text-white;
     @apply border;
     @apply border-transparent;
-    @apply whitespace-no-wrap;
-    @apply rounded-sm;
+    @apply whitespace-nowrap;
+    @apply rounded;
     @apply shadow-focus;
     @apply font-semibold;
     transition: background-color 0.15s ease;
 }
 
-.button:hover,
-.button:focus,
-.button.dropdown-trigger-open {
-    @apply bg-blue-600;
-    @apply text-white;
+.button:disabled {
+    @apply opacity-50;
+    @apply cursor-not-allowed;
 }
 
-.button:active {
+.button:not(:disabled):hover,
+.button:not(:disabled):focus,
+.button.dropdown-trigger-open {
+    @apply bg-gradient-to-b; 
+    @apply from-blue-600;
+    @apply to-blue-700;
+}
+
+.button:not(:disabled):active {
+    @apply shadow-inner;
     transform: translateY(1px);
 }
 
 .button-secondary {
-    @apply button;
-    @apply bg-blue-100;
-    @apply text-gray-500;
+    @apply underline;
+    @apply whitespace-nowrap;
+    @apply text-blue-500;
     @apply shadow-none;
     transition: background-color 0.15s ease;
 }
 
-.button-secondary:hover,
-.button-secondary:focus {
-    @apply bg-blue-200;
-    @apply text-gray-600;
+.button-secondary:disabled {
+    @apply opacity-50;
+    @apply cursor-not-allowed;
 }
 
-.button-secondary:active {
+.button-secondary:not(:disabled):hover,
+.button-secondary:not(:disabled):focus {
+    @apply text-blue-700
+}
+
+.button-secondary:not(:disabled):active {
     transform: translateY(1px);
 }
 
@@ -57,4 +70,50 @@
 .button-cancel:hover,
 .button-cancel:focus {
     @apply link-dimmed-hover;
+}
+
+.button-red {
+    @apply from-red-500;
+    @apply to-red-600;
+}
+
+.button-red:not(:disabled):hover,
+.button-red:not(:disabled):focus,
+.button-red.dropdown-trigger-open {
+    @apply from-red-600;
+    @apply to-red-700;
+}
+
+.button-rounded {
+    @apply p-0;
+    @apply h-6;
+    @apply w-6;
+    @apply flex;
+    @apply items-center;
+    @apply justify-center;
+    @apply rounded-full;
+    @apply text-gray-600;
+    @apply bg-white;
+    @apply text-sm;
+    @apply border;
+    @apply border-gray-300;
+    @apply whitespace-nowrap;
+    transition: background-color 0.15s ease;
+}
+
+.button-rounded:disabled {
+    @apply opacity-50;
+    @apply cursor-not-allowed;
+}
+
+.button-rounded:not(:disabled):hover,
+.button-rounded:not(:disabled):focus,
+.button-rounded.dropdown-trigger-open {
+    @apply bg-yellow-200;
+    @apply text-yellow-700;
+}
+
+.button-rounded:not(:disabled):active {
+    @apply shadow-inner;
+    transform: translateY(1px);
 }

@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
-use Spatie\Mailcoach\Support\Segments\Segment;
+use Spatie\Mailcoach\Domain\Audience\Support\Segments\Segment;
 
 class TestSegmentAllSubscribers extends Segment
 {

@@ -2,18 +2,22 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Requests\EmailLists\Subscribers\CreateSubscriberRequest;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 
 class CreateSubscriberController
 {
-    use UsesMailcoachModels;
+    use AuthorizesRequests,
+        UsesMailcoachModels;
 
     public function store(
         EmailList $emailList,
         CreateSubscriberRequest $updateSubscriberRequest
     ) {
+        $this->authorize('update', $emailList);
+
         $this->getSubscriberClass()::createWithEmail($updateSubscriberRequest->email)
             ->withAttributes($updateSubscriberRequest->subscriberAttributes())
             ->skipConfirmation()

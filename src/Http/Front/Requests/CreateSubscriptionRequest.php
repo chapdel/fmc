@@ -4,8 +4,8 @@ namespace Spatie\Mailcoach\Http\Front\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class CreateSubscriptionRequest extends FormRequest
 {

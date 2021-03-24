@@ -2,16 +2,20 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns;
 
-use Spatie\Mailcoach\Models\Campaign;
-use Spatie\Mailcoach\Traits\UsesMailcoachModels;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class DuplicateCampaignController
 {
+    use AuthorizesRequests;
     use UsesMailcoachModels;
 
     public function __invoke(Campaign $campaign)
     {
-        /** @var \Spatie\Mailcoach\Models\Campaign $duplicateCampaign */
+        $this->authorize('create', $campaign);
+
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $duplicateCampaign */
         $duplicateCampaign = $this->getCampaignClass()::create([
             'name' => __('Duplicate of') . ' ' . $campaign->name,
             'subject' => $campaign->subject,
@@ -21,6 +25,7 @@ class DuplicateCampaignController
             'webview_html' => $campaign->webview_html,
             'track_opens' => $campaign->track_opens,
             'track_clicks' => $campaign->track_clicks,
+            'utm_tags' => $campaign->utm_tags,
             'last_modified_at' => now(),
             'segment_class' => $campaign->segment_class,
             'segment_id' => $campaign->segment_id,

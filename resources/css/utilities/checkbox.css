@@ -27,9 +27,11 @@
     width: 1.5em;
     height: 1.5em;
     @apply bg-blue-100;
-    @apply border-2;
-    @apply border-transparent;
-    @apply rounded-sm;
+    @apply bg-opacity-50;
+    @apply border;
+    @apply border-blue-200;
+    @apply border-opacity-50;
+    @apply rounded;
     @apply overflow-hidden;
     content: '';
 }
@@ -55,7 +57,7 @@
 }
 
 .checkbox:focus:before {
-    @apply border-blue-200;
+    @apply border-blue-400;
     @apply bg-white;
     @apply shadow-focus;
 }

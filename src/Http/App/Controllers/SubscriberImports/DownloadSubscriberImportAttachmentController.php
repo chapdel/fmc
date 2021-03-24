@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\SubscriberImports;
 
-use Spatie\Mailcoach\Models\SubscriberImport;
+use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
 
 class DownloadSubscriberImportAttachmentController
 {

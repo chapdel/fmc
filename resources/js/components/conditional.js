@@ -1,7 +1,9 @@
 import { $$, listen } from '../util';
 
 function toggleConditionals(controller) {
-    const value = getValue(controller);
+    const value = getValue(controller)
+        .replace(/[\\"']/g, '\\$&')
+        .replace(/\u0000/g, '\\0'); // addslashes
 
     $$(`[data-conditional-${controller.dataset.conditional}]`).forEach(element => {
         const isVisible = element.matches(`[data-conditional-${controller.dataset.conditional}="${value}"]`);

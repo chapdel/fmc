@@ -2,12 +2,12 @@
 
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
-use Spatie\Mailcoach\Actions\Campaigns\PrepareSubjectAction;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Actions\PrepareSubjectAction;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 
 class CustomPrepareSubjectAction extends PrepareSubjectAction
 {
-    public function execute(Campaign $campaign)
+    public function execute(Campaign $campaign): void
     {
         $campaign->emailList->subscribers->first()->update(['email' => 'overridden@example.com']);
 

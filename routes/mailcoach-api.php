@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Spatie\Mailcoach\Http\Api\Controllers\Automations\TriggerAutomationController;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignClicksController;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignOpensController;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignsController;
@@ -16,6 +17,9 @@ use Spatie\Mailcoach\Http\Api\Controllers\SubscriberImports\AppendSubscriberImpo
 use Spatie\Mailcoach\Http\Api\Controllers\SubscriberImports\StartSubscriberImportController;
 use Spatie\Mailcoach\Http\Api\Controllers\SubscriberImports\SubscriberImportsController;
 use Spatie\Mailcoach\Http\Api\Controllers\TemplatesController;
+use Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails\ResendTransactionalMailController;
+use Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails\ShowTransactionalMailController;
+use Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails\TransactionalMailsController;
 use Spatie\Mailcoach\Http\Api\Controllers\UserController;
 
 Route::get('user', UserController::class);
@@ -46,4 +50,14 @@ Route::apiResource('subscriber-imports', SubscriberImportsController::class);
 Route::prefix('subscriber-imports/{subscriberImport}')->group(function () {
     Route::post('append', AppendSubscriberImportController::class);
     Route::post('start', StartSubscriberImportController::class);
+});
+
+Route::prefix('transactional-mails')->group(function () {
+    Route::get('/', TransactionalMailsController::class);
+    Route::get('{transactionalMail}', ShowTransactionalMailController::class);
+    Route::post('{transactionalMail}/resend', ResendTransactionalMailController::class);
+});
+
+Route::prefix('automations')->group(function () {
+    Route::post('{automation}/trigger', TriggerAutomationController::class);
 });

@@ -11,7 +11,7 @@
     <projectFiles>
         <directory name="src"/>
          <ignoreFiles>
-            <directory name="vendor" />
+            <directory name="vendor"/>
         </ignoreFiles>
     </projectFiles>
 
@@ -19,8 +19,7 @@
         <NullableReturnStatement>
             <errorLevel type="suppress">
                 <file name="src/Http/App/Requests/Campaigns/ScheduleCampaignRequest.php"/>
-                <file name="src/Support/Segments/SubscribersWithTagsSegment.php"/>
-
+                <file name="src/Domain/Audience/Support/Segments/SubscribersWithTagsSegment.php"/>
             </errorLevel>
         </NullableReturnStatement>
         <UndefinedMethod>
@@ -28,25 +27,26 @@
                 <file name="src/MailcoachServiceProvider.php"/>
             </errorLevel>
         </UndefinedMethod>
-        <LessSpecificImplementedReturnType>
-            <errorLevel type="suppress">
-                <file name="src/Mails/CampaignMail.php"/>
-            </errorLevel>
-        </LessSpecificImplementedReturnType>
         <InvalidReturnStatement>
             <errorLevel type="suppress">
-                <file name="src/Support/Segments/SubscribersWithTagsSegment.php"/>
+                <file name="src/Domain/Audience/Support/Segments/SubscribersWithTagsSegment.php"/>
+                <file name="src/Domain/Shared/Models/Send.php"/>
+                <file name="src/Domain/Campaign/Models/Campaign.php"/>
+                <file name="src/Domain/Automation/Models/AutomationMail.php"/>
                 <file name="src/Components/DateTimeFieldComponent.php"/>
                 <file name="src/Components/FilterComponent.php"/>
-                <file name="src/Components/ReplacerHelpTextsComponent.php"/>
+                <file name="src/Components/CampaignReplacerHelpTextsComponent.php"/>
+                <file name="src/Components/AutomationMailReplacerHelpTextsComponent.php"/>
                 <file name="src/Components/SearchComponent.php"/>
                 <file name="src/Components/THComponent.php"/>
             </errorLevel>
         </InvalidReturnStatement>
         <InvalidArgument>
             <errorLevel type="suppress">
-                <file name="src/Support/Replacers/Concerns/ReplacesModelAttributes.php"/>
-                <file name="src/Actions/Campaigns/SendCampaignAction.php"/>
+                <file name="src/Domain/Campaign/Support/Replacers/Concerns/ReplacesModelAttributes.php"/>
+                <file name="src/Domain/Campaign/Actions/SendCampaignAction.php"/>
+                <referencedFunction name="Spatie\QueryBuilder\QueryBuilder::__construct"/>
+                <referencedFunction name="Spatie\Mailcoach\Domain\Automation\Support\Triggers\AutomationTrigger::runAutomation"/>
             </errorLevel>
         </InvalidArgument>
         <InvalidNullableReturnType>
@@ -56,25 +56,58 @@
         </InvalidNullableReturnType>
         <InvalidReturnType>
             <errorLevel type="suppress">
-                <file name="src/Support/Segments/SubscribersWithTagsSegment.php"/>
+                <file name="src/Domain/Audience/Support/Segments/SubscribersWithTagsSegment.php"/>
+                <file name="src/Domain/Shared/Models/Send.php"/>
+                <file name="src/Domain/Campaign/Models/Campaign.php"/>
+                <file name="src/Domain/Automation/Models/AutomationMail.php"/>
                 <file name="src/Components/DateTimeFieldComponent.php"/>
                 <file name="src/Components/FilterComponent.php"/>
-                <file name="src/Components/ReplacerHelpTextsComponent.php"/>
+                <file name="src/Components/AutomationMailReplacerHelpTextsComponent.php"/>
+                <file name="src/Components/CampaignReplacerHelpTextsComponent.php"/>
                 <file name="src/Components/SearchComponent.php"/>
                 <file name="src/Components/THComponent.php"/>
             </errorLevel>
         </InvalidReturnType>
         <UndefinedMethod>
             <errorLevel type="suppress">
-                <file name="src/Actions/Subscribers/ImportSubscribersAction.php"/>
+                <file name="src/Domain/Audience/Actions/Subscribers/ImportSubscribersAction.php"/>
                 <file name="src/MailcoachServiceProvider.php"/>
+                <referencedMethod name="Generator::map"/>
+                <referencedMethod name="Generator::each"/>
             </errorLevel>
         </UndefinedMethod>
         <UndefinedClass>
             <errorLevel type="suppress">
-                <referencedClass name="Swift_Message" />
+                <referencedClass name="Swift_Message"/>
             </errorLevel>
         </UndefinedClass>
+        <ImplicitToStringCast>
+            <errorLevel type="suppress">
+                <file name="src/Http/App/ViewModels/EmailListSummaryViewModel.php"/>
+                <file name="src/Domain/Audience/Models/EmailList.php"/>
+            </errorLevel>
+        </ImplicitToStringCast>
 
+        <!-- @todo: Can't get this to work within a package? Ide helper or migrations somehow? -->
+        <UndefinedMagicPropertyFetch>
+            <errorLevel type="suppress">
+                <directory name="src"/>
+            </errorLevel>
+        </UndefinedMagicPropertyFetch>
+        <UndefinedThisPropertyFetch>
+            <errorLevel type="suppress">
+                <directory name="src"/>
+            </errorLevel>
+        </UndefinedThisPropertyFetch>
+        <UndefinedThisPropertyAssignment>
+            <errorLevel type="suppress">
+                <directory name="src"/>
+            </errorLevel>
+        </UndefinedThisPropertyAssignment>
+        <UndefinedMagicPropertyAssignment>
+            <errorLevel type="suppress">
+                <directory name="src"/>
+            </errorLevel>
+        </UndefinedMagicPropertyAssignment>
     </issueHandlers>
-</psalm>
+<plugins><pluginClass class="Psalm\LaravelPlugin\Plugin"/></plugins></psalm>

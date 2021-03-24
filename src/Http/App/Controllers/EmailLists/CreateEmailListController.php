@@ -2,16 +2,21 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists;
 
-use Spatie\Mailcoach\Actions\EmailLists\UpdateEmailListAction;
-use Spatie\Mailcoach\Http\App\Requests\EmailLists\UpdateEmailListSettingsRequest;
-use Spatie\Mailcoach\Traits\UsesMailcoachModels;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Spatie\Mailcoach\Domain\Audience\Actions\EmailLists\UpdateEmailListAction;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Http\App\Requests\EmailLists\Settings\UpdateEmailListGeneralSettingsRequest;
 
 class CreateEmailListController
 {
-    use UsesMailcoachModels;
+    use AuthorizesRequests,
+        UsesMailcoachModels;
 
-    public function __invoke(UpdateEmailListSettingsRequest $request, UpdateEmailListAction $updateEmailListAction)
+    public function __invoke(UpdateEmailListGeneralSettingsRequest $request, UpdateEmailListAction $updateEmailListAction)
     {
+        $this->authorize('create', EmailList::class);
+
         $emailListClass = $this->getEmailListClass();
 
         $emailList = new $emailListClass;
@@ -20,6 +25,6 @@ class CreateEmailListController
 
         flash()->success(__('List :emailList was created', ['emailList' => $emailList->name]));
 
-        return redirect()->route('mailcoach.emailLists.settings', $emailList);
+        return redirect()->route('mailcoach.emailLists.general-settings', $emailList);
     }
 }

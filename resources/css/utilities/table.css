@@ -28,25 +28,26 @@
 .table th,
 .table td {
     @apply py-3;
-    @apply px-3;
+    @apply pr-6;
     @apply align-top;
 }
 
 .table th {
     @apply text-left;
     @apply font-semibold;
-    @apply whitespace-no-wrap;
+    @apply whitespace-nowrap;
     @apply uppercase;
     @apply text-xs;
     @apply tracking-wider;
 }
 
 .table tbody tr:nth-child(even) {
-    background-color: #f7f9fc;
+    @apply bg-gray-200;
+    @apply bg-opacity-20;
 }
 
 .table tbody tr:nth-child(even) .td-action {
-    background-color: #f7f9fc;
+    @apply bg-transparent;
 }
 
 .tr-h-double td {
@@ -57,7 +58,7 @@
 .table tbody .td-numeric {
     @apply text-right;
     font-variant-numeric: tabular-nums;
-    @apply whitespace-no-wrap;
+    @apply whitespace-nowrap;
 }
 
 .table thead a {
@@ -76,14 +77,14 @@
 
 .td-secondary-line {
     @apply text-xs;
-    @apply text-gray-300;
+    @apply text-gray-500;
     @apply leading-tight;
 }
 
 .table-status {
     @apply py-8;
     @apply text-xs;
-    @apply text-gray-300;
+    @apply text-gray-500;
     @apply text-center;
 }
 

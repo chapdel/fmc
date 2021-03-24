@@ -2,10 +2,10 @@
 
 namespace Spatie\Mailcoach\Http\Front\Controllers;
 
-use Spatie\Mailcoach\Enums\SubscriptionStatus;
+use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Front\Requests\CreateSubscriptionRequest;
-use Spatie\Mailcoach\Models\Subscriber;
-use Spatie\Mailcoach\Traits\UsesMailcoachModels;
 use Symfony\Component\HttpFoundation\Response;
 
 class SubscribeController
@@ -28,7 +28,8 @@ class SubscribeController
         $subscriber = $this->getSubscriberClass()::createWithEmail($request->email)
             ->withAttributes($request->subscriberAttributes())
             ->redirectAfterSubscribed($request->redirect_after_subscribed ?? '')
-            ->syncTags($request->tags())
+            ->tags($request->tags())
+            ->replaceTags()
             ->subscribeTo($emailList);
 
         $subscriber->extra_attributes = array_merge((array) $subscriber->extra_attributes, $request->attributes());

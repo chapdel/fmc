@@ -1,88 +1,35 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
+const colors = require('tailwindcss/colors');
+
 module.exports = {
     important: true,
+    purge: [
+        './resources/**/*.blade.php',
+        './resources/**/*.js',
+        '../mailcoach-ui/resources/**/*.blade.php',
+      ],
     theme: {
         colors: {
             transparent: 'transparent',
-            white: 'var(--white)',
-            black: 'var(--black)',
-            blue: {
-                100: 'var(--blue-100)',
-                200: 'var(--blue-200)',
-                300: 'var(--blue-300)',
-                400: 'var(--blue-400)',
-                500: 'var(--blue-500)',
-                600: 'var(--blue-600)',
-                700: 'var(--blue-700)',
-                800: 'var(--blue-800)',
-                900: 'var(--blue-900)',
-            },
-            green: {
-                100: 'var(--green-100)',
-                200: 'var(--green-200)',
-                300: 'var(--green-300)',
-                400: 'var(--green-400)',
-                500: 'var(--green-500)',
-                600: 'var(--green-600)',
-                700: 'var(--green-700)',
-                800: 'var(--green-800)',
-                900: 'var(--green-900)',
-            },
-            orange: {
-                100: 'var(--orange-100)',
-                200: 'var(--orange-200)',
-                300: 'var(--orange-300)',
-                400: 'var(--orange-400)',
-                500: 'var(--orange-500)',
-                600: 'var(--orange-600)',
-                700: 'var(--orange-700)',
-                800: 'var(--orange-800)',
-                900: 'var(--orange-900)',
-            },
-            red: {
-                100: 'var(--red-100)',
-                200: 'var(--red-200)',
-                300: 'var(--red-300)',
-                400: 'var(--red-400)',
-                500: 'var(--red-500)',
-                600: 'var(--red-600)',
-                700: 'var(--red-700)',
-                800: 'var(--red-800)',
-                900: 'var(--red-900)',
-            },
-            gray: {
-                100: 'var(--gray-100)',
-                200: 'var(--gray-200)',
-                300: 'var(--gray-300)',
-                400: 'var(--gray-400)',
-                500: 'var(--gray-500)',
-                600: 'var(--gray-600)',
-                700: 'var(--gray-700)',
-                800: 'var(--gray-800)',
-                900: 'var(--gray-900)',
-            },
-        },
-        fontFamily: {
-            sans: [
-                'Inter',
-                '-apple-system',
-                'BlinkMacSystemFont',
-                '"Segoe UI"',
-                'Roboto',
-                '"Helvetica Neue"',
-                'Arial',
-                '"Noto Sans"',
-                'sans-serif',
-                '"Apple Color Emoji"',
-                '"Segoe UI Emoji"',
-                '"Segoe UI Symbol"',
-                '"Noto Color Emoji"',
-            ],
-            serif: ['Playfair Display', 'serif'],
-            mono: ['SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', 'monospace'],
+            current: 'currentColor',
+            black: colors.black,
+            white: colors.white,
+            gray: colors.coolGray,
+            blue: colors.blue,
+            red: colors.rose,
+            green: colors.emerald,
+            yellow: colors.amber,
+            orange: colors.orange,
         },
         extend: {
+            fontFamily: {
+                sans: [
+                    'Inter',
+                    ...defaultTheme.fontFamily.sans,
+                ]
+            },
             boxShadow: {
-                focus: '0 2px 2px var(--gray-100)',
+                focus: '0 2px 2px #e5e3e1' ,
             },
             gridTemplateColumns: {
                 auto: 'auto',
@@ -103,15 +50,21 @@ module.exports = {
                 6: '1.5rem',
                 8: '2rem',
                 10: '2.5rem',
+                32: '8rem',
             },
             maxWidth: {
-                layout: '80rem',
+                layout: '100rem',
             },
         },
     },
     variants: {
-        color: ['responsive', 'hover', 'focus'],
-        display: ['responsive', 'hover', 'group-hover'],
-        opacity: ['responsive', 'hover', 'focus', 'group-hover'],
+        extend: {
+            display: ['hover', 'group-hover'],
+            zIndex: ['hover'],
+            scale: ['group-hover'],
+        }
     },
+    corePlugins: {
+        ringWidth: false,
+    }
 };

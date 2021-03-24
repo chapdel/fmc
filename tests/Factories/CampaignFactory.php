@@ -3,15 +3,15 @@
 namespace Spatie\Mailcoach\Tests\Factories;
 
 use Carbon\Carbon;
-use Spatie\Mailcoach\Mails\CampaignMail;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 
 class CampaignFactory
 {
     /** @var int */
-    private int $subscriberCount = 0;
+    protected int $subscriberCount = 0;
 
-    private string $mailable = CampaignMail::class;
+    protected string $mailable = MailcoachMail::class;
 
     public function withSubscriberCount(int $subscriberCount)
     {

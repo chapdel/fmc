@@ -3,9 +3,9 @@
 namespace Spatie\Mailcoach\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Spatie\Mailcoach\Models\CampaignClick;
-use Spatie\Mailcoach\Models\CampaignLink;
-use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Models\CampaignClick;
+use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
 
 class CampaignClickFactory extends Factory
 {
@@ -14,7 +14,7 @@ class CampaignClickFactory extends Factory
     public function definition()
     {
         return [
-            'send_id' => CampaignSendFactory::new(),
+            'send_id' => SendFactory::new(),
             'campaign_link_id' => CampaignLink::factory(),
             'subscriber_id' => Subscriber::factory(),
         ];

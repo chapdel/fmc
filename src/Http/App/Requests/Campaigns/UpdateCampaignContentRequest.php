@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\Requests\Campaigns;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Spatie\Mailcoach\Rules\HtmlRule;
+use Spatie\Mailcoach\Domain\Campaign\Rules\HtmlRule;
 
 class UpdateCampaignContentRequest extends FormRequest
 {

@@ -2,18 +2,23 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers;
 
-use Spatie\Mailcoach\Actions\Subscribers\UpdateSubscriberAction;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\UpdateSubscriberAction;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Shared\Support\Config;
 use Spatie\Mailcoach\Http\App\Requests\EmailLists\Subscribers\UpdateSubscriberRequest;
 use Spatie\Mailcoach\Http\App\ViewModels\SubscriberViewModel;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Subscriber;
-use Spatie\Mailcoach\Support\Config;
 
 class SubscriberDetailsController
 {
+    use AuthorizesRequests;
+
     public function edit(EmailList $emailList, Subscriber $subscriber)
     {
-        return view('mailcoach::app.emailLists.subscriber.edit', new SubscriberViewModel($subscriber));
+        $this->authorize('view', $emailList);
+
+        return view('mailcoach::app.emailLists.subscribers.edit', new SubscriberViewModel($subscriber));
     }
 
     public function update(
@@ -21,7 +26,9 @@ class SubscriberDetailsController
         Subscriber $subscriber,
         UpdateSubscriberRequest $request
     ) {
-        $updateSubscriberAction = Config::getActionClass('update_subscriber', UpdateSubscriberAction::class);
+        $this->authorize('update', $emailList);
+
+        $updateSubscriberAction = Config::getAutomationActionClass('update_subscriber', UpdateSubscriberAction::class);
 
         $updateSubscriberAction->execute(
             $subscriber,

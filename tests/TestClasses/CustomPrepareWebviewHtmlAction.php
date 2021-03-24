@@ -2,12 +2,12 @@
 
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
-use Spatie\Mailcoach\Actions\Campaigns\PrepareWebviewHtmlAction;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Actions\PrepareWebviewHtmlAction;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 
 class CustomPrepareWebviewHtmlAction extends PrepareWebviewHtmlAction
 {
-    public function execute(Campaign $campaign)
+    public function execute(Campaign $campaign): void
     {
         $campaign->emailList->subscribers->first()->update(['email' => 'overridden@example.com']);
 

@@ -8,6 +8,7 @@ listen('click', '[data-dropdown-trigger]', ({ target }) => {
     }
 
     enter(dropdownList, 'fade');
+    dropdownList.style.zIndex = 100;
     target.classList.add('dropdown-trigger-open');
 
     function handleClick(event) {
@@ -16,6 +17,7 @@ listen('click', '[data-dropdown-trigger]', ({ target }) => {
         }
 
         leave(dropdownList, 'fade');
+        dropdownList.style.zIndex = 'auto';
         target.classList.remove('dropdown-trigger-open');
 
         window.removeEventListener('click', handleClick);

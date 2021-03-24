@@ -3,9 +3,10 @@
 namespace Spatie\Mailcoach\Http\App\Queries;
 
 use Illuminate\Database\Query\Builder;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Http\App\Queries\Filters\FuzzyFilter;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Tag;
+use Spatie\Mailcoach\Http\App\Queries\Filters\TagTypeFilter;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -31,7 +32,8 @@ class EmailListTagsQuery extends QueryBuilder
             ->allowedFilters(
                 AllowedFilter::custom('search', new FuzzyFilter(
                     'name'
-                ))
+                )),
+                AllowedFilter::custom('type', new TagTypeFilter()),
             );
     }
 }

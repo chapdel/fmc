@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Campaigns;
 
+use Spatie\Mailcoach\Domain\Campaign\Models\CampaignUnsubscribe;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignUnsubscribesController;
-use Spatie\Mailcoach\Models\CampaignUnsubscribe;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestCase;
 
@@ -25,14 +25,14 @@ class CampaignUnsubscribesControllerTest extends TestCase
     /** @test */
     public function it_can_get_the_unsubscribes_of_a_campaign()
     {
-        $this
+        $response = $this
             ->getJson(action(CampaignUnsubscribesController::class, $this->campaignUnsubscribe->campaign))
             ->assertSuccessful()
             ->assertJsonCount(1, 'data')
-            ->assertJsonFragment([
-                'subscriber_id' => $this->campaignUnsubscribe->subscriber->id,
-                'subscriber_email' => $this->campaignUnsubscribe->subscriber->email,
-                'campaign_id' => $this->campaignUnsubscribe->campaign->id,
-            ]);
+            ->json('data');
+
+        $this->assertEquals($this->campaignUnsubscribe->subscriber->id, $response[0]['subscriber_id']);
+        $this->assertEquals($this->campaignUnsubscribe->subscriber->email, $response[0]['subscriber_email']);
+        $this->assertEquals($this->campaignUnsubscribe->campaign->id, $response[0]['campaign_id']);
     }
 }

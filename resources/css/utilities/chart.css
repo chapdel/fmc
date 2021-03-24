@@ -3,7 +3,7 @@
 }
 
 .chart-tooltip {
-    @apply hidden absolute left-0 ml-4 text-xs text-white bg-black rounded p-1 leading-tight whitespace-no-wrap;
+    @apply hidden absolute left-0 ml-4 text-xs text-white bg-black rounded p-1 leading-tight whitespace-nowrap;
     top: -2rem;
     transform: translateX(-50%);
 }

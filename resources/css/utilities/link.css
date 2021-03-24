@@ -22,9 +22,9 @@
 }
 
 .link-dimmed {
-    @apply text-gray-400;
+    @apply text-gray-600;
     @apply underline;
-    text-decoration-color: var(--gray-300);
+    text-decoration-color: var(--gray-500);
 }
 
 .link-dimmed-hover {

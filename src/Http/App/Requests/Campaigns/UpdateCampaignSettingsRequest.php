@@ -4,10 +4,10 @@ namespace Spatie\Mailcoach\Http\App\Requests\Campaigns;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Support\Segments\EverySubscriberSegment;
-use Spatie\Mailcoach\Support\Segments\SubscribersWithTagsSegment;
-use Spatie\Mailcoach\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Support\Segments\EverySubscriberSegment;
+use Spatie\Mailcoach\Domain\Audience\Support\Segments\SubscribersWithTagsSegment;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class UpdateCampaignSettingsRequest extends FormRequest
 {
@@ -21,6 +21,7 @@ class UpdateCampaignSettingsRequest extends FormRequest
             'email_list_id' => Rule::exists($this->getEmailListTableName(), 'id'),
             'track_opens' => 'bool',
             'track_clicks' => 'bool',
+            'utm_tags' => 'bool',
             'segment' => [Rule::in(['entire_list', 'segment'])],
             'segment_id' => ['required_if:segment,tag_segment'],
         ];
@@ -28,7 +29,7 @@ class UpdateCampaignSettingsRequest extends FormRequest
 
     public function getSegmentClass(): string
     {
-        /** @var \Spatie\Mailcoach\Models\Campaign $campaign */
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */
         $campaign = $this->route()->parameter('campaign');
 
         if ($campaign->usingCustomSegment()) {

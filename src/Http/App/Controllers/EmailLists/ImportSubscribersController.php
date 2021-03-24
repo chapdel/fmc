@@ -2,17 +2,22 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Auth\User;
+use Spatie\Mailcoach\Domain\Audience\Jobs\ImportSubscribersJob;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
 use Spatie\Mailcoach\Http\App\Requests\EmailLists\ImportSubscribersRequest;
-use Spatie\Mailcoach\Jobs\ImportSubscribersJob;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\SubscriberImport;
 
 class ImportSubscribersController
 {
+    use AuthorizesRequests;
+
     public function showImportScreen(EmailList $emailList)
     {
-        return view('mailcoach::app.emailLists.importSubscribers', [
+        $this->authorize('update', $emailList);
+
+        return view('mailcoach::app.emailLists.subscribers.import', [
             'emailList' => $emailList,
             'subscriberImports' => $emailList->subscriberImports()->latest()->get(),
         ]);
@@ -20,11 +25,14 @@ class ImportSubscribersController
 
     public function import(EmailList $emailList, ImportSubscribersRequest $request)
     {
-        /** @var \Spatie\Mailcoach\Models\SubscriberImport $subscriberImport */
+        $this->authorize('update', $emailList);
+
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport $subscriberImport */
         $subscriberImport = SubscriberImport::create([
             'email_list_id' => $emailList->id,
             'subscribe_unsubscribed' => $request->subscribeUnsubscribed(),
             'unsubscribe_others' => $request->unsubscribeMissing(),
+            'replace_tags' => $request->replaceTags(),
         ]);
 
         $this->addMediaToSubscriberImport($request, $subscriberImport);

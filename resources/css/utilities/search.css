@@ -3,11 +3,15 @@
     @apply pl-3;
     @apply pr-1;
     @apply rounded-full;
+    @apply text-gray-800;
     @apply bg-blue-100;
-    @apply border-2;
-    @apply border-transparent;
+    @apply bg-opacity-50;
+    @apply border;
+    @apply border-blue-200;
+    @apply border-opacity-50;
+    @apply placeholder-gray-500;
+    @apply placeholder-opacity-50;
     @apply text-sm;
-    @apply text-blue-800;
     width: 12rem;
 }
 
@@ -19,7 +23,7 @@
     height: 2rem;
     @apply grid;
     @apply place-center;
-    @apply text-blue-800;
+    @apply text-blue-500;
     @apply text-sm;
     @apply pointer-events-none;
     font-size: 0.8em;
@@ -31,7 +35,8 @@
 }
 
 .search input:focus {
-    @apply border-blue-100;
+    @apply border-blue-400;
+    @apply placeholder-opacity-0;
     @apply outline-none;
     @apply bg-white;
 }

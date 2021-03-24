@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\Requests\EmailLists;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ImportSubscribersRequest extends FormRequest
 {
@@ -10,6 +11,7 @@ class ImportSubscribersRequest extends FormRequest
     {
         return [
             // 'file' => 'file:csv,xlsx',
+            'replace_tags' => Rule::in(['append', 'replace']),
         ];
     }
 
@@ -21,5 +23,10 @@ class ImportSubscribersRequest extends FormRequest
     public function unsubscribeMissing(): bool
     {
         return $this->has('unsubscribe_others');
+    }
+
+    public function replaceTags(): bool
+    {
+        return $this->get('replace_tags') === 'replace';
     }
 }

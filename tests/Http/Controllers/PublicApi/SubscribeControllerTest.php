@@ -4,21 +4,21 @@ namespace Spatie\Mailcoach\Tests\Http\Controllers\PublicApi;
 
 use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Support\Facades\Event;
-use Spatie\Mailcoach\Enums\SubscriptionStatus;
+use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Http\Front\Controllers\SubscribeController;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Subscriber;
-use Spatie\Mailcoach\Models\Tag;
 use Spatie\Mailcoach\Tests\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
 class SubscribeControllerTest extends TestCase
 {
-    private EmailList $emailList;
+    protected EmailList $emailList;
 
-    private ?string $confirmSubscriptionLink;
+    protected ?string $confirmSubscriptionLink;
 
-    private $email = 'info@spatie.be';
+    protected $email = 'info@spatie.be';
 
     public function setUp(): void
     {
@@ -140,7 +140,7 @@ class SubscribeControllerTest extends TestCase
                 ])
             );
 
-        /** @var \Spatie\Mailcoach\Models\Subscriber $subscriber */
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
         $subscriber = Subscriber::where('email', $this->payloadWithRedirects()['email'])->first();
 
         $this->assertEquals(['test1', 'test3'], $subscriber->tags()->pluck('name')->toArray());
@@ -265,7 +265,7 @@ class SubscribeControllerTest extends TestCase
             ->post(action(SubscribeController::class, $this->emailList->uuid), $this->payloadWithRedirects())
             ->assertRedirect($this->payloadWithRedirects()['redirect_after_subscription_pending']);
 
-        /** @var \Spatie\Mailcoach\Models\Subscriber $subscriber */
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
         $subscriber = Subscriber::where('email', $this->payloadWithRedirects()['email'])->first();
         $this->assertEquals(SubscriptionStatus::UNCONFIRMED, $subscriber->refresh()->status);
 

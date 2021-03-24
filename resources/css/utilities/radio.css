@@ -28,9 +28,11 @@
     @apply left-0;
     width: 1.5em;
     height: 1.5em;
-    @apply border-2;
-    @apply border-transparent;
+    @apply border;
+    @apply border-blue-200;
+    @apply border-opacity-50;
     @apply bg-blue-100;
+    @apply bg-opacity-50;
     @apply rounded-full;
     @apply overflow-hidden;
     content: '';
@@ -55,7 +57,7 @@
 }
 
 .radio:focus:before {
-    @apply border-blue-200;
+    @apply border-blue-400;
     @apply bg-white;
     @apply shadow-focus;
 }

@@ -2,16 +2,20 @@
 
 namespace Spatie\Mailcoach\Http\Api\Controllers\Campaigns;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
-use Spatie\Mailcoach\Http\Api\Requests\SendTestEmailRequest;
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Http\Api\Requests\SendCampaignTestRequest;
 
 class SendTestEmailController
 {
-    use RespondsToApiRequests;
+    use AuthorizesRequests,
+        RespondsToApiRequests;
 
-    public function __invoke(SendTestEmailRequest $request, Campaign $campaign)
+    public function __invoke(SendCampaignTestRequest $request, Campaign $campaign)
     {
+        $this->authorize("view", $campaign);
+
         $campaign->sendTestMail($request->sanitizedEmails());
 
         return $this->respondOk();

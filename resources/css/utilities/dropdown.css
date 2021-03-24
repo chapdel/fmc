@@ -1,5 +1,5 @@
 .dropdown {
-    @apply inline-block;
+    @apply inline-flex;
 }
 
 .dropdown-list {
@@ -7,14 +7,16 @@
     @apply grid;
     @apply top-full;
     @apply mt-4;
-    @apply py-2;
-    @apply shadow-lg;
+    @apply py-4;
+    @apply shadow-xl;
     @apply z-10;
-    @apply bg-blue-100;
+    @apply bg-white;
     @apply text-gray-700;
-    width: min-content;
+    @apply border;
+    @apply border-gray-200;
     left: 50%;
     transform: translateX(-50%);
+    @apply min-w-32;
 }
 
 .dropdown-list-left {
@@ -30,10 +32,13 @@
     @apply absolute;
     left: 50%;
     top: 0;
-    width: 1rem;
-    height: 1rem;
-    @apply bg-blue-100;
+    width: 0.75rem;
+    height: 0.75rem;
+    @apply bg-white;
     transform: translate(-50%, -50%) rotate(45deg);
+    @apply border-l;
+    @apply border-t;
+    @apply border-gray-200;
 }
 
 .dropdown-list-left:before {
@@ -55,20 +60,26 @@
 .dropdown-list button {
     @apply block;
     @apply w-full;
-    @apply px-4;
+    @apply px-6;
     @apply py-1;
-    @apply bg-blue-100;
+    @apply text-left;
+}
+
+.dropdown-list li.active a{
+    @apply text-blue-500;
 }
 
 .dropdown-list a:hover,
 .dropdown-list button:hover {
-    @apply bg-blue-200;
+    @apply bg-blue-100;
+    @apply bg-opacity-50;
+    @apply text-blue-500;
 }
 
-.dropdown-trigger-rotate {
+.dropdown-trigger i {
     transition: transform 0.15s ease;
 }
 
-.dropdown-trigger-open .dropdown-trigger-rotate {
+.dropdown-trigger-open .dropdown-trigger i{
     transform: rotate(-90deg);
 }

@@ -8,11 +8,21 @@
     @apply max-w-full;
     @apply min-h-10;
     @apply px-2;
-    @apply rounded-sm;
+    @apply rounded;
     @apply text-gray-800;
     @apply bg-blue-100;
-    @apply border-2;
-    @apply border-transparent;
+    @apply bg-opacity-50;
+    @apply border;
+    @apply border-blue-200;
+    @apply border-opacity-50;
+}
+
+.input-sm {
+    @apply w-1/4;
+}
+
+.input-md {
+    @apply w-1/2;
 }
 
 .input-textarea {
@@ -39,10 +49,11 @@ input:read-only {
 
 .input-focus,
 .input:focus {
-    @apply border-blue-100;
+    @apply border-blue-400;
     @apply outline-none;
     @apply bg-white;
     @apply shadow-focus;
+    @apply placeholder-transparent;
 }
 
 @screen lg {

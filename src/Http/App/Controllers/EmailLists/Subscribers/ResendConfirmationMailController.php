@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers;
 
-use Spatie\Mailcoach\Actions\Subscribers\SendConfirmSubscriberMailAction;
-use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\SendConfirmSubscriberMailAction;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 
 class ResendConfirmationMailController
 {

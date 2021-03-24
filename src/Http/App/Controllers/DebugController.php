@@ -2,20 +2,20 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers;
 
+use Composer\InstalledVersions;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-use PackageVersions\Versions;
-use Spatie\Mailcoach\Support\HorizonStatus;
-use Spatie\Mailcoach\Support\Version;
+use Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus;
+use Spatie\Mailcoach\Domain\Shared\Support\Version;
 
 class DebugController
 {
     public function __invoke(HorizonStatus $horizonStatus)
     {
-        $versionInfo = app(Version::class);
+        $versionInfo = resolve(Version::class);
         $hasQueueConnection = config('queue.connections.mailcoach-redis') && ! empty(config('queue.connections.mailcoach-redis'));
         $mysqlVersion = $this->mysqlVersion();
-        $horizonVersion = Versions::getVersion("laravel/horizon");
+        $horizonVersion = InstalledVersions::getVersion("laravel/horizon");
         $webhookTableCount = DB::table('webhook_calls')
             ->where('name', 'like', '%-feedback')
             ->whereNull('processed_at')

@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
-use Spatie\Mailcoach\Actions\Campaigns\PersonalizeHtmlAction;
-use Spatie\Mailcoach\Models\Send;
+use Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeHtmlAction;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
 class CustomPersonalizeHtmlAction extends PersonalizeHtmlAction
 {

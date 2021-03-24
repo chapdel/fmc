@@ -2,10 +2,10 @@
 
 namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\SubscriberImports;
 
-use Spatie\Mailcoach\Enums\SubscriberImportStatus;
+use Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
 use Spatie\Mailcoach\Http\Api\Controllers\SubscriberImports\SubscriberImportsController;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\SubscriberImport;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestCase;
 
@@ -13,7 +13,7 @@ class SubscriberImportsControllerTest extends TestCase
 {
     use RespondsToApiRequests;
 
-    private EmailList $emailList;
+    protected EmailList $emailList;
 
     public function setUp(): void
     {

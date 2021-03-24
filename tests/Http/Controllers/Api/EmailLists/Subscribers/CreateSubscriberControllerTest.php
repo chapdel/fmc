@@ -3,11 +3,11 @@
 namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\EmailLists\Subscribers;
 
 use Illuminate\Support\Facades\Mail;
-use Spatie\Mailcoach\Enums\SubscriptionStatus;
+use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
+use Spatie\Mailcoach\Domain\Audience\Mails\ConfirmSubscriberMail;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\SubscribersController;
-use Spatie\Mailcoach\Mails\ConfirmSubscriberMail;
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Subscriber;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestCase;
 
@@ -15,9 +15,9 @@ class CreateSubscriberControllerTest extends TestCase
 {
     use RespondsToApiRequests;
 
-    private EmailList $emailList;
+    protected EmailList $emailList;
 
-    private array $attributes;
+    protected array $attributes;
 
     public function setUp(): void
     {

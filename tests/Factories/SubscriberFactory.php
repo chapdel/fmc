@@ -2,14 +2,14 @@
 
 namespace Spatie\Mailcoach\Tests\Factories;
 
-use Spatie\Mailcoach\Models\EmailList;
-use Spatie\Mailcoach\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 
 class SubscriberFactory
 {
-    private EmailList $emailList;
+    protected EmailList $emailList;
 
-    private bool $unsubscribed = false;
+    protected bool $unsubscribed = false;
 
     public static function new(): self
     {

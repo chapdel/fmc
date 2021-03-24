@@ -3,12 +3,12 @@
 namespace Spatie\Mailcoach\Tests\Factories;
 
 use Illuminate\Support\Collection;
-use Spatie\Mailcoach\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 
 class EmailListFactory
 {
     /** @var int */
-    private int $subscriberCount = 0;
+    protected int $subscriberCount = 0;
 
     public function withSubscriberCount(int $subscriberCount)
     {

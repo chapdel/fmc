@@ -2,6 +2,7 @@ build
 composer.lock
 vendor
 !resources/css/vendor
+resources/dist/monaco
 coverage
 .php_cs.cache
 node_modules

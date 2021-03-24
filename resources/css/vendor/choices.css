@@ -162,9 +162,10 @@
     padding-top: 0.05rem;
     padding-bottom: 0.05rem;
     @apply px-2;
-    @apply rounded-sm;
+    @apply rounded;
     @apply text-gray-800;
     @apply bg-blue-100;
+    @apply bg-opacity-50;
     @apply border-2;
     @apply border-transparent;
     @apply overflow-hidden;
@@ -222,7 +223,7 @@
     @apply inline-flex;
     @apply items-center;
     @apply rounded-full;
-    @apply bg-blue-300;
+    @apply bg-blue-400;
     @apply text-white;
     @apply pl-3;
     @apply py-1;

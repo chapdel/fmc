@@ -2,13 +2,18 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns;
 
-use Spatie\Mailcoach\Jobs\RetrySendingFailedSendsJob;
-use Spatie\Mailcoach\Models\Campaign;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\RetrySendingFailedSendsJob;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 
 class RetryFailedSendsController
 {
+    use AuthorizesRequests;
+
     public function __invoke(Campaign $campaign)
     {
+        $this->authorize('update', $campaign);
+
         $failedSendsCount = $campaign->sends()->failed()->count();
 
         if ($failedSendsCount === 0) {
