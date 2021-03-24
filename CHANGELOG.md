@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.0.6 - 2021-03-24
+
+- Fix incorrect link hashes being added as tags
+
 ## 4.0.5 - 2021-03-24
 
 - Fix stripping UTM tags from urls without query parameters

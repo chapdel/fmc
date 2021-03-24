@@ -20,6 +20,6 @@ class AddCampaignClickedTag
         );
 
         $subscriber->addTag("campaign-{$campaign->id}-clicked", TagType::MAILCOACH);
-        $subscriber->addTag("campaign-{$campaign->id}-clicked-{$hash}", TagType::MAILCOACH);
+        $subscriber->addTag($hash, TagType::MAILCOACH);
     }
 }
