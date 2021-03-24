@@ -338,15 +338,19 @@ class UpgradeMailcoachV3ToV4 extends Migration
 }
 ```
 
+You'll notice that the migration contains a few `change()` calls. In order to run the migration you'll need to install the `doctrine/dbal` package, like instructed in [the Laravel docs](https://laravel.com/docs/master/migrations#modifying-columns).
+
 ### Config file changes
 
-The `mailcoach.php` config file has changed significantly, republish the file using
+The `mailcoach.php` config file has changed significantly. We recommend renaming the `mailcoach.php` config file, so you can still reference it. 
+
+Publish the new config file using
 
 ```bash
 php artisan vendor:publish --tag=mailcoach-config
 ```
 
-Make sure to bring over any customizations you did to the old config file.
+Make sure to bring over any customizations you did to the old config file. After you're done, you can delete the old, renamed config file.
 
 #### Horizon config
 
@@ -446,7 +450,7 @@ $schedule->command('mailcoach:calculate-automation-mail-statistics')->everyMinut
 
 ### Automation mail queue
 
-Make sure to add the 'send-automation-mail', queue to the 'mailcoach-general' key in your `horizon.php` config file.
+Make sure to add the `send-automation-mail`, queue to the `mailcoach-general` key in your `horizon.php` config file.
 
 ```
 'mailcoach-general' => [
