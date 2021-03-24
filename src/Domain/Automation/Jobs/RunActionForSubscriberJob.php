@@ -59,7 +59,7 @@ class RunActionForSubscriberJob implements ShouldQueue
             if ($action->shouldHalt($subscriber)) {
                 $this->action->subscribers()->updateExistingPivot(
                     $subscriber,
-                    ['halted_at' => now()],
+                    ['halted_at' => now(), 'run_at' => now()],
                     touch: false
                 );
 
@@ -77,10 +77,13 @@ class RunActionForSubscriberJob implements ShouldQueue
             );
         }
 
+
         $nextActions = $action->nextActions($subscriber);
         if (count(array_filter($nextActions))) {
             foreach ($nextActions as $nextAction) {
-                $nextAction->subscribers()->attach($subscriber);
+                if (! $nextAction->subscribers()->where('mailcoach_subscribers.id', $subscriber->id)->exists()) {
+                    $nextAction->subscribers()->attach($subscriber);
+                }
             }
             $this->action->subscribers()->updateExistingPivot($subscriber, ['completed_at' => now()], touch: false);
         }

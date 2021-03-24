@@ -130,7 +130,7 @@ class PrepareEmailHtmlActionTest extends TestCase
 
         $campaign->refresh();
 
-        $this->assertStringContainsString("https://spatie.be?utm_source=newsletter&utm_medium=email&utm_campaign=My+Campaign", $campaign->email_html);
+        $this->assertStringContainsString(htmlspecialchars("https://spatie.be?utm_source=newsletter&utm_medium=email&utm_campaign=My+Campaign"), $campaign->email_html);
         $this->assertMatchesHtmlSnapshot($campaign->email_html);
     }
 
@@ -150,7 +150,7 @@ class PrepareEmailHtmlActionTest extends TestCase
 
         $campaign->refresh();
 
-        $this->assertStringContainsString("https://spatie.be?foo=bar&utm_source=newsletter&utm_medium=email&utm_campaign=My+Campaign", $campaign->email_html);
+        $this->assertStringContainsString(htmlspecialchars("https://spatie.be?foo=bar&utm_source=newsletter&utm_medium=email&utm_campaign=My+Campaign"), $campaign->email_html);
         $this->assertMatchesHtmlSnapshot($campaign->email_html);
     }
 
@@ -170,7 +170,7 @@ class PrepareEmailHtmlActionTest extends TestCase
 
         $campaign->refresh();
 
-        $this->assertStringContainsString("https://freek.dev/1234-my-blogpost?utm_source=newsletter&utm_medium=email&utm_campaign=My+Campaign", $campaign->email_html);
+        $this->assertStringContainsString(htmlspecialchars("https://freek.dev/1234-my-blogpost?utm_source=newsletter&utm_medium=email&utm_campaign=My+Campaign"), $campaign->email_html);
         $this->assertMatchesHtmlSnapshot($campaign->email_html);
     }
 
@@ -190,8 +190,8 @@ class PrepareEmailHtmlActionTest extends TestCase
 
         $campaign->refresh();
 
-        $this->assertStringContainsString("https://freek.dev?utm_source=newsletter&utm_medium=email&utm_campaign=My+Campaign", $campaign->email_html);
-        $this->assertStringContainsString("https://freek.dev/1234-my-blogpost?utm_source=newsletter&utm_medium=email&utm_campaign=My+Campaign", $campaign->email_html);
+        $this->assertStringContainsString(htmlspecialchars("https://freek.dev?utm_source=newsletter&utm_medium=email&utm_campaign=My+Campaign"), $campaign->email_html);
+        $this->assertStringContainsString(htmlspecialchars("https://freek.dev/1234-my-blogpost?utm_source=newsletter&utm_medium=email&utm_campaign=My+Campaign"), $campaign->email_html);
         $this->assertMatchesHtmlSnapshot($campaign->email_html);
     }
 }

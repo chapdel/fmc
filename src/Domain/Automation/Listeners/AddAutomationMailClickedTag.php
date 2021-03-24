@@ -20,6 +20,6 @@ class AddAutomationMailClickedTag
         );
 
         $subscriber->addTag("automation-mail-{$mail->id}-clicked", TagType::MAILCOACH);
-        $subscriber->addTag("automation-mail-{$mail->id}-clicked-{$hash}", TagType::MAILCOACH);
+        $subscriber->addTag($hash, TagType::MAILCOACH);
     }
 }

@@ -6,6 +6,10 @@ class AddUtmTagsToUrlAction
 {
     public function execute(string $url, string $campaignName): string
     {
+        if (str_starts_with($url, '::')) {
+            return $url;
+        }
+
         $tags = [
             'utm_source' => 'newsletter',
             'utm_medium' => 'email',

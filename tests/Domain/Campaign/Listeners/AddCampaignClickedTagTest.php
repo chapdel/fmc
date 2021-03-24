@@ -29,7 +29,7 @@ class AddCampaignClickedTagTest extends TestCase
             'https://spatie.be',
             'clicked',
         );
-        $this->assertTrue($send->subscriber->hasTag("campaign-{$send->campaign->id}-clicked-{$hash}"));
+        $this->assertTrue($send->subscriber->hasTag($hash));
 
         tap(Tag::first(), function (Tag $tag) {
             $this->assertEquals(TagType::MAILCOACH, $tag->type);

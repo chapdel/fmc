@@ -2,6 +2,30 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.0.8 - 2021-03-24
+
+- Fix links on the automation mail statistics screen
+
+## 4.0.7 - 2021-03-24
+
+- Fix subscribers being added twice to the next action
+
+## 4.0.6 - 2021-03-24
+
+- Fix incorrect link hashes being added as tags
+
+## 4.0.5 - 2021-03-24
+
+- Fix stripping UTM tags from urls without query parameters
+
+## 4.0.4 - 2021-03-24
+
+- Fix an issue with automation counts being incorrect
+
+## 4.0.3 - 2021-03-24
+
+- Fix UTM tags & subscriber tags handling
+
 ## 4.0.2 - 2021-03-24
 
 - Fix duplicating automations

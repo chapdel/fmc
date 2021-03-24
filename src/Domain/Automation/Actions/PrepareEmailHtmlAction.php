@@ -53,16 +53,15 @@ class PrepareEmailHtmlAction
 
     private function addUtmTags(AutomationMail $automationMail): void
     {
-        $replacements = $automationMail->htmlLinks()
-            ->mapWithKeys(function (string $link) use ($automationMail) {
-                $newLink = $this->addUtmTagsToUrlAction->execute($link, $automationMail->name);
+        $document = $this->createDomDocumentFromHtmlAction->execute($automationMail->email_html);
 
-                return [$link => $newLink];
-            });
+        /** @var \DOMElement $linkElement */
+        foreach ($document->getElementsByTagName('a') as $linkElement) {
+            $url = $linkElement->getAttribute('href');
+            $newUrl = $this->addUtmTagsToUrlAction->execute($url, $automationMail->name);
+            $linkElement->setAttribute('href', $newUrl);
+        }
 
-        $automationMail->email_html = strtr(
-            $automationMail->email_html,
-            $replacements->toArray(),
-        );
+        $automationMail->email_html = $document->saveHTML();
     }
 }

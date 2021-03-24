@@ -130,7 +130,7 @@ class PrepareEmailHtmlActionTest extends TestCase
 
         $campaign->refresh();
 
-        $this->assertStringContainsString("https://spatie.be?utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail", $campaign->email_html);
+        $this->assertStringContainsString(htmlspecialchars("https://spatie.be?utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail"), $campaign->email_html);
         $this->assertMatchesHtmlSnapshot($campaign->email_html);
     }
 
@@ -150,7 +150,7 @@ class PrepareEmailHtmlActionTest extends TestCase
 
         $campaign->refresh();
 
-        $this->assertStringContainsString("https://spatie.be?foo=bar&utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail", $campaign->email_html);
+        $this->assertStringContainsString(htmlspecialchars("https://spatie.be?foo=bar&utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail"), $campaign->email_html);
         $this->assertMatchesHtmlSnapshot($campaign->email_html);
     }
 
@@ -170,7 +170,7 @@ class PrepareEmailHtmlActionTest extends TestCase
 
         $campaign->refresh();
 
-        $this->assertStringContainsString("https://freek.dev/1234-my-blogpost?utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail", $campaign->email_html);
+        $this->assertStringContainsString(htmlspecialchars("https://freek.dev/1234-my-blogpost?utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail"), $campaign->email_html);
         $this->assertMatchesHtmlSnapshot($campaign->email_html);
     }
 
@@ -190,8 +190,28 @@ class PrepareEmailHtmlActionTest extends TestCase
 
         $automationMail->refresh();
 
-        $this->assertStringContainsString("https://freek.dev?utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail", $automationMail->email_html);
-        $this->assertStringContainsString("https://freek.dev/1234-my-blogpost?utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail", $automationMail->email_html);
+        $this->assertStringContainsString(htmlspecialchars("https://freek.dev?utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail"), $automationMail->email_html);
+        $this->assertStringContainsString(htmlspecialchars("https://freek.dev/1234-my-blogpost?utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail"), $automationMail->email_html);
+        $this->assertMatchesHtmlSnapshot($automationMail->email_html);
+    }
+
+    /** @test * */
+    public function it_will_not_change_img_source()
+    {
+        $myHtml = '<html><body><h1>Hello</h1><a href="https://freek.dev">Hello world</a><img src="https://freek.dev"/></body></html>';
+
+        $automationMail = AutomationMail::factory()->create([
+            'track_clicks' => true,
+            'html' => $myHtml,
+            'utm_tags' => true,
+            'name' => 'My AutomationMail',
+        ]);
+
+        app(PrepareEmailHtmlAction::class)->execute($automationMail);
+
+        $automationMail->refresh();
+
+        $this->assertStringContainsString('<img src="https://freek.dev">', $automationMail->email_html);
         $this->assertMatchesHtmlSnapshot($automationMail->email_html);
     }
 }
