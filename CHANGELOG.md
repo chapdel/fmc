@@ -2,13 +2,21 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
-## 4.0.0 - xxxx-xx-xx
+## 4.0.0 - 2021-03-24
 
-notes for upgrading:
+- added automations
+- added transactional mail log
+- added transactional mail templates
+- refine campaign sending
+- revamp of UI
+- refactor to domain oriented structure
+- internal cleanup
+- rewritten docs
+- drop support for PHP 7
 
-- add transactional tables
-- rename campaign opens to opens
-- rename campaign clicks to clicks
+## 3.10.4 - 2021-02-19
+
+- HTML errors should not prevent loading of links in HTML
 
 ## 3.10.3 - 2021-01-26
 
