@@ -139,10 +139,8 @@ class SplitAction extends AutomationAction
             ->first();
 
         if (! $action instanceof AutomationAction) {
-            return array_merge($action, [
-                'active' => (int) ($actionModel->active_subscribers_count ?? 0),
-                'completed' => (int) ($actionModel->completed_subscribers_count ?? 0),
-            ]);
+            $class = $action['class'];
+            $action = $class::make($action['data']);
         }
 
         return [

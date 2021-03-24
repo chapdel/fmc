@@ -152,12 +152,11 @@ class ConditionAction extends AutomationAction
             ->first();
 
         if (! $action instanceof AutomationAction) {
-            return array_merge($action, [
-                'active' => (int) ($actionModel->active_subscribers_count ?? 0),
-                'completed' => (int) ($actionModel->completed_subscribers_count ?? 0),
-            ]);
+            if (! $action instanceof AutomationAction) {
+                $class = $action['class'];
+                $action = $class::make($action['data']);
+            }
         }
-
 
         return [
             'uuid' => $action->uuid,

@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.0.4 - 2021-03-24
+
+- Fix an issue with automation counts being incorrect
+
 ## 4.0.3 - 2021-03-24
 
 - Fix UTM tags & subscriber tags handling
