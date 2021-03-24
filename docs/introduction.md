@@ -7,3 +7,6 @@ Mailcoach is a self-hosted email marketing platform that integrates with service
 
 Stand-alone, or integrated in a Laravel project, it's the perfect email list service for bloggers, artisans and entrepreneurs.
 
+Here's a general introduction to the platform.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/b3ZDyewAJYc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
