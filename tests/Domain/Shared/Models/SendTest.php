@@ -146,6 +146,21 @@ class SendTest extends TestCase
     }
 
     /** @test */
+    public function it_can_register_a_click_and_strips_utm_tags()
+    {
+        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
+        $send = SendFactory::new()->create();
+        $send->campaign->update(['track_clicks' => true]);
+
+        $clickedAt = now()->subDay()->setMilliseconds(0);
+        $send->registerClick('https://example.com?utm_campaign=My+campaign', $clickedAt);
+
+        $this->assertCount(1, $send->clicks()->get());
+        $this->assertEquals($clickedAt, $send->clicks()->first()->created_at);
+        $this->assertEquals('https://example.com', $send->clicks()->first()->link->url);
+    }
+
+    /** @test */
     public function registering_clicks_will_update_the_click_count()
     {
         /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
