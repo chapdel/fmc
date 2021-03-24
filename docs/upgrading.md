@@ -5,6 +5,12 @@ weight: 4
 
 ## From v3 to v4
 
+### Update satis
+
+From now on, Mailcoach can be installed using the Satis installation on the `spatie.be` domain. Using Satis on `mailcoach.app` is not possible anymore.
+
+If you are still using `satis.mailcoach.app` in your `composer.json` file, replace it with `satis.spatie.be`.
+
 ### Update your dependencies
 
 These are all the new package versions, make sure any you're using are up to date in your `composer.json`
