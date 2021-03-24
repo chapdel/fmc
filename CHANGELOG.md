@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.0.9 - 2021-03-24
+
+- improved config file
+
 ## 4.0.8 - 2021-03-24
 
 - Fix links on the automation mail statistics screen
