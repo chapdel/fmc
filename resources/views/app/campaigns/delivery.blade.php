@@ -156,7 +156,8 @@
                     <ul class="grid gap-2">
                         @foreach ($links as $url)
                             <li>
-                                <a target="_blank" class="link" href="{{ $url }}">{{ $url }}</a>
+                                <a target="_blank" class="link" href="{{ $url }}">{{ $url }}</a><br>
+                                <span class="mb-2 tag-neutral">{{ \Spatie\Mailcoach\Domain\Shared\Support\LinkHasher::hash($campaign, $url) }}</span>
                             </li>
                         @endforeach
                     </ul>
