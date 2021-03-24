@@ -9,6 +9,12 @@ Mailcoach allows you to set up automations that use different "actions" to deter
 
 The Campaigns index page summarizes some information about your automations. You can see the status of the automation (running or paused), and when it was last updated.
 
+## Are you a visual learner?
+
+This video shows you a general introduction to automations.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/pZgwdF2tOxU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## Creating an automation
 
 When creating an automation, you can either create a new one from scratch or duplicate an existing one to copy most of its settings:

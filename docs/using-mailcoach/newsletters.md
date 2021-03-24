@@ -11,6 +11,12 @@ The _Campaigns_ index page summarizes some information about your campaigns. You
 
 The percentage below the opens and clicks is as part of the total amount of subscribers that received your email.
 
+## Are you a visual learner?
+
+This video shows you a general introduction to using campaigns.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/YJ7O46P6X9A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## Creating a campaign
 
 When creating a campaign, you can either create a new one from scratch or duplicate an existing one to copy most of its settings:

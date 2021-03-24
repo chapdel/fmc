@@ -5,6 +5,12 @@ weight: 5
 
 When installed into an existing Laravel app, Mailcoach can log your transactional mails. You can also define and edit templates containing the style and content of transactional mails.
 
+## Are you a visual learner?
+
+This video shows you a general introduction to transactional mails.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/cIhwpGCrhMg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## Exploring the UI
 
 ### Logging and tracking transactional mails
