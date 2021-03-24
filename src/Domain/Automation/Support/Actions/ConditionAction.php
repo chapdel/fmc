@@ -44,12 +44,14 @@ class ConditionAction extends AutomationAction
         $clone->yesActions = array_map(function (array $action) {
             $class = $action['class'];
             $action = $class::make($action['data']);
+
             return $action->duplicate();
         }, $clone->yesActions);
 
         $clone->noActions = array_map(function (array $action) {
             $class = $action['class'];
             $action = $class::make($action['data']);
+
             return $action->duplicate();
         }, $clone->noActions);
 

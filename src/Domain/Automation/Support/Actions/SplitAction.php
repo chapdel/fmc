@@ -40,12 +40,14 @@ class SplitAction extends AutomationAction
         $clone->leftActions = array_map(function (array $action) {
             $class = $action['class'];
             $action = $class::make($action['data']);
+
             return $action->duplicate();
         }, $clone->leftActions);
 
         $clone->rightActions = array_map(function (array $action) {
             $class = $action['class'];
             $action = $class::make($action['data']);
+
             return $action->duplicate();
         }, $clone->rightActions);
 
