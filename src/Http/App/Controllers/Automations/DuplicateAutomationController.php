@@ -18,9 +18,20 @@ class DuplicateAutomationController
         ]);
 
         $automation->actions->each(function (Action $action) use ($duplicateAutomation) {
-            $duplicateAutomation->actions()->save(Action::make([
-                'action' => $action->action,
+            $newAction = $duplicateAutomation->actions()->save(Action::make([
+                'action' => $action->action->duplicate(),
+                'key' => $action->key,
+                'order' => $action->order,
             ]));
+
+            foreach ($action->children as $child) {
+                $duplicateAutomation->actions()->save(Action::make([
+                    'parent_id' => $newAction->id,
+                    'action' => $child->action->duplicate(),
+                    'key' => $child->key,
+                    'order' => $child->order,
+                ]));
+            }
         });
 
         flash()->success(__('Automation :automation was duplicated.', ['automation' => $automation->name]));
