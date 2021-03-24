@@ -6,15 +6,11 @@ use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Automation\Jobs\RunActionForSubscriberJob;
-use Spatie\Mailcoach\Domain\Automation\Jobs\RunAutomationForSubscriberJob;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
-use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
-use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
 use Spatie\Mailcoach\Tests\TestCase;
-use Spatie\Mailcoach\Tests\TestClasses\TestSegmentQueryOnlyJohn;
 use Spatie\TestTime\TestTime;
 
 class RunActionForSubscriberJobTest extends TestCase
