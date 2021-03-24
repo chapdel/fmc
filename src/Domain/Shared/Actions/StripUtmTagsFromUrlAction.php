@@ -7,6 +7,11 @@ class StripUtmTagsFromUrlAction
     public function execute(string $url): string
     {
         $parsedUrl = parse_url($url);
+
+        if (! isset($parsedUrl['query'])) {
+            return $url;
+        }
+
         parse_str($parsedUrl['query'], $query);
 
         unset($query['utm_source']);

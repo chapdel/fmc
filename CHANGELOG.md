@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.0.5 - 2021-03-24
+
+- Fix stripping UTM tags from urls without query parameters
+
 ## 4.0.4 - 2021-03-24
 
 - Fix an issue with automation counts being incorrect

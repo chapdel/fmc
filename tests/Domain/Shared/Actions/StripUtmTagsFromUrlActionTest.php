@@ -30,6 +30,7 @@ class StripUtmTagsFromUrlActionTest extends TestCase
 
     public function provider()
     {
+        yield ['https://spatie.be', 'https://spatie.be'];
         yield ['https://spatie.be?utm_source=newsletter&utm_medium=email&utm_campaign=My+Campaign', 'https://spatie.be'];
         yield ['https://spatie.be/?utm_source=newsletter&utm_medium=email&utm_campaign=My+Campaign', 'https://spatie.be/'];
         yield ['https://spatie.be/foo?utm_source=newsletter&utm_medium=email&utm_campaign=My+Campaign', 'https://spatie.be/foo'];
