@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.0.2 - 2021-03-24
+
+- Fix duplicating automations
+
 ## 4.0.1 - 2021-03-24
 
 - display tags that get created for links

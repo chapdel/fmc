@@ -37,6 +37,25 @@ class ConditionAction extends AutomationAction
         return 'condition-action';
     }
 
+    public function duplicate(): static
+    {
+        $clone = parent::duplicate();
+
+        $clone->yesActions = array_map(function (array $action) {
+            $class = $action['class'];
+            $action = $class::make($action['data']);
+            return $action->duplicate();
+        }, $clone->yesActions);
+
+        $clone->noActions = array_map(function (array $action) {
+            $class = $action['class'];
+            $action = $class::make($action['data']);
+            return $action->duplicate();
+        }, $clone->noActions);
+
+        return $clone;
+    }
+
     public function store(string $uuid, Automation $automation, ?int $order = null, ?int $parent_id = null, ?string $key = null): Action
     {
         $parent = parent::store($uuid, $automation, $order, $parent_id, $key);

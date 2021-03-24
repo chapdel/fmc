@@ -3,6 +3,7 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
 
+use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
@@ -25,6 +26,14 @@ abstract class AutomationAction extends AutomationStep
     public function shouldHalt(Subscriber $subscriber): bool
     {
         return false;
+    }
+
+    public function duplicate(): static
+    {
+        $clone = clone $this;
+        $clone->uuid = Str::uuid()->toString();
+
+        return $clone;
     }
 
     public function store(string $uuid, Automation $automation, ?int $order = null, ?int $parent_id = null, ?string $key = null): Action

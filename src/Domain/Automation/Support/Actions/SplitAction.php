@@ -33,6 +33,25 @@ class SplitAction extends AutomationAction
         return 'split-action';
     }
 
+    public function duplicate(): static
+    {
+        $clone = parent::duplicate();
+
+        $clone->leftActions = array_map(function (array $action) {
+            $class = $action['class'];
+            $action = $class::make($action['data']);
+            return $action->duplicate();
+        }, $clone->leftActions);
+
+        $clone->rightActions = array_map(function (array $action) {
+            $class = $action['class'];
+            $action = $class::make($action['data']);
+            return $action->duplicate();
+        }, $clone->rightActions);
+
+        return $clone;
+    }
+
     public function store(string $uuid, Automation $automation, ?int $order = null, ?int $parent_id = null, ?string $key = null): Action
     {
         $parent = parent::store($uuid, $automation, $order, $parent_id, $key);
