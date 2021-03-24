@@ -27,13 +27,11 @@ These are all the new package versions, make sure any you're using are up to dat
 There's been a lot of changes to the database, use the migration below to update your database to the latest schema:
 
 ```php
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+
 class UpgradeMailcoachV3ToV4 extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::table('mailcoach_campaigns', function (Blueprint $table) {
