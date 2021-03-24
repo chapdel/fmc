@@ -50,13 +50,3 @@ jobs:
         env:
           REDIS_PORT: ${{ job.services.redis.ports[6379] }}
           DB_PASSWORD: root
-
-      - name: Send Slack notification
-        uses: 8398a7/action-slack@v2
-        if: failure()
-        with:
-          status: ${{ job.status }}
-          author_name: ${{ github.actor }}
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
