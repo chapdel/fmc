@@ -21,7 +21,7 @@ class Version
             return true;
         }
 
-        return $latestVersionInfo['version'] === $this->getCurrentVersion($packageName);
+        return version_compare($this->getCurrentVersion($packageName), $latestVersionInfo['version'], '>=');
     }
 
     public function getFullVersion(string $packageName = 'laravel-mailcoach'): string
