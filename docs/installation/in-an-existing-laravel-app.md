@@ -3,9 +3,11 @@ title: In an existing Laravel app
 weight: 3
 ---
 
-If you have experience with Laravel and/or PHP, and have a Laravel 8 application, you can install Mailcoach as a package inside it. 
+If you have experience with Laravel and/or PHP, and have a Laravel 8 application, you can install Mailcoach as a package inside it.
 
-This package is called `spatie/laravel-mailcoach` Installing Mailcoach as a package offers great ways of customizing Mailcoach. Anything that can be done via the Mailcoach UI, can also be done via code. 
+The package is called `spatie/laravel-mailcoach` Installing Mailcoach as a package offers great ways of customizing Mailcoach. Anything that can be done via the Mailcoach UI, can also be done via code.  
+
+You can tightly integrate Mailcoach into your application logic. You can listen for the various events that Mailcoach fires when mails are opened, clicked, ... to execute custom logic. Mailcoach stores information in the database using regular Eloquent models, that can be used by your application code too. 
 
 ## Getting a license
 
