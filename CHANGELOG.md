@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.0.10 - 2021-03-25
+
+- Remove some stray Ray calls
+
 ## 4.0.9 - 2021-03-24
 
 - improved config file
