@@ -28,7 +28,6 @@ class TransactionalMailTemplatesController
 
     public function store(TransactionalMailTemplateRequest $request, CreateTemplateAction $createTemplateAction)
     {
-        ray($request->all());
         $this->authorize('create', TransactionalMailTemplate::class);
 
         $template = $createTemplateAction->execute($request->validated());

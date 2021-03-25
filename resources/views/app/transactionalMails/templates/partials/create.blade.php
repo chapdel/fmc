@@ -18,7 +18,6 @@
         ]"
     />
 
-@ray($errors)
     <div class="form-buttons">
         <x-mailcoach::button :label="__('Create template')" />
         <x-mailcoach::button-cancel />
