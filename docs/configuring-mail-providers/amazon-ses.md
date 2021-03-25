@@ -1,6 +1,6 @@
 ---
 title: Amazon SES
-weight: 2
+weight: 3
 ---
 
 Mailcoach supports sending mails via Amazon SES. This page contains instructions to [set up Amazon SES in the standalone Mailcoach app](/docs/laravel-mailcoach/v4/mail-configuration/amazon-ses#using-amazon-ses-in-the-mailcoach-standalone-app) and [in a Laravel app with `laravel-mailcoach`](/docs/laravel-mailcoach/v4/mail-configuration/amazon-ses#handling-amazon-ses-feedback-in-an-existing-laravel-app).

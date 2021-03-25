@@ -1,6 +1,6 @@
 ---
 title: Sendgrid
-weight: 5
+weight: 6
 ---
 
 Mailcoach supports sending mails via Sendgrid. This page contains instructions to [set up Sendgrid in the standalone Mailcoach app](/docs/laravel-mailcoach/v4/mail-configuration/sendgrid#using-sendgrid-in-the-mailcoach-standalone-app) and [in a Laravel app with `laravel-mailcoach`](/docs/laravel-mailcoach/v4/mail-configuration/sendgrid#handling-sendgrid-feedback-in-an-existing-laravel-app).

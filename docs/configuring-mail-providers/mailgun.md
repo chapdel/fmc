@@ -1,6 +1,6 @@
 ---
 title: Mailgun
-weight: 3
+weight: 4
 ---
 
 Mailcoach supports sending mails via Mailgun. This page contains instructions to [set up Mailgun in the standalone Mailcoach app](/docs/laravel-mailcoach/v4/mail-configuration/mailgun#using-mailgun-in-the-mailcoach-standalone-app) and [in a Laravel app with `laravel-mailcoach`](/docs/laravel-mailcoach/v4/mail-configuration/mailgun#handling-mailgun-feedback-in-an-existing-laravel-app).
