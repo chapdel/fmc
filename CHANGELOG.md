@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.0.11 - 2021-03-26
+
+- Fix UTM tags throwing an exception on mailto, tel or other non-url urls
+
 ## 4.0.10 - 2021-03-25
 
 - Remove some stray Ray calls

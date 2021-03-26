@@ -329,6 +329,7 @@ class UpgradeMailcoachV3ToV4 extends Migration
             $table->text('from')->nullable();
             $table->json('to')->nullable();
             $table->json('bcc')->nullable();
+            $table->longText('structured_html')->nullable()
             $table->longText('body')->nullable();
             $table->string('type'); // html, blade, markdown
             $table->json('replacers')->nullable();

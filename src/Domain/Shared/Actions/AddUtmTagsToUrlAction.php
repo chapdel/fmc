@@ -19,6 +19,10 @@ class AddUtmTagsToUrlAction
         $parsedUrl = parse_url($url);
         $parsedQuery = $tags;
 
+        if (! isset($parsedUrl['host'])) {
+            return $url;
+        }
+
         if (! empty($parsedUrl['query'])) {
             parse_str($parsedUrl['query'], $parsedQuery);
             foreach ($tags as $key => $value) {
