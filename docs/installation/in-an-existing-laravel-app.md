@@ -487,7 +487,7 @@ By default, all dates in Mailcoach are in UTC. If you want to use another timezo
 
 ## Choosing an editor
 
-By default, Mailcoach uses a plain textarea field to edit campaigns and templates. If you'd like to use a feature rich editor, you can [use one of the add-on packages](/docs/v3/package/customizing-the-editor/introduction).
+By default, Mailcoach uses a plain textarea field to edit campaigns and templates. If you'd like to use a feature rich editor, you can [use one of the add-on packages](/docs/laravel-mailcoach/v4/choosing-an-editor/introduction).
 
 ## Visit the UI
 
