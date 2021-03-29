@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.0.12 - 2021-03-29
+
+- Fix an issue where html tags were being shown in emails
+
 ## 4.0.11 - 2021-03-26
 
 - Fix UTM tags throwing an exception on mailto, tel or other non-url urls
