@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.0.13 - 20201-03-29
+
+- fix more mail rendering issues
+
 ## 4.0.12 - 2021-03-29
 
 - Fix an issue where html tags were being shown in emails
