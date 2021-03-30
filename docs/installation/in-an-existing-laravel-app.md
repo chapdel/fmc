@@ -56,7 +56,7 @@ composer require "spatie/laravel-mailcoach:^4.0"
 Optionally, You can publish the config file with this command.
 
 ```bash
-php artisan vendor:publish --provider="Spatie\Mailcoach\MailcoachServiceProvider" --tag="laravel-mailcoach-config"
+php artisan vendor:publish --provider="Spatie\Mailcoach\MailcoachServiceProvider" --tag="mailcoach-config"
 ```
 
 Below is the default content of the config file:
@@ -322,7 +322,7 @@ To configure tracking open, clicks, bounces & complaints, follow the instruction
 You need to publish and run the migration:
 
 ```bash
-php artisan vendor:publish --provider="Spatie\Mailcoach\MailcoachServiceProvider" --tag="laravel-mailcoach-migrations"
+php artisan vendor:publish --provider="Spatie\Mailcoach\MailcoachServiceProvider" --tag="mailcoach-migrations"
 php artisan migrate
 ```
 
@@ -359,7 +359,7 @@ protected function schedule(Schedule $schedule)
 You must publish the JavaScript and CSS assets using this command:
 
 ```bash
-php artisan vendor:publish --tag laravel-mailcoach-assets --force
+php artisan vendor:publish --tag mailcoach-assets --force
 ```
 
 To ensure that these assets get republished each time Mailcoach is updated, we highly recommend you add the following command to the `post-update-cmd` of the `scripts` section of your `composer.json`.
@@ -367,7 +367,7 @@ To ensure that these assets get republished each time Mailcoach is updated, we h
 ```php
 "scripts": {
     "post-update-cmd": [
-        "@php artisan vendor:publish --tag laravel-mailcoach-assets --force"
+        "@php artisan vendor:publish --tag mailcoach-assets --force"
     ]
 }
 ```
