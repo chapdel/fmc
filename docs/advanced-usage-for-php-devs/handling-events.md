@@ -14,7 +14,7 @@ The event has one public property: `$subscriber` which is an instance of `Spatie
 You can get the email address of the subscriber like this:
 
 ```php
-$email = $event->subcriber->email;
+$email = $event->subscriber->email;
 ```
 
 This is how to get the name of the email list:
@@ -40,7 +40,7 @@ The event has two public properties:
 You can get the email address of the subscriber like this:
 
 ```php
-$email = $event->subcriber->email;
+$email = $event->subscriber->email;
 ```
 
 This is how to get the name of the email list:
