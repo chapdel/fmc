@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailLinkClickedEvent;
 use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailOpenedEvent;
+use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailStored;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Tests\Domain\TransactionalMail\Concerns\SendsTestTransactionalMail;
 use Spatie\Mailcoach\Tests\TestCase;
@@ -75,6 +76,21 @@ class StoreTransactionalMailTest extends TestCase
             [['email' => 'george@example.com', 'name' => 'George']],
             $transactionalMail->bcc,
         );
+    }
+
+    /** @test */
+    public function storing_a_transactional_mail_dispatches_an_event()
+    {
+        Event::fake([TransactionalMailStored::class]);
+
+        $this->sendTestMail(function (TestTransactionMail $mail) {
+            $mail->store();
+        });
+
+        Event::assertDispatched(TransactionalMailStored::class, function (TransactionalMailStored $event) {
+            $this->assertNotNull($event->transactionalMail->id);
+            return $event;
+        });
     }
 
     /** @test */
