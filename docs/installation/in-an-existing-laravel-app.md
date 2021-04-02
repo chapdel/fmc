@@ -56,7 +56,7 @@ composer require "spatie/laravel-mailcoach:^4.0"
 Optionally, You can publish the config file with this command.
 
 ```bash
-php artisan vendor:publish --provider="Spatie\Mailcoach\MailcoachServiceProvider" --tag="laravel-mailcoach-config"
+php artisan vendor:publish --provider="Spatie\Mailcoach\MailcoachServiceProvider" --tag="mailcoach-config"
 ```
 
 Below is the default content of the config file:
