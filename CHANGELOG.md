@@ -2,7 +2,11 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
-## 4.0.13 - 20201-03-29
+## 4.1.0 - 2021-04-06
+
+- add `TransactionalMailStored` event (#507)
+
+## 4.0.13 - 2021-03-29
 
 - fix more mail rendering issues
 
