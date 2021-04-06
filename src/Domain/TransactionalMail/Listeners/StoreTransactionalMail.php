@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Domain\TransactionalMail\Listeners;
 
 use Illuminate\Mail\Events\MessageSending;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
+use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailStored;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Support\TransactionalMailMessageConfig;
 
@@ -37,6 +38,8 @@ class StoreTransactionalMail
         ]);
 
         $send->storeTransportMessageId($message->getId());
+
+        event(new TransactionalMailStored($transactionalMail, $sending));
     }
 
     public function convertToNamedArray(?array $persons): array
