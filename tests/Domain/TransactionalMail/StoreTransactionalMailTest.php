@@ -89,6 +89,7 @@ class StoreTransactionalMailTest extends TestCase
 
         Event::assertDispatched(TransactionalMailStored::class, function (TransactionalMailStored $event) {
             $this->assertNotNull($event->transactionalMail->id);
+
             return $event;
         });
     }
