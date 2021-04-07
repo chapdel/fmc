@@ -3,8 +3,6 @@ title: Installation using the 1-click installer
 weight: 5
 ---
 
-> **Note**: The one-click install for Mailcoach v4 is currently under review and will be available in the coming days
-
 If you don't have any PHP or Laravel knowledge, you can still use Mailcoach.
 
 You can use a one click installer to provision a new server at DigitalOcean. This new server will have Mailcoach and all its dependencies pre-installed. 
