@@ -12,10 +12,11 @@ class UpdateSubscriberRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'email:rfc', $this->getUniqueRule()],
+            'email' => ['email:rfc', $this->getUniqueRule()],
             'first_name' => 'nullable|string',
             'last_name' => 'nullable|string',
             'tags' => 'array',
+            'extra_attributes' => ['nullable', 'array'],
         ];
     }
 
