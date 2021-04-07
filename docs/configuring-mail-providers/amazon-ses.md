@@ -91,7 +91,7 @@ You should only follow these instructions when you've installed Mailcoach in an 
 You can install the add-on package via composer:
 
 ```bash
-composer require spatie/laravel-mailcoach-ses-feedback:^4.0
+composer require spatie/laravel-mailcoach-ses-feedback:^3.0
 ```
 
 ### Adding the webhooks route
