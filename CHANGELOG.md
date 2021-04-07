@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.2.0 - 2012-04-07
+
+- save extra attributes via api (#508)
+- Fix LinkHasher bug when using custom Campaign model (#505)
+- Use v2 of spatie/temporary-directory (#499)
+- Make sure subscriber summary on email list is sorted (#516)
+
 ## 4.1.0 - 2021-04-06
 
 - add `TransactionalMailStored` event (#507)

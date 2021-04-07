@@ -159,6 +159,7 @@ class EmailListSummaryViewModel extends ViewModel
             ->where('subscribed_at', '>=', $this->start)
             ->where('subscribed_at', '<=', now())
             ->whereNull('unsubscribed_at')
+            ->orderBy('subscribed_at')
             ->groupBy('subscribed_day')
             ->get();
 
@@ -168,6 +169,7 @@ class EmailListSummaryViewModel extends ViewModel
             ->where('unsubscribed_at', '>=', $this->start)
             ->where('unsubscribed_at', '<=', now())
             ->whereNotNull('unsubscribed_at')
+            ->orderBy('unsubscribed_at')
             ->groupBy('unsubscribe_day')
             ->get();
 
