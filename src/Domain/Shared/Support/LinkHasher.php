@@ -12,8 +12,8 @@ class LinkHasher
     public static function hash(Sendable $sendable, string $url, string $type = 'clicked'): string
     {
         $prefix = match($sendable::class) {
-            Campaign::class => "campaign",
-            AutomationMail::class => "automation-mail",
+            config('mailcoach.models.campaign', Campaign::class) => "campaign",
+            config('mailcoach.models.automation_mail', AutomationMail::class) => "automation-mail",
         };
 
         $sendablePart = "{$prefix}-{$sendable->id}-{$type}";
