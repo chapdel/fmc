@@ -5,6 +5,7 @@ All notable changes to `laravel-mailcoach` will be documented in this file
 ## 4.2.1 - 2012-04-09
 
 - Fix a MySQL query issue with order by on the email list summary
+- Adds missing table prefixes for raw queries #520
 
 ## 4.2.0 - 2012-04-07
 
