@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.2.1 - 2012-04-09
+
+- Fix a MySQL query issue with order by on the email list summary
+
 ## 4.2.0 - 2012-04-07
 
 - save extra attributes via api (#508)
