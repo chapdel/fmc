@@ -43,7 +43,9 @@ class EmailList extends Model
         $query = $this->hasMany(config('mailcoach.models.subscriber'), 'email_list_id')
             ->getQuery();
 
-        $query = $query->from(DB::raw($query->getQuery()->from . ' USE INDEX (email_list_subscribed_index)'));
+        $prefix = DB::getTablePrefix();
+
+        $query = $query->from(DB::raw($prefix . $query->getQuery()->from . ' USE INDEX (email_list_subscribed_index)'));
 
         return $this->newHasMany(
             $query,

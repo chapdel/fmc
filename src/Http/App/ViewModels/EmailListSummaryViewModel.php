@@ -153,7 +153,9 @@ class EmailListSummaryViewModel extends ViewModel
     {
         $subscriberTotal = $this->startSubscriptionsCount;
 
-        $subscribes = DB::table(DB::raw($this->getSubscriberTableName() . ' USE INDEX (email_list_subscribed_index)'))
+        $prefix = DB::getTablePrefix();
+
+        $subscribes = DB::table(DB::raw($prefix . $this->getSubscriberTableName() . ' USE INDEX (email_list_subscribed_index)'))
             ->selectRaw("count(*) as subscribed_count, date(subscribed_at) as subscribed_day")
             ->where('email_list_id', $this->emailList->id)
             ->where('subscribed_at', '>=', $this->start)
@@ -163,7 +165,7 @@ class EmailListSummaryViewModel extends ViewModel
             ->groupBy('subscribed_day')
             ->get();
 
-        $unsubscribes = DB::table(DB::raw($this->getSubscriberTableName() . ' USE INDEX (email_list_subscribed_index)'))
+        $unsubscribes = DB::table(DB::raw($prefix . $this->getSubscriberTableName() . ' USE INDEX (email_list_subscribed_index)'))
             ->selectRaw("count(*) as unsubscribe_count, date(unsubscribed_at) as unsubscribe_day")
             ->where('email_list_id', $this->emailList->id)
             ->where('unsubscribed_at', '>=', $this->start)
