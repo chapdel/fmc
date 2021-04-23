@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.3.0 - 2012-04-23
+
+- Only add a `USE INDEX` statement when using MySQL
+- Fix FontAwesome Free icons
+- Fix an issue on the subscriber received mails view
+- Added an extra Tag added trigger when subscribers are confirmed
+- Optimized some queries
+
 ## 4.2.1 - 2012-04-09
 
 - Fix a MySQL query issue with order by on the email list summary

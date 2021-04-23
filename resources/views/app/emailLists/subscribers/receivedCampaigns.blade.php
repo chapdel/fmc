@@ -17,11 +17,22 @@
             </thead>
             <tbody>
                 @foreach($sends as $send)
+                <?php /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */ ?>
                     <tr>
                         <td class="markup-links">
-                            <a class="break-words" href="{{ route('mailcoach.campaigns.summary', $send->campaign) }}">
-                                {{ $send->campaign->name }}
-                            </a>
+                            @if ($send->concernsCampaign())
+                                <a class="break-words" href="{{ route('mailcoach.campaigns.summary', $send->campaign) }}">
+                                    {{ $send->campaign->name }}
+                                </a>
+                            @elseif ($send->concernsAutomationMail())
+                                <a class="break-words" href="{{ route('mailcoach.automations.mails.summary', $send->automationMail) }}">
+                                    {{ $send->automationMail->name }}
+                                </a>
+                            @elseif ($send->concernsTransactionalMail())
+                                <a class="break-words" href="{{ route('mailcoach.transactionalMail.show', $send->transactionalMail) }}">
+                                    {{ $send->transactionalMail->name }}
+                                </a>
+                            @endif
                         </td>
                         <td class="td-numeric">{{ $send->opens()->count() }}</td>
                         <td class="td-numeric">{{ $send->clicks()->count() }}</td>

@@ -16,7 +16,7 @@ class CampaignsQuery extends QueryBuilder
 
     public function __construct()
     {
-        parent::__construct($this->getCampaignClass()::query());
+        parent::__construct($this->getCampaignClass()::query()->with('emailList'));
 
         $sentSort = AllowedSort::custom('sent', (new CampaignSort()))->defaultDirection('desc');
 
