@@ -8,7 +8,7 @@
 
                 <div class="mt-4 flex alert alert-info">
                     <div class="mr-2">
-                        <i class="far fa-sync fa-spin text-blue-500"></i>
+                        <i class="fas fa-sync fa-spin text-blue-500"></i>
                     </div>
                     <div>
                         {{ __('Campaign') }}

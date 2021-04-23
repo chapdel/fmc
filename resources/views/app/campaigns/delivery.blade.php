@@ -251,7 +251,7 @@
                     @elseif (! $campaign->sent_to_number_of_subscribers)
                         <div class="flex alert alert-info">
                             <div class="mr-2">
-                                <i class="far fa-sync fa-spin text-blue-500"></i>
+                                <i class="fas fa-sync fa-spin text-blue-500"></i>
                             </div>
                             <div>
                                 {{ __('Campaign') }}
@@ -269,7 +269,7 @@
                     @elseif ($campaign->isCancelled())
                         <div class="flex alert alert-info">
                             <div class="mr-2">
-                                <i class="far fa-ban text-red-500"></i>
+                                <i class="fas fa-ban text-red-500"></i>
                             </div>
                             <div class="flex justify-between items-center w-full">
                                 <p>
@@ -303,7 +303,7 @@
                     @else
                         <div class="flex alert alert-info">
                             <div class="mr-2">
-                                <i class="far fa-sync fa-spin text-blue-500"></i>
+                                <i class="fas fa-sync fa-spin text-blue-500"></i>
                             </div>
                             <div class="flex justify-between items-center w-full">
                                 <p>

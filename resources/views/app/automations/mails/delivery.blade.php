@@ -134,7 +134,7 @@
             @if ($mail->isReady() && $mail->sendsCount() > 0)
                 <div class="flex alert alert-info mt-6">
                     <div class="mr-2">
-                        <i class="far fa-sync fa-spin text-blue-500"></i>
+                        <i class="fas fa-sync fa-spin text-blue-500"></i>
                     </div>
                     <div class="flex justify-between items-center w-full">
                         <p>
