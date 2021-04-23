@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
@@ -31,7 +32,15 @@ class AutomationActionsFormComponent extends Component
         $this->actions = $this->automation->actions()
             ->withCount(['completedSubscribers', 'activeSubscribers'])
             ->get()
-            ->map(fn (Action $action) => $action->toLivewireArray())
+            ->map(function (Action $action) {
+                try {
+                    return $action->toLivewireArray();
+                } catch (ModelNotFoundException) {
+                    return null;
+                }
+            })
+            ->filter()
+            ->values()
             ->toArray();
     }
 

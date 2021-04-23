@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.3.1 - 2012-04-23
+- Fixed an issue when deleting an automationMail that's inside an automation
+
 ## 4.3.0 - 2012-04-23
 
 - Only add a `USE INDEX` statement when using MySQL
