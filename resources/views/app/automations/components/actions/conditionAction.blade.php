@@ -137,7 +137,7 @@
                         <div x-data="{ collapsed: false }" :class="{ 'pb-8': !collapsed }" class="grid gap-4 px-12 border-green-500 border-opacity-20 border-r border-t border-b rounded-r">
                             <div class="flex items-center">
                                 <h2 class="justify-self-start -ml-12 -mt-px -mb-px h-8 px-2 inline-flex items-center bg-green-400 text-white rounded-br space-x-2">
-                                    <i class="far far fa-thumbs-up"></i>
+                                    <i class="far fa-thumbs-up"></i>
                                     <span class="markup-h4">@lang('If')</span>
                                 </h2>
                                 <span x-show="collapsed" class="text-gray-500 text-sm ml-4">{{ count($yesActions) }} {{ trans_choice('action|actions', count($yesActions)) }}</span>
@@ -155,7 +155,7 @@
                         <div x-data="{ collapsed: false }" :class="{ 'pb-8': !collapsed }" class="grid gap-4 px-12 border-red-500 border-opacity-20 border-r border-t border-b rounded-r">
                             <div class="flex items-center">
                                 <h2 class="justify-self-start -ml-12 -mt-px -mb-px h-8 px-2 inline-flex items-center bg-red-400 text-white rounded-br space-x-2">
-                                    <i class="far far fa-thumbs-down"></i>
+                                    <i class="far fa-thumbs-down"></i>
                                     <span class="markup-h4">@lang('Else')</span>
                                 </h2>
                                 <span x-show="collapsed" class="text-gray-500 text-sm ml-4">{{ count($noActions) }} {{ trans_choice('action|actions', count($noActions)) }}</span>
@@ -209,7 +209,7 @@
                             <div x-data="{ collapsed: false }" :class="{ 'pb-8': !collapsed }" class="grid gap-4 px-12 pb-8 border-red-500 border-opacity-20 border-r border-t border-b rounded-r">
                                 <div class="flex items-center">
                                     <h2 class="justify-self-start -ml-12 -mt-px -mb-px h-8 px-2 inline-flex items-center bg-red-400 text-white rounded-br space-x-2">
-                                        <i class="far far fa-thumbs-down"></i>
+                                        <i class="far fa-thumbs-down"></i>
                                         <span class="markup-h4">
                                             <span class="font-normal">@lang('Else')</span>
                                         </span>

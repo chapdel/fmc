@@ -6,7 +6,7 @@
     <x-slot name="nav">
         <x-mailcoach::navigation :title="$emailList->name" :backHref="route('mailcoach.emailLists')"
                                  :backLabel="__('Lists')">
-            <x-mailcoach::navigation-group icon="far fa-magic" :title="__('List')">
+            <x-mailcoach::navigation-group icon="fas fa-magic" :title="__('List')">
                 <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.summary', $emailList)">
                     {{__('Performance')}}
                 </x-mailcoach::navigation-item>
@@ -25,7 +25,7 @@
                 </x-mailcoach::navigation-item>
             </x-mailcoach::navigation-group>
 
-            <x-mailcoach::navigation-group icon="far fa-cog" :title="__('Settings')">
+            <x-mailcoach::navigation-group icon="fas fa-cog" :title="__('Settings')">
                 <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.general-settings', $emailList)">
                     {{ __('General') }}
                 </x-mailcoach::navigation-item>

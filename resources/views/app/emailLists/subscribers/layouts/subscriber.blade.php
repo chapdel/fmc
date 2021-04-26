@@ -1,7 +1,7 @@
-<x-mailcoach::layout-list 
+<x-mailcoach::layout-list
     :title="$subscriber->email"
     :originTitle="__('Subscribers')"
-    :originHref="route('mailcoach.emailLists.subscribers', ['emailList' => $subscriber->emailList])" 
+    :originHref="route('mailcoach.emailLists.subscribers', ['emailList' => $subscriber->emailList])"
     :emailList="$subscriber->emailList"
 >
     <nav class="tabs">
@@ -10,7 +10,7 @@
                 {{ __('Profile') }}
             </x-mailcoach::navigation-item>
             <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.subscriber.receivedCampaigns', [$subscriber->emailList, $subscriber])">
-                <x-mailcoach::icon-label :text="__('Received campaigns')" invers :count="$totalSendsCount" />
+                <x-mailcoach::icon-label :text="__('Received mails')" invers :count="$totalSendsCount" />
             </x-mailcoach::navigation-item>
         </ul>
     </nav>

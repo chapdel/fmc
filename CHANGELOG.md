@@ -2,7 +2,37 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
-## 4.0.13 - 20201-03-29
+## 4.3.2 - 2012-04-23
+- Fix assets
+
+## 4.3.1 - 2012-04-23
+- Fixed an issue when deleting an automationMail that's inside an automation
+
+## 4.3.0 - 2012-04-23
+
+- Only add a `USE INDEX` statement when using MySQL
+- Fix FontAwesome Free icons
+- Fix an issue on the subscriber received mails view
+- Added an extra Tag added trigger when subscribers are confirmed
+- Optimized some queries
+
+## 4.2.1 - 2012-04-09
+
+- Fix a MySQL query issue with order by on the email list summary
+- Adds missing table prefixes for raw queries #520
+
+## 4.2.0 - 2012-04-07
+
+- save extra attributes via api (#508)
+- Fix LinkHasher bug when using custom Campaign model (#505)
+- Use v2 of spatie/temporary-directory (#499)
+- Make sure subscriber summary on email list is sorted (#516)
+
+## 4.1.0 - 2021-04-06
+
+- add `TransactionalMailStored` event (#507)
+
+## 4.0.13 - 2021-03-29
 
 - fix more mail rendering issues
 

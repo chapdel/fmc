@@ -20,10 +20,10 @@
                                 <i title="{{ __('Scheduled') }}" class="far fa-clock text-orange-500`"></i>
                                 @break
                                 @case(\Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus::IMPORTING)
-                                <i title="{{ __('Importing') }}" class="far fa-sync fa-spin text-blue-500"></i>
+                                <i title="{{ __('Importing') }}" class="fas fa-sync fa-spin text-blue-500"></i>
                                 @break
                                 @case(\Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus::COMPLETED)
-                                <i title="{{ __('Completed') }}" class="far fa-check text-green-500"></i>
+                                <i title="{{ __('Completed') }}" class="fas fa-check text-green-500"></i>
                                 @break
                             @endswitch
                         </td>

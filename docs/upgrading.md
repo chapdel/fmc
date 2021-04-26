@@ -357,6 +357,10 @@ php artisan vendor:publish --tag=mailcoach-config
 
 Make sure to bring over any customizations you did to the old config file. After you're done, you can delete the old, renamed config file.
 
+#### Sanctum auth
+
+Make sure the api middleware config contains `auth:sanctum` as seen here https://github.com/spatie/Mailcoach/blob/main/config/mailcoach.php#L255-L258
+
 #### Horizon config
 
 This is the new recommended horizon config, the only real change is the addition of `send-automation-mail`:

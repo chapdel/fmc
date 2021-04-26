@@ -15,7 +15,7 @@ class EmailListOnboardingController
         $this->authorize('update', $emailList);
 
         return view('mailcoach::app.emailLists.settings.onboarding', [
-            'emailList' => $emailList,
+            'emailList' => $emailList->load(['tags', 'allowedFormSubscriptionTags']),
         ]);
     }
 

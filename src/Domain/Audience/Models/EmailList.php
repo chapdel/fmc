@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\MySqlConnection;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 use Spatie\Mailcoach\Domain\Audience\Mails\ConfirmSubscriberMail;
@@ -40,10 +41,16 @@ class EmailList extends Model
 
     public function allSubscribers(): HasMany
     {
+        if (! (DB::connection() instanceof MySqlConnection)) {
+            return $this->allSubscribersWithoutIndex();
+        }
+
         $query = $this->hasMany(config('mailcoach.models.subscriber'), 'email_list_id')
             ->getQuery();
 
-        $query = $query->from(DB::raw($query->getQuery()->from . ' USE INDEX (email_list_subscribed_index)'));
+        $prefix = DB::getTablePrefix();
+
+        $query = $query->from(DB::raw($prefix . $query->getQuery()->from . ' USE INDEX (email_list_subscribed_index)'));
 
         return $this->newHasMany(
             $query,

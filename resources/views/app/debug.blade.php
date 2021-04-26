@@ -165,7 +165,7 @@
                         <code>{{ $versionInfo->getCurrentVersion('laravel-mailcoach') }}</code>
                         @if(! $versionInfo->isLatest('laravel-mailcoach'))
                             <span class="font-sans text-xs inline-flex items-center bg-gray-200 bg-opacity-50 text-gray-600 rounded-sm px-1 leading-relaxed">
-                                <i class="far fa-horse-head opacity-75 mr-1"></i>
+                                <i class="fas fa-horse-head opacity-75 mr-1"></i>
                                 {{ __('Upgrade available') }}
                             </span>
                         @endif
@@ -180,7 +180,7 @@
                         <code>{{ $versionInfo->getCurrentVersion('mailcoach-ui') }}</code>
                         @if(! $versionInfo->isLatest('mailcoach-ui'))
                             <span class="font-sans text-xs inline-flex items-center bg-gray-200 bg-opacity-50 text-gray-600 rounded-sm px-1 leading-relaxed">
-                                <i class="far fa-horse-head opacity-75 mr-1"></i>
+                                <i class="fas fa-horse-head opacity-75 mr-1"></i>
                                 {{ __('Upgrade available') }}
                             </span>
                         @endif

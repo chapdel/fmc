@@ -59,4 +59,68 @@ class TagAddedTriggerTest extends TestCase
 
         $this->assertEquals(1, $automation->actions()->first()->subscribers->count());
     }
+
+    /** @test * */
+    public function it_triggers_when_a_new_subscriber_has_a_tag()
+    {
+        TestTime::setTestNow(Carbon::create(2020, 01, 01));
+
+        $trigger = new TagAddedTrigger('opened');
+
+        $automation = Automation::create()
+            ->name('New year!')
+            ->runEvery(CarbonInterval::minute())
+            ->to($this->emailList)
+            ->triggerOn($trigger)
+            ->chain([
+                new SendAutomationMailAction($this->automationMail),
+            ])
+            ->start();
+
+        $this->refreshServiceProvider();
+
+        $this->assertEmpty($automation->actions->first()->fresh()->subscribers);
+
+        $pendingSubscriber = Subscriber::createWithEmail('john@doe.com')
+            ->tags(['opened'])
+            ->subscribeTo($this->emailList);
+
+        $this->assertEquals(1, $automation->actions()->first()->subscribers->count());
+    }
+
+    /** @test * */
+    public function it_triggers_when_a_new_confirmed_subscriber_has_a_tag()
+    {
+        TestTime::setTestNow(Carbon::create(2020, 01, 01));
+
+        $this->emailList->update([
+            'requires_confirmation' => true,
+        ]);
+
+        $trigger = new TagAddedTrigger('opened');
+
+        $automation = Automation::create()
+            ->name('New year!')
+            ->runEvery(CarbonInterval::minute())
+            ->to($this->emailList)
+            ->triggerOn($trigger)
+            ->chain([
+                new SendAutomationMailAction($this->automationMail),
+            ])
+            ->start();
+
+        $this->refreshServiceProvider();
+
+        $this->assertEmpty($automation->actions->first()->fresh()->subscribers);
+
+        $subscriber = Subscriber::createWithEmail('john@doe.com')
+            ->tags(['opened'])
+            ->subscribeTo($this->emailList);
+
+        $this->assertEmpty($automation->actions->first()->fresh()->subscribers);
+
+        $subscriber->confirm();
+
+        $this->assertEquals(1, $automation->actions()->first()->subscribers->count());
+    }
 }

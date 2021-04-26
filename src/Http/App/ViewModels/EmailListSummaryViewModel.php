@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\ViewModels;
 
 use Carbon\CarbonImmutable;
+use Illuminate\Database\MySqlConnection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -153,21 +154,26 @@ class EmailListSummaryViewModel extends ViewModel
     {
         $subscriberTotal = $this->startSubscriptionsCount;
 
-        $subscribes = DB::table(DB::raw($this->getSubscriberTableName() . ' USE INDEX (email_list_subscribed_index)'))
+        $prefix = DB::getTablePrefix();
+        $subscriberTable = $prefix . $this->getSubscriberTableName() . (DB::connection() instanceof MySqlConnection ? ' USE INDEX (email_list_subscribed_index)' : '');
+
+        $subscribes = DB::table(DB::raw($subscriberTable))
             ->selectRaw("count(*) as subscribed_count, date(subscribed_at) as subscribed_day")
             ->where('email_list_id', $this->emailList->id)
             ->where('subscribed_at', '>=', $this->start)
             ->where('subscribed_at', '<=', now())
             ->whereNull('unsubscribed_at')
+            ->orderBy('subscribed_day')
             ->groupBy('subscribed_day')
             ->get();
 
-        $unsubscribes = DB::table(DB::raw($this->getSubscriberTableName() . ' USE INDEX (email_list_subscribed_index)'))
+        $unsubscribes = DB::table(DB::raw($subscriberTable))
             ->selectRaw("count(*) as unsubscribe_count, date(unsubscribed_at) as unsubscribe_day")
             ->where('email_list_id', $this->emailList->id)
             ->where('unsubscribed_at', '>=', $this->start)
             ->where('unsubscribed_at', '<=', now())
             ->whereNotNull('unsubscribed_at')
+            ->orderBy('unsubscribe_day')
             ->groupBy('unsubscribe_day')
             ->get();
 

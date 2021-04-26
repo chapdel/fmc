@@ -138,6 +138,25 @@ When passing tags, the tags will be synced to the subscriber.
   }
 }
 ```
+## Update a subscriber
+
+To update a subscriber, you can send a `PATCH` request to the `/mailcoach/api/subscribers/<id>` endpoint.
+
+```shell script
+$ MAILCOACH_TOKEN="your API token"
+$ curl -x PATCH https://example.app/mailcoach/api/email-lists/99/subscribers \
+    -H "Authorization: Bearer $MAILCOACH_TOKEN" \
+    -H 'Accept: application/json' \
+    -H 'Content-Type: application/json' \
+    -d '{"email":"john@doe.com", "first_name":"John", "last_name":"Doe"}'
+```
+
+You can pass the following fields while updating a subscriber:
+
+- `email`: string, required
+- `first_name`: nullable
+- `last_name`: nullable
+- `tags`: array
 
 ## Delete a subscriber
 

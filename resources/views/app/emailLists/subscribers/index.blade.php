@@ -87,10 +87,10 @@
                             <i class="far fa-question-circle text-orange-500" title="{{ __('Unconfirmed') }}"></i>
                         @endif
                         @if ($subscriber->isSubscribed())
-                            <i class="far fa-check text-green-500" title="{{ __('Subscribed') }}"></i>
+                            <i class="fas fa-check text-green-500" title="{{ __('Subscribed') }}"></i>
                         @endif
                         @if ($subscriber->isUnsubscribed())
-                            <i class="far fa-ban text-gray-400" title="{{ __('Unsubscribed') }}"></i>
+                            <i class="fas fa-ban text-gray-400" title="{{ __('Unsubscribed') }}"></i>
                         @endif
                     </td>
                     <td>

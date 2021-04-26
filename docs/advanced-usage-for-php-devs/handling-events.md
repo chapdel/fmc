@@ -5,7 +5,7 @@ weight: 3
 
 This package fires several events. You can listen for them firing to perform extra logic.
 
-## `Spatie\Mailcoach\Events\SubscribedEvent`
+## `Spatie\Mailcoach\Domain\Audience\Events\SubscribedEvent`
 
 This event will be fired as soon as someone subscribes. If [double opt-in](/docs/laravel-mailcoach/v4/audience/using-double-opt-in) is enabled on the email list someone is in the process of subscribing to, this event will be fired when the subscription is confirmed.
 
@@ -14,7 +14,7 @@ The event has one public property: `$subscriber` which is an instance of `Spatie
 You can get the email address of the subscriber like this:
 
 ```php
-$email = $event->subcriber->email;
+$email = $event->subscriber->email;
 ```
 
 This is how to get the name of the email list:
@@ -23,13 +23,13 @@ This is how to get the name of the email list:
 $nameOfEmailList = $event->subscriber->emailList->name;
 ```
 
-## `Spatie\Mailcoach\Events\UnconfirmedSubscriberCreatedEvent`
+## `Spatie\Mailcoach\Domain\Audience\Events\UnconfirmedSubscriberCreatedEvent`
 
 This event will fire after a new email address is added to an email list that requires confirmation.
 
 It has one public property: `subscriber`.
 
-## `Spatie\Mailcoach\Events\UnsubscribedEvent`
+## `Spatie\Mailcoach\Domain\Audience\Events\UnsubscribedEvent`
 
 This event will be fired as soon as someone unsubscribes. When somebody unsubscribes, the subscription won't be deleted, but its `status` attribute will be set to `unsubscribed`.
 
@@ -40,7 +40,7 @@ The event has two public properties:
 You can get the email address of the subscriber like this:
 
 ```php
-$email = $event->subcriber->email;
+$email = $event->subscriber->email;
 ```
 
 This is how to get the name of the email list:
@@ -49,13 +49,13 @@ This is how to get the name of the email list:
 $nameOfEmailList = $event->send->campaign->emailList->name;
 ```
 
-## `Spatie\Mailcoach\Events\CampaignSentEvent`
+## `Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent`
 
 This event will be fired after you've sent a campaign, and all mails are queued to be sent. Keep in mind that not all your subscribers will have gotten your mail when this event is fired.
 
 The event has one public property: `$campaign`, which is an instance of the `\Spatie\Mailcoach\Models\Campaign` model.
 
-## `Spatie\Mailcoach\Events\CampaignMailSentEvent`
+## `Spatie\Mailcoach\Domain\Campaign\Events\CampaignMailSentEvent`
 
 This event will be fired when a mail has actually been sent to a single subscriber.
 
@@ -73,7 +73,7 @@ You can also retrieve the name of the campaign that this mail was part of:
 $campaignName = $event->send->campaign->name;
 ```
 
-## `Spatie\Mailcoach\Events\CampaignOpenedEvent`
+## `Spatie\Mailcoach\Domain\Campaign\Events\CampaignOpenedEvent`
 
 This event will be fired when somebody opens an email. Be aware that this event could be fired many times after sending a campaign to a email list with a large number of subscribers. This event will only be fired for campaigns that have [open tracking](/docs/laravel-mailcoach/v4/automations/tracking-opens) enabled.
 
@@ -91,7 +91,7 @@ This is how you can get to the name of the campaign:
 $name = $event->campaignOpen->campaign->name;
 ```
 
-## `Spatie\Mailcoach\Events\CampaignLinkClickedEvent`
+## `Spatie\Mailcoach\Domain\Campaign\Events\CampaignLinkClickedEvent`
 
 This event will be fired when somebody clicks a link in a mail. This event will only be fired for campaigns that have [click tracking](/docs/laravel-mailcoach/v4/automations/tracking-clicks) enabled.
 
@@ -109,13 +109,13 @@ The email address of the subscriber who clicked the link can be retrieved like t
 $email = $event->campaignClick->subscriber->email;
 ```
 
-## `Spatie\Mailcoach\Events\CampaignStatisticsCalculatedEvent`
+## `Spatie\Mailcoach\Domain\Campaign\Events\CampaignStatisticsCalculatedEvent`
 
 After a campaign has been sent, statistics will [be calculated according to a schedule](/docs/laravel-mailcoach/v4/campaigns/viewing-statistics-of-a-sent-campaign).
 
 Each time the statistics are calculated this event will be fired. It has one public property `$campaign`, which is an instance of the `Spatie\Mailcoach\Models\Campaign` model.
 
-## `Spatie\Mailcoach\Events\BounceRegisteredEvent`
+## `Spatie\Mailcoach\Domain\Campaign\Events\BounceRegisteredEvent`
 
 This event will fire when a complaint has bounced hard.
 
@@ -133,7 +133,7 @@ You can also retrieve the name of the campaign that this mail was part of:
 $campaignName = $event->send->campaign->name;
 ```
 
-## `Spatie\Mailcoach\Events\ComplaintRegisteredEvent`
+## `Spatie\Mailcoach\Domain\Audience\Events\ComplaintRegisteredEvent`
 
 This event will fire when a complaint has been received about a sent mail. In many cases this means that the receiver marked it as spam.
 
@@ -150,3 +150,21 @@ You can also retrieve the name of the campaign that this mail was part of:
 ```php
 $campaignName = $event->send->campaign->name;
 ```
+
+## `Spatie\Mailcoach\Domain\Audience\Events\TagAddedEvent`
+
+## `Spatie\Mailcoach\Domain\Audience\Events\TagRemovedEvent`
+
+## `Spatie\Mailcoach\Domain\Automation\Events\AutomationMailLinkClickedEvent`
+
+## `Spatie\Mailcoach\Domain\Automation\Events\AutomationMailOpenedEvent`
+
+## `Spatie\Mailcoach\Domain\Automation\Events\AutomationMailSentEvent`
+
+## `Spatie\Mailcoach\Domain\Automation\Events\AutomationMailStatisticsCalculatedEvent`
+
+## `Spatie\Mailcoach\Domain\Campaign\Events\WebhookCallProcessedEvent`
+
+## `Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailLinkClickedEvent`
+
+## `Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailOpenedEvent`

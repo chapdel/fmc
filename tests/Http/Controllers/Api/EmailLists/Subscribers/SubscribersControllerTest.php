@@ -112,4 +112,25 @@ class SubscribersControllerTest extends TestCase
         $this->assertEquals($attributes['last_name'], $subscriber->last_name);
         $this->assertEquals($attributes['tags'], $subscriber->tags->pluck('name')->toArray());
     }
+
+    /** @test */
+    public function it_can_update_a_subscriber_with_extra_attributes()
+    {
+        /** @var Subscriber $subscriber */
+        $subscriber = Subscriber::factory()
+            ->for(EmailList::factory(), 'emailList')
+            ->create();
+
+        $attributes = [
+            'extra_attributes' => [
+                'foo' => 'bar',
+            ],
+        ];
+
+        $this
+            ->patchJson(action([SubscribersController::class, 'update'], $subscriber), $attributes)
+            ->assertSuccessful();
+        $subscriber->refresh();
+        $this->assertEquals($attributes['extra_attributes']['foo'], $subscriber->extra_attributes->foo);
+    }
 }
