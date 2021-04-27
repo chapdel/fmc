@@ -85,6 +85,7 @@ class SendCampaignAction
             })
             ->name($campaign->getBatchName())
             ->onQueue(config('mailcoach.campaigns.perform_on_queue.send_mail_job'))
+            ->onConnection(config('mailcoach.queue_connection'))
             ->dispatch();
 
         $campaign->update(['send_batch_id' => $batch->id]);

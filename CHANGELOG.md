@@ -2,13 +2,19 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
-## 4.3.2 - 2012-04-23
+## 4.3.3 - 2021-04-27
+
+- Let `SendCampaignAction` use the connection specified in the config
+
+## 4.3.2 - 2021-04-27
+
 - Fix assets
 
-## 4.3.1 - 2012-04-23
+## 4.3.1 - 2021-04-23
+
 - Fixed an issue when deleting an automationMail that's inside an automation
 
-## 4.3.0 - 2012-04-23
+## 4.3.0 - 2021-04-23
 
 - Only add a `USE INDEX` statement when using MySQL
 - Fix FontAwesome Free icons
@@ -16,12 +22,12 @@ All notable changes to `laravel-mailcoach` will be documented in this file
 - Added an extra Tag added trigger when subscribers are confirmed
 - Optimized some queries
 
-## 4.2.1 - 2012-04-09
+## 4.2.1 - 2021-04-09
 
 - Fix a MySQL query issue with order by on the email list summary
 - Adds missing table prefixes for raw queries #520
 
-## 4.2.0 - 2012-04-07
+## 4.2.0 - 2021-04-07
 
 - save extra attributes via api (#508)
 - Fix LinkHasher bug when using custom Campaign model (#505)
