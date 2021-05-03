@@ -22,7 +22,7 @@ class RenderTemplateAction
 
     protected function renderTemplateBody(TransactionalMailTemplate $template, Mailable $mailable): string
     {
-        return match($template->type) {
+        return match ($template->type) {
             'blade' => $this->compileBlade($template->body, $mailable->buildViewData()),
             'markdown' => Markdown::parse($template->body),
             'blade-markdown' => $this->compileBlade(

@@ -14,7 +14,7 @@ class LinkHasher
         $campaignClass = config('mailcoach.models.campaign', Campaign::class);
         $automationMailClass = config('mailcoach.models.automation_mail', AutomationMail::class);
 
-        $prefix = match($sendable::class) {
+        $prefix = match ($sendable::class) {
             $campaignClass => "campaign",
             $automationMailClass => "automation-mail",
         };

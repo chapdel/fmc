@@ -12,7 +12,7 @@ class TextEditor implements Editor
 {
     public function render(HasHtmlContent $model): string
     {
-        return match($model::class) {
+        return match ($model::class) {
             Campaign::class => $this->renderForCampaign($model),
             Template::class => $this->renderForCampaignTemplate($model),
             AutomationMail::class => $this->renderForAutomationMail($model),
