@@ -1,6 +1,6 @@
 ---
 title: Monaco
-weight: 3
+weight: 4
 ---
 
 <a href="https://microsoft.github.io/monaco-editor/">Monaco</a> is a powerful code editor created by Microsoft. It
