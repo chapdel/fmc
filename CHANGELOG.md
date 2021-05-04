@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.3.4 - 2021-05-04
+
+- fix link to docs
+
 ## 4.3.3 - 2021-04-27
 
 ## 4.3.2 - 2021-04-27
