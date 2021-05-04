@@ -1,6 +1,6 @@
 ---
 title: Unlayer
-weight: 2
+weight: 3
 ---
 
 [Unlayer](https://unlayer.com) is a beautiful wysiwyg editor, that requires no knowledge of HTML. It also offers image uploads.
