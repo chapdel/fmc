@@ -412,7 +412,7 @@ Head over to the Laravel documentation to learn [how to set up a mailer](https:/
 
 Mailcoach can use different mailers for sending confirmation & welcome mails and campaign mails. This way you can keep very good reputations with the mailer service you use for campaign mails, as the confirmation mails might bounce.
 
-To use different mailers, fill in the name of configured mailers in the `campaigns.mailer` and `transactioal.mailer` of the `mailcoach.php` config file.
+To use different mailers, fill in the name of configured mailers in the `campaigns.mailer` and `transactional.mailer` of the `mailcoach.php` config file.
 
 To configure tracking open, clicks, bounces & complaints, follow the instruction on the dedicated docs page of each supported service.
 
