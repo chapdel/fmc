@@ -4,8 +4,6 @@ All notable changes to `laravel-mailcoach` will be documented in this file
 
 ## 4.3.3 - 2021-04-27
 
-- Let `SendCampaignAction` use the connection specified in the config
-
 ## 4.3.2 - 2021-04-27
 
 - Fix assets
