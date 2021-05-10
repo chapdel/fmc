@@ -18,7 +18,7 @@ When you've installed Mailcoach in an existing Laravel app, you must manually in
 You can install the add-on package via Composer:
 
 ```bash
-composer require spatie/laravel-mailcoach-editor:^1.0
+composer require spatie/laravel-mailcoach-editor:^0.1
 ```
 
 ### Publish and run the migration
@@ -36,7 +36,7 @@ php artisan vendor:publish --provider="Spatie\MailcoachEditor\MailcoachEditorSer
 
 ### Add the route macro
 
-You must register the routes needed to handle uploads. We recommend that you don't put this in your routes file, but in the map method of your `RouteServiceProvider`.
+You must register the routes needed to handle uploads. We recommend that you don't put this in your routes file, but in the `boot()` method of your `RouteServiceProvider` within `$this->routes(function () { }`.
 
 ```php
 Route::mailcoachEditor('mailcoachEditor');
