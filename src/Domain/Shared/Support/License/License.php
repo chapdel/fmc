@@ -21,6 +21,8 @@ class License
 
     public function hasExpired(): bool
     {
+        return true;
+
         return $this->getStatus() === self::STATUS_EXPIRED;
     }
 
