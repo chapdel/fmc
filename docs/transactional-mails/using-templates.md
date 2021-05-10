@@ -18,7 +18,7 @@ Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate::crea
 ]);
 ```
 
-After you have created this model, it [will become visible](TODO: add link) in the UI of Mailcoach. Users of Mailcoach will be able to change the properties of the mail.
+After you have created this model, it [will become visible in the UI](/docs/laravel-mailcoach/v4/using-mailcoach/transactional#defining-transactional-mail-templates) of Mailcoach. Users of Mailcoach will be able to change the properties of the mail.
 
 Next, you should create a mailable and let it use the `Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns\UsesMailcoachTemplate` trait. In the `build` method of your mailable you should call the `template` method.
 
