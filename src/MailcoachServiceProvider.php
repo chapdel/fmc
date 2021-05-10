@@ -63,6 +63,7 @@ use Spatie\Mailcoach\Domain\Campaign\Listeners\AddCampaignClickedTag;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\AddCampaignOpenedTag;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\SendCampaignSentEmail;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\SetWebhookCallProcessedAt;
+use Spatie\Mailcoach\Domain\Shared\Commands\CheckLicenseCommand;
 use Spatie\Mailcoach\Domain\Shared\Commands\CleanupProcessedFeedbackCommand;
 use Spatie\Mailcoach\Domain\Shared\Commands\RetryPendingSendsCommand;
 use Spatie\Mailcoach\Domain\Shared\Support\Version;
@@ -104,6 +105,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
                 CleanupProcessedFeedbackCommand::class,
                 RunAutomationActionsCommand::class,
                 RunAutomationTriggersCommand::class,
+                CheckLicenseCommand::class,
             ]);
     }
 
