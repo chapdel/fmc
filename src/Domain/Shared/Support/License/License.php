@@ -21,8 +21,6 @@ class License
 
     public function hasExpired(): bool
     {
-        return true;
-
         return $this->getStatus() === self::STATUS_EXPIRED;
     }
 
@@ -35,27 +33,29 @@ class License
 
     public function getStatus(): string
     {
-        return Cache::remember($this->cacheKey, (int)CarbonInterval::week()->totalSeconds, function() {
-            try {
-                $licenseKey = $this->licenseKey();
+        return Cache::remember(
+            $this->cacheKey,
+            (int)CarbonInterval::week()->totalSeconds,
+            function () {
+                try {
+                    $licenseKey = $this->licenseKey();
 
-                if (! $licenseKey) {
-                    return self::STATUS_NOT_FOUND;
+                    if (!$licenseKey) {
+                        return self::STATUS_NOT_FOUND;
+                    }
+
+                    $licenseProperties = Http::asJson()
+                        ->get("https://spatie.be/api/license/{$licenseKey}")
+                        ->json();
+
+                    $active = Carbon::createFromTimestamp($licenseProperties['expires_at'])->isFuture();
+                    return $active
+                        ? self::STATUS_ACTIVE
+                        : self::STATUS_EXPIRED;
+                } catch (Throwable) {
+                    return self::STATUS_UNKNOWN;
                 }
-
-                $licenseProperties = Http::asJson()
-                    ->get("https://spatie.be/api/license/{$licenseKey}")
-                    ->json();
-
-                $active = Carbon::createFromTimestamp($licenseProperties['expires_at'])->isFuture();
-
-                return $active
-                    ? self::STATUS_ACTIVE
-                    : self::STATUS_EXPIRED;
-            } catch (Throwable) {
-                return self::STATUS_UNKNOWN;
-            }
-        });
+            });
     }
 
     protected function licenseKey(): ?string
@@ -64,7 +64,7 @@ class License
 
         $process->start();
 
-        if (! $process->isSuccessful()) {
+        if (!$process->isSuccessful()) {
             return null;
         }
 
