@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="referrer" content="always">
 
-        <link rel="preconnect" href="https://fonts.gstatic.com"> 
+        <link rel="preconnect" href="https://fonts.gstatic.com">
 
         <title>{{ isset($title) ? "{$title} |" : '' }} {{ isset($originTitle) ? "{$originTitle} |" : '' }} Mailcoach</title>
 
@@ -39,8 +39,14 @@
          style="grid-template-rows: auto 1fr auto">
             <aside>
                 @include('mailcoach::app.layouts.partials.startBody')
-            </aside>
 
+                    @if ((new Spatie\Mailcoach\Domain\Shared\Support\License\License())->hasExpired())
+                    <div class="mb-6 alert alert-warning text-sm shadow-lg">
+                        Your Mailcoach license has expired. <a class="underline" href="https://spatie.be/products/mailcoach">Renew your license</a> and benefit from fixes and new features.
+                    </div>
+                    @endif
+
+            </aside>
 
             <div>
                 @include('mailcoach::app.layouts.partials.flash')
