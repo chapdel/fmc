@@ -7,14 +7,17 @@ use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use Symfony\Component\Process\ExecutableFinder;
+use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 use Throwable;
 
 class License
 {
     const STATUS_NOT_FOUND = 'not found';
-    const STATUS_ACTIVE = 'valid';
+    const STATUS_ACTIVE = 'active';
     const STATUS_EXPIRED = 'expired';
+    const STATUS_INVALID = 'invalid';
     const STATUS_UNKNOWN = 'unknown';
 
     protected string $cacheKey = 'mailcoach-license-status';
@@ -33,20 +36,26 @@ class License
 
     public function getStatus(): string
     {
+
         return Cache::remember(
             $this->cacheKey,
             (int)CarbonInterval::week()->totalSeconds,
             function () {
                 try {
-                    $licenseKey = $this->licenseKey();
 
+                    $licenseKey = $this->licenseKey();
                     if (! $licenseKey) {
                         return self::STATUS_NOT_FOUND;
                     }
 
-                    $licenseProperties = Http::asJson()
-                        ->get("https://spatie.be/api/license/{$licenseKey}")
-                        ->json();
+                    $response = Http::asJson()
+                        ->get("https://spatie.be/api/license/{$licenseKey}");
+
+                    if ($response->status() === 404) {
+                        return self::STATUS_INVALID;
+                    }
+
+                    $licenseProperties = $response->json();
 
                     $active = Carbon::createFromTimestamp($licenseProperties['expires_at'])->isFuture();
 
@@ -62,9 +71,11 @@ class License
 
     protected function licenseKey(): ?string
     {
-        $process = Process::fromShellCommandline('composer config --list  | grep http-basic.satis.spatie.be.password');
+        $composerPath = (new ExecutableFinder())->find('composer');
 
-        $process->start();
+        $process = Process::fromShellCommandline("{$composerPath} config --list | grep http-basic.satis.spatie.be.password");
+
+        $process->run();
 
         if (! $process->isSuccessful()) {
             return null;
@@ -72,12 +83,12 @@ class License
 
         $output = $process->getOutput();
 
-        if (str_contains($output, '[http-basic.satis.spatie.be.password] ')) {
+        if (! str_contains($output, '[http-basic.satis.spatie.be.password] ')) {
             return null;
         }
 
         $licenseKey = Str::after($output, '[http-basic.satis.spatie.be.password] ');
 
-        return $licenseKey;
+        return trim($licenseKey);
     }
 }

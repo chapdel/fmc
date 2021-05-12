@@ -26,6 +26,12 @@ class CheckLicenseCommand extends Command
             return;
         }
 
+        if ($status === License::STATUS_INVALID) {
+            $this->info('❌  Your Mailcoach license is invalid. Make sure you use a the license key displayed at https://spatie.be/products/mailcoach');
+
+            return;
+        }
+
         if ($status === License::STATUS_EXPIRED) {
             $this->info('❌  Your Mailcoach license has expired. Visit https://spatie.be/products/mailcoach to renew your license.');
 
