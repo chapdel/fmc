@@ -78,6 +78,4 @@ class License
 
         return $licenseKey;
     }
-
-
 }
