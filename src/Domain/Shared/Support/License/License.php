@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Symfony\Component\Process\ExecutableFinder;
-use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
 use Throwable;
 
@@ -36,13 +35,11 @@ class License
 
     public function getStatus(): string
     {
-
         return Cache::remember(
             $this->cacheKey,
             (int)CarbonInterval::week()->totalSeconds,
             function () {
                 try {
-
                     $licenseKey = $this->licenseKey();
                     if (! $licenseKey) {
                         return self::STATUS_NOT_FOUND;
