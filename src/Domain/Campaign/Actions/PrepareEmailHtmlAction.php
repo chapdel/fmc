@@ -55,7 +55,6 @@ class PrepareEmailHtmlAction
     {
         $document = $this->createDomDocumentFromHtmlAction->execute($campaign->email_html);
 
-        /** @var \DOMElement $linkElement */
         foreach ($document->getElementsByTagName('a') as $linkElement) {
             $url = $linkElement->getAttribute('href');
             $newUrl = $this->addUtmTagsToUrlAction->execute($url, $campaign->name);

@@ -16,6 +16,22 @@
     </projectFiles>
 
     <issueHandlers>
+        <UndefinedPropertyAssignment>
+            <errorLevel type="suppress">
+                <directory name="src"/>
+            </errorLevel>
+        </UndefinedPropertyAssignment>
+        <UndefinedPropertyFetch>
+            <errorLevel type="suppress">
+                <directory name="src"/>
+            </errorLevel>
+        </UndefinedPropertyFetch>
+        <DuplicateArrayKey>
+            <errorLevel type="suppress">
+                <file name="src/Http/App/ViewModels/EmailListSummaryViewModel.php"/>
+                <file name="src/Http/App/ViewModels/CampaignSummaryViewModel.php"/>
+            </errorLevel>
+        </DuplicateArrayKey>
         <NullableReturnStatement>
             <errorLevel type="suppress">
                 <file name="src/Http/App/Requests/Campaigns/ScheduleCampaignRequest.php"/>

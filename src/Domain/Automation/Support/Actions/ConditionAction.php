@@ -152,10 +152,8 @@ class ConditionAction extends AutomationAction
             ->first();
 
         if (! $action instanceof AutomationAction) {
-            if (! $action instanceof AutomationAction) {
-                $class = $action['class'];
-                $action = $class::make($action['data']);
-            }
+            $class = $action['class'];
+            $action = $class::make($action['data']);
         }
 
         return [
