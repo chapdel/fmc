@@ -33,7 +33,8 @@ use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailOpen;
 
 class Send extends Model
 {
-    use HasUuid, HasFactory;
+    use HasUuid;
+    use HasFactory;
 
     public $table = 'mailcoach_sends';
 

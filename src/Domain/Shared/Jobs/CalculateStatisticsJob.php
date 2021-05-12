@@ -15,7 +15,10 @@ use Spatie\Mailcoach\Domain\Shared\Support\Config;
 
 class CalculateStatisticsJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     public Sendable $sendable;
 

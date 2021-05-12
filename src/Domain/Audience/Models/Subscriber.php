@@ -30,10 +30,10 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class Subscriber extends Model
 {
-    use HasUuid,
-        HasExtraAttributes,
-        UsesMailcoachModels,
-        HasFactory;
+    use HasUuid;
+    use HasExtraAttributes;
+    use UsesMailcoachModels;
+    use HasFactory;
 
     public $table = 'mailcoach_subscribers';
 

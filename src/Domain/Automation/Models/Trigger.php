@@ -10,7 +10,8 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
 
 class Trigger extends Model
 {
-    use HasUuid, HasFactory;
+    use HasUuid;
+    use HasFactory;
 
     public $table = 'mailcoach_automation_triggers';
 

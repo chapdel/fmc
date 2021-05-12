@@ -13,9 +13,9 @@ use Spatie\Mailcoach\Http\App\Queries\EmailListQuery;
 
 class EmailListsController
 {
-    use AuthorizesRequests,
-        RespondsToApiRequests,
-        UsesMailcoachModels;
+    use AuthorizesRequests;
+    use RespondsToApiRequests;
+    use UsesMailcoachModels;
 
     public function index(EmailListQuery $emailLists)
     {

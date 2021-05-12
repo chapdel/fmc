@@ -13,7 +13,10 @@ use Spatie\Mailcoach\Domain\Shared\Support\Config;
 
 class SendCampaignJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     public Campaign $campaign;
 

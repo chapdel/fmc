@@ -20,7 +20,10 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class Automation extends Model
 {
-    use HasUuid, UsesMailcoachModels, SendsToSegment, HasFactory;
+    use HasUuid;
+    use UsesMailcoachModels;
+    use SendsToSegment;
+    use HasFactory;
 
     public $table = 'mailcoach_automations';
 

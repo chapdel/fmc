@@ -14,7 +14,9 @@ use Spatie\ModelCleanup\GetsCleanedUp;
 
 class SubscriberImport extends Model implements HasMedia, GetsCleanedUp
 {
-    use InteractsWithMedia, HasUuid, HasFactory;
+    use InteractsWithMedia;
+    use HasUuid;
+    use HasFactory;
 
     public $table = 'mailcoach_subscriber_imports';
 

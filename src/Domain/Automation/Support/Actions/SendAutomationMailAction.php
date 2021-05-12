@@ -10,7 +10,8 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class SendAutomationMailAction extends AutomationAction
 {
-    use SerializesModels, UsesMailcoachModels;
+    use SerializesModels;
+    use UsesMailcoachModels;
 
     public AutomationMail $automationMail;
 

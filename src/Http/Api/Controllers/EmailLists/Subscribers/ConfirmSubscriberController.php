@@ -12,8 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ConfirmSubscriberController
 {
-    use AuthorizesRequests,
-        RespondsToApiRequests;
+    use AuthorizesRequests;
+    use RespondsToApiRequests;
 
     public function __invoke(
         ConfirmSubscriberRequest $request,

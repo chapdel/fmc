@@ -5,8 +5,6 @@ namespace Spatie\Mailcoach\Domain\Shared\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Carbon;
 use Spatie\Mailcoach\Domain\Shared\Support\License\License;
-use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\WebhookClient\Models\WebhookCall;
 
 class CheckLicenseCommand extends Command
 {
@@ -30,6 +28,7 @@ class CheckLicenseCommand extends Command
 
         if ($status === License::STATUS_EXPIRED) {
             $this->info('❌  Your Mailcoach license has expired. Visit https://spatie.be/products/mailcoach to renew your license.');
+
             return;
         }
 

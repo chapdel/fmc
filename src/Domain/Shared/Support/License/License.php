@@ -40,7 +40,7 @@ class License
                 try {
                     $licenseKey = $this->licenseKey();
 
-                    if (!$licenseKey) {
+                    if (! $licenseKey) {
                         return self::STATUS_NOT_FOUND;
                     }
 
@@ -49,13 +49,15 @@ class License
                         ->json();
 
                     $active = Carbon::createFromTimestamp($licenseProperties['expires_at'])->isFuture();
+
                     return $active
                         ? self::STATUS_ACTIVE
                         : self::STATUS_EXPIRED;
                 } catch (Throwable) {
                     return self::STATUS_UNKNOWN;
                 }
-            });
+            }
+        );
     }
 
     protected function licenseKey(): ?string
@@ -64,7 +66,7 @@ class License
 
         $process->start();
 
-        if (!$process->isSuccessful()) {
+        if (! $process->isSuccessful()) {
             return null;
         }
 

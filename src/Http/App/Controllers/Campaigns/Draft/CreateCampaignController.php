@@ -10,8 +10,8 @@ use Spatie\Mailcoach\Http\App\Requests\Campaigns\StoreCampaignRequest;
 
 class CreateCampaignController
 {
-    use AuthorizesRequests,
-        UsesMailcoachModels;
+    use AuthorizesRequests;
+    use UsesMailcoachModels;
 
     public function __invoke(
         StoreCampaignRequest $request,

@@ -10,8 +10,8 @@ use Spatie\Mailcoach\Http\App\Requests\EmailLists\Settings\UpdateEmailListGenera
 
 class CreateEmailListController
 {
-    use AuthorizesRequests,
-        UsesMailcoachModels;
+    use AuthorizesRequests;
+    use UsesMailcoachModels;
 
     public function __invoke(UpdateEmailListGeneralSettingsRequest $request, UpdateEmailListAction $updateEmailListAction)
     {
