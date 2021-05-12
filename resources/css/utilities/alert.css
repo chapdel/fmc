@@ -39,7 +39,7 @@
 }
 
 .alert-success a {
-    text-decoration-color: var(--green-600);
+    text-decoration-color: var(--green-700);
 }
 
 .alert-info {
@@ -48,7 +48,7 @@
 }
 
 .alert-info a {
-    text-decoration-color: var(--gray-500);
+    text-decoration-color: var(--gray-700);
 }
 
 .alert-warning {
@@ -58,7 +58,7 @@
 }
 
 .alert-warning a {
-    text-decoration-color: var(--orange-500);
+    text-decoration-color: var(--orange-700);
 }
 
 .alert-danger,

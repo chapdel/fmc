@@ -10,8 +10,6 @@ use Spatie\WebhookClient\Models\WebhookCall;
 
 class CheckLicenseCommand extends Command
 {
-
-
     public $signature = 'mailcoach:check-license';
 
     public $description = 'Check if the current license is valid';
