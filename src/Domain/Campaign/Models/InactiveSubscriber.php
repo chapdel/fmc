@@ -10,8 +10,8 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class InactiveSubscriber extends Model
 {
-    use UsesMailcoachModels,
-        HasFactory;
+    use UsesMailcoachModels;
+    use HasFactory;
 
     public $table = 'mailcoach_inactive_subscribers';
 

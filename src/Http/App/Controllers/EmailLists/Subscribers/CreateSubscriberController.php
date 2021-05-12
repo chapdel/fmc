@@ -9,8 +9,8 @@ use Spatie\Mailcoach\Http\App\Requests\EmailLists\Subscribers\CreateSubscriberRe
 
 class CreateSubscriberController
 {
-    use AuthorizesRequests,
-        UsesMailcoachModels;
+    use AuthorizesRequests;
+    use UsesMailcoachModels;
 
     public function store(
         EmailList $emailList,

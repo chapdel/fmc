@@ -13,8 +13,8 @@ use Spatie\Mailcoach\Http\App\Requests\TemplateRequest;
 
 class TemplatesController
 {
-    use AuthorizesRequests,
-        RespondsToApiRequests;
+    use AuthorizesRequests;
+    use RespondsToApiRequests;
 
     public function index(TemplatesQuery $templatesQuery)
     {

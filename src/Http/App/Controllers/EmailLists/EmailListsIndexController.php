@@ -9,8 +9,8 @@ use Spatie\Mailcoach\Http\App\Queries\EmailListQuery;
 
 class EmailListsIndexController
 {
-    use AuthorizesRequests,
-        UsesMailcoachModels;
+    use AuthorizesRequests;
+    use UsesMailcoachModels;
 
     public function __invoke(EmailListQuery $emailListQuery)
     {

@@ -12,7 +12,11 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 
 class MarkCampaignAsFullyDispatchedJob implements ShouldQueue
 {
-    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     public function __construct(
         public Campaign $campaign

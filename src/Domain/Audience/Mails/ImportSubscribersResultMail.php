@@ -9,7 +9,8 @@ use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
 
 class ImportSubscribersResultMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     public $theme = 'mailcoach::mails.layout.mailcoach';
 

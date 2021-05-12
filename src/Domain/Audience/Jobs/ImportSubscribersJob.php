@@ -14,7 +14,10 @@ use Spatie\Mailcoach\Domain\Shared\Support\Config;
 
 class ImportSubscribersJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     public SubscriberImport $subscriberImport;
 

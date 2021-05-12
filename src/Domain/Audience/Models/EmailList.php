@@ -17,7 +17,9 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class EmailList extends Model
 {
-    use HasUuid, UsesMailcoachModels, HasFactory;
+    use HasUuid;
+    use UsesMailcoachModels;
+    use HasFactory;
 
     public $guarded = [];
 

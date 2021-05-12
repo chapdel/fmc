@@ -14,7 +14,10 @@ use Spatie\RateLimitedMiddleware\RateLimited;
 
 class SendAutomationMailJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     public bool $deleteWhenMissingModels = true;
 

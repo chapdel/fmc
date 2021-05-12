@@ -9,8 +9,8 @@ use Spatie\Mailcoach\Http\Api\Requests\SendCampaignRequest;
 
 class SendCampaignController
 {
-    use AuthorizesRequests,
-        RespondsToApiRequests;
+    use AuthorizesRequests;
+    use RespondsToApiRequests;
 
     public function __invoke(SendCampaignRequest $request, Campaign $campaign)
     {

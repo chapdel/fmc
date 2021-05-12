@@ -11,7 +11,8 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class CreateSubscriberAction
 {
-    use SendsWelcomeMail, UsesMailcoachModels;
+    use SendsWelcomeMail;
+    use UsesMailcoachModels;
 
     public function execute(PendingSubscriber $pendingSubscriber): Subscriber
     {

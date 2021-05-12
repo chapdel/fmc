@@ -15,9 +15,9 @@ use Spatie\Mailcoach\Http\App\Requests\EmailLists\Subscribers\UpdateSubscriberRe
 
 class SubscribersController
 {
-    use AuthorizesRequests,
-        UsesMailcoachModels,
-        RespondsToApiRequests;
+    use AuthorizesRequests;
+    use UsesMailcoachModels;
+    use RespondsToApiRequests;
 
     public function index(EmailList $emailList)
     {
