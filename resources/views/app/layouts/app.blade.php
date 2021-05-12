@@ -41,9 +41,9 @@
                 @include('mailcoach::app.layouts.partials.startBody')
 
                     @if ((new Spatie\Mailcoach\Domain\Shared\Support\License\License())->hasExpired())
-                    <x-mailcoach::warning class="mb-4">
-                        Your license has expired. <a class="underline" href="https://spatie.be/products/mailcoach">Renew your license</a>
-                    </x-mailcoach::warning>
+                    <div class="mb-6 alert alert-warning text-sm shadow-lg">
+                        Your Mailcoach license has expired. <a class="underline" href="https://spatie.be/products/mailcoach">Renew your license</a> and benefit from fixes and new features.
+                    </div>
                     @endif
 
             </aside>
