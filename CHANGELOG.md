@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.4.0 - 2021-05-12
+
+- add `CheckLicense` command
+
 ## 4.3.4 - 2021-05-04
 
 - fix link to docs
