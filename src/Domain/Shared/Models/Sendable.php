@@ -252,14 +252,14 @@ abstract class Sendable extends Model implements HasHtmlContent
             });
     }
 
-    public function getHtml(): ?string
+    public function getHtml(): string
     {
-        return $this->html;
+        return $this->html ?? '';
     }
 
-    public function getStructuredHtml(): ?string
+    public function getStructuredHtml(): string
     {
-        return $this->structured_html;
+        return $this->structured_html ?? '';
     }
 
     public function sizeInKb(): int
