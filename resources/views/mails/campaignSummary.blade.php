@@ -3,7 +3,6 @@
 
 {{ __('Campaign **:campaignName** was sent to **:numberOfSubscribers** subscribers (list :emailListName) on :sentAt', ['campaignName'=>$campaign->name,'numberOfSubscribers'=>($campaign->sent_to_number_of_subscribers ?? 0 ),'emailListName'=>$campaign->emailList->name,'sentAt'=>$campaign->sent_at->toMailcoachFormat()]) }}.
 
-
 <table class="stats">
 <tr>
 @if ($campaign->track_opens)
@@ -103,7 +102,7 @@
 </table>
 
 @component('mailcoach::mails.layout.button', ['url' => $summaryUrl])
-	{{ __('View summary') }}
+{{ __('View summary') }}
 @endcomponent
 
 @endcomponent

@@ -5,6 +5,7 @@ All notable changes to `laravel-mailcoach` will be documented in this file
 ## 4.4.1 - 2021-05-14
 
 - Fix an issue with empty html throwing an error on the send page
+- Fix mails rendering html
 
 ## 4.4.0 - 2021-05-12
 

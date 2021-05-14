@@ -6,7 +6,7 @@
 {{ __('Prove it is really you by pressing the button below') }}.
 
 @component('mailcoach::mails.layout.button', ['url' => $confirmationUrl])
-    {{ __('Confirm subscription') }}
+{{ __('Confirm subscription') }}
 @endcomponent
 
 @endcomponent
