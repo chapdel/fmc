@@ -128,12 +128,22 @@ class AutomationMail extends Sendable
         $this->ensureSendable();
 
         if (empty($this->from_email)) {
-            $this->from_email = config('mail.from.address');
+            $this->from_email = $subscriber->emailList->default_from_email ?? config('mail.from.address');
             $this->save();
         }
 
         if (empty($this->from_name)) {
-            $this->from_name = config('mail.from.name');
+            $this->from_name = $subscriber->emailList->default_from_name ?? config('mail.from.name');
+            $this->save();
+        }
+
+        if (empty($this->reply_to_email)) {
+            $this->reply_to_email = $subscriber->emailList->default_reply_to_email;
+            $this->save();
+        }
+
+        if (empty($this->reply_to_name)) {
+            $this->reply_to_name = $subscriber->emailList->default_reply_to_name;
             $this->save();
         }
 
