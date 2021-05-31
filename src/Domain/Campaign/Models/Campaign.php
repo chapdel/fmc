@@ -369,7 +369,8 @@ class Campaign extends Sendable implements Feedable
     public function toFeedItem(): FeedItem
     {
         return (new FeedItem())
-            ->author('Mailcoach')
+            ->authorName('Mailcoach')
+            ->authorEmail($this->from_email)
             ->link($this->webviewUrl())
             ->title($this->subject)
             ->id($this->uuid)

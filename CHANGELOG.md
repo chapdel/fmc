@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.4.1 - 2021-05-31
+
+- upgrade spatie/feed
+
 ## 4.4.0 - 2021-05-12
 
 - add `CheckLicense` command
