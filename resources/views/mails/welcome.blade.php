@@ -6,7 +6,7 @@
 {{ __('Happy to have you!') }}!
 
 @slot('subcopy')
-    {!! __('If you accidentally subscribed to this list, click here to <a href=":unsubscribelink">unsubscribe</a>',['unsubscribelink'=>$subscriber->unsubscribeUrl()]) !!}
+{!! __('If you accidentally subscribed to this list, click here to <a href=":unsubscribelink">unsubscribe</a>',['unsubscribelink'=>$subscriber->unsubscribeUrl()]) !!}
 @endslot
 
 @endcomponent

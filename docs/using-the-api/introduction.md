@@ -9,7 +9,7 @@ Let's help get you started.
 
 ## API Endpoints
 
-All endpoints are registered at /mailcoach/api using the default configuration, you can change this when registering the route macro. From there on, you will find a logical structure that follows to the REST standard.
+All endpoints are registered at /mailcoach/api (or /api in the stand-alone installation) using the default configuration, you can change this when registering the route macro. From there on, you will find a logical structure that follows to the REST standard.
 
 Here's a quick summary of the API methods.
 

@@ -10,7 +10,7 @@
 @endcomponent
 
 @component('mailcoach::mails.layout.button', ['url' => $emailListUrl])
-    {{ __('View list') }}
+{{ __('View list') }}
 @endcomponent
 
 @endcomponent

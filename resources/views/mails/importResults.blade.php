@@ -8,7 +8,7 @@
 {{ trans_choice(__('There was 1 error.|There were :count errors.'), $subscriberImport->error_count) }}
 
 @component('mailcoach::mails.layout.button', ['url' => $subscriberImport->emailList->url])
-    {{ __('View list') }}
+{{ __('View list') }}
 @endcomponent
 
 @endcomponent

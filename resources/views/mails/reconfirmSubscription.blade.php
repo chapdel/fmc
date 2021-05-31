@@ -6,7 +6,7 @@
 {{ __('Do you want to stay subscribed to our email list **:emailListName**?', ['emailListName'=>$subscriber->emailList->name]) }}
 
 @component('mailcoach::mails.layout.button', ['url' => $confirmationUrl])
-    {{ __('Stay subscribed') }}
+{{ __('Stay subscribed') }}
 @endcomponent
 
 @endcomponent
