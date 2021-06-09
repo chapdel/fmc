@@ -144,7 +144,7 @@ To update a subscriber, you can send a `PATCH` request to the `/mailcoach/api/su
 
 ```shell script
 $ MAILCOACH_TOKEN="your API token"
-$ curl -x PATCH https://example.app/mailcoach/api/email-lists/99/subscribers \
+$ curl -x PATCH https://example.app/mailcoach/api/subscribers/1 \
     -H "Authorization: Bearer $MAILCOACH_TOKEN" \
     -H 'Accept: application/json' \
     -H 'Content-Type: application/json' \
