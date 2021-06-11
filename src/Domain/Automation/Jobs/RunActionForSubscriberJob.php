@@ -56,7 +56,7 @@ class RunActionForSubscriberJob implements ShouldQueue
         if (is_null($subscriber->pivot->run_at)) {
             $action->run($subscriber);
 
-            if ($action->shouldHalt($subscriber) || !$subscriber->isSubscribed()) {
+            if ($action->shouldHalt($subscriber) || ! $subscriber->isSubscribed()) {
                 $this->action->subscribers()->updateExistingPivot(
                     $subscriber,
                     ['halted_at' => now(), 'run_at' => now()],

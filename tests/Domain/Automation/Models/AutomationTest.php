@@ -22,7 +22,6 @@ use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SplitAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
-use Spatie\Mailcoach\Domain\Automation\Support\AutomationStep;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasTagCondition;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
