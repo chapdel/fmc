@@ -22,6 +22,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SplitAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
+use Spatie\Mailcoach\Domain\Automation\Support\AutomationStep;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasTagCondition;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
@@ -500,5 +501,62 @@ class AutomationTest extends TestCase
         Artisan::call(RunAutomationActionsCommand::class);
 
         Mail::assertSent(MailcoachMail::class, 2);
+    }
+
+    /** @test * */
+    public function it_will_stop_the_automation_if_the_user_is_unsubscribed()
+    {
+        Mail::fake();
+
+        /** @var EmailList $emailList */
+        $emailList = EmailList::factory()->create();
+
+        $automatedMail1 = AutomationMail::factory()->create();
+        $automatedMail2 = AutomationMail::factory()->create();
+
+        $automation = Automation::create()
+            ->name('Getting started with Mailcoach')
+            ->to($emailList)
+            ->triggerOn(new SubscribedTrigger())
+            ->runEvery(CarbonInterval::minutes(10)) // Run through the automation and check actions every 10 min
+            ->chain([
+                new WaitAction(CarbonInterval::day()), // Wait one day
+                new SendAutomationMailAction($automatedMail1), // Send first email
+                new WaitAction(CarbonInterval::days(3)), // Wait 3 days
+                new SendAutomationMailAction($automatedMail2),
+            ])->start();
+
+        $this->refreshServiceProvider();
+
+        $this->assertEquals(1, Automation::count());
+        $this->assertEquals(4, Action::count());
+
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
+        $subscriber = $automation->emailList->subscribe('john@doe.com');
+
+        // Wait for a day
+        $this->assertInstanceOf(WaitAction::class, $subscriber->currentAction($automation)->action);
+        Artisan::call(RunAutomationActionsCommand::class);
+        $this->assertInstanceOf(WaitAction::class, $subscriber->currentAction($automation)->action);
+        TestTime::addDay()->addSecond();
+        Artisan::call(RunAutomationActionsCommand::class);
+
+        // CampaignAction continues straight to next action after running
+        Mail::assertSent(MailcoachMail::class, 1);
+
+        Artisan::call(RunAutomationActionsCommand::class);
+
+        $this->assertInstanceOf(WaitAction::class, $subscriber->currentAction($automation)->action);
+
+        // Unsubscribe the subscriber
+        $subscriber->unsubscribe();
+
+        // Wait for 3 days
+        TestTime::addDays(3)->addSecond();
+        Artisan::call(RunAutomationActionsCommand::class);
+
+        // Mailable was only sent once
+        Mail::assertSent(MailcoachMail::class, 1);
+        $this->assertNotNull($subscriber->currentAction($automation)->pivot->halted_at);
     }
 }

@@ -2,6 +2,9 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.4.4 - 2021-06-11
+
+- Fix an issue where automations would keep running for unsubscribed subscribers
 
 ## 4.4.3 - 2021-05-31
 
