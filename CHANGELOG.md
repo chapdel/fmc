@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.4.5 - 2021-06-14
+
+- allow schemaless-attributes v2
+
 ## 4.4.4 - 2021-06-11
 
 - Fix an issue where automations would keep running for unsubscribed subscribers
