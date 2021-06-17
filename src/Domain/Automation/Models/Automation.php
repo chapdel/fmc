@@ -43,7 +43,7 @@ class Automation extends Model
             }
         });
 
-        static::saved(function (Automation $automation) {
+        static::saved(function () {
             cache()->forget('automation-triggers');
         });
     }

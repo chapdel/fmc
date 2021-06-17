@@ -14,6 +14,9 @@ trait HasExtraAttributes
 
     public function scopeWithExtraAttributes(): Builder
     {
+        /**
+         * @psalm-suppress UndefinedMethod
+         */
         return SchemalessAttributes::scopeWithSchemalessAttributes('extra_attributes');
     }
 }

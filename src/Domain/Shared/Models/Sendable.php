@@ -233,7 +233,7 @@ abstract class Sendable extends Model implements HasHtmlContent
             $html = $this->contentFromMailable();
         }
 
-        return (new CssToInlineStyles())->convert($html ?? '');
+        return (new CssToInlineStyles())->convert($html);
     }
 
     public function htmlLinks(): Collection

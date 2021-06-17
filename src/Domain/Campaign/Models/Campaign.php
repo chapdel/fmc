@@ -494,7 +494,7 @@ class Campaign extends Sendable implements Feedable
             $html = $this->contentFromMailable();
         }
 
-        return (new CssToInlineStyles())->convert($html ?? '');
+        return (new CssToInlineStyles())->convert($html);
     }
 
     public function resolveRouteBinding($value, $field = null)

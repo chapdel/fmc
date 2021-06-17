@@ -6,7 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class CampaignResource extends JsonResource
 {
-    public function toArray($resource)
+    public function toArray($request)
     {
         return [
             'id' => $this->id,

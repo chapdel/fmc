@@ -19,7 +19,7 @@ class Trigger extends Model
 
     protected static function booted()
     {
-        static::saved(function (Trigger $trigger) {
+        static::saved(function () {
             cache()->forget('automation-triggers');
         });
     }
