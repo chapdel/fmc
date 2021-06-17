@@ -38,8 +38,7 @@ abstract class TestCase extends Orchestra
     {
         parent::setUp();
 
-        ray()->enable();
-        ray()->newScreen();
+        cache()->forget('automation-triggers');
 
         Route::mailcoach('mailcoach');
 
