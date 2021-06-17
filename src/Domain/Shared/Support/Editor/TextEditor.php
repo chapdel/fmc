@@ -12,11 +12,16 @@ class TextEditor implements Editor
 {
     public function render(HasHtmlContent $model): string
     {
+        $campaignClass = config('mailcoach.models.campaign', Campaign::class);
+        $automationMailClass = config('mailcoach.models.automation_mail', AutomationMail::class);
+        $templateClass = config('mailcoach.models.template', Template::class);
+        $transactionalMailTemplateClass = config('mailcoach.models.transactional_mail_template', TransactionalMailTemplate::class);
+        
         return match ($model::class) {
-            Campaign::class => $this->renderForCampaign($model),
-            Template::class => $this->renderForCampaignTemplate($model),
-            AutomationMail::class => $this->renderForAutomationMail($model),
-            TransactionalMailTemplate::class => $this->renderForTransactionalMailTemplate($model),
+            $campaignClass => $this->renderForCampaign($model),
+            $templateClass => $this->renderForCampaignTemplate($model),
+            $automationMailClass => $this->renderForAutomationMail($model),
+            $transactionalMailTemplateClass => $this->renderForTransactionalMailTemplate($model),
         };
     }
 
