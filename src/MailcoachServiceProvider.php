@@ -199,7 +199,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
     {
         Route::model('transactionalMailTemplate', TransactionalMailTemplate::class);
         Route::bind('automationMail', function (string $value) {
-            return AutomationMail::find($value);
+            return static::getAutomationMailClass()::find($value);
         });
 
         Route::macro('mailcoach', function (string $url = '') {

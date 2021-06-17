@@ -6,17 +6,17 @@ use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class LinkHasher
 {
+    use UsesMailcoachModels;
+
     public static function hash(Sendable $sendable, string $url, string $type = 'clicked'): string
     {
-        $campaignClass = config('mailcoach.models.campaign', Campaign::class);
-        $automationMailClass = config('mailcoach.models.automation_mail', AutomationMail::class);
-
         $prefix = match ($sendable::class) {
-            $campaignClass => "campaign",
-            $automationMailClass => "automation-mail",
+            static::getCampaignClass() => "campaign",
+            static::getAutomationMailClass() => "automation-mail",
         };
 
         $sendablePart = "{$prefix}-{$sendable->id}-{$type}";

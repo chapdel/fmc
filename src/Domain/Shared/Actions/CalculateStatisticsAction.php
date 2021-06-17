@@ -9,9 +9,12 @@ use Spatie\Mailcoach\Domain\Campaign\Events\CampaignStatisticsCalculatedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class CalculateStatisticsAction
 {
+    use UsesMailcoachModels;
+
     public function execute(Sendable $sendable): void
     {
         if ($sendable->sends()->count() > 0) {
@@ -23,8 +26,8 @@ class CalculateStatisticsAction
         $sendable->update(['statistics_calculated_at' => now()]);
 
         match ($sendable::class) {
-            Campaign::class => event(new CampaignStatisticsCalculatedEvent($sendable)),
-            AutomationMail::class => event(new AutomationMailStatisticsCalculatedEvent($sendable)),
+            static::getCampaignClass() => event(new CampaignStatisticsCalculatedEvent($sendable)),
+            static::getAutomationMailClass() => event(new AutomationMailStatisticsCalculatedEvent($sendable)),
         };
     }
 
