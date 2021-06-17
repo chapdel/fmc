@@ -3,8 +3,6 @@
 namespace Spatie\Mailcoach\Domain\Shared\Support;
 
 use Illuminate\Support\Str;
-use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 

@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Domain\Shared\Actions;
 
 use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailStatisticsCalculatedEvent;
-use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailLink;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignStatisticsCalculatedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
