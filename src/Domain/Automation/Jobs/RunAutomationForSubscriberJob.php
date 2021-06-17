@@ -21,6 +21,8 @@ class RunAutomationForSubscriberJob implements ShouldQueue
     use SerializesModels;
     use UsesMailcoachModels;
 
+    public $deleteWhenMissingModels = true;
+
     public Automation $automation;
 
     public Subscriber $subscriber;

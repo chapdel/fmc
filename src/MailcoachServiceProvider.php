@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach;
 
 use Exception;
+use Illuminate\Events\Dispatcher;
 use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -353,13 +354,15 @@ class MailcoachServiceProvider extends PackageServiceProvider
     {
         try {
             $triggers = cache()->rememberForever('automation-triggers', function () {
-                return Trigger::with(['automation'])->whereHas('automation')->get();
+                return Trigger::with(['automation'])->has('automation')->get();
             });
 
             $triggers
                 ->filter(fn (Trigger $trigger) => $trigger->trigger instanceof TriggeredByEvents)
                 ->each(function (Trigger $trigger) {
-                    Event::subscribe($trigger->trigger->setAutomation($trigger->automation));
+                    if ($trigger->automation) {
+                        Event::subscribe($trigger->trigger->setAutomation($trigger->automation));
+                    }
                 });
         } catch (Exception) {
             // Do nothing as the database is probably not set up yet.
