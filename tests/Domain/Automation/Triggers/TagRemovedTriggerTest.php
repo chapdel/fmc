@@ -63,7 +63,6 @@ class TagRemovedTriggerTest extends TestCase
             RunAutomationForSubscriberJob::class,
             function (RunAutomationForSubscriberJob $job) use ($automation) {
                 $this->assertSame('john@doe.com', $job->subscriber->email);
-                $this->assertSame($automation->id, $job->automation->id);
 
                 return true;
             }
