@@ -17,6 +17,13 @@ class Trigger extends Model
 
     protected $guarded = [];
 
+    protected static function booted()
+    {
+        static::saved(function (Trigger $trigger) {
+            cache()->forget('automation-triggers');
+        });
+    }
+
     public function setTriggerAttribute(AutomationTrigger $value)
     {
         $this->attributes['trigger'] = serialize($value);

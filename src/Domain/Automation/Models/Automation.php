@@ -42,6 +42,10 @@ class Automation extends Model
                 $automation->status = AutomationStatus::PAUSED;
             }
         });
+
+        static::saved(function (Automation $automation) {
+            cache()->forget('automation-triggers');
+        });
     }
 
     public function name(string $name): self

@@ -13,6 +13,7 @@ All notable changes to `laravel-mailcoach` will be documented in this file
 - Fetch models for match from config (#595)
 - Fix duplicate transactional template (#593)
 - Fix incorrect model references (#591)
+- Cache Event based triggers so they don't need to be queried each request
 
 ## 4.4.5 - 2021-06-14
 

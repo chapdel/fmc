@@ -352,14 +352,14 @@ class MailcoachServiceProvider extends PackageServiceProvider
     private function bootTriggers()
     {
         try {
-            $triggers = Trigger::with(['automation'])->get();
+            $triggers = cache()->rememberForever('automation-triggers', function () {
+                return Trigger::with(['automation'])->whereHas('automation')->get();
+            });
 
             $triggers
                 ->filter(fn (Trigger $trigger) => $trigger->trigger instanceof TriggeredByEvents)
                 ->each(function (Trigger $trigger) {
-                    if ($trigger->automation) {
-                        Event::subscribe($trigger->trigger->setAutomation($trigger->automation));
-                    }
+                    Event::subscribe($trigger->trigger->setAutomation($trigger->automation));
                 });
         } catch (Exception) {
             // Do nothing as the database is probably not set up yet.
