@@ -8,11 +8,13 @@
         type="text"
         name="{{ $name }}"
         id="{{ $name }}"
-        class="input max-w-xs"
+        class="input max-w-xs {{ $inputClass ?? '' }}"
         value="{{ old($name, $value ?? '') }}"
         data-datepicker="true"
         placeholder="{{ $placeholder ?? '' }}"
         {{ ($required ?? false) ? 'required' : '' }}
+        {!! $attributes ?? '' !!}
+        @if($disabled ?? false) disabled @endif
     >
     @error($name)
         <p class="form-error" role="alert">{{ $message }}</p>
