@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.4.6 - 2021-06-17
+
+- Remove redundant hasTable check (#620)
+- Re-add webview URL to summary page (#613)
+- Removed space after translatable string + typo's (#610)
+- Call toArray() instead of casting to array (#607)
+- Update NL translations (#606)
+- Add some missing props to the dateField blade component (#596)
+- Fetch models for match from config (#595)
+- Fix duplicate transactional template (#593)
+- Fix incorrect model references (#591)
+
 ## 4.4.5 - 2021-06-14
 
 - allow schemaless-attributes v2
