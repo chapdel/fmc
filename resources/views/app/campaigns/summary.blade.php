@@ -105,7 +105,7 @@
                 </div>
                 <div>
                     {{ __('Campaign') }}
-                    <strong>{{ $campaign->name }}</strong>
+                    <a target="_blank" href="{{ $campaign->webviewUrl() }}"><strong>{{ $campaign->name }}</strong></a>
                     {{ __('was delivered successfully to') }}
                     <strong>{{ number_format($campaign->sent_to_number_of_subscribers - ($failedSendsCount ?? 0)) }} {{ trans_choice('subscriber|subscribers', $campaign->sent_to_number_of_subscribers) }}</strong>
 
