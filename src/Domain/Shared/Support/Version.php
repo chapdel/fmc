@@ -26,7 +26,7 @@ class Version
 
     public function getFullVersion(string $packageName = 'laravel-mailcoach'): string
     {
-        return InstalledVersions::getVersion("spatie/{$packageName}");
+        return InstalledVersions::getVersion("spatie/{$packageName}") ?? '';
     }
 
     public function getHashedFullVersion(string $packageName = 'laravel-mailcoach'): string
