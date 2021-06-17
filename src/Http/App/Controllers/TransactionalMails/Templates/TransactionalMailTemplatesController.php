@@ -77,7 +77,7 @@ class TransactionalMailTemplatesController
 
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Template $duplicateTemplate */
-        $duplicateTemplate = $template->replicate();
+        $duplicateTemplate = $template->replicate()->save();
 
         flash()->success(__('Template :template was duplicated.', ['template' => $template->name]));
 
