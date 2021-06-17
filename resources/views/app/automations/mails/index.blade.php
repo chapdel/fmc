@@ -38,7 +38,7 @@
                                    :show-all-url="route('mailcoach.automations.mails')"></x-mailcoach::table-status>
     @else
         <x-mailcoach::help>
-            {{ __('No automated mails yet. ') }}
+            {{ __('No automated mails yet.') }}
         </x-mailcoach::help>
     @endif
 </x-mailcoach::layout-main>

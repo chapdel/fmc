@@ -8,7 +8,7 @@
     <div class="flex items-end">
         <div class="flex-grow max-w-xl">
             <x-mailcoach::text-field
-                :label="__('Test adresses')"
+                :label="__('Test addresses')"
                 :placeholder="__('Email(s) comma separated')"
                 name="emails"
                 :required="true"
