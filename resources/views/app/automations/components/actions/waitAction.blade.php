@@ -1,6 +1,6 @@
 <x-mailcoach::automation-action :index="$index" :action="$action" :editing="$editing" :editable="$editable" :deletable="$deletable">
     <x-slot name="legend">
-        {{__('Wait for ') }}
+        {{__('Wait for') }}
         <span class="legend-accent">
             {{ ($length && $unit && $interval = \Carbon\CarbonInterval::createFromDateString("{$length} {$unit}")) ? $interval->cascade()->forHumans() : '…' }}
         </span>
