@@ -57,9 +57,9 @@ abstract class TestCase extends Orchestra
 
     protected function tearDown(): void
     {
-        parent::tearDown();
-
         cache()->forget('automation-triggers');
+
+        parent::tearDown();
     }
 
     protected function getPackageProviders($app)
