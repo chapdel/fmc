@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach;
 
 use Exception;
-use Illuminate\Events\Dispatcher;
 use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
