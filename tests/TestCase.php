@@ -55,6 +55,13 @@ abstract class TestCase extends Orchestra
         View::addLocation(__DIR__ . '/views');
     }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        cache()->forget('automation-triggers');
+    }
+
     protected function getPackageProviders($app)
     {
         return [
