@@ -125,7 +125,7 @@ class SubscribersControllerTest extends TestCase
         $attributes = [
             'extra_attributes' => [
                 'foo' => 'bar',
-            ]
+            ],
         ];
 
         $this
