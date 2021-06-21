@@ -16,7 +16,7 @@
                     </td>
                     <td class="td-secondary-line">
                         @if(is_array($attribute))
-                            {{ json_encode($attribute) }}
+                            <pre>{{ json_encode($attribute, JSON_PRETTY_PRINT) }}</pre>
                         @else
                             {{ $attribute }}
                         @endif
