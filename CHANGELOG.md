@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.5.0 - 2021-06-21
+
+- Add a view for a subscriber's custom attributes (#621)
+
 ## 4.4.6 - 2021-06-17
 
 - Remove redundant hasTable check (#620)
