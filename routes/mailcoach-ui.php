@@ -129,6 +129,7 @@ Route::prefix('email-lists')->group(function () {
         Route::prefix('subscriber/{subscriber}')->group(function () {
             Route::get('details', ['\\' . SubscriberDetailsController::class, 'edit'])->name('mailcoach.emailLists.subscriber.details');
             Route::put('details', ['\\' . SubscriberDetailsController::class, 'update']);
+            Route::get('attributes', ['\\' . SubscriberDetailsController::class, 'attributes'])->name('mailcoach.emailLists.subscriber.attributes');
             Route::get('received-campaigns', '\\' . ReceivedCampaignsController::class)->name('mailcoach.emailLists.subscriber.receivedCampaigns');
             Route::delete('/', '\\' . DestroySubscriberController::class)->name('mailcoach.emailLists.subscriber.delete');
         });

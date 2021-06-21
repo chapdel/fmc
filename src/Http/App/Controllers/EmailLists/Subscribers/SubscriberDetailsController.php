@@ -40,4 +40,11 @@ class SubscriberDetailsController
 
         return redirect()->route('mailcoach.emailLists.subscriber.details', [$subscriber->emailList, $subscriber]);
     }
+
+    public function attributes(EmailList $emailList, Subscriber $subscriber)
+    {
+        $this->authorize('view', $emailList);
+
+        return view('mailcoach::app.emailLists.subscribers.attributes', new SubscriberViewModel($subscriber));
+    }
 }

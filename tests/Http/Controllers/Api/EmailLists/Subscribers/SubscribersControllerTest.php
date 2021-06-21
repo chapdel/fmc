@@ -113,6 +113,7 @@ class SubscribersControllerTest extends TestCase
         $this->assertEquals($attributes['tags'], $subscriber->tags->pluck('name')->toArray());
     }
 
+
     /** @test */
     public function it_can_update_a_subscriber_with_extra_attributes()
     {
@@ -124,7 +125,7 @@ class SubscribersControllerTest extends TestCase
         $attributes = [
             'extra_attributes' => [
                 'foo' => 'bar',
-            ],
+            ]
         ];
 
         $this

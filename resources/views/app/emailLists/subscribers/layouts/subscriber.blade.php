@@ -9,6 +9,9 @@
             <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.subscriber.details', [$subscriber->emailList, $subscriber])">
                 {{ __('Profile') }}
             </x-mailcoach::navigation-item>
+            <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.subscriber.attributes', [$subscriber->emailList, $subscriber])">
+                {{ __('Attributes') }}
+            </x-mailcoach::navigation-item>
             <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.subscriber.receivedCampaigns', [$subscriber->emailList, $subscriber])">
                 <x-mailcoach::icon-label :text="__('Received mails')" invers :count="$totalSendsCount" />
             </x-mailcoach::navigation-item>
