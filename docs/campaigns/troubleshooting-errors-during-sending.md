@@ -16,7 +16,7 @@ Send::whereNull('sent_at')->each(function(Send $send) {
 You can run the above code by executing this command:
 
 ```bash
-php artisan email-campaigns:retry-pending-sends
+php artisan mailcoach:retry-pending-sends
 ```
 
 Should, for any reason, two jobs for the same `Send` be scheduled, it is highly likely that only one mail will be sent. After a `SendMailJob` has sent an email it will update `sent_at` with the current timestamp. The job will not send a mail for a `SendMail` whose `sent_at` is not set to `null`.

@@ -61,5 +61,5 @@ After two weeks, no further statistics are calculated.
 To manually trigger a recalculation, execute the command using the campaign id as a parameter.
 
 ```bash
-php artisan email-campaigns:calculate-statistics <campaign-id>
+php artisan mailcoach:calculate-statistics <campaign-id>
 ```
