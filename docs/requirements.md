@@ -12,3 +12,4 @@ Mailcoach requires:
 - Imagick
 - ext-exif
 
+If you're running Mailcoach on a load balancer and want to use Automations, make sure to enable sticky sessions as Laravel Livewire doesn't work well with load balancers.
