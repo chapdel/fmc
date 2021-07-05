@@ -28,7 +28,7 @@ class YourMailable extends Mailable
 }
 ```
 
-Whenever this mailable is sent, Mailoach will store and display it in the UI.
+Whenever this mailable is sent, Mailcoach will store and display it in the UI.
 
 ## Tracking opens and clicks
 
