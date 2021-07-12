@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.5.1 - 2021-06-21
+
+- Dutch translation fix (#643)
+- Fix allowed sorts of automation emails (#637)
+
 ## 4.5.0 - 2021-06-21
 
 - Add a view for a subscriber's custom attributes (#621)
