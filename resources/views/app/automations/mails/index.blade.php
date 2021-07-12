@@ -21,7 +21,7 @@
                 <x-mailcoach::th sort-by="-sent_to_number_of_subscribers" class="w-24 th-numeric">{{ __('Emails') }}</x-mailcoach::th>
                 <x-mailcoach::th sort-by="-unique_open_count" class="w-24 th-numeric hidden | xl:table-cell">{{ __('Opens') }}</x-mailcoach::th>
                 <x-mailcoach::th sort-by="-unique_click_count" class="w-24 th-numeric hidden | xl:table-cell">{{ __('Clicks') }}</x-mailcoach::th>
-                <x-mailcoach::th sort-by="-sent" sort-default
+                <x-mailcoach::th sort-by="-created_at" sort-default
                                  class="w-48 th-numeric hidden | xl:table-cell">{{ __('Created at') }}</x-mailcoach::th>
                 <x-mailcoach::th class="w-12"></x-mailcoach::th>
             </tr>

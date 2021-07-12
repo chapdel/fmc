@@ -19,6 +19,10 @@ class AutomatedMailQuery extends QueryBuilder
             ->defaultSort('name')
             ->allowedSorts(
                 'name',
+                'sent_to_number_of_subscribers',
+                'unique_open_count',
+                'unique_click_count',
+                'created_at'
             )
             ->allowedFilters(
                 AllowedFilter::custom('search', new FuzzyFilter('name')),
