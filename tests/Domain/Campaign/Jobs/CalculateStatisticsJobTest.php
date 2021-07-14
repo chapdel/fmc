@@ -15,6 +15,7 @@ use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
 use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
@@ -28,7 +29,7 @@ class CalculateStatisticsJobTest extends TestCase
 
         dispatch(new CalculateStatisticsJob($campaign));
 
-        $this->assertDatabaseHas('mailcoach_campaigns', [
+        $this->assertDatabaseHas(static::getCampaignTableName(), [
             'id' => $campaign->id,
             'sent_to_number_of_subscribers' => 0,
             'open_count' => 0,
@@ -47,7 +48,7 @@ class CalculateStatisticsJobTest extends TestCase
 
         dispatch(new CalculateStatisticsJob($automationMail));
 
-        $this->assertDatabaseHas('mailcoach_automation_mails', [
+        $this->assertDatabaseHas(static::getAutomationMailTableName(), [
             'id' => $automationMail->id,
             'sent_to_number_of_subscribers' => 0,
             'open_count' => 0,
@@ -91,13 +92,13 @@ class CalculateStatisticsJobTest extends TestCase
         dispatch_now(new SendCampaignJob($campaign));
         dispatch_now(new SendAutomationMailJob($send));
 
-        $this->assertDatabaseHas('mailcoach_campaigns', [
+        $this->assertDatabaseHas(static::getCampaignTableName(), [
             'id' => $campaign->id,
             'unsubscribe_count' => 0,
             'unsubscribe_rate' => 0,
         ]);
 
-        $this->assertDatabaseHas('mailcoach_automation_mails', [
+        $this->assertDatabaseHas(static::getAutomationMailTableName(), [
             'id' => $automationMail->id,
             'unsubscribe_count' => 0,
             'unsubscribe_rate' => 0,
@@ -110,13 +111,13 @@ class CalculateStatisticsJobTest extends TestCase
         $this->simulateUnsubscribes(collect([$send]));
         dispatch_now(new CalculateStatisticsJob($automationMail));
 
-        $this->assertDatabaseHas('mailcoach_campaigns', [
+        $this->assertDatabaseHas(static::getCampaignTableName(), [
             'id' => $campaign->id,
             'unsubscribe_count' => 1,
             'unsubscribe_rate' => 2000,
         ]);
 
-        $this->assertDatabaseHas('mailcoach_automation_mails', [
+        $this->assertDatabaseHas(static::getAutomationMailTableName(), [
             'id' => $automationMail->id,
             'unsubscribe_count' => 1,
             'unsubscribe_rate' => 10000,
@@ -150,14 +151,14 @@ class CalculateStatisticsJobTest extends TestCase
         dispatch(new CalculateStatisticsJob($campaign));
         dispatch(new CalculateStatisticsJob($automationMail));
 
-        $this->assertDatabaseHas('mailcoach_campaigns', [
+        $this->assertDatabaseHas(static::getCampaignTableName(), [
             'id' => $campaign->id,
             'open_count' => 4,
             'unique_open_count' => 3,
             'open_rate' => 6000,
         ]);
 
-        $this->assertDatabaseHas('mailcoach_automation_mails', [
+        $this->assertDatabaseHas(static::getAutomationMailTableName(), [
             'id' => $automationMail->id,
             'open_count' => 2,
             'unique_open_count' => 1,
@@ -201,7 +202,7 @@ class CalculateStatisticsJobTest extends TestCase
         dispatch_now(new CalculateStatisticsJob($campaign));
         dispatch_now(new CalculateStatisticsJob($automationMail));
 
-        $this->assertDatabaseHas('mailcoach_campaigns', [
+        $this->assertDatabaseHas(static::getCampaignTableName(), [
             'id' => $campaign->id,
             'sent_to_number_of_subscribers' => 5,
             'click_count' => 7,
@@ -209,7 +210,7 @@ class CalculateStatisticsJobTest extends TestCase
             'click_rate' => 6000,
         ]);
 
-        $this->assertDatabaseHas('mailcoach_automation_mails', [
+        $this->assertDatabaseHas(static::getAutomationMailTableName(), [
             'id' => $automationMail->id,
             'sent_to_number_of_subscribers' => 1,
             'click_count' => 2,

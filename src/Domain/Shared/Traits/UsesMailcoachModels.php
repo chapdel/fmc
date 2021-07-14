@@ -79,6 +79,16 @@ trait UsesMailcoachModels
         return $subscriber->getTable();
     }
 
+    public static function getTemplateTableName(): string
+    {
+        $templateClass = self::getTemplateClass();
+
+        /** @var \Illuminate\Database\Eloquent\Model $template */
+        $template = new $templateClass;
+
+        return $template->getTable();
+    }
+
     public static function getCampaignTableName(): string
     {
         $campaignClass = self::getCampaignClass();

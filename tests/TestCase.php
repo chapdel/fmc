@@ -24,6 +24,7 @@ use Spatie\Feed\FeedServiceProvider;
 use Spatie\LaravelRay\RayServiceProvider;
 use Spatie\Mailcoach\Database\Factories\UserFactory;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Front\Controllers\UnsubscribeController;
 use Spatie\Mailcoach\MailcoachServiceProvider;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
@@ -33,6 +34,7 @@ use Spatie\TestTime\TestTime;
 abstract class TestCase extends Orchestra
 {
     use RefreshDatabase;
+    use UsesMailcoachModels;
 
     public function setUp(): void
     {
@@ -76,7 +78,7 @@ abstract class TestCase extends Orchestra
 
     protected function refreshTestDatabase()
     {
-        if (! Schema::hasTable('mailcoach_campaigns')) {
+        if (! Schema::hasTable(static::getCampaignTableName())) {
             Schema::dropAllTables();
 
             include_once __DIR__.'/../database/migrations/create_mailcoach_tables.php.stub';

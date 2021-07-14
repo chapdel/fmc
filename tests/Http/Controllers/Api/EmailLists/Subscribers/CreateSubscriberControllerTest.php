@@ -7,6 +7,7 @@ use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Mails\ConfirmSubscriberMail;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\SubscribersController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestCase;
@@ -46,7 +47,7 @@ class CreateSubscriberControllerTest extends TestCase
             ->postJson(action([SubscribersController::class, 'store'], $this->emailList), $this->attributes)
             ->assertSuccessful();
 
-        $this->assertDatabaseHas('mailcoach_subscribers', $this->attributes);
+        $this->assertDatabaseHas($this->getSubscriberTableName(), $this->attributes);
 
         $this->assertEquals(SubscriptionStatus::UNCONFIRMED, Subscriber::first()->status);
 

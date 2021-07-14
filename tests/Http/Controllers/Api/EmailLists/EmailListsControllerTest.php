@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\EmailLists;
 
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\EmailListsController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestCase;
@@ -73,7 +74,7 @@ class EmailListsControllerTest extends TestCase
             ->postJson(action([EmailListsController::class, 'store'], $attributes))
             ->assertSuccessful();
 
-        $this->assertDatabaseHas('mailcoach_email_lists', $attributes);
+        $this->assertDatabaseHas(static::getEmailListTableName(), $attributes);
     }
 
     /** @test */

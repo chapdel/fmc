@@ -27,7 +27,7 @@ class TemplatesControllerTest extends TestCase
             ->post(action([TemplatesController::class, 'store']), $attributes)
             ->assertSessionHasNoErrors();
 
-        $this->assertDatabaseHas('mailcoach_templates', $attributes);
+        $this->assertDatabaseHas(static::getTemplateTableName(), $attributes);
     }
 
     /** @test */
@@ -46,7 +46,7 @@ class TemplatesControllerTest extends TestCase
 
         $attributes['id'] = $template->id;
 
-        $this->assertDatabaseHas('mailcoach_templates', $attributes);
+        $this->assertDatabaseHas(static::getTemplateTableName(), $attributes);
     }
 
     /** @test */

@@ -81,7 +81,7 @@ class RunActionForSubscriberJob implements ShouldQueue
         $nextActions = $action->nextActions($subscriber);
         if (count(array_filter($nextActions))) {
             foreach ($nextActions as $nextAction) {
-                if (! $nextAction->subscribers()->where('mailcoach_subscribers.id', $subscriber->id)->exists()) {
+                if (! $nextAction->subscribers()->where("{$this->getSubscriberTableName()}.id", $subscriber->id)->exists()) {
                     $nextAction->subscribers()->attach($subscriber);
                 }
             }
