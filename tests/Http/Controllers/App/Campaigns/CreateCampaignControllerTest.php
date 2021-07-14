@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Tests\Http\Controllers\App\Campaigns;
 
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignSettingsController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CreateCampaignController;
 use Spatie\Mailcoach\Tests\TestCase;

@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Tests\Http\Controllers\App\EmailLists;
 
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Policies\EmailListPolicy;
-use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListGeneralSettingsController;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomEmailListDenyAllPolicy;
