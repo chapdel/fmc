@@ -20,7 +20,7 @@ class AutomationMailSendsQuery extends QueryBuilder
 
         $this
             ->addSelect(['subscriber_email' => $this->getSubscriberClass()::select('email')
-                ->whereColumn('subscriber_id', 'mailcoach_subscribers.id')
+                ->whereColumn('subscriber_id', "{$this->getSubscriberTableName()}.id")
                 ->limit(1),
             ])
             ->with('feedback')

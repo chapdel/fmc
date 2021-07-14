@@ -70,7 +70,7 @@ class TemplatesControllerTest extends TestCase
             ->postJson(action([TemplatesController::class, 'store'], $attributes))
             ->assertSuccessful();
 
-        $this->assertDatabaseHas('mailcoach_templates', $attributes);
+        $this->assertDatabaseHas(static::getTemplateTableName(), $attributes);
     }
 
     /** @test */

@@ -6,9 +6,12 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Unique;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class UpdateSubscriberRequest extends FormRequest
 {
+    use UsesMailcoachModels;
+
     public function rules(): array
     {
         return [
@@ -35,7 +38,7 @@ class UpdateSubscriberRequest extends FormRequest
             $emailList = $subscriber->emailList;
         }
 
-        $rule = Rule::unique('mailcoach_subscribers', 'email')->where('email_list_id', $emailList->id);
+        $rule = Rule::unique($this->getSubscriberTableName(), 'email')->where('email_list_id', $emailList->id);
 
         $rule->ignore($subscriber->id);
 
