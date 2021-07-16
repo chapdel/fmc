@@ -30,7 +30,7 @@ class TriggerAutomationController
         $webhookTriggers->each(function (Trigger $trigger) use ($request) {
             $trigger
                 ->getAutomationTrigger()
-                ->runAutomation(Subscriber::query()->whereIn('id', $request->get('subscribers')));
+                ->runAutomation(static::getSubscriberClass()::query()->whereIn('id', $request->get('subscribers')));
         });
 
         return response()->json();

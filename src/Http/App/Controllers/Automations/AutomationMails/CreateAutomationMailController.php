@@ -17,9 +17,9 @@ class CreateAutomationMailController
         StoredAutomationMailRequest $request,
         UpdateAutomationMailAction $updateAutomationMailAction
     ) {
-        $this->authorize('create', AutomationMail::class);
+        $automationMailClass = static::getAutomationMailClass();
 
-        $automationMailClass = $this->getAutomationMailClass();
+        $this->authorize('create', $automationMailClass);
 
         $automationMail = new $automationMailClass;
 

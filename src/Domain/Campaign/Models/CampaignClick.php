@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class CampaignClick extends Model
 {
     use HasFactory;
+    use UsesMailcoachModels;
 
     public $table = 'mailcoach_campaign_clicks';
 
@@ -17,7 +19,7 @@ class CampaignClick extends Model
 
     public function send(): BelongsTo
     {
-        return $this->belongsTo(Send::class, 'send_id');
+        return $this->belongsTo($this->getSendClass(), 'send_id');
     }
 
     public function link(): BelongsTo

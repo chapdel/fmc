@@ -46,7 +46,7 @@ class CalculateAutomationMailStatisticsCommand extends Command
     {
         $this->now = now();
 
-        Automation::query()
+        static::getAutomationClass()::query()
             ->where('status', AutomationStatus::STARTED)
             ->get()
             ->flatMap(function (Automation $automation) {
@@ -70,7 +70,7 @@ class CalculateAutomationMailStatisticsCommand extends Command
         $periodEnd = $this->now->copy()->subtract($startInterval);
         $periodStart = $this->now->copy()->subtract($endInterval);
 
-        return $this->getCampaignClass()::where(function (Builder $query) use ($periodEnd, $periodStart) {
+        return static::getCampaignClass()::where(function (Builder $query) use ($periodEnd, $periodStart) {
             $query
                 ->sentBetween($periodStart, $periodEnd);
         })

@@ -19,7 +19,7 @@ class CampaignsController
 
     public function index(CampaignsQuery $campaigns)
     {
-        $this->authorize("viewAny", Campaign::class);
+        $this->authorize("viewAny", static::getCampaignClass());
 
         return CampaignResource::collection($campaigns->paginate());
     }
@@ -28,7 +28,7 @@ class CampaignsController
         CampaignRequest $request,
         UpdateCampaignAction $updateCampaignAction
     ) {
-        $this->authorize("create", Campaign::class);
+        $this->authorize("create", static::getCampaignClass());
 
         $campaignClass = $this->getCampaignClass();
 

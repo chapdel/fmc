@@ -4,12 +4,15 @@ namespace Spatie\Mailcoach\Domain\TransactionalMail\Listeners;
 
 use Illuminate\Mail\Events\MessageSending;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailStored;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Support\TransactionalMailMessageConfig;
 
 class StoreTransactionalMail
 {
+    use UsesMailcoachModels;
+
     public function handle(MessageSending $sending): void
     {
         $message = $sending->message;
@@ -20,7 +23,7 @@ class StoreTransactionalMail
             return;
         }
 
-        $transactionalMail = TransactionalMail::create([
+        $transactionalMail = static::getTransactionalMailClass()::create([
             'subject' => $message->getSubject(),
             'from' => $this->convertToNamedArray($message->getFrom()),
             'to' => $this->convertToNamedArray($message->getTo()),
@@ -32,7 +35,7 @@ class StoreTransactionalMail
             'mailable_class' => $messageConfig->getMailableClass(),
         ]);
 
-        $send = Send::create([
+        $send = $this->getSendClass()::create([
             'transactional_mail_id' => $transactionalMail->id,
             'sent_at' => now(),
         ]);

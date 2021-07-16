@@ -21,7 +21,7 @@ class RunAutomationActionsCommand extends Command
     {
         $this->comment('Start running actions...');
 
-        Automation::query()
+        static::getAutomationClass()::query()
             ->where('status', AutomationStatus::STARTED)
             ->cursor()
             ->each(function (Automation $automation) {

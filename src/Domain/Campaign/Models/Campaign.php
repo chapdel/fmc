@@ -110,7 +110,7 @@ class Campaign extends Sendable implements Feedable
 
     public function sends(): HasMany
     {
-        return $this->hasMany(Send::class, 'campaign_id');
+        return $this->hasMany($this->getSendClass(), 'campaign_id');
     }
 
     public function unsubscribes(): HasMany
@@ -121,14 +121,14 @@ class Campaign extends Sendable implements Feedable
     public function bounces(): HasManyThrough
     {
         return $this
-            ->hasManyThrough(SendFeedbackItem::class, Send::class, 'campaign_id')
+            ->hasManyThrough(SendFeedbackItem::class, $this->getSendClass(), 'campaign_id')
             ->where('type', SendFeedbackType::BOUNCE);
     }
 
     public function complaints(): HasManyThrough
     {
         return $this
-            ->hasManyThrough(SendFeedbackItem::class, Send::class, 'campaign_id')
+            ->hasManyThrough(SendFeedbackItem::class, $this->getSendClass(), 'campaign_id')
             ->where('type', SendFeedbackType::COMPLAINT);
     }
 

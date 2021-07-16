@@ -17,9 +17,9 @@ class CreateCampaignController
         StoreCampaignRequest $request,
         UpdateCampaignAction $updateCampaignAction
     ) {
-        $this->authorize("create", Campaign::class);
+        $campaignClass = static::getCampaignClass();
 
-        $campaignClass = $this->getCampaignClass();
+        $this->authorize("create", $campaignClass);
 
         $campaign = new $campaignClass;
 

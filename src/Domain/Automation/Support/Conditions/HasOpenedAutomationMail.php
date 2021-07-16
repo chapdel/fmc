@@ -31,7 +31,7 @@ class HasOpenedAutomationMail implements Condition
             return '';
         }
 
-        return (string) __(':mail', ['mail' => AutomationMail::find($data['automation_mail_id'])->name]);
+        return (string) __(':mail', ['mail' => static::getAutomationMailClass()::find($data['automation_mail_id'])->name]);
     }
 
     public static function rules(): array

@@ -17,7 +17,7 @@ class TransactionalMailTemplatesController
 
     public function index(TransactionalMailTemplateQuery $transactionalMailTemplateQuery)
     {
-        $this->authorize('viewAny', TransactionalMailTemplate::class);
+        $this->authorize('viewAny', $this->getTransactionalMailTemplateClass());
 
         return view('mailcoach::app.transactionalMails.templates.index', [
             'templates' => $transactionalMailTemplateQuery->paginate(),
@@ -28,7 +28,7 @@ class TransactionalMailTemplatesController
 
     public function store(TransactionalMailTemplateRequest $request, CreateTemplateAction $createTemplateAction)
     {
-        $this->authorize('create', TransactionalMailTemplate::class);
+        $this->authorize('create', $this->getTransactionalMailTemplateClass());
 
         $template = $createTemplateAction->execute($request->validated());
 
@@ -73,7 +73,7 @@ class TransactionalMailTemplatesController
 
     public function duplicate(TransactionalMailTemplate $template)
     {
-        $this->authorize('create', TransactionalMailTemplate::class);
+        $this->authorize('create', $this->getTransactionalMailTemplateClass());
 
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Template $duplicateTemplate */

@@ -30,7 +30,7 @@ class TransactionalMail extends Model
 
     public function send(): HasOne
     {
-        return $this->hasOne(Send::class, 'transactional_mail_id');
+        return $this->hasOne($this->getSendClass(), 'transactional_mail_id');
     }
 
     public function opens(): HasManyThrough
@@ -38,7 +38,7 @@ class TransactionalMail extends Model
         return $this
             ->hasManyThrough(
                 TransactionalMailOpen::class,
-                Send::class,
+                $this->getSendClass(),
                 'transactional_mail_id'
             )
             ->orderBy('created_at');
@@ -49,7 +49,7 @@ class TransactionalMail extends Model
         return $this
             ->hasManyThrough(
                 TransactionalMailClick::class,
-                Send::class,
+                $this->getSendClass(),
                 'transactional_mail_id'
             )
             ->orderBy('created_at');

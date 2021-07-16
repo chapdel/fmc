@@ -40,7 +40,7 @@ class UnsubscribeController
         }
 
         /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
-        $send = Send::findByUuid($sendUuid ?? '');
+        $send = $this->getSendClass()::findByUuid($sendUuid ?? '');
         $subscriber->unsubscribe($send);
 
         $emailList = $subscriber->emailList;

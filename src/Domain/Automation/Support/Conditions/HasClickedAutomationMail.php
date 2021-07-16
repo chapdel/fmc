@@ -33,7 +33,7 @@ class HasClickedAutomationMail implements Condition
             return '';
         }
 
-        $mail = AutomationMail::find($data['automation_mail_id']);
+        $mail = static::getAutomationMailClass()::find($data['automation_mail_id']);
 
         return (string) __(':mail - :url', [
             'mail' => $mail->name,
@@ -66,7 +66,7 @@ class HasClickedAutomationMail implements Condition
             });
 
         if ($this->data['automation_mail_link_url'] ?? false) {
-            $mail = AutomationMail::find($this->data['automation_mail_id']);
+            $mail = static::getAutomationMailClass()::find($this->data['automation_mail_id']);
             $url = $this->data['automation_mail_link_url'];
 
             if ($mail->utm_tags) {

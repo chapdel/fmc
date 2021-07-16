@@ -14,11 +14,11 @@ class EmailListsIndexController
 
     public function __invoke(EmailListQuery $emailListQuery)
     {
-        $this->authorize('viewAny', EmailList::class);
+        $this->authorize('viewAny', static::getEmailListClass());
 
         return view('mailcoach::app.emailLists.index', [
             'emailLists' => $emailListQuery->paginate(),
-            'totalEmailListsCount' => $this->getEmailListClass()::count(),
+            'totalEmailListsCount' => static::getEmailListClass()::count(),
         ]);
     }
 }

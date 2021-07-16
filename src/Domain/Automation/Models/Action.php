@@ -11,11 +11,13 @@ use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Jobs\RunActionForSubscriberJob;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\AutomationAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class Action extends Model
 {
     use HasUuid;
     use HasFactory;
+    use UsesMailcoachModels;
 
     public $table = 'mailcoach_automation_actions';
 
@@ -41,7 +43,7 @@ class Action extends Model
 
     public function subscribers(): BelongsToMany
     {
-        return $this->belongsToMany(Subscriber::class, 'mailcoach_automation_action_subscriber')
+        return $this->belongsToMany(static::getSubscriberClass(), 'mailcoach_automation_action_subscriber')
             ->withPivot(['completed_at', 'halted_at', 'run_at'])
             ->withTimestamps();
     }
@@ -61,7 +63,7 @@ class Action extends Model
 
     public function automation(): BelongsTo
     {
-        return $this->belongsTo(Automation::class);
+        return $this->belongsTo(static::getAutomationClass());
     }
 
     public function parent(): BelongsTo

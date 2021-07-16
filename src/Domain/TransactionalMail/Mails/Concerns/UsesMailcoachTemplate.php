@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns;
 
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Exceptions\CouldNotFindTemplate;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 
@@ -9,11 +10,12 @@ use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 trait UsesMailcoachTemplate
 {
     use StoresMail;
+    use UsesMailcoachModels;
 
     public function template(string $name): self
     {
         /** @var TransactionalMailTemplate $template */
-        $template = TransactionalMailTemplate::firstWhere('name', $name);
+        $template = $this->getTransactionalMailTemplateClass()::firstWhere('name', $name);
 
         if (! $template) {
             throw CouldNotFindTemplate::make($name, $this);

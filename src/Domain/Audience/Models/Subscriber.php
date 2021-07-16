@@ -64,7 +64,7 @@ class Subscriber extends Model
 
     public function sends(): HasMany
     {
-        return $this->hasMany(Send::class, 'subscriber_id');
+        return $this->hasMany($this->getSendClass(), 'subscriber_id');
     }
 
     public function opens(): HasMany

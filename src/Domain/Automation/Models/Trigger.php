@@ -7,11 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\AutomationTrigger;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class Trigger extends Model
 {
     use HasUuid;
     use HasFactory;
+    use UsesMailcoachModels;
 
     public $table = 'mailcoach_automation_triggers';
 
@@ -46,6 +48,6 @@ class Trigger extends Model
 
     public function automation(): BelongsTo
     {
-        return $this->belongsTo(Automation::class);
+        return $this->belongsTo(static::getAutomationClass());
     }
 }

@@ -10,7 +10,7 @@ class CampaignWebviewController
 
     public function __invoke(string $campaignUuid)
     {
-        if (! $campaign = $this->getCampaignClass()::findByUuid($campaignUuid)) {
+        if (! $campaign = static::getCampaignClass()::findByUuid($campaignUuid)) {
             abort(404);
         }
 

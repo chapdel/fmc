@@ -16,20 +16,20 @@ class CampaignsIndexController
 
     public function __invoke(CampaignsQuery $campaignsQuery)
     {
-        $this->authorize("viewAny", Campaign::class);
+        $this->authorize("viewAny", static::getCampaignClass());
 
         return view('mailcoach::app.campaigns.index', [
             'campaigns' => $campaignsQuery->paginate(),
             'campaignsQuery' => $campaignsQuery,
-            'totalCampaignsCount' => $this->getCampaignClass()::count(),
-            'totalListsCount' => $this->getEmailListClass()::count(),
-            'sentCampaignsCount' => $this->getCampaignClass()::sendingOrSent()->count(),
-            'scheduledCampaignsCount' => $this->getCampaignClass()::scheduled()->count(),
-            'draftCampaignsCount' => $this->getCampaignClass()::draft()->count(),
-            'templateOptions' => $this->getTemplateClass()::orderBy('name')->get()
+            'totalCampaignsCount' => static::getCampaignClass()::count(),
+            'totalListsCount' => static::getEmailListClass()::count(),
+            'sentCampaignsCount' => static::getCampaignClass()::sendingOrSent()->count(),
+            'scheduledCampaignsCount' => static::getCampaignClass()::scheduled()->count(),
+            'draftCampaignsCount' => static::getCampaignClass()::draft()->count(),
+            'templateOptions' => static::getTemplateClass()::orderBy('name')->get()
                 ->mapWithKeys(fn (Template $template) => [$template->id => $template->name])
                 ->prepend('-- None --', 0),
-            'emailListOptions' => $this->getEmailListClass()::orderBy('name')->get()
+            'emailListOptions' => static::getEmailListClass()::orderBy('name')->get()
                 ->mapWithKeys(fn (EmailList $list) => [$list->id => $list->name]),
         ]);
     }

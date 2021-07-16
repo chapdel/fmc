@@ -16,7 +16,7 @@ class CampaignSendsQuery extends QueryBuilder
 
     public function __construct(Campaign $campaign)
     {
-        parent::__construct(Send::query());
+        parent::__construct($this->getSendClass()::query());
 
         $this
             ->addSelect(['subscriber_email' => $this->getSubscriberClass()::select('email')

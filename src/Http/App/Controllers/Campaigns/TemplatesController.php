@@ -18,7 +18,7 @@ class TemplatesController
 
     public function index(TemplatesQuery $templatesQuery)
     {
-        $this->authorize('viewAny', Template::class);
+        $this->authorize('viewAny', static::getTemplateClass());
 
         return view('mailcoach::app.campaigns.templates.index', [
             'templates' => $templatesQuery->paginate(),
@@ -35,7 +35,7 @@ class TemplatesController
 
     public function store(TemplateRequest $request, CreateTemplateAction $createTemplateAction)
     {
-        $this->authorize('create', Template::class);
+        $this->authorize('create', static::getTemplateClass());
 
         $template = $createTemplateAction->execute($request->validated());
 
@@ -80,7 +80,7 @@ class TemplatesController
 
     public function duplicate(Template $template)
     {
-        $this->authorize('create', Template::class);
+        $this->authorize('create', static::getTemplateClass());
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Template $duplicateTemplate */
         $duplicateTemplate = $this->getTemplateClass()::create([

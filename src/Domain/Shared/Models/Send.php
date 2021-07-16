@@ -77,12 +77,12 @@ class Send extends Model
 
     public function automationMail(): BelongsTo
     {
-        return $this->belongsTo(AutomationMail::class, 'automation_mail_id');
+        return $this->belongsTo(static::getAutomationMailClass(), 'automation_mail_id');
     }
 
     public function transactionalMail(): BelongsTo
     {
-        return $this->belongsTo(TransactionalMail::class, 'transactional_mail_id');
+        return $this->belongsTo(static::getTransactionalMailClass(), 'transactional_mail_id');
     }
 
     public function opens(): HasMany

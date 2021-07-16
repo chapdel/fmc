@@ -15,6 +15,7 @@ use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Spatie\Mailcoach\Domain\Shared\Models\SendFeedbackItem;
 use Spatie\Mailcoach\Domain\Shared\Support\CalculateStatisticsLock;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class AutomationMail extends Sendable
 {
@@ -30,7 +31,7 @@ class AutomationMail extends Sendable
         return $this
             ->hasManyThrough(
                 AutomationMailOpen::class,
-                Send::class,
+                $this->getSendClass(),
                 'automation_mail_id'
             )
             ->orderBy('created_at');
@@ -41,7 +42,7 @@ class AutomationMail extends Sendable
         return $this
             ->hasManyThrough(
                 AutomationMailClick::class,
-                Send::class,
+                $this->getSendClass(),
                 'automation_mail_id'
             )
             ->orderBy('created_at');
@@ -49,7 +50,7 @@ class AutomationMail extends Sendable
 
     public function sends(): HasMany
     {
-        return $this->hasMany(Send::class, 'automation_mail_id');
+        return $this->hasMany($this->getSendClass(), 'automation_mail_id');
     }
 
     public function unsubscribes(): HasMany
@@ -60,14 +61,14 @@ class AutomationMail extends Sendable
     public function bounces(): HasManyThrough
     {
         return $this
-            ->hasManyThrough(SendFeedbackItem::class, Send::class, 'automation_mail_id')
+            ->hasManyThrough(SendFeedbackItem::class, $this->getSendClass(), 'automation_mail_id')
             ->where('type', SendFeedbackType::BOUNCE);
     }
 
     public function complaints(): HasManyThrough
     {
         return $this
-            ->hasManyThrough(SendFeedbackItem::class, Send::class, 'automation_mail_id')
+            ->hasManyThrough(SendFeedbackItem::class, $this->getSendClass(), 'automation_mail_id')
             ->where('type', SendFeedbackType::COMPLAINT);
     }
 

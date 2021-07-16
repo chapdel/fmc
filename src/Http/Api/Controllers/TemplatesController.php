@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Campaign\Actions\Templates\CreateTemplateAction;
 use Spatie\Mailcoach\Domain\Campaign\Actions\Templates\UpdateTemplateAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Http\Api\Resources\TemplateResource;
 use Spatie\Mailcoach\Http\App\Queries\TemplatesQuery;
@@ -15,10 +16,11 @@ class TemplatesController
 {
     use AuthorizesRequests;
     use RespondsToApiRequests;
+    use UsesMailcoachModels;
 
     public function index(TemplatesQuery $templatesQuery)
     {
-        $this->authorize("viewAny", Template::class);
+        $this->authorize("viewAny", static::getTemplateClass());
 
         $templates = $templatesQuery->paginate();
 
@@ -36,7 +38,7 @@ class TemplatesController
         TemplateRequest $request,
         CreateTemplateAction $createTemplateAction
     ) {
-        $this->authorize("create", Template::class);
+        $this->authorize("create", static::getTemplateClass());
 
         $template = $createTemplateAction->execute($request->validated());
 

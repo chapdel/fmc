@@ -4,15 +4,18 @@ namespace Spatie\Mailcoach\Http\App\Queries;
 
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Queries\Filters\FuzzyFilter;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class CampaignSendQuery extends QueryBuilder
 {
+    use UsesMailcoachModels;
+
     public function __construct(Subscriber $subscriber)
     {
-        $query = Send::query()->where('subscriber_id', $subscriber->id);
+        $query = $this->getSendClass()::query()->where('subscriber_id', $subscriber->id);
 
         parent::__construct($query);
 
