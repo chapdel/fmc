@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\Rule;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailClick;
 use Spatie\Mailcoach\Domain\Shared\Actions\AddUtmTagsToUrlAction;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;

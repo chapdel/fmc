@@ -67,7 +67,6 @@ use Spatie\Mailcoach\Domain\Shared\Commands\RetryPendingSendsCommand;
 use Spatie\Mailcoach\Domain\Shared\Support\Version;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Listeners\StoreTransactionalMail;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 use Spatie\Mailcoach\Http\App\Controllers\HomeController;
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\IndexComposer;

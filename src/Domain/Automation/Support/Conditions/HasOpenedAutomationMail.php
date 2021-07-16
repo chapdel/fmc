@@ -5,7 +5,6 @@ namespace Spatie\Mailcoach\Domain\Automation\Support\Conditions;
 use Illuminate\Validation\Rule;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailOpen;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 

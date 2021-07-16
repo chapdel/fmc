@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Http\Front\Controllers;
 
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
-use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class UnsubscribeController

@@ -3,10 +3,8 @@
 namespace Spatie\Mailcoach\Domain\TransactionalMail\Listeners;
 
 use Illuminate\Mail\Events\MessageSending;
-use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailStored;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Support\TransactionalMailMessageConfig;
 
 class StoreTransactionalMail

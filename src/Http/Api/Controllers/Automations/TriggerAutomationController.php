@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Http\Api\Controllers\Automations;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\Trigger;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\WebhookTrigger;
