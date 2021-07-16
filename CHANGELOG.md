@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.5.3 - 2021-07-15
+
+- Add missing resolveRouteBinding methods to overridable models (#652)
+- Fix various models not pulling from config (#653)
+
 ## 4.5.2 - 2021-07-14
 
 - fix incorrect model references (#650)
