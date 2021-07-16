@@ -191,4 +191,11 @@ class Automation extends Model
 
         $this->update(['last_ran_at' => now()]);
     }
+
+    public function resolveRouteBinding($value, $field = null)
+    {
+        $field ??= $this->getRouteKeyName();
+
+        return static::getAutomationClass()::where($field, $value)->firstOrFail();
+    }
 }

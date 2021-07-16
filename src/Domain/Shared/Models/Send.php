@@ -25,6 +25,7 @@ use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignOpen;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Actions\StripUtmTagsFromUrlAction;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailLinkClickedEvent;
 use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailOpenedEvent;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
@@ -35,6 +36,7 @@ class Send extends Model
 {
     use HasUuid;
     use HasFactory;
+    use UsesMailcoachModels;
 
     public $table = 'mailcoach_sends';
 
@@ -415,5 +417,12 @@ class Send extends Model
             'failed_at' => null,
             'failure_reason' => null,
         ]);
+    }
+
+    public function resolveRouteBinding($value, $field = null)
+    {
+        $field ??= $this->getRouteKeyName();
+
+        return $this->getSendClass()::where($field, $value)->firstOrFail();
     }
 }

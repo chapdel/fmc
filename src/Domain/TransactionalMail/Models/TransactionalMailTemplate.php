@@ -9,6 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Actions\RenderTemplateAction;
 use Spatie\Mailcoach\Domain\TransactionalMail\Exceptions\InvalidTemplate;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns\UsesMailcoachTemplate;
@@ -19,6 +20,7 @@ class TransactionalMailTemplate extends Model implements HasHtmlContent
     public $table = 'mailcoach_transactional_mail_templates';
 
     use HasFactory;
+    use UsesMailcoachModels;
 
     public $guarded = [];
 
@@ -121,5 +123,12 @@ class TransactionalMailTemplate extends Model implements HasHtmlContent
     public function bccString(): string
     {
         return implode(',', $this->bcc ?? []);
+    }
+
+    public function resolveRouteBinding($value, $field = null)
+    {
+        $field ??= $this->getRouteKeyName();
+
+        return $this->getTransactionalMailTemplateClass()::where($field, $value)->firstOrFail();
     }
 }
