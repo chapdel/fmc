@@ -59,13 +59,15 @@ trait SendsToSegment
 
     public function segmentSubscriberCount(): int
     {
-        if (! $this->emailList) {
-            return 0;
-        }
+        return cache()->remember("segmentSubscriberCount-{$this->id}", now()->addMinute(), function () {
+            if (! $this->emailList) {
+                return 0;
+            }
 
-        return tap($this->baseSubscribersQuery(), function (Builder $query) {
-            $this->getSegment()->subscribersQuery($query);
-        })->count();
+            return tap($this->baseSubscribersQuery(), function (Builder $query) {
+                $this->getSegment()->subscribersQuery($query);
+            })->count();
+        });
     }
 
     public function baseSubscribersQuery(): Builder
