@@ -9,6 +9,7 @@ use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
+use Spatie\TestTime\TestTime;
 
 class SendMailJobTest extends TestCase
 {
@@ -35,6 +36,24 @@ class SendMailJobTest extends TestCase
 
             return true;
         });
+    }
+
+    /** @test */
+    public function it_will_rate_limit()
+    {
+        TestTime::freeze();
+
+        config()->set('mailcoach.campaigns.throttling.allowed_number_of_jobs_in_timespan', 1);
+
+        $pendingSend = SendFactory::new()->create();
+        $pendingSend2 = SendFactory::new()->create();
+        $pendingSend3 = SendFactory::new()->create();
+
+        dispatch(new SendCampaignMailJob($pendingSend));
+        dispatch(new SendCampaignMailJob($pendingSend2));
+        dispatch(new SendCampaignMailJob($pendingSend3));
+
+        Mail::assertSent(MailcoachMail::class, 1);
     }
 
     /** @test */
