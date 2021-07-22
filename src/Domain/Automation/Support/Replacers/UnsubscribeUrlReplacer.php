@@ -20,7 +20,7 @@ class UnsubscribeUrlReplacer implements PersonalizedReplacer
 
         $text = str_ireplace('::unsubscribeUrl::', $unsubscribeUrl, $text);
 
-        preg_match_all('/::unsubscribeTag::(.*)::/', $text, $matches, PREG_SET_ORDER);
+        preg_match_all('/::unsubscribeTag::([^:]*)::/', $text, $matches, PREG_SET_ORDER);
 
         foreach ($matches as $match) {
             [$key, $tag] = $match;

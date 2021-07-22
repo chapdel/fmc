@@ -5,6 +5,7 @@ All notable changes to `laravel-mailcoach` will be documented in this file
 ## 4.6.0 - 2021-07-22
 
 - Allow filter by `email` on the subscribers API endpoint
+- Fixed the unsubscribeUrl replacer replacing more than intended (#644)
 
 ## 4.5.3 - 2021-07-15
 
