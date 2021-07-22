@@ -15,7 +15,9 @@ $ curl https://example.app/mailcoach/api/email-lists/99/subscribers \
     -H 'Content-Type: application/json'
 ```
 
-Searching on `email`, `first_name`, `last_name` and `tags` is possible on this endpoint using `?filter[search]=searchterm` for searching.
+Searching on `email` specifically is possible on this endpoint using `?filter[email]=info@example.com`.
+
+Fuzzy searching on `email`, `first_name`, `last_name` and `tags` is possible on this endpoint using `?filter[search]=searchterm` for searching.
 
 Filtering on subscriber status is possible using `?filter[status]=unconfirmed`, possible values are `unconfirmed`, `subscribed` and `unsubscribed`
 

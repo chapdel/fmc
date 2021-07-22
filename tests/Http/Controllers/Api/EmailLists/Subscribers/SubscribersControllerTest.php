@@ -41,6 +41,36 @@ class SubscribersControllerTest extends TestCase
     }
 
     /** @test */
+    public function it_can_filter_on_email()
+    {
+        $subscribers = Subscriber::factory(3)->create([
+            'email_list_id' => $this->emailList->id,
+        ]);
+
+        $response = $this
+            ->getJson(action([SubscribersController::class, 'index'], $this->emailList->id) . '?filter[email]=' . $subscribers[0]->email)
+            ->assertSuccessful()
+            ->assertJsonCount(1, 'data');
+
+        $response->assertJsonFragment(['email' => $subscribers[0]->email]);
+    }
+
+    /** @test */
+    public function it_can_fuzzy_filter_on_email()
+    {
+        $subscribers = Subscriber::factory(3)->create([
+            'email_list_id' => $this->emailList->id,
+        ]);
+
+        $response = $this
+            ->getJson(action([SubscribersController::class, 'index'], $this->emailList->id) . '?filter[search]=' . $subscribers[0]->email)
+            ->assertSuccessful()
+            ->assertJsonCount(1, 'data');
+
+        $response->assertJsonFragment(['email' => $subscribers[0]->email]);
+    }
+
+    /** @test */
     public function it_can_filter_on_subscription_status()
     {
         /** @var Subscriber $subscriber */
