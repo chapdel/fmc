@@ -41,7 +41,6 @@ class CalculateStatisticsJob implements ShouldQueue
 
             $calculateStatistics->execute($this->sendable);
         } catch (Exception $exception) {
-            dd($exception);
             report($exception);
         }
 
