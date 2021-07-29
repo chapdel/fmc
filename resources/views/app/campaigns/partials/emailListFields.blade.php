@@ -29,7 +29,7 @@
 
         @if($segmentable->usingCustomSegment())
             <x-mailcoach::help>
-                {{ __('Using custom segment') }} {{ $campaign->getSegment()->description() }}.
+                {{ __('Using custom segment') }} {{ $segmentable->getSegment()->description() }}.
             </x-mailcoach::help>
         @else
             <div class="form-field">
