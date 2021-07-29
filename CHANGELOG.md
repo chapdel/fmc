@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.6.1 - 2021-07-29
+
+- Remove a stray dd()
+- Fix an issue on the automation views when using a custom segment
+
 ## 4.6.0 - 2021-07-22
 
 - Allow filter by `email` on the subscribers API endpoint
