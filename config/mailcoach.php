@@ -95,6 +95,7 @@ return [
             'personalize_subject' => \Spatie\Mailcoach\Domain\Automation\Actions\PersonalizeSubjectAction::class,
             'send_test_mail' => \Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailTestAction::class,
 
+            'should_run_for_subscriber' => \Spatie\Mailcoach\Domain\Automation\Actions\ShouldAutomationRunForSubscriberAction::class,
         ],
 
         'replacers' => [
@@ -321,6 +322,13 @@ return [
          * extend the `\Spatie\Mailcoach\Domain\Automation\Models\AutomationMail::class` model.
          */
         'automation_mail' => \Spatie\Mailcoach\Domain\Automation\Models\AutomationMail::class,
+
+        /*
+         * The model you want to use as the pivot between an Automation Action model
+         * and the Subscriber model. It needs to be or extend the
+         * `\Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber::class` model.
+         */
+        'action_subscriber' => \Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber::class,
     ],
 
     'views' => [

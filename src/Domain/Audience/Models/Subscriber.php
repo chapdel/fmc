@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\ConfirmSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Events\TagAddedEvent;
@@ -98,11 +99,16 @@ class Subscriber extends Model
 
     public function currentAction(Automation $automation): ?Action
     {
+        return $this->currentActions($automation)->first();
+    }
+
+    public function currentActions(Automation $automation): Collection
+    {
         return $this->actions()
             ->where('automation_id', $automation->id)
             ->wherePivotNull('completed_at')
             ->latest()
-            ->first();
+            ->get();
     }
 
     public function unsubscribe(Send $send = null)

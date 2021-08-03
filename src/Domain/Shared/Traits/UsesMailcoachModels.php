@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Domain\Shared\Traits;
 
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
@@ -57,6 +58,11 @@ trait UsesMailcoachModels
     public function getTransactionalMailTemplateClass(): string
     {
         return config('mailcoach.models.transactional_mail_template', TransactionalMailTemplate::class);
+    }
+
+    public function getActionSubscriberClass(): string
+    {
+        return config('mailcoach.models.action_subscriber', ActionSubscriber::class);
     }
 
     public static function getEmailListTableName(): string

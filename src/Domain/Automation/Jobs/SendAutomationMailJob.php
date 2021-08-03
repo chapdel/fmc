@@ -37,7 +37,6 @@ class SendAutomationMailJob implements ShouldQueue
 
     public function handle()
     {
-
         /** @var \Spatie\Mailcoach\Domain\Automation\Actions\SendMailAction $sendMailAction */
         $sendMailAction = Config::getAutomationActionClass('send_mail', SendMailAction::class);
 

@@ -23,10 +23,14 @@ use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SplitAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasTagCondition;
+use Spatie\Mailcoach\Domain\Automation\Support\Triggers\NoTrigger;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
+use Spatie\Mailcoach\Tests\TestClasses\AddRandomTagAction;
+use Spatie\Mailcoach\Tests\TestClasses\AllowDuplicateSendAutomationMailToSubscriberAction;
+use Spatie\Mailcoach\Tests\TestClasses\AllowDuplicateShouldAutomationRunForSubscriberAction;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
 use Spatie\Snapshots\MatchesSnapshots;
 use Spatie\TestTime\TestTime;
@@ -279,29 +283,29 @@ class AutomationTest extends TestCase
         $subscriber = $automation->emailList->subscribe('john@doe.com');
 
         // Wait for a day
-        $this->assertInstanceOf(WaitAction::class, $subscriber->currentAction($automation)->action);
+        $this->assertInstanceOf(WaitAction::class, $subscriber->currentActions($automation)->first()->action);
         Artisan::call(RunAutomationActionsCommand::class);
-        $this->assertInstanceOf(WaitAction::class, $subscriber->currentAction($automation)->action);
+        $this->assertInstanceOf(WaitAction::class, $subscriber->currentActions($automation)->first()->action);
         TestTime::addDay()->addSecond();
         Artisan::call(RunAutomationActionsCommand::class);
 
         // CampaignAction continues straight to next action after running
         Mail::assertSent(MailcoachMail::class, 1);
-        $this->assertInstanceOf(ConditionAction::class, $subscriber->currentAction($automation)->action);
+        $this->assertInstanceOf(ConditionAction::class, $subscriber->currentActions($automation)->first()->action);
 
         // EnsureTagsExist checks for 3 days
         TestTime::addDay()->addSecond();
         Artisan::call(RunAutomationActionsCommand::class);
 
-        $this->assertInstanceOf(ConditionAction::class, $subscriber->currentAction($automation)->action);
+        $this->assertInstanceOf(ConditionAction::class, $subscriber->currentActions($automation)->first()->action);
         TestTime::addDays(2)->addSecond();
-        $this->assertInstanceOf(ConditionAction::class, $subscriber->currentAction($automation)->action);
+        $this->assertInstanceOf(ConditionAction::class, $subscriber->currentActions($automation)->first()->action);
 
         // Adding a tag causes it to go to the next
         $subscriber->addTag('mc::campaign-1-clicked-1');
         Artisan::call(RunAutomationActionsCommand::class);
-        $this->assertInstanceOf(WaitAction::class, $subscriber->currentAction($automation)->action);
-        $this->assertEquals(CarbonInterval::day(), $subscriber->currentAction($automation)->action->interval);
+        $this->assertInstanceOf(WaitAction::class, $subscriber->currentActions($automation)->first()->action);
+        $this->assertEquals(CarbonInterval::day(), $subscriber->currentActions($automation)->first()->action->interval);
 
         // Wait for a day
         TestTime::addDays(2)->addSecond();
@@ -310,8 +314,8 @@ class AutomationTest extends TestCase
         // Campaign Action sends again
         Mail::assertSent(MailcoachMail::class, 2);
 
-        $this->assertInstanceOf(WaitAction::class, $subscriber->currentAction($automation)->action);
-        $this->assertEquals(CarbonInterval::days(3), $subscriber->currentAction($automation)->action->interval);
+        $this->assertInstanceOf(WaitAction::class, $subscriber->currentActions($automation)->first()->action);
+        $this->assertEquals(CarbonInterval::days(3), $subscriber->currentActions($automation)->first()->action->interval);
 
         // Wait for 3 days
         TestTime::addDays(3)->addSecond();
@@ -321,8 +325,8 @@ class AutomationTest extends TestCase
         Artisan::call(RunAutomationActionsCommand::class);
         Mail::assertSent(MailcoachMail::class, 3);
 
-        $this->assertInstanceOf(SendAutomationMailAction::class, $subscriber->currentAction($automation)->action);
-        $this->assertNotNull($subscriber->currentAction($automation)->pivot->run_at);
+        $this->assertInstanceOf(SendAutomationMailAction::class, $subscriber->currentActions($automation)->first()->action);
+        $this->assertNotNull($subscriber->currentActions($automation)->first()->pivot->run_at);
     }
 
     /** @test * */
@@ -385,31 +389,31 @@ class AutomationTest extends TestCase
         Artisan::call(RunAutomationActionsCommand::class);
 
         // Subscriber 1 went straight through all the "yes" paths to the send
-        $this->assertEquals(WaitAction::class, $subscriber1->currentAction($automation)->action::class);
-        $this->assertEquals(['length' => '3', 'unit' => 'days'], $subscriber1->currentAction($automation)->action->toArray());
+        $this->assertEquals(WaitAction::class, $subscriber1->currentActions($automation)->first()->action::class);
+        $this->assertEquals(['length' => '3', 'unit' => 'days'], $subscriber1->currentActions($automation)->first()->action->toArray());
 
         // And has received automationmail 1
         $this->assertSame(1, $subscriber1->sends()->count());
         $this->assertSame($automatedMail1->id, $subscriber1->sends->first()->automationMail->id);
 
-        $this->assertEquals('yes-tag-2', $subscriber2->currentAction($automation)->action->toArray()['conditionData']['tag']);
-        $this->assertEquals('yes-tag-1', $subscriber3->currentAction($automation)->action->toArray()['conditionData']['tag']);
+        $this->assertEquals('yes-tag-2', $subscriber2->currentActions($automation)->first()->action->toArray()['conditionData']['tag']);
+        $this->assertEquals('yes-tag-1', $subscriber3->currentActions($automation)->first()->action->toArray()['conditionData']['tag']);
 
         TestTime::addDay();
 
         Artisan::call(RunAutomationActionsCommand::class);
 
         // Subscriber 2 went through the first yes, and second no
-        $this->assertEquals(WaitAction::class, $subscriber2->currentAction($automation)->action::class);
-        $this->assertEquals(['length' => '3', 'unit' => 'days'], $subscriber2->currentAction($automation)->action->toArray());
+        $this->assertEquals(WaitAction::class, $subscriber2->currentActions($automation)->first()->action::class);
+        $this->assertEquals(['length' => '3', 'unit' => 'days'], $subscriber2->currentActions($automation)->first()->action->toArray());
 
         // And received automationmail 2
         $this->assertSame(1, $subscriber2->sends()->count());
         $this->assertSame($automatedMail2->id, $subscriber2->sends->first()->automationMail->id);
 
         // Subscriber 3 went through the first no
-        $this->assertEquals(WaitAction::class, $subscriber3->currentAction($automation)->action::class);
-        $this->assertEquals(['length' => '3', 'unit' => 'days'], $subscriber3->currentAction($automation)->action->toArray());
+        $this->assertEquals(WaitAction::class, $subscriber3->currentActions($automation)->first()->action::class);
+        $this->assertEquals(['length' => '3', 'unit' => 'days'], $subscriber3->currentActions($automation)->first()->action->toArray());
 
         // And received automationmail 3
         $this->assertSame(1, $subscriber3->sends()->count());
@@ -534,9 +538,9 @@ class AutomationTest extends TestCase
         $subscriber = $automation->emailList->subscribe('john@doe.com');
 
         // Wait for a day
-        $this->assertInstanceOf(WaitAction::class, $subscriber->currentAction($automation)->action);
+        $this->assertInstanceOf(WaitAction::class, $subscriber->currentActions($automation)->first()->action);
         Artisan::call(RunAutomationActionsCommand::class);
-        $this->assertInstanceOf(WaitAction::class, $subscriber->currentAction($automation)->action);
+        $this->assertInstanceOf(WaitAction::class, $subscriber->currentActions($automation)->first()->action);
         TestTime::addDay()->addSecond();
         Artisan::call(RunAutomationActionsCommand::class);
 
@@ -545,7 +549,7 @@ class AutomationTest extends TestCase
 
         Artisan::call(RunAutomationActionsCommand::class);
 
-        $this->assertInstanceOf(WaitAction::class, $subscriber->currentAction($automation)->action);
+        $this->assertInstanceOf(WaitAction::class, $subscriber->currentActions($automation)->first()->action);
 
         // Unsubscribe the subscriber
         $subscriber->unsubscribe();
@@ -556,6 +560,216 @@ class AutomationTest extends TestCase
 
         // Mailable was only sent once
         Mail::assertSent(MailcoachMail::class, 1);
-        $this->assertNotNull($subscriber->currentAction($automation)->pivot->halted_at);
+        $this->assertNotNull($subscriber->currentActions($automation)->first()->pivot->halted_at);
+    }
+
+    /** @test */
+    public function it_can_run_automations_twice_with_a_custom_action()
+    {
+        config()->set(
+            'mailcoach.automation.actions.should_run_for_subscriber',
+            AllowDuplicateShouldAutomationRunForSubscriberAction::class,
+        );
+
+        Mail::fake();
+
+        $emailList = EmailList::factory()->create();
+
+        /** @var Automation $automation */
+        $automation = Automation::create()
+            ->name('Welcome email')
+            ->to($emailList)
+            ->runEvery(CarbonInterval::minute())
+            ->triggerOn(new NoTrigger)
+            ->chain([
+                new AddRandomTagAction(),
+                new WaitAction(CarbonInterval::day()),
+                new AddRandomTagAction(),
+            ])
+            ->start();
+
+        $this->refreshServiceProvider();
+
+        $this->assertEquals(3, $automation->actions()->count());
+        $this->assertEquals(0, $automation->actions()->first()->subscribers->count());
+
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $john */
+        $john = $emailList->subscribe('john@doe.com');
+
+        $automation->run($john);
+        $automation->run($john);
+
+        $this->assertEquals(2, $automation->actions()->first()->subscribers->count());
+
+        Artisan::call(RunAutomationActionsCommand::class);
+
+        $this->assertEquals(2, $john->tags()->count());
+
+        TestTime::addDay();
+        TestTime::addMinute();
+
+        Artisan::call(RunAutomationActionsCommand::class);
+
+        $this->assertEquals(4, $john->tags()->count());
+    }
+
+    /** @test */
+    public function it_can_run_a_split_automation_twice()
+    {
+        config()->set(
+            'mailcoach.automation.actions.should_run_for_subscriber',
+            AllowDuplicateShouldAutomationRunForSubscriberAction::class,
+        );
+        config()->set(
+            'mailcoach.automation.actions.send_automation_mail_to_subscriber',
+            AllowDuplicateSendAutomationMailToSubscriberAction::class,
+        );
+
+        Mail::fake();
+
+        $emailList = EmailList::factory()->create();
+
+        $automationMail2 = AutomationMail::factory()->create(['subject' => 'Welcome 2']);
+
+        /** @var Automation $automation */
+        $automation = Automation::create()
+            ->name('Welcome email')
+            ->to($emailList)
+            ->runEvery(CarbonInterval::minute())
+            ->triggerOn(new NoTrigger)
+            ->chain([
+                new SplitAction(
+                    [new SendAutomationMailAction($this->automationMail)],
+                    [new SendAutomationMailAction($automationMail2)],
+                ),
+            ])
+            ->start();
+
+        $this->refreshServiceProvider();
+
+        $this->assertEquals(1, $automation->actions()->count());
+        $this->assertEquals(3, $automation->allActions()->count());
+        $this->assertEquals(0, $automation->actions()->first()->subscribers->count());
+
+        $john = $emailList->subscribe('john@doe.com');
+
+        $automation->run($john);
+        $automation->run($john);
+
+        $this->assertEquals(2, $automation->actions()->first()->subscribers->count());
+
+        Artisan::call(RunAutomationActionsCommand::class);
+
+        Mail::assertSent(MailcoachMail::class, 4);
+    }
+
+    /** @test * */
+    public function it_handles_nested_conditions_correctly_when_running_twice()
+    {
+        config()->set(
+            'mailcoach.automation.actions.should_run_for_subscriber',
+            AllowDuplicateShouldAutomationRunForSubscriberAction::class,
+        );
+        config()->set(
+            'mailcoach.automation.actions.send_automation_mail_to_subscriber',
+            AllowDuplicateSendAutomationMailToSubscriberAction::class,
+        );
+
+        TestTime::freeze();
+
+        /** @var EmailList $emailList */
+        $emailList = EmailList::factory()->create();
+
+        $automatedMail1 = AutomationMail::factory()->create();
+        $automatedMail2 = AutomationMail::factory()->create();
+        $automatedMail3 = AutomationMail::factory()->create();
+
+        $automation = Automation::create()
+            ->name('Testing nested conditions')
+            ->to($emailList)
+            ->triggerOn(new NoTrigger)
+            ->runEvery(CarbonInterval::minutes(10)) // Run through the automation and check actions every 10 min
+            ->chain([
+                new ConditionAction(
+                    checkFor: CarbonInterval::day(),
+                    yesActions: [
+                    new ConditionAction(
+                        checkFor: CarbonInterval::day(),
+                        yesActions: [
+                        new SendAutomationMailAction($automatedMail1),
+                    ],
+                        noActions: [
+                        new SendAutomationMailAction($automatedMail2),
+                    ],
+                        condition: HasTagCondition::class,
+                        conditionData: ['tag' => 'yes-tag-2'],
+                    ),
+                ],
+                    noActions: [
+                    new SendAutomationMailAction($automatedMail3),
+                ],
+                    condition: HasTagCondition::class,
+                    conditionData: ['tag' => 'yes-tag-1']
+                ),
+                new WaitAction(CarbonInterval::days(3)),
+            ])->start();
+
+        $this->refreshServiceProvider();
+
+        $this->assertEquals(6, Action::count());
+
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber1 */
+        $subscriber1 = $automation->emailList->subscribe('subscriber1@example.com');
+        $subscriber1->addTags(['yes-tag-1', 'yes-tag-2']); // Should receive mail 1
+
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber2 */
+        $subscriber2 = $automation->emailList->subscribe('subscriber2@example.com');
+        $subscriber2->addTags(['yes-tag-1']); // Should receive mail 2
+
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber3 */
+        $subscriber3 = $automation->emailList->subscribe('subscriber3@example.com'); // Should receive mail 3
+
+        $automation->run($subscriber1);
+        $automation->run($subscriber2);
+
+        // Run it Twice for subscriber3
+        $automation->run($subscriber3);
+        $automation->run($subscriber3);
+
+        Artisan::call(RunAutomationActionsCommand::class);
+
+        // Subscriber 1 went straight through all the "yes" paths to the send
+        $this->assertEquals(WaitAction::class, $subscriber1->currentActions($automation)->first()->action::class);
+        $this->assertEquals(['length' => '3', 'unit' => 'days'], $subscriber1->currentActions($automation)->first()->action->toArray());
+
+        // And has received automationmail 1
+        $this->assertSame(1, $subscriber1->sends()->count());
+        $this->assertSame($automatedMail1->id, $subscriber1->sends->first()->automationMail->id);
+
+        $this->assertEquals('yes-tag-2', $subscriber2->currentActions($automation)->first()->action->toArray()['conditionData']['tag']);
+        $this->assertEquals('yes-tag-1', $subscriber3->currentActions($automation)->first()->action->toArray()['conditionData']['tag']);
+
+        TestTime::addDay();
+
+        Artisan::call(RunAutomationActionsCommand::class);
+
+        // Subscriber 2 went through the first yes, and second no
+        $this->assertEquals(WaitAction::class, $subscriber2->currentActions($automation)->first()->action::class);
+        $this->assertEquals(['length' => '3', 'unit' => 'days'], $subscriber2->currentActions($automation)->first()->action->toArray());
+
+        // And received automationmail 2
+        $this->assertSame(1, $subscriber2->sends()->count());
+        $this->assertSame($automatedMail2->id, $subscriber2->sends->first()->automationMail->id);
+
+        // Subscriber 3 went through the first no
+        $this->assertEquals(WaitAction::class, $subscriber3->currentActions($automation)->first()->action::class);
+        $this->assertEquals(['length' => '3', 'unit' => 'days'], $subscriber3->currentActions($automation)->first()->action->toArray());
+
+        // And received automationmail 3 twice
+        $this->assertSame(2, $subscriber3->sends()->count());
+        $this->assertSame($automatedMail3->id, $subscriber3->sends->first()->automationMail->id);
+
+        // 4 mails were sent in total
+        $this->assertEquals(4, Send::count());
     }
 }

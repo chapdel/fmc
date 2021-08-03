@@ -1,23 +1,25 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Automation\Jobs;
+
+namespace Spatie\Mailcoach\Tests\Domain\Automation\Actions;
 
 use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Domain\Automation\Jobs\RunAutomationForSubscriberJob;
+use Spatie\Mailcoach\Domain\Automation\Actions\ShouldAutomationRunForSubscriberAction;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
 use Spatie\Mailcoach\Tests\TestCase;
-use Spatie\Mailcoach\Tests\TestClasses\CustomShouldAutomationRunForSubscriberAction;
+use Spatie\Mailcoach\Tests\TestClasses\TestSegmentQueryOnlyJohn;
 
-class RunAutomationForSubscriberJobTest extends TestCase
+class ShouldAutomationRunForSubscriberActionTest extends TestCase
 {
     private EmailList $emailList;
 
     private AutomationMail $automationMail;
+    private ShouldAutomationRunForSubscriberAction $action;
 
     public function setUp(): void
     {
@@ -25,12 +27,13 @@ class RunAutomationForSubscriberJobTest extends TestCase
 
         $this->emailList = EmailList::factory()->create();
         $this->automationMail = AutomationMail::factory()->create();
+        $this->action = resolve(ShouldAutomationRunForSubscriberAction::class);
 
         Queue::fake();
     }
 
     /** @test * */
-    public function it_runs_the_automation_for_a_subscriber()
+    public function it_returns_false_when_the_subscriber_is_already_in_the_automation()
     {
         /** @var Automation $automation */
         $automation = Automation::create()
@@ -40,24 +43,23 @@ class RunAutomationForSubscriberJobTest extends TestCase
             ->triggerOn(new SubscribedTrigger())
             ->chain([
                 new SendAutomationMailAction($this->automationMail),
-            ])
-            ->start();
+            ])->start();
 
         $this->refreshServiceProvider();
 
         $this->assertEmpty($automation->actions->first()->fresh()->subscribers);
 
-        $this->assertEquals(0, $automation->actions()->first()->subscribers->count());
-
         $jane = $this->emailList->subscribeSkippingConfirmation('jane@doe.com');
 
-        (new RunAutomationForSubscriberJob($automation, $jane))->handle();
+        $this->assertTrue($this->action->execute($automation, $jane));
 
-        $this->assertEquals(1, $automation->actions()->first()->subscribers->count());
+        $automation->actions->first()->subscribers()->attach($jane);
+
+        $this->assertFalse($this->action->execute($automation, $jane));
     }
 
     /** @test * */
-    public function it_does_nothing_when_the_automation_isnt_started()
+    public function it_returns_false_if_the_subscriber_isnt_subscribed()
     {
         /** @var Automation $automation */
         $automation = Automation::create()
@@ -67,7 +69,7 @@ class RunAutomationForSubscriberJobTest extends TestCase
             ->triggerOn(new SubscribedTrigger())
             ->chain([
                 new SendAutomationMailAction($this->automationMail),
-            ]);
+            ])->start();
 
         $this->refreshServiceProvider();
 
@@ -75,39 +77,35 @@ class RunAutomationForSubscriberJobTest extends TestCase
 
         $jane = $this->emailList->subscribeSkippingConfirmation('jane@doe.com');
 
-        $this->assertEquals(0, $automation->actions()->first()->subscribers->count());
+        $this->assertTrue($this->action->execute($automation, $jane));
 
-        (new RunAutomationForSubscriberJob($automation, $jane))->handle();
+        $jane->unsubscribe();
 
-        $this->assertEquals(0, $automation->actions()->first()->subscribers->count());
+        $this->assertFalse($this->action->execute($automation, $jane));
     }
 
     /** @test * */
-    public function it_uses_the_configured_action()
+    public function it_returns_false_when_the_subscriber_isnt_in_the_segment()
     {
-        config()->set('mailcoach.automation.actions.should_run_for_subscriber', CustomShouldAutomationRunForSubscriberAction::class);
-
         /** @var Automation $automation */
         $automation = Automation::create()
             ->name('New year!')
             ->runEvery(CarbonInterval::minute())
             ->to($this->emailList)
+            ->segment(TestSegmentQueryOnlyJohn::class)
             ->triggerOn(new SubscribedTrigger())
             ->chain([
                 new SendAutomationMailAction($this->automationMail),
-            ])
-            ->start();
+            ])->start();
 
         $this->refreshServiceProvider();
 
-        $this->assertEmpty($automation->actions->first()->fresh()->subscribers);
-
         $jane = $this->emailList->subscribeSkippingConfirmation('jane@doe.com');
+        $john = $this->emailList->subscribeSkippingConfirmation('john@example.com');
 
         $this->assertEquals(0, $automation->actions()->first()->subscribers->count());
 
-        $this->expectExceptionMessage("CustomShouldAutomationRunForSubscriberAction was used");
-
-        (new RunAutomationForSubscriberJob($automation, $jane))->handle();
+        $this->assertFalse($this->action->execute($automation, $jane));
+        $this->assertTrue($this->action->execute($automation, $john));
     }
 }

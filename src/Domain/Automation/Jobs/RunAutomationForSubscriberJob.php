@@ -8,6 +8,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Automation\Actions\ShouldAutomationRunForSubscriberAction;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
@@ -23,20 +24,18 @@ class RunAutomationForSubscriberJob implements ShouldQueue
 
     public $deleteWhenMissingModels = true;
 
-    public Automation $automation;
-
-    public Subscriber $subscriber;
-
     /** @var string */
     public $queue;
 
-    public function __construct(Automation $automation, Subscriber $subscriber)
-    {
-        $this->automation = $automation;
+    /** @var ShouldAutomationRunForSubscriberAction */
+    public $action;
 
-        $this->subscriber = $subscriber;
-
+    public function __construct(
+        public Automation $automation,
+        public Subscriber $subscriber,
+    ) {
         $this->queue = config('mailcoach.automation.perform_on_queue.run_automation_for_subscriber_job');
+        $this->action = resolve(config('mailcoach.automation.actions.should_run_for_subscriber', ShouldAutomationRunForSubscriberAction::class));
 
         $this->connection = $this->connection ?? Config::getQueueConnection();
     }
@@ -47,19 +46,7 @@ class RunAutomationForSubscriberJob implements ShouldQueue
             return;
         }
 
-        if ($this->subscriber->inAutomation($this->automation)) {
-            return;
-        }
-
-        if (! $this->subscriber->isSubscribed()) {
-            return;
-        }
-
-        if (! $this->automation
-            ->newSubscribersQuery()
-            ->where("{$this->getSubscriberTableName()}.id", $this->subscriber->id)
-            ->count()
-        ) {
+        if (! $this->action->execute($this->automation, $this->subscriber)) {
             return;
         }
 

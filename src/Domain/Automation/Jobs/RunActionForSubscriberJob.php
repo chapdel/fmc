@@ -8,7 +8,9 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Automation\Actions\ShouldAutomationRunForSubscriberAction;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
+use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\AutomationAction;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -28,6 +30,9 @@ class RunActionForSubscriberJob implements ShouldQueue
     /** @var string */
     public $queue;
 
+    /** @var \Spatie\Mailcoach\Domain\Automation\Actions\ShouldAutomationRunForSubscriberAction */
+    public $shouldAutomationRunForSubscriberAction;
+
     public function __construct(Action $action, Subscriber $subscriber)
     {
         $this->action = $action;
@@ -35,6 +40,8 @@ class RunActionForSubscriberJob implements ShouldQueue
         $this->subscriber = $subscriber;
 
         $this->queue = config('mailcoach.automation.perform_on_queue.run_action_for_subscriber_job');
+
+        $this->shouldAutomationRunForSubscriberAction = resolve(config('mailcoach.automation.actions.should_run_for_subscriber', ShouldAutomationRunForSubscriberAction::class));
 
         $this->connection = $this->connection ?? Config::getQueueConnection();
     }
@@ -44,48 +51,44 @@ class RunActionForSubscriberJob implements ShouldQueue
         /** @var AutomationAction $action */
         $action = $this->action->action;
 
-        /** @var ?Subscriber $subscriber */
-        $subscriber = $this->action->subscribers()
+        $actionSubscribers = $this->action->subscribers()
             ->withPivot('run_at')
-            ->find($this->subscriber->id);
+            ->where('subscriber_id', $this->subscriber->id)
+            ->get()
+            ->map(fn (Subscriber $subscriber) => $subscriber->pivot);
 
-        if (! $subscriber) {
+        if (! $actionSubscribers->count()) {
             return;
         }
 
-        if (is_null($subscriber->pivot->run_at)) {
-            $action->run($subscriber);
+        $actionSubscribers->each(function (ActionSubscriber $actionSubscriber) use ($action) {
+            $subscriber = $actionSubscriber->subscriber;
+            $subscriber->setRelation('pivot', $actionSubscriber);
 
-            if ($action->shouldHalt($subscriber) || ! $subscriber->isSubscribed()) {
-                $this->action->subscribers()->updateExistingPivot(
-                    $subscriber,
-                    ['halted_at' => now(), 'run_at' => now()],
-                    touch: false
-                );
+            if (is_null($actionSubscriber->run_at)) {
+                $action->run($subscriber);
 
-                return;
-            }
+                if ($action->shouldHalt($subscriber) || ! $subscriber->isSubscribed()) {
+                    $actionSubscriber->update(['halted_at' => now(), 'run_at' => now()]);
 
-            if (! $action->shouldContinue($subscriber)) {
-                return;
-            }
+                    return;
+                }
 
-            $this->action->subscribers()->updateExistingPivot(
-                $subscriber,
-                ['run_at' => now()],
-                touch: false
-            );
-        }
+                if (! $action->shouldContinue($subscriber)) {
+                    return;
+                }
 
+                $actionSubscriber->update(['run_at' => now()]);
 
-        $nextActions = $action->nextActions($subscriber);
-        if (count(array_filter($nextActions))) {
-            foreach ($nextActions as $nextAction) {
-                if (! $nextAction->subscribers()->where("{$this->getSubscriberTableName()}.id", $subscriber->id)->exists()) {
-                    $nextAction->subscribers()->attach($subscriber);
+                $nextActions = $action->nextActions($subscriber);
+                if (count(array_filter($nextActions))) {
+                    foreach ($nextActions as $nextAction) {
+                        $nextAction->subscribers()->attach($subscriber);
+                    }
+
+                    $actionSubscriber->update(['completed_at' => now()]);
                 }
             }
-            $this->action->subscribers()->updateExistingPivot($subscriber, ['completed_at' => now()], touch: false);
-        }
+        });
     }
 }

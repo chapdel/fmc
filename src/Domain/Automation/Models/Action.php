@@ -45,6 +45,7 @@ class Action extends Model
     {
         return $this->belongsToMany(static::getSubscriberClass(), 'mailcoach_automation_action_subscriber')
             ->withPivot(['completed_at', 'halted_at', 'run_at'])
+            ->using($this->getActionSubscriberClass())
             ->withTimestamps();
     }
 

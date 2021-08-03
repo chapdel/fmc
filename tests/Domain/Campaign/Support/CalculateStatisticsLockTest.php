@@ -38,6 +38,8 @@ class CalculateStatisticsLockTest extends TestCase
     /** @test */
     public function it_will_automatically_expire_the_lock_after_10_seconds()
     {
+        TestTime::freeze()->addDay();
+        
         $this->assertTrue($this->lock->get());
 
         $this->assertFalse($this->lock->get());

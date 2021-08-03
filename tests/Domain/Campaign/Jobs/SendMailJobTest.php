@@ -41,7 +41,7 @@ class SendMailJobTest extends TestCase
     /** @test */
     public function it_will_rate_limit()
     {
-        TestTime::freeze();
+        TestTime::freeze()->addDay();
 
         config()->set('mailcoach.campaigns.throttling.allowed_number_of_jobs_in_timespan', 1);
 
