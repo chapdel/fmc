@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.6.2 - 2021-08-03
+
+- Fix double ampersand encoding (#665)
+
 ## 4.6.1 - 2021-07-29
 
 - Remove a stray dd()
