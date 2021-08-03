@@ -8,7 +8,7 @@ class CreateDomDocumentFromHtmlAction
 {
     public function execute(string $html, bool $suppressErrors = true): DOMDocument
     {
-        $html = preg_replace('/&(?!amp;)/', '&amp;', $html);
+        $html = preg_replace('/&(?![^& ]+;)/', '&amp;', $html);
 
         $document = new DOMDocument('1.0', 'UTF-8');
         $internalErrors = libxml_use_internal_errors($suppressErrors);
