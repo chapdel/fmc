@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.7.0 - 2021-08-03
+
+- Allow multiple automation runs by overwriting an action (#666)
+
 ## 4.6.2 - 2021-08-03
 
 - Fix double ampersand encoding (#665)
