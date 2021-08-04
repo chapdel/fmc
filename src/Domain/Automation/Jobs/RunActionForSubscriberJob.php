@@ -8,7 +8,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Automation\Actions\ShouldAutomationRunForSubscriberAction;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\AutomationAction;
@@ -30,9 +29,6 @@ class RunActionForSubscriberJob implements ShouldQueue
     /** @var string */
     public $queue;
 
-    /** @var \Spatie\Mailcoach\Domain\Automation\Actions\ShouldAutomationRunForSubscriberAction */
-    public $shouldAutomationRunForSubscriberAction;
-
     public function __construct(Action $action, Subscriber $subscriber)
     {
         $this->action = $action;
@@ -40,8 +36,6 @@ class RunActionForSubscriberJob implements ShouldQueue
         $this->subscriber = $subscriber;
 
         $this->queue = config('mailcoach.automation.perform_on_queue.run_action_for_subscriber_job');
-
-        $this->shouldAutomationRunForSubscriberAction = resolve(config('mailcoach.automation.actions.should_run_for_subscriber', ShouldAutomationRunForSubscriberAction::class));
 
         $this->connection = $this->connection ?? Config::getQueueConnection();
     }
@@ -83,7 +77,7 @@ class RunActionForSubscriberJob implements ShouldQueue
                 $nextActions = $action->nextActions($subscriber);
                 if (count(array_filter($nextActions))) {
                     foreach ($nextActions as $nextAction) {
-                        $nextAction->subscribers()->attach($subscriber);
+                        $nextAction->attachSubscriber($subscriber, $actionSubscriber);
                     }
 
                     $actionSubscriber->update(['completed_at' => now()]);

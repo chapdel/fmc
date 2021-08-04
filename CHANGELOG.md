@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.8.0 - 2021-08-04
+
+- Add an `attachSubscriber` to the `Action` model which allows overriding how Subscribers move to the next action
+
 ## 4.7.1 - 2021-08-04
 
 - Use the correct table name for ActionSubscriber

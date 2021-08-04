@@ -41,6 +41,16 @@ class Action extends Model
         return $action;
     }
 
+    /**
+     * We have this method which accepts the previous pivot as a way to override the Action
+     * model and add custom logic to the automation actions process. For example to add
+     * some extra context on the pivot model and pass that context along to the next.
+     */
+    public function attachSubscriber(Subscriber $subscriber, ActionSubscriber $previousPivot): void
+    {
+        $this->subscribers()->attach($subscriber);
+    }
+
     public function subscribers(): BelongsToMany
     {
         return $this->belongsToMany(static::getSubscriberClass(), static::getActionSubscriberTableName())
