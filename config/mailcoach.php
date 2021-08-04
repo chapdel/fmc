@@ -318,6 +318,13 @@ return [
         'automation' => \Spatie\Mailcoach\Domain\Automation\Models\Automation::class,
 
         /*
+         * The model you want to use as an Action model. It needs to be or
+         * extend the `\Spatie\Mailcoach\Domain\Automation\Models\Action::class`
+         * model.
+         */
+        'automation_action' => \Spatie\Mailcoach\Domain\Automation\Models\Action::class,
+
+        /*
          * The model you want to use as an Automation mail model. It needs to be or
          * extend the `\Spatie\Mailcoach\Domain\Automation\Models\AutomationMail::class` model.
          */

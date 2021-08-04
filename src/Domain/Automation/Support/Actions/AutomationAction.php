@@ -9,9 +9,12 @@ use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum;
 use Spatie\Mailcoach\Domain\Automation\Support\AutomationStep;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 abstract class AutomationAction extends AutomationStep
 {
+    use UsesMailcoachModels;
+
     abstract public static function getCategory(): ActionCategoryEnum;
 
     public function run(Subscriber $subscriber): void
@@ -38,7 +41,9 @@ abstract class AutomationAction extends AutomationStep
 
     public function store(string $uuid, Automation $automation, ?int $order = null, ?int $parent_id = null, ?string $key = null): Action
     {
-        return Action::updateOrCreate([
+        $actionClass = static::getAutomationActionClass();
+
+        return $actionClass::updateOrCreate([
             'uuid' => $uuid,
         ], [
             'automation_id' => $automation->id,
@@ -52,7 +57,8 @@ abstract class AutomationAction extends AutomationStep
     /** @return Action[] */
     public function nextActions(Subscriber $subscriber): array
     {
-        $action = Action::findByUuid($this->uuid);
+        $actionClass = static::getAutomationActionClass();
+        $action = $actionClass::findByUuid($this->uuid);
 
         if ($action->children->count()) {
             return [$action->children->first()];

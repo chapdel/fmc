@@ -61,28 +61,4 @@ class CalculateAutomationMailStatisticsCommand extends Command
                 $automationMail->dispatchCalculateStatistics();
             });
     }
-
-    public function findCampaignsWithStatisticsToRecalculate(
-        CarbonInterval $startInterval,
-        CarbonInterval $endInterval,
-        CarbonInterval $recalculateThreshold
-    ): Collection {
-        $periodEnd = $this->now->copy()->subtract($startInterval);
-        $periodStart = $this->now->copy()->subtract($endInterval);
-
-        return static::getCampaignClass()::where(function (Builder $query) use ($periodEnd, $periodStart) {
-            $query
-                ->sentBetween($periodStart, $periodEnd);
-        })
-            ->get()
-            ->filter(function (Campaign $campaign) use ($recalculateThreshold) {
-                if (is_null($campaign->statistics_calculated_at)) {
-                    return true;
-                }
-
-                $threshold = $this->now->copy()->subtract($recalculateThreshold);
-
-                return $campaign->statistics_calculated_at->isBefore($threshold);
-            });
-    }
 }

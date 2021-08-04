@@ -79,12 +79,12 @@ class Action extends Model
 
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(Action::class, 'parent_id');
+        return $this->belongsTo(static::getAutomationActionClass(), 'parent_id');
     }
 
     public function children(): HasMany
     {
-        return $this->hasMany(Action::class, 'parent_id')->orderBy('order');
+        return $this->hasMany(static::getAutomationActionClass(), 'parent_id')->orderBy('order');
     }
 
     public function next(): ?Action

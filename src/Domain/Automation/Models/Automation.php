@@ -85,12 +85,12 @@ class Automation extends Model
 
     public function actions(): HasMany
     {
-        return $this->hasMany(Action::class)->whereNull('parent_id')->orderBy('order');
+        return $this->hasMany(static::getAutomationActionClass())->whereNull('parent_id')->orderBy('order');
     }
 
     public function allActions(): HasMany
     {
-        return $this->hasMany(Action::class)->orderBy('order');
+        return $this->hasMany(static::getAutomationActionClass())->orderBy('order');
     }
 
     public function emailList(): BelongsTo

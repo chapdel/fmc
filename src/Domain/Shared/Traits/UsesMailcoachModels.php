@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Domain\Shared\Traits;
 
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
@@ -33,6 +34,11 @@ trait UsesMailcoachModels
     public static function getAutomationClass(): string
     {
         return config('mailcoach.models.automation', Automation::class);
+    }
+
+    public static function getAutomationActionClass(): string
+    {
+        return config('mailcoach.models.automation_action', Action::class);
     }
 
     public static function getAutomationMailClass(): string
@@ -118,10 +124,20 @@ trait UsesMailcoachModels
     public static function getActionSubscriberTableName(): string
     {
         /** @var \Illuminate\Database\Eloquent\Model $actionSubscriber */
-        $subscriberClass = self::getActionSubscriberClass();
+        $actionSubscriberClass = self::getActionSubscriberClass();
 
-        $actionSubscriber = new $subscriberClass;
+        $actionSubscriber = new $actionSubscriberClass;
 
         return $actionSubscriber->getTable();
+    }
+
+    public static function getAutomationActionTableName(): string
+    {
+        /** @var \Illuminate\Database\Eloquent\Model $action */
+        $actionClass = self::getAutomationActionClass();
+
+        $action = new $actionClass;
+
+        return $action->getTable();
     }
 }

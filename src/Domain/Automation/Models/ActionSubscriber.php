@@ -5,9 +5,12 @@ namespace Spatie\Mailcoach\Domain\Automation\Models;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class ActionSubscriber extends Pivot
 {
+    use UsesMailcoachModels;
+
     public $table = 'mailcoach_automation_action_subscriber';
 
     public $incrementing = true;
@@ -22,11 +25,11 @@ class ActionSubscriber extends Pivot
 
     public function action(): BelongsTo
     {
-        return $this->belongsTo(Action::class);
+        return $this->belongsTo(static::getAutomationActionClass());
     }
 
     public function subscriber(): BelongsTo
     {
-        return $this->belongsTo(Subscriber::class);
+        return $this->belongsTo(static::getSubscriberClass());
     }
 }

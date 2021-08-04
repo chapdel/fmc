@@ -18,14 +18,15 @@ class DuplicateAutomationController
         ]);
 
         $automation->actions->each(function (Action $action) use ($duplicateAutomation) {
-            $newAction = $duplicateAutomation->actions()->save(Action::make([
+            $actionClass = static::getAutomationActionClass();
+            $newAction = $duplicateAutomation->actions()->save($actionClass::make([
                 'action' => $action->action->duplicate(),
                 'key' => $action->key,
                 'order' => $action->order,
             ]));
 
             foreach ($action->children as $child) {
-                $duplicateAutomation->actions()->save(Action::make([
+                $duplicateAutomation->actions()->save($actionClass::make([
                     'parent_id' => $newAction->id,
                     'action' => $child->action->duplicate(),
                     'key' => $child->key,

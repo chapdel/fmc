@@ -141,7 +141,9 @@ class ConditionAction extends AutomationAction
 
     private function actionToArray(array | AutomationAction $action): array
     {
-        $actionModel = Action::query()
+        $actionClass = static::getAutomationActionClass();
+
+        $actionModel = $actionClass::query()
             ->where(
                 'uuid',
                 is_array($action)
@@ -167,7 +169,8 @@ class ConditionAction extends AutomationAction
 
     public function shouldContinue(Subscriber $subscriber): bool
     {
-        $action = Action::findByUuid($this->uuid);
+        $actionClass = static::getAutomationActionClass();
+        $action = $actionClass::findByUuid($this->uuid);
 
         /** @var \Spatie\Mailcoach\Domain\Automation\Support\Conditions\Condition $condition */
         $conditionClass = $this->condition;
@@ -185,8 +188,10 @@ class ConditionAction extends AutomationAction
 
     public function nextActions(Subscriber $subscriber): array
     {
-        $action = Action::findByUuid($this->uuid);
-        $parentAction = Action::findByUuid($this->uuid);
+        $actionClass = static::getAutomationActionClass();
+
+        $action = $actionClass::findByUuid($this->uuid);
+        $parentAction = $actionClass::findByUuid($this->uuid);
 
         /** @var \Spatie\Mailcoach\Domain\Automation\Support\Conditions\Condition $condition */
         $conditionClass = $this->condition;
