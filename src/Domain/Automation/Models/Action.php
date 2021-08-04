@@ -43,7 +43,7 @@ class Action extends Model
 
     public function subscribers(): BelongsToMany
     {
-        return $this->belongsToMany(static::getSubscriberClass(), 'mailcoach_automation_action_subscriber')
+        return $this->belongsToMany(static::getSubscriberClass(), static::getActionSubscriberTableName())
             ->withPivot(['completed_at', 'halted_at', 'run_at'])
             ->using($this->getActionSubscriberClass())
             ->withTimestamps();

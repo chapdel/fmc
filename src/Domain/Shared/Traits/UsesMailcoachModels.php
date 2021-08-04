@@ -60,7 +60,7 @@ trait UsesMailcoachModels
         return config('mailcoach.models.transactional_mail_template', TransactionalMailTemplate::class);
     }
 
-    public function getActionSubscriberClass(): string
+    public static function getActionSubscriberClass(): string
     {
         return config('mailcoach.models.action_subscriber', ActionSubscriber::class);
     }
@@ -113,5 +113,15 @@ trait UsesMailcoachModels
         $automationMail = new $automationMailClass;
 
         return $automationMail->getTable();
+    }
+
+    public static function getActionSubscriberTableName(): string
+    {
+        /** @var \Illuminate\Database\Eloquent\Model $actionSubscriber */
+        $subscriberClass = self::getActionSubscriberClass();
+
+        $actionSubscriber = new $subscriberClass;
+
+        return $actionSubscriber->getTable();
     }
 }

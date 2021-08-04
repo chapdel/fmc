@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.7.1 - 2021-08-04
+
+- Use the correct table name for ActionSubscriber
+
 ## 4.7.0 - 2021-08-03
 
 - Allow multiple automation runs by overwriting an action (#666)
