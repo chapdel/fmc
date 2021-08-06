@@ -16,7 +16,7 @@
         {!! app(config('mailcoach.campaigns.editor'))->render($template) !!}
     </form>
     
-    <x-mailcoach::modal :title="__('Preview') . ' - ' . $campaign->subject" name="preview" large :open="Request::get('modal')">
+    <x-mailcoach::modal :title="__('Preview') . ' - ' . $template->name" name="preview" large :open="Request::get('modal')">
         <iframe class="absolute" width="100%" height="100%" data-html-preview-target></iframe>
     </x-mailcoach::modal>
 
