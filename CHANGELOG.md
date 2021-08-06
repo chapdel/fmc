@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.8.2 - 2021-08-06
+
+- Add missing modals to template edit screen
+
 ## 4.8.1 - 2021-08-04
 
 - Fix `Action` model not being able to be replaced
