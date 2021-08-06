@@ -20,9 +20,5 @@
         <iframe class="absolute" width="100%" height="100%" data-html-preview-target></iframe>
     </x-mailcoach::modal>
 
-    <x-mailcoach::modal :title="__('Send Test')" name="send-test">
-        @include('mailcoach::app.campaigns.partials.test')
-    </x-mailcoach::modal>
-
     <x-mailcoach::campaign-replacer-help-texts />
 </x-mailcoach::layout-main>
