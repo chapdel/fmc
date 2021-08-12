@@ -124,7 +124,7 @@ The event has one public property: `$send` which is an instance of the `Spatie\M
 You can get the email the mail was sent to like this:
 
 ```php
-$email = $event->send->subscription->subscriber->email;
+$email = $event->send->subscriber->email;
 ```
 
 You can also retrieve the name of the campaign that this mail was part of:
