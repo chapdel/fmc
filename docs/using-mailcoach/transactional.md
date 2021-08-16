@@ -21,8 +21,7 @@ When installed in a Laravel application, Mailcoach can log and display any sent 
 
 On the "Content" screen you can see the content of a mail.
 
-[transactional mails lis[transactional templates index](/docs/laravel-mailcoach/v4/images/transactional/template-content.png)
-t](/docs/laravel-mailcoach/v4/images/transactional/content.png)
+![transactional mails content](/docs/laravel-mailcoach/v4/images/transactional/content.png)
 
 If you've enabled tracking, then the opens and clicks of a mail can be seen on the "Performance" screen.
 
@@ -34,9 +33,9 @@ A transactional mail can be resent on the "Resend" screen.
 
 ### Defining transactional mail templates
 
-On the "Templates" screen can  define and edit templates containing the style and content of transactional mails.
+On the "Templates" screen you can define and edit templates containing the style and content of transactional mails.
 
-[transactional templates index](/docs/laravel-mailcoach/v4/images/transactional/templates-index.png)
+![transactional templates index](/docs/laravel-mailcoach/v4/images/transactional/templates-index.png)
 
 On the "Content" screen you can define the content of a transactional mail. You can [define placeholders](/docs/laravel-mailcoach/v4/transactional-mails/using-templates#using-replacers) that users of the template can use.
 
