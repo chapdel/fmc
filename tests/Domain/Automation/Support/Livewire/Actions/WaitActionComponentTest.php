@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\Domain\Automation\Support\Livewire\Actions;
 
+use Carbon\CarbonInterval;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
@@ -95,8 +96,9 @@ class WaitActionComponentTest extends TestCase
             ->call('save')
             ->assertHasNoErrors()
             ->assertEmitted('actionSaved', $uuid, [
-                'length' => 5,
+                'seconds' => 432000,
                 'unit' => 'days',
+                'length' => '5',
             ]);
     }
 }

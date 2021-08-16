@@ -9,13 +9,12 @@ use Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum;
 
 class WaitAction extends AutomationAction
 {
-    public CarbonInterval $interval;
-
-    public function __construct(CarbonInterval $interval)
-    {
+    public function __construct(
+        public CarbonInterval $interval,
+        public ?int $length = null,
+        public ?string $unit = null
+    ) {
         parent::__construct();
-
-        $this->interval = $interval;
     }
 
     public static function getCategory(): ActionCategoryEnum
@@ -35,16 +34,21 @@ class WaitAction extends AutomationAction
 
     public static function make(array $data): self
     {
-        return new self(CarbonInterval::createFromDateString("{$data['length']} {$data['unit']}"));
+        if (isset($data['seconds'])) {
+            return new self(CarbonInterval::create(seconds: $data['seconds']), $data['length'] ?? null,
+                $data['unit'] ?? null);
+        }
+
+        return new self(CarbonInterval::createFromDateString("{$data['length']} {$data['unit']}"),
+            $data['length'] ?? null, $data['unit'] ?? null);
     }
 
     public function toArray(): array
     {
-        [$length, $unit] = explode(' ', $this->interval->forHumans());
-
         return [
-            'length' => $length,
-            'unit' => Str::plural($unit),
+            'seconds' => $this->interval->totalSeconds,
+            'unit' => $this->unit,
+            'length' => $this->length,
         ];
     }
 

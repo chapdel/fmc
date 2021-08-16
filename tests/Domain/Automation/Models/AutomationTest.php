@@ -368,7 +368,7 @@ class AutomationTest extends TestCase
                     condition: HasTagCondition::class,
                     conditionData: ['tag' => 'yes-tag-1']
                 ),
-                new WaitAction(CarbonInterval::days(3)),
+                new WaitAction(CarbonInterval::days(3), '3', 'days'),
             ])->start();
 
         $this->refreshServiceProvider();
@@ -390,7 +390,7 @@ class AutomationTest extends TestCase
 
         // Subscriber 1 went straight through all the "yes" paths to the send
         $this->assertEquals(WaitAction::class, $subscriber1->currentActions($automation)->first()->action::class);
-        $this->assertEquals(['length' => '3', 'unit' => 'days'], $subscriber1->currentActions($automation)->first()->action->toArray());
+        $this->assertEquals(['length' => '3', 'unit' => 'days', 'seconds' => CarbonInterval::days(3)->totalSeconds], $subscriber1->currentActions($automation)->first()->action->toArray());
 
         // And has received automationmail 1
         $this->assertSame(1, $subscriber1->sends()->count());
@@ -405,7 +405,7 @@ class AutomationTest extends TestCase
 
         // Subscriber 2 went through the first yes, and second no
         $this->assertEquals(WaitAction::class, $subscriber2->currentActions($automation)->first()->action::class);
-        $this->assertEquals(['length' => '3', 'unit' => 'days'], $subscriber2->currentActions($automation)->first()->action->toArray());
+        $this->assertEquals(['length' => '3', 'unit' => 'days', 'seconds' => CarbonInterval::days(3)->totalSeconds], $subscriber2->currentActions($automation)->first()->action->toArray());
 
         // And received automationmail 2
         $this->assertSame(1, $subscriber2->sends()->count());
@@ -413,7 +413,7 @@ class AutomationTest extends TestCase
 
         // Subscriber 3 went through the first no
         $this->assertEquals(WaitAction::class, $subscriber3->currentActions($automation)->first()->action::class);
-        $this->assertEquals(['length' => '3', 'unit' => 'days'], $subscriber3->currentActions($automation)->first()->action->toArray());
+        $this->assertEquals(['length' => '3', 'unit' => 'days', 'seconds' => CarbonInterval::days(3)->totalSeconds], $subscriber3->currentActions($automation)->first()->action->toArray());
 
         // And received automationmail 3
         $this->assertSame(1, $subscriber3->sends()->count());
@@ -711,7 +711,7 @@ class AutomationTest extends TestCase
                     condition: HasTagCondition::class,
                     conditionData: ['tag' => 'yes-tag-1']
                 ),
-                new WaitAction(CarbonInterval::days(3)),
+                new WaitAction(CarbonInterval::days(3), '3', 'days'),
             ])->start();
 
         $this->refreshServiceProvider();
@@ -740,7 +740,7 @@ class AutomationTest extends TestCase
 
         // Subscriber 1 went straight through all the "yes" paths to the send
         $this->assertEquals(WaitAction::class, $subscriber1->currentActions($automation)->first()->action::class);
-        $this->assertEquals(['length' => '3', 'unit' => 'days'], $subscriber1->currentActions($automation)->first()->action->toArray());
+        $this->assertEquals(['length' => '3', 'unit' => 'days', 'seconds' => CarbonInterval::days(3)->totalSeconds], $subscriber1->currentActions($automation)->first()->action->toArray());
 
         // And has received automationmail 1
         $this->assertSame(1, $subscriber1->sends()->count());
@@ -755,7 +755,7 @@ class AutomationTest extends TestCase
 
         // Subscriber 2 went through the first yes, and second no
         $this->assertEquals(WaitAction::class, $subscriber2->currentActions($automation)->first()->action::class);
-        $this->assertEquals(['length' => '3', 'unit' => 'days'], $subscriber2->currentActions($automation)->first()->action->toArray());
+        $this->assertEquals(['length' => '3', 'unit' => 'days', 'seconds' => CarbonInterval::days(3)->totalSeconds], $subscriber2->currentActions($automation)->first()->action->toArray());
 
         // And received automationmail 2
         $this->assertSame(1, $subscriber2->sends()->count());
@@ -763,7 +763,7 @@ class AutomationTest extends TestCase
 
         // Subscriber 3 went through the first no
         $this->assertEquals(WaitAction::class, $subscriber3->currentActions($automation)->first()->action::class);
-        $this->assertEquals(['length' => '3', 'unit' => 'days'], $subscriber3->currentActions($automation)->first()->action->toArray());
+        $this->assertEquals(['length' => '3', 'unit' => 'days', 'seconds' => CarbonInterval::days(3)->totalSeconds], $subscriber3->currentActions($automation)->first()->action->toArray());
 
         // And received automationmail 3 twice
         $this->assertSame(2, $subscriber3->sends()->count());

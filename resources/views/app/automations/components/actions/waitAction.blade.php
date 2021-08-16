@@ -2,7 +2,13 @@
     <x-slot name="legend">
         {{__('Wait for') }}
         <span class="legend-accent">
-            {{ ($length && $unit && $interval = \Carbon\CarbonInterval::createFromDateString("{$length} {$unit}")) ? $interval->cascade()->forHumans() : '…' }}
+            @php
+            try {
+                echo ($length && $unit && $interval = \Carbon\CarbonInterval::$unit($length)) ? $interval->cascade()->forHumans() : '…';
+            } catch (Exception) {
+                echo '…';
+            }
+            @endphp
         </span>
     </x-slot>
 
