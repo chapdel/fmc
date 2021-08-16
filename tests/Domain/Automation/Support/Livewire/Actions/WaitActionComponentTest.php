@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Tests\Domain\Automation\Support\Livewire\Actions;
 
-use Carbon\CarbonInterval;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;

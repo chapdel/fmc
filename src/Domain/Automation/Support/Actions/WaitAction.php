@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
 
 use Carbon\CarbonInterval;
-use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum;
 
@@ -35,12 +34,18 @@ class WaitAction extends AutomationAction
     public static function make(array $data): self
     {
         if (isset($data['seconds'])) {
-            return new self(CarbonInterval::create(seconds: $data['seconds']), $data['length'] ?? null,
-                $data['unit'] ?? null);
+            return new self(
+                CarbonInterval::create(seconds: $data['seconds']),
+                $data['length'] ?? null,
+                $data['unit'] ?? null
+            );
         }
 
-        return new self(CarbonInterval::createFromDateString("{$data['length']} {$data['unit']}"),
-            $data['length'] ?? null, $data['unit'] ?? null);
+        return new self(
+            CarbonInterval::createFromDateString("{$data['length']} {$data['unit']}"),
+            $data['length'] ?? null,
+            $data['unit'] ?? null
+        );
     }
 
     public function toArray(): array

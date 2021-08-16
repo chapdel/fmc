@@ -78,7 +78,7 @@ class SubscribedEventTest extends TestCase
         $subcriber = $emailList->subscribe('john@example.com', [
             'extra_attributes' => [
                 'foo' => 'bar',
-            ]
+            ],
         ]);
 
         Event::assertNotDispatched(SubscribedEvent::class);
