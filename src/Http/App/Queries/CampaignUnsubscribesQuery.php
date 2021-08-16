@@ -14,8 +14,8 @@ class CampaignUnsubscribesQuery extends QueryBuilder
         parent::__construct($campaign->unsubscribes()->getQuery());
 
         $this
-            ->defaultSort('-created_at')
-            ->allowedSorts('created_at')
+            ->defaultSort('-created_at', '-id')
+            ->allowedSorts('created_at', 'id')
             ->allowedFilters(
                 AllowedFilter::custom('search', new FuzzyFilter(
                     'subscriber.email',

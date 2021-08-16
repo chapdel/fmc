@@ -23,7 +23,7 @@ class EmailListSubscribersQuery extends QueryBuilder
         parent::__construct($subscribersQuery);
 
         $this
-            ->allowedSorts('created_at', 'unsubscribed_at', 'email', 'first_name', 'last_name')
+            ->allowedSorts('created_at', 'unsubscribed_at', 'email', 'first_name', 'last_name', 'id')
             ->allowedFilters(
                 'email',
                 AllowedFilter::custom('search', new FuzzyFilter(
@@ -37,6 +37,6 @@ class EmailListSubscribersQuery extends QueryBuilder
 
         request()->input('filter.status') === SubscriptionStatus::UNSUBSCRIBED
             ? $this->defaultSort('-unsubscribed_at')
-            : $this->defaultSort('-created_at');
+            : $this->defaultSort('-created_at', '-id');
     }
 }

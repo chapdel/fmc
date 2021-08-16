@@ -20,7 +20,8 @@ class CampaignProblemsQuery extends QueryBuilder
 
         $this
             ->with(['send.subscriber'])
-            ->defaultSort('-created_at')
+            ->defaultSort('-created_at', '-id')
+            ->allowedSorts(['created_at', 'id'])
             ->allowedFilters(
                 AllowedFilter::custom(
                     'search',
