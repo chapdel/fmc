@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.8.6 - 2021-08-18
+
+- Fix first_name and last_name in form subscription (#680)
+
 ## 4.8.5 - 2021-08-16
 
 - Fix an issue with pagination on queries when `created_at` has the same value. (#671)
