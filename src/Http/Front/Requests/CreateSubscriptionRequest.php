@@ -15,8 +15,8 @@ class CreateSubscriptionRequest extends FormRequest
     {
         return [
             'email' => ['required', 'email:rfc,dns'],
-            'first_name' => '',
-            'last_name' => '',
+            'first_name' => ['nullable', 'string'],
+            'last_name' => ['nullable', 'string'],
             'redirect_after_subscribed' => '',
             'redirect_after_already_subscribed' => '',
             'redirect_after_subscription_pending' => '',
