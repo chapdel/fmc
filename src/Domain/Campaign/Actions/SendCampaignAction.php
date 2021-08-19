@@ -17,17 +17,17 @@ use Spatie\Mailcoach\Domain\Shared\Support\Config;
 
 class SendCampaignAction
 {
-    public function execute(Campaign $automationMail): void
+    public function execute(Campaign $campaign): void
     {
-        if ($automationMail->wasAlreadySent()) {
+        if ($campaign->wasAlreadySent()) {
             return;
         }
 
         $this
-            ->prepareSubject($automationMail)
-            ->prepareEmailHtml($automationMail)
-            ->prepareWebviewHtml($automationMail)
-            ->sendMailsForCampaign($automationMail);
+            ->prepareSubject($campaign)
+            ->prepareEmailHtml($campaign)
+            ->prepareWebviewHtml($campaign)
+            ->sendMailsForCampaign($campaign);
     }
 
     protected function prepareSubject(Campaign $campaign): self
