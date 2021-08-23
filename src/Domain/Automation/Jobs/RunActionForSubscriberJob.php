@@ -4,6 +4,8 @@ namespace Spatie\Mailcoach\Domain\Automation\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -56,11 +58,12 @@ class RunActionForSubscriberJob implements ShouldQueue
         }
 
         $actionSubscribers->each(function (ActionSubscriber $actionSubscriber) use ($action) {
+            /** @var Subscriber $subscriber */
             $subscriber = $actionSubscriber->subscriber;
             $subscriber->setRelation('pivot', $actionSubscriber);
 
             if (is_null($actionSubscriber->run_at)) {
-                $action->run($subscriber);
+                $action->run($subscriber, $actionSubscriber);
 
                 if ($action->shouldHalt($subscriber) || ! $subscriber->isSubscribed()) {
                     $actionSubscriber->update(['halted_at' => now(), 'run_at' => now()]);

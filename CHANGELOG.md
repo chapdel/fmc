@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.9.0 - 2021-08-23
+
+- Actions can now also receive the `ActionSubscriber` model as a second parameter in their `run` method. The signature of the method has to be `run(Subscriber $subscriber, ?ActionSubscriber $actionSubscriber = null)`.
+
 ## 4.8.6 - 2021-08-18
 
 - Fix first_name and last_name in form subscription (#680)
