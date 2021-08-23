@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Tests\Domain\Automation\Jobs;
 
 use Carbon\CarbonInterval;
-use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Automation\Jobs\RunActionForSubscriberJob;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
