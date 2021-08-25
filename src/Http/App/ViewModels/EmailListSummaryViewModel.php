@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\ViewModels;
 
 use Carbon\CarbonImmutable;
+use Carbon\CarbonPeriod;
 use Illuminate\Database\MySqlConnection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -147,7 +148,7 @@ class EmailListSummaryViewModel extends ViewModel
             })
             ->toArray();
 
-        return (new BezierCurve([[0, 100], ...$points, [30,100]]))->toPath();
+        return (new BezierCurve([[0, 100], ...$points, [30, 100]]))->toPath();
     }
 
     protected function createStats(): Collection
@@ -177,7 +178,7 @@ class EmailListSummaryViewModel extends ViewModel
             ->groupBy('unsubscribe_day')
             ->get();
 
-        return collect($subscribes)->map(function ($result) use (&$subscriberTotal, $unsubscribes) {
+        $subscribers = collect($subscribes)->map(function ($result) use (&$subscriberTotal, $unsubscribes) {
             $subscriberTotal += $result->subscribed_count;
             $unsubscribeCount = $unsubscribes->where('unsubscribe_day', $result->subscribed_day)->first();
 
@@ -185,6 +186,24 @@ class EmailListSummaryViewModel extends ViewModel
                 'label' => Carbon::createFromFormat('Y-m-d', $result->subscribed_day)->format('M d'),
                 'subscribers' => $subscriberTotal,
                 'unsubscribes' => optional($unsubscribeCount)->unsubscribe_count,
+            ];
+        });
+
+        $lastStats = $subscribers->first();
+
+        return collect(CarbonPeriod::create($this->start, '1 day', now()))->map(function (\Carbon\Carbon $day) use ($subscribers, &$lastStats) {
+            $label = $day->format('M d');
+
+            $stats = $subscribers->firstWhere('label', $label);
+
+            if ($stats) {
+                $lastStats = $stats;
+            }
+
+            return $subscribers->firstWhere('label', $label) ?: [
+                'label' => $label,
+                'subscribers' => $lastStats['subscribers'],
+                'unsubscribes' => $lastStats['unsubscribes'],
             ];
         });
     }
