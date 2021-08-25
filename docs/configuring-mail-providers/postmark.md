@@ -9,6 +9,8 @@ Mailcoach supports sending mails via Postmark. This page contains instructions t
 
 First off, make sure you have created an account with [Postmark](https://postmarkapp.com).
 
+To get a 20% discount for the first three months on all subscriptions, you can use this coupon code: `POSTMARKLOVESMAILCOACH`.
+
 ### Configuring Postmark
 
 At Postmark you must [configure a new webhook](https://postmarkapp.com/support/article/1067-how-do-i-enable-delivery-webhooks).
