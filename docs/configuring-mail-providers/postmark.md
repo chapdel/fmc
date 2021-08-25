@@ -106,9 +106,3 @@ Here's an example for a configuration set that is named `mailcoach`:
 ### Using the correct mail driver
 
 If you haven't done so already, you must configure Laravel to use the Postmark driver. Follow the instruction in [the mail section of the Laravel docs](https://laravel.com/docs/7.x/mail#driver-prerequisites).
-
-### Informing Postmark
-
-Before start sending campaigns via Postmark we highly recommend getting in touch with their support and let them know you want to start sending bulk emails.
-
-
