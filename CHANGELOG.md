@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.9.1 - 2021-08-25
+
+- Fix email list summary stats (#691)
+
 ## 4.9.0 - 2021-08-23
 
 - Actions can now also receive the `ActionSubscriber` model as a second parameter in their `run` method. The signature of the method has to be `run(Subscriber $subscriber, ?ActionSubscriber $actionSubscriber = null)`.
