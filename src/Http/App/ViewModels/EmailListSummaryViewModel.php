@@ -202,8 +202,8 @@ class EmailListSummaryViewModel extends ViewModel
 
             return $subscribers->firstWhere('label', $label) ?: [
                 'label' => $label,
-                'subscribers' => $lastStats['subscribers'],
-                'unsubscribes' => $lastStats['unsubscribes'],
+                'subscribers' => $lastStats['subscribers'] ?? 0,
+                'unsubscribes' => $lastStats['unsubscribes'] ?? 0,
             ];
         });
     }
