@@ -106,7 +106,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
             ]);
     }
 
-    public function packageRegistered()
+    public function packageRegistered(): void
     {
         $this->app->singleton(QueryString::class, fn () => new QueryString(urldecode(request()->getRequestUri())));
 
@@ -115,7 +115,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         });
     }
 
-    public function packageBooted()
+    public function packageBooted(): void
     {
         $this
             ->bootCarbon()
@@ -373,7 +373,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
     protected function registerDeprecatedApiGuard(): self
     {
         if (config('auth.guards.api')) {
-            return;
+            return $this;
         }
 
         config()->set('auth.guards.api', [
