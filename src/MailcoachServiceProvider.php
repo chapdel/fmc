@@ -108,7 +108,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     public function packageRegistered()
     {
-        $this->app->singleton(QueryString::class, fn () => new QueryString(urldecode(request()->getRequestUri())));
+        $this->app->singleton(QueryString::class, fn() => new QueryString(urldecode(request()->getRequestUri())));
 
         $this->app->singleton(Version::class, function () {
             return new Version();
@@ -125,7 +125,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
             ->bootTranslations()
             ->bootViews()
             ->bootEvents()
-            ->bootTriggers();
+            ->bootTriggers()
+            ->registerDeprecatedApiGuard();
     }
 
     protected function bootCarbon(): self
@@ -134,7 +135,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
         Date::macro(
             'toMailcoachFormat',
-            fn () => self::this()->copy()->setTimezone(config('app.timezone'))->format($mailcoachFormat)
+            fn() => self::this()->copy()->setTimezone(config('app.timezone'))->format($mailcoachFormat)
         );
 
         return $this;
@@ -142,7 +143,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootSupportMacros(): self
     {
-        if (! Collection::hasMacro('paginate')) {
+        if (!Collection::hasMacro('paginate')) {
             Collection::macro('paginate', function (int $perPage = 15, string $pageName = 'page', int $page = null, int $total = null, array $options = []): LengthAwarePaginator {
                 $page = $page ?: LengthAwarePaginator::resolveCurrentPage($pageName);
 
@@ -159,7 +160,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
             });
         }
 
-        if (! Str::hasMacro('shortNumber')) {
+        if (!Str::hasMacro('shortNumber')) {
             Str::macro('shortNumber', function (int $number, int $decimals = 1) {
                 if ($number < 1_000) {
                     $format = number_format($number, $decimals);
@@ -188,7 +189,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootGate(): self
     {
-        Gate::define('viewMailcoach', fn () => $this->app->environment('local'));
+        Gate::define('viewMailcoach', fn() => $this->app->environment('local'));
 
         return $this;
     }
@@ -201,7 +202,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         });
 
         Route::macro('mailcoach', function (string $url = '') {
-            Route::get($url, '\\'.HomeController::class)->name('mailcoach.home');
+            Route::get($url, '\\' . HomeController::class)->name('mailcoach.home');
 
             Route::prefix($url)->group(function () {
                 Route::prefix('')->group(__DIR__ . '/../routes/mailcoach-public-api.php');
@@ -348,7 +349,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         return $this;
     }
 
-    private function bootTriggers()
+    private function bootTriggers(): self
     {
         try {
             $triggers = cache()->rememberForever('automation-triggers', function () {
@@ -356,7 +357,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
             });
 
             $triggers
-                ->filter(fn (Trigger $trigger) => $trigger->trigger instanceof TriggeredByEvents)
+                ->filter(fn(Trigger $trigger) => $trigger->trigger instanceof TriggeredByEvents)
                 ->each(function (Trigger $trigger) {
                     if ($trigger->automation) {
                         Event::subscribe($trigger->trigger->setAutomation($trigger->automation));
@@ -365,5 +366,22 @@ class MailcoachServiceProvider extends PackageServiceProvider
         } catch (Exception) {
             // Do nothing as the database is probably not set up yet.
         }
+
+        return $this;
+    }
+
+    protected function registerDeprecatedApiGuard(): self
+    {
+        if (config('auth.guards.api')) {
+            return;
+        }
+
+        config()->set('auth.guards.api', [
+            'driver' => 'token',
+            'provider' => 'users',
+            'hash' => false,
+        ]);
+
+        return $this;
     }
 }
