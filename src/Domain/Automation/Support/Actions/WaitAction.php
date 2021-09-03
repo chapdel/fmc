@@ -35,7 +35,7 @@ class WaitAction extends AutomationAction
     {
         if (isset($data['seconds'])) {
             return new self(
-                CarbonInterval::create(seconds: $data['seconds']),
+                CarbonInterval::create(years: 0, seconds: $data['seconds']),
                 $data['length'] ?? null,
                 $data['unit'] ?? null
             );
