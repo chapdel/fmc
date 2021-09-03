@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.9.2 - 2021-09-03
+
+- fix API errors (#707)
+
 ## 4.9.1 - 2021-08-25
 
 - Fix email list summary stats (#691)
