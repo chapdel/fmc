@@ -2,13 +2,21 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
-## 4.9.3 - 2021-09-03
+## 4.9.5 - 2021-09-06
+
+- bug fix: add missing return type in `registerDeprecatedApiGuard()`
+
+## 4.9.4 - 2021-09-03
 
 - fix actions with seconds (#696)
 
-## 4.9.2 - 2021-09-03
+## 4.9.3 - 2021-09-03
 
 - fix API errors (#707)
+
+## 4.9.2 - 2021-09-03
+
+- Fix email list summary stats
 
 ## 4.9.1 - 2021-08-25
 
