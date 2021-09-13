@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Spatie\Mailcoach\Domain\Audience\Events\TagRemovedEvent;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
