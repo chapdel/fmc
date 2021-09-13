@@ -12,7 +12,6 @@ use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Events\ComplaintRegisteredEvent;
 use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailLinkClickedEvent;
 use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailOpenedEvent;
-use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailClick;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailLink;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailOpen;
@@ -28,7 +27,6 @@ use Spatie\Mailcoach\Domain\Shared\Actions\StripUtmTagsFromUrlAction;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailLinkClickedEvent;
 use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailOpenedEvent;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailClick;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailOpen;
 

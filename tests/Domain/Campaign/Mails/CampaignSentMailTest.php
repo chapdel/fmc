@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Tests\Domain\Campaign\Mails;
 
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;

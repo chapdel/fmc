@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Tests\Domain\Campaign\Events;
 
-use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Domain\Campaign\Events\WebhookCallProcessedEvent;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\WebhookClient\Models\WebhookCall;

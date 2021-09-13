@@ -70,7 +70,7 @@ class TagsController
     {
         $this->authorize('update', $emailList);
 
-        $tag->subscribers->each(function ($subscriber) use ($tag){
+        $tag->subscribers->each(function ($subscriber) use ($tag) {
             event(new TagRemovedEvent($subscriber, $tag));
         });
 
