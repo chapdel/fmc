@@ -61,6 +61,7 @@ class RunActionForSubscriberJob implements ShouldQueue
             $subscriber->setRelation('pivot', $actionSubscriber);
 
             if (is_null($actionSubscriber->run_at)) {
+                /** @psalm-suppress TooManyArguments */
                 $action->run($subscriber, $actionSubscriber);
 
                 if ($action->shouldHalt($subscriber) || ! $subscriber->isSubscribed()) {
