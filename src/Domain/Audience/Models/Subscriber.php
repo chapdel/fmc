@@ -251,6 +251,10 @@ class Subscriber extends Model
     {
         $this->addTags($names);
 
+        $this->tags()->where('type', $type)->whereNotIn('name', $names)->each(function ($tag) {
+            event(new TagRemovedEvent($this, $tag));
+        });
+
         $this->tags()->detach($this->tags()->where('type', $type)->whereNotIn('name', $names)->pluck('mailcoach_tags.id'));
 
         return $this;

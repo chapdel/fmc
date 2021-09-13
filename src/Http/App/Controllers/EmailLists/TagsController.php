@@ -70,6 +70,10 @@ class TagsController
     {
         $this->authorize('update', $emailList);
 
+        $tag->subscribers->each(function ($subscriber) use ($tag){
+            event(new TagRemovedEvent($subscriber, $tag));
+        });
+
         $tag->delete();
 
         flash()->success(__('Tag :tag was deleted', ['tag' => $tag->name]));

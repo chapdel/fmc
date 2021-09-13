@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.9.6 - 2021-09-13
+
+- The `TagRemovedEvent` wasn't being triggered when deleting a tag or syncing tags on a subscriber
+
 ## 4.9.5 - 2021-09-06
 
 - bug fix: add missing return type in `registerDeprecatedApiGuard()`
