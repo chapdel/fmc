@@ -1,60 +1,44 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Campaign\Support;
-
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Support\CalculateStatisticsLock;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-class CalculateStatisticsLockTest extends TestCase
-{
-    /** @var \Spatie\Mailcoach\Domain\Shared\Support\CalculateStatisticsLock */
-    protected CalculateStatisticsLock $lock;
+beforeEach(function () {
+    test()->campaign = Campaign::factory()->create();
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    test()->lock = new CalculateStatisticsLock(test()->campaign);
 
-        $this->campaign = Campaign::factory()->create();
+    TestTime::freeze();
+});
 
-        $this->lock = new CalculateStatisticsLock($this->campaign);
+it('can lock and release', function () {
+    expect(test()->lock->get())->toBeTrue();
 
-        TestTime::freeze();
-    }
+    expect(test()->lock->get())->toBeFalse();
 
-    /** @test */
-    public function it_can_lock_and_release()
-    {
-        $this->assertTrue($this->lock->get());
+    test()->lock->release();
 
-        $this->assertFalse($this->lock->get());
+    expect(test()->lock->get())->toBeTrue();
+});
 
-        $this->lock->release();
+it('will automatically expire the lock after 10 seconds', function () {
+    TestTime::freeze()->addDay();
 
-        $this->assertTrue($this->lock->get());
-    }
+    expect(test()->lock->get())->toBeTrue();
 
-    /** @test */
-    public function it_will_automatically_expire_the_lock_after_10_seconds()
-    {
-        TestTime::freeze()->addDay();
-        
-        $this->assertTrue($this->lock->get());
+    expect(test()->lock->get())->toBeFalse();
 
-        $this->assertFalse($this->lock->get());
+    TestTime::addSeconds(9);
+    expect(test()->lock->get())->toBeFalse();
 
-        TestTime::addSeconds(9);
-        $this->assertFalse($this->lock->get());
+    TestTime::addSecond();
+    expect(test()->lock->get())->toBeTrue();
+    expect(test()->lock->get())->toBeFalse();
 
-        TestTime::addSecond();
-        $this->assertTrue($this->lock->get());
-        $this->assertFalse($this->lock->get());
+    TestTime::addSeconds(9);
+    expect(test()->lock->get())->toBeFalse();
 
-        TestTime::addSeconds(9);
-        $this->assertFalse($this->lock->get());
-
-        TestTime::addSecond();
-        $this->assertTrue($this->lock->get());
-    }
-}
+    TestTime::addSecond();
+    expect(test()->lock->get())->toBeTrue();
+});

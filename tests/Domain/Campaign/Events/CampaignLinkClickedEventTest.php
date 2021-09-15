@@ -1,60 +1,50 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Campaign\Events;
-
 use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignLinkClickedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
-use Spatie\Mailcoach\Tests\TestCase;
 
-class CampaignLinkClickedEventTest extends TestCase
-{
-    /** @test */
-    public function it_will_fire_an_event_when_a_link_gets_clicked()
-    {
-        Event::fake();
+it('will fire an event when a link gets clicked', function () {
+    Event::fake();
 
-        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
-        $send = SendFactory::new()->create();
-        $send->campaign->update(['track_clicks' => true]);
+    /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
+    $send = SendFactory::new()->create();
+    $send->campaign->update(['track_clicks' => true]);
 
-        $send->registerClick('https://spatie.be');
+    $send->registerClick('https://spatie.be');
 
-        $this->assertCount(1, CampaignLink::get());
+    expect(CampaignLink::get())->toHaveCount(1);
 
-        $this->assertDatabaseHas('mailcoach_campaign_links', [
-            'campaign_id' => $send->campaign->id,
-            'url' => 'https://spatie.be',
-        ]);
+    test()->assertDatabaseHas('mailcoach_campaign_links', [
+        'campaign_id' => $send->campaign->id,
+        'url' => 'https://spatie.be',
+    ]);
 
-        $this->assertDatabaseHas('mailcoach_campaign_clicks', [
-            'send_id' => $send->id,
-            'campaign_link_id' => CampaignLink::first()->id,
-            'subscriber_id' => $send->subscriber->id,
-        ]);
+    test()->assertDatabaseHas('mailcoach_campaign_clicks', [
+        'send_id' => $send->id,
+        'campaign_link_id' => CampaignLink::first()->id,
+        'subscriber_id' => $send->subscriber->id,
+    ]);
 
-        Event::assertDispatched(CampaignLinkClickedEvent::class, function (CampaignLinkClickedEvent $event) use ($send) {
-            $this->assertEquals($send->uuid, $event->campaignClick->send->uuid);
+    Event::assertDispatched(CampaignLinkClickedEvent::class, function (CampaignLinkClickedEvent $event) use ($send) {
+        expect($event->campaignClick->send->uuid)->toEqual($send->uuid);
 
 
-            return true;
-        });
-    }
+        return true;
+    });
+});
 
-    /** @test */
-    public function it_will_not_fire_an_event_when_a_link_gets_clicked_and_click_tracking_is_not_enable()
-    {
-        Event::fake();
+it('will not fire an event when a link gets clicked and click tracking is not enable', function () {
+    Event::fake();
 
-        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
-        $send = SendFactory::new()->create();
-        $send->campaign->update(['track_clicks' => false]);
+    /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
+    $send = SendFactory::new()->create();
+    $send->campaign->update(['track_clicks' => false]);
 
-        $send->registerClick('https://spatie.be');
+    $send->registerClick('https://spatie.be');
 
-        $this->assertCount(0, CampaignLink::get());
+    expect(CampaignLink::get())->toHaveCount(0);
 
-        Event::assertNotDispatched(CampaignLinkClickedEvent::class);
-    }
-}
+    Event::assertNotDispatched(CampaignLinkClickedEvent::class);
+});

@@ -1,51 +1,36 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\PublicApi;
-
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\Front\Controllers\EmailListCampaignsFeedController;
-use Spatie\Mailcoach\Tests\TestCase;
 
-class EmailListCampaignsFeedControllerTest extends TestCase
-{
-    protected EmailList $emailList;
+beforeEach(function () {
+    test()->withExceptionHandling();
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    test()->emailList = EmailList::factory()->create([
+        'campaigns_feed_enabled' => true,
+    ]);
 
-        $this->withExceptionHandling();
+    Campaign::factory()->create([
+        'email_list_id' => test()->emailList->id,
+        'sent_at' => now(),
+        'status' => CampaignStatus::SENT,
+    ]);
+});
 
-        $this->emailList = EmailList::factory()->create([
-            'campaigns_feed_enabled' => true,
-        ]);
+it('can generate a feed', function () {
+    test()->withoutExceptionHandling();
 
-        Campaign::factory()->create([
-            'email_list_id' => $this->emailList->id,
-            'sent_at' => now(),
-            'status' => CampaignStatus::SENT,
-        ]);
-    }
+    $this
+        ->get(action(EmailListCampaignsFeedController::class, test()->emailList->uuid))
+        ->assertSee('<?xml', false);
+});
 
-    /** @test */
-    public function it_can_generate_a_feed()
-    {
-        $this->withoutExceptionHandling();
+it('will not display a feed if it is not enabled', function () {
+    test()->emailList->update(['campaigns_feed_enabled' => false]);
 
-        $this
-            ->get(action(EmailListCampaignsFeedController::class, $this->emailList->uuid))
-            ->assertSee('<?xml', false);
-    }
-
-    /** @test */
-    public function it_will_not_display_a_feed_if_it_is_not_enabled()
-    {
-        $this->emailList->update(['campaigns_feed_enabled' => false]);
-
-        $this
-            ->get(action(EmailListCampaignsFeedController::class, $this->emailList->uuid))
-            ->assertStatus(404);
-    }
-}
+    $this
+        ->get(action(EmailListCampaignsFeedController::class, test()->emailList->uuid))
+        ->assertStatus(404);
+});

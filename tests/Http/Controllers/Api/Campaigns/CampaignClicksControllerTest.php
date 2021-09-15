@@ -1,40 +1,27 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Campaigns;
-
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignClick;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignClicksController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
-use Spatie\Mailcoach\Tests\TestCase;
 
-class CampaignClicksControllerTest extends TestCase
-{
-    use RespondsToApiRequests;
+uses(RespondsToApiRequests::class);
 
-    protected CampaignClick $campaignClick;
+beforeEach(function () {
+    test()->loginToApi();
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    test()->campaignClick = CampaignClick::factory()->create();
+});
 
-        $this->loginToApi();
-
-        $this->campaignClick = CampaignClick::factory()->create();
-    }
-
-    /** @test */
-    public function it_can_get_the_opens_of_a_campaign()
-    {
-        $this
-            ->getJson(action(CampaignClicksController::class, $this->campaignClick->link->campaign))
-            ->assertSuccessful()
-            ->assertJsonCount(1, 'data')
-            ->assertJsonStructure(['data' => [
-                [
-                    'url',
-                    'unique_click_count',
-                    'click_count',
-                ],
-            ]]);
-    }
-}
+it('can get the opens of a campaign', function () {
+    $this
+        ->getJson(action(CampaignClicksController::class, test()->campaignClick->link->campaign))
+        ->assertSuccessful()
+        ->assertJsonCount(1, 'data')
+        ->assertJsonStructure(['data' => [
+            [
+                'url',
+                'unique_click_count',
+                'click_count',
+            ],
+        ]]);
+});

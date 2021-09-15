@@ -1,75 +1,54 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Campaign;
-
 use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Http\Front\Controllers\ConfirmSubscriberController;
-use Spatie\Mailcoach\Tests\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
-class DoubleOptInTest extends TestCase
-{
-    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList */
-    protected EmailList $emailList;
+beforeEach(function () {
+    /* @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
+    test()->emailList = EmailList::factory()->create(['requires_confirmation' => true]);
 
-    /** @var string */
-    protected string $mailedLink;
+    Event::listen(MessageSent::class, function (MessageSent $event) {
+        $link = (new Crawler($event->message->getBody()))
+            ->filter('.button-primary')->first()->attr('href');
 
-    public function setUp(): void
-    {
-        parent::setUp();
+        test()->mailedLink = Str::after($link, 'http://localhost');
+    });
 
-        /* @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
-        $this->emailList = EmailList::factory()->create(['requires_confirmation' => true]);
+    test()->emailList->subscribe('john@example.com');
+});
 
-        Event::listen(MessageSent::class, function (MessageSent $event) {
-            $link = (new Crawler($event->message->getBody()))
-                ->filter('.button-primary')->first()->attr('href');
+test('when subscribing to a double opt in list a click in the confirmation mail is needed to subscribe', function () {
+    expect(test()->emailList->isSubscribed('john@example.com'))->toBeFalse();
 
-            $this->mailedLink = Str::after($link, 'http://localhost');
-        });
+    $this
+        ->get(test()->mailedLink)
+        ->assertSuccessful();
 
-        $this->emailList->subscribe('john@example.com');
-    }
+    expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
+});
 
-    /** @test */
-    public function when_subscribing_to_a_double_opt_in_list_a_click_in_the_confirmation_mail_is_needed_to_subscribe()
-    {
-        $this->assertFalse($this->emailList->isSubscribed('john@example.com'));
+test('clicking the mailed link twice will not result in a double subscription', function () {
+    $this
+        ->get(test()->mailedLink)
+        ->assertSuccessful();
 
-        $this
-            ->get($this->mailedLink)
-            ->assertSuccessful();
+    $this
+        ->get(test()->mailedLink)
+        ->assertSuccessful()
+        ->assertViewIs('mailcoach::landingPages.alreadySubscribed');
 
-        $this->assertTrue($this->emailList->isSubscribed('john@example.com'));
-    }
+    expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
+    expect(Subscriber::count())->toEqual(1);
+});
 
-    /** @test */
-    public function clicking_the_mailed_link_twice_will_not_result_in_a_double_subscription()
-    {
-        $this
-            ->get($this->mailedLink)
-            ->assertSuccessful();
-
-        $this
-            ->get($this->mailedLink)
-            ->assertSuccessful()
-            ->assertViewIs('mailcoach::landingPages.alreadySubscribed');
-
-        $this->assertTrue($this->emailList->isSubscribed('john@example.com'));
-        $this->assertEquals(1, Subscriber::count());
-    }
-
-    /** @test */
-    public function clicking_on_an_invalid_link_will_render_to_correct_response()
-    {
-        $content = $this
-            ->get(action(ConfirmSubscriberController::class, 'invalid-uuid'))
-            ->assertSuccessful()
-            ->assertViewIs('mailcoach::landingPages.couldNotFindSubscription');
-    }
-}
+test('clicking on an invalid link will render to correct response', function () {
+    $content = $this
+        ->get(action(ConfirmSubscriberController::class, 'invalid-uuid'))
+        ->assertSuccessful()
+        ->assertViewIs('mailcoach::landingPages.couldNotFindSubscription');
+});

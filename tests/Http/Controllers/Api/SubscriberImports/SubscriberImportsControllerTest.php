@@ -1,99 +1,78 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\SubscriberImports;
-
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
 use Spatie\Mailcoach\Http\Api\Controllers\SubscriberImports\SubscriberImportsController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
-use Spatie\Mailcoach\Tests\TestCase;
 
-class SubscriberImportsControllerTest extends TestCase
-{
-    use RespondsToApiRequests;
+uses(RespondsToApiRequests::class);
 
-    protected EmailList $emailList;
+beforeEach(function () {
+    test()->loginToApi();
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    test()->emailList = EmailList::factory()->create();
+});
 
-        $this->loginToApi();
+it('can list all subscriber imports', function () {
+    $subscriberImports = SubscriberImport::factory(3)->create();
 
-        $this->emailList = EmailList::factory()->create();
+    $response = $this
+        ->getJson(action([SubscriberImportsController::class, 'index']))
+        ->assertSuccessful()
+        ->assertJsonCount(3, 'data');
+
+    foreach ($subscriberImports as $subscriberImport) {
+        $response->assertJsonFragment(['uuid' => $subscriberImport->uuid]);
     }
+});
 
-    /** @test */
-    public function it_can_list_all_subscriber_imports()
-    {
-        $subscriberImports = SubscriberImport::factory(3)->create();
+it('can show a subscriber import', function () {
+    $subscriberImport = SubscriberImport::factory()->create();
 
-        $response = $this
-            ->getJson(action([SubscriberImportsController::class, 'index']))
-            ->assertSuccessful()
-            ->assertJsonCount(3, 'data');
+    $this
+        ->getJson(action([SubscriberImportsController::class, 'show'], $subscriberImport))
+        ->assertSuccessful();
+});
 
-        foreach ($subscriberImports as $subscriberImport) {
-            $response->assertJsonFragment(['uuid' => $subscriberImport->uuid]);
-        }
-    }
+it('can create a subscriber import', function () {
+    $payload = [
+        'subscribers_csv' => 'email' .PHP_EOL . 'john@example.com',
+        'email_list_id' => test()->emailList->id,
+    ];
 
-    /** @test */
-    public function it_can_show_a_subscriber_import()
-    {
-        $subscriberImport = SubscriberImport::factory()->create();
+    $this
+        ->postJson(action([SubscriberImportsController::class, 'store']), $payload)
+        ->assertSuccessful();
 
-        $this
-            ->getJson(action([SubscriberImportsController::class, 'show'], $subscriberImport))
-            ->assertSuccessful();
-    }
+    $payload['status'] = SubscriberImportStatus::DRAFT;
 
-    /** @test */
-    public function it_can_create_a_subscriber_import()
-    {
-        $payload = [
-            'subscribers_csv' => 'email' .PHP_EOL . 'john@example.com',
-            'email_list_id' => $this->emailList->id,
-        ];
+    test()->assertDatabaseHas('mailcoach_subscriber_imports', $payload);
+});
 
-        $this
-            ->postJson(action([SubscriberImportsController::class, 'store']), $payload)
-            ->assertSuccessful();
+it('can update a subscriber import', function () {
+    $subscriberImport = SubscriberImport::factory()->create([
+        'status' => SubscriberImportStatus::DRAFT,
+    ]);
 
-        $payload['status'] = SubscriberImportStatus::DRAFT;
+    $payload = [
+        'subscribers_csv' => 'email' .PHP_EOL . 'john@example.com',
+        'email_list_id' => test()->emailList->id,
+    ];
 
-        $this->assertDatabaseHas('mailcoach_subscriber_imports', $payload);
-    }
+    $this
+        ->putJson(action([SubscriberImportsController::class, 'update'], $subscriberImport), $payload)
+        ->assertSuccessful();
 
-    /** @test */
-    public function it_can_update_a_subscriber_import()
-    {
-        $subscriberImport = SubscriberImport::factory()->create([
-            'status' => SubscriberImportStatus::DRAFT,
-        ]);
+    test()->assertDatabaseHas('mailcoach_subscriber_imports', $payload);
+});
 
-        $payload = [
-            'subscribers_csv' => 'email' .PHP_EOL . 'john@example.com',
-            'email_list_id' => $this->emailList->id,
-        ];
+it('can delete a subscriber import', function () {
+    $subscriberImport = SubscriberImport::factory()->create();
 
-        $this
-            ->putJson(action([SubscriberImportsController::class, 'update'], $subscriberImport), $payload)
-            ->assertSuccessful();
+    $this
+        ->deleteJson(action([SubscriberImportsController::class, 'destroy'], $subscriberImport))
+        ->assertSuccessful();
 
-        $this->assertDatabaseHas('mailcoach_subscriber_imports', $payload);
-    }
-
-    /** @test */
-    public function it_can_delete_a_subscriber_import()
-    {
-        $subscriberImport = SubscriberImport::factory()->create();
-
-        $this
-            ->deleteJson(action([SubscriberImportsController::class, 'destroy'], $subscriberImport))
-            ->assertSuccessful();
-
-        $this->assertCount(0, SubscriberImport::get());
-    }
-}
+    expect(SubscriberImport::get())->toHaveCount(0);
+});

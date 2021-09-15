@@ -1,52 +1,36 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Automation\Support\Actions;
-
 use Carbon\CarbonInterval;
-use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-class WaitActionTest extends TestCase
-{
-    protected Subscriber $subscriber;
+beforeEach(function () {
+    test()->action = Action::factory()->create();
+    test()->action->subscribers()->attach(SubscriberFactory::new()->create());
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    test()->subscriber = test()->action->subscribers->first();
 
-        $this->action = Action::factory()->create();
-        $this->action->subscribers()->attach(SubscriberFactory::new()->create());
+    TestTime::freeze();
+});
 
-        $this->subscriber = $this->action->subscribers->first();
+it('never halts the automation', function () {
+    $action = new WaitAction(CarbonInterval::days(1));
 
-        TestTime::freeze();
-    }
+    expect($action->shouldHalt(test()->subscriber))->toBeFalse();
 
-    /** @test * */
-    public function it_never_halts_the_automation()
-    {
-        $action = new WaitAction(CarbonInterval::days(1));
+    TestTime::addDay();
 
-        $this->assertFalse($action->shouldHalt($this->subscriber));
+    expect($action->shouldHalt(test()->subscriber))->toBeFalse();
+});
 
-        TestTime::addDay();
+it('will only continue when time has passed', function () {
+    $action = new WaitAction(CarbonInterval::days(1));
 
-        $this->assertFalse($action->shouldHalt($this->subscriber));
-    }
+    expect($action->shouldContinue(test()->subscriber))->toBeFalse();
 
-    /** @test * */
-    public function it_will_only_continue_when_time_has_passed()
-    {
-        $action = new WaitAction(CarbonInterval::days(1));
+    TestTime::addDay();
 
-        $this->assertFalse($action->shouldContinue($this->subscriber));
-
-        TestTime::addDay();
-
-        $this->assertTrue($action->shouldContinue($this->subscriber));
-    }
-}
+    expect($action->shouldContinue(test()->subscriber))->toBeTrue();
+});

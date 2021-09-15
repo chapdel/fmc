@@ -1,7 +1,7 @@
 <?php
 
 use Spatie\Mailcoach\Database\Factories\SendFactory;
-use Spatie\Mailcoach\Domain\Automation\Actions\PersonalizeSubjectAction;
+use Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeSubjectAction;
 
 beforeEach(function () {
     test()->send = SendFactory::new()->create();
@@ -17,23 +17,23 @@ beforeEach(function () {
 });
 
 it('can replace an placeholder for a subscriber attribute', function () {
-    assertPersonalizeSubjectActionResult('::subscriber.uuid::', 'my-uuid');
+    assertPersonalizeCampaignSubjectActionResult('::subscriber.uuid::', 'my-uuid');
 });
 
 it('will not replace a non existing attribute', function () {
-    assertPersonalizeSubjectActionResult('::subscriber.non-existing::', '::subscriber.non-existing::');
+    assertPersonalizeCampaignSubjectActionResult('::subscriber.non-existing::', '::subscriber.non-existing::');
 });
 
 it('can replace an placeholder for a subscriber extra attribute', function () {
-    assertPersonalizeSubjectActionResult('::subscriber.extra_attributes.first_name::', 'John');
+    assertPersonalizeCampaignSubjectActionResult('::subscriber.extra_attributes.first_name::', 'John');
 });
 
 it('will not replace an placeholder for a non existing subscriber extra attribute', function () {
-    assertPersonalizeSubjectActionResult('::subscriber.extra_attributes.non-existing::', '::subscriber.extra_attributes.non-existing::');
+    assertPersonalizeCampaignSubjectActionResult('::subscriber.extra_attributes.non-existing::', '::subscriber.extra_attributes.non-existing::');
 });
 
 // Helpers
-function assertPersonalizeSubjectActionResult(string $originalSubject, $expectedSubject)
+function assertPersonalizeCampaignSubjectActionResult(string $originalSubject, $expectedSubject)
 {
     $actualOutputHtml = (new PersonalizeSubjectAction())->execute($originalSubject, test()->send);
     test()->assertEquals($expectedSubject, $actualOutputHtml, "The personalize action did not produce the expected result. Expected: `{$expectedSubject}`, actual: `{$actualOutputHtml}`");

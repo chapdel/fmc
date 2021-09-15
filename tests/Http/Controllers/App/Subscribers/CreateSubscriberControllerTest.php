@@ -1,39 +1,31 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\App\Subscribers;
-
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\CreateSubscriberController;
-use Spatie\Mailcoach\Tests\TestCase;
 
-class CreateSubscriberControllerTest extends TestCase
-{
-    /** @test */
-    public function it_can_create_a_subscriber()
-    {
-        $this->authenticate();
+it('can create a subscriber', function () {
+    test()->authenticate();
 
-        /** @var EmailList $emailList */
-        $emailList = EmailList::factory()->create();
+    /** @var EmailList $emailList */
+    $emailList = EmailList::factory()->create();
 
-        $attributes = [
-            'email' => 'john@example.com',
-            'first_name' => 'John',
-            'last_name' => 'Doe',
-        ];
+    $attributes = [
+        'email' => 'john@example.com',
+        'first_name' => 'John',
+        'last_name' => 'Doe',
+    ];
 
-        $this
-            ->post(action([CreateSubscriberController::class, 'store'], $emailList), $attributes)
-            ->assertSessionHasNoErrors();
+    $this
+        ->post(action([CreateSubscriberController::class, 'store'], $emailList), $attributes)
+        ->assertSessionHasNoErrors();
 
-        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
-        $subscriber = Subscriber::first();
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
+    $subscriber = Subscriber::first();
 
-        $this->assertEquals('john@example.com', $subscriber->email);
-        $this->assertEquals('John', $subscriber->first_name);
-        $this->assertEquals('Doe', $subscriber->last_name);
+    expect($subscriber->email)->toEqual('john@example.com');
+    expect($subscriber->first_name)->toEqual('John');
+    expect($subscriber->last_name)->toEqual('Doe');
 
-        $this->assertTrue($emailList->isSubscribed($subscriber->email));
-    }
-}
+    expect($emailList->isSubscribed($subscriber->email))->toBeTrue();
+});

@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Automation\Triggers;
-
 use Carbon\CarbonInterval;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Queue;
@@ -12,60 +10,47 @@ use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\TagRemovedTrigger;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-class TagRemovedTriggerTest extends TestCase
-{
-    protected AutomationMail $automationMail;
+beforeEach(function () {
+    test()->automationMail = AutomationMail::factory()->create(['subject' => 'Welcome']);
 
-    protected EmailList $emailList;
+    test()->emailList = EmailList::factory()->create();
+});
 
-    public function setUp(): void
-    {
-        parent::setUp();
+it('triggers when a tag is removed from a subscriber', function () {
+    Queue::fake();
 
-        $this->automationMail = AutomationMail::factory()->create(['subject' => 'Welcome']);
+    TestTime::setTestNow(Carbon::create(2020, 01, 01));
 
-        $this->emailList = EmailList::factory()->create();
-    }
+    $trigger = new TagRemovedTrigger('opened');
 
-    /** @test * */
-    public function it_triggers_when_a_tag_is_removed_from_a_subscriber()
-    {
-        Queue::fake();
+    $automation = Automation::create()
+        ->name('New year!')
+        ->runEvery(CarbonInterval::minute())
+        ->to(test()->emailList)
+        ->triggerOn($trigger)
+        ->chain([
+            new SendAutomationMailAction(test()->automationMail),
+        ])
+        ->start();
 
-        TestTime::setTestNow(Carbon::create(2020, 01, 01));
+    test()->refreshServiceProvider();
 
-        $trigger = new TagRemovedTrigger('opened');
+    test()->emailList->subscribe('john@doe.com');
 
-        $automation = Automation::create()
-            ->name('New year!')
-            ->runEvery(CarbonInterval::minute())
-            ->to($this->emailList)
-            ->triggerOn($trigger)
-            ->chain([
-                new SendAutomationMailAction($this->automationMail),
-            ])
-            ->start();
+    Subscriber::first()->addTag('opened');
 
-        $this->refreshServiceProvider();
+    expect($automation->actions->first()->fresh()->subscribers)->toBeEmpty();
 
-        $this->emailList->subscribe('john@doe.com');
+    Subscriber::first()->removeTag('opened');
 
-        Subscriber::first()->addTag('opened');
+    Queue::assertPushed(
+        RunAutomationForSubscriberJob::class,
+        function (RunAutomationForSubscriberJob $job) use ($automation) {
+            expect($job->subscriber->email)->toBe('john@doe.com');
 
-        $this->assertEmpty($automation->actions->first()->fresh()->subscribers);
-
-        Subscriber::first()->removeTag('opened');
-
-        Queue::assertPushed(
-            RunAutomationForSubscriberJob::class,
-            function (RunAutomationForSubscriberJob $job) use ($automation) {
-                $this->assertSame('john@doe.com', $job->subscriber->email);
-
-                return true;
-            }
-        );
-    }
-}
+            return true;
+        }
+    );
+});

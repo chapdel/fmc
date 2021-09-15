@@ -1,40 +1,32 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\App\EmailLists;
-
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Tests\TestCase;
 
-class DestroyAllUnsubscribedControllerTest extends TestCase
-{
-    /** @test */
-    public function it_will_delete_all_unsubscribers()
-    {
-        $this->authenticate();
+it('will delete all unsubscribers', function () {
+    test()->authenticate();
 
-        $emailList = EmailList::factory()->create(['requires_confirmation' => false]);
-        $anotherEmailList = EmailList::factory()->create(['requires_confirmation' => false]);
+    $emailList = EmailList::factory()->create(['requires_confirmation' => false]);
+    $anotherEmailList = EmailList::factory()->create(['requires_confirmation' => false]);
 
-        $subscriber = Subscriber::createWithEmail('subscribed@example.com')->subscribeTo($emailList);
+    $subscriber = Subscriber::createWithEmail('subscribed@example.com')->subscribeTo($emailList);
 
-        $unsubscribedSubscriber = Subscriber::createWithEmail('unsubscribed@example.com')
-            ->subscribeTo($emailList)
-            ->unsubscribe();
+    $unsubscribedSubscriber = Subscriber::createWithEmail('unsubscribed@example.com')
+        ->subscribeTo($emailList)
+        ->unsubscribe();
 
-        $unsubscribedSubscriberOfAnotherList = Subscriber::createWithEmail('unsubscribed-other-list@example.com')
-            ->subscribeTo($anotherEmailList)
-            ->unsubscribe();
+    $unsubscribedSubscriberOfAnotherList = Subscriber::createWithEmail('unsubscribed-other-list@example.com')
+        ->subscribeTo($anotherEmailList)
+        ->unsubscribe();
 
-        $this
-            ->delete(route('mailcoach.emailLists.destroy-unsubscribes', $emailList->refresh()))
-            ->assertSessionHasNoErrors()
-            ->assertRedirect();
+    $this
+        ->delete(route('mailcoach.emailLists.destroy-unsubscribes', $emailList->refresh()))
+        ->assertSessionHasNoErrors()
+        ->assertRedirect();
 
-        $existingSubscriberIds = Subscriber::pluck('id')->toArray();
+    $existingSubscriberIds = Subscriber::pluck('id')->toArray();
 
-        $this->assertTrue(in_array($subscriber->id, $existingSubscriberIds));
-        $this->assertFalse(in_array($unsubscribedSubscriber->id, $existingSubscriberIds));
-        $this->assertTrue(in_array($unsubscribedSubscriberOfAnotherList->id, $existingSubscriberIds));
-    }
-}
+    expect(in_array($subscriber->id, $existingSubscriberIds))->toBeTrue();
+    expect(in_array($unsubscribedSubscriber->id, $existingSubscriberIds))->toBeFalse();
+    expect(in_array($unsubscribedSubscriberOfAnotherList->id, $existingSubscriberIds))->toBeTrue();
+});

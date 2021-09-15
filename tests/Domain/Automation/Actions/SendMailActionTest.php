@@ -1,74 +1,55 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Automation\Actions;
-
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Automation\Actions\SendMailAction;
 use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailSentEvent;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
-use Spatie\Mailcoach\Tests\TestCase;
 
-class SendMailActionTest extends TestCase
-{
-    private SendMailAction $action;
+beforeEach(function () {
+    test()->action = resolve(SendMailAction::class);
 
-    private Send $send;
+    /** @var Send $send */
+    test()->send = Send::factory()->create(['campaign_id' => null]);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    Mail::fake();
+    Event::fake();
+});
 
-        $this->action = resolve(SendMailAction::class);
+it('sends a pending send', function () {
+    test()->action->execute(test()->send);
 
-        /** @var Send $send */
-        $this->send = Send::factory()->create(['campaign_id' => null]);
+    Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) {
+        expect($mail->hasTo(test()->send->subscriber->email))->toBeTrue();
 
-        Mail::fake();
-        Event::fake();
-    }
+        return true;
+    });
 
-    /** @test * */
-    public function it_sends_a_pending_send()
-    {
-        $this->action->execute($this->send);
+    Event::assertDispatched(AutomationMailSentEvent::class);
 
-        Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) {
-            $this->assertTrue($mail->hasTo($this->send->subscriber->email));
+    expect(test()->send->wasAlreadySent())->toBeTrue();
+});
 
-            return true;
-        });
+it('sets reply to', function () {
+    test()->send->automationMail->update([
+        'reply_to_email' => 'foo@bar.com',
+        'reply_to_name' => 'Foo',
+    ]);
 
-        Event::assertDispatched(AutomationMailSentEvent::class);
+    test()->action->execute(test()->send);
 
-        $this->assertTrue($this->send->wasAlreadySent());
-    }
+    Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) {
+        expect($mail->hasReplyTo('foo@bar.com', 'Foo'))->toBeTrue();
 
-    /** @test * */
-    public function it_sets_reply_to()
-    {
-        $this->send->automationMail->update([
-            'reply_to_email' => 'foo@bar.com',
-            'reply_to_name' => 'Foo',
-        ]);
+        return true;
+    });
+});
 
-        $this->action->execute($this->send);
+it('wont send again if the send was already sent', function () {
+    test()->action->execute(test()->send);
+    test()->action->execute(test()->send);
 
-        Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) {
-            $this->assertTrue($mail->hasReplyTo('foo@bar.com', 'Foo'));
-
-            return true;
-        });
-    }
-
-    /** @test * */
-    public function it_wont_send_again_if_the_send_was_already_sent()
-    {
-        $this->action->execute($this->send);
-        $this->action->execute($this->send);
-
-        Mail::assertSent(MailcoachMail::class, 1);
-        Event::assertDispatched(AutomationMailSentEvent::class, 1);
-    }
-}
+    Mail::assertSent(MailcoachMail::class, 1);
+    Event::assertDispatched(AutomationMailSentEvent::class, 1);
+});

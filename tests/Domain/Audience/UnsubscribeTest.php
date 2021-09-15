@@ -1,162 +1,129 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Audience;
-
 use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
-use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignUnsubscribe;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Http\Front\Controllers\UnsubscribeController;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
-use Spatie\Mailcoach\Tests\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
-class UnsubscribeTest extends TestCase
+beforeEach(function () {
+    test()->campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
+        'html' => '<a href="::unsubscribeUrl::">Unsubscribe</a>',
+    ]);
+
+    test()->emailList = test()->campaign->emailList;
+
+    test()->subscriber = test()->campaign->emailList->subscribers->first();
+});
+
+it('can render the unsubscribe confirmation page', function () {
+    sendCampaign();
+
+    expect(test()->subscriber->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
+
+    $this
+        ->get(test()->mailedUnsubscribeLink)
+        ->assertSuccessful()
+        ->assertViewIs('mailcoach::landingPages.unsubscribe');
+});
+
+it('can unsubscribe from a list', function () {
+    sendCampaign();
+
+    expect(test()->subscriber->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
+
+    $content = $this
+        ->post(test()->mailedUnsubscribeLink)
+        ->assertSuccessful()
+        ->baseResponse->content();
+
+    expect($content)->toContain('unsubscribed');
+
+    expect(test()->subscriber->refresh()->status)->toEqual(SubscriptionStatus::UNSUBSCRIBED);
+
+    expect(CampaignUnsubscribe::all())->toHaveCount(1);
+    $campaignUnsubscribe = CampaignUnsubscribe::first();
+
+    expect($campaignUnsubscribe->subscriber->uuid)->toEqual(test()->subscriber->uuid);
+    expect($campaignUnsubscribe->campaign->uuid)->toEqual(test()->campaign->uuid);
+
+    $subscription = test()->emailList->allSubscribers()->first();
+    expect($subscription->status)->toEqual(SubscriptionStatus::UNSUBSCRIBED);
+});
+
+it('will redirect to the unsubscribed view by default', function () {
+    sendCampaign();
+
+    $this
+        ->post(test()->mailedUnsubscribeLink)
+        ->assertSuccessful()
+        ->assertViewIs('mailcoach::landingPages.unsubscribed');
+});
+
+it('will redirect to the unsubscribed url if it has been set on the email list', function () {
+    $url = 'https://example.com/unsubscribed';
+    test()->campaign->emailList->update(['redirect_after_unsubscribed' => $url]);
+
+    sendCampaign();
+
+    $this
+        ->post(test()->mailedUnsubscribeLink)
+        ->assertRedirect($url);
+});
+
+it('will only store a single unsubscribe even if the unsubscribe link is used multiple times', function () {
+    sendCampaign();
+
+    test()->post(test()->mailedUnsubscribeLink)->assertSuccessful();
+    $response = test()->get(test()->mailedUnsubscribeLink)->assertSuccessful()->baseResponse->content();
+
+    expect(CampaignUnsubscribe::all())->toHaveCount(1);
+
+    expect($response)->toContain('already unsubscribed');
+});
+
+test('the unsubscribe will work even if the send is deleted', function () {
+    sendCampaign();
+
+    Send::all()->each->delete();
+
+    test()->post(test()->mailedUnsubscribeLink)->assertSuccessful();
+
+    expect(test()->subscriber->refresh()->status)->toEqual(SubscriptionStatus::UNSUBSCRIBED);
+});
+
+test('the unsubscribe header is added to the email', function () {
+    Event::listen(MessageSent::class, function (MessageSent $event) {
+        $subscription = test()->emailList->allSubscribers()->first();
+
+        test()->assertNotNull($event->message->getHeaders()->get('List-Unsubscribe'));
+
+        expect($event->message->getHeaders()->get('List-Unsubscribe')->getValue())->toEqual('<'.url(action(UnsubscribeController::class, [$subscription->uuid, Send::first()->uuid])).'>');
+
+        test()->assertNotNull($event->message->getHeaders()->get('List-Unsubscribe-Post'));
+
+        expect($event->message->getHeaders()->get('List-Unsubscribe-Post')->getValue())->toEqual('List-Unsubscribe=One-Click');
+    });
+
+    dispatch(new SendCampaignJob(test()->campaign));
+});
+
+// Helpers
+function sendCampaign()
 {
-    protected Campaign $campaign;
+    Event::listen(MessageSent::class, function (MessageSent $event) {
+        $link = (new Crawler($event->message->getBody()))
+            ->filter('a')->first()->attr('href');
 
-    protected string $mailedUnsubscribeLink;
+        expect($link)->toStartWith('http://localhost');
 
-    protected EmailList $emailList;
+        test()->mailedUnsubscribeLink = Str::after($link, 'http://localhost');
+    });
 
-    protected Subscriber $subscriber;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
-            'html' => '<a href="::unsubscribeUrl::">Unsubscribe</a>',
-        ]);
-
-        $this->emailList = $this->campaign->emailList;
-
-        $this->subscriber = $this->campaign->emailList->subscribers->first();
-    }
-
-    /** @test */
-    public function it_can_render_the_unsubscribe_confirmation_page()
-    {
-        $this->sendCampaign();
-
-        $this->assertEquals(SubscriptionStatus::SUBSCRIBED, $this->subscriber->status);
-
-        $this
-            ->get($this->mailedUnsubscribeLink)
-            ->assertSuccessful()
-            ->assertViewIs('mailcoach::landingPages.unsubscribe');
-    }
-
-    /** @test */
-    public function it_can_unsubscribe_from_a_list()
-    {
-        $this->sendCampaign();
-
-        $this->assertEquals(SubscriptionStatus::SUBSCRIBED, $this->subscriber->status);
-
-        $content = $this
-            ->post($this->mailedUnsubscribeLink)
-            ->assertSuccessful()
-            ->baseResponse->content();
-
-        $this->assertStringContainsString('unsubscribed', $content);
-
-        $this->assertEquals(SubscriptionStatus::UNSUBSCRIBED, $this->subscriber->refresh()->status);
-
-        $this->assertCount(1, CampaignUnsubscribe::all());
-        $campaignUnsubscribe = CampaignUnsubscribe::first();
-
-        $this->assertEquals($this->subscriber->uuid, $campaignUnsubscribe->subscriber->uuid);
-        $this->assertEquals($this->campaign->uuid, $campaignUnsubscribe->campaign->uuid);
-
-        $subscription = $this->emailList->allSubscribers()->first();
-        $this->assertEquals(SubscriptionStatus::UNSUBSCRIBED, $subscription->status);
-    }
-
-    /** @test */
-    public function it_will_redirect_to_the_unsubscribed_view_by_default()
-    {
-        $this->sendCampaign();
-
-        $this
-            ->post($this->mailedUnsubscribeLink)
-            ->assertSuccessful()
-            ->assertViewIs('mailcoach::landingPages.unsubscribed');
-    }
-
-    /** @test */
-    public function it_will_redirect_to_the_unsubscribed_url_if_it_has_been_set_on_the_email_list()
-    {
-        $url = 'https://example.com/unsubscribed';
-        $this->campaign->emailList->update(['redirect_after_unsubscribed' => $url]);
-
-        $this->sendCampaign();
-
-        $this
-            ->post($this->mailedUnsubscribeLink)
-            ->assertRedirect($url);
-    }
-
-    /** @test */
-    public function it_will_only_store_a_single_unsubscribe_even_if_the_unsubscribe_link_is_used_multiple_times()
-    {
-        $this->sendCampaign();
-
-        $this->post($this->mailedUnsubscribeLink)->assertSuccessful();
-        $response = $this->get($this->mailedUnsubscribeLink)->assertSuccessful()->baseResponse->content();
-
-        $this->assertCount(1, CampaignUnsubscribe::all());
-
-        $this->assertStringContainsString('already unsubscribed', $response);
-    }
-
-    /** @test */
-    public function the_unsubscribe_will_work_even_if_the_send_is_deleted()
-    {
-        $this->sendCampaign();
-
-        Send::all()->each->delete();
-
-        $this->post($this->mailedUnsubscribeLink)->assertSuccessful();
-
-        $this->assertEquals(SubscriptionStatus::UNSUBSCRIBED, $this->subscriber->refresh()->status);
-    }
-
-    /** @test */
-    public function the_unsubscribe_header_is_added_to_the_email()
-    {
-        Event::listen(MessageSent::class, function (MessageSent $event) {
-            $subscription = $this->emailList->allSubscribers()->first();
-
-            $this->assertNotNull($event->message->getHeaders()->get('List-Unsubscribe'));
-
-            $this->assertEquals('<'.url(action(UnsubscribeController::class, [$subscription->uuid, Send::first()->uuid])).'>', $event->message->getHeaders()->get('List-Unsubscribe')->getValue());
-
-            $this->assertNotNull($event->message->getHeaders()->get('List-Unsubscribe-Post'));
-
-            $this->assertEquals('List-Unsubscribe=One-Click', $event->message->getHeaders()->get('List-Unsubscribe-Post')->getValue());
-        });
-
-        dispatch(new SendCampaignJob($this->campaign));
-    }
-
-    protected function sendCampaign()
-    {
-        Event::listen(MessageSent::class, function (MessageSent $event) {
-            $link = (new Crawler($event->message->getBody()))
-                ->filter('a')->first()->attr('href');
-
-            $this->assertStringStartsWith('http://localhost', $link);
-
-            $this->mailedUnsubscribeLink = Str::after($link, 'http://localhost');
-        });
-
-        dispatch(new SendCampaignJob($this->campaign));
-    }
+    dispatch(new SendCampaignJob(test()->campaign));
 }

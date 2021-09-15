@@ -1,24 +1,16 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Campaign\Events;
-
 use Spatie\Mailcoach\Domain\Campaign\Events\WebhookCallProcessedEvent;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\WebhookClient\Models\WebhookCall;
 
-class SetWebhookCallProcessedAtTest extends TestCase
-{
-    /** @test */
-    public function it_sets_the_processed_at_timestamp_on_the_webhook_call()
-    {
-        $webhookCall = WebhookCall::create([
-            'name' => 'feedback',
-        ]);
+it('sets the processed at timestamp on the webhook call', function () {
+    $webhookCall = WebhookCall::create([
+        'name' => 'feedback',
+    ]);
 
-        $this->assertNull($webhookCall->processed_at);
+    expect($webhookCall->processed_at)->toBeNull();
 
-        event(new WebhookCallProcessedEvent($webhookCall));
+    event(new WebhookCallProcessedEvent($webhookCall));
 
-        $this->assertNotNull($webhookCall->processed_at);
-    }
-}
+    test()->assertNotNull($webhookCall->processed_at);
+});

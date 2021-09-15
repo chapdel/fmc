@@ -1,39 +1,26 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\App\Campaigns;
-
 use Illuminate\Support\Facades\Bus;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\SendCampaignController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignSummaryController;
-use Spatie\Mailcoach\Tests\TestCase;
 
-class SendCampaignControllerTest extends TestCase
-{
-    protected Campaign $campaign;
+beforeEach(function () {
+    test()->authenticate();
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    test()->campaign = Campaign::factory()->create([
+        'status' => CampaignStatus::DRAFT,
+    ]);
 
-        $this->authenticate();
+    Bus::fake();
+});
 
-        $this->campaign = Campaign::factory()->create([
-            'status' => CampaignStatus::DRAFT,
-        ]);
+it('can send a campaign', function () {
+    $this
+        ->post(action(SendCampaignController::class, test()->campaign->id))
+        ->assertRedirect(action(CampaignSummaryController::class, test()->campaign->id));
 
-        Bus::fake();
-    }
-
-    /** @test */
-    public function it_can_send_a_campaign()
-    {
-        $this
-            ->post(action(SendCampaignController::class, $this->campaign->id))
-            ->assertRedirect(action(CampaignSummaryController::class, $this->campaign->id));
-
-        Bus::assertDispatched(SendCampaignJob::class);
-    }
-}
+    Bus::assertDispatched(SendCampaignJob::class);
+});

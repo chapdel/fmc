@@ -1,37 +1,26 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\TransactionalMails;
-
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\ResendTransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails\ResendTransactionalMailController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
-use Spatie\Mailcoach\Tests\TestCase;
 
-class ResendTransactionMailControllerTest extends TestCase
-{
-    use RespondsToApiRequests;
+uses(RespondsToApiRequests::class);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+beforeEach(function () {
+    test()->loginToApi();
+});
 
-        $this->loginToApi();
-    }
+it('can resend a mail', function () {
+    Mail::fake();
 
-    /** @test */
-    public function it_can_resend_a_mail()
-    {
-        Mail::fake();
+    /** @var TransactionalMail $transactionalMail */
+    $transactionalMail = TransactionalMail::factory()->create();
 
-        /** @var TransactionalMail $transactionalMail */
-        $transactionalMail = TransactionalMail::factory()->create();
+    $this
+        ->post(action(ResendTransactionalMailController::class, $transactionalMail))
+        ->assertSuccessful();
 
-        $this
-            ->post(action(ResendTransactionalMailController::class, $transactionalMail))
-            ->assertSuccessful();
-
-        Mail::assertSent(ResendTransactionalMail::class);
-    }
-}
+    Mail::assertSent(ResendTransactionalMail::class);
+});

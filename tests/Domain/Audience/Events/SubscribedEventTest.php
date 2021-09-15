@@ -1,95 +1,78 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Audience\Events;
-
 use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Domain\Audience\Events\SubscribedEvent;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Tests\TestCase;
 
-class SubscribedEventTest extends TestCase
-{
-    public function setUp(): void
-    {
-        parent::setUp();
+beforeEach(function () {
+    Event::fake(SubscribedEvent::class);
+});
 
-        Event::fake(SubscribedEvent::class);
-    }
+it('fires an event when someone subscribes', function () {
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
+    $emailList = EmailList::factory()->create([
+        'requires_confirmation' => false,
+    ]);
 
-    /** @test */
-    public function it_fires_an_event_when_someone_subscribes()
-    {
-        /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
-        $emailList = EmailList::factory()->create([
-            'requires_confirmation' => false,
-        ]);
+    $emailList->subscribe('john@example.com');
 
-        $emailList->subscribe('john@example.com');
+    Event::assertDispatched(SubscribedEvent::class, function (SubscribedEvent $event) {
+        expect($event->subscriber->email)->toEqual('john@example.com');
 
-        Event::assertDispatched(SubscribedEvent::class, function (SubscribedEvent $event) {
-            $this->assertEquals('john@example.com', $event->subscriber->email);
+        return true;
+    });
+});
 
-            return true;
-        });
-    }
+it('will not fire the subscription event when a subscription still needs to be confirmed', function () {
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
+    $emailList = EmailList::factory()->create([
+        'requires_confirmation' => true,
+    ]);
 
-    /** @test */
-    public function it_will_not_fire_the_subscription_event_when_a_subscription_still_needs_to_be_confirmed()
-    {
-        /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
-        $emailList = EmailList::factory()->create([
-            'requires_confirmation' => true,
-        ]);
+    $emailList->subscribe('john@example.com');
 
-        $emailList->subscribe('john@example.com');
+    Event::assertNotDispatched(SubscribedEvent::class);
+});
 
-        Event::assertNotDispatched(SubscribedEvent::class);
-    }
+it('will fire the subscribe event when a subscription is confirmed', function () {
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
+    $emailList = EmailList::factory()->create([
+        'requires_confirmation' => true,
+    ]);
 
-    /** @test */
-    public function it_will_fire_the_subscribe_event_when_a_subscription_is_confirmed()
-    {
-        /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
-        $emailList = EmailList::factory()->create([
-            'requires_confirmation' => true,
-        ]);
+    $subcriber = $emailList->subscribe('john@example.com');
 
-        $subcriber = $emailList->subscribe('john@example.com');
+    Event::assertNotDispatched(SubscribedEvent::class);
 
-        Event::assertNotDispatched(SubscribedEvent::class);
+    $subcriber->confirm();
 
-        $subcriber->confirm();
+    Event::assertDispatched(SubscribedEvent::class, function (SubscribedEvent $event) {
+        expect($event->subscriber->email)->toEqual('john@example.com');
 
-        Event::assertDispatched(SubscribedEvent::class, function (SubscribedEvent $event) {
-            $this->assertEquals('john@example.com', $event->subscriber->email);
+        return true;
+    });
+});
 
-            return true;
-        });
-    }
+it('passes custom attributes correctly', function () {
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
+    $emailList = EmailList::factory()->create([
+        'requires_confirmation' => true,
+    ]);
 
-    /** @test */
-    public function it_passes_custom_attributes_correctly()
-    {
-        /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
-        $emailList = EmailList::factory()->create([
-            'requires_confirmation' => true,
-        ]);
+    $subcriber = $emailList->subscribe('john@example.com', [
+        'extra_attributes' => [
+            'foo' => 'bar',
+        ],
+    ]);
 
-        $subcriber = $emailList->subscribe('john@example.com', [
-            'extra_attributes' => [
-                'foo' => 'bar',
-            ],
-        ]);
+    Event::assertNotDispatched(SubscribedEvent::class);
 
-        Event::assertNotDispatched(SubscribedEvent::class);
+    $subcriber->confirm();
 
-        $subcriber->confirm();
+    Event::assertDispatched(SubscribedEvent::class, function (SubscribedEvent $event) {
+        expect($event->subscriber->email)->toEqual('john@example.com');
+        expect($event->subscriber->extra_attributes->foo)->toEqual('bar');
 
-        Event::assertDispatched(SubscribedEvent::class, function (SubscribedEvent $event) {
-            $this->assertEquals('john@example.com', $event->subscriber->email);
-            $this->assertEquals('bar', $event->subscriber->extra_attributes->foo);
-
-            return true;
-        });
-    }
-}
+        return true;
+    });
+});

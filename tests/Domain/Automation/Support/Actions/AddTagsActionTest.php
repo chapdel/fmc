@@ -1,47 +1,27 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Automation\Support\Actions;
-
-use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\AddTagsAction;
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
-use Spatie\Mailcoach\Tests\TestCase;
 
-class AddTagsActionTest extends TestCase
-{
-    protected Subscriber $subscriber;
+beforeEach(function () {
+    test()->subscriber = SubscriberFactory::new()->confirmed()->create();
+    test()->action = new AddTagsAction(['some-tag', 'another-tag']);
+});
 
-    protected AddTagsAction $action;
+it('continues after execution', function () {
+    expect(test()->action->shouldContinue(test()->subscriber))->toBeTrue();
+});
 
-    public function setUp(): void
-    {
-        parent::setUp();
+it('wont halt after execution', function () {
+    expect(test()->action->shouldHalt(test()->subscriber))->toBeFalse();
+});
 
-        $this->subscriber = SubscriberFactory::new()->confirmed()->create();
-        $this->action = new AddTagsAction(['some-tag', 'another-tag']);
-    }
+it('adds tags to the subscriber', function () {
+    expect(test()->subscriber->hasTag('some-tag'))->toBeFalse();
+    expect(test()->subscriber->hasTag('another-tag'))->toBeFalse();
 
-    /** @test * */
-    public function it_continues_after_execution()
-    {
-        $this->assertTrue($this->action->shouldContinue($this->subscriber));
-    }
+    test()->action->run(test()->subscriber);
 
-    /** @test * */
-    public function it_wont_halt_after_execution()
-    {
-        $this->assertFalse($this->action->shouldHalt($this->subscriber));
-    }
-
-    /** @test * */
-    public function it_adds_tags_to_the_subscriber()
-    {
-        $this->assertFalse($this->subscriber->hasTag('some-tag'));
-        $this->assertFalse($this->subscriber->hasTag('another-tag'));
-
-        $this->action->run($this->subscriber);
-
-        $this->assertTrue($this->subscriber->hasTag('some-tag'));
-        $this->assertTrue($this->subscriber->hasTag('another-tag'));
-    }
-}
+    expect(test()->subscriber->hasTag('some-tag'))->toBeTrue();
+    expect(test()->subscriber->hasTag('another-tag'))->toBeTrue();
+});

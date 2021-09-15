@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\TransactionalMail;
-
 use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailLinkClickedEvent;
@@ -9,155 +7,135 @@ use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailOpenedEven
 use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailStored;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Tests\Domain\TransactionalMail\Concerns\SendsTestTransactionalMail;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestTransactionMail;
 
-class StoreTransactionalMailTest extends TestCase
-{
-    use SendsTestTransactionalMail;
+uses(SendsTestTransactionalMail::class);
 
-    /** @test */
-    public function a_transactional_mail_will_be_stored_in_the_db()
-    {
-        $this->sendTestMail(function (TestTransactionMail $mail) {
-            $mail
-                ->subject('This is the subject')
-                ->trackOpensAndClicks();
-        });
+test('a transactional mail will be stored in the db', function () {
+    test()->sendTestMail(function (TestTransactionMail $mail) {
+        $mail
+            ->subject('This is the subject')
+            ->trackOpensAndClicks();
+    });
 
-        $this->assertCount(1, TransactionalMail::get());
-        $this->assertCount(1, Send::get());
+    expect(TransactionalMail::get())->toHaveCount(1);
+    expect(Send::get())->toHaveCount(1);
 
-        $transactionalMail = TransactionalMail::first();
+    $transactionalMail = TransactionalMail::first();
 
-        $this->assertEquals(
-            [['email' => config('mail.from.address'), 'name' => config('mail.from.name')]],
-            $transactionalMail->from,
-        );
-        $this->assertEquals('This is the subject', $transactionalMail->subject);
-        $this->assertStringContainsString('This is the content for John Doe', $transactionalMail->body);
-        $this->assertTrue($transactionalMail->track_opens);
-        $this->assertTrue($transactionalMail->track_clicks);
-        $this->assertEquals(TestTransactionMail::class, $transactionalMail->mailable_class);
-        $this->assertInstanceOf(Send::class, $transactionalMail->send);
-        $this->assertInstanceOf(TransactionalMail::class, Send::first()->transactionalMail);
-    }
+    test()->assertEquals(
+        [['email' => config('mail.from.address'), 'name' => config('mail.from.name')]],
+        $transactionalMail->from,
+    );
+    expect($transactionalMail->subject)->toEqual('This is the subject');
+    expect($transactionalMail->body)->toContain('This is the content for John Doe');
+    expect($transactionalMail->track_opens)->toBeTrue();
+    expect($transactionalMail->track_clicks)->toBeTrue();
+    expect($transactionalMail->mailable_class)->toEqual(TestTransactionMail::class);
+    expect($transactionalMail->send)->toBeInstanceOf(Send::class);
+    expect(Send::first()->transactionalMail)->toBeInstanceOf(TransactionalMail::class);
+});
 
-    /** @test */
-    public function it_can_store_the_various_recipients()
-    {
-        $this->sendTestMail(function (TestTransactionMail $testTransactionMail) {
-            $testTransactionMail
-                ->trackOpensAndClicks()
-                ->from('ringo@example.com', 'Ringo')
-                ->to('john@example.com', 'John')
-                ->cc('paul@example.com', 'Paul')
-                ->bcc('george@example.com', 'George');
-        });
+it('can store the various recipients', function () {
+    test()->sendTestMail(function (TestTransactionMail $testTransactionMail) {
+        $testTransactionMail
+            ->trackOpensAndClicks()
+            ->from('ringo@example.com', 'Ringo')
+            ->to('john@example.com', 'John')
+            ->cc('paul@example.com', 'Paul')
+            ->bcc('george@example.com', 'George');
+    });
 
-        $transactionalMail = TransactionalMail::first();
+    $transactionalMail = TransactionalMail::first();
 
-        $this->assertEquals(
-            [['email' => 'ringo@example.com', 'name' => 'Ringo']],
-            $transactionalMail->from,
-        );
+    test()->assertEquals(
+        [['email' => 'ringo@example.com', 'name' => 'Ringo']],
+        $transactionalMail->from,
+    );
 
-        $this->assertEquals(
-            [['email' => 'john@example.com', 'name' => 'John']],
-            $transactionalMail->to,
-        );
+    test()->assertEquals(
+        [['email' => 'john@example.com', 'name' => 'John']],
+        $transactionalMail->to,
+    );
 
-        $this->assertEquals(
-            [['email' => 'paul@example.com', 'name' => 'Paul']],
-            $transactionalMail->cc,
-        );
+    test()->assertEquals(
+        [['email' => 'paul@example.com', 'name' => 'Paul']],
+        $transactionalMail->cc,
+    );
 
-        $this->assertEquals(
-            [['email' => 'george@example.com', 'name' => 'George']],
-            $transactionalMail->bcc,
-        );
-    }
+    test()->assertEquals(
+        [['email' => 'george@example.com', 'name' => 'George']],
+        $transactionalMail->bcc,
+    );
+});
 
-    /** @test */
-    public function storing_a_transactional_mail_dispatches_an_event()
-    {
-        Event::fake([TransactionalMailStored::class]);
+test('storing a transactional mail dispatches an event', function () {
+    Event::fake([TransactionalMailStored::class]);
 
-        $this->sendTestMail(function (TestTransactionMail $mail) {
-            $mail->store();
-        });
+    test()->sendTestMail(function (TestTransactionMail $mail) {
+        $mail->store();
+    });
 
-        Event::assertDispatched(TransactionalMailStored::class, function (TransactionalMailStored $event) {
-            $this->assertNotNull($event->transactionalMail->id);
+    Event::assertDispatched(TransactionalMailStored::class, function (TransactionalMailStored $event) {
+        test()->assertNotNull($event->transactionalMail->id);
 
-            return $event;
-        });
-    }
+        return $event;
+    });
+});
 
-    /** @test */
-    public function only_opens_on_transactional_mails_can_be_tracked()
-    {
-        $this->sendTestMail(function (TestTransactionMail $mail) {
-            $mail->trackOpens();
-        });
+test('only opens on transactional mails can be tracked', function () {
+    test()->sendTestMail(function (TestTransactionMail $mail) {
+        $mail->trackOpens();
+    });
 
-        $transactionalMail = TransactionalMail::first();
-        $this->assertTrue($transactionalMail->track_opens);
-        $this->assertFalse($transactionalMail->track_clicks);
-    }
+    $transactionalMail = TransactionalMail::first();
+    expect($transactionalMail->track_opens)->toBeTrue();
+    expect($transactionalMail->track_clicks)->toBeFalse();
+});
 
-    /** @test */
-    public function only_click_on_transactional_mails_can_be_tracked()
-    {
-        $this->sendTestMail(function (TestTransactionMail $mail) {
-            $mail->store();
-        });
+test('only click on transactional mails can be tracked', function () {
+    test()->sendTestMail(function (TestTransactionMail $mail) {
+        $mail->store();
+    });
 
-        $transactionalMail = TransactionalMail::first();
-        $this->assertFalse($transactionalMail->track_opens);
-        $this->assertFalse($transactionalMail->track_clicks);
-    }
+    $transactionalMail = TransactionalMail::first();
+    expect($transactionalMail->track_opens)->toBeFalse();
+    expect($transactionalMail->track_clicks)->toBeFalse();
+});
 
-    /** @test */
-    public function by_default_it_will_not_store_any_mails()
-    {
-        $this->sendTestMail(function (TestTransactionMail $mail) {
-        });
+test('by default it will not store any mails', function () {
+    test()->sendTestMail(function (TestTransactionMail $mail) {
+    });
 
-        $this->assertCount(0, TransactionalMail::get());
-    }
+    expect(TransactionalMail::get())->toHaveCount(0);
+});
 
-    /** @test */
-    public function a_send_for_a_transactional_mail_can_be_marked_as_opened()
-    {
-        Event::fake([TransactionalMailOpenedEvent::class]);
+test('a send for a transactional mail can be marked as opened', function () {
+    Event::fake([TransactionalMailOpenedEvent::class]);
 
-        $this->sendTestMail();
+    test()->sendTestMail();
 
-        /** @var Send $send */
-        $send = Send::first();
+    /** @var Send $send */
+    $send = Send::first();
 
-        $send->registerOpen();
+    $send->registerOpen();
 
-        $this->assertCount(1, $send->transactionalMailOpens);
+    expect($send->transactionalMailOpens)->toHaveCount(1);
 
-        Event::assertDispatched(TransactionalMailOpenedEvent::class);
-    }
+    Event::assertDispatched(TransactionalMailOpenedEvent::class);
+});
 
-    /** @test */
-    public function a_send_for_a_transactional_mail_can_be_marked_as_clicked()
-    {
-        Event::fake([TransactionalMailLinkClickedEvent::class]);
+test('a send for a transactional mail can be marked as clicked', function () {
+    Event::fake([TransactionalMailLinkClickedEvent::class]);
 
-        $this->sendTestMail();
+    test()->sendTestMail();
 
-        /** @var Send $send */
-        $send = Send::first();
+    /** @var Send $send */
+    $send = Send::first();
 
-        $send->registerClick('https://spatie.be');
+    $send->registerClick('https://spatie.be');
 
-        $this->assertCount(1, $send->transactionalMailClicks);
+    expect($send->transactionalMailClicks)->toHaveCount(1);
 
-        Event::assertDispatched(TransactionalMailLinkClickedEvent::class);
-    }
-}
+    Event::assertDispatched(TransactionalMailLinkClickedEvent::class);
+});

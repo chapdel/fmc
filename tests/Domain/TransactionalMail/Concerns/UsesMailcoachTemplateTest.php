@@ -1,108 +1,89 @@
 <?php
 
 
-namespace Spatie\Mailcoach\Tests\Domain\TransactionalMail\Concerns;
-
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailableWithTemplate;
 use Spatie\Mailcoach\Tests\TestClasses\TestTransactionalMailReplacer;
-use Spatie\Snapshots\MatchesSnapshots;
 
-class UsesMailcoachTemplateTest extends TestCase
-{
-    use MatchesSnapshots;
+it('can render the template containing blade variables', function () {
+    /** @var TransactionalMailTemplate $template */
+    $template = TransactionalMailTemplate::factory()->create([
+        'name' => 'test-template',
+        'body' => 'test html {{ $argument }}',
+        'test_using_mailable' => TestMailableWithTemplate::class,
+        'type' => 'blade',
+    ]);
 
-    /** @test */
-    public function it_can_render_the_template_containing_blade_variables()
-    {
-        /** @var TransactionalMailTemplate $template */
-        $template = TransactionalMailTemplate::factory()->create([
-            'name' => 'test-template',
-            'body' => 'test html {{ $argument }}',
-            'test_using_mailable' => TestMailableWithTemplate::class,
-            'type' => 'blade',
-        ]);
+    $mailable = $template->getMailable();
 
-        $mailable = $template->getMailable();
+    expect($mailable->render())->toContain('test html test-argument');
+});
 
-        $this->assertStringContainsString('test html test-argument', $mailable->render());
-    }
+it('can render a template containing markdown and blade variables', function () {
+    /** @var TransactionalMailTemplate $template */
+    $template = TransactionalMailTemplate::factory()->create([
+        'name' => 'test-template',
+        'body' => file_get_contents(__DIR__ . '/stubs/blade-markdown.blade.php'),
+        'test_using_mailable' => TestMailableWithTemplate::class,
+        'type' => 'blade-markdown',
+    ]);
 
-    /** @test */
-    public function it_can_render_a_template_containing_markdown_and_blade_variables()
-    {
-        /** @var TransactionalMailTemplate $template */
-        $template = TransactionalMailTemplate::factory()->create([
-            'name' => 'test-template',
-            'body' => file_get_contents(__DIR__ . '/stubs/blade-markdown.blade.php'),
-            'test_using_mailable' => TestMailableWithTemplate::class,
-            'type' => 'blade-markdown',
-        ]);
+    $mailable = $template->getMailable();
 
-        $mailable = $template->getMailable();
+    test()->assertMatchesHtmlSnapshotWithoutWhitespace($mailable->render());
+});
 
-        $this->assertMatchesHtmlSnapshotWithoutWhitespace($mailable->render());
-    }
+it('will not compile blade if it is not allowed', function () {
+    /** @var TransactionalMailTemplate $template */
+    $template = TransactionalMailTemplate::factory()->create([
+        'name' => 'test-template',
+        'body' => 'test html {{ $argument }}',
+        'test_using_mailable' => TestMailableWithTemplate::class,
+        'type' => 'html',
+    ]);
 
-    /** @test */
-    public function it_will_not_compile_blade_if_it_is_not_allowed()
-    {
-        /** @var TransactionalMailTemplate $template */
-        $template = TransactionalMailTemplate::factory()->create([
-            'name' => 'test-template',
-            'body' => 'test html {{ $argument }}',
-            'test_using_mailable' => TestMailableWithTemplate::class,
-            'type' => 'html',
-        ]);
+    $mailable = $template->getMailable();
 
-        $mailable = $template->getMailable();
+    expect($mailable->render())->toContain('test html {{ $argument }}');
+});
 
-        $this->assertStringContainsString('test html {{ $argument }}', $mailable->render());
-    }
+it('will use cc and bcc when sending out a mail using the template', function () {
+    Mail::fake();
 
-    /** @test */
-    public function it_will_use_cc_and_bcc_when_sending_out_a_mail_using_the_template()
-    {
-        Mail::fake();
+    TransactionalMailTemplate::factory()->create([
+        'name' => 'test-template',
+        'cc' => ['jane@example.com'],
+        'bcc' => ['tarzan@example.com'],
+        'test_using_mailable' => TestMailableWithTemplate::class,
+    ]);
 
-        TransactionalMailTemplate::factory()->create([
-            'name' => 'test-template',
-            'cc' => ['jane@example.com'],
-            'bcc' => ['tarzan@example.com'],
-            'test_using_mailable' => TestMailableWithTemplate::class,
-        ]);
+    $mailable = new TestMailableWithTemplate();
 
-        $mailable = new TestMailableWithTemplate();
+    Mail::to('john@example.com')->send($mailable);
 
-        Mail::to('john@example.com')->send($mailable);
+    Mail::assertSent(function (TestMailableWithTemplate $mail) {
+        expect($mail->hasCc('jane@example.com'))->toBeTrue();
+        expect($mail->hasBcc('tarzan@example.com'))->toBeTrue();
 
-        Mail::assertSent(function (TestMailableWithTemplate $mail) {
-            $this->assertTrue($mail->hasCc('jane@example.com'));
-            $this->assertTrue($mail->hasBcc('tarzan@example.com'));
+        return true;
+    });
+});
 
-            return true;
-        });
-    }
+it('will can use replacers to replace content', function () {
+    /** @var TransactionalMailTemplate $template */
+    $template = TransactionalMailTemplate::factory()->create([
+        'name' => 'test-template',
+        'body' => 'test html ::argument::',
+        'test_using_mailable' => TestMailableWithTemplate::class,
+        'replacers' => ['test'],
+    ]);
 
-    /** @test */
-    public function it_will_can_use_replacers_to_replace_content()
-    {
-        /** @var TransactionalMailTemplate $template */
-        $template = TransactionalMailTemplate::factory()->create([
-            'name' => 'test-template',
-            'body' => 'test html ::argument::',
-            'test_using_mailable' => TestMailableWithTemplate::class,
-            'replacers' => ['test'],
-        ]);
+    config()->set('mailcoach.transactional.replacers', [
+        'test' => TestTransactionalMailReplacer::class,
+    ]);
 
-        config()->set('mailcoach.transactional.replacers', [
-            'test' => TestTransactionalMailReplacer::class,
-        ]);
+    $mailable = $template->getMailable();
 
-        $mailable = $template->getMailable();
-
-        $this->assertStringContainsString('test html test-argument-from-replacer', $mailable->render());
-    }
-}
+    expect($mailable->render())->toContain('test html test-argument-from-replacer');
+});

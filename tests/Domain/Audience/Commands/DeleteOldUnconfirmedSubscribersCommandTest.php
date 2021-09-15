@@ -1,68 +1,51 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Audience\Commands;
-
 use Illuminate\Support\Facades\DB;
 use Spatie\Mailcoach\Domain\Audience\Commands\DeleteOldUnconfirmedSubscribersCommand;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-class DeleteOldUnconfirmedSubscribersCommandTest extends TestCase
-{
-    protected EmailList $emailList;
+beforeEach(function () {
+    TestTime::freeze('Y-m-d H:i:s', '2019-01-01 00:00:00');
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    test()->emailList = EmailList::factory()->create(['requires_confirmation' => true]);
+});
 
-        TestTime::freeze('Y-m-d H:i:s', '2019-01-01 00:00:00');
+it('will delete all unconfirmed subscribers that are older than a month', function () {
+    $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
+    expect($subscriber->status)->toEqual(SubscriptionStatus::UNCONFIRMED);
 
-        $this->emailList = EmailList::factory()->create(['requires_confirmation' => true]);
-    }
+    TestTime::addMonth();
+    test()->artisan(DeleteOldUnconfirmedSubscribersCommand::class)->assertExitCode(0);
+    expect(Subscriber::all())->toHaveCount(1);
 
-    /** @test */
-    public function it_will_delete_all_unconfirmed_subscribers_that_are_older_than_a_month()
-    {
-        $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($this->emailList);
-        $this->assertEquals(SubscriptionStatus::UNCONFIRMED, $subscriber->status);
+    TestTime::addSecond();
+    test()->artisan(DeleteOldUnconfirmedSubscribersCommand::class)->assertExitCode(0);
+    expect(Subscriber::all())->toHaveCount(0);
+});
 
-        TestTime::addMonth();
-        $this->artisan(DeleteOldUnconfirmedSubscribersCommand::class)->assertExitCode(0);
-        $this->assertCount(1, Subscriber::all());
+it('will not delete confirmed subscribers', function () {
+    $subscriber = Subscriber::createWithEmail('john@example.com')->skipConfirmation()->subscribeTo(test()->emailList);
+    expect($subscriber->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
 
-        TestTime::addSecond();
-        $this->artisan(DeleteOldUnconfirmedSubscribersCommand::class)->assertExitCode(0);
-        $this->assertCount(0, Subscriber::all());
-    }
+    TestTime::addMonth()->addSecond();
+    test()->artisan(DeleteOldUnconfirmedSubscribersCommand::class)->assertExitCode(0);
+    expect(Subscriber::all())->toHaveCount(1);
+});
 
-    /** @test */
-    public function it_will_not_delete_confirmed_subscribers()
-    {
-        $subscriber = Subscriber::createWithEmail('john@example.com')->skipConfirmation()->subscribeTo($this->emailList);
-        $this->assertEquals(SubscriptionStatus::SUBSCRIBED, $subscriber->status);
+it('will detach all tags when deleting a subscriber', function () {
+    $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
 
-        TestTime::addMonth()->addSecond();
-        $this->artisan(DeleteOldUnconfirmedSubscribersCommand::class)->assertExitCode(0);
-        $this->assertCount(1, Subscriber::all());
-    }
+    $subscriber->addTag('test');
 
-    /** @test */
-    public function it_will_detach_all_tags_when_deleting_a_subscriber()
-    {
-        $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($this->emailList);
+    TestTime::addMonth()->addSecond();
 
-        $subscriber->addTag('test');
+    test()->artisan(DeleteOldUnconfirmedSubscribersCommand::class)->assertExitCode(0);
 
-        TestTime::addMonth()->addSecond();
-
-        $this->artisan(DeleteOldUnconfirmedSubscribersCommand::class)->assertExitCode(0);
-
-        $this->assertCount(0, Subscriber::all());
-        $this->assertCount(0, DB::table('mailcoach_email_list_subscriber_tags')->get());
-        $this->assertCount(1, Tag::all());
-    }
-}
+    expect(Subscriber::all())->toHaveCount(0);
+    expect(DB::table('mailcoach_email_list_subscriber_tags')->get())->toHaveCount(0);
+    expect(Tag::all())->toHaveCount(1);
+});

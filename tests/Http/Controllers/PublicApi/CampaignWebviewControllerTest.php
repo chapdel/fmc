@@ -1,49 +1,32 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\PublicApi;
-
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\Front\Controllers\CampaignWebviewController;
-use Spatie\Mailcoach\Tests\TestCase;
 
-class CampaignWebviewControllerTest extends TestCase
-{
-    protected Campaign $campaign;
+beforeEach(function () {
+    test()->campaign = Campaign::factory()->create([
+        'webview_html' => 'my webview html',
+    ]);
 
-    protected string $webviewUrl;
+    test()->campaign->markAsSent(1);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    test()->webviewUrl = action(CampaignWebviewController::class, test()->campaign->uuid);
+});
 
-        $this->campaign = Campaign::factory()->create([
-            'webview_html' => 'my webview html',
-        ]);
+it('can display the webview for a campaign', function () {
+    $this
+        ->get(test()->webviewUrl)
+        ->assertSuccessful()
+        ->assertSee('my webview html');
+});
 
-        $this->campaign->markAsSent(1);
+it('will not display a webview for a campaign that has not been sent', function () {
+    test()->withExceptionHandling();
 
-        $this->webviewUrl = action(CampaignWebviewController::class, $this->campaign->uuid);
-    }
+    test()->campaign->update(['status' => CampaignStatus::DRAFT]);
 
-    /** @test */
-    public function it_can_display_the_webview_for_a_campaign()
-    {
-        $this
-            ->get($this->webviewUrl)
-            ->assertSuccessful()
-            ->assertSee('my webview html');
-    }
-
-    /** @test */
-    public function it_will_not_display_a_webview_for_a_campaign_that_has_not_been_sent()
-    {
-        $this->withExceptionHandling();
-
-        $this->campaign->update(['status' => CampaignStatus::DRAFT]);
-
-        $this
-            ->get($this->webviewUrl)
-            ->assertStatus(404);
-    }
-}
+    $this
+        ->get(test()->webviewUrl)
+        ->assertStatus(404);
+});

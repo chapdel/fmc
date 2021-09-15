@@ -1,54 +1,35 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Audience\Actions;
-
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\UpdateSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
-use Spatie\Mailcoach\Tests\TestCase;
 
-class UpdateSubscriberActionTest extends TestCase
-{
-    protected Subscriber $subscriber;
+beforeEach(function () {
+    test()->subscriber = Subscriber::factory()->create();
 
-    protected EmailList $emailList;
+    test()->emailList = EmailList::factory()->create();
 
-    protected EmailList $anotherEmailList;
+    test()->anotherEmailList = EmailList::factory()->create();
 
-    protected array $newAttributes;
+    test()->newAttributes = [
+        'email' => 'john@example.com',
+        'first_name' => 'John',
+        'last_name' => 'Doe',
+    ];
+});
 
-    public function setUp(): void
-    {
-        parent::setUp();
+it('can update the attributes of a subscriber', function () {
+    $updateSubscriberAction = Config::getAutomationActionClass('update_subscriber', UpdateSubscriberAction::class);
 
-        $this->subscriber = Subscriber::factory()->create();
+    $updateSubscriberAction->execute(
+        test()->subscriber,
+        test()->newAttributes,
+    );
 
-        $this->emailList = EmailList::factory()->create();
+    test()->subscriber->refresh();
 
-        $this->anotherEmailList = EmailList::factory()->create();
-
-        $this->newAttributes = [
-            'email' => 'john@example.com',
-            'first_name' => 'John',
-            'last_name' => 'Doe',
-        ];
-    }
-
-    /** @test */
-    public function it_can_update_the_attributes_of_a_subscriber()
-    {
-        $updateSubscriberAction = Config::getAutomationActionClass('update_subscriber', UpdateSubscriberAction::class);
-
-        $updateSubscriberAction->execute(
-            $this->subscriber,
-            $this->newAttributes,
-        );
-
-        $this->subscriber->refresh();
-
-        $this->assertEquals('john@example.com', $this->subscriber->email);
-        $this->assertEquals('John', $this->subscriber->first_name);
-        $this->assertEquals('Doe', $this->subscriber->last_name);
-    }
-}
+    expect(test()->subscriber->email)->toEqual('john@example.com');
+    expect(test()->subscriber->first_name)->toEqual('John');
+    expect(test()->subscriber->last_name)->toEqual('Doe');
+});

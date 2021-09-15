@@ -1,83 +1,62 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Campaign\Mails;
-
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignSentMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Tests\TestCase;
 
-class CampaignSentMailTest extends TestCase
-{
-    protected Campaign $campaign;
+beforeEach(function () {
+    test()->emailList = EmailList::factory()->create();
 
-    protected EmailList $emailList;
+    test()->campaign = Campaign::factory()->create([
+        'email_list_id' => test()->emailList->id,
+    ]);
+});
 
-    public function setUp(): void
-    {
-        parent::setUp();
+test('when a campaign is sent it will send a mail', function () {
+    Mail::fake();
 
-        $this->emailList = EmailList::factory()->create();
+    test()->emailList->update([
+        'report_recipients' => 'john@example.com,jane@example.com',
+        'report_campaign_sent' => true,
+        'transactional_mailer' => 'some-transactional-mailer',
+        'campaign_mailer' => 'some-campaign-mailer',
+    ]);
 
-        $this->campaign = Campaign::factory()->create([
-            'email_list_id' => $this->emailList->id,
-        ]);
-    }
+    config()->set('mailcoach.mailer', 'some-mailer');
 
-    /** @test */
-    public function when_a_campaign_is_sent_it_will_send_a_mail()
-    {
-        Mail::fake();
+    event(new CampaignSentEvent(test()->campaign));
 
-        $this->emailList->update([
-            'report_recipients' => 'john@example.com,jane@example.com',
-            'report_campaign_sent' => true,
-            'transactional_mailer' => 'some-transactional-mailer',
-            'campaign_mailer' => 'some-campaign-mailer',
-        ]);
+    Mail::assertQueued(CampaignSentMail::class, function (CampaignSentMail $mail) {
+        expect($mail->mailer)->toEqual('some-mailer');
+        expect($mail->hasTo('john@example.com'))->toBeTrue();
+        expect($mail->hasTo('jane@example.com'))->toBeTrue();
 
-        config()->set('mailcoach.mailer', 'some-mailer');
+        return true;
+    });
+});
 
-        event(new CampaignSentEvent($this->campaign));
+it('will not send a campaign sent mail if it is not enabled', function () {
+    Mail::fake();
 
-        Mail::assertQueued(CampaignSentMail::class, function (CampaignSentMail $mail) {
-            $this->assertEquals('some-mailer', $mail->mailer);
-            $this->assertTrue($mail->hasTo('john@example.com'));
-            $this->assertTrue($mail->hasTo('jane@example.com'));
+    test()->emailList->update([
+        'report_campaign_sent' => false,
+    ]);
 
-            return true;
-        });
-    }
+    event(new CampaignSentEvent(test()->campaign));
 
-    /** @test */
-    public function it_will_not_send_a_campaign_sent_mail_if_it_is_not_enabled()
-    {
-        Mail::fake();
+    Mail::assertNotQueued(CampaignSentMail::class);
+});
 
-        $this->emailList->update([
-            'report_campaign_sent' => false,
-        ]);
+it('will not send a campaign sent mail when no destination is set', function () {
+    Mail::fake();
 
-        event(new CampaignSentEvent($this->campaign));
+    event(new CampaignSentEvent(test()->campaign));
 
-        Mail::assertNotQueued(CampaignSentMail::class);
-    }
+    Mail::assertNotQueued(CampaignSentMail::class);
+});
 
-    /** @test */
-    public function it_will_not_send_a_campaign_sent_mail_when_no_destination_is_set()
-    {
-        Mail::fake();
-
-        event(new CampaignSentEvent($this->campaign));
-
-        Mail::assertNotQueued(CampaignSentMail::class);
-    }
-
-    /** @test */
-    public function the_content_of_the_campaign_sent_mail_is_valid()
-    {
-        $this->assertIsString((new CampaignSentMail($this->campaign))->render());
-    }
-}
+test('the content of the campaign sent mail is valid', function () {
+    expect((new CampaignSentMail(test()->campaign))->render())->toBeString();
+});

@@ -1,10 +1,7 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Automation\Support\Actions;
-
 use Carbon\CarbonInterval;
 use Illuminate\Support\Carbon;
-use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
@@ -13,86 +10,65 @@ use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasTagCondition;
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-class ConditionActionTest extends TestCase
-{
-    protected AutomationMail $automationMail;
+beforeEach(function () {
+    TestTime::setTestNow(Carbon::create(2021, 01, 01));
 
-    protected Subscriber $subscriber;
+    test()->subscriber = SubscriberFactory::new()->confirmed()->create();
+    test()->automationMail = AutomationMail::factory()->create();
 
-    protected Action $actionModel;
+    $automation = Automation::create()
+        ->chain([
+            new ConditionAction(
+                CarbonInterval::day(),
+                [
+                    new SendAutomationMailAction(test()->automationMail),
+                ],
+                [
+                    new HaltAction(),
+                ],
+                HasTagCondition::class,
+                ['tag' => 'some-tag']
+            ),
+        ]);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    // Attach a dummy action so we have a pivot table
+    test()->actionModel = $automation->actions->first();
+    test()->actionModel->subscribers()->attach(test()->subscriber);
+    test()->subscriber = test()->actionModel->subscribers->first();
+});
 
-        TestTime::setTestNow(Carbon::create(2021, 01, 01));
+it('doesnt continue while checking and the subscriber doesnt have the tag', function () {
+    expect(test()->actionModel->action->shouldContinue(test()->subscriber))->toBeFalse();
 
-        $this->subscriber = SubscriberFactory::new()->confirmed()->create();
-        $this->automationMail = AutomationMail::factory()->create();
+    TestTime::addDay();
 
-        $automation = Automation::create()
-            ->chain([
-                new ConditionAction(
-                    CarbonInterval::day(),
-                    [
-                        new SendAutomationMailAction($this->automationMail),
-                    ],
-                    [
-                        new HaltAction(),
-                    ],
-                    HasTagCondition::class,
-                    ['tag' => 'some-tag']
-                ),
-            ]);
+    expect(test()->actionModel->action->shouldContinue(test()->subscriber))->toBeFalse();
 
-        // Attach a dummy action so we have a pivot table
-        $this->actionModel = $automation->actions->first();
-        $this->actionModel->subscribers()->attach($this->subscriber);
-        $this->subscriber = $this->actionModel->subscribers->first();
-    }
+    TestTime::addSecond();
 
-    /** @test * */
-    public function it_doesnt_continue_while_checking_and_the_subscriber_doesnt_have_the_tag()
-    {
-        $this->assertFalse($this->actionModel->action->shouldContinue($this->subscriber));
+    expect(test()->actionModel->action->shouldContinue(test()->subscriber))->toBeTrue();
+});
 
-        TestTime::addDay();
+it('continues as soon as the subscriber has the tag', function () {
+    expect(test()->actionModel->action->shouldContinue(test()->subscriber))->toBeFalse();
 
-        $this->assertFalse($this->actionModel->action->shouldContinue($this->subscriber));
+    test()->subscriber->addTag('some-tag');
 
-        TestTime::addSecond();
+    expect(test()->actionModel->action->shouldContinue(test()->subscriber))->toBeTrue();
+});
 
-        $this->assertTrue($this->actionModel->action->shouldContinue($this->subscriber));
-    }
+it('doesnt halt', function () {
+    expect(test()->actionModel->action->shouldHalt(test()->subscriber))->toBeFalse();
+});
 
-    /** @test * */
-    public function it_continues_as_soon_as_the_subscriber_has_the_tag()
-    {
-        $this->assertFalse($this->actionModel->action->shouldContinue($this->subscriber));
+it('determines the correct next action', function () {
+    TestTime::addDays(2);
 
-        $this->subscriber->addTag('some-tag');
+    expect(test()->actionModel->action->nextActions(test()->subscriber)[0]->action)->toBeInstanceOf(HaltAction::class);
 
-        $this->assertTrue($this->actionModel->action->shouldContinue($this->subscriber));
-    }
+    test()->subscriber->addTag('some-tag');
 
-    /** @test * */
-    public function it_doesnt_halt()
-    {
-        $this->assertFalse($this->actionModel->action->shouldHalt($this->subscriber));
-    }
-
-    /** @test * */
-    public function it_determines_the_correct_next_action()
-    {
-        TestTime::addDays(2);
-
-        $this->assertInstanceOf(HaltAction::class, $this->actionModel->action->nextActions($this->subscriber)[0]->action);
-
-        $this->subscriber->addTag('some-tag');
-
-        $this->assertInstanceOf(SendAutomationMailAction::class, $this->actionModel->action->nextActions($this->subscriber)[0]->action);
-    }
-}
+    expect(test()->actionModel->action->nextActions(test()->subscriber)[0]->action)->toBeInstanceOf(SendAutomationMailAction::class);
+});

@@ -1,47 +1,34 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\TransactionalMails;
-
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails\TransactionalMailsController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
-use Spatie\Mailcoach\Tests\TestCase;
 
-class TransactionalMailsControllerTest extends TestCase
-{
-    use RespondsToApiRequests;
+uses(RespondsToApiRequests::class);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+beforeEach(function () {
+    test()->loginToApi();
 
-        $this->loginToApi();
+    TransactionalMail::factory()->count(2)->create(['subject' => 'foo']);
+    TransactionalMail::factory()->count(2)->create(['subject' => 'bar']);
+});
 
-        TransactionalMail::factory()->count(2)->create(['subject' => 'foo']);
-        TransactionalMail::factory()->count(2)->create(['subject' => 'bar']);
-    }
+it('can show all transactional mails', function () {
+    $transactionalMails = $this
+        ->get(action(TransactionalMailsController::class))
+        ->assertSuccessful()
+        ->json('data');
 
-    /** @test */
-    public function it_can_show_all_transactional_mails()
-    {
-        $transactionalMails = $this
-            ->get(action(TransactionalMailsController::class))
-            ->assertSuccessful()
-            ->json('data');
+    expect($transactionalMails)->toHaveCount(4);
+});
 
-        $this->assertCount(4, $transactionalMails);
-    }
+it('can search mails with a certain subject', function () {
+    $transactionalMails = $this
+                ->get(action(TransactionalMailsController::class). '?filter[search]=ba')
+                ->assertSuccessful()
+                ->json('data');
 
-    /** @test */
-    public function it_can_search__mails_with_a_certain_subject()
-    {
-        $transactionalMails = $this
-                    ->get(action(TransactionalMailsController::class). '?filter[search]=ba')
-                    ->assertSuccessful()
-                    ->json('data');
+    expect($transactionalMails)->toHaveCount(2);
 
-        $this->assertCount(2, $transactionalMails);
-
-        $this->assertEquals('bar', $transactionalMails[0]['subject']);
-    }
-}
+    expect($transactionalMails[0]['subject'])->toEqual('bar');
+});

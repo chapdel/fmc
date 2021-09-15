@@ -1,24 +1,16 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\App\Campaigns;
-
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\DestroyCampaignController;
-use Spatie\Mailcoach\Tests\TestCase;
 
-class DestroyCampaignControllerTest extends TestCase
-{
-    /** @test */
-    public function it_can_delete_a_campaign()
-    {
-        $this->authenticate();
+it('can delete a campaign', function () {
+    test()->authenticate();
 
-        $campaign = Campaign::factory()->create();
+    $campaign = Campaign::factory()->create();
 
-        $this
-            ->delete(action(DestroyCampaignController::class, $campaign->id))
-            ->assertRedirect();
+    $this
+        ->delete(action(DestroyCampaignController::class, $campaign->id))
+        ->assertRedirect();
 
-        $this->assertCount(0, Campaign::get());
-    }
-}
+    expect(Campaign::get())->toHaveCount(0);
+});

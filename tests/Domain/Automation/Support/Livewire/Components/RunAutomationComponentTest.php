@@ -1,36 +1,28 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Automation\Support\Livewire\Components;
-
 use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\UnsubscribeAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
-use Spatie\Mailcoach\Tests\TestCase;
 
-class RunAutomationComponentTest extends TestCase
-{
-    /** @test * */
-    public function it_can_start_and_pause_an_automation()
-    {
-        /** @var Automation $automation */
-        $automation = Automation::factory()->create();
-        $automation->triggerOn(new SubscribedTrigger());
-        $automation->chain([
-            new UnsubscribeAction(),
-        ]);
+it('can start and pause an automation', function () {
+    /** @var Automation $automation */
+    $automation = Automation::factory()->create();
+    $automation->triggerOn(new SubscribedTrigger());
+    $automation->chain([
+        new UnsubscribeAction(),
+    ]);
 
-        $this->assertSame(AutomationStatus::PAUSED, $automation->fresh()->status);
+    expect($automation->fresh()->status)->toBe(AutomationStatus::PAUSED);
 
-        Livewire::test('run-automation', ['automation' => $automation])
-            ->call('start');
+    Livewire::test('run-automation', ['automation' => $automation])
+        ->call('start');
 
-        $this->assertSame(AutomationStatus::STARTED, $automation->fresh()->status);
+    expect($automation->fresh()->status)->toBe(AutomationStatus::STARTED);
 
-        Livewire::test('run-automation', ['automation' => $automation])
-            ->call('pause');
+    Livewire::test('run-automation', ['automation' => $automation])
+        ->call('pause');
 
-        $this->assertSame(AutomationStatus::PAUSED, $automation->fresh()->status);
-    }
-}
+    expect($automation->fresh()->status)->toBe(AutomationStatus::PAUSED);
+});

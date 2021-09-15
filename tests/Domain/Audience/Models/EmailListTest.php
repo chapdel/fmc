@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Audience\Models;
-
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
@@ -10,184 +8,155 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomEmailList;
 use Spatie\Mailcoach\Tests\TestClasses\CustomSubscriber;
 use Spatie\TestTime\TestTime;
 
-class EmailListTest extends TestCase
-{
-    protected EmailList $emailList;
+beforeEach(function () {
+    test()->emailList = EmailList::factory()->create(['name' => 'Mailcoach Subscribers']);
+});
 
-    public function setUp(): void
-    {
-        parent::setUp();
+it('can add a subscriber to a list', function () {
+    $subscriber = test()->emailList->subscribe('john@example.com');
 
-        $this->emailList = EmailList::factory()->create(['name' => 'Mailcoach Subscribers']);
-    }
+    expect($subscriber->email)->toEqual('john@example.com');
+});
 
-    /** @test */
-    public function it_can_add_a_subscriber_to_a_list()
-    {
-        $subscriber = $this->emailList->subscribe('john@example.com');
+it('can add a subscriber with extra attributes to a list', function () {
+    $attributes = [
+        'first_name' => 'John',
+        'last_name' => 'Doe',
+        'extra_attributes' => ['key 1' => 'Value 1', 'key 2' => 'Value 2'],
+    ];
 
-        $this->assertEquals('john@example.com', $subscriber->email);
-    }
+    $subscriber = test()->emailList->subscribe('john@example.com', $attributes)->refresh();
 
-    /** @test */
-    public function it_can_add_a_subscriber_with_extra_attributes_to_a_list()
-    {
-        $attributes = [
-            'first_name' => 'John',
-            'last_name' => 'Doe',
-            'extra_attributes' => ['key 1' => 'Value 1', 'key 2' => 'Value 2'],
-        ];
+    expect($subscriber->email)->toEqual('john@example.com');
+    expect($subscriber->first_name)->toEqual('John');
+    expect($subscriber->last_name)->toEqual('Doe');
+    expect($subscriber->extra_attributes->all())->toEqual($attributes['extra_attributes']);
+});
 
-        $subscriber = $this->emailList->subscribe('john@example.com', $attributes)->refresh();
+test('when adding someone that was already subscribed no new subscription will be created', function () {
+    test()->emailList->subscribe('john@example.com');
+    test()->emailList->subscribe('john@example.com');
 
-        $this->assertEquals('john@example.com', $subscriber->email);
-        $this->assertEquals('John', $subscriber->first_name);
-        $this->assertEquals('Doe', $subscriber->last_name);
-        $this->assertEquals($attributes['extra_attributes'], $subscriber->extra_attributes->all());
-    }
+    expect(Subscriber::count())->toEqual(1);
+});
 
-    /** @test */
-    public function when_adding_someone_that_was_already_subscribed_no_new_subscription_will_be_created()
-    {
-        $this->emailList->subscribe('john@example.com');
-        $this->emailList->subscribe('john@example.com');
+it('can unsubscribe someone', function () {
+    test()->emailList->subscribe('john@example.com');
 
-        $this->assertEquals(1, Subscriber::count());
-    }
+    expect(test()->emailList->unsubscribe('john@example.com'))->toBeTrue();
+    expect(test()->emailList->unsubscribe('non-existing-subscriber@example.com'))->toBeFalse();
 
-    /** @test */
-    public function it_can_unsubscribe_someone()
-    {
-        $this->emailList->subscribe('john@example.com');
+    expect(Subscriber::first()->status)->toEqual(SubscriptionStatus::UNSUBSCRIBED);
+});
 
-        $this->assertTrue($this->emailList->unsubscribe('john@example.com'));
-        $this->assertFalse($this->emailList->unsubscribe('non-existing-subscriber@example.com'));
+it('can get all subscribers that are subscribed', function () {
+    test()->emailList->subscribe('john@example.com');
+    test()->emailList->subscribe('jane@example.com');
+    test()->emailList->unsubscribe('john@example.com');
 
-        $this->assertEquals(SubscriptionStatus::UNSUBSCRIBED, Subscriber::first()->status);
-    }
+    $subscribers = test()->emailList->subscribers;
+    expect($subscribers)->toHaveCount(1);
+    expect($subscribers->first()->email)->toEqual('jane@example.com');
 
-    /** @test */
-    public function it_can_get_all_subscribers_that_are_subscribed()
-    {
-        $this->emailList->subscribe('john@example.com');
-        $this->emailList->subscribe('jane@example.com');
-        $this->emailList->unsubscribe('john@example.com');
+    $subscribers = test()->emailList->allSubscribers;
+    expect($subscribers)->toHaveCount(2);
+});
 
-        $subscribers = $this->emailList->subscribers;
-        $this->assertCount(1, $subscribers);
-        $this->assertEquals('jane@example.com', $subscribers->first()->email);
+it('can subscribe someone immediately even if double opt in is enabled', function () {
+    Mail::fake();
 
-        $subscribers = $this->emailList->allSubscribers;
-        $this->assertCount(2, $subscribers);
-    }
+    test()->emailList->update(['requires_confirmation' => true]);
 
-    /** @test */
-    public function it_can_subscribe_someone_immediately_even_if_double_opt_in_is_enabled()
-    {
-        Mail::fake();
+    test()->emailList->subscribeSkippingConfirmation('john@example.com');
 
-        $this->emailList->update(['requires_confirmation' => true]);
+    Mail::assertNothingQueued();
 
-        $this->emailList->subscribeSkippingConfirmation('john@example.com');
+    expect(test()->emailList->subscribers->first()->email)->toEqual('john@example.com');
+});
 
-        Mail::assertNothingQueued();
+it('cannot subscribe an invalid email', function () {
+    test()->expectException(CouldNotSubscribe::class);
 
-        $this->assertEquals('john@example.com', $this->emailList->subscribers->first()->email);
-    }
+    test()->emailList->subscribe('invalid-email');
+});
 
-    /** @test */
-    public function it_cannot_subscribe_an_invalid_email()
-    {
-        $this->expectException(CouldNotSubscribe::class);
+it('can get the status of a subscription', function () {
+    expect(test()->emailList->getSubscriptionStatus('john@example.com'))->toBeNull();
 
-        $this->emailList->subscribe('invalid-email');
-    }
+    test()->emailList->subscribe('john@example.com');
 
-    /** @test */
-    public function it_can_get_the_status_of_a_subscription()
-    {
-        $this->assertNull($this->emailList->getSubscriptionStatus('john@example.com'));
+    expect(test()->emailList->getSubscriptionStatus('john@example.com'))->toEqual(SubscriptionStatus::SUBSCRIBED);
+});
 
-        $this->emailList->subscribe('john@example.com');
+it('can summarize an email list', function () {
+    TestTime::freeze();
 
-        $this->assertEquals(SubscriptionStatus::SUBSCRIBED, $this->emailList->getSubscriptionStatus('john@example.com'));
-    }
+    test()->assertEquals([
+        'total_number_of_subscribers' => 0,
+        'total_number_of_subscribers_gained' => 0,
+        'total_number_of_unsubscribes_gained' => 0,
+    ], test()->emailList->summarize(now()->subWeek()));
 
-    /** @test */
-    public function it_can_summarize_an_email_list()
-    {
-        TestTime::freeze();
+    $subscriber = Subscriber::createWithEmail('john@example.com')
+        ->skipConfirmation()
+        ->subscribeTo(test()->emailList);
 
-        $this->assertEquals([
-            'total_number_of_subscribers' => 0,
-            'total_number_of_subscribers_gained' => 0,
-            'total_number_of_unsubscribes_gained' => 0,
-        ], $this->emailList->summarize(now()->subWeek()));
+    test()->assertEquals([
+        'total_number_of_subscribers' => 1,
+        'total_number_of_subscribers_gained' => 1,
+        'total_number_of_unsubscribes_gained' => 0,
+    ], test()->emailList->summarize(now()->subWeek()));
 
-        $subscriber = Subscriber::createWithEmail('john@example.com')
-            ->skipConfirmation()
-            ->subscribeTo($this->emailList);
+    $subscriber->unsubscribe();
 
-        $this->assertEquals([
-            'total_number_of_subscribers' => 1,
-            'total_number_of_subscribers_gained' => 1,
-            'total_number_of_unsubscribes_gained' => 0,
-        ], $this->emailList->summarize(now()->subWeek()));
+    test()->assertEquals([
+        'total_number_of_subscribers' => 0,
+        'total_number_of_subscribers_gained' => 1,
+        'total_number_of_unsubscribes_gained' => 1,
+    ], test()->emailList->summarize(now()->subWeek()));
 
-        $subscriber->unsubscribe();
+    Subscriber::createWithEmail('jane@example.com')
+        ->skipConfirmation()
+        ->subscribeTo(test()->emailList);
 
-        $this->assertEquals([
-            'total_number_of_subscribers' => 0,
-            'total_number_of_subscribers_gained' => 1,
-            'total_number_of_unsubscribes_gained' => 1,
-        ], $this->emailList->summarize(now()->subWeek()));
+    test()->assertEquals([
+        'total_number_of_subscribers' => 1,
+        'total_number_of_subscribers_gained' => 2,
+        'total_number_of_unsubscribes_gained' => 1,
+    ], test()->emailList->summarize(now()->subWeek()));
 
-        Subscriber::createWithEmail('jane@example.com')
-            ->skipConfirmation()
-            ->subscribeTo($this->emailList);
+    TestTime::addWeek();
 
-        $this->assertEquals([
-            'total_number_of_subscribers' => 1,
-            'total_number_of_subscribers_gained' => 2,
-            'total_number_of_unsubscribes_gained' => 1,
-        ], $this->emailList->summarize(now()->subWeek()));
+    test()->assertEquals([
+        'total_number_of_subscribers' => 1,
+        'total_number_of_subscribers_gained' => 0,
+        'total_number_of_unsubscribes_gained' => 0,
+    ], test()->emailList->summarize(now()->subWeek()));
 
-        TestTime::addWeek();
+    Subscriber::createWithEmail('paul@example.com')
+        ->skipConfirmation()
+        ->subscribeTo(test()->emailList);
 
-        $this->assertEquals([
-            'total_number_of_subscribers' => 1,
-            'total_number_of_subscribers_gained' => 0,
-            'total_number_of_unsubscribes_gained' => 0,
-        ], $this->emailList->summarize(now()->subWeek()));
+    test()->assertEquals([
+        'total_number_of_subscribers' => 2,
+        'total_number_of_subscribers_gained' => 1,
+        'total_number_of_unsubscribes_gained' => 0,
+    ], test()->emailList->summarize(now()->subWeek()));
+});
 
-        Subscriber::createWithEmail('paul@example.com')
-            ->skipConfirmation()
-            ->subscribeTo($this->emailList);
+it('can reference tags and segments when using a custom model', function () {
+    Tag::factory(2)->create(['email_list_id' => test()->emailList->id]);
+    TagSegment::create(['name' => 'testSegment', 'email_list_id' => test()->emailList->id]);
 
-        $this->assertEquals([
-            'total_number_of_subscribers' => 2,
-            'total_number_of_subscribers_gained' => 1,
-            'total_number_of_unsubscribes_gained' => 0,
-        ], $this->emailList->summarize(now()->subWeek()));
-    }
+    Config::set("mailcoach.models.email_list", CustomEmailList::class);
+    Config::set("mailcoach.models.subscriber", CustomSubscriber::class);
 
-    /** @test */
-    public function it_can_reference_tags_and_segments_when_using_a_custom_model()
-    {
-        Tag::factory(2)->create(['email_list_id' => $this->emailList->id]);
-        TagSegment::create(['name' => 'testSegment', 'email_list_id' => $this->emailList->id]);
+    $list = CustomEmailList::find(test()->emailList->id);
 
-        Config::set("mailcoach.models.email_list", CustomEmailList::class);
-        Config::set("mailcoach.models.subscriber", CustomSubscriber::class);
-
-        $list = CustomEmailList::find($this->emailList->id);
-
-        $this->assertEquals(2, $list->tags()->count());
-        $this->assertEquals(1, $list->segments()->count());
-    }
-}
+    expect($list->tags()->count())->toEqual(2);
+    expect($list->segments()->count())->toEqual(1);
+});

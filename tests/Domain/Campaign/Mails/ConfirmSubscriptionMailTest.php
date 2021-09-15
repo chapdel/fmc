@@ -1,113 +1,90 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Campaign\Mails;
-
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Mails\ConfirmSubscriberMail;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomConfirmSubscriberMail;
 
-class ConfirmSubscriptionMailTest extends TestCase
-{
-    protected EmailList $emailList;
+beforeEach(function () {
+    test()->emailList = EmailList::factory()->create([
+        'requires_confirmation' => true,
+        'name' => 'my newsletter',
+        'transactional_mailer' => 'some-transactional-mailer',
+    ]);
+});
 
-    public function setUp(): void
-    {
-        parent::setUp();
+test('the confirmation mail is sent with the correct mailer', function () {
+    Mail::fake();
 
-        $this->emailList = EmailList::factory()->create([
-            'requires_confirmation' => true,
-            'name' => 'my newsletter',
-            'transactional_mailer' => 'some-transactional-mailer',
-        ]);
-    }
+    Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
 
-    /** @test */
-    public function the_confirmation_mail_is_sent_with_the_correct_mailer()
-    {
-        Mail::fake();
+    Mail::assertQueued(ConfirmSubscriberMail::class, function (ConfirmSubscriberMail $mail) {
+        expect($mail->mailer)->toEqual('some-transactional-mailer');
 
-        Subscriber::createWithEmail('john@example.com')->subscribeTo($this->emailList);
+        return true;
+    });
+});
 
-        Mail::assertQueued(ConfirmSubscriberMail::class, function (ConfirmSubscriberMail $mail) {
-            $this->assertEquals('some-transactional-mailer', $mail->mailer);
+test('the confirmation mail has a default subject', function () {
+    Mail::fake();
 
-            return true;
-        });
-    }
+    Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
 
-    /** @test */
-    public function the_confirmation_mail_has_a_default_subject()
-    {
-        Mail::fake();
+    Mail::assertQueued(ConfirmSubscriberMail::class, function (ConfirmSubscriberMail $mail) {
+        $mail->build();
 
-        Subscriber::createWithEmail('john@example.com')->subscribeTo($this->emailList);
+        expect($mail->subject)->toContain('Confirm');
 
-        Mail::assertQueued(ConfirmSubscriberMail::class, function (ConfirmSubscriberMail $mail) {
-            $mail->build();
+        return true;
+    });
+});
 
-            $this->assertStringContainsString('Confirm', $mail->subject);
+test('the subject of the confirmation mail can be customized', function () {
+    Mail::fake();
 
-            return true;
-        });
-    }
+    test()->emailList->update(['confirmation_mail_subject' => 'Hello ::subscriber.first_name::, welcome to ::list.name::']);
 
-    /** @test */
-    public function the_subject_of_the_confirmation_mail_can_be_customized()
-    {
-        Mail::fake();
+    Subscriber::createWithEmail('john@example.com', ['first_name' => 'John'])->subscribeTo(test()->emailList);
 
-        $this->emailList->update(['confirmation_mail_subject' => 'Hello ::subscriber.first_name::, welcome to ::list.name::']);
+    Mail::assertQueued(ConfirmSubscriberMail::class, function (ConfirmSubscriberMail $mail) {
+        $mail->build();
+        expect($mail->subject)->toEqual('Hello John, welcome to my newsletter');
 
-        Subscriber::createWithEmail('john@example.com', ['first_name' => 'John'])->subscribeTo($this->emailList);
+        return true;
+    });
+});
 
-        Mail::assertQueued(ConfirmSubscriberMail::class, function (ConfirmSubscriberMail $mail) {
-            $mail->build();
-            $this->assertEquals('Hello John, welcome to my newsletter', $mail->subject);
+test('the confirmation mail has default content', function () {
+    test()->emailList->update(['transactional_mailer' => 'log']);
 
-            return true;
-        });
-    }
+    $subscriber = Subscriber::createWithEmail('john@example.com', ['first_name' => 'John'])->subscribeTo(test()->emailList);
 
-    /** @test */
-    public function the_confirmation_mail_has_default_content()
-    {
-        $this->emailList->update(['transactional_mailer' => 'log']);
+    $content = (new ConfirmSubscriberMail($subscriber))->render();
 
-        $subscriber = Subscriber::createWithEmail('john@example.com', ['first_name' => 'John'])->subscribeTo($this->emailList);
+    expect($content)->toContain('confirm');
+});
 
-        $content = (new ConfirmSubscriberMail($subscriber))->render();
+test('the confirmation mail can have custom content', function () {
+    test()->emailList->update(['transactional_mailer' => 'log']);
 
-        $this->assertStringContainsString('confirm', $content);
-    }
+    Subscriber::$fakeUuid = 'my-uuid';
 
-    /** @test */
-    public function the_confirmation_mail_can_have_custom_content()
-    {
-        $this->emailList->update(['transactional_mailer' => 'log']);
+    test()->emailList->update(['confirmation_mail_content' => 'Hi ::subscriber.first_name::, press ::confirmUrl:: to subscribe to ::list.name::']);
 
-        Subscriber::$fakeUuid = 'my-uuid';
+    $subscriber = Subscriber::createWithEmail('john@example.com', ['first_name' => 'John'])->subscribeTo(test()->emailList);
 
-        $this->emailList->update(['confirmation_mail_content' => 'Hi ::subscriber.first_name::, press ::confirmUrl:: to subscribe to ::list.name::']);
+    $content = (new ConfirmSubscriberMail($subscriber))->render();
 
-        $subscriber = Subscriber::createWithEmail('john@example.com', ['first_name' => 'John'])->subscribeTo($this->emailList);
+    expect($content)->toContain('Hi John, press http://localhost/mailcoach/confirm-subscription/my-uuid to subscribe to my newsletter');
+});
 
-        $content = (new ConfirmSubscriberMail($subscriber))->render();
+it('can use custom welcome mailable', function () {
+    Mail::fake();
 
-        $this->assertStringContainsString('Hi John, press http://localhost/mailcoach/confirm-subscription/my-uuid to subscribe to my newsletter', $content);
-    }
+    test()->emailList->update(['confirmation_mailable_class' => CustomConfirmSubscriberMail::class]);
 
-    /** @test */
-    public function it_can_use_custom_welcome_mailable()
-    {
-        Mail::fake();
+    Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
 
-        $this->emailList->update(['confirmation_mailable_class' => CustomConfirmSubscriberMail::class]);
-
-        Subscriber::createWithEmail('john@example.com')->subscribeTo($this->emailList);
-
-        Mail::assertQueued(CustomConfirmSubscriberMail::class);
-    }
-}
+    Mail::assertQueued(CustomConfirmSubscriberMail::class);
+});

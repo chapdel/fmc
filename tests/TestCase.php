@@ -29,6 +29,7 @@ use Spatie\Mailcoach\Http\Front\Controllers\UnsubscribeController;
 use Spatie\Mailcoach\MailcoachServiceProvider;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 use Spatie\QueryBuilder\QueryBuilderServiceProvider;
+use function Spatie\Snapshots\assertMatchesHtmlSnapshot;
 use Spatie\TestTime\TestTime;
 
 abstract class TestCase extends Orchestra
@@ -36,7 +37,7 @@ abstract class TestCase extends Orchestra
     use RefreshDatabase;
     use UsesMailcoachModels;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -140,7 +141,7 @@ abstract class TestCase extends Orchestra
 
         $contentWithoutWhitespace = str_replace(PHP_EOL, '', $contentWithoutWhitespace);
 
-        $this->assertMatchesHtmlSnapshot($contentWithoutWhitespace);
+        assertMatchesHtmlSnapshot($contentWithoutWhitespace);
     }
 
     public function refreshServiceProvider()

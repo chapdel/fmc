@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Automation\Triggers;
-
 use Carbon\CarbonInterval;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Artisan;
@@ -16,65 +14,52 @@ use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\WebhookTrigger;
 use Spatie\Mailcoach\Http\Api\Controllers\Automations\TriggerAutomationController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-class WebhookTriggerTest extends TestCase
-{
-    use RespondsToApiRequests;
+uses(RespondsToApiRequests::class);
 
-    protected AutomationMail $automationMail;
+beforeEach(function () {
+    test()->automationMail = AutomationMail::factory()->create(['subject' => 'Welcome']);
 
-    protected EmailList $emailList;
+    test()->emailList = EmailList::factory()->create();
+});
 
-    public function setUp(): void
-    {
-        parent::setUp();
+it('triggers when a call is made to an endpoint', function () {
+    Queue::fake();
 
-        $this->automationMail = AutomationMail::factory()->create(['subject' => 'Welcome']);
+    TestTime::setTestNow(Carbon::create(2020, 01, 01));
 
-        $this->emailList = EmailList::factory()->create();
-    }
+    $automation = Automation::create()
+        ->name('New year!')
+        ->runEvery(CarbonInterval::minute())
+        ->to(test()->emailList)
+        ->triggerOn(new WebhookTrigger())
+        ->chain([
+            new SendAutomationMailAction(test()->automationMail),
+        ])
+        ->start();
 
-    /** @test * */
-    public function it_triggers_when_a_call_is_made_to_an_endpoint()
-    {
-        Queue::fake();
+    test()->emailList->subscribe('john@doe.com');
 
-        TestTime::setTestNow(Carbon::create(2020, 01, 01));
+    Artisan::call(RunAutomationTriggersCommand::class);
 
-        $automation = Automation::create()
-            ->name('New year!')
-            ->runEvery(CarbonInterval::minute())
-            ->to($this->emailList)
-            ->triggerOn(new WebhookTrigger())
-            ->chain([
-                new SendAutomationMailAction($this->automationMail),
-            ])
-            ->start();
+    expect($automation->actions->first()->subscribers)->toBeEmpty();
 
-        $this->emailList->subscribe('john@doe.com');
+    $subscriber = Subscriber::first();
 
-        Artisan::call(RunAutomationTriggersCommand::class);
+    test()->loginToApi();
 
-        $this->assertEmpty($automation->actions->first()->subscribers);
+    test()->post(action(TriggerAutomationController::class, [$automation]), [
+        'subscribers' => [$subscriber->id],
+    ])->assertSuccessful();
 
-        $subscriber = Subscriber::first();
+    Queue::assertPushed(
+        RunAutomationForSubscriberJob::class,
+        function (RunAutomationForSubscriberJob $job) use ($subscriber, $automation) {
+            expect($job->subscriber->email)->toBe($subscriber->email);
+            expect($job->automation->id)->toBe($automation->id);
 
-        $this->loginToApi();
-
-        $this->post(action(TriggerAutomationController::class, [$automation]), [
-            'subscribers' => [$subscriber->id],
-        ])->assertSuccessful();
-
-        Queue::assertPushed(
-            RunAutomationForSubscriberJob::class,
-            function (RunAutomationForSubscriberJob $job) use ($subscriber, $automation) {
-                $this->assertSame($subscriber->email, $job->subscriber->email);
-                $this->assertSame($automation->id, $job->automation->id);
-
-                return true;
-            }
-        );
-    }
-}
+            return true;
+        }
+    );
+});

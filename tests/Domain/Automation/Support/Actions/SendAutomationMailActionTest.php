@@ -1,66 +1,42 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Automation\Support\Actions;
-
 use Illuminate\Support\Facades\Queue;
-use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailToSubscriberJob;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
-use Spatie\Mailcoach\Tests\TestCase;
 
-class SendAutomationMailActionTest extends TestCase
-{
-    protected Subscriber $subscriber;
+beforeEach(function () {
+    test()->subscriber = SubscriberFactory::new()->confirmed()->create();
+    test()->automationMail = AutomationMail::factory()->create();
+    test()->action = new SendAutomationMailAction(test()->automationMail);
+});
 
-    protected AutomationMail $automationMail;
+it('continues after execution', function () {
+    expect(test()->action->shouldContinue(test()->subscriber))->toBeTrue();
+});
 
-    protected SendAutomationMailAction $action;
+it('wont halt after execution', function () {
+    expect(test()->action->shouldHalt(test()->subscriber))->toBeFalse();
+});
 
-    public function setUp(): void
-    {
-        parent::setUp();
+it('sends an automation mail to the subscriber', function () {
+    Queue::fake();
 
-        $this->subscriber = SubscriberFactory::new()->confirmed()->create();
-        $this->automationMail = AutomationMail::factory()->create();
-        $this->action = new SendAutomationMailAction($this->automationMail);
-    }
+    test()->action->run(test()->subscriber);
 
-    /** @test * */
-    public function it_continues_after_execution()
-    {
-        $this->assertTrue($this->action->shouldContinue($this->subscriber));
-    }
+    Queue::assertPushed(SendAutomationMailToSubscriberJob::class, function (SendAutomationMailToSubscriberJob $sendCampaignJob) {
+        expect(test()->subscriber->is($sendCampaignJob->subscriber))->toBeTrue();
+        expect(test()->automationMail->is($sendCampaignJob->automationMail))->toBeTrue();
 
-    /** @test * */
-    public function it_wont_halt_after_execution()
-    {
-        $this->assertFalse($this->action->shouldHalt($this->subscriber));
-    }
+        return true;
+    });
+});
 
-    /** @test * */
-    public function it_sends_an_automation_mail_to_the_subscriber()
-    {
-        Queue::fake();
+it('wont send an automation mail twice', function () {
+    test()->action->run(test()->subscriber);
 
-        $this->action->run($this->subscriber);
+    test()->action->run(test()->subscriber);
 
-        Queue::assertPushed(SendAutomationMailToSubscriberJob::class, function (SendAutomationMailToSubscriberJob $sendCampaignJob) {
-            $this->assertTrue($this->subscriber->is($sendCampaignJob->subscriber));
-            $this->assertTrue($this->automationMail->is($sendCampaignJob->automationMail));
-
-            return true;
-        });
-    }
-
-    /** @test * */
-    public function it_wont_send_an_automation_mail_twice()
-    {
-        $this->action->run($this->subscriber);
-
-        $this->action->run($this->subscriber);
-
-        $this->assertEquals(1, $this->automationMail->sends->count());
-    }
-}
+    expect(test()->automationMail->sends->count())->toEqual(1);
+});

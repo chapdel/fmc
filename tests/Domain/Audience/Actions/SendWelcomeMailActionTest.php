@@ -1,42 +1,31 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Audience\Actions;
-
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\SendWelcomeMailAction;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Mails\WelcomeMail;
-use Spatie\Mailcoach\Tests\TestCase;
 
-class SendWelcomeMailActionTest extends TestCase
-{
-    protected Subscriber $subscriber;
+beforeEach(function () {
+    parent::setup();
 
-    public function setUp(): void
-    {
-        parent::setup();
+    test()->subscriber = Subscriber::factory()->create();
 
-        $this->subscriber = Subscriber::factory()->create();
+    test()->subscriber->emailList->update([
+        'send_welcome_mail' => true,
+        'transactional_mailer' => 'some-mailer',
+    ]);
+});
 
-        $this->subscriber->emailList->update([
-            'send_welcome_mail' => true,
-            'transactional_mailer' => 'some-mailer',
-        ]);
-    }
+it('can send a welcome mail with the correct mailer', function () {
+    Mail::fake();
 
-    /** @test */
-    public function it_can_send_a_welcome_mail_with_the_correct_mailer()
-    {
-        Mail::fake();
+    $action = new SendWelcomeMailAction();
 
-        $action = new SendWelcomeMailAction();
+    $action->execute(test()->subscriber);
 
-        $action->execute($this->subscriber);
+    Mail::assertQueued(WelcomeMail::class, function (WelcomeMail $mail) {
+        expect($mail->mailer)->toEqual('some-mailer');
 
-        Mail::assertQueued(WelcomeMail::class, function (WelcomeMail $mail) {
-            $this->assertEquals('some-mailer', $mail->mailer);
-
-            return true;
-        });
-    }
-}
+        return true;
+    });
+});

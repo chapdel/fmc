@@ -1,107 +1,86 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\Api;
-
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Http\Api\Controllers\TemplatesController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
-use Spatie\Mailcoach\Tests\TestCase;
 
-class TemplatesControllerTest extends TestCase
-{
-    use RespondsToApiRequests;
+uses(RespondsToApiRequests::class);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+beforeEach(function () {
+    test()->loginToApi();
+});
 
-        $this->loginToApi();
-    }
+it('can list all templates', function () {
+    $templates = Template::factory(3)->create();
 
-    /** @test */
-    public function it_can_list_all_templates()
-    {
-        $templates = Template::factory(3)->create();
+    $this
+        ->getJson(action([TemplatesController::class, 'index']))
+        ->assertSuccessful()
+        ->assertSeeText($templates->first()->name);
+});
 
-        $this
-            ->getJson(action([TemplatesController::class, 'index']))
-            ->assertSuccessful()
-            ->assertSeeText($templates->first()->name);
-    }
+it('can search templates', function () {
+    Template::factory()->create([
+        'name' => 'one',
+    ]);
 
-    /** @test */
-    public function it_can_search_templates()
-    {
-        Template::factory()->create([
-            'name' => 'one',
-        ]);
+    Template::factory()->create([
+        'name' => 'two',
+    ]);
 
-        Template::factory()->create([
-            'name' => 'two',
-        ]);
+    $this
+        ->getJson(action([TemplatesController::class, 'index']) . '?filter[search]=two')
+        ->assertSuccessful()
+        ->assertJsonCount(1, 'data')
+        ->assertJsonFragment(['name' => 'two']);
+});
 
-        $this
-            ->getJson(action([TemplatesController::class, 'index']) . '?filter[search]=two')
-            ->assertSuccessful()
-            ->assertJsonCount(1, 'data')
-            ->assertJsonFragment(['name' => 'two']);
-    }
+test('the api can show a template', function () {
+    $template = Template::factory()->create();
 
-    /** @test */
-    public function the_api_can_show_a_template()
-    {
-        $template = Template::factory()->create();
+    $this
+        ->getJson(action([TemplatesController::class, 'show'], $template))
+        ->assertSuccessful()
+        ->assertJsonFragment(['name' => $template->name]);
+});
 
-        $this
-            ->getJson(action([TemplatesController::class, 'show'], $template))
-            ->assertSuccessful()
-            ->assertJsonFragment(['name' => $template->name]);
-    }
+test('a template can be stored using the api', function () {
+    $attributes = [
+        'name' => 'template name',
+        'html' => 'template html',
+    ];
 
-    /** @test */
-    public function a_template_can_be_stored_using_the_api()
-    {
-        $attributes = [
-            'name' => 'template name',
-            'html' => 'template html',
-        ];
+    $this
+        ->postJson(action([TemplatesController::class, 'store'], $attributes))
+        ->assertSuccessful();
 
-        $this
-            ->postJson(action([TemplatesController::class, 'store'], $attributes))
-            ->assertSuccessful();
+    test()->assertDatabaseHas(static::getTemplateTableName(), $attributes);
+});
 
-        $this->assertDatabaseHas(static::getTemplateTableName(), $attributes);
-    }
+test('a template can be updated using the api', function () {
+    $template = Template::factory()->create();
 
-    /** @test */
-    public function a_template_can_be_updated_using_the_api()
-    {
-        $template = Template::factory()->create();
+    $attributes = [
+        'name' => 'updated template name',
+        'html' => 'updated template html',
+    ];
 
-        $attributes = [
-            'name' => 'updated template name',
-            'html' => 'updated template html',
-        ];
+    $this
+        ->putJson(action([TemplatesController::class, 'update'], $template), $attributes)
+        ->assertSuccessful();
 
-        $this
-            ->putJson(action([TemplatesController::class, 'update'], $template), $attributes)
-            ->assertSuccessful();
+    $template = $template->refresh();
 
-        $template = $template->refresh();
+    expect($template->name)->toEqual($attributes['name']);
+    expect($template->html)->toEqual($attributes['html']);
+});
 
-        $this->assertEquals($attributes['name'], $template->name);
-        $this->assertEquals($attributes['html'], $template->html);
-    }
+test('a template can be deleted using the api', function () {
+    $template = Template::factory()->create();
 
-    /** @test */
-    public function a_template_can_be_deleted_using_the_api()
-    {
-        $template = Template::factory()->create();
+    $this
+        ->deleteJson(action([TemplatesController::class, 'destroy'], $template))
+        ->assertSuccessful();
 
-        $this
-            ->deleteJson(action([TemplatesController::class, 'destroy'], $template))
-            ->assertSuccessful();
-
-        $this->assertCount(0, Template::get());
-    }
-}
+    expect(Template::get())->toHaveCount(0);
+});

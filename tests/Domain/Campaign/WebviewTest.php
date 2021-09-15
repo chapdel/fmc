@@ -1,56 +1,43 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Campaign;
-
 use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
-use Spatie\Mailcoach\Tests\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
-class WebviewTest extends TestCase
+beforeEach(function () {
+    test()->campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
+        'html' => 'My campaign <a href="::webviewUrl::">Web view</a>',
+        'track_clicks' => true,
+    ]);
+
+    test()->emailList = test()->campaign->emailList;
+
+    test()->subscriber = test()->campaign->emailList->subscribers->first();
+});
+
+it('can sends links to webviews', function () {
+    sendCampaignForWebviewTest();
+
+    $this
+        ->get(test()->webviewUrl)
+        ->assertSuccessful()
+        ->assertSee('My campaign');
+});
+
+// Helpers
+function sendCampaignForWebviewTest()
 {
-    /** @var string */
-    protected string $webviewUrl;
+    Event::listen(MessageSent::class, function (MessageSent $event) {
+        $link = (new Crawler($event->message->getBody()))
+            ->filter('a')->first()->attr('href');
 
-    public function setUp(): void
-    {
-        parent::setUp();
+        expect($link)->toStartWith('http://localhost');
 
-        $this->campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
-            'html' => 'My campaign <a href="::webviewUrl::">Web view</a>',
-            'track_clicks' => true,
-        ]);
+        test()->webviewUrl = Str::after($link, 'http://localhost');
+    });
 
-        $this->emailList = $this->campaign->emailList;
-
-        $this->subscriber = $this->campaign->emailList->subscribers->first();
-    }
-
-    /** @test */
-    public function it_can_sends_links_to_webviews()
-    {
-        $this->sendCampaign();
-
-        $this
-            ->get($this->webviewUrl)
-            ->assertSuccessful()
-            ->assertSee('My campaign');
-    }
-
-    protected function sendCampaign()
-    {
-        Event::listen(MessageSent::class, function (MessageSent $event) {
-            $link = (new Crawler($event->message->getBody()))
-                ->filter('a')->first()->attr('href');
-
-            $this->assertStringStartsWith('http://localhost', $link);
-
-            $this->webviewUrl = Str::after($link, 'http://localhost');
-        });
-
-        dispatch(new SendCampaignJob($this->campaign));
-    }
+    dispatch(new SendCampaignJob(test()->campaign));
 }

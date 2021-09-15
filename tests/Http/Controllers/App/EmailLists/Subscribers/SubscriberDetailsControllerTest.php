@@ -1,54 +1,40 @@
 <?php
-declare(strict_types=1);
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\App\EmailLists\Subscribers;
+declare(strict_types=1);
 
 use Illuminate\Support\Facades\Config;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomSubscriber;
 
-class SubscriberDetailsControllerTest extends TestCase
+beforeEach(function () {
+    test()->authenticate();
+
+    test()->subscriber = Subscriber::factory()->create();
+});
+
+afterEach(function () {
+    restoreStandardSubscriberModel();
+});
+
+it('respects custom model for route model binding', function () {
+    test()->assertNotInstanceOf(CustomSubscriber::class, test()->subscriber);
+
+    useCustomSubscriberModel();
+
+    $detailsRoute = route("mailcoach.emailLists.subscriber.details", [test()->subscriber->emailList, test()->subscriber]);
+    $response = test()->get($detailsRoute);
+    $injectedModel = $response->viewData("subscriber");
+
+    expect($injectedModel)->toBeInstanceOf(CustomSubscriber::class);
+});
+
+// Helpers
+function useCustomSubscriberModel()
 {
-    protected Subscriber $subscriber;
+    Config::set("mailcoach.models.subscriber", CustomSubscriber::class);
+}
 
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->authenticate();
-
-        $this->subscriber = Subscriber::factory()->create();
-    }
-
-    public function tearDown(): void
-    {
-        $this->restoreStandardSubscriberModel();
-
-        parent::tearDown();
-    }
-
-    /** @test */
-    public function it_respects_custom_model_for_route_model_binding()
-    {
-        $this->assertNotInstanceOf(CustomSubscriber::class, $this->subscriber);
-
-        $this->useCustomSubscriberModel();
-
-        $detailsRoute = route("mailcoach.emailLists.subscriber.details", [$this->subscriber->emailList, $this->subscriber]);
-        $response = $this->get($detailsRoute);
-        $injectedModel = $response->viewData("subscriber");
-
-        $this->assertInstanceOf(CustomSubscriber::class, $injectedModel);
-    }
-
-    protected function useCustomSubscriberModel()
-    {
-        Config::set("mailcoach.models.subscriber", CustomSubscriber::class);
-    }
-
-    protected function restoreStandardSubscriberModel()
-    {
-        Config::set("mailcoach.models.subscriber", Subscriber::class);
-    }
+function restoreStandardSubscriberModel()
+{
+    Config::set("mailcoach.models.subscriber", Subscriber::class);
 }

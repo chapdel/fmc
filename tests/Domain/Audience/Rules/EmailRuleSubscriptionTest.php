@@ -1,67 +1,46 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Audience\Rules;
-
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Rules\EmailListSubscriptionRule;
-use Spatie\Mailcoach\Tests\TestCase;
 
-class EmailRuleSubscriptionTest extends TestCase
-{
-    protected EmailList $emailList;
+beforeEach(function () {
+    test()->emailList = EmailList::factory()->create();
 
-    protected EmailListSubscriptionRule $rule;
+    test()->rule = new EmailListSubscriptionRule(test()->emailList);
+});
 
-    public function setUp(): void
-    {
-        parent::setUp();
+it('will not pass if the given email is already subscribed', function () {
+    expect(test()->rule->passes('email', 'john@example.com'))->toBeTrue();
+    test()->emailList->subscribe('john@example.com');
+    expect(test()->rule->passes('email', 'john@example.com'))->toBeFalse();
 
-        $this->emailList = EmailList::factory()->create();
+    $otherEmailList = EmailList::factory()->create();
+    $rule = new EmailListSubscriptionRule($otherEmailList);
+    expect($rule->passes('email', 'john@example.com'))->toBeTrue();
+});
 
-        $this->rule = new EmailListSubscriptionRule($this->emailList);
-    }
+it('will pass for emails that are still pending', function () {
+    test()->emailList->update(['requires_confirmation' => true]);
+    test()->emailList->subscribe('john@example.com');
+    expect(test()->emailList->getSubscriptionStatus('john@example.com'))->toEqual(SubscriptionStatus::UNCONFIRMED);
 
-    /** @test */
-    public function it_will_not_pass_if_the_given_email_is_already_subscribed()
-    {
-        $this->assertTrue($this->rule->passes('email', 'john@example.com'));
-        $this->emailList->subscribe('john@example.com');
-        $this->assertFalse($this->rule->passes('email', 'john@example.com'));
+    expect(test()->rule->passes('email', 'john@example.com'))->toBeTrue();
+});
 
-        $otherEmailList = EmailList::factory()->create();
-        $rule = new EmailListSubscriptionRule($otherEmailList);
-        $this->assertTrue($rule->passes('email', 'john@example.com'));
-    }
+it('will pass for emails that are unsubscribed', function () {
+    test()->emailList->update(['requires_confirmation' => true]);
+    test()->emailList->subscribe('john@example.com');
+    test()->emailList->unsubscribe('john@example.com');
+    expect(test()->emailList->getSubscriptionStatus('john@example.com'))->toEqual(SubscriptionStatus::UNSUBSCRIBED);
 
-    /** @test */
-    public function it_will_pass_for_emails_that_are_still_pending()
-    {
-        $this->emailList->update(['requires_confirmation' => true]);
-        $this->emailList->subscribe('john@example.com');
-        $this->assertEquals(SubscriptionStatus::UNCONFIRMED, $this->emailList->getSubscriptionStatus('john@example.com'));
+    expect(test()->rule->passes('email', 'john@example.com'))->toBeTrue();
+});
 
-        $this->assertTrue($this->rule->passes('email', 'john@example.com'));
-    }
+it('will allow to subscribe an email that is already subscribed to another list', function () {
+    test()->emailList->subscribe('john@example.com');
 
-    /** @test */
-    public function it_will_pass_for_emails_that_are_unsubscribed()
-    {
-        $this->emailList->update(['requires_confirmation' => true]);
-        $this->emailList->subscribe('john@example.com');
-        $this->emailList->unsubscribe('john@example.com');
-        $this->assertEquals(SubscriptionStatus::UNSUBSCRIBED, $this->emailList->getSubscriptionStatus('john@example.com'));
+    $anotherEmailList = EmailList::factory()->create();
 
-        $this->assertTrue($this->rule->passes('email', 'john@example.com'));
-    }
-
-    /** @test */
-    public function it_will_allow_to_subscribe_an_email_that_is_already_subscribed_to_another_list()
-    {
-        $this->emailList->subscribe('john@example.com');
-
-        $anotherEmailList = EmailList::factory()->create();
-
-        $this->assertTrue((new EmailListSubscriptionRule($anotherEmailList))->passes('email', 'john@example.com'));
-    }
-}
+    expect((new EmailListSubscriptionRule($anotherEmailList))->passes('email', 'john@example.com'))->toBeTrue();
+});

@@ -1,38 +1,25 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Campaigns;
-
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignUnsubscribe;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignUnsubscribesController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
-use Spatie\Mailcoach\Tests\TestCase;
 
-class CampaignUnsubscribesControllerTest extends TestCase
-{
-    use RespondsToApiRequests;
+uses(RespondsToApiRequests::class);
 
-    protected CampaignUnsubscribe $campaignUnsubscribe;
+beforeEach(function () {
+    test()->loginToApi();
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    test()->campaignUnsubscribe = CampaignUnsubscribe::factory()->create();
+});
 
-        $this->loginToApi();
+it('can get the unsubscribes of a campaign', function () {
+    $response = $this
+        ->getJson(action(CampaignUnsubscribesController::class, test()->campaignUnsubscribe->campaign))
+        ->assertSuccessful()
+        ->assertJsonCount(1, 'data')
+        ->json('data');
 
-        $this->campaignUnsubscribe = CampaignUnsubscribe::factory()->create();
-    }
-
-    /** @test */
-    public function it_can_get_the_unsubscribes_of_a_campaign()
-    {
-        $response = $this
-            ->getJson(action(CampaignUnsubscribesController::class, $this->campaignUnsubscribe->campaign))
-            ->assertSuccessful()
-            ->assertJsonCount(1, 'data')
-            ->json('data');
-
-        $this->assertEquals($this->campaignUnsubscribe->subscriber->id, $response[0]['subscriber_id']);
-        $this->assertEquals($this->campaignUnsubscribe->subscriber->email, $response[0]['subscriber_email']);
-        $this->assertEquals($this->campaignUnsubscribe->campaign->id, $response[0]['campaign_id']);
-    }
-}
+    expect($response[0]['subscriber_id'])->toEqual(test()->campaignUnsubscribe->subscriber->id);
+    expect($response[0]['subscriber_email'])->toEqual(test()->campaignUnsubscribe->subscriber->email);
+    expect($response[0]['campaign_id'])->toEqual(test()->campaignUnsubscribe->campaign->id);
+});

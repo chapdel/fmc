@@ -1,37 +1,24 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Campaigns;
-
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignOpen;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignOpensController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
-use Spatie\Mailcoach\Tests\TestCase;
 
-class CampaignOpensControllerTest extends TestCase
-{
-    use RespondsToApiRequests;
+uses(RespondsToApiRequests::class);
 
-    protected CampaignOpen $campaignOpen;
+beforeEach(function () {
+    test()->loginToApi();
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    test()->campaignOpen = CampaignOpen::factory()->create();
+});
 
-        $this->loginToApi();
-
-        $this->campaignOpen = CampaignOpen::factory()->create();
-    }
-
-    /** @test */
-    public function it_can_get_the_opens_of_a_campaign()
-    {
-        $this
-            ->getJson(action(CampaignOpensController::class, $this->campaignOpen->campaign))
-            ->assertSuccessful()
-            ->assertJsonCount(1, 'data')
-            ->assertJsonFragment([
-                'subscriber_email' => $this->campaignOpen->subscriber->email,
-                'open_count' => 1,
-            ]);
-    }
-}
+it('can get the opens of a campaign', function () {
+    $this
+        ->getJson(action(CampaignOpensController::class, test()->campaignOpen->campaign))
+        ->assertSuccessful()
+        ->assertJsonCount(1, 'data')
+        ->assertJsonFragment([
+            'subscriber_email' => test()->campaignOpen->subscriber->email,
+            'open_count' => 1,
+        ]);
+});

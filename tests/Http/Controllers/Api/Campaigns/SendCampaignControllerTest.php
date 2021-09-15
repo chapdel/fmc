@@ -1,59 +1,44 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Campaigns;
-
 use Illuminate\Support\Facades\Bus;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\SendCampaignController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
-use Spatie\Mailcoach\Tests\TestCase;
 
-class SendCampaignControllerTest extends TestCase
-{
-    use RespondsToApiRequests;
+uses(RespondsToApiRequests::class);
 
-    protected Campaign $campaign;
+beforeEach(function () {
+    Bus::fake();
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    test()->loginToApi();
 
-        Bus::fake();
+    test()->campaign = Campaign::factory()->create([
+        'status' => CampaignStatus::DRAFT,
+    ]);
+});
 
-        $this->loginToApi();
+test('a campaign can be sent using the api', function () {
+    $this
+        ->postJson(action(SendCampaignController::class, test()->campaign))
+        ->assertSuccessful();
 
-        $this->campaign = Campaign::factory()->create([
-            'status' => CampaignStatus::DRAFT,
-        ]);
-    }
+    Bus::assertDispatched(function (SendCampaignJob $job) {
+        expect($job->campaign->id)->toEqual(test()->campaign->id);
 
-    /** @test */
-    public function a_campaign_can_be_sent_using_the_api()
-    {
-        $this
-            ->postJson(action(SendCampaignController::class, $this->campaign))
-            ->assertSuccessful();
+        return true;
+    });
+});
 
-        Bus::assertDispatched(function (SendCampaignJob $job) {
-            $this->assertEquals($this->campaign->id, $job->campaign->id);
+it('will not send a campaign that has already been sent', function () {
+    test()->withExceptionHandling();
 
-            return true;
-        });
-    }
+    test()->campaign->update(['status' => CampaignStatus::SENT]);
 
-    /** @test */
-    public function it_will_not_send_a_campaign_that_has_already_been_sent()
-    {
-        $this->withExceptionHandling();
+    $this
+        ->postJson(action(SendCampaignController::class, test()->campaign))
+        ->assertJsonValidationErrors('campaign');
 
-        $this->campaign->update(['status' => CampaignStatus::SENT]);
-
-        $this
-            ->postJson(action(SendCampaignController::class, $this->campaign))
-            ->assertJsonValidationErrors('campaign');
-
-        Bus::assertNotDispatched(SendCampaignJob::class);
-    }
-}
+    Bus::assertNotDispatched(SendCampaignJob::class);
+});

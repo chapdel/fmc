@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Campaigns;
-
 use Illuminate\Support\Facades\Bus;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
@@ -9,66 +7,51 @@ use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignTestJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\SendTestEmailController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
-use Spatie\Mailcoach\Tests\TestCase;
 
-class SendTestEmailControllerTest extends TestCase
-{
-    use RespondsToApiRequests;
+uses(RespondsToApiRequests::class);
 
-    protected Campaign $campaign;
+beforeEach(function () {
+    Bus::fake();
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    test()->loginToApi();
 
-        Bus::fake();
+    test()->campaign = Campaign::factory()->create([
+        'status' => CampaignStatus::DRAFT,
+    ]);
+});
 
-        $this->loginToApi();
+test('a test email can be sent using the api', function () {
+    $campaign = Campaign::factory()->create();
 
-        $this->campaign = Campaign::factory()->create([
-            'status' => CampaignStatus::DRAFT,
-        ]);
-    }
+    $this
+        ->postJson(action(SendTestEmailController::class, $campaign), ['email' => 'test@example.com'])
+        ->assertSuccessful();
 
-    /** @test */
-    public function a_test_email_can_be_sent_using_the_api()
-    {
-        $campaign = Campaign::factory()->create();
+    Bus::assertDispatched(function (SendCampaignTestJob $job) {
+        expect($job->email)->toEqual('test@example.com');
 
-        $this
-            ->postJson(action(SendTestEmailController::class, $campaign), ['email' => 'test@example.com'])
-            ->assertSuccessful();
+        return true;
+    });
+});
 
-        Bus::assertDispatched(function (SendCampaignTestJob $job) {
-            $this->assertEquals('test@example.com', $job->email);
+test('multiple test emails can be sent using the api', function () {
+    $campaign = Campaign::factory()->create();
 
-            return true;
-        });
-    }
+    $this
+        ->postJson(action(SendTestEmailController::class, $campaign), ['email' => 'test@example.com,test2@example.com,test3@example.com'])
+        ->assertSuccessful();
 
-    /** @test */
-    public function multiple_test_emails_can_be_sent_using_the_api()
-    {
-        $campaign = Campaign::factory()->create();
+    Bus::assertDispatchedTimes(SendCampaignTestJob::class, 3);
+});
 
-        $this
-            ->postJson(action(SendTestEmailController::class, $campaign), ['email' => 'test@example.com,test2@example.com,test3@example.com'])
-            ->assertSuccessful();
+it('will not send a test mail for a campaign that has already been sent', function () {
+    test()->withExceptionHandling();
 
-        Bus::assertDispatchedTimes(SendCampaignTestJob::class, 3);
-    }
+    test()->campaign->update(['status' => CampaignStatus::SENT]);
 
-    /** @test */
-    public function it_will_not_send_a_test_mail_for_a_campaign_that_has_already_been_sent()
-    {
-        $this->withExceptionHandling();
+    $this
+        ->postJson(action(SendTestEmailController::class, test()->campaign), ['email' => 'test@example.com'])
+        ->assertJsonValidationErrors('campaign');
 
-        $this->campaign->update(['status' => CampaignStatus::SENT]);
-
-        $this
-            ->postJson(action(SendTestEmailController::class, $this->campaign), ['email' => 'test@example.com'])
-            ->assertJsonValidationErrors('campaign');
-
-        Bus::assertNotDispatched(SendCampaignJob::class);
-    }
-}
+    Bus::assertNotDispatched(SendCampaignJob::class);
+});

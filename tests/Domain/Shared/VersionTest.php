@@ -1,38 +1,23 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Shared;
-
 use Illuminate\Support\Facades\Cache;
 use Spatie\Mailcoach\Domain\Shared\Support\Version;
-use Spatie\Mailcoach\Tests\TestCase;
 
-class VersionTest extends TestCase
-{
-    protected Version $version;
+beforeEach(function () {
+    test()->version = app(Version::class);
+});
 
-    public function setUp(): void
-    {
-        parent::setUp();
+it('can get the current version', function () {
+    expect(test()->version->getCurrentVersion())->toBeString();
+});
 
-        $this->version = app(Version::class);
-    }
+it('can get the latest version', function () {
+    Cache::clear();
 
-    /** @test */
-    public function it_can_get_the_current_version()
-    {
-        $this->assertIsString($this->version->getCurrentVersion());
-    }
+    $latestVersion = test()->version->getLatestVersionInfo();
 
-    /** @test */
-    public function it_can_get_the_latest_version()
-    {
-        Cache::clear();
+    test()->assertArrayHasKey('version', $latestVersion);
+    test()->assertArrayHasKey('released_at', $latestVersion);
 
-        $latestVersion = $this->version->getLatestVersionInfo();
-
-        $this->assertArrayHasKey('version', $latestVersion);
-        $this->assertArrayHasKey('released_at', $latestVersion);
-
-        $this->assertNotEquals('unknown', $latestVersion['version']);
-    }
-}
+    test()->assertNotEquals('unknown', $latestVersion['version']);
+});
