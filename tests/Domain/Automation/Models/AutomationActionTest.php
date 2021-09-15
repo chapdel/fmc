@@ -7,10 +7,6 @@ use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
 use Spatie\Mailcoach\Tests\TestCase;
-use Spatie\Snapshots\MatchesSnapshots;
-
-
-uses(MatchesSnapshots::class);
 
 beforeEach(function () {
     Queue::fake();

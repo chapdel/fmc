@@ -4,10 +4,6 @@ use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Tests\TestCase;
-use Spatie\Snapshots\MatchesSnapshots;
-
-
-uses(MatchesSnapshots::class);
 
 it('will set transport id', function () {
     /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */

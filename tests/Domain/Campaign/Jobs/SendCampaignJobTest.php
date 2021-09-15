@@ -25,8 +25,6 @@ use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithSubjectReplacer;
 use Spatie\Snapshots\MatchesSnapshots;
 
 
-uses(MatchesSnapshots::class);
-
 beforeEach(function () {
     test()->campaign = (new CampaignFactory())
         ->withSubscriberCount(3)

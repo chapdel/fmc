@@ -20,6 +20,8 @@ beforeEach(function () {
         'redirect_after_subscription_pending' => 'https://example.com/redirect-after-subscription-pending',
         'redirect_after_unsubscribed' => 'https://example.com/redirect-after-unsubscribed',
     ]);
+
+    test()->email = 'info@spatie.be';
 });
 
 it('can subscribe to an email list without double opt in', function () {

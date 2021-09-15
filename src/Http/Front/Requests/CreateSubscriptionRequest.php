@@ -17,11 +17,11 @@ class CreateSubscriptionRequest extends FormRequest
             'email' => ['required', 'email:rfc,dns'],
             'first_name' => ['nullable', 'string'],
             'last_name' => ['nullable', 'string'],
-            'redirect_after_subscribed' => '',
-            'redirect_after_already_subscribed' => '',
-            'redirect_after_subscription_pending' => '',
-            'tags' => '',
-            'attributes' => '',
+            'redirect_after_subscribed' => 'nullable',
+            'redirect_after_already_subscribed' => 'nullable',
+            'redirect_after_subscription_pending' => 'nullable',
+            'tags' => 'nullable',
+            'attributes' => 'nullable',
         ];
     }
 

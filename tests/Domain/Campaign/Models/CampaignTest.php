@@ -20,11 +20,7 @@ use Spatie\Mailcoach\Tests\TestClasses\TestCustomQueryOnlyShouldSendToJohn;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithArguments;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithStaticHtml;
-use Spatie\Snapshots\MatchesSnapshots;
 use Spatie\TestTime\TestTime;
-
-
-uses(MatchesSnapshots::class);
 
 beforeEach(function () {
     Queue::fake();

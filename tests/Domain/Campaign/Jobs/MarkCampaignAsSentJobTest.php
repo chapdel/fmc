@@ -9,9 +9,6 @@ use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 
-
-uses(MatchesSnapshots::class);
-
 beforeEach(function () {
     test()->campaign = (new CampaignFactory())
         ->withSubscriberCount(3)

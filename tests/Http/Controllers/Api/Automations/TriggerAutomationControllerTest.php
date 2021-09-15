@@ -89,7 +89,7 @@ it('only handles subscribers from the email list', function () {
 });
 
 it('needs a subscribed subscriber', function () {
-    $manager = new QueueManager(test()->app);
+    $manager = new QueueManager($this->app);
     $manager->addConnector('sync', function () {
         return new SyncConnector();
     });

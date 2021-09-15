@@ -30,11 +30,8 @@ use Spatie\Mailcoach\Tests\TestClasses\AddRandomTagAction;
 use Spatie\Mailcoach\Tests\TestClasses\AllowDuplicateSendAutomationMailToSubscriberAction;
 use Spatie\Mailcoach\Tests\TestClasses\AllowDuplicateShouldAutomationRunForSubscriberAction;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
-use Spatie\Snapshots\MatchesSnapshots;
 use Spatie\TestTime\TestTime;
 
-
-uses(MatchesSnapshots::class);
 
 beforeEach(function () {
     test()->automationMail = AutomationMail::factory()->create(['subject' => 'Welcome']);
@@ -467,7 +464,7 @@ it('handles nested conditions correctly', function () {
 });
 
 test('the automation mail can use custom mailable', function () {
-    $manager = new QueueManager(test()->app);
+    $manager = new QueueManager($this->app);
     $manager->addConnector('sync', function () {
         return new SyncConnector();
     });

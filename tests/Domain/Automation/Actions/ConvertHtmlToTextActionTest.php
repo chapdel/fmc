@@ -1,11 +1,6 @@
 <?php
 
 use Spatie\Mailcoach\Domain\Automation\Actions\ConvertHtmlToTextAction;
-use Spatie\Mailcoach\Tests\TestCase;
-use Spatie\Snapshots\MatchesSnapshots;
-
-
-uses(MatchesSnapshots::class);
 
 it('can convert html to text', function () {
     $html = file_get_contents(__DIR__ . '/stubs/newsletterHtml.txt');

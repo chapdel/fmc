@@ -5,9 +5,7 @@ use Spatie\Mailcoach\Domain\Automation\Exceptions\CouldNotSendAutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
-
-
-uses(MatchesSnapshots::class);
+use function Spatie\Snapshots\assertMatchesHtmlSnapshot;
 
 it('throws on invalid html', function () {
     $myHtml = '<h1>Hello<html><p>Hello world</p>';
@@ -36,7 +34,7 @@ it('will automatically add html tags', function () {
 
     $campaign->refresh();
 
-    test()->assertMatchesHtmlSnapshot($campaign->email_html);
+    assertMatchesHtmlSnapshot($campaign->email_html);
 });
 
 it('works with ampersands', function () {
@@ -51,7 +49,7 @@ it('works with ampersands', function () {
 
     $campaign->refresh();
 
-    test()->assertMatchesHtmlSnapshot($campaign->email_html);
+    assertMatchesHtmlSnapshot($campaign->email_html);
 });
 
 it('will not double encode ampersands', function () {
@@ -81,7 +79,7 @@ it('will not add html tags if they are already present', function () {
 
     $campaign->refresh();
 
-    test()->assertMatchesHtmlSnapshot($campaign->email_html);
+    assertMatchesHtmlSnapshot($campaign->email_html);
 });
 
 it('will not add html tags before the doctype', function () {
@@ -96,7 +94,7 @@ it('will not add html tags before the doctype', function () {
 
     $campaign->refresh();
 
-    test()->assertMatchesHtmlSnapshot($campaign->email_html);
+    assertMatchesHtmlSnapshot($campaign->email_html);
 });
 
 it('will not change the doctype', function () {
@@ -111,7 +109,7 @@ it('will not change the doctype', function () {
 
     $campaign->refresh();
 
-    test()->assertMatchesHtmlSnapshot($campaign->email_html);
+    assertMatchesHtmlSnapshot($campaign->email_html);
 });
 
 it('will add utm tags', function () {
@@ -129,7 +127,7 @@ it('will add utm tags', function () {
     $campaign->refresh();
 
     expect($campaign->email_html)->toContain(htmlspecialchars("https://spatie.be?utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail"));
-    test()->assertMatchesHtmlSnapshot($campaign->email_html);
+    assertMatchesHtmlSnapshot($campaign->email_html);
 });
 
 it('will add utm tags to links that already have query parameters', function () {
@@ -147,7 +145,7 @@ it('will add utm tags to links that already have query parameters', function () 
     $campaign->refresh();
 
     expect($campaign->email_html)->toContain(htmlspecialchars("https://spatie.be?foo=bar&utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail"));
-    test()->assertMatchesHtmlSnapshot($campaign->email_html);
+    assertMatchesHtmlSnapshot($campaign->email_html);
 });
 
 it('will add utm tags to urls with paths correctly', function () {
@@ -165,7 +163,7 @@ it('will add utm tags to urls with paths correctly', function () {
     $campaign->refresh();
 
     expect($campaign->email_html)->toContain(htmlspecialchars("https://freek.dev/1234-my-blogpost?utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail"));
-    test()->assertMatchesHtmlSnapshot($campaign->email_html);
+    assertMatchesHtmlSnapshot($campaign->email_html);
 });
 
 it('will add utm tags to urls with paths correctly when the link is added twice', function () {
@@ -184,7 +182,7 @@ it('will add utm tags to urls with paths correctly when the link is added twice'
 
     expect($automationMail->email_html)->toContain(htmlspecialchars("https://freek.dev?utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail"));
     expect($automationMail->email_html)->toContain(htmlspecialchars("https://freek.dev/1234-my-blogpost?utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail"));
-    test()->assertMatchesHtmlSnapshot($automationMail->email_html);
+    assertMatchesHtmlSnapshot($automationMail->email_html);
 });
 
 it('will not change img source', function () {
@@ -202,5 +200,5 @@ it('will not change img source', function () {
     $automationMail->refresh();
 
     expect($automationMail->email_html)->toContain('<img src="https://freek.dev">');
-    test()->assertMatchesHtmlSnapshot($automationMail->email_html);
+    assertMatchesHtmlSnapshot($automationMail->email_html);
 });

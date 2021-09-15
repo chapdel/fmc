@@ -45,15 +45,14 @@ it('authorizes relevant routes', function () {
 
     app()->bind(EmailListPolicy::class, CustomEmailListDenyAllPolicy::class);
 
-    $this
-        ->postCreateList($jane)
+    postCreateList($jane)
         ->assertForbidden();
 });
 
 // Helpers
 function postCreateList(Authorizable $asUser)
 {
-    return $this
+    return test()
         ->withExceptionHandling()
         ->actingAs($asUser)
         ->post(action(CreateEmailListController::class), [

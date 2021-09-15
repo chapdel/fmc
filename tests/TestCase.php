@@ -30,6 +30,7 @@ use Spatie\Mailcoach\MailcoachServiceProvider;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 use Spatie\QueryBuilder\QueryBuilderServiceProvider;
 use Spatie\TestTime\TestTime;
+use function Spatie\Snapshots\assertMatchesHtmlSnapshot;
 
 abstract class TestCase extends Orchestra
 {
@@ -140,7 +141,7 @@ abstract class TestCase extends Orchestra
 
         $contentWithoutWhitespace = str_replace(PHP_EOL, '', $contentWithoutWhitespace);
 
-        $this->assertMatchesHtmlSnapshot($contentWithoutWhitespace);
+        assertMatchesHtmlSnapshot($contentWithoutWhitespace);
     }
 
     public function refreshServiceProvider()

@@ -17,7 +17,7 @@ beforeEach(function () {
         'requires_confirmation' => true,
     ]);
 
-    test()->attributes = [
+   $this->attributes = [
         'email_list_id' => test()->emailList->id,
         'email' => 'john@example.com',
         'first_name' => 'John',
@@ -29,10 +29,10 @@ beforeEach(function () {
 
 it('can create a subscriber using the api', function () {
     $this
-        ->postJson(action([SubscribersController::class, 'store'], test()->emailList), test()->attributes)
+        ->postJson(action([SubscribersController::class, 'store'], test()->emailList), $this->attributes)
         ->assertSuccessful();
 
-    test()->assertDatabaseHas(test()->getSubscriberTableName(), test()->attributes);
+    test()->assertDatabaseHas(test()->getSubscriberTableName(), $this->attributes);
 
     expect(Subscriber::first()->status)->toEqual(SubscriptionStatus::UNCONFIRMED);
 
@@ -40,7 +40,7 @@ it('can create a subscriber using the api', function () {
 });
 
 it('can skip the confirmation while subscribing', function () {
-    $attributes = test()->attributes;
+    $attributes = $this->attributes;
 
     $attributes['skip_confirmation'] = true;
 
@@ -54,22 +54,22 @@ it('can skip the confirmation while subscribing', function () {
 });
 
 it('can create a subscriber with extra attributes', function () {
-    test()->attributes['extra_attributes'] = [
+    $this->attributes['extra_attributes'] = [
         'foo' => 'bar',
     ];
 
     $this
-        ->postJson(action([SubscribersController::class, 'store'], test()->emailList), test()->attributes)
+        ->postJson(action([SubscribersController::class, 'store'], test()->emailList), $this->attributes)
         ->assertSuccessful();
 
-    expect(Subscriber::first()->extra_attributes->toArray())->toBe(test()->attributes['extra_attributes']);
+    expect(Subscriber::first()->extra_attributes->toArray())->toBe($this->attributes['extra_attributes']);
 });
 
 it('can create a subscriber with tags', function () {
-    test()->attributes['tags'] = ['foo', 'bar'];
+    $this->attributes['tags'] = ['foo', 'bar'];
 
     $response = $this
-        ->postJson(action([SubscribersController::class, 'store'], test()->emailList), test()->attributes);
+        ->postJson(action([SubscribersController::class, 'store'], test()->emailList), $this->attributes);
 
     $response->assertSuccessful();
     $response->assertJsonFragment(['tags' => ['foo', 'bar']]);

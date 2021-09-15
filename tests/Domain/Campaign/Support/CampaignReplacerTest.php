@@ -6,9 +6,6 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 
-
-uses(MatchesSnapshots::class);
-
 test('campaignname should replaced in subject', function () {
     /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign */
     $campaign = Campaign::factory()->create([

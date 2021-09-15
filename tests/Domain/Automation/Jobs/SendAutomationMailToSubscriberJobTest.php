@@ -21,9 +21,8 @@ use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithBodyReplacer;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithNoSubject;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithSubjectReplacer;
 use Spatie\Snapshots\MatchesSnapshots;
+use function Spatie\Snapshots\assertMatchesHtmlSnapshot;
 
-
-uses(MatchesSnapshots::class);
 
 beforeEach(function () {
     test()->automationMail = (new AutomationMailFactory())
@@ -105,7 +104,7 @@ it('will prepare the webview', function () {
 
     dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->subscriber));
 
-    test()->assertMatchesHtmlSnapshot(test()->automationMail->refresh()->webview_html);
+    assertMatchesHtmlSnapshot(test()->automationMail->refresh()->webview_html);
 });
 
 it('will not send invalid html', function () {
