@@ -5,10 +5,10 @@ weight: 1
 
 We recommend using one of these providers to send out mail.
 
-- [Amazon SES](/docs/laravel-mailcoach/v4/mail-configuration/amazon-ses)
-- [SendGrid](/docs/laravel-mailcoach/v4/mail-configuration/sendgrid)
-- [Mailgun](/docs/laravel-mailcoach/v4/mail-configuration/mailgun)
-- [Postmark](/docs/laravel-mailcoach/v4/mail-configuration/postmark)
+- [Amazon SES](/docs/laravel-mailcoach/v4/configuring-mail-providers/amazon-ses)
+- [SendGrid](/docs/laravel-mailcoach/v4/configuring-mail-providers/sendgrid)
+- [Mailgun](/docs/laravel-mailcoach/v4/configuring-mail-providers/mailgun)
+- [Postmark](/docs/laravel-mailcoach/v4/configuring-mail-providers/postmark)
 
 Mailcoach also supports sending via SMTP. When using SMTP, open and click tracking will not be available.
 

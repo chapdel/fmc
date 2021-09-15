@@ -36,10 +36,10 @@ After that you can create an initial user by executing `php artisan mailcoach:ma
 
 Now that you are logged in you must configure the email sending service you'd like to use. Here are set up instructions for
 
-- [Amazon SES](/docs/laravel-mailcoach/v4/mail-configuration/amazon-ses)
-- [SendGrid](/docs/laravel-mailcoach/v4/mail-configuration/sendgrid)
-- [Mailgun](/docs/laravel-mailcoach/v4/mail-configuration/mailgun)
-- [Postmark](/docs/laravel-mailcoach/v4/mail-configuration/postmark)
+- [Amazon SES](/docs/laravel-mailcoach/v4/configuring-mail-providers/amazon-ses)
+- [SendGrid](/docs/laravel-mailcoach/v4/configuring-mail-providers/sendgrid)
+- [Mailgun](/docs/laravel-mailcoach/v4/configuring-mail-providers/mailgun)
+- [Postmark](/docs/laravel-mailcoach/v4/configuring-mail-providers/postmark)
 
 ### Running Horizon
 

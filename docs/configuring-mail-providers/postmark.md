@@ -3,7 +3,7 @@ title: Postmark
 weight: 7
 ---
 
-Mailcoach supports sending mails via Postmark. This page contains instructions to [set up Postmark in the standalone Mailcoach app](/docs/laravel-mailcoach/v4/mail-configuration/postmark#using-postmark-in-the-mailcoach-standalone-app) and [in a Laravel app with `laravel-mailcoach`](/docs/laravel-mailcoach/v4/mail-configuration/postmark#handling-mailgun-feedback-in-an-existing-laravel-app).
+Mailcoach supports sending mails via Postmark. This page contains instructions to [set up Postmark in the standalone Mailcoach app](/docs/laravel-mailcoach/v4/configuring-mail-providers/postmark#using-postmark-in-the-mailcoach-standalone-app) and [in a Laravel app with `laravel-mailcoach`](/docs/laravel-mailcoach/v4/configuring-mail-providers/postmark#handling-mailgun-feedback-in-an-existing-laravel-app).
 
 ## Using Postmark in the Mailcoach standalone app
 
