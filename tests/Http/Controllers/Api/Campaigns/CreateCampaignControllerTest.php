@@ -10,7 +10,6 @@ use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomCampaignDenyAllPolicy;
 
-uses(TestCase::class);
 uses(RespondsToApiRequests::class);
 
 beforeEach(function () {

@@ -5,7 +5,6 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
 
 beforeEach(function () {
     test()->authenticate();

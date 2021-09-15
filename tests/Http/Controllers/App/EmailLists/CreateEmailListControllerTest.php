@@ -7,7 +7,6 @@ use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListGeneralSe
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomEmailListDenyAllPolicy;
 
-uses(TestCase::class);
 
 it('can create a new email list', function () {
     test()->authenticate();

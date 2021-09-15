@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Route;
 use Spatie\Mailcoach\Http\App\Middleware\Authorize;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
 
 beforeEach(function () {
     test()->withExceptionHandling();

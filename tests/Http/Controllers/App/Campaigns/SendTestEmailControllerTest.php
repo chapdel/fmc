@@ -7,7 +7,6 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\SendCampaignTestController;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
 
 beforeEach(function () {
     test()->authenticate();

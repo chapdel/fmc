@@ -7,7 +7,6 @@ use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\ScheduleCampaignContro
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-uses(TestCase::class);
 
 beforeEach(function () {
     test()->authenticate();

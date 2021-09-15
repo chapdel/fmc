@@ -4,7 +4,6 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignContentController;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
 
 it('can update the html of a campaign', function () {
     test()->authenticate();

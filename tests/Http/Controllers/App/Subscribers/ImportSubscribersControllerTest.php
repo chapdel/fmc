@@ -13,7 +13,6 @@ use Spatie\Mailcoach\Http\App\Controllers\EmailLists\ImportSubscribersController
 use Spatie\Mailcoach\Tests\TestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-uses(TestCase::class);
 
 beforeEach(function () {
     test()->emailList = EmailList::factory()->create();

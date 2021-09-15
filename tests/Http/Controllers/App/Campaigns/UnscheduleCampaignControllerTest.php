@@ -5,7 +5,6 @@ use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignDeliveryContro
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\UnscheduleCampaignController;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
 
 it('can unschedule a campaign', function () {
     test()->authenticate();

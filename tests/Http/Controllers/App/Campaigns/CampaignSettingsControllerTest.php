@@ -6,7 +6,6 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignSettingsController;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
 
 it('can update the settings of a campaign', function () {
     test()->withoutExceptionHandling();

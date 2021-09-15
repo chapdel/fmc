@@ -8,7 +8,6 @@ use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\SendCampaignController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
 uses(RespondsToApiRequests::class);
 
 beforeEach(function () {

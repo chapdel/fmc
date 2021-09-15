@@ -6,7 +6,6 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
 
 it('can resend the confirmation mail with the correct mailer', function () {
     test()->authenticate();

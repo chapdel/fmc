@@ -1,5 +1,7 @@
 <?php
 
+uses(\Spatie\Mailcoach\Tests\TestCase::class)->in('Http');
+
 /*
 |--------------------------------------------------------------------------
 | Test Case

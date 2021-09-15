@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
 
 beforeEach(function () {
     Route::get('login')->name('login');

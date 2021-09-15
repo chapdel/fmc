@@ -10,7 +10,6 @@ use Spatie\Mailcoach\Http\Front\Controllers\SubscribeController;
 use Spatie\Mailcoach\Tests\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
-uses(TestCase::class);
 
 beforeEach(function () {
     test()->withExceptionHandling();

@@ -6,7 +6,6 @@ use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignSettingsContro
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CreateCampaignController;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
 
 it('can create a campaign', function () {
     test()->authenticate();

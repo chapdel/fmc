@@ -6,7 +6,6 @@ use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\DuplicateSegmentCo
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\EditSegmentController;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
 
 it('can duplicate a segment', function () {
     test()->authenticate();

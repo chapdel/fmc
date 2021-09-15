@@ -5,7 +5,6 @@ use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignSettingsContro
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\DuplicateCampaignController;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
 
 it('can duplicate a campaign', function () {
     test()->authenticate();

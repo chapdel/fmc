@@ -6,7 +6,6 @@ use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomSubscriber;
 
-uses(TestCase::class);
 
 beforeEach(function () {
     test()->authenticate();
