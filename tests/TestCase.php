@@ -29,8 +29,8 @@ use Spatie\Mailcoach\Http\Front\Controllers\UnsubscribeController;
 use Spatie\Mailcoach\MailcoachServiceProvider;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 use Spatie\QueryBuilder\QueryBuilderServiceProvider;
-use Spatie\TestTime\TestTime;
 use function Spatie\Snapshots\assertMatchesHtmlSnapshot;
+use Spatie\TestTime\TestTime;
 
 abstract class TestCase extends Orchestra
 {

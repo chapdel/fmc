@@ -3,10 +3,7 @@
 use Spatie\Mailcoach\Domain\Campaign\Actions\PrepareEmailHtmlAction;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Tests\TestCase;
-use Spatie\Snapshots\MatchesSnapshots;
 use function Spatie\Snapshots\assertMatchesHtmlSnapshot;
-
 
 it('throws on invalid html', function () {
     $myHtml = '<h1>Hello<html><p>Hello world</p>';

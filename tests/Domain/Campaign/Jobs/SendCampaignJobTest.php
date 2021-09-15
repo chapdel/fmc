@@ -16,14 +16,11 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomCampaignReplacer;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithBodyReplacer;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithNoSubject;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithSubjectReplacer;
-use Spatie\Snapshots\MatchesSnapshots;
-
 
 beforeEach(function () {
     test()->campaign = (new CampaignFactory())
