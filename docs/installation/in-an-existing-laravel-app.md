@@ -416,10 +416,10 @@ To use different mailers, fill in the name of configured mailers in the `campaig
 
 To configure tracking open, clicks, bounces & complaints, follow the instruction on the dedicated docs page of each supported service.
 
-- [Amazon SES](/docs/laravel-mailcoach/v4/mail-configuration/amazon-ses)
-- [Mailgun](/docs/laravel-mailcoach/v4/mail-configuration/mailgun)
-- [Sendgrid](/docs/laravel-mailcoach/v4/mail-configuration/sendgrid)
-- [Postmark](/docs/laravel-mailcoach/v4/mail-configuration/postmark)
+- [Amazon SES](/docs/laravel-mailcoach/v4/configuring-mail-providers/amazon-ses)
+- [Mailgun](/docs/laravel-mailcoach/v4/configuring-mail-providers/mailgun)
+- [Sendgrid](/docs/laravel-mailcoach/v4/configuring-mail-providers/sendgrid)
+- [Postmark](/docs/laravel-mailcoach/v4/configuring-mail-providers/postmark)
 
 ## Prepare the database
 
