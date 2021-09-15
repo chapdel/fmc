@@ -3,9 +3,6 @@
 use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Domain\Audience\Events\SubscribedEvent;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Tests\TestCase;
-
-
 
 beforeEach(function () {
     Event::fake(SubscribedEvent::class);

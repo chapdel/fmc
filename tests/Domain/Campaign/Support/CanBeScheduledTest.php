@@ -2,9 +2,6 @@
 
 use Illuminate\Support\Facades\Date;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Tests\TestCase;
-
-
 
 beforeEach(function () {
     Date::setTestNow('2020-08-12 09:17');

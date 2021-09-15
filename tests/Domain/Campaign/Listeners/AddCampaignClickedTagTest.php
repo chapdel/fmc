@@ -5,9 +5,6 @@ use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
 use Spatie\Mailcoach\Domain\Shared\Support\LinkHasher;
-use Spatie\Mailcoach\Tests\TestCase;
-
-
 
 it('adds a tag when a campaign link is clicked', function () {
     /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */

@@ -2,9 +2,6 @@
 
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\UnsubscribeAction;
-use Spatie\Mailcoach\Tests\TestCase;
-
-
 
 it('unsubscribes the subscriber', function () {
     $action = new UnsubscribeAction();

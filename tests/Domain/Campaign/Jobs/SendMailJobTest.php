@@ -5,11 +5,8 @@ use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
 use Spatie\TestTime\TestTime;
-
-
 
 beforeEach(function () {
     Mail::fake();

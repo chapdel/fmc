@@ -1,9 +1,6 @@
 <?php
 
 use Spatie\Mailcoach\Domain\Campaign\Rules\DateTimeFieldRule;
-use Spatie\Mailcoach\Tests\TestCase;
-
-
 
 it('passes if a valid date time is provided', function () {
     test()->assertTrue(

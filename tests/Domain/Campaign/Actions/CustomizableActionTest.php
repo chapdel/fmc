@@ -9,7 +9,6 @@ use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\InvalidConfig;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomConfirmSubscriberAction;
 use Spatie\Mailcoach\Tests\TestClasses\CustomCreateSubscriberAction;
 use Spatie\Mailcoach\Tests\TestClasses\CustomImportSubscribersAction;
@@ -18,8 +17,6 @@ use Spatie\Mailcoach\Tests\TestClasses\CustomPersonalizeSubjectAction;
 use Spatie\Mailcoach\Tests\TestClasses\CustomPrepareEmailHtmlAction;
 use Spatie\Mailcoach\Tests\TestClasses\CustomPrepareSubjectAction;
 use Spatie\Mailcoach\Tests\TestClasses\CustomPrepareWebviewHtmlAction;
-
-
 
 test('the personalize html action can be customized', function () {
     config()->set('mailcoach.campaigns.actions.personalize_html', CustomPersonalizeHtmlAction::class);

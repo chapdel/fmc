@@ -7,9 +7,6 @@ use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailClick;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailLink;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasClickedAutomationMail;
 use Spatie\Mailcoach\Domain\Shared\Actions\AddUtmTagsToUrlAction;
-use Spatie\Mailcoach\Tests\TestCase;
-
-
 
 it('checks correctly that a user clicked an automation mail', function () {
     $automation = Automation::factory()->create();

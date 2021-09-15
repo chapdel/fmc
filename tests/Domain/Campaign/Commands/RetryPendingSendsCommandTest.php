@@ -4,9 +4,6 @@ use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
 use Spatie\Mailcoach\Domain\Shared\Commands\RetryPendingSendsCommand;
-use Spatie\Mailcoach\Tests\TestCase;
-
-
 
 it('will dispatch a job for each pending send', function () {
     Queue::fake();

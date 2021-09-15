@@ -1,9 +1,7 @@
 <?php
 
 use Spatie\Mailcoach\Domain\Automation\Actions\ConvertHtmlToTextAction;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
-
 
 uses(MatchesSnapshots::class);
 

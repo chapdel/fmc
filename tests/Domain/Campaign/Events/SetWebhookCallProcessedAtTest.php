@@ -1,10 +1,7 @@
 <?php
 
 use Spatie\Mailcoach\Domain\Campaign\Events\WebhookCallProcessedEvent;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\WebhookClient\Models\WebhookCall;
-
-
 
 it('sets the processed at timestamp on the webhook call', function () {
     $webhookCall = WebhookCall::create([

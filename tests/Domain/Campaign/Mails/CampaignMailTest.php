@@ -3,9 +3,7 @@
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
-
 
 uses(MatchesSnapshots::class);
 

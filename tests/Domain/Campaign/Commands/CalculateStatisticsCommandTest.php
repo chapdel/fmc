@@ -5,10 +5,7 @@ use Illuminate\Support\Facades\Bus;
 use Spatie\Mailcoach\Domain\Campaign\Commands\CalculateStatisticsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
-
-
 
 beforeEach(function () {
     TestTime::freeze('Y-m-d H:i:s', '2019-01-01 00:00:00');

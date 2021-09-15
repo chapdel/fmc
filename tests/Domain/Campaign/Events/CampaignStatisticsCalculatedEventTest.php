@@ -4,9 +4,6 @@ use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignStatisticsCalculatedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
-use Spatie\Mailcoach\Tests\TestCase;
-
-
 
 it('fires an event after campaign statistics have been calculated', function () {
     Event::fake(CampaignStatisticsCalculatedEvent::class);

@@ -5,9 +5,6 @@ use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailOpen;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasOpenedAutomationMail;
-use Spatie\Mailcoach\Tests\TestCase;
-
-
 
 it('checks correctly that a user opened an automation mail', function () {
     $automation = Automation::factory()->create();

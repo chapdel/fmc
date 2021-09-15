@@ -3,11 +3,9 @@
 
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailableWithTemplate;
 use Spatie\Mailcoach\Tests\TestClasses\TestTransactionalMailReplacer;
 use Spatie\Snapshots\MatchesSnapshots;
-
 
 uses(MatchesSnapshots::class);
 

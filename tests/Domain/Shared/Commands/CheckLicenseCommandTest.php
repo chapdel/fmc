@@ -1,9 +1,6 @@
 <?php
 
 use Spatie\Mailcoach\Domain\Shared\Commands\CheckLicenseCommand;
-use Spatie\Mailcoach\Tests\TestCase;
-
-
 
 it('can check if the license is valid', function () {
     $this
