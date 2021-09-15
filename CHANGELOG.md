@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.10.0 - 2021-09-15
+
+- Automations now continue when they weren't halted for a subscriber and new actions get added.
+
 ## 4.9.6 - 2021-09-13
 
 - The `TagRemovedEvent` wasn't being triggered when deleting a tag or syncing tags on a subscriber

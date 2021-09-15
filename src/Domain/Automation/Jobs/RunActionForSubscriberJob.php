@@ -75,7 +75,9 @@ class RunActionForSubscriberJob implements ShouldQueue
                 }
 
                 $actionSubscriber->update(['run_at' => now()]);
+            }
 
+            if (is_null($actionSubscriber->completed_at)) {
                 $nextActions = $action->nextActions($subscriber);
                 if (count(array_filter($nextActions))) {
                     foreach ($nextActions as $nextAction) {

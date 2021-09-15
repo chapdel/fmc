@@ -172,6 +172,74 @@ class AutomationTest extends TestCase
         $this->assertEquals(1, $automation->actions->last()->subscribers()->count());
     }
 
+    /** @test */
+    public function it_continues_when_new_actions_get_added()
+    {
+        Mail::fake();
+        TestTime::freeze();
+
+        $emailList = EmailList::factory()->create();
+
+        $automation = Automation::create()
+            ->name('Welcome email')
+            ->runEvery(CarbonInterval::minute())
+            ->to($emailList)
+            ->triggerOn(new SubscribedTrigger)
+            ->chain([
+                new WaitAction(CarbonInterval::days(1)),
+                new SendAutomationMailAction($this->automationMail),
+            ])
+            ->start();
+
+        $this->refreshServiceProvider();
+
+        $this->assertEquals(2, $automation->actions->count());
+        $this->assertEquals(0, $automation->actions->first()->subscribers()->count());
+
+        $emailList->subscribe('john@doe.com');
+
+        $this->assertEquals(1, $automation->actions->first()->subscribers()->count());
+
+        Artisan::call(RunAutomationActionsCommand::class);
+
+        Mail::assertNothingSent();
+        $this->assertEquals(1, $automation->actions->first()->subscribers()->count());
+        $this->assertEquals(0, $automation->actions->last()->subscribers()->count());
+
+        TestTime::addDay();
+
+        Artisan::call(RunAutomationActionsCommand::class);
+
+        Mail::assertSent(MailcoachMail::class);
+        $this->assertEquals(1, $automation->actions->first()->subscribers()->count());
+        $this->assertEquals(1, $automation->actions->last()->subscribers()->count());
+
+        $newWaitAction = Action::make([
+            'uuid' => Str::uuid()->toString(),
+        ]);
+        $newWaitAction->action = new WaitAction(CarbonInterval::day());
+
+        $automation->chain(array_merge($automation->actions->map->toLivewireArray()->toArray(), [
+            $newWaitAction->toLivewireArray(),
+        ]));
+
+        $automation = $automation->fresh();
+
+        $this->assertEquals(3, $automation->actions->count());
+
+        Artisan::call(RunAutomationActionsCommand::class);
+
+        $this->assertEquals(1, $automation->actions->first()->subscribers()->count());
+        $this->assertEquals(0, $automation->actions->last()->subscribers()->count());
+
+        TestTime::addDay();
+
+        Artisan::call(RunAutomationActionsCommand::class);
+
+        $this->assertEquals(1, $automation->actions->first()->subscribers()->count());
+        $this->assertEquals(1, $automation->actions->last()->subscribers()->count());
+    }
+
     /** @test * */
     public function it_can_sync_actions_successfully()
     {
