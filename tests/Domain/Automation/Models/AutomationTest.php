@@ -32,7 +32,6 @@ use Spatie\Mailcoach\Tests\TestClasses\AllowDuplicateShouldAutomationRunForSubsc
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
 use Spatie\Snapshots\MatchesSnapshots;
 use Spatie\TestTime\TestTime;
-use Swift_Message;
 
 uses(TestCase::class);
 uses(MatchesSnapshots::class);
