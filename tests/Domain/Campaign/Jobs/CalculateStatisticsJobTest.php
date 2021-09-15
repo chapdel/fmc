@@ -123,14 +123,14 @@ it('can calculate statistics regarding opens', function () {
     ])));
 
     $sends = $campaign->sends()->take(3)->get();
-    $this
-        ->simulateOpen($sends)
-        ->simulateOpen($sends->take(1));
+
+    simulateOpen($sends);
+    simulateOpen($sends->take(1));
 
     $sends = $automationMail->sends()->take(1)->get();
-    $this
-        ->simulateOpen($sends)
-        ->simulateOpen($sends->take(1));
+
+    simulateOpen($sends);
+    simulateOpen($sends->take(1));
 
     dispatch(new CalculateStatisticsJob($campaign));
     dispatch(new CalculateStatisticsJob($automationMail));
@@ -224,10 +224,9 @@ it('can calculate statistics regarding clicks on individual links', function () 
 
     $url = 'https://spatie.be';
 
-    $this
-        ->simulateClick($campaign, $url, $subscriber1)
-        ->simulateClick($campaign, $url, $subscriber2)
-        ->simulateClick($campaign, $url, $subscriber2);
+    simulateClick($campaign, $url, $subscriber1);
+    simulateClick($campaign, $url, $subscriber2);
+    simulateClick($campaign, $url, $subscriber2);
 
     simulateClick($automationMail, $url, $send->subscriber);
 
@@ -291,8 +290,6 @@ function simulateOpen(Collection $sends)
         $send->registerOpen();
         TestTime::addSeconds(10);
     });
-
-    return $this;
 }
 
 function simulateClick(Sendable $sendable, string $url, $subscribers)
@@ -313,6 +310,4 @@ function simulateClick(Sendable $sendable, string $url, $subscribers)
             ->first()
             ->registerClick($url);
     });
-
-    return $this;
 }

@@ -31,8 +31,7 @@ it('uses custom policy', function () {
     expect(Gate::getPolicyFor(test()->emailList))->toBeInstanceOf(CustomEmailListDenyAllPolicy::class);
     expect($jane->can("create", EmailList::class))->toBeFalse();
 
-    $this
-        ->postCreateList($jane)
+    postCreateList($jane)
         ->assertForbidden();
 });
 

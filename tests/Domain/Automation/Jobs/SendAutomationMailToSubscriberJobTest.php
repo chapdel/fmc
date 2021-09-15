@@ -142,10 +142,10 @@ test('personalized placeholders in the subject will be replaced', function () {
         'subject' => 'This is a mail sent to ::subscriber.email::',
     ]);
 
-    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->subscriber));
+    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, $this->subscriber));
 
     Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) {
-        expect($mail->subject)->toEqual("This is a mail sent to {test()->subscriber->email}");
+        expect($mail->subject)->toEqual("This is a mail sent to {$this->subscriber->email}");
 
         return true;
     });
