@@ -1,8 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Spatie\Mailcoach\Tests\TestCase;
-
 
 beforeEach(function () {
     Route::get('login')->name('login');

@@ -5,8 +5,6 @@ use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignTestJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\SendCampaignTestController;
-use Spatie\Mailcoach\Tests\TestCase;
-
 
 beforeEach(function () {
     test()->authenticate();

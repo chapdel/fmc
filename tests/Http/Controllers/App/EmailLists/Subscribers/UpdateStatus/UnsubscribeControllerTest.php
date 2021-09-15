@@ -3,8 +3,6 @@
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Tests\TestCase;
-
 
 beforeEach(function () {
     test()->authenticate();

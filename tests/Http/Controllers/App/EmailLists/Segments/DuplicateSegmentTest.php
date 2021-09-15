@@ -4,8 +4,6 @@ use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\DuplicateSegmentController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\EditSegmentController;
-use Spatie\Mailcoach\Tests\TestCase;
-
 
 it('can duplicate a segment', function () {
     test()->authenticate();

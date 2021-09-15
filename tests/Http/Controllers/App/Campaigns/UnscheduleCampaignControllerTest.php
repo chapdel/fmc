@@ -3,8 +3,6 @@
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignDeliveryController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\UnscheduleCampaignController;
-use Spatie\Mailcoach\Tests\TestCase;
-
 
 it('can unschedule a campaign', function () {
     test()->authenticate();

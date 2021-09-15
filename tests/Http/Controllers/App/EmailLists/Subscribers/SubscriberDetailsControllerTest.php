@@ -1,11 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 use Illuminate\Support\Facades\Config;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomSubscriber;
-
 
 beforeEach(function () {
     test()->authenticate();

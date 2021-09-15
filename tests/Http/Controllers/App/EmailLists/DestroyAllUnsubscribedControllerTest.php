@@ -2,8 +2,6 @@
 
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Tests\TestCase;
-
 
 it('will delete all unsubscribers', function () {
     test()->authenticate();

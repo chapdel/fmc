@@ -3,7 +3,6 @@
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignOpen;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignOpensController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
-use Spatie\Mailcoach\Tests\TestCase;
 
 uses(RespondsToApiRequests::class);
 

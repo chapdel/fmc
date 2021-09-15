@@ -4,8 +4,6 @@ use \Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Route;
 use Spatie\Mailcoach\Http\App\Middleware\Authorize;
-use Spatie\Mailcoach\Tests\TestCase;
-
 
 beforeEach(function () {
     test()->withExceptionHandling();

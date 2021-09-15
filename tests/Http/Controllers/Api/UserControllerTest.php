@@ -2,7 +2,6 @@
 
 use Spatie\Mailcoach\Http\Api\Controllers\UserController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
-use Spatie\Mailcoach\Tests\TestCase;
 
 uses(RespondsToApiRequests::class);
 

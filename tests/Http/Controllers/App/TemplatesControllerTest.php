@@ -2,8 +2,6 @@
 
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\TemplatesController;
-use Spatie\Mailcoach\Tests\TestCase;
-
 
 beforeEach(function () {
     test()->authenticate();

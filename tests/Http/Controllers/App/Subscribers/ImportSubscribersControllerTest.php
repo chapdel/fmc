@@ -10,9 +10,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
 use Spatie\Mailcoach\Domain\Campaign\Mails\WelcomeMail;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\ImportSubscribersController;
-use Spatie\Mailcoach\Tests\TestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-
 
 beforeEach(function () {
     test()->emailList = EmailList::factory()->create();

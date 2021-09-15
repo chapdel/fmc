@@ -6,8 +6,6 @@ use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\SendCampaignController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignSummaryController;
-use Spatie\Mailcoach\Tests\TestCase;
-
 
 beforeEach(function () {
     test()->authenticate();

@@ -3,9 +3,7 @@
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Tests\TestCase;
 use Symfony\Component\HttpFoundation\Response;
-
 
 beforeEach(function () {
     test()->authenticate();

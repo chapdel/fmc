@@ -13,7 +13,6 @@ use Spatie\Mailcoach\Domain\Automation\Support\Triggers\WebhookTrigger;
 use Spatie\Mailcoach\Http\Api\Controllers\Automations\TriggerAutomationController;
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
-use Spatie\Mailcoach\Tests\TestCase;
 
 uses(RespondsToApiRequests::class);
 

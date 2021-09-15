@@ -2,8 +2,6 @@
 
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\DestroyCampaignController;
-use Spatie\Mailcoach\Tests\TestCase;
-
 
 it('can delete a campaign', function () {
     test()->authenticate();

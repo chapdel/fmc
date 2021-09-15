@@ -1,7 +1,6 @@
 <?php
 
 use Carbon\CarbonInterval;
-use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;

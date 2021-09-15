@@ -2,7 +2,6 @@
 
 use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Automation\Actions\PersonalizeSubjectAction;
-use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 
 uses(TestCase::class);

@@ -4,9 +4,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Policies\EmailListPolicy;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\DestroyEmailListController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\EmailListsIndexController;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomEmailListDenyAllPolicy;
-
 
 it('can delete an email list', function () {
     test()->authenticate();

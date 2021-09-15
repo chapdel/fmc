@@ -3,8 +3,6 @@
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\CreateSubscriberController;
-use Spatie\Mailcoach\Tests\TestCase;
-
 
 it('can create a subscriber', function () {
     test()->authenticate();
