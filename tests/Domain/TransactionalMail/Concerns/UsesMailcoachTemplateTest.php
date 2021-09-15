@@ -3,10 +3,8 @@
 
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailableWithTemplate;
 use Spatie\Mailcoach\Tests\TestClasses\TestTransactionalMailReplacer;
-use Spatie\Snapshots\MatchesSnapshots;
 
 it('can render the template containing blade variables', function () {
     /** @var TransactionalMailTemplate $template */

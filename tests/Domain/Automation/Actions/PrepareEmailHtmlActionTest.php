@@ -3,8 +3,6 @@
 use Spatie\Mailcoach\Domain\Automation\Actions\PrepareEmailHtmlAction;
 use Spatie\Mailcoach\Domain\Automation\Exceptions\CouldNotSendAutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
-use Spatie\Mailcoach\Tests\TestCase;
-use Spatie\Snapshots\MatchesSnapshots;
 use function Spatie\Snapshots\assertMatchesHtmlSnapshot;
 
 it('throws on invalid html', function () {

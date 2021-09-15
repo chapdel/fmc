@@ -17,7 +17,7 @@ beforeEach(function () {
         'requires_confirmation' => true,
     ]);
 
-   $this->attributes = [
+    $this->attributes = [
         'email_list_id' => test()->emailList->id,
         'email' => 'john@example.com',
         'first_name' => 'John',

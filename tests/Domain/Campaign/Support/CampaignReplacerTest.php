@@ -3,8 +3,6 @@
 use Spatie\Mailcoach\Domain\Campaign\Actions\PrepareEmailHtmlAction;
 use Spatie\Mailcoach\Domain\Campaign\Actions\PrepareSubjectAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Tests\TestCase;
-use Spatie\Snapshots\MatchesSnapshots;
 
 test('campaignname should replaced in subject', function () {
     /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign */

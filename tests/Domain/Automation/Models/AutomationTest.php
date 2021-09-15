@@ -25,13 +25,11 @@ use Spatie\Mailcoach\Domain\Automation\Support\Triggers\NoTrigger;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\AddRandomTagAction;
 use Spatie\Mailcoach\Tests\TestClasses\AllowDuplicateSendAutomationMailToSubscriberAction;
 use Spatie\Mailcoach\Tests\TestClasses\AllowDuplicateShouldAutomationRunForSubscriberAction;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
 use Spatie\TestTime\TestTime;
-
 
 beforeEach(function () {
     test()->automationMail = AutomationMail::factory()->create(['subject' => 'Welcome']);
