@@ -7,7 +7,7 @@ use Spatie\Mailcoach\Domain\Campaign\Mails\WelcomeMail;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomWelcomeMail;
 
-uses(TestCase::class);
+
 
 beforeEach(function () {
     test()->emailList = EmailList::factory()->create([

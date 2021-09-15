@@ -7,7 +7,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\AutomationMailActionComponent;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
+
 
 beforeEach(function () {
     test()->action = [

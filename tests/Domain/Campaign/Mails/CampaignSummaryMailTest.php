@@ -8,7 +8,7 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-uses(TestCase::class);
+
 
 beforeEach(function () {
     TestTime::freeze();

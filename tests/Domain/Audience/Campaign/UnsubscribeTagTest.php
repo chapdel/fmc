@@ -10,7 +10,7 @@ use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
-uses(TestCase::class);
+
 
 beforeEach(function () {
     test()->campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
@@ -24,7 +24,7 @@ beforeEach(function () {
 });
 
 it('can render the unsubscribe confirmation page', function () {
-    sendCampaign();
+    sendCampaignForUnsubscribeTagTest();
 
     expect(test()->subscriber->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
 
@@ -35,7 +35,7 @@ it('can render the unsubscribe confirmation page', function () {
 });
 
 it('can unsubscribe from a tag', function () {
-    sendCampaign();
+    sendCampaignForUnsubscribeTagTest();
 
     expect(test()->subscriber->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
 
@@ -52,7 +52,7 @@ it('can unsubscribe from a tag', function () {
 });
 
 it('will redirect to the unsubscribed view by default', function () {
-    sendCampaign();
+    sendCampaignForUnsubscribeTagTest();
 
     $this
         ->post(test()->mailedUnsubscribeLink)
@@ -64,7 +64,7 @@ it('will redirect to the unsubscribed url if it has been set on the email list',
     $url = 'https://example.com/unsubscribed';
     test()->campaign->emailList->update(['redirect_after_unsubscribed' => $url]);
 
-    sendCampaign();
+    sendCampaignForUnsubscribeTagTest();
 
     $this
         ->post(test()->mailedUnsubscribeLink)
@@ -72,7 +72,7 @@ it('will redirect to the unsubscribed url if it has been set on the email list',
 });
 
 test('the unsubscribe will work even if the send is deleted', function () {
-    sendCampaign();
+    sendCampaignForUnsubscribeTagTest();
 
     Send::all()->each->delete();
 
@@ -82,7 +82,7 @@ test('the unsubscribe will work even if the send is deleted', function () {
 });
 
 // Helpers
-function sendCampaign()
+function sendCampaignForUnsubscribeTagTest()
 {
     Event::listen(MessageSent::class, function (MessageSent $event) {
         $link = (new Crawler($event->message->getBody()))

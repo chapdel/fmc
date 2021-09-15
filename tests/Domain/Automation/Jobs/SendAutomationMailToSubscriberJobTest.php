@@ -22,7 +22,7 @@ use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithNoSubject;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithSubjectReplacer;
 use Spatie\Snapshots\MatchesSnapshots;
 
-uses(TestCase::class);
+
 uses(MatchesSnapshots::class);
 
 beforeEach(function () {

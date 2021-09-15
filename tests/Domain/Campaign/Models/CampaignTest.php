@@ -23,7 +23,7 @@ use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithStaticHtml;
 use Spatie\Snapshots\MatchesSnapshots;
 use Spatie\TestTime\TestTime;
 
-uses(TestCase::class);
+
 uses(MatchesSnapshots::class);
 
 beforeEach(function () {

@@ -6,7 +6,7 @@ use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
 use Spatie\Mailcoach\Domain\Shared\Commands\RetryPendingSendsCommand;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
+
 
 it('will dispatch a job for each pending send', function () {
     Queue::fake();

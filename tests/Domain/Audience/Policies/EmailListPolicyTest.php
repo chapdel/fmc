@@ -9,7 +9,7 @@ use Spatie\Mailcoach\Http\App\Controllers\EmailLists\CreateEmailListController;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomEmailListDenyAllPolicy;
 
-uses(TestCase::class);
+
 
 beforeEach(function () {
     test()->emailList = EmailList::factory()->create();

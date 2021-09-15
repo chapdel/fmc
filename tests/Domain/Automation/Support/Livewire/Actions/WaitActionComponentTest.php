@@ -6,7 +6,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\WaitActionComponent;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
+
 
 beforeEach(function () {
     test()->action = [

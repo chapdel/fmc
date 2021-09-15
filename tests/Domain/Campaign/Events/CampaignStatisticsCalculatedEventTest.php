@@ -6,7 +6,7 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
+
 
 it('fires an event after campaign statistics have been calculated', function () {
     Event::fake(CampaignStatisticsCalculatedEvent::class);

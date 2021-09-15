@@ -33,7 +33,7 @@ use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
 use Spatie\Snapshots\MatchesSnapshots;
 use Spatie\TestTime\TestTime;
 
-uses(TestCase::class);
+
 uses(MatchesSnapshots::class);
 
 beforeEach(function () {

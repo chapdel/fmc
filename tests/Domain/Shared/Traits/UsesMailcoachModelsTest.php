@@ -8,7 +8,7 @@ use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Tests\Factories\EmailListFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
+
 
 beforeEach(function () {
     test()->email_list = (new EmailListFactory())->create();

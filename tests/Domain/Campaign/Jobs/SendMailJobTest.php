@@ -9,7 +9,7 @@ use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
 use Spatie\TestTime\TestTime;
 
-uses(TestCase::class);
+
 
 beforeEach(function () {
     Mail::fake();

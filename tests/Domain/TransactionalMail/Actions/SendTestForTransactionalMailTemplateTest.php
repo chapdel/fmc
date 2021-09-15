@@ -6,7 +6,7 @@ use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailableWithTemplate;
 
-uses(TestCase::class);
+
 
 it('can send a test for a transactional mail template', function () {
     Mail::fake();

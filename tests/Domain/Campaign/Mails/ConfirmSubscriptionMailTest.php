@@ -7,7 +7,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomConfirmSubscriberMail;
 
-uses(TestCase::class);
+
 
 beforeEach(function () {
     test()->emailList = EmailList::factory()->create([

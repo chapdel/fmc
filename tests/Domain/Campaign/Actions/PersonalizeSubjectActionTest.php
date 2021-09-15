@@ -4,7 +4,7 @@ use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeSubjectAction;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
+
 
 beforeEach(function () {
     test()->send = SendFactory::new()->create();
@@ -20,23 +20,23 @@ beforeEach(function () {
 });
 
 it('can replace an placeholder for a subscriber attribute', function () {
-    assertActionResult('::subscriber.uuid::', 'my-uuid');
+    assertPersonalizeCampaignSubjectActionResult('::subscriber.uuid::', 'my-uuid');
 });
 
 it('will not replace a non existing attribute', function () {
-    assertActionResult('::subscriber.non-existing::', '::subscriber.non-existing::');
+    assertPersonalizeCampaignSubjectActionResult('::subscriber.non-existing::', '::subscriber.non-existing::');
 });
 
 it('can replace an placeholder for a subscriber extra attribute', function () {
-    assertActionResult('::subscriber.extra_attributes.first_name::', 'John');
+    assertPersonalizeCampaignSubjectActionResult('::subscriber.extra_attributes.first_name::', 'John');
 });
 
 it('will not replace an placeholder for a non existing subscriber extra attribute', function () {
-    assertActionResult('::subscriber.extra_attributes.non-existing::', '::subscriber.extra_attributes.non-existing::');
+    assertPersonalizeCampaignSubjectActionResult('::subscriber.extra_attributes.non-existing::', '::subscriber.extra_attributes.non-existing::');
 });
 
 // Helpers
-function assertActionResult(string $originalSubject, $expectedSubject)
+function assertPersonalizeCampaignSubjectActionResult(string $originalSubject, $expectedSubject)
 {
     $actualOutputHtml = (new PersonalizeSubjectAction())->execute($originalSubject, test()->send);
     test()->assertEquals($expectedSubject, $actualOutputHtml, "The personalize action did not produce the expected result. Expected: `{$expectedSubject}`, actual: `{$actualOutputHtml}`");

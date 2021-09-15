@@ -3,7 +3,7 @@
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
+
 
 it('can shorten a number', function () {
     expect(Str::shortNumber(1))->toEqual('1');

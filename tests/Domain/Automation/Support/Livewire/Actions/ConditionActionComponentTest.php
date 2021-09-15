@@ -9,7 +9,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\ConditionActionC
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomCondition;
 
-uses(TestCase::class);
+
 
 beforeEach(function () {
     test()->action = [

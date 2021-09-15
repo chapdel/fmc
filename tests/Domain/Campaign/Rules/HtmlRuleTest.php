@@ -3,7 +3,7 @@
 use Spatie\Mailcoach\Domain\Campaign\Rules\HtmlRule;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
+
 
 it('passes if the html is valid', function () {
     expect(rulePasses('<html><body>Test</body></html>'))->toBeTrue();

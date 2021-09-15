@@ -11,7 +11,7 @@ use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomSendAutomationMailAction;
 use Spatie\TestTime\TestTime;
 
-uses(TestCase::class);
+
 
 beforeEach(function () {
     test()->emailList = EmailList::factory()->create();

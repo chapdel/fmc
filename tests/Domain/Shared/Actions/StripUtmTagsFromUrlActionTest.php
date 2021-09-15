@@ -3,7 +3,7 @@
 use Spatie\Mailcoach\Domain\Shared\Actions\StripUtmTagsFromUrlAction;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
+
 
 beforeEach(function () {
     test()->action = resolve(StripUtmTagsFromUrlAction::class);

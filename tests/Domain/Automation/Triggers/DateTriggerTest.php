@@ -14,7 +14,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Triggers\DateTrigger;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-uses(TestCase::class);
+
 
 beforeEach(function () {
     test()->automationMail = AutomationMail::factory()->create(['subject' => 'Welcome']);

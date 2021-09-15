@@ -17,7 +17,7 @@ use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-uses(TestCase::class);
+
 
 test('a campaign with no subscribers will get all zeroes', function () {
     $campaign = Campaign::factory()->create();

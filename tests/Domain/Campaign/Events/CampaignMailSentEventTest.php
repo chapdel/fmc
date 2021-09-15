@@ -6,7 +6,7 @@ use Spatie\Mailcoach\Domain\Campaign\Events\CampaignMailSentEvent;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
+
 
 it('will fire an event when the mail is sent', function () {
     Event::fake(CampaignMailSentEvent::class);

@@ -10,7 +10,7 @@ use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-uses(TestCase::class);
+
 
 beforeEach(function () {
     TestTime::setTestNow(Carbon::create(2021, 01, 01));

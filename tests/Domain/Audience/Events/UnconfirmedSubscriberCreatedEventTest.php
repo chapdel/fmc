@@ -5,7 +5,7 @@ use Spatie\Mailcoach\Domain\Audience\Events\UnconfirmedSubscriberCreatedEvent;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
+
 
 it('will fire the unconfirmed subscribed created event when a subscription still needs to be confirmed', function () {
     Event::fake(UnconfirmedSubscriberCreatedEvent::class);

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Cache;
 use Spatie\Mailcoach\Domain\Shared\Support\Version;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
+
 
 beforeEach(function () {
     test()->version = app(Version::class);

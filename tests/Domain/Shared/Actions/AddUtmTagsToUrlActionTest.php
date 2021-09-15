@@ -3,7 +3,7 @@
 use Spatie\Mailcoach\Domain\Shared\Actions\AddUtmTagsToUrlAction;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
+
 
 beforeEach(function () {
     test()->action = resolve(AddUtmTagsToUrlAction::class);
@@ -19,7 +19,7 @@ it('adds utm tags to an url', function (string $url, string $urlWithTags) {
 })->with('provider');
 
 // Datasets
-dataset('provider', function () {
+dataset('urlProvider', function () {
     yield ['https://spatie.be', 'https://spatie.be?utm_source=newsletter&utm_medium=email&utm_campaign=My+Campaign'];
     yield ['https://spatie.be/', 'https://spatie.be/?utm_source=newsletter&utm_medium=email&utm_campaign=My+Campaign'];
     yield ['https://spatie.be/foo', 'https://spatie.be/foo?utm_source=newsletter&utm_medium=email&utm_campaign=My+Campaign'];

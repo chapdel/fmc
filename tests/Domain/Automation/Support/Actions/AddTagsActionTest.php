@@ -4,7 +4,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Actions\AddTagsAction;
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
+
 
 beforeEach(function () {
     test()->subscriber = SubscriberFactory::new()->confirmed()->create();

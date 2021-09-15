@@ -5,7 +5,7 @@ use Spatie\Mailcoach\Domain\Shared\Commands\CleanupProcessedFeedbackCommand;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\WebhookClient\Models\WebhookCall;
 
-uses(TestCase::class);
+
 
 beforeEach(function () {
     Carbon::setTestNow();

@@ -6,7 +6,7 @@ use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 
-uses(TestCase::class);
+
 uses(MatchesSnapshots::class);
 
 it('will set transport id', function () {

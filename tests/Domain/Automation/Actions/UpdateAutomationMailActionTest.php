@@ -5,7 +5,7 @@ use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-uses(TestCase::class);
+
 
 it('updates an automation mail', function () {
     TestTime::freeze();

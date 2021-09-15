@@ -8,7 +8,7 @@ use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
-uses(TestCase::class);
+
 
 beforeEach(function () {
     test()->campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
@@ -22,7 +22,7 @@ beforeEach(function () {
 });
 
 it('can sends links to webviews', function () {
-    sendCampaign();
+    sendCampaignForWebviewTest();
 
     $this
         ->get(test()->webviewUrl)
@@ -31,7 +31,7 @@ it('can sends links to webviews', function () {
 });
 
 // Helpers
-function sendCampaign()
+function sendCampaignForWebviewTest()
 {
     Event::listen(MessageSent::class, function (MessageSent $event) {
         $link = (new Crawler($event->message->getBody()))

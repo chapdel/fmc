@@ -10,7 +10,7 @@ use Spatie\Mailcoach\Tests\Domain\TransactionalMail\Concerns\SendsTestTransactio
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestTransactionMail;
 
-uses(TestCase::class);
+
 uses(SendsTestTransactionalMail::class);
 
 test('a transactional mail will be stored in the db', function () {

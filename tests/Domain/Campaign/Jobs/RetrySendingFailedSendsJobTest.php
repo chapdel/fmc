@@ -10,7 +10,7 @@ use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\FailingPersonalizeHtmlForJohnAction;
 
-uses(TestCase::class);
+
 
 it('can retry sending failed jobs sends with the correct mailer', function () {
     Mail::fake();

@@ -7,7 +7,7 @@ use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignSentMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
+
 
 beforeEach(function () {
     test()->emailList = EmailList::factory()->create();

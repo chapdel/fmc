@@ -6,7 +6,7 @@ use Spatie\Mailcoach\Domain\Campaign\Events\CampaignOpenedEvent;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
+
 
 it('fires an event when a campaign is opened', function () {
     Event::fake(CampaignOpenedEvent::class);

@@ -6,7 +6,7 @@ use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
+
 
 it('adds a tag when a campaign is opened', function () {
     /** @var Send $send */

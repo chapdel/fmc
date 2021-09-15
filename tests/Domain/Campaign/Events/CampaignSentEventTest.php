@@ -7,7 +7,7 @@ use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
 
-uses(TestCase::class);
+
 
 it('fires an event after a campaign has been sent', function () {
     Event::fake(CampaignSentEvent::class);

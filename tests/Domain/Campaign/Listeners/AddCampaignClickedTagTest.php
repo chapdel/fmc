@@ -7,7 +7,7 @@ use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
 use Spatie\Mailcoach\Domain\Shared\Support\LinkHasher;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
+
 
 it('adds a tag when a campaign link is clicked', function () {
     /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */

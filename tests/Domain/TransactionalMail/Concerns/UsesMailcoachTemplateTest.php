@@ -8,7 +8,7 @@ use Spatie\Mailcoach\Tests\TestClasses\TestMailableWithTemplate;
 use Spatie\Mailcoach\Tests\TestClasses\TestTransactionalMailReplacer;
 use Spatie\Snapshots\MatchesSnapshots;
 
-uses(TestCase::class);
+
 uses(MatchesSnapshots::class);
 
 it('can render the template containing blade variables', function () {

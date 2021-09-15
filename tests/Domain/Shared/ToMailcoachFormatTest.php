@@ -4,7 +4,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Date;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
+
 
 it('registers a macro on the date facade', function () {
     Date::setTestNow('2020-08-12 09:17');

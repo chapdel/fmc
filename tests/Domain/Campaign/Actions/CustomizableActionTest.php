@@ -19,7 +19,7 @@ use Spatie\Mailcoach\Tests\TestClasses\CustomPrepareEmailHtmlAction;
 use Spatie\Mailcoach\Tests\TestClasses\CustomPrepareSubjectAction;
 use Spatie\Mailcoach\Tests\TestClasses\CustomPrepareWebviewHtmlAction;
 
-uses(TestCase::class);
+
 
 test('the personalize html action can be customized', function () {
     config()->set('mailcoach.campaigns.actions.personalize_html', CustomPersonalizeHtmlAction::class);

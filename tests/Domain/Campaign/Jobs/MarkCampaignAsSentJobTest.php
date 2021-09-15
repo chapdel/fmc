@@ -9,7 +9,7 @@ use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 
-uses(TestCase::class);
+
 uses(MatchesSnapshots::class);
 
 beforeEach(function () {

@@ -9,7 +9,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasClickedAutomationMa
 use Spatie\Mailcoach\Domain\Shared\Actions\AddUtmTagsToUrlAction;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
+
 
 it('checks correctly that a user clicked an automation mail', function () {
     $automation = Automation::factory()->create();

@@ -9,7 +9,7 @@ use Spatie\Mailcoach\Http\Front\Controllers\ConfirmSubscriberController;
 use Spatie\Mailcoach\Tests\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
-uses(TestCase::class);
+
 
 beforeEach(function () {
     /* @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */

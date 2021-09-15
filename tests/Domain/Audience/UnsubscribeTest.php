@@ -12,7 +12,7 @@ use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
-uses(TestCase::class);
+
 
 beforeEach(function () {
     test()->campaign = (new CampaignFactory())->withSubscriberCount(1)->create([

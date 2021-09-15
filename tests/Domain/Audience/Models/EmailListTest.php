@@ -13,7 +13,7 @@ use Spatie\Mailcoach\Tests\TestClasses\CustomEmailList;
 use Spatie\Mailcoach\Tests\TestClasses\CustomSubscriber;
 use Spatie\TestTime\TestTime;
 
-uses(TestCase::class);
+
 
 beforeEach(function () {
     test()->emailList = EmailList::factory()->create(['name' => 'Mailcoach Subscribers']);

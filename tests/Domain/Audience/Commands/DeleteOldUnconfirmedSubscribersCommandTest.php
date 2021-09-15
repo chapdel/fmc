@@ -9,7 +9,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-uses(TestCase::class);
+
 
 beforeEach(function () {
     TestTime::freeze('Y-m-d H:i:s', '2019-01-01 00:00:00');

@@ -10,7 +10,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
 use Spatie\TestTime\TestTime;
 
-uses(TestCase::class);
+
 
 it('runs automations that are started', function () {
     $automation = Automation::create()

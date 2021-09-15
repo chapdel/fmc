@@ -8,7 +8,7 @@ use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-uses(TestCase::class);
+
 
 it('can be found by its transport message id', function () {
     $send = SendFactory::new()->create([

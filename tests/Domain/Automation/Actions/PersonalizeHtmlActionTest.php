@@ -4,7 +4,7 @@ use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Automation\Actions\PersonalizeHtmlAction;
 use Spatie\Mailcoach\Tests\TestCase;
 
-uses(TestCase::class);
+
 
 beforeEach(function () {
     test()->send = SendFactory::new()->create();
@@ -20,33 +20,33 @@ beforeEach(function () {
 });
 
 it('can replace an placeholder for a subscriber attribute', function () {
-    assertActionResult('::subscriber.uuid::', 'my-uuid');
+    assertPersonalizeHtmlActionResult('::subscriber.uuid::', 'my-uuid');
 });
 
 it('will not replace a non existing attribute', function () {
-    assertActionResult('::subscriber.non-existing::', '::subscriber.non-existing::');
+    assertPersonalizeHtmlActionResult('::subscriber.non-existing::', '::subscriber.non-existing::');
 });
 
 it('can replace an placeholder for a subscriber extra attribute', function () {
-    assertActionResult('::subscriber.extra_attributes.first_name::', 'John');
+    assertPersonalizeHtmlActionResult('::subscriber.extra_attributes.first_name::', 'John');
 });
 
 it('will not replace an placeholder for a non existing subscriber extra attribute', function () {
-    assertActionResult('::subscriber.extra_attributes.non-existing::', '::subscriber.extra_attributes.non-existing::');
+    assertPersonalizeHtmlActionResult('::subscriber.extra_attributes.non-existing::', '::subscriber.extra_attributes.non-existing::');
 });
 
 it('can replace unsubscribe url', function () {
-    assertActionResult('::unsubscribeUrl::', test()->send->subscriber->unsubscribeUrl(test()->send));
+    assertPersonalizeHtmlActionResult('::unsubscribeUrl::', test()->send->subscriber->unsubscribeUrl(test()->send));
 });
 
 it('can replace unsubscribe tag url', function () {
     test()->send->subscriber->addTag('some tag');
 
-    assertActionResult('::unsubscribeTag::some tag::', test()->send->subscriber->unsubscribeTagUrl('some tag'));
+    assertPersonalizeHtmlActionResult('::unsubscribeTag::some tag::', test()->send->subscriber->unsubscribeTagUrl('some tag'));
 });
 
 // Helpers
-function assertActionResult(string $inputHtml, $expectedOutputHtml)
+function assertPersonalizeHtmlActionResult(string $inputHtml, $expectedOutputHtml)
 {
     $actualOutputHtml = (new PersonalizeHtmlAction())->execute($inputHtml, test()->send);
     test()->assertEquals($expectedOutputHtml, $actualOutputHtml, "The personalize action did not produce the expected result. Expected: `{$expectedOutputHtml}`, actual: `{$actualOutputHtml}`");

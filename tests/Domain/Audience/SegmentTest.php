@@ -10,7 +10,7 @@ use Spatie\Mailcoach\Tests\TestClasses\TestCustomQueryOnlyShouldSendToJohn;
 use Spatie\Mailcoach\Tests\TestClasses\TestSegmentAllSubscribers;
 use Spatie\Mailcoach\Tests\TestClasses\TestSegmentQueryOnlyJohn;
 
-uses(TestCase::class);
+
 
 beforeEach(function () {
     Mail::fake();

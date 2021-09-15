@@ -9,7 +9,7 @@ use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
 
-uses(TestCase::class);
+
 
 it('can send a test email', function () {
     Mail::fake();

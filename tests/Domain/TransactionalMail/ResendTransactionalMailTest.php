@@ -7,7 +7,7 @@ use Spatie\Mailcoach\Tests\Domain\TransactionalMail\Concerns\SendsTestTransactio
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestTransactionMail;
 
-uses(TestCase::class);
+
 uses(SendsTestTransactionalMail::class);
 
 it('can resend a transactional mail', function () {
