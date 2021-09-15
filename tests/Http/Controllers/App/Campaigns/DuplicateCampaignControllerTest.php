@@ -1,43 +1,38 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\App\Campaigns;
-
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignSettingsController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\DuplicateCampaignController;
 use Spatie\Mailcoach\Tests\TestCase;
 
-class DuplicateCampaignControllerTest extends TestCase
-{
-    /** @test */
-    public function it_can_duplicate_a_campaign()
-    {
-        $this->authenticate();
+uses(TestCase::class);
 
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $originalCampaign */
-        $originalCampaign = Campaign::factory()->create();
+it('can duplicate a campaign', function () {
+    test()->authenticate();
 
-        $response = $this
-            ->post(action(DuplicateCampaignController::class, $originalCampaign->id));
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $originalCampaign */
+    $originalCampaign = Campaign::factory()->create();
 
-        $duplicatedCampaign = Campaign::orderByDesc('id')->first();
+    $response = $this
+        ->post(action(DuplicateCampaignController::class, $originalCampaign->id));
 
-        $response->assertRedirect(action([CampaignSettingsController::class, 'edit'], $duplicatedCampaign->id));
+    $duplicatedCampaign = Campaign::orderByDesc('id')->first();
 
-        $this->assertEquals(
-            "Duplicate of {$originalCampaign->name}",
-            $duplicatedCampaign->name
-        );
+    $response->assertRedirect(action([CampaignSettingsController::class, 'edit'], $duplicatedCampaign->id));
 
-        foreach ([
-                     'subject',
-                     'email_list_id',
-                     'html',
-                     'webview_html',
-                     'segment_class',
-                     'segment_id',
-                 ] as $attribute) {
-            $this->assertEquals($duplicatedCampaign->$attribute, $originalCampaign->$attribute);
-        }
+    test()->assertEquals(
+        "Duplicate of {$originalCampaign->name}",
+        $duplicatedCampaign->name
+    );
+
+    foreach ([
+                 'subject',
+                 'email_list_id',
+                 'html',
+                 'webview_html',
+                 'segment_class',
+                 'segment_id',
+             ] as $attribute) {
+        test()->assertEquals($duplicatedCampaign->$attribute, $originalCampaign->$attribute);
     }
-}
+});

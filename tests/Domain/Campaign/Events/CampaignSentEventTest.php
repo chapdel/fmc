@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Campaign\Events;
-
 use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
@@ -9,26 +7,23 @@ use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
 
-class CampaignSentEventTest extends TestCase
-{
-    /** @test */
-    public function it_fires_an_event_after_a_campaign_has_been_sent()
-    {
-        Event::fake(CampaignSentEvent::class);
+uses(TestCase::class);
 
-        $campaign = (new CampaignFactory())
-            ->withSubscriberCount(3)
-            ->mailable(TestMailcoachMail::class)
-            ->create();
+it('fires an event after a campaign has been sent', function () {
+    Event::fake(CampaignSentEvent::class);
 
-        $campaign->content($campaign->contentFromMailable());
+    $campaign = (new CampaignFactory())
+        ->withSubscriberCount(3)
+        ->mailable(TestMailcoachMail::class)
+        ->create();
 
-        dispatch(new SendCampaignJob($campaign));
+    $campaign->content($campaign->contentFromMailable());
 
-        Event::assertDispatched(CampaignSentEvent::class, function (CampaignSentEvent $event) use ($campaign) {
-            $this->assertEquals($campaign->id, $event->campaign->id);
+    dispatch(new SendCampaignJob($campaign));
 
-            return true;
-        });
-    }
-}
+    Event::assertDispatched(CampaignSentEvent::class, function (CampaignSentEvent $event) use ($campaign) {
+        test()->assertEquals($campaign->id, $event->campaign->id);
+
+        return true;
+    });
+});

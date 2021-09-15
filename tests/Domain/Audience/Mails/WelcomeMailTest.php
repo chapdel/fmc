@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Audience\Mails;
-
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
@@ -9,134 +7,112 @@ use Spatie\Mailcoach\Domain\Campaign\Mails\WelcomeMail;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomWelcomeMail;
 
-class WelcomeMailTest extends TestCase
-{
-    protected EmailList $emailList;
+uses(TestCase::class);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+beforeEach(function () {
+    test()->emailList = EmailList::factory()->create([
+        'name' => 'my newsletter',
+        'requires_confirmation' => false,
+        'send_welcome_mail' => true,
+        'transactional_mailer' => 'some-transactional-mailer',
+    ]);
+});
 
-        $this->emailList = EmailList::factory()->create([
-            'name' => 'my newsletter',
-            'requires_confirmation' => false,
-            'send_welcome_mail' => true,
-            'transactional_mailer' => 'some-transactional-mailer',
-        ]);
-    }
+it('will send a welcome mail when a subscriber has subscribed with the correct mailer', function () {
+    Mail::fake();
 
-    /** @test */
-    public function it_will_send_a_welcome_mail_when_a_subscriber_has_subscribed_with_the_correct_mailer()
-    {
-        Mail::fake();
+    Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
 
-        Subscriber::createWithEmail('john@example.com')->subscribeTo($this->emailList);
+    Mail::assertQueued(WelcomeMail::class, function (WelcomeMail $mail) {
+        test()->assertEquals('some-transactional-mailer', $mail->mailer);
 
-        Mail::assertQueued(WelcomeMail::class, function (WelcomeMail $mail) {
-            $this->assertEquals('some-transactional-mailer', $mail->mailer);
+        return true;
+    });
+});
 
-            return true;
-        });
-    }
+it('will not send a welcome mail if it is not enabled on the email list', function () {
+    Mail::fake();
 
-    /** @test */
-    public function it_will_not_send_a_welcome_mail_if_it_is_not_enabled_on_the_email_list()
-    {
-        Mail::fake();
+    test()->emailList->update(['send_welcome_mail' => false]);
 
-        $this->emailList->update(['send_welcome_mail' => false]);
+    Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
 
-        Subscriber::createWithEmail('john@example.com')->subscribeTo($this->emailList);
+    Mail::assertNothingQueued();
+});
 
-        Mail::assertNothingQueued();
-    }
+it('will send a welcome mail when a subscribed gets confirmed', function () {
+    Mail::fake();
 
-    /** @test */
-    public function it_will_send_a_welcome_mail_when_a_subscribed_gets_confirmed()
-    {
-        Mail::fake();
+    test()->emailList->update(['requires_confirmation' => true]);
 
-        $this->emailList->update(['requires_confirmation' => true]);
+    $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
 
-        $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($this->emailList);
+    Mail::assertNotQueued(WelcomeMail::class);
 
-        Mail::assertNotQueued(WelcomeMail::class);
+    $subscriber->confirm();
 
-        $subscriber->confirm();
+    Mail::assertQueued(WelcomeMail::class);
+});
 
-        Mail::assertQueued(WelcomeMail::class);
-    }
+test('the welcome mail has a default subject', function () {
+    Mail::fake();
 
-    /** @test */
-    public function the_welcome_mail_has_a_default_subject()
-    {
-        Mail::fake();
+    Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
 
-        Subscriber::createWithEmail('john@example.com')->subscribeTo($this->emailList);
+    Mail::assertQueued(WelcomeMail::class, function (WelcomeMail $mail) {
+        $mail->build();
 
-        Mail::assertQueued(WelcomeMail::class, function (WelcomeMail $mail) {
-            $mail->build();
+        test()->assertStringContainsString('Welcome', $mail->subject);
 
-            $this->assertStringContainsString('Welcome', $mail->subject);
+        return true;
+    });
+});
 
-            return true;
-        });
-    }
+test('the subject of the welcome mail can be customized', function () {
+    Mail::fake();
 
-    /** @test */
-    public function the_subject_of_the_welcome_mail_can_be_customized()
-    {
-        Mail::fake();
+    test()->emailList->update(['welcome_mail_subject' => 'Hello ::subscriber.first_name::, welcome to ::list.name::']);
 
-        $this->emailList->update(['welcome_mail_subject' => 'Hello ::subscriber.first_name::, welcome to ::list.name::']);
+    Subscriber::createWithEmail('john@example.com', ['first_name' => 'John'])->subscribeTo(test()->emailList);
 
-        Subscriber::createWithEmail('john@example.com', ['first_name' => 'John'])->subscribeTo($this->emailList);
+    Mail::assertQueued(WelcomeMail::class, function (WelcomeMail $mail) {
+        $mail->build();
+        test()->assertEquals('Hello John, welcome to my newsletter', $mail->subject);
 
-        Mail::assertQueued(WelcomeMail::class, function (WelcomeMail $mail) {
-            $mail->build();
-            $this->assertEquals('Hello John, welcome to my newsletter', $mail->subject);
+        return true;
+    });
+});
 
-            return true;
-        });
-    }
+test('the welcome mail has default content', function () {
+    test()->emailList->update(['transactional_mailer' => 'log']);
 
-    /** @test */
-    public function the_welcome_mail_has_default_content()
-    {
-        $this->emailList->update(['transactional_mailer' => 'log']);
+    $subscriber = Subscriber::createWithEmail('john@example.com', ['first_name' => 'John'])->subscribeTo(test()->emailList);
 
-        $subscriber = Subscriber::createWithEmail('john@example.com', ['first_name' => 'John'])->subscribeTo($this->emailList);
+    $content = (new WelcomeMail($subscriber))->render();
 
-        $content = (new WelcomeMail($subscriber))->render();
+    test()->assertStringContainsString('You are now subscribed', $content);
+});
 
-        $this->assertStringContainsString('You are now subscribed', $content);
-    }
+test('the welcome mail can have custom content', function () {
+    test()->emailList->update(['transactional_mailer' => 'log']);
 
-    /** @test */
-    public function the_welcome_mail_can_have_custom_content()
-    {
-        $this->emailList->update(['transactional_mailer' => 'log']);
+    Subscriber::$fakeUuid = 'my-uuid';
 
-        Subscriber::$fakeUuid = 'my-uuid';
+    test()->emailList->update(['welcome_mail_content' => 'Hi ::subscriber.first_name::, welcome to ::list.name::. Here is a link to unsubscribe ::unsubscribeUrl::']);
 
-        $this->emailList->update(['welcome_mail_content' => 'Hi ::subscriber.first_name::, welcome to ::list.name::. Here is a link to unsubscribe ::unsubscribeUrl::']);
+    $subscriber = Subscriber::createWithEmail('john@example.com', ['first_name' => 'John'])->subscribeTo(test()->emailList);
 
-        $subscriber = Subscriber::createWithEmail('john@example.com', ['first_name' => 'John'])->subscribeTo($this->emailList);
+    $content = (new WelcomeMail($subscriber))->render();
 
-        $content = (new WelcomeMail($subscriber))->render();
+    test()->assertStringContainsString('Hi John, welcome to my newsletter. Here is a link to unsubscribe http://localhost/mailcoach/unsubscribe/my-uuid', $content);
+});
 
-        $this->assertStringContainsString('Hi John, welcome to my newsletter. Here is a link to unsubscribe http://localhost/mailcoach/unsubscribe/my-uuid', $content);
-    }
+it('can use custom welcome mailable', function () {
+    Mail::fake();
 
-    /** @test */
-    public function it_can_use_custom_welcome_mailable()
-    {
-        Mail::fake();
+    test()->emailList->update(['welcome_mailable_class' => CustomWelcomeMail::class]);
 
-        $this->emailList->update(['welcome_mailable_class' => CustomWelcomeMail::class]);
+    Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
 
-        Subscriber::createWithEmail('john@example.com')->subscribeTo($this->emailList);
-
-        Mail::assertQueued(CustomWelcomeMail::class);
-    }
-}
+    Mail::assertQueued(CustomWelcomeMail::class);
+});

@@ -1,60 +1,47 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Campaign\Support;
-
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Support\CalculateStatisticsLock;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-class CalculateStatisticsLockTest extends TestCase
-{
-    /** @var \Spatie\Mailcoach\Domain\Shared\Support\CalculateStatisticsLock */
-    protected CalculateStatisticsLock $lock;
+uses(TestCase::class);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+beforeEach(function () {
+    test()->campaign = Campaign::factory()->create();
 
-        $this->campaign = Campaign::factory()->create();
+    test()->lock = new CalculateStatisticsLock(test()->campaign);
 
-        $this->lock = new CalculateStatisticsLock($this->campaign);
+    TestTime::freeze();
+});
 
-        TestTime::freeze();
-    }
+it('can lock and release', function () {
+    test()->assertTrue(test()->lock->get());
 
-    /** @test */
-    public function it_can_lock_and_release()
-    {
-        $this->assertTrue($this->lock->get());
+    test()->assertFalse(test()->lock->get());
 
-        $this->assertFalse($this->lock->get());
+    test()->lock->release();
 
-        $this->lock->release();
+    test()->assertTrue(test()->lock->get());
+});
 
-        $this->assertTrue($this->lock->get());
-    }
+it('will automatically expire the lock after 10 seconds', function () {
+    TestTime::freeze()->addDay();
+    
+    test()->assertTrue(test()->lock->get());
 
-    /** @test */
-    public function it_will_automatically_expire_the_lock_after_10_seconds()
-    {
-        TestTime::freeze()->addDay();
-        
-        $this->assertTrue($this->lock->get());
+    test()->assertFalse(test()->lock->get());
 
-        $this->assertFalse($this->lock->get());
+    TestTime::addSeconds(9);
+    test()->assertFalse(test()->lock->get());
 
-        TestTime::addSeconds(9);
-        $this->assertFalse($this->lock->get());
+    TestTime::addSecond();
+    test()->assertTrue(test()->lock->get());
+    test()->assertFalse(test()->lock->get());
 
-        TestTime::addSecond();
-        $this->assertTrue($this->lock->get());
-        $this->assertFalse($this->lock->get());
+    TestTime::addSeconds(9);
+    test()->assertFalse(test()->lock->get());
 
-        TestTime::addSeconds(9);
-        $this->assertFalse($this->lock->get());
-
-        TestTime::addSecond();
-        $this->assertTrue($this->lock->get());
-    }
-}
+    TestTime::addSecond();
+    test()->assertTrue(test()->lock->get());
+});

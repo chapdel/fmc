@@ -1,85 +1,71 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\App;
-
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\TemplatesController;
 use Spatie\Mailcoach\Tests\TestCase;
 
-class TemplatesControllerTest extends TestCase
-{
-    public function setUp(): void
-    {
-        parent::setUp();
+uses(TestCase::class);
 
-        $this->authenticate();
-    }
+beforeEach(function () {
+    test()->authenticate();
+});
 
-    /** @test */
-    public function it_can_create_a_template()
-    {
-        $attributes = [
-            'name' => 'template name',
-            'html' => 'template html',
-        ];
+it('can create a template', function () {
+    $attributes = [
+        'name' => 'template name',
+        'html' => 'template html',
+    ];
 
-        $this
-            ->post(action([TemplatesController::class, 'store']), $attributes)
-            ->assertSessionHasNoErrors();
+    $this
+        ->post(action([TemplatesController::class, 'store']), $attributes)
+        ->assertSessionHasNoErrors();
 
-        $this->assertDatabaseHas(static::getTemplateTableName(), $attributes);
-    }
+    test()->assertDatabaseHas(static::getTemplateTableName(), $attributes);
+});
 
-    /** @test */
-    public function it_can_update_a_template()
-    {
-        $template = Template::factory()->create();
+it('can update a template', function () {
+    $template = Template::factory()->create();
 
-        $attributes = [
-            'name' => 'template name',
-            'html' => 'template html',
-        ];
+    $attributes = [
+        'name' => 'template name',
+        'html' => 'template html',
+    ];
 
-        $this
-            ->put(action([TemplatesController::class, 'update'], $template->id), $attributes)
-            ->assertSessionHasNoErrors();
+    $this
+        ->put(action([TemplatesController::class, 'update'], $template->id), $attributes)
+        ->assertSessionHasNoErrors();
 
-        $attributes['id'] = $template->id;
+    $attributes['id'] = $template->id;
 
-        $this->assertDatabaseHas(static::getTemplateTableName(), $attributes);
-    }
+    test()->assertDatabaseHas(static::getTemplateTableName(), $attributes);
+});
 
-    /** @test */
-    public function it_can_delete_a_template()
-    {
-        $template = Template::factory()->create();
+it('can delete a template', function () {
+    $template = Template::factory()->create();
 
-        $this
-            ->delete(action([TemplatesController::class, 'destroy'], $template))
-            ->assertRedirect(action([TemplatesController::class, 'index']));
+    $this
+        ->delete(action([TemplatesController::class, 'destroy'], $template))
+        ->assertRedirect(action([TemplatesController::class, 'index']));
 
-        $this->assertCount(0, Template::get());
-    }
+    test()->assertCount(0, Template::get());
+});
 
-    /** @test */
-    public function it_can_duplicate_a_template()
-    {
-        $template = Template::factory()->create();
+it('can duplicate a template', function () {
+    $template = Template::factory()->create();
 
-        $this
-            ->post(action([TemplatesController::class, 'duplicate'], $template))
-            ->assertRedirect(route('mailcoach.templates.edit', Template::orderByDesc('id')->first()))
-            ->assertSessionHasNoErrors();
+    $this
+        ->post(action([TemplatesController::class, 'duplicate'], $template))
+        ->assertRedirect(route('mailcoach.templates.edit', Template::orderByDesc('id')->first()))
+        ->assertSessionHasNoErrors();
 
-        $this->assertCount(2, Template::get());
+    test()->assertCount(2, Template::get());
 
-        $templates = Template::get();
+    $templates = Template::get();
 
-        $originalTemplate = $templates[0];
-        $duplicateTemplate = $templates[1];
+    $originalTemplate = $templates[0];
+    $duplicateTemplate = $templates[1];
 
-        $this->assertEquals("Duplicate of {$originalTemplate->name}", $duplicateTemplate->name);
-        $this->assertEquals($duplicateTemplate->html, $originalTemplate->html);
-        $this->assertEquals($duplicateTemplate->structured_html, $originalTemplate->structured_html);
-    }
-}
+    test()->assertEquals("Duplicate of {$originalTemplate->name}", $duplicateTemplate->name);
+    test()->assertEquals($duplicateTemplate->html, $originalTemplate->html);
+    test()->assertEquals($duplicateTemplate->structured_html, $originalTemplate->structured_html);
+});

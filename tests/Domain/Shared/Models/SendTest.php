@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Shared\Models;
-
 use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
@@ -10,219 +8,200 @@ use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-class SendTest extends TestCase
-{
-    /** @test */
-    public function it_can_be_found_by_its_transport_message_id()
-    {
-        $send = SendFactory::new()->create([
-            'transport_message_id' => '1234',
-        ]);
+uses(TestCase::class);
 
-        $this->assertTrue($send->is(Send::findByTransportMessageId('1234')));
-    }
+it('can be found by its transport message id', function () {
+    $send = SendFactory::new()->create([
+        'transport_message_id' => '1234',
+    ]);
 
-    /** @test */
-    public function it_will_unsubscribe_when_there_is_a_permanent_bounce()
-    {
-        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
-        $subscriber = Subscriber::factory()->create();
+    test()->assertTrue($send->is(Send::findByTransportMessageId('1234')));
+});
 
-        /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
-        $emailList = $subscriber->emailList;
+it('will unsubscribe when there is a permanent bounce', function () {
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
+    $subscriber = Subscriber::factory()->create();
 
-        $campaign = Campaign::factory()->create([
-            'email_list_id' => $emailList->id,
-        ]);
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
+    $emailList = $subscriber->emailList;
 
-        $send = SendFactory::new()->create([
-            'campaign_id' => $campaign->id,
-            'subscriber_id' => $subscriber->id,
-        ]);
+    $campaign = Campaign::factory()->create([
+        'email_list_id' => $emailList->id,
+    ]);
 
-        $bouncedAt = now()->subHour();
-        $send->registerBounce($bouncedAt);
+    $send = SendFactory::new()->create([
+        'campaign_id' => $campaign->id,
+        'subscriber_id' => $subscriber->id,
+    ]);
 
-        $this->assertDatabaseHas('mailcoach_send_feedback_items', [
-            'send_id' => $send->id,
-            'type' => SendFeedbackType::BOUNCE,
-            'created_at' => $bouncedAt,
-        ]);
+    $bouncedAt = now()->subHour();
+    $send->registerBounce($bouncedAt);
 
-        $this->assertFalse($emailList->isSubscribed($subscriber->email));
-    }
+    test()->assertDatabaseHas('mailcoach_send_feedback_items', [
+        'send_id' => $send->id,
+        'type' => SendFeedbackType::BOUNCE,
+        'created_at' => $bouncedAt,
+    ]);
 
-    /** @test */
-    public function it_can_receive_a_complaint()
-    {
-        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
-        $subscriber = Subscriber::factory()->create();
+    test()->assertFalse($emailList->isSubscribed($subscriber->email));
+});
 
-        /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
-        $emailList = $subscriber->emailList;
+it('can receive a complaint', function () {
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
+    $subscriber = Subscriber::factory()->create();
 
-        $campaign = Campaign::factory()->create([
-            'email_list_id' => $emailList->id,
-        ]);
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
+    $emailList = $subscriber->emailList;
 
-        $send = SendFactory::new()->create([
-            'campaign_id' => $campaign->id,
-            'subscriber_id' => $subscriber->id,
-        ]);
+    $campaign = Campaign::factory()->create([
+        'email_list_id' => $emailList->id,
+    ]);
 
-        $complainedAt = now()->subHour();
-        $send->registerComplaint($complainedAt);
+    $send = SendFactory::new()->create([
+        'campaign_id' => $campaign->id,
+        'subscriber_id' => $subscriber->id,
+    ]);
 
-        $this->assertDatabaseHas('mailcoach_send_feedback_items', [
-            'send_id' => $send->id,
-            'type' => SendFeedbackType::COMPLAINT,
-            'created_at' => $complainedAt,
-        ]);
+    $complainedAt = now()->subHour();
+    $send->registerComplaint($complainedAt);
 
-        $this->assertFalse($emailList->isSubscribed($subscriber->email));
-    }
+    test()->assertDatabaseHas('mailcoach_send_feedback_items', [
+        'send_id' => $send->id,
+        'type' => SendFeedbackType::COMPLAINT,
+        'created_at' => $complainedAt,
+    ]);
 
-    /** @test */
-    public function it_will_not_register_an_open_if_it_was_recently_opened()
-    {
-        TestTime::freeze();
+    test()->assertFalse($emailList->isSubscribed($subscriber->email));
+});
 
-        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
-        $send = SendFactory::new()->create();
-        $send->campaign->update(['track_opens' => true]);
+it('will not register an open if it was recently opened', function () {
+    TestTime::freeze();
 
-        $send->registerOpen();
-        $this->assertCount(1, $send->opens()->get());
+    /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
+    $send = SendFactory::new()->create();
+    $send->campaign->update(['track_opens' => true]);
 
-        TestTime::addSeconds(4);
-        $send->registerOpen();
-        $this->assertCount(1, $send->opens()->get());
+    $send->registerOpen();
+    test()->assertCount(1, $send->opens()->get());
 
-        TestTime::addSeconds(1);
-        $send->registerOpen();
-        $this->assertCount(2, $send->opens()->get());
-    }
+    TestTime::addSeconds(4);
+    $send->registerOpen();
+    test()->assertCount(1, $send->opens()->get());
 
-    /** @test */
-    public function it_will_register_an_open_at_a_specific_time()
-    {
-        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
-        $send = SendFactory::new()->create();
-        $send->campaign->update(['track_opens' => true]);
+    TestTime::addSeconds(1);
+    $send->registerOpen();
+    test()->assertCount(2, $send->opens()->get());
+});
 
-        $openedAt = now()->subHour()->setMicroseconds(0);
+it('will register an open at a specific time', function () {
+    /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
+    $send = SendFactory::new()->create();
+    $send->campaign->update(['track_opens' => true]);
 
-        $send->registerOpen($openedAt);
+    $openedAt = now()->subHour()->setMicroseconds(0);
 
-        $this->assertEquals($openedAt, $send->opens()->first()->created_at);
-    }
+    $send->registerOpen($openedAt);
 
-    /** @test */
-    public function it_will_not_register_a_click_of_an_unsubscribe_link()
-    {
-        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
-        $send = SendFactory::new()->create();
-        $send->campaign->update(['track_clicks' => true]);
+    test()->assertEquals($openedAt, $send->opens()->first()->created_at);
+});
 
-        $unsubscribeUrl = $send->subscriber->unsubscribeUrl($send);
+it('will not register a click of an unsubscribe link', function () {
+    /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
+    $send = SendFactory::new()->create();
+    $send->campaign->update(['track_clicks' => true]);
 
-        $send->registerClick($unsubscribeUrl);
+    $unsubscribeUrl = $send->subscriber->unsubscribeUrl($send);
 
-        $this->assertCount(0, $send->clicks()->get());
-    }
+    $send->registerClick($unsubscribeUrl);
 
-    /** @test */
-    public function it_can_register_a_click_at_a_given_time()
-    {
-        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
-        $send = SendFactory::new()->create();
-        $send->campaign->update(['track_clicks' => true]);
+    test()->assertCount(0, $send->clicks()->get());
+});
 
-        $clickedAt = now()->subDay()->setMilliseconds(0);
-        $send->registerClick('https://example.com', $clickedAt);
+it('can register a click at a given time', function () {
+    /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
+    $send = SendFactory::new()->create();
+    $send->campaign->update(['track_clicks' => true]);
 
-        $this->assertCount(1, $send->clicks()->get());
-        $this->assertEquals($clickedAt, $send->clicks()->first()->created_at);
-    }
+    $clickedAt = now()->subDay()->setMilliseconds(0);
+    $send->registerClick('https://example.com', $clickedAt);
 
-    /** @test */
-    public function it_can_register_a_click_and_strips_utm_tags()
-    {
-        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
-        $send = SendFactory::new()->create();
-        $send->campaign->update(['track_clicks' => true]);
+    test()->assertCount(1, $send->clicks()->get());
+    test()->assertEquals($clickedAt, $send->clicks()->first()->created_at);
+});
 
-        $clickedAt = now()->subDay()->setMilliseconds(0);
-        $send->registerClick('https://example.com?utm_campaign=My+campaign', $clickedAt);
+it('can register a click and strips utm tags', function () {
+    /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
+    $send = SendFactory::new()->create();
+    $send->campaign->update(['track_clicks' => true]);
 
-        $this->assertCount(1, $send->clicks()->get());
-        $this->assertEquals($clickedAt, $send->clicks()->first()->created_at);
-        $this->assertEquals('https://example.com', $send->clicks()->first()->link->url);
-    }
+    $clickedAt = now()->subDay()->setMilliseconds(0);
+    $send->registerClick('https://example.com?utm_campaign=My+campaign', $clickedAt);
 
-    /** @test */
-    public function registering_clicks_will_update_the_click_count()
-    {
-        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
-        $subscriber = Subscriber::factory()->create();
+    test()->assertCount(1, $send->clicks()->get());
+    test()->assertEquals($clickedAt, $send->clicks()->first()->created_at);
+    test()->assertEquals('https://example.com', $send->clicks()->first()->link->url);
+});
 
-        /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
-        $emailList = $subscriber->emailList;
+test('registering clicks will update the click count', function () {
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
+    $subscriber = Subscriber::factory()->create();
 
-        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $anotherSubscriber */
-        $anotherSubscriber = Subscriber::factory()->create(['email_list_id' => $emailList->id]);
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
+    $emailList = $subscriber->emailList;
 
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */
-        $campaign = Campaign::factory()->create([
-            'email_list_id' => $emailList->id,
-            'track_clicks' => true,
-        ]);
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $anotherSubscriber */
+    $anotherSubscriber = Subscriber::factory()->create(['email_list_id' => $emailList->id]);
 
-        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
-        $send = SendFactory::new()->create([
-            'campaign_id' => $campaign->id,
-            'subscriber_id' => $subscriber->id,
-        ]);
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */
+    $campaign = Campaign::factory()->create([
+        'email_list_id' => $emailList->id,
+        'track_clicks' => true,
+    ]);
 
-        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $anotherSend */
-        $anotherSend = SendFactory::new()->create([
-            'campaign_id' => $campaign->id,
-            'subscriber_id' => $anotherSubscriber->id,
-        ]);
+    /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
+    $send = SendFactory::new()->create([
+        'campaign_id' => $campaign->id,
+        'subscriber_id' => $subscriber->id,
+    ]);
 
-        $linkA = 'https://mailcoach.app';
-        $linkB = 'https://spatie.be';
+    /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $anotherSend */
+    $anotherSend = SendFactory::new()->create([
+        'campaign_id' => $campaign->id,
+        'subscriber_id' => $anotherSubscriber->id,
+    ]);
 
-        $campaignClick = $send->registerClick($linkA);
+    $linkA = 'https://mailcoach.app';
+    $linkB = 'https://spatie.be';
 
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink $campaignLinkA */
-        $campaignLinkA = $campaignClick->link;
+    $campaignClick = $send->registerClick($linkA);
 
-        $this->assertEquals(1, $campaignLinkA->click_count);
-        $this->assertEquals(1, $campaignLinkA->unique_click_count);
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink $campaignLinkA */
+    $campaignLinkA = $campaignClick->link;
 
-        $send->registerClick($linkA);
-        $this->assertEquals(2, $campaignLinkA->refresh()->click_count);
-        $this->assertEquals(1, $campaignLinkA->refresh()->unique_click_count);
+    test()->assertEquals(1, $campaignLinkA->click_count);
+    test()->assertEquals(1, $campaignLinkA->unique_click_count);
 
-        $anotherSend->registerClick($linkA);
-        $this->assertEquals(3, $campaignLinkA->refresh()->click_count);
-        $this->assertEquals(2, $campaignLinkA->refresh()->unique_click_count);
+    $send->registerClick($linkA);
+    test()->assertEquals(2, $campaignLinkA->refresh()->click_count);
+    test()->assertEquals(1, $campaignLinkA->refresh()->unique_click_count);
 
-        $anotherSend->registerClick($linkA);
-        $this->assertEquals(4, $campaignLinkA->refresh()->click_count);
-        $this->assertEquals(2, $campaignLinkA->refresh()->unique_click_count);
+    $anotherSend->registerClick($linkA);
+    test()->assertEquals(3, $campaignLinkA->refresh()->click_count);
+    test()->assertEquals(2, $campaignLinkA->refresh()->unique_click_count);
 
-        $campaignClick = $send->registerClick($linkB);
+    $anotherSend->registerClick($linkA);
+    test()->assertEquals(4, $campaignLinkA->refresh()->click_count);
+    test()->assertEquals(2, $campaignLinkA->refresh()->unique_click_count);
 
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink $campaignLinkA */
-        $campaignLinkB = $campaignClick->link;
+    $campaignClick = $send->registerClick($linkB);
 
-        $this->assertEquals(1, $campaignLinkB->click_count);
-        $this->assertEquals(1, $campaignLinkB->unique_click_count);
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink $campaignLinkA */
+    $campaignLinkB = $campaignClick->link;
 
-        $send->registerClick($linkB);
-        $this->assertEquals(2, $campaignLinkB->refresh()->click_count);
-        $this->assertEquals(1, $campaignLinkB->refresh()->unique_click_count);
-    }
-}
+    test()->assertEquals(1, $campaignLinkB->click_count);
+    test()->assertEquals(1, $campaignLinkB->unique_click_count);
+
+    $send->registerClick($linkB);
+    test()->assertEquals(2, $campaignLinkB->refresh()->click_count);
+    test()->assertEquals(1, $campaignLinkB->refresh()->unique_click_count);
+});

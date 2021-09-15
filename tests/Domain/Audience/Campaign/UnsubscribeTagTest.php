@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Audience\Campaign;
-
 use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
@@ -15,109 +13,88 @@ use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
 
-class UnsubscribeTagTest extends TestCase
+uses(TestCase::class);
+
+beforeEach(function () {
+    test()->campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
+        'html' => '<a href="::unsubscribeTag::some tag::">Unsubscribe</a>',
+    ]);
+
+    test()->emailList = test()->campaign->emailList;
+
+    test()->subscriber = test()->campaign->emailList->subscribers->first();
+    test()->subscriber->addTag('some tag');
+});
+
+it('can render the unsubscribe confirmation page', function () {
+    sendCampaign();
+
+    test()->assertEquals(SubscriptionStatus::SUBSCRIBED, test()->subscriber->status);
+
+    $this
+        ->get(test()->mailedUnsubscribeLink)
+        ->assertSuccessful()
+        ->assertViewIs('mailcoach::landingPages.unsubscribe-tag');
+});
+
+it('can unsubscribe from a tag', function () {
+    sendCampaign();
+
+    test()->assertEquals(SubscriptionStatus::SUBSCRIBED, test()->subscriber->status);
+
+    test()->assertTrue(test()->subscriber->hasTag('some tag'));
+
+    $content = $this
+        ->post(test()->mailedUnsubscribeLink)
+        ->assertSuccessful()
+        ->baseResponse->content();
+
+    test()->assertStringContainsString('unsubscribed', $content);
+
+    test()->assertFalse(test()->subscriber->fresh()->hasTag('some tag'));
+});
+
+it('will redirect to the unsubscribed view by default', function () {
+    sendCampaign();
+
+    $this
+        ->post(test()->mailedUnsubscribeLink)
+        ->assertSuccessful()
+        ->assertViewIs('mailcoach::landingPages.unsubscribed-tag');
+});
+
+it('will redirect to the unsubscribed url if it has been set on the email list', function () {
+    $url = 'https://example.com/unsubscribed';
+    test()->campaign->emailList->update(['redirect_after_unsubscribed' => $url]);
+
+    sendCampaign();
+
+    $this
+        ->post(test()->mailedUnsubscribeLink)
+        ->assertRedirect($url);
+});
+
+test('the unsubscribe will work even if the send is deleted', function () {
+    sendCampaign();
+
+    Send::all()->each->delete();
+
+    test()->post(test()->mailedUnsubscribeLink)->assertSuccessful();
+
+    test()->assertFalse(test()->subscriber->fresh()->hasTag('some tag'));
+});
+
+// Helpers
+function sendCampaign()
 {
-    protected Campaign $campaign;
+    Event::listen(MessageSent::class, function (MessageSent $event) {
+        $link = (new Crawler($event->message->getBody()))
+            ->filter('a')->first()->attr('href');
 
-    protected string $mailedUnsubscribeLink;
+        test()->assertStringStartsWith('http://localhost', $link);
 
-    protected EmailList $emailList;
+        test()->mailedUnsubscribeLink = Str::after($link, 'http://localhost');
+    });
 
-    protected Subscriber $subscriber;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
-            'html' => '<a href="::unsubscribeTag::some tag::">Unsubscribe</a>',
-        ]);
-
-        $this->emailList = $this->campaign->emailList;
-
-        $this->subscriber = $this->campaign->emailList->subscribers->first();
-        $this->subscriber->addTag('some tag');
-    }
-
-    /** @test */
-    public function it_can_render_the_unsubscribe_confirmation_page()
-    {
-        $this->sendCampaign();
-
-        $this->assertEquals(SubscriptionStatus::SUBSCRIBED, $this->subscriber->status);
-
-        $this
-            ->get($this->mailedUnsubscribeLink)
-            ->assertSuccessful()
-            ->assertViewIs('mailcoach::landingPages.unsubscribe-tag');
-    }
-
-    /** @test */
-    public function it_can_unsubscribe_from_a_tag()
-    {
-        $this->sendCampaign();
-
-        $this->assertEquals(SubscriptionStatus::SUBSCRIBED, $this->subscriber->status);
-
-        $this->assertTrue($this->subscriber->hasTag('some tag'));
-
-        $content = $this
-            ->post($this->mailedUnsubscribeLink)
-            ->assertSuccessful()
-            ->baseResponse->content();
-
-        $this->assertStringContainsString('unsubscribed', $content);
-
-        $this->assertFalse($this->subscriber->fresh()->hasTag('some tag'));
-    }
-
-    /** @test */
-    public function it_will_redirect_to_the_unsubscribed_view_by_default()
-    {
-        $this->sendCampaign();
-
-        $this
-            ->post($this->mailedUnsubscribeLink)
-            ->assertSuccessful()
-            ->assertViewIs('mailcoach::landingPages.unsubscribed-tag');
-    }
-
-    /** @test */
-    public function it_will_redirect_to_the_unsubscribed_url_if_it_has_been_set_on_the_email_list()
-    {
-        $url = 'https://example.com/unsubscribed';
-        $this->campaign->emailList->update(['redirect_after_unsubscribed' => $url]);
-
-        $this->sendCampaign();
-
-        $this
-            ->post($this->mailedUnsubscribeLink)
-            ->assertRedirect($url);
-    }
-
-    /** @test */
-    public function the_unsubscribe_will_work_even_if_the_send_is_deleted()
-    {
-        $this->sendCampaign();
-
-        Send::all()->each->delete();
-
-        $this->post($this->mailedUnsubscribeLink)->assertSuccessful();
-
-        $this->assertFalse($this->subscriber->fresh()->hasTag('some tag'));
-    }
-
-    protected function sendCampaign()
-    {
-        Event::listen(MessageSent::class, function (MessageSent $event) {
-            $link = (new Crawler($event->message->getBody()))
-                ->filter('a')->first()->attr('href');
-
-            $this->assertStringStartsWith('http://localhost', $link);
-
-            $this->mailedUnsubscribeLink = Str::after($link, 'http://localhost');
-        });
-
-        dispatch(new SendCampaignJob($this->campaign));
-    }
+    dispatch(new SendCampaignJob(test()->campaign));
 }

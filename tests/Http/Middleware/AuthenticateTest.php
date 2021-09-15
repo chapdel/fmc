@@ -1,54 +1,40 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Middleware;
-
 use Illuminate\Support\Facades\Route;
 use Spatie\Mailcoach\Tests\TestCase;
 
-class AuthenticateTest extends TestCase
-{
-    public function setUp(): void
-    {
-        parent::setUp();
+uses(TestCase::class);
 
-        Route::get('login')->name('login');
+beforeEach(function () {
+    Route::get('login')->name('login');
 
-        $this->withExceptionHandling();
-    }
+    test()->withExceptionHandling();
+});
 
-    /** @test */
-    public function when_not_authenticated_it_redirects_to_the_login_route()
-    {
-        $this->get(route('mailcoach.campaigns'))->assertRedirect(route('login'));
-    }
+test('when not authenticated it redirects to the login route', function () {
+    test()->get(route('mailcoach.campaigns'))->assertRedirect(route('login'));
+});
 
-    /** @test */
-    public function when_authenticated_it_can_view_the_mailcoach_ui()
-    {
-        $this->withoutExceptionHandling();
+test('when authenticated it can view the mailcoach ui', function () {
+    test()->withoutExceptionHandling();
 
-        $this->authenticate();
+    test()->authenticate();
 
-        $this->get(route('mailcoach.campaigns'))->assertSuccessful();
-    }
+    test()->get(route('mailcoach.campaigns'))->assertSuccessful();
+});
 
-    /** @test */
-    public function it_will_redirect_to_the_login_page_when_authenticated_with_the_wrong_guard()
-    {
-        config()->set('mailcoach.guard', 'api');
+it('will redirect to the login page when authenticated with the wrong guard', function () {
+    config()->set('mailcoach.guard', 'api');
 
-        $this->authenticate('web');
+    test()->authenticate('web');
 
-        $this->get(route('mailcoach.campaigns'))->assertRedirect(route('login'));
-    }
+    test()->get(route('mailcoach.campaigns'))->assertRedirect(route('login'));
+});
 
-    /** @test */
-    public function when_authenticated_with_the_right_guard_it_can_view_the_mailcoach_ui()
-    {
-        config()->set('mailcoach.guard', 'api');
+test('when authenticated with the right guard it can view the mailcoach ui', function () {
+    config()->set('mailcoach.guard', 'api');
 
-        $this->authenticate('api');
+    test()->authenticate('api');
 
-        $this->get(route('mailcoach.campaigns'))->assertSuccessful();
-    }
-}
+    test()->get(route('mailcoach.campaigns'))->assertSuccessful();
+});

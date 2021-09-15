@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Campaign\Jobs;
-
 use Illuminate\Mail\MailManager;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
@@ -11,64 +9,57 @@ use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
 
-class SendTestMailJobTest extends TestCase
-{
-    /** @test */
-    public function it_can_send_a_test_email()
-    {
-        Mail::fake();
+uses(TestCase::class);
 
-        $campaign = Campaign::factory()->create([
-            'html' => 'my html',
-            'subject' => 'my subject',
-        ]);
+it('can send a test email', function () {
+    Mail::fake();
 
-        $campaign->emailList->update(['campaign_mailer' => 'some-mailer']);
+    $campaign = Campaign::factory()->create([
+        'html' => 'my html',
+        'subject' => 'my subject',
+    ]);
 
-        $email = 'john@example.com';
+    $campaign->emailList->update(['campaign_mailer' => 'some-mailer']);
 
-        dispatch(new SendCampaignTestJob($campaign, $email));
+    $email = 'john@example.com';
 
-        Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) use ($email, $campaign) {
-            $this->assertEquals('[Test] my subject', $mail->subject);
-            $this->assertEquals('some-mailer', $mail->mailer);
+    dispatch(new SendCampaignTestJob($campaign, $email));
 
-            $this->assertTrue($mail->hasTo($email));
-            $this->assertCount(1, $mail->callbacks);
+    Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) use ($email, $campaign) {
+        test()->assertEquals('[Test] my subject', $mail->subject);
+        test()->assertEquals('some-mailer', $mail->mailer);
 
-            return true;
-        });
-    }
+        test()->assertTrue($mail->hasTo($email));
+        test()->assertCount(1, $mail->callbacks);
 
-    /** @test */
-    public function the_queue_of_the_send_test_mail_job_can_be_configured()
-    {
-        Queue::fake();
-        config()->set('mailcoach.campaigns.perform_on_queue.send_test_mail_job', 'custom-queue');
+        return true;
+    });
+});
 
-        $campaign = Campaign::factory()->create();
-        dispatch(new SendCampaignTestJob($campaign, 'john@example.com'));
-        Queue::assertPushedOn('custom-queue', SendCampaignTestJob::class);
-    }
+test('the queue of the send test mail job can be configured', function () {
+    Queue::fake();
+    config()->set('mailcoach.campaigns.perform_on_queue.send_test_mail_job', 'custom-queue');
 
-    /** @test */
-    public function it_can_send_a_test_email_using_a_custom_mailable()
-    {
-        $campaign = Campaign::factory()->create();
+    $campaign = Campaign::factory()->create();
+    dispatch(new SendCampaignTestJob($campaign, 'john@example.com'));
+    Queue::assertPushedOn('custom-queue', SendCampaignTestJob::class);
+});
 
-        $campaign->emailList->update(['campaign_mailer' => 'some-mailer']);
-        $campaign->useMailable(TestMailcoachMail::class);
+it('can send a test email using a custom mailable', function () {
+    $campaign = Campaign::factory()->create();
 
-        $email = 'john@example.com';
+    $campaign->emailList->update(['campaign_mailer' => 'some-mailer']);
+    $campaign->useMailable(TestMailcoachMail::class);
 
-        $campaign->emailList->update(['campaign_mailer' => 'array']);
+    $email = 'john@example.com';
 
-        $campaign->sendTestMail($email);
+    $campaign->emailList->update(['campaign_mailer' => 'array']);
 
-        $messages = app(MailManager::class)->mailer('array')->getSwiftMailer()->getTransport()->messages();
+    $campaign->sendTestMail($email);
 
-        $this->assertTrue($messages->filter(function (\Swift_Message $message) {
-            return $message->getSubject() === "[Test] This is the subject from the custom mailable.";
-        })->count() > 0);
-    }
-}
+    $messages = app(MailManager::class)->mailer('array')->getSwiftMailer()->getTransport()->messages();
+
+    test()->assertTrue($messages->filter(function (\Swift_Message $message) {
+        return $message->getSubject() === "[Test] This is the subject from the custom mailable.";
+    })->count() > 0);
+});

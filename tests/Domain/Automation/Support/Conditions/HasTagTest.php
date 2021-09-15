@@ -1,28 +1,23 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Automation\Support\Conditions;
-
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasTagCondition;
 use Spatie\Mailcoach\Tests\TestCase;
 
-class HasTagTest extends TestCase
-{
-    /** @test * */
-    public function it_checks_for_a_tag()
-    {
-        $automation = Automation::factory()->create();
-        $subscriber = Subscriber::factory()->create();
+uses(TestCase::class);
 
-        $condition = new HasTagCondition($automation, $subscriber, [
-            'tag' => 'some-tag',
-        ]);
+it('checks for a tag', function () {
+    $automation = Automation::factory()->create();
+    $subscriber = Subscriber::factory()->create();
 
-        $this->assertFalse($condition->check());
+    $condition = new HasTagCondition($automation, $subscriber, [
+        'tag' => 'some-tag',
+    ]);
 
-        $subscriber->addTag('some-tag');
+    test()->assertFalse($condition->check());
 
-        $this->assertTrue($condition->check());
-    }
-}
+    $subscriber->addTag('some-tag');
+
+    test()->assertTrue($condition->check());
+});

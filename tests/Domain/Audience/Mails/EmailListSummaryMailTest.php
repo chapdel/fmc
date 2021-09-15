@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Audience\Mails;
-
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Commands\SendEmailListSummaryMailCommand;
 use Spatie\Mailcoach\Domain\Audience\Mails\EmailListSummaryMail;
@@ -9,101 +7,82 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-class EmailListSummaryMailTest extends TestCase
-{
-    protected EmailList $emailList;
+uses(TestCase::class);
 
-    public function setUp(): void
-    {
-        TestTime::freeze('Y-m-d H:i:s', '2019-01-01 00:00:00');
+beforeEach(function () {
+    TestTime::freeze('Y-m-d H:i:s', '2019-01-01 00:00:00');
+    test()->emailList = EmailList::factory()->create([
+        'report_recipients' => 'john@example.com,jane@example.com',
+        'report_email_list_summary' => true,
+    ]);
+});
 
-        parent::setUp();
+it('can send the email list summary with the correct mailer', function () {
+    Mail::fake();
+    config()->set('mailcoach.mailer', 'some-mailer');
 
-        $this->emailList = EmailList::factory()->create([
-            'report_recipients' => 'john@example.com,jane@example.com',
-            'report_email_list_summary' => true,
-        ]);
-    }
+    test()->artisan(SendEmailListSummaryMailCommand::class);
+    Mail::assertQueued(EmailListSummaryMail::class, function (EmailListSummaryMail $mail) {
+        test()->assertEquals('2019-01-01 00:00:00', $mail->summaryStartDateTime->toDateTimeString());
+        test()->assertEquals('some-mailer', $mail->mailer);
 
-    /** @test */
-    public function it_can_send_the_email_list_summary_with_the_correct_mailer()
-    {
-        Mail::fake();
-        config()->set('mailcoach.mailer', 'some-mailer');
+        return true;
+    });
+    test()->assertEquals('2019-01-01 00:00:00', test()->emailList->refresh()->email_list_summary_sent_at->format('Y-m-d H:i:s'));
+});
 
-        $this->artisan(SendEmailListSummaryMailCommand::class);
-        Mail::assertQueued(EmailListSummaryMail::class, function (EmailListSummaryMail $mail) {
-            $this->assertEquals('2019-01-01 00:00:00', $mail->summaryStartDateTime->toDateTimeString());
-            $this->assertEquals('some-mailer', $mail->mailer);
+it('can send the email list summary with the default mailer', function () {
+    Mail::fake();
+    config()->set('mail.default', 'some-mailer');
 
-            return true;
-        });
-        $this->assertEquals('2019-01-01 00:00:00', $this->emailList->refresh()->email_list_summary_sent_at->format('Y-m-d H:i:s'));
-    }
+    test()->artisan(SendEmailListSummaryMailCommand::class);
+    Mail::assertQueued(EmailListSummaryMail::class, function (EmailListSummaryMail $mail) {
+        test()->assertEquals('some-mailer', $mail->mailer);
 
-    /** @test */
-    public function it_can_send_the_email_list_summary_with_the_default_mailer()
-    {
-        Mail::fake();
-        config()->set('mail.default', 'some-mailer');
+        return true;
+    });
+});
 
-        $this->artisan(SendEmailListSummaryMailCommand::class);
-        Mail::assertQueued(EmailListSummaryMail::class, function (EmailListSummaryMail $mail) {
-            $this->assertEquals('some-mailer', $mail->mailer);
+it('will not send the email list summary mail if it is not enabled', function () {
+    Mail::fake();
 
-            return true;
-        });
-    }
+    test()->emailList->update(['report_email_list_summary' => false]);
 
-    /** @test */
-    public function it_will_not_send_the_email_list_summary_mail_if_it_is_not_enabled()
-    {
-        Mail::fake();
+    test()->artisan(SendEmailListSummaryMailCommand::class);
+    Mail::assertNotQueued(EmailListSummaryMail::class);
+});
 
-        $this->emailList->update(['report_email_list_summary' => false]);
+it('will not send an email list summary twice on one day', function () {
+    Mail::fake();
 
-        $this->artisan(SendEmailListSummaryMailCommand::class);
-        Mail::assertNotQueued(EmailListSummaryMail::class);
-    }
+    test()->emailList->update([
+        'email_list_summary_sent_at' => now(),
+    ]);
 
-    /** @test */
-    public function it_will_not_send_an_email_list_summary_twice_on_one_day()
-    {
-        Mail::fake();
+    test()->artisan(SendEmailListSummaryMailCommand::class);
 
-        $this->emailList->update([
-            'email_list_summary_sent_at' => now(),
-        ]);
+    Mail::assertNotQueued(EmailListSummaryMail::class);
+});
 
-        $this->artisan(SendEmailListSummaryMailCommand::class);
+it('will send the email list summary starting from the previous sent date', function () {
+    Mail::fake();
 
-        Mail::assertNotQueued(EmailListSummaryMail::class);
-    }
+    TestTime::addWeek();
 
-    /** @test */
-    public function it_will_send_the_email_list_summary_starting_from_the_previous_sent_date()
-    {
-        Mail::fake();
+    test()->emailList->update([
+        'email_list_summary_sent_at' => now(),
+    ]);
 
-        TestTime::addWeek();
+    TestTime::addWeek();
 
-        $this->emailList->update([
-            'email_list_summary_sent_at' => now(),
-        ]);
+    test()->artisan(SendEmailListSummaryMailCommand::class);
+    Mail::assertQueued(EmailListSummaryMail::class, function (EmailListSummaryMail $mail) {
+        test()->assertEquals('2019-01-08 00:00:00', $mail->summaryStartDateTime->toDateTimeString());
 
-        TestTime::addWeek();
+        return true;
+    });
+});
 
-        $this->artisan(SendEmailListSummaryMailCommand::class);
-        Mail::assertQueued(EmailListSummaryMail::class, function (EmailListSummaryMail $mail) {
-            $this->assertEquals('2019-01-08 00:00:00', $mail->summaryStartDateTime->toDateTimeString());
-
-            return true;
-        });
-    }
-
-    /** @test */
-    public function the_content_of_the_email_list_summary_mail_is_valid()
-    {
-        $this->assertIsString((new EmailListSummaryMail($this->emailList, now()))->render());
-    }
-}
+test('the content of the email list summary mail is valid', function () {
+    test()->assertIsString((new EmailListSummaryMail(test()->emailList, now()))->render());
+});

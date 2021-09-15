@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Campaigns;
-
 use Illuminate\Support\Arr;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
@@ -12,55 +10,45 @@ use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomCampaignDenyAllPolicy;
 
-class CreateCampaignControllerTest extends TestCase
+uses(TestCase::class);
+uses(RespondsToApiRequests::class);
+
+beforeEach(function () {
+    test()->loginToApi();
+
+    test()->postAttributes = getPostAttributes();
+});
+
+test('a campaign can be created using the api', function () {
+    $this
+        ->postJson(action([CampaignsController::class, 'store']), test()->postAttributes)
+        ->assertSuccessful();
+
+    $campaign = Campaign::first();
+
+    foreach (Arr::except(test()->postAttributes, ['type']) as $attributeName => $attributeValue) {
+        test()->assertEquals($attributeValue, $campaign->$attributeName);
+    }
+});
+
+test('access is denied by custom authorization policy', function () {
+    app()->bind(CampaignPolicy::class, CustomCampaignDenyAllPolicy::class);
+
+    $this
+        ->withExceptionHandling()
+        ->postJson(action([CampaignsController::class, 'store']), test()->postAttributes)
+        ->assertForbidden();
+});
+
+// Helpers
+function getPostAttributes(): array
 {
-    use RespondsToApiRequests;
-
-    protected array $postAttributes;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->loginToApi();
-
-        $this->postAttributes = $this->getPostAttributes();
-    }
-
-    /** @test */
-    public function a_campaign_can_be_created_using_the_api()
-    {
-        $this
-            ->postJson(action([CampaignsController::class, 'store']), $this->postAttributes)
-            ->assertSuccessful();
-
-        $campaign = Campaign::first();
-
-        foreach (Arr::except($this->postAttributes, ['type']) as $attributeName => $attributeValue) {
-            $this->assertEquals($attributeValue, $campaign->$attributeName);
-        }
-    }
-
-    /** @test */
-    public function access_is_denied_by_custom_authorization_policy()
-    {
-        app()->bind(CampaignPolicy::class, CustomCampaignDenyAllPolicy::class);
-
-        $this
-            ->withExceptionHandling()
-            ->postJson(action([CampaignsController::class, 'store']), $this->postAttributes)
-            ->assertForbidden();
-    }
-
-    protected function getPostAttributes(): array
-    {
-        return [
-            'name' => 'name',
-            'type' => CampaignStatus::DRAFT,
-            'email_list_id' => EmailList::factory()->create()->id,
-            'html' => 'html',
-            'track_opens' => true,
-            'track_clicks' => false,
-        ];
-    }
+    return [
+        'name' => 'name',
+        'type' => CampaignStatus::DRAFT,
+        'email_list_id' => EmailList::factory()->create()->id,
+        'html' => 'html',
+        'track_opens' => true,
+        'track_clicks' => false,
+    ];
 }

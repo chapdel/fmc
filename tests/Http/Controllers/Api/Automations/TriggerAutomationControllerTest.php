@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Campaigns;
-
 use Carbon\CarbonInterval;
 use Illuminate\Queue\Connectors\SyncConnector;
 use Illuminate\Queue\QueueManager;
@@ -17,124 +15,107 @@ use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestCase;
 
-class TriggerAutomationControllerTest extends TestCase
-{
-    use RespondsToApiRequests;
+uses(TestCase::class);
+uses(RespondsToApiRequests::class);
 
-    protected AutomationMail $automationMail;
+beforeEach(function () {
+    test()->loginToApi();
 
-    protected EmailList $emailList;
+    test()->automationMail = AutomationMail::factory()->create([
+        'subject' => 'Welcome',
+    ]);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    test()->emailList = EmailList::factory()->create();
+});
 
-        $this->loginToApi();
+it('responds with 200', function () {
+    test()->withExceptionHandling();
 
-        $this->automationMail = AutomationMail::factory()->create([
-            'subject' => 'Welcome',
-        ]);
+    $automation = Automation::create()
+        ->name('New year!')
+        ->runEvery(CarbonInterval::minute())
+        ->to(test()->emailList)
+        ->triggerOn(new WebhookTrigger())
+        ->chain([
+            new SendAutomationMailAction(test()->automationMail),
+        ])
+        ->start();
 
-        $this->emailList = EmailList::factory()->create();
-    }
+    $subscriber = test()->emailList->subscribe('john@doe.com');
 
-    /** @test * */
-    public function it_responds_with_200()
-    {
-        $this->withExceptionHandling();
+    test()->postJson(action(TriggerAutomationController::class, [$automation]), [
+        'subscribers' => [$subscriber->id],
+    ])->assertStatus(200);
+});
 
-        $automation = Automation::create()
-            ->name('New year!')
-            ->runEvery(CarbonInterval::minute())
-            ->to($this->emailList)
-            ->triggerOn(new WebhookTrigger())
-            ->chain([
-                new SendAutomationMailAction($this->automationMail),
-            ])
-            ->start();
+it('needs an automation with a webhook trigger', function () {
+    test()->withExceptionHandling();
 
-        $subscriber = $this->emailList->subscribe('john@doe.com');
+    $automation = Automation::create()
+        ->name('New year!')
+        ->runEvery(CarbonInterval::minute())
+        ->to(test()->emailList)
+        ->triggerOn(new DateTrigger(now()))
+        ->chain([
+            new SendAutomationMailAction(test()->automationMail),
+        ])
+        ->start();
 
-        $this->postJson(action(TriggerAutomationController::class, [$automation]), [
-            'subscribers' => [$subscriber->id],
-        ])->assertStatus(200);
-    }
+    $subscriber = test()->emailList->subscribe('john@doe.com');
 
-    /** @test * */
-    public function it_needs_an_automation_with_a_webhook_trigger()
-    {
-        $this->withExceptionHandling();
+    test()->postJson(action(TriggerAutomationController::class, [$automation]), [
+        'subscribers' => [$subscriber->id],
+    ])->assertStatus(400)
+      ->assertSee('This automation does not have a Webhook trigger.');
+});
 
-        $automation = Automation::create()
-            ->name('New year!')
-            ->runEvery(CarbonInterval::minute())
-            ->to($this->emailList)
-            ->triggerOn(new DateTrigger(now()))
-            ->chain([
-                new SendAutomationMailAction($this->automationMail),
-            ])
-            ->start();
+it('only handles subscribers from the email list', function () {
+    $automation = Automation::create()
+        ->name('New year!')
+        ->runEvery(CarbonInterval::minute())
+        ->to(test()->emailList)
+        ->triggerOn(new WebhookTrigger())
+        ->chain([
+            new SendAutomationMailAction(test()->automationMail),
+        ])
+        ->start();
 
-        $subscriber = $this->emailList->subscribe('john@doe.com');
+    $subscriber1 = test()->emailList->subscribe('john@doe.com');
+    $subscriber2 = SubscriberFactory::new()->create();
 
-        $this->postJson(action(TriggerAutomationController::class, [$automation]), [
-            'subscribers' => [$subscriber->id],
-        ])->assertStatus(400)
-          ->assertSee('This automation does not have a Webhook trigger.');
-    }
+    test()->postJson(action(TriggerAutomationController::class, [$automation]), [
+        'subscribers' => [$subscriber1->id, $subscriber2->id],
+    ])->assertSuccessful();
 
-    /** @test * */
-    public function it_only_handles_subscribers_from_the_email_list()
-    {
-        $automation = Automation::create()
-            ->name('New year!')
-            ->runEvery(CarbonInterval::minute())
-            ->to($this->emailList)
-            ->triggerOn(new WebhookTrigger())
-            ->chain([
-                new SendAutomationMailAction($this->automationMail),
-            ])
-            ->start();
+    test()->assertEquals(1, $automation->actions()->first()->subscribers->count());
+});
 
-        $subscriber1 = $this->emailList->subscribe('john@doe.com');
-        $subscriber2 = SubscriberFactory::new()->create();
+it('needs a subscribed subscriber', function () {
+    $manager = new QueueManager(test()->app);
+    $manager->addConnector('sync', function () {
+        return new SyncConnector();
+    });
+    Queue::swap($manager);
 
-        $this->postJson(action(TriggerAutomationController::class, [$automation]), [
-            'subscribers' => [$subscriber1->id, $subscriber2->id],
-        ])->assertSuccessful();
+    test()->withExceptionHandling();
 
-        $this->assertEquals(1, $automation->actions()->first()->subscribers->count());
-    }
+    $automation = Automation::create()
+        ->name('New year!')
+        ->runEvery(CarbonInterval::minute())
+        ->to(test()->emailList)
+        ->triggerOn(new WebhookTrigger())
+        ->chain([
+            new SendAutomationMailAction(test()->automationMail),
+        ])
+        ->start();
 
-    /** @test * */
-    public function it_needs_a_subscribed_subscriber()
-    {
-        $manager = new QueueManager($this->app);
-        $manager->addConnector('sync', function () {
-            return new SyncConnector();
-        });
-        Queue::swap($manager);
+    $subscriber1 = test()->emailList->subscribe('john1@doe.com');
+    $subscriber2 = test()->emailList->subscribe('john2@doe.com');
+    $subscriber2->unsubscribe();
 
-        $this->withExceptionHandling();
+    test()->postJson(action(TriggerAutomationController::class, [$automation]), [
+        'subscribers' => [$subscriber1->id, $subscriber2->id],
+    ])->assertSuccessful();
 
-        $automation = Automation::create()
-            ->name('New year!')
-            ->runEvery(CarbonInterval::minute())
-            ->to($this->emailList)
-            ->triggerOn(new WebhookTrigger())
-            ->chain([
-                new SendAutomationMailAction($this->automationMail),
-            ])
-            ->start();
-
-        $subscriber1 = $this->emailList->subscribe('john1@doe.com');
-        $subscriber2 = $this->emailList->subscribe('john2@doe.com');
-        $subscriber2->unsubscribe();
-
-        $this->postJson(action(TriggerAutomationController::class, [$automation]), [
-            'subscribers' => [$subscriber1->id, $subscriber2->id],
-        ])->assertSuccessful();
-
-        $this->assertEquals(1, $automation->actions()->first()->subscribers->count());
-    }
-}
+    test()->assertEquals(1, $automation->actions()->first()->subscribers->count());
+});

@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\App\Campaigns;
-
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignDeliveryController;
@@ -9,58 +7,47 @@ use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\ScheduleCampaignContro
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-class ScheduleCampaignControllerTest extends TestCase
-{
-    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign */
-    protected $campaign;
+uses(TestCase::class);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+beforeEach(function () {
+    test()->authenticate();
 
-        $this->authenticate();
+    test()->campaign = Campaign::factory()->create([
+        'status' => CampaignStatus::DRAFT,
+    ]);
 
-        $this->campaign = Campaign::factory()->create([
-            'status' => CampaignStatus::DRAFT,
-        ]);
+    TestTime::freeze('Y-m-d H:i:s', '2019-01-01 00:00:00');
+});
 
-        TestTime::freeze('Y-m-d H:i:s', '2019-01-01 00:00:00');
-    }
+it('can schedule a campaign', function () {
+    $scheduleAt = now()->addDay();
 
-    /** @test */
-    public function it_can_schedule_a_campaign()
-    {
-        $scheduleAt = now()->addDay();
+    $this
+        ->post(
+            action(ScheduleCampaignController::class, test()->campaign),
+            [
+                'scheduled_at' => [
+                    'date' => $scheduleAt->format('Y-m-d'),
+                    'hours' => $scheduleAt->format('H'),
+                    'minutes' => $scheduleAt->format('i'),
+                ],
+            ]
+        )
+        ->assertSessionHasNoErrors()
+        ->assertRedirect(action(CampaignDeliveryController::class, test()->campaign->id));
 
-        $this
-            ->post(
-                action(ScheduleCampaignController::class, $this->campaign),
-                [
-                    'scheduled_at' => [
-                        'date' => $scheduleAt->format('Y-m-d'),
-                        'hours' => $scheduleAt->format('H'),
-                        'minutes' => $scheduleAt->format('i'),
-                    ],
-                ]
-            )
-            ->assertSessionHasNoErrors()
-            ->assertRedirect(action(CampaignDeliveryController::class, $this->campaign->id));
+    test()->assertEquals($scheduleAt->format('Y-m-d H:i:s'), test()->campaign->refresh()->scheduled_at->format('Y-m-d H:i:s'));
+});
 
-        $this->assertEquals($scheduleAt->format('Y-m-d H:i:s'), $this->campaign->refresh()->scheduled_at->format('Y-m-d H:i:s'));
-    }
+it('will not schedule a campaign in the past', function () {
+    test()->withExceptionHandling();
 
-    /** @test */
-    public function it_will_not_schedule_a_campaign_in_the_past()
-    {
-        $this->withExceptionHandling();
+    $scheduleAt = '2018-01-01 00:00:00';
 
-        $scheduleAt = '2018-01-01 00:00:00';
-
-        $this
-            ->post(
-                action(ScheduleCampaignController::class, $this->campaign),
-                ['scheduled_at' => $scheduleAt]
-            )
-            ->assertSessionHasErrors('scheduled_at');
-    }
-}
+    $this
+        ->post(
+            action(ScheduleCampaignController::class, test()->campaign),
+            ['scheduled_at' => $scheduleAt]
+        )
+        ->assertSessionHasErrors('scheduled_at');
+});

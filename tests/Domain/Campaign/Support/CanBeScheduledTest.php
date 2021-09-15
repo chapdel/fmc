@@ -1,83 +1,63 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Campaign\Support;
-
 use Illuminate\Support\Facades\Date;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Tests\TestCase;
 
-class CanBeScheduledTest extends TestCase
-{
-    protected Campaign $campaign;
+uses(TestCase::class);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+beforeEach(function () {
+    Date::setTestNow('2020-08-12 09:17');
 
-        Date::setTestNow('2020-08-12 09:17');
+    test()->campaign = Campaign::factory()->create();
+});
 
-        $this->campaign = Campaign::factory()->create();
-    }
+it('can be scheduled', function () {
+    test()->assertNull(test()->campaign->scheduled_at);
 
-    /** @test * */
-    public function it_can_be_scheduled()
-    {
-        $this->assertNull($this->campaign->scheduled_at);
+    test()->campaign->scheduleToBeSentAt(now());
 
-        $this->campaign->scheduleToBeSentAt(now());
+    test()->assertEquals('2020-08-12 09:17', test()->campaign->scheduled_at->toMailcoachFormat());
+});
 
-        $this->assertEquals('2020-08-12 09:17', $this->campaign->scheduled_at->toMailcoachFormat());
-    }
+it('stores the date in utc', function () {
+    config()->set('app.timezone', 'Europe/Brussels');
 
-    /** @test * */
-    public function it_stores_the_date_in_utc()
-    {
-        config()->set('app.timezone', 'Europe/Brussels');
+    test()->assertNull(test()->campaign->scheduled_at);
 
-        $this->assertNull($this->campaign->scheduled_at);
+    test()->campaign->scheduleToBeSentAt(now()->setTimezone('Europe/Brussels'));
 
-        $this->campaign->scheduleToBeSentAt(now()->setTimezone('Europe/Brussels'));
+    test()->assertEquals('2020-08-12 11:17', test()->campaign->scheduled_at->toMailcoachFormat());
+    test()->assertEquals('2020-08-12 09:17', test()->campaign->scheduled_at->format('Y-m-d H:i'));
+});
 
-        $this->assertEquals('2020-08-12 11:17', $this->campaign->scheduled_at->toMailcoachFormat());
-        $this->assertEquals('2020-08-12 09:17', $this->campaign->scheduled_at->format('Y-m-d H:i'));
-    }
+it('can be marked as unscheduled', function () {
+    test()->campaign->update(['scheduled_at' => now()]);
 
-    /** @test * */
-    public function it_can_be_marked_as_unscheduled()
-    {
-        $this->campaign->update(['scheduled_at' => now()]);
+    test()->campaign->markAsUnscheduled();
 
-        $this->campaign->markAsUnscheduled();
+    test()->assertNull(test()->campaign->scheduled_at);
+});
 
-        $this->assertNull($this->campaign->scheduled_at);
-    }
+it('scopes scheduled campaigns', function () {
+    Campaign::factory()->create(['scheduled_at' => now()]);
+    Campaign::factory()->create(['scheduled_at' => null]);
 
-    /** @test * */
-    public function it_scopes_scheduled_campaigns()
-    {
-        Campaign::factory()->create(['scheduled_at' => now()]);
-        Campaign::factory()->create(['scheduled_at' => null]);
+    test()->assertEquals(1, Campaign::scheduled()->count());
+});
 
-        $this->assertEquals(1, Campaign::scheduled()->count());
-    }
+it('scopes should be sent campaigns', function () {
+    Campaign::factory()->create(['scheduled_at' => now()->subDay()]);
+    Campaign::factory()->create(['scheduled_at' => now()->addDay()]);
 
-    /** @test * */
-    public function it_scopes_should_be_sent_campaigns()
-    {
-        Campaign::factory()->create(['scheduled_at' => now()->subDay()]);
-        Campaign::factory()->create(['scheduled_at' => now()->addDay()]);
+    test()->assertEquals(1, Campaign::shouldBeSentNow()->count());
+});
 
-        $this->assertEquals(1, Campaign::shouldBeSentNow()->count());
-    }
+it('scopes should be sent campaigns correctly when a timezone is set', function () {
+    config()->set('app.timezone', 'America/Chicago');
 
-    /** @test * */
-    public function it_scopes_should_be_sent_campaigns_correctly_when_a_timezone_is_set()
-    {
-        config()->set('app.timezone', 'America/Chicago');
+    Campaign::factory()->create()->scheduleToBeSentAt(now()->setTimezone('America/Chicago'));
+    Campaign::factory()->create()->scheduleToBeSentAt(now()->addDay()->setTimezone('America/Chicago'));
 
-        Campaign::factory()->create()->scheduleToBeSentAt(now()->setTimezone('America/Chicago'));
-        Campaign::factory()->create()->scheduleToBeSentAt(now()->addDay()->setTimezone('America/Chicago'));
-
-        $this->assertEquals(1, Campaign::shouldBeSentNow()->count());
-    }
-}
+    test()->assertEquals(1, Campaign::shouldBeSentNow()->count());
+});

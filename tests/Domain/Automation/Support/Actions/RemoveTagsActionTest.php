@@ -1,50 +1,34 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Automation\Support\Actions;
-
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\RemoveTagsAction;
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 
-class RemoveTagsActionTest extends TestCase
-{
-    protected Subscriber $subscriber;
+uses(TestCase::class);
 
-    protected RemoveTagsAction $action;
+beforeEach(function () {
+    test()->subscriber = SubscriberFactory::new()->confirmed()->create();
+    test()->action = new RemoveTagsAction(['some-tag', 'another-tag']);
+});
 
-    public function setUp(): void
-    {
-        parent::setUp();
+it('continues after execution', function () {
+    test()->assertTrue(test()->action->shouldContinue(test()->subscriber));
+});
 
-        $this->subscriber = SubscriberFactory::new()->confirmed()->create();
-        $this->action = new RemoveTagsAction(['some-tag', 'another-tag']);
-    }
+it('wont halt after execution', function () {
+    test()->assertFalse(test()->action->shouldHalt(test()->subscriber));
+});
 
-    /** @test * */
-    public function it_continues_after_execution()
-    {
-        $this->assertTrue($this->action->shouldContinue($this->subscriber));
-    }
+it('removes a tag from the subscriber', function () {
+    test()->subscriber->addTag('some-tag');
+    test()->subscriber->addTag('another-tag');
 
-    /** @test * */
-    public function it_wont_halt_after_execution()
-    {
-        $this->assertFalse($this->action->shouldHalt($this->subscriber));
-    }
+    test()->assertTrue(test()->subscriber->hasTag('some-tag'));
+    test()->assertTrue(test()->subscriber->hasTag('another-tag'));
 
-    /** @test * */
-    public function it_removes_a_tag_from_the_subscriber()
-    {
-        $this->subscriber->addTag('some-tag');
-        $this->subscriber->addTag('another-tag');
+    test()->action->run(test()->subscriber);
 
-        $this->assertTrue($this->subscriber->hasTag('some-tag'));
-        $this->assertTrue($this->subscriber->hasTag('another-tag'));
-
-        $this->action->run($this->subscriber);
-
-        $this->assertFalse($this->subscriber->hasTag('some-tag'));
-        $this->assertFalse($this->subscriber->hasTag('another-tag'));
-    }
-}
+    test()->assertFalse(test()->subscriber->hasTag('some-tag'));
+    test()->assertFalse(test()->subscriber->hasTag('another-tag'));
+});

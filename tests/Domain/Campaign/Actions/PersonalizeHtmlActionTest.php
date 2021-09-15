@@ -1,82 +1,59 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Campaign\Actions;
-
 use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeHtmlAction;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 
-class PersonalizeHtmlActionTest extends TestCase
+uses(TestCase::class);
+
+beforeEach(function () {
+    test()->send = SendFactory::new()->create();
+
+    $subscriber = test()->send->subscriber;
+    $subscriber->uuid = 'my-uuid';
+    $subscriber->extra_attributes = ['first_name' => 'John', 'last_name' => 'Doe'];
+    $subscriber->save();
+
+    test()->send->campaign->update(['name' => 'my campaign']);
+
+    test()->personalizeHtmlAction = new PersonalizeHtmlAction();
+});
+
+it('can replace an placeholder for a subscriber attribute', function () {
+    assertActionResult('::subscriber.uuid::', 'my-uuid');
+});
+
+it('will not replace a non existing attribute', function () {
+    assertActionResult('::subscriber.non-existing::', '::subscriber.non-existing::');
+});
+
+it('can replace an placeholder for a subscriber extra attribute', function () {
+    assertActionResult('::subscriber.extra_attributes.first_name::', 'John');
+});
+
+it('will not replace an placeholder for a non existing subscriber extra attribute', function () {
+    assertActionResult('::subscriber.extra_attributes.non-existing::', '::subscriber.extra_attributes.non-existing::');
+});
+
+it('can replace unsubscribe url', function () {
+    assertActionResult('::unsubscribeUrl::', test()->send->subscriber->unsubscribeUrl(test()->send));
+});
+
+it('can replace unsubscribe tag url', function () {
+    test()->send->subscriber->addTag('some tag');
+
+    assertActionResult('::unsubscribeTag::some tag::', test()->send->subscriber->unsubscribeTagUrl('some tag'));
+});
+
+// Helpers
+function assertActionResult(string $inputHtml, $expectedOutputHtml)
 {
-    /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send */
-    protected Send $send;
+    $actualOutputHtml = (new PersonalizeHtmlAction())->execute($inputHtml, test()->send);
+    test()->assertEquals($expectedOutputHtml, $actualOutputHtml, "The personalize action did not produce the expected result. Expected: `{$expectedOutputHtml}`, actual: `{$actualOutputHtml}`");
 
-    /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeHtmlAction */
-    protected PersonalizeHtmlAction $personalizeHtmlAction;
+    $expectedOutputHtmlWithHtmlTags = "<html>{$expectedOutputHtml}</html>";
+    $actualOutputHtmlWithHtmlTags = (new PersonalizeHtmlAction())->execute("<html>{$inputHtml}</html>", test()->send);
 
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->send = SendFactory::new()->create();
-
-        $subscriber = $this->send->subscriber;
-        $subscriber->uuid = 'my-uuid';
-        $subscriber->extra_attributes = ['first_name' => 'John', 'last_name' => 'Doe'];
-        $subscriber->save();
-
-        $this->send->campaign->update(['name' => 'my campaign']);
-
-        $this->personalizeHtmlAction = new PersonalizeHtmlAction();
-    }
-
-    /** @test */
-    public function it_can_replace_an_placeholder_for_a_subscriber_attribute()
-    {
-        $this->assertActionResult('::subscriber.uuid::', 'my-uuid');
-    }
-
-    /** @test */
-    public function it_will_not_replace_a_non_existing_attribute()
-    {
-        $this->assertActionResult('::subscriber.non-existing::', '::subscriber.non-existing::');
-    }
-
-    /** @test */
-    public function it_can_replace_an_placeholder_for_a_subscriber_extra_attribute()
-    {
-        $this->assertActionResult('::subscriber.extra_attributes.first_name::', 'John');
-    }
-
-    /** @test */
-    public function it_will_not_replace_an_placeholder_for_a_non_existing_subscriber_extra_attribute()
-    {
-        $this->assertActionResult('::subscriber.extra_attributes.non-existing::', '::subscriber.extra_attributes.non-existing::');
-    }
-
-    /** @test */
-    public function it_can_replace_unsubscribe_url()
-    {
-        $this->assertActionResult('::unsubscribeUrl::', $this->send->subscriber->unsubscribeUrl($this->send));
-    }
-
-    /** @test */
-    public function it_can_replace_unsubscribe_tag_url()
-    {
-        $this->send->subscriber->addTag('some tag');
-
-        $this->assertActionResult('::unsubscribeTag::some tag::', $this->send->subscriber->unsubscribeTagUrl('some tag'));
-    }
-
-    protected function assertActionResult(string $inputHtml, $expectedOutputHtml)
-    {
-        $actualOutputHtml = (new PersonalizeHtmlAction())->execute($inputHtml, $this->send);
-        $this->assertEquals($expectedOutputHtml, $actualOutputHtml, "The personalize action did not produce the expected result. Expected: `{$expectedOutputHtml}`, actual: `{$actualOutputHtml}`");
-
-        $expectedOutputHtmlWithHtmlTags = "<html>{$expectedOutputHtml}</html>";
-        $actualOutputHtmlWithHtmlTags = (new PersonalizeHtmlAction())->execute("<html>{$inputHtml}</html>", $this->send);
-
-        $this->assertEquals($expectedOutputHtmlWithHtmlTags, $actualOutputHtmlWithHtmlTags, "The personalize action did not produce the expected result when wrapped in html tags. Expected: `{$expectedOutputHtmlWithHtmlTags}`, actual: `{$actualOutputHtmlWithHtmlTags}`");
-    }
+    test()->assertEquals($expectedOutputHtmlWithHtmlTags, $actualOutputHtmlWithHtmlTags, "The personalize action did not produce the expected result when wrapped in html tags. Expected: `{$expectedOutputHtmlWithHtmlTags}`, actual: `{$actualOutputHtmlWithHtmlTags}`");
 }

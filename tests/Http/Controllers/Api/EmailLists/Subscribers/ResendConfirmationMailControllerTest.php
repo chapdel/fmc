@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\EmailLists\Subscribers;
-
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Mails\ConfirmSubscriberMail;
@@ -10,42 +8,33 @@ use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestCase;
 
-class ResendConfirmationMailControllerTest extends TestCase
-{
-    use RespondsToApiRequests;
+uses(TestCase::class);
+uses(RespondsToApiRequests::class);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+beforeEach(function () {
+    test()->withExceptionHandling();
 
-        $this->withExceptionHandling();
+    test()->loginToApi();
 
-        $this->loginToApi();
+    Mail::fake();
+});
 
-        Mail::fake();
-    }
+it('can resend the confirmation mail', function () {
+    $subscriber = SubscriberFactory::new()->unconfirmed()->create();
 
-    /** @test */
-    public function it_can_resend_the_confirmation_mail()
-    {
-        $subscriber = SubscriberFactory::new()->unconfirmed()->create();
+    $this
+        ->postJson(action(ResendConfirmationMailController::class, $subscriber))
+        ->assertSuccessful();
 
-        $this
-            ->postJson(action(ResendConfirmationMailController::class, $subscriber))
-            ->assertSuccessful();
+    Mail::assertQueued(ConfirmSubscriberMail::class);
+});
 
-        Mail::assertQueued(ConfirmSubscriberMail::class);
-    }
+it('cannot resend the confirmation mail to a subscriber that is not unconfirmed', function () {
+    $subscriber = SubscriberFactory::new()->confirmed()->create();
 
-    /** @test */
-    public function it_cannot_resend_the_confirmation_mail_to_a_subscriber_that_is_not_unconfirmed()
-    {
-        $subscriber = SubscriberFactory::new()->confirmed()->create();
+    $this
+        ->postJson(action(ResendConfirmationMailController::class, $subscriber))
+        ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
 
-        $this
-            ->postJson(action(ResendConfirmationMailController::class, $subscriber))
-            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-
-        Mail::assertNotQueued(ConfirmSubscriberMail::class);
-    }
-}
+    Mail::assertNotQueued(ConfirmSubscriberMail::class);
+});

@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Automation\Support\Actions;
-
 use Carbon\CarbonInterval;
 use Illuminate\Support\Carbon;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
@@ -16,83 +14,65 @@ use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-class ConditionActionTest extends TestCase
-{
-    protected AutomationMail $automationMail;
+uses(TestCase::class);
 
-    protected Subscriber $subscriber;
+beforeEach(function () {
+    TestTime::setTestNow(Carbon::create(2021, 01, 01));
 
-    protected Action $actionModel;
+    test()->subscriber = SubscriberFactory::new()->confirmed()->create();
+    test()->automationMail = AutomationMail::factory()->create();
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    $automation = Automation::create()
+        ->chain([
+            new ConditionAction(
+                CarbonInterval::day(),
+                [
+                    new SendAutomationMailAction(test()->automationMail),
+                ],
+                [
+                    new HaltAction(),
+                ],
+                HasTagCondition::class,
+                ['tag' => 'some-tag']
+            ),
+        ]);
 
-        TestTime::setTestNow(Carbon::create(2021, 01, 01));
+    // Attach a dummy action so we have a pivot table
+    test()->actionModel = $automation->actions->first();
+    test()->actionModel->subscribers()->attach(test()->subscriber);
+    test()->subscriber = test()->actionModel->subscribers->first();
+});
 
-        $this->subscriber = SubscriberFactory::new()->confirmed()->create();
-        $this->automationMail = AutomationMail::factory()->create();
+it('doesnt continue while checking and the subscriber doesnt have the tag', function () {
+    test()->assertFalse(test()->actionModel->action->shouldContinue(test()->subscriber));
 
-        $automation = Automation::create()
-            ->chain([
-                new ConditionAction(
-                    CarbonInterval::day(),
-                    [
-                        new SendAutomationMailAction($this->automationMail),
-                    ],
-                    [
-                        new HaltAction(),
-                    ],
-                    HasTagCondition::class,
-                    ['tag' => 'some-tag']
-                ),
-            ]);
+    TestTime::addDay();
 
-        // Attach a dummy action so we have a pivot table
-        $this->actionModel = $automation->actions->first();
-        $this->actionModel->subscribers()->attach($this->subscriber);
-        $this->subscriber = $this->actionModel->subscribers->first();
-    }
+    test()->assertFalse(test()->actionModel->action->shouldContinue(test()->subscriber));
 
-    /** @test * */
-    public function it_doesnt_continue_while_checking_and_the_subscriber_doesnt_have_the_tag()
-    {
-        $this->assertFalse($this->actionModel->action->shouldContinue($this->subscriber));
+    TestTime::addSecond();
 
-        TestTime::addDay();
+    test()->assertTrue(test()->actionModel->action->shouldContinue(test()->subscriber));
+});
 
-        $this->assertFalse($this->actionModel->action->shouldContinue($this->subscriber));
+it('continues as soon as the subscriber has the tag', function () {
+    test()->assertFalse(test()->actionModel->action->shouldContinue(test()->subscriber));
 
-        TestTime::addSecond();
+    test()->subscriber->addTag('some-tag');
 
-        $this->assertTrue($this->actionModel->action->shouldContinue($this->subscriber));
-    }
+    test()->assertTrue(test()->actionModel->action->shouldContinue(test()->subscriber));
+});
 
-    /** @test * */
-    public function it_continues_as_soon_as_the_subscriber_has_the_tag()
-    {
-        $this->assertFalse($this->actionModel->action->shouldContinue($this->subscriber));
+it('doesnt halt', function () {
+    test()->assertFalse(test()->actionModel->action->shouldHalt(test()->subscriber));
+});
 
-        $this->subscriber->addTag('some-tag');
+it('determines the correct next action', function () {
+    TestTime::addDays(2);
 
-        $this->assertTrue($this->actionModel->action->shouldContinue($this->subscriber));
-    }
+    test()->assertInstanceOf(HaltAction::class, test()->actionModel->action->nextActions(test()->subscriber)[0]->action);
 
-    /** @test * */
-    public function it_doesnt_halt()
-    {
-        $this->assertFalse($this->actionModel->action->shouldHalt($this->subscriber));
-    }
+    test()->subscriber->addTag('some-tag');
 
-    /** @test * */
-    public function it_determines_the_correct_next_action()
-    {
-        TestTime::addDays(2);
-
-        $this->assertInstanceOf(HaltAction::class, $this->actionModel->action->nextActions($this->subscriber)[0]->action);
-
-        $this->subscriber->addTag('some-tag');
-
-        $this->assertInstanceOf(SendAutomationMailAction::class, $this->actionModel->action->nextActions($this->subscriber)[0]->action);
-    }
-}
+    test()->assertInstanceOf(SendAutomationMailAction::class, test()->actionModel->action->nextActions(test()->subscriber)[0]->action);
+});

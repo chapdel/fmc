@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Automation\Jobs;
-
 use Carbon\CarbonInterval;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Automation\Jobs\RunActionForSubscriberJob;
@@ -13,76 +11,66 @@ use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomSendAutomationMailAction;
 use Spatie\TestTime\TestTime;
 
-class RunActionForSubscriberJobTest extends TestCase
-{
-    private EmailList $emailList;
+uses(TestCase::class);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+beforeEach(function () {
+    test()->emailList = EmailList::factory()->create();
+});
 
-        $this->emailList = EmailList::factory()->create();
-    }
+it('runs the action for a subscriber', function () {
+    TestTime::freeze();
 
-    /** @test * */
-    public function it_runs_the_action_for_a_subscriber()
-    {
-        TestTime::freeze();
+    $automation = Automation::factory()->create();
 
-        $automation = Automation::factory()->create();
+    $action = Action::create([
+        'automation_id' => $automation->id,
+        'action' => new WaitAction(CarbonInterval::day()),
+        'order' => 1,
+    ]);
 
-        $action = Action::create([
-            'automation_id' => $automation->id,
-            'action' => new WaitAction(CarbonInterval::day()),
-            'order' => 1,
-        ]);
+    $action2 = Action::create([
+        'automation_id' => $automation->id,
+        'action' => new WaitAction(CarbonInterval::minute()),
+        'order' => 2,
+    ]);
 
-        $action2 = Action::create([
-            'automation_id' => $automation->id,
-            'action' => new WaitAction(CarbonInterval::minute()),
-            'order' => 2,
-        ]);
+    $subscriber = test()->emailList->subscribe('john@doe.com');
 
-        $subscriber = $this->emailList->subscribe('john@doe.com');
+    $action->subscribers()->attach($subscriber);
 
-        $action->subscribers()->attach($subscriber);
+    dispatch_sync(new RunActionForSubscriberJob($action, $subscriber));
 
-        dispatch_sync(new RunActionForSubscriberJob($action, $subscriber));
+    test()->assertEquals($action->id, $subscriber->actions->first()->id);
 
-        $this->assertEquals($action->id, $subscriber->actions->first()->id);
+    TestTime::addDays(2);
 
-        TestTime::addDays(2);
+    dispatch_sync(new RunActionForSubscriberJob($action, $subscriber));
 
-        dispatch_sync(new RunActionForSubscriberJob($action, $subscriber));
+    test()->assertEquals(2, $subscriber->actions()->count());
 
-        $this->assertEquals(2, $subscriber->actions()->count());
+    dispatch_sync(new RunActionForSubscriberJob($action, $subscriber));
 
-        dispatch_sync(new RunActionForSubscriberJob($action, $subscriber));
+    // it won't add it twice
+    test()->assertEquals(2, $subscriber->actions()->count());
+});
 
-        // it won't add it twice
-        $this->assertEquals(2, $subscriber->actions()->count());
-    }
+it('optionally passes the action subscriber', function () {
+    TestTime::freeze();
 
-    /** @test * */
-    public function it_optionally_passes_the_action_subscriber()
-    {
-        TestTime::freeze();
+    $automation = Automation::factory()->create();
+    $automationMail = AutomationMail::factory()->create();
 
-        $automation = Automation::factory()->create();
-        $automationMail = AutomationMail::factory()->create();
+    $action = Action::create([
+        'automation_id' => $automation->id,
+        'action' => new CustomSendAutomationMailAction($automationMail),
+        'order' => 1,
+    ]);
 
-        $action = Action::create([
-            'automation_id' => $automation->id,
-            'action' => new CustomSendAutomationMailAction($automationMail),
-            'order' => 1,
-        ]);
+    $subscriber = test()->emailList->subscribe('john@doe.com');
 
-        $subscriber = $this->emailList->subscribe('john@doe.com');
+    $action->subscribers()->attach($subscriber);
 
-        $action->subscribers()->attach($subscriber);
+    test()->expectExceptionMessage("ActionSubscriber is set!");
 
-        $this->expectExceptionMessage("ActionSubscriber is set!");
-
-        dispatch_sync(new RunActionForSubscriberJob($action, $subscriber));
-    }
-}
+    dispatch_sync(new RunActionForSubscriberJob($action, $subscriber));
+});

@@ -1,24 +1,19 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\App\Subscribers;
-
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\DestroySubscriberController;
 use Spatie\Mailcoach\Tests\TestCase;
 
-class DestroySubscriberControllerTest extends TestCase
-{
-    /** @test */
-    public function it_can_delete_a_subscriber()
-    {
-        $this->authenticate();
+uses(TestCase::class);
 
-        $subscriber = Subscriber::factory()->create();
+it('can delete a subscriber', function () {
+    test()->authenticate();
 
-        $this
-            ->delete(action(DestroySubscriberController::class, [$subscriber->emailList->id, $subscriber->id]))
-            ->assertRedirect();
+    $subscriber = Subscriber::factory()->create();
 
-        $this->assertCount(0, Subscriber::get());
-    }
-}
+    $this
+        ->delete(action(DestroySubscriberController::class, [$subscriber->emailList->id, $subscriber->id]))
+        ->assertRedirect();
+
+    test()->assertCount(0, Subscriber::get());
+});

@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Automation\Support\Actions;
-
 use Illuminate\Support\Carbon;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
@@ -13,57 +11,41 @@ use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-class SplitActionTest extends TestCase
-{
-    protected AutomationMail $automationMail1;
+uses(TestCase::class);
 
-    protected AutomationMail $automationMail2;
+beforeEach(function () {
+    TestTime::setTestNow(Carbon::create(2021, 01, 01));
 
-    protected Subscriber $subscriber;
+    test()->subscriber = SubscriberFactory::new()->confirmed()->create();
+    test()->automationMail1 = AutomationMail::factory()->create();
+    test()->automationMail2 = AutomationMail::factory()->create();
 
-    protected Action $actionModel;
+    $automation = Automation::create()
+        ->chain([
+            new SplitAction(
+                [
+                    new SendAutomationMailAction(test()->automationMail1),
+                ],
+                [
+                    new SendAutomationMailAction(test()->automationMail2),
+                ],
+            ),
+        ]);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    // Attach a dummy action so we have a pivot table
+    test()->actionModel = $automation->actions->first();
+    test()->actionModel->subscribers()->attach(test()->subscriber);
+    test()->subscriber = test()->actionModel->subscribers->first();
+});
 
-        TestTime::setTestNow(Carbon::create(2021, 01, 01));
+it('doesnt halt', function () {
+    test()->assertFalse(test()->actionModel->action->shouldHalt(test()->subscriber));
+});
 
-        $this->subscriber = SubscriberFactory::new()->confirmed()->create();
-        $this->automationMail1 = AutomationMail::factory()->create();
-        $this->automationMail2 = AutomationMail::factory()->create();
+it('determines the correct next actions', function () {
+    test()->assertInstanceOf(SendAutomationMailAction::class, test()->actionModel->action->nextActions(test()->subscriber)[0]->action);
+    test()->assertEquals(test()->automationMail1->id, test()->actionModel->action->nextActions(test()->subscriber)[0]->action->automationMail->id);
 
-        $automation = Automation::create()
-            ->chain([
-                new SplitAction(
-                    [
-                        new SendAutomationMailAction($this->automationMail1),
-                    ],
-                    [
-                        new SendAutomationMailAction($this->automationMail2),
-                    ],
-                ),
-            ]);
-
-        // Attach a dummy action so we have a pivot table
-        $this->actionModel = $automation->actions->first();
-        $this->actionModel->subscribers()->attach($this->subscriber);
-        $this->subscriber = $this->actionModel->subscribers->first();
-    }
-
-    /** @test * */
-    public function it_doesnt_halt()
-    {
-        $this->assertFalse($this->actionModel->action->shouldHalt($this->subscriber));
-    }
-
-    /** @test * */
-    public function it_determines_the_correct_next_actions()
-    {
-        $this->assertInstanceOf(SendAutomationMailAction::class, $this->actionModel->action->nextActions($this->subscriber)[0]->action);
-        $this->assertEquals($this->automationMail1->id, $this->actionModel->action->nextActions($this->subscriber)[0]->action->automationMail->id);
-
-        $this->assertInstanceOf(SendAutomationMailAction::class, $this->actionModel->action->nextActions($this->subscriber)[1]->action);
-        $this->assertEquals($this->automationMail2->id, $this->actionModel->action->nextActions($this->subscriber)[1]->action->automationMail->id);
-    }
-}
+    test()->assertInstanceOf(SendAutomationMailAction::class, test()->actionModel->action->nextActions(test()->subscriber)[1]->action);
+    test()->assertEquals(test()->automationMail2->id, test()->actionModel->action->nextActions(test()->subscriber)[1]->action->automationMail->id);
+});

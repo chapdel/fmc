@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\EmailLists\Subscribers;
-
 use Illuminate\Http\Response;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\UnsubscribeController;
@@ -9,38 +7,29 @@ use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestCase;
 
-class UnsubscribeControllerTest extends TestCase
-{
-    use RespondsToApiRequests;
+uses(TestCase::class);
+uses(RespondsToApiRequests::class);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+beforeEach(function () {
+    test()->withExceptionHandling();
 
-        $this->withExceptionHandling();
+    test()->loginToApi();
+});
 
-        $this->loginToApi();
-    }
+it('can unsubscribe a subscriber via the api', function () {
+    $subscriber = SubscriberFactory::new()->confirmed()->create();
 
-    /** @test */
-    public function it_can_unsubscribe_a_subscriber_via_the_api()
-    {
-        $subscriber = SubscriberFactory::new()->confirmed()->create();
+    $this
+        ->postJson(action(UnsubscribeController::class, $subscriber))
+        ->assertSuccessful();
 
-        $this
-            ->postJson(action(UnsubscribeController::class, $subscriber))
-            ->assertSuccessful();
+    test()->assertEquals(SubscriptionStatus::UNSUBSCRIBED, $subscriber->refresh()->status);
+});
 
-        $this->assertEquals(SubscriptionStatus::UNSUBSCRIBED, $subscriber->refresh()->status);
-    }
+it('cannot unsubscribe someone that is already unsubscribed', function () {
+    $subscriber = SubscriberFactory::new()->unsubscribed()->create();
 
-    /** @test */
-    public function it_cannot_unsubscribe_someone_that_is_already_unsubscribed()
-    {
-        $subscriber = SubscriberFactory::new()->unsubscribed()->create();
-
-        $this
-            ->postJson(action(UnsubscribeController::class, $subscriber))
-            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-    }
-}
+    $this
+        ->postJson(action(UnsubscribeController::class, $subscriber))
+        ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+});

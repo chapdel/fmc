@@ -1,34 +1,25 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\TransactionalMails;
-
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails\ShowTransactionalMailController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestCase;
 
-class ShowTransactionalMailControllerTest extends TestCase
-{
-    use RespondsToApiRequests;
+uses(TestCase::class);
+uses(RespondsToApiRequests::class);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+beforeEach(function () {
+    test()->loginToApi();
+});
 
-        $this->loginToApi();
-    }
+it('can show a transactional mail', function () {
+    /** @var TransactionalMail $transactionalMail */
+    $transactionalMail = TransactionalMail::factory()->create();
 
-    /** @test */
-    public function it_can_show_a_transactional_mail()
-    {
-        /** @var TransactionalMail $transactionalMail */
-        $transactionalMail = TransactionalMail::factory()->create();
-
-        $this
-            ->get(action(ShowTransactionalMailController::class, $transactionalMail))
-            ->assertSuccessful()
-            ->assertJsonFragment([
-                'subject' => $transactionalMail->subject,
-            ]);
-    }
-}
+    $this
+        ->get(action(ShowTransactionalMailController::class, $transactionalMail))
+        ->assertSuccessful()
+        ->assertJsonFragment([
+            'subject' => $transactionalMail->subject,
+        ]);
+});

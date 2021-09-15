@@ -1,39 +1,34 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\App\Subscribers;
-
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\CreateSubscriberController;
 use Spatie\Mailcoach\Tests\TestCase;
 
-class CreateSubscriberControllerTest extends TestCase
-{
-    /** @test */
-    public function it_can_create_a_subscriber()
-    {
-        $this->authenticate();
+uses(TestCase::class);
 
-        /** @var EmailList $emailList */
-        $emailList = EmailList::factory()->create();
+it('can create a subscriber', function () {
+    test()->authenticate();
 
-        $attributes = [
-            'email' => 'john@example.com',
-            'first_name' => 'John',
-            'last_name' => 'Doe',
-        ];
+    /** @var EmailList $emailList */
+    $emailList = EmailList::factory()->create();
 
-        $this
-            ->post(action([CreateSubscriberController::class, 'store'], $emailList), $attributes)
-            ->assertSessionHasNoErrors();
+    $attributes = [
+        'email' => 'john@example.com',
+        'first_name' => 'John',
+        'last_name' => 'Doe',
+    ];
 
-        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
-        $subscriber = Subscriber::first();
+    $this
+        ->post(action([CreateSubscriberController::class, 'store'], $emailList), $attributes)
+        ->assertSessionHasNoErrors();
 
-        $this->assertEquals('john@example.com', $subscriber->email);
-        $this->assertEquals('John', $subscriber->first_name);
-        $this->assertEquals('Doe', $subscriber->last_name);
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
+    $subscriber = Subscriber::first();
 
-        $this->assertTrue($emailList->isSubscribed($subscriber->email));
-    }
-}
+    test()->assertEquals('john@example.com', $subscriber->email);
+    test()->assertEquals('John', $subscriber->first_name);
+    test()->assertEquals('Doe', $subscriber->last_name);
+
+    test()->assertTrue($emailList->isSubscribed($subscriber->email));
+});

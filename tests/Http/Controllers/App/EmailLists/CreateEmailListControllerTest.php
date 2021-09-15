@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\App\EmailLists;
-
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Policies\EmailListPolicy;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\CreateEmailListController;
@@ -9,90 +7,81 @@ use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListGeneralSe
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomEmailListDenyAllPolicy;
 
-class CreateEmailListControllerTest extends TestCase
-{
-    /** @test */
-    public function it_can_create_a_new_email_list()
-    {
-        $this->authenticate();
+uses(TestCase::class);
 
-        $attributes = [
-            'name' => 'new list',
-            'default_from_email' => 'john@example.com',
-        ];
+it('can create a new email list', function () {
+    test()->authenticate();
 
-        $this
-            ->post(
-                action(CreateEmailListController::class),
-                $attributes
-            )
-            ->assertSessionHasNoErrors()
-            ->assertRedirect(action([EmailListGeneralSettingsController::class, 'edit'], EmailList::first()->id));
+    $attributes = [
+        'name' => 'new list',
+        'default_from_email' => 'john@example.com',
+    ];
 
-        $this->assertDatabaseHas(static::getEmailListTableName(), $attributes);
-    }
+    $this
+        ->post(
+            action(CreateEmailListController::class),
+            $attributes
+        )
+        ->assertSessionHasNoErrors()
+        ->assertRedirect(action([EmailListGeneralSettingsController::class, 'edit'], EmailList::first()->id));
 
-    /** @test */
-    public function it_sets_mailers_based_on_the_mailcoach_mailer_config()
-    {
-        $this->authenticate();
+    test()->assertDatabaseHas(static::getEmailListTableName(), $attributes);
+});
 
-        config()->set('mailcoach.mailer', 'some-mailer');
+it('sets mailers based on the mailcoach mailer config', function () {
+    test()->authenticate();
 
-        $attributes = [
-            'name' => 'new list',
-            'default_from_email' => 'john@example.com',
-        ];
+    config()->set('mailcoach.mailer', 'some-mailer');
 
-        $this
-            ->postJson(action(CreateEmailListController::class), $attributes);
+    $attributes = [
+        'name' => 'new list',
+        'default_from_email' => 'john@example.com',
+    ];
 
-        $attributes['transactional_mailer'] = 'some-mailer';
-        $attributes['campaign_mailer'] = 'some-mailer';
+    $this
+        ->postJson(action(CreateEmailListController::class), $attributes);
 
-        $this->assertDatabaseHas(static::getEmailListTableName(), $attributes);
-    }
+    $attributes['transactional_mailer'] = 'some-mailer';
+    $attributes['campaign_mailer'] = 'some-mailer';
 
-    /** @test */
-    public function it_sets_mailers_based_on_the_config()
-    {
-        $this->authenticate();
+    test()->assertDatabaseHas(static::getEmailListTableName(), $attributes);
+});
 
-        config()->set('mailcoach.mailer', 'some-mailer');
-        config()->set('mailcoach.transactional.mailer', 'some-transactional-mailer');
-        config()->set('mailcoach.campaigns.mailer', 'some-campaign-mailer');
+it('sets mailers based on the config', function () {
+    test()->authenticate();
 
-        $attributes = [
-            'name' => 'new list',
-            'default_from_email' => 'john@example.com',
-        ];
+    config()->set('mailcoach.mailer', 'some-mailer');
+    config()->set('mailcoach.transactional.mailer', 'some-transactional-mailer');
+    config()->set('mailcoach.campaigns.mailer', 'some-campaign-mailer');
 
-        $this->post(action(CreateEmailListController::class), $attributes);
+    $attributes = [
+        'name' => 'new list',
+        'default_from_email' => 'john@example.com',
+    ];
 
-        $attributes['transactional_mailer'] = 'some-transactional-mailer';
-        $attributes['campaign_mailer'] = 'some-campaign-mailer';
+    test()->post(action(CreateEmailListController::class), $attributes);
 
-        $this->assertDatabaseHas(static::getEmailListTableName(), $attributes);
-    }
+    $attributes['transactional_mailer'] = 'some-transactional-mailer';
+    $attributes['campaign_mailer'] = 'some-campaign-mailer';
 
-    /** @test */
-    public function it_authorizes_access_with_custom_policy()
-    {
-        app()->bind(EmailListPolicy::class, CustomEmailListDenyAllPolicy::class);
+    test()->assertDatabaseHas(static::getEmailListTableName(), $attributes);
+});
 
-        $this->authenticate();
+it('authorizes access with custom policy', function () {
+    app()->bind(EmailListPolicy::class, CustomEmailListDenyAllPolicy::class);
 
-        $attributes = [
-            'name' => 'new list',
-            'default_from_email' => 'john@example.com',
-        ];
+    test()->authenticate();
 
-        $this
-            ->withExceptionHandling()
-            ->post(
-                action(CreateEmailListController::class),
-                $attributes
-            )
-            ->assertForbidden();
-    }
-}
+    $attributes = [
+        'name' => 'new list',
+        'default_from_email' => 'john@example.com',
+    ];
+
+    $this
+        ->withExceptionHandling()
+        ->post(
+            action(CreateEmailListController::class),
+            $attributes
+        )
+        ->assertForbidden();
+});

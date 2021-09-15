@@ -1,68 +1,49 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Campaign\Actions;
-
 use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeSubjectAction;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 
-class PersonalizeSubjectActionTest extends TestCase
+uses(TestCase::class);
+
+beforeEach(function () {
+    test()->send = SendFactory::new()->create();
+
+    $subscriber = test()->send->subscriber;
+    $subscriber->uuid = 'my-uuid';
+    $subscriber->extra_attributes = ['first_name' => 'John', 'last_name' => 'Doe'];
+    $subscriber->save();
+
+    test()->send->campaign->update(['name' => 'my campaign']);
+
+    test()->personalizeSubjectAction = new PersonalizeSubjectAction();
+});
+
+it('can replace an placeholder for a subscriber attribute', function () {
+    assertActionResult('::subscriber.uuid::', 'my-uuid');
+});
+
+it('will not replace a non existing attribute', function () {
+    assertActionResult('::subscriber.non-existing::', '::subscriber.non-existing::');
+});
+
+it('can replace an placeholder for a subscriber extra attribute', function () {
+    assertActionResult('::subscriber.extra_attributes.first_name::', 'John');
+});
+
+it('will not replace an placeholder for a non existing subscriber extra attribute', function () {
+    assertActionResult('::subscriber.extra_attributes.non-existing::', '::subscriber.extra_attributes.non-existing::');
+});
+
+// Helpers
+function assertActionResult(string $originalSubject, $expectedSubject)
 {
-    /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send */
-    protected Send $send;
+    $actualOutputHtml = (new PersonalizeSubjectAction())->execute($originalSubject, test()->send);
+    test()->assertEquals($expectedSubject, $actualOutputHtml, "The personalize action did not produce the expected result. Expected: `{$expectedSubject}`, actual: `{$actualOutputHtml}`");
 
-    /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeSubjectAction */
-    protected PersonalizeSubjectAction $personalizeSubjectAction;
+    $expectedOutputHtmlWithHtmlTags = "{$expectedSubject}";
+    $actualOutputHtmlWithHtmlTags = (new PersonalizeSubjectAction())->execute("$originalSubject", test()->send);
 
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->send = SendFactory::new()->create();
-
-        $subscriber = $this->send->subscriber;
-        $subscriber->uuid = 'my-uuid';
-        $subscriber->extra_attributes = ['first_name' => 'John', 'last_name' => 'Doe'];
-        $subscriber->save();
-
-        $this->send->campaign->update(['name' => 'my campaign']);
-
-        $this->personalizeSubjectAction = new PersonalizeSubjectAction();
-    }
-
-    /** @test */
-    public function it_can_replace_an_placeholder_for_a_subscriber_attribute()
-    {
-        $this->assertActionResult('::subscriber.uuid::', 'my-uuid');
-    }
-
-    /** @test */
-    public function it_will_not_replace_a_non_existing_attribute()
-    {
-        $this->assertActionResult('::subscriber.non-existing::', '::subscriber.non-existing::');
-    }
-
-    /** @test */
-    public function it_can_replace_an_placeholder_for_a_subscriber_extra_attribute()
-    {
-        $this->assertActionResult('::subscriber.extra_attributes.first_name::', 'John');
-    }
-
-    /** @test */
-    public function it_will_not_replace_an_placeholder_for_a_non_existing_subscriber_extra_attribute()
-    {
-        $this->assertActionResult('::subscriber.extra_attributes.non-existing::', '::subscriber.extra_attributes.non-existing::');
-    }
-
-    protected function assertActionResult(string $originalSubject, $expectedSubject)
-    {
-        $actualOutputHtml = (new PersonalizeSubjectAction())->execute($originalSubject, $this->send);
-        $this->assertEquals($expectedSubject, $actualOutputHtml, "The personalize action did not produce the expected result. Expected: `{$expectedSubject}`, actual: `{$actualOutputHtml}`");
-
-        $expectedOutputHtmlWithHtmlTags = "{$expectedSubject}";
-        $actualOutputHtmlWithHtmlTags = (new PersonalizeSubjectAction())->execute("$originalSubject", $this->send);
-
-        $this->assertEquals($expectedOutputHtmlWithHtmlTags, $actualOutputHtmlWithHtmlTags, "The personalize action did not produce the expected result when wrapped in html tags. Expected: `{$expectedOutputHtmlWithHtmlTags}`, actual: `{$actualOutputHtmlWithHtmlTags}`");
-    }
+    test()->assertEquals($expectedOutputHtmlWithHtmlTags, $actualOutputHtmlWithHtmlTags, "The personalize action did not produce the expected result when wrapped in html tags. Expected: `{$expectedOutputHtmlWithHtmlTags}`, actual: `{$actualOutputHtmlWithHtmlTags}`");
 }

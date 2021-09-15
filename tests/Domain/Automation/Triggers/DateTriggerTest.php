@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Automation\Triggers;
-
 use Carbon\CarbonInterval;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Artisan;
@@ -16,58 +14,48 @@ use Spatie\Mailcoach\Domain\Automation\Support\Triggers\DateTrigger;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-class DateTriggerTest extends TestCase
-{
-    protected AutomationMail $automationMail;
+uses(TestCase::class);
 
-    protected EmailList $emailList;
+beforeEach(function () {
+    test()->automationMail = AutomationMail::factory()->create(['subject' => 'Welcome']);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    test()->emailList = EmailList::factory()->create();
+});
 
-        $this->automationMail = AutomationMail::factory()->create(['subject' => 'Welcome']);
+it('triggers on a specific date', function () {
+    Queue::fake();
 
-        $this->emailList = EmailList::factory()->create();
-    }
+    TestTime::setTestNow(Carbon::create(2020, 01, 01));
 
-    /** @test * */
-    public function it_triggers_on_a_specific_date()
-    {
-        Queue::fake();
+    $trigger = new DateTrigger(Carbon::create(2020, 01, 02));
 
-        TestTime::setTestNow(Carbon::create(2020, 01, 01));
+    $automation = Automation::create()
+        ->name('New year!')
+        ->runEvery(CarbonInterval::minute())
+        ->to(test()->emailList)
+        ->triggerOn($trigger)
+        ->chain([
+            new SendAutomationMailAction(test()->automationMail),
+        ])
+        ->start();
 
-        $trigger = new DateTrigger(Carbon::create(2020, 01, 02));
+    test()->emailList->subscribe('john@doe.com');
 
-        $automation = Automation::create()
-            ->name('New year!')
-            ->runEvery(CarbonInterval::minute())
-            ->to($this->emailList)
-            ->triggerOn($trigger)
-            ->chain([
-                new SendAutomationMailAction($this->automationMail),
-            ])
-            ->start();
+    Artisan::call(RunAutomationTriggersCommand::class);
 
-        $this->emailList->subscribe('john@doe.com');
+    test()->assertEmpty($automation->actions->first()->subscribers);
 
-        Artisan::call(RunAutomationTriggersCommand::class);
+    TestTime::addDay();
 
-        $this->assertEmpty($automation->actions->first()->subscribers);
+    Artisan::call(RunAutomationTriggersCommand::class);
 
-        TestTime::addDay();
+    Queue::assertPushed(
+        RunAutomationForSubscriberJob::class,
+        function (RunAutomationForSubscriberJob $job) use ($automation) {
+            test()->assertSame('john@doe.com', $job->subscriber->email);
+            test()->assertSame($automation->id, $job->automation->id);
 
-        Artisan::call(RunAutomationTriggersCommand::class);
-
-        Queue::assertPushed(
-            RunAutomationForSubscriberJob::class,
-            function (RunAutomationForSubscriberJob $job) use ($automation) {
-                $this->assertSame('john@doe.com', $job->subscriber->email);
-                $this->assertSame($automation->id, $job->automation->id);
-
-                return true;
-            }
-        );
-    }
-}
+            return true;
+        }
+    );
+});

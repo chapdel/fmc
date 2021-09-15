@@ -1,49 +1,38 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Campaigns;
-
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignsController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestCase;
 
-class CampaignsIndexControllerTest extends TestCase
-{
-    use RespondsToApiRequests;
+uses(TestCase::class);
+uses(RespondsToApiRequests::class);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+beforeEach(function () {
+    test()->loginToApi();
+});
 
-        $this->loginToApi();
-    }
+it('can list campaign', function () {
+    $templates = Campaign::factory(3)->create();
 
-    /** @test */
-    public function it_can_list_campaign()
-    {
-        $templates = Campaign::factory(3)->create();
+    $this
+        ->getJson(action([CampaignsController::class, 'index']))
+        ->assertSuccessful()
+        ->assertSeeText($templates->first()->name);
+});
 
-        $this
-            ->getJson(action([CampaignsController::class, 'index']))
-            ->assertSuccessful()
-            ->assertSeeText($templates->first()->name);
-    }
+it('can search campaigns', function () {
+    Campaign::factory()->create([
+        'name' => 'one',
+    ]);
 
-    /** @test */
-    public function it_can_search_campaigns()
-    {
-        Campaign::factory()->create([
-            'name' => 'one',
-        ]);
+    Campaign::factory()->create([
+        'name' => 'two',
+    ]);
 
-        Campaign::factory()->create([
-            'name' => 'two',
-        ]);
-
-        $this
-            ->getJson(action([CampaignsController::class, 'index']) . '?filter[search]=two')
-            ->assertSuccessful()
-            ->assertJsonCount(1, 'data')
-            ->assertJsonFragment(['name' => 'two']);
-    }
-}
+    $this
+        ->getJson(action([CampaignsController::class, 'index']) . '?filter[search]=two')
+        ->assertSuccessful()
+        ->assertJsonCount(1, 'data')
+        ->assertJsonFragment(['name' => 'two']);
+});

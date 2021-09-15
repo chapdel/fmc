@@ -1,8 +1,6 @@
 <?php
 
 
-namespace Spatie\Mailcoach\Tests\Domain\Automation\Actions;
-
 use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
@@ -14,98 +12,83 @@ use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestSegmentQueryOnlyJohn;
 
-class ShouldAutomationRunForSubscriberActionTest extends TestCase
-{
-    private EmailList $emailList;
+uses(TestCase::class);
 
-    private AutomationMail $automationMail;
-    private ShouldAutomationRunForSubscriberAction $action;
+beforeEach(function () {
+    test()->emailList = EmailList::factory()->create();
+    test()->automationMail = AutomationMail::factory()->create();
+    test()->action = resolve(ShouldAutomationRunForSubscriberAction::class);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    Queue::fake();
+});
 
-        $this->emailList = EmailList::factory()->create();
-        $this->automationMail = AutomationMail::factory()->create();
-        $this->action = resolve(ShouldAutomationRunForSubscriberAction::class);
+it('returns false when the subscriber is already in the automation', function () {
+    /** @var Automation $automation */
+    $automation = Automation::create()
+        ->name('New year!')
+        ->runEvery(CarbonInterval::minute())
+        ->to(test()->emailList)
+        ->triggerOn(new SubscribedTrigger())
+        ->chain([
+            new SendAutomationMailAction(test()->automationMail),
+        ])->start();
 
-        Queue::fake();
-    }
+    test()->refreshServiceProvider();
 
-    /** @test * */
-    public function it_returns_false_when_the_subscriber_is_already_in_the_automation()
-    {
-        /** @var Automation $automation */
-        $automation = Automation::create()
-            ->name('New year!')
-            ->runEvery(CarbonInterval::minute())
-            ->to($this->emailList)
-            ->triggerOn(new SubscribedTrigger())
-            ->chain([
-                new SendAutomationMailAction($this->automationMail),
-            ])->start();
+    test()->assertEmpty($automation->actions->first()->fresh()->subscribers);
 
-        $this->refreshServiceProvider();
+    $jane = test()->emailList->subscribeSkippingConfirmation('jane@doe.com');
 
-        $this->assertEmpty($automation->actions->first()->fresh()->subscribers);
+    test()->assertTrue(test()->action->execute($automation, $jane));
 
-        $jane = $this->emailList->subscribeSkippingConfirmation('jane@doe.com');
+    $automation->actions->first()->subscribers()->attach($jane);
 
-        $this->assertTrue($this->action->execute($automation, $jane));
+    test()->assertFalse(test()->action->execute($automation, $jane));
+});
 
-        $automation->actions->first()->subscribers()->attach($jane);
+it('returns false if the subscriber isnt subscribed', function () {
+    /** @var Automation $automation */
+    $automation = Automation::create()
+        ->name('New year!')
+        ->runEvery(CarbonInterval::minute())
+        ->to(test()->emailList)
+        ->triggerOn(new SubscribedTrigger())
+        ->chain([
+            new SendAutomationMailAction(test()->automationMail),
+        ])->start();
 
-        $this->assertFalse($this->action->execute($automation, $jane));
-    }
+    test()->refreshServiceProvider();
 
-    /** @test * */
-    public function it_returns_false_if_the_subscriber_isnt_subscribed()
-    {
-        /** @var Automation $automation */
-        $automation = Automation::create()
-            ->name('New year!')
-            ->runEvery(CarbonInterval::minute())
-            ->to($this->emailList)
-            ->triggerOn(new SubscribedTrigger())
-            ->chain([
-                new SendAutomationMailAction($this->automationMail),
-            ])->start();
+    test()->assertEmpty($automation->actions->first()->fresh()->subscribers);
 
-        $this->refreshServiceProvider();
+    $jane = test()->emailList->subscribeSkippingConfirmation('jane@doe.com');
 
-        $this->assertEmpty($automation->actions->first()->fresh()->subscribers);
+    test()->assertTrue(test()->action->execute($automation, $jane));
 
-        $jane = $this->emailList->subscribeSkippingConfirmation('jane@doe.com');
+    $jane->unsubscribe();
 
-        $this->assertTrue($this->action->execute($automation, $jane));
+    test()->assertFalse(test()->action->execute($automation, $jane));
+});
 
-        $jane->unsubscribe();
+it('returns false when the subscriber isnt in the segment', function () {
+    /** @var Automation $automation */
+    $automation = Automation::create()
+        ->name('New year!')
+        ->runEvery(CarbonInterval::minute())
+        ->to(test()->emailList)
+        ->segment(TestSegmentQueryOnlyJohn::class)
+        ->triggerOn(new SubscribedTrigger())
+        ->chain([
+            new SendAutomationMailAction(test()->automationMail),
+        ])->start();
 
-        $this->assertFalse($this->action->execute($automation, $jane));
-    }
+    test()->refreshServiceProvider();
 
-    /** @test * */
-    public function it_returns_false_when_the_subscriber_isnt_in_the_segment()
-    {
-        /** @var Automation $automation */
-        $automation = Automation::create()
-            ->name('New year!')
-            ->runEvery(CarbonInterval::minute())
-            ->to($this->emailList)
-            ->segment(TestSegmentQueryOnlyJohn::class)
-            ->triggerOn(new SubscribedTrigger())
-            ->chain([
-                new SendAutomationMailAction($this->automationMail),
-            ])->start();
+    $jane = test()->emailList->subscribeSkippingConfirmation('jane@doe.com');
+    $john = test()->emailList->subscribeSkippingConfirmation('john@example.com');
 
-        $this->refreshServiceProvider();
+    test()->assertEquals(0, $automation->actions()->first()->subscribers->count());
 
-        $jane = $this->emailList->subscribeSkippingConfirmation('jane@doe.com');
-        $john = $this->emailList->subscribeSkippingConfirmation('john@example.com');
-
-        $this->assertEquals(0, $automation->actions()->first()->subscribers->count());
-
-        $this->assertFalse($this->action->execute($automation, $jane));
-        $this->assertTrue($this->action->execute($automation, $john));
-    }
-}
+    test()->assertFalse(test()->action->execute($automation, $jane));
+    test()->assertTrue(test()->action->execute($automation, $john));
+});

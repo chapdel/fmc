@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Audience\Models;
-
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
@@ -11,184 +9,158 @@ use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Mails\WelcomeMail;
 use Spatie\Mailcoach\Tests\TestCase;
 
-class SubscriberTest extends TestCase
-{
-    protected EmailList $emailList;
+uses(TestCase::class);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+beforeEach(function () {
+    test()->emailList = EmailList::factory()->create();
 
-        $this->emailList = EmailList::factory()->create();
+    Mail::fake();
+});
 
-        Mail::fake();
-    }
+it('will only subscribe a subscriber once', function () {
+    test()->assertFalse(test()->emailList->isSubscribed('john@example.com'));
 
-    /** @test */
-    public function it_will_only_subscribe_a_subscriber_once()
-    {
-        $this->assertFalse($this->emailList->isSubscribed('john@example.com'));
+    Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
+    test()->assertTrue(test()->emailList->isSubscribed('john@example.com'));
 
-        Subscriber::createWithEmail('john@example.com')->subscribeTo($this->emailList);
-        $this->assertTrue($this->emailList->isSubscribed('john@example.com'));
+    Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
+    test()->assertTrue(test()->emailList->isSubscribed('john@example.com'));
 
-        Subscriber::createWithEmail('john@example.com')->subscribeTo($this->emailList);
-        $this->assertTrue($this->emailList->isSubscribed('john@example.com'));
+    test()->assertEquals(1, Subscriber::count());
+});
 
-        $this->assertEquals(1, Subscriber::count());
-    }
+it('can resubscribe someone', function () {
+    $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
+    test()->assertTrue(test()->emailList->isSubscribed('john@example.com'));
 
-    /** @test */
-    public function it_can_resubscribe_someone()
-    {
-        $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($this->emailList);
-        $this->assertTrue($this->emailList->isSubscribed('john@example.com'));
+    $subscriber->unsubscribe();
+    test()->assertFalse(test()->emailList->isSubscribed('john@example.com'));
 
-        $subscriber->unsubscribe();
-        $this->assertFalse($this->emailList->isSubscribed('john@example.com'));
+    Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
+    test()->assertTrue(test()->emailList->isSubscribed('john@example.com'));
+});
 
-        Subscriber::createWithEmail('john@example.com')->subscribeTo($this->emailList);
-        $this->assertTrue($this->emailList->isSubscribed('john@example.com'));
-    }
+it('will send a confirmation mail if the list requires double optin', function () {
+    test()->emailList->update([
+        'requires_confirmation' => true,
+    ]);
 
-    /** @test */
-    public function it_will_send_a_confirmation_mail_if_the_list_requires_double_optin()
-    {
-        $this->emailList->update([
-            'requires_confirmation' => true,
-        ]);
+    $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
+    test()->assertFalse(test()->emailList->isSubscribed('john@example.com'));
 
-        $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($this->emailList);
-        $this->assertFalse($this->emailList->isSubscribed('john@example.com'));
+    Mail::assertQueued(ConfirmSubscriberMail::class, function (ConfirmSubscriberMail $mail) use ($subscriber) {
+        test()->assertEquals($subscriber->uuid, $mail->subscriber->uuid);
 
-        Mail::assertQueued(ConfirmSubscriberMail::class, function (ConfirmSubscriberMail $mail) use ($subscriber) {
-            $this->assertEquals($subscriber->uuid, $mail->subscriber->uuid);
+        return true;
+    });
+});
 
-            return true;
-        });
-    }
+it('will send a welcome mail if the list has welcome mails', function () {
+    test()->emailList->update([
+        'send_welcome_mail' => true,
+    ]);
 
-    /** @test */
-    public function it_will_send_a_welcome_mail_if_the_list_has_welcome_mails()
-    {
-        $this->emailList->update([
-            'send_welcome_mail' => true,
-        ]);
+    $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
+    test()->assertTrue(test()->emailList->isSubscribed('john@example.com'));
 
-        $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($this->emailList);
-        $this->assertTrue($this->emailList->isSubscribed('john@example.com'));
+    Mail::assertQueued(WelcomeMail::class, function (WelcomeMail $mail) use ($subscriber) {
+        test()->assertEquals($subscriber->uuid, $mail->subscriber->uuid);
 
-        Mail::assertQueued(WelcomeMail::class, function (WelcomeMail $mail) use ($subscriber) {
-            $this->assertEquals($subscriber->uuid, $mail->subscriber->uuid);
+        return true;
+    });
+});
 
-            return true;
-        });
-    }
+it('will only send a welcome mail once', function () {
+    test()->emailList->update([
+        'send_welcome_mail' => true,
+    ]);
 
-    /** @test */
-    public function it_will_only_send_a_welcome_mail_once()
-    {
-        $this->emailList->update([
-            'send_welcome_mail' => true,
-        ]);
+    Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
+    test()->assertTrue(test()->emailList->isSubscribed('john@example.com'));
 
-        Subscriber::createWithEmail('john@example.com')->subscribeTo($this->emailList);
-        $this->assertTrue($this->emailList->isSubscribed('john@example.com'));
+    Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
+    test()->assertTrue(test()->emailList->isSubscribed('john@example.com'));
 
-        Subscriber::createWithEmail('john@example.com')->subscribeTo($this->emailList);
-        $this->assertTrue($this->emailList->isSubscribed('john@example.com'));
+    Mail::assertQueued(WelcomeMail::class, 1);
+});
 
-        Mail::assertQueued(WelcomeMail::class, 1);
-    }
+it('can immediately subscribe someone and not send a mail even with double opt in enabled', function () {
+    test()->emailList->update([
+        'requires_confirmation' => true,
+    ]);
 
-    /** @test */
-    public function it_can_immediately_subscribe_someone_and_not_send_a_mail_even_with_double_opt_in_enabled()
-    {
-        $this->emailList->update([
-            'requires_confirmation' => true,
-        ]);
+    $subscriber = Subscriber::createWithEmail('john@example.com')
+        ->skipConfirmation()
+        ->subscribeTo(test()->emailList);
 
-        $subscriber = Subscriber::createWithEmail('john@example.com')
-            ->skipConfirmation()
-            ->subscribeTo($this->emailList);
+    test()->assertEquals(SubscriptionStatus::SUBSCRIBED, $subscriber->status);
+    test()->assertTrue(test()->emailList->isSubscribed('john@example.com'));
 
-        $this->assertEquals(SubscriptionStatus::SUBSCRIBED, $subscriber->status);
-        $this->assertTrue($this->emailList->isSubscribed('john@example.com'));
+    Mail::assertNotQueued(ConfirmSubscriberMail::class);
+});
 
-        Mail::assertNotQueued(ConfirmSubscriberMail::class);
-    }
+test('no email will be sent when adding someone that was already subscribed', function () {
+    $subscriber = Subscriber::factory()->create();
+    test()->assertEquals(SubscriptionStatus::SUBSCRIBED, $subscriber->status);
+    $subscriber->emailList->update(['requires_confirmation' => true]);
 
-    /** @test */
-    public function no_email_will_be_sent_when_adding_someone_that_was_already_subscribed()
-    {
-        $subscriber = Subscriber::factory()->create();
-        $this->assertEquals(SubscriptionStatus::SUBSCRIBED, $subscriber->status);
-        $subscriber->emailList->update(['requires_confirmation' => true]);
+    $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
+    test()->assertEquals(SubscriptionStatus::SUBSCRIBED, $subscriber->status);
 
-        $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($this->emailList);
-        $this->assertEquals(SubscriptionStatus::SUBSCRIBED, $subscriber->status);
+    Mail::assertNothingQueued();
+});
 
-        Mail::assertNothingQueued();
-    }
+it('can get all sends', function () {
+    /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
+    $send = SendFactory::new()->create();
 
-    /** @test */
-    public function it_can_get_all_sends()
-    {
-        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
-        $send = SendFactory::new()->create();
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
+    $subscriber = $send->subscriber;
 
-        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
-        $subscriber = $send->subscriber;
+    $sends = $subscriber->sends;
 
-        $sends = $subscriber->sends;
+    test()->assertCount(1, $sends);
 
-        $this->assertCount(1, $sends);
+    test()->assertEquals($send->uuid, $sends->first()->uuid);
+});
 
-        $this->assertEquals($send->uuid, $sends->first()->uuid);
-    }
+it('can get all opens', function () {
+    /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
+    $send = SendFactory::new()->create();
+    $send->campaign->update(['track_opens' => true]);
 
-    /** @test */
-    public function it_can_get_all_opens()
-    {
-        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
-        $send = SendFactory::new()->create();
-        $send->campaign->update(['track_opens' => true]);
+    $send->registerOpen();
 
-        $send->registerOpen();
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
+    $subscriber = $send->subscriber;
 
-        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
-        $subscriber = $send->subscriber;
+    $opens = $subscriber->opens;
+    test()->assertCount(1, $opens);
 
-        $opens = $subscriber->opens;
-        $this->assertCount(1, $opens);
+    test()->assertEquals($send->uuid, $subscriber->opens->first()->send->uuid);
+    test()->assertEquals($subscriber->uuid, $subscriber->opens->first()->subscriber->uuid);
+});
 
-        $this->assertEquals($send->uuid, $subscriber->opens->first()->send->uuid);
-        $this->assertEquals($subscriber->uuid, $subscriber->opens->first()->subscriber->uuid);
-    }
+it('can get all clicks', function () {
+    /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
+    $send = SendFactory::new()->create();
+    $send->campaign->update(['track_clicks' => true]);
 
-    /** @test */
-    public function it_can_get_all_clicks()
-    {
-        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
-        $send = SendFactory::new()->create();
-        $send->campaign->update(['track_clicks' => true]);
+    $send->registerClick('https://example.com');
+    $send->registerClick('https://another-domain.com');
+    $send->registerClick('https://example.com');
 
-        $send->registerClick('https://example.com');
-        $send->registerClick('https://another-domain.com');
-        $send->registerClick('https://example.com');
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
+    $subscriber = $send->subscriber;
 
-        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
-        $subscriber = $send->subscriber;
+    $clicks = $subscriber->clicks;
+    test()->assertCount(3, $clicks);
 
-        $clicks = $subscriber->clicks;
-        $this->assertCount(3, $clicks);
+    $uniqueClicks = $subscriber->uniqueClicks;
+    test()->assertCount(2, $uniqueClicks);
 
-        $uniqueClicks = $subscriber->uniqueClicks;
-        $this->assertCount(2, $uniqueClicks);
-
-        $this->assertEquals(
-            ['https://example.com','https://another-domain.com'],
-            $uniqueClicks->pluck('link.url')->toArray()
-        );
-    }
-}
+    test()->assertEquals(
+        ['https://example.com','https://another-domain.com'],
+        $uniqueClicks->pluck('link.url')->toArray()
+    );
+});

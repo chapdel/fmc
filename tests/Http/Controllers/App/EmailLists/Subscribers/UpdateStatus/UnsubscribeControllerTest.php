@@ -1,50 +1,40 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\App\EmailLists\Subscribers\UpdateStatus;
-
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Tests\TestCase;
 
-class UnsubscribeControllerTest extends TestCase
-{
-    public function setUp(): void
-    {
-        parent::setUp();
+uses(TestCase::class);
 
-        $this->authenticate();
-    }
+beforeEach(function () {
+    test()->authenticate();
+});
 
-    /** @test */
-    public function it_can_unsubscribe_a_subscriber()
-    {
-        $emailList = EmailList::factory()->create();
+it('can unsubscribe a subscriber', function () {
+    $emailList = EmailList::factory()->create();
 
-        $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($emailList);
+    $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($emailList);
 
-        $this->assertEquals(SubscriptionStatus::SUBSCRIBED, $subscriber->status);
+    test()->assertEquals(SubscriptionStatus::SUBSCRIBED, $subscriber->status);
 
-        $this
-            ->post(route('mailcoach.subscriber.unsubscribe', $subscriber))
-            ->assertRedirect();
+    $this
+        ->post(route('mailcoach.subscriber.unsubscribe', $subscriber))
+        ->assertRedirect();
 
-        $this->assertEquals(SubscriptionStatus::UNSUBSCRIBED, $subscriber->refresh()->status);
-    }
+    test()->assertEquals(SubscriptionStatus::UNSUBSCRIBED, $subscriber->refresh()->status);
+});
 
-    /** @test */
-    public function it_will_only_unsubscribe_subscribed_subscribers()
-    {
-        $this->withExceptionHandling();
+it('will only unsubscribe subscribed subscribers', function () {
+    test()->withExceptionHandling();
 
-        $emailList = EmailList::factory()->create();
-        $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($emailList);
-        $subscriber->unsubscribe();
+    $emailList = EmailList::factory()->create();
+    $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($emailList);
+    $subscriber->unsubscribe();
 
-        $this->assertEquals(SubscriptionStatus::UNSUBSCRIBED, $subscriber->status);
+    test()->assertEquals(SubscriptionStatus::UNSUBSCRIBED, $subscriber->status);
 
-        $this
-            ->post(route('mailcoach.subscriber.unsubscribe', $subscriber))
-            ->assertSessionHas('laravel_flash_message.class', 'error');
-    }
-}
+    $this
+        ->post(route('mailcoach.subscriber.unsubscribe', $subscriber))
+        ->assertSessionHas('laravel_flash_message.class', 'error');
+});

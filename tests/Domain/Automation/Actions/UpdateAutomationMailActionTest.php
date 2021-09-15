@@ -1,52 +1,47 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Automation\Actions;
-
 use Spatie\Mailcoach\Domain\Automation\Actions\UpdateAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-class UpdateAutomationMailActionTest extends TestCase
-{
-    /** @test * */
-    public function it_updates_an_automation_mail()
-    {
-        TestTime::freeze();
+uses(TestCase::class);
 
-        $automationMail = AutomationMail::factory()->create();
+it('updates an automation mail', function () {
+    TestTime::freeze();
 
-        $action = resolve(UpdateAutomationMailAction::class);
+    $automationMail = AutomationMail::factory()->create();
 
-        $action->execute($automationMail, [
-            'name' => 'My Automation mail',
-            'subject' => 'A subject',
-            'html' => '<html></html>',
-            'structured_html' => '',
-            'track_opens' => false,
-            'track_clicks' => false,
-            'utm_tags' => false,
-            'last_modified_at' => now()->startOfSecond(),
-        ]);
+    $action = resolve(UpdateAutomationMailAction::class);
 
-        $this->assertEquals([
-            'name' => 'My Automation mail',
-            'subject' => 'A subject',
-            'html' => '<html></html>',
-            'structured_html' => '',
-            'track_opens' => false,
-            'track_clicks' => false,
-            'utm_tags' => false,
-            'last_modified_at' => now()->startOfSecond(),
-        ], [
-            'name' => $automationMail->name,
-            'subject' => $automationMail->subject,
-            'html' => $automationMail->html,
-            'structured_html' => $automationMail->structured_html,
-            'track_opens' => $automationMail->track_opens,
-            'track_clicks' => $automationMail->track_clicks,
-            'utm_tags' => $automationMail->utm_tags,
-            'last_modified_at' => $automationMail->last_modified_at,
-        ]);
-    }
-}
+    $action->execute($automationMail, [
+        'name' => 'My Automation mail',
+        'subject' => 'A subject',
+        'html' => '<html></html>',
+        'structured_html' => '',
+        'track_opens' => false,
+        'track_clicks' => false,
+        'utm_tags' => false,
+        'last_modified_at' => now()->startOfSecond(),
+    ]);
+
+    test()->assertEquals([
+        'name' => 'My Automation mail',
+        'subject' => 'A subject',
+        'html' => '<html></html>',
+        'structured_html' => '',
+        'track_opens' => false,
+        'track_clicks' => false,
+        'utm_tags' => false,
+        'last_modified_at' => now()->startOfSecond(),
+    ], [
+        'name' => $automationMail->name,
+        'subject' => $automationMail->subject,
+        'html' => $automationMail->html,
+        'structured_html' => $automationMail->structured_html,
+        'track_opens' => $automationMail->track_opens,
+        'track_clicks' => $automationMail->track_clicks,
+        'utm_tags' => $automationMail->utm_tags,
+        'last_modified_at' => $automationMail->last_modified_at,
+    ]);
+});

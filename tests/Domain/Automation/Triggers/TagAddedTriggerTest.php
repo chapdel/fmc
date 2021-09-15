@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Automation\Triggers;
-
 use Carbon\CarbonInterval;
 use Illuminate\Support\Carbon;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
@@ -13,114 +11,100 @@ use Spatie\Mailcoach\Domain\Automation\Support\Triggers\TagAddedTrigger;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-class TagAddedTriggerTest extends TestCase
-{
-    protected AutomationMail $automationMail;
+uses(TestCase::class);
 
-    protected EmailList $emailList;
+beforeEach(function () {
+    test()->automationMail = AutomationMail::factory()->create(['subject' => 'Welcome']);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    test()->emailList = EmailList::factory()->create();
+});
 
-        $this->automationMail = AutomationMail::factory()->create(['subject' => 'Welcome']);
+it('triggers when a subscriber gets a tag', function () {
+    TestTime::setTestNow(Carbon::create(2020, 01, 01));
 
-        $this->emailList = EmailList::factory()->create();
-    }
+    $trigger = new TagAddedTrigger('opened');
 
-    /** @test * */
-    public function it_triggers_when_a_subscriber_gets_a_tag()
-    {
-        TestTime::setTestNow(Carbon::create(2020, 01, 01));
+    $automation = Automation::create()
+        ->name('New year!')
+        ->runEvery(CarbonInterval::minute())
+        ->to(test()->emailList)
+        ->triggerOn($trigger)
+        ->chain([
+            new SendAutomationMailAction(test()->automationMail),
+        ])
+        ->start();
 
-        $trigger = new TagAddedTrigger('opened');
+    test()->refreshServiceProvider();
 
-        $automation = Automation::create()
-            ->name('New year!')
-            ->runEvery(CarbonInterval::minute())
-            ->to($this->emailList)
-            ->triggerOn($trigger)
-            ->chain([
-                new SendAutomationMailAction($this->automationMail),
-            ])
-            ->start();
+    test()->emailList->subscribe('john@doe.com');
 
-        $this->refreshServiceProvider();
+    test()->assertEmpty($automation->actions->first()->fresh()->subscribers);
 
-        $this->emailList->subscribe('john@doe.com');
+    Subscriber::first()->addTag('clicked');
 
-        $this->assertEmpty($automation->actions->first()->fresh()->subscribers);
+    test()->assertEmpty($automation->actions->first()->fresh()->subscribers);
 
-        Subscriber::first()->addTag('clicked');
+    Subscriber::first()->addTag('opened');
 
-        $this->assertEmpty($automation->actions->first()->fresh()->subscribers);
+    test()->assertEquals(1, $automation->actions()->first()->subscribers->count());
+});
 
-        Subscriber::first()->addTag('opened');
+it('triggers when a new subscriber has a tag', function () {
+    TestTime::setTestNow(Carbon::create(2020, 01, 01));
 
-        $this->assertEquals(1, $automation->actions()->first()->subscribers->count());
-    }
+    $trigger = new TagAddedTrigger('opened');
 
-    /** @test * */
-    public function it_triggers_when_a_new_subscriber_has_a_tag()
-    {
-        TestTime::setTestNow(Carbon::create(2020, 01, 01));
+    $automation = Automation::create()
+        ->name('New year!')
+        ->runEvery(CarbonInterval::minute())
+        ->to(test()->emailList)
+        ->triggerOn($trigger)
+        ->chain([
+            new SendAutomationMailAction(test()->automationMail),
+        ])
+        ->start();
 
-        $trigger = new TagAddedTrigger('opened');
+    test()->refreshServiceProvider();
 
-        $automation = Automation::create()
-            ->name('New year!')
-            ->runEvery(CarbonInterval::minute())
-            ->to($this->emailList)
-            ->triggerOn($trigger)
-            ->chain([
-                new SendAutomationMailAction($this->automationMail),
-            ])
-            ->start();
+    test()->assertEmpty($automation->actions->first()->fresh()->subscribers);
 
-        $this->refreshServiceProvider();
+    $pendingSubscriber = Subscriber::createWithEmail('john@doe.com')
+        ->tags(['opened'])
+        ->subscribeTo(test()->emailList);
 
-        $this->assertEmpty($automation->actions->first()->fresh()->subscribers);
+    test()->assertEquals(1, $automation->actions()->first()->subscribers->count());
+});
 
-        $pendingSubscriber = Subscriber::createWithEmail('john@doe.com')
-            ->tags(['opened'])
-            ->subscribeTo($this->emailList);
+it('triggers when a new confirmed subscriber has a tag', function () {
+    TestTime::setTestNow(Carbon::create(2020, 01, 01));
 
-        $this->assertEquals(1, $automation->actions()->first()->subscribers->count());
-    }
+    test()->emailList->update([
+        'requires_confirmation' => true,
+    ]);
 
-    /** @test * */
-    public function it_triggers_when_a_new_confirmed_subscriber_has_a_tag()
-    {
-        TestTime::setTestNow(Carbon::create(2020, 01, 01));
+    $trigger = new TagAddedTrigger('opened');
 
-        $this->emailList->update([
-            'requires_confirmation' => true,
-        ]);
+    $automation = Automation::create()
+        ->name('New year!')
+        ->runEvery(CarbonInterval::minute())
+        ->to(test()->emailList)
+        ->triggerOn($trigger)
+        ->chain([
+            new SendAutomationMailAction(test()->automationMail),
+        ])
+        ->start();
 
-        $trigger = new TagAddedTrigger('opened');
+    test()->refreshServiceProvider();
 
-        $automation = Automation::create()
-            ->name('New year!')
-            ->runEvery(CarbonInterval::minute())
-            ->to($this->emailList)
-            ->triggerOn($trigger)
-            ->chain([
-                new SendAutomationMailAction($this->automationMail),
-            ])
-            ->start();
+    test()->assertEmpty($automation->actions->first()->fresh()->subscribers);
 
-        $this->refreshServiceProvider();
+    $subscriber = Subscriber::createWithEmail('john@doe.com')
+        ->tags(['opened'])
+        ->subscribeTo(test()->emailList);
 
-        $this->assertEmpty($automation->actions->first()->fresh()->subscribers);
+    test()->assertEmpty($automation->actions->first()->fresh()->subscribers);
 
-        $subscriber = Subscriber::createWithEmail('john@doe.com')
-            ->tags(['opened'])
-            ->subscribeTo($this->emailList);
+    $subscriber->confirm();
 
-        $this->assertEmpty($automation->actions->first()->fresh()->subscribers);
-
-        $subscriber->confirm();
-
-        $this->assertEquals(1, $automation->actions()->first()->subscribers->count());
-    }
-}
+    test()->assertEquals(1, $automation->actions()->first()->subscribers->count());
+});

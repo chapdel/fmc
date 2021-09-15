@@ -1,55 +1,46 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\TransactionalMail\Models;
-
 use Spatie\Mailcoach\Tests\Factories\TransactionalMailFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 
-class TransactionalMailTest extends TestCase
-{
-    /** @test */
-    public function the_open_relation_works()
-    {
-        $transactionalMailWithoutOpen = TransactionalMailFactory::new()->create();
+uses(TestCase::class);
 
-        $transactionalMailWithOpen = TransactionalMailFactory::new()
-            ->withOpen()
-            ->create();
+test('the open relation works', function () {
+    $transactionalMailWithoutOpen = TransactionalMailFactory::new()->create();
 
-        $this->assertCount(0, $transactionalMailWithoutOpen->opens);
-        $this->assertCount(1, $transactionalMailWithOpen->opens);
-    }
+    $transactionalMailWithOpen = TransactionalMailFactory::new()
+        ->withOpen()
+        ->create();
 
-    /** @test */
-    public function the_click_relation_works()
-    {
-        $transactionalMailWithoutClick = TransactionalMailFactory::new()->create();
+    test()->assertCount(0, $transactionalMailWithoutOpen->opens);
+    test()->assertCount(1, $transactionalMailWithOpen->opens);
+});
 
-        $transactionalMailWithClick = TransactionalMailFactory::new()
-            ->withClick()
-            ->create();
+test('the click relation works', function () {
+    $transactionalMailWithoutClick = TransactionalMailFactory::new()->create();
 
-        $this->assertCount(0, $transactionalMailWithoutClick->clicks);
-        $this->assertCount(1, $transactionalMailWithClick->clicks);
-    }
+    $transactionalMailWithClick = TransactionalMailFactory::new()
+        ->withClick()
+        ->create();
 
-    /** @test */
-    public function it_can_group_clicks_per_url()
-    {
-        /** @var \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail $transactionalMail */
-        $transactionalMail = TransactionalMailFactory::new()
-            ->withClick(['url' => 'https://spatie.be'], 2)
-            ->withClick(['url' => 'https://mailcoach.app'], 3)
-            ->create();
+    test()->assertCount(0, $transactionalMailWithoutClick->clicks);
+    test()->assertCount(1, $transactionalMailWithClick->clicks);
+});
 
-        $this->assertCount(5, $transactionalMail->clicks);
+it('can group clicks per url', function () {
+    /** @var \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail $transactionalMail */
+    $transactionalMail = TransactionalMailFactory::new()
+        ->withClick(['url' => 'https://spatie.be'], 2)
+        ->withClick(['url' => 'https://mailcoach.app'], 3)
+        ->create();
 
-        $groupedPerUrl = $transactionalMail->clicksPerUrl();
+    test()->assertCount(5, $transactionalMail->clicks);
 
-        $this->assertEquals($groupedPerUrl[0]['url'], 'https://mailcoach.app');
-        $this->assertEquals($groupedPerUrl[0]['count'], 3);
+    $groupedPerUrl = $transactionalMail->clicksPerUrl();
 
-        $this->assertEquals($groupedPerUrl[1]['url'], 'https://spatie.be');
-        $this->assertEquals($groupedPerUrl[1]['count'], 2);
-    }
-}
+    test()->assertEquals($groupedPerUrl[0]['url'], 'https://mailcoach.app');
+    test()->assertEquals($groupedPerUrl[0]['count'], 3);
+
+    test()->assertEquals($groupedPerUrl[1]['url'], 'https://spatie.be');
+    test()->assertEquals($groupedPerUrl[1]['count'], 2);
+});

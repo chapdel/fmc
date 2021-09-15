@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Automation\Actions;
-
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailTestAction;
@@ -9,51 +7,39 @@ use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Tests\TestCase;
 
-class SendAutomationMailTestActionTest extends TestCase
-{
-    private SendAutomationMailTestAction $action;
+uses(TestCase::class);
 
-    private AutomationMail $automationMail;
+beforeEach(function () {
+    test()->action = resolve(SendAutomationMailTestAction::class);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    /** @var AutomationMail $automationMail */
+    test()->automationMail = AutomationMail::factory()->create();
 
-        $this->action = resolve(SendAutomationMailTestAction::class);
+    Mail::fake();
+    Event::fake();
+});
 
-        /** @var AutomationMail $automationMail */
-        $this->automationMail = AutomationMail::factory()->create();
+it('sends a test mail', function () {
+    test()->action->execute(test()->automationMail, 'john@doe.com');
 
-        Mail::fake();
-        Event::fake();
-    }
+    Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) {
+        test()->assertTrue($mail->hasTo('john@doe.com'));
 
-    /** @test * */
-    public function it_sends_a_test_mail()
-    {
-        $this->action->execute($this->automationMail, 'john@doe.com');
+        return true;
+    });
+});
 
-        Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) {
-            $this->assertTrue($mail->hasTo('john@doe.com'));
+it('sets reply to', function () {
+    test()->automationMail->update([
+        'reply_to_email' => 'foo@bar.com',
+        'reply_to_name' => 'Foo',
+    ]);
 
-            return true;
-        });
-    }
+    test()->action->execute(test()->automationMail, 'john@doe.com');
 
-    /** @test * */
-    public function it_sets_reply_to()
-    {
-        $this->automationMail->update([
-            'reply_to_email' => 'foo@bar.com',
-            'reply_to_name' => 'Foo',
-        ]);
+    Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) {
+        test()->assertTrue($mail->hasReplyTo('foo@bar.com', 'Foo'));
 
-        $this->action->execute($this->automationMail, 'john@doe.com');
-
-        Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) {
-            $this->assertTrue($mail->hasReplyTo('foo@bar.com', 'Foo'));
-
-            return true;
-        });
-    }
-}
+        return true;
+    });
+});

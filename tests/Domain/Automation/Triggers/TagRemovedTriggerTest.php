@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Automation\Triggers;
-
 use Carbon\CarbonInterval;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Queue;
@@ -15,57 +13,47 @@ use Spatie\Mailcoach\Domain\Automation\Support\Triggers\TagRemovedTrigger;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-class TagRemovedTriggerTest extends TestCase
-{
-    protected AutomationMail $automationMail;
+uses(TestCase::class);
 
-    protected EmailList $emailList;
+beforeEach(function () {
+    test()->automationMail = AutomationMail::factory()->create(['subject' => 'Welcome']);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    test()->emailList = EmailList::factory()->create();
+});
 
-        $this->automationMail = AutomationMail::factory()->create(['subject' => 'Welcome']);
+it('triggers when a tag is removed from a subscriber', function () {
+    Queue::fake();
 
-        $this->emailList = EmailList::factory()->create();
-    }
+    TestTime::setTestNow(Carbon::create(2020, 01, 01));
 
-    /** @test * */
-    public function it_triggers_when_a_tag_is_removed_from_a_subscriber()
-    {
-        Queue::fake();
+    $trigger = new TagRemovedTrigger('opened');
 
-        TestTime::setTestNow(Carbon::create(2020, 01, 01));
+    $automation = Automation::create()
+        ->name('New year!')
+        ->runEvery(CarbonInterval::minute())
+        ->to(test()->emailList)
+        ->triggerOn($trigger)
+        ->chain([
+            new SendAutomationMailAction(test()->automationMail),
+        ])
+        ->start();
 
-        $trigger = new TagRemovedTrigger('opened');
+    test()->refreshServiceProvider();
 
-        $automation = Automation::create()
-            ->name('New year!')
-            ->runEvery(CarbonInterval::minute())
-            ->to($this->emailList)
-            ->triggerOn($trigger)
-            ->chain([
-                new SendAutomationMailAction($this->automationMail),
-            ])
-            ->start();
+    test()->emailList->subscribe('john@doe.com');
 
-        $this->refreshServiceProvider();
+    Subscriber::first()->addTag('opened');
 
-        $this->emailList->subscribe('john@doe.com');
+    test()->assertEmpty($automation->actions->first()->fresh()->subscribers);
 
-        Subscriber::first()->addTag('opened');
+    Subscriber::first()->removeTag('opened');
 
-        $this->assertEmpty($automation->actions->first()->fresh()->subscribers);
+    Queue::assertPushed(
+        RunAutomationForSubscriberJob::class,
+        function (RunAutomationForSubscriberJob $job) use ($automation) {
+            test()->assertSame('john@doe.com', $job->subscriber->email);
 
-        Subscriber::first()->removeTag('opened');
-
-        Queue::assertPushed(
-            RunAutomationForSubscriberJob::class,
-            function (RunAutomationForSubscriberJob $job) use ($automation) {
-                $this->assertSame('john@doe.com', $job->subscriber->email);
-
-                return true;
-            }
-        );
-    }
-}
+            return true;
+        }
+    );
+});

@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\TransactionalMail;
-
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\ResendTransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
@@ -9,53 +7,50 @@ use Spatie\Mailcoach\Tests\Domain\TransactionalMail\Concerns\SendsTestTransactio
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestTransactionMail;
 
-class ResendTransactionalMailTest extends TestCase
-{
-    use SendsTestTransactionalMail;
+uses(TestCase::class);
+uses(SendsTestTransactionalMail::class);
 
-    /** @test */
-    public function it_can_resend_a_transactional_mail()
-    {
-        $this->sendTestMail();
+it('can resend a transactional mail', function () {
+    test()->sendTestMail();
 
-        /** @var TransactionalMail $originalMail */
-        $this->sendTestMail(function (TestTransactionMail $testTransactionMail) {
-            $testTransactionMail
-                ->trackOpensAndClicks()
-                ->from('ringo@example.com', 'Ringo')
-                ->to('john@example.com', 'John')
-                ->cc('paul@example.com', 'Paul')
-                ->bcc('george@example.com', 'George');
-        });
+    /** @var TransactionalMail $originalMail */
+    test()->sendTestMail(function (TestTransactionMail $testTransactionMail) {
+        $testTransactionMail
+            ->trackOpensAndClicks()
+            ->from('ringo@example.com', 'Ringo')
+            ->to('john@example.com', 'John')
+            ->cc('paul@example.com', 'Paul')
+            ->bcc('george@example.com', 'George');
+    });
 
-        Mail::fake();
+    Mail::fake();
 
-        $originalMail = TransactionalMail::first();
+    $originalMail = TransactionalMail::first();
 
-        $originalMail->resend();
+    $originalMail->resend();
 
-        Mail::assertSent(
-            ResendTransactionalMail::class,
-            function (ResendTransactionalMail $resentMail) use ($originalMail) {
-                $this->assertEquals($resentMail->subject, $originalMail->subject);
+    Mail::assertSent(
+        ResendTransactionalMail::class,
+        function (ResendTransactionalMail $resentMail) use ($originalMail) {
+            test()->assertEquals($resentMail->subject, $originalMail->subject);
 
-                $this->assertMatchingPersons($originalMail, $resentMail, 'from');
-                $this->assertMatchingPersons($originalMail, $resentMail, 'to');
-                $this->assertMatchingPersons($originalMail, $resentMail, 'cc');
-                $this->assertMatchingPersons($originalMail, $resentMail, 'bcc');
+            assertMatchingPersons($originalMail, $resentMail, 'from');
+            assertMatchingPersons($originalMail, $resentMail, 'to');
+            assertMatchingPersons($originalMail, $resentMail, 'cc');
+            assertMatchingPersons($originalMail, $resentMail, 'bcc');
 
-                return true;
-            }
-        );
-
-        $this->assertCount(2, TransactionalMail::get());
-    }
-
-    protected function assertMatchingPersons(TransactionalMail $originalMail, ResendTransactionalMail $resentMail, string $field)
-    {
-        $this->assertGreaterThan(0, count($resentMail->to));
-        foreach ($originalMail->$field as $person) {
-            $this->assertTrue(in_array($person['email'], collect($resentMail->$field)->pluck('address')->toArray()));
+            return true;
         }
+    );
+
+    test()->assertCount(2, TransactionalMail::get());
+});
+
+// Helpers
+function assertMatchingPersons(TransactionalMail $originalMail, ResendTransactionalMail $resentMail, string $field)
+{
+    test()->assertGreaterThan(0, count($resentMail->to));
+    foreach ($originalMail->$field as $person) {
+        test()->assertTrue(in_array($person['email'], collect($resentMail->$field)->pluck('address')->toArray()));
     }
 }

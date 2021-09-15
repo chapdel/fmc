@@ -1,42 +1,35 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Campaign\Events;
-
 use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignOpenedEvent;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Tests\TestCase;
 
-class CampaignOpenedEventTest extends TestCase
-{
-    /** @test */
-    public function it_fires_an_event_when_a_campaign_is_opened()
-    {
-        Event::fake(CampaignOpenedEvent::class);
+uses(TestCase::class);
 
-        /** @var Send $send */
-        $send = SendFactory::new()->create();
+it('fires an event when a campaign is opened', function () {
+    Event::fake(CampaignOpenedEvent::class);
 
-        $send->campaign->update(['track_opens' => true]);
+    /** @var Send $send */
+    $send = SendFactory::new()->create();
 
-        $send->registerOpen();
+    $send->campaign->update(['track_opens' => true]);
 
-        Event::assertDispatched(CampaignOpenedEvent::class);
-    }
+    $send->registerOpen();
 
-    /** @test */
-    public function it_will_not_fire_an_event_when_a_campaign_is_opened_and_open_tracking_is_not_enabled()
-    {
-        Event::fake(CampaignOpenedEvent::class);
+    Event::assertDispatched(CampaignOpenedEvent::class);
+});
 
-        /** @var Send $send */
-        $send = SendFactory::new()->create();
+it('will not fire an event when a campaign is opened and open tracking is not enabled', function () {
+    Event::fake(CampaignOpenedEvent::class);
 
-        $send->campaign->update(['track_opens' => false]);
+    /** @var Send $send */
+    $send = SendFactory::new()->create();
 
-        $send->registerOpen();
+    $send->campaign->update(['track_opens' => false]);
 
-        Event::assertNotDispatched(CampaignOpenedEvent::class);
-    }
-}
+    $send->registerOpen();
+
+    Event::assertNotDispatched(CampaignOpenedEvent::class);
+});

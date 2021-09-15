@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Campaign\Jobs;
-
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
@@ -12,39 +10,30 @@ use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Snapshots\MatchesSnapshots;
 
-class MarkCampaignAsSentJobTest extends TestCase
-{
-    use MatchesSnapshots;
+uses(TestCase::class);
+uses(MatchesSnapshots::class);
 
-    protected Campaign $campaign;
+beforeEach(function () {
+    test()->campaign = (new CampaignFactory())
+        ->withSubscriberCount(3)
+        ->create();
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    test()->campaign->emailList->update(['campaign_mailer' => 'some-mailer']);
 
-        $this->campaign = (new CampaignFactory())
-            ->withSubscriberCount(3)
-            ->create();
+    Mail::fake();
 
-        $this->campaign->emailList->update(['campaign_mailer' => 'some-mailer']);
+    Event::fake();
+});
 
-        Mail::fake();
+it('marks a campaign as sent and sends an event', function () {
+    dispatch(new MarkCampaignAsSentJob(test()->campaign));
 
-        Event::fake();
-    }
+    Event::assertDispatched(CampaignSentEvent::class, function (CampaignSentEvent $event) {
+        test()->assertEquals(test()->campaign->id, $event->campaign->id);
 
-    /** @test */
-    public function it_marks_a_campaign_as_sent_and_sends_an_event()
-    {
-        dispatch(new MarkCampaignAsSentJob($this->campaign));
+        return true;
+    });
 
-        Event::assertDispatched(CampaignSentEvent::class, function (CampaignSentEvent $event) {
-            $this->assertEquals($this->campaign->id, $event->campaign->id);
-
-            return true;
-        });
-
-        $this->campaign->refresh();
-        $this->assertEquals(CampaignStatus::SENT, $this->campaign->status);
-    }
-}
+    test()->campaign->refresh();
+    test()->assertEquals(CampaignStatus::SENT, test()->campaign->status);
+});

@@ -1,103 +1,85 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Automation\Support\Livewire\Actions;
-
 use Illuminate\Support\Str;
 use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\WaitActionComponent;
 use Spatie\Mailcoach\Tests\TestCase;
 
-class WaitActionComponentTest extends TestCase
-{
-    private array $action;
+uses(TestCase::class);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+beforeEach(function () {
+    test()->action = [
+        'class' => WaitAction::class,
+    ];
+});
 
-        $this->action = [
-            'class' => WaitAction::class,
-        ];
-    }
+it('requires length and unit', function () {
+    Livewire::test(WaitActionComponent::class, [
+        'action' => test()->action,
+        'uuid' => Str::uuid()->toString(),
+    ])->set('length', '')
+      ->set('unit', '')
+      ->call('save')
+      ->assertHasErrors([
+        'length' => ['required'],
+        'unit' => 'required',
+      ]);
+});
 
-    /** @test * */
-    public function it_requires_length_and_unit()
-    {
-        Livewire::test(WaitActionComponent::class, [
-            'action' => $this->action,
-            'uuid' => Str::uuid()->toString(),
-        ])->set('length', '')
-          ->set('unit', '')
-          ->call('save')
-          ->assertHasErrors([
-            'length' => ['required'],
-            'unit' => 'required',
-          ]);
-    }
+test('length must be an integer', function () {
+    Livewire::test(WaitActionComponent::class, [
+        'action' => test()->action,
+        'uuid' => Str::uuid()->toString(),
+    ])->set('length', 'a')
+        ->call('save')
+        ->assertHasErrors([
+            'length' => 'integer',
+        ]);
+});
 
-    /** @test * */
-    public function length_must_be_an_integer()
-    {
-        Livewire::test(WaitActionComponent::class, [
-            'action' => $this->action,
-            'uuid' => Str::uuid()->toString(),
-        ])->set('length', 'a')
-            ->call('save')
-            ->assertHasErrors([
-                'length' => 'integer',
-            ]);
-    }
+test('length must be at least one', function () {
+    Livewire::test(WaitActionComponent::class, [
+        'action' => test()->action,
+        'uuid' => Str::uuid()->toString(),
+    ])->set('length', 0)
+        ->call('save')
+        ->assertHasErrors([
+            'length' => 'min',
+        ]);
 
-    /** @test * */
-    public function length_must_be_at_least_one()
-    {
-        Livewire::test(WaitActionComponent::class, [
-            'action' => $this->action,
-            'uuid' => Str::uuid()->toString(),
-        ])->set('length', 0)
-            ->call('save')
-            ->assertHasErrors([
-                'length' => 'min',
-            ]);
+    Livewire::test(WaitActionComponent::class, [
+        'action' => test()->action,
+        'uuid' => Str::uuid()->toString(),
+    ])->set('length', 1)
+        ->call('save')
+        ->assertHasNoErrors();
+});
 
-        Livewire::test(WaitActionComponent::class, [
-            'action' => $this->action,
-            'uuid' => Str::uuid()->toString(),
-        ])->set('length', 1)
-            ->call('save')
-            ->assertHasNoErrors();
-    }
+test('unit must be valid', function () {
+    Livewire::test(WaitActionComponent::class, [
+        'action' => test()->action,
+        'uuid' => Str::uuid()->toString(),
+    ])->set('unit', 'something-invalid')
+        ->call('save')
+        ->assertHasErrors([
+            'unit' => 'in',
+        ]);
+});
 
-    /** @test * */
-    public function unit_must_be_valid()
-    {
-        Livewire::test(WaitActionComponent::class, [
-            'action' => $this->action,
-            'uuid' => Str::uuid()->toString(),
-        ])->set('unit', 'something-invalid')
-            ->call('save')
-            ->assertHasErrors([
-                'unit' => 'in',
-            ]);
-    }
+it('emits correct data', function () {
+    $uuid = Str::uuid()->toString();
 
-    /** @test * */
-    public function it_emits_correct_data()
-    {
-        $uuid = Str::uuid()->toString();
-
-        Livewire::test(WaitActionComponent::class, [
-            'action' => $this->action,
-            'uuid' => $uuid,
-        ])  ->set('length', '5')
-            ->set('unit', 'days')
-            ->call('save')
-            ->assertHasNoErrors()
-            ->assertEmitted('actionSaved', $uuid, [
-                'seconds' => 432000,
-                'unit' => 'days',
-                'length' => '5',
-            ]);
-    }
-}
+    Livewire::test(WaitActionComponent::class, [
+        'action' => test()->action,
+        'uuid' => $uuid,
+    ])  ->set('length', '5')
+        ->set('unit', 'days')
+        ->call('save')
+        ->assertHasNoErrors()
+        ->assertEmitted('actionSaved', $uuid, [
+            'seconds' => 432000,
+            'unit' => 'days',
+            'length' => '5',
+        ]);
+});

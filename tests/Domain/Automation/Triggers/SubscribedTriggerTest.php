@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Automation\Triggers;
-
 use Carbon\CarbonInterval;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Queue;
@@ -14,54 +12,44 @@ use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-class SubscribedTriggerTest extends TestCase
-{
-    protected AutomationMail $automationMail;
+uses(TestCase::class);
 
-    protected EmailList $emailList;
+beforeEach(function () {
+    test()->automationMail = AutomationMail::factory()->create(['subject' => 'Welcome']);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    test()->emailList = EmailList::factory()->create();
+});
 
-        $this->automationMail = AutomationMail::factory()->create(['subject' => 'Welcome']);
+it('triggers when a subscriber is subscribed', function () {
+    Queue::fake();
 
-        $this->emailList = EmailList::factory()->create();
-    }
+    TestTime::setTestNow(Carbon::create(2020, 01, 01));
 
-    /** @test * */
-    public function it_triggers_when_a_subscriber_is_subscribed()
-    {
-        Queue::fake();
+    $trigger = new SubscribedTrigger();
 
-        TestTime::setTestNow(Carbon::create(2020, 01, 01));
+    $automation = Automation::create()
+        ->name('New year!')
+        ->runEvery(CarbonInterval::minute())
+        ->to(test()->emailList)
+        ->triggerOn($trigger)
+        ->chain([
+            new SendAutomationMailAction(test()->automationMail),
+        ])
+        ->start();
 
-        $trigger = new SubscribedTrigger();
+    test()->refreshServiceProvider();
 
-        $automation = Automation::create()
-            ->name('New year!')
-            ->runEvery(CarbonInterval::minute())
-            ->to($this->emailList)
-            ->triggerOn($trigger)
-            ->chain([
-                new SendAutomationMailAction($this->automationMail),
-            ])
-            ->start();
+    test()->assertEmpty($automation->actions->first()->fresh()->subscribers);
 
-        $this->refreshServiceProvider();
+    test()->emailList->subscribeSkippingConfirmation('john@doe.com');
 
-        $this->assertEmpty($automation->actions->first()->fresh()->subscribers);
+    Queue::assertPushed(
+        RunAutomationForSubscriberJob::class,
+        function (RunAutomationForSubscriberJob $job) use ($automation) {
+            test()->assertSame('john@doe.com', $job->subscriber->email);
+            test()->assertSame($automation->id, $job->automation->id);
 
-        $this->emailList->subscribeSkippingConfirmation('john@doe.com');
-
-        Queue::assertPushed(
-            RunAutomationForSubscriberJob::class,
-            function (RunAutomationForSubscriberJob $job) use ($automation) {
-                $this->assertSame('john@doe.com', $job->subscriber->email);
-                $this->assertSame($automation->id, $job->automation->id);
-
-                return true;
-            }
-        );
-    }
-}
+            return true;
+        }
+    );
+});

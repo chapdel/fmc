@@ -1,118 +1,99 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\EmailLists;
-
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\EmailListsController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestCase;
 
-class EmailListsControllerTest extends TestCase
-{
-    use RespondsToApiRequests;
+uses(TestCase::class);
+uses(RespondsToApiRequests::class);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+beforeEach(function () {
+    test()->loginToApi();
+});
 
-        $this->loginToApi();
-    }
+it('can list all email lists', function () {
+    $emailLists = EmailList::factory(3)->create();
 
-    /** @test */
-    public function it_can_list_all_email_lists()
-    {
-        $emailLists = EmailList::factory(3)->create();
+    $this
+        ->getJson(action([EmailListsController::class, 'index']))
+        ->assertSuccessful()
+        ->assertSeeText($emailLists->first()->name);
+});
 
-        $this
-            ->getJson(action([EmailListsController::class, 'index']))
-            ->assertSuccessful()
-            ->assertSeeText($emailLists->first()->name);
-    }
+it('can search email lists', function () {
+    EmailList::factory()->create([
+        'name' => 'one',
+    ]);
 
-    /** @test */
-    public function it_can_search_email_lists()
-    {
-        EmailList::factory()->create([
-            'name' => 'one',
-        ]);
+    EmailList::factory()->create([
+        'name' => 'two',
+    ]);
 
-        EmailList::factory()->create([
-            'name' => 'two',
-        ]);
+    $this
+        ->getJson(action([EmailListsController::class, 'index']) . '?filter[search]=two')
+        ->assertSuccessful()
+        ->assertJsonCount(1, 'data')
+        ->assertJsonFragment(['name' => 'two']);
+});
 
-        $this
-            ->getJson(action([EmailListsController::class, 'index']) . '?filter[search]=two')
-            ->assertSuccessful()
-            ->assertJsonCount(1, 'data')
-            ->assertJsonFragment(['name' => 'two']);
-    }
+test('the api can show an email list', function () {
+    $emailList = EmailList::factory()->create();
 
-    /** @test */
-    public function the_api_can_show_an_email_list()
-    {
-        $emailList = EmailList::factory()->create();
+    $this
+        ->getJson(action([EmailListsController::class, 'show'], $emailList))
+        ->assertSuccessful()
+        ->assertJsonFragment(['name' => $emailList->name]);
+});
 
-        $this
-            ->getJson(action([EmailListsController::class, 'show'], $emailList))
-            ->assertSuccessful()
-            ->assertJsonFragment(['name' => $emailList->name]);
-    }
+test('an email list can be stored using the api', function () {
+    $attributes = [
+        'name' => 'email list name',
+        'default_from_email' => 'johndoe@example.com',
+        'default_from_name' => 'john doe',
+        'default_reply_to_email' => 'johndoe@example.com',
+        'default_reply_to_name' => 'john doe',
+    ];
 
-    /** @test */
-    public function an_email_list_can_be_stored_using_the_api()
-    {
-        $attributes = [
-            'name' => 'email list name',
-            'default_from_email' => 'johndoe@example.com',
-            'default_from_name' => 'john doe',
-            'default_reply_to_email' => 'johndoe@example.com',
-            'default_reply_to_name' => 'john doe',
-        ];
+    $this
+        ->postJson(action([EmailListsController::class, 'store'], $attributes))
+        ->assertSuccessful();
 
-        $this
-            ->postJson(action([EmailListsController::class, 'store'], $attributes))
-            ->assertSuccessful();
+    test()->assertDatabaseHas(static::getEmailListTableName(), $attributes);
+});
 
-        $this->assertDatabaseHas(static::getEmailListTableName(), $attributes);
-    }
+test('an email list can be updated using the api', function () {
+    $emailList = EmailList::factory()->create();
+    $id = $emailList->id;
 
-    /** @test */
-    public function an_email_list_can_be_updated_using_the_api()
-    {
-        $emailList = EmailList::factory()->create();
-        $id = $emailList->id;
+    $attributes = [
+        'name' => 'email list name',
+        'default_from_email' => 'johndoe@example.com',
+        'default_from_name' => 'john doe',
+        'default_reply_to_email' => 'johndoe@example.com',
+        'default_reply_to_name' => 'john doe',
+    ];
 
-        $attributes = [
-            'name' => 'email list name',
-            'default_from_email' => 'johndoe@example.com',
-            'default_from_name' => 'john doe',
-            'default_reply_to_email' => 'johndoe@example.com',
-            'default_reply_to_name' => 'john doe',
-        ];
+    $this
+        ->putJson(action([EmailListsController::class, 'update'], $emailList), $attributes)
+        ->assertSuccessful();
 
-        $this
-            ->putJson(action([EmailListsController::class, 'update'], $emailList), $attributes)
-            ->assertSuccessful();
+    $emailList = $emailList->refresh();
 
-        $emailList = $emailList->refresh();
+    test()->assertEquals($id, $emailList->id);
+    test()->assertEquals($attributes['name'], $emailList->name);
+    test()->assertEquals($attributes['default_from_email'], $emailList->default_from_email);
+    test()->assertEquals($attributes['default_from_name'], $emailList->default_from_name);
+    test()->assertEquals($attributes['default_reply_to_email'], $emailList->default_reply_to_email);
+    test()->assertEquals($attributes['default_reply_to_name'], $emailList->default_reply_to_name);
+});
 
-        $this->assertEquals($id, $emailList->id);
-        $this->assertEquals($attributes['name'], $emailList->name);
-        $this->assertEquals($attributes['default_from_email'], $emailList->default_from_email);
-        $this->assertEquals($attributes['default_from_name'], $emailList->default_from_name);
-        $this->assertEquals($attributes['default_reply_to_email'], $emailList->default_reply_to_email);
-        $this->assertEquals($attributes['default_reply_to_name'], $emailList->default_reply_to_name);
-    }
+test('an email list can be deleted using the api', function () {
+    $template = EmailList::factory()->create();
 
-    /** @test */
-    public function an_email_list_can_be_deleted_using_the_api()
-    {
-        $template = EmailList::factory()->create();
+    $this
+        ->deleteJson(action([EmailListsController::class, 'destroy'], $template))
+        ->assertSuccessful();
 
-        $this
-            ->deleteJson(action([EmailListsController::class, 'destroy'], $template))
-            ->assertSuccessful();
-
-        $this->assertCount(0, EmailList::get());
-    }
-}
+    test()->assertCount(0, EmailList::get());
+});

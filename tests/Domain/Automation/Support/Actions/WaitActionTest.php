@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Automation\Support\Actions;
-
 use Carbon\CarbonInterval;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
@@ -10,43 +8,33 @@ use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
 
-class WaitActionTest extends TestCase
-{
-    protected Subscriber $subscriber;
+uses(TestCase::class);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+beforeEach(function () {
+    test()->action = Action::factory()->create();
+    test()->action->subscribers()->attach(SubscriberFactory::new()->create());
 
-        $this->action = Action::factory()->create();
-        $this->action->subscribers()->attach(SubscriberFactory::new()->create());
+    test()->subscriber = test()->action->subscribers->first();
 
-        $this->subscriber = $this->action->subscribers->first();
+    TestTime::freeze();
+});
 
-        TestTime::freeze();
-    }
+it('never halts the automation', function () {
+    $action = new WaitAction(CarbonInterval::days(1));
 
-    /** @test * */
-    public function it_never_halts_the_automation()
-    {
-        $action = new WaitAction(CarbonInterval::days(1));
+    test()->assertFalse($action->shouldHalt(test()->subscriber));
 
-        $this->assertFalse($action->shouldHalt($this->subscriber));
+    TestTime::addDay();
 
-        TestTime::addDay();
+    test()->assertFalse($action->shouldHalt(test()->subscriber));
+});
 
-        $this->assertFalse($action->shouldHalt($this->subscriber));
-    }
+it('will only continue when time has passed', function () {
+    $action = new WaitAction(CarbonInterval::days(1));
 
-    /** @test * */
-    public function it_will_only_continue_when_time_has_passed()
-    {
-        $action = new WaitAction(CarbonInterval::days(1));
+    test()->assertFalse($action->shouldContinue(test()->subscriber));
 
-        $this->assertFalse($action->shouldContinue($this->subscriber));
+    TestTime::addDay();
 
-        TestTime::addDay();
-
-        $this->assertTrue($action->shouldContinue($this->subscriber));
-    }
-}
+    test()->assertTrue($action->shouldContinue(test()->subscriber));
+});

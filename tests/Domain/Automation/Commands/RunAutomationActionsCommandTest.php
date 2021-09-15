@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests;
-
 use Carbon\CarbonInterval;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Artisan;
@@ -12,56 +10,51 @@ use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
 use Spatie\TestTime\TestTime;
 
-class RunAutomationActionsCommandTest extends TestCase
-{
-    /** @test * */
-    public function it_runs_automations_that_are_started()
-    {
-        $automation = Automation::create()
-            ->to(EmailList::factory()->create())
-            ->triggerOn(new SubscribedTrigger())
-            ->runEvery(CarbonInterval::minute())
-            ->chain([
-                new HaltAction(),
-            ]);
+uses(TestCase::class);
 
-        Artisan::call(RunAutomationActionsCommand::class);
+it('runs automations that are started', function () {
+    $automation = Automation::create()
+        ->to(EmailList::factory()->create())
+        ->triggerOn(new SubscribedTrigger())
+        ->runEvery(CarbonInterval::minute())
+        ->chain([
+            new HaltAction(),
+        ]);
 
-        $this->assertNull($automation->fresh()->run_at);
+    Artisan::call(RunAutomationActionsCommand::class);
 
-        $automation->start();
+    test()->assertNull($automation->fresh()->run_at);
 
-        Artisan::call(RunAutomationActionsCommand::class);
+    $automation->start();
 
-        $this->assertNotNull($automation->fresh()->run_at);
-    }
+    Artisan::call(RunAutomationActionsCommand::class);
 
-    /** @test * */
-    public function it_respects_the_interval()
-    {
-        TestTime::setTestNow(Carbon::create(2021, 01, 01, 10));
+    test()->assertNotNull($automation->fresh()->run_at);
+});
 
-        $automation = Automation::create()
-            ->to(EmailList::factory()->create())
-            ->triggerOn(new SubscribedTrigger())
-            ->runEvery(CarbonInterval::minutes(10))
-            ->chain([
-                new HaltAction(),
-            ])
-            ->start();
+it('respects the interval', function () {
+    TestTime::setTestNow(Carbon::create(2021, 01, 01, 10));
 
-        Artisan::call(RunAutomationActionsCommand::class);
+    $automation = Automation::create()
+        ->to(EmailList::factory()->create())
+        ->triggerOn(new SubscribedTrigger())
+        ->runEvery(CarbonInterval::minutes(10))
+        ->chain([
+            new HaltAction(),
+        ])
+        ->start();
 
-        $this->assertEquals(Carbon::create(2021, 01, 01, 10), $automation->fresh()->run_at);
+    Artisan::call(RunAutomationActionsCommand::class);
 
-        TestTime::addMinutes(5);
-        Artisan::call(RunAutomationActionsCommand::class);
+    test()->assertEquals(Carbon::create(2021, 01, 01, 10), $automation->fresh()->run_at);
 
-        $this->assertEquals(Carbon::create(2021, 01, 01, 10), $automation->fresh()->run_at);
+    TestTime::addMinutes(5);
+    Artisan::call(RunAutomationActionsCommand::class);
 
-        TestTime::addMinutes(5);
-        Artisan::call(RunAutomationActionsCommand::class);
+    test()->assertEquals(Carbon::create(2021, 01, 01, 10), $automation->fresh()->run_at);
 
-        $this->assertEquals(Carbon::create(2021, 01, 01, 10, 10), $automation->fresh()->run_at);
-    }
-}
+    TestTime::addMinutes(5);
+    Artisan::call(RunAutomationActionsCommand::class);
+
+    test()->assertEquals(Carbon::create(2021, 01, 01, 10, 10), $automation->fresh()->run_at);
+});

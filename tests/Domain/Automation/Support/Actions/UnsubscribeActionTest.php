@@ -1,41 +1,32 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Automation\Support\Actions;
-
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\UnsubscribeAction;
 use Spatie\Mailcoach\Tests\TestCase;
 
-class UnsubscribeActionTest extends TestCase
-{
-    /** @test * */
-    public function it_unsubscribes_the_subscriber()
-    {
-        $action = new UnsubscribeAction();
+uses(TestCase::class);
 
-        /** @var Subscriber $subscriber */
-        $subscriber = Subscriber::factory()->create();
+it('unsubscribes the subscriber', function () {
+    $action = new UnsubscribeAction();
 
-        $this->assertTrue($subscriber->isSubscribed());
+    /** @var Subscriber $subscriber */
+    $subscriber = Subscriber::factory()->create();
 
-        $action->run($subscriber);
+    test()->assertTrue($subscriber->isSubscribed());
 
-        $this->assertFalse($subscriber->fresh()->isSubscribed());
-    }
+    $action->run($subscriber);
 
-    /** @test * */
-    public function it_halts_the_automation()
-    {
-        $action = new UnsubscribeAction();
+    test()->assertFalse($subscriber->fresh()->isSubscribed());
+});
 
-        $this->assertTrue($action->shouldHalt(Subscriber::factory()->create()));
-    }
+it('halts the automation', function () {
+    $action = new UnsubscribeAction();
 
-    /** @test * */
-    public function it_wont_continue()
-    {
-        $action = new UnsubscribeAction();
+    test()->assertTrue($action->shouldHalt(Subscriber::factory()->create()));
+});
 
-        $this->assertFalse($action->shouldContinue(Subscriber::factory()->create()));
-    }
-}
+it('wont continue', function () {
+    $action = new UnsubscribeAction();
+
+    test()->assertFalse($action->shouldContinue(Subscriber::factory()->create()));
+});

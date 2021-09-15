@@ -1,52 +1,40 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Automation\Support\Livewire\Actions;
-
 use Illuminate\Support\Str;
 use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\AddTagsAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\AddTagsActionComponent;
 use Spatie\Mailcoach\Tests\TestCase;
 
-class AddTagsActionComponentTest extends TestCase
-{
-    private array $action;
+uses(TestCase::class);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+beforeEach(function () {
+    test()->action = [
+        'class' => AddTagsAction::class,
+    ];
+});
 
-        $this->action = [
-            'class' => AddTagsAction::class,
-        ];
-    }
+it('requires tags', function () {
+    Livewire::test(AddTagsActionComponent::class, [
+        'action' => test()->action,
+        'uuid' => Str::uuid()->toString(),
+    ])->set('tags', '')
+      ->call('save')
+      ->assertHasErrors([
+        'tags' => ['required'],
+      ]);
+});
 
-    /** @test * */
-    public function it_requires_tags()
-    {
-        Livewire::test(AddTagsActionComponent::class, [
-            'action' => $this->action,
-            'uuid' => Str::uuid()->toString(),
-        ])->set('tags', '')
-          ->call('save')
-          ->assertHasErrors([
-            'tags' => ['required'],
-          ]);
-    }
+it('emits correct data', function () {
+    $uuid = Str::uuid()->toString();
 
-    /** @test * */
-    public function it_emits_correct_data()
-    {
-        $uuid = Str::uuid()->toString();
-
-        Livewire::test(AddTagsActionComponent::class, [
-            'action' => $this->action,
-            'uuid' => $uuid,
-        ])  ->set('tags', 'some,tags')
-            ->call('save')
-            ->assertHasNoErrors()
-            ->assertEmitted('actionSaved', $uuid, [
-                'tags' => 'some,tags',
-            ]);
-    }
-}
+    Livewire::test(AddTagsActionComponent::class, [
+        'action' => test()->action,
+        'uuid' => $uuid,
+    ])  ->set('tags', 'some,tags')
+        ->call('save')
+        ->assertHasNoErrors()
+        ->assertEmitted('actionSaved', $uuid, [
+            'tags' => 'some,tags',
+        ]);
+});

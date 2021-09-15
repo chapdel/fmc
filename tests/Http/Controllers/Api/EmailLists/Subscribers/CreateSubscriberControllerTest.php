@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\EmailLists\Subscribers;
-
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Mails\ConfirmSubscriberMail;
@@ -11,89 +9,72 @@ use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\SubscribersCont
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestCase;
 
-class CreateSubscriberControllerTest extends TestCase
-{
-    use RespondsToApiRequests;
+uses(TestCase::class);
+uses(RespondsToApiRequests::class);
 
-    protected EmailList $emailList;
+beforeEach(function () {
+    test()->loginToApi();
 
-    protected array $attributes;
+    test()->emailList = EmailList::factory()->create([
+        'requires_confirmation' => true,
+    ]);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    test()->attributes = [
+        'email_list_id' => test()->emailList->id,
+        'email' => 'john@example.com',
+        'first_name' => 'John',
+        'last_name' => 'Doe',
+    ];
 
-        $this->loginToApi();
+    Mail::fake();
+});
 
-        $this->emailList = EmailList::factory()->create([
-            'requires_confirmation' => true,
-        ]);
+it('can create a subscriber using the api', function () {
+    $this
+        ->postJson(action([SubscribersController::class, 'store'], test()->emailList), test()->attributes)
+        ->assertSuccessful();
 
-        $this->attributes = [
-            'email_list_id' => $this->emailList->id,
-            'email' => 'john@example.com',
-            'first_name' => 'John',
-            'last_name' => 'Doe',
-        ];
+    test()->assertDatabaseHas(test()->getSubscriberTableName(), test()->attributes);
 
-        Mail::fake();
-    }
+    test()->assertEquals(SubscriptionStatus::UNCONFIRMED, Subscriber::first()->status);
 
-    /** @test */
-    public function it_can_create_a_subscriber_using_the_api()
-    {
-        $this
-            ->postJson(action([SubscribersController::class, 'store'], $this->emailList), $this->attributes)
-            ->assertSuccessful();
+    Mail::assertQueued(ConfirmSubscriberMail::class);
+});
 
-        $this->assertDatabaseHas($this->getSubscriberTableName(), $this->attributes);
+it('can skip the confirmation while subscribing', function () {
+    $attributes = test()->attributes;
 
-        $this->assertEquals(SubscriptionStatus::UNCONFIRMED, Subscriber::first()->status);
+    $attributes['skip_confirmation'] = true;
 
-        Mail::assertQueued(ConfirmSubscriberMail::class);
-    }
+    $this
+        ->postJson(action([SubscribersController::class, 'store'], test()->emailList), $attributes)
+        ->assertSuccessful();
 
-    /** @test */
-    public function it_can_skip_the_confirmation_while_subscribing()
-    {
-        $attributes = $this->attributes;
+    test()->assertEquals(SubscriptionStatus::SUBSCRIBED, Subscriber::first()->status);
 
-        $attributes['skip_confirmation'] = true;
+    Mail::assertNotQueued(ConfirmSubscriberMail::class);
+});
 
-        $this
-            ->postJson(action([SubscribersController::class, 'store'], $this->emailList), $attributes)
-            ->assertSuccessful();
+it('can create a subscriber with extra attributes', function () {
+    test()->attributes['extra_attributes'] = [
+        'foo' => 'bar',
+    ];
 
-        $this->assertEquals(SubscriptionStatus::SUBSCRIBED, Subscriber::first()->status);
+    $this
+        ->postJson(action([SubscribersController::class, 'store'], test()->emailList), test()->attributes)
+        ->assertSuccessful();
 
-        Mail::assertNotQueued(ConfirmSubscriberMail::class);
-    }
+    test()->assertSame(test()->attributes['extra_attributes'], Subscriber::first()->extra_attributes->toArray());
+});
 
-    /** @test */
-    public function it_can_create_a_subscriber_with_extra_attributes()
-    {
-        $this->attributes['extra_attributes'] = [
-            'foo' => 'bar',
-        ];
+it('can create a subscriber with tags', function () {
+    test()->attributes['tags'] = ['foo', 'bar'];
 
-        $this
-            ->postJson(action([SubscribersController::class, 'store'], $this->emailList), $this->attributes)
-            ->assertSuccessful();
+    $response = $this
+        ->postJson(action([SubscribersController::class, 'store'], test()->emailList), test()->attributes);
 
-        $this->assertSame($this->attributes['extra_attributes'], Subscriber::first()->extra_attributes->toArray());
-    }
-
-    /** @test */
-    public function it_can_create_a_subscriber_with_tags()
-    {
-        $this->attributes['tags'] = ['foo', 'bar'];
-
-        $response = $this
-            ->postJson(action([SubscribersController::class, 'store'], $this->emailList), $this->attributes);
-
-        $response->assertSuccessful();
-        $response->assertJsonFragment(['tags' => ['foo', 'bar']]);
-        $this->assertTrue(Subscriber::first()->hasTag('foo'));
-        $this->assertTrue(Subscriber::first()->hasTag('bar'));
-    }
-}
+    $response->assertSuccessful();
+    $response->assertJsonFragment(['tags' => ['foo', 'bar']]);
+    test()->assertTrue(Subscriber::first()->hasTag('foo'));
+    test()->assertTrue(Subscriber::first()->hasTag('bar'));
+});

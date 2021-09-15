@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Campaign\Actions;
-
 use Spatie\Mailcoach\Database\Factories\UserFactory;
 use Spatie\Mailcoach\Domain\Audience\Jobs\ImportSubscribersJob;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
@@ -21,131 +19,112 @@ use Spatie\Mailcoach\Tests\TestClasses\CustomPrepareEmailHtmlAction;
 use Spatie\Mailcoach\Tests\TestClasses\CustomPrepareSubjectAction;
 use Spatie\Mailcoach\Tests\TestClasses\CustomPrepareWebviewHtmlAction;
 
-class CustomizableActionTest extends TestCase
-{
-    /** @test */
-    public function the_personalize_html_action_can_be_customized()
-    {
-        config()->set('mailcoach.campaigns.actions.personalize_html', CustomPersonalizeHtmlAction::class);
+uses(TestCase::class);
 
-        $campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
-            'status' => CampaignStatus::DRAFT,
-        ]);
+test('the personalize html action can be customized', function () {
+    config()->set('mailcoach.campaigns.actions.personalize_html', CustomPersonalizeHtmlAction::class);
 
-        dispatch(new SendCampaignJob($campaign));
-
-        $this->assertEquals('overridden@example.com', $campaign->emailList->subscribers->first()->email);
-    }
-
-    /** @test */
-    public function the_personalize_subject_action_can_be_customized()
-    {
-        config()->set('mailcoach.campaigns.actions.personalize_subject', CustomPersonalizeSubjectAction::class);
-
-        $campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
-            'status' => CampaignStatus::DRAFT,
-        ]);
-
-        dispatch(new SendCampaignJob($campaign));
-
-        $this->assertEquals('overridden@example.com', $campaign->emailList->subscribers->first()->email);
-    }
-
-    /** @test */
-    public function the_prepare_email_html_action_can_be_customized()
-    {
-        config()->set('mailcoach.campaigns.actions.prepare_email_html', CustomPrepareEmailHtmlAction::class);
-
-        $campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
-            'status' => CampaignStatus::DRAFT,
-        ]);
-
-        dispatch(new SendCampaignJob($campaign));
-
-        $this->assertEquals('overridden@example.com', $campaign->emailList->subscribers->first()->email);
-    }
-
-    /** @test */
-    public function the_prepare_subject_action_can_be_customized()
-    {
-        config()->set('mailcoach.campaigns.actions.prepare_subject', CustomPrepareSubjectAction::class);
-
-        $campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
-            'status' => CampaignStatus::DRAFT,
-        ]);
-
-        dispatch(new SendCampaignJob($campaign));
-
-        $this->assertEquals('overridden@example.com', $campaign->emailList->subscribers->first()->email);
-    }
-
-    /** @test */
-    public function the_prepare_webview_html_action_can_be_customized()
-    {
-        config()->set('mailcoach.campaigns.actions.prepare_webview_html', CustomPrepareWebviewHtmlAction::class);
-
-        $campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
-            'status' => CampaignStatus::DRAFT,
-        ]);
-
-        dispatch(new SendCampaignJob($campaign));
-
-        $this->assertEquals('overridden@example.com', $campaign->emailList->subscribers->first()->email);
-    }
-
-    /** @test */
-    public function the_create_subscriber_action_can_be_customized()
-    {
-        config()->set('mailcoach.audience.actions.create_subscriber', CustomCreateSubscriberAction::class);
-
-        /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
-        $emailList = EmailList::factory()->create();
-
-        $subscriber = $emailList->subscribe('john@example.com');
-
-        $this->assertEquals('overridden@example.com', $subscriber->email);
-    }
-
-    /** @test */
-    public function the_confirm_subscription_class_can_be_customized()
-    {
-        config()->set('mailcoach.audience.actions.confirm_subscriber', CustomConfirmSubscriberAction::class);
-
-        $emailList = EmailList::factory()->create([
-            'requires_confirmation' => true,
+    $campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
+        'status' => CampaignStatus::DRAFT,
     ]);
 
-        $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($emailList);
+    dispatch(new SendCampaignJob($campaign));
 
-        $subscriber->confirm();
+    test()->assertEquals('overridden@example.com', $campaign->emailList->subscribers->first()->email);
+});
 
-        $this->assertEquals('overridden@example.com', $subscriber->email);
-    }
+test('the personalize subject action can be customized', function () {
+    config()->set('mailcoach.campaigns.actions.personalize_subject', CustomPersonalizeSubjectAction::class);
 
-    /** @test */
-    public function a_wrongly_configured_class_will_result_in_an_exception()
-    {
-        config()->set('mailcoach.audience.actions.create_subscriber', 'invalid-action');
+    $campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
+        'status' => CampaignStatus::DRAFT,
+    ]);
 
-        /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
-        $emailList = EmailList::factory()->create();
+    dispatch(new SendCampaignJob($campaign));
 
-        $this->expectException(InvalidConfig::class);
+    test()->assertEquals('overridden@example.com', $campaign->emailList->subscribers->first()->email);
+});
 
-        $emailList->subscribe('john@example.com');
-    }
+test('the prepare email html action can be customized', function () {
+    config()->set('mailcoach.campaigns.actions.prepare_email_html', CustomPrepareEmailHtmlAction::class);
 
-    /** @test */
-    public function the_import_subscribers_class_can_be_customized()
-    {
-        config()->set('mailcoach.audience.actions.import_subscribers', CustomImportSubscribersAction::class);
+    $campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
+        'status' => CampaignStatus::DRAFT,
+    ]);
 
-        $subscriberImport = SubscriberImport::factory()->create();
+    dispatch(new SendCampaignJob($campaign));
 
-        $user = UserFactory::new()->create();
+    test()->assertEquals('overridden@example.com', $campaign->emailList->subscribers->first()->email);
+});
 
-        $this->expectExceptionMessage('Inside custom import action');
+test('the prepare subject action can be customized', function () {
+    config()->set('mailcoach.campaigns.actions.prepare_subject', CustomPrepareSubjectAction::class);
 
-        dispatch(new ImportSubscribersJob($subscriberImport, $user));
-    }
-}
+    $campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
+        'status' => CampaignStatus::DRAFT,
+    ]);
+
+    dispatch(new SendCampaignJob($campaign));
+
+    test()->assertEquals('overridden@example.com', $campaign->emailList->subscribers->first()->email);
+});
+
+test('the prepare webview html action can be customized', function () {
+    config()->set('mailcoach.campaigns.actions.prepare_webview_html', CustomPrepareWebviewHtmlAction::class);
+
+    $campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
+        'status' => CampaignStatus::DRAFT,
+    ]);
+
+    dispatch(new SendCampaignJob($campaign));
+
+    test()->assertEquals('overridden@example.com', $campaign->emailList->subscribers->first()->email);
+});
+
+test('the create subscriber action can be customized', function () {
+    config()->set('mailcoach.audience.actions.create_subscriber', CustomCreateSubscriberAction::class);
+
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
+    $emailList = EmailList::factory()->create();
+
+    $subscriber = $emailList->subscribe('john@example.com');
+
+    test()->assertEquals('overridden@example.com', $subscriber->email);
+});
+
+test('the confirm subscription class can be customized', function () {
+    config()->set('mailcoach.audience.actions.confirm_subscriber', CustomConfirmSubscriberAction::class);
+
+    $emailList = EmailList::factory()->create([
+        'requires_confirmation' => true,
+]);
+
+    $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($emailList);
+
+    $subscriber->confirm();
+
+    test()->assertEquals('overridden@example.com', $subscriber->email);
+});
+
+test('a wrongly configured class will result in an exception', function () {
+    config()->set('mailcoach.audience.actions.create_subscriber', 'invalid-action');
+
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
+    $emailList = EmailList::factory()->create();
+
+    test()->expectException(InvalidConfig::class);
+
+    $emailList->subscribe('john@example.com');
+});
+
+test('the import subscribers class can be customized', function () {
+    config()->set('mailcoach.audience.actions.import_subscribers', CustomImportSubscribersAction::class);
+
+    $subscriberImport = SubscriberImport::factory()->create();
+
+    $user = UserFactory::new()->create();
+
+    test()->expectExceptionMessage('Inside custom import action');
+
+    dispatch(new ImportSubscribersJob($subscriberImport, $user));
+});

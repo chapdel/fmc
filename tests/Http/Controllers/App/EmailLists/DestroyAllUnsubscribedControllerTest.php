@@ -1,40 +1,35 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\App\EmailLists;
-
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Tests\TestCase;
 
-class DestroyAllUnsubscribedControllerTest extends TestCase
-{
-    /** @test */
-    public function it_will_delete_all_unsubscribers()
-    {
-        $this->authenticate();
+uses(TestCase::class);
 
-        $emailList = EmailList::factory()->create(['requires_confirmation' => false]);
-        $anotherEmailList = EmailList::factory()->create(['requires_confirmation' => false]);
+it('will delete all unsubscribers', function () {
+    test()->authenticate();
 
-        $subscriber = Subscriber::createWithEmail('subscribed@example.com')->subscribeTo($emailList);
+    $emailList = EmailList::factory()->create(['requires_confirmation' => false]);
+    $anotherEmailList = EmailList::factory()->create(['requires_confirmation' => false]);
 
-        $unsubscribedSubscriber = Subscriber::createWithEmail('unsubscribed@example.com')
-            ->subscribeTo($emailList)
-            ->unsubscribe();
+    $subscriber = Subscriber::createWithEmail('subscribed@example.com')->subscribeTo($emailList);
 
-        $unsubscribedSubscriberOfAnotherList = Subscriber::createWithEmail('unsubscribed-other-list@example.com')
-            ->subscribeTo($anotherEmailList)
-            ->unsubscribe();
+    $unsubscribedSubscriber = Subscriber::createWithEmail('unsubscribed@example.com')
+        ->subscribeTo($emailList)
+        ->unsubscribe();
 
-        $this
-            ->delete(route('mailcoach.emailLists.destroy-unsubscribes', $emailList->refresh()))
-            ->assertSessionHasNoErrors()
-            ->assertRedirect();
+    $unsubscribedSubscriberOfAnotherList = Subscriber::createWithEmail('unsubscribed-other-list@example.com')
+        ->subscribeTo($anotherEmailList)
+        ->unsubscribe();
 
-        $existingSubscriberIds = Subscriber::pluck('id')->toArray();
+    $this
+        ->delete(route('mailcoach.emailLists.destroy-unsubscribes', $emailList->refresh()))
+        ->assertSessionHasNoErrors()
+        ->assertRedirect();
 
-        $this->assertTrue(in_array($subscriber->id, $existingSubscriberIds));
-        $this->assertFalse(in_array($unsubscribedSubscriber->id, $existingSubscriberIds));
-        $this->assertTrue(in_array($unsubscribedSubscriberOfAnotherList->id, $existingSubscriberIds));
-    }
-}
+    $existingSubscriberIds = Subscriber::pluck('id')->toArray();
+
+    test()->assertTrue(in_array($subscriber->id, $existingSubscriberIds));
+    test()->assertFalse(in_array($unsubscribedSubscriber->id, $existingSubscriberIds));
+    test()->assertTrue(in_array($unsubscribedSubscriberOfAnotherList->id, $existingSubscriberIds));
+});
