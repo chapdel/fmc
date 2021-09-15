@@ -8,10 +8,7 @@ use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\TagAddedTrigger;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
-
-
 
 beforeEach(function () {
     test()->automationMail = AutomationMail::factory()->create(['subject' => 'Welcome']);

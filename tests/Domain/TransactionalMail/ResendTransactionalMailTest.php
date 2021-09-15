@@ -4,17 +4,15 @@ use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\ResendTransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Tests\Domain\TransactionalMail\Concerns\SendsTestTransactionalMail;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestTransactionMail;
-
 
 uses(SendsTestTransactionalMail::class);
 
 it('can resend a transactional mail', function () {
-    test()->sendTestMail();
+    $this->sendTestMail();
 
     /** @var TransactionalMail $originalMail */
-    test()->sendTestMail(function (TestTransactionMail $testTransactionMail) {
+    $this->sendTestMail(function (TestTransactionMail $testTransactionMail) {
         $testTransactionMail
             ->trackOpensAndClicks()
             ->from('ringo@example.com', 'Ringo')

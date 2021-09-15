@@ -3,10 +3,7 @@
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Actions\SendTestForTransactionalMailTemplateAction;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailableWithTemplate;
-
-
 
 it('can send a test for a transactional mail template', function () {
     Mail::fake();

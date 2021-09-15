@@ -3,9 +3,6 @@
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasTagCondition;
-use Spatie\Mailcoach\Tests\TestCase;
-
-
 
 it('checks for a tag', function () {
     $automation = Automation::factory()->create();

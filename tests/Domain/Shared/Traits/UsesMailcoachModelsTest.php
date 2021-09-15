@@ -6,9 +6,6 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Tests\Factories\EmailListFactory;
-use Spatie\Mailcoach\Tests\TestCase;
-
-
 
 beforeEach(function () {
     test()->email_list = (new EmailListFactory())->create();

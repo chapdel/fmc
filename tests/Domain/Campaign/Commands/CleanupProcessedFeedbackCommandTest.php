@@ -2,10 +2,7 @@
 
 use Carbon\Carbon;
 use Spatie\Mailcoach\Domain\Shared\Commands\CleanupProcessedFeedbackCommand;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\WebhookClient\Models\WebhookCall;
-
-
 
 beforeEach(function () {
     Carbon::setTestNow();

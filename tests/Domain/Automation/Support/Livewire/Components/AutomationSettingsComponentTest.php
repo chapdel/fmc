@@ -6,9 +6,6 @@ use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\UnsubscribeAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\WebhookTrigger;
-use Spatie\Mailcoach\Tests\TestCase;
-
-
 
 it('can start and pause an automation', function () {
     /** @var Automation $automation */

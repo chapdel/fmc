@@ -4,9 +4,6 @@ use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignLinkClickedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
-use Spatie\Mailcoach\Tests\TestCase;
-
-
 
 it('will fire an event when a link gets clicked', function () {
     Event::fake();

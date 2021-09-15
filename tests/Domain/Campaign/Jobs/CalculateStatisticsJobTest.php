@@ -14,10 +14,7 @@ use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
-
-
 
 test('a campaign with no subscribers will get all zeroes', function () {
     $campaign = Campaign::factory()->create();

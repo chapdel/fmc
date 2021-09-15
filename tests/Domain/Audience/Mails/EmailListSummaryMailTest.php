@@ -4,10 +4,7 @@ use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Commands\SendEmailListSummaryMailCommand;
 use Spatie\Mailcoach\Domain\Audience\Mails\EmailListSummaryMail;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
-
-
 
 beforeEach(function () {
     TestTime::freeze('Y-m-d H:i:s', '2019-01-01 00:00:00');

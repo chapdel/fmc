@@ -8,10 +8,7 @@ use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomShouldAutomationRunForSubscriberAction;
-
-
 
 beforeEach(function () {
     test()->emailList = EmailList::factory()->create();

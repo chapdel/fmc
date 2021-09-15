@@ -4,10 +4,7 @@ use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Mails\WelcomeMail;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomWelcomeMail;
-
-
 
 beforeEach(function () {
     test()->emailList = EmailList::factory()->create([

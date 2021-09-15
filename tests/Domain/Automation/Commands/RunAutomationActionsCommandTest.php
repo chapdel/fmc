@@ -10,8 +10,6 @@ use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
 use Spatie\TestTime\TestTime;
 
-
-
 it('runs automations that are started', function () {
     $automation = Automation::create()
         ->to(EmailList::factory()->create())

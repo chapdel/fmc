@@ -9,10 +9,7 @@ use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
 use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
-
-
 
 beforeEach(function () {
     TestTime::freeze('Y-m-d H:i:s', '2019-01-01 00:00:00');

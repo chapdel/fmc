@@ -6,10 +6,7 @@ use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Http\Front\Controllers\ConfirmSubscriberController;
-use Spatie\Mailcoach\Tests\TestCase;
 use Symfony\Component\DomCrawler\Crawler;
-
-
 
 beforeEach(function () {
     /* @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */

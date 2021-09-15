@@ -6,9 +6,6 @@ use Spatie\Mailcoach\Domain\Automation\Actions\SendMailAction;
 use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailSentEvent;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
-use Spatie\Mailcoach\Tests\TestCase;
-
-
 
 beforeEach(function () {
     test()->action = resolve(SendMailAction::class);

@@ -6,10 +6,7 @@ use Illuminate\Support\Facades\Gate;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Policies\EmailListPolicy;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\CreateEmailListController;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\CustomEmailListDenyAllPolicy;
-
-
 
 beforeEach(function () {
     test()->emailList = EmailList::factory()->create();

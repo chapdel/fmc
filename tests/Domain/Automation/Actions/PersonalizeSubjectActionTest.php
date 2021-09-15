@@ -2,9 +2,6 @@
 
 use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Automation\Actions\PersonalizeSubjectAction;
-use Spatie\Mailcoach\Tests\TestCase;
-
-
 
 beforeEach(function () {
     test()->send = SendFactory::new()->create();

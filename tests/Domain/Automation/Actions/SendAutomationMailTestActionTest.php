@@ -5,9 +5,6 @@ use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailTestAction;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
-use Spatie\Mailcoach\Tests\TestCase;
-
-
 
 beforeEach(function () {
     test()->action = resolve(SendAutomationMailTestAction::class);

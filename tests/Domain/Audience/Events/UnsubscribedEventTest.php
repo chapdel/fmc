@@ -3,9 +3,6 @@
 use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Domain\Audience\Events\UnsubscribedEvent;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Tests\TestCase;
-
-
 
 it('will fire an event when someone unsubscribes', function () {
     Event::fake(UnsubscribedEvent::class);

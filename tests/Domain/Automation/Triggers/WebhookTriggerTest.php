@@ -14,9 +14,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\WebhookTrigger;
 use Spatie\Mailcoach\Http\Api\Controllers\Automations\TriggerAutomationController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\TestTime\TestTime;
-
 
 uses(RespondsToApiRequests::class);
 

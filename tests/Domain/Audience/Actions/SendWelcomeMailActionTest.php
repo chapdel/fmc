@@ -4,9 +4,6 @@ use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\SendWelcomeMailAction;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Mails\WelcomeMail;
-use Spatie\Mailcoach\Tests\TestCase;
-
-
 
 beforeEach(function () {
     parent::setup();

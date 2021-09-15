@@ -7,9 +7,7 @@ use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailOpenedEven
 use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailStored;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Tests\Domain\TransactionalMail\Concerns\SendsTestTransactionalMail;
-use Spatie\Mailcoach\Tests\TestCase;
 use Spatie\Mailcoach\Tests\TestClasses\TestTransactionMail;
-
 
 uses(SendsTestTransactionalMail::class);
 

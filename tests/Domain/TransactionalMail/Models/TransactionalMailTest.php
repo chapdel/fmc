@@ -1,9 +1,6 @@
 <?php
 
 use Spatie\Mailcoach\Tests\Factories\TransactionalMailFactory;
-use Spatie\Mailcoach\Tests\TestCase;
-
-
 
 test('the open relation works', function () {
     $transactionalMailWithoutOpen = TransactionalMailFactory::new()->create();
