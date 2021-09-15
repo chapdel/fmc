@@ -13,7 +13,7 @@ beforeEach(function () {
  */
 it('adds utm tags to an url', function (string $url, string $urlWithTags) {
     expect(test()->action->execute($url, 'My Campaign'))->toEqual($urlWithTags);
-})->with('provider');
+})->with('urlProvider');
 
 // Datasets
 dataset('urlProvider', function () {
