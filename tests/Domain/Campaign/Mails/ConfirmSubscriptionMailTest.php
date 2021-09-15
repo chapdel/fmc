@@ -23,7 +23,7 @@ test('the confirmation mail is sent with the correct mailer', function () {
     Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
 
     Mail::assertQueued(ConfirmSubscriberMail::class, function (ConfirmSubscriberMail $mail) {
-        test()->assertEquals('some-transactional-mailer', $mail->mailer);
+        expect($mail->mailer)->toEqual('some-transactional-mailer');
 
         return true;
     });
@@ -37,7 +37,7 @@ test('the confirmation mail has a default subject', function () {
     Mail::assertQueued(ConfirmSubscriberMail::class, function (ConfirmSubscriberMail $mail) {
         $mail->build();
 
-        test()->assertStringContainsString('Confirm', $mail->subject);
+        expect($mail->subject)->toContain('Confirm');
 
         return true;
     });
@@ -52,7 +52,7 @@ test('the subject of the confirmation mail can be customized', function () {
 
     Mail::assertQueued(ConfirmSubscriberMail::class, function (ConfirmSubscriberMail $mail) {
         $mail->build();
-        test()->assertEquals('Hello John, welcome to my newsletter', $mail->subject);
+        expect($mail->subject)->toEqual('Hello John, welcome to my newsletter');
 
         return true;
     });
@@ -65,7 +65,7 @@ test('the confirmation mail has default content', function () {
 
     $content = (new ConfirmSubscriberMail($subscriber))->render();
 
-    test()->assertStringContainsString('confirm', $content);
+    expect($content)->toContain('confirm');
 });
 
 test('the confirmation mail can have custom content', function () {
@@ -79,7 +79,7 @@ test('the confirmation mail can have custom content', function () {
 
     $content = (new ConfirmSubscriberMail($subscriber))->render();
 
-    test()->assertStringContainsString('Hi John, press http://localhost/mailcoach/confirm-subscription/my-uuid to subscribe to my newsletter', $content);
+    expect($content)->toContain('Hi John, press http://localhost/mailcoach/confirm-subscription/my-uuid to subscribe to my newsletter');
 });
 
 it('can use custom welcome mailable', function () {

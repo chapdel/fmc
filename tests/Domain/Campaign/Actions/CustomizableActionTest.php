@@ -30,7 +30,7 @@ test('the personalize html action can be customized', function () {
 
     dispatch(new SendCampaignJob($campaign));
 
-    test()->assertEquals('overridden@example.com', $campaign->emailList->subscribers->first()->email);
+    expect($campaign->emailList->subscribers->first()->email)->toEqual('overridden@example.com');
 });
 
 test('the personalize subject action can be customized', function () {
@@ -42,7 +42,7 @@ test('the personalize subject action can be customized', function () {
 
     dispatch(new SendCampaignJob($campaign));
 
-    test()->assertEquals('overridden@example.com', $campaign->emailList->subscribers->first()->email);
+    expect($campaign->emailList->subscribers->first()->email)->toEqual('overridden@example.com');
 });
 
 test('the prepare email html action can be customized', function () {
@@ -54,7 +54,7 @@ test('the prepare email html action can be customized', function () {
 
     dispatch(new SendCampaignJob($campaign));
 
-    test()->assertEquals('overridden@example.com', $campaign->emailList->subscribers->first()->email);
+    expect($campaign->emailList->subscribers->first()->email)->toEqual('overridden@example.com');
 });
 
 test('the prepare subject action can be customized', function () {
@@ -66,7 +66,7 @@ test('the prepare subject action can be customized', function () {
 
     dispatch(new SendCampaignJob($campaign));
 
-    test()->assertEquals('overridden@example.com', $campaign->emailList->subscribers->first()->email);
+    expect($campaign->emailList->subscribers->first()->email)->toEqual('overridden@example.com');
 });
 
 test('the prepare webview html action can be customized', function () {
@@ -78,7 +78,7 @@ test('the prepare webview html action can be customized', function () {
 
     dispatch(new SendCampaignJob($campaign));
 
-    test()->assertEquals('overridden@example.com', $campaign->emailList->subscribers->first()->email);
+    expect($campaign->emailList->subscribers->first()->email)->toEqual('overridden@example.com');
 });
 
 test('the create subscriber action can be customized', function () {
@@ -89,7 +89,7 @@ test('the create subscriber action can be customized', function () {
 
     $subscriber = $emailList->subscribe('john@example.com');
 
-    test()->assertEquals('overridden@example.com', $subscriber->email);
+    expect($subscriber->email)->toEqual('overridden@example.com');
 });
 
 test('the confirm subscription class can be customized', function () {
@@ -103,7 +103,7 @@ test('the confirm subscription class can be customized', function () {
 
     $subscriber->confirm();
 
-    test()->assertEquals('overridden@example.com', $subscriber->email);
+    expect($subscriber->email)->toEqual('overridden@example.com');
 });
 
 test('a wrongly configured class will result in an exception', function () {

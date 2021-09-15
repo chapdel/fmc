@@ -34,15 +34,15 @@ it('runs the automation for a subscriber', function () {
 
     test()->refreshServiceProvider();
 
-    test()->assertEmpty($automation->actions->first()->fresh()->subscribers);
+    expect($automation->actions->first()->fresh()->subscribers)->toBeEmpty();
 
-    test()->assertEquals(0, $automation->actions()->first()->subscribers->count());
+    expect($automation->actions()->first()->subscribers->count())->toEqual(0);
 
     $jane = test()->emailList->subscribeSkippingConfirmation('jane@doe.com');
 
     (new RunAutomationForSubscriberJob($automation, $jane))->handle();
 
-    test()->assertEquals(1, $automation->actions()->first()->subscribers->count());
+    expect($automation->actions()->first()->subscribers->count())->toEqual(1);
 });
 
 it('does nothing when the automation isnt started', function () {
@@ -58,15 +58,15 @@ it('does nothing when the automation isnt started', function () {
 
     test()->refreshServiceProvider();
 
-    test()->assertEmpty($automation->actions->first()->fresh()->subscribers);
+    expect($automation->actions->first()->fresh()->subscribers)->toBeEmpty();
 
     $jane = test()->emailList->subscribeSkippingConfirmation('jane@doe.com');
 
-    test()->assertEquals(0, $automation->actions()->first()->subscribers->count());
+    expect($automation->actions()->first()->subscribers->count())->toEqual(0);
 
     (new RunAutomationForSubscriberJob($automation, $jane))->handle();
 
-    test()->assertEquals(0, $automation->actions()->first()->subscribers->count());
+    expect($automation->actions()->first()->subscribers->count())->toEqual(0);
 });
 
 it('uses the configured action', function () {
@@ -85,11 +85,11 @@ it('uses the configured action', function () {
 
     test()->refreshServiceProvider();
 
-    test()->assertEmpty($automation->actions->first()->fresh()->subscribers);
+    expect($automation->actions->first()->fresh()->subscribers)->toBeEmpty();
 
     $jane = test()->emailList->subscribeSkippingConfirmation('jane@doe.com');
 
-    test()->assertEquals(0, $automation->actions()->first()->subscribers->count());
+    expect($automation->actions()->first()->subscribers->count())->toEqual(0);
 
     test()->expectExceptionMessage("CustomShouldAutomationRunForSubscriberAction was used");
 

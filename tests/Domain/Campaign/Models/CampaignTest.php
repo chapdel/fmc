@@ -33,44 +33,44 @@ beforeEach(function () {
 });
 
 test('the default status is draft', function () {
-    test()->assertEquals(CampaignStatus::DRAFT, test()->campaign->status);
+    expect(test()->campaign->status)->toEqual(CampaignStatus::DRAFT);
 });
 
 it('can set a from email', function () {
     test()->campaign->from('sender@example.com');
 
-    test()->assertEquals('sender@example.com', test()->campaign->from_email);
+    expect(test()->campaign->from_email)->toEqual('sender@example.com');
 });
 
 it('can set both a from email and a from name', function () {
     test()->campaign->from('sender@example.com', 'Sender name');
 
-    test()->assertEquals('sender@example.com', test()->campaign->from_email);
-    test()->assertEquals('Sender name', test()->campaign->from_name);
+    expect(test()->campaign->from_email)->toEqual('sender@example.com');
+    expect(test()->campaign->from_name)->toEqual('Sender name');
 });
 
 it('can be marked to track opens', function () {
-    test()->assertFalse(test()->campaign->track_opens);
+    expect(test()->campaign->track_opens)->toBeFalse();
 
     test()->campaign->trackOpens();
 
-    test()->assertTrue(test()->campaign->refresh()->track_opens);
+    expect(test()->campaign->refresh()->track_opens)->toBeTrue();
 });
 
 it('can be marked to track clicks', function () {
-    test()->assertFalse(test()->campaign->track_clicks);
+    expect(test()->campaign->track_clicks)->toBeFalse();
 
     test()->campaign->trackClicks();
 
-    test()->assertTrue(test()->campaign->refresh()->track_clicks);
+    expect(test()->campaign->refresh()->track_clicks)->toBeTrue();
 });
 
 it('can add a subject', function () {
-    test()->assertNull(test()->campaign->subject);
+    expect(test()->campaign->subject)->toBeNull();
 
     test()->campaign->subject('hello');
 
-    test()->assertEquals('hello', test()->campaign->refresh()->subject);
+    expect(test()->campaign->refresh()->subject)->toEqual('hello');
 });
 
 it('can add a list', function () {
@@ -78,7 +78,7 @@ it('can add a list', function () {
 
     test()->campaign->to($list);
 
-    test()->assertEquals($list->id, test()->campaign->refresh()->email_list_id);
+    expect(test()->campaign->refresh()->email_list_id)->toEqual($list->id);
 });
 
 it('can be sent', function () {
@@ -92,7 +92,7 @@ it('can be sent', function () {
         ->send();
 
     Queue::assertPushed(SendCampaignJob::class, function (SendCampaignJob $job) use ($campaign) {
-        test()->assertEquals($campaign->id, $job->campaign->id);
+        expect($job->campaign->id)->toEqual($campaign->id);
 
         return true;
     });
@@ -107,10 +107,10 @@ it('has a shorthand to set the list and send it in one go', function () {
         ->subject('test')
         ->sendTo($list);
 
-    test()->assertEquals($list->id, $campaign->refresh()->email_list_id);
+    expect($campaign->refresh()->email_list_id)->toEqual($list->id);
 
     Queue::assertPushed(SendCampaignJob::class, function (SendCampaignJob $job) use ($campaign) {
-        test()->assertEquals($campaign->id, $job->campaign->id);
+        expect($job->campaign->id)->toEqual($campaign->id);
 
         return true;
     });
@@ -120,7 +120,7 @@ test('a mailable can be set', function () {
     /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */
     $campaign = Campaign::create()->useMailable(TestMailcoachMail::class);
 
-    test()->assertEquals(TestMailcoachMail::class, $campaign->mailable_class);
+    expect($campaign->mailable_class)->toEqual(TestMailcoachMail::class);
 });
 
 test('a mailable can set campaign html', function () {
@@ -132,7 +132,7 @@ test('a mailable can set campaign html', function () {
     $campaign->useMailable(TestMailcoachMail::class);
     $campaign->content($campaign->contentFromMailable());
 
-    test()->assertEquals(app(TestMailcoachMail::class)->viewHtml, $campaign->html);
+    expect($campaign->html)->toEqual(app(TestMailcoachMail::class)->viewHtml);
 });
 
 it('will throw an exception when use an invalid mailable class', function () {
@@ -145,7 +145,7 @@ test('a segment can be set', function () {
     $campaign = Campaign::create()
         ->segment(TestCustomQueryOnlyShouldSendToJohn::class);
 
-    test()->assertEquals(serialize(TestCustomQueryOnlyShouldSendToJohn::class), $campaign->segment_class);
+    expect($campaign->segment_class)->toEqual(serialize(TestCustomQueryOnlyShouldSendToJohn::class));
 });
 
 test('an instantiated segment class can be set', function () {
@@ -153,8 +153,8 @@ test('an instantiated segment class can be set', function () {
     $campaign = Campaign::create()
         ->segment($segment);
 
-    test()->assertEquals(serialize($segment), $campaign->segment_class);
-    test()->assertEquals('john@example.com', $campaign->getSegment()->email);
+    expect($campaign->segment_class)->toEqual(serialize($segment));
+    expect($campaign->getSegment()->email)->toEqual('john@example.com');
 });
 
 it('will throw an exception when use an invalid segment class', function () {
@@ -191,8 +191,8 @@ it('can use the default from email and name set on the email list', function () 
         ->sendTo($list);
 
     Bus::assertDispatched(SendCampaignJob::class, function (SendCampaignJob $job) {
-        test()->assertEquals('defaultEmailList@example.com', $job->campaign->from_email);
-        test()->assertEquals('List name', $job->campaign->from_name);
+        expect($job->campaign->from_email)->toEqual('defaultEmailList@example.com');
+        expect($job->campaign->from_name)->toEqual('List name');
 
         return true;
     });
@@ -212,8 +212,8 @@ it('can use the default reply to email and name set on the email list', function
         ->sendTo($list);
 
     Bus::assertDispatched(SendCampaignJob::class, function (SendCampaignJob $job) {
-        test()->assertEquals('defaultEmailList@example.com', $job->campaign->reply_to_email);
-        test()->assertEquals('List name', $job->campaign->reply_to_name);
+        expect($job->campaign->reply_to_email)->toEqual('defaultEmailList@example.com');
+        expect($job->campaign->reply_to_name)->toEqual('List name');
 
         return true;
     });
@@ -234,8 +234,8 @@ it('will prefer the email and from name from the campaign over the defaults set 
         ->sendTo($list);
 
     Bus::assertDispatched(SendCampaignJob::class, function (SendCampaignJob $job) {
-        test()->assertEquals('campaign@example.com', $job->campaign->from_email);
-        test()->assertEquals('campaign from name', $job->campaign->from_name);
+        expect($job->campaign->from_email)->toEqual('campaign@example.com');
+        expect($job->campaign->from_name)->toEqual('campaign from name');
 
         return true;
     });
@@ -257,8 +257,8 @@ it('will prefer the email and reply to name from the campaign over the defaults 
         ->sendTo($list);
 
     Bus::assertDispatched(SendCampaignJob::class, function (SendCampaignJob $job) {
-        test()->assertEquals('replyToCampaign@example.com', $job->campaign->reply_to_email);
-        test()->assertEquals('reply to from campaign', $job->campaign->reply_to_name);
+        expect($job->campaign->reply_to_email)->toEqual('replyToCampaign@example.com');
+        expect($job->campaign->reply_to_name)->toEqual('reply to from campaign');
 
         return true;
     });
@@ -289,8 +289,8 @@ it('can send out a test email', function () {
     test()->campaign->sendTestMail($email);
 
     Bus::assertDispatched(SendCampaignTestJob::class, function (SendCampaignTestJob $job) use ($email) {
-        test()->assertEquals(test()->campaign->id, $job->campaign->id);
-        test()->assertEquals($email, $job->email);
+        expect($job->campaign->id)->toEqual(test()->campaign->id);
+        expect($job->email)->toEqual($email);
 
         return true;
     });
@@ -389,7 +389,7 @@ it('has scopes to get campaigns in various states', function () {
 it('can send determine if it has troubles sending out mails', function () {
     TestTime::freeze();
 
-    test()->assertFalse(test()->campaign->hasTroublesSendingOutMails());
+    expect(test()->campaign->hasTroublesSendingOutMails())->toBeFalse();
 
     test()->campaign->update([
         'status' => CampaignStatus::SENDING,
@@ -406,13 +406,13 @@ it('can send determine if it has troubles sending out mails', function () {
         'sent_at' => null,
     ]);
 
-    test()->assertFalse(test()->campaign->hasTroublesSendingOutMails());
+    expect(test()->campaign->hasTroublesSendingOutMails())->toBeFalse();
 
     TestTime::addHour();
-    test()->assertTrue(test()->campaign->hasTroublesSendingOutMails());
+    expect(test()->campaign->hasTroublesSendingOutMails())->toBeTrue();
 
     $send->update(['sent_at' => now()]);
-    test()->assertFalse(test()->campaign->hasTroublesSendingOutMails());
+    expect(test()->campaign->hasTroublesSendingOutMails())->toBeFalse();
 });
 
 it('can inline the styles of the html', function () {
@@ -465,7 +465,7 @@ it('can pull subject from custom mailable', function () {
     $campaign = Campaign::factory()->create(['mailable_class' => TestMailcoachMail::class, 'subject' => 'This is the campaign subject and should be overwritten.']);
     $campaign->pullSubjectFromMailable();
 
-    test()->assertEquals($campaign->subject, 'This is the subject from the custom mailable.');
+    expect('This is the subject from the custom mailable.')->toEqual($campaign->subject);
 });
 
 it('can use a custom mailable with arguments', function () {
@@ -475,7 +475,7 @@ it('can use a custom mailable with arguments', function () {
 
     $campaign->useMailable(TestMailcoachMailWithArguments::class, ['test_argument' => $test_argument_value]);
 
-    test()->assertEquals($test_argument_value, $campaign->contentFromMailable());
+    expect($campaign->contentFromMailable())->toEqual($test_argument_value);
 });
 
 it('wont throw on unserializable segment class', function () {
@@ -497,8 +497,8 @@ it('gets links', function () {
     ]);
 
     $links = $campaign->htmlLinks();
-    test()->assertEquals(1, $links->count());
-    test()->assertEquals('https://google.com', $links->first());
+    expect($links->count())->toEqual(1);
+    expect($links->first())->toEqual('https://google.com');
 });
 
 it('gets links with ampersands', function () {
@@ -510,13 +510,13 @@ it('gets links with ampersands', function () {
     ]);
 
     $links = $campaign->htmlLinks();
-    test()->assertEquals(1, $links->count());
-    test()->assertEquals('https://google.com?foo=true&bar=false', $links->first());
+    expect($links->count())->toEqual(1);
+    expect($links->first())->toEqual('https://google.com?foo=true&bar=false');
 });
 
 // Helpers
 function assertModels(array $expectedModels, Collection $actualModels)
 {
-    test()->assertEquals(count($expectedModels), $actualModels->count());
-    test()->assertEquals(collect($expectedModels)->pluck('id')->toArray(), $actualModels->pluck('id')->toArray());
+    expect($actualModels->count())->toEqual(count($expectedModels));
+    expect($actualModels->pluck('id')->toArray())->toEqual(collect($expectedModels)->pluck('id')->toArray());
 }

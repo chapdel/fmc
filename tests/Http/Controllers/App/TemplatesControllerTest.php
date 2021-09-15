@@ -47,7 +47,7 @@ it('can delete a template', function () {
         ->delete(action([TemplatesController::class, 'destroy'], $template))
         ->assertRedirect(action([TemplatesController::class, 'index']));
 
-    test()->assertCount(0, Template::get());
+    expect(Template::get())->toHaveCount(0);
 });
 
 it('can duplicate a template', function () {
@@ -58,14 +58,14 @@ it('can duplicate a template', function () {
         ->assertRedirect(route('mailcoach.templates.edit', Template::orderByDesc('id')->first()))
         ->assertSessionHasNoErrors();
 
-    test()->assertCount(2, Template::get());
+    expect(Template::get())->toHaveCount(2);
 
     $templates = Template::get();
 
     $originalTemplate = $templates[0];
     $duplicateTemplate = $templates[1];
 
-    test()->assertEquals("Duplicate of {$originalTemplate->name}", $duplicateTemplate->name);
-    test()->assertEquals($duplicateTemplate->html, $originalTemplate->html);
-    test()->assertEquals($duplicateTemplate->structured_html, $originalTemplate->structured_html);
+    expect($duplicateTemplate->name)->toEqual("Duplicate of {$originalTemplate->name}");
+    expect($originalTemplate->html)->toEqual($duplicateTemplate->html);
+    expect($originalTemplate->structured_html)->toEqual($duplicateTemplate->structured_html);
 });

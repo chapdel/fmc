@@ -6,13 +6,13 @@ use Spatie\Mailcoach\Tests\TestCase;
 uses(TestCase::class);
 
 it('passes if the html is valid', function () {
-    test()->assertTrue(rulePasses('<html><body>Test</body></html>'));
+    expect(rulePasses('<html><body>Test</body></html>'))->toBeTrue();
 
-    test()->assertFalse(rulePasses('<html>>><html>'));
+    expect(rulePasses('<html>>><html>'))->toBeFalse();
 });
 
 it('passes with ampersands', function () {
-    test()->assertTrue(rulePasses('<html><a href="https://google.com?foo=true&bar=false">Test</a></html>'));
+    expect(rulePasses('<html><a href="https://google.com?foo=true&bar=false">Test</a></html>'))->toBeTrue();
 });
 
 // Helpers

@@ -18,7 +18,7 @@ it('can delete an email list', function () {
         ->delete(action(DestroyEmailListController::class, $emailList->id))
         ->assertRedirect(action(EmailListsIndexController::class));
 
-    test()->assertCount(0, EmailList::get());
+    expect(EmailList::get())->toHaveCount(0);
 });
 
 it('authorizes access with custom policy', function () {

@@ -57,15 +57,15 @@ it('will save the datetime when the statistics where calculated', function () {
     TestTime::freeze();
 
     $campaign = Campaign::factory()->create();
-    test()->assertNull($campaign->statistics_calculated_at);
+    expect($campaign->statistics_calculated_at)->toBeNull();
 
     $automationMail = AutomationMail::factory()->create();
-    test()->assertNull($automationMail->statistics_calculated_at);
+    expect($automationMail->statistics_calculated_at)->toBeNull();
 
     dispatch(new CalculateStatisticsJob($campaign));
     dispatch(new CalculateStatisticsJob($automationMail));
-    test()->assertEquals(now()->format('Y-m-d H:i:s'), $campaign->fresh()->statistics_calculated_at);
-    test()->assertEquals(now()->format('Y-m-d H:i:s'), $automationMail->fresh()->statistics_calculated_at);
+    expect($campaign->fresh()->statistics_calculated_at)->toEqual(now()->format('Y-m-d H:i:s'));
+    expect($automationMail->fresh()->statistics_calculated_at)->toEqual(now()->format('Y-m-d H:i:s'));
 });
 
 it('can calculate statistics regarding unsubscribes', function () {
@@ -240,11 +240,11 @@ it('can calculate statistics regarding clicks on individual links', function () 
     $campaignLink = CampaignLink::where('url', $url)->first();
     $automationMailLink = AutomationMailLink::where('url', $url)->first();
 
-    test()->assertEquals(3, $campaignLink->click_count);
-    test()->assertEquals(2, $campaignLink->unique_click_count);
+    expect($campaignLink->click_count)->toEqual(3);
+    expect($campaignLink->unique_click_count)->toEqual(2);
 
-    test()->assertEquals(1, $automationMailLink->click_count);
-    test()->assertEquals(1, $automationMailLink->unique_click_count);
+    expect($automationMailLink->click_count)->toEqual(1);
+    expect($automationMailLink->unique_click_count)->toEqual(1);
 });
 
 it('can calculate statistics regarding bounces', function () {
@@ -271,11 +271,11 @@ it('can calculate statistics regarding bounces', function () {
     dispatch_now(new CalculateStatisticsJob($campaign));
     dispatch_now(new CalculateStatisticsJob($automationMail));
 
-    test()->assertEquals(1, $campaign->bounce_count);
-    test()->assertEquals(3333, $campaign->bounce_rate);
+    expect($campaign->bounce_count)->toEqual(1);
+    expect($campaign->bounce_rate)->toEqual(3333);
 
-    test()->assertEquals(1, $automationMail->bounce_count);
-    test()->assertEquals(10000, $automationMail->bounce_rate);
+    expect($automationMail->bounce_count)->toEqual(1);
+    expect($automationMail->bounce_rate)->toEqual(10000);
 });
 
 test('the queue of the calculate statistics job can be configured', function () {

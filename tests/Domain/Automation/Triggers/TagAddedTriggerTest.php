@@ -38,15 +38,15 @@ it('triggers when a subscriber gets a tag', function () {
 
     test()->emailList->subscribe('john@doe.com');
 
-    test()->assertEmpty($automation->actions->first()->fresh()->subscribers);
+    expect($automation->actions->first()->fresh()->subscribers)->toBeEmpty();
 
     Subscriber::first()->addTag('clicked');
 
-    test()->assertEmpty($automation->actions->first()->fresh()->subscribers);
+    expect($automation->actions->first()->fresh()->subscribers)->toBeEmpty();
 
     Subscriber::first()->addTag('opened');
 
-    test()->assertEquals(1, $automation->actions()->first()->subscribers->count());
+    expect($automation->actions()->first()->subscribers->count())->toEqual(1);
 });
 
 it('triggers when a new subscriber has a tag', function () {
@@ -66,13 +66,13 @@ it('triggers when a new subscriber has a tag', function () {
 
     test()->refreshServiceProvider();
 
-    test()->assertEmpty($automation->actions->first()->fresh()->subscribers);
+    expect($automation->actions->first()->fresh()->subscribers)->toBeEmpty();
 
     $pendingSubscriber = Subscriber::createWithEmail('john@doe.com')
         ->tags(['opened'])
         ->subscribeTo(test()->emailList);
 
-    test()->assertEquals(1, $automation->actions()->first()->subscribers->count());
+    expect($automation->actions()->first()->subscribers->count())->toEqual(1);
 });
 
 it('triggers when a new confirmed subscriber has a tag', function () {
@@ -96,15 +96,15 @@ it('triggers when a new confirmed subscriber has a tag', function () {
 
     test()->refreshServiceProvider();
 
-    test()->assertEmpty($automation->actions->first()->fresh()->subscribers);
+    expect($automation->actions->first()->fresh()->subscribers)->toBeEmpty();
 
     $subscriber = Subscriber::createWithEmail('john@doe.com')
         ->tags(['opened'])
         ->subscribeTo(test()->emailList);
 
-    test()->assertEmpty($automation->actions->first()->fresh()->subscribers);
+    expect($automation->actions->first()->fresh()->subscribers)->toBeEmpty();
 
     $subscriber->confirm();
 
-    test()->assertEquals(1, $automation->actions()->first()->subscribers->count());
+    expect($automation->actions()->first()->subscribers->count())->toEqual(1);
 });

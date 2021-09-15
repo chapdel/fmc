@@ -11,7 +11,7 @@ beforeEach(function () {
 });
 
 it('can get the current version', function () {
-    test()->assertIsString(test()->version->getCurrentVersion());
+    expect(test()->version->getCurrentVersion())->toBeString();
 });
 
 it('can get the latest version', function () {

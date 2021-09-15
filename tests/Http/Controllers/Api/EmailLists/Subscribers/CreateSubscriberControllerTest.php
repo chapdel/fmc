@@ -36,7 +36,7 @@ it('can create a subscriber using the api', function () {
 
     test()->assertDatabaseHas(test()->getSubscriberTableName(), test()->attributes);
 
-    test()->assertEquals(SubscriptionStatus::UNCONFIRMED, Subscriber::first()->status);
+    expect(Subscriber::first()->status)->toEqual(SubscriptionStatus::UNCONFIRMED);
 
     Mail::assertQueued(ConfirmSubscriberMail::class);
 });
@@ -50,7 +50,7 @@ it('can skip the confirmation while subscribing', function () {
         ->postJson(action([SubscribersController::class, 'store'], test()->emailList), $attributes)
         ->assertSuccessful();
 
-    test()->assertEquals(SubscriptionStatus::SUBSCRIBED, Subscriber::first()->status);
+    expect(Subscriber::first()->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
 
     Mail::assertNotQueued(ConfirmSubscriberMail::class);
 });
@@ -64,7 +64,7 @@ it('can create a subscriber with extra attributes', function () {
         ->postJson(action([SubscribersController::class, 'store'], test()->emailList), test()->attributes)
         ->assertSuccessful();
 
-    test()->assertSame(test()->attributes['extra_attributes'], Subscriber::first()->extra_attributes->toArray());
+    expect(Subscriber::first()->extra_attributes->toArray())->toBe(test()->attributes['extra_attributes']);
 });
 
 it('can create a subscriber with tags', function () {
@@ -75,6 +75,6 @@ it('can create a subscriber with tags', function () {
 
     $response->assertSuccessful();
     $response->assertJsonFragment(['tags' => ['foo', 'bar']]);
-    test()->assertTrue(Subscriber::first()->hasTag('foo'));
-    test()->assertTrue(Subscriber::first()->hasTag('bar'));
+    expect(Subscriber::first()->hasTag('foo'))->toBeTrue();
+    expect(Subscriber::first()->hasTag('bar'))->toBeTrue();
 });

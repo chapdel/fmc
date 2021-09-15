@@ -24,7 +24,7 @@ it('will send a welcome mail when a subscriber has subscribed with the correct m
     Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
 
     Mail::assertQueued(WelcomeMail::class, function (WelcomeMail $mail) {
-        test()->assertEquals('some-transactional-mailer', $mail->mailer);
+        expect($mail->mailer)->toEqual('some-transactional-mailer');
 
         return true;
     });
@@ -62,7 +62,7 @@ test('the welcome mail has a default subject', function () {
     Mail::assertQueued(WelcomeMail::class, function (WelcomeMail $mail) {
         $mail->build();
 
-        test()->assertStringContainsString('Welcome', $mail->subject);
+        expect($mail->subject)->toContain('Welcome');
 
         return true;
     });
@@ -77,7 +77,7 @@ test('the subject of the welcome mail can be customized', function () {
 
     Mail::assertQueued(WelcomeMail::class, function (WelcomeMail $mail) {
         $mail->build();
-        test()->assertEquals('Hello John, welcome to my newsletter', $mail->subject);
+        expect($mail->subject)->toEqual('Hello John, welcome to my newsletter');
 
         return true;
     });
@@ -90,7 +90,7 @@ test('the welcome mail has default content', function () {
 
     $content = (new WelcomeMail($subscriber))->render();
 
-    test()->assertStringContainsString('You are now subscribed', $content);
+    expect($content)->toContain('You are now subscribed');
 });
 
 test('the welcome mail can have custom content', function () {
@@ -104,7 +104,7 @@ test('the welcome mail can have custom content', function () {
 
     $content = (new WelcomeMail($subscriber))->render();
 
-    test()->assertStringContainsString('Hi John, welcome to my newsletter. Here is a link to unsubscribe http://localhost/mailcoach/unsubscribe/my-uuid', $content);
+    expect($content)->toContain('Hi John, welcome to my newsletter. Here is a link to unsubscribe http://localhost/mailcoach/unsubscribe/my-uuid');
 });
 
 it('can use custom welcome mailable', function () {

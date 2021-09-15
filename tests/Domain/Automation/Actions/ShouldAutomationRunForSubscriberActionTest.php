@@ -35,15 +35,15 @@ it('returns false when the subscriber is already in the automation', function ()
 
     test()->refreshServiceProvider();
 
-    test()->assertEmpty($automation->actions->first()->fresh()->subscribers);
+    expect($automation->actions->first()->fresh()->subscribers)->toBeEmpty();
 
     $jane = test()->emailList->subscribeSkippingConfirmation('jane@doe.com');
 
-    test()->assertTrue(test()->action->execute($automation, $jane));
+    expect(test()->action->execute($automation, $jane))->toBeTrue();
 
     $automation->actions->first()->subscribers()->attach($jane);
 
-    test()->assertFalse(test()->action->execute($automation, $jane));
+    expect(test()->action->execute($automation, $jane))->toBeFalse();
 });
 
 it('returns false if the subscriber isnt subscribed', function () {
@@ -59,15 +59,15 @@ it('returns false if the subscriber isnt subscribed', function () {
 
     test()->refreshServiceProvider();
 
-    test()->assertEmpty($automation->actions->first()->fresh()->subscribers);
+    expect($automation->actions->first()->fresh()->subscribers)->toBeEmpty();
 
     $jane = test()->emailList->subscribeSkippingConfirmation('jane@doe.com');
 
-    test()->assertTrue(test()->action->execute($automation, $jane));
+    expect(test()->action->execute($automation, $jane))->toBeTrue();
 
     $jane->unsubscribe();
 
-    test()->assertFalse(test()->action->execute($automation, $jane));
+    expect(test()->action->execute($automation, $jane))->toBeFalse();
 });
 
 it('returns false when the subscriber isnt in the segment', function () {
@@ -87,8 +87,8 @@ it('returns false when the subscriber isnt in the segment', function () {
     $jane = test()->emailList->subscribeSkippingConfirmation('jane@doe.com');
     $john = test()->emailList->subscribeSkippingConfirmation('john@example.com');
 
-    test()->assertEquals(0, $automation->actions()->first()->subscribers->count());
+    expect($automation->actions()->first()->subscribers->count())->toEqual(0);
 
-    test()->assertFalse(test()->action->execute($automation, $jane));
-    test()->assertTrue(test()->action->execute($automation, $john));
+    expect(test()->action->execute($automation, $jane))->toBeFalse();
+    expect(test()->action->execute($automation, $john))->toBeTrue();
 });

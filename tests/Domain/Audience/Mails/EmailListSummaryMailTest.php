@@ -23,12 +23,12 @@ it('can send the email list summary with the correct mailer', function () {
 
     test()->artisan(SendEmailListSummaryMailCommand::class);
     Mail::assertQueued(EmailListSummaryMail::class, function (EmailListSummaryMail $mail) {
-        test()->assertEquals('2019-01-01 00:00:00', $mail->summaryStartDateTime->toDateTimeString());
-        test()->assertEquals('some-mailer', $mail->mailer);
+        expect($mail->summaryStartDateTime->toDateTimeString())->toEqual('2019-01-01 00:00:00');
+        expect($mail->mailer)->toEqual('some-mailer');
 
         return true;
     });
-    test()->assertEquals('2019-01-01 00:00:00', test()->emailList->refresh()->email_list_summary_sent_at->format('Y-m-d H:i:s'));
+    expect(test()->emailList->refresh()->email_list_summary_sent_at->format('Y-m-d H:i:s'))->toEqual('2019-01-01 00:00:00');
 });
 
 it('can send the email list summary with the default mailer', function () {
@@ -37,7 +37,7 @@ it('can send the email list summary with the default mailer', function () {
 
     test()->artisan(SendEmailListSummaryMailCommand::class);
     Mail::assertQueued(EmailListSummaryMail::class, function (EmailListSummaryMail $mail) {
-        test()->assertEquals('some-mailer', $mail->mailer);
+        expect($mail->mailer)->toEqual('some-mailer');
 
         return true;
     });
@@ -77,12 +77,12 @@ it('will send the email list summary starting from the previous sent date', func
 
     test()->artisan(SendEmailListSummaryMailCommand::class);
     Mail::assertQueued(EmailListSummaryMail::class, function (EmailListSummaryMail $mail) {
-        test()->assertEquals('2019-01-08 00:00:00', $mail->summaryStartDateTime->toDateTimeString());
+        expect($mail->summaryStartDateTime->toDateTimeString())->toEqual('2019-01-08 00:00:00');
 
         return true;
     });
 });
 
 test('the content of the email list summary mail is valid', function () {
-    test()->assertIsString((new EmailListSummaryMail(test()->emailList, now()))->render());
+    expect((new EmailListSummaryMail(test()->emailList, now()))->render())->toBeString();
 });

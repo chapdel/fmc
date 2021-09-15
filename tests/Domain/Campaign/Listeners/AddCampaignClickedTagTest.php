@@ -16,18 +16,18 @@ it('adds a tag when a campaign link is clicked', function () {
 
     $send->registerClick('https://spatie.be');
 
-    test()->assertCount(1, CampaignLink::get());
+    expect(CampaignLink::get())->toHaveCount(1);
 
-    test()->assertTrue($send->subscriber->hasTag("campaign-{$send->campaign->id}-clicked"));
+    expect($send->subscriber->hasTag("campaign-{$send->campaign->id}-clicked"))->toBeTrue();
 
     $hash = LinkHasher::hash(
         $send->campaign,
         'https://spatie.be',
         'clicked',
     );
-    test()->assertTrue($send->subscriber->hasTag($hash));
+    expect($send->subscriber->hasTag($hash))->toBeTrue();
 
     tap(Tag::first(), function (Tag $tag) {
-        test()->assertEquals(TagType::MAILCOACH, $tag->type);
+        expect($tag->type)->toEqual(TagType::MAILCOACH);
     });
 });

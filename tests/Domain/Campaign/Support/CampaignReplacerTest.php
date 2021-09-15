@@ -18,7 +18,7 @@ test('campaignname should replaced in subject', function () {
     app(PrepareSubjectAction::class)->execute($campaign);
     $campaign->refresh();
     $replacedhtml = $campaign->subject;
-    test()->assertEquals($replacedhtml, $campaign->name);
+    expect($campaign->name)->toEqual($replacedhtml);
 });
 
 test('campaignname should replaced in email html', function () {

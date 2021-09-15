@@ -27,7 +27,7 @@ test('a campaign can be sent using the api', function () {
         ->assertSuccessful();
 
     Bus::assertDispatched(function (SendCampaignJob $job) {
-        test()->assertEquals(test()->campaign->id, $job->campaign->id);
+        expect($job->campaign->id)->toEqual(test()->campaign->id);
 
         return true;
     });

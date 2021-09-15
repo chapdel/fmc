@@ -22,7 +22,7 @@ it('can render the template containing blade variables', function () {
 
     $mailable = $template->getMailable();
 
-    test()->assertStringContainsString('test html test-argument', $mailable->render());
+    expect($mailable->render())->toContain('test html test-argument');
 });
 
 it('can render a template containing markdown and blade variables', function () {
@@ -50,7 +50,7 @@ it('will not compile blade if it is not allowed', function () {
 
     $mailable = $template->getMailable();
 
-    test()->assertStringContainsString('test html {{ $argument }}', $mailable->render());
+    expect($mailable->render())->toContain('test html {{ $argument }}');
 });
 
 it('will use cc and bcc when sending out a mail using the template', function () {
@@ -68,8 +68,8 @@ it('will use cc and bcc when sending out a mail using the template', function ()
     Mail::to('john@example.com')->send($mailable);
 
     Mail::assertSent(function (TestMailableWithTemplate $mail) {
-        test()->assertTrue($mail->hasCc('jane@example.com'));
-        test()->assertTrue($mail->hasBcc('tarzan@example.com'));
+        expect($mail->hasCc('jane@example.com'))->toBeTrue();
+        expect($mail->hasBcc('tarzan@example.com'))->toBeTrue();
 
         return true;
     });
@@ -90,5 +90,5 @@ it('will can use replacers to replace content', function () {
 
     $mailable = $template->getMailable();
 
-    test()->assertStringContainsString('test html test-argument-from-replacer', $mailable->render());
+    expect($mailable->render())->toContain('test html test-argument-from-replacer');
 });

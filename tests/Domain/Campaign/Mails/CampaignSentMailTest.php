@@ -32,9 +32,9 @@ test('when a campaign is sent it will send a mail', function () {
     event(new CampaignSentEvent(test()->campaign));
 
     Mail::assertQueued(CampaignSentMail::class, function (CampaignSentMail $mail) {
-        test()->assertEquals('some-mailer', $mail->mailer);
-        test()->assertTrue($mail->hasTo('john@example.com'));
-        test()->assertTrue($mail->hasTo('jane@example.com'));
+        expect($mail->mailer)->toEqual('some-mailer');
+        expect($mail->hasTo('john@example.com'))->toBeTrue();
+        expect($mail->hasTo('jane@example.com'))->toBeTrue();
 
         return true;
     });
@@ -61,5 +61,5 @@ it('will not send a campaign sent mail when no destination is set', function () 
 });
 
 test('the content of the campaign sent mail is valid', function () {
-    test()->assertIsString((new CampaignSentMail(test()->campaign))->render());
+    expect((new CampaignSentMail(test()->campaign))->render())->toBeString();
 });

@@ -20,9 +20,9 @@ it('uses default policy', function () {
     $jane = (new User())->forceFill(['email' => 'jane@example.com']);
     $john = (new User())->forceFill(['email' => 'john@example.com']);
 
-    test()->assertInstanceOf(EmailListPolicy::class, Gate::getPolicyFor(test()->emailList));
-    test()->assertTrue($jane->can("create", EmailList::class));
-    test()->assertFalse($john->can("create", EmailList::class));
+    expect(Gate::getPolicyFor(test()->emailList))->toBeInstanceOf(EmailListPolicy::class);
+    expect($jane->can("create", EmailList::class))->toBeTrue();
+    expect($john->can("create", EmailList::class))->toBeFalse();
 });
 
 it('uses custom policy', function () {
@@ -31,8 +31,8 @@ it('uses custom policy', function () {
 
     app()->bind(EmailListPolicy::class, CustomEmailListDenyAllPolicy::class);
 
-    test()->assertInstanceOf(CustomEmailListDenyAllPolicy::class, Gate::getPolicyFor(test()->emailList));
-    test()->assertFalse($jane->can("create", EmailList::class));
+    expect(Gate::getPolicyFor(test()->emailList))->toBeInstanceOf(CustomEmailListDenyAllPolicy::class);
+    expect($jane->can("create", EmailList::class))->toBeFalse();
 
     $this
         ->postCreateList($jane)

@@ -23,7 +23,7 @@ it('runs automations that are started', function () {
 
     Artisan::call(RunAutomationActionsCommand::class);
 
-    test()->assertNull($automation->fresh()->run_at);
+    expect($automation->fresh()->run_at)->toBeNull();
 
     $automation->start();
 
@@ -46,15 +46,15 @@ it('respects the interval', function () {
 
     Artisan::call(RunAutomationActionsCommand::class);
 
-    test()->assertEquals(Carbon::create(2021, 01, 01, 10), $automation->fresh()->run_at);
+    expect($automation->fresh()->run_at)->toEqual(Carbon::create(2021, 01, 01, 10));
 
     TestTime::addMinutes(5);
     Artisan::call(RunAutomationActionsCommand::class);
 
-    test()->assertEquals(Carbon::create(2021, 01, 01, 10), $automation->fresh()->run_at);
+    expect($automation->fresh()->run_at)->toEqual(Carbon::create(2021, 01, 01, 10));
 
     TestTime::addMinutes(5);
     Artisan::call(RunAutomationActionsCommand::class);
 
-    test()->assertEquals(Carbon::create(2021, 01, 01, 10, 10), $automation->fresh()->run_at);
+    expect($automation->fresh()->run_at)->toEqual(Carbon::create(2021, 01, 01, 10, 10));
 });

@@ -15,7 +15,7 @@ beforeEach(function () {
  * @param string $urlWithTags
  */
 it('strips utm tags from an url', function (string $url, string $urlWithoutTags) {
-    test()->assertEquals($urlWithoutTags, test()->action->execute($url));
+    expect(test()->action->execute($url))->toEqual($urlWithoutTags);
 })->with('provider');
 
 // Datasets

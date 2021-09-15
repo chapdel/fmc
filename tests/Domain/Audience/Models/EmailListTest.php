@@ -22,7 +22,7 @@ beforeEach(function () {
 it('can add a subscriber to a list', function () {
     $subscriber = test()->emailList->subscribe('john@example.com');
 
-    test()->assertEquals('john@example.com', $subscriber->email);
+    expect($subscriber->email)->toEqual('john@example.com');
 });
 
 it('can add a subscriber with extra attributes to a list', function () {
@@ -34,26 +34,26 @@ it('can add a subscriber with extra attributes to a list', function () {
 
     $subscriber = test()->emailList->subscribe('john@example.com', $attributes)->refresh();
 
-    test()->assertEquals('john@example.com', $subscriber->email);
-    test()->assertEquals('John', $subscriber->first_name);
-    test()->assertEquals('Doe', $subscriber->last_name);
-    test()->assertEquals($attributes['extra_attributes'], $subscriber->extra_attributes->all());
+    expect($subscriber->email)->toEqual('john@example.com');
+    expect($subscriber->first_name)->toEqual('John');
+    expect($subscriber->last_name)->toEqual('Doe');
+    expect($subscriber->extra_attributes->all())->toEqual($attributes['extra_attributes']);
 });
 
 test('when adding someone that was already subscribed no new subscription will be created', function () {
     test()->emailList->subscribe('john@example.com');
     test()->emailList->subscribe('john@example.com');
 
-    test()->assertEquals(1, Subscriber::count());
+    expect(Subscriber::count())->toEqual(1);
 });
 
 it('can unsubscribe someone', function () {
     test()->emailList->subscribe('john@example.com');
 
-    test()->assertTrue(test()->emailList->unsubscribe('john@example.com'));
-    test()->assertFalse(test()->emailList->unsubscribe('non-existing-subscriber@example.com'));
+    expect(test()->emailList->unsubscribe('john@example.com'))->toBeTrue();
+    expect(test()->emailList->unsubscribe('non-existing-subscriber@example.com'))->toBeFalse();
 
-    test()->assertEquals(SubscriptionStatus::UNSUBSCRIBED, Subscriber::first()->status);
+    expect(Subscriber::first()->status)->toEqual(SubscriptionStatus::UNSUBSCRIBED);
 });
 
 it('can get all subscribers that are subscribed', function () {
@@ -62,11 +62,11 @@ it('can get all subscribers that are subscribed', function () {
     test()->emailList->unsubscribe('john@example.com');
 
     $subscribers = test()->emailList->subscribers;
-    test()->assertCount(1, $subscribers);
-    test()->assertEquals('jane@example.com', $subscribers->first()->email);
+    expect($subscribers)->toHaveCount(1);
+    expect($subscribers->first()->email)->toEqual('jane@example.com');
 
     $subscribers = test()->emailList->allSubscribers;
-    test()->assertCount(2, $subscribers);
+    expect($subscribers)->toHaveCount(2);
 });
 
 it('can subscribe someone immediately even if double opt in is enabled', function () {
@@ -78,7 +78,7 @@ it('can subscribe someone immediately even if double opt in is enabled', functio
 
     Mail::assertNothingQueued();
 
-    test()->assertEquals('john@example.com', test()->emailList->subscribers->first()->email);
+    expect(test()->emailList->subscribers->first()->email)->toEqual('john@example.com');
 });
 
 it('cannot subscribe an invalid email', function () {
@@ -88,11 +88,11 @@ it('cannot subscribe an invalid email', function () {
 });
 
 it('can get the status of a subscription', function () {
-    test()->assertNull(test()->emailList->getSubscriptionStatus('john@example.com'));
+    expect(test()->emailList->getSubscriptionStatus('john@example.com'))->toBeNull();
 
     test()->emailList->subscribe('john@example.com');
 
-    test()->assertEquals(SubscriptionStatus::SUBSCRIBED, test()->emailList->getSubscriptionStatus('john@example.com'));
+    expect(test()->emailList->getSubscriptionStatus('john@example.com'))->toEqual(SubscriptionStatus::SUBSCRIBED);
 });
 
 it('can summarize an email list', function () {
@@ -160,6 +160,6 @@ it('can reference tags and segments when using a custom model', function () {
 
     $list = CustomEmailList::find(test()->emailList->id);
 
-    test()->assertEquals(2, $list->tags()->count());
-    test()->assertEquals(1, $list->segments()->count());
+    expect($list->tags()->count())->toEqual(2);
+    expect($list->segments()->count())->toEqual(1);
 });

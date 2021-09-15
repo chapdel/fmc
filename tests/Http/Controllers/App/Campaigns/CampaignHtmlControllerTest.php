@@ -23,5 +23,5 @@ it('can update the html of a campaign', function () {
         ->assertSessionHasNoErrors()
         ->assertRedirect(action([CampaignContentController::class, 'edit'], $campaign->id));
 
-    test()->assertStringContainsString('updated_html', Campaign::first()->html);
+    expect(Campaign::first()->html)->toContain('updated_html');
 });

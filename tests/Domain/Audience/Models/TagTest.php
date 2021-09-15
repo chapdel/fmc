@@ -26,12 +26,12 @@ test('a tag can be added', function () {
 
     $tagOfEmailList = test()->subscriber->emailList->tags()->first();
 
-    test()->assertEquals('test1', $tagOfEmailList->name);
+    expect($tagOfEmailList->name)->toEqual('test1');
 
     $tag = Tag::first();
 
-    test()->assertEquals(test()->subscriber->emailList->id, $tag->emailList->id);
-    test()->assertEquals(test()->subscriber->uuid, $tag->subscribers()->first()->uuid);
+    expect($tag->emailList->id)->toEqual(test()->subscriber->emailList->id);
+    expect($tag->subscribers()->first()->uuid)->toEqual(test()->subscriber->uuid);
 });
 
 test('a tag can have a type', function () {
@@ -41,7 +41,7 @@ test('a tag can have a type', function () {
 
     $tag = Tag::first();
 
-    test()->assertEquals(TagType::MAILCOACH, $tag->type);
+    expect($tag->type)->toEqual(TagType::MAILCOACH);
 });
 
 test('multiple tags can be added in one go', function () {
@@ -55,7 +55,7 @@ it('will not save duplicate tags', function () {
     test()->subscriber->addTags(['test1', 'test2']);
 
     assertSubscriberHasTags(['test1', 'test2']);
-    test()->assertCount(2, Tag::all());
+    expect(Tag::all())->toHaveCount(2);
 });
 
 test('a tag can be removed', function () {
@@ -65,7 +65,7 @@ test('a tag can be removed', function () {
 
     assertSubscriberHasTags(['test1']);
 
-    test()->assertCount(2, Tag::all());
+    expect(Tag::all())->toHaveCount(2);
 });
 
 test('multiple tags can be removed in one go', function () {
@@ -89,13 +89,13 @@ test('removing tags fires events', function () {
 });
 
 it('can determine if it has a tag', function () {
-    test()->assertFalse(test()->subscriber->hasTag('test2'));
+    expect(test()->subscriber->hasTag('test2'))->toBeFalse();
 
     test()->subscriber->addTag('test');
-    test()->assertFalse(test()->subscriber->hasTag('test2'));
+    expect(test()->subscriber->hasTag('test2'))->toBeFalse();
 
     test()->subscriber->addTag('test2');
-    test()->assertTrue(test()->subscriber->hasTag('test2'));
+    expect(test()->subscriber->hasTag('test2'))->toBeTrue();
 });
 
 it('can sync tags', function () {
@@ -133,13 +133,13 @@ test('subscribers can be retrieved by tag', function () {
     $tag1 = Tag::firstWhere('name', '=', 'test1');
     $tag2 = Tag::firstWhere('name', '=', 'test2');
 
-    test()->assertSame(2, $tag1->subscribers->count());
-    test()->assertSame(1, $tag2->subscribers->count());
+    expect($tag1->subscribers->count())->toBe(2);
+    expect($tag2->subscribers->count())->toBe(1);
 
-    test()->assertContains(test()->subscriber->id, $tag1->subscribers->pluck('id'));
-    test()->assertContains(test()->anotherSubscriber->id, $tag1->subscribers->pluck('id'));
+    expect($tag1->subscribers->pluck('id'))->toContain(test()->subscriber->id);
+    expect($tag1->subscribers->pluck('id'))->toContain(test()->anotherSubscriber->id);
 
-    test()->assertContains(test()->subscriber->id, $tag2->subscribers->pluck('id'));
+    expect($tag2->subscribers->pluck('id'))->toContain(test()->subscriber->id);
 });
 
 // Helpers

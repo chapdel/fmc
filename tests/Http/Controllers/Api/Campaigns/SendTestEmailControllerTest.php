@@ -30,7 +30,7 @@ test('a test email can be sent using the api', function () {
         ->assertSuccessful();
 
     Bus::assertDispatched(function (SendCampaignTestJob $job) {
-        test()->assertEquals('test@example.com', $job->email);
+        expect($job->email)->toEqual('test@example.com');
 
         return true;
     });

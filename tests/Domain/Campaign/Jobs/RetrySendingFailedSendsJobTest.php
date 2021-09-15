@@ -31,9 +31,9 @@ it('can retry sending failed jobs sends with the correct mailer', function () {
 
     $failedSends = $campaign->sends()->failed()->get();
 
-    test()->assertCount(1, $failedSends);
-    test()->assertEquals($john->email, $failedSends->first()->subscriber->email);
-    test()->assertEquals('Could not personalize html', $failedSends->first()->failure_reason);
+    expect($failedSends)->toHaveCount(1);
+    expect($failedSends->first()->subscriber->email)->toEqual($john->email);
+    expect($failedSends->first()->failure_reason)->toEqual('Could not personalize html');
 
     config()->set('mailcoach.campaigns.actions.personalize_html', PersonalizeHtmlAction::class);
     dispatch(new RetrySendingFailedSendsJob($campaign));

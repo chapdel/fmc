@@ -36,7 +36,7 @@ it('can schedule a campaign', function () {
         ->assertSessionHasNoErrors()
         ->assertRedirect(action(CampaignDeliveryController::class, test()->campaign->id));
 
-    test()->assertEquals($scheduleAt->format('Y-m-d H:i:s'), test()->campaign->refresh()->scheduled_at->format('Y-m-d H:i:s'));
+    expect(test()->campaign->refresh()->scheduled_at->format('Y-m-d H:i:s'))->toEqual($scheduleAt->format('Y-m-d H:i:s'));
 });
 
 it('will not schedule a campaign in the past', function () {

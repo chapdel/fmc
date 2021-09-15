@@ -24,14 +24,14 @@ it('sends a pending send', function () {
     test()->action->execute(test()->send);
 
     Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) {
-        test()->assertTrue($mail->hasTo(test()->send->subscriber->email));
+        expect($mail->hasTo(test()->send->subscriber->email))->toBeTrue();
 
         return true;
     });
 
     Event::assertDispatched(AutomationMailSentEvent::class);
 
-    test()->assertTrue(test()->send->wasAlreadySent());
+    expect(test()->send->wasAlreadySent())->toBeTrue();
 });
 
 it('sets reply to', function () {
@@ -43,7 +43,7 @@ it('sets reply to', function () {
     test()->action->execute(test()->send);
 
     Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) {
-        test()->assertTrue($mail->hasReplyTo('foo@bar.com', 'Foo'));
+        expect($mail->hasReplyTo('foo@bar.com', 'Foo'))->toBeTrue();
 
         return true;
     });

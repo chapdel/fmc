@@ -20,8 +20,8 @@ test('a transactional mail will be stored in the db', function () {
             ->trackOpensAndClicks();
     });
 
-    test()->assertCount(1, TransactionalMail::get());
-    test()->assertCount(1, Send::get());
+    expect(TransactionalMail::get())->toHaveCount(1);
+    expect(Send::get())->toHaveCount(1);
 
     $transactionalMail = TransactionalMail::first();
 
@@ -29,13 +29,13 @@ test('a transactional mail will be stored in the db', function () {
         [['email' => config('mail.from.address'), 'name' => config('mail.from.name')]],
         $transactionalMail->from,
     );
-    test()->assertEquals('This is the subject', $transactionalMail->subject);
-    test()->assertStringContainsString('This is the content for John Doe', $transactionalMail->body);
-    test()->assertTrue($transactionalMail->track_opens);
-    test()->assertTrue($transactionalMail->track_clicks);
-    test()->assertEquals(TestTransactionMail::class, $transactionalMail->mailable_class);
-    test()->assertInstanceOf(Send::class, $transactionalMail->send);
-    test()->assertInstanceOf(TransactionalMail::class, Send::first()->transactionalMail);
+    expect($transactionalMail->subject)->toEqual('This is the subject');
+    expect($transactionalMail->body)->toContain('This is the content for John Doe');
+    expect($transactionalMail->track_opens)->toBeTrue();
+    expect($transactionalMail->track_clicks)->toBeTrue();
+    expect($transactionalMail->mailable_class)->toEqual(TestTransactionMail::class);
+    expect($transactionalMail->send)->toBeInstanceOf(Send::class);
+    expect(Send::first()->transactionalMail)->toBeInstanceOf(TransactionalMail::class);
 });
 
 it('can store the various recipients', function () {
@@ -91,8 +91,8 @@ test('only opens on transactional mails can be tracked', function () {
     });
 
     $transactionalMail = TransactionalMail::first();
-    test()->assertTrue($transactionalMail->track_opens);
-    test()->assertFalse($transactionalMail->track_clicks);
+    expect($transactionalMail->track_opens)->toBeTrue();
+    expect($transactionalMail->track_clicks)->toBeFalse();
 });
 
 test('only click on transactional mails can be tracked', function () {
@@ -101,15 +101,15 @@ test('only click on transactional mails can be tracked', function () {
     });
 
     $transactionalMail = TransactionalMail::first();
-    test()->assertFalse($transactionalMail->track_opens);
-    test()->assertFalse($transactionalMail->track_clicks);
+    expect($transactionalMail->track_opens)->toBeFalse();
+    expect($transactionalMail->track_clicks)->toBeFalse();
 });
 
 test('by default it will not store any mails', function () {
     test()->sendTestMail(function (TestTransactionMail $mail) {
     });
 
-    test()->assertCount(0, TransactionalMail::get());
+    expect(TransactionalMail::get())->toHaveCount(0);
 });
 
 test('a send for a transactional mail can be marked as opened', function () {
@@ -122,7 +122,7 @@ test('a send for a transactional mail can be marked as opened', function () {
 
     $send->registerOpen();
 
-    test()->assertCount(1, $send->transactionalMailOpens);
+    expect($send->transactionalMailOpens)->toHaveCount(1);
 
     Event::assertDispatched(TransactionalMailOpenedEvent::class);
 });
@@ -137,7 +137,7 @@ test('a send for a transactional mail can be marked as clicked', function () {
 
     $send->registerClick('https://spatie.be');
 
-    test()->assertCount(1, $send->transactionalMailClicks);
+    expect($send->transactionalMailClicks)->toHaveCount(1);
 
     Event::assertDispatched(TransactionalMailLinkClickedEvent::class);
 });

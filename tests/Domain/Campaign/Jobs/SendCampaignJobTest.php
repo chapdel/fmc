@@ -45,14 +45,14 @@ it('can send a campaign with the correct mailer', function () {
     Mail::assertSent(MailcoachMail::class, fn (MailcoachMail $mail) => $mail->mailer === 'some-mailer');
 
     Event::assertDispatched(CampaignSentEvent::class, function (CampaignSentEvent $event) {
-        test()->assertEquals(test()->campaign->id, $event->campaign->id);
+        expect($event->campaign->id)->toEqual(test()->campaign->id);
 
         return true;
     });
 
     test()->campaign->refresh();
-    test()->assertEquals(CampaignStatus::SENT, test()->campaign->status);
-    test()->assertEquals(3, test()->campaign->sent_to_number_of_subscribers);
+    expect(test()->campaign->status)->toEqual(CampaignStatus::SENT);
+    expect(test()->campaign->sent_to_number_of_subscribers)->toEqual(3);
 });
 
 it('will not create mailcoach sends if they already have been created', function () {
@@ -77,7 +77,7 @@ it('will not create mailcoach sends if they already have been created', function
 
     dispatch(new SendCampaignJob($campaign));
 
-    test()->assertCount(1, Send::all());
+    expect(Send::all())->toHaveCount(1);
 });
 
 it('will use the right subject', function () {
@@ -89,7 +89,7 @@ it('will use the right subject', function () {
     dispatch(new SendCampaignJob(test()->campaign));
 
     Mail::assertSent(MailcoachMail::class, function (MailcoachMail $campaignMail) {
-        test()->assertEquals('my subject', $campaignMail->subject);
+        expect($campaignMail->subject)->toEqual('my subject');
 
         return true;
     });
@@ -112,9 +112,9 @@ test('a campaign that was sent will not be sent again', function () {
     Event::fake();
     Mail::fake();
 
-    test()->assertFalse(test()->campaign->wasAlreadySent());
+    expect(test()->campaign->wasAlreadySent())->toBeFalse();
     dispatch(new SendCampaignJob(test()->campaign));
-    test()->assertTrue(test()->campaign->refresh()->wasAlreadySent());
+    expect(test()->campaign->refresh()->wasAlreadySent())->toBeTrue();
     Mail::assertSent(MailcoachMail::class, 3);
 
     dispatch(new SendCampaignJob(test()->campaign));
@@ -178,7 +178,7 @@ test('regular placeholders in the subject will be replaced', function () {
     dispatch(new SendCampaignJob($campaign));
 
     Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) {
-        test()->assertEquals("This is a mail sent to my list", $mail->subject);
+        expect($mail->subject)->toEqual("This is a mail sent to my list");
 
         return true;
     });
@@ -201,7 +201,7 @@ test('personalized placeholders in the subject will be replaced', function () {
     dispatch(new SendCampaignJob($campaign));
 
     Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) use ($subscriber) {
-        test()->assertEquals("This is a mail sent to {$subscriber->email}", $mail->subject);
+        expect($mail->subject)->toEqual("This is a mail sent to {$subscriber->email}");
 
         return true;
     });

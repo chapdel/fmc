@@ -27,7 +27,7 @@ it('respects custom model for route model binding', function () {
     $response = test()->get($detailsRoute);
     $injectedModel = $response->viewData("subscriber");
 
-    test()->assertInstanceOf(CustomSubscriber::class, $injectedModel);
+    expect($injectedModel)->toBeInstanceOf(CustomSubscriber::class);
 });
 
 // Helpers

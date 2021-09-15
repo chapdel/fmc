@@ -27,7 +27,7 @@ it('can send a welcome mail with the correct mailer', function () {
     $action->execute(test()->subscriber);
 
     Mail::assertQueued(WelcomeMail::class, function (WelcomeMail $mail) {
-        test()->assertEquals('some-mailer', $mail->mailer);
+        expect($mail->mailer)->toEqual('some-mailer');
 
         return true;
     });

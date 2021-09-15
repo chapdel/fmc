@@ -11,7 +11,7 @@ it('sets the processed at timestamp on the webhook call', function () {
         'name' => 'feedback',
     ]);
 
-    test()->assertNull($webhookCall->processed_at);
+    expect($webhookCall->processed_at)->toBeNull();
 
     event(new WebhookCallProcessedEvent($webhookCall));
 

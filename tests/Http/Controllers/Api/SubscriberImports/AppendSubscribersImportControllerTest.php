@@ -29,5 +29,5 @@ it('can append to the subscribers csv', function () {
 
     $expected = $initialSubscribersCsv . PHP_EOL . $payload['subscribers_csv'];
 
-    test()->assertEquals($expected, $subscriberImport->refresh()->subscribers_csv);
+    expect($subscriberImport->refresh()->subscribers_csv)->toEqual($expected);
 });

@@ -44,35 +44,35 @@ beforeEach(function () {
 });
 
 it('doesnt continue while checking and the subscriber doesnt have the tag', function () {
-    test()->assertFalse(test()->actionModel->action->shouldContinue(test()->subscriber));
+    expect(test()->actionModel->action->shouldContinue(test()->subscriber))->toBeFalse();
 
     TestTime::addDay();
 
-    test()->assertFalse(test()->actionModel->action->shouldContinue(test()->subscriber));
+    expect(test()->actionModel->action->shouldContinue(test()->subscriber))->toBeFalse();
 
     TestTime::addSecond();
 
-    test()->assertTrue(test()->actionModel->action->shouldContinue(test()->subscriber));
+    expect(test()->actionModel->action->shouldContinue(test()->subscriber))->toBeTrue();
 });
 
 it('continues as soon as the subscriber has the tag', function () {
-    test()->assertFalse(test()->actionModel->action->shouldContinue(test()->subscriber));
+    expect(test()->actionModel->action->shouldContinue(test()->subscriber))->toBeFalse();
 
     test()->subscriber->addTag('some-tag');
 
-    test()->assertTrue(test()->actionModel->action->shouldContinue(test()->subscriber));
+    expect(test()->actionModel->action->shouldContinue(test()->subscriber))->toBeTrue();
 });
 
 it('doesnt halt', function () {
-    test()->assertFalse(test()->actionModel->action->shouldHalt(test()->subscriber));
+    expect(test()->actionModel->action->shouldHalt(test()->subscriber))->toBeFalse();
 });
 
 it('determines the correct next action', function () {
     TestTime::addDays(2);
 
-    test()->assertInstanceOf(HaltAction::class, test()->actionModel->action->nextActions(test()->subscriber)[0]->action);
+    expect(test()->actionModel->action->nextActions(test()->subscriber)[0]->action)->toBeInstanceOf(HaltAction::class);
 
     test()->subscriber->addTag('some-tag');
 
-    test()->assertInstanceOf(SendAutomationMailAction::class, test()->actionModel->action->nextActions(test()->subscriber)[0]->action);
+    expect(test()->actionModel->action->nextActions(test()->subscriber)[0]->action)->toBeInstanceOf(SendAutomationMailAction::class);
 });

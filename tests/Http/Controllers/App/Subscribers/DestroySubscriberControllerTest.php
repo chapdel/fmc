@@ -15,5 +15,5 @@ it('can delete a subscriber', function () {
         ->delete(action(DestroySubscriberController::class, [$subscriber->emailList->id, $subscriber->id]))
         ->assertRedirect();
 
-    test()->assertCount(0, Subscriber::get());
+    expect(Subscriber::get())->toHaveCount(0);
 });

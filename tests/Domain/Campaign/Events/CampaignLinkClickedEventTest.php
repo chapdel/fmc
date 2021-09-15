@@ -17,7 +17,7 @@ it('will fire an event when a link gets clicked', function () {
 
     $send->registerClick('https://spatie.be');
 
-    test()->assertCount(1, CampaignLink::get());
+    expect(CampaignLink::get())->toHaveCount(1);
 
     test()->assertDatabaseHas('mailcoach_campaign_links', [
         'campaign_id' => $send->campaign->id,
@@ -31,7 +31,7 @@ it('will fire an event when a link gets clicked', function () {
     ]);
 
     Event::assertDispatched(CampaignLinkClickedEvent::class, function (CampaignLinkClickedEvent $event) use ($send) {
-        test()->assertEquals($send->uuid, $event->campaignClick->send->uuid);
+        expect($event->campaignClick->send->uuid)->toEqual($send->uuid);
 
 
         return true;
@@ -47,7 +47,7 @@ it('will not fire an event when a link gets clicked and click tracking is not en
 
     $send->registerClick('https://spatie.be');
 
-    test()->assertCount(0, CampaignLink::get());
+    expect(CampaignLink::get())->toHaveCount(0);
 
     Event::assertNotDispatched(CampaignLinkClickedEvent::class);
 });

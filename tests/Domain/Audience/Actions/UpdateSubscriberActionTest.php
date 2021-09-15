@@ -32,7 +32,7 @@ it('can update the attributes of a subscriber', function () {
 
     test()->subscriber->refresh();
 
-    test()->assertEquals('john@example.com', test()->subscriber->email);
-    test()->assertEquals('John', test()->subscriber->first_name);
-    test()->assertEquals('Doe', test()->subscriber->last_name);
+    expect(test()->subscriber->email)->toEqual('john@example.com');
+    expect(test()->subscriber->first_name)->toEqual('John');
+    expect(test()->subscriber->last_name)->toEqual('Doe');
 });

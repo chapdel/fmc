@@ -15,7 +15,7 @@ beforeEach(function () {
  * @param string $urlWithTags
  */
 it('adds utm tags to an url', function (string $url, string $urlWithTags) {
-    test()->assertEquals($urlWithTags, test()->action->execute($url, 'My Campaign'));
+    expect(test()->action->execute($url, 'My Campaign'))->toEqual($urlWithTags);
 })->with('provider');
 
 // Datasets

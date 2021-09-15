@@ -12,8 +12,8 @@ test('the open relation works', function () {
         ->withOpen()
         ->create();
 
-    test()->assertCount(0, $transactionalMailWithoutOpen->opens);
-    test()->assertCount(1, $transactionalMailWithOpen->opens);
+    expect($transactionalMailWithoutOpen->opens)->toHaveCount(0);
+    expect($transactionalMailWithOpen->opens)->toHaveCount(1);
 });
 
 test('the click relation works', function () {
@@ -23,8 +23,8 @@ test('the click relation works', function () {
         ->withClick()
         ->create();
 
-    test()->assertCount(0, $transactionalMailWithoutClick->clicks);
-    test()->assertCount(1, $transactionalMailWithClick->clicks);
+    expect($transactionalMailWithoutClick->clicks)->toHaveCount(0);
+    expect($transactionalMailWithClick->clicks)->toHaveCount(1);
 });
 
 it('can group clicks per url', function () {
@@ -34,13 +34,13 @@ it('can group clicks per url', function () {
         ->withClick(['url' => 'https://mailcoach.app'], 3)
         ->create();
 
-    test()->assertCount(5, $transactionalMail->clicks);
+    expect($transactionalMail->clicks)->toHaveCount(5);
 
     $groupedPerUrl = $transactionalMail->clicksPerUrl();
 
-    test()->assertEquals($groupedPerUrl[0]['url'], 'https://mailcoach.app');
-    test()->assertEquals($groupedPerUrl[0]['count'], 3);
+    expect('https://mailcoach.app')->toEqual($groupedPerUrl[0]['url']);
+    expect(3)->toEqual($groupedPerUrl[0]['count']);
 
-    test()->assertEquals($groupedPerUrl[1]['url'], 'https://spatie.be');
-    test()->assertEquals($groupedPerUrl[1]['count'], 2);
+    expect('https://spatie.be')->toEqual($groupedPerUrl[1]['url']);
+    expect(2)->toEqual($groupedPerUrl[1]['count']);
 });

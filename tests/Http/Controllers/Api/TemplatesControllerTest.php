@@ -73,8 +73,8 @@ test('a template can be updated using the api', function () {
 
     $template = $template->refresh();
 
-    test()->assertEquals($attributes['name'], $template->name);
-    test()->assertEquals($attributes['html'], $template->html);
+    expect($template->name)->toEqual($attributes['name']);
+    expect($template->html)->toEqual($attributes['html']);
 });
 
 test('a template can be deleted using the api', function () {
@@ -84,5 +84,5 @@ test('a template can be deleted using the api', function () {
         ->deleteJson(action([TemplatesController::class, 'destroy'], $template))
         ->assertSuccessful();
 
-    test()->assertCount(0, Template::get());
+    expect(Template::get())->toHaveCount(0);
 });

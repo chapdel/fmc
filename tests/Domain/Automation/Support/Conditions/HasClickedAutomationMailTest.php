@@ -21,7 +21,7 @@ it('checks correctly that a user clicked an automation mail', function () {
         'automation_mail_link_url' => 'https://spatie.be',
     ]);
 
-    test()->assertFalse($condition->check());
+    expect($condition->check())->toBeFalse();
 
     $link = AutomationMailLink::factory()->create([
         'url' => 'https://spatie.be',
@@ -32,7 +32,7 @@ it('checks correctly that a user clicked an automation mail', function () {
     ]);
     $click->send->update(['automation_mail_id' => $automationMail->id]);
 
-    test()->assertTrue($condition->check());
+    expect($condition->check())->toBeTrue();
 });
 
 it('checks correctly that a user clicked an automation mail with utm tags', function () {
@@ -47,7 +47,7 @@ it('checks correctly that a user clicked an automation mail with utm tags', func
         'automation_mail_link_url' => 'https://spatie.be',
     ]);
 
-    test()->assertFalse($condition->check());
+    expect($condition->check())->toBeFalse();
 
     $link = AutomationMailLink::factory()->create([
         'url' => app(AddUtmTagsToUrlAction::class)->execute('https://spatie.be', $automationMail->name),
@@ -58,7 +58,7 @@ it('checks correctly that a user clicked an automation mail with utm tags', func
     ]);
     $click->send->update(['automation_mail_id' => $automationMail->id]);
 
-    test()->assertTrue($condition->check());
+    expect($condition->check())->toBeTrue();
 });
 
 it('returns false if a link is specified and its not the link', function () {
@@ -71,7 +71,7 @@ it('returns false if a link is specified and its not the link', function () {
         'automation_mail_link_url' => 'https://example.com',
     ]);
 
-    test()->assertFalse($condition->check());
+    expect($condition->check())->toBeFalse();
 
     $link = AutomationMailLink::factory()->create([
         'url' => 'https://spatie.be',
@@ -82,7 +82,7 @@ it('returns false if a link is specified and its not the link', function () {
     ]);
     $click->send->update(['automation_mail_id' => $automationMail->id]);
 
-    test()->assertFalse($condition->check());
+    expect($condition->check())->toBeFalse();
 });
 
 it('returns true if a link isnt specified and any link was clicked', function () {
@@ -94,7 +94,7 @@ it('returns true if a link isnt specified and any link was clicked', function ()
         'automation_mail_id' => $automationMail->id,
     ]);
 
-    test()->assertFalse($condition->check());
+    expect($condition->check())->toBeFalse();
 
     $link = AutomationMailLink::factory()->create([
         'url' => 'https://spatie.be',
@@ -105,5 +105,5 @@ it('returns true if a link isnt specified and any link was clicked', function ()
     ]);
     $click->send->update(['automation_mail_id' => $automationMail->id]);
 
-    test()->assertTrue($condition->check());
+    expect($condition->check())->toBeTrue();
 });

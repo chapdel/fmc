@@ -26,11 +26,11 @@ it('can send a test email', function () {
     dispatch(new SendCampaignTestJob($campaign, $email));
 
     Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) use ($email, $campaign) {
-        test()->assertEquals('[Test] my subject', $mail->subject);
-        test()->assertEquals('some-mailer', $mail->mailer);
+        expect($mail->subject)->toEqual('[Test] my subject');
+        expect($mail->mailer)->toEqual('some-mailer');
 
-        test()->assertTrue($mail->hasTo($email));
-        test()->assertCount(1, $mail->callbacks);
+        expect($mail->hasTo($email))->toBeTrue();
+        expect($mail->callbacks)->toHaveCount(1);
 
         return true;
     });

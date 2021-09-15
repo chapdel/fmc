@@ -119,7 +119,7 @@ it('emits an event', function () {
         ->call('save')
         ->assertHasNoErrors()
         ->assertEmitted('actionSaved', function ($event, $params) use ($uuid) {
-            test()->assertSame($uuid, $params[0]);
+            expect($params[0])->toBe($uuid);
             test()->assertSame([
                 'length' => 5,
                 'unit' => 'days',

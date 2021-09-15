@@ -22,7 +22,7 @@ it('fires an event after a campaign has been sent', function () {
     dispatch(new SendCampaignJob($campaign));
 
     Event::assertDispatched(CampaignSentEvent::class, function (CampaignSentEvent $event) use ($campaign) {
-        test()->assertEquals($campaign->id, $event->campaign->id);
+        expect($event->campaign->id)->toEqual($campaign->id);
 
         return true;
     });

@@ -22,19 +22,19 @@ beforeEach(function () {
 it('never halts the automation', function () {
     $action = new WaitAction(CarbonInterval::days(1));
 
-    test()->assertFalse($action->shouldHalt(test()->subscriber));
+    expect($action->shouldHalt(test()->subscriber))->toBeFalse();
 
     TestTime::addDay();
 
-    test()->assertFalse($action->shouldHalt(test()->subscriber));
+    expect($action->shouldHalt(test()->subscriber))->toBeFalse();
 });
 
 it('will only continue when time has passed', function () {
     $action = new WaitAction(CarbonInterval::days(1));
 
-    test()->assertFalse($action->shouldContinue(test()->subscriber));
+    expect($action->shouldContinue(test()->subscriber))->toBeFalse();
 
     TestTime::addDay();
 
-    test()->assertTrue($action->shouldContinue(test()->subscriber));
+    expect($action->shouldContinue(test()->subscriber))->toBeTrue();
 });

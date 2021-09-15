@@ -17,11 +17,11 @@ beforeEach(function () {
 });
 
 it('continues after execution', function () {
-    test()->assertTrue(test()->action->shouldContinue(test()->subscriber));
+    expect(test()->action->shouldContinue(test()->subscriber))->toBeTrue();
 });
 
 it('wont halt after execution', function () {
-    test()->assertFalse(test()->action->shouldHalt(test()->subscriber));
+    expect(test()->action->shouldHalt(test()->subscriber))->toBeFalse();
 });
 
 it('sends an automation mail to the subscriber', function () {
@@ -30,8 +30,8 @@ it('sends an automation mail to the subscriber', function () {
     test()->action->run(test()->subscriber);
 
     Queue::assertPushed(SendAutomationMailToSubscriberJob::class, function (SendAutomationMailToSubscriberJob $sendCampaignJob) {
-        test()->assertTrue(test()->subscriber->is($sendCampaignJob->subscriber));
-        test()->assertTrue(test()->automationMail->is($sendCampaignJob->automationMail));
+        expect(test()->subscriber->is($sendCampaignJob->subscriber))->toBeTrue();
+        expect(test()->automationMail->is($sendCampaignJob->automationMail))->toBeTrue();
 
         return true;
     });
@@ -42,5 +42,5 @@ it('wont send an automation mail twice', function () {
 
     test()->action->run(test()->subscriber);
 
-    test()->assertEquals(1, test()->automationMail->sends->count());
+    expect(test()->automationMail->sends->count())->toEqual(1);
 });

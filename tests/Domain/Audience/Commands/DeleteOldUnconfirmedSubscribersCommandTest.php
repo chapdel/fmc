@@ -19,24 +19,24 @@ beforeEach(function () {
 
 it('will delete all unconfirmed subscribers that are older than a month', function () {
     $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
-    test()->assertEquals(SubscriptionStatus::UNCONFIRMED, $subscriber->status);
+    expect($subscriber->status)->toEqual(SubscriptionStatus::UNCONFIRMED);
 
     TestTime::addMonth();
     test()->artisan(DeleteOldUnconfirmedSubscribersCommand::class)->assertExitCode(0);
-    test()->assertCount(1, Subscriber::all());
+    expect(Subscriber::all())->toHaveCount(1);
 
     TestTime::addSecond();
     test()->artisan(DeleteOldUnconfirmedSubscribersCommand::class)->assertExitCode(0);
-    test()->assertCount(0, Subscriber::all());
+    expect(Subscriber::all())->toHaveCount(0);
 });
 
 it('will not delete confirmed subscribers', function () {
     $subscriber = Subscriber::createWithEmail('john@example.com')->skipConfirmation()->subscribeTo(test()->emailList);
-    test()->assertEquals(SubscriptionStatus::SUBSCRIBED, $subscriber->status);
+    expect($subscriber->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
 
     TestTime::addMonth()->addSecond();
     test()->artisan(DeleteOldUnconfirmedSubscribersCommand::class)->assertExitCode(0);
-    test()->assertCount(1, Subscriber::all());
+    expect(Subscriber::all())->toHaveCount(1);
 });
 
 it('will detach all tags when deleting a subscriber', function () {
@@ -48,7 +48,7 @@ it('will detach all tags when deleting a subscriber', function () {
 
     test()->artisan(DeleteOldUnconfirmedSubscribersCommand::class)->assertExitCode(0);
 
-    test()->assertCount(0, Subscriber::all());
-    test()->assertCount(0, DB::table('mailcoach_email_list_subscriber_tags')->get());
-    test()->assertCount(1, Tag::all());
+    expect(Subscriber::all())->toHaveCount(0);
+    expect(DB::table('mailcoach_email_list_subscriber_tags')->get())->toHaveCount(0);
+    expect(Tag::all())->toHaveCount(1);
 });

@@ -15,7 +15,7 @@ it('can be found by its transport message id', function () {
         'transport_message_id' => '1234',
     ]);
 
-    test()->assertTrue($send->is(Send::findByTransportMessageId('1234')));
+    expect($send->is(Send::findByTransportMessageId('1234')))->toBeTrue();
 });
 
 it('will unsubscribe when there is a permanent bounce', function () {
@@ -43,7 +43,7 @@ it('will unsubscribe when there is a permanent bounce', function () {
         'created_at' => $bouncedAt,
     ]);
 
-    test()->assertFalse($emailList->isSubscribed($subscriber->email));
+    expect($emailList->isSubscribed($subscriber->email))->toBeFalse();
 });
 
 it('can receive a complaint', function () {
@@ -71,7 +71,7 @@ it('can receive a complaint', function () {
         'created_at' => $complainedAt,
     ]);
 
-    test()->assertFalse($emailList->isSubscribed($subscriber->email));
+    expect($emailList->isSubscribed($subscriber->email))->toBeFalse();
 });
 
 it('will not register an open if it was recently opened', function () {
@@ -82,15 +82,15 @@ it('will not register an open if it was recently opened', function () {
     $send->campaign->update(['track_opens' => true]);
 
     $send->registerOpen();
-    test()->assertCount(1, $send->opens()->get());
+    expect($send->opens()->get())->toHaveCount(1);
 
     TestTime::addSeconds(4);
     $send->registerOpen();
-    test()->assertCount(1, $send->opens()->get());
+    expect($send->opens()->get())->toHaveCount(1);
 
     TestTime::addSeconds(1);
     $send->registerOpen();
-    test()->assertCount(2, $send->opens()->get());
+    expect($send->opens()->get())->toHaveCount(2);
 });
 
 it('will register an open at a specific time', function () {
@@ -102,7 +102,7 @@ it('will register an open at a specific time', function () {
 
     $send->registerOpen($openedAt);
 
-    test()->assertEquals($openedAt, $send->opens()->first()->created_at);
+    expect($send->opens()->first()->created_at)->toEqual($openedAt);
 });
 
 it('will not register a click of an unsubscribe link', function () {
@@ -114,7 +114,7 @@ it('will not register a click of an unsubscribe link', function () {
 
     $send->registerClick($unsubscribeUrl);
 
-    test()->assertCount(0, $send->clicks()->get());
+    expect($send->clicks()->get())->toHaveCount(0);
 });
 
 it('can register a click at a given time', function () {
@@ -125,8 +125,8 @@ it('can register a click at a given time', function () {
     $clickedAt = now()->subDay()->setMilliseconds(0);
     $send->registerClick('https://example.com', $clickedAt);
 
-    test()->assertCount(1, $send->clicks()->get());
-    test()->assertEquals($clickedAt, $send->clicks()->first()->created_at);
+    expect($send->clicks()->get())->toHaveCount(1);
+    expect($send->clicks()->first()->created_at)->toEqual($clickedAt);
 });
 
 it('can register a click and strips utm tags', function () {
@@ -137,9 +137,9 @@ it('can register a click and strips utm tags', function () {
     $clickedAt = now()->subDay()->setMilliseconds(0);
     $send->registerClick('https://example.com?utm_campaign=My+campaign', $clickedAt);
 
-    test()->assertCount(1, $send->clicks()->get());
-    test()->assertEquals($clickedAt, $send->clicks()->first()->created_at);
-    test()->assertEquals('https://example.com', $send->clicks()->first()->link->url);
+    expect($send->clicks()->get())->toHaveCount(1);
+    expect($send->clicks()->first()->created_at)->toEqual($clickedAt);
+    expect($send->clicks()->first()->link->url)->toEqual('https://example.com');
 });
 
 test('registering clicks will update the click count', function () {
@@ -178,30 +178,30 @@ test('registering clicks will update the click count', function () {
     /** @var \Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink $campaignLinkA */
     $campaignLinkA = $campaignClick->link;
 
-    test()->assertEquals(1, $campaignLinkA->click_count);
-    test()->assertEquals(1, $campaignLinkA->unique_click_count);
+    expect($campaignLinkA->click_count)->toEqual(1);
+    expect($campaignLinkA->unique_click_count)->toEqual(1);
 
     $send->registerClick($linkA);
-    test()->assertEquals(2, $campaignLinkA->refresh()->click_count);
-    test()->assertEquals(1, $campaignLinkA->refresh()->unique_click_count);
+    expect($campaignLinkA->refresh()->click_count)->toEqual(2);
+    expect($campaignLinkA->refresh()->unique_click_count)->toEqual(1);
 
     $anotherSend->registerClick($linkA);
-    test()->assertEquals(3, $campaignLinkA->refresh()->click_count);
-    test()->assertEquals(2, $campaignLinkA->refresh()->unique_click_count);
+    expect($campaignLinkA->refresh()->click_count)->toEqual(3);
+    expect($campaignLinkA->refresh()->unique_click_count)->toEqual(2);
 
     $anotherSend->registerClick($linkA);
-    test()->assertEquals(4, $campaignLinkA->refresh()->click_count);
-    test()->assertEquals(2, $campaignLinkA->refresh()->unique_click_count);
+    expect($campaignLinkA->refresh()->click_count)->toEqual(4);
+    expect($campaignLinkA->refresh()->unique_click_count)->toEqual(2);
 
     $campaignClick = $send->registerClick($linkB);
 
     /** @var \Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink $campaignLinkA */
     $campaignLinkB = $campaignClick->link;
 
-    test()->assertEquals(1, $campaignLinkB->click_count);
-    test()->assertEquals(1, $campaignLinkB->unique_click_count);
+    expect($campaignLinkB->click_count)->toEqual(1);
+    expect($campaignLinkB->unique_click_count)->toEqual(1);
 
     $send->registerClick($linkB);
-    test()->assertEquals(2, $campaignLinkB->refresh()->click_count);
-    test()->assertEquals(1, $campaignLinkB->refresh()->unique_click_count);
+    expect($campaignLinkB->refresh()->click_count)->toEqual(2);
+    expect($campaignLinkB->refresh()->unique_click_count)->toEqual(1);
 });

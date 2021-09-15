@@ -77,7 +77,7 @@ it('will not report a summary if it is not enabled on the list', function () {
 });
 
 test('the content of the campaign summary mail is valid', function () {
-    test()->assertIsString((new CampaignSummaryMail(test()->campaign))->render());
+    expect((new CampaignSummaryMail(test()->campaign))->render())->toBeString();
 });
 
 test('the mail contains correct statistics', function () {
@@ -98,13 +98,13 @@ test('the mail contains correct statistics', function () {
     $mail = (new CampaignSummaryMail(test()->campaign));
     $html = $mail->render();
 
-    test()->assertStringContainsString('8018', $html);
-    test()->assertStringContainsString('5516', $html);
-    test()->assertStringContainsString('3192', $html);
-    test()->assertStringContainsString('39.81', $html);
-    test()->assertStringContainsString('2972', $html);
-    test()->assertStringContainsString('948', $html);
-    test()->assertStringContainsString('11.82', $html);
-    test()->assertStringContainsString('15', $html);
-    test()->assertStringContainsString('0.19', $html);
+    expect($html)->toContain('8018');
+    expect($html)->toContain('5516');
+    expect($html)->toContain('3192');
+    expect($html)->toContain('39.81');
+    expect($html)->toContain('2972');
+    expect($html)->toContain('948');
+    expect($html)->toContain('11.82');
+    expect($html)->toContain('15');
+    expect($html)->toContain('0.19');
 });

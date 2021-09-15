@@ -17,13 +17,13 @@ it('can confirm a subscriber', function () {
 
     $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($emailList);
 
-    test()->assertEquals(SubscriptionStatus::UNCONFIRMED, $subscriber->status);
+    expect($subscriber->status)->toEqual(SubscriptionStatus::UNCONFIRMED);
 
     $this
         ->post(route('mailcoach.subscriber.confirm', $subscriber))
         ->assertRedirect();
 
-    test()->assertEquals(SubscriptionStatus::SUBSCRIBED, $subscriber->refresh()->status);
+    expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
 });
 
 it('will confirm unconfirmed subscribers', function () {
@@ -34,7 +34,7 @@ it('will confirm unconfirmed subscribers', function () {
         'subscribed_at' => now(),
     ]);
 
-    test()->assertEquals(SubscriptionStatus::UNSUBSCRIBED, $subscriber->status);
+    expect($subscriber->status)->toEqual(SubscriptionStatus::UNSUBSCRIBED);
 
     $this
         ->post(route('mailcoach.subscriber.confirm', $subscriber))

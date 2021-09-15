@@ -9,5 +9,5 @@ uses(TestCase::class);
 it('can render the import subscribers result mail', function () {
     $subscriberImport = SubscriberImport::factory()->create();
 
-    test()->assertIsString((new ImportSubscribersResultMail($subscriberImport))->render());
+    expect((new ImportSubscribersResultMail($subscriberImport))->render())->toBeString();
 });

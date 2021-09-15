@@ -16,7 +16,7 @@ it('fires an event after campaign statistics have been calculated', function () 
     dispatch(new CalculateStatisticsJob($campaign));
 
     Event::assertDispatched(CampaignStatisticsCalculatedEvent::class, function (CampaignStatisticsCalculatedEvent $event) use ($campaign) {
-        test()->assertEquals($campaign->id, $event->campaign->id);
+        expect($event->campaign->id)->toEqual($campaign->id);
 
         return true;
     });

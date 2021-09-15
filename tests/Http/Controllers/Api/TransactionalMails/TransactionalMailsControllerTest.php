@@ -21,7 +21,7 @@ it('can show all transactional mails', function () {
         ->assertSuccessful()
         ->json('data');
 
-    test()->assertCount(4, $transactionalMails);
+    expect($transactionalMails)->toHaveCount(4);
 });
 
 it('can search mails with a certain subject', function () {
@@ -30,7 +30,7 @@ it('can search mails with a certain subject', function () {
                 ->assertSuccessful()
                 ->json('data');
 
-    test()->assertCount(2, $transactionalMails);
+    expect($transactionalMails)->toHaveCount(2);
 
-    test()->assertEquals('bar', $transactionalMails[0]['subject']);
+    expect($transactionalMails[0]['subject'])->toEqual('bar');
 });

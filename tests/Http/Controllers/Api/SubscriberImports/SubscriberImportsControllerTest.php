@@ -76,5 +76,5 @@ it('can delete a subscriber import', function () {
         ->deleteJson(action([SubscriberImportsController::class, 'destroy'], $subscriberImport))
         ->assertSuccessful();
 
-    test()->assertCount(0, SubscriberImport::get());
+    expect(SubscriberImport::get())->toHaveCount(0);
 });

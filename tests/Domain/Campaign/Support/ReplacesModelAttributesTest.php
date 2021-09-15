@@ -24,7 +24,7 @@ it('can replace model attributes', function () {
         $subscriber
     );
 
-    test()->assertEquals("This is John", $output);
+    expect($output)->toEqual("This is John");
 });
 
 it('will not thrown an exception when trying to replace an attribute with a null value', function () {
@@ -36,7 +36,7 @@ it('will not thrown an exception when trying to replace an attribute with a null
         $subscriber
     );
 
-    test()->assertEquals("This is ", $output);
+    expect($output)->toEqual("This is ");
 });
 
 it('will not thrown an exception when trying to replace a non existing attribute', function () {
@@ -48,7 +48,7 @@ it('will not thrown an exception when trying to replace a non existing attribute
         $subscriber
     );
 
-    test()->assertEquals("This is ", $output);
+    expect($output)->toEqual("This is ");
 });
 
 it('will not thrown an exception when trying to replace a non existing schemaless attribute', function () {
@@ -60,5 +60,5 @@ it('will not thrown an exception when trying to replace a non existing schemales
         $subscriber
     );
 
-    test()->assertEquals("This is ", $output);
+    expect($output)->toEqual("This is ");
 });

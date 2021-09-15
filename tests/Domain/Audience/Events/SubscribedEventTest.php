@@ -20,7 +20,7 @@ it('fires an event when someone subscribes', function () {
     $emailList->subscribe('john@example.com');
 
     Event::assertDispatched(SubscribedEvent::class, function (SubscribedEvent $event) {
-        test()->assertEquals('john@example.com', $event->subscriber->email);
+        expect($event->subscriber->email)->toEqual('john@example.com');
 
         return true;
     });
@@ -50,7 +50,7 @@ it('will fire the subscribe event when a subscription is confirmed', function ()
     $subcriber->confirm();
 
     Event::assertDispatched(SubscribedEvent::class, function (SubscribedEvent $event) {
-        test()->assertEquals('john@example.com', $event->subscriber->email);
+        expect($event->subscriber->email)->toEqual('john@example.com');
 
         return true;
     });
@@ -73,8 +73,8 @@ it('passes custom attributes correctly', function () {
     $subcriber->confirm();
 
     Event::assertDispatched(SubscribedEvent::class, function (SubscribedEvent $event) {
-        test()->assertEquals('john@example.com', $event->subscriber->email);
-        test()->assertEquals('bar', $event->subscriber->extra_attributes->foo);
+        expect($event->subscriber->email)->toEqual('john@example.com');
+        expect($event->subscriber->extra_attributes->foo)->toEqual('bar');
 
         return true;
     });

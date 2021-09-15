@@ -19,5 +19,5 @@ test('a campaign can be deleted using the api', function () {
         ->deleteJson(action([CampaignsController::class, 'destroy'], $campaign))
         ->assertSuccessful();
 
-    test()->assertCount(0, Campaign::all());
+    expect(Campaign::all())->toHaveCount(0);
 });

@@ -15,9 +15,9 @@ it('checks for a tag', function () {
         'tag' => 'some-tag',
     ]);
 
-    test()->assertFalse($condition->check());
+    expect($condition->check())->toBeFalse();
 
     $subscriber->addTag('some-tag');
 
-    test()->assertTrue($condition->check());
+    expect($condition->check())->toBeTrue();
 });

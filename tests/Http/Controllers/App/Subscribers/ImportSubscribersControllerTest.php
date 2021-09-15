@@ -29,20 +29,20 @@ it('can subscribe multiple emails in one go', function () {
 
     uploadStub('valid-and-invalid.csv');
 
-    test()->assertCount(3, test()->emailList->subscribers);
+    expect(test()->emailList->subscribers)->toHaveCount(3);
 
     foreach (['freek@spatie.be', 'willem@spatie.be', 'rias@spatie.be'] as $email) {
-        test()->assertEquals(SubscriptionStatus::SUBSCRIBED, test()->emailList->getSubscriptionStatus($email));
+        expect(test()->emailList->getSubscriptionStatus($email))->toEqual(SubscriptionStatus::SUBSCRIBED);
     }
 
     $subscriberImport = SubscriberImport::first();
 
-    test()->assertEquals(3, $subscriberImport->imported_subscribers_count);
-    test()->assertEquals(1, $subscriberImport->error_count);
+    expect($subscriberImport->imported_subscribers_count)->toEqual(3);
+    expect($subscriberImport->error_count)->toEqual(1);
 
     Mail::assertSent(ImportSubscribersResultMail::class, function (ImportSubscribersResultMail $mail) use ($subscriberImport) {
-        test()->assertTrue($mail->hasTo(test()->user->email));
-        test()->assertEquals($subscriberImport->id, $mail->subscriberImport->id);
+        expect($mail->hasTo(test()->user->email))->toBeTrue();
+        expect($mail->subscriberImport->id)->toEqual($subscriberImport->id);
 
         return true;
     });
@@ -54,14 +54,14 @@ it('can subscribe multiple emails in one go', function () {
 it('will fill the correct attributes', function () {
     uploadStub('single.csv');
 
-    test()->assertCount(1, test()->emailList->subscribers);
-    test()->assertTrue(test()->emailList->isSubscribed('john@example.com'));
+    expect(test()->emailList->subscribers)->toHaveCount(1);
+    expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
 
     /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
     $subscriber = Subscriber::first();
-    test()->assertEquals('John', $subscriber->first_name);
-    test()->assertEquals('Doe', $subscriber->last_name);
-    test()->assertEquals('Developer', $subscriber->extra_attributes->job_title);
+    expect($subscriber->first_name)->toEqual('John');
+    expect($subscriber->last_name)->toEqual('Doe');
+    expect($subscriber->extra_attributes->job_title)->toEqual('Developer');
 });
 
 it('will subscribe the emails immediately even if the list requires confirmation', function () {
@@ -69,7 +69,7 @@ it('will subscribe the emails immediately even if the list requires confirmation
 
     uploadStub('single.csv');
 
-    test()->assertTrue(test()->emailList->isSubscribed('john@example.com'));
+    expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
 });
 
 it('will trim the subscriber row values', function () {
@@ -78,9 +78,9 @@ it('will trim the subscriber row values', function () {
     $subscriber = Subscriber::findForEmail('john@example.com', test()->emailList);
 
     test()->assertNotEmpty($subscriber);
-    test()->assertEquals('John', $subscriber->first_name);
-    test()->assertEquals('Doe', $subscriber->last_name);
-    test()->assertEquals('Developer', $subscriber->extra_attributes->job_title);
+    expect($subscriber->first_name)->toEqual('John');
+    expect($subscriber->last_name)->toEqual('Doe');
+    expect($subscriber->extra_attributes->job_title)->toEqual('Developer');
 });
 
 it('will not import a subscriber that is already on the list', function () {
@@ -93,9 +93,9 @@ it('will not import a subscriber that is already on the list', function () {
     uploadStub('single.csv');
     uploadStub('single.csv');
 
-    test()->assertTrue(test()->emailList->isSubscribed('john@example.com'));
+    expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
 
-    test()->assertCount(1, Subscriber::all());
+    expect(Subscriber::all())->toHaveCount(1);
 });
 
 it('can import tags', function () {
@@ -103,7 +103,7 @@ it('can import tags', function () {
 
     $subscriber = Subscriber::findForEmail('john@example.com', test()->emailList);
 
-    test()->assertEquals(['tag1', 'tag2'], $subscriber->tags()->pluck('name')->toArray());
+    expect($subscriber->tags()->pluck('name')->toArray())->toEqual(['tag1', 'tag2']);
 });
 
 it('will remove existing tags if replace tags is enabled', function () {
@@ -117,7 +117,7 @@ it('will remove existing tags if replace tags is enabled', function () {
 
     $subscriber = Subscriber::findForEmail('john@example.com', test()->emailList);
 
-    test()->assertEquals(['tag1', 'tag2'], $subscriber->tags()->pluck('name')->toArray());
+    expect($subscriber->tags()->pluck('name')->toArray())->toEqual(['tag1', 'tag2']);
 });
 
 it('will not remove existing tags if replace tags is disabled', function () {
@@ -130,7 +130,7 @@ it('will not remove existing tags if replace tags is disabled', function () {
 
     $subscriber = Subscriber::findForEmail('john@example.com', test()->emailList);
 
-    test()->assertEquals(['previousTag', 'tag1', 'tag2'], $subscriber->tags()->pluck('name')->toArray());
+    expect($subscriber->tags()->pluck('name')->toArray())->toEqual(['previousTag', 'tag1', 'tag2']);
 });
 
 test('by default it will not subscribe a subscriber that has unsubscribed to the list before', function () {
@@ -139,9 +139,9 @@ test('by default it will not subscribe a subscriber that has unsubscribed to the
 
     uploadStub('single.csv');
 
-    test()->assertFalse(test()->emailList->isSubscribed('john@example.com'));
-    test()->assertCount(0, test()->emailList->subscribers);
-    test()->assertEquals(1, SubscriberImport::first()->error_count);
+    expect(test()->emailList->isSubscribed('john@example.com'))->toBeFalse();
+    expect(test()->emailList->subscribers)->toHaveCount(0);
+    expect(SubscriberImport::first()->error_count)->toEqual(1);
 });
 
 it('can subscribe subscribers that were unsubscribed before', function () {
@@ -150,9 +150,9 @@ it('can subscribe subscribers that were unsubscribed before', function () {
 
     uploadStub('single.csv', ['subscribe_unsubscribed' => true]);
 
-    test()->assertTrue(test()->emailList->isSubscribed('john@example.com'));
-    test()->assertCount(1, test()->emailList->subscribers);
-    test()->assertEquals(0, SubscriberImport::first()->error_count);
+    expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
+    expect(test()->emailList->subscribers)->toHaveCount(1);
+    expect(SubscriberImport::first()->error_count)->toEqual(0);
 });
 
 test('by default it will not unsubscribe any existing subscribers', function () {
@@ -160,8 +160,8 @@ test('by default it will not unsubscribe any existing subscribers', function () 
 
     uploadStub('single.csv');
 
-    test()->assertTrue(test()->emailList->isSubscribed('john@example.com'));
-    test()->assertTrue(test()->emailList->isSubscribed('paul@example.com'));
+    expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
+    expect(test()->emailList->isSubscribed('paul@example.com'))->toBeTrue();
 });
 
 it('can unsubscribe any existing subscribers that were not part of the import', function () {
@@ -169,20 +169,20 @@ it('can unsubscribe any existing subscribers that were not part of the import', 
 
     uploadStub('single.csv', ['unsubscribe_others' => true]);
 
-    test()->assertTrue(test()->emailList->isSubscribed('john@example.com'));
-    test()->assertFalse(test()->emailList->isSubscribed('paul@example.com'));
+    expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
+    expect(test()->emailList->isSubscribed('paul@example.com'))->toBeFalse();
 });
 
 it('can handle an empty file', function () {
     uploadStub('empty.csv');
 
-    test()->assertCount(0, test()->emailList->subscribers);
+    expect(test()->emailList->subscribers)->toHaveCount(0);
 });
 
 it('can handle an invalid file', function () {
     uploadStub('invalid.csv');
 
-    test()->assertCount(0, test()->emailList->subscribers);
+    expect(test()->emailList->subscribers)->toHaveCount(0);
 });
 
 it('can handle an xlsx file', function () {
@@ -193,7 +193,7 @@ it('can handle an xlsx file', function () {
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     );
 
-    test()->assertCount(1, test()->emailList->subscribers);
+    expect(test()->emailList->subscribers)->toHaveCount(1);
 });
 
 // Helpers

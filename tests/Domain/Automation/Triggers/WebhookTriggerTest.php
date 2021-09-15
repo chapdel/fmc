@@ -45,7 +45,7 @@ it('triggers when a call is made to an endpoint', function () {
 
     Artisan::call(RunAutomationTriggersCommand::class);
 
-    test()->assertEmpty($automation->actions->first()->subscribers);
+    expect($automation->actions->first()->subscribers)->toBeEmpty();
 
     $subscriber = Subscriber::first();
 
@@ -58,8 +58,8 @@ it('triggers when a call is made to an endpoint', function () {
     Queue::assertPushed(
         RunAutomationForSubscriberJob::class,
         function (RunAutomationForSubscriberJob $job) use ($subscriber, $automation) {
-            test()->assertSame($subscriber->email, $job->subscriber->email);
-            test()->assertSame($automation->id, $job->automation->id);
+            expect($job->subscriber->email)->toBe($subscriber->email);
+            expect($job->automation->id)->toBe($automation->id);
 
             return true;
         }

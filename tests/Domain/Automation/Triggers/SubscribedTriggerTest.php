@@ -39,15 +39,15 @@ it('triggers when a subscriber is subscribed', function () {
 
     test()->refreshServiceProvider();
 
-    test()->assertEmpty($automation->actions->first()->fresh()->subscribers);
+    expect($automation->actions->first()->fresh()->subscribers)->toBeEmpty();
 
     test()->emailList->subscribeSkippingConfirmation('john@doe.com');
 
     Queue::assertPushed(
         RunAutomationForSubscriberJob::class,
         function (RunAutomationForSubscriberJob $job) use ($automation) {
-            test()->assertSame('john@doe.com', $job->subscriber->email);
-            test()->assertSame($automation->id, $job->automation->id);
+            expect($job->subscriber->email)->toBe('john@doe.com');
+            expect($job->automation->id)->toBe($automation->id);
 
             return true;
         }

@@ -66,7 +66,7 @@ it('will not double encode ampersands', function () {
 
     $campaign->refresh();
 
-    test()->assertStringContainsString('-&gt;', $campaign->email_html);
+    expect($campaign->email_html)->toContain('-&gt;');
 });
 
 it('will not add html tags if they are already present', function () {
@@ -128,7 +128,7 @@ it('will add utm tags', function () {
 
     $campaign->refresh();
 
-    test()->assertStringContainsString(htmlspecialchars("https://spatie.be?utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail"), $campaign->email_html);
+    expect($campaign->email_html)->toContain(htmlspecialchars("https://spatie.be?utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail"));
     test()->assertMatchesHtmlSnapshot($campaign->email_html);
 });
 
@@ -146,7 +146,7 @@ it('will add utm tags to links that already have query parameters', function () 
 
     $campaign->refresh();
 
-    test()->assertStringContainsString(htmlspecialchars("https://spatie.be?foo=bar&utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail"), $campaign->email_html);
+    expect($campaign->email_html)->toContain(htmlspecialchars("https://spatie.be?foo=bar&utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail"));
     test()->assertMatchesHtmlSnapshot($campaign->email_html);
 });
 
@@ -164,7 +164,7 @@ it('will add utm tags to urls with paths correctly', function () {
 
     $campaign->refresh();
 
-    test()->assertStringContainsString(htmlspecialchars("https://freek.dev/1234-my-blogpost?utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail"), $campaign->email_html);
+    expect($campaign->email_html)->toContain(htmlspecialchars("https://freek.dev/1234-my-blogpost?utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail"));
     test()->assertMatchesHtmlSnapshot($campaign->email_html);
 });
 
@@ -182,8 +182,8 @@ it('will add utm tags to urls with paths correctly when the link is added twice'
 
     $automationMail->refresh();
 
-    test()->assertStringContainsString(htmlspecialchars("https://freek.dev?utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail"), $automationMail->email_html);
-    test()->assertStringContainsString(htmlspecialchars("https://freek.dev/1234-my-blogpost?utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail"), $automationMail->email_html);
+    expect($automationMail->email_html)->toContain(htmlspecialchars("https://freek.dev?utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail"));
+    expect($automationMail->email_html)->toContain(htmlspecialchars("https://freek.dev/1234-my-blogpost?utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail"));
     test()->assertMatchesHtmlSnapshot($automationMail->email_html);
 });
 
@@ -201,6 +201,6 @@ it('will not change img source', function () {
 
     $automationMail->refresh();
 
-    test()->assertStringContainsString('<img src="https://freek.dev">', $automationMail->email_html);
+    expect($automationMail->email_html)->toContain('<img src="https://freek.dev">');
     test()->assertMatchesHtmlSnapshot($automationMail->email_html);
 });

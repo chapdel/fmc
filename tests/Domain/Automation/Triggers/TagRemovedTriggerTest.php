@@ -44,14 +44,14 @@ it('triggers when a tag is removed from a subscriber', function () {
 
     Subscriber::first()->addTag('opened');
 
-    test()->assertEmpty($automation->actions->first()->fresh()->subscribers);
+    expect($automation->actions->first()->fresh()->subscribers)->toBeEmpty();
 
     Subscriber::first()->removeTag('opened');
 
     Queue::assertPushed(
         RunAutomationForSubscriberJob::class,
         function (RunAutomationForSubscriberJob $job) use ($automation) {
-            test()->assertSame('john@doe.com', $job->subscriber->email);
+            expect($job->subscriber->email)->toBe('john@doe.com');
 
             return true;
         }

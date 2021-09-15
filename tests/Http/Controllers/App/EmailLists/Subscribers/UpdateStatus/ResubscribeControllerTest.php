@@ -17,20 +17,20 @@ it('can confirm a subscriber', function () {
     $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($emailList);
     $subscriber->unsubscribe();
 
-    test()->assertEquals(SubscriptionStatus::UNSUBSCRIBED, $subscriber->status);
+    expect($subscriber->status)->toEqual(SubscriptionStatus::UNSUBSCRIBED);
 
     $this
         ->post(route('mailcoach.subscriber.resubscribe', $subscriber))
         ->assertRedirect();
 
-    test()->assertEquals(SubscriptionStatus::SUBSCRIBED, $subscriber->refresh()->status);
+    expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
 });
 
 it('will only resubscribe unsubscribed subscribers', function () {
     test()->withExceptionHandling();
     $emailList = EmailList::factory()->create();
     $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($emailList);
-    test()->assertEquals(SubscriptionStatus::SUBSCRIBED, $subscriber->status);
+    expect($subscriber->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
 
     $this
         ->post(route('mailcoach.subscriber.resubscribe', $subscriber))

@@ -23,7 +23,7 @@ it('can confirm a subscriber using the api', function () {
         ->postJson(action(ConfirmSubscriberController::class, $subscriber))
         ->assertSuccessful();
 
-    test()->assertEquals(SubscriptionStatus::SUBSCRIBED, $subscriber->refresh()->status);
+    expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
 });
 
 it('will not confirm a subscriber that was already confirmed', function () {

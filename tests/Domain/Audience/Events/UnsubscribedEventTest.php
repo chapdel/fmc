@@ -16,7 +16,7 @@ it('will fire an event when someone unsubscribes', function () {
     $subscriber->unsubscribe();
 
     Event::assertDispatched(UnsubscribedEvent::class, function (UnsubscribedEvent $event) use ($subscriber) {
-        test()->assertEquals($subscriber->id, $event->subscriber->id);
+        expect($event->subscriber->id)->toEqual($subscriber->id);
 
         return true;
     });

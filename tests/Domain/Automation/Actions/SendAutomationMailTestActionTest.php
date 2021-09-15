@@ -23,7 +23,7 @@ it('sends a test mail', function () {
     test()->action->execute(test()->automationMail, 'john@doe.com');
 
     Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) {
-        test()->assertTrue($mail->hasTo('john@doe.com'));
+        expect($mail->hasTo('john@doe.com'))->toBeTrue();
 
         return true;
     });
@@ -38,7 +38,7 @@ it('sets reply to', function () {
     test()->action->execute(test()->automationMail, 'john@doe.com');
 
     Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) {
-        test()->assertTrue($mail->hasReplyTo('foo@bar.com', 'Foo'));
+        expect($mail->hasReplyTo('foo@bar.com', 'Foo'))->toBeTrue();
 
         return true;
     });

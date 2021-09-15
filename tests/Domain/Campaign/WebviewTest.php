@@ -37,7 +37,7 @@ function sendCampaign()
         $link = (new Crawler($event->message->getBody()))
             ->filter('a')->first()->attr('href');
 
-        test()->assertStringStartsWith('http://localhost', $link);
+        expect($link)->toStartWith('http://localhost');
 
         test()->webviewUrl = Str::after($link, 'http://localhost');
     });

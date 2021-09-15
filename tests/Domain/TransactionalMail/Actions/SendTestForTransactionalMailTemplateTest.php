@@ -23,7 +23,7 @@ it('can send a test for a transactional mail template', function () {
     );
 
     Mail::assertSent(function (TestMailableWithTemplate $mail) {
-        test()->assertTrue($mail->hasTo('john@example.com'));
+        expect($mail->hasTo('john@example.com'))->toBeTrue();
 
         return true;
     });
@@ -45,8 +45,8 @@ it('will not use cc or bcc when sending out a test', function () {
     );
 
     Mail::assertSent(function (TestMailableWithTemplate $mail) {
-        test()->assertFalse($mail->hasCc('jane@example.com'));
-        test()->assertFalse($mail->hasBcc('tarzan@example.com'));
+        expect($mail->hasCc('jane@example.com'))->toBeFalse();
+        expect($mail->hasBcc('tarzan@example.com'))->toBeFalse();
 
         return true;
     });

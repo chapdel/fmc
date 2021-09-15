@@ -87,7 +87,7 @@ it('only handles subscribers from the email list', function () {
         'subscribers' => [$subscriber1->id, $subscriber2->id],
     ])->assertSuccessful();
 
-    test()->assertEquals(1, $automation->actions()->first()->subscribers->count());
+    expect($automation->actions()->first()->subscribers->count())->toEqual(1);
 });
 
 it('needs a subscribed subscriber', function () {
@@ -117,5 +117,5 @@ it('needs a subscribed subscriber', function () {
         'subscribers' => [$subscriber1->id, $subscriber2->id],
     ])->assertSuccessful();
 
-    test()->assertEquals(1, $automation->actions()->first()->subscribers->count());
+    expect($automation->actions()->first()->subscribers->count())->toEqual(1);
 });

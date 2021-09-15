@@ -16,7 +16,7 @@ it('will fire an event when the mail is sent', function () {
     dispatch(new SendCampaignMailJob($send));
 
     Event::assertDispatched(CampaignMailSentEvent::class, function (CampaignMailSentEvent $event) use ($send) {
-        test()->assertEquals($send->uuid, $event->send->uuid);
+        expect($event->send->uuid)->toEqual($send->uuid);
 
         return true;
     });

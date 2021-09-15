@@ -26,9 +26,9 @@ it('can create a subscriber', function () {
     /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
     $subscriber = Subscriber::first();
 
-    test()->assertEquals('john@example.com', $subscriber->email);
-    test()->assertEquals('John', $subscriber->first_name);
-    test()->assertEquals('Doe', $subscriber->last_name);
+    expect($subscriber->email)->toEqual('john@example.com');
+    expect($subscriber->first_name)->toEqual('John');
+    expect($subscriber->last_name)->toEqual('Doe');
 
-    test()->assertTrue($emailList->isSubscribed($subscriber->email));
+    expect($emailList->isSubscribed($subscriber->email))->toBeTrue();
 });

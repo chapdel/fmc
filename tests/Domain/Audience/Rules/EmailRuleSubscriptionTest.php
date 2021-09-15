@@ -14,30 +14,30 @@ beforeEach(function () {
 });
 
 it('will not pass if the given email is already subscribed', function () {
-    test()->assertTrue(test()->rule->passes('email', 'john@example.com'));
+    expect(test()->rule->passes('email', 'john@example.com'))->toBeTrue();
     test()->emailList->subscribe('john@example.com');
-    test()->assertFalse(test()->rule->passes('email', 'john@example.com'));
+    expect(test()->rule->passes('email', 'john@example.com'))->toBeFalse();
 
     $otherEmailList = EmailList::factory()->create();
     $rule = new EmailListSubscriptionRule($otherEmailList);
-    test()->assertTrue($rule->passes('email', 'john@example.com'));
+    expect($rule->passes('email', 'john@example.com'))->toBeTrue();
 });
 
 it('will pass for emails that are still pending', function () {
     test()->emailList->update(['requires_confirmation' => true]);
     test()->emailList->subscribe('john@example.com');
-    test()->assertEquals(SubscriptionStatus::UNCONFIRMED, test()->emailList->getSubscriptionStatus('john@example.com'));
+    expect(test()->emailList->getSubscriptionStatus('john@example.com'))->toEqual(SubscriptionStatus::UNCONFIRMED);
 
-    test()->assertTrue(test()->rule->passes('email', 'john@example.com'));
+    expect(test()->rule->passes('email', 'john@example.com'))->toBeTrue();
 });
 
 it('will pass for emails that are unsubscribed', function () {
     test()->emailList->update(['requires_confirmation' => true]);
     test()->emailList->subscribe('john@example.com');
     test()->emailList->unsubscribe('john@example.com');
-    test()->assertEquals(SubscriptionStatus::UNSUBSCRIBED, test()->emailList->getSubscriptionStatus('john@example.com'));
+    expect(test()->emailList->getSubscriptionStatus('john@example.com'))->toEqual(SubscriptionStatus::UNSUBSCRIBED);
 
-    test()->assertTrue(test()->rule->passes('email', 'john@example.com'));
+    expect(test()->rule->passes('email', 'john@example.com'))->toBeTrue();
 });
 
 it('will allow to subscribe an email that is already subscribed to another list', function () {
@@ -45,5 +45,5 @@ it('will allow to subscribe an email that is already subscribed to another list'
 
     $anotherEmailList = EmailList::factory()->create();
 
-    test()->assertTrue((new EmailListSubscriptionRule($anotherEmailList))->passes('email', 'john@example.com'));
+    expect((new EmailListSubscriptionRule($anotherEmailList))->passes('email', 'john@example.com'))->toBeTrue();
 });

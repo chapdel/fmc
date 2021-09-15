@@ -23,7 +23,7 @@ it('can unsubscribe a subscriber via the api', function () {
         ->postJson(action(UnsubscribeController::class, $subscriber))
         ->assertSuccessful();
 
-    test()->assertEquals(SubscriptionStatus::UNSUBSCRIBED, $subscriber->refresh()->status);
+    expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::UNSUBSCRIBED);
 });
 
 it('cannot unsubscribe someone that is already unsubscribed', function () {

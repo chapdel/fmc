@@ -15,5 +15,5 @@ it('can delete a campaign', function () {
         ->delete(action(DestroyCampaignController::class, $campaign->id))
         ->assertRedirect();
 
-    test()->assertCount(0, Campaign::get());
+    expect(Campaign::get())->toHaveCount(0);
 });

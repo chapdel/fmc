@@ -22,10 +22,10 @@ it('can send a mail with the correct mailer', function () {
     dispatch(new SendCampaignMailJob($pendingSend));
 
     Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) use ($pendingSend) {
-        test()->assertEquals('some-mailer', $mail->mailer);
-        test()->assertEquals($pendingSend->campaign->subject, $mail->subject);
-        test()->assertTrue($mail->hasTo($pendingSend->subscriber->email));
-        test()->assertCount(1, $mail->callbacks);
+        expect($mail->mailer)->toEqual('some-mailer');
+        expect($mail->subject)->toEqual($pendingSend->campaign->subject);
+        expect($mail->hasTo($pendingSend->subscriber->email))->toBeTrue();
+        expect($mail->callbacks)->toHaveCount(1);
 
         return true;
     });
@@ -50,11 +50,11 @@ it('will rate limit', function () {
 it('will not resend a mail that has already been sent', function () {
     $pendingSend = SendFactory::new()->create();
 
-    test()->assertFalse($pendingSend->wasAlreadySent());
+    expect($pendingSend->wasAlreadySent())->toBeFalse();
 
     dispatch(new SendCampaignMailJob($pendingSend));
 
-    test()->assertTrue($pendingSend->refresh()->wasAlreadySent());
+    expect($pendingSend->refresh()->wasAlreadySent())->toBeTrue();
     Mail::assertSent(MailcoachMail::class, 1);
 
     dispatch(new SendCampaignMailJob($pendingSend));

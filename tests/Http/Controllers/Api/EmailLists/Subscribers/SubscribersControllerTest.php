@@ -95,7 +95,7 @@ it('can delete a subscriber', function () {
         ->deleteJson(action([SubscribersController::class, 'destroy'], $subscriber))
         ->assertSuccessful();
 
-    test()->assertCount(0, Subscriber::all());
+    expect(Subscriber::all())->toHaveCount(0);
 });
 
 it('can update a subscriber', function () {
@@ -115,10 +115,10 @@ it('can update a subscriber', function () {
         ->assertSuccessful();
 
     $subscriber->refresh();
-    test()->assertEquals($attributes['email'], $subscriber->email);
-    test()->assertEquals($attributes['first_name'], $subscriber->first_name);
-    test()->assertEquals($attributes['last_name'], $subscriber->last_name);
-    test()->assertEquals($attributes['tags'], $subscriber->tags->pluck('name')->toArray());
+    expect($subscriber->email)->toEqual($attributes['email']);
+    expect($subscriber->first_name)->toEqual($attributes['first_name']);
+    expect($subscriber->last_name)->toEqual($attributes['last_name']);
+    expect($subscriber->tags->pluck('name')->toArray())->toEqual($attributes['tags']);
 });
 
 it('can update a subscriber with extra attributes', function () {
@@ -137,5 +137,5 @@ it('can update a subscriber with extra attributes', function () {
         ->patchJson(action([SubscribersController::class, 'update'], $subscriber), $attributes)
         ->assertSuccessful();
     $subscriber->refresh();
-    test()->assertEquals($attributes['extra_attributes']['foo'], $subscriber->extra_attributes->foo);
+    expect($subscriber->extra_attributes->foo)->toEqual($attributes['extra_attributes']['foo']);
 });

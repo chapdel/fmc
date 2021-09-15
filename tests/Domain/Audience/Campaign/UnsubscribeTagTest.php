@@ -29,7 +29,7 @@ beforeEach(function () {
 it('can render the unsubscribe confirmation page', function () {
     sendCampaign();
 
-    test()->assertEquals(SubscriptionStatus::SUBSCRIBED, test()->subscriber->status);
+    expect(test()->subscriber->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
 
     $this
         ->get(test()->mailedUnsubscribeLink)
@@ -40,18 +40,18 @@ it('can render the unsubscribe confirmation page', function () {
 it('can unsubscribe from a tag', function () {
     sendCampaign();
 
-    test()->assertEquals(SubscriptionStatus::SUBSCRIBED, test()->subscriber->status);
+    expect(test()->subscriber->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
 
-    test()->assertTrue(test()->subscriber->hasTag('some tag'));
+    expect(test()->subscriber->hasTag('some tag'))->toBeTrue();
 
     $content = $this
         ->post(test()->mailedUnsubscribeLink)
         ->assertSuccessful()
         ->baseResponse->content();
 
-    test()->assertStringContainsString('unsubscribed', $content);
+    expect($content)->toContain('unsubscribed');
 
-    test()->assertFalse(test()->subscriber->fresh()->hasTag('some tag'));
+    expect(test()->subscriber->fresh()->hasTag('some tag'))->toBeFalse();
 });
 
 it('will redirect to the unsubscribed view by default', function () {
@@ -81,7 +81,7 @@ test('the unsubscribe will work even if the send is deleted', function () {
 
     test()->post(test()->mailedUnsubscribeLink)->assertSuccessful();
 
-    test()->assertFalse(test()->subscriber->fresh()->hasTag('some tag'));
+    expect(test()->subscriber->fresh()->hasTag('some tag'))->toBeFalse();
 });
 
 // Helpers
@@ -91,7 +91,7 @@ function sendCampaign()
         $link = (new Crawler($event->message->getBody()))
             ->filter('a')->first()->attr('href');
 
-        test()->assertStringStartsWith('http://localhost', $link);
+        expect($link)->toStartWith('http://localhost');
 
         test()->mailedUnsubscribeLink = Str::after($link, 'http://localhost');
     });

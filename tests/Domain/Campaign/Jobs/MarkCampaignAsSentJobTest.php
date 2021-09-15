@@ -29,11 +29,11 @@ it('marks a campaign as sent and sends an event', function () {
     dispatch(new MarkCampaignAsSentJob(test()->campaign));
 
     Event::assertDispatched(CampaignSentEvent::class, function (CampaignSentEvent $event) {
-        test()->assertEquals(test()->campaign->id, $event->campaign->id);
+        expect($event->campaign->id)->toEqual(test()->campaign->id);
 
         return true;
     });
 
     test()->campaign->refresh();
-    test()->assertEquals(CampaignStatus::SENT, test()->campaign->status);
+    expect(test()->campaign->status)->toEqual(CampaignStatus::SENT);
 });

@@ -9,11 +9,11 @@ uses(TestCase::class);
 it('halts the automation', function () {
     $action = new HaltAction();
 
-    test()->assertTrue($action->shouldHalt(Subscriber::factory()->create()));
+    expect($action->shouldHalt(Subscriber::factory()->create()))->toBeTrue();
 });
 
 it('wont continue', function () {
     $action = new HaltAction();
 
-    test()->assertFalse($action->shouldContinue(Subscriber::factory()->create()));
+    expect($action->shouldContinue(Subscriber::factory()->create()))->toBeFalse();
 });

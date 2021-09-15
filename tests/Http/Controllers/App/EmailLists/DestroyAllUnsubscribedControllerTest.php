@@ -29,7 +29,7 @@ it('will delete all unsubscribers', function () {
 
     $existingSubscriberIds = Subscriber::pluck('id')->toArray();
 
-    test()->assertTrue(in_array($subscriber->id, $existingSubscriberIds));
-    test()->assertFalse(in_array($unsubscribedSubscriber->id, $existingSubscriberIds));
-    test()->assertTrue(in_array($unsubscribedSubscriberOfAnotherList->id, $existingSubscriberIds));
+    expect(in_array($subscriber->id, $existingSubscriberIds))->toBeTrue();
+    expect(in_array($unsubscribedSubscriber->id, $existingSubscriberIds))->toBeFalse();
+    expect(in_array($unsubscribedSubscriberOfAnotherList->id, $existingSubscriberIds))->toBeTrue();
 });

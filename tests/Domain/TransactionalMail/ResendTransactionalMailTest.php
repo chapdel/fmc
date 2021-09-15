@@ -32,7 +32,7 @@ it('can resend a transactional mail', function () {
     Mail::assertSent(
         ResendTransactionalMail::class,
         function (ResendTransactionalMail $resentMail) use ($originalMail) {
-            test()->assertEquals($resentMail->subject, $originalMail->subject);
+            expect($originalMail->subject)->toEqual($resentMail->subject);
 
             assertMatchingPersons($originalMail, $resentMail, 'from');
             assertMatchingPersons($originalMail, $resentMail, 'to');
@@ -43,13 +43,13 @@ it('can resend a transactional mail', function () {
         }
     );
 
-    test()->assertCount(2, TransactionalMail::get());
+    expect(TransactionalMail::get())->toHaveCount(2);
 });
 
 // Helpers
 function assertMatchingPersons(TransactionalMail $originalMail, ResendTransactionalMail $resentMail, string $field)
 {
-    test()->assertGreaterThan(0, count($resentMail->to));
+    expect(count($resentMail->to))->toBeGreaterThan(0);
     foreach ($originalMail->$field as $person) {
         test()->assertTrue(in_array($person['email'], collect($resentMail->$field)->pluck('address')->toArray()));
     }

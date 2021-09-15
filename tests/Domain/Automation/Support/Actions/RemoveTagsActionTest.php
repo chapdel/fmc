@@ -13,22 +13,22 @@ beforeEach(function () {
 });
 
 it('continues after execution', function () {
-    test()->assertTrue(test()->action->shouldContinue(test()->subscriber));
+    expect(test()->action->shouldContinue(test()->subscriber))->toBeTrue();
 });
 
 it('wont halt after execution', function () {
-    test()->assertFalse(test()->action->shouldHalt(test()->subscriber));
+    expect(test()->action->shouldHalt(test()->subscriber))->toBeFalse();
 });
 
 it('removes a tag from the subscriber', function () {
     test()->subscriber->addTag('some-tag');
     test()->subscriber->addTag('another-tag');
 
-    test()->assertTrue(test()->subscriber->hasTag('some-tag'));
-    test()->assertTrue(test()->subscriber->hasTag('another-tag'));
+    expect(test()->subscriber->hasTag('some-tag'))->toBeTrue();
+    expect(test()->subscriber->hasTag('another-tag'))->toBeTrue();
 
     test()->action->run(test()->subscriber);
 
-    test()->assertFalse(test()->subscriber->hasTag('some-tag'));
-    test()->assertFalse(test()->subscriber->hasTag('another-tag'));
+    expect(test()->subscriber->hasTag('some-tag'))->toBeFalse();
+    expect(test()->subscriber->hasTag('another-tag'))->toBeFalse();
 });

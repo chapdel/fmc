@@ -26,6 +26,6 @@ test('the import can be started via the api', function () {
     /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
     $emailList = test()->subscriberImport->emailList;
 
-    test()->assertTrue($emailList->isSubscribed('john@example.com'));
-    test()->assertEquals(SubscriberImportStatus::COMPLETED, test()->subscriberImport->refresh()->status);
+    expect($emailList->isSubscribed('john@example.com'))->toBeTrue();
+    expect(test()->subscriberImport->refresh()->status)->toEqual(SubscriberImportStatus::COMPLETED);
 });

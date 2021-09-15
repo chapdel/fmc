@@ -26,13 +26,13 @@ beforeEach(function () {
 });
 
 test('when subscribing to a double opt in list a click in the confirmation mail is needed to subscribe', function () {
-    test()->assertFalse(test()->emailList->isSubscribed('john@example.com'));
+    expect(test()->emailList->isSubscribed('john@example.com'))->toBeFalse();
 
     $this
         ->get(test()->mailedLink)
         ->assertSuccessful();
 
-    test()->assertTrue(test()->emailList->isSubscribed('john@example.com'));
+    expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
 });
 
 test('clicking the mailed link twice will not result in a double subscription', function () {
@@ -45,8 +45,8 @@ test('clicking the mailed link twice will not result in a double subscription', 
         ->assertSuccessful()
         ->assertViewIs('mailcoach::landingPages.alreadySubscribed');
 
-    test()->assertTrue(test()->emailList->isSubscribed('john@example.com'));
-    test()->assertEquals(1, Subscriber::count());
+    expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
+    expect(Subscriber::count())->toEqual(1);
 });
 
 test('clicking on an invalid link will render to correct response', function () {

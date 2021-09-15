@@ -18,5 +18,5 @@ it('can unschedule a campaign', function () {
         ->post(action(UnscheduleCampaignController::class, $campaign->id))
         ->assertRedirect(action(CampaignDeliveryController::class, $campaign->id));
 
-    test()->assertNull($campaign->refresh()->scheduled_at);
+    expect($campaign->refresh()->scheduled_at)->toBeNull();
 });

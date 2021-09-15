@@ -18,26 +18,26 @@ beforeEach(function () {
 });
 
 it('will only subscribe a subscriber once', function () {
-    test()->assertFalse(test()->emailList->isSubscribed('john@example.com'));
+    expect(test()->emailList->isSubscribed('john@example.com'))->toBeFalse();
 
     Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
-    test()->assertTrue(test()->emailList->isSubscribed('john@example.com'));
+    expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
 
     Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
-    test()->assertTrue(test()->emailList->isSubscribed('john@example.com'));
+    expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
 
-    test()->assertEquals(1, Subscriber::count());
+    expect(Subscriber::count())->toEqual(1);
 });
 
 it('can resubscribe someone', function () {
     $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
-    test()->assertTrue(test()->emailList->isSubscribed('john@example.com'));
+    expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
 
     $subscriber->unsubscribe();
-    test()->assertFalse(test()->emailList->isSubscribed('john@example.com'));
+    expect(test()->emailList->isSubscribed('john@example.com'))->toBeFalse();
 
     Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
-    test()->assertTrue(test()->emailList->isSubscribed('john@example.com'));
+    expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
 });
 
 it('will send a confirmation mail if the list requires double optin', function () {
@@ -46,10 +46,10 @@ it('will send a confirmation mail if the list requires double optin', function (
     ]);
 
     $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
-    test()->assertFalse(test()->emailList->isSubscribed('john@example.com'));
+    expect(test()->emailList->isSubscribed('john@example.com'))->toBeFalse();
 
     Mail::assertQueued(ConfirmSubscriberMail::class, function (ConfirmSubscriberMail $mail) use ($subscriber) {
-        test()->assertEquals($subscriber->uuid, $mail->subscriber->uuid);
+        expect($mail->subscriber->uuid)->toEqual($subscriber->uuid);
 
         return true;
     });
@@ -61,10 +61,10 @@ it('will send a welcome mail if the list has welcome mails', function () {
     ]);
 
     $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
-    test()->assertTrue(test()->emailList->isSubscribed('john@example.com'));
+    expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
 
     Mail::assertQueued(WelcomeMail::class, function (WelcomeMail $mail) use ($subscriber) {
-        test()->assertEquals($subscriber->uuid, $mail->subscriber->uuid);
+        expect($mail->subscriber->uuid)->toEqual($subscriber->uuid);
 
         return true;
     });
@@ -76,10 +76,10 @@ it('will only send a welcome mail once', function () {
     ]);
 
     Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
-    test()->assertTrue(test()->emailList->isSubscribed('john@example.com'));
+    expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
 
     Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
-    test()->assertTrue(test()->emailList->isSubscribed('john@example.com'));
+    expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
 
     Mail::assertQueued(WelcomeMail::class, 1);
 });
@@ -93,19 +93,19 @@ it('can immediately subscribe someone and not send a mail even with double opt i
         ->skipConfirmation()
         ->subscribeTo(test()->emailList);
 
-    test()->assertEquals(SubscriptionStatus::SUBSCRIBED, $subscriber->status);
-    test()->assertTrue(test()->emailList->isSubscribed('john@example.com'));
+    expect($subscriber->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
+    expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
 
     Mail::assertNotQueued(ConfirmSubscriberMail::class);
 });
 
 test('no email will be sent when adding someone that was already subscribed', function () {
     $subscriber = Subscriber::factory()->create();
-    test()->assertEquals(SubscriptionStatus::SUBSCRIBED, $subscriber->status);
+    expect($subscriber->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
     $subscriber->emailList->update(['requires_confirmation' => true]);
 
     $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
-    test()->assertEquals(SubscriptionStatus::SUBSCRIBED, $subscriber->status);
+    expect($subscriber->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
 
     Mail::assertNothingQueued();
 });
@@ -119,9 +119,9 @@ it('can get all sends', function () {
 
     $sends = $subscriber->sends;
 
-    test()->assertCount(1, $sends);
+    expect($sends)->toHaveCount(1);
 
-    test()->assertEquals($send->uuid, $sends->first()->uuid);
+    expect($sends->first()->uuid)->toEqual($send->uuid);
 });
 
 it('can get all opens', function () {
@@ -135,10 +135,10 @@ it('can get all opens', function () {
     $subscriber = $send->subscriber;
 
     $opens = $subscriber->opens;
-    test()->assertCount(1, $opens);
+    expect($opens)->toHaveCount(1);
 
-    test()->assertEquals($send->uuid, $subscriber->opens->first()->send->uuid);
-    test()->assertEquals($subscriber->uuid, $subscriber->opens->first()->subscriber->uuid);
+    expect($subscriber->opens->first()->send->uuid)->toEqual($send->uuid);
+    expect($subscriber->opens->first()->subscriber->uuid)->toEqual($subscriber->uuid);
 });
 
 it('can get all clicks', function () {
@@ -154,10 +154,10 @@ it('can get all clicks', function () {
     $subscriber = $send->subscriber;
 
     $clicks = $subscriber->clicks;
-    test()->assertCount(3, $clicks);
+    expect($clicks)->toHaveCount(3);
 
     $uniqueClicks = $subscriber->uniqueClicks;
-    test()->assertCount(2, $uniqueClicks);
+    expect($uniqueClicks)->toHaveCount(2);
 
     test()->assertEquals(
         ['https://example.com','https://another-domain.com'],

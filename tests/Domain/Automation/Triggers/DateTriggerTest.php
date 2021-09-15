@@ -43,7 +43,7 @@ it('triggers on a specific date', function () {
 
     Artisan::call(RunAutomationTriggersCommand::class);
 
-    test()->assertEmpty($automation->actions->first()->subscribers);
+    expect($automation->actions->first()->subscribers)->toBeEmpty();
 
     TestTime::addDay();
 
@@ -52,8 +52,8 @@ it('triggers on a specific date', function () {
     Queue::assertPushed(
         RunAutomationForSubscriberJob::class,
         function (RunAutomationForSubscriberJob $job) use ($automation) {
-            test()->assertSame('john@doe.com', $job->subscriber->email);
-            test()->assertSame($automation->id, $job->automation->id);
+            expect($job->subscriber->email)->toBe('john@doe.com');
+            expect($job->automation->id)->toBe($automation->id);
 
             return true;
         }

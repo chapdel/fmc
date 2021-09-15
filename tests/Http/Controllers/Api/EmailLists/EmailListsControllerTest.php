@@ -80,12 +80,12 @@ test('an email list can be updated using the api', function () {
 
     $emailList = $emailList->refresh();
 
-    test()->assertEquals($id, $emailList->id);
-    test()->assertEquals($attributes['name'], $emailList->name);
-    test()->assertEquals($attributes['default_from_email'], $emailList->default_from_email);
-    test()->assertEquals($attributes['default_from_name'], $emailList->default_from_name);
-    test()->assertEquals($attributes['default_reply_to_email'], $emailList->default_reply_to_email);
-    test()->assertEquals($attributes['default_reply_to_name'], $emailList->default_reply_to_name);
+    expect($emailList->id)->toEqual($id);
+    expect($emailList->name)->toEqual($attributes['name']);
+    expect($emailList->default_from_email)->toEqual($attributes['default_from_email']);
+    expect($emailList->default_from_name)->toEqual($attributes['default_from_name']);
+    expect($emailList->default_reply_to_email)->toEqual($attributes['default_reply_to_email']);
+    expect($emailList->default_reply_to_name)->toEqual($attributes['default_reply_to_name']);
 });
 
 test('an email list can be deleted using the api', function () {
@@ -95,5 +95,5 @@ test('an email list can be deleted using the api', function () {
         ->deleteJson(action([EmailListsController::class, 'destroy'], $template))
         ->assertSuccessful();
 
-    test()->assertCount(0, EmailList::get());
+    expect(EmailList::get())->toHaveCount(0);
 });

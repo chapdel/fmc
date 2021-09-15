@@ -19,7 +19,7 @@ it('can resend the confirmation mail with the correct mailer', function () {
 
     $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($emailList);
     Mail::assertQueued(ConfirmSubscriberMail::class, function (ConfirmSubscriberMail $mail) {
-        test()->assertEquals('some-mailer', $mail->mailer);
+        expect($mail->mailer)->toEqual('some-mailer');
 
         return true;
     });

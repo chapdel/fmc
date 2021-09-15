@@ -13,5 +13,5 @@ it('creates an automation', function () {
         'name' => 'Some automation',
     ]);
 
-    test()->assertEquals(1, Automation::count());
+    expect(Automation::count())->toEqual(1);
 });

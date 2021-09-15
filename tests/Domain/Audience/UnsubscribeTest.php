@@ -30,7 +30,7 @@ beforeEach(function () {
 it('can render the unsubscribe confirmation page', function () {
     sendCampaign();
 
-    test()->assertEquals(SubscriptionStatus::SUBSCRIBED, test()->subscriber->status);
+    expect(test()->subscriber->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
 
     $this
         ->get(test()->mailedUnsubscribeLink)
@@ -41,25 +41,25 @@ it('can render the unsubscribe confirmation page', function () {
 it('can unsubscribe from a list', function () {
     sendCampaign();
 
-    test()->assertEquals(SubscriptionStatus::SUBSCRIBED, test()->subscriber->status);
+    expect(test()->subscriber->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
 
     $content = $this
         ->post(test()->mailedUnsubscribeLink)
         ->assertSuccessful()
         ->baseResponse->content();
 
-    test()->assertStringContainsString('unsubscribed', $content);
+    expect($content)->toContain('unsubscribed');
 
-    test()->assertEquals(SubscriptionStatus::UNSUBSCRIBED, test()->subscriber->refresh()->status);
+    expect(test()->subscriber->refresh()->status)->toEqual(SubscriptionStatus::UNSUBSCRIBED);
 
-    test()->assertCount(1, CampaignUnsubscribe::all());
+    expect(CampaignUnsubscribe::all())->toHaveCount(1);
     $campaignUnsubscribe = CampaignUnsubscribe::first();
 
-    test()->assertEquals(test()->subscriber->uuid, $campaignUnsubscribe->subscriber->uuid);
-    test()->assertEquals(test()->campaign->uuid, $campaignUnsubscribe->campaign->uuid);
+    expect($campaignUnsubscribe->subscriber->uuid)->toEqual(test()->subscriber->uuid);
+    expect($campaignUnsubscribe->campaign->uuid)->toEqual(test()->campaign->uuid);
 
     $subscription = test()->emailList->allSubscribers()->first();
-    test()->assertEquals(SubscriptionStatus::UNSUBSCRIBED, $subscription->status);
+    expect($subscription->status)->toEqual(SubscriptionStatus::UNSUBSCRIBED);
 });
 
 it('will redirect to the unsubscribed view by default', function () {
@@ -88,9 +88,9 @@ it('will only store a single unsubscribe even if the unsubscribe link is used mu
     test()->post(test()->mailedUnsubscribeLink)->assertSuccessful();
     $response = test()->get(test()->mailedUnsubscribeLink)->assertSuccessful()->baseResponse->content();
 
-    test()->assertCount(1, CampaignUnsubscribe::all());
+    expect(CampaignUnsubscribe::all())->toHaveCount(1);
 
-    test()->assertStringContainsString('already unsubscribed', $response);
+    expect($response)->toContain('already unsubscribed');
 });
 
 test('the unsubscribe will work even if the send is deleted', function () {
@@ -100,7 +100,7 @@ test('the unsubscribe will work even if the send is deleted', function () {
 
     test()->post(test()->mailedUnsubscribeLink)->assertSuccessful();
 
-    test()->assertEquals(SubscriptionStatus::UNSUBSCRIBED, test()->subscriber->refresh()->status);
+    expect(test()->subscriber->refresh()->status)->toEqual(SubscriptionStatus::UNSUBSCRIBED);
 });
 
 test('the unsubscribe header is added to the email', function () {
@@ -109,11 +109,11 @@ test('the unsubscribe header is added to the email', function () {
 
         test()->assertNotNull($event->message->getHeaders()->get('List-Unsubscribe'));
 
-        test()->assertEquals('<'.url(action(UnsubscribeController::class, [$subscription->uuid, Send::first()->uuid])).'>', $event->message->getHeaders()->get('List-Unsubscribe')->getValue());
+        expect($event->message->getHeaders()->get('List-Unsubscribe')->getValue())->toEqual('<'.url(action(UnsubscribeController::class, [$subscription->uuid, Send::first()->uuid])).'>');
 
         test()->assertNotNull($event->message->getHeaders()->get('List-Unsubscribe-Post'));
 
-        test()->assertEquals('List-Unsubscribe=One-Click', $event->message->getHeaders()->get('List-Unsubscribe-Post')->getValue());
+        expect($event->message->getHeaders()->get('List-Unsubscribe-Post')->getValue())->toEqual('List-Unsubscribe=One-Click');
     });
 
     dispatch(new SendCampaignJob(test()->campaign));
@@ -126,7 +126,7 @@ function sendCampaign()
         $link = (new Crawler($event->message->getBody()))
             ->filter('a')->first()->attr('href');
 
-        test()->assertStringStartsWith('http://localhost', $link);
+        expect($link)->toStartWith('http://localhost');
 
         test()->mailedUnsubscribeLink = Str::after($link, 'http://localhost');
     });

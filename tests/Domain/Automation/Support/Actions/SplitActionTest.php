@@ -39,13 +39,13 @@ beforeEach(function () {
 });
 
 it('doesnt halt', function () {
-    test()->assertFalse(test()->actionModel->action->shouldHalt(test()->subscriber));
+    expect(test()->actionModel->action->shouldHalt(test()->subscriber))->toBeFalse();
 });
 
 it('determines the correct next actions', function () {
-    test()->assertInstanceOf(SendAutomationMailAction::class, test()->actionModel->action->nextActions(test()->subscriber)[0]->action);
-    test()->assertEquals(test()->automationMail1->id, test()->actionModel->action->nextActions(test()->subscriber)[0]->action->automationMail->id);
+    expect(test()->actionModel->action->nextActions(test()->subscriber)[0]->action)->toBeInstanceOf(SendAutomationMailAction::class);
+    expect(test()->actionModel->action->nextActions(test()->subscriber)[0]->action->automationMail->id)->toEqual(test()->automationMail1->id);
 
-    test()->assertInstanceOf(SendAutomationMailAction::class, test()->actionModel->action->nextActions(test()->subscriber)[1]->action);
-    test()->assertEquals(test()->automationMail2->id, test()->actionModel->action->nextActions(test()->subscriber)[1]->action->automationMail->id);
+    expect(test()->actionModel->action->nextActions(test()->subscriber)[1]->action)->toBeInstanceOf(SendAutomationMailAction::class);
+    expect(test()->actionModel->action->nextActions(test()->subscriber)[1]->action->automationMail->id)->toEqual(test()->automationMail2->id);
 });

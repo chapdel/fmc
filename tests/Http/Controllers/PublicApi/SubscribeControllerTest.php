@@ -71,8 +71,8 @@ it('can accept a first and last name', function () {
 
     $subscriber = Subscriber::where('email', payloadWithRedirects()['email'])->first();
 
-    test()->assertEquals('John', $subscriber->first_name);
-    test()->assertEquals('Doe', $subscriber->last_name);
+    expect($subscriber->first_name)->toEqual('John');
+    expect($subscriber->last_name)->toEqual('Doe');
 });
 
 it('can accept attributes', function () {
@@ -93,9 +93,9 @@ it('can accept attributes', function () {
 
     $subscriber = Subscriber::where('email', payloadWithRedirects()['email'])->first();
 
-    test()->assertEquals('foo', $subscriber->extra_attributes->attribute1);
-    test()->assertEmpty($subscriber->extra_attributes->attribute3);
-    test()->assertEquals('bar', $subscriber->extra_attributes->attribute2);
+    expect($subscriber->extra_attributes->attribute1)->toEqual('foo');
+    expect($subscriber->extra_attributes->attribute3)->toBeEmpty();
+    expect($subscriber->extra_attributes->attribute2)->toEqual('bar');
 });
 
 it('can accept tags', function () {
@@ -118,7 +118,7 @@ it('can accept tags', function () {
     /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
     $subscriber = Subscriber::where('email', payloadWithRedirects()['email'])->first();
 
-    test()->assertEquals(['test1', 'test3'], $subscriber->tags()->pluck('name')->toArray());
+    expect($subscriber->tags()->pluck('name')->toArray())->toEqual(['test1', 'test3']);
 });
 
 it('will redirect to the correct url if the email address is already subscribed', function () {
@@ -140,7 +140,7 @@ it('will add tags if the email address is already subscribed', function () {
     $subscriber = Subscriber::findForEmail(payloadWithRedirects()['email'], test()->emailList);
     $subscriber->addTags(['test1', 'test2']);
 
-    test()->assertEquals(2, $subscriber->fresh()->tags()->count());
+    expect($subscriber->fresh()->tags()->count())->toEqual(2);
 
     $this
         ->post(action(SubscribeController::class, test()->emailList->uuid), payloadWithRedirects([
@@ -148,7 +148,7 @@ it('will add tags if the email address is already subscribed', function () {
         ]))
         ->assertRedirect(payloadWithRedirects()['redirect_after_already_subscribed']);
 
-    test()->assertEquals(3, $subscriber->tags()->count());
+    expect($subscriber->tags()->count())->toEqual(3);
 });
 
 test('when not specified on the form it will redirect to the redirect after already subscribed url on the list', function () {
@@ -226,7 +226,7 @@ test('clicking the link in the confirm subscription mail will redirect to the gi
 
     /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
     $subscriber = Subscriber::where('email', payloadWithRedirects()['email'])->first();
-    test()->assertEquals(SubscriptionStatus::UNCONFIRMED, $subscriber->refresh()->status);
+    expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::UNCONFIRMED);
 
     /*
      * We'll pretend the user clicked the confirm subscription button by visiting the url
@@ -234,7 +234,7 @@ test('clicking the link in the confirm subscription mail will redirect to the gi
     $this
         ->get(test()->confirmSubscriptionLink)
         ->assertRedirect(payloadWithRedirects()['redirect_after_subscribed']);
-    test()->assertEquals(SubscriptionStatus::SUBSCRIBED, $subscriber->refresh()->status);
+    expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
 });
 
 // Helpers

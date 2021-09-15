@@ -47,7 +47,7 @@ it('can send a automation mail with the correct mailer', function () {
     Mail::assertSent(MailcoachMail::class, fn (MailcoachMail $mail) => $mail->mailer === 'some-mailer');
 
     Event::assertDispatched(AutomationMailSentEvent::class, function (AutomationMailSentEvent $event) {
-        test()->assertEquals(test()->automationMail->id, $event->send->automationMail->id);
+        expect($event->send->automationMail->id)->toEqual(test()->automationMail->id);
 
         return true;
     });
@@ -64,7 +64,7 @@ it('will not create mailcoach sends if they already have been created', function
 
     dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->subscriber));
 
-    test()->assertCount(1, Send::all());
+    expect(Send::all())->toHaveCount(1);
 });
 
 it('will use the right subject', function () {
@@ -76,7 +76,7 @@ it('will use the right subject', function () {
     dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->subscriber));
 
     Mail::assertSent(MailcoachMail::class, function (MailcoachMail $automationMailMail) {
-        test()->assertEquals('my subject', $automationMailMail->subject);
+        expect($automationMailMail->subject)->toEqual('my subject');
 
         return true;
     });
@@ -147,7 +147,7 @@ test('personalized placeholders in the subject will be replaced', function () {
     dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->subscriber));
 
     Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) {
-        test()->assertEquals("This is a mail sent to {test()->subscriber->email}", $mail->subject);
+        expect($mail->subject)->toEqual("This is a mail sent to {test()->subscriber->email}");
 
         return true;
     });

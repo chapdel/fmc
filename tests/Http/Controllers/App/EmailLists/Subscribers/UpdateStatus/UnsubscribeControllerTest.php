@@ -16,13 +16,13 @@ it('can unsubscribe a subscriber', function () {
 
     $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($emailList);
 
-    test()->assertEquals(SubscriptionStatus::SUBSCRIBED, $subscriber->status);
+    expect($subscriber->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
 
     $this
         ->post(route('mailcoach.subscriber.unsubscribe', $subscriber))
         ->assertRedirect();
 
-    test()->assertEquals(SubscriptionStatus::UNSUBSCRIBED, $subscriber->refresh()->status);
+    expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::UNSUBSCRIBED);
 });
 
 it('will only unsubscribe subscribed subscribers', function () {
@@ -32,7 +32,7 @@ it('will only unsubscribe subscribed subscribers', function () {
     $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($emailList);
     $subscriber->unsubscribe();
 
-    test()->assertEquals(SubscriptionStatus::UNSUBSCRIBED, $subscriber->status);
+    expect($subscriber->status)->toEqual(SubscriptionStatus::UNSUBSCRIBED);
 
     $this
         ->post(route('mailcoach.subscriber.unsubscribe', $subscriber))

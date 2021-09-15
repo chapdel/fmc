@@ -21,7 +21,7 @@ it('can get the unsubscribes of a campaign', function () {
         ->assertJsonCount(1, 'data')
         ->json('data');
 
-    test()->assertEquals(test()->campaignUnsubscribe->subscriber->id, $response[0]['subscriber_id']);
-    test()->assertEquals(test()->campaignUnsubscribe->subscriber->email, $response[0]['subscriber_email']);
-    test()->assertEquals(test()->campaignUnsubscribe->campaign->id, $response[0]['campaign_id']);
+    expect($response[0]['subscriber_id'])->toEqual(test()->campaignUnsubscribe->subscriber->id);
+    expect($response[0]['subscriber_email'])->toEqual(test()->campaignUnsubscribe->subscriber->email);
+    expect($response[0]['campaign_id'])->toEqual(test()->campaignUnsubscribe->campaign->id);
 });

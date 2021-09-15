@@ -18,12 +18,12 @@ it('checks correctly that a user opened an automation mail', function () {
         'automation_mail_id' => $automationMail->id,
     ]);
 
-    test()->assertFalse($condition->check());
+    expect($condition->check())->toBeFalse();
 
     AutomationMailOpen::factory()->create([
         'subscriber_id' => $subscriber->id,
         'automation_mail_id' => $automationMail->id,
     ]);
 
-    test()->assertTrue($condition->check());
+    expect($condition->check())->toBeTrue();
 });

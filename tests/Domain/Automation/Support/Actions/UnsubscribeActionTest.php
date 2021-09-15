@@ -12,21 +12,21 @@ it('unsubscribes the subscriber', function () {
     /** @var Subscriber $subscriber */
     $subscriber = Subscriber::factory()->create();
 
-    test()->assertTrue($subscriber->isSubscribed());
+    expect($subscriber->isSubscribed())->toBeTrue();
 
     $action->run($subscriber);
 
-    test()->assertFalse($subscriber->fresh()->isSubscribed());
+    expect($subscriber->fresh()->isSubscribed())->toBeFalse();
 });
 
 it('halts the automation', function () {
     $action = new UnsubscribeAction();
 
-    test()->assertTrue($action->shouldHalt(Subscriber::factory()->create()));
+    expect($action->shouldHalt(Subscriber::factory()->create()))->toBeTrue();
 });
 
 it('wont continue', function () {
     $action = new UnsubscribeAction();
 
-    test()->assertFalse($action->shouldContinue(Subscriber::factory()->create()));
+    expect($action->shouldContinue(Subscriber::factory()->create()))->toBeFalse();
 });

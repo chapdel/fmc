@@ -9,8 +9,8 @@ uses(TestCase::class);
 it('registers a macro on the date facade', function () {
     Date::setTestNow('2020-08-12 09:17');
 
-    test()->assertEquals('2020-08-12 09:17', Date::now()->toMailcoachFormat());
-    test()->assertEquals('2020-08-12 09:17', Carbon::now()->toMailcoachFormat());
+    expect(Date::now()->toMailcoachFormat())->toEqual('2020-08-12 09:17');
+    expect(Carbon::now()->toMailcoachFormat())->toEqual('2020-08-12 09:17');
 });
 
 it('transforms the date to the app timezone', function () {
@@ -18,6 +18,6 @@ it('transforms the date to the app timezone', function () {
 
     Date::setTestNow('2020-08-12 09:17');
 
-    test()->assertEquals('2020-08-12 11:17', Date::now()->toMailcoachFormat());
-    test()->assertEquals('2020-08-12 11:17', Carbon::now()->toMailcoachFormat());
+    expect(Date::now()->toMailcoachFormat())->toEqual('2020-08-12 11:17');
+    expect(Carbon::now()->toMailcoachFormat())->toEqual('2020-08-12 11:17');
 });

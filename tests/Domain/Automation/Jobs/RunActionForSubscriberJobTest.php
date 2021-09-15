@@ -40,18 +40,18 @@ it('runs the action for a subscriber', function () {
 
     dispatch_sync(new RunActionForSubscriberJob($action, $subscriber));
 
-    test()->assertEquals($action->id, $subscriber->actions->first()->id);
+    expect($subscriber->actions->first()->id)->toEqual($action->id);
 
     TestTime::addDays(2);
 
     dispatch_sync(new RunActionForSubscriberJob($action, $subscriber));
 
-    test()->assertEquals(2, $subscriber->actions()->count());
+    expect($subscriber->actions()->count())->toEqual(2);
 
     dispatch_sync(new RunActionForSubscriberJob($action, $subscriber));
 
     // it won't add it twice
-    test()->assertEquals(2, $subscriber->actions()->count());
+    expect($subscriber->actions()->count())->toEqual(2);
 });
 
 it('optionally passes the action subscriber', function () {

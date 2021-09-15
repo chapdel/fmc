@@ -26,11 +26,11 @@ it('can store itself', function () {
         automation: $automation,
     );
 
-    test()->assertEquals(1, Action::count());
-    test()->assertEquals($uuid, $actionModel->uuid);
-    test()->assertEquals($automation->id, $actionModel->automation_id);
-    test()->assertEquals(1, $actionModel->order);
-    test()->assertInstanceOf(HaltAction::class, $actionModel->action);
+    expect(Action::count())->toEqual(1);
+    expect($actionModel->uuid)->toEqual($uuid);
+    expect($actionModel->automation_id)->toEqual($automation->id);
+    expect($actionModel->order)->toEqual(1);
+    expect($actionModel->action)->toBeInstanceOf(HaltAction::class);
 });
 
 it('can reliably get the next action', function () {
@@ -59,8 +59,8 @@ it('can reliably get the next action', function () {
     $parentAction2 = new HaltAction();
     $parentModel2 = $parentAction2->store(Str::uuid()->toString(), $automation);
 
-    test()->assertEquals(4, Action::count());
-    test()->assertTrue($child1->is($parentAction->nextActions($subscriber)[0]));
-    test()->assertTrue($child2->is($child1->action->nextActions($subscriber)[0]));
-    test()->assertTrue($parentModel2->is($child2->action->nextActions($subscriber)[0]));
+    expect(Action::count())->toEqual(4);
+    expect($child1->is($parentAction->nextActions($subscriber)[0]))->toBeTrue();
+    expect($child2->is($child1->action->nextActions($subscriber)[0]))->toBeTrue();
+    expect($parentModel2->is($child2->action->nextActions($subscriber)[0]))->toBeTrue();
 });
