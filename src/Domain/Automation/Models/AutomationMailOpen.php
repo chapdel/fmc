@@ -20,6 +20,11 @@ class AutomationMailOpen extends Model
         'first_opened_at' => 'datetime',
     ];
 
+    function __construct()
+    {
+        $this->setConnection(config('mailcoach.default_db_table_connection'));
+    }
+
     public function send(): BelongsTo
     {
         return $this->belongsTo($this->getSendClass(), 'send_id');

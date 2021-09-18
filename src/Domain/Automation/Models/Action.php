@@ -27,6 +27,11 @@ class Action extends Model
         'order' => 'int',
     ];
 
+    function __construct()
+    {
+        $this->setConnection(config('mailcoach.default_db_table_connection'));
+    }
+
     public function setActionAttribute(AutomationAction $value)
     {
         $this->attributes['action'] = serialize($value);

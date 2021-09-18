@@ -19,6 +19,11 @@ class AutomationMail extends Sendable
 {
     public $table = 'mailcoach_automation_mails';
 
+    function __construct()
+    {
+        $this->setConnection(config('mailcoach.default_db_table_connection'));
+    }
+
     public function links(): HasMany
     {
         return $this->hasMany(AutomationMailLink::class, 'automation_mail_id');

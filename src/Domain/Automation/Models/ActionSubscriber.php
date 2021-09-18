@@ -22,6 +22,11 @@ class ActionSubscriber extends Pivot
         'halted_at' => 'datetime',
     ];
 
+    function __construct()
+    {
+        $this->setConnection(config('mailcoach.default_db_table_connection'));
+    }
+
     public function action(): BelongsTo
     {
         return $this->belongsTo(static::getAutomationActionClass());

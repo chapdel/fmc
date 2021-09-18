@@ -19,6 +19,11 @@ class Trigger extends Model
 
     protected $guarded = [];
 
+    function __construct()
+    {
+        $this->setConnection(config('mailcoach.default_db_table_connection'));
+    }
+
     protected static function booted()
     {
         static::saved(function () {

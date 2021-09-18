@@ -41,6 +41,11 @@ class Campaign extends Sendable implements Feedable
         'summary_mail_sent_at' => 'datetime',
     ];
 
+    function __construct()
+    {
+        $this->setConnection(config('mailcoach.default_db_table_connection'));
+    }
+
     public static function booted()
     {
         static::creating(function (Campaign $campaign) {
