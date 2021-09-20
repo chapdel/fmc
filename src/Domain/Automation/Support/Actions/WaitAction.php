@@ -50,6 +50,12 @@ class WaitAction extends AutomationAction
 
     public function toArray(): array
     {
+        if (! isset($this->unit, $this->length)) {
+            [$length, $unit] = explode(' ', $this->interval->forHumans());
+            $this->length = (int) $length;
+            $this->unit = $unit;
+        }
+
         return [
             'seconds' => $this->interval->totalSeconds,
             'unit' => $this->unit,

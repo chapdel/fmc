@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.10.1 - 2021-09-20
+
+- Fix an issue with the WaitAction when loading old data.
+
 ## 4.10.0 - 2021-09-15
 
 - Automations now continue when they weren't halted for a subscriber and new actions get added.
