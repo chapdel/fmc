@@ -17,9 +17,9 @@ class SendFeedbackItem extends Model
 
     protected $guarded = [];
 
-    function __construct()
+    public function __construct()
     {
-        $this->setConnection(config('mailcoach.default_db_table_connection'));
+        $this->setConnection(config('mailcoach.database_connection'));
     }
 
     public function send(): BelongsTo

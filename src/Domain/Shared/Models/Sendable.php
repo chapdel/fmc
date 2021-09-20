@@ -44,9 +44,9 @@ abstract class Sendable extends Model implements HasHtmlContent
         'mailable_arguments' => 'array',
     ];
 
-    function __construct()
+    public function __construct()
     {
-        $this->setConnection(config('mailcoach.default_db_table_connection'));
+        $this->setConnection(config('mailcoach.database_connection'));
     }
 
     abstract public function links(): HasMany;

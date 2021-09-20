@@ -1,11 +1,6 @@
 <?php
 
 return [
-    /*
-     * Update the default database connection on all models
-     */
-    'default_db_table_connection' => config('MAILCOACH_DB_CONNECTION','mysql'),
-
     'campaigns' => [
         /*
          * The default mailer used by Mailcoach for sending campaigns.
@@ -357,4 +352,10 @@ return [
          */
         'use_blade_components' => true,
     ],
+
+    /*
+     * Update the default database connection on all models
+     */
+    'database_connection' => config('MAILCOACH_DB_CONNECTION','mysql'),
+
 ];

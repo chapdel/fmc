@@ -20,9 +20,9 @@ class Template extends Model implements HasHtmlContent
         'json' => 'json',
     ];
 
-    function __construct()
+    public function __construct()
     {
-        $this->setConnection(config('mailcoach.default_db_table_connection'));
+        $this->setConnection(config('mailcoach.database_connection'));
     }
 
     public function getHtml(): ?string
