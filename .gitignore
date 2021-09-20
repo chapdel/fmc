@@ -10,4 +10,3 @@ mix-manifest.json
 auth.json
 .phpunit.result.cache
 .php-cs-fixer.cache
-.idea
