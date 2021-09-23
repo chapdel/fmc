@@ -35,11 +35,6 @@ class TransactionalMailTemplate extends Model implements HasHtmlContent
         'replacers' => 'array',
     ];
 
-    public function __construct()
-    {
-        $this->setConnection(config('mailcoach.database_connection'));
-    }
-
     public function isValid(): bool
     {
         try {

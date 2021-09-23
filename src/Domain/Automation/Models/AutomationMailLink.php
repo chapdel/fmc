@@ -22,11 +22,6 @@ class AutomationMailLink extends Model
 
     protected $guarded = [];
 
-    public function __construct()
-    {
-        $this->setConnection(config('mailcoach.database_connection'));
-    }
-
     public function automationMail(): BelongsTo
     {
         return $this->belongsTo(config('mailcoach.models.automation_mail'), 'automation_mail_id');

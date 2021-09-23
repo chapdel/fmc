@@ -16,11 +16,6 @@ class TransactionalMailOpen extends Model
 
     protected $guarded = [];
 
-    public function __construct()
-    {
-        $this->setConnection(config('mailcoach.database_connection'));
-    }
-
     public function send(): BelongsTo
     {
         return $this->belongsTo($this->getSendClass(), 'send_id');

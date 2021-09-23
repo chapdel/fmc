@@ -46,11 +46,6 @@ class Subscriber extends Model
 
     protected $guarded = [];
 
-    public function __construct()
-    {
-        $this->setConnection(config('mailcoach.database_connection'));
-    }
-
     public static function createWithEmail(string $email, array $attributes = []): PendingSubscriber
     {
         return new PendingSubscriber($email, $attributes);

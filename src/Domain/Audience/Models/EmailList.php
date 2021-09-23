@@ -36,11 +36,6 @@ class EmailList extends Model
         'email_list_summary_sent_at' => 'datetime',
     ];
 
-    public function __construct()
-    {
-        $this->setConnection(config('mailcoach.database_connection'));
-    }
-
     public function subscribers(): HasMany
     {
         return $this->allSubscribers()->subscribed();

@@ -29,11 +29,6 @@ class TransactionalMail extends Model
         'track_clicks' => 'boolean',
     ];
 
-    public function __construct()
-    {
-        $this->setConnection(config('mailcoach.database_connection'));
-    }
-
     public function send(): HasOne
     {
         return $this->hasOne($this->getSendClass(), 'transactional_mail_id');

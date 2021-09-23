@@ -15,11 +15,6 @@ class Tag extends Model
 
     public $guarded = [];
 
-    public function __construct()
-    {
-        $this->setConnection(config('mailcoach.database_connection'));
-    }
-
     public function subscribers()
     {
         return $this->belongsToMany(config('mailcoach.models.subscriber'), 'mailcoach_email_list_subscriber_tags', 'tag_id', 'subscriber_id');

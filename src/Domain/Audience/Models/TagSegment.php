@@ -23,11 +23,6 @@ class TagSegment extends Model
 
     public $guarded = [];
 
-    public function __construct()
-    {
-        $this->setConnection(config('mailcoach.database_connection'));
-    }
-
     public function campaigns(): HasMany
     {
         return $this->hasMany(config('mailcoach.models.campaign'));
