@@ -35,6 +35,11 @@ class Automation extends Model
 
     ];
 
+    public function __construct()
+    {
+        $this->setConnection(config('mailcoach.database_connection'));
+    }
+
     public static function booted()
     {
         static::creating(function (Automation $automation) {

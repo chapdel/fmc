@@ -45,6 +45,11 @@ class Send extends Model
         'failed_at',
     ];
 
+    public function __construct()
+    {
+        $this->setConnection(config('mailcoach.database_connection'));
+    }
+
     public function concernsCampaign(): bool
     {
         return ! is_null($this->campaign_id);

@@ -14,6 +14,11 @@ class AutomationMailUnsubscribe extends Model
 
     protected $guarded = [];
 
+    public function __construct()
+    {
+        $this->setConnection(config('mailcoach.database_connection'));
+    }
+
     public function campaign(): BelongsTo
     {
         return $this->belongsTo(config('mailcoach.models.campaign'), 'campaign_id');

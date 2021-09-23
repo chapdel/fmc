@@ -38,6 +38,11 @@ class SubscriberImport extends Model implements HasMedia, GetsCleanedUp
         'replace_tags' => 'boolean',
     ];
 
+    public function __construct()
+    {
+        $this->setConnection(config('mailcoach.database_connection'));
+    }
+
     public function emailList(): BelongsTo
     {
         return $this->belongsTo(config('mailcoach.models.email_list'), 'email_list_id');
