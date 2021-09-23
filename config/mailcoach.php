@@ -352,10 +352,4 @@ return [
          */
         'use_blade_components' => true,
     ],
-
-    /*
-     * Update the default database connection on all models
-     */
-    'database_connection' => config('MAILCOACH_DB_CONNECTION','mysql'),
-
 ];

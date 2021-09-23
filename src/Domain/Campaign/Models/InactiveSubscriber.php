@@ -20,11 +20,6 @@ class InactiveSubscriber extends Model
 
     protected $guarded = [];
 
-    public function __construct()
-    {
-        $this->setConnection(config('mailcoach.database_connection'));
-    }
-
     public function subscriber(): BelongsTo
     {
         return $this->belongsTo(config('mailcoach.models.subscriber'), 'subscriber_id');
