@@ -20,7 +20,7 @@ public function rules() {
 You can customize the validation error message publishing the lang files.
 
 ```php
-php artisan vendor:publish --provider="Spatie\Mailcoach\MailcoachServiceProvider" --tag="lang"
+php artisan vendor:publish --provider="Spatie\Mailcoach\MailcoachServiceProvider" --tag="mailcoach-translations"
 ```
 
 You'll find the message in `resources/lang/en/messages.php`.
