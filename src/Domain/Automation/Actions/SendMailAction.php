@@ -52,7 +52,7 @@ class SendMailAction
         $mailcoachMail
             ->setSend($pendingSend)
             ->subject($personalisedSubject)
-            ->setFrom($automationMail->fromEmail(), $automationMail->fromName())
+            ->setFrom($automationMail->fromEmail($pendingSend->subscriber), $automationMail->fromName($pendingSend->subscriber))
             ->setHtmlContent($personalisedHtml)
             ->setTextContent($personalisedText)
             ->setHtmlView('mailcoach::mails.automation.automationHtml')
@@ -64,8 +64,8 @@ class SendMailAction
                 $message->getHeaders()->addTextHeader('X-PM-Metadata-send-uuid', $pendingSend->uuid);
             });
 
-        if ($automationMail->reply_to_email) {
-            $mailcoachMail->setReplyTo($automationMail->reply_to_email, $automationMail->reply_to_name);
+        if ($automationMail->replyToEmail($pendingSend->subscriber)) {
+            $mailcoachMail->setReplyTo($automationMail->replyToEmail($pendingSend->subscriber), $automationMail->replyToName($pendingSend->subscriber));
         }
 
         $mailer = config('mailcoach.automation.mailer')

@@ -126,26 +126,6 @@ class AutomationMail extends Sendable
     {
         $this->ensureSendable();
 
-        if (empty($this->from_email)) {
-            $this->from_email = $subscriber->emailList->default_from_email ?? config('mail.from.address');
-            $this->save();
-        }
-
-        if (empty($this->from_name)) {
-            $this->from_name = $subscriber->emailList->default_from_name ?? config('mail.from.name');
-            $this->save();
-        }
-
-        if (empty($this->reply_to_email)) {
-            $this->reply_to_email = $subscriber->emailList->default_reply_to_email;
-            $this->save();
-        }
-
-        if (empty($this->reply_to_name)) {
-            $this->reply_to_name = $subscriber->emailList->default_reply_to_name;
-            $this->save();
-        }
-
         if ($this->hasCustomMailable()) {
             $this->pullSubjectFromMailable();
 
@@ -217,13 +197,23 @@ class AutomationMail extends Sendable
         return $this->getAutomationMailClass()::where($field, $value)->firstOrFail();
     }
 
-    public function fromEmail(): string
+    public function fromEmail(Subscriber $subscriber): string
     {
-        return $this->from_email ?? config('mail.from.address');
+        return $this->from_email ?? $subscriber->emailList->default_from_email ?? config('mail.from.address');
     }
 
-    public function fromName(): ?string
+    public function fromName(Subscriber $subscriber): ?string
     {
-        return $this->from_name;
+        return $this->from_name ?? $subscriber->emailList->default_from_name ?? config('mail.from.name');
+    }
+
+    public function replyToEmail(Subscriber $subscriber): ?string
+    {
+        return $this->reply_to_email ?? $subscriber->emailList->default_reply_to_email;
+    }
+
+    public function replyToName(Subscriber $subscriber): ?string
+    {
+        return $this->reply_to_name ?? $subscriber->emailList->default_reply_to_name;
     }
 }

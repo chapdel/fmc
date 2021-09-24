@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.10.2 - 2021-09-24
+
+- Automation mail from & reply to were being set unexpectedly (#713)
+
 ## 4.10.1 - 2021-09-20
 
 - Fix an issue with the WaitAction when loading old data.

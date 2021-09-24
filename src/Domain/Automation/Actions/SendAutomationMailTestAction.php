@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Actions;
 
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
@@ -19,8 +20,10 @@ class SendAutomationMailTestAction
 
         $text = $convertHtmlToTextAction->execute($html);
 
+        $subscriber = Subscriber::make();
+
         $mailable = resolve(MailcoachMail::class)
-            ->setFrom($mail->fromEmail(), $mail->fromName())
+            ->setFrom($mail->fromEmail($subscriber), $mail->fromName($subscriber))
             ->setHtmlContent($html)
             ->setTextContent($text)
             ->setHtmlView('mailcoach::mails.automation.automationHtml')
