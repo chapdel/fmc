@@ -21,15 +21,15 @@ beforeEach(function () {
     $automation = Automation::create()
         ->chain([
             new ConditionAction(
-                CarbonInterval::day(),
-                [
+                checkFor: CarbonInterval::day(),
+                yesActions: [
                     new SendAutomationMailAction(test()->automationMail),
                 ],
-                [
+                noActions: [
                     new HaltAction(),
                 ],
-                HasTagCondition::class,
-                ['tag' => 'some-tag']
+                condition: HasTagCondition::class,
+                conditionData: ['tag' => 'some-tag']
             ),
         ]);
 

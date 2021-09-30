@@ -13,6 +13,8 @@ class ConditionAction extends AutomationAction
 {
     public function __construct(
         protected CarbonInterval $checkFor,
+        protected ?int $length = null,
+        protected ?string $unit = null,
         protected array $yesActions = [],
         protected array $noActions = [],
         protected string $condition = '',
@@ -112,22 +114,39 @@ class ConditionAction extends AutomationAction
 
     public static function make(array $data): self
     {
+        if (isset($data['seconds'])) {
+            $interval = CarbonInterval::create(years: 0, seconds: $data['seconds']);
+            $length = $data['length'] ?? null;
+            $unit = $data['unit'] ?? null;
+        } else {
+            $interval = CarbonInterval::createFromDateString("{$data['length']} {$data['unit']}");
+            $length = $data['length'] ?? null;
+            $unit = $data['unit'] ?? null;
+        }
+
         return new self(
-            CarbonInterval::createFromDateString("{$data['length']} {$data['unit']}"),
-            $data['yesActions'],
-            $data['noActions'],
-            $data['condition'],
-            $data['conditionData'],
+            checkFor: $interval,
+            length: $length,
+            unit: $unit,
+            yesActions: $data['yesActions'],
+            noActions: $data['noActions'],
+            condition: $data['condition'],
+            conditionData: $data['conditionData'],
         );
     }
 
     public function toArray(): array
     {
-        [$length, $unit] = explode(' ', $this->checkFor->forHumans());
+        if (! isset($this->unit, $this->length)) {
+            [$length, $unit] = explode(' ', $this->checkFor->forHumans());
+            $this->length = (int) $length;
+            $this->unit = $unit;
+        }
 
         return [
-            'length' => $length,
-            'unit' => $unit,
+            'seconds' => $this->checkFor->totalSeconds,
+            'length' => $this->length,
+            'unit' => $this->unit,
             'condition' => $this->condition,
             'conditionData' => $this->conditionData,
             'yesActions' => collect($this->yesActions)->map(function ($action) {

@@ -6,6 +6,7 @@ All notable changes to `laravel-mailcoach` will be documented in this file
 
 - Use protected props for import subscribers action (#741)
 - Add an option to append tags when updating subscribers (#739)
+- Fix the ConditionAction breaking on different locales (#715)
 
 ## 4.10.2 - 2021-09-24
 
