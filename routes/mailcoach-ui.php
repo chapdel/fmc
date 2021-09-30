@@ -269,7 +269,3 @@ Route::prefix('templates')->group(function () {
         Route::post('duplicate', ['\\' . TemplatesController::class, 'duplicate'])->name('mailcoach.templates.duplicate');
     });
 });
-
-Route::prefix('landing')->group(function () {
-    Route::view('/subscribed', 'mailcoach::landingPages.subscribed')->name('mailcoach.landingPages.example');
-});
