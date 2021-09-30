@@ -29,11 +29,11 @@ class ImportSubscribersAction
 
     protected SubscriberImport $subscriberImport;
 
-    private ?TemporaryDirectory $temporaryDirectory;
+    protected ?TemporaryDirectory $temporaryDirectory;
 
-    private ?SimpleExcelWriter $succeededImportsReport;
+    protected ?SimpleExcelWriter $succeededImportsReport;
 
-    private ?SimpleExcelWriter $errorReport;
+    protected ?SimpleExcelWriter $errorReport;
 
     public function execute(SubscriberImport $subscriberImport, ?User $user = null)
     {
