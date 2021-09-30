@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.12.0 - 2021-09-30
+## What's new
+- Added a config option to switch the rate limit driver to either `redis` (default) or `cache`
+
 ## 4.11.0 - 2021-09-30
 
 ## What's fixed

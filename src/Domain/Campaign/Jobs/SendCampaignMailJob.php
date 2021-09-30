@@ -56,10 +56,16 @@ class SendCampaignMailJob implements ShouldQueue
     public function middleware()
     {
         $throttlingConfig = config('mailcoach.campaigns.throttling');
+        $rateLimitDriver = config('mailcoach.shared.rate_limit_driver', 'redis');
 
-        $rateLimitedMiddleware = (new RateLimited())
-            ->enabled($throttlingConfig['enabled'])
-            ->connectionName($throttlingConfig['redis_connection_name'])
+        if ($rateLimitDriver === 'redis') {
+            $rateLimitedMiddleware = (new RateLimited())
+                ->connectionName($throttlingConfig['redis_connection_name']);
+        } else {
+            $rateLimitedMiddleware = (new RateLimited(useRedis: false));
+        }
+
+        $rateLimitedMiddleware->enabled($throttlingConfig['enabled'])
             ->allow($throttlingConfig['allowed_number_of_jobs_in_timespan'])
             ->everySeconds($throttlingConfig['timespan_in_seconds'])
             ->releaseAfterSeconds($throttlingConfig['release_in_seconds']);

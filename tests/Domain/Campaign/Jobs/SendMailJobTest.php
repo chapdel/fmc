@@ -44,6 +44,24 @@ it('will rate limit', function () {
     Mail::assertSent(MailcoachMail::class, 1);
 });
 
+it('will rate limit with cache', function () {
+    config()->set('mailcoach.shared.rate_limit_driver', 'cache');
+
+    TestTime::freeze()->addDay();
+
+    config()->set('mailcoach.campaigns.throttling.allowed_number_of_jobs_in_timespan', 1);
+
+    $pendingSend = SendFactory::new()->create();
+    $pendingSend2 = SendFactory::new()->create();
+    $pendingSend3 = SendFactory::new()->create();
+
+    dispatch(new SendCampaignMailJob($pendingSend));
+    dispatch(new SendCampaignMailJob($pendingSend2));
+    dispatch(new SendCampaignMailJob($pendingSend3));
+
+    Mail::assertSent(MailcoachMail::class, 1);
+});
+
 it('will not resend a mail that has already been sent', function () {
     $pendingSend = SendFactory::new()->create();
 
