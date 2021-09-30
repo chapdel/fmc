@@ -74,6 +74,10 @@ class SubscribersController
     {
         $this->authorize("update", $subscriber->emailList);
 
+        if ($request->append_tags) {
+            $updateSubscriberAction->appendTags();
+        }
+
         $updateSubscriberAction->execute(
             $subscriber,
             $request->subscriberAttributes(),

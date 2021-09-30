@@ -137,3 +137,23 @@ it('can update a subscriber with extra attributes', function () {
     $subscriber->refresh();
     expect($subscriber->extra_attributes->foo)->toEqual($attributes['extra_attributes']['foo']);
 });
+
+it('can append tags when updating a subscriber', function () {
+    /** @var Subscriber $subscriber */
+    $subscriber = Subscriber::factory()
+        ->for(EmailList::factory(), 'emailList')
+        ->create()
+        ->addTags(['test1', 'test2']);
+
+    $attributes = [
+        'tags' => ['test3', 'test4'],
+        'append_tags' => true,
+    ];
+
+    $this
+        ->patchJson(action([SubscribersController::class, 'update'], $subscriber), $attributes)
+        ->assertSuccessful();
+
+    $subscriber->refresh();
+    expect($subscriber->tags->pluck('name')->toArray())->toEqual(['test1', 'test2', 'test3', 'test4']);
+});
