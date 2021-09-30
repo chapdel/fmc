@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.11.0 - 2021-09-30
+
+- Use protected props for import subscribers action (#741)
+- Add an option to append tags when updating subscribers (#739)
+
 ## 4.10.2 - 2021-09-24
 
 - Automation mail from & reply to were being set unexpectedly (#713)
