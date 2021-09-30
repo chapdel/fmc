@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns;
 
+use Illuminate\Mail\Mailable;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Exceptions\CouldNotFindTemplate;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
@@ -21,7 +22,7 @@ trait UsesMailcoachTemplate
             throw CouldNotFindTemplate::make($name, $this);
         }
 
-        $this->subject($template->subject);
+        $this->subject($this->executeReplacers($template->subject, $template, $this));
 
         if ($template->from) {
             $this->from($template->from);
@@ -54,8 +55,21 @@ trait UsesMailcoachTemplate
         return $this;
     }
 
+    protected function executeReplacers(string $text, TransactionalMailTemplate $template, Mailable $mailable): string
+    {
+        foreach ($template->replacers() as $replacer) {
+            $text = $replacer->replace($text, $mailable, $template);
+        }
+
+        return $text;
+    }
+
     protected static function testInstance(): self
     {
-        return new self();
+        $instance = new self();
+        $template = $instance->getTransactionalMailTemplateClass()::first();
+        $instance->subject($instance->executeReplacers($template->subject, $template, $instance));
+
+        return $instance;
     }
 }

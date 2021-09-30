@@ -87,3 +87,21 @@ it('will can use replacers to replace content', function () {
 
     expect($mailable->render())->toContain('test html test-argument-from-replacer');
 });
+
+it('will can use replacers to replace subject', function () {
+    /** @var TransactionalMailTemplate $template */
+    $template = TransactionalMailTemplate::factory()->create([
+        'name' => 'test-template',
+        'subject' => '::argument::',
+        'test_using_mailable' => TestMailableWithTemplate::class,
+        'replacers' => ['test'],
+    ]);
+
+    config()->set('mailcoach.transactional.replacers', [
+        'test' => TestTransactionalMailReplacer::class,
+    ]);
+
+    $mailable = $template->getMailable();
+
+    expect($mailable->subject)->toContain('test-argument-from-replacer');
+});
