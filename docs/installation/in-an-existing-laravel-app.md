@@ -339,28 +339,28 @@ return [
         'campaign' => Spatie\Mailcoach\Domain\Campaign\Models\Campaign::class,
 
         /*
-         * The model you want to use as a Campaign model. It needs to be or
+         * The model you want to use as a CampaignLink model. It needs to be or
          * extend the `Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink::class`
          * model.
          */
         'campaign_link' => \Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink::class,
 
         /*
-         * The model you want to use as a Campaign model. It needs to be or
+         * The model you want to use as a CampaignClick model. It needs to be or
          * extend the `Spatie\Mailcoach\Domain\Campaign\Models\CampaignClick::class`
          * model.
          */
         'campaign_click' => \Spatie\Mailcoach\Domain\Campaign\Models\CampaignClick::class,
 
         /*
-         * The model you want to use as a Campaign model. It needs to be or
+         * The model you want to use as a CampaignOpen model. It needs to be or
          * extend the `Spatie\Mailcoach\Domain\Campaign\Models\CampaignOpen::class`
          * model.
          */
         'campaign_open' => \Spatie\Mailcoach\Domain\Campaign\Models\CampaignOpen::class,
 
         /*
-         * The model you want to use as a Campaign model. It needs to be or
+         * The model you want to use as a CampaignUnsubscribe model. It needs to be or
          * extend the `Spatie\Mailcoach\Domain\Campaign\Models\CampaignUnsubscribe::class`
          * model.
          */
@@ -374,7 +374,7 @@ return [
         'email_list' => \Spatie\Mailcoach\Domain\Audience\Models\EmailList::class,
 
         /*
-         * The model you want to use as a EmailList model. It needs to be or
+         * The model you want to use as a Send model. It needs to be or
          * extend the `Spatie\Mailcoach\Domain\Shared\Models\Send::class`
          * model.
          */
