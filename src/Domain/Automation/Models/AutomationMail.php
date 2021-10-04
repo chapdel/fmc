@@ -21,14 +21,14 @@ class AutomationMail extends Sendable
 
     public function links(): HasMany
     {
-        return $this->hasMany(AutomationMailLink::class, 'automation_mail_id');
+        return $this->hasMany(static::getAutomationMailLinkClass(), 'automation_mail_id');
     }
 
     public function opens(): HasManyThrough
     {
         return $this
             ->hasManyThrough(
-                AutomationMailOpen::class,
+                static::getAutomationMailOpenClass(),
                 $this->getSendClass(),
                 'automation_mail_id'
             )
@@ -39,7 +39,7 @@ class AutomationMail extends Sendable
     {
         return $this
             ->hasManyThrough(
-                AutomationMailClick::class,
+                static::getAutomationMailClickClass(),
                 $this->getSendClass(),
                 'automation_mail_id'
             )
@@ -53,7 +53,7 @@ class AutomationMail extends Sendable
 
     public function unsubscribes(): HasMany
     {
-        return $this->hasMany(AutomationMailUnsubscribe::class, 'automation_mail_id');
+        return $this->hasMany(static::getAutomationMailUnsubscribeClass(), 'automation_mail_id');
     }
 
     public function bounces(): HasManyThrough

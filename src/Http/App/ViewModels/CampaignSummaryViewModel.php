@@ -5,10 +5,13 @@ namespace Spatie\Mailcoach\Http\App\ViewModels;
 use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Support\Svg\BezierCurve;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\ViewModels\ViewModel;
 
 class CampaignSummaryViewModel extends ViewModel
 {
+    use UsesMailcoachModels;
+
     protected Campaign $campaign;
 
     protected Collection $stats;
@@ -82,10 +85,13 @@ class CampaignSummaryViewModel extends ViewModel
         return Collection::times(24)->map(function (int $number) use ($start) {
             $datetime = $start->addHours($number - 1);
 
+            $campaignOpenTable = static::getCampaignOpenTableName();
+            $campaignClickTable = static::getCampaignClickTableName();
+
             return [
                 'label' => $datetime->format('H:i'),
-                'opens' => $this->campaign->opens()->whereBetween('mailcoach_campaign_opens.created_at', [$datetime, $datetime->addHour()])->count(),
-                'clicks' => $this->campaign->clicks()->whereBetween('mailcoach_campaign_clicks.created_at', [$datetime, $datetime->addHour()])->count(),
+                'opens' => $this->campaign->opens()->whereBetween("{$campaignOpenTable}.created_at", [$datetime, $datetime->addHour()])->count(),
+                'clicks' => $this->campaign->clicks()->whereBetween("{$campaignClickTable}.created_at", [$datetime, $datetime->addHour()])->count(),
             ];
         });
     }

@@ -94,17 +94,17 @@ class Campaign extends Sendable implements Feedable
 
     public function links(): HasMany
     {
-        return $this->hasMany(CampaignLink::class, 'campaign_id');
+        return $this->hasMany(static::getCampaignLinkClass(), 'campaign_id');
     }
 
     public function clicks(): HasManyThrough
     {
-        return $this->hasManyThrough(CampaignClick::class, CampaignLink::class, 'campaign_id');
+        return $this->hasManyThrough(static::getCampaignClickClass(), static::getCampaignLinkClass(), 'campaign_id');
     }
 
     public function opens(): HasMany
     {
-        return $this->hasMany(CampaignOpen::class, 'campaign_id');
+        return $this->hasMany(static::getCampaignOpenClass(), 'campaign_id');
     }
 
     public function sends(): HasMany
@@ -114,7 +114,7 @@ class Campaign extends Sendable implements Feedable
 
     public function unsubscribes(): HasMany
     {
-        return $this->hasMany(CampaignUnsubscribe::class, 'campaign_id');
+        return $this->hasMany(static::getCampaignUnsubscribeClass(), 'campaign_id');
     }
 
     public function bounces(): HasManyThrough

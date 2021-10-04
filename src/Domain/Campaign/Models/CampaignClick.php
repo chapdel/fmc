@@ -23,7 +23,7 @@ class CampaignClick extends Model
 
     public function link(): BelongsTo
     {
-        return $this->belongsTo(CampaignLink::class, 'campaign_link_id');
+        return $this->belongsTo(static::getCampaignLinkClass(), 'campaign_link_id');
     }
 
     public function subscriber(): BelongsTo

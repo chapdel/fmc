@@ -20,7 +20,6 @@ use Spatie\Mailcoach\Domain\Campaign\Events\BounceRegisteredEvent;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignLinkClickedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignOpenedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignClick;
-use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignOpen;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Actions\StripUtmTagsFromUrlAction;
@@ -87,22 +86,22 @@ class Send extends Model
 
     public function opens(): HasMany
     {
-        return $this->hasMany(CampaignOpen::class, 'send_id');
+        return $this->hasMany(static::getCampaignOpenClass(), 'send_id');
     }
 
     public function clicks(): HasMany
     {
-        return $this->hasMany(CampaignClick::class, 'send_id');
+        return $this->hasMany(static::getCampaignClickClass(), 'send_id');
     }
 
     public function automationMailOpens(): HasMany
     {
-        return $this->hasMany(AutomationMailOpen::class, 'send_id');
+        return $this->hasMany(static::getAutomationMailOpenClass(), 'send_id');
     }
 
     public function automationMailClicks(): HasMany
     {
-        return $this->hasMany(AutomationMailClick::class, 'send_id');
+        return $this->hasMany(static::getAutomationMailClickClass(), 'send_id');
     }
 
     public function transactionalMailOpens(): HasMany
@@ -187,7 +186,7 @@ class Send extends Model
             return null;
         }
 
-        $campaignOpen = CampaignOpen::create([
+        $campaignOpen = static::getCampaignOpenClass()::create([
             'send_id' => $this->id,
             'campaign_id' => $this->campaign->id,
             'subscriber_id' => $this->subscriber->id,
@@ -211,7 +210,7 @@ class Send extends Model
             return null;
         }
 
-        $automationMailOpen = AutomationMailOpen::create([
+        $automationMailOpen = static::getAutomationMailOpenClass()::create([
             'send_id' => $this->id,
             'automation_mail_id' => $this->automationMail->id,
             'subscriber_id' => $this->subscriber->id,
@@ -283,7 +282,7 @@ class Send extends Model
             return null;
         }
 
-        $campaignLink = CampaignLink::firstOrCreate([
+        $campaignLink = static::getCampaignLinkClass()::firstOrCreate([
             'campaign_id' => $this->campaign->id,
             'url' => $url,
         ]);
@@ -308,7 +307,7 @@ class Send extends Model
         }
 
         /** @var AutomationMailLink $automationMailLink */
-        $automationMailLink = AutomationMailLink::firstOrCreate([
+        $automationMailLink = static::getAutomationMailLinkClass()::firstOrCreate([
             'automation_mail_id' => $this->automationMail->id,
             'url' => $url,
         ]);

@@ -60,8 +60,8 @@ class CalculateStatisticsAction
     {
         $sendable->links()->each(function (CampaignLink | AutomationMailLink $link) {
             $tableName = $link instanceof CampaignLink
-                ? 'mailcoach_campaign_clicks'
-                : 'mailcoach_automation_mail_clicks';
+                ? static::getCampaignClickTableName()
+                : static::getAutomationMailClickTableName();
 
             $link->update([
                 'click_count' => $link->clicks()->count(),
@@ -75,8 +75,8 @@ class CalculateStatisticsAction
     protected function calculateClickMetrics(Sendable $sendable, int $sendToNumberOfSubscribers): array
     {
         $tableName = $sendable instanceof Campaign
-            ? 'mailcoach_campaign_clicks'
-            : 'mailcoach_automation_mail_clicks';
+            ? static::getCampaignClickTableName()
+            : static::getAutomationMailClickTableName();
 
         $clickCount = $sendable->clicks()->count();
         $uniqueClickCount = $sendable->clicks()->groupBy("{$tableName}.subscriber_id")->toBase()->select("{$tableName}.subscriber_id")->getCountForPagination(['subscriber_id']);
@@ -88,8 +88,8 @@ class CalculateStatisticsAction
     protected function calculateOpenMetrics(Sendable $sendable, int $sendToNumberOfSubscribers): array
     {
         $tableName = $sendable instanceof Campaign
-            ? 'mailcoach_campaign_opens'
-            : 'mailcoach_automation_mail_opens';
+            ? static::getCampaignOpenTableName()
+            : static::getAutomationMailOpenTableName();
 
         $openCount = $sendable->opens()->count();
         $uniqueOpenCount = $sendable->opens()->groupBy("{$tableName}.subscriber_id")->toBase()->select("{$tableName}.subscriber_id")->getCountForPagination(['subscriber_id']);

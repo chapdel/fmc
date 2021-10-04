@@ -8,10 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class CampaignLink extends Model
 {
     use HasFactory;
+    use UsesMailcoachModels;
 
     public $table = 'mailcoach_campaign_links';
 
@@ -29,7 +31,7 @@ class CampaignLink extends Model
 
     public function clicks(): HasMany
     {
-        return $this->hasMany(CampaignClick::class);
+        return $this->hasMany(static::getCampaignClickClass());
     }
 
     public function registerClick(Send $send, ?DateTimeInterface $clickedAt = null): CampaignClick

@@ -18,11 +18,7 @@ use Spatie\Mailcoach\Domain\Audience\Events\UnsubscribedEvent;
 use Spatie\Mailcoach\Domain\Audience\Support\PendingSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailUnsubscribe;
 use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
-use Spatie\Mailcoach\Domain\Campaign\Models\CampaignClick;
-use Spatie\Mailcoach\Domain\Campaign\Models\CampaignOpen;
-use Spatie\Mailcoach\Domain\Campaign\Models\CampaignUnsubscribe;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasExtraAttributes;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
@@ -70,12 +66,12 @@ class Subscriber extends Model
 
     public function opens(): HasMany
     {
-        return $this->hasMany(CampaignOpen::class, 'subscriber_id');
+        return $this->hasMany(static::getCampaignOpenClass(), 'subscriber_id');
     }
 
     public function clicks(): HasMany
     {
-        return $this->hasMany(CampaignClick::class, 'subscriber_id');
+        return $this->hasMany(static::getCampaignClickClass(), 'subscriber_id');
     }
 
     public function uniqueClicks(): HasMany
@@ -117,7 +113,7 @@ class Subscriber extends Model
 
         if ($send) {
             if ($send->campaign_id) {
-                CampaignUnsubscribe::firstOrCreate([
+                static::getCampaignUnsubscribeClass()::firstOrCreate([
                     'campaign_id' => $send->campaign->id,
                     'subscriber_id' => $send->subscriber->id,
                 ]);
@@ -126,7 +122,7 @@ class Subscriber extends Model
             }
 
             if ($send->automation_mail_id) {
-                AutomationMailUnsubscribe::firstOrCreate([
+                static::getAutomationMailUnsubscribeClass()::firstOrCreate([
                     'automation_mail_id' => $send->automationMail->id,
                     'subscriber_id' => $send->subscriber->id,
                 ]);

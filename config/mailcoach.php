@@ -275,6 +275,34 @@ return [
         'campaign' => Spatie\Mailcoach\Domain\Campaign\Models\Campaign::class,
 
         /*
+         * The model you want to use as a Campaign model. It needs to be or
+         * extend the `Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink::class`
+         * model.
+         */
+        'campaign_link' => \Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink::class,
+
+        /*
+         * The model you want to use as a Campaign model. It needs to be or
+         * extend the `Spatie\Mailcoach\Domain\Campaign\Models\CampaignClick::class`
+         * model.
+         */
+        'campaign_click' => \Spatie\Mailcoach\Domain\Campaign\Models\CampaignClick::class,
+
+        /*
+         * The model you want to use as a Campaign model. It needs to be or
+         * extend the `Spatie\Mailcoach\Domain\Campaign\Models\CampaignOpen::class`
+         * model.
+         */
+        'campaign_open' => \Spatie\Mailcoach\Domain\Campaign\Models\CampaignOpen::class,
+
+        /*
+         * The model you want to use as a Campaign model. It needs to be or
+         * extend the `Spatie\Mailcoach\Domain\Campaign\Models\CampaignUnsubscribe::class`
+         * model.
+         */
+        'campaign_unsubscribe' => \Spatie\Mailcoach\Domain\Campaign\Models\CampaignUnsubscribe::class,
+
+        /*
          * The model you want to use as a EmailList model. It needs to be or
          * extend the `Spatie\Mailcoach\Domain\Audience\Models\EmailList::class`
          * model.
@@ -335,6 +363,34 @@ return [
          * extend the `\Spatie\Mailcoach\Domain\Automation\Models\AutomationMail::class` model.
          */
         'automation_mail' => \Spatie\Mailcoach\Domain\Automation\Models\AutomationMail::class,
+
+        /*
+         * The model you want to use as a Campaign model. It needs to be or
+         * extend the `Spatie\Mailcoach\Domain\Automation\Models\AutomationMailLink::class`
+         * model.
+         */
+        'automation_mail_link' => \Spatie\Mailcoach\Domain\Automation\Models\AutomationMailLink::class,
+
+        /*
+         * The model you want to use as a Campaign model. It needs to be or
+         * extend the `Spatie\Mailcoach\Domain\Automation\Models\AutomationMailClick::class`
+         * model.
+         */
+        'automation_mail_click' => \Spatie\Mailcoach\Domain\Automation\Models\AutomationMailClick::class,
+
+        /*
+         * The model you want to use as a Campaign model. It needs to be or
+         * extend the `Spatie\Mailcoach\Domain\Automation\Models\AutomationMailOpen::class`
+         * model.
+         */
+        'automation_mail_open' => \Spatie\Mailcoach\Domain\Automation\Models\AutomationMailOpen::class,
+
+        /*
+         * The model you want to use as a Campaign model. It needs to be or
+         * extend the `Spatie\Mailcoach\Domain\Automation\Models\AutomationMailUnsubscribe::class`
+         * model.
+         */
+        'automation_mail_unsubscribe' => \Spatie\Mailcoach\Domain\Automation\Models\AutomationMailUnsubscribe::class,
 
         /*
          * The model you want to use as the pivot between an Automation Action model
