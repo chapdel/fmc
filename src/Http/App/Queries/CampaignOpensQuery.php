@@ -20,7 +20,6 @@ class CampaignOpensQuery extends QueryBuilder
         $prefix = DB::getTablePrefix();
 
         $campaignOpenTable = static::getCampaignOpenTableName();
-        $campaignClickTable = static::getCampaignClickTableName();
 
         $query = static::getCampaignOpenClass()::query()
             ->selectRaw("

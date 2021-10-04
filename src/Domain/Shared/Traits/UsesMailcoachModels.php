@@ -74,33 +74,21 @@ trait UsesMailcoachModels
         return config('mailcoach.models.automation_mail', AutomationMail::class);
     }
 
-    /**
-     * @return class-string<AutomationMailLink>
-     */
     public static function getAutomationMailLinkClass(): string
     {
         return config('mailcoach.models.automation_mail_link', AutomationMailLink::class);
     }
 
-    /**
-     * @return class-string<AutomationMailClick>
-     */
     public static function getAutomationMailClickClass(): string
     {
         return config('mailcoach.models.automation_mail_click', AutomationMailClick::class);
     }
 
-    /**
-     * @return class-string<AutomationMailOpen>
-     */
     public static function getAutomationMailOpenClass(): string
     {
         return config('mailcoach.models.automation_mail_open', AutomationMailOpen::class);
     }
 
-    /**
-     * @return class-string<AutomationMailUnsubscribe>
-     */
     public static function getAutomationMailUnsubscribeClass(): string
     {
         return config('mailcoach.models.automation_mail_unsubscribe', AutomationMailUnsubscribe::class);
