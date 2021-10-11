@@ -12,6 +12,7 @@ use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailClick;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailLink;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailOpen;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailUnsubscribe;
+use Spatie\Mailcoach\Domain\Automation\Models\Trigger;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignClick;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
@@ -67,6 +68,11 @@ trait UsesMailcoachModels
     public static function getAutomationActionClass(): string
     {
         return config('mailcoach.models.automation_action', Action::class);
+    }
+
+    public static function getAutomationTriggerClass(): string
+    {
+        return config('mailcoach.models.automation_trigger', Trigger::class);
     }
 
     public static function getAutomationMailClass(): string
@@ -187,6 +193,16 @@ trait UsesMailcoachModels
         $action = new $actionClass;
 
         return $action->getTable();
+    }
+
+    public static function getAutomationTriggerTableName(): string
+    {
+        /** @var \Illuminate\Database\Eloquent\Model $action */
+        $className = self::getAutomationTriggerClass();
+
+        $class = new $className;
+
+        return $class->getTable();
     }
 
     public static function getCampaignLinkTableName(): string

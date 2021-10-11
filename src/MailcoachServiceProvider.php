@@ -353,7 +353,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
     {
         try {
             $triggers = cache()->rememberForever('automation-triggers', function () {
-                return Trigger::with(['automation'])->has('automation')->get();
+                return static::getAutomationTriggerClass()::with(['automation'])->has('automation')->get();
             });
 
             $triggers

@@ -21,7 +21,7 @@ class RunAutomationTriggersCommand extends Command
     {
         $this->comment('Start running triggers...');
 
-        Trigger::query()
+        static::getAutomationTriggerClass()::query()
             ->whereHas('automation', function (Builder $query) {
                 $query
                     ->whereHas('actions')

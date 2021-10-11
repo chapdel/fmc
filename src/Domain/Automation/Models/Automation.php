@@ -57,7 +57,7 @@ class Automation extends Model
 
     public function triggers(): HasMany
     {
-        return $this->hasMany(Trigger::class);
+        return $this->hasMany(static::getAutomationTriggerClass());
     }
 
     public function getTrigger(): ?AutomationTrigger

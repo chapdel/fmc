@@ -359,6 +359,13 @@ return [
         'automation_action' => \Spatie\Mailcoach\Domain\Automation\Models\Action::class,
 
         /*
+         * The model you want to use as a Trigger model. It needs to be or
+         * extend the `\Spatie\Mailcoach\Domain\Automation\Models\Trigger::class`
+         * model.
+         */
+        'automation_trigger' => \Spatie\Mailcoach\Domain\Automation\Models\Trigger::class,
+
+        /*
          * The model you want to use as an Automation mail model. It needs to be or
          * extend the `\Spatie\Mailcoach\Domain\Automation\Models\AutomationMail::class` model.
          */
