@@ -6,7 +6,7 @@
         <dl class="dl markup-links">
             @php($issueBody.='**Environment**: ' . app()->environment() . "\n")
             <dt>
-                <x-mailcoach::health-label :test="!app()->environment('local')" warning="true" :label="__('Environment')" />  
+                <x-mailcoach::health-label :test="!app()->environment('local')" warning="true" :label="__('Environment')" />
             </dt>
             <dd>
                 <div>
@@ -22,33 +22,35 @@
                 {{ config('app.debug') ? 'ON' : 'OFF' }}
             </dd>
 
-            @php($issueBody.='**Horizon**: ' . ($horizonStatus->is(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::STATUS_ACTIVE) ? 'Active' : 'Inactive') . "\n")
-            <dt>
-                <x-mailcoach::health-label :test="$horizonStatus->is(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::STATUS_ACTIVE)" :label="__('Horizon')" />
-            </dt>
-            <dd>
-                <p>
-                @if($horizonStatus->is(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::STATUS_ACTIVE))
-                    {{ __('Active') }}
-                @else
-                    {!! __('Horizon is inactive. <a target="_blank" href=":docsLink">Read the docs</a>.', ['docsLink' => 'https://spatie.be/docs/laravel-mailcoach']) !!}
-                @endif
-                </p>
-            </dd>
-
-            @php($issueBody.='**Queue** connection: ' . ($hasQueueConnection ? 'OK' : 'Not OK') . "\n")
-            <dt>
-                <x-mailcoach::health-label :test="$hasQueueConnection"  :label="__('Queue connection')" />
-            </dt>
-            <dd>
-                <p>
-                    @if($hasQueueConnection)
-                    {!! __('Queue connection settings for <code>mailcoach-redis</code> exist.') !!}
+            @if(! $usesVapor)
+                @php($issueBody.='**Horizon**: ' . ($horizonStatus->is(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::STATUS_ACTIVE) ? 'Active' : 'Inactive') . "\n")
+                <dt>
+                    <x-mailcoach::health-label :test="$horizonStatus->is(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::STATUS_ACTIVE)" :label="__('Horizon')" />
+                </dt>
+                <dd>
+                    <p>
+                    @if($horizonStatus->is(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::STATUS_ACTIVE))
+                        {{ __('Active') }}
                     @else
-                        {!! __('No valid <strong>queue connection</strong> found. Configure a queue connection with the <strong>mailcoach-redis</strong> key. <a target="_blank" href=":docsLink">Read the docs</a>.', ['docsLink' => 'https://spatie.be/docs/laravel-mailcoach']) !!}
+                        {!! __('Horizon is inactive. <a target="_blank" href=":docsLink">Read the docs</a>.', ['docsLink' => 'https://spatie.be/docs/laravel-mailcoach']) !!}
                     @endif
-                </p>
-            </dd>
+                    </p>
+                </dd>
+
+                @php($issueBody.='**Queue** connection: ' . ($hasQueueConnection ? 'OK' : 'Not OK') . "\n")
+                <dt>
+                    <x-mailcoach::health-label :test="$hasQueueConnection"  :label="__('Queue connection')" />
+                </dt>
+                <dd>
+                    <p>
+                        @if($hasQueueConnection)
+                        {!! __('Queue connection settings for <code>mailcoach-redis</code> exist.') !!}
+                        @else
+                            {!! __('No valid <strong>queue connection</strong> found. Configure a queue connection with the <strong>mailcoach-redis</strong> key. <a target="_blank" href=":docsLink">Read the docs</a>.', ['docsLink' => 'https://spatie.be/docs/laravel-mailcoach']) !!}
+                        @endif
+                    </p>
+                </dd>
+            @endif
 
             @php($issueBody.='**Webhooks**: ' . $webhookTableCount . " unprocessed webhooks\n")
             <dt>
@@ -56,7 +58,7 @@
             </dt>
             <dd>
                 @if($webhookTableCount === 0)
-                    {{ __('All webhooks are processed.') }} 
+                    {{ __('All webhooks are processed.') }}
                 @else
                     {{ __(':count unprocessed webhooks.', ['count' => $webhookTableCount ]) }}
                 @endif
@@ -127,37 +129,37 @@
                 <dd>
                     <code>{{ base_path() }}</code>
                 </dd>
-           
+
                 @php($issueBody.="**User agent**: " . $_SERVER['HTTP_USER_AGENT'] . "\n")
                 <dt>User agent</dt>
                 <dd>
                     <code>{{ $_SERVER['HTTP_USER_AGENT'] }}</code>
                 </dd>
-           
+
                 @php($issueBody.="**PHP version**: " . PHP_VERSION . "\n")
                 <dt>PHP</dt>
                 <dd>
                     <code>{{ PHP_VERSION }}</code>
                 </dd>
-            
+
                 @php($issueBody.="**" . config('database.default') . " version**: " . $mysqlVersion . "\n")
                 <dt>{{ config('database.default') }}</dt>
                 <dd>
                     <code>{{ $mysqlVersion }}</code>
                 </dd>
-           
+
                 @php($issueBody.="**Laravel version**: " . app()->version() . "\n")
                 <dt>Laravel</dt>
                 <dd>
                     <code>{{ app()->version() }}</code>
                 </dd>
-           
+
                 @php($issueBody.="**Horizon version**: " . $horizonVersion . "\n")
                 <dt>Horizon</dt>
                 <dd>
                     <code>{{ $horizonVersion }}</code>
                 </dd>
-         
+
                 @php($issueBody.="**laravel-mailcoach version**: " . $versionInfo->getCurrentVersion('laravel-mailcoach') . "\n")
                 <dt>laravel-mailcoach</dt>
                 <dd>

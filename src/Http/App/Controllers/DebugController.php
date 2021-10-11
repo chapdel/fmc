@@ -21,6 +21,7 @@ class DebugController
             ->whereNull('processed_at')
             ->count();
         $lastScheduleRun = Cache::get('mailcoach-last-schedule-run');
+        $usesVapor = InstalledVersions::isInstalled("laravel/vapor-core")
 
         return view('mailcoach::app.debug', compact(
             'versionInfo',
@@ -30,6 +31,7 @@ class DebugController
             'horizonVersion',
             'webhookTableCount',
             'lastScheduleRun',
+            'usesVapor',
         ));
     }
 
