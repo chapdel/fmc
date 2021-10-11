@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Shared\Support;
 
+use InvalidArgumentException;
 use Laravel\Horizon\Contracts\MasterSupervisorRepository;
 use RedisException;
 
@@ -25,7 +26,7 @@ class HorizonStatus
     {
         try {
             $masters = $this->masterSupervisorRepository->all();
-        } catch (RedisException $exception) {
+        } catch (RedisException|InvalidArgumentException $exception) {
             $masters = false;
         }
 
