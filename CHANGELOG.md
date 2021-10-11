@@ -6,7 +6,7 @@ All notable changes to `laravel-mailcoach` will be documented in this file
 ## What's new
 - Add trigger model to config (#750)
 
-## 4.13.0 - 2021-10-94
+## 4.13.0 - 2021-10-09
 ## What's new
 - Add Campaign & Automation Mail Link/Click/Open/Unsubscribe to config
 
