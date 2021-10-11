@@ -24,10 +24,9 @@ of your spatie.be account. The password is the key of your [Mailcoach license](/
 
 In `vapor.yml` you should set the `id` and `name` keys to the id and name of your Vapor project.
 
-Mailcoach uses a database to store information. Make sure you have a [provisioned a database in Vapor](https://docs.vapor.build/1.0/resources/databases.html#creating-databases).
+Mailcoach uses a database to store information. Make sure you have a [provisioned a database in Vapor](https://docs.vapor.build/1.0/resources/databases.html#creating-databases) and specify its name in the `database` key. in `vapor.yml`.
 
-Specify the name of your database in the `database` key of the `vapor.yml`
-config file.
+Mailcoach uses Redis to reliably throttle API calls to email sending services.  You should [provision a Redis cache at Vapor](https://docs.vapor.build/1.0/resources/caches.html#creating-caches) and specify the name of your cache in `vapor.yml`
 
 ## Deploying to Vapor
 

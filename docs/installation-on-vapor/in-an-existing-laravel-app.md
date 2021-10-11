@@ -400,7 +400,7 @@ return [
 ];
 ```
 
-⚠️ If you do not have Redis configured at Vapor, make sure to set the `rate_limit_driver` to `cache`.
+⚠️ You must use Redis as a cache to let throttling work reliably, make sure to set the `rate_limit_driver` to `redis`.
 
 ## Configure an email sending service
 
@@ -419,14 +419,22 @@ To configure tracking open, clicks, bounces & complaints, follow the instruction
 - [Sendgrid](/docs/laravel-mailcoach/v4/configuring-mail-providers/sendgrid)
 - [Postmark](/docs/laravel-mailcoach/v4/configuring-mail-providers/postmark)
 
+### Configuring vapor.yml
+
+In `vapor.yml` you should set the `id` and `name` keys to the id and name of your Vapor project.
+
+Mailcoach uses a database to store information. Make sure you have a [provisioned a database in Vapor](https://docs.vapor.build/1.0/resources/databases.html#creating-databases) and specify its name in the `database` key. in `vapor.yml`.
+
+Mailcoach uses Redis to reliably throttle API calls to email sending services.  You should [provision a Redis cache at Vapor](https://docs.vapor.build/1.0/resources/caches.html#creating-caches) and specify the name of your cache in `vapor.yml`
+
 ## Prepare the database
 
-You need to publish and run the migration:
+You need to publish the migration:
 
 ```bash
 php artisan vendor:publish --provider="Spatie\Mailcoach\MailcoachServiceProvider" --tag="mailcoach-migrations"
-php artisan migrate
 ```
+
 
 ## Add the route macro
 
