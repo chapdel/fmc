@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.14.2 - 2021-10-11
+
+- improve compatibility with Vapor
+
 ## 4.14.1 - 2021-10-11
 
 - improve compatibility with Vapor
