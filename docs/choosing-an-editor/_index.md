@@ -1,4 +1,4 @@
 ---
 title: Choosing an editor
-weight: 9
+weight: 10
 ---

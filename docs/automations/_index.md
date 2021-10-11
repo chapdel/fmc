@@ -1,4 +1,4 @@
 ---
 title: Automations
-weight: 5
+weight: 6
 ---

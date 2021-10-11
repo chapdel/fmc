@@ -1,4 +1,4 @@
 ---
 title: Configuring mail providers
-weight: 3
+weight: 11
 ---

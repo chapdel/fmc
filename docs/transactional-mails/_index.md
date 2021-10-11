@@ -1,4 +1,4 @@
 ---
 title: Transactional mails
-weight: 7
+weight: 8
 ---

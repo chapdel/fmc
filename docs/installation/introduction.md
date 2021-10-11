@@ -5,7 +5,7 @@ weight: 1
 
 Before installing Mailcoach, make sure you have [a valid license](/docs/laravel-mailcoach/v4/installation/getting-a-license).
 
-There are three ways to install Mailcoach:
+There are three ways to install Mailcoach on traditional hosting (for Vapor, head to [the dedicated instructions](/docs/laravel-mailcoach/v4/installation-on-vapor/):
 
 1. If you already have a Laravel 8 application, you can install Mailcoach as a package inside it. Doing so, you can integrate Mailcoach in your application in many interesting ways. If you know Laravel, then this is the recommended route. Head over to the [package installation instructions](/docs/laravel-mailcoach/v4/installation/in-an-existing-laravel-app) to continue.
 
