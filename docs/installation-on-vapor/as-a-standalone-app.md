@@ -59,6 +59,8 @@ Now that you are logged in you must configure the email sending service you'd li
 - [Mailgun](/docs/laravel-mailcoach/v4/configuring-mail-providers/mailgun)
 - [Postmark](/docs/laravel-mailcoach/v4/configuring-mail-providers/postmark)
 
+⚠️ You should configure a mailer before creating your first email list.
+
 ### Making sure everything works
 
 Before sending out a real campaign, we highly recommend creating a small email list with a couple of test email addresses and send a campaign to it. This way, you can verify that sending mails, and the open & click tracking are all working correctly.
