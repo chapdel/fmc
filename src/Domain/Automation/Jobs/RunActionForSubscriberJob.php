@@ -45,11 +45,12 @@ class RunActionForSubscriberJob implements ShouldQueue
         /** @var AutomationAction $action */
         $action = $this->action->action;
 
-        $actionSubscribers = $this->action->subscribers()
-            ->withPivot('run_at')
-            ->where('subscriber_id', $this->subscriber->id)
-            ->get()
-            ->map(fn (Subscriber $subscriber) => $subscriber->pivot);
+        $actionSubscribers = ActionSubscriber::query()
+            ->where('subscriber_id', '=', $this->subscriber->id)
+            ->where('action_id', '=', $this->action->id)
+            ->whereNull(['halted_at', 'completed_at'])
+            ->with(['subscriber'])
+            ->get();
 
         if (! $actionSubscribers->count()) {
             return;
@@ -65,7 +66,10 @@ class RunActionForSubscriberJob implements ShouldQueue
                 $action->run($subscriber, $actionSubscriber);
 
                 if ($action->shouldHalt($subscriber) || ! $subscriber->isSubscribed()) {
-                    $actionSubscriber->update(['halted_at' => now(), 'run_at' => now()]);
+                    $actionSubscriber->update([
+                        'halted_at' => now(),
+                        'run_at' => now(),
+                    ]);
 
                     return;
                 }
@@ -79,6 +83,7 @@ class RunActionForSubscriberJob implements ShouldQueue
 
             if (is_null($actionSubscriber->completed_at)) {
                 $nextActions = $action->nextActions($subscriber);
+
                 if (count(array_filter($nextActions))) {
                     foreach ($nextActions as $nextAction) {
                         $nextAction->attachSubscriber($subscriber, $actionSubscriber);
