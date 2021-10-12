@@ -9,7 +9,7 @@ use CreateUsersTable;
 use CreateWebhookCallsTable;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
@@ -34,7 +34,7 @@ use Spatie\TestTime\TestTime;
 
 abstract class TestCase extends Orchestra
 {
-    use RefreshDatabase;
+    use LazilyRefreshDatabase;
     use UsesMailcoachModels;
 
     protected function setUp(): void
