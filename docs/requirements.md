@@ -19,7 +19,6 @@ Mailcoach on Vapor requires
 
 - PHP 8.0 or higher
 - Docker (installed locally to deploy to Vapor)
-- Redis
 - Laravel 8 or higher
 - Redis
 - MySQL 8.0 or higher
