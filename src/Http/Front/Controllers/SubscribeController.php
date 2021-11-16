@@ -14,9 +14,7 @@ class SubscribeController
 
     public function __invoke(CreateSubscriptionRequest $request)
     {
-        if (! $emailList = $request->emailList()) {
-            abort(404, 'Could not find the list');
-        }
+        $emailList = $request->emailList();
 
         if ($emailList->getSubscriptionStatus($request->email) === SubscriptionStatus::SUBSCRIBED) {
             $subscriber = $this->getSubscriberClass()::findForEmail($request->email, $emailList);
