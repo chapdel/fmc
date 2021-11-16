@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.15.1 - 2021-11-16
+
+## What's Changed
+
+- Add method to code example by @willemvb in https://github.com/spatie/laravel-mailcoach/pull/788
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/4.15.0...4.15.1
+
 ## 4.15.0 - 2021-11-16
 
 ## What's Changed
