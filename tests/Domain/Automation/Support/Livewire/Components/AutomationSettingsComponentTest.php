@@ -7,7 +7,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Actions\UnsubscribeAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\WebhookTrigger;
 
-it('can start and pause an automation', function () {
+it('can change automation settings', function () {
     /** @var Automation $automation */
     $automation = Automation::factory()->create();
     $automation->triggerOn(new SubscribedTrigger());
@@ -17,10 +17,7 @@ it('can start and pause an automation', function () {
 
     Livewire::test('automation-settings', [
         'automation' => $automation,
-    ])->assertViewHas('triggerOptions', collect(config('mailcoach.automation.flows.triggers'))
-        ->mapWithKeys(function (string $trigger) {
-            return [$trigger => $trigger::getName()];
-        }))
+    ])->assertViewHas('triggerOptions')
     ->assertViewHas('emailLists', EmailList::with('segments')->get())
     ->assertViewHas('segmentsData')
     ->assertViewHas('selectedTrigger', SubscribedTrigger::class)
