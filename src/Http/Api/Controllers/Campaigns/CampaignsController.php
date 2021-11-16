@@ -24,6 +24,13 @@ class CampaignsController
         return CampaignResource::collection($campaigns->paginate());
     }
 
+    public function show(Campaign $campaign)
+    {
+        $this->authorize("viewAny", static::getCampaignClass());
+
+        return new CampaignResource($campaign);
+    }
+
     public function store(
         CampaignRequest $request,
         UpdateCampaignAction $updateCampaignAction
