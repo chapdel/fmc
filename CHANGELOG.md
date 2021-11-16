@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.15.0 - 2021-11-16
+
+## What's Changed
+
+- Remove double Redis requirement in Vapor section by @dennisvandalen in https://github.com/spatie/laravel-mailcoach/pull/764
+- Add missing campaign show controller method
+
+## New Contributors
+
+- @dennisvandalen made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/764
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/4.14.3...4.15.0
+
 ## 4.14.3 - 2021-10-11
 
 - fix syntax error (#753)
@@ -15,25 +28,33 @@ All notable changes to `laravel-mailcoach` will be documented in this file
 - improve compatibility with Vapor
 
 ## 4.14.0 - 2021-10-11
+
 ## What's new
+
 - Add trigger model to config (#750)
 
 ## 4.13.0 - 2021-10-09
+
 ## What's new
+
 - Add Campaign & Automation Mail Link/Click/Open/Unsubscribe to config
 
 ## 4.12.0 - 2021-09-30
+
 ## What's new
+
 - Added a config option to switch the rate limit driver to either `redis` (default) or `cache`
 
 ## 4.11.0 - 2021-09-30
 
 ## What's fixed
+
 - Fix the ConditionAction breaking on different locales (#715)
 - Fix the subscribed landing view not being accessible without being logged in
 - The subject of transactional mail templates will now run replacers (#636)
 
 ## What's new
+
 - Use protected props for import subscribers action (#741)
 - Add an option to append tags when updating subscribers (#739)
 
@@ -516,7 +537,8 @@ All notable changes to `laravel-mailcoach` will be documented in this file
 
 - don't limit exception message on failed sends
 
->>>>>>> v2
+> > > > > > > v2
+
 ## 2.23.15 - 2020-09-27
 
 - add `$tries = 1` to `SendCampaignJob`
@@ -829,7 +851,7 @@ All notable changes to `laravel-mailcoach` will be documented in this file
 
 ## 2.2.0 - 2020-03-25
 
--  add `import_subscribers_disk` config option
+- add `import_subscribers_disk` config option
 
 ## 2.1.3 - 2020-03-25
 
@@ -868,12 +890,17 @@ All notable changes to `laravel-mailcoach` will be documented in this file
 ## 2.0.0 - 2020-03-10
 
 - add support for Laravel 7
+- 
 - add support for custom editors
+- 
 - add ability to use multiple mail configurations
+- 
 - add ability to send confirmation and welcome mails with a separate mail configuration
+- 
 - add option to delay welcome mail
-
+- 
 - drop support for Laravel 6
+- 
 
 ## 1.8.0 - 2020-02-27
 
