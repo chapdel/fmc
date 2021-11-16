@@ -17,7 +17,7 @@
                     <x-mailcoach::checkbox-field dataConditional="post" :label="__('Allow POST from an external form')"
                                     name="allow_form_subscriptions"
                                     :checked="$emailList->allow_form_subscriptions"/>
-                    <code class="markup-code text-xs ml-8 -mt-1">&lt;form action="{{$emailList->incomingFormSubscriptionsUrl()}}"&gt;</code>
+                    <code class="markup-code text-xs ml-8 -mt-1">&lt;form method="POST" action="{{$emailList->incomingFormSubscriptionsUrl()}}"&gt;</code>
                 </div>
             </div>
 
