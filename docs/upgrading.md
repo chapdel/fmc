@@ -359,7 +359,7 @@ Make sure to bring over any customizations you did to the old config file. After
 
 #### Sanctum auth
 
-Make sure the api middleware config contains `auth:sanctum` as seen here https://github.com/spatie/Mailcoach/blob/main/config/mailcoach.php#L255-L258
+Make sure the api middleware config contains `auth:sanctum` as seen [here](https://github.com/spatie/Mailcoach/blob/main/config/mailcoach.php#L255-L258).
 
 #### Horizon config
 
