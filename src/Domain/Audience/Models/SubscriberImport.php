@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Domain\Audience\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Mailcoach\Database\Factories\SubscriberImportFactory;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
 use Spatie\MediaLibrary\HasMedia;
@@ -64,5 +65,10 @@ class SubscriberImport extends Model implements HasMedia, GetsCleanedUp
     public function cleanUp(CleanupConfig $config): void
     {
         $config->olderThanDays(7);
+    }
+
+    protected static function newFactory(): SubscriberImportFactory
+    {
+        return new SubscriberImportFactory();
     }
 }

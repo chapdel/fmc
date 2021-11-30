@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Domain\Campaign\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Mailcoach\Database\Factories\CampaignClickFactory;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class CampaignClick extends Model
@@ -29,5 +30,10 @@ class CampaignClick extends Model
     public function subscriber(): BelongsTo
     {
         return $this->belongsTo(config('mailcoach.models.subscriber'), 'subscriber_id');
+    }
+
+    protected static function newFactory(): CampaignClickFactory
+    {
+        return new CampaignClickFactory();
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Mailcoach\Database\Factories\AutomationFactory;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
@@ -197,5 +198,10 @@ class Automation extends Model
         $field ??= $this->getRouteKeyName();
 
         return static::getAutomationClass()::where($field, $value)->firstOrFail();
+    }
+
+    protected static function newFactory(): AutomationFactory
+    {
+        return new AutomationFactory();
     }
 }

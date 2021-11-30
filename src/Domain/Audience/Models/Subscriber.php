@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Spatie\Mailcoach\Database\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\ConfirmSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Events\TagAddedEvent;
@@ -291,5 +292,10 @@ class Subscriber extends Model
         $field ??= $this->getRouteKeyName();
 
         return $this->getSubscriberClass()::where($field, $value)->firstOrFail();
+    }
+
+    protected static function newFactory(): SubscriberFactory
+    {
+        return new SubscriberFactory();
     }
 }

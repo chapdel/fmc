@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
+use Spatie\Mailcoach\Database\Factories\TransactionalMailFactory;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\ResendTransactionalMail;
 
@@ -92,5 +93,10 @@ class TransactionalMail extends Model
         $field ??= $this->getRouteKeyName();
 
         return $this->getTransactionalMailClass()::where($field, $value)->firstOrFail();
+    }
+
+    protected static function newFactory(): TransactionalMailFactory
+    {
+        return new TransactionalMailFactory();
     }
 }

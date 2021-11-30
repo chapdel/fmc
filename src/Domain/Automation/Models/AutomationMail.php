@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Models;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Spatie\Mailcoach\Database\Factories\AutomationMailFactory;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Exceptions\CouldNotSendAutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailTestJob;
@@ -215,5 +216,10 @@ class AutomationMail extends Sendable
     public function replyToName(Subscriber $subscriber): ?string
     {
         return $this->reply_to_name ?? $subscriber->emailList->default_reply_to_name;
+    }
+
+    protected static function newFactory(): AutomationMailFactory
+    {
+        return new AutomationMailFactory();
     }
 }
