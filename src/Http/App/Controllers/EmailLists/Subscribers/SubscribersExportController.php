@@ -18,7 +18,7 @@ class SubscribersExportController
 
         $subscribersQuery = new EmailListSubscribersQuery($emailList);
 
-        $subscriberCsv = SimpleExcelWriter::streamDownload("{$emailList->name} subscribers .csv");
+        $subscriberCsv = SimpleExcelWriter::streamDownload("{$emailList->name} subscribers.csv");
 
         $subscribersQuery->each(function (Subscriber $subscriber) use ($subscriberCsv) {
             $this->resetMaximumExecutionTime();
