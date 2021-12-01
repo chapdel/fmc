@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Mailcoach\Database\Factories\TriggerFactory;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\AutomationTrigger;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -49,5 +50,10 @@ class Trigger extends Model
     public function automation(): BelongsTo
     {
         return $this->belongsTo(static::getAutomationClass());
+    }
+
+    protected static function newFactory(): TriggerFactory
+    {
+        return new TriggerFactory();
     }
 }

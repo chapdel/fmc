@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
+use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Audience\Events\ComplaintRegisteredEvent;
 use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailLinkClickedEvent;
 use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailOpenedEvent;
@@ -421,5 +422,10 @@ class Send extends Model
         $field ??= $this->getRouteKeyName();
 
         return $this->getSendClass()::where($field, $value)->firstOrFail();
+    }
+
+    protected static function newFactory(): SendFactory
+    {
+        return new SendFactory();
     }
 }

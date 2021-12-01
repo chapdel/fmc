@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Domain\Campaign\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Mailcoach\Database\Factories\CampaignUnsubscribeFactory;
 
 class CampaignUnsubscribe extends Model
 {
@@ -22,5 +23,10 @@ class CampaignUnsubscribe extends Model
     public function subscriber(): BelongsTo
     {
         return $this->belongsTo(config('mailcoach.models.subscriber'), 'subscriber_id');
+    }
+
+    protected static function newFactory(): CampaignUnsubscribeFactory
+    {
+        return new CampaignUnsubscribeFactory();
     }
 }

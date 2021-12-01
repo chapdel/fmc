@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Mailcoach\Database\Factories\CampaignLinkFactory;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
@@ -54,5 +55,10 @@ class CampaignLink extends Model
         $this->increment('click_count');
 
         return $campaignClick;
+    }
+
+    protected static function newFactory(): CampaignLinkFactory
+    {
+        return new CampaignLinkFactory();
     }
 }

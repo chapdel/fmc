@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\MySqlConnection;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
+use Spatie\Mailcoach\Database\Factories\EmailListFactory;
 use Spatie\Mailcoach\Domain\Audience\Mails\ConfirmSubscriberMail;
 use Spatie\Mailcoach\Domain\Campaign\Mails\WelcomeMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
@@ -232,5 +233,10 @@ class EmailList extends Model
         $field ??= $this->getRouteKeyName();
 
         return $this->getEmailListClass()::where($field, $value)->firstOrFail();
+    }
+
+    protected static function newFactory(): EmailListFactory
+    {
+        return new EmailListFactory();
     }
 }

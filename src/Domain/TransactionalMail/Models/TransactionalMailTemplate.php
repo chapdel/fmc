@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Mail\Mailable;
 use Illuminate\Support\Collection;
+use Spatie\Mailcoach\Database\Factories\TransactionalMailTemplateFactory;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -130,5 +131,10 @@ class TransactionalMailTemplate extends Model implements HasHtmlContent
         $field ??= $this->getRouteKeyName();
 
         return $this->getTransactionalMailTemplateClass()::where($field, $value)->firstOrFail();
+    }
+
+    protected static function newFactory(): TransactionalMailTemplateFactory
+    {
+        return new TransactionalMailTemplateFactory();
     }
 }

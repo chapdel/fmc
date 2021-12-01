@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Mailcoach\Database\Factories\TagFactory;
 
 class Tag extends Model
 {
@@ -28,5 +29,10 @@ class Tag extends Model
     public function scopeEmailList(Builder $query, EmailList $emailList): void
     {
         $query->where('email_list_id', $emailList->id);
+    }
+
+    protected static function newFactory(): TagFactory
+    {
+        return new TagFactory();
     }
 }

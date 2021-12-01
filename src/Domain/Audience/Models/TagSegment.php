@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Mailcoach\Database\Factories\TagSegmentFactory;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 
 class TagSegment extends Model
@@ -125,5 +126,10 @@ class TagSegment extends Model
         $subscribersQuery->whereDoesntHave('tags', function (Builder $query) {
             $query->whereIn('mailcoach_tags.id', $this->negativeTags()->pluck('mailcoach_tags.id')->toArray());
         });
+    }
+
+    protected static function newFactory(): TagSegmentFactory
+    {
+        return new TagSegmentFactory();
     }
 }

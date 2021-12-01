@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Domain\Campaign\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -10,7 +9,6 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 class InactiveSubscriber extends Model
 {
     use UsesMailcoachModels;
-    use HasFactory;
 
     public $table = 'mailcoach_inactive_subscribers';
 

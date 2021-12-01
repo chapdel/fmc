@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Str;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
+use Spatie\Mailcoach\Database\Factories\CampaignFactory;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
@@ -506,5 +507,10 @@ class Campaign extends Sendable implements Feedable
     public function getBatchName(): string
     {
         return Str::slug("{$this->name} ({$this->id})");
+    }
+
+    protected static function newFactory(): CampaignFactory
+    {
+        return new CampaignFactory();
     }
 }

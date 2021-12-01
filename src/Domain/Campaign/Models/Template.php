@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Domain\Campaign\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Mailcoach\Database\Factories\TemplateFactory;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
@@ -35,5 +36,10 @@ class Template extends Model implements HasHtmlContent
         $field ??= $this->getRouteKeyName();
 
         return $this->getTemplateClass()::where($field, $value)->firstOrFail();
+    }
+
+    protected static function newFactory(): TemplateFactory
+    {
+        return new TemplateFactory();
     }
 }
