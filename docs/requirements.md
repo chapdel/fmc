@@ -15,7 +15,7 @@ Mailcoach on traditional hosting requires:
 
 If you're running Mailcoach on a load balancer and want to use Automations, make sure to enable sticky sessions as Laravel Livewire doesn't work well with load balancers.
 
-Mailcoach on Vapor requires
+Mailcoach on Vapor requires:
 
 - PHP 8.0 or higher
 - Docker (installed locally to deploy to Vapor)
