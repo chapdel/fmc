@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.15.2 - 2021-12-01
+
+## What's Changed
+
+- Support for using factories in 3rd party apps by @lukeraymonddowning in https://github.com/spatie/laravel-mailcoach/pull/794
+- fix: remove useless space in filename by @zhanang19 in https://github.com/spatie/laravel-mailcoach/pull/789
+
+## New Contributors
+
+- @lukeraymonddowning made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/794
+- @zhanang19 made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/789
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/4.15.1...4.15.2
+
 ## 4.15.1 - 2021-11-16
 
 ## What's Changed
