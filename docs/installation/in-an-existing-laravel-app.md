@@ -534,6 +534,7 @@ protected function schedule(Schedule $schedule)
 {
     // ...
     $schedule->command('mailcoach:calculate-statistics')->everyMinute();
+    $schedule->command('mailcoach:calculate-automation-mail-statistics')->everyMinute();
     $schedule->command('mailcoach:send-scheduled-campaigns')->everyMinute();
     $schedule->command('mailcoach:send-campaign-summary-mail')->hourly();
     $schedule->command('mailcoach:send-email-list-summary-mail')->mondays()->at('9:00');
