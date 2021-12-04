@@ -13,7 +13,7 @@ class CreateAutomationAction
     {
         return $this->getAutomationClass()::create([
             'name' => $attributes['name'],
-            'interval' => '1 minute',
+            'interval' => '10 minutes',
         ]);
     }
 }

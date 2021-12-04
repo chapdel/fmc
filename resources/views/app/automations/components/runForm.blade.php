@@ -10,7 +10,7 @@
         <div class="flex items-end">
             <x-mailcoach::select-field
                 name="interval"
-                :value="$automation->interval ?? '1 minute'"
+                :value="$automation->interval ?? '10 minutes'"
                 wire:model="interval"
                 :options="[
                     '1 minute' => 'Every minute',
