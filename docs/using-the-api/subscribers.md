@@ -118,7 +118,7 @@ You can pass the following fields while creating a subscriber:
 - `first_name`: nullable
 - `last_name`: nullable
 - `extra_attributes`: nullable, array
-- `tags`: nullable, array
+- `tags`: array
 
 When passing tags, the tags will be synced to the subscriber.
 
