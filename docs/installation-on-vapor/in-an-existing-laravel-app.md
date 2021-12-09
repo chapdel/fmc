@@ -5,7 +5,7 @@ weight: 3
 
 You can add Mailcoach to your own application that's running in Vapor. On this page, we're only going to provide steps to add Mailcoach to a Laravel app that's already running on Vapor. We are going to assume that you're already familiar with [Laravel Vapor](https://vapor.laravel.com).
 
-By installing Mailcoach inside an existing app, you can integrate Mailcoach into your application logic. You can listen for the various events that Mailcoach fires when mails are opened, clicked, ... to execute custom logic. Mailcoach stores information in the database using regular Eloquent models, that can be used by your application code too. 
+By installing Mailcoach inside an existing app, you can integrate Mailcoach into your application logic. You can listen for the various events that Mailcoach fires when mails are opened, clicked, ... to execute custom logic. Mailcoach stores information in the database using regular Eloquent models, that can be used by your application code too.
 
 ## Getting a license
 
@@ -43,7 +43,13 @@ This is the content you should put in `auth.json`:
 }
 ```
 
-With the configuration above in place, you'll be able to install the package into your project using this command:
+To be sure you can reach `satis.spatie.be` clean your autoloaders before using this command:
+
+```bash
+composer dump-autoload
+```
+
+Then with the configuration above in place, you'll be able to install the package into your project using this command:
 
 ```bash
 composer require "spatie/laravel-mailcoach:^4.0"

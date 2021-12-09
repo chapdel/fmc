@@ -5,9 +5,9 @@ weight: 3
 
 If you have experience with Laravel and/or PHP, and have a Laravel 8 application, you can install Mailcoach as a package inside it.
 
-The package is called `spatie/laravel-mailcoach` Installing Mailcoach as a package offers great ways of customizing Mailcoach. Anything that can be done via the Mailcoach UI, can also be done via code.  
+The package is called `spatie/laravel-mailcoach` Installing Mailcoach as a package offers great ways of customizing Mailcoach. Anything that can be done via the Mailcoach UI, can also be done via code.
 
-You can tightly integrate Mailcoach into your application logic. You can listen for the various events that Mailcoach fires when mails are opened, clicked, ... to execute custom logic. Mailcoach stores information in the database using regular Eloquent models, that can be used by your application code too. 
+You can tightly integrate Mailcoach into your application logic. You can listen for the various events that Mailcoach fires when mails are opened, clicked, ... to execute custom logic. Mailcoach stores information in the database using regular Eloquent models, that can be used by your application code too.
 
 ## Getting a license
 
@@ -45,7 +45,13 @@ This is the content you should put in `auth.json`:
 }
 ```
 
-With the configuration above in place, you'll be able to install the package into your project using this command:
+To be sure you can reach `satis.spatie.be` clean your autoloaders before using this command:
+
+```bash
+composer dump-autoload
+```
+
+Then with the configuration above in place, you'll be able to install the package into your project using this command:
 
 ```bash
 composer require "spatie/laravel-mailcoach:^4.0"
