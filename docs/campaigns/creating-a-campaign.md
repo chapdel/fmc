@@ -25,7 +25,7 @@ Alternatively, you could manually set the attributes on a `Campaign` model.
 Campaign::create([
    'from_email' => 'sender@example.com',
    'subject' => 'My newsletter #1',
-   'content' => $html,
+   'html' => $html,
    'track_opens' => true,
    'track_clicks' => true,
    'email_list_id' => $emailList->id,
