@@ -79,7 +79,7 @@
     "Branch": "Branch",
     "Branch out": "Uitsplitsen",
     "Campaign": "Campagne",
-    "Campaign **:campaignName** was sent to **:numberOfSubscribers** subscribers (list :emailListName)": "Campagne **:campaignName** is verzonden naar **:numberOfSubscribers ** abonnees (lijst :emailListName)",
+    "Campaign **:campaignName** was sent to **:numberOfSubscribers** subscribers (list :emailListName)": "Campagne **:campaignName** is verzonden naar **:numberOfSubscribers** abonnees (lijst :emailListName)",
     "Campaign **:campaignName** was sent to **:numberOfSubscribers** subscribers (list :emailListName) on :sentAt": "Campagne **:campaignName** is verzonden naar **:numberOfSubscribers** abonnees (lijst :emailListName) op :sentAt",
     "Campaign :campaign could not be scheduled because it has already been sent.": "Campagne :campaign kon niet worden gepland omdat deze al is verzonden.",
     "Campaign :campaign could not be sent because it has already been sent.": "Campagne :campaign kan niet worden verzonden omdat deze al is verzonden.",
