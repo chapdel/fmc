@@ -60,18 +60,32 @@ abstract class AutomationAction extends AutomationStep
         $actionClass = static::getAutomationActionClass();
         $action = $actionClass::findByUuid($this->uuid);
 
+        return $this->nextActionsForAction($action, $subscriber);
+    }
+
+    public function nextActionsForAction(Action $action): array
+    {
         if ($action->children->count()) {
             return [$action->children->first()];
         }
 
+        return $this->getNextActionNested($action);
+    }
+
+    public function getNextActionNested(Action $action): array
+    {
         if (! $action->parent_id) {
             return [$action->automation->actions->where('order', '>', $action->order)->first()];
+        }
+
+        if ($action->key && $nextAction = $action->parent->children->where('key', $action->key)->where('order', '>', $action->order)->first()) {
+            return [$nextAction];
         }
 
         if ($nextAction = $action->parent->children->where('order', '>', $action->order)->first()) {
             return [$nextAction];
         }
 
-        return [$action->automation->actions->where('order', '>', $action->parent->order)->first()];
+        return $this->getNextActionNested($action->parent);
     }
 }

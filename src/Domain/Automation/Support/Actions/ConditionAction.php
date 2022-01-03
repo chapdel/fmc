@@ -73,7 +73,7 @@ class ConditionAction extends AutomationAction
             }
         });
 
-        foreach ($this->yesActions as $index => $action) {
+        foreach (array_values($this->yesActions) as $index => $action) {
             $this->storeChildAction(
                 action: $action,
                 automation: $automation,
@@ -83,7 +83,7 @@ class ConditionAction extends AutomationAction
             );
         }
 
-        foreach ($this->noActions as $index => $action) {
+        foreach (array_values($this->noActions) as $index => $action) {
             $this->storeChildAction(
                 action: $action,
                 automation: $automation,
@@ -210,22 +210,22 @@ class ConditionAction extends AutomationAction
         $actionClass = static::getAutomationActionClass();
 
         $action = $actionClass::findByUuid($this->uuid);
-        $parentAction = $actionClass::findByUuid($this->uuid);
 
         /** @var \Spatie\Mailcoach\Domain\Automation\Support\Conditions\Condition $condition */
         $conditionClass = $this->condition;
         $condition = new $conditionClass($action->automation, $subscriber, $this->conditionData);
+        $nextAction = [];
 
         if ($condition->check()) {
             if (isset($this->yesActions[0])) {
-                return [$parentAction->children->where('key', 'yesActions')->first()];
+                $nextAction = [$action->children->where('key', 'yesActions')->first()];
             }
         } else {
             if (isset($this->noActions[0])) {
-                return [$parentAction->children->where('key', 'noActions')->first()];
+                $nextAction = [$action->children->where('key', 'noActions')->first()];
             }
         }
 
-        return parent::nextActions($subscriber);
+        return $nextAction ?: $this->getNextActionNested($action);
     }
 }
