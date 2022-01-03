@@ -60,7 +60,7 @@ abstract class AutomationAction extends AutomationStep
         $actionClass = static::getAutomationActionClass();
         $action = $actionClass::findByUuid($this->uuid);
 
-        return $this->nextActionsForAction($action, $subscriber);
+        return $this->nextActionsForAction($action);
     }
 
     public function nextActionsForAction(Action $action): array
