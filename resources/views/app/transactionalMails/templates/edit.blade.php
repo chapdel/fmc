@@ -8,7 +8,7 @@
 
         <x-mailcoach::fieldset :legend="__('Recipients')">
             <x-mailcoach::help>
-                These recipients will be merged with the ones when the mail is sent. You can specify multiple recipients comma separated
+                {{ __('These recipients will be merged with the ones when the mail is sent. You can specify multiple recipients comma separated.') }}
             </x-mailcoach::help>
             <x-mailcoach::text-field placeholder="john@example.com, jane@example.com" :label="__('To')" name="to" :value="$template->toString()"/>
             <x-mailcoach::text-field placeholder="john@example.com, jane@example.com" :label="__('Cc')" name="cc" :value="$template->ccString()"/>
