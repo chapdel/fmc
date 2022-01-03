@@ -29,7 +29,7 @@ class Trigger extends Model
 
     public function setTriggerAttribute(AutomationTrigger $value)
     {
-        $this->attributes['trigger'] = serialize($value);
+        $this->attributes['trigger'] = base64_encode(serialize($value));
     }
 
     public function getAutomationTrigger(): AutomationTrigger
@@ -40,7 +40,12 @@ class Trigger extends Model
     public function getTriggerAttribute(string $value): AutomationTrigger
     {
         /** @var AutomationTrigger $trigger */
-        $trigger = unserialize($value);
+        if (base64_encode(base64_decode($value, true)) === $value) {
+            $trigger = unserialize(base64_decode($value));
+        } else {
+            $trigger = unserialize($value);
+        }
+
         $trigger->uuid = $this->uuid;
         $trigger->setAutomation($this->automation);
 

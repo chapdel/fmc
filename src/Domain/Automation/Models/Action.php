@@ -30,13 +30,18 @@ class Action extends Model
 
     public function setActionAttribute(AutomationAction $value)
     {
-        $this->attributes['action'] = serialize($value);
+        $this->attributes['action'] = base64_encode(serialize($value));
     }
 
     public function getActionAttribute(string $value): AutomationAction
     {
         /** @var AutomationAction $action */
-        $action = unserialize($value);
+        if (base64_encode(base64_decode($value, true)) === $value) {
+            $action = unserialize(base64_decode($value));
+        } else {
+            $action = unserialize($value);
+        }
+
         $action->uuid = $this->uuid;
 
         return $action;
