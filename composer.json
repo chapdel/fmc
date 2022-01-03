@@ -50,7 +50,7 @@
         "spatie/query-string": "^1.0",
         "spatie/simple-excel": "^1.10",
         "spatie/temporary-directory": "^2.0",
-        "symfony/css-selector": "^5.2",
+        "symfony/css-selector": "^5.2|^6.0",
         "symfony/dom-crawler": "^5.2",
         "tijsverkoyen/css-to-inline-styles": "^2.2"
     },
