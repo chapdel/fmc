@@ -399,7 +399,7 @@ it('handles nested conditions correctly', function () {
                                 noActions: [],
                                 condition: HasTagCondition::class,
                                 conditionData: ['tag' => 'yes-tag-3'],
-                            )
+                            ),
                         ],
                         noActions: [
                             new SendAutomationMailAction($automatedMail2),
