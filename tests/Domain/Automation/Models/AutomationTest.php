@@ -391,7 +391,15 @@ it('handles nested conditions correctly', function () {
                     new ConditionAction(
                         checkFor: CarbonInterval::day(),
                         yesActions: [
-                            new SendAutomationMailAction($automatedMail1),
+                            new ConditionAction(
+                                checkFor: CarbonInterval::day(),
+                                yesActions: [
+                                    new SendAutomationMailAction($automatedMail1),
+                                ],
+                                noActions: [],
+                                condition: HasTagCondition::class,
+                                conditionData: ['tag' => 'yes-tag-3'],
+                            )
                         ],
                         noActions: [
                             new SendAutomationMailAction($automatedMail2),
@@ -411,11 +419,11 @@ it('handles nested conditions correctly', function () {
 
     test()->refreshServiceProvider();
 
-    expect(Action::count())->toEqual(6);
+    expect(Action::count())->toEqual(7);
 
     /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber1 */
     $subscriber1 = $automation->emailList->subscribe('subscriber1@example.com');
-    $subscriber1->addTags(['yes-tag-1', 'yes-tag-2']); // Should receive mail 1
+    $subscriber1->addTags(['yes-tag-1', 'yes-tag-2', 'yes-tag-3']); // Should receive mail 1
 
     /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber2 */
     $subscriber2 = $automation->emailList->subscribe('subscriber2@example.com');
