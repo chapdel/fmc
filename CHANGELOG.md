@@ -2,6 +2,25 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.15.4 - 2022-01-03
+
+## What's Changed
+
+- Fix broken link in postmark.md by @dennisvandalen in https://github.com/spatie/laravel-mailcoach/pull/810
+- Update Postmark coupon by @dennisvandalen in https://github.com/spatie/laravel-mailcoach/pull/812
+- update documentation by @caneco in https://github.com/spatie/laravel-mailcoach/pull/813
+- Add localization function to two strings by @hexation-srl in https://github.com/spatie/laravel-mailcoach/pull/821
+- Update nl.json by @dennisvandalen in https://github.com/spatie/laravel-mailcoach/pull/814
+- Fixes #793 by @ryanito in https://github.com/spatie/laravel-mailcoach/pull/807
+- Fix nested automation actions by @LukeAbell in https://github.com/spatie/laravel-mailcoach/pull/816
+
+## New Contributors
+
+- @caneco made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/813
+- @ryanito made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/807
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/4.15.3...4.15.4
+
 ## 4.15.3 - 2021-12-04
 
 ## What's Changed
