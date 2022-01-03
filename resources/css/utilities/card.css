@@ -4,7 +4,6 @@
     @apply w-full;
     @apply flex-grow;
     @apply rounded;
-    @apply overflow-hidden;
 }
 
 .card::-webkit-scrollbar {
