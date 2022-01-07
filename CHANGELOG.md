@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.15.5 - 2022-01-07
+
+## What's Changed
+
+- Add Turkish Translations by @sineld in https://github.com/spatie/laravel-mailcoach/pull/831
+
+## New Contributors
+
+- @sineld made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/831
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/4.15.4...4.15.5
+
 ## 4.15.4 - 2022-01-03
 
 ## What's Changed
