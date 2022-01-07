@@ -15,11 +15,13 @@ use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailToSubscriberJob;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailClick;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\ConditionAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SplitAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
+use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasClickedAutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasTagCondition;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\NoTrigger;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
@@ -805,4 +807,354 @@ it('handles nested conditions correctly when running twice', function () {
 
     // 4 mails were sent in total
     expect(Send::count())->toEqual(4);
+});
+
+it('handles deeply nested conditions', function () {
+    TestTime::freeze();
+
+    /** @var EmailList $emailList */
+    $emailList = EmailList::factory()->create();
+
+    $automationMail1 = AutomationMail::factory()->create([
+        'html' => '<p><a href="https://example.com"></a></p>',
+        'track_clicks' => true,
+    ]);
+    $automationMail2 = AutomationMail::factory()->create();
+    $automationMail3 = AutomationMail::factory()->create([
+        'html' => '<p><a href="https://example.com"></a></p>',
+        'track_clicks' => true,
+    ]);
+    $automationMail4 = AutomationMail::factory()->create();
+    $automationMail5 = AutomationMail::factory()->create([
+        'html' => '<p><a href="https://example.com"></a></p>',
+        'track_clicks' => true,
+    ]);
+
+    $automation = Automation::create()
+        ->name('Deeply nested automation')
+        ->to($emailList)
+        ->triggerOn(new SubscribedTrigger())
+        ->runEvery(CarbonInterval::second())
+        ->chain([
+            new WaitAction(CarbonInterval::week()),
+            new ConditionAction(
+                checkFor: CarbonInterval::minute(),
+                yesActions: [
+                    new SendAutomationMailAction($automationMail1),
+                    new ConditionAction(
+                        checkFor: CarbonInterval::week(),
+                        yesActions: [
+                            new HaltAction(),
+                        ],
+                        noActions: [
+                            new ConditionAction(
+                                checkFor: CarbonInterval::minute(),
+                                yesActions: [
+                                    new HaltAction(),
+                                ],
+                                noActions: [
+                                    new SendAutomationMailAction($automationMail2),
+                                    new HaltAction(),
+                                ],
+                                condition: HasTagCondition::class,
+                                conditionData: ['tag' => 'canceled']
+                            ),
+                        ],
+                        condition: HasClickedAutomationMail::class,
+                        conditionData: ['automation_mail_id' => $automationMail1->id],
+                    ),
+                ],
+                noActions: [
+                    new SendAutomationMailAction($automationMail3),
+                    new ConditionAction(
+                        checkFor: CarbonInterval::week(),
+                        yesActions: [
+                            new ConditionAction(
+                                checkFor: CarbonInterval::minute(),
+                                yesActions: [
+                                    new HaltAction(),
+                                ],
+                                noActions: [
+                                    new WaitAction(CarbonInterval::minutes(5)),
+                                    new SendAutomationMailAction($automationMail4),
+                                    new HaltAction(),
+                                ],
+                                condition: HasTagCondition::class,
+                                conditionData: ['tag' => 'premium']
+                            ),
+                        ],
+                        noActions: [
+                            new ConditionAction(
+                                checkFor: CarbonInterval::minute(),
+                                yesActions: [
+                                    new ConditionAction(
+                                        checkFor: CarbonInterval::minute(),
+                                        yesActions: [
+                                            new HaltAction(),
+                                        ],
+                                        noActions: [
+                                            new SendAutomationMailAction($automationMail2),
+                                            new HaltAction(),
+                                        ],
+                                        condition: HasTagCondition::class,
+                                        conditionData: ['tag' => 'canceled'],
+                                    )
+                                ],
+                                noActions: [
+                                    new SendAutomationMailAction($automationMail5),
+                                    new ConditionAction(
+                                        checkFor: CarbonInterval::week(),
+                                        yesActions: [
+                                            new ConditionAction(
+                                                checkFor: CarbonInterval::minute(),
+                                                yesActions: [
+                                                    new HaltAction(),
+                                                ],
+                                                noActions: [
+                                                    new WaitAction(CarbonInterval::minutes(5)),
+                                                    new SendAutomationMailAction($automationMail4),
+                                                    new HaltAction(),
+                                                ],
+                                                condition: HasTagCondition::class,
+                                                conditionData: ['tag' => 'premium'],
+                                            )
+                                        ],
+                                        noActions: [
+                                            new HaltAction(),
+                                        ],
+                                        condition: HasClickedAutomationMail::class,
+                                        conditionData: ['automation_mail_id' => $automationMail5->id],
+                                    )
+                                ],
+                                condition: HasTagCondition::class,
+                                conditionData: ['tag' => 'premium'],
+                            )
+                        ],
+                        condition: HasClickedAutomationMail::class,
+                        conditionData: ['automation_mail_id' => $automationMail3->id],
+                    )
+                ],
+                condition: HasTagCondition::class,
+                conditionData: ['tag' => 'premium']
+            ),
+        ])->start();
+
+    test()->refreshServiceProvider();
+
+    expect(Action::count())->toEqual(29);
+
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber1 */
+    $subscriber1 = $automation->emailList->subscribe('subscriber1@example.com')->addTags(['premium']);
+
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber2 */
+    $subscriber2 = $automation->emailList->subscribe('subscriber2@example.com')->addTags(['premium', 'canceled']);
+
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber3 */
+    $subscriber3 = $automation->emailList->subscribe('subscriber3@example.com')->addTags(['premium']);
+
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber4 */
+    $subscriber4 = $automation->emailList->subscribe('subscriber4@example.com');
+
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber5 */
+    $subscriber5 = $automation->emailList->subscribe('subscriber5@example.com');
+
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber6 */
+    $subscriber6 = $automation->emailList->subscribe('subscriber6@example.com');
+
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber7 */
+    $subscriber7 = $automation->emailList->subscribe('subscriber7@example.com');
+
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber8 */
+    $subscriber8 = $automation->emailList->subscribe('subscriber8@example.com');
+
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber9 */
+    $subscriber9 = $automation->emailList->subscribe('subscriber9@example.com');
+
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber10 */
+    $subscriber10 = $automation->emailList->subscribe('subscriber10@example.com');
+
+    $this->assertEquals(WaitAction::class, $subscriber1->currentAction($automation)->action::class);
+    $this->assertEquals(WaitAction::class, $subscriber2->currentAction($automation)->action::class);
+    $this->assertEquals(WaitAction::class, $subscriber3->currentAction($automation)->action::class);
+    $this->assertEquals(WaitAction::class, $subscriber4->currentAction($automation)->action::class);
+    $this->assertEquals(WaitAction::class, $subscriber5->currentAction($automation)->action::class);
+    $this->assertEquals(WaitAction::class, $subscriber6->currentAction($automation)->action::class);
+    $this->assertEquals(WaitAction::class, $subscriber7->currentAction($automation)->action::class);
+    $this->assertEquals(WaitAction::class, $subscriber8->currentAction($automation)->action::class);
+    $this->assertEquals(WaitAction::class, $subscriber9->currentAction($automation)->action::class);
+    $this->assertEquals(WaitAction::class, $subscriber10->currentAction($automation)->action::class);
+
+    TestTime::addWeek();
+    Artisan::call(RunAutomationActionsCommand::class);
+
+    $this->assertEquals(SendAutomationMailAction::class, $subscriber1->currentAction($automation)->action::class);
+    $this->assertEquals(SendAutomationMailAction::class, $subscriber2->currentAction($automation)->action::class);
+    $this->assertEquals(SendAutomationMailAction::class, $subscriber3->currentAction($automation)->action::class);
+
+    // Still in condition action
+    $this->assertEquals(ConditionAction::class, $subscriber4->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber5->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber6->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber7->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber8->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber9->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber10->currentAction($automation)->action::class);
+
+    TestTime::addMinute();
+    Artisan::call(RunAutomationActionsCommand::class);
+
+    expect($subscriber1->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail1->id);
+    expect($subscriber2->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail1->id);
+    expect($subscriber3->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail1->id);
+
+    $this->assertEquals(SendAutomationMailAction::class, $subscriber4->currentAction($automation)->action::class);
+    $this->assertEquals(SendAutomationMailAction::class, $subscriber5->currentAction($automation)->action::class);
+    $this->assertEquals(SendAutomationMailAction::class, $subscriber6->currentAction($automation)->action::class);
+    $this->assertEquals(SendAutomationMailAction::class, $subscriber7->currentAction($automation)->action::class);
+    $this->assertEquals(SendAutomationMailAction::class, $subscriber8->currentAction($automation)->action::class);
+    $this->assertEquals(SendAutomationMailAction::class, $subscriber9->currentAction($automation)->action::class);
+    $this->assertEquals(SendAutomationMailAction::class, $subscriber10->currentAction($automation)->action::class);
+
+    TestTime::addSecond();
+    Artisan::call(RunAutomationActionsCommand::class);
+
+    expect($subscriber4->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail3->id);
+    expect($subscriber5->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail3->id);
+    expect($subscriber6->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail3->id);
+    expect($subscriber7->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail3->id);
+    expect($subscriber8->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail3->id);
+
+    // Checking for click
+    $this->assertEquals(ConditionAction::class, $subscriber1->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber2->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber3->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber4->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber5->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber6->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber7->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber8->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber9->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber10->currentAction($automation)->action::class);
+
+    // Add click for subscriber 1 (premium) & 4, 5 (not premium)
+    $subscriber1->sends()->orderByDesc('id')->first()->registerClick('https://example.com', now());
+    $subscriber4->sends()->orderByDesc('id')->first()->registerClick('https://example.com', now());
+    $subscriber5->sends()->orderByDesc('id')->first()->registerClick('https://example.com', now());
+    $this->assertEquals(3, AutomationMailClick::count());
+
+    TestTime::addSeconds();
+    Artisan::call(RunAutomationActionsCommand::class);
+
+    // Click registered, halt automation
+    $this->assertEquals(HaltAction::class, $subscriber1->currentAction($automation)->action::class);
+
+    // Click registered, condition for premium tag
+    $this->assertEquals(ConditionAction::class, $subscriber4->currentAction($automation)->action::class);
+    $subscriber4->addTag('premium');
+    $this->assertEquals(ConditionAction::class, $subscriber5->currentAction($automation)->action::class);
+
+    TestTime::addMinute();
+    Artisan::call(RunAutomationActionsCommand::class);
+
+    $this->assertEquals(1, $subscriber1->currentAction($automation)->completedSubscribers()->count());
+    $this->assertEquals(0, $subscriber1->currentAction($automation)->activeSubscribers()->count());
+
+    // Subscriber 4 halted
+    $this->assertEquals(HaltAction::class, $subscriber4->currentAction($automation)->action::class);
+    // Subscriber 5 waiting for 5 minutes
+    $this->assertEquals(WaitAction::class, $subscriber5->currentAction($automation)->action::class);
+
+    TestTime::addWeek();
+    Artisan::call(RunAutomationActionsCommand::class);
+
+    // Subscriber 2 is in the condition action that checks for canceled tag
+    $this->assertEquals(ConditionAction::class, $subscriber2->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber3->currentAction($automation)->action::class);
+
+    // Subscriber 5 gets promo code mail & is halted after
+    expect($subscriber5->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail4->id);
+    $this->assertEquals(HaltAction::class, $subscriber5->currentAction($automation)->action::class);
+
+    // Subscriber 6 didn't click
+    $this->assertEquals(ConditionAction::class, $subscriber6->currentAction($automation)->action::class);
+    $subscriber6->addTags(['premium', 'canceled']);
+
+    // Subscriber 7 & 8 & 9 & 10 didn't click
+    $this->assertEquals(ConditionAction::class, $subscriber7->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber8->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber9->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber10->currentAction($automation)->action::class);
+    // Subscriber 7 has premium tag in the meantime
+    $subscriber7->addTags(['premium']);
+
+    TestTime::addMinute();
+    Artisan::call(RunAutomationActionsCommand::class);
+
+    // Subscriber 2 gets canceled
+    $this->assertEquals(HaltAction::class, $subscriber2->currentAction($automation)->action::class);
+
+    // Subscriber 3 gets extra mail
+    $this->assertEquals(SendAutomationMailAction::class, $subscriber3->currentAction($automation)->action::class);
+
+    // Subscriber 6 & 7 are in second condition action
+    $this->assertEquals(ConditionAction::class, $subscriber6->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber7->currentAction($automation)->action::class);
+
+    $this->assertEquals(SendAutomationMailAction::class, $subscriber8->currentAction($automation)->action::class);
+    $this->assertEquals(SendAutomationMailAction::class, $subscriber9->currentAction($automation)->action::class);
+    $this->assertEquals(SendAutomationMailAction::class, $subscriber10->currentAction($automation)->action::class);
+
+    TestTime::addMinute();
+    Artisan::call(RunAutomationActionsCommand::class);
+
+    expect($subscriber3->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail2->id);
+    expect($subscriber8->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail5->id);
+
+    // Subscriber 7 gets feedback mail
+    $this->assertEquals(SendAutomationMailAction::class, $subscriber7->currentAction($automation)->action::class);
+
+    // Subscriber 6 & 7 are halted
+    $this->assertEquals(HaltAction::class, $subscriber6->currentAction($automation)->action::class);
+
+    TestTime::addMinute();
+    Artisan::call(RunAutomationActionsCommand::class);
+
+    // Subscriber 7 gets feedback mail
+    expect($subscriber7->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail2->id);
+    $this->assertEquals(HaltAction::class, $subscriber7->currentAction($automation)->action::class);
+
+    // Subscriber 8 & 9 is in click condition action
+    $this->assertEquals(ConditionAction::class, $subscriber8->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber9->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber10->currentAction($automation)->action::class);
+    $subscriber8->sends()->orderByDesc('id')->first()->registerClick('https://example.com', now());
+    $subscriber8->addTag('premium');
+
+    // 9 is not premium & clicks
+    $subscriber9->sends()->orderByDesc('id')->first()->registerClick('https://example.com', now());
+
+    TestTime::addMinute();
+    Artisan::call(RunAutomationActionsCommand::class);
+
+    // Premium tag check action
+    $this->assertEquals(ConditionAction::class, $subscriber8->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber9->currentAction($automation)->action::class);
+
+    TestTime::addMinute();
+    Artisan::call(RunAutomationActionsCommand::class);
+
+    // Halted
+    $this->assertEquals(HaltAction::class, $subscriber8->currentAction($automation)->action::class);
+    $this->assertEquals(WaitAction::class, $subscriber9->currentAction($automation)->action::class);
+
+    TestTime::addMinutes(5);
+    Artisan::call(RunAutomationActionsCommand::class);
+
+    expect($subscriber9->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail4->id);
+    $this->assertEquals(HaltAction::class, $subscriber9->currentAction($automation)->action::class);
+
+    TestTime::addWeek();
+    Artisan::call(RunAutomationActionsCommand::class);
+
+    $this->assertEquals(HaltAction::class, $subscriber10->currentAction($automation)->action::class);
 });
