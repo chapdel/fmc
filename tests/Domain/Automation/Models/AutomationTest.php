@@ -898,7 +898,7 @@ it('handles deeply nested conditions', function () {
                                         ],
                                         condition: HasTagCondition::class,
                                         conditionData: ['tag' => 'canceled'],
-                                    )
+                                    ),
                                 ],
                                 noActions: [
                                     new SendAutomationMailAction($automationMail5),
@@ -917,22 +917,22 @@ it('handles deeply nested conditions', function () {
                                                 ],
                                                 condition: HasTagCondition::class,
                                                 conditionData: ['tag' => 'premium'],
-                                            )
+                                            ),
                                         ],
                                         noActions: [
                                             new HaltAction(),
                                         ],
                                         condition: HasClickedAutomationMail::class,
                                         conditionData: ['automation_mail_id' => $automationMail5->id],
-                                    )
+                                    ),
                                 ],
                                 condition: HasTagCondition::class,
                                 conditionData: ['tag' => 'premium'],
-                            )
+                            ),
                         ],
                         condition: HasClickedAutomationMail::class,
                         conditionData: ['automation_mail_id' => $automationMail3->id],
-                    )
+                    ),
                 ],
                 condition: HasTagCondition::class,
                 conditionData: ['tag' => 'premium']
