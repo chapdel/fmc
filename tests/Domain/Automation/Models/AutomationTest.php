@@ -1000,7 +1000,7 @@ it('handles deeply nested conditions', function () {
     $this->assertEquals(ConditionAction::class, $subscriber9->currentAction($automation)->action::class);
     $this->assertEquals(ConditionAction::class, $subscriber10->currentAction($automation)->action::class);
 
-    TestTime::addMinute();
+    TestTime::addMinutes(2);
     Artisan::call(RunAutomationActionsCommand::class);
 
     expect($subscriber1->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail1->id);
@@ -1053,7 +1053,7 @@ it('handles deeply nested conditions', function () {
     $subscriber4->addTag('premium');
     $this->assertEquals(ConditionAction::class, $subscriber5->currentAction($automation)->action::class);
 
-    TestTime::addMinute();
+    TestTime::addMinutes(2);
     Artisan::call(RunAutomationActionsCommand::class);
 
     $this->assertEquals(1, $subscriber1->currentAction($automation)->completedSubscribers()->count());
@@ -1087,7 +1087,7 @@ it('handles deeply nested conditions', function () {
     // Subscriber 7 has premium tag in the meantime
     $subscriber7->addTags(['premium']);
 
-    TestTime::addMinute();
+    TestTime::addMinutes(2);
     Artisan::call(RunAutomationActionsCommand::class);
 
     // Subscriber 2 gets canceled
@@ -1104,7 +1104,7 @@ it('handles deeply nested conditions', function () {
     $this->assertEquals(SendAutomationMailAction::class, $subscriber9->currentAction($automation)->action::class);
     $this->assertEquals(SendAutomationMailAction::class, $subscriber10->currentAction($automation)->action::class);
 
-    TestTime::addMinute();
+    TestTime::addMinutes(2);
     Artisan::call(RunAutomationActionsCommand::class);
 
     expect($subscriber3->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail2->id);
@@ -1116,7 +1116,7 @@ it('handles deeply nested conditions', function () {
     // Subscriber 6 & 7 are halted
     $this->assertEquals(HaltAction::class, $subscriber6->currentAction($automation)->action::class);
 
-    TestTime::addMinute();
+    TestTime::addMinutes(2);
     Artisan::call(RunAutomationActionsCommand::class);
 
     // Subscriber 7 gets feedback mail
@@ -1133,14 +1133,14 @@ it('handles deeply nested conditions', function () {
     // 9 is not premium & clicks
     $subscriber9->sends()->orderByDesc('id')->first()->registerClick('https://example.com', now());
 
-    TestTime::addMinute();
+    TestTime::addMinutes(2);
     Artisan::call(RunAutomationActionsCommand::class);
 
     // Premium tag check action
     $this->assertEquals(ConditionAction::class, $subscriber8->currentAction($automation)->action::class);
     $this->assertEquals(ConditionAction::class, $subscriber9->currentAction($automation)->action::class);
 
-    TestTime::addMinute();
+    TestTime::addMinutes(2);
     Artisan::call(RunAutomationActionsCommand::class);
 
     // Halted
