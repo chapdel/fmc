@@ -35,7 +35,7 @@ class Campaign extends Sendable implements Feedable
     public $table = 'mailcoach_campaigns';
 
     public $casts = [
-        'send_to_number_of_subscribers' => 'integer',
+        'sent_to_number_of_subscribers' => 'integer',
         'scheduled_at' => 'datetime',
         'campaigns_feed_enabled' => 'boolean',
         'all_jobs_added_to_batch_at' => 'datetime',
