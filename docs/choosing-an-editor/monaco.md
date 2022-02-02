@@ -23,7 +23,7 @@ When you've installed Mailcoach in an existing Laravel app, you must manually in
 You can install the package via composer:
 
 ```bash
-composer require spatie/laravel-mailcoach-monaco:^4.0
+composer require spatie/laravel-mailcoach-monaco
 ```
 
 ### Publish the assets
