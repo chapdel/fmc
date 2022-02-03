@@ -2,6 +2,22 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.15.6 - 2022-02-03
+
+## What's Changed
+
+- fix typo in campaign casts by @StevePorter92 in https://github.com/spatie/laravel-mailcoach/pull/865
+- Wrong version removed [docs] by @mertasan in https://github.com/spatie/laravel-mailcoach/pull/867
+- Use configuration for action subscriber model by @anyb1s in https://github.com/spatie/laravel-mailcoach/pull/869
+
+## New Contributors
+
+- @StevePorter92 made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/865
+- @mertasan made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/867
+- @anyb1s made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/869
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/4.15.5...4.15.6
+
 ## 4.15.5 - 2022-01-07
 
 ## What's Changed
