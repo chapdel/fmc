@@ -45,7 +45,7 @@ class RunActionForSubscriberJob implements ShouldQueue
         /** @var AutomationAction $action */
         $action = $this->action->action;
 
-        $actionSubscribers = ActionSubscriber::query()
+        $actionSubscribers = self::getActionSubscriberClass()::query()
             ->where('subscriber_id', '=', $this->subscriber->id)
             ->where('action_id', '=', $this->action->id)
             ->whereNull(['halted_at', 'completed_at'])
