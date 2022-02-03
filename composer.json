@@ -31,7 +31,7 @@
         "illuminate/redis": "^8.0",
         "illuminate/support": "^8.0",
         "laravel/horizon": "^5.0",
-        "league/html-to-markdown": "^4.10",
+        "league/html-to-markdown": "^4.10|^5.0",
         "livewire/livewire": "^2.4",
         "nesbot/carbon": "^2.37",
         "spatie/laravel-feed": "^4.0",
