@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.15.7 - 2022-02-03
+
+- Allow for league/html-to-markdown ^5.0
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/4.15.6...4.15.7
+
 ## 4.15.6 - 2022-02-03
 
 ## What's Changed
