@@ -22,7 +22,8 @@ class SubscribersQuery extends QueryBuilder
             ->defaultSort('-created_at', '-id')
             ->allowedSorts(['created_at', 'email', 'first_name', 'last_name', 'id'])
             ->allowedFilters(
-                AllowedFilter::custom('search', new FuzzyFilter('email', 'first_name', 'last_name'))
+                AllowedFilter::custom('search', new FuzzyFilter('email', 'first_name', 'last_name')),
+                AllowedFilter::exact('uuid'),
             );
     }
 }
