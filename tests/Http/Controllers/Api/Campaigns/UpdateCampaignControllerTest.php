@@ -20,6 +20,7 @@ test('a campaign can be updated using the api', function () {
         'html' => 'html',
         'track_opens' => true,
         'track_clicks' => false,
+        'schedule_at' => '2022-01-01 10:00:00',
     ];
 
     $this
@@ -29,6 +30,10 @@ test('a campaign can be updated using the api', function () {
     $campaign = $campaign->fresh();
 
     foreach ($attributes as $attributeName => $attributeValue) {
+        if ($attributeName === 'schedule_at') {
+            $attributeName = 'scheduled_at';
+        }
+
         test()->assertEquals($attributeValue, $campaign->$attributeName);
     }
 });
