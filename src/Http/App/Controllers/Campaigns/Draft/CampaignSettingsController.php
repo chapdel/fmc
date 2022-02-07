@@ -17,7 +17,7 @@ class CampaignSettingsController
     {
         $this->authorize('update', $campaign);
 
-        $emailLists = $this->getEmailListClass()::all();
+        $emailLists = $this->getEmailListClass()::with('segments')->get();
 
         $viewName = $campaign->isEditable()
             ? 'settings'
