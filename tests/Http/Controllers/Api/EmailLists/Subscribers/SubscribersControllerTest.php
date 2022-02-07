@@ -85,6 +85,16 @@ it('can show a subscriber', function () {
         ->assertJsonFragment(['email' => $subscriber->email]);
 });
 
+it('can show a subscriber by uuid', function () {
+    /** @var Subscriber $subscriber */
+    $subscriber = Subscriber::factory()->create();
+
+    $this
+        ->getJson(action([SubscribersController::class, 'show'], $subscriber->uuid))
+        ->assertSuccessful()
+        ->assertJsonFragment(['email' => $subscriber->email]);
+});
+
 it('can delete a subscriber', function () {
     /** @var Subscriber $subscriber */
     $subscriber = Subscriber::factory()->create();
