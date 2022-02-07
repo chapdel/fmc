@@ -34,6 +34,10 @@ class UpdateSubscriberRequest extends FormRequest
 
         $subscriber = $this->route('subscriber');
 
+        if (is_string($subscriber)) {
+            $subscriber = self::getSubscriberClass()::findOrFail($subscriber);
+        }
+
         if (! $emailList) {
             $emailList = $subscriber->emailList;
         }
