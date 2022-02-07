@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.16.0 - 2022-02-07
+
+## What's Changed
+
+- Lazy load segments relation by @jpeters8889 in https://github.com/spatie/laravel-mailcoach/pull/874
+- Fix subscriber request not resolving a Subscriber in every case #804
+- Fix schedule_at not being set on Campaigns through the API #860
+- Add uuid to searchable fields #871
+
+## New Contributors
+
+- @jpeters8889 made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/874
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/4.15.7...4.16.0
+
 ## 4.15.7 - 2022-02-03
 
 - Allow for league/html-to-markdown ^5.0
