@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.16.1 - 2022-02-08
+
+- Don't dispatch a recalculate statistics job when there are no new sends
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/4.16.0...4.16.1
+
 ## 4.16.0 - 2022-02-07
 
 ## What's Changed
