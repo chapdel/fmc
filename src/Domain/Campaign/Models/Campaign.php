@@ -363,7 +363,11 @@ class Campaign extends Sendable implements Feedable
             return;
         }
 
-        dispatch(new CalculateStatisticsJob($this));
+        $latestSend = $this->sends()->latest()->first();
+
+        if (! $this->statistics_calculated_at || ($latestSend && $latestSend->created_at >= $this->statistics_calculated_at)) {
+            dispatch(new CalculateStatisticsJob($this));
+        }
     }
 
     public function toFeedItem(): FeedItem

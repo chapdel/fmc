@@ -13,6 +13,7 @@ use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignTestJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
+use Spatie\Mailcoach\Domain\Shared\Support\CalculateStatisticsLock;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestClasses\TestCustomInstanciatedQueryOnlyShouldSendToJohn;
 use Spatie\Mailcoach\Tests\TestClasses\TestCustomQueryOnlyShouldSendToJohn;
@@ -309,6 +310,27 @@ it('can dispatch a job to recalculate statistics', function () {
     Bus::assertDispatched(CalculateStatisticsJob::class, 1);
 });
 
+it('wont dispatch a calculate statistics job if it doesnt have any new sends', function() {
+    Queue::fake();
+
+    test()->campaign->update(['statistics_calculated_at' => now()]);
+
+    test()->campaign->dispatchCalculateStatistics();
+
+    Queue::assertNotPushed(CalculateStatisticsJob::class);
+
+    \Spatie\Mailcoach\Domain\Shared\Models\Send::factory()->create([
+        'campaign_id' => test()->campaign->id,
+    ]);
+
+    $lock = new CalculateStatisticsLock(test()->campaign);
+    $lock->release();
+
+    test()->campaign->dispatchCalculateStatistics();
+
+    Queue::assertPushed(CalculateStatisticsJob::class);
+});
+
 it('will not dispatch the recalculation job twice', function () {
     Bus::fake();
 
@@ -324,6 +346,10 @@ it('can dispatch the recalculation job again after the previous job has run', fu
     test()->campaign->dispatchCalculateStatistics();
 
     (new CalculateStatisticsJob(test()->campaign))->handle();
+
+    \Spatie\Mailcoach\Domain\Shared\Models\Send::factory()->create([
+        'campaign_id' => test()->campaign->id,
+    ]);
 
     test()->campaign->dispatchCalculateStatistics();
 

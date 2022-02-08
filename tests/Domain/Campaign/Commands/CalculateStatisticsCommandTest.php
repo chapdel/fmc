@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Bus;
 use Spatie\Mailcoach\Domain\Campaign\Commands\CalculateStatisticsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\TestTime\TestTime;
 
 beforeEach(function () {
@@ -22,6 +23,8 @@ it('will recalculate statistics at the right time', function (
         'sent_at' => $sentAt,
         'statistics_calculated_at' => $statisticsCalculatedAt,
     ]);
+
+    Send::factory()->create(['campaign_id' => $campaign->id]);
 
     test()->artisan(CalculateStatisticsCommand::class)->assertExitCode(0);
 

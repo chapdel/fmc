@@ -179,7 +179,11 @@ class AutomationMail extends Sendable
             return;
         }
 
-        dispatch(new CalculateStatisticsJob($this));
+        $latestSend = $this->sends()->latest()->first();
+
+        if (! $this->statistics_calculated_at || ($latestSend && $latestSend->created_at >= $this->statistics_calculated_at)) {
+            dispatch(new CalculateStatisticsJob($this));
+        }
     }
 
     public function hasCustomMailable(): bool
