@@ -1,14 +1,7 @@
 <?php
 
-use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\Queue;
-use Illuminate\Support\Str;
-use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Automation\Models\Action;
-use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
-use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
-use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
 use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Shared\Support\CalculateStatisticsLock;
 
@@ -16,7 +9,7 @@ beforeEach(function () {
     Queue::fake();
 });
 
-it('can dispatch a calculate statistics job', function() {
+it('can dispatch a calculate statistics job', function () {
     $automationMail = AutomationMail::factory()->create();
 
     $automationMail->dispatchCalculateStatistics();
@@ -24,7 +17,7 @@ it('can dispatch a calculate statistics job', function() {
     Queue::assertPushed(CalculateStatisticsJob::class);
 });
 
-it('wont dispatch a calculate statistics job if it doesnt have any new sends', function() {
+it('wont dispatch a calculate statistics job if it doesnt have any new sends', function () {
     $automationMail = AutomationMail::factory()->create([
         'statistics_calculated_at' => now(),
     ]);

@@ -310,7 +310,7 @@ it('can dispatch a job to recalculate statistics', function () {
     Bus::assertDispatched(CalculateStatisticsJob::class, 1);
 });
 
-it('wont dispatch a calculate statistics job if it doesnt have any new sends', function() {
+it('wont dispatch a calculate statistics job if it doesnt have any new sends', function () {
     Queue::fake();
 
     test()->campaign->update(['statistics_calculated_at' => now()]);
