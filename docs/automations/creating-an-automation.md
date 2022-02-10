@@ -53,3 +53,16 @@ Mailcoach ships with multiple actions:
 
 Mailcoach also allows you to create [custom actions](/docs/laravel-mailcoach/v4/automations/creating-custom-actions) and [custom conditions](/docs/laravel-mailcoach/v4/automations/creating-conditions).
 
+## About Halt actions
+
+The Halt action removes the subscriber from the automation when it reaches it, you usually put this at the end of your automation (or sometimes in an if/else block). Mailcoach works the following way:
+
+1. Loop over each automation
+2. Loop over the actions in that automation
+3. Loop over the subscribers that are attached to the action and run the action for it
+
+If you don't halt the automation for a subscriber that is at the end, it will keep doing those steps for that subscriber indefinitely.
+
+This can be a useful feature for when you have a drip campaign that you want to attach more emails to in the future, but want to already start the campaign for subscribers, then the subscribers will move to the next action once that is added.
+
+For simple welcome automations, or automations that are completely set up, it's recommended to add a Halt action at the end.
