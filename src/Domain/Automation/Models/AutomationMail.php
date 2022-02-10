@@ -179,9 +179,13 @@ class AutomationMail extends Sendable
             return;
         }
 
-        $latestSend = $this->sends()->latest()->first();
+        $latestEvent = max(
+            $this->sends()->latest()->first()?->created_at,
+            $this->opens()->latest()->first()?->created_at,
+            $this->clicks()->latest()->first()?->created_at,
+        );
 
-        if (! $this->statistics_calculated_at || ($latestSend && $latestSend->created_at >= $this->statistics_calculated_at)) {
+        if (! $this->statistics_calculated_at || ($latestEvent && $latestEvent >= $this->statistics_calculated_at)) {
             dispatch(new CalculateStatisticsJob($this));
         }
     }
