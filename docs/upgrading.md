@@ -33,7 +33,7 @@ return new class extends Migration
             $table->timestamp('job_dispatched_at')->nullable();
         });
     }
-}
+};
 ```
 
 The `job_batches` table is no longer necessary, if you're not using it in your own project, feel free to remove this table from your database.
