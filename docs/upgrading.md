@@ -20,9 +20,12 @@ return new class extends Migration
         Schema::table('mailcoach_campaigns', function (Blueprint $table) {
             $table->dropColumn('send_batch_id');
             $table->dropColumn('all_jobs_added_to_batch_at');
-            $table->string('automation_mailer')->after('campaign_mailer')->nullable();
             $table->timestamp('all_sends_created_at')->nullable();
             $table->timestamp('all_sends_dispatched_at')->nullable();
+        });
+        
+        Schema::table('mailcoach_email_lists', function(Blueprint $table) {
+            $table->string('automation_mailer')->after('campaign_mailer')->nullable();
         });
         
         Schema::table('mailcoach_sends', function (Blueprint $table) {
