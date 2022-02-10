@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.0.0 - 2022-02-10
+
+## What's Changed
+
+- Add support for Laravel 9
+- Rework throttling of campaign & automation sends for performance
+- Performance improvements
+- Drop support for Laravel 8 & below
+
+> **Read the [upgrade guide](https://spatie.be/docs/laravel-mailcoach/v5/upgrading)!**
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/4.16.2...5.0.0
+
 ## 4.16.2 - 2022-02-10
 
 - Dispatch calculate statistics when there's a new open or click as well
