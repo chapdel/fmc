@@ -16,7 +16,7 @@ class SendCampaignTestController
         $this->authorize('view', $campaign);
 
         if (! $campaign->isPending()) {
-            flash()->error(__("Cannot send a test email for campaign :campaign because it has already been sent.", ['campaign' => $campaign->name]));
+            flash()->error(__("mailcoach - Cannot send a test email for campaign :campaign because it has already been sent.", ['campaign' => $campaign->name]));
 
             return back();
         }
@@ -35,11 +35,11 @@ class SendCampaignTestController
         if (count($request->sanitizedEmails()) > 1) {
             $emailCount = count($request->sanitizedEmails());
 
-            flash()->success(__('A test email was sent to :count addresses.', ['count' => $emailCount]));
+            flash()->success(__('mailcoach - A test email was sent to :count addresses.', ['count' => $emailCount]));
 
             return;
         }
 
-        flash()->success(__('A test email was sent to :email.', ['email' => $request->sanitizedEmails()[0]]));
+        flash()->success(__('mailcoach - A test email was sent to :email.', ['email' => $request->sanitizedEmails()[0]]));
     }
 }

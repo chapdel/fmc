@@ -31,7 +31,7 @@ class ConditionAction extends AutomationAction
 
     public static function getName(): string
     {
-        return (string) __('If/Else');
+        return (string) __('mailcoach - If/Else');
     }
 
     public static function getComponent(): ?string

@@ -21,6 +21,8 @@ use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithBodyReplacer;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithNoSubject;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithSubjectReplacer;
+use Spatie\TestTime\TestTime;
+use Symfony\Component\Mailer\SentMessage;
 
 beforeEach(function () {
     test()->campaign = (new CampaignFactory())
@@ -48,6 +50,28 @@ it('can send a campaign with the correct mailer', function () {
     test()->campaign->refresh();
     expect(test()->campaign->status)->toEqual(CampaignStatus::SENT);
     expect(test()->campaign->sent_to_number_of_subscribers)->toEqual(3);
+});
+
+it('will throttle sending mail', function () {
+    config()->set('mailcoach.campaigns.throttling.allowed_number_of_jobs_in_timespan', 2);
+    config()->set('mailcoach.campaigns.throttling.timespan_in_seconds', 3);
+
+    Mail::fake();
+    TestTime::unfreeze();
+
+    dispatch(new SendCampaignJob(test()->campaign));
+    Mail::assertSent(MailcoachMail::class, 3);
+
+    $jobDispatchTimes = Send::get()
+        ->map(function (Send $send) {
+            return $send->sending_job_dispatched_at;
+        })
+        ->toArray();
+
+    [$sendTime1, $sendTime2, $sendTime3] = $jobDispatchTimes;
+
+    expect($sendTime1->diffInSeconds($sendTime2))->toEqual(0);
+    expect($sendTime2->diffInSeconds($sendTime3))->toEqual(3);
 });
 
 it('will not create mailcoach sends if they already have been created', function () {
@@ -212,10 +236,10 @@ test('custom mailable sends', function () {
 
     $campaign->send();
 
-    $messages = app(MailManager::class)->mailer('array')->getSwiftMailer()->getTransport()->messages();
+    $messages = app(MailManager::class)->mailer('array')->getSymfonyTransport()->messages();
 
-    test()->assertTrue($messages->filter(function (\Swift_Message $message) {
-        return $message->getSubject() === "This is the subject from the custom mailable.";
+    $this->assertTrue($messages->filter(function (SentMessage $message) {
+        return $message->getOriginalMessage()->getSubject() === "This is the subject from the custom mailable.";
     })->count() > 0);
 });
 
@@ -231,10 +255,10 @@ test('custom mailable subject overrides campaign subject', function () {
 
     $campaign->send();
 
-    $messages = app(MailManager::class)->mailer('array')->getSwiftMailer()->getTransport()->messages();
+    $messages = app(MailManager::class)->mailer('array')->getSymfonyTransport()->messages();
 
-    test()->assertTrue($messages->filter(function (\Swift_Message $message) {
-        return $message->getSubject() === "This is the subject from the custom mailable.";
+    $this->assertTrue($messages->filter(function (SentMessage $message) {
+        return $message->getOriginalMessage()->getSubject() === "This is the subject from the custom mailable.";
     })->count() > 0);
 });
 
@@ -256,10 +280,10 @@ test('custom replacers work with campaign subject', function () {
 
     $campaign->send();
 
-    $messages = app(MailManager::class)->mailer('array')->getSwiftMailer()->getTransport()->messages();
+    $messages = app(MailManager::class)->mailer('array')->getSymfonyTransport()->messages();
 
-    test()->assertTrue($messages->filter(function (\Swift_Message $message) {
-        return $message->getSubject() === "The custom replacer works";
+    test()->assertTrue($messages->filter(function (SentMessage $message) {
+        return $message->getOriginalMessage()->getSubject() === "The custom replacer works";
     })->count() > 0);
 });
 
@@ -278,10 +302,10 @@ test('custom replacers work with subject from custom mailable', function () {
 
     $campaign->send();
 
-    $messages = app(MailManager::class)->mailer('array')->getSwiftMailer()->getTransport()->messages();
+    $messages = app(MailManager::class)->mailer('array')->getSymfonyTransport()->messages();
 
-    test()->assertTrue($messages->filter(function (\Swift_Message $message) {
-        return $message->getSubject() === "Custom Subject: The custom replacer works";
+    test()->assertTrue($messages->filter(function (SentMessage $message) {
+        return $message->getOriginalMessage()->getSubject() === "Custom Subject: The custom replacer works";
     })->count() > 0);
 });
 
@@ -300,9 +324,9 @@ test('custom replacers work in body from custom mailable', function () {
 
     dispatch(new SendCampaignJob($campaign));
 
-    $messages = app(MailManager::class)->mailer('array')->getSwiftMailer()->getTransport()->messages();
+    $messages = app(MailManager::class)->mailer('array')->getSymfonyTransport()->messages();
 
-    test()->assertTrue($messages->filter(function (\Swift_Message $message) {
-        return Str::contains($message->getBody(), 'The custom replacer works');
+    test()->assertTrue($messages->filter(function (SentMessage $message) {
+        return Str::contains($message->getOriginalMessage()->toString(), 'The custom replacer works');
     })->count() > 0);
 });

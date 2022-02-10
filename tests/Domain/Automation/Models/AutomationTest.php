@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationActionsCommand;
+use Spatie\Mailcoach\Domain\Automation\Commands\SendAutomationMailsCommand;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
 use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailToSubscriberJob;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
@@ -70,6 +71,7 @@ it('can run a welcome automation', function () {
 
     Artisan::call(RunAutomationActionsCommand::class);
 
+    Artisan::call(SendAutomationMailsCommand::class);
     Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) {
         expect($mail->hasTo('john@doe.com'))->toBeTrue();
 
@@ -147,6 +149,7 @@ it('continues once the action returns true', function () {
 
     Artisan::call(RunAutomationActionsCommand::class);
 
+    Artisan::call(SendAutomationMailsCommand::class);
     Mail::assertSent(MailcoachMail::class);
     expect($automation->actions->first()->subscribers()->count())->toEqual(1);
     expect($automation->actions->last()->subscribers()->count())->toEqual(1);
@@ -188,6 +191,7 @@ it('continues when new actions get added', function () {
 
     Artisan::call(RunAutomationActionsCommand::class);
 
+    Artisan::call(SendAutomationMailsCommand::class);
     Mail::assertSent(MailcoachMail::class);
     expect($automation->actions->first()->subscribers()->count())->toEqual(1);
     expect($automation->actions->last()->subscribers()->count())->toEqual(1);
@@ -332,6 +336,7 @@ it('can create and run a complicated automation', function () {
     Artisan::call(RunAutomationActionsCommand::class);
 
     // CampaignAction continues straight to next action after running
+    Artisan::call(SendAutomationMailsCommand::class);
     Mail::assertSent(MailcoachMail::class, 1);
     expect($subscriber->currentActions($automation)->first()->action)->toBeInstanceOf(ConditionAction::class);
 
@@ -354,6 +359,7 @@ it('can create and run a complicated automation', function () {
     Artisan::call(RunAutomationActionsCommand::class);
 
     // Campaign Action sends again
+    Artisan::call(SendAutomationMailsCommand::class);
     Mail::assertSent(MailcoachMail::class, 2);
 
     expect($subscriber->currentActions($automation)->first()->action)->toBeInstanceOf(WaitAction::class);
@@ -365,6 +371,7 @@ it('can create and run a complicated automation', function () {
 
     // Execute last CampaignAction
     Artisan::call(RunAutomationActionsCommand::class);
+    Artisan::call(SendAutomationMailsCommand::class);
     Mail::assertSent(MailcoachMail::class, 3);
 
     expect($subscriber->currentActions($automation)->first()->action)->toBeInstanceOf(SendAutomationMailAction::class);
@@ -478,10 +485,10 @@ test('the automation mail can use custom mailable', function () {
     });
     Queue::swap($manager);
 
-    config()->set('mailcoach.automation.mailer', 'array');
-
     /** @var EmailList $emailList */
-    $emailList = EmailList::factory()->create();
+    $emailList = EmailList::factory()->create([
+        'automation_mailer' => 'array',
+    ]);
 
     $automationMail = AutomationMail::factory()->create();
 
@@ -506,11 +513,12 @@ test('the automation mail can use custom mailable', function () {
     TestTime::addDay();
 
     Artisan::call(RunAutomationActionsCommand::class);
+    Artisan::call(SendAutomationMailsCommand::class);
 
-    $messages = app(MailManager::class)->mailer('array')->getSwiftMailer()->getTransport()->messages();
+    $messages = app(MailManager::class)->mailer('array')->getSymfonyTransport()->messages();
 
-    test()->assertTrue($messages->filter(function (Swift_Message $message) {
-        return $message->getSubject() === "This is the subject from the custom mailable.";
+    test()->assertTrue($messages->filter(function (\Symfony\Component\Mailer\SentMessage $message) {
+        return $message->getOriginalMessage()->getSubject() === "This is the subject from the custom mailable.";
     })->count() > 0);
 });
 
@@ -547,6 +555,7 @@ it('can run a split automation', function () {
 
     Artisan::call(RunAutomationActionsCommand::class);
 
+    Artisan::call(SendAutomationMailsCommand::class);
     Mail::assertSent(MailcoachMail::class, 2);
 });
 
@@ -587,6 +596,7 @@ it('will stop the automation if the user is unsubscribed', function () {
     Artisan::call(RunAutomationActionsCommand::class);
 
     // CampaignAction continues straight to next action after running
+    Artisan::call(SendAutomationMailsCommand::class);
     Mail::assertSent(MailcoachMail::class, 1);
 
     Artisan::call(RunAutomationActionsCommand::class);
@@ -601,6 +611,7 @@ it('will stop the automation if the user is unsubscribed', function () {
     Artisan::call(RunAutomationActionsCommand::class);
 
     // Mailable was only sent once
+    Artisan::call(SendAutomationMailsCommand::class);
     Mail::assertSent(MailcoachMail::class, 1);
     test()->assertNotNull($subscriber->currentActions($automation)->first()->pivot->halted_at);
 });
@@ -698,6 +709,7 @@ it('can run a split automation twice', function () {
 
     Artisan::call(RunAutomationActionsCommand::class);
 
+    Artisan::call(SendAutomationMailsCommand::class);
     Mail::assertSent(MailcoachMail::class, 4);
 });
 
@@ -834,7 +846,7 @@ it('handles deeply nested conditions', function () {
         ->name('Deeply nested automation')
         ->to($emailList)
         ->triggerOn(new SubscribedTrigger())
-        ->runEvery(CarbonInterval::second())
+        ->runEvery(CarbonInterval::seconds(30))
         ->chain([
             new WaitAction(CarbonInterval::week()),
             new ConditionAction(
@@ -1015,7 +1027,7 @@ it('handles deeply nested conditions', function () {
     $this->assertEquals(SendAutomationMailAction::class, $subscriber9->currentAction($automation)->action::class);
     $this->assertEquals(SendAutomationMailAction::class, $subscriber10->currentAction($automation)->action::class);
 
-    TestTime::addSecond();
+    TestTime::addSeconds(32);
     Artisan::call(RunAutomationActionsCommand::class);
 
     expect($subscriber4->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail3->id);
@@ -1042,7 +1054,7 @@ it('handles deeply nested conditions', function () {
     $subscriber5->sends()->orderByDesc('id')->first()->registerClick('https://example.com', now());
     $this->assertEquals(3, AutomationMailClick::count());
 
-    TestTime::addSeconds();
+    TestTime::addSeconds(32);
     Artisan::call(RunAutomationActionsCommand::class);
 
     // Click registered, halt automation

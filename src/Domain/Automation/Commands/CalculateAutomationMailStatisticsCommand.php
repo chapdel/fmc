@@ -32,7 +32,7 @@ class CalculateAutomationMailStatisticsCommand extends Command
         $automationMailId = $this->argument('automationMailId');
 
         $automationMailId
-            ? dispatch_now(new CalculateStatisticsJob($this->getAutomationMailClass()::find($automationMailId)))
+            ? CalculateStatisticsJob::dispatchSync($this->getAutomationMailClass()::find($automationMailId))
             : $this->calculateStatisticsOfAutomationMails();
 
         $this->comment('All done!');
@@ -44,6 +44,7 @@ class CalculateAutomationMailStatisticsCommand extends Command
 
         static::getAutomationClass()::query()
             ->where('status', AutomationStatus::STARTED)
+            ->with(['allActions'])
             ->get()
             ->flatMap(function (Automation $automation) {
                 return $automation->allActions;

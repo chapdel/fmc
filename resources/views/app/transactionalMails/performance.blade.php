@@ -1,15 +1,15 @@
 <x-mailcoach::layout-transactional
-    :title="__('Performance')"
+    :title="__('mailcoach - Performance')"
     :transactionalMail="$transactionalMail"
 >
 
     <div class="form-grid">
-        <x-mailcoach::fieldset :legend="__('Opens')">
+        <x-mailcoach::fieldset :legend="__('mailcoach - Opens')">
              @if($transactionalMail->opens->count())
             <table class="mt-0 table table-fixed">
                 <thead>
                     <tr>
-                        <th>{{ __('Opened at') }}</th>
+                        <th>{{ __('mailcoach - Opened at') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -21,18 +21,18 @@
                 </tbody>
             </table>
             @else
-                <x-mailcoach::help>{{ __('This mail hasn\'t been opened yet.') }}</x-mailcoach::help>
-            @endif    
+                <x-mailcoach::help>{{ __('mailcoach - This mail hasn\'t been opened yet.') }}</x-mailcoach::help>
+            @endif
         </x-mailcoach::fieldset>
 
-        <x-mailcoach::fieldset :legend="__('Clicks')">
+        <x-mailcoach::fieldset :legend="__('mailcoach - Clicks')">
             @if($transactionalMail->clicksPerUrl()->count())
                 <table class="mt-0 table table-fixed">
                     <thead>
                         <tr>
-                            <th>{{ __('URL') }}</th>
-                            <th class="th-numeric">{{ __('Click count') }}</th>
-                            <th class="th-numeric">{{ __('First clicked at') }}</th>
+                            <th>{{ __('mailcoach - URL') }}</th>
+                            <th class="th-numeric">{{ __('mailcoach - Click count') }}</th>
+                            <th class="th-numeric">{{ __('mailcoach - First clicked at') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,7 +47,7 @@
                 </table>
             @else
                 <x-mailcoach::help>
-                    {{ __('No links in this mail have been clicked yet.') }}
+                    {{ __('mailcoach - No links in this mail have been clicked yet.') }}
                 </x-mailcoach::help>
             @endif
         </x-mailcoach::fieldset>

@@ -138,7 +138,7 @@ class ImportSubscribersAction
                     ->where('imported_via_import_uuid', '<>', $this->subscriberImport->uuid)
                     ->orWhereNull('imported_via_import_uuid');
             })
-            ->cursor()
+            ->lazyById()
             ->each(fn (Subscriber $subscriber) => $subscriber->unsubscribe());
 
         return $this;
@@ -186,7 +186,7 @@ class ImportSubscribersAction
     protected function validateSubscriberEmail(ImportSubscriberRow $row): bool
     {
         if (! $row->hasValidEmail()) {
-            $this->writeError($row, __('Does not have a valid email'));
+            $this->writeError($row, __('mailcoach - Does not have a valid email'));
         }
 
         return $row->hasValidEmail();
@@ -201,7 +201,7 @@ class ImportSubscribersAction
         $hasUnsubscribed = $row->hasUnsubscribed();
 
         if ($hasUnsubscribed) {
-            $this->writeError($row, __('This email address was unsubscribed in the past.'));
+            $this->writeError($row, __('mailcoach - This email address was unsubscribed in the past.'));
         }
 
         return ! $hasUnsubscribed;

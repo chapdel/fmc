@@ -4,36 +4,36 @@
     :title="$title ?? null"
 >
     <x-slot name="nav">
-        <x-mailcoach::navigation :title="$mail->name" :backHref="route('mailcoach.automations.mails')" :backLabel="__('Emails')">
-                <x-mailcoach::navigation-group icon="fas fa-chart-line" :title="__('Performance')">
+        <x-mailcoach::navigation :title="$mail->name" :backHref="route('mailcoach.automations.mails')" :backLabel="__('mailcoach - Emails')">
+                <x-mailcoach::navigation-group icon="fas fa-chart-line" :title="__('mailcoach - Performance')">
                     <x-mailcoach::navigation-item :href="route('mailcoach.automations.mails.summary', $mail)" data-dirty-warn>
-                        {{ __('Summary') }}
+                        {{ __('mailcoach - Summary') }}
                     </x-mailcoach::navigation-item>
                     <x-mailcoach::navigation-item :href="route('mailcoach.automations.mails.opens', $mail)" data-dirty-warn>
-                        {{ __('Opens') }}
+                        {{ __('mailcoach - Opens') }}
                     </x-mailcoach::navigation-item>
                     <x-mailcoach::navigation-item :href="route('mailcoach.automations.mails.clicks', $mail)" data-dirty-warn>
-                        {{ __('Clicks') }}
+                        {{ __('mailcoach - Clicks') }}
                     </x-mailcoach::navigation-item>
                     <x-mailcoach::navigation-item :href="route('mailcoach.automations.mails.unsubscribes', $mail)" data-dirty-warn>
-                        {{ __('Unsubscribes') }}
+                        {{ __('mailcoach - Unsubscribes') }}
                     </x-mailcoach::navigation-item>
 
                     <x-mailcoach::navigation-item :href="route('mailcoach.automations.mails.outbox', $mail)" data-dirty-warn>
-                        {{ __('Outbox') }}
+                        {{ __('mailcoach - Outbox') }}
                     </x-mailcoach::navigation-item>
 
                 </x-mailcoach::navigation-group>
 
-            <x-mailcoach::navigation-group icon="far fa-envelope-open" :title="__('Email')">
+            <x-mailcoach::navigation-group icon="far fa-envelope-open" :title="__('mailcoach - Email')">
                 <x-mailcoach::navigation-item :href="route('mailcoach.automations.mails.settings', $mail)" data-dirty-warn>
-                    {{ __('Settings') }}
+                    {{ __('mailcoach - Settings') }}
                 </x-mailcoach::navigation-item>
                 <x-mailcoach::navigation-item :href="route('mailcoach.automations.mails.content', $mail)" data-dirty-warn>
-                    {{ __('Content') }}
+                    {{ __('mailcoach - Content') }}
                 </x-mailcoach::navigation-item>
                 <x-mailcoach::navigation-item :href="route('mailcoach.automations.mails.delivery', $mail)" data-dirty-warn>
-                    {{ __('Delivery') }}
+                    {{ __('mailcoach - Delivery') }}
                 </x-mailcoach::navigation-item>
             </x-mailcoach::navigation-group>
 

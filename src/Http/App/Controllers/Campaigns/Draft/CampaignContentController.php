@@ -31,7 +31,7 @@ class CampaignContentController
             'last_modified_at' => now(),
         ]);
 
-        flash()->success(__('Campaign :campaign was updated.', ['campaign' => $campaign->name]));
+        flash()->success(__('mailcoach - Campaign :campaign was updated.', ['campaign' => $campaign->name]));
 
         return redirect()->route('mailcoach.campaigns.content', $campaign->id);
     }

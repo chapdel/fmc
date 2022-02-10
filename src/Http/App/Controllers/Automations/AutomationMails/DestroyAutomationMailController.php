@@ -15,7 +15,7 @@ class DestroyAutomationMailController
 
         $automationMail->delete();
 
-        flash()->success(__('Email :name was deleted.', ['name' => $automationMail->name]));
+        flash()->success(__('mailcoach - Email :name was deleted.', ['name' => $automationMail->name]));
 
         return redirect()->back();
     }

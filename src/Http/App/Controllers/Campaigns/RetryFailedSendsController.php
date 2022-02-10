@@ -17,14 +17,14 @@ class RetryFailedSendsController
         $failedSendsCount = $campaign->sends()->failed()->count();
 
         if ($failedSendsCount === 0) {
-            flash()->error(__('There are not failed mails to resend anymore.'));
+            flash()->error(__('mailcoach - There are not failed mails to resend anymore.'));
 
             return back();
         }
 
         dispatch(new RetrySendingFailedSendsJob($campaign));
 
-        flash()->warning(__('Retrying to send :failedSendsCount mails...', ['failedSendsCount' => $failedSendsCount]));
+        flash()->warning(__('mailcoach - Retrying to send :failedSendsCount mails...', ['failedSendsCount' => $failedSendsCount]));
 
         return back();
     }

@@ -1,13 +1,13 @@
-<x-mailcoach::layout-list :title="__('Import subscribers')" :emailList="$emailList">
+<x-mailcoach::layout-list :title="__('mailcoach - Import subscribers')" :emailList="$emailList">
         @if (count($subscriberImports))
             <table class="table table-fixed mb-12">
                 <thead>
                 <tr>
-                    <th class="w-32">{{ __('Status') }}</th>
-                    <th class="w-48 th-numeric">{{ __('Started at') }}</th>
-                    <th>{{ __('List') }}</th>
-                    <th class="w-56 th-numeric">{{ __('Imported subscribers') }}</th>
-                    <th class="w-32 th-numeric">{{ __('Errors') }}</th>
+                    <th class="w-32">{{ __('mailcoach - Status') }}</th>
+                    <th class="w-48 th-numeric">{{ __('mailcoach - Started at') }}</th>
+                    <th>{{ __('mailcoach - List') }}</th>
+                    <th class="w-56 th-numeric">{{ __('mailcoach - Imported subscribers') }}</th>
+                    <th class="w-32 th-numeric">{{ __('mailcoach - Errors') }}</th>
                     <th class="w-12"></th>
                 </tr>
                 </thead>
@@ -17,13 +17,13 @@
                         <td>
                             @switch($subscriberImport->status)
                                 @case(\Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus::PENDING)
-                                <i title="{{ __('Scheduled') }}" class="far fa-clock text-orange-500`"></i>
+                                <i title="{{ __('mailcoach - Scheduled') }}" class="far fa-clock text-orange-500`"></i>
                                 @break
                                 @case(\Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus::IMPORTING)
-                                <i title="{{ __('Importing') }}" class="fas fa-sync fa-spin text-blue-500"></i>
+                                <i title="{{ __('mailcoach - Importing') }}" class="fas fa-sync fa-spin text-blue-500"></i>
                                 @break
                                 @case(\Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus::COMPLETED)
-                                <i title="{{ __('Completed') }}" class="fas fa-check text-green-500"></i>
+                                <i title="{{ __('mailcoach - Completed') }}" class="fas fa-check text-green-500"></i>
                                 @break
                             @endswitch
                         </td>
@@ -38,24 +38,24 @@
                                 <ul>
                                     <li>
                                         <a href="{{ route('mailcoach.subscriberImport.downloadAttachment', [$subscriberImport, 'importedUsersReport']) }}" download>
-                                            <x-mailcoach::icon-label icon="far fa-list-alt" :text="__('Import report')"/>
+                                            <x-mailcoach::icon-label icon="far fa-list-alt" :text="__('mailcoach - Import report')"/>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="{{ route('mailcoach.subscriberImport.downloadAttachment', [$subscriberImport, 'errorReport']) }}" download>
-                                            <x-mailcoach::icon-label icon="far fa-times-circle" :text="__('Error report')"/>
+                                            <x-mailcoach::icon-label icon="far fa-times-circle" :text="__('mailcoach - Error report')"/>
                                         </a>
                                     </li>
                                     <li>
                                         <a href="{{ route('mailcoach.subscriberImport.downloadAttachment', [$subscriberImport, 'importFile']) }}" download>
-                                            <x-mailcoach::icon-label icon="far fa-file" :text="__('Uploaded file')"/>
+                                            <x-mailcoach::icon-label icon="far fa-file" :text="__('mailcoach - Uploaded file')"/>
                                         </a>
                                     </li>
                                     <li>
                                         <x-mailcoach::form-button
                                             :action="route('mailcoach.subscriberImport.delete', $subscriberImport->id)"
                                             method="DELETE" class="link-delete">
-                                            <x-mailcoach::icon-label icon="far fa-trash-alt" :text="__('Delete')" :caution="true"/>
+                                            <x-mailcoach::icon-label icon="far fa-trash-alt" :text="__('mailcoach - Delete')" :caution="true"/>
                                         </x-mailcoach::form-button>
                                     </li>
                                 </ul>
@@ -77,19 +77,19 @@
                 @enderror
 
                 <label class="label label-required" for="tags_mode">
-                    {{ __('Tags') }}
+                    {{ __('mailcoach - Tags') }}
                 </label>
                 <div class="radio-group">
                     <x-mailcoach::radio-field
                         name="replace_tags"
                         option-value="append"
                         :value="true"
-                        :label="__('Append')"
+                        :label="__('mailcoach - Append')"
                     />
                     <x-mailcoach::radio-field
                         name="replace_tags"
                         option-value="replace"
-                        :label="__('Replace')"
+                        :label="__('mailcoach - Replace')"
                     />
                 </div>
             </div>
@@ -97,7 +97,7 @@
             <div class="form-buttons">
                 <div class="button">
                     <button class="font-semibold h-10" type="submit">
-                        {{ __('Import subscribers') }}
+                        {{ __('mailcoach - Import subscribers') }}
                     </button>
                     <input onchange="this.form.submit();" class="absolute inset-0 opacity-0 text-4xl" accept=".csv, .xlsx" type="file" id="file"
                         name="file" class="w-48 h-10"/>
@@ -109,7 +109,7 @@
             @enderror
 
             <x-mailcoach::help>
-                {!! __('Upload a CSV or XLSX file with these columns: email, first_name, last_name, tags <a href=":link" target="_blank">(see documentation)</a>', ['link' => 'https://spatie.be/docs/laravel-mailcoach/v4/using-mailcoach/audience#importing-subscribers']) !!}
+                {!! __('mailcoach - Upload a CSV or XLSX file with these columns: email, first_name, last_name, tags <a href=":link" target="_blank">(see documentation)</a>', ['link' => 'https://spatie.be/docs/laravel-mailcoach/v4/using-mailcoach/audience#importing-subscribers']) !!}
             </x-mailcoach::help>
         </form>
 

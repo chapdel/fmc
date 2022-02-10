@@ -31,7 +31,7 @@ class CalculateStatisticsCommand extends Command
         $campaignId = $this->argument('campaignId');
 
         $campaignId
-            ? dispatch_now(new CalculateStatisticsJob($this->getCampaignClass()::find($campaignId)))
+            ? dispatch_sync(new CalculateStatisticsJob($this->getCampaignClass()::find($campaignId)))
             : $this->calculateStatisticsOfRecentCampaigns();
 
         $this->comment('All done!');

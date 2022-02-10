@@ -8,7 +8,7 @@ class SubscribedTrigger extends AutomationTrigger implements TriggeredByEvents
 {
     public static function getName(): string
     {
-        return (string) __('When a user subscribes');
+        return (string) __('mailcoach - When a user subscribes');
     }
 
     public function subscribe($events): void

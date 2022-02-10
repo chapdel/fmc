@@ -33,15 +33,16 @@ When sending a campaign to this email list these defaults will be used if you se
 
 ### Specifying the mailers to be used
 
-By default, Mailcoach sends all mails using the default mailer of your Laravel app. In the `mailcoach.php` config file, [you can override this](/docs/laravel-mailcoach/v4/installation/in-an-existing-laravel-app#configure-an-email-sending-service).
+By default, Mailcoach sends all mails using the default mailer of your Laravel app. In the `mailcoach.php` config file, [you can override this](/docs/laravel-mailcoach/v5/installation/in-an-existing-laravel-app#configure-an-email-sending-service).
 
-At the time of creating your EmailList, the `transactional_mailer` and `campaign_mailer` attributes will be set based on your configuration settings. Any future change in your configuration settings will not automatically apply to the EmailList.
+At the time of creating your EmailList, the `transactional_mailer`, `automation_mailer`, and `campaign_mailer` attributes will be set based on your configuration settings. Any future change in your configuration settings will not automatically apply to the EmailList.
 
 You can also override the mailer to be used on the list level by updating the `campaign_mailer` attribute with the mailer to be used. Confirmation and welcome mails will be sent using the mailer specified in `transactional_mailer`.
 
 ```php
 $emailList->update([
     'campaign_mailer' => $nameOfMailer,
+    'automation_mailer' => $nameOfMailer,
     'transactional_mailer' => $nameOfAnotherMailer,
 ]);
 ``` 

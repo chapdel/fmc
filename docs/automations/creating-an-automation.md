@@ -32,7 +32,7 @@ Mailcoach ships with multiple triggers:
 - TagRemovedTrigger: When a tag gets removed from a subscriber
 - WebhookTrigger: Trigger the automation by calling a webhook
 
-Mailcoach also allows you to create [custom triggers](/docs/laravel-mailcoach/v4/automations/creating-custom-triggers).
+Mailcoach also allows you to create [custom triggers](/docs/laravel-mailcoach/v5/automations/creating-custom-triggers).
 
 ## Passing actions
 
@@ -51,7 +51,7 @@ Mailcoach ships with multiple actions:
 - UnsubscribeAction: Unsubscribe the subscriber from the list
 - WaitAction: Wait for a set interval before continuing to the next action
 
-Mailcoach also allows you to create [custom actions](/docs/laravel-mailcoach/v4/automations/creating-custom-actions) and [custom conditions](/docs/laravel-mailcoach/v4/automations/creating-conditions).
+Mailcoach also allows you to create [custom actions](/docs/laravel-mailcoach/v5/automations/creating-custom-actions) and [custom conditions](/docs/laravel-mailcoach/v5/automations/creating-conditions).
 
 ## About Halt actions
 

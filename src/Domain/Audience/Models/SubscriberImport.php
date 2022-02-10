@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Audience\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\MassPrunable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Mailcoach\Database\Factories\SubscriberImportFactory;
@@ -10,14 +11,13 @@ use Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\ModelCleanup\CleanupConfig;
-use Spatie\ModelCleanup\GetsCleanedUp;
 
-class SubscriberImport extends Model implements HasMedia, GetsCleanedUp
+class SubscriberImport extends Model implements HasMedia
 {
     use InteractsWithMedia;
     use HasUuid;
     use HasFactory;
+    use MassPrunable;
 
     public $table = 'mailcoach_subscriber_imports';
 
@@ -62,13 +62,13 @@ class SubscriberImport extends Model implements HasMedia, GetsCleanedUp
             ->singleFile();
     }
 
-    public function cleanUp(CleanupConfig $config): void
-    {
-        $config->olderThanDays(7);
-    }
-
     protected static function newFactory(): SubscriberImportFactory
     {
         return new SubscriberImportFactory();
+    }
+
+    public function prunable()
+    {
+        return static::where('created_at', '<=', now()->subWeek());
     }
 }

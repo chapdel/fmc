@@ -1,14 +1,14 @@
-<x-mailcoach::layout-main :title="__('Transactional templates')">
+<x-mailcoach::layout-main :title="__('mailcoach - Transactional templates')">
         <div class="table-actions">
-            <x-mailcoach::button data-modal-trigger="create-template" :label="__('Create template')"/>
+            <x-mailcoach::button data-modal-trigger="create-template" :label="__('mailcoach - Create template')"/>
 
-            <x-mailcoach::modal :title="__('Create template')" name="create-template" :open="$errors->any()">
+            <x-mailcoach::modal :title="__('mailcoach - Create template')" name="create-template" :open="$errors->any()">
                 @include('mailcoach::app.transactionalMails.templates.partials.create')
             </x-mailcoach::modal>
 
             @if($templatesCount)
                 <div class="table-filters">
-                    <x-mailcoach::search :placeholder="__('Filter templates…')"/>
+                    <x-mailcoach::search :placeholder="__('mailcoach - Filter templates…')"/>
                 </div>
             @endif
         </div>
@@ -17,7 +17,7 @@
             <table class="table table-fixed">
                 <thead>
                 <tr>
-                    <x-mailcoach::th sort-by="subject">{{ __('Name') }}</x-mailcoach::th>
+                    <x-mailcoach::th sort-by="subject">{{ __('mailcoach - Name') }}</x-mailcoach::th>
                     <x-mailcoach::th class="w-12" />
                 </tr>
                 </thead>
@@ -33,7 +33,7 @@
                                         <x-mailcoach::form-button
                                             :action="route('mailcoach.transactionalMails.templates.duplicate', $template)"
                                         >
-                                            <x-mailcoach::icon-label icon="fas fa-random" :text="__('Duplicate')" />
+                                            <x-mailcoach::icon-label icon="fas fa-random" :text="__('mailcoach - Duplicate')" />
                                         </x-mailcoach::form-button>
                                     </li>
                                     <li>
@@ -41,9 +41,9 @@
                                             :action="route('mailcoach.transactionalMails.templates.delete', $template)"
                                             method="DELETE"
                                             data-confirm="true"
-                                            :data-confirm-text="__('Are you sure you want to delete template :template?', ['template' => $template->name])"
+                                            :data-confirm-text="__('mailcoach - Are you sure you want to delete template :template?', ['template' => $template->name])"
                                         >
-                                            <x-mailcoach::icon-label icon="far fa-trash-alt" :text="__('Delete')" :caution="true" />
+                                            <x-mailcoach::icon-label icon="far fa-trash-alt" :text="__('mailcoach - Delete')" :caution="true" />
                                         </x-mailcoach::form-button>
                                     </li>
                                 </ul>
@@ -55,13 +55,13 @@
             </table>
 
             <x-mailcoach::table-status
-                :name="__('mail|mails')"
+                :name="__('mailcoach - mail|mails')"
                 :paginator="$templates"
                 :total-count="$templatesCount"
                 :show-all-url="route('mailcoach.templates')"></x-mailcoach::table-status>
         @else
             <x-mailcoach::help>
-                {!! __('You have not created any templates yet.') !!}
+                {!! __('mailcoach - You have not created any templates yet.') !!}
             </x-mailcoach::help>
         @endif
     </section>

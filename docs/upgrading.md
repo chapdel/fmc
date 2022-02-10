@@ -3,6 +3,134 @@ title: Upgrading
 weight: 4
 ---
 
+## From v4 to v5
+
+### Updating the database
+
+Some changes were made to the database, use the migration below to update your database to the latest schema:
+
+```php
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+
+return new class extends Migration
+{
+    public function up()
+    {
+        Schema::table('mailcoach_campaigns', function (Blueprint $table) {
+            $table->dropColumn('send_batch_id');
+            $table->dropColumn('all_jobs_added_to_batch_at');
+            $table->string('automation_mailer')->after('campaign_mailer')->nullable();
+            $table->timestamp('all_sends_created_at')->nullable();
+            $table->timestamp('all_sends_dispatched_at')->nullable();
+        });
+        
+        Schema::table('mailcoach_sends', function (Blueprint $table) {
+            $table->timestamp('sending_job_dispatched_at')->nullable();
+        });
+        
+        Schema::table('mailcoach_automation_action_subscriber', function (Blueprint $table) {
+            $table->timestamp('job_dispatched_at')->nullable();
+        });
+    }
+}
+```
+
+The `job_batches` table is no longer necessary, if you're not using it in your own project, feel free to remove this table from your database.
+
+You should set the `automation_mailer` value to the name of the mailer that will send automation mails. Usually it's safe to copy the value from the `campaign_mailer` column.
+
+For any campaigns / automations that have already been sent, you can optionally fill the `all_sends_created_at`, `all_sends_dispatched_at`, `sending_job_dispatched_at`, `job_dispatched_at` with the current date.
+
+### Updating the config file
+
+The config file was changed. Change the `throttling` key to the following structure in both the `campaigns` and `automations` key, and add `send_campaign_maximum_job_runtime_in_seconds` and `send_automation_mails_maximum_job_runtime_in_seconds` keys respectively
+
+Or you could publish the config file again using `php artisan vendor:publish --tag=mailcoach-config --force` and review the changes yourself.
+
+```php
+
+'campaigns' => [
+    ...
+    
+    /*
+     * By default only 10 mails per second will be sent to avoid overwhelming your
+     * e-mail sending service.
+     */
+    'throttling' => [
+        'allowed_number_of_jobs_in_timespan' => 10,
+        'timespan_in_seconds' => 1,
+    
+        /*
+         * Throttling relies on the cache. Here you can specify the store to be used.
+         *
+         * When passing `null`, we'll use the default store.
+         */
+        'cache_store' => null,
+    ],
+    
+    /*
+     * The job that will send a campaign could take a long time when your list contains a lot of subscribers.
+     * Here you can define the maximum run time of the job. If the job hasn't fully sent your campaign, it
+     * will redispatch itself.
+     */
+    'send_campaign_maximum_job_runtime_in_seconds' => 60  * 10,
+    
+    ...
+],
+
+'automations' => [
+    ...
+    /*
+     * By default only 10 mails per second will be sent to avoid overwhelming your
+     * e-mail sending service.
+     */
+    'throttling' => [
+        'allowed_number_of_jobs_in_timespan' => 10,
+        'timespan_in_seconds' => 1,
+    
+        /*
+         * Throttling relies on the cache. Here you can specify the store to be used.
+         *
+         * When passing `null`, we'll use the default store.
+         */
+        'cache_store' => null,
+    ],
+    
+    /*
+     * The job that will send a campaign could take a long time when your list contains a lot of subscribers.
+     * Here you can define the maximum run time of the job. If the job hasn't fully sent your campaign, it
+     * will redispatch itself.
+     */
+    'send_automation_mails_maximum_job_runtime_in_seconds' => 60  * 10,
+    ...
+]
+```
+
+Throttling is managed differently, and Redis isn't required for large lists anymore. It does rely on cache, and you can specify any store you'd like in the `cache_store` key of the `mailcoach` config file.
+
+Two new commands have been added and we've made some changes to the suggested way of running the commands, the new scheduled commands should look like this:
+
+```php
+$schedule->command('mailcoach:send-automation-mails')->everyMinute()->withoutOverlapping()->runInBackground();
+$schedule->command('mailcoach:send-scheduled-campaigns')->everyMinute()->withoutOverlapping()->runInBackground();
+
+$schedule->command('mailcoach:run-automation-triggers')->everyMinute()->runInBackground();
+$schedule->command('mailcoach:run-automation-actions')->everyMinute()->runInBackground();
+
+$schedule->command('mailcoach:calculate-statistics')->everyMinute();
+$schedule->command('mailcoach:calculate-automation-mail-statistics')->everyMinute();
+$schedule->command('mailcoach:rescue-sending-campaigns')->hourly();
+$schedule->command('mailcoach:send-campaign-summary-mail')->hourly();
+$schedule->command('mailcoach:cleanup-processed-feedback')->hourly();
+$schedule->command('mailcoach:send-email-list-summary-mail')->mondays()->at('9:00');
+$schedule->command('mailcoach:delete-old-unconfirmed-subscribers')->daily();
+```
+
+### Translations
+
+All translations have been prefixed with `mailcoach - ` to not interfere with translations you could have in your own application. If you have added translations for Mailcoach in your project, make sure to prefix those keys.
+
 ## From v3 to v4
 
 ### Update satis
@@ -36,7 +164,7 @@ There's been a lot of changes to the database, use the migration below to update
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class UpgradeMailcoachV3ToV4 extends Migration
+class UpgradeMailcoachV3Tov5 extends Migration
 {
     public function up()
     {

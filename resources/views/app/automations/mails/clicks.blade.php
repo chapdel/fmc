@@ -1,20 +1,20 @@
-<x-mailcoach::layout-automation-mail :title="__('Clicks')" :mail="$mail">
+<x-mailcoach::layout-automation-mail :title="__('mailcoach - Clicks')" :mail="$mail">
     @if($mail->track_clicks)
         @if($mail->click_count)
             <div class="table-actions">
                 <div class="table-filters">
-                    <x-mailcoach::search :placeholder="__('Filter clicks…')" />
+                    <x-mailcoach::search :placeholder="__('mailcoach - Filter clicks…')" />
                 </div>
             </div>
 
             <table class="table table-fixed">
                 <thead>
                 <tr>
-                    <x-mailcoach::th sort-by="link">{{ __('Link') }}</x-mailcoach::th>
-                    <x-mailcoach::th>{{ __('Tag') }}</x-mailcoach::th>
+                    <x-mailcoach::th sort-by="link">{{ __('mailcoach - Link') }}</x-mailcoach::th>
+                    <x-mailcoach::th>{{ __('mailcoach - Tag') }}</x-mailcoach::th>
 
-                    <x-mailcoach::th sort-by="-unique_click_count" class="w-32 th-numeric hidden | xl:table-cell">{{ __('Unique Clicks') }}</x-mailcoach::th>
-                    <x-mailcoach::th sort-by="-click_count" class="w-32 th-numeric">{{ __('Clicks') }}</x-mailcoach::th>
+                    <x-mailcoach::th sort-by="-unique_click_count" class="w-32 th-numeric hidden | xl:table-cell">{{ __('mailcoach - Unique Clicks') }}</x-mailcoach::th>
+                    <x-mailcoach::th sort-by="-click_count" class="w-32 th-numeric">{{ __('mailcoach - Clicks') }}</x-mailcoach::th>
                 <tr>
                 </thead>
                 <tbody>
@@ -30,19 +30,19 @@
             </table>
 
             <x-mailcoach::table-status
-                :name="__('link|links')"
+                :name="__('mailcoach - link|links')"
                 :paginator="$links"
                 :total-count="$totalLinksCount"
                 :show-all-url="route('mailcoach.automations.mails.clicks', $mail)"
             ></x-mailcoach::table-status>
         @else
             <x-mailcoach::help>
-                {{ __('No clicks yet. Stay tuned.') }}
+                {{ __('mailcoach - No clicks yet. Stay tuned.') }}
             </x-mailcoach::help>
         @endif
     @else
         <x-mailcoach::help>
-            {{ __('Click tracking was not enabled for this email.') }}
+            {{ __('mailcoach - Click tracking was not enabled for this email.') }}
         </x-mailcoach::help>
     @endif
 </x-mailcoach::layout-automation-mail>

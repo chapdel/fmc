@@ -20,9 +20,9 @@ export function createTagsInput(node, { tags, selectedTags, canCreateNewTags }) 
 
     const tagsInput = new Choices(node, {
         removeItemButton: true,
-        noResultsText: canCreateNewTags ? __('Type to add tags') : __('No tags found'),
-        noChoicesText: canCreateNewTags ? __('Type to add tags') : __('No tags to choose from'),
-        itemSelectText: canCreateNewTags ? __('Press to add') : __('Press to select'),
+        noResultsText: canCreateNewTags ? __('mailcoach - Type to add tags') : __('mailcoach - No tags found'),
+        noChoicesText: canCreateNewTags ? __('mailcoach - Type to add tags') : __('mailcoach - No tags to choose from'),
+        itemSelectText: canCreateNewTags ? __('mailcoach - Press to add') : __('mailcoach - Press to select'),
         shouldSortItems: false,
         choices: currentChoices,
     });

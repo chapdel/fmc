@@ -6,7 +6,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
-use Swift_Message;
+use Symfony\Component\Mime\Email;
 
 class MailcoachMail extends Mailable
 {
@@ -157,7 +157,7 @@ class MailcoachMail extends Mailable
             return $this;
         }
 
-        $this->withSwiftMessage(function (Swift_Message $message) {
+        $this->withSymfonyMessage(function (Email $message) {
             $message
                 ->getHeaders()
                 ->addTextHeader(
@@ -188,8 +188,11 @@ class MailcoachMail extends Mailable
         if (is_null($this->send)) {
             return $this;
         }
-        $this->withSwiftMessage(function (Swift_Message $message) {
-            $this->send->storeTransportMessageId($message->getId());
+
+        $this->withSymfonyMessage(function (Email $message) {
+            $messageId = $message->generateMessageId();
+            $message->getHeaders()->addIdHeader('Message-ID', $messageId);
+            $this->send->storeTransportMessageId($messageId);
         });
 
         return $this;

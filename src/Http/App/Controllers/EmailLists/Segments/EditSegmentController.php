@@ -38,7 +38,7 @@ class EditSegmentController
             ->syncPositiveTags($request->positive_tags ?? [])
             ->syncNegativeTags($request->negative_tags ?? []);
 
-        flash()->success(__('The segment has been updated.'));
+        flash()->success(__('mailcoach - The segment has been updated.'));
 
         return redirect()->route('mailcoach.emailLists.segment.subscribers', [$emailList, $segment]);
     }

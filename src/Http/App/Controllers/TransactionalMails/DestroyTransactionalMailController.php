@@ -15,7 +15,7 @@ class DestroyTransactionalMailController
 
         $transactionalMail->delete();
 
-        flash()->success(__('The mail was removed from the log'));
+        flash()->success(__('mailcoach - The mail was removed from the log'));
 
         return redirect()->route('mailcoach.transactionalMails');
     }

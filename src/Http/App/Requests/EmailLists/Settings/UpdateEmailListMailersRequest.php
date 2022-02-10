@@ -11,6 +11,7 @@ class UpdateEmailListMailersRequest extends FormRequest
     {
         return [
             'campaign_mailer' => [Rule::in(array_keys(config('mail.mailers')))],
+            'automation_mailer' => [Rule::in(array_keys(config('mail.mailers')))],
             'transactional_mailer' => [Rule::in(array_keys(config('mail.mailers')))],
         ];
     }

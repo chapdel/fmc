@@ -54,9 +54,9 @@ it('can send a test email using a custom mailable', function () {
 
     $campaign->sendTestMail($email);
 
-    $messages = app(MailManager::class)->mailer('array')->getSwiftMailer()->getTransport()->messages();
+    $messages = app(MailManager::class)->mailer('array')->getSymfonyTransport()->messages();
 
-    test()->assertTrue($messages->filter(function (\Swift_Message $message) {
-        return $message->getSubject() === "[Test] This is the subject from the custom mailable.";
+    test()->assertTrue($messages->filter(function (\Symfony\Component\Mailer\SentMessage $message) {
+        return $message->getOriginalMessage()->getSubject() === "[Test] This is the subject from the custom mailable.";
     })->count() > 0);
 });

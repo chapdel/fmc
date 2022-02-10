@@ -8,7 +8,7 @@ use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailSentEvent;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
-use Swift_Message;
+use Symfony\Component\Mime\Email;
 
 class SendMailAction
 {
@@ -57,7 +57,7 @@ class SendMailAction
             ->setTextContent($personalisedText)
             ->setHtmlView('mailcoach::mails.automation.automationHtml')
             ->setTextView('mailcoach::mails.automation.automationText')
-            ->withSwiftMessage(function (Swift_Message $message) use ($pendingSend) {
+            ->withSymfonyMessage(function (Email $message) use ($pendingSend) {
                 $message->getHeaders()->addTextHeader('X-MAILCOACH', 'true');
 
                 /** Postmark specific header */
@@ -68,7 +68,8 @@ class SendMailAction
             $mailcoachMail->setReplyTo($automationMail->replyToEmail($pendingSend->subscriber), $automationMail->replyToName($pendingSend->subscriber));
         }
 
-        $mailer = config('mailcoach.automation.mailer')
+        $mailer = $pendingSend->subscriber->emailList->automation_mailer
+            ?? config('mailcoach.automation.mailer')
             ?? config('mailcoach.mailer')
             ?? config('mail.default');
 

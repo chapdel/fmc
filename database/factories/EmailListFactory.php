@@ -19,6 +19,7 @@ class EmailListFactory extends Factory
             'default_reply_to_email' => $this->faker->email,
             'default_reply_to_name' => $this->faker->name,
             'campaign_mailer' => config('mail.default') ?? 'array',
+            'automation_mailer' => config('mail.default') ?? 'array',
             'transactional_mailer' => config('mail.default') ?? 'array',
         ];
     }

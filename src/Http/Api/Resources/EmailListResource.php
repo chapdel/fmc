@@ -34,6 +34,7 @@ class EmailListResource extends JsonResource
             'confirmation_mailable_class' => $this->confirmation_mailable_class,
 
             'campaign_mailer' => $this->campaign_mailer,
+            'automation_mailer' => $this->automation_mailer,
             'transactional_mailer' => $this->transactional_mailer,
 
             'send_welcome_mail' => (bool)$this->send_welcome_mail,

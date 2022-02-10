@@ -14,7 +14,7 @@ class CreateAutomationController
     {
         $automation = $createAutomationAction->execute($request->validate(['name' => ['required']]));
 
-        flash()->success(__('Automation :automation was created.', ['automation' => $automation->name]));
+        flash()->success(__('mailcoach - Automation :automation was created.', ['automation' => $automation->name]));
 
         return redirect()->route('mailcoach.automations.settings', $automation);
     }

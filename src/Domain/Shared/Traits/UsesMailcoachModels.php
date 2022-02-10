@@ -25,101 +25,121 @@ use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 
 trait UsesMailcoachModels
 {
+    /** @return class-string<Campaign> */
     public static function getCampaignClass(): string
     {
         return config('mailcoach.models.campaign', Campaign::class);
     }
 
+    /** @return class-string<CampaignLink> */
     public static function getCampaignLinkClass(): string
     {
         return config('mailcoach.models.campaign_link', CampaignLink::class);
     }
 
+    /** @return class-string<CampaignClick> */
     public static function getCampaignClickClass(): string
     {
         return config('mailcoach.models.campaign_click', CampaignClick::class);
     }
 
+    /** @return class-string<CampaignOpen> */
     public static function getCampaignOpenClass(): string
     {
         return config('mailcoach.models.campaign_open', CampaignOpen::class);
     }
 
+    /** @return class-string<CampaignUnsubscribe> */
     public static function getCampaignUnsubscribeClass(): string
     {
         return config('mailcoach.models.campaign_unsubscribe', CampaignUnsubscribe::class);
     }
 
+    /** @return class-string<EmailList> */
     public static function getEmailListClass(): string
     {
         return config('mailcoach.models.email_list', EmailList::class);
     }
 
+    /** @return class-string<Send> */
     public function getSendClass(): string
     {
         return config('mailcoach.models.send', Send::class);
     }
 
+    /** @return class-string<Automation> */
     public static function getAutomationClass(): string
     {
         return config('mailcoach.models.automation', Automation::class);
     }
 
+    /** @return class-string<Action> */
     public static function getAutomationActionClass(): string
     {
         return config('mailcoach.models.automation_action', Action::class);
     }
 
+    /** @return class-string<Trigger> */
     public static function getAutomationTriggerClass(): string
     {
         return config('mailcoach.models.automation_trigger', Trigger::class);
     }
 
+    /** @return class-string<AutomationMail> */
     public static function getAutomationMailClass(): string
     {
         return config('mailcoach.models.automation_mail', AutomationMail::class);
     }
 
+    /** @return class-string<AutomationMailLink> */
     public static function getAutomationMailLinkClass(): string
     {
         return config('mailcoach.models.automation_mail_link', AutomationMailLink::class);
     }
 
+    /** @return class-string<AutomationMailClick> */
     public static function getAutomationMailClickClass(): string
     {
         return config('mailcoach.models.automation_mail_click', AutomationMailClick::class);
     }
 
+    /** @return class-string<AutomationMailOpen> */
     public static function getAutomationMailOpenClass(): string
     {
         return config('mailcoach.models.automation_mail_open', AutomationMailOpen::class);
     }
 
+    /** @return class-string<AutomationMailUnsubscribe> */
     public static function getAutomationMailUnsubscribeClass(): string
     {
         return config('mailcoach.models.automation_mail_unsubscribe', AutomationMailUnsubscribe::class);
     }
 
+    /** @return class-string<Subscriber> */
     public static function getSubscriberClass(): string
     {
         return config('mailcoach.models.subscriber', Subscriber::class);
     }
 
+    /** @return class-string<Template> */
     public static function getTemplateClass(): string
     {
         return config('mailcoach.models.template', Template::class);
     }
 
+    /** @return class-string<TransactionalMail> */
     public function getTransactionalMailClass(): string
     {
         return config('mailcoach.models.transactional_mail', TransactionalMail::class);
     }
 
+    /** @return class-string<TransactionalMailTemplate> */
     public function getTransactionalMailTemplateClass(): string
     {
         return config('mailcoach.models.transactional_mail_template', TransactionalMailTemplate::class);
     }
 
+    /** @return class-string<ActionSubscriber> */
     public static function getActionSubscriberClass(): string
     {
         return config('mailcoach.models.action_subscriber', ActionSubscriber::class);

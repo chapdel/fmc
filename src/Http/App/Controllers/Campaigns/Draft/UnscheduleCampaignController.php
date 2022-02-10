@@ -15,7 +15,7 @@ class UnscheduleCampaignController
 
         $campaign->markAsUnscheduled();
 
-        flash()->success(__('Campaign :campaign was unscheduled', ['campaign' => $campaign->name]));
+        flash()->success(__('mailcoach - Campaign :campaign was unscheduled', ['campaign' => $campaign->name]));
 
         return redirect()->route('mailcoach.campaigns.delivery', $campaign->id);
     }

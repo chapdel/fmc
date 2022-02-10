@@ -2,19 +2,18 @@
 
 use Carbon\CarbonInterval;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Domain\Automation\Jobs\RunActionForSubscriberJob;
+use Spatie\Mailcoach\Domain\Automation\Jobs\RunActionForActionSubscriberJob;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
+use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
-use Spatie\Mailcoach\Tests\TestClasses\CustomSendAutomationMailAction;
 use Spatie\TestTime\TestTime;
 
 beforeEach(function () {
     test()->emailList = EmailList::factory()->create();
 });
 
-it('runs the action for a subscriber', function () {
+it('runs the action for an action subscriber', function () {
     TestTime::freeze();
 
     $automation = Automation::factory()->create();
@@ -35,39 +34,23 @@ it('runs the action for a subscriber', function () {
 
     $action->subscribers()->attach($subscriber);
 
-    dispatch_sync(new RunActionForSubscriberJob($action, $subscriber));
+    $actionSubscriber = ActionSubscriber::first();
+    $actionSubscriber->update(['job_dispatched_at' => now()]);
+
+    dispatch_sync(new RunActionForActionSubscriberJob($actionSubscriber));
 
     expect($subscriber->actions->first()->id)->toEqual($action->id);
 
     TestTime::addDays(2);
 
-    dispatch_sync(new RunActionForSubscriberJob($action, $subscriber));
+    $actionSubscriber->update(['job_dispatched_at' => now()]);
+    dispatch_sync(new RunActionForActionSubscriberJob($actionSubscriber));
 
     expect($subscriber->actions()->count())->toEqual(2);
 
-    dispatch_sync(new RunActionForSubscriberJob($action, $subscriber));
+    $actionSubscriber->update(['job_dispatched_at' => now()]);
+    dispatch_sync(new RunActionForActionSubscriberJob($actionSubscriber));
 
     // it won't add it twice
     expect($subscriber->actions()->count())->toEqual(2);
-});
-
-it('optionally passes the action subscriber', function () {
-    TestTime::freeze();
-
-    $automation = Automation::factory()->create();
-    $automationMail = AutomationMail::factory()->create();
-
-    $action = Action::create([
-        'automation_id' => $automation->id,
-        'action' => new CustomSendAutomationMailAction($automationMail),
-        'order' => 1,
-    ]);
-
-    $subscriber = test()->emailList->subscribe('john@doe.com');
-
-    $action->subscribers()->attach($subscriber);
-
-    test()->expectExceptionMessage("ActionSubscriber is set!");
-
-    dispatch_sync(new RunActionForSubscriberJob($action, $subscriber));
 });

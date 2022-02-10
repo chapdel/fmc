@@ -6,6 +6,6 @@ class EverySubscriberSegment extends Segment
 {
     public function description(): string
     {
-        return (string)__('all subscribers');
+        return (string)__('mailcoach - all subscribers');
     }
 }

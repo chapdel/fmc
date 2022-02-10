@@ -36,7 +36,7 @@ class SubscriberDetailsController
             $request->tags ?? [],
         );
 
-        flash()->success(__('Subscriber :subscriber was updated.', ['subscriber' => $subscriber->email]));
+        flash()->success(__('mailcoach - Subscriber :subscriber was updated.', ['subscriber' => $subscriber->email]));
 
         return redirect()->route('mailcoach.emailLists.subscriber.details', [$subscriber->emailList, $subscriber]);
     }

@@ -1,9 +1,9 @@
-<x-mailcoach::layout-list :title="__('Segments')" :emailList="$emailList">
+<x-mailcoach::layout-list :title="__('mailcoach - Segments')" :emailList="$emailList">
     <div class="table-actions">
         <div class=buttons>
-            <x-mailcoach::button data-modal-trigger="create-segment" :label="__('Add segment')"/>
+            <x-mailcoach::button data-modal-trigger="create-segment" :label="__('mailcoach - Add segment')"/>
 
-            <x-mailcoach::modal :title="__('Create segment')" name="create-segment" :open="$errors->any()">
+            <x-mailcoach::modal :title="__('mailcoach - Create segment')" name="create-segment" :open="$errors->any()">
                 @include('mailcoach::app.emailLists.segments.partials.create')
             </x-mailcoach::modal>
         </div>
@@ -13,8 +13,8 @@
         <table class="table table-fixed">
             <thead>
             <tr>
-                <x-mailcoach::th sort-by="name">{{ __('Name') }}</x-mailcoach::th>
-                <x-mailcoach::th sort-by="-created_at" class="w-48 th-numeric hidden | xl:table-cell">{{ __('Created at') }}</x-mailcoach::th>
+                <x-mailcoach::th sort-by="name">{{ __('mailcoach - Name') }}</x-mailcoach::th>
+                <x-mailcoach::th sort-by="-created_at" class="w-48 th-numeric hidden | xl:table-cell">{{ __('mailcoach - Created at') }}</x-mailcoach::th>
                 <th class="w-12"></th>
             </tr>
             </thead>
@@ -34,14 +34,14 @@
                                     <x-mailcoach::form-button
                                         :action="route('mailcoach.emailLists.segment.duplicate', [$segment->emailList, $segment])"
                                     >
-                                        <x-mailcoach::icon-label icon="fas fa-random" :text="__('Duplicate')" />
+                                        <x-mailcoach::icon-label icon="fas fa-random" :text="__('mailcoach - Duplicate')" />
                                     </x-mailcoach::form-button>
                                 </li>
                                 <li>
                                     <x-mailcoach::form-button
                                         :action="route('mailcoach.emailLists.segment.delete', [$segment->emailList, $segment])"
-                                        method="DELETE" data-confirm="true" :data-confirm-text="__('Are you sure you want to delete segment :segmentName?', ['segmentName' => $segment->name])">
-                                        <x-mailcoach::icon-label icon="far fa-trash-alt" :text="__('Delete')" :caution="true"/>
+                                        method="DELETE" data-confirm="true" :data-confirm-text="__('mailcoach - Are you sure you want to delete segment :segmentName?', ['segmentName' => $segment->name])">
+                                        <x-mailcoach::icon-label icon="far fa-trash-alt" :text="__('mailcoach - Delete')" :caution="true"/>
                                     </x-mailcoach::form-button>
                                 </li>
                             </ul>
@@ -53,14 +53,14 @@
         </table>
 
         <x-mailcoach::table-status
-            :name="__('segment|segments')"
+            :name="__('mailcoach - segment|segments')"
             :paginator="$segments"
             :total-count="$totalSegmentsCount"
             :show-all-url="route('mailcoach.emailLists.segments', $emailList)">
         </x-mailcoach::table-status>
     @else
         <x-mailcoach::help>
-            {{ __("No segments here. So you don't like putting people into groups?") }}
+            {{ __("mailcoach - No segments here. So you don't like putting people into groups?") }}
         </x-mailcoach::help>
     @endif
 </x-mailcoach::layout-list>

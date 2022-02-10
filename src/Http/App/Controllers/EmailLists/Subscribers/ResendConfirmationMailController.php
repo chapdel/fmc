@@ -11,7 +11,7 @@ class ResendConfirmationMailController
     {
         $sendConfirmSubscriberMailAction->execute($subscriber);
 
-        flash()->success(__('A confirmation mail has been sent to :subscriber', ['subscriber' => $subscriber->email]));
+        flash()->success(__('mailcoach - A confirmation mail has been sent to :subscriber', ['subscriber' => $subscriber->email]));
 
         return back();
     }

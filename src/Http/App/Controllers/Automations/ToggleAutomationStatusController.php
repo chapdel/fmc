@@ -18,7 +18,7 @@ class ToggleAutomationStatusController
                 : AutomationStatus::PAUSED,
         ]);
 
-        flash()->success(__('Automation :automation was :status.', ['automation' => $automation->name, 'status' => $automation->status]));
+        flash()->success(__('mailcoach - Automation :automation was :status.', ['automation' => $automation->name, 'status' => $automation->status]));
 
         return redirect()->route('mailcoach.automations');
     }

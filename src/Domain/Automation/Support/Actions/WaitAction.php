@@ -3,7 +3,10 @@
 namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
 
 use Carbon\CarbonInterval;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\Query\Builder;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum;
 
 class WaitAction extends AutomationAction
@@ -23,7 +26,7 @@ class WaitAction extends AutomationAction
 
     public static function getName(): string
     {
-        return (string) __('Wait for a duration');
+        return (string) __('mailcoach - Wait for a duration');
     }
 
     public static function getComponent(): ?string
@@ -70,5 +73,11 @@ class WaitAction extends AutomationAction
         }
 
         return false;
+    }
+
+    public function getActionSubscribersQuery(Action $action): Builder|\Illuminate\Database\Eloquent\Builder|Relation
+    {
+        return $action->pendingActionSubscribers()
+            ->where('created_at', '<=', now()->sub($this->interval));
     }
 }

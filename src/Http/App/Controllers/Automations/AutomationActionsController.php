@@ -25,7 +25,7 @@ class AutomationActionsController
 
         $automation->chain($newActions);
 
-        flash()->success(__('Actions successfully saved to automation :automation.', [
+        flash()->success(__('mailcoach - Actions successfully saved to automation :automation.', [
             'automation' => $automation->name,
         ]));
 

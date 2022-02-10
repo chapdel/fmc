@@ -28,7 +28,7 @@ class RemoveTagsAction extends AutomationAction
 
     public static function getName(): string
     {
-        return (string) __('Remove tags');
+        return (string) __('mailcoach - Remove tags');
     }
 
     public function getDescription(): string

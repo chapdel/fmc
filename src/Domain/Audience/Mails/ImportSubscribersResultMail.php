@@ -28,7 +28,7 @@ class ImportSubscribersResultMail extends Mailable
                 $this->subscriberImport->emailList->default_from_email,
                 $this->subscriberImport->emailList->default_from_name
             )
-            ->subject(__('Import Subscribers Result Mail'))
+            ->subject(__('mailcoach - Import Subscribers Result Mail'))
             ->markdown('mailcoach::mails.importResults');
     }
 }

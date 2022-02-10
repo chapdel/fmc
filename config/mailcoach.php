@@ -41,17 +41,26 @@ return [
 
         /*
          * By default only 10 mails per second will be sent to avoid overwhelming your
-         * e-mail sending service. To use this feature you must have Redis installed.
+         * e-mail sending service.
          */
         'throttling' => [
-            'enabled' => true,
-            'redis_connection_name' => 'default',
-            'redis_key' => 'laravel-mailcoach',
             'allowed_number_of_jobs_in_timespan' => 10,
             'timespan_in_seconds' => 1,
-            'release_in_seconds' => 5,
-            'retry_until_hours' => 24,
+
+            /*
+             * Throttling relies on the cache. Here you can specify the store to be used.
+             *
+             * When passing `null`, we'll use the default store.
+             */
+            'cache_store' => null,
         ],
+
+        /*
+         * The job that will send a campaign could take a long time when your list contains a lot of subscribers.
+         * Here you can define the maximum run time of the job. If the job hasn't fully sent your campaign, it
+         * will redispatch itself.
+         */
+        'send_campaign_maximum_job_runtime_in_seconds' => 60  * 10,
 
         /*
          * You can customize some of the behavior of this package by using our own custom action.
@@ -78,6 +87,29 @@ return [
         'mailer' => null,
 
         /*
+         * By default only 10 mails per second will be sent to avoid overwhelming your
+         * e-mail sending service.
+         */
+        'throttling' => [
+            'allowed_number_of_jobs_in_timespan' => 10,
+            'timespan_in_seconds' => 1,
+
+            /*
+             * Throttling relies on the cache. Here you can specify the store to be used.
+             *
+             * When passing `null`, we'll use the default store.
+             */
+            'cache_store' => null,
+        ],
+
+        /*
+         * The job that will send automation mails could take a long time when your list contains a lot of subscribers.
+         * Here you can define the maximum run time of the job. If the job hasn't fully sent your automation mails, it
+         * will redispatch itself.
+         */
+        'send_automation_mails_maximum_job_runtime_in_seconds' => 60  * 10,
+
+        /*
          * Here you can configure which automation mail template editor Mailcoach uses.
          * By default this is a text editor that highlights HTML.
          */
@@ -86,6 +118,7 @@ return [
         'actions' => [
             'send_mail' => \Spatie\Mailcoach\Domain\Automation\Actions\SendMailAction::class,
             'send_automation_mail_to_subscriber' => \Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailToSubscriberAction::class,
+            'send_automation_mails_action' => \Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailsAction::class,
             'prepare_subject' => \Spatie\Mailcoach\Domain\Automation\Actions\PrepareSubjectAction::class,
             'prepare_webview_html' => \Spatie\Mailcoach\Domain\Automation\Actions\PrepareWebviewHtmlAction::class,
 
@@ -145,6 +178,7 @@ return [
         ],
 
         'perform_on_queue' => [
+            'dispatch_pending_automation_mails_job' => 'send-campaign',
             'run_automation_action_job' => 'send-campaign',
             'run_action_for_subscriber_job' => 'mailcoach',
             'run_automation_for_subscriber_job' => 'mailcoach',
@@ -210,12 +244,6 @@ return [
         'actions' => [
             'calculate_statistics' => \Spatie\Mailcoach\Domain\Shared\Actions\CalculateStatisticsAction::class,
         ],
-
-        /**
-         * Which rate limit driver to use, we use Redis by default.
-         * Options: redis | cache
-         */
-        'rate_limit_driver' => 'redis',
     ],
 
     /*

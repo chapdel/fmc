@@ -6,7 +6,7 @@
 
         @if($subscribersCount = $segment->emailList->subscribers()->count())
             <div class="alert alert-info mb-8">
-                {!! __('Population is <strong>:percentage%</strong> of list total of :subscribersCount.', ['percentage' => round($selectedSubscribersCount / $subscribersCount * 100 , 2), 'subscribersCount' => number_format($subscribersCount)]) !!}
+                {!! __('mailcoach - Population is <strong>:percentage%</strong> of list total of :subscribersCount.', ['percentage' => round($selectedSubscribersCount / $subscribersCount * 100 , 2), 'subscribersCount' => number_format($subscribersCount)]) !!}
             </div>
         @endif
 
@@ -14,8 +14,8 @@
             <table class="table table-fixed">
                 <thead>
                 <tr>
-                    <x-mailcoach::th sort-by="email">{{ __('Email') }}</x-mailcoach::th>
-                    <th>{{ __('Tags') }}</th>
+                    <x-mailcoach::th sort-by="email">{{ __('mailcoach - Email') }}</x-mailcoach::th>
+                    <th>{{ __('mailcoach - Tags') }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -40,12 +40,12 @@
             </table>
         </div>
 
-        <x-mailcoach::table-status :name="__('subscriber|subscribers')" :paginator="$subscribers" :total-count="$selectedSubscribersCount"
+        <x-mailcoach::table-status :name="__('mailcoach - subscriber|subscribers')" :paginator="$subscribers" :total-count="$selectedSubscribersCount"
                         :show-all-url="route('mailcoach.emailLists.segment.subscribers', [$segment->emailList, $segment])">
         </x-mailcoach::table-status>
     @else
         <x-mailcoach::help>
-            {{ __('This is a very exclusive segment. Nobody got selected.') }}
+            {{ __('mailcoach - This is a very exclusive segment. Nobody got selected.') }}
         </x-mailcoach::help>
     @endif
 </x-mailcoach::layout-segment>

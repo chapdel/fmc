@@ -17,7 +17,7 @@ class DuplicateAutomationMailController
 
         /** @var AutomationMail $automationMail */
         $automationMail = $this->getAutomationMailClass()::create([
-            'name' => __('Duplicate of') . ' ' . $automationMail->name,
+            'name' => __('mailcoach - Duplicate of') . ' ' . $automationMail->name,
             'subject' => $automationMail->subject,
             'html' => $automationMail->html,
             'structured_html' => $automationMail->structured_html,
@@ -28,7 +28,7 @@ class DuplicateAutomationMailController
             'last_modified_at' => now(),
         ]);
 
-        flash()->success(__('Email :name was duplicated.', ['name' => $automationMail->name]));
+        flash()->success(__('mailcoach - Email :name was duplicated.', ['name' => $automationMail->name]));
 
         return redirect()->route('mailcoach.automations.mails.settings', $automationMail);
     }

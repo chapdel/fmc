@@ -14,7 +14,7 @@ class DuplicateAutomationController
     {
         /** @var \Spatie\Mailcoach\Domain\Automation\Models\Automation $duplicateAutomation */
         $duplicateAutomation = $this->getAutomationClass()::create([
-            'name' => __('Duplicate of') . ' ' . $automation->name,
+            'name' => __('mailcoach - Duplicate of') . ' ' . $automation->name,
         ]);
 
         $automation->actions->each(function (Action $action) use ($duplicateAutomation) {
@@ -35,7 +35,7 @@ class DuplicateAutomationController
             }
         });
 
-        flash()->success(__('Automation :automation was duplicated.', ['automation' => $automation->name]));
+        flash()->success(__('mailcoach - Automation :automation was duplicated.', ['automation' => $automation->name]));
 
         return redirect()->route('mailcoach.automations.settings', $duplicateAutomation);
     }

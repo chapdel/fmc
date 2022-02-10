@@ -27,7 +27,7 @@ class CreateAutomationMailController
             $request->validated(),
         );
 
-        flash()->success(__('Email :name was created.', ['name' => $automationMail->name]));
+        flash()->success(__('mailcoach - Email :name was created.', ['name' => $automationMail->name]));
 
         return redirect()->route('mailcoach.automations.mails.settings', $automationMail);
     }

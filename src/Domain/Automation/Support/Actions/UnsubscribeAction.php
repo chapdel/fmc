@@ -9,7 +9,7 @@ class UnsubscribeAction extends AutomationAction
 {
     public static function getName(): string
     {
-        return (string) __('Unsubscribe');
+        return (string) __('mailcoach - Unsubscribe');
     }
 
     public static function getCategory(): ActionCategoryEnum

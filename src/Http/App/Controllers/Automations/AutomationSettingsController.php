@@ -32,7 +32,7 @@ class AutomationSettingsController
 
         $automation->update(['segment_description' => $automation->getSegment()->description()]);
 
-        flash()->success(__('Automation :automation was updated.', ['automation' => $automation->name]));
+        flash()->success(__('mailcoach - Automation :automation was updated.', ['automation' => $automation->name]));
 
         return redirect()->route('mailcoach.automations.settings', $automation);
     }

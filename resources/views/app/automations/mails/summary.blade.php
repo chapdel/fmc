@@ -1,13 +1,13 @@
-<x-mailcoach::layout-automation-mail :title="__('Performance')" :mail="$mail">
+<x-mailcoach::layout-automation-mail :title="__('mailcoach - Performance')" :mail="$mail">
     <div>
         <div class="grid grid-cols-auto-1fr gap-2 alert alert-success">
             <div>
                 <i class="fas fa-check text-green-500"></i>
             </div>
             <div>
-                {{ __('AutomationMail') }}
+                {{ __('mailcoach - AutomationMail') }}
                 <strong>{{ $mail->name }}</strong>
-                {{ __('was delivered to') }}
+                {{ __('mailcoach - was delivered to') }}
                 <strong>{{ number_format($mail->sent_to_number_of_subscribers - ($failedSendsCount ?? 0)) }} {{ trans_choice('subscriber|subscribers', $mail->sent_to_number_of_subscribers) }}</strong>
             </div>
 
@@ -16,11 +16,11 @@
                     <i class="fas fa-times text-red-500"></i>
                 </div>
                 <div>
-                    {{ __('Delivery failed for') }}
+                    {{ __('mailcoach - Delivery failed for') }}
                     <strong>{{ $failedSendsCount }}</strong> {{ trans_choice('subscriber|subscribers', $failedSendsCount) }}
                     .
                     <a class="underline"
-                       href="{{ route('mailcoach.automations.mails.outbox', $mail) . '?filter[type]=failed' }}">{{ __('Check the outbox') }}</a>.
+                       href="{{ route('mailcoach.automations.mails.outbox', $mail) . '?filter[type]=failed' }}">{{ __('mailcoach - Check the outbox') }}</a>.
                 </div>
             @endif
 

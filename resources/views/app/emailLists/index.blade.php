@@ -1,14 +1,14 @@
-<x-mailcoach::layout-main :title="__('Lists')">
+<x-mailcoach::layout-main :title="__('mailcoach - Lists')">
     <div class="table-actions">
-        <x-mailcoach::button data-modal-trigger="create-list" icon="fa-address-book" :label="__('Create list')" />
+        <x-mailcoach::button data-modal-trigger="create-list" icon="fa-address-book" :label="__('mailcoach - Create list')" />
 
-        <x-mailcoach::modal :title="__('Create list')" name="create-list" :open="$errors->any()">
+        <x-mailcoach::modal :title="__('mailcoach - Create list')" name="create-list" :open="$errors->any()">
             @include('mailcoach::app.emailLists.partials.create')
         </x-mailcoach::modal>
 
         @if($emailLists->count() || $searching)
             <div class="table-filters">
-                <x-mailcoach::search :placeholder="__('Filter lists…')"/>
+                <x-mailcoach::search :placeholder="__('mailcoach - Filter lists…')"/>
             </div>
         @endif
     </div>
@@ -17,9 +17,9 @@
         <table class="table table-fixed">
             <thead>
             <tr>
-                <x-mailcoach::th sort-by="name" sort-default>{{ __('Name') }}</x-mailcoach::th>
-                <x-mailcoach::th sort-by="-active_subscribers_count" class="w-32 th-numeric">{{ __('Active') }}</x-mailcoach::th>
-                <x-mailcoach::th sort-by="-created_at" class="w-48 th-numeric hidden | xl:table-cell">{{ __('Created') }}</x-mailcoach::th>
+                <x-mailcoach::th sort-by="name" sort-default>{{ __('mailcoach - Name') }}</x-mailcoach::th>
+                <x-mailcoach::th sort-by="-active_subscribers_count" class="w-32 th-numeric">{{ __('mailcoach - Active') }}</x-mailcoach::th>
+                <x-mailcoach::th sort-by="-created_at" class="w-48 th-numeric hidden | xl:table-cell">{{ __('mailcoach - Created') }}</x-mailcoach::th>
                 <th class="w-12"></th>
             </tr>
             </thead>
@@ -40,11 +40,11 @@
                             :action="route('mailcoach.emailLists.delete', $emailList)"
                             method="DELETE"
                             data-confirm="true"
-                            :data-confirm-text="__('Are you sure you want to delete list :emailListName?', ['emailListName' => $emailList->name])"
+                            :data-confirm-text="__('mailcoach - Are you sure you want to delete list :emailListName?', ['emailListName' => $emailList->name])"
                             class="icon-button hover:text-red-500"
                         >
                             <i class="far fa-trash-alt"></i>
-                        </x-mailcoach::form-button> 
+                        </x-mailcoach::form-button>
                     </td>
                 </tr>
             @endforeach
@@ -52,7 +52,7 @@
         </table>
 
         <x-mailcoach::table-status
-            :name="__('list|lists')"
+            :name="__('mailcoach - list|lists')"
             :paginator="$emailLists"
             :total-count="$totalEmailListsCount"
             :show-all-url="route('mailcoach.emailLists')"
@@ -61,9 +61,9 @@
     @else
         <x-mailcoach::help>
             @if ($searching)
-                {{ __('No email lists found.') }}
+                {{ __('mailcoach - No email lists found.') }}
             @else
-                {{ __("You'll need at least one list to gather subscribers.") }}
+                {{ __("mailcoach - You'll need at least one list to gather subscribers.") }}
             @endif
         </x-mailcoach::help>
     @endif

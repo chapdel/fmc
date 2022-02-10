@@ -7,11 +7,11 @@
         @csrf
         @method('PUT')
 
-        <x-mailcoach::text-field :label="__('Email')" name="email" :value="$subscriber->email" type="email" required />
-        <x-mailcoach::text-field :label="__('First name')" name="first_name" :value="$subscriber->first_name" />
-        <x-mailcoach::text-field :label="__('Last name')" name="last_name" :value="$subscriber->last_name" />
+        <x-mailcoach::text-field :label="__('mailcoach - Email')" name="email" :value="$subscriber->email" type="email" required />
+        <x-mailcoach::text-field :label="__('mailcoach - First name')" name="first_name" :value="$subscriber->first_name" />
+        <x-mailcoach::text-field :label="__('mailcoach - Last name')" name="last_name" :value="$subscriber->last_name" />
         <x-mailcoach::tags-field
-            :label="__('Tags')"
+            :label="__('mailcoach - Tags')"
             name="tags"
             :value="$subscriber->tags()->pluck('name')->toArray()"
             :tags="$subscriber->emailList->tags()->where('type', \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::DEFAULT)->pluck('name')->toArray()"
@@ -19,7 +19,7 @@
         />
 
         <div class="form-buttons">
-            <x-mailcoach::button :label="__('Save subscriber')" />
+            <x-mailcoach::button :label="__('mailcoach - Save subscriber')" />
         </div>
     </form>
 </x-mailcoach::layout-subscriber>

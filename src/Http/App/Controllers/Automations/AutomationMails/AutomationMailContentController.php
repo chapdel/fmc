@@ -27,7 +27,7 @@ class AutomationMailContentController
             'last_modified_at' => now(),
         ]);
 
-        flash()->success(__('Email :name was updated.', ['name' => $mail->name]));
+        flash()->success(__('mailcoach - Email :name was updated.', ['name' => $mail->name]));
 
         return redirect()->route('mailcoach.automations.mails.content', $mail->id);
     }

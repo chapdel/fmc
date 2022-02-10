@@ -31,7 +31,7 @@ it('can sends links to webviews', function () {
 function sendCampaignForWebviewTest()
 {
     Event::listen(MessageSent::class, function (MessageSent $event) {
-        $link = (new Crawler($event->message->getBody()))
+        $link = (new Crawler($event->message->getHtmlBody()))
             ->filter('a')->first()->attr('href');
 
         expect($link)->toStartWith('http://localhost');

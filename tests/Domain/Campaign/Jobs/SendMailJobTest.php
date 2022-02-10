@@ -6,7 +6,6 @@ use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
-use Spatie\TestTime\TestTime;
 
 beforeEach(function () {
     Mail::fake();
@@ -26,40 +25,6 @@ it('can send a mail with the correct mailer', function () {
 
         return true;
     });
-});
-
-it('will rate limit', function () {
-    TestTime::freeze()->addDay();
-
-    config()->set('mailcoach.campaigns.throttling.allowed_number_of_jobs_in_timespan', 1);
-
-    $pendingSend = SendFactory::new()->create();
-    $pendingSend2 = SendFactory::new()->create();
-    $pendingSend3 = SendFactory::new()->create();
-
-    dispatch(new SendCampaignMailJob($pendingSend));
-    dispatch(new SendCampaignMailJob($pendingSend2));
-    dispatch(new SendCampaignMailJob($pendingSend3));
-
-    Mail::assertSent(MailcoachMail::class, 1);
-});
-
-it('will rate limit with cache', function () {
-    config()->set('mailcoach.shared.rate_limit_driver', 'cache');
-
-    TestTime::freeze()->addDay();
-
-    config()->set('mailcoach.campaigns.throttling.allowed_number_of_jobs_in_timespan', 1);
-
-    $pendingSend = SendFactory::new()->create();
-    $pendingSend2 = SendFactory::new()->create();
-    $pendingSend3 = SendFactory::new()->create();
-
-    dispatch(new SendCampaignMailJob($pendingSend));
-    dispatch(new SendCampaignMailJob($pendingSend2));
-    dispatch(new SendCampaignMailJob($pendingSend3));
-
-    Mail::assertSent(MailcoachMail::class, 1);
 });
 
 it('will not resend a mail that has already been sent', function () {

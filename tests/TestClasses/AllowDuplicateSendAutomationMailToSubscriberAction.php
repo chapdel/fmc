@@ -17,7 +17,7 @@ class AllowDuplicateSendAutomationMailToSubscriberAction extends SendAutomationM
             ->prepareSubject($automationMail)
             ->prepareEmailHtml($automationMail)
             ->prepareWebviewHtml($automationMail)
-            ->sendMail($automationMail, $subscriber);
+            ->createSend($automationMail, $subscriber);
     }
 
     protected function createSend(AutomationMail $automationMail, Subscriber $subscriber): Send

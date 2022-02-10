@@ -5,11 +5,11 @@ weight: 2
 
 [Editor.js](https://editorjs.io) is a beautiful block based wysiwyg editor. It also offers image uploads.
 
-![screenshot](/docs/laravel-mailcoach/v4/images/editors/editor-js.png)
+![screenshot](/docs/laravel-mailcoach/v5/images/editors/editor-js.png)
 
 ## Configuration via the UI
 
-When you've installed Mailcoach as a standalone app or via the 1-click-installer you can choose this editor through the UI on the settings screen.
+When you've installed Mailcoach as a standalone app you can choose this editor through the UI on the settings screen.
 
 ## Manual installation
 

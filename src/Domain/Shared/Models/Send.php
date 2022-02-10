@@ -41,6 +41,7 @@ class Send extends Model
     public $guarded = [];
 
     public $dates = [
+        'sending_job_dispatched_at',
         'sent_at',
         'failed_at',
     ];
@@ -151,6 +152,20 @@ class Send extends Model
     public function wasAlreadySent(): bool
     {
         return ! is_null($this->sent_at);
+    }
+
+    public function markAsSendingJobDispatched(): self
+    {
+        $this->update([
+            'sending_job_dispatched_at' => now(),
+        ]);
+
+        return $this;
+    }
+
+    public function mailSendingJobWasDispatched(): bool
+    {
+        return ! is_null($this->sending_job_dispatched_at);
     }
 
     public function storeTransportMessageId(string $transportMessageId)
@@ -366,6 +381,11 @@ class Send extends Model
         return $this;
     }
 
+    public function scopeUndispatched(Builder $query): void
+    {
+        $query->whereNull('sending_job_dispatched_at');
+    }
+
     public function scopePending(Builder $query): void
     {
         $query->whereNull('sent_at');
@@ -414,6 +434,7 @@ class Send extends Model
             'sent_at' => null,
             'failed_at' => null,
             'failure_reason' => null,
+            'sending_job_dispatched_at' => null,
         ]);
     }
 

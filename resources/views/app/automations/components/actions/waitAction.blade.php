@@ -1,6 +1,6 @@
 <x-mailcoach::automation-action :index="$index" :action="$action" :editing="$editing" :editable="$editable" :deletable="$deletable">
     <x-slot name="legend">
-        {{__('Wait for') }}
+        {{__('mailcoach - Wait for') }}
         <span class="legend-accent">
             @php
             try {
@@ -15,7 +15,7 @@
     <x-slot name="form">
         <div class="col-span-8 sm:col-span-4">
             <x-mailcoach::text-field
-                :label="__('Length')"
+                :label="__('mailcoach - Length')"
                 :required="true"
                 name="length"
                 wire:model="length"
@@ -25,7 +25,7 @@
 
         <div class="col-span-4 sm:col-span-2">
         <x-mailcoach::select-field
-            :label="__('Unit')"
+            :label="__('mailcoach - Unit')"
             :required="true"
             name="unit"
             wire:model="unit"

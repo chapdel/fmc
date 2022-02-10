@@ -67,10 +67,10 @@
         <div class="chart-tooltip-container" style="left: {{ $index / 23 * 100 }}%">
             <label class="chart-tooltip">
                 <span class="chart-tooltip-legend | bg-blue-400"></span>
-                {{ $stat['opens'] }} {{ __('opens') }}
+                {{ $stat['opens'] }} {{ __('mailcoach - opens') }}
                 <br>
                 <span class="chart-tooltip-legend | bg-green-400"></span>
-                {{ $stat['clicks'] }} {{ __('clicks') }}
+                {{ $stat['clicks'] }} {{ __('mailcoach - clicks') }}
             </label>
         </div>
     @endforeach

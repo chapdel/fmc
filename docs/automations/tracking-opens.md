@@ -7,7 +7,7 @@ The package can track when and how many times a subscriber opens an automation m
 
 ## Enabling open tracking
 
-To use this feature, you must set `track_opens` to `true` of an automation mail you're going to send. You can find an example of how to do this in the section on [how to create an automation mail](/docs/v4/laravel-mailcoach/automations/creating-an-automation-mail).
+To use this feature, you must set `track_opens` to `true` of an automation mail you're going to send. You can find an example of how to do this in the section on [how to create an automation mail](/docs/v5/laravel-mailcoach/automations/creating-an-automation-mail).
 
 ## How it works under the hood
 

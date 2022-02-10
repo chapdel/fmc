@@ -13,4 +13,4 @@ $campaign->sendTestMail('john@example.com');
 $campaign->sendTestMail(['john@example.com', 'paul@example.com'])
 ```
 
-In the sent mail [the placeholders](/docs/laravel-mailcoach/v4/campaigns/creating-a-campaign#setting-the-content-and-using-placeholders) won't be replaced. Rest assured that when you send the mail to your entire list, they will be replaced.
+In the sent mail [the placeholders](/docs/laravel-mailcoach/v5/campaigns/creating-a-campaign#setting-the-content-and-using-placeholders) won't be replaced. Rest assured that when you send the mail to your entire list, they will be replaced.

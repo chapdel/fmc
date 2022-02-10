@@ -14,6 +14,7 @@ class RetrySendingFailedSendsAction
             'sent_at' => null,
             'failed_at' => null,
             'failure_reason' => null,
+
         ]);
 
         $campaign->sends()->getQuery()->pending()->each(function (Send $pendingSend) {

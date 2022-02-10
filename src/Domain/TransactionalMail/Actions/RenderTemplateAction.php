@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Domain\TransactionalMail\Actions;
 
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Markdown;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\File;
 use Illuminate\View\Factory;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
@@ -23,12 +24,11 @@ class RenderTemplateAction
     protected function renderTemplateBody(TransactionalMailTemplate $template, Mailable $mailable): string
     {
         return match ($template->type) {
-            'blade' => $this->compileBlade($template->body, $mailable->buildViewData()),
+            'blade' => Blade::render($template->body, $mailable->buildViewData()),
             'markdown' => Markdown::parse($template->body),
-            'blade-markdown' => $this->compileBlade(
+            'blade-markdown' => $this->compileBladeMarkdown(
                 bladeString: $template->body,
                 data: $mailable->buildViewData(),
-                markdown: true,
                 theme: $mailable->theme
             ),
 
@@ -45,26 +45,20 @@ class RenderTemplateAction
         return $body;
     }
 
-    protected function compileBlade(string $bladeString, array $data, bool $markdown = false, string $theme = null): string
+    protected function compileBladeMarkdown(string $bladeString, array $data, string $theme = null): string
     {
-        $tempDir = new TemporaryDirectory();
-        $tempDir->create();
+        $tempDir = (new TemporaryDirectory())->create();
         $path = $tempDir->path('temporary-template-view.blade.php');
 
         File::put($path, $bladeString);
 
         $viewFactory = app(Factory::class);
         $viewFactory->addLocation($tempDir->path());
-        $viewFactory->flushFinderCache();
 
-        if ($markdown) {
-            $html = app(Markdown::class)
-                ->theme($theme ?? 'default')
-                ->render('temporary-template-view', $data)
-                ->toHtml();
-        } else {
-            $html = $viewFactory->make('temporary-template-view', $data)->render();
-        }
+        $html = app(Markdown::class)
+            ->theme($theme ?? 'default')
+            ->render('temporary-template-view', $data)
+            ->toHtml();
 
         $tempDir->delete();
 

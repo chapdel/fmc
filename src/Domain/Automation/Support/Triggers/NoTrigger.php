@@ -6,7 +6,7 @@ class NoTrigger extends AutomationTrigger
 {
     public static function getName(): string
     {
-        return (string) __('No trigger');
+        return (string) __('mailcoach - No trigger');
     }
 
     public static function getComponent(): ?string

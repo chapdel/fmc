@@ -16,7 +16,7 @@ class DestroySegmentController
 
         $segment->delete();
 
-        flash()->success(__('Segment :segment was deleted.', ['segment' => $segment->name]));
+        flash()->success(__('mailcoach - Segment :segment was deleted.', ['segment' => $segment->name]));
 
         return back();
     }

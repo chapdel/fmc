@@ -41,7 +41,7 @@ class ImportSubscribersController
 
         dispatch(new ImportSubscribersJob($subscriberImport, $user instanceof User ? $user : null));
 
-        flash()->success(__('Your file has been uploaded. Follow the import status in the list below.'));
+        flash()->success(__('mailcoach - Your file has been uploaded. Follow the import status in the list below.'));
 
         return redirect()->back();
     }

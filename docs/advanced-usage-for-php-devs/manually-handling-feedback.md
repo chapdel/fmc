@@ -29,7 +29,7 @@ class StoreTransportMessageId
         /** @var \Spatie\Mailcoach\Models\Send $send */
         $send = $event->data['send'];
 
-        $transportMessageId = $event->message->getHeaders()->get('header-name-used-by-your-email-provider')->getFieldBody();
+        $transportMessageId = $event->message->getHeaders()->get('header-name-used-by-your-email-provider')->bodyAsString();
 
         $send->storeTransportMessageId($transportMessageId);
     }

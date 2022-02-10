@@ -23,7 +23,7 @@ class RunAutomationActionsCommand extends Command
 
         static::getAutomationClass()::query()
             ->where('status', AutomationStatus::STARTED)
-            ->cursor()
+            ->lazyById()
             ->each(function (Automation $automation) {
                 if (! is_null($automation->run_at) && $automation->run_at->add($automation->interval)->isFuture()) {
                     return;

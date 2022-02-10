@@ -9,7 +9,7 @@ After an automation mail is sent, some statistics will be made available.
 
 ### On an automation mail
 
-The [scheduled](/docs/laravel-mailcoach/v4/installation/in-an-existing-laravel-app#schedule-the-commands) 'email-campaigns:calculate-statistics' will fill these attributes on the `AutomationMail` model:
+The [scheduled](/docs/laravel-mailcoach/v5/installation/in-an-existing-laravel-app#schedule-the-commands) 'email-campaigns:calculate-statistics' will fill these attributes on the `AutomationMail` model:
 
 - `sent_to_number_of_subscribers`
 - `open_count`: this is the total number of times your automation mail was opened. Multiple opens by a single subscriber will be counted.

@@ -1,6 +1,6 @@
 <div>
     <x-mailcoach::text-field
-        :label="__('Tag')"
+        :label="__('mailcoach - Tag')"
         name="tag"
         :value="$automation->getTrigger()->tag ?? null"
         required

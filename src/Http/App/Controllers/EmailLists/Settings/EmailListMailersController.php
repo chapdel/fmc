@@ -24,12 +24,12 @@ class EmailListMailersController
         $this->authorize('update', $emailList);
 
         $emailList->update([
-
             'campaign_mailer' => $request->campaign_mailer,
+            'automation_mailer' => $request->automation_mailer,
             'transactional_mailer' => $request->transactional_mailer,
         ]);
 
-        flash()->success(__('List :emailList was updated', ['emailList' => $emailList->name]));
+        flash()->success(__('mailcoach - List :emailList was updated', ['emailList' => $emailList->name]));
 
         return back();
     }

@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
-use Swift_Message;
+use Symfony\Component\Mime\Email;
 
 class SendCampaignTestAction
 {
@@ -24,7 +24,7 @@ class SendCampaignTestAction
             ->setHtmlContent($html)
             ->setTextContent($text)
             ->subject("[Test] {$campaign->subject}")
-            ->withSwiftMessage(function (Swift_Message $message) {
+            ->withSymfonyMessage(function (Email $message) {
                 $message->getHeaders()->addTextHeader('X-MAILCOACH', 'true');
                 $message->getHeaders()->addTextHeader('X-Entity-Ref-ID', Str::uuid()->toString());
             });

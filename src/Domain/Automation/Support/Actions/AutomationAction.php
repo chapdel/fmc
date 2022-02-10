@@ -3,6 +3,8 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
 
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
@@ -37,6 +39,11 @@ abstract class AutomationAction extends AutomationStep
         $clone->uuid = Str::uuid()->toString();
 
         return $clone;
+    }
+
+    public function getActionSubscribersQuery(Action $action): Builder|\Illuminate\Database\Eloquent\Builder|Relation
+    {
+        return $action->pendingActionSubscribers();
     }
 
     public function store(string $uuid, Automation $automation, ?int $order = null, ?int $parent_id = null, ?string $key = null): Action

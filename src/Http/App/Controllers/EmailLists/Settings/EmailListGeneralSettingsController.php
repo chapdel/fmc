@@ -36,7 +36,7 @@ class EmailListGeneralSettingsController
             'report_email_list_summary' => $request->report_email_list_summary ?? false,
         ]);
 
-        flash()->success(__('List :emailList was updated', ['emailList' => $emailList->name]));
+        flash()->success(__('mailcoach - List :emailList was updated', ['emailList' => $emailList->name]));
 
         return redirect()->route('mailcoach.emailLists.general-settings', $emailList);
     }

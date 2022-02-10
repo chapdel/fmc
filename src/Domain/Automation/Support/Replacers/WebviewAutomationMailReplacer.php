@@ -9,7 +9,7 @@ class WebviewAutomationMailReplacer implements AutomationMailReplacer
     public function helpText(): array
     {
         return [
-            'webviewUrl' => __('This URL will display the HTML of the automation mail'),
+            'webviewUrl' => __('mailcoach - This URL will display the HTML of the automation mail'),
         ];
     }
 

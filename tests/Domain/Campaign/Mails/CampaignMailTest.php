@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 
@@ -16,8 +17,10 @@ it('will set transport id', function () {
 
     Mail::to('john@example.com')->send($campaignMailable);
 
+    $domain = '@' . Str::after($campaignMailable->from[0]['address'], '@');
+
     test()->assertStringEndsWith(
-        '@swift.generated',
+        $domain,
         $send->refresh()->transport_message_id
     );
 });

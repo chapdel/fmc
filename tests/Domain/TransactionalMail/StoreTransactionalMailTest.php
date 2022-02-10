@@ -41,7 +41,6 @@ it('can store the various recipients', function () {
         $testTransactionMail
             ->trackOpensAndClicks()
             ->from('ringo@example.com', 'Ringo')
-            ->to('john@example.com', 'John')
             ->cc('paul@example.com', 'Paul')
             ->bcc('george@example.com', 'George');
     });
@@ -54,7 +53,7 @@ it('can store the various recipients', function () {
     );
 
     test()->assertEquals(
-        [['email' => 'john@example.com', 'name' => 'John']],
+        [['email' => 'john@example.com', 'name' => '']],
         $transactionalMail->to,
     );
 

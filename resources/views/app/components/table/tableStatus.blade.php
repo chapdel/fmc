@@ -1,10 +1,10 @@
 <p class="table-status">
     @if($paginator->total() !== $totalCount)
-        {{ __('Filtering :resource', [
+        {{ __('mailcoach - Filtering :resource', [
             'resource' => trans_choice($name, $totalCount)
         ]) }}.
         <a href="{{ $showAllUrl }}" class="link-dimmed" data-turbolinks="false">
-            {{ __('Show all') }}
+            {{ __('mailcoach - Show all') }}
         </a>
     @endif
 </p>

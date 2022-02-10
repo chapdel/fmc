@@ -2,17 +2,17 @@
     @if($sends->count())
         <div class="table-actions">
             <div class="table-filters">
-                <x-mailcoach::search :placeholder="__('Filter campaigns…')"/>
+                <x-mailcoach::search :placeholder="__('mailcoach - Filter campaigns…')"/>
             </div>
         </div>
 
         <table class="table table-fixed">
             <thead>
                 <tr>
-                    <th>{{ __('Campaign') }}</th>
-                    <th class="w-32 th-numeric">{{ __('Opens') }}</th>
-                    <th class="w-32 th-numeric">{{ __('Clicks') }}</th>
-                    <th class="w-48 th-numeric hidden | xl:table-cell">{{ __('Sent') }}</th>
+                    <th>{{ __('mailcoach - Campaign') }}</th>
+                    <th class="w-32 th-numeric">{{ __('mailcoach - Opens') }}</th>
+                    <th class="w-32 th-numeric">{{ __('mailcoach - Clicks') }}</th>
+                    <th class="w-48 th-numeric hidden | xl:table-cell">{{ __('mailcoach - Sent') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -43,14 +43,14 @@
         </table>
 
         <x-mailcoach::table-status
-            :name="__('send|sends')"
+            :name="__('mailcoach - send|sends')"
             :paginator="$sends"
             :total-count="$totalSendsCount"
             :show-all-url="route('mailcoach.emailLists.subscribers', [$subscriber->emailList])"
         ></x-mailcoach::table-status>
     @else
         <x-mailcoach::help>
-            {{ __("This user hasn't received any campaign yet.") }}
+            {{ __("mailcoach - This user hasn't received any campaign yet.") }}
         </x-mailcoach::help>
     @endif
 </x-mailcoach::layout-subscriber>

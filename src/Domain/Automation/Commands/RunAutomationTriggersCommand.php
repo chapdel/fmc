@@ -27,7 +27,7 @@ class RunAutomationTriggersCommand extends Command
                     ->whereHas('actions')
                     ->where('status', AutomationStatus::STARTED);
             })
-            ->cursor()
+            ->lazyById()
             ->each(function (Trigger $trigger) {
                 /** @var \Spatie\Mailcoach\Domain\Automation\Support\Triggers\AutomationTrigger $automationTrigger */
                 $automationTrigger = $trigger->trigger;

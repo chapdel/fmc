@@ -42,6 +42,7 @@ As a result, you get the details of all your email lists:
             "confirmation_mail_content": null,
             "confirmation_mailable_class": null,
             "campaign_mailer": "log",
+            "automation_mailer": "log",
             "transactional_mailer": "log",
             "send_welcome_mail": false,
             "welcome_mail_subject": null,
@@ -110,6 +111,7 @@ Response:
         "confirmation_mail_content": null,
         "confirmation_mailable_class": null,
         "campaign_mailer": "log",
+        "automation_mailer": "log",
         "transactional_mailer": "log",
         "send_welcome_mail": false,
         "welcome_mail_subject": null,
@@ -150,6 +152,8 @@ These are all the available fields with their validation rules:
 - `default_reply_email` =>  valid email
 - `default_reply_name` => string
 - `campaign_mailer` => valid mailer (defined in laravel config)
+- `automation_mailer` => valid mailer (defined in laravel config)
+
 - `transactional_mailer` => valid mailer (defined in laravel config)
 - `campaigns_feed_enabled` => boolean
 - `report_recipients` => comma delimited emails

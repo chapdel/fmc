@@ -45,7 +45,7 @@ In that HTML you can use these placeholders which will be replaced when sending 
 
 - `::unsubscribeUrl::`: this string will be replaced with the URL that, when hit, will immediately unsubscribe the person that clicked it
 - `::unsubscribeTag::your tag::`: this string will be replaced with the URL that, when hit, will remove the "your tag" tag from the subscriber that clicked it
-- `::webviewUrl`: this string will be replaced with the URL that will display the content of your campaign. Learn more about this in [the docs on webviews](/docs/laravel-mailcoach/v4/campaigns/displaying-webviews).
+- `::webviewUrl`: this string will be replaced with the URL that will display the content of your campaign. Learn more about this in [the docs on webviews](/docs/laravel-mailcoach/v5/campaigns/displaying-webviews).
 
 If there is no way for a subscriber to unsubscribe, it will result in a lot of frustration on the part of the subscriber. We always recommend using `::unsubscribeUrl::` in the HTML of each campaign you send.
 

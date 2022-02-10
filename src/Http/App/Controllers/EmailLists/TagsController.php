@@ -39,7 +39,7 @@ class TagsController
             'type' => TagType::DEFAULT,
         ]);
 
-        flash()->success(__('Tag :tag was created', ['tag' => $tag->name]));
+        flash()->success(__('mailcoach - Tag :tag was created', ['tag' => $tag->name]));
 
         return back();
     }
@@ -62,7 +62,7 @@ class TagsController
             'name' => $request->name,
         ]);
 
-        flash()->success(__('Tag :tag was updated', ['tag' => $tag->name]));
+        flash()->success(__('mailcoach - Tag :tag was updated', ['tag' => $tag->name]));
 
         return redirect()->route('mailcoach.emailLists.tags', $emailList);
     }
@@ -77,7 +77,7 @@ class TagsController
 
         $tag->delete();
 
-        flash()->success(__('Tag :tag was deleted', ['tag' => $tag->name]));
+        flash()->success(__('mailcoach - Tag :tag was deleted', ['tag' => $tag->name]));
 
         return back();
     }

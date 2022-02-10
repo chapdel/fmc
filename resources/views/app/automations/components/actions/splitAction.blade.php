@@ -5,7 +5,7 @@
                 {{ $index + 1 }}
             </span>
             <span class="font-normal whitespace-nowrap">
-                {{ __('Branch out') }}
+                {{ __('mailcoach - Branch out') }}
             </span>
         </header>
     </x-slot>
@@ -21,7 +21,7 @@
             </button>
         @endif
         @if ($deletable && count($editingActions) === 0)
-            <button type="button" onclick="confirm('{{ __('Are you sure you want to delete this action?') }}') || event.stopImmediatePropagation()" wire:click="delete">
+            <button type="button" onclick="confirm('{{ __('mailcoach - Are you sure you want to delete this action?') }}') || event.stopImmediatePropagation()" wire:click="delete">
                 <i class="icon-button hover:text-red-500 far fa-trash-alt"></i>
             </button>
         @endif
@@ -35,7 +35,7 @@
                             <div class="flex items-center">
                                 <h2 class="justify-self-start -ml-12 -mt-px -mb-px h-8 px-2 inline-flex items-center bg-blue-400 text-white rounded-br space-x-2">
                                 <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">
-                                    <span class="font-normal">{{ __('Branch') }}</span>
+                                    <span class="font-normal">{{ __('mailcoach - Branch') }}</span>
                                     A
                                 </span>
                                 </h2>
@@ -55,7 +55,7 @@
                             <div class="flex items-center">
                                 <h2 class="justify-self-start -ml-12 -mt-px -mb-px h-8 px-2 inline-flex items-center bg-blue-400 text-white rounded-br space-x-2">
                                 <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">
-                                    <span class="font-normal">{{ __('Branch') }}</span>
+                                    <span class="font-normal">{{ __('mailcoach - Branch') }}</span>
                                     B
                                 </span>
                                 </h2>
@@ -79,7 +79,7 @@
                                 <div class="flex items-center">
                                     <h2 class="justify-self-start -ml-12 -mt-px -mb-px h-8 px-2 inline-flex items-center bg-blue-500 text-white rounded-br space-x-2">
                                         <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">
-                                            <span class="font-normal">{{ __('Branch') }}</span>
+                                            <span class="font-normal">{{ __('mailcoach - Branch') }}</span>
                                             A
                                         </span>
                                     </h2>
@@ -108,7 +108,7 @@
                                 <div class="flex items-center">
                                     <h2 class="justify-self-start -ml-12 -mt-px -mb-px h-8 px-2 inline-flex items-center bg-blue-500 text-white rounded-br space-x-2">
                                     <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">
-                                        <span class="font-normal">{{ __('Branch') }}</span>
+                                        <span class="font-normal">{{ __('mailcoach - Branch') }}</span>
                                         B
                                     </span>
                                     </h2>

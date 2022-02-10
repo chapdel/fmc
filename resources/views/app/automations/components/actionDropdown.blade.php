@@ -3,7 +3,7 @@
         <hr class="absolute left-0 w-full h-0 top-1/2 transform -translate-y-1/2 border-t border-dashed border-gray-500 border-opacity-25">
     <x-mailcoach::dropdown direction="right">
         <x-slot name="trigger">
-            <div class="group button-rounded" title="{{__('Insert action')}}">
+            <div class="group button-rounded" title="{{__('mailcoach - Insert action')}}">
                 <span class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2 h-px bg-gray-600 group-hover:bg-yellow-700"></span>
                 <span class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-px h-2 bg-gray-600 group-hover:bg-yellow-700"></span>
             </div>

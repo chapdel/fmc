@@ -23,7 +23,7 @@ class CreateSubscriberController
             ->skipConfirmation()
             ->subscribeTo($emailList);
 
-        flash()->success(__('Subscriber :subscriber was created.', ['subscriber' => $updateSubscriberRequest->email]));
+        flash()->success(__('mailcoach - Subscriber :subscriber was created.', ['subscriber' => $updateSubscriberRequest->email]));
 
         return back();
     }

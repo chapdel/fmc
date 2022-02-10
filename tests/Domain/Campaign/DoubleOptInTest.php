@@ -13,7 +13,7 @@ beforeEach(function () {
     test()->emailList = EmailList::factory()->create(['requires_confirmation' => true]);
 
     Event::listen(MessageSent::class, function (MessageSent $event) {
-        $link = (new Crawler($event->message->getBody()))
+        $link = (new Crawler($event->message->getHtmlBody()))
             ->filter('.button-primary')->first()->attr('href');
 
         test()->mailedLink = Str::after($link, 'http://localhost');

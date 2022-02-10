@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Domain\Automation\Actions;
 
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailJob;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
@@ -21,7 +20,7 @@ class SendAutomationMailToSubscriberAction
             ->prepareSubject($automationMail)
             ->prepareEmailHtml($automationMail)
             ->prepareWebviewHtml($automationMail)
-            ->sendMail($automationMail, $subscriber);
+            ->createSend($automationMail, $subscriber);
     }
 
     protected function prepareSubject(AutomationMail $automationMail): self
@@ -69,12 +68,5 @@ class SendAutomationMailToSubscriberAction
             'subscriber_id' => $subscriber->id,
             'uuid' => (string)Str::uuid(),
         ]);
-    }
-
-    protected function sendMail(AutomationMail $automationMail, Subscriber $subscriber)
-    {
-        $pendingSend = $this->createSend($automationMail, $subscriber);
-
-        dispatch(new SendAutomationMailJob($pendingSend));
     }
 }

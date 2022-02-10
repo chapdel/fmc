@@ -25,6 +25,6 @@ class HtmlRule implements Rule
 
     public function message(): string
     {
-        return (string)__('The HTML is not valid (:message).', ['message' => $this->exception->getMessage()]);
+        return (string)__('mailcoach - The HTML is not valid (:message).', ['message' => $this->exception->getMessage()]);
     }
 }

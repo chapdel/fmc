@@ -11,7 +11,8 @@ class CreateWebhookCallsTable extends Migration
         Schema::create('webhook_calls', function (Blueprint $table) {
             $table->id();
             $table->string('external_id')->nullable()->index();
-
+            $table->string('url')->nullable();
+            $table->json('headers')->nullable();
             $table->string('name');
             $table->json('payload')->nullable();
             $table->text('exception')->nullable();

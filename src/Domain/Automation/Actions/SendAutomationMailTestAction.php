@@ -8,7 +8,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
-use Swift_Message;
+use Symfony\Component\Mime\Email;
 
 class SendAutomationMailTestAction
 {
@@ -29,7 +29,7 @@ class SendAutomationMailTestAction
             ->setHtmlView('mailcoach::mails.automation.automationHtml')
             ->setTextView('mailcoach::mails.automation.automationText')
             ->subject("[Test] {$mail->subject}")
-            ->withSwiftMessage(function (Swift_Message $message) {
+            ->withSymfonyMessage(function (Email $message) {
                 $message->getHeaders()->addTextHeader('X-MAILCOACH', 'true');
                 $message->getHeaders()->addTextHeader('X-Entity-Ref-ID', Str::uuid()->toString());
             });

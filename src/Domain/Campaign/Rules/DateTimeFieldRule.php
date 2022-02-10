@@ -13,7 +13,7 @@ class DateTimeFieldRule implements Rule
 
     public function passes($attribute, $value)
     {
-        $this->message = (string)__('Invalid date time provided.');
+        $this->message = (string)__('mailcoach - Invalid date time provided.');
 
         if (! is_array($value)) {
             return false;
@@ -22,9 +22,9 @@ class DateTimeFieldRule implements Rule
         foreach (['date', 'hours', 'minutes'] as $requiredKey) {
             if (! array_key_exists($requiredKey, $value)) {
                 $this->message = [
-                    'date' => __('Date key is missing'),
-                    'hours' => __('Hours key is missing'),
-                    'minutes' => __('Minutes key is missing'),
+                    'date' => __('mailcoach - Date key is missing'),
+                    'hours' => __('mailcoach - Hours key is missing'),
+                    'minutes' => __('mailcoach - Minutes key is missing'),
                 ][$requiredKey];
 
                 return false;
@@ -38,7 +38,7 @@ class DateTimeFieldRule implements Rule
         }
 
         if (! $dateTime->isFuture()) {
-            $this->message = __('Date time must be in the future.');
+            $this->message = __('mailcoach - Date time must be in the future.');
 
             return false;
         }

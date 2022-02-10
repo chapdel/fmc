@@ -7,7 +7,7 @@ You can create a new Laravel application with Mailcoach preinstalled into using 
 
 ## Getting a license
 
-In order to install Mailcoach, you'll need to [get a license](/docs/laravel-mailcoach/v4/general/getting-a-license) first.
+In order to install Mailcoach, you'll need to [get a license](/docs/laravel-mailcoach/v5/general/getting-a-license) first.
 
 ### Creating the application
 
@@ -48,16 +48,16 @@ mailcoach:make-user --username=<choose-your-username> --email=<choose-your-email
 
 New users can be made on the users screen in mailcoach.
 
-![Users screen](/docs/laravel-mailcoach/v4/images/getting-started/users.png)
+![Users screen](/docs/laravel-mailcoach/v5/images/getting-started/users.png)
 
 ### Configure the email sending service
 
 Now that you are logged in you must configure the email sending service you'd like to use. Here are set up instructions for:
 
-- [Amazon SES](/docs/laravel-mailcoach/v4/configuring-mail-providers/amazon-ses)
-- [SendGrid](/docs/laravel-mailcoach/v4/configuring-mail-providers/sendgrid)
-- [Mailgun](/docs/laravel-mailcoach/v4/configuring-mail-providers/mailgun)
-- [Postmark](/docs/laravel-mailcoach/v4/configuring-mail-providers/postmark)
+- [Amazon SES](/docs/laravel-mailcoach/v5/configuring-mail-providers/amazon-ses)
+- [SendGrid](/docs/laravel-mailcoach/v5/configuring-mail-providers/sendgrid)
+- [Mailgun](/docs/laravel-mailcoach/v5/configuring-mail-providers/mailgun)
+- [Postmark](/docs/laravel-mailcoach/v5/configuring-mail-providers/postmark)
 
 ⚠️ You should configure a mailer before creating your first email list.
 

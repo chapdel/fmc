@@ -36,7 +36,7 @@ class AutomationMailSettingsController
 
         $automationMail->save();
 
-        flash()->success(__('Email :name was updated.', ['name' => $automationMail->name]));
+        flash()->success(__('mailcoach - Email :name was updated.', ['name' => $automationMail->name]));
 
         return redirect()->route('mailcoach.automations.mails.settings', $automationMail->id);
     }

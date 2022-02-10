@@ -1,8 +1,8 @@
-<x-mailcoach::layout-list :title="__('Tags')" :emailList="$emailList">
+<x-mailcoach::layout-list :title="__('mailcoach - Tags')" :emailList="$emailList">
     <div class="table-actions">
-        <x-mailcoach::button :label="__('Create tag')" data-modal-trigger="create-tag"/>
+        <x-mailcoach::button :label="__('mailcoach - Create tag')" data-modal-trigger="create-tag"/>
 
-        <x-mailcoach::modal :title="__('Create tag')" name="create-tag" :open="$errors->any()">
+        <x-mailcoach::modal :title="__('mailcoach - Create tag')" name="create-tag" :open="$errors->any()">
             @include('mailcoach::app.emailLists.tags.partials.create')
         </x-mailcoach::modal>
 
@@ -10,17 +10,17 @@
             <div class="table-filters">
                 <x-mailcoach::filters>
                     <x-mailcoach::filter :queryString="$queryString" attribute="type" active-on="">
-                        {{ __('All') }} <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalTagsCount) }}</span>
+                        {{ __('mailcoach - All') }} <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalTagsCount) }}</span>
                     </x-mailcoach::filter>
                     <x-mailcoach::filter :queryString="$queryString" attribute="type" active-on="{{ \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::DEFAULT }}">
-                        {{ __('Default') }} <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalDefault) }}</span>
+                        {{ __('mailcoach - Default') }} <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalDefault) }}</span>
                     </x-mailcoach::filter>
                     <x-mailcoach::filter :queryString="$queryString" attribute="type" active-on="{{ \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::MAILCOACH }}">
-                        {{ __('Mailcoach') }} <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalMailcoach) }}</span>
+                        {{ __('mailcoach - Mailcoach') }} <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalMailcoach) }}</span>
                     </x-mailcoach::filter>
                 </x-mailcoach::filters>
 
-                <x-mailcoach::search :placeholder="__('Filter tags…')"/>
+                <x-mailcoach::search :placeholder="__('mailcoach - Filter tags…')"/>
             </div>
         @endif
     </div>
@@ -29,9 +29,9 @@
         <table class="table table-fixed">
             <thead>
             <tr>
-                <x-mailcoach::th sort-by="name" sort-default>{{ __('Name') }}</x-mailcoach::th>
-                <x-mailcoach::th sort-by="subscriber_count" class="w-32 th-numeric">{{ __('Subscribers') }}</x-mailcoach::th>
-                <x-mailcoach::th sort-by="updated_at" class="w-48 th-numeric hidden | xl:table-cell">{{ __('Updated at') }}</x-mailcoach::th>
+                <x-mailcoach::th sort-by="name" sort-default>{{ __('mailcoach - Name') }}</x-mailcoach::th>
+                <x-mailcoach::th sort-by="subscriber_count" class="w-32 th-numeric">{{ __('mailcoach - Subscribers') }}</x-mailcoach::th>
+                <x-mailcoach::th sort-by="updated_at" class="w-48 th-numeric hidden | xl:table-cell">{{ __('mailcoach - Updated at') }}</x-mailcoach::th>
                 <th class="w-12"></th>
             </tr>
             </thead>
@@ -55,7 +55,7 @@
                             :action="route('mailcoach.emailLists.tag.delete', [$emailList, $tag])"
                             method="DELETE"
                             data-confirm="true"
-                            :data-confirm-text="__('Are you sure you want to delete tag :tagName?', ['tagName' => $tag->name])"
+                            :data-confirm-text="__('mailcoach - Are you sure you want to delete tag :tagName?', ['tagName' => $tag->name])"
                             class="icon-button hover:text-red-500"
                         >
                             <i class="far fa-trash-alt"></i>
@@ -67,7 +67,7 @@
         </table>
 
         <x-mailcoach::table-status
-            :name="__('tag|tags')"
+            :name="__('mailcoach - tag|tags')"
             :paginator="$tags"
             :total-count="$totalTagsCount"
             :show-all-url="route('mailcoach.emailLists.tags', $emailList)"
@@ -75,9 +75,9 @@
     @else
         <x-mailcoach::help>
             @if($searching)
-                {{ __('No tags found') }}
+                {{ __('mailcoach - No tags found') }}
             @else
-                {{ __('There are no tags for this list. Everyone equal!') }}
+                {{ __('mailcoach - There are no tags for this list. Everyone equal!') }}
             @endif
         </x-mailcoach::help>
     @endif

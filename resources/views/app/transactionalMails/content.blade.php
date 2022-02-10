@@ -1,5 +1,5 @@
 <x-mailcoach::layout-transactional
-    :title="__('Content')"
+    :title="__('mailcoach - Content')"
     :transactionalMail="$transactionalMail"
 >
         <dl class="dl contents-start">
@@ -12,7 +12,7 @@
             <x-mailcoach::address-definition label="Bcc" :addresses="$transactionalMail->bcc"/>
 
             <dt class="flex items-start">
-                <div>{{ __('Body') }}</div>
+                <div>{{ __('mailcoach - Body') }}</div>
             </dt>
             <dd>
                 <x-mailcoach::web-view src="{{ route('mailcoach.transactionalMail.body', $transactionalMail) }}"/>

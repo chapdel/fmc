@@ -82,7 +82,7 @@ test('the unsubscribe will work even if the send is deleted', function () {
 function sendCampaignForUnsubscribeTagTest()
 {
     Event::listen(MessageSent::class, function (MessageSent $event) {
-        $link = (new Crawler($event->message->getBody()))
+        $link = (new Crawler($event->message->getHtmlBody()))
             ->filter('a')->first()->attr('href');
 
         expect($link)->toStartWith('http://localhost');

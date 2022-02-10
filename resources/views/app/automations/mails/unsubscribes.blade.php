@@ -1,16 +1,16 @@
-<x-mailcoach::layout-automation-mail :title="__('Unsubscribes')" :mail="$mail">
+<x-mailcoach::layout-automation-mail :title="__('mailcoach - Unsubscribes')" :mail="$mail">
     @if($unsubscribes->count())
     <div class="table-actions">
         <div class="table-filters">
-            <x-mailcoach::search :placeholder="__('Filter unsubscribes…')" />
+            <x-mailcoach::search :placeholder="__('mailcoach - Filter unsubscribes…')" />
         </div>
     </div>
 
     <table class="table table-fixed">
         <thead>
         <tr>
-            <th>{{ __('Email') }}</th>
-            <th class="w-48 th-numeric hidden | xl:table-cell">{{ __('Date') }}</th>
+            <th>{{ __('mailcoach - Email') }}</th>
+            <th class="w-48 th-numeric hidden | xl:table-cell">{{ __('mailcoach - Date') }}</th>
         </tr>
         </thead>
         <tbody>
@@ -31,7 +31,7 @@
     </table>
 
     <x-mailcoach::table-status
-        :name="__('unsubscribe|unsubscribers')"
+        :name="__('mailcoach - unsubscribe|unsubscribers')"
         :paginator="$unsubscribes"
         :total-count="$totalUnsubscribes"
         :show-all-url="route('mailcoach.automations.mails.unsubscribes', $mail)"
@@ -39,7 +39,7 @@
 
     @else
         <x-mailcoach::success>
-            {{ __('No unsubscribes have been received yet.') }}
+            {{ __('mailcoach - No unsubscribes have been received yet.') }}
         </x-mailcoach::success>
     @endif
 </x-mailcoach::layout-automation-mail>

@@ -1,5 +1,5 @@
 <x-mailcoach::select-field
-    :label="__('Add action')"
+    :label="__('mailcoach - Add action')"
     name="{{ $prefix ?? '' }}action"
     :options="$actionOptions"
     placeholder="Select an action"

@@ -6,10 +6,10 @@
     @csrf
     @method('PUT')
 
-    <x-mailcoach::fieldset :legend="__('Interval')">
+    <x-mailcoach::fieldset :legend="__('mailcoach - Interval')">
         @if ($automation->interval === '1 minute')
             <x-mailcoach::warning>
-                {{ __('An interval of 1 minute can generate a lot of queued jobs for subscribers pending in an action. Make sure you really need this granularity.') }}
+                {{ __('mailcoach - An interval of 1 minute can generate a lot of queued jobs for subscribers pending in an action. Make sure you really need this granularity.') }}
             </x-mailcoach::warning>
         @endif
 
@@ -29,11 +29,11 @@
                 required
             />
 
-            <x-mailcoach::button class="ml-1" :label="__('Save')" wire:click="saveInterval" />
+            <x-mailcoach::button class="ml-1" :label="__('mailcoach - Save')" wire:click="saveInterval" />
         </div>
     </x-mailcoach::fieldset>
 
-    <x-mailcoach::fieldset :legend="__('Run automation')">
+    <x-mailcoach::fieldset :legend="__('mailcoach - Run automation')">
         @if ($error)
             <div class="alert alert-error shadow-lg mb-6">
                 <div class="max-w-layout mx-auto grid gap-1">
@@ -48,7 +48,7 @@
         @endif
         @if ($automation->actions->filter(fn ($action) => $action->action::class === \Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction::class)->count() === 0)
             <x-mailcoach::warning>
-                {{ __('Your automation does not contain a "Halt" action. This will cause the automation to keep running for subscribers in the last action and could generate more queued jobs than desired. Do this only if you intend to add more actions later.') }}
+                {{ __('mailcoach - Your automation does not contain a "Halt" action. This will cause the automation to keep running for subscribers in the last action and could generate more queued jobs than desired. Do this only if you intend to add more actions later.') }}
             </x-mailcoach::warning>
         @endif
         <div>
@@ -56,14 +56,14 @@
             <button class="button" type="button" wire:click.prevent="pause">
                 <span class="flex items-center">
                 <x-mailcoach::rounded-icon type="warning" icon="fas fa-pause"/>
-                <span class="ml-2">{{ __('Pause') }}</span>
+                <span class="ml-2">{{ __('mailcoach - Pause') }}</span>
                 </span>
             </button>
         @else
             <button class="button" type="button" wire:click.prevent="start">
                 <span class="flex items-center">
                 <x-mailcoach::rounded-icon type="success" icon="fas fa-play"/>
-                <span class="ml-2">{{ __('Start') }}</span>
+                <span class="ml-2">{{ __('mailcoach - Start') }}</span>
                 </span>
             </button>
         @endif

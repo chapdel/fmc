@@ -3,7 +3,7 @@ title: Unsubscribing from a list
 weight: 6
 ---
 
-You can add an unsubscribe link by [adding an `::unsubscribeUrl::` placeholder](/docs/laravel-mailcoach/v4/campaigns/creating-a-campaign#setting-the-content-and-using-placeholders) to the HTML of your campaign.
+You can add an unsubscribe link by [adding an `::unsubscribeUrl::` placeholder](/docs/laravel-mailcoach/v5/campaigns/creating-a-campaign#setting-the-content-and-using-placeholders) to the HTML of your campaign.
 
 When a subscriber visits the actual unsubscribe URL, a simple message will be displayed to confirming that they have  successfully unsubscribed.
 

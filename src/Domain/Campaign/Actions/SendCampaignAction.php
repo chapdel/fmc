@@ -2,22 +2,26 @@
 
 namespace Spatie\Mailcoach\Domain\Campaign\Actions;
 
-use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\LazyCollection;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
+use Laravel\Horizon\Horizon;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\Segment;
-use Spatie\Mailcoach\Domain\Campaign\Jobs\MarkCampaignAsFullyDispatchedJob;
-use Spatie\Mailcoach\Domain\Campaign\Jobs\MarkCampaignAsSentJob;
+use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
+use Spatie\Mailcoach\Domain\Campaign\Exceptions\SendCampaignTimeLimitApproaching;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
+use Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus;
+use Spatie\Mailcoach\Domain\Shared\Support\Throttling\SimpleThrottle;
 
 class SendCampaignAction
 {
-    public function execute(Campaign $campaign): void
+    public function execute(Campaign $campaign, ?Carbon $stopExecutingAt = null): void
     {
         if ($campaign->wasAlreadySent()) {
             return;
@@ -27,7 +31,7 @@ class SendCampaignAction
             ->prepareSubject($campaign)
             ->prepareEmailHtml($campaign)
             ->prepareWebviewHtml($campaign)
-            ->sendMailsForCampaign($campaign);
+            ->sendMailsForCampaign($campaign, $stopExecutingAt);
     }
 
     protected function prepareSubject(Campaign $campaign): self
@@ -60,7 +64,7 @@ class SendCampaignAction
         return $this;
     }
 
-    protected function sendMailsForCampaign(Campaign $campaign): self
+    protected function sendMailsForCampaign(Campaign $campaign, ?Carbon $stopExecutingAt = null): self
     {
         $campaign->update(['segment_description' => $campaign->getSegment()->description()]);
 
@@ -72,69 +76,49 @@ class SendCampaignAction
 
         $campaign->update(['sent_to_number_of_subscribers' => $subscribersQuery->count()]);
 
-        $campaign->update(['all_jobs_added_to_batch_at' => null]);
+        try {
+            if (! $campaign->allSendsCreated()) {
+                $this->createSends($subscribersQuery, $campaign, $segment, $stopExecutingAt);
+            }
 
-        $batch = Bus::batch([])
-            ->allowFailures()
-            ->finally(function () use ($campaign) {
-                if (! $campaign->refresh()->all_jobs_added_to_batch_at) {
-                    return $this;
-                }
+            if (! $campaign->allMailSendingJobsDispatched()) {
+                $this->dispatchMailSendingJobs($campaign, $stopExecutingAt);
+            }
 
-                dispatch(new MarkCampaignAsSentJob($campaign));
-            })
-            ->name($campaign->getBatchName())
-            ->onQueue(config('mailcoach.campaigns.perform_on_queue.send_mail_job'))
-            ->onConnection(config('mailcoach.queue_connection'))
-            ->dispatch();
+            $campaign->markAsSent($campaign->sends()->count());
 
-        $campaign->update(['send_batch_id' => $batch->id]);
-
-        $subscribersQuery
-            ->cursor()
-            ->map(fn (Subscriber $subscriber) => $this->createSendMailJob($campaign, $campaign->emailList, $subscriber, $segment))
-            ->filter()
-            ->chunk(1000)
-            ->each(function (LazyCollection $jobs) use ($batch) {
-                $batch->add($jobs->all());
-            });
-
-        $batch->add([new MarkCampaignAsFullyDispatchedJob($campaign)]);
+            event(new CampaignSentEvent($campaign));
+        } catch (SendCampaignTimeLimitApproaching) {
+            dispatch(new SendCampaignJob($campaign))->onQueue(config('mailcoach.campaigns.perform_on_queue.send_campaign_job'));
+        }
 
         return $this;
     }
 
-    protected function createSendMailJob(Campaign $campaign, EmailList $emailList, Subscriber $subscriber, Segment $segment = null): ?SendCampaignMailJob
+    protected function createSend(Campaign $campaign, EmailList $emailList, Subscriber $subscriber, Segment $segment = null): void
     {
         if ($segment && ! $segment->shouldSend($subscriber)) {
             $campaign->decrement('sent_to_number_of_subscribers');
 
-            return null;
+            return;
         }
 
         if (! $this->isValidSubscriptionForEmailList($subscriber, $emailList)) {
             $campaign->decrement('sent_to_number_of_subscribers');
 
-            return null;
+            return;
         }
 
-        $pendingSend = $this->createSend($campaign, $subscriber);
-
-        return new SendCampaignMailJob($pendingSend);
-    }
-
-    protected function createSend(Campaign $campaign, Subscriber $subscriber): Send
-    {
         /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $pendingSend */
         $pendingSend = $campaign->sends()
             ->where('subscriber_id', $subscriber->id)
             ->first();
 
         if ($pendingSend) {
-            return $pendingSend;
+            return;
         }
 
-        return $campaign->sends()->create([
+        $campaign->sends()->create([
             'subscriber_id' => $subscriber->id,
             'uuid' => (string)Str::uuid(),
         ]);
@@ -151,5 +135,63 @@ class SendCampaignAction
         }
 
         return true;
+    }
+
+    protected function createSends(
+        Builder  $subscribersQuery,
+        Campaign $campaign,
+        Segment  $segment,
+        Carbon   $stopExecutingAt = null,
+    ): void {
+        $subscribersQuery
+            ->lazyById()
+            ->each(function (Subscriber $subscriber) use ($stopExecutingAt, $campaign, $segment) {
+                $this->createSend($campaign, $campaign->emailList, $subscriber, $segment);
+
+                $this->haltWhenApproachingTimeLimit($stopExecutingAt);
+            });
+
+        $campaign->markAsAllSendsCreated();
+    }
+
+    protected function dispatchMailSendingJobs(Campaign $campaign, Carbon $stopExecutingAt = null): void
+    {
+        $simpleThrottle = app(SimpleThrottle::class)
+            ->forMailer(config('mailcoach.campaigns.mailer'))
+            ->allow(config('mailcoach.campaigns.throttling.allowed_number_of_jobs_in_timespan'))
+            ->inSeconds(config('mailcoach.campaigns.throttling.timespan_in_seconds'));
+
+        $campaign
+            ->sends()
+            ->undispatched()
+            ->lazyById()
+            ->each(function (Send $send) use ($stopExecutingAt, $simpleThrottle) {
+
+                // should horizon be used, and it is paused, stop dispatching jobs
+                if (! app(HorizonStatus::class)->is(HorizonStatus::STATUS_PAUSED)) {
+                    $simpleThrottle->hit();
+
+                    dispatch(new SendCampaignMailJob($send));
+
+                    $send->markAsSendingJobDispatched();
+                }
+
+                $this->haltWhenApproachingTimeLimit($stopExecutingAt);
+            });
+
+        $campaign->markAsAllMailSendingJobsDispatched();
+    }
+
+    protected function haltWhenApproachingTimeLimit(?Carbon $stopExecutingAt): void
+    {
+        if (is_null($stopExecutingAt)) {
+            return;
+        }
+
+        if ($stopExecutingAt->diffInSeconds() > 30) {
+            return;
+        }
+
+        throw SendCampaignTimeLimitApproaching::make();
     }
 }

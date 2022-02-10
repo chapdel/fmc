@@ -34,7 +34,7 @@ abstract class AutomationTrigger extends AutomationStep
     public function runAutomation(Subscriber | Collection | QueryBuilder | EloquentBuilder | array $subscribers): void
     {
         if ($subscribers instanceof EloquentBuilder || $subscribers instanceof QueryBuilder) {
-            $subscribers = $subscribers->cursor();
+            $subscribers = $subscribers->lazyById();
         }
 
         if ($subscribers instanceof Subscriber || is_array($subscribers)) {

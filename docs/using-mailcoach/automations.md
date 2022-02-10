@@ -5,7 +5,7 @@ weight: 3
 
 Mailcoach allows you to set up automations that use different "actions" to determine the flow and mails sent to your subscribers.
 
-![automations list](/docs/laravel-mailcoach/v4/images/automations/index.png)
+![automations list](/docs/laravel-mailcoach/v5/images/automations/index.png)
 
 The Campaigns index page summarizes some information about your automations. You can see the status of the automation (running or paused), and when it was last updated.
 
@@ -19,35 +19,35 @@ This video shows you a general introduction to automations.
 
 When creating an automation, you can either create a new one from scratch or duplicate an existing one to copy most of its settings:
 
-![creating an automation](/docs/laravel-mailcoach/v4/images/automations/create.png)
+![creating an automation](/docs/laravel-mailcoach/v5/images/automations/create.png)
 
 ## Settings
 
-![automation settings](/docs/laravel-mailcoach/v4/images/automations/settings.png)
+![automation settings](/docs/laravel-mailcoach/v5/images/automations/settings.png)
 
 Most of the settings for creating a new automation are pretty self-explanatory:
 
 The name of an automation is only used within your Mailcoach UI. Subscribers will not see this anywhere.
 
-The trigger determines how subscribers enter your automation, the most commonly used one is the "When a user subscribes" option. Some triggers might have some extra fields, like the "On a date" tirgger that lets you set up the date & time. It is also possible to [create custom triggers](/docs/laravel-mailcoach/v4/automations/creating-custom-triggers)
+The trigger determines how subscribers enter your automation, the most commonly used one is the "When a user subscribes" option. Some triggers might have some extra fields, like the "On a date" tirgger that lets you set up the date & time. It is also possible to [create custom triggers](/docs/laravel-mailcoach/v5/automations/creating-custom-triggers)
 
-The List menu allows you to pick one of your lists, which you can further narrow down by picking one of its Segments right below it. You can read more about [tags and segments here](/docs/laravel-mailcoach/v4/using-mailcoach/audience#tags-and-segments).
+The List menu allows you to pick one of your lists, which you can further narrow down by picking one of its Segments right below it. You can read more about [tags and segments here](/docs/laravel-mailcoach/v5/using-mailcoach/audience#tags-and-segments).
 
 ## Actions
 
-![automation actions](/docs/laravel-mailcoach/v4/images/automations/actions.png)
+![automation actions](/docs/laravel-mailcoach/v5/images/automations/actions.png)
 
 This is where you'll define the flow of the automation. You can add actions by clicking on the "+" and choosing an action to add to your automation flow.
 
-![automation actions](/docs/laravel-mailcoach/v4/images/automations/add-action.png)
+![automation actions](/docs/laravel-mailcoach/v5/images/automations/add-action.png)
 
-The screenshot shows an example of a welcome email, that waits 1 hour before sending the "Welcome" automation mail. More about setting up [automation mails here](/docs/laravel-mailcoach/v4/using-mailcoach#automation-mails).
+The screenshot shows an example of a welcome email, that waits 1 hour before sending the "Welcome" automation mail. More about setting up [automation mails here](/docs/laravel-mailcoach/v5/using-mailcoach#automation-mails).
 
-It is also possible to [create custom actions](/docs/laravel-mailcoach/v4/automations/creating-custom-actions).
+It is also possible to [create custom actions](/docs/laravel-mailcoach/v5/automations/creating-custom-actions).
 
 ## Run
 
-![run automation](/docs/laravel-mailcoach/v4/images/automations/run.png)
+![run automation](/docs/laravel-mailcoach/v5/images/automations/run.png)
 
 This screen allows you to configure the interval at which subscribers will move through the actions. This setting allows you to limit the performance impact of large lists if, for example, you're waiting for several days between each step.
 
@@ -57,11 +57,11 @@ The Start/Pause button is pretty self-explanatory, it allows you start & pause t
 
 When creating an automation mail, you can either create a new one from scratch or duplicate an existing one to copy most of its settings:
 
-![screenshot](/docs/laravel-mailcoach/v4/images/automations/creating-an-automation-mail-index.png)
+![screenshot](/docs/laravel-mailcoach/v5/images/automations/creating-an-automation-mail-index.png)
 
 ### Settings
 
-![screenshot](/docs/laravel-mailcoach/v4/images/automations/creating-an-automation-mail-settings.png)
+![screenshot](/docs/laravel-mailcoach/v5/images/automations/creating-an-automation-mail-settings.png)
 
 Most of the settings for creating a new automation mail are pretty self-explanatory:
 
@@ -69,11 +69,11 @@ The name of an automation mail is only used within your Mailcoach UI. Subscriber
 
 The value for the _Subject_ field is used as the subject for sent emails.
 
-Finally, the tracking options allow you to track how many subscribers have opened your email and whether they clicked any of the links you included. You can see what the result of this tracking looks like in the [Automation mail statistics](/docs/laravel-mailcoach/v4/using-the-ui/automations#automation-mail-statistics) section of the documentation.
+Finally, the tracking options allow you to track how many subscribers have opened your email and whether they clicked any of the links you included. You can see what the result of this tracking looks like in the [Automation mail statistics](/docs/laravel-mailcoach/v5/using-the-ui/automations#automation-mail-statistics) section of the documentation.
 
 ### Content
 
-![screenshot](/docs/laravel-mailcoach/v4/images/automations/creating-an-automation-mail-content.png)
+![screenshot](/docs/laravel-mailcoach/v5/images/automations/creating-an-automation-mail-content.png)
 
 This is the content of the email that will be sent to your subscribers. If you duplicated another campaign, this field will be the same as that automation mail's content.
 
@@ -89,7 +89,7 @@ Since we are sending out mails in UTF-8, it's good practice including following 
 
 ### Delivery
 
-![screenshot](/docs/laravel-mailcoach/v4/images/automations/creating-an-automation-mail-delivery.png)
+![screenshot](/docs/laravel-mailcoach/v5/images/automations/creating-an-automation-mail-delivery.png)
 
 This page provides a final checklist that you should go over before sending an automation mail. It shows a summary of the mail's settings, the subject and any issues we found with your email's content.
 
@@ -101,31 +101,31 @@ You can also send a test email to yourself for a final review before sending it 
 
 This page contains all the statistics for an automation mail that is being sent. These statistics will be updated regularly, so you can closely track the success of your mails.
 
-![screenshot](/docs/laravel-mailcoach/v4/images/automations/automation-mail-statistics-overview.png)
+![screenshot](/docs/laravel-mailcoach/v5/images/automations/automation-mail-statistics-overview.png)
 
 This page shows a summary of the statistics for your campaign. At a glance, you can see how many people opened your email and clicked any links you included, and also how many people unsubscribed from your mailing list as a result of this campaign and how often the emails bounced.
 
-A bounce means that an email could not be delivered to a certain email address, this could happen for several reasons. You can better find out why in the [_Outbox_](/docs/laravel-mailcoach/v4/using-the-ui/automations#outbox) tab.
+A bounce means that an email could not be delivered to a certain email address, this could happen for several reasons. You can better find out why in the [_Outbox_](/docs/laravel-mailcoach/v5/using-the-ui/automations#outbox) tab.
 
 ### Opens and clicks
 
-![screenshot](/docs/laravel-mailcoach/v4/images/automations/automation-mail-statistics-opens.png)
+![screenshot](/docs/laravel-mailcoach/v5/images/automations/automation-mail-statistics-opens.png)
 
 On the _Opens_ screen, you can see which subscribers have already opened your email, and when.
 
-![screenshot](/docs/laravel-mailcoach/v4/images/automations/automation-mail-statistics-clicks.png)
+![screenshot](/docs/laravel-mailcoach/v5/images/automations/automation-mail-statistics-clicks.png)
 
 The _Clicks_ screen has information on which links were opened and how many times. The _Unique clicks_ column concerns how many unique users have clicked your link.
 
 ### Unsubscribes
 
-![screenshot](/docs/laravel-mailcoach/v4/images/automations/automation-mail-statistics-unsubscribes.png)
+![screenshot](/docs/laravel-mailcoach/v5/images/automations/automation-mail-statistics-unsubscribes.png)
 
 You can also see how many people, regrettably, clicked the unsubscribe link in this campaign.
 
 ### Outbox
 
-![screenshot](/docs/laravel-mailcoach/v4/images/automations/automation-mail-statistics-outbox.png)
+![screenshot](/docs/laravel-mailcoach/v5/images/automations/automation-mail-statistics-outbox.png)
 
 Here, you can see a collection of all the individual emails that were sent to your subscribers, and whether they encountered any issues upon arriving at their destination.
 

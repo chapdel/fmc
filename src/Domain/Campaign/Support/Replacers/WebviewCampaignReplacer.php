@@ -9,7 +9,7 @@ class WebviewCampaignReplacer implements CampaignReplacer
     public function helpText(): array
     {
         return [
-            'webviewUrl' => __('This URL will display the HTML of the campaign'),
+            'webviewUrl' => __('mailcoach - This URL will display the HTML of the campaign'),
         ];
     }
 

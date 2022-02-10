@@ -33,7 +33,7 @@
                     <x-mailcoach::form-button
                         :action="route('mailcoach.automations.mails.duplicate', $mail)"
                     >
-                        <x-mailcoach::icon-label icon="fas fa-random" :text="__('Duplicate')" />
+                        <x-mailcoach::icon-label icon="fas fa-random" :text="__('mailcoach - Duplicate')" />
                     </x-mailcoach::form-button>
                 </li>
                 <li>
@@ -41,9 +41,9 @@
                         :action="route('mailcoach.automations.mails.delete', $mail)"
                         method="DELETE"
                         data-confirm="true"
-                        :data-confirm-text="__('Are you sure you want to delete email :name?', ['name' => $mail->name])"
+                        :data-confirm-text="__('mailcoach - Are you sure you want to delete email :name?', ['name' => $mail->name])"
                     >
-                        <x-mailcoach::icon-label icon="far fa-trash-alt" :text="__('Delete')" :caution="true" />
+                        <x-mailcoach::icon-label icon="far fa-trash-alt" :text="__('mailcoach - Delete')" :caution="true" />
                     </x-mailcoach::form-button>
                 </li>
             </ul>

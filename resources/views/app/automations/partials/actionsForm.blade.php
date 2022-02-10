@@ -21,7 +21,7 @@
             </div>
         @endif
         <div class="form-buttons">
-            <x-mailcoach::button :label="__('Save actions')" :disabled="count($editingActions) > 0" />
+            <x-mailcoach::button :label="__('mailcoach - Save actions')" :disabled="count($editingActions) > 0" />
         </div>
     </div>
 </form>

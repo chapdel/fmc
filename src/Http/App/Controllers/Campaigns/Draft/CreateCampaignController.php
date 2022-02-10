@@ -28,7 +28,7 @@ class CreateCampaignController
             $request->template()
         );
 
-        flash()->success(__('Campaign :campaign was created.', ['campaign' => $campaign->name]));
+        flash()->success(__('mailcoach - Campaign :campaign was created.', ['campaign' => $campaign->name]));
 
         return redirect()->route('mailcoach.campaigns.settings', $campaign);
     }

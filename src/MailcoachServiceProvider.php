@@ -28,6 +28,7 @@ use Spatie\Mailcoach\Domain\Audience\Commands\SendEmailListSummaryMailCommand;
 use Spatie\Mailcoach\Domain\Automation\Commands\CalculateAutomationMailStatisticsCommand;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationActionsCommand;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationTriggersCommand;
+use Spatie\Mailcoach\Domain\Automation\Commands\SendAutomationMailsCommand;
 use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailLinkClickedEvent;
 use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailOpenedEvent;
 use Spatie\Mailcoach\Domain\Automation\Listeners\AddAutomationMailClickedTag;
@@ -51,6 +52,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\TagRemovedTrigg
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\WebhookTriggerComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\TriggeredByEvents;
 use Spatie\Mailcoach\Domain\Campaign\Commands\CalculateStatisticsCommand;
+use Spatie\Mailcoach\Domain\Campaign\Commands\RescueSendingCampaignsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Commands\SendCampaignSummaryMailCommand;
 use Spatie\Mailcoach\Domain\Campaign\Commands\SendScheduledCampaignsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignLinkClickedEvent;
@@ -64,6 +66,8 @@ use Spatie\Mailcoach\Domain\Campaign\Listeners\SetWebhookCallProcessedAt;
 use Spatie\Mailcoach\Domain\Shared\Commands\CheckLicenseCommand;
 use Spatie\Mailcoach\Domain\Shared\Commands\CleanupProcessedFeedbackCommand;
 use Spatie\Mailcoach\Domain\Shared\Commands\RetryPendingSendsCommand;
+use Spatie\Mailcoach\Domain\Shared\Support\Throttling\SimpleThrottle;
+use Spatie\Mailcoach\Domain\Shared\Support\Throttling\SimpleThrottleCache;
 use Spatie\Mailcoach\Domain\Shared\Support\Version;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Listeners\StoreTransactionalMail;
@@ -94,6 +98,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
             ->hasCommands([
                 CalculateStatisticsCommand::class,
                 CalculateAutomationMailStatisticsCommand::class,
+                SendAutomationMailsCommand::class,
                 SendScheduledCampaignsCommand::class,
                 SendCampaignSummaryMailCommand::class,
                 SendEmailListSummaryMailCommand::class,
@@ -103,6 +108,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
                 RunAutomationActionsCommand::class,
                 RunAutomationTriggersCommand::class,
                 CheckLicenseCommand::class,
+                RescueSendingCampaignsCommand::class,
             ]);
     }
 
@@ -112,6 +118,14 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
         $this->app->singleton(Version::class, function () {
             return new Version();
+        });
+
+        $this->app->singleton(SimpleThrottle::class, function () {
+            $cache = cache()->store(config('mailcoach.campaigns.throttling.cache_store'));
+
+            $simpleThrottleCache = new SimpleThrottleCache($cache);
+
+            return SimpleThrottle::create($simpleThrottleCache);
         });
     }
 

@@ -7,7 +7,7 @@ The package can track when and how many times a subscriber clicked on a link in 
 
 ## Enabling click tracking
 
-To use this feature, you must set `track_clicks` to `true` on an automation mail you're going to send. You can find an example of how to do this in the section on [how to create an automation mail](/docs/laravel-mailcoach/v4/automations/creating-an-automation-mail).
+To use this feature, you must set `track_clicks` to `true` on an automation mail you're going to send. You can find an example of how to do this in the section on [how to create an automation mail](/docs/laravel-mailcoach/v5/automations/creating-an-automation-mail).
 
 ## How it works under the hood
 

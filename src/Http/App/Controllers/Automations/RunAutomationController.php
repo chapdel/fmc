@@ -25,7 +25,7 @@ class RunAutomationController
             'interval' => $request->get('interval'),
         ]);
 
-        flash()->success(__('Automation :automation was updated.', ['automation' => $automation->name]));
+        flash()->success(__('mailcoach - Automation :automation was updated.', ['automation' => $automation->name]));
 
         return redirect()->route('mailcoach.automations.run', $automation);
     }

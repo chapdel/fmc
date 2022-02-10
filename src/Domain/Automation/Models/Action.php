@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Mailcoach\Database\Factories\ActionFactory;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Automation\Jobs\RunActionForSubscriberJob;
+use Spatie\Mailcoach\Domain\Automation\Jobs\RunActionForActionSubscriberJob;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\AutomationAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -65,6 +65,18 @@ class Action extends Model
             ->withTimestamps();
     }
 
+    public function actionSubscribers(): HasMany
+    {
+        return $this->hasMany(self::getActionSubscriberClass());
+    }
+
+    public function pendingActionSubscribers(): HasMany
+    {
+        return $this
+            ->actionSubscribers()
+            ->whereNull(['halted_at', 'completed_at', 'job_dispatched_at']);
+    }
+
     public function activeSubscribers(): BelongsToMany
     {
         return $this->subscribers()
@@ -93,11 +105,6 @@ class Action extends Model
         return $this->hasMany(static::getAutomationActionClass(), 'parent_id')->orderBy('order');
     }
 
-    public function next(): ?Action
-    {
-        return $this->automation->actions->where('order', '>', $this->order)->first();
-    }
-
     public function toLivewireArray(): array
     {
         return [
@@ -111,12 +118,12 @@ class Action extends Model
 
     public function run()
     {
-        $this->subscribers()
-            ->wherePivotNull('halted_at')
-            ->wherePivotNull('completed_at')
-            ->cursor()
-            ->each(function (Subscriber $subscriber) {
-                dispatch(new RunActionForSubscriberJob($this, $subscriber));
+        $this->action->getActionSubscribersQuery($this)
+            ->lazyById()
+            ->each(function (ActionSubscriber $actionSubscriber): void {
+                $actionSubscriber->update(['job_dispatched_at' => now()]);
+
+                dispatch(new RunActionForActionSubscriberJob($actionSubscriber))->afterCommit();
             });
     }
 

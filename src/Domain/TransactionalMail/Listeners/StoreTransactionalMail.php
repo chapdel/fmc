@@ -6,6 +6,7 @@ use Illuminate\Mail\Events\MessageSending;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailStored;
 use Spatie\Mailcoach\Domain\TransactionalMail\Support\TransactionalMailMessageConfig;
+use Symfony\Component\Mime\Address;
 
 class StoreTransactionalMail
 {
@@ -27,7 +28,7 @@ class StoreTransactionalMail
             'to' => $this->convertToNamedArray($message->getTo()),
             'cc' => $this->convertToNamedArray($message->getCc()),
             'bcc' => $this->convertToNamedArray($message->getBcc()),
-            'body' => $message->getBody(),
+            'body' => $message->getHtmlBody() ?? $message->getTextBody(),
             'track_opens' => $messageConfig->trackOpens(),
             'track_clicks' => $messageConfig->trackClicks(),
             'mailable_class' => $messageConfig->getMailableClass(),
@@ -38,7 +39,9 @@ class StoreTransactionalMail
             'sent_at' => now(),
         ]);
 
-        $send->storeTransportMessageId($message->getId());
+        $messageId = $message->generateMessageId();
+        $message->getHeaders()->addIdHeader('Message-ID', $messageId);
+        $send->storeTransportMessageId($messageId);
 
         event(new TransactionalMailStored($transactionalMail, $sending));
     }
@@ -46,7 +49,10 @@ class StoreTransactionalMail
     public function convertToNamedArray(?array $persons): array
     {
         return collect($persons ?? [])
-            ->map(fn (?string $name, string $email) => compact('email', 'name'))
+            ->map(fn (Address $address) => [
+                'email' => $address->getAddress(), 'name' => $address->getName(),
+            ])
+            ->ray()
             ->values()
             ->toArray();
     }

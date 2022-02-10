@@ -1,10 +1,10 @@
-@extends('mailcoach::landingPages.layouts.landingPage', ['title' => __('Confirm subscription')])
+@extends('mailcoach::landingPages.layouts.landingPage', ['title' => __('mailcoach - Confirm subscription')])
 
 @section('landing')
     <p>
-        {{ __('Hey, is that really you?') }}
+        {{ __('mailcoach - Hey, is that really you?') }}
     </p>
     <p class="mt-4">
-        {{ __("We've sent you an email to confirm your subscription.") }}
+        {{ __("mailcoach - We've sent you an email to confirm your subscription.") }}
     </p>
 @endsection

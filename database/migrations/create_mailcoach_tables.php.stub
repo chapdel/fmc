@@ -33,6 +33,7 @@ class CreateMailcoachTables extends Migration
             $table->string('confirmation_mailable_class')->nullable();
 
             $table->string('campaign_mailer')->nullable();
+            $table->string('automation_mailer')->nullable();
             $table->string('transactional_mailer')->nullable();
 
             $table->boolean('send_welcome_mail')->nullable();
@@ -156,8 +157,8 @@ class CreateMailcoachTables extends Migration
             $table->timestamp('statistics_calculated_at')->nullable();
             $table->timestamp('scheduled_at')->nullable();
 
-            $table->string('send_batch_id')->nullable();
-            $table->timestamp('all_jobs_added_to_batch_at')->nullable();
+            $table->timestamp('all_sends_created_at')->nullable();
+            $table->timestamp('all_sends_dispatched_at')->nullable();
 
             $table->timestamp('last_modified_at')->nullable();
 
@@ -271,6 +272,7 @@ class CreateMailcoachTables extends Migration
                 ->constrained('mailcoach_subscribers')
                 ->cascadeOnDelete();
 
+            $table->timestamp('sending_job_dispatched_at')->nullable();
             $table->timestamp('sent_at')->nullable();
             $table->timestamp('failed_at')->nullable();
             $table->text('failure_reason')->nullable();
@@ -538,6 +540,7 @@ class CreateMailcoachTables extends Migration
             $table->timestamp('run_at')->nullable();
             $table->timestamp('completed_at')->nullable();
             $table->timestamp('halted_at')->nullable();
+            $table->timestamp('job_dispatched_at')->nullable();
             $table->timestamps();
 
             $table

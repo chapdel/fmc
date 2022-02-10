@@ -32,11 +32,11 @@ class SendTransactionalMailTestController
         if (count($request->sanitizedEmails()) > 1) {
             $emailCount = count($request->sanitizedEmails());
 
-            flash()->success(__('A test email was sent to :count addresses.', ['count' => $emailCount]));
+            flash()->success(__('mailcoach - A test email was sent to :count addresses.', ['count' => $emailCount]));
 
             return;
         }
 
-        flash()->success(__('A test email was sent to :email.', ['email' => $request->sanitizedEmails()[0]]));
+        flash()->success(__('mailcoach - A test email was sent to :email.', ['email' => $request->sanitizedEmails()[0]]));
     }
 }

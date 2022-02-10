@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\TransactionalMail\Support;
 
-use Swift_Message;
+use Symfony\Component\Mime\Email;
 
 class TransactionalMailMessageConfig
 {
@@ -11,13 +11,13 @@ class TransactionalMailMessageConfig
     public const HEADER_NAME_STORE = 'mailcoach-transactional-mail-config-store';
     public const HEADER_NAME_MAILABLE_CLASS = 'mailcoach-transactional-mail-config-mailable-class';
 
-    public static function createForMessage(Swift_Message $message): self
+    public static function createForMessage(Email $message): self
     {
         return new self($message);
     }
 
     protected function __construct(
-        protected Swift_Message $message
+        protected Email $message
     ) {
     }
 
@@ -46,7 +46,7 @@ class TransactionalMailMessageConfig
 
     public function getMailableClass(): string
     {
-        return $this->message->getHeaders()->get(static::HEADER_NAME_MAILABLE_CLASS)->getFieldBody();
+        return $this->message->getHeaders()->get(static::HEADER_NAME_MAILABLE_CLASS)->getBodyAsString();
     }
 
     public static function getHeaderNames(): array

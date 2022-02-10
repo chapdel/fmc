@@ -59,12 +59,12 @@
         @elseif($campaign->isSending())
             {{ optional($campaign->updated_at)->toMailcoachFormat() }}
             <div class="td-secondary-line">
-                {{ __('In progress') }}
+                {{ __('mailcoach - In progress') }}
             </div>
         @elseif($campaign->isScheduled())
             {{ optional($campaign->scheduled_at)->toMailcoachFormat() }}
             <div class="td-secondary-line">
-                {{ __('Scheduled') }}
+                {{ __('mailcoach - Scheduled') }}
             </div>
         @else
             –
@@ -78,7 +78,7 @@
                     <x-mailcoach::form-button
                         :action="route('mailcoach.campaigns.duplicate', $campaign)"
                     >
-                        <x-mailcoach::icon-label icon="fas fa-random" :text="__('Duplicate')" />
+                        <x-mailcoach::icon-label icon="fas fa-random" :text="__('mailcoach - Duplicate')" />
                     </x-mailcoach::form-button>
                 </li>
                 <li>
@@ -86,9 +86,9 @@
                         :action="route('mailcoach.campaigns.delete', $campaign)"
                         method="DELETE"
                         data-confirm="true"
-                        :data-confirm-text="__('Are you sure you want to delete campaign :campaignName?', ['campaignName' => $campaign->name])"
+                        :data-confirm-text="__('mailcoach - Are you sure you want to delete campaign :campaignName?', ['campaignName' => $campaign->name])"
                     >
-                        <x-mailcoach::icon-label icon="far fa-trash-alt" :text="__('Delete')" :caution="true" />
+                        <x-mailcoach::icon-label icon="far fa-trash-alt" :text="__('mailcoach - Delete')" :caution="true" />
                     </x-mailcoach::form-button>
                 </li>
             </ul>

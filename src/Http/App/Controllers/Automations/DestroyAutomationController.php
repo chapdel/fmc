@@ -13,7 +13,7 @@ class DestroyAutomationController
     {
         $automation->delete();
 
-        flash()->success(__('Automation :automation was deleted.', ['automation' => $automation->name]));
+        flash()->success(__('mailcoach - Automation :automation was deleted.', ['automation' => $automation->name]));
 
         return redirect()->route('mailcoach.automations');
     }

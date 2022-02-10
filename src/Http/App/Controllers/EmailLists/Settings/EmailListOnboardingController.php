@@ -45,7 +45,7 @@ class EmailListOnboardingController
 
         $emailList->allowedFormSubscriptionTags()->sync($request->allowedFormSubscriptionTags());
 
-        flash()->success(__('List :emailList was updated', ['emailList' => $emailList->name]));
+        flash()->success(__('mailcoach - List :emailList was updated', ['emailList' => $emailList->name]));
 
         return back();
     }

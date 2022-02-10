@@ -15,7 +15,7 @@ class DestroyAllUnsubscribedController
 
         $emailList->allSubscribersWithoutIndex()->unsubscribed()->delete();
 
-        flash()->success(__('All unsubscribers of the list have been deleted.'));
+        flash()->success(__('mailcoach - All unsubscribers of the list have been deleted.'));
 
         return back();
     }

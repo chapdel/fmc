@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Domain\Campaign\Jobs;
 
-use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -11,11 +10,9 @@ use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\Campaign\Actions\SendMailAction;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
-use Spatie\RateLimitedMiddleware\RateLimited;
 
 class SendCampaignMailJob implements ShouldQueue
 {
-    use Batchable;
     use Dispatchable;
     use InteractsWithQueue;
     use Queueable;
@@ -24,6 +21,8 @@ class SendCampaignMailJob implements ShouldQueue
     public bool $deleteWhenMissingModels = true;
 
     public Send $pendingSend;
+
+    public $tries = 3;
 
     /** @var string */
     public $queue;
@@ -39,7 +38,7 @@ class SendCampaignMailJob implements ShouldQueue
 
     public function handle()
     {
-        if (optional($this->batch())->canceled()) {
+        if ($this->pendingSend->campaign->isCancelled()) {
             if (! $this->pendingSend->wasAlreadySent()) {
                 $this->pendingSend->delete();
             }
@@ -51,30 +50,5 @@ class SendCampaignMailJob implements ShouldQueue
         $sendMailAction = Config::getCampaignActionClass('send_mail', SendMailAction::class);
 
         $sendMailAction->execute($this->pendingSend);
-    }
-
-    public function middleware()
-    {
-        $throttlingConfig = config('mailcoach.campaigns.throttling');
-        $rateLimitDriver = config('mailcoach.shared.rate_limit_driver', 'redis');
-
-        if ($rateLimitDriver === 'redis') {
-            $rateLimitedMiddleware = (new RateLimited())
-                ->connectionName($throttlingConfig['redis_connection_name']);
-        } else {
-            $rateLimitedMiddleware = (new RateLimited(useRedis: false));
-        }
-
-        $rateLimitedMiddleware->enabled($throttlingConfig['enabled'])
-            ->allow($throttlingConfig['allowed_number_of_jobs_in_timespan'])
-            ->everySeconds($throttlingConfig['timespan_in_seconds'])
-            ->releaseAfterSeconds($throttlingConfig['release_in_seconds']);
-
-        return [$rateLimitedMiddleware];
-    }
-
-    public function retryUntil()
-    {
-        return now()->addHours(config('mailcoach.campaigns.throttling.retry_until_hours', 24));
     }
 }

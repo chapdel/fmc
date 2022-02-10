@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Tests;
 
-use CreateJobBatchesTable;
 use CreateMailcoachTables;
 use CreateMediaTable;
 use CreateUsersTable;
@@ -68,12 +67,12 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
-            LivewireServiceProvider::class,
             MailcoachServiceProvider::class,
             FeedServiceProvider::class,
             MediaLibraryServiceProvider::class,
             QueryBuilderServiceProvider::class,
             RayServiceProvider::class,
+            LivewireServiceProvider::class,
         ];
     }
 
@@ -93,9 +92,6 @@ abstract class TestCase extends Orchestra
 
             include_once __DIR__.'/../database/migrations/create_webhook_calls_table.php.stub';
             (new CreateWebhookCallsTable())->up();
-
-            include_once __DIR__.'/../database/migrations/create_job_batches_table.php.stub';
-            (new CreateJobBatchesTable())->up();
 
             $this->app[Kernel::class]->setArtisan(null);
 

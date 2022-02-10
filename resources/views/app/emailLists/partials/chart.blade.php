@@ -68,10 +68,10 @@
         <div class="chart-tooltip-container" style="left: {{ $index / 29 * 100 }}%">
             <label class="chart-tooltip">
                 <span class="chart-tooltip-legend | bg-blue-400"></span>
-                {{ number_format($stat['subscribers']) }} {{ __('subscribers') }}
+                {{ number_format($stat['subscribers']) }} {{ __('mailcoach - subscribers') }}
                 <br>
                 <span class="chart-tooltip-legend | bg-red-400"></span>
-                {{ $stat['unsubscribes'] }} {{ __('unsubscribes') }}
+                {{ $stat['unsubscribes'] }} {{ __('mailcoach - unsubscribes') }}
             </label>
         </div>
     @endforeach

@@ -32,7 +32,7 @@ class TransactionalMailTemplatesController
 
         $template = $createTemplateAction->execute($request->validated());
 
-        flash()->success(__('Template :template was created.', ['template' => $template->name]));
+        flash()->success(__('mailcoach - Template :template was created.', ['template' => $template->name]));
 
         return redirect()->route('mailcoach.transactionalMails.templates.edit', $template);
     }
@@ -55,7 +55,7 @@ class TransactionalMailTemplatesController
 
         $updateTemplateAction->execute($template, $request);
 
-        flash()->success(__('Template :template was updated.', ['template' => $template->name]));
+        flash()->success(__('mailcoach - Template :template was updated.', ['template' => $template->name]));
 
         return redirect()->back();
     }
@@ -66,7 +66,7 @@ class TransactionalMailTemplatesController
 
         $template->delete();
 
-        flash()->success(__('Template :template was deleted.', ['template' => $template->name]));
+        flash()->success(__('mailcoach - Template :template was deleted.', ['template' => $template->name]));
 
         return redirect()->route('mailcoach.transactionalMails.templates');
     }
@@ -79,7 +79,7 @@ class TransactionalMailTemplatesController
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Template $duplicateTemplate */
         $duplicateTemplate = $template->replicate()->save();
 
-        flash()->success(__('Template :template was duplicated.', ['template' => $template->name]));
+        flash()->success(__('mailcoach - Template :template was duplicated.', ['template' => $template->name]));
 
         return redirect()->route('mailcoach.transactionalMails.templates.edit', $duplicateTemplate);
     }

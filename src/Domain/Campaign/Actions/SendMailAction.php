@@ -8,7 +8,7 @@ use Spatie\Mailcoach\Domain\Campaign\Events\CampaignMailSentEvent;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
-use Swift_Message;
+use Symfony\Component\Mime\Email;
 
 class SendMailAction
 {
@@ -55,7 +55,7 @@ class SendMailAction
             ->subject($personalisedSubject)
             ->setHtmlContent($personalisedHtml)
             ->setTextContent($personalisedText)
-            ->withSwiftMessage(function (Swift_Message $message) use ($pendingSend) {
+            ->withSymfonyMessage(function (Email $message) use ($pendingSend) {
                 $message->getHeaders()->addTextHeader('X-MAILCOACH', 'true');
 
                 /** Postmark specific header */

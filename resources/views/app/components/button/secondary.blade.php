@@ -1,5 +1,5 @@
-<button 
+<button
     {{ $attributes->merge(['type' => 'button', 'class' => 'button-secondary'])->except(['label']) }}
 >
-    {{ $label ?? __('Save')  }}
+    {{ $label ?? __('mailcoach - Save')  }}
 </button>

@@ -11,7 +11,7 @@ You can tightly integrate Mailcoach into your application logic. You can listen 
 
 ## Getting a license
 
-In order to install Mailcoach, you'll need to [get a license](/docs/laravel-mailcoach/v4/general/getting-a-license) first.
+In order to install Mailcoach, you'll need to [get a license](/docs/laravel-mailcoach/v5/general/getting-a-license) first.
 
 ## Installation via composer
 
@@ -68,8 +68,6 @@ php artisan vendor:publish --provider="Spatie\Mailcoach\MailcoachServiceProvider
 Below is the default content of the config file:
 
 ```php
-<?php
-
 return [
     'campaigns' => [
         /*
@@ -110,18 +108,27 @@ return [
         ],
 
         /*
-         * By default only 10 mails per second will be sent to avoid overwhelming your
-         * e-mail sending service. To use this feature you must have Redis installed.
+         * By default only 30 mails per 10 seconds will be sent to avoid overwhelming your
+         * e-mail sending service.
          */
         'throttling' => [
-            'enabled' => true,
-            'redis_connection_name' => 'default',
-            'redis_key' => 'laravel-mailcoach',
-            'allowed_number_of_jobs_in_timespan' => 10,
-            'timespan_in_seconds' => 1,
-            'release_in_seconds' => 5,
-            'retry_until_hours' => 24,
+            'allowed_number_of_jobs_in_timespan' => 30,
+            'timespan_in_seconds' => 10,
+
+            /*
+             * Throttling relies on the cache. Here you can specify the store to be used.
+             *
+             * When passing `null`, we'll use the default store.
+             */
+            'cache_store' => null,
         ],
+
+        /*
+         * The job that will send a campaign could take a long time when your list contains a lot of subscribers.
+         * Here you can define the maximum run time of the job. If the job hasn't fully sent your campaign, it
+         * will redispatch itself.
+         */
+        'send_campaign_maximum_job_runtime_in_seconds' => 60  * 10,
 
         /*
          * You can customize some of the behavior of this package by using our own custom action.
@@ -280,12 +287,6 @@ return [
         'actions' => [
             'calculate_statistics' => \Spatie\Mailcoach\Domain\Shared\Actions\CalculateStatisticsAction::class,
         ],
-
-        /**
-         * Which rate limit driver to use, we use Redis by default.
-         * Options: redis | cache
-         */
-        'rate_limit_driver' => 'redis',
     ],
 
     /*
@@ -506,10 +507,10 @@ To use different mailers, fill in the name of configured mailers in the `campaig
 
 To configure tracking open, clicks, bounces & complaints, follow the instruction on the dedicated docs page of each supported service.
 
-- [Amazon SES](/docs/laravel-mailcoach/v4/configuring-mail-providers/amazon-ses)
-- [Mailgun](/docs/laravel-mailcoach/v4/configuring-mail-providers/mailgun)
-- [Sendgrid](/docs/laravel-mailcoach/v4/configuring-mail-providers/sendgrid)
-- [Postmark](/docs/laravel-mailcoach/v4/configuring-mail-providers/postmark)
+- [Amazon SES](/docs/laravel-mailcoach/v5/configuring-mail-providers/amazon-ses)
+- [Mailgun](/docs/laravel-mailcoach/v5/configuring-mail-providers/mailgun)
+- [Sendgrid](/docs/laravel-mailcoach/v5/configuring-mail-providers/sendgrid)
+- [Postmark](/docs/laravel-mailcoach/v5/configuring-mail-providers/postmark)
 
 ## Prepare the database
 
@@ -569,11 +570,9 @@ To ensure that these assets get republished each time Mailcoach is updated, we h
 }
 ```
 
-## Install and configure redis
+## Take care of throttling
 
-It's common for e-mail providers to limit the number of e-mails you can send within a given amount of time. The package uses Redis to throttle e-mails, so make sure it's available on your system. You must specify a valid Redis connection name in the `throttling.redis_connection_name` key.
-
-By default, we set this value to the default Laravel connection name, `default`.
+It's common for e-mail providers to limit the number of e-mails you can send within a given amount of time. You should look up the limits of the email sending provider that you will use, and specify the throttling limits in the `throttling` of the `mailcoach` config file.
 
 ## Install Horizon
 
@@ -684,7 +683,7 @@ By default, all dates in Mailcoach are in UTC. If you want to use another timezo
 
 ## Choosing an editor
 
-By default, Mailcoach uses a plain textarea field to edit campaigns and templates. If you'd like to use a feature rich editor, you can [use one of the add-on packages](/docs/laravel-mailcoach/v4/choosing-an-editor/introduction).
+By default, Mailcoach uses a plain textarea field to edit campaigns and templates. If you'd like to use a feature rich editor, you can [use one of the add-on packages](/docs/laravel-mailcoach/v5/choosing-an-editor/introduction).
 
 ## Visit the UI
 

@@ -1,14 +1,14 @@
-<x-mailcoach::layout-main :title="__('Templates')">
+<x-mailcoach::layout-main :title="__('mailcoach - Templates')">
         <div class="table-actions">
-            <x-mailcoach::button data-modal-trigger="create-template" :label="__('Create template')"/>
+            <x-mailcoach::button data-modal-trigger="create-template" :label="__('mailcoach - Create template')"/>
 
-            <x-mailcoach::modal :title="__('Create template')" name="create-template" :open="$errors->any()">
+            <x-mailcoach::modal :title="__('mailcoach - Create template')" name="create-template" :open="$errors->any()">
                 @include('mailcoach::app.campaigns.templates.partials.create')
             </x-mailcoach::modal>
 
             @if($templates->count() || $searching)
                 <div class="table-filters">
-                    <x-mailcoach::search :placeholder="__('Filter templates…')"/>
+                    <x-mailcoach::search :placeholder="__('mailcoach - Filter templates…')"/>
                 </div>
             @endif
         </div>
@@ -17,8 +17,8 @@
             <table class="table table-fixed">
                 <thead>
                 <tr>
-                    <x-mailcoach::th sort-by="name" sort-default>{{ __('Name') }}</x-mailcoach::th>
-                    <x-mailcoach::th sort-by="-updated_at" class="w-48 th-numeric">{{ __('Last updated') }}</x-mailcoach::th>
+                    <x-mailcoach::th sort-by="name" sort-default>{{ __('mailcoach - Name') }}</x-mailcoach::th>
+                    <x-mailcoach::th sort-by="-updated_at" class="w-48 th-numeric">{{ __('mailcoach - Last updated') }}</x-mailcoach::th>
                     <th class="w-12"></th>
                 </tr>
                 </thead>
@@ -38,7 +38,7 @@
                                         <x-mailcoach::form-button
                                             :action="route('mailcoach.templates.duplicate', $template)"
                                         >
-                                            <x-mailcoach::icon-label icon="fas fa-random" :text="__('Duplicate')" />
+                                            <x-mailcoach::icon-label icon="fas fa-random" :text="__('mailcoach - Duplicate')" />
                                         </x-mailcoach::form-button>
                                     </li>
                                     <li>
@@ -46,9 +46,9 @@
                                             :action="route('mailcoach.templates.delete', $template)"
                                             method="DELETE"
                                             data-confirm="true"
-                                            :data-confirm-text="__('Are you sure you want to delete template :template?', ['template' => $template->name])"
+                                            :data-confirm-text="__('mailcoach - Are you sure you want to delete template :template?', ['template' => $template->name])"
                                         >
-                                            <x-mailcoach::icon-label icon="far fa-trash-alt" :text="__('Delete')" :caution="true" />
+                                            <x-mailcoach::icon-label icon="far fa-trash-alt" :text="__('mailcoach - Delete')" :caution="true" />
                                         </x-mailcoach::form-button>
                                     </li>
                                 </ul>
@@ -60,7 +60,7 @@
             </table>
 
             <x-mailcoach::table-status
-                :name="__('template|templates')"
+                :name="__('mailcoach - template|templates')"
                 :paginator="$templates"
                 :total-count="$totalTemplatesCount"
                 :show-all-url="route('mailcoach.templates')"
@@ -69,9 +69,9 @@
         @else
             <x-mailcoach::help>
                 @if ($searching)
-                    {{ __('No templates found.') }}
+                    {{ __('mailcoach - No templates found.') }}
                 @else
-                    {{ __('DRY? No templates here.') }}
+                    {{ __('mailcoach - DRY? No templates here.') }}
                 @endif
             </x-mailcoach::help>
         @endif

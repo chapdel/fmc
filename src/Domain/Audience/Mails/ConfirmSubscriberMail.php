@@ -53,7 +53,7 @@ class ConfirmSubscriberMail extends Mailable implements ShouldQueue
         $customSubject = $this->subscriber->emailList->confirmation_mail_subject;
 
         $subject = empty($customSubject)
-            ? __('Confirm your subscription to :emailListName', ['emailListName' => $this->subscriber->emailList->name])
+            ? __('mailcoach - Confirm your subscription to :emailListName', ['emailListName' => $this->subscriber->emailList->name])
             : $this->replacePlaceholders($customSubject);
 
         $this->subject($subject);

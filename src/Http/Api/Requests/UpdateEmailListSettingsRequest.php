@@ -40,6 +40,7 @@ class UpdateEmailListSettingsRequest extends FormRequest
             ],
 
             'campaign_mailer' => [Rule::in(array_keys(config('mail.mailers')))],
+            'automation_mailer' => [Rule::in(array_keys(config('mail.mailers')))],
             'transactional_mailer' => [Rule::in(array_keys(config('mail.mailers')))],
             'allow_form_subscriptions' => 'boolean',
             'allowed_form_extra_attributes' => '',

@@ -1,7 +1,9 @@
 <?php
 
 use Carbon\CarbonInterval;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
+use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\TestTime\TestTime;
@@ -33,4 +35,28 @@ it('will only continue when time has passed', function () {
     TestTime::addDay();
 
     expect($action->shouldContinue(test()->subscriber))->toBeTrue();
+});
+
+it('will return the correct query to only run on subscribers that need to continue', function () {
+    $action = new WaitAction(CarbonInterval::days(1));
+    $actionModel = Action::factory()->create([
+        'action' => $action,
+    ]);
+
+    $subscriber1 = Subscriber::factory()->create();
+    $subscriber2 = Subscriber::factory()->create();
+
+    ActionSubscriber::create([
+        'action_id' => $actionModel->id,
+        'subscriber_id' => $subscriber1->id,
+        'created_at' => now(),
+    ]);
+
+    ActionSubscriber::create([
+        'action_id' => $actionModel->id,
+        'subscriber_id' => $subscriber2->id,
+        'created_at' => now()->subDays(2),
+    ]);
+
+    expect($action->getActionSubscribersQuery($actionModel)->count())->toBe(1);
 });

@@ -15,7 +15,7 @@ class DestroyEmailListController
 
         $emailList->delete();
 
-        flash()->success(__('List :emailList was deleted', ['emailList' => $emailList->name]));
+        flash()->success(__('mailcoach - List :emailList was deleted', ['emailList' => $emailList->name]));
 
         return redirect()->route('mailcoach.emailLists');
     }

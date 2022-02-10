@@ -215,7 +215,7 @@ test('clicking the link in the confirm subscription mail will redirect to the gi
      * We'll grab the url behind the confirm subscription button in the mail that will be sent
      */
     Event::listen(MessageSent::class, function (MessageSent $event) {
-        test()->confirmSubscriptionLink = (new Crawler($event->message->getBody()))
+        test()->confirmSubscriptionLink = (new Crawler($event->message->getHtmlBody()))
             ->filter('.button-primary')->first()->attr('href');
     });
 

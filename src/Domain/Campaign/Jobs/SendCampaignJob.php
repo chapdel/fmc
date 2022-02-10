@@ -39,6 +39,10 @@ class SendCampaignJob implements ShouldQueue
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignAction $sendCampaignAction */
         $sendCampaignAction = Config::getCampaignActionClass('send_campaign', SendCampaignAction::class);
 
-        $sendCampaignAction->execute($this->campaign);
+        $maxRuntimeInSeconds = max(60, config('mailcoach.campaigns.send_campaign_maximum_job_runtime_in_seconds'));
+
+        $stopExecutingAt = now()->addSeconds($maxRuntimeInSeconds);
+
+        $sendCampaignAction->execute($this->campaign, $stopExecutingAt);
     }
 }

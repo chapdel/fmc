@@ -17,6 +17,8 @@ class UpdateEmailListAction
             'default_reply_to_email' => $request->default_reply_to_email ?? $request->default_from_email,
             'default_reply_to_name' => $request->default_reply_to_name ?? $request->default_from_name,
             'campaign_mailer' => $request->campaign_mailer ?? config('mailcoach.campaigns.mailer') ?? config('mailcoach.mailer') ?? config('mail.default'),
+            'automation_mailer' => $request->campaign_mailer ?? config('mailcoach.campaigns.mailer') ?? config('mailcoach.mailer') ?? config('mail.default'),
+
             'transactional_mailer' => $request->transactional_mailer ?? config('mailcoach.transactional.mailer') ?? config('mailcoach.mailer') ?? config('mail.default'),
             'campaigns_feed_enabled' => $request->campaigns_feed_enabled ?? false,
             'report_recipients' => $request->report_recipients,

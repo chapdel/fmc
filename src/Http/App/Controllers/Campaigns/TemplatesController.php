@@ -39,7 +39,7 @@ class TemplatesController
 
         $template = $createTemplateAction->execute($request->validated());
 
-        flash()->success(__('Template :template was created.', ['template' => $template->name]));
+        flash()->success(__('mailcoach - Template :template was created.', ['template' => $template->name]));
 
         return redirect()->route('mailcoach.templates.edit', $template);
     }
@@ -62,7 +62,7 @@ class TemplatesController
 
         $updateTemplateAction->execute($template, $request->validated());
 
-        flash()->success(__('Template :template was updated.', ['template' => $template->name]));
+        flash()->success(__('mailcoach - Template :template was updated.', ['template' => $template->name]));
 
         return redirect()->route('mailcoach.templates');
     }
@@ -73,7 +73,7 @@ class TemplatesController
 
         $template->delete();
 
-        flash()->success(__('Template :template was deleted.', ['template' => $template->name]));
+        flash()->success(__('mailcoach - Template :template was deleted.', ['template' => $template->name]));
 
         return redirect()->route('mailcoach.templates');
     }
@@ -84,12 +84,12 @@ class TemplatesController
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Template $duplicateTemplate */
         $duplicateTemplate = $this->getTemplateClass()::create([
-            'name' => __('Duplicate of') . ' ' . $template->name,
+            'name' => __('mailcoach - Duplicate of') . ' ' . $template->name,
             'html' => $template->html,
             'structured_html' => $template->structured_html,
         ]);
 
-        flash()->success(__('Template :template was duplicated.', ['template' => $template->name]));
+        flash()->success(__('mailcoach - Template :template was duplicated.', ['template' => $template->name]));
 
         return redirect()->route('mailcoach.templates.edit', $duplicateTemplate);
     }

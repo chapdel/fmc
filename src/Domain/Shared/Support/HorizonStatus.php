@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Domain\Shared\Support;
 use InvalidArgumentException;
 use Laravel\Horizon\Contracts\MasterSupervisorRepository;
 use RedisException;
+use Throwable;
 
 class HorizonStatus
 {
@@ -13,13 +14,17 @@ class HorizonStatus
     public const STATUS_PAUSED = 'paused';
 
     public function __construct(
-        private MasterSupervisorRepository $masterSupervisorRepository
+        private ?MasterSupervisorRepository $masterSupervisorRepository = null
     ) {
     }
 
     public function is(string $status): bool
     {
-        return $this->get() === $status;
+        try {
+            return $this->get() === $status;
+        } catch (Throwable) {
+            return false;
+        }
     }
 
     public function get(): string

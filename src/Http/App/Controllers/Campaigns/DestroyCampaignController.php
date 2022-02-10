@@ -15,7 +15,7 @@ class DestroyCampaignController
 
         $campaign->delete();
 
-        flash()->success(__('Campaign :campaign was deleted.', ['campaign' => $campaign->name]));
+        flash()->success(__('mailcoach - Campaign :campaign was deleted.', ['campaign' => $campaign->name]));
 
         return redirect()->back();
     }

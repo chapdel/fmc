@@ -117,7 +117,7 @@ test('the unsubscribe header is added to the email', function () {
 function sendCampaign()
 {
     Event::listen(MessageSent::class, function (MessageSent $event) {
-        $link = (new Crawler($event->message->getBody()))
+        $link = (new Crawler($event->message->getHtmlBody()))
             ->filter('a')->first()->attr('href');
 
         expect($link)->toStartWith('http://localhost');

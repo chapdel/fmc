@@ -12,7 +12,7 @@
 
             <x-mailcoach::navigation-group class="lg:hidden">
                 <x-mailcoach::navigation-item :href="route('mailcoach.home')">
-                        {{ __('Dashboard') }}
+                        {{ __('mailcoach - Dashboard') }}
                 </x-mailcoach::navigation-item>
             </x-mailcoach::navigation-group>
 
@@ -21,39 +21,39 @@
             </x-mailcoach::navigation-group>
 
             @can("viewAny", Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels::getCampaignClass())
-            <x-mailcoach::navigation-group icon="far fa-envelope-open" :title="__('Newsletter')">
+            <x-mailcoach::navigation-group icon="far fa-envelope-open" :title="__('mailcoach - Newsletter')">
                 <x-mailcoach::navigation-item :href="route('mailcoach.campaigns')">
-                    {{ __('Campaigns') }}
+                    {{ __('mailcoach - Campaigns') }}
                 </x-mailcoach::navigation-item>
                 <x-mailcoach::navigation-item :href="route('mailcoach.templates')">
-                    {{ __('Templates') }}
+                    {{ __('mailcoach - Templates') }}
                 </x-mailcoach::navigation-item>
             </x-mailcoach::navigation-group>
             @endcan
 
-            <x-mailcoach::navigation-group icon="fas fa-magic" :title="__('Drip')">
+            <x-mailcoach::navigation-group icon="fas fa-magic" :title="__('mailcoach - Drip')">
                 <x-mailcoach::navigation-item :href="route('mailcoach.automations')">
-                    {{ __('Automations') }}
+                    {{ __('mailcoach - Automations') }}
                 </x-mailcoach::navigation-item>
                 <x-mailcoach::navigation-item :href="route('mailcoach.automations.mails')">
-                    {{ __('Emails') }}
+                    {{ __('mailcoach - Emails') }}
                 </x-mailcoach::navigation-item>
             </x-mailcoach::navigation-group>
 
             @can("viewAny", Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels::getEmailListClass())
-            <x-mailcoach::navigation-group icon="far fa-address-book" :title="__('Audience')">
+            <x-mailcoach::navigation-group icon="far fa-address-book" :title="__('mailcoach - Audience')">
                 <x-mailcoach::navigation-item :href="route('mailcoach.emailLists')">
-                    {{ __('Lists') }}
+                    {{ __('mailcoach - Lists') }}
                 </x-mailcoach::navigation-item>
             </x-mailcoach::navigation-group>
             @endcan
 
-            <x-mailcoach::navigation-group icon="far fa-envelope-open" :title="__('Transactional')">
+            <x-mailcoach::navigation-group icon="far fa-envelope-open" :title="__('mailcoach - Transactional')">
                 <x-mailcoach::navigation-item :href="route('mailcoach.transactionalMails')">
-                    {{ __('Log') }}
+                    {{ __('mailcoach - Log') }}
                 </x-mailcoach::navigation-item>
                 <x-mailcoach::navigation-item :href="route('mailcoach.transactionalMails.templates')">
-                    {{ __('Templates') }}
+                    {{ __('mailcoach - Templates') }}
                 </x-mailcoach::navigation-item>
             </x-mailcoach::navigation-group>
 

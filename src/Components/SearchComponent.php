@@ -13,7 +13,7 @@ class SearchComponent extends Component
 
     public function __construct(Request $request, string $placeholder = '')
     {
-        $this->value = $request->query('filter', [])['search'] ?? '';
+        $this->value = $request->get('filter', [])['search'] ?? '';
         $this->placeholder = $placeholder;
     }
 

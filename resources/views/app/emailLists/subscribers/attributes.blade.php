@@ -4,8 +4,8 @@
         <table class="table table-fixed">
             <thead>
             <tr>
-                <th>{{ __('Key') }}</th>
-                <th>{{ __('Value') }}</th>
+                <th>{{ __('mailcoach - Key') }}</th>
+                <th>{{ __('mailcoach - Value') }}</th>
             </tr>
             </thead>
             <tbody>
@@ -30,7 +30,7 @@
 
     @else
         <x-mailcoach::help>
-            {{ __("This user doesn't have any attributes yet.") }}
+            {{ __("mailcoach - This user doesn't have any attributes yet.") }}
         </x-mailcoach::help>
     @endif
 </x-mailcoach::layout-subscriber>

@@ -7,7 +7,7 @@ use Spatie\Mailcoach\Tests\TestClasses\TestTransactionMail;
 
 trait SendsTestTransactionalMail
 {
-    protected function sendTestMail(callable $buildUsing = null): void
+    public function sendTestMail(callable $buildUsing = null): void
     {
         TestTransactionMail::$buildUsing = $buildUsing ?? function (TestTransactionMail $mail) {
             $mail->trackOpensAndClicks();

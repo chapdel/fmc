@@ -1,4 +1,4 @@
-<x-mailcoach::layout-segment 
+<x-mailcoach::layout-segment
     :segment="$segment"
     :selectedSubscribersCount="$selectedSubscribersCount"
 >
@@ -10,10 +10,10 @@
         @if (! $emailList->tags()->count())
             <x-mailcoach::help>
                 <div class="markup-lists">
-                    {{ __('A segment is based on tags.') }}
+                    {{ __('mailcoach - A segment is based on tags.') }}
                     <ol class="mt-4">
-                        <li>{!! __('<a href=":tagLink">Create some tags</a> for this list first.', ['tagLink' => route('mailcoach.emailLists.tags', $emailList)]) !!}</li>
-                        <li>{!! __('Assign these tags to some of the <a href=":subscriberslink">subscribers</a>.', ['subscriberslink' => route('mailcoach.emailLists.subscribers', $emailList)]) !!}</li>
+                        <li>{!! __('mailcoach - <a href=":tagLink">Create some tags</a> for this list first.', ['tagLink' => route('mailcoach.emailLists.tags', $emailList)]) !!}</li>
+                        <li>{!! __('mailcoach - Assign these tags to some of the <a href=":subscriberslink">subscribers</a>.', ['subscriberslink' => route('mailcoach.emailLists.subscribers', $emailList)]) !!}</li>
                     </ol>
                 </div>
             </x-mailcoach::help>
@@ -22,16 +22,16 @@
         @csrf
         @method('PUT')
 
-        <x-mailcoach::text-field :label="__('Name')" name="name" :value="$segment->name" type="name" required />
+        <x-mailcoach::text-field :label="__('mailcoach - Name')" name="name" :value="$segment->name" type="name" required />
 
         <div class="form-field">
-            <label class=label>{{ __('Include with tags') }}</label>
+            <label class=label>{{ __('mailcoach - Include with tags') }}</label>
             <div class="flex items-end">
                 <div class="flex-none">
                     <x-mailcoach::select-field
                         name="positive_tags_operator"
                         :value="$segment->all_positive_tags_required ? 'all' : 'any'"
-                        :options="['any' => __('Any'), 'all' => __('All')]"
+                        :options="['any' => __('mailcoach - Any'), 'all' => __('mailcoach - All')]"
                     />
                 </div>
                 <div class="ml-2 flex-grow">
@@ -45,13 +45,13 @@
         </div>
 
         <div class="form-field">
-            <label class=label>{{ __('Exclude with tags') }}</label>
+            <label class=label>{{ __('mailcoach - Exclude with tags') }}</label>
             <div class="flex items-end">
                 <div class="flex-none">
                     <x-mailcoach::select-field
                         name="negative_tags_operator"
                         :value="$segment->all_negative_tags_required ? 'all' : 'any'"
-                        :options="['any' => __('Any'), 'all' => __('All')]"
+                        :options="['any' => __('mailcoach - Any'), 'all' => __('mailcoach - All')]"
                     />
                 </div>
                 <div class="ml-2 flex-grow">
@@ -66,7 +66,7 @@
 
 
         <div class="form-buttons">
-            <x-mailcoach::button :label="__('Save segment')" />
+            <x-mailcoach::button :label="__('mailcoach - Save segment')" />
         </div>
     </form>
 </x-mailcoach::layout-segment>

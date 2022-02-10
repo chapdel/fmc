@@ -19,11 +19,11 @@
         <script type="text/javascript">
             window.__ = function (key) {
                 return {
-                    "Are you sure?": "{{ __('Are you sure?') }}",
-                    "Type to add tags": "{{ __('Type to add tags') }}",
-                    "No tags to choose from": "{{ __('No tags to choose from') }}",
-                    "Press to add": "{{ __('Press to add') }}",
-                    "Press to select": "{{ __('Press to select') }}",
+                    "Are you sure?": "{{ __('mailcoach - Are you sure?') }}",
+                    "Type to add tags": "{{ __('mailcoach - Type to add tags') }}",
+                    "No tags to choose from": "{{ __('mailcoach - No tags to choose from') }}",
+                    "Press to add": "{{ __('mailcoach - Press to add') }}",
+                    "Press to select": "{{ __('mailcoach - Press to select') }}",
                 }[key];
             };
         </script>
@@ -80,21 +80,21 @@
             </footer>
         </div>
 
-        <x-mailcoach::modal :title="__('Confirm')" name="confirm">
-            <span data-confirm-modal-text>{{ __('Are you sure?') }}</span>
+        <x-mailcoach::modal :title="__('mailcoach - Confirm')" name="confirm">
+            <span data-confirm-modal-text>{{ __('mailcoach - Are you sure?') }}</span>
 
             <div class="form-buttons">
-                <x-mailcoach::button type="button" data-modal-confirm :label=" __('Confirm')" />
-                <x-mailcoach::button-cancel :label=" __('Cancel')" />
+                <x-mailcoach::button type="button" data-modal-confirm :label=" __('mailcoach - Confirm')" />
+                <x-mailcoach::button-cancel :label=" __('mailcoach - Cancel')" />
             </div>
         </x-mailcoach::modal>
 
-        <x-mailcoach::modal :title="__('Confirm navigation')" name="dirty-warning">
-            {{ __('There are unsaved changes. Are you sure you want to continue?') }}
+        <x-mailcoach::modal :title="__('mailcoach - Confirm navigation')" name="dirty-warning">
+            {{ __('mailcoach - There are unsaved changes. Are you sure you want to continue?') }}
 
             <div class="form-buttons">
-                <x-mailcoach::button type="button" data-modal-confirm :label=" __('Confirm')" />
-                <x-mailcoach::button-cancel :label=" __('Cancel')" />
+                <x-mailcoach::button type="button" data-modal-confirm :label=" __('mailcoach - Confirm')" />
+                <x-mailcoach::button-cancel :label=" __('mailcoach - Cancel')" />
             </div>
         </x-mailcoach::modal>
 

@@ -33,7 +33,7 @@ class EmailListSummaryMail extends Mailable
                 $this->emailList->default_from_email,
                 $this->emailList->default_from_name
             )
-            ->subject(__("A summary of the ':list' list", ['list' => $this->emailList->name]))
+            ->subject(__("mailcoach - A summary of the ':list' list", ['list' => $this->emailList->name]))
             ->markdown('mailcoach::mails.emailListSummary', [
                 'summary' => $this->emailList->summarize($this->summaryStartDateTime),
             ]);

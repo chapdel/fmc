@@ -6,7 +6,6 @@ use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-use Illuminate\Support\Str;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
 use Spatie\Mailcoach\Database\Factories\CampaignFactory;
@@ -38,7 +37,8 @@ class Campaign extends Sendable implements Feedable
         'sent_to_number_of_subscribers' => 'integer',
         'scheduled_at' => 'datetime',
         'campaigns_feed_enabled' => 'boolean',
-        'all_jobs_added_to_batch_at' => 'datetime',
+        'all_sends_created_at' => 'datetime',
+        'all_sends_dispatched_at' => 'datetime',
         'summary_mail_sent_at' => 'datetime',
     ];
 
@@ -512,9 +512,32 @@ class Campaign extends Sendable implements Feedable
         return $this->getCampaignClass()::where($field, $value)->firstOrFail();
     }
 
-    public function getBatchName(): string
+    public function allSendsCreated(): bool
     {
-        return Str::slug("{$this->name} ({$this->id})");
+        return ! is_null($this->all_sends_created_at);
+    }
+
+    public function markAsAllSendsCreated(): self
+    {
+        $this->update([
+            'all_sends_created_at' => now(),
+        ]);
+
+        return $this;
+    }
+
+    public function allMailSendingJobsDispatched(): bool
+    {
+        return ! is_null($this->all_sends_dispatched_at);
+    }
+
+    public function markAsAllMailSendingJobsDispatched(): self
+    {
+        $this->update([
+            'all_sends_dispatched_at' => now(),
+        ]);
+
+        return $this;
     }
 
     protected static function newFactory(): CampaignFactory

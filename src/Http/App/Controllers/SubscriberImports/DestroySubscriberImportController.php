@@ -10,7 +10,7 @@ class DestroySubscriberImportController
     {
         $subscriberImport->delete();
 
-        flash()->success(__('Import was deleted.'));
+        flash()->success(__('mailcoach - Import was deleted.'));
 
         return back();
     }
