@@ -82,7 +82,7 @@ Or you could publish the config file again using `php artisan vendor:publish --t
     ...
 ],
 
-'automations' => [
+'automation' => [
     ...
     /*
      * By default only 10 mails per second will be sent to avoid overwhelming your
