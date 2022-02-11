@@ -37,11 +37,12 @@ return new class extends Migration
             $table->timestamp('job_dispatched_at')->nullable();
         });
         
-        // uncomment this is your `webhook_calls` table doesn't have an `url` column
+        // uncomment this is your `webhook_calls` table doesn't have an `url` or `headers` column
         
         /*
         Schema::table('webhooks_calls', function (Blueprint $table) {
             $table->string('url')->nullable();
+            $table->json('headers')->nullable();
         });
         */
     }
