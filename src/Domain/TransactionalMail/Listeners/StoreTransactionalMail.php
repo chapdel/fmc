@@ -52,7 +52,6 @@ class StoreTransactionalMail
             ->map(fn (Address $address) => [
                 'email' => $address->getAddress(), 'name' => $address->getName(),
             ])
-            ->ray()
             ->values()
             ->toArray();
     }

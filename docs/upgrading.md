@@ -20,8 +20,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('mailcoach_campaigns', function (Blueprint $table) {
-            $table->dropColumn('send_batch_id');
-            $table->dropColumn('all_jobs_added_to_batch_at');
+            $table->dropColumn(['send_batch_id', 'all_jobs_added_to_batch_at']);
             $table->timestamp('all_sends_created_at')->nullable();
             $table->timestamp('all_sends_dispatched_at')->nullable();
         });
@@ -92,7 +91,7 @@ Or you could publish the config file again using `php artisan vendor:publish --t
     ...
 ],
 
-'automations' => [
+'automation' => [
     ...
     /*
      * By default only 10 mails per second will be sent to avoid overwhelming your
