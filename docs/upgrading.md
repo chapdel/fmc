@@ -5,6 +5,8 @@ weight: 4
 
 ## From v4 to v5
 
+This version adds full support for Laravel 9. Under the hood a lot of performance improvements have been made, which decrease load and increase reliability when sending large campaigns.
+
 ### Updating the database
 
 Some changes were made to the database, use the migration below to update your database to the latest schema:
@@ -35,6 +37,14 @@ return new class extends Migration
         Schema::table('mailcoach_automation_action_subscriber', function (Blueprint $table) {
             $table->timestamp('job_dispatched_at')->nullable();
         });
+        
+        // uncomment this is your `webhook_calls` table doesn't have an `url` column
+        
+        /*
+        Schema::table('webhooks_calls', function (Blueprint $table) {
+            $table->string('url')->nullable();
+        });
+        */
     }
 };
 ```
