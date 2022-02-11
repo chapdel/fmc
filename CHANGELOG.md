@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.0.1 - 2022-02-11
+
+## What's Changed
+
+- fix typo in docs by @mertasan in https://github.com/spatie/laravel-mailcoach/pull/880
+- Remove ray call by @mertasan in https://github.com/spatie/laravel-mailcoach/pull/882
+- docs: small improvements by @mertasan in https://github.com/spatie/laravel-mailcoach/pull/881
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.0.0...5.0.1
+
 ## 5.0.0 - 2022-02-10
 
 ## What's Changed
