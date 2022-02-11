@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.0.3 - 2022-02-11
+
+- Minify css & js
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.0.2...5.0.3
+
 ## 5.0.2 - 2022-02-11
 
 ## What's Changed
