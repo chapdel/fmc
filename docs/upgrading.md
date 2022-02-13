@@ -40,7 +40,7 @@ return new class extends Migration
         // uncomment this if your `webhook_calls` table doesn't have an `url` and/or `headers` column
         
         /*
-        Schema::table('webhooks_calls', function (Blueprint $table) {
+        Schema::table('webhook_calls', function (Blueprint $table) {
             $table->string('url')->nullable();
             $table->json('headers')->nullable();
         });
