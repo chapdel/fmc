@@ -90,7 +90,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
             ->hasViews()
             ->hasAssets()
             ->hasMigrations([
-                'create_job_batches_table',
                 'create_mailcoach_tables',
                 'create_media_table',
                 'create_webhook_calls_table',

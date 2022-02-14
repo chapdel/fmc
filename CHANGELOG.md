@@ -2,6 +2,27 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.0.4 - 2022-02-11
+
+- Fixes some small translation issue
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.0.3...5.0.4
+
+## 5.0.3 - 2022-02-11
+
+- Minify css & js
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.0.2...5.0.3
+
+## 5.0.2 - 2022-02-11
+
+## What's Changed
+
+- No longer publish the job_batches migration by @riasvdv in https://github.com/spatie/laravel-mailcoach/pull/884
+- Update NL translations for V5 by @mbardelmeijer in https://github.com/spatie/laravel-mailcoach/pull/883
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.0.1...5.0.2
+
 ## 5.0.1 - 2022-02-11
 
 ## What's Changed
