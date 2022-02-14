@@ -33,7 +33,8 @@ class CampaignsQuery extends QueryBuilder
             )
             ->allowedFilters(
                 AllowedFilter::custom('search', new FuzzyFilter('name')),
-                AllowedFilter::custom('status', new CampaignStatusFilter())
+                AllowedFilter::custom('status', new CampaignStatusFilter()),
+                AllowedFilter::exact('email_list_id'),
             );
     }
 }
