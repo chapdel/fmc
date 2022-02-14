@@ -6,7 +6,7 @@ weight: 2
 Mailcoach on traditional hosting requires:
 
 - PHP 8.0 or higher 
-- Laravel 8 or higher
+- Laravel 9 or higher
 - Redis 
 - MySQL 8.0 or higher
 - Imagick
@@ -19,7 +19,7 @@ Mailcoach on Vapor requires:
 
 - PHP 8.0 or higher
 - Docker (installed locally to deploy to Vapor)
-- Laravel 8 or higher
+- Laravel 9 or higher
 - Redis
 - MySQL 8.0 or higher
 - Imagick
