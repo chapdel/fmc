@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.17.0 - 2022-02-14
+
+- Allow campaigns to be filtered on email_list_id
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/4.16.2...4.17.0
+
 ## 5.0.4 - 2022-02-11
 
 - Fixes some small translation issue
