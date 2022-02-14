@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.1.0 - 2022-02-14
+
+## What's new
+
+- Allow campaigns to be filtered on email_list_id
+
+## What's Changed
+
+- Upgrade guide showing wrong table name by @bashgeek in https://github.com/spatie/laravel-mailcoach/pull/886
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.0.4...5.1.0
+
 ## 4.17.0 - 2022-02-14
 
 - Allow campaigns to be filtered on email_list_id
