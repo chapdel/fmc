@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.2.0 - 2022-02-15
+
+- Use hotwired/turbo instead of turbolinks
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.1.0...5.2.0
+
 ## 5.1.0 - 2022-02-14
 
 ## What's new
