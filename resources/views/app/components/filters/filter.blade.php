@@ -1,5 +1,5 @@
 <li>
-    <a href="{{ $href }}" class="{{ $active() ? 'filter-active' : '' }}" data-turbolinks-preserve-scroll>
+    <a href="{{ $href }}" class="{{ $active() ? 'filter-active' : '' }}" data-turbo-preserve-scroll>
         {{ $slot }}
     </a>
 </li>

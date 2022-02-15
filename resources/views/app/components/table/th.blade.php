@@ -1,6 +1,6 @@
 <th {{ $attributes }}>
     @if($sortable)
-        <a href="{{ $href }}" data-turbolinks-action="replace" data-turbolinks-preserve-scroll>
+        <a href="{{ $href }}" data-turbo-action="replace" data-turbo-preserve-scroll>
             {{ $slot }}
             @if($isSortedAsc())
                 <i class="fas fa-arrow-up text-gray-400"></i>

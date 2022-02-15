@@ -118,7 +118,7 @@ export function createTagsInput(node, { tags, selectedTags, canCreateNewTags }) 
     return tagsInput;
 }
 
-document.addEventListener('turbolinks:load', () => {
+document.addEventListener('turbo:load', () => {
     $$('[data-tags]').forEach(node => {
         window.tagsInput = createTagsInput(node, {
             tags: JSON.parse(node.dataset.tags),

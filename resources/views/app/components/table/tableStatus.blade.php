@@ -3,7 +3,7 @@
         {{ __('mailcoach - Filtering :resource', [
             'resource' => trans_choice($name, $totalCount)
         ]) }}.
-        <a href="{{ $showAllUrl }}" class="link-dimmed" data-turbolinks="false">
+        <a href="{{ $showAllUrl }}" class="link-dimmed" data-turbo="false">
             {{ __('mailcoach - Show all') }}
         </a>
     @endif

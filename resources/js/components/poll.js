@@ -3,7 +3,7 @@ import { $$ } from '../util';
 
 let interval;
 
-document.addEventListener('turbolinks:load', () => {
+document.addEventListener('turbo:load', () => {
     clearInterval(interval);
 
     interval = setInterval(() => {
