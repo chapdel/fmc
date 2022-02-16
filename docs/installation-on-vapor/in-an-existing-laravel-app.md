@@ -88,7 +88,7 @@ Mailcoach uses a database to store information. Make sure you have a [provisione
 
 Mailcoach uses cache to reliably throttle API calls to email sending services.  You should [provision a cache at Vapor](https://docs.vapor.build/1.0/resources/caches.html#creating-caches) and specify the name of your cache in `vapor.yml`
 
-When you import subscribers via an uploaded CSV, Mailcoach has to write that files somewhere. Make sure to [attach storage to your Vapor app](https://docs.vapor.build/1.0/resources/storage.html``).
+When you import subscribers via an uploaded CSV, Mailcoach has to write that files somewhere. Make sure to [attach storage to your Vapor app](https://docs.vapor.build/1.0/resources/storage.html).
 
 ## Prepare the database
 
