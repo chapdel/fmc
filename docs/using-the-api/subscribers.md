@@ -160,6 +160,7 @@ You can pass the following fields while updating a subscriber:
 - `last_name`: nullable
 - `tags`: array
 - `append_tags`: boolean
+- `extra_attributes`: nullable, array
 
 The `append_tags` option determines whether tags will be synced (replaced) or appended to the subscriber.
 
