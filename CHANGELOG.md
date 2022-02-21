@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.2.1 - 2022-02-21
+
+## What's Changed
+
+- Remove stray ray call
+- Fix broken link by @timothyasp in https://github.com/spatie/laravel-mailcoach/pull/889
+- Update subscribers.md by @shopbox-support in https://github.com/spatie/laravel-mailcoach/pull/890
+
+## New Contributors
+
+- @timothyasp made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/889
+- @shopbox-support made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/890
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.2.0...5.2.1
+
 ## 5.2.0 - 2022-02-15
 
 - Use hotwired/turbo instead of turbolinks
