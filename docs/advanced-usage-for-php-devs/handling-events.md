@@ -168,3 +168,5 @@ $campaignName = $event->send->campaign->name;
 ## `Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailLinkClickedEvent`
 
 ## `Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailOpenedEvent`
+
+## `Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailStored`
