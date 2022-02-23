@@ -20,5 +20,52 @@ You can find out your connection limit by executing this query
 SHOW VARIABLES LIKE "max_connections"
 ```
 
+## Uploads on Vapor
 
+To have image uploads work for the editors and have uploads work for subscriber imports, make sure to change these configurations:
 
+Make sure you have an S3 disk configuration that contains `'visibility' => 'public'`, for example:
+
+```php
+// config/filesystems.php
+
+'media' => [
+    'driver' => 's3',
+    'key' => env('AWS_ACCESS_KEY_ID'),
+    'secret' => env('AWS_SECRET_ACCESS_KEY'),
+    'region' => env('AWS_DEFAULT_REGION'),
+    'bucket' => env('AWS_BUCKET'),
+    'url' => env('AWS_URL'),
+    'endpoint' => env('AWS_ENDPOINT'),
+    'visibility' => 'public', // <-- This line is very important for image uploads to work
+],
+```
+
+Then, make sure to set the `disk_name` configuration value to the name of your disk for Unlayer and/or the Editor.js editor, in this case `media`
+
+```php
+// config/mailcoach.php
+
+'unlayer' => [
+    'disk_name' => 'media'
+],
+
+'mailcoach-editor' => [
+    'disk_name' => 'media'
+],
+```
+
+For subscriber imports, make sure to set the `mailcoach.audience.import_subscribers_disk` to an S3 filesystem as well:
+
+```php
+// config/mailcoach.php
+
+'audience' => [
+    ...
+
+    /*
+     * This disk will be used to store files regarding importing subscribers.
+     */
+    'import_subscribers_disk' => 'media',
+],
+```

@@ -1,6 +1,6 @@
 import { $ } from '../util';
 
-document.addEventListener('turbolinks:load', () => {
+document.addEventListener('turbo:load', () => {
     const container = $('[data-segments]');
 
     if (!container) {

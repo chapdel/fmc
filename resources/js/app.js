@@ -1,6 +1,6 @@
 import 'alpinejs';
 
-require('./components/turbolinks');
+require('./components/turbo');
 require('./components/conditional');
 require('./components/confirm');
 require('./components/datepicker');

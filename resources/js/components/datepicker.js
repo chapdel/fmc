@@ -6,4 +6,4 @@ function initDatepickers() {
     });
 }
 
-document.addEventListener('turbolinks:load', initDatepickers);
+document.addEventListener('turbo:load', initDatepickers);

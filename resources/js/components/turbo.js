@@ -1,7 +1,5 @@
-import Turbolinks from 'turbolinks';
+import * as Turbo from "@hotwired/turbo";
 import { debounce, listen } from '../util';
-
-Turbolinks.start();
 
 // Preserve scroll
 
@@ -19,8 +17,8 @@ function restoreScrollPosition() {
     }
 }
 
-listen('click', '[data-turbolinks-preserve-scroll]', preserveScrollPosition);
-document.addEventListener('turbolinks:render', restoreScrollPosition);
+listen('click', '[data-turbo-preserve-scroll]', preserveScrollPosition);
+document.addEventListener('turbo:render', restoreScrollPosition);
 
 // Preserve focus
 
@@ -28,7 +26,7 @@ let preservedFocus = null;
 
 function preserveFocus() {
     if (document.activeElement) {
-        preservedFocus = document.activeElement.matches('[data-turbolinks-permanent]') ? document.activeElement : null;
+        preservedFocus = document.activeElement.matches('[data-turbo-permanent]') ? document.activeElement : null;
     }
 }
 
@@ -40,21 +38,21 @@ function restoreFocus() {
     }
 }
 
-document.addEventListener('turbolinks:before-visit', preserveFocus);
-document.addEventListener('turbolinks:render', restoreFocus);
+document.addEventListener('turbo:before-visit', preserveFocus);
+document.addEventListener('turbo:render', restoreFocus);
 
 // Search bar
 
 listen(
     'input',
-    '[data-turbolinks-search]',
+    '[data-turbo-search]',
     debounce(({ target }) => {
         const url = target.value
-            ? target.dataset.turbolinksSearchUrl.replace('%search%', target.value)
-            : target.dataset.turbolinksSearchClearUrl;
+            ? target.dataset.turboSearchUrl.replace('%search%', target.value)
+            : target.dataset.turboSearchClearUrl;
 
         preserveScrollPosition();
 
-        Turbolinks.visit(url, { action: 'replace' });
+        Turbo.visit(url, { action: 'replace' });
     }, 400)
 );

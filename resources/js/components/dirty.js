@@ -1,4 +1,4 @@
-import Turbolinks from 'turbolinks';
+import * as Turbo from '@hotwired/turbo';
 import { listen, $ } from '../util';
 import { showModal } from './modal';
 
@@ -16,10 +16,10 @@ listen('click', '[data-dirty-warn]', () => {
 
         showModal('dirty-warning', {
             onConfirm() {
-                Turbolinks.visit(event.data.url);
+                Turbo.visit(event.data.url);
             },
         });
     }
 
-    document.addEventListener('turbolinks:before-visit', handleBeforeVisit, { once: true });
+    document.addEventListener('turbo:before-visit', handleBeforeVisit, { once: true });
 });

@@ -32,7 +32,7 @@ function getValue(controller) {
     return controller.value;
 }
 
-window.addEventListener('turbolinks:load', () => {
+window.addEventListener('turbo:load', () => {
     $$('[data-conditional]').forEach(toggleConditionals);
 });
 

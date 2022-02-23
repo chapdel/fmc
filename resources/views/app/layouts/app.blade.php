@@ -13,7 +13,7 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.0/css/all.css">
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-        <meta name="turbolinks-cache-control" content="no-preview">
+        <meta name="turbo-cache-control" content="no-preview">
 
         {!! \Livewire\Livewire::styles() !!}
         <script type="text/javascript">
@@ -100,6 +100,6 @@
 
         @stack('modals')
         {!! \Livewire\Livewire::scripts() !!}
-        <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js" data-turbolinks-eval="false"></script>
+        <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js" data-turbo-eval="false"></script>
     </body>
 </html>

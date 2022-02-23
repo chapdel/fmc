@@ -95,7 +95,7 @@ trait StoresMail
 
     protected function removeExistingMailcoachHeaders(Email $message): void
     {
-        collect($message->getHeaders()->all())->ray()
+        collect($message->getHeaders()->all())
             ->filter(function (AbstractHeader $header) {
                 return in_array($header->getName(), TransactionalMailMessageConfig::getHeaderNames());
             })
