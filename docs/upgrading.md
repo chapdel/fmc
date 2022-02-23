@@ -139,6 +139,15 @@ $schedule->command('mailcoach:send-email-list-summary-mail')->mondays()->at('9:0
 $schedule->command('mailcoach:delete-old-unconfirmed-subscribers')->daily();
 ```
 
+### Updating the mail provider packages
+
+The mail provider packages have been updated. Make sure to update the one you are using to this minimum version
+
+- `spatie/laravel-mailcoach-mailgun-feedback`: ^4.0
+- `spatie/laravel-mailcoach-ses-feedback`: ^4.0
+- `spatie/laravel-mailcoach-sendgrid-feedback`: ^4.0
+- `spatie/laravel-mailcoach-postmark-feedback`: ^4.0
+
 ### Translations
 
 All translations have been prefixed with `mailcoach - ` to not interfere with translations you could have in your own application. If you have added translations for Mailcoach in your project, make sure to prefix those keys.
