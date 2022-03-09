@@ -17,6 +17,7 @@
                     @if($subscribers->count() > 0)
                         <li>
                             <x-mailcoach::form-button
+                                data-turbo="false"
                                 :action="route('mailcoach.emailLists.subscribers.export', $emailList) . '?' . request()->getQueryString()">
 
                                 @if($allSubscriptionsCount === $subscribers->total())
