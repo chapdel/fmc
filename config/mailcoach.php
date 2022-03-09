@@ -78,6 +78,15 @@ return [
             'send_mail' => \Spatie\Mailcoach\Domain\Campaign\Actions\SendMailAction::class,
             'send_test_mail' => \Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignTestAction::class,
         ],
+
+        /*
+         * Adapt these settings if you prefer other default settings for newly created campaigns
+         */
+        'default_settings' => [
+            'track_opens' => false,
+            'track_clicks' => false,
+            'utm_tags' => true,
+        ]
     ],
 
     'automation' => [
