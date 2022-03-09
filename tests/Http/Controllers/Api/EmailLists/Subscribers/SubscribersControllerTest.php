@@ -96,12 +96,15 @@ it('can show a subscriber by uuid', function () {
 });
 
 it('wont confuse id and uuid', function () {
+    Subscriber::$fakeUuid = null;
+
     /** @var Subscriber $subscriber1 */
     $subscriber1 = Subscriber::factory()->create([
         'uuid' => '150ecdda-14b8-49aa-b1a1-6a07d42c2a76',
     ]);
 
     Subscriber::factory()->create([
+        'uuid' => 'some-other-uuid',
         'id' => 150,
     ]);
 
