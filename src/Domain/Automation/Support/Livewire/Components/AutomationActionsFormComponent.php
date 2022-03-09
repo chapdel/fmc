@@ -36,6 +36,7 @@ class AutomationActionsFormComponent extends Component
                 try {
                     return $action->toLivewireArray();
                 } catch (ModelNotFoundException) {
+                    $action->delete();
                     return null;
                 }
             })

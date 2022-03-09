@@ -16,6 +16,7 @@
                 wire:model="automation_mail_id"
                 :options="['' => 'Select an email'] + $campaignOptions"
             />
+        </div>
     </x-slot>
 
 </x-mailcoach::automation-action>
