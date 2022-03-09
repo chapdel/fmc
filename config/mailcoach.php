@@ -195,6 +195,15 @@ return [
             'send_automation_mail_job' => 'send-mail',
             'send_test_mail_job' => 'mailcoach',
         ],
+
+        /*
+         * Adapt these settings if you prefer other default settings for newly created campaigns
+         */
+        'default_settings' => [
+            'track_opens' => false,
+            'track_clicks' => false,
+            'utm_tags' => true,
+        ],
     ],
 
     'audience' => [
