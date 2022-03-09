@@ -2,6 +2,24 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.3.0 - 2022-03-09
+
+## What's Changed
+
+- Add TransactionalMailStored Event to the Docs by @LooxisDev in https://github.com/spatie/laravel-mailcoach/pull/893
+- Update upgrading.md by @shopbox-support in https://github.com/spatie/laravel-mailcoach/pull/895
+- Define new configs to allow default opens/clicks tracking and utm_tag… by @electronick86 in https://github.com/spatie/laravel-mailcoach/pull/900
+- Search for uuid first - fix #896
+- Don't automatically confirm unsubscribe if send is too recent - fix #905
+- Turbo doesn't handle downloads well - fix #903
+
+## New Contributors
+
+- @LooxisDev made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/893
+- @electronick86 made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/900
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.2.1...5.3.0
+
 ## 5.2.1 - 2022-02-21
 
 ## What's Changed
