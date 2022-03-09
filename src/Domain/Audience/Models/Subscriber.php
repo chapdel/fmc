@@ -291,14 +291,14 @@ class Subscriber extends Model
     {
         $field ??= $this->getRouteKeyName();
 
-        $subscriber = $this->getSubscriberClass()::where($field, $value)->first();
+        /** Can also bind uuid */
+        $subscriber = $this->getSubscriberClass()::where('uuid', $value)->first();
 
         if ($subscriber) {
             return $subscriber;
         }
 
-        /** Can also bind uuid */
-        return $this->getSubscriberClass()::where('uuid', $value)->firstOrFail();
+        return $this->getSubscriberClass()::where($field, $value)->firstOrFail();
     }
 
     protected static function newFactory(): SubscriberFactory
