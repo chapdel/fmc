@@ -142,9 +142,9 @@ class Subscriber extends Model
         return url(route('mailcoach.unsubscribe', [$this->uuid, optional($send)->uuid]));
     }
 
-    public function unsubscribeTagUrl(string $tag): string
+    public function unsubscribeTagUrl(string $tag, Send $send = null): string
     {
-        return url(route('mailcoach.unsubscribe-tag', [$this->uuid, $tag]));
+        return url(route('mailcoach.unsubscribe-tag', [$this->uuid, $tag, optional($send)->uuid]));
     }
 
     public function getStatusAttribute(): string

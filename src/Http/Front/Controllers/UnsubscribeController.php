@@ -22,7 +22,9 @@ class UnsubscribeController
             return view('mailcoach::landingPages.alreadyUnsubscribed', compact('emailList'));
         }
 
-        return view('mailcoach::landingPages.unsubscribe', compact('emailList', 'subscriber'));
+        $send = $subscriber->sends()->where('uuid', $sendUuid)->first();
+
+        return view('mailcoach::landingPages.unsubscribe', compact('emailList', 'subscriber', 'send'));
     }
 
     public function confirm(string $subscriberUuid, string $sendUuid = null)

@@ -9,7 +9,7 @@ class UnsubscribeTagController
 {
     use UsesMailcoachModels;
 
-    public function show(string $subscriberUuid, string $tag)
+    public function show(string $subscriberUuid, string $tag, string $sendUuid = null)
     {
         /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
         if (! $subscriber = $this->getSubscriberClass()::findByUuid($subscriberUuid)) {
@@ -22,7 +22,9 @@ class UnsubscribeTagController
             return view('mailcoach::landingPages.alreadyUnsubscribed', compact('emailList'));
         }
 
-        return view('mailcoach::landingPages.unsubscribe-tag', compact('emailList', 'subscriber', 'tag'));
+        $send = $subscriber->sends()->where('uuid', $sendUuid)->first();
+
+        return view('mailcoach::landingPages.unsubscribe-tag', compact('emailList', 'subscriber', 'tag', 'send'));
     }
 
     public function confirm(string $subscriberUuid, string $tag)
