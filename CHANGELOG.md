@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.3.1 - 2022-03-10
+
+- Fix the webhook trigger throwing an exception when you have globally namespaced controllers - #907
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.3.0...5.3.1
+
 ## 5.3.0 - 2022-03-09
 
 ## What's Changed
