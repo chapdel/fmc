@@ -209,6 +209,7 @@ class Subscriber extends Model
             ]);
 
             $this->tags()->attach($tag);
+            $this->tags->add($tag);
 
             event(new TagAddedEvent($this, $tag));
         }
@@ -218,10 +219,10 @@ class Subscriber extends Model
 
     public function hasTag(string $name): bool
     {
-        return $this->tags()
+        return $this->tags
             ->where('name', $name)
             ->where('email_list_id', $this->emailList->id)
-            ->exists();
+            ->count() > 0;
     }
 
     public function removeTag(string | array $name): self
@@ -240,6 +241,8 @@ class Subscriber extends Model
         }
 
         $this->tags()->detach($tags->pluck('id'));
+
+        $this->load('tags');
 
         return $this;
     }
