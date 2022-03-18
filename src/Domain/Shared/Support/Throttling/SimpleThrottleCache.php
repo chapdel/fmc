@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Shared\Support\Throttling;
 
 use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Illuminate\Contracts\Cache\Repository;
 
 class SimpleThrottleCache
@@ -51,7 +52,7 @@ class SimpleThrottleCache
         return Carbon::createFromTimestamp($timestamp);
     }
 
-    public function setPeriodEndsAt(Carbon $endsAt): self
+    public function setPeriodEndsAt(CarbonInterface $endsAt): self
     {
         $timestamp = $endsAt->timestamp;
 

@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Campaign\Actions;
 
-use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use Laravel\Horizon\Horizon;
@@ -21,7 +21,7 @@ use Spatie\Mailcoach\Domain\Shared\Support\Throttling\SimpleThrottle;
 
 class SendCampaignAction
 {
-    public function execute(Campaign $campaign, ?Carbon $stopExecutingAt = null): void
+    public function execute(Campaign $campaign, ?CarbonInterface $stopExecutingAt = null): void
     {
         if ($campaign->wasAlreadySent()) {
             return;
@@ -64,7 +64,7 @@ class SendCampaignAction
         return $this;
     }
 
-    protected function sendMailsForCampaign(Campaign $campaign, ?Carbon $stopExecutingAt = null): self
+    protected function sendMailsForCampaign(Campaign $campaign, ?CarbonInterface $stopExecutingAt = null): self
     {
         $campaign->update(['segment_description' => $campaign->getSegment()->description()]);
 
@@ -141,7 +141,7 @@ class SendCampaignAction
         Builder  $subscribersQuery,
         Campaign $campaign,
         Segment  $segment,
-        Carbon   $stopExecutingAt = null,
+        CarbonInterface   $stopExecutingAt = null,
     ): void {
         $subscribersQuery
             ->lazyById()
@@ -154,7 +154,7 @@ class SendCampaignAction
         $campaign->markAsAllSendsCreated();
     }
 
-    protected function dispatchMailSendingJobs(Campaign $campaign, Carbon $stopExecutingAt = null): void
+    protected function dispatchMailSendingJobs(Campaign $campaign, CarbonInterface $stopExecutingAt = null): void
     {
         $simpleThrottle = app(SimpleThrottle::class)
             ->forMailer(config('mailcoach.campaigns.mailer'))
@@ -182,7 +182,7 @@ class SendCampaignAction
         $campaign->markAsAllMailSendingJobsDispatched();
     }
 
-    protected function haltWhenApproachingTimeLimit(?Carbon $stopExecutingAt): void
+    protected function haltWhenApproachingTimeLimit(?CarbonInterface $stopExecutingAt): void
     {
         if (is_null($stopExecutingAt)) {
             return;

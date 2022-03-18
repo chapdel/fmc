@@ -2,10 +2,11 @@
 
 namespace Spatie\Mailcoach\Http\App\ViewModels;
 
+use Carbon\Carbon;
 use Carbon\CarbonImmutable;
+use Carbon\CarbonInterface;
 use Carbon\CarbonPeriod;
 use Illuminate\Database\MySqlConnection;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
@@ -191,7 +192,7 @@ class EmailListSummaryViewModel extends ViewModel
 
         $lastStats = $subscribers->first();
 
-        return collect(CarbonPeriod::create($this->start, '1 day', now()))->map(function (\Carbon\Carbon $day) use ($subscribers, &$lastStats) {
+        return collect(CarbonPeriod::create($this->start, '1 day', now()))->map(function (CarbonInterface $day) use ($subscribers, &$lastStats) {
             $label = $day->format('M d');
 
             $stats = $subscribers->firstWhere('label', $label);
