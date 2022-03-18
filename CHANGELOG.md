@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.3.3 - 2022-03-18
+
+## What's Changed
+
+- Fix functions using Carbon type declaration instead of CarbonInterface by @zupolgec in https://github.com/spatie/laravel-mailcoach/pull/911
+- Hide the create button if the user has no right to create by @nessor in https://github.com/spatie/laravel-mailcoach/pull/910
+
+## New Contributors
+
+- @zupolgec made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/911
+- @nessor made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/910
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.3.2...5.3.3
+
 ## 5.3.2 - 2022-03-14
 
 - Fix https://github.com/spatie/laravel-mailcoach/issues/908 - Allow eager loading of tags
