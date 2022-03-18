@@ -1,10 +1,12 @@
 <x-mailcoach::layout-main :title="__('mailcoach - Templates')">
         <div class="table-actions">
+            @can('create', \Spatie\Mailcoach\Domain\Campaign\Models\Template::class)
             <x-mailcoach::button data-modal-trigger="create-template" :label="__('mailcoach - Create template')"/>
 
             <x-mailcoach::modal :title="__('mailcoach - Create template')" name="create-template" :open="$errors->any()">
                 @include('mailcoach::app.campaigns.templates.partials.create')
             </x-mailcoach::modal>
+            @endcan
 
             @if($templates->count() || $searching)
                 <div class="table-filters">
