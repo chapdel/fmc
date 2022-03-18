@@ -3,9 +3,12 @@
 namespace Spatie\Mailcoach\Domain\Shared\Support;
 
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\InvalidConfig;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class Config
 {
+    use UsesMailcoachModels;
+
     public static function getCampaignActionClass(string $actionName, string $actionClass): object
     {
         $configuredClass = config("mailcoach.campaigns.actions.{$actionName}");
