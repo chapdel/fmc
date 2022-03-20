@@ -144,6 +144,9 @@ class SendCampaignAction
         CarbonInterface   $stopExecutingAt = null,
     ): void {
         $subscribersQuery
+            ->whereDoesntHave('sends', function (Builder $query) use ($campaign) {
+                $query->where('campaign_id', $campaign->id);
+            })
             ->lazyById()
             ->each(function (Subscriber $subscriber) use ($stopExecutingAt, $campaign, $segment) {
                 $this->createSend($campaign, $campaign->emailList, $subscriber, $segment);
