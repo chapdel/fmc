@@ -3,8 +3,16 @@
 namespace Spatie\Mailcoach\Http\App\Controllers;
 
 use Composer\InstalledVersions;
+use Cron\CronExpression;
+use Illuminate\Console\Scheduling\Event;
+use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Events\Dispatcher;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus;
 use Spatie\Mailcoach\Domain\Shared\Support\Version;
 
@@ -22,6 +30,7 @@ class DebugController
             ->count();
         $lastScheduleRun = Cache::get('mailcoach-last-schedule-run');
         $usesVapor = InstalledVersions::isInstalled("laravel/vapor-core");
+        $scheduledJobs = $this->getScheduledJobs();
 
         return view('mailcoach::app.debug', compact(
             'versionInfo',
@@ -32,6 +41,7 @@ class DebugController
             'webhookTableCount',
             'lastScheduleRun',
             'usesVapor',
+            'scheduledJobs',
         ));
     }
 
@@ -40,5 +50,15 @@ class DebugController
         $results = DB::select('select version() as version');
 
         return (string) $results[0]->version;
+    }
+
+    /** @return Collection<Event> */
+    private function getScheduledJobs(): Collection
+    {
+        app()->make(Kernel::class);
+        $schedule = app()->make(Schedule::class);
+
+        return collect($schedule->events())
+            ->filter(fn ($event) => Str::contains($event->command, 'mailcoach'));
     }
 }

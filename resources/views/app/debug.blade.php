@@ -83,6 +83,45 @@
                      {{ __('mailcoach - Schedule hasn\'t run.') }}
                 @endif
             </dd>
+            <dt>
+                <span class="inline-flex items-center">
+                    <x-mailcoach::rounded-icon type="info" icon="fa-fw fas fa-info"/>
+                    <span class="ml-2">
+                        Schedule
+                    </span>
+                </span>
+            </dt>
+            <dd>
+                @if ($scheduledJobs->count())
+                    <?php /** @var \Illuminate\Console\Scheduling\Event $scheduledJob */ ?>
+                    <table>
+                        <thead>
+                            <th>Schedule</th>
+                            <th style="text-align: left;">Command</th>
+                            <th>Background</th>
+                            <th>Without overlapping</th>
+                        </thead>
+                        @foreach($scheduledJobs as $scheduledJob)
+                            <tr>
+                                <td class="text-center">{{ $scheduledJob->expression }}</td>
+                                <td class="">{{ \Illuminate\Support\Str::after($scheduledJob->command, '\'artisan\' ') }}</td>
+                                <td class="text-center">
+                                    @if ($scheduledJob->runInBackground)
+                                        <x-mailcoach::rounded-icon type="info" icon="fa-fw fas fa-check"/>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    @if ($scheduledJob->withoutOverlapping)
+                                        <x-mailcoach::rounded-icon type="info" icon="fa-fw fas fa-check"/>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
+                @else
+                    No scheduled jobs!
+                @endif
+            </dd>
         </dl>
     </x-mailcoach::fieldset>
 
