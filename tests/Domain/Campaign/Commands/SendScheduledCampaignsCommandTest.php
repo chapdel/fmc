@@ -3,9 +3,7 @@
 use Illuminate\Support\Facades\Bus;
 use Spatie\Mailcoach\Domain\Campaign\Commands\SendScheduledCampaignsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
-use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\TestTime\TestTime;
 
 beforeEach(function () {
@@ -46,4 +44,3 @@ it('will send a campaign that has a scheduled at set to in the past', function (
 
     expect($campaign->fresh()->status)->toEqual(CampaignStatus::SENT);
 });
-

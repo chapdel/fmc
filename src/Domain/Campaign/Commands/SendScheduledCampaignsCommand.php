@@ -43,6 +43,7 @@ class SendScheduledCampaignsCommand extends Command
                 $stopExecutingAt = now()->addSeconds($maxRuntimeInSeconds);
 
                 $this->info("Creating sends & dispatching sends for campaign `{$campaign->name}` ({$campaign->id})...");
+
                 try {
                     $sendCampaignAction->execute($campaign, $stopExecutingAt);
                 } catch (SendCampaignTimeLimitApproaching) {

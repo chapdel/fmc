@@ -3,12 +3,9 @@
 namespace Spatie\Mailcoach\Http\App\Controllers;
 
 use Composer\InstalledVersions;
-use Cron\CronExpression;
 use Illuminate\Console\Scheduling\Event;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Console\Kernel;
-use Illuminate\Events\Dispatcher;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;

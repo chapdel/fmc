@@ -21,7 +21,7 @@ class SendCampaignAction
 {
     public function execute(Campaign $campaign, ?CarbonInterface $stopExecutingAt = null): void
     {
-        if ($campaign->wasAlreadySent() || !$campaign->isSending()) {
+        if ($campaign->wasAlreadySent() || ! $campaign->isSending()) {
             return;
         }
 
