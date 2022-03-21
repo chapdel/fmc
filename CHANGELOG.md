@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.3.5 - 2022-03-21
+
+- Improve command that dispatches sending campaigns again if the job fails for some reason
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.3.4...5.3.5
+
 ## 5.3.4 - 2022-03-20
 
 - Improve SendCampaignAction query to not include subscribers that already have a send
