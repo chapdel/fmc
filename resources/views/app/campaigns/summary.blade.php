@@ -24,6 +24,7 @@
                         @if($campaign->usesSegment())
                             ({{ $campaign->segment_description }})
                         @endif
+                        ...
                     </div>
                 </div>
             @elseif ($campaign->isCancelled())
