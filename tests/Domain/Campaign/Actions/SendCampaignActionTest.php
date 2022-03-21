@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Mail\MailManager;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
@@ -8,6 +9,7 @@ use Illuminate\Support\Str;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignAction;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
@@ -30,13 +32,16 @@ beforeEach(function () {
         ->create();
 
     test()->campaign->emailList->update(['campaign_mailer' => 'some-mailer']);
+
+    test()->action = resolve(SendCampaignAction::class);
 });
 
 it('can send a campaign with the correct mailer', function () {
     Event::fake();
     Mail::fake();
 
-    dispatch(new SendCampaignJob(test()->campaign));
+    test()->campaign->send();
+    test()->action->execute(test()->campaign);
 
     Mail::assertSent(MailcoachMail::class, 3);
     Mail::assertSent(MailcoachMail::class, fn (MailcoachMail $mail) => $mail->mailer === 'some-mailer');
@@ -59,7 +64,8 @@ it('will throttle sending mail', function () {
     Mail::fake();
     TestTime::unfreeze();
 
-    dispatch(new SendCampaignJob(test()->campaign));
+    test()->campaign->send();
+    test()->action->execute(test()->campaign);
     Mail::assertSent(MailcoachMail::class, 3);
 
     $jobDispatchTimes = Send::get()
@@ -94,7 +100,8 @@ it('will not create mailcoach sends if they already have been created', function
         'campaign_id' => $campaign->id,
     ]);
 
-    dispatch(new SendCampaignJob($campaign));
+    $campaign->send();
+    test()->action->execute($campaign);
 
     expect(Send::all())->toHaveCount(1);
 });
@@ -105,7 +112,8 @@ it('will use the right subject', function () {
 
     test()->campaign->subject('my subject');
 
-    dispatch(new SendCampaignJob(test()->campaign));
+    test()->campaign->send();
+    test()->action->execute(test()->campaign);
 
     Mail::assertSent(MailcoachMail::class, function (MailcoachMail $campaignMail) {
         expect($campaignMail->subject)->toEqual('my subject');
@@ -120,7 +128,8 @@ it('will use the reply to fields', function () {
 
     test()->campaign->replyTo('replyto@example.com', 'Reply to John Doe');
 
-    dispatch(new SendCampaignJob(test()->campaign));
+    test()->campaign->send();
+    test()->action->execute(test()->campaign);
 
     Mail::assertSent(MailcoachMail::class, function (MailcoachMail $campaignMail) {
         return $campaignMail->build()->hasReplyTo('replyto@example.com', 'Reply to John Doe');
@@ -132,11 +141,12 @@ test('a campaign that was sent will not be sent again', function () {
     Mail::fake();
 
     expect(test()->campaign->wasAlreadySent())->toBeFalse();
-    dispatch(new SendCampaignJob(test()->campaign));
+    test()->campaign->send();
+    test()->action->execute(test()->campaign);
     expect(test()->campaign->refresh()->wasAlreadySent())->toBeTrue();
     Mail::assertSent(MailcoachMail::class, 3);
 
-    dispatch(new SendCampaignJob(test()->campaign));
+    test()->action->execute(test()->campaign);
     Mail::assertSent(MailcoachMail::class, 3);
     Event::assertDispatched(CampaignSentEvent::class, 1);
 });
@@ -150,7 +160,8 @@ it('will prepare the webview', function () {
         'webview_html' => null,
     ]);
 
-    dispatch(new SendCampaignJob(test()->campaign));
+    test()->campaign->send();
+    test()->action->execute(test()->campaign);
 
     test()->assertMatchesHtmlSnapshotWithoutWhitespace(test()->campaign->refresh()->webview_html);
 });
@@ -166,21 +177,8 @@ it('will not send invalid html', function () {
 
     test()->expectException(CouldNotSendCampaign::class);
 
-    dispatch(new SendCampaignJob(test()->campaign));
-});
-
-test('the queue of the send campaign job can be configured', function () {
-    Event::fake();
-    Mail::fake();
-
-    Queue::fake();
-
-    config()->set('mailcoach.campaigns.perform_on_queue.send_campaign_job', 'custom-queue');
-
-    $campaign = Campaign::factory()->create();
-    dispatch(new SendCampaignJob($campaign));
-
-    Queue::assertPushedOn('custom-queue', SendCampaignJob::class);
+    test()->campaign->send();
+    test()->action->execute(test()->campaign);
 });
 
 test('regular placeholders in the subject will be replaced', function () {
@@ -194,7 +192,8 @@ test('regular placeholders in the subject will be replaced', function () {
 
     $campaign->emailList->update(['name' => 'my list']);
 
-    dispatch(new SendCampaignJob($campaign));
+    $campaign->send();
+    test()->action->execute($campaign);
 
     Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) {
         expect($mail->subject)->toEqual("This is a mail sent to my list");
@@ -217,7 +216,8 @@ test('personalized placeholders in the subject will be replaced', function () {
         ->subscribeTo($campaign->emailList);
 
 
-    dispatch(new SendCampaignJob($campaign));
+    $campaign->send();
+    test()->action->execute($campaign);
 
     Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) use ($subscriber) {
         expect($mail->subject)->toEqual("This is a mail sent to {$subscriber->email}");
@@ -235,6 +235,7 @@ test('custom mailable sends', function () {
     $campaign->emailList->update(['campaign_mailer' => 'array']);
 
     $campaign->send();
+    test()->action->execute($campaign);
 
     $messages = app(MailManager::class)->mailer('array')->getSymfonyTransport()->messages();
 
@@ -254,6 +255,7 @@ test('custom mailable subject overrides campaign subject', function () {
     $campaign->emailList->update(['campaign_mailer' => 'array']);
 
     $campaign->send();
+    test()->action->execute($campaign);
 
     $messages = app(MailManager::class)->mailer('array')->getSymfonyTransport()->messages();
 
@@ -279,6 +281,7 @@ test('custom replacers work with campaign subject', function () {
     $campaign->emailList->update(['campaign_mailer' => 'array']);
 
     $campaign->send();
+    test()->action->execute($campaign);
 
     $messages = app(MailManager::class)->mailer('array')->getSymfonyTransport()->messages();
 
@@ -301,6 +304,7 @@ test('custom replacers work with subject from custom mailable', function () {
     $campaign->emailList->update(['campaign_mailer' => 'array']);
 
     $campaign->send();
+    test()->action->execute($campaign);
 
     $messages = app(MailManager::class)->mailer('array')->getSymfonyTransport()->messages();
 
@@ -322,7 +326,8 @@ test('custom replacers work in body from custom mailable', function () {
 
     $campaign->emailList->update(['campaign_mailer' => 'array']);
 
-    dispatch(new SendCampaignJob($campaign));
+    $campaign->send();
+    test()->action->execute($campaign);
 
     $messages = app(MailManager::class)->mailer('array')->getSymfonyTransport()->messages();
 

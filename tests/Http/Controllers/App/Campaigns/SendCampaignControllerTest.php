@@ -22,5 +22,5 @@ it('can send a campaign', function () {
         ->post(action(SendCampaignController::class, test()->campaign->id))
         ->assertRedirect(action(CampaignSummaryController::class, test()->campaign->id));
 
-    Bus::assertDispatched(SendCampaignJob::class);
+    expect(test()->campaign->fresh()->status)->toBe(CampaignStatus::SENDING);
 });

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
 use Spatie\Mailcoach\Database\Factories\UserFactory;
 use Spatie\Mailcoach\Domain\Audience\Jobs\ImportSubscribersJob;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
@@ -25,7 +26,8 @@ test('the personalize html action can be customized', function () {
         'status' => CampaignStatus::DRAFT,
     ]);
 
-    dispatch(new SendCampaignJob($campaign));
+    $campaign->send();
+    Artisan::call('mailcoach:send-scheduled-campaigns');
 
     expect($campaign->emailList->subscribers->first()->email)->toEqual('overridden@example.com');
 });
@@ -37,7 +39,8 @@ test('the personalize subject action can be customized', function () {
         'status' => CampaignStatus::DRAFT,
     ]);
 
-    dispatch(new SendCampaignJob($campaign));
+    $campaign->send();
+    Artisan::call('mailcoach:send-scheduled-campaigns');
 
     expect($campaign->emailList->subscribers->first()->email)->toEqual('overridden@example.com');
 });
@@ -49,7 +52,8 @@ test('the prepare email html action can be customized', function () {
         'status' => CampaignStatus::DRAFT,
     ]);
 
-    dispatch(new SendCampaignJob($campaign));
+    $campaign->send();
+    Artisan::call('mailcoach:send-scheduled-campaigns');
 
     expect($campaign->emailList->subscribers->first()->email)->toEqual('overridden@example.com');
 });
@@ -61,7 +65,8 @@ test('the prepare subject action can be customized', function () {
         'status' => CampaignStatus::DRAFT,
     ]);
 
-    dispatch(new SendCampaignJob($campaign));
+    $campaign->send();
+    Artisan::call('mailcoach:send-scheduled-campaigns');
 
     expect($campaign->emailList->subscribers->first()->email)->toEqual('overridden@example.com');
 });
@@ -73,7 +78,8 @@ test('the prepare webview html action can be customized', function () {
         'status' => CampaignStatus::DRAFT,
     ]);
 
-    dispatch(new SendCampaignJob($campaign));
+    $campaign->send();
+    Artisan::call('mailcoach:send-scheduled-campaigns');
 
     expect($campaign->emailList->subscribers->first()->email)->toEqual('overridden@example.com');
 });

@@ -5,13 +5,11 @@ namespace Spatie\Mailcoach\Domain\Campaign\Actions;
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
-use Laravel\Horizon\Horizon;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\Segment;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\SendCampaignTimeLimitApproaching;
-use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
@@ -23,7 +21,7 @@ class SendCampaignAction
 {
     public function execute(Campaign $campaign, ?CarbonInterface $stopExecutingAt = null): void
     {
-        if ($campaign->wasAlreadySent()) {
+        if ($campaign->wasAlreadySent() || !$campaign->isSending()) {
             return;
         }
 
@@ -76,21 +74,17 @@ class SendCampaignAction
 
         $campaign->update(['sent_to_number_of_subscribers' => $subscribersQuery->count()]);
 
-        try {
-            if (! $campaign->allSendsCreated()) {
-                $this->createSends($subscribersQuery, $campaign, $segment, $stopExecutingAt);
-            }
-
-            if (! $campaign->allMailSendingJobsDispatched()) {
-                $this->dispatchMailSendingJobs($campaign, $stopExecutingAt);
-            }
-
-            $campaign->markAsSent($campaign->sends()->count());
-
-            event(new CampaignSentEvent($campaign));
-        } catch (SendCampaignTimeLimitApproaching) {
-            dispatch(new SendCampaignJob($campaign))->onQueue(config('mailcoach.campaigns.perform_on_queue.send_campaign_job'));
+        if (! $campaign->allSendsCreated()) {
+            $this->createSends($subscribersQuery, $campaign, $segment, $stopExecutingAt);
         }
+
+        if (! $campaign->allMailSendingJobsDispatched()) {
+            $this->dispatchMailSendingJobs($campaign, $stopExecutingAt);
+        }
+
+        $campaign->markAsSent($campaign->sends()->count());
+
+        event(new CampaignSentEvent($campaign));
 
         return $this;
     }

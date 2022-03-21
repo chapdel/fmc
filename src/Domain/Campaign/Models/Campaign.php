@@ -15,7 +15,6 @@ use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotUpdateCampaign;
-use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignTestJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\CanBeScheduled;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\SendsToSegment;
@@ -69,6 +68,11 @@ class Campaign extends Sendable implements Feedable
     public function scopeSendingOrSent(Builder $query): void
     {
         $query->whereIn('status', [CampaignStatus::SENDING, CampaignStatus::SENT]);
+    }
+
+    public function scopeSending(Builder $query): void
+    {
+        $query->where('status', CampaignStatus::SENDING);
     }
 
     public function scopeNeedsSummaryToBeReported(Builder $query)
@@ -263,8 +267,6 @@ class Campaign extends Sendable implements Feedable
         }
 
         $this->markAsSending();
-
-        dispatch(new SendCampaignJob($this));
 
         return $this;
     }

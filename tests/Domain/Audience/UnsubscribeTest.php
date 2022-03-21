@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Mail\Events\MessageSent;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
@@ -110,7 +111,8 @@ test('the unsubscribe header is added to the email', function () {
         expect($event->message->getHeaders()->get('List-Unsubscribe-Post')->getValue())->toEqual('List-Unsubscribe=One-Click');
     });
 
-    dispatch(new SendCampaignJob(test()->campaign));
+    test()->campaign->send();
+    Artisan::call('mailcoach:send-scheduled-campaigns');
 });
 
 // Helpers
@@ -125,5 +127,6 @@ function sendCampaign()
         test()->mailedUnsubscribeLink = Str::after($link, 'http://localhost');
     });
 
-    dispatch(new SendCampaignJob(test()->campaign));
+    test()->campaign->send();
+    Artisan::call('mailcoach:send-scheduled-campaigns');
 }

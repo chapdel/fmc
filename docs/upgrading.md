@@ -132,7 +132,6 @@ $schedule->command('mailcoach:run-automation-actions')->everyMinute()->runInBack
 
 $schedule->command('mailcoach:calculate-statistics')->everyMinute();
 $schedule->command('mailcoach:calculate-automation-mail-statistics')->everyMinute();
-$schedule->command('mailcoach:rescue-sending-campaigns')->hourly();
 $schedule->command('mailcoach:send-campaign-summary-mail')->hourly();
 $schedule->command('mailcoach:cleanup-processed-feedback')->hourly();
 $schedule->command('mailcoach:send-email-list-summary-mail')->mondays()->at('9:00');

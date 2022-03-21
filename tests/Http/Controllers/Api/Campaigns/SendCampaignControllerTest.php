@@ -24,11 +24,7 @@ test('a campaign can be sent using the api', function () {
         ->postJson(action(SendCampaignController::class, test()->campaign))
         ->assertSuccessful();
 
-    Bus::assertDispatched(function (SendCampaignJob $job) {
-        expect($job->campaign->id)->toEqual(test()->campaign->id);
-
-        return true;
-    });
+    expect(test()->campaign->fresh()->status)->toBe(CampaignStatus::SENDING);
 });
 
 it('will not send a campaign that has already been sent', function () {
@@ -39,6 +35,4 @@ it('will not send a campaign that has already been sent', function () {
     $this
         ->postJson(action(SendCampaignController::class, test()->campaign))
         ->assertJsonValidationErrors('campaign');
-
-    Bus::assertNotDispatched(SendCampaignJob::class);
 });

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
@@ -16,7 +17,8 @@ it('fires an event after a campaign has been sent', function () {
 
     $campaign->content($campaign->contentFromMailable());
 
-    dispatch(new SendCampaignJob($campaign));
+    $campaign->send();
+    Artisan::call('mailcoach:send-scheduled-campaigns');
 
     Event::assertDispatched(CampaignSentEvent::class, function (CampaignSentEvent $event) use ($campaign) {
         expect($event->campaign->id)->toEqual($campaign->id);
