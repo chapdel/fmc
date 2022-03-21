@@ -109,10 +109,9 @@ class SendCampaignAction
             return;
         }
 
-        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $pendingSend */
         $pendingSend = $campaign->sends()
             ->where('subscriber_id', $subscriber->id)
-            ->first();
+            ->exists();
 
         if ($pendingSend) {
             return;

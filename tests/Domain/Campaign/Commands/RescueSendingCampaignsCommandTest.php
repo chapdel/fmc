@@ -35,3 +35,26 @@ it('will dispatch campaigns that have been sending for too long', function () {
     test()->artisan(RescueSendingCampaignsCommand::class)->assertExitCode(0);
     Bus::assertDispatchedTimes(SendCampaignJob::class, 1);
 });
+
+it('will dispatch campaigns that have been creating sends for too long', function () {
+    $campaign = Campaign::factory()->create([
+        'status' => CampaignStatus::SENDING,
+    ]);
+
+    test()->artisan(RescueSendingCampaignsCommand::class)->assertExitCode(0);
+    Bus::assertDispatchedTimes(SendCampaignJob::class, 0);
+
+    $send = Send::factory()->create([
+        'campaign_id' => $campaign->id,
+        'sending_job_dispatched_at' => null,
+        'created_at' => now()->subSeconds(10),
+    ]);
+
+    test()->artisan(RescueSendingCampaignsCommand::class)->assertExitCode(0);
+    Bus::assertDispatchedTimes(SendCampaignJob::class, 0);
+
+    $send->update(['created_at' => now()->subHour()]);
+
+    test()->artisan(RescueSendingCampaignsCommand::class)->assertExitCode(0);
+    Bus::assertDispatchedTimes(SendCampaignJob::class, 1);
+});

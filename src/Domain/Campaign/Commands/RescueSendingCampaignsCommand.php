@@ -32,10 +32,19 @@ class RescueSendingCampaignsCommand extends Command
                     ->latest('sending_job_dispatched_at')
                     ->first();
 
+                $latestCreatedSend = $campaign->sends()
+                    ->whereNull('sending_job_dispatched_at')
+                    ->latest('created_at')
+                    ->first();
+
                 // We'll take the timespan that is set to throttle + a minute to add some room for error
                 $time = config('mailcoach.campaigns.throttling.timespan_in_seconds') + 60;
 
-                if ($latestDispatchedSend && $latestDispatchedSend->sending_job_dispatched_at < now()->subSeconds($time)) {
+                $sendHasntBeenCreatedInTimeLimit = is_null($latestDispatchedSend) && $latestCreatedSend && $latestCreatedSend->created_at < now()->subSeconds($time);
+                $sendHasntBeenDispatchedInTimeLimit = $latestDispatchedSend && $latestDispatchedSend->sending_job_dispatched_at < now()->subSeconds($time);
+
+                if ($sendHasntBeenCreatedInTimeLimit || $sendHasntBeenDispatchedInTimeLimit) {
+                    $this->comment("Dispatching a new job for campaign {$campaign->id}");
                     dispatch(new SendCampaignJob($campaign));
                 }
             });
