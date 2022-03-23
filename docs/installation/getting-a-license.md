@@ -5,6 +5,8 @@ weight: 2
 
 In order to use Mailcoach, you must buy a license. You can buy a license at [our store](https://spatie.be/products/mailcoach).
 
+The single domain license will suffice if you implement Mailcoach to send emails to your clients. You'll need the unlimited domains license if you're going to implement Mailcoach into your (SaaS) application that lets your customers send emails.
+
 Single domain licenses are valid for the installation of Mailcoach on a single domain or subdomain. In case you bought the unlimited domain license, there are no restrictions. A licence comes with one year of upgrades. If a license expires, you are still allowed to use Mailcoach, but you won't get any updates anymore.
 
 ## What happens when your license expires
