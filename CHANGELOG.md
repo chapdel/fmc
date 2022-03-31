@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.4.1 - 2022-03-31
+
+## What's Changed
+
+- Update getting-a-license.md by @WouterBrouwers in https://github.com/spatie/laravel-mailcoach/pull/920
+- Add missing translations by @cretueusebiu in https://github.com/spatie/laravel-mailcoach/pull/930
+
+## New Contributors
+
+- @WouterBrouwers made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/920
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.4.0...5.4.1
+
 ## 5.4.0 - 2022-03-21
 
 - Rework how campaigns are sent for better reliability
