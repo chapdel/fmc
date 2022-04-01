@@ -20,6 +20,7 @@ use Spatie\Mailcoach\Domain\Audience\Support\PendingSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasExtraAttributes;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
@@ -185,6 +186,13 @@ class Subscriber extends Model
     {
         $query
             ->whereNotNull('unsubscribed_at');
+    }
+
+    public function scopeWithoutSendsForCampaign(Builder $query, Campaign $campaign)
+    {
+        return $query->whereDoesntHave('sends', function (Builder $query) use ($campaign) {
+            $query->where('campaign_id', $campaign->id);
+        });
     }
 
     public function addTag(string | iterable $name, string $type = null): self
