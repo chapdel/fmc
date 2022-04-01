@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.4.2 - 2022-04-01
+
+- Automation actions now also verify that subscribers match the segment before going to the next step
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.4.1...5.4.2
+
 ## 5.4.1 - 2022-03-31
 
 ## What's Changed
