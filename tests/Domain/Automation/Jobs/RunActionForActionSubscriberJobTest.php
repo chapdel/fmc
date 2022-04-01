@@ -16,7 +16,9 @@ beforeEach(function () {
 it('runs the action for an action subscriber', function () {
     TestTime::freeze();
 
-    $automation = Automation::factory()->create();
+    $automation = Automation::factory()->create([
+        'email_list_id' => test()->emailList->id,
+    ]);
 
     $action = Action::create([
         'automation_id' => $automation->id,
@@ -53,4 +55,83 @@ it('runs the action for an action subscriber', function () {
 
     // it won't add it twice
     expect($subscriber->actions()->count())->toEqual(2);
+});
+
+it('wont send to unsubscribed subscribers', function () {
+    TestTime::freeze();
+
+    $automation = Automation::factory()->create([
+        'email_list_id' => test()->emailList->id,
+    ]);
+
+    $action = Action::create([
+        'automation_id' => $automation->id,
+        'action' => new WaitAction(CarbonInterval::day()),
+        'order' => 1,
+    ]);
+
+    $action2 = Action::create([
+        'automation_id' => $automation->id,
+        'action' => new WaitAction(CarbonInterval::minute()),
+        'order' => 2,
+    ]);
+
+    $subscriber = test()->emailList->subscribe('john@doe.com');
+
+    $action->subscribers()->attach($subscriber);
+
+    $actionSubscriber = ActionSubscriber::first();
+    $actionSubscriber->update(['job_dispatched_at' => now()]);
+
+    dispatch_sync(new RunActionForActionSubscriberJob($actionSubscriber));
+
+    expect($subscriber->actions->first()->id)->toEqual($action->id);
+    expect($actionSubscriber->fresh()->halted_at)->toBeNull();
+
+    $actionSubscriber->subscriber->unsubscribe();
+
+    $actionSubscriber->update(['job_dispatched_at' => now()]);
+    dispatch_sync(new RunActionForActionSubscriberJob($actionSubscriber));
+
+    expect($actionSubscriber->fresh()->halted_at)->not()->toBeNull();
+});
+
+it('wont send to subscribers that no longer match the segment', function () {
+    TestTime::freeze();
+
+    $automation = Automation::factory()->create([
+        'email_list_id' => test()->emailList->id,
+        'segment_class' => \Spatie\Mailcoach\Tests\TestClasses\TestSegmentQueryOnlyJohn::class,
+    ]);
+
+    $action = Action::create([
+        'automation_id' => $automation->id,
+        'action' => new WaitAction(CarbonInterval::day()),
+        'order' => 1,
+    ]);
+
+    $action2 = Action::create([
+        'automation_id' => $automation->id,
+        'action' => new WaitAction(CarbonInterval::minute()),
+        'order' => 2,
+    ]);
+
+    $subscriber = test()->emailList->subscribe('john@example.com');
+
+    $action->subscribers()->attach($subscriber);
+
+    $actionSubscriber = ActionSubscriber::first();
+    $actionSubscriber->update(['job_dispatched_at' => now()]);
+
+    dispatch_sync(new RunActionForActionSubscriberJob($actionSubscriber));
+
+    expect($subscriber->actions->first()->id)->toEqual($action->id);
+    expect($actionSubscriber->fresh()->halted_at)->toBeNull();
+
+    $actionSubscriber->subscriber->update(['email' => 'jane@example.com']);
+
+    $actionSubscriber->update(['job_dispatched_at' => now()]);
+    dispatch_sync(new RunActionForActionSubscriberJob($actionSubscriber));
+
+    expect($actionSubscriber->fresh()->halted_at)->not()->toBeNull();
 });
