@@ -15,7 +15,9 @@ class UpdateCampaignAction
 
     public function execute(Campaign $campaign, array $attributes, Template $template = null): Campaign
     {
-        $segment = $attributes['segment_id'] ? TagSegment::find($attributes['segment_id']) : null;
+        $segment = $attributes['segment_id'] ?? null
+            ? TagSegment::find($attributes['segment_id'])
+            : null;
 
         if (is_null($segment)) {
             $segmentClass = $attributes['segment_class'] ?? EverySubscriberSegment::class;
