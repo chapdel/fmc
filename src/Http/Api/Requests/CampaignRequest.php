@@ -19,7 +19,7 @@ class CampaignRequest extends FormRequest
             'name' => ['required'],
             'type' => ['nullable', Rule::in([CampaignStatus::DRAFT])],
             'email_list_id' => ['required', Rule::exists($this->getEmailListTableName(), 'id')],
-            'segment_id' => [Rule::exists((new TagSegment())->getTable())],
+            'segment_id' => [Rule::exists((new TagSegment())->getTable(), 'id')],
             'html' => '',
             'mailable_class' => '',
             'track_opens' => 'boolean',

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Arr;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Policies\CampaignPolicy;
@@ -27,6 +28,20 @@ test('a campaign can be created using the api', function () {
     foreach (Arr::except(test()->postAttributes, ['type']) as $attributeName => $attributeValue) {
         test()->assertEquals($attributeValue, $campaign->$attributeName);
     }
+});
+
+it('can be created with a tagsegment', function () {
+    $tagsegment = TagSegment::factory()->create();
+
+    $this
+        ->postJson(action([CampaignsController::class, 'store']), array_merge(test()->postAttributes, [
+            'segment_id' => $tagsegment->id,
+        ]))
+        ->assertSuccessful();
+
+    $campaign = Campaign::first();
+
+    test()->assertEquals(TagSegment::class, $campaign->segment_class);
 });
 
 test('access is denied by custom authorization policy', function () {
