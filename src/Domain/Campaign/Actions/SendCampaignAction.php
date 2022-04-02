@@ -61,7 +61,7 @@ class SendCampaignAction
         return $this;
     }
 
-    protected function sendMailsForCampaign(Campaign $campaign, ?CarbonInterface $stopExecutingAt = null): self
+    protected function sendMailsForCampaign(Campaign $campaign, ?CarbonInterface $stopExecutingAt = null): void
     {
         $campaign->update(['segment_description' => $campaign->getSegment()->description()]);
 
@@ -71,19 +71,15 @@ class SendCampaignAction
 
         $segment->subscribersQuery($subscribersQuery);
 
-        $campaign->update(['sent_to_number_of_subscribers' => $subscribersQuery->count()]);
-
-        $cacheKey = "campaign-{$campaign->id}-sends-to-create";
-        cache()->put($cacheKey, $subscribersQuery->withoutSendsForCampaign($campaign)->count());
-
-        while ((int) cache()->get($cacheKey) > 0) {
-            $this->dispatchCreateSendJobs($subscribersQuery, $campaign, $segment, $stopExecutingAt);
-            $this->haltWhenApproachingTimeLimit($stopExecutingAt);
-
-            sleep(1);
+        if (is_null($campaign->sent_to_number_of_subscribers)) {
+            $campaign->update(['sent_to_number_of_subscribers' => $subscribersQuery->count()]);
         }
 
-        cache()->delete($cacheKey);
+        $this->dispatchCreateSendJobs($subscribersQuery, $campaign, $segment, $stopExecutingAt);
+
+        if ($campaign->sends()->count() < $campaign->sent_to_number_of_subscribers) {
+            return;
+        }
 
         $campaign->markAsAllSendsCreated();
 
@@ -94,8 +90,6 @@ class SendCampaignAction
         $campaign->markAsSent($campaign->sends()->count());
 
         event(new CampaignSentEvent($campaign));
-
-        return $this;
     }
 
     protected function dispatchCreateSendJobs(

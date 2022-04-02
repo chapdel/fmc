@@ -3,6 +3,7 @@
 use Illuminate\Mail\MailManager;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
@@ -11,6 +12,8 @@ use Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignAction;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\CreateCampaignSendJob;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
@@ -101,6 +104,69 @@ it('will not create mailcoach sends if they already have been created', function
     test()->action->execute($campaign);
 
     expect(Send::all())->toHaveCount(1);
+});
+
+it('will dispatch create jobs and not dispatch twice', function () {
+    Queue::fake();
+
+    $emailList = EmailList::factory()->create();
+
+    $campaign = Campaign::factory()->create([
+        'email_list_id' => $emailList->id,
+    ]);
+
+    Subscriber::factory()->create([
+        'email_list_id' => $emailList->id,
+        'subscribed_at' => now(),
+    ]);
+
+    $campaign->send();
+    test()->action->execute($campaign);
+
+    expect($campaign->fresh()->allSendsCreated())->toBeFalse();
+
+    Queue::assertPushed(CreateCampaignSendJob::class, 1);
+
+    test()->action->execute($campaign);
+
+    expect($campaign->fresh()->allSendsCreated())->toBeFalse();
+    Queue::assertPushed(CreateCampaignSendJob::class, 1);
+});
+
+it('will set all sends created when they are', function () {
+    Queue::fake();
+
+    $emailList = EmailList::factory()->create();
+
+    $campaign = Campaign::factory()->create([
+        'email_list_id' => $emailList->id,
+    ]);
+
+    $subscriber = Subscriber::factory()->create([
+        'email_list_id' => $emailList->id,
+        'subscribed_at' => now(),
+    ]);
+
+    $campaign->send();
+    test()->action->execute($campaign);
+
+    expect($campaign->fresh()->allSendsCreated())->toBeFalse();
+
+    Queue::assertPushed(CreateCampaignSendJob::class, 1);
+    Queue::assertPushed(SendCampaignMailJob::class, 0);
+
+    test()->action->execute($campaign);
+
+    Send::factory()->create([
+        'campaign_id' => $campaign->id,
+        'subscriber_id' => $subscriber->id,
+    ]);
+
+    test()->action->execute($campaign);
+
+    expect($campaign->fresh()->allSendsCreated())->toBeTrue();
+    Queue::assertPushed(CreateCampaignSendJob::class, 1);
+    Queue::assertPushed(SendCampaignMailJob::class, 1);
 });
 
 it('will use the right subject', function () {

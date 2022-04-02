@@ -53,8 +53,6 @@ class CreateCampaignSendJob implements ShouldQueue, ShouldBeUnique
 
     public function handle()
     {
-        cache()->decrement("campaign-{$this->campaign->id}-sends-to-create");
-
         if ($this->segment && ! $this->segment->shouldSend($this->subscriber)) {
             $this->campaign->decrement('sent_to_number_of_subscribers');
 
