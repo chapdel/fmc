@@ -74,7 +74,7 @@ it('will throttle sending mail', function () {
     [$sendTime1, $sendTime2, $sendTime3] = $jobDispatchTimes;
 
     expect($sendTime1->diffInSeconds($sendTime2))->toEqual(0);
-    expect($sendTime2->diffInSeconds($sendTime3))->toEqual(3);
+    expect(round($sendTime2->diffInSeconds($sendTime3)))->toEqual(3);
 });
 
 it('will not create mailcoach sends if they already have been created', function () {
