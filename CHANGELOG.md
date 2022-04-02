@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.4.3 - 2022-04-02
+
+- Fix #918  segment_id in API request
+- Fix #916 filter not working with "+"
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.4.2...5.4.3
+
 ## 5.4.2 - 2022-04-01
 
 - Automation actions now also verify that subscribers match the segment before going to the next step
