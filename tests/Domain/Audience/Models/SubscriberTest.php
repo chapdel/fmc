@@ -7,6 +7,8 @@ use Spatie\Mailcoach\Domain\Audience\Mails\ConfirmSubscriberMail;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Mails\WelcomeMail;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
 beforeEach(function () {
     test()->emailList = EmailList::factory()->create();
@@ -160,4 +162,19 @@ it('can get all clicks', function () {
         ['https://example.com','https://another-domain.com'],
         $uniqueClicks->pluck('link.url')->toArray()
     );
+});
+
+it('can scope on campaign sends', function () {
+    $subscriber1 = Subscriber::factory()->create();
+    Subscriber::factory()->create();
+    $campaign = Campaign::factory()->create();
+
+    expect(Subscriber::withoutSendsForCampaign($campaign)->count())->toBe(2);
+
+    Send::factory()->create([
+        'campaign_id' => $campaign->id,
+        'subscriber_id' => $subscriber1,
+    ]);
+
+    expect(Subscriber::withoutSendsForCampaign($campaign)->count())->toBe(1);
 });

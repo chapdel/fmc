@@ -4,12 +4,11 @@ namespace Spatie\Mailcoach\Domain\Campaign\Actions;
 
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Str;
-use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\Segment;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\SendCampaignTimeLimitApproaching;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\CreateCampaignSendJob;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
@@ -62,7 +61,7 @@ class SendCampaignAction
         return $this;
     }
 
-    protected function sendMailsForCampaign(Campaign $campaign, ?CarbonInterface $stopExecutingAt = null): self
+    protected function sendMailsForCampaign(Campaign $campaign, ?CarbonInterface $stopExecutingAt = null): void
     {
         $campaign->update(['segment_description' => $campaign->getSegment()->description()]);
 
@@ -72,11 +71,17 @@ class SendCampaignAction
 
         $segment->subscribersQuery($subscribersQuery);
 
-        $campaign->update(['sent_to_number_of_subscribers' => $subscribersQuery->count()]);
-
-        if (! $campaign->allSendsCreated()) {
-            $this->createSends($subscribersQuery, $campaign, $segment, $stopExecutingAt);
+        if (is_null($campaign->sent_to_number_of_subscribers)) {
+            $campaign->update(['sent_to_number_of_subscribers' => $subscribersQuery->count()]);
         }
+
+        $this->dispatchCreateSendJobs($subscribersQuery, $campaign, $segment, $stopExecutingAt);
+
+        if ($campaign->sends()->count() < $campaign->sent_to_number_of_subscribers) {
+            return;
+        }
+
+        $campaign->markAsAllSendsCreated();
 
         if (! $campaign->allMailSendingJobsDispatched()) {
             $this->dispatchMailSendingJobs($campaign, $stopExecutingAt);
@@ -85,69 +90,22 @@ class SendCampaignAction
         $campaign->markAsSent($campaign->sends()->count());
 
         event(new CampaignSentEvent($campaign));
-
-        return $this;
     }
 
-    protected function createSend(Campaign $campaign, EmailList $emailList, Subscriber $subscriber, Segment $segment = null): void
-    {
-        if ($segment && ! $segment->shouldSend($subscriber)) {
-            $campaign->decrement('sent_to_number_of_subscribers');
-
-            return;
-        }
-
-        if (! $this->isValidSubscriptionForEmailList($subscriber, $emailList)) {
-            $campaign->decrement('sent_to_number_of_subscribers');
-
-            return;
-        }
-
-        $pendingSend = $campaign->sends()
-            ->where('subscriber_id', $subscriber->id)
-            ->exists();
-
-        if ($pendingSend) {
-            return;
-        }
-
-        $campaign->sends()->create([
-            'subscriber_id' => $subscriber->id,
-            'uuid' => (string)Str::uuid(),
-        ]);
-    }
-
-    protected function isValidSubscriptionForEmailList(Subscriber $subscriber, EmailList $emailList): bool
-    {
-        if (! $subscriber->isSubscribed()) {
-            return false;
-        }
-
-        if ((int)$subscriber->email_list_id !== (int)$emailList->id) {
-            return false;
-        }
-
-        return true;
-    }
-
-    protected function createSends(
-        Builder  $subscribersQuery,
+    protected function dispatchCreateSendJobs(
+        Builder $subscribersQuery,
         Campaign $campaign,
         Segment  $segment,
         CarbonInterface   $stopExecutingAt = null,
     ): void {
         $subscribersQuery
-            ->whereDoesntHave('sends', function (Builder $query) use ($campaign) {
-                $query->where('campaign_id', $campaign->id);
-            })
+            ->withoutSendsForCampaign($campaign)
             ->lazyById()
             ->each(function (Subscriber $subscriber) use ($stopExecutingAt, $campaign, $segment) {
-                $this->createSend($campaign, $campaign->emailList, $subscriber, $segment);
+                dispatch(new CreateCampaignSendJob($campaign, $subscriber, $segment));
 
                 $this->haltWhenApproachingTimeLimit($stopExecutingAt);
             });
-
-        $campaign->markAsAllSendsCreated();
     }
 
     protected function dispatchMailSendingJobs(Campaign $campaign, CarbonInterface $stopExecutingAt = null): void
