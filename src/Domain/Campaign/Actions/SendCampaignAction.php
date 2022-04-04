@@ -77,7 +77,7 @@ class SendCampaignAction
 
         $this->dispatchCreateSendJobs($subscribersQuery, $campaign, $segment, $stopExecutingAt);
 
-        if ($campaign->sends()->count() < $campaign->sent_to_number_of_subscribers) {
+        if ($campaign->sends()->count() < $campaign->fresh()->sent_to_number_of_subscribers) {
             return;
         }
 
