@@ -71,7 +71,7 @@ class SendCampaignAction
 
         $segment->subscribersQuery($subscribersQuery);
 
-        if ($campaign->sent_to_number_of_subscribers === 0) {
+        if (is_null($campaign->sent_to_number_of_subscribers) || $campaign->sent_to_number_of_subscribers === 0) {
             $campaign->update(['sent_to_number_of_subscribers' => $subscribersQuery->count()]);
         }
 
