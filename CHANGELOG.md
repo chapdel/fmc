@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.4.4 - 2022-04-05
+
+## What's Changed
+
+- Refactor creating of sends to jobs for faster processing by @riasvdv in https://github.com/spatie/laravel-mailcoach/pull/932
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.4.3...5.4.4
+
 ## 5.4.3 - 2022-04-02
 
 - Fix #918  segment_id in API request
