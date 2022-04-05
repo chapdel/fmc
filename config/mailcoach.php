@@ -86,7 +86,14 @@ return [
             'track_opens' => false,
             'track_clicks' => false,
             'utm_tags' => true,
-        ]
+        ],
+
+        /**
+         * Here you can configure which fields of the campaigns you want to search in
+         * from the Campaigns section in the view. The value is an array of fields.
+         * For relations fields, you can use the dot notation (e.g. 'emailList.name').
+         */
+        'search_fields' => ['name'],
     ],
 
     'automation' => [
@@ -248,6 +255,13 @@ return [
          * By default this is a text editor that highlights HTML.
          */
         'editor' => \Spatie\Mailcoach\Domain\Shared\Support\Editor\TextEditor::class,
+
+        /**
+         * Here you can configure which fields of the transactional mails you want to search in
+         * from the Transactional Log section in the view. The value is an array of fields.
+         * For relations fields, you can use the dot notation.
+         */
+        'search_fields' => ['subject'],
     ],
 
     'shared' => [
