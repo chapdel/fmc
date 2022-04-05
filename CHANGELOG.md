@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.4.5 - 2022-04-05
+
+## What's Changed
+
+- Make filter fields configurable for transactional mails and campaigns by @Fabstilelook in https://github.com/spatie/laravel-mailcoach/pull/933
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.4.4...5.4.5
+
 ## 5.4.4 - 2022-04-05
 
 ## What's Changed
