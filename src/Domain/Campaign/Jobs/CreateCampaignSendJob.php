@@ -53,6 +53,10 @@ class CreateCampaignSendJob implements ShouldQueue, ShouldBeUnique
 
     public function handle()
     {
+        if ($this->campaign->isCancelled()) {
+            return;
+        }
+
         if ($this->segment && ! $this->segment->shouldSend($this->subscriber)) {
             $this->campaign->decrement('sent_to_number_of_subscribers');
 
