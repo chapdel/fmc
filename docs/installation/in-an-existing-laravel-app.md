@@ -54,7 +54,7 @@ composer dump-autoload
 Then with the configuration above in place, you'll be able to install the package into your project using this command:
 
 ```bash
-composer require "spatie/laravel-mailcoach:^4.0"
+composer require "spatie/laravel-mailcoach:^5.0"
 ```
 
 ## Publish the config file
