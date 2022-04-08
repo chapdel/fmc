@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.4.7 - 2022-04-08
+
+- Move singletons to scoped for better Octane compatibility
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.4.6...5.4.7
+
 ## 5.4.6 - 2022-04-07
 
 - Don't create sends if the campaign is cancelled
