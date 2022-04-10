@@ -30,7 +30,7 @@ $email = $open->subscriber->email;
 
 ## On a campaign link
 
-If you enabled click tracking, a `CampainLink` will have been created for each link in your campaign.
+If you enabled click tracking, a `CampaignLink` will have been created for each link in your campaign.
 
 It contains these two attributes that hold statistical data:
 
