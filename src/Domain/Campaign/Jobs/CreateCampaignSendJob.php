@@ -13,7 +13,9 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\Segment;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
+use Spatie\Mailcoach\Domain\Shared\Support\Throttling\SimpleThrottle;
 
 class CreateCampaignSendJob implements ShouldQueue, ShouldBeUnique
 {
@@ -77,10 +79,12 @@ class CreateCampaignSendJob implements ShouldQueue, ShouldBeUnique
             return;
         }
 
-        $this->campaign->sends()->create([
+        $send = $this->campaign->sends()->create([
             'subscriber_id' => $this->subscriber->id,
             'uuid' => (string) Str::uuid(),
         ]);
+
+        $this->dispatchMailSendJob($send);
     }
 
     protected function isValidSubscriptionForEmailList(Subscriber $subscriber, EmailList $emailList): bool
@@ -94,5 +98,19 @@ class CreateCampaignSendJob implements ShouldQueue, ShouldBeUnique
         }
 
         return true;
+    }
+
+    private function dispatchMailSendJob(Send $send): void
+    {
+        $simpleThrottle = app(SimpleThrottle::class)
+            ->forMailer(config('mailcoach.campaigns.mailer'))
+            ->allow(config('mailcoach.campaigns.throttling.allowed_number_of_jobs_in_timespan'))
+            ->inSeconds(config('mailcoach.campaigns.throttling.timespan_in_seconds'));
+
+        $simpleThrottle->hit();
+
+        dispatch(new SendCampaignMailJob($send));
+
+        $send->markAsSendingJobDispatched();
     }
 }

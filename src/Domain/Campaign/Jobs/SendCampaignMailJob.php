@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Campaign\Jobs;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -11,7 +12,7 @@ use Spatie\Mailcoach\Domain\Campaign\Actions\SendMailAction;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
 
-class SendCampaignMailJob implements ShouldQueue
+class SendCampaignMailJob implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable;
     use InteractsWithQueue;
@@ -26,6 +27,11 @@ class SendCampaignMailJob implements ShouldQueue
 
     /** @var string */
     public $queue;
+
+    public function uniqueId(): string
+    {
+        return "{$this->pendingSend->id}";
+    }
 
     public function __construct(Send $pendingSend)
     {
