@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.5.0 - 2022-04-11
+
+## What's Changed
+
+- Fix typo in `CampaignLink` docs by @anselmh in https://github.com/spatie/laravel-mailcoach/pull/938
+- Dispatch the send right after creating it by @riasvdv in https://github.com/spatie/laravel-mailcoach/pull/939
+
+## New Contributors
+
+- @anselmh made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/938
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.4.7...5.5.0
+
 ## 5.4.7 - 2022-04-08
 
 - Move singletons to scoped for better Octane compatibility
