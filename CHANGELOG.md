@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.5.1 - 2022-04-12
+
+- Fix summary progress based on created sends
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.5.0...5.5.1
+
 ## 5.5.0 - 2022-04-11
 
 ## What's Changed
