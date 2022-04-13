@@ -119,6 +119,8 @@ You can pass the following fields while creating a subscriber:
 - `last_name`: nullable
 - `extra_attributes`: nullable, array
 - `tags`: array
+- `skip_confirmation`: bool
+- `skip_welcome_mail`: bool
 
 When passing tags, the tags will be synced to the subscriber.
 
