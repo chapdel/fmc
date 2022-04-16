@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.5.2 - 2022-04-16
+
+## What's Changed
+
+- Fix Redis payload for the CreateSendJob being too large
+- Update audience.md by @shopbox-support in https://github.com/spatie/laravel-mailcoach/pull/943
+- Docs & links improvements by @shopbox-support in https://github.com/spatie/laravel-mailcoach/pull/944
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.5.1...5.5.2
+
 ## 5.5.1 - 2022-04-12
 
 - Fix summary progress based on created sends
