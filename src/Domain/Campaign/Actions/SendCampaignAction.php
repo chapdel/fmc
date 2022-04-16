@@ -5,7 +5,6 @@ namespace Spatie\Mailcoach\Domain\Campaign\Actions;
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Audience\Support\Segments\Segment;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\SendCampaignTimeLimitApproaching;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\CreateCampaignSendJob;
