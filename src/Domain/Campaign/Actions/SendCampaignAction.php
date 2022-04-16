@@ -75,7 +75,7 @@ class SendCampaignAction
             $campaign->update(['sent_to_number_of_subscribers' => $subscribersQuery->count()]);
         }
 
-        $this->dispatchCreateSendJobs($subscribersQuery, $campaign, $segment, $stopExecutingAt);
+        $this->dispatchCreateSendJobs($subscribersQuery, $campaign, $stopExecutingAt);
 
         if ($campaign->sends()->count() < $campaign->fresh()->sent_to_number_of_subscribers) {
             return;
@@ -95,14 +95,13 @@ class SendCampaignAction
     protected function dispatchCreateSendJobs(
         Builder $subscribersQuery,
         Campaign $campaign,
-        Segment  $segment,
         CarbonInterface   $stopExecutingAt = null,
     ): void {
         $subscribersQuery
             ->withoutSendsForCampaign($campaign)
             ->lazyById()
-            ->each(function (Subscriber $subscriber) use ($stopExecutingAt, $campaign, $segment) {
-                dispatch(new CreateCampaignSendJob($campaign, $subscriber, $segment));
+            ->each(function (Subscriber $subscriber) use ($stopExecutingAt, $campaign) {
+                dispatch(new CreateCampaignSendJob($campaign, $subscriber));
 
                 $this->haltWhenApproachingTimeLimit($stopExecutingAt);
             });

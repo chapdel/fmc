@@ -26,11 +26,9 @@ class CreateCampaignSendJob implements ShouldQueue, ShouldBeUnique
 
     public bool $deleteWhenMissingModels = true;
 
-    public Campaign $campaign;
+    protected Campaign $campaign;
 
-    public Subscriber $subscriber;
-
-    public ?Segment $segment = null;
+    protected Subscriber $subscriber;
 
     public $tries = 1;
 
@@ -42,11 +40,10 @@ class CreateCampaignSendJob implements ShouldQueue, ShouldBeUnique
         return "{$this->campaign->id}{$this->subscriber->id}";
     }
 
-    public function __construct(Campaign $campaign, Subscriber $subscriber, Segment $segment = null)
+    public function __construct(Campaign $campaign, Subscriber $subscriber)
     {
         $this->campaign = $campaign;
         $this->subscriber = $subscriber;
-        $this->segment = $segment;
 
         $this->queue = config('mailcoach.campaigns.perform_on_queue.send_campaign_job');
 
@@ -59,7 +56,7 @@ class CreateCampaignSendJob implements ShouldQueue, ShouldBeUnique
             return;
         }
 
-        if ($this->segment && ! $this->segment->shouldSend($this->subscriber)) {
+        if (! $this->campaign->getSegment()->shouldSend($this->subscriber)) {
             $this->campaign->decrement('sent_to_number_of_subscribers');
 
             return;
