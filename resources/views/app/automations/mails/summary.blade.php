@@ -8,7 +8,7 @@
                 {{ __('mailcoach - AutomationMail') }}
                 <strong>{{ $mail->name }}</strong>
                 {{ __('mailcoach - was delivered to') }}
-                <strong>{{ number_format($mail->sent_to_number_of_subscribers - ($failedSendsCount ?? 0)) }} {{ trans_choice('subscriber|subscribers', $mail->sent_to_number_of_subscribers) }}</strong>
+                <strong>{{ number_format($mail->sent_to_number_of_subscribers - ($failedSendsCount ?? 0)) }} {{ trans_choice('mailcoach - subscriber|subscribers', $mail->sent_to_number_of_subscribers) }}</strong>
             </div>
 
             @if($failedSendsCount)
@@ -17,7 +17,7 @@
                 </div>
                 <div>
                     {{ __('mailcoach - Delivery failed for') }}
-                    <strong>{{ $failedSendsCount }}</strong> {{ trans_choice('subscriber|subscribers', $failedSendsCount) }}
+                    <strong>{{ $failedSendsCount }}</strong> {{ trans_choice('mailcoach - subscriber|subscribers', $failedSendsCount) }}
                     .
                     <a class="underline"
                        href="{{ route('mailcoach.automations.mails.outbox', $mail) . '?filter[type]=failed' }}">{{ __('mailcoach - Check the outbox') }}</a>.

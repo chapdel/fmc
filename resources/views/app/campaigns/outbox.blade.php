@@ -8,7 +8,7 @@
             :data-confirm-text="__('mailcoach - Are you sure you want to resend :totalFailed mails?', ['totalFailed' => $totalFailed])"
             class="mt-4 button"
             >
-                {{ __('mailcoach - Try resending :totalFailed :email', ['totalFailed' => $totalFailed, 'email' => trans_choice(__('mailcoach - email|emails'), $totalFailed)]) }}
+                {{ __('mailcoach - Try resending :totalFailed :email', ['totalFailed' => $totalFailed, 'email' => trans_choice('mailcoach - email|emails', $totalFailed)]) }}
             </x-mailcoach::form-button>
     </div>
     @endif
