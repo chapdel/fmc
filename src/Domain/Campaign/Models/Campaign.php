@@ -53,6 +53,7 @@ class Campaign extends Sendable implements Feedable
     public static function scopeSentBetween(Builder $query, CarbonInterface $periodStart, CarbonInterface $periodEnd): void
     {
         $query
+            ->where('status', CampaignStatus::SENT)
             ->where('sent_at', '>=', $periodStart)
             ->where('sent_at', '<', $periodEnd);
     }
