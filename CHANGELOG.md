@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.5.4 - 2022-04-20
+
+- Don't mark as sent until all sends are actually sent
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.5.3...5.5.4
+
 ## 5.5.3 - 2022-04-20
 
 ## What's Changed
