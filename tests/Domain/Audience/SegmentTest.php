@@ -53,5 +53,6 @@ it('can segment a test by using should send', function () {
     Mail::assertSent(MailcoachMail::class, 1);
     Mail::assertSent(MailcoachMail::class, fn (MailcoachMail $mail) => $mail->hasTo('john@example.com'));
     Mail::assertNotSent(MailcoachMail::class, fn (MailcoachMail $mail) => $mail->hasTo('jane@example.com'));
+    Artisan::call('mailcoach:send-scheduled-campaigns');
     expect(test()->campaign->fresh()->isSent())->toBeTrue();
 });
