@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.5.3 - 2022-04-20
+
+## What's Changed
+
+- Update getting-a-license.md by @WouterBrouwers in https://github.com/spatie/laravel-mailcoach/pull/953
+- Sort subscribers by updated_at or subscribed_at by @shopbox-support in https://github.com/spatie/laravel-mailcoach/pull/954
+- Fix translations using trans_choice by @shopbox-support in https://github.com/spatie/laravel-mailcoach/pull/955
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.5.2...5.5.3
+
 ## 5.5.2 - 2022-04-16
 
 ## What's Changed
