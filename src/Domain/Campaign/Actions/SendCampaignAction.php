@@ -86,6 +86,10 @@ class SendCampaignAction
             $this->dispatchMailSendingJobs($campaign, $stopExecutingAt);
         }
 
+        if ($campaign->sendsCount() < $campaign->sent_to_number_of_subscribers) {
+            return;
+        }
+
         $campaign->markAsSent($campaign->sends()->count());
 
         event(new CampaignSentEvent($campaign));

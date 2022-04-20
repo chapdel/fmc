@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Tests\Factories;
 
 use Carbon\Carbon;
-use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 
@@ -47,7 +46,6 @@ class CampaignFactory
     public static function createSentAt(string $dateTime): Campaign
     {
         return Campaign::factory()->create([
-            'status' => CampaignStatus::SENT,
             'sent_at' => Carbon::createFromFormat('Y-m-d H:i:s', $dateTime),
         ]);
     }
