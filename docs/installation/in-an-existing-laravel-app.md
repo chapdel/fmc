@@ -13,7 +13,7 @@ You can tightly integrate Mailcoach into your application logic. You can listen 
 
 In order to install Mailcoach, you'll need to [get a license](/docs/laravel-mailcoach/v5/general/getting-a-license) first.
 
-## Installation via composer
+## Installation via Composer
 
 First, add the `satis.spatie.be` repository in your `composer.json`.
 
@@ -45,13 +45,15 @@ This is the content you should put in `auth.json`:
 }
 ```
 
-To be sure you can reach `satis.spatie.be` clean your autoloaders before using this command:
+If you are using Laravel Forge, you don't need to create the auth.json file manually. Instead, you can set the credentials on the Composer Package Authentication screen of your server. Fill out the fields with these values:
 
-```bash
-composer dump-autoload
-```
+- Repository URL: `satis.spatie.be`
+- Username: Fill this field with your spatie.be account email address
+- Password: Fill this field with your Mailcoach license key
 
-Then with the configuration above in place, you'll be able to install the package into your project using this command:
+![screenshot](/docs/laravel-mailcoach/v5/images/forge.png)
+
+With this configuration in place, you'll be able to install the package into your project using this command:
 
 ```bash
 composer require "spatie/laravel-mailcoach:^4.0"
