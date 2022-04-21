@@ -78,8 +78,12 @@ class CampaignSummaryViewModel extends ViewModel
 
         $start = $this->campaign->sent_at->toImmutable();
 
-        if ($this->campaign->opens()->count() > 0 && $this->campaign->opens()->first()->created_at < $start) {
-            $start = $this->campaign->opens()->first()->created_at->toImmutable();
+        if ($this->campaign->open_count > 0) {
+            $firstOpenCreatedAt = $this->campaign->opens()->first()->created_at;
+
+            if ($firstOpenCreatedAt < $start) {
+                $start = $firstOpenCreatedAt->toImmutable();
+            }
         }
 
         return Collection::times(24)->map(function (int $number) use ($start) {
