@@ -45,7 +45,7 @@ This is the content you should put in `auth.json`:
 }
 ```
 
-If you are using Laravel Forge, you don't need to create the auth.json file manually. Instead, you can set the credentials on the Composer Package Authentication screen of your server. Fill out the fields with these values:
+If you are using [Laravel Forge](https://forge.laravel.com), you don't need to create the `auth.json` file manually. Instead, you can set the credentials on the Composer Package Authentication screen of your server. Fill out the fields with these values:
 
 - Repository URL: `satis.spatie.be`
 - Username: Fill this field with your spatie.be account email address
