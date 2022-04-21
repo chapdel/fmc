@@ -2,16 +2,12 @@
 
 namespace Spatie\Mailcoach\Domain\Campaign\Actions;
 
-use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Str;
-use Laravel\Horizon\Horizon;
-use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Audience\Support\Segments\Segment;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\SendCampaignTimeLimitApproaching;
-use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\CreateCampaignSendJob;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
@@ -21,9 +17,9 @@ use Spatie\Mailcoach\Domain\Shared\Support\Throttling\SimpleThrottle;
 
 class SendCampaignAction
 {
-    public function execute(Campaign $campaign, ?Carbon $stopExecutingAt = null): void
+    public function execute(Campaign $campaign, ?CarbonInterface $stopExecutingAt = null): void
     {
-        if ($campaign->wasAlreadySent()) {
+        if ($campaign->wasAlreadySent() || ! $campaign->isSending()) {
             return;
         }
 
@@ -64,7 +60,7 @@ class SendCampaignAction
         return $this;
     }
 
-    protected function sendMailsForCampaign(Campaign $campaign, ?Carbon $stopExecutingAt = null): self
+    protected function sendMailsForCampaign(Campaign $campaign, ?CarbonInterface $stopExecutingAt = null): void
     {
         $campaign->update(['segment_description' => $campaign->getSegment()->description()]);
 
@@ -74,87 +70,47 @@ class SendCampaignAction
 
         $segment->subscribersQuery($subscribersQuery);
 
-        $campaign->update(['sent_to_number_of_subscribers' => $subscribersQuery->count()]);
-
-        try {
-            if (! $campaign->allSendsCreated()) {
-                $this->createSends($subscribersQuery, $campaign, $segment, $stopExecutingAt);
-            }
-
-            if (! $campaign->allMailSendingJobsDispatched()) {
-                $this->dispatchMailSendingJobs($campaign, $stopExecutingAt);
-            }
-
-            $campaign->markAsSent($campaign->sends()->count());
-
-            event(new CampaignSentEvent($campaign));
-        } catch (SendCampaignTimeLimitApproaching) {
-            dispatch(new SendCampaignJob($campaign))->onQueue(config('mailcoach.campaigns.perform_on_queue.send_campaign_job'));
+        if (is_null($campaign->sent_to_number_of_subscribers) || $campaign->sent_to_number_of_subscribers === 0) {
+            $campaign->update(['sent_to_number_of_subscribers' => $subscribersQuery->count()]);
         }
 
-        return $this;
-    }
+        $this->dispatchCreateSendJobs($subscribersQuery, $campaign, $stopExecutingAt);
 
-    protected function createSend(Campaign $campaign, EmailList $emailList, Subscriber $subscriber, Segment $segment = null): void
-    {
-        if ($segment && ! $segment->shouldSend($subscriber)) {
-            $campaign->decrement('sent_to_number_of_subscribers');
-
+        if ($campaign->sends()->count() < $campaign->fresh()->sent_to_number_of_subscribers) {
             return;
         }
 
-        if (! $this->isValidSubscriptionForEmailList($subscriber, $emailList)) {
-            $campaign->decrement('sent_to_number_of_subscribers');
+        $campaign->markAsAllSendsCreated();
 
+        if (! $campaign->allMailSendingJobsDispatched()) {
+            $this->dispatchMailSendingJobs($campaign, $stopExecutingAt);
+        }
+
+        if ($campaign->sendsCount() < $campaign->sent_to_number_of_subscribers) {
             return;
         }
 
-        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $pendingSend */
-        $pendingSend = $campaign->sends()
-            ->where('subscriber_id', $subscriber->id)
-            ->first();
+        $campaign->markAsSent($campaign->sends()->count());
 
-        if ($pendingSend) {
-            return;
-        }
-
-        $campaign->sends()->create([
-            'subscriber_id' => $subscriber->id,
-            'uuid' => (string)Str::uuid(),
-        ]);
+        event(new CampaignSentEvent($campaign));
     }
 
-    protected function isValidSubscriptionForEmailList(Subscriber $subscriber, EmailList $emailList): bool
-    {
-        if (! $subscriber->isSubscribed()) {
-            return false;
-        }
-
-        if ((int)$subscriber->email_list_id !== (int)$emailList->id) {
-            return false;
-        }
-
-        return true;
-    }
-
-    protected function createSends(
-        Builder  $subscribersQuery,
+    protected function dispatchCreateSendJobs(
+        Builder $subscribersQuery,
         Campaign $campaign,
-        Segment  $segment,
-        Carbon   $stopExecutingAt = null,
+        CarbonInterface   $stopExecutingAt = null,
     ): void {
         $subscribersQuery
+            ->withoutSendsForCampaign($campaign)
             ->lazyById()
-            ->each(function (Subscriber $subscriber) use ($stopExecutingAt, $campaign, $segment) {
-                $this->createSend($campaign, $campaign->emailList, $subscriber, $segment);
+            ->each(function (Subscriber $subscriber) use ($stopExecutingAt, $campaign) {
+                dispatch(new CreateCampaignSendJob($campaign, $subscriber));
 
                 $this->haltWhenApproachingTimeLimit($stopExecutingAt);
             });
-
-        $campaign->markAsAllSendsCreated();
     }
 
-    protected function dispatchMailSendingJobs(Campaign $campaign, Carbon $stopExecutingAt = null): void
+    protected function dispatchMailSendingJobs(Campaign $campaign, CarbonInterface $stopExecutingAt = null): void
     {
         $simpleThrottle = app(SimpleThrottle::class)
             ->forMailer(config('mailcoach.campaigns.mailer'))
@@ -182,7 +138,7 @@ class SendCampaignAction
         $campaign->markAsAllMailSendingJobsDispatched();
     }
 
-    protected function haltWhenApproachingTimeLimit(?Carbon $stopExecutingAt): void
+    protected function haltWhenApproachingTimeLimit(?CarbonInterface $stopExecutingAt): void
     {
         if (is_null($stopExecutingAt)) {
             return;

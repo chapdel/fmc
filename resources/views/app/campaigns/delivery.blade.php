@@ -62,7 +62,7 @@
                             <span class="ml-2 tag-neutral text-xs">
                                 {{ $campaign->segmentSubscriberCount() }}
                                 <span class="ml-1 font-normal">
-                                    {{ trans_choice(__('mailcoach - subscriber|subscribers'), $campaign->segmentSubscriberCount()) }}
+                                    {{ trans_choice('mailcoach - subscriber|subscribers', $campaign->segmentSubscriberCount()) }}
                                 </span>
                             </span>
                         </div>
@@ -280,13 +280,13 @@
                                     {{ __('mailcoach - sending is cancelled.', [
                                         'sendsCount' => $campaign->sendsCount(),
                                         'sentToNumberOfSubscribers' => $campaign->sent_to_number_of_subscribers,
-                                        'subscriber' => trans_choice(__('mailcoach - subscriber|subscribers'), $campaign->sent_to_number_of_subscribers)
+                                        'subscriber' => trans_choice('mailcoach - subscriber|subscribers', $campaign->sent_to_number_of_subscribers)
                                     ]) }}
 
                                     {{ __('mailcoach - It was sent to :sendsCount/:sentToNumberOfSubscribers :subscriber of', [
                                         'sendsCount' => $campaign->sendsCount(),
                                         'sentToNumberOfSubscribers' => $campaign->sent_to_number_of_subscribers,
-                                        'subscriber' => trans_choice(__('mailcoach - subscriber|subscribers'), $campaign->sent_to_number_of_subscribers)
+                                        'subscriber' => trans_choice('mailcoach - subscriber|subscribers', $campaign->sent_to_number_of_subscribers)
                                     ]) }}
 
                                     @if($campaign->emailList)
@@ -314,7 +314,7 @@
                                     {{ __('mailcoach - is sending to :sendsCount/:sentToNumberOfSubscribers :subscriber of', [
                                         'sendsCount' => $campaign->sendsCount(),
                                         'sentToNumberOfSubscribers' => $campaign->sent_to_number_of_subscribers,
-                                        'subscriber' => trans_choice(__('mailcoach - subscriber|subscribers'), $campaign->sent_to_number_of_subscribers)
+                                        'subscriber' => trans_choice('mailcoach - subscriber|subscribers', $campaign->sent_to_number_of_subscribers)
                                     ]) }}
 
                                     @if($campaign->emailList)

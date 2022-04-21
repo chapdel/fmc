@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Actions;
 
-use Carbon\Carbon;
+use Carbon\CarbonInterface;
 use Spatie\Mailcoach\Domain\Automation\Exceptions\SendAutomationMailsTimeLimitApproaching;
 use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailJob;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
@@ -14,7 +14,7 @@ class SendAutomationMailsAction
 {
     use UsesMailcoachModels;
 
-    public function execute(?Carbon $stopExecutingAt = null)
+    public function execute(?CarbonInterface $stopExecutingAt = null)
     {
         $simpleThrottle = app(SimpleThrottle::class)
             ->forMailer(config('mailcoach.automation.mailer'))
@@ -39,7 +39,7 @@ class SendAutomationMailsAction
             });
     }
 
-    protected function haltWhenApproachingTimeLimit(?Carbon $stopExecutingAt): void
+    protected function haltWhenApproachingTimeLimit(?CarbonInterface $stopExecutingAt): void
     {
         if (is_null($stopExecutingAt)) {
             return;

@@ -78,21 +78,32 @@ class CampaignSummaryViewModel extends ViewModel
 
         $start = $this->campaign->sent_at->toImmutable();
 
-        if ($this->campaign->opens()->count() > 0 && $this->campaign->opens()->first()->created_at < $start) {
-            $start = $this->campaign->opens()->first()->created_at->toImmutable();
+        if ($this->campaign->open_count > 0) {
+            $firstOpenCreatedAt = $this->campaign->opens()->first()->created_at;
+
+            if ($firstOpenCreatedAt < $start) {
+                $start = $firstOpenCreatedAt->toImmutable();
+            }
         }
 
         return Collection::times(24)->map(function (int $number) use ($start) {
+            /** @var \Carbon\CarbonImmutable $datetime */
             $datetime = $start->addHours($number - 1);
 
-            $campaignOpenTable = static::getCampaignOpenTableName();
-            $campaignClickTable = static::getCampaignClickTableName();
+            $ttl = $datetime->isPast()
+                ? now()->addDay()
+                : now()->addSeconds(15);
 
-            return [
-                'label' => $datetime->format('H:i'),
-                'opens' => $this->campaign->opens()->whereBetween("{$campaignOpenTable}.created_at", [$datetime, $datetime->addHour()])->count(),
-                'clicks' => $this->campaign->clicks()->whereBetween("{$campaignClickTable}.created_at", [$datetime, $datetime->addHour()])->count(),
-            ];
+            return cache()->remember("campaign-{$this->campaign->id}-stats-{$datetime->timestamp}", $ttl, function () use ($datetime) {
+                $campaignOpenTable = static::getCampaignOpenTableName();
+                $campaignClickTable = static::getCampaignClickTableName();
+
+                return [
+                    'label' => $datetime->format('H:i'),
+                    'opens' => $this->campaign->opens()->whereBetween("{$campaignOpenTable}.created_at", [$datetime, $datetime->addHour()])->count(),
+                    'clicks' => $this->campaign->clicks()->whereBetween("{$campaignClickTable}.created_at", [$datetime, $datetime->addHour()])->count(),
+                ];
+            });
         });
     }
 }

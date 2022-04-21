@@ -1,12 +1,14 @@
 <x-mailcoach::layout-main :title="__('mailcoach - Campaigns')">
         <div class="table-actions">
-            @if ($totalListsCount or $totalCampaignsCount)
-                <x-mailcoach::button data-modal-trigger="create-campaign" :label="__('mailcoach - Create campaign')" />
+            @can('create', \Spatie\Mailcoach\Domain\Shared\Support\Config::getCampaignClass())
+                @if ($totalListsCount or $totalCampaignsCount)
+                    <x-mailcoach::button data-modal-trigger="create-campaign" :label="__('mailcoach - Create campaign')" />
 
-                <x-mailcoach::modal :title="__('mailcoach - Create campaign')" name="create-campaign" :open="$errors->any()">
-                    @include('mailcoach::app.campaigns.partials.create')
-                </x-mailcoach::modal>
-            @endif
+                    <x-mailcoach::modal :title="__('mailcoach - Create campaign')" name="create-campaign" :open="$errors->any()">
+                        @include('mailcoach::app.campaigns.partials.create')
+                    </x-mailcoach::modal>
+                @endif
+            @endcan
 
             @if($totalCampaignsCount)
                 <div class="table-filters">

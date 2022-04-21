@@ -25,7 +25,7 @@ class UnsubscribeUrlReplacer implements PersonalizedReplacer
         foreach ($matches as $match) {
             [$key, $tag] = $match;
 
-            $unsubscribeTagUrl = $pendingSend->subscriber->unsubscribeTagUrl($tag);
+            $unsubscribeTagUrl = $pendingSend->subscriber->unsubscribeTagUrl($tag, $pendingSend);
 
             $text = str_ireplace($key, $unsubscribeTagUrl, $text);
         }

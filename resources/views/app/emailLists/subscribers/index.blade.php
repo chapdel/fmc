@@ -17,12 +17,13 @@
                     @if($subscribers->count() > 0)
                         <li>
                             <x-mailcoach::form-button
+                                data-turbo="false"
                                 :action="route('mailcoach.emailLists.subscribers.export', $emailList) . '?' . request()->getQueryString()">
 
                                 @if($allSubscriptionsCount === $subscribers->total())
                                     <x-mailcoach::icon-label icon="fa-fw fas fa-file" :text="__('mailcoach - Export all subscribers')"/>
                                 @else
-                                    <x-mailcoach::icon-label icon="fa-fw fas fa-file" :text="__('mailcoach - Export :total :subscriber', ['total' => $subscribers->total(), 'subscriber' => trans_choice(__('mailcoach - subscriber|subscribers'), $subscribers->total())])"/>
+                                    <x-mailcoach::icon-label icon="fa-fw fas fa-file" :text="__('mailcoach - Export :total :subscriber', ['total' => $subscribers->total(), 'subscriber' => trans_choice('mailcoach - subscriber|subscribers', $subscribers->total())])"/>
                                 @endif
                             </x-mailcoach::form-button>
                         </li>

@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Commands;
 
 use Illuminate\Console\Command;
 use Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailsAction;
+use Spatie\Mailcoach\Domain\Automation\Exceptions\SendAutomationMailsTimeLimitApproaching;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
 
 class SendAutomationMailsCommand extends Command
@@ -21,6 +22,10 @@ class SendAutomationMailsCommand extends Command
 
         $stopExecutingAt = now()->addSeconds($maxRuntimeInSeconds);
 
-        $sendAutomationMailsAction->execute($stopExecutingAt);
+        try {
+            $sendAutomationMailsAction->execute($stopExecutingAt);
+        } catch (SendAutomationMailsTimeLimitApproaching) {
+            return;
+        }
     }
 }

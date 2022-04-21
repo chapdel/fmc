@@ -22,7 +22,7 @@ class SendAutomationMailAction extends AutomationAction
 
     public static function make(array $data): self
     {
-        return new self(self::getAutomationMailClass()::find($data['automation_mail_id']));
+        return new self(self::getAutomationMailClass()::findOrFail($data['automation_mail_id']));
     }
 
     public function __construct(AutomationMail $automationMail)

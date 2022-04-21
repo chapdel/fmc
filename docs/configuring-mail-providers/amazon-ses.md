@@ -1,4 +1,4 @@
-``---
+---
 title: Amazon SES
 weight: 3
 ---

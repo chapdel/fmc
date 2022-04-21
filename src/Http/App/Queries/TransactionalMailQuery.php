@@ -15,6 +15,8 @@ class TransactionalMailQuery extends QueryBuilder
     {
         parent::__construct($this->getTransactionalMailClass()::query());
 
+        $filterFields = array_map('trim', config('mailcoach.transactional.search_fields', ['subject']));
+
         $this
             ->defaultSort('-created_at', '-id')
             ->allowedSorts(
@@ -23,7 +25,7 @@ class TransactionalMailQuery extends QueryBuilder
                 'id',
             )
             ->allowedFilters(
-                AllowedFilter::custom('search', new FuzzyFilter('subject')),
+                AllowedFilter::custom('search', new FuzzyFilter(...$filterFields)),
             );
     }
 }

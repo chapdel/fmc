@@ -20,6 +20,8 @@ class CampaignsQuery extends QueryBuilder
 
         $sentSort = AllowedSort::custom('sent', (new CampaignSort()))->defaultDirection('desc');
 
+        $filterFields = array_map('trim', config('mailcoach.campaigns.search_fields', ['name']));
+
         $this
             ->defaultSort($sentSort)
             ->allowedSorts(
@@ -32,7 +34,7 @@ class CampaignsQuery extends QueryBuilder
                 $sentSort,
             )
             ->allowedFilters(
-                AllowedFilter::custom('search', new FuzzyFilter('name')),
+                AllowedFilter::custom('search', new FuzzyFilter(...$filterFields)),
                 AllowedFilter::custom('status', new CampaignStatusFilter()),
                 AllowedFilter::exact('email_list_id'),
             );

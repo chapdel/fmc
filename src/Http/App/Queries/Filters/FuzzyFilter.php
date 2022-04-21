@@ -36,6 +36,7 @@ class FuzzyFilter implements Filter
             ->reject(fn (string $field) => Str::contains($field, '.'))
             ->each(function (string $field) use ($query, $values) {
                 foreach ($values as $value) {
+                    $value = str_replace(' ', '+', $value);
                     $query->orWhere($field, 'LIKE', "%{$value}%");
                 }
             });

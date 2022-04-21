@@ -9,7 +9,6 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\EverySubscriberSegment;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
-use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignTestJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
@@ -87,11 +86,7 @@ it('can be sent', function () {
         ->to($list)
         ->send();
 
-    Queue::assertPushed(SendCampaignJob::class, function (SendCampaignJob $job) use ($campaign) {
-        expect($job->campaign->id)->toEqual($campaign->id);
-
-        return true;
-    });
+    expect($campaign->status)->toEqual(CampaignStatus::SENDING);
 });
 
 it('has a shorthand to set the list and send it in one go', function () {
@@ -104,12 +99,7 @@ it('has a shorthand to set the list and send it in one go', function () {
         ->sendTo($list);
 
     expect($campaign->refresh()->email_list_id)->toEqual($list->id);
-
-    Queue::assertPushed(SendCampaignJob::class, function (SendCampaignJob $job) use ($campaign) {
-        expect($job->campaign->id)->toEqual($campaign->id);
-
-        return true;
-    });
+    expect($campaign->status)->toEqual(CampaignStatus::SENDING);
 });
 
 test('a mailable can be set', function () {
@@ -164,13 +154,13 @@ test('html and content are not required when sending a mailable', function () {
 
     $list = EmailList::factory()->create();
 
-    Campaign::create()
+    $campaign = Campaign::create()
         ->from('test@example.com')
         ->content('my content')
         ->subject('test')
         ->sendTo($list);
 
-    Bus::assertDispatched(SendCampaignJob::class);
+    expect($campaign->status)->toEqual(CampaignStatus::SENDING);
 });
 
 it('can use the default from email and name set on the email list', function () {
@@ -181,17 +171,14 @@ it('can use the default from email and name set on the email list', function () 
         'default_from_name' => 'List name',
     ]);
 
-    Campaign::create()
+    $campaign = Campaign::create()
         ->content('my content')
         ->subject('test')
         ->sendTo($list);
 
-    Bus::assertDispatched(SendCampaignJob::class, function (SendCampaignJob $job) {
-        expect($job->campaign->from_email)->toEqual('defaultEmailList@example.com');
-        expect($job->campaign->from_name)->toEqual('List name');
-
-        return true;
-    });
+    expect($campaign->status)->toEqual(CampaignStatus::SENDING);
+    expect($campaign->from_email)->toEqual('defaultEmailList@example.com');
+    expect($campaign->from_name)->toEqual('List name');
 });
 
 it('can use the default reply to email and name set on the email list', function () {
@@ -202,17 +189,14 @@ it('can use the default reply to email and name set on the email list', function
         'default_reply_to_name' => 'List name',
     ]);
 
-    Campaign::create()
+    $campaign = Campaign::create()
         ->content('my content')
         ->subject('test')
         ->sendTo($list);
 
-    Bus::assertDispatched(SendCampaignJob::class, function (SendCampaignJob $job) {
-        expect($job->campaign->reply_to_email)->toEqual('defaultEmailList@example.com');
-        expect($job->campaign->reply_to_name)->toEqual('List name');
-
-        return true;
-    });
+    expect($campaign->status)->toEqual(CampaignStatus::SENDING);
+    expect($campaign->reply_to_email)->toEqual('defaultEmailList@example.com');
+    expect($campaign->reply_to_name)->toEqual('List name');
 });
 
 it('will prefer the email and from name from the campaign over the defaults set on the email list', function () {
@@ -223,18 +207,15 @@ it('will prefer the email and from name from the campaign over the defaults set 
         'default_from_name' => 'List name',
     ]);
 
-    Campaign::create()
+    $campaign = Campaign::create()
         ->content('my content')
         ->subject('test')
         ->from('campaign@example.com', 'campaign from name')
         ->sendTo($list);
 
-    Bus::assertDispatched(SendCampaignJob::class, function (SendCampaignJob $job) {
-        expect($job->campaign->from_email)->toEqual('campaign@example.com');
-        expect($job->campaign->from_name)->toEqual('campaign from name');
-
-        return true;
-    });
+    expect($campaign->status)->toEqual(CampaignStatus::SENDING);
+    expect($campaign->from_email)->toEqual('campaign@example.com');
+    expect($campaign->from_name)->toEqual('campaign from name');
 });
 
 it('will prefer the email and reply to name from the campaign over the defaults set on the email list', function () {
@@ -245,19 +226,16 @@ it('will prefer the email and reply to name from the campaign over the defaults 
         'default_reply_to_name' => 'List name',
     ]);
 
-    Campaign::create()
+    $campaign = Campaign::create()
         ->content('my content')
         ->subject('test')
         ->from('campaign@example.com', 'campaign from name')
         ->replyTo('replyToCampaign@example.com', 'reply to from campaign')
         ->sendTo($list);
 
-    Bus::assertDispatched(SendCampaignJob::class, function (SendCampaignJob $job) {
-        expect($job->campaign->reply_to_email)->toEqual('replyToCampaign@example.com');
-        expect($job->campaign->reply_to_name)->toEqual('reply to from campaign');
-
-        return true;
-    });
+    expect($campaign->status)->toEqual(CampaignStatus::SENDING);
+    expect($campaign->reply_to_email)->toEqual('replyToCampaign@example.com');
+    expect($campaign->reply_to_name)->toEqual('reply to from campaign');
 });
 
 it('has a scope that can get campaigns sent in a certain period', function () {

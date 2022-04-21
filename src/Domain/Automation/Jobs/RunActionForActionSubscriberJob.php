@@ -10,6 +10,7 @@ use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\AutomationAction;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class RunActionForActionSubscriberJob implements ShouldQueue
 {
@@ -17,6 +18,7 @@ class RunActionForActionSubscriberJob implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
     use SerializesModels;
+    use UsesMailcoachModels;
 
     public function __construct(public ActionSubscriber $actionSubscriber)
     {
@@ -37,7 +39,10 @@ class RunActionForActionSubscriberJob implements ShouldQueue
         $subscriber = $this->actionSubscriber->subscriber;
         $subscriber->setRelation('pivot', $this->actionSubscriber);
 
-        if (! $subscriber->isSubscribed()) {
+        /** @var \Spatie\Mailcoach\Domain\Automation\Models\Automation $automation */
+        $automation = $this->actionSubscriber->action->automation;
+
+        if (! $automation->newSubscribersQuery()->where($this->getSubscriberTableName() . '.id', $subscriber->id)->exists()) {
             $this->actionSubscriber->update([
                 'halted_at' => now(),
                 'run_at' => now(),

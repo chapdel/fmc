@@ -5,7 +5,7 @@
 >
     <x-slot name="nav">
         <x-mailcoach::navigation :title="$campaign->name" :backHref="route('mailcoach.campaigns')" :backLabel="__('mailcoach - Campaigns')">
-            @if ($campaign->isSendingOrSent())
+            @if ($campaign->isSendingOrSent() || $campaign->isCancelled())
             <x-mailcoach::navigation-group icon="fas fa-chart-line" :title="__('mailcoach - Performance')">
                     <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.summary', $campaign)" data-dirty-warn>
                         {{ __('mailcoach - Summary') }}

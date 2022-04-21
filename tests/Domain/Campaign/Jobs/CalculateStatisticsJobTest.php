@@ -2,12 +2,12 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailJob;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailLink;
-use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
 use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
@@ -75,7 +75,8 @@ it('can calculate statistics regarding unsubscribes', function () {
         'automation_mail_id' => $automationMail->id,
         'campaign_id' => null,
     ]);
-    dispatch_now(new SendCampaignJob($campaign));
+    $campaign->send();
+    Artisan::call('mailcoach:send-scheduled-campaigns');
     dispatch_now(new SendAutomationMailJob($send));
 
     test()->assertDatabaseHas(static::getCampaignTableName(), [
@@ -112,7 +113,8 @@ it('can calculate statistics regarding unsubscribes', function () {
 
 it('can calculate statistics regarding opens', function () {
     $campaign = (new CampaignFactory())->withSubscriberCount(5)->create(['track_opens' => true]);
-    dispatch(new SendCampaignJob($campaign));
+    $campaign->send();
+    Artisan::call('mailcoach:send-scheduled-campaigns');
 
     $automationMail = AutomationMail::factory()->create([
         'track_opens' => true,
@@ -155,7 +157,8 @@ it('can calculate statistics regarding clicks', function () {
         'html' => '<a href="https://spatie.be">Spatie</a><a href="https://flareapp.io">Flare</a><a href="https://docs.spatie.be">Docs</a>',
         'track_clicks' => true,
     ]);
-    dispatch(new SendCampaignJob($campaign));
+    $campaign->send();
+    Artisan::call('mailcoach:send-scheduled-campaigns');
 
     $automationMail = AutomationMail::factory()->create([
         'html' => '<a href="https://spatie.be">Spatie</a><a href="https://flareapp.io">Flare</a><a href="https://docs.spatie.be">Docs</a>',
@@ -206,7 +209,8 @@ it('can calculate statistics regarding clicks on individual links', function () 
         'html' => '<a href="https://spatie.be">Spatie</a>',
         'track_clicks' => true,
     ]);
-    dispatch(new SendCampaignJob($campaign));
+    $campaign->send();
+    Artisan::call('mailcoach:send-scheduled-campaigns');
 
     $automationMail = AutomationMail::factory()->create([
         'html' => '<a href="https://spatie.be">Spatie</a><a href="https://flareapp.io">Flare</a><a href="https://docs.spatie.be">Docs</a>',
@@ -258,7 +262,8 @@ it('can calculate statistics regarding bounces', function () {
         'campaign_id' => null,
     ]);
 
-    dispatch(new SendCampaignJob($campaign));
+    $campaign->send();
+    Artisan::call('mailcoach:send-scheduled-campaigns');
     dispatch(new SendAutomationMailJob($send));
 
     $campaign->sends()->first()->registerBounce();

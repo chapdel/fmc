@@ -2,6 +2,174 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.5.5 - 2022-04-21
+
+- Improve campaign summary screen performance for large campaigns
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.5.4...5.5.5
+
+## 5.5.4 - 2022-04-20
+
+- Don't mark as sent until all sends are actually sent
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.5.3...5.5.4
+
+## 5.5.3 - 2022-04-20
+
+## What's Changed
+
+- Update getting-a-license.md by @WouterBrouwers in https://github.com/spatie/laravel-mailcoach/pull/953
+- Sort subscribers by updated_at or subscribed_at by @shopbox-support in https://github.com/spatie/laravel-mailcoach/pull/954
+- Fix translations using trans_choice by @shopbox-support in https://github.com/spatie/laravel-mailcoach/pull/955
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.5.2...5.5.3
+
+## 5.5.2 - 2022-04-16
+
+## What's Changed
+
+- Fix Redis payload for the CreateSendJob being too large
+- Update audience.md by @shopbox-support in https://github.com/spatie/laravel-mailcoach/pull/943
+- Docs & links improvements by @shopbox-support in https://github.com/spatie/laravel-mailcoach/pull/944
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.5.1...5.5.2
+
+## 5.5.1 - 2022-04-12
+
+- Fix summary progress based on created sends
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.5.0...5.5.1
+
+## 5.5.0 - 2022-04-11
+
+## What's Changed
+
+- Fix typo in `CampaignLink` docs by @anselmh in https://github.com/spatie/laravel-mailcoach/pull/938
+- Dispatch the send right after creating it by @riasvdv in https://github.com/spatie/laravel-mailcoach/pull/939
+
+## New Contributors
+
+- @anselmh made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/938
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.4.7...5.5.0
+
+## 5.4.7 - 2022-04-08
+
+- Move singletons to scoped for better Octane compatibility
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.4.6...5.4.7
+
+## 5.4.6 - 2022-04-07
+
+- Don't create sends if the campaign is cancelled
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.4.5...5.4.6
+
+## 5.4.5 - 2022-04-05
+
+## What's Changed
+
+- Make filter fields configurable for transactional mails and campaigns by @Fabstilelook in https://github.com/spatie/laravel-mailcoach/pull/933
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.4.4...5.4.5
+
+## 5.4.4 - 2022-04-05
+
+## What's Changed
+
+- Refactor creating of sends to jobs for faster processing by @riasvdv in https://github.com/spatie/laravel-mailcoach/pull/932
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.4.3...5.4.4
+
+## 5.4.3 - 2022-04-02
+
+- Fix #918  segment_id in API request
+- Fix #916 filter not working with "+"
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.4.2...5.4.3
+
+## 5.4.2 - 2022-04-01
+
+- Automation actions now also verify that subscribers match the segment before going to the next step
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.4.1...5.4.2
+
+## 5.4.1 - 2022-03-31
+
+## What's Changed
+
+- Update getting-a-license.md by @WouterBrouwers in https://github.com/spatie/laravel-mailcoach/pull/920
+- Add missing translations by @cretueusebiu in https://github.com/spatie/laravel-mailcoach/pull/930
+
+## New Contributors
+
+- @WouterBrouwers made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/920
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.4.0...5.4.1
+
+## 5.4.0 - 2022-03-21
+
+- Rework how campaigns are sent for better reliability
+- Show a schedule overview on the debug screen
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.3.5...5.4.0
+
+## 5.3.5 - 2022-03-21
+
+- Improve command that dispatches sending campaigns again if the job fails for some reason
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.3.4...5.3.5
+
+## 5.3.4 - 2022-03-20
+
+- Improve SendCampaignAction query to not include subscribers that already have a send
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.3.3...5.3.4
+
+## 5.3.3 - 2022-03-18
+
+## What's Changed
+
+- Fix functions using Carbon type declaration instead of CarbonInterface by @zupolgec in https://github.com/spatie/laravel-mailcoach/pull/911
+- Hide the create button if the user has no right to create by @nessor in https://github.com/spatie/laravel-mailcoach/pull/910
+
+## New Contributors
+
+- @zupolgec made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/911
+- @nessor made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/910
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.3.2...5.3.3
+
+## 5.3.2 - 2022-03-14
+
+- Fix https://github.com/spatie/laravel-mailcoach/issues/908 - Allow eager loading of tags
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.3.1...5.3.2
+
+## 5.3.1 - 2022-03-10
+
+- Fix the webhook trigger throwing an exception when you have globally namespaced controllers - #907
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.3.0...5.3.1
+
+## 5.3.0 - 2022-03-09
+
+## What's Changed
+
+- Add TransactionalMailStored Event to the Docs by @LooxisDev in https://github.com/spatie/laravel-mailcoach/pull/893
+- Update upgrading.md by @shopbox-support in https://github.com/spatie/laravel-mailcoach/pull/895
+- Define new configs to allow default opens/clicks tracking and utm_tag… by @electronick86 in https://github.com/spatie/laravel-mailcoach/pull/900
+- Search for uuid first - fix #896
+- Don't automatically confirm unsubscribe if send is too recent - fix #905
+- Turbo doesn't handle downloads well - fix #903
+
+## New Contributors
+
+- @LooxisDev made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/893
+- @electronick86 made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/900
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.2.1...5.3.0
+
 ## 5.2.1 - 2022-02-21
 
 ## What's Changed

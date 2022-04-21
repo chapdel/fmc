@@ -20,6 +20,7 @@ use Spatie\Mailcoach\Domain\Audience\Support\PendingSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasExtraAttributes;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
@@ -142,9 +143,9 @@ class Subscriber extends Model
         return url(route('mailcoach.unsubscribe', [$this->uuid, optional($send)->uuid]));
     }
 
-    public function unsubscribeTagUrl(string $tag): string
+    public function unsubscribeTagUrl(string $tag, Send $send = null): string
     {
-        return url(route('mailcoach.unsubscribe-tag', [$this->uuid, $tag]));
+        return url(route('mailcoach.unsubscribe-tag', [$this->uuid, $tag, optional($send)->uuid]));
     }
 
     public function getStatusAttribute(): string
@@ -187,6 +188,13 @@ class Subscriber extends Model
             ->whereNotNull('unsubscribed_at');
     }
 
+    public function scopeWithoutSendsForCampaign(Builder $query, Campaign $campaign)
+    {
+        return $query->whereDoesntHave('sends', function (Builder $query) use ($campaign) {
+            $query->where('campaign_id', $campaign->id);
+        });
+    }
+
     public function addTag(string | iterable $name, string $type = null): self
     {
         $names = Arr::wrap($name);
@@ -209,6 +217,7 @@ class Subscriber extends Model
             ]);
 
             $this->tags()->attach($tag);
+            $this->tags->add($tag);
 
             event(new TagAddedEvent($this, $tag));
         }
@@ -218,10 +227,10 @@ class Subscriber extends Model
 
     public function hasTag(string $name): bool
     {
-        return $this->tags()
+        return $this->tags
             ->where('name', $name)
             ->where('email_list_id', $this->emailList->id)
-            ->exists();
+            ->count() > 0;
     }
 
     public function removeTag(string | array $name): self
@@ -240,6 +249,8 @@ class Subscriber extends Model
         }
 
         $this->tags()->detach($tags->pluck('id'));
+
+        $this->load('tags');
 
         return $this;
     }
@@ -291,14 +302,14 @@ class Subscriber extends Model
     {
         $field ??= $this->getRouteKeyName();
 
-        $subscriber = $this->getSubscriberClass()::where($field, $value)->first();
+        /** Can also bind uuid */
+        $subscriber = $this->getSubscriberClass()::where('uuid', $value)->first();
 
         if ($subscriber) {
             return $subscriber;
         }
 
-        /** Can also bind uuid */
-        return $this->getSubscriberClass()::where('uuid', $value)->firstOrFail();
+        return $this->getSubscriberClass()::where($field, $value)->firstOrFail();
     }
 
     protected static function newFactory(): SubscriberFactory

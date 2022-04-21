@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
@@ -33,6 +34,8 @@ it('can segment a test by using a query', function () {
         ->segment(TestSegmentQueryOnlyJohn::class)
         ->sendTo(test()->emailList);
 
+    Artisan::call('mailcoach:send-scheduled-campaigns');
+
     Mail::assertSent(MailcoachMail::class, 1);
 
     Mail::assertSent(MailcoachMail::class, fn (MailcoachMail $mail) => $mail->hasTo('john@example.com'));
@@ -46,8 +49,10 @@ it('can segment a test by using should send', function () {
     test()->campaign
         ->segment(TestCustomQueryOnlyShouldSendToJohn::class)
         ->sendTo(test()->emailList);
+    Artisan::call('mailcoach:send-scheduled-campaigns');
     Mail::assertSent(MailcoachMail::class, 1);
     Mail::assertSent(MailcoachMail::class, fn (MailcoachMail $mail) => $mail->hasTo('john@example.com'));
     Mail::assertNotSent(MailcoachMail::class, fn (MailcoachMail $mail) => $mail->hasTo('jane@example.com'));
+    Artisan::call('mailcoach:send-scheduled-campaigns');
     expect(test()->campaign->fresh()->isSent())->toBeTrue();
 });

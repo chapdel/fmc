@@ -263,7 +263,7 @@
     "mailcoach - Newsletter": "Newsletter",
     "mailcoach - Newsletter #1": "Newsletter #1",
     "mailcoach - Newsletter template": "Newsletter template",
-    "mailcoach - No automated mails yet. ": "No automated mails yet. ",
+    "mailcoach - No automated mails yet.": "No automated mails yet.",
     "mailcoach - No automations found.": "No automations found.",
     "mailcoach - No campaigns yet, but you‘ll need a list first, go <a href=\":emailListsLink\">create one</a>!": "No campaigns yet, but you‘ll need a list first, go <a href=\":emailListsLink\">create one</a>!",
     "mailcoach - No campaigns yet. Go write something!": "No campaigns yet. Go write something!",
@@ -531,6 +531,7 @@
     "mailcoach - has been sent to :sendsCount :subscriber": "has been sent to :sendsCount :subscriber",
     "mailcoach - is preparing to send to": "is preparing to send to",
     "mailcoach - is sending to :sendsCount/:sentToNumberOfSubscribers :subscriber of": "is sending to :sendsCount/:sentToNumberOfSubscribers :subscriber of",
+    "mailcoach - is creating :sendsCount/:sentToNumberOfSubscribers :send for": "is creating :sendsCount/:sentToNumberOfSubscribers :send for",
     "mailcoach - link|links": "link|links",
     "mailcoach - list|lists": "list|lists",
     "mailcoach - mail|mails": "mail|mails",
@@ -566,5 +567,8 @@
     "mailcoach - Send an email":  "Send an email",
     "mailcoach - Actions successfully saved to automation :automation.": "Actions successfully saved to automation :automation.",
     "mailcoach - Your automation does not contain a \"Halt\" action. This will cause the automation to keep running for subscribers in the last action and could generate more queued jobs than desired. Do this only if you intend to add more actions later.": "Your automation does not contain a \"Halt\" action. This will cause the automation to keep running for subscribers in the last action and could generate more queued jobs than desired. Do this only if you intend to add more actions later.",
-    "mailcoach - An interval of 1 minute can generate a lot of queued jobs for subscribers pending in an action. Make sure you really need this granularity.": "An interval of 1 minute can generate a lot of queued jobs for subscribers pending in an action. Make sure you really need this granularity."
+    "mailcoach - An interval of 1 minute can generate a lot of queued jobs for subscribers pending in an action. Make sure you really need this granularity.": "An interval of 1 minute can generate a lot of queued jobs for subscribers pending in an action. Make sure you really need this granularity.",
+    "mailcoach - Has tag": "Has tag",
+    "mailcoach - Has opened automation mail": "Has opened automation mail",
+    "mailcoach - Has clicked automation mail": "Has clicked automation mail"
 }

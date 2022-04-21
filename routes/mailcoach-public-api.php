@@ -16,7 +16,7 @@ Route::get('/reconfirm-subscription/{subscriberUuid}', '\\' . ReConfirmSubscribe
 
 Route::get('/unsubscribe/{subscriberUuid}/{sendUuid?}',  ['\\' .UnsubscribeController::class, 'show'])->name('mailcoach.unsubscribe');
 
-Route::get('/unsubscribe-tag/{subscriberUuid}/{tag}',  ['\\' . UnsubscribeTagController::class, 'show'])->name('mailcoach.unsubscribe-tag');
+Route::get('/unsubscribe-tag/{subscriberUuid}/{tag}/{sendUuid?}',  ['\\' . UnsubscribeTagController::class, 'show'])->name('mailcoach.unsubscribe-tag');
 
 Route::post('/unsubscribe/{subscriberUuid}/{sendUuid?}',  ['\\' .UnsubscribeController::class, 'confirm']);
 

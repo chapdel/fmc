@@ -21,7 +21,7 @@ Fuzzy searching on `email`, `first_name`, `last_name` and `tags` is possible on 
 
 Filtering on subscriber status is possible using `?filter[status]=unconfirmed`, possible values are `unconfirmed`, `subscribed` and `unsubscribed`
 
-Sorting is possible on this endpoint on `created_at`, `unsubscribed_at`, `email`, `first_name` and `last_name`. For example `?sort=-created_at` to sort descending on `created_at`
+Sorting is possible on this endpoint on `created_at`, `updated_at`, `subscribed_at`, `unsubscribed_at`, `email`, `first_name` and `last_name`. For example `?sort=-created_at` to sort descending on `created_at`
 
 As a result, you get the details of all the email list's subscribers:
 
@@ -119,6 +119,8 @@ You can pass the following fields while creating a subscriber:
 - `last_name`: nullable
 - `extra_attributes`: nullable, array
 - `tags`: array
+- `skip_confirmation`: bool
+- `skip_welcome_mail`: bool
 
 When passing tags, the tags will be synced to the subscriber.
 

@@ -1,10 +1,12 @@
 <x-mailcoach::layout-main :title="__('mailcoach - Lists')">
     <div class="table-actions">
-        <x-mailcoach::button data-modal-trigger="create-list" icon="fa-address-book" :label="__('mailcoach - Create list')" />
+        @can('create', \Spatie\Mailcoach\Domain\Shared\Support\Config::getEmailListClass())
+            <x-mailcoach::button data-modal-trigger="create-list" icon="fa-address-book" :label="__('mailcoach - Create list')" />
 
-        <x-mailcoach::modal :title="__('mailcoach - Create list')" name="create-list" :open="$errors->any()">
-            @include('mailcoach::app.emailLists.partials.create')
-        </x-mailcoach::modal>
+            <x-mailcoach::modal :title="__('mailcoach - Create list')" name="create-list" :open="$errors->any()">
+                @include('mailcoach::app.emailLists.partials.create')
+            </x-mailcoach::modal>
+        @endcan
 
         @if($emailLists->count() || $searching)
             <div class="table-filters">

@@ -113,13 +113,13 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     public function packageRegistered(): void
     {
-        $this->app->singleton(QueryString::class, fn () => new QueryString(urldecode(request()->getRequestUri())));
+        $this->app->scoped(QueryString::class, fn () => new QueryString(urldecode(request()->getRequestUri())));
 
         $this->app->singleton(Version::class, function () {
             return new Version();
         });
 
-        $this->app->singleton(SimpleThrottle::class, function () {
+        $this->app->scoped(SimpleThrottle::class, function () {
             $cache = cache()->store(config('mailcoach.campaigns.throttling.cache_store'));
 
             $simpleThrottleCache = new SimpleThrottleCache($cache);

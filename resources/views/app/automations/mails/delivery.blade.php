@@ -144,7 +144,7 @@
 
                             {{ __('mailcoach - has been sent to :sendsCount :subscriber', [
                                 'sendsCount' => $mail->sendsCount(),
-                                'subscriber' => trans_choice(__('mailcoach - subscriber|subscribers'), $mail->sendsCount())
+                                'subscriber' => trans_choice('mailcoach - subscriber|subscribers', $mail->sendsCount())
                             ]) }}
                         </p>
 

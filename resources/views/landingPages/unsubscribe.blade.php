@@ -12,7 +12,9 @@
         </form>
     </div>
 
-    <script>
-        document.getElementById("confirmationButton").click();
-    </script>
+    @if (is_null($send) || $send->created_at->isBefore(now()->subMinutes(5)))
+        <script>
+            document.getElementById("confirmationButton").click();
+        </script>
+    @endif
 @endsection

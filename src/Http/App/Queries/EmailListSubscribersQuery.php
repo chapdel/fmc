@@ -23,7 +23,7 @@ class EmailListSubscribersQuery extends QueryBuilder
         parent::__construct($subscribersQuery);
 
         $this
-            ->allowedSorts('created_at', 'unsubscribed_at', 'email', 'first_name', 'last_name', 'id')
+            ->allowedSorts('created_at', 'updated_at', 'subscribed_at', 'unsubscribed_at', 'email', 'first_name', 'last_name', 'id')
             ->allowedFilters(
                 'email',
                 AllowedFilter::custom('search', new FuzzyFilter(

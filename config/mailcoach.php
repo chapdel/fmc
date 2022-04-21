@@ -78,6 +78,22 @@ return [
             'send_mail' => \Spatie\Mailcoach\Domain\Campaign\Actions\SendMailAction::class,
             'send_test_mail' => \Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignTestAction::class,
         ],
+
+        /*
+         * Adapt these settings if you prefer other default settings for newly created campaigns
+         */
+        'default_settings' => [
+            'track_opens' => false,
+            'track_clicks' => false,
+            'utm_tags' => true,
+        ],
+
+        /**
+         * Here you can configure which fields of the campaigns you want to search in
+         * from the Campaigns section in the view. The value is an array of fields.
+         * For relations fields, you can use the dot notation (e.g. 'emailList.name').
+         */
+        'search_fields' => ['name'],
     ],
 
     'automation' => [
@@ -186,6 +202,15 @@ return [
             'send_automation_mail_job' => 'send-mail',
             'send_test_mail_job' => 'mailcoach',
         ],
+
+        /*
+         * Adapt these settings if you prefer other default settings for newly created campaigns
+         */
+        'default_settings' => [
+            'track_opens' => false,
+            'track_clicks' => false,
+            'utm_tags' => true,
+        ],
     ],
 
     'audience' => [
@@ -230,6 +255,13 @@ return [
          * By default this is a text editor that highlights HTML.
          */
         'editor' => \Spatie\Mailcoach\Domain\Shared\Support\Editor\TextEditor::class,
+
+        /**
+         * Here you can configure which fields of the transactional mails you want to search in
+         * from the Transactional Log section in the view. The value is an array of fields.
+         * For relations fields, you can use the dot notation.
+         */
+        'search_fields' => ['subject'],
     ],
 
     'shared' => [
