@@ -10,10 +10,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Mailcoach\Database\Factories\TagSegmentFactory;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class TagSegment extends Model
 {
     use HasFactory;
+    use UsesMailcoachModels;
 
     public $table = 'mailcoach_segments';
 
@@ -26,25 +28,25 @@ class TagSegment extends Model
 
     public function campaigns(): HasMany
     {
-        return $this->hasMany(config('mailcoach.models.campaign'));
+        return $this->hasMany(self::getCampaignClass());
     }
 
     public function emailList(): BelongsTo
     {
-        return $this->belongsTo(config('mailcoach.models.email_list'), 'email_list_id');
+        return $this->belongsTo(self::getEmailListClass(), 'email_list_id');
     }
 
     public function positiveTags(): BelongsToMany
     {
         return $this
-            ->belongsToMany(Tag::class, 'mailcoach_positive_segment_tags', 'segment_id', 'tag_id')
+            ->belongsToMany(self::getTagClass(), 'mailcoach_positive_segment_tags', 'segment_id', 'tag_id')
             ->orderBy('name');
     }
 
     public function negativeTags(): BelongsToMany
     {
         return $this
-            ->belongsToMany(Tag::class, 'mailcoach_negative_segment_tags', 'segment_id', 'tag_id')
+            ->belongsToMany(self::getTagClass(), 'mailcoach_negative_segment_tags', 'segment_id', 'tag_id')
             ->orderBy('name');
     }
 
@@ -60,7 +62,7 @@ class TagSegment extends Model
 
     protected function syncTags(array $tagNames, BelongsToMany $tagsRelation)
     {
-        $tags = Tag::query()->whereIn('name', $tagNames)->where('email_list_id', $this->email_list_id)->get();
+        $tags = self::getTagClass()::query()->whereIn('name', $tagNames)->where('email_list_id', $this->email_list_id)->get();
 
         $tagsRelation->sync($tags);
 

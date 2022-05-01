@@ -377,11 +377,39 @@ return [
         'send' => \Spatie\Mailcoach\Domain\Shared\Models\Send::class,
 
         /*
+         * The model you want to use as a SendFeedbackItem model. It needs to be or
+         * extend the `Spatie\Mailcoach\Domain\Shared\Models\SendFeedbackItem::class`
+         * model.
+         */
+        'send_feedback_item' => \Spatie\Mailcoach\Domain\Shared\Models\SendFeedbackItem::class,
+
+        /*
          * The model you want to use as a Subscriber model. It needs to be or
          * extend the `Spatie\Mailcoach\Domain\Audience\Models\Subscriber::class`
          * model.
          */
         'subscriber' => \Spatie\Mailcoach\Domain\Audience\Models\Subscriber::class,
+
+        /*
+         * The model you want to use as a SubscriberImport model. It needs to be or
+         * extend the `Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport::class`
+         * model.
+         */
+        'subscriber_import' => \Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport::class,
+
+        /*
+         * The model you want to use as a Tag model. It needs to be or
+         * extend the `Spatie\Mailcoach\Domain\Audience\Models\Tag::class`
+         * model.
+         */
+        'tag' => Spatie\Mailcoach\Domain\Audience\Models\Tag::class,
+
+        /*
+         * The model you want to use as a TagSegment model. It needs to be or
+         * extend the `Spatie\Mailcoach\Domain\Audience\Models\TagSegment::class`
+         * model.
+         */
+        'tag_segment' => Spatie\Mailcoach\Domain\Audience\Models\TagSegment::class,
 
         /*
          * The model you want to use as a Template model. It needs to be or
@@ -396,6 +424,20 @@ return [
          * model.
          */
         'transactional_mail' => \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail::class,
+
+        /*
+         * The model you want to use as a TransactionalMailOpen model. It needs to be or
+         * extend the `Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailOpen::class`
+         * model.
+         */
+        'transactional_mail_open' => \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailOpen::class,
+
+        /*
+         * The model you want to use as a TransactionalMailClick model. It needs to be or
+         * extend the `Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailClick::class`
+         * model.
+         */
+        'transactional_mail_click' => \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailClick::class,
 
         /*
          * The model you want to use as a TransactionalMailTemplate model. It needs to be or

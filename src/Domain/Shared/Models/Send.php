@@ -68,57 +68,57 @@ class Send extends Model
 
     public function subscriber(): BelongsTo
     {
-        return $this->belongsTo(config('mailcoach.models.subscriber'), 'subscriber_id');
+        return $this->belongsTo(self::getSubscriberClass(), 'subscriber_id');
     }
 
     public function campaign(): BelongsTo
     {
-        return $this->belongsTo(config('mailcoach.models.campaign'), 'campaign_id');
+        return $this->belongsTo(self::getCampaignClass(), 'campaign_id');
     }
 
     public function automationMail(): BelongsTo
     {
-        return $this->belongsTo(static::getAutomationMailClass(), 'automation_mail_id');
+        return $this->belongsTo(self::getAutomationMailClass(), 'automation_mail_id');
     }
 
     public function transactionalMail(): BelongsTo
     {
-        return $this->belongsTo(static::getTransactionalMailClass(), 'transactional_mail_id');
+        return $this->belongsTo(self::getTransactionalMailClass(), 'transactional_mail_id');
     }
 
     public function opens(): HasMany
     {
-        return $this->hasMany(static::getCampaignOpenClass(), 'send_id');
+        return $this->hasMany(self::getCampaignOpenClass(), 'send_id');
     }
 
     public function clicks(): HasMany
     {
-        return $this->hasMany(static::getCampaignClickClass(), 'send_id');
+        return $this->hasMany(self::getCampaignClickClass(), 'send_id');
     }
 
     public function automationMailOpens(): HasMany
     {
-        return $this->hasMany(static::getAutomationMailOpenClass(), 'send_id');
+        return $this->hasMany(self::getAutomationMailOpenClass(), 'send_id');
     }
 
     public function automationMailClicks(): HasMany
     {
-        return $this->hasMany(static::getAutomationMailClickClass(), 'send_id');
+        return $this->hasMany(self::getAutomationMailClickClass(), 'send_id');
     }
 
     public function transactionalMailOpens(): HasMany
     {
-        return $this->hasMany(TransactionalMailOpen::class, 'send_id');
+        return $this->hasMany(self::getTransactionalMailOpenClass(), 'send_id');
     }
 
     public function transactionalMailClicks(): HasMany
     {
-        return $this->hasMany(TransactionalMailClick::class, 'send_id');
+        return $this->hasMany(self::getTransactionalMailClickClass(), 'send_id');
     }
 
     public function feedback(): HasMany
     {
-        return $this->hasMany(SendFeedbackItem::class, 'send_id');
+        return $this->hasMany(self::getSendFeedbackItemClass(), 'send_id');
     }
 
     public function latestFeedback(): ?SendFeedbackItem
@@ -129,14 +129,14 @@ class Send extends Model
     public function bounces(): HasMany
     {
         return $this
-            ->hasMany(SendFeedbackItem::class)
+            ->hasMany(self::getSendFeedbackItemClass())
             ->where('type', SendFeedbackType::BOUNCE);
     }
 
     public function complaints(): HasMany
     {
         return $this
-            ->hasMany(SendFeedbackItem::class)
+            ->hasMany(self::getSendFeedbackItemClass())
             ->where('type', SendFeedbackType::COMPLAINT);
     }
 
@@ -248,7 +248,7 @@ class Send extends Model
             return null;
         }
 
-        $transactionalMailOpen = TransactionalMailOpen::create([
+        $transactionalMailOpen = self::getTransactionalMailOpenClass()::create([
             'send_id' => $this->id,
             'created_at' => $openedAt ?? now(),
         ]);
@@ -298,7 +298,7 @@ class Send extends Model
             return null;
         }
 
-        $campaignLink = static::getCampaignLinkClass()::firstOrCreate([
+        $campaignLink = self::getCampaignLinkClass()::firstOrCreate([
             'campaign_id' => $this->campaign->id,
             'url' => $url,
         ]);
@@ -323,7 +323,7 @@ class Send extends Model
         }
 
         /** @var AutomationMailLink $automationMailLink */
-        $automationMailLink = static::getAutomationMailLinkClass()::firstOrCreate([
+        $automationMailLink = self::getAutomationMailLinkClass()::firstOrCreate([
             'automation_mail_id' => $this->automationMail->id,
             'url' => $url,
         ]);
@@ -343,7 +343,7 @@ class Send extends Model
             return null;
         }
 
-        $transactionalMailClick = TransactionalMailClick::create([
+        $transactionalMailClick = self::getTransactionalMailClickClass()::create([
             'send_id' => $this->id,
             'url' => $url,
         ]);
@@ -442,7 +442,7 @@ class Send extends Model
     {
         $field ??= $this->getRouteKeyName();
 
-        return $this->getSendClass()::where($field, $value)->firstOrFail();
+        return self::getSendClass()::where($field, $value)->firstOrFail();
     }
 
     protected static function newFactory(): SendFactory
