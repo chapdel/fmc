@@ -3,7 +3,7 @@
         {{__('mailcoach - Send email') }}
         <span class="legend-accent">
             @if ($automation_mail_id)
-                {{ optional(\Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels::getAutomationMailClass()::find($automation_mail_id))->name }}
+                {{ optional(\Spatie\Mailcoach\Domain\Shared\Support\Config::getAutomationMailClass()::find($automation_mail_id))->name }}
             @endif
         </span>
     </x-slot>
