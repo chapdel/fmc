@@ -96,7 +96,7 @@ class EmailListStatistics extends Component
         $end = Date::parse($this->end);
 
         $diff = $start->diffInSeconds($end);
-        $interval = match(true) {
+        $interval = match (true) {
             $diff > 60 * 60 * 24 * 2 => 'day', // > 7 days
             default => 'hour',
         };
@@ -104,7 +104,7 @@ class EmailListStatistics extends Component
         $start = $start->startOf($interval === 'hour' ? 'day' : $interval);
         $end = $end->endOf($interval === 'hour' ? 'day' : $interval);
 
-        $dateFormat = match($interval) {
+        $dateFormat = match ($interval) {
             'hour' => '%Y-%m-%d %H:%I',
             'day' => '%Y-%m-%d',
         };

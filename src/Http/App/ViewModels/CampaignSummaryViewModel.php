@@ -2,9 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\ViewModels;
 
-use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Shared\Support\Svg\BezierCurve;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\ViewModels\ViewModel;
 
