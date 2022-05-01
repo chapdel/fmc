@@ -4,7 +4,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Queue;
-use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\EverySubscriberSegment;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
@@ -19,7 +18,6 @@ use Spatie\Mailcoach\Tests\TestClasses\TestCustomQueryOnlyShouldSendToJohn;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithArguments;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithStaticHtml;
-use Spatie\TestTime\TestTime;
 
 beforeEach(function () {
     Queue::fake();
