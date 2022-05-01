@@ -19,17 +19,17 @@ class CampaignClick extends Model
 
     public function send(): BelongsTo
     {
-        return $this->belongsTo($this->getSendClass(), 'send_id');
+        return $this->belongsTo(self::getSendClass(), 'send_id');
     }
 
     public function link(): BelongsTo
     {
-        return $this->belongsTo(static::getCampaignLinkClass(), 'campaign_link_id');
+        return $this->belongsTo(self::getCampaignLinkClass(), 'campaign_link_id');
     }
 
     public function subscriber(): BelongsTo
     {
-        return $this->belongsTo(config('mailcoach.models.subscriber'), 'subscriber_id');
+        return $this->belongsTo(self::getSubscriberClass(), 'subscriber_id');
     }
 
     protected static function newFactory(): CampaignClickFactory

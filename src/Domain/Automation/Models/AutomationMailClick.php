@@ -19,12 +19,12 @@ class AutomationMailClick extends Model
 
     public function send(): BelongsTo
     {
-        return $this->belongsTo($this->getSendClass(), 'send_id');
+        return $this->belongsTo(self::getSendClass(), 'send_id');
     }
 
     public function link(): BelongsTo
     {
-        return $this->belongsTo(static::getAutomationMailLinkClass(), 'automation_mail_link_id');
+        return $this->belongsTo(self::getAutomationMailLinkClass(), 'automation_mail_link_id');
     }
 
     protected static function newFactory(): AutomationMailClickFactory

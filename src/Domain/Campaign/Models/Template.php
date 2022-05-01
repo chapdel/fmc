@@ -35,7 +35,7 @@ class Template extends Model implements HasHtmlContent
     {
         $field ??= $this->getRouteKeyName();
 
-        return $this->getTemplateClass()::where($field, $value)->firstOrFail();
+        return self::getTemplateClass()::where($field, $value)->firstOrFail();
     }
 
     protected static function newFactory(): TemplateFactory

@@ -27,12 +27,12 @@ class CampaignLink extends Model
 
     public function campaign(): BelongsTo
     {
-        return $this->belongsTo(config('mailcoach.models.campaign'), 'campaign_id');
+        return $this->belongsTo(self::getCampaignClass(), 'campaign_id');
     }
 
     public function clicks(): HasMany
     {
-        return $this->hasMany(static::getCampaignClickClass());
+        return $this->hasMany(self::getCampaignClickClass());
     }
 
     public function registerClick(Send $send, ?DateTimeInterface $clickedAt = null): CampaignClick

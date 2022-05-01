@@ -65,29 +65,29 @@ class EmailList extends Model
 
     public function allSubscribersWithoutIndex(): HasMany
     {
-        return $this->hasMany(config('mailcoach.models.subscriber'), 'email_list_id');
+        return $this->hasMany(self::getSubscriberClass(), 'email_list_id');
     }
 
     public function campaigns(): HasMany
     {
-        return $this->hasMany(config('mailcoach.models.campaign'), 'email_list_id');
+        return $this->hasMany(self::getCampaignClass(), 'email_list_id');
     }
 
     public function subscriberImports(): HasMany
     {
-        return $this->hasMany(SubscriberImport::class, 'email_list_id');
+        return $this->hasMany(self::getSubscriberImportClass(), 'email_list_id');
     }
 
     public function tags(): HasMany
     {
         return $this
-            ->hasMany(Tag::class, 'email_list_id')
+            ->hasMany(self::getTagClass(), 'email_list_id')
             ->orderBy('name');
     }
 
     public function segments()
     {
-        return $this->hasMany(TagSegment::class, 'email_list_id');
+        return $this->hasMany(self::getTagSegmentClass(), 'email_list_id');
     }
 
     public function scopeSummarySentMoreThanDaysAgo(Builder $query, int $days)
@@ -99,7 +99,7 @@ class EmailList extends Model
     public function allowedFormSubscriptionTags(): BelongsToMany
     {
         return $this
-            ->belongsToMany(Tag::class, 'mailcoach_email_list_allow_form_subscription_tags', 'email_list_id', 'tag_id')
+            ->belongsToMany(self::getTagClass(), 'mailcoach_email_list_allow_form_subscription_tags', 'email_list_id', 'tag_id')
             ->orderBy('name');
     }
 
@@ -115,17 +115,17 @@ class EmailList extends Model
 
     public function subscribe(string $email, array $attributes = []): Subscriber
     {
-        return $this->getSubscriberClass()::createWithEmail($email, $attributes)->subscribeTo($this);
+        return self::getSubscriberClass()::createWithEmail($email, $attributes)->subscribeTo($this);
     }
 
     public function subscribeSkippingConfirmation(string $email, array $attributes = []): Subscriber
     {
-        return $this->getSubscriberClass()::createWithEmail($email, $attributes)->skipConfirmation()->subscribeTo($this);
+        return self::getSubscriberClass()::createWithEmail($email, $attributes)->skipConfirmation()->subscribeTo($this);
     }
 
     public function isSubscribed(string $email): bool
     {
-        if (! $subscriber = $this->getSubscriberClass()::findForEmail($email, $this)) {
+        if (! $subscriber = self::getSubscriberClass()::findForEmail($email, $this)) {
             return false;
         }
 
@@ -134,7 +134,7 @@ class EmailList extends Model
 
     public function unsubscribe(string $email): bool
     {
-        if (! $subscriber = $this->getSubscriberClass()::findForEmail($email, $this)) {
+        if (! $subscriber = self::getSubscriberClass()::findForEmail($email, $this)) {
             return false;
         }
 
@@ -145,7 +145,7 @@ class EmailList extends Model
 
     public function getSubscriptionStatus(string $email): ?string
     {
-        if (! $subscriber = $this->getSubscriberClass()::findForEmail($email, $this)) {
+        if (! $subscriber = self::getSubscriberClass()::findForEmail($email, $this)) {
             return null;
         };
 

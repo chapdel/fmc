@@ -23,17 +23,17 @@ class CampaignOpen extends Model
 
     public function send(): BelongsTo
     {
-        return $this->belongsTo($this->getSendClass(), 'send_id');
+        return $this->belongsTo(self::getSendClass(), 'send_id');
     }
 
     public function campaign(): BelongsTo
     {
-        return $this->belongsTo(config('mailcoach.models.campaign'), 'campaign_id');
+        return $this->belongsTo(self::getCampaignClass(), 'campaign_id');
     }
 
     public function subscriber(): BelongsTo
     {
-        return $this->belongsTo(config('mailcoach.models.subscriber'), 'subscriber_id');
+        return $this->belongsTo(self::getSubscriberClass(), 'subscriber_id');
     }
 
     protected static function newFactory(): CampaignOpenFactory

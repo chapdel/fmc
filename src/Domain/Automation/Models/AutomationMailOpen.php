@@ -23,7 +23,7 @@ class AutomationMailOpen extends Model
 
     public function send(): BelongsTo
     {
-        return $this->belongsTo($this->getSendClass(), 'send_id');
+        return $this->belongsTo(self::getSendClass(), 'send_id');
     }
 
     protected static function newFactory(): AutomationMailOpenFactory

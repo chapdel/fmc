@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Mailcoach\Database\Factories\SubscriberImportFactory;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -18,6 +19,7 @@ class SubscriberImport extends Model implements HasMedia
     use HasUuid;
     use HasFactory;
     use MassPrunable;
+    use UsesMailcoachModels;
 
     public $table = 'mailcoach_subscriber_imports';
 
@@ -41,7 +43,7 @@ class SubscriberImport extends Model implements HasMedia
 
     public function emailList(): BelongsTo
     {
-        return $this->belongsTo(config('mailcoach.models.email_list'), 'email_list_id');
+        return $this->belongsTo(self::getEmailListClass(), 'email_list_id');
     }
 
     public function registerMediaCollections(): void

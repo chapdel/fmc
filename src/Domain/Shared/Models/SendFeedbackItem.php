@@ -17,7 +17,7 @@ class SendFeedbackItem extends Model
 
     public function send(): BelongsTo
     {
-        return $this->belongsTo($this->getSendClass());
+        return $this->belongsTo(self::getSendClass());
     }
 
     public function getFormattedTypeAttribute(): string
@@ -27,6 +27,6 @@ class SendFeedbackItem extends Model
             SendFeedbackType::COMPLAINT => __('mailcoach - Received complaint'),
         ];
 
-        return (string)$formattedTypes[$this->type] ?? '';
+        return (string) ($formattedTypes[$this->type] ?? '');
     }
 }

@@ -4,6 +4,9 @@ namespace Spatie\Mailcoach\Domain\Shared\Traits;
 
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
+use Spatie\Mailcoach\Domain\Audience\Models\Tag;
+use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
@@ -20,7 +23,10 @@ use Spatie\Mailcoach\Domain\Campaign\Models\CampaignOpen;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignUnsubscribe;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Models\SendFeedbackItem;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailClick;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailOpen;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 
 trait UsesMailcoachModels
@@ -62,9 +68,15 @@ trait UsesMailcoachModels
     }
 
     /** @return class-string<Send> */
-    public function getSendClass(): string
+    public static function getSendClass(): string
     {
         return config('mailcoach.models.send', Send::class);
+    }
+
+    /** @return class-string<SendFeedbackItem> */
+    public static function getSendFeedbackItemClass(): string
+    {
+        return config('mailcoach.models.send_feedback_item', SendFeedbackItem::class);
     }
 
     /** @return class-string<Automation> */
@@ -128,9 +140,21 @@ trait UsesMailcoachModels
     }
 
     /** @return class-string<TransactionalMail> */
-    public function getTransactionalMailClass(): string
+    public static function getTransactionalMailClass(): string
     {
         return config('mailcoach.models.transactional_mail', TransactionalMail::class);
+    }
+
+    /** @return class-string<TransactionalMailOpen> */
+    public static function getTransactionalMailOpenClass(): string
+    {
+        return config('mailcoach.models.transactional_mail_open', TransactionalMailOpen::class);
+    }
+
+    /** @return class-string<TransactionalMailClick> */
+    public static function getTransactionalMailClickClass(): string
+    {
+        return config('mailcoach.models.transactional_mail_click', TransactionalMailClick::class);
     }
 
     /** @return class-string<TransactionalMailTemplate> */
@@ -143,6 +167,24 @@ trait UsesMailcoachModels
     public static function getActionSubscriberClass(): string
     {
         return config('mailcoach.models.action_subscriber', ActionSubscriber::class);
+    }
+
+    /** @return class-string<Tag> */
+    public static function getTagClass(): string
+    {
+        return config('mailcoach.models.tag', Tag::class);
+    }
+
+    /** @return class-string<TagSegment> */
+    public static function getTagSegmentClass(): string
+    {
+        return config('mailcoach.models.tag_segment', TagSegment::class);
+    }
+
+    /** @return class-string<SubscriberImport> */
+    public static function getSubscriberImportClass(): string
+    {
+        return config('mailcoach.models.subscriber_import', SubscriberImport::class);
     }
 
     public static function getEmailListTableName(): string

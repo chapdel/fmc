@@ -104,35 +104,35 @@ class Campaign extends Sendable implements Feedable
 
     public function clicks(): HasManyThrough
     {
-        return $this->hasManyThrough(static::getCampaignClickClass(), static::getCampaignLinkClass(), 'campaign_id');
+        return $this->hasManyThrough(self::getCampaignClickClass(), self::getCampaignLinkClass(), 'campaign_id');
     }
 
     public function opens(): HasMany
     {
-        return $this->hasMany(static::getCampaignOpenClass(), 'campaign_id');
+        return $this->hasMany(self::getCampaignOpenClass(), 'campaign_id');
     }
 
     public function sends(): HasMany
     {
-        return $this->hasMany($this->getSendClass(), 'campaign_id');
+        return $this->hasMany(self::getSendClass(), 'campaign_id');
     }
 
     public function unsubscribes(): HasMany
     {
-        return $this->hasMany(static::getCampaignUnsubscribeClass(), 'campaign_id');
+        return $this->hasMany(self::getCampaignUnsubscribeClass(), 'campaign_id');
     }
 
     public function bounces(): HasManyThrough
     {
         return $this
-            ->hasManyThrough(SendFeedbackItem::class, $this->getSendClass(), 'campaign_id')
+            ->hasManyThrough(self::getSendFeedbackItemClass(), self::getSendClass(), 'campaign_id')
             ->where('type', SendFeedbackType::BOUNCE);
     }
 
     public function complaints(): HasManyThrough
     {
         return $this
-            ->hasManyThrough(SendFeedbackItem::class, $this->getSendClass(), 'campaign_id')
+            ->hasManyThrough(self::getSendFeedbackItemClass(), self::getSendClass(), 'campaign_id')
             ->where('type', SendFeedbackType::COMPLAINT);
     }
 
@@ -435,33 +435,6 @@ class Campaign extends Sendable implements Feedable
         return $this;
     }
 
-    public function hasTroublesSendingOutMails(): bool
-    {
-        if ($this->status !== CampaignStatus::SENDING) {
-            return false;
-        }
-
-        if (! $this->last_modified_at) {
-            return false;
-        }
-
-        if ($this->last_modified_at->diffInHours() < 1) {
-            return false;
-        }
-
-        $latestSend = $this
-            ->sends()
-            ->whereNotNull('sent_at')
-            ->orderByDesc('sent_at')
-            ->first();
-
-        if ($latestSend->sent_at->diffInHours() < 1) {
-            return false;
-        }
-
-        return true;
-    }
-
     public function isDraft(): bool
     {
         return $this->status === CampaignStatus::DRAFT;
@@ -511,7 +484,7 @@ class Campaign extends Sendable implements Feedable
     {
         $field ??= $this->getRouteKeyName();
 
-        return $this->getCampaignClass()::where($field, $value)->firstOrFail();
+        return self::getCampaignClass()::where($field, $value)->firstOrFail();
     }
 
     public function allSendsCreated(): bool

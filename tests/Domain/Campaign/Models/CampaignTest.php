@@ -385,35 +385,6 @@ it('has scopes to get campaigns in various states', function () {
     ], Campaign::sendingOrSent()->get());
 });
 
-it('can send determine if it has troubles sending out mails', function () {
-    TestTime::freeze();
-
-    expect(test()->campaign->hasTroublesSendingOutMails())->toBeFalse();
-
-    test()->campaign->update([
-        'status' => CampaignStatus::SENDING,
-        'last_modified_at' => now(),
-    ]);
-
-    SendFactory::new()->create([
-        'campaign_id' => test()->campaign->id,
-        'sent_at' => now(),
-    ]);
-
-    $send = SendFactory::new()->create([
-        'campaign_id' => test()->campaign->id,
-        'sent_at' => null,
-    ]);
-
-    expect(test()->campaign->hasTroublesSendingOutMails())->toBeFalse();
-
-    TestTime::addHour();
-    expect(test()->campaign->hasTroublesSendingOutMails())->toBeTrue();
-
-    $send->update(['sent_at' => now()]);
-    expect(test()->campaign->hasTroublesSendingOutMails())->toBeFalse();
-});
-
 it('can inline the styles of the html', function () {
     /** @var Campaign $campaign */
     $campaign = Campaign::factory()->create(['html' => '
