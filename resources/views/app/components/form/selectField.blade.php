@@ -1,22 +1,31 @@
+@props([
+    'label' => null,
+    'name' => null,
+    'required' => false,
+    'dataConditional' => null,
+    'placeholder' => null,
+    'options' => [],
+    'value' => null,
+])
 <div class="form-field">
-    @isset($label)
-    <label class="{{ ($required ?? false) ? 'label label-required' : 'label' }}" for="{{ $name }}">
-        {{ $label }}
-    </label>
-    @endisset
+    @if($label)
+        <label class="{{ ($required ?? false) ? 'label label-required' : 'label' }}" for="{{ $name }}">
+            {{ $label }}
+        </label>
+    @endif
     <div class="select">
         <select
             name="{{ $name }}"
             id="{{ $name }}"
-            {{ ($required ?? false) ? 'required' : '' }}
-            @isset($dataConditional) data-conditional="{{ $dataConditional }}" @endisset
+            {{ $required ? 'required' : '' }}
+            @if($dataConditional) data-conditional="{{ $dataConditional }}" @endif
             {{ $attributes->except(['options']) }}
         >
-            @isset($placeholder)
-                <option value="" disabled hidden @unless(old($name, $value ?? null)) selected @endunless>{{ $placeholder }}</option>
-            @endisset
+            @if($placeholder)
+                <option value="" disabled hidden @unless(old($name, $value)) selected @endunless>{{ $placeholder }}</option>
+            @endif
             @foreach($options as $optionValue => $label)
-                <option value="{{ $optionValue }}" @if(old($name, $value ?? null) == $optionValue) selected @endif>
+                <option value="{{ $optionValue }}" @if(old($name, $value) == $optionValue) selected @endif>
                     {{ $label }}
                 </option>
             @endforeach

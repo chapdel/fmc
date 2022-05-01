@@ -27,7 +27,7 @@
     },
     "dependencies": {
         "@hotwired/turbo": "^7.1.0",
-        "alpinejs": "^2.8.1",
+        "alpinejs": "^3.10",
         "autoprefixer": "^10.2.1",
         "postcss": "^8.2.4"
     }

@@ -53,7 +53,7 @@ module.exports = {
                 32: '8rem',
             },
             maxWidth: {
-                layout: '100rem',
+                layout: '110rem',
             },
         },
     },

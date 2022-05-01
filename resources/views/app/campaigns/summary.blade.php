@@ -137,10 +137,10 @@
             </div>
 
 
-            <h2 class="markup-h2 mt-12">{{ __('mailcoach - 24-hour performance') }}</h2>
+            <h2 class="markup-h2 mt-12">{{ __('mailcoach - Performance') }}</h2>
 
             <div class="mt-6">
-                @include('mailcoach::app.campaigns.partials.chart')
+                <livewire:campaign-statistics :campaign="$campaign" />
             </div>
         @endif
 
