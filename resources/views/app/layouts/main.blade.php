@@ -20,7 +20,7 @@
                 @include('mailcoach::app.layouts.partials.headerRight')
             </x-mailcoach::navigation-group>
 
-            @can("viewAny", Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels::getCampaignClass())
+            @can("viewAny", \Spatie\Mailcoach\Domain\Shared\Support\Config::getCampaignClass())
             <x-mailcoach::navigation-group icon="far fa-envelope-open" :title="__('mailcoach - Newsletter')">
                 <x-mailcoach::navigation-item :href="route('mailcoach.campaigns')">
                     {{ __('mailcoach - Campaigns') }}
@@ -40,7 +40,7 @@
                 </x-mailcoach::navigation-item>
             </x-mailcoach::navigation-group>
 
-            @can("viewAny", Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels::getEmailListClass())
+            @can("viewAny", \Spatie\Mailcoach\Domain\Shared\Support\Config::getEmailListClass())
             <x-mailcoach::navigation-group icon="far fa-address-book" :title="__('mailcoach - Audience')">
                 <x-mailcoach::navigation-item :href="route('mailcoach.emailLists')">
                     {{ __('mailcoach - Lists') }}
