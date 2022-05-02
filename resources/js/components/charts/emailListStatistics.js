@@ -59,6 +59,10 @@ document.addEventListener('alpine:init', () => {
                     maintainAspectRatio: false,
                     responsive: true,
                     barPercentage : .70,
+                    interaction: {
+                        intersect: false,
+                        mode: 'index',
+                    },
                     plugins: {
                         zoom: {
                             pan: {

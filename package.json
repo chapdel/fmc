@@ -9,13 +9,14 @@
         "prod": "yarn run production",
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
         "format": "prettier 'resources/**/*.{css,js,json,css,ts,tsx}' '*.{js,css}' --write",
-        "type-check": "tsc --noEmit"
+        "type-check": "tsc --noEmit",
+        "prepare": "husky install"
     },
     "devDependencies": {
         "choices.js": "^9.0.1",
         "cross-env": "^5.1",
         "flatpickr": "^4.6.3",
-        "husky": "^3.0.9",
+        "husky": "^7.0.0",
         "laravel-mix": "^5.0.0",
         "laravel-mix-bundle-analyzer": "^1.0.2",
         "lint-staged": "^9.5.0",
