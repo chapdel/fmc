@@ -4,6 +4,8 @@ namespace Spatie\Mailcoach\Domain\Campaign\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 use Spatie\Mailcoach\Database\Factories\TemplateFactory;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -19,7 +21,20 @@ class Template extends Model implements HasHtmlContent
 
     protected $casts = [
         'json' => 'json',
+        'contains_placeholders' => 'boolean'
     ];
+
+    public static function booted()
+    {
+        static::saving(function(Template $template) {
+            $template->contains_placeholders = $template->containsPlaceHolders();
+        });
+    }
+
+    public function campaigns(): HasMany
+    {
+        return $this->hasMany($this->getCampaignClass());
+    }
 
     public function getHtml(): ?string
     {
@@ -41,5 +56,17 @@ class Template extends Model implements HasHtmlContent
     protected static function newFactory(): TemplateFactory
     {
         return new TemplateFactory();
+    }
+
+    public function containsPlaceHolders(): bool
+    {
+        return count($this->placeHolderNames()) > 0;
+    }
+
+    public function placeHolderNames(): array
+    {
+        preg_match_all('/\[\[\[(.*?)\]\]\]/', $this->getHtml(), $matches);
+
+        return $matches[1];
     }
 }

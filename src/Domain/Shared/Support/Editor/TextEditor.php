@@ -16,7 +16,7 @@ class TextEditor implements Editor
         $automationMailClass = config('mailcoach.models.automation_mail', AutomationMail::class);
         $templateClass = config('mailcoach.models.template', Template::class);
         $transactionalMailTemplateClass = config('mailcoach.models.transactional_mail_template', TransactionalMailTemplate::class);
-        
+
         return match ($model::class) {
             $campaignClass => $this->renderForCampaign($model),
             $templateClass => $this->renderForCampaignTemplate($model),
@@ -28,7 +28,6 @@ class TextEditor implements Editor
     protected function renderForCampaign(HasHtmlContent $model): string
     {
         return (string)view('mailcoach::app.campaigns.partials.textEditor', [
-            'html' => $model->getHtml(),
             'campaign' => $model,
         ])->render();
     }

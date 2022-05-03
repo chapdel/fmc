@@ -332,6 +332,8 @@
     "mailcoach - Run": "Run",
     "mailcoach - Run automation": "Run automation",
     "mailcoach - Save": "Save",
+    "mailcoach - Save and send test": "Save and send test",
+
     "mailcoach - Save actions": "Save actions",
     "mailcoach - Save content": "Save content",
     "mailcoach - Save content of mail": "Save content of mail",

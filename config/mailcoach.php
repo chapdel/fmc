@@ -450,7 +450,7 @@ return [
          * extend the `Spatie\Mailcoach\Domain\Automation\Models\AutomationMailOpen::class`
          * model.
          */
-        'automation_mail_open' => \Spatie\Mailcoach\Domain\Automation\Models\AutomationMailOpen::class,
+          'automation_mail_open' => \Spatie\Mailcoach\Domain\Automation\Models\AutomationMailOpen::class,
 
         /*
          * The model you want to use as a Campaign model. It needs to be or

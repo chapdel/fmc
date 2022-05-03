@@ -10,7 +10,10 @@
         rows="20"
         id="{{ $name }}"
         name="{{ $name }}"
+
+        @if(! ($noPreviewSource ?? false))
         data-html-preview-source
+        @endunless
         @if($disabled ?? false) disabled @endif
     >{{ old($name, $value ?? '') }}</textarea>
     @error($name)

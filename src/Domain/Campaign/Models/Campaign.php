@@ -4,8 +4,10 @@ namespace Spatie\Mailcoach\Domain\Campaign\Models;
 
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use PHPStan\Type\Generic\TemplateArrayType;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
 use Spatie\Mailcoach\Database\Factories\CampaignFactory;
@@ -39,6 +41,7 @@ class Campaign extends Sendable implements Feedable
         'all_sends_created_at' => 'datetime',
         'all_sends_dispatched_at' => 'datetime',
         'summary_mail_sent_at' => 'datetime',
+        'fields' => 'collection',
     ];
 
     public static function booted()
@@ -95,6 +98,11 @@ class Campaign extends Sendable implements Feedable
         $query
             ->whereNotNull('sent_at')
             ->where('sent_at', '<=', now()->subDays($daysAgo)->toDateTimeString());
+    }
+
+    public function template(): BelongsTo
+    {
+        return $this->belongsTo($this->getTemplateClass());
     }
 
     public function links(): HasMany
@@ -545,5 +553,10 @@ class Campaign extends Sendable implements Feedable
     protected static function newFactory(): CampaignFactory
     {
         return new CampaignFactory();
+    }
+
+    public function getFieldContent(string $fieldName): string
+    {
+        return $this->fields?->get($fieldName) ?? '';
     }
 }

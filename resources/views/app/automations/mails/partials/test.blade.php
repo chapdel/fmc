@@ -17,6 +17,6 @@
             />
         </div>
 
-        <x-mailcoach::button class="ml-2" :label="__('mailcoach - Send test')"/>
+        <x-mailcoach::button class="ml-2" :label="__('mailcoach - Send Test')"/>
     </div>
 </form>

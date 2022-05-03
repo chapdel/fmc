@@ -63,6 +63,7 @@ use Spatie\Mailcoach\Domain\Campaign\Listeners\AddCampaignClickedTag;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\AddCampaignOpenedTag;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\SendCampaignSentEmail;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\SetWebhookCallProcessedAt;
+use Spatie\Mailcoach\Domain\Campaign\Livewire\TextAreaEditorComponent;
 use Spatie\Mailcoach\Domain\Shared\Commands\CheckLicenseCommand;
 use Spatie\Mailcoach\Domain\Shared\Commands\CleanupProcessedFeedbackCommand;
 use Spatie\Mailcoach\Domain\Shared\Commands\RetryPendingSendsCommand;
@@ -265,6 +266,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.components.form.tagsField', 'mailcoach::tags-field');
         Blade::component('mailcoach::app.components.form.textField', 'mailcoach::text-field');
         Blade::component('mailcoach::app.components.form.htmlField', 'mailcoach::html-field');
+        Blade::component('mailcoach::app.components.form.templateChooser', 'mailcoach::template-chooser');
+
         Blade::component('mailcoach::app.components.form.dateField', 'mailcoach::date-field');
         Blade::component('mailcoach::app.components.form.fieldset', 'mailcoach::fieldset');
         Blade::component(DateTimeFieldComponent::class, 'mailcoach::date-time-field');
@@ -327,6 +330,9 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootLivewireComponents(): self
     {
+        Livewire::component('text-area-editor', TextAreaEditorComponent::class);
+
+
         Livewire::component('automation-actions', AutomationActionsFormComponent::class);
         Livewire::component('automation-settings', AutomationSettingsComponent::class);
         Livewire::component('run-automation', RunAutomationComponent::class);
