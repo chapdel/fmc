@@ -13,7 +13,6 @@ use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
-use Spatie\Mailcoach\Domain\Shared\Models\SendFeedbackItem;
 use Spatie\Mailcoach\Domain\Shared\Support\CalculateStatisticsLock;
 
 class AutomationMail extends Sendable
@@ -29,8 +28,8 @@ class AutomationMail extends Sendable
     {
         return $this
             ->hasManyThrough(
-                static::getAutomationMailOpenClass(),
-                $this->getSendClass(),
+                self::getAutomationMailOpenClass(),
+                self::getSendClass(),
                 'automation_mail_id'
             )
             ->orderBy('created_at');
@@ -40,8 +39,8 @@ class AutomationMail extends Sendable
     {
         return $this
             ->hasManyThrough(
-                static::getAutomationMailClickClass(),
-                $this->getSendClass(),
+                self::getAutomationMailClickClass(),
+                self::getSendClass(),
                 'automation_mail_id'
             )
             ->orderBy('created_at');
@@ -49,7 +48,7 @@ class AutomationMail extends Sendable
 
     public function sends(): HasMany
     {
-        return $this->hasMany($this->getSendClass(), 'automation_mail_id');
+        return $this->hasMany(self::getSendClass(), 'automation_mail_id');
     }
 
     public function unsubscribes(): HasMany
@@ -60,14 +59,14 @@ class AutomationMail extends Sendable
     public function bounces(): HasManyThrough
     {
         return $this
-            ->hasManyThrough(SendFeedbackItem::class, $this->getSendClass(), 'automation_mail_id')
+            ->hasManyThrough(self::getSendFeedbackItemClass(), self::getSendClass(), 'automation_mail_id')
             ->where('type', SendFeedbackType::BOUNCE);
     }
 
     public function complaints(): HasManyThrough
     {
         return $this
-            ->hasManyThrough(SendFeedbackItem::class, $this->getSendClass(), 'automation_mail_id')
+            ->hasManyThrough(self::getSendFeedbackItemClass(), self::getSendClass(), 'automation_mail_id')
             ->where('type', SendFeedbackType::COMPLAINT);
     }
 
@@ -203,7 +202,7 @@ class AutomationMail extends Sendable
     {
         $field ??= $this->getRouteKeyName();
 
-        return $this->getAutomationMailClass()::where($field, $value)->firstOrFail();
+        return self::getAutomationMailClass()::where($field, $value)->firstOrFail();
     }
 
     public function fromEmail(Subscriber $subscriber): string

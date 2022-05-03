@@ -4,7 +4,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Queue;
-use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\EverySubscriberSegment;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
@@ -19,7 +18,6 @@ use Spatie\Mailcoach\Tests\TestClasses\TestCustomQueryOnlyShouldSendToJohn;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithArguments;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithStaticHtml;
-use Spatie\TestTime\TestTime;
 
 beforeEach(function () {
     Queue::fake();
@@ -383,35 +381,6 @@ it('has scopes to get campaigns in various states', function () {
         $sendingCampaign,
         $sentCampaign,
     ], Campaign::sendingOrSent()->get());
-});
-
-it('can send determine if it has troubles sending out mails', function () {
-    TestTime::freeze();
-
-    expect(test()->campaign->hasTroublesSendingOutMails())->toBeFalse();
-
-    test()->campaign->update([
-        'status' => CampaignStatus::SENDING,
-        'last_modified_at' => now(),
-    ]);
-
-    SendFactory::new()->create([
-        'campaign_id' => test()->campaign->id,
-        'sent_at' => now(),
-    ]);
-
-    $send = SendFactory::new()->create([
-        'campaign_id' => test()->campaign->id,
-        'sent_at' => null,
-    ]);
-
-    expect(test()->campaign->hasTroublesSendingOutMails())->toBeFalse();
-
-    TestTime::addHour();
-    expect(test()->campaign->hasTroublesSendingOutMails())->toBeTrue();
-
-    $send->update(['sent_at' => now()]);
-    expect(test()->campaign->hasTroublesSendingOutMails())->toBeFalse();
 });
 
 it('can inline the styles of the html', function () {

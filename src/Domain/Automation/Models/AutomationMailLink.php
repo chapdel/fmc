@@ -32,7 +32,7 @@ class AutomationMailLink extends Model
 
     public function clicks(): HasMany
     {
-        return $this->hasMany(static::getAutomationMailClickClass());
+        return $this->hasMany(self::getAutomationMailClickClass());
     }
 
     public function registerClick(Send $send, ?DateTimeInterface $clickedAt): AutomationMailClick

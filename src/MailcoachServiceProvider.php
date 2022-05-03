@@ -25,6 +25,7 @@ use Spatie\Mailcoach\Components\THComponent;
 use Spatie\Mailcoach\Components\TransactionalMailTemplateReplacerHelpTextsComponent;
 use Spatie\Mailcoach\Domain\Audience\Commands\DeleteOldUnconfirmedSubscribersCommand;
 use Spatie\Mailcoach\Domain\Audience\Commands\SendEmailListSummaryMailCommand;
+use Spatie\Mailcoach\Domain\Audience\Livewire\EmailListStatistics;
 use Spatie\Mailcoach\Domain\Automation\Commands\CalculateAutomationMailStatisticsCommand;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationActionsCommand;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationTriggersCommand;
@@ -64,6 +65,7 @@ use Spatie\Mailcoach\Domain\Campaign\Listeners\AddCampaignOpenedTag;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\SendCampaignSentEmail;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\SetWebhookCallProcessedAt;
 use Spatie\Mailcoach\Domain\Campaign\Livewire\TextAreaEditorComponent;
+use Spatie\Mailcoach\Domain\Campaign\Livewire\CampaignStatistics;
 use Spatie\Mailcoach\Domain\Shared\Commands\CheckLicenseCommand;
 use Spatie\Mailcoach\Domain\Shared\Commands\CleanupProcessedFeedbackCommand;
 use Spatie\Mailcoach\Domain\Shared\Commands\RetryPendingSendsCommand;
@@ -351,6 +353,9 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('tag-removed-trigger', TagRemovedTriggerComponent::class);
         Livewire::component('webhook-trigger', WebhookTriggerComponent::class);
         Livewire::component('no-trigger', NoTriggerComponent::class);
+
+        Livewire::component('email-list-statistics', EmailListStatistics::class);
+        Livewire::component('campaign-statistics', CampaignStatistics::class);
 
         return $this;
     }

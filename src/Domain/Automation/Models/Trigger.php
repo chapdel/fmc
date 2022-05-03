@@ -54,7 +54,7 @@ class Trigger extends Model
 
     public function automation(): BelongsTo
     {
-        return $this->belongsTo(static::getAutomationClass());
+        return $this->belongsTo(self::getAutomationClass());
     }
 
     protected static function newFactory(): TriggerFactory

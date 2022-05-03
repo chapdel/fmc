@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Mailcoach\Database\Factories\CampaignUnsubscribeFactory;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class CampaignUnsubscribe extends Model
 {
     use HasFactory;
+    use UsesMailcoachModels;
 
     public $table = 'mailcoach_campaign_unsubscribes';
 
@@ -17,12 +19,12 @@ class CampaignUnsubscribe extends Model
 
     public function campaign(): BelongsTo
     {
-        return $this->belongsTo(config('mailcoach.models.campaign'), 'campaign_id');
+        return $this->belongsTo(self::getCampaignClass(), 'campaign_id');
     }
 
     public function subscriber(): BelongsTo
     {
-        return $this->belongsTo(config('mailcoach.models.subscriber'), 'subscriber_id');
+        return $this->belongsTo(self::getSubscriberClass(), 'subscriber_id');
     }
 
     protected static function newFactory(): CampaignUnsubscribeFactory

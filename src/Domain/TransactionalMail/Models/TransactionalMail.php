@@ -32,15 +32,15 @@ class TransactionalMail extends Model
 
     public function send(): HasOne
     {
-        return $this->hasOne($this->getSendClass(), 'transactional_mail_id');
+        return $this->hasOne(self::getSendClass(), 'transactional_mail_id');
     }
 
     public function opens(): HasManyThrough
     {
         return $this
             ->hasManyThrough(
-                TransactionalMailOpen::class,
-                $this->getSendClass(),
+                self::getTransactionalMailOpenClass(),
+                self::getSendClass(),
                 'transactional_mail_id'
             )
             ->orderBy('created_at');
@@ -50,8 +50,8 @@ class TransactionalMail extends Model
     {
         return $this
             ->hasManyThrough(
-                TransactionalMailClick::class,
-                $this->getSendClass(),
+                self::getTransactionalMailClickClass(),
+                self::getSendClass(),
                 'transactional_mail_id'
             )
             ->orderBy('created_at');
@@ -92,7 +92,7 @@ class TransactionalMail extends Model
     {
         $field ??= $this->getRouteKeyName();
 
-        return $this->getTransactionalMailClass()::where($field, $value)->firstOrFail();
+        return self::getTransactionalMailClass()::where($field, $value)->firstOrFail();
     }
 
     protected static function newFactory(): TransactionalMailFactory

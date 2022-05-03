@@ -572,5 +572,6 @@
     "mailcoach - An interval of 1 minute can generate a lot of queued jobs for subscribers pending in an action. Make sure you really need this granularity.": "An interval of 1 minute can generate a lot of queued jobs for subscribers pending in an action. Make sure you really need this granularity.",
     "mailcoach - Has tag": "Has tag",
     "mailcoach - Has opened automation mail": "Has opened automation mail",
-    "mailcoach - Has clicked automation mail": "Has clicked automation mail"
+    "mailcoach - Has clicked automation mail": "Has clicked automation mail",
+    "mailcoach - Totals": "Totals"
 }

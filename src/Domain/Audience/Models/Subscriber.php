@@ -58,22 +58,22 @@ class Subscriber extends Model
 
     public function emailList(): BelongsTo
     {
-        return $this->belongsTo(config('mailcoach.models.email_list'), 'email_list_id');
+        return $this->belongsTo(self::getEmailListClass(), 'email_list_id');
     }
 
     public function sends(): HasMany
     {
-        return $this->hasMany($this->getSendClass(), 'subscriber_id');
+        return $this->hasMany(self::getSendClass(), 'subscriber_id');
     }
 
     public function opens(): HasMany
     {
-        return $this->hasMany(static::getCampaignOpenClass(), 'subscriber_id');
+        return $this->hasMany(self::getCampaignOpenClass(), 'subscriber_id');
     }
 
     public function clicks(): HasMany
     {
-        return $this->hasMany(static::getCampaignClickClass(), 'subscriber_id');
+        return $this->hasMany(self::getCampaignClickClass(), 'subscriber_id');
     }
 
     public function uniqueClicks(): HasMany
@@ -84,7 +84,7 @@ class Subscriber extends Model
     public function tags(): BelongsToMany
     {
         return $this
-            ->belongsToMany(Tag::class, 'mailcoach_email_list_subscriber_tags', 'subscriber_id', 'tag_id')
+            ->belongsToMany(self::getTagClass(), 'mailcoach_email_list_subscriber_tags', 'subscriber_id', 'tag_id')
             ->orderBy('name');
     }
 
@@ -209,7 +209,7 @@ class Subscriber extends Model
                 continue;
             }
 
-            $tag = Tag::firstOrCreate([
+            $tag = self::getTagClass()::firstOrCreate([
                 'name' => $name,
                 'email_list_id' => $this->emailList->id,
             ], [
@@ -303,13 +303,13 @@ class Subscriber extends Model
         $field ??= $this->getRouteKeyName();
 
         /** Can also bind uuid */
-        $subscriber = $this->getSubscriberClass()::where('uuid', $value)->first();
+        $subscriber = self::getSubscriberClass()::where('uuid', $value)->first();
 
         if ($subscriber) {
             return $subscriber;
         }
 
-        return $this->getSubscriberClass()::where($field, $value)->firstOrFail();
+        return self::getSubscriberClass()::where($field, $value)->firstOrFail();
     }
 
     protected static function newFactory(): SubscriberFactory
