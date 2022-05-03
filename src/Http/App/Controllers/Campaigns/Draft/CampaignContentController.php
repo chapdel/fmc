@@ -5,7 +5,6 @@ namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
-use Spatie\Mailcoach\Http\App\Requests\Campaigns\UpdateCampaignContentRequest;
 
 class CampaignContentController
 {

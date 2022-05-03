@@ -55,7 +55,7 @@ class TextAreaEditorComponent extends Component
 
         $html = $this->template->html;
 
-        foreach($this->template->placeHolderNames() as $placeHolderName) {
+        foreach ($this->template->placeHolderNames() as $placeHolderName) {
             $html = str_replace('[[[' . $placeHolderName . ']]]', $this->fields[$placeHolderName] ?? '', $html);
         }
 
@@ -131,5 +131,4 @@ class TextAreaEditorComponent extends Component
 
         return Arr::only($fields, $template->placeHolderNames());
     }
-
 }
