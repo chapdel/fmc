@@ -72,8 +72,6 @@ class TextAreaEditorComponent extends Component
         ]);
 
         // flash()->success(__('mailcoach - Campaign :campaign was updated.', ['campaign' => $campaign->name]));
-
-        ray('campaign saved');
     }
 
     public function sendTest()
@@ -114,8 +112,6 @@ class TextAreaEditorComponent extends Component
 
     public function render()
     {
-        ray('fields', $this->fields);
-
         return view('mailcoach::editors.livewire.textEditor');
     }
 
