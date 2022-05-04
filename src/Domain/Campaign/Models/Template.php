@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Mailcoach\Database\Factories\TemplateFactory;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
+use Spatie\Mailcoach\Domain\Shared\Support\TemplateRenderer;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class Template extends Model implements HasHtmlContent
@@ -59,13 +60,11 @@ class Template extends Model implements HasHtmlContent
 
     public function containsPlaceHolders(): bool
     {
-        return count($this->placeHolderNames()) > 0;
+        return (new TemplateRenderer($this->getHtml()))->containsPlaceHolders();
     }
 
     public function placeHolderNames(): array
     {
-        preg_match_all('/\[\[\[(.*?)\]\]\]/', $this->getHtml(), $matches);
-
-        return $matches[1];
+        return (new TemplateRenderer($this->getHtml()))->placeHolderNames();
     }
 }

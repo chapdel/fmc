@@ -7,6 +7,7 @@ use Illuminate\Support\Arr;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
+use Spatie\Mailcoach\Domain\Shared\Support\TemplateRenderer;
 use Spatie\ValidationRules\Rules\Delimited;
 
 class TextAreaEditorComponent extends Component
@@ -53,13 +54,9 @@ class TextAreaEditorComponent extends Component
             return;
         }
 
-        $html = $this->template->html;
+        $templateRenderer = (new TemplateRenderer($this->template->html));
 
-        foreach ($this->template->placeHolderNames() as $placeHolderName) {
-            $html = str_replace('[[[' . $placeHolderName . ']]]', $this->templateFieldValues[$placeHolderName] ?? '', $html);
-        }
-
-        $this->fullHtml = $html;
+        $this->fullHtml = $templateRenderer->render($this->templateFieldValues);;
     }
 
     public function save()
