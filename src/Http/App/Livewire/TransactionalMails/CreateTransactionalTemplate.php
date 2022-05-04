@@ -14,7 +14,7 @@ class CreateTransactionalTemplate extends Component
 
     public ?string $name = null;
 
-    public ?string $type = null;
+    public ?string $type = 'html';
 
     protected function rules()
     {

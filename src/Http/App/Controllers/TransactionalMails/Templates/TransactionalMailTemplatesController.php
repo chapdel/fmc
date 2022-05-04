@@ -14,17 +14,6 @@ class TransactionalMailTemplatesController
     use AuthorizesRequests;
     use UsesMailcoachModels;
 
-    public function index(TransactionalMailTemplateQuery $transactionalMailTemplateQuery)
-    {
-        $this->authorize('viewAny', $this->getTransactionalMailTemplateClass());
-
-        return view('mailcoach::app.transactionalMails.templates.index', [
-            'templates' => $transactionalMailTemplateQuery->paginate(),
-            'templatesQuery' => $transactionalMailTemplateQuery,
-            'templatesCount' => $this->getTransactionalMailTemplateClass()::count(),
-        ]);
-    }
-
     public function edit(TransactionalMailTemplate $template)
     {
         $this->authorize('update', $template);
@@ -46,17 +35,6 @@ class TransactionalMailTemplatesController
         flash()->success(__('mailcoach - Template :template was updated.', ['template' => $template->name]));
 
         return redirect()->back();
-    }
-
-    public function destroy(TransactionalMailTemplate $template)
-    {
-        $this->authorize('delete', $template);
-
-        $template->delete();
-
-        flash()->success(__('mailcoach - Template :template was deleted.', ['template' => $template->name]));
-
-        return redirect()->route('mailcoach.transactionalMails.templates');
     }
 
     public function duplicate(TransactionalMailTemplate $template)

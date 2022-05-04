@@ -158,7 +158,7 @@ trait UsesMailcoachModels
     }
 
     /** @return class-string<TransactionalMailTemplate> */
-    public function getTransactionalMailTemplateClass(): string
+    public static function getTransactionalMailTemplateClass(): string
     {
         return config('mailcoach.models.transactional_mail_template', TransactionalMailTemplate::class);
     }

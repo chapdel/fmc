@@ -223,12 +223,11 @@ Route::prefix('transactional-mail-log')->group(function () {
 });
 
 Route::prefix('transactional-mail-templates')->group(function () {
-    Route::get('/', ['\\' . TransactionalMailTemplatesController::class, 'index'])->name('mailcoach.transactionalMails.templates');
+    Route::get('/', '\\' . \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailTemplateIndex::class)->name('mailcoach.transactionalMails.templates');
 
     Route::prefix('{transactionalMailTemplate}')->group(function () {
         Route::get('content', ['\\' . TransactionalMailTemplatesController::class, 'edit'])->name('mailcoach.transactionalMails.templates.edit');
         Route::put('content', ['\\' . TransactionalMailTemplatesController::class, 'update']);
-        Route::delete('/', ['\\' . TransactionalMailTemplatesController::class, 'destroy'])->name('mailcoach.transactionalMails.templates.delete');
         Route::post('duplicate', ['\\' . TransactionalMailTemplatesController::class, 'duplicate'])->name('mailcoach.transactionalMails.templates.duplicate');
 
         Route::get('settings', ['\\' . TransactionalMailSettingsController::class, 'edit'])->name('mailcoach.transactionalMails.templates.settings');
