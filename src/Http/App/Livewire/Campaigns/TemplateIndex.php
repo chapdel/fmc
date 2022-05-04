@@ -20,15 +20,21 @@ class TemplateIndex extends DataTable
         ]);
     }
 
-    public function render()
+    public function getTitle(): string
     {
-        parent::render();
+        return __('mailcoach - Templates');
+    }
 
-        return view('mailcoach::app.campaigns.templates.index', [
+    public function getView(): string
+    {
+        return 'mailcoach::app.campaigns.templates.index';
+    }
+
+    public function getData(): array
+    {
+        return [
             'templates' => (new TemplatesQuery(request()))->paginate(),
             'totalTemplatesCount' => self::getTemplateClass()::count(),
-        ])->layout('mailcoach::app.layouts.main', [
-            'title' => __('mailcoach - Templates'),
-        ]);
+        ];
     }
 }

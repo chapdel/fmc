@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\Livewire;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -14,10 +15,16 @@ abstract class DataTable extends Component
     use UsesMailcoachModels;
     use WithPagination;
 
+    public bool $readyToLoad = false;
+
     public array $filter = [];
     public string $sort = 'name';
 
     protected string $defaultSort;
+
+    public abstract function getTitle(): string;
+    public abstract function getView(): string;
+    public abstract function getData(): array;
 
     public function boot()
     {
@@ -63,9 +70,21 @@ abstract class DataTable extends Component
         $this->filter = [];
     }
 
+    public function loadRows()
+    {
+        $this->readyToLoad = true;
+    }
+
     public function render()
     {
         request()->query->set('filter', $this->filter);
         request()->query->set('sort', $this->sort);
+
+        return view($this->getView(), $this->readyToLoad
+            ? $this->getData()
+            : []
+        )->layout('mailcoach::app.layouts.main', [
+            'title' => $this->getTitle(),
+        ]);
     }
 }

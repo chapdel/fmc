@@ -5,10 +5,20 @@
     'columns' => [],
     'filters' => [],
     'rowPartial' => null,
+    'modelClass' => null,
 ])
-<div>
+<div wire:init="loadRows">
     <div class="table-actions">
         {{ $actions ?? '' }}
+        @if ($modelClass)
+            @can('create', $modelClass)
+                <x-mailcoach::button x-on:click="$store.modals.open('create-{{ $name }}')" :label="__('mailcoach - Create ' . $name)"/>
+
+                <x-mailcoach::modal :title="__('mailcoach - Create ' . $name)" name="create-{{ $name }}">
+                    @livewire('mailcoach::create-' . $name)
+                </x-mailcoach::modal>
+            @endcan
+        @endif
 
         <div class="table-filters">
             @if (count($filters))
@@ -28,6 +38,22 @@
                 <x-mailcoach::search wire:model="filter.search" :placeholder="__('mailcoach - Search…')"/>
             @endif
         </div>
+    </div>
+
+    <div class="w-full text-center" wire:loading.delay.long>
+        <style>
+            @keyframes loadingpulse {
+                0%   {transform: scale(.8); opacity: .75}
+                100% {transform: scale(1.5); opacity: .9}
+            }
+        </style>
+        <span
+            style="animation: loadingpulse 0.5s alternate infinite ease-in-out;"
+            class="group w-10 h-10 inline-flex my-16 items-center justify-center bg-gradient-to-b from-blue-500 to-blue-600 text-white rounded-full">
+            <span class="flex items-center justify-center w-6 h-6 transform group-hover:scale-90 transition-transform duration-150">
+                @include('mailcoach::app.layouts.partials.logoSvg')
+            </span>
+        </span>
     </div>
 
     @if($rows->count())
@@ -61,7 +87,7 @@
             :total-count="$totalRowsCount"
             wire:click="clearFilters"
         ></x-mailcoach::table-status>
-    @else
+    @elseif($this->readyToLoad)
         @if(isset($empty))
             {{ $empty }}
         @else

@@ -20,15 +20,21 @@ class AutomationMailIndex extends DataTable
         ]);
     }
 
-    public function render()
+    public function getTitle(): string
     {
-        parent::render();
+        return __('mailcoach - Automation Emails');
+    }
 
-        return view('mailcoach::app.automations.mails.index', [
+    public function getView(): string
+    {
+        return 'mailcoach::app.automations.mails.index';
+    }
+
+    public function getData(): array
+    {
+        return [
             'automationMails' => (new AutomatedMailQuery(request()))->paginate(),
             'totalAutomationMailsCount' => self::getAutomationMailClass()::count(),
-        ])->layout('mailcoach::app.layouts.main', [
-            'title' => __('mailcoach - Automation Emails'),
-        ]);
+        ];
     }
 }

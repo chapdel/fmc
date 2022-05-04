@@ -1,4 +1,3 @@
-<!-- Modal -->
 @props([
     'name',
     'large' => false,
@@ -7,6 +6,7 @@
     'cancelText' =>  __('mailcoach - Cancel'),
 ])
 @push('modals')
+    <!-- {{ $name }} Modal -->
     <div
         x-show="$store.modals.isOpen('{{ $name }}')"
         style="display: none"

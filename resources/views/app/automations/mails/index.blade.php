@@ -1,7 +1,8 @@
 <x-mailcoach::data-table
-    name="automationMail"
-    :rows="$automationMails"
-    :totalRowsCount="$totalAutomationMailsCount"
+    name="automation-mail"
+    :modelClass="\Spatie\Mailcoach\Domain\Shared\Support\Config::getAutomationMailClass()"
+    :rows="$automationMails ?? null"
+    :totalRowsCount="$totalAutomationMailsCount ?? null"
     :columns="[
         ['attribute' => 'name', 'label' => __('mailcoach - Name')],
         ['attribute' => '-sent_to_number_of_subscribers', 'label' => __('mailcoach - Emails'), 'class' => 'w-24 th-numeric'],
@@ -11,14 +12,4 @@
         ['class' => 'w-12'],
     ]"
     rowPartial="mailcoach::app.automations.mails.partials.row"
->
-    @slot('actions')
-        @can('create', \Spatie\Mailcoach\Domain\Shared\Support\Config::getAutomationMailClass())
-            <x-mailcoach::button x-on:click="$store.modals.open('create-automation-mail')" :label="__('mailcoach - Create email')"/>
-
-            <x-mailcoach::modal :title="__('mailcoach - Create email')" name="create-automation-mail" :open="$errors->any()">
-                <livewire:mailcoach::create-automation-mail />
-            </x-mailcoach::modal>
-        @endcan
-    @endslot
-</x-mailcoach::data-table>
+/>

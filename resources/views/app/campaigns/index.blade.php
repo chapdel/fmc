@@ -1,12 +1,12 @@
 <x-mailcoach::data-table
     name="campaign"
-    :rows="$campaigns"
-    :totalRowsCount="$totalCampaignsCount"
+    :rows="$campaigns ?? null"
+    :totalRowsCount="$totalCampaignsCount ?? null"
     :filters="[
-        ['attribute' => 'status', 'value' => '', 'label' => __('mailcoach - All'), 'count' => $totalCampaignsCount],
-        ['attribute' => 'status', 'value' => 'sent', 'label' => __('mailcoach - Sent'), 'count' => $sentCampaignsCount],
-        ['attribute' => 'status', 'value' => 'scheduled', 'label' => __('mailcoach - Scheduled'), 'count' => $scheduledCampaignsCount],
-        ['attribute' => 'status', 'value' => 'draft', 'label' => __('mailcoach - Draft'), 'count' => $draftCampaignsCount],
+        ['attribute' => 'status', 'value' => '', 'label' => __('mailcoach - All'), 'count' => $totalCampaignsCount ?? null],
+        ['attribute' => 'status', 'value' => 'sent', 'label' => __('mailcoach - Sent'), 'count' => $sentCampaignsCount ?? null],
+        ['attribute' => 'status', 'value' => 'scheduled', 'label' => __('mailcoach - Scheduled'), 'count' => $scheduledCampaignsCount ?? null],
+        ['attribute' => 'status', 'value' => 'draft', 'label' => __('mailcoach - Draft'), 'count' => $draftCampaignsCount ?? null],
     ]"
     :columns="[
         ['class' => 'w-4'],
@@ -22,21 +22,21 @@
 >
     @slot('actions')
         @can('create', \Spatie\Mailcoach\Domain\Shared\Support\Config::getCampaignClass())
-            @if ($totalListsCount || $totalCampaignsCount)
+            @if ($totalListsCount ?? $totalCampaignsCount ?? false)
                 <x-mailcoach::button x-on:click="$store.modals.open('create-campaign')" :label="__('mailcoach - Create campaign')" />
-
-                <x-mailcoach::modal name="create-campaign" :title="__('mailcoach - Create campaign')" :confirm-text="__('mailcoach - Create campaign')">
-                    <livewire:mailcoach::create-campaign />
-                </x-mailcoach::modal>
             @endif
+
+            <x-mailcoach::modal name="create-campaign" :title="__('mailcoach - Create campaign')" :confirm-text="__('mailcoach - Create campaign')">
+                <livewire:mailcoach::create-campaign />
+            </x-mailcoach::modal>
         @endcan
     @endslot
 
     @slot('empty')
         <x-mailcoach::help>
-            @if($this->filter['search'])
+            @if($this->filter['search'] ?? '')
                 {{ __('mailcoach - No campaigns found.') }}
-            @elseif ($totalListsCount)
+            @elseif ($totalListsCount ?? 0)
                 {{ __('mailcoach - No campaigns yet. Go write something!') }}
             @else
                 {!! __('mailcoach - No campaigns yet, but you‘ll need a list first, go <a href=":emailListsLink">create one</a>!', ['emailListsLink' => route('mailcoach.emailLists')]) !!}

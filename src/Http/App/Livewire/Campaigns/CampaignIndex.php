@@ -22,19 +22,25 @@ class CampaignIndex extends DataTable
         ]);
     }
 
-    public function render()
+    public function getTitle(): string
     {
-        parent::render();
+        return __('mailcoach - Campaigns');
+    }
 
-        return view('mailcoach::app.campaigns.index', [
+    public function getView(): string
+    {
+        return 'mailcoach::app.campaigns.index';
+    }
+
+    public function getData(): array
+    {
+        return [
             'campaigns' => (new CampaignsQuery(request()))->paginate(),
             'totalCampaignsCount' => self::getCampaignClass()::count(),
             'totalListsCount' => static::getEmailListClass()::count(),
             'sentCampaignsCount' => static::getCampaignClass()::sendingOrSent()->count(),
             'scheduledCampaignsCount' => static::getCampaignClass()::scheduled()->count(),
             'draftCampaignsCount' => static::getCampaignClass()::draft()->count(),
-        ])->layout('mailcoach::app.layouts.main', [
-            'title' => __('mailcoach - Campaigns'),
-        ]);
+        ];
     }
 }
