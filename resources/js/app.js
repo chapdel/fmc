@@ -1,8 +1,7 @@
-import 'alpine-turbo-drive-adapter';
 import Alpine from 'alpinejs';
 import focus from '@alpinejs/focus';
 
-require('./components/turbo');
+require('./components/swup');
 require('./components/conditional');
 require('./components/confirm');
 require('./components/datepicker');

@@ -22,7 +22,7 @@
 >
     @slot('actions')
         @can('create', \Spatie\Mailcoach\Domain\Shared\Support\Config::getCampaignClass())
-            @if ($totalListsCount ?? $totalCampaignsCount ?? false)
+            @if (($totalListsCount ?? 0) && ($totalCampaignsCount ?? 0))
                 <x-mailcoach::button x-on:click="$store.modals.open('create-campaign')" :label="__('mailcoach - Create campaign')" />
             @endif
 

@@ -854,7 +854,7 @@ html {
   margin-left: -1.5rem;
   --tw-text-opacity: 1;
   color: rgba(16, 185, 129, var(--tw-text-opacity));
-  content: '\2022';
+  content: '•';
 }
 
 .markup-lists ul ul li:before {
@@ -1056,7 +1056,7 @@ code.markup-code, .markup-code code{
 
 .breadcrumbs li:before {
   display: block;
-  content: '\F105';
+  content: '\f105';
   font-family: 'Font Awesome 5 Free';
   font-weight: 900;
   opacity: 0.25;
@@ -1444,7 +1444,7 @@ code.markup-code, .markup-code code{
   font-size: 1em;
   font-family: 'Font Awesome 5 Free';
   font-weight: 900;
-  content: '\F00C';
+  content: '\f00c';
   transition: transform 0.1s;
   transform: scale(0);
 }
@@ -2498,7 +2498,7 @@ input:read-only {
   font-size: 0.8em;
   font-family: 'Font Awesome 5 Free';
   font-weight: 900;
-  content: '\F00C';
+  content: '\f00c';
   transition: transform 0.3s;
   transform: scale(1);
 }
@@ -3443,7 +3443,7 @@ select:disabled {
 /* SPATIE: added */
 
 .choices__button:after {
-  content: '\D7';
+  content: '×';
   width: 1rem;
   height: 1rem;
   display: flex;
@@ -4535,11 +4535,11 @@ span.flatpickr-weekday {
 }
 
 .flatpickr-prev-month:after {
-  content: '\F053';
+  content: '\f053';
 }
 
 .flatpickr-next-month:after {
-  content: '\F054';
+  content: '\f054';
 }
 
 .container{
@@ -14395,7 +14395,6 @@ span.flatpickr-weekday {
 .select-all{
   -webkit-user-select: all !important;
      -moz-user-select: all !important;
-      -ms-user-select: all !important;
           user-select: all !important;
 }
 
@@ -42423,7 +42422,6 @@ span.flatpickr-weekday {
   .sm\:select-all{
     -webkit-user-select: all !important;
        -moz-user-select: all !important;
-        -ms-user-select: all !important;
             user-select: all !important;
   }
 
@@ -70448,7 +70446,6 @@ span.flatpickr-weekday {
   .md\:select-all{
     -webkit-user-select: all !important;
        -moz-user-select: all !important;
-        -ms-user-select: all !important;
             user-select: all !important;
   }
 
@@ -98473,7 +98470,6 @@ span.flatpickr-weekday {
   .lg\:select-all{
     -webkit-user-select: all !important;
        -moz-user-select: all !important;
-        -ms-user-select: all !important;
             user-select: all !important;
   }
 
@@ -126498,7 +126494,6 @@ span.flatpickr-weekday {
   .xl\:select-all{
     -webkit-user-select: all !important;
        -moz-user-select: all !important;
-        -ms-user-select: all !important;
             user-select: all !important;
   }
 
@@ -154523,7 +154518,6 @@ span.flatpickr-weekday {
   .\32xl\:select-all{
     -webkit-user-select: all !important;
        -moz-user-select: all !important;
-        -ms-user-select: all !important;
             user-select: all !important;
   }
 
@@ -172726,3 +172720,4 @@ span.flatpickr-weekday {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
   }
 }
+

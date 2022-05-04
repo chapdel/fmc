@@ -4,8 +4,6 @@
     :title="$title ?? null"
 >
     <x-slot name="nav">
-
-
         <x-mailcoach::navigation>
 
             @include('mailcoach::app.layouts.partials.beforeFirstMenuItem')

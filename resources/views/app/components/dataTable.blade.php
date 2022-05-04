@@ -35,7 +35,7 @@
                 </x-mailcoach::filters>
             @endif
 
-            @if(($this->filter['search'] ?? null) || $rows->count())
+            @if(($this->filter['search'] ?? null) || ($this->filter['status'] ?? null) || $rows->count())
                 <x-mailcoach::search wire:model="filter.search" :placeholder="__('mailcoach - Search…')"/>
             @endif
         </div>
@@ -76,7 +76,7 @@
                 </thead>
                 <tbody>
                     @if($rowPartial)
-                        @foreach ($rows as $row)
+                        @foreach ($rows as $index => $row)
                             @include($rowPartial)
                         @endforeach
                     @endif
