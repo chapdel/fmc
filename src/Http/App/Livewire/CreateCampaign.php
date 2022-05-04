@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Http\App\Livewire;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Collection;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;

@@ -5,7 +5,6 @@ namespace Spatie\Mailcoach\Http\App\Livewire;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Automation\Actions\CreateAutomationAction;
-use Spatie\Mailcoach\Domain\Campaign\Actions\Templates\CreateTemplateAction;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class CreateAutomation extends Component

@@ -3,8 +3,6 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Queries\CampaignsQuery;
 

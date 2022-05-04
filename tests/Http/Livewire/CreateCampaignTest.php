@@ -1,10 +1,10 @@
 <?php
 
+use function Pest\Livewire\livewire;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignSettingsController;
 use Spatie\Mailcoach\Http\App\Livewire\CreateCampaign;
-use function Pest\Livewire\livewire;
 
 beforeEach(function () {
     EmailList::factory()->create();

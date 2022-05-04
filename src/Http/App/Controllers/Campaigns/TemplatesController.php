@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Http\App\Controllers\Campaigns;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Spatie\Mailcoach\Domain\Campaign\Actions\Templates\CreateTemplateAction;
 use Spatie\Mailcoach\Domain\Campaign\Actions\Templates\UpdateTemplateAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;

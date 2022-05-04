@@ -43,6 +43,7 @@ abstract class DataTable extends Component
     {
         if (is_null($value)) {
             unset($this->filter[$property]);
+
             return;
         }
 

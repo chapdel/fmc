@@ -2,12 +2,8 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire;
 
-use Illuminate\Http\Request;
-use Livewire\WithPagination;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Queries\CampaignsQuery;
-use Spatie\Mailcoach\Http\App\Queries\Sorts\CampaignSort;
 
 class CampaignIndex extends DataTable
 {
