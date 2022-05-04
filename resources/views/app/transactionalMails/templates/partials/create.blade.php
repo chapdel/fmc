@@ -1,7 +1,11 @@
-<form class="form-grid" action="{{ route('mailcoach.transactionalMails.templates.store') }}" method="POST">
-    @csrf
-
-    <x-mailcoach::text-field :label="__('mailcoach - Name')" name="name" :placeholder="__('mailcoach - Transactional mail template')" required />
+<form class="form-grid" wire:submit.prevent="saveTemplate" method="POST">
+    <x-mailcoach::text-field
+        :label="__('mailcoach - Name')"
+        name="name"
+        wire:model.lazy="name"
+        :placeholder="__('mailcoach - Transactional mail template')"
+        required
+    />
 
     <?php
         $editor = config('mailcoach.transactional.editor', \Spatie\Mailcoach\Domain\Shared\Support\Editor\TextEditor::class);
@@ -10,6 +14,7 @@
     <x-mailcoach::select-field
         :label="__('mailcoach - Type')"
         name="type"
+        wire:model.lazy="type"
         :options="[
             'html' => 'HTML (' . $editorName . ')',
             'markdown' => 'Markdown',
@@ -20,6 +25,6 @@
 
     <div class="form-buttons">
         <x-mailcoach::button :label="__('mailcoach - Create template')" />
-        <x-mailcoach::button-cancel />
+        <x-mailcoach::button-cancel x-on:click="$store.modals.close('create-transactional-template')" />
     </div>
 </form>

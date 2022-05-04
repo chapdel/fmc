@@ -1,13 +1,11 @@
-<form class="form-grid" action="{{ route('mailcoach.emailLists.store') }}" method="POST">
-    @csrf
-
-    <x-mailcoach::text-field :label="__('mailcoach - Name')"  name="name" :placeholder="__('mailcoach - Subscribers')" required />
-    <x-mailcoach::text-field :label="__('mailcoach - From email')" :placeholder="auth()->user()->email" name="default_from_email" type="email" required />
-    <x-mailcoach::text-field :label="__('mailcoach - From name')" :placeholder="auth()->user()->name" name="default_from_name" />
+<form class="form-grid" wire:submit.prevent="saveList" method="POST">
+    <x-mailcoach::text-field :label="__('mailcoach - Name')"  wire:model.lazy="name" name="name" :placeholder="__('mailcoach - Subscribers')" required />
+    <x-mailcoach::text-field :label="__('mailcoach - From email')" :placeholder="auth()->user()->email" wire:model.lazy="default_from_email" name="default_from_email" type="email" required />
+    <x-mailcoach::text-field :label="__('mailcoach - From name')" :placeholder="auth()->user()->name" wire:model.lazy="default_from_name" name="default_from_name" />
 
     <div class="form-buttons">
         <x-mailcoach::button :label="__('mailcoach - Create list')" />
-        <button type="button" class="button-cancel" data-modal-dismiss>
+        <button type="button" class="button-cancel"  x-on:click="$store.modals.close('create-list')">
             {{ __('mailcoach - Cancel') }}
         </button>
     </div>

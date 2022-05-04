@@ -1,9 +1,9 @@
 <x-mailcoach::layout-main :title="__('mailcoach - Automations')">
     <div class="table-actions">
-        <x-mailcoach::button data-modal-trigger="create-automation" :label="__('mailcoach - Create automation')"/>
+        <x-mailcoach::button x-on:click="$store.modals.open('create-automation')" :label="__('mailcoach - Create automation')"/>
 
-        <x-mailcoach::modal :title="__('mailcoach - Create automation')" name="create-automation" :open="$errors->any()">
-            @include('mailcoach::app.automations.partials.create')
+        <x-mailcoach::modal :title="__('mailcoach - Create automation')" name="create-automation">
+            <livewire:mailcoach::create-automation />
         </x-mailcoach::modal>
 
         @if($automations->count() || $searching)

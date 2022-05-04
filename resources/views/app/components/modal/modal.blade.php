@@ -1,15 +1,41 @@
+<!-- Modal -->
+@props([
+    'name',
+    'large' => false,
+    'title' => null,
+    'confirmText' => __('mailcoach - Confirm'),
+    'cancelText' =>  __('mailcoach - Cancel'),
+])
 @push('modals')
-    <div class="modal-backdrop | {{ ($open ?? false) ? '' : 'hidden' }}" data-modal="{{ $name }}" data-modal-backdrop>
-        <div class="modal-wrapper @isset($large) modal-wrapper-lg @endisset">
-            <button class="modal-close" tabindex="-1" data-modal-dismiss>
-                <i class="fas fa-times"></i>
-            </button>
-            <div class="modal">
-                @isset($title)
+    <div
+        x-show="$store.modals.isOpen('{{ $name }}')"
+        style="display: none"
+        x-on:keydown.escape.prevent.stop="$store.modals.close('{{ $name }}')"
+        role="dialog"
+        aria-modal="true"
+        x-id="['modal-title']"
+        :aria-labelledby="$id('modal-title')"
+        class="fixed inset-0 overflow-y-auto z-50"
+    >
+        <!-- Overlay -->
+        <div x-show="$store.modals.isOpen('{{ $name }}')" x-transition.opacity class="fixed inset-0 bg-black bg-opacity-50"></div>
+
+        <!-- Panel -->
+        <div
+            x-show="$store.modals.isOpen('{{ $name }}')" x-transition
+            x-on:click="$store.modals.close('{{ $name }}')"
+            class="relative min-h-screen flex items-center justify-center p-4"
+        >
+            <div
+                x-on:click.stop
+                x-trap.noscroll.inert="$store.modals.isOpen('{{ $name }}')"
+                class="relative modal-wrapper rounded-sm @if($large) modal-wrapper-lg @endif"
+            >
+                @if($title)
                     <header class="modal-header">
                         <span class="modal-title">{{ $title }}</span>
                     </header>
-                @endisset
+                @endif
                 <div class="modal-content scrollbar">
                     {{ $slot }}
                 </div>

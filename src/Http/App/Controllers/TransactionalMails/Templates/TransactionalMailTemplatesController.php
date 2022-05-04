@@ -26,17 +26,6 @@ class TransactionalMailTemplatesController
         ]);
     }
 
-    public function store(TransactionalMailTemplateRequest $request, CreateTemplateAction $createTemplateAction)
-    {
-        $this->authorize('create', $this->getTransactionalMailTemplateClass());
-
-        $template = $createTemplateAction->execute($request->validated());
-
-        flash()->success(__('mailcoach - Template :template was created.', ['template' => $template->name]));
-
-        return redirect()->route('mailcoach.transactionalMails.templates.edit', $template);
-    }
-
     public function edit(TransactionalMailTemplate $template)
     {
         $this->authorize('update', $template);

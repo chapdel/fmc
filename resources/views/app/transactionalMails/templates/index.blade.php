@@ -1,9 +1,9 @@
 <x-mailcoach::layout-main :title="__('mailcoach - Transactional templates')">
         <div class="table-actions">
-            <x-mailcoach::button data-modal-trigger="create-template" :label="__('mailcoach - Create template')"/>
+            <x-mailcoach::button x-on:click="$store.modals.open('create-template')" :label="__('mailcoach - Create template')"/>
 
             <x-mailcoach::modal :title="__('mailcoach - Create template')" name="create-template" :open="$errors->any()">
-                @include('mailcoach::app.transactionalMails.templates.partials.create')
+                <livewire:mailcoach::create-transactional-template />
             </x-mailcoach::modal>
 
             @if($templatesCount)

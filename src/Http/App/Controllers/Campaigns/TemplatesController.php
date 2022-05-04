@@ -33,17 +33,6 @@ class TemplatesController
         return new TemplateResource($template);
     }
 
-    public function store(TemplateRequest $request, CreateTemplateAction $createTemplateAction)
-    {
-        $this->authorize('create', static::getTemplateClass());
-
-        $template = $createTemplateAction->execute($request->validated());
-
-        flash()->success(__('mailcoach - Template :template was created.', ['template' => $template->name]));
-
-        return redirect()->route('mailcoach.templates.edit', $template);
-    }
-
     public function edit(Template $template)
     {
         $this->authorize('update', $template);
@@ -63,17 +52,6 @@ class TemplatesController
         $updateTemplateAction->execute($template, $request->validated());
 
         flash()->success(__('mailcoach - Template :template was updated.', ['template' => $template->name]));
-
-        return redirect()->route('mailcoach.templates');
-    }
-
-    public function destroy(Template $template)
-    {
-        $this->authorize('delete', $template);
-
-        $template->delete();
-
-        flash()->success(__('mailcoach - Template :template was deleted.', ['template' => $template->name]));
 
         return redirect()->route('mailcoach.templates');
     }

@@ -1,7 +1,7 @@
 <x-mailcoach::layout-list :title="__('mailcoach - Segments')" :emailList="$emailList">
     <div class="table-actions">
         <div class=buttons>
-            <x-mailcoach::button data-modal-trigger="create-segment" :label="__('mailcoach - Add segment')"/>
+            <x-mailcoach::button x-on:click="$store.modals.open('create-segment')" :label="__('mailcoach - Add segment')"/>
 
             <x-mailcoach::modal :title="__('mailcoach - Create segment')" name="create-segment" :open="$errors->any()">
                 @include('mailcoach::app.emailLists.segments.partials.create')

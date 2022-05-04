@@ -25,11 +25,6 @@ class CampaignsIndexController
             'sentCampaignsCount' => static::getCampaignClass()::sendingOrSent()->count(),
             'scheduledCampaignsCount' => static::getCampaignClass()::scheduled()->count(),
             'draftCampaignsCount' => static::getCampaignClass()::draft()->count(),
-            'templateOptions' => static::getTemplateClass()::orderBy('name')->get()
-                ->mapWithKeys(fn (Template $template) => [$template->id => $template->name])
-                ->prepend('-- None --', 0),
-            'emailListOptions' => static::getEmailListClass()::orderBy('name')->get()
-                ->mapWithKeys(fn (EmailList $list) => [$list->id => $list->name]),
         ]);
     }
 }

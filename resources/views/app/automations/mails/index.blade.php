@@ -1,9 +1,9 @@
 <x-mailcoach::layout-main :title="__('mailcoach - Emails')">
     <div class="table-actions">
-        <x-mailcoach::button data-modal-trigger="create-automation-mail" :label="__('mailcoach - Create email')"/>
+        <x-mailcoach::button x-on:click="$store.modals.open('create-automation-mail')" :label="__('mailcoach - Create email')"/>
 
         <x-mailcoach::modal :title="__('mailcoach - Create email')" name="create-automation-mail" :open="$errors->any()">
-            @include('mailcoach::app.automations.mails.partials.create')
+            <livewire:mailcoach::create-automation-mail />
         </x-mailcoach::modal>
 
         @if($totalMailsCount)

@@ -123,8 +123,8 @@
 
                 @if($campaign->html && $campaign->hasValidHtml())
                     <div class="buttons gap-4">
-                        <x-mailcoach::button-secondary data-modal-trigger="preview" :label="__('mailcoach - Preview')"/>
-                        <x-mailcoach::button-secondary data-modal-trigger="send-test" :label="__('mailcoach - Send Test')"/>
+                        <x-mailcoach::button-secondary x-on:click="$store.modals.open('preview')" :label="__('mailcoach - Preview')"/>
+                        <x-mailcoach::button-secondary x-on:click="$store.modals.open('send-test')" :label="__('mailcoach - Send Test')"/>
                     </div>
 
                     <x-mailcoach::modal :title="__('mailcoach - Preview') . ' - ' . $campaign->subject" name="preview" large>
@@ -344,7 +344,7 @@
                             class="buttons | {{ ($campaign->scheduled_at || $errors->first('scheduled_at')) ? 'hidden' : '' }}"
                             data-conditional-schedule="now"
                         >
-                            <x-mailcoach::button data-modal-trigger="send-campaign" :label="__('mailcoach - Send now')"/>
+                            <x-mailcoach::button x-on:click="$store.modals.open('send-campaign')" :label="__('mailcoach - Send now')"/>
                         </div>
                         <x-mailcoach::modal name="send-campaign">
 

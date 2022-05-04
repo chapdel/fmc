@@ -1,4 +1,4 @@
-<tr class="tr-h-double" @if($campaign->isSending()) id="campaign-row-{{ $campaign->id }}" data-poll @endif>
+<tr class="tr-h-double" @if($campaign->isSending()) id="campaign-row-{{ $campaign->id }}" wire:poll @endif>
     <td>
         @include('mailcoach::app.campaigns.partials.campaignStatusIcon', ['status' => $campaign->status])
     </td>
@@ -75,21 +75,17 @@
          <x-mailcoach::dropdown direction="left">
             <ul>
                 <li>
-                    <x-mailcoach::form-button
-                        :action="route('mailcoach.campaigns.duplicate', $campaign)"
-                    >
+                    <x-mailcoach::form-button :action="route('mailcoach.campaigns.duplicate', $campaign)">
                         <x-mailcoach::icon-label icon="fas fa-random" :text="__('mailcoach - Duplicate')" />
                     </x-mailcoach::form-button>
                 </li>
                 <li>
-                    <x-mailcoach::form-button
-                        :action="route('mailcoach.campaigns.delete', $campaign)"
-                        method="DELETE"
-                        data-confirm="true"
-                        :data-confirm-text="__('mailcoach - Are you sure you want to delete campaign :campaignName?', ['campaignName' => $campaign->name])"
+                    <x-mailcoach::confirm-button
+                        :confirm-text="__('mailcoach - Are you sure you want to delete campaign :campaignName?', ['campaignName' => $campaign->name])"
+                        onConfirm="() => $wire.deleteCampaign({{ $campaign->id }})"
                     >
                         <x-mailcoach::icon-label icon="far fa-trash-alt" :text="__('mailcoach - Delete')" :caution="true" />
-                    </x-mailcoach::form-button>
+                    </x-mailcoach::confirm-button>
                 </li>
             </ul>
         </x-mailcoach::dropdown>

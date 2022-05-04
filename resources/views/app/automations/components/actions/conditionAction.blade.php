@@ -147,7 +147,7 @@
                                 </button>
                             </div>
                             <div x-show="!collapsed">
-                                <livewire:automation-builder name="{{ $uuid }}-yes-actions" :automation="$automation" :actions="$yesActions" key="{{ $uuid }}-yes-actions" />
+                                <livewire:mailcoach::automation-builder name="{{ $uuid }}-yes-actions" :automation="$automation" :actions="$yesActions" key="{{ $uuid }}-yes-actions" />
                             </div>
                         </div>
                     </section>
@@ -165,7 +165,7 @@
                                 </button>
                             </div>
                             <div x-show="!collapsed">
-                                <livewire:automation-builder name="{{ $uuid }}-no-actions" :automation="$automation" :actions="$noActions" key="{{ $uuid}}-no-actions" />
+                                <livewire:mailcoach::automation-builder name="{{ $uuid }}-no-actions" :automation="$automation" :actions="$noActions" key="{{ $uuid}}-no-actions" />
                             </div>
                         </div>
                     </section>
