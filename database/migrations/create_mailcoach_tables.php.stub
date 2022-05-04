@@ -120,8 +120,6 @@ class CreateMailcoachTables extends Migration
 
             $table->string('status');
 
-            $table->json('fields')->nullable();
-
             $table->longText('html')->nullable();
             $table->longText('structured_html')->nullable();
             $table->longText('email_html')->nullable();

@@ -39,7 +39,6 @@ class Campaign extends Sendable implements Feedable
         'all_sends_created_at' => 'datetime',
         'all_sends_dispatched_at' => 'datetime',
         'summary_mail_sent_at' => 'datetime',
-        'fields' => 'collection',
     ];
 
     public static function booted()
@@ -49,6 +48,24 @@ class Campaign extends Sendable implements Feedable
                 $campaign->status = CampaignStatus::DRAFT;
             }
         });
+    }
+
+    public function getTemplateFieldValues(): array
+    {
+        $structuredHtml = json_decode($this->getStructuredHtml(), true) ?? [];
+
+        return $structuredHtml['templateValues'] ?? [];
+    }
+
+    public function setTemplateFieldValues(array $fieldValues = []): self
+    {
+        $structuredHtml = json_decode($this->getStructuredHtml(), true) ?? [];
+
+        $structuredHtml['templateValues'] = $fieldValues;
+
+        $this->structured_html = json_encode($structuredHtml);
+
+        return $this;
     }
 
     public static function scopeSentBetween(Builder $query, CarbonInterface $periodStart, CarbonInterface $periodEnd): void

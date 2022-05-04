@@ -16,7 +16,7 @@ class TextAreaEditorComponent extends Component
     public ?int $templateId = null;
     public ?Template $template = null;
 
-    public array $fields = [];
+    public array $templateFieldValues = [];
     public string $fullHtml = '';
 
     public string $emails = '';
@@ -25,7 +25,7 @@ class TextAreaEditorComponent extends Component
     {
         $this->campaign = $campaign;
 
-        $this->fields = $campaign->fields->toArray();
+        $this->templateFieldValues = $campaign->getTemplateFieldValues();
         $this->template = $campaign->template;
         $this->templateId = $campaign->template?->id;
     }
@@ -41,14 +41,14 @@ class TextAreaEditorComponent extends Component
         $this->template = Template::find($templateId);
 
         if (! $this->template->containsPlaceHolders()) {
-            $this->fields['html'] = $this->template->getHtml();
+            $this->templateFieldValues['html'] = $this->template->getHtml();
         }
     }
 
     public function updated()
     {
         if (! $this->template) {
-            $this->fullHtml = $this->fields['html'] ?? '';
+            $this->fullHtml = $this->templateFieldValues['html'] ?? '';
 
             return;
         }
@@ -56,7 +56,7 @@ class TextAreaEditorComponent extends Component
         $html = $this->template->html;
 
         foreach ($this->template->placeHolderNames() as $placeHolderName) {
-            $html = str_replace('[[[' . $placeHolderName . ']]]', $this->fields[$placeHolderName] ?? '', $html);
+            $html = str_replace('[[[' . $placeHolderName . ']]]', $this->templateFieldValues[$placeHolderName] ?? '', $html);
         }
 
         $this->fullHtml = $html;
@@ -64,12 +64,14 @@ class TextAreaEditorComponent extends Component
 
     public function save()
     {
-        $this->campaign->update([
-            'template_id' => $this->template?->id,
-            'fields' => $this->filterNeededFields($this->fields, $this->template),
-            'last_modified_at' => now(),
-            'html' => $this->fullHtml,
-        ]);
+        $fieldValues = $this->filterNeededFields($this->templateFieldValues, $this->template);
+
+        $this->campaign->template_id = $this->template?->id;
+        $this->campaign->last_modified_at = now();
+        $this->campaign->html = $this->fullHtml;
+        $this->campaign->setTemplateFieldValues($fieldValues);
+
+        $this->campaign->save();
 
         // flash()->success(__('mailcoach - Campaign :campaign was updated.', ['campaign' => $campaign->name]));
     }
@@ -110,11 +112,6 @@ class TextAreaEditorComponent extends Component
         // flash()->success(__('mailcoach - A test email was sent to :email.', ['email' => $emails[0]]));
     }
 
-    public function render()
-    {
-        return view('mailcoach::editors.livewire.textEditor');
-    }
-
     protected function filterNeededFields(array $fields, ?Template $template): array
     {
         if (! $template) {
@@ -126,5 +123,10 @@ class TextAreaEditorComponent extends Component
         }
 
         return Arr::only($fields, $template->placeHolderNames());
+    }
+
+    public function render()
+    {
+        return view('mailcoach::editors.livewire.textEditor');
     }
 }

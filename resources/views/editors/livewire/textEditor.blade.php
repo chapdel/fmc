@@ -14,7 +14,7 @@
                         <textarea
                             class="input input-html"
                             rows="15"
-                            wire:model="fields.{{ $placeHolderName }}"
+                            wire:model="templateFieldValues.{{ $placeHolderName }}"
                         ></textarea>
                     </div>
                 @endforeach
@@ -28,7 +28,7 @@
                         class="input input-html"
                         name="field_html"
                         rows="15"
-                        wire:model="fields.html"
+                        wire:model="templateFieldValues.html"
                     />
                 </div>
             @endif
