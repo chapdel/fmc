@@ -1,4 +1,4 @@
-<fieldset class="form-fieldset {{ $class ?? '' }} {{ (isset($focus) && $focus) ? 'form-fieldset-focus' : '' }}">
+<fieldset {{ $attributes->except('class') }} class="form-fieldset {{ $class ?? '' }} {{ (isset($focus) && $focus) ? 'form-fieldset-focus' : '' }}">
     @isset($legend)
         <div class="legend">
             {{ $legend }}

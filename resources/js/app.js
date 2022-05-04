@@ -2,7 +2,6 @@ import Alpine from 'alpinejs';
 import focus from '@alpinejs/focus';
 
 require('./components/swup');
-require('./components/conditional');
 require('./components/confirm');
 require('./components/datepicker');
 require('./components/dirty');

@@ -2,7 +2,6 @@
     'label' => null,
     'name' => null,
     'required' => false,
-    'dataConditional' => null,
     'placeholder' => null,
     'options' => [],
     'value' => null,
@@ -18,7 +17,6 @@
             name="{{ $name }}"
             id="{{ $name }}"
             {{ $required ? 'required' : '' }}
-            @if($dataConditional) data-conditional="{{ $dataConditional }}" @endif
             {{ $attributes->except(['options']) }}
         >
             @if($placeholder)

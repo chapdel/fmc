@@ -198,7 +198,7 @@
                     </span>
                 </dt>
 
-                <dd>
+                <dd x-data="{ schedule: 'now' }">
                     @if($campaign->scheduled_at)
                         <form method="POST" action="{{ route('mailcoach.campaigns.unschedule', $campaign) }}">
                             @csrf
@@ -218,27 +218,29 @@
                                 option-value="now"
                                 :value="$campaign->scheduled_at ? 'future' : 'now'"
                                 :label="__('mailcoach - Send immediately')"
-                                dataConditional="schedule"
+                                x-model="schedule"
                             />
                             <x-mailcoach::radio-field
                                 name="schedule"
                                 option-value="future"
                                 :value="($campaign->scheduled_at || $errors->first('scheduled_at')) ? 'future' : 'now'"
                                 :label="__('mailcoach - Schedule for delivery in the future')"
-                                dataConditional="schedule"
+                                x-model="schedule"
                             />
                         </div>
 
                         <form
                             method="POST"
                             action="{{ route('mailcoach.campaigns.schedule', $campaign) }}"
-                            data-conditional-schedule="future"
+                            x-show="schedule === 'future'"
                         >
                             @csrf
                             <div class="flex items-end">
-                                <x-mailcoach::date-time-field :name="'scheduled_at'"
-                                                              :value="optional($campaign->scheduled_at)->setTimezone(config('app.timezone'))"
-                                                              required/>
+                                <x-mailcoach::date-time-field
+                                    :name="'scheduled_at'"
+                                    :value="optional($campaign->scheduled_at)->setTimezone(config('app.timezone'))"
+                                    required
+                                />
 
                                 <button type="submit" class="ml-6 button">
                                     {{ __('mailcoach - Schedule delivery') }}
@@ -342,7 +344,7 @@
                     @if ($campaign->isEditable())
                         <div
                             class="buttons | {{ ($campaign->scheduled_at || $errors->first('scheduled_at')) ? 'hidden' : '' }}"
-                            data-conditional-schedule="now"
+                            x-show="schedule === 'now'"
                         >
                             <x-mailcoach::button x-on:click="$store.modals.open('send-campaign')" :label="__('mailcoach - Send now')"/>
                         </div>

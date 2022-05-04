@@ -7699,8 +7699,6 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__(/*! ./components/swup */ "./resources/js/components/swup.js");
 
-__webpack_require__(/*! ./components/conditional */ "./resources/js/components/conditional.js");
-
 __webpack_require__(/*! ./components/confirm */ "./resources/js/components/confirm.js");
 
 __webpack_require__(/*! ./components/datepicker */ "./resources/js/components/datepicker.js");
@@ -7985,55 +7983,6 @@ document.addEventListener('alpine:init', function () {
       }
     };
   });
-});
-
-/***/ }),
-
-/***/ "./resources/js/components/conditional.js":
-/*!************************************************!*\
-  !*** ./resources/js/components/conditional.js ***!
-  \************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util */ "./resources/js/util/index.js");
-
-
-function toggleConditionals(controller) {
-  var value = getValue(controller).replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0'); // addslashes
-
-  (0,_util__WEBPACK_IMPORTED_MODULE_0__.$$)("[data-conditional-".concat(controller.dataset.conditional, "]")).forEach(function (element) {
-    var isVisible = element.matches("[data-conditional-".concat(controller.dataset.conditional, "=\"").concat(value, "\"]"));
-    element.classList.toggle('hidden', !isVisible);
-  });
-  (0,_util__WEBPACK_IMPORTED_MODULE_0__.$$)("[data-conditional-unless-".concat(controller.dataset.conditional, "]")).forEach(function (element) {
-    var isVisible = !element.matches("[data-conditional-unless-".concat(controller.dataset.conditional, "=\"").concat(value, "\"]"));
-    element.classList.toggle('hidden', !isVisible);
-  });
-}
-
-function getValue(controller) {
-  if (controller.matches('[type="checkbox"]')) {
-    return String(controller.checked);
-  }
-
-  if (controller.matches('[type="radio"]')) {
-    var checkedInput = (0,_util__WEBPACK_IMPORTED_MODULE_0__.$$)("[name=\"".concat(controller.name, "\"]")).find(function (radio) {
-      return radio.checked;
-    });
-    return checkedInput ? checkedInput.value : 'null';
-  }
-
-  return controller.value;
-}
-
-window.addEventListener('turbo:load', function () {
-  (0,_util__WEBPACK_IMPORTED_MODULE_0__.$$)('[data-conditional]').forEach(toggleConditionals);
-});
-(0,_util__WEBPACK_IMPORTED_MODULE_0__.listen)('change', '[data-conditional]', function (_ref) {
-  var target = _ref.target;
-  toggleConditionals(target);
 });
 
 /***/ }),

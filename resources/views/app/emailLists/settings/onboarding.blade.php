@@ -1,5 +1,14 @@
 <x-mailcoach::layout-list :title="__('mailcoach - Onboarding')" :emailList="$emailList">
-    <form class="form-grid" method="POST">
+    <form
+        x-data="{
+            post: {{ $emailList->allow_form_subscriptions ? 'true' : 'false' }},
+            confirmation: {{ $emailList->requires_confirmation ? 'true' : 'false' }},
+            confirmationMail: '{{ $emailList->hasCustomizedConfirmationMailFields() ? 'send_custom_confirmation_mail' : 'send_default_confirmation_mail' }}',
+            welcomeMail: '{{ $emailList->welcomeMailValue() }}',
+        }"
+        class="form-grid"
+        method="POST"
+    >
         @csrf
         @method('PUT')
 
@@ -10,18 +19,22 @@
 
             <div class="form-field max-w-full">
                 <div class="checkbox-group">
-                    <x-mailcoach::checkbox-field dataConditional="confirmation" :label="__('mailcoach - Require confirmation')"
-                                    name="requires_confirmation"
-                                    :checked="$emailList->requires_confirmation"/>
+                    <x-mailcoach::checkbox-field
+                        :label="__('mailcoach - Require confirmation')"
+                        name="requires_confirmation"
+                        x-model="confirmation"
+                    />
 
-                    <x-mailcoach::checkbox-field dataConditional="post" :label="__('mailcoach - Allow POST from an external form')"
-                                    name="allow_form_subscriptions"
-                                    :checked="$emailList->allow_form_subscriptions"/>
+                    <x-mailcoach::checkbox-field
+                        :label="__('mailcoach - Allow POST from an external form')"
+                        name="allow_form_subscriptions"
+                        x-model="post"
+                    />
                     <code class="markup-code text-xs ml-8 -mt-1">&lt;form method="POST" action="{{$emailList->incomingFormSubscriptionsUrl()}}"&gt;</code>
                 </div>
             </div>
 
-            <div data-conditional-post="true" class="pl-8 max-w-xl">
+            <div x-show="post" class="pl-8 max-w-xl">
                 <x-mailcoach::tags-field
                     :label="__('mailcoach - Optionally, allow following subscriber tags')"
                     name="allowed_form_subscription_tags"
@@ -32,13 +45,12 @@
             <x-mailcoach::text-field :label="__('mailcoach - Optionally, allow following subscriber extra Attributes')" :placeholder="__('mailcoach - Attribute(s) comma separated: field1,field2')" name="allowed_form_extra_attributes" :value="$emailList->allowed_form_extra_attributes"/>
         </x-mailcoach::fieldset>
 
-
         <x-mailcoach::fieldset :legend="__('mailcoach - Landing Pages')">
             <x-mailcoach::help>
                 {!! __('mailcoach - Leave empty to use the defaults. <a class="link-dimmed" target="_blank" href=":link">Example</a>', ['link' => route("mailcoach.landingPages.example")]) !!}
             </x-mailcoach::help>
 
-            <div data-conditional-confirmation="true">
+            <div x-show="confirmation">
                 <x-mailcoach::text-field :label="__('mailcoach - Confirm subscription')" placeholder="https://" name="redirect_after_subscription_pending"
                             :value="$emailList->redirect_after_subscription_pending" type="text"/>
             </div>
@@ -51,27 +63,25 @@
                         :value="$emailList->redirect_after_unsubscribed" type="text"/>
          </x-mailcoach::fieldset>
 
-        <div data-conditional-confirmation="true">
+        <div x-show="confirmation">
             <x-mailcoach::fieldset :legend="__('mailcoach - Confirmation mail')">
                 @if(empty($emailList->confirmation_mailable_class))
                     <div class="radio-group">
                         <x-mailcoach::radio-field
                             name="confirmation_mail"
                             option-value="send_default_confirmation_mail"
-                            :value="! $emailList->hasCustomizedConfirmationMailFields()"
                             :label="__('mailcoach - Send default confirmation mail')"
-                            data-conditional="confirmation-mail"
+                            x-model="confirmationMail"
                         />
                         <x-mailcoach::radio-field
                             name="confirmation_mail"
                             option-value="send_custom_confirmation_mail"
-                            :value="$emailList->hasCustomizedConfirmationMailFields()"
                             :label="__('mailcoach - Send customized confirmation mail')"
-                            data-conditional="confirmation-mail"
+                            x-model="confirmationMail"
                         />
                     </div>
 
-                    <div class="form-grid" data-conditional-confirmation-mail="send_custom_confirmation_mail">
+                    <div class="form-grid" x-show="confirmationMail === 'send_custom_confirmation_mail'">
                         <x-mailcoach::text-field :label="__('mailcoach - Subject')" name="confirmation_mail_subject"
                                     :value="$emailList->confirmation_mail_subject" type="text"/>
 
@@ -107,35 +117,32 @@
                 <div class="radio-group">
                     <x-mailcoach::radio-field
                         name="welcome_mail"
+                        x-model="welcomeMail"
                         option-value="do_not_send_welcome_mail"
-                        :value="! $emailList->send_welcome_mail"
                         :label="__('mailcoach - Do not send a welcome mail')"
-                        data-conditional="welcome-mail"
                     />
                     <x-mailcoach::radio-field
                         name="welcome_mail"
                         option-value="send_default_welcome_mail"
-                        :value="($emailList->send_welcome_mail) && (! $emailList->hasCustomizedWelcomeMailFields())"
                         :label="__('mailcoach - Send default welcome mail')"
-                        data-conditional="welcome-mail"
+                        x-model="welcomeMail"
                     />
                     <x-mailcoach::radio-field
                         name="welcome_mail"
                         option-value="send_custom_welcome_mail"
-                        :value="$emailList->send_welcome_mail && $emailList->hasCustomizedWelcomeMailFields()"
                         :label="__('mailcoach - Send customized welcome mail')"
-                        data-conditional="welcome-mail"
+                        x-model="welcomeMail"
                     />
                 </div>
 
-                <div class="form-grid" data-conditional-unless-welcome-mail="do_not_send_welcome_mail">
+                <div class="form-grid" x-show="welcomeMail !== 'do_not_send_welcome_mail'">
                     <x-mailcoach::text-field :label="__('mailcoach - Delay sending welcome mail in minutes')"
                                 :value="$emailList->welcome_mail_delay_in_minutes"
                                 name="welcome_mail_delay_in_minutes"
                                 placeholder="Delay in minutes"/>
                 </div>
 
-                <div class="form-grid" data-conditional-welcome-mail="send_custom_welcome_mail">
+                <div class="form-grid" x-show="welcomeMail === 'send_custom_welcome_mail'">
                     <x-mailcoach::text-field :label="__('mailcoach - Subject')" name="welcome_mail_subject"
                                 :value="$emailList->welcome_mail_subject" type="text"/>
 

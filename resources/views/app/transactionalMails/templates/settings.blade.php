@@ -6,9 +6,7 @@
             @csrf
             @method('PUT')
 
-            <x-mailcoach::fieldset :legend="__('mailcoach - General')">
-
-
+            <x-mailcoach::fieldset x-data="{ type: '{{ $template->type }}' }" :legend="__('mailcoach - General')">
                 <x-mailcoach::text-field :label="__('mailcoach - Name')" name="name" :value="$template->name" required />
                 <x-mailcoach::help>
                     {{ __('mailcoach - This name is used by the application to retrieve this template. Do not change it without updating the code of your app.') }}
@@ -22,23 +20,22 @@
                 <x-mailcoach::select-field
                     :label="__('mailcoach - Format')"
                     name="type"
-                    :value="$template->type"
+                    x-model="type"
                     :options="[
                         'html' => 'HTML (' . $editorName . ')',
                         'markdown' => 'Markdown',
                         'blade' => 'Blade',
                         'blade-markdown' => 'Blade with Markdown',
                     ]"
-                    data-conditional="type"
                 />
 
-                <div data-conditional-type="blade">
-                <x-mailcoach::warning>
-                    <p class="text-sm mb-2">{{ __('mailcoach - Blade templates have the ability to run arbitrary PHP code. Only select Blade if you trust all users that have access to the Mailcoach UI.') }}</p>
-                </x-mailcoach::warning>
+                <div x-show="type === 'blade'">
+                    <x-mailcoach::warning>
+                        <p class="text-sm mb-2">{{ __('mailcoach - Blade templates have the ability to run arbitrary PHP code. Only select Blade if you trust all users that have access to the Mailcoach UI.') }}</p>
+                    </x-mailcoach::warning>
                 </div>
 
-                <div data-conditional-type="blade-markdown">
+                <div x-show="type === 'blade-markdown'">
                     <x-mailcoach::warning>
                         <p class="text-sm mb-2">{{ __('mailcoach - Blade templates have the ability to run arbitrary PHP code. Only select Blade if you trust all users that have access to the Mailcoach UI.') }}</p>
                     </x-mailcoach::warning>

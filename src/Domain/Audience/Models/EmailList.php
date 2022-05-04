@@ -189,6 +189,19 @@ class EmailList extends Model
         return false;
     }
 
+    public function welcomeMailValue(): string
+    {
+        if (! $this->send_welcome_mail) {
+            return 'do_not_send_welcome_mail';
+        }
+
+        if (! $this->hasCustomizedWelcomeMailFields()) {
+            return 'send_default_welcome_mail';
+        }
+
+        return 'send_custom_welcome_mail';
+    }
+
     public function hasCustomizedConfirmationMailFields(): bool
     {
         if (! empty($this->confirmation_mail_subject)) {

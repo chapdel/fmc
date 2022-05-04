@@ -5,9 +5,9 @@
     id="{{ $name }}"
     value="1"
     class="checkbox"
-    @isset($dataConditional) data-conditional="{{ $dataConditional }}" @endisset
-    @if(old($name, $checked)) checked @endif
+    @if(old($name, $checked ?? false)) checked @endif
     @if($disabled ?? false) disabled @endif
+    {{ $attributes }}
     >
     <span>{{ $label }}</span>
 </label>
