@@ -15,9 +15,7 @@ class ListIndex extends DataTable
 
         $list->delete();
 
-        $this->dispatchBrowserEvent('notify', [
-            'content' => __('mailcoach - List :list was deleted.', ['list' => $list->name]),
-        ]);
+        $this->flash(__('mailcoach - List :list was deleted.', ['list' => $list->name]));
     }
 
     public function getTitle(): string

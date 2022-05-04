@@ -10,6 +10,7 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 abstract class DataTable extends Component
 {
+    use LivewireFlash;
     use AuthorizesRequests;
     use UsesMailcoachModels;
     use WithPagination;

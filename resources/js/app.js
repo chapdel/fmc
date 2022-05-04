@@ -11,7 +11,6 @@ require('./components/dismiss');
 require('./components/dropdown');
 require('./components/htmlPreview');
 require('./components/nav');
-require('./components/poll');
 require('./components/segments');
 require('./components/tags');
 require('./components/charts/emailListStatistics');

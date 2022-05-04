@@ -15,9 +15,7 @@ class TemplateIndex extends DataTable
 
         $template->delete();
 
-        $this->dispatchBrowserEvent('notify', [
-            'content' => __('mailcoach - Template :template was deleted.', ['template' => $template->name]),
-        ]);
+        $this->flash(__('mailcoach - Template :template was deleted.', ['template' => $template->name]));
     }
 
     public function getTitle(): string

@@ -57,7 +57,7 @@
         </span>
     </div>
 
-    <div wire:loading.remove>
+    <div wire:loading.delay.long.remove>
 
         @if($rows->count())
             <table class="table table-fixed">
@@ -91,20 +91,22 @@
                 wire:click="clearFilters"
             ></x-mailcoach::table-status>
         @else
-            @if(isset($empty))
-                {{ $empty }}
-            @else
-                @php($plural = \Illuminate\Support\Str::plural($name))
-                @if ($this->filter['search'] ?? null)
-                    <x-mailcoach::help>
-                        {{ __("mailcoach - No {$plural} found.") }}
-                    </x-mailcoach::help>
+            <div wire:loading.remove>
+                @if(isset($empty))
+                    {{ $empty }}
                 @else
-                    <x-mailcoach::help>
-                        {{ $emptyText ?? __("mailcoach - No {$plural}.") }}
-                    </x-mailcoach::help>
+                    @php($plural = \Illuminate\Support\Str::plural($name))
+                    @if ($this->filter['search'] ?? null)
+                        <x-mailcoach::help>
+                            {{ __("mailcoach - No {$plural} found.") }}
+                        </x-mailcoach::help>
+                    @else
+                        <x-mailcoach::help>
+                            {{ $emptyText ?? __("mailcoach - No {$plural}.") }}
+                        </x-mailcoach::help>
+                    @endif
                 @endif
-            @endif
+            </div>
         @endif
     </div>
 </div>

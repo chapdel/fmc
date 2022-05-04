@@ -15,9 +15,7 @@ class AutomationMailIndex extends DataTable
 
         $automationMail->delete();
 
-        $this->dispatchBrowserEvent('notify', [
-            'content' => __('mailcoach - Automation Email :automationMail was deleted.', ['automationMail' => $automationMail->name]),
-        ]);
+        $this->flash(__('mailcoach - Automation Email :automationMail was deleted.', ['automationMail' => $automationMail->name]));
     }
 
     public function getTitle(): string

@@ -17,9 +17,7 @@ class CampaignIndex extends DataTable
 
         $campaign->delete();
 
-        $this->dispatchBrowserEvent('notify', [
-            'content' => __('mailcoach - Campaign :campaign was deleted.', ['campaign' => $campaign->name]),
-        ]);
+        $this->flash(__('mailcoach - Campaign :campaign was deleted.', ['campaign' => $campaign->name]));
     }
 
     public function getTitle(): string
