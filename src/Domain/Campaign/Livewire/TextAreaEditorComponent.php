@@ -56,7 +56,8 @@ class TextAreaEditorComponent extends Component
 
         $templateRenderer = (new TemplateRenderer($this->template->html));
 
-        $this->fullHtml = $templateRenderer->render($this->templateFieldValues);;
+        $this->fullHtml = $templateRenderer->render($this->templateFieldValues);
+        ;
     }
 
     public function save()
