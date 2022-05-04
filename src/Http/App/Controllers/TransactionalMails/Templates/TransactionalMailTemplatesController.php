@@ -6,7 +6,6 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Actions\UpdateTemplateAction;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
-use Spatie\Mailcoach\Http\App\Queries\TransactionalMailTemplateQuery;
 use Spatie\Mailcoach\Http\App\Requests\TransactionalMails\TransactionalMailTemplateRequest;
 
 class TransactionalMailTemplatesController
