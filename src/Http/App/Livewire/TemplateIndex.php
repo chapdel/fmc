@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire;
 
-use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Http\App\Queries\TemplatesQuery;
 
 class TemplateIndex extends DataTable

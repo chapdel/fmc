@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire;
 
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Queries\CampaignsQuery;
 
 class CampaignIndex extends DataTable
