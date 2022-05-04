@@ -21,15 +21,7 @@ class Template extends Model implements HasHtmlContent
 
     protected $casts = [
         'json' => 'json',
-        'contains_placeholders' => 'boolean',
     ];
-
-    public static function booted()
-    {
-        static::saving(function (Template $template) {
-            $template->contains_placeholders = $template->containsPlaceHolders();
-        });
-    }
 
     public function campaigns(): HasMany
     {

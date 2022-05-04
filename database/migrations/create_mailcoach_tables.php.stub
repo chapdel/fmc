@@ -120,6 +120,7 @@ class CreateMailcoachTables extends Migration
 
             $table->string('status');
 
+            $table->unsignedBigInteger('template_id')->nullable();
             $table->longText('html')->nullable();
             $table->longText('structured_html')->nullable();
             $table->longText('email_html')->nullable();
@@ -164,8 +165,6 @@ class CreateMailcoachTables extends Migration
             $table->timestamp('last_modified_at')->nullable();
 
             $table->timestamp('summary_mail_sent_at')->nullable();
-
-            $table->foreignIdFor(Template::class)->nullable();
 
             $table->timestamps();
         });
