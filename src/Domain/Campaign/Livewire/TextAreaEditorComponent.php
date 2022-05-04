@@ -40,14 +40,14 @@ class TextAreaEditorComponent extends Component
 
         $this->template = Template::find($templateId);
 
-        if (! $this->template->containsPlaceHolders()) {
+        if (!$this->template->containsPlaceHolders()) {
             $this->templateFieldValues['html'] = $this->template->getHtml();
         }
     }
 
     public function updated()
     {
-        if (! $this->template) {
+        if (!$this->template) {
             $this->fullHtml = $this->templateFieldValues['html'] ?? '';
 
             return;
@@ -91,7 +91,11 @@ class TextAreaEditorComponent extends Component
 
         $this->campaign->sendTestMail($sanitizedEmails);
 
-        cache()->put('mailcoach-test-email-addresses', $this->emails, (int)CarbonInterval::month()->totalSeconds);
+        cache()->put(
+            'mailcoach-test-email-addresses',
+            $this->emails,
+            (int)CarbonInterval::month()->totalSeconds,
+        );
 
         $this->flashSuccessMessage($sanitizedEmails);
 
@@ -114,11 +118,11 @@ class TextAreaEditorComponent extends Component
 
     protected function filterNeededFields(array $fields, ?Template $template): array
     {
-        if (! $template) {
+        if (!$template) {
             return Arr::only($fields, 'html');
         }
 
-        if (! $template->containsPlaceHolders()) {
+        if (!$template->containsPlaceHolders()) {
             return Arr::only($fields, 'html');
         }
 
