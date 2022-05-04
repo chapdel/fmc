@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\EmailListQuery;
-use Spatie\Mailcoach\Http\App\Queries\TemplatesQuery;
 
 class ListIndex extends DataTable
 {
