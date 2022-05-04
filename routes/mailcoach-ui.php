@@ -114,7 +114,7 @@ Route::prefix('campaigns')->group(function () {
 });
 
 Route::prefix('email-lists')->group(function () {
-    Route::get('/', '\\' . EmailListsIndexController::class)->name('mailcoach.emailLists');
+    Route::get('/', '\\' . \Spatie\Mailcoach\Http\App\Livewire\Audience\ListIndex::class)->name('mailcoach.emailLists');
 
     Route::prefix('{emailList}')->group(function () {
         Route::get('summary', '\\' . SummaryController::class)->name('mailcoach.emailLists.summary');

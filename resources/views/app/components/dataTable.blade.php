@@ -6,6 +6,7 @@
     'filters' => [],
     'rowPartial' => null,
     'modelClass' => null,
+    'emptyText' => null,
 ])
 <div wire:init="loadRows">
     <div class="table-actions">
@@ -56,45 +57,54 @@
         </span>
     </div>
 
-    @if($rows->count())
-        <table class="table table-fixed">
-            <thead>
-            <tr>
-                @foreach ($columns as $column)
-                    <x-mailcoach::th
-                        :class="$column['class'] ?? ''"
-                        :sort="$this->sort"
-                        :property="$column['attribute'] ?? null"
-                    >
-                        {{ $column['label'] ?? '' }}
-                    </x-mailcoach::th>
-                @endforeach
-            </tr>
-            </thead>
-            <tbody>
-                @if($rowPartial)
-                    @foreach ($rows as $row)
-                        @include($rowPartial)
-                    @endforeach
-                @endif
-                {{ $tbody ?? '' }}
-            </tbody>
-        </table>
+    <div wire:loading.remove>
 
-        <x-mailcoach::table-status
-            :name="__('mailcoach - ' . $name)"
-            :paginator="$rows"
-            :total-count="$totalRowsCount"
-            wire:click="clearFilters"
-        ></x-mailcoach::table-status>
-    @elseif($this->readyToLoad)
-        @if(isset($empty))
-            {{ $empty }}
+        @if($rows->count())
+            <table class="table table-fixed">
+                <thead>
+                <tr>
+                    @foreach ($columns as $column)
+                        <x-mailcoach::th
+                            :class="$column['class'] ?? ''"
+                            :sort="$this->sort"
+                            :property="$column['attribute'] ?? null"
+                        >
+                            {{ $column['label'] ?? '' }}
+                        </x-mailcoach::th>
+                    @endforeach
+                </tr>
+                </thead>
+                <tbody>
+                    @if($rowPartial)
+                        @foreach ($rows as $row)
+                            @include($rowPartial)
+                        @endforeach
+                    @endif
+                    {{ $tbody ?? '' }}
+                </tbody>
+            </table>
+
+            <x-mailcoach::table-status
+                :name="__('mailcoach - ' . $name)"
+                :paginator="$rows"
+                :total-count="$totalRowsCount"
+                wire:click="clearFilters"
+            ></x-mailcoach::table-status>
         @else
-            <x-mailcoach::help>
+            @if(isset($empty))
+                {{ $empty }}
+            @else
                 @php($plural = \Illuminate\Support\Str::plural($name))
-                {{ __("mailcoach - No {$plural} found.") }}
-            </x-mailcoach::help>
+                @if ($this->filter['search'] ?? null)
+                    <x-mailcoach::help>
+                        {{ __("mailcoach - No {$plural} found.") }}
+                    </x-mailcoach::help>
+                @else
+                    <x-mailcoach::help>
+                        {{ $emptyText ?? __("mailcoach - No {$plural}.") }}
+                    </x-mailcoach::help>
+                @endif
+            @endif
         @endif
-    @endif
+    </div>
 </div>
