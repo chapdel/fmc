@@ -9,7 +9,7 @@ class TemplateIndex extends DataTable
 {
     public function deleteTemplate(int $id)
     {
-        $template = Template::find($id);
+        $template = self::getTemplateClass()::find($id);
 
         $this->authorize('delete', $template);
 
@@ -26,7 +26,7 @@ class TemplateIndex extends DataTable
 
         return view('mailcoach::app.campaigns.templates.index', [
             'templates' => (new TemplatesQuery(request()))->paginate(),
-            'totalTemplatesCount' => Template::count(),
+            'totalTemplatesCount' => self::getTemplateClass()::count(),
         ])->layout('mailcoach::app.layouts.main', [
             'title' => __('mailcoach - Templates'),
         ]);

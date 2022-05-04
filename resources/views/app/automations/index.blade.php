@@ -1,12 +1,14 @@
 <x-mailcoach::layout-main :title="__('mailcoach - Automations')">
     <div class="table-actions">
-        <x-mailcoach::button x-on:click="$store.modals.open('create-automation')" :label="__('mailcoach - Create automation')"/>
+        @can('create', \Spatie\Mailcoach\Domain\Shared\Support\Config::getAutomationClass())
+            <x-mailcoach::button x-on:click="$store.modals.open('create-automation')" :label="__('mailcoach - Create automation')"/>
 
-        <x-mailcoach::modal :title="__('mailcoach - Create automation')" name="create-automation">
-            <livewire:mailcoach::create-automation />
-        </x-mailcoach::modal>
+            <x-mailcoach::modal :title="__('mailcoach - Create automation')" name="create-automation">
+                <livewire:mailcoach::create-automation />
+            </x-mailcoach::modal>
+        @endcan
 
-        @if($automations->count() || $searching)
+        @if($automations->count() || $this->search)
             <div class="table-filters">
                 <x-mailcoach::search :placeholder="__('mailcoach - Filter automations…')"/>
             </div>

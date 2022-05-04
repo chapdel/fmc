@@ -1,3 +1,4 @@
+@php($campaign ??= $row)
 <tr class="tr-h-double" @if($campaign->isSending()) id="campaign-row-{{ $campaign->id }}" wire:poll @endif>
     <td>
         @include('mailcoach::app.campaigns.partials.campaignStatusIcon', ['status' => $campaign->status])

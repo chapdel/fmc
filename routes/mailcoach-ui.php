@@ -172,7 +172,7 @@ Route::prefix('email-lists')->group(function () {
 });
 
 Route::prefix('automations')->group(function () {
-    Route::get('/', '\\' . AutomationsIndexController::class)->name('mailcoach.automations');
+    Route::get('/', '\\' . \Spatie\Mailcoach\Http\App\Livewire\AutomationIndex::class)->name('mailcoach.automations');
 
     Route::prefix('{automation}')->group(function () {
         Route::get('settings', ['\\' . AutomationSettingsController::class, 'edit'])->name('mailcoach.automations.settings');

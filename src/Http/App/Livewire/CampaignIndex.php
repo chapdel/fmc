@@ -11,7 +11,7 @@ class CampaignIndex extends DataTable
 
     public function deleteCampaign(int $id)
     {
-        $campaign = Campaign::find($id);
+        $campaign = self::getCampaignClass()::find($id);
 
         $this->authorize('delete', $campaign);
 
@@ -28,7 +28,7 @@ class CampaignIndex extends DataTable
 
         return view('mailcoach::app.campaigns.index', [
             'campaigns' => (new CampaignsQuery(request()))->paginate(),
-            'totalCampaignsCount' => Campaign::count(),
+            'totalCampaignsCount' => self::getCampaignClass()::count(),
             'totalListsCount' => static::getEmailListClass()::count(),
             'sentCampaignsCount' => static::getCampaignClass()::sendingOrSent()->count(),
             'scheduledCampaignsCount' => static::getCampaignClass()::scheduled()->count(),

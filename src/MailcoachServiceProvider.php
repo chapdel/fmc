@@ -283,6 +283,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
         Blade::component('mailcoach::app.components.modal.modal', 'mailcoach::modal');
 
+        Blade::component('mailcoach::app.components.dataTable', 'mailcoach::data-table');
         Blade::component('mailcoach::app.components.table.tableStatus', 'mailcoach::table-status');
         Blade::component('mailcoach::app.components.table.th', 'mailcoach::th');
 

@@ -17,18 +17,25 @@ abstract class DataTable extends Component
     public array $filter = [];
     public string $sort = 'name';
 
-    public function queryString()
+    protected string $defaultSort;
+
+    public function boot()
+    {
+        $this->defaultSort = $this->sort;
+    }
+
+    public function getQueryString()
     {
         return [
             'filter' => ['except' => ''],
             'page' => ['except' => 1],
-            'sort' => ['except' => $this->sort],
+            'sort' => ['except' => $this->defaultSort],
         ];
     }
 
     public function sort(string $sort)
     {
-        if (str_starts_with($sort, '-') && $this->sort === $sort) {
+        if ($this->sort === $sort && str_starts_with($sort, '-')) {
             return $this->sort = Str::replaceFirst('-', '', $this->sort);
         }
 
