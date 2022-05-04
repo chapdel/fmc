@@ -10,12 +10,13 @@
     ]"
     :columns="[
         ['class' => 'w-4'],
-        ['key' => 'name', 'label' => __('mailcoach - Name')],
-        ['key' => 'email_list_id', 'label' => __('mailcoach - List'), 'class' => 'w-48'],
-        ['key' => '-sent_to_number_of_subscribers', 'label' => __('mailcoach - Emails'), 'class' => 'w-24 th-numeric'],
-        ['key' => '-unique_open_count', 'label' => __('mailcoach - Opens'), 'class' => 'w-24 th-numeric hidden | xl:table-cell'],
-        ['key' => '-unique_click_count', 'label' => __('mailcoach - Clicks'), 'class' => 'w-24 th-numeric hidden | xl:table-cell'],
-        ['key' => '-sent', 'label' => __('mailcoach - Sent'), 'class' => 'w-48 th-numeric hidden | xl:table-cell'],
+        ['attribute' => 'name', 'label' => __('mailcoach - Name')],
+        ['attribute' => 'email_list_id', 'label' => __('mailcoach - List'), 'class' => 'w-48'],
+        ['attribute' => '-sent_to_number_of_subscribers', 'label' => __('mailcoach - Emails'), 'class' => 'w-24 th-numeric'],
+        ['attribute' => '-unique_open_count', 'label' => __('mailcoach - Opens'), 'class' => 'w-24 th-numeric hidden | xl:table-cell'],
+        ['attribute' => '-unique_click_count', 'label' => __('mailcoach - Clicks'), 'class' => 'w-24 th-numeric hidden | xl:table-cell'],
+        ['attribute' => '-sent', 'label' => __('mailcoach - Sent'), 'class' => 'w-48 th-numeric hidden | xl:table-cell'],
+        ['class' => 'w-12'],
     ]"
     rowPartial="mailcoach::app.campaigns.partials.row"
 >
@@ -32,14 +33,14 @@
     @endslot
 
     @slot('empty')
-        @if ($totalListsCount)
-            <x-mailcoach::help>
+        <x-mailcoach::help>
+            @if($this->filter['search'])
+                {{ __('mailcoach - No campaigns found.') }}
+            @elseif ($totalListsCount)
                 {{ __('mailcoach - No campaigns yet. Go write something!') }}
-            </x-mailcoach::help>
-        @else
-            <x-mailcoach::help>
+            @else
                 {!! __('mailcoach - No campaigns yet, but you‘ll need a list first, go <a href=":emailListsLink">create one</a>!', ['emailListsLink' => route('mailcoach.emailLists')]) !!}
-            </x-mailcoach::help>
-        @endif
+            @endif
+        </x-mailcoach::help>
     @endslot
 </x-mailcoach::data-table>

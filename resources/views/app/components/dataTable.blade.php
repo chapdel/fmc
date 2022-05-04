@@ -38,12 +38,11 @@
                     <x-mailcoach::th
                         :class="$column['class'] ?? ''"
                         :sort="$this->sort"
-                        :property="$column['key'] ?? null"
+                        :property="$column['attribute'] ?? null"
                     >
                         {{ $column['label'] ?? '' }}
                     </x-mailcoach::th>
                 @endforeach
-                <th class="w-12"></th>
             </tr>
             </thead>
             <tbody>
@@ -64,9 +63,11 @@
         ></x-mailcoach::table-status>
     @else
         @if(isset($empty))
+            {{ $empty }}
         @else
             <x-mailcoach::help>
-                {{ __("mailcoach - No {$name} found.") }}
+                @php($plural = \Illuminate\Support\Str::plural($name))
+                {{ __("mailcoach - No {$plural} found.") }}
             </x-mailcoach::help>
         @endif
     @endif

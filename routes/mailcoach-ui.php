@@ -182,7 +182,6 @@ Route::prefix('automations')->group(function () {
 
         Route::delete('/', '\\' . DestroyAutomationController::class)->name('mailcoach.automations.delete');
         Route::post('duplicate', '\\' . DuplicateAutomationController::class)->name('mailcoach.automations.duplicate');
-        Route::post('toggle-status', '\\' . ToggleAutomationStatusController::class)->name('mailcoach.automations.toggleStatus');
 
         Route::prefix('actions')->group(function () {
             Route::get('/', ['\\' . AutomationActionsController::class, 'index'])->name('mailcoach.automations.actions');

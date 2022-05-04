@@ -72,6 +72,7 @@ use Spatie\Mailcoach\Domain\Shared\Support\Version;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Listeners\StoreTransactionalMail;
 use Spatie\Mailcoach\Http\App\Controllers\HomeController;
+use Spatie\Mailcoach\Http\App\Livewire\AutomationIndex;
 use Spatie\Mailcoach\Http\App\Livewire\CampaignIndex;
 use Spatie\Mailcoach\Http\App\Livewire\CreateAutomation;
 use Spatie\Mailcoach\Http\App\Livewire\CreateAutomationMail;
@@ -370,9 +371,10 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::create-automation-mail', CreateAutomationMail::class);
         Livewire::component('mailcoach::create-list', CreateList::class);
         Livewire::component('mailcoach::create-transactional-template', CreateTransactionalTemplate::class);
+        Livewire::component('mailcoach::data-table', DataTable::class);
         Livewire::component('mailcoach::template-index', TemplateIndex::class);
         Livewire::component('mailcoach::campaign-index', CampaignIndex::class);
-        Livewire::component('mailcoach::data-table', DataTable::class);
+        Livewire::component('mailcoach::automation-index', AutomationIndex::class);
 
         return $this;
     }

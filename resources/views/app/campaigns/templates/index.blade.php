@@ -3,8 +3,9 @@
     :rows="$templates"
     :totalRowsCount="$totalTemplatesCount"
     :columns="[
-        ['key' => 'name', 'label' => __('mailcoach - Name')],
-        ['key' => 'updated_at', 'label' => __('mailcoach - Last updated'), 'class' => 'w-48 th-numeric'],
+        ['attribute' => 'name', 'label' => __('mailcoach - Name')],
+        ['attribute' => 'updated_at', 'label' => __('mailcoach - Last updated'), 'class' => 'w-48 th-numeric'],
+        ['class' => 'w-12'],
     ]"
 >
     @slot('actions')
