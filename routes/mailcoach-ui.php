@@ -83,7 +83,7 @@ use Spatie\Mailcoach\Http\App\Middleware\EditableCampaign;
 Route::get('debug', '\\' . DebugController::class)->name('debug');
 
 Route::prefix('campaigns')->group(function () {
-    Route::get('/', '\\' . \Spatie\Mailcoach\Http\App\Livewire\CampaignIndex::class)->name('mailcoach.campaigns');
+    Route::get('/', '\\' . \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignIndex::class)->name('mailcoach.campaigns');
 
     Route::prefix('{campaign}')->group(function () {
         Route::get('settings', ['\\' . CampaignSettingsController::class, 'edit'])->name('mailcoach.campaigns.settings');
@@ -172,7 +172,7 @@ Route::prefix('email-lists')->group(function () {
 });
 
 Route::prefix('automations')->group(function () {
-    Route::get('/', '\\' . \Spatie\Mailcoach\Http\App\Livewire\AutomationIndex::class)->name('mailcoach.automations');
+    Route::get('/', '\\' . \Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationIndex::class)->name('mailcoach.automations');
 
     Route::prefix('{automation}')->group(function () {
         Route::get('settings', ['\\' . AutomationSettingsController::class, 'edit'])->name('mailcoach.automations.settings');
@@ -191,7 +191,7 @@ Route::prefix('automations')->group(function () {
 });
 
 Route::prefix('automation-emails')->group(function () {
-    Route::get('/', '\\' . \Spatie\Mailcoach\Http\App\Livewire\AutomationMailIndex::class)->name('mailcoach.automations.mails');
+    Route::get('/', '\\' . \Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailIndex::class)->name('mailcoach.automations.mails');
 
     Route::prefix('{automationMail}')->group(function () {
         Route::get('summary', '\\' . AutomationMailSummaryController::class)->name('mailcoach.automations.mails.summary');
@@ -251,7 +251,7 @@ Route::prefix('subscriber/{subscriber}')->group(function () {
 });
 
 Route::prefix('templates')->group(function () {
-    Route::get('/', '\\' . \Spatie\Mailcoach\Http\App\Livewire\TemplateIndex::class)->name('mailcoach.templates');
+    Route::get('/', '\\' . \Spatie\Mailcoach\Http\App\Livewire\Campaigns\TemplateIndex::class)->name('mailcoach.templates');
 
     Route::prefix('{template}')->group(function () {
         Route::get('/', ['\\' . TemplatesController::class, 'edit'])->name('mailcoach.templates.edit');

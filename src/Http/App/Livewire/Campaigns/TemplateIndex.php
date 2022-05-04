@@ -1,7 +1,8 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\App\Livewire;
+namespace Spatie\Mailcoach\Http\App\Livewire\Campaigns;
 
+use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\TemplatesQuery;
 
 class TemplateIndex extends DataTable

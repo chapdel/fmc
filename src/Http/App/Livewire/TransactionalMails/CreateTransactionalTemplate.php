@@ -1,29 +1,32 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\App\Livewire;
+namespace Spatie\Mailcoach\Http\App\Livewire\TransactionalMails;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
-use Spatie\Mailcoach\Domain\Campaign\Actions\Templates\CreateTemplateAction;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\TransactionalMail\Actions\CreateTemplateAction;
 
-class CreateTemplate extends Component
+class CreateTransactionalTemplate extends Component
 {
     use UsesMailcoachModels;
     use AuthorizesRequests;
 
     public ?string $name = null;
 
+    public ?string $type = null;
+
     protected function rules()
     {
         return [
             'name' => ['required'],
+            'type' => ['required'],
         ];
     }
 
     public function saveTemplate()
     {
-        $this->authorize('create', self::getTemplateClass());
+        $this->authorize('create', $this->getTransactionalMailTemplateClass());
 
         $template = resolve(CreateTemplateAction::class)->execute(
             $this->validate(),
@@ -31,11 +34,11 @@ class CreateTemplate extends Component
 
         flash()->success(__('mailcoach - Template :template was created.', ['template' => $template->name]));
 
-        return redirect()->route('mailcoach.templates.edit', $template);
+        return redirect()->route('mailcoach.transactionalMails.templates.edit', $template);
     }
 
     public function render()
     {
-        return view('mailcoach::app.campaigns.templates.partials.create');
+        return view('mailcoach::app.transactionalMails.templates.partials.create');
     }
 }

@@ -1,7 +1,8 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\App\Livewire;
+namespace Spatie\Mailcoach\Http\App\Livewire\Automations;
 
+use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\AutomatedMailQuery;
 
 class AutomationMailIndex extends DataTable

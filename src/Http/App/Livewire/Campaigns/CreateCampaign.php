@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\App\Livewire;
+namespace Spatie\Mailcoach\Http\App\Livewire\Campaigns;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Validation\Rule;

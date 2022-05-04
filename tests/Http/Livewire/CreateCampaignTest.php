@@ -4,7 +4,7 @@ use function Pest\Livewire\livewire;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignSettingsController;
-use Spatie\Mailcoach\Http\App\Livewire\CreateCampaign;
+use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CreateCampaign;
 
 beforeEach(function () {
     EmailList::factory()->create();
