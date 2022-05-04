@@ -46,7 +46,7 @@
                                 </button>
                             </div>
                             <div x-show="!collapsed">
-                                <livewire:automation-builder name="{{ $uuid }}-left-actions" :automation="$automation" :actions="$leftActions" key="{{ $uuid }}-left-actions" />
+                                <livewire:mailcoach::automation-builder name="{{ $uuid }}-left-actions" :automation="$automation" :actions="$leftActions" key="{{ $uuid }}-left-actions" />
                             </div>
                         </div>
                     </section>
@@ -66,7 +66,7 @@
                                 </button>
                             </div>
                             <div x-show="!collapsed">
-                                <livewire:automation-builder name="{{ $uuid }}-right-actions" :automation="$automation" :actions="$rightActions" key="{{ $uuid}}-right-actions" />
+                                <livewire:mailcoach::automation-builder name="{{ $uuid }}-right-actions" :automation="$automation" :actions="$rightActions" key="{{ $uuid}}-right-actions" />
                             </div>
                         </div>
                     </section>

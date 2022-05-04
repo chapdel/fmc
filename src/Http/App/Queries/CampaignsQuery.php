@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Queries;
 
+use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Queries\Filters\CampaignStatusFilter;
 use Spatie\Mailcoach\Http\App\Queries\Filters\FuzzyFilter;
@@ -14,9 +15,9 @@ class CampaignsQuery extends QueryBuilder
 {
     use UsesMailcoachModels;
 
-    public function __construct()
+    public function __construct(?Request $request = null)
     {
-        parent::__construct($this->getCampaignClass()::query()->with('emailList'));
+        parent::__construct($this->getCampaignClass()::query()->with('emailList'), $request);
 
         $sentSort = AllowedSort::custom('sent', (new CampaignSort()))->defaultDirection('desc');
 

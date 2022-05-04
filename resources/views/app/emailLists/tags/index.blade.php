@@ -1,6 +1,6 @@
 <x-mailcoach::layout-list :title="__('mailcoach - Tags')" :emailList="$emailList">
     <div class="table-actions">
-        <x-mailcoach::button :label="__('mailcoach - Create tag')" data-modal-trigger="create-tag"/>
+        <x-mailcoach::button :label="__('mailcoach - Create tag')" x-on:click="$store.modals.open('create-tag')"/>
 
         <x-mailcoach::modal :title="__('mailcoach - Create tag')" name="create-tag" :open="$errors->any()">
             @include('mailcoach::app.emailLists.tags.partials.create')

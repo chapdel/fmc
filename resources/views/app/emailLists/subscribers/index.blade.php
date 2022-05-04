@@ -1,7 +1,7 @@
 <x-mailcoach::layout-list :title="__('mailcoach - Subscribers')" :emailList="$emailList">
     <div class="table-actions">
         <div class=buttons>
-            <x-mailcoach::button type="button" data-modal-trigger="create-subscriber" :label="__('mailcoach - Add subscriber')"/>
+            <x-mailcoach::button type="button" x-on:click="$store.modals.open('create-subscriber')" :label="__('mailcoach - Add subscriber')"/>
 
             <x-mailcoach::modal :title="__('mailcoach - Create subscriber')" name="create-subscriber" :open="$errors->any()">
                 @include('mailcoach::app.emailLists.subscribers.partials.create')

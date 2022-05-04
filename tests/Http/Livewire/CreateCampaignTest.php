@@ -1,26 +1,29 @@
 <?php
 
-use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
+use function Pest\Livewire\livewire;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignSettingsController;
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CreateCampaignController;
+use Spatie\Mailcoach\Http\App\Livewire\CreateCampaign;
+
+beforeEach(function () {
+    EmailList::factory()->create();
+    test()->authenticate();
+});
 
 it('can create a campaign', function () {
-    test()->authenticate();
-
-    $this
-        ->post(action(CreateCampaignController::class), ['name' => 'my campaign', 'type' => CampaignStatus::DRAFT])
+    livewire(CreateCampaign::class)
+        ->set('name', 'My campaign')
+        ->call('saveCampaign')
         ->assertRedirect(action([CampaignSettingsController::class, 'edit'], Campaign::first()->id));
 
-    test()->assertDatabaseHas(static::getCampaignTableName(), ['name' => 'my campaign']);
+    test()->assertDatabaseHas(static::getCampaignTableName(), ['name' => 'My campaign']);
 });
 
 it('will use default tracking settings', function () {
-    test()->authenticate();
-
-    $this
-        ->post(action(CreateCampaignController::class), ['name' => 'my campaign', 'type' => CampaignStatus::DRAFT])
-        ->assertRedirect(action([CampaignSettingsController::class, 'edit'], Campaign::first()->id));
+    livewire(CreateCampaign::class)
+        ->set('name', 'my campaign')
+        ->call('saveCampaign');
 
     test()->assertDatabaseHas(static::getCampaignTableName(), [
         'name' => 'my campaign',
@@ -33,7 +36,9 @@ it('will use default tracking settings', function () {
     config()->set('mailcoach.campaigns.default_settings.track_clicks', true);
     config()->set('mailcoach.campaigns.default_settings.utm_tags', false);
 
-    $this->post(action(CreateCampaignController::class), ['name' => 'another campaign', 'type' => CampaignStatus::DRAFT]);
+    livewire(CreateCampaign::class)
+        ->set('name', 'another campaign')
+        ->call('saveCampaign');
 
     test()->assertDatabaseHas(static::getCampaignTableName(), [
         'name' => 'another campaign',

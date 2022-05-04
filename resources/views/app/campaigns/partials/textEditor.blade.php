@@ -1,1 +1,1 @@
-<livewire:text-area-editor :campaign="$campaign" />
+<livewire:mailcoach::text-area-editor :campaign="$campaign" />

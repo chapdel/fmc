@@ -1,6 +1,5 @@
 import * as Turbo from '@hotwired/turbo';
 import { listen, $ } from '../util';
-import { showModal } from './modal';
 
 listen('input', '[data-dirty-check]', ({ target }) => {
     target.dirty = true;
@@ -14,11 +13,11 @@ listen('click', '[data-dirty-warn]', () => {
     function handleBeforeVisit(event) {
         event.preventDefault();
 
-        showModal('dirty-warning', {
+        /*showModal('dirty-warning', {
             onConfirm() {
                 Turbo.visit(event.data.url);
             },
-        });
+        });*/
     }
 
     document.addEventListener('turbo:before-visit', handleBeforeVisit, { once: true });

@@ -62,6 +62,7 @@
         "nunomaduro/larastan": "^2.0",
         "orchestra/testbench": "^7.0",
         "pestphp/pest": "^1.21",
+        "pestphp/pest-plugin-livewire": "^1.0",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan-deprecation-rules": "^1.0",
         "phpstan/phpstan-phpunit": "^1.0",

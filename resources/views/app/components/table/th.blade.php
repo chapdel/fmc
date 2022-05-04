@@ -1,14 +1,19 @@
+@props([
+    'property' => '',
+    'sort' => '',
+])
 <th {{ $attributes }}>
-    @if($sortable)
-        <a href="{{ $href }}" data-turbo-action="replace" data-turbo-preserve-scroll>
+    @if ($property)
+        <a href="#" wire:click.prevent="sort('{{ $property }}')">
             {{ $slot }}
-            @if($isSortedAsc())
+
+            @if($sort === \Illuminate\Support\Str::replaceFirst('-', '', $property))
                 <i class="fas fa-arrow-up text-gray-400"></i>
-            @elseif($isSortedDesc())
+            @elseif($sort === \Illuminate\Support\Str::start($property, '-'))
                 <i class="fas fa-arrow-down text-gray-400"></i>
             @endif
         </a>
     @else
         {{ $slot }}
-    @endisset
+    @endif
 </th>

@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Domain\TransactionalMail\Actions\CreateTemplateAction;
 use Spatie\Mailcoach\Domain\TransactionalMail\Actions\UpdateTemplateAction;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 use Spatie\Mailcoach\Http\App\Queries\TransactionalMailTemplateQuery;
@@ -24,17 +23,6 @@ class TransactionalMailTemplatesController
             'templatesQuery' => $transactionalMailTemplateQuery,
             'templatesCount' => $this->getTransactionalMailTemplateClass()::count(),
         ]);
-    }
-
-    public function store(TransactionalMailTemplateRequest $request, CreateTemplateAction $createTemplateAction)
-    {
-        $this->authorize('create', $this->getTransactionalMailTemplateClass());
-
-        $template = $createTemplateAction->execute($request->validated());
-
-        flash()->success(__('mailcoach - Template :template was created.', ['template' => $template->name]));
-
-        return redirect()->route('mailcoach.transactionalMails.templates.edit', $template);
     }
 
     public function edit(TransactionalMailTemplate $template)

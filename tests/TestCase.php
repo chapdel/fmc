@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\View;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\Feed\FeedServiceProvider;
+use Spatie\Flash\Flash;
 use Spatie\LaravelRay\RayServiceProvider;
 use Spatie\Mailcoach\Database\Factories\UserFactory;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
@@ -55,6 +56,12 @@ abstract class TestCase extends Orchestra
         );
 
         View::addLocation(__DIR__ . '/views');
+
+        Flash::levels([
+            'success' => 'success',
+            'warning' => 'warning',
+            'error' => 'error',
+        ]);
     }
 
     protected function tearDown(): void

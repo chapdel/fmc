@@ -19,9 +19,6 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\Mailcoach\Components\AutomationMailReplacerHelpTextsComponent;
 use Spatie\Mailcoach\Components\CampaignReplacerHelpTextsComponent;
 use Spatie\Mailcoach\Components\DateTimeFieldComponent;
-use Spatie\Mailcoach\Components\FilterComponent;
-use Spatie\Mailcoach\Components\SearchComponent;
-use Spatie\Mailcoach\Components\THComponent;
 use Spatie\Mailcoach\Components\TransactionalMailTemplateReplacerHelpTextsComponent;
 use Spatie\Mailcoach\Domain\Audience\Commands\DeleteOldUnconfirmedSubscribersCommand;
 use Spatie\Mailcoach\Domain\Audience\Commands\SendEmailListSummaryMailCommand;
@@ -75,6 +72,15 @@ use Spatie\Mailcoach\Domain\Shared\Support\Version;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Listeners\StoreTransactionalMail;
 use Spatie\Mailcoach\Http\App\Controllers\HomeController;
+use Spatie\Mailcoach\Http\App\Livewire\CampaignIndex;
+use Spatie\Mailcoach\Http\App\Livewire\CreateAutomation;
+use Spatie\Mailcoach\Http\App\Livewire\CreateAutomationMail;
+use Spatie\Mailcoach\Http\App\Livewire\CreateCampaign;
+use Spatie\Mailcoach\Http\App\Livewire\CreateList;
+use Spatie\Mailcoach\Http\App\Livewire\CreateTemplate;
+use Spatie\Mailcoach\Http\App\Livewire\CreateTransactionalTemplate;
+use Spatie\Mailcoach\Http\App\Livewire\DataTable;
+use Spatie\Mailcoach\Http\App\Livewire\TemplateIndex;
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\IndexComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\QueryStringComposer;
@@ -264,6 +270,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.components.form.checkboxField', 'mailcoach::checkbox-field');
         Blade::component('mailcoach::app.components.form.radioField', 'mailcoach::radio-field');
         Blade::component('mailcoach::app.components.form.formButton', 'mailcoach::form-button');
+        Blade::component('mailcoach::app.components.form.confirmButton', 'mailcoach::confirm-button');
         Blade::component('mailcoach::app.components.form.selectField', 'mailcoach::select-field');
         Blade::component('mailcoach::app.components.form.tagsField', 'mailcoach::tags-field');
         Blade::component('mailcoach::app.components.form.textField', 'mailcoach::text-field');
@@ -277,12 +284,12 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.components.modal.modal', 'mailcoach::modal');
 
         Blade::component('mailcoach::app.components.table.tableStatus', 'mailcoach::table-status');
-        Blade::component(THComponent::class, 'mailcoach::th');
+        Blade::component('mailcoach::app.components.table.th', 'mailcoach::th');
 
         Blade::component('mailcoach::app.components.filters.filters', 'mailcoach::filters');
-        Blade::component(FilterComponent::class, 'mailcoach::filter');
+        Blade::component('mailcoach::app.components.filters.filter', 'mailcoach::filter');
 
-        Blade::component(SearchComponent::class, 'mailcoach::search');
+        Blade::component('mailcoach::app.components.search', 'mailcoach::search');
         Blade::component('mailcoach::app.components.statistic', 'mailcoach::statistic');
         Blade::component('mailcoach::app.components.iconLabel', 'mailcoach::icon-label');
         Blade::component('mailcoach::app.components.healthLabel', 'mailcoach::health-label');
@@ -332,30 +339,39 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootLivewireComponents(): self
     {
-        Livewire::component('text-area-editor', TextAreaEditorComponent::class);
+        Livewire::component('mailcoach::text-area-editor', TextAreaEditorComponent::class);
 
+        Livewire::component('mailcoach::automation-actions', AutomationActionsFormComponent::class);
+        Livewire::component('mailcoach::automation-settings', AutomationSettingsComponent::class);
+        Livewire::component('mailcoach::run-automation', RunAutomationComponent::class);
+        Livewire::component('mailcoach::automation-builder', AutomationBuilder::class);
 
-        Livewire::component('automation-actions', AutomationActionsFormComponent::class);
-        Livewire::component('automation-settings', AutomationSettingsComponent::class);
-        Livewire::component('run-automation', RunAutomationComponent::class);
-        Livewire::component('automation-builder', AutomationBuilder::class);
+        Livewire::component('mailcoach::automation-action', AutomationActionComponent::class);
+        Livewire::component('mailcoach::automation-mail-action', AutomationMailActionComponent::class);
+        Livewire::component('mailcoach::add-tags-action', AddTagsActionComponent::class);
+        Livewire::component('mailcoach::remove-tags-action', RemoveTagsActionComponent::class);
+        Livewire::component('mailcoach::wait-action', WaitActionComponent::class);
+        Livewire::component('mailcoach::condition-action', ConditionActionComponent::class);
+        Livewire::component('mailcoach::split-action', SplitActionComponent::class);
 
-        Livewire::component('automation-action', AutomationActionComponent::class);
-        Livewire::component('automation-mail-action', AutomationMailActionComponent::class);
-        Livewire::component('add-tags-action', AddTagsActionComponent::class);
-        Livewire::component('remove-tags-action', RemoveTagsActionComponent::class);
-        Livewire::component('wait-action', WaitActionComponent::class);
-        Livewire::component('condition-action', ConditionActionComponent::class);
-        Livewire::component('split-action', SplitActionComponent::class);
+        Livewire::component('mailcoach::date-trigger', DateTriggerComponent::class);
+        Livewire::component('mailcoach::tag-added-trigger', TagAddedTriggerComponent::class);
+        Livewire::component('mailcoach::tag-removed-trigger', TagRemovedTriggerComponent::class);
+        Livewire::component('mailcoach::webhook-trigger', WebhookTriggerComponent::class);
+        Livewire::component('mailcoach::no-trigger', NoTriggerComponent::class);
 
-        Livewire::component('date-trigger', DateTriggerComponent::class);
-        Livewire::component('tag-added-trigger', TagAddedTriggerComponent::class);
-        Livewire::component('tag-removed-trigger', TagRemovedTriggerComponent::class);
-        Livewire::component('webhook-trigger', WebhookTriggerComponent::class);
-        Livewire::component('no-trigger', NoTriggerComponent::class);
+        Livewire::component('mailcoach::email-list-statistics', EmailListStatistics::class);
+        Livewire::component('mailcoach::campaign-statistics', CampaignStatistics::class);
 
-        Livewire::component('email-list-statistics', EmailListStatistics::class);
-        Livewire::component('campaign-statistics', CampaignStatistics::class);
+        Livewire::component('mailcoach::create-campaign', CreateCampaign::class);
+        Livewire::component('mailcoach::create-template', CreateTemplate::class);
+        Livewire::component('mailcoach::create-automation', CreateAutomation::class);
+        Livewire::component('mailcoach::create-automation-mail', CreateAutomationMail::class);
+        Livewire::component('mailcoach::create-list', CreateList::class);
+        Livewire::component('mailcoach::create-transactional-template', CreateTransactionalTemplate::class);
+        Livewire::component('mailcoach::template-index', TemplateIndex::class);
+        Livewire::component('mailcoach::campaign-index', CampaignIndex::class);
+        Livewire::component('mailcoach::data-table', DataTable::class);
 
         return $this;
     }

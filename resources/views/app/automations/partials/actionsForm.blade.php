@@ -5,7 +5,7 @@
 >
     @csrf
     @method('POST')
-    <livewire:automation-builder name="default" :automation="$automation" :actions="$actions" />
+    <livewire:mailcoach::automation-builder name="default" :automation="$automation" :actions="$actions" />
 
     <div class="mb-48">
         @if ($unsavedChanges)

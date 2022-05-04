@@ -1,5 +1,5 @@
 import { $, listen } from '../util';
-import { showModal } from './modal';
+
 
 listen('submit', '[data-confirm]', ({ event, target }) => {
     event.preventDefault();
@@ -8,7 +8,7 @@ listen('submit', '[data-confirm]', ({ event, target }) => {
         setModalText(target.dataset.confirmText);
     }
 
-    showModal('confirm', {
+    /*showModal('confirm', {
         onConfirm() {
             window.setTimeout(() => {
                 setModalText(__('mailcoach - Are you sure?'));
@@ -21,7 +21,7 @@ listen('submit', '[data-confirm]', ({ event, target }) => {
                 setModalText(__('mailcoach - Are you sure?'));
             }, 150);
         },
-    });
+    });*/
 });
 
 function setModalText(text) {

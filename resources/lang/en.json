@@ -180,6 +180,7 @@
     "mailcoach - Export :total :subscriber": "Export :total :subscriber",
     "mailcoach - Export all subscribers": "Export all subscribers",
     "mailcoach - Failed": "Failed",
+    "mailcoach - Filtering :resource": "Filtering :resource",
     "mailcoach - Filter automations…": "Filter automations…",
     "mailcoach - Filter campaigns…": "Filter campaigns…",
     "mailcoach - Filter clicks…": "Filter clicks…",

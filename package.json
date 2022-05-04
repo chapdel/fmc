@@ -27,7 +27,9 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
+        "@alpinejs/focus": "^3.10.2",
         "@hotwired/turbo": "^7.1.0",
+        "alpine-turbo-drive-adapter": "^2.0.0",
         "alpinejs": "^3.10",
         "autoprefixer": "^10.2.1",
         "postcss": "^8.2.4"

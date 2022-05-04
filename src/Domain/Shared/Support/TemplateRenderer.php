@@ -6,7 +6,6 @@ class TemplateRenderer
 {
     public function __construct(protected string $html)
     {
-
     }
 
     public function containsPlaceHolders(): bool

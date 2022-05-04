@@ -35,7 +35,7 @@
         @include('mailcoach::app.layouts.partials.endHead')
         @stack('endHead')
     </head>
-    <body class="bg-gray-100">
+    <body class="bg-gray-100" x-data="{ confirmText: '', onConfirm: null }">
         <script>/**/</script><!-- Empty script to prevent FOUC in Firefox -->
 
         <div class="mx-auto grid w-full max-w-layout min-h-screen p-6 z-auto"
@@ -84,11 +84,11 @@
         </div>
 
         <x-mailcoach::modal :title="__('mailcoach - Confirm')" name="confirm">
-            <span data-confirm-modal-text>{{ __('mailcoach - Are you sure?') }}</span>
+            <span x-text="confirmText"></span>
 
             <div class="form-buttons">
-                <x-mailcoach::button type="button" data-modal-confirm :label=" __('mailcoach - Confirm')" />
-                <x-mailcoach::button-cancel :label=" __('mailcoach - Cancel')" />
+                <x-mailcoach::button type="button" x-on:click="onConfirm; $store.modals.close('confirm')" :label=" __('mailcoach - Confirm')" />
+                <x-mailcoach::button-cancel  x-on:click="$store.modals.close('confirm')" :label=" __('mailcoach - Cancel')" />
             </div>
         </x-mailcoach::modal>
 
@@ -97,7 +97,7 @@
 
             <div class="form-buttons">
                 <x-mailcoach::button type="button" data-modal-confirm :label=" __('mailcoach - Confirm')" />
-                <x-mailcoach::button-cancel :label=" __('mailcoach - Cancel')" />
+                <x-mailcoach::button-cancel  x-on:click="$store.modals.close('confirm-navigation')" :label=" __('mailcoach - Cancel')" />
             </div>
         </x-mailcoach::modal>
 
