@@ -211,7 +211,7 @@ Route::prefix('automation-emails')->group(function () {
 });
 
 Route::prefix('transactional-mail-log')->group(function () {
-    Route::get('/', '\\' . TransactionalMailIndexController::class)->name('mailcoach.transactionalMails');
+    Route::get('/', '\\' . \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailIndex::class)->name('mailcoach.transactionalMails');
 
     Route::prefix('{transactionalMail}')->group(function () {
         Route::get('content', '\\' . TransactionalMailContentController::class)->name('mailcoach.transactionalMail.show');
@@ -219,7 +219,6 @@ Route::prefix('transactional-mail-log')->group(function () {
         Route::get('performance', '\\' . TransactionalMailPerformanceController::class)->name('mailcoach.transactionalMail.performance');
         Route::get('resend', [ResendTransactionalMailController::class, 'show'])->name('mailcoach.transactionalMail.resend');
         Route::post('resend', [ResendTransactionalMailController::class, 'resend']);
-        Route::delete('/', '\\' . DestroyTransactionalMailController::class)->name('mailcoach.transactionalMail.delete');
     });
 });
 
