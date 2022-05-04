@@ -8,7 +8,7 @@
 ])
 <div>
     <div class="table-actions">
-        {{ $actions }}
+        {{ $actions ?? '' }}
 
         <div class="table-filters">
             @if (count($filters))

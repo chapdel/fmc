@@ -191,7 +191,7 @@ Route::prefix('automations')->group(function () {
 });
 
 Route::prefix('automation-emails')->group(function () {
-    Route::get('/', '\\' . AutomationMailsIndexController::class)->name('mailcoach.automations.mails');
+    Route::get('/', '\\' . \Spatie\Mailcoach\Http\App\Livewire\AutomationMailIndex::class)->name('mailcoach.automations.mails');
 
     Route::prefix('{automationMail}')->group(function () {
         Route::get('summary', '\\' . AutomationMailSummaryController::class)->name('mailcoach.automations.mails.summary');
