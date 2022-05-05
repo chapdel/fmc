@@ -5795,10 +5795,6 @@ span.flatpickr-weekday{
         justify-self: flex-start !important;
     }
 
-.\[wire\:click\.prevent\]{
-  wire: click.prevent;
-}
-
 [x-cloak] {
     display: none !important;
 }

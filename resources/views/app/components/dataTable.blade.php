@@ -8,6 +8,7 @@
     'rowData' => [],
     'modelClass' => null,
     'emptyText' => null,
+    'searchable' => true,
 ])
 <div wire:init="loadRows">
     <div class="table-actions">
@@ -36,7 +37,7 @@
                 </x-mailcoach::filters>
             @endif
 
-            @if(($this->filter['search'] ?? null) || ($this->filter['status'] ?? null) || $rows->count())
+            @if($searchable && (($this->filter['search'] ?? null) || ($this->filter['status'] ?? null) || $rows->count()))
                 <x-mailcoach::search wire:model="filter.search" :placeholder="__('mailcoach - Search…')"/>
             @endif
         </div>
@@ -91,7 +92,7 @@
                 :total-count="$totalRowsCount"
                 wire:click="clearFilters"
             ></x-mailcoach::table-status>
-        @else
+        @elseif($this->readyToLoad)
             <div wire:loading.remove>
                 @if(isset($empty))
                     {{ $empty }}
