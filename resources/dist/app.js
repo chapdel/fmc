@@ -7707,11 +7707,7 @@ __webpack_require__(/*! ./components/dirty */ "./resources/js/components/dirty.j
 
 __webpack_require__(/*! ./components/dismiss */ "./resources/js/components/dismiss.js");
 
-__webpack_require__(/*! ./components/dropdown */ "./resources/js/components/dropdown.js");
-
 __webpack_require__(/*! ./components/htmlPreview */ "./resources/js/components/htmlPreview.js");
-
-__webpack_require__(/*! ./components/nav */ "./resources/js/components/nav.js");
 
 __webpack_require__(/*! ./components/segments */ "./resources/js/components/segments.js");
 
@@ -8124,46 +8120,6 @@ document.addEventListener('turbo:load', function () {
 
 /***/ }),
 
-/***/ "./resources/js/components/dropdown.js":
-/*!*********************************************!*\
-  !*** ./resources/js/components/dropdown.js ***!
-  \*********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util */ "./resources/js/util/index.js");
-
-(0,_util__WEBPACK_IMPORTED_MODULE_0__.listen)('click', '[data-dropdown-trigger]', function (_ref) {
-  var target = _ref.target;
-  var dropdownList = (0,_util__WEBPACK_IMPORTED_MODULE_0__.$)('[data-dropdown-list]', target.closest('[data-dropdown]'));
-
-  if (!dropdownList.classList.contains('hidden')) {
-    return;
-  }
-
-  (0,_util__WEBPACK_IMPORTED_MODULE_0__.enter)(dropdownList, 'fade');
-  dropdownList.style.zIndex = 100;
-  target.classList.add('dropdown-trigger-open');
-
-  function handleClick(event) {
-    if (dropdownList.contains(event.target)) {
-      return;
-    }
-
-    (0,_util__WEBPACK_IMPORTED_MODULE_0__.leave)(dropdownList, 'fade');
-    dropdownList.style.zIndex = 'auto';
-    target.classList.remove('dropdown-trigger-open');
-    window.removeEventListener('click', handleClick);
-  }
-
-  setTimeout(function () {
-    window.addEventListener('click', handleClick);
-  });
-});
-
-/***/ }),
-
 /***/ "./resources/js/components/htmlPreview.js":
 /*!************************************************!*\
   !*** ./resources/js/components/htmlPreview.js ***!
@@ -8188,30 +8144,6 @@ function updateHtmlPreview() {
 
 (0,_util__WEBPACK_IMPORTED_MODULE_0__.listen)('input', '[data-html-preview-source]', updateHtmlPreview);
 document.addEventListener('turbo:load', updateHtmlPreview);
-
-/***/ }),
-
-/***/ "./resources/js/components/nav.js":
-/*!****************************************!*\
-  !*** ./resources/js/components/nav.js ***!
-  \****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util */ "./resources/js/util/index.js");
-
-(0,_util__WEBPACK_IMPORTED_MODULE_0__.listen)('click', '[data-navigation-trigger]', function (_ref) {
-  var event = _ref.event;
-
-  if (window.innerWidth > 1024) {
-    return true;
-  }
-
-  event.preventDefault();
-  var nav = (0,_util__WEBPACK_IMPORTED_MODULE_0__.$)('[data-navigation]');
-  nav.classList.toggle('navigation-shown');
-});
 
 /***/ }),
 

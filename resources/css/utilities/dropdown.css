@@ -75,11 +75,3 @@
     @apply bg-opacity-50;
     @apply text-blue-500;
 }
-
-.dropdown-trigger i {
-    transition: transform 0.15s ease;
-}
-
-.dropdown-trigger-open .dropdown-trigger i{
-    transform: rotate(-90deg);
-}

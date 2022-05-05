@@ -13,6 +13,7 @@
         "prepare": "husky install"
     },
     "devDependencies": {
+        "autoprefixer": "^10.4.7",
         "choices.js": "^9.0.1",
         "cross-env": "^5.1",
         "flatpickr": "^4.6.3",
@@ -20,9 +21,10 @@
         "laravel-mix": "^6.0.43",
         "lint-staged": "^9.5.0",
         "morphdom": "^2.5.10",
+        "postcss": "^8.4.13",
         "postcss-easy-import": "^4.0.0",
         "prettier": "^1.18.2",
-        "tailwindcss": "^2.0.2",
+        "tailwindcss": "^3.0.24",
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
@@ -32,8 +34,6 @@
         "@swup/livewire-plugin": "^1.0.0",
         "@swup/preload-plugin": "^1.0.3",
         "alpinejs": "^3.10",
-        "autoprefixer": "^10.2.1",
-        "postcss": "^8.2.4",
         "swup": "^2.0.14"
     }
 }
