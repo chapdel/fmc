@@ -22,7 +22,7 @@
         @endif
 
         <div class="table-filters">
-            @if (count($filters))
+            @if ($totalRowsCount > 0 && count($filters))
                 <x-mailcoach::filters>
                     @foreach ($filters as $filter)
                         <x-mailcoach::filter :filter="$this->filter" value="{{ $filter['value'] }}" attribute="{{ $filter['attribute'] }}">

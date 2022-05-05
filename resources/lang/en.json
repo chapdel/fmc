@@ -266,6 +266,7 @@
     "mailcoach - Newsletter #1": "Newsletter #1",
     "mailcoach - Newsletter template": "Newsletter template",
     "mailcoach - No automated mails yet.": "No automated mails yet.",
+    "mailcoach - No sends.": "No sends.",
     "mailcoach - No automations found.": "No automations found.",
     "mailcoach - No campaigns yet, but you‘ll need a list first, go <a href=\":emailListsLink\">create one</a>!": "No campaigns yet, but you‘ll need a list first, go <a href=\":emailListsLink\">create one</a>!",
     "mailcoach - No campaigns yet. Go write something!": "No campaigns yet. Go write something!",
@@ -580,5 +581,6 @@
     "mailcoach - Totals": "Totals",
     "mailcoach - Create automation-mail": "Create automation mail",
     "mailcoach - Automation Emails": "Automation Emails",
-    "mailcoach - Search…": "Search…"
+    "mailcoach - Search…": "Search…",
+    "mailcoach - sends": "sends"
 }
