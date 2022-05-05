@@ -1,16 +1,15 @@
 <x-mailcoach::layout-campaign :title="__('mailcoach - Outbox')" :campaign="$campaign">
     @if ($totalFailed > 0)
         <div class="table-actions">
-            <x-mailcoach::form-button
-            :action="route('mailcoach.campaigns.retry-failed-sends', [$campaign])"
-            method="POST"
-            data-confirm="true"
-            :data-confirm-text="__('mailcoach - Are you sure you want to resend :totalFailed mails?', ['totalFailed' => $totalFailed])"
-            class="mt-4 button"
+            <x-mailcoach::confirm-button
+                :action="route('mailcoach.campaigns.retry-failed-sends', [$campaign])"
+                method="POST"
+                :confirm-text="__('mailcoach - Are you sure you want to resend :totalFailed mails?', ['totalFailed' => $totalFailed])"
+                class="mt-4 button"
             >
                 {{ __('mailcoach - Try resending :totalFailed :email', ['totalFailed' => $totalFailed, 'email' => trans_choice('mailcoach - email|emails', $totalFailed)]) }}
-            </x-mailcoach::form-button>
-    </div>
+            </x-mailcoach::confirm-button>
+        </div>
     @endif
 
     <div class="table-actions">

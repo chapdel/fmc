@@ -51,15 +51,14 @@
                     <td class="td-numeric hidden | xl:table-cell">{{ $tag->updated_at->toMailcoachFormat() }}</td>
 
                     <td class="td-action">
-                        <x-mailcoach::form-button
+                        <x-mailcoach::confirm-button
                             :action="route('mailcoach.emailLists.tag.delete', [$emailList, $tag])"
                             method="DELETE"
-                            data-confirm="true"
-                            :data-confirm-text="__('mailcoach - Are you sure you want to delete tag :tagName?', ['tagName' => $tag->name])"
+                            :confirm-text="__('mailcoach - Are you sure you want to delete tag :tagName?', ['tagName' => $tag->name])"
                             class="icon-button hover:text-red-500"
                         >
                             <i class="far fa-trash-alt"></i>
-                        </x-mailcoach::form-button>
+                        </x-mailcoach::confirm-button>
                     </td>
                 </tr>
             @endforeach

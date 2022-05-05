@@ -4375,8 +4375,6 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__(/*! ./components/swup */ "./resources/js/components/swup.js");
 
-__webpack_require__(/*! ./components/confirm */ "./resources/js/components/confirm.js");
-
 __webpack_require__(/*! ./components/dirty */ "./resources/js/components/dirty.js");
 
 __webpack_require__(/*! ./components/htmlPreview */ "./resources/js/components/htmlPreview.js");
@@ -4650,50 +4648,6 @@ document.addEventListener('alpine:init', function () {
     };
   });
 });
-
-/***/ }),
-
-/***/ "./resources/js/components/confirm.js":
-/*!********************************************!*\
-  !*** ./resources/js/components/confirm.js ***!
-  \********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util */ "./resources/js/util/index.js");
-
-(0,_util__WEBPACK_IMPORTED_MODULE_0__.listen)('submit', '[data-confirm]', function (_ref) {
-  var event = _ref.event,
-      target = _ref.target;
-  event.preventDefault();
-
-  if (target.dataset.confirmText) {
-    setModalText(target.dataset.confirmText);
-  }
-  /*showModal('confirm', {
-      onConfirm() {
-          window.setTimeout(() => {
-              setModalText(__('mailcoach - Are you sure?'));
-          }, 150);
-           target.submit();
-      },
-      onDismiss() {
-          window.setTimeout(() => {
-              setModalText(__('mailcoach - Are you sure?'));
-          }, 150);
-      },
-  });*/
-
-});
-
-function setModalText(text) {
-  var modalText = (0,_util__WEBPACK_IMPORTED_MODULE_0__.$)('[data-confirm-modal-text]');
-
-  if (modalText) {
-    modalText.innerText = text;
-  }
-}
 
 /***/ }),
 

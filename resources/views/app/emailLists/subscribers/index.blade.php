@@ -28,11 +28,11 @@
                             </x-mailcoach::form-button>
                         </li>
                         <li>
-                            <x-mailcoach::form-button
+                            <x-mailcoach::confirm-button
                                 :action="route('mailcoach.emailLists.destroy-unsubscribes', $emailList)"
-                                method="DELETE" data-confirm="true" :data-confirm-text="__('mailcoach - Are you sure you want to delete unsubscribes in :emailList?', ['emailList' => $emailList->name])">
+                                method="DELETE" :confirm-text="__('mailcoach - Are you sure you want to delete unsubscribes in :emailList?', ['emailList' => $emailList->name])">
                                 <x-mailcoach::icon-label icon="fa-fw far fa-trash-alt" :text="__('mailcoach - Delete unsubscribes')" :caution="true"/>
-                            </x-mailcoach::form-button>
+                            </x-mailcoach::confirm-button>
                         </li>
                     @endif
                 </ul>
@@ -110,51 +110,51 @@
                     </td>
                     <td class="td-numeric hidden | xl:table-cell">{{
     $subscriber->isUnsubscribed()
-    ? $subscriber->unsubscribed_at->toMailcoachFormat()
-    : $subscriber->created_at->toMailcoachFormat() }}</td>
+    ? $subscriber->unsubscribed_at?->toMailcoachFormat()
+    : $subscriber->created_at?->toMailcoachFormat() }}</td>
                     <td class="td-action">
                         <x-mailcoach::dropdown direction="left">
                             <ul>
                                 @if ($subscriber->isUnconfirmed())
                                     <li>
-                                        <x-mailcoach::form-button
+                                        <x-mailcoach::confirm-button
                                             :action="route('mailcoach.subscriber.resend-confirmation-mail', [$subscriber])"
-                                            method="POST" data-confirm="true" :data-confirm-text="__('mailcoach - Are you sure you want to resend the confirmation mail :email?', ['email' => $subscriber->email])">
+                                            method="POST" :confirm-text="__('mailcoach - Are you sure you want to resend the confirmation mail :email?', ['email' => $subscriber->email])">
                                             <x-mailcoach::icon-label icon="fa-fw far fa-envelope" :text="__('mailcoach - Resend confirmation mail')"/>
-                                        </x-mailcoach::form-button>
+                                        </x-mailcoach::confirm-button>
                                     </li>
                                     <li>
-                                        <x-mailcoach::form-button
+                                        <x-mailcoach::confirm-button
                                             :action="route('mailcoach.subscriber.confirm', [$subscriber])"
-                                            method="POST" data-confirm="true" :data-confirm-text="__('mailcoach - Are you sure you want to confirm :email?', ['email' => $subscriber->email])">
+                                            method="POST" :confirm-text="__('mailcoach - Are you sure you want to confirm :email?', ['email' => $subscriber->email])">
                                             <x-mailcoach::icon-label icon="fa-fw fas fa-check" :text="__('mailcoach - Confirm')"/>
-                                        </x-mailcoach::form-button>
+                                        </x-mailcoach::confirm-button>
                                     </li>
                                 @endif
                                 @if ($subscriber->isSubscribed())
                                     <li>
-                                        <x-mailcoach::form-button
+                                        <x-mailcoach::confirm-button
                                             :action="route('mailcoach.subscriber.unsubscribe', [$subscriber])"
-                                            method="POST" data-confirm="true" :data-confirm-text="__('mailcoach - Are you sure you want to unsubscribe :email?', ['email' => $subscriber->email])">
+                                            method="POST" :confirm-text="__('mailcoach - Are you sure you want to unsubscribe :email?', ['email' => $subscriber->email])">
                                             <x-mailcoach::icon-label icon="fa-fw fas fa-ban" :text="__('mailcoach - Unsubscribe')"/>
-                                        </x-mailcoach::form-button>
+                                        </x-mailcoach::confirm-button>
                                     </li>
                                 @endif
                                 @if ($subscriber->isUnsubscribed())
                                     <li>
-                                        <x-mailcoach::form-button
+                                        <x-mailcoach::confirm-button
                                             :action="route('mailcoach.subscriber.resubscribe', [$subscriber])"
-                                            method="POST" data-confirm="true" :data-confirm-text="__('mailcoach - Are you sure you want to resubscribe :email?', ['email' => $subscriber->email])">
+                                            method="POST" :confirm-text="__('mailcoach - Are you sure you want to resubscribe :email?', ['email' => $subscriber->email])">
                                             <x-mailcoach::icon-label icon="fa-fw fas fa-redo" :text="__('mailcoach - Resubscribe')"/>
-                                        </x-mailcoach::form-button>
+                                        </x-mailcoach::confirm-button>
                                     </li>
                                 @endif
                                 <li>
-                                    <x-mailcoach::form-button
+                                    <x-mailcoach::confirm-button
                                         :action="route('mailcoach.emailLists.subscriber.delete', [$subscriber->emailList, $subscriber])"
-                                        method="DELETE" data-confirm="true" :data-confirm-text="__('mailcoach - Are you sure you want to delete subscriber :email?', ['email' => $subscriber->email])">
+                                        method="DELETE" :confirm-text="__('mailcoach - Are you sure you want to delete subscriber :email?', ['email' => $subscriber->email])">
                                         <x-mailcoach::icon-label icon="fa-fw far fa-trash-alt" :text="__('mailcoach - Delete')" :caution="true"/>
-                                    </x-mailcoach::form-button>
+                                    </x-mailcoach::confirm-button>
                                 </li>
                             </ul>
                         </x-mailcoach::dropdown>

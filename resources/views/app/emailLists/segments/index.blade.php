@@ -38,11 +38,13 @@
                                     </x-mailcoach::form-button>
                                 </li>
                                 <li>
-                                    <x-mailcoach::form-button
+                                    <x-mailcoach::confirm-button
                                         :action="route('mailcoach.emailLists.segment.delete', [$segment->emailList, $segment])"
-                                        method="DELETE" data-confirm="true" :data-confirm-text="__('mailcoach - Are you sure you want to delete segment :segmentName?', ['segmentName' => $segment->name])">
+                                        method="DELETE"
+                                        :confirm-text="__('mailcoach - Are you sure you want to delete segment :segmentName?', ['segmentName' => $segment->name])"
+                                    >
                                         <x-mailcoach::icon-label icon="far fa-trash-alt" :text="__('mailcoach - Delete')" :caution="true"/>
-                                    </x-mailcoach::form-button>
+                                    </x-mailcoach::confirm-button>
                                 </li>
                             </ul>
                         </x-mailcoach::dropdown>

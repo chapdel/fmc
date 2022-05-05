@@ -5,7 +5,6 @@ import Alpine from 'alpinejs';
 import focus from '@alpinejs/focus';
 
 require('./components/swup');
-require('./components/confirm');
 require('./components/dirty');
 require('./components/htmlPreview');
 require('./components/charts/emailListStatistics');
