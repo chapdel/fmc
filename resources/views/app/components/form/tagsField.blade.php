@@ -1,19 +1,71 @@
-<div class="form-field">
+@props([
+    'label' => '',
+    'required' => false,
+    'name' => '',
+    'multiple' => false,
+    'tags' => [],
+    'value' => [],
+    'allowCreate' => false,
+])
+<div
+    x-data="{
+        multiple: true,
+        value: @js($value),
+        options: @js($tags),
+        init() {
+            this.$nextTick(() => {
+                let tagify;
+
+                let refreshTagify = () => {
+                    let selection = this.multiple ? this.value : [this.value]
+
+                    if (tagify) {
+                        tagify.destroy();
+                    }
+
+                    tagify = new Tagify(this.$refs.select, {
+                        originalInputValueFormat: valuesArr => valuesArr.map(item => item.value),
+                        whitelist: this.options,
+                        dropdown: {
+                            closeOnSelect: false,
+                            enabled : 0,
+                        },
+                        editTags: false,
+                    });
+                }
+
+                refreshTagify()
+
+                this.$refs.select.addEventListener('change', () => {
+                    this.value = tagify.value.map(v => v.value);
+                })
+
+                this.$watch('value', () => refreshTagify())
+                this.$watch('options', () => refreshTagify())
+            })
+        }
+    }"
+    class="form-field"
+>
     @isset($label)
-        <label class="{{ ($required ?? false) ? 'label label-required' : 'label' }}" for="{{ $name }}">
+        <label class="{{ $required ? 'label label-required' : 'label' }}" for="{{ $name }}">
             {{ $label }}
         </label>
     @endisset
-    <select
-        name="{{ $name }}[]"
+    <input
+        x-ref="select"
+        x-model="value"
+        :multiple="multiple"
+        type="text"
         id="{{ $name }}"
-        {{ ($required ?? false) ? 'required' : '' }}
-        {{ ($multiple ?? true) ? 'multiple' : '' }}
-        data-tags="{{ json_encode($tags) }}"
-        data-tags-selected="{{ json_encode(old($name, $value ?? [])) }}"
-        @isset($allowCreate) data-tags-allow-create @endisset
+        {{ $required ? 'required' : '' }}
+        {{ $multiple ? 'multiple' : '' }}
         {!! $attributes->except(['value', 'tags', 'required', 'multiple', 'name', 'allowCreate']) ?? '' !!}
-    ></select>
+        class="input"
+    />
+    <template x-for="tag in value">
+        <input type="hidden" name="{{ $name }}[]" :value="tag">
+    </template>
     @error($name)
         <p class="form-error" role="alert">{{ $message }}</p>
     @enderror

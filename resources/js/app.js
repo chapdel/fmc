@@ -1,19 +1,20 @@
+import flatpickr from 'flatpickr';
+import Tagify from '@yaireo/tagify'
+import '@yaireo/tagify/dist/tagify.css';
 import Alpine from 'alpinejs';
 import focus from '@alpinejs/focus';
 
 require('./components/swup');
 require('./components/confirm');
-require('./components/datepicker');
 require('./components/dirty');
 require('./components/htmlPreview');
-require('./components/segments');
-require('./components/tags');
 require('./components/charts/emailListStatistics');
 require('./components/charts/campaignStatistics');
 
 Alpine.plugin(focus);
 
 window.Alpine = Alpine;
+window.Tagify = Tagify;
 
 document.addEventListener('alpine:init', () => {
     Alpine.store('modals', {

@@ -1,5 +1,15 @@
-<div data-segments="{{ $segmentsData->toJson() }}"
-    data-segments-selected="{{ old('segment_id', $segmentable->segment_id) }}">
+<div x-data="{
+    segmentsData: @js($segmentsData),
+    emailListId: @js(old('email_list_id', $segmentable->email_list_id)),
+    segment: @js(match(true) {
+        $segmentable->notSegmenting() => 'entire_list',
+        $segmentable->segmentingOnSubscriberTags() => 'segment',
+    }),
+    selectedSegment: @js(old('segment_id', $segmentable->segment_id)),
+    selectedEmailList() {
+        return this.segmentsData.find(list => list.id === this.emailListId);
+    },
+}" x-cloak>
     <x-mailcoach::fieldset :legend="__('mailcoach - Audience')">
         @error('email_list_id')
             <p class="form-error">{{ $message }}</p>
@@ -10,13 +20,10 @@
                 {{ __('mailcoach - List') }}
             </label>
             <div class="select">
-                <select name="email_list_id" id="email_list_id" data-segments-email-list required>
+                <select name="email_list_id" id="email_list_id" x-model="emailListId" required>
                     <option disabled value="">--{{ __('mailcoach - None') }}--</option>
                     @foreach($emailLists as $emailList)
-                        <option
-                            value="{{ $emailList->id }}"
-                            @if(old('email_list_id', $segmentable->email_list_id) == $emailList->id) selected @endif
-                        >
+                        <option value="{{ $emailList->id }}">
                             {{ $emailList->name }}
                         </option>
                     @endforeach
@@ -42,8 +49,8 @@
                 <div class="radio-group">
                     <x-mailcoach::radio-field
                         name="segment"
-                        :value="$segmentable->notSegmenting()"
                         option-value="entire_list"
+                        x-model="segment"
                         :label="__('mailcoach - Entire list')"
 
                     />
@@ -51,23 +58,28 @@
                         <div class="flex-shrink-none">
                             <x-mailcoach::radio-field
                                 name="segment"
-                                :value="$segmentable->segmentingOnSubscriberTags()"
+                                x-model="segment"
                                 option-value="segment"
                                 :label="__('mailcoach - Use segment')"
-
                             />
                         </div>
-                        <div class="ml-4 | hidden" data-segments-create>
-                            <a class="link" href="#">{{ __('mailcoach - Create a segment first') }}</a>
-                        </div>
-                        <div class="ml-4 -my-2 | hidden" data-segments-choose>
-                            @error('segment_id')
-                                <p class="form-error">{{ $message }}</p>
-                            @enderror
-                            <div class="select">
-                                <select name="segment_id"></select>
-                                <div class="select-arrow">
-                                    <i class="fas fa-angle-down"></i>
+                        <div x-show="segment !== 'entire_list'">
+                            <div class="ml-4" x-show="selectedEmailList().segments.length === 0">
+                                <a class="link" :href="selectedEmailList().createSegmentUrl">{{ __('mailcoach - Create a segment first') }}</a>
+                            </div>
+                            <div class="ml-4 -my-2"  x-show="selectedEmailList().segments.length > 0">
+                                @error('segment_id')
+                                    <p class="form-error">{{ $message }}</p>
+                                @enderror
+                                <div class="select">
+                                    <select name="segment_id" x-model="selectedSegment">
+                                        <template x-for="segment in selectedEmailList().segments">
+                                            <option :value="segment.id" x-text="segment.name"></option>
+                                        </template>
+                                    </select>
+                                    <div class="select-arrow">
+                                        <i class="fas fa-angle-down"></i>
+                                    </div>
                                 </div>
                             </div>
                         </div>

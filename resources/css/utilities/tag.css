@@ -1,14 +1,50 @@
-.tag {
-    @apply inline-flex;
-    @apply items-center;
-    @apply rounded-full;
-    @apply bg-blue-400;
-    @apply text-white;
-    @apply px-2;
-    @apply py-1;
-    margin: 0 3px 3px 0;
+.tagify {
+    @apply items-center !important;
+    @apply border-blue-100 !important;
+}
+.tagify__tag {
+    @apply rounded-full !important;
+    @apply bg-blue-400 !important;
+    @apply pl-2 !important;
+    @apply py-1 !important;
+    @apply pb-0 !important;
+    @apply no-underline !important;
+}
+
+.tagify__tag > div {
+    @apply p-0 !important;
+}
+
+.tagify__tag > div:before {
+    @apply hidden;
+}
+
+.tagify__tag-text {
     @apply text-xs;
-    @apply no-underline;
+    @apply text-white;
+}
+
+.tagify__tag__removeBtn {
+    @apply mb-1 !important;
+    @apply ml-1 !important;
+    @apply text-white !important;
+}
+
+.tagify__dropdown {
+    @apply shadow-md;
+}
+
+.tagify__dropdown .tagify__dropdown__wrapper {
+    @apply bg-gray-100;
+    @apply border-none;
+}
+
+.tagify__dropdown .tagify__dropdown__wrapper .tagify__dropdown__item {
+    @apply py-2;
+}
+
+.tagify__dropdown .tagify__dropdown__wrapper .tagify__dropdown__item--active {
+    @apply bg-blue-400;
 }
 
 .tag-neutral {
