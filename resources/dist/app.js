@@ -4736,6 +4736,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 window.swup = new swup__WEBPACK_IMPORTED_MODULE_0__["default"]({
+  linkSelector: 'a[href^="' + window.location.origin + '"]:not([data-no-swup], [wire\\:click\\.prevent], [wire\\:click], [target]), a[href^="/"]:not([data-no-swup]), a[href^="#"]:not([data-no-swup])',
   animationSelector: '[class*="swup-transition-"]',
   plugins: [new _swup_livewire_plugin__WEBPACK_IMPORTED_MODULE_1__["default"](), new _swup_a11y_plugin__WEBPACK_IMPORTED_MODULE_2__["default"](), new _swup_preload_plugin__WEBPACK_IMPORTED_MODULE_3__["default"]()]
 });

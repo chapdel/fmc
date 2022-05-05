@@ -2,21 +2,29 @@
 
 namespace Spatie\Mailcoach\Http\App\Queries;
 
+use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Queries\Filters\FuzzyFilter;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class CampaignSendQuery extends QueryBuilder
+class SendQuery extends QueryBuilder
 {
     use UsesMailcoachModels;
 
-    public function __construct(Subscriber $subscriber)
+    public function __construct(Subscriber $subscriber, ?Request $request)
     {
-        $query = $this->getSendClass()::query()->where('subscriber_id', $subscriber->id);
+        $query = self::getSendClass()::query()
+            ->withCount(['opens', 'clicks'])
+            ->with([
+                'campaign',
+                'automationMail',
+                'transactionalMail',
+            ])
+            ->where('subscriber_id', $subscriber->id);
 
-        parent::__construct($query);
+        parent::__construct($query, $request);
 
         $this
             ->defaultSort('-sent_at')

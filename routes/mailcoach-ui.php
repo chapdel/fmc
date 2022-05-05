@@ -96,7 +96,7 @@ Route::prefix('email-lists')->group(function () {
             Route::get('details', ['\\' . SubscriberDetailsController::class, 'edit'])->name('mailcoach.emailLists.subscriber.details');
             Route::put('details', ['\\' . SubscriberDetailsController::class, 'update']);
             Route::get('attributes', ['\\' . SubscriberDetailsController::class, 'attributes'])->name('mailcoach.emailLists.subscriber.attributes');
-            Route::get('received-campaigns', '\\' . ReceivedCampaignsController::class)->name('mailcoach.emailLists.subscriber.receivedCampaigns');
+            Route::get('sends', '\\' . \Spatie\Mailcoach\Http\App\Livewire\Audience\SubscriberSends::class)->name('mailcoach.emailLists.subscriber.receivedCampaigns');
         });
 
         Route::delete('unsubscribes', '\\' . DestroyAllUnsubscribedController::class)->name('mailcoach.emailLists.destroy-unsubscribes');
