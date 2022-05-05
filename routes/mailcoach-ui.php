@@ -155,7 +155,7 @@ Route::prefix('email-lists')->group(function () {
         Route::delete('/', '\\' . DestroyEmailListController::class)->name('mailcoach.emailLists.delete');
 
         Route::prefix('segments')->group(function () {
-            Route::get('/', '\\' . SegmentsIndexController::class)->name('mailcoach.emailLists.segments');
+            Route::get('/', '\\' . \Spatie\Mailcoach\Http\App\Livewire\Audience\Segments::class)->name('mailcoach.emailLists.segments');
 
             Route::post('/', '\\' . CreateSegmentController::class)->name('mailcoach.emailLists.segment.store');
 
@@ -163,7 +163,6 @@ Route::prefix('email-lists')->group(function () {
                 Route::get('subscribers', '\\' . SegmentSubscribersIndexController::class)->name('mailcoach.emailLists.segment.subscribers');
                 Route::get('/details', ['\\' . EditSegmentController::class, 'edit'])->name('mailcoach.emailLists.segment.edit');
                 Route::put('/details', ['\\' . EditSegmentController::class, 'update']);
-                Route::delete('/', '\\' . DestroySegmentController::class)->name('mailcoach.emailLists.segment.delete');
                 Route::post('duplicate', '\\' . DuplicateSegmentController::class)->name('mailcoach.emailLists.segment.duplicate');
             });
         });

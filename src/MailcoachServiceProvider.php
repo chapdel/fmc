@@ -73,7 +73,9 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Listeners\StoreTransactionalMail;
 use Spatie\Mailcoach\Http\App\Controllers\HomeController;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\CreateList;
+use Spatie\Mailcoach\Http\App\Livewire\Audience\CreateSegment;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\Lists;
+use Spatie\Mailcoach\Http\App\Livewire\Audience\Segments;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailOutbox;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\Automations;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailClicks;
@@ -382,6 +384,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
         // Audience
         Livewire::component('mailcoach::create-list', CreateList::class);
         Livewire::component('mailcoach::lists', Lists::class);
+        Livewire::component('mailcoach::create-segment', CreateSegment::class);
+        Livewire::component('mailcoach::segments', Segments::class);
 
         // Automations
         Livewire::component('mailcoach::create-automation', CreateAutomation::class);
