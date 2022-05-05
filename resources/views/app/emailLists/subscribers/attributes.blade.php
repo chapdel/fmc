@@ -1,6 +1,5 @@
 <x-mailcoach::layout-subscriber :subscriber="$subscriber" :totalSendsCount="$totalSendsCount">
     @if($subscriber->extra_attributes->count())
-
         <table class="table table-fixed">
             <thead>
             <tr>
@@ -25,9 +24,6 @@
             @endforeach
             </tbody>
         </table>
-
-
-
     @else
         <x-mailcoach::help>
             {{ __("mailcoach - This user doesn't have any attributes yet.") }}
