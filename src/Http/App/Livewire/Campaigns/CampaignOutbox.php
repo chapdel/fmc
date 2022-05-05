@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Http\App\Livewire\Campaigns;
 
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
-use Spatie\Mailcoach\Http\App\Queries\CampaignOpensQuery;
 use Spatie\Mailcoach\Http\App\Queries\CampaignSendsQuery;
 
 class CampaignOutbox extends DataTable
