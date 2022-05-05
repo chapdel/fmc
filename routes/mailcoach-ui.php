@@ -2,81 +2,53 @@
 
 use Illuminate\Support\Facades\Route;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationActionsController;
-use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailClicksController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailContentController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailDeliveryController;
-use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailOpensController;
-use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailOutboxController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailSettingsController;
-use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailsIndexController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailSummaryController;
-use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailUnsubscribesController;
-use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\CreateAutomationMailController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\DestroyAutomationMailController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\DuplicateAutomationMailController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\SendAutomationMailTestController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationSettingsController;
-use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationsIndexController;
-use Spatie\Mailcoach\Http\App\Controllers\Automations\CreateAutomationController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\DestroyAutomationController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\DuplicateAutomationController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\RunAutomationController;
-use Spatie\Mailcoach\Http\App\Controllers\Automations\ToggleAutomationStatusController;
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\CampaignsIndexController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\CancelSendingCampaignController;
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\DestroyCampaignController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignContentController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignDeliveryController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignSettingsController;
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CreateCampaignController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\ScheduleCampaignController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\SendCampaignController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\SendCampaignTestController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\UnscheduleCampaignController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\DuplicateCampaignController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\RetryFailedSendsController;
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignClicksController;
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignOpensController;
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignOutboxController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignSummaryController;
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Sent\CampaignUnsubscribesController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\TemplatesController;
 use Spatie\Mailcoach\Http\App\Controllers\DebugController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\DestroyEmailListController;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\EmailListsIndexController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\ImportSubscribersController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\CreateSegmentController;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\DestroySegmentController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\DuplicateSegmentController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\EditSegmentController;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\SegmentsIndexController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\SegmentSubscribersIndexController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListGeneralSettingsController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListMailersController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListOnboardingController;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\CreateSubscriberController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\DestroyAllUnsubscribedController;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\DestroySubscriberController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\ReceivedCampaignsController;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\ResendConfirmationMailController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\SubscriberDetailsController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\SubscribersExportController;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\SubscribersIndexController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\SummaryController;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\UpdateStatus\ConfirmController;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\UpdateStatus\ResubscribeController;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\UpdateStatus\UnsubscribeController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\TagsController;
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DestroySubscriberImportController;
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DownloadSubscriberImportAttachmentController;
-use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\DestroyTransactionalMailController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ResendTransactionalMailController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ShowTransactionalMailBodyController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\SendTransactionalMailTestController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\TransactionalMailSettingsController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\TransactionalMailTemplatesController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailContentController;
-use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailIndexController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailPerformanceController;
 use Spatie\Mailcoach\Http\App\Middleware\EditableCampaign;
 
@@ -117,16 +89,14 @@ Route::prefix('email-lists')->group(function () {
 
     Route::prefix('{emailList}')->group(function () {
         Route::get('summary', '\\' . SummaryController::class)->name('mailcoach.emailLists.summary');
-        Route::get('subscribers', '\\' . SubscribersIndexController::class)->name('mailcoach.emailLists.subscribers');
+        Route::get('subscribers', '\\' . \Spatie\Mailcoach\Http\App\Livewire\Audience\Subscribers::class)->name('mailcoach.emailLists.subscribers');
         Route::post('subscribers/export', '\\' . SubscribersExportController::class)->name('mailcoach.emailLists.subscribers.export');
 
-        Route::post('subscriber/create', ['\\' . CreateSubscriberController::class, 'store'])->name('mailcoach.emailLists.subscriber.store');
         Route::prefix('subscriber/{subscriber}')->group(function () {
             Route::get('details', ['\\' . SubscriberDetailsController::class, 'edit'])->name('mailcoach.emailLists.subscriber.details');
             Route::put('details', ['\\' . SubscriberDetailsController::class, 'update']);
             Route::get('attributes', ['\\' . SubscriberDetailsController::class, 'attributes'])->name('mailcoach.emailLists.subscriber.attributes');
             Route::get('received-campaigns', '\\' . ReceivedCampaignsController::class)->name('mailcoach.emailLists.subscriber.receivedCampaigns');
-            Route::delete('/', '\\' . DestroySubscriberController::class)->name('mailcoach.emailLists.subscriber.delete');
         });
 
         Route::delete('unsubscribes', '\\' . DestroyAllUnsubscribedController::class)->name('mailcoach.emailLists.destroy-unsubscribes');
@@ -237,13 +207,6 @@ Route::prefix('transactional-mail-templates')->group(function () {
 Route::prefix('subscriber-import')->group(function () {
     Route::get('{subscriberImport}/download-attachment/{collection}', '\\' . DownloadSubscriberImportAttachmentController::class)->name('mailcoach.subscriberImport.downloadAttachment');
     Route::delete('{subscriberImport}', '\\' . DestroySubscriberImportController::class)->name('mailcoach.subscriberImport.delete');
-});
-
-Route::prefix('subscriber/{subscriber}')->group(function () {
-    Route::post('resend-confirmation-mail', '\\' . ResendConfirmationMailController::class)->name('mailcoach.subscriber.resend-confirmation-mail');
-    Route::post('confirm', '\\' . ConfirmController::class)->name('mailcoach.subscriber.confirm');
-    Route::post('unsubscribe', '\\' . UnsubscribeController::class)->name('mailcoach.subscriber.unsubscribe');
-    Route::post('subscribe', '\\' . ResubscribeController::class)->name('mailcoach.subscriber.resubscribe');
 });
 
 Route::prefix('templates')->group(function () {

@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Queries;
 
+use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -14,13 +15,13 @@ class EmailListSubscribersQuery extends QueryBuilder
 {
     use UsesMailcoachModels;
 
-    public function __construct(EmailList $emailList)
+    public function __construct(EmailList $emailList, ?Request $request = null)
     {
-        $subscribersQuery = $this->getSubscriberClass()::query()
+        $subscribersQuery = self::getSubscriberClass()::query()
             ->where('email_list_id', $emailList->id)
             ->with('emailList', 'tags');
 
-        parent::__construct($subscribersQuery);
+        parent::__construct($subscribersQuery, $request);
 
         $this
             ->allowedSorts('created_at', 'updated_at', 'subscribed_at', 'unsubscribed_at', 'email', 'first_name', 'last_name', 'id')
