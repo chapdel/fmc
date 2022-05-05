@@ -4,8 +4,6 @@ namespace Spatie\Mailcoach\Http\App\Livewire\Automations;
 
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
-use Spatie\Mailcoach\Http\App\Queries\AutomationMailLinksQuery;
-use Spatie\Mailcoach\Http\App\Queries\AutomationMailOpensQuery;
 use Spatie\Mailcoach\Http\App\Queries\AutomationMailUnsubscribesQuery;
 
 class AutomationMailUnsubscribeIndex extends DataTable
