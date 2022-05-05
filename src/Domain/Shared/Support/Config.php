@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Shared\Support;
 
+use Livewire\Component;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\InvalidConfig;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
@@ -55,6 +56,17 @@ class Config
         }
 
         return resolve($configuredClass);
+    }
+
+    public static function getLivewireComponentClass(string $componentName, string $defaultClass): string
+    {
+        $configuredClass = config("mailcoach.livewire.components.{$componentName}", $defaultClass);
+
+        if (! is_subclass_of($configuredClass, Component::class)) {
+            throw InvalidConfig::invalidLivewireComponent($componentName, $configuredClass);
+        }
+
+        return $configuredClass;
     }
 
     public static function getQueueConnection(): ?string

@@ -31,12 +31,10 @@ use Spatie\Mailcoach\Http\App\Controllers\EmailLists\ImportSubscribersController
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\CreateSegmentController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\DuplicateSegmentController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\EditSegmentController;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\SegmentSubscribersIndexController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListGeneralSettingsController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListMailersController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListOnboardingController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\DestroyAllUnsubscribedController;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\ReceivedCampaignsController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\SubscriberDetailsController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\SubscribersExportController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\SummaryController;

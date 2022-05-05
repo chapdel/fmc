@@ -523,4 +523,43 @@ return [
          */
         'use_blade_components' => true,
     ],
+
+    'livewire' => [
+        // Audience
+        'create-list' => \Spatie\Mailcoach\Http\App\Livewire\Audience\CreateList::class,
+        'lists' => \Spatie\Mailcoach\Http\App\Livewire\Audience\Lists::class,
+        'create-segment' => \Spatie\Mailcoach\Http\App\Livewire\Audience\CreateSegment::class,
+        'segments' => \Spatie\Mailcoach\Http\App\Livewire\Audience\Segments::class,
+        'segment-subscribers' => \Spatie\Mailcoach\Http\App\Livewire\Audience\SegmentSubscribers::class,
+        'create-subscriber' => \Spatie\Mailcoach\Http\App\Livewire\Audience\CreateSubscriber::class,
+        'subscribers' => \Spatie\Mailcoach\Http\App\Livewire\Audience\Subscribers::class,
+        'subscriber-sends' => \Spatie\Mailcoach\Http\App\Livewire\Audience\SubscriberSends::class,
+        'create-tag' => \Spatie\Mailcoach\Http\App\Livewire\Audience\CreateTag::class,
+        'tags' => \Spatie\Mailcoach\Http\App\Livewire\Audience\Tags::class,
+
+        // Automations
+        'create-automation' => \Spatie\Mailcoach\Http\App\Livewire\Automations\CreateAutomation::class,
+        'automations' => \Spatie\Mailcoach\Http\App\Livewire\Automations\Automations::class,
+        'create-automation-mail' => \Spatie\Mailcoach\Http\App\Livewire\Automations\CreateAutomationMail::class,
+        'automation-mails' => \Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMails::class,
+        'automation-mail-clicks' => \Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailClicks::class,
+        'automation-mail-opens' => \Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailOpens::class,
+        'automation-mail-unsubscribes' => \Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailUnsubscribes::class,
+        'automation-mail-outbox' => \Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailOutbox::class,
+
+        // Campaigns
+        'create-campaign' => \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CreateCampaign::class,
+        'campaigns' => \Spatie\Mailcoach\Http\App\Livewire\Campaigns\Campaigns::class,
+        'create-template' => \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CreateTemplate::class,
+        'templates' => \Spatie\Mailcoach\Http\App\Livewire\Campaigns\Templates::class,
+        'campaign-clicks' => \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignClicks::class,
+        'campaign-opens' => \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignOpens::class,
+        'campaign-unsubscribes' => \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignUnsubscribes::class,
+        'campaign-outbox' => \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignOutbox::class,
+
+        // Transactional
+        'create-transactional-template' => \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\CreateTransactionalTemplate::class,
+        'transactional-mails' => \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMails::class,
+        'transactional-mail-templates' => \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailTemplates::class,
+    ],
 ];
