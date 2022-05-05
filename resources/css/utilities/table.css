@@ -39,6 +39,7 @@
     @apply uppercase;
     @apply text-xs;
     @apply tracking-wider;
+    @apply w-full;
 }
 
 .table tbody tr:nth-child(even) {
