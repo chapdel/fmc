@@ -77,7 +77,7 @@ use Spatie\Mailcoach\Http\App\Livewire\Audience\Lists;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\Automations;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailClicks;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMails;
-use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailOpenIndex;
+use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailOpens;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailUnsubscribes;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\CreateAutomation;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\CreateAutomationMail;
@@ -384,7 +384,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::create-automation-mail', CreateAutomationMail::class);
         Livewire::component('mailcoach::automation-mails', AutomationMails::class);
         Livewire::component('mailcoach::automation-mail-clicks', AutomationMailClicks::class);
-        Livewire::component('mailcoach::automation-mail-opens', AutomationMailOpenIndex::class);
+        Livewire::component('mailcoach::automation-mail-opens', AutomationMailOpens::class);
         Livewire::component('mailcoach::automation-mail-unsubscribes', AutomationMailUnsubscribes::class);
 
         // Campaigns

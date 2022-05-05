@@ -6,7 +6,7 @@ use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\AutomationMailOpensQuery;
 
-class AutomationMailOpenIndex extends DataTable
+class AutomationMailOpens extends DataTable
 {
     public string $sort = '-first_opened_at';
 
