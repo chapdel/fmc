@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\Queries;
 
 use Illuminate\Database\Query\Builder;
+use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Http\App\Queries\Filters\FuzzyFilter;
@@ -12,7 +13,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class EmailListTagsQuery extends QueryBuilder
 {
-    public function __construct(EmailList $emailList)
+    public function __construct(EmailList $emailList, ?Request $request)
     {
         $query = Tag::query()
             ->addSelect(['subscriber_count' => function (Builder $query) {
@@ -22,7 +23,7 @@ class EmailListTagsQuery extends QueryBuilder
                     ->whereColumn('mailcoach_email_list_subscriber_tags.tag_id', 'mailcoach_tags.id');
             }]);
 
-        parent::__construct($query);
+        parent::__construct($query, $request);
 
         $this
 

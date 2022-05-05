@@ -15,35 +15,6 @@ class TagsController
 {
     use AuthorizesRequests;
 
-    public function index(EmailList $emailList)
-    {
-        $this->authorize('view', $emailList);
-
-        $tagsQuery = new EmailListTagsQuery($emailList);
-
-        return view('mailcoach::app.emailLists.tags.index', [
-            'emailList' => $emailList,
-            'tags' => $tagsQuery->paginate(),
-            'totalTagsCount' => Tag::query()->emailList($emailList)->count(),
-            'totalDefault' => Tag::query()->where('type', TagType::DEFAULT)->emailList($emailList)->count(),
-            'totalMailcoach' => Tag::query()->where('type', TagType::MAILCOACH)->emailList($emailList)->count(),
-        ]);
-    }
-
-    public function store(CreateTagRequest $request, EmailList $emailList)
-    {
-        $this->authorize('update', $emailList);
-
-        $tag = $emailList->tags()->create([
-            'name' => $request->name,
-            'type' => TagType::DEFAULT,
-        ]);
-
-        flash()->success(__('mailcoach - Tag :tag was created', ['tag' => $tag->name]));
-
-        return back();
-    }
-
     public function edit(EmailList $emailList, Tag $tag)
     {
         $this->authorize('update', $emailList);
@@ -65,20 +36,5 @@ class TagsController
         flash()->success(__('mailcoach - Tag :tag was updated', ['tag' => $tag->name]));
 
         return redirect()->route('mailcoach.emailLists.tags', $emailList);
-    }
-
-    public function destroy(EmailList $emailList, Tag $tag)
-    {
-        $this->authorize('update', $emailList);
-
-        $tag->subscribers->each(function ($subscriber) use ($tag) {
-            event(new TagRemovedEvent($subscriber, $tag));
-        });
-
-        $tag->delete();
-
-        flash()->success(__('mailcoach - Tag :tag was deleted', ['tag' => $tag->name]));
-
-        return back();
     }
 }

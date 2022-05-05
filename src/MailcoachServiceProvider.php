@@ -75,15 +75,17 @@ use Spatie\Mailcoach\Http\App\Controllers\HomeController;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\CreateList;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\CreateSegment;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\CreateSubscriber;
+use Spatie\Mailcoach\Http\App\Livewire\Audience\CreateTag;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\Lists;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\Segments;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\Subscribers;
-use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailClicks;
-use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailOpens;
+use Spatie\Mailcoach\Http\App\Livewire\Audience\Tags;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailOutbox;
-use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMails;
-use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailUnsubscribes;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\Automations;
+use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailClicks;
+use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMails;
+use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailOpens;
+use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailUnsubscribes;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\CreateAutomation;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\CreateAutomationMail;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignClicks;
@@ -390,6 +392,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::segments', Segments::class);
         Livewire::component('mailcoach::create-subscriber', CreateSubscriber::class);
         Livewire::component('mailcoach::subscribers', Subscribers::class);
+        Livewire::component('mailcoach::create-tag', CreateTag::class);
+        Livewire::component('mailcoach::tags', Tags::class);
 
         // Automations
         Livewire::component('mailcoach::create-automation', CreateAutomation::class);

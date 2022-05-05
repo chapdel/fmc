@@ -1,7 +1,6 @@
 <div>
     @if($campaign->track_clicks)
         @if($campaign->click_count)
-            @php(($links ?? collect())->map(fn ($link) => $link->setRelation('campaign', $campaign)))
             <x-mailcoach::data-table
                 name="clicks"
                 :rows="$links ?? null"
@@ -13,6 +12,9 @@
                     ['attribute' => '-click_count', 'label' => __('mailcoach - Clicks'), 'class' => 'w-32 th-numeric'],
                 ]"
                 rowPartial="mailcoach::app.campaigns.partials.clickRow"
+                :rowData="[
+                    'campaign' => $campaign,
+                ]"
             />
         @else
             <x-mailcoach::help>

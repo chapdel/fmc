@@ -114,12 +114,11 @@ Route::prefix('email-lists')->group(function () {
         Route::put('mailers', ['\\' . EmailListMailersController::class, 'update']);
 
         Route::prefix('tags')->group(function () {
-            Route::get('/', ['\\' . TagsController::class, 'index'])->name('mailcoach.emailLists.tags');
+            Route::get('/', '\\' . \Spatie\Mailcoach\Http\App\Livewire\Audience\Tags::class)->name('mailcoach.emailLists.tags');
             Route::post('/', ['\\' . TagsController::class, 'store'])->name('mailcoach.emailLists.tag.store');
             Route::prefix('{tag}')->group(function () {
                 Route::get('/', ['\\' . TagsController::class, 'edit'])->name('mailcoach.emailLists.tag.edit');
                 Route::put('/', ['\\' . TagsController::class, 'update']);
-                Route::delete('/', ['\\' . TagsController::class, 'destroy'])->name('mailcoach.emailLists.tag.delete');
             });
         });
         Route::delete('/', '\\' . DestroyEmailListController::class)->name('mailcoach.emailLists.delete');

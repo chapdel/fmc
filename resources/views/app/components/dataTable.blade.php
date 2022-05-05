@@ -5,6 +5,7 @@
     'columns' => [],
     'filters' => [],
     'rowPartial' => null,
+    'rowData' => [],
     'modelClass' => null,
     'emptyText' => null,
 ])
@@ -77,7 +78,7 @@
                 <tbody>
                     @if($rowPartial)
                         @foreach ($rows as $index => $row)
-                            @include($rowPartial)
+                            @include($rowPartial, $rowData)
                         @endforeach
                     @endif
                     {{ $tbody ?? '' }}

@@ -5,7 +5,7 @@
     <div class="form-buttons">
         <x-mailcoach::button :label="__('mailcoach - Create segment')" />
 
-        <button type="button" class="button-cancel" data-modal-dismiss>
+        <button type="button" class="button-cancel" x-on:click="$store.modals.close('create-segment')">
             {{ __('mailcoach - Cancel') }}
         </button>
     </div>
