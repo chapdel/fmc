@@ -2,17 +2,9 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 
-use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\DeleteSubscriberAction;
-use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\SendConfirmSubscriberMailAction;
-use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
-use Spatie\Mailcoach\Domain\Audience\Support\Segments\Segment;
-use Spatie\Mailcoach\Domain\Shared\Support\Config;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
-use Spatie\Mailcoach\Http\App\Queries\SendQuery;
-use Spatie\Mailcoach\Http\App\Queries\EmailListSubscribersQuery;
 
 class SegmentSubscribers extends DataTable
 {
