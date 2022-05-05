@@ -26,6 +26,16 @@ abstract class DataTable extends Component
     abstract public function getView(): string;
     abstract public function getData(): array;
 
+    public function getLayout(): string
+    {
+        return 'mailcoach::app.layouts.main';
+    }
+
+    public function getLayoutData(): array
+    {
+        return [];
+    }
+
     public function boot()
     {
         $this->defaultSort = $this->sort;
@@ -85,8 +95,8 @@ abstract class DataTable extends Component
             $this->readyToLoad
             ? $this->getData()
             : []
-        )->layout('mailcoach::app.layouts.main', [
+        )->layout($this->getLayout(), array_merge([
             'title' => $this->getTitle(),
-        ]);
+        ], $this->getLayoutData()));
     }
 }
