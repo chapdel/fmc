@@ -78,6 +78,7 @@ use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationIndex;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailClickIndex;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailIndex;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailOpenIndex;
+use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailUnsubscribeIndex;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\CreateAutomation;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\CreateAutomationMail;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignIndex;
@@ -387,6 +388,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::transactional-mail-template-index', TransactionalMailTemplateIndex::class);
         Livewire::component('mailcoach::automation-mail-click-index', AutomationMailClickIndex::class);
         Livewire::component('mailcoach::automation-mail-open-index', AutomationMailOpenIndex::class);
+        Livewire::component('mailcoach::automation-mail-unsubscribe-index', AutomationMailUnsubscribeIndex::class);
 
         return $this;
     }

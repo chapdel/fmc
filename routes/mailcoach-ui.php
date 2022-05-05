@@ -201,7 +201,7 @@ Route::prefix('automation-emails')->group(function () {
         Route::put('settings', ['\\' . AutomationMailSettingsController::class, 'update']);
         Route::get('opens', '\\' . \Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailOpenIndex::class)->name('mailcoach.automations.mails.opens');
         Route::get('clicks', '\\' . \Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailClickIndex::class)->name('mailcoach.automations.mails.clicks');
-        Route::get('unsubscribes', '\\' . AutomationMailUnsubscribesController::class)->name('mailcoach.automations.mails.unsubscribes');
+        Route::get('unsubscribes', '\\' . \Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailUnsubscribeIndex::class)->name('mailcoach.automations.mails.unsubscribes');
         Route::get('outbox', '\\' . AutomationMailOutboxController::class)->name('mailcoach.automations.mails.outbox');
         Route::get('content', [AutomationMailContentController::class, 'edit'])->name('mailcoach.automations.mails.content');
         Route::put('content', [AutomationMailContentController::class, 'update'])->name('mailcoach.automations.mails.updateContent');
