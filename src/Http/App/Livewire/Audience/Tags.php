@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 
 use Spatie\Mailcoach\Domain\Audience\Events\TagRemovedEvent;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\EmailListTagsQuery;

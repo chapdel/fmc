@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
-use Spatie\Mailcoach\Domain\Audience\Actions\EmailLists\CreateEmailListAction;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
