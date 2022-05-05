@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Http\App\Livewire\Automations;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\AutomatedMailQuery;
 
-class AutomationMailIndex extends DataTable
+class AutomationMails extends DataTable
 {
     public function deleteAutomationMail(int $id)
     {

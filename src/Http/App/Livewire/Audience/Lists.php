@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\EmailListQuery;
 
-class ListIndex extends DataTable
+class Lists extends DataTable
 {
     public function deleteList(int $id)
     {

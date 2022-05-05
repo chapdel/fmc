@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Http\App\Livewire\Campaigns;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\CampaignsQuery;
 
-class CampaignIndex extends DataTable
+class Campaigns extends DataTable
 {
     public string $sort = '-sent';
 

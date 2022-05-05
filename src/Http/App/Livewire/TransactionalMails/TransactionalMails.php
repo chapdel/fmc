@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Http\App\Livewire\TransactionalMails;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\TransactionalMailQuery;
 
-class TransactionalMailIndex extends DataTable
+class TransactionalMails extends DataTable
 {
     public string $sort = '-created_at';
 

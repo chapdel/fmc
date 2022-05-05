@@ -6,7 +6,7 @@ use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\AutomationMailLinksQuery;
 
-class AutomationMailClickIndex extends DataTable
+class AutomationMailClicks extends DataTable
 {
     public string $sort = '-unique_click_count';
 

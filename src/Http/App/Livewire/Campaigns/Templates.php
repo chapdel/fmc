@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Http\App\Livewire\Campaigns;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\TemplatesQuery;
 
-class TemplateIndex extends DataTable
+class Templates extends DataTable
 {
     public function deleteTemplate(int $id)
     {

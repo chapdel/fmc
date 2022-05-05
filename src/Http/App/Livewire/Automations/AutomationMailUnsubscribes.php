@@ -6,7 +6,7 @@ use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\AutomationMailUnsubscribesQuery;
 
-class AutomationMailUnsubscribeIndex extends DataTable
+class AutomationMailUnsubscribes extends DataTable
 {
     public string $sort = '-created_at';
 

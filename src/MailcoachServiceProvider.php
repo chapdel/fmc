@@ -73,22 +73,22 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Listeners\StoreTransactionalMail;
 use Spatie\Mailcoach\Http\App\Controllers\HomeController;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\CreateList;
-use Spatie\Mailcoach\Http\App\Livewire\Audience\ListIndex;
-use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationIndex;
-use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailClickIndex;
-use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailIndex;
+use Spatie\Mailcoach\Http\App\Livewire\Audience\Lists;
+use Spatie\Mailcoach\Http\App\Livewire\Automations\Automations;
+use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailClicks;
+use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMails;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailOpenIndex;
-use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailUnsubscribeIndex;
+use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailUnsubscribes;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\CreateAutomation;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\CreateAutomationMail;
-use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignIndex;
+use Spatie\Mailcoach\Http\App\Livewire\Campaigns\Campaigns;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CreateCampaign;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CreateTemplate;
-use Spatie\Mailcoach\Http\App\Livewire\Campaigns\TemplateIndex;
+use Spatie\Mailcoach\Http\App\Livewire\Campaigns\Templates;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\CreateTransactionalTemplate;
-use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailIndex;
-use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailTemplateIndex;
+use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMails;
+use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailTemplates;
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\IndexComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\QueryStringComposer;
@@ -372,23 +372,31 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::email-list-statistics', EmailListStatistics::class);
         Livewire::component('mailcoach::campaign-statistics', CampaignStatistics::class);
 
-        Livewire::component('mailcoach::create-campaign', CreateCampaign::class);
-        Livewire::component('mailcoach::create-template', CreateTemplate::class);
-        Livewire::component('mailcoach::create-automation', CreateAutomation::class);
-        Livewire::component('mailcoach::create-automation-mail', CreateAutomationMail::class);
-        Livewire::component('mailcoach::create-list', CreateList::class);
-        Livewire::component('mailcoach::create-transactional-template', CreateTransactionalTemplate::class);
         Livewire::component('mailcoach::data-table', DataTable::class);
-        Livewire::component('mailcoach::template-index', TemplateIndex::class);
-        Livewire::component('mailcoach::campaign-index', CampaignIndex::class);
-        Livewire::component('mailcoach::automation-index', AutomationIndex::class);
-        Livewire::component('mailcoach::automation-mail-index', AutomationMailIndex::class);
-        Livewire::component('mailcoach::list-index', ListIndex::class);
-        Livewire::component('mailcoach::transactional-mail-index', TransactionalMailIndex::class);
-        Livewire::component('mailcoach::transactional-mail-template-index', TransactionalMailTemplateIndex::class);
-        Livewire::component('mailcoach::automation-mail-click-index', AutomationMailClickIndex::class);
-        Livewire::component('mailcoach::automation-mail-open-index', AutomationMailOpenIndex::class);
-        Livewire::component('mailcoach::automation-mail-unsubscribe-index', AutomationMailUnsubscribeIndex::class);
+
+        // Audience
+        Livewire::component('mailcoach::create-list', CreateList::class);
+        Livewire::component('mailcoach::lists', Lists::class);
+
+        // Automations
+        Livewire::component('mailcoach::create-automation', CreateAutomation::class);
+        Livewire::component('mailcoach::automations', Automations::class);
+        Livewire::component('mailcoach::create-automation-mail', CreateAutomationMail::class);
+        Livewire::component('mailcoach::automation-mails', AutomationMails::class);
+        Livewire::component('mailcoach::automation-mail-clicks', AutomationMailClicks::class);
+        Livewire::component('mailcoach::automation-mail-opens', AutomationMailOpenIndex::class);
+        Livewire::component('mailcoach::automation-mail-unsubscribes', AutomationMailUnsubscribes::class);
+
+        // Campaigns
+        Livewire::component('mailcoach::create-campaign', CreateCampaign::class);
+        Livewire::component('mailcoach::campaigns', Campaigns::class);
+        Livewire::component('mailcoach::create-template', CreateTemplate::class);
+        Livewire::component('mailcoach::templates', Templates::class);
+
+        // TransactionalMails
+        Livewire::component('mailcoach::create-transactional-template', CreateTransactionalTemplate::class);
+        Livewire::component('mailcoach::transactional-mails', TransactionalMails::class);
+        Livewire::component('mailcoach::transactional-mail-templates', TransactionalMailTemplates::class);
 
         return $this;
     }
