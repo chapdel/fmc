@@ -47,6 +47,7 @@
         x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0"
         x-on:click.outside="close($refs.button)"
+        x-on:click="close($refs.button)"
         :id="$id('dropdown-button')"
         style="display: none;"
         class="z-50 dropdown-list {{ isset($direction) ? 'dropdown-list-' . $direction : '' }}">
