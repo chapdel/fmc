@@ -82,7 +82,11 @@ use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailOpens;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailUnsubscribes;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\CreateAutomation;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\CreateAutomationMail;
+use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignClicks;
+use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignOpens;
+use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignOutbox;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\Campaigns;
+use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignUnsubscribes;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CreateCampaign;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CreateTemplate;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\Templates;
@@ -394,6 +398,10 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::campaigns', Campaigns::class);
         Livewire::component('mailcoach::create-template', CreateTemplate::class);
         Livewire::component('mailcoach::templates', Templates::class);
+        Livewire::component('mailcoach::campaign-clicks', CampaignClicks::class);
+        Livewire::component('mailcoach::campaign-opens', CampaignOpens::class);
+        Livewire::component('mailcoach::campaign-unsubscribes', CampaignUnsubscribes::class);
+        Livewire::component('mailcoach::campaign-outbox', CampaignOutbox::class);
 
         // TransactionalMails
         Livewire::component('mailcoach::create-transactional-template', CreateTransactionalTemplate::class);

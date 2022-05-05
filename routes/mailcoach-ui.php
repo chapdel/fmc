@@ -101,11 +101,10 @@ Route::prefix('campaigns')->group(function () {
         });
 
         Route::get('summary', '\\' . CampaignSummaryController::class)->name('mailcoach.campaigns.summary');
-        Route::get('opens', '\\' . CampaignOpensController::class)->name('mailcoach.campaigns.opens');
-        Route::get('clicks', '\\' . CampaignClicksController::class)->name('mailcoach.campaigns.clicks');
-        Route::get('unsubscribes', '\\' . CampaignUnsubscribesController::class)->name('mailcoach.campaigns.unsubscribes');
-
-        Route::get('outbox', '\\' . CampaignOutboxController::class)->name('mailcoach.campaigns.outbox');
+        Route::get('opens', '\\' . \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignOpens::class)->name('mailcoach.campaigns.opens');
+        Route::get('clicks', '\\' . \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignClicks::class)->name('mailcoach.campaigns.clicks');
+        Route::get('unsubscribes', '\\' . \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignUnsubscribes::class)->name('mailcoach.campaigns.unsubscribes');
+        Route::get('outbox', '\\' . \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignOutbox::class)->name('mailcoach.campaigns.outbox');
 
         Route::post('duplicate', '\\' . DuplicateCampaignController::class)->name('mailcoach.campaigns.duplicate');
         Route::post('retry-failed-sends', '\\' . RetryFailedSendsController::class)->name('mailcoach.campaigns.retry-failed-sends');
