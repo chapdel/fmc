@@ -5,7 +5,6 @@ require('./components/swup');
 require('./components/confirm');
 require('./components/datepicker');
 require('./components/dirty');
-require('./components/dismiss');
 require('./components/htmlPreview');
 require('./components/segments');
 require('./components/tags');
@@ -19,6 +18,7 @@ window.Alpine = Alpine;
 document.addEventListener('alpine:init', () => {
     Alpine.store('modals', {
         openModals: [],
+        onConfirm: null,
         isOpen(id) {
             return this.openModals.includes(id);
         },

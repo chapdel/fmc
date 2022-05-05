@@ -96,8 +96,8 @@
                 {{ __('mailcoach - There are unsaved changes. Are you sure you want to continue?') }}
 
                 <div class="form-buttons">
-                    <x-mailcoach::button type="button" data-modal-confirm :label=" __('mailcoach - Confirm')" />
-                    <x-mailcoach::button-cancel  x-on:click="$store.modals.close('confirm-navigation')" :label=" __('mailcoach - Cancel')" />
+                    <x-mailcoach::button type="button" x-on:click="$store.modals.onConfirm && $store.modals.onConfirm()" :label=" __('mailcoach - Confirm')" />
+                    <x-mailcoach::button-cancel  x-on:click="$store.modals.close('dirty-warning')" :label=" __('mailcoach - Cancel')" />
                 </div>
             </x-mailcoach::modal>
 
