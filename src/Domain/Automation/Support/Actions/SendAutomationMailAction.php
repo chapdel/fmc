@@ -34,7 +34,7 @@ class SendAutomationMailAction extends AutomationAction
 
     public static function getComponent(): ?string
     {
-        return 'automation-mail-action';
+        return 'mailcoach::automation-mail-action';
     }
 
     public static function getName(): string

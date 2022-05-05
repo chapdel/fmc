@@ -11,6 +11,6 @@ class WebhookTrigger extends AutomationTrigger
 
     public static function getComponent(): ?string
     {
-        return 'webhook-trigger';
+        return 'mailcoach::webhook-trigger';
     }
 }

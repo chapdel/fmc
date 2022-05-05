@@ -18,12 +18,14 @@
         wire:change="setSelectedTrigger($event.target.value)"
     />
 
-    @if ($selectedTrigger && $selectedTrigger::getComponent())
-        @livewire($selectedTrigger::getComponent(), [
-            'triggerClass' => $automation->triggerClass(),
-            'automation' => $automation,
-        ], key($selectedTrigger))
-    @endif
+    <div>
+        @if ($selectedTrigger && $selectedTrigger::getComponent())
+            @livewire($selectedTrigger::getComponent(), [
+                'triggerClass' => $automation->triggerClass(),
+                'automation' => $automation,
+            ], key($selectedTrigger))
+        @endif
+    </div>
 
     @include('mailcoach::app.campaigns.partials.emailListFields', ['segmentable' => $automation])
 

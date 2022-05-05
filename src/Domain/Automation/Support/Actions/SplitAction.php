@@ -30,7 +30,7 @@ class SplitAction extends AutomationAction
 
     public static function getComponent(): ?string
     {
-        return 'split-action';
+        return 'mailcoach::split-action';
     }
 
     public function duplicate(): static

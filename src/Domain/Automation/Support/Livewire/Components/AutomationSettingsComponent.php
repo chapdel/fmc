@@ -29,7 +29,7 @@ class AutomationSettingsComponent extends Component
                 return [$trigger => $trigger::getName()];
             });
 
-        $this->emailLists = $this->getEmailListClass()::all();
+        $this->emailLists = self::getEmailListClass()::all();
 
         $this->segmentsData = $this->emailLists->map(function (EmailList $emailList) {
             return [

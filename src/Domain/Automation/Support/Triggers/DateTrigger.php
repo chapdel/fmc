@@ -23,7 +23,7 @@ class DateTrigger extends AutomationTrigger implements TriggeredBySchedule
 
     public static function getComponent(): ?string
     {
-        return 'date-trigger';
+        return 'mailcoach::date-trigger';
     }
 
     public static function make(array $data): self

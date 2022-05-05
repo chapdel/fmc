@@ -36,7 +36,7 @@ class ConditionAction extends AutomationAction
 
     public static function getComponent(): ?string
     {
-        return 'condition-action';
+        return 'mailcoach::condition-action';
     }
 
     public function duplicate(): static

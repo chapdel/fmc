@@ -1,14 +1,11 @@
 <div x-data="{
     segmentsData: @js($segmentsData),
-    emailListId: @js(old('email_list_id', $segmentable->email_list_id)),
+    emailListId: @js(old('email_list_id', $segmentable->email_list_id) ?? $segmentsData[0]['id']),
     segment: @js(match(true) {
         $segmentable->notSegmenting() => 'entire_list',
         $segmentable->segmentingOnSubscriberTags() => 'segment',
     }),
     selectedSegment: @js(old('segment_id', $segmentable->segment_id)),
-    selectedEmailList() {
-        return this.segmentsData.find(list => list.id === this.emailListId);
-    },
 }" x-cloak>
     <x-mailcoach::fieldset :legend="__('mailcoach - Audience')">
         @error('email_list_id')
@@ -64,16 +61,18 @@
                             />
                         </div>
                         <div x-show="segment !== 'entire_list'">
-                            <div class="ml-4" x-show="selectedEmailList().segments.length === 0">
-                                <a class="link" :href="selectedEmailList().createSegmentUrl">{{ __('mailcoach - Create a segment first') }}</a>
-                            </div>
-                            <div class="ml-4 -my-2"  x-show="selectedEmailList().segments.length > 0">
+                            <template x-for="list in segmentsData">
+                                <div class="ml-4" x-show="emailListId == list.id && segmentsData.find(list => list.id == emailListId).segments.length == 0">
+                                    <a class="link" :href="list.createSegmentUrl">{{ __('mailcoach - Create a segment first') }}</a>
+                                </div>
+                            </template>
+                            <div class="ml-4 -my-2"  x-show="(segmentsData.find(list => list.id == emailListId) || segmentsData[0]).segments.length > 0">
                                 @error('segment_id')
                                     <p class="form-error">{{ $message }}</p>
                                 @enderror
                                 <div class="select">
                                     <select name="segment_id" x-model="selectedSegment">
-                                        <template x-for="segment in selectedEmailList().segments">
+                                        <template x-for="segment in (segmentsData.find(list => list.id == emailListId) || segmentsData[0]).segments">
                                             <option :value="segment.id" x-text="segment.name"></option>
                                         </template>
                                     </select>

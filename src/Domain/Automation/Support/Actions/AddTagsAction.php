@@ -33,7 +33,7 @@ class AddTagsAction extends AutomationAction
 
     public static function getComponent(): ?string
     {
-        return 'add-tags-action';
+        return 'mailcoach::add-tags-action';
     }
 
     public function toArray(): array
