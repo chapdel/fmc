@@ -47,18 +47,9 @@
 
         <x-mailcoach::button wire:click="save" :label="__('mailcoach - Save content')"/>
 
-        {{-- Start test dialog --}}
-        <x-mailcoach::text-field
-            :label="__('mailcoach - Test addresses')"
-            :placeholder="__('mailcoach - Email(s) comma separated')"
-            name="emails"
-            :required="true"
-            type="text"
-            wire:model="emails"
-            :value="cache()->get('mailcoach-test-email-addresses')"
-        />
-
-        <x-mailcoach::button type="" wire:click="sendTest" class="ml-2"
-                             :label="__('mailcoach - Save and send test')"/>
+        <x-mailcoach::button x-on:click.prevent="$wire.save() && $store.modals.open('send-test')" class="ml-2" :label="__('mailcoach - Save and send test')"/>
+        <x-mailcoach::modal name="send-test">
+            <livewire:mailcoach::send-test :model="$campaign" />
+        </x-mailcoach::modal>
     </div>
 </div>

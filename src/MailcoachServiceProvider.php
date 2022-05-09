@@ -101,6 +101,7 @@ use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CreateCampaign;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CreateTemplate;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\Templates;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
+use Spatie\Mailcoach\Http\App\Livewire\SendTest;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\CreateTransactionalTemplate;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMails;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailTemplates;
@@ -388,6 +389,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::email-list-statistics', EmailListStatistics::class);
         Livewire::component('mailcoach::campaign-statistics', CampaignStatistics::class);
 
+        Livewire::component('mailcoach::send-test', SendTest::class);
         Livewire::component('mailcoach::data-table', DataTable::class);
 
         // Audience
