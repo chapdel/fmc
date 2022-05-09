@@ -1,28 +1,24 @@
 <?php
 
-use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Audience\Policies\EmailListPolicy;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\CreateEmailListController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListGeneralSettingsController;
+use Spatie\Mailcoach\Http\App\Livewire\Audience\CreateList;
 use Spatie\Mailcoach\Tests\TestClasses\CustomEmailListDenyAllPolicy;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 
-it('can create a new email list', function () {
+beforeEach(function () {
     test()->authenticate();
+});
 
-    $attributes = [
-        'name' => 'new list',
-        'default_from_email' => 'john@example.com',
-    ];
-
-    $this
-        ->post(
-            action(CreateEmailListController::class),
-            $attributes
-        )
-        ->assertSessionHasNoErrors()
+it('can create a list', function () {
+    Livewire::test(CreateList::class)
+        ->set('name', 'My list')
+        ->set('default_from_email', 'john@example.com')
+        ->call('saveList')
         ->assertRedirect(action([EmailListGeneralSettingsController::class, 'edit'], EmailList::first()->id));
 
-    test()->assertDatabaseHas(static::getEmailListTableName(), $attributes);
+    test()->assertDatabaseHas(static::getEmailListTableName(), ['name' => 'My list']);
 });
 
 it('sets mailers based on the mailcoach mailer config', function () {
@@ -30,13 +26,10 @@ it('sets mailers based on the mailcoach mailer config', function () {
 
     config()->set('mailcoach.mailer', 'some-mailer');
 
-    $attributes = [
-        'name' => 'new list',
-        'default_from_email' => 'john@example.com',
-    ];
-
-    $this
-        ->postJson(action(CreateEmailListController::class), $attributes);
+    Livewire::test(CreateList::class)
+        ->set('name', 'new list')
+        ->set('default_from_email', 'john@example.com')
+        ->call('saveList');
 
     $attributes['transactional_mailer'] = 'some-mailer';
     $attributes['campaign_mailer'] = 'some-mailer';
@@ -51,12 +44,10 @@ it('sets mailers based on the config', function () {
     config()->set('mailcoach.transactional.mailer', 'some-transactional-mailer');
     config()->set('mailcoach.campaigns.mailer', 'some-campaign-mailer');
 
-    $attributes = [
-        'name' => 'new list',
-        'default_from_email' => 'john@example.com',
-    ];
-
-    test()->post(action(CreateEmailListController::class), $attributes);
+    Livewire::test(CreateList::class)
+        ->set('name', 'new list')
+        ->set('default_from_email', 'john@example.com')
+        ->call('saveList');
 
     $attributes['transactional_mailer'] = 'some-transactional-mailer';
     $attributes['campaign_mailer'] = 'some-campaign-mailer';
@@ -69,16 +60,8 @@ it('authorizes access with custom policy', function () {
 
     test()->authenticate();
 
-    $attributes = [
-        'name' => 'new list',
-        'default_from_email' => 'john@example.com',
-    ];
-
-    $this
-        ->withExceptionHandling()
-        ->post(
-            action(CreateEmailListController::class),
-            $attributes
-        )
-        ->assertForbidden();
-});
+    Livewire::test(CreateList::class)
+        ->set('name', 'new list')
+        ->set('default_from_email', 'john@example.com')
+        ->call('saveList');
+})->throws(\Illuminate\Auth\Access\AuthorizationException::class);

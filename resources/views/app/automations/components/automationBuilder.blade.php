@@ -15,7 +15,7 @@
                     'automation' => $automation,
                 ], ($action['data'] ?? [])), key($index . $action['uuid']))
             @else
-                @livewire('automation-action', array_merge([
+                @livewire('mailcoach::automation-action', array_merge([
                     'index' => $index,
                     'uuid' => $action['uuid'],
                     'action' => $action,

@@ -4,6 +4,7 @@ use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\UnsubscribeAction;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\AutomationSettingsComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\WebhookTrigger;
 
@@ -15,7 +16,7 @@ it('can change automation settings', function () {
         new UnsubscribeAction(),
     ]);
 
-    Livewire::test('automation-settings', [
+    Livewire::test(AutomationSettingsComponent::class, [
         'automation' => $automation,
     ])->assertViewHas('triggerOptions')
     ->assertViewHas('emailLists', EmailList::with('segments')->get())

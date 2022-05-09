@@ -7,19 +7,6 @@ beforeEach(function () {
     test()->authenticate();
 });
 
-it('can create a template', function () {
-    $attributes = [
-        'name' => 'template name',
-        'html' => 'template html',
-    ];
-
-    $this
-        ->post(action([TemplatesController::class, 'store']), $attributes)
-        ->assertSessionHasNoErrors();
-
-    test()->assertDatabaseHas(static::getTemplateTableName(), $attributes);
-});
-
 it('can update a template', function () {
     $template = Template::factory()->create();
 
@@ -35,16 +22,6 @@ it('can update a template', function () {
     $attributes['id'] = $template->id;
 
     test()->assertDatabaseHas(static::getTemplateTableName(), $attributes);
-});
-
-it('can delete a template', function () {
-    $template = Template::factory()->create();
-
-    $this
-        ->delete(action([TemplatesController::class, 'destroy'], $template))
-        ->assertRedirect(action([TemplatesController::class, 'index']));
-
-    expect(Template::get())->toHaveCount(0);
 });
 
 it('can duplicate a template', function () {

@@ -38,7 +38,7 @@ class UpdateCampaignAction
             'track_clicks' => $attributes['track_clicks'] ?? config('mailcoach.campaigns.default_settings.track_clicks', false),
             'utm_tags' => $attributes['utm_tags'] ?? config('mailcoach.campaigns.default_settings.utm_tags', false),
             'last_modified_at' => now(),
-            'email_list_id' => $attributes['email_list_id'] ?? $this->getEmailListClass()::orderBy('name')->first()?->id,
+            'email_list_id' => $attributes['email_list_id'] ?? self::getEmailListClass()::orderBy('name')->first()?->id,
             'segment_class' => $segmentClass,
             'segment_description' => $segmentDescription,
             'scheduled_at' => $attributes['schedule_at'] ?? null,
