@@ -10,5 +10,9 @@
         ['class' => 'w-12'],
     ]"
     rowPartial="mailcoach::app.emailLists.partials.row"
-    :emptyText="__('mailcoach - You\'ll need at least one list to gather subscribers.')"
+    :emptyText="
+        ($this->filter['search'] ?? null)
+            ? __('mailcoach - No email lists found.')
+            : __('mailcoach - You\'ll need at least one list to gather subscribers.')
+    "
 />

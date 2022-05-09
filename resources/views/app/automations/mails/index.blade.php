@@ -12,4 +12,5 @@
         ['class' => 'w-12'],
     ]"
     rowPartial="mailcoach::app.automations.mails.partials.row"
+    :emptyText="__('mailcoach - No automated mails yet.')"
 />

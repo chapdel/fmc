@@ -1,3 +1,10 @@
+@if($this->filter['search'] ?? '')
+    @php($emptyText = __('mailcoach - No campaigns found.'))
+@elseif ($totalListsCount ?? 0)
+    @php($emptyText = __('mailcoach - No campaigns yet. Go write something!'))
+@else
+    @php($emptyText = __('mailcoach - No campaigns yet, but you‘ll need a list first, go <a href=":emailListsLink">create one</a>!', ['emailListsLink' => route('mailcoach.emailLists')]))
+@endif
 <x-mailcoach::data-table
     name="campaign"
     :rows="$campaigns ?? null"
@@ -19,6 +26,7 @@
         ['class' => 'w-12'],
     ]"
     rowPartial="mailcoach::app.campaigns.partials.row"
+    :emptyText="$emptyText"
 >
     @slot('actions')
         @can('create', \Spatie\Mailcoach\Domain\Shared\Support\Config::getCampaignClass())
@@ -30,17 +38,5 @@
                 <livewire:mailcoach::create-campaign />
             </x-mailcoach::modal>
         @endcan
-    @endslot
-
-    @slot('empty')
-        <x-mailcoach::help>
-            @if($this->filter['search'] ?? '')
-                {{ __('mailcoach - No campaigns found.') }}
-            @elseif ($totalListsCount ?? 0)
-                {{ __('mailcoach - No campaigns yet. Go write something!') }}
-            @else
-                {!! __('mailcoach - No campaigns yet, but you‘ll need a list first, go <a href=":emailListsLink">create one</a>!', ['emailListsLink' => route('mailcoach.emailLists')]) !!}
-            @endif
-        </x-mailcoach::help>
     @endslot
 </x-mailcoach::data-table>
