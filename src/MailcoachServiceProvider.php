@@ -305,6 +305,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component(DateTimeFieldComponent::class, 'mailcoach::date-time-field');
 
         Blade::component('mailcoach::app.components.modal.modal', 'mailcoach::modal');
+        Blade::component('mailcoach::app.components.modal.previewModal', 'mailcoach::preview-modal');
 
         Blade::component('mailcoach::app.components.dataTable', 'mailcoach::data-table');
         Blade::component('mailcoach::app.components.table.tableStatus', 'mailcoach::table-status');

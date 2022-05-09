@@ -14,7 +14,7 @@
                         <textarea
                             class="input input-html"
                             rows="15"
-                            wire:model="templateFieldValues.{{ $placeHolderName }}"
+                            wire:model.lazy="templateFieldValues.{{ $placeHolderName }}"
                         ></textarea>
                     </div>
                 @endforeach
@@ -28,24 +28,11 @@
                         class="input input-html"
                         name="field_html"
                         rows="15"
-                        wire:model="templateFieldValues.html"
+                        wire:model.lazy="templateFieldValues.html"
                     />
                 </div>
             @endif
 
-            <textarea class="hidden"
-                      data-html-preview-source
-                      wire:model="fullHtml"
-            ></textarea>
-
-            {{--
-            <x-mailcoach::modal
-                :title="__('mailcoach - Preview') . ' - ' .
-            $campaign->subject" name="preview" large
-                :open="Request::get('modal')">
-                <iframe class="absolute" width="100%" height="100%" data-html-preview-target></iframe>
-            </x-mailcoach::modal>
-            --}}
 
             <x-mailcoach::campaign-replacer-help-texts/>
 
@@ -55,6 +42,9 @@
     </div>
 
     <div class="form-buttons">
+        <x-mailcoach::button-secondary x-on:click.prevent="$store.modals.open('preview')" :label="__('mailcoach - Preview')"/>
+        <x-mailcoach::preview-modal name="preview" :html="$fullHtml" :title="__('mailcoach - Preview') . ' - ' . $campaign->subject" />
+
         <x-mailcoach::button wire:click="save" :label="__('mailcoach - Save content')"/>
 
         {{-- Start test dialog --}}

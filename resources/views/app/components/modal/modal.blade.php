@@ -19,6 +19,7 @@
         x-id="['modal-title']"
         :aria-labelledby="$id('modal-title')"
         class="fixed inset-0 overflow-y-auto z-50"
+        {{ $attributes }}
     >
         <!-- Overlay -->
         <div x-show="$store.modals.isOpen('{{ $name }}')" x-transition.opacity class="fixed inset-0 bg-black bg-opacity-50"></div>

@@ -29,6 +29,7 @@ abstract class EditorComponent extends Component
         $this->templateFieldValues = $campaign->getTemplateFieldValues();
         $this->template = $campaign->template;
         $this->templateId = $campaign->template?->id;
+        $this->renderFullHtml();
     }
 
     public function updatingTemplateId(?int $templateId)
@@ -54,10 +55,13 @@ abstract class EditorComponent extends Component
             return;
         }
 
-        $templateRenderer = (new TemplateRenderer($this->template->html));
+        $this->renderFullHtml();
+    }
 
+    public function renderFullHtml()
+    {
+        $templateRenderer = (new TemplateRenderer($this->template->html));
         $this->fullHtml = $templateRenderer->render($this->templateFieldValues);
-        ;
     }
 
     public function save()
