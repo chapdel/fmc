@@ -1,17 +1,9 @@
 <?php
 
 use Livewire\Livewire;
-use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Audience\Policies\EmailListPolicy;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListGeneralSettingsController;
-use Spatie\Mailcoach\Http\App\Livewire\Audience\CreateList;
-use Spatie\Mailcoach\Http\App\Livewire\Audience\CreateSubscriber;
-use Spatie\Mailcoach\Tests\TestClasses\CustomEmailListDenyAllPolicy;
-use function Pest\Livewire\livewire;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignSettingsController;
-use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CreateCampaign;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Http\App\Livewire\Audience\CreateSubscriber;
 
 it('can create a subscriber', function () {
     test()->authenticate();

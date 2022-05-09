@@ -1,12 +1,10 @@
 <?php
 
+use function Pest\Livewire\livewire;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Policies\EmailListPolicy;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\Lists;
-use Spatie\Mailcoach\Http\App\Livewire\Campaigns\Campaigns;
 use Spatie\Mailcoach\Tests\TestClasses\CustomEmailListDenyAllPolicy;
-use function Pest\Livewire\livewire;
 
 beforeEach(function () {
     $this->emailList = EmailList::factory()->create();

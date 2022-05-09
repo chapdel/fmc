@@ -1,6 +1,5 @@
 <?php
 
-use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CreateTemplate;
 
 it('can create a template', function () {

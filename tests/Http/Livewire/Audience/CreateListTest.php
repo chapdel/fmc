@@ -1,11 +1,11 @@
 <?php
 
 use Livewire\Livewire;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Policies\EmailListPolicy;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListGeneralSettingsController;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\CreateList;
 use Spatie\Mailcoach\Tests\TestClasses\CustomEmailListDenyAllPolicy;
-use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 
 beforeEach(function () {
     test()->authenticate();
