@@ -244,6 +244,10 @@ class Subscriber extends Model
     {
         $tags = $this->tags()->whereIn('name', $names)->get();
 
+        if ($tags->isEmpty()) {
+            return $this;
+        }
+
         foreach ($tags as $tag) {
             event(new TagRemovedEvent($this, $tag));
         }
