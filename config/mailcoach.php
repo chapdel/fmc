@@ -302,6 +302,11 @@ return [
     'redirect_unauthorized_users_to_route' => 'login',
 
     /*
+     * Homepage will redirect to this route.
+     */
+    'redirect_home' => 'mailcoach.campaigns',
+
+    /*
      *  This configuration option defines the authentication guard that will
      *  be used to protect your the Mailcoach UI. This option should match one
      *  of the authentication guards defined in the "auth" config file.
