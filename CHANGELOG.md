@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.5.6 - 2022-05-11
+
+## What's changed
+
+- We now dispatch the first action for the subscriber right away when an automation is triggered
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.5.5...5.5.6
+
 ## 5.5.5 - 2022-04-21
 
 - Improve campaign summary screen performance for large campaigns
