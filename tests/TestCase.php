@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Tests;
 
 use CreateMailcoachTables;
-use CreateMediaTable;
 use CreateUsersTable;
 use CreateWebhookCallsTable;
 use Illuminate\Contracts\Console\Kernel;
