@@ -4,14 +4,13 @@ namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\UpdateSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber as SubscriberModel;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Domain\Audience\Models\Subscriber as SubscriberModel;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 
 class Subscriber extends Component
@@ -45,7 +44,7 @@ class Subscriber extends Component
                 'email:rfc',
                 Rule::unique(self::getSubscriberTableName(), 'email')
                     ->where('email_list_id', $this->emailList->id)
-                    ->ignore($this->subscriber->id)
+                    ->ignore($this->subscriber->id),
             ],
             'subscriber.first_name' => 'nullable|string',
             'subscriber.last_name' => 'nullable|string',
