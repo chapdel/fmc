@@ -16,8 +16,6 @@ use Spatie\Mailcoach\Http\App\Controllers\Automations\DuplicateAutomationControl
 use Spatie\Mailcoach\Http\App\Controllers\Automations\RunAutomationController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignContentController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\SendCampaignTestController;
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\DuplicateCampaignController;
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\RetryFailedSendsController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\TemplatesController;
 use Spatie\Mailcoach\Http\App\Controllers\DebugController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\DestroyEmailListController;
@@ -31,7 +29,6 @@ use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListOnboardin
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\DestroyAllUnsubscribedController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\SubscriberDetailsController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\SubscribersExportController;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\SummaryController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\TagsController;
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DestroySubscriberImportController;
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DownloadSubscriberImportAttachmentController;
@@ -72,7 +69,7 @@ Route::prefix('email-lists')->group(function () {
     Route::get('/', '\\' . Config::getLivewireComponentClass('lists', \Spatie\Mailcoach\Http\App\Livewire\Audience\Lists::class))->name('mailcoach.emailLists');
 
     Route::prefix('{emailList}')->group(function () {
-        Route::get('summary', '\\' . SummaryController::class)->name('mailcoach.emailLists.summary');
+        Route::get('summary', '\\' . Config::getLivewireComponentClass('list-summary', \Spatie\Mailcoach\Http\App\Livewire\Audience\ListSummary::class))->name('mailcoach.emailLists.summary');
         Route::get('subscribers', '\\' . Config::getLivewireComponentClass('subscribers', \Spatie\Mailcoach\Http\App\Livewire\Audience\Subscribers::class))->name('mailcoach.emailLists.subscribers');
         Route::post('subscribers/export', '\\' . SubscribersExportController::class)->name('mailcoach.emailLists.subscribers.export');
 
