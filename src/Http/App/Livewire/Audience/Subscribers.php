@@ -94,6 +94,15 @@ class Subscribers extends DataTable
         $this->flash(__('mailcoach - A confirmation mail has been sent to :subscriber', ['subscriber' => $subscriber->email]));
     }
 
+    public function deleteUnsubscribes()
+    {
+        $this->authorize('update', $this->emailList);
+
+        $this->emailList->allSubscribersWithoutIndex()->unsubscribed()->delete();
+
+        $this->flash(__('mailcoach - All unsubscribers of the list have been deleted.'));
+    }
+
     public function getTitle(): string
     {
         return __('mailcoach - Subscribers');

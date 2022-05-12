@@ -26,7 +26,6 @@ use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\EditSegmentControl
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListGeneralSettingsController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListMailersController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListOnboardingController;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\DestroyAllUnsubscribedController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\SubscriberDetailsController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\SubscribersExportController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\TagsController;
@@ -79,8 +78,6 @@ Route::prefix('email-lists')->group(function () {
             Route::get('attributes', ['\\' . SubscriberDetailsController::class, 'attributes'])->name('mailcoach.emailLists.subscriber.attributes');
             Route::get('sends', '\\' . Config::getLivewireComponentClass('subscriber-sends', \Spatie\Mailcoach\Http\App\Livewire\Audience\SubscriberSends::class))->name('mailcoach.emailLists.subscriber.receivedCampaigns');
         });
-
-        Route::delete('unsubscribes', '\\' . DestroyAllUnsubscribedController::class)->name('mailcoach.emailLists.destroy-unsubscribes');
 
         Route::get('subscribers/import-subscribers', ['\\' . ImportSubscribersController::class, 'showImportScreen'])->name('mailcoach.emailLists.import-subscribers');
         Route::post('subscribers/import-subscribers', ['\\' . ImportSubscribersController::class, 'import']);
