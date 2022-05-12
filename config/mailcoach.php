@@ -561,6 +561,8 @@ return [
         'campaign-opens' => \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignOpens::class,
         'campaign-unsubscribes' => \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignUnsubscribes::class,
         'campaign-outbox' => \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignOutbox::class,
+        'campaign-summary' => \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignSummary::class,
+        'campaign-settings' => \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignSettings::class,
 
         // Transactional
         'create-transactional-template' => \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\CreateTransactionalTemplate::class,

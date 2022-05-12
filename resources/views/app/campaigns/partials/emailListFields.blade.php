@@ -1,11 +1,8 @@
 <div x-data="{
     segmentsData: @js($segmentsData),
-    emailListId: @js(old('email_list_id', $segmentable->email_list_id) ?? $segmentsData[0]['id']),
-    segment: @js(match(true) {
-        $segmentable->notSegmenting() => 'entire_list',
-        $segmentable->segmentingOnSubscriberTags() => 'segment',
-    }),
-    selectedSegment: @js(old('segment_id', $segmentable->segment_id)),
+    emailListId: @entangle($wiremodel . '.email_list_id'),
+    segment: @entangle('segment'),
+    selectedSegment: @entangle('segment_id'),
 }" x-cloak>
     <x-mailcoach::fieldset :legend="__('mailcoach - Audience')">
         @error('email_list_id')

@@ -56,12 +56,11 @@ Route::prefix('campaigns')->group(function () {
     Route::get('/', '\\' . Config::getLivewireComponentClass('campaigns', Config::getLivewireComponentClass('campaigns', \Spatie\Mailcoach\Http\App\Livewire\Campaigns\Campaigns::class)))->name('mailcoach.campaigns');
 
     Route::prefix('{campaign}')->group(function () {
-        Route::get('settings', ['\\' . CampaignSettingsController::class, 'edit'])->name('mailcoach.campaigns.settings');
+        Route::get('settings', Config::getLivewireComponentClass('campaign-settings', \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignSettings::class))->name('mailcoach.campaigns.settings');
         Route::get('content', ['\\' . CampaignContentController::class, 'edit'])->name('mailcoach.campaigns.content');
         Route::get('delivery', '\\' . CampaignDeliveryController::class)->name('mailcoach.campaigns.delivery');
 
         Route::middleware('\\' . EditableCampaign::class)->group(function () {
-            Route::put('settings', ['\\' . CampaignSettingsController::class, 'update']);
             Route::put('content', ['\\' . CampaignContentController::class, 'update'])->name('mailcoach.campaigns.updateContent');
 
             Route::post('send-test-email', '\\' . SendCampaignTestController::class)->name('mailcoach.campaigns.sendTestEmail');
