@@ -73,9 +73,7 @@ Route::prefix('email-lists')->group(function () {
 
         Route::get('settings', '\\' . Config::getLivewireClass('list-settings', \Spatie\Mailcoach\Http\App\Livewire\Audience\ListSettings::class))->name('mailcoach.emailLists.general-settings');
         Route::get('onboarding', '\\' . Config::getLivewireClass('list-onboarding', \Spatie\Mailcoach\Http\App\Livewire\Audience\ListOnboarding::class))->name('mailcoach.emailLists.onboarding');
-
-        Route::get('mailers', ['\\' . EmailListMailersController::class, 'edit'])->name('mailcoach.emailLists.mailers');
-        Route::put('mailers', ['\\' . EmailListMailersController::class, 'update']);
+        Route::get('mailers', '\\' . Config::getLivewireClass('list-mailers', \Spatie\Mailcoach\Http\App\Livewire\Audience\ListMailers::class))->name('mailcoach.emailLists.mailers');
 
         Route::prefix('tags')->group(function () {
             Route::get('/', '\\' . Config::getLivewireClass('tags', \Spatie\Mailcoach\Http\App\Livewire\Audience\Tags::class))->name('mailcoach.emailLists.tags');
