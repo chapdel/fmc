@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.5.7 - 2022-05-12
+
+## What's Changed
+
+- Optimise removeTags() performance by @JackWH in https://github.com/spatie/laravel-mailcoach/pull/975
+
+## New Contributors
+
+- @JackWH made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/975
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.5.6...5.5.7
+
 ## 5.5.6 - 2022-05-11
 
 ## What's changed
