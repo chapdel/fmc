@@ -8,6 +8,7 @@
     'allowCreate' => false,
 ])
 <div
+    wire:ignore
     x-data="{
         multiple: true,
         value: @js($value),
@@ -38,6 +39,7 @@
 
                 this.$refs.select.addEventListener('change', () => {
                     this.value = tagify.value.map(v => v.value);
+                    $wire.emit('tags-updated', this.value);
                 })
 
                 this.$watch('value', () => refreshTagify())

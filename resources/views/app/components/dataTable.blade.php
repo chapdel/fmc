@@ -11,37 +11,39 @@
     'searchable' => true,
 ])
 <div wire:init="loadRows">
-    <div class="table-actions">
-        {{ $actions ?? '' }}
-        @if ($modelClass)
-            @can('create', $modelClass)
-                <x-mailcoach::button x-on:click="$store.modals.open('create-{{ $name }}')" :label="__('mailcoach - Create ' . $name)"/>
+    @if (isset($actions) || ($totalRowsCount > 0 && count($filters)) || ($searchable  && (($this->filter['search'] ?? null) || ($this->filter['status'] ?? null) || $rows->count())))
+        <div class="table-actions">
+            {{ $actions ?? '' }}
+            @if ($modelClass)
+                @can('create', $modelClass)
+                    <x-mailcoach::button x-on:click="$store.modals.open('create-{{ $name }}')" :label="__('mailcoach - Create ' . $name)"/>
 
-                <x-mailcoach::modal :title="__('mailcoach - Create ' . $name)" name="create-{{ $name }}">
-                    @livewire('mailcoach::create-' . $name)
-                </x-mailcoach::modal>
-            @endcan
-        @endif
-
-        <div class="table-filters">
-            @if ($totalRowsCount > 0 && count($filters))
-                <x-mailcoach::filters>
-                    @foreach ($filters as $filter)
-                        <x-mailcoach::filter :filter="$this->filter" value="{{ $filter['value'] }}" attribute="{{ $filter['attribute'] }}">
-                            {{ $filter['label'] }}
-                            @isset($filter['count'])
-                                <span class="counter">{{ Illuminate\Support\Str::shortNumber($filter['count']) }}</span>
-                            @endisset
-                        </x-mailcoach::filter>
-                    @endforeach
-                </x-mailcoach::filters>
+                    <x-mailcoach::modal :title="__('mailcoach - Create ' . $name)" name="create-{{ $name }}">
+                        @livewire('mailcoach::create-' . $name)
+                    </x-mailcoach::modal>
+                @endcan
             @endif
 
-            @if($searchable && (($this->filter['search'] ?? null) || ($this->filter['status'] ?? null) || $rows->count()))
-                <x-mailcoach::search wire:model="filter.search" :placeholder="__('mailcoach - Search…')"/>
-            @endif
+            <div class="table-filters">
+                @if ($totalRowsCount > 0 && count($filters))
+                    <x-mailcoach::filters>
+                        @foreach ($filters as $filter)
+                            <x-mailcoach::filter :filter="$this->filter" value="{{ $filter['value'] }}" attribute="{{ $filter['attribute'] }}">
+                                {{ $filter['label'] }}
+                                @isset($filter['count'])
+                                    <span class="counter">{{ Illuminate\Support\Str::shortNumber($filter['count']) }}</span>
+                                @endisset
+                            </x-mailcoach::filter>
+                        @endforeach
+                    </x-mailcoach::filters>
+                @endif
+
+                @if($searchable && (($this->filter['search'] ?? null) || ($this->filter['status'] ?? null) || $rows->count()))
+                    <x-mailcoach::search wire:model="filter.search" :placeholder="__('mailcoach - Search…')"/>
+                @endif
+            </div>
         </div>
-    </div>
+    @endif
 
     <div class="w-full text-center" wire:loading.delay.long>
         <style>

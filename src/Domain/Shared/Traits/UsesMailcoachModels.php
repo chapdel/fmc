@@ -197,10 +197,10 @@ trait UsesMailcoachModels
         return $emailList->getTable();
     }
 
-    public function getSubscriberTableName(): string
+    public static function getSubscriberTableName(): string
     {
         /** @var \Illuminate\Database\Eloquent\Model $subscriber */
-        $subscriberClass = $this->getSubscriberClass();
+        $subscriberClass = self::getSubscriberClass();
 
         $subscriber = new $subscriberClass;
 

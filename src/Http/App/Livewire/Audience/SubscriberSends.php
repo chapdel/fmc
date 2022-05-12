@@ -31,11 +31,6 @@ class SubscriberSends extends DataTable
         return 'mailcoach::app.emailLists.subscribers.sends';
     }
 
-    public function getLayout(): string
-    {
-        return 'mailcoach::app.emailLists.subscribers.layouts.subscriber';
-    }
-
     public function getLayoutData(): array
     {
         return [

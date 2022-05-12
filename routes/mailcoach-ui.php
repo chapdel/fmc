@@ -71,13 +71,7 @@ Route::prefix('email-lists')->group(function () {
         Route::get('summary', '\\' . Config::getLivewireComponentClass('list-summary', \Spatie\Mailcoach\Http\App\Livewire\Audience\ListSummary::class))->name('mailcoach.emailLists.summary');
         Route::get('subscribers', '\\' . Config::getLivewireComponentClass('subscribers', \Spatie\Mailcoach\Http\App\Livewire\Audience\Subscribers::class))->name('mailcoach.emailLists.subscribers');
         Route::post('subscribers/export', '\\' . SubscribersExportController::class)->name('mailcoach.emailLists.subscribers.export');
-
-        Route::prefix('subscriber/{subscriber}')->group(function () {
-            Route::get('details', ['\\' . SubscriberDetailsController::class, 'edit'])->name('mailcoach.emailLists.subscriber.details');
-            Route::put('details', ['\\' . SubscriberDetailsController::class, 'update']);
-            Route::get('attributes', ['\\' . SubscriberDetailsController::class, 'attributes'])->name('mailcoach.emailLists.subscriber.attributes');
-            Route::get('sends', '\\' . Config::getLivewireComponentClass('subscriber-sends', \Spatie\Mailcoach\Http\App\Livewire\Audience\SubscriberSends::class))->name('mailcoach.emailLists.subscriber.receivedCampaigns');
-        });
+        Route::get('subscriber/{subscriber}', '\\' . Config::getLivewireComponentClass('subscriber', \Spatie\Mailcoach\Http\App\Livewire\Audience\Subscriber::class))->name('mailcoach.emailLists.subscriber.details');
 
         Route::get('subscribers/import-subscribers', ['\\' . ImportSubscribersController::class, 'showImportScreen'])->name('mailcoach.emailLists.import-subscribers');
         Route::post('subscribers/import-subscribers', ['\\' . ImportSubscribersController::class, 'import']);

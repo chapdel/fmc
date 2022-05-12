@@ -538,6 +538,7 @@ return [
         'segment-subscribers' => \Spatie\Mailcoach\Http\App\Livewire\Audience\SegmentSubscribers::class,
         'create-subscriber' => \Spatie\Mailcoach\Http\App\Livewire\Audience\CreateSubscriber::class,
         'subscribers' => \Spatie\Mailcoach\Http\App\Livewire\Audience\Subscribers::class,
+        'subscriber' => \Spatie\Mailcoach\Http\App\Livewire\Audience\Subscriber::class,
         'subscriber-sends' => \Spatie\Mailcoach\Http\App\Livewire\Audience\SubscriberSends::class,
         'create-tag' => \Spatie\Mailcoach\Http\App\Livewire\Audience\CreateTag::class,
         'tags' => \Spatie\Mailcoach\Http\App\Livewire\Audience\Tags::class,
