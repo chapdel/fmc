@@ -63,7 +63,7 @@ abstract class EditorComponent extends Component
 
     public function renderFullHtml()
     {
-        $templateRenderer = (new TemplateRenderer($this->template->html));
+        $templateRenderer = (new TemplateRenderer($this->template?->html ?? ''));
         $this->fullHtml = $templateRenderer->render($this->templateFieldValues);
     }
 
