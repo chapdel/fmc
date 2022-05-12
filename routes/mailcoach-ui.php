@@ -6,7 +6,6 @@ use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\Automation
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\SendAutomationMailTestController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignContentController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\SendCampaignTestController;
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\TemplatesController;
 use Spatie\Mailcoach\Http\App\Controllers\DebugController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\ImportSubscribersController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\SubscribersExportController;
@@ -127,9 +126,5 @@ Route::prefix('subscriber-import')->group(function () {
 
 Route::prefix('templates')->group(function () {
     Route::get('/', '\\' . Config::getLivewireClass('templates', \Spatie\Mailcoach\Http\App\Livewire\Campaigns\Templates::class))->name('mailcoach.templates');
-
-    Route::prefix('{template}')->group(function () {
-        Route::get('/', ['\\' . TemplatesController::class, 'edit'])->name('mailcoach.templates.edit');
-        Route::put('/', ['\\' . TemplatesController::class, 'update']);
-    });
+    Route::get('{template}', '\\' . Config::getLivewireClass('template', \Spatie\Mailcoach\Http\App\Livewire\Campaigns\Template::class))->name('mailcoach.templates.edit');
 });

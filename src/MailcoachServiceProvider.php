@@ -110,6 +110,7 @@ use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignSummary;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignUnsubscribes;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CreateCampaign;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CreateTemplate;
+use Spatie\Mailcoach\Http\App\Livewire\Campaigns\Template;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\Templates;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Livewire\SendTest;
@@ -444,6 +445,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::campaigns', Config::getLivewireClass('campaigns', Campaigns::class));
         Livewire::component('mailcoach::create-template', Config::getLivewireClass('create-template', CreateTemplate::class));
         Livewire::component('mailcoach::templates', Config::getLivewireClass('templates', Templates::class));
+        Livewire::component('mailcoach::template', Config::getLivewireClass('template', Template::class));
         Livewire::component('mailcoach::campaign-settings', Config::getLivewireClass('campaign-settings', CampaignSettings::class));
         Livewire::component('mailcoach::campaign-delivery', Config::getLivewireClass('campaign-delivery', CampaignDelivery::class));
         Livewire::component('mailcoach::campaign-summary', Config::getLivewireClass('campaign-summary', CampaignSummary::class));
