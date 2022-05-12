@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers;
+namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
