@@ -77,6 +77,7 @@ use Spatie\Mailcoach\Http\App\Livewire\Audience\CreateList;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\CreateSegment;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\CreateSubscriber;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\CreateTag;
+use Spatie\Mailcoach\Http\App\Livewire\Audience\ListOnboarding;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\Lists;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\ListSettings;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\ListSummary;
@@ -404,6 +405,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::lists', Config::getLivewireClass('lists', Lists::class));
         Livewire::component('mailcoach::list-summary', Config::getLivewireClass('list-summary', ListSummary::class));
         Livewire::component('mailcoach::list-settings', Config::getLivewireClass('list-settings', ListSettings::class));
+        Livewire::component('mailcoach::list-onboarding', Config::getLivewireClass('list-onboarding', ListOnboarding::class));
         Livewire::component('mailcoach::create-segment', Config::getLivewireClass('create-segment', CreateSegment::class));
         Livewire::component('mailcoach::segments', Config::getLivewireClass('segments', Segments::class));
         Livewire::component('mailcoach::segment', Config::getLivewireClass('segments', Segment::class));

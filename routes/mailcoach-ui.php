@@ -20,7 +20,6 @@ use Spatie\Mailcoach\Http\App\Controllers\Campaigns\TemplatesController;
 use Spatie\Mailcoach\Http\App\Controllers\DebugController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\ImportSubscribersController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListMailersController;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListOnboardingController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\SubscribersExportController;
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DestroySubscriberImportController;
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DownloadSubscriberImportAttachmentController;
@@ -73,9 +72,7 @@ Route::prefix('email-lists')->group(function () {
         Route::post('import-subscribers', ['\\' . ImportSubscribersController::class, 'import']);
 
         Route::get('settings', '\\' . Config::getLivewireClass('list-settings', \Spatie\Mailcoach\Http\App\Livewire\Audience\ListSettings::class))->name('mailcoach.emailLists.general-settings');
-
-        Route::get('onboarding', ['\\' . EmailListOnboardingController::class, 'edit'])->name('mailcoach.emailLists.onboarding');
-        Route::put('onboarding', ['\\' . EmailListOnboardingController::class, 'update']);
+        Route::get('onboarding', '\\' . Config::getLivewireClass('list-onboarding', \Spatie\Mailcoach\Http\App\Livewire\Audience\ListOnboarding::class))->name('mailcoach.emailLists.onboarding');
 
         Route::get('mailers', ['\\' . EmailListMailersController::class, 'edit'])->name('mailcoach.emailLists.mailers');
         Route::put('mailers', ['\\' . EmailListMailersController::class, 'update']);
