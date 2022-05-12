@@ -1,16 +1,18 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components;
+namespace Spatie\Mailcoach\Http\App\Livewire\Automations;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 
-class AutomationActionsFormComponent extends Component
+class AutomationActions extends Component
 {
     use UsesMailcoachModels;
+    use LivewireFlash;
 
     protected $listeners = [
         'automationBuilderUpdated',
@@ -68,11 +70,24 @@ class AutomationActionsFormComponent extends Component
         });
 
         $this->editingActions = $actions;
+        $this->unsavedChanges = true;
+    }
+
+    public function save()
+    {
+        $this->automation->chain($this->actions);
+
+        $this->flash(__('mailcoach - Actions successfully saved to automation :automation.', [
+            'automation' => $this->automation->name,
+        ]));
     }
 
     public function render()
     {
-        return view('mailcoach::app.automations.partials.actionsForm');
+        return view('mailcoach::app.automations.actions')
+            ->layout('mailcoach::app.automations.layouts.automation', [
+                'automation' => $this->automation,
+            ]);
     }
 
     public function automationBuilderUpdated($data)

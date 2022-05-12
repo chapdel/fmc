@@ -40,7 +40,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\SplitActionCompo
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\WaitActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationBuilder;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\AutomationActionsFormComponent;
+use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationActions;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\AutomationSettingsComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\RunAutomationComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\DateTriggerComponent;
@@ -378,8 +378,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
     {
         Livewire::component('mailcoach::text-area-editor', TextAreaEditorComponent::class);
 
-        Livewire::component('mailcoach::automation-actions', AutomationActionsFormComponent::class);
-        Livewire::component('mailcoach::run-automation', RunAutomationComponent::class);
         Livewire::component('mailcoach::automation-builder', AutomationBuilder::class);
 
         Livewire::component('mailcoach::automation-action', AutomationActionComponent::class);
@@ -425,6 +423,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::create-automation', Config::getLivewireClass('create-automation', CreateAutomation::class));
         Livewire::component('mailcoach::automations', Config::getLivewireClass('automations', Automations::class));
         Livewire::component('mailcoach::automation-settings', Config::getLivewireClass('automation-settings', AutomationSettings::class));
+        Livewire::component('mailcoach::automation-actions', Config::getLivewireClass('automation-actions', AutomationActions::class));
         Livewire::component('mailcoach::automation-run', Config::getLivewireClass('automation-run', RunAutomation::class));
         Livewire::component('mailcoach::create-automation-mail', Config::getLivewireClass('create-automation-mail', CreateAutomationMail::class));
         Livewire::component('mailcoach::automation-mails', Config::getLivewireClass('automation-mails', AutomationMails::class));

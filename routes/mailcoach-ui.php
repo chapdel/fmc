@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
-use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationActionsController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailContentController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailDeliveryController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailSettingsController;
@@ -10,16 +9,11 @@ use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\Automation
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\DestroyAutomationMailController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\DuplicateAutomationMailController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\SendAutomationMailTestController;
-use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationSettingsController;
-use Spatie\Mailcoach\Http\App\Controllers\Automations\DestroyAutomationController;
-use Spatie\Mailcoach\Http\App\Controllers\Automations\DuplicateAutomationController;
-use Spatie\Mailcoach\Http\App\Controllers\Automations\RunAutomationController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignContentController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\SendCampaignTestController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\TemplatesController;
 use Spatie\Mailcoach\Http\App\Controllers\DebugController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\ImportSubscribersController;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListMailersController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\SubscribersExportController;
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DestroySubscriberImportController;
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DownloadSubscriberImportAttachmentController;
@@ -93,11 +87,7 @@ Route::prefix('automations')->group(function () {
     Route::prefix('{automation}')->group(function () {
         Route::get('settings', '\\' . Config::getLivewireClass('automation-settings', \Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationSettings::class))->name('mailcoach.automations.settings');
         Route::get('run', '\\' . Config::getLivewireClass('automation-run', \Spatie\Mailcoach\Http\App\Livewire\Automations\RunAutomation::class))->name('mailcoach.automations.run');
-
-        Route::prefix('actions')->group(function () {
-            Route::get('/', ['\\' . AutomationActionsController::class, 'index'])->name('mailcoach.automations.actions');
-            Route::post('/', ['\\' . AutomationActionsController::class, 'store'])->name('mailcoach.automations.actions.store');
-        });
+        Route::get('actions', '\\' . Config::getLivewireClass('automation-actions', \Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationActions::class))->name('mailcoach.automations.actions');
     });
 });
 
