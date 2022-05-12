@@ -9,7 +9,7 @@
                 {{ __('mailcoach - List') }}
             </label>
             <div class="select">
-                <select name="email_list_id" id="email_list_id" wire:model="campaign.email_list_id" required>
+                <select name="{{ $wiremodel }}.email_list_id" id="email_list_id" wire:model="{{ $wiremodel }}.email_list_id" required>
                     <option disabled value="">--{{ __('mailcoach - None') }}--</option>
                     @foreach($emailLists as $emailList)
                         <option value="{{ $emailList->id }}">
@@ -63,7 +63,7 @@
                                 @if (count($list['segments']))
                                     <div class="ml-4 -my-2">
                                         <div class="select">
-                                            <select name="segment_id" wire:model="campaign.segment_id">
+                                            <select name="{{ $wiremodel }}.segment_id" wire:model="{{ $wiremodel }}.segment_id">
                                                 <option value="">Select a segment</option>
                                                 @foreach ($list['segments'] as $segment)
                                                     <option value="{{ $segment['id'] }}">{{ $segment['name'] }}</option>
@@ -73,7 +73,7 @@
                                                 <i class="fas fa-angle-down"></i>
                                             </div>
                                         </div>
-                                        @error('campaign.segment_id')
+                                        @error($wiremodel .'.segment_id')
                                             <p class="form-error">{{ $message }}</p>
                                         @enderror
                                     </div>

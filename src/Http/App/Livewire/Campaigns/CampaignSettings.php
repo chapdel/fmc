@@ -44,9 +44,10 @@ class CampaignSettings extends Component
 
     public function mount(Campaign $campaign): void
     {
+        $this->campaign = $campaign;
+
         $this->authorize('update', $this->campaign);
 
-        $this->campaign = $campaign;
         $this->emailLists = self::getEmailListClass()::with('segments')->get();
         $this->segmentsData = $this->emailLists->map(fn (EmailList $emailList) => [
             'id' => $emailList->id,

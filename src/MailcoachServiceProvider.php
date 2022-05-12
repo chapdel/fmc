@@ -96,6 +96,7 @@ use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailOutbox;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMails;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailUnsubscribes;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\Automations;
+use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationSettings;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\CreateAutomation;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\CreateAutomationMail;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignClicks;
@@ -423,6 +424,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         // Automations
         Livewire::component('mailcoach::create-automation', Config::getLivewireClass('create-automation', CreateAutomation::class));
         Livewire::component('mailcoach::automations', Config::getLivewireClass('automations', Automations::class));
+        Livewire::component('mailcoach::automation-settings', Config::getLivewireClass('automation-settings', AutomationSettings::class));
         Livewire::component('mailcoach::create-automation-mail', Config::getLivewireClass('create-automation-mail', CreateAutomationMail::class));
         Livewire::component('mailcoach::automation-mails', Config::getLivewireClass('automation-mails', AutomationMails::class));
         Livewire::component('mailcoach::automation-mail-clicks', Config::getLivewireClass('automation-mail-clicks', AutomationMailClicks::class));
