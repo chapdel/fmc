@@ -7,6 +7,23 @@ use Spatie\Mailcoach\Http\App\Queries\TemplatesQuery;
 
 class Templates extends DataTable
 {
+    public function duplicateTemplate(int $id)
+    {
+        $template = self::getTemplateClass()::find($id);
+
+        $this->authorize('create', self::getTemplateClass());
+
+        $duplicateTemplate = self::getTemplateClass()::create([
+            'name' => __('mailcoach - Duplicate of') . ' ' . $template->name,
+            'html' => $template->html,
+            'structured_html' => $template->structured_html,
+        ]);
+
+        flash()->success(__('mailcoach - Template :template was duplicated.', ['template' => $template->name]));
+
+        return redirect()->route('mailcoach.templates.edit', $duplicateTemplate);
+    }
+
     public function deleteTemplate(int $id)
     {
         $template = self::getTemplateClass()::find($id);

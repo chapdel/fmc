@@ -131,6 +131,5 @@ Route::prefix('templates')->group(function () {
     Route::prefix('{template}')->group(function () {
         Route::get('/', ['\\' . TemplatesController::class, 'edit'])->name('mailcoach.templates.edit');
         Route::put('/', ['\\' . TemplatesController::class, 'update']);
-        Route::post('duplicate', ['\\' . TemplatesController::class, 'duplicate'])->name('mailcoach.templates.duplicate');
     });
 });
