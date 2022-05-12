@@ -11,6 +11,6 @@
         <div>{{ __('mailcoach - Body') }}</div>
     </dt>
     <dd>
-        <x-mailcoach::web-view src="{{ route('mailcoach.transactionalMails.body', $transactionalMail) }}"/>
+        <x-mailcoach::web-view :html="$transactionalMail->body" />
     </dd>
 </dl>

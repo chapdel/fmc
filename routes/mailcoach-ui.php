@@ -12,13 +12,9 @@ use Spatie\Mailcoach\Http\App\Controllers\EmailLists\ImportSubscribersController
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\SubscribersExportController;
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DestroySubscriberImportController;
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DownloadSubscriberImportAttachmentController;
-use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ResendTransactionalMailController;
-use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ShowTransactionalMailBodyController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\SendTransactionalMailTestController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\TransactionalMailSettingsController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\TransactionalMailTemplatesController;
-use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailContentController;
-use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailPerformanceController;
 use Spatie\Mailcoach\Http\App\Middleware\EditableCampaign;
 
 Route::get('debug', '\\' . DebugController::class)->name('debug');
@@ -112,7 +108,6 @@ Route::prefix('transactional-mail-log')->group(function () {
         Route::get('content', '\\' . Config::getLivewireClass('transactional-mail-content', \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailContent::class))->name('mailcoach.transactionalMails.show');
         Route::get('performance', '\\' . Config::getLivewireClass('transactional-mail-performance', \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailPerformance::class))->name('mailcoach.transactionalMails.performance');
         Route::get('resend', '\\' . Config::getLivewireClass('transactional-mail-resend', \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailResend::class))->name('mailcoach.transactionalMails.resend');
-        Route::get('body', '\\' . ShowTransactionalMailBodyController::class)->name('mailcoach.transactionalMails.body');
     });
 });
 
