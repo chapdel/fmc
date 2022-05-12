@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire\Campaigns;
 
+use Spatie\Mailcoach\Domain\Campaign\Jobs\RetrySendingFailedSendsJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\CampaignSendsQuery;
@@ -15,6 +16,23 @@ class CampaignOutbox extends DataTable
     public function mount(Campaign $campaign)
     {
         $this->campaign = $campaign;
+    }
+
+    public function retryFailedSends()
+    {
+        $this->authorize('update', $this->campaign);
+
+        $failedSendsCount = $this->campaign->sends()->failed()->count();
+
+        if ($failedSendsCount === 0) {
+            $this->flash(__('mailcoach - There are not failed mails to resend anymore.'), 'error');
+
+            return;
+        }
+
+        dispatch(new RetrySendingFailedSendsJob($this->campaign));
+
+        $this->flash(__('mailcoach - Retrying to send :failedSendsCount mails...', ['failedSendsCount' => $failedSendsCount]), 'warning');
     }
 
     public function getTitle(): string
