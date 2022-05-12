@@ -14,14 +14,8 @@ use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationSettingsControll
 use Spatie\Mailcoach\Http\App\Controllers\Automations\DestroyAutomationController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\DuplicateAutomationController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\RunAutomationController;
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\CancelSendingCampaignController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignContentController;
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignDeliveryController;
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignSettingsController;
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\ScheduleCampaignController;
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\SendCampaignController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\SendCampaignTestController;
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\UnscheduleCampaignController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\DuplicateCampaignController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\RetryFailedSendsController;
 use Spatie\Mailcoach\Http\App\Controllers\Campaigns\TemplatesController;
@@ -58,15 +52,12 @@ Route::prefix('campaigns')->group(function () {
     Route::prefix('{campaign}')->group(function () {
         Route::get('settings', Config::getLivewireComponentClass('campaign-settings', \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignSettings::class))->name('mailcoach.campaigns.settings');
         Route::get('content', ['\\' . CampaignContentController::class, 'edit'])->name('mailcoach.campaigns.content');
-        Route::get('delivery', '\\' . CampaignDeliveryController::class)->name('mailcoach.campaigns.delivery');
+        Route::get('delivery', Config::getLivewireComponentClass('campaign-delivery', \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignDelivery::class))->name('mailcoach.campaigns.delivery');
 
         Route::middleware('\\' . EditableCampaign::class)->group(function () {
             Route::put('content', ['\\' . CampaignContentController::class, 'update'])->name('mailcoach.campaigns.updateContent');
 
             Route::post('send-test-email', '\\' . SendCampaignTestController::class)->name('mailcoach.campaigns.sendTestEmail');
-            Route::post('schedule', '\\' . ScheduleCampaignController::class)->name('mailcoach.campaigns.schedule');
-            Route::post('unschedule', '\\' . UnscheduleCampaignController::class)->name('mailcoach.campaigns.unschedule');
-            Route::post('send', '\\' . SendCampaignController::class)->name('mailcoach.campaigns.send');
         });
 
         Route::get('summary', '\\' . Config::getLivewireComponentClass('campaign-summary', \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignSummary::class))->name('mailcoach.campaigns.summary');
@@ -77,7 +68,6 @@ Route::prefix('campaigns')->group(function () {
 
         Route::post('duplicate', '\\' . DuplicateCampaignController::class)->name('mailcoach.campaigns.duplicate');
         Route::post('retry-failed-sends', '\\' . RetryFailedSendsController::class)->name('mailcoach.campaigns.retry-failed-sends');
-        Route::post('cancel-sending', '\\' . CancelSendingCampaignController::class)->name('mailcoach.campaigns.cancel-sending');
     });
 });
 

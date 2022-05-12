@@ -9,6 +9,11 @@ class Campaigns extends DataTable
 {
     public string $sort = '-sent';
 
+    public function mount()
+    {
+        $this->authorize("viewAny", static::getCampaignClass());
+    }
+
     public function deleteCampaign(int $id)
     {
         $campaign = self::getCampaignClass()::find($id);

@@ -1,6 +1,6 @@
 <div @if(!$campaign->sent_at || $campaign->sent_at->addDay()->isFuture()) id="campaign-summary" wire:poll @endif>
     @if((! $campaign->isSent()) || (! $campaign->wasSentToAllSubscribers()))
-        @if (! $campaign->sent_to_number_of_subscribers)
+        @if (! $campaign->sent_to_number_of_subscribers && ! $campaign->isCancelled())
             <div class="progress-bar">
                 <div class="progress-bar-value" style="width:0"></div>
             </div>
@@ -9,27 +9,38 @@
                 <div class="mr-2">
                     <i class="fas fa-sync fa-spin text-blue-500"></i>
                 </div>
-                <div>
-                    {{ __('mailcoach - Campaign') }}
-                    <strong>{{ $campaign->name }}</strong>
-                    {{ __('mailcoach - is preparing to send to') }}
+                <div class="flex justify-between items-center w-full">
+                    <div>
+                        {{ __('mailcoach - Campaign') }}
+                        <strong>{{ $campaign->name }}</strong>
+                        {{ __('mailcoach - is preparing to send to') }}
 
-                    @if($campaign->emailList)
-                        <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
-                    @else
-                        &lt;{{ __('mailcoach - deleted list') }}&gt;
-                    @endif
+                        @if($campaign->emailList)
+                            <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
+                        @else
+                            &lt;{{ __('mailcoach - deleted list') }}&gt;
+                        @endif
 
-                    @if($campaign->usesSegment())
-                        ({{ $campaign->segment_description }})
-                    @endif
-                    ...
+                        @if($campaign->usesSegment())
+                            ({{ $campaign->segment_description }})
+                        @endif
+                        ...
+                    </div>
+
+                    <x-mailcoach::confirm-button
+                        class="ml-auto text-red-500 underline"
+                         onConfirm="() => $wire.cancelSending()"
+                         :confirm-text="__('mailcoach - Are you sure you want to cancel sending this campaign?')">
+                        Cancel
+                    </x-mailcoach::confirm-button>
                 </div>
             </div>
         @elseif ($campaign->isCancelled())
-            <div class="progress-bar">
-                <div class="progress-bar-value" style="width:{{ ($campaign->sendsCount() / $campaign->sent_to_number_of_subscribers) * 100 }}%"></div>
-            </div>
+            @if($campaign->sent_to_number_of_subscribers)
+                <div class="progress-bar">
+                    <div class="progress-bar-value" style="width:{{ ($campaign->sendsCount() / $campaign->sent_to_number_of_subscribers) * 100 }}%"></div>
+                </div>
+            @endif
             <div class="mt-4 flex alert alert-info">
                 <div class="mr-2">
                     <i class="fas fa-ban text-red-500"></i>
@@ -92,7 +103,12 @@
                         @endif
                     </p>
 
-                    <x-mailcoach::form-button class="text-red-500 underline" action="{{ route('mailcoach.campaigns.cancel-sending', $campaign) }}" dataConfirm dataConfirmText="{{ __('mailcoach - Are you sure you want to cancel sending this campaign?') }}">Cancel</x-mailcoach::form-button>
+                    <x-mailcoach::confirm-button
+                        class="ml-auto text-red-500 underline"
+                        onConfirm="() => $wire.cancelSending()"
+                        :confirm-text="__('mailcoach - Are you sure you want to cancel sending this campaign?')">
+                        Cancel
+                    </x-mailcoach::confirm-button>
                 </div>
             </div>
         @endif

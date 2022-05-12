@@ -28,8 +28,6 @@ class CampaignSettings extends Component
 
     public string $segment;
 
-    public ?int $segment_id;
-
     protected function rules(): array
     {
         return [
@@ -39,8 +37,8 @@ class CampaignSettings extends Component
             'campaign.track_opens' => 'bool',
             'campaign.track_clicks' => 'bool',
             'campaign.utm_tags' => 'bool',
+            'campaign.segment_id' => ['required_if:segment,segment'],
             'segment' => [Rule::in(['entire_list', 'segment'])],
-            'segment_id' => ['required_if:segment,tag_segment'],
         ];
     }
 
@@ -58,16 +56,15 @@ class CampaignSettings extends Component
         ]);
 
         $this->segment = $this->campaign->notSegmenting() ? 'entire_list' : 'segment';
-        $this->segment_id = $this->campaign->segment_id;
     }
 
     public function save(): void
     {
-        $data = $this->validate();
+        $this->validate();
 
         $segmentClass = SubscribersWithTagsSegment::class;
 
-        if ($data['segment'] === 'entire_list') {
+        if ($this->segment === 'entire_list') {
             $segmentClass = EverySubscriberSegment::class;
         }
 
@@ -78,6 +75,9 @@ class CampaignSettings extends Component
         $this->campaign->fill([
             'last_modified_at' => now(),
             'segment_class' => $segmentClass,
+            'segment_id' => $segmentClass === EverySubscriberSegment::class
+                ? null
+                : $this->campaign->segment_id,
         ]);
 
         $this->campaign->save();

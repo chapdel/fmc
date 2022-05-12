@@ -1,9 +1,4 @@
-<div x-data="{
-    segmentsData: @js($segmentsData),
-    emailListId: @entangle($wiremodel . '.email_list_id'),
-    segment: @entangle('segment'),
-    selectedSegment: @entangle('segment_id'),
-}" x-cloak>
+<div>
     <x-mailcoach::fieldset :legend="__('mailcoach - Audience')">
         @error('email_list_id')
             <p class="form-error">{{ $message }}</p>
@@ -14,7 +9,7 @@
                 {{ __('mailcoach - List') }}
             </label>
             <div class="select">
-                <select name="email_list_id" id="email_list_id" x-model="emailListId" required>
+                <select name="email_list_id" id="email_list_id" wire:model="campaign.email_list_id" required>
                     <option disabled value="">--{{ __('mailcoach - None') }}--</option>
                     @foreach($emailLists as $emailList)
                         <option value="{{ $emailList->id }}">
@@ -44,41 +39,47 @@
                     <x-mailcoach::radio-field
                         name="segment"
                         option-value="entire_list"
-                        x-model="segment"
+                        wire:model="segment"
                         :label="__('mailcoach - Entire list')"
-
                     />
                     <div class="flex items-center">
                         <div class="flex-shrink-none">
                             <x-mailcoach::radio-field
                                 name="segment"
-                                x-model="segment"
+                                wire:model="segment"
                                 option-value="segment"
                                 :label="__('mailcoach - Use segment')"
                             />
                         </div>
-                        <div x-show="segment !== 'entire_list'">
-                            <template x-for="list in segmentsData">
-                                <div class="ml-4" x-show="emailListId == list.id && segmentsData.find(list => list.id == emailListId).segments.length == 0">
-                                    <a class="link" :href="list.createSegmentUrl">{{ __('mailcoach - Create a segment first') }}</a>
-                                </div>
-                            </template>
-                            <div class="ml-4 -my-2"  x-show="(segmentsData.find(list => list.id == emailListId) || segmentsData[0]).segments.length > 0">
-                                @error('segment_id')
-                                    <p class="form-error">{{ $message }}</p>
-                                @enderror
-                                <div class="select">
-                                    <select name="segment_id" x-model="selectedSegment">
-                                        <template x-for="segment in (segmentsData.find(list => list.id == emailListId) || segmentsData[0]).segments">
-                                            <option :value="segment.id" x-text="segment.name"></option>
-                                        </template>
-                                    </select>
-                                    <div class="select-arrow">
-                                        <i class="fas fa-angle-down"></i>
+                        @if ($segment !== 'entire_list')
+                            <div>
+                                @foreach ($segmentsData as $list)
+                                    @continue ($list['id'] !== $segmentable->email_list_id || count($list['segments']) > 0)
+                                    <div class="ml-4">
+                                        <a class="link" href="{{ $list['createSegmentUrl'] }}">{{ __('mailcoach - Create a segment first') }}</a>
                                     </div>
-                                </div>
+                                @endforeach
+                                @php($list = \Illuminate\Support\Arr::first($segmentsData, fn(array $list) => $list['id'] === $segmentable->email_list_id, $segmentsData[0]))
+                                @if (count($list['segments']))
+                                    <div class="ml-4 -my-2">
+                                        <div class="select">
+                                            <select name="segment_id" wire:model="campaign.segment_id">
+                                                <option value="">Select a segment</option>
+                                                @foreach ($list['segments'] as $segment)
+                                                    <option value="{{ $segment['id'] }}">{{ $segment['name'] }}</option>
+                                                @endforeach
+                                            </select>
+                                            <div class="select-arrow">
+                                                <i class="fas fa-angle-down"></i>
+                                            </div>
+                                        </div>
+                                        @error('campaign.segment_id')
+                                            <p class="form-error">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                @endif
                             </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>

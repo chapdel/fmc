@@ -563,6 +563,7 @@ return [
         'campaign-outbox' => \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignOutbox::class,
         'campaign-summary' => \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignSummary::class,
         'campaign-settings' => \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignSettings::class,
+        'campaign-delivery' => \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignDelivery::class,
 
         // Transactional
         'create-transactional-template' => \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\CreateTransactionalTemplate::class,
