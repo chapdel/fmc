@@ -41,7 +41,7 @@
                         <li>
                             <x-mailcoach::form-button
                                 data-turbo="false"
-                                :action="route('mailcoach.emailLists.subscribers.export', $emailList) . '?' . request()->getQueryString()">
+                                :action="route('mailcoach.emailLists.subscribers.export', $emailList) . '?filter[search]=' . ($filter['search'] ?? '') . '&filter[status]=' . ($filter['status'] ?? '')">
 
                                 @if($allSubscriptionsCount === $subscribers->total())
                                     <x-mailcoach::icon-label icon="fa-fw fas fa-file" :text="__('mailcoach - Export all subscribers')"/>
