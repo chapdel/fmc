@@ -40,9 +40,6 @@ use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\SplitActionCompo
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\WaitActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationBuilder;
-use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationActions;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\AutomationSettingsComponent;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\RunAutomationComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\DateTriggerComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\NoTriggerComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\TagAddedTriggerComponent;
@@ -90,6 +87,7 @@ use Spatie\Mailcoach\Http\App\Livewire\Audience\Subscribers;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\SubscriberSends;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\Tag;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\Tags;
+use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationActions;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailClicks;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailOpens;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailOutbox;
