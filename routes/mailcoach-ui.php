@@ -26,9 +26,7 @@ use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\EditSegmentControl
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListGeneralSettingsController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListMailersController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListOnboardingController;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Subscribers\SubscriberDetailsController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\SubscribersExportController;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\TagsController;
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DestroySubscriberImportController;
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DownloadSubscriberImportAttachmentController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\ResendTransactionalMailController;
@@ -90,11 +88,7 @@ Route::prefix('email-lists')->group(function () {
 
         Route::prefix('tags')->group(function () {
             Route::get('/', '\\' . Config::getLivewireComponentClass('tags', \Spatie\Mailcoach\Http\App\Livewire\Audience\Tags::class))->name('mailcoach.emailLists.tags');
-            Route::post('/', ['\\' . TagsController::class, 'store'])->name('mailcoach.emailLists.tag.store');
-            Route::prefix('{tag}')->group(function () {
-                Route::get('/', ['\\' . TagsController::class, 'edit'])->name('mailcoach.emailLists.tag.edit');
-                Route::put('/', ['\\' . TagsController::class, 'update']);
-            });
+            Route::get('{tag}', '\\' . Config::getLivewireComponentClass('tag', \Spatie\Mailcoach\Http\App\Livewire\Audience\Tag::class))->name('mailcoach.emailLists.tag.edit');
         });
         Route::delete('/', '\\' . DestroyEmailListController::class)->name('mailcoach.emailLists.delete');
 

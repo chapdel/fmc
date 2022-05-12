@@ -542,6 +542,7 @@ return [
         'subscriber-sends' => \Spatie\Mailcoach\Http\App\Livewire\Audience\SubscriberSends::class,
         'create-tag' => \Spatie\Mailcoach\Http\App\Livewire\Audience\CreateTag::class,
         'tags' => \Spatie\Mailcoach\Http\App\Livewire\Audience\Tags::class,
+        'tag' => \Spatie\Mailcoach\Http\App\Livewire\Audience\Tag::class,
 
         // Automations
         'create-automation' => \Spatie\Mailcoach\Http\App\Livewire\Automations\CreateAutomation::class,

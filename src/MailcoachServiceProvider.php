@@ -83,6 +83,7 @@ use Spatie\Mailcoach\Http\App\Livewire\Audience\SegmentSubscribers;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\Subscriber;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\Subscribers;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\SubscriberSends;
+use Spatie\Mailcoach\Http\App\Livewire\Audience\Tag;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\Tags;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailClicks;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailOpens;
@@ -407,6 +408,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::subscriber-sends', Config::getLivewireComponentClass('subscriber-sends', SubscriberSends::class));
         Livewire::component('mailcoach::create-tag', Config::getLivewireComponentClass('create-tag', CreateTag::class));
         Livewire::component('mailcoach::tags', Config::getLivewireComponentClass('tags', Tags::class));
+        Livewire::component('mailcoach::tag', Config::getLivewireComponentClass('tag', Tag::class));
 
         // Automations
         Livewire::component('mailcoach::create-automation', Config::getLivewireComponentClass('create-automation', CreateAutomation::class));
