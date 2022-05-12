@@ -10,7 +10,7 @@
             </label>
             <div class="select">
                 <select name="{{ $wiremodel }}.email_list_id" id="email_list_id" wire:model="{{ $wiremodel }}.email_list_id" required>
-                    <option disabled value="">--{{ __('mailcoach - None') }}--</option>
+                    <option value="">--{{ __('mailcoach - None') }}--</option>
                     @foreach($emailLists as $emailList)
                         <option value="{{ $emailList->id }}">
                             {{ $emailList->name }}

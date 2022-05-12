@@ -92,8 +92,7 @@ Route::prefix('automations')->group(function () {
 
     Route::prefix('{automation}')->group(function () {
         Route::get('settings', '\\' . Config::getLivewireClass('automation-settings', \Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationSettings::class))->name('mailcoach.automations.settings');
-        Route::get('run', ['\\' . RunAutomationController::class, 'edit'])->name('mailcoach.automations.run');
-        Route::put('run', ['\\' . RunAutomationController::class, 'update']);
+        Route::get('run', '\\' . Config::getLivewireClass('automation-run', \Spatie\Mailcoach\Http\App\Livewire\Automations\RunAutomation::class))->name('mailcoach.automations.run');
 
         Route::prefix('actions')->group(function () {
             Route::get('/', ['\\' . AutomationActionsController::class, 'index'])->name('mailcoach.automations.actions');

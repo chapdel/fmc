@@ -99,6 +99,7 @@ use Spatie\Mailcoach\Http\App\Livewire\Automations\Automations;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationSettings;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\CreateAutomation;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\CreateAutomationMail;
+use Spatie\Mailcoach\Http\App\Livewire\Automations\RunAutomation;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignClicks;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignDelivery;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignOpens;
@@ -378,7 +379,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::text-area-editor', TextAreaEditorComponent::class);
 
         Livewire::component('mailcoach::automation-actions', AutomationActionsFormComponent::class);
-        Livewire::component('mailcoach::automation-settings', AutomationSettingsComponent::class);
         Livewire::component('mailcoach::run-automation', RunAutomationComponent::class);
         Livewire::component('mailcoach::automation-builder', AutomationBuilder::class);
 
@@ -425,6 +425,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::create-automation', Config::getLivewireClass('create-automation', CreateAutomation::class));
         Livewire::component('mailcoach::automations', Config::getLivewireClass('automations', Automations::class));
         Livewire::component('mailcoach::automation-settings', Config::getLivewireClass('automation-settings', AutomationSettings::class));
+        Livewire::component('mailcoach::automation-run', Config::getLivewireClass('automation-run', RunAutomation::class));
         Livewire::component('mailcoach::create-automation-mail', Config::getLivewireClass('create-automation-mail', CreateAutomationMail::class));
         Livewire::component('mailcoach::automation-mails', Config::getLivewireClass('automation-mails', AutomationMails::class));
         Livewire::component('mailcoach::automation-mail-clicks', Config::getLivewireClass('automation-mail-clicks', AutomationMailClicks::class));
