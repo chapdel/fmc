@@ -7,9 +7,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template as TemplateModel;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
-use Spatie\ValidationRules\Rules\Delimited;
 
 class Template extends Component
 {
