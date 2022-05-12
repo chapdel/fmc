@@ -26,8 +26,8 @@ class Tag extends Component
                 'required',
                 Rule::unique('mailcoach_tags', 'name')
                     ->where('email_list_id', $this->emailList->id)
-                    ->ignore($this->tag->id)
-            ]
+                    ->ignore($this->tag->id),
+            ],
         ];
     }
 
