@@ -58,7 +58,7 @@ class Config
         return resolve($configuredClass);
     }
 
-    public static function getLivewireComponentClass(string $componentName, string $defaultClass): string
+    public static function getLivewireClass(string $componentName, string $defaultClass): string
     {
         $configuredClass = config("mailcoach.livewire.components.{$componentName}", $defaultClass);
 
