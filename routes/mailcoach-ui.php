@@ -94,15 +94,7 @@ Route::prefix('email-lists')->group(function () {
 
         Route::prefix('segments')->group(function () {
             Route::get('/', '\\' . Config::getLivewireComponentClass('segments', \Spatie\Mailcoach\Http\App\Livewire\Audience\Segments::class))->name('mailcoach.emailLists.segments');
-
-            Route::post('/', '\\' . CreateSegmentController::class)->name('mailcoach.emailLists.segment.store');
-
-            Route::prefix('{segment}')->group(function () {
-                Route::get('subscribers', '\\' . Config::getLivewireComponentClass('segment-subscribers', \Spatie\Mailcoach\Http\App\Livewire\Audience\SegmentSubscribers::class))->name('mailcoach.emailLists.segment.subscribers');
-                Route::get('/details', ['\\' . EditSegmentController::class, 'edit'])->name('mailcoach.emailLists.segment.edit');
-                Route::put('/details', ['\\' . EditSegmentController::class, 'update']);
-                Route::post('duplicate', '\\' . DuplicateSegmentController::class)->name('mailcoach.emailLists.segment.duplicate');
-            });
+            Route::get('{segment}', '\\' . Config::getLivewireComponentClass('segment', \Spatie\Mailcoach\Http\App\Livewire\Audience\Segment::class))->name('mailcoach.emailLists.segment.edit');
         });
     });
 });
