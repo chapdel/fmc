@@ -126,10 +126,7 @@
                     <x-mailcoach::button-secondary x-on:click="$store.modals.open('send-test')" :label="__('mailcoach - Send Test')"/>
                 </div>
 
-                <x-mailcoach::modal :title="__('mailcoach - Preview') . ' - ' . $campaign->subject" name="preview" large>
-                    <iframe class="absolute" width="100%" height="100%"
-                            src="data:text/html;base64,{{ base64_encode($campaign->html) }}"></iframe>
-                </x-mailcoach::modal>
+                <x-mailcoach::preview-modal :title="__('mailcoach - Preview') . ' - ' . $campaign->subject" :html="$campaign->html" />
 
                 <x-mailcoach::modal :title="__('mailcoach - Send Test')" name="send-test">
                     @include('mailcoach::app.campaigns.partials.test')

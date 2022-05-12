@@ -70,7 +70,7 @@
                     <x-mailcoach::button-secondary x-on:click="$store.modals.open('send-test')" :label="__('mailcoach - Send Test')"/>
                 </div>
 
-                <x-mailcoach::preview-modal :html="$mail->html" />
+                <x-mailcoach::preview-modal :title="__('mailcoach - Preview') . ' - ' . $mail->subject" :html="$mail->html" />
 
                 <x-mailcoach::modal :title="__('mailcoach - Send Test')" name="send-test">
                     @include('mailcoach::app.automations.mails.partials.test')
