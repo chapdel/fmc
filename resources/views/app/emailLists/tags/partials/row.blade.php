@@ -1,7 +1,7 @@
 <tr>
     <td class="markup-links">
         @if ($row->type === \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::DEFAULT)
-            <a class="break-words" href="{{ route('mailcoach.emailLists.tag.edit', [$emailList, $row]) }}">
+            <a class="break-words" href="{{ route('mailcoach.emailLists.tags.edit', [$emailList, $row]) }}">
                 {{ $row->name }}
             </a>
         @else

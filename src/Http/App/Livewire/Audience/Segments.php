@@ -36,7 +36,7 @@ class Segments extends DataTable
 
         flash()->success(__('mailcoach - Segment :segment was duplicated.', ['segment' => $segment->name]));
 
-        return redirect()->route('mailcoach.emailLists.segment.edit', [
+        return redirect()->route('mailcoach.emailLists.segments.edit', [
             $duplicateSegment->emailList,
             $duplicateSegment,
         ]);

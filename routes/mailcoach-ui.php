@@ -88,13 +88,13 @@ Route::prefix('email-lists')->group(function () {
 
         Route::prefix('tags')->group(function () {
             Route::get('/', '\\' . Config::getLivewireComponentClass('tags', \Spatie\Mailcoach\Http\App\Livewire\Audience\Tags::class))->name('mailcoach.emailLists.tags');
-            Route::get('{tag}', '\\' . Config::getLivewireComponentClass('tag', \Spatie\Mailcoach\Http\App\Livewire\Audience\Tag::class))->name('mailcoach.emailLists.tag.edit');
+            Route::get('{tag}', '\\' . Config::getLivewireComponentClass('tag', \Spatie\Mailcoach\Http\App\Livewire\Audience\Tag::class))->name('mailcoach.emailLists.tags.edit');
         });
         Route::delete('/', '\\' . DestroyEmailListController::class)->name('mailcoach.emailLists.delete');
 
         Route::prefix('segments')->group(function () {
             Route::get('/', '\\' . Config::getLivewireComponentClass('segments', \Spatie\Mailcoach\Http\App\Livewire\Audience\Segments::class))->name('mailcoach.emailLists.segments');
-            Route::get('{segment}', '\\' . Config::getLivewireComponentClass('segment', \Spatie\Mailcoach\Http\App\Livewire\Audience\Segment::class))->name('mailcoach.emailLists.segment.edit');
+            Route::get('{segment}', '\\' . Config::getLivewireComponentClass('segment', \Spatie\Mailcoach\Http\App\Livewire\Audience\Segment::class))->name('mailcoach.emailLists.segments.edit');
         });
     });
 });

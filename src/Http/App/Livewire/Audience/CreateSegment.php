@@ -38,7 +38,7 @@ class CreateSegment extends Component
 
         flash()->success(__('mailcoach - Segment :segment has been created.', ['segment' => $segment->name]));
 
-        return redirect()->route('mailcoach.emailLists.segment.edit', [$this->emailList, $segment]);
+        return redirect()->route('mailcoach.emailLists.segments.edit', [$this->emailList, $segment]);
     }
 
     public function render()

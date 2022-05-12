@@ -1,6 +1,6 @@
 <tr class="markup-links">
     <td>
-        <a class="break-words" href="{{ route('mailcoach.emailLists.segment.edit', [$row->emailList, $row]) }}">
+        <a class="break-words" href="{{ route('mailcoach.emailLists.segments.edit', [$row->emailList, $row]) }}">
             {{ $row->name }}
         </a>
     </td>
