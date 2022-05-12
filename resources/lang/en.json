@@ -586,5 +586,6 @@
     "mailcoach - Sending successfully cancelled.": "Sending successfully cancelled.",
     "mailcoach - Key": "Key",
     "mailcoach - Value": "Value",
+    "mailcoach - List :list was deleted.": "List :list was deleted.",
     "mailcoach - sends": "sends"
 }
