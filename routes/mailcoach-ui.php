@@ -95,9 +95,6 @@ Route::prefix('automations')->group(function () {
         Route::get('run', ['\\' . RunAutomationController::class, 'edit'])->name('mailcoach.automations.run');
         Route::put('run', ['\\' . RunAutomationController::class, 'update']);
 
-        Route::delete('/', '\\' . DestroyAutomationController::class)->name('mailcoach.automations.delete');
-        Route::post('duplicate', '\\' . DuplicateAutomationController::class)->name('mailcoach.automations.duplicate');
-
         Route::prefix('actions')->group(function () {
             Route::get('/', ['\\' . AutomationActionsController::class, 'index'])->name('mailcoach.automations.actions');
             Route::post('/', ['\\' . AutomationActionsController::class, 'store'])->name('mailcoach.automations.actions.store');

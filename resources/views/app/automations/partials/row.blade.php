@@ -6,13 +6,13 @@
                 @if($automation->status === \Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus::PAUSED)
                     <span class="group-hover:opacity-0 fas fa-magic text-gray-400"></span>
                     <span title="{{ __('mailcoach - Start Automation') }}" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100" >
-                                    <x-mailcoach::rounded-icon class="w-5 h-5" type="success" icon="fas fa-play"/>
-                                </span>
+                        <x-mailcoach::rounded-icon class="w-5 h-5" type="success" icon="fas fa-play"/>
+                    </span>
                 @else
                     <span class="group-hover:opacity-0 fas fa-sync fa-spin text-green-500"></span>
                     <span title="{{ __('mailcoach - Pause Automation') }}" class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100" >
-                                    <x-mailcoach::rounded-icon class="w-5 h-5" type="warning" icon="fas fa-pause"/>
-                                </span>
+                        <x-mailcoach::rounded-icon class="w-5 h-5" type="warning" icon="fas fa-pause"/>
+                    </span>
                 @endif
             </button>
         </div>
@@ -27,11 +27,9 @@
         <x-mailcoach::dropdown direction="left">
             <ul>
                 <li>
-                    <x-mailcoach::form-button
-                        :action="route('mailcoach.automations.duplicate', $automation)"
-                    >
+                    <button wire:click.prevent="duplicateAutomation({{ $automation->id }})">
                         <x-mailcoach::icon-label icon="fas fa-random" :text="__('mailcoach - Duplicate')" />
-                    </x-mailcoach::form-button>
+                    </button>
                 </li>
                 <li>
                     <x-mailcoach::confirm-button
