@@ -1,4 +1,4 @@
-<div @if(!$campaign->sent_at || $campaign->sent_at->addDay()->isFuture()) id="campaign-summary" wire:poll @endif>
+<div @if((!$campaign->sent_at || $campaign->sent_at->addDay()->isFuture()) && !$campaign->isCancelled()) id="campaign-summary" wire:poll.5s @endif>
     @if((! $campaign->isSent()) || (! $campaign->wasSentToAllSubscribers()))
         @if (! $campaign->sent_to_number_of_subscribers && ! $campaign->isCancelled())
             <div class="progress-bar">
