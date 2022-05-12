@@ -2,21 +2,12 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 
-use Carbon\Carbon;
-use Carbon\CarbonInterface;
-use Carbon\CarbonPeriod;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\MySqlConnection;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Date;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
-use Spatie\Mailcoach\Http\App\Requests\EmailLists\Settings\UpdateEmailListGeneralSettingsRequest;
-use Spatie\Mailcoach\Http\App\Requests\EmailLists\Settings\UpdateEmailListOnboardingRequest;
 
 class ListOnboarding extends Component
 {
@@ -39,7 +30,7 @@ class ListOnboarding extends Component
     public array $allowed_form_subscription_tags;
 
     protected $listeners = [
-        'tags-updated-allowed_form_subscription_tags' => 'updateAllowedFormSubscriptionTags'
+        'tags-updated-allowed_form_subscription_tags' => 'updateAllowedFormSubscriptionTags',
     ];
 
     protected function rules(): array
