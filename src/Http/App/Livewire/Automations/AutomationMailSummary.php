@@ -1,17 +1,20 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\App\ViewModels;
+namespace Spatie\Mailcoach\Http\App\Livewire\Automations;
 
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Collection;
+use Livewire\Component;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\ViewModels\ViewModel;
 
-class AutomationMailSummaryViewModel extends ViewModel
+class AutomationMailSummary extends Component
 {
+    use AuthorizesRequests;
     use UsesMailcoachModels;
 
-    protected AutomationMail $mail;
+    public AutomationMail $mail;
 
     protected Collection $stats;
 
@@ -19,25 +22,26 @@ class AutomationMailSummaryViewModel extends ViewModel
 
     public int $failedSendsCount = 0;
 
-    public function __construct(AutomationMail $mail)
+    public function mount(AutomationMail $automationMail)
     {
-        $this->mail = $mail;
+        $this->mail = $automationMail;
 
+        $this->authorize('view', $automationMail);
+    }
+
+    public function render(): View
+    {
         $this->stats = $this->createStats();
 
         $this->limit = (ceil(max($this->stats->max('opens'), $this->stats->max('clicks')) * 1.1 / 10) * 10) ?: 1;
 
-        $this->failedSendsCount = $this->mail()->sends()->failed()->count();
-    }
+        $this->failedSendsCount = $this->mail->sends()->failed()->count();
 
-    public function mail(): AutomationMail
-    {
-        return $this->mail;
-    }
-
-    public function stats(): Collection
-    {
-        return $this->stats;
+        return view('mailcoach::app.automations.mails.summary')
+            ->layout('mailcoach::app.automations.mails.layouts.automationMail', [
+                'title' => __('mailcoach - Performance'),
+                'mail' => $this->mail,
+            ]);
     }
 
     public function limit(): int
