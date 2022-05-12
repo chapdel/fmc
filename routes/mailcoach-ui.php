@@ -69,12 +69,15 @@ Route::prefix('email-lists')->group(function () {
 
     Route::prefix('{emailList}')->group(function () {
         Route::get('summary', '\\' . Config::getLivewireComponentClass('list-summary', \Spatie\Mailcoach\Http\App\Livewire\Audience\ListSummary::class))->name('mailcoach.emailLists.summary');
-        Route::get('subscribers', '\\' . Config::getLivewireComponentClass('subscribers', \Spatie\Mailcoach\Http\App\Livewire\Audience\Subscribers::class))->name('mailcoach.emailLists.subscribers');
-        Route::post('subscribers/export', '\\' . SubscribersExportController::class)->name('mailcoach.emailLists.subscribers.export');
-        Route::get('subscriber/{subscriber}', '\\' . Config::getLivewireComponentClass('subscriber', \Spatie\Mailcoach\Http\App\Livewire\Audience\Subscriber::class))->name('mailcoach.emailLists.subscriber.details');
 
-        Route::get('subscribers/import-subscribers', ['\\' . ImportSubscribersController::class, 'showImportScreen'])->name('mailcoach.emailLists.import-subscribers');
-        Route::post('subscribers/import-subscribers', ['\\' . ImportSubscribersController::class, 'import']);
+        Route::prefix('subscribers')->group(function () {
+            Route::get('/', '\\' . Config::getLivewireComponentClass('subscribers', \Spatie\Mailcoach\Http\App\Livewire\Audience\Subscribers::class))->name('mailcoach.emailLists.subscribers');
+            Route::post('export', '\\' . SubscribersExportController::class)->name('mailcoach.emailLists.subscribers.export');
+            Route::get('{subscriber}', '\\' . Config::getLivewireComponentClass('subscriber', \Spatie\Mailcoach\Http\App\Livewire\Audience\Subscriber::class))->name('mailcoach.emailLists.subscriber.details');
+
+            Route::get('import-subscribers', ['\\' . ImportSubscribersController::class, 'showImportScreen'])->name('mailcoach.emailLists.import-subscribers');
+            Route::post('import-subscribers', ['\\' . ImportSubscribersController::class, 'import']);
+        });
 
         Route::get('general-settings', ['\\' . EmailListGeneralSettingsController::class, 'edit'])->name('mailcoach.emailLists.general-settings');
         Route::put('general-settings', ['\\' . EmailListGeneralSettingsController::class, 'update']);
