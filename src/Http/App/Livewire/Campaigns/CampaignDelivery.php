@@ -5,13 +5,7 @@ namespace Spatie\Mailcoach\Http\App\Livewire\Campaigns;
 use Carbon\CarbonInterface;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Collection;
-use Illuminate\Validation\Rule;
 use Livewire\Component;
-use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Domain\Audience\Support\Segments\EverySubscriberSegment;
-use Spatie\Mailcoach\Domain\Audience\Support\Segments\SubscribersWithTagsSegment;
-use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Rules\DateTimeFieldRule;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -73,6 +67,7 @@ class CampaignDelivery extends Component
 
         if (! $this->campaign->isPending()) {
             $this->flash(__('mailcoach - Campaign :campaign could not be scheduled because it has already been sent.', ['campaign' => $this->campaign->name]), 'error');
+
             return;
         }
 
@@ -85,6 +80,7 @@ class CampaignDelivery extends Component
     {
         if (! $this->campaign->isPending()) {
             $this->flash(__('mailcoach - Campaign :campaign could not be sent because it has already been sent.', ['campaign' => $this->campaign->name]), 'error');
+
             return;
         }
 

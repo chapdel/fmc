@@ -48,7 +48,7 @@ class CampaignSettings extends Component
 
         $this->campaign = $campaign;
         $this->emailLists = self::getEmailListClass()::with('segments')->get();
-        $this->segmentsData = $this->emailLists->map(fn(EmailList $emailList) => [
+        $this->segmentsData = $this->emailLists->map(fn (EmailList $emailList) => [
             'id' => $emailList->id,
             'name' => $emailList->name,
             'segments' => $emailList->segments->map->only('id', 'name'),
