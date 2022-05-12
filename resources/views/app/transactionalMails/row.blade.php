@@ -1,5 +1,5 @@
 <tr class="markup-links">
-    <td><a href="{{ route('mailcoach.transactionalMail.show', $row) }}">{{ $row->subject }}</a></td>
+    <td><a href="{{ route('mailcoach.transactionalMails.show', $row) }}">{{ $row->subject }}</a></td>
     <td class="truncate">{{ $row->toString() }}</td>
     <td class="td-numeric hidden | xl:table-cell">{{ $row->opens->count() }}</td>
     <td class="td-numeric hidden | xl:table-cell">{{ $row->clicks->count() }}</td>

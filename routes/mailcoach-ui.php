@@ -109,11 +109,10 @@ Route::prefix('transactional-mail-log')->group(function () {
     Route::get('/', '\\' . Config::getLivewireClass('transactional-mails', \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMails::class))->name('mailcoach.transactionalMails');
 
     Route::prefix('{transactionalMail}')->group(function () {
-        Route::get('content', '\\' . TransactionalMailContentController::class)->name('mailcoach.transactionalMail.show');
-        Route::get('body', '\\' . ShowTransactionalMailBodyController::class)->name('mailcoach.transactionalMail.body');
-        Route::get('performance', '\\' . TransactionalMailPerformanceController::class)->name('mailcoach.transactionalMail.performance');
-        Route::get('resend', [ResendTransactionalMailController::class, 'show'])->name('mailcoach.transactionalMail.resend');
-        Route::post('resend', [ResendTransactionalMailController::class, 'resend']);
+        Route::get('content', '\\' . Config::getLivewireClass('transactional-mail-content', \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailContent::class))->name('mailcoach.transactionalMails.show');
+        Route::get('performance', '\\' . Config::getLivewireClass('transactional-mail-performance', \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailPerformance::class))->name('mailcoach.transactionalMails.performance');
+        Route::get('resend', '\\' . Config::getLivewireClass('transactional-mail-resend', \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailResend::class))->name('mailcoach.transactionalMails.resend');
+        Route::get('body', '\\' . ShowTransactionalMailBodyController::class)->name('mailcoach.transactionalMails.body');
     });
 });
 

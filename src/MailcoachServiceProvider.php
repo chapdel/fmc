@@ -114,6 +114,9 @@ use Spatie\Mailcoach\Http\App\Livewire\Campaigns\Templates;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Livewire\SendTest;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\CreateTransactionalTemplate;
+use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailContent;
+use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailPerformance;
+use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailResend;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMails;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailTemplates;
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
@@ -451,6 +454,9 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::create-transactional-template', Config::getLivewireClass('create-transactional-template', CreateTransactionalTemplate::class));
         Livewire::component('mailcoach::transactional-mails', Config::getLivewireClass('transactional-mails', TransactionalMails::class));
         Livewire::component('mailcoach::transactional-mail-templates', Config::getLivewireClass('transactional-mail-templates', TransactionalMailTemplates::class));
+        Livewire::component('mailcoach::transactional-mail-content', Config::getLivewireClass('transactional-mail-content', TransactionalMailContent::class));
+        Livewire::component('mailcoach::transactional-mail-performance', Config::getLivewireClass('transactional-mail-performance', TransactionalMailPerformance::class));
+        Livewire::component('mailcoach::transactional-mail-resend', Config::getLivewireClass('transactional-mail-resend', TransactionalMailResend::class));
 
         return $this;
     }
