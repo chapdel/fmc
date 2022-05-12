@@ -37,7 +37,7 @@ class AutomationSettings extends Component
     {
         return [
             'automation.name' => ['required'],
-            'automation.email_list_id' => ['required_if:segment,segment'],
+            'automation.email_list_id' => [Rule::exists(self::getEmailListTableName(), 'id')],
             'segment' => [Rule::in(['entire_list', 'segment'])],
             'automation.segment_id' => ['required_if:segment,segment'],
             'selectedTrigger' => ['required', Rule::in(config('mailcoach.automation.flows.triggers'))],
