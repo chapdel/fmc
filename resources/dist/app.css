@@ -4474,14 +4474,14 @@ span.flatpickr-weekday{
   margin-bottom: 4rem !important;
 }
 
-.-mx-6{
-  margin-left: -1.5rem !important;
-  margin-right: -1.5rem !important;
-}
-
 .mx-2{
   margin-left: 0.5rem !important;
   margin-right: 0.5rem !important;
+}
+
+.-mx-6{
+  margin-left: -1.5rem !important;
+  margin-right: -1.5rem !important;
 }
 
 .-my-2{
@@ -4565,12 +4565,28 @@ span.flatpickr-weekday{
   margin-top: 0.5rem !important;
 }
 
+.ml-auto{
+  margin-left: auto !important;
+}
+
 .mt-12{
   margin-top: 3rem !important;
 }
 
 .ml-0{
   margin-left: 0px !important;
+}
+
+.mb-8{
+  margin-bottom: 2rem !important;
+}
+
+.mt-16{
+  margin-top: 4rem !important;
+}
+
+.mt-10{
+  margin-top: 2.5rem !important;
 }
 
 .-ml-2{
@@ -4609,18 +4625,6 @@ span.flatpickr-weekday{
   margin-left: -1px !important;
 }
 
-.mb-8{
-  margin-bottom: 2rem !important;
-}
-
-.mt-16{
-  margin-top: 4rem !important;
-}
-
-.mt-10{
-  margin-top: 2.5rem !important;
-}
-
 .ml-8{
   margin-left: 2rem !important;
 }
@@ -4645,16 +4649,8 @@ span.flatpickr-weekday{
   margin-bottom: -1px !important;
 }
 
-.ml-auto{
-  margin-left: auto !important;
-}
-
 .-mr-8{
   margin-right: -2rem !important;
-}
-
-.ml-2{
-  margin-left: 0.5rem !important;
 }
 
 .block{
@@ -4966,20 +4962,20 @@ span.flatpickr-weekday{
   grid-template-columns: auto 1fr !important;
 }
 
-.grid-cols-2{
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-}
-
-.grid-cols-3{
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+.grid-cols-1{
+  grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
 }
 
 .grid-cols-4{
   grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
 }
 
-.grid-cols-1{
-  grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+.grid-cols-2{
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.grid-cols-3{
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
 }
 
 .flex-col{
@@ -5040,10 +5036,6 @@ span.flatpickr-weekday{
 
 .gap-6{
   gap: 1.5rem !important;
-}
-
-.gap-4{
-  gap: 1rem !important;
 }
 
 .space-x-2 > :not([hidden]) ~ :not([hidden]){
