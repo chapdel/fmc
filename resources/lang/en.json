@@ -477,6 +477,7 @@
     "mailcoach - This is a very exclusive segment. Nobody got selected.": "This is a very exclusive segment. Nobody got selected.",
     "mailcoach - This mail has already been opened, are you sure you want to resend it?": "This mail has already been opened, are you sure you want to resend it?",
     "mailcoach - This mail hasn't been opened yet.": "This mail hasn't been opened yet.",
+    "mailcoach - This name is used by the application to retrieve this template. Do not change it without updating the code of your app.": "This name is used by the application to retrieve this template. Do not change it without updating the code of your app.",
     "mailcoach - This user doesn't have any attributes yet.": "This user doesn't have any attributes yet.",
     "mailcoach - This user hasn't received any campaign yet.": "This user hasn't received any campaign yet.",
     "mailcoach - Timing": "Timing",

@@ -5,11 +5,9 @@
         <x-mailcoach::dropdown direction="left">
             <ul>
                 <li>
-                    <x-mailcoach::form-button
-                        :action="route('mailcoach.transactionalMails.templates.duplicate', $row)"
-                    >
+                    <button wire:click.prevent="duplicateTemplate({{ $row->id }})">
                         <x-mailcoach::icon-label icon="fas fa-random" :text="__('mailcoach - Duplicate')" />
-                    </x-mailcoach::form-button>
+                    </button>
                 </li>
                 <li>
                     <x-mailcoach::confirm-button

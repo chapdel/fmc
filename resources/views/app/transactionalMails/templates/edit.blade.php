@@ -1,28 +1,24 @@
-<x-mailcoach::layout-transactional-template title="Details" :template="$template">
+<div>
     <form
         class="form-grid"
         method="POST"
+        wire:submit.prevent="save"
     >
-        @csrf
-        @method('PUT')
-
         <x-mailcoach::fieldset :legend="__('mailcoach - Recipients')">
             <x-mailcoach::help>
                 {{ __('mailcoach - These recipients will be merged with the ones when the mail is sent. You can specify multiple recipients comma separated.') }}
             </x-mailcoach::help>
-            <x-mailcoach::text-field placeholder="john@example.com, jane@example.com" :label="__('mailcoach - To')" name="to" :value="$template->toString()"/>
-            <x-mailcoach::text-field placeholder="john@example.com, jane@example.com" :label="__('mailcoach - Cc')" name="cc" :value="$template->ccString()"/>
-            <x-mailcoach::text-field placeholder="john@example.com, jane@example.com" :label="__('mailcoach - Bcc')" name="bcc" :value="$template->bccString()"/>
+            <x-mailcoach::text-field placeholder="john@example.com, jane@example.com" :label="__('mailcoach - To')" name="template.to" wire:model.lazy="template.to"/>
+            <x-mailcoach::text-field placeholder="john@example.com, jane@example.com" :label="__('mailcoach - Cc')" name="template.cc" wire:model.lazy="template.cc"/>
+            <x-mailcoach::text-field placeholder="john@example.com, jane@example.com" :label="__('mailcoach - Bcc')" name="template.bcc" wire:model.lazy="template.bcc"/>
         </x-mailcoach::fieldset>
 
-        <x-mailcoach::text-field :label="__('mailcoach - Subject')" name="subject" :value="$template->subject" required/>
+        <x-mailcoach::text-field :label="__('mailcoach - Subject')" name="template.subject" wire:model.lazy="template.subject" required/>
 
         {!! app(config('mailcoach.transactional.editor'))->render($template) !!}
     </form>
 
-    <x-mailcoach::modal :title="__('mailcoach - Preview') . ' - ' . $template->subject" name="preview" large :open="Request::get('modal')">
-        <iframe class="absolute" width="100%" height="100%" data-html-preview-target></iframe>
-    </x-mailcoach::modal>
+    <x-mailcoach::preview-modal :title="__('mailcoach - Preview') . ' - ' . $template->subject" :html="$template->body"/>
 
     @if($template->canBeTested())
         <x-mailcoach::modal :title="__('mailcoach - Send Test')" name="send-test">
@@ -31,6 +27,4 @@
     @endif
 
     <x-mailcoach::transactional-mail-template-replacer-help-texts :template="$template"/>
-
-
-</x-mailcoach::layout-transactional-template>
+</div>

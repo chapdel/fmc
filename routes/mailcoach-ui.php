@@ -13,8 +13,6 @@ use Spatie\Mailcoach\Http\App\Controllers\EmailLists\SubscribersExportController
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DestroySubscriberImportController;
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DownloadSubscriberImportAttachmentController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\SendTransactionalMailTestController;
-use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\TransactionalMailSettingsController;
-use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\TransactionalMailTemplatesController;
 use Spatie\Mailcoach\Http\App\Middleware\EditableCampaign;
 
 Route::get('debug', '\\' . DebugController::class)->name('debug');
@@ -112,15 +110,12 @@ Route::prefix('transactional-mail-log')->group(function () {
 });
 
 Route::prefix('transactional-mail-templates')->group(function () {
-    Route::get('/', '\\' . Config::getLivewireClass('transactional-mail-templates', \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailTemplates::class))->name('mailcoach.transactionalMails.templates');
+    Route::get('/', '\\' . Config::getLivewireClass('transactional-mail-templates', \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplates::class))->name('mailcoach.transactionalMails.templates');
 
-    Route::prefix('{transactionalMailTemplate}')->group(function () {
-        Route::get('content', ['\\' . TransactionalMailTemplatesController::class, 'edit'])->name('mailcoach.transactionalMails.templates.edit');
-        Route::put('content', ['\\' . TransactionalMailTemplatesController::class, 'update']);
-        Route::post('duplicate', ['\\' . TransactionalMailTemplatesController::class, 'duplicate'])->name('mailcoach.transactionalMails.templates.duplicate');
+    Route::prefix('{template}')->group(function () {
+        Route::get('content', '\\' . Config::getLivewireClass('transactional-mail-template-content', \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateContent::class))->name('mailcoach.transactionalMails.templates.edit');
+        Route::get('settings', '\\' . Config::getLivewireClass('transactional-mail-template-settings', \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateSettings::class))->name('mailcoach.transactionalMails.templates.settings');
 
-        Route::get('settings', ['\\' . TransactionalMailSettingsController::class, 'edit'])->name('mailcoach.transactionalMails.templates.settings');
-        Route::put('settings', ['\\' . TransactionalMailSettingsController::class, 'update']);
         Route::post('send-test-email', '\\' . SendTransactionalMailTestController::class)->name('mailcoach.transactionalMails.templates.sendTestEmail');
     });
 });

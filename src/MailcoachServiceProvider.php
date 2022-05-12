@@ -118,7 +118,9 @@ use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailConte
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailPerformance;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailResend;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMails;
-use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailTemplates;
+use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateContent;
+use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplates;
+use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateSettings;
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\IndexComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\QueryStringComposer;
@@ -453,7 +455,9 @@ class MailcoachServiceProvider extends PackageServiceProvider
         // TransactionalMails
         Livewire::component('mailcoach::create-transactional-template', Config::getLivewireClass('create-transactional-template', CreateTransactionalTemplate::class));
         Livewire::component('mailcoach::transactional-mails', Config::getLivewireClass('transactional-mails', TransactionalMails::class));
-        Livewire::component('mailcoach::transactional-mail-templates', Config::getLivewireClass('transactional-mail-templates', TransactionalMailTemplates::class));
+        Livewire::component('mailcoach::transactional-mail-templates', Config::getLivewireClass('transactional-mail-templates', TransactionalTemplates::class));
+        Livewire::component('mailcoach::transactional-mail-template-content', Config::getLivewireClass('transactional-mail-template-content', TransactionalTemplateContent::class));
+        Livewire::component('mailcoach::transactional-mail-template-settings', Config::getLivewireClass('transactional-mail-template-settings', TransactionalTemplateSettings::class));
         Livewire::component('mailcoach::transactional-mail-content', Config::getLivewireClass('transactional-mail-content', TransactionalMailContent::class));
         Livewire::component('mailcoach::transactional-mail-performance', Config::getLivewireClass('transactional-mail-performance', TransactionalMailPerformance::class));
         Livewire::component('mailcoach::transactional-mail-resend', Config::getLivewireClass('transactional-mail-resend', TransactionalMailResend::class));
