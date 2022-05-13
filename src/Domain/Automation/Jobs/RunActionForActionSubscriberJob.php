@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Automation\Jobs;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -12,7 +13,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Actions\AutomationAction;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
-class RunActionForActionSubscriberJob implements ShouldQueue
+class RunActionForActionSubscriberJob implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable;
     use InteractsWithQueue;
@@ -25,6 +26,11 @@ class RunActionForActionSubscriberJob implements ShouldQueue
         $this->queue = config('mailcoach.automation.perform_on_queue.run_action_for_subscriber_job');
 
         $this->connection = $this->connection ?? Config::getQueueConnection();
+    }
+
+    public function uniqueId()
+    {
+        return $this->actionSubscriber->id;
     }
 
     public function handle(): void

@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Tests;
 
 use CreateMailcoachTables;
-use CreateMediaTable;
 use CreateUsersTable;
 use CreateWebhookCallsTable;
 use Illuminate\Contracts\Console\Kernel;
@@ -91,8 +90,7 @@ abstract class TestCase extends Orchestra
             include_once __DIR__.'/../database/migrations/create_mailcoach_tables.php.stub';
             (new CreateMailcoachTables())->up();
 
-            include_once __DIR__.'/../vendor/spatie/laravel-medialibrary/database/migrations/create_media_table.php.stub';
-            (new CreateMediaTable())->up();
+            (include __DIR__.'/../vendor/spatie/laravel-medialibrary/database/migrations/create_media_table.php.stub')->up();
 
             include_once __DIR__.'/database/migrations/create_users_table.php.stub';
             (new CreateUsersTable())->up();

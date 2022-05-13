@@ -13,6 +13,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
 use Spatie\Mailcoach\Domain\Automation\Exceptions\CouldNotStartAutomation;
+use Spatie\Mailcoach\Domain\Automation\Jobs\RunActionForActionSubscriberJob;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\AutomationAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\AutomationTrigger;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
@@ -188,9 +189,24 @@ class Automation extends Model
 
     public function run(Subscriber $subscriber): void
     {
-        $this->actions()->first()->subscribers()->attach($subscriber);
+        /** @var null|Action $firstAction */
+        $firstAction = $this
+            ->actions()
+            ->first();
+
+        if (! $firstAction) {
+            return;
+        }
+
+        $actionSubscriber = ActionSubscriber::create([
+            'job_dispatched_at' => now(),
+            'action_id' => $firstAction->id,
+            'subscriber_id' => $subscriber->id,
+        ]);
 
         $this->update(['last_ran_at' => now()]);
+
+        dispatch(new RunActionForActionSubscriberJob($actionSubscriber));
     }
 
     public function resolveRouteBinding($value, $field = null)
