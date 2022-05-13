@@ -1,9 +1,9 @@
 <?php
 
+use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\DuplicateSegmentController;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Segments\EditSegmentController;
+use Spatie\Mailcoach\Http\App\Livewire\Audience\Segments;
 
 it('can duplicate a segment', function () {
     test()->authenticate();
@@ -22,17 +22,12 @@ it('can duplicate a segment', function () {
         ->syncPositiveTags($positiveTags)
         ->syncNegativeTags($negativeTags);
 
-    $duplicateSegmentEndpoint = action(DuplicateSegmentController::class, [
-        $originalSegment->emailList,
-        $originalSegment,
-    ]);
-
-    $this
-        ->post($duplicateSegmentEndpoint)
-        ->assertRedirect(action([EditSegmentController::class, 'edit'], [$originalSegment->emailList->id, TagSegment::orderByDesc('id')->first()->id]));
+    Livewire::test(Segments::class)
+        ->call('duplicateSegment', $originalSegment->id)
+        ->assertRedirect(route('mailcoach.emailLists.segments.edit', [$originalSegment->emailList, TagSegment::orderByDesc('id')->first()->id]));
 
     /** @var TagSegment $duplicatedSegment */
-    $duplicatedSegment = TagSegment::find(TagSegment::orderByDesc('id')->first()->id);
+    $duplicatedSegment = TagSegment::orderByDesc('id')->first();
 
     test()->assertEquals(
         "Duplicate of {$originalSegment->name}",

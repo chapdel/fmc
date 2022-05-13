@@ -1,6 +1,6 @@
 <?php
 
-use function Pest\Livewire\livewire;
+use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Policies\EmailListPolicy;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\Lists;
@@ -13,7 +13,7 @@ beforeEach(function () {
 it('can delete an email list', function () {
     test()->authenticate();
 
-    livewire(Lists::class)
+    Livewire::test(Lists::class)
         ->call('deleteList', $this->emailList->id);
 
     expect(EmailList::count())->toBe(0);
@@ -24,6 +24,6 @@ it('authorizes access with custom policy', function () {
 
     test()->authenticate();
 
-    livewire(Lists::class)
+    Livewire::test(Lists::class)
         ->call('deleteList', $this->emailList->id);
 })->throws(\Illuminate\Auth\Access\AuthorizationException::class);

@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Livewire\LivewireServiceProvider;
+use LivewireUI\Spotlight\SpotlightServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\Feed\FeedServiceProvider;
 use Spatie\Flash\Flash;
@@ -73,12 +74,13 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
+            SpotlightServiceProvider::class,
+            RayServiceProvider::class,
+            LivewireServiceProvider::class,
             MailcoachServiceProvider::class,
             FeedServiceProvider::class,
             MediaLibraryServiceProvider::class,
             QueryBuilderServiceProvider::class,
-            RayServiceProvider::class,
-            LivewireServiceProvider::class,
         ];
     }
 

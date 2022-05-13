@@ -3,11 +3,13 @@
 namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 
 use Illuminate\Contracts\View\View;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 use Spatie\Mailcoach\Http\App\Requests\EmailLists\Settings\UpdateEmailListGeneralSettingsRequest;
+use Spatie\ValidationRules\Rules\Delimited;
 
 class ListSettings extends Component
 {
@@ -18,9 +20,26 @@ class ListSettings extends Component
 
     protected function rules(): array
     {
-        return collect((new UpdateEmailListGeneralSettingsRequest)->rules())
-            ->mapWithKeys(fn ($value, string $key) => ["emailList.{$key}" => $value])
-            ->toArray();
+        return [
+            'emailList.name' => 'required',
+            'emailList.default_from_email' => 'required|email:rfc',
+            'emailList.default_from_name' => 'nullable',
+            'emailList.default_reply_to_email' => 'nullable|email:rfc',
+            'emailList.default_reply_to_name' => 'nullable',
+
+            'emailList.campaigns_feed_enabled' => 'boolean',
+
+            'emailList.report_campaign_sent' => 'boolean',
+            'emailList.report_campaign_summary' => 'boolean',
+            'emailList.report_email_list_summary' => 'boolean',
+
+            'emailList.report_recipients' => [
+                new Delimited('email'),
+                'required_if:emailList.report_email_list_summary,true',
+                'required_if:emailList.report_campaign_sent,true',
+                'required_if:emailList.report_campaign_summary,true',
+            ],
+        ];
     }
 
     public function mount(EmailList $emailList)

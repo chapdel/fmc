@@ -4,10 +4,12 @@ use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\UnsubscribeAction;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Components\RunAutomationComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
+use Spatie\Mailcoach\Http\App\Livewire\Automations\RunAutomation;
 
 it('can start and pause an automation', function () {
+    $this->authenticate();
+
     /** @var Automation $automation */
     $automation = Automation::factory()->create();
     $automation->triggerOn(new SubscribedTrigger());
@@ -17,12 +19,12 @@ it('can start and pause an automation', function () {
 
     expect($automation->fresh()->status)->toBe(AutomationStatus::PAUSED);
 
-    Livewire::test(RunAutomationComponent::class, ['automation' => $automation])
+    Livewire::test(RunAutomation::class, ['automation' => $automation])
         ->call('start');
 
     expect($automation->fresh()->status)->toBe(AutomationStatus::STARTED);
 
-    Livewire::test(RunAutomationComponent::class, ['automation' => $automation])
+    Livewire::test(RunAutomation::class, ['automation' => $automation])
         ->call('pause');
 
     expect($automation->fresh()->status)->toBe(AutomationStatus::PAUSED);
