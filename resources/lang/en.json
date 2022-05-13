@@ -180,6 +180,7 @@
     "mailcoach - Email": "Email",
     "mailcoach - Email :name was duplicated.": "Email :name was duplicated.",
     "mailcoach - Email :name was updated.": "Email :name was updated.",
+    "mailcoach - Email :name was created.": "Email :name was created.",
     "mailcoach - Email(s) comma separated": "Email(s) comma separated",
     "mailcoach - Emails": "Emails",
     "mailcoach - Entire list": "Entire list",
@@ -593,5 +594,12 @@
     "mailcoach - unsubscribe|unsubscribers": "unsubscribe|unsubscribers",
     "mailcoach - was delivered succesfully to": "was delivered succesfully to",
     "mailcoach - was delivered successfully to": "was delivered successfully to",
-    "mailcoach - was delivered to": "was delivered to"
+    "mailcoach - was delivered to": "was delivered to",
+    "mailcoach - Home": "Home",
+    "mailcoach - Create :resource": "Create :resource",
+    "mailcoach - Show :resource": "Show :resource",
+    "mailcoach - View :resource": "View :resource",
+    "mailcoach - Automation mails": "Automation mails",
+    "mailcoach - Email lists": "Email lists",
+    "mailcoach - Go :resource": "Go :resource"
 }

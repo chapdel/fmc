@@ -105,5 +105,6 @@
         </main>
 
         {!! \Livewire\Livewire::scripts() !!}
+        @livewire('livewire-ui-spotlight')
     </body>
 </html>

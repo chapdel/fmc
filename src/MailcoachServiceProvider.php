@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
+use LivewireUI\Spotlight\Spotlight;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\Mailcoach\Components\AutomationMailReplacerHelpTextsComponent;
@@ -114,6 +115,26 @@ use Spatie\Mailcoach\Http\App\Livewire\Campaigns\Template;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\Templates;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Livewire\SendTest;
+use Spatie\Mailcoach\Http\App\Livewire\Spotlight\AutomationEmailsCommand;
+use Spatie\Mailcoach\Http\App\Livewire\Spotlight\AutomationsCommand;
+use Spatie\Mailcoach\Http\App\Livewire\Spotlight\CampaignsCommand;
+use Spatie\Mailcoach\Http\App\Livewire\Spotlight\CreateAutomationCommand;
+use Spatie\Mailcoach\Http\App\Livewire\Spotlight\CreateAutomationMailCommand;
+use Spatie\Mailcoach\Http\App\Livewire\Spotlight\CreateCampaignCommand;
+use Spatie\Mailcoach\Http\App\Livewire\Spotlight\CreateListCommand;
+use Spatie\Mailcoach\Http\App\Livewire\Spotlight\CreateTemplateCommand;
+use Spatie\Mailcoach\Http\App\Livewire\Spotlight\CreateTransactionalTemplateCommand;
+use Spatie\Mailcoach\Http\App\Livewire\Spotlight\ShowAutomationCommand;
+use Spatie\Mailcoach\Http\App\Livewire\Spotlight\ShowAutomationMailCommand;
+use Spatie\Mailcoach\Http\App\Livewire\Spotlight\ShowCampaignCommand;
+use Spatie\Mailcoach\Http\App\Livewire\Spotlight\ShowListCommand;
+use Spatie\Mailcoach\Http\App\Livewire\Spotlight\ShowTemplateCommand;
+use Spatie\Mailcoach\Http\App\Livewire\Spotlight\HomeCommand;
+use Spatie\Mailcoach\Http\App\Livewire\Spotlight\ListsCommand;
+use Spatie\Mailcoach\Http\App\Livewire\Spotlight\ShowTransactionalTemplateCommand;
+use Spatie\Mailcoach\Http\App\Livewire\Spotlight\TemplatesCommand;
+use Spatie\Mailcoach\Http\App\Livewire\Spotlight\TransactionalLogCommand;
+use Spatie\Mailcoach\Http\App\Livewire\Spotlight\TransactionalTemplatesCommand;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\CreateTransactionalTemplate;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailContent;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailPerformance;
@@ -189,7 +210,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
             ->bootViews()
             ->bootEvents()
             ->bootTriggers()
-            ->registerDeprecatedApiGuard();
+            ->registerDeprecatedApiGuard()
+            ->bootSpotlight();
     }
 
     protected function bootCarbon(): self
@@ -514,5 +536,34 @@ class MailcoachServiceProvider extends PackageServiceProvider
         ]);
 
         return $this;
+    }
+
+    protected function bootSpotlight()
+    {
+        // Index commands
+        Spotlight::registerCommand(AutomationsCommand::class);
+        Spotlight::registerCommand(AutomationEmailsCommand::class);
+        Spotlight::registerCommand(CampaignsCommand::class);
+        Spotlight::registerCommand(HomeCommand::class);
+        Spotlight::registerCommand(ListsCommand::class);
+        Spotlight::registerCommand(TemplatesCommand::class);
+        Spotlight::registerCommand(TransactionalLogCommand::class);
+        Spotlight::registerCommand(TransactionalTemplatesCommand::class);
+
+        // Show commands
+        Spotlight::registerCommand(ShowAutomationCommand::class);
+        Spotlight::registerCommand(ShowAutomationMailCommand::class);
+        Spotlight::registerCommand(ShowCampaignCommand::class);
+        Spotlight::registerCommand(ShowListCommand::class);
+        Spotlight::registerCommand(ShowTemplateCommand::class);
+        Spotlight::registerCommand(ShowTransactionalTemplateCommand::class);
+
+        // Create commands
+        Spotlight::registerCommand(CreateAutomationCommand::class);
+        Spotlight::registerCommand(CreateAutomationMailCommand::class);
+        Spotlight::registerCommand(CreateCampaignCommand::class);
+        Spotlight::registerCommand(CreateListCommand::class);
+        Spotlight::registerCommand(CreateTemplateCommand::class);
+        Spotlight::registerCommand(CreateTransactionalTemplateCommand::class);
     }
 }

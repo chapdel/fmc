@@ -2,10 +2,10 @@ const defaultTheme = require('tailwindcss/defaultTheme');
 const colors = require('tailwindcss/colors');
 
 module.exports = {
-    important: true,
     content: [
         './resources/**/*.blade.php',
         './resources/**/*.js',
+        './vendor/wire-elements/spotlight/resources/views/spotlight.blade.php',
         '../mailcoach-ui/resources/**/*.blade.php',
       ],
     theme: {
