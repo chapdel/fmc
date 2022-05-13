@@ -39,7 +39,7 @@ class ShowListCommand extends SpotlightCommand
         return self::getEmailListClass()::where('name', 'like', "%$query%")
             ->withCount('subscribers')
             ->get()
-            ->map(function(EmailList $list) {
+            ->map(function (EmailList $list) {
                 return new SpotlightSearchResult(
                     $list->id,
                     $list->name,

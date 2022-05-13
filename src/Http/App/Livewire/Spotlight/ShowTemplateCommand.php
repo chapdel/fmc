@@ -38,7 +38,7 @@ class ShowTemplateCommand extends SpotlightCommand
     {
         return self::getTemplateClass()::where('name', 'like', "%$query%")
             ->get()
-            ->map(function(Template $template) {
+            ->map(function (Template $template) {
                 return new SpotlightSearchResult(
                     $template->id,
                     $template->name,

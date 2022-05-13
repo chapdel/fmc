@@ -38,7 +38,7 @@ class ShowAutomationMailCommand extends SpotlightCommand
     {
         return self::getAutomationMailClass()::where('name', 'like', "%$query%")
             ->get()
-            ->map(function(AutomationMail $automationMail) {
+            ->map(function (AutomationMail $automationMail) {
                 return new SpotlightSearchResult(
                     $automationMail->id,
                     $automationMail->name,

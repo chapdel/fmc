@@ -8,11 +8,8 @@ use LivewireUI\Spotlight\SpotlightCommand;
 use LivewireUI\Spotlight\SpotlightCommandDependencies;
 use LivewireUI\Spotlight\SpotlightCommandDependency;
 use LivewireUI\Spotlight\SpotlightSearchResult;
-use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Domain\Campaign\Actions\UpdateCampaignAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Http\App\Queries\Filters\FuzzyFilter;
 
 class ShowCampaignCommand extends SpotlightCommand
 {
@@ -41,7 +38,7 @@ class ShowCampaignCommand extends SpotlightCommand
     {
         return self::getCampaignClass()::where('name', 'like', "%$query%")
             ->get()
-            ->map(function(Campaign $campaign) {
+            ->map(function (Campaign $campaign) {
                 return new SpotlightSearchResult(
                     $campaign->id,
                     $campaign->name,
@@ -59,7 +56,7 @@ class ShowCampaignCommand extends SpotlightCommand
     {
         if ($campaign->isSent() || $campaign->isSending() || $campaign->isCancelled()) {
             $spotlight->redirect(route('mailcoach.campaigns.summary', $campaign));
-        } else if ($campaign->isScheduled()) {
+        } elseif ($campaign->isScheduled()) {
             $spotlight->redirect(route('mailcoach.campaigns.delivery', $campaign));
         } else {
             $spotlight->redirect(route('mailcoach.campaigns.content', $campaign));

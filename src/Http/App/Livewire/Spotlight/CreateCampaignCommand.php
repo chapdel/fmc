@@ -32,7 +32,7 @@ class CreateCampaignCommand extends SpotlightCommand
     {
         return self::getEmailListClass()::where('name', 'like', "%$query%")
             ->get()
-            ->map(function(EmailList $list) {
+            ->map(function (EmailList $list) {
                 return new SpotlightSearchResult(
                     $list->id,
                     $list->name,
@@ -48,7 +48,7 @@ class CreateCampaignCommand extends SpotlightCommand
 
     public function execute(Spotlight $spotlight, string $name, ?EmailList $emailList, UpdateCampaignAction $updateCampaignAction)
     {
-        if (! $name || !$emailList) {
+        if (! $name || ! $emailList) {
             $spotlight->dispatchBrowserEvent('notify', [
                 'content' => 'Name & email list is required',
                 'type' => 'error',

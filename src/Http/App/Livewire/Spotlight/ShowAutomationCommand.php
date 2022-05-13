@@ -38,7 +38,7 @@ class ShowAutomationCommand extends SpotlightCommand
     {
         return self::getAutomationClass()::where('name', 'like', "%$query%")
             ->get()
-            ->map(function(Automation $automation) {
+            ->map(function (Automation $automation) {
                 return new SpotlightSearchResult(
                     $automation->id,
                     $automation->name,

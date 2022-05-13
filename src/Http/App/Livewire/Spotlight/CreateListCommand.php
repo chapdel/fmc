@@ -7,13 +7,7 @@ use LivewireUI\Spotlight\Spotlight;
 use LivewireUI\Spotlight\SpotlightCommand;
 use LivewireUI\Spotlight\SpotlightCommandDependencies;
 use LivewireUI\Spotlight\SpotlightCommandDependency;
-use LivewireUI\Spotlight\SpotlightSearchResult;
 use Spatie\Mailcoach\Domain\Audience\Actions\EmailLists\CreateEmailListAction;
-use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Domain\Automation\Actions\CreateAutomationAction;
-use Spatie\Mailcoach\Domain\Automation\Actions\UpdateAutomationMailAction;
-use Spatie\Mailcoach\Domain\Campaign\Actions\Templates\CreateTemplateAction;
-use Spatie\Mailcoach\Domain\Campaign\Actions\UpdateCampaignAction;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class CreateListCommand extends SpotlightCommand
@@ -40,7 +34,7 @@ class CreateListCommand extends SpotlightCommand
 
     public function execute(Spotlight $spotlight, string $name, string $fromEmail, string $fromName)
     {
-        if (! $name || !$fromEmail) {
+        if (! $name || ! $fromEmail) {
             return;
         }
 

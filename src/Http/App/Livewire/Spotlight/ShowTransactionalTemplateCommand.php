@@ -39,7 +39,7 @@ class ShowTransactionalTemplateCommand extends SpotlightCommand
     {
         return self::getTransactionalMailTemplateClass()::where('name', 'like', "%$query%")
             ->get()
-            ->map(function(TransactionalMailTemplate $template) {
+            ->map(function (TransactionalMailTemplate $template) {
                 return new SpotlightSearchResult(
                     $template->id,
                     $template->name,
