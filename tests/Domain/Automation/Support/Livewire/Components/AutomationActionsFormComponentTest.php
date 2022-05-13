@@ -5,6 +5,7 @@ use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\UnsubscribeAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
+use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationActions;
 
 it('listens to edit and saved events to disable the save button', function () {
     /** @var Automation $automation */
@@ -15,7 +16,7 @@ it('listens to edit and saved events to disable the save button', function () {
 
     $someActionUuid = Str::uuid()->toString();
 
-    Livewire::test('automation-actions', [
+    Livewire::test(AutomationActions::class, [
         'automation' => $automation,
     ])->assertDontSee('disabled')
         ->emit('editAction', $someActionUuid)
@@ -35,7 +36,7 @@ it('puts actions from the automation builder in the form', function () {
         new UnsubscribeAction(),
     ]);
 
-    Livewire::test('automation-actions', [
+    Livewire::test(AutomationActions::class, [
         'automation' => $automation,
     ])->assertSee(json_encode([
         $automation->actions->first()->toLivewireArray(),
@@ -49,7 +50,7 @@ it('updates actions when the default builder is updated', function () {
         new UnsubscribeAction(),
     ]);
 
-    Livewire::test('automation-actions', [
+    Livewire::test(AutomationActions::class, [
         'automation' => $automation,
     ])->assertSee(json_encode([
         $automation->actions->first()->toLivewireArray(),
@@ -88,7 +89,7 @@ it('doesnt update when other builders get updated', function () {
         new UnsubscribeAction(),
     ]);
 
-    Livewire::test('automation-actions', [
+    Livewire::test(AutomationActions::class, [
         'automation' => $automation,
     ])->assertSee(json_encode([
         $automation->actions->first()->toLivewireArray(),

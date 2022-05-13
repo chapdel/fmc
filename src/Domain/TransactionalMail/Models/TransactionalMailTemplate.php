@@ -113,16 +113,28 @@ class TransactionalMailTemplate extends Model implements HasHtmlContent
 
     public function toString(): string
     {
+        if (is_string($this->to)) {
+            return $this->to;
+        }
+
         return implode(',', $this->to ?? []);
     }
 
     public function ccString(): string
     {
+        if (is_string($this->cc)) {
+            return $this->cc;
+        }
+
         return implode(',', $this->cc ?? []);
     }
 
     public function bccString(): string
     {
+        if (is_string($this->bcc)) {
+            return $this->bcc;
+        }
+
         return implode(',', $this->bcc ?? []);
     }
 

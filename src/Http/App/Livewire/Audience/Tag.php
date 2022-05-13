@@ -1,0 +1,59 @@
+<?php
+
+namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
+
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Validation\Rule;
+use Livewire\Component;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\Tag as TagModel;
+use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
+
+class Tag extends Component
+{
+    use AuthorizesRequests;
+    use LivewireFlash;
+
+    public EmailList $emailList;
+
+    public TagModel $tag;
+
+    protected function rules()
+    {
+        return [
+            'tag.name' => [
+                'required',
+                Rule::unique('mailcoach_tags', 'name')
+                    ->where('email_list_id', $this->emailList->id)
+                    ->ignore($this->tag->id),
+            ],
+        ];
+    }
+
+    public function mount(EmailList $emailList, TagModel $tag)
+    {
+        $this->authorize('update', $emailList);
+        $this->authorize('update', $tag);
+
+        $this->emailList = $emailList;
+        $this->tag = $tag;
+    }
+
+    public function save()
+    {
+        $this->validate();
+
+        $this->tag->save();
+
+        $this->flash(__('mailcoach - Tag :tag was updated', ['tag' => $this->tag->name]));
+    }
+
+    public function render(): View
+    {
+        return view('mailcoach::app.emailLists.tags.show')
+            ->layout('mailcoach::app.emailLists.layouts.emailList', [
+                'emailList' => $this->emailList,
+            ]);
+    }
+}

@@ -1,24 +1,30 @@
-import * as Turbo from '@hotwired/turbo';
 import { listen, $ } from '../util';
 
 listen('input', '[data-dirty-check]', ({ target }) => {
     target.dirty = true;
 });
 
-listen('click', '[data-dirty-warn]', () => {
+document.addEventListener('click', (event) => {
+    if (!event.target.closest(swup.options.linkSelector)) {
+        return;
+    }
+
+    if (event.target.dataset.dirtyWarn === undefined) {
+        return;
+    }
+
     if (!$('[data-dirty-check]') || !$('[data-dirty-check]').dirty) {
         return;
     }
 
-    function handleBeforeVisit(event) {
-        event.preventDefault();
+    event.stopImmediatePropagation()
+    event.preventDefault()
 
-        /*showModal('dirty-warning', {
-            onConfirm() {
-                Turbo.visit(event.data.url);
-            },
-        });*/
-    }
-
-    document.addEventListener('turbo:before-visit', handleBeforeVisit, { once: true });
-});
+    Alpine.store('modals').open('dirty-warning');
+    Alpine.store('modals').onConfirm = () => {
+        Alpine.store('modals').close('dirty-warning');
+        swup.loadPage({
+            url: event.target.href,
+        });
+    };
+}, true);

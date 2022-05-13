@@ -3,7 +3,7 @@ const colors = require('tailwindcss/colors');
 
 module.exports = {
     important: true,
-    purge: [
+    content: [
         './resources/**/*.blade.php',
         './resources/**/*.js',
         '../mailcoach-ui/resources/**/*.blade.php',
@@ -14,7 +14,7 @@ module.exports = {
             current: 'currentColor',
             black: colors.black,
             white: colors.white,
-            gray: colors.coolGray,
+            gray: colors.gray,
             blue: colors.blue,
             red: colors.rose,
             green: colors.emerald,
@@ -56,13 +56,6 @@ module.exports = {
                 layout: '110rem',
             },
         },
-    },
-    variants: {
-        extend: {
-            display: ['hover', 'group-hover'],
-            zIndex: ['hover'],
-            scale: ['group-hover'],
-        }
     },
     corePlugins: {
         ringWidth: false,

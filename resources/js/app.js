@@ -1,29 +1,24 @@
-import 'alpine-turbo-drive-adapter';
+import flatpickr from 'flatpickr';
+import Tagify from '@yaireo/tagify'
+import '@yaireo/tagify/dist/tagify.css';
 import Alpine from 'alpinejs';
 import focus from '@alpinejs/focus';
 
-require('./components/turbo');
-require('./components/conditional');
-require('./components/confirm');
-require('./components/datepicker');
+require('./components/swup');
 require('./components/dirty');
-require('./components/dismiss');
-require('./components/dropdown');
 require('./components/htmlPreview');
-require('./components/nav');
-require('./components/poll');
-require('./components/segments');
-require('./components/tags');
 require('./components/charts/emailListStatistics');
 require('./components/charts/campaignStatistics');
 
 Alpine.plugin(focus);
 
 window.Alpine = Alpine;
+window.Tagify = Tagify;
 
 document.addEventListener('alpine:init', () => {
     Alpine.store('modals', {
         openModals: [],
+        onConfirm: null,
         isOpen(id) {
             return this.openModals.includes(id);
         },

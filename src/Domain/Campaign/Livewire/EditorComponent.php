@@ -8,10 +8,13 @@ use Livewire\Component;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\Shared\Support\TemplateRenderer;
+use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 use Spatie\ValidationRules\Rules\Delimited;
 
 abstract class EditorComponent extends Component
 {
+    use LivewireFlash;
+
     public Campaign $campaign;
 
     public ?int $templateId = null;
@@ -29,6 +32,7 @@ abstract class EditorComponent extends Component
         $this->templateFieldValues = $campaign->getTemplateFieldValues();
         $this->template = $campaign->template;
         $this->templateId = $campaign->template?->id;
+        $this->renderFullHtml();
     }
 
     public function updatingTemplateId(?int $templateId)
@@ -54,9 +58,13 @@ abstract class EditorComponent extends Component
             return;
         }
 
-        $templateRenderer = (new TemplateRenderer($this->template->html));
+        $this->renderFullHtml();
+    }
 
-        $this->fullHtml = $templateRenderer->render($this->templateFieldValues);;
+    public function renderFullHtml()
+    {
+        $templateRenderer = (new TemplateRenderer($this->template?->html ?? ''));
+        $this->fullHtml = $templateRenderer->render($this->templateFieldValues);
     }
 
     public function save()
@@ -70,7 +78,7 @@ abstract class EditorComponent extends Component
 
         $this->campaign->save();
 
-        // flash()->success(__('mailcoach - Campaign :campaign was updated.', ['campaign' => $campaign->name]));
+        $this->flash(__('mailcoach - Campaign :campaign was updated.', ['campaign' => $this->campaign->name]));
     }
 
     public function sendTest()

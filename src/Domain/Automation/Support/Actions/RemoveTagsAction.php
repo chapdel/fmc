@@ -38,7 +38,7 @@ class RemoveTagsAction extends AutomationAction
 
     public static function getComponent(): ?string
     {
-        return 'remove-tags-action';
+        return 'mailcoach::remove-tags-action';
     }
 
     public function toArray(): array

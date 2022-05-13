@@ -22,7 +22,7 @@ class TagRemovedTrigger extends AutomationTrigger implements TriggeredByEvents
 
     public static function getComponent(): ?string
     {
-        return 'tag-removed-trigger';
+        return 'mailcoach::tag-removed-trigger';
     }
 
     public static function rules(): array

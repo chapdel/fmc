@@ -4,8 +4,6 @@
     :title="$title ?? null"
 >
     <x-slot name="nav">
-
-
         <x-mailcoach::navigation>
 
             @include('mailcoach::app.layouts.partials.beforeFirstMenuItem')
@@ -25,7 +23,7 @@
                 <x-mailcoach::navigation-item :href="route('mailcoach.campaigns')">
                     {{ __('mailcoach - Campaigns') }}
                 </x-mailcoach::navigation-item>
-                <x-mailcoach::navigation-item :href="route('mailcoach.templates')">
+                <x-mailcoach::navigation-item :active="Route::is('mailcoach.templates.*')" :href="route('mailcoach.templates')">
                     {{ __('mailcoach - Templates') }}
                 </x-mailcoach::navigation-item>
             </x-mailcoach::navigation-group>

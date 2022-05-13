@@ -37,17 +37,17 @@
                             <x-mailcoach::dropdown direction="left">
                                 <ul>
                                     <li>
-                                        <a href="{{ route('mailcoach.subscriberImport.downloadAttachment', [$subscriberImport, 'importedUsersReport']) }}" download>
+                                        <a data-no-swup href="{{ route('mailcoach.subscriberImport.downloadAttachment', [$subscriberImport, 'importedUsersReport']) }}" download>
                                             <x-mailcoach::icon-label icon="far fa-list-alt" :text="__('mailcoach - Import report')"/>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{ route('mailcoach.subscriberImport.downloadAttachment', [$subscriberImport, 'errorReport']) }}" download>
+                                        <a data-no-swup href="{{ route('mailcoach.subscriberImport.downloadAttachment', [$subscriberImport, 'errorReport']) }}" download>
                                             <x-mailcoach::icon-label icon="far fa-times-circle" :text="__('mailcoach - Error report')"/>
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="{{ route('mailcoach.subscriberImport.downloadAttachment', [$subscriberImport, 'importFile']) }}" download>
+                                        <a data-no-swup href="{{ route('mailcoach.subscriberImport.downloadAttachment', [$subscriberImport, 'importFile']) }}" download>
                                             <x-mailcoach::icon-label icon="far fa-file" :text="__('mailcoach - Uploaded file')"/>
                                         </a>
                                     </li>

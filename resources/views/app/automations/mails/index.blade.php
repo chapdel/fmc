@@ -1,44 +1,16 @@
-<x-mailcoach::layout-main :title="__('mailcoach - Emails')">
-    <div class="table-actions">
-        <x-mailcoach::button x-on:click="$store.modals.open('create-automation-mail')" :label="__('mailcoach - Create email')"/>
-
-        <x-mailcoach::modal :title="__('mailcoach - Create email')" name="create-automation-mail" :open="$errors->any()">
-            <livewire:mailcoach::create-automation-mail />
-        </x-mailcoach::modal>
-
-        @if($totalMailsCount)
-            <div class="table-filters">
-                <x-mailcoach::search :placeholder="__('mailcoach - Filter emails…')"/>
-            </div>
-        @endif
-    </div>
-
-    @if($totalMailsCount)
-        <table class="table table-fixed">
-            <thead>
-            <tr>
-                <x-mailcoach::th sort-by="name">{{ __('mailcoach - Name') }}</x-mailcoach::th>
-                <x-mailcoach::th sort-by="-sent_to_number_of_subscribers" class="w-24 th-numeric">{{ __('mailcoach - Emails') }}</x-mailcoach::th>
-                <x-mailcoach::th sort-by="-unique_open_count" class="w-24 th-numeric hidden | xl:table-cell">{{ __('mailcoach - Opens') }}</x-mailcoach::th>
-                <x-mailcoach::th sort-by="-unique_click_count" class="w-24 th-numeric hidden | xl:table-cell">{{ __('mailcoach - Clicks') }}</x-mailcoach::th>
-                <x-mailcoach::th sort-by="-created_at" sort-default
-                                 class="w-48 th-numeric hidden | xl:table-cell">{{ __('mailcoach - Created at') }}</x-mailcoach::th>
-                <x-mailcoach::th class="w-12"></x-mailcoach::th>
-            </tr>
-            </thead>
-            <tbody>
-            @foreach($mails as $mail)
-                @include('mailcoach::app.automations.mails.partials.row')
-            @endforeach
-            </tbody>
-        </table>
-
-        <x-mailcoach::table-status :name="__('mailcoach - mail|mails')" :paginator="$mails"
-                                   :total-count="$totalMailsCount"
-                                   :show-all-url="route('mailcoach.automations.mails')"></x-mailcoach::table-status>
-    @else
-        <x-mailcoach::help>
-            {{ __('mailcoach - No automated mails yet.') }}
-        </x-mailcoach::help>
-    @endif
-</x-mailcoach::layout-main>
+<x-mailcoach::data-table
+    name="automation-mail"
+    :modelClass="\Spatie\Mailcoach\Domain\Shared\Support\Config::getAutomationMailClass()"
+    :rows="$automationMails ?? null"
+    :totalRowsCount="$totalAutomationMailsCount ?? null"
+    :columns="[
+        ['attribute' => 'name', 'label' => __('mailcoach - Name')],
+        ['attribute' => '-sent_to_number_of_subscribers', 'label' => __('mailcoach - Emails'), 'class' => 'w-24 th-numeric'],
+        ['attribute' => '-unique_open_count', 'label' => __('mailcoach - Opens'), 'class' => 'w-24 th-numeric hidden | xl:table-cell'],
+        ['attribute' => '-unique_click_count', 'label' => __('mailcoach - Clicks'), 'class' => 'w-24 th-numeric hidden | xl:table-cell'],
+        ['attribute' => '-created_at', 'class' => 'w-48 th-numeric hidden | xl:table-cell', 'label' => __('mailcoach - Created at')],
+        ['class' => 'w-12'],
+    ]"
+    rowPartial="mailcoach::app.automations.mails.partials.row"
+    :emptyText="__('mailcoach - No automated mails yet.')"
+/>

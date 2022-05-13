@@ -11,6 +11,6 @@ class NoTrigger extends AutomationTrigger
 
     public static function getComponent(): ?string
     {
-        return 'no-trigger';
+        return 'mailcoach::no-trigger';
     }
 }

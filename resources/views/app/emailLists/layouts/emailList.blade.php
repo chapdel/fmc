@@ -17,10 +17,10 @@
                     </span>
                 </x-mailcoach::navigation-item>
 
-                <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.tags', $emailList) . '?filter[type]=default'">
+                <x-mailcoach::navigation-item :active="Route::is('mailcoach.emailLists.tags.*')" :href="route('mailcoach.emailLists.tags', $emailList) . '?filter[type]=default'">
                     {{ __('mailcoach - Tags') }}
                 </x-mailcoach::navigation-item>
-                <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.segments', $emailList)">
+                <x-mailcoach::navigation-item :active="Route::is('mailcoach.emailLists.segments.*')" :href="route('mailcoach.emailLists.segments', $emailList)">
                     {{ __('mailcoach - Segments') }}
                 </x-mailcoach::navigation-item>
             </x-mailcoach::navigation-group>

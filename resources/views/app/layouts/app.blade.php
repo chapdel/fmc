@@ -38,71 +38,72 @@
     <body class="bg-gray-100" x-data="{ confirmText: '', onConfirm: null }">
         <script>/**/</script><!-- Empty script to prevent FOUC in Firefox -->
 
-        <div class="mx-auto grid w-full max-w-layout min-h-screen p-6 z-auto"
-         style="grid-template-rows: auto 1fr auto">
-            <aside>
-                @include('mailcoach::app.layouts.partials.startBody')
+        <main id="swup">
+            <div class="mx-auto grid w-full max-w-layout min-h-screen p-6 z-auto" style="grid-template-rows: auto 1fr auto">
+                <aside>
+                    @include('mailcoach::app.layouts.partials.startBody')
 
-                    @if ((new Spatie\Mailcoach\Domain\Shared\Support\License\License())->hasExpired())
-                    <div class="mb-6 alert alert-warning text-sm shadow-lg">
-                        Your Mailcoach license has expired. <a class="underline" href="https://spatie.be/products/mailcoach">Renew your license</a> and benefit from fixes and new features.
+                        @if ((new Spatie\Mailcoach\Domain\Shared\Support\License\License())->hasExpired())
+                        <div class="mb-6 alert alert-warning text-sm shadow-lg">
+                            Your Mailcoach license has expired. <a class="underline" href="https://spatie.be/products/mailcoach">Renew your license</a> and benefit from fixes and new features.
+                        </div>
+                        @endif
+
+                </aside>
+
+                <div>
+                    @include('mailcoach::app.layouts.partials.flash')
+
+                    <div class="h-full card card-split">
+                        <nav class="card-nav">
+                            {{ $nav ?? '' }}
+                        </nav>
+
+                        <main class="card-main">
+
+                            <h1 class="markup-h1">
+                                @isset($originTitle)
+                                    <div class="markup-h1-sub">
+                                        @isset($originHref)
+                                            <a class="text-blue-500" href="{{ $originHref }}">{{ $originTitle }}</a>
+                                        @else
+                                            {{ $originTitle }}
+                                        @endif
+                                    </div>
+                                @endif
+                                {{ $title ?? '' }}
+                            </h1>
+                            {{ $slot }}
+                        </main>
                     </div>
-                    @endif
-
-            </aside>
-
-            <div>
-                @include('mailcoach::app.layouts.partials.flash')
-
-                <div class="h-full card card-split">
-                    <nav class="card-nav">
-                        {{ $nav ?? '' }}
-                    </nav>
-
-                    <main class="card-main">
-
-                        <h1 class="markup-h1">
-                            @isset($originTitle)
-                                <div class="markup-h1-sub">
-                                    @isset($originHref)
-                                        <a class="text-blue-500" href="{{ $originHref }}">{{ $originTitle }}</a>
-                                    @else
-                                        {{ $originTitle }}
-                                    @endif
-                                </div>
-                            @endif
-                            {{ $title ?? '' }}
-                        </h1>
-                        {{ $slot }}
-                    </main>
                 </div>
+
+                <footer class="px-6 pt-6">
+                    @include('mailcoach::app.layouts.partials.footer')
+                </footer>
             </div>
 
-            <footer class="px-6 pt-6">
-                @include('mailcoach::app.layouts.partials.footer')
-            </footer>
-        </div>
+            <x-mailcoach::modal :title="__('mailcoach - Confirm')" name="confirm">
+                <span x-text="confirmText"></span>
 
-        <x-mailcoach::modal :title="__('mailcoach - Confirm')" name="confirm">
-            <span x-text="confirmText"></span>
+                <div class="form-buttons">
+                    <x-mailcoach::button type="button" x-on:click="onConfirm; $store.modals.close('confirm')" :label=" __('mailcoach - Confirm')" />
+                    <x-mailcoach::button-cancel  x-on:click="$store.modals.close('confirm')" :label=" __('mailcoach - Cancel')" />
+                </div>
+            </x-mailcoach::modal>
 
-            <div class="form-buttons">
-                <x-mailcoach::button type="button" x-on:click="onConfirm; $store.modals.close('confirm')" :label=" __('mailcoach - Confirm')" />
-                <x-mailcoach::button-cancel  x-on:click="$store.modals.close('confirm')" :label=" __('mailcoach - Cancel')" />
-            </div>
-        </x-mailcoach::modal>
+            <x-mailcoach::modal :title="__('mailcoach - Confirm navigation')" name="dirty-warning">
+                {{ __('mailcoach - There are unsaved changes. Are you sure you want to continue?') }}
 
-        <x-mailcoach::modal :title="__('mailcoach - Confirm navigation')" name="dirty-warning">
-            {{ __('mailcoach - There are unsaved changes. Are you sure you want to continue?') }}
+                <div class="form-buttons">
+                    <x-mailcoach::button type="button" x-on:click="$store.modals.onConfirm && $store.modals.onConfirm()" :label=" __('mailcoach - Confirm')" />
+                    <x-mailcoach::button-cancel  x-on:click="$store.modals.close('dirty-warning')" :label=" __('mailcoach - Cancel')" />
+                </div>
+            </x-mailcoach::modal>
 
-            <div class="form-buttons">
-                <x-mailcoach::button type="button" data-modal-confirm :label=" __('mailcoach - Confirm')" />
-                <x-mailcoach::button-cancel  x-on:click="$store.modals.close('confirm-navigation')" :label=" __('mailcoach - Cancel')" />
-            </div>
-        </x-mailcoach::modal>
+            @stack('modals')
+        </main>
 
-        @stack('modals')
         {!! \Livewire\Livewire::scripts() !!}
-        <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js" data-turbo-eval="false"></script>
     </body>
 </html>

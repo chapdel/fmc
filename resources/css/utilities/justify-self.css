@@ -1,4 +1,4 @@
-@responsive {
+@layer utilities {
     .justify-self-start {
         justify-self: flex-start;
     }

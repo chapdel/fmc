@@ -1,0 +1,67 @@
+<?php
+
+use Livewire\Livewire;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Policies\EmailListPolicy;
+use Spatie\Mailcoach\Http\App\Controllers\EmailLists\Settings\EmailListGeneralSettingsController;
+use Spatie\Mailcoach\Http\App\Livewire\Audience\CreateList;
+use Spatie\Mailcoach\Tests\TestClasses\CustomEmailListDenyAllPolicy;
+
+beforeEach(function () {
+    test()->authenticate();
+});
+
+it('can create a list', function () {
+    Livewire::test(CreateList::class)
+        ->set('name', 'My list')
+        ->set('default_from_email', 'john@example.com')
+        ->call('saveList')
+        ->assertRedirect(action([EmailListGeneralSettingsController::class, 'edit'], EmailList::first()->id));
+
+    test()->assertDatabaseHas(static::getEmailListTableName(), ['name' => 'My list']);
+});
+
+it('sets mailers based on the mailcoach mailer config', function () {
+    test()->authenticate();
+
+    config()->set('mailcoach.mailer', 'some-mailer');
+
+    Livewire::test(CreateList::class)
+        ->set('name', 'new list')
+        ->set('default_from_email', 'john@example.com')
+        ->call('saveList');
+
+    $attributes['transactional_mailer'] = 'some-mailer';
+    $attributes['campaign_mailer'] = 'some-mailer';
+
+    test()->assertDatabaseHas(static::getEmailListTableName(), $attributes);
+});
+
+it('sets mailers based on the config', function () {
+    test()->authenticate();
+
+    config()->set('mailcoach.mailer', 'some-mailer');
+    config()->set('mailcoach.transactional.mailer', 'some-transactional-mailer');
+    config()->set('mailcoach.campaigns.mailer', 'some-campaign-mailer');
+
+    Livewire::test(CreateList::class)
+        ->set('name', 'new list')
+        ->set('default_from_email', 'john@example.com')
+        ->call('saveList');
+
+    $attributes['transactional_mailer'] = 'some-transactional-mailer';
+    $attributes['campaign_mailer'] = 'some-campaign-mailer';
+
+    test()->assertDatabaseHas(static::getEmailListTableName(), $attributes);
+});
+
+it('authorizes access with custom policy', function () {
+    app()->bind(EmailListPolicy::class, CustomEmailListDenyAllPolicy::class);
+
+    test()->authenticate();
+
+    Livewire::test(CreateList::class)
+        ->set('name', 'new list')
+        ->set('default_from_email', 'john@example.com')
+        ->call('saveList');
+})->throws(\Illuminate\Auth\Access\AuthorizationException::class);

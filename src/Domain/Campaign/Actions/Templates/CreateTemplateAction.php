@@ -11,7 +11,7 @@ class CreateTemplateAction
 
     public function execute(array $attributes): Template
     {
-        return $this->getTemplateClass()::create([
+        return self::getTemplateClass()::create([
             'name' => $attributes['name'],
             'html' => $attributes['html'] ?? '',
             'structured_html' => $attributes['structured_html'] ?? null,

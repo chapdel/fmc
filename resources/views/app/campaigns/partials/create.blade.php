@@ -6,7 +6,7 @@
         :placeholder="__('mailcoach - Newsletter #1')"
         required
     />
-    <div class="form-grid" data-conditional-type="draft">
+    <div class="form-grid">
         <x-mailcoach::select-field
             :label="__('mailcoach - Email list')"
             :options="$emailListOptions"

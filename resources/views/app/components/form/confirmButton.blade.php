@@ -3,6 +3,7 @@
     'onConfirm' => '() => $refs.form.submit()',
     'action' => null,
     'method' => 'POST',
+    'class' => '',
 ])
 <form
     method="POST"

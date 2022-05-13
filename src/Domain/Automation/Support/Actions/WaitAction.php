@@ -31,7 +31,7 @@ class WaitAction extends AutomationAction
 
     public static function getComponent(): ?string
     {
-        return 'wait-action';
+        return 'mailcoach::wait-action';
     }
 
     public static function make(array $data): self

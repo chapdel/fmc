@@ -1,62 +1,19 @@
-<x-mailcoach::layout-automation-mail :title="__('mailcoach - Outbox')" :mail="$mail">
-    <div class="table-actions">
-        <div class="table-filters">
-            <x-mailcoach::filters>
-                <x-mailcoach::filter :queryString="$queryString" attribute="type" active-on="">
-                    {{ __('mailcoach - All') }} <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalSends) }}</span>
-                </x-mailcoach::filter>
-                <x-mailcoach::filter :queryString="$queryString" attribute="type" active-on="pending">
-                    {{ __('mailcoach - Pending') }} <span
-                        class="counter">{{ Illuminate\Support\Str::shortNumber($totalPending) }}</span>
-                </x-mailcoach::filter>
-                <x-mailcoach::filter :queryString="$queryString" attribute="type" active-on="failed">
-                    {{ __('mailcoach - Failed') }} <span
-                        class="counter">{{ Illuminate\Support\Str::shortNumber($totalFailed) }}</span>
-                </x-mailcoach::filter>
-                <x-mailcoach::filter :queryString="$queryString" attribute="type" active-on="sent">
-                    {{ __('mailcoach - Sent') }} <span class="counter">{{ Illuminate\Support\Str::shortNumber($totalSent) }}</span>
-                </x-mailcoach::filter>
-                <x-mailcoach::filter :queryString="$queryString" attribute="type" active-on="bounced">
-                    {{ __('mailcoach - Bounced') }} <span
-                        class="counter">{{ Illuminate\Support\Str::shortNumber($totalBounces) }}</span>
-                </x-mailcoach::filter>
-                <x-mailcoach::filter :queryString="$queryString" attribute="type" active-on="complained">
-                    {{ __('mailcoach - Complaints') }} <span
-                        class="counter">{{ Illuminate\Support\Str::shortNumber($totalComplaints) }}</span>
-                </x-mailcoach::filter>
-            </x-mailcoach::filters>
-
-            <x-mailcoach::search :placeholder="__('mailcoach - Filter mails…')"/>
-        </div>
-    </div>
-
-    <table class="table table-fixed">
-        <thead>
-        <tr>
-            <x-mailcoach::th sort-by="subscriber_email">{{ __('mailcoach - Email address') }}</x-mailcoach::th>
-            <x-mailcoach::th sort-by="subscriber_email">{{ __('mailcoach - Problem') }}</x-mailcoach::th>
-            <x-mailcoach::th class="w-48 th-numeric hidden | xl:table-cell" sort-by="-sent_at"
-                             sort-default>{{ __('mailcoach - Sent at') }}</x-mailcoach::th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach($sends as $send)
-            <tr class="markup-links">
-                <td>
-                    @if ($send->subscriber)
-                        <a class="break-words"
-                           href="{{ route('mailcoach.emailLists.subscriber.details', [$send->subscriber->emailList, $send->subscriber]) }}">{{ $send->subscriber->email }}</a>
-                    @else
-                        &lt;{{ __('mailcoach - deleted subscriber') }}&gt;
-                    @endif
-                </td>
-                <td>{{ $send->failure_reason }}{{optional($send->latestFeedback())->formatted_type }}</td>
-                <td class="td-numeric hidden | xl:table-cell">{{ optional($send->sent_at)->toMailcoachFormat() ?? '-' }}</td>
-            </tr>
-        @endforeach
-        </tbody>
-    </table>
-
-    <x-mailcoach::table-status :name="__('mailcoach - send|sends')" :paginator="$sends" :total-count="$totalSends"
-                               :show-all-url="route('mailcoach.automations.mails.outbox', $mail)"></x-mailcoach::table-status>
-</x-mailcoach::layout-automation-mail>
+<x-mailcoach::data-table
+    name="sends"
+    :rows="$sends ?? null"
+    :totalRowsCount="$totalSends ?? null"
+    :filters="[
+        ['attribute' => 'type', 'value' => '', 'label' => __('mailcoach - All'), 'count' => $totalSends ?? null],
+        ['attribute' => 'type', 'value' => 'pending', 'label' => __('mailcoach - Pending'), 'count' => $totalPending ?? null],
+        ['attribute' => 'type', 'value' => 'failed', 'label' => __('mailcoach - Failed'), 'count' => $totalFailed ?? null],
+        ['attribute' => 'type', 'value' => 'sent', 'label' => __('mailcoach - Sent'), 'count' => $totalSent ?? null],
+        ['attribute' => 'type', 'value' => 'bounced', 'label' => __('mailcoach - Bounced'), 'count' => $totalBounces ?? null],
+        ['attribute' => 'type', 'value' => 'complained', 'label' => __('mailcoach - Complaints'), 'count' => $totalComplaints ?? null],
+    ]"
+    :columns="[
+        ['attribute' => 'subscriber_email', 'label' => __('mailcoach - Email address')],
+        ['attribute' => 'subscriber_email', 'label' => __('mailcoach - Problem')],
+        ['attribute' => '-sent_at', 'label' => __('mailcoach - Sent at'), 'class' => 'w-48 th-numeric hidden | xl:table-cell'],
+    ]"
+    rowPartial="mailcoach::app.automations.mails.partials.outboxRow"
+/>

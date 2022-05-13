@@ -22,7 +22,7 @@ class TagAddedTrigger extends AutomationTrigger implements TriggeredByEvents
 
     public static function getComponent(): ?string
     {
-        return 'tag-added-trigger';
+        return 'mailcoach::tag-added-trigger';
     }
 
     public static function rules(): array

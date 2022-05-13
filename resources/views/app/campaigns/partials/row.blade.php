@@ -1,3 +1,4 @@
+@php($campaign ??= $row)
 <tr class="tr-h-double" @if($campaign->isSending()) id="campaign-row-{{ $campaign->id }}" wire:poll @endif>
     <td>
         @include('mailcoach::app.campaigns.partials.campaignStatusIcon', ['status' => $campaign->status])
@@ -75,9 +76,9 @@
          <x-mailcoach::dropdown direction="left">
             <ul>
                 <li>
-                    <x-mailcoach::form-button :action="route('mailcoach.campaigns.duplicate', $campaign)">
+                    <button wire:click.prevent="duplicateCampaign({{ $campaign->id }})">
                         <x-mailcoach::icon-label icon="fas fa-random" :text="__('mailcoach - Duplicate')" />
-                    </x-mailcoach::form-button>
+                    </button>
                 </li>
                 <li>
                     <x-mailcoach::confirm-button

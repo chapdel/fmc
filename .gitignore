@@ -12,3 +12,4 @@ auth.json
 .php-cs-fixer.cache
 phpstan.neon
 
+/.fleet
