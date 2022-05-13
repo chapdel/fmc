@@ -1,9 +1,7 @@
 <?php
 
-use Illuminate\Support\Arr;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignSettingsController;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignSettings;
 
 it('can update the settings of a campaign', function () {

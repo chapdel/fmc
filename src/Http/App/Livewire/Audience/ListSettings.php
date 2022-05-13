@@ -3,12 +3,10 @@
 namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 
 use Illuminate\Contracts\View\View;
-use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
-use Spatie\Mailcoach\Http\App\Requests\EmailLists\Settings\UpdateEmailListGeneralSettingsRequest;
 use Spatie\ValidationRules\Rules\Delimited;
 
 class ListSettings extends Component
