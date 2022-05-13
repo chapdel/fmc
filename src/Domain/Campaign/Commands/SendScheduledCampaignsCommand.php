@@ -34,7 +34,7 @@ class SendScheduledCampaignsCommand extends Command
         $this->comment('Checking if there are sending campaigns that need to create sends...');
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignAction $sendCampaignAction */
-        $sendCampaignAction = Config::getCampaignActionClass('send_campaign_action', SendCampaignAction::class);
+        $sendCampaignAction = Config::getCampaignActionClass('send_campaign', SendCampaignAction::class);
 
         $maxRuntimeInSeconds = max(60, config('mailcoach.campaigns.send_campaign_maximum_job_runtime_in_seconds'));
 
