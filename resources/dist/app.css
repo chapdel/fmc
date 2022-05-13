@@ -2468,7 +2468,6 @@ select:disabled{
   font-size: 0.75rem;
   line-height: 1rem;
   letter-spacing: 0.05em;
-  width: 100%;
 }
 
 .table tbody tr:nth-child(even){
