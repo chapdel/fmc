@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire\Spotlight;
 
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Http\Request;
 use LivewireUI\Spotlight\Spotlight;
 use LivewireUI\Spotlight\SpotlightCommand;
@@ -36,7 +37,10 @@ class ShowAutomationMailCommand extends SpotlightCommand
 
     public function searchAutomationMail($query)
     {
-        return self::getAutomationMailClass()::where('name', 'like', "%$query%")
+        return self::getAutomationMailClass()::query()
+            ->when($query, fn (Builder $builder) => $builder->where('name', 'like', "%$query%"))
+            ->whereNotNull('name')
+            ->limit(10)
             ->get()
             ->map(function (AutomationMail $automationMail) {
                 return new SpotlightSearchResult(

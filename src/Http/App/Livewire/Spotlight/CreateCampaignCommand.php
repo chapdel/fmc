@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire\Spotlight;
 
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Http\Request;
 use LivewireUI\Spotlight\Spotlight;
 use LivewireUI\Spotlight\SpotlightCommand;
@@ -30,7 +31,10 @@ class CreateCampaignCommand extends SpotlightCommand
 
     public function searchEmailList($query)
     {
-        return self::getEmailListClass()::where('name', 'like', "%$query%")
+        return self::getEmailListClass()::query()
+            ->when($query, fn (Builder $builder) => $builder->where('name', 'like', "%$query%"))
+            ->whereNotNull('name')
+            ->limit(10)
             ->get()
             ->map(function (EmailList $list) {
                 return new SpotlightSearchResult(

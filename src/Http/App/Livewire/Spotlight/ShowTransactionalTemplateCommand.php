@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire\Spotlight;
 
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Http\Request;
 use LivewireUI\Spotlight\Spotlight;
 use LivewireUI\Spotlight\SpotlightCommand;
@@ -37,7 +38,10 @@ class ShowTransactionalTemplateCommand extends SpotlightCommand
 
     public function searchTemplate($query)
     {
-        return self::getTransactionalMailTemplateClass()::where('name', 'like', "%$query%")
+        return self::getTransactionalMailTemplateClass()::query()
+            ->when($query, fn (Builder $builder) => $builder->where('name', 'like', "%$query%"))
+            ->whereNotNull('name')
+            ->limit(10)
             ->get()
             ->map(function (TransactionalMailTemplate $template) {
                 return new SpotlightSearchResult(
