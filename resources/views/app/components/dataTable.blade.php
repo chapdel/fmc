@@ -104,7 +104,7 @@
                         </x-mailcoach::help>
                     @else
                         <x-mailcoach::help>
-                            {{ $emptyText ?? __("mailcoach - No {$plural}.") }}
+                            {!! $emptyText ?? __("mailcoach - No {$plural}.") !!}
                         </x-mailcoach::help>
                     @endif
                 @endif
