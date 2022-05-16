@@ -41,7 +41,7 @@
                         <span class="modal-title">{{ $title }}</span>
                     </header>
                 @endif
-                <div class="modal-content scrollbar">
+                <div class="modal-content scrollbar h-full">
                     {{ $slot }}
                 </div>
             </div>
