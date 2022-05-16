@@ -36,9 +36,16 @@ abstract class EditorComponent extends Component
         $this->sendable = $sendable;
 
         $this->templateFieldValues = $sendable->getTemplateFieldValues();
+
         $this->template = $sendable->template;
         $this->templateId = $sendable->template?->id;
         $this->renderFullHtml();
+
+        if ($this->template?->containsPlaceHolders()) {
+            foreach ($this->template->placeHolderNames() as $placeHolderName) {
+                $this->templateFieldValues[$placeHolderName] ??= '';
+            }
+        }
     }
 
     public function updatingTemplateId(?int $templateId)
@@ -58,17 +65,17 @@ abstract class EditorComponent extends Component
 
     public function updated()
     {
+        $this->renderFullHtml();
+    }
+
+    public function renderFullHtml()
+    {
         if (! $this->template) {
             $this->fullHtml = $this->templateFieldValues['html'] ?? '';
 
             return;
         }
 
-        $this->renderFullHtml();
-    }
-
-    public function renderFullHtml()
-    {
         $templateRenderer = (new TemplateRenderer($this->template?->html ?? ''));
         $this->fullHtml = $templateRenderer->render($this->templateFieldValues);
     }

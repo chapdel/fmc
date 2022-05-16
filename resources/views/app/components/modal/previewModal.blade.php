@@ -10,7 +10,7 @@
         x-init="
             Alpine.effect(() => {
                 const open = $store.modals.isOpen('preview');
-                $refs.iframe.src = 'data:text/html;base64,' + document.getElementById('preview-content').value;
+                document.getElementById('{{ $name }}-iframe').src = 'data:text/html;base64,' + document.getElementById('preview-content').value;
             });
         "
         :title="$title"
@@ -18,6 +18,6 @@
         large
         :open="request()->get('modal') === $name"
     >
-        <iframe style="width: 100%; height: 100%;" x-ref="iframe"></iframe>
+        <iframe style="width: 100%; height: 100%;" id="{{ $name }}-iframe"></iframe>
     </x-mailcoach::modal>
 </div>
