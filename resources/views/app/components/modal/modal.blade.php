@@ -29,12 +29,12 @@
         <div
             x-show="$store.modals.isOpen('{{ $name }}')" x-transition
             x-on:click="$store.modals.close('{{ $name }}')"
-            class="relative min-h-screen flex items-center justify-center p-4"
+            class="relative h-screen min-h-screen flex items-center justify-center p-4"
         >
             <div
                 x-on:click.stop
                 x-trap.noscroll.inert="$store.modals.isOpen('{{ $name }}')"
-                class="relative modal-wrapper rounded-sm @if($large) modal-wrapper-lg @endif"
+                class="relative modal-wrapper rounded-sm @if($large) h-full modal-wrapper-lg @endif"
             >
                 @if($title)
                     <header class="modal-header">

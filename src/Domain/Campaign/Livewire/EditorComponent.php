@@ -17,6 +17,10 @@ abstract class EditorComponent extends Component
 {
     use LivewireFlash;
 
+    public bool $supportsTemplates = true;
+
+    public bool $supportsContent = true;
+
     public Sendable $sendable;
 
     public ?int $templateId = null;

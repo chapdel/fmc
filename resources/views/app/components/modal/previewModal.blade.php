@@ -18,6 +18,6 @@
         large
         :open="request()->get('modal') === $name"
     >
-        <iframe width="100%" height="100%" x-ref="iframe"></iframe>
+        <iframe style="width: 100%; height: 100%;" x-ref="iframe"></iframe>
     </x-mailcoach::modal>
 </div>

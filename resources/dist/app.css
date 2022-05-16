@@ -4784,6 +4784,10 @@ span.flatpickr-weekday{
   height: 0.5rem;
 }
 
+.h-screen{
+  height: 100vh;
+}
+
 .h-9{
   height: 2.25rem;
 }
