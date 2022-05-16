@@ -6,9 +6,9 @@ use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\DeleteSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\SendConfirmSubscriberMailAction;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Mailcoach;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\EmailListSubscribersQuery;
+use Spatie\Mailcoach\Mailcoach;
 
 class Subscribers extends DataTable
 {

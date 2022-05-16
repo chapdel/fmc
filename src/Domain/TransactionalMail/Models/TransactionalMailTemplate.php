@@ -9,12 +9,12 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Database\Factories\TransactionalMailTemplateFactory;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
-use Spatie\Mailcoach\Mailcoach;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Actions\RenderTemplateAction;
 use Spatie\Mailcoach\Domain\TransactionalMail\Exceptions\InvalidTemplate;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns\UsesMailcoachTemplate;
 use Spatie\Mailcoach\Domain\TransactionalMail\Support\Replacers\TransactionalMailReplacer;
+use Spatie\Mailcoach\Mailcoach;
 
 class TransactionalMailTemplate extends Model implements HasHtmlContent
 {

@@ -7,7 +7,6 @@ use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\CreateSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Exceptions\CouldNotSubscribe;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Mailcoach;
 
 class PendingSubscriber
 {

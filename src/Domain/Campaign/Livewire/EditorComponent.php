@@ -80,7 +80,7 @@ abstract class EditorComponent extends Component
 
         $this->sendable->save();
 
-        match(true) {
+        match (true) {
             $this->sendable instanceof Campaign => $this->flash(__('mailcoach - Campaign :campaign was updated.', ['campaign' => $this->sendable->name])),
             $this->sendable instanceof AutomationMail => $this->flash(__('mailcoach - Email :name was updated.', ['name' => $this->sendable->name])),
         };

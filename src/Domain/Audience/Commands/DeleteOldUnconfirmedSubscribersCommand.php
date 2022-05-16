@@ -5,8 +5,8 @@ namespace Spatie\Mailcoach\Domain\Audience\Commands;
 use Illuminate\Console\Command;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\DeleteSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Mailcoach;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Mailcoach;
 
 class DeleteOldUnconfirmedSubscribersCommand extends Command
 {
