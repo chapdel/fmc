@@ -295,7 +295,6 @@ return [
      */
     'queue_connection' => '',
 
-
     /*
      * Unauthorized users will get redirected to this route.
      */
@@ -328,6 +327,31 @@ return [
             'api',
             'auth:api',
         ],
+    ],
+
+    'uploads' => [
+        /*
+         * The disk on which to store uploaded images from the editor. Choose
+         * one or more of the disks you've configured in config/filesystems.php.
+         */
+        'disk_name' => env('MEDIA_DISK', 'public'),
+
+        /*
+         * The media collection name to use when storing uploaded images from the editor.
+         * You probably don't need to change this,
+         * unless you're already using spatie/laravel-medialibrary in your project.
+         */
+        'collection_name' => env('MEDIA_COLLECTION', 'default'),
+
+        /**
+         * The max width that will be set for the uploaded conversion
+         */
+        'max_width' => 1500,
+
+        /**
+         * The max height that will be set for the uploaded conversion
+         */
+        'max_height' => 1500,
     ],
 
 
@@ -512,6 +536,13 @@ return [
          * `\Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber::class` model.
          */
         'action_subscriber' => \Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber::class,
+
+        /*
+         * The model you want to use as the Upload model. It needs to be or
+         * extend the `Spatie\Mailcoach\Domain\Shared\Models\Upload::class`
+         * model.
+         */
+        'upload' => \Spatie\Mailcoach\Domain\Shared\Models\Upload::class,
     ],
 
     'views' => [

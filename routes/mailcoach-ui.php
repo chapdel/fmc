@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Spatie\Mailcoach\Http\Api\Controllers\UploadsController;
 use Spatie\Mailcoach\Mailcoach;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailContentController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\SendAutomationMailTestController;
@@ -15,6 +16,8 @@ use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\SendTrans
 use Spatie\Mailcoach\Http\App\Middleware\EditableCampaign;
 
 Route::get('debug', '\\' . DebugController::class)->name('debug');
+
+Route::post('uploads', UploadsController::class);
 
 Route::prefix('campaigns')->group(function () {
     Route::get('/', '\\' . Mailcoach::getLivewireClass('campaigns', Mailcoach::getLivewireClass('campaigns', \Spatie\Mailcoach\Http\App\Livewire\Campaigns\Campaigns::class)))->name('mailcoach.campaigns');

@@ -673,5 +673,10 @@ class CreateMailcoachTables extends Migration
             $table->text('test_using_mailable')->nullable();
             $table->timestamps();
         });
+
+        Schema::create('mailcoach_uploads', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->timestamps();
+        });
     }
 }

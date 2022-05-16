@@ -24,6 +24,7 @@ use Spatie\Mailcoach\Domain\Campaign\Models\CampaignUnsubscribe;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Models\SendFeedbackItem;
+use Spatie\Mailcoach\Domain\Shared\Models\Upload;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailClick;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailOpen;
@@ -31,6 +32,12 @@ use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 
 trait UsesMailcoachModels
 {
+    /** @return class-string<Upload> */
+    public static function getUploadClass(): string
+    {
+        return config('mailcoach.models.upload', Upload::class);
+    }
+
     /** @return class-string<Campaign> */
     public static function getCampaignClass(): string
     {
