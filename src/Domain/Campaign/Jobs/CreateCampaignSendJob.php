@@ -13,7 +13,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
-use Spatie\Mailcoach\Domain\Shared\Support\Config;
+use Spatie\Mailcoach\Mailcoach;
 use Spatie\Mailcoach\Domain\Shared\Support\Throttling\SimpleThrottle;
 
 class CreateCampaignSendJob implements ShouldQueue, ShouldBeUnique
@@ -46,7 +46,7 @@ class CreateCampaignSendJob implements ShouldQueue, ShouldBeUnique
 
         $this->queue = config('mailcoach.campaigns.perform_on_queue.send_campaign_job');
 
-        $this->connection = $this->connection ?? Config::getQueueConnection();
+        $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
     }
 
     public function handle()

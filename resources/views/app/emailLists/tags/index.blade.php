@@ -19,7 +19,7 @@
     :emptyText="__('mailcoach - There are no tags for this list. Everyone equal!')"
 >
     @slot('actions')
-        @can('create', \Spatie\Mailcoach\Domain\Shared\Support\Config::getTagClass())
+        @can('create', \Spatie\Mailcoach\Mailcoach::getTagClass())
             <x-mailcoach::button x-on:click="$store.modals.open('create-tag')" :label="__('mailcoach - Create tag')"/>
 
             <x-mailcoach::modal :title="__('mailcoach - Create tag')" name="create-tag">

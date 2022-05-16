@@ -7,7 +7,7 @@ use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\CreateSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Exceptions\CouldNotSubscribe;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Shared\Support\Config;
+use Spatie\Mailcoach\Mailcoach;
 
 class PendingSubscriber
 {
@@ -92,7 +92,7 @@ class PendingSubscriber
         $this->emailList = $emailList;
 
         /** @var \Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\CreateSubscriberAction $createSubscriberAction */
-        $createSubscriberAction = Config::getAudienceActionClass('create_subscriber', CreateSubscriberAction::class);
+        $createSubscriberAction = \Spatie\Mailcoach\Mailcoach::getAudienceActionClass('create_subscriber', CreateSubscriberAction::class);
 
         return $createSubscriberAction->execute($this);
     }

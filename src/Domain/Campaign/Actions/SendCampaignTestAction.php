@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
-use Spatie\Mailcoach\Domain\Shared\Support\Config;
+use Spatie\Mailcoach\Mailcoach;
 use Symfony\Component\Mime\Email;
 
 class SendCampaignTestAction
@@ -15,7 +15,7 @@ class SendCampaignTestAction
     {
         $html = $campaign->htmlWithInlinedCss();
 
-        $convertHtmlToTextAction = Config::getCampaignActionClass('convert_html_to_text', ConvertHtmlToTextAction::class);
+        $convertHtmlToTextAction = Mailcoach::getCampaignActionClass('convert_html_to_text', ConvertHtmlToTextAction::class);
 
         $text = $convertHtmlToTextAction->execute($html);
 

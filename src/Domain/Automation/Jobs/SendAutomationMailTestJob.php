@@ -9,7 +9,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailTestAction;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
-use Spatie\Mailcoach\Domain\Shared\Support\Config;
+use Spatie\Mailcoach\Mailcoach;
 
 class SendAutomationMailTestJob implements ShouldQueue
 {
@@ -33,13 +33,13 @@ class SendAutomationMailTestJob implements ShouldQueue
 
         $this->queue = config('mailcoach.automation.perform_on_queue.send_test_mail_job');
 
-        $this->connection = $this->connection ?? Config::getQueueConnection();
+        $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
     }
 
     public function handle()
     {
         /** @var \Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailTestAction $sendTestMailAction */
-        $sendTestMailAction = Config::getAutomationActionClass('send_test_mail', SendAutomationMailTestAction::class);
+        $sendTestMailAction = Mailcoach::getAutomationActionClass('send_test_mail', SendAutomationMailTestAction::class);
 
         $sendTestMailAction->execute($this->mail, $this->email);
     }

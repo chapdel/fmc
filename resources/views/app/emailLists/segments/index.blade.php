@@ -10,8 +10,9 @@
     :emptyText="__('mailcoach - No segments here. So you don\'t like putting people into groups?')"
 >
     @slot('actions')
-        @can('create', \Spatie\Mailcoach\Domain\Shared\Support\Config::getTagSegmentClass())
-            <x-mailcoach::button x-on:click="$store.modals.open('create-segment')" :label="__('mailcoach - Create segment')"/>
+        @can('create', \Spatie\Mailcoach\Mailcoach::getTagSegmentClass())
+            <x-mailcoach::button x-on:click="$store.modals.open('create-segment')"
+                                 :label="__('mailcoach - Create segment')"/>
 
             <x-mailcoach::modal :title="__('mailcoach - Create segment')" name="create-segment">
                 @livewire('mailcoach::create-segment', [

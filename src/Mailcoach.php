@@ -1,14 +1,41 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Shared\Support;
+namespace Spatie\Mailcoach;
 
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\InvalidConfig;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
-class Config
+class Mailcoach
 {
     use UsesMailcoachModels;
+
+    protected static $editorScripts = [];
+    protected static $editorStyles = [];
+
+    public static function availableEditorScripts()
+    {
+        return static::$editorScripts;
+    }
+
+    public static function editorScript(string $editor, string $url)
+    {
+        static::$editorScripts[$editor][] = $url;
+
+        return new static;
+    }
+
+    public static function availableEditorStyles()
+    {
+        return static::$editorStyles;
+    }
+
+    public static function editorStyle(string $editor, string $url)
+    {
+        static::$editorStyles[$editor][] = $url;
+
+        return new static;
+    }
 
     public static function getCampaignActionClass(string $actionName, string $actionClass): object
     {

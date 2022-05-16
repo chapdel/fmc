@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Domain\Audience\Commands;
 use Illuminate\Console\Command;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\DeleteSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Shared\Support\Config;
+use Spatie\Mailcoach\Mailcoach;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class DeleteOldUnconfirmedSubscribersCommand extends Command
@@ -23,7 +23,7 @@ class DeleteOldUnconfirmedSubscribersCommand extends Command
         $cutOffDate = now()->subMonth()->toDateTimeString();
 
         /** @var DeleteSubscriberAction $deleteSubscriberAction */
-        $deleteSubscriberAction = Config::getAudienceActionClass('delete_subscriber', DeleteSubscriberAction::class);
+        $deleteSubscriberAction = Mailcoach::getAudienceActionClass('delete_subscriber', DeleteSubscriberAction::class);
 
         $deletedSubscribersCount = $this->getSubscriberClass()::unconfirmed()
             ->where('created_at', '<', $cutOffDate)

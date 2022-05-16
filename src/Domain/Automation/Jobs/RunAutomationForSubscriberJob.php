@@ -11,7 +11,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Actions\ShouldAutomationRunForSubscriberAction;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Domain\Shared\Support\Config;
+use Spatie\Mailcoach\Mailcoach;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class RunAutomationForSubscriberJob implements ShouldQueue
@@ -37,7 +37,7 @@ class RunAutomationForSubscriberJob implements ShouldQueue
         $this->queue = config('mailcoach.automation.perform_on_queue.run_automation_for_subscriber_job');
         $this->action = resolve(config('mailcoach.automation.actions.should_run_for_subscriber', ShouldAutomationRunForSubscriberAction::class));
 
-        $this->connection = $this->connection ?? Config::getQueueConnection();
+        $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
     }
 
     public function handle()

@@ -1,9 +1,10 @@
-<x-mailcoach::automation-action :index="$index" :action="$action" :editing="$editing" :editable="$editable" :deletable="$deletable">
+<x-mailcoach::automation-action :index="$index" :action="$action" :editing="$editing" :editable="$editable"
+                                :deletable="$deletable">
     <x-slot name="legend">
         {{__('mailcoach - Send email') }}
         <span class="legend-accent">
             @if ($automation_mail_id)
-                {{ optional(\Spatie\Mailcoach\Domain\Shared\Support\Config::getAutomationMailClass()::find($automation_mail_id))->name }}
+                {{ optional(\Spatie\Mailcoach\Mailcoach::getAutomationMailClass()::find($automation_mail_id))->name }}
             @endif
         </span>
     </x-slot>

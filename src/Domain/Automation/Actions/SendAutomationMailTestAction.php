@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
-use Spatie\Mailcoach\Domain\Shared\Support\Config;
+use Spatie\Mailcoach\Mailcoach;
 use Symfony\Component\Mime\Email;
 
 class SendAutomationMailTestAction
@@ -16,7 +16,7 @@ class SendAutomationMailTestAction
     {
         $html = $mail->htmlWithInlinedCss();
 
-        $convertHtmlToTextAction = Config::getAutomationActionClass('convert_html_to_text', ConvertHtmlToTextAction::class);
+        $convertHtmlToTextAction = Mailcoach::getAutomationActionClass('convert_html_to_text', ConvertHtmlToTextAction::class);
 
         $text = $convertHtmlToTextAction->execute($html);
 

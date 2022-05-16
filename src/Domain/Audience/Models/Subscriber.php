@@ -24,7 +24,7 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasExtraAttributes;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
-use Spatie\Mailcoach\Domain\Shared\Support\Config;
+use Spatie\Mailcoach\Mailcoach;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class Subscriber extends Model
@@ -163,7 +163,7 @@ class Subscriber extends Model
 
     public function confirm()
     {
-        $action = Config::getAudienceActionClass('confirm_subscriber', ConfirmSubscriberAction::class);
+        $action = Mailcoach::getAudienceActionClass('confirm_subscriber', ConfirmSubscriberAction::class);
 
         return $action->execute($this);
     }

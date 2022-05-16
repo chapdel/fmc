@@ -1,6 +1,6 @@
 <x-mailcoach::data-table
     name="template"
-    :modelClass="\Spatie\Mailcoach\Domain\Shared\Support\Config::getTemplateClass()"
+    :modelClass="\Spatie\Mailcoach\Mailcoach::getTemplateClass()"
     :rows="$templates ?? null"
     :totalRowsCount="$totalTemplatesCount ?? null"
     :columns="[

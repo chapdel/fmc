@@ -29,13 +29,15 @@
     :emptyText="$emptyText"
 >
     @slot('actions')
-        @can('create', \Spatie\Mailcoach\Domain\Shared\Support\Config::getCampaignClass())
+        @can('create', \Spatie\Mailcoach\Mailcoach::getCampaignClass())
             @if ($totalListsCount ?? 0)
-                <x-mailcoach::button x-on:click="$store.modals.open('create-campaign')" :label="__('mailcoach - Create campaign')" />
+                <x-mailcoach::button x-on:click="$store.modals.open('create-campaign')"
+                                     :label="__('mailcoach - Create campaign')"/>
             @endif
 
-            <x-mailcoach::modal name="create-campaign" :title="__('mailcoach - Create campaign')" :confirm-text="__('mailcoach - Create campaign')">
-                <livewire:mailcoach::create-campaign />
+            <x-mailcoach::modal name="create-campaign" :title="__('mailcoach - Create campaign')"
+                                :confirm-text="__('mailcoach - Create campaign')">
+                <livewire:mailcoach::create-campaign/>
             </x-mailcoach::modal>
         @endcan
     @endslot

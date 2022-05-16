@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Database\Factories\TransactionalMailTemplateFactory;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
-use Spatie\Mailcoach\Domain\Shared\Support\Config;
+use Spatie\Mailcoach\Mailcoach;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Actions\RenderTemplateAction;
 use Spatie\Mailcoach\Domain\TransactionalMail\Exceptions\InvalidTemplate;
@@ -96,7 +96,7 @@ class TransactionalMailTemplate extends Model implements HasHtmlContent
 
     public function render(Mailable $mailable): string
     {
-        $action = Config::getTransactionalActionClass('render_template', RenderTemplateAction::class);
+        $action = Mailcoach::getTransactionalActionClass('render_template', RenderTemplateAction::class);
 
         return $action->execute($this, $mailable);
     }

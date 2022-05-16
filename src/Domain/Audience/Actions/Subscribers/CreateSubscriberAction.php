@@ -6,7 +6,7 @@ use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\Concerns\SendsWelcomeMa
 use Spatie\Mailcoach\Domain\Audience\Events\SubscribedEvent;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Support\PendingSubscriber;
-use Spatie\Mailcoach\Domain\Shared\Support\Config;
+use Spatie\Mailcoach\Mailcoach;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class CreateSubscriberAction
@@ -51,7 +51,7 @@ class CreateSubscriberAction
         }
 
         if ($subscriber->isUnconfirmed()) {
-            $sendConfirmSubscriberMailAction = Config::getAudienceActionClass('send_confirm_subscriber_mail', SendConfirmSubscriberMailAction::class);
+            $sendConfirmSubscriberMailAction = Mailcoach::getAudienceActionClass('send_confirm_subscriber_mail', SendConfirmSubscriberMailAction::class);
 
             $sendConfirmSubscriberMailAction->execute($subscriber, $pendingSubscriber->redirectAfterSubscribed);
         }

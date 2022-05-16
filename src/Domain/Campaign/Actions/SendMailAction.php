@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignMailSentEvent;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
-use Spatie\Mailcoach\Domain\Shared\Support\Config;
+use Spatie\Mailcoach\Mailcoach;
 use Symfony\Component\Mime\Email;
 
 class SendMailAction
@@ -30,18 +30,18 @@ class SendMailAction
         }
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeSubjectAction $personalizeSubjectAction */
-        $personalizeSubjectAction = Config::getCampaignActionClass('personalize_subject', PersonalizeSubjectAction::class);
+        $personalizeSubjectAction = Mailcoach::getCampaignActionClass('personalize_subject', PersonalizeSubjectAction::class);
         $personalisedSubject = $personalizeSubjectAction->execute($pendingSend->campaign->subject, $pendingSend);
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeHtmlAction $personalizeHtmlAction */
-        $personalizeHtmlAction = Config::getCampaignActionClass('personalize_html', PersonalizeHtmlAction::class);
+        $personalizeHtmlAction = Mailcoach::getCampaignActionClass('personalize_html', PersonalizeHtmlAction::class);
         $personalisedHtml = $personalizeHtmlAction->execute(
             $pendingSend->campaign->email_html,
             $pendingSend,
         );
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\ConvertHtmlToTextAction $convertHtmlToTextAction */
-        $convertHtmlToTextAction = Config::getCampaignActionClass('convert_html_to_text', ConvertHtmlToTextAction::class);
+        $convertHtmlToTextAction = Mailcoach::getCampaignActionClass('convert_html_to_text', ConvertHtmlToTextAction::class);
         $personalisedText = $convertHtmlToTextAction->execute($personalisedHtml);
 
         $mailcoachMail = resolve(MailcoachMail::class);

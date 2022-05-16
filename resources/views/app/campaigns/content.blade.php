@@ -1,5 +1,7 @@
 <x-mailcoach::layout-campaign :title="__('mailcoach - Content')" :campaign="$campaign">
 
-    {!! app(config('mailcoach.campaigns.editor'))->render($campaign) !!}
+    @livewire(Livewire::getAlias(config('mailcoach.campaigns.editor')), [
+        'sendable' => $campaign,
+    ])
 
 </x-mailcoach::layout-campaign>

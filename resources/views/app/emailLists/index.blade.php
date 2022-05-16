@@ -1,6 +1,6 @@
 <x-mailcoach::data-table
     name="list"
-    :modelClass="\Spatie\Mailcoach\Domain\Shared\Support\Config::getEmailListClass()"
+    :modelClass="\Spatie\Mailcoach\Mailcoach::getEmailListClass()"
     :rows="$emailLists ?? null"
     :totalRowsCount="$totalEmailListsCount ?? null"
     :columns="[

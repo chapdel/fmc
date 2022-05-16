@@ -86,7 +86,7 @@
                                         wire:model="conditionData.automation_mail_id"
                                         :placeholder="__('mailcoach - Select a mail')"
                                         :options="
-                                            \Spatie\Mailcoach\Domain\Shared\Support\Config::getAutomationMailClass()::query()
+                                            \Spatie\Mailcoach\Mailcoach::getAutomationMailClass()::query()
                                                 ->where('track_opens', true)
                                                 ->pluck('name', 'id')
                                         "
@@ -102,7 +102,7 @@
                                         :placeholder="__('mailcoach - Select a mail')"
                                         :required="true"
                                         :options="
-                                            \Spatie\Mailcoach\Domain\Shared\Support\Config::getAutomationMailClass()::query()
+                                            \Spatie\Mailcoach\Mailcoach::getAutomationMailClass()::query()
                                                 ->where('track_clicks', true)
                                                 ->pluck('name', 'id')
                                         "
@@ -119,7 +119,7 @@
                                             :required="false"
                                             :options="
                                                 ['' => __('mailcoach - Any link')] +
-                                                \Spatie\Mailcoach\Domain\Shared\Support\Config::getAutomationMailClass()::find($conditionData['automation_mail_id'])
+                                                \Spatie\Mailcoach\Mailcoach::getAutomationMailClass()::find($conditionData['automation_mail_id'])
                                                     ->htmlLinks()
                                                     ->mapWithKeys(fn ($url) => [$url => $url])
                                                     ->toArray()

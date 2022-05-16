@@ -1,6 +1,6 @@
 <x-mailcoach::data-table
     name="transactional-template"
-    :modelClass="\Spatie\Mailcoach\Domain\Shared\Support\Config::getTransactionalMailTemplateClass()"
+    :modelClass="\Spatie\Mailcoach\Mailcoach::getTransactionalMailTemplateClass()"
     :rows="$templates ?? null"
     :totalRowsCount="$templatesCount ?? null"
     :columns="[

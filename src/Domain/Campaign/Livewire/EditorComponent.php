@@ -5,8 +5,10 @@ namespace Spatie\Mailcoach\Domain\Campaign\Livewire;
 use Carbon\CarbonInterval;
 use Illuminate\Support\Arr;
 use Livewire\Component;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
+use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Spatie\Mailcoach\Domain\Shared\Support\TemplateRenderer;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 use Spatie\ValidationRules\Rules\Delimited;
@@ -15,7 +17,7 @@ abstract class EditorComponent extends Component
 {
     use LivewireFlash;
 
-    public Campaign $campaign;
+    public Sendable $sendable;
 
     public ?int $templateId = null;
     public ?Template $template = null;
@@ -25,13 +27,13 @@ abstract class EditorComponent extends Component
 
     public string $emails = '';
 
-    public function mount(Campaign $campaign)
+    public function mount(Sendable $sendable)
     {
-        $this->campaign = $campaign;
+        $this->sendable = $sendable;
 
-        $this->templateFieldValues = $campaign->getTemplateFieldValues();
-        $this->template = $campaign->template;
-        $this->templateId = $campaign->template?->id;
+        $this->templateFieldValues = $sendable->getTemplateFieldValues();
+        $this->template = $sendable->template;
+        $this->templateId = $sendable->template?->id;
         $this->renderFullHtml();
     }
 
@@ -71,14 +73,17 @@ abstract class EditorComponent extends Component
     {
         $fieldValues = $this->filterNeededFields($this->templateFieldValues, $this->template);
 
-        $this->campaign->template_id = $this->template?->id;
-        $this->campaign->last_modified_at = now();
-        $this->campaign->html = $this->fullHtml;
-        $this->campaign->setTemplateFieldValues($fieldValues);
+        $this->sendable->template_id = $this->template?->id;
+        $this->sendable->last_modified_at = now();
+        $this->sendable->html = $this->fullHtml;
+        $this->sendable->setTemplateFieldValues($fieldValues);
 
-        $this->campaign->save();
+        $this->sendable->save();
 
-        $this->flash(__('mailcoach - Campaign :campaign was updated.', ['campaign' => $this->campaign->name]));
+        match(true) {
+            $this->sendable instanceof Campaign => $this->flash(__('mailcoach - Campaign :campaign was updated.', ['campaign' => $this->sendable->name])),
+            $this->sendable instanceof AutomationMail => $this->flash(__('mailcoach - Email :name was updated.', ['name' => $this->sendable->name])),
+        };
     }
 
     public function sendTest()
@@ -87,14 +92,14 @@ abstract class EditorComponent extends Component
             'emails' => ['required', (new Delimited('email'))->min(1)->max(10)],
         ]);
 
-        $this->campaign->update([
+        $this->sendable->update([
             'template_id' => $this->template->id,
             'html' => $this->fullHtml,
         ]);
 
         $sanitizedEmails = array_map('trim', explode(',', $this->emails));
 
-        $this->campaign->sendTestMail($sanitizedEmails);
+        $this->sendable->sendTestMail($sanitizedEmails);
 
         cache()->put(
             'mailcoach-test-email-addresses',

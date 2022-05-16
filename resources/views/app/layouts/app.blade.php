@@ -12,6 +12,16 @@
         <link rel="stylesheet" href="{{ asset('vendor/mailcoach/app.css') }}?t={{ app(\Spatie\Mailcoach\Domain\Shared\Support\Version::class)->getHashedFullVersion() }}">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.0/css/all.css">
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+        @foreach (\Spatie\Mailcoach\Mailcoach::availableEditorStyles() as $editor => $styles)
+            @continue(! in_array($editor, [
+                config('mailcoach.campaigns.editor'),
+                config('mailcoach.automation.editor'),
+                config('mailcoach.transactional.editor'),
+            ]))
+            @foreach ($styles as $style)
+                <link rel="stylesheet" href="{{ $style }}">
+            @endforeach
+        @endforeach
 
         <meta name="turbo-cache-control" content="no-preview">
 
@@ -30,7 +40,6 @@
 
         <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js" defer></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/1.2.1/chartjs-plugin-zoom.min.js" defer></script>
-        <script type="text/javascript" src="{{ asset('vendor/mailcoach/app.js') }}?t={{ app(\Spatie\Mailcoach\Domain\Shared\Support\Version::class)->getHashedFullVersion() }}" defer></script>
 
         @include('mailcoach::app.layouts.partials.endHead')
         @stack('endHead')
@@ -106,5 +115,16 @@
 
         {!! \Livewire\Livewire::scripts() !!}
         @livewire('livewire-ui-spotlight')
+        @foreach (\Spatie\Mailcoach\Mailcoach::availableEditorScripts() as $editor => $scripts)
+            @continue(! in_array($editor, [
+                config('mailcoach.campaigns.editor'),
+                config('mailcoach.automation.editor'),
+                config('mailcoach.transactional.editor'),
+            ]))
+            @foreach ($scripts as $script)
+                <script type="text/javascript" src="{{ $script }}" defer></script>
+            @endforeach
+        @endforeach
+        <script type="text/javascript" src="{{ asset('vendor/mailcoach/app.js') }}?t={{ app(\Spatie\Mailcoach\Domain\Shared\Support\Version::class)->getHashedFullVersion() }}" defer></script>
     </body>
 </html>

@@ -1,6 +1,6 @@
 <x-mailcoach::data-table
     name="automation"
-    :modelClass="\Spatie\Mailcoach\Domain\Shared\Support\Config::getAutomationClass()"
+    :modelClass="\Spatie\Mailcoach\Mailcoach::getAutomationClass()"
     :rows="$automations ?? null"
     :totalRowsCount="$totalAutomationsCount ?? null"
     :columns="[

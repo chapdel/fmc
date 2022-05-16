@@ -9,7 +9,7 @@ use Livewire\Component;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\UpdateSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber as SubscriberModel;
-use Spatie\Mailcoach\Domain\Shared\Support\Config;
+use Spatie\Mailcoach\Mailcoach;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 
@@ -62,7 +62,7 @@ class Subscriber extends Component
     {
         $data = $this->validate();
 
-        $updateSubscriberAction = Config::getAudienceActionClass('update_subscriber', UpdateSubscriberAction::class);
+        $updateSubscriberAction = Mailcoach::getAudienceActionClass('update_subscriber', UpdateSubscriberAction::class);
 
         $updateSubscriberAction->execute(
             $this->subscriber,

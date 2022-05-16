@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignAction;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\SendCampaignTimeLimitApproaching;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Shared\Support\Config;
+use Spatie\Mailcoach\Mailcoach;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class SendScheduledCampaignsCommand extends Command
@@ -34,7 +34,7 @@ class SendScheduledCampaignsCommand extends Command
         $this->comment('Checking if there are sending campaigns that need to create sends...');
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignAction $sendCampaignAction */
-        $sendCampaignAction = Config::getCampaignActionClass('send_campaign', SendCampaignAction::class);
+        $sendCampaignAction = Mailcoach::getCampaignActionClass('send_campaign', SendCampaignAction::class);
 
         $maxRuntimeInSeconds = max(60, config('mailcoach.campaigns.send_campaign_maximum_job_runtime_in_seconds'));
 

@@ -10,7 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\Campaign\Actions\SendMailAction;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
-use Spatie\Mailcoach\Domain\Shared\Support\Config;
+use Spatie\Mailcoach\Mailcoach;
 
 class SendCampaignMailJob implements ShouldQueue, ShouldBeUnique
 {
@@ -39,7 +39,7 @@ class SendCampaignMailJob implements ShouldQueue, ShouldBeUnique
 
         $this->queue = config('mailcoach.campaigns.perform_on_queue.send_mail_job');
 
-        $this->connection = $this->connection ?? Config::getQueueConnection();
+        $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
     }
 
     public function handle()
@@ -53,7 +53,7 @@ class SendCampaignMailJob implements ShouldQueue, ShouldBeUnique
         }
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\SendMailAction $sendMailAction */
-        $sendMailAction = Config::getCampaignActionClass('send_mail', SendMailAction::class);
+        $sendMailAction = Mailcoach::getCampaignActionClass('send_mail', SendMailAction::class);
 
         $sendMailAction->execute($this->pendingSend);
     }

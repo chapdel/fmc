@@ -6,7 +6,7 @@ use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\DeleteSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\SendConfirmSubscriberMailAction;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Domain\Shared\Support\Config;
+use Spatie\Mailcoach\Mailcoach;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\EmailListSubscribersQuery;
 
@@ -28,7 +28,7 @@ class Subscribers extends DataTable
         $this->authorize('delete', $subscriber);
 
         /** @var DeleteSubscriberAction $deleteSubscriberAction */
-        $deleteSubscriberAction = Config::getAudienceActionClass('delete_subscriber', DeleteSubscriberAction::class);
+        $deleteSubscriberAction = Mailcoach::getAudienceActionClass('delete_subscriber', DeleteSubscriberAction::class);
 
         $deleteSubscriberAction->execute($subscriber);
 

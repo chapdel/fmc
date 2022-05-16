@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
-use Spatie\Mailcoach\Domain\Shared\Support\Config;
+use Spatie\Mailcoach\Mailcoach;
 
 class SendAutomationMailToSubscriberAction
 {
@@ -26,7 +26,7 @@ class SendAutomationMailToSubscriberAction
     protected function prepareSubject(AutomationMail $automationMail): self
     {
         /** @var \Spatie\Mailcoach\Domain\Automation\Actions\PrepareSubjectAction $prepareSubjectAction */
-        $prepareSubjectAction = Config::getAutomationActionClass('prepare_subject', PrepareSubjectAction::class);
+        $prepareSubjectAction = Mailcoach::getAutomationActionClass('prepare_subject', PrepareSubjectAction::class);
 
         $prepareSubjectAction->execute($automationMail);
 
@@ -36,7 +36,7 @@ class SendAutomationMailToSubscriberAction
     protected function prepareEmailHtml(AutomationMail $automationMail): self
     {
         /** @var \Spatie\Mailcoach\Domain\Automation\Actions\PrepareEmailHtmlAction $prepareEmailHtmlAction */
-        $prepareEmailHtmlAction = Config::getAutomationActionClass('prepare_email_html', PrepareEmailHtmlAction::class);
+        $prepareEmailHtmlAction = Mailcoach::getAutomationActionClass('prepare_email_html', PrepareEmailHtmlAction::class);
 
         $prepareEmailHtmlAction->execute($automationMail);
 
@@ -46,7 +46,7 @@ class SendAutomationMailToSubscriberAction
     protected function prepareWebviewHtml(AutomationMail $automationMail): self
     {
         /** @var \Spatie\Mailcoach\Domain\Automation\Actions\PrepareWebviewHtmlAction $prepareWebviewHtmlAction */
-        $prepareWebviewHtmlAction = Config::getAutomationActionClass('prepare_webview_html', PrepareWebviewHtmlAction::class);
+        $prepareWebviewHtmlAction = Mailcoach::getAutomationActionClass('prepare_webview_html', PrepareWebviewHtmlAction::class);
 
         $prepareWebviewHtmlAction->execute($automationMail);
 
