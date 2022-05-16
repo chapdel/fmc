@@ -7,11 +7,9 @@
     <input type="hidden" id="preview-content" value="{{ base64_encode($html) }}">
 
     <x-mailcoach::modal
-        x-init="
-            Alpine.effect(() => {
-                const open = $store.modals.isOpen('preview');
-                document.getElementById('{{ $name }}-iframe').src = 'data:text/html;base64,' + document.getElementById('preview-content').value;
-            });
+        x-effect="
+            const open = $store.modals.isOpen('{{ $name }}');
+            document.getElementById('{{ $name }}-iframe').src = 'data:text/html;base64,' + document.getElementById('preview-content').value;
         "
         :title="$title"
         :name="$name"
