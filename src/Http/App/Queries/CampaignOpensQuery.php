@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Queries;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -15,7 +16,7 @@ class CampaignOpensQuery extends QueryBuilder
 
     public int $totalCount;
 
-    public function __construct(Campaign $campaign)
+    public function __construct(Campaign $campaign, ?Request $request = null)
     {
         $prefix = DB::getTablePrefix();
 
@@ -35,7 +36,7 @@ class CampaignOpensQuery extends QueryBuilder
 
         $this->totalCount = $query->count();
 
-        parent::__construct($query);
+        parent::__construct($query, $request);
 
         $this
             ->defaultSort('-first_opened_at')

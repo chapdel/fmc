@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 
+use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
@@ -40,11 +41,11 @@ class SubscriberSends extends DataTable
         ];
     }
 
-    public function getData(): array
+    public function getData(Request $request): array
     {
         $this->authorize('view', $this->emailList);
 
-        $sendQuery = new SendQuery($this->subscriber, request());
+        $sendQuery = new SendQuery($this->subscriber, $request);
 
         return [
             'subscriber' => $this->subscriber,

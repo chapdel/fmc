@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire\Campaigns;
 
+use Illuminate\Http\Request;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\TemplatesQuery;
 
@@ -45,10 +46,10 @@ class Templates extends DataTable
         return 'mailcoach::app.campaigns.templates.index';
     }
 
-    public function getData(): array
+    public function getData(Request $request): array
     {
         return [
-            'templates' => (new TemplatesQuery(request()))->paginate(),
+            'templates' => (new TemplatesQuery($request))->paginate(),
             'totalTemplatesCount' => self::getTemplateClass()::count(),
         ];
     }

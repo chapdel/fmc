@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire\Automations;
 
+use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\AutomationMailUnsubscribesQuery;
@@ -39,13 +40,13 @@ class AutomationMailUnsubscribes extends DataTable
         ];
     }
 
-    public function getData(): array
+    public function getData(Request $request): array
     {
         $this->authorize('view', $this->mail);
 
         return [
             'mail' => $this->mail,
-            'unsubscribes' => (new AutomationMailUnsubscribesQuery($this->mail, request()))->paginate(),
+            'unsubscribes' => (new AutomationMailUnsubscribesQuery($this->mail, $request))->paginate(),
             'totalUnsubscribes' => $this->mail->unsubscribes()->count(),
         ];
     }

@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire\Automations;
 
+use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\AutomationMailLinksQuery;
@@ -39,11 +40,11 @@ class AutomationMailClicks extends DataTable
         ];
     }
 
-    public function getData(): array
+    public function getData(Request $request): array
     {
         return [
             'mail' => $this->mail,
-            'links' => (new AutomationMailLinksQuery($this->mail, request()))->paginate(),
+            'links' => (new AutomationMailLinksQuery($this->mail, $request))->paginate(),
             'totalLinksCount' => $this->mail->links()->count(),
         ];
     }

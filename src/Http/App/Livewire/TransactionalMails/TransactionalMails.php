@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire\TransactionalMails;
 
+use Illuminate\Http\Request;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\TransactionalMailQuery;
 
@@ -32,12 +33,12 @@ class TransactionalMails extends DataTable
         return 'mailcoach::app.transactionalMails.index';
     }
 
-    public function getData(): array
+    public function getData(Request $request): array
     {
         $this->authorize('viewAny', static::getTransactionalMailClass());
 
         return [
-            'transactionalMails' => (new TransactionalMailQuery(request()))->paginate(),
+            'transactionalMails' => (new TransactionalMailQuery($request))->paginate(),
             'transactionalMailsCount' => self::getTransactionalMailClass()::count(),
         ];
     }

@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire\Campaigns;
 
+use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\CampaignLinksQuery;
@@ -39,11 +40,11 @@ class CampaignClicks extends DataTable
         ];
     }
 
-    public function getData(): array
+    public function getData(Request $request): array
     {
         return [
             'campaign' => $this->campaign,
-            'links' => (new CampaignLinksQuery($this->campaign, request()))->paginate(),
+            'links' => (new CampaignLinksQuery($this->campaign, $request))->paginate(),
             'totalLinksCount' => $this->campaign->links()->count(),
         ];
     }

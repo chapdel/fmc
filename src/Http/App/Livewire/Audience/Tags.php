@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 
+use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Audience\Events\TagRemovedEvent;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
@@ -10,6 +11,10 @@ use Spatie\Mailcoach\Http\App\Queries\EmailListTagsQuery;
 
 class Tags extends DataTable
 {
+    protected array $allowedFilters = [
+        'type' => ['except' => ''],
+    ];
+
     public EmailList $emailList;
 
     public function mount(EmailList $emailList)
@@ -54,11 +59,11 @@ class Tags extends DataTable
         ];
     }
 
-    public function getData(): array
+    public function getData(Request $request): array
     {
         $this->authorize('view', $this->emailList);
 
-        $tagsQuery = new EmailListTagsQuery($this->emailList, request());
+        $tagsQuery = new EmailListTagsQuery($this->emailList, $request);
 
         return [
             'emailList' => $this->emailList,

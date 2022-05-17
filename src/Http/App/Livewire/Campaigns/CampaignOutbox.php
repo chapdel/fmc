@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire\Campaigns;
 
+use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\RetrySendingFailedSendsJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
@@ -10,6 +11,10 @@ use Spatie\Mailcoach\Http\App\Queries\CampaignSendsQuery;
 class CampaignOutbox extends DataTable
 {
     public string $sort = '-sent_at';
+
+    protected array $allowedFilters = [
+        'type' => ['except' => ''],
+    ];
 
     public Campaign $campaign;
 
@@ -57,11 +62,11 @@ class CampaignOutbox extends DataTable
         ];
     }
 
-    public function getData(): array
+    public function getData(Request $request): array
     {
         $this->authorize('view', $this->campaign);
 
-        $sendsQuery = (new CampaignSendsQuery($this->campaign, request()));
+        $sendsQuery = (new CampaignSendsQuery($this->campaign, $request));
 
         return [
             'campaign' => $this->campaign,

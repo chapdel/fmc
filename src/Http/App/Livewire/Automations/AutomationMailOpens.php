@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire\Automations;
 
+use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\AutomationMailOpensQuery;
@@ -39,9 +40,9 @@ class AutomationMailOpens extends DataTable
         ];
     }
 
-    public function getData(): array
+    public function getData(Request $request): array
     {
-        $automationMailOpens = (new AutomationMailOpensQuery($this->mail, request()));
+        $automationMailOpens = (new AutomationMailOpensQuery($this->mail, $request));
 
         return [
             'mail' => $this->mail,

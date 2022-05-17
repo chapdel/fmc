@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire\Campaigns;
 
+use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\CampaignUnsubscribesQuery;
@@ -39,13 +40,13 @@ class CampaignUnsubscribes extends DataTable
         ];
     }
 
-    public function getData(): array
+    public function getData(Request $request): array
     {
         $this->authorize('view', $this->campaign);
 
         return [
             'campaign' => $this->campaign,
-            'unsubscribes' => (new CampaignUnsubscribesQuery($this->campaign, request()))->paginate(),
+            'unsubscribes' => (new CampaignUnsubscribesQuery($this->campaign, $request))->paginate(),
             'totalUnsubscribes' => $this->campaign->unsubscribes()->count(),
         ];
     }

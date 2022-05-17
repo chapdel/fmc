@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 
+use Illuminate\Http\Request;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\EmailListQuery;
 
@@ -28,12 +29,12 @@ class Lists extends DataTable
         return 'mailcoach::app.emailLists.index';
     }
 
-    public function getData(): array
+    public function getData(Request $request): array
     {
         $this->authorize('viewAny', static::getEmailListClass());
 
         return [
-            'emailLists' => (new EmailListQuery(request()))->paginate(),
+            'emailLists' => (new EmailListQuery($request))->paginate(),
             'totalEmailListsCount' => static::getEmailListClass()::count(),
         ];
     }

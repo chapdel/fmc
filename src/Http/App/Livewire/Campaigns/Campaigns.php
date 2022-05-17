@@ -2,12 +2,17 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire\Campaigns;
 
+use Illuminate\Http\Request;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\CampaignsQuery;
 
 class Campaigns extends DataTable
 {
     public string $sort = '-sent';
+
+    public array $allowedFilters = [
+        'status' => ['except' => '']
+    ];
 
     public function mount()
     {
@@ -66,10 +71,10 @@ class Campaigns extends DataTable
         return 'mailcoach::app.campaigns.index';
     }
 
-    public function getData(): array
+    public function getData(Request $request): array
     {
         return [
-            'campaigns' => (new CampaignsQuery(request()))->paginate(),
+            'campaigns' => (new CampaignsQuery($request))->paginate(),
             'totalCampaignsCount' => self::getCampaignClass()::count(),
             'totalListsCount' => static::getEmailListClass()::count(),
             'sentCampaignsCount' => static::getCampaignClass()::sendingOrSent()->count(),

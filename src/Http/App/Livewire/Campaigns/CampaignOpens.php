@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire\Campaigns;
 
+use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\CampaignOpensQuery;
@@ -39,9 +40,9 @@ class CampaignOpens extends DataTable
         ];
     }
 
-    public function getData(): array
+    public function getData(Request $request): array
     {
-        $campaignOpens = (new CampaignOpensQuery($this->campaign, request()));
+        $campaignOpens = (new CampaignOpensQuery($this->campaign, $request));
 
         return [
             'campaign' => $this->campaign,

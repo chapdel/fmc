@@ -27,7 +27,8 @@
             @if ($totalRowsCount > 0 && count($filters))
                 <x-mailcoach::filters>
                     @foreach ($filters as $filter)
-                        <x-mailcoach::filter :filter="$this->filter" value="{{ $filter['value'] }}" attribute="{{ $filter['attribute'] }}">
+                        @php($attribute = $filter['attribute'])
+                        <x-mailcoach::filter :current="$this->$attribute" value="{{ $filter['value'] }}" attribute="{{ $filter['attribute'] }}">
                             {{ $filter['label'] }}
                             @isset($filter['count'])
                                 <span class="counter">{{ Illuminate\Support\Str::shortNumber($filter['count']) }}</span>
@@ -37,8 +38,8 @@
                 </x-mailcoach::filters>
             @endif
 
-            @if($searchable && (($this->filter['search'] ?? null) || ($this->filter['status'] ?? null) || $rows->count()))
-                <x-mailcoach::search wire:model="filter.search" :placeholder="__('mailcoach - Search…')"/>
+            @if($searchable && ($this->isFiltering() || $rows->count()))
+                <x-mailcoach::search wire:model="search" :placeholder="__('mailcoach - Search…')"/>
             @endif
         </div>
     </div>
