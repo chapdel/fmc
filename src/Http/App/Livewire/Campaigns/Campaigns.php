@@ -11,7 +11,7 @@ class Campaigns extends DataTable
     public string $sort = '-sent';
 
     public array $allowedFilters = [
-        'status' => ['except' => '']
+        'status' => ['except' => ''],
     ];
 
     public function mount()

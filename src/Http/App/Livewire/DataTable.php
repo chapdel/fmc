@@ -115,7 +115,7 @@ abstract class DataTable extends Component
                 ->keys()
                 ->add('search')
                 ->mapWithKeys(fn (string $filter) => [$filter => $this->$filter])
-                ->filter(fn ($value) => !empty($value))
+                ->filter(fn ($value) => ! empty($value))
         );
 
         return view(
