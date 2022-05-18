@@ -30,24 +30,20 @@ class Dashboard extends Component
         if ($number >= 0 && $number < 1000) {
             $format = floor($number);
             $suffix = '';
-        }
-        else if ($number >= 1000 && $number < 1000000) {
+        } elseif ($number >= 1000 && $number < 1000000) {
             $format = floor($number / 1000);
             $suffix = 'K+';
-        }
-        else if ($number >= 1000000 && $number < 1000000000) {
+        } elseif ($number >= 1000000 && $number < 1000000000) {
             $format = floor($number / 1000000);
             $suffix = 'M+';
-        }
-        else if ($number >= 1000000000 && $number < 1000000000000) {
+        } elseif ($number >= 1000000000 && $number < 1000000000000) {
             $format = floor($number / 1000000000);
             $suffix = 'B+';
-        }
-        else {
+        } else {
             $format = floor($number / 1000000000000);
             $suffix = 'T+';
         }
 
-        return !empty($format . $suffix) ? $format . $suffix : 0;
+        return ! empty($format . $suffix) ? $format . $suffix : 0;
     }
 }
