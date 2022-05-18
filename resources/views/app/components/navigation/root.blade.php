@@ -1,8 +1,8 @@
 @props([
     'main' => false,
 ])
-<div class="relative z-50 flex items-start @unless($main) sticky top-0 @endunless" x-data="{ shown: false }" x-init="shown = window.innerWidth > 768">
-    <div class="navigation {{ $main ? 'navigation-main' : '' }}" :class="[shown ? 'navigation-shown' : '']">
+<div class="relative z-50 flex items-start sticky top-0" x-data="{ shown: false }" x-init="shown = window.innerWidth > 768">
+    <div class="navigation" :class="[shown ? 'navigation-shown' : '']">
         @isset($title)
             @php
                 $maxLength = 24;

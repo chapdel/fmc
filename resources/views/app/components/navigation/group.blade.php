@@ -1,11 +1,4 @@
-<div class="navigation-group {{ $class ?? '' }}"
-     x-data="navigation"
-     @if(\Illuminate\Support\Str::contains((string) $slot, 'Campaigns'))
-     x-init="moveBackground()"
-     @endif
-     x-on:mouseenter="moveBackground()"
-     x-on:mouseleave="onMouseOut()"
->
+<div class="{{ $class ?? '' }}">
     @isset($title)
         @php
             $maxLength = 22;
@@ -18,7 +11,7 @@
             {{ $titleTruncated ?? '' }}
         </h3>
     @endisset
-    <div class="navigation-group-content" x-ref="content">
+    <div>
         {{ $slot }}
     </div>
 </div>
