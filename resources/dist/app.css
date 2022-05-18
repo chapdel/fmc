@@ -5391,6 +5391,14 @@ span.flatpickr-weekday{
   padding-bottom: 2rem;
 }
 
+.pt-2{
+  padding-top: 0.5rem;
+}
+
+.pt-4{
+  padding-top: 1rem;
+}
+
 .text-left{
   text-align: left;
 }
@@ -5439,11 +5447,6 @@ span.flatpickr-weekday{
 .text-xl{
   font-size: 1.25rem;
   line-height: 1.75rem;
-}
-
-.text-base{
-  font-size: 1rem;
-  line-height: 1.5rem;
 }
 
 .font-semibold{
