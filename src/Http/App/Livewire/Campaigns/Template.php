@@ -45,7 +45,7 @@ class Template extends Component
     public function render(): View
     {
         return view('mailcoach::app.campaigns.templates.edit')
-            ->layout('mailcoach::app.layouts.main', [
+            ->layout('mailcoach::app.layouts.app', [
                 'title' => $this->template->name,
             ]);
     }

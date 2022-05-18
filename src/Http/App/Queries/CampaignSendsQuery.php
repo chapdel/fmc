@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Queries;
 
+use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Queries\Filters\FuzzyFilter;
@@ -13,9 +14,9 @@ class CampaignSendsQuery extends QueryBuilder
 {
     use UsesMailcoachModels;
 
-    public function __construct(Campaign $campaign)
+    public function __construct(Campaign $campaign, Request $request)
     {
-        parent::__construct($this->getSendClass()::query());
+        parent::__construct($this->getSendClass()::query(), $request);
 
         $this
             ->addSelect(['subscriber_email' => $this->getSubscriberClass()::select('email')

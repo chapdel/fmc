@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire\Automations;
 
+use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\AutomationMailSendsQuery;
@@ -9,6 +10,10 @@ use Spatie\Mailcoach\Http\App\Queries\AutomationMailSendsQuery;
 class AutomationMailOutbox extends DataTable
 {
     public string $sort = '-sent_at';
+
+    protected array $allowedFilters = [
+        'type' => ['except' => ''],
+    ];
 
     public AutomationMail $mail;
 
@@ -39,11 +44,11 @@ class AutomationMailOutbox extends DataTable
         ];
     }
 
-    public function getData(): array
+    public function getData(Request $request): array
     {
         $this->authorize('view', $this->mail);
 
-        $sendsQuery = (new AutomationMailSendsQuery($this->mail, request()));
+        $sendsQuery = (new AutomationMailSendsQuery($this->mail, $request));
 
         return [
             'mail' => $this->mail,

@@ -1,37 +1,8 @@
-<div x-data="{ shown: false }">
-    <div class="px-8 py-6 lg:py-8">
-            <div class="flex items-center justify-between">
-                <div>
-                    @isset($backHref)
-                        <a href="{{ $backHref }}" class="text-blue-100 text-sm font-semibold hover:text-white">
-                            <span class="icon-label">
-                                <i class="text-blue-500 fas fa-angle-left"></i>
-                                <span class="icon-label-text">
-                                    {{ $backLabel ?? '' }}
-                                </span>
-                            </span>
-                        </a>
-                    @endisset
-                </div>
-
-                <a class="pl-3" data-no-swup href="{{ route('mailcoach.home') }}" x-on:click="(e) => {
-                    if (window.innerWidth > 1024) {
-                        return false;
-                    }
-                    e.preventDefault();
-                    shown = !shown;
-                }">
-                    <span
-                    class="group w-10 h-10 flex items-center justify-center bg-gradient-to-b from-blue-500 to-blue-600 text-white rounded-full">
-                        <span class="flex items-center justify-center w-6 h-6 transform group-hover:scale-90 transition-transform duration-150">
-                            @include('mailcoach::app.layouts.partials.logoSvg')
-                        </span>
-                    </span>
-                </a>
-            </div>
-        </div>
-
-    <div :class="[shown ? 'navigation-shown' : '']" class="navigation {{ isset($backHref) ? 'navigation-sub' : '' }}">
+@props([
+    'main' => false,
+])
+<div class="relative z-50 flex items-start sticky top-0" x-data="{ shown: false }" x-init="shown = window.innerWidth > 768">
+    <div class="navigation" :class="[shown ? 'navigation-shown' : '']">
         @isset($title)
             @php
                 $maxLength = 24;
@@ -46,7 +17,6 @@
                 <span class="hidden lg:block">{{ $titleTruncated }}</span>
                 <span class="lg:hidden block">{{ $title }}</span>
             </h2>
-
         @endisset
 
         {{ $slot }}

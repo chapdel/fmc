@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 
+use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
@@ -75,11 +76,11 @@ class Segments extends DataTable
         ];
     }
 
-    public function getData(): array
+    public function getData(Request $request): array
     {
         $this->authorize('view', $this->emailList);
 
-        $segmentsQuery = new SegmentsQuery($this->emailList, request());
+        $segmentsQuery = new SegmentsQuery($this->emailList, $request);
 
         return [
             'segments' => $segmentsQuery->paginate(),

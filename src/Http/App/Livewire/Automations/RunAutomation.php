@@ -61,6 +61,7 @@ class RunAutomation extends Component
         return view('mailcoach::app.automations.run')
             ->layout('mailcoach::app.automations.layouts.automation', [
                 'automation' => $this->automation,
+                'title' => __('mailcoach - Run'),
             ]);
     }
 }

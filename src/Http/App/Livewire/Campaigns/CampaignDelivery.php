@@ -97,6 +97,7 @@ class CampaignDelivery extends Component
             'links' => $this->campaign->htmlLinks(),
         ])->layout('mailcoach::app.campaigns.layouts.campaign', [
             'campaign' => $this->campaign,
+            'title' => __('mailcoach - Send'),
         ]);
     }
 }

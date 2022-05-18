@@ -36,6 +36,24 @@ class TransactionalMailTemplate extends Model implements HasHtmlContent
         'replacers' => 'array',
     ];
 
+    public function getTemplateFieldValues(): array
+    {
+        $structuredHtml = json_decode($this->getStructuredHtml(), true) ?? [];
+
+        return $structuredHtml['templateValues'] ?? [];
+    }
+
+    public function setTemplateFieldValues(array $fieldValues = []): self
+    {
+        $structuredHtml = json_decode($this->getStructuredHtml(), true) ?? [];
+
+        $structuredHtml['templateValues'] = $fieldValues;
+
+        $this->structured_html = json_encode($structuredHtml);
+
+        return $this;
+    }
+
     public function isValid(): bool
     {
         try {

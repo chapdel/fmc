@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\Livewire;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -17,18 +18,20 @@ abstract class DataTable extends Component
 
     public bool $readyToLoad = false;
 
-    public array $filter = [];
+    public string $search = '';
+
     public string $sort = 'name';
 
     protected string $defaultSort;
+    protected array $allowedFilters = [];
 
     abstract public function getTitle(): string;
     abstract public function getView(): string;
-    abstract public function getData(): array;
+    abstract public function getData(Request $request): array;
 
     public function getLayout(): string
     {
-        return 'mailcoach::app.layouts.main';
+        return 'mailcoach::app.layouts.app';
     }
 
     public function getLayoutData(): array
@@ -39,15 +42,19 @@ abstract class DataTable extends Component
     public function boot()
     {
         $this->defaultSort = $this->sort;
+
+        foreach ($this->allowedFilters as $filter => $options) {
+            $this->$filter = $options['except'] ?? '';
+        }
     }
 
     public function getQueryString()
     {
-        return [
-            'filter' => ['except' => ''],
+        return array_merge([
+            'search' => ['except' => ''],
             'page' => ['except' => 1],
             'sort' => ['except' => $this->defaultSort],
-        ];
+        ], $this->allowedFilters);
     }
 
     public function sort(string $sort)
@@ -66,18 +73,31 @@ abstract class DataTable extends Component
     public function setFilter(string $property, ?string $value = null)
     {
         if (is_null($value)) {
-            unset($this->filter[$property]);
+            $this->$property = null;
 
             return;
         }
 
-        $this->filter[$property] = $value;
+        $this->$property = $value;
     }
 
     public function clearFilters()
     {
         $this->page = 1;
-        $this->filter = [];
+        $this->search = '';
+        foreach ($this->allowedFilters as $filter => $options) {
+            $this->$filter = $options['except'] ?? '';
+        }
+    }
+
+    public function isFiltering(): bool
+    {
+        return collect($this->allowedFilters)
+            ->put('search', [])
+            ->filter(function ($options, string $filter) {
+                return $this->$filter !== ($options['except'] ?? '');
+            })
+            ->count() > 0;
     }
 
     public function loadRows()
@@ -87,13 +107,21 @@ abstract class DataTable extends Component
 
     public function render()
     {
-        request()->query->set('filter', $this->filter);
-        request()->query->set('sort', $this->sort);
+        $request = clone request();
+        $request->query->set('sort', $this->sort);
+        $request->query->set(
+            'filter',
+            collect($this->allowedFilters)
+                ->keys()
+                ->add('search')
+                ->mapWithKeys(fn (string $filter) => [$filter => $this->$filter])
+                ->filter(fn ($value) => ! empty($value))
+        );
 
         return view(
             $this->getView(),
             $this->readyToLoad
-            ? $this->getData()
+            ? $this->getData($request)
             : []
         )->layout($this->getLayout(), array_merge([
             'title' => $this->getTitle(),

@@ -93,6 +93,7 @@ class CampaignSettings extends Component
         return view('mailcoach::app.campaigns.settings')
             ->layout('mailcoach::app.campaigns.layouts.campaign', [
                 'campaign' => $this->campaign,
+                'title' => __('mailcoach - Settings'),
             ]);
     }
 }

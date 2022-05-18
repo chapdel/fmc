@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire\Automations;
 
+use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
@@ -77,10 +78,10 @@ class Automations extends DataTable
         return 'mailcoach::app.automations.index';
     }
 
-    public function getData(): array
+    public function getData(Request $request): array
     {
         return [
-            'automations' => (new AutomationsQuery(request()))->paginate(),
+            'automations' => (new AutomationsQuery($request))->paginate(),
             'totalAutomationsCount' => self::getAutomationClass()::count(),
         ];
     }

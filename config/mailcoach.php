@@ -21,12 +21,6 @@ return [
         ],
 
         /*
-         * Here you can configure which campaign template editor Mailcoach uses.
-         * By default this is a text editor that highlights HTML.
-         */
-        'editor' => \Spatie\Mailcoach\Domain\Shared\Support\Editor\TextEditor::class,
-
-        /*
          * Here you can specify which jobs should run on which queues.
          * Use an empty string to use the default queue.
          */
@@ -124,12 +118,6 @@ return [
          * will redispatch itself.
          */
         'send_automation_mails_maximum_job_runtime_in_seconds' => 60  * 10,
-
-        /*
-         * Here you can configure which automation mail template editor Mailcoach uses.
-         * By default this is a text editor that highlights HTML.
-         */
-        'editor' => \Spatie\Mailcoach\Domain\Shared\Support\Editor\TextEditor::class,
 
         'actions' => [
             'send_mail' => \Spatie\Mailcoach\Domain\Automation\Actions\SendMailAction::class,
@@ -251,12 +239,6 @@ return [
         ],
 
         /**
-         * Here you can configure which transactional mail template editor Mailcoach uses.
-         * By default this is a text editor that highlights HTML.
-         */
-        'editor' => \Spatie\Mailcoach\Domain\Shared\Support\Editor\TextEditor::class,
-
-        /**
          * Here you can configure which fields of the transactional mails you want to search in
          * from the Transactional Log section in the view. The value is an array of fields.
          * For relations fields, you can use the dot notation.
@@ -277,6 +259,18 @@ return [
             'calculate_statistics' => \Spatie\Mailcoach\Domain\Shared\Actions\CalculateStatisticsAction::class,
         ],
     ],
+
+    /*
+     * Here you can configure which content editor Mailcoach uses.
+     * By default this is a text editor that highlights HTML.
+     */
+    'content_editor' => \Spatie\Mailcoach\Domain\Campaign\Livewire\TextAreaEditorComponent::class,
+
+    /*
+     * Here you can configure which template editor Mailcoach uses.
+     * By default this is a text editor that highlights HTML.
+     */
+    'template_editor' => \Spatie\Mailcoach\Domain\Campaign\Livewire\TextAreaEditorComponent::class,
 
     /*
      * The mailer used by Mailcoach for password resets and summary emails.
@@ -303,7 +297,7 @@ return [
     /*
      * Homepage will redirect to this route.
      */
-    'redirect_home' => 'mailcoach.campaigns',
+    'redirect_home' => 'mailcoach.dashboard',
 
     /*
      *  This configuration option defines the authentication guard that will
@@ -322,6 +316,7 @@ return [
             Spatie\Mailcoach\Http\App\Middleware\Authenticate::class,
             Spatie\Mailcoach\Http\App\Middleware\Authorize::class,
             Spatie\Mailcoach\Http\App\Middleware\SetMailcoachDefaults::class,
+            Spatie\Mailcoach\Http\App\Middleware\BootstrapNavigation::class,
         ],
         'api' => [
             'api',
@@ -561,6 +556,8 @@ return [
     ],
 
     'livewire' => [
+        'dashboard' => \Spatie\Mailcoach\Http\App\Livewire\Dashboard::class,
+
         // Audience
         'create-list' => \Spatie\Mailcoach\Http\App\Livewire\Audience\CreateList::class,
         'lists' => \Spatie\Mailcoach\Http\App\Livewire\Audience\Lists::class,

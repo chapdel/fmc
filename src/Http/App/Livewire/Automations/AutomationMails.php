@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire\Automations;
 
+use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\AutomatedMailQuery;
@@ -45,7 +46,7 @@ class AutomationMails extends DataTable
 
     public function getTitle(): string
     {
-        return __('mailcoach - Automation Emails');
+        return __('mailcoach - Emails');
     }
 
     public function getView(): string
@@ -53,10 +54,10 @@ class AutomationMails extends DataTable
         return 'mailcoach::app.automations.mails.index';
     }
 
-    public function getData(): array
+    public function getData(Request $request): array
     {
         return [
-            'automationMails' => (new AutomatedMailQuery(request()))->paginate(),
+            'automationMails' => (new AutomatedMailQuery($request))->paginate(),
             'totalAutomationMailsCount' => self::getAutomationMailClass()::count(),
         ];
     }

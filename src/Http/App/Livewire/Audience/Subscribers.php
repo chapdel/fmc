@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 
+use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\DeleteSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\SendConfirmSubscriberMailAction;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
@@ -13,6 +14,10 @@ use Spatie\Mailcoach\Mailcoach;
 class Subscribers extends DataTable
 {
     public string $sort = '-created_at';
+
+    protected array $allowedFilters = [
+        'status' => ['except' => ''],
+    ];
 
     public EmailList $emailList;
 
@@ -125,11 +130,11 @@ class Subscribers extends DataTable
         ];
     }
 
-    public function getData(): array
+    public function getData(Request $request): array
     {
         $this->authorize('view', $this->emailList);
 
-        $subscribersQuery = new EmailListSubscribersQuery($this->emailList, request());
+        $subscribersQuery = new EmailListSubscribersQuery($this->emailList, $request);
 
         return [
             'subscribers' => $subscribersQuery->paginate(),
