@@ -3,14 +3,12 @@
 namespace Spatie\Mailcoach\Domain\Campaign\Livewire;
 
 use Carbon\CarbonInterval;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
-use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Spatie\Mailcoach\Domain\Shared\Support\TemplateRenderer;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 use Spatie\ValidationRules\Rules\Delimited;

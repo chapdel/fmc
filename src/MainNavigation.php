@@ -6,5 +6,4 @@ use Spatie\Navigation\Navigation;
 
 class MainNavigation extends Navigation
 {
-
 }

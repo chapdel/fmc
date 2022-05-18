@@ -3,8 +3,6 @@
 namespace Spatie\Mailcoach\Http\App\Middleware;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Route;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\MainNavigation;
 use Spatie\Navigation\Section;
