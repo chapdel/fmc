@@ -297,7 +297,7 @@ return [
     /*
      * Homepage will redirect to this route.
      */
-    'redirect_home' => 'mailcoach.campaigns',
+    'redirect_home' => 'mailcoach.dashboard',
 
     /*
      *  This configuration option defines the authentication guard that will
@@ -556,6 +556,8 @@ return [
     ],
 
     'livewire' => [
+        'dashboard' => \Spatie\Mailcoach\Http\App\Livewire\Dashboard::class,
+
         // Audience
         'create-list' => \Spatie\Mailcoach\Http\App\Livewire\Audience\CreateList::class,
         'lists' => \Spatie\Mailcoach\Http\App\Livewire\Audience\Lists::class,

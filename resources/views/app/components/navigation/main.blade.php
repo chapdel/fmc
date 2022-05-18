@@ -5,7 +5,7 @@
 
     <div class="flex items-center gap-x-8">
         <div class="navigation-logo pl-2 pr-6 self-center flex items-center justify-between">
-            <a class="pl-3" data-no-swup href="{{ route('mailcoach.home') }}">
+            <a class="pl-3" data-no-swup href="{{ route(config('mailcoach.redirect_home')) }}">
                 <span
                     class="group w-10 h-10 flex items-center justify-center bg-gradient-to-b from-blue-500 to-blue-600 text-white rounded-full">
                     <span class="flex items-center justify-center w-6 h-6 transform group-hover:scale-90 transition-transform duration-150">
@@ -28,7 +28,7 @@
                     x-on:keyup.escape.window="close"
                 @endif
             >
-                <h3 class="text-blue-100 group-hover:text-white uppercase text-xs font-semibold tracking-wider"><a href="{{ $item['url'] }}">{{ $item['title'] }}</a></h3>
+                <h3 class="group-hover:text-white {{ $item['active'] ? 'text-white' : 'text-blue-100' }} uppercase text-xs font-semibold tracking-wider"><a href="{{ $item['url'] }}">{{ $item['title'] }}</a></h3>
                 @if (count($item['children']))
                     <div class="navigation-dropdown hidden opacity-0 absolute left-1/2 -translate-x-1/2 translate-y-4 overflow-hidden py-3 rounded transition-opacity duration-200 z-50 min-w-32 will-change-auto">
                         @foreach ($item['children'] as $child)

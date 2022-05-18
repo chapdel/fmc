@@ -14,7 +14,7 @@ class BootstrapNavigation
     public function handle(Request $request, $next)
     {
         app(MainNavigation::class)
-            ->add(__('mailcoach - Dashboard'), route('mailcoach.home'))
+            ->add(__('mailcoach - Dashboard'), route('mailcoach.dashboard'))
             ->addIf($request->user()?->can('viewAny', self::getCampaignClass()), __('mailcoach - Newsletter'), route('mailcoach.campaigns'), function (Section $section) {
                 $section
                     ->add(__('mailcoach - Campaigns'), route('mailcoach.campaigns'))

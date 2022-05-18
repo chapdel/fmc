@@ -15,6 +15,7 @@ use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DownloadSubscriberIm
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\SendTransactionalMailTestController;
 use Spatie\Mailcoach\Http\App\Middleware\EditableCampaign;
 
+Route::get('dashboard', Mailcoach::getLivewireClass('dashboard', \Spatie\Mailcoach\Http\App\Livewire\Dashboard::class))->name('mailcoach.dashboard');
 Route::get('debug', '\\' . DebugController::class)->name('debug');
 
 Route::post('uploads', UploadsController::class);

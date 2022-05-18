@@ -112,6 +112,8 @@ use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CreateCampaign;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CreateTemplate;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\Template;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\Templates;
+use Spatie\Mailcoach\Http\App\Livewire\Dashboard;
+use Spatie\Mailcoach\Http\App\Livewire\DashboardChart;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Livewire\SendTest;
 use Spatie\Mailcoach\Http\App\Livewire\Spotlight\AutomationEmailsCommand;
@@ -351,6 +353,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.components.modal.modal', 'mailcoach::modal');
         Blade::component('mailcoach::app.components.modal.previewModal', 'mailcoach::preview-modal');
 
+        Blade::component('mailcoach::app.components.tile', 'mailcoach::tile');
+
         Blade::component('mailcoach::app.components.dataTable', 'mailcoach::data-table');
         Blade::component('mailcoach::app.components.table.tableStatus', 'mailcoach::table-status');
         Blade::component('mailcoach::app.components.table.th', 'mailcoach::th');
@@ -431,6 +435,9 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
         Livewire::component('mailcoach::send-test', SendTest::class);
         Livewire::component('mailcoach::data-table', DataTable::class);
+
+        Livewire::component('mailcoach::dashboard', Mailcoach::getLivewireClass('dashboard', Dashboard::class));
+        Livewire::component('mailcoach::dashboard-chart', DashboardChart::class);
 
         // Audience
         Livewire::component('mailcoach::create-list', Mailcoach::getLivewireClass('create-list', CreateList::class));
