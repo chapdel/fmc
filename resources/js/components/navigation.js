@@ -6,6 +6,12 @@ document.addEventListener('alpine:init', () => {
         },
 
         open(event) {
+            if (event.target.classList.contains('navigation-link')) {
+                return;
+            }
+
+            event.preventDefault();
+
             document.querySelectorAll('.navigation-dropdown').forEach((el) => el.classList.add('hidden', 'opacity-0'));
 
             const target = event.target.classList.contains('navigation-item')

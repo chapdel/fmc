@@ -4724,6 +4724,11 @@ document.addEventListener('alpine:init', function () {
         this.$refs.background.style.setProperty('transform', "translate(".concat(coords.left, "px, ").concat(coords.top, "px"));
       },
       open: function open(event) {
+        if (event.target.classList.contains('navigation-link')) {
+          return;
+        }
+
+        event.preventDefault();
         document.querySelectorAll('.navigation-dropdown').forEach(function (el) {
           return el.classList.add('hidden', 'opacity-0');
         });

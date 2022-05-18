@@ -23,15 +23,16 @@
                 @if(count($item['children']))
                     x-on:mouseenter="open"
                     x-on:mouseleave="close"
-                    x-on:click.prevent="open"
-                    x-on:click.prevent.outside="close"
+                    x-on:touchstart="open"
+                    x-on:click.outside="close"
+                    x-on:keyup.escape.window="close"
                 @endif
             >
                 <h3 class="text-blue-100 group-hover:text-white uppercase text-xs font-semibold tracking-wider"><a href="{{ $item['url'] }}">{{ $item['title'] }}</a></h3>
                 @if (count($item['children']))
                     <div class="navigation-dropdown hidden opacity-0 absolute left-1/2 -translate-x-1/2 translate-y-4 overflow-hidden py-3 rounded transition-opacity duration-200 z-50 min-w-32 will-change-auto">
                         @foreach ($item['children'] as $child)
-                            <a class="block w-full py-2 hover:bg-blue-100 px-4" href="{{ $child['url'] }}">{{ $child['title'] }}</a>
+                            <a class="navigation-link block w-full py-2 hover:bg-blue-100 px-4" href="{{ $child['url'] }}">{{ $child['title'] }}</a>
                         @endforeach
                     </div>
                 @endif
