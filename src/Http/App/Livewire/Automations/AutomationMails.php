@@ -46,7 +46,7 @@ class AutomationMails extends DataTable
 
     public function getTitle(): string
     {
-        return __('mailcoach - Automation Emails');
+        return __('mailcoach - Emails');
     }
 
     public function getView(): string

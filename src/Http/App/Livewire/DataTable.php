@@ -31,7 +31,7 @@ abstract class DataTable extends Component
 
     public function getLayout(): string
     {
-        return 'mailcoach::app.layouts.main';
+        return 'mailcoach::app.layouts.app';
     }
 
     public function getLayoutData(): array

@@ -11,13 +11,13 @@
                     {{__('mailcoach - Performance')}}
                 </x-mailcoach::navigation-item>
                 <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.subscribers', $emailList)">
-                    <span class="flex items-center lg:flex-row-reverse">
+                    <span class="flex items-center">
                         {{ __('mailcoach - Subscribers')}}
                         <span class="counter mx-2">{{ number_format($emailList->subscribers()->count() ?? 0) }}</span>
                     </span>
                 </x-mailcoach::navigation-item>
 
-                <x-mailcoach::navigation-item :active="Route::is('mailcoach.emailLists.tags.*')" :href="route('mailcoach.emailLists.tags', $emailList) . '?filter[type]=default'">
+                <x-mailcoach::navigation-item :active="Route::is('mailcoach.emailLists.tags.*')" :href="route('mailcoach.emailLists.tags', $emailList) . '?type=default'">
                     {{ __('mailcoach - Tags') }}
                 </x-mailcoach::navigation-item>
                 <x-mailcoach::navigation-item :active="Route::is('mailcoach.emailLists.segments.*')" :href="route('mailcoach.emailLists.segments', $emailList)">

@@ -12,7 +12,7 @@
         </x-mailcoach::help>
 
         <?php
-        $editor = config('mailcoach.transactional.editor', \Spatie\Mailcoach\Domain\Shared\Support\Editor\TextEditor::class);
+        $editor = config('mailcoach.template_editor', \Spatie\Mailcoach\Domain\Shared\Support\Editor\TextEditor::class);
         $editorName = (new ReflectionClass($editor))->getShortName();
         ?>
         <x-mailcoach::select-field

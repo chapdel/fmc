@@ -8,7 +8,9 @@
     >
         @csrf
         @method('PUT')
-        {!! app(config('mailcoach.automation.editor'))->render($mail) !!}
+        @livewire(\Livewire\Livewire::getAlias(config('mailcoach.content_editor')), [
+            'model' => $mail,
+        ])
     </form>
 
     <x-mailcoach::modal :title="__('mailcoach - Preview') . ' - ' . $mail->subject" name="preview" large :open="Request::get('modal')">

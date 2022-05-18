@@ -4372,6 +4372,8 @@ __webpack_require__(/*! ./components/charts/emailListStatistics */ "./resources/
 
 __webpack_require__(/*! ./components/charts/campaignStatistics */ "./resources/js/components/charts/campaignStatistics.js");
 
+__webpack_require__(/*! ./components/navigation */ "./resources/js/components/navigation.js");
+
 alpinejs__WEBPACK_IMPORTED_MODULE_3__["default"].plugin(_alpinejs_focus__WEBPACK_IMPORTED_MODULE_4__["default"]);
 window.Alpine = alpinejs__WEBPACK_IMPORTED_MODULE_3__["default"];
 window.Tagify = (_yaireo_tagify__WEBPACK_IMPORTED_MODULE_1___default());
@@ -4705,6 +4707,61 @@ function updateHtmlPreview() {
 
 (0,_util__WEBPACK_IMPORTED_MODULE_0__.listen)('input', '[data-html-preview-source]', updateHtmlPreview);
 document.addEventListener('turbo:load', updateHtmlPreview);
+
+/***/ }),
+
+/***/ "./resources/js/components/navigation.js":
+/*!***********************************************!*\
+  !*** ./resources/js/components/navigation.js ***!
+  \***********************************************/
+/***/ (() => {
+
+document.addEventListener('alpine:init', function () {
+  window.Alpine.data('navigation', function () {
+    return {
+      init: function init() {
+        var coords = this.$el.querySelector('.navigation-item').getBoundingClientRect();
+        this.$refs.background.style.setProperty('transform', "translate(".concat(coords.left, "px, ").concat(coords.top, "px"));
+      },
+      open: function open(event) {
+        document.querySelectorAll('.navigation-dropdown').forEach(function (el) {
+          return el.classList.add('hidden', 'opacity-0');
+        });
+        var target = event.target.classList.contains('navigation-item') ? event.target : event.target.closest('.navigation-item');
+        var dropdown = target.querySelector('.navigation-dropdown');
+        var background = this.$refs.background;
+        dropdown.classList.remove('hidden');
+        setTimeout(function () {
+          if (!dropdown.classList.contains('hidden')) {
+            dropdown.classList.remove('opacity-0');
+            dropdown.classList.add('opacity-100');
+          }
+        }, 150);
+        background.classList.remove('opacity-0');
+        background.classList.add('opacity-100');
+        var dropdownCoords = dropdown.getBoundingClientRect();
+        var navCoords = document.querySelector('.navigation-main').getBoundingClientRect();
+        var coords = {
+          height: dropdownCoords.height,
+          width: dropdownCoords.width,
+          top: dropdownCoords.top - navCoords.top,
+          left: dropdownCoords.left - navCoords.left
+        };
+        background.style.setProperty('width', "".concat(coords.width, "px"));
+        background.style.setProperty('height', "".concat(coords.height, "px"));
+        background.style.setProperty('transform', "translate(".concat(coords.left, "px, ").concat(coords.top, "px"));
+      },
+      close: function close(event) {
+        document.querySelectorAll('.navigation-dropdown').forEach(function (el) {
+          el.classList.remove('block', 'opacity-100');
+          el.classList.add('hidden', 'opacity-0');
+        });
+        this.$refs.background.classList.add('opacity-0');
+        this.$refs.background.classList.remove('opacity-100');
+      }
+    };
+  });
+});
 
 /***/ }),
 

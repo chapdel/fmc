@@ -1,4 +1,4 @@
-<x-mailcoach::layout-main :title="__('mailcoach - Debug')">
+<x-mailcoach::layout :title="__('mailcoach - Debug')">
 
 @php($issueBody = "## Describe your issue\n\n\n\n---\n## Health check:\n\n")
 <div class="form-grid">
@@ -236,4 +236,4 @@
         </a>
     </x-mailcoach::fieldset>
 </div>
-</x-mailcoach::layout-main>
+</x-mailcoach::layout>

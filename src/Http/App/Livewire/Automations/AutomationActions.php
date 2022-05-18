@@ -87,6 +87,7 @@ class AutomationActions extends Component
         return view('mailcoach::app.automations.actions')
             ->layout('mailcoach::app.automations.layouts.automation', [
                 'automation' => $this->automation,
+                'title' => __('mailcoach - Actions'),
             ]);
     }
 

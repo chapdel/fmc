@@ -161,6 +161,7 @@
     "mailcoach - Delete": "Delete",
     "mailcoach - Delivery failed for": "Delivery failed for",
     "mailcoach - Delivery": "Delivery",
+    "mailcoach - Details": "Details",
     "mailcoach - Displaying :count of :totalCount :resource": "Displaying :count of :totalCount :resource",
     "mailcoach - Do not send a welcome mail": "Do not send a welcome mail",
     "mailcoach - Do you want to stay subscribed to our email list **:emailListName**?": "Do you want to stay subscribed to our email list **:emailListName**?",

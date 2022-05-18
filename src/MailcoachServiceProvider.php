@@ -145,6 +145,7 @@ use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateS
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\IndexComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\QueryStringComposer;
+use Spatie\Navigation\Helpers\ActiveUrlChecker;
 use Spatie\QueryString\QueryString;
 
 class MailcoachServiceProvider extends PackageServiceProvider
@@ -187,6 +188,10 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
         $this->app->singleton(Version::class, function () {
             return new Version();
+        });
+
+        $this->app->scoped(MainNavigation::class, function () {
+            return new MainNavigation(app(ActiveUrlChecker::class));
         });
 
         $this->app->scoped(SimpleThrottle::class, function () {
@@ -359,6 +364,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.components.healthLabel', 'mailcoach::health-label');
         Blade::component('mailcoach::app.components.roundedIcon', 'mailcoach::rounded-icon');
 
+        Blade::component('mailcoach::app.components.navigation.main', 'mailcoach::main-navigation');
         Blade::component('mailcoach::app.components.navigation.root', 'mailcoach::navigation');
         Blade::component('mailcoach::app.components.navigation.item', 'mailcoach::navigation-item');
         Blade::component('mailcoach::app.components.navigation.group', 'mailcoach::navigation-group');
@@ -386,7 +392,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.components.dropdown', 'mailcoach::dropdown');
 
         Blade::component('mailcoach::app.layouts.app', 'mailcoach::layout');
-        Blade::component('mailcoach::app.layouts.main', 'mailcoach::layout-main');
         Blade::component('mailcoach::app.automations.layouts.automation', 'mailcoach::layout-automation');
         Blade::component('mailcoach::app.campaigns.layouts.campaign', 'mailcoach::layout-campaign');
         Blade::component('mailcoach::app.emailLists.layouts.emailList', 'mailcoach::layout-list');
@@ -537,7 +542,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         return $this;
     }
 
-    protected function bootSpotlight()
+    protected function bootSpotlight(): self
     {
         // Index commands
         Spotlight::registerCommand(AutomationsCommand::class);
@@ -564,5 +569,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Spotlight::registerCommand(CreateListCommand::class);
         Spotlight::registerCommand(CreateTemplateCommand::class);
         Spotlight::registerCommand(CreateTransactionalTemplateCommand::class);
+
+        return $this;
     }
 }

@@ -14,37 +14,19 @@
 @screen lg {
     .card-split {
         @apply grid;
-        grid-template-areas:        
-            'card-nav card-main';
-        grid-template-columns: 16rem 1fr;
+        grid-template-areas: 'card-nav card-main';
+        grid-template-columns: 14rem 1fr;
         grid-template-rows: 1fr;
     }
-}
-
-.card-nav {
-    grid-area: card-nav;
-    @apply flex;
-    @apply flex-col;
-    @apply bg-gradient-to-b;
-    @apply from-blue-800;
-    @apply to-blue-900;
-    @apply w-full;
-    @apply z-50;
 }
 
 .card-nav .navigation {
     @apply hidden;
 }
 
-@screen lg {
-    .card-nav .navigation {
-        @apply grid;
-    }
-}
-
 .card-main {
     grid-area: card-main;
     @apply px-8;
-    @apply lg:px-16;
-    @apply py-12;
+    @apply lg:px-10;
+    @apply py-8;
 }

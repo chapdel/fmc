@@ -15,7 +15,7 @@
 
         <x-mailcoach::text-field :label="__('mailcoach - Subject')" name="template.subject" wire:model.lazy="template.subject" required/>
 
-        {!! app(config('mailcoach.transactional.editor'))->render($template) !!}
+        @livewire(\Livewire\Livewire::getAlias(config('mailcoach.template_editor')), ['model' => $template])
     </form>
 
     <x-mailcoach::preview-modal :title="__('mailcoach - Preview') . ' - ' . $template->subject" :html="$template->body"/>

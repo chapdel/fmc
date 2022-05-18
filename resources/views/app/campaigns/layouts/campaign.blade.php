@@ -4,9 +4,9 @@
     :title="$title ?? null"
 >
     <x-slot name="nav">
-        <x-mailcoach::navigation :title="$campaign->name" :backHref="route('mailcoach.campaigns')" :backLabel="__('mailcoach - Campaigns')">
+        <x-mailcoach::navigation :title="$campaign->name">
             @if ($campaign->isSendingOrSent() || $campaign->isCancelled())
-            <x-mailcoach::navigation-group icon="fas fa-chart-line" :title="__('mailcoach - Performance')">
+                <x-mailcoach::navigation-group icon="fas fa-chart-line" :title="__('mailcoach - Performance')">
                     <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.summary', $campaign)" data-dirty-warn>
                         {{ __('mailcoach - Summary') }}
                     </x-mailcoach::navigation-item>
@@ -23,8 +23,7 @@
                     <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.outbox', $campaign)" data-dirty-warn>
                         {{ __('mailcoach - Outbox') }}
                     </x-mailcoach::navigation-item>
-
-            </x-mailcoach::navigation-group>
+                </x-mailcoach::navigation-group>
             @endif
 
             <x-mailcoach::navigation-group icon="far fa-envelope-open" :title="__('mailcoach - Campaign')">

@@ -14,9 +14,8 @@
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
         @foreach (\Spatie\Mailcoach\Mailcoach::availableEditorStyles() as $editor => $styles)
             @continue(! in_array($editor, [
-                config('mailcoach.campaigns.editor'),
-                config('mailcoach.automation.editor'),
-                config('mailcoach.transactional.editor'),
+                config('mailcoach.content_editor'),
+                config('mailcoach.template_editor'),
             ]))
             @foreach ($styles as $style)
                 <link rel="stylesheet" href="{{ $style }}">
@@ -47,29 +46,57 @@
     <body class="bg-gray-100" x-data="{ confirmText: '', onConfirm: null }">
         <script>/**/</script><!-- Empty script to prevent FOUC in Firefox -->
 
+
         <main id="swup">
-            <div class="mx-auto grid w-full max-w-layout min-h-screen p-6 z-auto" style="grid-template-rows: auto 1fr auto">
+            <div class="mx-auto grid w-full max-w-layout min-h-screen p-6 z-auto" style="grid-template-rows: auto auto 2fr auto">
                 <aside>
                     @include('mailcoach::app.layouts.partials.startBody')
 
-                        @if ((new Spatie\Mailcoach\Domain\Shared\Support\License\License())->hasExpired())
+                    @if ((new Spatie\Mailcoach\Domain\Shared\Support\License\License())->hasExpired())
                         <div class="mb-6 alert alert-warning text-sm shadow-lg">
                             Your Mailcoach license has expired. <a class="underline" href="https://spatie.be/products/mailcoach">Renew your license</a> and benefit from fixes and new features.
                         </div>
-                        @endif
+                    @endif
 
+                    @include('mailcoach::app.layouts.partials.flash')
                 </aside>
 
-                <div>
-                    @include('mailcoach::app.layouts.partials.flash')
+                <header class="">
+                    <nav class="shadow-lg rounded bg-gradient-to-r from-blue-800 via-blue-800 to-blue-900 w-full">
+                        <x-mailcoach::main-navigation />
+                    </nav>
 
-                    <div class="h-full card card-split">
-                        <nav class="card-nav">
-                            {{ $nav ?? '' }}
-                        </nav>
+                    <div class="h-12 flex items-center gap-x-4 px-4 text-gray-700 text-sm">
+                        <a class="font-semibold" href="{{ route('mailcoach.home') }}"><i class="fa fa-home"></i></a>
+                        <span>&gt;</span>
+                        @foreach (app(\Spatie\Mailcoach\MainNavigation::class)->breadcrumbs() as $breadcrumb)
+                            <a class="font-semibold" href="{{ $breadcrumb['url'] }}">{{ $breadcrumb['title'] }}</a>
+                            @if (! $loop->last)
+                                <span>&gt;</span>
+                            @endif
+                        @endforeach
+                        @if (($title ?? '') !== $breadcrumb['title'])
+                            <span>&gt;</span>
+                            <span>
+                                @if (($originTitle ?? '') && $originTitle !== $title)
+                                    <span class="">{{ $originTitle }}</span>
+                                    <span>&mdash;</span>
+                                @endif
+                                <span class="">{{ $title }}</span>
+                            </span>
+                        @endif
+                    </div>
+                </header>
+
+                <div>
+                    <div class="h-full card {{ $nav ?? '' ? 'card-split': '' }}">
+                        @isset($nav)
+                            <nav class="bg-blue-50/70">
+                                {{ $nav }}
+                            </nav>
+                        @endisset
 
                         <main class="card-main">
-
                             <h1 class="markup-h1">
                                 @isset($originTitle)
                                     <div class="markup-h1-sub">
@@ -117,9 +144,8 @@
         @livewire('livewire-ui-spotlight')
         @foreach (\Spatie\Mailcoach\Mailcoach::availableEditorScripts() as $editor => $scripts)
             @continue(! in_array($editor, [
-                config('mailcoach.campaigns.editor'),
-                config('mailcoach.automation.editor'),
-                config('mailcoach.transactional.editor'),
+                config('mailcoach.content_editor'),
+                config('mailcoach.template_editor'),
             ]))
             @foreach ($scripts as $script)
                 <script type="text/javascript" src="{{ $script }}" defer></script>

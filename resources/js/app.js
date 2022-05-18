@@ -9,6 +9,7 @@ require('./components/dirty');
 require('./components/htmlPreview');
 require('./components/charts/emailListStatistics');
 require('./components/charts/campaignStatistics');
+require('./components/navigation');
 
 Alpine.plugin(focus);
 
