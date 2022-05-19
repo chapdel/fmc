@@ -4372,6 +4372,8 @@ __webpack_require__(/*! ./components/charts/emailListStatistics */ "./resources/
 
 __webpack_require__(/*! ./components/charts/campaignStatistics */ "./resources/js/components/charts/campaignStatistics.js");
 
+__webpack_require__(/*! ./components/charts/dashboardChart */ "./resources/js/components/charts/dashboardChart.js");
+
 __webpack_require__(/*! ./components/navigation */ "./resources/js/components/navigation.js");
 
 alpinejs__WEBPACK_IMPORTED_MODULE_3__["default"].plugin(_alpinejs_focus__WEBPACK_IMPORTED_MODULE_4__["default"]);
@@ -4489,6 +4491,149 @@ document.addEventListener('alpine:init', function () {
                 ticks: {
                   fontColor: "rgba(30, 64, 175, 1)"
                 },
+                grid: {
+                  display: false
+                }
+              },
+              x: {
+                ticks: {
+                  fontColor: "rgba(30, 64, 175, 1)"
+                },
+                grid: {
+                  borderColor: "rgba(30, 64, 175, .2)",
+                  borderDash: [5, 5],
+                  zeroLineColor: "rgba(30, 64, 175, .2)",
+                  zeroLineBorderDash: [5, 5]
+                }
+              }
+            }
+          }
+        });
+      }
+    };
+  });
+});
+
+/***/ }),
+
+/***/ "./resources/js/components/charts/dashboardChart.js":
+/*!**********************************************************!*\
+  !*** ./resources/js/components/charts/dashboardChart.js ***!
+  \**********************************************************/
+/***/ (() => {
+
+document.addEventListener('alpine:init', function () {
+  Alpine.data('dashboardChart', function () {
+    return {
+      chartData: {},
+      renderChart: function renderChart(chartData) {
+        var _this = this;
+
+        var chart = document.getElementById('chart');
+        this.chartData = chartData;
+        var c = false;
+        Chart.helpers.each(Chart.instances, function (instance) {
+          if (instance.canvas.id === 'chart') {
+            c = instance;
+          }
+        });
+
+        if (c) {
+          c.destroy();
+        }
+
+        new Chart(chart.getContext('2d'), {
+          type: "bar",
+          data: {
+            labels: this.chartData.labels,
+            datasets: [{
+              label: 'Subscribes',
+              backgroundColor: 'rgba(110, 231, 183, 0.3)',
+              borderColor: 'rgba(110, 231, 183, 1)',
+              pointBackgroundColor: 'rgba(110, 231, 183, 1)',
+              borderRadius: 5,
+              data: this.chartData.subscribes,
+              stack: 'stack0',
+              order: 2
+            }, {
+              label: 'Unsubscribes',
+              backgroundColor: 'rgba(244, 63, 94, 0.1)',
+              borderColor: 'rgba(244, 63, 94, 1)',
+              pointBackgroundColor: 'rgba(244, 63, 94, 1)',
+              borderRadius: 5,
+              data: this.chartData.unsubscribes.map(function (val) {
+                return -val;
+              }),
+              stack: 'stack0',
+              order: 1
+            }, {
+              label: 'Subscribers',
+              type: 'line',
+              backgroundColor: 'rgba(30, 64, 175, 0.1)',
+              borderColor: 'rgba(30, 64, 175, 1)',
+              pointBackgroundColor: 'rgba(30, 64, 175, 1)',
+              data: this.chartData.subscribers,
+              yAxisID: 'y1',
+              order: 0
+            }]
+          },
+          options: {
+            maintainAspectRatio: false,
+            responsive: true,
+            barPercentage: .70,
+            interaction: {
+              intersect: false,
+              mode: 'index'
+            },
+            plugins: {
+              zoom: {
+                pan: {
+                  enabled: true,
+                  mode: 'x',
+                  modifierKey: 'ctrl'
+                },
+                zoom: {
+                  drag: {
+                    enabled: true
+                  },
+                  mode: 'x'
+                }
+              },
+              legend: {
+                display: false
+              },
+              tooltip: {
+                backgroundColor: 'rgba(30, 64, 175, 0.8)',
+                titleSpacing: 4,
+                bodySpacing: 4,
+                padding: 8,
+                displayColors: false,
+                callbacks: {
+                  afterBody: function afterBody(tooltips) {
+                    var campaigns = _this.chartData.campaigns[tooltips[0].dataIndex];
+
+                    if (campaigns.length === 0) {
+                      return;
+                    }
+
+                    return "Campaign".concat(campaigns.length > 1 ? 's' : '', ": ").concat(campaigns.map(function (campaign) {
+                      return campaign.name;
+                    }).join(', '));
+                  }
+                }
+              }
+            },
+            scales: {
+              y: {
+                ticks: {
+                  fontColor: "rgba(30, 64, 175, 1)"
+                },
+                grid: {
+                  display: false
+                }
+              },
+              y1: {
+                position: 'right',
                 grid: {
                   display: false
                 }

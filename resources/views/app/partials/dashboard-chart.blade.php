@@ -3,11 +3,12 @@
         <i class="fas fa-users mr-1"></i>
         {{ __('mailcoach - Audience') }}
     </h2>
-    <div x-data="emailListStatisticsChart" x-init="renderChart({
+    <div x-data="dashboardChart" x-init="renderChart({
         labels: @js($stats->pluck('label')->values()->toArray()),
         subscribers: @js($stats->pluck('subscribers')->values()->toArray()),
         subscribes: @js($stats->pluck('subscribes')->values()->toArray()),
         unsubscribes: @js($stats->pluck('unsubscribes')->values()->toArray()),
+        campaigns: @js($stats->pluck('campaigns')->values()->toArray()),
     })">
         <canvas id="chart" style="position: relative; max-height:300px; width:100%; max-width: 100%;"></canvas>
     </div>

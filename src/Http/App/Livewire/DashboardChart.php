@@ -5,10 +5,13 @@ namespace Spatie\Mailcoach\Http\App\Livewire;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Carbon\CarbonPeriod;
+use Illuminate\Database\MySqlConnection;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class DashboardChart extends Component
@@ -62,7 +65,8 @@ class DashboardChart extends Component
 
     protected function createStats(): Collection
     {
-        $subscriberTable = $this->getSubscriberTableName() . ' USE INDEX (email_list_subscribed_index)';
+        $prefix = DB::getTablePrefix();
+        $subscriberTable = $prefix . self::getSubscriberTableName() . (DB::connection() instanceof MySqlConnection ? ' USE INDEX (email_list_subscribed_index)' : '');
 
         $start = Date::parse($this->start)->startOfDay();
         $end = Date::parse($this->end)->endOfDay();
@@ -87,6 +91,7 @@ class DashboardChart extends Component
         $subscribers = collect($subscribes)->map(function ($result) use (&$subscriberTotal, $unsubscribes) {
             $subscriberTotal += $result->subscribed_count;
             $unsubscribeCount = $unsubscribes->where('unsubscribe_day', $result->subscribed_day)->first();
+            $subscriberTotal -= (optional($unsubscribeCount)->unsubscribe_count ?? 0);
 
             return [
                 'label' => Carbon::createFromFormat('Y-m-d', $result->subscribed_day)->startOfDay()->format('M d'),
@@ -96,12 +101,20 @@ class DashboardChart extends Component
             ];
         });
 
-        $lastStats = [];
+        $campaigns = self::getCampaignClass()::query()
+            ->whereBetween('sent_at', [$start, $end])
+            ->where('status', CampaignStatus::SENT)
+            ->select(['id', 'name', 'sent_at'])
+            ->get();
 
+        $lastStats = [];
         return collect(CarbonPeriod::create($start, '1 day', $end))->map(function (CarbonInterface $day) use (
+            $campaigns,
             $subscribers,
             &$lastStats
         ) {
+            $day = $day->toImmutable();
+
             $label = $day->startOfDay()->format('M d');
 
             $stats = $subscribers->firstWhere('label', $label);
@@ -110,11 +123,18 @@ class DashboardChart extends Component
                 $lastStats = $stats;
             }
 
-            return $subscribers->firstWhere('label', $label) ?: [
+            $subscribers = $subscribers->firstWhere('label', $label) ?: [
                 'label' => $label,
                 'subscribers' => $lastStats['subscribers'] ?? 0,
                 'unsubscribes' => $lastStats['unsubscribes'] ?? 0,
             ];
+
+            $subscribers['campaigns'] = $campaigns
+                ->whereBetween('sent_at', [$day->startOfDay(), $day->endOfDay()])
+                ->map(fn (Campaign $campaign) => ['id' => $campaign->id, 'name' => $campaign->name, 'sent_at' => $campaign->sent_at->format('M d')])
+                ->toArray();
+
+            return $subscribers;
         });
     }
 }
