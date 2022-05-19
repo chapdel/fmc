@@ -24,7 +24,7 @@
 
             @foreach (app(\Spatie\Mailcoach\MainNavigation::class)->tree() as $index => $item)
                 <div
-                    class="navigation-item group relative py-4 md:py-8 px-4 md:px-6 cursor-pointer"
+                    class="navigation-item group relative cursor-pointer"
                     @if(count($item['children']))
                         x-on:mouseenter="open"
                         x-on:mouseleave="close"
@@ -33,10 +33,12 @@
                         x-on:keyup.escape.window="close"
                     @endif
                 >
-                    <h3 class="group-hover:text-white {{ $item['active'] ? 'text-white' : 'text-blue-100' }} uppercase text-xs font-semibold tracking-wider"><a href="{{ $item['url'] }}">{{ $item['title'] }}</a></h3>
+                    <a class="inline-block py-4 md:py-8 px-4 md:px-6" href="{{ $item['url'] }}">
+                        <h3 class="group-hover:text-white {{ $item['active'] ? 'text-white' : 'text-blue-100' }} uppercase text-xs font-semibold tracking-wider">{{ $item['title'] }}</h3>
+                    </a>
                     @if (count($item['children']))
                         <!-- md:block md:opacity-100 -->
-                        <div class="navigation-dropdown md:hidden md:opacity-0 md:absolute md:left-1/2 md:-translate-x-1/2 md:translate-y-4 overflow-hidden py-3 rounded transition-opacity duration-200 z-50 min-w-32 will-change-auto">
+                        <div class="navigation-dropdown md:hidden md:opacity-0 md:absolute md:left-1/2 md:-translate-x-1/2 overflow-hidden py-3 rounded transition-opacity duration-200 z-50 min-w-32 will-change-auto">
                             @foreach ($item['children'] as $child)
                                 <a class="navigation-link block w-full py-2 md:hover:bg-blue-100 px-4 text-blue-100 md:text-black" href="{{ $child['url'] }}">{{ $child['title'] }}</a>
                             @endforeach
