@@ -1,8 +1,14 @@
 document.addEventListener('alpine:init', () => {
     window.Alpine.data('navigation', () => ({
+        show: true,
+
         init() {
             const coords = this.$el.querySelector('.navigation-item').getBoundingClientRect();
             this.$refs.background.style.setProperty('transform', `translate(${coords.left}px, ${coords.top}px`);
+
+            if (window.innerWidth < 768) {
+                this.show = false;
+            }
         },
 
         open(event) {
@@ -10,9 +16,13 @@ document.addEventListener('alpine:init', () => {
                 return;
             }
 
+            if (window.innerWidth < 768) {
+                return;
+            }
+
             event.preventDefault();
 
-            document.querySelectorAll('.navigation-dropdown').forEach((el) => el.classList.add('hidden', 'opacity-0'));
+            document.querySelectorAll('.navigation-dropdown').forEach((el) => el.classList.add('md:hidden', 'md:opacity-0'));
 
             const target = event.target.classList.contains('navigation-item')
                 ? event.target
@@ -21,17 +31,17 @@ document.addEventListener('alpine:init', () => {
             const dropdown = target.querySelector('.navigation-dropdown');
             const background = this.$refs.background;
 
-            dropdown.classList.remove('hidden');
+            dropdown.classList.remove('md:hidden');
 
             setTimeout(() => {
-                if(! dropdown.classList.contains('hidden')) {
-                    dropdown.classList.remove('opacity-0');
-                    dropdown.classList.add('opacity-100');
+                if(! dropdown.classList.contains('md:hidden')) {
+                    dropdown.classList.remove('md:opacity-0');
+                    dropdown.classList.add('md:opacity-100');
                 }
             }, 150);
 
-            background.classList.remove('opacity-0');
-            background.classList.add('opacity-100');
+            background.classList.remove('md:opacity-0');
+            background.classList.add('md:opacity-100');
 
             const dropdownCoords = dropdown.getBoundingClientRect();
             const navCoords = document.querySelector('.navigation-main').getBoundingClientRect();
@@ -49,13 +59,17 @@ document.addEventListener('alpine:init', () => {
         },
 
         close(event) {
+            if (window.innerWidth < 768) {
+                return;
+            }
+
             document.querySelectorAll('.navigation-dropdown').forEach((el) => {
-                el.classList.remove('block', 'opacity-100');
-                el.classList.add('hidden', 'opacity-0');
+                el.classList.remove('md:block', 'md:opacity-100');
+                el.classList.add('md:hidden', 'md:opacity-0');
             });
 
-            this.$refs.background.classList.add('opacity-0');
-            this.$refs.background.classList.remove('opacity-100');
+            this.$refs.background.classList.add('md:opacity-0');
+            this.$refs.background.classList.remove('md:opacity-100');
         }
     }));
 });

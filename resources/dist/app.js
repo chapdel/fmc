@@ -4719,31 +4719,40 @@ document.addEventListener('turbo:load', updateHtmlPreview);
 document.addEventListener('alpine:init', function () {
   window.Alpine.data('navigation', function () {
     return {
+      show: true,
       init: function init() {
         var coords = this.$el.querySelector('.navigation-item').getBoundingClientRect();
         this.$refs.background.style.setProperty('transform', "translate(".concat(coords.left, "px, ").concat(coords.top, "px"));
+
+        if (window.innerWidth < 768) {
+          this.show = false;
+        }
       },
       open: function open(event) {
         if (event.target.classList.contains('navigation-link')) {
           return;
         }
 
+        if (window.innerWidth < 768) {
+          return;
+        }
+
         event.preventDefault();
         document.querySelectorAll('.navigation-dropdown').forEach(function (el) {
-          return el.classList.add('hidden', 'opacity-0');
+          return el.classList.add('md:hidden', 'md:opacity-0');
         });
         var target = event.target.classList.contains('navigation-item') ? event.target : event.target.closest('.navigation-item');
         var dropdown = target.querySelector('.navigation-dropdown');
         var background = this.$refs.background;
-        dropdown.classList.remove('hidden');
+        dropdown.classList.remove('md:hidden');
         setTimeout(function () {
-          if (!dropdown.classList.contains('hidden')) {
-            dropdown.classList.remove('opacity-0');
-            dropdown.classList.add('opacity-100');
+          if (!dropdown.classList.contains('md:hidden')) {
+            dropdown.classList.remove('md:opacity-0');
+            dropdown.classList.add('md:opacity-100');
           }
         }, 150);
-        background.classList.remove('opacity-0');
-        background.classList.add('opacity-100');
+        background.classList.remove('md:opacity-0');
+        background.classList.add('md:opacity-100');
         var dropdownCoords = dropdown.getBoundingClientRect();
         var navCoords = document.querySelector('.navigation-main').getBoundingClientRect();
         var coords = {
@@ -4757,12 +4766,16 @@ document.addEventListener('alpine:init', function () {
         background.style.setProperty('transform', "translate(".concat(coords.left, "px, ").concat(coords.top, "px"));
       },
       close: function close(event) {
+        if (window.innerWidth < 768) {
+          return;
+        }
+
         document.querySelectorAll('.navigation-dropdown').forEach(function (el) {
-          el.classList.remove('block', 'opacity-100');
-          el.classList.add('hidden', 'opacity-0');
+          el.classList.remove('md:block', 'md:opacity-100');
+          el.classList.add('md:hidden', 'md:opacity-0');
         });
-        this.$refs.background.classList.add('opacity-0');
-        this.$refs.background.classList.remove('opacity-100');
+        this.$refs.background.classList.add('md:opacity-0');
+        this.$refs.background.classList.remove('md:opacity-100');
       }
     };
   });

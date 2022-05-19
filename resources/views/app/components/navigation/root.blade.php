@@ -1,8 +1,8 @@
 @props([
     'main' => false,
 ])
-<div class="relative z-50 flex items-start sticky top-0" x-data="{ shown: false }" x-init="shown = window.innerWidth > 768">
-    <div class="navigation" :class="[shown ? 'navigation-shown' : '']">
+<div class="navigation relative z-50 flex items-start sticky top-0">
+    <div class="flex flex-wrap lg:grid lg:grid-cols-1 gap-6 content-start sticky top-0 px-12 py-8">
         @isset($title)
             @php
                 $maxLength = 24;

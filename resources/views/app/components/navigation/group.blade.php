@@ -11,7 +11,7 @@
             {{ $titleTruncated ?? '' }}
         </h3>
     @endisset
-    <div>
+    <div class="flex items-center md:items-start gap-x-4 md:flex-col list-none">
         {{ $slot }}
     </div>
 </div>
