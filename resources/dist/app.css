@@ -925,21 +925,24 @@ code.markup-code, .markup-code code{
   padding-left: 1.5rem;
   padding-right: 1.5rem;
   height: 2.5rem;
-  background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
+  background-image: linear-gradient(to right, var(--tw-gradient-stops));
   --tw-gradient-from: #3b82f6;
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(59 130 246 / 0));
-  --tw-gradient-to: #2563eb;
+  --tw-gradient-stops: var(--tw-gradient-from), #2563eb, var(--tw-gradient-to, rgb(37 99 235 / 0));
+  --tw-gradient-to: #1d4ed8;
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-  border-width: 1px;
-  border-color: transparent;
   white-space: nowrap;
   border-radius: 0.25rem;
   --tw-shadow: 0 2px 2px #e5e3e1;
   --tw-shadow-colored: 0 2px 2px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
   font-weight: 600;
-    transition: background-color 0.15s ease;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+  background-size: 200% 200%;
+  background-position: 0% 0%;
 }
 
 .button:disabled{
@@ -948,10 +951,7 @@ code.markup-code, .markup-code code{
 }
 
 .button:not(:disabled):hover, .button:not(:disabled):focus, .button.dropdown-trigger-open{
-  background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
-  --tw-gradient-from: #2563eb;
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(37 99 235 / 0));
-  --tw-gradient-to: #1d4ed8;
+  background-position: 100% 100%;
 }
 
 .button:not(:disabled):active{
@@ -1292,8 +1292,8 @@ code.markup-code, .markup-code code{
     font-size: 10px;
     font-variant-numeric: tabular-nums;
     padding: 0 0.35rem;
-    background-color: rgb(191 219 254 / var(--tw-bg-opacity));
-    --tw-bg-opacity: 0.75;
+    --tw-bg-opacity: 1;
+    background-color: rgb(219 234 254 / var(--tw-bg-opacity));
     --tw-text-opacity: 1;
     color: rgb(30 64 175 / var(--tw-text-opacity));
     --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
@@ -1302,8 +1302,10 @@ code.markup-code, .markup-code code{
 }
 
 .tabs .active .counter, .navigation .counter, .filters .filter-active .counter{
-  --tw-bg-opacity: 1;
-  background-color: rgb(59 130 246 / var(--tw-bg-opacity));
+  background-image: linear-gradient(to right, var(--tw-gradient-stops));
+  --tw-gradient-from: #60a5fa;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(96 165 250 / 0));
+  --tw-gradient-to: #3b82f6;
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
@@ -4587,6 +4589,10 @@ span.flatpickr-weekday{
   margin-right: -2rem;
 }
 
+.-mt-6{
+  margin-top: -1.5rem;
+}
+
 .block{
   display: block;
 }
@@ -5993,19 +5999,14 @@ span.flatpickr-weekday{
     padding-bottom: 0px;
   }
 
-  .md\:py-8{
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+  .md\:py-6{
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
   }
 
   .md\:px-6{
     padding-left: 1.5rem;
     padding-right: 1.5rem;
-  }
-
-  .md\:py-6{
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
   }
 
   .md\:pl-0{

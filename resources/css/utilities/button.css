@@ -1,17 +1,19 @@
 .button {
     @apply px-6;
     @apply h-10;
-    @apply bg-gradient-to-b; 
+    @apply bg-gradient-to-r;
     @apply from-blue-500;
-    @apply to-blue-600;
+    @apply via-blue-600;
+    @apply to-blue-700;
     @apply text-white;
-    @apply border;
-    @apply border-transparent;
     @apply whitespace-nowrap;
     @apply rounded;
     @apply shadow-focus;
     @apply font-semibold;
-    transition: background-color 0.15s ease;
+    @apply transition-all;
+    @apply duration-300;
+    @apply bg-size-200;
+    @apply bg-pos-0;
 }
 
 .button:disabled {
@@ -22,9 +24,7 @@
 .button:not(:disabled):hover,
 .button:not(:disabled):focus,
 .button.dropdown-trigger-open {
-    @apply bg-gradient-to-b; 
-    @apply from-blue-600;
-    @apply to-blue-700;
+    @apply bg-pos-100
 }
 
 .button:not(:disabled):active {

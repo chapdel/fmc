@@ -55,6 +55,13 @@ module.exports = {
             maxWidth: {
                 layout: '110rem',
             },
+            backgroundSize: {
+                'size-200': '200% 200%',
+            },
+            backgroundPosition: {
+                'pos-0': '0% 0%',
+                'pos-100': '100% 100%',
+            },
         },
     },
     corePlugins: {

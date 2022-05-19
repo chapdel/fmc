@@ -62,9 +62,7 @@
                 </aside>
 
                 <header class="">
-                    <nav class="shadow-lg rounded bg-gradient-to-r from-blue-800 via-blue-800 to-blue-900 w-full">
-                        <x-mailcoach::main-navigation />
-                    </nav>
+                    <x-mailcoach::main-navigation />
 
                     <div class="h-12 flex items-center gap-x-4 px-4 text-gray-700 text-sm">
                         <a class="font-semibold" href="{{ route(config('mailcoach.redirect_home')) }}"><i class="fa fa-home"></i></a>

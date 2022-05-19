@@ -1,4 +1,4 @@
-<nav class="navigation-main relative" x-data="navigation">
+<nav class="shadow-lg rounded bg-gradient-to-r from-blue-800 via-blue-800 to-blue-900 w-full navigation-main relative" x-data="navigation">
     <div x-ref="background" class="pointer-events-none select-none navigation-main-background w-16 h-16 absolute bg-white rounded shadow-xl flex justify-center opacity-0 z-40" style="transition: all 0.3s, opacity 0.1s, transform 0.2s">
         <div class="absolute w-4 h-4 bg-white -translate-y-1/2 rotate-45"></div>
     </div>
