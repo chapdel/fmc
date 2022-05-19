@@ -33,7 +33,7 @@
                         x-on:keyup.escape.window="close"
                     @endif
                 >
-                    <a class="inline-block py-4 md:py-8 px-4 md:px-6" href="{{ $item['url'] }}">
+                    <a class="inline-block py-4 md:py-6 px-4 md:px-6" href="{{ $item['url'] }}">
                         <h3 class="group-hover:text-white {{ $item['active'] ? 'text-white' : 'text-blue-100' }} uppercase text-xs font-semibold tracking-wider">{{ $item['title'] }}</h3>
                     </a>
                     @if (count($item['children']))
