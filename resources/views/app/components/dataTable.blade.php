@@ -99,7 +99,7 @@
                     {{ $empty }}
                 @else
                     @php($plural = \Illuminate\Support\Str::plural($name))
-                    @if ($this->filter['search'] ?? null)
+                    @if ($this->search ?? null)
                         <x-mailcoach::help>
                             {{ __("mailcoach - No {$plural} found.") }}
                         </x-mailcoach::help>
