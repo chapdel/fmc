@@ -1,16 +1,21 @@
 document.addEventListener('alpine:init', () => {
     window.Alpine.data('navigation', () => ({
         show: true,
+        hasOpened: false,
 
         init() {
             this.$nextTick(() => {
+                if (this.hasOpened) {
+                    return;
+                }
+
                 const coords = this.$el.querySelector('.navigation-dropdown').closest('.navigation-item').getBoundingClientRect();
                 this.$refs.background.style.setProperty('transform', `translate(${coords.left}px, ${coords.top}px`);
+            });
 
-                if (window.innerWidth < 768) {
-                    this.show = false;
-                }
-            })
+            if (window.innerWidth < 768) {
+                this.show = false;
+            }
         },
 
         open(event) {
@@ -58,6 +63,8 @@ document.addEventListener('alpine:init', () => {
             background.style.setProperty('width', `${coords.width}px`);
             background.style.setProperty('height', `${coords.height}px`);
             background.style.setProperty('transform', `translate(${coords.left}px, ${coords.top}px`);
+
+            this.hasOpened = true;
         },
 
         close(event) {
