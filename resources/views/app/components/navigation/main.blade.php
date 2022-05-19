@@ -25,7 +25,7 @@
             @foreach (app(\Spatie\Mailcoach\MainNavigation::class)->tree() as $index => $item)
                 <div
                     class="navigation-item group relative cursor-pointer"
-                    @if(count($item['children']))
+                    @if(count($item['children']) && $item['title'] !== __('mailcoach - Audience'))
                         x-on:mouseenter="open"
                         x-on:mouseleave="close"
                         x-on:touchstart="open"
@@ -36,7 +36,7 @@
                     <a class="inline-block py-4 md:py-6 px-4 md:px-6" href="{{ $item['url'] }}">
                         <h3 class="group-hover:text-white {{ $item['active'] ? 'text-white' : 'text-blue-100' }} uppercase text-xs font-semibold tracking-wider">{{ $item['title'] }}</h3>
                     </a>
-                    @if (count($item['children']))
+                    @if (count($item['children']) && $item['title'] !== __('mailcoach - Audience'))
                         <!-- md:block md:opacity-100 -->
                         <div class="navigation-dropdown md:hidden md:opacity-0 md:absolute md:left-1/2 md:-translate-x-1/2 overflow-hidden py-3 rounded transition-opacity duration-200 z-50 min-w-32 will-change-auto">
                             @foreach ($item['children'] as $child)

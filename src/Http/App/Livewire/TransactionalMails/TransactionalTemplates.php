@@ -38,7 +38,7 @@ class TransactionalTemplates extends DataTable
 
     public function getTitle(): string
     {
-        return __('mailcoach - Transactional log');
+        return __('mailcoach - Templates');
     }
 
     public function getView(): string

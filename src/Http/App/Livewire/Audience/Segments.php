@@ -7,6 +7,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\SegmentsQuery;
+use Spatie\Mailcoach\MainNavigation;
 
 class Segments extends DataTable
 {
@@ -15,6 +16,8 @@ class Segments extends DataTable
     public function mount(EmailList $emailList)
     {
         $this->emailList = $emailList;
+
+        app(MainNavigation::class)->activeSection()->add($this->emailList->name, route('mailcoach.emailLists.segments', $this->emailList));
     }
 
     public function duplicateSegment(int $id)

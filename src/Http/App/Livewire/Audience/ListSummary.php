@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\MainNavigation;
 
 class ListSummary extends Component
 {
@@ -43,6 +44,8 @@ class ListSummary extends Component
 
         $this->totalSubscriptionsCount = $this->emailList->subscribers()->count();
         $this->totalUnsubscribeCount = $this->emailList->allSubscribers()->unsubscribed()->count();
+
+        app(MainNavigation::class)->activeSection()->add($this->emailList->name, route('mailcoach.emailLists.summary', $this->emailList));
     }
 
     public function updatedStart($newStart)

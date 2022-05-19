@@ -10,6 +10,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\EmailListSubscribersQuery;
 use Spatie\Mailcoach\Mailcoach;
+use Spatie\Mailcoach\MainNavigation;
 
 class Subscribers extends DataTable
 {
@@ -24,6 +25,8 @@ class Subscribers extends DataTable
     public function mount(EmailList $emailList)
     {
         $this->emailList = $emailList;
+
+        app(MainNavigation::class)->activeSection()->add($this->emailList->name, route('mailcoach.emailLists.subscribers', $this->emailList));
     }
 
     public function deleteSubscriber(int $id)

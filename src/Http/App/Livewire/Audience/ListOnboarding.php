@@ -8,6 +8,7 @@ use Livewire\Component;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
+use Spatie\Mailcoach\MainNavigation;
 
 class ListOnboarding extends Component
 {
@@ -93,6 +94,8 @@ class ListOnboarding extends Component
     {
         $this->emailList = $emailList->load(['tags', 'allowedFormSubscriptionTags']);
         $this->allowed_form_subscription_tags = $this->emailList->allowedFormSubscriptionTags->pluck('name')->toArray();
+
+        app(MainNavigation::class)->activeSection()->add($this->emailList->name, route('mailcoach.emailLists.onboarding', $this->emailList));
     }
 
     public function save()
@@ -115,7 +118,7 @@ class ListOnboarding extends Component
 
         return view('mailcoach::app.emailLists.settings.onboarding')
             ->layout('mailcoach::app.emailLists.layouts.emailList', [
-                'title' => __('mailcoach - Onboarding'),
+                'title' => __('mailcoach - Settings') . ' — ' . __('mailcoach - Onboarding'),
                 'emailList' => $this->emailList,
             ]);
     }

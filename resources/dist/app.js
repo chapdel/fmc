@@ -4726,8 +4726,6 @@ document.addEventListener('alpine:init', function () {
         this.$nextTick(function () {
           var coords = _this.$el.querySelector('.navigation-dropdown').closest('.navigation-item').getBoundingClientRect();
 
-          console.log(coords);
-
           _this.$refs.background.style.setProperty('transform', "translate(".concat(coords.left, "px, ").concat(coords.top, "px"));
 
           if (window.innerWidth < 768) {

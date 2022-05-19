@@ -5,7 +5,6 @@ document.addEventListener('alpine:init', () => {
         init() {
             this.$nextTick(() => {
                 const coords = this.$el.querySelector('.navigation-dropdown').closest('.navigation-item').getBoundingClientRect();
-                console.log(coords);
                 this.$refs.background.style.setProperty('transform', `translate(${coords.left}px, ${coords.top}px`);
 
                 if (window.innerWidth < 768) {

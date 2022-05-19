@@ -4,25 +4,22 @@
     :title="$title ?? null"
 >
     <x-slot name="nav">
-        <x-mailcoach::navigation :title="$automation->name" :backHref="route('mailcoach.automations')" :backLabel="__('mailcoach - Automations')">
-            <x-mailcoach::navigation-group icon="fas fa-magic" :title="__('mailcoach - Automation')">
-                <x-mailcoach::navigation-item :href="route('mailcoach.automations.settings', $automation)" data-dirty-warn>
-                    {{ __('mailcoach - Settings') }}
-                </x-mailcoach::navigation-item>
-                <x-mailcoach::navigation-item :href="route('mailcoach.automations.actions', $automation)" data-dirty-warn>
-                    {{ __('mailcoach - Actions') }}
-                </x-mailcoach::navigation-item>
-                <x-mailcoach::navigation-item
-                    x-data="{ running: {{ $automation->status === \Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus::STARTED ? 'true' : 'false' }} }"
-                    @automation-started.window="running = true"
-                    @automation-paused.window="running = false"
-                    :href="route('mailcoach.automations.run', $automation)"
-                    data-dirty-warn
-                >
-                    {{ __('mailcoach - Run')}} <i class="ml-2 opacity-50" :class="[running ? 'fas fa-spin fa-sync ' : 'fa fa-pause']"></i>
-                </x-mailcoach::navigation-item>
-            </x-mailcoach::navigation-group>
-
+        <x-mailcoach::navigation :title="$automation->name">
+            <x-mailcoach::navigation-item :href="route('mailcoach.automations.settings', $automation)" data-dirty-warn>
+                {{ __('mailcoach - Settings') }}
+            </x-mailcoach::navigation-item>
+            <x-mailcoach::navigation-item :href="route('mailcoach.automations.actions', $automation)" data-dirty-warn>
+                {{ __('mailcoach - Actions') }}
+            </x-mailcoach::navigation-item>
+            <x-mailcoach::navigation-item
+                x-data="{ running: {{ $automation->status === \Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus::STARTED ? 'true' : 'false' }} }"
+                @automation-started.window="running = true"
+                @automation-paused.window="running = false"
+                :href="route('mailcoach.automations.run', $automation)"
+                data-dirty-warn
+            >
+                {{ __('mailcoach - Run')}} <i class="ml-2 opacity-50" :class="[running ? 'fas fa-spin fa-sync ' : 'fa fa-pause']"></i>
+            </x-mailcoach::navigation-item>
         </x-mailcoach::navigation>
     </x-slot>
 

@@ -9,6 +9,7 @@ use Livewire\Component;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
+use Spatie\Mailcoach\MainNavigation;
 
 class Segment extends Component
 {
@@ -61,7 +62,7 @@ class Segment extends Component
         $this->negative_tags = $tags;
     }
 
-    public function mount(EmailList $emailList, TagSegment $segment)
+    public function mount(EmailList $emailList, TagSegment $segment, MainNavigation $mainNavigation)
     {
         $this->authorize('update', $emailList);
         $this->authorize('update', $segment);
@@ -73,6 +74,11 @@ class Segment extends Component
         $this->negative_tags = $segment->negativeTags()->pluck('name')->toArray();
         $this->positive_tags_operator = $segment->all_positive_tags_required ? 'all' : 'any';
         $this->negative_tags_operator = $segment->all_negative_tags_required ? 'all' : 'any';
+
+        $mainNavigation->activeSection()
+            ?->add($this->emailList->name, route('mailcoach.emailLists.summary', $this->emailList), function ($section) {
+                $section->add(__('mailcoach - Segments'), route('mailcoach.emailLists.segments', $this->emailList));
+            });
     }
 
     public function save()

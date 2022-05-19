@@ -94,7 +94,7 @@
                 wire:click="clearFilters"
             ></x-mailcoach::table-status>
         @elseif($this->readyToLoad)
-            <div wire:loading.remove>
+            <div class="mt-4" wire:loading.remove>
                 @if(isset($empty))
                     {{ $empty }}
                 @else

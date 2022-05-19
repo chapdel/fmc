@@ -8,6 +8,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\EmailListTagsQuery;
+use Spatie\Mailcoach\MainNavigation;
 
 class Tags extends DataTable
 {
@@ -20,6 +21,11 @@ class Tags extends DataTable
     public function mount(EmailList $emailList)
     {
         $this->emailList = $emailList;
+
+        app(MainNavigation::class)->activeSection()
+            ->add($this->emailList->name, route('mailcoach.emailLists.summary', $this->emailList), function ($section) {
+                $section->add(__('mailcoach - Tags'), route('mailcoach.emailLists.tags', $this->emailList));
+            });
     }
 
     public function deleteTag(int $id)
