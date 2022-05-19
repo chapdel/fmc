@@ -18,6 +18,10 @@ class CampaignSummary extends Component
     public function mount(Campaign $campaign)
     {
         $this->campaign = $campaign;
+
+        if ($campaign->status === CampaignStatus::DRAFT) {
+            return redirect()->route('mailcoach.campaigns.delivery', $campaign);
+        }
     }
 
     public function cancelSending()

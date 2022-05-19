@@ -40,16 +40,9 @@
     @apply text-white;
 }
 
-.alert-success a {
-    text-decoration-color: var(--green-700);
-}
-
 .alert-info {
     @apply bg-blue-50;
-}
-
-.alert-info a {
-    text-decoration-color: var(--gray-700);
+    @apply text-blue-800;
 }
 
 .alert-warning {

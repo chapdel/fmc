@@ -803,19 +803,11 @@ code.markup-code, .markup-code code{
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
-.alert-success a {
-    -webkit-text-decoration-color: var(--green-700);
-            text-decoration-color: var(--green-700);
-}
-
 .alert-info{
   --tw-bg-opacity: 1;
   background-color: rgb(239 246 255 / var(--tw-bg-opacity));
-}
-
-.alert-info a {
-    -webkit-text-decoration-color: var(--gray-700);
-            text-decoration-color: var(--gray-700);
+  --tw-text-opacity: 1;
+  color: rgb(30 64 175 / var(--tw-text-opacity));
 }
 
 .alert-warning{
@@ -5182,11 +5174,6 @@ span.flatpickr-weekday{
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
 }
 
-.bg-red-100{
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 228 230 / var(--tw-bg-opacity));
-}
-
 .bg-orange-100{
   --tw-bg-opacity: 1;
   background-color: rgb(255 237 213 / var(--tw-bg-opacity));
@@ -5296,19 +5283,14 @@ span.flatpickr-weekday{
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(59 130 246 / 0));
 }
 
-.from-blue-800{
-  --tw-gradient-from: #1e40af;
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(30 64 175 / 0));
-}
-
-.from-red-400{
-  --tw-gradient-from: #fb7185;
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(251 113 133 / 0));
-}
-
 .from-red-500{
   --tw-gradient-from: #f43f5e;
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(244 63 94 / 0));
+}
+
+.from-blue-800{
+  --tw-gradient-from: #1e40af;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(30 64 175 / 0));
 }
 
 .via-blue-800{
@@ -5319,16 +5301,12 @@ span.flatpickr-weekday{
   --tw-gradient-to: #2563eb;
 }
 
-.to-blue-900{
-  --tw-gradient-to: #1e3a8a;
-}
-
-.to-red-500{
-  --tw-gradient-to: #f43f5e;
-}
-
 .to-red-600{
   --tw-gradient-to: #e11d48;
+}
+
+.to-blue-900{
+  --tw-gradient-to: #1e3a8a;
 }
 
 .fill-current{
@@ -5595,11 +5573,6 @@ span.flatpickr-weekday{
   color: rgb(59 130 246 / var(--tw-text-opacity));
 }
 
-.text-green-500{
-  --tw-text-opacity: 1;
-  color: rgb(16 185 129 / var(--tw-text-opacity));
-}
-
 .text-green-600{
   --tw-text-opacity: 1;
   color: rgb(5 150 105 / var(--tw-text-opacity));
@@ -5618,6 +5591,11 @@ span.flatpickr-weekday{
 .text-yellow-700{
   --tw-text-opacity: 1;
   color: rgb(180 83 9 / var(--tw-text-opacity));
+}
+
+.text-green-500{
+  --tw-text-opacity: 1;
+  color: rgb(16 185 129 / var(--tw-text-opacity));
 }
 
 .text-orange-500{
