@@ -10,7 +10,7 @@
     'emptyText' => null,
     'searchable' => true,
 ])
-<div wire:init="loadRows">
+<div class="mt-12" wire:init="loadRows">
     <div class="table-actions">
         {{ $actions ?? '' }}
         @if ($modelClass)
@@ -44,7 +44,7 @@
         </div>
     </div>
 
-    <div class="w-full text-center" wire:loading.delay.long>
+    <div class="w-full text-center mt-6" wire:loading.delay.long>
         <style>
             @keyframes loadingpulse {
                 0%   {transform: scale(.8); opacity: .75}
@@ -63,7 +63,7 @@
     <div wire:loading.delay.long.remove>
 
         @if($rows->count())
-            <table class="table table-fixed">
+            <table class="mt-6 table table-fixed">
                 <thead>
                 <tr>
                     @foreach ($columns as $column)
