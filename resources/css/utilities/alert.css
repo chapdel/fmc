@@ -45,7 +45,7 @@
 }
 
 .alert-info {
-    @apply bg-white;
+    @apply bg-blue-50;
 }
 
 .alert-info a {
