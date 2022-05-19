@@ -10,7 +10,7 @@
             <div class="alert alert-warning shadow-lg">
                 <div class="max-w-layout mx-auto grid gap-1">
                     <div class="flex items-baseline">
-                        <span class="w-6"><i class="fas fa-save opacity-50"></i></span>
+                        <span class="w-6"><i class="fas fa-save opacity-75"></i></span>
                         <span class="ml-2 text-sm">
                         @lang('You have unsaved changes.')
                     </span>

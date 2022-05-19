@@ -12,8 +12,14 @@
                 <x-mailcoach::navigation-item :href="route('mailcoach.automations.actions', $automation)" data-dirty-warn>
                     {{ __('mailcoach - Actions') }}
                 </x-mailcoach::navigation-item>
-                <x-mailcoach::navigation-item :href="route('mailcoach.automations.run', $automation)" data-dirty-warn>
-                    {{ __('mailcoach - Run')}}
+                <x-mailcoach::navigation-item
+                    x-data="{ running: {{ $automation->status === \Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus::STARTED ? 'true' : 'false' }} }"
+                    @automation-started.window="running = true"
+                    @automation-paused.window="running = false"
+                    :href="route('mailcoach.automations.run', $automation)"
+                    data-dirty-warn
+                >
+                    {{ __('mailcoach - Run')}} <i class="ml-2 opacity-50" :class="[running ? 'fas fa-spin fa-sync ' : 'fa fa-pause']"></i>
                 </x-mailcoach::navigation-item>
             </x-mailcoach::navigation-group>
 

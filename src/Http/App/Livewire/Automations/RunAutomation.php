@@ -36,12 +36,14 @@ class RunAutomation extends Component
     public function pause(): void
     {
         $this->automation->pause();
+        $this->dispatchBrowserEvent('automation-paused');
     }
 
     public function start(): void
     {
         try {
             $this->automation->start();
+            $this->dispatchBrowserEvent('automation-started');
         } catch (\Exception $e) {
             $this->error = $e->getMessage();
         }

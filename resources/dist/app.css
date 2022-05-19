@@ -5293,6 +5293,16 @@ span.flatpickr-weekday{
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(30 64 175 / 0));
 }
 
+.from-green-400{
+  --tw-gradient-from: #34d399;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(52 211 153 / 0));
+}
+
+.from-orange-400{
+  --tw-gradient-from: #fb923c;
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgb(251 146 60 / 0));
+}
+
 .via-blue-800{
   --tw-gradient-stops: var(--tw-gradient-from), #1e40af, var(--tw-gradient-to, rgb(30 64 175 / 0));
 }
@@ -5307,6 +5317,14 @@ span.flatpickr-weekday{
 
 .to-blue-900{
   --tw-gradient-to: #1e3a8a;
+}
+
+.to-green-500{
+  --tw-gradient-to: #10b981;
+}
+
+.to-orange-500{
+  --tw-gradient-to: #f97316;
 }
 
 .fill-current{

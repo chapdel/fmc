@@ -51,17 +51,17 @@
         @endif
         <div>
         @if ($automation->status === \Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus::STARTED)
-            <button class="button" type="button" wire:click.prevent="pause">
+            <button class="button bg-gradient-to-r from-orange-400 to-orange-500" type="button" wire:click.prevent="pause">
                 <span class="flex items-center">
-                <x-mailcoach::rounded-icon type="warning" icon="fas fa-pause"/>
-                <span class="ml-2">{{ __('mailcoach - Pause') }}</span>
+                    <i class="fas fa-pause text-sm"></i>
+                    <span class="ml-2">{{ __('mailcoach - Pause') }}</span>
                 </span>
             </button>
         @else
-            <button class="button" type="button" wire:click.prevent="start">
+            <button class="button bg-gradient-to-r from-green-400 to-green-500" type="button" wire:click.prevent="start">
                 <span class="flex items-center">
-                <x-mailcoach::rounded-icon type="success" icon="fas fa-play"/>
-                <span class="ml-2">{{ __('mailcoach - Start') }}</span>
+                    <i class="fas fa-play text-sm"></i>
+                    <span class="ml-2">{{ __('mailcoach - Start') }}</span>
                 </span>
             </button>
         @endif
