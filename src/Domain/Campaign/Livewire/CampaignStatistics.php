@@ -48,31 +48,33 @@ class CampaignStatistics extends Component
             }
         }
 
-        $end = $this->campaign->opens()->latest()->first('created_at')?->created_at
+        $end = $this->campaign->opens()->latest('created_at')->first('created_at')?->created_at
             ?? $start->addHours(24);
 
         $campaignOpenTable = self::getCampaignOpenTableName();
         $campaignClickTable = self::getCampaignClickTableName();
         $campaignLinkTable = self::getCampaignLinkTableName();
 
-        $opensPerHour = DB::table($campaignOpenTable)
+        $opensPerMinute = DB::table($campaignOpenTable)
             ->where('campaign_id', $this->campaign->id)
-            ->selectRaw('DATE_FORMAT(created_at, "%Y-%m-%d %H") as hour, COUNT(*) as opens')
-            ->groupBy('hour')
+            ->selectRaw('DATE_FORMAT(created_at, "%Y-%m-%d %H:%i") as minute, COUNT(*) as opens')
+            ->groupBy('minute')
             ->get();
 
-        $clicksPerHour = DB::table($campaignClickTable)
+        $clicksPerMinute = DB::table($campaignClickTable)
             ->join($campaignLinkTable, 'campaign_link_id', '=', $campaignLinkTable . '.id')
             ->where('campaign_id', $this->campaign->id)
-            ->selectRaw("DATE_FORMAT({$campaignClickTable}.created_at, \"%Y-%m-%d %H\") as hour, COUNT(*) as clicks")
-            ->groupBy('hour')
+            ->selectRaw("DATE_FORMAT({$campaignClickTable}.created_at, \"%Y-%m-%d %H:%i\") as minute, COUNT(*) as clicks")
+            ->groupBy('minute')
             ->get();
 
-        return collect(CarbonPeriod::create($start, '1 hour', $end))->map(function (CarbonInterface $hour) use ($opensPerHour, $clicksPerHour) {
+        return collect(CarbonPeriod::create($start, '10 minutes', $end))->map(function (CarbonInterface $minutes) use ($opensPerMinute, $clicksPerMinute) {
+            $minutes = $minutes->toImmutable();
+
             return [
-                'label' => $hour->isoFormat('dd HH:mm'),
-                'opens' => $opensPerHour->where('hour', $hour->format('Y-m-d H'))->first()?->opens ?? 0,
-                'clicks' => $clicksPerHour->where('hour', $hour->format('Y-m-d H'))->first()?->clicks ?? 0,
+                'label' => $minutes->isoFormat('dd HH:mm'),
+                'opens' => $opensPerMinute->whereBetween('minute', [$minutes->format('Y-m-d H:i'), $minutes->addMinutes(10)->format('Y-m-d H:i')])->sum('opens'),
+                'clicks' => $clicksPerMinute->whereBetween('minute', [$minutes->format('Y-m-d H:i'), $minutes->addMinutes(10)->format('Y-m-d H:i')])->sum('clicks'),
             ];
         });
     }

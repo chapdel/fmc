@@ -2,7 +2,7 @@
     @if($campaign->track_opens)
         <x-mailcoach::data-table
             name="open"
-            :rows="$campaignOpens ?? null"
+            :rows="$mailOpens ?? null"
             :totalRowsCount="$totalMailOpensCount ?? null"
             :columns="[
                 ['attribute' => 'email', 'label' => __('mailcoach - Email')],

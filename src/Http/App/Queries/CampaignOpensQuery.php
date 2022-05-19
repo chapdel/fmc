@@ -21,17 +21,18 @@ class CampaignOpensQuery extends QueryBuilder
         $prefix = DB::getTablePrefix();
 
         $campaignOpenTable = static::getCampaignOpenTableName();
+        $subscriberTableName = static::getSubscriberTableName();
 
         $query = static::getCampaignOpenClass()::query()
             ->selectRaw("
                 {$prefix}{$campaignOpenTable}.subscriber_id as subscriber_id,
-                {$prefix}{$this->getSubscriberTableName()}.email_list_id as subscriber_email_list_id,
-                {$prefix}{$this->getSubscriberTableName()}.email as subscriber_email,
+                {$prefix}{$subscriberTableName}.email_list_id as subscriber_email_list_id,
+                {$prefix}{$subscriberTableName}.email as subscriber_email,
                 count({$prefix}{$campaignOpenTable}.subscriber_id) as open_count,
                 min({$prefix}{$campaignOpenTable}.created_at) AS first_opened_at
             ")
             ->join(static::getCampaignTableName(), static::getCampaignTableName().'.id', '=', "{$campaignOpenTable}.campaign_id")
-            ->join($this->getSubscriberTableName(), "{$this->getSubscriberTableName()}.id", '=', "{$campaignOpenTable}.subscriber_id")
+            ->join($subscriberTableName, "{$subscriberTableName}.id", '=', "{$campaignOpenTable}.subscriber_id")
             ->where(static::getCampaignTableName().'.id', $campaign->id);
 
         $this->totalCount = $query->count();
@@ -41,7 +42,7 @@ class CampaignOpensQuery extends QueryBuilder
         $this
             ->defaultSort('-first_opened_at')
             ->allowedSorts('email', 'open_count', 'first_opened_at')
-            ->groupBy("{$campaignOpenTable}.subscriber_id", "{$this->getSubscriberTableName()}.email_list_id", "{$this->getSubscriberTableName()}.email")
+            ->groupBy("{$campaignOpenTable}.subscriber_id", "{$subscriberTableName}.email_list_id", "{$subscriberTableName}.email")
             ->allowedFilters(
                 AllowedFilter::custom(
                     'search',
