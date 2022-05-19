@@ -85,7 +85,7 @@ class CampaignSettings extends Component
 
         $this->campaign->update(['segment_description' => $this->campaign->getSegment()->description()]);
 
-        $this->flash(__('mailcoach - Campaign :campaign was updated.', ['campaign' => $this->campaign->name]));
+        $this->flash(__('mailcoach - Campaign :campaign was updated.', ['campaign' => $this->campaign->name]), 'error');
     }
 
     public function render(): View
