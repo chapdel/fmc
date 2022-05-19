@@ -59,7 +59,7 @@ use Spatie\Mailcoach\Domain\Campaign\Listeners\AddCampaignClickedTag;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\AddCampaignOpenedTag;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\SendCampaignSentEmail;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\SetWebhookCallProcessedAt;
-use Spatie\Mailcoach\Domain\Campaign\Livewire\CampaignStatistics;
+use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignStatistics;
 use Spatie\Mailcoach\Domain\Campaign\Livewire\TextAreaEditorComponent;
 use Spatie\Mailcoach\Domain\Shared\Commands\CheckLicenseCommand;
 use Spatie\Mailcoach\Domain\Shared\Commands\CleanupProcessedFeedbackCommand;
