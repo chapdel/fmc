@@ -5,8 +5,8 @@
 
     <div class="py-4 md:py-0 md:flex md:items-center">
         <div class="flex justify-between">
-            <div class="navigation-logo pl-2 pr-6 md:self-center flex items-center justify-between">
-                <a class="pl-3" data-no-swup href="{{ route(config('mailcoach.redirect_home')) }}">
+            <div class="navigation-logo pl-6 pr-6 md:self-center flex items-center justify-between">
+                <a data-no-swup href="{{ route(config('mailcoach.redirect_home')) }}">
                     <span
                         class="group w-10 h-10 flex items-center justify-center bg-gradient-to-b from-blue-500 to-blue-600 text-white rounded-full">
                         <span class="flex items-center justify-center w-6 h-6 transform group-hover:scale-90 transition-transform duration-150">
@@ -19,12 +19,12 @@
             <button class="md:hidden text-white ml-auto mr-4 text-3xl" x-on:click="show = !show"><i class="fa fa-bars"></i></button>
         </div>
 
-        <div class="mt-6 md:mt-0 flex flex-col md:flex-row md:items-center md:gap-x-8 pl-2 md:pl-0" x-show="show" x-transition x-cloak>
+        <div class="w-full mt-6 md:mt-0 flex flex-col md:flex-row md:items-center pl-2 md:pl-0" x-show="show" x-transition x-cloak>
             @include('mailcoach::app.layouts.partials.beforeFirstMenuItem')
 
             @foreach (app(\Spatie\Mailcoach\MainNavigation::class)->tree() as $index => $item)
                 <div
-                    class="navigation-item group relative py-4 md:py-8 px-4 cursor-pointer"
+                    class="navigation-item group relative py-4 md:py-8 px-4 md:px-6 cursor-pointer"
                     @if(count($item['children']))
                         x-on:mouseenter="open"
                         x-on:mouseleave="close"
