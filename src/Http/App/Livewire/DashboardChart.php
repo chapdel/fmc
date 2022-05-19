@@ -108,6 +108,7 @@ class DashboardChart extends Component
             ->get();
 
         $lastStats = [];
+
         return collect(CarbonPeriod::create($start, '1 day', $end))->map(function (CarbonInterface $day) use (
             $campaigns,
             $subscribers,
