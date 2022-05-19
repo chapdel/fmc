@@ -4721,12 +4721,19 @@ document.addEventListener('alpine:init', function () {
     return {
       show: true,
       init: function init() {
-        var coords = this.$el.querySelector('.navigation-item').getBoundingClientRect();
-        this.$refs.background.style.setProperty('transform', "translate(".concat(coords.left, "px, ").concat(coords.top, "px"));
+        var _this = this;
 
-        if (window.innerWidth < 768) {
-          this.show = false;
-        }
+        this.$nextTick(function () {
+          var coords = _this.$el.querySelector('.navigation-dropdown').closest('.navigation-item').getBoundingClientRect();
+
+          console.log(coords);
+
+          _this.$refs.background.style.setProperty('transform', "translate(".concat(coords.left, "px, ").concat(coords.top, "px"));
+
+          if (window.innerWidth < 768) {
+            _this.show = false;
+          }
+        });
       },
       open: function open(event) {
         if (event.target.classList.contains('navigation-link')) {

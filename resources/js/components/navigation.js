@@ -3,12 +3,15 @@ document.addEventListener('alpine:init', () => {
         show: true,
 
         init() {
-            const coords = this.$el.querySelector('.navigation-item').getBoundingClientRect();
-            this.$refs.background.style.setProperty('transform', `translate(${coords.left}px, ${coords.top}px`);
+            this.$nextTick(() => {
+                const coords = this.$el.querySelector('.navigation-dropdown').closest('.navigation-item').getBoundingClientRect();
+                console.log(coords);
+                this.$refs.background.style.setProperty('transform', `translate(${coords.left}px, ${coords.top}px`);
 
-            if (window.innerWidth < 768) {
-                this.show = false;
-            }
+                if (window.innerWidth < 768) {
+                    this.show = false;
+                }
+            })
         },
 
         open(event) {
