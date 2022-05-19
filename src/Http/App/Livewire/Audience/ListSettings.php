@@ -45,7 +45,7 @@ class ListSettings extends Component
     {
         $this->emailList = $emailList;
 
-        app(MainNavigation::class)->activeSection()->add($this->emailList->name, route('mailcoach.emailLists.general-settings', $this->emailList));
+        app(MainNavigation::class)->activeSection()?->add($this->emailList->name, route('mailcoach.emailLists.general-settings', $this->emailList));
     }
 
     public function save()

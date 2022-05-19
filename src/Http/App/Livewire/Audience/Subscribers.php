@@ -26,7 +26,7 @@ class Subscribers extends DataTable
     {
         $this->emailList = $emailList;
 
-        app(MainNavigation::class)->activeSection()->add($this->emailList->name, route('mailcoach.emailLists.subscribers', $this->emailList));
+        app(MainNavigation::class)->activeSection()?->add($this->emailList->name, route('mailcoach.emailLists.subscribers', $this->emailList));
     }
 
     public function deleteSubscriber(int $id)

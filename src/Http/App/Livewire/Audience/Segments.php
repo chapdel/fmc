@@ -17,7 +17,7 @@ class Segments extends DataTable
     {
         $this->emailList = $emailList;
 
-        app(MainNavigation::class)->activeSection()->add($this->emailList->name, route('mailcoach.emailLists.segments', $this->emailList));
+        app(MainNavigation::class)->activeSection()?->add($this->emailList->name, route('mailcoach.emailLists.segments', $this->emailList));
     }
 
     public function duplicateSegment(int $id)
