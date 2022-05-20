@@ -1101,6 +1101,8 @@ it('handles deeply nested conditions', function () {
 
     TestTime::addMinutes(2);
     Artisan::call(RunAutomationActionsCommand::class);
+    TestTime::addSeconds(32); // Need this on slower computers?
+    Artisan::call(RunAutomationActionsCommand::class);
 
     // Subscriber 2 gets canceled
     $this->assertEquals(HaltAction::class, $subscriber2->currentActionClass($automation));
