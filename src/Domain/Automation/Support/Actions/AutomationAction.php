@@ -48,7 +48,7 @@ abstract class AutomationAction extends AutomationStep
 
     public function store(string $uuid, Automation $automation, ?int $order = null, ?int $parent_id = null, ?string $key = null): Action
     {
-        $actionClass = static::getAutomationActionClass();
+        $actionClass = static::getAutomationActionModelClass();
 
         return $actionClass::updateOrCreate([
             'uuid' => $uuid,
@@ -64,7 +64,7 @@ abstract class AutomationAction extends AutomationStep
     /** @return Action[] */
     public function nextActions(Subscriber $subscriber): array
     {
-        $actionClass = static::getAutomationActionClass();
+        $actionClass = static::getAutomationActionModelClass();
         $action = $actionClass::findByUuid($this->uuid);
 
         return $this->nextActionsForAction($action);

@@ -20,7 +20,7 @@ beforeEach(function () {
 });
 
 it('can update the attributes of a subscriber', function () {
-    $updateSubscriberAction = Mailcoach::getAutomationActionClass('update_subscriber', UpdateSubscriberAction::class);
+    $updateSubscriberAction = Mailcoach::getAutomationActionModelClass('update_subscriber', UpdateSubscriberAction::class);
 
     $updateSubscriberAction->execute(
         test()->subscriber,
