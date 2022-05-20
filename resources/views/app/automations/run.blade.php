@@ -27,7 +27,13 @@
                 required
             />
 
-            <x-mailcoach::button class="ml-1" :label="__('mailcoach - Save')" wire:click.prevent="save" />
+            <x-mailcoach::button
+                class="ml-1"
+                :label="__('mailcoach - Save')"
+                wire:click.prevent="save"
+                @keydown.prevent.window.cmd.s="$wire.call('save')"
+                @keydown.prevent.window.ctrl.s="$wire.call('save')"
+            />
         </div>
     </x-mailcoach::fieldset>
 

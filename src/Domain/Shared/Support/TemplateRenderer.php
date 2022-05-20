@@ -25,9 +25,15 @@ class TemplateRenderer
         $html = $this->html;
 
         foreach ($this->placeHolderNames() as $placeHolderName) {
+            $value = $values[$placeHolderName] ?? '';
+
+            if (is_array($value)) {
+                $value = $value['html'] ?? '';
+            }
+
             $html = str_replace(
                 '[[[' . $placeHolderName . ']]]',
-                $values[$placeHolderName] ?? '',
+                $value,
                 $html,
             );
         }

@@ -13,6 +13,10 @@ class HtmlRule implements Rule
     public function passes($attribute, $value)
     {
         try {
+            if (is_array($value)) {
+                $value = $value['html'];
+            }
+
             app(CreateDomDocumentFromHtmlAction::class)->execute($value, false);
 
             return true;

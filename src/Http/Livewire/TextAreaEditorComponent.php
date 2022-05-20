@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Campaign\Livewire;
+namespace Spatie\Mailcoach\Http\Livewire;
 
 class TextAreaEditorComponent extends EditorComponent
 {

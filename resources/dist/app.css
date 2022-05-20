@@ -810,6 +810,13 @@ code.markup-code, .markup-code code{
   color: rgb(30 64 175 / var(--tw-text-opacity));
 }
 
+.alert-info code{
+  --tw-bg-opacity: 1;
+  background-color: rgb(219 234 254 / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(30 64 175 / var(--tw-text-opacity));
+}
+
 .alert-warning{
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
   --tw-gradient-from: #fb923c;

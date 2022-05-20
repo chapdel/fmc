@@ -1,4 +1,10 @@
-<form class="form-grid" method="POST" wire:submit.prevent="save">
+<form
+    class="form-grid"
+    method="POST"
+    wire:submit.prevent="save"
+    @keydown.prevent.window.cmd.s="$wire.call('save')"
+    @keydown.prevent.window.ctrl.s="$wire.call('save')"
+>
     @if(count(config('mail.mailers')) > 1)
         <x-mailcoach::fieldset :legend="__('mailcoach - Mailers')">
 

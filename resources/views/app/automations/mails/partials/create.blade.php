@@ -1,4 +1,9 @@
-<form class="form-grid" wire:submit.prevent="saveAutomationMail" method="POST">
+<form class="form-grid"
+      wire:submit.prevent="saveAutomationMail"
+      @keydown.prevent.window.cmd.s="$wire.call('saveAutomationMail')"
+      @keydown.prevent.window.ctrl.s="$wire.call('saveAutomationMail')"
+      method="POST"
+>
     @csrf
 
     <x-mailcoach::text-field
