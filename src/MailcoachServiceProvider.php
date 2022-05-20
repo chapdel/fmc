@@ -48,7 +48,6 @@ use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\TagRemovedTrigg
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\WebhookTriggerComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\TriggeredByEvents;
 use Spatie\Mailcoach\Domain\Campaign\Commands\CalculateStatisticsCommand;
-use Spatie\Mailcoach\Domain\Campaign\Commands\RescueSendingCampaignsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Commands\SendCampaignSummaryMailCommand;
 use Spatie\Mailcoach\Domain\Campaign\Commands\SendScheduledCampaignsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignLinkClickedEvent;
