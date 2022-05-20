@@ -180,7 +180,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
                 RunAutomationActionsCommand::class,
                 RunAutomationTriggersCommand::class,
                 CheckLicenseCommand::class,
-                RescueSendingCampaignsCommand::class,
             ]);
     }
 
@@ -226,6 +225,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
         Date::macro(
             'toMailcoachFormat',
+            /** @phpstan-ignore-next-line */
             fn () => self::this()->copy()->setTimezone(config('app.timezone'))->format($mailcoachFormat)
         );
 
@@ -238,6 +238,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
             Collection::macro('paginate', function (int $perPage = 15, string $pageName = 'page', int $page = null, int $total = null, array $options = []): LengthAwarePaginator {
                 $page = $page ?: LengthAwarePaginator::resolveCurrentPage($pageName);
 
+                /** @var Collection $this */
                 $results = $this->forPage($page, $perPage)->values();
 
                 $total = $total ?: $this->count();
