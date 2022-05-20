@@ -1122,6 +1122,8 @@ it('handles deeply nested conditions', function () {
 
     TestTime::addMinutes(2);
     Artisan::call(RunAutomationActionsCommand::class);
+    TestTime::addSeconds(32); // Need this on slower computers?
+    Artisan::call(RunAutomationActionsCommand::class);
 
     expect($subscriber8->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail5->id);
 
