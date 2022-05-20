@@ -58,7 +58,6 @@ use Spatie\Mailcoach\Domain\Campaign\Listeners\AddCampaignClickedTag;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\AddCampaignOpenedTag;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\SendCampaignSentEmail;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\SetWebhookCallProcessedAt;
-use Spatie\Mailcoach\Http\App\Livewire\TextAreaEditorComponent;
 use Spatie\Mailcoach\Domain\Shared\Commands\CheckLicenseCommand;
 use Spatie\Mailcoach\Domain\Shared\Commands\CleanupProcessedFeedbackCommand;
 use Spatie\Mailcoach\Domain\Shared\Commands\RetryPendingSendsCommand;
@@ -135,6 +134,7 @@ use Spatie\Mailcoach\Http\App\Livewire\Spotlight\ShowTransactionalTemplateComman
 use Spatie\Mailcoach\Http\App\Livewire\Spotlight\TemplatesCommand;
 use Spatie\Mailcoach\Http\App\Livewire\Spotlight\TransactionalLogCommand;
 use Spatie\Mailcoach\Http\App\Livewire\Spotlight\TransactionalTemplatesCommand;
+use Spatie\Mailcoach\Http\App\Livewire\TextAreaEditorComponent;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\CreateTransactionalTemplate;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailContent;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailPerformance;

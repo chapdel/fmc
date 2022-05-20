@@ -9,7 +9,6 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\Campaign\Rules\HtmlRule;
 use Spatie\Mailcoach\Domain\Shared\Support\TemplateRenderer;
-use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 use Spatie\ValidationRules\Rules\Delimited;
 
 abstract class EditorComponent extends Component
