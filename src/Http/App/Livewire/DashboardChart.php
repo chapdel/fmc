@@ -23,6 +23,9 @@ class DashboardChart extends Component
     public string $end;
     public Collection $stats;
 
+    protected int $startSubscriptionsCount;
+    protected int $startUnsubscribeCount;
+
     public function mount(): void
     {
         $this->start ??= now()->subMonths(2)->format('Y-m-d');
