@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\Livewire;
+namespace Spatie\Mailcoach\Http\App\Livewire;
 
 use Carbon\CarbonInterval;
 use Illuminate\Support\Arr;

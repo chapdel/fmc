@@ -264,13 +264,13 @@ return [
      * Here you can configure which content editor Mailcoach uses.
      * By default this is a text editor that highlights HTML.
      */
-    'content_editor' => \Spatie\Mailcoach\Http\Livewire\TextAreaEditorComponent::class,
+    'content_editor' => \Spatie\Mailcoach\Http\App\Livewire\TextAreaEditorComponent::class,
 
     /*
      * Here you can configure which template editor Mailcoach uses.
      * By default this is a text editor that highlights HTML.
      */
-    'template_editor' => \Spatie\Mailcoach\Http\Livewire\TextAreaEditorComponent::class,
+    'template_editor' => \Spatie\Mailcoach\Http\App\Livewire\TextAreaEditorComponent::class,
 
     /*
      * The mailer used by Mailcoach for password resets and summary emails.
