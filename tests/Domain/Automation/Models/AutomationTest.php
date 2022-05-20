@@ -985,32 +985,32 @@ it('handles deeply nested conditions', function () {
     /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber10 */
     $subscriber10 = $automation->emailList->subscribe('subscriber10@example.com');
 
-    $this->assertEquals(WaitAction::class, $subscriber1->currentAction($automation)->action::class);
-    $this->assertEquals(WaitAction::class, $subscriber2->currentAction($automation)->action::class);
-    $this->assertEquals(WaitAction::class, $subscriber3->currentAction($automation)->action::class);
-    $this->assertEquals(WaitAction::class, $subscriber4->currentAction($automation)->action::class);
-    $this->assertEquals(WaitAction::class, $subscriber5->currentAction($automation)->action::class);
-    $this->assertEquals(WaitAction::class, $subscriber6->currentAction($automation)->action::class);
-    $this->assertEquals(WaitAction::class, $subscriber7->currentAction($automation)->action::class);
-    $this->assertEquals(WaitAction::class, $subscriber8->currentAction($automation)->action::class);
-    $this->assertEquals(WaitAction::class, $subscriber9->currentAction($automation)->action::class);
-    $this->assertEquals(WaitAction::class, $subscriber10->currentAction($automation)->action::class);
+    $this->assertEquals(WaitAction::class, $subscriber1->currentActionClass($automation));
+    $this->assertEquals(WaitAction::class, $subscriber2->currentActionClass($automation));
+    $this->assertEquals(WaitAction::class, $subscriber3->currentActionClass($automation));
+    $this->assertEquals(WaitAction::class, $subscriber4->currentActionClass($automation));
+    $this->assertEquals(WaitAction::class, $subscriber5->currentActionClass($automation));
+    $this->assertEquals(WaitAction::class, $subscriber6->currentActionClass($automation));
+    $this->assertEquals(WaitAction::class, $subscriber7->currentActionClass($automation));
+    $this->assertEquals(WaitAction::class, $subscriber8->currentActionClass($automation));
+    $this->assertEquals(WaitAction::class, $subscriber9->currentActionClass($automation));
+    $this->assertEquals(WaitAction::class, $subscriber10->currentActionClass($automation));
 
     TestTime::addWeek();
     Artisan::call(RunAutomationActionsCommand::class);
 
-    $this->assertEquals(SendAutomationMailAction::class, $subscriber1->currentAction($automation)->action::class);
-    $this->assertEquals(SendAutomationMailAction::class, $subscriber2->currentAction($automation)->action::class);
-    $this->assertEquals(SendAutomationMailAction::class, $subscriber3->currentAction($automation)->action::class);
+    $this->assertEquals(SendAutomationMailAction::class, $subscriber1->currentActionClass($automation));
+    $this->assertEquals(SendAutomationMailAction::class, $subscriber2->currentActionClass($automation));
+    $this->assertEquals(SendAutomationMailAction::class, $subscriber3->currentActionClass($automation));
 
     // Still in condition action
-    $this->assertEquals(ConditionAction::class, $subscriber4->currentAction($automation)->action::class);
-    $this->assertEquals(ConditionAction::class, $subscriber5->currentAction($automation)->action::class);
-    $this->assertEquals(ConditionAction::class, $subscriber6->currentAction($automation)->action::class);
-    $this->assertEquals(ConditionAction::class, $subscriber7->currentAction($automation)->action::class);
-    $this->assertEquals(ConditionAction::class, $subscriber8->currentAction($automation)->action::class);
-    $this->assertEquals(ConditionAction::class, $subscriber9->currentAction($automation)->action::class);
-    $this->assertEquals(ConditionAction::class, $subscriber10->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber4->currentActionClass($automation));
+    $this->assertEquals(ConditionAction::class, $subscriber5->currentActionClass($automation));
+    $this->assertEquals(ConditionAction::class, $subscriber6->currentActionClass($automation));
+    $this->assertEquals(ConditionAction::class, $subscriber7->currentActionClass($automation));
+    $this->assertEquals(ConditionAction::class, $subscriber8->currentActionClass($automation));
+    $this->assertEquals(ConditionAction::class, $subscriber9->currentActionClass($automation));
+    $this->assertEquals(ConditionAction::class, $subscriber10->currentActionClass($automation));
 
     TestTime::addMinutes(2);
     Artisan::call(RunAutomationActionsCommand::class);
@@ -1019,13 +1019,13 @@ it('handles deeply nested conditions', function () {
     expect($subscriber2->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail1->id);
     expect($subscriber3->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail1->id);
 
-    $this->assertEquals(SendAutomationMailAction::class, $subscriber4->currentAction($automation)->action::class);
-    $this->assertEquals(SendAutomationMailAction::class, $subscriber5->currentAction($automation)->action::class);
-    $this->assertEquals(SendAutomationMailAction::class, $subscriber6->currentAction($automation)->action::class);
-    $this->assertEquals(SendAutomationMailAction::class, $subscriber7->currentAction($automation)->action::class);
-    $this->assertEquals(SendAutomationMailAction::class, $subscriber8->currentAction($automation)->action::class);
-    $this->assertEquals(SendAutomationMailAction::class, $subscriber9->currentAction($automation)->action::class);
-    $this->assertEquals(SendAutomationMailAction::class, $subscriber10->currentAction($automation)->action::class);
+    $this->assertEquals(SendAutomationMailAction::class, $subscriber4->currentActionClass($automation));
+    $this->assertEquals(SendAutomationMailAction::class, $subscriber5->currentActionClass($automation));
+    $this->assertEquals(SendAutomationMailAction::class, $subscriber6->currentActionClass($automation));
+    $this->assertEquals(SendAutomationMailAction::class, $subscriber7->currentActionClass($automation));
+    $this->assertEquals(SendAutomationMailAction::class, $subscriber8->currentActionClass($automation));
+    $this->assertEquals(SendAutomationMailAction::class, $subscriber9->currentActionClass($automation));
+    $this->assertEquals(SendAutomationMailAction::class, $subscriber10->currentActionClass($automation));
 
     TestTime::addSeconds(32);
     Artisan::call(RunAutomationActionsCommand::class);
@@ -1037,16 +1037,16 @@ it('handles deeply nested conditions', function () {
     expect($subscriber8->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail3->id);
 
     // Checking for click
-    $this->assertEquals(ConditionAction::class, $subscriber1->currentAction($automation)->action::class);
-    $this->assertEquals(ConditionAction::class, $subscriber2->currentAction($automation)->action::class);
-    $this->assertEquals(ConditionAction::class, $subscriber3->currentAction($automation)->action::class);
-    $this->assertEquals(ConditionAction::class, $subscriber4->currentAction($automation)->action::class);
-    $this->assertEquals(ConditionAction::class, $subscriber5->currentAction($automation)->action::class);
-    $this->assertEquals(ConditionAction::class, $subscriber6->currentAction($automation)->action::class);
-    $this->assertEquals(ConditionAction::class, $subscriber7->currentAction($automation)->action::class);
-    $this->assertEquals(ConditionAction::class, $subscriber8->currentAction($automation)->action::class);
-    $this->assertEquals(ConditionAction::class, $subscriber9->currentAction($automation)->action::class);
-    $this->assertEquals(ConditionAction::class, $subscriber10->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber1->currentActionClass($automation));
+    $this->assertEquals(ConditionAction::class, $subscriber2->currentActionClass($automation));
+    $this->assertEquals(ConditionAction::class, $subscriber3->currentActionClass($automation));
+    $this->assertEquals(ConditionAction::class, $subscriber4->currentActionClass($automation));
+    $this->assertEquals(ConditionAction::class, $subscriber5->currentActionClass($automation));
+    $this->assertEquals(ConditionAction::class, $subscriber6->currentActionClass($automation));
+    $this->assertEquals(ConditionAction::class, $subscriber7->currentActionClass($automation));
+    $this->assertEquals(ConditionAction::class, $subscriber8->currentActionClass($automation));
+    $this->assertEquals(ConditionAction::class, $subscriber9->currentActionClass($automation));
+    $this->assertEquals(ConditionAction::class, $subscriber10->currentActionClass($automation));
 
     // Add click for subscriber 1 (premium) & 4, 5 (not premium)
     $subscriber1->sends()->orderByDesc('id')->first()->registerClick('https://example.com', now());
@@ -1058,12 +1058,12 @@ it('handles deeply nested conditions', function () {
     Artisan::call(RunAutomationActionsCommand::class);
 
     // Click registered, halt automation
-    $this->assertEquals(HaltAction::class, $subscriber1->currentAction($automation)->action::class);
+    $this->assertEquals(HaltAction::class, $subscriber1->currentActionClass($automation));
 
     // Click registered, condition for premium tag
-    $this->assertEquals(ConditionAction::class, $subscriber4->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber4->currentActionClass($automation));
     $subscriber4->addTag('premium');
-    $this->assertEquals(ConditionAction::class, $subscriber5->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber5->currentActionClass($automation));
 
     TestTime::addMinutes(2);
     Artisan::call(RunAutomationActionsCommand::class);
@@ -1072,30 +1072,30 @@ it('handles deeply nested conditions', function () {
     $this->assertEquals(0, $subscriber1->currentAction($automation)->activeSubscribers()->count());
 
     // Subscriber 4 halted
-    $this->assertEquals(HaltAction::class, $subscriber4->currentAction($automation)->action::class);
+    $this->assertEquals(HaltAction::class, $subscriber4->currentActionClass($automation));
     // Subscriber 5 waiting for 5 minutes
-    $this->assertEquals(WaitAction::class, $subscriber5->currentAction($automation)->action::class);
+    $this->assertEquals(WaitAction::class, $subscriber5->currentActionClass($automation));
 
     TestTime::addWeek();
     Artisan::call(RunAutomationActionsCommand::class);
 
     // Subscriber 2 is in the condition action that checks for canceled tag
-    $this->assertEquals(ConditionAction::class, $subscriber2->currentAction($automation)->action::class);
-    $this->assertEquals(ConditionAction::class, $subscriber3->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber2->currentActionClass($automation));
+    $this->assertEquals(ConditionAction::class, $subscriber3->currentActionClass($automation));
 
     // Subscriber 5 gets promo code mail & is halted after
     expect($subscriber5->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail4->id);
-    $this->assertEquals(HaltAction::class, $subscriber5->currentAction($automation)->action::class);
+    $this->assertEquals(HaltAction::class, $subscriber5->currentActionClass($automation));
 
     // Subscriber 6 didn't click
-    $this->assertEquals(ConditionAction::class, $subscriber6->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber6->currentActionClass($automation));
     $subscriber6->addTags(['premium', 'canceled']);
 
     // Subscriber 7 & 8 & 9 & 10 didn't click
-    $this->assertEquals(ConditionAction::class, $subscriber7->currentAction($automation)->action::class);
-    $this->assertEquals(ConditionAction::class, $subscriber8->currentAction($automation)->action::class);
-    $this->assertEquals(ConditionAction::class, $subscriber9->currentAction($automation)->action::class);
-    $this->assertEquals(ConditionAction::class, $subscriber10->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber7->currentActionClass($automation));
+    $this->assertEquals(ConditionAction::class, $subscriber8->currentActionClass($automation));
+    $this->assertEquals(ConditionAction::class, $subscriber9->currentActionClass($automation));
+    $this->assertEquals(ConditionAction::class, $subscriber10->currentActionClass($automation));
     // Subscriber 7 has premium tag in the meantime
     $subscriber7->addTags(['premium']);
 
@@ -1103,42 +1103,40 @@ it('handles deeply nested conditions', function () {
     Artisan::call(RunAutomationActionsCommand::class);
 
     // Subscriber 2 gets canceled
-    $this->assertEquals(HaltAction::class, $subscriber2->currentAction($automation)->action::class);
+    $this->assertEquals(HaltAction::class, $subscriber2->currentActionClass($automation));
 
     // Subscriber 3 gets extra mail
-    $this->assertEquals(SendAutomationMailAction::class, $subscriber3->currentAction($automation)->action::class);
+    expect($subscriber3->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail2->id);
+    $this->assertEquals(HaltAction::class, $subscriber3->currentActionClass($automation));
 
     // Subscriber 6 & 7 are in second condition action
-    $this->assertEquals(ConditionAction::class, $subscriber6->currentAction($automation)->action::class);
-    $this->assertEquals(ConditionAction::class, $subscriber7->currentAction($automation)->action::class);
+    $this->assertEquals(HaltAction::class, $subscriber6->currentActionClass($automation));
+    $this->assertEquals(ConditionAction::class, $subscriber7->currentActionClass($automation));
 
-    $this->assertEquals(SendAutomationMailAction::class, $subscriber8->currentAction($automation)->action::class);
-    $this->assertEquals(SendAutomationMailAction::class, $subscriber9->currentAction($automation)->action::class);
-    $this->assertEquals(SendAutomationMailAction::class, $subscriber10->currentAction($automation)->action::class);
+
+    $this->assertEquals(ConditionAction::class, $subscriber8->currentActionClass($automation));
+    $this->assertEquals(ConditionAction::class, $subscriber9->currentActionClass($automation));
+    $this->assertEquals(ConditionAction::class, $subscriber10->currentActionClass($automation));
 
     TestTime::addMinutes(2);
     Artisan::call(RunAutomationActionsCommand::class);
 
-    expect($subscriber3->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail2->id);
     expect($subscriber8->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail5->id);
 
     // Subscriber 7 gets feedback mail
-    $this->assertEquals(SendAutomationMailAction::class, $subscriber7->currentAction($automation)->action::class);
+    expect($subscriber7->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail2->id);
+    $this->assertEquals(HaltAction::class, $subscriber7->currentActionClass($automation));
 
     // Subscriber 6 & 7 are halted
-    $this->assertEquals(HaltAction::class, $subscriber6->currentAction($automation)->action::class);
+    $this->assertEquals(HaltAction::class, $subscriber6->currentActionClass($automation));
 
     TestTime::addMinutes(2);
     Artisan::call(RunAutomationActionsCommand::class);
 
-    // Subscriber 7 gets feedback mail
-    expect($subscriber7->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail2->id);
-    $this->assertEquals(HaltAction::class, $subscriber7->currentAction($automation)->action::class);
-
     // Subscriber 8 & 9 is in click condition action
-    $this->assertEquals(ConditionAction::class, $subscriber8->currentAction($automation)->action::class);
-    $this->assertEquals(ConditionAction::class, $subscriber9->currentAction($automation)->action::class);
-    $this->assertEquals(ConditionAction::class, $subscriber10->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber8->currentActionClass($automation));
+    $this->assertEquals(ConditionAction::class, $subscriber9->currentActionClass($automation));
+    $this->assertEquals(ConditionAction::class, $subscriber10->currentActionClass($automation));
     $subscriber8->sends()->orderByDesc('id')->first()->registerClick('https://example.com', now());
     $subscriber8->addTag('premium');
 
@@ -1149,24 +1147,24 @@ it('handles deeply nested conditions', function () {
     Artisan::call(RunAutomationActionsCommand::class);
 
     // Premium tag check action
-    $this->assertEquals(ConditionAction::class, $subscriber8->currentAction($automation)->action::class);
-    $this->assertEquals(ConditionAction::class, $subscriber9->currentAction($automation)->action::class);
+    $this->assertEquals(ConditionAction::class, $subscriber8->currentActionClass($automation));
+    $this->assertEquals(ConditionAction::class, $subscriber9->currentActionClass($automation));
 
     TestTime::addMinutes(2);
     Artisan::call(RunAutomationActionsCommand::class);
 
     // Halted
-    $this->assertEquals(HaltAction::class, $subscriber8->currentAction($automation)->action::class);
-    $this->assertEquals(WaitAction::class, $subscriber9->currentAction($automation)->action::class);
+    $this->assertEquals(HaltAction::class, $subscriber8->currentActionClass($automation));
+    $this->assertEquals(WaitAction::class, $subscriber9->currentActionClass($automation));
 
     TestTime::addMinutes(5);
     Artisan::call(RunAutomationActionsCommand::class);
 
     expect($subscriber9->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail4->id);
-    $this->assertEquals(HaltAction::class, $subscriber9->currentAction($automation)->action::class);
+    $this->assertEquals(HaltAction::class, $subscriber9->currentActionClass($automation));
 
     TestTime::addWeek();
     Artisan::call(RunAutomationActionsCommand::class);
 
-    $this->assertEquals(HaltAction::class, $subscriber10->currentAction($automation)->action::class);
+    $this->assertEquals(HaltAction::class, $subscriber10->currentActionClass($automation));
 });

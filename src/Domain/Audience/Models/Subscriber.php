@@ -100,6 +100,15 @@ class Subscriber extends Model
         return $this->currentActions($automation)->first();
     }
 
+    public function currentActionClass(Automation $automation): ?string
+    {
+        if (! $action = $this->currentAction($automation)) {
+            return null;
+        }
+
+        return $action->action::class;
+    }
+
     public function currentActions(Automation $automation): Collection
     {
         return $this->actions()
