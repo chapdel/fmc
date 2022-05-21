@@ -15,4 +15,4 @@ Spatie.be profiles that are connected to GitHub and have a valid Mailcoach licen
 
 ## Security issues
 
-If you've found a bug regarding security please mail [freek@spatie.be](mailto:freek@spatie.be) instead of using the issue tracker.
+If you've found a bug regarding security please mail [security@spatie.be](mailto:freek@spatie.be) instead of using the issue tracker.
