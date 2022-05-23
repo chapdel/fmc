@@ -18,11 +18,38 @@
             </div>
         </x-mailcoach::tile>
 
-        <x-mailcoach::tile class="bg-gray-50 text-blue-900" cols="2" icon="envelope-open">
-            <a href="{{ route('mailcoach.campaigns') }}" class="flex items-center mt-auto">
-                <span>Campaigns</span>
-                <span class="text-4xl font-bold ml-auto text-blue-900">{{ $this->abbreviateNumber(self::getCampaignClass()::count()) }}</span>
-            </a>
+        <x-mailcoach::tile class="bg-gray-50 text-blue-900" cols="4" icon="envelope-open">
+            <x-slot:link><a href="{{ route('mailcoach.campaigns') }}">Campaigns</a></x-slot:link>
+
+            <div class="flex mt-2 justify-between">
+                @if ($draftCount = $this->getCampaignClass()::draft()->count())
+                    <a href="{{ route('mailcoach.campaigns') }}?status=draft" class="flex flex-col">
+                        <span>Draft</span>
+                        <span class="text-xl font-bold">{{ $this->abbreviateNumber($draftCount) }}</span>
+                    </a>
+                @endif
+
+                @if ($scheduledCount = $this->getCampaignClass()::scheduled()->count())
+                    <a href="{{ route('mailcoach.campaigns') }}?status=scheduled" class="flex flex-col">
+                        <span>Scheduled</span>
+                        <span class="text-xl font-bold">{{ $this->abbreviateNumber($scheduledCount) }}</span>
+                    </a>
+                @endif
+
+                @if ($sentCount = $this->getCampaignClass()::sent()->count())
+                    <a href="{{ route('mailcoach.campaigns') }}?status=sent" class="flex flex-col">
+                        <span>Sent</span>
+                        <span class="text-xl font-bold">{{ $this->abbreviateNumber($sentCount) }}</span>
+                    </a>
+                @endif
+
+                @if ($totalCount = $this->getCampaignClass()::count())
+                    <a href="{{ route('mailcoach.campaigns') }}" class="flex flex-col">
+                        <span>Total</span>
+                        <span class="text-xl font-bold">{{ $this->abbreviateNumber($totalCount) }}</span>
+                    </a>
+                @endif
+            </div>
         </x-mailcoach::tile>
 
         @if ($latestCampaign)
