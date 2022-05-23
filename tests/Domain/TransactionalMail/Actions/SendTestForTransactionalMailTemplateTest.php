@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\TransactionalMail\Actions\SendTestForTransactionalMailTemplateAction;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailableWithTemplate;
