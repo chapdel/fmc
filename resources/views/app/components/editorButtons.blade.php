@@ -1,5 +1,5 @@
 @props([
-    'html' => '',
+    'previewHtml' => '',
     'model' => null,
 ])
 <div class="form-buttons">
@@ -17,5 +17,5 @@
 
     <x-mailcoach::button-secondary x-on:click.prevent="$store.modals.open('preview')" :label="__('mailcoach - Preview')"/>
     {{ $slot }}
-    <x-mailcoach::preview-modal name="preview" :html="$html" :title="__('mailcoach - Preview') . ' - ' . $model->subject" />
+    <x-mailcoach::preview-modal name="preview" :html="$previewHtml" :title="__('mailcoach - Preview') . ($model->subject ? ' - ' . $model->subject : '')" />
 </div>
