@@ -6,7 +6,7 @@
     <div class="py-4 md:py-0 md:flex md:items-center">
         <div class="flex justify-between">
             <div class="navigation-logo pl-6 pr-6 md:self-center flex items-center justify-between">
-                <a data-no-swup href="{{ route(config('mailcoach.redirect_home')) }}">
+                <a href="{{ route(config('mailcoach.redirect_home')) }}">
                     <span
                         class="group w-10 h-10 flex items-center justify-center bg-gradient-to-b from-blue-500 to-blue-600 text-white rounded-full">
                         <span class="flex items-center justify-center w-6 h-6 transform group-hover:scale-90 transition-transform duration-150">

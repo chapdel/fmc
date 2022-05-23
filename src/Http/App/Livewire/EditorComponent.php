@@ -41,8 +41,6 @@ abstract class EditorComponent extends Component
             $this->templateId = $model->template?->id;
         }
 
-        $this->renderFullHtml();
-
         if ($this->template?->containsPlaceHolders()) {
             foreach ($this->template->placeHolderNames() as $placeHolderName) {
                 $this->templateFieldValues[$placeHolderName] ??= '';
@@ -50,6 +48,8 @@ abstract class EditorComponent extends Component
         } else {
             $this->templateFieldValues['html'] ??= '';
         }
+
+        $this->renderFullHtml();
     }
 
     public function updatingTemplateId(?int $templateId)

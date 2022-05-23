@@ -24,6 +24,8 @@ class ConfirmSubscriberController
 
         $this->ensureUnconfirmedSubscriber($subscriber);
 
+        $confirmSubscriberAction->execute($subscriber);
+
         $this->respondOk();
     }
 
