@@ -1,4 +1,10 @@
-<form class="form-grid" method="POST" wire:submit.prevent="save">
+<form
+    class="form-grid"
+    method="POST"
+    wire:submit.prevent="save"
+    @keydown.prevent.window.cmd.s="$wire.call('save')"
+    @keydown.prevent.window.ctrl.s="$wire.call('save')"
+>
     <x-mailcoach::fieldset :legend="__('mailcoach - Sender')">
         <x-mailcoach::text-field :label="__('mailcoach - Name')" name="emailList.name" wire:model="emailList.name" required/>
 

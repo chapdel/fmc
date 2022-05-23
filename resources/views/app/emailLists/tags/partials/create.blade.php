@@ -1,4 +1,10 @@
-<form class="form-grid" wire:submit.prevent="saveTag" method="POST">
+<form
+    class="form-grid"
+    wire:submit.prevent="saveTag"
+    @keydown.prevent.window.cmd.s="$wire.call('saveTag')"
+    @keydown.prevent.window.ctrl.s="$wire.call('saveTag')"
+    method="POST"
+>
     @csrf
 
     <x-mailcoach::text-field :label="__('mailcoach - Name')" wire:model="name" name="name" required />

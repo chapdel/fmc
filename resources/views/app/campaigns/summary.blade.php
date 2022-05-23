@@ -115,7 +115,7 @@
     @else
         <div class="grid grid-cols-auto-1fr gap-2 alert alert-success">
             <div>
-                <i class="fas fa-check text-green-500"></i>
+                <i class="fas fa-check"></i>
             </div>
             <div>
                 {{ __('mailcoach - Campaign') }}
@@ -145,7 +145,7 @@
                 </div>
             @endif
 
-            <div class="col-start-2 text-sm text-green-600">{{ $campaign->sent_at->toMailcoachFormat() }}</div>
+            <div class="col-start-2 text-sm">{{ $campaign->sent_at->toMailcoachFormat() }}</div>
         </div>
 
 

@@ -5,7 +5,7 @@
 >
 
      <x-slot name="nav">
-        <x-mailcoach::navigation :title="$transactionalMail->subject" :backHref="route('mailcoach.transactionalMails')" :backLabel="__('mailcoach - Log')">
+        <x-mailcoach::navigation :title="$transactionalMail->subject">
             <x-mailcoach::navigation-group>
                 <x-mailcoach::navigation-item :href="route('mailcoach.transactionalMails.show', $transactionalMail)">
                     {{ __('mailcoach - Content') }}

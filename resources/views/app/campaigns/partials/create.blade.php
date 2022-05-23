@@ -1,4 +1,10 @@
-<form class="form-grid" wire:submit.prevent="saveCampaign" method="POST">
+<form
+    class="form-grid"
+    wire:submit.prevent="saveCampaign"
+    @keydown.prevent.window.cmd.s="$wire.call('saveCampaign')"
+    @keydown.prevent.window.ctrl.s="$wire.call('saveCampaign')"
+    method="POST"
+>
     <x-mailcoach::text-field
         :label="__('mailcoach - Name')"
         wire:model.lazy="name"

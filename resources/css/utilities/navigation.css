@@ -1,23 +1,4 @@
 .navigation {
-    @apply hidden;
-    @apply lg:grid;
-    @apply grid-cols-1;
-    @apply gap-6;
-    @apply content-start;
-    @apply sticky;
-    @apply top-0;
-    @apply px-12;
-    @apply py-8;
-}
-
-.navigation.navigation-shown {
-    @apply grid;
-    @apply grid-cols-2;
-    @apply sm:grid-cols-4;
-    @apply lg:grid-cols-1;
-}
-
-.navigation {
     @apply list-none;
 }
 
@@ -34,25 +15,33 @@
     @apply h-6;
     @apply inline-flex;
     @apply items-center;
-    @apply text-blue-600;
-}
-
-.navigation :is(a:hover, button:hover) {
     @apply text-blue-800;
 }
 
-.navigation :is(.active a, a:hover, button:hover):before {
-    content: '';
-    @apply absolute;
-    @apply right-full;
-    @apply mx-1;
-    @apply top-1/2;
-    @apply transform;
-    @apply -translate-y-1/2;
-    @apply w-1.5;
-    @apply h-1.5;
-    @apply rounded-full;
-    @apply bg-blue-500;
+.navigation :is(.active a, a:hover, button:hover) {
+    @apply text-blue-500;
+    @apply md:text-blue-800;
+}
+
+
+@screen md {
+    .navigation :is(a:hover, button:hover) {
+        @apply text-blue-800;
+    }
+
+    .navigation :is(.active a, a:hover, button:hover):before {
+        content: '';
+        @apply absolute;
+        @apply right-full;
+        @apply mx-1;
+        @apply top-1/2;
+        @apply transform;
+        @apply -translate-y-1/2;
+        @apply w-1.5;
+        @apply h-1.5;
+        @apply rounded-full;
+        @apply bg-blue-500;
+    }
 }
 
 .navigation h3 {

@@ -1,4 +1,10 @@
-<form class="form-grid" wire:submit.prevent="saveTemplate" method="POST">
+<form
+    class="form-grid"
+    wire:submit.prevent="saveTemplate"
+    @keydown.prevent.window.cmd.s="$wire.call('saveTemplate')"
+    @keydown.prevent.window.ctrl.s="$wire.call('saveTemplate')"
+    method="POST"
+>
     <x-mailcoach::text-field
         :label="__('mailcoach - Name')"
         name="name"

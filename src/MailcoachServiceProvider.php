@@ -48,7 +48,6 @@ use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\TagRemovedTrigg
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\WebhookTriggerComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\TriggeredByEvents;
 use Spatie\Mailcoach\Domain\Campaign\Commands\CalculateStatisticsCommand;
-use Spatie\Mailcoach\Domain\Campaign\Commands\RescueSendingCampaignsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Commands\SendCampaignSummaryMailCommand;
 use Spatie\Mailcoach\Domain\Campaign\Commands\SendScheduledCampaignsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignLinkClickedEvent;
@@ -59,8 +58,6 @@ use Spatie\Mailcoach\Domain\Campaign\Listeners\AddCampaignClickedTag;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\AddCampaignOpenedTag;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\SendCampaignSentEmail;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\SetWebhookCallProcessedAt;
-use Spatie\Mailcoach\Domain\Campaign\Livewire\CampaignStatistics;
-use Spatie\Mailcoach\Domain\Campaign\Livewire\TextAreaEditorComponent;
 use Spatie\Mailcoach\Domain\Shared\Commands\CheckLicenseCommand;
 use Spatie\Mailcoach\Domain\Shared\Commands\CleanupProcessedFeedbackCommand;
 use Spatie\Mailcoach\Domain\Shared\Commands\RetryPendingSendsCommand;
@@ -106,6 +103,7 @@ use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignOpens;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignOutbox;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\Campaigns;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignSettings;
+use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignStatistics;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignSummary;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignUnsubscribes;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CreateCampaign;
@@ -136,6 +134,7 @@ use Spatie\Mailcoach\Http\App\Livewire\Spotlight\ShowTransactionalTemplateComman
 use Spatie\Mailcoach\Http\App\Livewire\Spotlight\TemplatesCommand;
 use Spatie\Mailcoach\Http\App\Livewire\Spotlight\TransactionalLogCommand;
 use Spatie\Mailcoach\Http\App\Livewire\Spotlight\TransactionalTemplatesCommand;
+use Spatie\Mailcoach\Http\App\Livewire\TextAreaEditorComponent;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\CreateTransactionalTemplate;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailContent;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailPerformance;
@@ -180,7 +179,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
                 RunAutomationActionsCommand::class,
                 RunAutomationTriggersCommand::class,
                 CheckLicenseCommand::class,
-                RescueSendingCampaignsCommand::class,
             ]);
     }
 
@@ -226,6 +224,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
         Date::macro(
             'toMailcoachFormat',
+            /** @phpstan-ignore-next-line */
             fn () => self::this()->copy()->setTimezone(config('app.timezone'))->format($mailcoachFormat)
         );
 
@@ -238,6 +237,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
             Collection::macro('paginate', function (int $perPage = 15, string $pageName = 'page', int $page = null, int $total = null, array $options = []): LengthAwarePaginator {
                 $page = $page ?: LengthAwarePaginator::resolveCurrentPage($pageName);
 
+                /** @var Collection $this */
                 $results = $this->forPage($page, $perPage)->values();
 
                 $total = $total ?: $this->count();
@@ -287,10 +287,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootRoutes(): self
     {
-        Route::model('transactionalMailTemplate', $this->getTransactionalMailTemplateClass());
-        Route::bind('automationMail', function (string $value) {
-            return static::getAutomationMailClass()::find($value);
-        });
+        Route::model('transactionalMailTemplate', self::getTransactionalMailTemplateClass());
 
         Route::macro('mailcoach', function (string $url = '') {
             Route::get($url, '\\' . HomeController::class)->name('mailcoach.home');
@@ -387,6 +384,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.components.button.secondary', 'mailcoach::button-secondary');
         Blade::component('mailcoach::app.components.button.cancel', 'mailcoach::button-cancel');
 
+        Blade::component('mailcoach::app.components.editorButtons', 'mailcoach::editor-buttons');
         Blade::component(CampaignReplacerHelpTextsComponent::class, 'mailcoach::campaign-replacer-help-texts');
 
         Blade::component(AutomationMailReplacerHelpTextsComponent::class, 'mailcoach::automation-mail-replacer-help-texts');

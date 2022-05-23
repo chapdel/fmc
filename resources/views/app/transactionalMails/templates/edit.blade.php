@@ -3,6 +3,8 @@
         class="form-grid"
         method="POST"
         wire:submit.prevent="save"
+        @keydown.prevent.window.cmd.s="$wire.call('save')"
+        @keydown.prevent.window.ctrl.s="$wire.call('save')"
     >
         <x-mailcoach::fieldset :legend="__('mailcoach - Recipients')">
             <x-mailcoach::help>

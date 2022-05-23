@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use Spatie\Mailcoach\Database\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\ConfirmSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
@@ -22,7 +23,7 @@ use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasExtraAttributes;
-use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
+use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Mailcoach;
@@ -90,7 +91,7 @@ class Subscriber extends Model
 
     public function actions(): BelongsToMany
     {
-        return $this->belongsToMany(self::getAutomationActionClass(), self::getActionSubscriberTableName())
+        return $this->belongsToMany(self::getAutomationActionModelClass(), self::getActionSubscriberTableName())
             ->withPivot(['completed_at', 'halted_at', 'run_at'])
             ->withTimestamps();
     }
@@ -98,6 +99,15 @@ class Subscriber extends Model
     public function currentAction(Automation $automation): ?Action
     {
         return $this->currentActions($automation)->first();
+    }
+
+    public function currentActionClass(Automation $automation): ?string
+    {
+        if (! $action = $this->currentAction($automation)) {
+            return null;
+        }
+
+        return $action->action::class;
     }
 
     public function currentActions(Automation $automation): Collection
@@ -118,7 +128,7 @@ class Subscriber extends Model
                 static::getCampaignUnsubscribeClass()::firstOrCreate([
                     'campaign_id' => $send->campaign->id,
                     'subscriber_id' => $send->subscriber->id,
-                ]);
+                ], ['uuid' => Str::uuid()]);
 
                 $send->campaign->dispatchCalculateStatistics();
             }
@@ -127,7 +137,7 @@ class Subscriber extends Model
                 static::getAutomationMailUnsubscribeClass()::firstOrCreate([
                     'automation_mail_id' => $send->automationMail->id,
                     'subscriber_id' => $send->subscriber->id,
-                ]);
+                ], ['uuid' => Str::uuid()]);
 
                 $send->automationMail->dispatchCalculateStatistics();
             }
@@ -213,6 +223,7 @@ class Subscriber extends Model
                 'name' => $name,
                 'email_list_id' => $this->emailList->id,
             ], [
+                'uuid' => Str::uuid(),
                 'type' => $type ?? TagType::DEFAULT,
             ]);
 

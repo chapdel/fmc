@@ -7,6 +7,7 @@ use Livewire\Component;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
+use Spatie\Mailcoach\MainNavigation;
 use Spatie\ValidationRules\Rules\Delimited;
 
 class ListSettings extends Component
@@ -43,6 +44,8 @@ class ListSettings extends Component
     public function mount(EmailList $emailList)
     {
         $this->emailList = $emailList;
+
+        app(MainNavigation::class)->activeSection()?->add($this->emailList->name, route('mailcoach.emailLists.general-settings', $this->emailList));
     }
 
     public function save()
@@ -58,7 +61,7 @@ class ListSettings extends Component
     {
         return view('mailcoach::app.emailLists.settings.general')
             ->layout('mailcoach::app.emailLists.layouts.emailList', [
-                'title' => __('mailcoach - General'),
+                'title' => __('mailcoach - Settings') . ' — ' . __('mailcoach - General'),
                 'emailList' => $this->emailList,
             ]);
     }

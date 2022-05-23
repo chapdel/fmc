@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Http\App\Livewire;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Spatie\ValidationRules\Rules\Delimited;
 
 class SendTest extends Component
@@ -35,11 +35,13 @@ class SendTest extends Component
 
         $emails = array_map('trim', explode(',', $this->emails));
 
-        if ($this->model instanceof Campaign) {
+        if ($this->model instanceof Sendable) {
             $this->model->sendTestMail($emails);
+            $this->flash(__('mailcoach - A test email was sent to :count addresses.', ['count' => count($emails)]));
+        } else {
+            $this->flashError(__('mailcoach - Model :model does not support sending tests.', ['model' => $this->model::class]));
         }
 
-        $this->flash(__('mailcoach - A test email was sent to :count addresses.', ['count' => count($emails)]));
         $this->dispatchBrowserEvent('modal-closed', ['modal' => 'send-test']);
     }
 

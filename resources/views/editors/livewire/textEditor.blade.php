@@ -17,6 +17,10 @@
                             rows="15"
                             wire:model.lazy="templateFieldValues.{{ $placeHolderName }}"
                         ></textarea>
+
+                        @error('templateFieldValues.' . $placeHolderName)
+                            <p class="text-red-500">{{ $message }}</p>
+                        @enderror
                     </div>
                 @endforeach
             </div>
@@ -32,21 +36,15 @@
                     rows="15"
                     wire:model.lazy="templateFieldValues.html"
                 ></textarea>
+
+                @error('templateFieldValues.html')
+                    <p class="text-red-500">{{ $message }}</p>
+                @enderror
             </div>
         @endif
 
         <x-mailcoach::campaign-replacer-help-texts/>
     </div>
 
-    <div class="form-buttons">
-        <x-mailcoach::button-secondary x-on:click.prevent="$store.modals.open('preview')" :label="__('mailcoach - Preview')"/>
-        <x-mailcoach::preview-modal name="preview" :html="$fullHtml" :title="__('mailcoach - Preview') . ' - ' . $model->subject" />
-
-        <x-mailcoach::button wire:click="save" :label="__('mailcoach - Save content')"/>
-
-        <x-mailcoach::button x-on:click.prevent="$wire.save() && $store.modals.open('send-test')" class="ml-2" :label="__('mailcoach - Save and send test')"/>
-        <x-mailcoach::modal name="send-test">
-            <livewire:mailcoach::send-test :model="$model" />
-        </x-mailcoach::modal>
-    </div>
+    <x-mailcoach::editor-buttons :html="$fullHtml" :model="$model" />
 </div>

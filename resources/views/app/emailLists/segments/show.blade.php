@@ -14,6 +14,8 @@
         <form
             class="form-grid"
             wire:submit.prevent="save"
+            @keydown.prevent.window.cmd.s="$wire.call('save')"
+            @keydown.prevent.window.ctrl.s="$wire.call('save')"
             method="POST"
         >
             @if (! $emailList->tags()->count())

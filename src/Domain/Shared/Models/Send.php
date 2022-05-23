@@ -22,7 +22,6 @@ use Spatie\Mailcoach\Domain\Campaign\Events\CampaignLinkClickedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignOpenedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignClick;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignOpen;
-use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Actions\StripUtmTagsFromUrlAction;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailLinkClickedEvent;
@@ -301,7 +300,7 @@ class Send extends Model
         $campaignLink = self::getCampaignLinkClass()::firstOrCreate([
             'campaign_id' => $this->campaign->id,
             'url' => $url,
-        ]);
+        ], ['uuid' => Str::uuid()]);
 
         $campaignClick = $campaignLink->registerClick($this, $clickedAt);
 
@@ -326,7 +325,7 @@ class Send extends Model
         $automationMailLink = self::getAutomationMailLinkClass()::firstOrCreate([
             'automation_mail_id' => $this->automationMail->id,
             'url' => $url,
-        ]);
+        ], ['uuid' => Str::uuid()]);
 
         $automationMailLink = $automationMailLink->registerClick($this, $clickedAt);
 
@@ -357,6 +356,7 @@ class Send extends Model
     {
         $this->feedback()->create([
             'type' => SendFeedbackType::BOUNCE,
+            'uuid' => Str::uuid(),
             'created_at' => $bouncedAt ?? now(),
         ]);
 
@@ -371,6 +371,7 @@ class Send extends Model
     {
         $this->feedback()->create([
             'type' => SendFeedbackType::COMPLAINT,
+            'uuid' => Str::uuid(),
             'created_at' => $complainedAt ?? now(),
         ]);
 

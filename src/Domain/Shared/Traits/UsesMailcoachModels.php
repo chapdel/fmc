@@ -93,7 +93,7 @@ trait UsesMailcoachModels
     }
 
     /** @return class-string<Action> */
-    public static function getAutomationActionClass(): string
+    public static function getAutomationActionModelClass(): string
     {
         return config('mailcoach.models.automation_action', Action::class);
     }
@@ -257,7 +257,7 @@ trait UsesMailcoachModels
     public static function getAutomationActionTableName(): string
     {
         /** @var \Illuminate\Database\Eloquent\Model $action */
-        $actionClass = self::getAutomationActionClass();
+        $actionClass = self::getAutomationActionModelClass();
 
         $action = new $actionClass;
 

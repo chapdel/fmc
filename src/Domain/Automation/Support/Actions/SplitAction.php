@@ -128,7 +128,7 @@ class SplitAction extends AutomationAction
 
     private function actionToArray(array | AutomationAction $action): array
     {
-        $actionClass = static::getAutomationActionClass();
+        $actionClass = static::getAutomationActionModelClass();
         $actionModel = $actionClass::query()
             ->where(
                 'uuid',
@@ -155,7 +155,7 @@ class SplitAction extends AutomationAction
 
     public function nextActions(Subscriber $subscriber): array
     {
-        $actionClass = static::getAutomationActionClass();
+        $actionClass = static::getAutomationActionModelClass();
         $parentAction = $actionClass::findByUuid($this->uuid);
 
         $actions = [];

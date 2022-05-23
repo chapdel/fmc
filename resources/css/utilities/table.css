@@ -105,11 +105,6 @@
     @apply items-center;
     @apply justify-between;
     @apply -mt-4;
-    @apply mb-8;
-}
-
-.table-actions > * {
-    @apply mt-4;
 }
 
 .table-filters {

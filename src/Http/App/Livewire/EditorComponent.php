@@ -1,25 +1,24 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Campaign\Livewire;
+namespace Spatie\Mailcoach\Http\App\Livewire;
 
 use Carbon\CarbonInterval;
 use Illuminate\Support\Arr;
 use Livewire\Component;
-use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
+use Spatie\Mailcoach\Domain\Campaign\Rules\HtmlRule;
+use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Spatie\Mailcoach\Domain\Shared\Support\TemplateRenderer;
-use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 use Spatie\ValidationRules\Rules\Delimited;
 
 abstract class EditorComponent extends Component
 {
     use LivewireFlash;
 
-    public bool $supportsTemplates = true;
+    public static bool $supportsTemplates = true;
 
-    public bool $supportsContent = true;
+    public static bool $supportsContent = true;
 
     public HasHtmlContent $model;
 
@@ -37,14 +36,19 @@ abstract class EditorComponent extends Component
 
         $this->templateFieldValues = $model->getTemplateFieldValues();
 
-        $this->template = $model->template;
-        $this->templateId = $model->template?->id;
+        if ($model instanceof Sendable) {
+            $this->template = $model->template;
+            $this->templateId = $model->template?->id;
+        }
+
         $this->renderFullHtml();
 
         if ($this->template?->containsPlaceHolders()) {
             foreach ($this->template->placeHolderNames() as $placeHolderName) {
                 $this->templateFieldValues[$placeHolderName] ??= '';
             }
+        } else {
+            $this->templateFieldValues['html'] ??= '';
         }
     }
 
@@ -80,6 +84,15 @@ abstract class EditorComponent extends Component
         $this->fullHtml = $templateRenderer->render($this->templateFieldValues);
     }
 
+    public function rules(): array
+    {
+        $fieldValues = $this->filterNeededFields($this->templateFieldValues, $this->template);
+
+        return collect($fieldValues)->mapWithKeys(function ($value, $key) {
+            return ["templateFieldValues.{$key}" => ['required', new HtmlRule()]];
+        })->toArray();
+    }
+
     public function save()
     {
         $fieldValues = $this->filterNeededFields($this->templateFieldValues, $this->template);
@@ -89,16 +102,16 @@ abstract class EditorComponent extends Component
             $this->model->last_modified_at = now();
         }
 
+        if (! empty($this->rules)) {
+            $this->validate($this->rules());
+        }
+
         $this->model->html = $this->fullHtml;
         $this->model->setTemplateFieldValues($fieldValues);
 
         $this->model->save();
 
-        match (true) {
-            $this->model instanceof Campaign => $this->flash(__('mailcoach - Campaign :campaign was updated.', ['campaign' => $this->model->name])),
-            $this->model instanceof AutomationMail => $this->flash(__('mailcoach - Email :name was updated.', ['name' => $this->model->name])),
-            $this->model instanceof Template => $this->flash(__('mailcoach - Template :name was updated.', ['name' => $this->model->name])),
-        };
+        $this->flash(__('mailcoach - :name was updated.', ['name' => $this->model->name]));
 
         $this->emit('editorSaved');
     }

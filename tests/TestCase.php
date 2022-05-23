@@ -28,6 +28,7 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Front\Controllers\UnsubscribeController;
 use Spatie\Mailcoach\MailcoachServiceProvider;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
+use Spatie\Navigation\NavigationServiceProvider;
 use Spatie\QueryBuilder\QueryBuilderServiceProvider;
 use function Spatie\Snapshots\assertMatchesHtmlSnapshot;
 use Spatie\TestTime\TestTime;
@@ -81,6 +82,7 @@ abstract class TestCase extends Orchestra
             FeedServiceProvider::class,
             MediaLibraryServiceProvider::class,
             QueryBuilderServiceProvider::class,
+            NavigationServiceProvider::class,
         ];
     }
 

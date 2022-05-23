@@ -35,7 +35,7 @@ class Automations extends DataTable
         ]);
 
         $automation->actions->each(function (Action $action) use ($duplicateAutomation) {
-            $actionClass = static::getAutomationActionClass();
+            $actionClass = static::getAutomationActionModelClass();
             $newAction = $duplicateAutomation->actions()->save($actionClass::make([
                 'action' => $action->action->duplicate(),
                 'key' => $action->key,

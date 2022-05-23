@@ -1,5 +1,5 @@
 <div>
-    <h1 class="markup-h1 -mt-10">
+    <h1 class="markup-h1 -mt-6">
         Hello, {{ str(Auth::user()->name)->ucfirst() }}!
     </h1>
     <div class="grid grid-cols-12 gap-6">

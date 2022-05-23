@@ -9,6 +9,7 @@ use Livewire\Component;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag as TagModel;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
+use Spatie\Mailcoach\MainNavigation;
 
 class Tag extends Component
 {
@@ -38,6 +39,11 @@ class Tag extends Component
 
         $this->emailList = $emailList;
         $this->tag = $tag;
+
+        app(MainNavigation::class)->activeSection()
+            ->add($this->emailList->name, route('mailcoach.emailLists.summary', $this->emailList), function ($section) {
+                $section->add(__('mailcoach - Tags'), route('mailcoach.emailLists.tags', $this->emailList));
+            });
     }
 
     public function save()
@@ -54,6 +60,7 @@ class Tag extends Component
         return view('mailcoach::app.emailLists.tags.show')
             ->layout('mailcoach::app.emailLists.layouts.emailList', [
                 'emailList' => $this->emailList,
+                'title' => $this->tag->name,
             ]);
     }
 }

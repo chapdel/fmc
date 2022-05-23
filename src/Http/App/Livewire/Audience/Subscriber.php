@@ -12,6 +12,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\Subscriber as SubscriberModel;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 use Spatie\Mailcoach\Mailcoach;
+use Spatie\Mailcoach\MainNavigation;
 
 class Subscriber extends Component
 {
@@ -86,6 +87,11 @@ class Subscriber extends Component
         $this->subscriber = $subscriber;
         $this->totalSendsCount = $subscriber->sends()->count();
         $this->tags = $subscriber->tags()->pluck('name')->toArray();
+
+        app(MainNavigation::class)->activeSection()
+            ->add($this->emailList->name, route('mailcoach.emailLists.summary', $this->emailList), function ($section) {
+                $section->add(__('mailcoach - Subscribers'), route('mailcoach.emailLists.subscribers', $this->emailList));
+            });
     }
 
     public function render(): View
@@ -94,6 +100,7 @@ class Subscriber extends Component
 
         ])->layout('mailcoach::app.emailLists.layouts.emailList', [
             'emailList' => $this->emailList,
+            'title' => $this->subscriber->email,
         ]);
     }
 }

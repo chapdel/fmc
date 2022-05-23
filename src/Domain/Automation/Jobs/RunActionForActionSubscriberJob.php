@@ -48,7 +48,7 @@ class RunActionForActionSubscriberJob implements ShouldQueue, ShouldBeUnique
         /** @var \Spatie\Mailcoach\Domain\Automation\Models\Automation $automation */
         $automation = $this->actionSubscriber->action->automation;
 
-        if (! $automation->newSubscribersQuery()->where($this->getSubscriberTableName() . '.id', $subscriber->id)->exists()) {
+        if (! $automation->newSubscribersQuery()->where(self::getSubscriberTableName() . '.id', $subscriber->id)->exists()) {
             $this->actionSubscriber->update([
                 'halted_at' => now(),
                 'run_at' => now(),

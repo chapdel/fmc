@@ -11,7 +11,7 @@ use Spatie\Mailcoach\Database\Factories\ActionFactory;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Jobs\RunActionForActionSubscriberJob;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\AutomationAction;
-use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
+use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class Action extends Model
@@ -97,12 +97,12 @@ class Action extends Model
 
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(static::getAutomationActionClass(), 'parent_id');
+        return $this->belongsTo(static::getAutomationActionModelClass(), 'parent_id');
     }
 
     public function children(): HasMany
     {
-        return $this->hasMany(static::getAutomationActionClass(), 'parent_id')->orderBy('order');
+        return $this->hasMany(static::getAutomationActionModelClass(), 'parent_id')->orderBy('order');
     }
 
     public function toLivewireArray(): array

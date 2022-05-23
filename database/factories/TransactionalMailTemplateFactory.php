@@ -13,6 +13,7 @@ class TransactionalMailTemplateFactory extends Factory
     public function definition()
     {
         return [
+            'uuid' => $this->faker->uuid,
             'name' => $this->faker->word,
             'subject' => $this->faker->sentence,
             'from' => $this->faker->email,

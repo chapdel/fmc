@@ -16,8 +16,8 @@ use Spatie\Mailcoach\Domain\Automation\Exceptions\CouldNotStartAutomation;
 use Spatie\Mailcoach\Domain\Automation\Jobs\RunActionForActionSubscriberJob;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\AutomationAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\AutomationTrigger;
-use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\SendsToSegment;
+use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class Automation extends Model
@@ -87,12 +87,12 @@ class Automation extends Model
 
     public function actions(): HasMany
     {
-        return $this->hasMany(static::getAutomationActionClass())->whereNull('parent_id')->orderBy('order');
+        return $this->hasMany(static::getAutomationActionModelClass())->whereNull('parent_id')->orderBy('order');
     }
 
     public function allActions(): HasMany
     {
-        return $this->hasMany(static::getAutomationActionClass())->orderBy('order');
+        return $this->hasMany(static::getAutomationActionModelClass())->orderBy('order');
     }
 
     public function emailList(): BelongsTo

@@ -25,7 +25,7 @@ class TransactionalMails extends DataTable
 
     public function getTitle(): string
     {
-        return __('mailcoach - Transactional log');
+        return __('mailcoach - Log');
     }
 
     public function getView(): string

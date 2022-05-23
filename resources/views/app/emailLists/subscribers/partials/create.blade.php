@@ -1,4 +1,10 @@
-<form class="form-grid" wire:submit.prevent="saveSubscriber" method="POST">
+<form
+    class="form-grid"
+    wire:submit.prevent="saveSubscriber"
+    @keydown.prevent.window.cmd.s="$wire.call('saveSubscriber')"
+    @keydown.prevent.window.ctrl.s="$wire.call('saveSubscriber')"
+    method="POST"
+>
     @csrf
     <x-mailcoach::text-field :label="__('mailcoach - Email')" wire:model.lazy="email" name="email" type="email" required />
     <x-mailcoach::text-field :label="__('mailcoach - First name')" wire:model.lazy="first_name" name="first_name" />

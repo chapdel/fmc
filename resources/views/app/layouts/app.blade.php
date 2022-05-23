@@ -62,32 +62,9 @@
                 </aside>
 
                 <header class="">
-                    <nav class="shadow-lg rounded bg-gradient-to-r from-blue-800 via-blue-800 to-blue-900 w-full">
-                        <x-mailcoach::main-navigation />
-                    </nav>
+                    <x-mailcoach::main-navigation />
 
-                    <div class="h-12 flex items-center gap-x-4 px-4 text-gray-700 text-sm">
-                        <a class="font-semibold" href="{{ route(config('mailcoach.redirect_home')) }}"><i class="fa fa-home"></i></a>
-                        @foreach (app(\Spatie\Mailcoach\MainNavigation::class)->breadcrumbs() as $breadcrumb)
-                            @if ($loop->first)
-                                <span>&gt;</span>
-                            @endif
-                            <a class="font-semibold" href="{{ $breadcrumb['url'] }}">{{ $breadcrumb['title'] }}</a>
-                            @if (! $loop->last)
-                                <span>&gt;</span>
-                            @endif
-                        @endforeach
-                        @if (isset($title) && $title !== ($breadcrumb['title'] ?? ''))
-                            <span>&gt;</span>
-                            <span>
-                                @if (($originTitle ?? '') && $originTitle !== $title)
-                                    <span class="">{{ $originTitle }}</span>
-                                    <span>&mdash;</span>
-                                @endif
-                                <span class="">{{ $title }}</span>
-                            </span>
-                        @endif
-                    </div>
+                    @include('mailcoach::app.layouts.partials.breadcrumbs')
                 </header>
 
                 <div>

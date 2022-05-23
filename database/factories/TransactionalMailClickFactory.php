@@ -13,6 +13,7 @@ class TransactionalMailClickFactory extends Factory
     public function definition()
     {
         return [
+            'uuid' => $this->faker->uuid,
             'send_id' => Send::factory(),
             'url' => $this->faker->url,
         ];

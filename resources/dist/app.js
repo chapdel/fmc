@@ -4372,6 +4372,8 @@ __webpack_require__(/*! ./components/charts/emailListStatistics */ "./resources/
 
 __webpack_require__(/*! ./components/charts/campaignStatistics */ "./resources/js/components/charts/campaignStatistics.js");
 
+__webpack_require__(/*! ./components/charts/dashboardChart */ "./resources/js/components/charts/dashboardChart.js");
+
 __webpack_require__(/*! ./components/navigation */ "./resources/js/components/navigation.js");
 
 alpinejs__WEBPACK_IMPORTED_MODULE_3__["default"].plugin(_alpinejs_focus__WEBPACK_IMPORTED_MODULE_4__["default"]);
@@ -4489,6 +4491,149 @@ document.addEventListener('alpine:init', function () {
                 ticks: {
                   fontColor: "rgba(30, 64, 175, 1)"
                 },
+                grid: {
+                  display: false
+                }
+              },
+              x: {
+                ticks: {
+                  fontColor: "rgba(30, 64, 175, 1)"
+                },
+                grid: {
+                  borderColor: "rgba(30, 64, 175, .2)",
+                  borderDash: [5, 5],
+                  zeroLineColor: "rgba(30, 64, 175, .2)",
+                  zeroLineBorderDash: [5, 5]
+                }
+              }
+            }
+          }
+        });
+      }
+    };
+  });
+});
+
+/***/ }),
+
+/***/ "./resources/js/components/charts/dashboardChart.js":
+/*!**********************************************************!*\
+  !*** ./resources/js/components/charts/dashboardChart.js ***!
+  \**********************************************************/
+/***/ (() => {
+
+document.addEventListener('alpine:init', function () {
+  Alpine.data('dashboardChart', function () {
+    return {
+      chartData: {},
+      renderChart: function renderChart(chartData) {
+        var _this = this;
+
+        var chart = document.getElementById('chart');
+        this.chartData = chartData;
+        var c = false;
+        Chart.helpers.each(Chart.instances, function (instance) {
+          if (instance.canvas.id === 'chart') {
+            c = instance;
+          }
+        });
+
+        if (c) {
+          c.destroy();
+        }
+
+        new Chart(chart.getContext('2d'), {
+          type: "bar",
+          data: {
+            labels: this.chartData.labels,
+            datasets: [{
+              label: 'Subscribes',
+              backgroundColor: 'rgba(110, 231, 183, 0.3)',
+              borderColor: 'rgba(110, 231, 183, 1)',
+              pointBackgroundColor: 'rgba(110, 231, 183, 1)',
+              borderRadius: 5,
+              data: this.chartData.subscribes,
+              stack: 'stack0',
+              order: 2
+            }, {
+              label: 'Unsubscribes',
+              backgroundColor: 'rgba(244, 63, 94, 0.1)',
+              borderColor: 'rgba(244, 63, 94, 1)',
+              pointBackgroundColor: 'rgba(244, 63, 94, 1)',
+              borderRadius: 5,
+              data: this.chartData.unsubscribes.map(function (val) {
+                return -val;
+              }),
+              stack: 'stack0',
+              order: 1
+            }, {
+              label: 'Subscribers',
+              type: 'line',
+              backgroundColor: 'rgba(30, 64, 175, 0.1)',
+              borderColor: 'rgba(30, 64, 175, 1)',
+              pointBackgroundColor: 'rgba(30, 64, 175, 1)',
+              data: this.chartData.subscribers,
+              yAxisID: 'y1',
+              order: 0
+            }]
+          },
+          options: {
+            maintainAspectRatio: false,
+            responsive: true,
+            barPercentage: .70,
+            interaction: {
+              intersect: false,
+              mode: 'index'
+            },
+            plugins: {
+              zoom: {
+                pan: {
+                  enabled: true,
+                  mode: 'x',
+                  modifierKey: 'ctrl'
+                },
+                zoom: {
+                  drag: {
+                    enabled: true
+                  },
+                  mode: 'x'
+                }
+              },
+              legend: {
+                display: false
+              },
+              tooltip: {
+                backgroundColor: 'rgba(30, 64, 175, 0.8)',
+                titleSpacing: 4,
+                bodySpacing: 4,
+                padding: 8,
+                displayColors: false,
+                callbacks: {
+                  afterBody: function afterBody(tooltips) {
+                    var campaigns = _this.chartData.campaigns[tooltips[0].dataIndex];
+
+                    if (campaigns.length === 0) {
+                      return;
+                    }
+
+                    return "Campaign".concat(campaigns.length > 1 ? 's' : '', ": ").concat(campaigns.map(function (campaign) {
+                      return campaign.name;
+                    }).join(', '));
+                  }
+                }
+              }
+            },
+            scales: {
+              y: {
+                ticks: {
+                  fontColor: "rgba(30, 64, 175, 1)"
+                },
+                grid: {
+                  display: false
+                }
+              },
+              y1: {
+                position: 'right',
                 grid: {
                   display: false
                 }
@@ -4719,31 +4864,50 @@ document.addEventListener('turbo:load', updateHtmlPreview);
 document.addEventListener('alpine:init', function () {
   window.Alpine.data('navigation', function () {
     return {
+      show: true,
+      hasOpened: false,
       init: function init() {
-        var coords = this.$el.querySelector('.navigation-item').getBoundingClientRect();
-        this.$refs.background.style.setProperty('transform', "translate(".concat(coords.left, "px, ").concat(coords.top, "px"));
+        var _this = this;
+
+        this.$nextTick(function () {
+          if (_this.hasOpened) {
+            return;
+          }
+
+          var coords = _this.$el.querySelector('.navigation-dropdown').closest('.navigation-item').getBoundingClientRect();
+
+          _this.$refs.background.style.setProperty('transform', "translate(".concat(coords.left, "px, ").concat(coords.top, "px"));
+        });
+
+        if (window.innerWidth < 768) {
+          this.show = false;
+        }
       },
       open: function open(event) {
         if (event.target.classList.contains('navigation-link')) {
           return;
         }
 
+        if (window.innerWidth < 768) {
+          return;
+        }
+
         event.preventDefault();
         document.querySelectorAll('.navigation-dropdown').forEach(function (el) {
-          return el.classList.add('hidden', 'opacity-0');
+          return el.classList.add('md:hidden', 'md:opacity-0');
         });
         var target = event.target.classList.contains('navigation-item') ? event.target : event.target.closest('.navigation-item');
         var dropdown = target.querySelector('.navigation-dropdown');
         var background = this.$refs.background;
-        dropdown.classList.remove('hidden');
+        dropdown.classList.remove('md:hidden');
         setTimeout(function () {
-          if (!dropdown.classList.contains('hidden')) {
-            dropdown.classList.remove('opacity-0');
-            dropdown.classList.add('opacity-100');
+          if (!dropdown.classList.contains('md:hidden')) {
+            dropdown.classList.remove('md:opacity-0');
+            dropdown.classList.add('md:opacity-100');
           }
         }, 150);
-        background.classList.remove('opacity-0');
-        background.classList.add('opacity-100');
+        background.classList.remove('md:opacity-0');
+        background.classList.add('md:opacity-100');
         var dropdownCoords = dropdown.getBoundingClientRect();
         var navCoords = document.querySelector('.navigation-main').getBoundingClientRect();
         var coords = {
@@ -4755,14 +4919,19 @@ document.addEventListener('alpine:init', function () {
         background.style.setProperty('width', "".concat(coords.width, "px"));
         background.style.setProperty('height', "".concat(coords.height, "px"));
         background.style.setProperty('transform', "translate(".concat(coords.left, "px, ").concat(coords.top, "px"));
+        this.hasOpened = true;
       },
       close: function close(event) {
+        if (window.innerWidth < 768) {
+          return;
+        }
+
         document.querySelectorAll('.navigation-dropdown').forEach(function (el) {
-          el.classList.remove('block', 'opacity-100');
-          el.classList.add('hidden', 'opacity-0');
+          el.classList.remove('md:block', 'md:opacity-100');
+          el.classList.add('md:hidden', 'md:opacity-0');
         });
-        this.$refs.background.classList.add('opacity-0');
-        this.$refs.background.classList.remove('opacity-100');
+        this.$refs.background.classList.add('md:opacity-0');
+        this.$refs.background.classList.remove('md:opacity-100');
       }
     };
   });

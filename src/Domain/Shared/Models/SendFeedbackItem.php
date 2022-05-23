@@ -9,6 +9,7 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class SendFeedbackItem extends Model
 {
+    use HasUuid;
     use UsesMailcoachModels;
 
     public $table = 'mailcoach_send_feedback_items';
