@@ -13,6 +13,7 @@
     "mailcoach - A summary of the ':list' list": "A summary of the ':list' list",
     "mailcoach - A test email was sent to :count addresses.": "A test email was sent to :count addresses.",
     "mailcoach - A test email was sent to :email.": "A test email was sent to :email.",
+    "mailcoach - Model :model does not support sending tests.": "Model :model does not support sending tests.",
     "mailcoach - Actions successfully saved to automation :automation.": "Actions successfully saved to automation :automation.",
     "mailcoach - Actions": "Actions",
     "mailcoach - Active": "Active",

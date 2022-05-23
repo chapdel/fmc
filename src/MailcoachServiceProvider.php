@@ -287,10 +287,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootRoutes(): self
     {
-        Route::model('transactionalMailTemplate', $this->getTransactionalMailTemplateClass());
-        Route::bind('automationMail', function (string $value) {
-            return static::getAutomationMailClass()::find($value);
-        });
+        Route::model('transactionalMailTemplate', self::getTransactionalMailTemplateClass());
 
         Route::macro('mailcoach', function (string $url = '') {
             Route::get($url, '\\' . HomeController::class)->name('mailcoach.home');

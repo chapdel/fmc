@@ -10,25 +10,12 @@ class AutomationMailContentController
 {
     use AuthorizesRequests;
 
-    public function edit(AutomationMail $mail)
+    public function edit(AutomationMail $automationMail)
     {
-        $this->authorize('update', $mail);
+        $this->authorize('update', $automationMail);
 
-        return view("mailcoach::app.automations.mails.content", compact('mail'));
-    }
-
-    public function update(AutomationMail $mail, UpdateCampaignContentRequest $request)
-    {
-        $this->authorize('update', $mail);
-
-        $mail->update([
-            'html' => $request->html,
-            'structured_html' => $request->structured_html,
-            'last_modified_at' => now(),
+        return view("mailcoach::app.automations.mails.content", [
+            'mail' => $automationMail,
         ]);
-
-        flash()->success(__('mailcoach - Email :name was updated.', ['name' => $mail->name]));
-
-        return redirect()->route('mailcoach.automations.mails.content', $mail->id);
     }
 }

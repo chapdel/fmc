@@ -25,6 +25,7 @@ abstract class Sendable extends Model implements HasHtmlContent
     use HasUuid;
     use HasFactory;
     use UsesMailcoachModels;
+    use HasTemplate;
 
     protected $guarded = [];
 

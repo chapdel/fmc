@@ -30,8 +30,6 @@ Route::prefix('campaigns')->group(function () {
 
         Route::middleware('\\' . EditableCampaign::class)->group(function () {
             Route::put('content', ['\\' . CampaignContentController::class, 'update'])->name('mailcoach.campaigns.updateContent');
-
-            Route::post('send-test-email', '\\' . SendCampaignTestController::class)->name('mailcoach.campaigns.sendTestEmail');
         });
 
         Route::get('summary', '\\' . Mailcoach::getLivewireClass('campaign-summary', \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignSummary::class))->name('mailcoach.campaigns.summary');
@@ -97,8 +95,6 @@ Route::prefix('automation-emails')->group(function () {
         Route::get('outbox', '\\' . Mailcoach::getLivewireClass('automation-mail-outbox', \Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailOutbox::class))->name('mailcoach.automations.mails.outbox');
 
         Route::get('content', [AutomationMailContentController::class, 'edit'])->name('mailcoach.automations.mails.content');
-        Route::put('content', [AutomationMailContentController::class, 'update'])->name('mailcoach.automations.mails.updateContent');
-        Route::post('send-test-email', '\\' . SendAutomationMailTestController::class)->name('mailcoach.automations.mails.sendTestEmail');
     });
 });
 
