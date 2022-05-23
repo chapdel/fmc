@@ -53,6 +53,14 @@ If you are using [Laravel Forge](https://forge.laravel.com), you don't need to c
 
 ![screenshot](/docs/laravel-mailcoach/v5/images/forge.png)
 
+To validate if Composer can read your `auth.json` you can run this command:
+
+```bash
+composer config --list --global | grep satis.spatie.be
+````
+
+If you did everything correctly, the above command should display your credentials. If that command doesn't display anything, verify that you created an auth.json as mentioned above.
+
 With this configuration in place, you'll be able to install the package into your project using this command:
 
 ```bash
