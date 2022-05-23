@@ -12,7 +12,6 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 use Spatie\Mailcoach\Database\Factories\EmailListFactory;
 use Spatie\Mailcoach\Domain\Audience\Mails\ConfirmSubscriberMail;
-use Spatie\Mailcoach\Domain\Campaign\Mails\WelcomeMail;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
@@ -29,8 +28,6 @@ class EmailList extends Model
     public $casts = [
         'requires_confirmation' => 'boolean',
         'allow_form_subscriptions' => 'boolean',
-        'send_welcome_mail' => 'boolean',
-        'welcome_mail_delay_in_minutes' => 'integer',
         'report_campaign_sent' => 'boolean',
         'report_campaign_summary' => 'boolean',
         'report_email_list_summary' => 'boolean',
@@ -162,44 +159,11 @@ class EmailList extends Model
         return route('mailcoach.subscribe', $this->uuid);
     }
 
-    public function welcomeMailableClass(): string
-    {
-        return empty($this->welcome_mailable_class)
-            ? WelcomeMail::class
-            : $this->welcome_mailable_class;
-    }
-
     public function confirmSubscriberMailableClass(): string
     {
         return empty($this->confirmation_mailable_class)
             ? ConfirmSubscriberMail::class
             : $this->confirmation_mailable_class;
-    }
-
-    public function hasCustomizedWelcomeMailFields(): bool
-    {
-        if (! empty($this->welcome_mail_subject)) {
-            return true;
-        }
-
-        if (! empty($this->welcome_mail_content)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public function welcomeMailValue(): string
-    {
-        if (! $this->send_welcome_mail) {
-            return 'do_not_send_welcome_mail';
-        }
-
-        if (! $this->hasCustomizedWelcomeMailFields()) {
-            return 'send_default_welcome_mail';
-        }
-
-        return 'send_custom_welcome_mail';
     }
 
     public function hasCustomizedConfirmationMailFields(): bool

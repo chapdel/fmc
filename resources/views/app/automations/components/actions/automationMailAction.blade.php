@@ -4,7 +4,10 @@
         {{__('mailcoach - Send email') }}
         <span class="legend-accent">
             @if ($automation_mail_id)
-                {{ optional(\Spatie\Mailcoach\Mailcoach::getAutomationMailClass()::find($automation_mail_id))->name }}
+                @php($automationMail = \Spatie\Mailcoach\Mailcoach::getAutomationMailClass()::find($automation_mail_id))
+                @if ($automationMail)
+                    <a target="_blank" href="{{ route('mailcoach.automations.mails.content', $automationMail) }}">{{ optional($automationMail)->name }} <i class="text-xs fas fa-external-link-alt"></i></a>
+                @endif
             @endif
         </span>
     </x-slot>

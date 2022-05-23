@@ -8,7 +8,6 @@ use Spatie\Mailcoach\Domain\Audience\Mails\ImportSubscribersResultMail;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
-use Spatie\Mailcoach\Domain\Campaign\Mails\WelcomeMail;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\ImportSubscribersController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -43,9 +42,6 @@ it('can subscribe multiple emails in one go', function () {
 
         return true;
     });
-
-    Mail::assertNotQueued(WelcomeMail::class);
-    Mail::assertNotSent(WelcomeMail::class);
 });
 
 it('will fill the correct attributes', function () {
@@ -83,7 +79,6 @@ it('will trim the subscriber row values', function () {
 it('will not import a subscriber that is already on the list', function () {
     Subscriber::createWithEmail('john@example.com')
         ->skipConfirmation()
-        ->doNotSendWelcomeMail()
         ->subscribeTo(test()->emailList);
 
     uploadStub('single.csv');

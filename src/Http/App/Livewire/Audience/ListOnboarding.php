@@ -2,10 +2,18 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 
+use Carbon\CarbonInterval;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
+use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
+use Spatie\Mailcoach\Domain\Campaign\Mails\WelcomeMail;
+use Spatie\Mailcoach\Domain\Shared\Support\TemplateRenderer;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 use Spatie\Mailcoach\MainNavigation;
@@ -15,16 +23,10 @@ class ListOnboarding extends Component
     use UsesMailcoachModels;
     use LivewireFlash;
 
-    public const WELCOME_MAIL_DISABLED = 'do_not_send_welcome_mail';
-    public const WELCOME_MAIL_DEFAULT_CONTENT = 'send_default_welcome_mail';
-    public const WELCOME_MAIL_CUSTOM_CONTENT = 'send_custom_welcome_mail';
-
     public const CONFIRMATION_MAIL_DEFAULT = 'send_default_confirmation_mail';
     public const CONFIRMATION_MAIL_CUSTOM = 'send_custom_confirmation_mail';
 
     public EmailList $emailList;
-
-    public string $welcome_mail;
 
     public string $confirmation_mail;
 
@@ -45,10 +47,6 @@ class ListOnboarding extends Component
             'emailList.redirect_after_already_subscribed' => '',
             'emailList.redirect_after_subscription_pending' => '',
             'emailList.redirect_after_unsubscribed' => '',
-            'welcome_mail' => Rule::in([static::WELCOME_MAIL_DISABLED, static::WELCOME_MAIL_DEFAULT_CONTENT, static::WELCOME_MAIL_CUSTOM_CONTENT]),
-            'emailList.welcome_mail_subject' => 'required_if:welcome_mail,' . static::WELCOME_MAIL_CUSTOM_CONTENT,
-            'emailList.welcome_mail_content' => 'required_if:welcome_mail,' . static::WELCOME_MAIL_CUSTOM_CONTENT,
-            'emailList.welcome_mail_delay_in_minutes' => 'nullable|numeric',
             'confirmation_mail' => Rule::in([static::CONFIRMATION_MAIL_DEFAULT, static::CONFIRMATION_MAIL_CUSTOM]),
             'emailList.confirmation_mail_subject' => 'required_if:confirmation_mail,' . static::CONFIRMATION_MAIL_CUSTOM,
             'emailList.confirmation_mail_content' => 'required_if:confirmation_mail,'. static::CONFIRMATION_MAIL_CUSTOM,
@@ -60,8 +58,6 @@ class ListOnboarding extends Component
         $customMailRequiredValidationMessage = __('mailcoach - This field is required when using a custom mail');
 
         return [
-            'emailList.welcome_mail_subject.required_if' => $customMailRequiredValidationMessage,
-            'emailList.welcome_mail_content.required_if' => $customMailRequiredValidationMessage,
             'emailList.confirmation_mail_subject.required_if' => $customMailRequiredValidationMessage,
             'emailList.confirmation_mail_content.required_if' => $customMailRequiredValidationMessage,
         ];
@@ -70,16 +66,6 @@ class ListOnboarding extends Component
     public function updateAllowedFormSubscriptionTags(array $tags)
     {
         $this->allowed_form_subscription_tags = $tags;
-    }
-
-    public function updatedWelcomeMail()
-    {
-        $this->emailList->send_welcome_mail = $this->welcome_mail !== self::WELCOME_MAIL_DISABLED;
-
-        if ($this->welcome_mail === self::WELCOME_MAIL_DISABLED) {
-            $this->emailList->welcome_mail_subject = null;
-            $this->emailList->welcome_mail_content = null;
-        }
     }
 
     public function updatedConfirmationMail()
@@ -98,11 +84,62 @@ class ListOnboarding extends Component
         app(MainNavigation::class)->activeSection()->add($this->emailList->name, route('mailcoach.emailLists.onboarding', $this->emailList));
     }
 
+    public function createWelcomeMailAutomation()
+    {
+        $html = (new WelcomeMail())->build()->render();
+        $template = self::getTemplateClass()::firstOrCreate([
+            'name' => __('mailcoach - Default'),
+        ], [
+            'html' => $html,
+            'structured_html' => json_encode([
+                'templateValues' => [
+                    'html' => $html,
+                ],
+            ]),
+        ]);
+
+        $body = Blade::render(<<<'blade'
+            <p>{{ __('mailcoach - Hi') }},</p>
+            <p>{{ __('mailcoach - You are now subscribed to list ::list.name::') }}.</p>
+            <p>{{ __('mailcoach - Happy to have you!') }}!</p>
+        blade);
+
+        $subcopy = Blade::render(<<<'blade'
+            <p>{!! __('mailcoach - If you accidentally subscribed to this list, click here to <a href="::unsubscribeUrl::">unsubscribe</a>') !!}</p>
+        blade);
+
+        $automationMail = AutomationMail::create([
+            'name' => __('mailcoach - Welcome to :list', ['list' => $this->emailList->name]),
+            'template_id' => $template->id,
+            'html' => (new TemplateRenderer($template))->render(['body' => $body, 'subcopy' => $subcopy]),
+            'structured_html' => json_encode([
+                'templateValues' => [
+                    'body' => $body,
+                    'subcopy' => $subcopy,
+                ],
+            ], JSON_THROW_ON_ERROR),
+        ]);
+
+        /** @var \Spatie\Mailcoach\Domain\Automation\Models\Automation $automation */
+        $automation = self::getAutomationClass()::create();
+        $automation->name(__('mailcoach - Welcome automation for :list', ['list' => $this->emailList->name]))
+            ->to($this->emailList)
+            ->runEvery(CarbonInterval::minute())
+            ->triggerOn(new SubscribedTrigger())
+            ->chain([
+                new SendAutomationMailAction($automationMail),
+                new HaltAction(),
+            ]);
+
+        flash()->success(__('mailcoach - Automation :name succesfully created', ['name' => $automation->name]));
+
+        return redirect()->route('mailcoach.automations.actions', $automation);
+    }
+
     public function save()
     {
         $this->validate();
 
-        $this->emailList->send_welcome_mail = $this->welcome_mail !== self::WELCOME_MAIL_DISABLED;
         $this->emailList->save();
         $this->emailList->allowedFormSubscriptionTags()->sync(self::getTagClass()::whereIn('name', $this->allowed_form_subscription_tags)->pluck('id'));
 
@@ -111,7 +148,6 @@ class ListOnboarding extends Component
 
     public function render(): View
     {
-        $this->welcome_mail = $this->emailList->welcomeMailValue();
         $this->confirmation_mail = $this->emailList->hasCustomizedConfirmationMailFields()
             ? self::CONFIRMATION_MAIL_CUSTOM
             : self::CONFIRMATION_MAIL_DEFAULT;

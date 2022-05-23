@@ -28,7 +28,6 @@ return [
             'send_campaign_job' => 'send-campaign',
             'send_mail_job' => 'send-mail',
             'send_test_mail_job' => 'mailcoach',
-            'send_welcome_mail_job' => 'mailcoach',
             'process_feedback_job' => 'mailcoach-feedback',
             'import_subscribers_job' => 'mailcoach',
         ],
@@ -208,7 +207,6 @@ return [
             'delete_subscriber' => \Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\DeleteSubscriberAction::class,
             'import_subscribers' => \Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\ImportSubscribersAction::class,
             'send_confirm_subscriber_mail' => \Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\SendConfirmSubscriberMailAction::class,
-            'send_welcome_mail' => \Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\SendWelcomeMailAction::class,
             'update_subscriber' => \Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\UpdateSubscriberAction::class,
         ],
 

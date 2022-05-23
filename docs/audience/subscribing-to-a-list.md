@@ -142,12 +142,3 @@ Subscriber::createWithEmail('john@example.com')
    ->subscribeTo($emailList);
 ```
 
-## Skipping sending a welcome mail
-
-If your list is configured to send a welcome mail, you can skip sending a welcome mail for a particular subscriber.
-
-```php
-Subscriber::createWithEmail('john@example.com')
-   ->doNotSendWelcomeMail()
-   ->subscribeTo($emailList);
-```
