@@ -15,7 +15,7 @@ it('can create a list', function () {
         ->set('name', 'My list')
         ->set('default_from_email', 'john@example.com')
         ->call('saveList')
-        ->assertRedirect(route('mailcoach.emailLists.general-settings', EmailList::first()->id));
+        ->assertRedirect(route('mailcoach.emailLists.general-settings', EmailList::first()));
 
     test()->assertDatabaseHas(static::getEmailListTableName(), ['name' => 'My list']);
 });

@@ -22,7 +22,7 @@ it('can duplicate a campaign', function () {
 
     livewire(Campaigns::class)
         ->call('duplicateCampaign', $this->campaign->id)
-        ->assertRedirect(route('mailcoach.campaigns.settings', Campaign::orderByDesc('id')->first()->id));
+        ->assertRedirect(route('mailcoach.campaigns.settings', Campaign::orderByDesc('id')->first()));
 
     expect(Campaign::count())->toBe(2);
 

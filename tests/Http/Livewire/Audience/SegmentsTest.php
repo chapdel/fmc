@@ -24,7 +24,7 @@ it('can duplicate a segment', function () {
 
     Livewire::test(Segments::class)
         ->call('duplicateSegment', $originalSegment->id)
-        ->assertRedirect(route('mailcoach.emailLists.segments.edit', [$originalSegment->emailList, TagSegment::orderByDesc('id')->first()->id]));
+        ->assertRedirect(route('mailcoach.emailLists.segments.edit', [$originalSegment->emailList, TagSegment::orderByDesc('id')->first()]));
 
     /** @var TagSegment $duplicatedSegment */
     $duplicatedSegment = TagSegment::orderByDesc('id')->first();

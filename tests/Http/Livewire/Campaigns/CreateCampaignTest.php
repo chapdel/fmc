@@ -14,7 +14,7 @@ it('can create a campaign', function () {
     livewire(CreateCampaign::class)
         ->set('name', 'My campaign')
         ->call('saveCampaign')
-        ->assertRedirect(route('mailcoach.campaigns.settings', Campaign::first()->id));
+        ->assertRedirect(route('mailcoach.campaigns.settings', Campaign::first()));
 
     test()->assertDatabaseHas(static::getCampaignTableName(), ['name' => 'My campaign']);
 });

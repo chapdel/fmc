@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Mailcoach\Database\Factories\EmailListFactory;
 use Spatie\Mailcoach\Domain\Audience\Mails\ConfirmSubscriberMail;
 use Spatie\Mailcoach\Domain\Campaign\Mails\WelcomeMail;
-use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
+use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class EmailList extends Model

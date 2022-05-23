@@ -11,7 +11,7 @@ use Spatie\Mailcoach\Database\Factories\ActionFactory;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Jobs\RunActionForActionSubscriberJob;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\AutomationAction;
-use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
+use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class Action extends Model

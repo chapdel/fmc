@@ -11,6 +11,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class Upload extends Model implements HasMedia
 {
     use InteractsWithMedia;
+    use HasUuid;
 
     public $table = 'mailcoach_uploads';
 

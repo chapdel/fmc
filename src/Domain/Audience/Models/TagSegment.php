@@ -10,10 +10,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Mailcoach\Database\Factories\TagSegmentFactory;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class TagSegment extends Model
 {
+    use HasUuid;
     use HasFactory;
     use UsesMailcoachModels;
 

@@ -7,11 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Mailcoach\Database\Factories\TemplateFactory;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
+use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Support\TemplateRenderer;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class Template extends Model implements HasHtmlContent
 {
+    use HasUuid;
     use UsesMailcoachModels;
     use HasFactory;
 
