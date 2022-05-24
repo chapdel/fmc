@@ -4,10 +4,9 @@
     name="{{ $name }}"
     id="{{ $name }}"
     value="1"
-    class="checkbox"
     @if(old($name, $checked ?? false)) checked @endif
     @if($disabled ?? false) disabled @endif
-    {{ $attributes }}
+    {{ $attributes->class('checkbox') }}
     >
     <span>{{ $label }}</span>
 </label>

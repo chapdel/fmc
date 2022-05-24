@@ -6,6 +6,8 @@ use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Mails\ConfirmSubscriberMail;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Audience\Models\Tag;
+use Spatie\Mailcoach\Domain\Campaign\Mails\WelcomeMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
@@ -147,4 +149,24 @@ it('can scope on campaign sends', function () {
     ]);
 
     expect(Subscriber::withoutSendsForCampaign($campaign)->count())->toBe(1);
+});
+
+it('can sync tags', function () {
+    $subscriber = Subscriber::factory()->create();
+
+    $subscriber->syncTags(['one', 'two']);
+
+    expect(Tag::count())->toBe(2);
+});
+
+it('can sync preference tags', function () {
+    $subscriber = Subscriber::factory()->create();
+
+    $subscriber->syncTags(['one', 'two']);
+
+    Tag::where('name', 'two')->update(['visible_in_preferences' => true]);
+
+    $subscriber->syncPreferenceTags([]);
+
+    expect($subscriber->fresh()->tags->count())->toBe(1);
 });

@@ -5,6 +5,7 @@ use Spatie\Mailcoach\Http\Front\Controllers\AutomationWebviewController;
 use Spatie\Mailcoach\Http\Front\Controllers\CampaignWebviewController;
 use Spatie\Mailcoach\Http\Front\Controllers\ConfirmSubscriberController;
 use Spatie\Mailcoach\Http\Front\Controllers\EmailListCampaignsFeedController;
+use Spatie\Mailcoach\Http\Front\Controllers\ManagePreferencesController;
 use Spatie\Mailcoach\Http\Front\Controllers\ReConfirmSubscriberController;
 use Spatie\Mailcoach\Http\Front\Controllers\SubscribeController;
 use Spatie\Mailcoach\Http\Front\Controllers\UnsubscribeController;
@@ -19,6 +20,9 @@ Route::get('/unsubscribe/{subscriberUuid}/{sendUuid?}',  ['\\' .UnsubscribeContr
 Route::get('/unsubscribe-tag/{subscriberUuid}/{tag}/{sendUuid?}',  ['\\' . UnsubscribeTagController::class, 'show'])->name('mailcoach.unsubscribe-tag');
 
 Route::post('/unsubscribe/{subscriberUuid}/{sendUuid?}',  ['\\' .UnsubscribeController::class, 'confirm']);
+
+Route::get('/manage-preferences/{subscriberUuid}/{sendUuid?}',  ['\\' . ManagePreferencesController::class, 'show'])->name('mailcoach.manage-preferences');
+Route::post('/manage-preferences/{subscriberUuid}/{sendUuid?}',  ['\\' . ManagePreferencesController::class, 'confirm']);
 
 Route::post('/unsubscribe-tag/{subscriberUuid}/{tag}',  ['\\' . UnsubscribeTagController::class, 'confirm']);
 

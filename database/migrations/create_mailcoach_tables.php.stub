@@ -397,6 +397,7 @@ class CreateMailcoachTables extends Migration
             $table->uuid('uuid')->index();
             $table->string('name');
             $table->string('type')->default('default');
+            $table->boolean('visible_in_preferences')->default(false);
 
             $table
                 ->foreignId('email_list_id')

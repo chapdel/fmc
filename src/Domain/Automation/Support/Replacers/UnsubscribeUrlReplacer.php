@@ -11,14 +11,17 @@ class UnsubscribeUrlReplacer implements PersonalizedReplacer
         return [
             'unsubscribeUrl' => __('mailcoach - The URL where users can unsubscribe'),
             'unsubscribeTag::your tag' => __('mailcoach - The URL where users can be removed from a specific tag'),
+            'preferencesUrl' => __('mailcoach - The URL where users can manage their preferences'),
         ];
     }
 
     public function replace(string $text, Send $pendingSend): string
     {
         $unsubscribeUrl = $pendingSend->subscriber->unsubscribeUrl($pendingSend);
+        $preferencesUrl = $pendingSend->subscriber->preferencesUrl($pendingSend);
 
         $text = str_ireplace('::unsubscribeUrl::', $unsubscribeUrl, $text);
+        $text = str_ireplace('::preferencesUrl::', $preferencesUrl, $text);
 
         preg_match_all('/::unsubscribeTag::([^:]*)::/', $text, $matches, PREG_SET_ORDER);
 

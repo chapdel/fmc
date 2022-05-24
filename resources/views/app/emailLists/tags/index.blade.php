@@ -11,6 +11,7 @@
     ]"
     :columns="[
         ['attribute' => 'name', 'label' => __('mailcoach - Name')],
+        ['attribute' => 'visible_in_preferences', 'label' => __('mailcoach - Visible')],
         ['attribute' => 'subscriber_count', 'label' => __('mailcoach - Subscribers'), 'class' => 'w-32 th-numeric'],
         ['attribute' => 'updated_at', 'label' => __('mailcoach - Updated at'), 'class' => 'w-48 th-numeric hidden | xl:table-cell'],
     ]"

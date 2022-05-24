@@ -8,6 +8,11 @@
             {{ $row->name }}
         @endif
     </td>
+    <td>
+        @if ($row->visible_in_preferences)
+            <i class="fas fa-check text-green-500"></i>
+        @endif
+    </td>
     <td class="td-numeric">{{ $row->subscriber_count }}</td>
     <td class="td-numeric hidden | xl:table-cell">{{ $row->updated_at->toMailcoachFormat() }}</td>
 

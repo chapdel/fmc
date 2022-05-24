@@ -613,5 +613,13 @@
     "mailcoach - We'll use or create a template named \"Default\"": "We'll use or create a template named \"Default\"",
     "mailcoach - Automation :name succesfully created": "Automation :name succesfully created",
     "mailcoach - The welcome automation is currently paused": "The welcome automation is currently paused",
-    "mailcoach - Go :resource": "Go :resource"
+    "mailcoach - Go :resource": "Go :resource",
+    "mailcoach - Manage preferences": "Manage preferences",
+    "mailcoach - Preferences updated successfully!": "Preferences updated successfully!",
+    "mailcoach - Manage your preferences for <strong class=\"font-semibold\">:emailListName</strong>":  "Manage your preferences for <strong class=\"font-semibold\">:emailListName</strong>",
+    "mailcoach - Unsubscribe from all": "Unsubscribe from all",
+    "mailcoach - Visible on manage preferences page": "Visible on manage preferences page",
+    "mailcoach - The URL where users can manage their preferences": "The URL where users can manage their preferences",
+    "mailcoach - The URL where users can be removed from a specific tag": "The URL where users can be removed from a specific tag",
+    "mailcoach - Visible": "Visible"
 }

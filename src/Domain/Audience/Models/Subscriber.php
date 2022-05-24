@@ -158,6 +158,11 @@ class Subscriber extends Model
         return url(route('mailcoach.unsubscribe-tag', [$this->uuid, $tag, optional($send)->uuid]));
     }
 
+    public function preferencesUrl(Send $send = null): string
+    {
+        return url(route('mailcoach.manage-preferences', [$this->uuid, optional($send)->uuid]));
+    }
+
     public function getStatusAttribute(): string
     {
         if (! is_null($this->unsubscribed_at)) {
@@ -278,7 +283,20 @@ class Subscriber extends Model
             event(new TagRemovedEvent($this, $tag));
         });
 
-        $this->tags()->detach($this->tags()->where('type', $type)->whereNotIn('name', $names)->pluck('mailcoach_tags.id'));
+        $this->tags()->detach($this->tags()->where('type', $type)->whereNotIn('name', $names)->pluck(self::getTagTableName() . '.id'));
+
+        return $this;
+    }
+
+    public function syncPreferenceTags(array $names)
+    {
+        $this->addTags($names);
+
+        $this->tags()->where('type', TagType::DEFAULT)->where('visible_in_preferences', true)->whereNotIn('name', $names)->each(function ($tag) {
+            event(new TagRemovedEvent($this, $tag));
+        });
+
+        $this->tags()->detach($this->tags()->where('type', TagType::DEFAULT)->where('visible_in_preferences', true)->whereNotIn('name', $names)->pluck(self::getTagTableName() . '.id'));
 
         return $this;
     }
