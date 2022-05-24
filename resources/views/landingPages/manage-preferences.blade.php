@@ -6,7 +6,7 @@
 @php($errors = new \Illuminate\Support\ViewErrorBag())
 
 @section('landing')
-    @if ($success ?? false)
+    @if ($updated ?? false)
         <x-mailcoach::success>
             {{ __('mailcoach - Preferences updated successfully!') }}
         </x-mailcoach::success>

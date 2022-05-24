@@ -13,6 +13,8 @@ class ManagePreferencesController
 
     public function show(string $subscriberUuid, string $sendUuid = null)
     {
+        $updated = cache()->pull('updated-' . $subscriberUuid, false);
+
         /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
         if (! $subscriber = self::getSubscriberClass()::findByUuid($subscriberUuid)) {
             return view('mailcoach::landingPages.couldNotFindSubscription');
@@ -32,7 +34,7 @@ class ManagePreferencesController
             return view('mailcoach::landingPages.unsubscribe', compact('emailList', 'subscriber', 'send'));
         }
 
-        return view('mailcoach::landingPages.manage-preferences', compact('emailList', 'subscriber', 'send', 'tags'));
+        return view('mailcoach::landingPages.manage-preferences', compact('emailList', 'subscriber', 'send', 'tags', 'updated'));
     }
 
     public function confirm(Request $request, string $subscriberUuid, string $sendUuid = null)
@@ -64,8 +66,8 @@ class ManagePreferencesController
 
         $subscriber->syncPreferenceTags(array_keys($request->get('tags', [])));
 
-        $success = true;
+        cache()->put('updated-' . $subscriberUuid, true);
 
-        return view('mailcoach::landingPages.manage-preferences', compact('emailList', 'subscriber', 'send', 'tags', 'success'));
+        return redirect()->back();
     }
 }

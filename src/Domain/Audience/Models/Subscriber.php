@@ -298,7 +298,7 @@ class Subscriber extends Model
 
         $this->tags()->detach($this->tags()->where('type', TagType::DEFAULT)->where('visible_in_preferences', true)->whereNotIn('name', $names)->pluck(self::getTagTableName() . '.id'));
 
-        return $this;
+        return $this->fresh('tags');
     }
 
     public function toExportRow(): array
