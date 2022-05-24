@@ -36,7 +36,9 @@
                 <x-mailcoach::checkbox-field class="mb-2" name="tags[{{ $tag->name }}]" :label="$tag->name" :checked="$subscriber->hasTag($tag->name)" :errors="$errors" />
             @endforeach
 
-            <div class="mt-8">
+            <hr class="mt-6" />
+
+            <div class="mt-6">
                 <x-mailcoach::checkbox-field class="mb-2" x-ref="all" x-model="unsubscribeFromAll" name="unsubscribe_from_all" :label="__('mailcoach - Unsubscribe from all')" :errors="$errors" />
             </div>
 
