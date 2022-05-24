@@ -7,7 +7,6 @@ use Spatie\Mailcoach\Domain\Audience\Mails\ConfirmSubscriberMail;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag;
-use Spatie\Mailcoach\Domain\Campaign\Mails\WelcomeMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 

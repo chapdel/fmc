@@ -52,7 +52,7 @@ class ManagePreferencesController
         $send = self::getSendClass()::findByUuid($sendUuid ?? '');
         $tags = $emailList->tags()->where('type', TagType::DEFAULT)->where('visible_in_preferences', true)->get();
 
-        if ($request->get('unsubscribe_from_all') || !$tags->count()) {
+        if ($request->get('unsubscribe_from_all') || ! $tags->count()) {
             $subscriber->unsubscribe($send);
 
             $emailList = $subscriber->emailList;
