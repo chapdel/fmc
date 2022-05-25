@@ -94,7 +94,7 @@ POSTMARK_SIGNING_SECRET=
 
 This package automatically adds the correct `X-PM-Message-Stream` header for Postmark Broadcast support. Make sure the name of your configuration set is available under the `mailcoach.postmark_feedback.message_stream` configuration key.
 
-Here's an example for a configuration set that is named `mailcoach`:
+Here's an example for a configuration set that is named `newsletters`:
 
 ```php
 // in config/mailcoach.php
