@@ -37,12 +37,6 @@ class EmailListResource extends JsonResource
             'automation_mailer' => $this->automation_mailer,
             'transactional_mailer' => $this->transactional_mailer,
 
-            'send_welcome_mail' => (bool)$this->send_welcome_mail,
-            'welcome_mail_subject' => $this->welcome_mail_subject,
-            'welcome_mail_content' => $this->welcome_mail_content,
-            'welcome_mailable_class' => $this->welcome_mailable_class,
-            'welcome_mail_delay_in_minutes' => (int)$this->welcome_mail_delay_in_minutes,
-
             'report_recipients' => $this->report_recipients,
             'report_campaign_sent' => $this->report_campaign_sent,
             'report_campaign_summary' => $this->report_campaign_summary,

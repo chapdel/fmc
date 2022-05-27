@@ -88,7 +88,6 @@ class ImportSubscribersAction
 
         $subscriber = $this->getSubscriberClass()::createWithEmail($row->getEmail(), $attributes)
             ->skipConfirmation()
-            ->doNotSendWelcomeMail()
             ->tags($row->tags())
             ->replaceTags($this->subscriberImport->replace_tags)
             ->subscribeTo($this->subscriberImport->emailList);

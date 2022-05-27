@@ -6,7 +6,7 @@ use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Mails\ConfirmSubscriberMail;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Campaign\Mails\WelcomeMail;
+use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
@@ -52,35 +52,6 @@ it('will send a confirmation mail if the list requires double optin', function (
 
         return true;
     });
-});
-
-it('will send a welcome mail if the list has welcome mails', function () {
-    test()->emailList->update([
-        'send_welcome_mail' => true,
-    ]);
-
-    $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
-    expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
-
-    Mail::assertQueued(WelcomeMail::class, function (WelcomeMail $mail) use ($subscriber) {
-        expect($mail->subscriber->uuid)->toEqual($subscriber->uuid);
-
-        return true;
-    });
-});
-
-it('will only send a welcome mail once', function () {
-    test()->emailList->update([
-        'send_welcome_mail' => true,
-    ]);
-
-    Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
-    expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
-
-    Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
-    expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
-
-    Mail::assertQueued(WelcomeMail::class, 1);
 });
 
 it('can immediately subscribe someone and not send a mail even with double opt in enabled', function () {
@@ -177,4 +148,24 @@ it('can scope on campaign sends', function () {
     ]);
 
     expect(Subscriber::withoutSendsForCampaign($campaign)->count())->toBe(1);
+});
+
+it('can sync tags', function () {
+    $subscriber = Subscriber::factory()->create();
+
+    $subscriber->syncTags(['one', 'two']);
+
+    expect(Tag::count())->toBe(2);
+});
+
+it('can sync preference tags', function () {
+    $subscriber = Subscriber::factory()->create();
+
+    $subscriber->syncTags(['one', 'two']);
+
+    Tag::where('name', 'two')->update(['visible_in_preferences' => true]);
+
+    $subscriber->syncPreferenceTags([]);
+
+    expect($subscriber->fresh()->tags->count())->toBe(1);
 });

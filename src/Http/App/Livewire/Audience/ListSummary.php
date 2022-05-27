@@ -137,6 +137,7 @@ class ListSummary extends Component
         $subscribers = collect($subscribes)->map(function ($result) use ($interval, &$subscriberTotal, $unsubscribes) {
             $subscriberTotal += $result->subscribed_count;
             $unsubscribeCount = $unsubscribes->where('unsubscribe_day', $result->subscribed_day)->first();
+            $subscriberTotal -= optional($unsubscribeCount)->unsubscribe_count ?? 0;
 
             return [
                 'label' => match ($interval) {

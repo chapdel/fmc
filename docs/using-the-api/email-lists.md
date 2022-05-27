@@ -44,11 +44,6 @@ As a result, you get the details of all your email lists:
             "campaign_mailer": "log",
             "automation_mailer": "log",
             "transactional_mailer": "log",
-            "send_welcome_mail": false,
-            "welcome_mail_subject": null,
-            "welcome_mail_content": null,
-            "welcome_mailable_class": null,
-            "welcome_mail_delay_in_minutes": 0,
             "report_recipients": null,
             "report_campaign_sent": false,
             "report_campaign_summary": false,
@@ -113,11 +108,6 @@ Response:
         "campaign_mailer": "log",
         "automation_mailer": "log",
         "transactional_mailer": "log",
-        "send_welcome_mail": false,
-        "welcome_mail_subject": null,
-        "welcome_mail_content": null,
-        "welcome_mailable_class": null,
-        "welcome_mail_delay_in_minutes": 0,
         "report_recipients": null,
         "report_campaign_sent": false,
         "report_campaign_summary": false,
@@ -167,10 +157,6 @@ These are all the available fields with their validation rules:
 - `redirect_after_already_subscribed` => string
 - `redirect_after_subscription_pending` => string
 - `redirect_after_unsubscribed` => string
-- `welcome_mail` => 'do_not_send_welcome_mail' or 'send_default_welcome_mail' or 'send_custom_welcome_mail'
-- `welcome_mail_subject` => required if `welcome_mail` = 'send_custom_welcome_mail'
-- `welcome_mail_content` => required if `welcome_mail` = 'send_custom_welcome_mail'
-- `welcome_mail_delay_in_minutes` => number
 - `confirmation_mail` => 'send_default_confirmation_mail' or 'send_custom_confirmation_mail'
 - `confirmation_mail_subject` => required if `custom_confirmation_mail` = 'send_custom_confirmation_mail'
 - `confirmation_mail_content` => required if `custom_confirmation_mail` = 'send_custom_confirmation_mail'

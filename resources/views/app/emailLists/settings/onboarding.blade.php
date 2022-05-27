@@ -3,7 +3,6 @@
         post: @entangle('emailList.allow_form_subscriptions'),
         confirmation: @entangle('emailList.requires_confirmation'),
         confirmationMail: @entangle('confirmation_mail'),
-        welcomeMail: @entangle('welcome_mail'),
     }"
     class="form-grid"
     method="POST"
@@ -104,70 +103,27 @@
                 </div>
             @else
                 <x-mailcoach::help>
-                    {{ __('mailcoach - A custom mailable (:mailable) will be used.', ['mailable' => $emailList->welcome_mailable_class]) }}
+                    {{ __('mailcoach - A custom mailable (:mailable) will be used.', ['mailable' => $emailList->confirmation_mailable_class]) }}
                 </x-mailcoach::help>
             @endif
         </x-mailcoach::fieldset>
     </div>
 
     <x-mailcoach::fieldset :legend="__('mailcoach - Welcome Mail')">
-
-        @if(empty($emailList->welcome_mailable_class))
-            <div class="radio-group">
-                <x-mailcoach::radio-field
-                    name="welcome_mail"
-                    x-model="welcomeMail"
-                    option-value="do_not_send_welcome_mail"
-                    :label="__('mailcoach - Do not send a welcome mail')"
-                />
-                <x-mailcoach::radio-field
-                    name="welcome_mail"
-                    option-value="send_default_welcome_mail"
-                    :label="__('mailcoach - Send default welcome mail')"
-                    x-model="welcomeMail"
-                />
-                <x-mailcoach::radio-field
-                    name="welcome_mail"
-                    option-value="send_custom_welcome_mail"
-                    :label="__('mailcoach - Send customized welcome mail')"
-                    x-model="welcomeMail"
-                />
-            </div>
-
-            <div class="form-grid" x-show="welcomeMail !== 'do_not_send_welcome_mail'">
-                <x-mailcoach::text-field :label="__('mailcoach - Delay sending welcome mail in minutes')"
-                    wire:model.lazy="emailList.welcome_mail_delay_in_minutes"
-                    name="emailList.welcome_mail_delay_in_minutes"
-                    placeholder="Delay in minutes"/>
-            </div>
-
-            <div class="form-grid" x-show="welcomeMail === 'send_custom_welcome_mail'">
-                <x-mailcoach::text-field :label="__('mailcoach - Subject')" name="emailList.welcome_mail_subject"
-                            wire:model.lazy="emailList.welcome_mail_subject" type="text"/>
-
-                <div class="form-field max-w-full">
-                    <label class="label label-required" for="html">{{ __('mailcoach - Body (HTML)') }}</label>
-                    <textarea class="input input-html" rows="20" id="html"
-                            name="emailList.welcome_mail_content" wire:model="emailList.welcome_mail_content"></textarea>
-                    @error('emailList.welcome_mail_content')
-                    <p class="form-error">{{ $message }}</p>
-                    @enderror
-
-                    <div class="mt-12 markup-code alert alert-info text-sm">
-                        {{ __('mailcoach - You can use following placeholders in the subject and body of the welcome mail:') }}
-                        <ul class="grid mt-2 gap-2">
-                            <li><code class="mr-2">::unsubscribeUrl::</code>{{ __('mailcoach - The URL where users can unsubscribe') }}</li>
-                            <li><code class="mr-2">::subscriber.first_name::</code>{{ __('mailcoach - The first name of the subscriber') }}</li>
-                            <li><code class="mr-2">::subscriber.email::</code>{{ __('mailcoach - The email of the subscriber') }}</li>
-                            <li><code class="mr-2">::list.name::</code>{{ __('mailcoach - The name of this list') }}</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+        @if ($automation = \Spatie\Mailcoach\Mailcoach::getAutomationClass()::whereName(__('mailcoach - Welcome automation for :list', ['list' => $emailList->name]))->first())
+            <a href="{{ route('mailcoach.automations.actions', $automation) }}">
+                <x-mailcoach::button :label="__('mailcoach - View welcome automation')" />
+            </a>
+            @if ($automation->status === \Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus::PAUSED)
+                <x-mailcoach::warning>
+                    {{ __('mailcoach - The welcome automation is currently paused') }}
+                </x-mailcoach::warning>
+            @endif
         @else
-            <x-mailcoach::help>
-                {{ __('mailcoach - A custom mailable (:mailable) will be used.', ['mailable' => $emailList->welcome_mailable_class]) }}
-            </x-mailcoach::help>
+            <div>
+                <x-mailcoach::button wire:click.prevent="createWelcomeMailAutomation" :label="__('mailcoach - Set up Welcome Mail automation')" />
+                <p class="mt-4 text-gray-600">{{ __('mailcoach - We\'ll use or create a template named "Default"') }}</p>
+            </div>
         @endif
     </x-mailcoach::fieldset>
 

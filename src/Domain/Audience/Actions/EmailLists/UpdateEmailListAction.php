@@ -35,14 +35,6 @@ class UpdateEmailListAction
 
         if ($request instanceof UpdateEmailListSettingsRequest) {
             $emailList->fill([
-                'send_welcome_mail' => $request->sendWelcomeMail(),
-                'welcome_mail_subject' => $request->welcome_mail === UpdateEmailListSettingsRequest::WELCOME_MAIL_CUSTOM_CONTENT
-                    ? $request->welcome_mail_subject
-                    : '',
-                'welcome_mail_content' => $request->welcome_mail === UpdateEmailListSettingsRequest::WELCOME_MAIL_CUSTOM_CONTENT
-                    ? $request->welcome_mail_content
-                    : '',
-                'welcome_mail_delay_in_minutes' => $request->welcome_mail_delay_in_minutes ?? 0,
                 'confirmation_mail_subject' => $request->sendDefaultConfirmationMail() ? null : $request->confirmation_mail_subject,
                 'confirmation_mail_content' => $request->sendDefaultConfirmationMail() ? null : $request->confirmation_mail_content,
             ]);

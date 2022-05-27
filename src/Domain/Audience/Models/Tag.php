@@ -20,6 +20,10 @@ class Tag extends Model
 
     public $guarded = [];
 
+    protected $casts = [
+        'visible_in_preferences' => 'bool',
+    ];
+
     public function subscribers()
     {
         return $this->belongsToMany(self::getSubscriberClass(), 'mailcoach_email_list_subscriber_tags', 'tag_id', 'subscriber_id');

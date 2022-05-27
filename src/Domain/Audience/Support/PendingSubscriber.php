@@ -20,8 +20,6 @@ class PendingSubscriber
 
     public string $redirectAfterSubscribed = '';
 
-    public bool $sendWelcomeMail = true;
-
     public ?array $tags = [];
 
     public bool $replaceTags = false;
@@ -54,13 +52,6 @@ class PendingSubscriber
     public function redirectAfterSubscribed(string $redirectUrl): self
     {
         $this->redirectAfterSubscribed = $redirectUrl;
-
-        return $this;
-    }
-
-    public function doNotSendWelcomeMail(): self
-    {
-        $this->sendWelcomeMail = false;
 
         return $this;
     }

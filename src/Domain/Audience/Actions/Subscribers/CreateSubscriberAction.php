@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Domain\Audience\Actions\Subscribers;
 
-use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\Concerns\SendsWelcomeMail;
 use Spatie\Mailcoach\Domain\Audience\Events\SubscribedEvent;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Support\PendingSubscriber;
@@ -11,7 +10,6 @@ use Spatie\Mailcoach\Mailcoach;
 
 class CreateSubscriberAction
 {
-    use SendsWelcomeMail;
     use UsesMailcoachModels;
 
     public function execute(PendingSubscriber $pendingSubscriber): Subscriber
@@ -57,10 +55,6 @@ class CreateSubscriberAction
         }
 
         if ($subscriber->isSubscribed()) {
-            if ($pendingSubscriber->sendWelcomeMail && ! $wasAlreadySubscribed) {
-                $this->sendWelcomeMail($subscriber);
-            }
-
             event(new SubscribedEvent($subscriber));
         }
 

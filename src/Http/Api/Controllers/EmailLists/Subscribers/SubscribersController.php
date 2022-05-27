@@ -48,10 +48,6 @@ class SubscribersController
             $pendingSubscriber->skipConfirmation();
         }
 
-        if ($request->skip_welcome_mail) {
-            $pendingSubscriber->doNotSendWelcomeMail();
-        }
-
         $subscriber = $pendingSubscriber->subscribeTo($emailList);
 
         if ($request->has('tags')) {

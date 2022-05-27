@@ -24,7 +24,8 @@ class ConfirmSubscriberController
 
         $this->ensureUnconfirmedSubscriber($subscriber);
 
-        $confirmSubscriberAction->doNotSendWelcomeMail()->execute($subscriber);
+        $confirmSubscriberAction->execute($subscriber);
+
         $this->respondOk();
     }
 

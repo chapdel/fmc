@@ -29,6 +29,7 @@ class Tag extends Component
                     ->where('email_list_id', $this->emailList->id)
                     ->ignore($this->tag->id),
             ],
+            'tag.visible_in_preferences' => ['required', 'bool'],
         ];
     }
 

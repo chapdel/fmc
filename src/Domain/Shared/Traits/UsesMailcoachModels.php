@@ -224,6 +224,16 @@ trait UsesMailcoachModels
         return $template->getTable();
     }
 
+    public static function getTagTableName(): string
+    {
+        $tagClass = self::getTagClass();
+
+        /** @var \Illuminate\Database\Eloquent\Model $tag */
+        $tag = new $tagClass;
+
+        return $tag->getTable();
+    }
+
     public static function getCampaignTableName(): string
     {
         $campaignClass = self::getCampaignClass();
