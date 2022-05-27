@@ -10,7 +10,10 @@
             </x-mailcoach::tile>
         @endif
 
-        <x-mailcoach::tile class="bg-gray-50 text-blue-900" cols="2" icon="users">
+        @include('mailcoach::app.layouts.partials.beforeDashboardTiles')
+
+
+            <x-mailcoach::tile class="bg-gray-50 text-blue-900" cols="2" icon="users">
             <x-slot:link><span class="text-sm">30 days</span></x-slot:link>
             <div class="flex mt-auto items-center">
                 <span>Recent subscribers</span>
