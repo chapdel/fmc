@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.5.9 - 2022-05-30
+
+### What's Changed
+
+- Update name of set to be `newsletters` by @jplhomer in https://github.com/spatie/laravel-mailcoach/pull/985
+- Make UUID not crash on unsupported databases by @potsky in https://github.com/spatie/laravel-mailcoach/pull/982
+- Add "Halted" count to automation overview by @riasvdv
+
+### New Contributors
+
+- @jplhomer made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/985
+- @potsky made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/982
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.5.8...5.5.9
+
 ## 5.5.8 - 2022-05-13
 
 **Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.5.7...5.5.8
