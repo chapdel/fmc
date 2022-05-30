@@ -15,7 +15,8 @@ class TransactionalMail extends Mailable
 
     private string $templateName;
 
-    public function __construct(string $templateName, string $subject, array|string $from, array $to, array $cc = [], array $bcc = [], bool $trackOpens = false, bool $trackClicks = false) {
+    public function __construct(string $templateName, string $subject, array|string $from, array $to, array $cc = [], array $bcc = [], bool $trackOpens = false, bool $trackClicks = false)
+    {
         $this->templateName = $templateName;
 
         $this
