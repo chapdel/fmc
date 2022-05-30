@@ -126,6 +126,11 @@ class TransactionalMailTemplate extends Model implements HasHtmlContent
         return $this->body;
     }
 
+    public function setHtml(string $html): void
+    {
+        $this->body = $html;
+    }
+
     public function getStructuredHtml(): ?string
     {
         return $this->structured_html;

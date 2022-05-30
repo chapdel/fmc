@@ -6,6 +6,8 @@ interface HasHtmlContent
 {
     public function getHtml(): ?string;
 
+    public function setHtml(string $html): void;
+
     public function getStructuredHtml(): ?string;
 
     public function getTemplateFieldValues(): array;

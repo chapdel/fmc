@@ -204,6 +204,16 @@ trait UsesMailcoachModels
         return $emailList->getTable();
     }
 
+    public static function getTransactionalMailTemplateTableName(): string
+    {
+        /** @var \Illuminate\Database\Eloquent\Model $template */
+        $templateClass = self::getTransactionalMailTemplateClass();
+
+        $template = new $templateClass;
+
+        return $template->getTable();
+    }
+
     public static function getSubscriberTableName(): string
     {
         /** @var \Illuminate\Database\Eloquent\Model $subscriber */

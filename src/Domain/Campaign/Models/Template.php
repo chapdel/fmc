@@ -53,6 +53,11 @@ class Template extends Model implements HasHtmlContent
         return $this->html;
     }
 
+    public function setHtml(string $html): void
+    {
+        $this->html = $html;
+    }
+
     public function getStructuredHtml(): ?string
     {
         return $this->structured_html;

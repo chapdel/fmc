@@ -10,6 +10,7 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\Campaign\Rules\HtmlRule;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Spatie\Mailcoach\Domain\Shared\Support\TemplateRenderer;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 use Spatie\ValidationRules\Rules\Delimited;
 
 abstract class EditorComponent extends Component
@@ -99,14 +100,17 @@ abstract class EditorComponent extends Component
 
         if (! $this->model instanceof Template) {
             $this->model->template_id = $this->template?->id;
-            $this->model->last_modified_at = now();
+
+            if (isset($this->model->attributes['last_modified_at'])) {
+                $this->model->last_modified_at = now();
+            }
         }
 
         if (! empty($this->rules)) {
             $this->validate($this->rules());
         }
 
-        $this->model->html = $this->fullHtml;
+        $this->model->setHtml($this->fullHtml);
         $this->model->setTemplateFieldValues($fieldValues);
 
         $this->model->save();
@@ -122,10 +126,9 @@ abstract class EditorComponent extends Component
             'emails' => ['required', (new Delimited('email'))->min(1)->max(10)],
         ]);
 
-        $this->model->update([
-            'template_id' => $this->template->id,
-            'html' => $this->fullHtml,
-        ]);
+        $this->model->setHtml($this->fullHtml);
+        $this->model->template_id = $this->template?->id;
+        $this->model->save();
 
         $sanitizedEmails = array_map('trim', explode(',', $this->emails));
 

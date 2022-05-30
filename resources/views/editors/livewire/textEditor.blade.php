@@ -1,8 +1,10 @@
 <div>
     <div>
-        <div class="mb-6">
-            <x-mailcoach::template-chooser />
-        </div>
+        @if (! $model instanceof \Spatie\Mailcoach\Domain\Campaign\Models\Template)
+            <div class="mb-6">
+                <x-mailcoach::template-chooser />
+            </div>
+        @endif
 
         @if($template?->containsPlaceHolders())
             <div>
