@@ -307,10 +307,13 @@ class Subscriber extends Model
         $field ??= $this->getRouteKeyName();
 
         /** Can also bind uuid */
-        $subscriber = self::getSubscriberClass()::where('uuid', $value)->first();
+        try {
+            $subscriber = self::getSubscriberClass()::where('uuid', $value)->first();
 
-        if ($subscriber) {
-            return $subscriber;
+            if ($subscriber) {
+                return $subscriber;
+            }
+        } catch (\Illuminate\Database\QueryException) {
         }
 
         return self::getSubscriberClass()::where($field, $value)->firstOrFail();
