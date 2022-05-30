@@ -44,6 +44,9 @@
             <span class="text-gray-400 px-2">•</span>
             Completed
             <span class="font-semibold variant-numeric-tabular">{{ number_format($action['completed'] ?? 0) }}</span>
+            <span class="text-gray-400 px-2">•</span>
+            Halted
+            <span class="font-semibold variant-numeric-tabular">{{ number_format($action['halted'] ?? 0) }}</span>
         </dl>
     @endif
 </x-mailcoach::fieldset>

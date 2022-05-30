@@ -90,6 +90,12 @@ class Action extends Model
             ->wherePivotNotNull('run_at');
     }
 
+    public function haltedSubscribers(): BelongsToMany
+    {
+        return $this->subscribers()
+            ->wherePivotNotNull('halted_at');
+    }
+
     public function automation(): BelongsTo
     {
         return $this->belongsTo(static::getAutomationClass());
@@ -112,7 +118,8 @@ class Action extends Model
             'class' => get_class($this->action),
             'data' => $this->action->toArray(),
             'active' => (int) ($this->active_subscribers_count ?? 0),
-            'completed' => (int) ($this->completed_subscribers_count ?? 0),
+            'completed' => ($this->completed_subscribers_count ?? 0) - ($this->halted_subscribers_count ?? 0),
+            'halted' => (int) ($this->halted_subscribers_count ?? 0),
         ];
     }
 
