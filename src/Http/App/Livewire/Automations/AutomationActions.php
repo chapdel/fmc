@@ -32,7 +32,7 @@ class AutomationActions extends Component
     public function mount()
     {
         $this->actions = $this->automation->actions()
-            ->withCount(['completedSubscribers', 'activeSubscribers'])
+            ->withCount(['completedSubscribers', 'activeSubscribers', 'haltedSubscribers'])
             ->get()
             ->map(function (Action $action) {
                 try {
