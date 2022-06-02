@@ -25,9 +25,21 @@ test('campaignname should replaced in email html', function () {
         'html' => '::campaign.name::',
     ]);
 
-    $myHtml = '<html><!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd" ><body><p>' . $campaign->name . '</p></body></html>';
+    app(PrepareEmailHtmlAction::class)->execute($campaign);
+    $campaign->refresh();
+    test()->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->email_html);
+});
+
+test('campaignname should replace in url encoded html', function () {
+    $campaignName = 'test1234';
+
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign */
+    $campaign = Campaign::factory()->create([
+        'name' => $campaignName,
+        'html' => urlencode('::campaign.name::'),
+    ]);
 
     app(PrepareEmailHtmlAction::class)->execute($campaign);
     $campaign->refresh();
-    test()->assertMatchesHtmlSnapshotWithoutWhitespace($myHtml);
+    test()->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->email_html);
 });
