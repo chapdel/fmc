@@ -6,10 +6,16 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class AutomationFactory extends Factory
 {
-    protected $model = Automation::class;
+    use UsesMailcoachModels;
+
+    public function modelName()
+    {
+        return static::getAutomationClass();
+    }
 
     public function definition()
     {

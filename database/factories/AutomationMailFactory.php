@@ -4,10 +4,16 @@ namespace Spatie\Mailcoach\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class AutomationMailFactory extends Factory
 {
-    protected $model = AutomationMail::class;
+    use UsesMailcoachModels;
+
+    public function modelName()
+    {
+        return static::getAutomationMailClass();
+    }
 
     public function definition()
     {

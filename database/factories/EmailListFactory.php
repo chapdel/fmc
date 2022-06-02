@@ -4,10 +4,16 @@ namespace Spatie\Mailcoach\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class EmailListFactory extends Factory
 {
-    protected $model = EmailList::class;
+    use UsesMailcoachModels;
+
+    public function modelName()
+    {
+        return static::getEmailListClass();
+    }
 
     public function definition()
     {
