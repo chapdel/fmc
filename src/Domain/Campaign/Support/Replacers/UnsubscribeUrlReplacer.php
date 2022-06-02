@@ -19,13 +19,23 @@ class UnsubscribeUrlReplacer implements PersonalizedReplacer
         $unsubscribeUrl = $pendingSend->subscriber->unsubscribeUrl($pendingSend);
 
         $text = str_ireplace('::unsubscribeUrl::', $unsubscribeUrl, $text);
+        $text = str_ireplace('%3A%3AunsubscribeUrl%3A%3A', $unsubscribeUrl, $text);
 
-        preg_match_all('/::unsubscribeTag::([^:]*)::/', $text, $matches, PREG_SET_ORDER);
+        $pattern = <<<REGEXP
+            /
+            (?:::|%3A%3A)                   # "::" or urlencoded "%3A%3A"
+            unsubscribeTag(?:::|%3A%3A)     # "unsubscribeTag::" or urlencoded "unsubscribeTag%3A%3A"
+            ((?!::|%3A%3A).*)               # Anything but "::" or "%3A%3A"
+            (?:::|%3A%3A)                   # "::" or urlencoded "%3A%3A"
+            /ix
+        REGEXP;
+
+        preg_match_all($pattern, $text, $matches, PREG_SET_ORDER);
 
         foreach ($matches as $match) {
             [$key, $tag] = $match;
 
-            $unsubscribeTagUrl = $pendingSend->subscriber->unsubscribeTagUrl($tag);
+            $unsubscribeTagUrl = $pendingSend->subscriber->unsubscribeTagUrl(urldecode($tag), $pendingSend);
 
             $text = str_ireplace($key, $unsubscribeTagUrl, $text);
         }

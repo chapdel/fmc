@@ -17,6 +17,9 @@ class WebviewCampaignReplacer implements CampaignReplacer
     {
         $webviewUrl = $campaign->webviewUrl();
 
-        return str_ireplace('::webviewUrl::', $webviewUrl, $text);
+        $text = str_ireplace('::webviewUrl::', $webviewUrl, $text);
+        $text = str_ireplace(urlencode('::webviewUrl::'), $webviewUrl, $text);
+
+        return $text;
     }
 }

@@ -17,6 +17,9 @@ class WebviewAutomationMailReplacer implements AutomationMailReplacer
     {
         $webviewUrl = $automationMail->webviewUrl();
 
-        return str_ireplace('::webviewUrl::', $webviewUrl, $text);
+        $text = str_ireplace('::webviewUrl::', $webviewUrl, $text);
+        $text = str_ireplace(urlencode('::webviewUrl::'), $webviewUrl, $text);
+
+        return $text;
     }
 }
