@@ -1,5 +1,5 @@
 @php
-    $templates = \Spatie\Mailcoach\Domain\Campaign\Models\Template::all()->pluck('name', 'id');
+    $templates = \Spatie\Mailcoach\Mailcoach::getTemplateClass()::all()->pluck('name', 'id');
     $templates->prepend('No template', 0)
 @endphp
 
