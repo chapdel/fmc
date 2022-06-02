@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.5.10 - 2022-06-02
+
+### What's Changed
+
+- factories should use custom models when configured by @adamthehutt in https://github.com/spatie/laravel-mailcoach/pull/989
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.5.9...5.5.10
+
 ## 5.5.9 - 2022-05-30
 
 ### What's Changed
