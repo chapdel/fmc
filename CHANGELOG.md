@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.5.11 - 2022-06-02
+
+### What's changed
+
+- Fix replacers not replacing url encoded texts #987
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.5.10...5.5.11
+
 ## 5.5.10 - 2022-06-02
 
 ### What's Changed
