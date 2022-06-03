@@ -62,6 +62,17 @@ module.exports = {
                 'pos-0': '0% 0%',
                 'pos-100': '100% 100%',
             },
+            keyframes: {
+                scale: {
+                    '0%, 100%': { transform: 'scale(1)' },
+                    '25%': { transform: 'scale(1.05)' },
+                    '50%': { transform: 'scale(1)' },
+                    '75%': { transform: 'scale(1.05)' },
+                }
+            },
+            animation: {
+                scale: 'scale 300ms ease-in-out',
+            }
         },
     },
     corePlugins: {

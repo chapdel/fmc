@@ -14,12 +14,14 @@
         x-show="$store.modals.isOpen('{{ $name }}')"
         style="display: none"
         x-on:keydown.escape.prevent.stop="$store.modals.close('{{ $name }}')"
+        x-on:keydown.window.escape.prevent.stop="$store.modals.close('{{ $name }}')"
         role="dialog"
         aria-modal="true"
         x-id="['modal-title']"
         :aria-labelledby="$id('modal-title')"
         class="fixed inset-0 overflow-y-auto z-50"
         @modal-closed.window="$store.modals.close($event.detail.modal)"
+        x-ref="modal"
         {{ $attributes }}
     >
         <!-- Overlay -->
@@ -28,7 +30,10 @@
         <!-- Panel -->
         <div
             x-show="$store.modals.isOpen('{{ $name }}')" x-transition
-            x-on:click="$store.modals.close('{{ $name }}')"
+            x-on:click="
+                $refs.modal.classList.add('animate-scale');
+                setTimeout(() => $refs.modal.classList.remove('animate-scale'), 300);
+            "
             class="relative h-screen min-h-screen flex items-center justify-center p-4"
         >
             <div

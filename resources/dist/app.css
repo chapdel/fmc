@@ -4828,6 +4828,49 @@ span.flatpickr-weekday{
           animation: spin 1s linear infinite;
 }
 
+@-webkit-keyframes scale{
+
+  0%, 100%{
+    transform: scale(1);
+  }
+
+  25%{
+    transform: scale(1.05);
+  }
+
+  50%{
+    transform: scale(1);
+  }
+
+  75%{
+    transform: scale(1.05);
+  }
+}
+
+@keyframes scale{
+
+  0%, 100%{
+    transform: scale(1);
+  }
+
+  25%{
+    transform: scale(1.05);
+  }
+
+  50%{
+    transform: scale(1);
+  }
+
+  75%{
+    transform: scale(1.05);
+  }
+}
+
+.animate-scale{
+  -webkit-animation: scale 300ms ease-in-out;
+          animation: scale 300ms ease-in-out;
+}
+
 .cursor-pointer{
   cursor: pointer;
 }
