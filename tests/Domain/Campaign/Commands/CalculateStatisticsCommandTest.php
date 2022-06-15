@@ -21,6 +21,8 @@ it('will recalculate statistics at the right time', function (
 
     $campaign = Campaign::factory()->create([
         'sent_at' => $sentAt,
+        'all_sends_dispatched_at' => $sentAt,
+        'all_sends_created_at' => $sentAt,
         'statistics_calculated_at' => $statisticsCalculatedAt,
     ]);
 
@@ -36,6 +38,8 @@ it('will recalculate statistics at the right time', function (
 it('can recalculate the statistics of a single campaign', function () {
     $campaign = Campaign::factory()->create([
         'sent_at' => now()->subYear(),
+        'all_sends_dispatched_at' => now()->subYear(),
+        'all_sends_created_at' => now()->subYear(),
         'statistics_calculated_at' => null,
     ]);
 
