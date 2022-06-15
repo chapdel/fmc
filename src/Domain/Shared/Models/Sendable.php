@@ -14,9 +14,7 @@ use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignTestJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Campaign\Rules\HtmlRule;
 use Spatie\Mailcoach\Domain\Shared\Actions\CreateDomDocumentFromHtmlAction;
-use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
-use Spatie\Mailcoach\Domain\Shared\Support\CalculateStatisticsLock;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
@@ -212,18 +210,6 @@ abstract class Sendable extends Model implements HasHtmlContent
         $mailableArguments = $this->mailable_arguments ?? [];
 
         return resolve($mailableClass, $mailableArguments);
-    }
-
-    /** TODO: verify if this function can be removed */
-    public function dispatchCalculateStatistics()
-    {
-        $lock = new CalculateStatisticsLock($this);
-
-        if (! $lock->get()) {
-            return;
-        }
-
-        dispatch(new CalculateStatisticsJob($this));
     }
 
     public function sendsCount(): int

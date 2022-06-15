@@ -39,7 +39,7 @@ it('can replace unsubscribe url', function () {
 it('can replace unsubscribe tag url', function () {
     test()->send->subscriber->addTag('some tag');
 
-    assertPersonalizeCampaignHtmlActionResult('::unsubscribeTag::some tag::', test()->send->subscriber->unsubscribeTagUrl('some tag'));
+    assertPersonalizeCampaignHtmlActionResult('::unsubscribeTag::some tag::', test()->send->subscriber->unsubscribeTagUrl('some tag', test()->send));
 });
 
 // Helpers

@@ -53,6 +53,9 @@ class Campaign extends Sendable implements Feedable
     public static function scopeSentBetween(Builder $query, CarbonInterface $periodStart, CarbonInterface $periodEnd): void
     {
         $query
+            ->whereNotNull('sent_at')
+            ->whereNotNull('all_sends_dispatched_at')
+            ->whereNotNull('all_sends_created_at')
             ->where('sent_at', '>=', $periodStart)
             ->where('sent_at', '<', $periodEnd);
     }
@@ -367,6 +370,10 @@ class Campaign extends Sendable implements Feedable
         $lock = new CalculateStatisticsLock($this);
 
         if (! $lock->get()) {
+            return;
+        }
+
+        if (! $this->isSent()) {
             return;
         }
 

@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Bus;
 use Spatie\Mailcoach\Domain\Campaign\Commands\CalculateStatisticsCommand;
+use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
@@ -20,7 +21,10 @@ it('will recalculate statistics at the right time', function (
     Bus::fake();
 
     $campaign = Campaign::factory()->create([
+        'status' => CampaignStatus::SENT,
         'sent_at' => $sentAt,
+        'all_sends_dispatched_at' => $sentAt,
+        'all_sends_created_at' => $sentAt,
         'statistics_calculated_at' => $statisticsCalculatedAt,
     ]);
 
@@ -36,6 +40,8 @@ it('will recalculate statistics at the right time', function (
 it('can recalculate the statistics of a single campaign', function () {
     $campaign = Campaign::factory()->create([
         'sent_at' => now()->subYear(),
+        'all_sends_dispatched_at' => now()->subYear(),
+        'all_sends_created_at' => now()->subYear(),
         'statistics_calculated_at' => null,
     ]);
 

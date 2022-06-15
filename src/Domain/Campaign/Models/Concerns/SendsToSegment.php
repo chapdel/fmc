@@ -9,7 +9,6 @@ use Spatie\Mailcoach\Domain\Audience\Support\Segments\EverySubscriberSegment;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\Segment;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\SubscribersWithTagsSegment;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
-use Throwable;
 
 /**
  * @property string $segment_class
@@ -45,11 +44,11 @@ trait SendsToSegment
     {
         $segmentClass = $this->segment_class ?? EverySubscriberSegment::class;
 
-        try {
-            $segmentClass = unserialize($segmentClass);
-        } catch (Throwable) {
-            // Do nothing, it was not a serialized string
-        }
+        $segmentClass = rescue(
+            fn () => unserialize($segmentClass) ?: $segmentClass,
+            $segmentClass,
+            false,
+        );
 
         if ($segmentClass instanceof Segment) {
             return $segmentClass->setSegmentable($this);

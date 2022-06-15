@@ -24,7 +24,7 @@ Route::post('/unsubscribe/{subscriberUuid}/{sendUuid?}',  ['\\' .UnsubscribeCont
 Route::get('/manage-preferences/{subscriberUuid}/{sendUuid?}',  ['\\' . ManagePreferencesController::class, 'show'])->name('mailcoach.manage-preferences');
 Route::post('/manage-preferences/{subscriberUuid}/{sendUuid?}',  ['\\' . ManagePreferencesController::class, 'confirm']);
 
-Route::post('/unsubscribe-tag/{subscriberUuid}/{tag}',  ['\\' . UnsubscribeTagController::class, 'confirm']);
+Route::post('/unsubscribe-tag/{subscriberUuid}/{tag}/{sendUuid?}',  ['\\' . UnsubscribeTagController::class, 'confirm']);
 
 Route::get('webview/campaign/{campaignUuid}', '\\' . CampaignWebviewController::class)->name('mailcoach.campaign.webview');
 Route::get('webview/automation/{campaignUuid}', '\\' . AutomationWebviewController::class)->name('mailcoach.automations.webview');

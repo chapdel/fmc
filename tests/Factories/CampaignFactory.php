@@ -47,6 +47,8 @@ class CampaignFactory
     {
         return Campaign::factory()->create([
             'sent_at' => Carbon::createFromFormat('Y-m-d H:i:s', $dateTime),
+            'all_sends_dispatched_at' => Carbon::createFromFormat('Y-m-d H:i:s', $dateTime),
+            'all_sends_created_at' => Carbon::createFromFormat('Y-m-d H:i:s', $dateTime),
         ]);
     }
 }
