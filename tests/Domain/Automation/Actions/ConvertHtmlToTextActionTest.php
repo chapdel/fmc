@@ -7,5 +7,5 @@ it('can convert html to text', function () {
 
     $text = (new ConvertHtmlToTextAction())->execute($html);
 
-    test()->assertMatchesHtmlSnapshotWithoutWhitespace($text);
+    test()->assertMatchesSnapshot($text);
 });

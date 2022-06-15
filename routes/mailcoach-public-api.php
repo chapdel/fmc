@@ -20,7 +20,7 @@ Route::get('/unsubscribe-tag/{subscriberUuid}/{tag}/{sendUuid?}',  ['\\' . Unsub
 
 Route::post('/unsubscribe/{subscriberUuid}/{sendUuid?}',  ['\\' .UnsubscribeController::class, 'confirm']);
 
-Route::post('/unsubscribe-tag/{subscriberUuid}/{tag}',  ['\\' . UnsubscribeTagController::class, 'confirm']);
+Route::post('/unsubscribe-tag/{subscriberUuid}/{tag}/{sendUuid?}',  ['\\' . UnsubscribeTagController::class, 'confirm']);
 
 Route::get('webview/campaign/{campaignUuid}', '\\' . CampaignWebviewController::class)->name('mailcoach.campaign.webview');
 Route::get('webview/automation/{campaignUuid}', '\\' . AutomationWebviewController::class)->name('mailcoach.automations.webview');
