@@ -367,6 +367,10 @@ class Campaign extends Sendable implements Feedable
             return;
         }
 
+        if (! $this->isSent()) {
+            return;
+        }
+
         $latestEvent = max(
             $this->sends()->latest()->first()?->created_at,
             $this->opens()->latest()->first()?->created_at,

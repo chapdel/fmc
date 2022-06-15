@@ -281,6 +281,8 @@ it('can send out multiple test emails at once', function () {
 it('can dispatch a job to recalculate statistics', function () {
     Bus::fake();
 
+    test()->campaign->update(['status' => CampaignStatus::SENT]);
+
     test()->campaign->dispatchCalculateStatistics();
 
     Bus::assertDispatched(CalculateStatisticsJob::class, 1);
@@ -289,6 +291,7 @@ it('can dispatch a job to recalculate statistics', function () {
 it('wont dispatch a calculate statistics job if it doesnt have any new sends', function () {
     Queue::fake();
 
+    test()->campaign->update(['status' => CampaignStatus::SENT]);
     test()->campaign->update(['statistics_calculated_at' => now()]);
 
     test()->campaign->dispatchCalculateStatistics();
@@ -307,8 +310,33 @@ it('wont dispatch a calculate statistics job if it doesnt have any new sends', f
     Queue::assertPushed(CalculateStatisticsJob::class);
 });
 
+it('will only dispatch a calculate statistics job if it is sent', function () {
+    Queue::fake();
+
+    test()->campaign->update(['statistics_calculated_at' => now(), 'status' => CampaignStatus::SENDING]);
+
+    test()->campaign->dispatchCalculateStatistics();
+
+    Queue::assertNotPushed(CalculateStatisticsJob::class);
+
+    \Spatie\Mailcoach\Domain\Shared\Models\Send::factory()->create([
+        'campaign_id' => test()->campaign->id,
+    ]);
+
+    $lock = new CalculateStatisticsLock(test()->campaign);
+    $lock->release();
+
+    test()->campaign->update(['status' => CampaignStatus::SENT]);
+
+    test()->campaign->dispatchCalculateStatistics();
+
+    Queue::assertPushed(CalculateStatisticsJob::class);
+});
+
 it('will not dispatch the recalculation job twice', function () {
     Bus::fake();
+
+    test()->campaign->update(['status' => CampaignStatus::SENT]);
 
     test()->campaign->dispatchCalculateStatistics();
     test()->campaign->dispatchCalculateStatistics();
@@ -318,6 +346,8 @@ it('will not dispatch the recalculation job twice', function () {
 
 it('can dispatch the recalculation job again after the previous job has run', function () {
     Bus::fake();
+
+    test()->campaign->update(['status' => CampaignStatus::SENT]);
 
     test()->campaign->dispatchCalculateStatistics();
 
