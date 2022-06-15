@@ -9,7 +9,6 @@ use Spatie\Mailcoach\Domain\Audience\Support\Segments\EverySubscriberSegment;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\Segment;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\SubscribersWithTagsSegment;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
-use Throwable;
 
 /**
  * @property string $segment_class
