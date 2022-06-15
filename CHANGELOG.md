@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.5.13 - 2022-06-15
+
+### What's changed
+
+- Fix a bug where bounces would calculate statistics too early and cause wrong statistics to be displayed
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.5.12...5.5.13
+
 ## 5.5.12 - 2022-06-15
 
 ### What's Changed
