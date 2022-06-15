@@ -44,7 +44,7 @@ class CreateCampaignSendJob implements ShouldQueue, ShouldBeUnique
         $this->campaign = $campaign;
         $this->subscriber = $subscriber;
 
-        $this->queue = config('mailcoach.campaigns.perform_on_queue.send_mail_job');
+        $this->queue = config('mailcoach.campaigns.perform_on_queue.send_campaign_job');
 
         $this->connection = $this->connection ?? Config::getQueueConnection();
     }
