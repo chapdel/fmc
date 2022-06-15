@@ -196,18 +196,6 @@ abstract class Sendable extends Model implements HasHtmlContent
         return resolve($mailableClass, $mailableArguments);
     }
 
-    /** TODO: verify if this function can be removed */
-    public function dispatchCalculateStatistics()
-    {
-        $lock = new CalculateStatisticsLock($this);
-
-        if (! $lock->get()) {
-            return;
-        }
-
-        dispatch(new CalculateStatisticsJob($this));
-    }
-
     public function sendsCount(): int
     {
         return $this->sends()->whereNotNull('sent_at')->count();
