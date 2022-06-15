@@ -150,7 +150,7 @@ class CreateMailcoachTables extends Migration
             $table->integer('bounce_count')->default(0);
             $table->integer('bounce_rate')->default(0);
 
-            $table->timestamp('sent_at')->nullable();
+            $table->timestamp('sent_at')->nullable()->index();
             $table->timestamp('statistics_calculated_at')->nullable();
             $table->timestamp('scheduled_at')->nullable();
 
@@ -162,6 +162,8 @@ class CreateMailcoachTables extends Migration
             $table->timestamp('summary_mail_sent_at')->nullable();
 
             $table->timestamps();
+
+            $table->index(['scheduled_at', 'status']);
         });
 
         Schema::create('mailcoach_campaign_links', function (Blueprint $table) {
@@ -282,6 +284,7 @@ class CreateMailcoachTables extends Migration
             $table->unique('transport_message_id');
             $table->index(['campaign_id', 'subscriber_id']);
             $table->index(['transactional_mail_id']);
+            $table->index(['sending_job_dispatched_at', 'sent_at'], 'sent_index');
         });
 
         Schema::create('mailcoach_campaign_clicks', function (Blueprint $table) {
