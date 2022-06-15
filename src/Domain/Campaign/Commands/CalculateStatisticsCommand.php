@@ -5,7 +5,6 @@ namespace Spatie\Mailcoach\Domain\Campaign\Commands;
 use Carbon\CarbonInterface;
 use Carbon\CarbonInterval;
 use Illuminate\Console\Command;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
