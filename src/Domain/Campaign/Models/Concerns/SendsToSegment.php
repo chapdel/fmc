@@ -45,11 +45,11 @@ trait SendsToSegment
     {
         $segmentClass = $this->segment_class ?? EverySubscriberSegment::class;
 
-        try {
-            $segmentClass = unserialize($segmentClass);
-        } catch (Throwable) {
-            // Do nothing, it was not a serialized string
-        }
+        $segmentClass = rescue(
+            fn () => unserialize($segmentClass) ?: $segmentClass,
+            $segmentClass,
+            false,
+        );
 
         if ($segmentClass instanceof Segment) {
             return $segmentClass->setSegmentable($this);
