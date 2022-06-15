@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Mail\MailManager;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
