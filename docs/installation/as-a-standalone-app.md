@@ -20,7 +20,7 @@ composer create-project spatie/Mailcoach
 ```
 
 During the execution of this command Composer will ask for a user and a password. The user is the email address 
-of your spatie.be account. The password is the key of your [Mailcoach license](/products/mailcoach).
+of your spatie.be account. The password is the key of your [Mailcoach license](https://spatie.be/profile/purchases).
 
 ### Creating the database
 
