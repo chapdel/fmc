@@ -99,9 +99,7 @@ class CreateCampaignSendJob implements ShouldQueue, ShouldBeUnique
     private function dispatchMailSendJob(Send $send): void
     {
         $simpleThrottle = app(SimpleThrottle::class)
-            ->forMailer(config('mailcoach.campaigns.mailer'))
-            ->allow(config('mailcoach.campaigns.throttling.allowed_number_of_jobs_in_timespan'))
-            ->inSeconds(config('mailcoach.campaigns.throttling.timespan_in_seconds'));
+            ->forMailer($send->campaign->emailList->campaign_mailer);
 
         $simpleThrottle->hit();
 

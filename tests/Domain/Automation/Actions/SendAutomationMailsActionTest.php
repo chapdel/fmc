@@ -8,8 +8,8 @@ use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\TestTime\TestTime;
 
 it('throttles dispatching automation mail sends', function () {
-    config()->set('mailcoach.automation.throttling.allowed_number_of_jobs_in_timespan', 2);
-    config()->set('mailcoach.automation.throttling.timespan_in_seconds', 3);
+    config()->set('mail.mailers.log.mails_per_timespan', 2);
+    config()->set('mail.mailers.log.timespan_in_seconds', 3);
 
     Mail::fake();
     TestTime::unfreeze();

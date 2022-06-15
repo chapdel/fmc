@@ -58,8 +58,9 @@ it('can send a campaign with the correct mailer', function () {
 });
 
 it('will throttle sending mail', function () {
-    config()->set('mailcoach.campaigns.throttling.allowed_number_of_jobs_in_timespan', 2);
-    config()->set('mailcoach.campaigns.throttling.timespan_in_seconds', 3);
+    $mailer = test()->campaign->emailList->campaign_mailer;
+    config()->set("mail.mailers.{$mailer}.mails_per_timespan", 2);
+    config()->set("mail.mailers.{$mailer}.timespan_in_seconds", 3);
 
     Mail::fake();
     TestTime::unfreeze();
@@ -77,7 +78,7 @@ it('will throttle sending mail', function () {
     [$sendTime1, $sendTime2, $sendTime3] = $jobDispatchTimes;
 
     expect($sendTime1->diffInSeconds($sendTime2))->toEqual(0);
-    expect(round($sendTime2->diffInSeconds($sendTime3)))->toEqual(3);
+    expect(round($sendTime2->diffInSeconds($sendTime3)))->toBeGreaterThanOrEqual(3);
 });
 
 it('will not create mailcoach sends if they already have been created', function () {

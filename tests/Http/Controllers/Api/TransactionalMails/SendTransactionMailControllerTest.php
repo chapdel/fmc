@@ -37,9 +37,9 @@ it('can send a transactional mail', function () {
     Mail::assertSent(TransactionalMail::class, function (TransactionalMail $mail) {
         expect($mail->subject)->toBe('Some subject');
         expect($mail->from)->toBe([['name' => null, 'address' => 'rias@spatie.be']]);
-        expect($mail->to)->toBe([['name' => null, 'address' => 'freek@spatie.be']]);
-        expect($mail->cc)->toBe([['name' => null, 'address' => 'rias+cc@spatie.be']]);
-        expect($mail->bcc)->toBe([['name' => null, 'address' => 'rias+bcc@spatie.be']]);
+        expect($mail->to)->toBe([['name' => '', 'address' => 'freek@spatie.be']]);
+        expect($mail->cc)->toBe([['name' => '', 'address' => 'rias+cc@spatie.be']]);
+        expect($mail->bcc)->toBe([['name' => '', 'address' => 'rias+bcc@spatie.be']]);
 
         return true;
     });

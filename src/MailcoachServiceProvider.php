@@ -195,7 +195,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         });
 
         $this->app->scoped(SimpleThrottle::class, function () {
-            $cache = cache()->store(config('mailcoach.campaigns.throttling.cache_store'));
+            $cache = cache()->store(config('mailcoach.shared.throttling.cache_store'));
 
             $simpleThrottleCache = new SimpleThrottleCache($cache);
 

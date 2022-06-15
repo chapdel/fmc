@@ -33,22 +33,6 @@ return [
         ],
 
         /*
-         * By default only 10 mails per second will be sent to avoid overwhelming your
-         * e-mail sending service.
-         */
-        'throttling' => [
-            'allowed_number_of_jobs_in_timespan' => 10,
-            'timespan_in_seconds' => 1,
-
-            /*
-             * Throttling relies on the cache. Here you can specify the store to be used.
-             *
-             * When passing `null`, we'll use the default store.
-             */
-            'cache_store' => null,
-        ],
-
-        /*
          * The job that will send a campaign could take a long time when your list contains a lot of subscribers.
          * Here you can define the maximum run time of the job. If the job hasn't fully sent your campaign, it
          * will redispatch itself.
@@ -94,22 +78,6 @@ return [
          * The default mailer used by Mailcoach for automation mails.
          */
         'mailer' => null,
-
-        /*
-         * By default only 10 mails per second will be sent to avoid overwhelming your
-         * e-mail sending service.
-         */
-        'throttling' => [
-            'allowed_number_of_jobs_in_timespan' => 10,
-            'timespan_in_seconds' => 1,
-
-            /*
-             * Throttling relies on the cache. Here you can specify the store to be used.
-             *
-             * When passing `null`, we'll use the default store.
-             */
-            'cache_store' => null,
-        ],
 
         /*
          * The job that will send automation mails could take a long time when your list contains a lot of subscribers.

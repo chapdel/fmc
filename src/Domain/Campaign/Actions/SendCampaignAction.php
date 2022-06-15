@@ -112,10 +112,7 @@ class SendCampaignAction
 
     protected function dispatchMailSendingJobs(Campaign $campaign, CarbonInterface $stopExecutingAt = null): void
     {
-        $simpleThrottle = app(SimpleThrottle::class)
-            ->forMailer(config('mailcoach.campaigns.mailer'))
-            ->allow(config('mailcoach.campaigns.throttling.allowed_number_of_jobs_in_timespan'))
-            ->inSeconds(config('mailcoach.campaigns.throttling.timespan_in_seconds'));
+        $simpleThrottle = app(SimpleThrottle::class)->forMailer($campaign->emailList->campaign_mailer);
 
         $campaign
             ->sends()
