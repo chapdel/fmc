@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.5.12 - 2022-06-15
+
+### What's Changed
+
+- Catch throwable resolving a segmentClass by @masterix21 in https://github.com/spatie/laravel-mailcoach/pull/994
+- Fix an issue where statistics recalculating caused invalid data to be displayed
+
+### New Contributors
+
+- @masterix21 made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/994
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.5.11...5.5.12
+
 ## 5.5.11 - 2022-06-02
 
 ### What's changed
