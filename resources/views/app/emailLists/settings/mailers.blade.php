@@ -16,7 +16,6 @@
         />
         <x-mailcoach::help>{{ __('mailcoach - The mailer used for sending campaigns.') }}</x-mailcoach::help>
 
-
         <x-mailcoach::select-field
             name="automation_mailer"
             :options="array_combine(array_keys(config('mail.mailers')), array_keys(config('mail.mailers')))"

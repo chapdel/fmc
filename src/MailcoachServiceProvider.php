@@ -208,6 +208,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         $this
             ->bootCarbon()
             ->bootGate()
+            ->bootMigrations()
             ->bootRoutes()
             ->bootSupportMacros()
             ->bootTranslations()
@@ -281,6 +282,15 @@ class MailcoachServiceProvider extends PackageServiceProvider
     protected function bootGate(): self
     {
         Gate::define('viewMailcoach', fn () => $this->app->environment('local'));
+
+        return $this;
+    }
+
+    protected function bootMigrations(): self
+    {
+        if (Mailcoach::$runsMigrations && $this->app->runningInConsole()) {
+            $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        }
 
         return $this;
     }
