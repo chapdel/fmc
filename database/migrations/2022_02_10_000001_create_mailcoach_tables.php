@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 
-class CreateMailcoachTables extends Migration
+return new class extends Migration
 {
     public function up()
     {
@@ -696,4 +696,4 @@ class CreateMailcoachTables extends Migration
             $table->timestamps();
         });
     }
-}
+};
