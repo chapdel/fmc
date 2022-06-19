@@ -162,9 +162,9 @@ class MailcoachServiceProvider extends PackageServiceProvider
             ->hasViews()
             ->hasAssets()
             ->hasMigrations([
-                'create_mailcoach_tables',
-                'create_media_table',
-                'create_webhook_calls_table',
+                '2022_02_10_000001_create_mailcoach_tables',
+                '2022_02_10_000002_create_media_table',
+                '2022_02_10_000003_create_webhook_calls_table',
             ])
             ->hasCommands([
                 CalculateStatisticsCommand::class,
