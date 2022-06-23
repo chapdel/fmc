@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\InvalidConfig;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Http\Front\Controllers\MailcoachAssets;
 
 class Mailcoach
 {
@@ -14,6 +15,64 @@ class Mailcoach
 
     protected static $editorScripts = [];
     protected static $editorStyles = [];
+
+    public static function styles(): string
+    {
+        // Default to dynamic `app.css` (served by a Laravel route).
+        $fullAssetPath = action([MailcoachAssets::class, 'style']);
+
+        // Use static assets if they have been published
+        if (file_exists(public_path('vendor/mailcoach/app.css'))) {
+            $fullAssetPath = asset('/vendor/mailcoach/app.css');
+        }
+
+        $styles = [
+            "<link rel=\"stylesheet\" href=\"https://use.fontawesome.com/releases/v5.11.0/css/all.css\">",
+            "<link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap\" rel=\"stylesheet\">",
+            "<link rel=\"stylesheet\" href=\"{$fullAssetPath}\" type=\"text/css\">",
+        ];
+
+        foreach (self::availableEditorStyles() as $editor => $editorStyles) {
+            if (! in_array($editor, [config('mailcoach.content_editor'), config('mailcoach.template_editor')])) {
+                continue;
+            }
+
+            foreach ($editorStyles as $style) {
+                $styles[] = "<link rel=\"stylesheet\" href=\"{$style}\">";
+            }
+        }
+
+        return implode("\n", $styles);
+    }
+
+    public static function scripts(): string
+    {
+        // Default to dynamic `app.js` (served by a Laravel route).
+        $fullAssetPath = action([MailcoachAssets::class, 'script']);
+
+        // Use static assets if they have been published
+        if (file_exists(public_path('vendor/mailcoach/app.js'))) {
+            $fullAssetPath = asset('/vendor/mailcoach/app.js');
+        }
+
+        $scripts = [];
+
+        foreach (self::availableEditorScripts() as $editor => $editorScripts) {
+            if (! in_array($editor, [config('mailcoach.content_editor'), config('mailcoach.template_editor')])) {
+                continue;
+            }
+
+            foreach ($editorScripts as $script) {
+                $scripts[] = "<script type=\"text/javascript\" src=\"{$script}\" defer></script>";
+            }
+        }
+
+        $scripts[] = <<<HTML
+            <script src="{$fullAssetPath}" data-turbo-eval="false" data-turbolinks-eval="false"></script>
+        HTML;
+
+        return implode("\n", $scripts);
+    }
 
     public static function ignoreMigrations(): static
     {

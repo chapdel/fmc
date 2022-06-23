@@ -9,18 +9,7 @@
 
         <title>{{ isset($title) ? "{$title} |" : '' }} {{ isset($originTitle) ? "{$originTitle} |" : '' }} Mailcoach</title>
 
-        <link rel="stylesheet" href="{{ asset('vendor/mailcoach/app.css') }}?t={{ app(\Spatie\Mailcoach\Domain\Shared\Support\Version::class)->getHashedFullVersion() }}">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.0/css/all.css">
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-        @foreach (\Spatie\Mailcoach\Mailcoach::availableEditorStyles() as $editor => $styles)
-            @continue(! in_array($editor, [
-                config('mailcoach.content_editor'),
-                config('mailcoach.template_editor'),
-            ]))
-            @foreach ($styles as $style)
-                <link rel="stylesheet" href="{{ $style }}">
-            @endforeach
-        @endforeach
+        {!! \Spatie\Mailcoach\Mailcoach::styles() !!}
 
         <meta name="turbo-cache-control" content="no-preview">
 
@@ -118,15 +107,6 @@
 
         {!! \Livewire\Livewire::scripts() !!}
         @livewire('livewire-ui-spotlight')
-        @foreach (\Spatie\Mailcoach\Mailcoach::availableEditorScripts() as $editor => $scripts)
-            @continue(! in_array($editor, [
-                config('mailcoach.content_editor'),
-                config('mailcoach.template_editor'),
-            ]))
-            @foreach ($scripts as $script)
-                <script type="text/javascript" src="{{ $script }}" defer></script>
-            @endforeach
-        @endforeach
-        <script type="text/javascript" src="{{ asset('vendor/mailcoach/app.js') }}?t={{ app(\Spatie\Mailcoach\Domain\Shared\Support\Version::class)->getHashedFullVersion() }}" defer></script>
+        {!! \Spatie\Mailcoach\Mailcoach::scripts() !!}
     </body>
 </html>

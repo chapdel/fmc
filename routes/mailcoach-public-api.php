@@ -5,11 +5,15 @@ use Spatie\Mailcoach\Http\Front\Controllers\AutomationWebviewController;
 use Spatie\Mailcoach\Http\Front\Controllers\CampaignWebviewController;
 use Spatie\Mailcoach\Http\Front\Controllers\ConfirmSubscriberController;
 use Spatie\Mailcoach\Http\Front\Controllers\EmailListCampaignsFeedController;
+use Spatie\Mailcoach\Http\Front\Controllers\MailcoachAssets;
 use Spatie\Mailcoach\Http\Front\Controllers\ManagePreferencesController;
 use Spatie\Mailcoach\Http\Front\Controllers\ReConfirmSubscriberController;
 use Spatie\Mailcoach\Http\Front\Controllers\SubscribeController;
 use Spatie\Mailcoach\Http\Front\Controllers\UnsubscribeController;
 use Spatie\Mailcoach\Http\Front\Controllers\UnsubscribeTagController;
+
+Route::get('mailcoach/app.js', ['\\' . MailcoachAssets::class, 'script']);
+Route::get('mailcoach/app.css', ['\\' . MailcoachAssets::class, 'style']);
 
 Route::get('/confirm-subscription/{subscriberUuid}', '\\' . ConfirmSubscriberController::class)->name('mailcoach.confirm');
 
