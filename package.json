@@ -29,6 +29,8 @@
         "@swup/preload-plugin": "^1.0.3",
         "@yaireo/tagify": "^4.12.0",
         "alpinejs": "^3.10",
+        "chart.js": "^3.7.1",
+        "chartjs-plugin-zoom": "^1.2.1",
         "swup": "^2.0.14"
     }
 }

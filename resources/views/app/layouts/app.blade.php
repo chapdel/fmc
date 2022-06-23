@@ -37,9 +37,6 @@
             };
         </script>
 
-        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/1.2.1/chartjs-plugin-zoom.min.js" defer></script>
-
         @include('mailcoach::app.layouts.partials.endHead')
         @stack('endHead')
     </head>

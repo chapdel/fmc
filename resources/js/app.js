@@ -4,6 +4,37 @@ import '@yaireo/tagify/dist/tagify.css';
 import Alpine from 'alpinejs';
 import focus from '@alpinejs/focus';
 
+import {
+    Chart,
+    LineElement,
+    BarElement,
+    PointElement,
+    BarController,
+    LineController,
+    CategoryScale,
+    LinearScale,
+    Tooltip,
+} from 'chart.js';
+import zoomPlugin from 'chartjs-plugin-zoom';
+
+Chart.register(
+    LineElement,
+    BarElement,
+    PointElement,
+    BarController,
+    LineController,
+    CategoryScale,
+    LinearScale,
+    Tooltip,
+);
+import { each } from 'chart.js/helpers';
+
+Chart.register(zoomPlugin);
+
+window.Chart = Chart;
+window.Chart.helpers = {};
+window.Chart.helpers.each = each;
+
 require('./components/swup');
 require('./components/dirty');
 require('./components/htmlPreview');
