@@ -14,6 +14,7 @@
     "mailcoach - A test email was sent to :count addresses.": "A test email was sent to :count addresses.",
     "mailcoach - A test email was sent to :email.": "A test email was sent to :email.",
     "mailcoach - Actions": "Actions",
+    "mailcoach - Attributes": "Attributes",
     "mailcoach - Active": "Active",
     "mailcoach - Add action": "Add action",
     "mailcoach - Add segment": "Add segment",

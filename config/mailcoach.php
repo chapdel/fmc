@@ -279,6 +279,16 @@ return [
     ],
 
     /*
+     * This disk will be used to store files regarding importing.
+     */
+    'import_disk' => 'public',
+
+    /*
+     * This disk will be used to store files regarding exporting.
+     */
+    'export_disk' => 'public',
+
+    /*
      * The mailer used by Mailcoach for password resets and summary emails.
      * Mailcoach will use the default Laravel mailer if this is not set.
      */

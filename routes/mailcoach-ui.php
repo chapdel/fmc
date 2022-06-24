@@ -79,9 +79,14 @@ use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\Transacti
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailContentController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailIndexController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailPerformanceController;
+use Spatie\Mailcoach\Http\App\Livewire\Export\Export;
+use Spatie\Mailcoach\Http\App\Livewire\Import\Import;
 use Spatie\Mailcoach\Http\App\Middleware\EditableCampaign;
 
 Route::get('debug', '\\' . DebugController::class)->name('debug');
+
+Route::get('export', '\\' . Export::class)->name('export');
+Route::get('import', '\\' . Import::class)->name('import');
 
 Route::prefix('campaigns')->group(function () {
     Route::get('/', '\\' . CampaignsIndexController::class)->name('mailcoach.campaigns');

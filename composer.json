@@ -52,7 +52,8 @@
         "symfony/css-selector": "^6.0",
         "symfony/dom-crawler": "^6.0",
         "symfony/http-client": "^6.0",
-        "tijsverkoyen/css-to-inline-styles": "^2.2"
+        "tijsverkoyen/css-to-inline-styles": "^2.2",
+      "ext-zip": "*"
     },
     "require-dev": {
         "brianium/paratest": "^6.2",

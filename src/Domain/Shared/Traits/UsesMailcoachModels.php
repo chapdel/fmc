@@ -158,7 +158,7 @@ trait UsesMailcoachModels
     }
 
     /** @return class-string<TransactionalMailTemplate> */
-    public function getTransactionalMailTemplateClass(): string
+    public static function getTransactionalMailTemplateClass(): string
     {
         return config('mailcoach.models.transactional_mail_template', TransactionalMailTemplate::class);
     }
@@ -187,6 +187,46 @@ trait UsesMailcoachModels
         return config('mailcoach.models.subscriber_import', SubscriberImport::class);
     }
 
+    public static function getTagTableName(): string
+    {
+        /** @var \Illuminate\Database\Eloquent\Model $tag */
+        $tagClass = self::getTagClass();
+
+        $tag = new $tagClass;
+
+        return $tag->getTable();
+    }
+
+    public static function getTransactionalMailTemplateTableName(): string
+    {
+        /** @var \Illuminate\Database\Eloquent\Model $transactionalMailTemplate */
+        $transactionalMailTemplateClass = self::getTransactionalMailTemplateClass();
+
+        $transactionalMailTemplate = new $transactionalMailTemplateClass;
+
+        return $transactionalMailTemplate->getTable();
+    }
+
+    public static function getAutomationTableName(): string
+    {
+        /** @var \Illuminate\Database\Eloquent\Model $automation */
+        $automationClass = self::getAutomationClass();
+
+        $automation = new $automationClass;
+
+        return $automation->getTable();
+    }
+
+    public static function getTagSegmentTableName(): string
+    {
+        /** @var \Illuminate\Database\Eloquent\Model $tagSegment */
+        $tagSegmentClass = self::getTagSegmentClass();
+
+        $tagSegment = new $tagSegmentClass;
+
+        return $tagSegment->getTable();
+    }
+
     public static function getEmailListTableName(): string
     {
         /** @var \Illuminate\Database\Eloquent\Model $emailList */
@@ -197,10 +237,10 @@ trait UsesMailcoachModels
         return $emailList->getTable();
     }
 
-    public function getSubscriberTableName(): string
+    public static function getSubscriberTableName(): string
     {
         /** @var \Illuminate\Database\Eloquent\Model $subscriber */
-        $subscriberClass = $this->getSubscriberClass();
+        $subscriberClass = self::getSubscriberClass();
 
         $subscriber = new $subscriberClass;
 

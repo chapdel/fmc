@@ -72,6 +72,8 @@ use Spatie\Mailcoach\Domain\Shared\Support\Version;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Listeners\StoreTransactionalMail;
 use Spatie\Mailcoach\Http\App\Controllers\HomeController;
+use Spatie\Mailcoach\Http\App\Livewire\Export\Export;
+use Spatie\Mailcoach\Http\App\Livewire\Import\Import;
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\IndexComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\QueryStringComposer;
@@ -345,6 +347,13 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('tag-removed-trigger', TagRemovedTriggerComponent::class);
         Livewire::component('webhook-trigger', WebhookTriggerComponent::class);
         Livewire::component('no-trigger', NoTriggerComponent::class);
+
+        Livewire::component('mailcoach::export', Export::class);
+        Livewire::component('mailcoach::import', Import::class);
+
+        config()->set('livewire.temporary_file_upload.rules', [
+            'file|max:102400', // 100 MB max
+        ]);
 
         return $this;
     }

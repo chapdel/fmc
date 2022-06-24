@@ -136,12 +136,12 @@
                 <div class="col-start-2 text-sm text-green-600">{{ $campaign->sent_at->toMailcoachFormat() }}</div>
             </div>
 
-
-            <h2 class="markup-h2 mt-12">{{ __('mailcoach - 24-hour performance') }}</h2>
-
-            <div class="mt-6">
-                @include('mailcoach::app.campaigns.partials.chart')
-            </div>
+            @if(count($stats))
+                <h2 class="markup-h2 mt-12">{{ __('mailcoach - 24-hour performance') }}</h2>
+                <div class="mt-6">
+                    @include('mailcoach::app.campaigns.partials.chart')
+                </div>
+            @endif
         @endif
 
         @include('mailcoach::app.campaigns.partials.statistics')
