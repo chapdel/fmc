@@ -22,7 +22,7 @@
                 @foreach($subscribers as $subscriber)
                     <tr class="markup-links">
                         <td>
-                            <a class="break-words" href="{{ route('mailcoach.emailLists.subscriber.details', [$subscriber->emailList, $subscriber]) }}">
+                            <a class="break-words" href="{{ route('mailcoach.emailLists.subscriber.details', [$emailList, $subscriber]) }}">
                                 {{ $subscriber->email }}
                             </a>
                             <div class="td-secondary-line">
