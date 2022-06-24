@@ -2,9 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests;
 
-use CreateMailcoachTables;
 use CreateUsersTable;
-use CreateWebhookCallsTable;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
@@ -14,7 +12,6 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Livewire\LivewireServiceProvider;
 use LivewireUI\Spotlight\SpotlightServiceProvider;
