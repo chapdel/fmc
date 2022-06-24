@@ -26,7 +26,7 @@ class ActionSubscriber extends Pivot
 
     public function action(): BelongsTo
     {
-        return $this->belongsTo(static::getAutomationActionModelClass());
+        return $this->belongsTo(static::getAutomationActionClass());
     }
 
     public function subscriber(): BelongsTo

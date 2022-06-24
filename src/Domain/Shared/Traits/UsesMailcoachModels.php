@@ -93,7 +93,7 @@ trait UsesMailcoachModels
     }
 
     /** @return class-string<Action> */
-    public static function getAutomationActionModelClass(): string
+    public static function getAutomationActionClass(): string
     {
         return config('mailcoach.models.automation_action', Action::class);
     }
@@ -244,6 +244,16 @@ trait UsesMailcoachModels
         return $tag->getTable();
     }
 
+    public static function getTagSegmentTableName(): string
+    {
+        $tagSegmentClass = self::getTagSegmentClass();
+
+        /** @var \Illuminate\Database\Eloquent\Model $tag */
+        $tagSegment = new $tagSegmentClass;
+
+        return $tagSegment->getTable();
+    }
+
     public static function getCampaignTableName(): string
     {
         $campaignClass = self::getCampaignClass();
@@ -274,10 +284,20 @@ trait UsesMailcoachModels
         return $actionSubscriber->getTable();
     }
 
+    public static function getAutomationTableName(): string
+    {
+        /** @var \Illuminate\Database\Eloquent\Model $action */
+        $automationClass = self::getAutomationClass();
+
+        $automation = new $automationClass;
+
+        return $automation->getTable();
+    }
+
     public static function getAutomationActionTableName(): string
     {
         /** @var \Illuminate\Database\Eloquent\Model $action */
-        $actionClass = self::getAutomationActionModelClass();
+        $actionClass = self::getAutomationActionClass();
 
         $action = new $actionClass;
 

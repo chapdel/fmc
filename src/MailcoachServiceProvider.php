@@ -143,6 +143,8 @@ use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMails;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateContent;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplates;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateSettings;
+use Spatie\Mailcoach\Http\App\Livewire\Export\Export;
+use Spatie\Mailcoach\Http\App\Livewire\Import\Import;
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\IndexComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\QueryStringComposer;
@@ -504,6 +506,13 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::transactional-mail-content', Mailcoach::getLivewireClass('transactional-mail-content', TransactionalMailContent::class));
         Livewire::component('mailcoach::transactional-mail-performance', Mailcoach::getLivewireClass('transactional-mail-performance', TransactionalMailPerformance::class));
         Livewire::component('mailcoach::transactional-mail-resend', Mailcoach::getLivewireClass('transactional-mail-resend', TransactionalMailResend::class));
+
+        Livewire::component('mailcoach::export', Export::class);
+        Livewire::component('mailcoach::import', Import::class);
+
+        config()->set('livewire.temporary_file_upload.rules', [
+            'file|max:102400', // 100 MB max
+        ]);
 
         return $this;
     }

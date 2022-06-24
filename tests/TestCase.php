@@ -88,19 +88,11 @@ abstract class TestCase extends Orchestra
 
     protected function refreshTestDatabase()
     {
-        if (! Schema::hasTable(static::getCampaignTableName())) {
-            Schema::dropAllTables();
-
-            include_once __DIR__.'/../database/migrations/create_mailcoach_tables.php.stub';
-            (new CreateMailcoachTables())->up();
-
-            (include __DIR__.'/../vendor/spatie/laravel-medialibrary/database/migrations/create_media_table.php.stub')->up();
+        if (! RefreshDatabaseState::$migrated) {
+            $this->artisan('migrate:fresh', $this->migrateFreshUsing());
 
             include_once __DIR__.'/database/migrations/create_users_table.php.stub';
             (new CreateUsersTable())->up();
-
-            include_once __DIR__.'/../database/migrations/create_webhook_calls_table.php.stub';
-            (new CreateWebhookCallsTable())->up();
 
             $this->app[Kernel::class]->setArtisan(null);
 

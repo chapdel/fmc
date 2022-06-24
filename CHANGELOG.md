@@ -2,6 +2,27 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.5.14 - 2022-06-24
+
+### What's Changed
+
+- Fix broken link by @LorenzoSapora in https://github.com/spatie/laravel-mailcoach/pull/998
+- Fix an n+1 issue on the segment subscriber index
+
+### New Contributors
+
+- @LorenzoSapora made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/998
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.5.13...5.5.14
+
+## 5.5.13 - 2022-06-15
+
+### What's changed
+
+- Fix a bug where bounces would calculate statistics too early and cause wrong statistics to be displayed
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.5.12...5.5.13
+
 ## 5.5.12 - 2022-06-15
 
 ### What's Changed

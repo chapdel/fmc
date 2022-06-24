@@ -91,7 +91,7 @@ class Subscriber extends Model
 
     public function actions(): BelongsToMany
     {
-        return $this->belongsToMany(self::getAutomationActionModelClass(), self::getActionSubscriberTableName())
+        return $this->belongsToMany(self::getAutomationActionClass(), self::getActionSubscriberTableName())
             ->withPivot(['completed_at', 'halted_at', 'run_at'])
             ->withTimestamps();
     }

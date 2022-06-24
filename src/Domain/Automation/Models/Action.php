@@ -103,12 +103,12 @@ class Action extends Model
 
     public function parent(): BelongsTo
     {
-        return $this->belongsTo(static::getAutomationActionModelClass(), 'parent_id');
+        return $this->belongsTo(static::getAutomationActionClass(), 'parent_id');
     }
 
     public function children(): HasMany
     {
-        return $this->hasMany(static::getAutomationActionModelClass(), 'parent_id')->orderBy('order');
+        return $this->hasMany(static::getAutomationActionClass(), 'parent_id')->orderBy('order');
     }
 
     public function toLivewireArray(): array

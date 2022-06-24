@@ -3,7 +3,7 @@
     type="checkbox"
     name="{{ $name }}"
     id="{{ $name }}"
-    value="1"
+    value="{{ $value ?? 1 }}"
     @if(old($name, $checked ?? false)) checked @endif
     @if($disabled ?? false) disabled @endif
     {{ $attributes->class('checkbox') }}
@@ -13,4 +13,3 @@
 @error($name)
     <p class="form-error" role="alert">{{ $message }}</p>
 @enderror
-

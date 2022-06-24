@@ -13,12 +13,22 @@ use Spatie\Mailcoach\Http\App\Controllers\EmailLists\SubscribersExportController
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DestroySubscriberImportController;
 use Spatie\Mailcoach\Http\App\Controllers\SubscriberImports\DownloadSubscriberImportAttachmentController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\SendTransactionalMailTestController;
+use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\TransactionalMailSettingsController;
+use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\TransactionalMailTemplatesController;
+use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailContentController;
+use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailIndexController;
+use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\TransactionalMailPerformanceController;
+use Spatie\Mailcoach\Http\App\Livewire\Export\Export;
+use Spatie\Mailcoach\Http\App\Livewire\Import\Import;
 use Spatie\Mailcoach\Http\App\Middleware\EditableCampaign;
 
 Route::get('dashboard', Mailcoach::getLivewireClass('dashboard', \Spatie\Mailcoach\Http\App\Livewire\Dashboard::class))->name('mailcoach.dashboard');
 Route::get('debug', '\\' . DebugController::class)->name('debug');
 
 Route::post('uploads', UploadsController::class);
+
+Route::get('export', '\\' . Export::class)->name('export');
+Route::get('import', '\\' . Import::class)->name('import');
 
 Route::prefix('campaigns')->group(function () {
     Route::get('/', '\\' . Mailcoach::getLivewireClass('campaigns', Mailcoach::getLivewireClass('campaigns', \Spatie\Mailcoach\Http\App\Livewire\Campaigns\Campaigns::class)))->name('mailcoach.campaigns');

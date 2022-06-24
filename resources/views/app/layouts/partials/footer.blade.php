@@ -12,6 +12,14 @@
         <a class="link-dimmed inline-block truncate" style="max-width: 12rem" href="{{ route('debug') }}">
             Debug
         </a>
+        <span class="mx-2">•</span>
+        <a class="link-dimmed inline-block truncate" style="max-width: 12rem" href="{{ route('export') }}">
+            Export
+        </a>
+        <span class="mx-1">/</span>
+        <a class="link-dimmed inline-block truncate" style="max-width: 12rem" href="{{ route('import') }}">
+            Import
+        </a>
 
         @if(! $versionInfo->isLatest())
             <a class="ml-4 inline-flex items-center bg-gray-400 bg-opacity-25 text-gray-600 rounded-sm px-2 leading-loose" href="/">

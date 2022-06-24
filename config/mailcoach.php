@@ -239,6 +239,16 @@ return [
     'template_editor' => \Spatie\Mailcoach\Http\App\Livewire\TextAreaEditorComponent::class,
 
     /*
+     * This disk will be used to store files regarding importing.
+     */
+    'import_disk' => 'public',
+
+    /*
+     * This disk will be used to store files regarding exporting.
+     */
+    'export_disk' => 'public',
+
+    /*
      * The mailer used by Mailcoach for password resets and summary emails.
      * Mailcoach will use the default Laravel mailer if this is not set.
      */
@@ -482,7 +492,7 @@ return [
          * extend the `Spatie\Mailcoach\Domain\Automation\Models\AutomationMailOpen::class`
          * model.
          */
-          'automation_mail_open' => \Spatie\Mailcoach\Domain\Automation\Models\AutomationMailOpen::class,
+        'automation_mail_open' => \Spatie\Mailcoach\Domain\Automation\Models\AutomationMailOpen::class,
 
         /*
          * The model you want to use as a Campaign model. It needs to be or

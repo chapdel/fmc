@@ -22,6 +22,7 @@
         "php": "^8.0",
         "ext-dom": "*",
         "ext-libxml": "*",
+        "ext-zip": "*",
         "cakephp/chronos": "^2.0",
         "guzzlehttp/guzzle": "^7.0",
         "illuminate/database": "^9.0",
