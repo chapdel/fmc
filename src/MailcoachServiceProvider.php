@@ -217,7 +217,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
             ->bootViews()
             ->bootEvents()
             ->bootTriggers()
-            ->registerDeprecatedApiGuard()
             ->bootSpotlight();
     }
 
@@ -547,21 +546,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
         } catch (Exception) {
             // Do nothing as the database is probably not set up yet.
         }
-
-        return $this;
-    }
-
-    protected function registerDeprecatedApiGuard(): self
-    {
-        if (config('auth.guards.api')) {
-            return $this;
-        }
-
-        config()->set('auth.guards.api', [
-            'driver' => 'token',
-            'provider' => 'users',
-            'hash' => false,
-        ]);
 
         return $this;
     }
