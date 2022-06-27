@@ -14,12 +14,12 @@ class CreateSubscriberAction
 
     public function execute(PendingSubscriber $pendingSubscriber): Subscriber
     {
-        $subscriber = $this->getSubscriberClass()::findForEmail($pendingSubscriber->email, $pendingSubscriber->emailList);
+        $subscriber = self::getSubscriberClass()::findForEmail($pendingSubscriber->email, $pendingSubscriber->emailList);
 
         $wasAlreadySubscribed = optional($subscriber)->isSubscribed();
 
         if (! $subscriber) {
-            $subscriber = $this->getSubscriberClass()::make([
+            $subscriber = self::getSubscriberClass()::make([
                 'email' => $pendingSubscriber->email,
                 'email_list_id' => $pendingSubscriber->emailList->id,
             ]);
