@@ -834,6 +834,61 @@ var module_default = src_default;
 
 /***/ }),
 
+/***/ "./node_modules/@ryangjchandler/alpine-clipboard/src/index.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@ryangjchandler/alpine-clipboard/src/index.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+let onCopy = () => {}
+
+const copy = (target) => {
+    if (typeof target === 'function') {
+        target = target()
+    }
+
+    if (typeof target === 'object') {
+        target = JSON.stringify(target)
+    }
+
+    return window.navigator.clipboard.writeText(target)
+        .then(onCopy)
+}
+
+function Clipboard(Alpine) {
+    Alpine.magic('clipboard', () => {
+        return copy
+    })
+
+    Alpine.directive('clipboard', (el, { modifiers, expression }, { evaluateLater, cleanup }) => {
+        const getCopyContent = modifiers.includes('raw') ? c => c(expression) : evaluateLater(expression)
+        const clickHandler = () => getCopyContent(copy)
+
+        el.addEventListener('click', clickHandler)
+
+        cleanup(() => {
+            el.removeEventListener('click', clickHandler)
+        })
+    })
+}
+
+Clipboard.configure = (config) => {
+    if (config.hasOwnProperty('onCopy') && typeof config.onCopy === 'function') {
+        onCopy = config.onCopy
+    }
+
+    return Clipboard
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Clipboard);
+
+/***/ }),
+
 /***/ "./node_modules/@swup/a11y-plugin/lib/index.js":
 /*!*****************************************************!*\
   !*** ./node_modules/@swup/a11y-plugin/lib/index.js ***!
@@ -4356,9 +4411,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _yaireo_tagify_dist_tagify_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @yaireo/tagify/dist/tagify.css */ "./node_modules/@yaireo/tagify/dist/tagify.css");
 /* harmony import */ var alpinejs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! alpinejs */ "./node_modules/alpinejs/dist/module.esm.js");
 /* harmony import */ var _alpinejs_focus__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @alpinejs/focus */ "./node_modules/@alpinejs/focus/dist/module.esm.js");
-/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.esm.js");
-/* harmony import */ var chartjs_plugin_zoom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! chartjs-plugin-zoom */ "./node_modules/chartjs-plugin-zoom/dist/chartjs-plugin-zoom.esm.js");
-/* harmony import */ var chart_js_helpers__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! chart.js/helpers */ "./node_modules/chart.js/helpers/helpers.esm.js");
+/* harmony import */ var _ryangjchandler_alpine_clipboard__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ryangjchandler/alpine-clipboard */ "./node_modules/@ryangjchandler/alpine-clipboard/src/index.js");
+/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/dist/chart.esm.js");
+/* harmony import */ var chartjs_plugin_zoom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! chartjs-plugin-zoom */ "./node_modules/chartjs-plugin-zoom/dist/chartjs-plugin-zoom.esm.js");
+/* harmony import */ var chart_js_helpers__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! chart.js/helpers */ "./node_modules/chart.js/helpers/helpers.esm.js");
 
 
 
@@ -4366,12 +4422,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-chart_js__WEBPACK_IMPORTED_MODULE_5__.Chart.register(chart_js__WEBPACK_IMPORTED_MODULE_5__.LineElement, chart_js__WEBPACK_IMPORTED_MODULE_5__.BarElement, chart_js__WEBPACK_IMPORTED_MODULE_5__.PointElement, chart_js__WEBPACK_IMPORTED_MODULE_5__.BarController, chart_js__WEBPACK_IMPORTED_MODULE_5__.LineController, chart_js__WEBPACK_IMPORTED_MODULE_5__.CategoryScale, chart_js__WEBPACK_IMPORTED_MODULE_5__.LinearScale, chart_js__WEBPACK_IMPORTED_MODULE_5__.Tooltip);
 
-chart_js__WEBPACK_IMPORTED_MODULE_5__.Chart.register(chartjs_plugin_zoom__WEBPACK_IMPORTED_MODULE_6__["default"]);
-window.Chart = chart_js__WEBPACK_IMPORTED_MODULE_5__.Chart;
+chart_js__WEBPACK_IMPORTED_MODULE_6__.Chart.register(chart_js__WEBPACK_IMPORTED_MODULE_6__.LineElement, chart_js__WEBPACK_IMPORTED_MODULE_6__.BarElement, chart_js__WEBPACK_IMPORTED_MODULE_6__.PointElement, chart_js__WEBPACK_IMPORTED_MODULE_6__.BarController, chart_js__WEBPACK_IMPORTED_MODULE_6__.LineController, chart_js__WEBPACK_IMPORTED_MODULE_6__.CategoryScale, chart_js__WEBPACK_IMPORTED_MODULE_6__.LinearScale, chart_js__WEBPACK_IMPORTED_MODULE_6__.Tooltip);
+
+chart_js__WEBPACK_IMPORTED_MODULE_6__.Chart.register(chartjs_plugin_zoom__WEBPACK_IMPORTED_MODULE_7__["default"]);
+window.Chart = chart_js__WEBPACK_IMPORTED_MODULE_6__.Chart;
 window.Chart.helpers = {};
-window.Chart.helpers.each = chart_js_helpers__WEBPACK_IMPORTED_MODULE_7__.each;
+window.Chart.helpers.each = chart_js_helpers__WEBPACK_IMPORTED_MODULE_8__.each;
 
 __webpack_require__(/*! ./components/swup */ "./resources/js/components/swup.js");
 
@@ -4388,6 +4445,7 @@ __webpack_require__(/*! ./components/charts/dashboardChart */ "./resources/js/co
 __webpack_require__(/*! ./components/navigation */ "./resources/js/components/navigation.js");
 
 alpinejs__WEBPACK_IMPORTED_MODULE_3__["default"].plugin(_alpinejs_focus__WEBPACK_IMPORTED_MODULE_4__["default"]);
+alpinejs__WEBPACK_IMPORTED_MODULE_3__["default"].plugin(_ryangjchandler_alpine_clipboard__WEBPACK_IMPORTED_MODULE_5__["default"]);
 window.Alpine = alpinejs__WEBPACK_IMPORTED_MODULE_3__["default"];
 window.Tagify = (_yaireo_tagify__WEBPACK_IMPORTED_MODULE_1___default());
 document.addEventListener('alpine:init', function () {

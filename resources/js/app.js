@@ -3,6 +3,7 @@ import Tagify from '@yaireo/tagify'
 import '@yaireo/tagify/dist/tagify.css';
 import Alpine from 'alpinejs';
 import focus from '@alpinejs/focus';
+import Clipboard from "@ryangjchandler/alpine-clipboard";
 
 import {
     Chart,
@@ -44,6 +45,7 @@ require('./components/charts/dashboardChart');
 require('./components/navigation');
 
 Alpine.plugin(focus);
+Alpine.plugin(Clipboard);
 
 window.Alpine = Alpine;
 window.Tagify = Tagify;
