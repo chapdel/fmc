@@ -60,77 +60,78 @@
             </tr>
             </thead>
             <tbody>
-            @foreach (range(1, 5) as $i)
-                <tr class="tr-h-double markup-links">
-                    @foreach ($columns as $column)
-                        @if ($loop->last)
-                            <td class="td-action">
-                                <x-mailcoach::dropdown direction="left">
-                                    <ul></ul>
-                                </x-mailcoach::dropdown>
-                            </td>
-                        @else
-                            <td>
-                                <div class="animate-pulse w-full h-4 bg-gray-100"></div>
-                            </td>
-                        @endif
-                    @endforeach
-                </tr>
-            @endforeach
+                @foreach (range(1, 5) as $i)
+                    <tr class="tr-h-double markup-links">
+                        @foreach ($columns as $column)
+                            @if ($loop->last)
+                                <td class="td-action">
+                                    <x-mailcoach::dropdown direction="left">
+                                        <ul></ul>
+                                    </x-mailcoach::dropdown>
+                                </td>
+                            @else
+                                <td>
+                                    <div class="animate-pulse w-full h-4 bg-gray-100"></div>
+                                </td>
+                            @endif
+                        @endforeach
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </div>
 
     <div wire:loading.delay.long.remove>
-
-        @if($rows->count())
-            <table class="mt-6 table table-fixed">
-                <thead>
-                <tr>
-                    @foreach ($columns as $column)
-                        <x-mailcoach::th
-                            :class="$column['class'] ?? ''"
-                            :sort="$this->sort"
-                            :property="$column['attribute'] ?? null"
-                        >
-                            {{ $column['label'] ?? '' }}
-                        </x-mailcoach::th>
+        <table class="mt-6 table table-fixed">
+            <thead>
+            <tr>
+                @foreach ($columns as $column)
+                    <x-mailcoach::th
+                        :class="$column['class'] ?? ''"
+                        :sort="$this->sort"
+                        :property="$column['attribute'] ?? null"
+                    >
+                        {{ $column['label'] ?? '' }}
+                    </x-mailcoach::th>
+                @endforeach
+            </tr>
+            </thead>
+            <tbody>
+            @if ($rows->count())
+                @if($rowPartial)
+                    @foreach ($rows as $index => $row)
+                        @include($rowPartial, $rowData)
                     @endforeach
-                </tr>
-                </thead>
-                <tbody>
-                    @if($rowPartial)
-                        @foreach ($rows as $index => $row)
-                            @include($rowPartial, $rowData)
-                        @endforeach
-                    @endif
-                    {{ $tbody ?? '' }}
-                </tbody>
-            </table>
-
-            <x-mailcoach::table-status
-                :name="__('mailcoach - ' . $name)"
-                :paginator="$rows"
-                :total-count="$totalRowsCount"
-                wire:click="clearFilters"
-            ></x-mailcoach::table-status>
-        @elseif($this->readyToLoad)
-            <div class="mt-4" wire:loading.remove>
-                @if(isset($empty))
-                    {{ $empty }}
-                @else
-                    @php($plural = \Illuminate\Support\Str::plural($name))
-                    @if ($this->search ?? null)
-                        <x-mailcoach::help>
-                            {{ __("mailcoach - No {$plural} found.") }}
-                        </x-mailcoach::help>
-                    @else
-                        <x-mailcoach::help>
-                            {!! $emptyText ?? __("mailcoach - No {$plural}.") !!}
-                        </x-mailcoach::help>
-                    @endif
                 @endif
-            </div>
-        @endif
+                {{ $tbody ?? '' }}
+            @endif
+            </tbody>
+        </table>
     </div>
+
+    @if ($rows->count())
+        <x-mailcoach::table-status
+            :name="__('mailcoach - ' . $name)"
+            :paginator="$rows"
+            :total-count="$totalRowsCount"
+            wire:click="clearFilters"
+        ></x-mailcoach::table-status>
+    @elseif($this->readyToLoad)
+        <div class="mt-4">
+            @if(isset($empty))
+                {{ $empty }}
+            @else
+                @php($plural = \Illuminate\Support\Str::plural($name))
+                @if ($this->search ?? null)
+                    <x-mailcoach::help>
+                        {{ __("mailcoach - No {$plural} found.") }}
+                    </x-mailcoach::help>
+                @else
+                    <x-mailcoach::help>
+                        {!! $emptyText ?? __("mailcoach - No {$plural}.") !!}
+                    </x-mailcoach::help>
+                @endif
+            @endif
+        </div>
+    @endif
 </div>
