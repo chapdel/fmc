@@ -217,6 +217,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
             ->bootViews()
             ->bootEvents()
             ->bootTriggers()
+            ->registerApiGuard()
             ->bootSpotlight();
     }
 
@@ -321,9 +322,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootViews(): self
     {
-        View::composer('mailcoach::*', QueryStringComposer::class);
-        View::composer('mailcoach::*.index', IndexComposer::class);
-
         View::composer('mailcoach::app.layouts.partials.footer', FooterComposer::class);
 
         if (config("mailcoach.views.use_blade_components", true)) {
@@ -546,6 +544,22 @@ class MailcoachServiceProvider extends PackageServiceProvider
         } catch (Exception) {
             // Do nothing as the database is probably not set up yet.
         }
+
+        return $this;
+    }
+
+
+    protected function registerApiGuard(): self
+    {
+        if (config('auth.guards.api')) {
+            return $this;
+        }
+
+        config()->set('auth.guards.api', [
+            'driver' => 'token',
+            'provider' => 'users',
+            'hash' => false,
+        ]);
 
         return $this;
     }
