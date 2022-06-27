@@ -10,11 +10,19 @@ class MailcoachAssets
 
     public function script()
     {
-        return $this->pretendResponseIsFile(__DIR__.'/../../../../resources/dist/app.js');
+        $manifest = json_decode(file_get_contents(__DIR__.'/../../../../resources/dist/manifest.json'), true);
+
+        $fileName = $manifest['resources/js/app.js']['file'];
+
+        return $this->pretendResponseIsFile(__DIR__."/../../../../resources/dist/{$fileName}");
     }
 
     public function style()
     {
-        return $this->pretendResponseIsFile(__DIR__.'/../../../../resources/dist/app.css', 'text/css');
+        $manifest = json_decode(file_get_contents(__DIR__.'/../../../../resources/dist/manifest.json'), true);
+
+        $fileName = $manifest['resources/css/app.css']['file'];
+
+        return $this->pretendResponseIsFile(__DIR__."/../../../../resources/dist/{$fileName}", 'text/css');
     }
 }
