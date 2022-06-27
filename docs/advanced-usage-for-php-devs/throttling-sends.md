@@ -7,12 +7,14 @@ Most email providers have a limit on how many emails you can send within a given
 
 ```php
 'throttling' => [
-    'enabled' => false,
-    'redis_connection_name' => 'default',
-    'redis_key' => 'laravel-mailcoach',
-    'allowed_number_of_jobs_in_timespan' => 5,
+    'allowed_number_of_jobs_in_timespan' => 10,
     'timespan_in_seconds' => 1,
-    'release_in_seconds' => 5,
-    'retry_until_hours' => 24,
+
+    /*
+     * Throttling relies on the cache. Here you can specify the store to be used.
+     *
+     * When passing `null`, we'll use the default store.
+     */
+    'cache_store' => null,
 ],
 ```
