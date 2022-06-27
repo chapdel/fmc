@@ -11,7 +11,7 @@ class AddTagsAction extends AutomationAction
 
     public static function getCategory(): ActionCategoryEnum
     {
-        return ActionCategoryEnum::tags();
+        return ActionCategoryEnum::Tags;
     }
 
     public static function make(array $data): self
