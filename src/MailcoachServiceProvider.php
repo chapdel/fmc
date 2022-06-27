@@ -146,8 +146,6 @@ use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateC
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplates;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateSettings;
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
-use Spatie\Mailcoach\Http\App\ViewComposers\IndexComposer;
-use Spatie\Mailcoach\Http\App\ViewComposers\QueryStringComposer;
 use Spatie\Navigation\Helpers\ActiveUrlChecker;
 use Spatie\QueryString\QueryString;
 
