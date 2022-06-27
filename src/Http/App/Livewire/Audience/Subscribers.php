@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\DeleteSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\SendConfirmSubscriberMailAction;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
@@ -139,8 +140,24 @@ class Subscribers extends DataTable
 
         $subscribersQuery = new EmailListSubscribersQuery($this->emailList, $request);
 
+        $subscribers = $subscribersQuery->get();
+
+        $filteredSubscribers = $subscribers;
+
+        if ($this->search) {
+            $filteredSubscribers = $subscribers->filter(fn ($subscriber) => str_starts_with($subscriber->email, $this->search));
+        }
+
+        $paginator = new LengthAwarePaginator(
+            $filteredSubscribers->skip(15 * ($this->page - 1))->take(15),
+            $filteredSubscribers->count(),
+            15,
+            $this->page,
+            ['path' => route('mailcoach.emailLists.subscribers', $this->emailList)]
+        );
+
         return [
-            'subscribers' => $subscribersQuery->paginate(),
+            'subscribers' => $paginator,
             'emailList' => $this->emailList,
             'allSubscriptionsCount' => $this->emailList->allSubscribers()->count(),
             'totalSubscriptionsCount' => $this->emailList->subscribers()->count(),

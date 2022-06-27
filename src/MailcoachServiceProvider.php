@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach;
 
 use Exception;
+use Illuminate\Encryption\Encrypter;
 use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -22,6 +23,7 @@ use Spatie\Mailcoach\Components\CampaignReplacerHelpTextsComponent;
 use Spatie\Mailcoach\Components\DateTimeFieldComponent;
 use Spatie\Mailcoach\Components\TransactionalMailTemplateReplacerHelpTextsComponent;
 use Spatie\Mailcoach\Domain\Audience\Commands\DeleteOldUnconfirmedSubscribersCommand;
+use Spatie\Mailcoach\Domain\Audience\Commands\RotateSubscriberEncryptionKeyCommand;
 use Spatie\Mailcoach\Domain\Audience\Commands\SendEmailListSummaryMailCommand;
 use Spatie\Mailcoach\Domain\Audience\Livewire\EmailListStatistics;
 use Spatie\Mailcoach\Domain\Automation\Commands\CalculateAutomationMailStatisticsCommand;
@@ -181,6 +183,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
                 RunAutomationActionsCommand::class,
                 RunAutomationTriggersCommand::class,
                 CheckLicenseCommand::class,
+                RotateSubscriberEncryptionKeyCommand::class,
             ]);
     }
 
@@ -207,6 +210,16 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        $encryptionKey = config('mailcoach.encryption.key');
+
+        if (Str::startsWith($encryptionKey, $prefix = 'base64:')) {
+            $encryptionKey = base64_decode(Str::after($encryptionKey, $prefix));
+        }
+
+        $encrypter = new Encrypter($encryptionKey, config('mailcoach.encryption.cipher'));
+
+        self::getSubscriberClass()::encryptUsing($encrypter);
+
         $this
             ->bootCarbon()
             ->bootGate()

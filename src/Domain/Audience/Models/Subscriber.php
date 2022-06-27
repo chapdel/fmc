@@ -37,13 +37,43 @@ class Subscriber extends Model
 
     public $table = 'mailcoach_subscribers';
 
-    public $casts = [
-        'extra_attributes' => 'array',
-        'subscribed_at' => 'datetime',
-        'unsubscribed_at' => 'datetime',
-    ];
-
     protected $guarded = [];
+
+    public function getCasts(): array
+    {
+        $casts = [
+            'extra_attributes' => 'array',
+            'subscribed_at' => 'datetime',
+            'unsubscribed_at' => 'datetime',
+        ];
+
+        if (config('mailcoach.encryption.enabled')) {
+            $casts['extra_attributes'] = 'encrypted:json';
+            $casts['email'] = 'encrypted';
+            $casts['first_name'] = 'encrypted';
+            $casts['last_name'] = 'encrypted';
+        }
+
+        return $casts;
+    }
+
+    public function getAttributes(): array
+    {
+        $attributes = parent::getAttributes();
+
+        if (config('mailcoach.encryption.enabled') && isset($attributes['extra_attributes']) && str_starts_with($attributes['extra_attributes'], 'ey')) {
+            $attributes['extra_attributes'] = self::$encrypter->decryptString($attributes['extra_attributes']);
+        }
+
+        return $attributes;
+    }
+
+    protected static function booted()
+    {
+        self::saving(function ($subscriber) {
+            $subscriber->email_first_5 = Str::substr($subscriber->email, 0, 5);
+        });
+    }
 
     public static function createWithEmail(string $email, array $attributes = []): PendingSubscriber
     {
@@ -52,8 +82,12 @@ class Subscriber extends Model
 
     public static function findForEmail(string $email, EmailList $emailList): ?Subscriber
     {
-        return static::where('email', $email)
+        $subscribers = static::where('email_first_5', Str::substr($email, 0, 5))
             ->where('email_list_id', $emailList->id)
+            ->get();
+
+        return $subscribers
+            ->filter(fn (Subscriber $subscriber) => $subscriber->email === $email)
             ->first();
     }
 

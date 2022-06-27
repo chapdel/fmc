@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Shared\Jobs\Import;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\LazyCollection;
 use Spatie\SimpleExcel\SimpleExcelReader;
@@ -41,8 +42,10 @@ class ImportSubscribersJob extends ImportJob
                 $subscribers->whereNotIn('uuid', $existingSubscriberUuids)->each(function (array $subscriber) use ($emailLists) {
                     $subscriber['email_list_id'] = $emailLists[$subscriber['email_list_uuid']];
 
+                    $columns = Schema::getColumnListing(self::getSubscriberTableName());
+
                     self::getSubscriberClass()::create(
-                        array_filter(Arr::except($subscriber, ['id', 'email_list_uuid']))
+                        array_filter(Arr::except(Arr::only($subscriber, $columns), ['id']))
                     );
                 });
 

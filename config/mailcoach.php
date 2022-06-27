@@ -226,6 +226,17 @@ return [
         ],
     ],
 
+    /**
+     * Whether Mailcoach should encrypt personal information.
+     * This will encrypt the email address, first_name,
+     * last_name and extra attributes of subscribers.
+     */
+    'encryption' => [
+        'enabled' => true,
+        'key' => env('APP_KEY'),
+        'cipher' => 'AES-256-CBC',
+    ],
+
     /*
      * Here you can configure which content editor Mailcoach uses.
      * By default this is a text editor that highlights HTML.

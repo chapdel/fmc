@@ -3,6 +3,9 @@
 namespace Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\UpdateSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
@@ -19,13 +22,25 @@ class SubscribersController
     use UsesMailcoachModels;
     use RespondsToApiRequests;
 
-    public function index(EmailList $emailList)
+    public function index(EmailList $emailList, Request $request)
     {
         $this->authorize("view", $emailList);
 
         $subscribers = new EmailListSubscribersQuery($emailList);
 
-        return SubscriberResource::collection($subscribers->paginate());
+        if ($request->has('filter.email') && config('mailcoach.encryption.enabled')) {
+            $subscribers = $subscribers->get()->filter(fn (Subscriber $subscriber) => $subscriber->email === request('filter.email'));
+            $subscribers = new LengthAwarePaginator(
+                $subscribers->skip($request->get('per_page', 25) * ($request->get('page', 1) - 1))->take($request->get('per_page', 25)),
+                $subscribers->count(),
+                $request->get('per_page', 25),
+                $request->get('page', 1),
+            );
+        } else {
+            $subscribers = $subscribers->paginate();
+        }
+
+        return SubscriberResource::collection($subscribers);
     }
 
     public function show(Subscriber $subscriber)

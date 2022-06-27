@@ -9,7 +9,7 @@ class TestSegmentQueryOnlyJohn extends Segment
 {
     public function subscribersQuery(Builder $subscribersQuery): void
     {
-        $subscribersQuery->where('email', 'john@example.com');
+        $subscribersQuery->where('email_first_5', 'john@');
     }
 
     public function description(): string

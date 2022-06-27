@@ -37,6 +37,11 @@ class FuzzyFilter implements Filter
             ->each(function (string $field) use ($query, $values) {
                 foreach ($values as $value) {
                     $value = str_replace('+', ' ', $value);
+
+                    if ($field === 'email_first_5') {
+                        $value = Str::substr($value, 0, 5);
+                    }
+
                     $query->orWhere($field, 'LIKE', "%{$value}%");
                 }
             });

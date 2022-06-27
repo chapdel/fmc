@@ -2,7 +2,9 @@
 
 namespace Spatie\Mailcoach\Http\App\Queries;
 
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -26,8 +28,15 @@ class EmailListSubscribersQuery extends QueryBuilder
         $this
             ->allowedSorts('created_at', 'updated_at', 'subscribed_at', 'unsubscribed_at', 'email', 'first_name', 'last_name', 'id')
             ->allowedFilters(
-                'email',
+                AllowedFilter::callback('email', function (Builder $query, $value) {
+                    if (config('mailcoach.encryption.enabled')) {
+                        return $query->where('email_first_5', '=', Str::substr($value, 0, 5));
+                    }
+
+                    return $query->where('email', $value);
+                }),
                 AllowedFilter::custom('search', new FuzzyFilter(
+                    'email_first_5',
                     'email',
                     'first_name',
                     'last_name',
