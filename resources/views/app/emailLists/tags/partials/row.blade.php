@@ -1,6 +1,6 @@
 <tr>
     <td class="markup-links">
-        @if ($row->type === \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::DEFAULT)
+        @if ($row->type === \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::Default)
             <a class="break-words" href="{{ route('mailcoach.emailLists.tags.edit', [$emailList, $row]) }}">
                 {{ $row->name }}
             </a>
@@ -18,9 +18,9 @@
 
     <td class="td-action">
         <x-mailcoach::confirm-button
-            onConfirm="() => $wire.deleteTag({{ $row->id }})"
-            :confirm-text="__('mailcoach - Are you sure you want to delete tag :tagName?', ['tagName' => $row->name])"
-            class="icon-button hover:text-red-500"
+                onConfirm="() => $wire.deleteTag({{ $row->id }})"
+                :confirm-text="__('mailcoach - Are you sure you want to delete tag :tagName?', ['tagName' => $row->name])"
+                class="icon-button hover:text-red-500"
         >
             <i class="far fa-trash-alt"></i>
         </x-mailcoach::confirm-button>

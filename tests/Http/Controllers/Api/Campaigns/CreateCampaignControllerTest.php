@@ -58,7 +58,7 @@ function getPostAttributes(): array
 {
     return [
         'name' => 'name',
-        'type' => CampaignStatus::DRAFT,
+        'type' => CampaignStatus::Draft,
         'email_list_id' => EmailList::factory()->create()->id,
         'html' => 'html',
         'track_opens' => true,

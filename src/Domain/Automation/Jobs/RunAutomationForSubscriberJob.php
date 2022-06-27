@@ -42,7 +42,7 @@ class RunAutomationForSubscriberJob implements ShouldQueue
 
     public function handle()
     {
-        if ($this->automation->status !== AutomationStatus::STARTED) {
+        if ($this->automation->status !== AutomationStatus::Started) {
             return;
         }
 

@@ -21,7 +21,7 @@ it('will recalculate statistics at the right time', function (
     Bus::fake();
 
     $campaign = Campaign::factory()->create([
-        'status' => CampaignStatus::SENT,
+        'status' => CampaignStatus::Sent,
         'sent_at' => $sentAt,
         'all_sends_dispatched_at' => $sentAt,
         'all_sends_created_at' => $sentAt,

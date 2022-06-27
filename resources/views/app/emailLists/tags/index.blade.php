@@ -6,8 +6,8 @@
     :totalRowsCount="$totalTagsCount"
     :filters="[
         ['attribute' => 'type', 'value' => '', 'label' => __('mailcoach - All'), 'count' => $totalTagsCount ?? null],
-        ['attribute' => 'type', 'value' => \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::DEFAULT, 'label' => __('mailcoach - Default'), 'count' => $totalDefault ?? null],
-        ['attribute' => 'type', 'value' => \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::MAILCOACH, 'label' => __('mailcoach - Mailcoach'), 'count' => $totalMailcoach ?? null],
+        ['attribute' => 'type', 'value' => \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::Default, 'label' => __('mailcoach - Default'), 'count' => $totalDefault ?? null],
+        ['attribute' => 'type', 'value' => \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::Mailcoach, 'label' => __('mailcoach - Mailcoach'), 'count' => $totalMailcoach ?? null],
     ]"
     :columns="[
         ['attribute' => 'name', 'label' => __('mailcoach - Name')],

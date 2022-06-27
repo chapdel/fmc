@@ -15,7 +15,7 @@ beforeEach(function () {
     Campaign::factory()->create([
         'email_list_id' => test()->emailList->id,
         'sent_at' => now(),
-        'status' => CampaignStatus::SENT,
+        'status' => CampaignStatus::Sent,
     ]);
 });
 

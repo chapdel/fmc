@@ -21,7 +21,7 @@ it('can unsubscribe a subscriber via the api', function () {
         ->postJson(action(UnsubscribeController::class, $subscriber))
         ->assertSuccessful();
 
-    expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::UNSUBSCRIBED);
+    expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::Unsubscribed);
 });
 
 it('cannot unsubscribe someone that is already unsubscribed', function () {

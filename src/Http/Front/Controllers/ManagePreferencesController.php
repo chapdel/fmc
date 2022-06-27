@@ -22,13 +22,13 @@ class ManagePreferencesController
 
         $emailList = $subscriber->emailList;
 
-        if ($subscriber->status === SubscriptionStatus::UNSUBSCRIBED) {
+        if ($subscriber->status === SubscriptionStatus::Unsubscribed) {
             return view('mailcoach::landingPages.alreadyUnsubscribed', compact('emailList'));
         }
 
         $send = $subscriber->sends()->where('uuid', $sendUuid)->first();
 
-        $tags = $emailList->tags()->where('type', TagType::DEFAULT)->where('visible_in_preferences', true)->get();
+        $tags = $emailList->tags()->where('type', TagType::Default)->where('visible_in_preferences', true)->get();
 
         if (! $tags->count()) {
             return view('mailcoach::landingPages.unsubscribe', compact('emailList', 'subscriber', 'send'));
@@ -46,13 +46,13 @@ class ManagePreferencesController
 
         $emailList = $subscriber->emailList;
 
-        if ($subscriber->status === SubscriptionStatus::UNSUBSCRIBED) {
+        if ($subscriber->status === SubscriptionStatus::Unsubscribed) {
             return view('mailcoach::landingPages.alreadyUnsubscribed', compact('emailList'));
         }
 
         /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
         $send = self::getSendClass()::findByUuid($sendUuid ?? '');
-        $tags = $emailList->tags()->where('type', TagType::DEFAULT)->where('visible_in_preferences', true)->get();
+        $tags = $emailList->tags()->where('type', TagType::Default)->where('visible_in_preferences', true)->get();
 
         if ($request->get('unsubscribe_from_all') || ! $tags->count()) {
             $subscriber->unsubscribe($send);

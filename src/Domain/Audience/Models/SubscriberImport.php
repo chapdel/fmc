@@ -25,21 +25,23 @@ class SubscriberImport extends Model implements HasMedia
 
     public $guarded = [];
 
-    public static function booted()
-    {
-        static::creating(function (SubscriberImport $subscriberImport) {
-            if (empty($subscriberImport->status)) {
-                $subscriberImport->status = SubscriberImportStatus::PENDING;
-            }
-        });
-    }
-
     protected $casts = [
         'imported_subscribers_count' => 'integer',
         'error_count' => 'integer',
         'mailcoach_email_lists_ids' => 'array',
         'replace_tags' => 'boolean',
+        'status' => SubscriberImportStatus::class,
     ];
+
+    public static function booted()
+    {
+        static::creating(function (SubscriberImport $subscriberImport) {
+            if (empty($subscriberImport->status)) {
+                $subscriberImport->status = SubscriberImportStatus::Pending;
+            }
+        });
+    }
+
 
     public function emailList(): BelongsTo
     {

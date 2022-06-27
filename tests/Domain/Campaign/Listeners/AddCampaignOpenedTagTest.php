@@ -16,6 +16,6 @@ it('adds a tag when a campaign is opened', function () {
     expect($send->subscriber->hasTag("campaign-{$send->campaign->id}-opened"))->toBeTrue();
 
     tap(Tag::first(), function (Tag $tag) {
-        expect($tag->type)->toEqual(TagType::MAILCOACH);
+        expect($tag->type)->toEqual(TagType::Mailcoach);
     });
 });

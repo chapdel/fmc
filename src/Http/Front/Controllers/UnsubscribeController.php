@@ -18,7 +18,7 @@ class UnsubscribeController
 
         $emailList = $subscriber->emailList;
 
-        if ($subscriber->status === SubscriptionStatus::UNSUBSCRIBED) {
+        if ($subscriber->status === SubscriptionStatus::Unsubscribed) {
             return view('mailcoach::landingPages.alreadyUnsubscribed', compact('emailList'));
         }
 
@@ -36,7 +36,7 @@ class UnsubscribeController
 
         $emailList = $subscriber->emailList;
 
-        if ($subscriber->status === SubscriptionStatus::UNSUBSCRIBED) {
+        if ($subscriber->status === SubscriptionStatus::Unsubscribed) {
             return view('mailcoach::landingPages.alreadyUnsubscribed', compact('emailList'));
         }
 

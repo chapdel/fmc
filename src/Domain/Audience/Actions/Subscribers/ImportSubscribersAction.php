@@ -104,7 +104,7 @@ class ImportSubscribersAction
         $this->subscriberImport->update([
             'imported_subscribers_count' => $this->succeededImportsReport->getNumberOfRows(),
             'error_count' => $this->getErrorCount(),
-            'status' => SubscriberImportStatus::COMPLETED,
+            'status' => SubscriberImportStatus::Completed,
         ]);
 
         return $this;

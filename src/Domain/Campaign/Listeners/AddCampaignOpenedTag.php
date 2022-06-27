@@ -12,6 +12,6 @@ class AddCampaignOpenedTag
         $campaign = $event->campaignOpen->campaign;
         $subscriber = $event->campaignOpen->subscriber;
 
-        $subscriber->addTag("campaign-{$campaign->id}-opened", TagType::MAILCOACH);
+        $subscriber->addTag("campaign-{$campaign->id}-opened", TagType::Mailcoach);
     }
 }

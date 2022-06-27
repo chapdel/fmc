@@ -15,32 +15,32 @@ beforeEach(function () {
 it('will not send campaigns that are not scheduled', function () {
     $campaign = Campaign::factory()->create([
         'scheduled_at' => null,
-        'status' => CampaignStatus::DRAFT,
+        'status' => CampaignStatus::Draft,
     ]);
 
     test()->artisan(SendScheduledCampaignsCommand::class)->assertExitCode(0);
 
-    expect($campaign->fresh()->status)->toEqual(CampaignStatus::DRAFT);
+    expect($campaign->fresh()->status)->toEqual(CampaignStatus::Draft);
 });
 
 it('will not send a campaign that has a scheduled at in the future', function () {
     $campaign = Campaign::factory()->create([
         'scheduled_at' => now()->addSecond(),
-        'status' => CampaignStatus::DRAFT,
+        'status' => CampaignStatus::Draft,
     ]);
 
     test()->artisan(SendScheduledCampaignsCommand::class)->assertExitCode(0);
 
-    expect($campaign->fresh()->status)->toEqual(CampaignStatus::DRAFT);
+    expect($campaign->fresh()->status)->toEqual(CampaignStatus::Draft);
 });
 
 it('will send a campaign that has a scheduled at set to in the past', function () {
     $campaign = Campaign::factory()->create([
         'scheduled_at' => now()->subSecond(),
-        'status' => CampaignStatus::DRAFT,
+        'status' => CampaignStatus::Draft,
     ]);
 
     test()->artisan(SendScheduledCampaignsCommand::class)->assertExitCode(0);
 
-    expect($campaign->fresh()->status)->toEqual(CampaignStatus::SENT);
+    expect($campaign->fresh()->status)->toEqual(CampaignStatus::Sent);
 });

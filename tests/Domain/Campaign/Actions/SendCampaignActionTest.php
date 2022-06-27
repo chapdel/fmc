@@ -53,7 +53,7 @@ it('can send a campaign with the correct mailer', function () {
     });
 
     test()->campaign->refresh();
-    expect(test()->campaign->status)->toEqual(CampaignStatus::SENT);
+    expect(test()->campaign->status)->toEqual(CampaignStatus::Sent);
     expect(test()->campaign->sent_to_number_of_subscribers)->toEqual(3);
 });
 

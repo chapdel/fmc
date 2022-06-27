@@ -8,7 +8,7 @@
         </div>
     </td>
     <td>
-        @foreach($row->tags->where('type', \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::DEFAULT) as $tag)
+        @foreach($row->tags->where('type', \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::Default) as $tag)
             @include('mailcoach::app.partials.tag')
         @endforeach
     </td>

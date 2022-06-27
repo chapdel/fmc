@@ -21,7 +21,7 @@ class EmailListCampaignsFeedController
         }
 
         $campaigns = $emailList->campaigns()
-            ->where('status', CampaignStatus::SENT)
+            ->where('status', CampaignStatus::Sent)
             ->orderByDesc('sent_at')
             ->take(50)
             ->get();

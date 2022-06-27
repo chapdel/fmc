@@ -16,7 +16,7 @@ beforeEach(function () {
 
 it('will delete all unconfirmed subscribers that are older than a month', function () {
     $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
-    expect($subscriber->status)->toEqual(SubscriptionStatus::UNCONFIRMED);
+    expect($subscriber->status)->toEqual(SubscriptionStatus::Unconfirmed);
 
     TestTime::addMonth();
     test()->artisan(DeleteOldUnconfirmedSubscribersCommand::class)->assertExitCode(0);
@@ -29,7 +29,7 @@ it('will delete all unconfirmed subscribers that are older than a month', functi
 
 it('will not delete confirmed subscribers', function () {
     $subscriber = Subscriber::createWithEmail('john@example.com')->skipConfirmation()->subscribeTo(test()->emailList);
-    expect($subscriber->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
+    expect($subscriber->status)->toEqual(SubscriptionStatus::Subscribed);
 
     TestTime::addMonth()->addSecond();
     test()->artisan(DeleteOldUnconfirmedSubscribersCommand::class)->assertExitCode(0);

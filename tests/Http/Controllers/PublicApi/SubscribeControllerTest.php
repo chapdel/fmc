@@ -30,7 +30,7 @@ it('can subscribe to an email list without double opt in', function () {
         ->assertRedirect(payloadWithRedirects()['redirect_after_subscribed']);
 
     test()->assertEquals(
-        SubscriptionStatus::SUBSCRIBED,
+        SubscriptionStatus::Subscribed,
         test()->emailList->getSubscriptionStatus(test()->email)
     );
 });
@@ -225,7 +225,7 @@ test('clicking the link in the confirm subscription mail will redirect to the gi
 
     /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
     $subscriber = Subscriber::findForEmail(payloadWithRedirects()['email'], test()->emailList);
-    expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::UNCONFIRMED);
+    expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::Unconfirmed);
 
     /*
      * We'll pretend the user clicked the confirm subscription button by visiting the url
@@ -233,7 +233,7 @@ test('clicking the link in the confirm subscription mail will redirect to the gi
     $this
         ->get(test()->confirmSubscriptionLink)
         ->assertRedirect(payloadWithRedirects()['redirect_after_subscribed']);
-    expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
+    expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::Subscribed);
 });
 
 // Helpers

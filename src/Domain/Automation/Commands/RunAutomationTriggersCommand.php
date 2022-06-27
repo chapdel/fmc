@@ -25,7 +25,7 @@ class RunAutomationTriggersCommand extends Command
             ->whereHas('automation', function (Builder $query) {
                 $query
                     ->whereHas('actions')
-                    ->where('status', AutomationStatus::STARTED);
+                    ->where('status', AutomationStatus::Started);
             })
             ->lazyById()
             ->each(function (Trigger $trigger) {

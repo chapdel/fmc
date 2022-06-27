@@ -16,6 +16,11 @@ class SendFeedbackItem extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'send_feedback_id' => 'int',
+        'type' => SendFeedbackType::class,
+    ];
+
     public function send(): BelongsTo
     {
         return $this->belongsTo(self::getSendClass());
@@ -24,8 +29,8 @@ class SendFeedbackItem extends Model
     public function getFormattedTypeAttribute(): string
     {
         $formattedTypes = [
-            SendFeedbackType::BOUNCE => __('mailcoach - Bounced'),
-            SendFeedbackType::COMPLAINT => __('mailcoach - Received complaint'),
+            SendFeedbackType::Bounce->value => __('mailcoach - Bounced'),
+            SendFeedbackType::Complaint->value => __('mailcoach - Received complaint'),
         ];
 
         return (string) ($formattedTypes[$this->type] ?? '');

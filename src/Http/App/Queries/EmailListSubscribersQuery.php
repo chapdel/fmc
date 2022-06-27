@@ -36,7 +36,7 @@ class EmailListSubscribersQuery extends QueryBuilder
                 AllowedFilter::custom('status', new SubscriberStatusFilter())
             );
 
-        $request?->input('filter.status') === SubscriptionStatus::UNSUBSCRIBED
+        $request?->input('filter.status') === SubscriptionStatus::Unsubscribed
             ? $this->defaultSort('-unsubscribed_at')
             : $this->defaultSort('-created_at', '-id');
     }

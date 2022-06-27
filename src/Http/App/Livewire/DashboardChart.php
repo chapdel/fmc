@@ -106,7 +106,7 @@ class DashboardChart extends Component
 
         $campaigns = self::getCampaignClass()::query()
             ->whereBetween('sent_at', [$start, $end])
-            ->where('status', CampaignStatus::SENT)
+            ->where('status', CampaignStatus::Sent)
             ->select(['id', 'name', 'sent_at'])
             ->get();
 

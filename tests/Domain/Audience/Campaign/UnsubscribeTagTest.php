@@ -23,7 +23,7 @@ beforeEach(function () {
 it('can render the unsubscribe confirmation page', function () {
     sendCampaignForUnsubscribeTagTest();
 
-    expect(test()->subscriber->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
+    expect(test()->subscriber->status)->toEqual(SubscriptionStatus::Subscribed);
 
     $this
         ->get(test()->mailedUnsubscribeLink)
@@ -34,7 +34,7 @@ it('can render the unsubscribe confirmation page', function () {
 it('can unsubscribe from a tag', function () {
     sendCampaignForUnsubscribeTagTest();
 
-    expect(test()->subscriber->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
+    expect(test()->subscriber->status)->toEqual(SubscriptionStatus::Subscribed);
 
     expect(test()->subscriber->hasTag('some tag'))->toBeTrue();
 

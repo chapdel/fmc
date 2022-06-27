@@ -37,7 +37,7 @@ class CreateTag extends Component
 
         $tag = $this->emailList->tags()->create([
             'name' => $this->validate()['name'],
-            'type' => TagType::DEFAULT,
+            'type' => TagType::Default,
         ]);
 
         flash()->success(__('mailcoach - Tag :tag was created', ['tag' => $tag->name]));

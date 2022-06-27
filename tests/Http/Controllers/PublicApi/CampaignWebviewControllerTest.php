@@ -24,7 +24,7 @@ it('can display the webview for a campaign', function () {
 it('will not display a webview for a campaign that has not been sent', function () {
     test()->withExceptionHandling();
 
-    test()->campaign->update(['status' => CampaignStatus::DRAFT]);
+    test()->campaign->update(['status' => CampaignStatus::Draft]);
 
     $this
         ->get(test()->webviewUrl)

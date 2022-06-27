@@ -34,14 +34,14 @@ class Automation extends Model
     protected $casts = [
         'run_at' => 'datetime',
         'last_ran_at' => 'datetime',
-
+        'status' => AutomationStatus::class,
     ];
 
     public static function booted()
     {
         static::creating(function (Automation $automation) {
             if (! $automation->status) {
-                $automation->status = AutomationStatus::PAUSED;
+                $automation->status = AutomationStatus::Paused;
             }
         });
 
@@ -146,7 +146,7 @@ class Automation extends Model
 
         $this->fresh('actions');
 
-        if ($this->status === AutomationStatus::STARTED && $this->actions->count() === 0) {
+        if ($this->status === AutomationStatus::Started && $this->actions->count() === 0) {
             $this->pause();
         }
 
@@ -155,7 +155,7 @@ class Automation extends Model
 
     public function pause(): self
     {
-        $this->update(['status' => AutomationStatus::PAUSED]);
+        $this->update(['status' => AutomationStatus::Paused]);
 
         return $this;
     }
@@ -178,11 +178,11 @@ class Automation extends Model
             throw CouldNotStartAutomation::noActions($this);
         }
 
-        if ($this->status === AutomationStatus::STARTED) {
+        if ($this->status === AutomationStatus::Started) {
             throw CouldNotStartAutomation::started($this);
         }
 
-        $this->update(['status' => AutomationStatus::STARTED]);
+        $this->update(['status' => AutomationStatus::Started]);
 
         return $this;
     }

@@ -40,12 +40,12 @@ it('can confirm a subscriber', function () {
 
     $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($emailList);
 
-    expect($subscriber->status)->toEqual(SubscriptionStatus::UNCONFIRMED);
+    expect($subscriber->status)->toEqual(SubscriptionStatus::Unconfirmed);
 
     Livewire::test(Subscribers::class, ['emailList' => $this->emailList])
         ->call('confirm', $subscriber->id);
 
-    expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
+    expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::Subscribed);
 });
 
 it('will confirm unconfirmed subscribers', function () {
@@ -54,7 +54,7 @@ it('will confirm unconfirmed subscribers', function () {
         'subscribed_at' => now(),
     ]);
 
-    expect($subscriber->status)->toEqual(SubscriptionStatus::UNSUBSCRIBED);
+    expect($subscriber->status)->toEqual(SubscriptionStatus::Unsubscribed);
 
     Livewire::test(Subscribers::class, ['emailList' => $this->emailList])
         ->call('confirm', $subscriber->id)
@@ -70,18 +70,18 @@ it('can resubscribe a subscriber', function () {
     $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($emailList);
     $subscriber->unsubscribe();
 
-    expect($subscriber->status)->toEqual(SubscriptionStatus::UNSUBSCRIBED);
+    expect($subscriber->status)->toEqual(SubscriptionStatus::Unsubscribed);
 
     Livewire::test(Subscribers::class, ['emailList' => $this->emailList])
         ->call('resubscribe', $subscriber->id);
 
-    expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
+    expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::Subscribed);
 });
 
 it('will only resubscribe unsubscribed subscribers', function () {
     $emailList = EmailList::factory()->create();
     $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($emailList);
-    expect($subscriber->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
+    expect($subscriber->status)->toEqual(SubscriptionStatus::Subscribed);
 
     Livewire::test(Subscribers::class, ['emailList' => $this->emailList])
         ->call('resubscribe', $subscriber->id)
@@ -96,12 +96,12 @@ it('can unsubscribe a subscriber', function () {
 
     $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($emailList);
 
-    expect($subscriber->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
+    expect($subscriber->status)->toEqual(SubscriptionStatus::Subscribed);
 
     Livewire::test(Subscribers::class, ['emailList' => $this->emailList])
         ->call('unsubscribe', $subscriber->id);
 
-    expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::UNSUBSCRIBED);
+    expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::Unsubscribed);
 });
 
 it('will only unsubscribe subscribed subscribers', function () {
@@ -109,7 +109,7 @@ it('will only unsubscribe subscribed subscribers', function () {
     $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($emailList);
     $subscriber->unsubscribe();
 
-    expect($subscriber->status)->toEqual(SubscriptionStatus::UNSUBSCRIBED);
+    expect($subscriber->status)->toEqual(SubscriptionStatus::Unsubscribed);
 
     Livewire::test(Subscribers::class, ['emailList' => $this->emailList])
         ->call('unsubscribe', $subscriber->id)

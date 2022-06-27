@@ -1,6 +1,6 @@
 <form
-    class="form-grid"
-    method="POST"
+        class="form-grid"
+        method="POST"
 >
     @csrf
     @method('PUT')
@@ -15,24 +15,24 @@
         <div class="flex items-end">
 
             <x-mailcoach::select-field
-                name="automation.interval"
-                wire:model="automation.interval"
-                :options="[
+                    name="automation.interval"
+                    wire:model="automation.interval"
+                    :options="[
                     '1 minute' => 'Every minute',
                     '10 minutes' => 'Every 10 minutes',
                     '1 hour' => 'Hourly',
                     '1 day' => 'Daily',
                     '1 week' => 'Weekly',
                 ]"
-                required
+                    required
             />
 
             <x-mailcoach::button
-                class="ml-1"
-                :label="__('mailcoach - Save')"
-                wire:click.prevent="save"
-                @keydown.prevent.window.cmd.s="$wire.call('save')"
-                @keydown.prevent.window.ctrl.s="$wire.call('save')"
+                    class="ml-1"
+                    :label="__('mailcoach - Save')"
+                    wire:click.prevent="save"
+                    @keydown.prevent.window.cmd.s="$wire.call('save')"
+                    @keydown.prevent.window.ctrl.s="$wire.call('save')"
             />
         </div>
     </x-mailcoach::fieldset>
@@ -56,21 +56,23 @@
             </x-mailcoach::warning>
         @endif
         <div>
-        @if ($automation->status === \Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus::STARTED)
-            <button class="button bg-gradient-to-r from-orange-400 to-orange-500" type="button" wire:click.prevent="pause">
+            @if ($automation->status === \Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus::Started)
+                <button class="button bg-gradient-to-r from-orange-400 to-orange-500" type="button"
+                        wire:click.prevent="pause">
                 <span class="flex items-center">
                     <i class="fas fa-pause text-sm"></i>
                     <span class="ml-2">{{ __('mailcoach - Pause') }}</span>
                 </span>
-            </button>
-        @else
-            <button class="button bg-gradient-to-r from-green-400 to-green-500" type="button" wire:click.prevent="start">
+                </button>
+            @else
+                <button class="button bg-gradient-to-r from-green-400 to-green-500" type="button"
+                        wire:click.prevent="start">
                 <span class="flex items-center">
                     <i class="fas fa-play text-sm"></i>
                     <span class="ml-2">{{ __('mailcoach - Start') }}</span>
                 </span>
-            </button>
-        @endif
+                </button>
+            @endif
         </div>
     </x-mailcoach::fieldset>
 </form>

@@ -63,7 +63,7 @@ it('can immediately subscribe someone and not send a mail even with double opt i
         ->skipConfirmation()
         ->subscribeTo(test()->emailList);
 
-    expect($subscriber->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
+    expect($subscriber->status)->toEqual(SubscriptionStatus::Subscribed);
     expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
 
     Mail::assertNotQueued(ConfirmSubscriberMail::class);
@@ -71,11 +71,11 @@ it('can immediately subscribe someone and not send a mail even with double opt i
 
 test('no email will be sent when adding someone that was already subscribed', function () {
     $subscriber = Subscriber::factory()->create();
-    expect($subscriber->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
+    expect($subscriber->status)->toEqual(SubscriptionStatus::Subscribed);
     $subscriber->emailList->update(['requires_confirmation' => true]);
 
     $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
-    expect($subscriber->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
+    expect($subscriber->status)->toEqual(SubscriptionStatus::Subscribed);
 
     Mail::assertNothingQueued();
 });

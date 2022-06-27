@@ -31,7 +31,7 @@ class ConfirmSubscriberController
 
     protected function ensureUnconfirmedSubscriber(Subscriber $subscriber): void
     {
-        if ($subscriber->status !== SubscriptionStatus::UNCONFIRMED) {
+        if ($subscriber->status !== SubscriptionStatus::Unconfirmed) {
             abort(Response::HTTP_UNPROCESSABLE_ENTITY, 'The subscriber was already confirmed');
         }
     }

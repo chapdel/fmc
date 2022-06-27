@@ -28,7 +28,7 @@
                 <x-mailcoach::filters>
                     @foreach ($filters as $filter)
                         @php($attribute = $filter['attribute'])
-                        <x-mailcoach::filter :current="$this->$attribute" value="{{ $filter['value'] }}" attribute="{{ $filter['attribute'] }}">
+                        <x-mailcoach::filter :current="$this->$attribute" value="{{ $filter['value'] instanceof UnitEnum ? $filter['value']->value : $filter['value'] }}" attribute="{{ $filter['attribute'] }}">
                             {{ $filter['label'] }}
                             @isset($filter['count'])
                                 <span class="counter">{{ Illuminate\Support\Str::shortNumber($filter['count']) }}</span>
