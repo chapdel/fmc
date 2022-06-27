@@ -578,6 +578,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Spotlight::registerCommand(CreateTemplateCommand::class);
         Spotlight::registerCommand(CreateTransactionalTemplateCommand::class);
 
+        config()->set('livewire-ui-spotlight.show_results_without_input', true);
+
         return $this;
     }
 }
