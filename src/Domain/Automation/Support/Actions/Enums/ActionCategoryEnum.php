@@ -11,7 +11,7 @@ enum ActionCategoryEnum: string
 
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             self::Tags => __('Tags'),
             self::Check => __('Check'),
             self::Pause => __('Pause'),
