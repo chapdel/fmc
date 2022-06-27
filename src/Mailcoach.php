@@ -22,8 +22,9 @@ class Mailcoach
         $fullAssetPath = action([MailcoachAssets::class, 'style']);
 
         // Use static assets if they have been published
-        if (file_exists(public_path('vendor/mailcoach/app.css'))) {
-            $fullAssetPath = asset('/vendor/mailcoach/app.css');
+        if (file_exists(public_path('vendor/mailcoach/manifest.json'))) {
+            $manifest = json_decode(file_get_contents(public_path('vendor/mailcoach/manifest.json')), true);
+            $fullAssetPath = asset("/vendor/mailcoach/{$manifest['resources/css/app.css']['file']}");
         }
 
         $styles = [
@@ -50,8 +51,9 @@ class Mailcoach
         $fullAssetPath = action([MailcoachAssets::class, 'script']);
 
         // Use static assets if they have been published
-        if (file_exists(public_path('vendor/mailcoach/app.js'))) {
-            $fullAssetPath = asset('/vendor/mailcoach/app.js');
+        if (file_exists(public_path('vendor/mailcoach/manifest.json'))) {
+            $manifest = json_decode(file_get_contents(public_path('vendor/mailcoach/manifest.json')), true);
+            $fullAssetPath = asset("/vendor/mailcoach/{$manifest['resources/js/app.js']['file']}");
         }
 
         $scripts = [];
