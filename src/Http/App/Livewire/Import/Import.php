@@ -72,6 +72,6 @@ class Import extends Component
     public function render()
     {
         return view('mailcoach::app.import')
-            ->layout('mailcoach::app.layouts.main', ['title' => __('Import')]);
+            ->layout('mailcoach::app.layouts.app', ['title' => __('Import')]);
     }
 }
