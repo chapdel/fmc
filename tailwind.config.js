@@ -22,12 +22,6 @@ module.exports = {
             orange: colors.orange,
         },
         extend: {
-            fontFamily: {
-                sans: [
-                    'Inter',
-                    ...defaultTheme.fontFamily.sans,
-                ]
-            },
             boxShadow: {
                 focus: '0 2px 2px #e5e3e1' ,
             },
