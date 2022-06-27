@@ -61,7 +61,7 @@
             </thead>
             <tbody>
             @foreach (range(1, 5) as $i)
-                <tr class="markup-links">
+                <tr class="tr-h-double markup-links">
                     @foreach ($columns as $column)
                         @if ($loop->last)
                             <td class="td-action">
