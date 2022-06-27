@@ -6,7 +6,7 @@ use Spatie\Mailcoach\Domain\Audience\Events\ComplaintRegisteredEvent;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
 it('will send an event after a complaint has been registered', function () {
-    Event::fake();
+    Event::fake(ComplaintRegisteredEvent::class);
 
     /** @var Send $send */
     $send = SendFactory::new()->create();

@@ -68,7 +68,7 @@ it('can accept a first and last name', function () {
         ]))
         ->assertRedirect(payloadWithRedirects()['redirect_after_subscribed']);
 
-    $subscriber = Subscriber::where('email', payloadWithRedirects()['email'])->first();
+    $subscriber = Subscriber::findForEmail(payloadWithRedirects()['email'], test()->emailList);
 
     expect($subscriber->first_name)->toEqual('John');
     expect($subscriber->last_name)->toEqual('Doe');
@@ -90,7 +90,7 @@ it('can accept attributes', function () {
         ]))
         ->assertRedirect(payloadWithRedirects()['redirect_after_subscribed']);
 
-    $subscriber = Subscriber::where('email', payloadWithRedirects()['email'])->first();
+    $subscriber = Subscriber::findForEmail(payloadWithRedirects()['email'], test()->emailList);
 
     expect($subscriber->extra_attributes->attribute1)->toEqual('foo');
     expect($subscriber->extra_attributes->attribute3)->toBeEmpty();
@@ -115,7 +115,7 @@ it('can accept tags', function () {
         );
 
     /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
-    $subscriber = Subscriber::where('email', payloadWithRedirects()['email'])->first();
+    $subscriber = Subscriber::findForEmail(payloadWithRedirects()['email'], test()->emailList);
 
     expect($subscriber->tags()->pluck('name')->toArray())->toEqual(['test1', 'test3']);
 });
@@ -224,7 +224,7 @@ test('clicking the link in the confirm subscription mail will redirect to the gi
         ->assertRedirect(payloadWithRedirects()['redirect_after_subscription_pending']);
 
     /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
-    $subscriber = Subscriber::where('email', payloadWithRedirects()['email'])->first();
+    $subscriber = Subscriber::findForEmail(payloadWithRedirects()['email'], test()->emailList);
     expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::UNCONFIRMED);
 
     /*

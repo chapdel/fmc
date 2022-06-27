@@ -6,7 +6,7 @@ use Spatie\Mailcoach\Domain\Campaign\Events\CampaignLinkClickedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
 
 it('will fire an event when a link gets clicked', function () {
-    Event::fake();
+    Event::fake(CampaignLinkClickedEvent::class);
 
     /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
     $send = SendFactory::new()->create();
@@ -36,7 +36,7 @@ it('will fire an event when a link gets clicked', function () {
 });
 
 it('will not fire an event when a link gets clicked and click tracking is not enable', function () {
-    Event::fake();
+    Event::fake(CampaignLinkClickedEvent::class);
 
     /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
     $send = SendFactory::new()->create();

@@ -28,12 +28,12 @@ beforeEach(function () {
 });
 
 it('can create a subscriber using the api', function () {
+    expect(test()->getSubscriberClass()::count())->toBe(0);
     $this
         ->postJson(action([SubscribersController::class, 'store'], test()->emailList), $this->attributes)
         ->assertSuccessful();
 
-    test()->assertDatabaseHas(test()->getSubscriberTableName(), $this->attributes);
-
+    expect(test()->getSubscriberClass()::count())->toBe(1);
     expect(Subscriber::first()->status)->toEqual(SubscriptionStatus::UNCONFIRMED);
 
     Mail::assertQueued(ConfirmSubscriberMail::class);

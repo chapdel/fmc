@@ -82,7 +82,6 @@ it('will throttle sending mail', function () {
 });
 
 it('will not create mailcoach sends if they already have been created', function () {
-    Event::fake();
     Mail::fake();
 
     $emailList = EmailList::factory()->create();
