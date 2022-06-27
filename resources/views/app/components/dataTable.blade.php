@@ -45,19 +45,40 @@
     </div>
 
     <div class="w-full text-center mt-6" wire:loading.delay.long>
-        <style>
-            @keyframes loadingpulse {
-                0%   {transform: scale(.8); opacity: .75}
-                100% {transform: scale(1.5); opacity: .9}
-            }
-        </style>
-        <span
-            style="animation: loadingpulse 0.5s alternate infinite ease-in-out;"
-            class="group w-10 h-10 inline-flex my-16 items-center justify-center bg-gradient-to-b from-blue-500 to-blue-600 text-white rounded-full">
-            <span class="flex items-center justify-center w-6 h-6 transform group-hover:scale-90 transition-transform duration-150">
-                @include('mailcoach::app.layouts.partials.logoSvg')
-            </span>
-        </span>
+        <table class="mt-6 table table-fixed">
+            <thead>
+            <tr>
+                @foreach ($columns as $column)
+                    <x-mailcoach::th
+                        :class="$column['class'] ?? ''"
+                        :sort="$this->sort"
+                        :property="$column['attribute'] ?? null"
+                    >
+                        {{ $column['label'] ?? '' }}
+                    </x-mailcoach::th>
+                @endforeach
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (range(1, 5) as $i)
+                <tr class="markup-links">
+                    @foreach ($columns as $column)
+                        @if ($loop->last)
+                            <td class="td-action">
+                                <x-mailcoach::dropdown direction="left">
+                                    <ul></ul>
+                                </x-mailcoach::dropdown>
+                            </td>
+                        @else
+                            <td>
+                                <div class="animate-pulse w-full h-4 bg-gray-100"></div>
+                            </td>
+                        @endif
+                    @endforeach
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
     </div>
 
     <div wire:loading.delay.long.remove>
