@@ -48,6 +48,7 @@ class FuzzyFilter implements Filter
                                     $query->whereBlind('email', 'email_first_part', $value);
                                     $query->whereBlind('email', 'email_second_part', $value);
                                 });
+
                                 continue;
                             }
 
