@@ -43,6 +43,14 @@ class FuzzyFilter implements Filter
 
                     if ($query->from === self::getSubscriberTableName() && config('mailcoach.encryption.enabled')) {
                         if ($field === 'email') {
+                            if (str_contains($value, '@')) {
+                                $query->orWhere(function (Builder $query) use ($value) {
+                                    $query->whereBlind('email', 'email_first_part', $value);
+                                    $query->whereBlind('email', 'email_second_part', $value);
+                                });
+                                continue;
+                            }
+
                             foreach (explode('@', $value) as $emailPart) {
                                 $query->orWhereBlind('email', 'email_first_part', Str::finish($emailPart, '@'));
                                 $query->orWhereBlind('email', 'email_second_part', Str::start($emailPart, '@'));

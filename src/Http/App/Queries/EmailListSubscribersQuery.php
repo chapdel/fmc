@@ -43,7 +43,7 @@ class EmailListSubscribersQuery extends QueryBuilder
                     'email',
                     'first_name',
                     'last_name',
-                    'tags.name'
+                    'tags.name',
                 )),
                 AllowedFilter::custom('status', new SubscriberStatusFilter())
             );

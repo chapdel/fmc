@@ -2,8 +2,10 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 
+use Illuminate\Contracts\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\DeleteSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\SendConfirmSubscriberMailAction;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
@@ -140,28 +142,8 @@ class Subscribers extends DataTable
 
         $subscribersQuery = new EmailListSubscribersQuery($this->emailList, $request);
 
-        if (config('mailcoach.encryption.enabled') && $this->search) {
-            $subscribers = $subscribersQuery->get();
-
-            $filteredSubscribers = $subscribers->filter(function ($subscriber) {
-                return str_contains(strtolower($subscriber->email), strtolower($this->search))
-                    || str_contains(strtolower($subscriber->first_name), strtolower($this->search))
-                    || str_contains(strtolower($subscriber->last_name), strtolower($this->search));
-            });
-
-            $paginator = new LengthAwarePaginator(
-                $filteredSubscribers->skip(15 * ($this->page - 1))->take(15),
-                $filteredSubscribers->count(),
-                15,
-                $this->page,
-                ['path' => route('mailcoach.emailLists.subscribers', $this->emailList)]
-            );
-        } else {
-            $paginator = $subscribersQuery->paginate();
-        }
-
         return [
-            'subscribers' => $paginator,
+            'subscribers' => $subscribersQuery->paginate(),
             'emailList' => $this->emailList,
             'allSubscriptionsCount' => $this->emailList->allSubscribers()->count(),
             'totalSubscriptionsCount' => $this->emailList->subscribers()->count(),

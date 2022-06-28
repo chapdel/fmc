@@ -59,3 +59,16 @@
     @apply text-xs;
     @apply no-underline;
 }
+
+.tag {
+    @apply inline-flex;
+    @apply items-center;
+    @apply rounded;
+    @apply bg-blue-300;
+    @apply bg-opacity-30;
+    @apply px-2;
+    @apply py-1;
+    margin: 0 3px 3px 0;
+    @apply text-xs;
+    @apply no-underline;
+}

@@ -1,5 +1,5 @@
-<tr class="markup-links">
-    <td>
+<tr>
+    <td class="markup-links">
         @if ($row->isUnconfirmed())
             <i class="far fa-question-circle text-orange-500" title="{{ __('mailcoach - Unconfirmed') }}"></i>
         @endif
@@ -10,7 +10,7 @@
             <i class="fas fa-ban text-gray-400" title="{{ __('mailcoach - Unsubscribed') }}"></i>
         @endif
     </td>
-    <td>
+    <td class="markup-links">
         <a class="break-words"
            href="{{ route('mailcoach.emailLists.subscriber.details', [$row->emailList, $row]) }}">
             {{ $row->email }}
@@ -21,7 +21,10 @@
     </td>
     <td class="hidden | xl:table-cell">
         @foreach($row->tags->where('type', \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::Default) as $tag)
-            @include('mailcoach::app.partials.tag')
+            @include('mailcoach::app.partials.tag', [
+                'emailList' => $row->emailList,
+                'highlight' => $this->search && str_contains($tag->name, $this->search),
+            ])
         @endforeach
     </td>
     <td class="td-numeric hidden | xl:table-cell">{{
