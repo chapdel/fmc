@@ -57,12 +57,8 @@ return new class extends Migration
                 ->cascadeOnDelete();
 
             $table->text('email');
-            $table->string('email_idx_1')->nullable()->index();
-            $table->string('email_idx_2')->nullable()->index();
             $table->text('first_name')->nullable();
-            $table->string('first_name_idx')->nullable()->index();
             $table->text('last_name')->nullable();
-            $table->string('last_name_idx')->nullable()->index();
             $table->text('extra_attributes')->nullable();
 
             $table->uuid('imported_via_import_uuid')->nullable();

@@ -15,6 +15,8 @@
     "mailcoach - A test email was sent to :count addresses.": "A test email was sent to :count addresses.",
     "mailcoach - A test email was sent to :email.": "A test email was sent to :email.",
     "mailcoach - Actions successfully saved to automation :automation.": "Actions successfully saved to automation :automation.",
+    "mailcoach - No subscribers found. Encryption is enabled, so only searches on exact matches before and after the '@' symbol are supported. For example: john, doe.com or john@doe.com": "No subscribers found. Encryption is enabled, so only searches on exact matches before and after the '@' symbol are supported. For example: john, doe.com or john@doe.com",
+    "mailcoach - No subscribers found.": "No subscribers found.",
     "mailcoach - Actions": "Actions",
     "mailcoach - Attributes": "Attributes",
     "mailcoach - Active": "Active",

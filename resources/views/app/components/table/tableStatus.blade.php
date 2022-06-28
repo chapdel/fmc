@@ -1,7 +1,7 @@
 <p class="table-status">
     @if($paginator->total() !== $totalCount)
         {{ __('mailcoach - Filtering :resource', [
-            'resource' => trans_choice($name, $totalCount)
+            'resource' => \Illuminate\Support\Str::plural($name),
         ]) }}.
         <a href="#" {{ $attributes->wire('click') }} class="link-dimmed" data-turbo="false">
             {{ __('mailcoach - Show all') }}

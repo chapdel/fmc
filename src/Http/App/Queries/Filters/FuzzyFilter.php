@@ -39,18 +39,26 @@ class FuzzyFilter implements Filter
             ->reject(fn (string $field) => Str::contains($field, '.'))
             ->each(function (string $field) use ($query, $values) {
                 foreach ($values as $value) {
-                    $value = str_replace('+', ' ', $value);
+                    $value = trim(str_replace('+', ' ', $value));
 
-                    if ($field === 'email_idx_1' && config('mailcoach.encryption.enabled')) {
-                        $firstPart = self::getSubscriberClass()::getEncryptedRow()->getBlindIndex('email_first_part', ['email' => $value]);
-                        $query->orWhere($field, '=', $firstPart);
-                        continue;
-                    }
+                    if ($query->from === self::getSubscriberTableName() && config('mailcoach.encryption.enabled')) {
+                        if ($field === 'email') {
+                            foreach (explode('@', $value) as $emailPart) {
+                                $query->orWhereBlind('email', 'email_first_part', Str::finish($emailPart, '@'));
+                                $query->orWhereBlind('email', 'email_second_part', Str::start($emailPart, '@'));
+                            }
+                            continue;
+                        }
 
-                    if ($field === 'email_idx_2' && config('mailcoach.encryption.enabled')) {
-                        $secondPart = self::getSubscriberClass()::getEncryptedRow()->getBlindIndex('email_second_part', ['email' => $value]);
-                        $query->orWhere($field, '=', $secondPart);
-                        continue;
+                        if ($field === 'first_name') {
+                            $query->orWhereBlind('first_name', 'first_name', $value);
+                            continue;
+                        }
+
+                        if ($field === 'last_name') {
+                            $query->orWhereBlind('last_name', 'last_name', $value);
+                            continue;
+                        }
                     }
 
                     $query->orWhere($field, 'LIKE', "%{$value}%");

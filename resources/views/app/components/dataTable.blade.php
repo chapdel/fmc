@@ -8,6 +8,7 @@
     'rowData' => [],
     'modelClass' => null,
     'emptyText' => null,
+    'noResultsText' => null,
     'searchable' => true,
 ])
 <div class="mt-12" wire:init="loadRows">
@@ -124,7 +125,7 @@
                 @php($plural = \Illuminate\Support\Str::plural($name))
                 @if ($this->search ?? null)
                     <x-mailcoach::help>
-                        {{ __("mailcoach - No {$plural} found.") }}
+                        {{ $noResultsText ?? __("mailcoach - No {$plural} found.") }}
                     </x-mailcoach::help>
                 @else
                     <x-mailcoach::help>

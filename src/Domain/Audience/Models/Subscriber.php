@@ -12,15 +12,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use ParagonIE\CipherSweet\Backend\BoringCrypto;
 use ParagonIE\CipherSweet\BlindIndex;
 use ParagonIE\CipherSweet\CipherSweet;
-use ParagonIE\CipherSweet\EncryptedField;
 use ParagonIE\CipherSweet\EncryptedRow;
+use Spatie\LaravelCipherSweet\ModelObserver;
+use Spatie\LaravelCipherSweet\UsesCipherSweet;
 use Spatie\Mailcoach\Database\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\ConfirmSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Encryption\Transformation\EmailFirstPart;
 use Spatie\Mailcoach\Domain\Audience\Encryption\Transformation\EmailSecondPart;
+use Spatie\Mailcoach\Domain\Audience\Encryption\Transformation\Lowercase;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Events\TagAddedEvent;
 use Spatie\Mailcoach\Domain\Audience\Events\TagRemovedEvent;
@@ -42,6 +43,7 @@ class Subscriber extends Model
     use HasExtraAttributes;
     use UsesMailcoachModels;
     use HasFactory;
+    use UsesCipherSweet;
 
     public $table = 'mailcoach_subscribers';
 
@@ -53,86 +55,34 @@ class Subscriber extends Model
         'unsubscribed_at' => 'datetime',
     ];
 
-    public function getAttributes(): array
+    protected static function bootUsesCipherSweet()
     {
-        $attributes = parent::getAttributes();
-
-        if (config('mailcoach.encryption.enabled') && isset($attributes['extra_attributes']) && str_starts_with($attributes['extra_attributes'], 'ey')) {
-            $attributes['extra_attributes'] = self::$encrypter->decryptString($attributes['extra_attributes']);
+        if (! config('mailcoach.encryption.enabled')) {
+            return;
         }
 
-        return $attributes;
+        static::observe(ModelObserver::class);
+
+        static::$cipherSweetEncryptedRow = new EncryptedRow(
+            app(CipherSweet::class),
+            (new static)->getTable()
+        );
+
+        static::configureCipherSweet(static::$cipherSweetEncryptedRow);
     }
 
-    protected static function booted()
+    protected static function configureCipherSweet(EncryptedRow $encryptedRow): void
     {
-        self::saving(function (self $subscriber) {
-            if (! config('mailcoach.encryption.enabled') || ! $subscriber->isDirty(['email', 'first_name', 'last_name'])) {
-                return;
-            }
-
-            $row = self::getEncryptedRow();
-
-            [$fields, $indexes] = $row->prepareRowForStorage([
-                'email' => $subscriber->email,
-                'first_name' => $subscriber->first_name,
-                'last_name' => $subscriber->last_name,
-            ]);
-
-            $subscriber->email = $fields['email'];
-            $subscriber->email_idx_1 = $indexes['email_first_part'];
-            $subscriber->email_idx_2 = $indexes['email_second_part'];
-
-            $subscriber->first_name = $fields['first_name'];
-            $subscriber->first_name_idx = $indexes['first_name'];
-
-            $subscriber->last_name = $fields['last_name'];
-            $subscriber->last_name_idx = $indexes['last_name'];
-        });
-    }
-
-    protected function decrypt(): void
-    {
-        if (config('mailcoach.encryption.enabled') && str_starts_with($this->attributes['email'], app(CipherSweet::class)->getBackend()->getPrefix())) {
-            $this->attributes = self::getEncryptedRow()->decryptRow($this->attributes);
-        }
-    }
-
-    protected function getEmailAttribute(): string
-    {
-        $this->decrypt();
-
-        return $this->attributes['email'];
-    }
-
-    protected function getFirstNameAttribute(): ?string
-    {
-        $this->decrypt();
-
-        return $this->attributes['first_name'] ?? null;
-    }
-
-    protected function getLastNameAttribute(): ?string
-    {
-        $this->decrypt();
-
-        return $this->attributes['last_name'] ?? null;
-    }
-
-    public static function getEncryptedRow(): EncryptedRow
-    {
-        $row = (new EncryptedRow(app(CipherSweet::class), self::getSubscriberTableName()))
+        $encryptedRow
             ->addTextField('email')
             ->addTextField('first_name')
             ->addTextField('last_name');
 
-        $row->addBlindIndex('email', new BlindIndex('email_first_part', [new EmailFirstPart()]));
-        $row->addBlindIndex('email', new BlindIndex('email_second_part', [new EmailSecondPart()]));
+        $encryptedRow->addBlindIndex('email', new BlindIndex('email_first_part', [new EmailFirstPart()]));
+        $encryptedRow->addBlindIndex('email', new BlindIndex('email_second_part', [new EmailSecondPart()]));
 
-        $row->addBlindIndex('first_name', new BlindIndex('first_name'));
-        $row->addBlindIndex('last_name', new BlindIndex('last_name'));
-
-        return $row;
+        $encryptedRow->addBlindIndex('first_name', new BlindIndex('first_name', [new Lowercase()]));
+        $encryptedRow->addBlindIndex('last_name', new BlindIndex('last_name', [new Lowercase()]));
     }
 
     public static function createWithEmail(string $email, array $attributes = []): PendingSubscriber
@@ -145,12 +95,9 @@ class Subscriber extends Model
         $query = static::query()->where('email_list_id', $emailList->id);
 
         if (config('mailcoach.encryption.enabled')) {
-            $firstPart = self::getEncryptedRow()->getBlindIndex('email_first_part', ['email' => $email]);
-            $secondPart = self::getEncryptedRow()->getBlindIndex('email_second_part', ['email' => $email]);
-
             return $query
-                ->where('email_idx_1', $firstPart)
-                ->where('email_idx_2', $secondPart)
+                ->whereBlind('email', 'email_idx_1', $email)
+                ->whereBlind('email', 'email_idx_2', $email)
                 ->first();
         }
 

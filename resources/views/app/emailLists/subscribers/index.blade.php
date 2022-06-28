@@ -6,6 +6,9 @@
     :totalRowsCount="$allSubscriptionsCount"
     rowPartial="mailcoach::app.emailLists.subscribers.partials.row"
     :emptyText="__('mailcoach - So where is everyone? This list is empty.')"
+    :no-results-text="config('mailcoach.encryption.enabled')
+        ? __('mailcoach - No subscribers found. Encryption is enabled, so only searches on exact matches before and after the \'@\' symbol are supported. For example: john, doe.com or john@doe.com')
+        : __('mailcoach - No subscribers found.')"
     :filters="[
         ['attribute' => 'status', 'value' => '', 'label' => __('mailcoach - All'), 'count' => $allSubscriptionsCount ?? null],
         ['attribute' => 'status', 'value' => 'unconfirmed', 'label' => __('mailcoach - Unconfirmed'), 'count' => $unconfirmedCount ?? null],

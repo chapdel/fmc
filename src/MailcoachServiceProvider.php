@@ -214,15 +214,15 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
-        $this->app->singleton(CipherSweet::class, function () {
+        if (config('mailcoach.encryption.enabled')) {
             $encryptionKey = config('mailcoach.encryption.key');
 
             if (Str::startsWith($encryptionKey, $prefix = 'base64:')) {
                 $encryptionKey = base64_decode(Str::after($encryptionKey, $prefix));
             }
 
-            return new CipherSweet(new StringProvider($encryptionKey));
-        });
+            config()->set('ciphersweet.providers.string.key', $encryptionKey);
+        }
 
         $this
             ->bootCarbon()

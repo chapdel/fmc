@@ -140,21 +140,25 @@ class Subscribers extends DataTable
 
         $subscribersQuery = new EmailListSubscribersQuery($this->emailList, $request);
 
-        $subscribers = $subscribersQuery->get();
+        if (config('mailcoach.encryption.enabled') && $this->search) {
+            $subscribers = $subscribersQuery->get();
 
-        $filteredSubscribers = $subscribers;
+            $filteredSubscribers = $subscribers->filter(function ($subscriber) {
+                return str_contains(strtolower($subscriber->email), strtolower($this->search))
+                    || str_contains(strtolower($subscriber->first_name), strtolower($this->search))
+                    || str_contains(strtolower($subscriber->last_name), strtolower($this->search));
+            });
 
-        if ($this->search) {
-            $filteredSubscribers = $subscribers->filter(fn ($subscriber) => str_starts_with($subscriber->email, $this->search));
+            $paginator = new LengthAwarePaginator(
+                $filteredSubscribers->skip(15 * ($this->page - 1))->take(15),
+                $filteredSubscribers->count(),
+                15,
+                $this->page,
+                ['path' => route('mailcoach.emailLists.subscribers', $this->emailList)]
+            );
+        } else {
+            $paginator = $subscribersQuery->paginate();
         }
-
-        $paginator = new LengthAwarePaginator(
-            $filteredSubscribers->skip(15 * ($this->page - 1))->take(15),
-            $filteredSubscribers->count(),
-            15,
-            $this->page,
-            ['path' => route('mailcoach.emailLists.subscribers', $this->emailList)]
-        );
 
         return [
             'subscribers' => $paginator,

@@ -29,13 +29,12 @@ class EmailListSubscribersQuery extends QueryBuilder
             ->allowedSorts('created_at', 'updated_at', 'subscribed_at', 'unsubscribed_at', 'email', 'first_name', 'last_name', 'id')
             ->allowedFilters(
                 AllowedFilter::callback('email', function (Builder $query, $value) {
-                    if (config('mailcoach.encryption.enabled')) {
-                        $firstPart = self::getSubscriberClass()::getEncryptedRow()->getBlindIndex('email_first_part', ['email' => $value]);
-                        $secondPart = self::getSubscriberClass()::getEncryptedRow()->getBlindIndex('email_second_part', ['email' => $value]);
+                    $value = trim($value);
 
-                        return $query->where(function (Builder $query) use ($secondPart, $firstPart) {
-                            $query->where('email_idx_1', '=', $firstPart)
-                                ->orWhere('email_idx_2', '=', $secondPart);
+                    if (config('mailcoach.encryption.enabled')) {
+                        return $query->where(function (Builder $query) use ($value) {
+                            $query->whereBlind('email', 'email_first_part', $value)
+                                ->orWhereBlind('email', 'email_second_part', $value);
                         });
                     }
 
@@ -43,8 +42,6 @@ class EmailListSubscribersQuery extends QueryBuilder
                 }),
                 AllowedFilter::custom('search', new FuzzyFilter(
                     'email',
-                    'email_idx_1',
-                    'email_idx_2',
                     'first_name',
                     'last_name',
                     'tags.name'

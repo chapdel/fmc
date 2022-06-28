@@ -8,6 +8,6 @@ class EmailFirstPart implements TransformationInterface
 {
     public function __invoke(mixed $input): string
     {
-        return explode('@', $input)[0] ?? '';
+        return strtolower(explode('@', $input)[0] ?? '');
     }
 }
