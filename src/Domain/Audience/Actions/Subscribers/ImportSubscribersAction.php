@@ -86,7 +86,7 @@ class ImportSubscribersAction
     {
         $attributes = array_merge($row->getAttributes(), ['extra_attributes' => $row->getExtraAttributes()]);
 
-        $subscriber = $this->getSubscriberClass()::createWithEmail($row->getEmail(), $attributes)
+        $subscriber = self::getSubscriberClass()::createWithEmail($row->getEmail(), $attributes)
             ->skipConfirmation()
             ->tags($row->tags())
             ->replaceTags($this->subscriberImport->replace_tags)

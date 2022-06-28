@@ -35,16 +35,17 @@ class ExportSubscribersJob extends ExportJob
                 $subscribersCount += $subscribers->count();
 
                 if (config('mailcoach.encryption.enabled')) {
-                    $key = $this->parseKey(config('mailcoach.encryption.key'));
-                    $encrypter = new Encrypter($key, config('mailcoach.encryption.cipher'));
+                    $encrypter = self::getSubscriberClass()::getEncryptedRow();
 
                     $subscribers = $subscribers->map(function ($subscriber) use ($encrypter) {
-                        $subscriber->email = $encrypter->decryptString($subscriber->email);
-                        $subscriber->first_name = $subscriber->first_name ? $encrypter->decryptString($subscriber->first_name) : null;
-                        $subscriber->last_name = $subscriber->first_name ? $encrypter->decryptString($subscriber->last_name) : null;
-                        $subscriber->extra_attributes = $subscriber->extra_attributes
-                            ? $encrypter->decryptString($subscriber->extra_attributes)
-                            : null;
+                        $decrypted = $encrypter->decryptRow([
+                            'email' => $subscriber->email,
+                            'first_name' => $subscriber->first_name,
+                            'last_name' => $subscriber->last_name,
+                        ]);
+                        $subscriber->email = $decrypted['email'];
+                        $subscriber->first_name = $decrypted['first_name'];
+                        $subscriber->last_name = $decrypted['last_name'];
 
                         return $subscriber;
                     });

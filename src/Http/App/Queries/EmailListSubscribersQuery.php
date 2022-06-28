@@ -30,14 +30,21 @@ class EmailListSubscribersQuery extends QueryBuilder
             ->allowedFilters(
                 AllowedFilter::callback('email', function (Builder $query, $value) {
                     if (config('mailcoach.encryption.enabled')) {
-                        return $query->where('email_first_5', '=', Str::substr($value, 0, 5));
+                        $firstPart = self::getSubscriberClass()::getEncryptedRow()->getBlindIndex('email_first_part', ['email' => $value]);
+                        $secondPart = self::getSubscriberClass()::getEncryptedRow()->getBlindIndex('email_second_part', ['email' => $value]);
+
+                        return $query->where(function (Builder $query) use ($secondPart, $firstPart) {
+                            $query->where('email_idx_1', '=', $firstPart)
+                                ->orWhere('email_idx_2', '=', $secondPart);
+                        });
                     }
 
                     return $query->where('email', $value);
                 }),
                 AllowedFilter::custom('search', new FuzzyFilter(
-                    'email_first_5',
                     'email',
+                    'email_idx_1',
+                    'email_idx_2',
                     'first_name',
                     'last_name',
                     'tags.name'

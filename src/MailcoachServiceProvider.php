@@ -16,6 +16,10 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
 use LivewireUI\Spotlight\Spotlight;
+use ParagonIE\CipherSweet\BlindIndex;
+use ParagonIE\CipherSweet\CipherSweet;
+use ParagonIE\CipherSweet\EncryptedField;
+use ParagonIE\CipherSweet\KeyProvider\StringProvider;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\Mailcoach\Components\AutomationMailReplacerHelpTextsComponent;
@@ -25,6 +29,8 @@ use Spatie\Mailcoach\Components\TransactionalMailTemplateReplacerHelpTextsCompon
 use Spatie\Mailcoach\Domain\Audience\Commands\DeleteOldUnconfirmedSubscribersCommand;
 use Spatie\Mailcoach\Domain\Audience\Commands\RotateSubscriberEncryptionKeyCommand;
 use Spatie\Mailcoach\Domain\Audience\Commands\SendEmailListSummaryMailCommand;
+use Spatie\Mailcoach\Domain\Audience\Encryption\Transformation\EmailFirstPart;
+use Spatie\Mailcoach\Domain\Audience\Encryption\Transformation\EmailSecondPart;
 use Spatie\Mailcoach\Domain\Audience\Livewire\EmailListStatistics;
 use Spatie\Mailcoach\Domain\Automation\Commands\CalculateAutomationMailStatisticsCommand;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationActionsCommand;
@@ -208,15 +214,15 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
-        $encryptionKey = config('mailcoach.encryption.key');
+        $this->app->singleton(CipherSweet::class, function () {
+            $encryptionKey = config('mailcoach.encryption.key');
 
-        if (Str::startsWith($encryptionKey, $prefix = 'base64:')) {
-            $encryptionKey = base64_decode(Str::after($encryptionKey, $prefix));
-        }
+            if (Str::startsWith($encryptionKey, $prefix = 'base64:')) {
+                $encryptionKey = base64_decode(Str::after($encryptionKey, $prefix));
+            }
 
-        $encrypter = new Encrypter($encryptionKey, config('mailcoach.encryption.cipher'));
-
-        self::getSubscriberClass()::encryptUsing($encrypter);
+            return new CipherSweet(new StringProvider($encryptionKey));
+        });
 
         $this
             ->bootCarbon()

@@ -5,10 +5,13 @@ namespace Spatie\Mailcoach\Http\App\Queries\Filters;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\QueryBuilder\Filters\Filter;
 
 class FuzzyFilter implements Filter
 {
+    use UsesMailcoachModels;
+
     /** @var string[] */
     protected array $fields;
 
@@ -38,8 +41,16 @@ class FuzzyFilter implements Filter
                 foreach ($values as $value) {
                     $value = str_replace('+', ' ', $value);
 
-                    if ($field === 'email_first_5') {
-                        $value = Str::substr($value, 0, 5);
+                    if ($field === 'email_idx_1' && config('mailcoach.encryption.enabled')) {
+                        $firstPart = self::getSubscriberClass()::getEncryptedRow()->getBlindIndex('email_first_part', ['email' => $value]);
+                        $query->orWhere($field, '=', $firstPart);
+                        continue;
+                    }
+
+                    if ($field === 'email_idx_2' && config('mailcoach.encryption.enabled')) {
+                        $secondPart = self::getSubscriberClass()::getEncryptedRow()->getBlindIndex('email_second_part', ['email' => $value]);
+                        $query->orWhere($field, '=', $secondPart);
+                        continue;
                     }
 
                     $query->orWhere($field, 'LIKE', "%{$value}%");

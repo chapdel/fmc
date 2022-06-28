@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Audience\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,8 +12,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+use ParagonIE\CipherSweet\Backend\BoringCrypto;
+use ParagonIE\CipherSweet\BlindIndex;
+use ParagonIE\CipherSweet\CipherSweet;
+use ParagonIE\CipherSweet\EncryptedField;
+use ParagonIE\CipherSweet\EncryptedRow;
 use Spatie\Mailcoach\Database\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\ConfirmSubscriberAction;
+use Spatie\Mailcoach\Domain\Audience\Encryption\Transformation\EmailFirstPart;
+use Spatie\Mailcoach\Domain\Audience\Encryption\Transformation\EmailSecondPart;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Events\TagAddedEvent;
 use Spatie\Mailcoach\Domain\Audience\Events\TagRemovedEvent;
@@ -39,23 +47,11 @@ class Subscriber extends Model
 
     protected $guarded = [];
 
-    public function getCasts(): array
-    {
-        $casts = [
-            'extra_attributes' => 'array',
-            'subscribed_at' => 'datetime',
-            'unsubscribed_at' => 'datetime',
-        ];
-
-        if (config('mailcoach.encryption.enabled')) {
-            $casts['extra_attributes'] = 'encrypted:json';
-            $casts['email'] = 'encrypted';
-            $casts['first_name'] = 'encrypted';
-            $casts['last_name'] = 'encrypted';
-        }
-
-        return $casts;
-    }
+    public $casts = [
+        'extra_attributes' => 'array',
+        'subscribed_at' => 'datetime',
+        'unsubscribed_at' => 'datetime',
+    ];
 
     public function getAttributes(): array
     {
@@ -70,9 +66,73 @@ class Subscriber extends Model
 
     protected static function booted()
     {
-        self::saving(function ($subscriber) {
-            $subscriber->email_first_5 = Str::substr($subscriber->email, 0, 5);
+        self::saving(function (self $subscriber) {
+            if (! config('mailcoach.encryption.enabled') || ! $subscriber->isDirty(['email', 'first_name', 'last_name'])) {
+                return;
+            }
+
+            $row = self::getEncryptedRow();
+
+            [$fields, $indexes] = $row->prepareRowForStorage([
+                'email' => $subscriber->email,
+                'first_name' => $subscriber->first_name,
+                'last_name' => $subscriber->last_name,
+            ]);
+
+            $subscriber->email = $fields['email'];
+            $subscriber->email_idx_1 = $indexes['email_first_part'];
+            $subscriber->email_idx_2 = $indexes['email_second_part'];
+
+            $subscriber->first_name = $fields['first_name'];
+            $subscriber->first_name_idx = $indexes['first_name'];
+
+            $subscriber->last_name = $fields['last_name'];
+            $subscriber->last_name_idx = $indexes['last_name'];
         });
+    }
+
+    protected function decrypt(): void
+    {
+        if (config('mailcoach.encryption.enabled') && str_starts_with($this->attributes['email'], app(CipherSweet::class)->getBackend()->getPrefix())) {
+            $this->attributes = self::getEncryptedRow()->decryptRow($this->attributes);
+        }
+    }
+
+    protected function getEmailAttribute(): string
+    {
+        $this->decrypt();
+
+        return $this->attributes['email'];
+    }
+
+    protected function getFirstNameAttribute(): ?string
+    {
+        $this->decrypt();
+
+        return $this->attributes['first_name'] ?? null;
+    }
+
+    protected function getLastNameAttribute(): ?string
+    {
+        $this->decrypt();
+
+        return $this->attributes['last_name'] ?? null;
+    }
+
+    public static function getEncryptedRow(): EncryptedRow
+    {
+        $row = (new EncryptedRow(app(CipherSweet::class), self::getSubscriberTableName()))
+            ->addTextField('email')
+            ->addTextField('first_name')
+            ->addTextField('last_name');
+
+        $row->addBlindIndex('email', new BlindIndex('email_first_part', [new EmailFirstPart()]));
+        $row->addBlindIndex('email', new BlindIndex('email_second_part', [new EmailSecondPart()]));
+
+        $row->addBlindIndex('first_name', new BlindIndex('first_name'));
+        $row->addBlindIndex('last_name', new BlindIndex('last_name'));
+
+        return $row;
     }
 
     public static function createWithEmail(string $email, array $attributes = []): PendingSubscriber
@@ -82,13 +142,19 @@ class Subscriber extends Model
 
     public static function findForEmail(string $email, EmailList $emailList): ?Subscriber
     {
-        $subscribers = static::where('email_first_5', Str::substr($email, 0, 5))
-            ->where('email_list_id', $emailList->id)
-            ->get();
+        $query = static::query()->where('email_list_id', $emailList->id);
 
-        return $subscribers
-            ->filter(fn (Subscriber $subscriber) => $subscriber->email === $email)
-            ->first();
+        if (config('mailcoach.encryption.enabled')) {
+            $firstPart = self::getEncryptedRow()->getBlindIndex('email_first_part', ['email' => $email]);
+            $secondPart = self::getEncryptedRow()->getBlindIndex('email_second_part', ['email' => $email]);
+
+            return $query
+                ->where('email_idx_1', $firstPart)
+                ->where('email_idx_2', $secondPart)
+                ->first();
+        }
+
+        return $query->where('email', $email)->first();
     }
 
     public function emailList(): BelongsTo

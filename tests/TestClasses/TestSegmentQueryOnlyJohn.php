@@ -3,13 +3,20 @@
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
 use Illuminate\Database\Eloquent\Builder;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\Segment;
 
 class TestSegmentQueryOnlyJohn extends Segment
 {
     public function subscribersQuery(Builder $subscribersQuery): void
     {
-        $subscribersQuery->where('email_first_5', 'john@');
+        if (config('mailcoach.encryption.enabled')) {
+            $firstPart = Subscriber::getEncryptedRow()->getBlindIndex('email_first_part', ['email' => 'john@example.com']);
+            $subscribersQuery->where('email_idx_1', $firstPart);
+            return;
+        }
+
+        $subscribersQuery->where('email', 'john@example.com');
     }
 
     public function description(): string

@@ -56,10 +56,13 @@ return new class extends Migration
                 ->constrained('mailcoach_email_lists')
                 ->cascadeOnDelete();
 
-            $table->string('email_first_5')->index();
             $table->text('email');
-            $table->string('first_name')->nullable();
-            $table->string('last_name')->nullable();
+            $table->string('email_idx_1')->nullable()->index();
+            $table->string('email_idx_2')->nullable()->index();
+            $table->text('first_name')->nullable();
+            $table->string('first_name_idx')->nullable()->index();
+            $table->text('last_name')->nullable();
+            $table->string('last_name_idx')->nullable()->index();
             $table->text('extra_attributes')->nullable();
 
             $table->uuid('imported_via_import_uuid')->nullable();
