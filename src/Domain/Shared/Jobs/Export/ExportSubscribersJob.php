@@ -5,9 +5,12 @@ namespace Spatie\Mailcoach\Domain\Shared\Jobs\Export;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class ExportSubscribersJob extends ExportJob
 {
+    use UsesMailcoachModels;
+
     /**
      * @param string $path
      * @param array<int> $selectedEmailLists
@@ -34,17 +37,14 @@ class ExportSubscribersJob extends ExportJob
                 $subscribersCount += $subscribers->count();
 
                 if (config('mailcoach.encryption.enabled')) {
-                    $encrypter = self::getSubscriberClass()::getEncryptedRow();
+                    $subscribers = $subscribers->map(function ($subscriber) {
+                        $class = self::getSubscriberClass();
+                        $subscriberModel = (new $class((array) $subscriber));
+                        $subscriberModel->decryptRow();
 
-                    $subscribers = $subscribers->map(function ($subscriber) use ($encrypter) {
-                        $decrypted = $encrypter->decryptRow([
-                            'email' => $subscriber->email,
-                            'first_name' => $subscriber->first_name,
-                            'last_name' => $subscriber->last_name,
-                        ]);
-                        $subscriber->email = $decrypted['email'];
-                        $subscriber->first_name = $decrypted['first_name'];
-                        $subscriber->last_name = $decrypted['last_name'];
+                        $subscriber->email = $subscriberModel->email;
+                        $subscriber->first_name = $subscriberModel->first_name;
+                        $subscriber->last_name = $subscriberModel->last_name;
 
                         return $subscriber;
                     });

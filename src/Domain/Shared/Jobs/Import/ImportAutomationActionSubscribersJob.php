@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Shared\Jobs\Import;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\LazyCollection;
 use Spatie\SimpleExcel\SimpleExcelReader;
@@ -36,7 +37,7 @@ class ImportAutomationActionSubscribersJob extends ImportJob
             $reader = SimpleExcelReader::create($file->getPathname());
 
             $reader->getRows()->chunk(1000)->each(function (LazyCollection $actionSubscribers) use ($actions, $total, &$index) {
-                $subscribers = self::getSubscriberClass()::whereIn('uuid', $actionSubscribers->pluck('subscriber_uuid'))->pluck('id', 'uuid');
+                $subscribers = DB::table(self::getSubscriberTableName())->whereIn('uuid', $actionSubscribers->pluck('subscriber_uuid'))->pluck('id', 'uuid');
 
                 foreach ($actionSubscribers as $row) {
                     $row['action_id'] = $actions[$row['action_uuid']];

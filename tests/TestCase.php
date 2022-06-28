@@ -18,6 +18,7 @@ use LivewireUI\Spotlight\SpotlightServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\Feed\FeedServiceProvider;
 use Spatie\Flash\Flash;
+use Spatie\LaravelCipherSweet\LaravelCipherSweetServiceProvider;
 use Spatie\LaravelRay\RayServiceProvider;
 use Spatie\Mailcoach\Database\Factories\UserFactory;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
@@ -72,6 +73,7 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
+            LaravelCipherSweetServiceProvider::class,
             SpotlightServiceProvider::class,
             RayServiceProvider::class,
             LivewireServiceProvider::class,
@@ -90,6 +92,9 @@ abstract class TestCase extends Orchestra
 
             include_once __DIR__.'/database/migrations/create_users_table.php.stub';
             (new CreateUsersTable())->up();
+
+            $blindIndexes = include __DIR__.'/../vendor/spatie/laravel-ciphersweet/database/migrations/create_blind_indexes_table.php.stub';
+            $blindIndexes->up();
 
             $this->app[Kernel::class]->setArtisan(null);
 

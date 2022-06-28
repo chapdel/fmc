@@ -36,7 +36,7 @@ class ImportSubscriberTagsJob extends ImportJob
                 ->getRows()
                 ->chunk(5_000)
                 ->each(function (LazyCollection $subscriberTags) use ($emailLists, $total, &$index) {
-                    $subscribers = self::getSubscriberClass()::whereIn('uuid', $subscriberTags->pluck('subscriber_uuid')->unique())->pluck('id', 'uuid')->toArray();
+                    $subscribers = DB::table(self::getSubscriberTableName())->whereIn('uuid', $subscriberTags->pluck('subscriber_uuid')->unique())->pluck('id', 'uuid')->toArray();
                     $tags = DB::table(self::getTagTableName())
                         ->select('id', DB::raw('CONCAT(email_list_id, "-", name) as unique_key'))
                         ->whereIn('email_list_id', $emailLists)

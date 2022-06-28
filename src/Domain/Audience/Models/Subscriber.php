@@ -95,8 +95,8 @@ class Subscriber extends Model
 
         if (config('mailcoach.encryption.enabled')) {
             return $query
-                ->whereBlind('email', 'email_idx_1', $email)
-                ->whereBlind('email', 'email_idx_2', $email)
+                ->whereBlind('email', 'email_first_part', $email)
+                ->whereBlind('email', 'email_second_part', $email)
                 ->first();
         }
 
