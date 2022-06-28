@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach;
 
 use Exception;
-use Illuminate\Encryption\Encrypter;
 use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -16,10 +15,6 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
 use LivewireUI\Spotlight\Spotlight;
-use ParagonIE\CipherSweet\BlindIndex;
-use ParagonIE\CipherSweet\CipherSweet;
-use ParagonIE\CipherSweet\EncryptedField;
-use ParagonIE\CipherSweet\KeyProvider\StringProvider;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\Mailcoach\Components\AutomationMailReplacerHelpTextsComponent;
@@ -29,8 +24,6 @@ use Spatie\Mailcoach\Components\TransactionalMailTemplateReplacerHelpTextsCompon
 use Spatie\Mailcoach\Domain\Audience\Commands\DeleteOldUnconfirmedSubscribersCommand;
 use Spatie\Mailcoach\Domain\Audience\Commands\RotateSubscriberEncryptionKeyCommand;
 use Spatie\Mailcoach\Domain\Audience\Commands\SendEmailListSummaryMailCommand;
-use Spatie\Mailcoach\Domain\Audience\Encryption\Transformation\EmailFirstPart;
-use Spatie\Mailcoach\Domain\Audience\Encryption\Transformation\EmailSecondPart;
 use Spatie\Mailcoach\Domain\Audience\Livewire\EmailListStatistics;
 use Spatie\Mailcoach\Domain\Automation\Commands\CalculateAutomationMailStatisticsCommand;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationActionsCommand;

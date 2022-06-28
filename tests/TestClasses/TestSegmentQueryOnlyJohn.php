@@ -13,6 +13,7 @@ class TestSegmentQueryOnlyJohn extends Segment
         if (config('mailcoach.encryption.enabled')) {
             $firstPart = Subscriber::getEncryptedRow()->getBlindIndex('email_first_part', ['email' => 'john@example.com']);
             $subscribersQuery->where('email_idx_1', $firstPart);
+
             return;
         }
 

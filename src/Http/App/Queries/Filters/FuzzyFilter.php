@@ -47,16 +47,19 @@ class FuzzyFilter implements Filter
                                 $query->orWhereBlind('email', 'email_first_part', Str::finish($emailPart, '@'));
                                 $query->orWhereBlind('email', 'email_second_part', Str::start($emailPart, '@'));
                             }
+
                             continue;
                         }
 
                         if ($field === 'first_name') {
                             $query->orWhereBlind('first_name', 'first_name', $value);
+
                             continue;
                         }
 
                         if ($field === 'last_name') {
                             $query->orWhereBlind('last_name', 'last_name', $value);
+
                             continue;
                         }
                     }

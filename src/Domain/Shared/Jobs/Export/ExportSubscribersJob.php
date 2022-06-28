@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Domain\Shared\Jobs\Export;
 
-use Illuminate\Encryption\Encrypter;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;

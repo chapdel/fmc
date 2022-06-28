@@ -23,12 +23,22 @@ class RotateSubscriberEncryptionKeyCommand extends Command
         $oldCipher = $this->argument('oldCipher') ?? config('mailcoach.encryption.cipher');
         $newCipher = $this->argument('newCipher') ?? config('mailcoach.encryption.cipher');
 
-        $oldEncrypter = new class { public function decryptString(string $string): string { return $string; } };
+        $oldEncrypter = new class {
+            public function decryptString(string $string): string
+            {
+                return $string;
+            }
+        };
         if ($this->argument('oldKey')) {
             $oldEncrypter = new Encrypter($this->parseKey($this->argument('oldKey')), $oldCipher);
         }
 
-        $newEncrypter = new class { public function encryptString(string $string): string { return $string; } };
+        $newEncrypter = new class {
+            public function encryptString(string $string): string
+            {
+                return $string;
+            }
+        };
         if ($this->argument('newKey')) {
             $newEncrypter = new Encrypter($this->parseKey($this->argument('newKey')), $newCipher);
         }
