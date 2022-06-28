@@ -24,7 +24,7 @@ beforeEach(function () {
 it('can render the unsubscribe confirmation page', function () {
     sendCampaign();
 
-    expect(test()->subscriber->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
+    expect(test()->subscriber->status)->toEqual(SubscriptionStatus::Subscribed);
 
     $this
         ->get(test()->mailedUnsubscribeLink)
@@ -35,7 +35,7 @@ it('can render the unsubscribe confirmation page', function () {
 it('can unsubscribe from a list', function () {
     sendCampaign();
 
-    expect(test()->subscriber->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
+    expect(test()->subscriber->status)->toEqual(SubscriptionStatus::Subscribed);
 
     $content = $this
         ->post(test()->mailedUnsubscribeLink)
@@ -44,7 +44,7 @@ it('can unsubscribe from a list', function () {
 
     expect($content)->toContain('unsubscribed');
 
-    expect(test()->subscriber->refresh()->status)->toEqual(SubscriptionStatus::UNSUBSCRIBED);
+    expect(test()->subscriber->refresh()->status)->toEqual(SubscriptionStatus::Unsubscribed);
 
     expect(CampaignUnsubscribe::all())->toHaveCount(1);
     $campaignUnsubscribe = CampaignUnsubscribe::first();
@@ -53,7 +53,7 @@ it('can unsubscribe from a list', function () {
     expect($campaignUnsubscribe->campaign->uuid)->toEqual(test()->campaign->uuid);
 
     $subscription = test()->emailList->allSubscribers()->first();
-    expect($subscription->status)->toEqual(SubscriptionStatus::UNSUBSCRIBED);
+    expect($subscription->status)->toEqual(SubscriptionStatus::Unsubscribed);
 });
 
 it('will redirect to the unsubscribed view by default', function () {
@@ -94,7 +94,7 @@ test('the unsubscribe will work even if the send is deleted', function () {
 
     test()->post(test()->mailedUnsubscribeLink)->assertSuccessful();
 
-    expect(test()->subscriber->refresh()->status)->toEqual(SubscriptionStatus::UNSUBSCRIBED);
+    expect(test()->subscriber->refresh()->status)->toEqual(SubscriptionStatus::Unsubscribed);
 });
 
 test('the unsubscribe header is added to the email', function () {

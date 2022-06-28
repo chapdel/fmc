@@ -197,17 +197,17 @@ class Subscriber extends Model
         return url(route('mailcoach.manage-preferences', [$this->uuid, optional($send)->uuid]));
     }
 
-    public function getStatusAttribute(): string
+    public function getStatusAttribute(): SubscriptionStatus
     {
         if (! is_null($this->unsubscribed_at)) {
-            return SubscriptionStatus::UNSUBSCRIBED;
+            return SubscriptionStatus::Unsubscribed;
         }
 
         if (! is_null($this->subscribed_at)) {
-            return SubscriptionStatus::SUBSCRIBED;
+            return SubscriptionStatus::Subscribed;
         }
 
-        return SubscriptionStatus::UNCONFIRMED;
+        return SubscriptionStatus::Unconfirmed;
     }
 
     public function confirm()
@@ -244,14 +244,14 @@ class Subscriber extends Model
         });
     }
 
-    public function addTag(string | iterable $name, string $type = null): self
+    public function addTag(string | iterable $name, ?TagType $type = null): self
     {
         $names = Arr::wrap($name);
 
         return $this->addTags($names, $type);
     }
 
-    public function addTags(array $names, string $type = null)
+    public function addTags(array $names, ?TagType $type = null)
     {
         foreach ($names as $name) {
             if ($this->hasTag($name)) {
@@ -263,7 +263,7 @@ class Subscriber extends Model
                 'email_list_id' => $this->emailList->id,
             ], [
                 'uuid' => Str::uuid(),
-                'type' => $type ?? TagType::DEFAULT,
+                'type' => $type ?? TagType::Default,
             ]);
 
             $this->tags()->attach($tag);
@@ -326,11 +326,11 @@ class Subscriber extends Model
     {
         $this->addTags($names);
 
-        $this->tags()->where('type', TagType::DEFAULT)->where('visible_in_preferences', true)->whereNotIn('name', $names)->each(function ($tag) {
+        $this->tags()->where('type', TagType::Default)->where('visible_in_preferences', true)->whereNotIn('name', $names)->each(function ($tag) {
             event(new TagRemovedEvent($this, $tag));
         });
 
-        $this->tags()->detach($this->tags()->where('type', TagType::DEFAULT)->where('visible_in_preferences', true)->whereNotIn('name', $names)->pluck(self::getTagTableName() . '.id'));
+        $this->tags()->detach($this->tags()->where('type', TagType::Default)->where('visible_in_preferences', true)->whereNotIn('name', $names)->pluck(self::getTagTableName() . '.id'));
 
         return $this->fresh('tags');
     }
@@ -347,17 +347,17 @@ class Subscriber extends Model
 
     public function isUnconfirmed(): bool
     {
-        return $this->status === SubscriptionStatus::UNCONFIRMED;
+        return $this->status === SubscriptionStatus::Unconfirmed;
     }
 
     public function isSubscribed(): bool
     {
-        return $this->status === SubscriptionStatus::SUBSCRIBED;
+        return $this->status === SubscriptionStatus::Subscribed;
     }
 
     public function isUnsubscribed(): bool
     {
-        return $this->status === SubscriptionStatus::UNSUBSCRIBED;
+        return $this->status === SubscriptionStatus::Unsubscribed;
     }
 
     public function inAutomation(Automation $automation): bool

@@ -21,7 +21,7 @@ class EmailListSubscriptionRule implements Rule
     {
         $this->attribute = $attribute;
 
-        return $this->emailList->getSubscriptionStatus($value) !== SubscriptionStatus::SUBSCRIBED;
+        return $this->emailList->getSubscriptionStatus($value) !== SubscriptionStatus::Subscribed;
     }
 
     public function message()

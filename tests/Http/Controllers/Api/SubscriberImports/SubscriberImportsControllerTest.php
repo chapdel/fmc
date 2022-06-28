@@ -45,14 +45,14 @@ it('can create a subscriber import', function () {
         ->postJson(action([SubscriberImportsController::class, 'store']), $payload)
         ->assertSuccessful();
 
-    $payload['status'] = SubscriberImportStatus::DRAFT;
+    $payload['status'] = SubscriberImportStatus::Draft;
 
     test()->assertDatabaseHas('mailcoach_subscriber_imports', $payload);
 });
 
 it('can update a subscriber import', function () {
     $subscriberImport = SubscriberImport::factory()->create([
-        'status' => SubscriberImportStatus::DRAFT,
+        'status' => SubscriberImportStatus::Draft,
     ]);
 
     $payload = [

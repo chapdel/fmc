@@ -75,8 +75,8 @@ class Tags extends DataTable
             'emailList' => $this->emailList,
             'tags' => $tagsQuery->paginate(),
             'totalTagsCount' => self::getTagClass()::query()->emailList($this->emailList)->count(),
-            'totalDefault' => self::getTagClass()::query()->where('type', TagType::DEFAULT)->emailList($this->emailList)->count(),
-            'totalMailcoach' => self::getTagClass()::query()->where('type', TagType::MAILCOACH)->emailList($this->emailList)->count(),
+            'totalDefault' => self::getTagClass()::query()->where('type', TagType::Default)->emailList($this->emailList)->count(),
+            'totalMailcoach' => self::getTagClass()::query()->where('type', TagType::Mailcoach)->emailList($this->emailList)->count(),
         ];
     }
 }

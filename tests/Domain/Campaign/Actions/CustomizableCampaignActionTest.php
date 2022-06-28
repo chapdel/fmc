@@ -22,7 +22,7 @@ test('the personalize html action can be customized', function () {
     config()->set('mailcoach.campaigns.actions.personalize_html', CustomPersonalizeHtmlAction::class);
 
     $campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
-        'status' => CampaignStatus::DRAFT,
+        'status' => CampaignStatus::Draft,
     ]);
 
     $campaign->send();
@@ -35,7 +35,7 @@ test('the personalize subject action can be customized', function () {
     config()->set('mailcoach.campaigns.actions.personalize_subject', CustomPersonalizeSubjectAction::class);
 
     $campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
-        'status' => CampaignStatus::DRAFT,
+        'status' => CampaignStatus::Draft,
     ]);
 
     $campaign->send();
@@ -48,7 +48,7 @@ test('the prepare email html action can be customized', function () {
     config()->set('mailcoach.campaigns.actions.prepare_email_html', CustomPrepareEmailHtmlAction::class);
 
     $campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
-        'status' => CampaignStatus::DRAFT,
+        'status' => CampaignStatus::Draft,
     ]);
 
     $campaign->send();
@@ -61,7 +61,7 @@ test('the prepare subject action can be customized', function () {
     config()->set('mailcoach.campaigns.actions.prepare_subject', CustomPrepareSubjectAction::class);
 
     $campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
-        'status' => CampaignStatus::DRAFT,
+        'status' => CampaignStatus::Draft,
     ]);
 
     $campaign->send();
@@ -74,7 +74,7 @@ test('the prepare webview html action can be customized', function () {
     config()->set('mailcoach.campaigns.actions.prepare_webview_html', CustomPrepareWebviewHtmlAction::class);
 
     $campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
-        'status' => CampaignStatus::DRAFT,
+        'status' => CampaignStatus::Draft,
     ]);
 
     $campaign->send();

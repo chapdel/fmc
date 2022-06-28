@@ -129,14 +129,14 @@ class Send extends Model
     {
         return $this
             ->hasMany(self::getSendFeedbackItemClass())
-            ->where('type', SendFeedbackType::BOUNCE);
+            ->where('type', SendFeedbackType::Bounce);
     }
 
     public function complaints(): HasMany
     {
         return $this
             ->hasMany(self::getSendFeedbackItemClass())
-            ->where('type', SendFeedbackType::COMPLAINT);
+            ->where('type', SendFeedbackType::Complaint);
     }
 
     public function markAsSent()
@@ -355,7 +355,7 @@ class Send extends Model
     public function registerBounce(?DateTimeInterface $bouncedAt = null)
     {
         $this->feedback()->create([
-            'type' => SendFeedbackType::BOUNCE,
+            'type' => SendFeedbackType::Bounce,
             'uuid' => Str::uuid(),
             'created_at' => $bouncedAt ?? now(),
         ]);
@@ -370,7 +370,7 @@ class Send extends Model
     public function registerComplaint(?DateTimeInterface $complainedAt = null)
     {
         $this->feedback()->create([
-            'type' => SendFeedbackType::COMPLAINT,
+            'type' => SendFeedbackType::Complaint,
             'uuid' => Str::uuid(),
             'created_at' => $complainedAt ?? now(),
         ]);
@@ -407,14 +407,14 @@ class Send extends Model
     public function scopeBounced(Builder $query): void
     {
         $query->whereHas('feedback', function (Builder $query) {
-            $query->where('type', SendFeedbackType::BOUNCE);
+            $query->where('type', SendFeedbackType::Bounce);
         });
     }
 
     public function scopeComplained(Builder $query): void
     {
         $query->whereHas('feedback', function (Builder $query) {
-            $query->where('type', SendFeedbackType::COMPLAINT);
+            $query->where('type', SendFeedbackType::Complaint);
         });
     }
 

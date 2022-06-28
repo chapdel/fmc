@@ -16,7 +16,7 @@ class SubscribeController
     {
         $emailList = $request->emailList();
 
-        if ($emailList->getSubscriptionStatus($request->email) === SubscriptionStatus::SUBSCRIBED) {
+        if ($emailList->getSubscriptionStatus($request->email) === SubscriptionStatus::Subscribed) {
             $subscriber = $this->getSubscriberClass()::findForEmail($request->email, $emailList);
             $subscriber->addTags($request->tags());
 

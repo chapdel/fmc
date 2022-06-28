@@ -10,7 +10,7 @@ beforeEach(function () {
     $this->authenticate();
 
     $this->campaign = Campaign::factory()->create([
-        'status' => CampaignStatus::DRAFT,
+        'status' => CampaignStatus::Draft,
     ]);
 
     TestTime::freeze('Y-m-d H:i:s', '2019-01-01 00:00:00');
@@ -66,5 +66,5 @@ it('can send a campaign', function () {
     \Livewire\Livewire::test(CampaignDelivery::class, ['campaign' => $this->campaign])
         ->call('send');
 
-    expect(test()->campaign->fresh()->status)->toBe(CampaignStatus::SENDING);
+    expect(test()->campaign->fresh()->status)->toBe(CampaignStatus::Sending);
 });

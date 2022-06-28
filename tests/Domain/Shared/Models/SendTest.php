@@ -36,7 +36,7 @@ it('will unsubscribe when there is a permanent bounce', function () {
 
     test()->assertDatabaseHas('mailcoach_send_feedback_items', [
         'send_id' => $send->id,
-        'type' => SendFeedbackType::BOUNCE,
+        'type' => SendFeedbackType::Bounce,
         'created_at' => $bouncedAt,
     ]);
 
@@ -64,7 +64,7 @@ it('can receive a complaint', function () {
 
     test()->assertDatabaseHas('mailcoach_send_feedback_items', [
         'send_id' => $send->id,
-        'type' => SendFeedbackType::COMPLAINT,
+        'type' => SendFeedbackType::Complaint,
         'created_at' => $complainedAt,
     ]);
 

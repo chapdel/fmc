@@ -17,15 +17,15 @@ it('can start and pause an automation', function () {
         new UnsubscribeAction(),
     ]);
 
-    expect($automation->fresh()->status)->toBe(AutomationStatus::PAUSED);
+    expect($automation->fresh()->status)->toBe(AutomationStatus::Paused);
 
     Livewire::test(RunAutomation::class, ['automation' => $automation])
         ->call('start');
 
-    expect($automation->fresh()->status)->toBe(AutomationStatus::STARTED);
+    expect($automation->fresh()->status)->toBe(AutomationStatus::Started);
 
     Livewire::test(RunAutomation::class, ['automation' => $automation])
         ->call('pause');
 
-    expect($automation->fresh()->status)->toBe(AutomationStatus::PAUSED);
+    expect($automation->fresh()->status)->toBe(AutomationStatus::Paused);
 });

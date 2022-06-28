@@ -15,9 +15,9 @@ class Automations extends DataTable
         $automation = self::getAutomationClass()::findOrFail($id);
 
         $automation->update([
-            'status' => $automation->status === AutomationStatus::PAUSED
-                ? AutomationStatus::STARTED
-                : AutomationStatus::PAUSED,
+            'status' => $automation->status === AutomationStatus::Paused
+                ? AutomationStatus::Started
+                : AutomationStatus::Paused,
         ]);
 
         $this->dispatchBrowserEvent('notify', [

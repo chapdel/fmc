@@ -28,7 +28,7 @@ it('can subscribe multiple emails in one go', function () {
     expect(test()->emailList->subscribers)->toHaveCount(3);
 
     foreach (['freek@spatie.be', 'willem@spatie.be', 'rias@spatie.be'] as $email) {
-        expect(test()->emailList->getSubscriptionStatus($email))->toEqual(SubscriptionStatus::SUBSCRIBED);
+        expect(test()->emailList->getSubscriptionStatus($email))->toEqual(SubscriptionStatus::Subscribed);
     }
 
     $subscriberImport = SubscriberImport::first();

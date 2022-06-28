@@ -49,7 +49,7 @@ it('can export and import automations', function () {
     expect(Automation::count())->toBe(1);
     expect(Trigger::count())->toBe(1);
     expect(Action::count())->toBe(2);
-    expect(Automation::first()->status)->toBe(AutomationStatus::PAUSED);
+    expect(Automation::first()->status)->toBe(AutomationStatus::Paused);
     expect(Automation::first()->actions()->count())->toBe(2);
     expect(Automation::first()->triggers()->count())->toBe(1);
 });

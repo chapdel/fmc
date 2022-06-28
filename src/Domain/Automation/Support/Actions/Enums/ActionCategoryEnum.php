@@ -2,16 +2,23 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums;
 
-use Spatie\Enum\Enum;
-
-/**
- * @method static self tags()
- * @method static self check()
- * @method static self pause()
- * @method static self react()
- */
-class ActionCategoryEnum extends Enum
+enum ActionCategoryEnum: string
 {
+    case Tags = 'tags';
+    case Check = 'check';
+    case Pause = 'pause';
+    case React = 'react';
+
+    public function label(): string
+    {
+        return match ($this) {
+            self::Tags => __('Tags'),
+            self::Check => __('Check'),
+            self::Pause => __('Pause'),
+            self::React => __('React'),
+        };
+    }
+
     protected static function labels(): array
     {
         return [

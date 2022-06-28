@@ -23,7 +23,7 @@ it('will not pass if the given email is already subscribed', function () {
 it('will pass for emails that are still pending', function () {
     test()->emailList->update(['requires_confirmation' => true]);
     test()->emailList->subscribe('john@example.com');
-    expect(test()->emailList->getSubscriptionStatus('john@example.com'))->toEqual(SubscriptionStatus::UNCONFIRMED);
+    expect(test()->emailList->getSubscriptionStatus('john@example.com'))->toEqual(SubscriptionStatus::Unconfirmed);
 
     expect(test()->rule->passes('email', 'john@example.com'))->toBeTrue();
 });
@@ -32,7 +32,7 @@ it('will pass for emails that are unsubscribed', function () {
     test()->emailList->update(['requires_confirmation' => true]);
     test()->emailList->subscribe('john@example.com');
     test()->emailList->unsubscribe('john@example.com');
-    expect(test()->emailList->getSubscriptionStatus('john@example.com'))->toEqual(SubscriptionStatus::UNSUBSCRIBED);
+    expect(test()->emailList->getSubscriptionStatus('john@example.com'))->toEqual(SubscriptionStatus::Unsubscribed);
 
     expect(test()->rule->passes('email', 'john@example.com'))->toBeTrue();
 });

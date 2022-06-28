@@ -14,7 +14,7 @@ beforeEach(function () {
     test()->loginToApi();
 
     test()->campaign = Campaign::factory()->create([
-        'status' => CampaignStatus::DRAFT,
+        'status' => CampaignStatus::Draft,
     ]);
 });
 
@@ -23,13 +23,13 @@ test('a campaign can be sent using the api', function () {
         ->postJson(action(SendCampaignController::class, test()->campaign))
         ->assertSuccessful();
 
-    expect(test()->campaign->fresh()->status)->toBe(CampaignStatus::SENDING);
+    expect(test()->campaign->fresh()->status)->toBe(CampaignStatus::Sending);
 });
 
 it('will not send a campaign that has already been sent', function () {
     test()->withExceptionHandling();
 
-    test()->campaign->update(['status' => CampaignStatus::SENT]);
+    test()->campaign->update(['status' => CampaignStatus::Sent]);
 
     $this
         ->postJson(action(SendCampaignController::class, test()->campaign))

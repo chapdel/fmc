@@ -19,7 +19,7 @@ class CampaignSummary extends Component
     {
         $this->campaign = $campaign;
 
-        if ($campaign->status === CampaignStatus::DRAFT) {
+        if ($campaign->status === CampaignStatus::Draft) {
             return redirect()->route('mailcoach.campaigns.delivery', $campaign);
         }
     }
@@ -27,7 +27,7 @@ class CampaignSummary extends Component
     public function cancelSending()
     {
         $this->campaign->update([
-            'status' => CampaignStatus::CANCELLED,
+            'status' => CampaignStatus::Cancelled,
             'sent_at' => now(),
         ]);
 

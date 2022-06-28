@@ -80,7 +80,7 @@ class Subscribers extends DataTable
     {
         $subscriber = self::getSubscriberClass()::find($id);
 
-        if ($subscriber->status !== SubscriptionStatus::UNCONFIRMED) {
+        if ($subscriber->status !== SubscriptionStatus::Unconfirmed) {
             $this->flash(__('mailcoach - Can only subscribe unconfirmed emails'), 'error');
 
             return;

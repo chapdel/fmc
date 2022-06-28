@@ -17,7 +17,7 @@ class SendAutomationMailAction extends AutomationAction
 
     public static function getCategory(): ActionCategoryEnum
     {
-        return ActionCategoryEnum::react();
+        return ActionCategoryEnum::React;
     }
 
     public static function make(array $data): self

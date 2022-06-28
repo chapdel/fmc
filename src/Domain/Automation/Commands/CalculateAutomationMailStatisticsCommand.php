@@ -43,7 +43,7 @@ class CalculateAutomationMailStatisticsCommand extends Command
         $this->now = now();
 
         static::getAutomationClass()::query()
-            ->where('status', AutomationStatus::STARTED)
+            ->where('status', AutomationStatus::Started)
             ->with(['allActions'])
             ->get()
             ->flatMap(function (Automation $automation) {

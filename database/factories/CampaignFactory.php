@@ -26,7 +26,7 @@ class CampaignFactory extends Factory
             'html' => $this->faker->randomHtml(),
             'track_opens' => $this->faker->boolean,
             'track_clicks' => $this->faker->boolean,
-            'status' => CampaignStatus::DRAFT,
+            'status' => CampaignStatus::Draft,
             'uuid' => $this->faker->uuid,
             'last_modified_at' => now(),
             'email_list_id' => EmailList::factory(),

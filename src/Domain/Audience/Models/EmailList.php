@@ -11,6 +11,7 @@ use Illuminate\Database\MySqlConnection;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 use Spatie\Mailcoach\Database\Factories\EmailListFactory;
+use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Mails\ConfirmSubscriberMail;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -140,11 +141,11 @@ class EmailList extends Model
         return true;
     }
 
-    public function getSubscriptionStatus(string $email): ?string
+    public function getSubscriptionStatus(string $email): ?SubscriptionStatus
     {
         if (! $subscriber = self::getSubscriberClass()::findForEmail($email, $this)) {
             return null;
-        };
+        }
 
         return $subscriber->status;
     }

@@ -148,8 +148,6 @@ use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateC
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplates;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateSettings;
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
-use Spatie\Mailcoach\Http\App\ViewComposers\IndexComposer;
-use Spatie\Mailcoach\Http\App\ViewComposers\QueryStringComposer;
 use Spatie\Navigation\Helpers\ActiveUrlChecker;
 use Spatie\QueryString\QueryString;
 
@@ -230,7 +228,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
             ->bootViews()
             ->bootEvents()
             ->bootTriggers()
-            ->registerDeprecatedApiGuard()
+            ->registerApiGuard()
             ->bootSpotlight();
     }
 
@@ -335,9 +333,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootViews(): self
     {
-        View::composer('mailcoach::*', QueryStringComposer::class);
-        View::composer('mailcoach::*.index', IndexComposer::class);
-
         View::composer('mailcoach::app.layouts.partials.footer', FooterComposer::class);
 
         if (config("mailcoach.views.use_blade_components", true)) {
@@ -564,7 +559,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
         return $this;
     }
 
-    protected function registerDeprecatedApiGuard(): self
+
+    protected function registerApiGuard(): self
     {
         if (config('auth.guards.api')) {
             return $this;
@@ -606,6 +602,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Spotlight::registerCommand(CreateListCommand::class);
         Spotlight::registerCommand(CreateTemplateCommand::class);
         Spotlight::registerCommand(CreateTransactionalTemplateCommand::class);
+
+        config()->set('livewire-ui-spotlight.show_results_without_input', true);
 
         return $this;
     }

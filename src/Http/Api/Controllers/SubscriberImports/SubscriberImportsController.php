@@ -37,7 +37,7 @@ class SubscriberImportsController
     {
         $this->authorize("update", self::getEmailListClass()::findOrFail($request->email_list_id));
 
-        $attributes = array_merge($request->validated(), ['status' => SubscriberImportStatus::DRAFT]);
+        $attributes = array_merge($request->validated(), ['status' => SubscriberImportStatus::Draft]);
 
         $subscriberImport = SubscriberImport::create($attributes);
 
@@ -48,7 +48,7 @@ class SubscriberImportsController
     {
         $this->authorize("update", $subscriberImport->emailList);
 
-        if ($subscriberImport->status !== SubscriberImportStatus::DRAFT) {
+        if ($subscriberImport->status !== SubscriberImportStatus::Draft) {
             abort(Response::HTTP_UNPROCESSABLE_ENTITY, 'Cannot update a non-draft import.');
         }
 

@@ -14,7 +14,7 @@
             <div>
                 <h4 class="mb-2 px-6 markup-h4 text-yellow-700">
                     <i class="fa-fw fas {{ \Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum::icons()[$category] }}"></i>
-                    {{ \Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum::make($category)->label }}
+                    {{ \Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum::from($category)->label() }}
                 </h4>
                 <ul>
                     @foreach ($actions as $action)

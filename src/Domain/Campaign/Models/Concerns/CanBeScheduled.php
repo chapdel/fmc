@@ -33,7 +33,7 @@ trait CanBeScheduled
     {
         $query
             ->whereNotNull('scheduled_at')
-            ->where('status', CampaignStatus::DRAFT);
+            ->where('status', CampaignStatus::Draft);
     }
 
     public function scopeShouldBeSentNow(Builder $query)

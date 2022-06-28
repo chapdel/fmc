@@ -23,7 +23,7 @@ class AutomationFactory extends Factory
             'email_list_id' => EmailList::factory(),
             'name' => $this->faker->sentence,
             'interval' => '1 minute',
-            'status' => AutomationStatus::PAUSED,
+            'status' => AutomationStatus::Paused,
         ];
     }
 }

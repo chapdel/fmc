@@ -26,7 +26,7 @@ beforeEach(function () {
 });
 
 test('the default status is draft', function () {
-    expect(test()->campaign->status)->toEqual(CampaignStatus::DRAFT);
+    expect(test()->campaign->status)->toEqual(CampaignStatus::Draft);
 });
 
 it('can set a from email', function () {
@@ -84,7 +84,7 @@ it('can be sent', function () {
         ->to($list)
         ->send();
 
-    expect($campaign->status)->toEqual(CampaignStatus::SENDING);
+    expect($campaign->status)->toEqual(CampaignStatus::Sending);
 });
 
 it('has a shorthand to set the list and send it in one go', function () {
@@ -97,7 +97,7 @@ it('has a shorthand to set the list and send it in one go', function () {
         ->sendTo($list);
 
     expect($campaign->refresh()->email_list_id)->toEqual($list->id);
-    expect($campaign->status)->toEqual(CampaignStatus::SENDING);
+    expect($campaign->status)->toEqual(CampaignStatus::Sending);
 });
 
 test('a mailable can be set', function () {
@@ -158,7 +158,7 @@ test('html and content are not required when sending a mailable', function () {
         ->subject('test')
         ->sendTo($list);
 
-    expect($campaign->status)->toEqual(CampaignStatus::SENDING);
+    expect($campaign->status)->toEqual(CampaignStatus::Sending);
 });
 
 it('can use the default from email and name set on the email list', function () {
@@ -174,7 +174,7 @@ it('can use the default from email and name set on the email list', function () 
         ->subject('test')
         ->sendTo($list);
 
-    expect($campaign->status)->toEqual(CampaignStatus::SENDING);
+    expect($campaign->status)->toEqual(CampaignStatus::Sending);
     expect($campaign->from_email)->toEqual('defaultEmailList@example.com');
     expect($campaign->from_name)->toEqual('List name');
 });
@@ -192,7 +192,7 @@ it('can use the default reply to email and name set on the email list', function
         ->subject('test')
         ->sendTo($list);
 
-    expect($campaign->status)->toEqual(CampaignStatus::SENDING);
+    expect($campaign->status)->toEqual(CampaignStatus::Sending);
     expect($campaign->reply_to_email)->toEqual('defaultEmailList@example.com');
     expect($campaign->reply_to_name)->toEqual('List name');
 });
@@ -211,7 +211,7 @@ it('will prefer the email and from name from the campaign over the defaults set 
         ->from('campaign@example.com', 'campaign from name')
         ->sendTo($list);
 
-    expect($campaign->status)->toEqual(CampaignStatus::SENDING);
+    expect($campaign->status)->toEqual(CampaignStatus::Sending);
     expect($campaign->from_email)->toEqual('campaign@example.com');
     expect($campaign->from_name)->toEqual('campaign from name');
 });
@@ -231,7 +231,7 @@ it('will prefer the email and reply to name from the campaign over the defaults 
         ->replyTo('replyToCampaign@example.com', 'reply to from campaign')
         ->sendTo($list);
 
-    expect($campaign->status)->toEqual(CampaignStatus::SENDING);
+    expect($campaign->status)->toEqual(CampaignStatus::Sending);
     expect($campaign->reply_to_email)->toEqual('replyToCampaign@example.com');
     expect($campaign->reply_to_name)->toEqual('reply to from campaign');
 });
@@ -281,7 +281,7 @@ it('can send out multiple test emails at once', function () {
 it('can dispatch a job to recalculate statistics', function () {
     Bus::fake();
 
-    test()->campaign->update(['status' => CampaignStatus::SENT]);
+    test()->campaign->update(['status' => CampaignStatus::Sent]);
 
     test()->campaign->dispatchCalculateStatistics();
 
@@ -291,7 +291,7 @@ it('can dispatch a job to recalculate statistics', function () {
 it('wont dispatch a calculate statistics job if it doesnt have any new sends', function () {
     Queue::fake();
 
-    test()->campaign->update(['status' => CampaignStatus::SENT]);
+    test()->campaign->update(['status' => CampaignStatus::Sent]);
     test()->campaign->update(['statistics_calculated_at' => now()]);
 
     test()->campaign->dispatchCalculateStatistics();
@@ -313,7 +313,7 @@ it('wont dispatch a calculate statistics job if it doesnt have any new sends', f
 it('will only dispatch a calculate statistics job if it is sent', function () {
     Queue::fake();
 
-    test()->campaign->update(['statistics_calculated_at' => now(), 'status' => CampaignStatus::SENDING]);
+    test()->campaign->update(['statistics_calculated_at' => now(), 'status' => CampaignStatus::Sending]);
 
     test()->campaign->dispatchCalculateStatistics();
 
@@ -326,7 +326,7 @@ it('will only dispatch a calculate statistics job if it is sent', function () {
     $lock = new CalculateStatisticsLock(test()->campaign);
     $lock->release();
 
-    test()->campaign->update(['status' => CampaignStatus::SENT]);
+    test()->campaign->update(['status' => CampaignStatus::Sent]);
 
     test()->campaign->dispatchCalculateStatistics();
 
@@ -336,7 +336,7 @@ it('will only dispatch a calculate statistics job if it is sent', function () {
 it('will not dispatch the recalculation job twice', function () {
     Bus::fake();
 
-    test()->campaign->update(['status' => CampaignStatus::SENT]);
+    test()->campaign->update(['status' => CampaignStatus::Sent]);
 
     test()->campaign->dispatchCalculateStatistics();
     test()->campaign->dispatchCalculateStatistics();
@@ -347,7 +347,7 @@ it('will not dispatch the recalculation job twice', function () {
 it('can dispatch the recalculation job again after the previous job has run', function () {
     Bus::fake();
 
-    test()->campaign->update(['status' => CampaignStatus::SENT]);
+    test()->campaign->update(['status' => CampaignStatus::Sent]);
 
     test()->campaign->dispatchCalculateStatistics();
 
@@ -366,30 +366,30 @@ it('has scopes to get campaigns in various states', function () {
     Campaign::all()->each->delete();
 
     $draftCampaign = Campaign::factory()->create([
-        'status' => CampaignStatus::DRAFT,
+        'status' => CampaignStatus::Draft,
     ]);
 
     $scheduledInThePastCampaign = Campaign::factory()->create([
-        'status' => CampaignStatus::DRAFT,
+        'status' => CampaignStatus::Draft,
         'scheduled_at' => now()->subSecond(),
     ]);
 
     $scheduledNowCampaign = Campaign::factory()->create([
-        'status' => CampaignStatus::DRAFT,
+        'status' => CampaignStatus::Draft,
         'scheduled_at' => now(),
     ]);
 
     $scheduledInFutureCampaign = Campaign::factory()->create([
-        'status' => CampaignStatus::DRAFT,
+        'status' => CampaignStatus::Draft,
         'scheduled_at' => now()->addSecond(),
     ]);
 
     $sendingCampaign = Campaign::factory()->create([
-        'status' => CampaignStatus::SENDING,
+        'status' => CampaignStatus::Sending,
     ]);
 
     $sentCampaign = Campaign::factory()->create([
-        'status' => CampaignStatus::SENT,
+        'status' => CampaignStatus::Sent,
     ]);
 
     assertModels([

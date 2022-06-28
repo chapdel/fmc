@@ -31,7 +31,7 @@ class ImportSubscriberRow
     {
         $subscriptionStatus = $this->emailList->getSubscriptionStatus($this->values['email']);
 
-        return $subscriptionStatus === SubscriptionStatus::UNSUBSCRIBED;
+        return $subscriptionStatus === SubscriptionStatus::Unsubscribed;
     }
 
     public function getAllValues(): array

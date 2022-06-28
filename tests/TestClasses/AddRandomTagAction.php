@@ -12,7 +12,7 @@ class AddRandomTagAction extends AutomationAction
 {
     public static function getCategory(): ActionCategoryEnum
     {
-        return ActionCategoryEnum::tags();
+        return ActionCategoryEnum::Tags;
     }
 
     public function run(Subscriber $subscriber): void

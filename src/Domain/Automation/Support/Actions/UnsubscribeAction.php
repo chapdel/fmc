@@ -14,7 +14,7 @@ class UnsubscribeAction extends AutomationAction
 
     public static function getCategory(): ActionCategoryEnum
     {
-        return ActionCategoryEnum::react();
+        return ActionCategoryEnum::React;
     }
 
     public function run(Subscriber $subscriber): void

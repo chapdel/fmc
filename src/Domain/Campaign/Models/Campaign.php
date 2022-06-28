@@ -39,13 +39,14 @@ class Campaign extends Sendable implements Feedable
         'all_sends_created_at' => 'datetime',
         'all_sends_dispatched_at' => 'datetime',
         'summary_mail_sent_at' => 'datetime',
+        'status' => CampaignStatus::class,
     ];
 
     public static function booted()
     {
         static::creating(function (Campaign $campaign) {
             if (! $campaign->status) {
-                $campaign->status = CampaignStatus::DRAFT;
+                $campaign->status = CampaignStatus::Draft;
             }
         });
     }
@@ -63,19 +64,19 @@ class Campaign extends Sendable implements Feedable
     public function scopeDraft(Builder $query): void
     {
         $query
-            ->where('status', CampaignStatus::DRAFT)
+            ->where('status', CampaignStatus::Draft)
             ->whereNull('scheduled_at')
             ->orderBy('created_at');
     }
 
     public function scopeSendingOrSent(Builder $query): void
     {
-        $query->whereIn('status', [CampaignStatus::SENDING, CampaignStatus::SENT]);
+        $query->whereIn('status', [CampaignStatus::Sending, CampaignStatus::Sent]);
     }
 
     public function scopeSending(Builder $query): void
     {
-        $query->where('status', CampaignStatus::SENDING);
+        $query->where('status', CampaignStatus::Sending);
     }
 
     public function scopeNeedsSummaryToBeReported(Builder $query)
@@ -90,7 +91,7 @@ class Campaign extends Sendable implements Feedable
 
     public function scopeSent(Builder $query): void
     {
-        $query->where('status', CampaignStatus::SENT);
+        $query->where('status', CampaignStatus::Sent);
     }
 
     public function scopeSentDaysAgo(Builder $query, int $daysAgo)
@@ -134,14 +135,14 @@ class Campaign extends Sendable implements Feedable
     {
         return $this
             ->hasManyThrough(self::getSendFeedbackItemClass(), self::getSendClass(), 'campaign_id')
-            ->where('type', SendFeedbackType::BOUNCE);
+            ->where('type', SendFeedbackType::Bounce);
     }
 
     public function complaints(): HasManyThrough
     {
         return $this
             ->hasManyThrough(self::getSendFeedbackItemClass(), self::getSendClass(), 'campaign_id')
-            ->where('type', SendFeedbackType::COMPLAINT);
+            ->where('type', SendFeedbackType::Complaint);
     }
 
     public function isReady(): bool
@@ -172,8 +173,8 @@ class Campaign extends Sendable implements Feedable
     public function isPending(): bool
     {
         return ! in_array($this->status, [
-            CampaignStatus::SENDING,
-            CampaignStatus::SENT,
+            CampaignStatus::Sending,
+            CampaignStatus::Sent,
         ]);
     }
 
@@ -322,7 +323,7 @@ class Campaign extends Sendable implements Feedable
     public function markAsSent(int $numberOfSubscribers): self
     {
         $this->update([
-            'status' => CampaignStatus::SENT,
+            'status' => CampaignStatus::Sent,
             'sent_at' => now(),
             'statistics_calculated_at' => now(),
             'sent_to_number_of_subscribers' => $numberOfSubscribers,
@@ -441,7 +442,7 @@ class Campaign extends Sendable implements Feedable
     protected function markAsSending(): self
     {
         $this->update([
-            'status' => CampaignStatus::SENDING,
+            'status' => CampaignStatus::Sending,
         ]);
 
         return $this;
@@ -449,17 +450,17 @@ class Campaign extends Sendable implements Feedable
 
     public function isDraft(): bool
     {
-        return $this->status === CampaignStatus::DRAFT;
+        return $this->status === CampaignStatus::Draft;
     }
 
     public function isSending(): bool
     {
-        return $this->status == CampaignStatus::SENDING;
+        return $this->status == CampaignStatus::Sending;
     }
 
     public function isSent(): bool
     {
-        return $this->status == CampaignStatus::SENT;
+        return $this->status == CampaignStatus::Sent;
     }
 
     public function isSendingOrSent(): bool
@@ -469,7 +470,7 @@ class Campaign extends Sendable implements Feedable
 
     public function isCancelled(): bool
     {
-        return $this->status == CampaignStatus::CANCELLED;
+        return $this->status == CampaignStatus::Cancelled;
     }
 
     public function hasCustomMailable(): bool

@@ -20,7 +20,7 @@
         </div>
     </td>
     <td class="hidden | xl:table-cell">
-        @foreach($row->tags->where('type', \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::DEFAULT) as $tag)
+        @foreach($row->tags->where('type', \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::Default) as $tag)
             @include('mailcoach::app.partials.tag')
         @endforeach
     </td>
@@ -37,7 +37,8 @@
                             onConfirm="() => $wire.resendConfirmation({{ $row->id }})"
                             :confirm-text="__('mailcoach - Are you sure you want to resend the confirmation mail :email?', ['email' => $row->email])"
                         >
-                            <x-mailcoach::icon-label icon="fa-fw far fa-envelope" :text="__('mailcoach - Resend confirmation mail')"/>
+                            <x-mailcoach::icon-label icon="fa-fw far fa-envelope"
+                                                     :text="__('mailcoach - Resend confirmation mail')"/>
                         </x-mailcoach::confirm-button>
                     </li>
                     <li>
@@ -74,7 +75,8 @@
                         :confirm-text="__('mailcoach - Are you sure you want to delete subscriber :email?', ['email' => $row->email])"
                         onConfirm="() => $wire.deleteSubscriber({{ $row->id }})"
                     >
-                        <x-mailcoach::icon-label icon="fa-fw far fa-trash-alt" :text="__('mailcoach - Delete')" :caution="true"/>
+                        <x-mailcoach::icon-label icon="fa-fw far fa-trash-alt" :text="__('mailcoach - Delete')"
+                                                 :caution="true"/>
                     </x-mailcoach::confirm-button>
                 </li>
             </ul>

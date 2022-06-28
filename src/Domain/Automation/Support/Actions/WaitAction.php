@@ -21,7 +21,7 @@ class WaitAction extends AutomationAction
 
     public static function getCategory(): ActionCategoryEnum
     {
-        return ActionCategoryEnum::pause();
+        return ActionCategoryEnum::Pause;
     }
 
     public static function getName(): string

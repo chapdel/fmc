@@ -29,7 +29,7 @@ class UpdateCampaignAction
 
         $campaign->fill([
             'name' => $attributes['name'],
-            'status' => CampaignStatus::DRAFT,
+            'status' => CampaignStatus::Draft,
             'subject' => $attributes['subject'] ?? $attributes['name'],
             'html' => $attributes['html'] ?? $template?->html,
             'template_id' => $template?->id,

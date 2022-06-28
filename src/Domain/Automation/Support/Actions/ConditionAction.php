@@ -26,7 +26,7 @@ class ConditionAction extends AutomationAction
 
     public static function getCategory(): ActionCategoryEnum
     {
-        return ActionCategoryEnum::check();
+        return ActionCategoryEnum::Check;
     }
 
     public static function getName(): string

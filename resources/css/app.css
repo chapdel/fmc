@@ -1,6 +1,8 @@
-@charset 'UTF-8';
+@charset "UTF-8";
 
 @import './bootstrap.css';
+
+@import '../../node_modules/@yaireo/tagify/dist/tagify.css';
 
 @import './utilities/link.css';
 @import './utilities/markup.css';

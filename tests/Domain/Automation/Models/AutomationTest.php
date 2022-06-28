@@ -41,7 +41,7 @@ beforeEach(function () {
 test('the default status is paused', function () {
     $automation = Automation::create();
 
-    expect($automation->status)->toEqual(AutomationStatus::PAUSED);
+    expect($automation->status)->toEqual(AutomationStatus::Paused);
 });
 
 it('can run a welcome automation', function () {
