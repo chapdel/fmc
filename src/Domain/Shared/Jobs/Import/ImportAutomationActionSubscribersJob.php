@@ -19,10 +19,9 @@ class ImportAutomationActionSubscribersJob extends ImportJob
 
     public function execute(): void
     {
-        $files = Finder::create()
-            ->in(Storage::disk(config('mailcoach.import_disk'))->path('import'))
-            ->filter(fn (SplFileInfo $file) => $file->getExtension() === 'csv' && str_starts_with($file->getFilename(), 'automation_action_subscribers'))
-            ->sortByName();
+        $files = collect($this->importDisk->allFiles('import'))
+            ->filter(fn (string $file) => str_ends_with($file, '.csv') && str_starts_with($file, 'import/automation_action_subscribers'))
+            ->sort();
 
         if (! count($files)) {
             return;
@@ -34,7 +33,9 @@ class ImportAutomationActionSubscribersJob extends ImportJob
 
         $index = 0;
         foreach ($files as $file) {
-            $reader = SimpleExcelReader::create($file->getPathname());
+            $this->tmpDisk->writeStream('tmp/'. $file, $this->importDisk->readStream($file));
+
+            $reader = SimpleExcelReader::create($this->tmpDisk->path('tmp/'. $file));
 
             $reader->getRows()->chunk(1000)->each(function (LazyCollection $actionSubscribers) use ($actions, $total, &$index) {
                 $subscribers = DB::table(self::getSubscriberTableName())->whereIn('uuid', $actionSubscribers->pluck('subscriber_uuid'))->pluck('id', 'uuid');
@@ -54,6 +55,8 @@ class ImportAutomationActionSubscribersJob extends ImportJob
                     $this->updateJobProgress($index, $total);
                 }
             });
+
+            $this->tmpDisk->delete('tmp/' . $file);
         }
     }
 }

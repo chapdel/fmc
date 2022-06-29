@@ -23,22 +23,21 @@ class ImportCampaignsJob extends ImportJob
 
     public function execute(): void
     {
-        $path = Storage::disk(config('mailcoach.import_disk'))->path('import/campaigns.csv');
-        $linksPath = Storage::disk(config('mailcoach.import_disk'))->path('import/campaign_links.csv');
-
         $this->total = $this->getMeta('campaigns_count', 0) + $this->getMeta('campaign_links_count', 0);
 
-        $this->importCampaigns($path);
-        $this->importCampaignLinks($linksPath);
+        $this->importCampaigns();
+        $this->importCampaignLinks();
     }
 
-    private function importCampaigns(string $path): void
+    private function importCampaigns(): void
     {
-        if (! File::exists($path)) {
+        if (! $this->importDisk->exists('import/campaigns.csv')) {
             return;
         }
 
-        $reader = SimpleExcelReader::create($path);
+        $this->tmpDisk->writeStream('tmp/campaigns.csv', $this->importDisk->readStream('import/campaigns.csv'));
+
+        $reader = SimpleExcelReader::create($this->tmpDisk->path('tmp/campaigns.csv'));
 
         $emailLists = self::getEmailListClass()::pluck('id', 'uuid')->toArray();
 
@@ -56,15 +55,19 @@ class ImportCampaignsJob extends ImportJob
             $this->index++;
             $this->updateJobProgress($this->index, $this->total);
         }
+
+        $this->tmpDisk->delete('tmp/campaigns.csv');
     }
 
-    private function importCampaignLinks(string $path): void
+    private function importCampaignLinks(): void
     {
-        if (! File::exists($path)) {
+        if (! $this->importDisk->exists('import/campaign_links.csv')) {
             return;
         }
 
-        $reader = SimpleExcelReader::create($path);
+        $this->tmpDisk->writeStream('tmp/campaign_links.csv', $this->importDisk->readStream('import/campaign_links.csv'));
+
+        $reader = SimpleExcelReader::create($this->tmpDisk->path('tmp/campaign_links.csv'));
 
         foreach ($reader->getRows() as $campaignLinkData) {
             $campaignLinkData['campaign_id'] = $this->campaignMapping[$campaignLinkData['campaign_id']];
@@ -77,5 +80,7 @@ class ImportCampaignsJob extends ImportJob
             $this->index++;
             $this->updateJobProgress($this->index, $this->total);
         }
+
+        $this->tmpDisk->delete('tmp/campaign_links.csv');
     }
 }

@@ -57,7 +57,7 @@ class Import extends Component
             new ImportAutomationActionSubscribersJob(),
             new ImportTransactionalMailTemplatesJob(),
             new CleanupImportJob(),
-        ])->onQueue('send-campaign')->dispatch();
+        ])->onQueue(config('mailcoach.campaigns.perform_on_queue.send_campaign_job'))->dispatch();
 
         $this->importStarted = true;
     }

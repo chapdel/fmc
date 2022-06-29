@@ -30,25 +30,23 @@ class ImportAutomationsJob extends ImportJob
 
     public function execute(): void
     {
-        $automationsPath = Storage::disk(config('mailcoach.import_disk'))->path('import/automations.csv');
-        $automationTriggersPath = Storage::disk(config('mailcoach.import_disk'))->path('import/automation_triggers.csv');
-        $automationActionsPath = Storage::disk(config('mailcoach.import_disk'))->path('import/automation_actions.csv');
-
         $this->total = $this->getMeta('automations_count', 0) + $this->getMeta('automation_triggers_count', 0) + $this->getMeta('automation_actions_count', 0);
         $this->emailLists = self::getEmailListClass()::pluck('id', 'uuid')->toArray();
 
-        $this->importAutomations($automationsPath);
-        $this->importAutomationTriggers($automationTriggersPath);
-        $this->importAutomationActions($automationActionsPath);
+        $this->importAutomations();
+        $this->importAutomationTriggers();
+        $this->importAutomationActions();
     }
 
-    private function importAutomations(string $automationsPath): void
+    private function importAutomations(): void
     {
-        if (! File::exists($automationsPath)) {
+        if (! $this->importDisk->exists('import/automations.csv')) {
             return;
         }
 
-        $reader = SimpleExcelReader::create($automationsPath);
+        $this->tmpDisk->writeStream('tmp/automations.csv', $this->importDisk->readStream('import/automations.csv'));
+
+        $reader = SimpleExcelReader::create($this->tmpDisk->path('tmp/automations.csv'));
 
         foreach ($reader->getRows() as $row) {
             $row['email_list_id'] = $this->emailLists[$row['email_list_uuid']];
@@ -64,15 +62,19 @@ class ImportAutomationsJob extends ImportJob
             $this->index++;
             $this->updateJobProgress($this->index, $this->total);
         }
+
+        $this->tmpDisk->delete('tmp/automations.csv');
     }
 
-    private function importAutomationTriggers(string $path): void
+    private function importAutomationTriggers(): void
     {
-        if (! File::exists($path)) {
+        if (! $this->importDisk->exists('import/automation_triggers.csv')) {
             return;
         }
 
-        $reader = SimpleExcelReader::create($path);
+        $this->tmpDisk->writeStream('tmp/automation_triggers.csv', $this->importDisk->readStream('import/automation_triggers.csv'));
+
+        $reader = SimpleExcelReader::create($this->tmpDisk->path('tmp/automation_triggers.csv'));
 
         foreach ($reader->getRows() as $row) {
             $row['automation_id'] = $this->automationMapping[$row['automation_id']];
@@ -84,15 +86,19 @@ class ImportAutomationsJob extends ImportJob
             $this->index++;
             $this->updateJobProgress($this->index, $this->total);
         }
+
+        $this->tmpDisk->delete('tmp/automation_triggers.csv');
     }
 
-    private function importAutomationActions(string $path): void
+    private function importAutomationActions(): void
     {
-        if (! File::exists($path)) {
+        if (! $this->importDisk->exists('import/automation_actions.csv')) {
             return;
         }
 
-        $reader = SimpleExcelReader::create($path);
+        $this->tmpDisk->writeStream('tmp/automation_actions.csv', $this->importDisk->readStream('import/automation_actions.csv'));
+
+        $reader = SimpleExcelReader::create($this->tmpDisk->path('tmp/automation_actions.csv'));
 
         foreach ($reader->getRows() as $row) {
             $row['automation_id'] = $this->automationMapping[$row['automation_id']];
@@ -111,5 +117,7 @@ class ImportAutomationsJob extends ImportJob
             $this->index++;
             $this->updateJobProgress($this->index, $this->total);
         }
+
+        $this->tmpDisk->delete('tmp/automation_actions.csv');
     }
 }

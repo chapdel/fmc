@@ -259,6 +259,13 @@ return [
     'export_disk' => 'public',
 
     /*
+     * This disk will be used to store files temporarily for
+     * unzipping & reading. Make sure this is on a local
+     * filesystem.
+     */
+    'tmp_disk' => 'public',
+
+    /*
      * The mailer used by Mailcoach for password resets and summary emails.
      * Mailcoach will use the default Laravel mailer if this is not set.
      */

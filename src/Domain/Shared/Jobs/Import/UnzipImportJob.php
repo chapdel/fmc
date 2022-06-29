@@ -18,13 +18,22 @@ class UnzipImportJob extends ImportJob
 
     public function execute(): void
     {
-        $disk = Storage::disk(config('mailcoach.import_disk'));
+        $this->tmpDisk->put('import.zip', $this->importDisk->get($this->path));
 
         $zip = new ZipArchive();
-        $zip->open($disk->path($this->path));
-        $zip->extractTo($disk->path('import/'));
+        $zip->open($this->tmpDisk->path('import.zip'));
+        $zip->extractTo($this->tmpDisk->path('tmp/import'));
         $zip->close();
 
-        Storage::disk(config('mailcoach.import_disk'))->delete($this->path);
+        $this->importDisk->deleteDirectory('import');
+        $this->importDisk->makeDirectory('import');
+
+        $files = $this->tmpDisk->allFiles('tmp/import');
+        foreach ($files as $file) {
+            $this->importDisk->writeStream(str_replace('tmp/', '', $file), $this->tmpDisk->readStream($file));
+        }
+        $this->tmpDisk->deleteDirectory('tmp/import');
+
+        $this->importDisk->delete($this->path);
     }
 }
