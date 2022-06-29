@@ -14,6 +14,8 @@ use Illuminate\Support\Str;
 use ParagonIE\CipherSweet\BlindIndex;
 use ParagonIE\CipherSweet\CipherSweet as CipherSweetEngine;
 use ParagonIE\CipherSweet\EncryptedRow;
+use Spatie\LaravelCipherSweet\Concerns\UsesCipherSweet;
+use Spatie\LaravelCipherSweet\Contracts\CipherSweetEncrypted;
 use Spatie\LaravelCipherSweet\Observers\ModelObserver;
 use Spatie\Mailcoach\Database\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\ConfirmSubscriberAction;
@@ -34,8 +36,6 @@ use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Mailcoach;
-use Spatie\LaravelCipherSweet\Contracts\CipherSweetEncrypted;
-use Spatie\LaravelCipherSweet\Concerns\UsesCipherSweet;
 
 class Subscriber extends Model implements CipherSweetEncrypted
 {
