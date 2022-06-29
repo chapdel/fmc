@@ -147,7 +147,6 @@ use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplates
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateSettings;
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
 use Spatie\Navigation\Helpers\ActiveUrlChecker;
-use Spatie\QueryString\QueryString;
 
 class MailcoachServiceProvider extends PackageServiceProvider
 {
@@ -184,8 +183,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     public function packageRegistered(): void
     {
-        $this->app->scoped(QueryString::class, fn () => new QueryString(urldecode(request()->getRequestUri())));
-
         $this->app->singleton(Version::class, function () {
             return new Version();
         });
@@ -205,16 +202,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
-        if (config('mailcoach.encryption.enabled')) {
-            $encryptionKey = config('mailcoach.encryption.key');
-
-            if (Str::startsWith($encryptionKey, $prefix = 'base64:')) {
-                $encryptionKey = base64_decode(Str::after($encryptionKey, $prefix));
-            }
-
-            config()->set('ciphersweet.providers.string.key', $encryptionKey);
-        }
-
         $this
             ->bootCarbon()
             ->bootGate()
@@ -226,6 +213,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
             ->bootEvents()
             ->bootTriggers()
             ->registerApiGuard()
+            ->bootEncryption()
             ->bootSpotlight();
     }
 
@@ -601,6 +589,23 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Spotlight::registerCommand(CreateTransactionalTemplateCommand::class);
 
         config()->set('livewire-ui-spotlight.show_results_without_input', true);
+
+        return $this;
+    }
+
+    protected function bootEncryption(): self
+    {
+        if (! config('mailcoach.encryption.enabled')) {
+            return $this;
+        }
+
+        $encryptionKey = config('mailcoach.encryption.key');
+
+        if (Str::startsWith($encryptionKey, $prefix = 'base64:')) {
+            $encryptionKey = base64_decode(Str::after($encryptionKey, $prefix));
+        }
+
+        config()->set('ciphersweet.providers.string.key', $encryptionKey);
 
         return $this;
     }
