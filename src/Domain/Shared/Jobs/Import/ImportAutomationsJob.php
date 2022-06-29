@@ -4,8 +4,6 @@ namespace Spatie\Mailcoach\Domain\Shared\Jobs\Import;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
 use Spatie\SimpleExcel\SimpleExcelReader;
 

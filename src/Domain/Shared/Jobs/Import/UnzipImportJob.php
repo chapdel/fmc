@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Domain\Shared\Jobs\Import;
 
-use Illuminate\Support\Facades\Storage;
 use ZipArchive;
 
 class UnzipImportJob extends ImportJob

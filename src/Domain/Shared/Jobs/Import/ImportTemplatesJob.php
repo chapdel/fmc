@@ -3,8 +3,6 @@
 namespace Spatie\Mailcoach\Domain\Shared\Jobs\Import;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 use Spatie\SimpleExcel\SimpleExcelReader;
 
 class ImportTemplatesJob extends ImportJob

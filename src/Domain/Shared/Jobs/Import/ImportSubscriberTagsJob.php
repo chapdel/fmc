@@ -3,11 +3,8 @@
 namespace Spatie\Mailcoach\Domain\Shared\Jobs\Import;
 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\LazyCollection;
 use Spatie\SimpleExcel\SimpleExcelReader;
-use SplFileInfo;
-use Symfony\Component\Finder\Finder;
 
 class ImportSubscriberTagsJob extends ImportJob
 {
