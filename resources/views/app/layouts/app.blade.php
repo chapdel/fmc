@@ -11,8 +11,6 @@
 
         {!! \Spatie\Mailcoach\Mailcoach::styles() !!}
 
-        <meta name="turbo-cache-control" content="no-preview">
-
         {!! \Livewire\Livewire::styles() !!}
         <script type="text/javascript">
             window.__ = function (key) {
@@ -31,7 +29,6 @@
     </head>
     <body class="bg-gray-100" x-data="{ confirmText: '', onConfirm: null }">
         <script>/**/</script><!-- Empty script to prevent FOUC in Firefox -->
-
 
         <main id="swup">
             <div class="mx-auto grid w-full max-w-layout min-h-screen p-6 z-auto" style="grid-template-rows: auto auto 2fr auto">
