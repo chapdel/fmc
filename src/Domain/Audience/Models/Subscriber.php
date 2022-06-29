@@ -12,10 +12,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use ParagonIE\CipherSweet\BlindIndex;
-use ParagonIE\CipherSweet\CipherSweet;
+use ParagonIE\CipherSweet\CipherSweet as CipherSweetEngine;
 use ParagonIE\CipherSweet\EncryptedRow;
-use Spatie\LaravelCipherSweet\ModelObserver;
-use Spatie\LaravelCipherSweet\UsesCipherSweet;
+use Spatie\LaravelCipherSweet\Observers\ModelObserver;
 use Spatie\Mailcoach\Database\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\ConfirmSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Encryption\Transformation\EmailFirstPart;
@@ -35,8 +34,10 @@ use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Mailcoach;
+use Spatie\LaravelCipherSweet\Contracts\CipherSweetEncrypted;
+use Spatie\LaravelCipherSweet\Concerns\UsesCipherSweet;
 
-class Subscriber extends Model
+class Subscriber extends Model implements CipherSweetEncrypted
 {
     use HasUuid;
     use HasExtraAttributes;
@@ -63,14 +64,14 @@ class Subscriber extends Model
         static::observe(ModelObserver::class);
 
         static::$cipherSweetEncryptedRow = new EncryptedRow(
-            app(CipherSweet::class),
-            (new static)->getTable()
+            app(CipherSweetEngine::class),
+            (new static())->getTable()
         );
 
         static::configureCipherSweet(static::$cipherSweetEncryptedRow);
     }
 
-    protected static function configureCipherSweet(EncryptedRow $encryptedRow): void
+    public static function configureCipherSweet(EncryptedRow $encryptedRow): void
     {
         $encryptedRow
             ->addTextField('email')
