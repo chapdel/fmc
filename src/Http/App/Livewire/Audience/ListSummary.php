@@ -141,8 +141,8 @@ class ListSummary extends Component
 
             return [
                 'label' => match ($interval) {
-                    'hour' => Carbon::createFromFormat('Y-m-d H:i', $result->subscribed_day)->startOf($interval)->format('M d H:i'),
-                    'day' => Carbon::createFromFormat('Y-m-d', $result->subscribed_day)->startOf($interval)->format('M d'),
+                    'hour' => Carbon::createFromFormat('Y-m-d H:i', $result->subscribed_day)->startOf($interval)->format('y M d H:i'),
+                    'day' => Carbon::createFromFormat('Y-m-d', $result->subscribed_day)->startOf($interval)->format('y M d'),
                 },
                 'subscribers' => $subscriberTotal,
                 'subscribes' => $result->subscribed_count,
@@ -154,8 +154,8 @@ class ListSummary extends Component
 
         return collect(CarbonPeriod::create($start, '1 ' . $interval, $end))->map(function (CarbonInterface $day) use ($interval, $subscribers, &$lastStats) {
             $label = match ($interval) {
-                'hour' => $day->startOf($interval)->format('M d H:i'),
-                'day' => $day->startOf($interval)->format('M d'),
+                'hour' => $day->startOf($interval)->format('y M d H:i'),
+                'day' => $day->startOf($interval)->format('y M d'),
             };
 
             $stats = $subscribers->firstWhere('label', $label);
