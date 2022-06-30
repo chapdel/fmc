@@ -36,6 +36,12 @@
             @empty
                 <p>Import queued...</p>
             @endforelse
+            @if(!collect($steps)->where('finished', false)->where('failed', false)->count() && !collect($steps)->keys()->contains('Cleanup'))
+                <div class="flex items-center gap-1">
+                    <span>Next step is queued...</span>
+                    <x-mailcoach::rounded-icon type="warning" icon="fas fa-sync fa-spin" />
+                </div>
+            @endif
         </div>
 
         <x-mailcoach::button class="mt-4" wire:click.prevent="clear" :label="__('Start new import')" />
