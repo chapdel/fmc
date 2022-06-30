@@ -9,6 +9,8 @@ uses(TestCase::class)->in(__DIR__);
 
 function setupImportDisk(): Filesystem
 {
+    config()->set('mailcoach.encryption.enabled', false);
+
     Storage::fake();
     File::ensureDirectoryExists(Storage::disk(config('mailcoach.import_disk'))->path('import'));
 

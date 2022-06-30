@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Shared\Jobs\Import;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -26,13 +27,17 @@ abstract class ImportJob implements ShouldQueue
 
     private LazyCollection $metaRows;
 
+    protected Filesystem $importDisk;
+
+    protected Filesystem $tmpDisk;
+
     protected function getMeta(string $key, mixed $default = null): mixed
     {
-        if (! Storage::disk(config('mailcoach.import_disk'))->exists('import/meta.json')) {
+        if (! $this->importDisk->exists('import/meta.json')) {
             return $default;
         }
 
-        $meta = json_decode(Storage::disk(config('mailcoach.import_disk'))->get('import/meta.json'), true);
+        $meta = json_decode($this->importDisk->get('import/meta.json'), true);
 
         return $meta[$key] ?? $default;
     }
@@ -86,6 +91,9 @@ abstract class ImportJob implements ShouldQueue
 
     public function handle(): void
     {
+        $this->importDisk = Storage::disk(config('mailcoach.import_disk'));
+        $this->tmpDisk = Storage::disk(config('mailcoach.tmp_disk'));
+
         $this->jobStarted();
 
         $this->execute();

@@ -27,10 +27,17 @@ class Mailcoach
             $fullAssetPath = asset("/vendor/mailcoach/{$manifest['resources/css/app.css']['file']}");
         }
 
-        $styles = [
-            "<link rel=\"stylesheet\" href=\"https://use.fontawesome.com/releases/v5.11.0/css/all.css\">",
-            "<link rel=\"stylesheet\" href=\"{$fullAssetPath}\" type=\"text/css\">",
-        ];
+        $styles = [];
+
+        if (is_file(__DIR__.'/../resources/hot')) {
+            $url = rtrim(file_get_contents(__DIR__.'/../resources/hot'));
+
+            $fullAssetPath = "{$url}/resources/css/app.css";
+            $styles[] = sprintf('<script type="module" src="%s"></script>', "{$url}/@vite/client");
+        }
+
+        $styles[] = "<link rel=\"stylesheet\" href=\"https://use.fontawesome.com/releases/v5.11.0/css/all.css\">";
+        $styles[] = "<link rel=\"stylesheet\" href=\"{$fullAssetPath}\" type=\"text/css\">";
 
         foreach (self::availableEditorStyles() as $editor => $editorStyles) {
             if (! in_array($editor, [config('mailcoach.content_editor'), config('mailcoach.template_editor')])) {
@@ -66,6 +73,15 @@ class Mailcoach
             foreach ($editorScripts as $script) {
                 $scripts[] = "<script type=\"text/javascript\" src=\"{$script}\" defer></script>";
             }
+        }
+
+        if (is_file(__DIR__.'/../resources/hot')) {
+            $url = rtrim(file_get_contents(__DIR__.'/../resources/hot'));
+
+            $scripts[] = sprintf('<script type="module" src="%s"></script>', "{$url}/resources/js/app.js");
+            $scripts[] = sprintf('<script type="module" src="%s"></script>', "{$url}/@vite/client");
+
+            return implode("\n", $scripts);
         }
 
         $scripts[] = <<<HTML

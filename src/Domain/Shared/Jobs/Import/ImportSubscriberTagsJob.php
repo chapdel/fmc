@@ -3,11 +3,8 @@
 namespace Spatie\Mailcoach\Domain\Shared\Jobs\Import;
 
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\LazyCollection;
 use Spatie\SimpleExcel\SimpleExcelReader;
-use SplFileInfo;
-use Symfony\Component\Finder\Finder;
 
 class ImportSubscriberTagsJob extends ImportJob
 {
@@ -18,10 +15,9 @@ class ImportSubscriberTagsJob extends ImportJob
 
     public function execute(): void
     {
-        $files = Finder::create()
-            ->in(Storage::disk(config('mailcoach.import_disk'))->path('import'))
-            ->filter(fn (SplFileInfo $file) => $file->getExtension() === 'csv' && str_starts_with($file->getFilename(), 'email_list_subscriber_tags'))
-            ->sortByName();
+        $files = collect($this->importDisk->allFiles('import'))
+            ->filter(fn (string $file) => str_ends_with($file, '.csv') && str_starts_with($file, 'import/email_list_subscriber_tags'))
+            ->sort();
 
         if (! count($files)) {
             return;
@@ -31,8 +27,11 @@ class ImportSubscriberTagsJob extends ImportJob
 
         $total = $this->getMeta('email_list_subscriber_tags_count', 0);
         $index = 0;
+
         foreach ($files as $file) {
-            SimpleExcelReader::create($file->getPathname())
+            $this->tmpDisk->put('tmp/' . $file, $this->importDisk->get($file));
+
+            SimpleExcelReader::create($this->tmpDisk->path('tmp/' . $file))
                 ->getRows()
                 ->chunk(5_000)
                 ->each(function (LazyCollection $subscriberTags) use ($emailLists, $total, &$index) {
@@ -70,6 +69,8 @@ class ImportSubscriberTagsJob extends ImportJob
                     $index += 5_000;
                     $this->updateJobProgress($index, $total);
                 });
+
+            $this->tmpDisk->delete('tmp/' . $file);
         }
     }
 }

@@ -3,8 +3,6 @@
 namespace Spatie\Mailcoach\Domain\Shared\Jobs\Import;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 use Spatie\SimpleExcel\SimpleExcelReader;
 
 class ImportTemplatesJob extends ImportJob
@@ -16,13 +14,13 @@ class ImportTemplatesJob extends ImportJob
 
     public function execute(): void
     {
-        $path = Storage::disk(config('mailcoach.import_disk'))->path('import/templates.csv');
-
-        if (! File::exists($path)) {
+        if (! $this->tmpDisk->exists('import/templates.csv')) {
             return;
         }
 
-        $reader = SimpleExcelReader::create($path);
+        $this->tmpDisk->writeStream('tmp/templates.csv', $this->importDisk->readStream('import/templates.csv'));
+
+        $reader = SimpleExcelReader::create($this->tmpDisk->path('tmp/templates.csv'));
 
         $total = $this->getMeta('templates_count', 0);
         foreach ($reader->getRows() as $index => $row) {
@@ -33,5 +31,7 @@ class ImportTemplatesJob extends ImportJob
 
             $this->updateJobProgress($index, $total);
         }
+
+        $this->tmpDisk->delete('tmp/templates.csv');
     }
 }

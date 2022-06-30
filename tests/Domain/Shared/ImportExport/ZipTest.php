@@ -15,28 +15,22 @@ it('can zip an export', function () {
 });
 
 it('can unzip an uploaded export', function () {
-    File::copy(__DIR__ . '/stubs/mailcoach-export.zip', $this->disk->path('import/mailcoach-export.zip'));
+    $this->disk->put('import/mailcoach-export.zip', File::get(__DIR__ . '/stubs/mailcoach-export.zip'));
 
     (new UnzipImportJob('import/mailcoach-export.zip'))->handle();
 
-    $files = [
-        'automation_actions.csv',
-        'automation_mails.csv',
-        'automation_triggers.csv',
-        'automations.csv',
-        'campaign_links.csv',
-        'campaigns.csv',
-        'email_list_allow_form_subscription_tags.csv',
-        'email_lists.csv',
-        'negative_segment_tags.csv',
-        'positive_segment_tags.csv',
-        'segments.csv',
-        'tags.csv',
-        'templates.csv',
-        'transactional_mail_templates.csv',
-    ];
-
-    foreach ($files as $file) {
-        expect($this->disk->exists("import/{$file}"))->toBeTrue();
-    }
+    expect($this->disk->exists('import/automation_actions.csv'))->toBeTrue();
+    expect($this->disk->exists('import/automation_mails.csv'))->toBeTrue();
+    expect($this->disk->exists('import/automation_triggers.csv'))->toBeTrue();
+    expect($this->disk->exists('import/automations.csv'))->toBeTrue();
+    expect($this->disk->exists('import/campaign_links.csv'))->toBeTrue();
+    expect($this->disk->exists('import/campaigns.csv'))->toBeTrue();
+    expect($this->disk->exists('import/email_list_allow_form_subscription_tags.csv'))->toBeTrue();
+    expect($this->disk->exists('import/email_lists.csv'))->toBeTrue();
+    expect($this->disk->exists('import/negative_segment_tags.csv'))->toBeTrue();
+    expect($this->disk->exists('import/positive_segment_tags.csv'))->toBeTrue();
+    expect($this->disk->exists('import/segments.csv'))->toBeTrue();
+    expect($this->disk->exists('import/tags.csv'))->toBeTrue();
+    expect($this->disk->exists('import/templates.csv'))->toBeTrue();
+    expect($this->disk->exists('import/transactional_mail_templates.csv'))->toBeTrue();
 });

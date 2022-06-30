@@ -5,8 +5,6 @@ namespace Spatie\Mailcoach\Domain\Shared\Jobs\Import;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 use Spatie\SimpleExcel\SimpleExcelReader;
 
 class ImportSegmentsJob extends ImportJob
@@ -30,26 +28,25 @@ class ImportSegmentsJob extends ImportJob
 
     public function execute(): void
     {
-        $segmentsPath = Storage::disk(config('mailcoach.import_disk'))->path('import/segments.csv');
-        $positivePath = Storage::disk(config('mailcoach.import_disk'))->path('import/positive_segment_tags.csv');
-        $negativePath = Storage::disk(config('mailcoach.import_disk'))->path('import/negative_segment_tags.csv');
-
         $this->total = $this->getMeta('segments_count', 0) + $this->getMeta('positive_segment_tags_count', 0) + $this->getMeta('negative_segment_tags_count', 0);
         $this->emailLists = self::getEmailListClass()::pluck('id', 'uuid')->toArray();
         $this->tags = self::getTagClass()::all();
 
-        if (! File::exists($segmentsPath)) {
+        if (! $this->importDisk->exists('import/segments.csv')) {
             return;
         }
 
-        $this->importSegments($segmentsPath);
-        $this->importPositiveSegmentTags($positivePath);
-        $this->importNegativeSegmentTags($negativePath);
+        $this->importSegments();
+        $this->importPositiveSegmentTags();
+        $this->importNegativeSegmentTags();
     }
 
-    private function importSegments(string $segmentsPath): void
+    private function importSegments(): void
     {
-        $reader = SimpleExcelReader::create($segmentsPath);
+        $this->tmpDisk->writeStream('tmp/segments.csv', $this->importDisk->readStream('import/segments.csv'));
+
+        $reader = SimpleExcelReader::create($this->tmpDisk->path('tmp/segments.csv'));
+
         foreach ($reader->getRows() as $row) {
             $row['email_list_id'] = $this->emailLists[$row['email_list_uuid']];
 
@@ -62,15 +59,20 @@ class ImportSegmentsJob extends ImportJob
             $this->index++;
             $this->updateJobProgress($this->index, $this->total);
         }
+
+        $this->tmpDisk->delete('tmp/segments.csv');
     }
 
-    private function importPositiveSegmentTags(string $positivePath): void
+    private function importPositiveSegmentTags(): void
     {
-        if (! File::exists($positivePath)) {
+        if (! $this->importDisk->exists('import/positive_segment_tags.csv')) {
             return;
         }
 
-        $reader = SimpleExcelReader::create($positivePath);
+        $this->tmpDisk->writeStream('tmp/positive_segment_tags.csv', $this->importDisk->readStream('import/positive_segment_tags.csv'));
+
+        $reader = SimpleExcelReader::create($this->tmpDisk->path('tmp/positive_segment_tags.csv'));
+
         foreach ($reader->getRows() as $row) {
             $row['segment_id'] = $this->segmentMapping[$row['segment_id']];
             $row['tag_id'] = $this->tags->where('name', $row['tag_name'])->where('email_list_id', $this->emailLists[$row['email_list_uuid']])->first()->id;
@@ -82,15 +84,20 @@ class ImportSegmentsJob extends ImportJob
             $this->index++;
             $this->updateJobProgress($this->index, $this->total);
         }
+
+        $this->tmpDisk->delete('tmp/positive_segment_tags.csv');
     }
 
-    private function importNegativeSegmentTags(string $negativePath): void
+    private function importNegativeSegmentTags(): void
     {
-        if (! File::exists($negativePath)) {
+        if (! $this->importDisk->exists('import/negative_segment_tags.csv')) {
             return;
         }
 
-        $reader = SimpleExcelReader::create($negativePath);
+        $this->tmpDisk->writeStream('tmp/negative_segment_tags.csv', $this->importDisk->readStream('import/negative_segment_tags.csv'));
+
+        $reader = SimpleExcelReader::create($this->tmpDisk->path('tmp/negative_segment_tags.csv'));
+
         foreach ($reader->getRows() as $row) {
             $row['segment_id'] = $this->segmentMapping[$row['segment_id']];
             $row['tag_id'] = $this->tags->where('name', $row['tag_name'])->where('email_list_id', $this->emailLists[$row['email_list_uuid']])->first()->id;
@@ -102,5 +109,7 @@ class ImportSegmentsJob extends ImportJob
             $this->index++;
             $this->updateJobProgress($this->index, $this->total);
         }
+
+        $this->tmpDisk->delete('tmp/negative_segment_tags.csv');
     }
 }

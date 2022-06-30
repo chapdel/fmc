@@ -3,8 +3,6 @@
 namespace Spatie\Mailcoach\Domain\Shared\Jobs\Import;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 use Spatie\SimpleExcel\SimpleExcelReader;
 
 class ImportAutomationMailsJob extends ImportJob
@@ -23,22 +21,21 @@ class ImportAutomationMailsJob extends ImportJob
 
     public function execute(): void
     {
-        $path = Storage::disk(config('mailcoach.import_disk'))->path('import/automation_mails.csv');
-        $linksPath = Storage::disk(config('mailcoach.import_disk'))->path('import/automation_mail_links.csv');
-
         $this->total = $this->getMeta('automation_mails_count', 0) + $this->getMeta('automation_mail_links_count', 0);
 
-        $this->importAutomationMails($path);
-        $this->importAutomationMailLinks($linksPath);
+        $this->importAutomationMails();
+        $this->importAutomationMailLinks();
     }
 
-    private function importAutomationMails(string $path): void
+    private function importAutomationMails(): void
     {
-        if (! File::exists($path)) {
+        if (! $this->importDisk->exists('import/automation_mails.csv')) {
             return;
         }
 
-        $reader = SimpleExcelReader::create($path);
+        $this->tmpDisk->put('tmp/automation_mails.csv', $this->importDisk->get('import/automation_mails.csv'));
+
+        $reader = SimpleExcelReader::create($this->tmpDisk->path('tmp/automation_mails.csv'));
 
         foreach ($reader->getRows() as $row) {
             $automationMail = self::getAutomationMailClass()::firstOrCreate(
@@ -51,15 +48,19 @@ class ImportAutomationMailsJob extends ImportJob
             $this->index++;
             $this->updateJobProgress($this->index, $this->total);
         }
+
+        $this->tmpDisk->delete('tmp/automation_mails.csv');
     }
 
-    private function importAutomationMailLinks(string $path): void
+    private function importAutomationMailLinks(): void
     {
-        if (! File::exists($path)) {
+        if (! $this->importDisk->exists('import/automation_mail_links.csv')) {
             return;
         }
 
-        $reader = SimpleExcelReader::create($path);
+        $this->tmpDisk->writeStream('tmp/automation_mail_links.csv', $this->importDisk->readStream('import/automation_mail_links.csv'));
+
+        $reader = SimpleExcelReader::create($this->tmpDisk->path('tmp/automation_mail_links.csv'));
         foreach ($reader->getRows() as $row) {
             $row['automation_mail_id'] = $this->automationMailMapping[$row['automation_mail_id']];
 
@@ -71,5 +72,7 @@ class ImportAutomationMailsJob extends ImportJob
             $this->index++;
             $this->updateJobProgress($this->index, $this->total);
         }
+
+        $this->tmpDisk->delete('tmp/automation_mail_links.csv');
     }
 }

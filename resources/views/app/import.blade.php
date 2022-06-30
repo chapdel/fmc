@@ -43,10 +43,28 @@
         <div class="mb-4">
             <input accept=".zip" type="file" wire:model="file" />
             @error('file')
-                <p class="text-red-500">{{ $message }}</p>
+            <p class="text-red-500">{{ $message }}</p>
             @enderror
         </div>
 
-        <x-mailcoach::button wire:click.prevent="import" :label="__('Import')" />
+        <div class="flex items-center gap-4">
+            <x-mailcoach::button wire:click.prevent="import" :label="__('Import')" :disabled="!$file" />
+            <div wire:loading wire:target="file">
+                <style>
+                    @keyframes loadingpulse {
+                        0%   {transform: scale(.8); opacity: .75}
+                        100% {transform: scale(1); opacity: .9}
+                    }
+                </style>
+                <span
+                    style="animation: loadingpulse 0.75s alternate infinite ease-in-out;"
+                    class="group w-8 h-8 inline-flex items-center justify-center bg-gradient-to-b from-blue-500 to-blue-600 text-white rounded-full">
+                    <span class="flex items-center justify-center w-6 h-6 transform group-hover:scale-90 transition-transform duration-150">
+                        @include('mailcoach::app.layouts.partials.logoSvg')
+                    </span>
+                </span>
+                <span class="ml-1 text-gray-700">Uploading...</span>
+            </div>
+        </div>
     @endif
 </div>
