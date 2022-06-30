@@ -20,7 +20,6 @@ use Spatie\Mailcoach\Domain\Shared\Jobs\Import\ImportTemplatesJob;
 use Spatie\Mailcoach\Domain\Shared\Jobs\Import\ImportTransactionalMailTemplatesJob;
 use Spatie\Mailcoach\Domain\Shared\Jobs\Import\UnzipImportJob;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
-use Spatie\Mailcoach\Mailcoach;
 
 class Import extends Component
 {
@@ -49,6 +48,7 @@ class Import extends Component
 
         if (! $path) {
             $this->flashError('Upload failed. Please try again');
+
             return;
         }
 
