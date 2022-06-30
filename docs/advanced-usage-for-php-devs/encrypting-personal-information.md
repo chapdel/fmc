@@ -30,6 +30,16 @@ php artisan migrate
 
 This will create the `blind_indexes` table that's needed to support searching and retrieving the subscribers.
 
+Next, change the `email`, `first_name` and `last_name` columns to be `text` instead of `string`
+
+```php
+Schema::table('mailcoach_subscribers', function (Blueprint $table): void {
+    $table->text('email')->change();
+    $table->text('first_name')->nullable()->change();
+    $table->text('last_name')->nullable()->change();
+});
+```
+
 As a last step, you'll need to encrypt any existing subscribers, you can do this by calling the following Artisan command:
 
 ```shell
