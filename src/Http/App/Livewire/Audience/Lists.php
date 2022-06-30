@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 
 use Illuminate\Http\Request;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber as SubscriberModel;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\EmailListQuery;
 
@@ -14,6 +15,7 @@ class Lists extends DataTable
 
         $this->authorize('delete', $list);
 
+        $list->subscribers()->each(fn (SubscriberModel $subscriber) => $subscriber->delete());
         $list->delete();
 
         $this->flash(__('mailcoach - List :list was deleted.', ['list' => $list->name]));
