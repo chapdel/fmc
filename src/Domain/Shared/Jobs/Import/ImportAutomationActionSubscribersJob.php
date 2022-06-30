@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Domain\Shared\Jobs\Import;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\LazyCollection;
+use Illuminate\Support\Str;
 use Spatie\SimpleExcel\SimpleExcelReader;
 
 class ImportAutomationActionSubscribersJob extends ImportJob
@@ -45,6 +46,7 @@ class ImportAutomationActionSubscribersJob extends ImportJob
                         'action_id' => $row['action_id'],
                         'subscriber_id' => $row['subscriber_id'],
                     ])->exists()) {
+                        $row['uuid'] ??= Str::uuid();
                         self::getActionSubscriberClass()::insert(array_filter(Arr::except($row, ['id', 'subscriber_uuid', 'action_uuid'])));
                     }
 
