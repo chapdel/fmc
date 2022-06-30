@@ -19,10 +19,13 @@ use Spatie\Mailcoach\Domain\Shared\Jobs\Import\ImportTagsJob;
 use Spatie\Mailcoach\Domain\Shared\Jobs\Import\ImportTemplatesJob;
 use Spatie\Mailcoach\Domain\Shared\Jobs\Import\ImportTransactionalMailTemplatesJob;
 use Spatie\Mailcoach\Domain\Shared\Jobs\Import\UnzipImportJob;
+use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
+use Spatie\Mailcoach\Mailcoach;
 
 class Import extends Component
 {
     use WithFileUploads;
+    use LivewireFlash;
 
     /** @var \Illuminate\Http\UploadedFile */
     public $file;
@@ -43,6 +46,11 @@ class Import extends Component
         $path = $this->file->storeAs('import', 'mailcoach-import.zip', [
             'disk' => config('mailcoach.import_disk'),
         ]);
+
+        if (! $path) {
+            $this->flashError('Upload failed. Please try again');
+            return;
+        }
 
         Bus::chain([
             new UnzipImportJob($path),

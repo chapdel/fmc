@@ -17,7 +17,7 @@ class UnzipImportJob extends ImportJob
 
     public function execute(): void
     {
-        $this->tmpDisk->put('import.zip', $this->importDisk->get($this->path));
+        $this->tmpDisk->writeStream('import.zip', $this->importDisk->readStream($this->path));
 
         $zip = new ZipArchive();
         $zip->open($this->tmpDisk->path('import.zip'));

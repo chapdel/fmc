@@ -16,7 +16,7 @@
     <x-mailcoach::warning class="mb-3">"Send automation mail" actions in automations will need manual adjustment to the correct Automation Mail. <strong>Automations are imported as paused.</strong></x-mailcoach::warning>
 
     @if (($steps = Cache::get('import-status', [])) || $importStarted)
-        <div class="flex flex-col gap-2" @if(! collect($steps)->where('failed', true)->count()) wire:poll.1500ms @endif>
+        <div class="flex flex-col gap-2" @if(! collect($steps)->where('failed', true)->count() && ! collect($steps)->keys()->contains('Cleanup')) wire:poll.1500ms @endif>
             @forelse ($steps as $name => $data)
                 <p class="flex items-center gap-1">
                     <span>{{ $name }}</span>

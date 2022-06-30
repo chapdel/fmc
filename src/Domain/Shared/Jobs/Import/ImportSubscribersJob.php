@@ -39,12 +39,9 @@ class ImportSubscribersJob extends ImportJob
 
                 $subscribers->whereNotIn('uuid', $existingSubscriberUuids)->each(function (array $subscriber) use ($emailLists) {
                     $subscriber['email_list_id'] = $emailLists[$subscriber['email_list_uuid']];
-
                     $columns = Schema::getColumnListing(self::getSubscriberTableName());
 
-                    self::getSubscriberClass()::create(
-                        array_filter(Arr::except(Arr::only($subscriber, $columns), ['id']))
-                    );
+                    dispatch(new ImportSubscriberJob(array_filter(Arr::except(Arr::only($subscriber, $columns), ['id']))));
                 });
 
                 $index += $chunkCount;
