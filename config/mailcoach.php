@@ -232,8 +232,8 @@ return [
      * last_name and extra attributes of subscribers.
      */
     'encryption' => [
-        'enabled' => true,
-        'key' => env('APP_KEY'),
+        'enabled' => false,
+        'key' => env('MAILCOACH_ENCRYPTION_KEY', env('APP_KEY')),
     ],
 
     /*

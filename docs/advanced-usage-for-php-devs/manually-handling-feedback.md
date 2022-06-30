@@ -1,6 +1,6 @@
 ---
 title: Manually handling feedback
-weight: 9
+weight: 4
 ---
 
 After a mail is sent, most email providers send feedback on the result.

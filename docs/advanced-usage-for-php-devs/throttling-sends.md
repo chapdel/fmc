@@ -1,6 +1,6 @@
 ---
 title: Throttling sends
-weight: 2
+weight: 1
 ---
 
 Most email providers have a limit on how many emails you can send within a given amount of time. By default, five mails per second will be sent. You can add throttling config to your mailer:
