@@ -27,80 +27,77 @@
         @include('mailcoach::app.layouts.partials.endHead')
         @stack('endHead')
     </head>
-    <body class="bg-gray-100" x-data="{ confirmText: '', onConfirm: null }">
+    <body class="flex flex-col min-h-screen bg-white" x-data="{ confirmText: '', onConfirm: null }">
         <script>/**/</script><!-- Empty script to prevent FOUC in Firefox -->
+        
+        <header class="flex-none sticky top-0 z-10">
+            <x-mailcoach::main-navigation />
+        </header>
 
-        <main id="swup">
-            <div class="mx-auto grid w-full max-w-layout min-h-screen p-6 z-auto" style="grid-template-rows: auto auto 2fr auto">
-                <aside>
-                    @include('mailcoach::app.layouts.partials.startBody')
+        <main id="swup" class="flex-grow z-1 mx-auto max-w-layout px-10 flex items-stretch gap-10">
+                @isset($nav)
+                    <nav class="flex-none bg-gradient-to-r from-white to-blue-50 w-[10rem]">
+                        {{ $nav }}
+                    </nav>
+                @endisset
+                
+                <section>
+                    <nav>
+                        @include('mailcoach::app.layouts.partials.breadcrumbs')
+                    </nav>
 
-                    @if ((new Spatie\Mailcoach\Domain\Shared\Support\License\License())->hasExpired())
-                        <div class="mb-6 alert alert-warning text-sm shadow-lg">
-                            Your Mailcoach license has expired. <a class="underline" href="https://spatie.be/products/mailcoach">Renew your license</a> and benefit from fixes and new features.
-                        </div>
-                    @endif
+                    <aside>
+                        @include('mailcoach::app.layouts.partials.startBody')
+    
+                        @if ((new Spatie\Mailcoach\Domain\Shared\Support\License\License())->hasExpired())
+                            <div class="mb-6 alert alert-warning text-sm shadow-lg">
+                                Your Mailcoach license has expired. <a class="underline" href="https://spatie.be/products/mailcoach">Renew your license</a> and benefit from fixes and new features.
+                            </div>
+                        @endif
+    
+                        @include('mailcoach::app.layouts.partials.flash')
+                    </aside>
 
-                    @include('mailcoach::app.layouts.partials.flash')
-                </aside>
-
-                <header class="">
-                    <x-mailcoach::main-navigation />
-
-                    @include('mailcoach::app.layouts.partials.breadcrumbs')
-                </header>
-
-                <div>
-                    <div class="h-full card {{ $nav ?? '' ? 'card-split': '' }}">
-                        @isset($nav)
-                            <nav class="bg-blue-50/70">
-                                {{ $nav }}
-                            </nav>
-                        @endisset
-
-                        <main class="card-main">
-                            <h1 class="markup-h1">
-                                @isset($originTitle)
-                                    <div class="markup-h1-sub">
-                                        @isset($originHref)
-                                            <a class="text-blue-500" href="{{ $originHref }}">{{ $originTitle }}</a>
-                                        @else
-                                            {{ $originTitle }}
-                                        @endif
-                                    </div>
+                    <h1 class="markup-h1">
+                        @isset($originTitle)
+                            <div class="markup-h1-sub">
+                                @isset($originHref)
+                                    <a class="text-blue-500" href="{{ $originHref }}">{{ $originTitle }}</a>
+                                @else
+                                    {{ $originTitle }}
                                 @endif
-                                {{ $title ?? '' }}
-                            </h1>
-                            {{ $slot }}
-                        </main>
-                    </div>
-                </div>
-
-                <footer class="px-6 pt-6">
-                    @include('mailcoach::app.layouts.partials.footer')
-                </footer>
-            </div>
-
-            <x-mailcoach::modal :title="__('mailcoach - Confirm')" name="confirm">
-                <span x-text="confirmText"></span>
-
-                <div class="form-buttons">
-                    <x-mailcoach::button type="button" x-on:click="onConfirm; $store.modals.close('confirm')" :label=" __('mailcoach - Confirm')" />
-                    <x-mailcoach::button-cancel  x-on:click="$store.modals.close('confirm')" :label=" __('mailcoach - Cancel')" />
-                </div>
-            </x-mailcoach::modal>
-
-            <x-mailcoach::modal :title="__('mailcoach - Confirm navigation')" name="dirty-warning">
-                {{ __('mailcoach - There are unsaved changes. Are you sure you want to continue?') }}
-
-                <div class="form-buttons">
-                    <x-mailcoach::button type="button" x-on:click="$store.modals.onConfirm && $store.modals.onConfirm()" :label=" __('mailcoach - Confirm')" />
-                    <x-mailcoach::button-cancel  x-on:click="$store.modals.close('dirty-warning')" :label=" __('mailcoach - Cancel')" />
-                </div>
-            </x-mailcoach::modal>
-
-            @stack('modals')
+                            </div>
+                        @endif
+                        {{ $title ?? '' }}
+                    </h1>
+                    {{ $slot }}
+    
+                </section>
         </main>
+
+        <footer class="px-6 pt-6">
+            @include('mailcoach::app.layouts.partials.footer')
+        </footer>
+
+        <x-mailcoach::modal :title="__('mailcoach - Confirm')" name="confirm">
+            <span x-text="confirmText"></span>
+
+            <div class="form-buttons">
+                <x-mailcoach::button type="button" x-on:click="onConfirm; $store.modals.close('confirm')" :label=" __('mailcoach - Confirm')" />
+                <x-mailcoach::button-cancel  x-on:click="$store.modals.close('confirm')" :label=" __('mailcoach - Cancel')" />
+            </div>
+        </x-mailcoach::modal>
+
+        <x-mailcoach::modal :title="__('mailcoach - Confirm navigation')" name="dirty-warning">
+            {{ __('mailcoach - There are unsaved changes. Are you sure you want to continue?') }}
+
+            <div class="form-buttons">
+                <x-mailcoach::button type="button" x-on:click="$store.modals.onConfirm && $store.modals.onConfirm()" :label=" __('mailcoach - Confirm')" />
+                <x-mailcoach::button-cancel  x-on:click="$store.modals.close('dirty-warning')" :label=" __('mailcoach - Cancel')" />
+            </div>
+        </x-mailcoach::modal>
+
+        @stack('modals')
 
         {!! \Livewire\Livewire::scripts() !!}
         @livewire('livewire-ui-spotlight')
