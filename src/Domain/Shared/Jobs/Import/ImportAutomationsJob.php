@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Domain\Shared\Jobs\Import;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
 use Spatie\SimpleExcel\SimpleExcelReader;
 
