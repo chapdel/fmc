@@ -19,6 +19,7 @@ class UnzipImportJob extends ImportJob
     {
         if (! $this->importDisk->exists($this->path)) {
             $this->jobFailed("File at {$this->path} does not exist on disk.");
+
             return;
         }
 

@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 
 use Illuminate\Http\Request;
-use Spatie\Mailcoach\Domain\Audience\Models\Subscriber as SubscriberModel;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\EmailListQuery;
 
