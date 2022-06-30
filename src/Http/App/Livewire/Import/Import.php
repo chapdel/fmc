@@ -36,8 +36,10 @@ class Import extends Component
             'file' => ['file'],
         ]);
 
-        File::deleteDirectory(Storage::disk(config('mailcoach.import_disk'))->path('import'));
-        File::ensureDirectoryExists(Storage::disk(config('mailcoach.import_disk'))->path('import'));
+        $disk = Storage::disk(config('mailcoach.import_disk'));
+
+        $disk->deleteDirectory('import');
+        $disk->makeDirectory('import');
 
         $path = $this->file->storeAs('import', 'mailcoach-import.zip', [
             'disk' => config('mailcoach.import_disk'),
