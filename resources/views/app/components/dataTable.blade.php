@@ -45,7 +45,7 @@
         </div>
     </div>
 
-    <div class="w-full text-center mt-6" wire:loading.delay.long>
+    <div class="w-full text-center mt-6" wire:loading.delay.long wire:target="loadRows">
         <table class="mt-6 table table-fixed">
             <thead>
             <tr>
@@ -82,7 +82,7 @@
         </table>
     </div>
 
-    <div wire:loading.delay.long.remove>
+    <div wire:loading.delay.long.remove wire:target="loadRows">
         <table class="mt-6 table table-fixed">
             <thead>
             <tr>
