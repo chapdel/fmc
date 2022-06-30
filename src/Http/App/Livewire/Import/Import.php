@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Http\App\Livewire\Import;
 
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
