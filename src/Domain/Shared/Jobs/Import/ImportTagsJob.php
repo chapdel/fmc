@@ -24,7 +24,7 @@ class ImportTagsJob extends ImportJob
 
         $emailLists = self::getEmailListClass()::pluck('id', 'uuid');
 
-        $total = $this->getMeta('tags_count', 0) + $this->getMeta('email_list_subscriber_tags_count', 0);
+        $total = $this->getMeta('tags_count', 0) + $this->getMeta('email_list_allow_form_subscription_tags_count', 0);
 
         $this->tmpDisk->writeStream('tmp/tags.csv', $this->importDisk->readStream('import/tags.csv'));
 

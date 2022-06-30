@@ -16,7 +16,7 @@ class ImportCampaignsJob extends ImportJob
 
     public function name(): string
     {
-        return 'Campaigns';
+        return 'Campaigns & Campaign Links';
     }
 
     public function execute(): void

@@ -16,7 +16,7 @@ class ImportAutomationMailsJob extends ImportJob
 
     public function name(): string
     {
-        return 'Automation Mails';
+        return 'Automation Mails & Automation Mail Links';
     }
 
     public function execute(): void
