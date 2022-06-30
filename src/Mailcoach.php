@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach;
 
-use Illuminate\Support\HtmlString;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\InvalidConfig;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
