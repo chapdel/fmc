@@ -6,6 +6,7 @@ module.exports = {
         './resources/**/*.js',
         './vendor/wire-elements/spotlight/resources/views/spotlight.blade.php',
         '../mailcoach-ui/resources/**/*.blade.php',
+        '../mailcoach-packages/packages/*/resources/**/*.blade.php',
       ],
     theme: {
         colors: {

@@ -71,7 +71,7 @@ class Mailcoach
             }
 
             foreach ($editorScripts as $script) {
-                $scripts[] = "<script type=\"text/javascript\" src=\"{$script}\" defer></script>";
+                $scripts[] = "<script type=\"text/javascript\" src=\"{$script}\"></script>";
             }
         }
 
@@ -80,13 +80,11 @@ class Mailcoach
 
             $scripts[] = sprintf('<script type="module" src="%s"></script>', "{$url}/resources/js/app.js");
             $scripts[] = sprintf('<script type="module" src="%s"></script>', "{$url}/@vite/client");
-
-            return implode("\n", $scripts);
+        } else {
+            $scripts[] = <<<HTML
+                <script src="{$fullAssetPath}" data-turbo-eval="false" data-turbolinks-eval="false"></script>
+            HTML;
         }
-
-        $scripts[] = <<<HTML
-            <script src="{$fullAssetPath}" data-turbo-eval="false" data-turbolinks-eval="false"></script>
-        HTML;
 
         return implode("\n", $scripts);
     }
