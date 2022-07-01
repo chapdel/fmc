@@ -7,14 +7,13 @@
     @apply w-full;
     @apply max-w-full;
     @apply min-h-10;
-    @apply px-2;
-    @apply rounded;
-    @apply text-gray-800;
-    @apply bg-blue-100;
-    @apply bg-opacity-50;
+    @apply px-2.5;
+    @apply rounded-sm;
+    @apply shadow-md;
+    @apply shadow-blue-300/10;
     @apply border;
-    @apply border-blue-200;
-    @apply border-opacity-50;
+    @apply border-indigo-800/30;
+    @apply hover:border-indigo-800/40;
 }
 
 .input-sm {
@@ -49,10 +48,11 @@ input:read-only {
 
 .input-focus,
 .input:focus {
-    @apply border-blue-400;
+    @apply bg-none;
+    @apply border-blue-500;
     @apply outline-none;
-    @apply bg-white;
-    @apply shadow-focus;
+    @apply shadow-md;
+    @apply shadow-blue-400/20;
     @apply placeholder-transparent;
 }
 

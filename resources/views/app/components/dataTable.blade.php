@@ -11,7 +11,7 @@
     'noResultsText' => null,
     'searchable' => true,
 ])
-<div class="mt-12" wire:init="loadRows">
+<div wire:init="loadRows">
     <div class="table-actions">
         {{ $actions ?? '' }}
         @if ($modelClass)

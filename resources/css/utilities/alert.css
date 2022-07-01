@@ -69,3 +69,24 @@
     @apply py-8;
     @apply text-center;
 }
+
+.alert-countdown {
+    @apply absolute;
+    @apply left-0;
+    @apply bottom-0;
+    @apply h-1;
+    @apply w-full;
+    @apply transform;
+    @apply origin-bottom-right;
+    @apply bg-white/30;
+    animation: alert-countdown var(--alert-duration, 5s) linear forwards;
+}
+
+@keyframes alert-countdown {
+    0% {
+        transform: scaleX(1);
+    }
+    100% {
+        transform: scaleX(0);
+    }
+}

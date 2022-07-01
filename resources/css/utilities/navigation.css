@@ -1,54 +1,63 @@
-.navigation {
-    @apply list-none;
+
+.nav-group {
+    @apply relative;
+    @apply pl-4;
+    @apply text-sm;
 }
 
-.navigation li {
-    @apply py-1;
+.nav-group:before {
+    content: '';
+    @apply absolute;
+    @apply left-0;
+    @apply top-0;
+    @apply w-[2px];
+    @apply h-full;
+    @apply bg-gradient-to-b;
+    @apply from-blue-500;
+    @apply to-indigo-500;
+}
+
+.nav-item {
+    @apply py-0.5;
+    @apply hover:text-blue-900;
+    @apply font-medium;
+}
+
+.nav-item a {
+    @apply block;
+}
+
+.nav-item-active {
+    @apply text-blue-700;
+    @apply hover:text-blue-700;
+    @apply font-bold;
+}
+
+.navigation-link {
+    @apply block;
+    @apply w-full;
+    @apply py-2;
+    @apply px-4;
+    @apply text-blue-200;
     @apply text-sm;
     @apply font-semibold;
+    @apply md:text-black;
+    @apply md:hover:bg-gradient-to-r;
+    @apply md:hover:from-blue-50;
+    @apply md:hover:to-blue-100/70;
+    @apply md:hover:text-blue-900;
 }
 
-.navigation li :is(a, button)  {
-    @apply -mx-2;
-    @apply px-2;
+.navigation-dropdown {
+    @apply md:absolute;
+    @apply md:left-1/2;
+    @apply md:-translate-x-1/2;
+    @apply overflow-hidden;
+    @apply py-3;
     @apply rounded;
-    @apply h-6;
-    @apply inline-flex;
-    @apply items-center;
-    @apply text-blue-800;
-}
-
-.navigation :is(.active a, a:hover, button:hover) {
-    @apply text-blue-500;
-    @apply md:text-blue-800;
-}
-
-
-@screen md {
-    .navigation :is(a:hover, button:hover) {
-        @apply text-blue-800;
-    }
-
-    .navigation :is(.active a, a:hover, button:hover):before {
-        content: '';
-        @apply absolute;
-        @apply right-full;
-        @apply mx-1;
-        @apply top-1/2;
-        @apply transform;
-        @apply -translate-y-1/2;
-        @apply w-1.5;
-        @apply h-1.5;
-        @apply rounded-full;
-        @apply bg-blue-500;
-    }
-}
-
-.navigation h3 {
-    @apply block;
-    @apply text-blue-500;
-    @apply font-semibold;
-    @apply text-xs;
-    @apply uppercase;
-    @apply tracking-wider;
+    @apply transition-opacity;
+    @apply duration-200;
+    @apply z-50;
+    @apply min-w-32;
+    @apply will-change-auto;
 }

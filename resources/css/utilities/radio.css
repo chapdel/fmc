@@ -12,7 +12,6 @@
     @apply gap-3;
     @apply min-h-0;
     @apply cursor-pointer;
-    @apply text-gray-800;
 }
 
 .radio {
@@ -28,11 +27,11 @@
     @apply left-0;
     width: 1.5em;
     height: 1.5em;
+    @apply bg-white;
+    @apply shadow-md;
+    @apply shadow-blue-300/10;
     @apply border;
-    @apply border-blue-200;
-    @apply border-opacity-50;
-    @apply bg-blue-100;
-    @apply bg-opacity-50;
+    @apply border-indigo-800/30;
     @apply rounded-full;
     @apply overflow-hidden;
     content: '';
@@ -45,9 +44,11 @@
     width: 0.75em;
     height: 0.75em;
     @apply rounded-full;
-    @apply bg-blue-500;
+    @apply bg-gradient-to-b;
+    @apply from-blue-400;
+    @apply to-blue-500;
     content: '';
-    transition: transform 0.1s;
+    transition: transform 0.25s;
     transform: scale(0);
 }
 
@@ -56,10 +57,15 @@
     @apply outline-none;
 }
 
+.radio:hover:before {
+    @apply border-indigo-800/40;
+}
+
 .radio:focus:before {
-    @apply border-blue-400;
+    @apply border-blue-500;
     @apply bg-white;
-    @apply shadow-focus;
+    @apply shadow-md;
+    @apply shadow-blue-400/20;
 }
 
 .radio:checked:after {

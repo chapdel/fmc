@@ -104,7 +104,6 @@
     @apply flex-wrap;
     @apply items-center;
     @apply justify-between;
-    @apply -mt-4;
 }
 
 .table-filters {

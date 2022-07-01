@@ -163,7 +163,7 @@
     padding-bottom: 0.05rem;
     @apply px-2;
     @apply rounded;
-    @apply text-gray-800;
+    @apply text-black;
     @apply bg-blue-100;
     @apply bg-opacity-50;
     @apply border-2;

@@ -96,7 +96,7 @@ span.flatpickr-weekday {
 
 .flatpickr-day {
     background-color: transparent !important;
-    @apply text-gray-800;
+    @apply text-black;
 }
 
 .flatpickr-day.selected {

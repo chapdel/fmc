@@ -56,6 +56,7 @@
                         <span class="sr-only">Close notification</span>
                     </button>
                 </div>
+                <div class="alert-countdown" style="--alert-duration: 3s"></div>
             </div>
         </div>
     </template>

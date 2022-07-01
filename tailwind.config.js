@@ -15,6 +15,8 @@ module.exports = {
             white: colors.white,
             gray: colors.gray,
             blue: colors.blue,
+            indigo: colors.indigo,
+            teal: colors.teal,
             red: colors.rose,
             green: colors.emerald,
             yellow: colors.amber,
@@ -46,7 +48,7 @@ module.exports = {
                 32: '8rem',
             },
             maxWidth: {
-                layout: '110rem',
+                layout: '100rem',
             },
             backgroundSize: {
                 'size-200': '200% 200%',

@@ -1,19 +1,26 @@
 .button {
     @apply px-6;
     @apply h-10;
-    @apply bg-gradient-to-r;
-    @apply from-blue-500;
+    @apply bg-gradient-to-b;
+    @apply from-blue-700;
     @apply via-blue-600;
     @apply to-blue-700;
-    @apply text-white;
+    @apply text-white/90;
     @apply whitespace-nowrap;
     @apply rounded;
-    @apply shadow-focus;
-    @apply font-semibold;
-    @apply transition-all;
-    @apply duration-300;
-    @apply bg-size-200;
-    @apply bg-pos-0;
+    @apply shadow-md;
+    @apply shadow-blue-900/20;
+    @apply font-extrabold;
+    @apply transition-[background-position];
+    @apply duration-[50ms];
+    @apply border;
+    @apply border-t-white/30;
+    @apply border-l-white/30;
+    @apply border-r-black/10;
+    @apply border-b-black/10;
+    background-position: 0 100%;
+    background-size: 100% 200%;
+    @apply tracking-wide;
 }
 
 .button:disabled {
@@ -24,12 +31,17 @@
 .button:not(:disabled):hover,
 .button:not(:disabled):focus,
 .button.dropdown-trigger-open {
-    @apply bg-pos-100
+    @apply text-white;
+    background-position: 0 0;
+}
+
+.button:not(:disabled):focus {
+    @apply border-blue-500;
 }
 
 .button:not(:disabled):active {
     @apply shadow-inner;
-    transform: translateY(1px);
+    @apply translate-y-px;
 }
 
 .button-secondary {
@@ -51,7 +63,7 @@
 }
 
 .button-secondary:not(:disabled):active {
-    transform: translateY(1px);
+    @apply translate-y-px;
 }
 
 .buttons {

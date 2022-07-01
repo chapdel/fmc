@@ -27,57 +27,54 @@
         @include('mailcoach::app.layouts.partials.endHead')
         @stack('endHead')
     </head>
-    <body class="flex flex-col min-h-screen bg-white" x-data="{ confirmText: '', onConfirm: null }">
+    <body class="flex flex-col min-h-screen bg-indigo-500/5" x-data="{ confirmText: '', onConfirm: null }">
         <script>/**/</script><!-- Empty script to prevent FOUC in Firefox -->
         
-        <header class="flex-none sticky top-0 z-10">
+        <header class="flex-none sticky top-0 z-10 w-full max-w-layout mx-auto px-10">
             <x-mailcoach::main-navigation />
         </header>
 
-        <main id="swup" class="flex-grow z-1 mx-auto max-w-layout px-10 flex items-stretch gap-10">
-                @isset($nav)
-                    <nav class="flex-none bg-gradient-to-r from-white to-blue-50 w-[10rem]">
-                        {{ $nav }}
-                    </nav>
-                @endisset
+        <main id="swup" class="relative flex-grow z-1 mx-auto w-full max-w-layout px-10 flex items-stretch gap-10">
+            @isset($nav)
+                <nav class="mt-10 flex-none w-[16rem]">
+                    {{ $nav }}
+                </nav>
+            @endisset
+            
+            <section class="flex-grow flex flex-col">
+                <nav class="flex-none mt-10">
+                    @include('mailcoach::app.layouts.partials.breadcrumbs')
+                </nav>
+
                 
-                <section>
-                    <nav>
-                        @include('mailcoach::app.layouts.partials.breadcrumbs')
-                    </nav>
-
-                    <aside>
-                        @include('mailcoach::app.layouts.partials.startBody')
-    
-                        @if ((new Spatie\Mailcoach\Domain\Shared\Support\License\License())->hasExpired())
-                            <div class="mb-6 alert alert-warning text-sm shadow-lg">
-                                Your Mailcoach license has expired. <a class="underline" href="https://spatie.be/products/mailcoach">Renew your license</a> and benefit from fixes and new features.
-                            </div>
-                        @endif
-    
-                        @include('mailcoach::app.layouts.partials.flash')
-                    </aside>
-
-                    <h1 class="markup-h1">
-                        @isset($originTitle)
-                            <div class="markup-h1-sub">
-                                @isset($originHref)
-                                    <a class="text-blue-500" href="{{ $originHref }}">{{ $originTitle }}</a>
-                                @else
-                                    {{ $originTitle }}
-                                @endif
-                            </div>
-                        @endif
+                <div class="flex-none flex">
+                    <h1 class="mt-1 markup-h1">
                         {{ $title ?? '' }}
                     </h1>
+                </div>
+                
+                <div class="flex-grow p-12 pb-20 bg-white shadow-lg shadow-blue-600/5 rounded-md">
                     {{ $slot }}
-    
-                </section>
+                </div>
+                
+            </section>
         </main>
-
-        <footer class="px-6 pt-6">
+        
+        <footer class="mt-10 px-6 py-2">
             @include('mailcoach::app.layouts.partials.footer')
         </footer>
+
+        <aside class="z-50 fixed bottom-0 left-0 w-64">
+            @include('mailcoach::app.layouts.partials.startBody')
+
+            @if ((new Spatie\Mailcoach\Domain\Shared\Support\License\License())->hasExpired())
+                <div class="mb-6 alert alert-warning text-sm shadow-lg">
+                    Your Mailcoach license has expired. <a class="underline" href="https://spatie.be/products/mailcoach">Renew your license</a> and benefit from fixes and new features.
+                </div>
+            @endif
+
+            @include('mailcoach::app.layouts.partials.flash')
+        </aside>
 
         <x-mailcoach::modal :title="__('mailcoach - Confirm')" name="confirm">
             <span x-text="confirmText"></span>
