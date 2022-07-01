@@ -52,4 +52,5 @@ it('can export and import automations', function () {
     expect(Automation::first()->status)->toBe(AutomationStatus::PAUSED);
     expect(Automation::first()->actions()->count())->toBe(2);
     expect(Automation::first()->triggers()->count())->toBe(1);
+    expect(Automation::first()->getTrigger())->toBeInstanceOf(SubscribedTrigger::class);
 });

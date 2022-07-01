@@ -98,7 +98,7 @@ class Export extends Component
             new ExportAutomationMailsJob($path, $this->selectedAutomationMails),
             new ExportTransactionalMailTemplatesJob($path, $this->selectedTransactionalMailTemplates),
             new ZipExportJob($path),
-        ])->dispatch();
+        ])->onQueue(config('mailcoach.campaigns.perform_on_queue.send_campaign_job'))->dispatch();
 
         $this->exportStarted = true;
     }

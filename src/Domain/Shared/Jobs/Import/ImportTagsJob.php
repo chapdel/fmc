@@ -4,8 +4,6 @@ namespace Spatie\Mailcoach\Domain\Shared\Jobs\Import;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 use Spatie\SimpleExcel\SimpleExcelReader;
 
 class ImportTagsJob extends ImportJob
@@ -20,18 +18,17 @@ class ImportTagsJob extends ImportJob
 
     public function execute(): void
     {
-        $tagsPath = Storage::disk(config('mailcoach.import_disk'))->path('import/tags.csv');
-        $allowPath = Storage::disk(config('mailcoach.import_disk'))->path('import/email_list_allow_form_subscription_tags.csv');
-
-        if (! File::exists($tagsPath)) {
+        if (! $this->importDisk->exists('import/tags.csv')) {
             return;
         }
 
         $emailLists = self::getEmailListClass()::pluck('id', 'uuid');
 
-        $total = $this->getMeta('tags_count', 0) + $this->getMeta('email_list_subscriber_tags_count', 0);
+        $total = $this->getMeta('tags_count', 0) + $this->getMeta('email_list_allow_form_subscription_tags_count', 0);
 
-        $reader = SimpleExcelReader::create($tagsPath);
+        $this->tmpDisk->writeStream('tmp/tags.csv', $this->importDisk->readStream('import/tags.csv'));
+
+        $reader = SimpleExcelReader::create($this->tmpDisk->path('tmp/tags.csv'));
         $index = 0;
 
         foreach ($reader->getRows() as $row) {
@@ -48,11 +45,13 @@ class ImportTagsJob extends ImportJob
             $this->updateJobProgress($index, $total);
         }
 
-        if (! File::exists($allowPath)) {
+        if (! $this->importDisk->exists('import/email_list_allow_form_subscription_tags.csv')) {
             return;
         }
 
-        $reader = SimpleExcelReader::create($allowPath);
+        $this->tmpDisk->writeStream('tmp/email_list_allow_form_subscription_tags.csv', $this->importDisk->readStream('import/email_list_allow_form_subscription_tags.csv'));
+
+        $reader = SimpleExcelReader::create($this->tmpDisk->path('tmp/email_list_allow_form_subscription_tags.csv'));
         foreach ($reader->getRows() as $row) {
             $row['email_list_id'] = $emailLists[$row['email_list_uuid']];
             $row['tag_id'] = $this->tagMapping[$row['tag_id']] ?? null;
@@ -65,5 +64,7 @@ class ImportTagsJob extends ImportJob
             $index++;
             $this->updateJobProgress($index, $total);
         }
+
+        $this->tmpDisk->delete('tmp/email_list_allow_form_subscription_tags.csv');
     }
 }

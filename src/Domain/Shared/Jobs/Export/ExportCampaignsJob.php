@@ -33,6 +33,7 @@ class ExportCampaignsJob extends ExportJob
             ->get();
 
         $this->writeFile('campaigns.csv', $campaigns);
+        $this->addMeta('campaigns_count', $campaigns->count());
 
         $campaignLinks = DB::table(self::getCampaignLinkTableName())
             ->whereIn('campaign_id', $this->selectedCampaigns)
