@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.7.0 - 2022-07-01
+
+- Improve imports & exports to be able to work with s3 disks
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.6.0...5.7.0
+
 ## 5.6.0 - 2022-06-24
 
 ### What's Changed
