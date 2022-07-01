@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.6.0 - 2022-06-24
+
+### What's Changed
+
+- Import & export by @riasvdv in https://github.com/spatie/laravel-mailcoach/pull/1002
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.5.14...5.6.0
+
 ## 5.5.14 - 2022-06-24
 
 ### What's Changed
