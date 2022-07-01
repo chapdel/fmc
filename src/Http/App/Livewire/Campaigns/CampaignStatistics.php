@@ -38,12 +38,16 @@ class CampaignStatistics extends Component
             return collect();
         }
 
+        if (! $this->campaign->opens()->count() && ! $this->campaign->clicks()->count()) {
+            return collect();
+        }
+
         $start = $this->campaign->sent_at->startOfHour()->toImmutable();
 
         if ($this->campaign->open_count > 0) {
-            $firstOpenCreatedAt = $this->campaign->opens()->first()->created_at;
+            $firstOpenCreatedAt = $this->campaign->opens()->first()?->created_at;
 
-            if ($firstOpenCreatedAt < $start) {
+            if ($firstOpenCreatedAt && $firstOpenCreatedAt < $start) {
                 $start = $firstOpenCreatedAt->startOfHour()->toImmutable();
             }
         }

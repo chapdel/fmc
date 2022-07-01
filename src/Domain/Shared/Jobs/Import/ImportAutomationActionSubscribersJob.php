@@ -47,7 +47,7 @@ class ImportAutomationActionSubscribersJob extends ImportJob
                         'subscriber_id' => $row['subscriber_id'],
                     ])->exists()) {
                         $row['uuid'] ??= Str::uuid();
-                        self::getActionSubscriberClass()::insert(array_filter(Arr::except($row, ['id', 'subscriber_uuid', 'action_uuid'])));
+                        self::getActionSubscriberClass()::create(array_filter(Arr::except($row, ['id', 'subscriber_uuid', 'action_uuid'])));
                     }
 
                     $index++;
