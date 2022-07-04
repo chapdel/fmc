@@ -82,6 +82,15 @@
         </dd>
 
         <dt>
+            <x-mailcoach::health-label warning :test="$campaign->emailList->campaign_mailer !== 'log'" :label="__('mailcoach - Mailer')"/>
+        </dt>
+        <dd>
+            <div>
+                {{ $campaign->emailList->campaign_mailer }} <a href="{{ route('mailcoach.emailLists.mailers', $campaign->emailList) }}"><x-mailcoach::button-secondary :label="strtolower(__('mailcoach - Edit'))"/></a>
+            </div>
+        </dd>
+
+        <dt>
             @if($campaign->html && $campaign->hasValidHtml())
                 <x-mailcoach::health-label
                     :test="$campaign->htmlContainsUnsubscribeUrlPlaceHolder() && $campaign->sizeInKb() < 102"
