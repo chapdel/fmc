@@ -7,11 +7,13 @@ use Illuminate\Foundation\Auth\User;
 use Spatie\Mailcoach\Domain\Audience\Jobs\ImportSubscribersJob;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Requests\EmailLists\ImportSubscribersRequest;
 
 class ImportSubscribersController
 {
     use AuthorizesRequests;
+    use UsesMailcoachModels;
 
     public function showImportScreen(EmailList $emailList)
     {
@@ -28,7 +30,7 @@ class ImportSubscribersController
         $this->authorize('update', $emailList);
 
         /** @var \Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport $subscriberImport */
-        $subscriberImport = SubscriberImport::create([
+        $subscriberImport = self::getSubscriberImportClass()::create([
             'email_list_id' => $emailList->id,
             'subscribe_unsubscribed' => $request->subscribeUnsubscribed(),
             'unsubscribe_others' => $request->unsubscribeMissing(),
