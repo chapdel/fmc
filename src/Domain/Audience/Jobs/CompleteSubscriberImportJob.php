@@ -34,6 +34,7 @@ class CompleteSubscriberImportJob implements ShouldQueue
     {
         if ($this->totalRows > $this->subscriberImport->imported_subscribers_count) {
             $this->release(30); // Try again in 30 seconds
+
             return;
         }
 

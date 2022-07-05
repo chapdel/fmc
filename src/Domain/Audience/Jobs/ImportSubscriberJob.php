@@ -4,12 +4,10 @@ namespace Spatie\Mailcoach\Domain\Audience\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\ImportSubscriberAction;
-use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\ImportSubscribersAction;
 use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
 use Spatie\Mailcoach\Mailcoach;
 

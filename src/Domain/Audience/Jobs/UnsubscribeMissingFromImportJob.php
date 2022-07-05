@@ -27,6 +27,7 @@ class UnsubscribeMissingFromImportJob implements ShouldQueue
     {
         if ($this->subscriberImport->status !== SubscriberImportStatus::Completed) {
             $this->release(30); // Try again in 30 seconds
+
             return;
         }
 
