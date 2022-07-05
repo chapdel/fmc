@@ -17,7 +17,6 @@ class SubscriberImportFactory extends Factory
             'status' => SubscriberImportStatus::Completed,
             'email_list_id' => EmailList::factory(),
             'imported_subscribers_count' => $this->faker->numberBetween(1, 1000),
-            'error_count' => $this->faker->numberBetween(1, 1000),
         ];
     }
 }

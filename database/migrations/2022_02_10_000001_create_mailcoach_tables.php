@@ -388,7 +388,7 @@ return new class extends Migration
             $table->boolean('unsubscribe_others')->default(false);
             $table->boolean('replace_tags')->default(false);
             $table->integer('imported_subscribers_count')->default(0);
-            $table->integer('error_count')->default(0);
+            $table->text('errors')->nullable();
             $table->timestamps();
         });
 
