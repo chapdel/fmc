@@ -17,8 +17,6 @@ class TransactionalMailResource extends JsonResource
             'cc' => $this->cc,
             'bcc' => $this->bcc,
             'body' => $this->body,
-            'track_clicks' => $this->track_clicks,
-            'track_opens' => $this->track_opens,
             'created_at' => $this->created_at,
         ];
     }

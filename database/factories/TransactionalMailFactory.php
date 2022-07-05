@@ -27,8 +27,6 @@ class TransactionalMailFactory extends Factory
             'cc' => [$this->person()],
             'bcc' => [$this->person()],
             'mailable_class' => TestMailable::class,
-            'track_opens' => true,
-            'track_clicks' => true,
         ];
     }
 

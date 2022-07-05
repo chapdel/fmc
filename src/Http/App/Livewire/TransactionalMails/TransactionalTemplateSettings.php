@@ -23,8 +23,6 @@ class TransactionalTemplateSettings extends Component
             'template.name' => 'required',
             'template.type' => 'required',
             'template.store_mail' => '',
-            'template.track_opens' => '',
-            'template.track_clicks' => '',
         ];
     }
 

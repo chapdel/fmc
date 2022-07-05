@@ -7,7 +7,7 @@ listen('input', '[data-dirty-check]', ({ target }) => {
 Livewire.on('notify', function (params) {
     const [message, level] = params;
 
-    if (level === 'success') {
+    if (level === 'success' && $('[data-dirty-check]')) {
         $('[data-dirty-check]').dirty = false;
     }
 });

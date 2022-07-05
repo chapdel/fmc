@@ -15,8 +15,6 @@ it('can update the settings of a campaign', function () {
         ->set('campaign.name', 'updated name')
         ->set('campaign.subject', 'my subject')
         ->set('campaign.email_list_id', EmailList::factory()->create()->id)
-        ->set('campaign.track_opens', true)
-        ->set('campaign.track_clicks', true)
         ->set('campaign.utm_tags', true)
         ->set('segment', 'entire_list')
         ->call('save')
@@ -25,8 +23,6 @@ it('can update the settings of a campaign', function () {
     test()->assertDatabaseHas(static::getCampaignTableName(), [
         'name' => 'updated name',
         'subject' => 'my subject',
-        'track_opens' => true,
-        'track_clicks' => true,
         'utm_tags' => true,
     ]);
 });

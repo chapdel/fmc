@@ -22,8 +22,6 @@ class AutomationMailSettings extends Component
         return [
             'mail.name' => 'required',
             'mail.subject' => '',
-            'mail.track_opens' => 'bool',
-            'mail.track_clicks' => 'bool',
             'mail.utm_tags' => 'bool',
         ];
     }

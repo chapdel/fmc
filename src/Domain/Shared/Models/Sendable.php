@@ -29,8 +29,6 @@ abstract class Sendable extends Model implements HasHtmlContent
 
     public $baseCasts = [
         'id' => 'int',
-        'track_opens' => 'boolean',
-        'track_clicks' => 'boolean',
         'utm_tags' => 'boolean',
         'open_rate' => 'integer',
         'click_rate' => 'integer',
@@ -116,24 +114,6 @@ abstract class Sendable extends Model implements HasHtmlContent
         $this->ensureUpdatable();
 
         $this->update(compact('subject'));
-
-        return $this;
-    }
-
-    public function trackOpens(bool $bool = true): self
-    {
-        $this->ensureUpdatable();
-
-        $this->update(['track_opens' => $bool]);
-
-        return $this;
-    }
-
-    public function trackClicks(bool $bool = true): self
-    {
-        $this->ensureUpdatable();
-
-        $this->update(['track_clicks' => $bool]);
 
         return $this;
     }

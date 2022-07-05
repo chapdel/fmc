@@ -18,8 +18,6 @@ test('a campaign can be updated using the api', function () {
         'name' => 'name',
         'email_list_id' => EmailList::factory()->create()->id,
         'html' => 'html',
-        'track_opens' => true,
-        'track_clicks' => false,
         'schedule_at' => '2022-01-01 10:00:00',
     ];
 

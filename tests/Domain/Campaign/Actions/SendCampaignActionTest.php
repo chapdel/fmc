@@ -234,7 +234,6 @@ it('will not send invalid html', function () {
     Mail::fake();
 
     test()->campaign->update([
-        'track_clicks' => true,
         'html' => '<qsdfqlsmdkjm><<>><<',
     ]);
 

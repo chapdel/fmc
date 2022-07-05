@@ -97,7 +97,6 @@ it('can get all sends', function () {
 it('can get all opens', function () {
     /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
     $send = SendFactory::new()->create();
-    $send->campaign->update(['track_opens' => true]);
 
     $send->registerOpen();
 
@@ -114,7 +113,7 @@ it('can get all opens', function () {
 it('can get all clicks', function () {
     /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
     $send = SendFactory::new()->create();
-    $send->campaign->update(['track_clicks' => true]);
+    $send->campaign->update();
 
     $send->registerClick('https://example.com');
     $send->registerClick('https://another-domain.com');

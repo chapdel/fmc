@@ -144,7 +144,6 @@ it('will not send invalid html', function () {
     Mail::fake();
 
     test()->automationMail->update([
-        'track_clicks' => true,
         'html' => '<qsdfqlsmdkjm><<>><<',
     ]);
 

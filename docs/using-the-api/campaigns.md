@@ -46,8 +46,6 @@ As a result, you get the details of all your campaigns:
             "email_html": null,
             "webview_html": null,
             "mailable_class": null,
-            "track_opens": false,
-            "track_clicks": true,
             "sent_to_number_of_subscribers": "0",
             "segment_class": null,
             "segment_description": "0",
@@ -118,8 +116,6 @@ Response:
         "email_html": null,
         "webview_html": null,
         "mailable_class": null,
-        "track_opens": false,
-        "track_clicks": true,
         "sent_to_number_of_subscribers": "0",
         "segment_class": null,
         "segment_description": "0",
@@ -154,7 +150,7 @@ $ curl -X POST https://example.app/mailcoach/api/campaigns \
     -H "Authorization: Bearer $MAILCOACH_TOKEN" \
     -H 'Accept: application/json' \
     -H 'Content-Type: application/json' \
-    -d '{"name":"Campaign name", "email_list_id": 1, "html": "<html>...</html>", "track_opens": true, "track_clicks": false}'
+    -d '{"name":"Campaign name", "email_list_id": 1, "html": "<html>...</html>"}'
 ```
 
 Your request payload should also be valid JSON. The actual payload, when formatted, looks like this:
@@ -163,9 +159,7 @@ Your request payload should also be valid JSON. The actual payload, when formatt
 {
   "name": "Campaign name",
   "email_list_id": 1,
-  "html": "html",
-  "track_opens": true,
-  "track_clicks": false
+  "html": "html"
 }
 ```
 
@@ -177,8 +171,6 @@ Fields:
 - `segment_id` => integer
 - `html` => string
 - `mailable_class` => string
-- `track_opens` => boolean
-- `track_clicks` => boolean
 - `schedule_at` => date_format:Y-m-d H:i:s
 
 If the API call succeeded, you'll be given output like this.

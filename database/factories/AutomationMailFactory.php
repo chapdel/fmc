@@ -23,8 +23,6 @@ class AutomationMailFactory extends Factory
             'from_email' => $this->faker->email,
             'from_name' => $this->faker->name,
             'html' => $this->faker->randomHtml(),
-            'track_opens' => $this->faker->boolean,
-            'track_clicks' => $this->faker->boolean,
             'uuid' => $this->faker->uuid,
             'last_modified_at' => now(),
         ];

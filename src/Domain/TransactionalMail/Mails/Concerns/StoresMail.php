@@ -9,42 +9,7 @@ use Symfony\Component\Mime\Header\AbstractHeader;
 /** @mixin \Illuminate\Mail\Mailable */
 trait StoresMail
 {
-    protected bool $trackOpens = false;
-
-    protected bool $trackClicks = false;
-
     protected bool $store = false;
-
-    public function trackOpensAndClicks(): self
-    {
-        $this->store = true;
-        $this->trackOpens = true;
-        $this->trackClicks = true;
-
-        $this->setMailCoachTrackingHeaders();
-
-        return $this;
-    }
-
-    public function trackOpens(): self
-    {
-        $this->store = true;
-        $this->trackOpens = true;
-
-        $this->setMailCoachTrackingHeaders();
-
-        return $this;
-    }
-
-    public function trackClicks(): self
-    {
-        $this->store = true;
-        $this->trackClicks = true;
-
-        $this->setMailCoachTrackingHeaders();
-
-        return $this;
-    }
 
     public function store(): self
     {
@@ -60,19 +25,8 @@ trait StoresMail
         $this->withSymfonyMessage(function (Email $message) {
             $this->removeExistingMailcoachHeaders($message);
 
-            if ($this->trackOpens) {
-                $this->addMailcoachHeader($message, TransactionalMailMessageConfig::HEADER_NAME_OPENS);
-            }
-
-            if ($this->trackClicks) {
-                $this->addMailcoachHeader($message, TransactionalMailMessageConfig::HEADER_NAME_CLICKS);
-            }
-
-            if ($this->trackOpens || $this->trackClicks) {
-                $this->addMailcoachHeader($message, 'X-MAILCOACH', 'true');
-            }
-
             if ($this->store) {
+                $this->addMailcoachHeader($message, 'X-MAILCOACH', 'true');
                 $this->addMailcoachHeader($message, TransactionalMailMessageConfig::HEADER_NAME_STORE);
             }
 

@@ -1,5 +1,5 @@
 <div>
-    @if($campaign->track_opens)
+    @if($campaign->open_count)
         <x-mailcoach::data-table
             name="open"
             :rows="$mailOpens ?? null"
@@ -14,7 +14,7 @@
         />
     @else
         <x-mailcoach::help>
-            {{ __('mailcoach - Open tracking was not enabled for this campaign.') }}
+            {{ __('mailcoach - No opens tracked') }}
         </x-mailcoach::help>
     @endif
 </div>

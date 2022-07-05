@@ -21,26 +21,8 @@ class TransactionalMailMessageConfig
     ) {
     }
 
-    public function trackOpens(): bool
-    {
-        return $this->message->getHeaders()->has(static::HEADER_NAME_OPENS);
-    }
-
-    public function trackClicks(): bool
-    {
-        return $this->message->getHeaders()->has(static::HEADER_NAME_CLICKS);
-    }
-
     public function shouldStore(): bool
     {
-        if ($this->trackOpens()) {
-            return true;
-        }
-
-        if ($this->trackClicks()) {
-            return true;
-        }
-
         return $this->message->getHeaders()->has(static::HEADER_NAME_STORE);
     }
 

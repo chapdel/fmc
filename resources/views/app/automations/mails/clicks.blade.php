@@ -1,5 +1,5 @@
 <div>
-    @if($mail->track_clicks)
+    @if($mail->click_count)
         @php(($links ?? collect())->map(fn ($link) => $link->setRelation('automationMail', $mail)))
         <x-mailcoach::data-table
             name="clicks"
@@ -16,7 +16,7 @@
         />
     @else
         <x-mailcoach::help>
-            {{ __('mailcoach - Click tracking was not enabled for this email.') }}
+            {{ __('mailcoach - No clicks tracked') }}
         </x-mailcoach::help>
     @endif
 </div>

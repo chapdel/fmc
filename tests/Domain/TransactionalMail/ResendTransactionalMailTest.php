@@ -14,7 +14,7 @@ it('can resend a transactional mail', function () {
     /** @var TransactionalMail $originalMail */
     $this->sendTestMail(function (TestTransactionMail $testTransactionMail) {
         $testTransactionMail
-            ->trackOpensAndClicks()
+            ->store()
             ->from('ringo@example.com', 'Ringo')
             ->to('john@example.com', 'John')
             ->cc('paul@example.com', 'Paul')

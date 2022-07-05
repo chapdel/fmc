@@ -10,7 +10,6 @@ use Symfony\Component\DomCrawler\Crawler;
 beforeEach(function () {
     test()->campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
         'html' => 'My campaign <a href="::webviewUrl::">Web view</a>',
-        'track_clicks' => true,
     ]);
 
     test()->emailList = test()->campaign->emailList;

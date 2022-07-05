@@ -33,8 +33,6 @@ class Campaigns extends DataTable
             'html' => $campaign->html,
             'structured_html' => $campaign->structured_html,
             'webview_html' => $campaign->webview_html,
-            'track_opens' => $campaign->track_opens,
-            'track_clicks' => $campaign->track_clicks,
             'utm_tags' => $campaign->utm_tags,
             'last_modified_at' => now(),
             'segment_class' => $campaign->segment_class,

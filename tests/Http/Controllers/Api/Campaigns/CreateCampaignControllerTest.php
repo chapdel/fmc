@@ -61,7 +61,5 @@ function getPostAttributes(): array
         'type' => CampaignStatus::Draft,
         'email_list_id' => EmailList::factory()->create()->id,
         'html' => 'html',
-        'track_opens' => true,
-        'track_clicks' => false,
     ];
 }

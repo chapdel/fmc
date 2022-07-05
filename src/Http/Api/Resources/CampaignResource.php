@@ -30,8 +30,6 @@ class CampaignResource extends JsonResource
 
             'mailable_class' => $this->mailable_class,
 
-            'track_opens' => $this->track_opens,
-            'track_clicks' => $this->track_clicks,
             'utm_tags' => $this->utm_tags,
 
             'sent_to_number_of_subscribers' => $this->sent_to_number_of_subscribers,

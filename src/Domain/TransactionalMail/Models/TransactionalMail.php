@@ -28,8 +28,6 @@ class TransactionalMail extends Model
         'to' => 'array',
         'cc' => 'array',
         'bcc' => 'array',
-        'track_opens' => 'boolean',
-        'track_clicks' => 'boolean',
     ];
 
     public function send(): HasOne

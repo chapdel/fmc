@@ -29,8 +29,6 @@ it('can send a transactional mail', function () {
             'to' => 'freek@spatie.be',
             'cc' => 'rias+cc@spatie.be',
             'bcc' => 'rias+bcc@spatie.be',
-            'track_opens' => true,
-            'track_clicks' => true,
         ]))
         ->assertSuccessful();
 
@@ -54,8 +52,7 @@ it('tracks the transactional mails', function () {
             'to' => 'freek@spatie.be',
             'cc' => 'rias+cc@spatie.be',
             'bcc' => 'rias+bcc@spatie.be',
-            'track_opens' => true,
-            'track_clicks' => true,
+            'store' => true,
         ]))
         ->assertSuccessful();
 

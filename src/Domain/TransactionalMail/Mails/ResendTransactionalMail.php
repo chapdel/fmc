@@ -22,14 +22,6 @@ class ResendTransactionalMail extends Mailable
             ->bcc($this->convertPersonsToMailableFormat($this->originalMail->bcc))
             ->subject($this->originalMail->subject)
             ->view('mailcoach::mails.transactionalMailResend');
-
-        if ($this->originalMail->track_opens) {
-            $this->trackOpens();
-        }
-
-        if ($this->originalMail->track_clicks) {
-            $this->trackClicks();
-        }
     }
 
     public function build()

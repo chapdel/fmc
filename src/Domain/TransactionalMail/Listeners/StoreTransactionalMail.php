@@ -29,12 +29,10 @@ class StoreTransactionalMail
             'cc' => $this->convertToNamedArray($message->getCc()),
             'bcc' => $this->convertToNamedArray($message->getBcc()),
             'body' => $message->getHtmlBody() ?? $message->getTextBody(),
-            'track_opens' => $messageConfig->trackOpens(),
-            'track_clicks' => $messageConfig->trackClicks(),
             'mailable_class' => $messageConfig->getMailableClass(),
         ]);
 
-        $send = $this->getSendClass()::create([
+        $send = self::getSendClass()::create([
             'transactional_mail_id' => $transactionalMail->id,
             'sent_at' => now(),
         ]);

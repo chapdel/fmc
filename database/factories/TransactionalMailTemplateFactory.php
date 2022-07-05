@@ -28,8 +28,6 @@ class TransactionalMailTemplateFactory extends Factory
             'bcc' => [$this->faker->email],
             'body' => $this->faker->randomHtml(),
             'type' => 'blade',
-            'track_opens' => true,
-            'track_clicks' => true,
             'test_using_mailable' => TestMailableWithTemplate::class,
         ];
     }

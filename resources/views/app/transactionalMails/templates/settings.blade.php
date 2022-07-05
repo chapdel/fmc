@@ -46,11 +46,9 @@
 
     <x-mailcoach::fieldset :legend="__('mailcoach - Tracking')">
         <div class="form-field">
-            <label class="label">{{ __('mailcoach - Track when…') }}</label>
-            <div class="checkbox-group">
-                <x-mailcoach::checkbox-field :label="__('mailcoach - Someone opens this email')" name="template.track_opens" wire:model.lazy="template.track_opens" />
-                <x-mailcoach::checkbox-field :label="__('mailcoach - Links in the email are clicked')" name="template.track_clicks" wire:model.lazy="template.track_clicks" />
-            </div>
+            <x-mailcoach::help>
+                {!! __('mailcoach - Open & Click tracking are managed by your email provider.') !!}
+            </x-mailcoach::help>
         </div>
     </x-mailcoach::fieldset>
 

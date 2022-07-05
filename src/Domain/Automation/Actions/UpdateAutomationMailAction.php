@@ -16,8 +16,6 @@ class UpdateAutomationMailAction
             'subject' => $attributes['subject'] ?? $attributes['name'],
             'html' => $attributes['html'] ?? '',
             'structured_html' => $attributes['structured_html'] ?? '',
-            'track_opens' => $attributes['track_opens'] ?? config('mailcoach.automation.default_settings.track_opens', false),
-            'track_clicks' => $attributes['track_clicks'] ?? config('mailcoach.automation.default_settings.track_clicks', false),
             'utm_tags' => $attributes['utm_tags'] ?? config('mailcoach.automation.default_settings.utm_tags', false),
             'last_modified_at' => now(),
         ]);

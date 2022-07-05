@@ -121,8 +121,6 @@ return new class extends Migration
             $table->string('mailable_class')->nullable();
             $table->json('mailable_arguments')->nullable();
 
-            $table->boolean('track_opens')->default(false);
-            $table->boolean('track_clicks')->default(false);
             $table->boolean('utm_tags')->default(false);
 
             $table->integer('sent_to_number_of_subscribers')->default(0);
@@ -190,9 +188,6 @@ return new class extends Migration
             $table->longText('body')->nullable();
             $table->longText('structured_html')->nullable();
 
-            $table->boolean('track_opens')->default(false);
-            $table->boolean('track_clicks')->default(false);
-
             $table->string('mailable_class');
 
             $table->timestamps();
@@ -220,8 +215,6 @@ return new class extends Migration
             $table->string('mailable_class')->nullable();
             $table->json('mailable_arguments')->nullable();
 
-            $table->boolean('track_opens')->default(false);
-            $table->boolean('track_clicks')->default(false);
             $table->boolean('utm_tags')->default(false);
 
             $table->integer('sent_to_number_of_subscribers')->default(0);
@@ -681,8 +674,6 @@ return new class extends Migration
             $table->string('type'); // html, blade, markdown
             $table->json('replacers')->nullable();
             $table->boolean('store_mail')->default(false);
-            $table->boolean('track_opens')->default(false);
-            $table->boolean('track_clicks')->default(false);
             $table->text('test_using_mailable')->nullable();
             $table->timestamps();
         });
