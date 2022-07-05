@@ -12,8 +12,7 @@
     @apply place-center;
     @apply w-8;
     @apply h-full;
-    @apply text-blue-600;
-    opacity: 0.75;
+    @apply text-blue-500;
 }
 
 .select select {

@@ -1,7 +1,7 @@
 .search input {
     @apply input;
     @apply h-8;
-    @apply pl-3;
+    @apply pl-4;
     @apply pr-1;
     @apply rounded-full;
     width: 12rem;
@@ -30,8 +30,3 @@
     transform: scale(0);
 }
 
-@screen md {
-    .filters + .search input {
-        @apply rounded-l-none;
-    }
-}

@@ -1,11 +1,10 @@
 .table {
     @apply table-fixed;
-    @apply border-collapse;
-    @apply border-b;
-    @apply border-gray-100;
     width: calc(100% + 1.5rem);
     overflow-x: visible;
     @apply -mx-3;
+    @apply border-separate;
+    @apply border-spacing-0;
 }
 
 @screen lg {
@@ -19,16 +18,10 @@
     @apply mt-8;
 }
 
-.table thead tr {
-    @apply border-b-2;
-    @apply border-gray-100;
-    font-size: 0.875em;
-}
-
 .table th,
 .table td {
     @apply py-3;
-    @apply pr-6;
+    @apply px-6;
     @apply align-top;
 }
 
@@ -39,15 +32,20 @@
     @apply uppercase;
     @apply text-xs;
     @apply tracking-wider;
+    @apply bg-white;
+    @apply sticky;
+    @apply top-16;
+    @apply z-10;
+    @apply bg-gradient-to-b;
+    @apply from-gray-500/5;
+    @apply to-gray-700/10;
+    @apply first:rounded-l;
+    @apply last:rounded-r;
 }
 
-.table tbody tr:nth-child(even) {
-    @apply bg-gray-200;
-    @apply bg-opacity-20;
-}
-
-.table tbody tr:nth-child(even) .td-action {
-    @apply bg-transparent;
+.table tbody td {
+    @apply border-b;
+    @apply border-gray-200;
 }
 
 .tr-h-double td {
@@ -104,6 +102,7 @@
     @apply flex-wrap;
     @apply items-center;
     @apply justify-between;
+    @apply mb-10;
 }
 
 .table-filters {

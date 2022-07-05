@@ -10,16 +10,17 @@
     @apply absolute;
     @apply left-0;
     @apply top-0;
-    @apply w-[2px];
+    @apply w-[3px];
     @apply h-full;
+    @apply rounded-full;
     @apply bg-gradient-to-b;
-    @apply from-blue-500;
+    @apply from-blue-400;
     @apply to-indigo-500;
 }
 
 .nav-item {
     @apply py-0.5;
-    @apply hover:text-blue-900;
+    @apply hover:text-blue-800;
     @apply font-medium;
 }
 

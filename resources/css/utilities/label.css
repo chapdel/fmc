@@ -17,6 +17,6 @@
     @apply p-0.5;
     @apply ml-1;
     @apply -mt-1.5;
-    @apply bg-red-100;
-    @apply text-red-600;
+    @apply bg-purple-100;
+    @apply text-purple-600;
 }

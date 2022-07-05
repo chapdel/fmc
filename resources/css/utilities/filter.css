@@ -5,33 +5,38 @@
 @screen md {
     .filters {
         display: flex;
+        @apply gap-6;
         align-items: center;
         @apply rounded-full;
+        @apply pr-8; 
     }
 }
 
 .filters li a {
     display: flex;
-    @apply h-8;
+    @apply h-10;
+    @apply pl-1;
     @apply items-center;
-    @apply px-3;
-    @apply bg-gray-100;
-    @apply border-r;
-    @apply border-gray-200;
     @apply leading-none;
     @apply text-sm;
-    @apply text-blue-800;
-}
-
-.filters li:first-child a {
-    @apply rounded-l-full;
-    @apply pl-4;
-}
-
-.filters li:last-child a {
-    @apply border-r-0;
+    @apply text-black;
+    @apply hover:text-blue-800;
+    @apply font-medium;
 }
 
 .filters li .filter-active {
-    @apply bg-blue-200;
+    @apply text-blue-700;
+}
+
+.filters li .filter-active:after {
+    content: '';
+    @apply absolute;
+    @apply left-0;
+    @apply bottom-0;
+    @apply h-[3px];
+    @apply w-full;
+    @apply rounded-full;
+    @apply bg-gradient-to-r;
+    @apply from-blue-400;
+    @apply to-indigo-500;
 }

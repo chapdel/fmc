@@ -21,6 +21,7 @@ module.exports = {
             green: colors.emerald,
             yellow: colors.amber,
             orange: colors.orange,
+            purple: colors.purple,
         },
         extend: {
             boxShadow: {
@@ -38,6 +39,7 @@ module.exports = {
                 4: '1rem',
                 6: '1.5rem',
                 8: '2rem',
+                9: '2.25rem',
                 10: '2.5rem',
             },
             minWidth: {

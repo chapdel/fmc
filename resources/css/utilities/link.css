@@ -5,8 +5,8 @@
 }
 
 .link-hover {
-    @apply text-blue-500;
-    text-decoration-color: var(--blue-500);
+    @apply text-blue-800;
+    text-decoration-color: var(--blue-700);
 }
 
 .link:hover {
@@ -54,7 +54,7 @@
 }
 
 .link-icon:hover {
-    @apply text-blue-600;
+    @apply text-blue-800;
 }
 
 .link-icon:hover .icon-label-text {

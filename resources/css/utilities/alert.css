@@ -1,15 +1,19 @@
 .alert {
-    @apply px-6;
-    @apply py-4;
+    @apply my-6;
+    @apply first:mt-0;
+    @apply last:mb-0;
+    @apply px-8;
+    @apply py-6;
     @apply rounded;
-    @apply shadow-lg;
+    @apply border;
 }
 
 .alert a {
     @apply underline;
 }
 
-.alert-flash {
+.alert.alert-flash {
+    @apply m-0;
     @apply cursor-pointer;
     @apply absolute;
     @apply right-0;
@@ -34,35 +38,43 @@
 }
 
 .alert-success {
-    @apply bg-gradient-to-r;
-    @apply from-green-500;
-    @apply to-green-600;
-    @apply text-white;
+    @apply bg-gradient-to-br;
+    @apply from-green-50;
+    @apply to-green-100;
+    @apply text-green-900;
+    @apply border-green-500/20;
 }
 
 .alert-info {
-    @apply bg-blue-50;
-    @apply text-blue-800;
+    @apply bg-gradient-to-br;
+    @apply from-purple-50;
+    @apply to-purple-100;
+    @apply text-purple-900;
+    @apply border-purple-500/20;
 }
 
 .alert-info code {
-    @apply bg-blue-100;
-    @apply text-blue-800;
+    @apply bg-gradient-to-br;
+    @apply from-purple-500/20;
+    @apply to-purple-500/30;
+    @apply text-purple-900;
 }
 
 .alert-warning {
-    @apply bg-gradient-to-r;
-    @apply from-orange-400;
-    @apply to-orange-500;
-    @apply text-white;
+    @apply bg-gradient-to-br;
+    @apply from-orange-50;
+    @apply to-orange-100;
+    @apply text-orange-700;
+    @apply border-orange-500/20;
 }
 
 .alert-danger,
 .alert-error {
-    @apply bg-gradient-to-r;
-    @apply from-red-500;
-    @apply to-red-600;
-    @apply text-white;
+    @apply bg-gradient-to-br;
+    @apply from-red-50;
+    @apply to-red-100;
+    @apply text-red-700;
+    @apply border-red-500/20;
 }
 
 .alert-empty {

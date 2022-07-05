@@ -51,8 +51,8 @@
     @apply inline-flex;
     @apply items-center;
     @apply rounded;
-    @apply bg-gray-300;
-    @apply bg-opacity-30;
+    @apply bg-gray-300/30;
+    @apply text-gray-600;
     @apply px-2;
     @apply py-1;
     margin: 0 3px 3px 0;
@@ -64,11 +64,12 @@
     @apply inline-flex;
     @apply items-center;
     @apply rounded;
-    @apply bg-blue-300;
-    @apply bg-opacity-30;
+    @apply bg-purple-300/30;
+    @apply text-purple-700;
     @apply px-2;
     @apply py-1;
     margin: 0 3px 3px 0;
     @apply text-xs;
     @apply no-underline;
 }
+s

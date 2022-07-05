@@ -27,14 +27,14 @@
         @include('mailcoach::app.layouts.partials.endHead')
         @stack('endHead')
     </head>
-    <body class="flex flex-col min-h-screen bg-indigo-500/5" x-data="{ confirmText: '', onConfirm: null }">
+    <body class="flex flex-col min-h-screen bg-indigo-700/5" x-data="{ confirmText: '', onConfirm: null }">
         <script>/**/</script><!-- Empty script to prevent FOUC in Firefox -->
         
-        <header class="flex-none sticky top-0 z-10 w-full max-w-layout mx-auto px-10">
+        <header class="flex-none sticky top-0 z-20 w-full max-w-layout mx-auto px-10">
             <x-mailcoach::main-navigation />
         </header>
 
-        <main id="swup" class="relative flex-grow z-1 mx-auto w-full max-w-layout px-10 flex items-stretch gap-10">
+        <main id="swup" class="relative flex-grow z-1 mx-auto w-full max-w-layout px-16 flex items-stretch gap-10">
             @isset($nav)
                 <nav class="mt-10 flex-none w-[16rem]">
                     {{ $nav }}
@@ -60,7 +60,7 @@
             </section>
         </main>
         
-        <footer class="mt-10 px-6 py-2">
+        <footer class="mt-10">
             @include('mailcoach::app.layouts.partials.footer')
         </footer>
 
