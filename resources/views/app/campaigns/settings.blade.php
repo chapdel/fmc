@@ -41,9 +41,13 @@
                 <x-mailcoach::help>
                     {!! __('mailcoach - Open & Click tracking are managed by your email provider, this campaign uses the <a href=":mailerLink"><strong>:mailer</strong></a> mailer.', ['mailer' => $mailerModel->name, 'mailerLink' => route('mailers.edit', $mailerModel)]) !!}
                 </x-mailcoach::help>
-            @else
+            @elseif($mailer)
                 <x-mailcoach::help>
                     {!! __('mailcoach - Open & Click tracking are managed by your email provider, this campaign uses the <strong>:mailer</strong> mailer.', ['mailer' => $mailer]) !!}
+                </x-mailcoach::help>
+            @else
+                <x-mailcoach::help>
+                    {!! __('mailcoach - Your email list does not have a mailer set up yet.') !!}
                 </x-mailcoach::help>
             @endif
         </div>

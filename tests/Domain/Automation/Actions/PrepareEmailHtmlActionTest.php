@@ -117,7 +117,7 @@ it('will add utm tags', function () {
 
     $campaign->refresh();
 
-    expect($campaign->email_html)->toContain(htmlspecialchars("https://spatie.be?utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail"));
+    expect($campaign->email_html)->toContain(htmlspecialchars("https://spatie.be?utm_source=newsletter&utm_medium=email&utm_campaign=my-automationmail"));
     assertMatchesHtmlSnapshot($campaign->email_html);
 });
 
@@ -134,7 +134,7 @@ it('will add utm tags to links that already have query parameters', function () 
 
     $campaign->refresh();
 
-    expect($campaign->email_html)->toContain(htmlspecialchars("https://spatie.be?foo=bar&utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail"));
+    expect($campaign->email_html)->toContain(htmlspecialchars("https://spatie.be?foo=bar&utm_source=newsletter&utm_medium=email&utm_campaign=my-automationmail"));
     assertMatchesHtmlSnapshot($campaign->email_html);
 });
 
@@ -151,7 +151,7 @@ it('will add utm tags to urls with paths correctly', function () {
 
     $campaign->refresh();
 
-    expect($campaign->email_html)->toContain(htmlspecialchars("https://freek.dev/1234-my-blogpost?utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail"));
+    expect($campaign->email_html)->toContain(htmlspecialchars("https://freek.dev/1234-my-blogpost?utm_source=newsletter&utm_medium=email&utm_campaign=my-automationmail"));
     assertMatchesHtmlSnapshot($campaign->email_html);
 });
 
@@ -168,8 +168,8 @@ it('will add utm tags to urls with paths correctly when the link is added twice'
 
     $automationMail->refresh();
 
-    expect($automationMail->email_html)->toContain(htmlspecialchars("https://freek.dev?utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail"));
-    expect($automationMail->email_html)->toContain(htmlspecialchars("https://freek.dev/1234-my-blogpost?utm_source=newsletter&utm_medium=email&utm_campaign=My+AutomationMail"));
+    expect($automationMail->email_html)->toContain(htmlspecialchars("https://freek.dev?utm_source=newsletter&utm_medium=email&utm_campaign=my-automationmail"));
+    expect($automationMail->email_html)->toContain(htmlspecialchars("https://freek.dev/1234-my-blogpost?utm_source=newsletter&utm_medium=email&utm_campaign=my-automationmail"));
     assertMatchesHtmlSnapshot($automationMail->email_html);
 });
 
