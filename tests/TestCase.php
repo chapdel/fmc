@@ -93,7 +93,7 @@ abstract class TestCase extends Orchestra
             include_once __DIR__.'/database/migrations/create_users_table.php.stub';
             (new CreateUsersTable())->up();
 
-            $blindIndexes = include __DIR__.'/../vendor/spatie/laravel-ciphersweet/database/migrations/create_blind_indexes_table.php.stub';
+            $blindIndexes = include __DIR__.'/../vendor/spatie/laravel-ciphersweet/database/migrations/create_blind_indexes_table.php';
             $blindIndexes->up();
 
             $this->app[Kernel::class]->setArtisan(null);

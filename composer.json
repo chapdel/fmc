@@ -36,7 +36,7 @@
         "livewire/livewire": "^2.10",
         "nesbot/carbon": "^2.37",
         "paragonie/ciphersweet": "^4.0",
-        "spatie/laravel-ciphersweet": "dev-main",
+        "spatie/laravel-ciphersweet": "^1.0",
         "spatie/laravel-feed": "^4.0",
         "spatie/laravel-flash": "^1.6",
         "spatie/laravel-medialibrary": "^10.0.1",

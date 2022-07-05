@@ -2,6 +2,7 @@
 
 use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Policies\EmailListPolicy;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\Lists;
 use Spatie\Mailcoach\Tests\TestClasses\CustomEmailListDenyAllPolicy;
@@ -13,9 +14,16 @@ beforeEach(function () {
 it('can delete an email list', function () {
     test()->authenticate();
 
+    Subscriber::factory()->create([
+        'email_list_id' => $this->emailList->id,
+    ]);
+
+    expect(Subscriber::count())->toBe(1);
+
     Livewire::test(Lists::class)
         ->call('deleteList', $this->emailList->id);
 
+    expect(Subscriber::count())->toBe(0);
     expect(EmailList::count())->toBe(0);
 });
 

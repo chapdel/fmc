@@ -14,6 +14,7 @@ class Lists extends DataTable
 
         $this->authorize('delete', $list);
 
+        self::getSubscriberClass()::where('email_list_id', $list->id)->delete();
         $list->delete();
 
         $this->flash(__('mailcoach - List :list was deleted.', ['list' => $list->name]));

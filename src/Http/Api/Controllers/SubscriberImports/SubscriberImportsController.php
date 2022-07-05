@@ -21,7 +21,7 @@ class SubscriberImportsController
     {
         $this->authorize("viewAny", self::getEmailListClass());
 
-        $subscribersImport = SubscriberImport::query()->paginate();
+        $subscribersImport = self::getSubscriberImportClass()::query()->paginate();
 
         return SubscriberImportResource::collection($subscribersImport);
     }
@@ -39,7 +39,7 @@ class SubscriberImportsController
 
         $attributes = array_merge($request->validated(), ['status' => SubscriberImportStatus::Draft]);
 
-        $subscriberImport = SubscriberImport::create($attributes);
+        $subscriberImport = self::getSubscriberImportClass()::create($attributes);
 
         return new SubscriberImportResource($subscriberImport);
     }

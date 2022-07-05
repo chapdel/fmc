@@ -8,4 +8,5 @@ enum SubscriberImportStatus: string
     case Pending = 'pending';
     case Importing = 'importing';
     case Completed = 'completed';
+    case Failed = 'failed';
 }

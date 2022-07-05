@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Domain\Shared\Jobs\Import;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\DB;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
 use Spatie\SimpleExcel\SimpleExcelReader;
 
@@ -77,9 +76,13 @@ class ImportAutomationsJob extends ImportJob
         foreach ($reader->getRows() as $row) {
             $row['automation_id'] = $this->automationMapping[$row['automation_id']];
 
-            DB::table(self::getAutomationTriggerTableName())->updateOrInsert([
-                'uuid' => $row['uuid'],
-            ], Arr::except($row, ['id']));
+            $triggerClass = self::getAutomationTriggerClass();
+
+            if (! $triggerClass::where('uuid', $row['uuid'])->exists()) {
+                $trigger = new $triggerClass;
+                $trigger->setRawAttributes(Arr::except($row, ['id']));
+                $trigger->save();
+            }
 
             $this->index++;
             $this->updateJobProgress($this->index, $this->total);
@@ -104,11 +107,13 @@ class ImportAutomationsJob extends ImportJob
                 ? $this->automationActionMapping[$row['automation_id']] ?? null
                 : null;
 
-            DB::table(self::getAutomationActionTableName())->updateOrInsert([
-                'uuid' => $row['uuid'],
-            ], Arr::except($row, ['id']));
+            $actionClass = self::getAutomationActionClass();
 
-            $action = self::getAutomationActionClass()::where('uuid', $row['uuid'])->first();
+            if (! $action = $actionClass::where('uuid', $row['uuid'])->first()) {
+                $action = new $actionClass;
+                $action->setRawAttributes(Arr::except($row, ['id']));
+                $action->save();
+            }
 
             $this->automationActionMapping[$row['id']] = $action->id;
 

@@ -42,8 +42,11 @@
                 class="relative modal-wrapper rounded-sm @if($large) h-full modal-wrapper-lg @endif"
             >
                 @if($title)
-                    <header class="modal-header">
+                    <header class="modal-header flex items-center justify-between">
                         <span class="modal-title">{{ $title }}</span>
+                        <button x-on:click.prevent="$store.modals.close('{{ $name }}')">
+                            <i class="fas fa-times"></i>
+                        </button>
                     </header>
                 @endif
                 <div class="modal-content scrollbar h-full">

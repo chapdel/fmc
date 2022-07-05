@@ -159,7 +159,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasTranslations()
             ->hasViews()
-            ->hasAssets()
             ->hasMigrations([
                 '2022_02_10_000001_create_mailcoach_tables',
                 '2022_02_10_000002_create_media_table',
@@ -202,6 +201,13 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     public function packageBooted(): void
     {
+        if ($this->app->runningInConsole()) {
+            $this->publishes([
+                $this->package->basePath('/../resources/dist') => public_path("vendor/{$this->package->shortName()}"),
+                $this->package->basePath('/../resources/images') => public_path("vendor/{$this->package->shortName()}/images"),
+            ], "{$this->package->shortName()}-assets");
+        }
+
         $this
             ->bootCarbon()
             ->bootGate()

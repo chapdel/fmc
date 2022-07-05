@@ -99,6 +99,7 @@ document.addEventListener('alpine:init', () => {
                         },
                         y1: {
                             position: 'right',
+                            beginAtZero: false,
                             grid: {
                                 display: false,
                             }
@@ -106,6 +107,9 @@ document.addEventListener('alpine:init', () => {
                         x: {
                             ticks: {
                                 fontColor: "rgba(30, 64, 175, 1)",
+                                callback: function(value, index, ticks) {
+                                    return chartData.labels[index].substring(3);
+                                }
                             },
                             grid: {
                                 borderColor: "rgba(30, 64, 175, .2)",

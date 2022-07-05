@@ -52,6 +52,11 @@ class ImportSubscriberTagsJob extends ImportJob
                     $newSubscriberTags = $subscriberTags->map(function ($row) use ($existingSubscriberTags, $subscribers, $tags, $emailLists) {
                         $emailListId = $emailLists[$row['email_list_uuid']];
                         $tagId = $tags["{$emailListId}-{$row['tag_name']}"];
+
+                        if (! isset($subscribers[$row['subscriber_uuid']])) {
+                            return null;
+                        }
+
                         $subscriberId = $subscribers[$row['subscriber_uuid']];
 
                         if (isset($existingSubscriberTags["{$tagId}-{$subscriberId}"])) {

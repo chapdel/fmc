@@ -33,8 +33,9 @@ it('can subscribe multiple emails in one go', function () {
 
     $subscriberImport = SubscriberImport::first();
 
-    expect($subscriberImport->imported_subscribers_count)->toEqual(3);
-    expect($subscriberImport->error_count)->toEqual(1);
+    expect($subscriberImport->imported_subscribers_count)->toEqual(4);
+    expect($subscriberImport->subscribers()->count())->toEqual(3);
+    expect(count($subscriberImport->errors))->toEqual(1);
 
     Mail::assertSent(ImportSubscribersResultMail::class, function (ImportSubscribersResultMail $mail) use ($subscriberImport) {
         expect($mail->hasTo(test()->user->email))->toBeTrue();
@@ -133,7 +134,7 @@ test('by default it will not subscribe a subscriber that has unsubscribed to the
 
     expect(test()->emailList->isSubscribed('john@example.com'))->toBeFalse();
     expect(test()->emailList->subscribers)->toHaveCount(0);
-    expect(SubscriberImport::first()->error_count)->toEqual(1);
+    expect(count(SubscriberImport::first()->errors))->toEqual(1);
 });
 
 it('can subscribe subscribers that were unsubscribed before', function () {

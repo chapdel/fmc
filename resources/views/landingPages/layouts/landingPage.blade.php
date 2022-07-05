@@ -8,9 +8,7 @@
 
         <title>{{ isset($title) ? "{$title} | Mailcoach" : 'Mailcoach' }}</title>
 
-        <link rel="stylesheet" href="{{ asset('vendor/mailcoach/app.css') }}">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.0/css/all.css">
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+        {!! \Spatie\Mailcoach\Mailcoach::styles() !!}
         <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     </head>
     <body class="bg-gray-100">

@@ -6,8 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\MassPrunable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Mailcoach\Database\Factories\SubscriberImportFactory;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus;
+use Spatie\Mailcoach\Domain\Audience\Support\ImportSubscriberRow;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\MediaLibrary\HasMedia;
@@ -27,10 +29,10 @@ class SubscriberImport extends Model implements HasMedia
 
     protected $casts = [
         'imported_subscribers_count' => 'integer',
-        'error_count' => 'integer',
         'mailcoach_email_lists_ids' => 'array',
         'replace_tags' => 'boolean',
         'status' => SubscriberImportStatus::class,
+        'errors' => 'array',
     ];
 
     public static function booted()
@@ -42,10 +44,24 @@ class SubscriberImport extends Model implements HasMedia
         });
     }
 
+    public function addError(string $message, ?ImportSubscriberRow $row = null): void
+    {
+        $values = $row?->getAllValues() ?? [];
+
+        $errors = $this->errors;
+        $errors[] = array_merge($values, ['message' => $message]);
+        $this->errors = $errors;
+        $this->save();
+    }
 
     public function emailList(): BelongsTo
     {
         return $this->belongsTo(self::getEmailListClass(), 'email_list_id');
+    }
+
+    public function subscribers(): HasMany
+    {
+        return $this->hasMany(self::getSubscriberClass(), 'imported_via_import_uuid', 'uuid');
     }
 
     public function registerMediaCollections(): void

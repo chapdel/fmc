@@ -1,6 +1,6 @@
 ---
 title: Creating Custom Authorization Policies
-weight: 7
+weight: 3
 ---
 
 By default, all Mailcoach backend and API actions are protected by the "viewMailcoach" gate. If this is 

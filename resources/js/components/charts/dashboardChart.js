@@ -110,6 +110,7 @@ document.addEventListener('alpine:init', () => {
                         },
                         y1: {
                             position: 'right',
+                            beginAtZero: false,
                             grid: {
                                 display: false,
                             }

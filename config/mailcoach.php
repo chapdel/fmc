@@ -174,6 +174,7 @@ return [
             'create_subscriber' => \Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\CreateSubscriberAction::class,
             'delete_subscriber' => \Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\DeleteSubscriberAction::class,
             'import_subscribers' => \Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\ImportSubscribersAction::class,
+            'import_subscriber' => \Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\ImportSubscriberAction::class,
             'send_confirm_subscriber_mail' => \Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\SendConfirmSubscriberMailAction::class,
             'update_subscriber' => \Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\UpdateSubscriberAction::class,
         ],
@@ -232,8 +233,8 @@ return [
      * last_name and extra attributes of subscribers.
      */
     'encryption' => [
-        'enabled' => true,
-        'key' => env('APP_KEY'),
+        'enabled' => false,
+        'key' => env('MAILCOACH_ENCRYPTION_KEY', env('APP_KEY')),
     ],
 
     /*

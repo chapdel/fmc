@@ -7,6 +7,7 @@
                 <th class="w-48 th-numeric">{{ __('mailcoach - Started at') }}</th>
                 <th>{{ __('mailcoach - List') }}</th>
                 <th class="w-56 th-numeric">{{ __('mailcoach - Imported subscribers') }}</th>
+                <th class="w-56 th-numeric">{{ __('mailcoach - Processed rows') }}</th>
                 <th class="w-32 th-numeric">{{ __('mailcoach - Errors') }}</th>
                 <th class="w-12"></th>
             </tr>
@@ -32,27 +33,22 @@
                         {{ $subscriberImport->created_at->toMailcoachFormat() }}
                     </td>
                     <td>{{ $subscriberImport->emailList->name }}</td>
+                    <td class="td-numeric">{{ $subscriberImport->subscribers()->count() }}</td>
                     <td class="td-numeric">{{ $subscriberImport->imported_subscribers_count }}</td>
-                    <td class="td-numeric">{{ $subscriberImport->error_count }}</td>
+                    <td class="td-numeric">{{ count($subscriberImport->errors ?? []) }}</td>
                     <td class="td-action">
                         <x-mailcoach::dropdown direction="left">
                             <ul>
-                                <li>
-                                    <a data-no-swup
-                                       href="{{ route('mailcoach.subscriberImport.downloadAttachment', [$subscriberImport, 'importedUsersReport']) }}"
-                                       download>
-                                        <x-mailcoach::icon-label icon="far fa-list-alt"
-                                                                 :text="__('mailcoach - Import report')"/>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a data-no-swup
-                                       href="{{ route('mailcoach.subscriberImport.downloadAttachment', [$subscriberImport, 'errorReport']) }}"
-                                       download>
-                                        <x-mailcoach::icon-label icon="far fa-times-circle"
-                                                                 :text="__('mailcoach - Error report')"/>
-                                    </a>
-                                </li>
+                                @if (count($subscriberImport->errors ?? []))
+                                    <li>
+                                        <a data-no-swup
+                                           href="{{ route('mailcoach.subscriberImport.downloadAttachment', [$subscriberImport, 'errorReport']) }}"
+                                           download>
+                                            <x-mailcoach::icon-label icon="far fa-times-circle"
+                                                                     :text="__('mailcoach - Error report')"/>
+                                        </a>
+                                    </li>
+                                @endif
                                 <li>
                                     <a data-no-swup
                                        href="{{ route('mailcoach.subscriberImport.downloadAttachment', [$subscriberImport, 'importFile']) }}"
@@ -63,7 +59,7 @@
                                 </li>
                                 <li>
                                     <x-mailcoach::form-button
-                                        :action="route('mailcoach.subscriberImport.delete', $subscriberImport->id)"
+                                        :action="route('mailcoach.subscriberImport.delete', $subscriberImport)"
                                         method="DELETE" class="link-delete">
                                         <x-mailcoach::icon-label icon="far fa-trash-alt"
                                                                  :text="__('mailcoach - Delete')" :caution="true"/>
