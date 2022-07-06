@@ -9,6 +9,7 @@
     @apply gap-y-6;
     @apply pl-6;
     @apply my-4;
+    @apply sm:max-w-xl; /* same as form-field */
 }
 
 .form-fieldset:before {
@@ -62,10 +63,6 @@
     @apply sm:max-w-xl;
 }
 
-.form-fieldset .form-field {
-    @apply sm:max-w-[34.5rem]; /* minus the fieldset left padding */
-}
-
 .form-buttons {
     @apply grid;
     @apply justify-start;
@@ -82,11 +79,29 @@
     }
 }
 
-
 .form-error {
     @apply text-xs;
-    @apply text-red-400;
+    @apply text-white;
+    @apply px-3;
+    @apply py-1.5;
     @apply flex;
+    @apply mr-auto;
+    @apply rounded-b-sm;
+    @apply bg-gray-800;
+    @apply bg-gradient-to-r;
+    @apply text-gray-200;
+    @apply from-red-500/10;
+
+    @apply before:content-[''];
+    @apply before:absolute;
+    @apply before:w-1;
+    @apply before:h-full;
+    @apply before:top-0;
+    @apply before:left-0;
+    @apply before:bg-gradient-to-b;
+    @apply before:rounded-l;
+    @apply before:from-red-500;
+    @apply before:to-red-500/70;
 }
 
 .form-note {

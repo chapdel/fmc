@@ -383,6 +383,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.components.navigation.tabs', 'mailcoach::navigation-tabs');
 
         Blade::component('mailcoach::app.components.alert.help', 'mailcoach::help');
+        Blade::component('mailcoach::app.components.alert.neutral', 'mailcoach::neutral');
         Blade::component('mailcoach::app.components.alert.warning', 'mailcoach::warning');
         Blade::component('mailcoach::app.components.alert.error', 'mailcoach::error');
         Blade::component('mailcoach::app.components.alert.success', 'mailcoach::success');

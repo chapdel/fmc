@@ -124,13 +124,13 @@
             @else
                 @php($plural = \Illuminate\Support\Str::plural($name))
                 @if ($this->search ?? null)
-                    <x-mailcoach::help>
+                    <x-mailcoach::neutral>
                         {{ $noResultsText ?? __("mailcoach - No {$plural} found.") }}
-                    </x-mailcoach::help>
+                    </x-mailcoach::neutral>
                 @else
-                    <x-mailcoach::help>
+                    <x-mailcoach::neutral>
                         {!! $emptyText ?? __("mailcoach - No {$plural}.") !!}
-                    </x-mailcoach::help>
+                    </x-mailcoach::neutral>
                 @endif
             @endif
         </div>

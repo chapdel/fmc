@@ -36,7 +36,7 @@ class Mailcoach
             $styles[] = sprintf('<script type="module" src="%s"></script>', "{$url}/@vite/client");
         }
 
-        $styles[] = "<link rel=\"stylesheet\" href=\"https://use.fontawesome.com/releases/v5.11.0/css/all.css\">";
+        $styles[] = "<link rel=\"stylesheet\" href=\"https://use.fontawesome.com/releases/v6.1.1/css/all.css\">";
         $styles[] = "<link rel=\"stylesheet\" href=\"{$fullAssetPath}\" type=\"text/css\">";
 
         foreach (self::availableEditorStyles() as $editor => $editorStyles) {

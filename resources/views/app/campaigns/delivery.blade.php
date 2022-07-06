@@ -145,8 +145,7 @@
 
         <dt>
             <span class="inline-flex items-center">
-                <x-mailcoach::rounded-icon :type="count($links) ? 'info' : 'neutral'" icon="fas fa-link"
-                                           class="mr-2"/>
+                <x-mailcoach::rounded-icon :type="count($links) ? 'info' : 'neutral'" icon="fas fa-link"/>
                 <span class="ml-2">
                     {{ __('mailcoach - Links') }}
                 </span>
@@ -175,7 +174,7 @@
 
         <dt>
             <span class="inline-flex items-center">
-                <x-mailcoach::rounded-icon type="neutral" icon="fas fa-tag" class="mr-2"/>
+                <x-mailcoach::rounded-icon type="neutral" icon="fas fa-tag"/>
                 <span class="ml-2">
                     {{ __('mailcoach - Tags') }}
                 </span>
@@ -196,7 +195,7 @@
             <dt>
                 <span class="inline-flex items-center">
                     <x-mailcoach::rounded-icon :type="$campaign->scheduled_at ? 'warning' : 'neutral'"
-                                               icon="far fa-clock" class="mr-2"/>
+                                               icon="far fa-clock"/>
                     <span class="ml-2">
                         {{ __('mailcoach - Timing') }}
                     </span>

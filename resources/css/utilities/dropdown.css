@@ -4,19 +4,21 @@
 
 .dropdown-list {
     @apply absolute;
-    @apply grid;
+    @apply left-1/2;
     @apply top-full;
-    @apply mt-4;
-    @apply py-4;
-    @apply shadow-xl;
-    @apply z-10;
-    @apply bg-white;
-    @apply text-gray-700;
-    @apply border;
-    @apply border-gray-200;
-    left: 50%;
-    transform: translateX(-50%);
+    @apply -translate-x-1/2;
+    @apply overflow-hidden;
+    @apply py-3;
+    @apply rounded;
+    @apply transition-opacity;
+    @apply duration-200;
+    @apply z-50;
     @apply min-w-32;
+    @apply will-change-auto;
+    @apply bg-white;
+    @apply rounded;
+    @apply shadow-xl;
+    @apply shadow-blue-800/10;
 }
 
 .dropdown-list-left {
@@ -29,27 +31,22 @@
 
 .dropdown-list:before {
     content: '';
-    @apply absolute;
-    left: 50%;
-    top: 0;
-    width: 0.75rem;
-    height: 0.75rem;
-    @apply bg-white;
-    transform: translate(-50%, -50%) rotate(45deg);
-    @apply border-l;
-    @apply border-t;
-    @apply border-gray-200;
+    @apply absolute ;
+    @apply w-3 ;
+    @apply h-3 ;
+    @apply bg-white ;
+    @apply -translate-y-1/2 ;
+    @apply rotate-45;
 }
 
 .dropdown-list-left:before {
     right: 0;
-    left: auto;
-    transform: translate(-1.25rem, -50%) rotate(45deg);
+    @apply -translate-x-5 ;
 }
 
 .dropdown-list-right:before {
     left: 0;
-    transform: translate(1.25rem, -50%) rotate(45deg);
+    @apply translate-x-5 ;
 }
 
 .dropdown-list li {
@@ -60,18 +57,18 @@
 .dropdown-list button {
     @apply block;
     @apply w-full;
-    @apply px-6;
-    @apply py-1;
-    @apply text-left;
+    @apply py-2;
+    @apply px-4;
+    @apply text-sm;
+    @apply font-semibold;
+    @apply text-black;
+    @apply hover:bg-gradient-to-r;
+    @apply hover:from-blue-50;
+    @apply hover:to-blue-100/70;
+    @apply hover:text-blue-900;
 }
 
 .dropdown-list li.active a{
-    @apply text-blue-500;
+    @apply text-blue-700;
 }
 
-.dropdown-list a:hover,
-.dropdown-list button:hover {
-    @apply bg-blue-100;
-    @apply bg-opacity-50;
-    @apply text-blue-500;
-}

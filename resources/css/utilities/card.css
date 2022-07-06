@@ -1,32 +1,8 @@
 .card {
-    @apply bg-white;
-    @apply shadow-lg;
-    @apply w-full;
-    @apply flex-grow;
-    @apply rounded;
+    @apply p-12 pb-20 bg-white shadow-lg shadow-blue-600/5 rounded-md;
 }
 
 .card::-webkit-scrollbar {
     height: 0px; /* Remove scrollbar space */
     background: transparent; /* Optional: just make scrollbar invisible */
-}
-
-@screen lg {
-    .card-split {
-        @apply grid;
-        grid-template-areas: 'card-nav card-main';
-        grid-template-columns: 14rem 1fr;
-        grid-template-rows: 1fr;
-    }
-}
-
-.card-nav .navigation {
-    @apply hidden;
-}
-
-.card-main {
-    grid-area: card-main;
-    @apply px-8;
-    @apply lg:px-10;
-    @apply py-8;
 }

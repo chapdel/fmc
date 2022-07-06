@@ -129,7 +129,7 @@ class Subscribers extends DataTable
     public function getLayoutData(): array
     {
         return [
-            'emailList' => $this->emailList,
+            'emailList' => $this->emailList
         ];
     }
 

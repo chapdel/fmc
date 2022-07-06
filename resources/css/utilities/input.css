@@ -9,6 +9,7 @@
     @apply min-h-10;
     @apply px-2.5;
     @apply rounded-sm;
+    @apply bg-indigo-300/5;
     @apply shadow-md;
     @apply shadow-blue-300/10;
     @apply border;
@@ -43,12 +44,9 @@ input:disabled {
     @apply cursor-not-allowed;
 }
 
-input:read-only {
-}
-
 .input-focus,
 .input:focus {
-    @apply bg-none;
+    @apply bg-white;
     @apply border-blue-500;
     @apply outline-none;
     @apply shadow-md;

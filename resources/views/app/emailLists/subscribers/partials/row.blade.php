@@ -1,21 +1,21 @@
 <tr>
     <td class="markup-links">
         @if ($row->isUnconfirmed())
-            <i class="far fa-question-circle text-orange-500" title="{{ __('mailcoach - Unconfirmed') }}"></i>
+            <x-mailcoach::rounded-icon type="warning" icon="far fa-question-circle" title="{{ __('mailcoach - Unconfirmed') }}"/>
         @endif
         @if ($row->isSubscribed())
-            <i class="fas fa-check text-green-500" title="{{ __('mailcoach - Subscribed') }}"></i>
+            <x-mailcoach::rounded-icon type="success" icon="far fa-check" title="{{ __('mailcoach - Subscribed') }}"/>
         @endif
         @if ($row->isUnsubscribed())
-            <i class="fas fa-ban text-gray-400" title="{{ __('mailcoach - Unsubscribed') }}"></i>
+            <x-mailcoach::rounded-icon type="neutral" icon="far fa-ban" title="{{ __('mailcoach - Unsubscribed') }}"/>
         @endif
     </td>
-    <td class="markup-links">
+    <td class="markup-links leading-tight">
         <a class="break-words"
            href="{{ route('mailcoach.emailLists.subscriber.details', [$row->emailList, $row]) }}">
             {{ $row->email }}
         </a>
-        <div class="td-secondary-line">
+        <div class="td-secondary-line break-words">
             {{ $row->first_name }} {{ $row->last_name }}
         </div>
     </td>

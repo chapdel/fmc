@@ -2,7 +2,9 @@
     :originTitle="$originTitle ?? $emailList->name"
     :originHref="$originHref ?? null"
     :title="$title ?? null"
+    :hideCard="isset($hideCard) ? true : false"
 >
+
     <x-slot name="nav">
         <x-mailcoach::navigation :title="$emailList->name">
             <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.summary', $emailList)">

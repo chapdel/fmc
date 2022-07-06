@@ -44,8 +44,8 @@
                 @if($title)
                     <header class="modal-header flex items-center justify-between">
                         <span class="modal-title">{{ $title }}</span>
-                        <button x-on:click.prevent="$store.modals.close('{{ $name }}')">
-                            <i class="fas fa-times"></i>
+                        <button class="modal-close" x-on:click.prevent="$store.modals.close('{{ $name }}')">
+                            <i class="far fa-times"></i>
                         </button>
                     </header>
                 @endif

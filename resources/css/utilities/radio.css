@@ -27,7 +27,7 @@
     @apply left-0;
     width: 1.5em;
     height: 1.5em;
-    @apply bg-white;
+    @apply bg-indigo-300/5;
     @apply shadow-md;
     @apply shadow-blue-300/10;
     @apply border;

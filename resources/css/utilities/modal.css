@@ -79,7 +79,7 @@
     @apply items-center;
     @apply px-6;
     @apply py-4;
-    @apply bg-gray-100;
+    @apply bg-indigo-700/5;
 }
 
 @screen md {

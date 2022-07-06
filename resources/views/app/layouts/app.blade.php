@@ -27,10 +27,10 @@
         @include('mailcoach::app.layouts.partials.endHead')
         @stack('endHead')
     </head>
-    <body class="flex flex-col min-h-screen bg-indigo-700/5" x-data="{ confirmText: '', onConfirm: null }">
+    <body class="flex flex-col min-h-screen bg-indigo-900/5" x-data="{ confirmText: '', onConfirm: null }">
         <script>/**/</script><!-- Empty script to prevent FOUC in Firefox -->
         
-        <header class="flex-none sticky top-0 z-20 w-full max-w-layout mx-auto px-10">
+        <header class="flex-none sticky top-0 z-20 w-full max-w-layout mx-auto px-16">
             <x-mailcoach::main-navigation />
         </header>
 
@@ -41,20 +41,20 @@
                 </nav>
             @endisset
             
-            <section class="flex-grow flex flex-col">
+            <section class="flex-grow min-w-0 flex flex-col">
                 <nav class="flex-none mt-10">
                     @include('mailcoach::app.layouts.partials.breadcrumbs')
                 </nav>
 
                 
                 <div class="flex-none flex">
-                    <h1 class="mt-1 markup-h1">
+                    <h1 class="mt-1 markup-h1 truncate">
                         {{ $title ?? '' }}
                     </h1>
                 </div>
                 
-                <div class="flex-grow p-12 pb-20 bg-white shadow-lg shadow-blue-600/5 rounded-md">
-                    {{ $slot }}
+                <div class="flex-grow {{ isset($hideCard) && $hideCard ? 'flex flex-col gap-10' : 'card' }}">
+                   {{ $slot }} 
                 </div>
                 
             </section>
@@ -64,11 +64,11 @@
             @include('mailcoach::app.layouts.partials.footer')
         </footer>
 
-        <aside class="z-50 fixed bottom-0 left-0 w-64">
+        <aside class="z-50 fixed bottom-4 left-4 w-64">
             @include('mailcoach::app.layouts.partials.startBody')
 
             @if ((new Spatie\Mailcoach\Domain\Shared\Support\License\License())->hasExpired())
-                <div class="mb-6 alert alert-warning text-sm shadow-lg">
+                <div class="alert alert-warning text-sm shadow-lg">
                     Your Mailcoach license has expired. <a class="underline" href="https://spatie.be/products/mailcoach">Renew your license</a> and benefit from fixes and new features.
                 </div>
             @endif

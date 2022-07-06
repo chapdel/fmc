@@ -12,7 +12,7 @@
 >
     <x-mailcoach::fieldset :legend="__('mailcoach - Subscriptions')">
         <x-mailcoach::help>
-            {!! __('mailcoach - Learn more about <a href=":link" class="link-dimmed" target="_blank">subscription settings and forms</a>.', ['link' => 'https://spatie.be/docs/laravel-mailcoach/v5/using-mailcoach/audience#content-onboarding']) !!}
+            {!! __('mailcoach - Learn more about <a href=":link" target="_blank">subscription settings and forms</a>.', ['link' => 'https://spatie.be/docs/laravel-mailcoach/v5/using-mailcoach/audience#content-onboarding']) !!}
         </x-mailcoach::help>
 
         <div class="form-field max-w-full">
@@ -49,7 +49,7 @@
 
     <x-mailcoach::fieldset :legend="__('mailcoach - Landing Pages')">
         <x-mailcoach::help>
-            {!! __('mailcoach - Leave empty to use the defaults. <a class="link-dimmed" target="_blank" href=":link">Example</a>', ['link' => route("mailcoach.landingPages.example")]) !!}
+            {!! __('mailcoach - Leave empty to use the defaults. <a target="_blank" href=":link">Example</a>', ['link' => route("mailcoach.landingPages.example")]) !!}
         </x-mailcoach::help>
 
         <div x-show="confirmation">

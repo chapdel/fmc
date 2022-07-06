@@ -2,24 +2,22 @@
     @apply grid;
     @apply grid-cols-auto-1fr;
     @apply justify-start;
+    @apply gap-6;
 }
 
 .dl dt {
-    @apply font-semibold;
+    @apply font-bold;
+    @apply text-right;
     @apply whitespace-nowrap;
-    @apply pr-12;
+    @apply flex;
+    @apply items-start;
+    @apply justify-end;
 }
 
 .dl dd {
+    @apply pb-4;
     @apply grid;
     @apply gap-4;
-}
-
-
-.dl dt,
-.dl dd {
-    @apply py-2;
     @apply border-b;
-    @apply border-gray-400;
-    @apply border-opacity-20;
+    @apply border-indigo-700/20;
 }

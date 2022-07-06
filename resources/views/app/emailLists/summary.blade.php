@@ -1,19 +1,24 @@
-<div>
-    <div class="flex items-center mb-8">
+<div class="card">
+    <div class="flex gap-4 items-center mb-8">
         <x-mailcoach::date-field
             min-date=""
             max-date="{{ $end }}"
             position="auto"
             name="start"
             wire:model="start"
+            label="From"
+            class="flex-row gap-0"
+            inputClass="w-32"
         />
-        <span class="mx-2">&mdash;</span>
         <x-mailcoach::date-field
             min-date="{{ $start }}"
             max-date="{{ now()->format('Y-m-d') }}"
             position="auto"
             name="end"
             wire:model="end"
+            label="To"
+            class="flex-row gap-0"
+            inputClass="w-32"
         />
     </div>
     <div x-data="emailListStatisticsChart" x-init="renderChart({
@@ -27,8 +32,10 @@
     <div class="text-right">
         <small class="text-gray-400">You can drag the chart to zoom.</small>
     </div>
+</div>
 
-    <h1 class="markup-h1 mt-16">
+<div class="card">
+    <h1 class="markup-h1">
         {{ __('mailcoach - Totals') }}
     </h1>
 

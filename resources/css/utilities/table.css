@@ -36,16 +36,18 @@
     @apply sticky;
     @apply top-16;
     @apply z-10;
+    @apply border-b;
+    @apply border-indigo-500/20;
     @apply bg-gradient-to-b;
-    @apply from-gray-500/5;
-    @apply to-gray-700/10;
+    @apply from-indigo-500/5;
+    @apply to-indigo-500/10;
     @apply first:rounded-l;
     @apply last:rounded-r;
 }
 
 .table tbody td {
     @apply border-b;
-    @apply border-gray-200;
+    @apply border-indigo-500/20;
 }
 
 .tr-h-double td {
@@ -66,6 +68,7 @@
 
 .table thead i {
     @apply mx-1;
+    @apply opacity-50;
 }
 
 .table thead .th-numeric a {
@@ -102,7 +105,8 @@
     @apply flex-wrap;
     @apply items-center;
     @apply justify-between;
-    @apply mb-10;
+    @apply mb-6;
+    @apply gap-y-2;
 }
 
 .table-filters {

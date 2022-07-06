@@ -29,12 +29,12 @@
         :aria-expanded="open"
         :aria-controls="$id('dropdown-button')"
         type="button"
-        class="{{ $triggerClass ?? 'opacity-75 hover:opacity-100' }} @if(! isset($trigger)) px-2 @endif"
+        class="{{ $triggerClass ?? 'text-blue-700 hover:text-blue-800' }} @if(! isset($trigger)) px-2 @endif"
     >
         @if(isset($trigger))
             {{ $trigger }}
         @else
-            <i class="fas fa-ellipsis-v transition-all" :class="open ? 'rotate-90' : ''"></i>
+            <i class="far fa-ellipsis-v transition-all" :class="open ? 'rotate-90' : ''"></i>
         @endif
     </button>
     <div

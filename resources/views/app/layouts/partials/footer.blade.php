@@ -1,4 +1,4 @@
-<div class="my-6 flex flex-wrap items-center justify-center text-xs text-indigo-900/50">
+<div class="my-6 flex flex-wrap items-center justify-center text-xs text-indigo-900/70">
     <a class=" inline-block truncate" style="max-width: 12rem" href="https://mailcoach.app">
         Mailcoach {{ $versionInfo->getCurrentVersion() }}
     </a>
