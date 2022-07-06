@@ -198,7 +198,7 @@ class Automation extends Model
             return;
         }
 
-        $actionSubscriber = ActionSubscriber::create([
+        $actionSubscriber = self::getActionSubscriberClass()::create([
             'job_dispatched_at' => now(),
             'action_id' => $firstAction->id,
             'subscriber_id' => $subscriber->id,
