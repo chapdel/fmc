@@ -3,7 +3,7 @@ name: Build assets
 on: [push]
 
 jobs:
-    style:
+    assets:
         runs-on: ubuntu-latest
 
         steps:
