@@ -56,10 +56,10 @@ return new class extends Migration
                 ->constrained('mailcoach_email_lists')
                 ->cascadeOnDelete();
 
-            $table->text('email');
-            $table->text('first_name')->nullable();
-            $table->text('last_name')->nullable();
-            $table->text('extra_attributes')->nullable();
+            $table->string('email');
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->json('extra_attributes')->nullable();
 
             $table->uuid('imported_via_import_uuid')->nullable();
 
@@ -238,7 +238,7 @@ return new class extends Migration
         Schema::create('mailcoach_sends', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->index();
-            $table->string('transport_message_id')->nullable();
+            $table->string('transport_message_id')->nullable()->index();
 
             $table
                 ->foreignId('campaign_id')
@@ -415,6 +415,8 @@ return new class extends Migration
                 ->nullable()
                 ->constrained('mailcoach_tags')
                 ->nullOnDelete();
+
+            $table->index(['subscriber_id', 'tag_id'], 'subscriber_id_tag_id_index');
         });
 
         Schema::create('mailcoach_email_list_allow_form_subscription_tags', function (Blueprint $table) {
@@ -536,8 +538,8 @@ return new class extends Migration
         Schema::create('mailcoach_automation_action_subscriber', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->index();
-            $table->unsignedBigInteger('action_id');
-            $table->unsignedBigInteger('subscriber_id');
+            $table->unsignedBigInteger('action_id')->index();
+            $table->unsignedBigInteger('subscriber_id')->index();
             $table->timestamp('run_at')->nullable();
             $table->timestamp('completed_at')->nullable();
             $table->timestamp('halted_at')->nullable();
