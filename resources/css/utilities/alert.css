@@ -1,12 +1,11 @@
-.alert {
+.alert  {
     @apply relative;
     @apply px-8;
     @apply py-5;
-    @apply rounded;
+    @apply rounded-md;
     @apply shadow-md;
     @apply bg-gray-800;
     @apply bg-gradient-to-br;
-    @apply text-gray-200;
 
     @apply before:content-[''];
     @apply before:absolute;
@@ -31,12 +30,14 @@
     @apply from-green-500/10;
     @apply before:from-green-500;
     @apply before:to-green-500/70;
+    @apply text-green-50;
 }
 
 .alert-info {
     @apply from-purple-500/10;
     @apply before:from-purple-500;
     @apply before:to-purple-500/70;
+    @apply text-gray-50;
 }
 
 .alert-info code {
@@ -49,6 +50,7 @@
     @apply from-yellow-500/10;
     @apply before:from-yellow-500;
     @apply before:to-yellow-500/70;
+    @apply text-yellow-50;
 }
 
 .alert-danger,
@@ -56,6 +58,7 @@
     @apply from-red-500/10;
     @apply before:from-red-500;
     @apply before:to-red-500/70;
+    @apply text-red-50;
 }
 
 .alert-empty {

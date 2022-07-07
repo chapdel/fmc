@@ -25,9 +25,8 @@ document.addEventListener('alpine:init', () => {
                     datasets: [
                         {
                             label: 'Subscribes',
-                            backgroundColor: 'rgba(110, 231, 183, 0.3)',
-                            borderColor: 'rgba(110, 231, 183, 1)',
-                            pointBackgroundColor: 'rgba(110, 231, 183, 1)',
+                            backgroundColor: 'rgb(49 46 129 / 0.2)',
+                            hoverBackgroundColor: 'rgb(49 46 129 / 0.4)',
                             borderRadius: 5,
                             data: this.chartData.subscribes,
                             stack: 'stack0',
@@ -35,9 +34,8 @@ document.addEventListener('alpine:init', () => {
                         },
                         {
                             label: 'Unsubscribes',
-                            backgroundColor: 'rgba(244, 63, 94, 0.1)',
-                            borderColor: 'rgba(244, 63, 94, 1)',
-                            pointBackgroundColor: 'rgba(244, 63, 94, 1)',
+                            backgroundColor: '#ef444466',
+                            hoverBackgroundColor: '#ef4444cc',
                             borderRadius: 5,
                             data: this.chartData.unsubscribes,
                             stack: 'stack0',
@@ -46,9 +44,9 @@ document.addEventListener('alpine:init', () => {
                         {
                             label: 'Subscribers',
                             type: 'line',
-                            backgroundColor: 'rgba(30, 64, 175, 0.1)',
-                            borderColor: 'rgba(30, 64, 175, 1)',
-                            pointBackgroundColor: 'rgba(30, 64, 175, 1)',
+                            borderColor: '#1d4ed8',
+                            pointBackgroundColor: '#2563eb',
+                            pointBorderColor: '#2563eb',
                             data: this.chartData.subscribers,
                             yAxisID: 'y1',
                             order: 0,

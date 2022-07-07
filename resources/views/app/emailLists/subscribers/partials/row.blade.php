@@ -1,7 +1,7 @@
 <tr>
     <td class="markup-links">
         @if ($row->isUnconfirmed())
-            <x-mailcoach::rounded-icon type="warning" icon="far fa-question-circle" title="{{ __('mailcoach - Unconfirmed') }}"/>
+            <x-mailcoach::rounded-icon type="warning" icon="far fa-question" title="{{ __('mailcoach - Unconfirmed') }}"/>
         @endif
         @if ($row->isSubscribed())
             <x-mailcoach::rounded-icon type="success" icon="far fa-check" title="{{ __('mailcoach - Subscribed') }}"/>

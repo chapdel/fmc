@@ -1,13 +1,9 @@
 <div class="empty:hidden card">
     @if ($stats->count())
-        <a href="#" class="mb-4 flex items-center gap-2 hover:text-gray-700">
+        <a href="#" class="mb-4 flex items-center gap-2 hover:text-blue-800">
             <h2 class="markup-h2 mb-0">
-                {{ __('mailcoach - Audience') }}
+                {{ __('mailcoach - Audience Growth') }}
             </h2>
-
-            <span class="text-blue-700">
-                <i class="far fa-arrow-right"></i>
-            </span>
         </a>
         <div x-data="dashboardChart" x-init="renderChart({
             labels: @js($stats->pluck('label')->values()->toArray()),

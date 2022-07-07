@@ -1,17 +1,17 @@
 .button {
     @apply px-6;
     @apply h-10;
-    @apply bg-blue-900;
+    @apply bg-blue-500;
     @apply bg-gradient-to-b;
-    @apply from-blue-700/10;
-    @apply via-indigo-600/60;
-    @apply to-blue-700/20;
+    @apply from-indigo-900;
+    @apply via-blue-900/80;
+    @apply to-indigo-900;
     @apply text-white/90;
     @apply whitespace-nowrap;
-    @apply rounded;
+    @apply rounded-md;
     @apply shadow-md;
     @apply shadow-blue-900/20;
-    @apply font-extrabold;
+    @apply font-bold;
     @apply transition-[background-position];
     @apply duration-[50ms];
     @apply border;

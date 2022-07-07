@@ -1,6 +1,7 @@
 .card {
     @apply p-12;
     @apply bg-white;
+    @apply bg-clip-padding;
     @apply shadow-lg;
     @apply shadow-blue-600/5;
     @apply rounded-md;
