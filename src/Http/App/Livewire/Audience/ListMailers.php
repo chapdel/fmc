@@ -46,7 +46,7 @@ class ListMailers extends Component
     {
         return view('mailcoach::app.emailLists.settings.mailers')
             ->layout('mailcoach::app.emailLists.layouts.emailList', [
-                'title' => __('mailcoach - Settings') . ' — ' . __('mailcoach - Mailers'),
+                'title' => __('mailcoach - Mailers'),
                 'emailList' => $this->emailList,
             ]);
     }

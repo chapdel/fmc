@@ -62,17 +62,13 @@
             </thead>
             <tbody>
                 @foreach (range(1, 5) as $i)
-                    <tr class="tr-h-double markup-links">
+                    <tr class="markup-links">
                         @foreach ($columns as $column)
                             @if ($loop->last)
-                                <td class="td-action">
-                                    <x-mailcoach::dropdown direction="left">
-                                        <ul></ul>
-                                    </x-mailcoach::dropdown>
-                                </td>
+                                <td class="td-action"></td>
                             @else
-                                <td>
-                                    <div class="animate-pulse w-full h-4 bg-gray-100"></div>
+                                <td class="{{ $column['class'] ?? '' }}">
+                                    <div class="animate-pulse h-4 my-1 bg-gradient-to-r from-indigo-900/5"></div>
                                 </td>
                             @endif
                         @endforeach
@@ -124,13 +120,13 @@
             @else
                 @php($plural = \Illuminate\Support\Str::plural($name))
                 @if ($this->search ?? null)
-                    <x-mailcoach::neutral>
+                    <x-mailcoach::info>
                         {{ $noResultsText ?? __("mailcoach - No {$plural} found.") }}
-                    </x-mailcoach::neutral>
+                    </x-mailcoach::info>
                 @else
-                    <x-mailcoach::neutral>
+                    <x-mailcoach::info>
                         {!! $emptyText ?? __("mailcoach - No {$plural}.") !!}
-                    </x-mailcoach::neutral>
+                    </x-mailcoach::info>
                 @endif
             @endif
         </div>

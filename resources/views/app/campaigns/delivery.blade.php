@@ -144,11 +144,11 @@
         </dd>
 
         <dt>
-            <span class="inline-flex items-center">
-                <x-mailcoach::rounded-icon :type="count($links) ? 'info' : 'neutral'" icon="fas fa-link"/>
-                <span class="ml-2">
+            <span class="inline-flex gap-2 items-center">
+                <span>
                     {{ __('mailcoach - Links') }}
                 </span>
+                <x-mailcoach::rounded-icon type="neutral" icon="fas fa-link"/>
             </span>
         </dt>
 
@@ -173,11 +173,11 @@
         </dd>
 
         <dt>
-            <span class="inline-flex items-center">
-                <x-mailcoach::rounded-icon type="neutral" icon="fas fa-tag"/>
-                <span class="ml-2">
+            <span class="inline-flex gap-2 items-center">
+                <span>
                     {{ __('mailcoach - Tags') }}
                 </span>
+                <x-mailcoach::rounded-icon type="neutral" icon="fas fa-tag"/>
             </span>
         </dt>
 
@@ -193,12 +193,12 @@
 
         @if ($campaign->isReady())
             <dt>
-                <span class="inline-flex items-center">
-                    <x-mailcoach::rounded-icon :type="$campaign->scheduled_at ? 'warning' : 'neutral'"
-                                               icon="far fa-clock"/>
-                    <span class="ml-2">
+                <span class="inline-flex gap-2 items-center">
+                    <span>
                         {{ __('mailcoach - Timing') }}
                     </span>
+                    <x-mailcoach::rounded-icon :type="$campaign->scheduled_at ? 'warning' : 'neutral'"
+                                               icon="far fa-clock"/>
                 </span>
             </dt>
 

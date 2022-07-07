@@ -154,7 +154,7 @@ class ListOnboarding extends Component
 
         return view('mailcoach::app.emailLists.settings.onboarding')
             ->layout('mailcoach::app.emailLists.layouts.emailList', [
-                'title' => __('mailcoach - Settings') . ' — ' . __('mailcoach - Onboarding'),
+                'title' => __('mailcoach - Onboarding'),
                 'emailList' => $this->emailList,
             ]);
     }

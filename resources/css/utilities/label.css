@@ -8,7 +8,7 @@
 
 .label-required:after {
     content: '\f069';
-    font-family: 'Font Awesome 5 Free';
+    @apply font-awesome;
     font-weight: 900;
     @apply inline-block;
     @apply text-[6px];

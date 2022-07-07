@@ -1,5 +1,5 @@
 .dl {
-    @apply grid;
+    @apply md:grid;
     @apply grid-cols-auto-1fr;
     @apply justify-start;
     @apply gap-6;
@@ -7,11 +7,11 @@
 
 .dl dt {
     @apply font-bold;
-    @apply text-right;
     @apply whitespace-nowrap;
     @apply flex;
     @apply items-start;
-    @apply justify-end;
+    @apply md:justify-end;
+    @apply md:text-right;
 }
 
 .dl dd {

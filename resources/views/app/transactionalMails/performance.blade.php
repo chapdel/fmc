@@ -16,7 +16,7 @@
             </tbody>
         </table>
         @else
-            <x-mailcoach::help>{{ __('mailcoach - This mail hasn\'t been opened yet.') }}</x-mailcoach::help>
+            <x-mailcoach::info>{{ __('mailcoach - This mail hasn\'t been opened yet.') }}</x-mailcoach::info>
         @endif
     </x-mailcoach::fieldset>
 
@@ -41,9 +41,9 @@
                 </tbody>
             </table>
         @else
-            <x-mailcoach::help>
+            <x-mailcoach::info>
                 {{ __('mailcoach - No links in this mail have been clicked yet.') }}
-            </x-mailcoach::help>
+            </x-mailcoach::info>
         @endif
     </x-mailcoach::fieldset>
 </div>

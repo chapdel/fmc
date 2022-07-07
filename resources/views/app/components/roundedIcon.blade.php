@@ -1,10 +1,10 @@
 @php
     $typeCss = [
-        'success' => 'from-green-400 to-green-500 text-white',
-        'warning' => 'from-yellow-300 to-yellow-400 text-black',
-        'error' => 'from-red-400 to-red-500 text-white',
-        'info' => 'from-purple-400 to-purple-500 text-white',
-        'neutral' => 'from-gray-600 to-gray-800 text-gray-100',
+        'success' => 'from-green-500/70 to-green-700/90 text-white',
+        'warning' => 'from-yellow-300/90 to-yellow-500/90 text-black',
+        'error' => 'from-red-500/70 to-red-700/90 text-white',
+        'info' => 'from-purple-500/70 to-purple-700/90 text-white',
+        'neutral' => 'from-gray-700/70 to-gray-900/90 text-gray-100',
     ];
 
     if(!isset($type) || !array_key_exists($type, $typeCss)){
@@ -17,6 +17,7 @@
     w-4 h-4 rounded-full 
     inline-flex items-center justify-center 
     leading-none
+    bg-gray-300 
     bg-gradient-to-b shadow-sm
     {{ $typeCss[$type] }}
     {{ $class ?? '' }}

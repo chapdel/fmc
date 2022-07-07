@@ -7,9 +7,9 @@
         @keydown.prevent.window.ctrl.s="$wire.call('save')"
     >
         <x-mailcoach::fieldset :legend="__('mailcoach - Recipients')">
-            <x-mailcoach::help>
+            <x-mailcoach::info>
                 {{ __('mailcoach - These recipients will be merged with the ones when the mail is sent. You can specify multiple recipients comma separated.') }}
-            </x-mailcoach::help>
+            </x-mailcoach::info>
             <x-mailcoach::text-field placeholder="john@example.com, jane@example.com" :label="__('mailcoach - To')" name="template.to" wire:model.lazy="template.to"/>
             <x-mailcoach::text-field placeholder="john@example.com, jane@example.com" :label="__('mailcoach - Cc')" name="template.cc" wire:model.lazy="template.cc"/>
             <x-mailcoach::text-field placeholder="john@example.com, jane@example.com" :label="__('mailcoach - Bcc')" name="template.bcc" wire:model.lazy="template.bcc"/>

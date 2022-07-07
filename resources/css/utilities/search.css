@@ -15,10 +15,10 @@
     height: 2.5rem;
     @apply grid;
     @apply place-center;
-    @apply text-blue-500;
+    @apply text-indigo-900/50;
     @apply pointer-events-none;
     font-size: 0.9em;
-    font-family: 'Font Awesome 5 Free';
+    @apply font-awesome;
     font-weight: 900;
     content: '\f00c';
     transition: transform 0.3s;

@@ -1,7 +1,7 @@
 <div>
     <h2 class="text-lg mb-4">Import Mailcoach data from a different instance</h2>
 
-    <x-mailcoach::help class="mb-6">
+    <x-mailcoach::info class="mb-6">
         <p>Mailcoach can import (almost) all data to be used in a different Mailcoach instance (either self-hosted or hosted on mailcoach.cloud).</p>
         <p>The import will <strong>not import</strong> the following data:</p>
         <ul class="list-disc ml-4">
@@ -11,7 +11,7 @@
             <li>Any uploaded media</li>
         </ul>
         <p>Imports can always be reuploaded if something goes wrong.</p>
-    </x-mailcoach::help>
+    </x-mailcoach::info>
 
     <x-mailcoach::warning class="mb-3">"Send automation mail" actions in automations will need manual adjustment to the correct Automation Mail. <strong>Automations are imported as paused.</strong></x-mailcoach::warning>
 

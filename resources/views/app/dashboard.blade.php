@@ -1,8 +1,8 @@
 <div>
-    <h1 class="markup-h1 -mt-6">
-        Hello, {{ str(Auth::user()->name)->ucfirst() }}!
+    <h1 class="markup-h1 -mt-10">
+        Hi, {{ str(Auth::user()->name)->ucfirst() }}!
     </h1>
-    <div class="grid grid-cols-12 gap-6">
+    <div class="grid grid-cols-12 gap-10">
         @if ((new Spatie\Mailcoach\Domain\Shared\Support\License\License())->hasExpired())
             <x-mailcoach::tile class="bg-orange-100" cols="3" icon="credit-card">
                 <x-slot:link><a class="underline" href="https://spatie.be/products/mailcoach" data-turbo="false">Renew license</a></x-slot:link>
@@ -11,13 +11,13 @@
         @endif
 
         @include('mailcoach::app.layouts.partials.beforeDashboardTiles')
-
-
-            <x-mailcoach::tile class="bg-gray-50 text-blue-900" cols="2" icon="users">
+        
+        <x-mailcoach::tile cols="2" icon="users">
             <x-slot:link><span class="text-sm">30 days</span></x-slot:link>
-            <div class="flex mt-auto items-center">
-                <span>Recent subscribers</span>
-                <span class="text-4xl font-bold ml-auto text-blue-900">{{ $this->abbreviateNumber($recentSubscribers) }}</span>
+            
+            <h2 class="markup-h2 mb-0">{{ $this->abbreviateNumber($recentSubscribers) }}</h2>
+            <div class="mt-2 text-sm flex">
+                <x-mailcoach::icon-label icon="far fa-users" invers text="Recent subscribers"/>
             </div>
         </x-mailcoach::tile>
 

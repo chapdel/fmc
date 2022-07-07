@@ -1,4 +1,5 @@
-<nav class="navigation-main sticky top-0 border-b border-blue-900 rounded-b-md shadow-lg shadow-blue-700/20 bg-gradient-to-r from-blue-800 via-indigo-800 to-indigo-900" x-data="navigation">
+<nav class="navigation-main sticky top-0 border-b border-blue-900 rounded-b-md shadow-lg shadow-blue-700/20 bg-gradient-to-r from-blue-800 via-indigo-800 to-indigo-900
+border border-t-white/0 border-l-white/30 border-r-black/20 border-b-black/20" x-data="navigation">
     <div x-ref="background" class="pointer-events-none select-none w-16 h-16 absolute bg-white rounded shadow-xl shadow-blue-800/10 flex justify-center opacity-0 z-40" style="transition: left 0.3s, opacity 0.1s, transform 0.2s">
         <div class="absolute w-3 h-3 bg-white -translate-y-1/2 rotate-45"></div>
     </div>

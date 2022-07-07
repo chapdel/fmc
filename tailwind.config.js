@@ -28,6 +28,9 @@ module.exports = {
             boxShadow: {
                 focus: '0 2px 2px #e5e3e1' ,
             },
+            fontFamily: {
+                awesome: '"Font Awesome 6 Free"',
+            },
             gridTemplateColumns: {
                 auto: 'auto',
                 'auto-1fr': 'auto 1fr',

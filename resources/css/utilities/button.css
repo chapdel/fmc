@@ -1,10 +1,11 @@
 .button {
     @apply px-6;
     @apply h-10;
+    @apply bg-blue-900;
     @apply bg-gradient-to-b;
-    @apply from-blue-700;
-    @apply via-blue-600;
-    @apply to-blue-700;
+    @apply from-blue-700/10;
+    @apply via-indigo-600/60;
+    @apply to-blue-700/20;
     @apply text-white/90;
     @apply whitespace-nowrap;
     @apply rounded;

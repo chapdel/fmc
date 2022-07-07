@@ -39,7 +39,7 @@ document.addEventListener('alpine:init', () => {
                             borderColor: 'rgba(244, 63, 94, 1)',
                             pointBackgroundColor: 'rgba(244, 63, 94, 1)',
                             borderRadius: 5,
-                            data: this.chartData.unsubscribes.map((val) => -val),
+                            data: this.chartData.unsubscribes,
                             stack: 'stack0',
                             order: 1,
                         },
@@ -58,7 +58,7 @@ document.addEventListener('alpine:init', () => {
                 options: {
                     maintainAspectRatio: false,
                     responsive: true,
-                    barPercentage : .70,
+                    barPercentage : 0.75,
                     interaction: {
                         intersect: false,
                         mode: 'index',
@@ -78,13 +78,13 @@ document.addEventListener('alpine:init', () => {
                             },
                         },
                         legend: {
-                            display: false,
+                            display: true,
                         },
                         tooltip: {
-                            backgroundColor: 'rgba(30, 64, 175, 0.8)',
+                            backgroundColor: 'rgba(37, 42, 63, 1)',
                             titleSpacing: 4,
-                            bodySpacing: 4,
-                            padding: 8,
+                            bodySpacing: 8,
+                            padding: 20,
                             displayColors: false,
                             callbacks: {
                                 afterBody: (tooltips) => {
@@ -117,6 +117,8 @@ document.addEventListener('alpine:init', () => {
                         },
                         x: {
                             ticks: {
+                                autoSkip: true,
+                                maxRotation: 0,
                                 fontColor: "rgba(30, 64, 175, 1)",
                             },
                             grid: {

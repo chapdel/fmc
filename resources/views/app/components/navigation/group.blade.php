@@ -16,12 +16,18 @@ $isActive = ($active || \Illuminate\Support\Str::startsWith($href, request()->ur
                 : $title;
         @endphp
         <li class="nav-item {{ $isActive ? 'nav-item-active' : ''  }}">
-            <a href="{{ $href ?? '#' }}">
+            @isset($href)
+            <a href="{{ $href }}">
                 {{ $titleTruncated ?? '' }}
             </a>
+            @else
+            <span>
+                {{ $titleTruncated ?? '' }}
+            </span>
+            @endif
         </li>
     @endif
-    <ul class="mt-2 flex items-center md:items-start gap-x-4 gap-y-3 md:flex-col @if($title) nav-group @endif">
+    <ul class="mt-3 flex items-center md:items-start gap-x-4 gap-y-3 md:flex-col @if($title) nav-group @endif">
         {{ $slot }}
     </ul>
 </div>

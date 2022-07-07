@@ -48,6 +48,7 @@
 .table tbody td {
     @apply border-b;
     @apply border-indigo-500/20;
+    @apply leading-snug;
 }
 
 .tr-h-double td {

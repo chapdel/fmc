@@ -35,9 +35,9 @@
 </div>
 
 <div class="card">
-    <h1 class="markup-h1">
+    <h2 class="markup-h2">
         {{ __('mailcoach - Totals') }}
-    </h1>
+    </h2>
 
     <div class="mt-10 grid grid-cols-4 gap-6 justify-start md:items-end">
         <x-mailcoach::statistic :href="route('mailcoach.emailLists.subscribers', $emailList)" class="col-start-1"

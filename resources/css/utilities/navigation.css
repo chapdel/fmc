@@ -18,14 +18,16 @@
     @apply to-indigo-500;
 }
 
-.nav-item {
+.nav-item > span {
     @apply py-0.5;
-    @apply hover:text-blue-800;
     @apply font-medium;
 }
 
-.nav-item a {
+.nav-item > a {
+    @apply py-0.5;
+    @apply font-medium;
     @apply block;
+    @apply hover:text-blue-800;
 }
 
 .nav-item-active {

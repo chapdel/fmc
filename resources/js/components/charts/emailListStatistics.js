@@ -58,7 +58,7 @@ document.addEventListener('alpine:init', () => {
                 options: {
                     maintainAspectRatio: false,
                     responsive: true,
-                    barPercentage : .70,
+                    barPercentage : .75,
                     interaction: {
                         intersect: false,
                         mode: 'index',
@@ -81,10 +81,10 @@ document.addEventListener('alpine:init', () => {
                             display: false,
                         },
                         tooltip: {
-                            backgroundColor: 'rgba(30, 64, 175, 0.8)',
+                            backgroundColor: 'rgba(37, 42, 63, 1)',
                             titleSpacing: 4,
-                            bodySpacing: 4,
-                            padding: 8,
+                            bodySpacing: 8,
+                            padding: 20,
                             displayColors: false,
                         }
                     },
@@ -106,6 +106,8 @@ document.addEventListener('alpine:init', () => {
                         },
                         x: {
                             ticks: {
+                                autoSkip: true,
+                                maxRotation: 0,
                                 fontColor: "rgba(30, 64, 175, 1)",
                                 callback: function(value, index, ticks) {
                                     return chartData.labels[index].substring(3);

@@ -27,25 +27,26 @@
         @include('mailcoach::app.layouts.partials.endHead')
         @stack('endHead')
     </head>
-    <body class="flex flex-col min-h-screen bg-indigo-900/5" x-data="{ confirmText: '', onConfirm: null }">
+    <body class="flex flex-col min-h-screen text-gray-800 bg-indigo-900/5" x-data="{ confirmText: '', onConfirm: null }">
         <script>/**/</script><!-- Empty script to prevent FOUC in Firefox -->
         
         <header class="flex-none sticky top-0 z-20 w-full max-w-layout mx-auto px-16">
             <x-mailcoach::main-navigation />
         </header>
 
-        <main id="swup" class="relative flex-grow z-1 mx-auto w-full max-w-layout px-16 flex items-stretch gap-10">
+        <main id="swup" class="pt-10 relative flex-grow z-1 mx-auto w-full max-w-layout px-16 md:flex md:items-stretch md:gap-10">
             @isset($nav)
-                <nav class="mt-10 flex-none w-[16rem]">
+                <nav class="flex-none md:w-[16rem]">
                     {{ $nav }}
                 </nav>
             @endisset
             
             <section class="flex-grow min-w-0 flex flex-col">
-                <nav class="flex-none mt-10">
-                    @include('mailcoach::app.layouts.partials.breadcrumbs')
-                </nav>
-
+                @unless(isset($hideBreadcrumbs) && $hideBreadcrumbs)
+                    <nav class="flex-none">
+                        @include('mailcoach::app.layouts.partials.breadcrumbs')
+                    </nav>
+                @endunless
                 
                 <div class="flex-none flex">
                     <h1 class="mt-1 markup-h1 truncate">

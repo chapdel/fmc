@@ -15,6 +15,7 @@
     @apply border;
     @apply border-indigo-800/30;
     @apply hover:border-indigo-800/40;
+    @apply placeholder:text-indigo-900/50;
 }
 
 .input-sm {

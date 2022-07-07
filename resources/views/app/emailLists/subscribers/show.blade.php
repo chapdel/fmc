@@ -68,9 +68,9 @@
                 </tbody>
             </table>
         @else
-            <x-mailcoach::help>
+            <x-mailcoach::info>
                 {{ __("mailcoach - This user doesn't have any attributes yet.") }}
-            </x-mailcoach::help>
+            </x-mailcoach::info>
         @endif
     @endif
 

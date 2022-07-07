@@ -4,10 +4,9 @@
 
 @screen md {
     .filters {
-        display: flex;
+        @apply flex;
         @apply gap-6;
-        align-items: center;
-        @apply rounded-full;
+        @apply items-center;
         @apply pr-8; 
     }
 }

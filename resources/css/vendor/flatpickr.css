@@ -156,7 +156,7 @@ span.flatpickr-weekday {
 
 .flatpickr-prev-month:after,
 .flatpickr-next-month:after {
-    font-family: 'Font Awesome 5 Free';
+    @apply font-awesome;
     font-weight: 900;
     transform: translateY(-2px);
     display: inline-block;

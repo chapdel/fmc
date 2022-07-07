@@ -14,7 +14,7 @@
             wire:model="emailList.campaign_mailer"
             :label="__('mailcoach - Campaign mailer')"
         />
-        <x-mailcoach::help>{{ __('mailcoach - The mailer used for sending campaigns.') }}</x-mailcoach::help>
+        <x-mailcoach::info>{{ __('mailcoach - The mailer used for sending campaigns.') }}</x-mailcoach::info>
 
         <x-mailcoach::select-field
             name="automation_mailer"
@@ -22,7 +22,7 @@
             wire:model="emailList.automation_mailer"
             :label="__('mailcoach - Automation mailer')"
         />
-        <x-mailcoach::help>{{ __('mailcoach - The mailer used for sending automations.') }}</x-mailcoach::help>
+        <x-mailcoach::info>{{ __('mailcoach - The mailer used for sending automations.') }}</x-mailcoach::info>
 
 
         <x-mailcoach::select-field
@@ -31,7 +31,7 @@
             wire:model="emailList.transactional_mailer"
             :label="__('mailcoach - Transactional mailer')"
         />
-        <x-mailcoach::help>{{ __('mailcoach - The mailer used for sending transactional mails.') }}</x-mailcoach::help>
+        <x-mailcoach::info>{{ __('mailcoach - The mailer used for sending transactional mails.') }}</x-mailcoach::info>
 
         </x-mailcoach::fieldset>
     @endif

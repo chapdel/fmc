@@ -9,9 +9,9 @@
 >
     <x-mailcoach::fieldset :legend="__('mailcoach - General')">
         <x-mailcoach::text-field :label="__('mailcoach - Name')" name="template.name" wire:model.lazy="template.name" required />
-        <x-mailcoach::help>
+        <x-mailcoach::info>
             {{ __('mailcoach - This name is used by the application to retrieve this template. Do not change it without updating the code of your app.') }}
-        </x-mailcoach::help>
+        </x-mailcoach::info>
 
         <?php
         $editor = config('mailcoach.template_editor', \Spatie\Mailcoach\Domain\Shared\Support\Editor\TextEditor::class);

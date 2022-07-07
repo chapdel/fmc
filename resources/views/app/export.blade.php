@@ -28,7 +28,7 @@
     @else
         <h1 class="text-xl font-bold mb-6">Choose which data you want to export</h1>
 
-        <x-mailcoach::help class="mb-6">
+        <x-mailcoach::info class="mb-6">
             <p>Mailcoach can export (almost) all data to be used in a different Mailcoach instance (either self-hosted or hosted on mailcoach.cloud).</p>
             <p>The exporter will <strong>not export</strong> the following data:</p>
             <ul class="list-disc ml-4">
@@ -37,7 +37,7 @@
                 <li>Clicks / Opens / Unsubscribes (it will only export the calculated statistics)</li>
                 <li>Any uploaded media</li>
             </ul>
-        </x-mailcoach::help>
+        </x-mailcoach::info>
 
         <h2 class="text-lg">Email lists <a class="text-blue-500 text-sm underline" href="#" wire:click.prevent="selectAllEmailLists">All</a></h2>
         <p class="mb-3">This includes subscribers, tags & segments</p>
@@ -62,7 +62,7 @@
                     wire:model="selectedCampaigns"
                 />
             @empty
-                <x-mailcoach::help>No campaigns found, campaigns require their email list to be exported as well.</x-mailcoach::help>
+                <x-mailcoach::info>No campaigns found, campaigns require their email list to be exported as well.</x-mailcoach::info>
             @endforelse
         </div>
 
@@ -76,7 +76,7 @@
                     wire:model="selectedTemplates"
                 />
             @empty
-                <x-mailcoach::help>No templates found.</x-mailcoach::help>
+                <x-mailcoach::info>No templates found.</x-mailcoach::info>
             @endforelse
         </div>
 
@@ -94,7 +94,7 @@
                     wire:model="selectedAutomations"
                 />
             @empty
-                <x-mailcoach::help>No automations found, automations require their email list to be exported as well.</x-mailcoach::help>
+                <x-mailcoach::info>No automations found, automations require their email list to be exported as well.</x-mailcoach::info>
             @endforelse
         </div>
 
@@ -108,7 +108,7 @@
                     wire:model="selectedAutomationMails"
                 />
             @empty
-                <x-mailcoach::help>No automation mails found.</x-mailcoach::help>
+                <x-mailcoach::info>No automation mails found.</x-mailcoach::info>
             @endforelse
         </div>
 
@@ -122,7 +122,7 @@
                     wire:model="selectedTransactionalMailTemplates"
                 />
             @empty
-                <x-mailcoach::help>No transactional mail templates found.</x-mailcoach::help>
+                <x-mailcoach::info>No transactional mail templates found.</x-mailcoach::info>
             @endforelse
         </div>
 

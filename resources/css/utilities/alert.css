@@ -30,13 +30,13 @@
 .alert-success {
     @apply from-green-500/10;
     @apply before:from-green-500;
-    @apply before:to-green-500/60;
+    @apply before:to-green-500/70;
 }
 
 .alert-info {
     @apply from-purple-500/10;
     @apply before:from-purple-500;
-    @apply before:to-purple-500/60;
+    @apply before:to-purple-500/70;
 }
 
 .alert-info code {
@@ -48,14 +48,14 @@
 .alert-warning {
     @apply from-yellow-500/10;
     @apply before:from-yellow-500;
-    @apply before:to-yellow-500/60;
+    @apply before:to-yellow-500/70;
 }
 
 .alert-danger,
 .alert-error {
     @apply from-red-500/10;
     @apply before:from-red-500;
-    @apply before:to-red-500/60;
+    @apply before:to-red-500/70;
 }
 
 .alert-empty {

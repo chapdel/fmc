@@ -1,5 +1,11 @@
 .card {
-    @apply p-12 pb-20 bg-white shadow-lg shadow-blue-600/5 rounded-md;
+    @apply p-12;
+    @apply bg-white;
+    @apply shadow-lg;
+    @apply shadow-blue-600/5;
+    @apply rounded-md;
+    @apply border;
+    @apply border-indigo-900/10;
 }
 
 .card::-webkit-scrollbar {

@@ -24,9 +24,9 @@
         </div>
 
         @if($segmentable->usingCustomSegment())
-            <x-mailcoach::help>
+            <x-mailcoach::info>
                 {{ __('mailcoach - Using custom segment') }} {{ $segmentable->getSegment()->description() }}.
-            </x-mailcoach::help>
+            </x-mailcoach::info>
         @else
             <div class="form-field">
                 @error('segment')

@@ -47,7 +47,7 @@
 .link-icon {
     @apply text-blue-700;
 }
-
+    
 .link-icon .icon-label-text {
     @apply underline;
     text-decoration-color: var(--blue-600);

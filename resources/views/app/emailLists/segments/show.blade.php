@@ -19,7 +19,7 @@
             method="POST"
         >
             @if (! $emailList->tags()->count())
-                <x-mailcoach::help>
+                <x-mailcoach::info>
                     <div class="markup-lists">
                         {{ __('mailcoach - A segment is based on tags.') }}
                         <ol class="mt-4">
@@ -27,7 +27,7 @@
                             <li>{!! __('mailcoach - Assign these tags to some of the <a href=":subscriberslink">subscribers</a>.', ['subscriberslink' => route('mailcoach.emailLists.subscribers', $emailList)]) !!}</li>
                         </ol>
                     </div>
-                </x-mailcoach::help>
+                </x-mailcoach::info>
             @endif
 
             @csrf

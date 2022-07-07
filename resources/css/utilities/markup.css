@@ -1,26 +1,18 @@
 .markup-h1 {
     @apply font-extrabold;
-    @apply text-4xl;
-    @apply mb-10;
-    @apply text-gray-800;
+    @apply text-5xl;
+    @apply pb-8;
 }
 
-.markup-h1-sub {
-    @apply font-semibold;
-    @apply text-sm;
-    @apply uppercase;
-    @apply tracking-wider;
-    @apply text-gray-500;
-}
 .markup-h2 {
-    @apply text-lg;
-    @apply font-semibold;
-    @apply leading-tight;
+    @apply font-extrabold;
+    @apply text-3xl;
+    @apply mb-10;
 }
 
 .markup-h3 {
     @apply font-bold;
-    @apply text-gray-700;
+    @apply text-2xl;
 }
 
 .markup-h4 {
@@ -88,6 +80,14 @@
     @apply link-hover;
 }
 
+.markup-links-dimmed a {
+    @apply link-dimmed;
+}
+
+.markup-links-dimmed a:hover {
+    @apply link-dimmed-hover;
+}
+
 code.markup-code,
 .markup-code code {
     @apply inline-block;
@@ -95,6 +95,19 @@ code.markup-code,
     @apply bg-gray-100;
     @apply rounded-sm;
     @apply text-gray-600;
+}
+
+code.markup-code-block,
+.markup-code-block code {
+    @apply block;
+    @apply px-6;
+    @apply py-4;
+    @apply rounded;
+    @apply shadow-md;
+    @apply bg-gray-800;
+    @apply bg-gradient-to-br;
+    @apply from-purple-500/10;
+    @apply text-gray-200;
 }
 
 .markup-dl {
