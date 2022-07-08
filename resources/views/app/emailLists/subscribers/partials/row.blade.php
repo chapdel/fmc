@@ -1,13 +1,13 @@
 <tr>
     <td class="markup-links">
         @if ($row->isUnconfirmed())
-            <x-mailcoach::rounded-icon size="md" type="warning" icon="far fa-question" title="{{ __('mailcoach - Unconfirmed') }}"/>
+            <x-mailcoach::rounded-icon minimal size="md" type="warning" icon="far fa-question" title="{{ __('mailcoach - Unconfirmed') }}"/>
         @endif
         @if ($row->isSubscribed())
-            <x-mailcoach::rounded-icon size="md" type="success" icon="far fa-check" title="{{ __('mailcoach - Subscribed') }}"/>
+            <x-mailcoach::rounded-icon minimal size="md" type="success" icon="far fa-check" title="{{ __('mailcoach - Subscribed') }}"/>
         @endif
         @if ($row->isUnsubscribed())
-            <x-mailcoach::rounded-icon size="md" type="neutral" icon="far fa-ban" title="{{ __('mailcoach - Unsubscribed') }}"/>
+            <x-mailcoach::rounded-icon minimal size="md" type="neutral" icon="far fa-ban" title="{{ __('mailcoach - Unsubscribed') }}"/>
         @endif
     </td>
     <td class="markup-links leading-tight">

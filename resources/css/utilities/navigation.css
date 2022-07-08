@@ -62,7 +62,6 @@
     @apply z-50;
     @apply min-w-32;
     @apply will-change-auto;
-    transition: left 0.3s, opacity 0.1s, transform 0.2s;
 }
 
 .nav-dropdown-back {
@@ -81,6 +80,7 @@
     @apply z-40;
     @apply border;
     @apply border-indigo-900/10;
+    transition: left 0.3s, opacity 0.1s, transform 0.2s;
 }
 
 .nav-dropdown-back:before {

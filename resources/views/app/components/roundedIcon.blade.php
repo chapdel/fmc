@@ -7,6 +7,14 @@
         'neutral' => 'from-gray-700/70 to-gray-900/90 text-gray-100',
     ];
 
+    $typeMinimalCss = [
+        'success' => 'text-green-500',
+        'warning' => 'text-orange-500',
+        'error' => 'text-red-500',
+        'info' => 'text-purple-500',
+        'neutral' => 'text-gray-500',
+    ];
+
     if(!isset($type) || !array_key_exists($type, $typeCss)){
         $type = 'neutral';
     }
@@ -27,10 +35,9 @@
     rounded-full 
     inline-flex items-center justify-center 
     leading-none
-    bg-gray-300 
-    bg-gradient-to-b shadow-sm
+    shadow
     {{ $sizeCss[$size] }}
-    {{ $typeCss[$type] }}
+    {{ isset($minimal) ? "$typeMinimalCss[$type] bg-gradient-to-r from-gray-50" : "$typeCss[$type] bg-gray-300 bg-gradient-to-b" }}
     {{ $class ?? '' }}
 ">
     <i class="fa-fw {{ $icon ?? 'fas fa-info' }} "></i>
