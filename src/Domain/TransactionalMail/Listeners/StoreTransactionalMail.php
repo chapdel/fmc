@@ -31,7 +31,7 @@ class StoreTransactionalMail
             'bcc' => $this->convertToNamedArray($message->getBcc()),
             'body' => $message->getHtmlBody() ?? $message->getTextBody(),
             'mailable_class' => $messageConfig->getMailableClass(),
-            'attachments' => collect($message->getAttachments())->map(fn(DataPart $dataPart) => $dataPart->getFilename()),
+            'attachments' => collect($message->getAttachments())->map(fn (DataPart $dataPart) => $dataPart->getFilename()),
         ]);
 
         $send = self::getSendClass()::create([
