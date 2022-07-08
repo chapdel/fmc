@@ -23,7 +23,7 @@
     @apply before:transition;
 }
 
-.dashboard-tile-hover:hover{
+.dashboard-tile-hover:hover {
     @apply cursor-pointer;
     @apply shadow-xl;
     @apply shadow-blue-600/5;
@@ -43,15 +43,15 @@
     @apply before:to-red-500/70;
 }
 
-.dashboard-tile-hover.dashbard-tile-error:hover{
+.dashboard-tile-hover.dashbard-tile-error:hover {
     @apply shadow-red-600/5;
     @apply before:from-red-500;
     @apply before:to-red-600;
 }
 
-.dashboard-title{
+.dashboard-title {
     @apply font-extrabold;
-    @apply text-2xl;
+    @apply text-xl;
     @apply mb-2;
     @apply leading-tight;
 }
@@ -62,8 +62,8 @@
 }
 
 .dashboard-value {
-    @apply text-xl;
-    @apply font-extrabold; 
+    @apply text-2xl;
+    @apply font-extrabold;
 }
 
 a:hover > .dashboard-label {
