@@ -25,9 +25,8 @@ document.addEventListener('alpine:init', () => {
                     datasets: [
                         {
                             label: 'Subscribes',
-                            backgroundColor: 'rgba(110, 231, 183, 0.3)',
-                            borderColor: 'rgba(110, 231, 183, 1)',
-                            pointBackgroundColor: 'rgba(110, 231, 183, 1)',
+                            backgroundColor: 'rgb(49 46 129 / 0.2)',
+                            hoverBackgroundColor: 'rgb(49 46 129 / 0.4)',
                             borderRadius: 5,
                             data: this.chartData.subscribes,
                             stack: 'stack0',
@@ -35,20 +34,19 @@ document.addEventListener('alpine:init', () => {
                         },
                         {
                             label: 'Unsubscribes',
-                            backgroundColor: 'rgba(244, 63, 94, 0.1)',
-                            borderColor: 'rgba(244, 63, 94, 1)',
-                            pointBackgroundColor: 'rgba(244, 63, 94, 1)',
+                            backgroundColor: '#ef444466',
+                            hoverBackgroundColor: '#ef4444cc',
                             borderRadius: 5,
-                            data: this.chartData.unsubscribes.map((val) => -val),
+                            data: this.chartData.unsubscribes.map((val) => val ? -val : 0),
                             stack: 'stack0',
                             order: 1,
                         },
                         {
                             label: 'Subscribers',
                             type: 'line',
-                            backgroundColor: 'rgba(30, 64, 175, 0.1)',
-                            borderColor: 'rgba(30, 64, 175, 1)',
-                            pointBackgroundColor: 'rgba(30, 64, 175, 1)',
+                            borderColor: '#1d4ed8',
+                            pointBackgroundColor: '#2563eb',
+                            pointBorderColor: '#2563eb',
                             data: this.chartData.subscribers,
                             yAxisID: 'y1',
                             order: 0,
@@ -91,13 +89,16 @@ document.addEventListener('alpine:init', () => {
                     scales: {
                         y: {
                             ticks: {
-                                fontColor: "rgba(30, 64, 175, 1)",
+                                color: "rgba(100, 116, 139, 1)",
                             },
                             grid: {
                                 display: false,
                             },
                         },
                         y1: {
+                            ticks: {
+                                color: "rgba(100, 116, 139, 1)",
+                            },
                             position: 'right',
                             beginAtZero: false,
                             grid: {
@@ -108,15 +109,15 @@ document.addEventListener('alpine:init', () => {
                             ticks: {
                                 autoSkip: true,
                                 maxRotation: 0,
-                                fontColor: "rgba(30, 64, 175, 1)",
+                                color: "rgba(100, 116, 139, 1)",
                                 callback: function(value, index, ticks) {
                                     return chartData.labels[index].substring(3);
                                 }
                             },
                             grid: {
-                                borderColor: "rgba(30, 64, 175, .2)",
+                                borderColor: "rgba(100, 116, 139, .2)",
                                 borderDash: [5, 5],
-                                zeroLineColor: "rgba(30, 64, 175, .2)",
+                                zeroLineColor: "rgba(100, 116, 139, .2)",
                                 zeroLineBorderDash: [5, 5]
                             },
                         }

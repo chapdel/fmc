@@ -37,7 +37,7 @@ document.addEventListener('alpine:init', () => {
                             backgroundColor: '#ef444466',
                             hoverBackgroundColor: '#ef4444cc',
                             borderRadius: 5,
-                            data: this.chartData.unsubscribes,
+                            data: this.chartData.unsubscribes.map((val) => val ? -val : 0),
                             stack: 'stack0',
                             order: 1,
                         },
@@ -56,7 +56,7 @@ document.addEventListener('alpine:init', () => {
                 options: {
                     maintainAspectRatio: false,
                     responsive: true,
-                    barPercentage : 0.75,
+                    barPercentage : .75,
                     interaction: {
                         intersect: false,
                         mode: 'index',
@@ -100,13 +100,16 @@ document.addEventListener('alpine:init', () => {
                     scales: {
                         y: {
                             ticks: {
-                                fontColor: "rgba(30, 64, 175, 1)",
+                                color: "rgba(100, 116, 139, 1)",
                             },
                             grid: {
                                 display: false,
                             },
                         },
                         y1: {
+                            ticks: {
+                                color: "rgba(100, 116, 139, 1)",
+                            },
                             position: 'right',
                             beginAtZero: false,
                             grid: {
@@ -117,12 +120,12 @@ document.addEventListener('alpine:init', () => {
                             ticks: {
                                 autoSkip: true,
                                 maxRotation: 0,
-                                fontColor: "rgba(30, 64, 175, 1)",
+                                color: "rgba(100, 116, 139, 1)",
                             },
                             grid: {
-                                borderColor: "rgba(30, 64, 175, .2)",
+                                borderColor: "rgba(100, 116, 139, .2)",
                                 borderDash: [5, 5],
-                                zeroLineColor: "rgba(30, 64, 175, .2)",
+                                zeroLineColor: "rgba(100, 116, 139, .2)",
                                 zeroLineBorderDash: [5, 5]
                             },
                         }

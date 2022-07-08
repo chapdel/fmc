@@ -1,6 +1,6 @@
 <div class="empty:hidden card">
     @if ($stats->count())
-        <a href="#" class="mb-4 flex items-center gap-2 hover:text-blue-800">
+        <a href="#" class="mb-4 flex items-center gap-2 hover:text-blue-700">
             <h2 class="markup-h2 mb-0">
                 {{ __('mailcoach - Audience Growth') }}
             </h2>
@@ -14,8 +14,8 @@
         })">
             <canvas id="chart" style="position: relative; max-height:300px; width:100%; max-width: 100%;"></canvas>
         </div>
-        <div class="text-right">
-            <small class="text-gray-400">{{ __('mailcoach - You can drag the chart to zoom.') }}</small>
+        <div class="mt-4 text-right">
+            <small class="text-gray-500">{{ __('mailcoach - You can drag the chart to zoom.') }}</small>
         </div>
     @endif
 </div>

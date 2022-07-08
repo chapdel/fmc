@@ -33,17 +33,17 @@ document.addEventListener('alpine:init', () => {
                         {
                             ...lineOptions,
                             label: 'Opens',
-                            backgroundColor: 'rgba(30, 64, 175, 0.1)',
-                            borderColor: 'rgba(30, 64, 175, 1)',
-                            pointBackgroundColor: 'rgba(30, 64, 175, 1)',
+                            borderColor: '#1d4ed8',
+                            pointBackgroundColor: '#2563eb',
+                            pointBorderColor: '#2563eb',
                             data: this.chartData.opens,
                         },
                         {
                             ...lineOptions,
                             label: 'Clicks',
-                            backgroundColor: 'rgba(110, 231, 183, 0.1)',
-                            borderColor: 'rgba(110, 231, 183, 1)',
+                            borderColor: 'rgba(100, 220, 175, 1)',
                             pointBackgroundColor: 'rgba(110, 231, 183, 1)',
+                            pointBorderColor: 'rgba(110, 231, 183, 1)',
                             data: this.chartData.clicks,
                         },
                     ],
@@ -77,13 +77,13 @@ document.addEventListener('alpine:init', () => {
                             titleSpacing: 4,
                             bodySpacing: 8,
                             padding: 20,
-                            displayColors: true,
+                            displayColors: false,
                         }
                     },
                     scales: {
                         y: {
                             ticks: {
-                                fontColor: "rgba(30, 64, 175, 1)",
+                                color: "rgba(100, 116, 139, 1)",
                             },
                             grid: {
                                 display: false,
@@ -93,12 +93,12 @@ document.addEventListener('alpine:init', () => {
                             ticks: {
                                 autoSkip: true,
                                 maxRotation: 0,
-                                fontColor: "rgba(30, 64, 175, 1)",
+                                color: "rgba(100, 116, 139, 1)",
                             },
                             grid: {
-                                borderColor: "rgba(30, 64, 175, .2)",
+                                borderColor: "rgba(100, 116, 139, .2)",
                                 borderDash: [5, 5],
-                                zeroLineColor: "rgba(30, 64, 175, .2)",
+                                zeroLineColor: "rgba(100, 116, 139, .2)",
                                 zeroLineBorderDash: [5, 5]
                             },
                         }

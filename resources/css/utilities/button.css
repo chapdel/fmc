@@ -1,16 +1,16 @@
 .button {
     @apply px-6;
     @apply h-10;
-    @apply bg-blue-500;
+    @apply bg-blue-800;
     @apply bg-gradient-to-b;
-    @apply from-indigo-900;
-    @apply via-blue-900/80;
-    @apply to-indigo-900;
+    @apply from-indigo-700/30;
+    @apply via-blue-700;
+    @apply to-indigo-700/50;
     @apply text-white/90;
     @apply whitespace-nowrap;
     @apply rounded-md;
     @apply shadow-md;
-    @apply shadow-blue-900/20;
+    @apply shadow-blue-800/20;
     @apply font-bold;
     @apply transition-[background-position];
     @apply duration-[50ms];
@@ -43,6 +43,10 @@
 .button:not(:disabled):active {
     @apply shadow-inner;
     @apply translate-y-px;
+    @apply border-t-black/10;
+    @apply border-l-black/10;
+    @apply border-r-white/30;
+    @apply border-b-white/30;
 }
 
 .button-secondary {

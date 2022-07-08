@@ -17,47 +17,43 @@
     @apply before:top-0;
     @apply before:left-0;
     @apply before:bg-gradient-to-b;
-    @apply before:from-indigo-500/10;
+    @apply before:from-blue-500/10;
     @apply before:to-indigo-500/20;
     @apply before:rounded-l-md;
+    @apply before:transition;
 }
 
-.dashboard-error {
-    @apply bg-clip-padding;
-    @apply shadow-lg;
+.dashboard-tile-hover:hover{
+    @apply cursor-pointer;
+    @apply shadow-xl;
     @apply shadow-blue-600/5;
-    @apply rounded-md;
-    @apply border;
-    @apply border-indigo-900/10;
-    @apply overflow-hidden;
-    @apply px-6;
-    @apply py-4;
-    @apply relative;
-    @apply rounded-md;
-    @apply shadow-md;
-    @apply bg-gray-900;
-    @apply bg-gradient-to-r;
-    @apply from-red-500/40;
-    @apply to-red-900/40;
-    @apply shadow-red-700/20;
-    @apply text-white;
+    @apply before:from-blue-500/80;
+    @apply before:to-indigo-500/90;
+    @apply transform;
+    @apply -translate-y-px;
+}
 
-    @apply before:content-[''];
-    @apply before:absolute;
-    @apply before:w-2;
-    @apply before:h-full;
-    @apply before:top-0;
-    @apply before:left-0;
-    @apply before:bg-gradient-to-b;
+.dashboard-tile.dashboard-tile-error {
+    @apply bg-gray-900;
+    @apply from-red-500/10;
+    @apply text-red-50;
+    @apply shadow-red-600/5;
+
+    @apply before:from-red-500;
+    @apply before:to-red-500/70;
+}
+
+.dashboard-tile-hover.dashbard-tile-error:hover{
+    @apply shadow-red-600/5;
     @apply before:from-red-500;
     @apply before:to-red-600;
-    @apply before:rounded-l-md;
 }
 
 .dashboard-title{
     @apply font-extrabold;
     @apply text-2xl;
-    @apply mb-2
+    @apply mb-2;
+    @apply leading-tight;
 }
 
 .dashboard-label {
@@ -68,4 +64,12 @@
 .dashboard-value {
     @apply text-xl;
     @apply font-extrabold; 
+}
+
+a:hover > .dashboard-label {
+    @apply text-blue-700;
+}
+
+a:hover > .dashboard-value {
+    @apply text-blue-700;
 }
