@@ -46,9 +46,9 @@
 
     <x-mailcoach::fieldset :legend="__('mailcoach - Tracking')">
         <div class="form-field">
-            <x-mailcoach::help>
+            <x-mailcoach::info>
                 {!! __('mailcoach - Open & Click tracking are managed by your email provider.') !!}
-            </x-mailcoach::help>
+            </x-mailcoach::info>
         </div>
     </x-mailcoach::fieldset>
 

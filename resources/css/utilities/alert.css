@@ -1,11 +1,11 @@
-.alert  {
+.alert {
     @apply relative;
     @apply px-8;
     @apply py-5;
     @apply rounded-md;
     @apply shadow-md;
-    @apply bg-gray-800;
-    @apply bg-gradient-to-br;
+    @apply bg-gray-900;
+    @apply bg-gradient-to-r;
     @apply text-white;
 
     @apply before:content-[''];
@@ -46,9 +46,9 @@
 }
 
 .alert-warning {
-    @apply from-yellow-500/10;
+    @apply from-orange-500/20;
     @apply before:from-yellow-500;
-    @apply before:to-yellow-500/70;
+    @apply before:to-orange-500/70;
 }
 
 .alert-danger,

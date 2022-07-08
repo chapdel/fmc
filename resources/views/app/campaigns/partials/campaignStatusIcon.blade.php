@@ -1,13 +1,13 @@
 @if($status === \Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus::Draft)
     @if($campaign->scheduled_at)
-        <i title="{{ __('mailcoach - Scheduled') }}" class="far fa-clock text-orange-500"/>
+        <x-mailcoach::rounded-icon size="md" title="{{ __('mailcoach - Scheduled') }}" type="warning" icon="far fa-clock"/>
     @else
-        <i title="{{ __('mailcoach - Draft') }}" class="far fa-edit text-gray-500"/>
+        <x-mailcoach::rounded-icon size="md" title="{{ __('mailcoach - Draft') }}" type="neutral" icon="far fa-pen"/>
     @endif
 @elseif ($status === \Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus::Sent)
-    <i title="{{ __('mailcoach - Sent') }}" class="fas fa-check text-green-500"/>
+    <x-mailcoach::rounded-icon size="md" title="{{ __('mailcoach - Sent') }}" type="success" icon="far fa-check"/>
 @elseif ($status === \Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus::Sending)
-    <i title="{{ __('mailcoach - Sending') }}" class="fas fa-sync fa-spin text-blue-500"/>
+    <x-mailcoach::rounded-icon size="md" title="{{ __('mailcoach - Sending') }}" type="info" icon="far fa-sync fa-spin"/>
 @elseif ($status === \Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus::Cancelled)
-    <i title="{{ __('mailcoach - Cancelled') }}" class="fas fa-ban text-red-500"/>
+    <x-mailcoach::rounded-icon size="md" title="{{ __('mailcoach - Cancelled') }}" type="error" icon="far ban"/>
 @endif

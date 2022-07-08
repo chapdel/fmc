@@ -35,6 +35,7 @@
 
 .dashboard-tile.dashboard-tile-error {
     @apply bg-gray-900;
+    @apply bg-gradient-to-r;
     @apply from-red-500/10;
     @apply text-red-50;
     @apply shadow-red-600/5;
@@ -66,10 +67,16 @@
     @apply font-extrabold;
 }
 
-a:hover > .dashboard-label {
+.dashboard-link {
+    @apply flex;
+    @apply flex-col;
+    @apply pointer-events-auto;
+}
+
+.dashboard-link:hover .dashboard-label {
     @apply text-blue-700;
 }
 
-a:hover > .dashboard-value {
+.dashboard-link:hover .dashboard-value {
     @apply text-blue-700;
 }
