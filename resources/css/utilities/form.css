@@ -4,6 +4,13 @@
     @apply max-w-full;
 }
 
+.form-row {
+    @apply grid;
+    @apply grid-cols-3;
+    @apply gap-x-4;
+    @apply max-w-full;
+}
+
 .form-fieldsets-no-max-w .form-fieldset {
     @apply sm:max-w-none;
 }
@@ -39,11 +46,10 @@
 }
 
 .form-fieldset .legend {
-    @apply uppercase; 
+    @apply uppercase;
     @apply tracking-widest;
     @apply font-extrabold;
 }
-
 
 .legend-accent {
     @apply font-semibold;
