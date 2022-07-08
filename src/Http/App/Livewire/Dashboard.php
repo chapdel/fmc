@@ -23,7 +23,7 @@ class Dashboard extends Component
             ->layout('mailcoach::app.layouts.app', [
                 'originTitle' => __('mailcoach - Dashboard'),
                 'hideCard' => true,
-                'hideBreadcrumbs' => true
+                'hideBreadcrumbs' => true,
             ]);
     }
 
