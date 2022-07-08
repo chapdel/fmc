@@ -16,6 +16,7 @@
     "mailcoach - A test email was sent to :email.": "A test email was sent to :email.",
     "mailcoach - Actions successfully saved to automation :automation.": "Actions successfully saved to automation :automation.",
     "mailcoach - Actions": "Actions",
+    "mailcoach - Attachments": "Attachments",
     "mailcoach - Active": "Active",
     "mailcoach - Add action": "Add action",
     "mailcoach - Add segment": "Add segment",

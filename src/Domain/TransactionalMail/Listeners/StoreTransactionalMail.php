@@ -7,6 +7,7 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailStored;
 use Spatie\Mailcoach\Domain\TransactionalMail\Support\TransactionalMailMessageConfig;
 use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Part\DataPart;
 
 class StoreTransactionalMail
 {
@@ -30,6 +31,7 @@ class StoreTransactionalMail
             'bcc' => $this->convertToNamedArray($message->getBcc()),
             'body' => $message->getHtmlBody() ?? $message->getTextBody(),
             'mailable_class' => $messageConfig->getMailableClass(),
+            'attachments' => collect($message->getAttachments())->map(fn(DataPart $dataPart) => $dataPart->getFilename()),
         ]);
 
         $send = self::getSendClass()::create([

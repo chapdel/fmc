@@ -28,6 +28,7 @@ class TransactionalMail extends Model
         'to' => 'array',
         'cc' => 'array',
         'bcc' => 'array',
+        'attachments' => 'array',
     ];
 
     public function send(): HasOne

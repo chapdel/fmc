@@ -185,6 +185,7 @@ return new class extends Migration
             $table->json('to');
             $table->json('cc')->nullable();
             $table->json('bcc')->nullable();
+            $table->json('attachments')->nullable();
             $table->longText('body')->nullable();
             $table->longText('structured_html')->nullable();
 
