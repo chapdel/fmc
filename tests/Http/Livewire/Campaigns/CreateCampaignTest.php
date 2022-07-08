@@ -26,13 +26,9 @@ it('will use default tracking settings', function () {
 
     test()->assertDatabaseHas(static::getCampaignTableName(), [
         'name' => 'my campaign',
-        'track_opens' => 0,
-        'track_clicks' => 0,
         'utm_tags' => 1,
     ]);
 
-    config()->set('mailcoach.campaigns.default_settings.track_opens', true);
-    config()->set('mailcoach.campaigns.default_settings.track_clicks', true);
     config()->set('mailcoach.campaigns.default_settings.utm_tags', false);
 
     livewire(CreateCampaign::class)
@@ -41,8 +37,6 @@ it('will use default tracking settings', function () {
 
     test()->assertDatabaseHas(static::getCampaignTableName(), [
         'name' => 'another campaign',
-        'track_opens' => 1,
-        'track_clicks' => 1,
         'utm_tags' => 0,
     ]);
 });

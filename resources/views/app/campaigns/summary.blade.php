@@ -151,7 +151,7 @@
 
         <h2 class="markup-h2 mt-12">{{ __('mailcoach - Performance') }}</h2>
 
-        @if ($campaign->track_opens || $campaign->track_clicks)
+        @if ($campaign->opens()->count() || $campaign->clicks()->count())
             <div class="mt-6">
                 <livewire:mailcoach::campaign-statistics :campaign="$campaign" />
             </div>

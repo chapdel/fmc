@@ -10,7 +10,7 @@ trait SendsTestTransactionalMail
     public function sendTestMail(callable $buildUsing = null): void
     {
         TestTransactionMail::$buildUsing = $buildUsing ?? function (TestTransactionMail $mail) {
-            $mail->trackOpensAndClicks();
+            $mail->store();
         };
 
         Mail::to('john@example.com')->send(new TestTransactionMail());

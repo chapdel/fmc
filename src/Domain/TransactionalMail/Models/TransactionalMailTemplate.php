@@ -29,8 +29,6 @@ class TransactionalMailTemplate extends Model implements HasHtmlContent
 
     public $casts = [
         'store_mail' => 'boolean',
-        'track_opens' => 'boolean',
-        'track_clicks' => 'boolean',
         'from' => 'string',
         'to' => 'array',
         'cc' => 'array',

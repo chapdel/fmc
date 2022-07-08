@@ -22,8 +22,6 @@ class AutomationMails extends DataTable
             'html' => $automationMail->html,
             'structured_html' => $automationMail->structured_html,
             'webview_html' => $automationMail->webview_html,
-            'track_opens' => $automationMail->track_opens,
-            'track_clicks' => $automationMail->track_clicks,
             'utm_tags' => $automationMail->utm_tags,
             'last_modified_at' => now(),
         ]);

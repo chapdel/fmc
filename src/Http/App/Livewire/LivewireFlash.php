@@ -27,6 +27,8 @@ trait LivewireFlash
 
     public function flash(string $message, string $level = 'success')
     {
+        $this->emit('notify', [$message, $level]);
+
         $this->dispatchBrowserEvent('notify', [
             'content' => $message,
             'type' => $level,

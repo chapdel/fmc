@@ -42,22 +42,6 @@ it('can set both a from email and a from name', function () {
     expect(test()->campaign->from_name)->toEqual('Sender name');
 });
 
-it('can be marked to track opens', function () {
-    expect(test()->campaign->track_opens)->toBeFalse();
-
-    test()->campaign->trackOpens();
-
-    expect(test()->campaign->refresh()->track_opens)->toBeTrue();
-});
-
-it('can be marked to track clicks', function () {
-    expect(test()->campaign->track_clicks)->toBeFalse();
-
-    test()->campaign->trackClicks();
-
-    expect(test()->campaign->refresh()->track_clicks)->toBeTrue();
-});
-
 it('can add a subject', function () {
     expect(test()->campaign->subject)->toBeNull();
 
@@ -490,7 +474,6 @@ it('gets links', function () {
     $myHtml = '<html><a href="https://google.com">Test</a></html>';
 
     $campaign = Campaign::factory()->create([
-        'track_clicks' => true,
         'html' => $myHtml,
     ]);
 
@@ -503,7 +486,6 @@ it('gets links with ampersands', function () {
     $myHtml = '<html><a href="https://google.com?foo=true&bar=false">Test</a></html>';
 
     $campaign = Campaign::factory()->create([
-        'track_clicks' => true,
         'html' => $myHtml,
     ]);
 

@@ -829,17 +829,14 @@ it('handles deeply nested conditions', function () {
 
     $automationMail1 = AutomationMail::factory()->create([
         'html' => '<p><a href="https://example.com"></a></p>',
-        'track_clicks' => true,
     ]);
     $automationMail2 = AutomationMail::factory()->create();
     $automationMail3 = AutomationMail::factory()->create([
         'html' => '<p><a href="https://example.com"></a></p>',
-        'track_clicks' => true,
     ]);
     $automationMail4 = AutomationMail::factory()->create();
     $automationMail5 = AutomationMail::factory()->create([
         'html' => '<p><a href="https://example.com"></a></p>',
-        'track_clicks' => true,
     ]);
 
     $automation = Automation::create()

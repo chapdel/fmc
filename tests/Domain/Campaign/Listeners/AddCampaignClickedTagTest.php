@@ -9,7 +9,7 @@ use Spatie\Mailcoach\Domain\Shared\Support\LinkHasher;
 it('adds a tag when a campaign link is clicked', function () {
     /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
     $send = SendFactory::new()->create();
-    $send->campaign->update(['track_clicks' => true]);
+    $send->campaign->update();
 
     $send->registerClick('https://spatie.be');
 

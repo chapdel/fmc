@@ -1,5 +1,5 @@
 <div class="mt-6 grid grid-cols-3 gap-6 justify-start items-end max-w-xl">
-    @if ($campaign->track_opens)
+    @if ($campaign->open_count)
         <x-mailcoach::statistic :href="route('mailcoach.campaigns.opens', $campaign)" class="col-start-1"
                      numClass="text-4xl font-semibold" :stat="number_format($campaign->unique_open_count)" :label="__('mailcoach - Unique Opens')"/>
         <x-mailcoach::statistic :stat="number_format($campaign->open_count)" :label="__('mailcoach - Opens')"/>
@@ -7,11 +7,11 @@
     @else
         <div class="col-start-1 col-span-3">
             <div class="text-4xl font-semibold">–</div>
-            <div class="text-sm">{{ __('mailcoach - Opens not tracked') }}</div>
+            <div class="text-sm">{{ __('mailcoach - No opens tracked') }}</div>
         </div>
     @endif
 
-    @if($campaign->track_clicks)
+    @if($campaign->click_count)
         <x-mailcoach::statistic :href="route('mailcoach.campaigns.clicks', $campaign)" class="col-start-1"
                      numClass="text-4xl font-semibold" :stat="number_format($campaign->unique_click_count)" :label="__('mailcoach - Unique Clicks')"/>
         <x-mailcoach::statistic :stat="number_format($campaign->click_count)" :label="__('mailcoach - Clicks')"/>
@@ -19,7 +19,7 @@
     @else
         <div class="col-start-1 col-span-3">
             <div class="text-4xl font-semibold">–</div>
-            <div class="text-sm">{{ __('mailcoach - Clicks not tracked') }}</div>
+            <div class="text-sm">{{ __('mailcoach - No clicks tracked') }}</div>
         </div>
     @endif
 

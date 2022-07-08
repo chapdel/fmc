@@ -56,10 +56,10 @@ return new class extends Migration
                 ->constrained('mailcoach_email_lists')
                 ->cascadeOnDelete();
 
-            $table->text('email');
-            $table->text('first_name')->nullable();
-            $table->text('last_name')->nullable();
-            $table->text('extra_attributes')->nullable();
+            $table->string('email');
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->json('extra_attributes')->nullable();
 
             $table->uuid('imported_via_import_uuid')->nullable();
 
@@ -121,8 +121,6 @@ return new class extends Migration
             $table->string('mailable_class')->nullable();
             $table->json('mailable_arguments')->nullable();
 
-            $table->boolean('track_opens')->default(false);
-            $table->boolean('track_clicks')->default(false);
             $table->boolean('utm_tags')->default(false);
 
             $table->integer('sent_to_number_of_subscribers')->default(0);
@@ -187,11 +185,9 @@ return new class extends Migration
             $table->json('to');
             $table->json('cc')->nullable();
             $table->json('bcc')->nullable();
+            $table->json('attachments')->nullable();
             $table->longText('body')->nullable();
             $table->longText('structured_html')->nullable();
-
-            $table->boolean('track_opens')->default(false);
-            $table->boolean('track_clicks')->default(false);
 
             $table->string('mailable_class');
 
@@ -220,8 +216,6 @@ return new class extends Migration
             $table->string('mailable_class')->nullable();
             $table->json('mailable_arguments')->nullable();
 
-            $table->boolean('track_opens')->default(false);
-            $table->boolean('track_clicks')->default(false);
             $table->boolean('utm_tags')->default(false);
 
             $table->integer('sent_to_number_of_subscribers')->default(0);
@@ -245,7 +239,7 @@ return new class extends Migration
         Schema::create('mailcoach_sends', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->index();
-            $table->string('transport_message_id')->nullable();
+            $table->string('transport_message_id')->nullable()->index();
 
             $table
                 ->foreignId('campaign_id')
@@ -422,6 +416,8 @@ return new class extends Migration
                 ->nullable()
                 ->constrained('mailcoach_tags')
                 ->nullOnDelete();
+
+            $table->index(['subscriber_id', 'tag_id'], 'subscriber_id_tag_id_index');
         });
 
         Schema::create('mailcoach_email_list_allow_form_subscription_tags', function (Blueprint $table) {
@@ -543,8 +539,8 @@ return new class extends Migration
         Schema::create('mailcoach_automation_action_subscriber', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->index();
-            $table->unsignedBigInteger('action_id');
-            $table->unsignedBigInteger('subscriber_id');
+            $table->unsignedBigInteger('action_id')->index();
+            $table->unsignedBigInteger('subscriber_id')->index();
             $table->timestamp('run_at')->nullable();
             $table->timestamp('completed_at')->nullable();
             $table->timestamp('halted_at')->nullable();
@@ -681,8 +677,6 @@ return new class extends Migration
             $table->string('type'); // html, blade, markdown
             $table->json('replacers')->nullable();
             $table->boolean('store_mail')->default(false);
-            $table->boolean('track_opens')->default(false);
-            $table->boolean('track_clicks')->default(false);
             $table->text('test_using_mailable')->nullable();
             $table->timestamps();
         });

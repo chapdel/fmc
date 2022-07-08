@@ -1,10 +1,10 @@
 import '../css/app.css';
 import flatpickr from 'flatpickr';
-import Tagify from '@yaireo/tagify'
+import Tagify from '@yaireo/tagify';
 import '@yaireo/tagify/dist/tagify.css';
 import Alpine from 'alpinejs';
 import focus from '@alpinejs/focus';
-import Clipboard from "@ryangjchandler/alpine-clipboard";
+import Clipboard from '@ryangjchandler/alpine-clipboard';
 
 import {
     Chart,
@@ -27,7 +27,7 @@ Chart.register(
     LineController,
     CategoryScale,
     LinearScale,
-    Tooltip,
+    Tooltip
 );
 import { each } from 'chart.js/helpers';
 
@@ -44,34 +44,12 @@ import './components/charts/emailListStatistics.js';
 import './components/charts/campaignStatistics.js';
 import './components/charts/dashboardChart.js';
 import './components/navigation.js';
+import './components/modals.js';
 
 Alpine.plugin(focus);
 Alpine.plugin(Clipboard);
 
 window.Alpine = Alpine;
 window.Tagify = Tagify;
-
-document.addEventListener('alpine:init', () => {
-    Alpine.store('modals', {
-        openModals: [],
-        onConfirm: null,
-        init() {
-            if (window.location.hash) {
-                this.openModals.push(window.location.hash.replace('#', ''));
-            }
-        },
-        isOpen(id) {
-            return this.openModals.includes(id);
-        },
-        open(id) {
-            this.openModals.push(id);
-            window.location.hash = id;
-        },
-        close(id) {
-            this.openModals = this.openModals.filter((modal) => modal !== id);
-            history.pushState("", document.title, window.location.pathname + window.location.search);
-        }
-    });
-});
 
 Alpine.start();

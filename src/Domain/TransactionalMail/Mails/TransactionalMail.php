@@ -15,7 +15,7 @@ class TransactionalMail extends Mailable
 
     private string $templateName;
 
-    public function __construct(string $templateName, string $subject, array|string $from, array $to, array $cc = [], array $bcc = [], bool $trackOpens = false, bool $trackClicks = false)
+    public function __construct(string $templateName, string $subject, array|string $from, array $to, array $cc = [], array $bcc = [])
     {
         $this->templateName = $templateName;
 
@@ -28,14 +28,6 @@ class TransactionalMail extends Mailable
             ->subject($subject)
             ->mailer(config('mailcoach.transactional.mailer') ?? config('mail.default'))
             ->view('mailcoach::mails.transactionalMails.mail');
-
-        if ($trackOpens) {
-            $this->trackOpens();
-        }
-
-        if ($trackClicks) {
-            $this->trackClicks();
-        }
     }
 
     public function build()

@@ -11,12 +11,8 @@ An automation mail can be created like this:
 AutomationMail::create()
     ->from('sender@example.com')
     ->subject('Welcome to Mailcoach')
-    ->content($html)
-    ->trackOpens()
-    ->trackClicks();
+    ->content($html);
 ```
-
-The `trackOpens` and `trackClicks` calls are optional.
 
 Alternatively, you could manually set the attributes on an `AutomationMail` model.
 
@@ -25,8 +21,6 @@ AutomationMail::create([
    'from_email' => 'sender@example.com',
    'subject' => 'My newsletter #1',
    'content' => $html,
-   'track_opens' => true,
-   'track_clicks' => true,
 ]);
 ```
 

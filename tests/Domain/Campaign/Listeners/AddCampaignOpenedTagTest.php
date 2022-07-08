@@ -9,8 +9,6 @@ it('adds a tag when a campaign is opened', function () {
     /** @var Send $send */
     $send = SendFactory::new()->create();
 
-    $send->campaign->update(['track_opens' => true]);
-
     $send->registerOpen();
 
     expect($send->subscriber->hasTag("campaign-{$send->campaign->id}-opened"))->toBeTrue();

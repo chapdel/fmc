@@ -50,11 +50,11 @@ You can use of one these types as the value of `type` in a `TransactionalMailTem
 
 By default, mails using templates will not be stored or tracked.
 
-If you want to log any mail that use the template or track opens & clicks, you should set any of these attributes on `TransactionalMailTemplate` to true:
+If you want to log any mail that use the template, you should set this attribute on `TransactionalMailTemplate` to true:
 
 - `store_mail`
-- `track_opens`
-- `track_clicks`
+
+Open & click tracking are configured in your email provider.
 
 ## Using replacers
 

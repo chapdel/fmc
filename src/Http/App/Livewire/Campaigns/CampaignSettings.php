@@ -28,14 +28,14 @@ class CampaignSettings extends Component
 
     public string $segment;
 
+    public ?string $mailer;
+
     protected function rules(): array
     {
         return [
             'campaign.name' => 'required',
             'campaign.subject' => '',
             'campaign.email_list_id' => Rule::exists(self::getEmailListTableName(), 'id'),
-            'campaign.track_opens' => 'bool',
-            'campaign.track_clicks' => 'bool',
             'campaign.utm_tags' => 'bool',
             'campaign.segment_id' => ['required_if:segment,segment'],
             'segment' => [Rule::in(['entire_list', 'segment'])],
@@ -90,6 +90,8 @@ class CampaignSettings extends Component
 
     public function render(): View
     {
+        $this->mailer = self::getEmailListClass()::find($this->campaign->email_list_id)?->campaign_mailer;
+
         return view('mailcoach::app.campaigns.settings')
             ->layout('mailcoach::app.campaigns.layouts.campaign', [
                 'campaign' => $this->campaign,

@@ -1,5 +1,5 @@
 <div>
-    @if($campaign->track_clicks)
+    @if($campaign->click_count)
         <x-mailcoach::data-table
             name="clicks"
             :rows="$links ?? null"
@@ -18,7 +18,7 @@
         />
     @else
         <x-mailcoach::info>
-            {{ __('mailcoach - Click tracking was not enabled for this campaign.') }}
+            {{ __('mailcoach - No clicks tracked') }}
         </x-mailcoach::info>
     @endif
 </div>

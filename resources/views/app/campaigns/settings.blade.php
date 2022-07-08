@@ -26,11 +26,30 @@
 
     <x-mailcoach::fieldset :legend="__('mailcoach - Tracking')">
         <div class="form-field">
-            <label class="label">{{ __('mailcoach - Track when…') }}</label>
-            <div class="checkbox-group">
-                <x-mailcoach::checkbox-field :label="__('mailcoach - Someone opens this email')" name="track_opens" wire:model.lazy="campaign.track_opens" :disabled="!$campaign->isEditable()" />
-                <x-mailcoach::checkbox-field :label="__('mailcoach - Links in the email are clicked')" name="track_clicks" wire:model.lazy="campaign.track_clicks" :disabled="!$campaign->isEditable()" />
-            </div>
+            @php($mailerClass = config('mailcoach-ui.models.mailer'))
+            @if (class_exists($mailerClass) && $mailerModel = $mailerClass::all()->first(fn ($mailerModel) => $mailerModel->configName() === $mailer))
+                @if ($mailerModel->get('open_tracking_enabled', false))
+                    <x-mailcoach::icon-label icon="fas fa-check text-green-500" :text="__('mailcoach - Open tracking enabled')" />
+                @else
+                    <x-mailcoach::icon-label icon="fas fa-times text-red-500" :text="__('mailcoach - Open tracking disabled')" />
+                @endif
+                @if ($mailerModel->get('click_tracking_enabled', false))
+                    <x-mailcoach::icon-label icon="fas fa-check text-green-500" :text="__('mailcoach - Click tracking enabled')" />
+                @else
+                    <x-mailcoach::icon-label icon="fas fa-times text-red-500" :text="__('mailcoach - Click tracking disabled')" />
+                @endif
+                <x-mailcoach::help>
+                    {!! __('mailcoach - Open & Click tracking are managed by your email provider, this campaign uses the <a href=":mailerLink"><strong>:mailer</strong></a> mailer.', ['mailer' => $mailerModel->name, 'mailerLink' => route('mailers.edit', $mailerModel)]) !!}
+                </x-mailcoach::help>
+            @elseif($mailer)
+                <x-mailcoach::help>
+                    {!! __('mailcoach - Open & Click tracking are managed by your email provider, this campaign uses the <strong>:mailer</strong> mailer.', ['mailer' => $mailer]) !!}
+                </x-mailcoach::help>
+            @else
+                <x-mailcoach::help>
+                    {!! __('mailcoach - Your email list does not have a mailer set up yet.') !!}
+                </x-mailcoach::help>
+            @endif
         </div>
 
         <div class="form-field">
@@ -45,7 +64,7 @@
             <ul>
                 <li><strong>utm_source</strong>: newsletter</li>
                 <li><strong>utm_medium</strong>: email</li>
-                <li><strong>utm_campaign</strong>: {{ $campaign->name }}</li>
+                <li><strong>utm_campaign</strong>: {{ \Illuminate\Support\Str::slug($campaign->name) }}</li>
             </ul>
         </x-mailcoach::help>
     </x-mailcoach::fieldset>

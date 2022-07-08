@@ -5,7 +5,7 @@
 
 <table class="stats">
 <tr>
-@if ($campaign->track_opens)
+@if ($campaign->open_count)
 <td>
 @include('mailcoach::mails.partials.statistic', [
 'href' => route('mailcoach.campaigns.opens', $campaign),
@@ -35,7 +35,7 @@
 </tr>
 
 <tr>
-@if($campaign->track_clicks)
+@if($campaign->click_count)
 <td>
 @include('mailcoach::mails.partials.statistic', [
 'href' => route('mailcoach.campaigns.clicks', $campaign),

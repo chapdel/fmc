@@ -4,27 +4,39 @@ listen('input', '[data-dirty-check]', ({ target }) => {
     target.dirty = true;
 });
 
-document.addEventListener('click', (event) => {
-    if (!event.target.closest(swup.options.linkSelector)) {
-        return;
+Livewire.on('notify', function(params) {
+    const [message, level] = params;
+
+    if (level === 'success' && $('[data-dirty-check]')) {
+        $('[data-dirty-check]').dirty = false;
     }
+});
 
-    if (event.target.dataset.dirtyWarn === undefined) {
-        return;
-    }
+document.addEventListener(
+    'click',
+    event => {
+        if (!event.target.closest(swup.options.linkSelector)) {
+            return;
+        }
 
-    if (!$('[data-dirty-check]') || !$('[data-dirty-check]').dirty) {
-        return;
-    }
+        if (event.target.dataset.dirtyWarn === undefined) {
+            return;
+        }
 
-    event.stopImmediatePropagation()
-    event.preventDefault()
+        if (!$('[data-dirty-check]') || !$('[data-dirty-check]').dirty) {
+            return;
+        }
 
-    Alpine.store('modals').open('dirty-warning');
-    Alpine.store('modals').onConfirm = () => {
-        Alpine.store('modals').close('dirty-warning');
-        swup.loadPage({
-            url: event.target.href,
-        });
-    };
-}, true);
+        event.stopImmediatePropagation();
+        event.preventDefault();
+
+        Alpine.store('modals').open('dirty-warning');
+        Alpine.store('modals').onConfirm = () => {
+            Alpine.store('modals').close('dirty-warning');
+            swup.loadPage({
+                url: event.target.href,
+            });
+        };
+    },
+    true
+);

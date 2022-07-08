@@ -15,7 +15,8 @@ test('a transactional mail will be stored in the db', function () {
     test()->sendTestMail(function (TestTransactionMail $mail) {
         $mail
             ->subject('This is the subject')
-            ->trackOpensAndClicks();
+            ->attachData('some-content', 'example.pdf')
+            ->store();
     });
 
     expect(TransactionalMail::get())->toHaveCount(1);
@@ -29,8 +30,7 @@ test('a transactional mail will be stored in the db', function () {
     );
     expect($transactionalMail->subject)->toEqual('This is the subject');
     expect($transactionalMail->body)->toContain('This is the content for John Doe');
-    expect($transactionalMail->track_opens)->toBeTrue();
-    expect($transactionalMail->track_clicks)->toBeTrue();
+    expect($transactionalMail->attachments)->toContain('example.pdf');
     expect($transactionalMail->mailable_class)->toEqual(TestTransactionMail::class);
     expect($transactionalMail->send)->toBeInstanceOf(Send::class);
     expect(Send::first()->transactionalMail)->toBeInstanceOf(TransactionalMail::class);
@@ -39,7 +39,7 @@ test('a transactional mail will be stored in the db', function () {
 it('can store the various recipients', function () {
     test()->sendTestMail(function (TestTransactionMail $testTransactionMail) {
         $testTransactionMail
-            ->trackOpensAndClicks()
+            ->store()
             ->from('ringo@example.com', 'Ringo')
             ->cc('paul@example.com', 'Paul')
             ->bcc('george@example.com', 'George');
@@ -80,26 +80,6 @@ test('storing a transactional mail dispatches an event', function () {
 
         return $event;
     });
-});
-
-test('only opens on transactional mails can be tracked', function () {
-    test()->sendTestMail(function (TestTransactionMail $mail) {
-        $mail->trackOpens();
-    });
-
-    $transactionalMail = TransactionalMail::first();
-    expect($transactionalMail->track_opens)->toBeTrue();
-    expect($transactionalMail->track_clicks)->toBeFalse();
-});
-
-test('only click on transactional mails can be tracked', function () {
-    test()->sendTestMail(function (TestTransactionMail $mail) {
-        $mail->store();
-    });
-
-    $transactionalMail = TransactionalMail::first();
-    expect($transactionalMail->track_opens)->toBeFalse();
-    expect($transactionalMail->track_clicks)->toBeFalse();
 });
 
 test('by default it will not store any mails', function () {

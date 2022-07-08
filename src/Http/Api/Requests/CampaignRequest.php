@@ -22,8 +22,6 @@ class CampaignRequest extends FormRequest
             'segment_id' => ['nullable', Rule::exists((new TagSegment())->getTable(), 'id')],
             'html' => '',
             'mailable_class' => '',
-            'track_opens' => 'boolean',
-            'track_clicks' => 'boolean',
             'utm_tags' => 'boolean',
             'schedule_at' => 'date_format:Y-m-d H:i:s',
         ];
@@ -31,7 +29,7 @@ class CampaignRequest extends FormRequest
 
     public function template(): Template
     {
-        $templateClass = $this->getTemplateClass();
+        $templateClass = self::getTemplateClass();
 
         return $templateClass::find($this->template_id) ?? new $templateClass();
     }

@@ -193,10 +193,6 @@ class Send extends Model
 
     public function registerCampaignOpen(?DateTimeInterface $openedAt = null): ?CampaignOpen
     {
-        if (! $this->campaign->track_opens) {
-            return null;
-        }
-
         if ($this->wasOpenedInTheLastSeconds($this->opens(), 5)) {
             return null;
         }
@@ -217,10 +213,6 @@ class Send extends Model
 
     public function registerAutomationMailOpen(?DateTimeInterface $openedAt = null): ?AutomationMailOpen
     {
-        if (! $this->automationMail->track_opens) {
-            return null;
-        }
-
         if ($this->wasOpenedInTheLastSeconds($this->automationMailOpens(), 5)) {
             return null;
         }
@@ -239,10 +231,6 @@ class Send extends Model
 
     public function registerTransactionalMailOpen(?DateTimeInterface $openedAt = null): ?TransactionalMailOpen
     {
-        if (! $this->transactionalMail->track_opens) {
-            return null;
-        }
-
         if ($this->wasOpenedInTheLastSeconds($this->transactionalMailOpens(), 5)) {
             return null;
         }
@@ -289,10 +277,6 @@ class Send extends Model
 
     protected function registerCampaignClick(string $url, ?DateTimeInterface $clickedAt = null): ?CampaignClick
     {
-        if (! $this->campaign->track_clicks) {
-            return null;
-        }
-
         if (Str::startsWith($url, route('mailcoach.unsubscribe', ''))) {
             return null;
         }
@@ -313,10 +297,6 @@ class Send extends Model
 
     protected function registerAutomationMailClick(string $url, ?DateTimeInterface $clickedAt = null): ?AutomationMailClick
     {
-        if (! $this->automationMail->track_clicks) {
-            return null;
-        }
-
         if (Str::startsWith($url, route('mailcoach.unsubscribe', ''))) {
             return null;
         }
@@ -338,13 +318,10 @@ class Send extends Model
 
     protected function registerTransactionalMailClick(string $url, ?DateTimeInterface $clickedAt = null): ?TransactionalMailClick
     {
-        if (! $this->transactionalMail->track_clicks) {
-            return null;
-        }
-
         $transactionalMailClick = self::getTransactionalMailClickClass()::create([
             'send_id' => $this->id,
             'url' => $url,
+            'created_at' => $clickedAt ?? now(),
         ]);
 
         event(new TransactionalMailLinkClickedEvent($transactionalMailClick));

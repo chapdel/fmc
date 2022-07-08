@@ -32,7 +32,9 @@ Whenever this mailable is sent, Mailcoach will store and display it in the UI.
 
 ## Tracking opens and clicks
 
-Optionally, you can detect opens and clicks of a mailable by calling `trackOpensAndClicks`
+When enabled with your email provider, transactional mails will track opens & clicks as well.
+
+Tracking opens and/or clicks requires Mailcoach to store the mail, so you have to call `store` separately.
 
 ```php
 class YourMailable extends Mailable
@@ -40,15 +42,12 @@ class YourMailable extends Mailable
     public function build()
     {
         $this
-            ->trackOpensAndClicks()
+            ->store()
             ->view('mails.your-mailable')
     }
 }
 ```
 
-Should you only want to track opens or clicks you can call `trackOpens` or `trackClicks`.
-
-Tracking opens and/or clicks implies that Mailcoach will store the mail, so you don't need to call `store` separately.
 
 ## Resending stored mails
 

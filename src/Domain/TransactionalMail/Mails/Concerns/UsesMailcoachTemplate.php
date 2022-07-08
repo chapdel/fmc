@@ -16,7 +16,7 @@ trait UsesMailcoachTemplate
     public function template(string $name): self
     {
         /** @var TransactionalMailTemplate $template */
-        $template = $this->getTransactionalMailTemplateClass()::firstWhere('name', $name);
+        $template = self::getTransactionalMailTemplateClass()::firstWhere('name', $name);
 
         if (! $template) {
             throw CouldNotFindTemplate::make($name, $this);
@@ -44,14 +44,6 @@ trait UsesMailcoachTemplate
 
         $this->view('mailcoach::mails.transactionalMails.template', compact('content'));
 
-        if ($template->track_opens) {
-            $this->trackOpens();
-        }
-
-        if ($template->track_clicks) {
-            $this->trackClicks();
-        }
-
         return $this;
     }
 
@@ -67,7 +59,7 @@ trait UsesMailcoachTemplate
     protected static function testInstance(): self
     {
         $instance = new self();
-        $template = $instance->getTransactionalMailTemplateClass()::first();
+        $template = $instance::getTransactionalMailTemplateClass()::first();
         $instance->subject($instance->executeReplacers($template->subject, $template, $instance));
 
         return $instance;
