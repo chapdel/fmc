@@ -16,7 +16,6 @@ class BootstrapNavigation
         app(MainNavigation::class)
             ->add(__('mailcoach - Dashboard'), route('mailcoach.dashboard'))
             ->addIf($request->user()?->can('viewAny', self::getCampaignClass()), __('mailcoach - Campaigns'), route('mailcoach.campaigns'))
-            ->addIf($request->user()?->can('viewAny', self::getTemplateClass()), __('mailcoach - Templates'), route('mailcoach.templates'))
             ->addIf($request->user()?->can('viewAny', self::getAutomationClass()), __('mailcoach - Drip'), route('mailcoach.automations'), function (Section $section) {
                 $section
                     ->add(__('mailcoach - Automations'), route('mailcoach.automations'))
@@ -27,7 +26,8 @@ class BootstrapNavigation
                 $section
                     ->add(__('mailcoach - Log'), route('mailcoach.transactionalMails'))
                     ->add(__('mailcoach - Templates'), route('mailcoach.transactionalMails.templates'));
-            });
+            })
+            ->addIf($request->user()?->can('viewAny', self::getTemplateClass()), __('mailcoach - Templates'), route('mailcoach.templates'));
 
         return $next($request);
     }
