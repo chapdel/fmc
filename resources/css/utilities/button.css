@@ -1,4 +1,5 @@
-.button {
+.button,
+input[type='file']::file-selector-button {
     @apply px-6;
     @apply h-10;
     @apply bg-blue-800;
@@ -22,6 +23,15 @@
     background-position: 0 100%;
     background-size: 100% 200%;
     @apply tracking-wide;
+}
+
+input[type='file'] {
+    @apply input;
+    @apply pl-0;
+}
+input[type='file']::file-selector-button {
+    @apply rounded-r-none;
+    @apply mr-6;
 }
 
 .button:disabled {
@@ -64,7 +74,7 @@
 
 .button-secondary:not(:disabled):hover,
 .button-secondary:not(:disabled):focus {
-    @apply text-blue-800
+    @apply text-blue-800;
 }
 
 .button-secondary:not(:disabled):active {

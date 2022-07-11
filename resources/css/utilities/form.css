@@ -9,6 +9,7 @@
     @apply grid-cols-3;
     @apply gap-x-4;
     @apply max-w-full;
+    @apply sm:max-w-xl; /* same as form-field */
 }
 
 .form-fieldsets-no-max-w .form-fieldset {
@@ -41,17 +42,13 @@
     @apply to-indigo-500;
 }
 
-.form-fieldset-clean {
-    @apply bg-white;
-}
-
-.form-fieldset .legend {
+.form-legend {
     @apply uppercase;
     @apply tracking-widest;
     @apply font-extrabold;
 }
 
-.legend-accent {
+.form-legend-accent {
     @apply font-semibold;
     @apply normal-case;
     @apply tracking-normal;
@@ -74,19 +71,20 @@
 }
 
 .form-buttons {
-    @apply grid;
-    @apply justify-start;
-    @apply justify-items-start;
-    @apply items-center;
-    @apply gap-2;
-    @apply mt-4;
+    @apply sticky;
+    @apply -bottom-px;
+    @apply -mx-10;
+    @apply px-10;
+    @apply py-3;
+    @apply -mb-3;
+    @apply transition-shadow;
 }
 
-@screen sm {
-    .form-buttons {
-        @apply grid-cols-auto;
-        @apply grid-flow-col;
-    }
+.form-buttons-stuck {
+    @apply bg-white;
+    @apply border-t;
+    @apply border-indigo-700/20;
+    box-shadow: rgba(37, 99, 235, 0.05) 0px -10px 15px -3px, rgba(37, 99, 235, 0.05) 0px -4px 6px -4px !important;
 }
 
 .form-error {

@@ -153,7 +153,7 @@ This will make sure the edit & save buttons are shown correctly. This is the vie
 <x-mailcoach::automation-action :index="$index" :action="$action" :editing="$editing" :editable="$editable" :deletable="$deletable">
     <x-slot name="legend">
         {{__('Wait for ') }}
-        <span class="legend-accent">
+        <span class="form-legend-accent">
             {{ ($length && $unit && $interval = \Carbon\CarbonInterval::createFromDateString("{$length} {$unit}")) ? $interval->cascade()->forHumans() : '…' }}
         </span>
     </x-slot>

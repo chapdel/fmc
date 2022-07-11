@@ -13,8 +13,8 @@
     @apply shadow-md;
     @apply shadow-blue-300/10;
     @apply border;
-    @apply border-indigo-800/30;
-    @apply hover:border-indigo-800/40;
+    @apply border-indigo-700/20;
+    @apply hover:border-indigo-700/30;
     @apply placeholder:text-indigo-900/50;
 }
 
@@ -40,6 +40,7 @@
     @apply font-mono;
 }
 
+input[readonly],
 input:disabled {
     @apply opacity-50;
     @apply cursor-not-allowed;

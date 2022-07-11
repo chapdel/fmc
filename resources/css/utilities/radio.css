@@ -31,7 +31,7 @@
     @apply shadow-md;
     @apply shadow-blue-300/10;
     @apply border;
-    @apply border-indigo-800/30;
+    @apply border-indigo-700/20;
     @apply rounded-full;
     @apply overflow-hidden;
     content: '';
@@ -58,7 +58,7 @@
 }
 
 .radio:hover:before {
-    @apply border-indigo-800/40;
+    @apply border-indigo-700/30;
 }
 
 .radio:focus:before {

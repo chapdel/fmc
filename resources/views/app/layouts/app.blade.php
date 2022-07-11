@@ -54,10 +54,9 @@
                     </h1>
                 </div>
                 
-                <div class="flex-grow {{ isset($hideCard) && $hideCard ? 'flex flex-col gap-10' : 'card' }}">
+                <div>
                    {{ $slot }} 
                 </div>
-                
             </section>
         </main>
         

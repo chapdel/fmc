@@ -1,4 +1,4 @@
-<div class="pl-1 flex items-center gap-x-2 text-xs text-indigo-900/70">
+<div class="pl-1 flex items-center gap-x-2 text-xs text-gray-500">
     <a class="hover:text-blue-800" href="{{ route(config('mailcoach.redirect_home')) }}">
         Home
     </a>

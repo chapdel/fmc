@@ -1,5 +1,5 @@
 <form
-    class="form-grid"
+    class="card-grid"
     method="POST"
     wire:submit.prevent="save"
     @keydown.prevent.window.cmd.s="$wire.call('save')"
@@ -7,7 +7,7 @@
     x-data="{ type: @entangle('template.type') }"
     x-cloak
 >
-    <x-mailcoach::fieldset :legend="__('mailcoach - General')">
+    <x-mailcoach::fieldset card :legend="__('mailcoach - General')">
         <x-mailcoach::text-field :label="__('mailcoach - Name')" name="template.name" wire:model.lazy="template.name" required />
         <x-mailcoach::info>
             {{ __('mailcoach - This name is used by the application to retrieve this template. Do not change it without updating the code of your app.') }}
@@ -44,7 +44,7 @@
         <x-mailcoach::checkbox-field :label="__('mailcoach - Store mail')" name="template.store_mail" wire:model.lazy="template.store_mail" />
     </x-mailcoach::fieldset>
 
-    <x-mailcoach::fieldset :legend="__('mailcoach - Tracking')">
+    <x-mailcoach::fieldset card :legend="__('mailcoach - Tracking')">
         <div class="form-field">
             <x-mailcoach::info>
                 {!! __('mailcoach - Open & Click tracking are managed by your email provider.') !!}
@@ -52,7 +52,8 @@
         </div>
     </x-mailcoach::fieldset>
 
-    <div class="form-buttons">
+    <x-mailcoach::card buttons>
         <x-mailcoach::button :label="__('mailcoach - Save settings')" />
-    </div>
+</x-mailcoach::card>
+
 </form>

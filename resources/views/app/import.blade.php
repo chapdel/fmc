@@ -1,7 +1,5 @@
 <div>
-    <h2 class="text-lg mb-4">Import Mailcoach data from a different instance</h2>
-
-    <x-mailcoach::info class="mb-6">
+    <x-mailcoach::help class="mb-6">
         <p>Mailcoach can import (almost) all data to be used in a different Mailcoach instance (either self-hosted or hosted on mailcoach.cloud).</p>
         <p>The import will <strong>not import</strong> the following data:</p>
         <ul class="list-disc ml-4">
@@ -11,9 +9,10 @@
             <li>Any uploaded media</li>
         </ul>
         <p>Imports can always be reuploaded if something goes wrong.</p>
-    </x-mailcoach::info>
+    </x-mailcoach::help>
+    
+    <x-mailcoach::warning class="mb-6">"Send automation mail" actions in automations will need manual adjustment to the correct Automation Mail. <strong>Automations are imported as paused.</strong></x-mailcoach::warning>
 
-    <x-mailcoach::warning class="mb-3">"Send automation mail" actions in automations will need manual adjustment to the correct Automation Mail. <strong>Automations are imported as paused.</strong></x-mailcoach::warning>
 
     @if (($steps = Cache::get('import-status', [])) || $importStarted)
         <div class="flex flex-col gap-2" @if(! collect($steps)->where('failed', true)->count() && ! collect($steps)->keys()->contains('Cleanup')) wire:poll.1500ms @endif>
@@ -47,9 +46,9 @@
         <x-mailcoach::button class="mt-4" wire:click.prevent="clear" :label="__('Start new import')" />
     @else
         <div class="mb-4">
-            <input accept=".zip" type="file" wire:model="file" />
+            <input class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" accept=".zip" type="file" wire:model="file" />
             @error('file')
-            <p class="text-red-500">{{ $message }}</p>
+            <p class="form-error">{{ $message }}</p>
             @enderror
         </div>
 

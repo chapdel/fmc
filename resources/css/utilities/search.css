@@ -1,9 +1,12 @@
 .search input {
     @apply input;
+    @apply shadow-inner;
+    @apply shadow-blue-300/10;
+    @apply bg-indigo-400/5;
     @apply h-8;
     @apply pl-4;
     @apply pr-1;
-    @apply rounded-full;
+    @apply rounded-md;
     width: 12rem;
 }
 
@@ -29,4 +32,3 @@
 .search input:focus + .search-icon {
     transform: scale(0);
 }
-

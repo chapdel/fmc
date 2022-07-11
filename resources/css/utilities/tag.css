@@ -1,7 +1,7 @@
 .tagify {
     @apply items-center !important;
-    @apply border-indigo-800/30 !important;
-    @apply hover:border-indigo-800/40 !important;
+    @apply border-indigo-700/20 !important;
+    @apply hover:border-indigo-700/30 !important;
     @apply focus-within:border-blue-500 !important;
     @apply focus-within:shadow-md !important;
     @apply focus-within:shadow-blue-400/20 !important;

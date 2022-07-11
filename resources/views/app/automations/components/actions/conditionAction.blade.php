@@ -6,7 +6,7 @@
             </span>
             <span class="font-normal whitespace-nowrap">
                 Check for
-                <span class="legend-accent">
+                <span class="form-legend-accent">
                     {{ \Carbon\CarbonInterval::createFromDateString("{$length} {$unit}") }}
                 </span>
             </span>

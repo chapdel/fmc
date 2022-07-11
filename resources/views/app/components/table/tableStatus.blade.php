@@ -1,4 +1,4 @@
-<p class="table-status">
+<p class="table-status empty:hidden">
     @if($paginator->total() !== $totalCount)
         {{ __('mailcoach - Filtering :resource', [
             'resource' => \Illuminate\Support\Str::plural($name),

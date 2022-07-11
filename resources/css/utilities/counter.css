@@ -12,7 +12,8 @@
     font-variant-numeric: tabular-nums;
     padding: 0 0.35rem;
     @apply bg-gradient-to-b;
-    @apply from-gray-50;
+    @apply from-white;
+    @apply via-white;
     @apply to-gray-100;
     @apply border;
     @apply border-t-gray-300/30;

@@ -13,7 +13,6 @@
     @apply after:hidden;
 }
 
-
 @keyframes calendar {
     from {
         opacity: 0;
@@ -55,8 +54,8 @@
     @apply shadow-blue-300/10;
     @apply border !important;
     @apply border-solid !important;
-    @apply border-indigo-800/30;
-    @apply hover:border-indigo-800/40;
+    @apply border-indigo-700/20;
+    @apply hover:border-indigo-700/30;
 }
 
 .flatpickr-current-month .numInput.cur-year[disabled] {
@@ -72,7 +71,7 @@
     @apply font-normal !important;
 }
 
-.numInputWrapper{
+.numInputWrapper {
     @apply hover:bg-transparent !important;
 }
 
@@ -87,7 +86,6 @@
 .numInput.cur-year[disabled] ~ span.arrowDown {
     @apply hidden !important;
 }
-
 
 span.flatpickr-weekday {
     @apply text-gray-400;
