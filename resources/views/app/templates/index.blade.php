@@ -8,7 +8,7 @@
         ['attribute' => 'updated_at', 'label' => __('mailcoach - Last updated'), 'class' => 'w-48 th-numeric'],
         ['class' => 'w-12'],
     ]"
-    rowPartial="mailcoach::app.campaigns.templates.partials.row"
+    rowPartial="mailcoach::app.templates.partials.row"
     :emptyText="
         ($this->filter['search'] ?? null)
             ? __('mailcoach - No templates found.')

@@ -43,7 +43,7 @@ class Templates extends DataTable
 
     public function getView(): string
     {
-        return 'mailcoach::app.campaigns.templates.index';
+        return 'mailcoach::app.templates.index';
     }
 
     public function getData(Request $request): array

@@ -36,6 +36,6 @@ class CreateTemplate extends Component
 
     public function render()
     {
-        return view('mailcoach::app.campaigns.templates.partials.create');
+        return view('mailcoach::app.templates.partials.create');
     }
 }

@@ -29,7 +29,7 @@ class Template extends Model implements HasHtmlContent
     {
         $structuredHtml = json_decode($this->getStructuredHtml(), true) ?? [];
 
-        return $structuredHtml['templateValues'] ?? [];
+        return $structuredHtml['templateValues'] ?? ['html' => $this->getHtml()];
     }
 
     public function setTemplateFieldValues(array $fieldValues = []): self
