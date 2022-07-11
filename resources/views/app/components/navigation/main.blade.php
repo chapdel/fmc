@@ -25,7 +25,7 @@
             @foreach (app(\Spatie\Mailcoach\MainNavigation::class)->tree() as $index => $item)
                 <div
                     class="navigation-item group relative cursor-pointer"
-                    @if(count($item['children']) && $item['title'] !== __('mailcoach - Audience'))
+                    @if(count($item['children']) && $item['children'][0]['url'] !== url()->current())
                         x-on:mouseenter="open"
                         x-on:mouseleave="close"
                         x-on:touchstart="open"

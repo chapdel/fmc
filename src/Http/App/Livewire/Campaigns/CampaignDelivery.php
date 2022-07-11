@@ -10,6 +10,7 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Rules\DateTimeFieldRule;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
+use Spatie\Mailcoach\MainNavigation;
 
 class CampaignDelivery extends Component
 {
@@ -47,6 +48,8 @@ class CampaignDelivery extends Component
             'hours' => $this->scheduled_at_date->format('H'),
             'minutes' => $this->scheduled_at_date->format('i'),
         ];
+
+        app(MainNavigation::class)->activeSection()->add($campaign->name, route('mailcoach.campaigns.delivery', $campaign));
     }
 
     public function updatedScheduledAt()

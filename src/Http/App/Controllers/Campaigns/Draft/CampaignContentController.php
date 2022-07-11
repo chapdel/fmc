@@ -11,7 +11,7 @@ class CampaignContentController
 {
     use AuthorizesRequests;
 
-    public function edit(Campaign $campaign, MainNavigation $mainNavigation)
+    public function edit(Campaign $campaign)
     {
         $this->authorize('update', $campaign);
 
@@ -23,7 +23,7 @@ class CampaignContentController
             ? 'content'
             : 'contentReadOnly';
 
-        $mainNavigation->activeSection()?->add($campaign->name, route('mailcoach.campaigns.content', $campaign));
+        app(MainNavigation::class)->activeSection()->add($campaign->name, route('mailcoach.campaigns.content', $campaign));
 
         return view("mailcoach::app.campaigns.{$viewName}", compact('campaign', 'templateOptions'));
     }

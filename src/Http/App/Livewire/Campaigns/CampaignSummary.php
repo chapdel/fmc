@@ -7,6 +7,7 @@ use Livewire\Component;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
+use Spatie\Mailcoach\MainNavigation;
 
 class CampaignSummary extends Component
 {
@@ -22,6 +23,8 @@ class CampaignSummary extends Component
         if ($campaign->status === CampaignStatus::Draft) {
             return redirect()->route('mailcoach.campaigns.delivery', $campaign);
         }
+
+        app(MainNavigation::class)->activeSection()->add($campaign->name, route('mailcoach.campaigns.summary', $campaign));
     }
 
     public function cancelSending()
