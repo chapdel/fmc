@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Audience\Actions\EmailLists\CreateEmailListAction;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -25,6 +26,12 @@ class CreateList extends Component
             'default_from_email' => 'required|email:rfc',
             'default_from_name' => '',
         ];
+    }
+
+    public function mount()
+    {
+        $this->default_from_email = Auth::user()->email;
+        $this->default_from_name = Auth::user()->name;
     }
 
     public function saveList()

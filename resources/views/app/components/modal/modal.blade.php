@@ -17,6 +17,7 @@
         x-on:keydown.window.escape.prevent.stop="$store.modals.close('{{ $name }}')"
         role="dialog"
         aria-modal="true"
+        id="modal-{{ $name }}"
         x-id="['modal-title']"
         :aria-labelledby="$id('modal-title')"
         class="fixed inset-0 overflow-y-auto z-50"
