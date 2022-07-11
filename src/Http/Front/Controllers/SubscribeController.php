@@ -12,7 +12,12 @@ class SubscribeController
 {
     use UsesMailcoachModels;
 
-    public function __invoke(CreateSubscriptionRequest $request)
+    public function show()
+    {
+        return view('mailcoach::landingPages.subscribeInfo');
+    }
+
+    public function store(CreateSubscriptionRequest $request)
     {
         $emailList = $request->emailList();
 

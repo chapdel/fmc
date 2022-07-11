@@ -36,7 +36,8 @@ Route::get('webview/automation/{campaignUuid}', '\\' . AutomationWebviewControll
 
 Route::get('feed/{emailListUuid}', '\\' . EmailListCampaignsFeedController::class)->name('mailcoach.feed');
 
-Route::post('subscribe/{emailListUuid}', '\\' . SubscribeController::class)->name('mailcoach.subscribe');
+Route::get('subscribe/{emailListUuid}', ['\\' . SubscribeController::class, 'show'])->name('mailcoach.subscribe');
+Route::post('subscribe/{emailListUuid}', ['\\' . SubscribeController::class, 'store'])->name('mailcoach.subscribe');
 
 Route::prefix('landing')->group(function () {
     Route::view('/subscribed', 'mailcoach::landingPages.subscribed')->name('mailcoach.landingPages.example');
