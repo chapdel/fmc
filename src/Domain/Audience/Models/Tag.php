@@ -28,9 +28,13 @@ class Tag extends Model
         return $this->belongsTo(self::getEmailListClass(), 'email_list_id');
     }
 
-    public function scopeEmailList(Builder $query, EmailList $emailList): void
+    public function scopeEmailList(Builder $query, int|EmailList $emailList): void
     {
-        $query->where('email_list_id', $emailList->id);
+        if ($emailList instanceof EmailList) {
+            $emailList = $emailList->id;
+        }
+
+        $query->where('email_list_id', $emailList);
     }
 
     protected static function newFactory(): TagFactory
