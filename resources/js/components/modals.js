@@ -16,7 +16,7 @@ document.addEventListener('alpine:init', () => {
             this.openModals.push(id);
             window.location.hash = id;
             Alpine.nextTick(() => {
-                const input = document.querySelector(`#modal-${id} input`);
+                const input = document.querySelector(`#modal-${id} input:not([type=hidden])`);
                 if (input) input.focus();
             });
         },
