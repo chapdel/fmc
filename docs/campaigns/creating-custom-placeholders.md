@@ -16,7 +16,8 @@ Here is the code of the `WebviewReplacer` that ships with Mailcoach.
 ```php
 namespace Spatie\Mailcoach\Support\Replacers;
 
-use Spatie\Mailcoach\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\CampaignReplacer;
 
 class WebviewReplacer implements CampaignReplacer
 {
@@ -48,7 +49,8 @@ Here is the code of the `UnsubscribeUrlReplacer` that ships with Mailcoach.
 ```php
 namespace Spatie\Mailcoach\Support\Replacers;
 
-use Spatie\Mailcoach\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
+use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\PersonalizedReplacer;
 
 class UnsubscribeUrlReplacer implements PersonalizedReplacer
 {
