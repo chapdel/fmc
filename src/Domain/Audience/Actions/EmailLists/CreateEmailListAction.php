@@ -15,6 +15,7 @@ class CreateEmailListAction
             'campaign_mailer' => $data['campaign_mailer'] ?? config('mailcoach.campaigns.mailer') ?? config('mailcoach.mailer') ?? config('mail.default'),
             'automation_mailer' => $data['campaign_mailer'] ?? config('mailcoach.campaigns.mailer') ?? config('mailcoach.mailer') ?? config('mail.default'),
             'transactional_mailer' => $data['transactional_mailer'] ?? config('mailcoach.transactional.mailer') ?? config('mailcoach.mailer') ?? config('mail.default'),
+            'requires_confirmation' => $data['requires_confirmation'] ?? true,
         ]);
 
         $emailList->save();
