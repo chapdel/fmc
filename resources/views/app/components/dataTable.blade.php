@@ -40,7 +40,7 @@
             @endif
 
             @if($searchable && ($this->isFiltering() || $rows->count()))
-                <x-mailcoach::search wire:model="search" :placeholder="__('mailcoach - Search…')"/>
+                <x-mailcoach::search wire:model.debounce.500ms="search" :placeholder="__('mailcoach - Search…')"/>
             @endif
         </div>
     </div>
