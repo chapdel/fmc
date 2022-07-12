@@ -1,4 +1,5 @@
 <form
+    class="card-grid"
     wire:submit.prevent="save(new URLSearchParams(new FormData($event.target)).toString())"
     method="POST"
 >
@@ -23,10 +24,10 @@
         @endif
     </div>
 
+</x-mailcoach::card>    
     @include('mailcoach::app.campaigns.partials.emailListFields', ['segmentable' => $automation, 'wiremodel' => 'automation'])
 
-    <x-mailcoach::form-buttons>
+    <x-mailcoach::card buttons>
         <x-mailcoach::button :label="__('mailcoach - Save')" />
-    </x-mailcoach::form-buttons>
-</x-mailcoach::card>    
+    </x-mailcoach::card>
 </form>

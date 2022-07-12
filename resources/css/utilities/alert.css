@@ -1,16 +1,15 @@
 .alert {
     @apply relative;
-    @apply px-8;
+    @apply px-7;
     @apply py-5;
     @apply rounded-md;
-    @apply shadow-md;
-    @apply bg-gray-900;
     @apply bg-gradient-to-r;
-    @apply text-white;
+    @apply bg-gray-50;
+    @apply text-gray-600;
 
     @apply before:content-[''];
     @apply before:absolute;
-    @apply before:w-2;
+    @apply before:w-[6px];
     @apply before:h-full;
     @apply before:top-0;
     @apply before:left-0;
@@ -18,44 +17,54 @@
     @apply before:rounded-l;
 }
 
-.alert a {
-    @apply underline;
-    @apply hover:text-white;
-}
-
 .alert.alert-flash {
     @apply before:hidden;
+    @apply bg-gray-900;
+    @apply bg-gradient-to-r;
+    @apply text-white;
 }
 
 .alert-success {
+    @apply from-green-50/60;
+    @apply to-green-50/40;
+    @apply before:from-green-400;
+    @apply before:to-green-400/50;
+}
+
+.alert-success.alert-flash {
     @apply from-green-500/10;
-    @apply before:from-green-500;
-    @apply before:to-green-500/70;
 }
 
 .alert-info {
-    @apply from-purple-500/10;
-    @apply before:from-purple-500;
-    @apply before:to-purple-500/70;
+    @apply from-purple-50/60;
+    @apply to-purple-50/40;
+    @apply before:from-purple-400;
+    @apply before:to-purple-400/50;
 }
 
 .alert-info code {
-    @apply bg-black/20;
-    @apply text-purple-200;
+    @apply bg-purple-500/10;
     @apply py-0.5;
 }
 
 .alert-warning {
-    @apply from-orange-500/20;
-    @apply before:from-yellow-500;
-    @apply before:to-orange-500/70;
+    @apply from-orange-50/60;
+    @apply to-orange-50/40;
+    @apply before:from-orange-400;
+    @apply before:to-orange-400/50;
 }
 
 .alert-danger,
 .alert-error {
+    @apply from-red-50/60;
+    @apply to-red-50/40;
+    @apply before:from-red-400;
+    @apply before:to-red-400/50;
+}
+
+.alert-danger.alert-flash,
+.alert-error.alert-flash {
     @apply from-red-500/10;
-    @apply before:from-red-500;
-    @apply before:to-red-500/70;
 }
 
 .alert-empty {

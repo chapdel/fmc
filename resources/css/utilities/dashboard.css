@@ -33,11 +33,28 @@
     @apply -translate-y-px;
 }
 
+.dashboard-tile.dashboard-tile-success {
+    @apply bg-gray-900;
+    @apply bg-gradient-to-r;
+    @apply from-green-500/10;
+    @apply text-white;
+    @apply shadow-green-600/5;
+
+    @apply before:from-green-500;
+    @apply before:to-green-500/70;
+}
+
+.dashboard-tile-hover.dashbard-tile-success:hover {
+    @apply shadow-green-600/5;
+    @apply before:from-green-500;
+    @apply before:to-green-600;
+}
+
 .dashboard-tile.dashboard-tile-error {
     @apply bg-gray-900;
     @apply bg-gradient-to-r;
     @apply from-red-500/10;
-    @apply text-red-50;
+    @apply text-white;
     @apply shadow-red-600/5;
 
     @apply before:from-red-500;
