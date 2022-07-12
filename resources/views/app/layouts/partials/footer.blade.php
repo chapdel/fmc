@@ -1,5 +1,5 @@
 <div class="my-10 px-6 flex flex-wrap items-center justify-center text-xs text-gray-500">
-    <a class=" inline-block truncate" style="max-width: 12rem" href="https://mailcoach.app">
+    <a class="inline-block truncate max-w-[6rem]" href="https://mailcoach.app">
         Mailcoach {{ $versionInfo->getCurrentVersion() }}
     </a>
     <span>&nbsp;{{ __('mailcoach - by') }} <a class="" href="https://spatie.be">SPATIE</a></span>
@@ -9,15 +9,15 @@
         <a class="" href="https://spatie.be/docs/laravel-mailcoach" target="_blank">{{ __('mailcoach - Documentation') }}</a>
 
         <span class="mx-2">•</span>
-        <a class=" inline-block truncate" style="max-width: 12rem" href="{{ route('debug') }}">
+        <a class="inline-block" href="{{ route('debug') }}">
             Debug
         </a>
         <span class="mx-2">•</span>
-        <a class=" inline-block truncate" style="max-width: 12rem" href="{{ route('export') }}">
+        <a class="inline-block" href="{{ route('export') }}">
             Export
         </a>
         <span class="mx-1">/</span>
-        <a class=" inline-block truncate" style="max-width: 12rem" href="{{ route('import') }}">
+        <a class="inline-block" href="{{ route('import') }}">
             Import
         </a>
 

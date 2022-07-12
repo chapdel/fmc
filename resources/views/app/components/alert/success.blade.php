@@ -1,4 +1,4 @@
-<div {{ $attributes->merge(['class' => 'ml-2 alert alert-success max-w-xl']) }}>
+<div {{ $attributes->merge(['class' => 'ml-2 alert alert-success md:max-w-xl']) }}>
     <div class="absolute -left-[8px] -top-[3px] border-4 flex border-white rounded-full">
         <x-mailcoach::rounded-icon type="success" icon="fas fa-check" />   
     </div> 

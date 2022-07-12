@@ -1,8 +1,8 @@
 <x-mailcoach::layout :title="__('mailcoach - Debug')">
 
 @php($issueBody = "## Describe your issue\n\n\n\n---\n## Health check:\n\n")
-<div class="form-grid form-fieldsets-no-max-w">
-    <x-mailcoach::fieldset :legend="__('mailcoach - Health')">
+<div class="card-grid form-fieldsets-no-max-w">
+    <x-mailcoach::fieldset card :legend="__('mailcoach - Health')">
         <dl class="dl markup-links">
             @php($issueBody.='**Environment**: ' . app()->environment() . "\n")
             <dt>
@@ -128,7 +128,7 @@
         </dl>
     </x-mailcoach::fieldset>
 
-    <x-mailcoach::fieldset :legend="__('mailcoach - Mailers')">
+    <x-mailcoach::fieldset card :legend="__('mailcoach - Mailers')">
         <dl class="dl">
             @php($issueBody.="**Default mailer**: " . config('mail.default') . "\n")
             <dt>
@@ -163,7 +163,8 @@
             </dd>
         </dl>
     </x-mailcoach::fieldset>
-    <x-mailcoach::fieldset :legend="__('mailcoach - Technical Details')">
+
+    <x-mailcoach::fieldset card :legend="__('mailcoach - Technical Details')">
         @php($issueBody.="\n\n## Technical details\n\n")
         <dl class="dl">
                 @php($issueBody.="**App directory**: " . base_path() . "\n")
@@ -233,7 +234,8 @@
             @endif
 
     </x-mailcoach::fieldset>
-    <x-mailcoach::fieldset  :legend="__('mailcoach - Having trouble?')">
+    
+    <x-mailcoach::fieldset card  :legend="__('mailcoach - Having trouble?')">
         <a href="https://github.com/spatie/laravel-mailcoach/issues/new?body={{ urlencode($issueBody) }}" target="_blank">
             <x-mailcoach::button :label="__('mailcoach - Create a support issue')"/>
         </a>

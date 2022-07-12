@@ -27,11 +27,13 @@ input[type='file']::file-selector-button {
 
 input[type='file'] {
     @apply input;
-    @apply pl-0;
+    @apply rounded-l-md;
+    @apply text-indigo-900/50;
 }
 input[type='file']::file-selector-button {
     @apply rounded-r-none;
-    @apply mr-6;
+    @apply relative;
+    @apply -left-3;
 }
 
 .button:disabled {

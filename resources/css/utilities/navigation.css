@@ -63,8 +63,8 @@
     @apply text-blue-200;
     @apply hover:text-white;
     @apply text-sm;
-    @apply font-semibold;
-    @apply md:text-black;
+    @apply font-medium;
+    @apply md:text-gray-800;
     @apply md:hover:bg-gradient-to-r;
     @apply md:hover:from-blue-50;
     @apply md:hover:to-blue-100/70;

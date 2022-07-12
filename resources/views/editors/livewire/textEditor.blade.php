@@ -22,7 +22,7 @@
             </div>
         @endforeach
     @else
-        <div>
+        <div class="form-field max-w-none">
             <label class="label" for="field_html">
                 HTML
             </label>

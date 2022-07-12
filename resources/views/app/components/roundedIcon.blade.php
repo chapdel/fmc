@@ -40,5 +40,5 @@
     {{ isset($minimal) ? "$typeMinimalCss[$type] bg-gradient-to-r from-gray-50" : "$typeCss[$type] bg-gray-300 bg-gradient-to-b" }}
     {{ $class ?? '' }}
 ">
-    <i class="fa-fw {{ $icon ?? 'fas fa-info' }} "></i>
+    <i class="{{ $icon ?? 'fas fa-info' }} "></i>
 </span>

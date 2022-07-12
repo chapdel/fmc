@@ -1,6 +1,14 @@
 @php($subscribers ??= null)
 @php($selectedSubscribersCount ??= null)
 @php($subscribersCount ??= null)
+<div class="card-grid">
+@if(!is_null($selectedSubscribersCount) && !is_null($subscribersCount))
+    <x-mailcoach::card class="py-4">
+        <x-mailcoach::info>
+        {!! __('mailcoach - Population is <strong>:percentage%</strong> of list total of :subscribersCount.', ['percentage' => round($selectedSubscribersCount / $subscribersCount * 100 , 2), 'subscribersCount' => number_format($subscribersCount)]) !!}
+        </x-mailcoach::info>
+    </x-mailcoach::card>
+@endif
 <x-mailcoach::data-table
     name="subscriber"
     :rows="$subscribers"
@@ -16,11 +24,6 @@
     :emptyText="__('mailcoach - This is a very exclusive segment. Nobody got selected.')"
     :searchable="false"
 >
-    @slot('actions')
-        @if(!is_null($selectedSubscribersCount) && !is_null($subscribersCount))
-            <x-mailcoach::info>
-                {!! __('mailcoach - Population is <strong>:percentage%</strong> of list total of :subscribersCount.', ['percentage' => round($selectedSubscribersCount / $subscribersCount * 100 , 2), 'subscribersCount' => number_format($subscribersCount)]) !!}
-            </x-mailcoach::info>
-        @endif
-    @endslot
+
 </x-mailcoach::data-table>
+</div>

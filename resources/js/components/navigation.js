@@ -87,7 +87,9 @@ document.addEventListener('alpine:init', () => {
         },
 
         resize(event) {
-            this.show = window.innerWidth > 768;
+            if (window.innerWidth > 768) {
+                this.show = true;
+            }
         },
 
         select(event) {

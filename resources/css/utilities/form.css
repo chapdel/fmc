@@ -9,11 +9,11 @@
     @apply grid-cols-3;
     @apply gap-x-4;
     @apply max-w-full;
-    @apply sm:max-w-xl; /* same as form-field */
+    @apply md:max-w-xl; /* same as form-field */
 }
 
 .form-fieldsets-no-max-w .form-fieldset {
-    @apply sm:max-w-none;
+    @apply md:max-w-none;
 }
 
 .form-fieldset {
@@ -21,7 +21,7 @@
     @apply gap-y-6;
     @apply pl-6;
     @apply my-4;
-    @apply sm:max-w-xl; /* same as form-field */
+    @apply md:max-w-xl; /* same as form-field */
 }
 
 .form-fieldset:before {
@@ -81,7 +81,7 @@
     @apply flex;
     @apply flex-col;
     @apply gap-2;
-    @apply sm:max-w-xl;
+    @apply md:max-w-xl;
 }
 
 .form-buttons {
