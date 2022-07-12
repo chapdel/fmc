@@ -115,6 +115,12 @@ code.markup-code-block,
 
 .markup-dl {
     @apply grid;
-    @apply gap-4;
-    grid-template-columns: auto 1fr;
+    @apply gap-x-4;
+    @apply gap-y-3;
+    @apply md:grid-cols-[auto,1fr];
+}
+
+.markup-dl dd {
+    @apply -mt-2;
+    @apply md:mt-0;
 }

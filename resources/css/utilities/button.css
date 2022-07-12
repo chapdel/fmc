@@ -60,6 +60,7 @@ input[type='file']::file-selector-button {
 }
 
 .button-secondary {
+    @apply py-2;
     @apply underline;
     @apply whitespace-nowrap;
     @apply text-blue-700;
@@ -81,7 +82,12 @@ input[type='file']::file-selector-button {
     @apply translate-y-px;
 }
 
-.button + .button-secondary {
+.button + .button {
+    @apply ml-2;
+}
+
+.button + .button-secondary,
+.button + .button-cancel {
     @apply ml-4;
 }
 
@@ -101,10 +107,6 @@ input[type='file']::file-selector-button {
 .button-cancel:hover,
 .button-cancel:focus {
     @apply link-dimmed-hover;
-}
-
-.button + .button-cancel {
-    @apply ml-4;
 }
 
 .button-red {

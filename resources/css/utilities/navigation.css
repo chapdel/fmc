@@ -1,35 +1,56 @@
-.nav-group {
-    @apply relative;
-    @apply pl-4;
-    @apply text-sm;
-}
-
-.nav-group:before {
-    content: '';
-    @apply absolute;
-    @apply left-0;
+.navigation-main {
+    @apply sticky;
     @apply top-0;
-    @apply w-[3px];
-    @apply h-full;
-    @apply rounded-full;
-    @apply bg-gradient-to-b;
-    @apply from-blue-400;
-    @apply to-indigo-500;
+    @apply py-4;
+    @apply md:py-2;
+    @apply md:rounded-b-md;
+    @apply border-b;
+    @apply border-blue-900;
+    @apply shadow-lg;
+    @apply shadow-blue-700/20;
+    @apply bg-gradient-to-r;
+    @apply from-blue-800;
+    @apply via-indigo-800;
+    @apply to-indigo-900;
 }
 
-.nav-item > span {
+.navigation-group {
+    @apply flex;
+    @apply gap-x-4;
+    @apply relative;
+    @apply px-4;
+    @apply py-2;
+    @apply bg-indigo-500/5;
+    @apply rounded;
+    @apply text-sm;
+
+    @apply md:py-0;
+    @apply md:bg-transparent;
+
+    @apply md:before:content-[''];
+    @apply md:before:absolute;
+    @apply md:before:left-0;
+    @apply md:before:top-0;
+    @apply md:before:w-[3px];
+    @apply md:before:h-full;
+    @apply md:before:rounded-full;
+    @apply md:before:bg-gradient-to-b;
+    @apply md:before:from-blue-400;
+    @apply md:before:to-indigo-500;
+}
+
+.navigation-item > span {
     @apply py-0.5;
     @apply font-medium;
 }
 
-.nav-item > a {
+.navigation-item > a {
     @apply py-0.5;
     @apply font-medium;
-    @apply block;
     @apply hover:text-blue-800;
 }
 
-.nav-item-active {
+.navigation-item-active {
     @apply text-blue-700;
     @apply hover:text-blue-700;
     @apply font-bold;
@@ -37,9 +58,10 @@
 
 .navigation-link {
     @apply block;
-    @apply py-2;
-    @apply px-4;
+    @apply md:py-2;
+    @apply md:px-4;
     @apply text-blue-200;
+    @apply hover:text-white;
     @apply text-sm;
     @apply font-semibold;
     @apply md:text-black;
@@ -49,14 +71,32 @@
     @apply md:hover:text-blue-900;
 }
 
+.navigation-dropdown-trigger {
+    @apply cursor-pointer;
+    @apply flex;
+    @apply gap-x-4;
+    @apply items-center;
+    @apply md:block;
+}
+
 .navigation-dropdown {
+    @apply flex;
+    @apply gap-x-6;
+    @apply px-4;
+    @apply py-2;
+    @apply bg-indigo-900/30;
+    @apply rounded;
+
+    @apply md:flex-col;
+    @apply md:bg-transparent;
     @apply md:absolute;
     @apply md:left-1/2;
     @apply md:-translate-x-1/2;
+    @apply md:px-0;
+    @apply md:py-3;
     @apply overflow-hidden;
     @apply border;
     @apply border-transparent;
-    @apply py-3;
     @apply transition-opacity;
     @apply duration-200;
     @apply z-50;
@@ -64,9 +104,10 @@
     @apply will-change-auto;
 }
 
-.nav-dropdown-back {
+.navigation-dropdown-back {
     @apply pointer-events-none;
     @apply select-none;
+    @apply -mt-2;
     @apply w-16;
     @apply h-16;
     @apply absolute;
@@ -83,7 +124,7 @@
     transition: left 0.3s, opacity 0.1s, transform 0.2s;
 }
 
-.nav-dropdown-back:before {
+.navigation-dropdown-back:before {
     content: '';
     @apply absolute;
     @apply top-0;

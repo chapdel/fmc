@@ -6,7 +6,8 @@
 }
 
 .card {
-    @apply p-10;
+    @apply p-6;
+    @apply md:p-10;
     @apply bg-white;
     @apply shadow-lg;
     @apply shadow-blue-600/5;

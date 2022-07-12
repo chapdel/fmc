@@ -1,10 +1,12 @@
 @props([
     'name',
+    'medium' => false,
     'large' => false,
     'title' => null,
     'confirmText' => __('mailcoach - Confirm'),
     'cancelText' =>  __('mailcoach - Cancel'),
     'open' => false,
+    'dismissable' => false,
 ])
 @push('modals')
     <!-- {{ $name }} Modal -->
@@ -30,17 +32,22 @@
         <!-- Panel -->
         <div
             x-show="$store.modals.isOpen('{{ $name }}')" x-transition
+            @if($dismissable)
+            x-on:click.prevent="$store.modals.close('{{ $name }}')"
+            @else
             x-on:click="
                 $refs.modal.classList.add('animate-scale');
                 setTimeout(() => $refs.modal.classList.remove('animate-scale'), 300);
             "
+            @endif
             class="relative h-screen min-h-screen flex items-center justify-center p-4"
         >
             <div
                 x-on:click.stop
                 x-trap.noscroll.inert="$store.modals.isOpen('{{ $name }}')"
-                class="relative modal-wrapper rounded-sm @if($large) h-full modal-wrapper-lg @endif"
-            >
+                class="relative modal-wrapper rounded-sm @if($medium) modal-wrapper-md @endif @if($large) h-full modal-wrapper-lg @endif"
+            >   
+            <div class="modal">
                 @if($title)
                     <header class="modal-header flex items-center justify-between">
                         <span class="modal-title">{{ $title }}</span>
@@ -49,9 +56,10 @@
                         </button>
                     </header>
                 @endif
-                <div class="modal-content scrollbar h-full">
+                <div class="modal-content scrollbar">
                     {{ $slot }}
                 </div>
+            </div>
             </div>
         </div>
     </div>

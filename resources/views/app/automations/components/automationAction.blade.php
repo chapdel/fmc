@@ -38,7 +38,7 @@
             </div>
         @endif
 
-        <dl class="-mx-6 -mb-6 px-6 py-2 text-right text-xs text-gray-500  bg-gray-300 bg-opacity-10">
+        <dl class="-mx-6 -mb-6 px-6 py-2 text-right text-xs text-gray-600 bg-gradient-to-b from-gray-500/5 via-gray-500/0">
             Active
             <span class="font-semibold variant-numeric-tabular">{{ number_format($action['active'] ?? 0) }}</span>
             <span class="text-gray-400 px-2">•</span>

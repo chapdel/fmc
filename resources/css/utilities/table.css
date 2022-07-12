@@ -1,17 +1,9 @@
 .table {
     @apply table-fixed;
-    width: calc(100% + 1.5rem);
-    overflow-x: visible;
-    @apply -mx-3;
+    @apply min-w-full;
+    @apply mx-0;
     @apply border-separate;
     @apply border-spacing-0;
-}
-
-@screen lg {
-    .table {
-        @apply w-full;
-        @apply mx-0;
-    }
 }
 
 .table:not(:first-child) {
@@ -22,8 +14,8 @@
 .table td {
     @apply py-3;
     @apply px-6;
-    @apply first:pl-10;
-    @apply last:pr-10;
+    @apply md:first:pl-10;
+    @apply md:last:pr-10;
     @apply align-top;
 }
 
@@ -35,8 +27,6 @@
     @apply text-xs;
     @apply tracking-wider;
     @apply bg-white;
-    @apply sticky;
-    @apply top-16;
     @apply z-10;
     @apply border-b;
     @apply border-indigo-500/20;
@@ -45,6 +35,9 @@
     @apply to-indigo-500/10;
     @apply first:rounded-tl;
     @apply last:rounded-tr;
+
+    @apply md:sticky;
+    @apply md:top-16;
 }
 
 .table tbody td {

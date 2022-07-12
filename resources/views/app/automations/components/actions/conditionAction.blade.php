@@ -132,7 +132,7 @@
 
                 <div class="grid gap-6 w-full">
                     <section class="before:content-[''] before:absolute before:w-2 before:h-full before:top-0 before:left-0 before:bg-gradient-to-b before:from-green-500 before:to-green-500/70 before:rounded-l-md bg-white/50">
-                        <div x-data="{ collapsed: false }" :class="{ 'pb-8': !collapsed }" class="grid gap-4 px-12 border-green-900/10 border-r border-t border-b rounded">
+                        <div x-data="{ collapsed: false }" :class="{ 'pb-8': !collapsed }" class="grid gap-4 px-12 border-gray-900/10 border-r border-t border-b rounded">
                             <div class="flex items-center">
                                 <h2 class="justify-self-start -ml-10 -mt-px -mb-px h-8 px-2 inline-flex items-center bg-gray-900 bg-gradient-to-r from-green-500/10 text-white rounded-br space-x-2">
                                     <i class="far fa-thumbs-up"></i>
@@ -150,7 +150,7 @@
                         </div>
                     </section>
                     <section class="before:content-[''] before:absolute before:w-2 before:h-full before:top-0 before:left-0 before:bg-gradient-to-b before:from-red-500 before:to-red-500/70 before:rounded-l-md bg-white/50">
-                        <div x-data="{ collapsed: false }" :class="{ 'pb-8': !collapsed }" class="grid gap-4 px-12 border-red-900/10 border-r border-t border-b rounded">
+                        <div x-data="{ collapsed: false }" :class="{ 'pb-8': !collapsed }" class="grid gap-4 px-12 border-gray-900/10 border-r border-t border-b rounded">
                             <div class="flex items-center">
                                 <h2 class="justify-self-start -ml-10 -mt-px -mb-px h-8 px-2 inline-flex items-center bg-gray-900 bg-gradient-to-r from-red-500/10 text-white rounded-br space-x-2">
                                     <i class="far fa-thumbs-down"></i>
@@ -172,7 +172,7 @@
                 <div class="grid gap-6 flex-grow">
                     <div class="grid gap-6 w-full">
                         <section class="before:content-[''] before:absolute before:w-2 before:h-full before:top-0 before:left-0 before:bg-gradient-to-b before:from-green-500 before:to-green-500/70 before:rounded-l-md bg-white/50">
-                            <div x-data="{ collapsed: false }" :class="{ 'pb-8': !collapsed }" class="grid gap-4 px-12 border-green-900/10 border-r border-t border-b rounded-r">
+                            <div x-data="{ collapsed: false }" :class="{ 'pb-8': !collapsed }" class="grid gap-4 px-12 border-gray-900/10 border-r border-t border-b rounded-r">
                                 <div class="flex items-center">
                                     <h2 class="justify-self-start -ml-10 -mt-px -mb-px h-8 px-2 inline-flex items-center bg-gray-900 bg-gradient-to-r from-green-500/10 text-white rounded-br space-x-2">
                                         <i class="far fa-thumbs-up"></i>
@@ -204,7 +204,7 @@
                             </div>
                         </section>
                         <section class="before:content-[''] before:absolute before:w-2 before:h-full before:top-0 before:left-0 before:bg-gradient-to-b before:from-red-500 before:to-red-500/70 before:rounded-l-md bg-white/50">
-                            <div x-data="{ collapsed: false }" :class="{ 'pb-8': !collapsed }" class="grid gap-4 px-12 pb-8 border-red-900/10 border-r border-t border-b rounded-r">
+                            <div x-data="{ collapsed: false }" :class="{ 'pb-8': !collapsed }" class="grid gap-4 px-12 pb-8 border-gray-900/10 border-r border-t border-b rounded-r">
                                 <div class="flex items-center">
                                     <h2 class="justify-self-start -ml-10 -mt-px -mb-px h-8 px-2 inline-flex items-center bg-gray-900 bg-gradient-to-r from-red-500/10 text-white rounded-br space-x-2">
                                         <i class="far fa-thumbs-down"></i>

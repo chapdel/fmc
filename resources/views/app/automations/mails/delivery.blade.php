@@ -79,11 +79,11 @@
         </dd>
 
         <dt>
-            <span class="inline-flex gap-2 items-center">
+            <span class="inline-flex gap-2 items-center md:flex-row-reverse">
+                <x-mailcoach::rounded-icon type="neutral" icon="fas fa-link"/>
                 <span>
                     {{ __('mailcoach - Links') }}
                 </span>
-                <x-mailcoach::rounded-icon type="neutral" icon="fas fa-link"/>
             </span>
         </dt>
 
@@ -108,11 +108,11 @@
         </dd>
 
         <dt>
-            <span class="inline-flex gap-2 items-center">
+            <span class="inline-flex gap-2 items-center md:flex-row-reverse">
+                <x-mailcoach::rounded-icon type="neutral" icon="fas fa-tag"/>
                 <span>
                     {{ __('mailcoach - Tags') }}
                 </span>
-                <x-mailcoach::rounded-icon type="neutral" icon="fas fa-tag"/>
             </span>
         </dt>
 

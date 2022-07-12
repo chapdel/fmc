@@ -51,79 +51,79 @@
     </div>
     @endif
 
-    <x-mailcoach::card class="p-0">
-        <div class="w-full text-center" wire:loading.delay wire:target="loadRows">
-            <table class="table table-fixed">
-                <thead>
-                    <tr>
-                        @foreach ($columns as $column)
-                        <x-mailcoach::th :class="$column['class'] ?? ''" :sort="$this->sort" :property="$column['attribute'] ?? null">
-                            {{ $column['label'] ?? '' }}
-                        </x-mailcoach::th>
+    <div class="card p-0 pb-24 md:pb-0 overflow-x-auto md:overflow-visible">
+            <div wire:loading.delay wire:target="loadRows">
+                <table class="table table-fixed">
+                    <thead>
+                        <tr>
+                            @foreach ($columns as $column)
+                            <x-mailcoach::th :class="$column['class'] ?? ''" :sort="$this->sort" :property="$column['attribute'] ?? null">
+                                {{ $column['label'] ?? '' }}
+                            </x-mailcoach::th>
+                            @endforeach
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (range(1, 5) as $i)
+                        <tr class="markup-links">
+                            @foreach ($columns as $column)
+                            @if ($loop->last)
+                            <td class="td-action"></td>
+                            @else
+                            <td class="{{ $column['class'] ?? '' }}">
+                                <div class="animate-pulse h-4 my-1 bg-gradient-to-r from-indigo-900/5"></div>
+                            </td>
+                            @endif
+                            @endforeach
+                        </tr>
                         @endforeach
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (range(1, 5) as $i)
-                    <tr class="markup-links">
-                        @foreach ($columns as $column)
-                        @if ($loop->last)
-                        <td class="td-action"></td>
-                        @else
-                        <td class="{{ $column['class'] ?? '' }}">
-                            <div class="animate-pulse h-4 my-1 bg-gradient-to-r from-indigo-900/5"></div>
-                        </td>
+                    </tbody>
+                </table>
+            </div>
+
+            <div wire:loading.delay.remove wire:target="loadRows">
+                <table class="table table-fixed">
+                    <thead>
+                        <tr>
+                            @foreach ($columns as $column)
+                            <x-mailcoach::th :class="$column['class'] ?? ''" :sort="$this->sort" :property="$column['attribute'] ?? null">
+                                {{ $column['label'] ?? '' }}
+                            </x-mailcoach::th>
+                            @endforeach
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if ($rows->count())
+                        @if($rowPartial)
+                        @foreach ($rows as $index => $row)
+                        @include($rowPartial, $rowData)
+                        @endforeach
                         @endif
-                        @endforeach
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                        {{ $tbody ?? '' }}
+                        @endif
+                    </tbody>
+                </table>
+            </div>
 
-        <div wire:loading.delay.remove wire:target="loadRows">
-            <table class="table table-fixed">
-                <thead>
-                    <tr>
-                        @foreach ($columns as $column)
-                        <x-mailcoach::th :class="$column['class'] ?? ''" :sort="$this->sort" :property="$column['attribute'] ?? null">
-                            {{ $column['label'] ?? '' }}
-                        </x-mailcoach::th>
-                        @endforeach
-                    </tr>
-                </thead>
-                <tbody>
-                    @if ($rows->count())
-                    @if($rowPartial)
-                    @foreach ($rows as $index => $row)
-                    @include($rowPartial, $rowData)
-                    @endforeach
-                    @endif
-                    {{ $tbody ?? '' }}
-                    @endif
-                </tbody>
-            </table>
-        </div>
-
-        @if(!$rows->count() && $this->readyToLoad)
-        <div class="px-6 pb-6">
-            @if(isset($empty))
-            {{ $empty }}
-            @else
-            @php($plural = \Illuminate\Support\Str::plural($name))
-            @if ($this->search ?? null)
-            <x-mailcoach::info>
-                {{ $noResultsText ?? __("mailcoach - No {$plural} found.") }}
-            </x-mailcoach::info>
-            @else
-            <x-mailcoach::info>
-                {!! $emptyText ?? __("mailcoach - No {$plural}.") !!}
-            </x-mailcoach::info>
-            @endif
+            @if(!$rows->count() && $this->readyToLoad)
+            <div class="p-6 md:px-10">
+                @if(isset($empty))
+                {{ $empty }}
+                @else
+                @php($plural = \Illuminate\Support\Str::plural($name))
+                @if ($this->search ?? null)
+                <x-mailcoach::info>
+                    {{ $noResultsText ?? __("mailcoach - No {$plural} found.") }}
+                </x-mailcoach::info>
+                @else
+                <x-mailcoach::info>
+                    {!! $emptyText ?? __("mailcoach - No {$plural}.") !!}
+                </x-mailcoach::info>
+                @endif
+                @endif
+            </div>
             @endif
         </div>
-        @endif
-    </x-mailcoach::card>
 
 
     @if ($rows->count())

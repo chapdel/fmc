@@ -101,19 +101,17 @@
                         <p class="form-error">{{ $message }}</p>
                         @enderror
 
-                        <div class="mt-12 markup-code alert alert-info text-sm">
+                        <x-mailcoach::help class="mt-12 markup-code">
                             {{ __('mailcoach - You can use following placeholders in the subject and body of the confirmation mail:') }}
-                            <ul class="grid mt-2 gap-2">
-                                <li>
-                                    <code class="mr-2">::confirmUrl::</code>{{ __('mailcoach - The URL where the subscription can be confirmed') }}
-                                </li>
-                                <li>
-                                    <code class="mr-2">::subscriber.first_name::</code>{{ __('mailcoach - The first name of the subscriber') }}
-                                </li>
-                                <li><code class="mr-2">::list.name::</code>{{ __('mailcoach - The name of this list') }}
-                                </li>
-                            </ul>
-                        </div>
+                            <dl class="mt-4 markup-dl">
+                                <dt><code>::confirmUrl::</code></dt>
+                                <dd>{{ __('mailcoach - The URL where the subscription can be confirmed') }}</dd>
+                                <dt><code>::subscriber.first_name::</code></dt>
+                                <dd>{{ __('mailcoach - The first name of the subscriber') }}</dd>
+                                <dt><code>::list.name::</code></dd>
+                                <dd>{{ __('mailcoach - The name of this list') }}</dd>
+                            </dl>
+                        </x-mailcoach::help>
                     </div>
                 </div>
             @else

@@ -26,11 +26,11 @@
 
         <x-mailcoach::help>
             <p class="text-sm mb-2">{{ __('mailcoach - When checked, the following UTM Tags will automatically get added to any links in your campaign:') }}</p>
-            <ul>
-                <li><strong>utm_source</strong>: newsletter</li>
-                <li><strong>utm_medium</strong>: email</li>
-                <li><strong>utm_campaign</strong>: {{ \Illuminate\Support\Str::slug($mail->name) }}</li>
-            </ul>
+            <dl class="markup-dl">
+                <dt><strong>utm_source</strong></dt><dd>newsletter</dd>
+                <dt><strong>utm_medium</strong></dt><dd>email</dd>
+                <dt><strong>utm_campaign</strong></dt><dd>{{ \Illuminate\Support\Str::slug($mail->name) }}</dd>
+            </dl>
         </x-mailcoach::help>
     </x-mailcoach::fieldset>
 

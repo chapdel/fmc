@@ -31,7 +31,7 @@
             @if ($editing)
                 <div class="grid gap-6 w-full">
                     <section class="before:content-[''] before:absolute before:w-2 before:h-full before:top-0 before:left-0 before:bg-gradient-to-b before:from-blue-500 before:to-blue-500/70 before:rounded-l-md bg-white/50">
-                        <div x-data="{ collapsed: false }" :class="{ 'pb-8': !collapsed }" class="grid gap-4 px-12 border-blue-500 border-opacity-20 border-r border-t border-b rounded-r">
+                        <div x-data="{ collapsed: false }" :class="{ 'pb-8': !collapsed }" class="grid gap-4 px-12 border-gray-900/10 border-r border-t border-b rounded-r">
                             <div class="flex items-center">
                                 <h2 class="justify-self-start -ml-10 -mt-px -mb-px h-8 px-2 inline-flex items-center bg-gray-900 bg-gradient-to-r from-blue-500/10 text-white rounded-br space-x-2">
                                     <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">
@@ -51,7 +51,7 @@
                         </div>
                     </section>
                     <section class="before:content-[''] before:absolute before:w-2 before:h-full before:top-0 before:left-0 before:bg-gradient-to-b before:from-blue-500 before:to-blue-500/70 before:rounded-l-md bg-white/50">
-                        <div x-data="{ collapsed: false }" :class="{ 'pb-8': !collapsed }" class="grid gap-4 px-12 border-blue-500 border-opacity-20 border-r border-t border-b rounded-r">
+                        <div x-data="{ collapsed: false }" :class="{ 'pb-8': !collapsed }" class="grid gap-4 px-12 border-gray-900/10 border-r border-t border-b rounded-r">
                             <div class="flex items-center">
                                 <h2 class="justify-self-start -ml-10 -mt-px -mb-px h-8 px-2 inline-flex items-center bg-gray-900 bg-gradient-to-r from-blue-500/10 text-white rounded-br space-x-2">
                                     <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">
@@ -75,7 +75,7 @@
                 <div class="grid gap-6 flex-grow">
                     <div class="grid gap-6 w-full">
                         <section class="before:content-[''] before:absolute before:w-2 before:h-full before:top-0 before:left-0 before:bg-gradient-to-b before:from-blue-500 before:to-blue-500/70 before:rounded-l-md bg-white/50">
-                            <div x-data="{ collapsed: false }" :class="{ 'pb-8': !collapsed }" class="grid gap-4 px-12 border-blue-500 border-opacity-20 border-r border-t border-b rounded-r">
+                            <div x-data="{ collapsed: false }" :class="{ 'pb-8': !collapsed }" class="grid gap-4 px-12 border-gray-900/10 border-r border-t border-b rounded-r">
                                 <div class="flex items-center">
                                     <h2 class="justify-self-start -ml-10 -mt-px -mb-px h-8 px-2 inline-flex items-center bg-gray-900 bg-gradient-to-r from-blue-500/10 text-white rounded-br space-x-2">
                                         <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">
@@ -104,7 +104,7 @@
                             </div>
                         </section>
                         <section class="before:content-[''] before:absolute before:w-2 before:h-full before:top-0 before:left-0 before:bg-gradient-to-b before:from-blue-500 before:to-blue-500/70 before:rounded-l-md bg-white/50">
-                            <div x-data="{ collapsed: false }" :class="{ 'pb-8': !collapsed }" class="grid gap-4 px-12 border-blue-500 border-opacity-20 border-r border-t border-b rounded-r">
+                            <div x-data="{ collapsed: false }" :class="{ 'pb-8': !collapsed }" class="grid gap-4 px-12 border-gray-900/10 border-r border-t border-b rounded-r">
                                 <div class="flex items-center">
                                     <h2 class="justify-self-start -ml-10 -mt-px -mb-px h-8 px-2 inline-flex items-center bg-gray-900 bg-gradient-to-r from-blue-500/10 text-white rounded-br space-x-2">
                                         <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">

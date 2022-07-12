@@ -11,7 +11,7 @@ document.addEventListener('alpine:init', () => {
 
                 const coords = this.$el
                     .querySelector('.navigation-dropdown')
-                    .closest('.navigation-item')
+                    .closest('.navigation-dropdown-trigger')
                     .getBoundingClientRect();
                 this.$refs.background.style.setProperty('transform', `translate(${coords.left}px, ${coords.top}px`);
             });
@@ -36,9 +36,9 @@ document.addEventListener('alpine:init', () => {
                 .querySelectorAll('.navigation-dropdown')
                 .forEach(el => el.classList.add('md:hidden', 'md:opacity-0'));
 
-            const target = event.target.classList.contains('navigation-item')
+            const target = event.target.classList.contains('navigation-dropdown-trigger')
                 ? event.target
-                : event.target.closest('.navigation-item');
+                : event.target.closest('.navigation-dropdown-trigger');
 
             const dropdown = target.querySelector('.navigation-dropdown');
             const background = this.$refs.background;
@@ -84,6 +84,18 @@ document.addEventListener('alpine:init', () => {
 
             this.$refs.background.classList.add('md:opacity-0');
             this.$refs.background.classList.remove('md:opacity-100');
+        },
+
+        resize(event) {
+            this.show = window.innerWidth > 768;
+        },
+
+        select(event) {
+            if (window.innerWidth > 768) {
+                return;
+            }
+
+            this.show = false;
         },
     }));
 });

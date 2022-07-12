@@ -27,11 +27,11 @@
     @apply font-medium;
 }
 
-.tabs li.nav-item-active a {
+.tabs li.navigation-item-active a {
     @apply text-blue-700;
 }
 
-.tabs li.nav-item-active a:after {
+.tabs li.navigation-item-active a:after {
     content: '';
     @apply absolute;
     @apply left-0;

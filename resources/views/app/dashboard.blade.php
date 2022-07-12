@@ -2,7 +2,7 @@
     <h1 class="text-xl text-gray-600 -mt-6 mb-4">
         Hi, <strong>{{ str(Auth::user()->name)->ucfirst() }}</strong>
     </h1>
-    <div class="grid grid-cols-12 gap-6">
+    <div class="grid md:grid-cols-12 gap-6">
         @if ((new Spatie\Mailcoach\Domain\Shared\Support\License\License())->hasExpired())
             <x-mailcoach::tile class="bg-orange-100" cols="3" icon="credit-card">
                 <x-slot:link><a class="underline" href="https://spatie.be/products/mailcoach" data-turbo="false">Renew license</a></x-slot:link>
@@ -84,7 +84,7 @@
 
         @include('mailcoach::app.layouts.partials.beforeDashboardGraph')
 
-        <div class="col-span-12">
+        <div class="md:col-span-12">
             <livewire:mailcoach::dashboard-chart />
         </div>
 

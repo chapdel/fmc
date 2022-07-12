@@ -48,6 +48,7 @@
 
 .dropdown-list-left:before {
     right: 0;
+    left: auto;
     @apply -translate-x-5;
 }
 

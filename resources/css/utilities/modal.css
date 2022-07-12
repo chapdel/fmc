@@ -10,7 +10,7 @@
 }
 
 .modal-wrapper {
-    @apply h-full;
+    @apply max-h-full;
     @apply w-full;
     @apply bg-white;
 }
