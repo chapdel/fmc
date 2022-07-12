@@ -90,6 +90,17 @@ Mailcoach uses cache to reliably throttle API calls to email sending services.  
 
 When you import subscribers via an uploaded CSV, Mailcoach has to write that files somewhere. Make sure to [attach storage to your Vapor app](https://docs.vapor.build/1.0/resources/storage.html).
 
+### Configuring .env
+
+Vapor by default uses `dynamodb` as its cache store. If you use `redis`, or another cache store other than `dynamodb`, you need to override `SCHEDULE_CACHE_DRIVER` and set it equal to `CACHE_DRIVER`.  Without it, scheduling mailcoach campaigns and other features which depend on the schedule, will not work correctly.
+
+As an example, if you use `redis`, add the following to your deployments .env:
+
+```
+SCHEDULE_CACHE_DRIVER=redis
+CACHE_DRIVER=redis
+```
+
 ## Prepare the database
 
 You need to publish the migration:
