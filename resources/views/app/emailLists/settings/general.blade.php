@@ -38,8 +38,13 @@
                             name="emailList.report_email_list_summary" wire:model="emailList.report_email_list_summary"/>
         </div>
 
-        <x-mailcoach::text-field :placeholder="__('mailcoach - Email(s) comma separated')" :label="__('mailcoach - Email')" name="emailList.report_recipients"
-                    wire:model.lazy="emailList.report_recipients"/>
+        @if ($emailList->report_campaign_sent || $emailList->report_campaign_summary || $emailList->report_email_list_summary)
+            <x-mailcoach::help>
+                {{ __('mailcoach - Which email address(es) should the notifications be sent to?') }}
+            </x-mailcoach::help>
+            <x-mailcoach::text-field :placeholder="__('mailcoach - Email(s) comma separated')" :label="__('mailcoach - Email')" name="emailList.report_recipients"
+                        wire:model.lazy="emailList.report_recipients"/>
+        @endif
     </x-mailcoach::fieldset>
 
     <div class="form-buttons">
