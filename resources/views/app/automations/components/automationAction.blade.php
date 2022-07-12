@@ -1,7 +1,7 @@
-<x-mailcoach::fieldset :focus="$editing">
+<x-mailcoach::fieldset clean :focus="$editing">
     <x-slot name="legend">
         <header class="flex items-center space-x-2">
-            <span class="w-6 h-6 rounded-full inline-flex items-center justify-center text-xs leading-none font-semibold bg-yellow-200 text-yellow-700">
+            <span class="w-6 h-6 rounded-full inline-flex items-center justify-center text-xs leading-none font-semibold automation-counter">
                 {{ $index + 1 }}
             </span>
             <span class="font-normal">
@@ -10,7 +10,7 @@
         </header>
     </x-slot>
 
-    <div class="flex items-center absolute top-4 right-6 space-x-3 z-20">
+    <div class="flex items-center absolute top-4 right-6 gap-3 z-20">
         @if ($editing)
             <button type="button" wire:click="save">
                 <i class="icon-button hover:text-green-500 fas fa-check"></i>

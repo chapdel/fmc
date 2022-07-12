@@ -42,11 +42,6 @@
     @apply before:to-purple-400/50;
 }
 
-.alert-info code {
-    @apply bg-purple-500/10;
-    @apply py-0.5;
-}
-
 .alert-warning {
     @apply from-orange-50/60;
     @apply to-orange-50/40;

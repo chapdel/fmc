@@ -93,13 +93,14 @@ code.markup-code,
 .markup-code code {
     @apply inline-block;
     @apply px-1;
-    @apply bg-gray-100;
+    @apply bg-gray-900/10;
     @apply rounded-sm;
     @apply text-gray-600;
 }
 
 code.markup-code-block,
 .markup-code-block code {
+    @apply text-sm;
     @apply block;
     @apply px-6;
     @apply py-4;
@@ -109,6 +110,7 @@ code.markup-code-block,
     @apply bg-gradient-to-br;
     @apply from-purple-500/10;
     @apply text-gray-200;
+    @apply overflow-x-auto;
 }
 
 .markup-dl {

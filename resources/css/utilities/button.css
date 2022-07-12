@@ -144,8 +144,8 @@ input[type='file']::file-selector-button {
 .button-rounded:not(:disabled):hover,
 .button-rounded:not(:disabled):focus,
 .button-rounded.dropdown-trigger-open {
-    @apply bg-yellow-200;
-    @apply text-yellow-700;
+    @apply bg-blue-50;
+    @apply text-blue-700;
 }
 
 .button-rounded:not(:disabled):active {

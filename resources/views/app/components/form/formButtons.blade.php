@@ -3,7 +3,6 @@
 </div>
 
 <script>
-if (typeof stickyElm === 'undefined') {
   // get the sticky element
   const stickyElm = document.querySelector('#form-buttons')
 
@@ -13,5 +12,4 @@ if (typeof stickyElm === 'undefined') {
   );
 
   observer.observe(stickyElm)
-}
 </script>

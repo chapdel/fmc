@@ -16,7 +16,8 @@
 
 .tabs .active .counter,
 .nav-item .counter,
-.filters .filter-active .counter {
+.filters .filter-active .counter,
+.automation-counter {
     @apply bg-gradient-to-b;
     @apply from-blue-500;
     @apply to-blue-600;

@@ -9,17 +9,14 @@
 
 @if($buttons)
 <script>
-    if (typeof stickyElm === 'undefined') {
-
     // get the sticky element
-const stickyElm = document.querySelector('#card-buttons')
+    const stickyElm = document.querySelector('#card-buttons')
 
-const observer = new IntersectionObserver( 
-  ([e]) => e.target.classList.toggle('card-buttons-stuck', e.intersectionRatio < 1),
-  {threshold: [1]}
-);
+    const observer = new IntersectionObserver( 
+    ([e]) => e.target.classList.toggle('card-buttons-stuck', e.intersectionRatio < 1),
+    {threshold: [1]}
+    );
 
-observer.observe(stickyElm)
-    }
+    observer.observe(stickyElm)
 </script>
 @endif

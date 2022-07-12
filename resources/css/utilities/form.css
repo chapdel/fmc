@@ -42,6 +42,18 @@
     @apply to-indigo-500;
 }
 
+.form-fieldset-clean {
+    @apply bg-gray-500/5;
+    @apply grid;
+    @apply gap-y-6;
+    @apply p-6;
+    @apply rounded-md;
+}
+
+.form-fieldset-clean.form-fieldset-focus {
+    @apply bg-blue-500/5;
+}
+
 .form-legend {
     @apply uppercase;
     @apply tracking-widest;

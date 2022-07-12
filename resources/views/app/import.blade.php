@@ -1,5 +1,5 @@
-<div>
-    <x-mailcoach::help class="mb-6">
+<x-mailcoach::card>
+    <x-mailcoach::help>
         <p>Mailcoach can import (almost) all data to be used in a different Mailcoach instance (either self-hosted or hosted on mailcoach.cloud).</p>
         <p>The import will <strong>not import</strong> the following data:</p>
         <ul class="list-disc ml-4">
@@ -11,7 +11,7 @@
         <p>Imports can always be reuploaded if something goes wrong.</p>
     </x-mailcoach::help>
     
-    <x-mailcoach::warning class="mb-6">"Send automation mail" actions in automations will need manual adjustment to the correct Automation Mail. <strong>Automations are imported as paused.</strong></x-mailcoach::warning>
+    <x-mailcoach::warning>"Send automation mail" actions in automations will need manual adjustment to the correct Automation Mail. <strong>Automations are imported as paused.</strong></x-mailcoach::warning>
 
 
     @if (($steps = Cache::get('import-status', [])) || $importStarted)
@@ -72,4 +72,4 @@
             </div>
         </div>
     @endif
-</div>
+</x-mailcoach::card>
