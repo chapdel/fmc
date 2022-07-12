@@ -11,21 +11,26 @@
 'noResultsText' => null,
 'searchable' => true,
 ])
+
+@php
+    $showFilters = $totalRowsCount > 0 && count($filters);
+    $showSearch = $searchable && ($this->isFiltering() || $rows->count())
+@endphp
 <div wire:init="loadRows" class="card-grid">
+    @if (isset($actions) || $modelClass || $showFilters || $showSearch)
     <div class="table-actions">
         {{ $actions ?? '' }}
         @if ($modelClass)
-        @can('create', $modelClass)
-        <x-mailcoach::button x-on:click="$store.modals.open('create-{{ $name }}')" :label="__('mailcoach - Create ' . $name)" />
-
-        <x-mailcoach::modal :title="__('mailcoach - Create ' . $name)" name="create-{{ $name }}">
-            @livewire('mailcoach::create-' . $name)
-        </x-mailcoach::modal>
-        @endcan
+            @can('create', $modelClass)
+            <x-mailcoach::button x-on:click="$store.modals.open('create-{{ $name }}')" :label="__('mailcoach - Create ' . $name)" />
+            <x-mailcoach::modal :title="__('mailcoach - Create ' . $name)" name="create-{{ $name }}">
+                @livewire('mailcoach::create-' . $name)
+            </x-mailcoach::modal>
+            @endcan
         @endif
-
+        
         <div class="table-filters">
-            @if ($totalRowsCount > 0 && count($filters))
+            @if ($showFilters)
             <x-mailcoach::filters>
                 @foreach ($filters as $filter)
                 @php($attribute = $filter['attribute'])
@@ -39,11 +44,12 @@
             </x-mailcoach::filters>
             @endif
 
-            @if($searchable && ($this->isFiltering() || $rows->count()))
+            @if($showSearch)
             <x-mailcoach::search wire:model="search" :placeholder="__('mailcoach - Search…')" />
             @endif
         </div>
     </div>
+    @endif
 
     <x-mailcoach::card class="p-0">
         <div class="w-full text-center" wire:loading.delay wire:target="loadRows">

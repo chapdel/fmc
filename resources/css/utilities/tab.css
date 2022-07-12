@@ -1,8 +1,7 @@
 .tabs {
-    @apply bg-white;
     overflow-x: scroll;
     z-index: 1;
-    @apply mb-10;
+    @apply mb-6;
 }
 
 .tabs::-webkit-scrollbar {
@@ -15,7 +14,6 @@
     @apply gap-6;
     @apply items-center;
 }
-
 
 .tabs li a {
     display: flex;
@@ -45,4 +43,3 @@
     @apply from-blue-400;
     @apply to-indigo-500;
 }
-

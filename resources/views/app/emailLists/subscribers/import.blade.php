@@ -101,7 +101,7 @@
             </div>
         </div>
 
-        <div class="form-buttons">
+        <x-mailcoach::form-buttons>
             <div class="button">
                 <button class="font-semibold h-10" type="submit">
                     {{ __('mailcoach - Import subscribers') }}
@@ -110,7 +110,7 @@
                        type="file" id="file"
                        name="file" class="w-48 h-10"/>
             </div>
-        </div>
+        </x-mailcoach::form-buttons>
 
         @error('file')
         <p class="form-error">{{ $message }}</p>

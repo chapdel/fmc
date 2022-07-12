@@ -18,9 +18,9 @@
 >
     @slot('actions')
         @if(!is_null($selectedSubscribersCount) && !is_null($subscribersCount))
-            <div class="alert alert-info mb-8">
+            <x-mailcoach::info>
                 {!! __('mailcoach - Population is <strong>:percentage%</strong> of list total of :subscribersCount.', ['percentage' => round($selectedSubscribersCount / $subscribersCount * 100 , 2), 'subscribersCount' => number_format($subscribersCount)]) !!}
-            </div>
+            </x-mailcoach::info>
         @endif
     @endslot
 </x-mailcoach::data-table>

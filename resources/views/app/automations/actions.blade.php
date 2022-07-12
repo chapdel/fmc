@@ -1,10 +1,10 @@
 <form
-    class="form-grid"
     wire:submit.prevent="save"
     @keydown.prevent.window.cmd.s="$wire.call('save')"
     @keydown.prevent.window.ctrl.s="$wire.call('save')"
     method="POST"
 >
+<x-mailcoach::card class="form-fieldsets-no-max-w">    
     <livewire:mailcoach::automation-builder name="default" :automation="$automation" :actions="$actions" />
 
     <div class="mb-48">
@@ -20,8 +20,9 @@
                 </div>
             </div>
         @endif
-        <div class="form-buttons">
+        <x-mailcoach::form-buttons>
             <x-mailcoach::button :label="__('mailcoach - Save actions')" :disabled="count($editingActions) > 0" />
-        </div>
+        </x-mailcoach::form-buttons>
     </div>
+</x-mailcoach::card>    
 </form>

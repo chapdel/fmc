@@ -1,5 +1,5 @@
 <form
-    class="form-grid"
+    class="card-grid"
     method="POST"
     data-dirty-check
     wire:submit.prevent="save"
@@ -8,23 +8,26 @@
 >
     @csrf
 
-    <x-mailcoach::text-field :label="__('mailcoach - Name')" name="name" wire:model.lazy="campaign.name" required :disabled="!$campaign->isEditable()" />
+    <x-mailcoach::card>
+        <x-mailcoach::text-field :label="__('mailcoach - Name')" name="name" wire:model.lazy="campaign.name" required :disabled="!$campaign->isEditable()" />
 
-    <x-mailcoach::text-field :label="__('mailcoach - Subject')" name="subject" wire:model.lazy="campaign.subject" :disabled="!$campaign->isEditable()" />
+        <x-mailcoach::text-field :label="__('mailcoach - Subject')" name="subject" wire:model.lazy="campaign.subject" :disabled="!$campaign->isEditable()" />
+    </x-mailcoach::card>
 
     @if ($campaign->isEditable())
         @include('mailcoach::app.campaigns.partials.emailListFields', ['segmentable' => $campaign, 'wiremodel' => 'campaign'])
     @else
-        <div>
+        <x-mailcoach::card>
             Sent to list "{{ $campaign->emailList->name }}"
 
             @if($campaign->tagSegment)
                 Used segment {{ $campaign->tagSegment->name }}
             @endif
-        </div>
+        </x-mailcoach::card>
     @endif
+   
 
-    <x-mailcoach::fieldset :legend="__('mailcoach - Tracking')">
+    <x-mailcoach::fieldset card :legend="__('mailcoach - Tracking')">
         <div class="form-field">
             @php($mailerClass = config('mailcoach-ui.models.mailer'))
             @if (class_exists($mailerClass) && $mailerModel = $mailerClass::all()->first(fn ($mailerModel) => $mailerModel->configName() === $mailer))
@@ -38,17 +41,17 @@
                 @else
                     <x-mailcoach::icon-label icon="fas fa-times text-red-500" :text="__('mailcoach - Click tracking disabled')" />
                 @endif
-                <x-mailcoach::help>
+                <x-mailcoach::info>
                     {!! __('mailcoach - Open & Click tracking are managed by your email provider, this campaign uses the <a href=":mailerLink"><strong>:mailer</strong></a> mailer.', ['mailer' => $mailerModel->name, 'mailerLink' => route('mailers.edit', $mailerModel)]) !!}
-                </x-mailcoach::help>
+                </x-mailcoach::info>
             @elseif($mailer)
-                <x-mailcoach::help>
+                <x-mailcoach::info>
                     {!! __('mailcoach - Open & Click tracking are managed by your email provider, this campaign uses the <strong>:mailer</strong> mailer.', ['mailer' => $mailer]) !!}
-                </x-mailcoach::help>
+                </x-mailcoach::info>
             @else
-                <x-mailcoach::help>
+                <x-mailcoach::info>
                     {!! __('mailcoach - Your email list does not have a mailer set up yet.') !!}
-                </x-mailcoach::help>
+                </x-mailcoach::info>
             @endif
         </div>
 
@@ -70,8 +73,8 @@
     </x-mailcoach::fieldset>
 
     @if ($campaign->isEditable())
-        <div class="form-buttons">
+        <x-mailcoach::card buttons>
             <x-mailcoach::button :label="__('mailcoach - Save settings')" />
-        </div>
+        </x-mailcoach::card>
     @endif
 </form>

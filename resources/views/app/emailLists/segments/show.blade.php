@@ -12,12 +12,13 @@
 
     @if ($tab === 'details')
         <form
-            class="form-grid"
             wire:submit.prevent="save"
             @keydown.prevent.window.cmd.s="$wire.call('save')"
             @keydown.prevent.window.ctrl.s="$wire.call('save')"
             method="POST"
         >
+        <x-mailcoach::card>
+
             @if (! $emailList->tags()->count())
                 <x-mailcoach::info>
                     <div class="markup-lists">
@@ -75,9 +76,11 @@
                 </div>
             </div>
 
-            <div class="form-buttons">
+            <x-mailcoach::form-buttons>
                 <x-mailcoach::button :label="__('mailcoach - Save segment')" />
-            </div>
+            </x-mailcoach::form-buttons>
+        </x-mailcoach::card>
+
         </form>
     @endif
 

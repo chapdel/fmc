@@ -43,8 +43,8 @@
     @apply bg-gradient-to-b;
     @apply from-indigo-500/5;
     @apply to-indigo-500/10;
-    @apply first:rounded-l;
-    @apply last:rounded-r;
+    @apply first:rounded-tl;
+    @apply last:rounded-tr;
 }
 
 .table tbody td {
@@ -86,9 +86,7 @@
 }
 
 .table-status {
-    @apply py-8;
-    @apply text-xs;
-    @apply text-gray-500;
+    @apply text-sm;
     @apply text-center;
 }
 
@@ -109,6 +107,7 @@
     @apply items-center;
     @apply justify-between;
     @apply gap-y-2;
+    @apply empty:hidden;
 }
 
 .table-filters {

@@ -1,4 +1,4 @@
-<div>
+<x-mailcoach::card>
     @if ($campaign->isEditable())
         <div class="grid gap-2">
             @if($campaign->isReady())
@@ -361,4 +361,4 @@
             </dd>
         @endif
     </dl>
-</div>
+</x-mailcoach::card>

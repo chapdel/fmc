@@ -1,13 +1,12 @@
 <form
-    class="form-grid"
     method="POST"
     wire:submit.prevent="save"
     @keydown.prevent.window.cmd.s="$wire.call('save')"
     @keydown.prevent.window.ctrl.s="$wire.call('save')"
 >
-    @if(count(config('mail.mailers')) > 1)
-        <x-mailcoach::fieldset :legend="__('mailcoach - Mailers')">
+<x-mailcoach::card>
 
+    @if(count(config('mail.mailers')) > 1)
         <x-mailcoach::select-field
             name="campaign_mailer"
             :options="array_combine(array_keys(config('mail.mailers')), array_keys(config('mail.mailers')))"
@@ -24,7 +23,6 @@
         />
         <x-mailcoach::info>{{ __('mailcoach - The mailer used for sending automations.') }}</x-mailcoach::info>
 
-
         <x-mailcoach::select-field
             name="transactional_mailer"
             :options="array_combine(array_keys(config('mail.mailers')), array_keys(config('mail.mailers')))"
@@ -32,12 +30,13 @@
             :label="__('mailcoach - Transactional mailer')"
         />
         <x-mailcoach::info>{{ __('mailcoach - The mailer used for sending transactional mails.') }}</x-mailcoach::info>
-
-        </x-mailcoach::fieldset>
+    @else
+        <x-mailcoach::info>{{ __('mailcoach - No mailers set.') }}</x-mailcoach::info>
     @endif
 
-    <div class="form-buttons">
+    <x-mailcoach::form-buttons>
         <x-mailcoach::button :label="__('mailcoach - Save')"/>
-    </div>
+    </x-mailcoach::form-buttons>
+</x-mailcoach::card>
 </form>
 

@@ -17,9 +17,12 @@
                     @automation-paused.window="running = false"
                     :href="route('mailcoach.automations.run', $automation)"
                     data-dirty-warn
-            >
-                {{ __('mailcoach - Run')}} <i class="ml-2 opacity-50"
-                                              :class="[running ? 'fas fa-spin fa-sync ' : 'fa fa-pause']"></i>
+                    
+            >   
+                <span class="flex items-baseline gap-2">
+                <span>{{ __('mailcoach - Run')}} </span>
+                    <i class="opacity-50" :class="[running ? 'fas fa-spin fa-sync ' : 'fa fa-pause']"></i>
+                </span>
             </x-mailcoach::navigation-item>
         </x-mailcoach::navigation>
     </x-slot>

@@ -79,19 +79,19 @@
         <x-mailcoach::modal :title="__('mailcoach - Confirm')" name="confirm">
             <span x-text="confirmText"></span>
 
-            <div class="form-buttons">
+            <x-mailcoach::form-buttons>
                 <x-mailcoach::button type="button" x-on:click="onConfirm; $store.modals.close('confirm')" :label=" __('mailcoach - Confirm')" />
                 <x-mailcoach::button-cancel  x-on:click="$store.modals.close('confirm')" :label=" __('mailcoach - Cancel')" />
-            </div>
+            </x-mailcoach::form-buttons>
         </x-mailcoach::modal>
 
         <x-mailcoach::modal :title="__('mailcoach - Confirm navigation')" name="dirty-warning">
             {{ __('mailcoach - There are unsaved changes. Are you sure you want to continue?') }}
 
-            <div class="form-buttons">
+            <x-mailcoach::form-buttons>
                 <x-mailcoach::button type="button" x-on:click="$store.modals.onConfirm && $store.modals.onConfirm()" :label=" __('mailcoach - Confirm')" />
                 <x-mailcoach::button-cancel  x-on:click="$store.modals.close('dirty-warning')" :label=" __('mailcoach - Cancel')" />
-            </div>
+            </x-mailcoach::form-buttons>
         </x-mailcoach::modal>
 
         @stack('modals')

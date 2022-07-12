@@ -3,12 +3,14 @@
     'class' => '',
 ])
 
-<div id="card-buttons" class="{{ $buttons? 'card-buttons' : 'card form-grid' }} {{ $class }}" {{ $attributes->except('class') }}>
+<div @if($buttons) id="card-buttons" @endif class="{{ $buttons? 'card-buttons' : 'card form-grid' }} {{ $class }}" {{ $attributes->except('class') }}>
     {{ $slot }}
 </div>
 
 @if($buttons)
 <script>
+    if (typeof stickyElm === 'undefined') {
+
     // get the sticky element
 const stickyElm = document.querySelector('#card-buttons')
 
@@ -18,5 +20,6 @@ const observer = new IntersectionObserver(
 );
 
 observer.observe(stickyElm)
+    }
 </script>
 @endif

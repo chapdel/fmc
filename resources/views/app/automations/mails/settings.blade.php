@@ -1,20 +1,20 @@
 <form
-    class="form-grid"
     wire:submit.prevent="save"
     @keydown.prevent.window.cmd.s="$wire.call('save')"
     @keydown.prevent.window.ctrl.s="$wire.call('save')"
     method="POST"
     data-dirty-check
 >
+<x-mailcoach::card>
     <x-mailcoach::text-field :label="__('mailcoach - Name')" name="mail.name" wire:model.lazy="mail.name" required  />
 
     <x-mailcoach::text-field :label="__('mailcoach - Subject')" name="mail.subject" wire:model.lazy="mail.subject"  />
 
     <x-mailcoach::fieldset :legend="__('mailcoach - Tracking')">
         <div class="form-field">
-            <x-mailcoach::help>
+            <x-mailcoach::info>
                 {!! __('mailcoach - Open & Click tracking are managed by your email provider.') !!}
-            </x-mailcoach::help>
+            </x-mailcoach::info>
         </div>
 
         <div class="form-field">
@@ -34,7 +34,8 @@
         </x-mailcoach::help>
     </x-mailcoach::fieldset>
 
-    <div class="form-buttons">
+    <x-mailcoach::form-buttons>
         <x-mailcoach::button :label="__('mailcoach - Save settings')" />
-    </div>
+    </x-mailcoach::form-buttons>
+</x-mailcoach::card>
 </form>

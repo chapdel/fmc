@@ -3,13 +3,15 @@
 </div>
 
 <script>
-    // get the sticky element
-const stickyElm = document.querySelector('#form-buttons')
+if (typeof stickyElm === 'undefined') {
+  // get the sticky element
+  const stickyElm = document.querySelector('#form-buttons')
 
-const observer = new IntersectionObserver( 
-  ([e]) => e.target.classList.toggle('form-buttons-stuck', e.intersectionRatio < 1),
-  {threshold: [1]}
-);
+  const observer = new IntersectionObserver( 
+    ([e]) => e.target.classList.toggle('form-buttons-stuck', e.intersectionRatio < 1),
+    {threshold: [1]}
+  );
 
-observer.observe(stickyElm)
+  observer.observe(stickyElm)
+}
 </script>

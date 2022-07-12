@@ -1,4 +1,4 @@
-<div>
+<x-mailcoach::card>
     <div class="grid gap-2">
         @if($mail->isReady())
             @if (! $mail->htmlContainsUnsubscribeUrlPlaceHolder() || $mail->sizeInKb() > 102)
@@ -146,4 +146,4 @@
             </div>
         @endif
     </dl>
-</div>
+</x-mailcoach::card>

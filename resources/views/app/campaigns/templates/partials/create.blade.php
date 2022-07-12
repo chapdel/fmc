@@ -13,8 +13,8 @@
         required
     />
 
-    <div class="form-buttons">
+    <x-mailcoach::form-buttons>
         <x-mailcoach::button :label="__('mailcoach - Create template')" />
         <x-mailcoach::button-cancel  x-on:click="$store.modals.close('create-template')" />
-    </div>
+    </x-mailcoach::form-buttons>
 </form>

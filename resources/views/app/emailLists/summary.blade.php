@@ -1,4 +1,5 @@
-<div class="card">
+<div class="card-grid">
+<x-mailcoach::card>
     <div class="flex gap-4 items-center mb-8">
         <x-mailcoach::date-field
             min-date=""
@@ -32,9 +33,9 @@
     <div class="mt-4 text-right">
         <small class="text-gray-500">You can drag the chart to zoom.</small>
     </div>
-</div>
+</x-mailcoach::card>
 
-<div class="card">
+<x-mailcoach::card>
     <h2 class="markup-h2">
         {{ __('mailcoach - Totals') }}
     </h2>
@@ -57,4 +58,5 @@
         <x-mailcoach::statistic :stat="number_format($averageUnsubscribeRate, 2)" :label="__('mailcoach - Average Unsubscribe Rate')" suffix="%"/>
         <x-mailcoach::statistic :stat="number_format($averageBounceRate, 2)" :label="__('mailcoach - Average Bounce Rate')" suffix="%"/>
     </div>
+</x-mailcoach::card>
 </div>

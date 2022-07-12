@@ -17,6 +17,7 @@
 
 .card-buttons {
     @apply sticky;
+    @apply z-10;
     @apply -bottom-px;
     @apply -mx-6;
     @apply -mt-3;

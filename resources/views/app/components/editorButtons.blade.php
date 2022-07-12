@@ -2,7 +2,7 @@
     'previewHtml' => '',
     'model' => null,
 ])
-<div class="form-buttons">
+<x-mailcoach::form-buttons>
     <x-mailcoach::button
         @keydown.prevent.window.cmd.s="$wire.call('save')"
         @keydown.prevent.window.ctrl.s="$wire.call('save')"
@@ -21,4 +21,4 @@
     {{ $slot }}
 
     <x-mailcoach::preview-modal name="preview" :html="$previewHtml" :title="__('mailcoach - Preview') . ($model->subject ? ' - ' . $model->subject : '')" />
-</div>
+</x-mailcoach::form-buttons>

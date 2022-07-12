@@ -152,3 +152,30 @@ input[type='file']::file-selector-button {
     @apply shadow-inner;
     transform: translateY(1px);
 }
+
+.button.button-green {
+    @apply bg-green-800;
+    @apply from-green-700/30;
+    @apply via-green-700;
+    @apply to-green-700/50;
+    @apply shadow-md;
+    @apply shadow-green-800/20;
+}
+
+.button.button-green {
+    @apply bg-green-700;
+    @apply from-green-600/30;
+    @apply via-green-600;
+    @apply to-green-600/50;
+    @apply shadow-md;
+    @apply shadow-green-800/20;
+}
+
+.button.button-orange {
+    @apply bg-orange-700;
+    @apply from-orange-600/30;
+    @apply via-orange-600;
+    @apply to-orange-600/50;
+    @apply shadow-md;
+    @apply shadow-orange-800/20;
+}

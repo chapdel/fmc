@@ -14,6 +14,7 @@
     </nav>
 
     @if ($tab === 'profile')
+        <x-mailcoach::card>
         <form
             class="form-grid"
             method="POST"
@@ -35,13 +36,15 @@
                 allow-create
             />
 
-            <div class="form-buttons">
+            <x-mailcoach::form-buttons>
                 <x-mailcoach::button :label="__('mailcoach - Save subscriber')" />
-            </div>
+            </x-mailcoach::form-buttons>
         </form>
+        </x-mailcoach::card>
     @endif
 
     @if ($tab === 'attributes')
+    <x-mailcoach::card>
         @if($subscriber->extra_attributes->count())
             <table class="table table-fixed">
                 <thead>
@@ -72,8 +75,9 @@
                 {{ __("mailcoach - This user doesn't have any attributes yet.") }}
             </x-mailcoach::info>
         @endif
+        </x-mailcoach::card>
     @endif
-
+    
     @if ($tab === 'sends')
         <livewire:mailcoach::subscriber-sends :subscriber="$subscriber" :email-list="$emailList" />
     @endif

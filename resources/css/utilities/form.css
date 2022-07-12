@@ -72,6 +72,7 @@
 
 .form-buttons {
     @apply sticky;
+    @apply z-10;
     @apply -bottom-px;
     @apply -mx-10;
     @apply px-10;

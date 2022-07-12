@@ -1,4 +1,4 @@
-<div>
+<x-mailcoach::card>
     <form
         class="form-grid"
         wire:submit.prevent="save"
@@ -12,4 +12,4 @@
             'model' => $template,
         ])
     </form>
-</div>
+</x-mailcoach::card>

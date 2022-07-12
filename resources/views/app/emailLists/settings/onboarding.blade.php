@@ -4,13 +4,13 @@
         confirmation: @entangle('emailList.requires_confirmation'),
         confirmationMail: @entangle('confirmation_mail'),
     }"
-        class="form-grid"
+        class="card-grid"
         method="POST"
         wire:submit.prevent="save"
         @keydown.prevent.window.cmd.s="$wire.call('save')"
         @keydown.prevent.window.ctrl.s="$wire.call('save')"
 >
-    <x-mailcoach::fieldset :legend="__('mailcoach - Subscriptions')">
+    <x-mailcoach::fieldset card :legend="__('mailcoach - Subscriptions')">
         <x-mailcoach::info>
             {!! __('mailcoach - Learn more about <a href=":link" target="_blank">subscription settings and forms</a>.', ['link' => 'https://spatie.be/docs/laravel-mailcoach/v5/using-mailcoach/audience#content-onboarding']) !!}
         </x-mailcoach::info>
@@ -47,7 +47,7 @@
                                  wire:model.lazy="emailList.allowed_form_extra_attributes"/>
     </x-mailcoach::fieldset>
 
-    <x-mailcoach::fieldset :legend="__('mailcoach - Landing Pages')">
+    <x-mailcoach::fieldset card :legend="__('mailcoach - Landing Pages')">
         <x-mailcoach::info>
             {!! __('mailcoach - Leave empty to use the defaults. <a target="_blank" href=":link">Example</a>', ['link' => route("mailcoach.landingPages.example")]) !!}
         </x-mailcoach::info>
@@ -70,7 +70,7 @@
     </x-mailcoach::fieldset>
 
     <div x-show="confirmation">
-        <x-mailcoach::fieldset :legend="__('mailcoach - Confirmation mail')">
+        <x-mailcoach::fieldset card :legend="__('mailcoach - Confirmation mail')">
             @if(empty($emailList->confirmation_mailable_class))
                 <div class="radio-group">
                     <x-mailcoach::radio-field
@@ -124,7 +124,7 @@
         </x-mailcoach::fieldset>
     </div>
 
-    <x-mailcoach::fieldset :legend="__('mailcoach - Welcome Mail')">
+    <x-mailcoach::fieldset card :legend="__('mailcoach - Welcome Mail')">
         @if ($automation = \Spatie\Mailcoach\Mailcoach::getAutomationClass()::whereName(__('mailcoach - Welcome automation for :list', ['list' => $emailList->name]))->first())
             <a href="{{ route('mailcoach.automations.actions', $automation) }}">
                 <x-mailcoach::button :label="__('mailcoach - View welcome automation')"/>
@@ -143,8 +143,7 @@
         @endif
     </x-mailcoach::fieldset>
 
-    <div class="form-buttons">
+    <x-mailcoach::card buttons>
         <x-mailcoach::button :label="__('mailcoach - Save')"/>
-    </div>
+    </x-mailcoach::card>
 </form>
-

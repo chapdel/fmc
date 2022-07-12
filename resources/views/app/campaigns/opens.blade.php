@@ -13,8 +13,10 @@
             :emptyText="__('mailcoach - No opens yet. Stay tuned.')"
         />
     @else
-        <x-mailcoach::info>
-            {{ __('mailcoach - No opens tracked') }}
-        </x-mailcoach::info>
+        <x-mailcoach::card>
+            <x-mailcoach::info>
+                {{ __('mailcoach - No opens tracked') }}
+            </x-mailcoach::info>
+        </x-mailcoach::card>
     @endif
 </div>
