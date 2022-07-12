@@ -22,6 +22,8 @@
 .table td {
     @apply py-3;
     @apply px-6;
+    @apply first:pl-10;
+    @apply last:pr-10;
     @apply align-top;
 }
 

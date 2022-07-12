@@ -34,6 +34,8 @@
     content: '';
     @apply absolute;
     @apply top-0;
+    @apply left-1/2;
+    @apply -translate-x-1/2;
     @apply w-3;
     @apply h-3;
     @apply bg-white;

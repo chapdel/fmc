@@ -45,9 +45,9 @@
         </div>
     </div>
 
-    <x-mailcoach::card class="p-0 min-h-[9rem]">
+    <x-mailcoach::card class="p-0">
         <div class="w-full text-center" wire:loading.delay wire:target="loadRows">
-            <table class="mt-6 table table-fixed">
+            <table class="table table-fixed">
                 <thead>
                     <tr>
                         @foreach ($columns as $column)
@@ -100,7 +100,7 @@
         </div>
 
         @if(!$rows->count() && $this->readyToLoad)
-        <div class="px-6">
+        <div class="px-6 pb-6">
             @if(isset($empty))
             {{ $empty }}
             @else

@@ -1,5 +1,5 @@
 <div>
-    <h1 class="text-xl text-indigo-900/50 -mt-6 mb-4">
+    <h1 class="text-xl text-gray-600 -mt-6 mb-4">
         Hi, <strong>{{ str(Auth::user()->name)->ucfirst() }}</strong>
     </h1>
     <div class="grid grid-cols-12 gap-6">
