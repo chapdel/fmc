@@ -36,11 +36,11 @@
 </x-mailcoach::card>
 
 <x-mailcoach::card>
-    <h2 class="markup-h2">
+    <h2 class="markup-h2 mb-0">
         {{ __('mailcoach - Totals') }}
     </h2>
 
-    <div class="mt-10 grid grid-cols-4 gap-6 justify-start md:items-end">
+    <div class="grid grid-cols-4 gap-6 justify-start md:items-end">
         <x-mailcoach::statistic :href="route('mailcoach.emailLists.subscribers', $emailList)" class="col-start-1"
                                 numClass="text-4xl font-semibold" :stat="number_format($totalSubscriptionsCount)" :label="__('mailcoach - Subscribers')"/>
         <x-mailcoach::statistic :href="route('mailcoach.emailLists.subscribers', $emailList)"

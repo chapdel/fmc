@@ -18,8 +18,6 @@
                 let tagify;
 
                 let refreshTagify = () => {
-                    let selection = this.multiple ? this.value : [this.value]
-
                     if (tagify) {
                         tagify.destroy();
                     }

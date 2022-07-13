@@ -35,7 +35,6 @@
 }
 
 .tagify__dropdown {
-    @apply relative;
     @apply rounded-b;
     @apply shadow-xl;
     @apply shadow-blue-800/10;
