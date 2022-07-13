@@ -49,7 +49,7 @@ class CampaignDelivery extends Component
             'minutes' => $this->scheduled_at_date->format('i'),
         ];
 
-        app(MainNavigation::class)->activeSection()->add($campaign->name, route('mailcoach.campaigns.delivery', $campaign));
+        app(MainNavigation::class)->activeSection()?->add($campaign->name, route('mailcoach.campaigns.delivery', $campaign));
     }
 
     public function updatedScheduledAt()

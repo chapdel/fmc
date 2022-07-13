@@ -59,7 +59,7 @@ class CampaignSettings extends Component
 
         $this->segment = $this->campaign->notSegmenting() ? 'entire_list' : 'segment';
 
-        app(MainNavigation::class)->activeSection()->add($campaign->name, route('mailcoach.campaigns.settings', $campaign));
+        app(MainNavigation::class)->activeSection()?->add($campaign->name, route('mailcoach.campaigns.settings', $campaign));
     }
 
     public function save(): void
