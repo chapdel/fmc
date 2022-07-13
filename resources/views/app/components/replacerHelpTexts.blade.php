@@ -1,9 +1,8 @@
 @if ($replacerHelpTexts())
-    
-    <button class="ml-auto link-dimmed" x-on:click="$store.modals.open('placeholders')">
+    <button class="ml-auto link-dimmed" x-on:click.prevent="$store.modals.open('placeholders')">
         {{__('mailcoach - Placeholder cheat sheet')}}
     </button>
-    
+
     <x-mailcoach::modal medium dismissable :title="__('mailcoach - Placeholder cheat sheet')" name="placeholders">
         <x-mailcoach::info class="markup-code">
             {{ __('mailcoach - You can use following placeholders in the subject and copy:') }}
