@@ -1,8 +1,8 @@
 <x-mailcoach::layout :title="__('mailcoach - Debug')">
 
 @php($issueBody = "## Describe your issue\n\n\n\n---\n## Health check:\n\n")
-<div class="form-grid">
-    <x-mailcoach::fieldset :legend="__('mailcoach - Health')">
+<div class="card-grid form-fieldsets-no-max-w">
+    <x-mailcoach::fieldset card :legend="__('mailcoach - Health')">
         <dl class="dl markup-links">
             @php($issueBody.='**Environment**: ' . app()->environment() . "\n")
             <dt>
@@ -84,35 +84,38 @@
                 @endif
             </dd>
             <dt>
-                <span class="inline-flex items-center">
-                    <x-mailcoach::rounded-icon type="info" icon="fa-fw fas fa-info"/>
-                    <span class="ml-2">
-                        Schedule
-                    </span>
-                </span>
+                
             </dt>
             <dd>
                 @if ($scheduledJobs->count())
                     <?php /** @var \Illuminate\Console\Scheduling\Event $scheduledJob */ ?>
-                    <table>
+                    <table class="table">
                         <thead>
-                            <th>Schedule</th>
-                            <th style="text-align: left;">Command</th>
-                            <th>Background</th>
-                            <th>Without overlapping</th>
+                            <th class="w-36">Schedule</th>
+                            <th>Command</th>
+                            <th class="w-40">Background</th>
+                            <th class="w-40">No overlap</th>
                         </thead>
                         @foreach($scheduledJobs as $scheduledJob)
                             <tr>
-                                <td class="text-center">{{ $scheduledJob->expression }}</td>
-                                <td class="">{{ \Illuminate\Support\Str::after($scheduledJob->command, '\'artisan\' ') }}</td>
-                                <td class="text-center">
+                                <td>
+                                    <code>
+                                        {{ $scheduledJob->expression }}
+                                    </code>
+                                </td>
+                                <td class="">
+                                    <code>
+                                        {{ \Illuminate\Support\Str::after($scheduledJob->command, '\'artisan\' ') }}
+                                    </code>
+                                </td>
+                                <td>
                                     @if ($scheduledJob->runInBackground)
-                                        <x-mailcoach::rounded-icon type="info" icon="fa-fw fas fa-check"/>
+                                        <x-mailcoach::rounded-icon type="success" icon="fa-fw fas fa-check"/>
                                     @endif
                                 </td>
-                                <td class="text-center">
+                                <td>
                                     @if ($scheduledJob->withoutOverlapping)
-                                        <x-mailcoach::rounded-icon type="info" icon="fa-fw fas fa-check"/>
+                                        <x-mailcoach::rounded-icon type="success" icon="fa-fw fas fa-check"/>
                                     @endif
                                 </td>
                             </tr>
@@ -125,7 +128,7 @@
         </dl>
     </x-mailcoach::fieldset>
 
-    <x-mailcoach::fieldset :legend="__('mailcoach - Mailers')">
+    <x-mailcoach::fieldset card :legend="__('mailcoach - Mailers')">
         <dl class="dl">
             @php($issueBody.="**Default mailer**: " . config('mail.default') . "\n")
             <dt>
@@ -160,7 +163,8 @@
             </dd>
         </dl>
     </x-mailcoach::fieldset>
-    <x-mailcoach::fieldset :legend="__('mailcoach - Technical Details')">
+
+    <x-mailcoach::fieldset card :legend="__('mailcoach - Technical Details')">
         @php($issueBody.="\n\n## Technical details\n\n")
         <dl class="dl">
                 @php($issueBody.="**App directory**: " . base_path() . "\n")
@@ -230,7 +234,8 @@
             @endif
 
     </x-mailcoach::fieldset>
-    <x-mailcoach::fieldset  :legend="__('mailcoach - Having trouble?')">
+    
+    <x-mailcoach::fieldset card  :legend="__('mailcoach - Having trouble?')">
         <a href="https://github.com/spatie/laravel-mailcoach/issues/new?body={{ urlencode($issueBody) }}" target="_blank">
             <x-mailcoach::button :label="__('mailcoach - Create a support issue')"/>
         </a>

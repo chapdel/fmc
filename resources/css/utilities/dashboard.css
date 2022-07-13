@@ -1,0 +1,99 @@
+.dashboard-tile {
+    @apply bg-white;
+    @apply bg-clip-padding;
+    @apply shadow-lg;
+    @apply shadow-blue-600/5;
+    @apply rounded-md;
+    @apply border;
+    @apply border-indigo-900/10;
+    @apply overflow-hidden;
+    @apply px-6;
+    @apply py-4;
+
+    @apply before:content-[''];
+    @apply before:absolute;
+    @apply before:w-2;
+    @apply before:h-full;
+    @apply before:top-0;
+    @apply before:left-0;
+    @apply before:bg-gradient-to-b;
+    @apply before:from-blue-500/10;
+    @apply before:to-indigo-500/20;
+    @apply before:rounded-l-md;
+    @apply before:transition;
+}
+
+.dashboard-tile-hover:hover {
+    @apply cursor-pointer;
+    @apply shadow-xl;
+    @apply shadow-blue-600/5;
+    @apply before:from-blue-500/80;
+    @apply before:to-indigo-500/90;
+    @apply transform;
+    @apply -translate-y-px;
+}
+
+.dashboard-tile.dashboard-tile-success {
+    @apply bg-gray-900;
+    @apply bg-gradient-to-r;
+    @apply from-green-500/10;
+    @apply text-white;
+    @apply shadow-green-600/5;
+
+    @apply before:from-green-500;
+    @apply before:to-green-500/70;
+}
+
+.dashboard-tile-hover.dashbard-tile-success:hover {
+    @apply shadow-green-600/5;
+    @apply before:from-green-500;
+    @apply before:to-green-600;
+}
+
+.dashboard-tile.dashboard-tile-error {
+    @apply bg-gray-900;
+    @apply bg-gradient-to-r;
+    @apply from-red-500/10;
+    @apply text-white;
+    @apply shadow-red-600/5;
+
+    @apply before:from-red-500;
+    @apply before:to-red-500/70;
+}
+
+.dashboard-tile-hover.dashbard-tile-error:hover {
+    @apply shadow-red-600/5;
+    @apply before:from-red-500;
+    @apply before:to-red-600;
+}
+
+.dashboard-title {
+    @apply font-extrabold;
+    @apply text-xl;
+    @apply mb-2;
+    @apply leading-tight;
+}
+
+.dashboard-label {
+    @apply font-semibold text-xs uppercase tracking-wider;
+    @apply text-indigo-900/50;
+}
+
+.dashboard-value {
+    @apply text-2xl;
+    @apply font-extrabold;
+}
+
+.dashboard-link {
+    @apply flex;
+    @apply flex-col;
+    @apply pointer-events-auto;
+}
+
+.dashboard-link:hover .dashboard-label {
+    @apply text-blue-700;
+}
+
+.dashboard-link:hover .dashboard-value {
+    @apply text-blue-700;
+}

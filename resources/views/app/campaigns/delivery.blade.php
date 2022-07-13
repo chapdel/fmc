@@ -1,4 +1,4 @@
-<div>
+<x-mailcoach::card>
     @if ($campaign->isEditable())
         <div class="grid gap-2">
             @if($campaign->isReady())
@@ -86,7 +86,7 @@
         </dt>
         <dd>
             <div>
-                {{ $campaign->emailList->campaign_mailer }} <a href="{{ route('mailcoach.emailLists.mailers', $campaign->emailList) }}"><x-mailcoach::button-secondary :label="strtolower(__('mailcoach - Edit'))"/></a>
+                {{ $campaign->emailList->campaign_mailer }} <a href="{{ route('mailcoach.emailLists.mailers', $campaign->emailList) }}" class="link">{{ strtolower(__('mailcoach - Edit')) }}</a>
             </div>
         </dd>
 
@@ -144,10 +144,9 @@
         </dd>
 
         <dt>
-            <span class="inline-flex items-center">
-                <x-mailcoach::rounded-icon :type="count($links) ? 'info' : 'neutral'" icon="fas fa-link"
-                                           class="mr-2"/>
-                <span class="ml-2">
+            <span class="inline-flex gap-2 items-center md:flex-row-reverse">
+                <x-mailcoach::rounded-icon type="neutral" icon="fas fa-link"/>
+                <span>
                     {{ __('mailcoach - Links') }}
                 </span>
             </span>
@@ -174,9 +173,9 @@
         </dd>
 
         <dt>
-            <span class="inline-flex items-center">
-                <x-mailcoach::rounded-icon type="neutral" icon="fas fa-tag" class="mr-2"/>
-                <span class="ml-2">
+            <span class="inline-flex gap-2 items-center md:flex-row-reverse">
+                <x-mailcoach::rounded-icon type="neutral" icon="fas fa-tag"/>
+                <span>
                     {{ __('mailcoach - Tags') }}
                 </span>
             </span>
@@ -194,10 +193,10 @@
 
         @if ($campaign->isReady())
             <dt>
-                <span class="inline-flex items-center">
+                <span class="inline-flex gap-2 items-center md:flex-row-reverse">
                     <x-mailcoach::rounded-icon :type="$campaign->scheduled_at ? 'warning' : 'neutral'"
-                                               icon="far fa-clock" class="mr-2"/>
-                    <span class="ml-2">
+                                               icon="far fa-clock"/>
+                    <span>
                         {{ __('mailcoach - Timing') }}
                     </span>
                 </span>
@@ -362,4 +361,4 @@
             </dd>
         @endif
     </dl>
-</div>
+</x-mailcoach::card>

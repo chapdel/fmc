@@ -1,5 +1,4 @@
-<div>
-    <x-mailcoach::fieldset :legend="__('mailcoach - Audience')">
+    <x-mailcoach::fieldset card :legend="__('mailcoach - Audience')">
         @error('email_list_id')
             <p class="form-error">{{ $message }}</p>
         @enderror
@@ -24,9 +23,9 @@
         </div>
 
         @if($segmentable->usingCustomSegment())
-            <x-mailcoach::help>
+            <x-mailcoach::info>
                 {{ __('mailcoach - Using custom segment') }} {{ $segmentable->getSegment()->description() }}.
-            </x-mailcoach::help>
+            </x-mailcoach::info>
         @else
             <div class="form-field">
                 @error('segment')
@@ -85,4 +84,3 @@
             </div>
         @endif
     </x-mailcoach::fieldset>
-</div>

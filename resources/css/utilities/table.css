@@ -1,34 +1,21 @@
 .table {
     @apply table-fixed;
-    @apply border-collapse;
-    @apply border-b;
-    @apply border-gray-100;
-    width: calc(100% + 1.5rem);
-    overflow-x: visible;
-    @apply -mx-3;
-}
-
-@screen lg {
-    .table {
-        @apply w-full;
-        @apply mx-0;
-    }
+    @apply min-w-full;
+    @apply mx-0;
+    @apply border-separate;
+    @apply border-spacing-0;
 }
 
 .table:not(:first-child) {
     @apply mt-8;
 }
 
-.table thead tr {
-    @apply border-b-2;
-    @apply border-gray-100;
-    font-size: 0.875em;
-}
-
 .table th,
 .table td {
     @apply py-3;
-    @apply pr-6;
+    @apply px-6;
+    @apply md:first:pl-10;
+    @apply md:last:pr-10;
     @apply align-top;
 }
 
@@ -39,15 +26,24 @@
     @apply uppercase;
     @apply text-xs;
     @apply tracking-wider;
+    @apply bg-white;
+    @apply z-10;
+    @apply border-b;
+    @apply border-indigo-500/20;
+    @apply bg-gradient-to-b;
+    @apply from-indigo-500/5;
+    @apply to-indigo-500/10;
+    @apply first:rounded-tl;
+    @apply last:rounded-tr;
+
+    @apply md:sticky;
+    @apply md:top-16;
 }
 
-.table tbody tr:nth-child(even) {
-    @apply bg-gray-200;
-    @apply bg-opacity-20;
-}
-
-.table tbody tr:nth-child(even) .td-action {
-    @apply bg-transparent;
+.table tbody td {
+    @apply border-b;
+    @apply border-indigo-500/20;
+    @apply leading-snug;
 }
 
 .tr-h-double td {
@@ -68,6 +64,7 @@
 
 .table thead i {
     @apply mx-1;
+    @apply opacity-50;
 }
 
 .table thead .th-numeric a {
@@ -82,9 +79,7 @@
 }
 
 .table-status {
-    @apply py-8;
-    @apply text-xs;
-    @apply text-gray-500;
+    @apply text-sm;
     @apply text-center;
 }
 
@@ -104,7 +99,8 @@
     @apply flex-wrap;
     @apply items-center;
     @apply justify-between;
-    @apply -mt-4;
+    @apply gap-y-2;
+    @apply empty:hidden;
 }
 
 .table-filters {

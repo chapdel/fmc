@@ -1,6 +1,14 @@
-<fieldset {{ $attributes->except('class') }} class="form-fieldset {{ $class ?? '' }} {{ (isset($focus) && $focus) ? 'form-fieldset-focus' : '' }}">
+@props([
+    'card' => false,
+    'clean' => false,
+    'focus' => false,
+    'class' => '',
+    'legend' => null
+])
+
+<fieldset {{ $attributes->except('class') }} class="{{ $card? 'card form-grid' : ($clean? 'form-fieldset-clean' : 'form-fieldset') }} {{ $class }} {{ $focus ? 'form-fieldset-focus' : '' }}">
     @isset($legend)
-        <div class="legend">
+        <div class="form-legend">
             {{ $legend }}
         </div>
     @endisset

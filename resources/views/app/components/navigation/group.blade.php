@@ -6,7 +6,7 @@
 @php
 $isActive = ($active || \Illuminate\Support\Str::startsWith($href, request()->url()));
 @endphp
-<div class="{{ $attributes->get('class') }}" {{ $attributes->except('class') }}>
+<div {{ $attributes }}>
     @if($title)
         @php
             $maxLength = 22;
@@ -15,13 +15,19 @@ $isActive = ($active || \Illuminate\Support\Str::startsWith($href, request()->ur
                 substr($title, 0, $partLength ) . '…' . substr($title, -$partLength )
                 : $title;
         @endphp
-        <li class="py-1 text-sm font-semibold {{ $isActive ? 'active' : ''  }}">
-            <a href="{{ $href ?? '#' }}">
+        <li class="navigation-item {{ $isActive ? 'navigation-item-active' : ''  }}">
+            @isset($href)
+            <a href="{{ $href }}">
                 {{ $titleTruncated ?? '' }}
             </a>
+            @else
+            <span>
+                {{ $titleTruncated ?? '' }}
+            </span>
+            @endif
         </li>
     @endif
-    <div class="flex items-center md:items-start gap-x-4 md:flex-col list-none @if($title) ml-4 @endif">
+    <ul class="mt-1 md:mt-3 flex items-center md:items-start gap-x-4 gap-y-3 md:flex-col @if($title) navigation-group @endif">
         {{ $slot }}
-    </div>
+    </ul>
 </div>

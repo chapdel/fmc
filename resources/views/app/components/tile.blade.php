@@ -2,17 +2,23 @@
     'cols' => 4,
     'icon' => null,
     'link' => null,
+    'danger' => null,
 ])
-<!-- col-span-1 col-span-2 col-span-3 col-span-4 col-span-5 col-span-6 col-span-7 col-span-8 col-span-9 col-span-10 col-span-11 col-span-12 -->
-<div class="col-span-{{ $cols }} h-full flex flex-col shadow-md p-6 {{ $attributes->get('class') }}" {{ $attributes->except('class') }}>
-    <div class="flex justify-between items-center">
-        @if ($icon)
-            <i class="fas fa-{{ $icon }} opacity-50 text-2xl"></i>
-        @endif
-        {{ $link }}
+<!-- md:col-span-1 md:col-span-2 md:col-span-3 md:col-span-4 md:col-span-5 md:col-span-6 md:col-span-7 md:col-span-8 md:col-span-9 md:col-span-10 md:col-span-11 md:col-span-12 -->
+<div class="md:col-span-{{ $cols }} h-full {{ $attributes->get('class') }} {{ isset($link) ? 'dashboard-tile-hover' : ''}} {{ $danger ? 'dashboard-tile dashboard-tile-error' : 'dashboard-tile'}}" {{ $attributes->except('class') }}>
+    @if ($icon)
+        <i class="absolute -bottom-3 right-6 {{ $danger ? 'text-red-400/10' : 'text-blue-400/5' }} fas fa-{{ $icon }} text-[100px]"></i>
+    @endif
+
+    @if ($link) 
+        <a href='{{$link}}' class="z-1 absolute inset-0">
+        </a> 
+    @endif
+
+    <div class="pointer-events-none z-10 h-full flex items-center">
+        <div class="w-full ">
+            {{ $slot }}
+        </div>
     </div>
 
-    <div class="@if($icon || $link) mt-4 @endif flex flex-col flex-grow">
-        {{ $slot }}
-    </div>
 </div>

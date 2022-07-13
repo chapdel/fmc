@@ -5,6 +5,7 @@
     :columns="[
         ['attribute' => 'name', 'label' => __('mailcoach - Name')],
         ['attribute' => '-created_at', 'label' => __('mailcoach - Created at'), 'class' => 'w-48 th-numeric hidden | xl:table-cell'],
+        ['class' => 'w-12'],
     ]"
     rowPartial="mailcoach::app.emailLists.segments.partials.row"
     :emptyText="__('mailcoach - No segments here. So you don\'t like putting people into groups?')"

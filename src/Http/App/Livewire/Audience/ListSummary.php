@@ -90,6 +90,7 @@ class ListSummary extends Component
         ])->layout('mailcoach::app.emailLists.layouts.emailList', [
             'title' => __('mailcoach - Performance'),
             'emailList' => $this->emailList,
+            'hideCard' => true,
         ]);
     }
 

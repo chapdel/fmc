@@ -101,7 +101,7 @@
             </div>
         </div>
 
-        <div class="form-buttons">
+        <x-mailcoach::form-buttons>
             <div class="button">
                 <button class="font-semibold h-10" type="submit">
                     {{ __('mailcoach - Import subscribers') }}
@@ -110,15 +110,15 @@
                        type="file" id="file"
                        name="file" class="w-48 h-10"/>
             </div>
-        </div>
+        </x-mailcoach::form-buttons>
 
         @error('file')
         <p class="form-error">{{ $message }}</p>
         @enderror
 
-        <x-mailcoach::help>
+        <x-mailcoach::info>
             {!! __('mailcoach - Upload a CSV or XLSX file with these columns: email, first_name, last_name, tags <a href=":link" target="_blank">(see documentation)</a>', ['link' => 'https://spatie.be/docs/laravel-mailcoach/v5/using-mailcoach/audience#content-importing-subscribers']) !!}
-        </x-mailcoach::help>
+        </x-mailcoach::info>
     </form>
 
 </x-mailcoach::layout-list>

@@ -61,7 +61,7 @@ class ListSettings extends Component
     {
         return view('mailcoach::app.emailLists.settings.general')
             ->layout('mailcoach::app.emailLists.layouts.emailList', [
-                'title' => __('mailcoach - Settings') . ' — ' . __('mailcoach - General'),
+                'title' => __('mailcoach - General settings'),
                 'emailList' => $this->emailList,
             ]);
     }

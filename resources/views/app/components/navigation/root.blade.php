@@ -1,8 +1,8 @@
 @props([
     'main' => false,
 ])
-<div class="navigation relative z-50 flex items-start sticky top-0">
-    <div class="flex flex-wrap lg:grid lg:grid-cols-1 gap-1 content-start sticky top-0 px-12 py-8">
+<div class="md:sticky md:top-14">
+    <ul class="flex flex-col gap-2 md:gap-3 p-6 md:px-10 md:py-8 md:pb-24 bg-gradient-to-b from-indigo-600/5 to-indigo-600/10 rounded-b-md md:rounded-md bg-clip-padding border border-indigo-700/10">
         {{ $slot }}
-    </div>
+    </ul>
 </div>

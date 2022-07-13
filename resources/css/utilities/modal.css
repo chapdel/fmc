@@ -10,7 +10,7 @@
 }
 
 .modal-wrapper {
-    @apply h-full;
+    @apply max-h-full;
     @apply w-full;
     @apply bg-white;
 }
@@ -79,7 +79,7 @@
     @apply items-center;
     @apply px-6;
     @apply py-4;
-    @apply bg-gray-100;
+    @apply bg-indigo-700/5;
 }
 
 @screen md {
@@ -96,6 +96,8 @@
     @apply flex-grow;
     @apply overflow-x-hidden;
     @apply p-6;
+    @apply grid;
+    @apply gap-y-6;
     max-width: 100vw;
 }
 

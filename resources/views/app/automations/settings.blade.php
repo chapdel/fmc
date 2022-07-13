@@ -1,9 +1,10 @@
 <form
-    class="form-grid"
+    class="card-grid"
     wire:submit.prevent="save(new URLSearchParams(new FormData($event.target)).toString())"
     method="POST"
 >
-    <x-mailcoach::text-field :label="__('mailcoach - Name')" name="automation.name" wire:model.lazy="automation.name" required />
+<x-mailcoach::card>    
+<x-mailcoach::text-field :label="__('mailcoach - Name')" name="automation.name" wire:model.lazy="automation.name" required />
 
     <x-mailcoach::select-field
         :label="__('mailcoach - Trigger')"
@@ -23,9 +24,10 @@
         @endif
     </div>
 
+</x-mailcoach::card>    
     @include('mailcoach::app.campaigns.partials.emailListFields', ['segmentable' => $automation, 'wiremodel' => 'automation'])
 
-    <div class="form-buttons">
+    <x-mailcoach::card buttons>
         <x-mailcoach::button :label="__('mailcoach - Save')" />
-    </div>
+    </x-mailcoach::card>
 </form>

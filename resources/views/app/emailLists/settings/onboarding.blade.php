@@ -4,16 +4,16 @@
         confirmation: @entangle('emailList.requires_confirmation'),
         confirmationMail: @entangle('confirmation_mail'),
     }"
-        class="form-grid"
+        class="card-grid"
         method="POST"
         wire:submit.prevent="save"
         @keydown.prevent.window.cmd.s="$wire.call('save')"
         @keydown.prevent.window.ctrl.s="$wire.call('save')"
 >
-    <x-mailcoach::fieldset :legend="__('mailcoach - Subscriptions')">
-        <x-mailcoach::help>
-            {!! __('mailcoach - Learn more about <a href=":link" class="link-dimmed" target="_blank">subscription settings and forms</a>.', ['link' => 'https://spatie.be/docs/laravel-mailcoach/v5/using-mailcoach/audience#content-onboarding']) !!}
-        </x-mailcoach::help>
+    <x-mailcoach::fieldset card :legend="__('mailcoach - Subscriptions')">
+        <x-mailcoach::info>
+            {!! __('mailcoach - Learn more about <a href=":link" target="_blank">subscription settings and forms</a>.', ['link' => 'https://spatie.be/docs/laravel-mailcoach/v5/using-mailcoach/audience#content-onboarding']) !!}
+        </x-mailcoach::info>
 
         <div class="form-field max-w-full">
             <div class="checkbox-group">
@@ -28,7 +28,7 @@
                         name="emailList.allow_form_subscriptions"
                         x-model="post"
                 />
-                <code class="markup-code text-xs ml-8 -mt-1">&lt;form method="POST"
+                <code class="markup-code-block text-xs ml-8">&lt;form method="POST"
                     action="{{$emailList->incomingFormSubscriptionsUrl()}}"&gt;</code>
             </div>
         </div>
@@ -47,10 +47,10 @@
                                  wire:model.lazy="emailList.allowed_form_extra_attributes"/>
     </x-mailcoach::fieldset>
 
-    <x-mailcoach::fieldset :legend="__('mailcoach - Landing Pages')">
-        <x-mailcoach::help>
-            {!! __('mailcoach - Leave empty to use the defaults. <a class="link-dimmed" target="_blank" href=":link">Example</a>', ['link' => route("mailcoach.landingPages.example")]) !!}
-        </x-mailcoach::help>
+    <x-mailcoach::fieldset card :legend="__('mailcoach - Landing Pages')">
+        <x-mailcoach::info>
+            {!! __('mailcoach - Leave empty to use the defaults. <a target="_blank" href=":link">Example</a>', ['link' => route("mailcoach.landingPages.example")]) !!}
+        </x-mailcoach::info>
 
         <div x-show="confirmation">
             <x-mailcoach::text-field :label="__('mailcoach - Confirm subscription')" placeholder="https://"
@@ -70,7 +70,7 @@
     </x-mailcoach::fieldset>
 
     <div x-show="confirmation">
-        <x-mailcoach::fieldset :legend="__('mailcoach - Confirmation mail')">
+        <x-mailcoach::fieldset card :legend="__('mailcoach - Confirmation mail')">
             @if(empty($emailList->confirmation_mailable_class))
                 <div class="radio-group">
                     <x-mailcoach::radio-field
@@ -101,30 +101,28 @@
                         <p class="form-error">{{ $message }}</p>
                         @enderror
 
-                        <div class="mt-12 markup-code alert alert-info text-sm">
+                        <x-mailcoach::help class="mt-12 markup-code">
                             {{ __('mailcoach - You can use following placeholders in the subject and body of the confirmation mail:') }}
-                            <ul class="grid mt-2 gap-2">
-                                <li>
-                                    <code class="mr-2">::confirmUrl::</code>{{ __('mailcoach - The URL where the subscription can be confirmed') }}
-                                </li>
-                                <li>
-                                    <code class="mr-2">::subscriber.first_name::</code>{{ __('mailcoach - The first name of the subscriber') }}
-                                </li>
-                                <li><code class="mr-2">::list.name::</code>{{ __('mailcoach - The name of this list') }}
-                                </li>
-                            </ul>
-                        </div>
+                            <dl class="mt-4 markup-dl">
+                                <dt><code>::confirmUrl::</code></dt>
+                                <dd>{{ __('mailcoach - The URL where the subscription can be confirmed') }}</dd>
+                                <dt><code>::subscriber.first_name::</code></dt>
+                                <dd>{{ __('mailcoach - The first name of the subscriber') }}</dd>
+                                <dt><code>::list.name::</code></dd>
+                                <dd>{{ __('mailcoach - The name of this list') }}</dd>
+                            </dl>
+                        </x-mailcoach::help>
                     </div>
                 </div>
             @else
-                <x-mailcoach::help>
+                <x-mailcoach::info>
                     {{ __('mailcoach - A custom mailable (:mailable) will be used.', ['mailable' => $emailList->confirmation_mailable_class]) }}
-                </x-mailcoach::help>
+                </x-mailcoach::info>
             @endif
         </x-mailcoach::fieldset>
     </div>
 
-    <x-mailcoach::fieldset :legend="__('mailcoach - Welcome Mail')">
+    <x-mailcoach::fieldset card :legend="__('mailcoach - Welcome Mail')">
         @if ($automation = \Spatie\Mailcoach\Mailcoach::getAutomationClass()::whereName(__('mailcoach - Welcome automation for :list', ['list' => $emailList->name]))->first())
             <a href="{{ route('mailcoach.automations.actions', $automation) }}">
                 <x-mailcoach::button :label="__('mailcoach - View welcome automation')"/>
@@ -136,15 +134,14 @@
             @endif
         @else
             <div>
-                <x-mailcoach::button wire:click.prevent="createWelcomeMailAutomation"
+                <x-mailcoach::button-secondary wire:click.prevent="createWelcomeMailAutomation"
                                      :label="__('mailcoach - Set up Welcome Mail automation')"/>
-                <p class="mt-4 text-gray-600">{{ __('mailcoach - We\'ll use or create a template named "Default"') }}</p>
+                <x-mailcoach::info class="mt-4 text-gray-600">{{ __('mailcoach - We\'ll use or create a template named "Default"') }}</x-mailcoach::info>
             </div>
         @endif
     </x-mailcoach::fieldset>
 
-    <div class="form-buttons">
+    <x-mailcoach::card buttons>
         <x-mailcoach::button :label="__('mailcoach - Save')"/>
-    </div>
+    </x-mailcoach::card>
 </form>
-

@@ -1,4 +1,4 @@
-<div>
+<x-mailcoach::card>
     <x-mailcoach::help>
         <p>{{ __('mailcoach - A template is a reusable layout that can be used as a starting point for your campaigns, automation emails or transactional mails.') }}</p>
         <span>{!! __('mailcoach - Create slots in your template by adding the name in triple brackets, for example: <code>[[[content]]]</code>. You can add as many slots as you like.') !!}</span>
@@ -17,4 +17,4 @@
             'model' => $template,
         ])
     </form>
-</div>
+</x-mailcoach::card>

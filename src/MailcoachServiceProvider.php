@@ -338,6 +338,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.components.form.checkboxField', 'mailcoach::checkbox-field');
         Blade::component('mailcoach::app.components.form.radioField', 'mailcoach::radio-field');
         Blade::component('mailcoach::app.components.form.formButton', 'mailcoach::form-button');
+        Blade::component('mailcoach::app.components.form.formButtons', 'mailcoach::form-buttons');
         Blade::component('mailcoach::app.components.form.confirmButton', 'mailcoach::confirm-button');
         Blade::component('mailcoach::app.components.form.selectField', 'mailcoach::select-field');
         Blade::component('mailcoach::app.components.form.tagsField', 'mailcoach::tags-field');
@@ -352,6 +353,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.components.modal.modal', 'mailcoach::modal');
         Blade::component('mailcoach::app.components.modal.previewModal', 'mailcoach::preview-modal');
 
+        Blade::component('mailcoach::app.components.card', 'mailcoach::card');
         Blade::component('mailcoach::app.components.tile', 'mailcoach::tile');
 
         Blade::component('mailcoach::app.components.dataTable', 'mailcoach::data-table');
@@ -373,6 +375,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.components.navigation.group', 'mailcoach::navigation-group');
         Blade::component('mailcoach::app.components.navigation.tabs', 'mailcoach::navigation-tabs');
 
+        Blade::component('mailcoach::app.components.alert.info', 'mailcoach::info');
         Blade::component('mailcoach::app.components.alert.help', 'mailcoach::help');
         Blade::component('mailcoach::app.components.alert.warning', 'mailcoach::warning');
         Blade::component('mailcoach::app.components.alert.error', 'mailcoach::error');

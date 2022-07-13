@@ -20,7 +20,7 @@
         <x-mailcoach::confirm-button
                 onConfirm="() => $wire.deleteTag({{ $row->id }})"
                 :confirm-text="__('mailcoach - Are you sure you want to delete tag :tagName?', ['tagName' => $row->name])"
-                class="icon-button hover:text-red-500"
+                class="icon-button text-red-500 hover:text-red-700"
         >
             <i class="far fa-trash-alt"></i>
         </x-mailcoach::confirm-button>

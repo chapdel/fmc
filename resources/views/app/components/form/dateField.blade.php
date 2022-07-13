@@ -5,6 +5,7 @@
     'label' => null,
     'required' => false,
     'name' => null,
+    'class' => '',
     'inputClass' => '',
     'value' => '',
     'placeholder' => '',
@@ -25,7 +26,7 @@
             this.$watch('value', () => picker.setDate(this.value))
         },
     }"
-    class="form-field"
+    class="form-field {{ $class }}"
 >
     @if($label)
     <label class="{{ $required ? 'label label-required' : 'label' }}" for="{{ $name }}">

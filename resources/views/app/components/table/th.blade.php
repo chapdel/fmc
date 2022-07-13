@@ -8,9 +8,9 @@
             {{ $slot }}
 
             @if($sort === \Illuminate\Support\Str::replaceFirst('-', '', $property))
-                <i class="fas fa-arrow-up text-gray-400"></i>
+                <i class="far fa-arrow-up text-gray-500"></i>
             @elseif($sort === \Illuminate\Support\Str::start($property, '-'))
-                <i class="fas fa-arrow-down text-gray-400"></i>
+                <i class="far fa-arrow-down text-gray-500"></i>
             @endif
         </a>
     @else

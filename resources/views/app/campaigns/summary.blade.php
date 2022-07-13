@@ -1,4 +1,5 @@
-<div @if((!$campaign->sent_at || $campaign->sent_at->addDay()->isFuture()) && !$campaign->isCancelled()) id="campaign-summary" wire:poll.5s @endif>
+<div class="card-grid" @if((!$campaign->sent_at || $campaign->sent_at->addDay()->isFuture()) && !$campaign->isCancelled()) id="campaign-summary" wire:poll.5s @endif>
+    <x-mailcoach::card>
     @if((! $campaign->isSent()) || (! $campaign->wasSentToAllSubscribers()))
         @if (! $campaign->sent_to_number_of_subscribers && ! $campaign->isCancelled())
             <div class="progress-bar">
@@ -157,6 +158,9 @@
             </div>
         @endif
     @endif
-
-    @include('mailcoach::app.campaigns.partials.statistics')
+    </x-mailcoach::card>
+    
+    <x-mailcoach::card>
+        @include('mailcoach::app.campaigns.partials.statistics')
+    </x-mailcoach::card>
 </div>

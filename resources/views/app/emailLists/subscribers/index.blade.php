@@ -33,11 +33,11 @@
                 <livewire:mailcoach::create-subscriber :email-list="$emailList" />
             </x-mailcoach::modal>
 
-            <x-mailcoach::dropdown direction="right" triggerClass="button">
+            <x-mailcoach::dropdown direction="right" triggerClass="-ml-2 rounded-l-none button">
                 <ul>
                     <li>
                         <a href="{{route('mailcoach.emailLists.import-subscribers', $emailList)}}">
-                            <x-mailcoach::icon-label icon="fa-fw fas fa-cloud-upload-alt" :text="__('mailcoach - Import subscribers')"/>
+                            <x-mailcoach::icon-label icon="fa-fw far fa-cloud-upload-alt" :text="__('mailcoach - Import subscribers')"/>
                         </a>
                     </li>
                     @if($subscribers?->count() > 0)
@@ -47,9 +47,9 @@
                                 :action="route('mailcoach.emailLists.subscribers.export', $emailList) . '?filter[search]=' . ($filter['search'] ?? '') . '&filter[status]=' . ($filter['status'] ?? '')">
 
                                 @if($allSubscriptionsCount === $subscribers->total())
-                                    <x-mailcoach::icon-label icon="fa-fw fas fa-file" :text="__('mailcoach - Export all subscribers')"/>
+                                    <x-mailcoach::icon-label icon="fa-fw far fa-file" :text="__('mailcoach - Export all subscribers')"/>
                                 @else
-                                    <x-mailcoach::icon-label icon="fa-fw fas fa-file" :text="__('mailcoach - Export :total :subscriber', ['total' => $subscribers->total(), 'subscriber' => trans_choice('mailcoach - subscriber|subscribers', $subscribers->total())])"/>
+                                    <x-mailcoach::icon-label icon="fa-fw far fa-file" :text="__('mailcoach - Export :total :subscriber', ['total' => $subscribers->total(), 'subscriber' => trans_choice('mailcoach - subscriber|subscribers', $subscribers->total())])"/>
                                 @endif
                             </x-mailcoach::form-button>
                         </li>

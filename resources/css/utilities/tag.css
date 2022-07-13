@@ -1,10 +1,14 @@
 .tagify {
     @apply items-center !important;
-    @apply border-blue-100 !important;
+    @apply border-indigo-700/20 !important;
+    @apply hover:border-indigo-700/30 !important;
+    @apply focus-within:border-blue-500 !important;
+    @apply focus-within:shadow-md !important;
+    @apply focus-within:shadow-blue-400/20 !important;
 }
 .tagify__tag {
-    @apply rounded-full !important;
-    @apply bg-blue-400 !important;
+    @apply rounded-sm !important;
+    @apply bg-purple-300/20 !important;
     @apply pl-2 !important;
     @apply py-1 !important;
     @apply pb-0 !important;
@@ -21,38 +25,49 @@
 
 .tagify__tag-text {
     @apply text-xs;
-    @apply text-white;
+    @apply text-purple-900;
 }
 
 .tagify__tag__removeBtn {
     @apply mb-1 !important;
     @apply ml-1 !important;
-    @apply text-white !important;
+    @apply opacity-50 !important;
 }
 
 .tagify__dropdown {
-    @apply shadow-md;
+    @apply relative;
+    @apply rounded-b;
+    @apply shadow-xl;
+    @apply shadow-blue-800/10;
+    @apply bg-white;
 }
 
 .tagify__dropdown .tagify__dropdown__wrapper {
-    @apply bg-gray-100;
+    @apply bg-white;
     @apply border-none;
 }
 
 .tagify__dropdown .tagify__dropdown__wrapper .tagify__dropdown__item {
+    @apply px-4;
     @apply py-2;
+    @apply font-semibold;
+    @apply text-sm;
 }
 
 .tagify__dropdown .tagify__dropdown__wrapper .tagify__dropdown__item--active {
-    @apply bg-blue-400;
+    @apply text-black;
+    @apply bg-gradient-to-r;
+    @apply from-blue-50;
+    @apply to-blue-100/70;
+    @apply text-blue-900;
 }
 
 .tag-neutral {
     @apply inline-flex;
     @apply items-center;
     @apply rounded;
-    @apply bg-gray-300;
-    @apply bg-opacity-30;
+    @apply bg-purple-300/20;
+    @apply text-purple-900;
     @apply px-2;
     @apply py-1;
     margin: 0 3px 3px 0;
@@ -64,8 +79,8 @@
     @apply inline-flex;
     @apply items-center;
     @apply rounded;
-    @apply bg-blue-300;
-    @apply bg-opacity-30;
+    @apply bg-purple-500/40;
+    @apply text-purple-900;
     @apply px-2;
     @apply py-1;
     margin: 0 3px 3px 0;

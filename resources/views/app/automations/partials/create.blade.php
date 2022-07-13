@@ -15,8 +15,8 @@
         required
     />
 
-    <div class="form-buttons">
+    <x-mailcoach::form-buttons>
         <x-mailcoach::button :label="__('mailcoach - Create automation')"/>
         <x-mailcoach::button-cancel :label="__('mailcoach - Cancel')" x-on:click="$store.modals.close('create-automation')" />
-    </div>
+    </x-mailcoach::form-buttons>
 </form>

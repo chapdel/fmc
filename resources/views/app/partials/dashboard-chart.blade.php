@@ -1,9 +1,10 @@
-<div @if ($stats->count()) class="shadow-md bg-gray-50 p-6" @endif>
+<div class="empty:hidden card">
     @if ($stats->count())
-        <h2 class="text-lg mb-4">
-            <i class="fas fa-users mr-1"></i>
-            {{ __('mailcoach - Audience') }}
-        </h2>
+        <a href="#" class="mb-4 flex items-center gap-2 hover:text-blue-700">
+            <h2 class="markup-h2 mb-0">
+                {{ __('mailcoach - Audience Growth') }}
+            </h2>
+        </a>
         <div x-data="dashboardChart" x-init="renderChart({
             labels: @js($stats->pluck('label')->values()->toArray()),
             subscribers: @js($stats->pluck('subscribers')->values()->toArray()),
@@ -13,8 +14,8 @@
         })">
             <canvas id="chart" style="position: relative; max-height:300px; width:100%; max-width: 100%;"></canvas>
         </div>
-        <div class="text-right">
-            <small class="text-gray-400">{{ __('mailcoach - You can drag the chart to zoom.') }}</small>
+        <div class="mt-4 text-right">
+            <small class="text-gray-500">{{ __('mailcoach - You can drag the chart to zoom.') }}</small>
         </div>
     @endif
 </div>

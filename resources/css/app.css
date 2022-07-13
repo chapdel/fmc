@@ -8,12 +8,12 @@
 @import './utilities/markup.css';
 
 @import './utilities/alert.css';
-@import './utilities/breadcrumb.css';
 @import './utilities/button.css';
 @import './utilities/card.css';
 @import './utilities/chart.css';
 @import './utilities/checkbox.css';
 @import './utilities/counter.css';
+@import './utilities/dashboard.css';
 @import './utilities/display.css';
 @import './utilities/dl.css';
 @import './utilities/dropdown.css';

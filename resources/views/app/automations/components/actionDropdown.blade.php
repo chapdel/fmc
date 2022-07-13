@@ -4,15 +4,15 @@
     <x-mailcoach::dropdown direction="right">
         <x-slot name="trigger">
             <div class="group button-rounded" title="{{__('mailcoach - Insert action')}}">
-                <span class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2 h-px bg-gray-600 group-hover:bg-yellow-700"></span>
-                <span class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-px h-2 bg-gray-600 group-hover:bg-yellow-700"></span>
+                <span class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-2 h-px bg-gray-600 group-hover:bg-blue-700"></span>
+                <span class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-px h-2 bg-gray-600 group-hover:bg-blue-700"></span>
             </div>
         </x-slot>
 
         <div style="min-width:40rem" class="max-w-full px-1 py-4 grid items-start gap-8 grid-cols-2">
             @foreach ($actionOptions as $category => $actions)
             <div>
-                <h4 class="mb-2 px-6 markup-h4 text-yellow-700">
+                <h4 class="mb-2 px-6 markup-h4 text-gray-500">
                     <i class="fa-fw fas {{ \Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum::icons()[$category] }}"></i>
                     {{ \Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum::from($category)->label() }}
                 </h4>

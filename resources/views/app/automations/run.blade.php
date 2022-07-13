@@ -1,11 +1,10 @@
 <form
-        class="form-grid"
         method="POST"
+        class="card-grid"
 >
     @csrf
     @method('PUT')
-
-    <x-mailcoach::fieldset :legend="__('mailcoach - Interval')">
+    <x-mailcoach::fieldset card :legend="__('mailcoach - Interval')">
         @if ($automation->interval === '1 minute')
             <x-mailcoach::warning>
                 {{ __('mailcoach - An interval of 1 minute can generate a lot of queued jobs for subscribers pending in an action. Make sure you really need this granularity.') }}
@@ -37,18 +36,11 @@
         </div>
     </x-mailcoach::fieldset>
 
-    <x-mailcoach::fieldset :legend="__('mailcoach - Run automation')">
+    <x-mailcoach::fieldset card :legend="__('mailcoach - Run automation')">
         @if ($error)
-            <div class="alert alert-error shadow-lg mb-6">
-                <div class="max-w-layout mx-auto grid gap-1">
-                    <div class="flex items-baseline">
-                        <span class="w-6"><i class="fas fa-times opacity-50"></i></span>
-                        <span class="ml-2 text-sm">
+        <x-mailcoach::error>
                             {{ $error }}
-                        </span>
-                    </div>
-                </div>
-            </div>
+</x-mailcoach::error>
         @endif
         @if ($automation->actions->filter(fn ($action) => $action->action::class === \Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction::class)->count() === 0)
             <x-mailcoach::warning>
@@ -57,7 +49,7 @@
         @endif
         <div>
             @if ($automation->status === \Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus::Started)
-                <button class="button bg-gradient-to-r from-orange-400 to-orange-500" type="button"
+                <button class="button button-orange" type="button"
                         wire:click.prevent="pause">
                 <span class="flex items-center">
                     <i class="fas fa-pause text-sm"></i>
@@ -65,7 +57,7 @@
                 </span>
                 </button>
             @else
-                <button class="button bg-gradient-to-r from-green-400 to-green-500" type="button"
+                <button class="button button-green" type="button"
                         wire:click.prevent="start">
                 <span class="flex items-center">
                     <i class="fas fa-play text-sm"></i>

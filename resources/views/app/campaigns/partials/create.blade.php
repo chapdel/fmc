@@ -31,8 +31,8 @@
         @endif
     </div>
 
-    <div class="form-buttons">
+    <x-mailcoach::form-buttons>
         <x-mailcoach::button :label="__('mailcoach - Create campaign')" />
         <x-mailcoach::button-cancel x-on:click="$store.modals.close('create-campaign')" />
-    </div>
+    </x-mailcoach::form-buttons>
 </form>

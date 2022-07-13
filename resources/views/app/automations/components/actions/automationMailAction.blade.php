@@ -2,7 +2,7 @@
                                 :deletable="$deletable">
     <x-slot name="legend">
         {{__('mailcoach - Send email') }}
-        <span class="legend-accent">
+        <span class="form-legend-accent">
             @if ($automation_mail_id)
                 @php($automationMail = \Spatie\Mailcoach\Mailcoach::getAutomationMailClass()::find($automation_mail_id))
                 @if ($automationMail)

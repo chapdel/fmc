@@ -121,6 +121,6 @@ class Export extends Component
         $this->automations = self::getAutomationClass()::whereIn('email_list_id', $this->selectedEmailLists)->orWhereNull('email_list_id')->pluck('name', 'id');
         $exportExists = Storage::disk(config('mailcoach.export_disk'))->exists('export/mailcoach-export.zip');
 
-        return view('mailcoach::app.export', compact('exportExists'))->layout('mailcoach::app.layouts.app');
+        return view('mailcoach::app.export', compact('exportExists'))->layout('mailcoach::app.layouts.app', ['title' => 'Export']);
     }
 }

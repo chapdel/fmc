@@ -14,16 +14,22 @@ module.exports = {
             current: 'currentColor',
             black: colors.black,
             white: colors.white,
-            gray: colors.gray,
+            gray: colors.slate,
             blue: colors.blue,
+            indigo: colors.indigo,
+            teal: colors.teal,
             red: colors.rose,
             green: colors.emerald,
             yellow: colors.amber,
             orange: colors.orange,
+            purple: colors.purple,
         },
         extend: {
             boxShadow: {
                 focus: '0 2px 2px #e5e3e1' ,
+            },
+            fontFamily: {
+                awesome: '"Font Awesome 6 Free"',
             },
             gridTemplateColumns: {
                 auto: 'auto',
@@ -37,6 +43,7 @@ module.exports = {
                 4: '1rem',
                 6: '1.5rem',
                 8: '2rem',
+                9: '2.25rem',
                 10: '2.5rem',
             },
             minWidth: {
@@ -47,7 +54,7 @@ module.exports = {
                 32: '8rem',
             },
             maxWidth: {
-                layout: '110rem',
+                layout: '100rem',
             },
             backgroundSize: {
                 'size-200': '200% 200%',

@@ -9,7 +9,10 @@ document.addEventListener('alpine:init', () => {
                     return;
                 }
 
-                const coords = this.$el.querySelector('.navigation-dropdown').closest('.navigation-item').getBoundingClientRect();
+                const coords = this.$el
+                    .querySelector('.navigation-dropdown')
+                    .closest('.navigation-dropdown-trigger')
+                    .getBoundingClientRect();
                 this.$refs.background.style.setProperty('transform', `translate(${coords.left}px, ${coords.top}px`);
             });
 
@@ -29,11 +32,13 @@ document.addEventListener('alpine:init', () => {
 
             event.preventDefault();
 
-            document.querySelectorAll('.navigation-dropdown').forEach((el) => el.classList.add('md:hidden', 'md:opacity-0'));
+            document
+                .querySelectorAll('.navigation-dropdown')
+                .forEach(el => el.classList.add('md:hidden', 'md:opacity-0'));
 
-            const target = event.target.classList.contains('navigation-item')
+            const target = event.target.classList.contains('navigation-dropdown-trigger')
                 ? event.target
-                : event.target.closest('.navigation-item');
+                : event.target.closest('.navigation-dropdown-trigger');
 
             const dropdown = target.querySelector('.navigation-dropdown');
             const background = this.$refs.background;
@@ -41,7 +46,7 @@ document.addEventListener('alpine:init', () => {
             dropdown.classList.remove('md:hidden');
 
             setTimeout(() => {
-                if(! dropdown.classList.contains('md:hidden')) {
+                if (!dropdown.classList.contains('md:hidden')) {
                     dropdown.classList.remove('md:opacity-0');
                     dropdown.classList.add('md:opacity-100');
                 }
@@ -57,12 +62,12 @@ document.addEventListener('alpine:init', () => {
                 height: dropdownCoords.height,
                 width: dropdownCoords.width,
                 top: dropdownCoords.top - navCoords.top,
-                left: dropdownCoords.left - navCoords.left
+                left: dropdownCoords.left - navCoords.left,
             };
 
             background.style.setProperty('width', `${coords.width}px`);
             background.style.setProperty('height', `${coords.height}px`);
-            background.style.setProperty('transform', `translate(${coords.left}px, ${coords.top}px`);
+            background.style.setProperty('transform', `translate(${coords.left - 1}px, ${coords.top}px`); // -1 to account for the border
 
             this.hasOpened = true;
         },
@@ -72,13 +77,27 @@ document.addEventListener('alpine:init', () => {
                 return;
             }
 
-            document.querySelectorAll('.navigation-dropdown').forEach((el) => {
+            document.querySelectorAll('.navigation-dropdown').forEach(el => {
                 el.classList.remove('md:block', 'md:opacity-100');
                 el.classList.add('md:hidden', 'md:opacity-0');
             });
 
             this.$refs.background.classList.add('md:opacity-0');
             this.$refs.background.classList.remove('md:opacity-100');
-        }
+        },
+
+        resize(event) {
+            if (window.innerWidth > 768) {
+                this.show = true;
+            }
+        },
+
+        select(event) {
+            if (window.innerWidth > 768) {
+                return;
+            }
+
+            this.show = false;
+        },
     }));
 });

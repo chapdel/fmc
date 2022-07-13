@@ -1,34 +1,25 @@
-<div>
+<div class="card-grid">
     @if ($mail->sent_to_number_of_subscribers)
-        <div class="grid grid-cols-auto-1fr gap-2 alert alert-success">
-            <div>
-                <i class="fas fa-check"></i>
-            </div>
+        <x-mailcoach::success>
             <div>
                 {{ __('mailcoach - AutomationMail') }}
                 <strong>{{ $mail->name }}</strong>
                 {{ __('mailcoach - was delivered to') }}
                 <strong>{{ number_format($mail->sent_to_number_of_subscribers - ($failedSendsCount ?? 0)) }} {{ trans_choice('mailcoach - subscriber|subscribers', $mail->sent_to_number_of_subscribers) }}</strong>
             </div>
-        </div>
+        </x-mailcoach::success>
     @else
-        <div class="grid grid-cols-auto-1fr gap-2 alert alert-info">
-            <div>
-                <i class="fas fa-clock"></i>
-            </div>
+        <x-mailcoach::warning>
             <div>
                 {{ __('mailcoach - AutomationMail') }}
                 <strong>{{ $mail->name }}</strong>
                 {{ __('mailcoach - has not been sent yet.') }}
             </div>
-        </div>
+        </x-mailcoach::warning>
     @endif
 
     @if($failedSendsCount)
-        <div class="grid grid-cols-auto-1fr gap-2 alert alert-success">
-            <div>
-                <i class="fas fa-times text-red-500"></i>
-            </div>
+        <x-mailcoach::error>
             <div>
                 {{ __('mailcoach - Delivery failed for') }}
                 <strong>{{ $failedSendsCount }}</strong> {{ trans_choice('mailcoach - subscriber|subscribers', $failedSendsCount) }}
@@ -36,8 +27,10 @@
                 <a class="underline"
                    href="{{ route('mailcoach.automations.mails.outbox', $mail) . '?filter[type]=failed' }}">{{ __('mailcoach - Check the outbox') }}</a>.
             </div>
-        </div>
+        </x-mailcoach::error>
     @endif
 
-    @include('mailcoach::app.automations.mails.partials.statistics')
+    <x-mailcoach::card>
+        @include('mailcoach::app.automations.mails.partials.statistics')
+    </x-mailcoach::card>
 </div>

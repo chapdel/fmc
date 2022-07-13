@@ -1,11 +1,11 @@
 <form
-    class="form-grid"
+    class="card-grid"
     method="POST"
     wire:submit.prevent="save"
     @keydown.prevent.window.cmd.s="$wire.call('save')"
     @keydown.prevent.window.ctrl.s="$wire.call('save')"
 >
-    <x-mailcoach::fieldset :legend="__('mailcoach - Sender')">
+    <x-mailcoach::fieldset card :legend="__('mailcoach - Sender')">
         <x-mailcoach::text-field :label="__('mailcoach - Name')" name="emailList.name" wire:model="emailList.name" required/>
 
         <x-mailcoach::text-field :label="__('mailcoach - From email')" name="emailList.default_from_email" wire:model.lazy="emailList.default_from_email"
@@ -19,7 +19,7 @@
         <x-mailcoach::text-field :label="__('mailcoach - Reply-to name')" name="emailList.default_reply_to_name" wire:model.lazy="emailList.default_reply_to_name"/>
     </x-mailcoach::fieldset>
 
-    <x-mailcoach::fieldset :legend="__('mailcoach - Publication')">
+    <x-mailcoach::fieldset card :legend="__('mailcoach - Publication')">
         <div class="form-field max-w-full">
             <x-mailcoach::checkbox-field :label="__('mailcoach - Make feed publicly available')" name="emailList.campaigns_feed_enabled"
                             wire:model="emailList.campaigns_feed_enabled"/>
@@ -27,7 +27,7 @@
         </div>
     </x-mailcoach::fieldset>
 
-    <x-mailcoach::fieldset :legend="__('mailcoach - Notifications')">
+    <x-mailcoach::fieldset card :legend="__('mailcoach - Notifications')">
         <div class="checkbox-group">
             <x-mailcoach::checkbox-field :label="__('mailcoach - Confirmation when campaign has been sent to this list')"
                             name="emailList.report_campaign_sent" wire:model="emailList.report_campaign_sent"/>
@@ -47,8 +47,8 @@
         @endif
     </x-mailcoach::fieldset>
 
-    <div class="form-buttons">
+    <x-mailcoach::card buttons>
         <x-mailcoach::button :label="__('mailcoach - Save')"/>
-    </div>
+    </x-mailcoach::card>
 </form>
 

@@ -1,7 +1,7 @@
 <x-mailcoach::automation-action :index="$index" :action="$action" :editing="$editing" :editable="$editable" :deletable="$deletable">
     <x-slot name="legend">
         {{__('mailcoach - Remove tags') }}
-        <span class="legend-accent">
+        <span class="form-legend-accent">
             {{ $tags }}
         </span>
     </x-slot>

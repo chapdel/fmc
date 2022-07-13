@@ -12,14 +12,15 @@
 
     @if ($tab === 'details')
         <form
-            class="form-grid"
             wire:submit.prevent="save"
             @keydown.prevent.window.cmd.s="$wire.call('save')"
             @keydown.prevent.window.ctrl.s="$wire.call('save')"
             method="POST"
         >
+        <x-mailcoach::card>
+
             @if (! $emailList->tags()->count())
-                <x-mailcoach::help>
+                <x-mailcoach::info>
                     <div class="markup-lists">
                         {{ __('mailcoach - A segment is based on tags.') }}
                         <ol class="mt-4">
@@ -27,7 +28,7 @@
                             <li>{!! __('mailcoach - Assign these tags to some of the <a href=":subscriberslink">subscribers</a>.', ['subscriberslink' => route('mailcoach.emailLists.subscribers', $emailList)]) !!}</li>
                         </ol>
                     </div>
-                </x-mailcoach::help>
+                </x-mailcoach::info>
             @endif
 
             @csrf
@@ -75,9 +76,11 @@
                 </div>
             </div>
 
-            <div class="form-buttons">
+            <x-mailcoach::form-buttons>
                 <x-mailcoach::button :label="__('mailcoach - Save segment')" />
-            </div>
+            </x-mailcoach::form-buttons>
+        </x-mailcoach::card>
+
         </form>
     @endif
 

@@ -1,71 +1,99 @@
 .alert {
-    @apply px-6;
-    @apply py-4;
-    @apply rounded;
-    @apply shadow-lg;
+    @apply relative;
+    @apply px-7;
+    @apply py-5;
+    @apply rounded-md;
+    @apply bg-gradient-to-r;
+    @apply bg-gray-50;
+    @apply text-gray-600;
+
+    @apply before:content-[''];
+    @apply before:absolute;
+    @apply before:w-[6px];
+    @apply before:h-full;
+    @apply before:top-0;
+    @apply before:left-0;
+    @apply before:bg-gradient-to-b;
+    @apply before:rounded-l;
 }
 
-.alert a {
-    @apply underline;
-}
-
-.alert-flash {
-    @apply cursor-pointer;
-    @apply absolute;
-    @apply right-0;
-    @apply top-6;
-    @apply lg:-right-4;
-    @apply grid;
-    @apply justify-start;
-    @apply bg-white;
-    @apply shadow-2xl;
-    @apply max-w-4xl;
-    @apply opacity-0;
-    @apply translate-x-full;
-    @apply text-gray-700;
-    transition: opacity ease 0.8s, transform ease 0.6s;
-    z-index: 100000;
-}
-
-.alert-flash-visible {
-    @apply translate-x-0;
-    @apply opacity-100;
-    @apply duration-300;
+.alert.alert-flash {
+    @apply before:hidden;
+    @apply bg-gray-900;
+    @apply bg-gradient-to-r;
+    @apply text-white;
 }
 
 .alert-success {
-    @apply bg-gradient-to-r;
-    @apply from-green-500;
-    @apply to-green-600;
-    @apply text-white;
+    @apply from-green-50/60;
+    @apply to-green-50/40;
+    @apply before:from-green-400;
+    @apply before:to-green-400/50;
+}
+
+.alert-success.alert-flash {
+    @apply from-green-500/10;
 }
 
 .alert-info {
-    @apply bg-blue-50;
-    @apply text-blue-800;
-}
-
-.alert-info code {
-    @apply bg-blue-100;
-    @apply text-blue-800;
+    @apply from-purple-50/60;
+    @apply to-purple-50/40;
+    @apply before:from-purple-400;
+    @apply before:to-purple-400/50;
 }
 
 .alert-warning {
-    @apply bg-gradient-to-r;
-    @apply from-orange-400;
-    @apply to-orange-500;
-    @apply text-white;
+    @apply from-orange-50/60;
+    @apply to-orange-50/40;
+    @apply before:from-orange-400;
+    @apply before:to-orange-400/50;
 }
 
 .alert-danger,
 .alert-error {
-    @apply bg-gradient-to-r;
-    @apply from-red-500;
-    @apply to-red-600;
-    @apply text-white;
+    @apply from-red-50/60;
+    @apply to-red-50/40;
+    @apply before:from-red-400;
+    @apply before:to-red-400/50;
+}
+
+.alert-danger.alert-flash,
+.alert-error.alert-flash {
+    @apply from-red-500/10;
 }
 
 .alert-empty {
     @apply py-8;
     @apply text-center;
+}
+
+.alert-countdown {
+    @apply absolute;
+    @apply left-0;
+    @apply bottom-0;
+    @apply h-2;
+    @apply w-full;
+    @apply transform;
+    @apply origin-bottom-right;
+    @apply bg-gradient-to-r;
+    animation: alert-countdown var(--alert-duration, 5s) linear forwards;
+}
+
+.alert-success .alert-countdown {
+    @apply from-green-500;
+    @apply to-green-500/60;
+}
+
+.alert-error .alert-countdown {
+    @apply from-red-500;
+    @apply to-red-500/60;
+}
+
+@keyframes alert-countdown {
+    0% {
+        transform: scaleX(1);
+    }
+    100% {
+        transform: scaleX(0);
+    }
 }

@@ -1,12 +1,12 @@
 .link {
-    @apply text-blue-500;
+    @apply text-blue-700;
     @apply underline;
-    text-decoration-color: var(--blue-400);
+    text-decoration-color: var(--blue-600);
 }
 
 .link-hover {
-    @apply text-blue-600;
-    text-decoration-color: var(--blue-500);
+    @apply text-blue-800;
+    text-decoration-color: var(--blue-700);
 }
 
 .link:hover {
@@ -45,16 +45,16 @@
 }
 
 .link-icon {
-    @apply text-blue-500;
+    @apply text-blue-700;
 }
 
 .link-icon .icon-label-text {
     @apply underline;
-    text-decoration-color: var(--blue-400);
+    text-decoration-color: var(--blue-600);
 }
 
 .link-icon:hover {
-    @apply text-blue-600;
+    @apply text-blue-800;
 }
 
 .link-icon:hover .icon-label-text {
