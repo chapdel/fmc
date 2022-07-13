@@ -84,58 +84,6 @@ class ListOnboarding extends Component
         app(MainNavigation::class)->activeSection()->add($this->emailList->name, route('mailcoach.emailLists.onboarding', $this->emailList));
     }
 
-    public function createWelcomeMailAutomation()
-    {
-        $html = (new WelcomeMail())->build()->render();
-        $template = self::getTemplateClass()::firstOrCreate([
-            'name' => __('mailcoach - Default'),
-        ], [
-            'html' => $html,
-            'structured_html' => json_encode([
-                'templateValues' => [
-                    'html' => $html,
-                ],
-            ]),
-        ]);
-
-        $body = Blade::render(<<<'blade'
-            <p>{{ __('mailcoach - Hi') }},</p>
-            <p>{{ __('mailcoach - You are now subscribed to list ::list.name::') }}.</p>
-            <p>{{ __('mailcoach - Happy to have you!') }}!</p>
-        blade);
-
-        $subcopy = Blade::render(<<<'blade'
-            <p>{!! __('mailcoach - If you accidentally subscribed to this list, click here to <a href="::unsubscribeUrl::">unsubscribe</a>') !!}</p>
-        blade);
-
-        $automationMail = AutomationMail::create([
-            'name' => __('mailcoach - Welcome to :list', ['list' => $this->emailList->name]),
-            'template_id' => $template->id,
-            'html' => (new TemplateRenderer($template))->render(['body' => $body, 'subcopy' => $subcopy]),
-            'structured_html' => json_encode([
-                'templateValues' => [
-                    'body' => $body,
-                    'subcopy' => $subcopy,
-                ],
-            ], JSON_THROW_ON_ERROR),
-        ]);
-
-        /** @var \Spatie\Mailcoach\Domain\Automation\Models\Automation $automation */
-        $automation = self::getAutomationClass()::create();
-        $automation->name(__('mailcoach - Welcome automation for :list', ['list' => $this->emailList->name]))
-            ->to($this->emailList)
-            ->runEvery(CarbonInterval::minute())
-            ->triggerOn(new SubscribedTrigger())
-            ->chain([
-                new SendAutomationMailAction($automationMail),
-                new HaltAction(),
-            ]);
-
-        flash()->success(__('mailcoach - Automation :name succesfully created', ['name' => $automation->name]));
-
-        return redirect()->route('mailcoach.automations.actions', $automation);
-    }
-
     public function save()
     {
         $this->validate();

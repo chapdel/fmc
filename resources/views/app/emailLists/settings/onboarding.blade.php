@@ -123,22 +123,11 @@
     </div>
 
     <x-mailcoach::fieldset card :legend="__('mailcoach - Welcome Mail')">
-        @if ($automation = \Spatie\Mailcoach\Mailcoach::getAutomationClass()::whereName(__('mailcoach - Welcome automation for :list', ['list' => $emailList->name]))->first())
-            <a href="{{ route('mailcoach.automations.actions', $automation) }}">
-                <x-mailcoach::button :label="__('mailcoach - View welcome automation')"/>
-            </a>
-            @if ($automation->status === \Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus::Paused)
-                <x-mailcoach::warning>
-                    {{ __('mailcoach - The welcome automation is currently paused') }}
-                </x-mailcoach::warning>
-            @endif
-        @else
-            <div>
-                <x-mailcoach::button-secondary wire:click.prevent="createWelcomeMailAutomation"
-                                     :label="__('mailcoach - Set up Welcome Mail automation')"/>
-                <x-mailcoach::info class="mt-4 text-gray-600">{{ __('mailcoach - We\'ll use or create a template named "Default"') }}</x-mailcoach::info>
-            </div>
-        @endif
+        <x-mailcoach::help>
+            {!! __('mailcoach - Check out the <a href=":docsUrl" class="link">documentation</a> to learn how to set up a welcome automation.', [
+                'docsUrl' => '@todo: Link to docs'
+            ]) !!}
+        </x-mailcoach::help>
     </x-mailcoach::fieldset>
 
     <x-mailcoach::card buttons>
