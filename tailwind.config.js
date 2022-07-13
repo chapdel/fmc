@@ -29,7 +29,7 @@ module.exports = {
                 focus: '0 2px 2px #e5e3e1' ,
             },
             fontFamily: {
-                awesome: '"Font Awesome 6 Free"',
+                awesome: '"Font Awesome 6 Pro"',
             },
             gridTemplateColumns: {
                 auto: 'auto',

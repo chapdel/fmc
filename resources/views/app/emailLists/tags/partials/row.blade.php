@@ -10,7 +10,7 @@
     </td>
     <td>
         @if ($row->visible_in_preferences)
-            <i class="fas fa-check text-green-500"></i>
+            <x-mailcoach::rounded-icon type=success minimal size="md" icon="fas fa-check"/>
         @endif
     </td>
     <td class="td-numeric">{{ $row->subscriber_count }}</td>
