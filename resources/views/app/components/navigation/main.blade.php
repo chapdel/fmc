@@ -31,7 +31,7 @@
                     @endif
                 >
                     <a x-on:click="select" class="inline-flex items-center py-2 md:px-6 md:h-12" href="{{ $item['url'] }}">
-                        <h3 class="group-hover:text-white {{ $item['active'] ? 'text-white' : 'text-white/80' }} uppercase text-xs font-bold tracking-wider">
+                        <h3 class="group-hover:text-white {{ $item['active'] ? 'text-white' : 'text-white/80' }} uppercase md:text-xs font-bold tracking-wider">
                             {{ $item['title'] }}
                         </h3>
                     </a>

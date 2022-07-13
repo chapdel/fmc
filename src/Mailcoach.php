@@ -36,7 +36,7 @@ class Mailcoach
             $styles[] = sprintf('<script type="module" src="%s"></script>', "{$url}/@vite/client");
         }
 
-        $styles[] = "<script src=\"https://kit.fontawesome.com/fdc0d63e6d.js\" crossorigin=\"anonymous\"></script>";
+        $styles[] = "<link rel=\"stylesheet\" href=\"https://pro.fontawesome.com/releases/v5.15.4/css/all.css\" integrity=\"sha384-rqn26AG5Pj86AF4SO72RK5fyefcQ/x32DNQfChxWvbXIyXFePlEktwD18fEz+kQU\" crossorigin=\"anonymous\">";
         $styles[] = "<link rel=\"stylesheet\" href=\"{$fullAssetPath}\" type=\"text/css\">";
 
         foreach (self::availableEditorStyles() as $editor => $editorStyles) {
