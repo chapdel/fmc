@@ -9,13 +9,11 @@ document.addEventListener('alpine:init', () => {
                     return;
                 }
 
-                const closestEl = this.$el
-                    .querySelector('.navigation-dropdown')
-                    .closest('.navigation-dropdown-trigger');
+                const dropdown = this.$el.querySelector('.navigation-dropdown');
 
-                if (!closestEl) return;
+                if (!dropdown) return;
 
-                const coords = closestEl.getBoundingClientRect();
+                const coords = dropdown.closest('.navigation-dropdown-trigger').getBoundingClientRect();
 
                 this.$refs.background.style.setProperty('transform', `translate(${coords.left}px, ${coords.top}px`);
             });
