@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Shared\Jobs\Import;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Schema;
 use Spatie\SimpleExcel\SimpleExcelReader;
 
 class ImportAutomationMailsJob extends ImportJob
@@ -36,11 +37,12 @@ class ImportAutomationMailsJob extends ImportJob
         $this->tmpDisk->put('tmp/automation_mails.csv', $this->importDisk->get('import/automation_mails.csv'));
 
         $reader = SimpleExcelReader::create($this->tmpDisk->path('tmp/automation_mails.csv'));
+        $columns = Schema::getColumnListing(self::getAutomationMailTableName());
 
         foreach ($reader->getRows() as $row) {
             $automationMail = self::getAutomationMailClass()::firstOrCreate(
                 ['uuid' => $row['uuid']],
-                array_filter(Arr::except($row, ['id'])),
+                array_filter(Arr::except(Arr::only($row, $columns), ['id'])),
             );
 
             $this->automationMailMapping[$row['id']] = $automationMail->id;

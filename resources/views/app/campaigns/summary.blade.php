@@ -149,17 +149,13 @@
             <div class="col-start-2 text-sm">{{ $campaign->sent_at->toMailcoachFormat() }}</div>
         </div>
 
-
-        <h2 class="markup-h2 mt-12">{{ __('mailcoach - Performance') }}</h2>
-
         @if ($campaign->opens()->count() || $campaign->clicks()->count())
-            <div class="mt-6">
-                <livewire:mailcoach::campaign-statistics :campaign="$campaign" />
-            </div>
+            <h2 class="markup-h2 mt-12">{{ __('mailcoach - Performance') }}</h2>
+            <livewire:mailcoach::campaign-statistics :campaign="$campaign" />
         @endif
     @endif
     </x-mailcoach::card>
-    
+
     <x-mailcoach::card>
         @include('mailcoach::app.campaigns.partials.statistics')
     </x-mailcoach::card>

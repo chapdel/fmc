@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Shared\Jobs\Import;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Schema;
 use Spatie\SimpleExcel\SimpleExcelReader;
 
 class ImportTransactionalMailTemplatesJob extends ImportJob
@@ -21,6 +22,7 @@ class ImportTransactionalMailTemplatesJob extends ImportJob
         $this->tmpDisk->writeStream('tmp/transactional_mail_templates.csv', $this->importDisk->readStream('import/transactional_mail_templates.csv'));
 
         $reader = SimpleExcelReader::create($this->tmpDisk->path('tmp/transactional_mail_templates.csv'));
+        $columns = Schema::getColumnListing(self::getTransactionalMailTemplateTableName());
 
         $total = $this->getMeta('transactional_mail_templates_count', 0);
         foreach ($reader->getRows() as $index => $row) {
@@ -28,7 +30,7 @@ class ImportTransactionalMailTemplatesJob extends ImportJob
                 'name' => $row['name'],
                 'subject' => $row['subject'],
                 'type' => $row['type'],
-            ], array_filter(Arr::except($row, ['id'])));
+            ], array_filter(Arr::except(Arr::only($row, $columns), ['id'])));
 
             $this->updateJobProgress($index, $total);
         }
