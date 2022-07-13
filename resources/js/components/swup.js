@@ -10,10 +10,6 @@ window.swup = new Swup({
         window.location.origin +
         '"]:not([data-no-swup], [wire\\:click\\.prevent], [wire\\:click], [target]), a[href^="/"]:not([data-no-swup]), a[href^="#"]:not([data-no-swup])',
     animationSelector: '[class*="swup-transition-"]',
-    plugins: [
-        new SwupLivewirePlugin(),
-        new SwupA11yPlugin(),
-        new SwupPreloadPlugin(),
-        new SwupProgressPlugin(),
-    ],
+    cache: false,
+    plugins: [new SwupLivewirePlugin(), new SwupA11yPlugin(), new SwupPreloadPlugin(), new SwupProgressPlugin()],
 });

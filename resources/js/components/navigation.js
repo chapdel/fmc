@@ -9,10 +9,14 @@ document.addEventListener('alpine:init', () => {
                     return;
                 }
 
-                const coords = this.$el
+                const closestEl = this.$el
                     .querySelector('.navigation-dropdown')
-                    .closest('.navigation-dropdown-trigger')
-                    .getBoundingClientRect();
+                    .closest('.navigation-dropdown-trigger');
+
+                if (!closestEl) return;
+
+                const coords = closestEl.getBoundingClientRect();
+
                 this.$refs.background.style.setProperty('transform', `translate(${coords.left}px, ${coords.top}px`);
             });
 
