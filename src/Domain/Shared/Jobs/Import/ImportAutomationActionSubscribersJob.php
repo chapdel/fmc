@@ -3,9 +3,9 @@
 namespace Spatie\Mailcoach\Domain\Shared\Jobs\Import;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\LazyCollection;
+use Illuminate\Support\Str;
 use Spatie\SimpleExcel\SimpleExcelReader;
 
 class ImportAutomationActionSubscribersJob extends ImportJob
