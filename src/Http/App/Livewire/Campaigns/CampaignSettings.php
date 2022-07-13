@@ -53,7 +53,7 @@ class CampaignSettings extends Component
         $this->segmentsData = $this->emailLists->map(fn (EmailList $emailList) => [
             'id' => $emailList->id,
             'name' => $emailList->name,
-            'segments' => $emailList->segments->map->only('id', 'name'),
+            'segments' => $emailList->segments()->orderBy('name')->pluck('name', 'id')->toArray(),
             'createSegmentUrl' => route('mailcoach.emailLists.segments', $emailList),
         ]);
 

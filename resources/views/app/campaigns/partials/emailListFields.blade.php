@@ -3,24 +3,13 @@
             <p class="form-error">{{ $message }}</p>
         @enderror
 
-        <div class="form-field">
-            <label class="label label-required" for="email_list_id">
-                {{ __('mailcoach - List') }}
-            </label>
-            <div class="select">
-                <select name="{{ $wiremodel }}.email_list_id" id="email_list_id" wire:model="{{ $wiremodel }}.email_list_id" required>
-                    <option value="">--{{ __('mailcoach - None') }}--</option>
-                    @foreach($emailLists as $emailList)
-                        <option value="{{ $emailList->id }}">
-                            {{ $emailList->name }}
-                        </option>
-                    @endforeach
-                </select>
-                <div class="select-arrow">
-                    <i class="fas fa-angle-down"></i>
-                </div>
-            </div>
-        </div>
+        <x-mailcoach::select-field
+            :label="__('mailcoach - List')"
+            name="{{ $wiremodel }}.email_list_id"
+            wire:model="{{ $wiremodel }}.email_list_id"
+            :options="$emailLists->pluck('name', 'id')"
+            required
+        />
 
         @if($segmentable->usingCustomSegment())
             <x-mailcoach::info>
@@ -52,29 +41,21 @@
                         </div>
                         @if ($segment !== 'entire_list')
                             <div>
-                                @foreach ($segmentsData as $list)
-                                    @continue ($list['id'] !== $segmentable->email_list_id || count($list['segments']) > 0)
-                                    <div class="ml-4">
-                                        <a class="link" href="{{ $list['createSegmentUrl'] }}">{{ __('mailcoach - Create a segment first') }}</a>
-                                    </div>
-                                @endforeach
-                                @php($list = \Illuminate\Support\Arr::first($segmentsData, fn(array $list) => $list['id'] === $segmentable->email_list_id, $segmentsData[0]))
+                                @php($list = \Illuminate\Support\Arr::first($segmentsData, fn(array $list) => (int) $list['id'] === (int) $segmentable->email_list_id, $segmentsData[0]))
                                 @if (count($list['segments']))
                                     <div class="ml-4 -my-2">
-                                        <div class="select">
-                                            <select name="{{ $wiremodel }}.segment_id" wire:model="{{ $wiremodel }}.segment_id">
-                                                <option value="">Select a segment</option>
-                                                @foreach ($list['segments'] as $segment)
-                                                    <option value="{{ $segment['id'] }}">{{ $segment['name'] }}</option>
-                                                @endforeach
-                                            </select>
-                                            <div class="select-arrow">
-                                                <i class="fas fa-angle-down"></i>
-                                            </div>
-                                        </div>
+                                        <x-mailcoach::select-field
+                                            name="{{ $wiremodel }}.segment_id"
+                                            wire:model="{{ $wiremodel }}.segment_id"
+                                            :options="$list['segments']"
+                                        />
                                         @error($wiremodel .'.segment_id')
                                             <p class="form-error">{{ $message }}</p>
                                         @enderror
+                                    </div>
+                                @else
+                                    <div class="ml-4">
+                                        <a class="link" href="{{ $list['createSegmentUrl'] }}">{{ __('mailcoach - Create a segment first') }}</a>
                                     </div>
                                 @endif
                             </div>

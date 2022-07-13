@@ -15,6 +15,10 @@
     @apply no-underline !important;
 }
 
+.tagify--select .tagify__tag {
+    @apply bg-transparent !important;
+}
+
 .tagify__tag > div {
     @apply p-0 !important;
 }
