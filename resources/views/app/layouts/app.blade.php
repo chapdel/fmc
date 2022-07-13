@@ -30,34 +30,36 @@
     <body class="flex flex-col min-h-screen text-gray-800 bg-indigo-900/5" x-data="{ confirmText: '', onConfirm: null }">
         <script>/**/</script><!-- Empty script to prevent FOUC in Firefox -->
 
-        <header class="flex-none sticky top-0 z-20 w-full max-w-layout mx-auto px-0 md:px-16">
-            <x-mailcoach::main-navigation />
-        </header>
+        <main id="swup">
+            <header class="flex-none sticky top-0 z-20 w-full max-w-layout mx-auto px-0 md:px-16">
+                <x-mailcoach::main-navigation />
+            </header>
 
-        <main id="swup" class="md:pt-10 px-6 md:px-16 relative flex-grow z-1 mx-auto w-full max-w-layout md:flex md:items-stretch md:gap-10">
-            @isset($nav)
-                <nav class="-mt-2 mb-4 md:my-0 flex-none md:w-[16rem]">
-                    {{ $nav }}
-                </nav>
-            @endisset
-
-            <section class="flex-grow min-w-0 flex flex-col">
-                @unless(isset($hideBreadcrumbs) && $hideBreadcrumbs)
-                    <nav class="mt-6 md:mt-0 flex-none">
-                        @include('mailcoach::app.layouts.partials.breadcrumbs')
+            <div class="md:pt-10 px-6 md:px-16 relative flex-grow z-1 mx-auto w-full max-w-layout md:flex md:items-stretch md:gap-10">
+                @isset($nav)
+                    <nav class="-mt-2 mb-4 md:my-0 flex-none md:w-[16rem]">
+                        {{ $nav }}
                     </nav>
-                @endunless
+                @endisset
 
-                <div class="flex-none flex">
-                    <h1 class="mt-1 markup-h1 truncate">
-                        {{ $title ?? '' }}
-                    </h1>
-                </div>
+                <section class="flex-grow min-w-0 flex flex-col">
+                    @unless(isset($hideBreadcrumbs) && $hideBreadcrumbs)
+                        <nav class="mt-6 md:mt-0 flex-none">
+                            @include('mailcoach::app.layouts.partials.breadcrumbs')
+                        </nav>
+                    @endunless
 
-                <div>
-                   {{ $slot }}
-                </div>
-            </section>
+                    <div class="flex-none flex">
+                        <h1 class="mt-1 markup-h1 truncate">
+                            {{ $title ?? '' }}
+                        </h1>
+                    </div>
+
+                    <div>
+                       {{ $slot }}
+                    </div>
+                </section>
+            </div>
 
             <x-mailcoach::modal :title="__('mailcoach - Confirm')" name="confirm">
                 <span x-text="confirmText"></span>
