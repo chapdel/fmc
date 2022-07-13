@@ -9,6 +9,7 @@
     <x-mailcoach::modal
         x-effect="
             const open = $store.modals.isOpen('{{ $name }}');
+            if (! document.getElementById('{{ $name }}-iframe')) return;
             document.getElementById('{{ $name }}-iframe').src = 'data:text/html;base64,' + document.getElementById('preview-content').value;
         "
         :title="$title"
