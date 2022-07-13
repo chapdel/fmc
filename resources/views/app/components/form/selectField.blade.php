@@ -5,6 +5,7 @@
     'placeholder' => null,
     'options' => [],
     'value' => null,
+    'maxItems' => 100,
 ])
 <div
     wire:ignore
@@ -36,8 +37,10 @@
                         tagTextProp: 'label',
                         enforceWhitelist: true,
                         mode: 'select',
+                        placeholder: '{{ $placeholder }}',
                         dropdown: {
                             mapValueTo: 'label',
+                            maxItems: {{ $maxItems }},
                         }
                     });
                 }
@@ -67,7 +70,7 @@
         type="text"
         id="{{ $name }}"
         {{ $required ? 'required' : '' }}
-        {!! $attributes->except(['value', 'tags', 'required', 'multiple', 'name', 'allowCreate']) ?? '' !!}
+        {!! $attributes->except(['value', 'options', 'required', 'name', 'maxItems']) ?? '' !!}
         class="input"
     />
     <input type="hidden" name="{{ $name }}" :value="value">
