@@ -21,7 +21,7 @@
             @foreach (app(\Spatie\Mailcoach\MainNavigation::class)->tree() as $index => $item)
                 <div
                     class="navigation-dropdown-trigger group"
-                    @if(count($item['children']) && $item['children'][0]['url'] !== url()->current())
+                    @if(count($item['children']) > 1)
                         x-on:mouseenter="open"
                         x-on:mouseleave="close"
                         x-on:touchstart="open"
@@ -35,7 +35,7 @@
                             {{ $item['title'] }}
                         </h3>
                     </a>
-                    @if(count($item['children']) && $item['children'][0]['url'] !== url()->current())
+                    @if(count($item['children']) > 1)
                         <!-- md:block md:opacity-100 -->
                         <div class="navigation-dropdown md:hidden md:opacity-0">
                             @foreach ($item['children'] as $child)
