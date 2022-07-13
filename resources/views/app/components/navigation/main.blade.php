@@ -35,7 +35,7 @@
                             {{ $item['title'] }}
                         </h3>
                     </a>
-                    @if (count($item['children']) && $item['title'] !== __('mailcoach - Audience'))
+                    @if(count($item['children']) && $item['children'][0]['url'] !== url()->current())
                         <!-- md:block md:opacity-100 -->
                         <div class="navigation-dropdown md:hidden md:opacity-0">
                             @foreach ($item['children'] as $child)
