@@ -46,6 +46,8 @@
                 </div>
             @endforeach
 
+            @include('mailcoach::app.layouts.partials.afterLastMenuItem')
+
             <div class="md:ml-auto">
                 @include('mailcoach::app.layouts.partials.headerRight')
             </div>
