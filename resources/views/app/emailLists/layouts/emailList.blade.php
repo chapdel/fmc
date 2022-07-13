@@ -30,11 +30,9 @@
                 <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.onboarding', $emailList)">
                     {{ __('mailcoach - Onboarding') }}
                 </x-mailcoach::navigation-item>
-                @if(count(config('mail.mailers')) > 1)
-                    <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.mailers', $emailList)">
-                        {{ __('mailcoach - Mailers') }}
-                    </x-mailcoach::navigation-item>
-                @endif
+                <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.mailers', $emailList)">
+                    {{ __('mailcoach - Mailers') }}
+                </x-mailcoach::navigation-item>
             </x-mailcoach::navigation-group>
 
             @include('mailcoach::app.emailLists.layouts.partials.afterLastTab')
