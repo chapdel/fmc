@@ -7,12 +7,15 @@
     'value' => null,
     'maxItems' => 100,
 ])
+
+@php($wireModelAttribute = $attributes->first(fn ($attribute) => str_starts_with($attribute, 'wire:model')))
+
 <div
     wire:ignore
     x-data="{
         multiple: true,
-        @if ($attributes->has('wire:model'))
-        value: @entangle($attributes->get('wire:model')),
+        @if ($wireModelAttribute)
+        value: @entangle($wireModelAttribute),
         @else
         value: @js($value),
         @endif
