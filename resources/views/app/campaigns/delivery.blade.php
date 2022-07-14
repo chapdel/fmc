@@ -81,14 +81,16 @@
             {{ $campaign->subject ?? __('mailcoach - Subject is empty') }}
         </dd>
 
-        <dt>
-            <x-mailcoach::health-label warning :test="$campaign->emailList->campaign_mailer !== 'log'" :label="__('mailcoach - Mailer')"/>
-        </dt>
-        <dd>
-            <div>
-                {{ $campaign->emailList->campaign_mailer }} <a href="{{ route('mailcoach.emailLists.mailers', $campaign->emailList) }}" class="link">{{ strtolower(__('mailcoach - Edit')) }}</a>
-            </div>
-        </dd>
+        @if ($campaign->emailList)
+            <dt>
+                <x-mailcoach::health-label warning :test="$campaign->emailList->campaign_mailer !== 'log'" :label="__('mailcoach - Mailer')"/>
+            </dt>
+            <dd>
+                <div>
+                    {{ $campaign->emailList->campaign_mailer }} <a href="{{ route('mailcoach.emailLists.mailers', $campaign->emailList) }}" class="link">{{ strtolower(__('mailcoach - Edit')) }}</a>
+                </div>
+            </dd>
+        @endif
 
         <dt>
             @if($campaign->html && $campaign->hasValidHtml())

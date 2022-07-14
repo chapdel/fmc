@@ -19,6 +19,10 @@
     @apply pl-0;
 }
 
+.tagify--select .tagify__tag__removeBtn {
+    @apply hidden;
+}
+
 .tagify--select .tagify__tag {
     @apply bg-transparent !important;
 }
