@@ -18,14 +18,14 @@
         @include('mailcoach::app.campaigns.partials.emailListFields', ['segmentable' => $campaign, 'wiremodel' => 'campaign'])
     @else
         <x-mailcoach::card>
-            Sent to list "{{ $campaign->emailList->name }}"
+            Sent to list "{{ $campaign->emailList?->name ?? __('mailcoach - deleted list') }}"
 
             @if($campaign->tagSegment)
                 Used segment {{ $campaign->tagSegment->name }}
             @endif
         </x-mailcoach::card>
     @endif
-   
+
 
     <x-mailcoach::fieldset card :legend="__('mailcoach - Tracking')">
         <div class="form-field">
