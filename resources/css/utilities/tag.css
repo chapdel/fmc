@@ -19,6 +19,15 @@
     @apply pl-0;
 }
 
+.tagify--select:after {
+    content: '\f105' !important;
+    @apply !font-awesome;
+    @apply !right-2;
+    @apply !cursor-pointer;
+    @apply !opacity-100;
+    @apply text-blue-500;
+}
+
 .tagify--select .tagify__tag__removeBtn {
     @apply hidden;
 }
