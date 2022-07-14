@@ -195,12 +195,12 @@ class ListSummary extends Component
 
     public function growthRate(): float
     {
-        if ($this->startSubscriptionsCount === 0) {
-            return 0;
-        }
+        $start = $this->startSubscriptionsCount > 0
+            ? $this->startSubscriptionsCount
+            : 1;
 
         // Percent Change = 100 × (Present or Future Value – Past or Present Value) / Past or Present Value
-        return round(100 * ($this->totalSubscriptionsCount - $this->startSubscriptionsCount) / $this->startSubscriptionsCount, 2);
+        return round(100 * ($this->totalSubscriptionsCount - $start) / $start, 2);
     }
 
     public function churnRate(): float
