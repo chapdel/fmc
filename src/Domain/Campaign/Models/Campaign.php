@@ -23,6 +23,7 @@ use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Spatie\Mailcoach\Domain\Shared\Support\CalculateStatisticsLock;
+use Spatie\MailcoachUi\Models\Mailer;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 class Campaign extends Sendable implements Feedable
@@ -143,6 +144,35 @@ class Campaign extends Sendable implements Feedable
         return $this
             ->hasManyThrough(self::getSendFeedbackItemClass(), self::getSendClass(), 'campaign_id')
             ->where('type', SendFeedbackType::Complaint);
+    }
+
+    /**
+     * Returns a tuple with open & click tracking values
+     * @return array
+     */
+    public function tracking(): array
+    {
+        $mailer = $this->getMailer();
+
+        if (! $this->emailList) {
+            return [null, null];
+        }
+
+        return [
+            $mailer?->get('open_tracking_enabled', false),
+            $mailer?->get('click_tracking_enabled', false)
+        ];
+    }
+
+    public function getMailer(): ?Mailer
+    {
+        $mailerClass = config('mailcoach-ui.models.mailer');
+
+        if (! class_exists($mailerClass)) {
+            return null;
+        }
+
+        return $mailerClass::all()->first(fn ($mailerModel) => $mailerModel->configName() === $this->emailList->campaign_mailer);
     }
 
     public function isReady(): bool

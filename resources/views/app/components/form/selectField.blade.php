@@ -13,7 +13,6 @@
 <div
     wire:ignore
     x-data="{
-        multiple: true,
         @if ($wireModelAttribute)
         value: @entangle($wireModelAttribute),
         @else
@@ -69,7 +68,6 @@
     <input
         x-ref="select"
         x-model="value"
-        :multiple="multiple"
         type="text"
         id="{{ $name }}"
         {{ $required ? 'required' : '' }}

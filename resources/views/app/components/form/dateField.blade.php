@@ -15,15 +15,25 @@
     x-data="{
         value: '{{ $value }}',
         init() {
-            let picker = flatpickr(this.$refs.picker, {
-                dateFormat: 'Y-m-d',
-                defaultDate: this.value,
-                @if($minDate) minDate: '{{ $minDate }}', @endif
-                @if($maxDate) maxDate: '{{ $maxDate }}', @endif
-                position: '{{ $position }}',
-            })
+            let picker;
 
-            this.$watch('value', () => picker.setDate(this.value))
+            let refreshPicker = () => {
+                if (picker) {
+                    picker.destroy();
+                }
+
+                picker = flatpickr(this.$refs.picker, {
+                    dateFormat: 'Y-m-d',
+                    defaultDate: this.value,
+                    @if($minDate) minDate: '{{ $minDate }}', @endif
+                    @if($maxDate) maxDate: '{{ $maxDate }}', @endif
+                    position: '{{ $position }}',
+                })
+            }
+
+            refreshPicker()
+
+            this.$watch('value', () => refreshPicker())
         },
     }"
     class="form-field {{ $class }}"
@@ -39,6 +49,7 @@
         name="{{ $name }}"
         id="{{ $name }}"
         class="input max-w-xs {{ $inputClass }}"
+        style="opacity: 1;"
         value="{{ old($name, $value) }}"
         placeholder="{{ $placeholder }}"
         {{ $required ? 'required' : '' }}

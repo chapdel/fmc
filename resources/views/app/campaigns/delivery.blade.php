@@ -155,6 +155,7 @@
         </dt>
 
         <dd>
+            @php($tags = [])
             @if (count($links))
                 <p class="markup-code">
                     {{ __("mailcoach - The following links were found in your campaign, make sure they are valid.") }}
@@ -163,7 +164,7 @@
                     @foreach ($links as $url)
                         <li>
                             <a target="_blank" class="link" href="{{ $url }}">{{ $url }}</a><br>
-                            <span class="mb-2 tag-neutral">{{ \Spatie\Mailcoach\Domain\Shared\Support\LinkHasher::hash($campaign, $url) }}</span>
+                            @php($tags[] = \Spatie\Mailcoach\Domain\Shared\Support\LinkHasher::hash($campaign, $url))
                         </li>
                     @endforeach
                 </ul>
@@ -174,24 +175,35 @@
             @endif
         </dd>
 
-        <dt>
-            <span class="inline-flex gap-2 items-center md:flex-row-reverse">
-                <x-mailcoach::rounded-icon type="neutral" icon="fas fa-tag"/>
-                <span>
-                    {{ __('mailcoach - Tags') }}
+        @php([$openTracking, $clickTracking] = $campaign->tracking())
+        @if ($openTracking || $clickTracking || (is_null($openTracking) && is_null($clickTracking)))
+            <dt>
+                <span class="inline-flex gap-2 items-center md:flex-row-reverse">
+                    <x-mailcoach::rounded-icon type="neutral" icon="fas fa-tag"/>
+                    <span>
+                        {{ __('mailcoach - Tags') }}
+                    </span>
                 </span>
-            </span>
-        </dt>
+            </dt>
 
-        <dd>
-            <p class="markup-code">
-                {{ __("mailcoach - The following tags will be added to subscribers when they open or click the campaign:") }}
-            </p>
-            <ul class="flex space-x-2">
-                <li class="tag">{{ "campaign-{$campaign->id}-opened" }}</li>
-                <li class="tag">{{ "campaign-{$campaign->id}-clicked" }}</li>
-            </ul>
-        </dd>
+            <dd>
+                <p class="markup-code">
+                    {{ __("mailcoach - The following tags will be added to subscribers when they open or click the campaign:") }}
+                </p>
+                @if (is_null($openTracking) && is_null($clickTracking))
+                    <p class="markup-code">
+                        {!! __('mailcoach - Open & Click tracking are managed by your email provider, this campaign uses the <strong>:mailer</strong> mailer.', ['mailer' => $campaign->emailList->campaign_mailer]) !!}
+                    </p>
+                @endif
+                <ul class="flex space-x-2">
+                    <li class="tag">{{ "campaign-{$campaign->id}-opened" }}</li>
+                    <li class="tag">{{ "campaign-{$campaign->id}-clicked" }}</li>
+                    @foreach ($tags as $tag)
+                        <li class="tag">{{ $tag }}</li>
+                    @endforeach
+                </ul>
+            </dd>
+        @endif
 
         @if ($campaign->isReady())
             <dt>

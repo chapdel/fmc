@@ -302,6 +302,7 @@
     "mailcoach - On a date": "On a date",
     "mailcoach - Onboarding": "Onboarding",
     "mailcoach - Open & Click tracking are managed by your email provider, this campaign uses the <a href=\":mailerLink\"><strong>:mailer</strong></a> mailer.": "Open & Click tracking are managed by your email provider, this campaign uses the <a href=\":mailerLink\"><strong>:mailer</strong></a> mailer.",
+    "mailcoach - Open & Click tracking are managed by your email provider, this campaign uses the <strong>:mailer</strong> mailer.": "Open & Click tracking are managed by your email provider, this campaign uses the <strong>:mailer</strong> mailer.",
     "mailcoach - Open & Click tracking are managed by your email provider.": "Open & Click tracking are managed by your email provider.",
     "mailcoach - Open Rate": "Open Rate",
     "mailcoach - Open tracking disabled": "Open tracking disabled",

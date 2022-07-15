@@ -1,7 +1,7 @@
 <x-mailcoach::card>
     <x-mailcoach::help>
         <div class="markup-lists">
-        <p>Mailcoach can import (almost) all data to be used in a different Mailcoach instance (either self-hosted or hosted on mailcoach.cloud).</p>
+        <p>Mailcoach can import (almost) all data to be used in a different Mailcoach instance.</p>
         <p>The import will <strong class="font-semibold">not import</strong> the following data:</p>
         <ul>
             <li>Users</li>
@@ -17,7 +17,7 @@
         <p>Imports can always be reuploaded if something goes wrong.</p>
         </div>
     </x-mailcoach::help>
-    
+
 
     @if (($steps = Cache::get('import-status', [])) || $importStarted)
         <x-mailcoach::fieldset class="ml-2">

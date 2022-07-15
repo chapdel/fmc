@@ -20,7 +20,7 @@
         @empty
             <p class="flex items-center gap-2">
                 <x-mailcoach::rounded-icon size="md" type="info" icon="fas fa-sync fa-spin" />
-                <strong class="font-semibold">Export started...</strong> 
+                <strong class="font-semibold">Export started...</strong>
             </p>
         @endforelse
         </x-mailcoach::fieldset>
@@ -36,7 +36,7 @@
         <h1 class="markup-h2">Choose which data you want to export</h1>
 
         <x-mailcoach::help class="mb-6">
-            <p>Mailcoach can export (almost) all data to be used in a different Mailcoach instance (either self-hosted or hosted on mailcoach.cloud).</p>
+            <p>Mailcoach can export (almost) all data to be used in a different Mailcoach instance.</p>
             <p>The exporter will <strong>not export</strong> the following data:</p>
             <ul class="list-disc ml-4">
                 <li>Users</li>
@@ -48,11 +48,11 @@
 
         <div class="flex items-baseline gap-2 mb-2">
             <h2 class="form-legend">
-                Email lists 
+                Email lists
             </h2>
             <a class="text-blue-500 text-sm underline" href="#" wire:click.prevent="selectAllEmailLists">All</a>
         </div>
-        
+
         <p class="mb-3">This includes subscribers, tags & segments</p>
         <div class="flex flex-col gap-4 mb-6">
             @foreach($emailLists as $id => $name)
@@ -67,8 +67,8 @@
 
         <div class="flex items-baseline gap-2 mb-2">
             <h2 class="form-legend">
-                Campaigns 
-            </h2>    
+                Campaigns
+            </h2>
             <a class="text-blue-500 text-sm underline" href="#" wire:click.prevent="selectAllCampaigns">All</a>
         </div>
         <div class="flex flex-col gap-4 mb-6">
@@ -86,7 +86,7 @@
 
         <div class="flex items-baseline gap-2 mb-2">
             <h2 class="form-legend">
-                Templates 
+                Templates
             </h2>
             <a class="text-blue-500 text-sm underline" href="#" wire:click.prevent="selectAllTemplates">All</a>
         </div>
@@ -105,7 +105,7 @@
 
         <div class="flex items-baseline gap-2 mb-2">
             <h2 class="form-legend">
-                Automations 
+                Automations
             </h2>
             <a class="text-blue-500 text-sm underline" href="#" wire:click.prevent="selectAllAutomations">All</a>
         </div>
