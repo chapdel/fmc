@@ -37,7 +37,6 @@
                         originalInputValueFormat: valuesArr => valuesArr.map(item => item.value),
                         whitelist: this.options,
                         tagTextProp: 'label',
-                        enforceWhitelist: true,
                         mode: 'select',
                         placeholder: '{{ $placeholder }}',
                         dropdown: {
