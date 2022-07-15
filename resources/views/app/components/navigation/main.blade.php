@@ -2,13 +2,10 @@
     <div x-ref="background" class="navigation-dropdown-back"></div>
 
     <div class="px-6 flex flex-col md:flex-row md:items-center gap-x-4 gap-y-6">
-        <div class="flex">
-            <a href="{{ route(config('mailcoach.redirect_home')) }}">
-                <span
-                    class="group w-8 h-8 flex items-center justify-center bg-gradient-to-t from-indigo-900 to-blue-900 shadow-md text-white rounded-full">
-                    <span class="flex items-center justify-center w-5 h-5 transform group-hover:scale-90 transition-transform duration-150">
-                        @include('mailcoach::app.layouts.partials.logoSvg')
-                    </span>
+        <div class="flex items-center">
+            <a href="{{ route(config('mailcoach.redirect_home')) }}" class="flex items-center group">
+                <span class="flex w-10 h-6 text-white transform group-hover:scale-90 transition-transform duration-150">
+                    @include('mailcoach::app.layouts.partials.logoSvg')
                 </span>
             </a>
 

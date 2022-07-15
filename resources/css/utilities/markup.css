@@ -1,18 +1,21 @@
 .markup-h1 {
     @apply font-extrabold;
-    @apply text-5xl;
+    @apply text-4xl;
+    @apply md:text-5xl;
     @apply pb-8;
 }
 
 .markup-h2 {
     @apply font-extrabold;
-    @apply text-3xl;
+    @apply text-xl;
+    @apply md:text-3xl;
     @apply mb-10;
 }
 
 .markup-h3 {
     @apply font-bold;
-    @apply text-2xl;
+    @apply text-lg;
+    @apply md:text-2xl;
 }
 
 .markup-h4 {

@@ -30,12 +30,12 @@
     <body class="flex flex-col min-h-screen text-gray-800 bg-indigo-900/5" x-data="{ confirmText: '', onConfirm: null }">
         <script>/**/</script><!-- Empty script to prevent FOUC in Firefox -->
 
-        <main id="swup">
+        <div id="swup">
             <header class="flex-none sticky top-0 z-20 w-full max-w-layout mx-auto px-0 md:px-16">
                 <x-mailcoach::main-navigation />
             </header>
 
-            <div class="md:pt-10 px-6 md:px-16 relative flex-grow z-1 mx-auto w-full max-w-layout md:flex md:items-stretch md:gap-10">
+            <main class="md:pt-10 px-6 md:px-16 relative flex-grow z-1 mx-auto w-full max-w-layout md:flex md:items-stretch md:gap-10">
                 @isset($nav)
                     <nav class="-mt-2 mb-4 md:my-0 flex-none md:w-[16rem]">
                         {{ $nav }}
@@ -59,7 +59,7 @@
                        {{ $slot }}
                     </div>
                 </section>
-            </div>
+            </main>
 
             <x-mailcoach::modal :title="__('mailcoach - Confirm')" name="confirm">
                 <span x-text="confirmText"></span>
@@ -80,7 +80,7 @@
             </x-mailcoach::modal>
 
             @stack('modals')
-        </main>
+        </div>
 
         <footer class="mt-10">
             @include('mailcoach::app.layouts.partials.footer')
