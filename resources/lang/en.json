@@ -272,6 +272,7 @@
     "mailcoach - Newsletter template": "Newsletter template",
     "mailcoach - No automated mails yet.": "No automated mails yet.",
     "mailcoach - No automations found.": "No automations found.",
+    "mailcoach - No automations yet. A welcome automation is a good start!": "No automations yet. A welcome automation is a good start!",
     "mailcoach - No campaigns found.": "No campaigns found.",
     "mailcoach - No campaigns yet, but you‘ll need a list first, go <a href=\":emailListsLink\">create one</a>!": "No campaigns yet, but you‘ll need a list first, go <a href=\":emailListsLink\">create one</a>!",
     "mailcoach - No campaigns yet. Go write something!": "No campaigns yet. Go write something!",

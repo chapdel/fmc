@@ -1,6 +1,4 @@
-@if($this->filter['search'] ?? '')
-    @php($emptyText = __('mailcoach - No campaigns found.'))
-@elseif ($totalListsCount ?? 0)
+@if ($totalListsCount ?? 0)
     @php($emptyText = __('mailcoach - No campaigns yet. Go write something!'))
 @else
     @php($emptyText = __('mailcoach - No campaigns yet, but you‘ll need a list first, go <a href=":emailListsLink">create one</a>!', ['emailListsLink' => route('mailcoach.emailLists')]))
@@ -27,6 +25,7 @@
     ]"
     rowPartial="mailcoach::app.campaigns.partials.row"
     :emptyText="$emptyText"
+    :noResultsText="__('mailcoach - No campaigns found.')"
 >
     @slot('actions')
         @can('create', \Spatie\Mailcoach\Mailcoach::getCampaignClass())
