@@ -87,7 +87,7 @@
             </dt>
             <dd>
                 <div>
-                    {{ $campaign->emailList->campaign_mailer }} <a href="{{ route('mailcoach.emailLists.mailers', $campaign->emailList) }}" class="link">{{ strtolower(__('mailcoach - Edit')) }}</a>
+                    {{ $campaign->getMailer()?->name ?? $campaign->emailList->campaign_mailer }} <a href="{{ route('mailcoach.emailLists.mailers', $campaign->emailList) }}" class="link">{{ strtolower(__('mailcoach - Edit')) }}</a>
                 </div>
             </dd>
         @endif
