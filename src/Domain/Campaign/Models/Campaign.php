@@ -160,7 +160,7 @@ class Campaign extends Sendable implements Feedable
 
         return [
             $mailer?->get('open_tracking_enabled', false),
-            $mailer?->get('click_tracking_enabled', false)
+            $mailer?->get('click_tracking_enabled', false),
         ];
     }
 
