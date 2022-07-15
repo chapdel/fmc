@@ -103,6 +103,7 @@ document.addEventListener('alpine:init', () => {
                         y: {
                             ticks: {
                                 color: 'rgba(100, 116, 139, 1)',
+                                precision: 0,
                             },
                             grid: {
                                 display: false,
