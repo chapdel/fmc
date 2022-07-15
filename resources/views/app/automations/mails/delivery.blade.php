@@ -72,9 +72,11 @@
 
                 <x-mailcoach::preview-modal :title="__('mailcoach - Preview') . ' - ' . $mail->subject" :html="$mail->html" />
 
-                <x-mailcoach::modal :title="__('mailcoach - Send Test')" name="send-test">
-                    @include('mailcoach::app.automations.mails.partials.test')
+                <x-mailcoach::modal name="send-test">
+                    <livewire:mailcoach::send-test :model="$mail" />
                 </x-mailcoach::modal>
+                <div class="mr-auto">
+                </div>
             @endif
         </dd>
 

@@ -21,7 +21,7 @@ class Automations extends DataTable
         ]);
 
         $this->dispatchBrowserEvent('notify', [
-            'content' => __('mailcoach - Automation :automation was :status.', ['automation' => $automation->name, 'status' => $automation->status]),
+            'content' => __('mailcoach - Automation :automation was :status.', ['automation' => $automation->name, 'status' => $automation->status->value]),
         ]);
     }
 
