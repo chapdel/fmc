@@ -17,7 +17,7 @@ it('can create a list', function () {
         ->call('saveList')
         ->assertRedirect(route('mailcoach.emailLists.general-settings', EmailList::first()));
 
-    test()->assertDatabaseHas(static::getEmailListTableName(), ['name' => 'My list', 'requires_confirmation' => true]);
+    test()->assertDatabaseHas(static::getEmailListTableName(), ['name' => 'My list', 'requires_confirmation' => true, 'campaigns_feed_enabled' => false]);
 });
 
 it('sets mailers based on the mailcoach mailer config', function () {

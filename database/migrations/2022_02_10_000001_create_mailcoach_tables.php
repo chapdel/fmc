@@ -13,7 +13,7 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid')->index();
             $table->string('name');
-            $table->string('campaigns_feed_enabled')->default(true);
+            $table->string('campaigns_feed_enabled')->default(false);
 
             $table->string('default_from_email')->nullable();
             $table->string('default_from_name')->nullable();
