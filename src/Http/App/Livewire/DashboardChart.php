@@ -28,7 +28,18 @@ class DashboardChart extends Component
 
     public function mount(): void
     {
-        $this->start ??= now()->subMonths(2)->format('Y-m-d');
+        if (! isset($this->start)) {
+            $firstSubscriber = self::getSubscriberClass()::subscribed()->orderBy('subscribed_at', 'asc')->first();
+
+            if (! $firstSubscriber || $firstSubscriber->subscribed_at < now()->subMonths(2)) {
+                $this->start = now()->subMonths(2)->format('Y-m-d');
+            } elseif ($firstSubscriber->subscribed_at > now()->subWeeks(2)) {
+                $this->start = now()->subWeeks(2)->format('Y-m-d');
+            } else {
+                $this->start = $firstSubscriber->subscribed_at->format('Y-m-d');
+            }
+        }
+
         $this->end ??= now()->format('Y-m-d');
     }
 
