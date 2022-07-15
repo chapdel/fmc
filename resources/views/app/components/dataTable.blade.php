@@ -51,7 +51,7 @@
     @endif
 
     <div class="card p-0 pb-24 md:pb-0 overflow-x-auto md:overflow-visible">
-            <div wire:loading.delay wire:target="loadRows">
+            <div wire:loading.delay.longer wire:target="loadRows">
                 <table class="table table-fixed w-full">
                     <thead>
                         <tr>
@@ -80,7 +80,7 @@
                 </table>
             </div>
 
-            <div wire:loading.delay.remove wire:target="loadRows">
+            <div wire:loading.delay.longer.remove wire:target="loadRows">
                 <table class="table table-fixed w-full">
                     <thead>
                         <tr>
