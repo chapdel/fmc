@@ -121,7 +121,8 @@
     @apply z-40;
     @apply border;
     @apply border-indigo-900/10;
-    transition: left 0.3s, opacity 0.1s, transform 0.2s;
+    /* transition: left 0.3s, opacity 0.1s, transform 0.2s; */
+    transition: opacity 0.1s; /* opacity for now to prevent vertical glitches */
 }
 
 .navigation-dropdown-back:before {

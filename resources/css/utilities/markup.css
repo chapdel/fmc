@@ -44,6 +44,10 @@
     @apply mb-4;
 }
 
+.markup h3:not(:first-child) {
+    @apply mt-12;
+}
+
 .markup p,
 .markup ul,
 .markup ol {
@@ -67,7 +71,7 @@
 .markup-lists ul li:before {
     @apply absolute;
     @apply left-0;
-    @apply -ml-6;
+    @apply -ml-5;
     @apply text-green-500;
     content: '•';
 }
@@ -96,9 +100,9 @@ code.markup-code,
 .markup-code code {
     @apply inline-block;
     @apply px-1;
-    @apply bg-gray-900/10;
+    @apply bg-gray-500/5;
     @apply rounded-sm;
-    @apply text-gray-600;
+    @apply text-gray-700;
 }
 
 code.markup-code-block,
