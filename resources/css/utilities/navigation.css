@@ -58,6 +58,7 @@
 
 .navigation-link {
     @apply block;
+    @apply text-left;
     @apply md:py-2;
     @apply md:px-4;
     @apply text-blue-200;

@@ -68,7 +68,8 @@
     @apply py-2;
     @apply px-4;
     @apply text-sm;
-    @apply text-black;
+    @apply text-gray-800;
+    @apply font-normal;
     @apply hover:bg-gradient-to-r;
     @apply hover:from-blue-50;
     @apply hover:to-blue-100/70;
