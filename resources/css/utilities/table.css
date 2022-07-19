@@ -46,10 +46,6 @@
     @apply leading-snug;
 }
 
-.tr-h-double td {
-    height: 4rem;
-}
-
 .table thead .th-numeric,
 .table tbody .td-numeric {
     @apply text-right;

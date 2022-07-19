@@ -1,5 +1,5 @@
 @php($mail ??= $row)
-<tr class="tr-h-double">
+<tr>
     <td class="markup-links">
         <a href="{{ route('mailcoach.automations.mails.summary', $mail) }}">
             {{ $mail->name }}
