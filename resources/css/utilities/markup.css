@@ -72,12 +72,16 @@
     @apply absolute;
     @apply left-0;
     @apply -ml-5;
-    @apply text-green-500;
+    @apply text-green-600;
     content: '•';
 }
 
+.markup-lists ul ul {
+    @apply pl-5;
+}
+
 .markup-lists ul ul li:before {
-    @apply text-green-300;
+    @apply text-green-400;
 }
 
 .markup-links a {
@@ -103,12 +107,15 @@ code.markup-code,
     @apply bg-gray-500/5;
     @apply rounded-sm;
     @apply text-gray-700;
+    word-break: break-all;
 }
 
+.markup-code pre code,
 code.markup-code-block,
 .markup-code-block code {
     @apply text-sm;
     @apply block;
+    @apply my-6;
     @apply px-6;
     @apply py-4;
     @apply rounded;
