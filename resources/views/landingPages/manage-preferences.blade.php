@@ -43,7 +43,7 @@
             </div>
 
             @csrf
-            <button class="mt-4 button bg-red-400 shadow" id="confirmationButton" type="submit">{{__('mailcoach - Save') }}</button>
+            <x-mailcoach::button class="mt-4" type="submit" :label="__('mailcoach - Save')" />
         </form>
     </div>
 @endsection
