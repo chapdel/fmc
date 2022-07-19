@@ -9,5 +9,5 @@
 @elseif ($status === \Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus::Sending)
     <x-mailcoach::rounded-icon minimal size="md" title="{{ __('mailcoach - Sending') }}" type="info" icon="far fa-sync fa-spin"/>
 @elseif ($status === \Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus::Cancelled)
-    <x-mailcoach::rounded-icon minimal size="md" title="{{ __('mailcoach - Cancelled') }}" type="error" icon="far ban"/>
+    <x-mailcoach::rounded-icon minimal size="md" title="{{ __('mailcoach - Cancelled') }}" type="error" icon="far fa-ban"/>
 @endif
