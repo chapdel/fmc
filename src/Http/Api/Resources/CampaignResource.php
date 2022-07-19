@@ -10,10 +10,10 @@ class CampaignResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
             'uuid' => $this->uuid,
+            'name' => $this->name,
 
-            'email_list_id' => (int)$this->email_list_id,
+            'email_list_uuid' => $this->emailList->uuid,
             'email_list' => new EmailListResource($this->whenLoaded('emailList')),
 
             'segment' => new SegmentResource($this->whenLoaded('segment')),

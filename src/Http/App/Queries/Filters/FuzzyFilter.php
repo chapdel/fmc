@@ -24,10 +24,12 @@ class FuzzyFilter implements Filter
     {
         $values = Arr::wrap($values);
 
-        $query->where(function (Builder $query) use ($values) {
+        $query->where(function (Builder $builder) use ($values, $query) {
             $this
-                ->addDirectFields($query, $values)
-                ->addRelationShipFields($query, $values);
+                ->addDirectFields($builder, $values)
+                ->addRelationShipFields($builder, $values);
+
+            $query->getQuery()->joins = $builder->getQuery()->joins;
         });
 
         return $query;
@@ -44,9 +46,11 @@ class FuzzyFilter implements Filter
                     if ($query->from === self::getSubscriberTableName() && config('mailcoach.encryption.enabled')) {
                         if ($field === 'email') {
                             if (str_contains($value, '@')) {
-                                $query->orWhere(function (Builder $query) use ($value) {
-                                    $query->whereBlind('email', 'email_first_part', $value);
-                                    $query->whereBlind('email', 'email_second_part', $value);
+                                $query->orWhere(function (Builder $builder) use ($value, $query) {
+                                    $builder->whereBlind('email', 'email_first_part', $value);
+                                    $builder->whereBlind('email', 'email_second_part', $value);
+
+                                    $query->getQuery()->joins = $builder->getQuery()->joins;
                                 });
 
                                 continue;

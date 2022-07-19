@@ -10,6 +10,7 @@ class AutomationResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'uuid' => $this->uuid,
             'name' => $this->name,
 
             'created_at' => $this->created_at,

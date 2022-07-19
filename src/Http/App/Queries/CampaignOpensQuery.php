@@ -22,17 +22,19 @@ class CampaignOpensQuery extends QueryBuilder
 
         $campaignOpenTable = static::getCampaignOpenTableName();
         $subscriberTableName = static::getSubscriberTableName();
+        $emailListTableName = static::getEmailListTableName();
 
         $query = static::getCampaignOpenClass()::query()
             ->selectRaw("
-                {$prefix}{$campaignOpenTable}.subscriber_id as subscriber_id,
-                {$prefix}{$subscriberTableName}.email_list_id as subscriber_email_list_id,
+                {$prefix}{$subscriberTableName}.uuid as subscriber_uuid,
+                {$prefix}{$emailListTableName}.uuid as subscriber_email_list_uuid,
                 {$prefix}{$subscriberTableName}.email as subscriber_email,
                 count({$prefix}{$campaignOpenTable}.subscriber_id) as open_count,
                 min({$prefix}{$campaignOpenTable}.created_at) AS first_opened_at
             ")
             ->join(static::getCampaignTableName(), static::getCampaignTableName().'.id', '=', "{$campaignOpenTable}.campaign_id")
             ->join($subscriberTableName, "{$subscriberTableName}.id", '=', "{$campaignOpenTable}.subscriber_id")
+            ->join($emailListTableName, "{$subscriberTableName}.email_list_id", '=', "{$emailListTableName}.id")
             ->where(static::getCampaignTableName().'.id', $campaign->id);
 
         $this->totalCount = $query->count();

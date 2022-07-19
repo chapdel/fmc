@@ -11,6 +11,7 @@ class TransactionalMailResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'uuid' => $this->uuid,
             'subject' => $this->subject,
             'from' => $this->from,
             'to' => $this->to,

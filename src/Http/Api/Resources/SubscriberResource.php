@@ -11,7 +11,8 @@ class SubscriberResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'email_list_id' => (int)$this->email_list_id,
+            'uuid' => $this->uuid,
+            'email_list_uuid' => $this->email_list_uuid,
 
             'email' => $this->email,
             'first_name' => $this->first_name,
@@ -19,7 +20,6 @@ class SubscriberResource extends JsonResource
             'extra_attributes' => $this->extra_attributes,
             'tags' => $this->tags->pluck('name'),
 
-            'uuid' => $this->uuid,
             'subscribed_at' => $this->subscribed_at,
             'unsubscribed_at' => $this->unsubscribed_at,
 

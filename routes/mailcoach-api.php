@@ -25,10 +25,19 @@ use Spatie\Mailcoach\Http\Api\Controllers\UserController;
 
 Route::get('user', UserController::class);
 
-Route::apiResource('templates', TemplatesController::class);
+Route::apiResource('templates', TemplatesController::class, [
+    'bindingFields' => [
+        'template' => 'uuid',
+    ]
+]);
 
-Route::apiResource('campaigns', CampaignsController::class);
-Route::prefix('campaigns/{campaign}')->group(function () {
+Route::apiResource('campaigns', CampaignsController::class, [
+    'bindingFields' => [
+        'campaign' => 'uuid',
+    ]
+]);
+
+Route::prefix('campaigns/{campaign:uuid}')->group(function () {
     Route::post('send-test', SendTestEmailController::class);
     Route::post('send', SendCampaignController::class);
 
@@ -37,18 +46,36 @@ Route::prefix('campaigns/{campaign}')->group(function () {
     Route::get('unsubscribes', CampaignUnsubscribesController::class);
 });
 
-Route::apiResource('email-lists', EmailListsController::class);
-Route::apiResource('email-lists.subscribers', SubscribersController::class)->only(['index', 'store']);
+Route::apiResource('email-lists', EmailListsController::class, [
+    'bindingFields' => [
+        'emailList' => 'uuid',
+    ]
+]);
+Route::apiResource('email-lists.subscribers', SubscribersController::class, [
+    'bindingFields' => [
+        'emailList' => 'uuid',
+    ]
+])->only(['index', 'store']);
 
-Route::apiResource('subscribers', SubscribersController::class)->except(['index', 'store']);
-Route::prefix('subscribers/{subscriber}')->group(function () {
+Route::apiResource('subscribers', SubscribersController::class, [
+    'bindingFields' => [
+        'subscriber' => 'uuid',
+    ]
+])->except(['index', 'store']);
+
+Route::prefix('subscribers/{subscriber:uuid}')->group(function () {
     Route::post('confirm', ConfirmSubscriberController::class);
     Route::post('unsubscribe', UnsubscribeController::class);
     Route::post('resend-confirmation', ResendConfirmationMailController::class);
 });
 
-Route::apiResource('subscriber-imports', SubscriberImportsController::class);
-Route::prefix('subscriber-imports/{subscriberImport}')->group(function () {
+Route::apiResource('subscriber-imports', SubscriberImportsController::class, [
+    'bindingFields' => [
+        'subscriberImport' => 'uuid',
+    ]
+]);
+
+Route::prefix('subscriber-imports/{subscriberImport:uuid}')->group(function () {
     Route::post('append', AppendSubscriberImportController::class);
     Route::post('start', StartSubscriberImportController::class);
 });
@@ -56,10 +83,10 @@ Route::prefix('subscriber-imports/{subscriberImport}')->group(function () {
 Route::prefix('transactional-mails')->group(function () {
     Route::get('/', TransactionalMailsController::class);
     Route::post('send', SendTransactionalMailController::class);
-    Route::get('{transactionalMail}', ShowTransactionalMailController::class);
-    Route::post('{transactionalMail}/resend', ResendTransactionalMailController::class);
+    Route::get('{transactionalMail:uuid}', ShowTransactionalMailController::class);
+    Route::post('{transactionalMail:uuid}/resend', ResendTransactionalMailController::class);
 });
 
 Route::prefix('automations')->group(function () {
-    Route::post('{automation}/trigger', TriggerAutomationController::class);
+    Route::post('{automation:uuid}/trigger', TriggerAutomationController::class);
 });

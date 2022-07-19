@@ -16,6 +16,7 @@ class CampaignUnsubscribesController
         $this->authorize("view", $campaign);
 
         $unsubscribes = (new CampaignUnsubscribesQuery($campaign));
+        $unsubscribes->with(['campaign', 'subscriber']);
 
         return CampaignUnsubscribeResource::collection($unsubscribes->paginate());
     }

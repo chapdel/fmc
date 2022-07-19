@@ -21,7 +21,7 @@ class SubscriberImportsController
     {
         $this->authorize("viewAny", self::getEmailListClass());
 
-        $subscribersImport = self::getSubscriberImportClass()::query()->paginate();
+        $subscribersImport = self::getSubscriberImportClass()::query()->with(['emailList'])->paginate();
 
         return SubscriberImportResource::collection($subscribersImport);
     }

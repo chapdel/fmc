@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\UpdateSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
@@ -26,6 +27,10 @@ class SubscribersController
         $this->authorize("view", $emailList);
 
         $subscribers = new EmailListSubscribersQuery($emailList);
+        $subscribers->addSelect(
+            self::getSubscriberTableName() . '.*',
+            DB::raw('"' . $emailList->uuid . '" as email_list_uuid'),
+        );
 
         if ($request->has('filter.email') && config('mailcoach.encryption.enabled')) {
             $subscribers = $subscribers->get()->filter(fn (Subscriber $subscriber) => $subscriber->email === request('filter.email'));

@@ -21,7 +21,7 @@ class CampaignsController
     {
         $this->authorize("viewAny", static::getCampaignClass());
 
-        return CampaignResource::collection($campaigns->paginate());
+        return CampaignResource::collection($campaigns->with('emailList')->paginate());
     }
 
     public function show(Campaign $campaign)
