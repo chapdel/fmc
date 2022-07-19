@@ -14,7 +14,7 @@ test('a campaign can be deleted using the api', function () {
     $campaign = Campaign::factory()->create();
 
     $this
-        ->deleteJson(action([CampaignsController::class, 'destroy'], $campaign))
+        ->deleteJson(action([CampaignsController::class, 'destroy'], $campaign->uuid))
         ->assertSuccessful();
 
     expect(Campaign::all())->toHaveCount(0);

@@ -25,17 +25,8 @@ use Spatie\Mailcoach\Http\Api\Controllers\UserController;
 
 Route::get('user', UserController::class);
 
-Route::apiResource('templates', TemplatesController::class, [
-    'bindingFields' => [
-        'template' => 'uuid',
-    ]
-]);
-
-Route::apiResource('campaigns', CampaignsController::class, [
-    'bindingFields' => [
-        'campaign' => 'uuid',
-    ]
-]);
+Route::apiResource('templates', TemplatesController::class);
+Route::apiResource('campaigns', CampaignsController::class);
 
 Route::prefix('campaigns/{campaign:uuid}')->group(function () {
     Route::post('send-test', SendTestEmailController::class);
@@ -46,22 +37,9 @@ Route::prefix('campaigns/{campaign:uuid}')->group(function () {
     Route::get('unsubscribes', CampaignUnsubscribesController::class);
 });
 
-Route::apiResource('email-lists', EmailListsController::class, [
-    'bindingFields' => [
-        'emailList' => 'uuid',
-    ]
-]);
-Route::apiResource('email-lists.subscribers', SubscribersController::class, [
-    'bindingFields' => [
-        'emailList' => 'uuid',
-    ]
-])->only(['index', 'store']);
-
-Route::apiResource('subscribers', SubscribersController::class, [
-    'bindingFields' => [
-        'subscriber' => 'uuid',
-    ]
-])->except(['index', 'store']);
+Route::apiResource('email-lists', EmailListsController::class);
+Route::apiResource('email-lists.subscribers', SubscribersController::class)->only(['index', 'store']);
+Route::apiResource('subscribers', SubscribersController::class)->except(['index', 'store']);
 
 Route::prefix('subscribers/{subscriber:uuid}')->group(function () {
     Route::post('confirm', ConfirmSubscriberController::class);
@@ -69,11 +47,7 @@ Route::prefix('subscribers/{subscriber:uuid}')->group(function () {
     Route::post('resend-confirmation', ResendConfirmationMailController::class);
 });
 
-Route::apiResource('subscriber-imports', SubscriberImportsController::class, [
-    'bindingFields' => [
-        'subscriberImport' => 'uuid',
-    ]
-]);
+Route::apiResource('subscriber-imports', SubscriberImportsController::class);
 
 Route::prefix('subscriber-imports/{subscriberImport:uuid}')->group(function () {
     Route::post('append', AppendSubscriberImportController::class);

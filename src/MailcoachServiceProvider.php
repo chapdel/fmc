@@ -293,6 +293,14 @@ class MailcoachServiceProvider extends PackageServiceProvider
     protected function bootRoutes(): self
     {
         Route::model('transactionalMailTemplate', self::getTransactionalMailTemplateClass());
+        Route::bind('template', fn (string $value) => self::getTemplateClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
+        Route::bind('campaign', fn (string $value) => self::getCampaignClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
+        Route::bind('automation', fn (string $value) => self::getAutomationClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
+        Route::bind('automation-mail', fn (string $value) => self::getAutomationMailClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
+        Route::bind('subscriber', fn (string $value) => self::getSubscriberClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
+        Route::bind('subscriber-import', fn (string $value) => self::getSubscriberImportClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
+        Route::bind('transactional-mail', fn (string $value) => self::getTransactionalMailTemplateClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
+        Route::bind('email-list', fn (string $value) => self::getEmailListClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
 
         Route::macro('mailcoach', function (string $url = '') {
             Route::get($url, '\\' . HomeController::class)->name('mailcoach.home');

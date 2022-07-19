@@ -22,7 +22,7 @@ test('a campaign can be updated using the api', function () {
     ];
 
     $this
-        ->putJson(action([CampaignsController::class, 'update'], $campaign), $attributes)
+        ->putJson(action([CampaignsController::class, 'update'], $campaign->uuid), $attributes)
         ->assertSuccessful();
 
     $campaign = $campaign->fresh();

@@ -80,7 +80,7 @@ it('can show a subscriber', function () {
     $subscriber = Subscriber::factory()->create();
 
     $this
-        ->getJson(action([SubscribersController::class, 'show'], $subscriber))
+        ->getJson(action([SubscribersController::class, 'show'], $subscriber->uuid))
         ->assertSuccessful()
         ->assertJsonFragment(['email' => $subscriber->email]);
 });
@@ -119,7 +119,7 @@ it('can delete a subscriber', function () {
     $subscriber = Subscriber::factory()->create();
 
     $this
-        ->deleteJson(action([SubscribersController::class, 'destroy'], $subscriber))
+        ->deleteJson(action([SubscribersController::class, 'destroy'], $subscriber->uuid))
         ->assertSuccessful();
 
     expect(Subscriber::all())->toHaveCount(0);
@@ -138,7 +138,7 @@ it('can update a subscriber', function () {
         'tags' => ['test1', 'test2'],
     ];
     $this
-        ->patchJson(action([SubscribersController::class, 'update'], $subscriber), $attributes)
+        ->patchJson(action([SubscribersController::class, 'update'], $subscriber->uuid), $attributes)
         ->assertSuccessful();
 
     $subscriber->refresh();
@@ -161,7 +161,7 @@ it('can update a subscriber with extra attributes', function () {
     ];
 
     $this
-        ->patchJson(action([SubscribersController::class, 'update'], $subscriber), $attributes)
+        ->patchJson(action([SubscribersController::class, 'update'], $subscriber->uuid), $attributes)
         ->assertSuccessful();
     $subscriber->refresh();
     expect($subscriber->extra_attributes->foo)->toEqual($attributes['extra_attributes']['foo']);
@@ -180,7 +180,7 @@ it('can append tags when updating a subscriber', function () {
     ];
 
     $this
-        ->patchJson(action([SubscribersController::class, 'update'], $subscriber), $attributes)
+        ->patchJson(action([SubscribersController::class, 'update'], $subscriber->uuid), $attributes)
         ->assertSuccessful();
 
     $subscriber->refresh();

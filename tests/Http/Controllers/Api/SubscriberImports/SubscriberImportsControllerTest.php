@@ -31,7 +31,7 @@ it('can show a subscriber import', function () {
     $subscriberImport = SubscriberImport::factory()->create();
 
     $this
-        ->getJson(action([SubscriberImportsController::class, 'show'], $subscriberImport))
+        ->getJson(action([SubscriberImportsController::class, 'show'], $subscriberImport->uuid))
         ->assertSuccessful();
 });
 
@@ -61,7 +61,7 @@ it('can update a subscriber import', function () {
     ];
 
     $this
-        ->putJson(action([SubscriberImportsController::class, 'update'], $subscriberImport), $payload)
+        ->putJson(action([SubscriberImportsController::class, 'update'], $subscriberImport->uuid), $payload)
         ->assertSuccessful();
 
     test()->assertDatabaseHas('mailcoach_subscriber_imports', $payload);
@@ -71,7 +71,7 @@ it('can delete a subscriber import', function () {
     $subscriberImport = SubscriberImport::factory()->create();
 
     $this
-        ->deleteJson(action([SubscriberImportsController::class, 'destroy'], $subscriberImport))
+        ->deleteJson(action([SubscriberImportsController::class, 'destroy'], $subscriberImport->uuid))
         ->assertSuccessful();
 
     expect(SubscriberImport::get())->toHaveCount(0);
