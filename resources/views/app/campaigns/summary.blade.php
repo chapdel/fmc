@@ -75,6 +75,43 @@
                     </p>
                 </div>
             </div>
+        @elseif (! $campaign->allSendsCreated() && $campaign->sends()->count() < $campaign->sent_to_number_of_subscribers)
+            <div class="progress-bar">
+                <div class="progress-bar-value" style="width:{{ ($campaign->sends()->count() / $campaign->sent_to_number_of_subscribers) * 100 }}%"></div>
+            </div>
+            <div class="mt-4 flex alert alert-info">
+                <div class="mr-2">
+                    <i class="fas fa-sync fa-spin text-blue-500"></i>
+                </div>
+                <div class="flex justify-between items-center w-full">
+                    <p>
+                        <span class="inline-block">{{ __('mailcoach - Campaign') }}</span>
+                        <strong>{{ $campaign->name }}</strong>
+
+                        {{ __('mailcoach - is creating :sendsCount/:sentToNumberOfSubscribers :send for', [
+                            'sendsCount' => $campaign->sends()->count(),
+                            'sentToNumberOfSubscribers' => $campaign->sent_to_number_of_subscribers,
+                            'send' => trans_choice(__('mailcoach - send|sends'), $campaign->sent_to_number_of_subscribers)
+                        ]) }}
+
+                        @if($campaign->emailList)
+                            <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
+                        @else
+                            &lt;{{ __('mailcoach - deleted list') }}&gt;
+                        @endif
+                        @if($campaign->usesSegment())
+                            ({{ $campaign->segment_description }})
+                        @endif
+                    </p>
+
+                    <x-mailcoach::confirm-button
+                        class="ml-auto text-red-500 underline"
+                        onConfirm="() => $wire.cancelSending()"
+                        :confirm-text="__('mailcoach - Are you sure you want to cancel sending this campaign?')">
+                        Cancel
+                    </x-mailcoach::confirm-button>
+                </div>
+            </div>
         @else
             <div class="progress-bar">
                 <div class="progress-bar-value" style="width:{{ ($campaign->sendsCount() / $campaign->sent_to_number_of_subscribers) * 100 }}%"></div>
