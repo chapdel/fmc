@@ -6,9 +6,9 @@
     'options' => [],
     'value' => null,
     'maxItems' => 100,
+    'clearable' => false,
 ])
-
-@php($wireModelAttribute = $attributes->first(fn ($attribute) => str_starts_with($attribute, 'wire:model')))
+@php($wireModelAttribute = collect($attributes)->first(fn (string $value, string $attribute) => str_starts_with($attribute, 'wire:model')))
 
 <div
     wire:ignore
@@ -57,7 +57,7 @@
             })
         }
     }"
-    class="form-field"
+    class="form-field {{ $clearable ? 'tagify--clearable' : '' }}"
 >
     @isset($label)
         <label class="{{ $required ? 'label label-required' : 'label' }}" for="{{ $name }}">
@@ -67,7 +67,7 @@
     <input
         x-ref="select"
         x-model="value"
-        type="text"
+        type="hidden"
         id="{{ $name }}"
         {{ $required ? 'required' : '' }}
         {!! $attributes->except(['value', 'options', 'required', 'name', 'maxItems']) ?? '' !!}

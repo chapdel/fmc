@@ -22,7 +22,7 @@ abstract class EditorComponent extends Component
 
     public HasHtmlContent $model;
 
-    public ?int $templateId = null;
+    public int|string|null $templateId = null;
     public ?Template $template = null;
 
     public array $templateFieldValues = [];
@@ -52,9 +52,9 @@ abstract class EditorComponent extends Component
         $this->renderFullHtml();
     }
 
-    public function updatingTemplateId(?int $templateId)
+    public function updatingTemplateId(int|string|null $templateId)
     {
-        if ($templateId === 0) {
+        if (! $templateId) {
             $this->template = null;
 
             return;

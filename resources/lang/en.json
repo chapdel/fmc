@@ -291,6 +291,7 @@
     "mailcoach - No subscribers found. Encryption is enabled, so only searches on exact matches before and after the '@' symbol are supported. For example: john, doe.com or john@doe.com": "No subscribers found. Encryption is enabled, so only searches on exact matches before and after the '@' symbol are supported. For example: john, doe.com or john@doe.com",
     "mailcoach - No subscribers found.": "No subscribers found.",
     "mailcoach - No tags to choose from": "No tags to choose from",
+    "mailcoach - No template": "No template",
     "mailcoach - No templates found.": "No templates found.",
     "mailcoach - No transactional mails have been sent yet!": "No transactional mails have been sent yet!",
     "mailcoach - No trigger": "No trigger",

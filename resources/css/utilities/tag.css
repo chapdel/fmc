@@ -32,6 +32,10 @@
     @apply hidden;
 }
 
+.tagify--clearable .tagify--select .tagify__tag__removeBtn {
+    @apply inline-flex;
+}
+
 .tagify--select .tagify__tag {
     @apply bg-transparent !important;
 }

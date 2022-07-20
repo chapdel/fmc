@@ -1,6 +1,6 @@
 @php
+    /** @var \Illuminate\Support\Collection $templates */
     $templates = \Spatie\Mailcoach\Mailcoach::getTemplateClass()::all()->pluck('name', 'id');
-    $templates->prepend('No template', 0)
 @endphp
 
 <x-mailcoach::select-field
@@ -8,5 +8,7 @@
     label="Template"
     name="template_id"
     wire:model="templateId"
+    :clearable="true"
+    :placeholder="__('mailcoach - No template')"
     :options="$templates"
 />
