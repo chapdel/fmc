@@ -30,7 +30,7 @@
     <body class="flex flex-col min-h-screen text-gray-800 bg-indigo-900/5" x-data="{ confirmText: '', onConfirm: null }">
         <script>/**/</script><!-- Empty script to prevent FOUC in Firefox -->
 
-        <div id="swup">
+        <div id="swup" class="flex-grow">
             <header class="flex-none sticky top-0 z-20 w-full max-w-layout mx-auto px-0 md:px-16">
                 <x-mailcoach::main-navigation />
             </header>

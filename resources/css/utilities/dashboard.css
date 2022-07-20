@@ -8,6 +8,7 @@
     @apply border-indigo-900/10;
     @apply overflow-hidden;
     @apply px-6;
+    @apply pl-8;
     @apply py-4;
 
     @apply before:content-[''];
@@ -34,20 +35,35 @@
 }
 
 .dashboard-tile.dashboard-tile-success {
-    @apply bg-gray-900;
     @apply bg-gradient-to-r;
-    @apply from-green-500/10;
-    @apply text-white;
+    @apply from-green-600/10;
+    @apply to-green-600/5;
     @apply shadow-green-600/5;
 
-    @apply before:from-green-500;
-    @apply before:to-green-500/70;
+    @apply before:from-green-500/20;
+    @apply before:to-green-500/30;
 }
 
-.dashboard-tile-hover.dashbard-tile-success:hover {
+.dashboard-tile.dashboard-tile-success:hover {
     @apply shadow-green-600/5;
-    @apply before:from-green-500;
-    @apply before:to-green-600;
+    @apply before:from-green-500/80;
+    @apply before:to-green-500/90;
+}
+
+.dashboard-tile.dashboard-tile-warning {
+    @apply bg-gradient-to-r;
+    @apply from-orange-600/10;
+    @apply to-orange-600/5;
+    @apply shadow-orange-600/5;
+
+    @apply before:from-orange-500/20;
+    @apply before:to-orange-500/30;
+}
+
+.dashboard-tile.dashboard-tile-warning:hover {
+    @apply shadow-orange-600/5;
+    @apply before:from-orange-500/80;
+    @apply before:to-orange-500/90;
 }
 
 .dashboard-tile.dashboard-tile-error {
@@ -61,7 +77,7 @@
     @apply before:to-red-500/70;
 }
 
-.dashboard-tile-hover.dashbard-tile-error:hover {
+.dashboard-tile.dashbard-tile-error:hover {
     @apply shadow-red-600/5;
     @apply before:from-red-500;
     @apply before:to-red-600;
@@ -70,7 +86,7 @@
 .dashboard-title {
     @apply font-extrabold;
     @apply text-xl;
-    @apply mb-2;
+    @apply mb-3;
     @apply leading-tight;
 }
 
@@ -88,6 +104,7 @@
     @apply flex;
     @apply flex-col;
     @apply pointer-events-auto;
+    @apply hover:text-blue-700;
 }
 
 .dashboard-link:hover .dashboard-label {

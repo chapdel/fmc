@@ -51,9 +51,33 @@
 }
 
 .link-danger:hover {
-    @apply text-red-600;
+    @apply !text-red-600;
     @apply underline;
     text-decoration-color: var(--red-500);
+}
+
+.link-warning {
+    @apply text-orange-600;
+    @apply underline;
+    text-decoration-color: var(--orange-500);
+}
+
+.link-warning:hover {
+    @apply !text-orange-700;
+    @apply underline;
+    text-decoration-color: var(--orange-600);
+}
+
+.link-success {
+    @apply text-green-600;
+    @apply underline;
+    text-decoration-color: var(--green-500);
+}
+
+.link-success:hover {
+    @apply !text-green-700;
+    @apply underline;
+    text-decoration-color: var(--green-600);
 }
 
 .link-icon {
