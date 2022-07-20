@@ -79,8 +79,6 @@ class CreateCampaignSendJob implements ShouldQueue, ShouldBeUnique
             'subscriber_id' => $this->subscriber->id,
             'uuid' => (string) Str::uuid(),
         ]);
-
-        $this->dispatchMailSendJob($send);
     }
 
     protected function isValidSubscriptionForEmailList(Subscriber $subscriber, EmailList $emailList): bool
@@ -94,17 +92,5 @@ class CreateCampaignSendJob implements ShouldQueue, ShouldBeUnique
         }
 
         return true;
-    }
-
-    private function dispatchMailSendJob(Send $send): void
-    {
-        $simpleThrottle = app(SimpleThrottle::class)
-            ->forMailer($send->campaign->emailList->campaign_mailer);
-
-        $simpleThrottle->hit();
-
-        dispatch(new SendCampaignMailJob($send));
-
-        $send->markAsSendingJobDispatched();
     }
 }
