@@ -43,7 +43,7 @@ The `spatie/laravel-mailcoach-postmark-feedback` package can handle bounce feedb
 You can install the add-on package via composer:
 
 ```bash
-composer require spatie/laravel-mailcoach-postmark-feedback:^3.0
+composer require spatie/laravel-mailcoach-postmark-feedback:^4.0
 ```
 
 ### Adding the webhooks route
