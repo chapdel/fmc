@@ -50,10 +50,10 @@
                                 name="unit"
                                 wire:model="unit"
                                 :options="
-                        collect($units)
-                            ->mapWithKeys(fn ($label, $value) => [$value => \Illuminate\Support\Str::plural($label, (int) $length)])
-                            ->toArray()
-                    "
+                                    collect($units)
+                                        ->mapWithKeys(fn ($label, $value) => [$value => \Illuminate\Support\Str::plural($label, (int) $length)])
+                                        ->toArray()
+                                "
                             />
                         </div>
 
@@ -71,10 +71,12 @@
                         @switch ($condition)
                             @case (\Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasTagCondition::class)
                                 <div class="col-span-12 sm:col-span-4">
-                                    <x-mailcoach::text-field
+                                    <x-mailcoach::tags-field
                                         :label="__('mailcoach - Tag')"
                                         name="conditionData.tag"
                                         wire:model="conditionData.tag"
+                                        :allow-create="true"
+                                        :tags="$automation->emailList?->tags()->pluck('name')->toArray() ?? []"
                                     />
                                 </div>
                             @break

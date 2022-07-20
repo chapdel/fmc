@@ -7,11 +7,18 @@
     'value' => [],
     'allowCreate' => false,
 ])
+
+@php($wireModelAttribute = $attributes->first(fn ($attribute) => str_starts_with($attribute, 'wire:model')))
+
 <div
     wire:ignore
     x-data="{
-        multiple: true,
+        multiple: {{ $multiple ? 'true' : 'false' }},
+        @if ($wireModelAttribute)
+        value: @entangle($wireModelAttribute),
+        @else
         value: @js($value),
+        @endif
         options: @js($tags),
         init() {
             this.$nextTick(() => {
@@ -25,6 +32,7 @@
                     tagify = new Tagify(this.$refs.select, {
                         originalInputValueFormat: valuesArr => valuesArr.map(item => item.value),
                         whitelist: this.options,
+                        maxTags: {{ $multiple ? 'Infinity' : '1'  }},
                         dropdown: {
                             closeOnSelect: false,
                             enabled : 0,
@@ -36,7 +44,11 @@
                 refreshTagify()
 
                 this.$refs.select.addEventListener('change', () => {
+                    @if ($multiple)
                     this.value = tagify.value.map(v => v.value);
+                    @else
+                    this.value = tagify.value[0] ? tagify.value[0].value : '';
+                    @endif
                     $wire.emit('tags-updated', this.value);
                     $wire.emit('tags-updated-{{ $name }}', this.value);
                 })
