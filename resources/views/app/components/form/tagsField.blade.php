@@ -8,7 +8,7 @@
     'allowCreate' => false,
 ])
 
-@php($wireModelAttribute = $attributes->first(fn ($attribute) => str_starts_with($attribute, 'wire:model')))
+@php($wireModelAttribute = collect($attributes)->first(fn ($value, $attribute) => str_starts_with($attribute, 'wire:model')))
 
 <div
     wire:ignore
