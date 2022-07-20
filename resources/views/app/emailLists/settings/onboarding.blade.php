@@ -12,7 +12,7 @@
 >
     <x-mailcoach::fieldset card :legend="__('mailcoach - Subscriptions')">
         <x-mailcoach::info>
-            {!! __('mailcoach - Learn more about <a href=":link" target="_blank">subscription settings and forms</a>.', ['link' => 'https://spatie.be/docs/laravel-mailcoach/v5/using-mailcoach/audience#content-onboarding']) !!}
+            {!! __('mailcoach - Learn more about <a href=":link" target="_blank">subscription settings and forms</a>.', ['link' => 'https://mailcoach.app/docs/v5/mailcoach/using-mailcoach/audience#content-onboarding']) !!}
         </x-mailcoach::info>
 
         <div class="form-field max-w-full">

@@ -361,7 +361,7 @@ All notable changes to `laravel-mailcoach` will be documented in this file
 - Performance improvements
 - Drop support for Laravel 8 & below
 
-> **Read the [upgrade guide](https://spatie.be/docs/laravel-mailcoach/v5/upgrading)!**
+> **Read the [upgrade guide](https://mailcoach.app/docs/v5/mailcoach/upgrading)!**
 
 **Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/4.16.2...5.0.0
 

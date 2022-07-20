@@ -117,7 +117,7 @@
         @enderror
 
         <x-mailcoach::info>
-            {!! __('mailcoach - Upload a CSV or XLSX file with these columns: email, first_name, last_name, tags <a href=":link" target="_blank">(see documentation)</a>', ['link' => 'https://spatie.be/docs/laravel-mailcoach/v5/using-mailcoach/audience#content-importing-subscribers']) !!}
+            {!! __('mailcoach - Upload a CSV or XLSX file with these columns: email, first_name, last_name, tags <a href=":link" target="_blank">(see documentation)</a>', ['link' => 'https://mailcoach.app/docs/v5/mailcoach/using-mailcoach/audience#content-importing-subscribers']) !!}
         </x-mailcoach::info>
     </form>
 

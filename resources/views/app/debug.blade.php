@@ -32,7 +32,7 @@
                     @if($horizonStatus->is(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::STATUS_ACTIVE))
                         {{ __('mailcoach - Active') }}
                     @else
-                        {!! __('mailcoach - Horizon is inactive. <a target="_blank" href=":docsLink">Read the docs</a>.', ['docsLink' => 'https://spatie.be/docs/laravel-mailcoach']) !!}
+                        {!! __('mailcoach - Horizon is inactive. <a target="_blank" href=":docsLink">Read the docs</a>.', ['docsLink' => 'https://mailcoach.app/docs']) !!}
                     @endif
                     </p>
                 </dd>
@@ -46,7 +46,7 @@
                         @if($hasQueueConnection)
                         {!! __('mailcoach - Queue connection settings for <code>mailcoach-redis</code> exist.') !!}
                         @else
-                            {!! __('mailcoach - No valid <strong>queue connection</strong> found. Configure a queue connection with the <strong>mailcoach-redis</strong> key. <a target="_blank" href=":docsLink">Read the docs</a>.', ['docsLink' => 'https://spatie.be/docs/laravel-mailcoach']) !!}
+                            {!! __('mailcoach - No valid <strong>queue connection</strong> found. Configure a queue connection with the <strong>mailcoach-redis</strong> key. <a target="_blank" href=":docsLink">Read the docs</a>.', ['docsLink' => 'https://mailcoach.app/docs']) !!}
                         @endif
                     </p>
                 </dd>
@@ -84,7 +84,7 @@
                 @endif
             </dd>
             <dt>
-                
+
             </dt>
             <dd>
                 @if ($scheduledJobs->count())
@@ -234,7 +234,7 @@
             @endif
 
     </x-mailcoach::fieldset>
-    
+
     <x-mailcoach::fieldset card  :legend="__('mailcoach - Having trouble?')">
         <a href="https://github.com/spatie/laravel-mailcoach/issues/new?body={{ urlencode($issueBody) }}" target="_blank">
             <x-mailcoach::button :label="__('mailcoach - Create a support issue')"/>

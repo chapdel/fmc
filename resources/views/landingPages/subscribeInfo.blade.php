@@ -9,7 +9,7 @@
     </p>
     <p class="mt-4">
         {!! __('mailcoach - Take a look <a class="text-blue-500 underline" href=":docsUrl">at the documentation</a> for more info.', [
-            'docsUrl' => 'https://spatie.be/docs/laravel-mailcoach/audience/using-subscription-forms',
+            'docsUrl' => 'https://mailcoach.app/docs/v5/mailcoach/using-mailcoach/audience#content-onboarding',
         ]) !!}
     </p>
 @endsection

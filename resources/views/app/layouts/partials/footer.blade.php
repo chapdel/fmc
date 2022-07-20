@@ -6,7 +6,7 @@
 
     @if(Auth::check())
         <span class="mx-2">•</span>
-        <a class="" href="https://spatie.be/docs/laravel-mailcoach" target="_blank">{{ __('mailcoach - Documentation') }}</a>
+        <a class="" href="https://mailcoach.app/docs" target="_blank">{{ __('mailcoach - Documentation') }}</a>
 
         <span class="mx-2">•</span>
         <a class="inline-block" href="{{ route('debug') }}">
