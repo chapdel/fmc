@@ -28,7 +28,7 @@
         {{ $attributes }}
     >
         <!-- Overlay -->
-        <div x-show="$store.modals.isOpen('{{ $name }}')" x-transition.opacity class="fixed inset-0 bg-black bg-opacity-50"></div>
+        <div x-show="$store.modals.isOpen('{{ $name }}')" x-transition.opacity class="fixed inset-0 bg-black/50"></div>
 
         <!-- Panel -->
         <div

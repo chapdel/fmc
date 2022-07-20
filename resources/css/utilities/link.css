@@ -44,6 +44,18 @@
     @apply link-dimmed-hover;
 }
 
+.link-danger {
+    @apply text-gray-600;
+    @apply underline;
+    text-decoration-color: var(--gray-500);
+}
+
+.link-danger:hover {
+    @apply text-red-600;
+    @apply underline;
+    text-decoration-color: var(--red-500);
+}
+
 .link-icon {
     @apply text-blue-700;
 }

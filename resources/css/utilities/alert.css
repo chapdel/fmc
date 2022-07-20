@@ -5,7 +5,7 @@
     @apply rounded-md;
     @apply bg-gradient-to-r;
     @apply bg-gray-50;
-    @apply text-gray-600;
+    @apply text-gray-800;
 
     @apply before:content-[''];
     @apply before:absolute;
