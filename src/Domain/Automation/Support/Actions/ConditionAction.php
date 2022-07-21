@@ -99,12 +99,14 @@ class ConditionAction extends AutomationAction
     protected function storeChildAction($action, Automation $automation, Action $parent, string $key, int $order): Action
     {
         if (! $action instanceof AutomationAction) {
+            /** @var \Spatie\Mailcoach\Domain\Automation\Support\Actions\AutomationAction $action */
             $uuid = $action['uuid'];
             $action = $action['class']::make($action['data']);
+            $action->uuid = $uuid;
         }
 
         return $action->store(
-            $uuid ?? Str::uuid()->toString(),
+            $action->uuid,
             $automation,
             $order,
             $parent->id,
@@ -112,7 +114,7 @@ class ConditionAction extends AutomationAction
         );
     }
 
-    public static function make(array $data): self
+    public static function make(array $data): static
     {
         if (isset($data['seconds'])) {
             $interval = CarbonInterval::create(years: 0, seconds: $data['seconds']);
@@ -124,7 +126,7 @@ class ConditionAction extends AutomationAction
             $unit = $data['unit'] ?? null;
         }
 
-        return new self(
+        return new static(
             checkFor: $interval,
             length: $length,
             unit: $unit,
@@ -174,7 +176,9 @@ class ConditionAction extends AutomationAction
 
         if (! $action instanceof AutomationAction) {
             $class = $action['class'];
+            $uuid = $action['uuid'];
             $action = $class::make($action['data']);
+            $action->uuid = $uuid;
         }
 
         return [
