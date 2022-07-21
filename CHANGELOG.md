@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 4.17.1 - 2022-07-21
+
+- Fix a bug where child actions in automations were being recreated
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/4.17.0...4.17.1
+
 ## 5.7.1 - 2022-07-11
 
 ### What's Changed
