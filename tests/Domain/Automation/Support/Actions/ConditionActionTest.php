@@ -1,6 +1,7 @@
 <?php
 
 use Carbon\CarbonInterval;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Carbon;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
@@ -18,7 +19,7 @@ beforeEach(function () {
     test()->subscriber = SubscriberFactory::new()->confirmed()->create();
     test()->automationMail = AutomationMail::factory()->create();
 
-    $automation = Automation::create()
+    test()->automation = Automation::create()
         ->chain([
             new ConditionAction(
                 checkFor: CarbonInterval::day(),
@@ -34,7 +35,7 @@ beforeEach(function () {
         ]);
 
     // Attach a dummy action so we have a pivot table
-    test()->actionModel = $automation->actions->first();
+    test()->actionModel = test()->automation->actions->first();
     test()->actionModel->subscribers()->attach(test()->subscriber);
     test()->subscriber = test()->actionModel->subscribers->first();
 });
@@ -71,4 +72,47 @@ it('determines the correct next action', function () {
     test()->subscriber->addTag('some-tag');
 
     expect(test()->actionModel->action->nextActions(test()->subscriber)[0]->action)->toBeInstanceOf(SendAutomationMailAction::class);
+});
+
+it('can store actions and preserves uuids', function () {
+    $originalActionUuid = test()->actionModel->action->uuid;
+    $originalYesUuid = test()->actionModel->action->toArray()['yesActions'][0]['uuid'];
+    $originalNoUuid = test()->actionModel->action->toArray()['noActions'][0]['uuid'];
+
+    dump([$originalActionUuid, $originalYesUuid, $originalNoUuid]);
+
+    expect(Action::count())->toBe(3);
+    expect(Action::where('uuid', $originalActionUuid)->count())->toBe(1);
+    expect(Action::where('uuid', $originalYesUuid)->count())->toBe(1);
+    expect(Action::where('uuid', $originalNoUuid)->count())->toBe(1);
+
+    $newActions = test()->automation->actions()
+        ->withCount(['completedSubscribers', 'activeSubscribers', 'haltedSubscribers'])
+        ->get()
+        ->map(function (Action $action) {
+            try {
+                return $action->toLivewireArray();
+            } catch (ModelNotFoundException) {
+                $action->delete();
+
+                return null;
+            }
+        })
+        ->filter()
+        ->values()
+        ->toArray();
+
+    test()->automation->chain($newActions);
+
+    expect(Action::where('uuid', $originalActionUuid)->count())->toBe(1);
+    expect(Action::where('uuid', $originalYesUuid)->count())->toBe(1);
+    expect(Action::where('uuid', $originalNoUuid)->count())->toBe(1);
+
+    test()->actionModel = test()->automation->actions()->first();
+
+    expect(Action::count())->toBe(3);
+
+    expect(test()->actionModel->action->uuid)->toBe($originalActionUuid);
+    expect(test()->actionModel->action->toArray()['yesActions'][0]['uuid'])->toBe($originalYesUuid);
+    expect(test()->actionModel->action->toArray()['noActions'][0]['uuid'])->toBe($originalNoUuid);
 });
