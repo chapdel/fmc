@@ -8,7 +8,10 @@
         ['class' => 'w-12'],
     ]"
     rowPartial="mailcoach::app.emailLists.segments.partials.row"
-    :emptyText="__('mailcoach - No segments here. So you don\'t like putting people into groups?')"
+    :no-results-text="__('mailcoach - No segments found.')"
+    :emptyText="__('mailcoach - A segment is a group of tags that can be targetted by an email campaign. You can <a target=\'_blank\' href=\':docsUrl\'>learn more about segmentation & tags in our docs</a>', [
+        'docsUrl' => 'https://mailcoach.app/docs/v6/using-mailcoach/email-lists/segmentation-tags',
+    ])"
 >
     @slot('actions')
         @can('create', \Spatie\Mailcoach\Mailcoach::getTagSegmentClass())
