@@ -460,6 +460,11 @@ class Campaign extends Sendable implements Feedable
         return $this->sends()->whereNotNull('sent_at')->count();
     }
 
+    public function sendsWithErrors(): HasMany
+    {
+        return $this->sends()->whereNotNull('failed_at');
+    }
+
     public function wasSentToAllSubscribers(): bool
     {
         if (! $this->isSent()) {

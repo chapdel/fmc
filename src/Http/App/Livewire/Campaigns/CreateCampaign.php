@@ -21,9 +21,9 @@ class CreateCampaign extends Component
 
     public ?string $name = null;
 
-    public ?int $email_list_id = null;
+    public int|string|null $email_list_id = null;
 
-    public ?int $template_id = null;
+    public int|string|null $template_id = null;
 
     protected function rules()
     {
