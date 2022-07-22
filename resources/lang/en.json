@@ -376,6 +376,7 @@
     "mailcoach - Select a condition": "Select a condition",
     "mailcoach - Select a link": "Select a link",
     "mailcoach - Select a mail": "Select a mail",
+    "mailcoach - Select a mailer for each of the functionalities of Mailcoach. If you leave them empty, the default mailer or the mailer set in your configuration file will be used.": "Select a mailer for each of the functionalities of Mailcoach. If you leave them empty, the default mailer or the mailer set in your configuration file will be used.",
     "mailcoach - Select a segment": "Select a segment",
     "mailcoach - Selected list has no subscribers": "Selected list has no subscribers",
     "mailcoach - Send Test": "Send Test",

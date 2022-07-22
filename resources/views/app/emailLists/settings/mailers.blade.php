@@ -5,31 +5,37 @@
     @keydown.prevent.window.ctrl.s="$wire.call('save')"
 >
 <x-mailcoach::card>
+    <x-mailcoach::help>
+        {{ __('mailcoach - Select a mailer for each of the functionalities of Mailcoach. If you leave them empty, the default mailer or the mailer set in your configuration file will be used.') }}
+    </x-mailcoach::help>
 
     @if(count(config('mail.mailers')) > 1)
         <x-mailcoach::select-field
             name="campaign_mailer"
             :options="array_combine(array_keys(config('mail.mailers')), array_keys(config('mail.mailers')))"
+            :placeholder="__('Select a mailer')"
+            :clearable="true"
             wire:model="emailList.campaign_mailer"
             :label="__('mailcoach - Campaign mailer')"
         />
-        <x-mailcoach::info>{{ __('mailcoach - The mailer used for sending campaigns.') }}</x-mailcoach::info>
 
         <x-mailcoach::select-field
             name="automation_mailer"
             :options="array_combine(array_keys(config('mail.mailers')), array_keys(config('mail.mailers')))"
+            :placeholder="__('Select a mailer')"
+            :clearable="true"
             wire:model="emailList.automation_mailer"
             :label="__('mailcoach - Automation mailer')"
         />
-        <x-mailcoach::info>{{ __('mailcoach - The mailer used for sending automations.') }}</x-mailcoach::info>
 
         <x-mailcoach::select-field
             name="transactional_mailer"
             :options="array_combine(array_keys(config('mail.mailers')), array_keys(config('mail.mailers')))"
+            :placeholder="__('Select a mailer')"
+            :clearable="true"
             wire:model="emailList.transactional_mailer"
             :label="__('mailcoach - Transactional mailer')"
         />
-        <x-mailcoach::info>{{ __('mailcoach - The mailer used for sending transactional mails.') }}</x-mailcoach::info>
     @else
         <x-mailcoach::info>{{ __('mailcoach - No mailers set.') }}</x-mailcoach::info>
     @endif

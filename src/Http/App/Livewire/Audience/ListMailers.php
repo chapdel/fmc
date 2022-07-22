@@ -20,9 +20,9 @@ class ListMailers extends Component
     protected function rules(): array
     {
         return [
-            'emailList.campaign_mailer' => [Rule::in(array_keys(config('mail.mailers')))],
-            'emailList.automation_mailer' => [Rule::in(array_keys(config('mail.mailers')))],
-            'emailList.transactional_mailer' => [Rule::in(array_keys(config('mail.mailers')))],
+            'emailList.campaign_mailer' => ['nullable', Rule::in(array_keys(config('mail.mailers')))],
+            'emailList.automation_mailer' => ['nullable', Rule::in(array_keys(config('mail.mailers')))],
+            'emailList.transactional_mailer' => ['nullable', Rule::in(array_keys(config('mail.mailers')))],
         ];
     }
 
