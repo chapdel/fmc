@@ -108,7 +108,7 @@
             @if($campaign->html && $campaign->hasValidHtml())
                 @if ($campaign->htmlContainsUnsubscribeUrlPlaceHolder() && $campaign->sizeInKb() < 102)
                     <p class="markup-code">
-                        {{ __('mailcoach - Content seems fine.') }}
+                        {{ __('mailcoach - No problems detected!') }}
                     </p>
                 @else
                     @if (! $campaign->htmlContainsUnsubscribeUrlPlaceHolder())
