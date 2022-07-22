@@ -126,7 +126,9 @@ class DashboardChart extends Component
             ->select(['id', 'name', 'sent_at'])
             ->get();
 
-        $lastStats = [];
+        $lastStats = [
+            'subscribers' => $this->startSubscriptionsCount,
+        ];
 
         return collect(CarbonPeriod::create($start, '1 day', $end))->map(function (CarbonInterface $day) use (
             $campaigns,
@@ -146,6 +148,7 @@ class DashboardChart extends Component
             $subscribers = $subscribers->firstWhere('label', $label) ?: [
                 'label' => $label,
                 'subscribers' => $lastStats['subscribers'] ?? 0,
+                'subscribes' => $lastStats['subscribes'] ?? 0,
                 'unsubscribes' => $lastStats['unsubscribes'] ?? 0,
             ];
 

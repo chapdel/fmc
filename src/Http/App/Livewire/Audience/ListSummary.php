@@ -151,7 +151,9 @@ class ListSummary extends Component
             ];
         });
 
-        $lastStats = [];
+        $lastStats = [
+            'subscribers' => $this->startSubscriptionsCount,
+        ];
 
         return collect(CarbonPeriod::create($start, '1 ' . $interval, $end))->map(function (CarbonInterface $day) use ($interval, $subscribers, &$lastStats) {
             $label = match ($interval) {
