@@ -23,6 +23,7 @@ use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Spatie\Mailcoach\Domain\Shared\Support\CalculateStatisticsLock;
+use Spatie\Mailcoach\Mailcoach;
 use Spatie\MailcoachUi\Models\Mailer;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
@@ -164,6 +165,12 @@ class Campaign extends Sendable implements Feedable
         ];
     }
 
+    public function getMailerKey(): ?string
+    {
+        return $this->emailList->campaign_mailer
+            ?? Mailcoach::defaultCampaignMailer();
+    }
+
     public function getMailer(): ?Mailer
     {
         $mailerClass = config('mailcoach-ui.models.mailer');
@@ -172,7 +179,11 @@ class Campaign extends Sendable implements Feedable
             return null;
         }
 
-        return $mailerClass::all()->first(fn ($mailerModel) => $mailerModel->configName() === $this->emailList->campaign_mailer);
+        if (! $mailerKey = $this->getMailerKey()) {
+            return null;
+        }
+
+        return $mailerClass::all()->first(fn ($mailerModel) => $mailerModel->configName() === $mailerKey);
     }
 
     public function isReady(): bool
@@ -194,6 +205,10 @@ class Campaign extends Sendable implements Feedable
         }
 
         if (! $this->emailListSubscriberCount()) {
+            return false;
+        }
+
+        if (! $this->getMailerKey()) {
             return false;
         }
 

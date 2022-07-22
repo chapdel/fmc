@@ -36,24 +36,6 @@ it('sets mailers based on the mailcoach mailer config', function () {
     test()->assertDatabaseHas(static::getEmailListTableName(), $attributes);
 });
 
-it('sets mailers based on the config', function () {
-    test()->authenticate();
-
-    config()->set('mailcoach.mailer', 'some-mailer');
-    config()->set('mailcoach.transactional.mailer', 'some-transactional-mailer');
-    config()->set('mailcoach.campaigns.mailer', 'some-campaign-mailer');
-
-    Livewire::test(CreateList::class)
-        ->set('name', 'new list')
-        ->set('default_from_email', 'john@example.com')
-        ->call('saveList');
-
-    $attributes['transactional_mailer'] = 'some-transactional-mailer';
-    $attributes['campaign_mailer'] = 'some-campaign-mailer';
-
-    test()->assertDatabaseHas(static::getEmailListTableName(), $attributes);
-});
-
 it('authorizes access with custom policy', function () {
     app()->bind(EmailListPolicy::class, CustomEmailListDenyAllPolicy::class);
 

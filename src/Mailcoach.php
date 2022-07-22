@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach;
 
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\InvalidConfig;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Front\Controllers\MailcoachAssets;
 
@@ -118,6 +119,27 @@ class Mailcoach
         static::$editorStyles[$editor][] = $url;
 
         return new static;
+    }
+
+    public static function defaultCampaignMailer(): ?string
+    {
+        return config('mailcoach.campaign.mailer')
+            ?? config('mailcoach.mailer')
+            ?? config('mail.default');
+    }
+
+    public static function defaultAutomationMailer(): ?string
+    {
+        return config('mailcoach.automation.mailer')
+            ?? config('mailcoach.mailer')
+            ?? config('mail.default');
+    }
+
+    public static function defaultTransactionalMailer(): ?string
+    {
+        return config('mailcoach.automation.mailer')
+            ?? config('mailcoach.mailer')
+            ?? config('mail.default');
     }
 
     public static function getCampaignActionClass(string $actionName, string $actionClass): object

@@ -38,11 +38,7 @@ class SendAutomationMailTestAction
             $mailable->setReplyTo($mail->reply_to_email, $mail->reply_to_name);
         }
 
-        $mailer = config('mailcoach.automation.mailer')
-            ?? config('mailcoach.mailer')
-            ?? config('mail.default');
-
-        Mail::mailer($mailer)
+        Mail::mailer(Mailcoach::defaultAutomationMailer())
             ->to($email)
             ->send($mailable);
     }

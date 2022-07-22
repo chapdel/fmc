@@ -29,12 +29,7 @@ class SendCampaignTestAction
                 $message->getHeaders()->addTextHeader('X-Entity-Ref-ID', Str::uuid()->toString());
             });
 
-        $mailer = $campaign->emailList->campaign_mailer
-            ?? config('mailcoach.campaigns.mailer')
-            ?? config('mailcoach.mailer')
-            ?? config('mail.default');
-
-        Mail::mailer($mailer)
+        Mail::mailer($campaign->getMailerKey())
             ->to($email)
             ->send($campaignMailable);
     }

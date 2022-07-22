@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignSummaryMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Mailcoach;
 
 class SendCampaignSummaryMailCommand extends Command
 {
@@ -23,7 +24,7 @@ class SendCampaignSummaryMailCommand extends Command
             ->sentDaysAgo(1)
             ->get()
             ->each(function (Campaign $campaign) {
-                Mail::mailer(config('mailcoach.mailer') ?? config('mail.default'))
+                Mail::mailer(Mailcoach::defaultTransactionalMailer())
                     ->to($campaign->emailList->campaignReportRecipients())
                     ->queue(new CampaignSummaryMail($campaign));
 

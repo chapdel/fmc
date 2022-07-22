@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Mails\EmailListSummaryMail;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Mailcoach;
 
 class SendEmailListSummaryMailCommand extends Command
 {
@@ -31,7 +32,7 @@ class SendEmailListSummaryMailCommand extends Command
                         $emailList->email_list_summary_sent_at ?? $emailList->created_at
                     );
 
-                    Mail::mailer(config('mailcoach.mailer') ?? config('mail.default'))
+                    Mail::mailer(Mailcoach::defaultTransactionalMailer())
                         ->to($emailList->campaignReportRecipients())
                         ->queue($emailListSummaryMail);
 

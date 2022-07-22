@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus;
 use Spatie\Mailcoach\Domain\Audience\Mails\ImportSubscribersResultMail;
 use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
+use Spatie\Mailcoach\Mailcoach;
 use Throwable;
 
 class CompleteSubscriberImportJob implements ShouldQueue
@@ -46,7 +47,7 @@ class CompleteSubscriberImportJob implements ShouldQueue
             return;
         }
 
-        Mail::mailer(config('mailcoach.mailer') ?? config('mail.default'))
+        Mail::mailer(Mailcoach::defaultTransactionalMailer())
             ->to($this->user->email)->send(new ImportSubscribersResultMail($this->subscriberImport));
     }
 

@@ -69,9 +69,7 @@ class SendMailAction
         }
 
         $mailer = $pendingSend->subscriber->emailList->automation_mailer
-            ?? config('mailcoach.automation.mailer')
-            ?? config('mailcoach.mailer')
-            ?? config('mail.default');
+            ?? Mailcoach::defaultAutomationMailer();
 
         Mail::mailer($mailer)
             ->to($pendingSend->subscriber->email)

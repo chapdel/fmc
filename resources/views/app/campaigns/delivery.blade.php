@@ -83,7 +83,7 @@
 
         @if ($campaign->emailList)
             <dt>
-                <x-mailcoach::health-label warning :test="$campaign->emailList->campaign_mailer !== 'log'" :label="__('mailcoach - Mailer')"/>
+                <x-mailcoach::health-label warning :test="$campaign->getMailerKey() && $campaign->getMailerKey() !== 'log'" :label="__('mailcoach - Mailer')"/>
             </dt>
             <dd>
                 <div>
