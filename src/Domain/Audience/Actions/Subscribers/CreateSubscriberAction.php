@@ -27,7 +27,7 @@ class CreateSubscriberAction
 
         $subscriber->fill([
             'email' => $pendingSubscriber->email,
-            'subscribed_at' => now(),
+            'subscribed_at' => $subscriber->subscribed_at ?? now(),
             'unsubscribed_at' => null,
         ]);
 
