@@ -13,6 +13,7 @@ class SubscriberReplacer implements PersonalizedReplacer
     {
         return [
             'subscriber.first_name' => __('mailcoach - The first name of the subscriber'),
+            'subscriber.last_name' => __('mailcoach - The last name of the subscriber'),
             'subscriber.email' => __('mailcoach - The email of the subscriber'),
         ];
     }

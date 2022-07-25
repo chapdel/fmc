@@ -18,12 +18,16 @@ class TransactionalTemplateContent extends Component
 
     public TransactionalMailTemplate $template;
 
+    protected $listeners = [
+        'editorSaved' => 'save',
+    ];
+
     protected function rules(): array
     {
         return [
             'template.name' => '',
             'template.type' => '',
-            'template.subject' => '',
+            'template.subject' => 'required',
             'template.to' => new Delimited('email'),
             'template.cc' => new Delimited('email'),
             'template.bcc' => new Delimited('email'),
@@ -32,29 +36,36 @@ class TransactionalTemplateContent extends Component
         ];
     }
 
-    public function mount(TransactionalMailTemplate $template)
+    public function mount(TransactionalMailTemplate $transactionalMailTemplate)
     {
-        $this->authorize('update', $template);
+        $this->authorize('update', $transactionalMailTemplate);
 
-        $this->template = $template;
+        $this->template = $transactionalMailTemplate;
     }
 
     public function save()
     {
         $this->validate();
 
-        $this->template->update([
+        $attributes = [
             'name' => $this->template->name,
             'type' => $this->template->type,
             'subject' => $this->template->subject,
-            'body' => $this->template->body,
-            'structured_html' => $this->template->structured_html,
             'to' => $this->delimitedToArray($this->template->to),
             'cc' => $this->delimitedToArray($this->template->cc),
             'bcc' => $this->delimitedToArray($this->template->bcc),
-        ]);
+        ];
 
-        $this->flash(__('mailcoach - Template :template was updated.', ['template' => $this->template->name]));
+        $this->template->fresh()->update($attributes);
+
+        if ($this->template->type !== 'html') {
+            $this->template->update([
+                'body' => $this->template->body,
+                'structured_html' => $this->template->structured_html,
+            ]);
+
+            $this->flash(__('mailcoach - Template :template was updated.', ['template' => $this->template->name]));
+        }
     }
 
     public function render(): View

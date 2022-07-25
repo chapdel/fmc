@@ -15,6 +15,7 @@
         data-html-preview-source
         @endunless
         @if($disabled ?? false) disabled @endif
+        {{ $attributes }}
     >{{ old($name, $value ?? '') }}</textarea>
     @error($name)
     <p class="form-error" role="alert">{{ $message }}</p>

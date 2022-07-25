@@ -20,6 +20,7 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\Mailcoach\Components\AutomationMailReplacerHelpTextsComponent;
 use Spatie\Mailcoach\Components\CampaignReplacerHelpTextsComponent;
 use Spatie\Mailcoach\Components\DateTimeFieldComponent;
+use Spatie\Mailcoach\Components\ReplacerHelpTextsComponent;
 use Spatie\Mailcoach\Components\TransactionalMailTemplateReplacerHelpTextsComponent;
 use Spatie\Mailcoach\Domain\Audience\Commands\DeleteOldUnconfirmedSubscribersCommand;
 use Spatie\Mailcoach\Domain\Audience\Commands\SendEmailListSummaryMailCommand;
@@ -300,7 +301,9 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Route::bind('automation-mail', fn (string $value) => self::getAutomationMailClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
         Route::bind('subscriber', fn (string $value) => self::getSubscriberClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
         Route::bind('subscriber-import', fn (string $value) => self::getSubscriberImportClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
-        Route::bind('transactional-mail', fn (string $value) => self::getTransactionalMailTemplateClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
+        Route::bind('transactional-mail', fn (string $value) => self::getTransactionalMailClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
+        Route::bind('transactional-mail-template', fn (string $value) => self::getTransactionalMailTemplateClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
+        Route::bind('transactionalMailTemplate', fn (string $value) => self::getTransactionalMailTemplateClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
         Route::bind('email-list', fn (string $value) => self::getEmailListClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
 
         Route::macro('mailcoach', function (string $url = '') {
@@ -399,11 +402,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.components.button.cancel', 'mailcoach::button-cancel');
 
         Blade::component('mailcoach::app.components.editorButtons', 'mailcoach::editor-buttons');
-        Blade::component(CampaignReplacerHelpTextsComponent::class, 'mailcoach::campaign-replacer-help-texts');
-
-        Blade::component(AutomationMailReplacerHelpTextsComponent::class, 'mailcoach::automation-mail-replacer-help-texts');
-
-        Blade::component(TransactionalMailTemplateReplacerHelpTextsComponent::class, 'mailcoach::transactional-mail-template-replacer-help-texts');
+        Blade::component(ReplacerHelpTextsComponent::class, 'mailcoach::replacer-help-texts');
 
         Blade::component('mailcoach::app.components.dropdown', 'mailcoach::dropdown');
 

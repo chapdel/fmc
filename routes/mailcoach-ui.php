@@ -121,7 +121,7 @@ Route::prefix('transactional-mail-log')->group(function () {
 Route::prefix('transactional-mail-templates')->group(function () {
     Route::get('/', '\\' . Mailcoach::getLivewireClass('transactional-mail-templates', \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplates::class))->name('mailcoach.transactionalMails.templates');
 
-    Route::prefix('{template:uuid}')->group(function () {
+    Route::prefix('{transactionalMailTemplate:uuid}')->group(function () {
         Route::get('content', '\\' . Mailcoach::getLivewireClass('transactional-mail-template-content', \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateContent::class))->name('mailcoach.transactionalMails.templates.edit');
         Route::get('settings', '\\' . Mailcoach::getLivewireClass('transactional-mail-template-settings', \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateSettings::class))->name('mailcoach.transactionalMails.templates.settings');
 

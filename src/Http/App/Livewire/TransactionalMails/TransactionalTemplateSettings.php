@@ -26,11 +26,11 @@ class TransactionalTemplateSettings extends Component
         ];
     }
 
-    public function mount(TransactionalMailTemplate $template)
+    public function mount(TransactionalMailTemplate $transactionalMailTemplate)
     {
-        $this->authorize('update', $template);
+        $this->authorize('update', $transactionalMailTemplate);
 
-        $this->template = $template;
+        $this->template = $transactionalMailTemplate;
     }
 
     public function save()

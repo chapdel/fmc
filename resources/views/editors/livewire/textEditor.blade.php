@@ -40,7 +40,7 @@
         </div>
     @endif
 
-    <x-mailcoach::campaign-replacer-help-texts/>
+    <x-mailcoach::replacer-help-texts :model="$model" />
 
     <x-mailcoach::editor-buttons :preview-html="$fullHtml" :model="$model" />
-    </div>
+</div>

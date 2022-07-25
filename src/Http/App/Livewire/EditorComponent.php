@@ -10,10 +10,13 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\Campaign\Rules\HtmlRule;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Spatie\Mailcoach\Domain\Shared\Support\TemplateRenderer;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 use Spatie\ValidationRules\Rules\Delimited;
 
 abstract class EditorComponent extends Component
 {
+    use UsesMailcoachModels;
     use LivewireFlash;
 
     public static bool $supportsTemplates = true;
@@ -36,7 +39,7 @@ abstract class EditorComponent extends Component
 
         $this->templateFieldValues = $model->getTemplateFieldValues();
 
-        if ($model instanceof Sendable) {
+        if ($model instanceof Sendable || $model instanceof TransactionalMailTemplate) {
             $this->template = $model->template;
             $this->templateId = $model->template?->id;
         }
@@ -60,7 +63,7 @@ abstract class EditorComponent extends Component
             return;
         }
 
-        $this->template = Template::find($templateId);
+        $this->template = self::getTemplateClass()::find($templateId);
 
         if (! $this->template->containsPlaceHolders()) {
             $this->templateFieldValues['html'] = $this->template->getHtml();
@@ -111,7 +114,6 @@ abstract class EditorComponent extends Component
 
         $this->model->setHtml($this->fullHtml);
         $this->model->setTemplateFieldValues($fieldValues);
-
         $this->model->save();
 
         $this->flash(__('mailcoach - :name was updated.', ['name' => $this->model->name]));

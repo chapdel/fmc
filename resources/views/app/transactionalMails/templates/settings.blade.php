@@ -20,7 +20,7 @@
         <x-mailcoach::select-field
             :label="__('mailcoach - Format')"
             name="template.type"
-            x-model="type"
+            wire:model="template.type"
             :options="[
                 'html' => 'HTML (' . $editorName . ')',
                 'markdown' => 'Markdown',

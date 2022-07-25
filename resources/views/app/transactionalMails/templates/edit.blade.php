@@ -20,14 +20,31 @@
 
         <x-mailcoach::fieldset card :legend="__('mailcoach - Email')">
 
-            <x-mailcoach::text-field :label="__('mailcoach - Subject')" name="template.subject"
-                                     wire:model.lazy="template.subject" required/>
+            <x-mailcoach::text-field
+                :label="__('mailcoach - Subject')"
+                name="template.subject"
+                wire:model.lazy="template.subject"
+                required
+            />
 
-            @livewire(\Livewire\Livewire::getAlias(config('mailcoach.template_editor')), ['model' => $template])
+            @if ($template->type === 'html')
+                @livewire(\Livewire\Livewire::getAlias(config('mailcoach.template_editor')), ['model' => $template])
+            @else
+                <?php
+                $editor = config('mailcoach.template_editor', \Spatie\Mailcoach\Domain\Shared\Support\Editor\TextEditor::class);
+                $editorName = (new ReflectionClass($editor))->getShortName();
+                ?>
+                <x-mailcoach::html-field label="{{ [
+                    'html' => 'HTML (' . $editorName . ')',
+                    'markdown' => 'Markdown',
+                    'blade' => 'Blade',
+                    'blade-markdown' => 'Blade with Markdown',
+                ][$template->type] }}" name="template.body" wire:model.lazy="template.body" />
+
+                <x-mailcoach::editor-buttons :model="$template" :preview-html="$template->body" />
+            @endif
         </x-mailcoach::fieldset>
     </form>
-
-    <x-mailcoach::preview-modal :title="__('mailcoach - Preview') . ' - ' . $template->subject" :html="$template->body"/>
 
     @if($template->canBeTested())
         <x-mailcoach::modal :title="__('mailcoach - Send Test')" name="send-test" :dismissable="true">
@@ -35,5 +52,5 @@
         </x-mailcoach::modal>
     @endif
 
-    <x-mailcoach::transactional-mail-template-replacer-help-texts :template="$template"/>
+    <x-mailcoach::replacer-help-texts :model="$template" />
 </div>

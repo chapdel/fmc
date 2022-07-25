@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Domain\TransactionalMail\Models;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Mail\Mailable;
 use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Database\Factories\TransactionalMailTemplateFactory;
@@ -35,6 +36,11 @@ class TransactionalMailTemplate extends Model implements HasHtmlContent
         'bcc' => 'array',
         'replacers' => 'array',
     ];
+
+    public function template(): BelongsTo
+    {
+        return $this->belongsTo(self::getTemplateClass());
+    }
 
     public function getTemplateFieldValues(): array
     {
