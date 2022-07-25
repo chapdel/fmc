@@ -3,7 +3,7 @@
         {{__('mailcoach - Placeholder cheat sheet')}}
     </button>
 
-    <x-mailcoach::modal medium dismissable :title="__('mailcoach - Placeholder cheat sheet')" name="placeholders">
+    <x-mailcoach::modal medium :dismissable="true" :title="__('mailcoach - Placeholder cheat sheet')" name="placeholders">
         <x-mailcoach::info class="markup-code">
             {{ __('mailcoach - You can use following placeholders in the subject and copy:') }}
         </x-mailcoach::info>

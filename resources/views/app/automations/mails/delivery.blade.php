@@ -72,7 +72,7 @@
 
                 <x-mailcoach::preview-modal :title="__('mailcoach - Preview') . ' - ' . $mail->subject" :html="$mail->html" />
 
-                <x-mailcoach::modal name="send-test">
+                <x-mailcoach::modal name="send-test" :dismissable="true">
                     <livewire:mailcoach::send-test :model="$mail" />
                 </x-mailcoach::modal>
                 <div class="mr-auto">

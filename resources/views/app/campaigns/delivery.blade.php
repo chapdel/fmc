@@ -139,7 +139,7 @@
 
                 <x-mailcoach::preview-modal :title="__('mailcoach - Preview') . ' - ' . $campaign->subject" :html="$campaign->html" />
 
-                <x-mailcoach::modal :title="__('mailcoach - Send Test')" name="send-test">
+                <x-mailcoach::modal :title="__('mailcoach - Send Test')" name="send-test" :dismissable="true">
                     <livewire:mailcoach::send-test :model="$campaign" />
                 </x-mailcoach::modal>
             @endif
@@ -354,7 +354,7 @@
                     >
                         <x-mailcoach::button x-on:click="$store.modals.open('send-campaign')" :label="__('mailcoach - Send now')"/>
                     </div>
-                    <x-mailcoach::modal name="send-campaign" x-data>
+                    <x-mailcoach::modal name="send-campaign" :dismissable="true" x-data>
                         <div class="grid gap-8 p-6">
                             <p class="text-lg">
                                 {{ __('mailcoach - Are you sure you want to send this campaign to') }}

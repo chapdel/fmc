@@ -61,7 +61,7 @@
                 </section>
             </main>
 
-            <x-mailcoach::modal :title="__('mailcoach - Confirm')" name="confirm">
+            <x-mailcoach::modal :title="__('mailcoach - Confirm')" name="confirm" :dismissable="true">
                 <span x-text="confirmText"></span>
 
                 <x-mailcoach::form-buttons>

@@ -16,6 +16,7 @@
         :name="$name"
         large
         :open="request()->get('modal') === $name"
+        :dismissable="true"
     >
         <iframe style="width: 100%; height: 100%;" id="{{ $name }}-iframe"></iframe>
     </x-mailcoach::modal>

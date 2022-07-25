@@ -30,7 +30,7 @@
     <x-mailcoach::preview-modal :title="__('mailcoach - Preview') . ' - ' . $template->subject" :html="$template->body"/>
 
     @if($template->canBeTested())
-        <x-mailcoach::modal :title="__('mailcoach - Send Test')" name="send-test">
+        <x-mailcoach::modal :title="__('mailcoach - Send Test')" name="send-test" :dismissable="true">
             @include('mailcoach::app.transactionalMails.templates.partials.test')
         </x-mailcoach::modal>
     @endif
