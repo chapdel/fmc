@@ -32,7 +32,7 @@
                 :label="__('mailcoach - Tags')"
                 name="tags"
                 :value="$tags"
-                :tags="$subscriber->emailList->tags()->where('type', \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::Default)->pluck('name')->toArray()"
+                :tags="$subscriber->emailList->tags()->pluck('name')->toArray()"
                 allow-create
             />
 
@@ -77,7 +77,7 @@
         @endif
         </x-mailcoach::card>
     @endif
-    
+
     @if ($tab === 'sends')
         <livewire:mailcoach::subscriber-sends :subscriber="$subscriber" :email-list="$emailList" />
     @endif
