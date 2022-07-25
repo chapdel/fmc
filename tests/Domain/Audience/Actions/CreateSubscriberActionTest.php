@@ -1,7 +1,6 @@
 <?php
 
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\CreateSubscriberAction;
-use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\UpdateSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Support\PendingSubscriber;
