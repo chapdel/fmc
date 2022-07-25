@@ -14,7 +14,7 @@
         </x-mailcoach::info>
 
         <?php
-        $editor = config('mailcoach.template_editor', \Spatie\Mailcoach\Domain\Shared\Support\Editor\TextEditor::class);
+        $editor = config('mailcoach.template_editor', \Spatie\Mailcoach\Http\App\Livewire\TextAreaEditorComponent::class));
         $editorName = (new ReflectionClass($editor))->getShortName();
         ?>
         <x-mailcoach::select-field

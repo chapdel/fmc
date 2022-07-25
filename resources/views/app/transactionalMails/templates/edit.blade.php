@@ -28,10 +28,10 @@
             />
 
             @if ($template->type === 'html')
-                @livewire(\Livewire\Livewire::getAlias(config('mailcoach.template_editor')), ['model' => $template])
+                @livewire(\Livewire\Livewire::getAlias(config('mailcoach.content_editor')), ['model' => $template])
             @else
                 <?php
-                $editor = config('mailcoach.template_editor', \Spatie\Mailcoach\Domain\Shared\Support\Editor\TextEditor::class);
+                $editor = config('mailcoach.content_editor', \Spatie\Mailcoach\Http\App\Livewire\TextAreaEditorComponent::class);
                 $editorName = (new ReflectionClass($editor))->getShortName();
                 ?>
                 <x-mailcoach::html-field label="{{ [
