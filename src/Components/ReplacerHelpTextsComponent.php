@@ -20,7 +20,7 @@ class ReplacerHelpTextsComponent extends Component
 
     public function replacerHelpTexts(): array
     {
-        return match(true) {
+        return match (true) {
             $this->model instanceof Campaign => $this->campaignReplacerHelpTexts(),
             $this->model instanceof AutomationMail => $this->automationReplacerHelpTexts(),
             $this->model instanceof TransactionalMailTemplate => $this->transactionalMailTemplateReplacerHelpTexts(),
