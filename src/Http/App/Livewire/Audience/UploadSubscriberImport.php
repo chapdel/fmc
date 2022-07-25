@@ -38,7 +38,11 @@ class UploadSubscriberImport extends Component
             'replace_tags' => $this->replaceTags === 'replace',
         ]);
 
-        $subscriberImport->addMedia($this->file)->toMediaCollection('importFile');
+        /** @var \Livewire\TemporaryUploadedFile $file */
+        $file = $this->file;
+        $path = $file->store('subscriber-import');
+
+        $subscriberImport->addMediaFromDisk($path, $file->disk)->toMediaCollection('importFile');
 
         $user = auth()->user();
 
@@ -47,7 +51,6 @@ class UploadSubscriberImport extends Component
         flash()->success(__('mailcoach - Your file has been uploaded. Follow the import status in the list below.'));
 
         return redirect(request()->header('Referer'));
-        ;
     }
 
     public function mount(EmailList $emailList)
