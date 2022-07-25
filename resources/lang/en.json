@@ -134,6 +134,7 @@
     "mailcoach - Consider adding the <code>::unsubscribeUrl::</code> placeholder.": "Consider adding the <code>::unsubscribeUrl::</code> placeholder.",
     "mailcoach - Content is missing": "Content is missing",
     "mailcoach - Content": "Content",
+    "mailcoach - Copied!": "Copied!",
     "mailcoach - Could not find subscription": "Could not find subscription",
     "mailcoach - Create ' . $n  ame)\" />": "Create ' . $name)\" />",
     "mailcoach - Create ' . $name)\" name=\"create-{{ $name }}\">": "Create ' . $name)\" name=\"create-{{ $name }}\">",
