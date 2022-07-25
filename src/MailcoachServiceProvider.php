@@ -84,6 +84,7 @@ use Spatie\Mailcoach\Http\App\Livewire\Audience\Subscribers;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\SubscriberSends;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\Tag;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\Tags;
+use Spatie\Mailcoach\Http\App\Livewire\Audience\UploadSubscriberImport;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationActions;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailClicks;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailOpens;
@@ -465,6 +466,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::subscribers', Mailcoach::getLivewireClass('subscribers', Subscribers::class));
         Livewire::component('mailcoach::subscriber', Mailcoach::getLivewireClass('subscriber', Subscriber::class));
         Livewire::component('mailcoach::subscriber-sends', Mailcoach::getLivewireClass('subscriber-sends', SubscriberSends::class));
+        Livewire::component('mailcoach::upload-subscriber-import', Mailcoach::getLivewireClass('upload-subscriber-import', UploadSubscriberImport::class));
         Livewire::component('mailcoach::create-tag', Mailcoach::getLivewireClass('create-tag', CreateTag::class));
         Livewire::component('mailcoach::tags', Mailcoach::getLivewireClass('tags', Tags::class));
         Livewire::component('mailcoach::tag', Mailcoach::getLivewireClass('tag', Tag::class));
