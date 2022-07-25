@@ -32,8 +32,8 @@
 @endphp
 
 <span class="
-    rounded-full 
-    inline-flex items-center justify-center 
+    rounded-full
+    inline-flex items-center justify-center
     leading-none
     shadow
     {{ $sizeCss[$size] }}
