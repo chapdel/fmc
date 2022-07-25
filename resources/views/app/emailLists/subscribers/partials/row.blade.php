@@ -30,7 +30,7 @@
     <td class="td-numeric hidden | xl:table-cell">{{
     $row->isUnsubscribed()
     ? $row->unsubscribed_at?->toMailcoachFormat()
-    : $row->created_at?->toMailcoachFormat() }}</td>
+    : $row->subscribed_at?->toMailcoachFormat() }}</td>
     <td class="td-action">
         <x-mailcoach::dropdown direction="left">
             <ul>

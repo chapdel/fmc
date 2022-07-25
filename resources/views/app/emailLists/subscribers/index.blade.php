@@ -21,7 +21,7 @@
         ['label' => __('mailcoach - Tags'), 'class' => 'hidden | xl:table-cell'],
         request()->input('filter.status') === \Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus::Unsubscribed
             ? ['attribute' => '-unsubscribed_at', 'label' => __('mailcoach - Unsubscribed at'), 'class' => 'w-48 th-numeric hidden | xl:table-cell']
-            : ['attribute' => '-created_at', 'label' => __('mailcoach - Subscribed at'), 'class' => 'w-48 th-numeric hidden | xl:table-cell'],
+            : ['attribute' => '-subscribed_at', 'label' => __('mailcoach - Subscribed at'), 'class' => 'w-48 th-numeric hidden | xl:table-cell'],
         ['class' => 'w-12'],
     ]"
 >
