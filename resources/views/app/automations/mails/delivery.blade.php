@@ -122,7 +122,7 @@
             <p class="markup-code">
                 {{ __("mailcoach - The following tags will be added to subscribers when they open or click the mail:") }}
             </p>
-            <ul class="flex space-x-2">
+            <ul class="flex flex-wrap space-x-2">
                 <li class="tag-neutral">{{ "automation-mail-{$mail->id}-opened" }}</li>
                 <li class="tag-neutral">{{ "automation-mail-{$mail->id}-clicked" }}</li>
             </ul>

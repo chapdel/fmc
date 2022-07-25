@@ -195,7 +195,7 @@
                         {!! __('mailcoach - Open & Click tracking are managed by your email provider, this campaign uses the <strong>:mailer</strong> mailer.', ['mailer' => $campaign->emailList->campaign_mailer]) !!}
                     </p>
                 @endif
-                <ul class="flex space-x-2">
+                <ul class="flex flex-wrap space-x-2">
                     <li class="tag">{{ "campaign-{$campaign->id}-opened" }}</li>
                     <li class="tag">{{ "campaign-{$campaign->id}-clicked" }}</li>
                     @foreach ($tags as $tag)
