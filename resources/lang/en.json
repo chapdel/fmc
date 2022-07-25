@@ -1,7 +1,5 @@
 {
-    "mailcoach - ' . $name)\" :paginator=\"$rows\" :total-count=\"$totalRowsCount\" wire:click=\"clearFilters\"></x-mailcoach::table-status>": "' . $name)\" :paginator=\"$rows\" :total-count=\"$totalRowsCount\" wire:click=\"clearFilters\"></x-mailcoach::table-status>",
-    "mailcoach - ([^)]*)' in Directory /Users/rias/Code/laravel-mailcoach": "([^)]*)' in Directory /Users/rias/Code/laravel-mailcoach",
-    "mailcoach - **:count** :subscriber have been subscribed to the list :emailListName',['count'=>$subscriberImport->imported_subscribers_count,'emailListName'=>$subscriberImport->emailList->name,'subscriber'=>trans_choice('mailcoach - subscriber|subscribers',$subscriberImport->imported_subscribers_count)]) }}.": "**:count** :subscriber have been subscribed to the list :emailListName',['count'=>$subscriberImport->imported_subscribers_count,'emailListName'=>$subscriberImport->emailList->name,'subscriber'=>trans_choice('mailcoach - subscriber|subscribers',$subscriberImport->imported_subscribers_count)]) }}.",
+    "mailcoach - **:count** :subscriber have been subscribed to the list :emailListName": "**:count** :subscriber have been subscribed to the list :emailListName",
     "mailcoach - :count unprocessed webhooks.": ":count unprocessed webhooks.",
     "mailcoach - :mail - :url": ":mail - :url",
     "mailcoach - :mail": ":mail",
