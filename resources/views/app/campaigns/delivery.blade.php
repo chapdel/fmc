@@ -1,4 +1,4 @@
-<x-mailcoach::card>
+<x-mailcoach::card wire:init="checkLinks">
     @if ($campaign->isEditable())
         <div class="grid gap-2">
             @if($campaign->isReady())
@@ -161,9 +161,12 @@
                     {{ __("mailcoach - The following links were found in your campaign, make sure they are valid.") }}
                 </p>
                 <ul class="grid gap-2">
-                    @foreach ($links as $url)
-                        <li>
-                            <a target="_blank" class="link" href="{{ $url }}">{{ $url }}</a><br>
+                    @foreach ($links as $url => $status)
+                        <li class="flex items-center gap-x-1">
+                            <a target="_blank" class="link" href="{{ $url }}">{{ $url }}</a>
+                            @if (!is_null($status))
+                                <x-mailcoach::health-label warning :test="$status" />
+                            @endif
                             @php($tags[] = \Spatie\Mailcoach\Domain\Shared\Support\LinkHasher::hash($campaign, $url))
                         </li>
                     @endforeach

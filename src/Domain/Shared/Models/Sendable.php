@@ -234,7 +234,8 @@ abstract class Sendable extends Model implements HasHtmlContent
                 return $link->getAttribute('href');
             })->reject(function (string $url) {
                 return str_contains($url, '::');
-            });
+            })
+            ->unique();
     }
 
     public function getHtml(): string
