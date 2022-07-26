@@ -125,6 +125,7 @@ abstract class DataTable extends Component
             : []
         )->layout($this->getLayout(), array_merge([
             'title' => $this->getTitle(),
+            'hideBreadcrumbs' => true,
         ], $this->getLayoutData()));
     }
 }

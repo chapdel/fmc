@@ -1,9 +1,9 @@
+@php($breadcrumbs = app($breadcrumbsNavigationClass ?? Spatie\Mailcoach\MainNavigation::class)->breadcrumbs())
 <div class="pl-1 flex items-center gap-x-2 text-xs text-gray-500">
-    <a class="hover:text-blue-800" href="{{ route(config('mailcoach.redirect_home')) }}">
-        Home
-    </a>
-    @foreach (app($breadcrumbsNavigationClass ?? Spatie\Mailcoach\MainNavigation::class)->breadcrumbs() as $breadcrumb)
-        <i class="fa fa-angle-right text-gray-400"></i>
+    @foreach ($breadcrumbs as $index => $breadcrumb)
+        @if (! $loop->first)
+            <i class="fa fa-angle-right text-gray-400"></i>
+        @endif
         <a class="hover:text-blue-800 last:font-semibold min-w-0 truncate" href="{{ $breadcrumb['url'] }}">{{ $breadcrumb['title'] }}</a>
     @endforeach
 
