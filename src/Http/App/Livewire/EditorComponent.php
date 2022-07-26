@@ -96,7 +96,7 @@ abstract class EditorComponent extends Component
         })->toArray();
     }
 
-    public function save()
+    public function saveQuietly()
     {
         $fieldValues = $this->filterNeededFields($this->templateFieldValues, $this->template);
 
@@ -115,6 +115,11 @@ abstract class EditorComponent extends Component
         $this->model->setHtml($this->fullHtml);
         $this->model->setTemplateFieldValues($fieldValues);
         $this->model->save();
+    }
+
+    public function save()
+    {
+        $this->saveQuietly();
 
         $this->flash(__('mailcoach - :name was updated.', ['name' => $this->model->name]));
 

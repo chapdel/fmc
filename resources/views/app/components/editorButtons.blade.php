@@ -11,7 +11,7 @@
     />
 
     @if (method_exists($model, 'sendTestMail'))
-        <x-mailcoach::button x-on:click.prevent="$wire.save() && $store.modals.open('send-test')" :label="__('mailcoach - Save and send test')"/>
+        <x-mailcoach::button x-on:click.prevent="$wire.saveQuietly() && $store.modals.open('send-test')" :label="__('mailcoach - Save and send test')"/>
         <x-mailcoach::modal name="send-test" :dismissable="true">
             <livewire:mailcoach::send-test :model="$model" />
         </x-mailcoach::modal>
