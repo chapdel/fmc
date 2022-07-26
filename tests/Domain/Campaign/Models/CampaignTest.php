@@ -1,6 +1,9 @@
 <?php
 
 use Carbon\Carbon;
+use Illuminate\Bus\UniqueLock;
+use Illuminate\Container\Container;
+use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Queue;
@@ -286,9 +289,6 @@ it('wont dispatch a calculate statistics job if it doesnt have any new sends', f
         'campaign_id' => test()->campaign->id,
     ]);
 
-    $lock = new CalculateStatisticsLock(test()->campaign);
-    $lock->release();
-
     test()->campaign->dispatchCalculateStatistics();
 
     Queue::assertPushed(CalculateStatisticsJob::class);
@@ -306,9 +306,6 @@ it('will only dispatch a calculate statistics job if it is sent', function () {
     \Spatie\Mailcoach\Domain\Shared\Models\Send::factory()->create([
         'campaign_id' => test()->campaign->id,
     ]);
-
-    $lock = new CalculateStatisticsLock(test()->campaign);
-    $lock->release();
 
     test()->campaign->update(['status' => CampaignStatus::Sent]);
 
@@ -340,6 +337,10 @@ it('can dispatch the recalculation job again after the previous job has run', fu
     \Spatie\Mailcoach\Domain\Shared\Models\Send::factory()->create([
         'campaign_id' => test()->campaign->id,
     ]);
+
+    cache()->lock(
+        'laravel_unique_job:'.CalculateStatisticsJob::class.test()->campaign->uuid
+    )->forceRelease(); // Lock released
 
     test()->campaign->dispatchCalculateStatistics();
 

@@ -411,14 +411,8 @@ class Campaign extends Sendable implements Feedable
         return resolve($mailableClass, $mailableArguments);
     }
 
-    public function dispatchCalculateStatistics()
+    public function dispatchCalculateStatistics(): void
     {
-        $lock = new CalculateStatisticsLock($this);
-
-        if (! $lock->get()) {
-            return;
-        }
-
         if (! $this->isSent()) {
             return;
         }

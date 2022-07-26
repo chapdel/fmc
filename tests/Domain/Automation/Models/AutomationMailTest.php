@@ -30,9 +30,6 @@ it('wont dispatch a calculate statistics job if it doesnt have any new sends', f
         'automation_mail_id' => $automationMail->id,
     ]);
 
-    $lock = new CalculateStatisticsLock($automationMail);
-    $lock->release();
-
     $automationMail->dispatchCalculateStatistics();
 
     Queue::assertPushed(CalculateStatisticsJob::class);

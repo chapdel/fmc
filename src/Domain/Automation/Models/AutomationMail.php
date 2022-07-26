@@ -172,12 +172,6 @@ class AutomationMail extends Sendable
 
     public function dispatchCalculateStatistics()
     {
-        $lock = new CalculateStatisticsLock($this);
-
-        if (! $lock->get()) {
-            return;
-        }
-
         $latestEvent = max(
             $this->sends()->latest()->first()?->created_at,
             $this->opens()->latest()->first()?->created_at,

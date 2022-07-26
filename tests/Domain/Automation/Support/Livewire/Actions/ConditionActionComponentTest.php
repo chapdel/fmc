@@ -60,7 +60,6 @@ it('shows custom conditions', function () {
         'uuid' => Str::uuid()->toString(),
         'editing' => true,
     ])
-        ->assertSee('A custom condition')
         ->set('editing', false)
         ->set('condition', CustomCondition::class)
         ->assertSee('Some description');

@@ -4,16 +4,16 @@ namespace Spatie\Mailcoach\Domain\Shared\Jobs;
 
 use Exception;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\Shared\Actions\CalculateStatisticsAction;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
-use Spatie\Mailcoach\Domain\Shared\Support\CalculateStatisticsLock;
 use Spatie\Mailcoach\Mailcoach;
 
-class CalculateStatisticsJob implements ShouldQueue
+class CalculateStatisticsJob implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable;
     use InteractsWithQueue;
@@ -24,6 +24,8 @@ class CalculateStatisticsJob implements ShouldQueue
 
     public $queue;
 
+    public int $uniqueFor = 60;
+
     public function __construct(Sendable $sendable)
     {
         $this->sendable = $sendable;
@@ -31,6 +33,11 @@ class CalculateStatisticsJob implements ShouldQueue
         $this->queue = config('mailcoach.shared.perform_on_queue.calculate_statistics_job');
 
         $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
+    }
+
+    public function uniqueId()
+    {
+        return $this->sendable->uuid;
     }
 
     public function handle()
@@ -43,7 +50,5 @@ class CalculateStatisticsJob implements ShouldQueue
         } catch (Exception $exception) {
             report($exception);
         }
-
-        (new CalculateStatisticsLock($this->sendable))->release();
     }
 }
