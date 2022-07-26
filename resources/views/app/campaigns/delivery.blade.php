@@ -34,7 +34,10 @@
             </dt>
 
             <dd>
-                {{ $campaign->emailList->default_from_email }} {{ $campaign->emailList->default_from_name ? "({$campaign->emailList->default_from_name})" : '' }}
+                <span>
+                    {{ $campaign->emailList->default_from_email }} {{ $campaign->emailList->default_from_name ? "({$campaign->emailList->default_from_name})" : '' }}
+                    <a href="{{ route('mailcoach.emailLists.general-settings', $campaign->emailList) }}" class="link">{{ strtolower(__('mailcoach - Edit')) }}</a>
+                </span>
             </dd>
 
             @if ($campaign->emailList->default_reply_to_email)
@@ -43,7 +46,10 @@
                 </dt>
 
                 <dd>
-                    {{ $campaign->emailList->default_reply_to_email }} {{ $campaign->emailList->default_reply_to_name ? "({$campaign->emailList->default_reply_to_name})" : '' }}
+                    <span>
+                        {{ $campaign->emailList->default_reply_to_email }} {{ $campaign->emailList->default_reply_to_name ? "({$campaign->emailList->default_reply_to_name})" : '' }}
+                        <a href="{{ route('mailcoach.emailLists.general-settings', $campaign->emailList) }}" class="link">{{ strtolower(__('mailcoach - Edit')) }}</a>
+                    </span>
                 </dd>
             @endif
 
@@ -52,8 +58,8 @@
             </dt>
 
             <dd>
-                @if($campaign->emailListSubscriberCount())
-                    <div>
+                <div>
+                    @if($campaign->emailListSubscriberCount())
                         {{ $campaign->emailList->name }}
                         @if($campaign->usesSegment())
                             ({{ $campaign->getSegment()->description() }})
@@ -64,12 +70,13 @@
                                 {{ trans_choice('mailcoach - subscriber|subscribers', $campaign->segmentSubscriberCount()) }}
                             </span>
                         </span>
-                    </div>
-                @elseif($campaign->emailList)
-                    {{ __('mailcoach - Selected list has no subscribers') }}
-                @else
-                    {{ __('mailcoach - No list selected') }}
-                @endif
+                    @elseif($campaign->emailList)
+                        {{ __('mailcoach - Selected list has no subscribers') }}
+                    @else
+                        {{ __('mailcoach - No list selected') }}
+                    @endif
+                    <a href="{{ route('mailcoach.campaigns.settings', $campaign) }}" class="link">{{ strtolower(__('mailcoach - Edit')) }}</a>
+                </div>
             </dd>
         @endif
 
@@ -78,7 +85,10 @@
         </dt>
 
         <dd>
-            {{ $campaign->subject ?? __('mailcoach - Subject is empty') }}
+            <span>
+                {{ $campaign->subject ?? __('mailcoach - Subject is empty') }}
+                <a href="{{ route('mailcoach.campaigns.settings', $campaign) }}" class="link">{{ strtolower(__('mailcoach - Edit')) }}</a>
+            </span>
         </dd>
 
         @if ($campaign->emailList)
