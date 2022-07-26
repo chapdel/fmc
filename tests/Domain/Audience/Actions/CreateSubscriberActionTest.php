@@ -1,10 +1,8 @@
 <?php
 
-use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\CreateSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Support\PendingSubscriber;
-use Spatie\Mailcoach\Mailcoach;
 
 beforeEach(function () {
     test()->subscriber = Subscriber::factory()->create();
