@@ -84,6 +84,18 @@ document.addEventListener('alpine:init', () => {
                             bodySpacing: 8,
                             padding: 20,
                             displayColors: false,
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    let value = context.raw;
+
+                                    if (typeof value === 'number') {
+                                        value = Math.abs(value);
+                                    }
+
+                                    return `${label}: ${value}`;
+                                },
+                            },
                         },
                     },
                     scales: {

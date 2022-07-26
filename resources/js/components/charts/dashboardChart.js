@@ -85,6 +85,16 @@ document.addEventListener('alpine:init', () => {
                             padding: 20,
                             displayColors: false,
                             callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    let value = context.raw;
+
+                                    if (typeof value === 'number') {
+                                        value = Math.abs(value);
+                                    }
+
+                                    return `${label}: ${value}`;
+                                },
                                 afterBody: tooltips => {
                                     const campaigns = this.chartData.campaigns[tooltips[0].dataIndex];
 
