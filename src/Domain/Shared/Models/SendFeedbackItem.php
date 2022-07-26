@@ -33,6 +33,6 @@ class SendFeedbackItem extends Model
             SendFeedbackType::Complaint->value => __('mailcoach - Received complaint'),
         ];
 
-        return (string) ($formattedTypes[$this->type] ?? '');
+        return (string) ($formattedTypes[$this->type->value] ?? '');
     }
 }
