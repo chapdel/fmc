@@ -22,7 +22,7 @@ class SendScheduledCampaignsCommand extends Command
         $this->comment('Checking if there are scheduled campaigns that should be sent...');
 
         /** @var class-string<Campaign> $campaignClass */
-        $campaignClass = $this->getCampaignClass();
+        $campaignClass = self::getCampaignClass();
 
         $campaignClass::shouldBeSentNow()
             ->each(function (Campaign $campaign) {

@@ -23,9 +23,6 @@ beforeEach(function () {
 it('does not override the subscribed_at', function () {
     \Spatie\TestTime\TestTime::freeze();
 
-    /** @var CreateSubscriberAction $createSubscriberAction */
-    $createSubscriberAction = Mailcoach::getAutomationActionClass('create_subscriber', CreateSubscriberAction::class);
-
     $existingSubscriber = Subscriber::factory()->create([
         'email' => 'john@doe.com',
         'subscribed_at' => now()->subDays(1),
