@@ -37,7 +37,12 @@ class SendTest extends Component
 
         if ($this->model instanceof Sendable) {
             $this->model->sendTestMail($emails);
-            $this->flash(__('mailcoach - A test email was sent to :count addresses.', ['count' => count($emails)]));
+
+            if (count($emails) > 1) {
+                $this->flash(__('mailcoach - A test email was sent to :count addresses.', ['count' => count($emails)]));
+            } else {
+                $this->flash(__('mailcoach - A test email was sent to :email.', ['email' => $emails[0]]));
+            }
         } else {
             $this->flashError(__('mailcoach - Model :model does not support sending tests.', ['model' => $this->model::class]));
         }

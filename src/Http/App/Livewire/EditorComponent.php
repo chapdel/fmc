@@ -126,45 +126,6 @@ abstract class EditorComponent extends Component
         $this->emit('editorSaved');
     }
 
-    public function sendTest()
-    {
-        $this->validate([
-            'emails' => ['required', (new Delimited('email'))->min(1)->max(10)],
-        ]);
-
-        $this->model->setHtml($this->fullHtml);
-        $this->model->template_id = $this->template?->id;
-        $this->model->save();
-
-        $sanitizedEmails = array_map('trim', explode(',', $this->emails));
-
-        $this->model->sendTestMail($sanitizedEmails);
-
-        cache()->put(
-            'mailcoach-test-email-addresses',
-            $this->emails,
-            (int)CarbonInterval::month()->totalSeconds,
-        );
-
-        $this->flashSuccessMessage($sanitizedEmails);
-
-        // close modal
-    }
-
-
-    protected function flashSuccessMessage(array $emails): void
-    {
-        if (count($emails) > 1) {
-            $emailCount = count($emails);
-
-            //flash()->success(__('mailcoach - A test email was sent to :count addresses.', ['count' => $emailCount]));
-
-            return;
-        }
-
-        // flash()->success(__('mailcoach - A test email was sent to :email.', ['email' => $emails[0]]));
-    }
-
     protected function filterNeededFields(array $fields, ?Template $template): array
     {
         if (! $template) {
