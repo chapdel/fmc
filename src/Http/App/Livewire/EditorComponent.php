@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire;
 
-use Carbon\CarbonInterval;
 use Illuminate\Support\Arr;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
@@ -12,7 +11,6 @@ use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Spatie\Mailcoach\Domain\Shared\Support\TemplateRenderer;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
-use Spatie\ValidationRules\Rules\Delimited;
 
 abstract class EditorComponent extends Component
 {
