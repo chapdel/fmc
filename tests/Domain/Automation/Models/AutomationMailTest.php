@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
-use Spatie\Mailcoach\Domain\Shared\Support\CalculateStatisticsLock;
 
 beforeEach(function () {
     Queue::fake();
