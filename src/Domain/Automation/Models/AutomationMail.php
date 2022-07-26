@@ -172,9 +172,9 @@ class AutomationMail extends Sendable
     public function dispatchCalculateStatistics()
     {
         $latestEvent = max(
-            $this->sends()->latest()->first()?->created_at,
-            $this->opens()->latest()->first()?->created_at,
-            $this->clicks()->latest()->first()?->created_at,
+            $this->sends()->latest('id')->first()?->created_at,
+            $this->opens()->latest('id')->first()?->created_at,
+            $this->clicks()->latest('id')->first()?->created_at,
         );
 
         if (! $this->statistics_calculated_at || ($latestEvent && $latestEvent >= $this->statistics_calculated_at)) {
