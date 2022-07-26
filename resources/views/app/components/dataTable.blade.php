@@ -11,12 +11,8 @@
 'noResultsText' => null,
 'searchable' => true,
 ])
-@php
-    $showFilters = $totalRowsCount > 0 && count($filters);
-    $showSearch = $searchable && ($this->isFiltering() || $rows->count())
-@endphp
 <div wire:init="loadRows" class="card-grid">
-    @if (isset($actions) || $modelClass || $showFilters || $showSearch)
+    @if (isset($actions) || $modelClass || count($filters) || $searchable)
     <div class="table-actions">
         {{ $actions ?? '' }}
         @if ($modelClass)
@@ -29,21 +25,19 @@
         @endif
 
         <div class="table-filters">
-            @if ($showFilters)
+            @if (count($filters))
             <x-mailcoach::filters>
                 @foreach ($filters as $filter)
                 @php($attribute = $filter['attribute'])
                 <x-mailcoach::filter :current="$this->$attribute" value="{{ $filter['value'] instanceof UnitEnum ? $filter['value']->value : $filter['value'] }}" attribute="{{ $filter['attribute'] }}">
                     {{ $filter['label'] }}
-                    @isset($filter['count'])
-                    <span class="counter">{{ Illuminate\Support\Str::shortNumber($filter['count']) }}</span>
-                    @endisset
+                    <span class="counter">{{ Illuminate\Support\Str::shortNumber($filter['count'] ?? 0) }}</span>
                 </x-mailcoach::filter>
                 @endforeach
             </x-mailcoach::filters>
             @endif
 
-            @if($showSearch)
+            @if($searchable)
             <x-mailcoach::search wire:model.debounce.500ms="search" :placeholder="__('mailcoach - Search…')" />
             @endif
         </div>

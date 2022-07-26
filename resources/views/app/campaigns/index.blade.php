@@ -29,10 +29,11 @@
 >
     @slot('actions')
         @can('create', \Spatie\Mailcoach\Mailcoach::getCampaignClass())
-            @if ($totalListsCount ?? 0)
-                <x-mailcoach::button x-on:click="$store.modals.open('create-campaign')"
-                                     :label="__('mailcoach - Create campaign')"/>
-            @endif
+            <x-mailcoach::button
+                x-on:click="$store.modals.open('create-campaign')"
+                :disabled="($totalListsCount ?? 0) === 0"
+                :label="__('mailcoach - Create campaign')"
+            />
 
             <x-mailcoach::modal name="create-campaign" :title="__('mailcoach - Create campaign')"
                                 :confirm-text="__('mailcoach - Create campaign')">
