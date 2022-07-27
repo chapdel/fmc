@@ -547,7 +547,7 @@
     "mailcoach - You are now subscribed to the list <strong class=\"font-semibold\">:emailListName</strong>.": "You are now subscribed to the list <strong class=\"font-semibold\">:emailListName</strong>.",
     "mailcoach - You are now subscribed to the list <strong class=\"font-semibold\">our dummy mailing list</strong>.": "You are now subscribed to the list <strong class=\"font-semibold\">our dummy mailing list</strong>.",
     "mailcoach - You can drag the chart to zoom.": "You can drag the chart to zoom.",
-    "mailcoach - You can use following placeholders in the subject and body of the confirmation mail:": "You can use following placeholders in the subject and body of the confirmation mail:",
+    "mailcoach - You can use the following placeholders in the subject and body of the confirmation mail:": "You can use the following placeholders in the subject and body of the confirmation mail:",
     "mailcoach - You can use following placeholders in the subject and copy:": "You can use following placeholders in the subject and copy:",
     "mailcoach - You have been unsubscribed from list <strong class=\"font-semibold\">:emailListName</strong>.": "You have been unsubscribed from list <strong class=\"font-semibold\">:emailListName</strong>.",
     "mailcoach - You have been unsubscribed from list <strong class=\"font-semibold\">:emailListName</strong>'s tag :tag.": "You have been unsubscribed from list <strong class=\"font-semibold\">:emailListName</strong>'s tag :tag.",

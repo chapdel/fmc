@@ -110,8 +110,8 @@
                         </x-mailcoach::info>
                     @endif
 
-                    <x-mailcoach::help class="markup-code">
-                        {{ __('mailcoach - You can use following placeholders in the subject and body of the confirmation mail:') }}
+                    <x-mailcoach::help class="markup-code lg:max-w-3xl">
+                        {{ __('mailcoach - You can use the following placeholders in the subject and body of the confirmation mail:') }}
                         <dl class="mt-4 markup-dl">
                             <dt><code>::confirmUrl::</code></dt>
                             <dd>{{ __('mailcoach - The URL where the subscription can be confirmed') }}</dd>
