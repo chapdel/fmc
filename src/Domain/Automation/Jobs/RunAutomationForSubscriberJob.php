@@ -50,6 +50,10 @@ class RunAutomationForSubscriberJob implements ShouldQueue
             return;
         }
 
+        if (! $this->automation->emailList) {
+            return;
+        }
+
         $this->automation->run($this->subscriber);
     }
 }
