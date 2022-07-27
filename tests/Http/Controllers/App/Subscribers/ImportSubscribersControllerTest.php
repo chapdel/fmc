@@ -8,8 +8,6 @@ use Spatie\Mailcoach\Domain\Audience\Mails\ImportSubscribersResultMail;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\ImportSubscribersController;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 beforeEach(function () {
     test()->emailList = EmailList::factory()->create();

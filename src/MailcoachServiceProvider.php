@@ -83,7 +83,6 @@ use Spatie\Mailcoach\Http\App\Livewire\Audience\Subscribers;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\SubscriberSends;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\Tag;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\Tags;
-use Spatie\Mailcoach\Http\App\Livewire\Audience\UploadSubscriberImport;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationActions;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailClicks;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailOpens;
