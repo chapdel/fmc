@@ -24,6 +24,8 @@ class ListOnboarding extends Component
 
     public array $allowed_form_subscription_tags;
 
+    public array $transactionalMailTemplates = [];
+
     protected $listeners = [
         'tags-updated-allowed_form_subscription_tags' => 'updateAllowedFormSubscriptionTags',
     ];
@@ -40,8 +42,11 @@ class ListOnboarding extends Component
             'emailList.redirect_after_subscription_pending' => '',
             'emailList.redirect_after_unsubscribed' => '',
             'confirmation_mail' => Rule::in([static::CONFIRMATION_MAIL_DEFAULT, static::CONFIRMATION_MAIL_CUSTOM]),
-            'emailList.confirmation_mail_subject' => 'required_if:confirmation_mail,' . static::CONFIRMATION_MAIL_CUSTOM,
-            'emailList.confirmation_mail_content' => 'required_if:confirmation_mail,'. static::CONFIRMATION_MAIL_CUSTOM,
+            'emailList.confirmation_mail_id' => [
+                'nullable',
+                'required_if:confirmation_mail,'. static::CONFIRMATION_MAIL_CUSTOM,
+                Rule::exists(self::getTransactionalMailTemplateTableName(), 'id')
+            ],
         ];
     }
 
@@ -50,8 +55,7 @@ class ListOnboarding extends Component
         $customMailRequiredValidationMessage = __('mailcoach - This field is required when using a custom mail');
 
         return [
-            'emailList.confirmation_mail_subject.required_if' => $customMailRequiredValidationMessage,
-            'emailList.confirmation_mail_content.required_if' => $customMailRequiredValidationMessage,
+            'emailList.confirmation_mail_id.required_if' => $customMailRequiredValidationMessage,
         ];
     }
 
@@ -63,15 +67,20 @@ class ListOnboarding extends Component
     public function updatedConfirmationMail()
     {
         if ($this->confirmation_mail === self::CONFIRMATION_MAIL_DEFAULT) {
-            $this->emailList->confirmation_mail_subject = null;
-            $this->emailList->confirmation_mail_content = null;
+            $this->emailList->confirmation_mail_id = null;
         }
     }
 
     public function mount(EmailList $emailList)
     {
-        $this->emailList = $emailList->load(['tags', 'allowedFormSubscriptionTags']);
+        $this->emailList = $emailList->load(['tags', 'allowedFormSubscriptionTags', 'confirmationMail']);
+
+        if (! $this->emailList->confirmationMail) {
+            $this->emailList->confirmation_mail_id = null;
+        }
+
         $this->allowed_form_subscription_tags = $this->emailList->allowedFormSubscriptionTags->pluck('name')->toArray();
+        $this->transactionalMailTemplates = self::getTransactionalMailTemplateClass()::pluck('name', 'id')->toArray();
 
         app(MainNavigation::class)->activeSection()->add($this->emailList->name, route('mailcoach.emailLists.onboarding', $this->emailList));
     }

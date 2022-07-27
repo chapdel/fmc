@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Domain\Audience\Models;
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\MySqlConnection;
@@ -74,6 +75,11 @@ class EmailList extends Model
     public function subscriberImports(): HasMany
     {
         return $this->hasMany(self::getSubscriberImportClass(), 'email_list_id');
+    }
+
+    public function confirmationMail(): BelongsTo
+    {
+        return $this->belongsTo(self::getTransactionalMailTemplateClass(), 'confirmation_mail_id');
     }
 
     public function tags(): HasMany
@@ -169,11 +175,7 @@ class EmailList extends Model
 
     public function hasCustomizedConfirmationMailFields(): bool
     {
-        if (! empty($this->confirmation_mail_subject)) {
-            return true;
-        }
-
-        if (! empty($this->confirmation_mail_content)) {
+        if (! empty($this->confirmation_mail_id)) {
             return true;
         }
 

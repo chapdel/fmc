@@ -29,8 +29,7 @@ return new class extends Migration
             $table->string('redirect_after_unsubscribed')->nullable();
 
             $table->boolean('requires_confirmation')->default(false);
-            $table->string('confirmation_mail_subject')->nullable();
-            $table->text('confirmation_mail_content')->nullable();
+            $table->foreignId('confirmation_mail_id')->nullable();
             $table->string('confirmation_mailable_class')->nullable();
 
             $table->string('campaign_mailer')->nullable();

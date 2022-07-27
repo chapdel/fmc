@@ -35,8 +35,7 @@ class UpdateEmailListAction
 
         if ($request instanceof UpdateEmailListSettingsRequest) {
             $emailList->fill([
-                'confirmation_mail_subject' => $request->sendDefaultConfirmationMail() ? null : $request->confirmation_mail_subject,
-                'confirmation_mail_content' => $request->sendDefaultConfirmationMail() ? null : $request->confirmation_mail_content,
+                'confirmation_mail_id' => $request->sendDefaultConfirmationMail() ? null : $request->confirmation_mail_id,
             ]);
 
             $emailList->allowedFormSubscriptionTags()->sync($request->allowedFormSubscriptionTags());

@@ -88,31 +88,39 @@
                 </div>
 
                 <div class="form-grid" x-show="confirmationMail === 'send_custom_confirmation_mail'">
-                    <x-mailcoach::text-field :label="__('mailcoach - Subject')"
-                                             name="emailList.confirmation_mail_subject"
-                                             wire:model.lazy="emailList.confirmation_mail_subject" type="text"/>
+                    @if (count($transactionalMailTemplates))
+                        <div class="flex items-center gap-x-2 max-w-sm">
+                            <div class="w-full">
+                                <x-mailcoach::select-field
+                                    wire:model="emailList.confirmation_mail_id"
+                                    name="emailList.confirmation_mail_id"
+                                    :options="$transactionalMailTemplates"
+                                    :placeholder="__('mailcoach - Select a transactional mail template')"
+                                />
+                            </div>
+                            @if ($emailList->confirmationMail)
+                                <a href="{{ route('mailcoach.transactionalMails.templates.edit', $emailList->confirmationMail) }}" class="link">{{ __('mailcoach - Edit') }}</a>
+                            @endif
+                        </div>
+                    @else
+                        <x-mailcoach::info>
+                            {!! __('mailcoach - You need to create a transactional mail template first. <a href=":createLink" class="link">Create one here</a>', [
+                                'createLink' => route('mailcoach.transactionalMails.templates'),
+                            ]) !!}
+                        </x-mailcoach::info>
+                    @endif
 
-                    <div class="form-field max-w-full">
-                        <label class="label label-required" for="html">{{ __('mailcoach - Body (HTML)') }}</label>
-                        <textarea class="input input-html" rows="20" id="html"
-                                  name="emailList.confirmation_mail_content"
-                                  wire:model.lazy="emailList.confirmation_mail_content"></textarea>
-                        @error('emailList.confirmation_mail_content')
-                        <p class="form-error">{{ $message }}</p>
-                        @enderror
-
-                        <x-mailcoach::help class="mt-12 markup-code">
-                            {{ __('mailcoach - You can use following placeholders in the subject and body of the confirmation mail:') }}
-                            <dl class="mt-4 markup-dl">
-                                <dt><code>::confirmUrl::</code></dt>
-                                <dd>{{ __('mailcoach - The URL where the subscription can be confirmed') }}</dd>
-                                <dt><code>::subscriber.first_name::</code></dt>
-                                <dd>{{ __('mailcoach - The first name of the subscriber') }}</dd>
-                                <dt><code>::list.name::</code></dd>
-                                <dd>{{ __('mailcoach - The name of this list') }}</dd>
-                            </dl>
-                        </x-mailcoach::help>
-                    </div>
+                    <x-mailcoach::help class="markup-code">
+                        {{ __('mailcoach - You can use following placeholders in the subject and body of the confirmation mail:') }}
+                        <dl class="mt-4 markup-dl">
+                            <dt><code>::confirmUrl::</code></dt>
+                            <dd>{{ __('mailcoach - The URL where the subscription can be confirmed') }}</dd>
+                            <dt><code>::subscriber.first_name::</code></dt>
+                            <dd>{{ __('mailcoach - The first name of the subscriber') }}</dd>
+                            <dt><code>::list.name::</code></dt>
+                            <dd>{{ __('mailcoach - The name of this list') }}</dd>
+                        </dl>
+                    </x-mailcoach::help>
                 </div>
             @else
                 <x-mailcoach::info>

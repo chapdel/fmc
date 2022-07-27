@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Mails\ConfirmSubscriberMail;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 use Spatie\Mailcoach\Tests\TestClasses\CustomConfirmSubscriberMail;
 
 beforeEach(function () {
@@ -43,9 +44,14 @@ test('the confirmation mail has a default subject', function () {
 test('the subject of the confirmation mail can be customized', function () {
     Mail::fake();
 
-    test()->emailList->update(['confirmation_mail_subject' => 'Hello ::subscriber.first_name::, welcome to ::list.name::']);
+    $template = TransactionalMailTemplate::factory()->create([
+        'subject' => 'Hello ::subscriber.first_name::, welcome to ::list.name::',
+    ]);
 
-    Subscriber::createWithEmail('john@example.com', ['first_name' => 'John'])->subscribeTo(test()->emailList);
+    test()->emailList->update(['confirmation_mail_id' => $template->id]);
+
+    Subscriber::createWithEmail('john@example.com', ['first_name' => 'John'])
+        ->subscribeTo(test()->emailList);
 
     Mail::assertQueued(ConfirmSubscriberMail::class, function (ConfirmSubscriberMail $mail) {
         $mail->build();
@@ -70,7 +76,11 @@ test('the confirmation mail can have custom content', function () {
 
     Subscriber::$fakeUuid = 'my-uuid';
 
-    test()->emailList->update(['confirmation_mail_content' => 'Hi ::subscriber.first_name::, press ::confirmUrl:: to subscribe to ::list.name::']);
+    $template = TransactionalMailTemplate::factory()->create([
+        'body' => 'Hi ::subscriber.first_name::, press ::confirmUrl:: to subscribe to ::list.name::',
+    ]);
+
+    test()->emailList->update(['confirmation_mail_id' => $template->id]);
 
     $subscriber = Subscriber::createWithEmail('john@example.com', ['first_name' => 'John'])->subscribeTo(test()->emailList);
 
