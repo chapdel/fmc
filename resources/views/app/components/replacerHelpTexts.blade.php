@@ -9,7 +9,7 @@
         </x-mailcoach::info>
             <dl class="mt-4 markup-dl markup-code">
                 @foreach($replacerHelpTexts as $replacerName => $replacerDescription)
-                    <dt x-data="{ value: '::{{ $replacerName }}::' }"><code @click="() => {
+                    <dt x-data="{ value: @js("::{$replacerName}::") }"><code @click="() => {
                         $clipboard(value);
                         value = '{{ __('mailcoach - Copied!') }}';
                         setTimeout(() => {

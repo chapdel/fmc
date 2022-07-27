@@ -3,7 +3,7 @@
         notifications: [],
         @if (flash()->message)
         init() {
-            this.add({ id: 1, detail: { content: '{{ flash()->message }}', type: '{{ flash()->level }}' } })
+            this.add({ id: 1, detail: { content: @js(flash()->message), type: '{{ flash()->level }}' } })
         },
        @endif
         add(e) {

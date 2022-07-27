@@ -13,7 +13,7 @@
 ])
 <div
     x-data="{
-        value: '{{ $value }}',
+        value: @js($value),
         init() {
             let picker;
 

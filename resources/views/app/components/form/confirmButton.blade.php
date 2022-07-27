@@ -17,8 +17,8 @@
     <button
         x-on:click.prevent="
             $store.modals.open('confirm');
-            confirmText = '{{ $confirmText }}';
-            onConfirm = {{ $onConfirm }};
+            confirmText = @js($confirmText);
+            onConfirm = @js($onConfirm);
         "
         type="submit"
         class="{{ $class ?? '' }}"

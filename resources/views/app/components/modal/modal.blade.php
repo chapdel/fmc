@@ -12,11 +12,11 @@
     <!-- {{ $name }} Modal -->
     <div
         x-data
-        @if ($open) x-init="() => $store.modals.open('{{ $name }}')" @endif
-        x-show="$store.modals.isOpen('{{ $name }}')"
+        @if ($open) x-init="() => $store.modals.open(@js($name))" @endif
+        x-show="$store.modals.isOpen(@js($name))"
         style="display: none"
-        x-on:keydown.escape.prevent.stop="$store.modals.close('{{ $name }}')"
-        x-on:keydown.window.escape.prevent.stop="$store.modals.close('{{ $name }}')"
+        x-on:keydown.escape.prevent.stop="$store.modals.close(@js($name))"
+        x-on:keydown.window.escape.prevent.stop="$store.modals.close(@js($name))"
         role="dialog"
         aria-modal="true"
         id="modal-{{ $name }}"
@@ -28,13 +28,13 @@
         {{ $attributes }}
     >
         <!-- Overlay -->
-        <div x-show="$store.modals.isOpen('{{ $name }}')" x-transition.opacity class="fixed inset-0 bg-black/50"></div>
+        <div x-show="$store.modals.isOpen(@js($name))" x-transition.opacity class="fixed inset-0 bg-black/50"></div>
 
         <!-- Panel -->
         <div
-            x-show="$store.modals.isOpen('{{ $name }}')" x-transition
+            x-show="$store.modals.isOpen(@js($name))" x-transition
             @if($dismissable)
-            x-on:click.prevent="$store.modals.close('{{ $name }}')"
+            x-on:click.prevent="$store.modals.close(@js($name))"
             @else
             x-on:click="
                 $refs.modal.classList.add('animate-scale');
@@ -45,14 +45,14 @@
         >
             <div
                 x-on:click.stop
-                x-trap.noscroll.inert="$store.modals.isOpen('{{ $name }}')"
+                x-trap.noscroll.inert="$store.modals.isOpen(@js($name)"
                 class="relative modal-wrapper rounded-sm @if($medium) modal-wrapper-md @endif @if($large) h-full modal-wrapper-lg @endif"
-            >   
+            >
             <div class="modal">
                 @if($title)
                     <header class="modal-header flex items-center justify-between">
                         <span class="modal-title">{{ $title }}</span>
-                        <button class="modal-close" x-on:click.prevent="$store.modals.close('{{ $name }}')">
+                        <button class="modal-close" x-on:click.prevent="$store.modals.close(@js($name))">
                             <i class="far fa-times"></i>
                         </button>
                     </header>
