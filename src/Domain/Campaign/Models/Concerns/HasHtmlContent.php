@@ -4,6 +4,8 @@ namespace Spatie\Mailcoach\Domain\Campaign\Models\Concerns;
 
 interface HasHtmlContent
 {
+    public function hasTemplates(): bool;
+
     public function getHtml(): ?string;
 
     public function setHtml(string $html): void;

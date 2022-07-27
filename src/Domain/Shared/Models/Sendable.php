@@ -253,6 +253,11 @@ abstract class Sendable extends Model implements HasHtmlContent
         return $this->structured_html ?? '';
     }
 
+    public function hasTemplates(): bool
+    {
+        return true;
+    }
+
     public function sizeInKb(): int
     {
         return (int) ceil(mb_strlen($this->getHtml(), '8bit') / 1000);

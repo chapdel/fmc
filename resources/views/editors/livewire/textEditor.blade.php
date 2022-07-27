@@ -1,5 +1,5 @@
 <div class="form-grid">
-    @if (! $model instanceof \Spatie\Mailcoach\Domain\Campaign\Models\Template)
+    @if ($model->hasTemplates())
         <x-mailcoach::template-chooser />
     @endif
 

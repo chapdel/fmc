@@ -37,7 +37,7 @@ abstract class EditorComponent extends Component
 
         $this->templateFieldValues = $model->getTemplateFieldValues();
 
-        if ($model instanceof Sendable || $model instanceof TransactionalMailTemplate) {
+        if ($model->hasTemplates()) {
             $this->template = $model->template;
             $this->templateId = $model->template?->id;
         }
@@ -98,7 +98,7 @@ abstract class EditorComponent extends Component
     {
         $fieldValues = $this->filterNeededFields($this->templateFieldValues, $this->template);
 
-        if (! $this->model instanceof Template) {
+        if ($this->model->hasTemplates()) {
             $this->model->template_id = $this->template?->id;
 
             if (isset($this->model->attributes['last_modified_at'])) {

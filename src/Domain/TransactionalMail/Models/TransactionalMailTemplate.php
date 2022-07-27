@@ -140,6 +140,11 @@ class TransactionalMailTemplate extends Model implements HasHtmlContent
         return $this->structured_html;
     }
 
+    public function hasTemplates(): bool
+    {
+        return true;
+    }
+
     public function toString(): string
     {
         if (is_string($this->to)) {
