@@ -7,10 +7,8 @@ use Livewire\Component;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\Campaign\Rules\HtmlRule;
-use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Spatie\Mailcoach\Domain\Shared\Support\TemplateRenderer;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 
 abstract class EditorComponent extends Component
 {
