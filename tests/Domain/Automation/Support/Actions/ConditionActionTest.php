@@ -79,8 +79,6 @@ it('can store actions and preserves uuids', function () {
     $originalYesUuid = test()->actionModel->action->toArray()['yesActions'][0]['uuid'];
     $originalNoUuid = test()->actionModel->action->toArray()['noActions'][0]['uuid'];
 
-    dump([$originalActionUuid, $originalYesUuid, $originalNoUuid]);
-
     expect(Action::count())->toBe(3);
     expect(Action::where('uuid', $originalActionUuid)->count())->toBe(1);
     expect(Action::where('uuid', $originalYesUuid)->count())->toBe(1);

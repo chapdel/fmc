@@ -672,7 +672,7 @@ return new class extends Migration
             $table->json('to')->nullable();
             $table->json('bcc')->nullable();
             $table->unsignedBigInteger('template_id')->nullable();
-            $table->longText('html')->nullable();
+            $table->longText('body')->nullable();
             $table->longText('structured_html')->nullable();
             $table->string('type'); // html, blade, markdown
             $table->json('replacers')->nullable();

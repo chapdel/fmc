@@ -62,8 +62,7 @@ Route::prefix('email-lists')->group(function () {
             Route::get('{subscriber:uuid}', '\\' . Mailcoach::getLivewireClass('subscriber', \Spatie\Mailcoach\Http\App\Livewire\Audience\Subscriber::class))->name('mailcoach.emailLists.subscriber.details');
         });
 
-        Route::get('import-subscribers', ['\\' . ImportSubscribersController::class, 'showImportScreen'])->name('mailcoach.emailLists.import-subscribers');
-        Route::post('import-subscribers', ['\\' . ImportSubscribersController::class, 'import']);
+        Route::get('import-subscribers', '\\' . Mailcoach::getLivewireClass('subscriber-imports', \Spatie\Mailcoach\Http\App\Livewire\Audience\SubscriberImports::class))->name('mailcoach.emailLists.import-subscribers');
 
         Route::get('settings', '\\' . Mailcoach::getLivewireClass('list-settings', \Spatie\Mailcoach\Http\App\Livewire\Audience\ListSettings::class))->name('mailcoach.emailLists.general-settings');
         Route::get('onboarding', '\\' . Mailcoach::getLivewireClass('list-onboarding', \Spatie\Mailcoach\Http\App\Livewire\Audience\ListOnboarding::class))->name('mailcoach.emailLists.onboarding');
@@ -127,11 +126,6 @@ Route::prefix('transactional-mail-templates')->group(function () {
 
         Route::post('send-test-email', '\\' . SendTransactionalMailTestController::class)->name('mailcoach.transactionalMails.templates.sendTestEmail');
     });
-});
-
-Route::prefix('subscriber-import')->group(function () {
-    Route::get('{subscriberImport:uuid}/download-attachment/{collection}', '\\' . DownloadSubscriberImportAttachmentController::class)->name('mailcoach.subscriberImport.downloadAttachment');
-    Route::delete('{subscriberImport:uuid}', '\\' . DestroySubscriberImportController::class)->name('mailcoach.subscriberImport.delete');
 });
 
 Route::prefix('templates')->group(function () {

@@ -1,0 +1,140 @@
+<?php
+
+namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
+
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Auth\User;
+use Illuminate\Http\Request;
+use Livewire\WithFileUploads;
+use Spatie\Mailcoach\Domain\Audience\Jobs\ImportSubscribersJob;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Http\App\Livewire\DataTable;
+use Spatie\Mailcoach\Http\App\Queries\SubscriberImportsQuery;
+use Spatie\Mailcoach\MainNavigation;
+use Spatie\SimpleExcel\SimpleExcelWriter;
+
+class SubscriberImports extends DataTable
+{
+    use WithFileUploads;
+    use AuthorizesRequests;
+    use UsesMailcoachModels;
+
+    public string $sort = '-created_at';
+
+    public EmailList $emailList;
+
+    public string $replaceTags = 'append';
+
+    public bool $subscribeUnsubscribed = false;
+
+    public bool $unsubscribeMissing = false;
+
+    public $file;
+
+    public function mount(EmailList $emailList)
+    {
+        $this->emailList = $emailList;
+
+        app(MainNavigation::class)->activeSection()?->add($this->emailList->name, route('mailcoach.emailLists.subscribers', $this->emailList));
+    }
+
+    public function upload()
+    {
+        $this->validate([
+            'file' => ['file', 'mimes:txt,csv,xls,xlsx'],
+        ]);
+
+        $this->authorize('update', $this->emailList);
+
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport $subscriberImport */
+        $subscriberImport = self::getSubscriberImportClass()::create([
+            'email_list_id' => $this->emailList->id,
+            'subscribe_unsubscribed' => $this->subscribeUnsubscribed,
+            'unsubscribe_others' => $this->unsubscribeMissing,
+            'replace_tags' => $this->replaceTags === 'replace',
+        ]);
+
+        /** @var \Livewire\TemporaryUploadedFile $file */
+        $file = $this->file;
+        $path = $file->store('subscriber-import');
+
+        $subscriberImport->addMediaFromDisk($path, $file->disk)->toMediaCollection('importFile');
+
+        $user = auth()->user();
+
+        dispatch(new ImportSubscribersJob($subscriberImport, $user instanceof User ? $user : null));
+
+        flash()->success(__('mailcoach - Your file has been uploaded. Follow the import status in the list below.'));
+
+        $this->emit('$refresh');
+    }
+
+    public function downloadAttatchment(int $subscriberImport, string $collection)
+    {
+        $subscriberImport = self::getSubscriberImportClass()::find($subscriberImport);
+
+        if ($collection === 'errorReport') {
+            return response()->download(
+                SimpleExcelWriter::create('errorReport.csv', 'csv')
+                    ->noHeaderRow()
+                    ->addRows($subscriberImport->errors ?? [])
+                    ->getPath()
+            );
+        }
+
+        abort_unless((bool)$subscriberImport->getMediaCollection($collection), 403);
+
+        $subscriberImport = self::getSubscriberImportClass()::find($subscriberImport->id);
+
+        return $subscriberImport->getFirstMedia($collection);
+    }
+
+    public function deleteImport(int $id)
+    {
+        $import = self::getSubscriberImportClass()::find($id);
+
+        $this->authorize('delete', $import);
+
+        $import->delete();
+
+        $this->flash(__('mailcoach - Import was deleted.'));
+    }
+
+    public function getTitle(): string
+    {
+        return __('mailcoach - Import subscribers');
+    }
+
+    public function getView(): string
+    {
+        return 'mailcoach::app.emailLists.subscribers.import';
+    }
+
+    public function getLayout(): string
+    {
+        return 'mailcoach::app.emailLists.layouts.emailList';
+    }
+
+    public function getLayoutData(): array
+    {
+        return [
+            'emailList' => $this->emailList,
+        ];
+    }
+
+    public function getData(Request $request): array
+    {
+        $this->authorize('view', $this->emailList);
+
+        $subscriberImportsQuery = new SubscriberImportsQuery($this->emailList, $request);
+
+        return [
+            'subscriberImports' => $subscriberImportsQuery->paginate(),
+            'allSubscriberImportsCount' => self::getSubscriberImportClass()::query()
+                ->where('email_list_id', $this->emailList->id)
+                ->count(),
+            'emailList' => $this->emailList,
+        ];
+    }
+}

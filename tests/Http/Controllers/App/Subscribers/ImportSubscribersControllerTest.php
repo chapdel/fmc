@@ -105,7 +105,7 @@ it('will remove existing tags if replace tags is enabled', function () {
     $subscriber->addTag('previousTag');
 
     uploadStub('single.csv', [
-        'replace_tags' => 'replace',
+        'replaceTags' => 'replace',
     ]);
 
     $subscriber = Subscriber::findForEmail('john@example.com', test()->emailList);
@@ -118,7 +118,7 @@ it('will not remove existing tags if replace tags is disabled', function () {
 
     $subscriber->addTag('previousTag');
 
-    // replace_tags is false by default.
+    // replaceTags is false by default.
     uploadStub('single.csv');
 
     $subscriber = Subscriber::findForEmail('john@example.com', test()->emailList);
@@ -141,7 +141,7 @@ it('can subscribe subscribers that were unsubscribed before', function () {
     test()->emailList->subscribeSkippingConfirmation('john@example.com');
     test()->emailList->unsubscribe('john@example.com');
 
-    uploadStub('single.csv', ['subscribe_unsubscribed' => true]);
+    uploadStub('single.csv', ['subscribeUnsubscribed' => true]);
 
     expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
     expect(test()->emailList->subscribers)->toHaveCount(1);
@@ -160,7 +160,7 @@ test('by default it will not unsubscribe any existing subscribers', function () 
 it('can unsubscribe any existing subscribers that were not part of the import', function () {
     test()->emailList->subscribeSkippingConfirmation('paul@example.com');
 
-    uploadStub('single.csv', ['unsubscribe_others' => true]);
+    uploadStub('single.csv', ['unsubscribeMissing' => true]);
 
     expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
     expect(test()->emailList->isSubscribed('paul@example.com'))->toBeFalse();
@@ -197,20 +197,13 @@ function uploadStub(string $stubName, array $parameters = [], string $asFilename
 
     File::copy($stubPath, $tempPath);
 
-    $fileUpload = new UploadedFile(
-        $tempPath,
-        $asFilename,
-        $asMimetype,
-        filesize($stubPath)
-    );
+    $file = \Illuminate\Http\UploadedFile::fake()
+        ->createWithContent($asFilename, file_get_contents($tempPath));
 
-    test()->call(
-        'post',
-        action([ImportSubscribersController::class, 'import'], test()->emailList),
-        $parameters,
-        [],
-        ['file' => $fileUpload]
-    );
+    \Livewire\Livewire::test('mailcoach::subscriber-imports', ['emailList' => test()->emailList])
+        ->set('file', $file)
+        ->set($parameters)
+        ->call('upload');
 }
 
 function getStubPath(string $name): string

@@ -4,6 +4,8 @@ namespace Spatie\Mailcoach\Domain\Audience\Actions\Subscribers;
 
 use Exception;
 use Illuminate\Foundation\Auth\User;
+use OpenSpout\Common\Type;
+use Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus;
 use Spatie\Mailcoach\Domain\Audience\Jobs\CompleteSubscriberImportJob;
 use Spatie\Mailcoach\Domain\Audience\Jobs\ImportSubscriberJob;
 use Spatie\Mailcoach\Domain\Audience\Jobs\UnsubscribeMissingFromImportJob;
@@ -51,13 +53,22 @@ class ImportSubscribersAction
         try {
             $localImportFile = $this->storeLocalImportFile();
 
-            $totalRows = SimpleExcelReader::create($localImportFile)->getRows()->count();
+            $extension = strtolower(pathinfo($localImportFile, PATHINFO_EXTENSION));
+            $type = Type::CSV;
 
-            SimpleExcelReader::create($localImportFile)
+            if ($extension === 'xlsx' || $extension === 'xls') {
+                $type = Type::XLSX;
+            }
+
+            $totalRows = SimpleExcelReader::create($localImportFile, $type)->getRows()->count();
+
+            SimpleExcelReader::create($localImportFile, $type)
                 ->getRows()
                 ->each(function (array $values) {
                     dispatch(new ImportSubscriberJob($this->subscriberImport, $values));
                 });
+
+            $this->subscriberImport->update(['status' => SubscriberImportStatus::Importing]);
 
             dispatch(new CompleteSubscriberImportJob($this->subscriberImport, $totalRows, $this->user));
         } catch (Exception $exception) {
@@ -67,6 +78,8 @@ class ImportSubscribersAction
                     ['error' => $exception->getMessage()]
                 ),
             );
+
+            $this->subscriberImport->update(['status' => SubscriberImportStatus::Failed]);
         }
 
         return $this;
