@@ -55,7 +55,7 @@ class CreateSubscriberAction
             $sendConfirmSubscriberMailAction->execute($subscriber, $pendingSubscriber->redirectAfterSubscribed);
         }
 
-        if ($subscriber->isSubscribed() && !$subscriber->imported_via_import_uuid) {
+        if ($subscriber->isSubscribed() && ! $subscriber->imported_via_import_uuid) {
             event(new SubscribedEvent($subscriber));
         }
 
