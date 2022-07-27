@@ -52,9 +52,4 @@ class RunAutomationForSubscriberJob implements ShouldQueue
 
         $this->automation->run($this->subscriber);
     }
-
-    public function retryUntil()
-    {
-        return now()->addHours(config('mailcoach.campaigns.throttling.retry_until_hours', 24));
-    }
 }
