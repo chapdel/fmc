@@ -20,15 +20,13 @@ class ConfirmSubscriberMail extends Mailable implements ShouldQueue
 
     public string $confirmationUrl;
 
-    public ?TransactionalMailTemplate $confirmationMailTemplate;
+    public ?TransactionalMailTemplate $confirmationMailTemplate = null;
 
     public function __construct(Subscriber $subscriber, string $redirectAfterConfirmedUrl = '')
     {
         $this->subscriber = $subscriber;
 
         $this->confirmationUrl = url(route('mailcoach.confirm', $subscriber->uuid));
-
-        $this->confirmationMailTemplate = $subscriber->emailList->confirmationMail;
 
         if ($redirectAfterConfirmedUrl !== '') {
             $this->confirmationUrl .= "?redirect={$redirectAfterConfirmedUrl}";
@@ -37,6 +35,8 @@ class ConfirmSubscriberMail extends Mailable implements ShouldQueue
 
     public function build()
     {
+        $this->confirmationMailTemplate = $this->subscriber->emailList->confirmationMail;
+
         if ($this->confirmationMailTemplate) {
             $this->template($this->confirmationMailTemplate->name);
         }
