@@ -44,7 +44,7 @@
         @endif
         @if ($automation->actions->filter(fn ($action) => $action->action::class === \Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction::class)->count() === 0)
             <x-mailcoach::warning>
-                {{ __('mailcoach - Your automation does not contain a "Halt" action. This will cause the automation to keep running for subscribers in the last action and could generate more queued jobs than desired. Do this only if you intend to add more actions later.') }}
+                {{ __('mailcoach - This automation will keep running so any actions added later will be run on existing subscribers. If this automation has a desired end, we recommend adding a Halt action.') }}
             </x-mailcoach::warning>
         @endif
         <div>
