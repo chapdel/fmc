@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
 
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum;
 
 class AddTagsAction extends AutomationAction
@@ -43,8 +44,8 @@ class AddTagsAction extends AutomationAction
         ];
     }
 
-    public function run(Subscriber $subscriber): void
+    public function run(ActionSubscriber $actionSubscriber): void
     {
-        $subscriber->addTags($this->tags);
+        $actionSubscriber->subscriber->addTags($this->tags);
     }
 }

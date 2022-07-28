@@ -9,6 +9,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailToSubscriberAction;
+use Spatie\Mailcoach\Domain\Automation\Models\Action;
+use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Mailcoach;
 
@@ -21,16 +23,16 @@ class SendAutomationMailToSubscriberJob implements ShouldQueue
 
     public AutomationMail $automationMail;
 
-    public Subscriber $subscriber;
+    public ActionSubscriber $actionSubscriber;
 
     /** @var string */
     public $queue;
 
-    public function __construct(AutomationMail $automationMail, Subscriber $subscriber)
+    public function __construct(AutomationMail $automationMail, ActionSubscriber $actionSubscriber)
     {
         $this->automationMail = $automationMail;
 
-        $this->subscriber = $subscriber;
+        $this->actionSubscriber = $actionSubscriber;
 
         $this->queue = config('mailcoach.automation.perform_on_queue.send_automation_mail_to_subscriber_job');
 
@@ -41,6 +43,6 @@ class SendAutomationMailToSubscriberJob implements ShouldQueue
     {
         /** @var \Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailToSubscriberAction $sendAutomationMailToSubscriberAction */
         $sendAutomationMailToSubscriberAction = Mailcoach::getAutomationActionClass('send_automation_mail_to_subscriber', SendAutomationMailToSubscriberAction::class);
-        $sendAutomationMailToSubscriberAction->execute($this->automationMail, $this->subscriber);
+        $sendAutomationMailToSubscriberAction->execute($this->automationMail, $this->actionSubscriber);
     }
 }

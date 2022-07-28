@@ -62,12 +62,12 @@ class RunActionForActionSubscriberJob implements ShouldQueue, ShouldBeUnique
         $automationAction = $this->actionSubscriber->action->action;
 
         if (is_null($this->actionSubscriber->run_at)) {
-            $automationAction->run($subscriber, $this->actionSubscriber);
+            $automationAction->run($this->actionSubscriber);
 
             // Needed for the unsubscribe action
             $subscriber->refresh();
 
-            if ($automationAction->shouldHalt($subscriber) || ! $subscriber->isSubscribed()) {
+            if ($automationAction->shouldHalt($this->actionSubscriber) || ! $subscriber->isSubscribed()) {
                 $this->actionSubscriber->update([
                     'halted_at' => now(),
                     'run_at' => now(),
@@ -77,7 +77,7 @@ class RunActionForActionSubscriberJob implements ShouldQueue, ShouldBeUnique
                 return;
             }
 
-            if (! $automationAction->shouldContinue($subscriber)) {
+            if (! $automationAction->shouldContinue($this->actionSubscriber)) {
                 $this->actionSubscriber->update(['job_dispatched_at' => null]);
 
                 return;

@@ -13,6 +13,8 @@ use Spatie\Mailcoach\Domain\Automation\Commands\SendAutomationMailsCommand;
 use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailSentEvent;
 use Spatie\Mailcoach\Domain\Automation\Exceptions\CouldNotSendAutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailToSubscriberJob;
+use Spatie\Mailcoach\Domain\Automation\Models\Action;
+use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
@@ -32,7 +34,12 @@ beforeEach(function () {
         'automation_mailer' => null,
     ]);
 
-    test()->subscriber = $this->emailList->subscribe('john@doe.com');
+    $subscriber = $this->emailList->subscribe('john@doe.com');
+
+    test()->actionSubscriber = ActionSubscriber::create([
+        'action_id' => Action::factory()->create()->id,
+        'subscriber_id' => $subscriber->id,
+    ]);
 });
 
 it('can send a automation mail with the mailer from the db', function () {
@@ -43,7 +50,7 @@ it('can send a automation mail with the mailer from the db', function () {
     Event::fake();
     Mail::fake();
 
-    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->subscriber));
+    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->actionSubscriber));
 
     Artisan::call(SendAutomationMailsCommand::class);
 
@@ -65,7 +72,7 @@ it('can send a automation mail with the mailer from the config', function () {
     config()->set('mailcoach.automation.mailer', 'config-mailer');
 
 
-    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->subscriber));
+    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->actionSubscriber));
 
     Artisan::call(SendAutomationMailsCommand::class);
 
@@ -79,18 +86,34 @@ it('can send a automation mail with the mailer from the config', function () {
     });
 });
 
-it('will not create mailcoach sends if they already have been created', function () {
+it('will not create mailcoach sends if they already have been created if repeat is disabled', function () {
     Event::fake();
     Mail::fake();
 
     SendFactory::new()->create([
-        'subscriber_id' => test()->subscriber->id,
+        'subscriber_id' => test()->actionSubscriber->subscriber->id,
         'automation_mail_id' => test()->automationMail->id,
     ]);
 
-    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->subscriber));
+    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->actionSubscriber));
 
     expect(Send::all())->toHaveCount(1);
+});
+
+it('will create mailcoach sends if they already have been created if repeat is enabled', function () {
+    Event::fake();
+    Mail::fake();
+
+    SendFactory::new()->create([
+        'subscriber_id' => test()->actionSubscriber->subscriber->id,
+        'automation_mail_id' => test()->automationMail->id,
+    ]);
+
+    test()->actionSubscriber->action->automation->update(['repeat_enabled' => true]);
+
+    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->actionSubscriber));
+
+    expect(Send::all())->toHaveCount(2);
 });
 
 it('will use the right subject', function () {
@@ -99,7 +122,7 @@ it('will use the right subject', function () {
 
     test()->automationMail->subject('my subject');
 
-    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->subscriber));
+    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->actionSubscriber));
 
     Artisan::call(SendAutomationMailsCommand::class);
 
@@ -116,7 +139,7 @@ it('will use the reply to fields', function () {
 
     test()->automationMail->replyTo('replyto@example.com', 'Reply to John Doe');
 
-    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->subscriber));
+    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->actionSubscriber));
 
     Artisan::call(SendAutomationMailsCommand::class);
 
@@ -134,7 +157,7 @@ it('will prepare the webview', function () {
         'webview_html' => null,
     ]);
 
-    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->subscriber));
+    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->actionSubscriber));
 
     assertMatchesHtmlSnapshot(test()->automationMail->refresh()->webview_html);
 });
@@ -149,7 +172,7 @@ it('will not send invalid html', function () {
 
     test()->expectException(CouldNotSendAutomationMail::class);
 
-    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->subscriber));
+    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->actionSubscriber));
 });
 
 test('the queue of the send automation mail job can be configured', function () {
@@ -161,7 +184,7 @@ test('the queue of the send automation mail job can be configured', function () 
     config()->set('mailcoach.automation.perform_on_queue.send_automation_mail_to_subscriber_job', 'custom-queue');
 
     $automationMail = AutomationMail::factory()->create();
-    dispatch(new SendAutomationMailToSubscriberJob($automationMail, test()->subscriber));
+    dispatch(new SendAutomationMailToSubscriberJob($automationMail, test()->actionSubscriber));
 
     Queue::assertPushedOn('custom-queue', SendAutomationMailToSubscriberJob::class);
 });
@@ -173,12 +196,12 @@ test('personalized placeholders in the subject will be replaced', function () {
         'subject' => 'This is a mail sent to ::subscriber.email::',
     ]);
 
-    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, $this->subscriber));
+    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, $this->actionSubscriber));
 
     Artisan::call(SendAutomationMailsCommand::class);
 
     Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) {
-        expect($mail->subject)->toEqual("This is a mail sent to {$this->subscriber->email}");
+        expect($mail->subject)->toEqual("This is a mail sent to {$this->actionSubscriber->subscriber->email}");
 
         return true;
     });
@@ -189,7 +212,7 @@ test('custom mailable sends', function () {
 
     config()->set('mailcoach.automation.mailer', 'array');
 
-    test()->automationMail->send(test()->subscriber);
+    test()->automationMail->send(test()->actionSubscriber);
 
     Artisan::call(SendAutomationMailsCommand::class);
 
@@ -207,7 +230,7 @@ test('custom mailable subject overrides automation mail subject', function () {
     ]);
     config()->set('mailcoach.automation.mailer', 'array');
 
-    test()->automationMail->send(test()->subscriber);
+    test()->automationMail->send(test()->actionSubscriber);
 
     Artisan::call(SendAutomationMailsCommand::class);
 
@@ -228,7 +251,7 @@ test('custom replacers work with automation mail subject', function () {
     config()->set('mailcoach.automation.replacers', array_merge(config('mailcoach.automation.replacers'), [CustomAutomationMailReplacer::class]));
     config()->set('mailcoach.automation.mailer', 'array');
 
-    test()->automationMail->send(test()->subscriber);
+    test()->automationMail->send(test()->actionSubscriber);
 
     Artisan::call(SendAutomationMailsCommand::class);
 
@@ -245,7 +268,7 @@ test('custom replacers work with subject from custom mailable', function () {
     config()->set('mailcoach.automation.replacers', array_merge(config('mailcoach.automation.replacers'), [CustomAutomationMailReplacer::class]));
     config()->set('mailcoach.automation.mailer', 'array');
 
-    test()->automationMail->send(test()->subscriber);
+    test()->automationMail->send(test()->actionSubscriber);
 
     Artisan::call(SendAutomationMailsCommand::class);
 
@@ -262,7 +285,7 @@ test('custom replacers work in body from custom mailable', function () {
     config()->set('mailcoach.automation.replacers', array_merge(config('mailcoach.automation.replacers'), [CustomAutomationMailReplacer::class]));
     config()->set('mailcoach.automation.mailer', 'array');
 
-    test()->automationMail->send(test()->subscriber);
+    test()->automationMail->send(test()->actionSubscriber);
 
     Artisan::call(SendAutomationMailsCommand::class);
 

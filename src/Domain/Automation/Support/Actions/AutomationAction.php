@@ -8,6 +8,7 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
+use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum;
 use Spatie\Mailcoach\Domain\Automation\Support\AutomationStep;
@@ -19,16 +20,16 @@ abstract class AutomationAction extends AutomationStep
 
     abstract public static function getCategory(): ActionCategoryEnum;
 
-    public function run(Subscriber $subscriber): void
+    public function run(ActionSubscriber $actionSubscriber): void
     {
     }
 
-    public function shouldContinue(Subscriber $subscriber): bool
+    public function shouldContinue(ActionSubscriber $actionSubscriber): bool
     {
         return true;
     }
 
-    public function shouldHalt(Subscriber $subscriber): bool
+    public function shouldHalt(ActionSubscriber $actionSubscriber): bool
     {
         return false;
     }

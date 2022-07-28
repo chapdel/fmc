@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
 
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum;
 
 class HaltAction extends AutomationAction
@@ -17,12 +18,12 @@ class HaltAction extends AutomationAction
         return (string) __('mailcoach - Halt the automation');
     }
 
-    public function shouldHalt(Subscriber $subscriber): bool
+    public function shouldHalt(ActionSubscriber $actionSubscriber): bool
     {
         return true;
     }
 
-    public function shouldContinue(Subscriber $subscriber): bool
+    public function shouldContinue(ActionSubscriber $actionSubscriber): bool
     {
         return false;
     }

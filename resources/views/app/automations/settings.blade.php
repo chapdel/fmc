@@ -3,28 +3,47 @@
     wire:submit.prevent="save(new URLSearchParams(new FormData($event.target)).toString())"
     method="POST"
 >
-<x-mailcoach::card>    
-<x-mailcoach::text-field :label="__('mailcoach - Name')" name="automation.name" wire:model.lazy="automation.name" required />
+    <x-mailcoach::card>
+        <x-mailcoach::text-field :label="__('mailcoach - Name')" name="automation.name" wire:model.lazy="automation.name" required />
 
-    <x-mailcoach::select-field
-        :label="__('mailcoach - Trigger')"
-        name="trigger"
-        :options="$triggerOptions"
-        placeholder="Select a trigger"
-        required
-        wire:model="selectedTrigger"
-    />
+        <div class="form-field gap-y-4 flex flex-col">
+            <label class="label" for="automation.repeat_enabled">
+                {{ __('mailcoach - Repeat') }}
+            </label>
 
-    <div>
-        @if ($selectedTrigger && $selectedTrigger::getComponent())
-            @livewire($selectedTrigger::getComponent(), [
-                'triggerClass' => $automation->triggerClass(),
-                'automation' => $automation,
-            ], key($selectedTrigger))
-        @endif
-    </div>
+            <x-mailcoach::checkbox-field
+                :label="__('mailcoach - Allow for subscribers to go through the automation more than once')"
+                name="automation.repeat_enabled"
+                wire:model.lazy="automation.repeat_enabled"
+            />
 
-</x-mailcoach::card>    
+            @if ($automation->repeat_enabled)
+                <x-mailcoach::checkbox-field
+                    :label="__('mailcoach - Repeat only when subscriber was halted')"
+                    name="automation.repeat_only_after_halt"
+                    wire:model.lazy="automation.repeat_only_after_halt"
+                />
+            @endif
+        </div>
+
+        <x-mailcoach::select-field
+            :label="__('mailcoach - Trigger')"
+            name="selectedTrigger"
+            :options="$triggerOptions"
+            placeholder="Select a trigger"
+            required
+            wire:model="selectedTrigger"
+        />
+
+        <div>
+            @if ($selectedTrigger && $selectedTrigger::getComponent())
+                @livewire($selectedTrigger::getComponent(), [
+                    'triggerClass' => $automation->triggerClass(),
+                    'automation' => $automation,
+                ], key($selectedTrigger))
+            @endif
+        </div>
+    </x-mailcoach::card>
     @include('mailcoach::app.campaigns.partials.emailListFields', ['segmentable' => $automation, 'wiremodel' => 'automation'])
 
     <x-mailcoach::card buttons>

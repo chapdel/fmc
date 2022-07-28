@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
+use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum;
 
 class WaitAction extends AutomationAction
@@ -66,9 +67,9 @@ class WaitAction extends AutomationAction
         ];
     }
 
-    public function shouldContinue(Subscriber $subscriber): bool
+    public function shouldContinue(ActionSubscriber $actionSubscriber): bool
     {
-        if ($subscriber->pivot->created_at <= now()->sub($this->interval)) {
+        if ($actionSubscriber->created_at <= now()->sub($this->interval)) {
             return true;
         }
 

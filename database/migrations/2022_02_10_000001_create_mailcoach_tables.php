@@ -481,6 +481,8 @@ return new class extends Migration
 
             $table->string('name')->nullable();
             $table->string('interval')->nullable();
+            $table->boolean('repeat_enabled')->default(false);
+            $table->boolean('repeat_only_after_halt')->default(true);
             $table->string('status');
 
             $table->text('segment_class')->nullable();

@@ -35,6 +35,8 @@ class Automation extends Model
         'run_at' => 'datetime',
         'last_ran_at' => 'datetime',
         'status' => AutomationStatus::class,
+        'repeat_enabled' => 'boolean',
+        'repeat_only_after_halt' => 'boolean',
     ];
 
     public static function booted()
@@ -50,7 +52,7 @@ class Automation extends Model
         });
     }
 
-    public function name(string $name): self
+    public function name(string $name): static
     {
         $this->update(compact('name'));
 
@@ -76,11 +78,20 @@ class Automation extends Model
         return '';
     }
 
-    public function triggerOn(AutomationTrigger $automationTrigger): self
+    public function triggerOn(AutomationTrigger $automationTrigger): static
     {
         $trigger = $this->triggers()->firstOrCreate([]);
         $trigger->trigger = $automationTrigger;
         $trigger->save();
+
+        return $this;
+    }
+
+    public function repeat(bool $repeatEnabled = true, bool $onlyAfterHalt = true): static
+    {
+        $this->repeat_enabled = $repeatEnabled;
+        $this->repeat_only_after_halt = $onlyAfterHalt;
+        $this->save();
 
         return $this;
     }
@@ -109,21 +120,21 @@ class Automation extends Model
         return $subscribersQuery;
     }
 
-    public function to(EmailList $emailList): self
+    public function to(EmailList $emailList): static
     {
         $this->update(['email_list_id' => $emailList->id]);
 
         return $this;
     }
 
-    public function runEvery(CarbonInterval $interval): self
+    public function runEvery(CarbonInterval $interval): static
     {
         $this->update(['interval' => $interval]);
 
         return $this;
     }
 
-    public function chain(array $chain): self
+    public function chain(array $chain): static
     {
         $newActions = collect($chain);
 
@@ -153,14 +164,14 @@ class Automation extends Model
         return $this;
     }
 
-    public function pause(): self
+    public function pause(): static
     {
         $this->update(['status' => AutomationStatus::Paused]);
 
         return $this;
     }
 
-    public function start(): self
+    public function start(): static
     {
         if (! $this->interval) {
             throw CouldNotStartAutomation::noInterval($this);

@@ -121,7 +121,7 @@ class AutomationMail extends Sendable
         }
     }
 
-    public function send(Subscriber $subscriber): self
+    public function send(ActionSubscriber $actionSubscriber): self
     {
         $this->ensureSendable();
 
@@ -131,7 +131,7 @@ class AutomationMail extends Sendable
             $this->content($this->contentFromMailable());
         }
 
-        dispatch(new SendAutomationMailToSubscriberJob($this, $subscriber));
+        dispatch(new SendAutomationMailToSubscriberJob($this, $actionSubscriber));
 
         return $this;
     }

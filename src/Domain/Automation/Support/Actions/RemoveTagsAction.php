@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
 
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum;
 
 class RemoveTagsAction extends AutomationAction
@@ -48,8 +49,8 @@ class RemoveTagsAction extends AutomationAction
         ];
     }
 
-    public function run(Subscriber $subscriber): void
+    public function run(ActionSubscriber $actionSubscriber): void
     {
-        $subscriber->removeTags($this->tags);
+        $actionSubscriber->subscriber->removeTags($this->tags);
     }
 }

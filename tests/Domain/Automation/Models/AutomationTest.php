@@ -12,6 +12,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationActionsCommand;
 use Spatie\Mailcoach\Domain\Automation\Commands\SendAutomationMailsCommand;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
+use Spatie\Mailcoach\Domain\Automation\Jobs\RunAutomationForSubscriberJob;
 use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailToSubscriberJob;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
@@ -647,8 +648,8 @@ it('can run automations twice with a custom action', function () {
     /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $john */
     $john = $emailList->subscribe('john@doe.com');
 
-    $automation->run($john);
-    $automation->run($john);
+    (new RunAutomationForSubscriberJob($automation, $john))->handle();
+    (new RunAutomationForSubscriberJob($automation, $john))->handle();
 
     expect($automation->actions()->first()->subscribers->count())->toEqual(2);
 
@@ -702,8 +703,8 @@ it('can run a split automation twice', function () {
 
     $john = $emailList->subscribe('john@doe.com');
 
-    $automation->run($john);
-    $automation->run($john);
+    (new RunAutomationForSubscriberJob($automation, $john))->handle();
+    (new RunAutomationForSubscriberJob($automation, $john))->handle();
 
     expect($automation->actions()->first()->subscribers->count())->toEqual(2);
 
@@ -777,12 +778,12 @@ it('handles nested conditions correctly when running twice', function () {
     /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber3 */
     $subscriber3 = $automation->emailList->subscribe('subscriber3@example.com'); // Should receive mail 3
 
-    $automation->run($subscriber1);
-    $automation->run($subscriber2);
+    (new RunAutomationForSubscriberJob($automation, $subscriber1))->handle();
+    (new RunAutomationForSubscriberJob($automation, $subscriber2))->handle();
 
     // Run it Twice for subscriber3
-    $automation->run($subscriber3);
-    $automation->run($subscriber3);
+    (new RunAutomationForSubscriberJob($automation, $subscriber3))->handle();
+    (new RunAutomationForSubscriberJob($automation, $subscriber3))->handle();
 
     Artisan::call(RunAutomationActionsCommand::class);
 
@@ -819,6 +820,98 @@ it('handles nested conditions correctly when running twice', function () {
 
     // 4 mails were sent in total
     expect(Send::count())->toEqual(4);
+});
+
+it('can run automations twice when repeat is enabled after a subscriber is halted', function () {
+    Mail::fake();
+
+    $emailList = EmailList::factory()->create();
+    $mail = AutomationMail::factory()->create();
+
+    /** @var Automation $automation */
+    $automation = Automation::create()
+        ->name('Welcome email')
+        ->to($emailList)
+        ->runEvery(CarbonInterval::minute())
+        ->triggerOn(new NoTrigger)
+        ->repeat(onlyAfterHalt: true)
+        ->chain([
+            new AddRandomTagAction(),
+            new WaitAction(CarbonInterval::minute()),
+            new SendAutomationMailAction($mail),
+            new HaltAction(),
+        ])
+        ->start();
+
+    test()->refreshServiceProvider();
+
+    expect($automation->actions()->count())->toEqual(4);
+    expect($automation->actions()->first()->subscribers->count())->toEqual(0);
+
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $john */
+    $john = $emailList->subscribe('john@doe.com');
+
+    (new RunAutomationForSubscriberJob($automation, $john))->handle();
+    (new RunAutomationForSubscriberJob($automation, $john))->handle();
+
+    expect($automation->actions()->first()->subscribers->count())->toEqual(1);
+
+    Artisan::call(RunAutomationActionsCommand::class);
+
+    (new RunAutomationForSubscriberJob($automation, $john))->handle();
+    expect($automation->actions()->first()->subscribers->count())->toEqual(1);
+    expect($john->tags()->count())->toEqual(1);
+
+    TestTime::addMinute();
+    Artisan::call(RunAutomationActionsCommand::class);
+
+    // Once the first is halted, we can run the automation again
+    (new RunAutomationForSubscriberJob($automation, $john))->handle();
+    expect($automation->actions()->first()->subscribers->count())->toEqual(2);
+    expect($john->tags()->count())->toEqual(2);
+
+    TestTime::addMinute();
+    Artisan::call(RunAutomationActionsCommand::class);
+
+    expect($mail->sends()->count())->toBe(2);
+});
+
+it('can run automations twice when repeat is enabled and only when halt is disabled', function () {
+    Mail::fake();
+
+    $emailList = EmailList::factory()->create();
+
+    /** @var Automation $automation */
+    $automation = Automation::create()
+        ->name('Welcome email')
+        ->to($emailList)
+        ->runEvery(CarbonInterval::minute())
+        ->triggerOn(new NoTrigger)
+        ->repeat(onlyAfterHalt: false)
+        ->chain([
+            new AddRandomTagAction(),
+            new WaitAction(CarbonInterval::minute()),
+            new HaltAction(),
+        ])
+        ->start();
+
+    test()->refreshServiceProvider();
+
+    expect($automation->actions()->count())->toEqual(3);
+    expect($automation->actions()->first()->subscribers->count())->toEqual(0);
+
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $john */
+    $john = $emailList->subscribe('john@doe.com');
+
+    (new RunAutomationForSubscriberJob($automation, $john))->handle();
+    (new RunAutomationForSubscriberJob($automation, $john))->handle();
+
+    expect($automation->actions()->first()->subscribers->count())->toEqual(2);
+
+    Artisan::call(RunAutomationActionsCommand::class);
+
+    expect($automation->actions()->first()->subscribers->count())->toEqual(2);
+    expect($john->tags()->count())->toEqual(2);
 });
 
 it('handles deeply nested conditions', function () {

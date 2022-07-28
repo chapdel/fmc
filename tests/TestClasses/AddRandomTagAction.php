@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Tests\TestClasses;
 
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\AutomationAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum;
 
@@ -15,8 +16,8 @@ class AddRandomTagAction extends AutomationAction
         return ActionCategoryEnum::Tags;
     }
 
-    public function run(Subscriber $subscriber): void
+    public function run(ActionSubscriber $actionSubscriber): void
     {
-        $subscriber->addTag(Str::random());
+        $actionSubscriber->subscriber->addTag(Str::random());
     }
 }

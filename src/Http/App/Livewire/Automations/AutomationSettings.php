@@ -41,6 +41,8 @@ class AutomationSettings extends Component
             'segment' => [Rule::in(['entire_list', 'segment'])],
             'automation.segment_id' => ['required_if:segment,segment'],
             'selectedTrigger' => ['required', Rule::in(config('mailcoach.automation.flows.triggers'))],
+            'automation.repeat_enabled' => ['nullable', 'boolean'],
+            'automation.repeat_only_after_halt' => ['nullable', 'boolean'],
         ];
     }
 
@@ -74,6 +76,8 @@ class AutomationSettings extends Component
     public function save(string $formData)
     {
         parse_str($formData, $data);
+
+        $this->validate();
 
         $validator = Validator::make($data, $this->selectedTrigger::rules());
         $triggerData = $validator->validate();

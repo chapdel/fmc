@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
 use Carbon\CarbonInterval;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
+use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum;
 
@@ -189,21 +190,21 @@ class ConditionAction extends AutomationAction
         ];
     }
 
-    public function shouldContinue(Subscriber $subscriber): bool
+    public function shouldContinue(ActionSubscriber $actionSubscriber): bool
     {
         $actionClass = static::getAutomationActionClass();
         $action = $actionClass::findByUuid($this->uuid);
 
         /** @var \Spatie\Mailcoach\Domain\Automation\Support\Conditions\Condition $condition */
         $conditionClass = $this->condition;
-        $condition = new $conditionClass($action->automation, $subscriber, $this->conditionData);
+        $condition = new $conditionClass($action->automation, $actionSubscriber->subscriber, $this->conditionData);
 
         if ($condition->check()) {
             return true;
         }
 
         /** @var \Illuminate\Support\Carbon $addedToActionAt */
-        $addedToActionAt = $subscriber->pivot->created_at;
+        $addedToActionAt = $actionSubscriber->created_at;
 
         return $addedToActionAt->add($this->checkFor)->isPast();
     }

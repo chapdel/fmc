@@ -6,24 +6,25 @@ namespace Spatie\Mailcoach\Tests\TestClasses;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailToSubscriberAction;
+use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
 class AllowDuplicateSendAutomationMailToSubscriberAction extends SendAutomationMailToSubscriberAction
 {
-    public function execute(AutomationMail $automationMail, Subscriber $subscriber): void
+    public function execute(AutomationMail $automationMail, ActionSubscriber $actionSubscriber): void
     {
         $this
             ->prepareSubject($automationMail)
             ->prepareEmailHtml($automationMail)
             ->prepareWebviewHtml($automationMail)
-            ->createSend($automationMail, $subscriber);
+            ->createSend($automationMail, $actionSubscriber);
     }
 
-    protected function createSend(AutomationMail $automationMail, Subscriber $subscriber): Send
+    protected function createSend(AutomationMail $automationMail, ActionSubscriber $actionSubscriber): Send
     {
         return $automationMail->sends()->create([
-            'subscriber_id' => $subscriber->id,
+            'subscriber_id' => $actionSubscriber->subscriber_id,
             'uuid' => (string)Str::uuid(),
         ]);
     }
