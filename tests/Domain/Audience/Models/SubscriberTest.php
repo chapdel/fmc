@@ -168,3 +168,14 @@ it('can sync preference tags', function () {
 
     expect($subscriber->fresh()->tags->count())->toBe(1);
 });
+
+
+it('can retrieve subscribers by extra attributes', function () {
+    Subscriber::factory()->create();
+    $subscriber = Subscriber::factory()->create();
+
+    $subscriber->extra_attributes->external_id = 12345;
+    $subscriber->save();
+
+    expect(Subscriber::query()->withExtraAttributes(['external_id' => 12345])->count())->toBe(1);
+});
