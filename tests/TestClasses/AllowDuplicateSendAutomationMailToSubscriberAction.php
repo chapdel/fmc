@@ -4,7 +4,6 @@
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
 use Illuminate\Support\Str;
-use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailToSubscriberAction;
 use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;

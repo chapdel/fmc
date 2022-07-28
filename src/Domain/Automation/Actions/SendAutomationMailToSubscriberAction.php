@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Domain\Automation\Actions;
 
 use Illuminate\Support\Str;
-use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
