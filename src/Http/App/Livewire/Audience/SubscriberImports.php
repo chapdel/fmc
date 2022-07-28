@@ -13,6 +13,7 @@ use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\SubscriberImportsQuery;
 use Spatie\Mailcoach\MainNavigation;
 use Spatie\SimpleExcel\SimpleExcelWriter;
+use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 class SubscriberImports extends DataTable
 {
@@ -75,8 +76,14 @@ class SubscriberImports extends DataTable
         $subscriberImport = self::getSubscriberImportClass()::find($subscriberImport);
 
         if ($collection === 'errorReport') {
+            $temporaryDirectory = TemporaryDirectory::make();
+
+            app()->terminating(function () use ($temporaryDirectory) {
+                $temporaryDirectory->delete();
+            });
+
             return response()->download(
-                SimpleExcelWriter::create('errorReport.csv', 'csv')
+                SimpleExcelWriter::create($temporaryDirectory->path('errorReport.csv'), 'csv')
                     ->noHeaderRow()
                     ->addRows($subscriberImport->errors ?? [])
                     ->getPath()
@@ -92,8 +99,14 @@ class SubscriberImports extends DataTable
 
     public function downloadExample()
     {
+        $temporaryDirectory = TemporaryDirectory::make();
+
+        app()->terminating(function () use ($temporaryDirectory) {
+            $temporaryDirectory->delete();
+        });
+
         return response()->download(
-            SimpleExcelWriter::create('subscribers-example.csv', 'csv')
+            SimpleExcelWriter::create($temporaryDirectory->path('subscribers-example.csv'), 'csv')
                 ->addRow(['email' => 'john@doe.com', 'first_name' => 'John', 'last_name' => 'Doe', 'tags' => 'one;two'])
                 ->getPath()
         );
