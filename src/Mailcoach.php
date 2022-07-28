@@ -82,7 +82,7 @@ class Mailcoach
             $scripts[] = sprintf('<script type="module" src="%s"></script>', "{$url}/@vite/client");
         } else {
             $scripts[] = <<<HTML
-                <script src="{$fullAssetPath}" data-turbo-eval="false" data-turbolinks-eval="false"></script>
+                <script src="{$fullAssetPath}"></script>
             HTML;
         }
 
