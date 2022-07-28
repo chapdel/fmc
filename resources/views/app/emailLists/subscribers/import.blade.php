@@ -21,7 +21,7 @@
             ['class' => 'w-48 th-numeric', 'attribute' => 'created_at', 'label' => __('mailcoach - Started at')],
             ['class' => 'th-numeric', 'label' => __('mailcoach - Imported subscribers')],
             ['class' => 'th-numeric', 'attribute' => 'imported_subscribers_count', 'label' => __('mailcoach - Processed rows')],
-            ['class' => 'th-numeric', 'attribute' => 'errors', 'label' => __('mailcoach - Errors')],
+            ['class' => 'th-numeric', 'label' => __('mailcoach - Errors')],
             ['class' => 'w-12'],
         ]"
     />

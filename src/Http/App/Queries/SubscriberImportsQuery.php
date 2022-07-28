@@ -23,7 +23,7 @@ class SubscriberImportsQuery extends QueryBuilder
 
         $this
             ->defaultSort('-created_at')
-            ->allowedSorts(['created_at', 'status'])
+            ->allowedSorts(['created_at', 'status', 'imported_subscribers_count'])
             ->allowedFilters(
                 AllowedFilter::exact('uuid'),
             );
