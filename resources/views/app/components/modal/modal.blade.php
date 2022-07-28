@@ -45,7 +45,7 @@
         >
             <div
                 x-on:click.stop
-                x-trap.noscroll.inert="$store.modals.isOpen(@js($name)"
+                x-trap.noscroll.inert="$store.modals.isOpen(@js($name))"
                 class="relative modal-wrapper rounded-sm @if($medium) modal-wrapper-md @endif @if($large) h-full modal-wrapper-lg @endif"
             >
             <div class="modal">
