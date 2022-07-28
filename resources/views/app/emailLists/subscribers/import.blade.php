@@ -115,6 +115,7 @@
 
             <x-mailcoach::info>
                 {!! __('mailcoach - Upload a CSV or XLSX file with these columns: email, first_name, last_name, tags <a href=":link" target="_blank">(see documentation)</a>', ['link' => 'https://mailcoach.app/docs/v5/mailcoach/using-mailcoach/audience#content-importing-subscribers']) !!}
+                &mdash; <a href="#" wire:click.prevent="downloadExample" class="link">{{ __('mailcoach - Download example') }}</a>
             </x-mailcoach::info>
         </form>
     </x-mailcoach::card>

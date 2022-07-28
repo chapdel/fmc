@@ -90,6 +90,15 @@ class SubscriberImports extends DataTable
         return $subscriberImport->getFirstMedia($collection);
     }
 
+    public function downloadExample()
+    {
+        return response()->download(
+            SimpleExcelWriter::create('subscribers-example.csv', 'csv')
+                ->addRow(['email' => 'john@doe.com', 'first_name' => 'John', 'last_name' => 'Doe', 'tags' => 'one;two'])
+                ->getPath()
+        );
+    }
+
     public function deleteImport(int $id)
     {
         $import = self::getSubscriberImportClass()::find($id);
