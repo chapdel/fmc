@@ -42,6 +42,7 @@
                         tagify = new Tagify(this.$refs.select, {
                             originalInputValueFormat: valuesArr => valuesArr.map(item => item.value),
                             whitelist: this.options,
+                            enforceWhitelist: true,
                             tagTextProp: 'label',
                             mode: 'select',
                             placeholder: '{{ $placeholder }}',
@@ -50,15 +51,28 @@
                                 maxItems: {{ $maxItems }},
                             }
                         });
+
+                        tagify.on('add', (e) => {
+                            this.value = e.detail.data.value;
+                        });
+
+                        let originalValue;
+                        tagify.on('focus', (e) => {
+                            originalValue = e.detail.tagify.value;
+                            tagify.removeAllTags();
+                        });
+
+                        @if (! $clearable)
+                            tagify.on('blur', (e) => {
+                                if (e.detail.tagify.value.length === 0) {
+                                    e.detail.tagify.addTags(originalValue);
+                                }
+                            });
+                        @endif
                     }
 
                     refreshTagify()
 
-                    this.$refs.select.addEventListener('change', () => {
-                        this.value = tagify.value[0] ? tagify.value[0].value : '';
-                    })
-
-                    this.$watch('value', () => refreshTagify())
                     this.$watch('options', () => refreshTagify())
                 })
             }
