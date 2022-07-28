@@ -74,7 +74,12 @@ abstract class EditorComponent extends Component
     public function renderFullHtml()
     {
         if (! $this->template) {
-            $this->fullHtml = $this->templateFieldValues['html'] ?? '';
+            $html = $this->templateFieldValues['html'] ?? '';
+            if (is_array($html)) {
+                $html = $html['html'] ?? '';
+            }
+
+            $this->fullHtml = $html;
 
             return;
         }

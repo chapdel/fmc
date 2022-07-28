@@ -25,7 +25,13 @@ class TemplateRenderer
         $html = $this->html;
 
         if (! $this->containsPlaceHolders()) {
-            return $values['html'] ?? '';
+            $html = $values['html'] ?? '';
+
+            if (is_array($html)) {
+                return $html['html'] ?? '';
+            }
+
+            return $html;
         }
 
         foreach ($this->placeHolderNames() as $placeHolderName) {
