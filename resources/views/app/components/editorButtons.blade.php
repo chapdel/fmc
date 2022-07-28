@@ -10,7 +10,7 @@
         :label="__('mailcoach - Save content')"
     />
 
-    @if (method_exists($model, 'sendTestMail'))
+    @if (method_exists($model, 'sendTestMail') && (\Spatie\Mailcoach\Mailcoach::defaultCampaignMailer() || \Spatie\Mailcoach\Mailcoach::defaultAutomationMailer() || \Spatie\Mailcoach\Mailcoach::defaultTransactionalMailer()))
         <x-mailcoach::button x-on:click.prevent="$wire.saveQuietly() && $store.modals.open('send-test')" :label="__('mailcoach - Save and send test')"/>
         <x-mailcoach::modal name="send-test" :dismissable="true">
             <livewire:mailcoach::send-test :model="$model" />
