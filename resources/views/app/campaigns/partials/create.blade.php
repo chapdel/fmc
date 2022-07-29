@@ -12,6 +12,7 @@
         :placeholder="__('mailcoach - Newsletter #1')"
         required
     />
+    @if (count($emailListOptions))
     <div class="form-grid">
         <x-mailcoach::select-field
             :label="__('mailcoach - Email list')"
@@ -35,4 +36,12 @@
         <x-mailcoach::button :label="__('mailcoach - Create campaign')" />
         <x-mailcoach::button-cancel x-on:click="$store.modals.close('create-campaign')" />
     </x-mailcoach::form-buttons>
+    @else
+        <p>{!! __('mailcoach - You\'ll need to create a list first. <a class="link" href=":url">Create one here</a>', [
+            'url' => route('mailcoach.emailLists') . '#create-list'
+        ]) !!}</p>
+        <x-mailcoach::form-buttons>
+            <x-mailcoach::button-cancel x-on:click="$store.modals.close('create-campaign')" />
+        </x-mailcoach::form-buttons>
+    @endif
 </form>
