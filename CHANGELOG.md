@@ -2,6 +2,22 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.7.2 - 2022-07-28
+
+### What's Changed
+
+- Fix an issue when scoping on extra attributes
+- [Docs] Add vapor .env config details by @timothyasp in https://github.com/spatie/laravel-mailcoach/pull/1017
+- [Docs] Update version num in postmark by @timothyasp in https://github.com/spatie/laravel-mailcoach/pull/1026
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.7.1...5.7.2
+
+## 4.17.1 - 2022-07-21
+
+- Fix a bug where child actions in automations were being recreated
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/4.17.0...4.17.1
+
 ## 5.7.1 - 2022-07-11
 
 ### What's Changed
