@@ -1,3 +1,6 @@
+<div class="text-center text-sm text-gray-400 flex items-center gap-x-1 justify-center" x-cloak x-data="{ key: 'CMD' }" x-init="platform = window.navigator.platform.indexOf('Mac') ? 'CMD' : 'CTRL' ">
+    <x-mailcoach::icon-label class="-mr-1" icon="fas fa-lightbulb" /> <strong>ProTip!</strong> You can use <code><span x-text="key"></span>+K</code> to open the command palette
+</div>
 <div class="my-10 px-6 flex flex-wrap items-center justify-center text-xs text-gray-500">
     <a class="inline-block truncate max-w-[6rem]" href="https://mailcoach.app">
         Mailcoach {{ $versionInfo->getCurrentVersion() }}

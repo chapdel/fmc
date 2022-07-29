@@ -3,7 +3,7 @@
     $invers = $invers ?? false;
 @endphp
 
-<span class="icon-label {{ $invers ? 'flex-row-reverse' : ''}}">
+<span class="icon-label {{ $invers ? 'flex-row-reverse' : ''}} {{ $attributes->get('class') }}">
     @isset($count)
         <span class="flex">
             <span class="counter ml-0">{{ $count }} </span>
@@ -14,9 +14,10 @@
         </span>
     @endisset
 
-    <span class="icon-label-text">
-        {{ $text ?? '' }}
-        {{ isset($count) && isset($countText) ? Str::plural($countText, $count) : ''}}
-    </span>
-
+    @if ($text ?? '' || (isset($count) && isset($countText)))
+        <span class="icon-label-text">
+            {{ $text ?? '' }}
+            {{ isset($count) && isset($countText) ? Str::plural($countText, $count) : ''}}
+        </span>
+    @endif
 </span>

@@ -7,6 +7,7 @@
     name="campaign"
     :rows="$campaigns ?? null"
     :totalRowsCount="$totalCampaignsCount ?? null"
+    :model-class="\Spatie\Mailcoach\Mailcoach::getCampaignClass()"
     :filters="[
         ['attribute' => 'status', 'value' => '', 'label' => __('mailcoach - All'), 'count' => $totalCampaignsCount ?? null],
         ['attribute' => 'status', 'value' => 'sent', 'label' => __('mailcoach - Sent'), 'count' => $sentCampaignsCount ?? null],
@@ -26,19 +27,4 @@
     rowPartial="mailcoach::app.campaigns.partials.row"
     :emptyText="$emptyText"
     :noResultsText="__('mailcoach - No campaigns found.')"
->
-    @slot('actions')
-        @can('create', \Spatie\Mailcoach\Mailcoach::getCampaignClass())
-            <x-mailcoach::button
-                x-on:click="$store.modals.open('create-campaign')"
-                :disabled="($totalListsCount ?? 0) === 0"
-                :label="__('mailcoach - Create campaign')"
-            />
-
-            <x-mailcoach::modal name="create-campaign" :title="__('mailcoach - Create campaign')"
-                                :confirm-text="__('mailcoach - Create campaign')">
-                <livewire:mailcoach::create-campaign/>
-            </x-mailcoach::modal>
-        @endcan
-    @endslot
-</x-mailcoach::data-table>
+/>
