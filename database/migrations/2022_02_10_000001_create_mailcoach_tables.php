@@ -5,11 +5,10 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 
-return new class extends Migration
-{
+return new class extends Migration {
     public function up()
     {
-        if (! Schema::hasTable('users')) {
+        if (!Schema::hasTable('users')) {
             Schema::create('users', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->string('name');
@@ -143,6 +142,9 @@ return new class extends Migration
 
             $table->string('segment_description')->default(0);
 
+            $table->boolean('track_opens')->default(false);
+            $table->boolean('track_clicks')->default(false);
+
             $table->integer('open_count')->default(0);
             $table->integer('unique_open_count')->default(0);
             $table->integer('open_rate')->default(0);
@@ -213,6 +215,9 @@ return new class extends Migration
 
             $table->string('reply_to_email')->nullable();
             $table->string('reply_to_name')->nullable();
+
+            $table->boolean('track_opens')->default(false);
+            $table->boolean('track_clicks')->default(false);
 
             $table->string('subject')->nullable();
 
@@ -718,7 +723,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('mailcoach_webhook_configurations', function(Blueprint $table) {
+        Schema::create('mailcoach_webhook_configurations', function (Blueprint $table) {
             $table->id();
             $table->uuid()->index();
             $table->string('name');
@@ -727,6 +732,23 @@ return new class extends Migration
             $table->string('secret');
             $table->boolean('use_for_all_lists')->default(true);
             $table->timestamps();
+        });
+
+        Schema::create('mailcoach_webhook_configuration_email_list_subscription', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('mailcoach_webhook_configurations_id');
+            $table->unsignedBigInteger('mailcoach_email_list_id');
+            $table->timestamps();
+
+            $table
+                ->foreign('mailcoach_webhook_configurations_id', 'wc_idx')
+                ->references('id')->on('mailcoach_webhook_configurations')
+                ->cascadeOnDelete();
+
+            $table
+                ->foreign('mailcoach_email_list_id', 'mel_idx')
+                ->references('id')->on('mailcoach_email_lists')
+                ->cascadeOnDelete();
         });
     }
 };
