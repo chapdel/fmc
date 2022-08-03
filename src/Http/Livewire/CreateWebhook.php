@@ -2,9 +2,9 @@
 
 namespace Spatie\Mailcoach\Http\Livewire;
 
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Illuminate\Support\Str;
 
 class CreateWebhook extends Component
 {

@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Http\Livewire;
 
-use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
