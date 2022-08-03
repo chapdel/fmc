@@ -26,6 +26,7 @@ use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
 use Spatie\Mailcoach\Domain\Settings\Models\PersonalAccessToken;
 use Spatie\Mailcoach\Domain\Settings\Models\Setting;
 use Spatie\Mailcoach\Domain\Settings\Models\User;
+use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Models\SendFeedbackItem;
 use Spatie\Mailcoach\Domain\Shared\Models\Upload;
@@ -33,7 +34,6 @@ use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailClick;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailOpen;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
-use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 
 trait UsesMailcoachModels
 {
