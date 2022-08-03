@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Http\Livewire;
 
 use Livewire\Component;
-use Spatie\Mailcoach\Domain\Settings\Enums\MailerTransport;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class CreateWebhook extends Component
