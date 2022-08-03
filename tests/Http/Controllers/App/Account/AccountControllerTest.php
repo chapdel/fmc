@@ -2,7 +2,7 @@
 
 use Spatie\Mailcoach\Http\App\Controllers\Settings\Account\AccountController;
 
-it('can update the properties of the authenticated user', function() {
+it('can update the properties of the authenticated user', function () {
     $this->authenticate();
 
     $newName = 'New name';

@@ -2,10 +2,10 @@
 
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Notification;
-use Spatie\Mailcoach\Http\Auth\Controllers\ForgotPasswordController;
 use Spatie\Mailcoach\Domain\Settings\Models\User;
+use Spatie\Mailcoach\Http\Auth\Controllers\ForgotPasswordController;
 
-beforeEach(function() {
+beforeEach(function () {
     $this->user = User::factory()->create([
         'email' => 'john@example.com',
         'password' => bcrypt('my-password'),
@@ -16,7 +16,7 @@ beforeEach(function() {
     Notification::fake();
 });
 
-it('can send a reset password notification', function() {
+it('can send a reset password notification', function () {
     $this
         ->post($this->resetUrl, ['email' => 'john@example.com'])
         ->assertRedirect();
@@ -24,11 +24,10 @@ it('can send a reset password notification', function() {
     Notification::assertSentTo($this->user, ResetPassword::class);
 });
 
-it('will not send a password reset notification when given a wrong email address', function() {
+it('will not send a password reset notification when given a wrong email address', function () {
     $this
         ->post($this->resetUrl, ['email' => 'non-existing@example.com'])
         ->assertRedirect();
 
     Notification::assertNotSentTo($this->user, ResetPassword::class);
 });
-

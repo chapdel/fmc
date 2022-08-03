@@ -6,11 +6,11 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
-use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 use Spatie\Mailcoach\Domain\Settings\Support\ConfigCache;
 use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\EditorConfiguration;
 use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\EditorConfigurationDriverRepository;
 use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\TextareaEditorConfigurationDriver;
+use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 
 class EditorSettings extends Component
 {

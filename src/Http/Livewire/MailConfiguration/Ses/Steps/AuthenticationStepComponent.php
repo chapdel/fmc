@@ -6,10 +6,10 @@ use Exception;
 use Illuminate\Validation\Rule;
 use Spatie\LivewireWizard\Components\StepComponent;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
+use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Concerns\UsesMailer;
 use Spatie\MailcoachSesSetup\Exception\InvalidAwsCredentials;
 use Spatie\MailcoachSesSetup\MailcoachSes;
 use Spatie\MailcoachSesSetup\MailcoachSesConfig;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Concerns\UsesMailer;
 
 class AuthenticationStepComponent extends StepComponent
 {

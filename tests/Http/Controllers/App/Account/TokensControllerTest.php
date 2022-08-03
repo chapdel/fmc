@@ -2,12 +2,11 @@
 
 use Spatie\Mailcoach\Domain\Settings\Models\User;
 
-beforeEach(function() {
+beforeEach(function () {
     $this->authenticate();
-
 });
 
-it('can delete a personal access token', function() {
+it('can delete a personal access token', function () {
     $token = auth()->user()->personalAccessTokens()->first();
 
     $this
@@ -19,7 +18,7 @@ it('can delete a personal access token', function() {
     ]);
 });
 
-it('will not delete a personal access token belonging to another user', function() {
+it('will not delete a personal access token belonging to another user', function () {
     $this->withExceptionHandling();
 
     $anotherUser = User::factory()->create();

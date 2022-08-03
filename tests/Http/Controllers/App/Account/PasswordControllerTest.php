@@ -1,9 +1,9 @@
 <?php
 
-use Spatie\Mailcoach\Http\App\Controllers\Settings\Account\PasswordController;
 use Spatie\Mailcoach\Domain\Settings\Models\User;
+use Spatie\Mailcoach\Http\App\Controllers\Settings\Account\PasswordController;
 
-it('can change the password of the authenticated user', function() {
+it('can change the password of the authenticated user', function () {
     $currentPassword = 'current-password';
     $newPassword = 'my-new-password';
 
@@ -28,7 +28,7 @@ it('can change the password of the authenticated user', function() {
     ]));
 });
 
-it('will fail if the current password is not correct', function() {
+it('will fail if the current password is not correct', function () {
     $newPassword = 'my-new-password';
 
     $this->authenticate();

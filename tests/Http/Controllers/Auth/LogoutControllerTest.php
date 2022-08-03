@@ -1,10 +1,10 @@
 <?php
 
+use Spatie\Mailcoach\Domain\Settings\Models\User;
 use Spatie\Mailcoach\Http\Auth\Controllers\LoginController;
 use Spatie\Mailcoach\Http\Auth\Controllers\LogoutController;
-use Spatie\Mailcoach\Domain\Settings\Models\User;
 
-it('can logout', function() {
+it('can logout', function () {
     $user = User::factory()->create();
 
     $this->actingAs($user);

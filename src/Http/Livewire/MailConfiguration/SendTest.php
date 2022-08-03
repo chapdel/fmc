@@ -4,8 +4,8 @@ namespace Spatie\Mailcoach\Http\Livewire\MailConfiguration;
 
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
-use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 use Spatie\Mailcoach\Domain\Settings\Mail\TestMail;
+use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 use Symfony\Component\Mime\Email;
 
 class SendTest extends Component

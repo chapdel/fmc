@@ -1,16 +1,16 @@
 <?php
 
-use Spatie\Mailcoach\Http\Auth\Controllers\LoginController;
 use Spatie\Mailcoach\Domain\Settings\Models\User;
+use Spatie\Mailcoach\Http\Auth\Controllers\LoginController;
 
-beforeEach(function() {
+beforeEach(function () {
     $this->user = User::factory()->create([
         'email' => 'john@example.com',
         'password' => bcrypt('my-password'),
     ]);
 });
 
-it('can login', function() {
+it('can login', function () {
     $this->post(
         action([LoginController::class, 'login']),
         [
@@ -23,7 +23,7 @@ it('can login', function() {
     $this->assertAuthenticatedAs($this->user);
 });
 
-it('will not login when providing a wrong password', function() {
+it('will not login when providing a wrong password', function () {
     $this->withExceptionHandling();
 
     $this
