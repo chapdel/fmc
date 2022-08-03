@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use Spatie\Mailcoach\Http\Api\Controllers\UploadsController;
+use Spatie\Mailcoach\Http\App\Livewire\Campaigns\Template;
+use Spatie\Mailcoach\Http\App\Livewire\Campaigns\Templates;
+use Spatie\Mailcoach\Http\Livewire\EditWebhooks;
+use Spatie\Mailcoach\Http\Livewire\Webhooks;
 use Spatie\Mailcoach\Mailcoach;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailContentController;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\SendAutomationMailTestController;
@@ -142,8 +146,8 @@ Route::prefix('transactional-mail-templates')->group(function () {
 });
 
 Route::prefix('templates')->group(function () {
-    Route::get('/', '\\' . Mailcoach::getLivewireClass('templates', \Spatie\Mailcoach\Http\App\Livewire\Campaigns\Templates::class))->name('mailcoach.templates');
-    Route::get('{template:uuid}', '\\' . Mailcoach::getLivewireClass('template', \Spatie\Mailcoach\Http\App\Livewire\Campaigns\Template::class))->name('mailcoach.templates.edit');
+    Route::get('/', '\\' . Mailcoach::getLivewireClass('templates', Templates::class))->name('mailcoach.templates');
+    Route::get('{template:uuid}', '\\' . Mailcoach::getLivewireClass('template', Template::class))->name('mailcoach.templates.edit');
 });
 
 Route::prefix('settings')
@@ -158,13 +162,6 @@ Route::prefix('settings')
 
             Route::prefix('tokens')->group(function () {
                 Route::get('/', Tokens::class)->name('tokens');
-                /*
-                Route::get('/', [TokensController::class, 'index'])->name('tokens');
-                Route::post('/', [TokensController::class, 'store'])->name('tokens.create');
-                Route::delete("{personalAccessToken}", [TokensController::class, 'destroy'])
-                    ->name('tokens.delete')
-                    ->middleware('can:administer,personalAccessToken');
-                */
             });
         });
 
@@ -179,6 +176,11 @@ Route::prefix('settings')
         });
 
         Route::get('editor', EditorSettings::class)->name('editor');
+
+        Route::prefix('webhooks')->group(function() {
+            Route::get('/', Webhooks::class)->name('webhooks');
+            Route::get('{webhook:uuid}', EditWebhooks::class)->name('webhooks.edit');
+        });
     });
 
 Route::post('logout', LogoutController::class)->name('logout');

@@ -155,6 +155,7 @@ use Spatie\Mailcoach\Domain\Settings\Commands\PrepareGitIgnoreCommand;
 use Spatie\Mailcoach\Http\App\ViewComposers\HealthViewComposer;
 use Spatie\Mailcoach\Http\Livewire\CreateMailer;
 use Spatie\Mailcoach\Http\Livewire\CreateUser;
+use Spatie\Mailcoach\Http\Livewire\CreateWebhook;
 use Spatie\Mailcoach\Http\Livewire\EditMailer;
 use Spatie\Mailcoach\Http\Livewire\EditorSettings;
 use Spatie\Mailcoach\Http\Livewire\EditUser;
@@ -172,6 +173,7 @@ use Spatie\Mailcoach\Http\Livewire\Users;
 use Spatie\Mailcoach\Domain\Settings\Policies\PersonalAccessTokenPolicy;
 use Spatie\Mailcoach\Domain\Settings\Support\AppConfiguration\AppConfiguration;
 use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\EditorConfiguration;
+use Spatie\Mailcoach\Http\Livewire\Webhooks;
 use Spatie\Navigation\Helpers\ActiveUrlChecker;
 
 class MailcoachServiceProvider extends PackageServiceProvider
@@ -540,6 +542,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::list-settings', Mailcoach::getLivewireClass('list-settings', ListSettings::class));
         Livewire::component('mailcoach::list-onboarding', Mailcoach::getLivewireClass('list-onboarding', ListOnboarding::class));
         Livewire::component('mailcoach::list-mailers', Mailcoach::getLivewireClass('list-mailers', ListMailers::class));
+        Livewire::component('mailcoach::list-mailers', Mailcoach::getLivewireClass('list-mailers', ListMailers::class));
         Livewire::component('mailcoach::create-segment', Mailcoach::getLivewireClass('create-segment', CreateSegment::class));
         Livewire::component('mailcoach::segments', Mailcoach::getLivewireClass('segments', Segments::class));
         Livewire::component('mailcoach::segment', Mailcoach::getLivewireClass('segment', Segment::class));
@@ -596,11 +599,14 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::import', Import::class);
 
         // settings
+        Livewire::component('mailcoach::webhooks', Webhooks::class);
+        Livewire::component('mailcoach::create-webhook', CreateWebhook::class);
+
         Livewire::component('mailcoach::mailers', Mailers::class);
         Livewire::component('mailcoach::create-mailer', CreateMailer::class);
         Livewire::component('mailcoach::create-user', CreateUser::class);
         Livewire::component('mailcoach::general-settings', GeneralSettings::class);
-        Livewire::component('mailcoach::send-test', \Spatie\Mailcoach\Http\Livewire\MailConfiguration\SendTest::class);
+        Livewire::component('mailcoach::send-test', Http\Livewire\MailConfiguration\SendTest::class);
         Livewire::component('mailcoach::profile', Profile::class);
         Livewire::component('mailcoach::password', Password::class);
         Livewire::component('mailcoach::users', Users::class);

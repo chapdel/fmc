@@ -533,6 +533,7 @@ return [
         'personal_access_token' => \Spatie\Mailcoach\Domain\Settings\Models\PersonalAccessToken::class,
         'setting' => \Spatie\Mailcoach\Domain\Settings\Models\Setting::class,
         'mailer' => \Spatie\Mailcoach\Domain\Settings\Models\Mailer::class,
+        'webhook_configuration' => \Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration::class,
     ],
 
     'views' => [

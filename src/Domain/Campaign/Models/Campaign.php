@@ -172,7 +172,7 @@ class Campaign extends Sendable implements Feedable
 
     public function getMailer(): ?Mailer
     {
-        $mailerClass = config('mailcoach-ui.models.mailer');
+        $mailerClass = config('mailcoach.models.mailer');
 
         if (! class_exists($mailerClass)) {
             return null;

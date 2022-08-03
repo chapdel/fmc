@@ -33,6 +33,7 @@ use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailClick;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailOpen;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
+use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 
 trait UsesMailcoachModels
 {
@@ -401,24 +402,30 @@ trait UsesMailcoachModels
     /** @return class-string<User> */
     public static function getUserClass(): string
     {
-        return config('mailcoach-ui.models.user', User::class);
+        return config('mailcoach.models.user', User::class);
     }
 
     /** @return class-string<PersonalAccessToken> */
     public static function getPersonalAccessTokenClass(): string
     {
-        return config('mailcoach-ui.models.personal_access_token', PersonalAccessToken::class);
+        return config('mailcoach.models.personal_access_token', PersonalAccessToken::class);
     }
 
     /** @return class-string<Setting> */
     public static function getSettingClass(): string
     {
-        return config('mailcoach-ui.models.setting', Setting::class);
+        return config('mailcoach.models.setting', Setting::class);
     }
 
     /** @return class-string<Mailer> */
     public static function getMailerClass(): string
     {
-        return config('mailcoach-ui.models.mailer', Mailer::class);
+        return config('mailcoach.models.mailer', Mailer::class);
+    }
+
+    /** @return class-string<WebhookConfiguration> */
+    public static function getWebhookConfigurationClass(): string
+    {
+        return config('mailcoach.models.webhook_configuration', Mailer::class);
     }
 }

@@ -69,6 +69,7 @@
         "spatie/laravel-schemaless-attributes": "^2.0",
         "spatie/laravel-validation-rules": "^3.0",
         "spatie/laravel-webhook-client": "^3.0",
+        "spatie/laravel-webhook-server": "^3.2",
         "spatie/laravel-welcome-notification": "^2.3",
         "spatie/simple-excel": "^2.1.0",
         "spatie/temporary-directory": "^2.0",

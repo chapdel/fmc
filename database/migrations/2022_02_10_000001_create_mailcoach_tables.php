@@ -717,5 +717,16 @@ return new class extends Migration
             $table->boolean('ready_for_use')->default(false);
             $table->timestamps();
         });
+
+        Schema::create('mailcoach_webhook_configurations', function(Blueprint $table) {
+            $table->id();
+            $table->uuid()->index();
+            $table->string('name');
+            $table->text('url');
+            $table->string('signature_header_name');
+            $table->string('secret');
+            $table->boolean('use_for_all_lists');
+            $table->timestamps();
+        });
     }
 };

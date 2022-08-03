@@ -22,7 +22,8 @@ class BootstrapSettingsNavigation
                     ->add(__('General'), route('general-settings'))
                     ->add(__('Mailers'), route('mailers'))
                     ->add(__('Editor'), route('editor'))
-                    ->add(__('API Tokens'), route('tokens'));
+                    ->add(__('API Tokens'), route('tokens'))
+                    ->add(__('Webhooks'), route('webhooks'));
             });
 
         return $next($request);
