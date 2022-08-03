@@ -13,7 +13,6 @@ class BootstrapSettingsNavigation
 
     public function handle(Request $request, $next)
     {
-        @ray('configuring');
         resolve(SettingsNavigation::class)
             ->add(__('Profile'), route('account'))
             ->add(__('Password'), route('password'))

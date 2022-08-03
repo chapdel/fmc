@@ -7,7 +7,6 @@
 >
     <x-slot name="nav">
         <x-mailcoach::navigation>
-            @ray('rendering')
             @foreach (app(\Spatie\Mailcoach\Domain\Settings\SettingsNavigation::class)->tree() as $item)
                 @if(count($item['children']))
                     <x-mailcoach::navigation-group :title="__($item['title'])" :href="$item['url']">
