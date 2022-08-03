@@ -426,6 +426,6 @@ trait UsesMailcoachModels
     /** @return class-string<WebhookConfiguration> */
     public static function getWebhookConfigurationClass(): string
     {
-        return config('mailcoach.models.webhook_configuration', Mailer::class);
+        return config('mailcoach.models.webhook_configuration', WebhookConfiguration::class);
     }
 }

@@ -725,7 +725,7 @@ return new class extends Migration
             $table->text('url');
             $table->string('signature_header_name');
             $table->string('secret');
-            $table->boolean('use_for_all_lists');
+            $table->boolean('use_for_all_lists')->default(true);
             $table->timestamps();
         });
     }

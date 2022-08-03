@@ -3,8 +3,9 @@
 namespace Spatie\Mailcoach\Http\Livewire;
 
 use Livewire\Component;
-use Spatie\Mailcoach\Domain\Settings\Enums\MailerTransport;
+
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use \Illuminate\Support\Str;
 
 class CreateWebhook extends Component
 {
@@ -23,6 +24,8 @@ class CreateWebhook extends Component
         $mailer = self::getWebhookConfigurationClass()::create([
             'name' => $this->name,
             'url' => $this->url,
+            'signature_header_name' => 'mailcoach-secret',
+            'secret' => Str::random(),
         ]);
 
         flash()->success(__('The webhook has been created.'));

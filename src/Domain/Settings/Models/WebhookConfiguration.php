@@ -11,6 +11,8 @@ class WebhookConfiguration extends Model
     use HasUuid;
     use UsesMailcoachModels;
 
+    public $guarded = [];
+
     public $table = 'mailcoach_webhook_configurations';
 
     public $casts = [

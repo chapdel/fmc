@@ -5,6 +5,9 @@
         </a>
     </td>
     <td>
+        {{ $row->url }}
+    </td>
+    <td>
         @if ($row->use_for_all_lists)
             <x-mailcoach::rounded-icon type="success" icon="fas fa-check" />
         @else

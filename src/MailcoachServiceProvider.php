@@ -214,8 +214,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     public function packageRegistered(): void
     {
-
-
         $this->app->singleton(Version::class, function () {
             return new Version();
         });
