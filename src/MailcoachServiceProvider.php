@@ -159,6 +159,7 @@ use Spatie\Mailcoach\Http\Livewire\CreateWebhook;
 use Spatie\Mailcoach\Http\Livewire\EditMailer;
 use Spatie\Mailcoach\Http\Livewire\EditorSettings;
 use Spatie\Mailcoach\Http\Livewire\EditUser;
+use Spatie\Mailcoach\Http\Livewire\EditWebhook;
 use Spatie\Mailcoach\Http\Livewire\GeneralSettings;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Mailgun\MailgunSetupWizardComponent;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Postmark\PostmarkSetupWizardComponent;
@@ -599,6 +600,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         // settings
         Livewire::component('mailcoach::webhooks', Webhooks::class);
         Livewire::component('mailcoach::create-webhook', CreateWebhook::class);
+        Livewire::component('mailcoach::edit-webhook', EditWebhook::class);
 
         Livewire::component('mailcoach::mailers', Mailers::class);
         Livewire::component('mailcoach::create-mailer', CreateMailer::class);

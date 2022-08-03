@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Spatie\Mailcoach\Http\Api\Controllers\UploadsController;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\Template;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\Templates;
-use Spatie\Mailcoach\Http\Livewire\EditWebhooks;
+use Spatie\Mailcoach\Http\Livewire\EditWebhook;
 use Spatie\Mailcoach\Http\Livewire\Webhooks;
 use Spatie\Mailcoach\Mailcoach;
 use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailContentController;
@@ -179,7 +179,7 @@ Route::prefix('settings')
 
         Route::prefix('webhooks')->group(function() {
             Route::get('/', Webhooks::class)->name('webhooks');
-            Route::get('{webhook:uuid}', EditWebhooks::class)->name('webhooks.edit');
+            Route::get('{webhook:uuid}', EditWebhook::class)->name('webhooks.edit');
         });
     });
 
