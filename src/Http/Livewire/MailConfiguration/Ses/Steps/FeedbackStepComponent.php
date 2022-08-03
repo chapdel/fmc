@@ -5,10 +5,10 @@ namespace Spatie\Mailcoach\Http\Livewire\MailConfiguration\Ses\Steps;
 use Exception;
 use Spatie\LivewireWizard\Components\StepComponent;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
+use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Concerns\UsesMailer;
 use Spatie\MailcoachSesFeedback\SesWebhookController;
 use Spatie\MailcoachSesSetup\MailcoachSes;
 use Spatie\MailcoachSesSetup\MailcoachSesConfig;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Concerns\UsesMailer;
 
 class FeedbackStepComponent extends StepComponent
 {

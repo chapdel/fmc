@@ -4,10 +4,10 @@ namespace Spatie\Mailcoach\Http\Livewire\MailConfiguration\Mailgun\Steps;
 
 use Spatie\LivewireWizard\Components\StepComponent;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
+use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Concerns\UsesMailer;
 use Spatie\MailcoachMailgunFeedback\MailgunWebhookController;
 use Spatie\MailcoachMailgunSetup\EventType;
 use Spatie\MailcoachMailgunSetup\Mailgun;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Concerns\UsesMailer;
 
 class FeedbackStepComponent extends StepComponent
 {

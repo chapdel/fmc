@@ -1,10 +1,9 @@
 <?php
 
 use Laravel\Sanctum\Sanctum;
+use Spatie\Mailcoach\Domain\Settings\Models\User;
 use Spatie\Mailcoach\Http\Api\Controllers\UserController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
-use Spatie\Mailcoach\Domain\Settings\Models\User;
-
 
 uses(RespondsToApiRequests::class);
 
@@ -20,7 +19,7 @@ it('can detect the currently logged in user', function () {
 });
 
 
-it('can use the api via sanctum', function() {
+it('can use the api via sanctum', function () {
     $user = User::factory()->create();
 
     Sanctum::actingAs($user, ['*'], 'api');
@@ -30,6 +29,3 @@ it('can use the api via sanctum', function() {
         ->assertSuccessful()
         ->assertJsonFragment(['email' => $user->email]);
 });
-
-
-

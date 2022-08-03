@@ -4,10 +4,10 @@ namespace Spatie\Mailcoach\Http\Livewire\MailConfiguration\Smtp;
 
 use Livewire\Livewire;
 use Spatie\LivewireWizard\Components\WizardComponent;
+use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Smtp\Steps\SmtpSettingsStepComponent;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Smtp\Steps\SummaryStepComponent;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\ThrottlingStepComponent;
-use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
 
 class SmtpSetupWizardComponent extends WizardComponent
 {

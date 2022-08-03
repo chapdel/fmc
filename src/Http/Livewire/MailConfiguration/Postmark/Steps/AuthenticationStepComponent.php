@@ -5,8 +5,8 @@ namespace Spatie\Mailcoach\Http\Livewire\MailConfiguration\Postmark\Steps;
 use Exception;
 use Spatie\LivewireWizard\Components\StepComponent;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
-use Spatie\MailcoachPostmarkSetup\Postmark;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Concerns\UsesMailer;
+use Spatie\MailcoachPostmarkSetup\Postmark;
 
 class AuthenticationStepComponent extends StepComponent
 {

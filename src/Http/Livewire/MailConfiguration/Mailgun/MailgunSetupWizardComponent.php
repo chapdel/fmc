@@ -4,11 +4,11 @@ namespace Spatie\Mailcoach\Http\Livewire\MailConfiguration\Mailgun;
 
 use Livewire\Livewire;
 use Spatie\LivewireWizard\Components\WizardComponent;
+use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Mailgun\Steps\AuthenticationStepComponent;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Mailgun\Steps\FeedbackStepComponent;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Mailgun\Steps\SummaryStepComponent;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\ThrottlingStepComponent;
-use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
 
 class MailgunSetupWizardComponent extends WizardComponent
 {

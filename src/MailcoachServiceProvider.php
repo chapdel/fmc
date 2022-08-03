@@ -59,7 +59,13 @@ use Spatie\Mailcoach\Domain\Campaign\Listeners\AddCampaignClickedTag;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\AddCampaignOpenedTag;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\SendCampaignSentEmail;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\SetWebhookCallProcessedAt;
+use Spatie\Mailcoach\Domain\Settings\Commands\ExecuteComposerHookCommand;
+use Spatie\Mailcoach\Domain\Settings\Commands\MakeUserCommand;
+use Spatie\Mailcoach\Domain\Settings\Commands\PrepareGitIgnoreCommand;
+use Spatie\Mailcoach\Domain\Settings\Policies\PersonalAccessTokenPolicy;
 use Spatie\Mailcoach\Domain\Settings\SettingsNavigation;
+use Spatie\Mailcoach\Domain\Settings\Support\AppConfiguration\AppConfiguration;
+use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\EditorConfiguration;
 use Spatie\Mailcoach\Domain\Shared\Commands\CheckLicenseCommand;
 use Spatie\Mailcoach\Domain\Shared\Commands\CleanupProcessedFeedbackCommand;
 use Spatie\Mailcoach\Domain\Shared\Commands\RetryPendingSendsCommand;
@@ -149,9 +155,6 @@ use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateC
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplates;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateSettings;
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
-use Spatie\Mailcoach\Domain\Settings\Commands\ExecuteComposerHookCommand;
-use Spatie\Mailcoach\Domain\Settings\Commands\MakeUserCommand;
-use Spatie\Mailcoach\Domain\Settings\Commands\PrepareGitIgnoreCommand;
 use Spatie\Mailcoach\Http\App\ViewComposers\HealthViewComposer;
 use Spatie\Mailcoach\Http\Livewire\CreateMailer;
 use Spatie\Mailcoach\Http\Livewire\CreateUser;
@@ -169,9 +172,6 @@ use Spatie\Mailcoach\Http\Livewire\Password;
 use Spatie\Mailcoach\Http\Livewire\Profile;
 use Spatie\Mailcoach\Http\Livewire\Tokens;
 use Spatie\Mailcoach\Http\Livewire\Users;
-use Spatie\Mailcoach\Domain\Settings\Policies\PersonalAccessTokenPolicy;
-use Spatie\Mailcoach\Domain\Settings\Support\AppConfiguration\AppConfiguration;
-use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\EditorConfiguration;
 use Spatie\Navigation\Helpers\ActiveUrlChecker;
 
 class MailcoachServiceProvider extends PackageServiceProvider
@@ -212,8 +212,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     public function packageRegistered(): void
     {
-
-
         $this->app->singleton(Version::class, function () {
             return new Version();
         });

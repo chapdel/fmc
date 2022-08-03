@@ -5,8 +5,8 @@ namespace Spatie\Mailcoach\Http\Livewire\MailConfiguration\SendGrid\Steps;
 use Exception;
 use Spatie\LivewireWizard\Components\StepComponent;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
-use Spatie\MailcoachSendgridSetup\Sendgrid;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Concerns\UsesMailer;
+use Spatie\MailcoachSendgridSetup\Sendgrid;
 
 class AuthenticationStepComponent extends StepComponent
 {

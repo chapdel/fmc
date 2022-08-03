@@ -5,10 +5,10 @@ namespace Spatie\Mailcoach\Http\Livewire\MailConfiguration\Postmark\Steps;
 use Illuminate\Support\Str;
 use Spatie\LivewireWizard\Components\StepComponent;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
+use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Concerns\UsesMailer;
 use Spatie\MailcoachPostmarkFeedback\PostmarkWebhookController;
 use Spatie\MailcoachPostmarkSetup\Enums\PostMarkTrigger;
 use Spatie\MailcoachPostmarkSetup\Postmark;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Concerns\UsesMailer;
 
 class FeedbackStepComponent extends StepComponent
 {

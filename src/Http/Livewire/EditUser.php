@@ -4,8 +4,8 @@ namespace Spatie\Mailcoach\Http\Livewire;
 
 use Illuminate\Validation\Rule;
 use Livewire\Component;
-use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 use Spatie\Mailcoach\Domain\Settings\Models\User;
+use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 
 class EditUser extends Component
 {
