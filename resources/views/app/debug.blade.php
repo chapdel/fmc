@@ -217,7 +217,7 @@
                     </div>
                 </dd>
 
-            @if (class_exists(\Spatie\MailcoachUi\MailcoachUiServiceProvider::class))
+            @if (class_exists(\Spatie\Mailcoach\MailcoachServiceProvider::class))
                 @php($issueBody.="**mailcoach-ui version**: " . $versionInfo->getCurrentVersion('mailcoach-ui') . "\n")
                 <dt>mailcoach-ui</dt>
                 <dd>

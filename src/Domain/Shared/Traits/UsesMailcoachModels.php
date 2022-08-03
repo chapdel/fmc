@@ -22,6 +22,10 @@ use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignOpen;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignUnsubscribe;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
+use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
+use Spatie\Mailcoach\Domain\Settings\Models\PersonalAccessToken;
+use Spatie\Mailcoach\Domain\Settings\Models\Setting;
+use Spatie\Mailcoach\Domain\Settings\Models\User;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Models\SendFeedbackItem;
 use Spatie\Mailcoach\Domain\Shared\Models\Upload;
@@ -392,5 +396,29 @@ trait UsesMailcoachModels
         $class = new $className;
 
         return $class->getTable();
+    }
+
+    /** @return class-string<User> */
+    public static function getUserClass(): string
+    {
+        return config('mailcoach-ui.models.user', User::class);
+    }
+
+    /** @return class-string<PersonalAccessToken> */
+    public static function getPersonalAccessTokenClass(): string
+    {
+        return config('mailcoach-ui.models.personal_access_token', PersonalAccessToken::class);
+    }
+
+    /** @return class-string<Setting> */
+    public static function getSettingClass(): string
+    {
+        return config('mailcoach-ui.models.setting', Setting::class);
+    }
+
+    /** @return class-string<Mailer> */
+    public static function getMailerClass(): string
+    {
+        return config('mailcoach-ui.models.mailer', Mailer::class);
     }
 }

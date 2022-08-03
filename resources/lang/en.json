@@ -593,5 +593,7 @@
     "mailcoach - subscriber|subscribers": "subscriber|subscribers",
     "mailcoach - to": "to",
     "mailcoach - was delivered successfully to": "was delivered successfully to",
-    "mailcoach - was delivered to": "was delivered to"
+    "mailcoach - was delivered to": "was delivered to",
+    "mailcoach - Create mailer" : "Create mailer",
+    "mailcoach - Create user" : "Create user"
 }

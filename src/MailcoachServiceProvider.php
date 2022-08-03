@@ -3,6 +3,8 @@
 namespace Spatie\Mailcoach;
 
 use Exception;
+use Illuminate\Database\QueryException;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -15,6 +17,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
 use LivewireUI\Spotlight\Spotlight;
+use Spatie\Flash\Flash;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\Mailcoach\Components\DateTimeFieldComponent;
@@ -56,6 +59,7 @@ use Spatie\Mailcoach\Domain\Campaign\Listeners\AddCampaignClickedTag;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\AddCampaignOpenedTag;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\SendCampaignSentEmail;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\SetWebhookCallProcessedAt;
+use Spatie\Mailcoach\Domain\Settings\SettingsNavigation;
 use Spatie\Mailcoach\Domain\Shared\Commands\CheckLicenseCommand;
 use Spatie\Mailcoach\Domain\Shared\Commands\CleanupProcessedFeedbackCommand;
 use Spatie\Mailcoach\Domain\Shared\Commands\RetryPendingSendsCommand;
@@ -145,6 +149,29 @@ use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateC
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplates;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateSettings;
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
+use Spatie\Mailcoach\Domain\Settings\Commands\ExecuteComposerHookCommand;
+use Spatie\Mailcoach\Domain\Settings\Commands\MakeUserCommand;
+use Spatie\Mailcoach\Domain\Settings\Commands\PrepareGitIgnoreCommand;
+use Spatie\Mailcoach\Http\App\ViewComposers\HealthViewComposer;
+use Spatie\Mailcoach\Http\Livewire\CreateMailer;
+use Spatie\Mailcoach\Http\Livewire\CreateUser;
+use Spatie\Mailcoach\Http\Livewire\EditMailer;
+use Spatie\Mailcoach\Http\Livewire\EditorSettings;
+use Spatie\Mailcoach\Http\Livewire\EditUser;
+use Spatie\Mailcoach\Http\Livewire\GeneralSettings;
+use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Mailgun\MailgunSetupWizardComponent;
+use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Postmark\PostmarkSetupWizardComponent;
+use Spatie\Mailcoach\Http\Livewire\MailConfiguration\SendGrid\SendGridSetupWizardComponent;
+use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Ses\SesSetupWizardComponent;
+use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Smtp\SmtpSetupWizardComponent;
+use Spatie\Mailcoach\Http\Livewire\Mailers;
+use Spatie\Mailcoach\Http\Livewire\Password;
+use Spatie\Mailcoach\Http\Livewire\Profile;
+use Spatie\Mailcoach\Http\Livewire\Tokens;
+use Spatie\Mailcoach\Http\Livewire\Users;
+use Spatie\Mailcoach\Domain\Settings\Policies\PersonalAccessTokenPolicy;
+use Spatie\Mailcoach\Domain\Settings\Support\AppConfiguration\AppConfiguration;
+use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\EditorConfiguration;
 use Spatie\Navigation\Helpers\ActiveUrlChecker;
 
 class MailcoachServiceProvider extends PackageServiceProvider
@@ -177,17 +204,26 @@ class MailcoachServiceProvider extends PackageServiceProvider
                 RunAutomationActionsCommand::class,
                 RunAutomationTriggersCommand::class,
                 CheckLicenseCommand::class,
+                ExecuteComposerHookCommand::class,
+                MakeUserCommand::class,
+                PrepareGitIgnoreCommand::class,
             ]);
     }
 
     public function packageRegistered(): void
     {
+
+
         $this->app->singleton(Version::class, function () {
             return new Version();
         });
 
         $this->app->scoped(MainNavigation::class, function () {
             return new MainNavigation(app(ActiveUrlChecker::class));
+        });
+
+        $this->app->scoped(SettingsNavigation::class, function () {
+            return new SettingsNavigation(app(ActiveUrlChecker::class));
         });
 
         $this->app->scoped(SimpleThrottle::class, function () {
@@ -210,7 +246,10 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
         $this
             ->bootCarbon()
+            ->bootConfig()
             ->bootGate()
+            ->bootFlash()
+            ->bootMailers()
             ->bootRoutes()
             ->bootSupportMacros()
             ->bootTranslations()
@@ -231,6 +270,20 @@ class MailcoachServiceProvider extends PackageServiceProvider
             /** @phpstan-ignore-next-line */
             fn () => self::this()->copy()->setTimezone(config('app.timezone'))->format($mailcoachFormat)
         );
+
+        return $this;
+    }
+
+    protected function bootConfig(): self
+    {
+        try {
+            self::getMailerClass()::registerAllConfigValues();
+        } catch (QueryException) {
+            // Do nothing as table probably doesn't exist
+        }
+
+        app(AppConfiguration::class)->registerConfigValues();
+        app(EditorConfiguration::class)->registerConfigValues();
 
         return $this;
     }
@@ -284,7 +337,20 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootGate(): self
     {
-        Gate::define('viewMailcoach', fn () => $this->app->environment('local'));
+        Gate::define('viewMailcoach', fn (User $user) => true);
+
+        Gate::policy(self::getPersonalAccessTokenClass(), PersonalAccessTokenPolicy::class);
+
+        return $this;
+    }
+
+    protected function bootFlash(): self
+    {
+        Flash::levels([
+            'success' => 'success',
+            'warning' => 'warning',
+            'error' => 'error',
+        ]);
 
         return $this;
     }
@@ -304,9 +370,20 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Route::bind('email-list', fn (string $value) => self::getEmailListClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
 
         Route::macro('mailcoach', function (string $url = '') {
+            Route::sesFeedback('ses-feedback');
+            Route::mailgunFeedback('mailgun-feedback');
+            Route::sendgridFeedback('sendgrid-feedback');
+            Route::postmarkFeedback('postmark-feedback');
+
             Route::get($url, '\\' . HomeController::class)->name('mailcoach.home');
 
             Route::prefix($url)->group(function () {
+                Route::prefix('')
+                    ->middleware('web')
+                    ->group(function () {
+                        require(__DIR__ . '/../routes/auth.php');
+                    });
+
                 Route::prefix('')->group(__DIR__ . '/../routes/mailcoach-public-api.php');
 
                 Route::prefix('')
@@ -317,7 +394,11 @@ class MailcoachServiceProvider extends PackageServiceProvider
                     ->middleware(config('mailcoach.middleware')['api'])
                     ->group(__DIR__ . '/../routes/mailcoach-api.php');
             });
+
+            Route::mailcoachEditor('mailcoachEditor');
         });
+
+
 
         return $this;
     }
@@ -325,6 +406,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
     protected function bootViews(): self
     {
         View::composer('mailcoach::app.layouts.partials.footer', FooterComposer::class);
+        View::composer('mailcoach::app.layouts.partials.health', HealthViewComposer::class);
+        View::composer('mailcoach::app.layouts.partials.health-tiles', HealthViewComposer::class);
 
         if (config("mailcoach.views.use_blade_components", true)) {
             $this->bootBladeComponents();
@@ -414,6 +497,9 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.automations.mails.layouts.automationMail', 'mailcoach::layout-automation-mail');
 
         Blade::component('mailcoach::app.automations.components.automationAction', 'mailcoach::automation-action');
+
+        Blade::component('mailcoach::auth.layouts.auth', 'mailcoach::layout-auth');
+        Blade::component('mailcoach::app.layouts.settings', 'mailcoach::layout-settings');
 
         return $this;
     }
@@ -508,6 +594,27 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
         Livewire::component('mailcoach::export', Export::class);
         Livewire::component('mailcoach::import', Import::class);
+
+        // settings
+        Livewire::component('mailcoach::mailers', Mailers::class);
+        Livewire::component('mailcoach::create-mailer', CreateMailer::class);
+        Livewire::component('mailcoach::create-user', CreateUser::class);
+        Livewire::component('mailcoach::general-settings', GeneralSettings::class);
+        Livewire::component('mailcoach::send-test', \Spatie\Mailcoach\Http\Livewire\MailConfiguration\SendTest::class);
+        Livewire::component('mailcoach::profile', Profile::class);
+        Livewire::component('mailcoach::password', Password::class);
+        Livewire::component('mailcoach::users', Users::class);
+        Livewire::component('mailcoach::edit-user', EditUser::class);
+        Livewire::component('mailcoach::edit-mailer', EditMailer::class);
+        Livewire::component('mailcoach::tokens', Tokens::class);
+
+        SesSetupWizardComponent::registerLivewireComponents();
+        SendGridSetupWizardComponent::registerLivewireComponents();
+        SmtpSetupWizardComponent::registerLivewireComponents();
+        PostmarkSetupWizardComponent::registerLivewireComponents();
+        MailgunSetupWizardComponent::registerLivewireComponents();
+
+        Livewire::component('mailcoach::editor-settings', EditorSettings::class);
 
         config()->set('livewire.temporary_file_upload.rules', [
             'file|max:102400', // 100 MB max
@@ -613,6 +720,11 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
         config()->set('ciphersweet.providers.string.key', $encryptionKey);
 
+        return $this;
+    }
+
+    protected function bootMailers(): self
+    {
         return $this;
     }
 }

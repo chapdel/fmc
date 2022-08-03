@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests;
 
+use CreatePersonalAccessTokensTable;
 use CreateUsersTable;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
+use Laravel\Sanctum\SanctumServiceProvider;
 use Livewire\LivewireServiceProvider;
 use LivewireUI\Spotlight\SpotlightServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
@@ -25,6 +27,13 @@ use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Front\Controllers\UnsubscribeController;
 use Spatie\Mailcoach\MailcoachServiceProvider;
+use Spatie\MailcoachEditor\MailcoachEditorServiceProvider;
+use Spatie\MailcoachMailgunFeedback\MailcoachMailgunFeedbackServiceProvider;
+use Spatie\MailcoachMarkdownEditor\MailcoachMarkdownEditorServiceProvider;
+use Spatie\MailcoachPostmarkFeedback\MailcoachPostmarkFeedbackServiceProvider;
+use Spatie\MailcoachSendgridFeedback\MailcoachSendgridFeedbackServiceProvider;
+use Spatie\MailcoachSesFeedback\MailcoachSesFeedbackServiceProvider;
+use Spatie\MailcoachUnlayer\MailcoachUnlayerServiceProvider;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 use Spatie\Navigation\NavigationServiceProvider;
 use Spatie\QueryBuilder\QueryBuilderServiceProvider;
@@ -41,6 +50,8 @@ abstract class TestCase extends Orchestra
         parent::setUp();
 
         Route::mailcoach('mailcoach');
+
+        config()->set('auth.providers.users.model', User::class);
 
         $this->withoutExceptionHandling();
 
@@ -82,6 +93,16 @@ abstract class TestCase extends Orchestra
             MediaLibraryServiceProvider::class,
             QueryBuilderServiceProvider::class,
             NavigationServiceProvider::class,
+            SanctumServiceProvider::class,
+            FeedServiceProvider::class,
+
+            MailcoachSesFeedbackServiceProvider::class,
+            MailcoachMailgunFeedbackServiceProvider::class,
+            MailcoachSendgridFeedbackServiceProvider::class,
+            MailcoachPostmarkFeedbackServiceProvider::class,
+            MailcoachUnlayerServiceProvider::class,
+            MailcoachEditorServiceProvider::class,
+            MailcoachMarkdownEditorServiceProvider::class,
         ];
     }
 
@@ -90,11 +111,21 @@ abstract class TestCase extends Orchestra
         if (! RefreshDatabaseState::$migrated) {
             $this->artisan('migrate:fresh', $this->migrateFreshUsing());
 
-            include_once __DIR__.'/database/migrations/create_users_table.php.stub';
-            (new CreateUsersTable())->up();
+            //include_once __DIR__.'/database/migrations/create_users_table.php.stub';
+            //(new CreateUsersTable())->up();
 
             $blindIndexes = include __DIR__.'/../vendor/spatie/laravel-ciphersweet/database/migrations/create_blind_indexes_table.php';
             $blindIndexes->up();
+
+            /*
+            $migration = include_once __DIR__.'/../vendor/spatie/laravel-medialibrary/database/migrations/create_media_table.php.stub';
+            $migration->up();
+            */
+
+            /*
+            include_once __DIR__.'/../vendor/laravel/sanctum/database/migrations/2019_12_14_000001_create_personal_access_tokens_table.php';
+            (new CreatePersonalAccessTokensTable())->up();
+            */
 
             $this->app[Kernel::class]->setArtisan(null);
 
@@ -130,6 +161,8 @@ abstract class TestCase extends Orchestra
     public function authenticate(string $guard = null)
     {
         $user = UserFactory::new()->create();
+
+        $user->createToken('test');
 
         $this->actingAs($user, $guard);
     }

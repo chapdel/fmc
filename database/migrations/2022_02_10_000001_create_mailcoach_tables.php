@@ -9,6 +9,16 @@ return new class extends Migration
 {
     public function up()
     {
+        if (! Schema::hasTable('users')) {
+            Schema::create('users', function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->string('name');
+                $table->string('email');
+                $table->string('password');
+                $table->timestamps();
+            });
+        }
+
         Schema::create('mailcoach_email_lists', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->index();
@@ -685,6 +695,26 @@ return new class extends Migration
         Schema::create('mailcoach_uploads', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->index();
+            $table->timestamps();
+        });
+
+        Schema::table('users', function (Blueprint $table) {
+            $table->timestamp('welcome_valid_until')->nullable();
+        });
+
+        Schema::create('mailcoach_settings', function (Blueprint $table) {
+            $table->string('key')->index();
+            $table->text('value')->nullable();
+        });
+
+        Schema::create('mailcoach_mailers', function (Blueprint $table) {
+            $table->id();
+            $table->uuid()->index();
+            $table->string('name');
+            $table->string('transport');
+            $table->longText('configuration')->nullable();
+            $table->boolean('default')->default(false);
+            $table->boolean('ready_for_use')->default(false);
             $table->timestamps();
         });
     }

@@ -22,6 +22,19 @@ use Spatie\Mailcoach\Http\App\Livewire\Export\Export;
 use Spatie\Mailcoach\Http\App\Livewire\Import\Import;
 use Spatie\Mailcoach\Http\App\Middleware\EditableCampaign;
 
+use Spatie\Mailcoach\Http\App\Controllers\Settings\Account\TokensController;
+use Spatie\Mailcoach\Http\App\Middleware\BootstrapSettingsNavigation;
+use Spatie\Mailcoach\Http\Auth\Controllers\LogoutController;
+use Spatie\Mailcoach\Http\Livewire\EditMailer;
+use Spatie\Mailcoach\Http\Livewire\EditorSettings;
+use Spatie\Mailcoach\Http\Livewire\EditUser;
+use Spatie\Mailcoach\Http\Livewire\GeneralSettings;
+use Spatie\Mailcoach\Http\Livewire\Mailers;
+use Spatie\Mailcoach\Http\Livewire\Password;
+use Spatie\Mailcoach\Http\Livewire\Profile;
+use Spatie\Mailcoach\Http\Livewire\Tokens;
+use Spatie\Mailcoach\Http\Livewire\Users;
+
 Route::get('dashboard', Mailcoach::getLivewireClass('dashboard', \Spatie\Mailcoach\Http\App\Livewire\Dashboard::class))->name('mailcoach.dashboard');
 Route::get('debug', '\\' . DebugController::class)->name('debug');
 
@@ -132,3 +145,40 @@ Route::prefix('templates')->group(function () {
     Route::get('/', '\\' . Mailcoach::getLivewireClass('templates', \Spatie\Mailcoach\Http\App\Livewire\Campaigns\Templates::class))->name('mailcoach.templates');
     Route::get('{template:uuid}', '\\' . Mailcoach::getLivewireClass('template', \Spatie\Mailcoach\Http\App\Livewire\Campaigns\Template::class))->name('mailcoach.templates.edit');
 });
+
+Route::prefix('settings')
+    ->middleware([BootstrapSettingsNavigation::class])
+    ->group(function () {
+        Route::get('general', GeneralSettings::class)->name('general-settings');
+
+        Route::prefix('account')->group(function () {
+            Route::get('details', Profile::class)->name('account');
+
+            Route::get('password', Password::class)->name('password');
+
+            Route::prefix('tokens')->group(function () {
+                Route::get('/', Tokens::class)->name('tokens');
+                /*
+                Route::get('/', [TokensController::class, 'index'])->name('tokens');
+                Route::post('/', [TokensController::class, 'store'])->name('tokens.create');
+                Route::delete("{personalAccessToken}", [TokensController::class, 'destroy'])
+                    ->name('tokens.delete')
+                    ->middleware('can:administer,personalAccessToken');
+                */
+            });
+        });
+
+        Route::prefix('mailers')->group(function() {
+            Route::get('/', Mailers::class)->name('mailers');
+            Route::get('{mailer:uuid}', EditMailer::class)->name('mailers.edit');
+        });
+
+        Route::prefix('users')->group(function () {
+            Route::get('/', Users::class)->name('users');
+            Route::get('{user}', EditUser::class)->name('users.edit');
+        });
+
+        Route::get('editor', EditorSettings::class)->name('editor');
+    });
+
+Route::post('logout', LogoutController::class)->name('logout');

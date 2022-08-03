@@ -23,7 +23,7 @@ use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Spatie\Mailcoach\Mailcoach;
-use Spatie\MailcoachUi\Models\Mailer;
+use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 class Campaign extends Sendable implements Feedable

@@ -528,6 +528,11 @@ return [
          * model.
          */
         'upload' => \Spatie\Mailcoach\Domain\Shared\Models\Upload::class,
+
+        'user' => \Spatie\Mailcoach\Domain\Settings\Models\User::class,
+        'personal_access_token' => \Spatie\Mailcoach\Domain\Settings\Models\PersonalAccessToken::class,
+        'setting' => \Spatie\Mailcoach\Domain\Settings\Models\Setting::class,
+        'mailer' => \Spatie\Mailcoach\Domain\Settings\Models\Mailer::class,
     ],
 
     'views' => [
@@ -606,5 +611,18 @@ return [
         'transactional-mail-content' => \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailContent::class,
         'transactional-mail-performance' => \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailPerformance::class,
         'transactional-mail-resend' => \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailResend::class,
+    ],
+
+    /**
+     * The available editors inside Mailcoach UI, the key is the displayed name in the UI
+     * the class must be a class that extends and implements
+     * \Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\EditorConfigurationDriver
+     */
+    'editors' => [
+        \Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\EditorJsEditorConfigurationDriver::class,
+        \Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\MarkdownEditorConfigurationDriver::class,
+        \Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\MonacoEditorConfigurationDriver::class,
+        \Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\TextareaEditorConfigurationDriver::class,
+        \Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\UnlayerEditorConfigurationDriver::class,
     ],
 ];
