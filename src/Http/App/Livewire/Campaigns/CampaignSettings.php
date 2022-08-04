@@ -94,7 +94,7 @@ class CampaignSettings extends Component
 
     public function render(): View
     {
-        $this->mailer = self::getEmailListClass()::find($this->campaign->email_list_id)?->campaign_mailer ?? Mailcoach::defaultCampaignMailer();
+        $this->mailer = $this->campaign->getMailerKey();
 
         return view('mailcoach::app.campaigns.settings')
             ->layout('mailcoach::app.campaigns.layouts.campaign', [

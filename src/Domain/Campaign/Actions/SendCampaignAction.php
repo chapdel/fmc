@@ -113,7 +113,7 @@ class SendCampaignAction
     protected function dispatchMailSendingJobs(Campaign $campaign, CarbonInterface $stopExecutingAt = null): void
     {
         $simpleThrottle = app(SimpleThrottle::class)
-            ->forMailer($campaign->emailList->campaign_mailer ?? Mailcoach::defaultCampaignMailer());
+            ->forMailer($campaign->getMailerKey());
 
         $campaign
             ->sends()
