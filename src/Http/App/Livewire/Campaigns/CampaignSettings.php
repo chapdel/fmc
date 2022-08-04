@@ -13,6 +13,7 @@ use Spatie\Mailcoach\Domain\Audience\Support\Segments\SubscribersWithTagsSegment
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
+use Spatie\Mailcoach\Mailcoach;
 use Spatie\Mailcoach\MainNavigation;
 
 class CampaignSettings extends Component
@@ -93,7 +94,7 @@ class CampaignSettings extends Component
 
     public function render(): View
     {
-        $this->mailer = self::getEmailListClass()::find($this->campaign->email_list_id)?->campaign_mailer;
+        $this->mailer = self::getEmailListClass()::find($this->campaign->email_list_id)?->campaign_mailer ?? Mailcoach::defaultCampaignMailer();
 
         return view('mailcoach::app.campaigns.settings')
             ->layout('mailcoach::app.campaigns.layouts.campaign', [

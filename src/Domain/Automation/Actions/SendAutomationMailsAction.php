@@ -9,6 +9,7 @@ use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus;
 use Spatie\Mailcoach\Domain\Shared\Support\Throttling\SimpleThrottle;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Mailcoach;
 
 class SendAutomationMailsAction
 {
@@ -25,7 +26,7 @@ class SendAutomationMailsAction
             ->whereNotNull('automation_mail_id')
             ->lazyById()
             ->each(function (Send $send) use ($stopExecutingAt) {
-                $this->throttle->forMailer($send->subscriber->emailList->automation_mailer);
+                $this->throttle->forMailer($send->subscriber->emailList->automation_mailer ?? Mailcoach::defaultAutomationMailer());
 
                 // should horizon be used, and it is paused, stop dispatching jobs
                 if (! app(HorizonStatus::class)->is(HorizonStatus::STATUS_PAUSED)) {

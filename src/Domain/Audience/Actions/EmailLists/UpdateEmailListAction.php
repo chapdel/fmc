@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Domain\Audience\Actions\EmailLists;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Http\Api\Requests\UpdateEmailListSettingsRequest;
 use Spatie\Mailcoach\Http\App\Requests\EmailLists\Settings\UpdateEmailListGeneralSettingsRequest;
+use Spatie\Mailcoach\Mailcoach;
 
 class UpdateEmailListAction
 {
@@ -16,10 +17,9 @@ class UpdateEmailListAction
             'default_from_name' => $request->default_from_name,
             'default_reply_to_email' => $request->default_reply_to_email ?? $request->default_from_email,
             'default_reply_to_name' => $request->default_reply_to_name ?? $request->default_from_name,
-            'campaign_mailer' => $request->campaign_mailer ?? config('mailcoach.campaigns.mailer') ?? config('mailcoach.mailer') ?? config('mail.default'),
-            'automation_mailer' => $request->campaign_mailer ?? config('mailcoach.campaigns.mailer') ?? config('mailcoach.mailer') ?? config('mail.default'),
-
-            'transactional_mailer' => $request->transactional_mailer ?? config('mailcoach.transactional.mailer') ?? config('mailcoach.mailer') ?? config('mail.default'),
+            'campaign_mailer' => $request->campaign_mailer ?? Mailcoach::defaultCampaignMailer(),
+            'automation_mailer' => $request->automation_mailer ?? Mailcoach::defaultAutomationMailer(),
+            'transactional_mailer' => $request->transactional_mailer ?? Mailcoach::defaultTransactionalMailer(),
             'campaigns_feed_enabled' => $request->campaigns_feed_enabled ?? false,
             'report_recipients' => $request->report_recipients,
             'report_campaign_sent' => $request->report_campaign_sent ?? false,
