@@ -733,7 +733,7 @@ return new class extends Migration {
             $table->timestamps();
         });
 
-        Schema::create('mailcoach_webhook_configuration_email_list_subscription', function (Blueprint $table) {
+        Schema::create('mailcoach_webhook_configuration_email_lists', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('webhook_configuration_id');
             $table->unsignedBigInteger('email_list_id');

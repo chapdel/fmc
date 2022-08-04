@@ -23,7 +23,6 @@ class CreateWebhook extends Component
         $mailer = self::getWebhookConfigurationClass()::create([
             'name' => $this->name,
             'url' => $this->url,
-            'signature_header_name' => 'mailcoach-secret',
             'secret' => Str::random(),
         ]);
 

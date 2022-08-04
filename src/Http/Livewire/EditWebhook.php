@@ -12,26 +12,32 @@ class EditWebhook extends Component
 
     public WebhookConfiguration $webhook;
 
+    public array $email_lists;
+
     public function rules(): array
     {
         return [
             'webhook.name' => ['required'],
             'webhook.url' => ['required', 'url', 'starts_with:https'],
-            'webhook.signature_header_name' => ['required'],
             'webhook.secret' => ['required'],
             'webhook.use_for_all_lists' => ['boolean'],
+            'email_lists' => [],
         ];
     }
 
     public function mount(WebhookConfiguration $webhook)
     {
         $this->webhook = $webhook;
+
+        $this->email_lists = $webhook->emailLists()->pluck('name')->toArray();
     }
 
     public function save()
     {
         $this->webhook->update($this->validate()['webhook']);
 
+        $this->webhook->emailLists()->sync($this->email_lists);
+ray($this->email_lists);
         $this->flash(__('The webhook has been updated.'));
     }
 
