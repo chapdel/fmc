@@ -728,7 +728,6 @@ return new class extends Migration {
             $table->uuid()->index();
             $table->string('name');
             $table->text('url');
-            $table->string('signature_header_name');
             $table->string('secret');
             $table->boolean('use_for_all_lists')->default(true);
             $table->timestamps();
@@ -736,17 +735,17 @@ return new class extends Migration {
 
         Schema::create('mailcoach_webhook_configuration_email_list_subscription', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('mailcoach_webhook_configurations_id');
-            $table->unsignedBigInteger('mailcoach_email_list_id');
+            $table->unsignedBigInteger('webhook_configuration_id');
+            $table->unsignedBigInteger('email_list_id');
             $table->timestamps();
 
             $table
-                ->foreign('mailcoach_webhook_configurations_id', 'wc_idx')
+                ->foreign('webhook_configuration_id', 'wc_idx')
                 ->references('id')->on('mailcoach_webhook_configurations')
                 ->cascadeOnDelete();
 
             $table
-                ->foreign('mailcoach_email_list_id', 'mel_idx')
+                ->foreign('email_list_id', 'mel_idx')
                 ->references('id')->on('mailcoach_email_lists')
                 ->cascadeOnDelete();
         });

@@ -62,6 +62,7 @@ use Spatie\Mailcoach\Domain\Campaign\Listeners\SetWebhookCallProcessedAt;
 use Spatie\Mailcoach\Domain\Settings\Commands\ExecuteComposerHookCommand;
 use Spatie\Mailcoach\Domain\Settings\Commands\MakeUserCommand;
 use Spatie\Mailcoach\Domain\Settings\Commands\PrepareGitIgnoreCommand;
+use Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookEventSubscriber;
 use Spatie\Mailcoach\Domain\Settings\Policies\PersonalAccessTokenPolicy;
 use Spatie\Mailcoach\Domain\Settings\SettingsNavigation;
 use Spatie\Mailcoach\Domain\Settings\Support\AppConfiguration\AppConfiguration;
@@ -215,9 +216,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     public function packageRegistered(): void
     {
-        $this->app->singleton(Version::class, function () {
-            return new Version();
-        });
+        $this->app->singleton(Version::class, fn() => new Version());
 
         $this->app->scoped(MainNavigation::class, function () {
             return new MainNavigation(app(ActiveUrlChecker::class));
@@ -638,6 +637,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Event::listen(CampaignLinkClickedEvent::class, AddCampaignClickedTag::class);
         Event::listen(AutomationMailOpenedEvent::class, AddAutomationMailOpenedTag::class);
         Event::listen(AutomationMailLinkClickedEvent::class, AddAutomationMailClickedTag::class);
+
+        Event::subscribe(WebhookEventSubscriber::class);
 
         return $this;
     }

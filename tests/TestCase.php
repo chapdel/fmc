@@ -37,6 +37,7 @@ use Spatie\MailcoachUnlayer\MailcoachUnlayerServiceProvider;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 use Spatie\Navigation\NavigationServiceProvider;
 use Spatie\QueryBuilder\QueryBuilderServiceProvider;
+use Spatie\WebhookServer\WebhookServerServiceProvider;
 use function Spatie\Snapshots\assertMatchesHtmlSnapshot;
 use Spatie\TestTime\TestTime;
 
@@ -103,6 +104,7 @@ abstract class TestCase extends Orchestra
             MailcoachUnlayerServiceProvider::class,
             MailcoachEditorServiceProvider::class,
             MailcoachMarkdownEditorServiceProvider::class,
+            WebhookServerServiceProvider::class,
         ];
     }
 

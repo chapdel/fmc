@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Audience\Models;
 
 use Carbon\CarbonInterface;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,10 +11,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\MySqlConnection;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Spatie\Mailcoach\Database\Factories\EmailListFactory;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Mails\ConfirmSubscriberMail;
+use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
@@ -218,5 +221,15 @@ class EmailList extends Model
     protected static function newFactory(): EmailListFactory
     {
         return new EmailListFactory();
+    }
+
+    public function webhookConfigurations(): Collection
+    {
+        return WebhookConfiguration::query()
+            ->where('use_for_all_lists', true)
+            ->orWhereHas('emailLists', function(EloquentBuilder $query) {
+                $query->where('email_list_id', $this->id);
+            })
+            ->get();
     }
 }
