@@ -227,7 +227,7 @@ class EmailList extends Model
     {
         return WebhookConfiguration::query()
             ->where('use_for_all_lists', true)
-            ->orWhereHas('emailLists', function(EloquentBuilder $query) {
+            ->orWhereHas('emailLists', function (EloquentBuilder $query) {
                 $query->where('email_list_id', $this->id);
             })
             ->get();

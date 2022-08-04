@@ -37,9 +37,9 @@ use Spatie\MailcoachUnlayer\MailcoachUnlayerServiceProvider;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 use Spatie\Navigation\NavigationServiceProvider;
 use Spatie\QueryBuilder\QueryBuilderServiceProvider;
-use Spatie\WebhookServer\WebhookServerServiceProvider;
 use function Spatie\Snapshots\assertMatchesHtmlSnapshot;
 use Spatie\TestTime\TestTime;
+use Spatie\WebhookServer\WebhookServerServiceProvider;
 
 abstract class TestCase extends Orchestra
 {

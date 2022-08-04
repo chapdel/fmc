@@ -9,7 +9,7 @@ use Spatie\Mailcoach\Mailcoach;
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\WebhookServer\CallWebhookJob;
 
-beforeEach(function() {
+beforeEach(function () {
     Queue::fake();
 
     $this->subscriber = SubscriberFactory::new()->create();
@@ -17,7 +17,7 @@ beforeEach(function() {
     $this->webhookConfiguration = WebhookConfiguration::factory()->create();
 });
 
-it('will send a webhook to a configuration that is used for all lists', function() {
+it('will send a webhook to a configuration that is used for all lists', function () {
     $this->webhookConfiguration->update(['use_for_all_lists' => true]);
 
     sendWebhook($this->subscriber);
@@ -25,14 +25,14 @@ it('will send a webhook to a configuration that is used for all lists', function
     Queue::assertPushed(CallWebhookJob::class);
 });
 
-it('will not send a webhook to a configuration that is not used for all lists', function() {
+it('will not send a webhook to a configuration that is not used for all lists', function () {
     $this->webhookConfiguration->update(['use_for_all_lists' => false]);
     sendWebhook($this->subscriber);
 
     Queue::assertNothingPushed();
 });
 
-it('will not send a webhook to a configuration that accepts webhooks for a specific list', function() {
+it('will not send a webhook to a configuration that accepts webhooks for a specific list', function () {
     $this->webhookConfiguration->update(['use_for_all_lists' => false]);
     $this->webhookConfiguration->emailLists()->attach($this->subscriber->emailList);
 

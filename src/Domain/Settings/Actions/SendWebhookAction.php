@@ -11,10 +11,11 @@ class SendWebhookAction
     public function execute(EmailList $emailList, array $payload, object $event): void
     {
         $emailList->webhookConfigurations()->each(
-            fn(WebhookConfiguration $webhookConfiguration) => $this->sendWebhook(
+            fn (WebhookConfiguration $webhookConfiguration) => $this->sendWebhook(
                 $webhookConfiguration,
                 $payload,
-            ));
+            )
+        );
     }
 
     protected function sendWebhook(WebhookConfiguration $webhookConfiguration, array $payload)
