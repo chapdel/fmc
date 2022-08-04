@@ -37,7 +37,7 @@ class EditWebhook extends Component
         $this->webhook->update($this->validate()['webhook']);
 
         $this->webhook->emailLists()->sync($this->email_lists);
-ray($this->email_lists);
+        ray($this->email_lists);
         $this->flash(__('The webhook has been updated.'));
     }
 

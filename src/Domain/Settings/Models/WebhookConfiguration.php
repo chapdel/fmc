@@ -5,14 +5,10 @@ namespace Spatie\Mailcoach\Domain\Settings\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use ParagonIE\CipherSweet\BlindIndex;
 use ParagonIE\CipherSweet\CipherSweet as CipherSweetEngine;
 use ParagonIE\CipherSweet\EncryptedRow;
 use Spatie\LaravelCipherSweet\Concerns\UsesCipherSweet;
 use Spatie\LaravelCipherSweet\Observers\ModelObserver;
-use Spatie\Mailcoach\Domain\Audience\Encryption\Transformation\EmailFirstPart;
-use Spatie\Mailcoach\Domain\Audience\Encryption\Transformation\EmailSecondPart;
-use Spatie\Mailcoach\Domain\Audience\Encryption\Transformation\Lowercase;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -35,7 +31,8 @@ class WebhookConfiguration extends Model
     public function emailLists(): BelongsToMany
     {
         return $this->belongsToMany(
-            EmailList::class, 'mailcoach_webhook_configuration_email_lists',
+            EmailList::class,
+            'mailcoach_webhook_configuration_email_lists',
             'email_list_id',
             'webhook_configuration_id',
         );
