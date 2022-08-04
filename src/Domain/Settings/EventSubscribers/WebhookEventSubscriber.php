@@ -5,12 +5,24 @@ namespace Spatie\Mailcoach\Domain\Settings\EventSubscribers;
 use Spatie\Mailcoach\Domain\Audience\Events\SubscribedEvent;
 use Spatie\Mailcoach\Domain\Audience\Events\UnconfirmedSubscriberCreatedEvent;
 use Spatie\Mailcoach\Domain\Audience\Events\UnsubscribedEvent;
+use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Domain\Settings\Actions\SendWebhookAction;
+use Spatie\Mailcoach\Http\Api\Resources\CampaignResource;
 use Spatie\Mailcoach\Http\Api\Resources\SubscriberResource;
 use Spatie\Mailcoach\Mailcoach;
 
 class WebhookEventSubscriber
 {
+    public function subscribe(): array
+    {
+        return [
+            SubscribedEvent::class => 'handSubscribedEvent',
+            UnconfirmedSubscriberCreatedEvent::class => 'handeUnconfirmedSubscriberCreatedEvent',
+            UnsubscribedEvent::class => 'handUnsubscribedEvent',
+            CampaignSentEvent::class => 'handleCampaignSent',
+        ];
+    }
+
     public function handSubscribedEvent(SubscribedEvent $event)
     {
         $emailList = $event->subscriber->emailList;
@@ -41,21 +53,20 @@ class WebhookEventSubscriber
         $this->sendWebhookAction()->execute($emailList, $payload, $event);
     }
 
+    public function handleCampaignSent(CampaignSentEvent $event)
+    {
+        $emailList = $event->campaign->emailList;
+
+        $payload = CampaignResource::make($event->campaign)->toArray(request());
+
+        $this->sendWebhookAction()->execute($emailList, $payload, $event);
+    }
+
     protected function sendWebhookAction(): SendWebhookAction
     {
         /** @var $action SendWebhookAction */
         $action = Mailcoach::getSharedActionClass('send_webhook', SendWebhookAction::class);
 
         return $action;
-    }
-
-    public function subscribe(): array
-    {
-        return [
-            SubscribedEvent::class => 'handSubscribedEvent',
-            UnconfirmedSubscriberCreatedEvent::class => 'handeUnconfirmedSubscriberCreatedEvent',
-            UnsubscribedEvent::class => 'handUnsubscribedEvent',
-
-        ];
     }
 }

@@ -16,7 +16,7 @@ class CampaignResource extends JsonResource
             'email_list_uuid' => $this->emailList->uuid,
             'email_list' => new EmailListResource($this->whenLoaded('emailList')),
 
-            'segment' => new SegmentResource($this->whenLoaded('segment')),
+            //'segment' => new SegmentResource($this->whenLoaded('segment')),
 
             'from_email' => $this->from_email,
             'from_name' => $this->subject,
