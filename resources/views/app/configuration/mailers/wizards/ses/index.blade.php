@@ -1,6 +1,6 @@
 <div>
     <livewire:mailcoach::ses-configuration :mailer="$mailer" />
     <x-mailcoach::modal name="send-test">
-        <livewire:mailcoach::send-test mailer="{{ $mailer->configName() }}" />
+        <livewire:mailcoach::mailer-send-test mailer="{{ $mailer->configName() }}" />
     </x-mailcoach::modal>
 </div>

@@ -605,7 +605,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::create-mailer', CreateMailer::class);
         Livewire::component('mailcoach::create-user', CreateUser::class);
         Livewire::component('mailcoach::general-settings', GeneralSettings::class);
-        Livewire::component('mailcoach::send-test', Http\Livewire\MailConfiguration\SendTest::class);
+        Livewire::component('mailcoach::mailer-send-test', Http\Livewire\MailConfiguration\SendTest::class);
         Livewire::component('mailcoach::profile', Profile::class);
         Livewire::component('mailcoach::password', Password::class);
         Livewire::component('mailcoach::users', Users::class);
