@@ -302,6 +302,12 @@ return [
     'mailer' => null,
 
     /*
+     * The timezone to use with Mailcoach, by default the timezone in
+     * config/app.php will be used.
+     */
+    'timezone' => null,
+
+    /*
      * The date format used on all screens of the UI
      */
     'date_format' => 'Y-m-d H:i',

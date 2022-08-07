@@ -237,7 +237,7 @@
                             @csrf
                             <div class="flex items-end">
                                 <x-mailcoach::date-time-field :name="'scheduled_at'"
-                                                              :value="optional($campaign->scheduled_at)->setTimezone(config('app.timezone'))"
+                                                              :value="optional($campaign->scheduled_at)->setTimezone(config('mailcoach.timezone') ?? config('app.timezone'))"
                                                               required/>
 
                                 <button type="submit" class="ml-6 button">
@@ -245,7 +245,7 @@
                                 </button>
                             </div>
                             <p class="mt-2 text-xs text-gray-400">
-                                {{ __('mailcoach - All times in :timezone', ['timezone' => config('app.timezone')]) }}
+                                {{ __('mailcoach - All times in :timezone', ['timezone' => config('mailcoach.timezone') ?? config('app.timezone')]) }}
                             </p>
                         </form>
                     @elseif (! $campaign->sent_to_number_of_subscribers)

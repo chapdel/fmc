@@ -32,7 +32,7 @@
                     <td class="truncate">{{ $transactionalMail->toString() }}</td>
                     <td class="td-numeric hidden | xl:table-cell">{{ $transactionalMail->opens->count() }}</td>
                     <td class="td-numeric hidden | xl:table-cell">{{ $transactionalMail->clicks->count() }}</td>
-                    <td class="td-numeric hidden | xl:table-cell">{{ $transactionalMail->created_at }}</td>
+                    <td class="td-numeric hidden | xl:table-cell">{{ $transactionalMail->created_at->toMailcoachFormat() }}</td>
                     <td class="td-action">
                         <x-mailcoach::dropdown direction="left">
                             <ul>

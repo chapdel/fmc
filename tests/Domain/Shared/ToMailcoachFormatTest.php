@@ -18,3 +18,13 @@ it('transforms the date to the app timezone', function () {
     expect(Date::now()->toMailcoachFormat())->toEqual('2020-08-12 11:17');
     expect(Carbon::now()->toMailcoachFormat())->toEqual('2020-08-12 11:17');
 });
+
+it('transforms the date to the mailcoach timezone', function () {
+    config()->set('app.timezone', 'UTC');
+    config()->set('mailcoach.timezone', 'Europe/Brussels');
+
+    Date::setTestNow('2020-08-12 09:17');
+
+    expect(Date::now()->toMailcoachFormat())->toEqual('2020-08-12 11:17');
+    expect(Carbon::now()->toMailcoachFormat())->toEqual('2020-08-12 11:17');
+});

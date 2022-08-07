@@ -150,7 +150,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
         Date::macro(
             'toMailcoachFormat',
-            fn () => self::this()->copy()->setTimezone(config('app.timezone'))->format($mailcoachFormat)
+            fn () => self::this()->copy()->setTimezone(config('mailcoach.timezone') ?? config('app.timezone'))->format($mailcoachFormat)
         );
 
         return $this;

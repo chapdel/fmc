@@ -61,7 +61,7 @@ class DateTimeFieldRule implements Rule
             $dateTime = Date::createFromFormat(
                 'Y-m-d H:i',
                 "{$value['date']} {$hours}:{$minutes}",
-                config('app.timezone'),
+                config('mailcoach.timezone') ?? config('app.timezone'),
             );
 
             return $dateTime;
