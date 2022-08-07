@@ -12,9 +12,7 @@ use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Support\Config;
-use Spatie\Mailcoach\Domain\Shared\Support\Throttling\SimpleThrottle;
 
 class CreateCampaignSendJob implements ShouldQueue, ShouldBeUnique
 {
