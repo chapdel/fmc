@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.8.0 - 2022-08-07
+
+- Adds a new `mailcoach.timezone` config option for when you want to change Mailcoach's display timezone but not your app's
+- Fix a throttling issue when more than 1 queue worker was set up for the send-campaign queue
+- Update to spatie/simple-excel v2 as v1 uses an abandoned dependency
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.7.2...5.8.0
+
 ## 5.7.2 - 2022-07-28
 
 ### What's Changed
