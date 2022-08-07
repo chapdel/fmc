@@ -47,7 +47,7 @@
         "spatie/laravel-view-models": "^1.4.0",
         "spatie/laravel-webhook-client": "^3.0",
         "spatie/query-string": "^1.0",
-        "spatie/simple-excel": "^1.14",
+        "spatie/simple-excel": "^2.1.0",
         "spatie/temporary-directory": "^2.0",
         "symfony/css-selector": "^6.0",
         "symfony/dom-crawler": "^6.0",
