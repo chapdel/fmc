@@ -46,7 +46,7 @@ class CampaignDelivery extends Component
 
         $this->campaign = $campaign;
 
-        $this->scheduled_at_date = $campaign->scheduled_at ?? now()->setTimezone(config('app.timezone'))->addHour()->startOfHour();
+        $this->scheduled_at_date = $campaign->scheduled_at ?? now()->setTimezone(config('mailcoach.timezone') ?? config('app.timezone'))->addHour()->startOfHour();
 
         $this->scheduled_at = [
             'date' => $this->scheduled_at_date->format('Y-m-d'),
@@ -94,7 +94,7 @@ class CampaignDelivery extends Component
             return;
         }
 
-        $this->campaign->scheduleToBeSentAt($this->scheduled_at_date->setTimezone(config('app.timezone')));
+        $this->campaign->scheduleToBeSentAt($this->scheduled_at_date->setTimezone(config('mailcoach.timezone') ?? config('app.timezone')));
 
         $this->flash(__('mailcoach - Campaign :campaign is scheduled for delivery.', ['campaign' => $this->campaign->name]));
     }

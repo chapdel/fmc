@@ -73,7 +73,7 @@ class CreateCampaignSendJob implements ShouldQueue, ShouldBeUnique
             return;
         }
 
-        $send = $this->campaign->sends()->create([
+        $this->campaign->sends()->create([
             'subscriber_id' => $this->subscriber->id,
             'uuid' => (string) Str::uuid(),
         ]);

@@ -36,7 +36,7 @@ class GeneralSettings extends Component
     public function mount(AppConfiguration $appConfiguration)
     {
         $this->name = $appConfiguration->name ?? config('app.name');
-        $this->timezone = $appConfiguration->timezone ?? config('app.timezone');
+        $this->timezone = $appConfiguration->timezone ?? config('mailcoach.timezone') ?? config('app.timezone');
         $this->url = $appConfiguration->url ?? config('app.url');
         $this->from_address = $appConfiguration->from_address ?? config('mail.from.address') ?? '';
     }

@@ -3,7 +3,7 @@
     <td class="truncate">{{ $row->toString() }}</td>
     <td class="td-numeric hidden | xl:table-cell">{{ $row->opens->count() }}</td>
     <td class="td-numeric hidden | xl:table-cell">{{ $row->clicks->count() }}</td>
-    <td class="td-numeric hidden | xl:table-cell">{{ $row->created_at }}</td>
+    <td class="td-numeric hidden | xl:table-cell">{{ $row->created_at->toMailcoachFormat() }}</td>
     <td class="td-action">
         <x-mailcoach::confirm-button
             :confirm-text="__('mailcoach - Are you sure you want to delete this transactional mail from the log?')"
