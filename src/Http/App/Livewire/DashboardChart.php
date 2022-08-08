@@ -148,8 +148,8 @@ class DashboardChart extends Component
             $subscribers = $subscribers->firstWhere('label', $label) ?: [
                 'label' => $label,
                 'subscribers' => $lastStats['subscribers'] ?? 0,
-                'subscribes' => $lastStats['subscribes'] ?? 0,
-                'unsubscribes' => $lastStats['unsubscribes'] ?? 0,
+                'subscribes' => 0,
+                'unsubscribes' => 0,
             ];
 
             $subscribers['campaigns'] = $campaigns
