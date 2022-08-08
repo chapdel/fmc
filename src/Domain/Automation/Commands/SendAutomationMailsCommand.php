@@ -15,6 +15,7 @@ class SendAutomationMailsCommand extends Command
     {
         if ($this->option('sync')) {
             dispatch_sync(new SendAutomationMailsJob());
+
             return;
         }
 
