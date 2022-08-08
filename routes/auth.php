@@ -7,16 +7,16 @@ use Spatie\Mailcoach\Http\Auth\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 use Spatie\WelcomeNotification\WelcomesNewUsers;
 
-Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('mailcoach.login');
 Route::post('login', [LoginController::class, 'login']);
 
-Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('forgot-password');
-Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
+Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('mailcoach.forgot-password');
+Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('mailcoach.password.email');
 
-Route::get('reset-password', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
+Route::get('reset-password', [ResetPasswordController::class, 'showResetForm'])->name('mailcoach.password.reset');
+Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('mailcoach.password.update');
 
 Route::group(['middleware' => ['web', WelcomesNewUsers::class]], function () {
-    Route::get('welcome/{user}', [WelcomeController::class, 'showWelcomeForm'])->name('welcome');
+    Route::get('welcome/{user}', [WelcomeController::class, 'showWelcomeForm'])->name('mailcoach.welcome');
     Route::post('welcome/{user}', [WelcomeController::class, 'savePassword']);
 });
