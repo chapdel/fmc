@@ -19,18 +19,11 @@ class LoginController
 
     public function __construct()
     {
-        $this->redirectTo = config('mailcoach-ui.url_after_login') ?? 'campaigns';
+        $this->redirectTo = route(config('mailcoach.redirect_home') ?? 'mailcoach.dashboard');
     }
 
     public function showLoginForm()
     {
         return view('mailcoach::auth.login');
-    }
-
-    public function authenticated(Request $request, $user)
-    {
-        // flash()->success(__('You are now logged in!'));
-
-        return redirect()->intended($this->redirectTo);
     }
 }

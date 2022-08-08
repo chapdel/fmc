@@ -9,9 +9,8 @@ beforeEach(function () {
 it('can delete a personal access token', function () {
     $token = auth()->user()->personalAccessTokens()->first();
 
-    $this
-        ->delete(route('tokens.delete', $token->id))
-        ->assertRedirect(route('tokens'));
+    \Livewire\Livewire::test('mailcoach::tokens')
+        ->call('delete', $token->id);
 
     $this->assertDatabaseMissing('personal_access_tokens', [
         'id' => $token->id,
@@ -25,7 +24,7 @@ it('will not delete a personal access token belonging to another user', function
 
     $anotherUser->createToken('test');
 
-    $this
-        ->delete(route('tokens.delete', $anotherUser->personalAccessTokens()->first()))
+    \Livewire\Livewire::test('mailcoach::tokens')
+        ->call('delete', $anotherUser->personalAccessTokens()->first()->id)
         ->assertForbidden();
 });

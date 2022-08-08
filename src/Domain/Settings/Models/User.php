@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\WelcomeNotification\ReceivesWelcomeNotification;
 
 class User extends Authenticatable
@@ -15,6 +16,7 @@ class User extends Authenticatable
     use ReceivesWelcomeNotification;
     use HasApiTokens;
     use HasFactory;
+    use UsesMailcoachModels;
 
     /**
      * The attributes that are mass assignable.
@@ -45,6 +47,6 @@ class User extends Authenticatable
 
     public function personalAccessTokens(): MorphMany
     {
-        return $this->morphMany(self::getPersonalAccessTokenClass()::class, 'tokenable');
+        return $this->morphMany(self::getPersonalAccessTokenClass(), 'tokenable');
     }
 }

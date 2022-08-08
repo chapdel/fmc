@@ -36,6 +36,9 @@ class Tokens extends Component
     public function delete(int $id)
     {
         $token = PersonalAccessToken::find($id);
+
+        abort_unless($token->tokenable_id === Auth::id(), 403);
+
         $token->delete();
 
         $this->flash(__('The token has been deleted.'));

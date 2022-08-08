@@ -25,7 +25,7 @@ it('can use the api via sanctum', function () {
     Sanctum::actingAs($user, ['*'], 'api');
 
     $this
-        ->getJson('api/user')
+        ->getJson('mailcoach/api/user')
         ->assertSuccessful()
         ->assertJsonFragment(['email' => $user->email]);
 });

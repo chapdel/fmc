@@ -18,7 +18,7 @@ it('can be scheduled', function () {
 });
 
 it('stores the date in utc', function () {
-    config()->set('app.timezone', 'Europe/Brussels');
+    config()->set('mailcoach.timezone', 'Europe/Brussels');
 
     expect(test()->campaign->scheduled_at)->toBeNull();
 

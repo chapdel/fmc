@@ -23,6 +23,7 @@ use Spatie\Flash\Flash;
 use Spatie\LaravelCipherSweet\LaravelCipherSweetServiceProvider;
 use Spatie\LaravelRay\RayServiceProvider;
 use Spatie\Mailcoach\Database\Factories\UserFactory;
+use Spatie\Mailcoach\Domain\Settings\Models\User;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Front\Controllers\UnsubscribeController;
@@ -53,6 +54,7 @@ abstract class TestCase extends Orchestra
         Route::mailcoach('mailcoach');
 
         config()->set('auth.providers.users.model', User::class);
+        config()->set('mailcoach.timezone', null);
 
         $this->withoutExceptionHandling();
 
@@ -128,6 +130,9 @@ abstract class TestCase extends Orchestra
             include_once __DIR__.'/../vendor/laravel/sanctum/database/migrations/2019_12_14_000001_create_personal_access_tokens_table.php';
             (new CreatePersonalAccessTokensTable())->up();
             */
+
+            $passwordResets = include_once __DIR__ . '/../vendor/laravel/ui/stubs/migrations/2014_10_12_100000_create_password_resets_table.php';
+            $passwordResets->up();
 
             $this->app[Kernel::class]->setArtisan(null);
 
