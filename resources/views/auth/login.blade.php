@@ -5,7 +5,7 @@
         @csrf
 
         <p>
-            <a class="link" href="{{ route('forgot-password') }}">
+            <a class="link" href="{{ route('mailcoach.forgot-password') }}">
                 {{ __('Forgot password?') }}
             </a>
         </p>
@@ -49,7 +49,7 @@
             <x-mailcoach::button :label="__('Log in')" />
 
             @if (Route::has('password.request'))
-            <a class="link" href="{{ route('password.request') }}">
+            <a class="link" href="{{ route('mailcoach.password.request') }}">
                 {{ __('Forgot Your Password?') }}
             </a>
             @endif

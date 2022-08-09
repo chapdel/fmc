@@ -1,7 +1,7 @@
 <x-mailcoach::layout-auth :title="__('Forgot password?')">
     <h1 class="markup-h2">{{ __('Forgot password?') }}</h1>
 
-    <form class="form-grid" method="POST" action="{{ route('password.email') }}">
+    <form class="form-grid" method="POST" action="{{ route('mailcoach.password.email') }}">
         @csrf
 
         <div class="form-field">
