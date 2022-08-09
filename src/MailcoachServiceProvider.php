@@ -249,7 +249,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
             ->bootConfig()
             ->bootGate()
             ->bootFlash()
-            ->bootMailers()
             ->bootRoutes()
             ->bootSupportMacros()
             ->bootTranslations()
@@ -727,11 +726,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
         config()->set('ciphersweet.providers.string.key', $encryptionKey);
 
-        return $this;
-    }
-
-    protected function bootMailers(): self
-    {
         return $this;
     }
 }
