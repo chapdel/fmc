@@ -24,7 +24,7 @@
                 @include('mailcoach::app.layouts.partials.flash')
                 <div class="card w-full max-w-md !p-0">
                     <header class="navigation-main !px-6 md:!px-10 !py-4 !rounded-b-none !rounded-t-md">
-                        <a href="{{ route('login') }}" class="flex items-center group gap-2">
+                        <a href="{{ route('mailcoach.login') }}" class="flex items-center group gap-2">
                             <span class="flex w-10 h-6 text-white transform group-hover:scale-90 transition-transform duration-150">
                                 @include('mailcoach::app.layouts.partials.logoSvg')
                             </span>
