@@ -48,8 +48,8 @@
         <x-mailcoach::form-buttons>
             <x-mailcoach::button :label="__('Log in')" />
 
-            @if (Route::has('password.request'))
-            <a class="link" href="{{ route('mailcoach.password.request') }}">
+            @if (Route::has('mailcoach.forgot-password'))
+            <a class="link" href="{{ route('mailcoach.forgot-password') }}">
                 {{ __('Forgot Your Password?') }}
             </a>
             @endif
