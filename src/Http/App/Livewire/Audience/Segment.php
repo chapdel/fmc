@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
@@ -52,14 +53,14 @@ class Segment extends Component
         ];
     }
 
-    public function updatePositiveTags(array $tags)
+    public function updatePositiveTags(array|string $tags)
     {
-        $this->positive_tags = $tags;
+        $this->positive_tags = Arr::wrap($tags);
     }
 
-    public function updateNegativeTags(array $tags)
+    public function updateNegativeTags(array|string $tags)
     {
-        $this->negative_tags = $tags;
+        $this->negative_tags = Arr::wrap($tags);
     }
 
     public function mount(EmailList $emailList, TagSegment $segment, MainNavigation $mainNavigation)

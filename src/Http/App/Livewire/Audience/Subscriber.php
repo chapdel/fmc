@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\UpdateSubscriberAction;
@@ -54,9 +55,9 @@ class Subscriber extends Component
         ];
     }
 
-    public function updateTags(array $tags)
+    public function updateTags(array|string $tags)
     {
-        $this->tags = $tags;
+        $this->tags = Arr::wrap($tags);
     }
 
     public function save()
