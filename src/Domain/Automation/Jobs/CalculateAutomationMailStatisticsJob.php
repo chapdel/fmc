@@ -27,7 +27,7 @@ class CalculateAutomationMailStatisticsJob implements ShouldQueue, ShouldBeUniqu
 
     public int $uniqueFor = 60;
 
-    public function __construct(private ?int $automationMailId = null)
+    public function __construct(protected ?int $automationMailId = null)
     {
     }
 
