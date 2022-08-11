@@ -136,7 +136,7 @@ class Mailcoach
 
     public static function defaultTransactionalMailer(): ?string
     {
-        return config('mailcoach.automation.mailer')
+        return config('mailcoach.transactional.mailer')
             ?? config('mailcoach.mailer')
             ?? config('mail.default');
     }
