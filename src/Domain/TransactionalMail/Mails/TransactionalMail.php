@@ -6,6 +6,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns\StoresMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns\UsesMailcoachTemplate;
+use Spatie\Mailcoach\Mailcoach;
 
 class TransactionalMail extends Mailable
 {
@@ -33,7 +34,7 @@ class TransactionalMail extends Mailable
             ->cc($cc)
             ->bcc($bcc)
             ->subject($subject)
-            ->mailer($mailer ?? config('mailcoach.transactional.mailer') ?? config('mail.default'))
+            ->mailer($mailer ?? Mailcoach::defaultTransactionalMailer())
             ->view('mailcoach::mails.transactionalMails.mail');
     }
 
