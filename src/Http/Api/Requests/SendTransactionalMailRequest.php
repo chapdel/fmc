@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Http\Api\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use Spatie\Mailcoach\Domain\Settings\Rules\MailerConfigNameRule;
+use Spatie\Mailcoach\Domain\Settings\Rules\MailerConfigKeyNameRule;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\ValidationRules\Rules\Delimited;
 
@@ -21,7 +21,7 @@ class SendTransactionalMailRequest extends FormRequest
             'to' => ['required', (new Delimited('email'))->min(1)],
             'cc' => ['nullable', (new Delimited('email'))->min(1)],
             'bcc' => ['nullable', (new Delimited('email'))->min(1)],
-            'mailer' => ['string', new MailerConfigNameRule()]
+            'mailer' => ['string', new MailerConfigKeyNameRule()],
         ];
     }
 }

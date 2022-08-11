@@ -28,6 +28,14 @@ class Mailer extends Model
         'ready_for_use' => 'boolean',
     ];
 
+    protected static function booted()
+    {
+        self::creating(function (Mailer $mailer) {
+            $name = strtolower($mailer->name);
+            $mailer->config_key_name = Str::kebab("mailcoach-{$name}");
+        });
+    }
+
     public static function registerAllConfigValues(): void
     {
         /** @var \Illuminate\Support\Collection<\Spatie\Mailcoach\Domain\Settings\Models\Mailer> $mailers */
@@ -111,9 +119,14 @@ class Mailer extends Model
         }
     }
 
+    public static function findByConfigKeyName(string $configKeyName): self
+    {
+        return self::where('config_key_name', $configKeyName)->first();
+    }
+
     public function configName(): string
     {
-        return Str::kebab("mailcoach-{$this->name}");
+        return $this->config_key_name;
     }
 
     public function isReadyForUse(): bool

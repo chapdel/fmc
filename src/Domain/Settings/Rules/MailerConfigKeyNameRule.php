@@ -2,10 +2,9 @@
 
 namespace Spatie\Mailcoach\Domain\Settings\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
 use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
 
-class MailerConfigNameRule implements Rule
+class MailerConfigKeyNameRule
 {
     public function passes($attribute, $value)
     {
@@ -19,6 +18,6 @@ class MailerConfigNameRule implements Rule
             ->join(', ', ' and ');
 
 
-        return "You must pass a valid mailer key. Valid keys are: {$mailerConfigNames}.";
+        return "You must pass a valid mailer key. Valid values are: {$mailerConfigNames}.";
     }
 }

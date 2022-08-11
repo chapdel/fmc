@@ -716,6 +716,7 @@ return new class extends Migration {
             $table->id();
             $table->uuid()->index();
             $table->string('name');
+            $table->string('config_key_name')->index();
             $table->string('transport');
             $table->longText('configuration')->nullable();
             $table->boolean('default')->default(false);
