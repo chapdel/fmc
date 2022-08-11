@@ -8,7 +8,7 @@ class MailerConfigNameRule
 {
     public function passes($attribute, $value)
     {
-        $mailerConfigNames = Mailer::all()->map(fn(Mailer $mailer) => $mailer->configName());
+        $mailerConfigNames = Mailer::all()->map(fn (Mailer $mailer) => $mailer->configName());
 
         return in_array($value, $mailerConfigNames);
     }
@@ -16,7 +16,7 @@ class MailerConfigNameRule
     public function message()
     {
         $mailerConfigNames = Mailer::all()
-            ->map(fn(Mailer $mailer) => "`{$mailer->configName()}`")
+            ->map(fn (Mailer $mailer) => "`{$mailer->configName()}`")
             ->join(', ', ' and ');
 
 

@@ -21,7 +21,7 @@ class SendTransactionalMailRequest extends FormRequest
             'to' => ['required', (new Delimited('email'))->min(1)],
             'cc' => ['nullable', (new Delimited('email'))->min(1)],
             'bcc' => ['nullable', (new Delimited('email'))->min(1)],
-            'mailer' => ['string', new MailerConfigNameRule()]
+            'mailer' => ['string', new MailerConfigNameRule()],
         ];
     }
 }
