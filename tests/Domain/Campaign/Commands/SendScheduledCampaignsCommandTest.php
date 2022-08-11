@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Campaign\Commands\SendScheduledCampaignsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;

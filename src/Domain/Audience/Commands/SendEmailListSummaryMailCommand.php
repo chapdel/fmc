@@ -3,12 +3,8 @@
 namespace Spatie\Mailcoach\Domain\Audience\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Jobs\SendEmailListSummaryMailJob;
-use Spatie\Mailcoach\Domain\Audience\Mails\EmailListSummaryMail;
-use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Mailcoach;
 
 class SendEmailListSummaryMailCommand extends Command
 {
