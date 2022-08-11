@@ -14,7 +14,7 @@ class MailerConfigKeyNameRule
     public function message()
     {
         $mailerConfigNames = Mailer::all()
-            ->map(fn(Mailer $mailer) => "`{$mailer->config_key_name}`")
+            ->map(fn (Mailer $mailer) => "`{$mailer->config_key_name}`")
             ->join(', ', ' and ');
 
 
