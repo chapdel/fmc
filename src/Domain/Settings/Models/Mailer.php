@@ -75,7 +75,7 @@ class Mailer extends Model
                     'mails_per_timespan' => $this->get('mails_per_timespan'),
                 ]);
 
-                config()->set('mailcoach.sendgrid.signing_secret', $this->get('signing_secret'));
+                config()->set('mailcoach.sendgrid_feedback.signing_secret', $this->get('signing_secret'));
 
                 break;
             case MailerTransport::Smtp:
