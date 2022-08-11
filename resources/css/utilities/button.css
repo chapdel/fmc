@@ -4,7 +4,7 @@ input[type='file']::file-selector-button {
     @apply h-10;
     @apply bg-blue-800;
     @apply bg-gradient-to-b;
-    @apply from-indigo-700/30;
+    @apply from-indigo-700/10;
     @apply via-blue-700;
     @apply to-indigo-700/50;
     @apply text-white/90;
@@ -13,7 +13,7 @@ input[type='file']::file-selector-button {
     @apply shadow-md;
     @apply shadow-blue-800/20;
     @apply font-bold;
-    @apply transition-[background-position];
+    @apply transition-[background-position,border];
     @apply duration-[50ms];
     @apply border;
     @apply border-t-white/30;
@@ -45,6 +45,10 @@ input[type='file']::file-selector-button {
 .button:not(:disabled):focus,
 .button.dropdown-trigger-open {
     @apply text-white;
+    @apply border-t-black/10;
+    @apply border-l-black/10;
+    @apply border-r-white/30;
+    @apply border-b-white/30;
     background-position: 0 0;
 }
 

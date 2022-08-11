@@ -502,6 +502,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::auth.layouts.auth', 'mailcoach::layout-auth');
         Blade::component('mailcoach::app.layouts.settings', 'mailcoach::layout-settings');
 
+        Blade::component('mailcoach::app.components.codeCopy', 'mailcoach::code-copy');
+
         return $this;
     }
 

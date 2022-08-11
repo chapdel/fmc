@@ -1,11 +1,6 @@
-@charset "UTF-8";
-
-@import './bootstrap.css';
-
-@import '../../node_modules/@yaireo/tagify/dist/tagify.css';
-
-@import './utilities/link.css';
-@import './utilities/markup.css';
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 @import './utilities/alert.css';
 @import './utilities/button.css';
@@ -23,6 +18,8 @@
 @import './utilities/input.css';
 @import './utilities/justify-self.css';
 @import './utilities/label.css';
+@import './utilities/link.css';
+@import './utilities/markup.css';
 @import './utilities/modal.css';
 @import './utilities/navigation.css';
 @import './utilities/pagination.css';
@@ -37,16 +34,45 @@
 @import './utilities/toggle.css';
 @import './utilities/transitions.css';
 
+@import '../../node_modules/@yaireo/tagify/dist/tagify.css';
 @import './vendor/choices.css';
 @import './vendor/flatpickr.css';
 
-@tailwind components;
-@tailwind utilities;
+@layer base {
+    *,
+    *:after,
+    *:before {
+        position: relative;
+    }
 
-.swup-progress-bar {
-    @apply bg-blue-500;
+    *:focus {
+        outline: none !important;
+    }
+
+    html {
+        @apply font-sans;
+        font-size: 12px;
+    }
+
+    @screen lg {
+        html {
+            font-size: 14px;
+        }
+    }
+
+    @screen xl {
+        html {
+            font-size: 16px;
+        }
+    }
 }
 
-[x-cloak] {
-    display: none !important;
+@layer utilities {
+    .swup-progress-bar {
+        @apply bg-blue-500;
+    }
+
+    [x-cloak] {
+        display: none !important;
+    }
 }

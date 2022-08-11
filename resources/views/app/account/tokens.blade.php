@@ -39,11 +39,7 @@
                 We will display this token only once. Make sure to copy it to a safe place.
             </p>
 
-            <pre id="newKey" class="max-w-full whitespace-pre-wrap break-all font-mono bg-white py-1 px-1">{{ $newToken }}</pre>
-
-            <div class="form-buttons justify-end" x-data>
-                <span class="cursor-pointer underline text-sm mr-4" @click="$clipboard('{{ $newToken }}'); $el.innerText = 'Copied!'">Copy to clipboard</span>
-            </div>
+            <x-mailcoach::code-copy :code="$newToken"/>
         </x-mailcoach::help>
     @endif
 

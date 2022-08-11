@@ -82,7 +82,7 @@ class FeedbackStepComponent extends StepComponent
 
     protected function getMailcoachSes(): MailcoachSes
     {
-        $endpoint = action(SesWebhookController::class);
+        $endpoint = action(SesWebhookController::class, $this->mailer?->configName());
 
         $sesConfig = new MailcoachSesConfig(
             $this->mailer()->get('ses_key'),

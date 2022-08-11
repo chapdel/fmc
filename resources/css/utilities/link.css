@@ -1,12 +1,10 @@
 .link {
     @apply text-blue-700;
     @apply underline;
-    text-decoration-color: var(--blue-600);
 }
 
 .link-hover {
     @apply text-blue-800;
-    text-decoration-color: var(--blue-700);
 }
 
 .link:hover {
@@ -24,12 +22,10 @@
 .link-dimmed {
     @apply text-gray-600;
     @apply underline;
-    text-decoration-color: var(--gray-500);
 }
 
 .link-dimmed-hover {
     @apply text-gray-500;
-    text-decoration-color: var(--gray-400);
 }
 
 .link-dimmed:hover {
@@ -47,37 +43,31 @@
 .link-danger {
     @apply text-gray-600;
     @apply underline;
-    text-decoration-color: var(--gray-500);
 }
 
 .link-danger:hover {
     @apply !text-red-600;
     @apply underline;
-    text-decoration-color: var(--red-500);
 }
 
 .link-warning {
     @apply text-orange-600;
     @apply underline;
-    text-decoration-color: var(--orange-500);
 }
 
 .link-warning:hover {
     @apply !text-orange-700;
     @apply underline;
-    text-decoration-color: var(--orange-600);
 }
 
 .link-success {
     @apply text-green-600;
     @apply underline;
-    text-decoration-color: var(--green-500);
 }
 
 .link-success:hover {
     @apply !text-green-700;
     @apply underline;
-    text-decoration-color: var(--green-600);
 }
 
 .link-icon {
@@ -86,13 +76,8 @@
 
 .link-icon .icon-label-text {
     @apply underline;
-    text-decoration-color: var(--blue-600);
 }
 
 .link-icon:hover {
     @apply text-blue-800;
-}
-
-.link-icon:hover .icon-label-text {
-    text-decoration-color: var(--blue-500);
 }
