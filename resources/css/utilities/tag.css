@@ -17,6 +17,7 @@
 
 .tagify--select {
     @apply pl-0;
+    @apply !pr-4;
 }
 
 .tagify--select:after {
