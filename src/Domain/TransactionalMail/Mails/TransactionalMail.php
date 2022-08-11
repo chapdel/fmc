@@ -15,8 +15,15 @@ class TransactionalMail extends Mailable
 
     private string $templateName;
 
-    public function __construct(string $templateName, string $subject, array|string $from, array $to, array $cc = [], array $bcc = [])
-    {
+    public function __construct(
+        string $templateName,
+        string $subject,
+        array|string $from,
+        array $to,
+        array $cc = [],
+        array $bcc = [],
+        string $mailer = null,
+    ) {
         $this->templateName = $templateName;
 
         $this
@@ -26,7 +33,7 @@ class TransactionalMail extends Mailable
             ->cc($cc)
             ->bcc($bcc)
             ->subject($subject)
-            ->mailer(config('mailcoach.transactional.mailer') ?? config('mail.default'))
+            ->mailer($mailer ?? config('mailcoach.transactional.mailer') ?? config('mail.default'))
             ->view('mailcoach::mails.transactionalMails.mail');
     }
 
