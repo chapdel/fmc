@@ -29,6 +29,7 @@ class CalculateAutomationMailStatisticsJob implements ShouldQueue, ShouldBeUniqu
 
     public function __construct(protected ?int $automationMailId = null)
     {
+        $this->onQueue(config('mailcoach.shared.perform_on_queue.schedule'));
     }
 
     public function handle()

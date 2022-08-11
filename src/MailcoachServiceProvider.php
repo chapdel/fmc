@@ -368,11 +368,13 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Route::bind('transactionalMailTemplate', fn (string $value) => self::getTransactionalMailTemplateClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
         Route::bind('email-list', fn (string $value) => self::getEmailListClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
 
-        Route::macro('mailcoach', function (string $url = '') {
-            Route::sesFeedback('ses-feedback');
-            Route::mailgunFeedback('mailgun-feedback');
-            Route::sendgridFeedback('sendgrid-feedback');
-            Route::postmarkFeedback('postmark-feedback');
+        Route::macro('mailcoach', function (string $url = '', bool $registerFeedback = true) {
+            if ($registerFeedback) {
+                Route::sesFeedback('ses-feedback');
+                Route::mailgunFeedback('mailgun-feedback');
+                Route::sendgridFeedback('sendgrid-feedback');
+                Route::postmarkFeedback('postmark-feedback');
+            }
 
             Route::get($url, '\\' . HomeController::class)->name('mailcoach.home');
 

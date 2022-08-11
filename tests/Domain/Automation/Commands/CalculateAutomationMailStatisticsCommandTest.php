@@ -2,6 +2,7 @@
 
 use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Automation\Commands\CalculateAutomationMailStatisticsCommand;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
@@ -16,7 +17,7 @@ beforeEach(function () {
 });
 
 it('will recalculate statistics of active automation mails', function () {
-    Bus::fake();
+    Queue::fake();
 
     $automationMail = AutomationMail::factory()->create();
     AutomationMail::factory()->create();
@@ -30,10 +31,11 @@ it('will recalculate statistics of active automation mails', function () {
         ])->start();
 
     test()->artisan(CalculateAutomationMailStatisticsCommand::class)
-        ->expectsOutput("Calculating statistics for automation mail id {$automationMail->id}...")
         ->assertExitCode(0);
 
-    Bus::assertDispatched(CalculateStatisticsJob::class, 1);
+    $this->processQueuedJobs();
+
+    Queue::assertPushed(CalculateStatisticsJob::class, 1);
 });
 
 it('can recalculate the statistics of a single automation mail', function () {

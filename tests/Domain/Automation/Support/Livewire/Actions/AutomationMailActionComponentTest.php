@@ -24,14 +24,12 @@ it('requires automation mail id', function () {
 });
 
 it('loads options on mount', function () {
-    $mail = AutomationMail::factory()->create();
+    AutomationMail::factory()->create();
 
     Livewire::test(AutomationMailActionComponent::class, [
         'action' => test()->action,
         'uuid' => Str::uuid()->toString(),
-    ])->assertViewHas('campaignOptions', [
-        $mail->id => $mail->name,
-    ]);
+    ])->assertViewHas('campaignOptions', AutomationMail::pluck('name', 'id')->toArray());
 });
 
 it('requires a valid automation mail id', function () {

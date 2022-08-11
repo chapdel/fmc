@@ -215,6 +215,7 @@ return [
          * Use an empty string to use the default queue.
          */
         'perform_on_queue' => [
+            'schedule' => 'mailcoach-schedule',
             'calculate_statistics_job' => 'mailcoach',
         ],
 

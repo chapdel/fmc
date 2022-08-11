@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Automation\Jobs;
+namespace Spatie\Mailcoach\Domain\Audience\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -8,12 +8,15 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\DeleteSubscriberAction;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Mailcoach;
 
-class RunAutomationActionsJob implements ShouldQueue, ShouldBeUnique
+class DeleteOldUnconfirmedSubscribersJob implements ShouldQueue, ShouldBeUnique
 {
     use Dispatchable;
     use InteractsWithQueue;
@@ -30,19 +33,15 @@ class RunAutomationActionsJob implements ShouldQueue, ShouldBeUnique
 
     public function handle()
     {
-        static::getAutomationClass()::query()
-            ->where('status', AutomationStatus::Started)
-            ->lazyById()
-            ->each(function (Automation $automation) {
-                if (! is_null($automation->run_at) && $automation->run_at->add($automation->interval)->isFuture()) {
-                    return;
-                }
+        $cutOffDate = now()->subMonth()->toDateTimeString();
 
-                $automation->allActions()->each(function (Action $action) {
-                    return dispatch(new RunAutomationActionJob($action));
-                });
+        /** @var DeleteSubscriberAction $deleteSubscriberAction */
+        $deleteSubscriberAction = Mailcoach::getAudienceActionClass('delete_subscriber', DeleteSubscriberAction::class);
 
-                $automation->update(['run_at' => now()]);
+        self::getSubscriberClass()::unconfirmed()
+            ->where('created_at', '<', $cutOffDate)
+            ->each(function (Subscriber $subscriber) use ($deleteSubscriberAction) {
+                $deleteSubscriberAction->execute($subscriber);
             });
     }
 }

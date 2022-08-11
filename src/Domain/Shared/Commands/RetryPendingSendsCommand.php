@@ -18,18 +18,18 @@ class RetryPendingSendsCommand extends Command
 
     public function handle()
     {
-        $pendingSendCount = $this->getSendClass()::whereNull('sent_at')->count();
+        $pendingSendCount = self::getSendClass()::whereNull('sent_at')->count();
 
         $this->comment("Dispatching jobs for {$pendingSendCount} pending Sends");
 
-        $this->getSendClass()::query()
+        self::getSendClass()::query()
             ->whereNull('sent_at')
             ->whereNotNull('campaign_id')
             ->each(function (Send $send) {
                 dispatch(new SendCampaignMailJob($send));
             });
 
-        $this->getSendClass()::query()
+        self::getSendClass()::query()
             ->whereNull('sent_at')
             ->whereNotNull('automation_mail_id')
             ->each(function (Send $send) {

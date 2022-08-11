@@ -24,6 +24,11 @@ class RunAutomationTriggersJob implements ShouldQueue, ShouldBeUnique
 
     public int $uniqueFor = 60;
 
+    public function __construct()
+    {
+        $this->onQueue(config('mailcoach.shared.perform_on_queue.schedule'));
+    }
+
     public function handle()
     {
         static::getAutomationTriggerClass()::query()

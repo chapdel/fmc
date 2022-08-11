@@ -2,6 +2,7 @@
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Campaign\Commands\CalculateStatisticsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
@@ -18,7 +19,7 @@ it('will recalculate statistics at the right time', function (
     ?Carbon $statisticsCalculatedAt,
     bool $jobShouldHaveBeenDispatched
 ) {
-    Bus::fake();
+    Queue::fake();
 
     $campaign = Campaign::factory()->create([
         'status' => CampaignStatus::Sent,
@@ -31,10 +32,11 @@ it('will recalculate statistics at the right time', function (
     Send::factory()->create(['campaign_id' => $campaign->id]);
 
     test()->artisan(CalculateStatisticsCommand::class)->assertExitCode(0);
+    $this->processQueuedJobs();
 
     $jobShouldHaveBeenDispatched
-        ? Bus::assertDispatched(CalculateStatisticsJob::class)
-        : Bus::assertNotDispatched(CalculateStatisticsJob::class);
+        ? Queue::assertPushed(CalculateStatisticsJob::class)
+        : Queue::assertNotPushed(CalculateStatisticsJob::class);
 })->with('caseProvider');
 
 it('can recalculate the statistics of a single campaign', function () {
