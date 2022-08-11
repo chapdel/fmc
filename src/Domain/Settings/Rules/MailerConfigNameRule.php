@@ -2,9 +2,10 @@
 
 namespace Spatie\Mailcoach\Domain\Settings\Rules;
 
+use Illuminate\Contracts\Validation\Rule;
 use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
 
-class MailerConfigNameRule
+class MailerConfigNameRule implements Rule
 {
     public function passes($attribute, $value)
     {
