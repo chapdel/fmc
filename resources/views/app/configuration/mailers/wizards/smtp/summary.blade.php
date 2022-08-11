@@ -46,6 +46,8 @@
         </dl>
     </x-mailcoach::fieldset>
 
+    @include('mailcoach::app.configuration.mailers.partials.mailerName')
+
     <x-mailcoach::card buttons>
     <x-mailcoach::button class="mt-4" :label="__('Send test email')" x-on:click.prevent="$store.modals.open('send-test')" />
     </x-mailcoach::card>

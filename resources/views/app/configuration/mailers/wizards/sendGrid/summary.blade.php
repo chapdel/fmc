@@ -32,6 +32,8 @@
         </dl>
     </x-mailcoach::fieldset>
 
+    @include('mailcoach::app.configuration.mailers.partials.mailerName')
+
     <x-mailcoach::fieldset card :legend="__('Throttling')">
          <dl class="dl">
             <dt>Timespan in seconds</dt>
