@@ -38,8 +38,9 @@ class SendCampaignSummaryMailJob implements ShouldQueue, ShouldBeUnique
             ->each(function (Campaign $campaign) {
                 Mail::mailer(Mailcoach::defaultTransactionalMailer())
                     ->to($campaign->emailList->campaignReportRecipients())
-                    ->queue(new CampaignSummaryMail($campaign));
+                    ->send(new CampaignSummaryMail($campaign));
 
+                info("Summary mail sent for campaign `{$campaign->name}`");
                 $campaign->update(['summary_mail_sent_at' => now()]);
             });
     }

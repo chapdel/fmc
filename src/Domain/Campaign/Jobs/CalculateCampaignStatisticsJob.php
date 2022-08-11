@@ -46,6 +46,8 @@ class CalculateCampaignStatisticsJob implements ShouldQueue, ShouldBeUnique
             $this
                 ->findCampaignsWithStatisticsToRecalculate($startInterval, $endInterval, $recalculateThreshold)
                 ->each(function (Campaign $campaign) {
+                    info("Calculating statistics for campaign id {$campaign->id}...");
+
                     $campaign->dispatchCalculateStatistics();
                 });
         });

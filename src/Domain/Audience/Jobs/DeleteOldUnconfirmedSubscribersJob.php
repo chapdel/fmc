@@ -30,6 +30,8 @@ class DeleteOldUnconfirmedSubscribersJob implements ShouldQueue, ShouldBeUnique
 
     public function handle()
     {
+        info('Deleting old unconfirmed subscribers...');
+
         $cutOffDate = now()->subMonth()->toDateTimeString();
 
         /** @var DeleteSubscriberAction $deleteSubscriberAction */
