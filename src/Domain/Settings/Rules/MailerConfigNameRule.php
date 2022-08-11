@@ -9,15 +9,13 @@ class MailerConfigNameRule implements Rule
 {
     public function passes($attribute, $value)
     {
-        $mailerConfigNames = Mailer::all()->map(fn(Mailer $mailer) => $mailer->configName());
-
-        return in_array($value, $mailerConfigNames);
+        return Mailer::firstWhere('config_key_name', $value)->exists();
     }
 
     public function message()
     {
         $mailerConfigNames = Mailer::all()
-            ->map(fn(Mailer $mailer) => "`{$mailer->configName()}`")
+            ->map(fn(Mailer $mailer) => "`{$mailer->config_key_name}`")
             ->join(', ', ' and ');
 
 
