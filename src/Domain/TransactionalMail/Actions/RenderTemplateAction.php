@@ -40,7 +40,7 @@ class RenderTemplateAction
 
     protected function handleReplacements(string $body, array $replacements): string
     {
-        foreach($replacements as $search => $replace) {
+        foreach ($replacements as $search => $replace) {
             $body = str_replace("::{$search}::", $replace, $body);
         }
 

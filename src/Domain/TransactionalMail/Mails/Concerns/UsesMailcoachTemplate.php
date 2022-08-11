@@ -63,7 +63,7 @@ trait UsesMailcoachTemplate
     {
         $subject = $template->subject ?? '';
 
-        foreach($replacements as $search => $replace) {
+        foreach ($replacements as $search => $replace) {
             $subject = str_replace("::{$search}::", $replace, $subject);
         }
 
@@ -78,6 +78,4 @@ trait UsesMailcoachTemplate
 
         return $instance;
     }
-
-
 }
