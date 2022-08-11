@@ -35,7 +35,7 @@ class FeedbackStepComponent extends StepComponent
     {
         $this->validate();
 
-        $endpoint = action(MailgunWebhookController::class);
+        $endpoint = action(MailgunWebhookController::class, $this->mailer?->configName());
 
         $events = [EventType::PermanentFail, EventType::Complained];
 
