@@ -24,8 +24,10 @@ class TransactionalMail extends Mailable
         array $cc = [],
         array $bcc = [],
         string $mailer = null,
+        array $replacements = [],
     ) {
         $this->templateName = $templateName;
+        $this->replacements = $replacements;
 
         $this
             ->store()
@@ -40,6 +42,6 @@ class TransactionalMail extends Mailable
 
     public function build()
     {
-        $this->template($this->templateName);
+        $this->template($this->templateName, $this->replacements);
     }
 }

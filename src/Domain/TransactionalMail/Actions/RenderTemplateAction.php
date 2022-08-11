@@ -12,9 +12,11 @@ use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 class RenderTemplateAction
 {
-    public function execute(TransactionalMailTemplate $template, Mailable $mailable)
+    public function execute(TransactionalMailTemplate $template, Mailable $mailable, array $replacements = [])
     {
         $body = $this->renderTemplateBody($template, $mailable);
+
+        $body = $this->handleReplacements($body, $replacements);
 
         $body = $this->executeReplacers($body, $template, $mailable);
 
@@ -34,6 +36,15 @@ class RenderTemplateAction
 
             default => $template->body,
         };
+    }
+
+    protected function handleReplacements(string $body, array $replacements): string
+    {
+        foreach($replacements as $search => $replace) {
+            $body = str_replace("::{$search}::", $replace, $body);
+        }
+
+        return $body;
     }
 
     protected function executeReplacers(string $body, TransactionalMailTemplate $template, Mailable $mailable): string

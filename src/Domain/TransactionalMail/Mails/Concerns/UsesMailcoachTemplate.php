@@ -13,7 +13,7 @@ trait UsesMailcoachTemplate
     use StoresMail;
     use UsesMailcoachModels;
 
-    public function template(string $name): self
+    public function template(string $name, array $replacements): self
     {
         /** @var TransactionalMailTemplate $template */
         $template = self::getTransactionalMailTemplateClass()::firstWhere('name', $name);
@@ -22,7 +22,7 @@ trait UsesMailcoachTemplate
             throw CouldNotFindTemplate::make($name, $this);
         }
 
-        $this->subject($this->executeReplacers($template->subject, $template, $this));
+        $this->setSubject($template, $replacements);
 
         if ($template->from) {
             $this->from($template->from);
@@ -40,20 +40,34 @@ trait UsesMailcoachTemplate
             $this->bcc($bcc);
         }
 
-        $content = $template->render($this);
+        $content = $template->render($this, $replacements);
 
         $this->view('mailcoach::mails.transactionalMails.template', compact('content'));
 
         return $this;
     }
 
-    protected function executeReplacers(string $text, TransactionalMailTemplate $template, Mailable $mailable): string
-    {
+    protected function executeReplacers(
+        string $text,
+        TransactionalMailTemplate $template,
+        Mailable $mailable
+    ): string {
         foreach ($template->replacers() as $replacer) {
             $text = $replacer->replace($text, $mailable, $template);
         }
 
         return $text;
+    }
+
+    protected function setSubject(TransactionalMailTemplate $template, array $replacements): void
+    {
+        $subject = $template->subject ?? '';
+
+        foreach($replacements as $search => $replace) {
+            $subject = str_replace("::{$search}::", $replace, $subject);
+        }
+
+        $this->subject($this->executeReplacers($subject, $template, $this));
     }
 
     protected static function testInstance(): self
@@ -64,4 +78,6 @@ trait UsesMailcoachTemplate
 
         return $instance;
     }
+
+
 }

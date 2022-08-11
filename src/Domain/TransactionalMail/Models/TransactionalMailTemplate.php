@@ -118,11 +118,12 @@ class TransactionalMailTemplate extends Model implements HasHtmlContent
             });
     }
 
-    public function render(Mailable $mailable): string
+    public function render(Mailable $mailable, array $replacements = []): string
     {
+        /** @var RenderTemplateAction $action */
         $action = Mailcoach::getTransactionalActionClass('render_template', RenderTemplateAction::class);
 
-        return $action->execute($this, $mailable);
+        return $action->execute($this, $mailable, $replacements);
     }
 
     public function getHtml(): ?string

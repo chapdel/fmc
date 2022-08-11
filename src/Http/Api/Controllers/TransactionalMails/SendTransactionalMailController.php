@@ -22,6 +22,7 @@ class SendTransactionalMailController
             cc: $this->normalizeEmailAddresses($request->get('cc')),
             bcc: $this->normalizeEmailAddresses($request->get('bcc')),
             mailer: $request->mailer,
+            replacements: $request->replacements(),
         );
 
         Mail::send($mail);
