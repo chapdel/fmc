@@ -119,7 +119,7 @@ class Mailer extends Model
         }
     }
 
-    public static function findByConfigKeyName(string $configKeyName): self
+    public static function findByConfigKeyName(string $configKeyName): ?self
     {
         return self::where('config_key_name', $configKeyName)->first();
     }
