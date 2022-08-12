@@ -112,6 +112,7 @@ test('the unsubscribe header is added to the email', function () {
 
     test()->campaign->send();
     Artisan::call('mailcoach:send-scheduled-campaigns');
+    Artisan::call('mailcoach:send-campaign-mails');
 });
 
 // Helpers
@@ -128,4 +129,5 @@ function sendCampaign()
 
     test()->campaign->send();
     Artisan::call('mailcoach:send-scheduled-campaigns');
+    Artisan::call('mailcoach:send-campaign-mails');
 }

@@ -27,6 +27,7 @@ test('the personalize html action can be customized', function () {
 
     $campaign->send();
     Artisan::call('mailcoach:send-scheduled-campaigns');
+    Artisan::call('mailcoach:send-campaign-mails');
 
     expect($campaign->emailList->subscribers->first()->email)->toEqual('overridden@example.com');
 });
@@ -40,6 +41,7 @@ test('the personalize subject action can be customized', function () {
 
     $campaign->send();
     Artisan::call('mailcoach:send-scheduled-campaigns');
+    Artisan::call('mailcoach:send-campaign-mails');
 
     expect($campaign->emailList->subscribers->first()->email)->toEqual('overridden@example.com');
 });

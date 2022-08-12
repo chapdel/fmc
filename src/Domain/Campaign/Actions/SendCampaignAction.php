@@ -82,10 +82,6 @@ class SendCampaignAction
 
         $campaign->markAsAllSendsCreated();
 
-        if (! $campaign->allMailSendingJobsDispatched()) {
-            $this->dispatchMailSendingJobs($campaign, $stopExecutingAt);
-        }
-
         if ($campaign->sendsCount() < $campaign->sent_to_number_of_subscribers) {
             return;
         }
@@ -108,32 +104,6 @@ class SendCampaignAction
 
                 $this->haltWhenApproachingTimeLimit($stopExecutingAt);
             });
-    }
-
-    protected function dispatchMailSendingJobs(Campaign $campaign, CarbonInterface $stopExecutingAt = null): void
-    {
-        $simpleThrottle = app(SimpleThrottle::class)
-            ->forMailer($campaign->getMailerKey());
-
-        $campaign
-            ->sends()
-            ->undispatched()
-            ->lazyById()
-            ->each(function (Send $send) use ($stopExecutingAt, $simpleThrottle) {
-
-                // should horizon be used, and it is paused, stop dispatching jobs
-                if (! app(HorizonStatus::class)->is(HorizonStatus::STATUS_PAUSED)) {
-                    $simpleThrottle->hit();
-
-                    dispatch(new SendCampaignMailJob($send));
-
-                    $send->markAsSendingJobDispatched();
-                }
-
-                $this->haltWhenApproachingTimeLimit($stopExecutingAt);
-            });
-
-        $campaign->markAsAllMailSendingJobsDispatched();
     }
 
     protected function haltWhenApproachingTimeLimit(?CarbonInterface $stopExecutingAt): void

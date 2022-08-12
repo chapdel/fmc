@@ -40,4 +40,5 @@ function sendCampaignForWebviewTest()
 
     test()->campaign->send();
     Artisan::call('mailcoach:send-scheduled-campaigns');
+    Artisan::call('mailcoach:send-campaign-mails');
 }

@@ -35,6 +35,7 @@ it('can segment a test by using a query', function () {
         ->sendTo(test()->emailList);
 
     Artisan::call('mailcoach:send-scheduled-campaigns');
+    Artisan::call('mailcoach:send-campaign-mails');
 
     Mail::assertSent(MailcoachMail::class, 1);
 
@@ -50,6 +51,7 @@ it('can segment a test by using should send', function () {
         ->segment(TestCustomQueryOnlyShouldSendToJohn::class)
         ->sendTo(test()->emailList);
     Artisan::call('mailcoach:send-scheduled-campaigns');
+    Artisan::call('mailcoach:send-campaign-mails');
     Mail::assertSent(MailcoachMail::class, 1);
     Mail::assertSent(MailcoachMail::class, fn (MailcoachMail $mail) => $mail->hasTo('john@example.com'));
     Mail::assertNotSent(MailcoachMail::class, fn (MailcoachMail $mail) => $mail->hasTo('jane@example.com'));

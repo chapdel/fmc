@@ -49,6 +49,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\TagRemovedTrigg
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\WebhookTriggerComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\TriggeredByEvents;
 use Spatie\Mailcoach\Domain\Campaign\Commands\CalculateStatisticsCommand;
+use Spatie\Mailcoach\Domain\Campaign\Commands\SendCampaignMailsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Commands\SendCampaignSummaryMailCommand;
 use Spatie\Mailcoach\Domain\Campaign\Commands\SendScheduledCampaignsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignLinkClickedEvent;
@@ -200,6 +201,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
                 CalculateAutomationMailStatisticsCommand::class,
                 SendAutomationMailsCommand::class,
                 SendScheduledCampaignsCommand::class,
+                SendCampaignMailsCommand::class,
                 SendCampaignSummaryMailCommand::class,
                 SendEmailListSummaryMailCommand::class,
                 RetryPendingSendsCommand::class,

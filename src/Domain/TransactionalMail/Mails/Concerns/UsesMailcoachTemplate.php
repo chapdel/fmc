@@ -13,7 +13,7 @@ trait UsesMailcoachTemplate
     use StoresMail;
     use UsesMailcoachModels;
 
-    public function template(string $name, array $replacements): self
+    public function template(string $name, array $replacements = []): self
     {
         /** @var TransactionalMailTemplate $template */
         $template = self::getTransactionalMailTemplateClass()::firstWhere('name', $name);

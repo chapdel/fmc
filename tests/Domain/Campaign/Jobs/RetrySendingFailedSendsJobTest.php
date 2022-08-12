@@ -22,6 +22,7 @@ it('can retry sending failed jobs sends with the correct mailer', function () {
     config()->set('mailcoach.campaigns.actions.personalize_html', FailingPersonalizeHtmlForJohnAction::class);
     $campaign->send();
     Artisan::call('mailcoach:send-scheduled-campaigns');
+    Artisan::call('mailcoach:send-campaign-mails');
 
     Mail::assertSent(MailcoachMail::class, 1);
     Mail::assertSent(MailcoachMail::class, fn (MailcoachMail $mail) => $mail->hasTo($jane->email));
