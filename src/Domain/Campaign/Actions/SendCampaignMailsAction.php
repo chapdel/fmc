@@ -22,6 +22,10 @@ class SendCampaignMailsAction
             return;
         }
 
+        if (! $campaign->sends()->undispatched()->count()) {
+            return;
+        }
+
         $this->dispatchMailSendingJobs($campaign, $stopExecutingAt);
     }
 
