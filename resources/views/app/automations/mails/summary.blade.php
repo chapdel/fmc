@@ -1,6 +1,7 @@
 <div class="card-grid">
+    <x-mailcoach::card>
     @if ($mail->sent_to_number_of_subscribers)
-        <x-mailcoach::success>
+        <x-mailcoach::success full>
             <div>
                 {{ __('mailcoach - AutomationMail') }}
                 <strong>{{ $mail->name }}</strong>
@@ -9,7 +10,7 @@
             </div>
         </x-mailcoach::success>
     @else
-        <x-mailcoach::warning>
+        <x-mailcoach::warning full>
             <div>
                 {{ __('mailcoach - AutomationMail') }}
                 <strong>{{ $mail->name }}</strong>
@@ -19,7 +20,7 @@
     @endif
 
     @if($failedSendsCount)
-        <x-mailcoach::error>
+        <x-mailcoach::error full>
             <div>
                 {{ __('mailcoach - Delivery failed for') }}
                 <strong>{{ $failedSendsCount }}</strong> {{ trans_choice('mailcoach - subscriber|subscribers', $failedSendsCount) }}
@@ -30,7 +31,6 @@
         </x-mailcoach::error>
     @endif
 
-    <x-mailcoach::card>
         @include('mailcoach::app.automations.mails.partials.statistics')
     </x-mailcoach::card>
 </div>

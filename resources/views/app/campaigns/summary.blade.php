@@ -6,10 +6,7 @@
                 <div class="progress-bar-value" style="width:0"></div>
             </div>
 
-            <div class="mt-4 flex alert alert-info">
-                <div class="mr-2">
-                    <i class="fas fa-sync fa-spin text-blue-500"></i>
-                </div>
+            <x-mailcoach::help sync full>
                 <div class="flex justify-between items-center w-full">
                     <div>
                         {{ __('mailcoach - Campaign') }}
@@ -35,17 +32,14 @@
                         Cancel
                     </x-mailcoach::confirm-button>
                 </div>
-            </div>
+            </x-mailcoach::help>
         @elseif ($campaign->isCancelled())
             @if($campaign->sent_to_number_of_subscribers)
                 <div class="progress-bar">
                     <div class="progress-bar-value" style="width:{{ ($campaign->sendsCount() / $campaign->sent_to_number_of_subscribers) * 100 }}%"></div>
                 </div>
             @endif
-            <div class="mt-4 flex alert alert-info">
-                <div class="mr-2">
-                    <i class="fas fa-ban text-red-500"></i>
-                </div>
+            <x-mailcoach::error full>
                 <div class="flex justify-between items-center w-full">
                     <p>
                         <span class="inline-block">{{ __('mailcoach - Campaign') }}</span>
@@ -74,15 +68,12 @@
                         @endif
                     </p>
                 </div>
-            </div>
+            </x-mailcoach::error>
         @elseif (! $campaign->allSendsCreated() && $campaign->sends()->count() < $campaign->sent_to_number_of_subscribers)
             <div class="progress-bar">
                 <div class="progress-bar-value" style="width:{{ ($campaign->sends()->count() / $campaign->sent_to_number_of_subscribers) * 100 }}%"></div>
             </div>
-            <div class="mt-4 flex alert alert-info">
-                <div class="mr-2">
-                    <i class="fas fa-sync fa-spin text-blue-500"></i>
-                </div>
+            <x-mailcoach::help sync full>
                 <div class="flex justify-between items-center w-full">
                     <p>
                         <span class="inline-block">{{ __('mailcoach - Campaign') }}</span>
@@ -111,15 +102,12 @@
                         Cancel
                     </x-mailcoach::confirm-button>
                 </div>
-            </div>
+            </x-mailcoach::help>
         @else
             <div class="progress-bar">
                 <div class="progress-bar-value" style="width:{{ ($campaign->sendsCount() / $campaign->sent_to_number_of_subscribers) * 100 }}%"></div>
             </div>
-            <div class="mt-4 flex alert alert-info">
-                <div class="mr-2">
-                    <i class="fas fa-sync fa-spin text-blue-500"></i>
-                </div>
+            <x-mailcoach::help sync full>
                 <div class="flex justify-between items-center w-full">
                     <p>
                         <span class="inline-block">{{ __('mailcoach - Campaign') }}</span>
@@ -148,13 +136,10 @@
                         Cancel
                     </x-mailcoach::confirm-button>
                 </div>
-            </div>
+            </x-mailcoach::help>
         @endif
     @else
-        <div class="grid grid-cols-auto-1fr gap-2 alert alert-success">
-            <div>
-                <i class="fas fa-check"></i>
-            </div>
+        <x-mailcoach::success class="md:max-w-full">
             <div>
                 {{ __('mailcoach - Campaign') }}
                 <a target="_blank" href="{{ $campaign->webviewUrl() }}"><strong>{{ $campaign->name }}</strong></a>
@@ -183,17 +168,19 @@
                 </div>
             @endif
 
-            <div class="col-start-2 text-sm">{{ $campaign->sent_at->toMailcoachFormat() }}</div>
-        </div>
+            <div class="text-sm">{{ $campaign->sent_at->toMailcoachFormat() }}</div>
+        </x-mailcoach::success>
 
         @if ($campaign->opens()->count() || $campaign->clicks()->count())
-            <h2 class="markup-h2 mt-12">{{ __('mailcoach - Performance') }}</h2>
             <livewire:mailcoach::campaign-statistics :campaign="$campaign" />
         @endif
     @endif
     </x-mailcoach::card>
 
     <x-mailcoach::card>
+        <h2 class="markup-h2 mb-0">
+            {{ __('mailcoach - Totals') }}
+        </h2>
         @include('mailcoach::app.campaigns.partials.statistics')
     </x-mailcoach::card>
 </div>

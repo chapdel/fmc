@@ -1,4 +1,4 @@
-<div class="mt-6 grid grid-cols-3 gap-6 justify-start items-end max-w-xl">
+<div class="grid grid-cols-3 gap-6 justify-start items-end max-w-xl">
     @if ($mail->open_count)
         <x-mailcoach::statistic :href="route('mailcoach.automations.mails.opens', $mail)" class="col-start-1"
                      numClass="text-4xl font-semibold" :stat="number_format($mail->unique_open_count)" :label="__('mailcoach - Unique Opens')"/>

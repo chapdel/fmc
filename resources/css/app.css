@@ -1,6 +1,5 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
 
 @import '../../node_modules/@yaireo/tagify/dist/tagify.css';
 
@@ -38,6 +37,8 @@
 
 @import './vendor/choices.css';
 @import './vendor/flatpickr.css';
+
+@import 'tailwindcss/utilities';
 
 @layer base {
     *,

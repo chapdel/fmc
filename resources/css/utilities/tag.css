@@ -65,6 +65,9 @@
     @apply shadow-xl;
     @apply shadow-blue-800/10;
     @apply bg-white;
+    @apply border;
+    @apply border-t-0;
+    @apply border-indigo-700/20;
 }
 
 .tagify__dropdown .tagify__dropdown__wrapper {

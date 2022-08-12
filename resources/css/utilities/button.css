@@ -93,17 +93,9 @@ input[type='file']::file-selector-button {
 }
 
 .button + .button-secondary,
-.button + .button-cancel {
+.button + .button-cancel,
+.button-secondary + .button-secondary {
     @apply ml-4;
-}
-
-.buttons {
-    @apply grid;
-    @apply grid-cols-auto;
-    @apply grid-flow-col;
-    @apply items-center;
-    @apply justify-start;
-    @apply gap-1;
 }
 
 .button-cancel {

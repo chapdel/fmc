@@ -17,13 +17,15 @@
     @if ($campaign->isEditable())
         @include('mailcoach::app.campaigns.partials.emailListFields', ['segmentable' => $campaign, 'wiremodel' => 'campaign'])
     @else
-        <x-mailcoach::card>
-            Sent to list "{{ $campaign->emailList?->name ?? __('mailcoach - deleted list') }}"
+        <x-mailcoach::fieldset card legend="Audience">
+            <div>
+            Sent to list <strong>{{ $campaign->emailList?->name ?? __('mailcoach - deleted list') }}</strong>
 
             @if($campaign->tagSegment)
-                Used segment {{ $campaign->tagSegment->name }}
+                , used segment <strong>{{ $campaign->tagSegment->name }}</strong>
             @endif
-        </x-mailcoach::card>
+            </div>
+        </x-mailcoach::fieldset>
     @endif
 
 
@@ -31,20 +33,19 @@
         <div class="form-field">
             @php([$openTracking, $clickTracking] = $campaign->tracking())
             @if (!is_null($openTracking) || !is_null($clickTracking))
-                @if ($openTracking)
-                    <x-mailcoach::icon-label icon="fas fa-check text-green-500" :text="__('mailcoach - Open tracking enabled')" />
-                @else
-                    <x-mailcoach::icon-label icon="fas fa-times text-red-500" :text="__('mailcoach - Open tracking disabled')" />
-                @endif
-                @if ($clickTracking)
-                    <x-mailcoach::icon-label icon="fas fa-check text-green-500" :text="__('mailcoach - Click tracking enabled')" />
-                @else
-                    <x-mailcoach::icon-label icon="fas fa-times text-red-500" :text="__('mailcoach - Click tracking disabled')" />
-                @endif
                 @php($mailerModel = $campaign->getMailer())
-                <x-mailcoach::info>
+                <x-mailcoach::help>
                     {!! __('mailcoach - Open & Click tracking are managed by your email provider, this campaign uses the <a href=":mailerLink"><strong>:mailer</strong></a> mailer.', ['mailer' => $mailerModel->name, 'mailerLink' => route('mailers.edit', $mailerModel)]) !!}
-                </x-mailcoach::info>
+                    
+                    <div class="mt-4">
+                        <x-mailcoach::health-label warning :test="$openTracking" :label="$openTracking ? __('mailcoach - Open tracking enabled') : __('mailcoach - Open tracking disabled')" />
+                    </div>
+                    <div class="mt-2">
+                        <x-mailcoach::health-label warning :test="$clickTracking" :label="$clickTracking ? __('mailcoach - Click tracking enabled') : __('mailcoach - Click tracking disabled')" />
+                    </div>
+                </x-mailcoach::help>
+
+
             @elseif($campaign->emailList?->campaign_mailer)
                 <x-mailcoach::info>
                     {!! __('mailcoach - Open & Click tracking are managed by your email provider, this campaign uses the <strong>:mailer</strong> mailer.', ['mailer' => $campaign->emailList->campaign_mailer]) !!}

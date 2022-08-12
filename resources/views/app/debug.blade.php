@@ -6,7 +6,7 @@
         <dl class="dl markup-links">
             @php($issueBody.='**Environment**: ' . app()->environment() . "\n")
             <dt>
-                <x-mailcoach::health-label :test="!app()->environment('local')" warning="true" :label="__('mailcoach - Environment')" />
+                <x-mailcoach::health-label reverse :test="!app()->environment('local')" warning="true" :label="__('mailcoach - Environment')" />
             </dt>
             <dd>
                 <div>
@@ -16,7 +16,7 @@
 
             @php($issueBody.='**Debug**: ' . (config('app.debug') ? 'ON' : 'OFF') . "\n")
             <dt>
-                <x-mailcoach::health-label :test="!config('app.debug')" warning="true" :label="__('mailcoach - Debug')" />
+                <x-mailcoach::health-label reverse :test="!config('app.debug')" warning="true" :label="__('mailcoach - Debug')" />
             </dt>
             <dd>
                 {{ config('app.debug') ? 'ON' : 'OFF' }}
@@ -25,7 +25,7 @@
             @if(! $usesVapor)
                 @php($issueBody.='**Horizon**: ' . ($horizonStatus->is(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::STATUS_ACTIVE) ? 'Active' : 'Inactive') . "\n")
                 <dt>
-                    <x-mailcoach::health-label :test="$horizonStatus->is(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::STATUS_ACTIVE)" :label="__('mailcoach - Horizon')" />
+                    <x-mailcoach::health-label reverse :test="$horizonStatus->is(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::STATUS_ACTIVE)" :label="__('mailcoach - Horizon')" />
                 </dt>
                 <dd>
                     <p>
@@ -39,7 +39,7 @@
 
                 @php($issueBody.='**Queue** connection: ' . ($hasQueueConnection ? 'OK' : 'Not OK') . "\n")
                 <dt>
-                    <x-mailcoach::health-label :test="$hasQueueConnection"  :label="__('mailcoach - Queue connection')" />
+                    <x-mailcoach::health-label reverse :test="$hasQueueConnection"  :label="__('mailcoach - Queue connection')" />
                 </dt>
                 <dd>
                     <p>
@@ -54,7 +54,7 @@
 
             @php($issueBody.='**Webhooks**: ' . $webhookTableCount . " unprocessed webhooks\n")
             <dt>
-                <x-mailcoach::health-label :test="$webhookTableCount === 0"  :label="__('mailcoach - Webhooks')" />
+                <x-mailcoach::health-label reverse :test="$webhookTableCount === 0"  :label="__('mailcoach - Webhooks')" />
             </dt>
             <dd>
                 @if($webhookTableCount === 0)
@@ -67,13 +67,13 @@
             <dt>
                 @if ($lastScheduleRun && now()->diffInMinutes($lastScheduleRun) < 10)
                     @php($issueBody.='**Schedule**: ran ' . now()->diffInMinutes($lastScheduleRun) . " minute(s) ago\n")
-                    <x-mailcoach::health-label :test="true"  :label="__('mailcoach - Schedule')" />
+                    <x-mailcoach::health-label reverse :test="true"  :label="__('mailcoach - Schedule')" />
                 @elseif ($lastScheduleRun)
                     @php($issueBody.='**Schedule**: ran ' . now()->diffInMinutes($lastScheduleRun) . " minute(s) ago\n")
-                    <x-mailcoach::health-label :test="false" warning="true" :label="__('mailcoach - Schedule')" />
+                    <x-mailcoach::health-label reverse :test="false" warning="true" :label="__('mailcoach - Schedule')" />
                 @else
                     @php($issueBody.="**Schedule**: hasn't run\n")
-                    <x-mailcoach::health-label :test="false" :label="__('mailcoach - Schedule')" />
+                    <x-mailcoach::health-label reverse :test="false" :label="__('mailcoach - Schedule')" />
                 @endif
             </dt>
             <dd>
@@ -132,7 +132,7 @@
         <dl class="dl">
             @php($issueBody.="**Default mailer**: " . config('mail.default') . "\n")
             <dt>
-                <x-mailcoach::health-label :test="!in_array(config('mail.default'), ['log', 'array', null])" warning="true" :label="__('mailcoach - Default mailer')" />
+                <x-mailcoach::health-label reverse :test="!in_array(config('mail.default'), ['log', 'array', null])" warning="true" :label="__('mailcoach - Default mailer')" />
             </dt>
             <dd>
                 <code>{{ config('mail.default') }}</code>
@@ -140,7 +140,7 @@
 
             @php($issueBody.="**Mailcoach mailer**: " . (config('mailcoach.mailer') ?? 'null') . "\n")
             <dt>
-                <x-mailcoach::health-label :test="!in_array(config('mailcoach.mailer'), ['log', 'array'])" warning="true" :label="__('mailcoach - Mailcoach mailer')" />
+                <x-mailcoach::health-label reverse :test="!in_array(config('mailcoach.mailer'), ['log', 'array'])" warning="true" :label="__('mailcoach - Mailcoach mailer')" />
             </dt>
             <dd>
                 <code>{{ config('mailcoach.mailer') ?? 'null' }}</code>
@@ -148,7 +148,7 @@
 
             @php($issueBody.="**Campaign mailer**: " . (config('mailcoach.campaigns.mailer') ?? 'null') . "\n")
             <dt>
-                <x-mailcoach::health-label :test="!in_array(config('mailcoach.campaigns.mailer'), ['log', 'array'])" warning="true" :label="__('mailcoach - Campaign mailer')" />
+                <x-mailcoach::health-label reverse :test="!in_array(config('mailcoach.campaigns.mailer'), ['log', 'array'])" warning="true" :label="__('mailcoach - Campaign mailer')" />
             </dt>
             <dd>
                 <code>{{ config('mailcoach.campaigns.mailer') ?? 'null' }}</code>
@@ -156,7 +156,7 @@
 
             @php($issueBody.="**Transactional mailer**: " . (config('mailcoach.transactional.mailer') ?? 'null') . "\n")
             <dt>
-                <x-mailcoach::health-label :test="!in_array(config('mailcoach.transactional.mailer'), ['log', 'array'])" warning="true" :label="__('mailcoach - Transactional mailer')" />
+                <x-mailcoach::health-label reverse :test="!in_array(config('mailcoach.transactional.mailer'), ['log', 'array'])" warning="true" :label="__('mailcoach - Transactional mailer')" />
             </dt>
             <dd>
                 <code>{{ config('mailcoach.transactional.mailer') ?? 'null' }}</code>

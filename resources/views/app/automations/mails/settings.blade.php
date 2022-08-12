@@ -1,4 +1,5 @@
 <form
+    class="card-grid"
     wire:submit.prevent="save"
     @keydown.prevent.window.cmd.s="$wire.call('save')"
     @keydown.prevent.window.ctrl.s="$wire.call('save')"
@@ -9,8 +10,9 @@
     <x-mailcoach::text-field :label="__('mailcoach - Name')" name="mail.name" wire:model.lazy="mail.name" required  />
 
     <x-mailcoach::text-field :label="__('mailcoach - Subject')" name="mail.subject" wire:model.lazy="mail.subject"  />
+</x-mailcoach::card>
 
-    <x-mailcoach::fieldset :legend="__('mailcoach - Tracking')">
+    <x-mailcoach::fieldset card :legend="__('mailcoach - Tracking')">
         <div class="form-field">
             <x-mailcoach::info>
                 {!! __('mailcoach - Open & Click tracking are managed by your email provider.') !!}
@@ -34,8 +36,7 @@
         </x-mailcoach::help>
     </x-mailcoach::fieldset>
 
-    <x-mailcoach::form-buttons>
+    <x-mailcoach::card  buttons>
         <x-mailcoach::button :label="__('mailcoach - Save settings')" />
-    </x-mailcoach::form-buttons>
-</x-mailcoach::card>
+    </x-mailcoach::card>
 </form>

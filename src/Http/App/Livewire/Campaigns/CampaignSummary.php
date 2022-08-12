@@ -45,6 +45,7 @@ class CampaignSummary extends Component
             'failedSendsCount' => $this->campaign->sends()->failed()->count(),
         ])->layout('mailcoach::app.campaigns.layouts.campaign', [
             'campaign' => $this->campaign,
+            'title' => __('mailcoach - Performance'),
         ]);
     }
 }

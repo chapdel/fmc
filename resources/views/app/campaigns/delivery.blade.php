@@ -2,19 +2,31 @@
     @if ($campaign->isEditable())
         <div class="grid gap-2">
             @if($campaign->isReady())
-                @if($campaign->scheduled_at)
-                    <x-mailcoach::warning>
-                        {{ __('mailcoach - Scheduled for delivery at :scheduledAt', ['scheduledAt' => $campaign->scheduled_at->toMailcoachFormat()]) }}
-                    </x-mailcoach::warning>
-                @endif
-
                 @if (! $campaign->htmlContainsUnsubscribeUrlPlaceHolder() || $campaign->sizeInKb() > 102)
                     <x-mailcoach::warning>
                         {!! __('mailcoach - Campaign <strong>:campaign</strong> can be sent, but you might want to check your content.', ['campaign' => $campaign->name]) !!}
+
+                        @if($campaign->scheduled_at)
+                            <span class="mt-4 inline-flex gap-2 items-center">
+                                <x-mailcoach::rounded-icon type="warning" icon="far fa-clock"/>
+                                <span class="font-semibold">
+                                    {{ __('mailcoach - Scheduled for delivery at :scheduledAt', ['scheduledAt' => $campaign->scheduled_at->toMailcoachFormat()]) }}.
+                                </span>
+                            </span>
+                        @endif
                     </x-mailcoach::warning>
                 @else
                     <x-mailcoach::success>
                         {!! __('mailcoach - Campaign <strong>:campaign</strong> is ready to be sent.', ['campaign' => $campaign->name]) !!}
+
+                        @if($campaign->scheduled_at)
+                            <span class="mt-4 inline-flex gap-2 items-center">
+                                <x-mailcoach::rounded-icon type="success" icon="far fa-clock"/>
+                                <span class="font-semibold">
+                                    {{ __('mailcoach - Scheduled for delivery at :scheduledAt', ['scheduledAt' => $campaign->scheduled_at->toMailcoachFormat()]) }}.
+                                </span>
+                            </span>
+                        @endif
                     </x-mailcoach::success>
                 @endif
             @else
@@ -30,7 +42,7 @@
     >
         @if ($campaign->emailList)
             <dt>
-                <x-mailcoach::health-label :test="true" :label="__('mailcoach - From')"/>
+                <x-mailcoach::health-label reverse :test="true" :label="__('mailcoach - From')"/>
             </dt>
 
             <dd>
@@ -42,7 +54,7 @@
 
             @if ($campaign->emailList->default_reply_to_email)
                 <dt>
-                    <x-mailcoach::health-label :test="true" :label="__('mailcoach - Reply-to')"/>
+                    <x-mailcoach::health-label reverse :test="true" :label="__('mailcoach - Reply-to')"/>
                 </dt>
 
                 <dd>
@@ -54,7 +66,7 @@
             @endif
 
             <dt>
-                <x-mailcoach::health-label :test="$campaign->segmentSubscriberCount()" :label="__('mailcoach - To')"/>
+                <x-mailcoach::health-label reverse :test="$campaign->segmentSubscriberCount()" :label="__('mailcoach - To')"/>
             </dt>
 
             <dd>
@@ -81,7 +93,7 @@
         @endif
 
         <dt>
-            <x-mailcoach::health-label :test="$campaign->subject" :label="__('mailcoach - Subject')"/>
+            <x-mailcoach::health-label reverse :test="$campaign->subject" :label="__('mailcoach - Subject')"/>
         </dt>
 
         <dd>
@@ -93,7 +105,7 @@
 
         @if ($campaign->emailList)
             <dt>
-                <x-mailcoach::health-label warning :test="$campaign->getMailerKey() && $campaign->getMailerKey() !== 'log'" :label="__('mailcoach - Mailer')"/>
+                <x-mailcoach::health-label reverse warning :test="$campaign->getMailerKey() && $campaign->getMailerKey() !== 'log'" :label="__('mailcoach - Mailer')"/>
             </dt>
             <dd>
                 <div>
@@ -104,12 +116,12 @@
 
         <dt>
             @if($campaign->html && $campaign->hasValidHtml())
-                <x-mailcoach::health-label
+                <x-mailcoach::health-label reverse
                     :test="$campaign->htmlContainsUnsubscribeUrlPlaceHolder() && $campaign->sizeInKb() < 102"
                     warning="true"
                     :label="__('mailcoach - Content')"/>
             @else
-                <x-mailcoach::health-label :test="false" :label="__('mailcoach - Content')"/>
+                <x-mailcoach::health-label reverse :test="false" :label="__('mailcoach - Content')"/>
             @endif
         </dt>
 
@@ -142,7 +154,7 @@
             @endif
 
             @if($campaign->html && $campaign->hasValidHtml())
-                <div class="buttons gap-4">
+                <div>
                     <x-mailcoach::button-secondary x-on:click="$store.modals.open('preview')" :label="__('mailcoach - Preview')"/>
                     <x-mailcoach::button-secondary x-on:click="$store.modals.open('send-test')" :label="__('mailcoach - Send Test')"/>
                 </div>
@@ -175,7 +187,7 @@
                         <li class="flex items-center gap-x-1">
                             <a target="_blank" class="link" href="{{ $url }}">{{ $url }}</a>
                             @if (!is_null($status))
-                                <x-mailcoach::health-label warning :test="$status" />
+                                <x-mailcoach::health-label reverse warning :test="$status" />
                             @endif
                             @php($tags[] = \Spatie\Mailcoach\Domain\Shared\Support\LinkHasher::hash($campaign, $url))
                         </li>
@@ -362,7 +374,6 @@
 
                 @if ($campaign->isEditable())
                     <div
-                        class="buttons"
                         x-show="schedule === 'now'"
                     >
                         <x-mailcoach::button x-on:click="$store.modals.open('send-campaign')" :label="__('mailcoach - Send now')"/>

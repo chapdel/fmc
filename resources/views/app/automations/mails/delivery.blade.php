@@ -52,7 +52,7 @@
 
     <dl class="mt-8 dl">
         <dt>
-            <x-mailcoach::health-label :test="$mail->subject" :label="__('mailcoach - Subject')"/>
+            <x-mailcoach::health-label reverse :test="$mail->subject" :label="__('mailcoach - Subject')"/>
         </dt>
 
         <dd>
@@ -61,12 +61,12 @@
 
         <dt>
             @if($mail->html && $mail->hasValidHtml())
-                <x-mailcoach::health-label
+                <x-mailcoach::health-label reverse
                     :test="$mail->htmlContainsUnsubscribeUrlPlaceHolder() && $mail->sizeInKb() < 102"
                     warning="true"
                     :label="__('mailcoach - Content')"/>
             @else
-                <x-mailcoach::health-label :test="false" :label="__('mailcoach - Content')"/>
+                <x-mailcoach::health-label reverse :test="false" :label="__('mailcoach - Content')"/>
             @endif
         </dt>
 
@@ -98,7 +98,7 @@
             @endif
 
             @if($mail->html && $mail->hasValidHtml())
-                <div class="buttons gap-4">
+                <div>
                     <x-mailcoach::button-secondary x-on:click="$store.modals.open('preview')" :label="__('mailcoach - Preview')"/>
                     <x-mailcoach::button-secondary x-on:click="$store.modals.open('send-test')" :label="__('mailcoach - Send Test')"/>
                 </div>
