@@ -28,7 +28,7 @@ class FeedbackStepComponent extends StepComponent
     {
         $this->validate();
 
-        $endpoint = action(SendgridWebhookController::class, $this->mailer?->configName());
+        $endpoint = action(SendgridWebhookController::class, $this->mailer()->configName());
 
         $events = [EventType::Bounce, EventType::Bounce];
 

@@ -27,7 +27,7 @@ class FeedbackStepComponent extends StepComponent
     {
         $this->validate();
 
-        $endpoint = action(PostmarkWebhookController::class, $this->mailer?->configName());
+        $endpoint = action(PostmarkWebhookController::class, $this->mailer()->configName());
 
         $events = [PostMarkTrigger::Bounce, PostMarkTrigger::SpamComplaint];
 
