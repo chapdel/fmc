@@ -98,7 +98,7 @@ document.addEventListener('alpine:init', () => {
                                 afterBody: tooltips => {
                                     const campaigns = this.chartData.campaigns[tooltips[0].dataIndex];
 
-                                    if (campaigns.length === 0) {
+                                    if (!campaigns || campaigns.length === 0) {
                                         return;
                                     }
 
