@@ -38,7 +38,7 @@ class CampaignStatistics extends Component
             return collect();
         }
 
-        if (! $this->campaign->opens()->count() && ! $this->campaign->clicks()->count()) {
+        if (! $this->campaign->opens()->count()) {
             return collect();
         }
 
