@@ -8,7 +8,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignAction;
 use Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignMailsAction;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\SendCampaignTimeLimitApproaching;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
