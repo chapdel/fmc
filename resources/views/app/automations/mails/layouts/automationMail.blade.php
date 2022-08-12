@@ -4,7 +4,7 @@
     :title="$title ?? null"
 >
     <x-slot name="nav">
-        <x-mailcoach::navigation>
+        <x-mailcoach::navigation :title="$mail->name">
             <x-mailcoach::navigation-group :href="route('mailcoach.automations.mails.summary', $mail)" :title="__('mailcoach - Performance')">
                 <x-mailcoach::navigation-item :href="route('mailcoach.automations.mails.opens', $mail)" data-dirty-warn>
                     {{ __('mailcoach - Opens') }}
