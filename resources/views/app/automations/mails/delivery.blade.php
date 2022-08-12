@@ -3,7 +3,7 @@
         @if($mail->isReady())
             @if (! $mail->htmlContainsUnsubscribeUrlPlaceHolder() || $mail->sizeInKb() > 102)
                 <x-mailcoach::warning>
-                    @if ($mail->isReady() && $mail->sendsCount() > -1)
+                    @if ($mail->isReady() && $mail->sendsCount() > 0)
                         <div class="mb-2 flex items-center gap-2">
                             <i class="fas fa-sync fa-spin text-orange-500"></i>
                             <p>
