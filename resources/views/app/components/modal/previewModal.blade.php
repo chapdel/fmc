@@ -3,7 +3,7 @@
     'name' => 'preview',
     'title' => 'Preview',
 ])
-<div>
+<div class="hidden">
     <input type="hidden" id="preview-content" value="{{ base64_encode($html) }}">
 
     <x-mailcoach::modal
