@@ -3,12 +3,45 @@
         @if($mail->isReady())
             @if (! $mail->htmlContainsUnsubscribeUrlPlaceHolder() || $mail->sizeInKb() > 102)
                 <x-mailcoach::warning>
+                    @if ($mail->isReady() && $mail->sendsCount() > -1)
+                        <div class="mb-2 flex items-center gap-2">
+                            <i class="fas fa-sync fa-spin text-orange-500"></i>
+                            <p>
+                                {{ __('mailcoach - Automation mail') }}
+                                <a class="font-semibold" target="_blank"
+                                href="{{ $mail->webviewUrl() }}">{{ $mail->name }}</a>
+            
+                                {{ __('mailcoach - has been sent to :sendsCount :subscriber', [
+                                    'sendsCount' => $mail->sendsCount(),
+                                    'subscriber' => trans_choice('mailcoach - subscriber|subscribers', $mail->sendsCount())
+                                ]) }}.
+                            </p>
+                        </div>
+                    @endif
                     {!! __('mailcoach - Automation mail <strong>:mail</strong> can be sent, but you might want to check your content.', ['mail' => $mail->name]) !!}
                 </x-mailcoach::warning>
             @else
-                <x-mailcoach::success>
-                    {!! __('mailcoach - Automation mail <strong>:mail</strong> is ready to be sent.', ['mail' => $mail->name]) !!}
-                </x-mailcoach::success>
+                @if ($mail->isReady() && $mail->sendsCount() > 0)
+                    <x-mailcoach::success>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-sync fa-spin text-green-500"></i>
+                            <p>
+                                {{ __('mailcoach - Automation mail') }}
+                                <a class="font-semibold" target="_blank"
+                                href="{{ $mail->webviewUrl() }}">{{ $mail->name }}</a>
+            
+                                {{ __('mailcoach - has been sent to :sendsCount :subscriber', [
+                                    'sendsCount' => $mail->sendsCount(),
+                                    'subscriber' => trans_choice('mailcoach - subscriber|subscribers', $mail->sendsCount())
+                                ]) }}.
+                            </p>
+                        </div>
+                    </x-mailcoach::success>
+                @else
+                    <x-mailcoach::success>
+                        {!! __('mailcoach - Automation mail <strong>:mail</strong> is ready to be sent.', ['mail' => $mail->name]) !!}
+                    </x-mailcoach::success>
+                @endif
             @endif
         @else
             <x-mailcoach::error>
@@ -128,24 +161,7 @@
             </ul>
         </dd>
 
-        @if ($mail->isReady() && $mail->sendsCount() > 0)
-            <div class="flex alert alert-info mt-6">
-                <div class="mr-2">
-                    <i class="fas fa-sync fa-spin text-blue-500"></i>
-                </div>
-                <div class="flex justify-between items-center w-full">
-                    <p>
-                        <span class="inline-block">{{ __('mailcoach - Automation mail') }}</span>
-                        <a class="inline-block" target="_blank"
-                           href="{{ $mail->webviewUrl() }}">{{ $mail->name }}</a>
-
-                        {{ __('mailcoach - has been sent to :sendsCount :subscriber', [
-                            'sendsCount' => $mail->sendsCount(),
-                            'subscriber' => trans_choice('mailcoach - subscriber|subscribers', $mail->sendsCount())
-                        ]) }}
-                    </p>
-                </div>
-            </div>
-        @endif
     </dl>
+    
+    
 </x-mailcoach::card>
