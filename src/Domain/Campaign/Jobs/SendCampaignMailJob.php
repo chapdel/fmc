@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Campaign\Jobs;
 
+use Carbon\CarbonInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -11,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\Campaign\Actions\SendMailAction;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Mailcoach;
+use Spatie\RateLimitedMiddleware\RateLimited;
 
 class SendCampaignMailJob implements ShouldQueue, ShouldBeUnique
 {
@@ -23,14 +25,17 @@ class SendCampaignMailJob implements ShouldQueue, ShouldBeUnique
 
     public Send $pendingSend;
 
-    public $tries = 3;
-
     /** @var string */
     public $queue;
 
     public function uniqueId(): string
     {
         return "{$this->pendingSend->id}";
+    }
+
+    public function retryUntil(): CarbonInterface
+    {
+        return now()->addHour();
     }
 
     public function __construct(Send $pendingSend)
@@ -56,5 +61,18 @@ class SendCampaignMailJob implements ShouldQueue, ShouldBeUnique
         $sendMailAction = Mailcoach::getCampaignActionClass('send_mail', SendMailAction::class);
 
         $sendMailAction->execute($this->pendingSend);
+    }
+
+    public function middleware(): array
+    {
+        $mailer = $this->pendingSend->campaign->getMailerKey();
+
+        $rateLimitedMiddleware = (new RateLimited(useRedis: false))
+            ->key($mailer)
+            ->allow(config("mail.mailers.{$mailer}.mails_per_timespan", 10))
+            ->everySeconds(config("mail.mailers.{$mailer}.timespan_in_seconds", 1))
+            ->releaseAfterOneSecond();
+
+        return [$rateLimitedMiddleware];
     }
 }
