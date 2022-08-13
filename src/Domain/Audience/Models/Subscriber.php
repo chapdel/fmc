@@ -278,7 +278,7 @@ class Subscriber extends Model
             'email' => $this->email,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
-            'tags' => $this->tags()->pluck('name')->implode(";"),
+            'tags' => $this->tags()->where('type', TagType::DEFAULT)->pluck('name')->implode(";"),
         ];
     }
 
