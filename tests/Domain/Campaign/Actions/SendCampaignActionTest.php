@@ -17,6 +17,7 @@ use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Support\Throttling\SimpleThrottle;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestClasses\CustomCampaignReplacer;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
@@ -66,7 +67,6 @@ it('will throttle sending mail', function () {
 
     test()->campaign->send();
     test()->action->execute(test()->campaign);
-    Mail::assertSent(MailcoachMail::class, 3);
 
     $jobDispatchTimes = Send::get()
         ->map(function (Send $send) {
@@ -78,6 +78,37 @@ it('will throttle sending mail', function () {
 
     expect($sendTime1->diffInSeconds($sendTime2))->toEqual(0);
     expect(round($sendTime2->diffInSeconds($sendTime3)))->toEqual(3);
+});
+
+it('will throttle processing mail jobs', function () {
+    config()->set('mailcoach.campaigns.throttling.allowed_number_of_jobs_in_timespan', 2);
+    config()->set('mailcoach.campaigns.throttling.timespan_in_seconds', 3);
+
+    // Fake the throttle not working
+    $this->partialMock(SimpleThrottle::class)
+        ->shouldReceive('forMailer')->andReturnSelf()
+        ->shouldReceive('hit')
+        ->andReturnSelf();
+
+    Mail::fake();
+    TestTime::unfreeze();
+
+    test()->campaign->send();
+    test()->action->execute(test()->campaign);
+    Mail::assertSent(MailcoachMail::class, 2); // The 3rd mail has been released
+    sleep(3);
+    test()->action->execute(test()->campaign);
+
+    $jobDispatchTimes = Send::get()
+        ->map(function (Send $send) {
+            return $send->sent_at;
+        })
+        ->toArray();
+
+    [$sendTime1, $sendTime2, $sendTime3] = $jobDispatchTimes;
+
+    expect($sendTime1->diffInSeconds($sendTime2))->toEqual(0);
+    expect(round($sendTime2->diffInSeconds($sendTime3)))->toBeGreaterThanOrEqual(3);
 });
 
 it('will not create mailcoach sends if they already have been created', function () {
