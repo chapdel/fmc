@@ -58,7 +58,7 @@ class SendAutomationMailJob implements ShouldQueue, ShouldBeUnique
     public function middleware(): array
     {
         $rateLimitedMiddleware = (new RateLimited(useRedis: false))
-            ->key(config('mailcoach.automation.mailer') ?? config('mailcoach.mailer') ?? config('mail.default'))
+            ->key('automation-mailer-throttle-' . config('mailcoach.automation.mailer') ?? config('mailcoach.mailer') ?? config('mail.default'))
             ->allow(config('mailcoach.automation.throttling.allowed_number_of_jobs_in_timespan'))
             ->everySeconds(config('mailcoach.automation.throttling.timespan_in_seconds'))
             ->releaseAfterOneSecond();
