@@ -68,7 +68,7 @@ class SendCampaignMailJob implements ShouldQueue, ShouldBeUnique
         $mailer = $this->pendingSend->campaign->getMailerKey();
 
         $rateLimitedMiddleware = (new RateLimited(useRedis: false))
-            ->key($mailer)
+            ->key('mailer-throttle-' . $mailer)
             ->allow(config("mail.mailers.{$mailer}.mails_per_timespan", 10))
             ->everySeconds(config("mail.mailers.{$mailer}.timespan_in_seconds", 1))
             ->releaseAfterOneSecond();
