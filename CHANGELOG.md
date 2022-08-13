@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.8.1 - 2022-08-13
+
+### What's Changed
+
+- Only export user defined tags in subscriber export by @mbardelmeijer in https://github.com/spatie/laravel-mailcoach/pull/1050
+- Use a rate limiter on the send jobs as well to prevent them being processed too quickly
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.8.0...5.8.1
+
 ## 5.8.0 - 2022-08-07
 
 - Adds a new `mailcoach.timezone` config option for when you want to change Mailcoach's display timezone but not your app's
