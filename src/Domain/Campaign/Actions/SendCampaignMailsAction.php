@@ -5,7 +5,6 @@ namespace Spatie\Mailcoach\Domain\Campaign\Actions;
 use Carbon\CarbonInterface;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\SendCampaignTimeLimitApproaching;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
-use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailsJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus;
