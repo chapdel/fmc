@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Campaign\Jobs;
 
+use Carbon\CarbonInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -27,6 +28,11 @@ class SendCampaignMailsJob implements ShouldQueue, ShouldBeUnique
     public function __construct()
     {
         $this->onQueue(config('mailcoach.shared.perform_on_queue.schedule'));
+    }
+
+    public function retryUntil(): CarbonInterface
+    {
+        return now()->addHour();
     }
 
     public function handle(): void
