@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Spatie\Mailcoach\Http\Api\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -11,6 +10,7 @@ use Spatie\ValidationRules\Rules\Delimited;
 class UpdateEmailListSettingsRequest extends FormRequest
 {
     const CONFIRMATION_MAIL_DEFAULT = 'send_default_confirmation_mail';
+
     const CONFIRMATION_MAIL_CUSTOM = 'send_custom_confirmation_mail';
 
     public function rules(): array
@@ -47,7 +47,7 @@ class UpdateEmailListSettingsRequest extends FormRequest
             'redirect_after_subscription_pending' => '',
             'redirect_after_unsubscribed' => '',
             'confirmation_mail' => Rule::in([static::CONFIRMATION_MAIL_DEFAULT, static::CONFIRMATION_MAIL_CUSTOM]),
-            'confirmation_mail_id' => 'required_if:custom_confirmation_mail,'. static::CONFIRMATION_MAIL_CUSTOM,
+            'confirmation_mail_id' => 'required_if:custom_confirmation_mail,'.static::CONFIRMATION_MAIL_CUSTOM,
         ];
     }
 

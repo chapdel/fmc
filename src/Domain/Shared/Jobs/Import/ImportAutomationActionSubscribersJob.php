@@ -31,9 +31,9 @@ class ImportAutomationActionSubscribersJob extends ImportJob
 
         $index = 0;
         foreach ($files as $file) {
-            $this->tmpDisk->writeStream('tmp/'. $file, $this->importDisk->readStream($file));
+            $this->tmpDisk->writeStream('tmp/'.$file, $this->importDisk->readStream($file));
 
-            $reader = SimpleExcelReader::create($this->tmpDisk->path('tmp/'. $file));
+            $reader = SimpleExcelReader::create($this->tmpDisk->path('tmp/'.$file));
 
             $reader->getRows()->chunk(1000)->each(function (LazyCollection $actionSubscribers) use ($actions, $total, &$index) {
                 $subscribers = DB::table(self::getSubscriberTableName())->whereIn('uuid', $actionSubscribers->pluck('subscriber_uuid'))->pluck('id', 'uuid');
@@ -55,7 +55,7 @@ class ImportAutomationActionSubscribersJob extends ImportJob
                 }
             });
 
-            $this->tmpDisk->delete('tmp/' . $file);
+            $this->tmpDisk->delete('tmp/'.$file);
         }
     }
 }

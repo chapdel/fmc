@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailableWithTemplate;
@@ -24,7 +23,7 @@ it('can render a template containing markdown and blade variables', function () 
     /** @var TransactionalMailTemplate $template */
     $template = TransactionalMailTemplate::factory()->create([
         'name' => 'test-template',
-        'body' => file_get_contents(__DIR__ . '/stubs/blade-markdown.blade.php'),
+        'body' => file_get_contents(__DIR__.'/stubs/blade-markdown.blade.php'),
         'test_using_mailable' => TestMailableWithTemplate::class,
         'type' => 'blade-markdown',
     ]);

@@ -47,7 +47,7 @@ class GeneralSettings extends Component
 
         ConfigCache::clear();
 
-        if (InstalledVersions::isInstalled("laravel/horizon")) {
+        if (InstalledVersions::isInstalled('laravel/horizon')) {
             dispatch(function () {
                 if (app()->runningInConsole()) {
                     Artisan::call('horizon:terminate');

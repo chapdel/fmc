@@ -10,6 +10,7 @@ use Spatie\Mailcoach\Domain\Settings\Models\User;
 class CreateUser extends Component
 {
     public string $email = '';
+
     public string $name = '';
 
     public function saveUser()

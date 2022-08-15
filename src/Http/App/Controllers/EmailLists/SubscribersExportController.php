@@ -30,7 +30,7 @@ class SubscribersExportController
 
     protected function resetMaximumExecutionTime(): void
     {
-        $maximumExecutionTime = (int)ini_get('max_execution_time');
+        $maximumExecutionTime = (int) ini_get('max_execution_time');
 
         set_time_limit($maximumExecutionTime);
     }

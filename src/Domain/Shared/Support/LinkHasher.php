@@ -13,8 +13,8 @@ class LinkHasher
     public static function hash(Sendable $sendable, string $url, string $type = 'clicked'): string
     {
         $prefix = match ($sendable::class) {
-            static::getCampaignClass() => "campaign",
-            static::getAutomationMailClass() => "automation-mail",
+            static::getCampaignClass() => 'campaign',
+            static::getAutomationMailClass() => 'automation-mail',
         };
 
         $sendablePart = "{$prefix}-{$sendable->id}-{$type}";

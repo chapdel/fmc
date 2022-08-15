@@ -31,7 +31,7 @@ class Automations extends DataTable
 
         /** @var \Spatie\Mailcoach\Domain\Automation\Models\Automation $duplicateAutomation */
         $duplicateAutomation = self::getAutomationClass()::create([
-            'name' => __('mailcoach - Duplicate of') . ' ' . $automation->name,
+            'name' => __('mailcoach - Duplicate of').' '.$automation->name,
         ]);
 
         $automation->actions->each(function (Action $action) use ($duplicateAutomation) {

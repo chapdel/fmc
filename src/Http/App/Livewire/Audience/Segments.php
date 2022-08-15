@@ -28,7 +28,7 @@ class Segments extends DataTable
 
         /** @var \Spatie\Mailcoach\Domain\Audience\Models\TagSegment $duplicateSegment */
         $duplicateSegment = self::getTagSegmentClass()::create([
-            'name' => __('mailcoach - Duplicate of') . ' ' . $segment->name,
+            'name' => __('mailcoach - Duplicate of').' '.$segment->name,
             'email_list_id' => $segment->email_list_id,
         ]);
 

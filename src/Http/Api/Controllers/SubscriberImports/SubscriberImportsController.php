@@ -19,7 +19,7 @@ class SubscriberImportsController
 
     public function index()
     {
-        $this->authorize("viewAny", self::getEmailListClass());
+        $this->authorize('viewAny', self::getEmailListClass());
 
         $subscribersImport = self::getSubscriberImportClass()::query()->with(['emailList'])->paginate();
 
@@ -28,14 +28,14 @@ class SubscriberImportsController
 
     public function show(SubscriberImport $subscriberImport)
     {
-        $this->authorize("view", $subscriberImport->emailList);
+        $this->authorize('view', $subscriberImport->emailList);
 
         return new SubscriberImportResource($subscriberImport);
     }
 
     public function store(SubscriberImportRequest $request)
     {
-        $this->authorize("update", self::getEmailListClass()::findOrFail($request->email_list_id));
+        $this->authorize('update', self::getEmailListClass()::findOrFail($request->email_list_id));
 
         $attributes = array_merge($request->validated(), ['status' => SubscriberImportStatus::Draft]);
 
@@ -46,7 +46,7 @@ class SubscriberImportsController
 
     public function update(SubscriberImportRequest $request, SubscriberImport $subscriberImport)
     {
-        $this->authorize("update", $subscriberImport->emailList);
+        $this->authorize('update', $subscriberImport->emailList);
 
         if ($subscriberImport->status !== SubscriberImportStatus::Draft) {
             abort(Response::HTTP_UNPROCESSABLE_ENTITY, 'Cannot update a non-draft import.');
@@ -59,7 +59,7 @@ class SubscriberImportsController
 
     public function destroy(SubscriberImport $subscriberImport)
     {
-        $this->authorize("update", $subscriberImport->emailList);
+        $this->authorize('update', $subscriberImport->emailList);
 
         $subscriberImport->delete();
 

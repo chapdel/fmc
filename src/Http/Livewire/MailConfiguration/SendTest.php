@@ -15,6 +15,7 @@ class SendTest extends Component
     public string $mailer = '';
 
     public string $from_email = '';
+
     public string $to_email = '';
 
     public function mount(string $mailer)

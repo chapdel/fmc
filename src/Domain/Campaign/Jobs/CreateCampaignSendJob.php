@@ -85,7 +85,7 @@ class CreateCampaignSendJob implements ShouldQueue, ShouldBeUnique
             return false;
         }
 
-        if ((int)$subscriber->email_list_id !== (int)$emailList->id) {
+        if ((int) $subscriber->email_list_id !== (int) $emailList->id) {
             return false;
         }
 

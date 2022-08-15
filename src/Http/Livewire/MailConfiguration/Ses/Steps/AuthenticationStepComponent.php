@@ -17,7 +17,9 @@ class AuthenticationStepComponent extends StepComponent
     use UsesMailer;
 
     public string $key = '';
+
     public string $secret = '';
+
     public string $region = '';
 
     public function rules()
@@ -50,7 +52,7 @@ class AuthenticationStepComponent extends StepComponent
 
             return;
         } catch (Exception $e) {
-            $this->addError('key', 'Something went wrong communicating with AWS: ' . $e->getMessage());
+            $this->addError('key', 'Something went wrong communicating with AWS: '.$e->getMessage());
         }
 
         $this->flash('Your credentials were correct.');

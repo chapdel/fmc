@@ -16,6 +16,7 @@ class FeedbackStepComponent extends StepComponent
     use UsesMailer;
 
     public bool $trackOpens = false;
+
     public bool $trackClicks = false;
 
     public array $rules = [

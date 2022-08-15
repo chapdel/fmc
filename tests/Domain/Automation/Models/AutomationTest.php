@@ -518,8 +518,8 @@ test('the automation mail can use custom mailable', function () {
 
     $messages = app(MailManager::class)->mailer('array')->getSymfonyTransport()->messages();
 
-    test()->assertTrue($messages->filter(function (\Symfony\Component\Mailer\SentMessage $message) {
-        return $message->getOriginalMessage()->getSubject() === "This is the subject from the custom mailable.";
+    test()->assertTrue($messages->filter(function (Symfony\Component\Mailer\SentMessage $message) {
+        return $message->getOriginalMessage()->getSubject() === 'This is the subject from the custom mailable.';
     })->count() > 0);
 });
 
@@ -742,21 +742,21 @@ it('handles nested conditions correctly when running twice', function () {
             new ConditionAction(
                 checkFor: CarbonInterval::day(),
                 yesActions: [
-                new ConditionAction(
-                    checkFor: CarbonInterval::day(),
-                    yesActions: [
-                    new SendAutomationMailAction($automatedMail1),
+                    new ConditionAction(
+                        checkFor: CarbonInterval::day(),
+                        yesActions: [
+                            new SendAutomationMailAction($automatedMail1),
+                        ],
+                        noActions: [
+                            new SendAutomationMailAction($automatedMail2),
+                        ],
+                        condition: HasTagCondition::class,
+                        conditionData: ['tag' => 'yes-tag-2'],
+                    ),
                 ],
-                    noActions: [
-                    new SendAutomationMailAction($automatedMail2),
-                ],
-                    condition: HasTagCondition::class,
-                    conditionData: ['tag' => 'yes-tag-2'],
-                ),
-            ],
                 noActions: [
-                new SendAutomationMailAction($automatedMail3),
-            ],
+                    new SendAutomationMailAction($automatedMail3),
+                ],
                 condition: HasTagCondition::class,
                 conditionData: ['tag' => 'yes-tag-1']
             ),
@@ -1204,7 +1204,6 @@ it('handles deeply nested conditions', function () {
     // Subscriber 6 & 7 are in second condition action
     $this->assertEquals(HaltAction::class, $subscriber6->currentActionClass($automation));
     $this->assertEquals(ConditionAction::class, $subscriber7->currentActionClass($automation));
-
 
     $this->assertEquals(ConditionAction::class, $subscriber8->currentActionClass($automation));
     $this->assertEquals(ConditionAction::class, $subscriber9->currentActionClass($automation));

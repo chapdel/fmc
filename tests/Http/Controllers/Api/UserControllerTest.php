@@ -18,7 +18,6 @@ it('can detect the currently logged in user', function () {
         ]);
 });
 
-
 it('can use the api via sanctum', function () {
     $user = User::factory()->create();
 

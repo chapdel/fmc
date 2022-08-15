@@ -101,7 +101,7 @@ test('the confirm subscription class can be customized', function () {
 
     $emailList = EmailList::factory()->create([
         'requires_confirmation' => true,
-]);
+    ]);
 
     $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo($emailList);
 

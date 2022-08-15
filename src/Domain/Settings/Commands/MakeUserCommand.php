@@ -23,11 +23,11 @@ class MakeUserCommand extends Command
         }
 
         if (! $email) {
-            $email = $this->ask("What is the email address?");
+            $email = $this->ask('What is the email address?');
         }
 
         if (! $password) {
-            $password = $this->secret("What is the password?");
+            $password = $this->secret('What is the password?');
         }
 
         $validator = Validator::make([

@@ -75,6 +75,5 @@ dataset('caseProvider', function () {
         [now()->subWeeks(2), now()->subDay(), true],
         [now()->subWeeks(2)->subSecond(), now()->subDay(), false],
 
-
     ];
 });

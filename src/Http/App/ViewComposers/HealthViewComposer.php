@@ -18,7 +18,7 @@ class HealthViewComposer
     public function compose(View $view)
     {
         $view->with([
-            'usesVapor' => InstalledVersions::isInstalled("laravel/vapor-core"),
+            'usesVapor' => InstalledVersions::isInstalled('laravel/vapor-core'),
             'horizonActive' => $this->horizonStatus->is(HorizonStatus::STATUS_ACTIVE),
             'queueConfig' => config('queue.connections.mailcoach-redis') && ! empty(config('queue.connections.mailcoach-redis')),
         ]);

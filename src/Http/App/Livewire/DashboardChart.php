@@ -20,10 +20,13 @@ class DashboardChart extends Component
 
     // Chart
     public string $start;
+
     public string $end;
+
     public Collection $stats;
 
     protected int $startSubscriptionsCount;
+
     protected int $startUnsubscribeCount;
 
     public function mount(): void
@@ -80,14 +83,13 @@ class DashboardChart extends Component
     protected function createStats(): Collection
     {
         $prefix = DB::getTablePrefix();
-        $subscriberTable = $prefix . self::getSubscriberTableName() . (DB::connection() instanceof MySqlConnection ? ' USE INDEX (email_list_subscribed_index)' : '');
+        $subscriberTable = $prefix.self::getSubscriberTableName().(DB::connection() instanceof MySqlConnection ? ' USE INDEX (email_list_subscribed_index)' : '');
 
         $start = Date::parse($this->start)->startOfDay();
         $end = Date::parse($this->end)->endOfDay();
 
-
         $subscribes = DB::table(DB::raw($subscriberTable))
-            ->selectRaw("count(*) as subscribed_count, DATE_FORMAT(subscribed_at, \"%Y-%m-%d\") as subscribed_day")
+            ->selectRaw('count(*) as subscribed_count, DATE_FORMAT(subscribed_at, "%Y-%m-%d") as subscribed_day')
             ->whereBetween('subscribed_at', [$start, $end])
             ->whereNull('unsubscribed_at')
             ->orderBy('subscribed_day')
@@ -99,7 +101,7 @@ class DashboardChart extends Component
         }
 
         $unsubscribes = DB::table(DB::raw($subscriberTable))
-            ->selectRaw("count(*) as unsubscribe_count, DATE_FORMAT(unsubscribed_at, \"%Y-%m-%d\") as unsubscribe_day")
+            ->selectRaw('count(*) as unsubscribe_count, DATE_FORMAT(unsubscribed_at, "%Y-%m-%d") as unsubscribe_day')
             ->whereBetween('unsubscribed_at', [$start, $end])
             ->whereNotNull('unsubscribed_at')
             ->orderBy('unsubscribe_day')

@@ -46,6 +46,6 @@ class Dashboard extends Component
             $suffix = 'T+';
         }
 
-        return ! empty($format . $suffix) ? $format . $suffix : 0;
+        return ! empty($format.$suffix) ? $format.$suffix : 0;
     }
 }

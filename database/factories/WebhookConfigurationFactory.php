@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Spatie\Mailcoach\Domain\Settings\Models\User;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 
 class WebhookConfigurationFactory extends Factory

@@ -14,6 +14,7 @@ class Mailcoach
     public static bool $runsMigrations = true;
 
     protected static $editorScripts = [];
+
     protected static $editorStyles = [];
 
     public static function styles(): string
@@ -37,7 +38,7 @@ class Mailcoach
         }
 
         $styles[] = "<link rel=\"preload\" href=\"https://pro.fontawesome.com/releases/v5.15.4/css/all.css\" as=\"style\" onload=\"this.onload=null;this.rel='stylesheet'\">";
-        $styles[] = "<noscript><link rel=\"stylesheet\" href=\"styles.css\"></noscript>";
+        $styles[] = '<noscript><link rel="stylesheet" href="styles.css"></noscript>';
         $styles[] = "<link rel=\"stylesheet\" href=\"{$fullAssetPath}\" type=\"text/css\">";
 
         foreach (self::availableEditorStyles() as $editor => $editorStyles) {

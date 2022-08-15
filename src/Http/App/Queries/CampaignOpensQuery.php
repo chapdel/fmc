@@ -44,7 +44,7 @@ class CampaignOpensQuery extends QueryBuilder
         $this
             ->defaultSort('-first_opened_at')
             ->allowedSorts('email', 'open_count', 'first_opened_at')
-            ->groupBy("subscriber_uuid", "subscriber_email_list_uuid", "subscriber_email")
+            ->groupBy('subscriber_uuid', 'subscriber_email_list_uuid', 'subscriber_email')
             ->allowedFilters(
                 AllowedFilter::custom(
                     'search',

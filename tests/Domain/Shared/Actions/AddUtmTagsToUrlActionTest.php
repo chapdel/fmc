@@ -7,9 +7,8 @@ beforeEach(function () {
 });
 
 /**
- *
- * @param string $url
- * @param string $urlWithTags
+ * @param  string  $url
+ * @param  string  $urlWithTags
  */
 it('adds utm tags to an url', function (string $url, string $urlWithTags) {
     expect(test()->action->execute($url, 'My Campaign'))->toEqual($urlWithTags);

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Spatie\Mailcoach\Domain\Automation\Actions;
 
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;

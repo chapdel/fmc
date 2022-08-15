@@ -90,7 +90,7 @@ class SubscriberImports extends DataTable
             );
         }
 
-        abort_unless((bool)$subscriberImport->getMediaCollection($collection), 403);
+        abort_unless((bool) $subscriberImport->getMediaCollection($collection), 403);
 
         $subscriberImport = self::getSubscriberImportClass()::find($subscriberImport->id);
 

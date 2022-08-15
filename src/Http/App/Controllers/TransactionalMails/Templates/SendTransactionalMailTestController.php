@@ -18,7 +18,7 @@ class SendTransactionalMailTestController
 
         $mailable = $template->getMailable();
 
-        cache()->put('mailcoach-test-transactional-template-email-addresses', $request->emails, (int)CarbonInterval::month()->totalSeconds);
+        cache()->put('mailcoach-test-transactional-template-email-addresses', $request->emails, (int) CarbonInterval::month()->totalSeconds);
 
         Mail::to($request->sanitizedEmails())->send($mailable);
 

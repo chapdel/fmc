@@ -23,10 +23,13 @@ abstract class DataTable extends Component
     public string $sort = 'name';
 
     protected string $defaultSort;
+
     protected array $allowedFilters = [];
 
     abstract public function getTitle(): string;
+
     abstract public function getView(): string;
+
     abstract public function getData(Request $request): array;
 
     public function getLayout(): string
@@ -64,7 +67,7 @@ abstract class DataTable extends Component
         }
 
         if ($this->sort === $sort) {
-            return $this->sort = "-" . $sort;
+            return $this->sort = '-'.$sort;
         }
 
         $this->sort = $sort;

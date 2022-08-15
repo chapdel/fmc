@@ -34,13 +34,13 @@ it('can duplicate a campaign', function () {
     );
 
     foreach ([
-         'subject',
-         'email_list_id',
-         'html',
-         'webview_html',
-         'segment_class',
-         'segment_id',
-     ] as $attribute) {
+        'subject',
+        'email_list_id',
+        'html',
+        'webview_html',
+        'segment_class',
+        'segment_id',
+    ] as $attribute) {
         test()->assertEquals($duplicatedCampaign->$attribute, $this->campaign->$attribute);
     }
 });

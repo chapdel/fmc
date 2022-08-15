@@ -14,7 +14,9 @@ class AuthenticationStepComponent extends StepComponent
     use UsesMailer;
 
     public string $apiKey = '';
+
     public string $domain = '';
+
     public string $baseUrl = '';
 
     public $rules = [

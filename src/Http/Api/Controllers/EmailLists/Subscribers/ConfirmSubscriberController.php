@@ -20,7 +20,7 @@ class ConfirmSubscriberController
         Subscriber $subscriber,
         ConfirmSubscriberAction $confirmSubscriberAction
     ) {
-        $this->authorize("update", $subscriber->emailList);
+        $this->authorize('update', $subscriber->emailList);
 
         $this->ensureUnconfirmedSubscriber($subscriber);
 

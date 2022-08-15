@@ -68,9 +68,7 @@ it('can send a automation mail with the mailer from the config', function () {
     Event::fake();
     Mail::fake();
 
-
     config()->set('mailcoach.automation.mailer', 'config-mailer');
-
 
     dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->actionSubscriber));
 
@@ -219,7 +217,7 @@ test('custom mailable sends', function () {
     $messages = app(MailManager::class)->mailer('array')->getSymfonyTransport()->messages();
 
     test()->assertTrue($messages->filter(function (SentMessage $message) {
-        return $message->getOriginalMessage()->getSubject() === "This is the subject from the custom mailable.";
+        return $message->getOriginalMessage()->getSubject() === 'This is the subject from the custom mailable.';
     })->count() > 0);
 });
 
@@ -237,7 +235,7 @@ test('custom mailable subject overrides automation mail subject', function () {
     $messages = app(MailManager::class)->mailer('array')->getSymfonyTransport()->messages();
 
     $this->assertTrue($messages->filter(function (SentMessage $message) {
-        return $message->getOriginalMessage()->getSubject() === "This is the subject from the custom mailable.";
+        return $message->getOriginalMessage()->getSubject() === 'This is the subject from the custom mailable.';
     })->count() > 0);
 });
 
@@ -258,7 +256,7 @@ test('custom replacers work with automation mail subject', function () {
     $messages = app(MailManager::class)->mailer('array')->getSymfonyTransport()->messages();
 
     $this->assertTrue($messages->filter(function (SentMessage $message) {
-        return $message->getOriginalMessage()->getSubject() === "The custom replacer works";
+        return $message->getOriginalMessage()->getSubject() === 'The custom replacer works';
     })->count() > 0);
 });
 
@@ -275,7 +273,7 @@ test('custom replacers work with subject from custom mailable', function () {
     $messages = app(MailManager::class)->mailer('array')->getSymfonyTransport()->messages();
 
     test()->assertTrue($messages->filter(function (SentMessage $message) {
-        return $message->getOriginalMessage()->getSubject() === "Custom Subject: The custom replacer works";
+        return $message->getOriginalMessage()->getSubject() === 'Custom Subject: The custom replacer works';
     })->count() > 0);
 });
 

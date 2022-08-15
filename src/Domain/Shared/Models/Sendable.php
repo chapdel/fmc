@@ -153,7 +153,6 @@ abstract class Sendable extends Model implements HasHtmlContent
             return;
         }
 
-
         $mailable = $this->getMailable()->setSendable($this);
         $mailable->build();
 

@@ -11,6 +11,7 @@ class CreateMailer extends Component
     use UsesMailcoachModels;
 
     public string $name = '';
+
     public string $transport = '';
 
     public function mount()

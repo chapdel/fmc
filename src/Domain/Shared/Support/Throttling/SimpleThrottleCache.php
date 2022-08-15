@@ -9,6 +9,7 @@ use Illuminate\Contracts\Cache\Repository;
 class SimpleThrottleCache
 {
     protected string $currentPeriodHitCountKey = 'simpleThrottle.currentPeriodHitCount';
+
     protected string $currentPeriodEndsAtKey = 'simpleThrottle.currentPeriodEndsAt';
 
     public function __construct(protected Repository $cache)
@@ -26,7 +27,7 @@ class SimpleThrottleCache
 
     public function currentPeriodHitCount(): int
     {
-        return $this->cache->get($this->currentPeriodHitCountKey) ?? 0 ;
+        return $this->cache->get($this->currentPeriodHitCountKey) ?? 0;
     }
 
     public function setCurrentPeriodHitCount(int $hitCount): int

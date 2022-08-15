@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
 use Illuminate\Support\Str;
@@ -24,7 +23,7 @@ class AllowDuplicateSendAutomationMailToSubscriberAction extends SendAutomationM
     {
         return $automationMail->sends()->create([
             'subscriber_id' => $actionSubscriber->subscriber_id,
-            'uuid' => (string)Str::uuid(),
+            'uuid' => (string) Str::uuid(),
         ]);
     }
 }

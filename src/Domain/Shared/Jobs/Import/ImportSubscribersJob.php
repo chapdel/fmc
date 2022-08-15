@@ -29,9 +29,9 @@ class ImportSubscribersJob extends ImportJob
         $total = $this->getMeta('subscribers_count', 0);
         $index = 0;
         foreach ($files as $file) {
-            $this->tmpDisk->put('tmp/' . $file, $this->importDisk->get($file));
+            $this->tmpDisk->put('tmp/'.$file, $this->importDisk->get($file));
 
-            $reader = SimpleExcelReader::create($this->tmpDisk->path('tmp/' . $file));
+            $reader = SimpleExcelReader::create($this->tmpDisk->path('tmp/'.$file));
 
             $reader->getRows()->chunk(1000)->each(function (LazyCollection $subscribers) use ($emailLists, $total, &$index) {
                 $chunkCount = $subscribers->count();
@@ -48,7 +48,7 @@ class ImportSubscribersJob extends ImportJob
                 $this->updateJobProgress($index, $total);
             });
 
-            $this->tmpDisk->delete('tmp/' . $file);
+            $this->tmpDisk->delete('tmp/'.$file);
         }
     }
 }

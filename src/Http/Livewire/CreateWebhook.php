@@ -11,6 +11,7 @@ class CreateWebhook extends Component
     use UsesMailcoachModels;
 
     public string $name = '';
+
     public string $url = '';
 
     public function saveWebhook()

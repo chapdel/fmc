@@ -42,7 +42,7 @@ class TemplateRenderer
             }
 
             $html = str_replace(
-                '[[[' . $placeHolderName . ']]]',
+                '[[['.$placeHolderName.']]]',
                 $value,
                 $html,
             );

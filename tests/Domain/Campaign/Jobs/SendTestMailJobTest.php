@@ -22,7 +22,7 @@ it('can send a test email', function () {
 
     dispatch(new SendCampaignTestJob($campaign, $email));
 
-    Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) use ($email, $campaign) {
+    Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) use ($email) {
         expect($mail->subject)->toEqual('[Test] my subject');
         expect($mail->mailer)->toEqual('some-mailer');
 
@@ -56,7 +56,7 @@ it('can send a test email using a custom mailable', function () {
 
     $messages = app(MailManager::class)->mailer('array')->getSymfonyTransport()->messages();
 
-    test()->assertTrue($messages->filter(function (\Symfony\Component\Mailer\SentMessage $message) {
-        return $message->getOriginalMessage()->getSubject() === "[Test] This is the subject from the custom mailable.";
+    test()->assertTrue($messages->filter(function (Symfony\Component\Mailer\SentMessage $message) {
+        return $message->getOriginalMessage()->getSubject() === '[Test] This is the subject from the custom mailable.';
     })->count() > 0);
 });

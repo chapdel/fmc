@@ -16,7 +16,7 @@ class Campaigns extends DataTable
 
     public function mount()
     {
-        $this->authorize("viewAny", static::getCampaignClass());
+        $this->authorize('viewAny', static::getCampaignClass());
     }
 
     public function duplicateCampaign(int $id)
@@ -27,7 +27,7 @@ class Campaigns extends DataTable
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $duplicateCampaign */
         $duplicateCampaign = self::getCampaignClass()::create([
-            'name' => __('mailcoach - Duplicate of') . ' ' . $campaign->name,
+            'name' => __('mailcoach - Duplicate of').' '.$campaign->name,
             'subject' => $campaign->subject,
             'email_list_id' => $campaign->email_list_id,
             'html' => $campaign->html,

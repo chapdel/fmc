@@ -300,7 +300,7 @@ test('regular placeholders in the subject will be replaced', function () {
     runAction($campaign);
 
     Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) {
-        expect($mail->subject)->toEqual("This is a mail sent to my list");
+        expect($mail->subject)->toEqual('This is a mail sent to my list');
 
         return true;
     });
@@ -314,11 +314,9 @@ test('personalized placeholders in the subject will be replaced', function () {
             'subject' => 'This is a mail sent to ::subscriber.email::',
         ]);
 
-
     $subscriber = Subscriber::createWithEmail('john@example.com')
         ->skipConfirmation()
         ->subscribeTo($campaign->emailList);
-
 
     $campaign->send();
     runAction($campaign);
@@ -344,7 +342,7 @@ test('custom mailable sends', function () {
     $messages = app(MailManager::class)->mailer('array')->getSymfonyTransport()->messages();
 
     $this->assertTrue($messages->filter(function (SentMessage $message) {
-        return $message->getOriginalMessage()->getSubject() === "This is the subject from the custom mailable.";
+        return $message->getOriginalMessage()->getSubject() === 'This is the subject from the custom mailable.';
     })->count() > 0);
 });
 
@@ -364,7 +362,7 @@ test('custom mailable subject overrides campaign subject', function () {
     $messages = app(MailManager::class)->mailer('array')->getSymfonyTransport()->messages();
 
     $this->assertTrue($messages->filter(function (SentMessage $message) {
-        return $message->getOriginalMessage()->getSubject() === "This is the subject from the custom mailable.";
+        return $message->getOriginalMessage()->getSubject() === 'This is the subject from the custom mailable.';
     })->count() > 0);
 });
 
@@ -390,7 +388,7 @@ test('custom replacers work with campaign subject', function () {
     $messages = app(MailManager::class)->mailer('array')->getSymfonyTransport()->messages();
 
     test()->assertTrue($messages->filter(function (SentMessage $message) {
-        return $message->getOriginalMessage()->getSubject() === "The custom replacer works";
+        return $message->getOriginalMessage()->getSubject() === 'The custom replacer works';
     })->count() > 0);
 });
 
@@ -413,7 +411,7 @@ test('custom replacers work with subject from custom mailable', function () {
     $messages = app(MailManager::class)->mailer('array')->getSymfonyTransport()->messages();
 
     test()->assertTrue($messages->filter(function (SentMessage $message) {
-        return $message->getOriginalMessage()->getSubject() === "Custom Subject: The custom replacer works";
+        return $message->getOriginalMessage()->getSubject() === 'Custom Subject: The custom replacer works';
     })->count() > 0);
 });
 

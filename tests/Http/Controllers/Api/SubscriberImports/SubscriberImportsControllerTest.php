@@ -37,7 +37,7 @@ it('can show a subscriber import', function () {
 
 it('can create a subscriber import', function () {
     $payload = [
-        'subscribers_csv' => 'email' .PHP_EOL . 'john@example.com',
+        'subscribers_csv' => 'email'.PHP_EOL.'john@example.com',
         'email_list_id' => test()->emailList->id,
     ];
 
@@ -56,7 +56,7 @@ it('can update a subscriber import', function () {
     ]);
 
     $payload = [
-        'subscribers_csv' => 'email' .PHP_EOL . 'john@example.com',
+        'subscribers_csv' => 'email'.PHP_EOL.'john@example.com',
         'email_list_id' => test()->emailList->id,
     ];
 

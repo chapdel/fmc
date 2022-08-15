@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
@@ -17,6 +16,6 @@ class CustomAutomationMailReplacer implements AutomationMailReplacer
 
     public function replace(string $text, AutomationMail $automationMail): string
     {
-        return str_ireplace('::customreplacer::', "The custom replacer works", $text);
+        return str_ireplace('::customreplacer::', 'The custom replacer works', $text);
     }
 }

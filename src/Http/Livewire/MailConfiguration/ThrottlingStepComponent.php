@@ -12,6 +12,7 @@ class ThrottlingStepComponent extends StepComponent
     use UsesMailer;
 
     public int $timespanInSeconds = 1;
+
     public int $mailsPerTimeSpan = 10;
 
     public array $rules = [

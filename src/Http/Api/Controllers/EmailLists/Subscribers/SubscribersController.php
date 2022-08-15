@@ -24,12 +24,12 @@ class SubscribersController
 
     public function index(EmailList $emailList, Request $request)
     {
-        $this->authorize("view", $emailList);
+        $this->authorize('view', $emailList);
 
         $subscribers = new EmailListSubscribersQuery($emailList);
         $subscribers->addSelect(
-            self::getSubscriberTableName() . '.*',
-            DB::raw('"' . $emailList->uuid . '" as email_list_uuid'),
+            self::getSubscriberTableName().'.*',
+            DB::raw('"'.$emailList->uuid.'" as email_list_uuid'),
         );
 
         if ($request->has('filter.email') && config('mailcoach.encryption.enabled')) {
@@ -49,14 +49,14 @@ class SubscribersController
 
     public function show(Subscriber $subscriber)
     {
-        $this->authorize("view", $subscriber->emailList);
+        $this->authorize('view', $subscriber->emailList);
 
         return new SubscriberResource($subscriber);
     }
 
     public function store(StoreSubscriberRequest $request, EmailList $emailList)
     {
-        $this->authorize("update", $emailList);
+        $this->authorize('update', $emailList);
 
         /** @var \Spatie\Mailcoach\Domain\Audience\Support\PendingSubscriber $pendingSubscriber */
         $pendingSubscriber = $this
@@ -78,7 +78,7 @@ class SubscribersController
 
     public function destroy(Subscriber $subscriber)
     {
-        $this->authorize("update", $subscriber->emailList);
+        $this->authorize('update', $subscriber->emailList);
 
         $subscriber->delete();
 
@@ -87,7 +87,7 @@ class SubscribersController
 
     public function update(Subscriber $subscriber, UpdateSubscriberRequest $request, UpdateSubscriberAction $updateSubscriberAction)
     {
-        $this->authorize("update", $subscriber->emailList);
+        $this->authorize('update', $subscriber->emailList);
 
         if ($request->append_tags) {
             $updateSubscriberAction->appendTags();

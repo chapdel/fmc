@@ -24,7 +24,7 @@ it('can show all transactional mails', function () {
 
 it('can search mails with a certain subject', function () {
     $transactionalMails = $this
-                ->get(action(TransactionalMailsController::class). '?filter[search]=ba')
+                ->get(action(TransactionalMailsController::class).'?filter[search]=ba')
                 ->assertSuccessful()
                 ->json('data');
 

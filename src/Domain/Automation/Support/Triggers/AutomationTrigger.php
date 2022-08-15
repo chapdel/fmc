@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Spatie\Mailcoach\Domain\Automation\Support\Triggers;
 
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;

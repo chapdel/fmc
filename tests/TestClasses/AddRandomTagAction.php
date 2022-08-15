@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
 use Illuminate\Support\Str;

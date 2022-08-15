@@ -81,7 +81,6 @@ it('can segment on subscribers not having a tag', function () {
         ->getSubscribersQuery()
         ->get());
 
-
     assertArrayContainsSubscribers([
         $subscriberWithoutTag,
         $subscriberWithTagA,
@@ -101,7 +100,6 @@ it('can segment on subscribers not having multiple tags', function () {
         ->syncNegativeTags(['tagA', 'tagB'])
         ->getSubscribersQuery()
         ->get());
-
 
     assertArrayContainsSubscribers([
         $subscriberWithoutTag,
@@ -141,7 +139,7 @@ it('can segment on positive and negative segments in one go', function () {
         'email_list_id' => test()->emailList->id,
     ])
         ->syncPositiveTags(['tagA', 'tagB'])
-        ->syncNegativeTags([ 'tagC'])
+        ->syncNegativeTags(['tagC'])
         ->getSubscribersQuery()
         ->get());
 
@@ -165,7 +163,7 @@ it('can segment on positive and negative segments all required in one go', funct
         'all_negative_tags_required' => true,
     ])
         ->syncPositiveTags(['tagA', 'tagB'])
-        ->syncNegativeTags([ 'tagC', 'tagD'])
+        ->syncNegativeTags(['tagC', 'tagD'])
         ->getSubscribersQuery()
         ->get());
 

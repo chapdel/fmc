@@ -29,9 +29,9 @@ class ImportSubscriberTagsJob extends ImportJob
         $index = 0;
 
         foreach ($files as $file) {
-            $this->tmpDisk->put('tmp/' . $file, $this->importDisk->get($file));
+            $this->tmpDisk->put('tmp/'.$file, $this->importDisk->get($file));
 
-            SimpleExcelReader::create($this->tmpDisk->path('tmp/' . $file))
+            SimpleExcelReader::create($this->tmpDisk->path('tmp/'.$file))
                 ->getRows()
                 ->chunk(5_000)
                 ->each(function (LazyCollection $subscriberTags) use ($emailLists, $total, &$index) {
@@ -75,7 +75,7 @@ class ImportSubscriberTagsJob extends ImportJob
                     $this->updateJobProgress($index, $total);
                 });
 
-            $this->tmpDisk->delete('tmp/' . $file);
+            $this->tmpDisk->delete('tmp/'.$file);
         }
     }
 }

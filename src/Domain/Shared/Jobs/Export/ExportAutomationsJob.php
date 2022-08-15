@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\DB;
 class ExportAutomationsJob extends ExportJob
 {
     /**
-     * @param string $path
-     * @param array<int> $selectedAutomations
+     * @param  string  $path
+     * @param  array<int>  $selectedAutomations
      */
     public function __construct(protected string $path, protected array $selectedAutomations)
     {
@@ -54,16 +54,16 @@ class ExportAutomationsJob extends ExportJob
         DB::table(self::getActionSubscriberTableName())
             ->orderBy('id')
             ->select(
-                self::getActionSubscriberTableName() . '.*',
+                self::getActionSubscriberTableName().'.*',
                 DB::raw(self::getSubscriberTableName().'.uuid as subscriber_uuid'),
                 DB::raw(self::getAutomationActionTableName().'.uuid as action_uuid'),
             )
             ->join(self::getSubscriberTableName(), self::getSubscriberTableName().'.id', '=', self::getActionSubscriberTableName().'.subscriber_id')
             ->join(
                 self::getAutomationActionTableName(),
-                self::getAutomationActionTableName() . '.id',
+                self::getAutomationActionTableName().'.id',
                 '=',
-                self::getActionSubscriberTableName() . '.action_id'
+                self::getActionSubscriberTableName().'.action_id'
             )
             ->whereIn('automation_id', $this->selectedAutomations)
             ->chunk(50_000, function (Collection $actionSubscribers, $index) use (&$actionSubscribersCount) {

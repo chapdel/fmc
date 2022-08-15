@@ -14,7 +14,9 @@ class CreateSubscriber extends Component
     use AuthorizesRequests;
 
     public ?string $email = null;
+
     public ?string $first_name = null;
+
     public ?string $last_name = null;
 
     public EmailList $emailList;

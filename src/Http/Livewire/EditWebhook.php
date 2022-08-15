@@ -43,7 +43,7 @@ class EditWebhook extends Component
 
     public function render()
     {
-        return view("mailcoach::app.configuration.webhooks.edit")
+        return view('mailcoach::app.configuration.webhooks.edit')
             ->layout('mailcoach::app.layouts.settings', ['title' => $this->webhook->name]);
     }
 }

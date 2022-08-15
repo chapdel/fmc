@@ -65,10 +65,10 @@ abstract class TestCase extends Orchestra
         TestTime::freeze();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Spatie\\Mailcoach\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
+            fn (string $modelName) => 'Spatie\\Mailcoach\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
 
-        View::addLocation(__DIR__ . '/views');
+        View::addLocation(__DIR__.'/views');
 
         Flash::levels([
             'success' => 'success',
@@ -131,7 +131,7 @@ abstract class TestCase extends Orchestra
             (new CreatePersonalAccessTokensTable())->up();
             */
 
-            $passwordResets = include_once __DIR__ . '/../vendor/laravel/ui/stubs/migrations/2014_10_12_100000_create_password_resets_table.php';
+            $passwordResets = include_once __DIR__.'/../vendor/laravel/ui/stubs/migrations/2014_10_12_100000_create_password_resets_table.php';
             $passwordResets->up();
 
             $this->app[Kernel::class]->setArtisan(null);

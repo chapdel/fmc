@@ -321,15 +321,15 @@ class MailcoachServiceProvider extends PackageServiceProvider
                     $format = number_format(floor($number / 100000) / 10, $decimals);
                     $suffix = 'M';
                 } else {
-                    return "🤯";
+                    return '🤯';
                 }
 
                 if ($decimals > 0) {
-                    $dotzero = '.' . str_repeat('0', $decimals);
+                    $dotzero = '.'.str_repeat('0', $decimals);
                     $format = str_replace($dotzero, '', $format);
                 }
 
-                return $format . $suffix;
+                return $format.$suffix;
             });
         }
 
@@ -378,30 +378,28 @@ class MailcoachServiceProvider extends PackageServiceProvider
                 Route::postmarkFeedback('postmark-feedback');
             }
 
-            Route::get($url, '\\' . HomeController::class)->name('mailcoach.home');
+            Route::get($url, '\\'.HomeController::class)->name('mailcoach.home');
 
             Route::prefix($url)->group(function () {
                 Route::prefix('')
                     ->middleware('web')
                     ->group(function () {
-                        require(__DIR__ . '/../routes/auth.php');
+                        require __DIR__.'/../routes/auth.php';
                     });
 
-                Route::prefix('')->group(__DIR__ . '/../routes/mailcoach-public-api.php');
+                Route::prefix('')->group(__DIR__.'/../routes/mailcoach-public-api.php');
 
                 Route::prefix('')
                     ->middleware(config('mailcoach.middleware')['web'])
-                    ->group(__DIR__ . '/../routes/mailcoach-ui.php');
+                    ->group(__DIR__.'/../routes/mailcoach-ui.php');
 
                 Route::prefix('api')
                     ->middleware(config('mailcoach.middleware')['api'])
-                    ->group(__DIR__ . '/../routes/mailcoach-api.php');
+                    ->group(__DIR__.'/../routes/mailcoach-api.php');
             });
 
             Route::mailcoachEditor('mailcoachEditor');
         });
-
-
 
         return $this;
     }
@@ -412,7 +410,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         View::composer('mailcoach::app.layouts.partials.health', HealthViewComposer::class);
         View::composer('mailcoach::app.layouts.partials.health-tiles', HealthViewComposer::class);
 
-        if (config("mailcoach.views.use_blade_components", true)) {
+        if (config('mailcoach.views.use_blade_components', true)) {
             $this->bootBladeComponents();
         }
 
@@ -423,7 +421,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootTranslations(): self
     {
-        $this->loadJSONTranslationsFrom(__DIR__ . '/../resources/lang/');
+        $this->loadJSONTranslationsFrom(__DIR__.'/../resources/lang/');
 
         return $this;
     }
@@ -668,7 +666,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
         return $this;
     }
-
 
     protected function registerApiGuard(): self
     {

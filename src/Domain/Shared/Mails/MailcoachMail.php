@@ -162,7 +162,7 @@ class MailcoachMail extends Mailable
                 ->getHeaders()
                 ->addTextHeader(
                     'List-Unsubscribe',
-                    '<' . $this->send->subscriber->unsubscribeUrl($this->send) . '>'
+                    '<'.$this->send->subscriber->unsubscribeUrl($this->send).'>'
                 );
 
             $message

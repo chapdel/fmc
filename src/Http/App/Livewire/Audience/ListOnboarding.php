@@ -16,6 +16,7 @@ class ListOnboarding extends Component
     use LivewireFlash;
 
     public const CONFIRMATION_MAIL_DEFAULT = 'send_default_confirmation_mail';
+
     public const CONFIRMATION_MAIL_CUSTOM = 'send_custom_confirmation_mail';
 
     public EmailList $emailList;
@@ -44,7 +45,7 @@ class ListOnboarding extends Component
             'confirmation_mail' => Rule::in([static::CONFIRMATION_MAIL_DEFAULT, static::CONFIRMATION_MAIL_CUSTOM]),
             'emailList.confirmation_mail_id' => [
                 'nullable',
-                'required_if:confirmation_mail,'. static::CONFIRMATION_MAIL_CUSTOM,
+                'required_if:confirmation_mail,'.static::CONFIRMATION_MAIL_CUSTOM,
                 Rule::exists(self::getTransactionalMailTemplateTableName(), 'id'),
             ],
         ];

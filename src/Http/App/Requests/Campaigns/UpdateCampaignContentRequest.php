@@ -23,7 +23,7 @@ class UpdateCampaignContentRequest extends FormRequest
 
     public function templateField(mixed $placeHolderName): string
     {
-        $formFieldName = 'field_' . $placeHolderName;
+        $formFieldName = 'field_'.$placeHolderName;
 
         return $this->$formFieldName ?? '';
     }

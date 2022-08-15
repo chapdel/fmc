@@ -25,7 +25,7 @@ class UnsubscribeUrlReplacer implements PersonalizedReplacer
         $text = str_ireplace('::preferencesUrl::', $preferencesUrl, $text);
         $text = str_ireplace(urlencode('::preferencesUrl::'), $preferencesUrl, $text);
 
-        $pattern = <<<REGEXP
+        $pattern = <<<'REGEXP'
             /
             (?:::|%3A%3A)                   # "::" or urlencoded "%3A%3A"
             unsubscribeTag(?:::|%3A%3A)     # "unsubscribeTag::" or urlencoded "unsubscribeTag%3A%3A"

@@ -23,13 +23,18 @@ class ListSummary extends Component
 
     // Filters
     protected $queryString = ['start', 'end'];
+
     public ?string $start = null;
+
     public ?string $end = null;
 
     // Counts
     public int $totalSubscriptionsCount;
+
     public int $totalUnsubscribeCount;
+
     public int $startSubscriptionsCount;
+
     public int $startUnsubscribeCount;
 
     // Chart
@@ -97,7 +102,7 @@ class ListSummary extends Component
     protected function createStats(): Collection
     {
         $prefix = DB::getTablePrefix();
-        $subscriberTable = $prefix . $this->getSubscriberTableName() . (DB::connection() instanceof MySqlConnection ? ' USE INDEX (email_list_subscribed_index)' : '');
+        $subscriberTable = $prefix.$this->getSubscriberTableName().(DB::connection() instanceof MySqlConnection ? ' USE INDEX (email_list_subscribed_index)' : '');
 
         $start = Date::parse($this->start);
         $end = Date::parse($this->end);
@@ -155,7 +160,7 @@ class ListSummary extends Component
             'subscribers' => $this->startSubscriptionsCount,
         ];
 
-        return collect(CarbonPeriod::create($start, '1 ' . $interval, $end))->map(function (CarbonInterface $day) use ($interval, $subscribers, &$lastStats) {
+        return collect(CarbonPeriod::create($start, '1 '.$interval, $end))->map(function (CarbonInterface $day) use ($interval, $subscribers, &$lastStats) {
             $label = match ($interval) {
                 'hour' => $day->startOf($interval)->format('y M d H:i'),
                 'day' => $day->startOf($interval)->format('y M d'),

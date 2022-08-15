@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class SubscriberFactory extends Factory
@@ -20,7 +19,7 @@ class SubscriberFactory extends Factory
     {
         return $this->state(
             fn (array $attributes) => [
-                'subscribed_at' => null
+                'subscribed_at' => null,
             ]
         );
     }

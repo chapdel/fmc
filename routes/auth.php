@@ -1,10 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use Spatie\Mailcoach\Http\Auth\Controllers\ForgotPasswordController;
 use Spatie\Mailcoach\Http\Auth\Controllers\LoginController;
 use Spatie\Mailcoach\Http\Auth\Controllers\ResetPasswordController;
 use Spatie\Mailcoach\Http\Auth\Controllers\WelcomeController;
-use Illuminate\Support\Facades\Route;
 use Spatie\WelcomeNotification\WelcomesNewUsers;
 
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('mailcoach.login');

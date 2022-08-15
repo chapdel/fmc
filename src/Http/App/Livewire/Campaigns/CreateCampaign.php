@@ -51,7 +51,7 @@ class CreateCampaign extends Component
     {
         $campaignClass = self::getCampaignClass();
 
-        $this->authorize("create", $campaignClass);
+        $this->authorize('create', $campaignClass);
 
         $campaign = new $campaignClass;
 

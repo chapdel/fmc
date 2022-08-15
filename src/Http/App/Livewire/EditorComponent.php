@@ -22,9 +22,11 @@ abstract class EditorComponent extends Component
     public HasHtmlContent $model;
 
     public int|string|null $templateId = null;
+
     public ?Template $template = null;
 
     public array $templateFieldValues = [];
+
     public string $fullHtml = '';
 
     public string $emails = '';

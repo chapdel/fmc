@@ -58,26 +58,26 @@ it('updates actions when the default builder is updated', function () {
         'name' => 'default',
         'actions' => [
             [
-                "uuid" => "486b38a0-1421-43c9-ab3f-debd0e959650",
-                "class" => WaitAction::class,
-                "data" => [
-                  "length" => "1",
-                  "unit" => "days",
+                'uuid' => '486b38a0-1421-43c9-ab3f-debd0e959650',
+                'class' => WaitAction::class,
+                'data' => [
+                    'length' => '1',
+                    'unit' => 'days',
                 ],
-                "active" => 0,
-                "completed" => 0,
+                'active' => 0,
+                'completed' => 0,
             ],
         ],
     ])->assertViewHas('actions', [
         [
-            "uuid" => "486b38a0-1421-43c9-ab3f-debd0e959650",
-            "class" => WaitAction::class,
-            "data" => [
-                "length" => "1",
-                "unit" => "days",
+            'uuid' => '486b38a0-1421-43c9-ab3f-debd0e959650',
+            'class' => WaitAction::class,
+            'data' => [
+                'length' => '1',
+                'unit' => 'days',
             ],
-            "active" => 0,
-            "completed" => 0,
+            'active' => 0,
+            'completed' => 0,
         ],
     ]);
 });

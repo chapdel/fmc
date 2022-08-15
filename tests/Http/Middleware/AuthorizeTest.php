@@ -1,7 +1,7 @@
 <?php
 
-use \Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Auth\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Spatie\Mailcoach\Http\App\Middleware\Authorize;
 

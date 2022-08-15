@@ -206,10 +206,10 @@ function uploadStub(string $stubName, array $parameters = [], string $asFilename
 
 function getStubPath(string $name): string
 {
-    return __DIR__ . '/stubs/' . $name;
+    return __DIR__.'/stubs/'.$name;
 }
 
 function getTempPath(string $name): string
 {
-    return __DIR__ . '/temp/' . $name;
+    return __DIR__.'/temp/'.$name;
 }

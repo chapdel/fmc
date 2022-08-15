@@ -30,7 +30,6 @@ it('will fire an event when a link gets clicked', function () {
     Event::assertDispatched(CampaignLinkClickedEvent::class, function (CampaignLinkClickedEvent $event) use ($send) {
         expect($event->campaignClick->send->uuid)->toEqual($send->uuid);
 
-
         return true;
     });
 });

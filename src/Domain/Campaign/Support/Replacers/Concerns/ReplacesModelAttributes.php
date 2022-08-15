@@ -9,7 +9,7 @@ trait ReplacesModelAttributes
 {
     public function replaceModelAttributes(string $text, string $replaceText, Model $model)
     {
-        return preg_replace_callback('/(::|%3A%3A)' . $replaceText . '\.([\w.]+)(::|%3A%3A)/', function (array $match) use ($model) {
+        return preg_replace_callback('/(::|%3A%3A)'.$replaceText.'\.([\w.]+)(::|%3A%3A)/', function (array $match) use ($model) {
             $parts = collect(explode('.', $match[2] ?? ''));
 
             $replace = $parts->reduce(function ($value, $part) {

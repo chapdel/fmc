@@ -13,7 +13,7 @@ class AutomationMailContentController
     {
         $this->authorize('update', $automationMail);
 
-        return view("mailcoach::app.automations.mails.content", [
+        return view('mailcoach::app.automations.mails.content', [
             'mail' => $automationMail,
         ]);
     }

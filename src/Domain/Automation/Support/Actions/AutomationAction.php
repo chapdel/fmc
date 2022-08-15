@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
 
 use Illuminate\Database\Eloquent\Relations\Relation;

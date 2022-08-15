@@ -27,7 +27,7 @@ trait SendsToSegment
     }
 
     /**
-     * @param \Spatie\Mailcoach\Domain\Audience\Support\Segments\Segment|string $segmentClassOrObject
+     * @param  \Spatie\Mailcoach\Domain\Audience\Support\Segments\Segment|string  $segmentClassOrObject
      */
     public function segment($segmentClassOrObject): self
     {

@@ -55,7 +55,7 @@ class EmailList extends Model
 
         $prefix = DB::getTablePrefix();
 
-        $query = $query->from(DB::raw($prefix . $query->getQuery()->from . ' USE INDEX (email_list_subscribed_index)'));
+        $query = $query->from(DB::raw($prefix.$query->getQuery()->from.' USE INDEX (email_list_subscribed_index)'));
 
         return $this->newHasMany(
             $query,
@@ -115,9 +115,9 @@ class EmailList extends Model
         $this->attributes['allowed_form_extra_attributes'] = array_map('trim', explode(',', $value));
     }
 
-    public function allowedFormExtraAttributes() : array
+    public function allowedFormExtraAttributes(): array
     {
-        return explode(",", $this->allowed_form_extra_attributes);
+        return explode(',', $this->allowed_form_extra_attributes);
     }
 
     public function subscribe(string $email, array $attributes = []): Subscriber

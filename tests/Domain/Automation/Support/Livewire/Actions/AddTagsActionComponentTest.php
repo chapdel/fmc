@@ -18,7 +18,7 @@ it('requires tags', function () {
     ])->set('tags', '')
       ->call('save')
       ->assertHasErrors([
-        'tags' => ['required'],
+          'tags' => ['required'],
       ]);
 });
 
@@ -28,7 +28,7 @@ it('emits correct data', function () {
     Livewire::test(AddTagsActionComponent::class, [
         'action' => test()->action,
         'uuid' => $uuid,
-    ])  ->set('tags', 'some,tags')
+    ])->set('tags', 'some,tags')
         ->call('save')
         ->assertHasNoErrors()
         ->assertEmitted('actionSaved', $uuid, [

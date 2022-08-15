@@ -68,7 +68,7 @@ class SendAutomationMailToSubscriberAction
 
         return $automationMail->sends()->create([
             'subscriber_id' => $actionSubscriber->subscriber->id,
-            'uuid' => (string)Str::uuid(),
+            'uuid' => (string) Str::uuid(),
         ]);
     }
 }

@@ -12,7 +12,7 @@ beforeEach(function () {
 
     test()->subscriberImport = SubscriberImport::factory()->create([
         'status' => SubscriberImportStatus::Draft,
-        'subscribers_csv' => 'email' . PHP_EOL . 'john@example.com',
+        'subscribers_csv' => 'email'.PHP_EOL.'john@example.com',
     ]);
 });
 

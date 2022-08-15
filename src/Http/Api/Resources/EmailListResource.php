@@ -12,8 +12,8 @@ class EmailListResource extends JsonResource
             'id' => $this->id,
             'uuid' => $this->uuid,
             'name' => $this->name,
-            'active_subscribers_count' => (int)$this->active_subscribers_count,
-            'campaigns_feed_enabled' => (bool)$this->campaigns_feed_enabled,
+            'active_subscribers_count' => (int) $this->active_subscribers_count,
+            'campaigns_feed_enabled' => (bool) $this->campaigns_feed_enabled,
 
             'default_from_email' => $this->default_from_email,
             'default_from_name' => $this->default_from_name,
@@ -21,14 +21,14 @@ class EmailListResource extends JsonResource
             'default_reply_to_email' => $this->default_reply_to_email,
             'default_reply_to_name' => $this->default_reply_to_name,
 
-            'allow_form_subscriptions' => (bool)$this->allow_form_subscriptions,
+            'allow_form_subscriptions' => (bool) $this->allow_form_subscriptions,
 
             'redirect_after_subscribed' => $this->redirect_after_subscribed,
             'redirect_after_already_subscribed' => $this->redirect_after_already_subscribed,
             'redirect_after_subscription_pending' => $this->redirect_after_subscription_pending,
             'redirect_after_unsubscribed' => $this->redirect_after_unsubscribed,
 
-            'requires_confirmation' => (bool)$this->requires_confirmation,
+            'requires_confirmation' => (bool) $this->requires_confirmation,
             'confirmation_mail_subject' => $this->confirmation_mail_subject,
             'confirmation_mail_content' => $this->confirmation_mail_content,
             'confirmation_mailable_class' => $this->confirmation_mailable_class,

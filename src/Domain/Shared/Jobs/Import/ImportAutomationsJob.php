@@ -9,6 +9,7 @@ use Spatie\SimpleExcel\SimpleExcelReader;
 class ImportAutomationsJob extends ImportJob
 {
     private int $index = 0;
+
     private int $total = 0;
 
     /** @var array<string, int> */

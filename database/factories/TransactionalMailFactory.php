@@ -5,7 +5,6 @@ namespace Spatie\Mailcoach\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Spatie\LaravelRay\Tests\TestClasses\TestMailable;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 
 class TransactionalMailFactory extends Factory
 {

@@ -19,7 +19,7 @@ it('requires automation mail id', function () {
     ])->set('automation_mail_id', '')
       ->call('save')
       ->assertHasErrors([
-        'automation_mail_id' => ['required'],
+          'automation_mail_id' => ['required'],
       ]);
 });
 
@@ -51,7 +51,7 @@ it('emits correct data', function () {
     Livewire::test(AutomationMailActionComponent::class, [
         'action' => test()->action,
         'uuid' => $uuid,
-    ])  ->set('automation_mail_id', $mail->id)
+    ])->set('automation_mail_id', $mail->id)
         ->call('save')
         ->assertHasNoErrors()
         ->assertEmitted('actionSaved', $uuid, [

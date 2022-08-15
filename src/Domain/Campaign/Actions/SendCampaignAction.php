@@ -90,7 +90,7 @@ class SendCampaignAction
     protected function dispatchCreateSendJobs(
         Builder $subscribersQuery,
         Campaign $campaign,
-        CarbonInterface   $stopExecutingAt = null,
+        CarbonInterface $stopExecutingAt = null,
     ): void {
         $subscribersQuery
             ->withoutSendsForCampaign($campaign)

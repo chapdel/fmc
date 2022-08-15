@@ -29,7 +29,7 @@ it('can search templates', function () {
     ]);
 
     $this
-        ->getJson(action([TemplatesController::class, 'index']) . '?filter[search]=two')
+        ->getJson(action([TemplatesController::class, 'index']).'?filter[search]=two')
         ->assertSuccessful()
         ->assertJsonCount(1, 'data')
         ->assertJsonFragment(['name' => 'two']);

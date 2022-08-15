@@ -16,9 +16,11 @@ class FeedbackStepComponent extends StepComponent
     use UsesMailer;
 
     public string $configurationType = 'automatic';
+
     public string $configurationName = 'mailcoach';
 
     public bool $trackOpens = false;
+
     public bool $trackClicks = false;
 
     public array $rules = [

@@ -129,7 +129,7 @@ it('can get all clicks', function () {
     expect($uniqueClicks)->toHaveCount(2);
 
     test()->assertEquals(
-        ['https://example.com','https://another-domain.com'],
+        ['https://example.com', 'https://another-domain.com'],
         $uniqueClicks->pluck('link.url')->toArray()
     );
 });
@@ -168,7 +168,6 @@ it('can sync preference tags', function () {
 
     expect($subscriber->fresh()->tags->count())->toBe(1);
 });
-
 
 it('can retrieve subscribers by extra attributes', function () {
     Subscriber::factory()->create();

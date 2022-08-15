@@ -17,7 +17,7 @@ class AutomationMails extends DataTable
 
         /** @var AutomationMail $automationMail */
         $automationMail = self::getAutomationMailClass()::create([
-            'name' => __('mailcoach - Duplicate of') . ' ' . $automationMail->name,
+            'name' => __('mailcoach - Duplicate of').' '.$automationMail->name,
             'subject' => $automationMail->subject,
             'html' => $automationMail->html,
             'structured_html' => $automationMail->structured_html,

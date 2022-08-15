@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\DB;
 class ExportSegmentsJob extends ExportJob
 {
     /**
-     * @param string $path
-     * @param array<int> $selectedEmailLists
+     * @param  string  $path
+     * @param  array<int>  $selectedEmailLists
      */
     public function __construct(protected string $path, protected array $selectedEmailLists)
     {
@@ -36,7 +36,7 @@ class ExportSegmentsJob extends ExportJob
                 DB::raw(self::getTagTableName().'.name as tag_name'),
                 DB::raw(self::getEmailListTableName().'.uuid as email_list_uuid'),
             )
-            ->join(self::getTagSegmentTableName(), self::getTagSegmentTableName() . '.id', '=', 'mailcoach_positive_segment_tags.segment_id')
+            ->join(self::getTagSegmentTableName(), self::getTagSegmentTableName().'.id', '=', 'mailcoach_positive_segment_tags.segment_id')
             ->join(self::getTagTableName(), self::getTagTableName().'.id', '=', 'mailcoach_positive_segment_tags.tag_id')
             ->join(self::getEmailListTableName(), self::getEmailListTableName().'.id', '=', self::getTagSegmentTableName().'.email_list_id')
             ->whereIn(self::getTagSegmentTableName().'.email_list_id', $this->selectedEmailLists)
@@ -51,7 +51,7 @@ class ExportSegmentsJob extends ExportJob
                 DB::raw(self::getTagTableName().'.name as tag_name'),
                 DB::raw(self::getEmailListTableName().'.uuid as email_list_uuid'),
             )
-            ->join(self::getTagSegmentTableName(), self::getTagSegmentTableName() . '.id', '=', 'mailcoach_negative_segment_tags.segment_id')
+            ->join(self::getTagSegmentTableName(), self::getTagSegmentTableName().'.id', '=', 'mailcoach_negative_segment_tags.segment_id')
             ->join(self::getTagTableName(), self::getTagTableName().'.id', '=', 'mailcoach_negative_segment_tags.tag_id')
             ->join(self::getEmailListTableName(), self::getEmailListTableName().'.id', '=', self::getTagSegmentTableName().'.email_list_id')
             ->whereIn(self::getTagSegmentTableName().'.email_list_id', $this->selectedEmailLists)

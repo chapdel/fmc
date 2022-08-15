@@ -146,6 +146,6 @@ function assertSubscriberHasTags(array $expectedTagNames)
     test()->assertEquals(
         $actualTags,
         $expectedTagNames,
-        'Subscriber did not have the expected tags. It currently has ' . implode(', ', $actualTags),
+        'Subscriber did not have the expected tags. It currently has '.implode(', ', $actualTags),
     );
 }

@@ -3,12 +3,12 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 
-return new class extends Migration {
+return new class extends Migration
+{
     public function up()
     {
-        if (!Schema::hasTable('users')) {
+        if (! Schema::hasTable('users')) {
             Schema::create('users', function (Blueprint $table) {
                 $table->bigIncrements('id');
                 $table->string('name');
@@ -78,7 +78,7 @@ return new class extends Migration {
             $table->index([
                 'email_list_id',
                 'subscribed_at',
-                'unsubscribed_at'
+                'unsubscribed_at',
             ],
                 'email_list_subscribed_index');
 
@@ -248,7 +248,6 @@ return new class extends Migration {
             $table->timestamp('last_modified_at')->nullable();
             $table->timestamps();
         });
-
 
         Schema::create('mailcoach_sends', function (Blueprint $table) {
             $table->id();

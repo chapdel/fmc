@@ -24,7 +24,7 @@ class TriggerAutomationController
             return $trigger->trigger instanceof WebhookTrigger;
         });
 
-        abort_unless($webhookTriggers->count() > 0, 400, "This automation does not have a Webhook trigger.");
+        abort_unless($webhookTriggers->count() > 0, 400, 'This automation does not have a Webhook trigger.');
 
         $webhookTriggers->each(function (Trigger $trigger) use ($request) {
             $trigger

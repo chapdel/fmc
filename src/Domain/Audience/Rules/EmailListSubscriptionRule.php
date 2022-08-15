@@ -26,6 +26,6 @@ class EmailListSubscriptionRule implements Rule
 
     public function message()
     {
-        return (string)__('mailcoach - This email address is already subscribed.');
+        return (string) __('mailcoach - This email address is already subscribed.');
     }
 }

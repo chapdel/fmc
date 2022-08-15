@@ -11,7 +11,7 @@ class CustomSendAutomationMailAction extends SendAutomationMailAction
     public function run(Subscriber $subscriber, ?ActionSubscriber $actionSubscriber = null): void
     {
         if (isset($actionSubscriber)) {
-            throw new \Exception("ActionSubscriber is set!");
+            throw new \Exception('ActionSubscriber is set!');
         }
 
         parent::run($subscriber);

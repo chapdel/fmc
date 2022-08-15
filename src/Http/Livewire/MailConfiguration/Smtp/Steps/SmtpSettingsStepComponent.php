@@ -12,11 +12,14 @@ class SmtpSettingsStepComponent extends StepComponent
     use UsesMailer;
 
     public string $host = '';
-    public ?int $port;
-    public string $username = '';
-    public string $password = '';
-    public string $encryption = '';
 
+    public ?int $port;
+
+    public string $username = '';
+
+    public string $password = '';
+
+    public string $encryption = '';
 
     public $rules = [
         'host' => 'required',
@@ -66,7 +69,7 @@ class SmtpSettingsStepComponent extends StepComponent
     {
         return view('mailcoach::app.configuration.mailers.wizards.smtp.settings', [
             'encryptionOptions' => $this->encryptionOptions(),
-            ]);
+        ]);
     }
 
     public function encryptionOptions()

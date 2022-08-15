@@ -18,7 +18,6 @@ class MailerConfigKeyNameRule implements Rule
             ->map(fn (Mailer $mailer) => "`{$mailer->config_key_name}`")
             ->join(', ', ' and ');
 
-
         return "You must pass a valid mailer key. Valid values are: {$mailerConfigNames}.";
     }
 }

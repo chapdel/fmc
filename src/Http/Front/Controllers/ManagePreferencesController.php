@@ -13,7 +13,7 @@ class ManagePreferencesController
 
     public function show(string $subscriberUuid, string $sendUuid = null)
     {
-        $updated = cache()->pull('updated-' . $subscriberUuid, false);
+        $updated = cache()->pull('updated-'.$subscriberUuid, false);
 
         /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
         if (! $subscriber = self::getSubscriberClass()::findByUuid($subscriberUuid)) {
@@ -66,7 +66,7 @@ class ManagePreferencesController
 
         $subscriber->syncPreferenceTags(array_keys($request->get('tags', [])));
 
-        cache()->put('updated-' . $subscriberUuid, true);
+        cache()->put('updated-'.$subscriberUuid, true);
 
         return redirect()->back();
     }

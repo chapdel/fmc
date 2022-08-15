@@ -41,8 +41,6 @@ class UpdateEmailListAction
             $emailList->allowedFormSubscriptionTags()->sync($request->allowedFormSubscriptionTags());
         }
 
-
-
         $emailList->save();
 
         return $emailList->refresh();

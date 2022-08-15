@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Spatie\Mailcoach\Tests\Factories;
 
 use Illuminate\Support\Collection;

@@ -330,7 +330,7 @@ class Subscriber extends Model implements CipherSweetEncrypted
             event(new TagRemovedEvent($this, $tag));
         });
 
-        $this->tags()->detach($this->tags()->where('type', $type)->whereNotIn('name', $names)->pluck(self::getTagTableName() . '.id'));
+        $this->tags()->detach($this->tags()->where('type', $type)->whereNotIn('name', $names)->pluck(self::getTagTableName().'.id'));
 
         return $this;
     }
@@ -343,7 +343,7 @@ class Subscriber extends Model implements CipherSweetEncrypted
             event(new TagRemovedEvent($this, $tag));
         });
 
-        $this->tags()->detach($this->tags()->where('type', TagType::Default)->where('visible_in_preferences', true)->whereNotIn('name', $names)->pluck(self::getTagTableName() . '.id'));
+        $this->tags()->detach($this->tags()->where('type', TagType::Default)->where('visible_in_preferences', true)->whereNotIn('name', $names)->pluck(self::getTagTableName().'.id'));
 
         return $this->fresh('tags');
     }
@@ -354,7 +354,7 @@ class Subscriber extends Model implements CipherSweetEncrypted
             'email' => $this->email,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
-            'tags' => $this->tags()->where('type', TagType::DEFAULT)->pluck('name')->implode(";"),
+            'tags' => $this->tags()->where('type', TagType::DEFAULT)->pluck('name')->implode(';'),
         ];
     }
 

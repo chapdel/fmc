@@ -1,6 +1,5 @@
 <?php
 
-
 use Carbon\CarbonInterval;
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;

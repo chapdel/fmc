@@ -17,11 +17,13 @@ class EditorSettings extends Component
     use LivewireFlash;
 
     public string $contentEditor;
+
     public string $templateEditor;
 
     public array $editorSettings = [];
 
     public array $contentEditorOptions = [];
+
     public array $templateEditorOptions = [];
 
     public function mount(EditorConfiguration $editorConfiguration)
@@ -39,9 +41,9 @@ class EditorSettings extends Component
 
         return array_merge(
             [
-            'contentEditor' => ['required','bail',  Rule::in($editorConfigurationDriverRepository->getSupportedEditors()->map->label())],
-            'templateEditor' => ['required','bail',  Rule::in($editorConfigurationDriverRepository->getSupportedEditors()->map->label())],
-        ],
+                'contentEditor' => ['required', 'bail',  Rule::in($editorConfigurationDriverRepository->getSupportedEditors()->map->label())],
+                'templateEditor' => ['required', 'bail',  Rule::in($editorConfigurationDriverRepository->getSupportedEditors()->map->label())],
+            ],
             $this->getEditorSpecificValidationRules('contentEditor', $editorConfigurationDriverRepository),
             $this->getEditorSpecificValidationRules('templateEditor', $editorConfigurationDriverRepository),
         );
@@ -54,7 +56,7 @@ class EditorSettings extends Component
         }
 
         return collect($editor->validationRules())->mapWithKeys(function ($rules, $key) {
-            return ['editorSettings.' . $key => $rules];
+            return ['editorSettings.'.$key => $rules];
         })->toArray();
     }
 

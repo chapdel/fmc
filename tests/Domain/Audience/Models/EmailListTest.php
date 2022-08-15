@@ -152,8 +152,8 @@ it('can reference tags and segments when using a custom model', function () {
     Tag::factory(2)->create(['email_list_id' => test()->emailList->id]);
     TagSegment::create(['name' => 'testSegment', 'email_list_id' => test()->emailList->id]);
 
-    Config::set("mailcoach.models.email_list", CustomEmailList::class);
-    Config::set("mailcoach.models.subscriber", CustomSubscriber::class);
+    Config::set('mailcoach.models.email_list', CustomEmailList::class);
+    Config::set('mailcoach.models.subscriber', CustomSubscriber::class);
 
     $list = CustomEmailList::find(test()->emailList->id);
 

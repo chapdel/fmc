@@ -25,17 +25,27 @@ class Export extends Component
     use UsesMailcoachModels;
 
     public Collection $emailLists;
+
     public Collection $campaigns;
+
     public Collection $templates;
+
     public Collection $automations;
+
     public Collection $automationMails;
+
     public Collection $transactionalMailTemplates;
 
     public array $selectedEmailLists = [];
+
     public array $selectedCampaigns = [];
+
     public array $selectedTemplates = [];
+
     public array $selectedAutomations = [];
+
     public array $selectedAutomationMails = [];
+
     public array $selectedTransactionalMailTemplates = [];
 
     public bool $exportStarted = false;

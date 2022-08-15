@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Spatie\Mailcoach\Domain\TransactionalMail\Support\Replacers;
 
 use Illuminate\Mail\Mailable;

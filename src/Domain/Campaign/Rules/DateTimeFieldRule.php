@@ -13,7 +13,7 @@ class DateTimeFieldRule implements Rule
 
     public function passes($attribute, $value)
     {
-        $this->message = (string)__('mailcoach - Invalid date time provided.');
+        $this->message = (string) __('mailcoach - Invalid date time provided.');
 
         if (! is_array($value)) {
             return false;

@@ -15,7 +15,7 @@ class Templates extends DataTable
         $this->authorize('create', self::getTemplateClass());
 
         $duplicateTemplate = self::getTemplateClass()::create([
-            'name' => __('mailcoach - Duplicate of') . ' ' . $template->name,
+            'name' => __('mailcoach - Duplicate of').' '.$template->name,
             'html' => $template->html,
             'structured_html' => $template->structured_html,
         ]);

@@ -7,9 +7,8 @@ beforeEach(function () {
 });
 
 /**
- *
- * @param string $url
- * @param string $urlWithTags
+ * @param  string  $url
+ * @param  string  $urlWithTags
  */
 it('strips utm tags from an url', function (string $url, string $urlWithoutTags) {
     expect(test()->action->execute($url))->toEqual($urlWithoutTags);

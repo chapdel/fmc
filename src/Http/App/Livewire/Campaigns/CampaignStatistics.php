@@ -66,7 +66,7 @@ class CampaignStatistics extends Component
             ->get();
 
         $clicksPerMinute = DB::table($campaignClickTable)
-            ->join($campaignLinkTable, 'campaign_link_id', '=', $campaignLinkTable . '.id')
+            ->join($campaignLinkTable, 'campaign_link_id', '=', $campaignLinkTable.'.id')
             ->where('campaign_id', $this->campaign->id)
             ->selectRaw("DATE_FORMAT({$campaignClickTable}.created_at, \"%Y-%m-%d %H:%i\") as minute, COUNT(*) as clicks")
             ->groupBy('minute')

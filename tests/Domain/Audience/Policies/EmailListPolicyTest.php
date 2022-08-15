@@ -19,8 +19,8 @@ it('uses default policy', function () {
     $john = (new User())->forceFill(['email' => 'john@example.com']);
 
     expect(Gate::getPolicyFor(test()->emailList))->toBeInstanceOf(EmailListPolicy::class);
-    expect($jane->can("create", EmailList::class))->toBeTrue();
-    expect($john->can("create", EmailList::class))->toBeFalse();
+    expect($jane->can('create', EmailList::class))->toBeTrue();
+    expect($john->can('create', EmailList::class))->toBeFalse();
 });
 
 it('uses custom policy', function () {
@@ -30,8 +30,7 @@ it('uses custom policy', function () {
     app()->bind(EmailListPolicy::class, CustomEmailListDenyAllPolicy::class);
 
     expect(Gate::getPolicyFor(test()->emailList))->toBeInstanceOf(CustomEmailListDenyAllPolicy::class);
-    expect($jane->can("create", EmailList::class))->toBeFalse();
-
+    expect($jane->can('create', EmailList::class))->toBeFalse();
 
     postCreateList($jane);
 })->throws(\Illuminate\Auth\Access\AuthorizationException::class);

@@ -10,7 +10,9 @@ use Throwable;
 class HorizonStatus
 {
     public const STATUS_ACTIVE = 'active';
+
     public const STATUS_INACTIVE = 'inactive';
+
     public const STATUS_PAUSED = 'paused';
 
     public function __construct(

@@ -17,7 +17,7 @@ it('will set transport id', function () {
 
     Mail::to('john@example.com')->send($campaignMailable);
 
-    $domain = '@' . Str::after($campaignMailable->from[0]['address'], '@');
+    $domain = '@'.Str::after($campaignMailable->from[0]['address'], '@');
 
     test()->assertStringEndsWith(
         $domain,
