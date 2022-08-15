@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Domain\Campaign\Actions;
 use Carbon\CarbonInterface;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\SendCampaignTimeLimitApproaching;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailsJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus;
@@ -34,23 +35,32 @@ class SendCampaignMailsAction
         $simpleThrottle = app(SimpleThrottle::class)
             ->forMailer($campaign->getMailerKey());
 
-        $campaign
-            ->sends()
-            ->undispatched()
-            ->lazyById()
-            ->each(function (Send $send) use ($stopExecutingAt, $simpleThrottle) {
+        $undispatchedCount = $campaign->sends()->undispatched()->count();
 
-                // should horizon be used, and it is paused, stop dispatching jobs
-                if (! app(HorizonStatus::class)->is(HorizonStatus::STATUS_PAUSED)) {
-                    $simpleThrottle->hit();
+        while ($undispatchedCount > 0) {
+            $campaign
+                ->sends()
+                ->undispatched()
+                ->lazyById()
+                ->each(function (Send $send) use ($stopExecutingAt, $simpleThrottle) {
+                    // should horizon be used, and it is paused, stop dispatching jobs
+                    if (! app(HorizonStatus::class)->is(HorizonStatus::STATUS_PAUSED)) {
+                        $simpleThrottle->hit();
 
-                    dispatch(new SendCampaignMailJob($send));
+                        dispatch(new SendCampaignMailJob($send));
 
-                    $send->markAsSendingJobDispatched();
-                }
+                        $send->markAsSendingJobDispatched();
+                    }
 
-                $this->haltWhenApproachingTimeLimit($stopExecutingAt);
-            });
+                    $this->haltWhenApproachingTimeLimit($stopExecutingAt);
+                });
+
+            $undispatchedCount = $campaign->sends()->undispatched()->count();
+        }
+
+        if (! $campaign->allSendsCreated()) {
+            return;
+        }
 
         $campaign->markAsAllMailSendingJobsDispatched();
     }
