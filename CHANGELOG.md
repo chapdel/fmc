@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.8.2 - 2022-08-15
+
+- Don't throttle the campaign job when the campaign is cancelled
+- Require 2.2.4 of rate-limited-job-middleware
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.8.1...5.8.2
+
 ## 5.8.1 - 2022-08-13
 
 ### What's Changed
