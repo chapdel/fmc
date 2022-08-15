@@ -65,6 +65,10 @@ class SendCampaignMailJob implements ShouldQueue, ShouldBeUnique
 
     public function middleware(): array
     {
+        if ($this->pendingSend->campaign->isCancelled()) {
+            return [];
+        }
+
         $mailer = $this->pendingSend->campaign->getMailerKey();
 
         $rateLimitedMiddleware = (new RateLimited(useRedis: false))
