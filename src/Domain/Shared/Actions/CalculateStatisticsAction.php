@@ -16,6 +16,22 @@ class CalculateStatisticsAction
 
     public function execute(Sendable $sendable): void
     {
+        $latestEvent = max(
+            $sendable->sends()->latest('id')->first()?->created_at,
+            $sendable->opens()->latest('id')->first()?->created_at,
+            $sendable->clicks()->latest('id')->first()?->created_at,
+        );
+
+        if (! $latestEvent) {
+            $sendable->update(['statistics_calculated_at' => now()]);
+            return;
+        }
+
+        if ($sendable->statistics_calculated_at && $latestEvent < $sendable->statistics_calculated_at) {
+            $sendable->update(['statistics_calculated_at' => now()]);
+            return;
+        }
+
         if ($sendable->sends()->count() > 0) {
             $this
                 ->calculateStatistics($sendable)

@@ -417,15 +417,12 @@ class Campaign extends Sendable implements Feedable
             return;
         }
 
-        $latestEvent = max(
-            $this->sends()->latest('id')->first()?->created_at,
-            $this->opens()->latest('id')->first()?->created_at,
-            $this->clicks()->latest('id')->first()?->created_at,
-        );
-
-        if (! $this->statistics_calculated_at || ($latestEvent && $latestEvent >= $this->statistics_calculated_at)) {
-            dispatch(new CalculateStatisticsJob($this));
+        if ($this->isCancelled()) {
+            $this->update(['statistics_calculated_at' => now()]);
+            return;
         }
+
+        dispatch(new CalculateStatisticsJob($this));
     }
 
     public function toFeedItem(): FeedItem
