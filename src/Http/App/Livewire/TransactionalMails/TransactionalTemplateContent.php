@@ -8,6 +8,7 @@ use Livewire\Component;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
+use Spatie\Mailcoach\MainNavigation;
 use Spatie\ValidationRules\Rules\Delimited;
 
 class TransactionalTemplateContent extends Component
@@ -41,6 +42,8 @@ class TransactionalTemplateContent extends Component
         $this->authorize('update', $transactionalMailTemplate);
 
         $this->template = $transactionalMailTemplate;
+
+        app(MainNavigation::class)->activeSection()?->add($this->template->name, route('mailcoach.transactionalMails.templates'));
     }
 
     public function save()

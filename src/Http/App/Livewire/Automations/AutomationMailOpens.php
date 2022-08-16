@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\AutomationMailOpensQuery;
+use Spatie\Mailcoach\MainNavigation;
 
 class AutomationMailOpens extends DataTable
 {
@@ -16,6 +17,8 @@ class AutomationMailOpens extends DataTable
     public function mount(AutomationMail $automationMail)
     {
         $this->mail = $automationMail;
+
+        app(MainNavigation::class)->activeSection()?->add($this->mail->name, route('mailcoach.automations.mails'));
     }
 
     public function getTitle(): string

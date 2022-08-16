@@ -58,7 +58,7 @@ class CampaignDelivery extends Component
             return [$url => null];
         });
 
-        app(MainNavigation::class)->activeSection()?->add($campaign->name, route('mailcoach.campaigns.delivery', $campaign));
+        app(MainNavigation::class)->activeSection()?->add($campaign->name, route('mailcoach.campaigns'));
     }
 
     public function checkLinks(): void

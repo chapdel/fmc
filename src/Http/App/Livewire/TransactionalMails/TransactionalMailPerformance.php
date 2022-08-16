@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
+use Spatie\Mailcoach\MainNavigation;
 
 class TransactionalMailPerformance extends Component
 {
@@ -17,6 +18,8 @@ class TransactionalMailPerformance extends Component
     public function mount(TransactionalMail $transactionalMail)
     {
         $this->transactionalMail = $transactionalMail;
+
+        app(MainNavigation::class)->activeSection()?->add($this->transactionalMail->subject, route('mailcoach.transactionalMails'));
     }
 
     public function render()

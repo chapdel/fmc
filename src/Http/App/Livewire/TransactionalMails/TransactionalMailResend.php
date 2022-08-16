@@ -7,6 +7,7 @@ use Livewire\Component;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
+use Spatie\Mailcoach\MainNavigation;
 
 class TransactionalMailResend extends Component
 {
@@ -19,6 +20,8 @@ class TransactionalMailResend extends Component
     public function mount(TransactionalMail $transactionalMail)
     {
         $this->transactionalMail = $transactionalMail;
+
+        app(MainNavigation::class)->activeSection()?->add($this->transactionalMail->subject, route('mailcoach.transactionalMails'));
     }
 
     public function resend()

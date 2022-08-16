@@ -14,6 +14,7 @@ use Spatie\Mailcoach\Domain\Audience\Support\Segments\SubscribersWithTagsSegment
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
+use Spatie\Mailcoach\MainNavigation;
 
 class AutomationSettings extends Component
 {
@@ -71,6 +72,8 @@ class AutomationSettings extends Component
         $this->segment = $this->automation->notSegmenting() ? 'entire_list' : 'segment';
 
         $this->selectedTrigger = $this->automation->triggerClass();
+
+        app(MainNavigation::class)->activeSection()?->add($this->automation->name, route('mailcoach.automations'));
     }
 
     public function save(string $formData)

@@ -8,6 +8,7 @@ use Livewire\Component;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
+use Spatie\Mailcoach\MainNavigation;
 
 class RunAutomation extends Component
 {
@@ -31,6 +32,8 @@ class RunAutomation extends Component
         $this->automation = $automation;
 
         $this->authorize('update', $this->automation);
+
+        app(MainNavigation::class)->activeSection()?->add($this->automation->name, route('mailcoach.automations'));
     }
 
     public function pause(): void

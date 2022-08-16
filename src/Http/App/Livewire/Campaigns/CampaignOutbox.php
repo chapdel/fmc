@@ -7,6 +7,7 @@ use Spatie\Mailcoach\Domain\Campaign\Jobs\RetrySendingFailedSendsJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\CampaignSendsQuery;
+use Spatie\Mailcoach\MainNavigation;
 
 class CampaignOutbox extends DataTable
 {
@@ -21,6 +22,8 @@ class CampaignOutbox extends DataTable
     public function mount(Campaign $campaign)
     {
         $this->campaign = $campaign;
+
+        app(MainNavigation::class)->activeSection()?->add($this->campaign->name, route('mailcoach.campaigns'));
     }
 
     public function retryFailedSends()

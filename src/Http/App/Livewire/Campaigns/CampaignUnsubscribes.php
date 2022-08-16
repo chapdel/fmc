@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\CampaignUnsubscribesQuery;
+use Spatie\Mailcoach\MainNavigation;
 
 class CampaignUnsubscribes extends DataTable
 {
@@ -16,6 +17,8 @@ class CampaignUnsubscribes extends DataTable
     public function mount(Campaign $campaign)
     {
         $this->campaign = $campaign;
+
+        app(MainNavigation::class)->activeSection()?->add($this->campaign->name, route('mailcoach.campaigns'));
     }
 
     public function getTitle(): string

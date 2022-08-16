@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\MainNavigation;
 
 class AutomationMailSummary extends Component
 {
@@ -27,6 +28,8 @@ class AutomationMailSummary extends Component
         $this->mail = $automationMail;
 
         $this->authorize('view', $automationMail);
+
+        app(MainNavigation::class)->activeSection()?->add($this->mail->name, route('mailcoach.automations.mails'));
     }
 
     public function render(): View

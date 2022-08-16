@@ -8,6 +8,7 @@ use Livewire\Component;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
+use Spatie\Mailcoach\MainNavigation;
 
 class AutomationMailDelivery extends Component
 {
@@ -22,6 +23,8 @@ class AutomationMailDelivery extends Component
         $this->mail = $automationMail;
 
         $this->authorize('view', $automationMail);
+
+        app(MainNavigation::class)->activeSection()?->add($this->mail->name, route('mailcoach.automations.mails'));
     }
 
     public function render(): View

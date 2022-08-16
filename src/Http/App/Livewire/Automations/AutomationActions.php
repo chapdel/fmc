@@ -8,6 +8,7 @@ use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
+use Spatie\Mailcoach\MainNavigation;
 
 class AutomationActions extends Component
 {
@@ -46,6 +47,8 @@ class AutomationActions extends Component
             ->filter()
             ->values()
             ->toArray();
+
+        app(MainNavigation::class)->activeSection()?->add($this->automation->name, route('mailcoach.automations'));
     }
 
     public function editAction(string $uuid)
