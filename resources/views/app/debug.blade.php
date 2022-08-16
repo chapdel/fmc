@@ -89,7 +89,7 @@
             <dd>
                 @if ($scheduledJobs->count())
                     <?php /** @var \Illuminate\Console\Scheduling\Event $scheduledJob */ ?>
-                    <table class="table">
+                    <table class="table-styled">
                         <thead>
                             <th class="w-36">Schedule</th>
                             <th>Command</th>

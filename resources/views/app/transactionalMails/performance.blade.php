@@ -1,7 +1,7 @@
 <div class="card-grid">
 <x-mailcoach::fieldset card :legend="__('mailcoach - Opens')">
         @if($transactionalMail->opens->count())
-    <table class="mt-0 table table-fixed">
+    <table class="mt-0 table-styled">
         <thead>
             <tr>
                 <th>{{ __('mailcoach - Opened at') }}</th>
@@ -22,7 +22,7 @@
 
 <x-mailcoach::fieldset card :legend="__('mailcoach - Clicks')">
     @if($transactionalMail->clicksPerUrl()->count())
-        <table class="mt-0 table table-fixed">
+        <table class="mt-0 table-styled">
             <thead>
                 <tr>
                     <th>{{ __('mailcoach - URL') }}</th>

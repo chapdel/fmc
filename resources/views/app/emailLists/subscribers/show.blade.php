@@ -46,7 +46,7 @@
     @if ($tab === 'attributes')
     <x-mailcoach::card>
         @if($subscriber->extra_attributes->count())
-            <table class="table table-fixed">
+            <table class="table-styled">
                 <thead>
                 <tr>
                     <th>{{ __('mailcoach - Key') }}</th>

@@ -1,4 +1,4 @@
-.table {
+.table-styled {
     @apply table-fixed;
     @apply min-w-full;
     @apply mx-0;
@@ -6,12 +6,12 @@
     @apply border-spacing-0;
 }
 
-.table:not(:first-child) {
+.table-styled:not(:first-child) {
     @apply mt-8;
 }
 
-.table th,
-.table td {
+.table-styled th,
+.table-styled td {
     @apply py-3;
     @apply px-6;
     @apply md:first:pl-10;
@@ -19,7 +19,7 @@
     @apply align-top;
 }
 
-.table th {
+.table-styled th {
     @apply text-left;
     @apply font-semibold;
     @apply whitespace-nowrap;
@@ -40,30 +40,30 @@
     @apply md:top-16;
 }
 
-.table tbody td {
+.table-styled tbody td {
     @apply border-b;
     @apply border-indigo-500/20;
     @apply leading-snug;
 }
 
-.table thead .th-numeric,
-.table tbody .td-numeric {
+.table-styled thead .th-numeric,
+.table-styled tbody .td-numeric {
     @apply text-right;
     font-variant-numeric: tabular-nums;
     @apply whitespace-nowrap;
 }
 
-.table thead a {
+.table-styled thead a {
     @apply flex;
     @apply items-center;
 }
 
-.table thead i {
+.table-styled thead i {
     @apply mx-1;
     @apply opacity-50;
 }
 
-.table thead .th-numeric a {
+.table-styled thead .th-numeric a {
     @apply flex;
     @apply flex-row-reverse;
 }
@@ -74,20 +74,15 @@
     @apply leading-tight;
 }
 
+.table-styled .td-action {
+    @apply text-right;
+    @apply px-6;
+    @apply md:px-4;
+}
+
 .table-status {
     @apply text-sm;
     @apply text-center;
-}
-
-.table .td-action {
-    @apply text-right;
-    @apply px-6;
-}
-
-@screen md {
-    .table .td-action {
-        @apply px-4;
-    }
 }
 
 .table-actions {

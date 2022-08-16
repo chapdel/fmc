@@ -46,7 +46,7 @@
 
     <div class="card p-0 pb-24 md:pb-0 overflow-x-auto md:overflow-visible">
             <div wire:loading.delay.longer wire:target="loadRows">
-                <table class="table table-fixed w-full">
+                <table class="table-styled w-full">
                     <thead>
                         <tr>
                             @foreach ($columns as $column)
@@ -75,7 +75,7 @@
             </div>
 
             <div wire:loading.delay.longer.remove wire:target="loadRows">
-                <table class="table table-fixed w-full">
+                <table class="table-styled w-full">
                     <thead>
                         <tr>
                             @foreach ($columns as $column)

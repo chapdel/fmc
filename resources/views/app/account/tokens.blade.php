@@ -47,7 +47,7 @@
 
 @if (count($tokens))
 <x-mailcoach::card class="p-0">
-        <table class="table">
+        <table class="table-styled">
             <thead>
             <tr>
                 <x-mailcoach::th>{{ __('Name') }}</x-mailcoach::th>

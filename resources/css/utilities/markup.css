@@ -48,6 +48,15 @@
     @apply mt-12;
 }
 
+.markup h4 {
+    @apply markup-h4;
+    @apply mb-2;
+}
+
+.markup h4:not(:first-child) {
+    @apply mt-6;
+}
+
 .markup p,
 .markup ul,
 .markup ol {

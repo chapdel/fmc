@@ -47,7 +47,8 @@ input:disabled {
 }
 
 .input-focus,
-.input:focus {
+.input:focus,
+.input:focus-within {
     @apply bg-white;
     @apply border-blue-500;
     @apply outline-none;
