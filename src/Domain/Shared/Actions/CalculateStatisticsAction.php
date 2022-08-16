@@ -24,11 +24,13 @@ class CalculateStatisticsAction
 
         if (! $latestEvent) {
             $sendable->update(['statistics_calculated_at' => now()]);
+
             return;
         }
 
         if ($sendable->statistics_calculated_at && $latestEvent < $sendable->statistics_calculated_at) {
             $sendable->update(['statistics_calculated_at' => now()]);
+
             return;
         }
 

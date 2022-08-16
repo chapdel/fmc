@@ -419,6 +419,7 @@ class Campaign extends Sendable implements Feedable
 
         if ($this->isCancelled()) {
             $this->update(['statistics_calculated_at' => now()]);
+
             return;
         }
 
