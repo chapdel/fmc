@@ -413,13 +413,12 @@ class Campaign extends Sendable implements Feedable
 
     public function dispatchCalculateStatistics(): void
     {
-        if (! $this->isSent()) {
+        if ($this->isCancelled()) {
+            $this->update(['statistics_calculated_at' => now()]);
             return;
         }
 
-        if ($this->isCancelled()) {
-            $this->update(['statistics_calculated_at' => now()]);
-
+        if (! $this->isSent()) {
             return;
         }
 
