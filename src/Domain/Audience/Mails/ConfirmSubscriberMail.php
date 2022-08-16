@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Domain\Audience\Mails;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Actions\ConvertHtmlToTextAction;
 use Spatie\Mailcoach\Domain\Campaign\Mails\Concerns\ReplacesPlaceholders;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns\UsesMailcoachTemplate;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
@@ -55,8 +56,11 @@ class ConfirmSubscriberMail extends Mailable implements ShouldQueue
             $html = $this->confirmationMailTemplate->render($this);
             $html = str_ireplace('::confirmUrl::', $this->confirmationUrl, $html);
             $content = $this->replacePlaceholders($html);
+            $plaintext = app(ConvertHtmlToTextAction::class)->execute($content);
 
-            $this->view('mailcoach::mails.transactionalMails.template', compact('content'));
+            $this
+                ->html($content)
+                ->text('mailcoach::mails.transactionalMails.template', ['content' => $plaintext]);
         }
 
         if (! empty($this->subscriber->emailList->default_reply_to_email)) {
@@ -87,6 +91,7 @@ class ConfirmSubscriberMail extends Mailable implements ShouldQueue
         }
 
         $this->markdown('mailcoach::mails.confirmSubscription');
+        $this->text('mailcoach::mails.confirmSubscriptionText');
 
         return $this;
     }

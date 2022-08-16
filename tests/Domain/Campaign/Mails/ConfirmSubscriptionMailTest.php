@@ -66,9 +66,10 @@ test('the confirmation mail has default content', function () {
 
     $subscriber = Subscriber::createWithEmail('john@example.com', ['first_name' => 'John'])->subscribeTo(test()->emailList);
 
-    $content = (new ConfirmSubscriberMail($subscriber))->render();
+    $mailable = (new ConfirmSubscriberMail($subscriber));
 
-    expect($content)->toContain('confirm');
+    $mailable->assertSeeInHtml('confirm');
+    $mailable->assertSeeInText('confirm')->assertDontSeeInText('<html');
 });
 
 test('the confirmation mail can have custom content', function () {
@@ -77,16 +78,18 @@ test('the confirmation mail can have custom content', function () {
     Subscriber::$fakeUuid = 'my-uuid';
 
     $template = TransactionalMailTemplate::factory()->create([
-        'body' => 'Hi ::subscriber.first_name::, press ::confirmUrl:: to subscribe to ::list.name::',
+        'body' => '<html><body><p>Hi ::subscriber.first_name::, press ::confirmUrl:: to subscribe to ::list.name::</p></body></html>',
     ]);
 
     test()->emailList->update(['confirmation_mail_id' => $template->id]);
 
     $subscriber = Subscriber::createWithEmail('john@example.com', ['first_name' => 'John'])->subscribeTo(test()->emailList);
 
-    $content = (new ConfirmSubscriberMail($subscriber))->render();
+    $mailable = (new ConfirmSubscriberMail($subscriber));
 
-    expect($content)->toContain('Hi John, press http://localhost/mailcoach/confirm-subscription/my-uuid to subscribe to my newsletter');
+    $mailable->assertSeeInHtml('Hi John, press http://localhost/mailcoach/confirm-subscription/my-uuid to subscribe to my newsletter');
+    $mailable->assertSeeInText('Hi John, press http://localhost/mailcoach/confirm-subscription/my-uuid to subscribe to my newsletter');
+    $mailable->assertDontSeeInText('<html');
 });
 
 it('can use custom welcome mailable', function () {
