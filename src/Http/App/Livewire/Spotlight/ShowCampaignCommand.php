@@ -43,10 +43,12 @@ class ShowCampaignCommand extends SpotlightCommand
             ->limit(10)
             ->get()
             ->map(function (Campaign $campaign) {
+                $emailList = $campaign->emailList?->name ?? '<deleted email list>';
+
                 return new SpotlightSearchResult(
                     $campaign->id,
                     $campaign->name,
-                    "{$campaign->emailList->name} - {$campaign->status}"
+                    "{$emailList} - {$campaign->status}"
                 );
             });
     }
