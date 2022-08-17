@@ -16,6 +16,12 @@
     @apply border-indigo-700/20;
 }
 
+.card.card-focus {
+    @apply border-blue-500;
+    @apply shadow-md;
+    @apply shadow-blue-400/20;
+}
+
 .card-buttons {
     @apply sticky;
     @apply z-10;

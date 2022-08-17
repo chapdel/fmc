@@ -30,6 +30,7 @@
         :aria-controls="$id('dropdown-button')"
         type="button"
         class="{{ $triggerClass ?? 'text-blue-700 hover:text-blue-800' }} @if(! isset($trigger)) px-2 @endif"
+        :class="open ? 'z-20' : 'z-10'"
     >
         @if(isset($trigger))
             {{ $trigger }}
