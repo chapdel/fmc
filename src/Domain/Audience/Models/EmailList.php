@@ -37,6 +37,7 @@ class EmailList extends Model
         'report_campaign_summary' => 'boolean',
         'report_email_list_summary' => 'boolean',
         'email_list_summary_sent_at' => 'datetime',
+        'campaigns_feed_enabled' => 'boolean',
     ];
 
     public function subscribers(): HasMany
