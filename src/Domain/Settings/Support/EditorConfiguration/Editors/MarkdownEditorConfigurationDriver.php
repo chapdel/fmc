@@ -16,11 +16,6 @@ class MarkdownEditorConfigurationDriver extends EditorConfigurationDriver
         return Editor::class;
     }
 
-    public function validationRules(): array
-    {
-        return [];
-    }
-
     public static function settingsPartial(): ?string
     {
         return 'mailcoach::app.configuration.editor.partials.markdown';
