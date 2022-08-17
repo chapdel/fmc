@@ -26,8 +26,10 @@ class EditorSettings extends Component
 
     public function mount(EditorConfiguration $editorConfiguration)
     {
-        $this->contentEditor = $editorConfiguration->get('contentEditor', (new TextareaEditorConfigurationDriver())::label());
-        $this->templateEditor = $editorConfiguration->get('templateEditor', (new TextareaEditorConfigurationDriver())::label());
+        $editorConfigurationDriverRepository = new EditorConfigurationDriverRepository();
+
+        $this->contentEditor = $editorConfiguration->get('contentEditor',  $editorConfigurationDriverRepository->getForClass(config('mailcoach.content_editor'))::label());
+        $this->templateEditor = $editorConfiguration->get('templateEditor', $editorConfigurationDriverRepository->getForClass(config('mailcoach.template_editor'))::label());
 
         $this->contentEditorOptions = $editorConfiguration->getContentEditorOptions();
         $this->templateEditorOptions = $editorConfiguration->getTemplateEditorOptions();
