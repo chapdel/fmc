@@ -85,23 +85,11 @@
 }
 
 .EasyMDEContainer .editor-statusbar {
-    @apply !text-gray-500;
-}
-
-.EasyMDEContainer .editor-statusbar span {
-    @apply inline-block;
-    @apply min-w-0;
-}
-
-.EasyMDEContainer .editor-statusbar span:empty {
-    @apply hidden;
-}
-
-.EasyMDEContainer .editor-statusbar span:before {
-    @apply capitalize;
+    @apply text-gray-500;
+    @apply px-0;
 }
 
 .EasyMDEContainer .editor-statusbar span.upload-image {
-    @apply block;
-    @apply lg:inline-block;
+    @apply inline-block;
+    @apply min-w-0;
 }
