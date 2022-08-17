@@ -39,7 +39,7 @@
             </div>
         @endif
 
-        <dl class="-mb-6 md:-mb-10 -mx-6 md:-mx-10 px-6 md:px-10 py-2 flex items-center justify-end text-xs bg-indigo-300/5">
+        <dl class="-mb-6 md:-mb-10 -mx-6 md:-mx-10 px-6 py-2 flex items-center justify-end text-xs bg-indigo-300/5">
             <span>
                 Active
                 <span class="font-semibold variant-numeric-tabular">{{ number_format($action['active'] ?? 0) }}</span>
