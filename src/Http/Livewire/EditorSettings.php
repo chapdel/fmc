@@ -7,7 +7,6 @@ use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\EditorConfiguration;
 use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\EditorConfigurationDriverRepository;
-use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\TextareaEditorConfigurationDriver;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 
 class EditorSettings extends Component
@@ -28,7 +27,7 @@ class EditorSettings extends Component
     {
         $editorConfigurationDriverRepository = new EditorConfigurationDriverRepository();
 
-        $this->contentEditor = $editorConfiguration->get('contentEditor',  $editorConfigurationDriverRepository->getForClass(config('mailcoach.content_editor'))::label());
+        $this->contentEditor = $editorConfiguration->get('contentEditor', $editorConfigurationDriverRepository->getForClass(config('mailcoach.content_editor'))::label());
         $this->templateEditor = $editorConfiguration->get('templateEditor', $editorConfigurationDriverRepository->getForClass(config('mailcoach.template_editor'))::label());
 
         $this->contentEditorOptions = $editorConfiguration->getContentEditorOptions();
