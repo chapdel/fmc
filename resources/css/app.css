@@ -37,6 +37,7 @@
 
 @import './vendor/choices.css';
 @import './vendor/flatpickr.css';
+@import './vendor/easy-mde-overrides.css';
 
 @import 'tailwindcss/utilities';
 
