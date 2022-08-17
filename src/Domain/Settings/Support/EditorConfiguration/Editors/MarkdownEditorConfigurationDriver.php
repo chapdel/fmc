@@ -20,32 +20,7 @@ class MarkdownEditorConfigurationDriver extends EditorConfigurationDriver
 
     public function validationRules(): array
     {
-        return [
-            'markdown_initialEditType' => ['required', Rule::in(['markdown', 'wysiwyg'])],
-            'markdown_previewStyle' => ['required', Rule::in(['vertical', 'tab'])],
-            'markdown_height' => ['nullable'],
-            'markdown_placeholder' => ['nullable'],
-        ];
-    }
-
-    public function defaults()
-    {
-        return [
-            'markdown_initialEditType' => 'markdown',
-            'markdown_previewStyle' => 'vertical',
-            'markdown_height' => '600px',
-            'markdown_placeholder' => 'Start writing...',
-        ];
-    }
-
-    public function registerConfigValues(Repository $config, array $values): void
-    {
-        parent::registerConfigValues($config, $values);
-
-        config()->set('mailcoach-markdown-editor.options.initialEditType', $values['markdown_initialEditType'] ?? 'markdown');
-        config()->set('mailcoach-markdown-editor.options.previewStyle', $values['markdown_previewStyle'] ?? 'vertical');
-        config()->set('mailcoach-markdown-editor.options.height', $values['markdown_height'] ?? '600px');
-        config()->set('mailcoach-markdown-editor.options.placeholder', $values['markdown_placeholder'] ?? 'Start writing...');
+        return [];
     }
 
     public static function settingsPartial(): ?string
