@@ -2,8 +2,6 @@
 
 namespace Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors;
 
-use Illuminate\Contracts\Config\Repository;
-use Illuminate\Validation\Rule;
 use Spatie\MailcoachMarkdownEditor\Editor;
 
 class MarkdownEditorConfigurationDriver extends EditorConfigurationDriver
