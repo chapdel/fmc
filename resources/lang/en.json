@@ -553,6 +553,7 @@
     "mailcoach - You are almost subscribed to the list **:emailListName**.": "You are almost subscribed to the list **:emailListName**.",
     "mailcoach - You are now subscribed to the list <strong class=\"font-semibold\">:emailListName</strong>.": "You are now subscribed to the list <strong class=\"font-semibold\">:emailListName</strong>.",
     "mailcoach - You are now subscribed to the list <strong class=\"font-semibold\">our dummy mailing list</strong>.": "You are now subscribed to the list <strong class=\"font-semibold\">our dummy mailing list</strong>.",
+    "mailcoach - You can add a normal text field by appending <code>:text</code> to your placeholder, for example: <code>[[[preheader:text]]]</code>": "You can add a normal text field by appending <code>:text</code> to your placeholder, for example: <code>[[[preheader:text]]]</code>",
     "mailcoach - You can drag the chart to zoom.": "You can drag the chart to zoom.",
     "mailcoach - You can use the following placeholders in the subject and body of the confirmation mail:": "You can use the following placeholders in the subject and body of the confirmation mail:",
     "mailcoach - You can use following placeholders in the subject and copy:": "You can use following placeholders in the subject and copy:",

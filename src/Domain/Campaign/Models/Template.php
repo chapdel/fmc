@@ -85,6 +85,11 @@ class Template extends Model implements HasHtmlContent
         return (new TemplateRenderer($this->getHtml()))->placeHolderNames();
     }
 
+    public function fields(): array
+    {
+        return (new TemplateRenderer($this->getHtml()))->fields();
+    }
+
     public function hasTemplates(): bool
     {
         return false;

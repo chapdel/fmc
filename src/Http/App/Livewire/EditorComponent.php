@@ -139,7 +139,7 @@ abstract class EditorComponent extends Component
             return Arr::only($fields, 'html');
         }
 
-        return Arr::only($fields, $template->placeHolderNames());
+        return Arr::only($fields, Arr::pluck($template->fields(), 'name'));
     }
 
     abstract public function render();

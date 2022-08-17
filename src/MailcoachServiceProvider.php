@@ -483,6 +483,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.components.button.cancel', 'mailcoach::button-cancel');
 
         Blade::component('mailcoach::app.components.editorButtons', 'mailcoach::editor-buttons');
+        Blade::component('mailcoach::app.components.editorFields', 'mailcoach::editor-fields');
         Blade::component(ReplacerHelpTextsComponent::class, 'mailcoach::replacer-help-texts');
 
         Blade::component('mailcoach::app.components.dropdown', 'mailcoach::dropdown');
