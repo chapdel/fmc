@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Audience\Jobs;
 
+use Carbon\CarbonInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Auth\User;
@@ -22,7 +23,10 @@ class CompleteSubscriberImportJob implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public int $tries = 30;
+    public function retryUntil(): CarbonInterface
+    {
+        return now()->addHours(4);
+    }
 
     public function __construct(
         private SubscriberImport $subscriberImport,
