@@ -115,6 +115,7 @@
     @apply before:w-4;
     @apply before:h-4;
     @apply before:inline-flex;
+    @apply before:flex-none;
     @apply before:items-center;
     @apply before:justify-center;
     @apply before:rounded-full;
