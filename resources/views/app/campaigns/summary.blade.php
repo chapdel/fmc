@@ -113,11 +113,15 @@
                         <span class="inline-block">{{ __('mailcoach - Campaign') }}</span>
                         <strong>{{ $campaign->name }}</strong>
 
-                        {{ __('mailcoach - is sending to :sendsCount/:sentToNumberOfSubscribers :subscriber of', [
-                            'sendsCount' => $campaign->sendsCount(),
-                            'sentToNumberOfSubscribers' => $campaign->sent_to_number_of_subscribers,
-                            'subscriber' => trans_choice('mailcoach - subscriber|subscribers', $campaign->sent_to_number_of_subscribers)
-                        ]) }}
+                        @if ($campaign->sendsCount() === $campaign->sent_to_number_of_subscribers)
+                            {{ __('mailcoach - is finishing up') }}
+                        @else
+                            {{ __('mailcoach - is sending to :sendsCount/:sentToNumberOfSubscribers :subscriber of', [
+                                'sendsCount' => $campaign->sendsCount(),
+                                'sentToNumberOfSubscribers' => $campaign->sent_to_number_of_subscribers,
+                                'subscriber' => trans_choice('mailcoach - subscriber|subscribers', $campaign->sent_to_number_of_subscribers)
+                            ]) }}
+                        @endif
 
                         @if($campaign->emailList)
                             <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
