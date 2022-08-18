@@ -69,69 +69,54 @@
                     </p>
                 </div>
             </x-mailcoach::error>
-        @elseif (! $campaign->allSendsCreated() && $campaign->sends()->count() < $campaign->sent_to_number_of_subscribers)
-            <div class="progress-bar">
-                <div class="progress-bar-value" style="width:{{ ($campaign->sends()->count() / $campaign->sent_to_number_of_subscribers) * 100 }}%"></div>
-            </div>
-            <x-mailcoach::help sync full>
-                <div class="flex justify-between items-center w-full">
-                    <p>
-                        <span class="inline-block">{{ __('mailcoach - Campaign') }}</span>
-                        <strong>{{ $campaign->name }}</strong>
-
-                        {{ __('mailcoach - is creating :sendsCount/:sentToNumberOfSubscribers :send for', [
-                            'sendsCount' => $campaign->sends()->count(),
-                            'sentToNumberOfSubscribers' => $campaign->sent_to_number_of_subscribers,
-                            'send' => trans_choice(__('mailcoach - send|sends'), $campaign->sent_to_number_of_subscribers)
-                        ]) }}
-
-                        @if($campaign->emailList)
-                            <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
-                        @else
-                            &lt;{{ __('mailcoach - deleted list') }}&gt;
-                        @endif
-                        @if($campaign->usesSegment())
-                            ({{ $campaign->segment_description }})
-                        @endif
-                    </p>
-
-                    <x-mailcoach::confirm-button
-                        class="ml-auto text-red-500 underline"
-                        onConfirm="() => $wire.cancelSending()"
-                        :confirm-text="__('mailcoach - Are you sure you want to cancel sending this campaign?')">
-                        Cancel
-                    </x-mailcoach::confirm-button>
-                </div>
-            </x-mailcoach::help>
         @else
             <div class="progress-bar">
                 <div class="progress-bar-value" style="width:{{ ($campaign->sendsCount() / $campaign->sent_to_number_of_subscribers) * 100 }}%"></div>
             </div>
             <x-mailcoach::help sync full>
                 <div class="flex justify-between items-center w-full">
-                    <p>
+                    <span class="block">
                         <span class="inline-block">{{ __('mailcoach - Campaign') }}</span>
                         <strong>{{ $campaign->name }}</strong>
 
-                        @if ($campaign->sendsCount() === $campaign->sent_to_number_of_subscribers)
+                        @if (! $campaign->allSendsCreated() && $campaign->sends()->count() < $campaign->sent_to_number_of_subscribers)
+                            <br>
+                            {{ __('mailcoach - is creating :sendsCount/:sentToNumberOfSubscribers :send for', [
+                                'sendsCount' => $campaign->sends()->count(),
+                                'sentToNumberOfSubscribers' => $campaign->sent_to_number_of_subscribers,
+                                'send' => trans_choice(__('mailcoach - send|sends'), $campaign->sent_to_number_of_subscribers)
+                            ]) }}
+                            @if($campaign->emailList)
+                                <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
+                            @else
+                                &lt;{{ __('mailcoach - deleted list') }}&gt;
+                            @endif
+                            @if($campaign->usesSegment())
+                                ({{ $campaign->segment_description }})
+                            @endif
+                            <br>
+                        @endif
+
+                        @php($sendsCount = $campaign->sendsCount())
+                        @if ($sendsCount === $campaign->sent_to_number_of_subscribers)
                             {{ __('mailcoach - is finishing up') }}
-                        @else
+                        @elseif ($sendsCount > 0)
                             {{ __('mailcoach - is sending to :sendsCount/:sentToNumberOfSubscribers :subscriber of', [
                                 'sendsCount' => $campaign->sendsCount(),
                                 'sentToNumberOfSubscribers' => $campaign->sent_to_number_of_subscribers,
                                 'subscriber' => trans_choice('mailcoach - subscriber|subscribers', $campaign->sent_to_number_of_subscribers)
                             ]) }}
-                        @endif
 
-                        @if($campaign->emailList)
-                            <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
-                        @else
-                            &lt;{{ __('mailcoach - deleted list') }}&gt;
+                            @if($campaign->emailList)
+                                <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
+                            @else
+                                &lt;{{ __('mailcoach - deleted list') }}&gt;
+                            @endif
+                            @if($campaign->usesSegment())
+                                ({{ $campaign->segment_description }})
+                            @endif
                         @endif
-                        @if($campaign->usesSegment())
-                            ({{ $campaign->segment_description }})
-                        @endif
-                    </p>
+                    </span>
 
                     <x-mailcoach::confirm-button
                         class="ml-auto text-red-500 underline"
