@@ -18,7 +18,6 @@
 }
 
 .alert.alert-flash {
-    @apply before:hidden;
     @apply bg-gray-900;
     @apply bg-gradient-to-r;
     @apply text-white;
@@ -69,24 +68,18 @@
 
 .alert-countdown {
     @apply absolute;
+    @apply pointer-events-none;
     @apply left-0;
     @apply bottom-0;
-    @apply h-2;
-    @apply w-full;
+    @apply h-full;
+    @apply left-[6px];
+    @apply right-0;
     @apply transform;
     @apply origin-bottom-right;
     @apply bg-gradient-to-r;
+    @apply from-white/10;
+    @apply to-white/20;
     animation: alert-countdown var(--alert-duration, 5s) linear forwards;
-}
-
-.alert-success .alert-countdown {
-    @apply from-green-500;
-    @apply to-green-500/60;
-}
-
-.alert-error .alert-countdown {
-    @apply from-red-500;
-    @apply to-red-500/60;
 }
 
 @keyframes alert-countdown {

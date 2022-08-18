@@ -31,7 +31,12 @@
                     </div>
                 </div>
             </div>
-            @include('mailcoach::app.layouts.partials.footer')
+            
+            <footer class="mx-auto w-full max-w-layout p-6 flex justify-center text-sm text-gray-500">
+                <a href="https://mailcoach.app">
+                    Powered by Mailcoach
+                </a>
+            </footer>
         </div>
     </div>
 

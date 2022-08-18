@@ -125,6 +125,7 @@ code.markup-code-block,
     @apply text-sm;
     @apply block;
     @apply my-6;
+    @apply last:mb-0;
     @apply px-6;
     @apply py-4;
     @apply rounded;
