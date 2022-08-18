@@ -3,7 +3,6 @@
     @apply flex-wrap;
     @apply gap-x-6;
     @apply items-center;
-    @apply pr-8;
 }
 
 .filters li a {
@@ -19,17 +18,4 @@
 
 .filters li .filter-active {
     @apply text-blue-700;
-}
-
-.nfilters li .filter-active:after {
-    content: '';
-    @apply absolute;
-    @apply left-0;
-    @apply bottom-0;
-    @apply h-[3px];
-    @apply w-full;
-    @apply rounded-full;
-    @apply bg-gradient-to-r;
-    @apply from-blue-400;
-    @apply to-indigo-500;
 }
