@@ -41,7 +41,7 @@
                                 </span>
                                 </h2>
                                 <span x-show="collapsed" class="text-gray-600 text-sm ml-4">{{ count($leftActions) }} {{ trans_choice('mailcoach - action|actions', count($leftActions)) }}</span>
-                                <button class="ml-auto -mr-2 text-sm" type="button">
+                                <button class="ml-auto -mr-3 text-sm" type="button">
                                     <i x-show="!collapsed" @click="collapsed = true" class="fas fa-chevron-up"></i>
                                     <i x-show="collapsed" @click="collapsed = false" class="fas fa-chevron-down"></i>
                                 </button>
@@ -61,7 +61,7 @@
                                 </span>
                                 </h2>
                                 <span x-show="collapsed" class="text-gray-600 text-sm ml-4">{{ count($rightActions) }} {{ trans_choice('mailcoach - action|actions', count($rightActions)) }}</span>
-                                <button class="ml-auto -mr-2 text-sm" type="button">
+                                <button class="ml-auto -mr-3 text-sm" type="button">
                                     <i x-show="!collapsed" @click="collapsed = true" class="fas fa-chevron-up"></i>
                                     <i x-show="collapsed" @click="collapsed = false" class="fas fa-chevron-down"></i>
                                 </button>
@@ -85,7 +85,7 @@
                                         </span>
                                     </h2>
                                     <span x-show="collapsed" class="text-gray-600 text-sm ml-4">{{ count($leftActions) }} {{ trans_choice('mailcoach - action|actions', count($leftActions)) }}</span>
-                                    <button class="ml-auto -mr-2 text-sm" type="button">
+                                    <button class="ml-auto -mr-3 text-sm" type="button">
                                         <i x-show="!collapsed" @click="collapsed = true" class="fas fa-chevron-up"></i>
                                         <i x-show="collapsed" @click="collapsed = false" class="fas fa-chevron-down"></i>
                                     </button>
@@ -114,7 +114,7 @@
                                     </span>
                                     </h2>
                                     <span x-show="collapsed" class="text-gray-600 text-sm ml-4">{{ count($rightActions) }} {{ trans_choice('mailcoach - action|actions', count($rightActions)) }}</span>
-                                    <button class="ml-auto -mr-2 text-sm" type="button">
+                                    <button class="ml-auto -mr-3 text-sm" type="button">
                                         <i x-show="!collapsed" @click="collapsed = true" class="fas fa-chevron-up"></i>
                                         <i x-show="collapsed" @click="collapsed = false" class="fas fa-chevron-down"></i>
                                     </button>

@@ -16,6 +16,13 @@
     @apply border-indigo-700/20;
 }
 
+.card .card {
+    /* hack for nested the automation */
+    @apply bg-transparent;
+    @apply shadow-none;
+    @apply border-none;
+}
+
 .card.card-focus {
     @apply border-blue-500;
     @apply shadow-md;
