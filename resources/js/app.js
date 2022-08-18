@@ -1,10 +1,9 @@
 import '../css/app.css';
 import flatpickr from 'flatpickr';
-import Tagify from '@yaireo/tagify';
-import '@yaireo/tagify/dist/tagify.css';
 import Alpine from 'alpinejs';
 import focus from '@alpinejs/focus';
 import Clipboard from '@ryangjchandler/alpine-clipboard';
+import Choices from 'choices.js';
 
 import {
     Chart,
@@ -36,6 +35,7 @@ Chart.register(zoomPlugin);
 window.Chart = Chart;
 window.Chart.helpers = {};
 window.Chart.helpers.each = each;
+window.Choices = Choices;
 
 import './components/swup.js';
 import './components/dirty.js';
@@ -50,6 +50,5 @@ Alpine.plugin(focus);
 Alpine.plugin(Clipboard);
 
 window.Alpine = Alpine;
-window.Tagify = Tagify;
 
 Alpine.start();

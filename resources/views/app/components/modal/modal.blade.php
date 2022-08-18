@@ -36,7 +36,9 @@
             @if($dismissable)
             x-on:click.prevent="$store.modals.close(@js($name))"
             @else
+            x-ref="overlay"
             x-on:click="
+                if ($event.target !== $refs.overlay) return;
                 $refs.modal.classList.add('animate-scale');
                 setTimeout(() => $refs.modal.classList.remove('animate-scale'), 300);
             "
@@ -44,7 +46,6 @@
             class="relative h-screen min-h-screen flex items-center justify-center p-4"
         >
             <div
-                x-on:click.stop
                 x-trap.noscroll.inert="$store.modals.isOpen(@js($name))"
                 class="relative modal-wrapper rounded-sm @if($medium) modal-wrapper-md @endif @if($large) h-full modal-wrapper-lg @endif"
             >

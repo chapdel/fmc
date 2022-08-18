@@ -1,8 +1,6 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 
-@import '../../node_modules/@yaireo/tagify/dist/tagify.css';
-
 @import './utilities/alert.css';
 @import './utilities/button.css';
 @import './utilities/card.css';
@@ -37,6 +35,7 @@
 
 @import './vendor/flatpickr.css';
 @import './vendor/easy-mde-overrides.css';
+@import './vendor/choices.css';
 
 @import 'tailwindcss/utilities';
 

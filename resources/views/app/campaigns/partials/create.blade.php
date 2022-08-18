@@ -13,24 +13,22 @@
         required
     />
     @if (count($emailListOptions))
-    <div class="form-grid">
-        <x-mailcoach::select-field
-            :label="__('mailcoach - Email list')"
-            :options="$emailListOptions"
-            wire:model.lazy="email_list_id"
-            name="email_list_id"
-            required
-        />
+    <x-mailcoach::select-field
+        :label="__('mailcoach - Email list')"
+        :options="$emailListOptions"
+        wire:model.lazy="email_list_id"
+        name="email_list_id"
+        required
+    />
 
-        @if(count($templateOptions) > 1)
-            <x-mailcoach::select-field
-                :label="__('mailcoach - Template')"
-                :options="$templateOptions"
-                wire:model.lazy="template_id"
-                name="template_id"
-            />
-        @endif
-    </div>
+    @if(count($templateOptions) > 1)
+        <x-mailcoach::select-field
+            :label="__('mailcoach - Template')"
+            :options="$templateOptions"
+            wire:model.lazy="template_id"
+            name="template_id"
+        />
+    @endif
 
     <x-mailcoach::form-buttons>
         <x-mailcoach::button :label="__('mailcoach - Create campaign')" />

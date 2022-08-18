@@ -10,7 +10,8 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 use Spatie\Mailcoach\MainNavigation;
 
-class ListOnboarding extends Component
+class
+ListOnboarding extends Component
 {
     use UsesMailcoachModels;
     use LivewireFlash;

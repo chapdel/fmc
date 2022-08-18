@@ -38,7 +38,7 @@
                     :label="__('mailcoach - Optionally, allow following subscriber tags')"
                     name="allowed_form_subscription_tags"
                     :value="$allowed_form_subscription_tags"
-                    :tags="$emailList->tags->pluck('name')->toArray()"
+                    :tags="$emailList->tags->pluck('name')->unique()->toArray()"
             />
         </div>
         <x-mailcoach::text-field :label="__('mailcoach - Optionally, allow following subscriber extra Attributes')"

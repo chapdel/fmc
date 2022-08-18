@@ -50,7 +50,7 @@
                         <x-mailcoach::tags-field
                             name="positive_tags"
                             :value="$positive_tags"
-                            :tags="$emailList->tags()->pluck('name')->toArray()"
+                            :tags="$emailList->tags()->pluck('name')->unique()->toArray()"
                         />
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                         <x-mailcoach::tags-field
                             name="negative_tags"
                             :value="$negative_tags"
-                            :tags="$emailList->tags()->pluck('name')->toArray()"
+                            :tags="$emailList->tags()->pluck('name')->unique()->toArray()"
                         />
                     </div>
                 </div>
