@@ -1,4 +1,4 @@
-<x-mailcoach::fieldset card :focus="$editing">
+<x-mailcoach::fieldset card class="md:p-6" :focus="$editing">
     <x-slot name="legend">
         <header class="flex items-center space-x-2">
             <span class="w-6 h-6 rounded-full inline-flex items-center justify-center text-xs leading-none font-semibold counter-automation">
@@ -39,7 +39,7 @@
             </div>
         @endif
 
-        <dl class="-mb-6 md:-mb-10 -mx-6 md:-mx-10 px-6 py-2 flex items-center justify-end text-xs bg-indigo-300/5">
+        <dl class="-mb-6 -mx-6 px-6 py-2 flex items-center justify-end text-xs bg-indigo-300/10 border-t border-indigo-700/10">
             <span>
                 Active
                 <span class="font-semibold variant-numeric-tabular">{{ number_format($action['active'] ?? 0) }}</span>

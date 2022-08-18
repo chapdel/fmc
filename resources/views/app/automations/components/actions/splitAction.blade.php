@@ -1,4 +1,4 @@
-<x-mailcoach::fieldset card :focus="$editing">
+<x-mailcoach::fieldset card class="md:p-6" :focus="$editing">
     <x-slot name="legend">
         <header class="flex items-center space-x-2">
             <span class="w-6 h-6 rounded-full inline-flex items-center justify-center text-xs leading-none font-semibold counter-automation">
@@ -31,17 +31,17 @@
         <div class="grid gap-6">
             @if ($editing)
                 <div class="grid gap-6 w-full">
-                    <section class="before:content-[''] before:absolute before:w-2 before:h-full before:top-0 before:left-0 before:bg-gradient-to-b before:from-blue-500 before:to-blue-500/70 before:rounded-l-md bg-indigo-900/5">
-                        <div x-data="{ collapsed: false }" :class="{ 'pb-8': !collapsed }" class="grid gap-4 px-12 border-indigo-700/20 border-r border-t border-b rounded-r">
+                    <section class="border-t border-r border-b border-indigo-700/10 rounded bg-indigo-300/10 before:content-[''] before:absolute before:w-2 before:-top-px before:-bottom-px before:left-0 before:bg-blue-500 before:rounded-l ">
+                        <div x-data="{ collapsed: false }" :class="{ 'pb-6': !collapsed }" class="grid gap-4 px-6">
                             <div class="flex items-center">
-                                <h2 class="justify-self-start -ml-10 -mt-px -mb-px h-8 px-2 inline-flex items-center bg-gray-900 bg-gradient-to-r from-blue-500/10 text-white rounded-br space-x-2">
+                                <h2 :class="{ 'rounded-br': !collapsed }" class="justify-self-start -ml-4 -my-px h-8 px-2 inline-flex items-center bg-blue-500 text-white space-x-2">
                                     <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">
                                     <span class="font-normal">{{ __('mailcoach - Branch') }}</span>
                                     A
                                 </span>
                                 </h2>
-                                <span x-show="collapsed" class="text-gray-500 text-sm ml-4">{{ count($leftActions) }} {{ trans_choice('mailcoach - action|actions', count($leftActions)) }}</span>
-                                <button class="ml-auto -mr-8 text-sm" type="button">
+                                <span x-show="collapsed" class="text-gray-600 text-sm ml-4">{{ count($leftActions) }} {{ trans_choice('mailcoach - action|actions', count($leftActions)) }}</span>
+                                <button class="ml-auto -mr-2 text-sm" type="button">
                                     <i x-show="!collapsed" @click="collapsed = true" class="fas fa-chevron-up"></i>
                                     <i x-show="collapsed" @click="collapsed = false" class="fas fa-chevron-down"></i>
                                 </button>
@@ -51,17 +51,17 @@
                             </div>
                         </div>
                     </section>
-                    <section class="before:content-[''] before:absolute before:w-2 before:h-full before:top-0 before:left-0 before:bg-gradient-to-b before:from-blue-500 before:to-blue-500/70 before:rounded-l-md bg-indigo-900/5">
-                        <div x-data="{ collapsed: false }" :class="{ 'pb-8': !collapsed }" class="grid gap-4 px-12 border-indigo-700/20 border-r border-t border-b rounded-r">
+                    <section class="border-t border-r border-b border-indigo-700/10 rounded bg-indigo-300/10 before:content-[''] before:absolute before:w-2 before:-top-px before:-bottom-px before:left-0 before:bg-blue-500 before:rounded-l ">
+                        <div x-data="{ collapsed: false }" :class="{ 'pb-6': !collapsed }" class="grid gap-4 px-6">
                             <div class="flex items-center">
-                                <h2 class="justify-self-start -ml-10 -mt-px -mb-px h-8 px-2 inline-flex items-center bg-gray-900 bg-gradient-to-r from-blue-500/10 text-white rounded-br space-x-2">
+                                <h2 :class="{ 'rounded-br': !collapsed }" class="justify-self-start -ml-4 -my-px h-8 px-2 inline-flex items-center bg-blue-500 text-white space-x-2">
                                     <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">
                                     <span class="font-normal">{{ __('mailcoach - Branch') }}</span>
                                     B
                                 </span>
                                 </h2>
-                                <span x-show="collapsed" class="text-gray-500 text-sm ml-4">{{ count($rightActions) }} {{ trans_choice('mailcoach - action|actions', count($rightActions)) }}</span>
-                                <button class="ml-auto -mr-8 text-sm" type="button">
+                                <span x-show="collapsed" class="text-gray-600 text-sm ml-4">{{ count($rightActions) }} {{ trans_choice('mailcoach - action|actions', count($rightActions)) }}</span>
+                                <button class="ml-auto -mr-2 text-sm" type="button">
                                     <i x-show="!collapsed" @click="collapsed = true" class="fas fa-chevron-up"></i>
                                     <i x-show="collapsed" @click="collapsed = false" class="fas fa-chevron-down"></i>
                                 </button>
@@ -75,17 +75,17 @@
             @else
                 <div class="grid gap-6 flex-grow">
                     <div class="grid gap-6 w-full">
-                        <section class="before:content-[''] before:absolute before:w-2 before:h-full before:top-0 before:left-0 before:bg-gradient-to-b before:from-blue-500 before:to-blue-500/70 before:rounded-l-md bg-indigo-900/5">
-                            <div x-data="{ collapsed: false }" :class="{ 'pb-8': !collapsed }" class="grid gap-4 px-12 border-indigo-700/20 border-r border-t border-b rounded-r">
+                        <section class="border-t border-r border-b border-indigo-700/10 rounded bg-indigo-300/10 before:content-[''] before:absolute before:w-2 before:-top-px before:-bottom-px before:left-0 before:bg-blue-500 before:rounded-l ">
+                            <div x-data="{ collapsed: false }" :class="{ 'pb-6': !collapsed }" class="grid gap-4 px-6">
                                 <div class="flex items-center">
-                                    <h2 class="justify-self-start -ml-10 -mt-px -mb-px h-8 px-2 inline-flex items-center bg-gray-900 bg-gradient-to-r from-blue-500/10 text-white rounded-br space-x-2">
+                                    <h2 :class="{ 'rounded-br': !collapsed }" class="justify-self-start -ml-4 -my-px h-8 px-2 inline-flex items-center bg-blue-500 text-white space-x-2">
                                         <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">
                                             <span class="font-normal">{{ __('mailcoach - Branch') }}</span>
                                             A
                                         </span>
                                     </h2>
-                                    <span x-show="collapsed" class="text-gray-500 text-sm ml-4">{{ count($leftActions) }} {{ trans_choice('mailcoach - action|actions', count($leftActions)) }}</span>
-                                    <button class="ml-auto -mr-8 text-sm" type="button">
+                                    <span x-show="collapsed" class="text-gray-600 text-sm ml-4">{{ count($leftActions) }} {{ trans_choice('mailcoach - action|actions', count($leftActions)) }}</span>
+                                    <button class="ml-auto -mr-2 text-sm" type="button">
                                         <i x-show="!collapsed" @click="collapsed = true" class="fas fa-chevron-up"></i>
                                         <i x-show="collapsed" @click="collapsed = false" class="fas fa-chevron-down"></i>
                                     </button>
@@ -104,17 +104,17 @@
                                 </div>
                             </div>
                         </section>
-                        <section class="before:content-[''] before:absolute before:w-2 before:h-full before:top-0 before:left-0 before:bg-gradient-to-b before:from-blue-500 before:to-blue-500/70 before:rounded-l-md bg-indigo-900/5">
-                            <div x-data="{ collapsed: false }" :class="{ 'pb-8': !collapsed }" class="grid gap-4 px-12 border-indigo-700/20 border-r border-t border-b rounded-r">
+                        <section class="border-t border-r border-b border-indigo-700/10 rounded bg-indigo-300/10 before:content-[''] before:absolute before:w-2 before:-top-px before:-bottom-px before:left-0 before:bg-blue-500 before:rounded-l ">
+                            <div x-data="{ collapsed: false }" :class="{ 'pb-6': !collapsed }" class="grid gap-4 px-6">
                                 <div class="flex items-center">
-                                    <h2 class="justify-self-start -ml-10 -mt-px -mb-px h-8 px-2 inline-flex items-center bg-gray-900 bg-gradient-to-r from-blue-500/10 text-white rounded-br space-x-2">
+                                    <h2 :class="{ 'rounded-br': !collapsed }" class="justify-self-start -ml-4 -my-px h-8 px-2 inline-flex items-center bg-blue-500 text-white space-x-2">
                                         <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">
                                         <span class="font-normal">{{ __('mailcoach - Branch') }}</span>
                                         B
                                     </span>
                                     </h2>
-                                    <span x-show="collapsed" class="text-gray-500 text-sm ml-4">{{ count($rightActions) }} {{ trans_choice('mailcoach - action|actions', count($rightActions)) }}</span>
-                                    <button class="ml-auto -mr-8 text-sm" type="button">
+                                    <span x-show="collapsed" class="text-gray-600 text-sm ml-4">{{ count($rightActions) }} {{ trans_choice('mailcoach - action|actions', count($rightActions)) }}</span>
+                                    <button class="ml-auto -mr-2 text-sm" type="button">
                                         <i x-show="!collapsed" @click="collapsed = true" class="fas fa-chevron-up"></i>
                                         <i x-show="collapsed" @click="collapsed = false" class="fas fa-chevron-down"></i>
                                     </button>
