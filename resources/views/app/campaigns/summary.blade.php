@@ -1,4 +1,4 @@
-<div class="card-grid" @if((!$campaign->sent_at || $campaign->sent_at->addDay()->isFuture()) && !$campaign->isCancelled()) id="campaign-summary" wire:poll.5s @endif>
+<div class="card-grid" id="campaign-summary" wire:poll.10s>
     <x-mailcoach::card>
     @if((! $campaign->isSent()) || (! $campaign->wasSentToAllSubscribers()))
         @if (! $campaign->sent_to_number_of_subscribers && ! $campaign->isCancelled())
