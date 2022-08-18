@@ -9,14 +9,14 @@
         @if ($row->ready_for_use)
             <x-mailcoach::rounded-icon type="success" icon="fas fa-check" />
         @else
-            <x-mailcoach::rounded-icon type="error" icon="fas fa-times" />
+            <x-mailcoach::rounded-icon minimal icon="fas fa-minus" />
         @endif
     </td>
     <td>
         @if ($row->default)
             <x-mailcoach::rounded-icon type="success" icon="fas fa-check" />
         @else
-            <x-mailcoach::rounded-icon type="error" icon="fas fa-times" />
+            <x-mailcoach::rounded-icon minimal icon="fas fa-minus" />
         @endif
     </td>
     <td class="td-action">
