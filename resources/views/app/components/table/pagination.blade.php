@@ -22,9 +22,9 @@
             @endif
         </div>
 
-        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between sm:flex-wrap gap-x-6 gap-y-2">
             <div>
-                <p class="text-sm">
+                <p class="text-sm whitespace-nowrap">
                     {!! __('mailcoach - Showing') !!}
                     <span class="font-medium">{{ $paginator->firstItem() }}</span>
                     {!! __('mailcoach - to') !!}
