@@ -11,7 +11,7 @@
     @if($isInSandboxMode)
         <x-mailcoach::warning>
             <p>
-                Your SES account is currently in sandbox mode. This means that you can only send to emails that are verified with Amazon.
+                Your SES account is currently in <a href="https://docs.aws.amazon.com/ses/latest/dg/request-production-access.html" class="link" target="_blank">sandbox mode</a>. This means that you can only send to emails that are verified with Amazon.
             </p>
         </x-mailcoach::warning>
     @endif
