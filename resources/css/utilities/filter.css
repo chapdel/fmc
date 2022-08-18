@@ -1,14 +1,9 @@
 .filters {
-    display: none;
-}
-
-@screen md {
-    .filters {
-        @apply flex;
-        @apply gap-6;
-        @apply items-center;
-        @apply pr-8;
-    }
+    @apply flex;
+    @apply flex-wrap;
+    @apply gap-x-6;
+    @apply items-center;
+    @apply pr-8;
 }
 
 .filters li a {
@@ -26,7 +21,7 @@
     @apply text-blue-700;
 }
 
-.filters li .filter-active:after {
+.nfilters li .filter-active:after {
     content: '';
     @apply absolute;
     @apply left-0;

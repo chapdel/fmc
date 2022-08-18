@@ -96,8 +96,12 @@
 
 .table-filters {
     @apply flex;
-    @apply items-center;
-    @apply justify-end;
-    @apply ml-auto;
-    @apply pl-4;
+    @apply flex-col;
+    @apply gap-y-4;
+    @apply items-start;
+    @apply lg:flex-row;
+    @apply lg:items-center;
+    @apply lg:justify-end;
+    @apply lg:ml-auto;
+    @apply lg:pl-4;
 }
