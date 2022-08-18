@@ -45,15 +45,11 @@
                         <span class="inline-block">{{ __('mailcoach - Campaign') }}</span>
                         <strong>{{ $campaign->name }}</strong>
 
-                        {{ __('mailcoach - sending is cancelled.', [
-                            'sendsCount' => $campaign->sendsCount(),
-                            'sentToNumberOfSubscribers' => $campaign->sent_to_number_of_subscribers,
-                            'subscriber' => trans_choice('mailcoach - subscriber|subscribers', $campaign->sent_to_number_of_subscribers)
-                        ]) }}
+                        {{ __('mailcoach - sending is cancelled.') }}
 
                         {{ __('mailcoach - It was sent to :sendsCount/:sentToNumberOfSubscribers :subscriber of', [
-                            'sendsCount' => $campaign->sendsCount(),
-                            'sentToNumberOfSubscribers' => $campaign->sent_to_number_of_subscribers,
+                            'sendsCount' => number_format($campaign->sendsCount()),
+                            'sentToNumberOfSubscribers' => number_format($campaign->sent_to_number_of_subscribers),
                             'subscriber' => trans_choice('mailcoach - subscriber|subscribers', $campaign->sent_to_number_of_subscribers)
                         ]) }}
 
@@ -82,8 +78,8 @@
                         @if (! $campaign->allSendsCreated() && $campaign->sends()->count() < $campaign->sent_to_number_of_subscribers)
                             <br>
                             {{ __('mailcoach - is creating :sendsCount/:sentToNumberOfSubscribers :send for', [
-                                'sendsCount' => $campaign->sends()->count(),
-                                'sentToNumberOfSubscribers' => $campaign->sent_to_number_of_subscribers,
+                                'sendsCount' => number_format($campaign->sends()->count()),
+                                'sentToNumberOfSubscribers' => number_format($campaign->sent_to_number_of_subscribers),
                                 'send' => trans_choice(__('mailcoach - send|sends'), $campaign->sent_to_number_of_subscribers)
                             ]) }}
                             @if($campaign->emailList)
@@ -102,8 +98,8 @@
                             {{ __('mailcoach - is finishing up') }}
                         @elseif ($sendsCount > 0)
                             {{ __('mailcoach - is sending to :sendsCount/:sentToNumberOfSubscribers :subscriber of', [
-                                'sendsCount' => $campaign->sendsCount(),
-                                'sentToNumberOfSubscribers' => $campaign->sent_to_number_of_subscribers,
+                                'sendsCount' => number_format($campaign->sendsCount()),
+                                'sentToNumberOfSubscribers' => number_format($campaign->sent_to_number_of_subscribers),
                                 'subscriber' => trans_choice('mailcoach - subscriber|subscribers', $campaign->sent_to_number_of_subscribers)
                             ]) }}
 
@@ -152,7 +148,7 @@
                     <i class="fas fa-times text-red-500"></i>
                 </div>
                 <div>
-                    {{ __('mailcoach - Delivery failed for') }} <strong>{{ $failedSendsCount }}</strong> {{ trans_choice('mailcoach - subscriber|subscribers', $failedSendsCount) }}.
+                    {{ __('mailcoach - Delivery failed for') }} <strong>{{ number_format($failedSendsCount) }}</strong> {{ trans_choice('mailcoach - subscriber|subscribers', $failedSendsCount) }}.
                     <a class="underline" href="{{ route('mailcoach.campaigns.outbox', $campaign) . '?filter[type]=failed' }}">{{ __('mailcoach - Check the outbox') }}</a>.
                 </div>
             @endif
