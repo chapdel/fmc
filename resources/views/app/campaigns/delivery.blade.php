@@ -7,12 +7,12 @@
                         {!! __('mailcoach - Campaign <strong>:campaign</strong> can be sent, but you might want to check your content.', ['campaign' => $campaign->name]) !!}
 
                         @if($campaign->scheduled_at)
-                            <span class="mt-4 inline-flex gap-2 items-center">
+                            <div class="mt-4 flex gap-2 items-center">
                                 <x-mailcoach::rounded-icon type="warning" icon="far fa-clock"/>
                                 <span class="font-semibold">
                                     {{ __('mailcoach - Scheduled for delivery at :scheduledAt', ['scheduledAt' => $campaign->scheduled_at->toMailcoachFormat()]) }}.
                                 </span>
-                            </span>
+                            </div>
                         @endif
                     </x-mailcoach::warning>
                 @else
@@ -20,12 +20,12 @@
                         {!! __('mailcoach - Campaign <strong>:campaign</strong> is ready to be sent.', ['campaign' => $campaign->name]) !!}
 
                         @if($campaign->scheduled_at)
-                            <span class="mt-4 inline-flex gap-2 items-center">
+                            <div class="mt-4 flex gap-2 items-center">
                                 <x-mailcoach::rounded-icon type="success" icon="far fa-clock"/>
                                 <span class="font-semibold">
                                     {{ __('mailcoach - Scheduled for delivery at :scheduledAt', ['scheduledAt' => $campaign->scheduled_at->toMailcoachFormat()]) }}.
                                 </span>
-                            </span>
+                            </div>
                         @endif
                     </x-mailcoach::success>
                 @endif
