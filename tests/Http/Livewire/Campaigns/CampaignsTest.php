@@ -35,6 +35,7 @@ it('can duplicate a campaign', function () {
 
     foreach ([
         'subject',
+        'template_id',
         'email_list_id',
         'html',
         'webview_html',

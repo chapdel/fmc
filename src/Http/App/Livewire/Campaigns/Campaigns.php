@@ -29,6 +29,7 @@ class Campaigns extends DataTable
         $duplicateCampaign = self::getCampaignClass()::create([
             'name' => __('mailcoach - Duplicate of').' '.$campaign->name,
             'subject' => $campaign->subject,
+            'template_id' => $campaign->template_id,
             'email_list_id' => $campaign->email_list_id,
             'html' => $campaign->html,
             'structured_html' => $campaign->structured_html,
