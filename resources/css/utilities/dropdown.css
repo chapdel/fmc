@@ -74,6 +74,7 @@
     @apply hover:from-blue-50;
     @apply hover:to-blue-100/70;
     @apply hover:text-blue-900;
+    @apply no-underline;
 }
 
 .dropdown-list li.active a {

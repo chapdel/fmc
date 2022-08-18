@@ -16,6 +16,19 @@
     @apply border-indigo-700/20;
 }
 
+.card .card-top-level {
+    /* fix for nested automations category list */
+    @apply bg-transparent;
+    @apply shadow-none;
+    @apply border-none;
+}
+
+.card.card-focus {
+    @apply border-blue-500;
+    @apply shadow-md;
+    @apply shadow-blue-400/20;
+}
+
 .card-buttons {
     @apply sticky;
     @apply z-10;
