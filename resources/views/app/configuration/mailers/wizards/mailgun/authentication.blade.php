@@ -5,7 +5,7 @@
 
     <x-mailcoach::help>
         <p>
-        To be able to send mails through Mailgun, we should authenticate at Mailgun.
+        To be able to send mails through Mailgun, we should authenticate with Mailgun.
         </p>
             <p>
             You should first <a href="https://mailgun.com" target="_blank">create an account</a> at Mailgun.
