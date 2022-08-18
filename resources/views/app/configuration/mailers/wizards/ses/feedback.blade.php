@@ -3,7 +3,7 @@
 
     <x-mailcoach::card>
         <x-mailcoach::help>
-            AWS can be configured track bounces and complaints. It will send webhooks to Mailcoach, that will be used to
+            AWS can be configured to track bounces and complaints. It will send webhooks to Mailcoach, that will be used to
             automatically unsubscribe people.<br/><br/>Optionally, AWS can also send webhooks to inform Mailcoach of opens and
             clicks.
         </x-mailcoach::help>
