@@ -79,7 +79,9 @@ class FeedbackStepComponent extends StepComponent
 
     public function render()
     {
-        return view('mailcoach::app.configuration.mailers.wizards.ses.feedback');
+        return view('mailcoach::app.configuration.mailers.wizards.ses.feedback', [
+            'mailer' => $this->mailer(),
+        ]);
     }
 
     protected function getMailcoachSes(): MailcoachSes
