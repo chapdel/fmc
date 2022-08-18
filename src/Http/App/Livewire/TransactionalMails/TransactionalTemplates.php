@@ -20,7 +20,7 @@ class TransactionalTemplates extends DataTable
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Template $duplicateTemplate */
         $duplicateTemplate = $template->replicate()->save();
 
-        flash()->success(__('mailcoach - Template :template was duplicated.', ['template' => $template->name]));
+        flash()->success(__('mailcoach - Email :name was duplicated.', ['name' => $template->name]));
 
         return redirect()->route('mailcoach.transactionalMails.templates.edit', $duplicateTemplate);
     }
@@ -33,12 +33,12 @@ class TransactionalTemplates extends DataTable
 
         $template->delete();
 
-        $this->flash(__('mailcoach - Template :template was deleted.', ['template' => $template->name]));
+        $this->flash(__('mailcoach - Email :name was deleted.', ['name' => $template->name]));
     }
 
     public function getTitle(): string
     {
-        return __('mailcoach - Templates');
+        return __('mailcoach - Emails');
     }
 
     public function getView(): string

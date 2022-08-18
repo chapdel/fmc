@@ -25,7 +25,7 @@ class BootstrapNavigation
             ->addIf($request->user()?->can('viewAny', self::getTransactionalMailClass()), __('mailcoach - Transactional'), route('mailcoach.transactionalMails'), function (Section $section) {
                 $section
                     ->add(__('mailcoach - Log'), route('mailcoach.transactionalMails'))
-                    ->add(__('mailcoach - Templates'), route('mailcoach.transactionalMails.templates'));
+                    ->add(__('mailcoach - Emails'), route('mailcoach.transactionalMails.templates'));
             })
             ->addIf($request->user()?->can('viewAny', self::getTemplateClass()), __('mailcoach - Templates'), route('mailcoach.templates'));
 

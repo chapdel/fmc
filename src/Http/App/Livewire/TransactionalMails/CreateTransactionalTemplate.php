@@ -26,13 +26,13 @@ class CreateTransactionalTemplate extends Component
 
     public function saveTemplate()
     {
-        $this->authorize('create', $this->getTransactionalMailTemplateClass());
+        $this->authorize('create', self::getTransactionalMailTemplateClass());
 
         $template = resolve(CreateTemplateAction::class)->execute(
             $this->validate(),
         );
 
-        flash()->success(__('mailcoach - Template :template was created.', ['template' => $template->name]));
+        flash()->success(__('mailcoach - Email :name was created.', ['name' => $template->name]));
 
         return redirect()->route('mailcoach.transactionalMails.templates.edit', $template);
     }
