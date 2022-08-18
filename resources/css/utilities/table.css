@@ -108,10 +108,10 @@
     @apply gap-y-2;
     @apply justify-between;
     @apply sm:flex-row;
-    @apply sm:items-center;
+    @apply sm:items-end;
     @apply lg:ml-auto;
 }
 
-.table-filters .search {
-    @apply sm:ml-auto;
+.table-filters .filters {
+    @apply sm:mr-auto;
 }
