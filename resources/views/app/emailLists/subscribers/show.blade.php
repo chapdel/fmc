@@ -33,6 +33,7 @@
                 name="tags"
                 :value="$tags"
                 :tags="$subscriber->emailList->tags()->pluck('name')->toArray()"
+                :multiple="true"
                 allow-create
             />
 

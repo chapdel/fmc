@@ -483,6 +483,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.components.button.cancel', 'mailcoach::button-cancel');
 
         Blade::component('mailcoach::app.components.editorButtons', 'mailcoach::editor-buttons');
+        Blade::component('mailcoach::app.components.editorFields', 'mailcoach::editor-fields');
         Blade::component(ReplacerHelpTextsComponent::class, 'mailcoach::replacer-help-texts');
 
         Blade::component('mailcoach::app.components.dropdown', 'mailcoach::dropdown');
@@ -608,6 +609,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::create-mailer', CreateMailer::class);
         Livewire::component('mailcoach::create-user', CreateUser::class);
         Livewire::component('mailcoach::general-settings', GeneralSettings::class);
+        Livewire::component('mailcoach::editor-settings', EditorSettings::class);
         Livewire::component('mailcoach::mailer-send-test', Http\Livewire\MailConfiguration\SendTest::class);
         Livewire::component('mailcoach::profile', Profile::class);
         Livewire::component('mailcoach::password', Password::class);
@@ -621,8 +623,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
         SmtpSetupWizardComponent::registerLivewireComponents();
         PostmarkSetupWizardComponent::registerLivewireComponents();
         MailgunSetupWizardComponent::registerLivewireComponents();
-
-        Livewire::component('mailcoach::editor-settings', EditorSettings::class);
 
         config()->set('livewire.temporary_file_upload.rules', [
             'file|max:102400', // 100 MB max

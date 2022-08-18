@@ -20,6 +20,25 @@ class TemplateRenderer
         return $matches[1];
     }
 
+    public function fields(): array
+    {
+        if (! $this->containsPlaceHolders()) {
+            return [
+                ['name' => 'html', 'type' => 'editor'],
+            ];
+        }
+
+        return collect($this->placeHolderNames())
+            ->map(function (string $name) {
+                $parts = explode(':', $name);
+
+                return [
+                    'name' => $parts[0],
+                    'type' => $parts[1] ?? 'editor',
+                ];
+            })->toArray();
+    }
+
     public function render(array $values): string
     {
         $html = $this->html;

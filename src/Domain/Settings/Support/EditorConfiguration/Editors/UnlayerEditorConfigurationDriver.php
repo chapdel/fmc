@@ -16,11 +16,6 @@ class UnlayerEditorConfigurationDriver extends EditorConfigurationDriver
         return UnlayerEditor::class;
     }
 
-    public function validationRules(): array
-    {
-        return [];
-    }
-
     public static function settingsPartial(): ?string
     {
         return 'mailcoach::app.configuration.editor.partials.unlayer';

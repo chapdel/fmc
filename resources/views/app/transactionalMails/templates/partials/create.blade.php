@@ -9,7 +9,7 @@
         :label="__('mailcoach - Name')"
         name="name"
         wire:model.lazy="name"
-        :placeholder="__('mailcoach - Transactional mail template')"
+        :placeholder="__('mailcoach - Transactional email')"
         required
     />
 
@@ -30,7 +30,7 @@
     />
 
     <x-mailcoach::form-buttons>
-        <x-mailcoach::button :label="__('mailcoach - Create template')" />
+        <x-mailcoach::button :label="__('mailcoach - Create email')" />
         <x-mailcoach::button-cancel x-on:click="$store.modals.close('create-transactional-template')" />
     </x-mailcoach::form-buttons>
 </form>

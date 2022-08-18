@@ -3,13 +3,10 @@
 namespace Spatie\Mailcoach\Http\Livewire;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
-use Spatie\Mailcoach\Domain\Settings\Support\ConfigCache;
 use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\EditorConfiguration;
 use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\EditorConfigurationDriverRepository;
-use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\TextareaEditorConfigurationDriver;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 
 class EditorSettings extends Component
@@ -28,8 +25,10 @@ class EditorSettings extends Component
 
     public function mount(EditorConfiguration $editorConfiguration)
     {
-        $this->contentEditor = $editorConfiguration->get('contentEditor', (new TextareaEditorConfigurationDriver())->label());
-        $this->templateEditor = $editorConfiguration->get('templateEditor', (new TextareaEditorConfigurationDriver())->label());
+        $editorConfigurationDriverRepository = new EditorConfigurationDriverRepository();
+
+        $this->contentEditor = $editorConfiguration->get('contentEditor', $editorConfigurationDriverRepository->getForClass(config('mailcoach.content_editor'))::label());
+        $this->templateEditor = $editorConfiguration->get('templateEditor', $editorConfigurationDriverRepository->getForClass(config('mailcoach.template_editor'))::label());
 
         $this->contentEditorOptions = $editorConfiguration->getContentEditorOptions();
         $this->templateEditorOptions = $editorConfiguration->getTemplateEditorOptions();
@@ -71,10 +70,7 @@ class EditorSettings extends Component
 
         resolve(EditorConfiguration::class)->put($data);
 
-        $this->flash(__('The editor has been updated.'));
-
-        ConfigCache::clear();
-        Artisan::call('view:clear');
+        flash()->success(__('The editor has been updated.'));
 
         return redirect(request()->header('Referer'));
     }

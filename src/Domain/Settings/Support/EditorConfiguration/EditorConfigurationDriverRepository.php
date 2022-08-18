@@ -25,4 +25,12 @@ class EditorConfigurationDriverRepository
 
         return $configuredEditor ?? app(TextareaEditorConfigurationDriver::class);
     }
+
+    public function getForClass(string $class): EditorConfigurationDriver
+    {
+        $configuredEditor = $this->getSupportedEditors()
+            ->first(fn (EditorConfigurationDriver $editor) => $editor->getClass() === $class);
+
+        return $configuredEditor ?? app(TextareaEditorConfigurationDriver::class);
+    }
 }

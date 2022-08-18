@@ -8,10 +8,13 @@ abstract class EditorConfigurationDriver
 {
     abstract public static function label(): string;
 
-    /** @return class-string<\Spatie\Mailcoach\Http\Livewire\EditorComponent> */
+    /** @return class-string<\Spatie\Mailcoach\Http\App\Livewire\EditorComponent> */
     abstract public function getClass(): string;
 
-    abstract public function validationRules(): array;
+    public function validationRules(): array
+    {
+        return [];
+    }
 
     public function defaults()
     {

@@ -3,42 +3,17 @@
         <x-mailcoach::template-chooser />
     @endif
 
-    @if($template?->containsPlaceHolders())
-        @foreach($template->placeHolderNames() as $placeHolderName)
-            <div class="form-field max-w-full" wire:key="{{ $placeHolderName }}">
-                <label class="label" for="field_{{ $placeHolderName }}">
-                    {{ \Illuminate\Support\Str::of($placeHolderName)->snake(' ')->ucfirst() }}
-                </label>
-
+    @foreach($template?->fields() ?? [['name' => 'html', 'type' => 'editor']] as $field)
+        <x-mailcoach::editor-fields :name="$field['name']" :type="$field['type']">
+            <x-slot name="editor">
                 <textarea
                     class="input input-html"
                     rows="15"
-                    wire:model.lazy="templateFieldValues.{{ $placeHolderName }}"
+                    wire:model.lazy="templateFieldValues.{{ $field['name'] }}"
                 ></textarea>
-
-                @error('templateFieldValues.' . $placeHolderName)
-                    <p class="form-error">{{ $message }}</p>
-                @enderror
-            </div>
-        @endforeach
-    @else
-        <div class="form-field max-w-none">
-            <label class="label" for="field_html">
-                HTML
-            </label>
-
-            <textarea
-                class="input input-html"
-                name="field_html"
-                rows="15"
-                wire:model.lazy="templateFieldValues.html"
-            ></textarea>
-
-            @error('templateFieldValues.html')
-                <p class="form-error">{{ $message }}</p>
-            @enderror
-        </div>
-    @endif
+            </x-slot>
+        </x-mailcoach::editor-fields>
+    @endforeach
 
     <x-mailcoach::replacer-help-texts :model="$model" />
 

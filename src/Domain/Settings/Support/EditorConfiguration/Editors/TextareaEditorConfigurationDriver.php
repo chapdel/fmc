@@ -16,11 +16,6 @@ class TextareaEditorConfigurationDriver extends EditorConfigurationDriver
         return TextAreaEditorComponent::class;
     }
 
-    public function validationRules(): array
-    {
-        return [];
-    }
-
     public static function settingsPartial(): ?string
     {
         return 'mailcoach::app.configuration.editor.partials.textarea';

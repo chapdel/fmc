@@ -8,6 +8,7 @@
 'rowData' => [],
 'modelClass' => null,
 'emptyText' => null,
+'createText' => null,
 'noResultsText' => null,
 'searchable' => true,
 ])
@@ -17,8 +18,8 @@
         {{ $actions ?? '' }}
         @if ($modelClass)
             @can('create', $modelClass)
-            <x-mailcoach::button x-on:click="$store.modals.open('create-{{ $name }}')" :label="__('mailcoach - Create ' . $name)" />
-            <x-mailcoach::modal :title="__('mailcoach - Create ' . $name)" name="create-{{ $name }}">
+            <x-mailcoach::button x-on:click="$store.modals.open('create-{{ $name }}')" :label="$createText ?? __('mailcoach - Create ' . $name)" />
+            <x-mailcoach::modal :title="$createText ?? __('mailcoach - Create ' . $name)" name="create-{{ $name }}">
                 @livewire('mailcoach::create-' . $name)
             </x-mailcoach::modal>
             @endcan

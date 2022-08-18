@@ -52,7 +52,11 @@
                             }
                         });
 
-                        tagify.on('add', (e) => {
+                        tagify.on('dropdown:select', (e) => {
+                            if (! e.detail.data) {
+                                return;
+                            }
+
                             this.value = e.detail.data.value;
                         });
 
