@@ -192,7 +192,7 @@
                                         <i x-show="collapsed" @click="collapsed = false" class="fas fa-chevron-down"></i>
                                     </button>
                                 </div>
-                                <div x-show="!collapsed">
+                                <div class="grid gap-3" x-show="!collapsed">
                                     @foreach ($yesActions as $index => $action)
                                         @livewire($action['class']::getComponent() ?: 'automation-action', array_merge([
                                             'index' => $index,
@@ -221,7 +221,7 @@
                                         <i x-show="collapsed" @click="collapsed = false" class="fas fa-chevron-down"></i>
                                     </button>
                                 </div>
-                                <div x-show="!collapsed">
+                                <div class="grid gap-3" x-show="!collapsed">
                                     @foreach ($noActions as $index => $action)
                                         @livewire($action['class']::getComponent() ?: 'automation-action', array_merge([
                                             'index' => $index,
