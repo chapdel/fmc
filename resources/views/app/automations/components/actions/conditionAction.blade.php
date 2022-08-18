@@ -134,10 +134,10 @@
                 </div>
 
                 <div class="grid gap-6 w-full">
-                    <section class="border-t border-r border-b border-indigo-700/10 rounded bg-indigo-300/10 before:content-[''] before:absolute before:w-2 before:-top-px before:-bottom-px before:left-0 before:bg-green-500 before:rounded-l ">
+                    <section class="border-t border-r border-b border-indigo-700/10 rounded bg-indigo-300/10 before:content-[''] before:absolute before:w-2 before:-top-px before:-bottom-px before:left-0 before:bg-green-600 before:rounded-l ">
                         <div x-data="{ collapsed: false }" :class="{ 'pb-6': !collapsed }" class="grid gap-4 px-6">
                             <div class="flex items-center">
-                                <h2 :class="{ 'rounded-br': !collapsed }" class="justify-self-start -ml-4 -my-px h-8 px-2 inline-flex items-center bg-green-500 text-white space-x-2">
+                                <h2 :class="{ 'rounded-br': !collapsed }" class="justify-self-start -ml-4 -my-px h-8 pl-2 pr-4 inline-flex items-center bg-green-600 text-white space-x-2">
                                     <i class="far fa-thumbs-up"></i>
                                     <span class="markup-h4">@lang('If')</span>
                                 </h2>
@@ -152,10 +152,10 @@
                             </div>
                         </div>
                     </section>
-                    <section class="border-t border-r border-b border-indigo-700/10 rounded bg-indigo-300/10 before:content-[''] before:absolute before:w-2 before:-top-px before:-bottom-px before:left-0 before:bg-red-500 before:rounded-l ">
+                    <section class="border-t border-r border-b border-indigo-700/10 rounded bg-indigo-300/10 before:content-[''] before:absolute before:w-2 before:-top-px before:-bottom-px before:left-0 before:bg-red-600 before:rounded-l ">
                         <div x-data="{ collapsed: false }" :class="{ 'pb-6': !collapsed }" class="grid gap-4 px-6">
                             <div class="flex items-center">
-                                <h2 :class="{ 'rounded-br': !collapsed }" class="justify-self-start -ml-4 -my-px h-8 px-2 inline-flex items-center bg-red-500 text-white space-x-2">
+                                <h2 :class="{ 'rounded-br': !collapsed }" class="justify-self-start -ml-4 -my-px h-8 pl-2 pr-4 inline-flex items-center bg-red-600 text-white space-x-2">
                                     <i class="far fa-thumbs-down"></i>
                                     <span class="markup-h4">@lang('Else')</span>
                                 </h2>
@@ -174,10 +174,10 @@
             @else
                 <div class="grid gap-6 flex-grow">
                     <div class="grid gap-6 w-full">
-                        <section class="border-t border-r border-b border-indigo-700/10 rounded bg-indigo-300/10 before:content-[''] before:absolute before:w-2 before:-top-px before:-bottom-px before:left-0 before:bg-green-500 before:rounded-l ">
+                        <section class="border-t border-r border-b border-indigo-700/10 rounded bg-indigo-300/10 before:content-[''] before:absolute before:w-2 before:-top-px before:-bottom-px before:left-0 before:bg-green-600 before:rounded-l ">
                             <div x-data="{ collapsed: false }" :class="{ 'pb-6': !collapsed }" class="grid gap-4 px-6">
                                 <div class="flex items-center">
-                                    <h2 :class="{ 'rounded-br': !collapsed }" class="justify-self-start -ml-4 -my-px h-8 px-2 inline-flex items-center bg-green-500 text-white space-x-2">
+                                    <h2 :class="{ 'rounded-br': !collapsed }" class="justify-self-start -ml-4 -my-px h-8 pl-2 pr-4 inline-flex items-center bg-green-600 text-white space-x-2">
                                         <i class="far fa-thumbs-up"></i>
                                          @if ($condition)
                                             <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">
@@ -206,10 +206,10 @@
                                 </div>
                             </div>
                         </section>
-                        <section class="border-t border-r border-b border-indigo-700/10 rounded bg-indigo-300/10 before:content-[''] before:absolute before:w-2 before:-top-px before:-bottom-px before:left-0 before:bg-red-500 before:rounded-l ">
+                        <section class="border-t border-r border-b border-indigo-700/10 rounded bg-indigo-300/10 before:content-[''] before:absolute before:w-2 before:-top-px before:-bottom-px before:left-0 before:bg-red-600 before:rounded-l ">
                             <div x-data="{ collapsed: false }" :class="{ 'pb-6': !collapsed }" class="grid gap-4 px-6">
                                 <div class="flex items-center">
-                                    <h2 :class="{ 'rounded-br': !collapsed }" class="justify-self-start -ml-4 -my-px h-8 px-2 inline-flex items-center bg-red-500 text-white space-x-2">
+                                    <h2 :class="{ 'rounded-br': !collapsed }" class="justify-self-start -ml-4 -my-px h-8 pl-2 pr-4 inline-flex items-center bg-red-600 text-white space-x-2">
                                         <i class="far fa-thumbs-down"></i>
                                         <span class="markup-h4">
                                             <span class="font-normal">@lang('Else')</span>

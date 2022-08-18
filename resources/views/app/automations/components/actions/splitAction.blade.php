@@ -31,10 +31,10 @@
         <div class="grid gap-6">
             @if ($editing)
                 <div class="grid gap-6 w-full">
-                    <section class="border-t border-r border-b border-indigo-700/10 rounded bg-indigo-300/10 before:content-[''] before:absolute before:w-2 before:-top-px before:-bottom-px before:left-0 before:bg-blue-500 before:rounded-l ">
+                    <section class="border-t border-r border-b border-indigo-700/10 rounded bg-indigo-300/10 before:content-[''] before:absolute before:w-2 before:-top-px before:-bottom-px before:left-0 before:bg-blue-600 before:rounded-l ">
                         <div x-data="{ collapsed: false }" :class="{ 'pb-6': !collapsed }" class="grid gap-4 px-6">
                             <div class="flex items-center">
-                                <h2 :class="{ 'rounded-br': !collapsed }" class="justify-self-start -ml-4 -my-px h-8 px-2 inline-flex items-center bg-blue-500 text-white space-x-2">
+                                <h2 :class="{ 'rounded-br': !collapsed }" class="justify-self-start -ml-4 -my-px h-8 pl-2 pr-4 inline-flex items-center bg-blue-600 text-white space-x-2">
                                     <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">
                                     <span class="font-normal">{{ __('mailcoach - Branch') }}</span>
                                     A
@@ -51,10 +51,10 @@
                             </div>
                         </div>
                     </section>
-                    <section class="border-t border-r border-b border-indigo-700/10 rounded bg-indigo-300/10 before:content-[''] before:absolute before:w-2 before:-top-px before:-bottom-px before:left-0 before:bg-blue-500 before:rounded-l ">
+                    <section class="border-t border-r border-b border-indigo-700/10 rounded bg-indigo-300/10 before:content-[''] before:absolute before:w-2 before:-top-px before:-bottom-px before:left-0 before:bg-blue-600 before:rounded-l ">
                         <div x-data="{ collapsed: false }" :class="{ 'pb-6': !collapsed }" class="grid gap-4 px-6">
                             <div class="flex items-center">
-                                <h2 :class="{ 'rounded-br': !collapsed }" class="justify-self-start -ml-4 -my-px h-8 px-2 inline-flex items-center bg-blue-500 text-white space-x-2">
+                                <h2 :class="{ 'rounded-br': !collapsed }" class="justify-self-start -ml-4 -my-px h-8 pl-2 pr-4 inline-flex items-center bg-blue-600 text-white space-x-2">
                                     <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">
                                     <span class="font-normal">{{ __('mailcoach - Branch') }}</span>
                                     B
@@ -75,10 +75,10 @@
             @else
                 <div class="grid gap-6 flex-grow">
                     <div class="grid gap-6 w-full">
-                        <section class="border-t border-r border-b border-indigo-700/10 rounded bg-indigo-300/10 before:content-[''] before:absolute before:w-2 before:-top-px before:-bottom-px before:left-0 before:bg-blue-500 before:rounded-l ">
+                        <section class="border-t border-r border-b border-indigo-700/10 rounded bg-indigo-300/10 before:content-[''] before:absolute before:w-2 before:-top-px before:-bottom-px before:left-0 before:bg-blue-600 before:rounded-l ">
                             <div x-data="{ collapsed: false }" :class="{ 'pb-6': !collapsed }" class="grid gap-4 px-6">
                                 <div class="flex items-center">
-                                    <h2 :class="{ 'rounded-br': !collapsed }" class="justify-self-start -ml-4 -my-px h-8 px-2 inline-flex items-center bg-blue-500 text-white space-x-2">
+                                    <h2 :class="{ 'rounded-br': !collapsed }" class="justify-self-start -ml-4 -my-px h-8 pl-2 pr-4 inline-flex items-center bg-blue-600 text-white space-x-2">
                                         <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">
                                             <span class="font-normal">{{ __('mailcoach - Branch') }}</span>
                                             A
@@ -104,10 +104,10 @@
                                 </div>
                             </div>
                         </section>
-                        <section class="border-t border-r border-b border-indigo-700/10 rounded bg-indigo-300/10 before:content-[''] before:absolute before:w-2 before:-top-px before:-bottom-px before:left-0 before:bg-blue-500 before:rounded-l ">
+                        <section class="border-t border-r border-b border-indigo-700/10 rounded bg-indigo-300/10 before:content-[''] before:absolute before:w-2 before:-top-px before:-bottom-px before:left-0 before:bg-blue-600 before:rounded-l ">
                             <div x-data="{ collapsed: false }" :class="{ 'pb-6': !collapsed }" class="grid gap-4 px-6">
                                 <div class="flex items-center">
-                                    <h2 :class="{ 'rounded-br': !collapsed }" class="justify-self-start -ml-4 -my-px h-8 px-2 inline-flex items-center bg-blue-500 text-white space-x-2">
+                                    <h2 :class="{ 'rounded-br': !collapsed }" class="justify-self-start -ml-4 -my-px h-8 pl-2 pr-4 inline-flex items-center bg-blue-600 text-white space-x-2">
                                         <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">
                                         <span class="font-normal">{{ __('mailcoach - Branch') }}</span>
                                         B
