@@ -54,7 +54,8 @@ input:disabled {
     @apply outline-none;
     @apply shadow-md;
     @apply shadow-blue-400/20;
-    @apply placeholder-transparent;
+    @apply placeholder:text-indigo-900/30;
+    @apply placeholder:opacity-100;
 }
 
 @screen lg {
