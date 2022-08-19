@@ -59,7 +59,6 @@
 
                     this.$refs.select.addEventListener('change', () => {
                         this.value = choices.getValue(true)
-                        console.log(this.value);
                     })
 
                     this.$watch('value', () => refreshChoices())
@@ -71,7 +70,6 @@
         <select
             class="hidden"
             x-ref="select"
-            id="{{ $name }}"
             {{ $required ? 'required' : '' }}
             {{ $multiple ? 'multiple' : '' }}
         ></select>

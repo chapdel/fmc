@@ -3,7 +3,7 @@
 </x-mailcoach::info>
 
 <x-mailcoach::select-field
-    :label="__('Theme')"
+    :label="__('Editor')"
     name="editorSettings.monaco_theme"
     wire:model.lazy="editorSettings.monaco_theme"
     :options="['vs-light' => 'vs-light', 'vs-dark' => 'vs-dark']"

@@ -7,30 +7,31 @@
     x-cloak
 >
     @csrf
-        <x-mailcoach::fieldset card :legend="__('Content editor')">
-            <x-mailcoach::select-field
-                    name="contentEditor"
-                    wire:model="contentEditor"
-                    :options="$contentEditorOptions"
-                />
+    <x-mailcoach::fieldset card :legend="__('Content editor')">
+        <x-mailcoach::select-field
+            name="contentEditor"
+            wire:model="contentEditor"
+            :options="$contentEditorOptions"
+        />
 
-                @foreach(config('mailcoach.editors') as $editor)
-                @if($contentEditor === $editor::label())
-                        <div class="form-grid">
-                            @includeIf($editor::settingsPartial())
-                        </div>
-                @endif
-            @endforeach
-        </x-mailcoach::fieldset>
+        @foreach(config('mailcoach.editors') as $editor)
+            @if($contentEditor === $editor::label())
+                <div class="form-grid">
+                    @includeIf($editor::settingsPartial())
+                </div>
+            @endif
+        @endforeach
+    </x-mailcoach::fieldset>
 
-        <x-mailcoach::fieldset card :legend="__('Template editor')">
-            <x-mailcoach::select-field
-                name="templateEditor"
-                wire:model="templateEditor"
-                :options="$templateEditorOptions"
-            />
-            @foreach(config('mailcoach.editors') as $editor)
-                @if($templateEditor === $editor::label())
+    <x-mailcoach::fieldset card :legend="__('Template editor')">
+        <x-mailcoach::select-field
+            name="templateEditor"
+            wire:model="templateEditor"
+            :options="$templateEditorOptions"
+        />
+        @foreach(config('mailcoach.editors') as $editor)
+            @if($templateEditor === $editor::label())
+                <div wire:key="{{ $editor }}">
                     @if($templateEditor === $contentEditor)
                         <x-mailcoach::info>
                             {{ __('Uses same settings as the content editor.') }}
@@ -40,11 +41,12 @@
                         @includeIf($editor::settingsPartial())
                     </div>
                     @endif
-                @endif
-            @endforeach
-        </x-mailcoach::fieldset>
+                </div>
+            @endif
+        @endforeach
+    </x-mailcoach::fieldset>
 
-        <x-mailcoach::card buttons>
-            <x-mailcoach::button :label="__('Save')" />
-        </x-mailcoach::card>
+    <x-mailcoach::card buttons>
+        <x-mailcoach::button :label="__('Save')" />
+    </x-mailcoach::card>
 </form>

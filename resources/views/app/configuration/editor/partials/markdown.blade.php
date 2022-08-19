@@ -1,5 +1,5 @@
 <x-mailcoach::info>
-    {!! __('<a href=":link">EasyMDE</a> is a great markdown editor. It also offers image uploads.', ['link' => 'https://easy-markdown-editor.tk']) !!}
+    {!! __('The markdown editor uses <a href=":link">EasyMDE</a> under the hood. It also offers image uploads.', ['link' => 'https://easy-markdown-editor.tk']) !!}
 </x-mailcoach::info>
 
 <x-mailcoach::warning>
