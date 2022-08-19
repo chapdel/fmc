@@ -53,15 +53,20 @@ class TemplateRenderer
             return $html;
         }
 
-        foreach ($this->placeHolderNames() as $placeHolderName) {
-            $value = $values[$placeHolderName] ?? '';
+        foreach ($this->fields() as $field) {
+            $value = $values[$field['name']] ?? '';
 
             if (is_array($value)) {
                 $value = $value['html'] ?? '';
             }
 
+            $name = $field['name'];
+            if ($field['type'] !== 'editor') {
+                $name = "{$name}:{$field['type']}";
+            }
+
             $html = str_replace(
-                '[[['.$placeHolderName.']]]',
+                '[[['.$name.']]]',
                 $value,
                 $html,
             );
