@@ -12,7 +12,7 @@
             <button class="md:hidden text-white ml-auto text-2xl" x-on:click="show = !show"><i class="fa fa-bars"></i></button>
         </div>
 
-        <div class="w-full flex flex-col md:flex-row md:items-center gap-y-8" x-show="show" x-transition x-cloak>
+        <div class="w-full flex flex-col md:flex-row md:items-center gap-y-8" x-show="show" x-transition>
             @include('mailcoach::app.layouts.partials.beforeFirstMenuItem')
 
             @foreach (app(\Spatie\Mailcoach\MainNavigation::class)->tree() as $index => $item)
