@@ -32,7 +32,7 @@
                 :label="__('mailcoach - Tags')"
                 name="tags"
                 :value="$tags"
-                :tags="$subscriber->emailList->tags()->pluck('name')->toArray()"
+                :tags="$subscriber->emailList->tags()->where('type', \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::Default)->pluck('name')->toArray()"
                 :multiple="true"
                 allow-create
             />

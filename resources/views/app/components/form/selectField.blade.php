@@ -8,18 +8,20 @@
     'maxItems' => 100,
     'clearable' => false,
     'position' => 'auto',
+    'multiple' => false,
 ])
 @php($wireModelAttribute = collect($attributes)->first(fn (string $value, string $attribute) => str_starts_with($attribute, 'wire:model')))
 
-<div class="form-field" wire:ignore x-cloak>
+<div class="form-field" x-cloak>
     @isset($label)
         <label class="{{ $required ? 'label label-required' : 'label' }}" for="{{ $name }}">
             {{ $label }}
         </label>
     @endisset
     <div
+        wire:ignore
         x-data="{
-            multiple: false,
+            multiple: {{ $multiple ? 'true' : 'false' }},
             @if ($wireModelAttribute)
             value: @entangle($wireModelAttribute),
             @else
@@ -57,6 +59,7 @@
 
                     this.$refs.select.addEventListener('change', () => {
                         this.value = choices.getValue(true)
+                        console.log(this.value);
                     })
 
                     this.$watch('value', () => refreshChoices())
@@ -70,6 +73,7 @@
             x-ref="select"
             id="{{ $name }}"
             {{ $required ? 'required' : '' }}
+            {{ $multiple ? 'multiple' : '' }}
         ></select>
         <div class="select-arrow">
             <i class="fas fa-angle-down"></i>

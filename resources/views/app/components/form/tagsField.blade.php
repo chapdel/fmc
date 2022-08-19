@@ -6,6 +6,7 @@
     'tags' => [],
     'value' => [],
     'allowCreate' => false,
+    'clearable' => true,
 ])
 
 @php($wireModelAttribute = collect($attributes)->first(fn ($value, $attribute) => str_starts_with($attribute, 'wire:model')))
@@ -21,35 +22,129 @@
         options: @js(array_values($tags)),
         init() {
             this.$nextTick(() => {
-                let choices = new Choices(this.$refs.select, {
-                    removeItemButton: true,
+                const self = this;
+                function createChoicesFromTags() {
+                    let selection = self.multiple ? self.value : [self.value]
+
+                    return self.options.map(tag => {
+                        return {
+                            value: tag,
+                            label: tag,
+                            selected: selection.includes(tag),
+                            customProperties: {
+                                isCurrentSearch: false,
+                                exists: true,
+                            },
+                        };
+                    });
+                }
+
+                let tagsInput = new Choices(this.$refs.select, {
+                    removeItemButton: {{ $clearable ? 'true' : 'false' }},
                     allowHTML: true,
                     searchEnabled: this.options.length >= 10,
                     searchResultLimit: 10,
                     searchPlaceholderValue: '{{ __('mailcoach - Search…') }}',
-                })
+                    noResultsText: '{{ $allowCreate ? __('mailcoach - Type to add tags') : __('mailcoach - No tags found') }}',
+                    noChoicesText: '{{ $allowCreate ? __('mailcoach - Type to add tags') : __('mailcoach - No tags to choose from') }}',
+                    itemSelectText: '{{ $allowCreate ? __('mailcoach - Press to add') : __('mailcoach - Press to select') }}',
+                    choices: createChoicesFromTags(),
+                });
+
+                function updateChoices(search) {
+                    const hasCurrentSearchCoice = Boolean(
+                        tagsInput._currentState.choices.find(choice => choice.customProperties.isCurrentSearch)
+                    );
+
+                    if (!hasCurrentSearchCoice && !search) return;
+
+                    if (!hasCurrentSearchCoice) {
+                        addCurrentSearchChoice(search);
+                        return;
+                    }
+
+                    if (!search) {
+                        removeCurrentSearchChoice();
+                        return;
+                    }
+
+                    updateCurrentSearchChoice(search);
+                }
+
+                function addCurrentSearchChoice(search) {
+                    if (!hasExistingTag(search)) {
+                        tagsInput.setChoices([
+                            {
+                                value: search,
+                                label: search,
+                                customProperties: {
+                                    isCurrentSearch: true,
+                                    exists: false,
+                                },
+                            },
+                        ]);
+                    }
+                }
+
+                function updateCurrentSearchChoice(search) {
+                    if (hasExistingTag(search)) {
+                        removeCurrentSearchChoice();
+                    } else {
+                        tagsInput._currentState.choices.forEach(choice => {
+                            if (choice.customProperties.isCurrentSearch) {
+                                choice.value = search;
+                                choice.label = search;
+                            }
+                        });
+                    }
+                }
+
+                function removeCurrentSearchChoice() {
+                    const currentSearchChoiceIndex = tagsInput._currentState.choices.findIndex(
+                        choice => choice.customProperties.isCurrentSearch
+                    );
+
+                    if (currentSearchChoiceIndex !== -1) {
+                        tagsInput._currentState.choices.splice(currentSearchChoiceIndex, 1);
+                    }
+                }
+
+                function hasExistingTag(value) {
+                    return (
+                        tagsInput._currentState.choices.findIndex(choice => {
+                            if (choice.customProperties.isCurrentSearch) {
+                                return false;
+                            }
+
+                            return choice.value.toLowerCase() === value.toLowerCase();
+                        }) !== -1
+                    );
+                }
+
+                this.$refs.select.addEventListener('addItem', () => {
+                    tagsInput._currentState.choices.forEach(choice => {
+                        delete choice.customProperties.isCurrentSearch;
+                    });
+                });
+
+                @if ($multiple && $allowCreate)
+                    document.querySelector('input.choices__input', this.$refs.select.parentNode).addEventListener('input', event => {
+                        updateChoices(event.target.value);
+                    });
+                @endif
 
                 let refreshChoices = () => {
-                    let selection = this.multiple ? this.value : [this.value]
-
-                    choices.clearStore()
-                    choices.setChoices(this.options.map((tag) => ({
-                        value: tag,
-                        label: tag,
-                        selected: selection.includes(tag),
-                    })))
+                    tagsInput.clearStore()
+                    tagsInput.setChoices(createChoicesFromTags())
                 }
 
                 refreshChoices();
 
                 this.$refs.select.addEventListener('change', () => {
-                    this.value = choices.getValue(true)
+                    this.value = tagsInput.getValue(true)
                     $wire.emit('tags-updated', this.value);
                     $wire.emit('tags-updated-{{ $name }}', this.value);
                 })
-
-                this.$watch('value', () => refreshChoices())
-                this.$watch('options', () => refreshChoices())
             })
         }
     }"
@@ -66,8 +161,13 @@
         {{ $required ? 'required' : '' }}
         {{ $multiple ? 'multiple' : '' }}
         {!! $attributes->except(['value', 'tags', 'required', 'multiple', 'name', 'allowCreate']) ?? '' !!}
-        class="input"
+        class="hidden"
     ></select>
+    @if (! $multiple)
+        <div class="select-arrow mt-3 pt-[3px]">
+            <i class="fas fa-angle-down"></i>
+        </div>
+    @endif
     <template x-for="tag in value">
         <input type="hidden" name="{{ $name }}[]" :value="tag">
     </template>

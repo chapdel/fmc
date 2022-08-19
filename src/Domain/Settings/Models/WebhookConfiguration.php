@@ -33,8 +33,8 @@ class WebhookConfiguration extends Model
         return $this->belongsToMany(
             EmailList::class,
             'mailcoach_webhook_configuration_email_lists',
-            'email_list_id',
             'webhook_configuration_id',
+            'email_list_id',
         );
     }
 

@@ -28,14 +28,17 @@
 
         <x-mailcoach::checkbox-field :label="__('Use for all lists')" name="webhook.use_for_all_lists" wire:model="webhook.use_for_all_lists" />
 
-        <div class="form-field">
-            <label class=label>Only for these email lists</label>
-        <x-mailcoach::tags-field
-            name="email_lists"
-            :value="$email_lists"
-            :tags="\Spatie\Mailcoach\Domain\Audience\Models\EmailList::get()->pluck('name')->toArray()"
-        />
-        </div>
+        @if (!$webhook->use_for_all_lists)
+            <div class="form-field">
+                <label class=label>Only for these email lists</label>
+                <x-mailcoach::select-field
+                    name="email_lists"
+                    :multiple="true"
+                    wire:model="email_lists"
+                    :options="\Spatie\Mailcoach\Domain\Audience\Models\EmailList::get()->pluck('name', 'id')->values()->toArray()"
+                />
+            </div>
+        @endif
 
         <x-mailcoach::form-buttons>
             <x-mailcoach::button :label="__('Save webhook')" />

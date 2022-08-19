@@ -29,15 +29,14 @@ class EditWebhook extends Component
     {
         $this->webhook = $webhook;
 
-        $this->email_lists = $webhook->emailLists()->pluck('name')->toArray();
+        $this->email_lists = $webhook->emailLists->pluck('id')->values()->toArray();
     }
 
     public function save()
     {
         $this->webhook->update($this->validate()['webhook']);
-
         $this->webhook->emailLists()->sync($this->email_lists);
-        ray($this->email_lists);
+
         $this->flash(__('The webhook has been updated.'));
     }
 

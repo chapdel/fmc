@@ -77,6 +77,8 @@
                                         name="conditionData.tag"
                                         wire:model="conditionData.tag"
                                         :allow-create="true"
+                                        :multiple="false"
+                                        :clearable="false"
                                         :tags="$automation->emailList?->tags()->pluck('name')->toArray() ?? []"
                                     />
                                 </div>

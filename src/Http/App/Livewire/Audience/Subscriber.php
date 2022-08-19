@@ -10,6 +10,7 @@ use Livewire\Component;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\UpdateSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber as SubscriberModel;
+use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 use Spatie\Mailcoach\Mailcoach;
@@ -87,7 +88,7 @@ class Subscriber extends Component
         $this->emailList = $emailList;
         $this->subscriber = $subscriber;
         $this->totalSendsCount = $subscriber->sends()->count();
-        $this->tags = $subscriber->tags()->pluck('name')->toArray();
+        $this->tags = $subscriber->tags()->where('type', TagType::Default)->pluck('name')->toArray();
 
         app(MainNavigation::class)->activeSection()
             ->add($this->emailList->name, route('mailcoach.emailLists.summary', $this->emailList), function ($section) {

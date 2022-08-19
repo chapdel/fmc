@@ -459,9 +459,8 @@
 }
 
 .choices-multiple .choices__input {
-    width: 1px;
-    @apply p-0;
     @apply bg-transparent;
+    @apply w-full !important;
 }
 
 /* SPATIE: removed
