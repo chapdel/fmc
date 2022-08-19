@@ -21,7 +21,6 @@ class MonacoEditorConfigurationDriver extends EditorConfigurationDriver
     {
         return [
             'monaco_theme' => 'required',
-            'monaco_font_family' => '',
             'monaco_font_size' => ['required', 'numeric'],
             'monaco_font_weight' => ['required', 'numeric'],
             'monaco_line_height' => ['required', 'numeric'],
@@ -32,7 +31,6 @@ class MonacoEditorConfigurationDriver extends EditorConfigurationDriver
     {
         return [
             'monaco_theme' => 'vs-light',
-            'monaco_font_family' => 'Menlo, Monaco, "Courier New", monospace',
             'monaco_font_size' => '12',
             'monaco_font_weight' => '400',
             'monaco_line_height' => '18',
@@ -44,7 +42,6 @@ class MonacoEditorConfigurationDriver extends EditorConfigurationDriver
         parent::registerConfigValues($config, $values);
 
         config()->set('mailcoach-monaco.theme', $values['monaco_theme'] ?? 'vs-light');
-        config()->set('mailcoach-monaco.fontFamily', $values['monaco_font_family'] ?? 'Menlo, Monaco, "Courier New", monospace');
         config()->set('mailcoach-monaco.fontSize', $values['monaco_font_size'] ?? '12');
         config()->set('mailcoach-monaco.fontWeight', $values['monaco_font_weight'] ?? '400');
         config()->set('mailcoach-monaco.lineHeight', $values['monaco_line_height'] ?? '18');

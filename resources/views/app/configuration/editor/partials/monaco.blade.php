@@ -9,12 +9,6 @@
     :options="['vs-light' => 'vs-light', 'vs-dark' => 'vs-dark']"
 />
 
-<x-mailcoach::text-field
-    :label="__('Font family')"
-    name="editorSettings.monaco_font_family"
-    wire:model.lazy="editorSettings.monaco_font_family"
-/>
-
 <div class="form-row">
     <x-mailcoach::text-field
         :label="__('Font size')"
