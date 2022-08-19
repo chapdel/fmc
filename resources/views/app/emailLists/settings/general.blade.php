@@ -23,7 +23,12 @@
         <div class="form-field max-w-full">
             <x-mailcoach::checkbox-field :label="__('mailcoach - Make feed publicly available')" name="emailList.campaigns_feed_enabled"
                             wire:model="emailList.campaigns_feed_enabled"/>
-            <a class="text-sm link" target="_blank" href="{{$emailList->feedUrl()}}">{{$emailList->feedUrl()}}</a>
+            @if ($emailList->campaigns_feed_enabled)
+                <x-mailcoach::info class="mt-2" full>
+                    {{ __('mailcoach - Your public feed will be available at') }}
+                    <a class="text-sm link" target="_blank" href="{{$emailList->feedUrl()}}">{{$emailList->feedUrl()}}</a>
+                </x-mailcoach::info>
+            @endif
         </div>
     </x-mailcoach::fieldset>
 

@@ -576,6 +576,7 @@
     "mailcoach - Your email's content size is larger than 102kb (:size). This could cause Gmail to clip your mail.": "Your email's content size is larger than 102kb (:size). This could cause Gmail to clip your mail.",
     "mailcoach - Your file has been uploaded. Follow the import status in the list below.": "Your file has been uploaded. Follow the import status in the list below.",
     "mailcoach - Your import was processed": "Your import was processed",
+    "mailcoach - Your public feed will be available at": "Your public feed will be available at",
     "mailcoach - ` to not interfere with translations you could have in your own application. If you have added translations for Mailcoach in your project, make sure to prefix those keys.": "` to not interfere with translations you could have in your own application. If you have added translations for Mailcoach in your project, make sure to prefix those keys.",
     "mailcoach - action|actions": "action|actions",
     "mailcoach - all subscribers": "all subscribers",
