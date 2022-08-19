@@ -26,6 +26,7 @@
             :label="__('mailcoach - Template')"
             :options="$templateOptions"
             wire:model.lazy="template_id"
+            position="top"
             name="template_id"
         />
     @endif

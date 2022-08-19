@@ -7,6 +7,7 @@
     'value' => null,
     'maxItems' => 100,
     'clearable' => false,
+    'position' => 'auto',
 ])
 @php($wireModelAttribute = collect($attributes)->first(fn (string $value, string $attribute) => str_starts_with($attribute, 'wire:model')))
 
@@ -37,6 +38,7 @@
                         searchEnabled: this.options.length >= 10,
                         searchResultLimit: 10,
                         placeholder: '{{ $placeholder }}',
+                        position: '{{ $position }}',
                         searchPlaceholderValue: '{{ __('mailcoach - Search…') }}',
                     })
 
