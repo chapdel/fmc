@@ -23,7 +23,7 @@
                 {{ __('mailcoach - Segments') }}
             </x-mailcoach::navigation-item>
 
-            <x-mailcoach::navigation-group icon="fas fa-cog" :title="__('mailcoach - Settings')">
+            <x-mailcoach::navigation-group icon="fas fa-cog" :title="__('mailcoach - Settings')" :href="route('mailcoach.emailLists.general-settings', $emailList)">
                 <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.general-settings', $emailList)">
                     {{ __('mailcoach - General') }}
                 </x-mailcoach::navigation-item>
