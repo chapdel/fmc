@@ -18,7 +18,7 @@
 
         @if($configurationType === 'manual')
             <x-mailcoach::info>
-                {!! __('Learn how to configure :provider by reading <a target="_blank" href=":docsLink">this section of the Mailcoach docs</a>.', ['provider' => 'SES', 'docsLink' => 'https://spatie.be/docs/laravel-mailcoach/v4/configuring-mail-providers/amazon-ses']) !!}
+                {!! __('Learn how to configure :provider by reading <a target="_blank" href=":docsLink">this section of the Mailcoach docs</a>.', ['provider' => 'SES', 'docsLink' => 'https://mailcoach.app/docs/v6/using-mailcoach/configuring-mail-providers/amazon-ses']) !!}
                 <br />
                 {!! __('You must set a webhook to: <code class="markup-code">:webhookUrl</code>', ['webhookUrl' => url(action(\Spatie\MailcoachSesFeedback\SesWebhookController::class, $mailer->configName()))]) !!}
             </x-mailcoach::info>

@@ -11,7 +11,7 @@
             You should first <a href="https://mailgun.com" target="_blank">create an account</a> at Mailgun.
             </p>
                 <p>
-            Next, <a target="_blank" href="https://spatie.be/docs/laravel-mailcoach/v5/configuring-mail-providers/mailgun#content-email-configuration">create and API key at Mailgun</a>. Make sure it has the "Mail Send" and "Tracking" permissions.
+            Next, <a target="_blank" href="https://mailcoach.app/docs/v6/using-mailcoach/configuring-mail-providers/mailgun#content-email-configuration">create and API key at Mailgun</a>. Make sure it has the "Mail Send" and "Tracking" permissions.
             </p>
     </x-mailcoach::help>
 

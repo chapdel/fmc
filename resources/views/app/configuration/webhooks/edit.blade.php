@@ -17,7 +17,7 @@
                 <li>A campaign was sent</li>
             </ul>
             You can view more information on the sent payload and security recommendations <a
-                href="https://spatie.be/docs/laravel-mailcoach/">in our docs</a>.
+                href="https://mailcoach.app/docs">in our docs</a>.
         </x-mailcoach::help>
 
         <x-mailcoach::text-field :label="__('Name')" name="webhook.name" wire:model.lazy="webhook.name" required />
