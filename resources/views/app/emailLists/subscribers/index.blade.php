@@ -56,8 +56,8 @@
                         <li>
                             <x-mailcoach::confirm-button
                                 onConfirm="() => $wire.deleteUnsubscribes()"
-                                method="DELETE" :confirm-text="__('mailcoach - Are you sure you want to delete unsubscribes in :emailList?', ['emailList' => $emailList->name])">
-                                <x-mailcoach::icon-label icon="fa-fw far fa-trash-alt" :text="__('mailcoach - Delete unsubscribes')" :caution="true"/>
+                                method="DELETE" :confirm-text="__('mailcoach - Are you sure you want to delete unsubscribed emails in :emailList?', ['emailList' => $emailList->name])">
+                                <x-mailcoach::icon-label icon="fa-fw far fa-trash-alt" :text="__('mailcoach - Delete unsubscribed')" :caution="true"/>
                             </x-mailcoach::confirm-button>
                         </li>
                     @endif
