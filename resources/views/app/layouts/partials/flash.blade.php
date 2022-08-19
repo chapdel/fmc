@@ -27,18 +27,30 @@
         <div
             x-data="{
                 show: false,
+                timer: null,
                 init() {
                     this.$nextTick(() => this.show = true)
 
-                    setTimeout(() => this.transitionOut(), 3000)
+                    this.startTimeout();
                 },
                 transitionOut() {
                     this.show = false
 
                     setTimeout(() => this.remove(this.notification), 500)
                 },
+                startTimeout() {
+                    this.timer = setTimeout(() => this.transitionOut(), 3000)
+                    this.$refs.countdown.classList.remove('alert-countdown--paused');
+                },
+                stopTimeout() {
+                    if (! this.timer) return;
+                    clearTimeout(this.timer);
+                    this.$refs.countdown.classList.add('alert-countdown--paused');
+                }
             }"
             x-show="show"
+            x-on:mouseenter="stopTimeout()"
+            x-on:mouseleave="startTimeout()"
             x-transition.duration.500ms
         >
             <div :class="'flex alert alert-flash alert-' + notification.type">
@@ -56,7 +68,7 @@
                         <span class="sr-only">Close notification</span>
                     </button>
                 </div>
-                <div class="alert-countdown" style="--alert-duration: 3s"></div>
+                <div x-ref="countdown" class="alert-countdown" style="--alert-duration: 3s"></div>
             </div>
         </div>
     </template>

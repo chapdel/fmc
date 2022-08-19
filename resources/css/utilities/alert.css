@@ -82,6 +82,10 @@
     animation: alert-countdown var(--alert-duration, 5s) linear forwards;
 }
 
+.alert-countdown--paused {
+    animation-play-state: paused;
+}
+
 @keyframes alert-countdown {
     0% {
         transform: scaleX(1);
