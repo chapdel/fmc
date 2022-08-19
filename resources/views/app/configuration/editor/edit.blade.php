@@ -7,7 +7,7 @@
     x-cloak
 >
     @csrf
-    <x-mailcoach::fieldset card :legend="__('Content editor')">
+    <x-mailcoach::fieldset card :legend="__('1. Pick an editor to compose campaigns & emails')">
         <x-mailcoach::select-field
             name="contentEditor"
             wire:model="contentEditor"
@@ -23,7 +23,7 @@
         @endforeach
     </x-mailcoach::fieldset>
 
-    <x-mailcoach::fieldset card :legend="__('Template editor')">
+    <x-mailcoach::fieldset card :legend="__('2. Pick an editor to setup templates')">
         <x-mailcoach::select-field
             name="templateEditor"
             wire:model="templateEditor"
