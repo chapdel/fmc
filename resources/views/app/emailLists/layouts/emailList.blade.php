@@ -4,7 +4,6 @@
     :title="$title ?? null"
     :hideCard="isset($hideCard) ? true : false"
 >
-
     <x-slot name="nav">
         <x-mailcoach::navigation :title="$emailList->name">
             <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.summary', $emailList)">
@@ -38,6 +37,12 @@
             @include('mailcoach::app.emailLists.layouts.partials.afterLastTab')
         </x-mailcoach::navigation>
     </x-slot>
+
+    @if ($emailList->subscribers()->count() === 0 && !Route::is('mailcoach.emailLists.subscriber*'))
+        <x-mailcoach::help class="mb-4">
+            {!! __('mailcoach - This list is empty. <a href=":url">Add some subscribers</a>', ['url' => route('mailcoach.emailLists.subscribers', $emailList)]) !!}
+        </x-mailcoach::help>
+    @endif
 
     {{ $slot }}
 </x-mailcoach::layout>
