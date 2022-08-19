@@ -72,29 +72,34 @@
     @apply font-semibold;
 }
 
+.markup-ol,
 .markup-lists ol {
     list-style: decimal;
-}
-
-.markup-lists ol,
-.markup-lists ul {
     @apply pl-10;
 }
 
+.markup-ul,
+.markup-lists ul {
+    @apply pl-4;
+}
+
+.markup-ul li:before,
 .markup-lists ul li:before {
     @apply absolute;
     @apply left-0;
-    @apply -ml-5;
-    @apply text-green-600;
+    @apply -ml-4;
+    @apply text-gray-600;
     content: '•';
 }
 
+.markup-ul ul,
 .markup-lists ul ul {
     @apply pl-5;
 }
 
+.markup-ul ul li:before,
 .markup-lists ul ul li:before {
-    @apply text-green-400;
+    @apply text-gray-400;
 }
 
 .markup-links a {
