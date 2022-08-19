@@ -1,5 +1,5 @@
 {
-    "mailcoach - **:count** :subscriber have been subscribed to the list :emailListName": "**:count** :subscriber have been subscribed to the list :emailListName",
+    "mailcoach - **:count** :subscriber have been added to the list :emailListName": "**:count** :subscriber have been added to the list :emailListName",
     "mailcoach - :count unprocessed webhooks.": ":count unprocessed webhooks.",
     "mailcoach - :mail - :url": ":mail - :url",
     "mailcoach - :mail": ":mail",

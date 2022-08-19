@@ -3,7 +3,7 @@
 
 {{ __('mailcoach - Your import was processed') }}.
 
-{{ __('mailcoach - **:count** :subscriber have been subscribed to the list :emailListName',['count'=>$subscriberImport->imported_subscribers_count,'emailListName'=>$subscriberImport->emailList->name,'subscriber'=>trans_choice('mailcoach - subscriber|subscribers',$subscriberImport->imported_subscribers_count)]) }}.
+{{ __('mailcoach - **:count** :subscriber have been added to the list :emailListName',['count'=>$subscriberImport->imported_subscribers_count,'emailListName'=>$subscriberImport->emailList->name,'subscriber'=>trans_choice('mailcoach - subscriber|subscribers',$subscriberImport->imported_subscribers_count)]) }}.
 
 @if ($subscriberImport->errors)
 {{ trans_choice('mailcoach - There was 1 error.|There were :count errors.', count($subscriberImport->errors ?? [])) }}
