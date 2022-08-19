@@ -82,6 +82,7 @@
     @apply flex-col;
     @apply gap-2;
     @apply md:max-w-xl;
+    @apply min-w-0;
 }
 
 .form-buttons {
