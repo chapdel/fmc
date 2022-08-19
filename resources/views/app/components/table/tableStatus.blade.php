@@ -1,5 +1,5 @@
 <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
-    @if($paginator->total() == $totalCount)
+    @if($paginator->total() !== $totalCount)
     <p class="table-status whitespace-nowrap">
             {{ __('mailcoach - Filtering :resource', [
                 'resource' => \Illuminate\Support\Str::plural($name),
