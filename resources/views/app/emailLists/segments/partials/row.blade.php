@@ -4,6 +4,9 @@
             {{ $row->name }}
         </a>
     </td>
+    <td class="td-numeric">
+        {{ $row->getSubscribersQuery()->count() }}
+    </td>
     <td class="td-numeric hidden | xl:table-cell">{{ $row->created_at->toMailcoachFormat() }}</td>
     <td class="td-action">
         <x-mailcoach::dropdown direction="left">

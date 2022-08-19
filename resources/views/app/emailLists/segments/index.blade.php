@@ -4,6 +4,7 @@
     :totalRowsCount="$totalSegmentsCount ?? null"
     :columns="[
         ['attribute' => 'name', 'label' => __('mailcoach - Name')],
+        ['label' => __('mailcoach - Population'), 'class' => 'w-48 th-numeric'],
         ['attribute' => '-created_at', 'label' => __('mailcoach - Created at'), 'class' => 'w-48 th-numeric hidden | xl:table-cell'],
         ['class' => 'w-12'],
     ]"
