@@ -94,7 +94,7 @@
                 </div>
                 <div class="flex items-center gap-4">
                     <x-mailcoach::button wire:click.prevent="upload" :label="__('mailcoach - Import subscribers')" :disabled="!$file" />
-                    <div wire:loading wire:target="file">
+                    <div wire:loading.delay wire:target="file">
                         <style>
                             @keyframes loadingpulse {
                                 0%   {transform: scale(.8); opacity: .75}
