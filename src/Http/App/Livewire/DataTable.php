@@ -117,7 +117,7 @@ abstract class DataTable extends Component
             collect($this->allowedFilters)
                 ->keys()
                 ->add('search')
-                ->mapWithKeys(fn (string $filter) => [$filter => $this->$filter])
+                ->mapWithKeys(fn (string $filter) => [$filter => addcslashes($this->$filter, '%')])
                 ->filter(fn ($value) => ! empty($value))
         );
 
