@@ -287,7 +287,7 @@
 .choices__list--dropdown.is-active {
     visibility: visible;
     @apply pointer-events-auto;
-    @apply z-50;
+    z-index: 999;
     @apply h-auto;
 }
 

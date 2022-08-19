@@ -94,7 +94,6 @@
 
 .modal-content {
     @apply flex-grow;
-    @apply overflow-x-hidden;
     @apply p-6;
     @apply flex;
     @apply flex-col;
