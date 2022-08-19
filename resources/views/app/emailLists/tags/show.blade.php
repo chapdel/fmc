@@ -3,7 +3,7 @@
     wire:submit.prevent="save"
     @keydown.prevent.window.cmd.s="$wire.call('save')"
     @keydown.prevent.window.ctrl.s="$wire.call('save')"
->   
+>
 <x-mailcoach::card>
     <x-mailcoach::text-field :label="__('mailcoach - Name')" name="tag.name" wire:model="tag.name" required />
 

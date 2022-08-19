@@ -10,7 +10,7 @@
                                 {{ __('mailcoach - Automation mail') }}
                                 <a class="font-semibold" target="_blank"
                                 href="{{ $mail->webviewUrl() }}">{{ $mail->name }}</a>
-            
+
                                 {{ __('mailcoach - has been sent to :sendsCount :subscriber', [
                                     'sendsCount' => $mail->sendsCount(),
                                     'subscriber' => trans_choice('mailcoach - subscriber|subscribers', $mail->sendsCount())
@@ -29,7 +29,7 @@
                                 {{ __('mailcoach - Automation mail') }}
                                 <a class="font-semibold" target="_blank"
                                 href="{{ $mail->webviewUrl() }}">{{ $mail->name }}</a>
-            
+
                                 {{ __('mailcoach - has been sent to :sendsCount :subscriber', [
                                     'sendsCount' => $mail->sendsCount(),
                                     'subscriber' => trans_choice('mailcoach - subscriber|subscribers', $mail->sendsCount())
@@ -162,6 +162,6 @@
         </dd>
 
     </dl>
-    
-    
+
+
 </x-mailcoach::card>

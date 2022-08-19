@@ -14,7 +14,7 @@
             <x-mailcoach::text-field :label="__('New password')" name="password" type="password" wire:model.lazy="password" required />
             <x-mailcoach::text-field :label="__('Confirm new password')" name="password_confirmation" wire:model.lazy="password_confirmation" type="password" required />
         </x-mailcoach::fieldset>
-   
+
         <x-mailcoach::form-buttons>
             <x-mailcoach::button :label="__('Update password')" />
         </x-mailcoach::form-buttons>

@@ -12,7 +12,7 @@
         <x-mailcoach::text-field type="email" :label="__('Email')" name="user.email" wire:model.lazy="user.email" required />
 
         <x-mailcoach::text-field :label="__('Name')" name="user.name" wire:model.lazy="user.name" required />
-    
+
         <x-mailcoach::form-buttons>
             <x-mailcoach::button :label="__('Save user')" />
         </x-mailcoach::form-buttons>

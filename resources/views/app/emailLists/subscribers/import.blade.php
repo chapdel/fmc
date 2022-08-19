@@ -35,21 +35,23 @@
                 <p class="form-error">{{ $message }}</p>
                 @enderror
 
-                <label class="label label-required" for="tags_mode">
-                    {{ __('mailcoach - Tags') }}
-                </label>
+                <div class="flex">
+                    <label class="label" for="tags_mode">
+                        {{ __('mailcoach - What should happen with tags on existing subscribers?') }}
+                    </label>
+                </div>
                 <div class="radio-group">
                     <x-mailcoach::radio-field
                         name="replace_tags"
                         wire:model="replaceTags"
                         option-value="append"
-                        :label="__('mailcoach - Append')"
+                        :label="__('mailcoach - Append any new tags in the import')"
                     />
                     <x-mailcoach::radio-field
                         name="replace_tags"
                         wire:model="replaceTags"
                         option-value="replace"
-                        :label="__('mailcoach - Replace')"
+                        :label="__('mailcoach - Replace all tags by the tags in the import')"
                     />
                 </div>
             </div>
@@ -68,6 +70,12 @@
                 </div>
             </div>
 
+            @if ($subscribeUnsubscribed)
+                <x-mailcoach::warning>
+                    {{ __('mailcoach - Make sure you have proper consent of the subscribers you\'re resubscribing.') }}
+                </x-mailcoach::warning>
+            @endif
+
             <div class="form-field">
                 @error('unsubscribeMissing')
                 <p class="form-error">{{ $message }}</p>
@@ -81,6 +89,12 @@
                     />
                 </div>
             </div>
+
+            @if ($unsubscribeMissing)
+                <x-mailcoach::warning>
+                    {{ __('mailcoach - This is a dangerous operation, make sure you upload the correct import list') }}
+                </x-mailcoach::warning>
+            @endif
 
             <div class="flex gap-6">
                 <div>

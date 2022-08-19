@@ -100,7 +100,6 @@
         "psr-4": {
             "Spatie\\Mailcoach\\": "src",
             "Spatie\\Mailcoach\\Database\\Factories\\": "database/factories"
-
         }
     },
     "autoload-dev": {

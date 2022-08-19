@@ -68,6 +68,8 @@ class SubscriberImports extends DataTable
 
         flash()->success(__('mailcoach - Your file has been uploaded. Follow the import status in the list below.'));
 
+        $this->file = null;
+
         $this->emit('$refresh');
     }
 

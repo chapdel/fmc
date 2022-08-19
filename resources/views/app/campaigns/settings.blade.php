@@ -36,7 +36,7 @@
                 @php($mailerModel = $campaign->getMailer())
                 <x-mailcoach::help>
                     {!! __('mailcoach - Open & Click tracking are managed by your email provider, this campaign uses the <a href=":mailerLink"><strong>:mailer</strong></a> mailer.', ['mailer' => $mailerModel->name, 'mailerLink' => route('mailers.edit', $mailerModel)]) !!}
-                    
+
                     <div class="mt-4">
                         <x-mailcoach::health-label warning :test="$openTracking" :label="$openTracking ? __('mailcoach - Open tracking enabled') : __('mailcoach - Open tracking disabled')" />
                     </div>
