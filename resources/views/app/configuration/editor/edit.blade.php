@@ -23,7 +23,7 @@
         @endforeach
     </x-mailcoach::fieldset>
 
-    <x-mailcoach::fieldset card :legend="__('2. Pick an editor to setup templates')">
+    <x-mailcoach::fieldset card :legend="__('2. Pick an editor to set up templates')">
         <x-mailcoach::select-field
             name="templateEditor"
             wire:model="templateEditor"
