@@ -32,9 +32,9 @@
         </div>
     </x-mailcoach::fieldset>
 
-    <x-mailcoach::fieldset card :legend="__('mailcoach - Notifications')">
+    <x-mailcoach::fieldset card :legend="__('mailcoach - Email Notifications')">
         <div class="checkbox-group">
-            <x-mailcoach::checkbox-field :label="__('mailcoach - Confirmation when campaign has been sent to this list')"
+            <x-mailcoach::checkbox-field :label="__('mailcoach - Confirmation when a campaign has finished sending to this list')"
                             name="emailList.report_campaign_sent" wire:model="emailList.report_campaign_sent"/>
             <x-mailcoach::checkbox-field
                 :label="__('mailcoach - Summary of opens, clicks & bounces a day after a campaign has been sent to this list')"
