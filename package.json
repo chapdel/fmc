@@ -22,14 +22,10 @@
     "dependencies": {
         "@alpinejs/focus": "^3.10.2",
         "@ryangjchandler/alpine-clipboard": "^2.2.0",
-        "@swup/a11y-plugin": "^2.0.0",
-        "@swup/head-plugin": "^1.2.0",
-        "@swup/livewire-plugin": "^1.0.0",
-        "@swup/progress-plugin": "^1.1.2",
         "alpinejs": "^3.10",
         "chart.js": "^3.7.1",
         "chartjs-plugin-zoom": "^1.2.1",
         "choices.js": "^10.1.0",
-        "swup": "^2.0.14"
+        "fuse.js": "^6.6.2"
     }
 }

@@ -4,7 +4,7 @@
             {{ __('mailcoach - Filtering :resource', [
                 'resource' => \Illuminate\Support\Str::plural($name),
             ]) }}.
-            <a href="#" {{ $attributes->wire('click') }} class="link-dimmed" data-turbo="false">
+            <a href="#" {{ $attributes->wire('click') }} class="link-dimmed">
                 {{ __('mailcoach - Show all') }}
             </a>
         </p>

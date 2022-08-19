@@ -69,10 +69,6 @@
 }
 
 @layer utilities {
-    .swup-progress-bar {
-        @apply bg-blue-500;
-    }
-
     [x-cloak] {
         display: none !important;
     }

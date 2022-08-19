@@ -712,6 +712,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
         config()->set('livewire-ui-spotlight.show_results_without_input', true);
         config()->set('livewire-ui-spotlight.shortcuts', ['slash']);
+        config()->set('livewire-ui-spotlight.include_js', false);
+        config()->set('livewire-ui-spotlight.include_css', false);
 
         return $this;
     }

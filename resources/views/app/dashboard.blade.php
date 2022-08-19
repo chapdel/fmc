@@ -5,13 +5,13 @@
     <div class="grid md:grid-cols-12 gap-6">
         @if ((new Spatie\Mailcoach\Domain\Shared\Support\License\License())->hasExpired())
             <x-mailcoach::tile class="bg-orange-100" cols="3" icon="credit-card">
-                <x-slot:link><a class="underline" href="https://spatie.be/products/mailcoach" data-turbo="false">Renew license</a></x-slot:link>
+                <x-slot:link><a class="underline" href="https://spatie.be/products/mailcoach">Renew license</a></x-slot:link>
                 Your Mailcoach license has expired. <a class="underline" href="https://spatie.be/products/mailcoach">Renew your license</a> and benefit from fixes and new features.
             </x-mailcoach::tile>
         @endif
 
         @include('mailcoach::app.layouts.partials.beforeDashboardTiles')
-        
+
         <x-mailcoach::tile cols="3" icon="users" link="{{ route('mailcoach.emailLists') }}">
             <h2 class="dashboard-title">
                 New subscribers
@@ -55,9 +55,9 @@
         </x-mailcoach::tile>
 
         @if ($latestCampaign)
-            <x-mailcoach::tile class="" cols="4" icon="paper-plane" link="{{ route('mailcoach.campaigns.summary', $latestCampaign) }}">                
+            <x-mailcoach::tile class="" cols="4" icon="paper-plane" link="{{ route('mailcoach.campaigns.summary', $latestCampaign) }}">
                 <h2 class="dashboard-title">{{ $latestCampaign->name }}</h2>
-                
+
                 <div class="flex justify-between">
                     <a href="{{ route('mailcoach.campaigns.opens', $latestCampaign) }}" class="dashboard-link">
                         <span class="dashboard-value">{{ $this->abbreviateNumber($latestCampaign->unique_open_count) }}</span>

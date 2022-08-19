@@ -15,10 +15,6 @@ Livewire.on('notify', function(params) {
 document.addEventListener(
     'click',
     event => {
-        if (!event.target.closest(swup.options.linkSelector)) {
-            return;
-        }
-
         if (event.target.dataset.dirtyWarn === undefined) {
             return;
         }
@@ -33,9 +29,7 @@ document.addEventListener(
         Alpine.store('modals').open('dirty-warning');
         Alpine.store('modals').onConfirm = () => {
             Alpine.store('modals').close('dirty-warning');
-            swup.loadPage({
-                url: event.target.href,
-            });
+            window.location.href = event.target.href;
         };
     },
     true

@@ -73,18 +73,18 @@ class Mailcoach
             }
 
             foreach ($editorScripts as $script) {
-                $scripts[] = "<script type=\"text/javascript\" src=\"{$script}\"></script>";
+                $scripts[] = "<script type=\"text/javascript\" src=\"{$script}\" defer></script>";
             }
         }
 
         if (is_file(__DIR__.'/../resources/hot')) {
             $url = rtrim(file_get_contents(__DIR__.'/../resources/hot'));
 
-            $scripts[] = sprintf('<script type="module" src="%s"></script>', "{$url}/resources/js/app.js");
-            $scripts[] = sprintf('<script type="module" src="%s"></script>', "{$url}/@vite/client");
+            $scripts[] = sprintf('<script type="module" src="%s" defer></script>', "{$url}/resources/js/app.js");
+            $scripts[] = sprintf('<script type="module" src="%s" defer></script>', "{$url}/@vite/client");
         } else {
             $scripts[] = <<<HTML
-                <script src="{$fullAssetPath}"></script>
+                <script src="{$fullAssetPath}" defer></script>
             HTML;
         }
 

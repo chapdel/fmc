@@ -27,8 +27,7 @@
             <ul>
                 @if (count($row->errors ?? []))
                     <li>
-                        <a data-no-swup
-                           href="#"
+                        <a href="#"
                            wire:click.prevent="downloadAttatchment('{{ $row->id }}', 'errorReport')"
                            download>
                             <x-mailcoach::icon-label icon="far fa-times-circle"
@@ -37,8 +36,7 @@
                     </li>
                 @endif
                 <li>
-                    <a data-no-swup
-                       href="#"
+                    <a href="#"
                        wire:click.prevent="downloadAttatchment('{{ $row->id }}', 'importFile')"
                        download>
                         <x-mailcoach::icon-label icon="far fa-file"
