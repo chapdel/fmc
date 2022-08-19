@@ -11,7 +11,7 @@
         {!! \Spatie\Mailcoach\Mailcoach::styles() !!}
         <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     </head>
-    <body class="bg-gray-100">
+    <body class="text-gray-800 bg-indigo-900/5">
     <img style="mix-blend-mode: multiply;" class="fixed w-full bottom-0 opacity-10" src="{{ asset('vendor/mailcoach/images/auth-footer.jpg') }}">
 
     <div id="app">

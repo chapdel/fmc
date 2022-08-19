@@ -1,5 +1,6 @@
 .markup-h1 {
     @apply font-extrabold;
+    @apply leading-tight;
     @apply text-4xl;
     @apply md:text-5xl;
     @apply pb-8;
@@ -7,6 +8,7 @@
 
 .markup-h2 {
     @apply font-extrabold;
+    @apply leading-tight;
     @apply text-xl;
     @apply md:text-3xl;
     @apply mb-10;
@@ -14,12 +16,14 @@
 
 .markup-h3 {
     @apply font-bold;
+    @apply leading-tight;
     @apply text-lg;
     @apply md:text-2xl;
 }
 
 .markup-h4 {
     @apply font-semibold;
+    @apply leading-tight;
     @apply text-xs;
     @apply uppercase;
     @apply tracking-widest;
@@ -125,7 +129,6 @@ code.markup-code-block,
     @apply text-sm;
     @apply block;
     @apply my-6;
-    @apply last:mb-0;
     @apply px-6;
     @apply py-4;
     @apply rounded;
@@ -135,6 +138,12 @@ code.markup-code-block,
     @apply from-purple-500/10;
     @apply text-gray-200;
     @apply overflow-x-auto;
+}
+
+.markup-code pre:last-child code,
+code.markup-code-block:last-child,
+.markup-code-block:last-child code {
+    @apply mb-0;
 }
 
 .markup-dl {
