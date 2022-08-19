@@ -8,6 +8,5 @@
     ([e]) => e.target.classList.toggle('form-buttons-stuck', e.intersectionRatio < 1),
     {threshold: [1]}
   );
-
   observer{{ $id }}.observe(document.querySelector('#form-buttons-{{ $id }}'))
 </script>
