@@ -2,11 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\Livewire\MailConfiguration\Postmark\Steps;
 
-use Spatie\LivewireWizard\Components\StepComponent;
-use Spatie\Mailcoach\Domain\Settings\Enums\MailerTransport;
-use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\AbstractThrottlingStepComponent;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Concerns\UsesMailer;
 
 class ThrottlingStepComponent extends AbstractThrottlingStepComponent
 {

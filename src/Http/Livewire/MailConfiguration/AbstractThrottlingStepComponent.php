@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Http\Livewire\MailConfiguration;
 
 use Spatie\LivewireWizard\Components\StepComponent;
-use Spatie\Mailcoach\Domain\Settings\Enums\MailerTransport;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Concerns\UsesMailer;
 
