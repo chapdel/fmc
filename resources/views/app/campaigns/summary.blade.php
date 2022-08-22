@@ -96,7 +96,7 @@
                         @php($sendsCount = $campaign->sendsCount())
                         @if ($sendsCount === $campaign->sent_to_number_of_subscribers)
                             {{ __('mailcoach - is finishing up') }}
-                        @elseif ($sendsCount > 0)
+                        @else
                             {{ __('mailcoach - is sending to :sendsCount/:sentToNumberOfSubscribers :subscriber of', [
                                 'sendsCount' => number_format($campaign->sendsCount()),
                                 'sentToNumberOfSubscribers' => number_format($campaign->sent_to_number_of_subscribers),
