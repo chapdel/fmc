@@ -54,6 +54,7 @@ class FeedbackStepComponent extends StepComponent
             $this->getMailgun()->setupWebhook($endpoint, $events);
         } catch (CouldNotAccessAccountSetting $exception) {
             $this->flashError($exception->getMessage());
+
             return;
         }
 
