@@ -15,6 +15,20 @@ class ManagePreferencesController
     {
         $updated = cache()->pull('updated-'.$subscriberUuid, false);
 
+        if ($subscriberUuid === 'example') {
+            $emailList = self::getEmailListClass()::findByUuid($sendUuid);
+            $subscriberClass = self::getSubscriberClass();
+            $subscriber = new $subscriberClass([
+                'email_list_id' => $emailList->id,
+            ]);
+            $tags = $emailList->tags()->where('type', TagType::Default)->where('visible_in_preferences', true)->get();
+
+            return view('mailcoach::landingPages.manage-preferences', [
+                'subscriber' => $subscriber,
+                'tags' => $tags,
+            ]);
+        }
+
         /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
         if (! $subscriber = self::getSubscriberClass()::findByUuid($subscriberUuid)) {
             return view('mailcoach::landingPages.couldNotFindSubscription');
