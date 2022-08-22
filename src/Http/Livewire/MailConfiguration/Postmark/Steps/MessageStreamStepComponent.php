@@ -23,6 +23,11 @@ class MessageStreamStepComponent extends StepComponent
         'streamId' => ['required'],
     ];
 
+    public function mount()
+    {
+        $this->streamId = $this->mailer()->get('streamId');
+    }
+
     public function submit()
     {
         $this->validate();

@@ -9,7 +9,7 @@ use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Postmark\Steps\Authenticati
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Postmark\Steps\FeedbackStepComponent;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Postmark\Steps\MessageStreamStepComponent;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Postmark\Steps\SummaryStepComponent;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\ThrottlingStepComponent;
+use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Postmark\Steps\ThrottlingStepComponent;
 
 class PostmarkSetupWizardComponent extends WizardComponent
 {

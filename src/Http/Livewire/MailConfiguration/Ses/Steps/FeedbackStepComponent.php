@@ -27,6 +27,12 @@ class FeedbackStepComponent extends StepComponent
         'configurationName' => ['required'],
     ];
 
+    public function mount()
+    {
+        $this->trackOpens = $this->mailer()->get('open_tracking_enabled', false);
+        $this->trackClicks = $this->mailer()->get('click_tracking_enabled', false);
+    }
+
     public function setupFeedbackAutomatically()
     {
         $this->validate();

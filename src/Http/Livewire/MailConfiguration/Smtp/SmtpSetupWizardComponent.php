@@ -7,7 +7,7 @@ use Spatie\LivewireWizard\Components\WizardComponent;
 use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Smtp\Steps\SmtpSettingsStepComponent;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Smtp\Steps\SummaryStepComponent;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\ThrottlingStepComponent;
+use Spatie\Mailcoach\Http\Livewire\MailConfiguration\AbstractThrottlingStepComponent;
 
 class SmtpSetupWizardComponent extends WizardComponent
 {
@@ -33,7 +33,7 @@ class SmtpSetupWizardComponent extends WizardComponent
     {
         return [
             SmtpSettingsStepComponent::class,
-            ThrottlingStepComponent::class,
+            AbstractThrottlingStepComponent::class,
             SummaryStepComponent::class,
         ];
     }
@@ -43,7 +43,7 @@ class SmtpSetupWizardComponent extends WizardComponent
         Livewire::component('mailcoach::smtp-configuration', SmtpSetupWizardComponent::class);
 
         Livewire::component('mailcoach::smtp-settings-step', SmtpSettingsStepComponent::class);
-        Livewire::component('mailcoach::smtp-throttling-step', ThrottlingStepComponent::class);
+        Livewire::component('mailcoach::smtp-throttling-step', AbstractThrottlingStepComponent::class);
         Livewire::component('mailcoach::smtp-summary-step', SummaryStepComponent::class);
     }
 }

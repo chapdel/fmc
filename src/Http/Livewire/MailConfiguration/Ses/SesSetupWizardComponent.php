@@ -8,7 +8,7 @@ use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Ses\Steps\AuthenticationStepComponent;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Ses\Steps\FeedbackStepComponent;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Ses\Steps\SummaryStepComponent;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\ThrottlingStepComponent;
+use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Ses\Steps\ThrottlingStepComponent;
 
 class SesSetupWizardComponent extends WizardComponent
 {

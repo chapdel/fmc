@@ -8,7 +8,7 @@ use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Mailgun\Steps\AuthenticationStepComponent;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Mailgun\Steps\FeedbackStepComponent;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Mailgun\Steps\SummaryStepComponent;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\ThrottlingStepComponent;
+use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Mailgun\Steps\ThrottlingStepComponent;
 
 class MailgunSetupWizardComponent extends WizardComponent
 {

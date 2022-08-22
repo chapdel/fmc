@@ -24,6 +24,12 @@ class FeedbackStepComponent extends StepComponent
         'trackClicks' => ['boolean'],
     ];
 
+    public function mount()
+    {
+        $this->trackOpens = $this->mailer()->get('open_tracking_enabled', false);
+        $this->trackClicks = $this->mailer()->get('click_tracking_enabled', false);
+    }
+
     public function configurePostmark()
     {
         $this->validate();

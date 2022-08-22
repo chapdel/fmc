@@ -22,8 +22,13 @@ class FeedbackStepComponent extends StepComponent
     public array $rules = [
         'trackOpens' => ['boolean'],
         'trackClicks' => ['boolean'],
-
     ];
+
+    public function mount()
+    {
+        $this->trackOpens = $this->mailer()->get('open_tracking_enabled', false);
+        $this->trackClicks = $this->mailer()->get('click_tracking_enabled', false);
+    }
 
     public function configureSendGrid()
     {
