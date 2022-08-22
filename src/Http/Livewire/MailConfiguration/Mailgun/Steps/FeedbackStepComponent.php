@@ -7,6 +7,7 @@ use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Concerns\UsesMailer;
 use Spatie\MailcoachMailgunFeedback\MailgunWebhookController;
 use Spatie\MailcoachMailgunSetup\EventType;
+use Spatie\MailcoachMailgunSetup\Exceptions\CouldNotAccessAccountSetting;
 use Spatie\MailcoachMailgunSetup\Mailgun;
 
 class FeedbackStepComponent extends StepComponent
@@ -49,7 +50,12 @@ class FeedbackStepComponent extends StepComponent
             $events[] = EventType::Clicked;
         }
 
-        $this->getMailgun()->setupWebhook($endpoint, $events);
+        try {
+            $this->getMailgun()->setupWebhook($endpoint, $events);
+        } catch (CouldNotAccessAccountSetting $exception) {
+            $this->flashError($exception->getMessage());
+            return;
+        }
 
         $this->mailer()->merge([
             'open_tracking_enabled' => $this->trackOpens,
