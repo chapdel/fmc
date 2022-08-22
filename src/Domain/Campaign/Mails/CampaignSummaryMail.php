@@ -14,11 +14,14 @@ class CampaignSummaryMail extends Mailable implements ShouldQueue
 
     public string $summaryUrl;
 
+    public string $settingsUrl;
+
     public function __construct(Campaign $campaign)
     {
         $this->campaign = $campaign;
 
         $this->summaryUrl = route('mailcoach.campaigns.summary', $this->campaign);
+        $this->settingsUrl = route('mailcoach.emailLists.general-settings', $this->campaign->emailList);
     }
 
     public function build()

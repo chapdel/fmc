@@ -17,6 +17,8 @@ class EmailListSummaryMail extends Mailable
 
     public string $emailListUrl;
 
+    public string $settingsUrl;
+
     public function __construct(EmailList $emailList, CarbonInterface $summaryStartDateTime)
     {
         $this->emailList = $emailList;
@@ -24,6 +26,7 @@ class EmailListSummaryMail extends Mailable
         $this->summaryStartDateTime = $summaryStartDateTime;
 
         $this->emailListUrl = route('mailcoach.emailLists.subscribers', $this->emailList);
+        $this->settingsUrl = route('mailcoach.emailLists.general-settings', $this->emailList);
     }
 
     public function build()

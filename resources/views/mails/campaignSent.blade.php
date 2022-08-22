@@ -7,4 +7,8 @@
 {{ __('mailcoach - View summary') }}
 @endcomponent
 
+@component('mailcoach::mails.layout.subcopy')
+[{{ __('mailcoach - Edit notification settings') }}]({{ $settingsUrl }})
+@endcomponent
+
 @endcomponent
