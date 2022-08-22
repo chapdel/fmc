@@ -46,7 +46,7 @@
     "mailcoach - Are you sure you want to delete tag :tagName?": "Are you sure you want to delete tag :tagName?",
     "mailcoach - Are you sure you want to delete template :template?": "Are you sure you want to delete template :template?",
     "mailcoach - Are you sure you want to delete this action?": "Are you sure you want to delete this action?",
-    "mailcoach - Are you sure you want to delete this import?": "Are you sure you want to delete this import?",
+    "mailcoach - Are you sure you want to delete this import? Don't worry, it only deletes the import record and not subscribers.": "Are you sure you want to delete this import? Don't worry, it only deletes the import record and not subscribers.",
     "mailcoach - Are you sure you want to delete this transactional mail from the log?": "Are you sure you want to delete this transactional mail from the log?",
     "mailcoach - Are you sure you want to delete unsubscribed emails in :emailList?": "Are you sure you want to delete unsubscribed emails in :emailList?",
     "mailcoach - Are you sure you want to resend :totalFailed mails?": "Are you sure you want to resend :totalFailed mails?",

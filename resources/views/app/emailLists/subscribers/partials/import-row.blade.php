@@ -45,7 +45,7 @@
                 </li>
                 <li>
                     <x-mailcoach::confirm-button
-                        :confirm-text="__('mailcoach - Are you sure you want to delete this import?')"
+                        :confirm-text="__('mailcoach - Are you sure you want to delete this import? Don\'t worry, it only deletes the import record and not subscribers.')"
                         onConfirm="() => $wire.deleteImport({{ $row->id }})"
                     >
                         <x-mailcoach::icon-label icon="fa-fw far fa-trash-alt" :text="__('mailcoach - Delete')"
