@@ -6,7 +6,9 @@
     @endif
     <input
         autocomplete="off"
+        @if (! $attributes->has('x-bind:type'))
         type="{{ $type ?? 'text' }}"
+        @endif
         name="{{ $name }}"
         id="{{ $name }}"
         class="input {{ $inputClass ?? '' }}"

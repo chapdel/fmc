@@ -39,6 +39,6 @@
     {{ $sizeCss[$size] }}
     {{ isset($minimal) ? "$typeMinimalCss[$type] bg-gradient-to-r from-gray-50" : "$typeCss[$type] bg-gray-300 bg-gradient-to-b" }}
     {{ $class ?? '' }}
-">
+" {{ $attributes->except(['class', 'size', 'minimal', 'icon']) }}>
     <i class="{{ $icon ?? 'fas fa-info' }} "></i>
 </span>

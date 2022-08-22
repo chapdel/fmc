@@ -24,7 +24,10 @@
 
         <x-mailcoach::text-field :label="__('URL')" name="webhook.url" wire:model.lazy="webhook.url" required />
 
-        <x-mailcoach::text-field :label="__('Secret ')" name="webhook.secret" wire:model.lazy="webhook.secret" required />
+        <div class="flex items-center gap-x-2" x-data="{ type: 'password' }">
+            <x-mailcoach::text-field x-bind:type="type" :label="__('Secret ')" name="webhook.secret" wire:model.lazy="webhook.secret" required />
+            <x-mailcoach::rounded-icon x-on:click="type = type === 'password' ? 'text' : 'password'" class="cursor-pointer mt-6" icon="" x-bind:class="type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash'" size="md" type="info" />
+        </div>
 
         <x-mailcoach::checkbox-field :label="__('Use for all lists')" name="webhook.use_for_all_lists" wire:model="webhook.use_for_all_lists" />
 
