@@ -50,7 +50,7 @@ class CampaignOpens extends DataTable
         return [
             'campaign' => $this->campaign,
             'mailOpens' => $campaignOpens->paginate(),
-            'totalMailOpensCount' => $campaignOpens->totalCount,
+            'totalMailOpensCount' => $campaignOpens->paginate()->total(),
         ];
     }
 }

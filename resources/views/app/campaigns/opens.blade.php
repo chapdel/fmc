@@ -1,7 +1,7 @@
 <div>
     @if($campaign->open_count)
         <x-mailcoach::data-table
-            name="open"
+            name="opens"
             :rows="$mailOpens ?? null"
             :totalRowsCount="$totalMailOpensCount ?? null"
             :columns="[
