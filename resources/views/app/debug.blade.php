@@ -216,23 +216,6 @@
                         @endif
                     </div>
                 </dd>
-
-            @if (class_exists(\Spatie\Mailcoach\MailcoachServiceProvider::class))
-                @php($issueBody.="**mailcoach-ui version**: " . $versionInfo->getCurrentVersion('mailcoach-ui') . "\n")
-                <dt>mailcoach-ui</dt>
-                <dd>
-                    <div class="flex items-center space-x-2">
-                        <code>{{ $versionInfo->getCurrentVersion('mailcoach-ui') }}</code>
-                        @if(! $versionInfo->isLatest('mailcoach-ui'))
-                            <span class="font-sans text-xs inline-flex items-center bg-gray-200 bg-opacity-50 text-gray-600 rounded-sm px-1 leading-relaxed">
-                                <i class="fas fa-horse-head opacity-75 mr-1"></i>
-                                {{ __('mailcoach - Upgrade available') }}
-                            </span>
-                        @endif
-                    </div>
-                </dd>
-            @endif
-
     </x-mailcoach::fieldset>
 
     <x-mailcoach::fieldset card  :legend="__('mailcoach - Having trouble?')">
