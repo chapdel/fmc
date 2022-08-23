@@ -227,7 +227,7 @@ return [
         /*
          * This disk will be used to store files regarding importing subscribers.
          */
-        'import_subscribers_disk' => 'public',
+        'import_subscribers_disk' => 'local',
     ],
 
     'transactional' => [
