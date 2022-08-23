@@ -42,6 +42,7 @@ class ImportSubscriberAction
             ->skipConfirmation()
             ->tags($row->tags())
             ->replaceTags($subscriberImport->replace_tags)
+            ->subscribedAt($row->subscribedAt())
             ->subscribeTo($subscriberImport->emailList);
     }
 }

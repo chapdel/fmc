@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Audience\Support;
 
+use Carbon\CarbonInterface;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\CreateSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Exceptions\CouldNotSubscribe;
@@ -23,6 +24,8 @@ class PendingSubscriber
     public ?array $tags = [];
 
     public bool $replaceTags = false;
+
+    public ?CarbonInterface $subscribedAt = null;
 
     public function __construct(string $email, array $attributes = [])
     {
@@ -73,6 +76,13 @@ class PendingSubscriber
     public function appendTags(): self
     {
         $this->replaceTags = false;
+
+        return $this;
+    }
+
+    public function subscribedAt(CarbonInterface $subscribedAt): self
+    {
+        $this->subscribedAt = $subscribedAt;
 
         return $this;
     }

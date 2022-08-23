@@ -19,8 +19,7 @@
     <td class="td-numeric">
         {{ $row->created_at->toMailcoachFormat() }}
     </td>
-    <td class="td-numeric">{{ $row->subscribers()->count() }}</td>
-    <td class="td-numeric">{{ $row->imported_subscribers_count }}</td>
+    <td class="td-numeric">{{ number_format($row->imported_subscribers_count) }}</td>
     <td class="td-numeric">{{ count($row->errors ?? []) }}</td>
     <td class="td-action">
         <x-mailcoach::dropdown direction="left">

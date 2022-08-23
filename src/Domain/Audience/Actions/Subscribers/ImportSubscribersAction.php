@@ -51,6 +51,8 @@ class ImportSubscribersAction
     protected function importSubscribers(): self
     {
         try {
+            $this->subscriberImport->update(['status' => SubscriberImportStatus::Importing]);
+
             $localImportFile = $this->storeLocalImportFile();
 
             $extension = strtolower(pathinfo($localImportFile, PATHINFO_EXTENSION));

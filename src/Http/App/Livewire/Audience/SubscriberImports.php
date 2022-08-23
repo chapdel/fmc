@@ -31,6 +31,8 @@ class SubscriberImports extends DataTable
 
     public bool $unsubscribeMissing = false;
 
+    public bool $showForm = true;
+
     public $file;
 
     public function mount(EmailList $emailList)
@@ -38,6 +40,10 @@ class SubscriberImports extends DataTable
         $this->emailList = $emailList;
 
         app(MainNavigation::class)->activeSection()?->add($this->emailList->name, route('mailcoach.emailLists.subscribers', $this->emailList));
+
+        $this->showForm = self::getSubscriberImportClass()::query()
+            ->where('email_list_id', $this->emailList->id)
+            ->count() === 0;
     }
 
     public function upload()
@@ -66,11 +72,10 @@ class SubscriberImports extends DataTable
 
         dispatch(new ImportSubscribersJob($subscriberImport, $user instanceof User ? $user : null));
 
-        flash()->success(__('mailcoach - Your file has been uploaded. Follow the import status in the list below.'));
+        $this->flash(__('mailcoach - Your file has been uploaded. Follow the import status in the list below.'));
 
         $this->file = null;
-
-        $this->emit('$refresh');
+        $this->showForm = false;
     }
 
     public function downloadAttatchment(int $subscriberImport, string $collection)
