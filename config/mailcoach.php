@@ -281,19 +281,19 @@ return [
     /*
      * This disk will be used to store files regarding importing.
      */
-    'import_disk' => 'public',
+    'import_disk' => 'local',
 
     /*
      * This disk will be used to store files regarding exporting.
      */
-    'export_disk' => 'public',
+    'export_disk' => 'local',
 
     /*
      * This disk will be used to store files temporarily for
      * unzipping & reading. Make sure this is on a local
      * filesystem.
      */
-    'tmp_disk' => 'public',
+    'tmp_disk' => 'local',
 
     /*
      * The mailer used by Mailcoach for password resets and summary emails.
