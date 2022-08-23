@@ -128,10 +128,11 @@
                     {{ __("mailcoach - The following links were found in your mail, make sure they are valid.") }}
                 </p>
                 <ul class="grid gap-2">
+                    @php($tags = [])
                     @foreach ($links as $url)
                         <li>
                             <a target="_blank" class="link" href="{{ $url }}">{{ $url }}</a><br>
-                            <span class="mb-2 tag-neutral">{{ \Spatie\Mailcoach\Domain\Shared\Support\LinkHasher::hash($mail, $url) }}</span>
+                            @php($tags[] = \Spatie\Mailcoach\Domain\Shared\Support\LinkHasher::hash($mail, $url))
                         </li>
                     @endforeach
                 </ul>
@@ -156,8 +157,15 @@
                 {{ __("mailcoach - The following tags will be added to subscribers when they open or click the mail:") }}
             </p>
             <ul class="flex flex-wrap space-x-2">
-                <li class="tag-neutral">{{ "automation-mail-{$mail->id}-opened" }}</li>
-                <li class="tag-neutral">{{ "automation-mail-{$mail->id}-clicked" }}</li>
+                @if ($mail->add_subscriber_tags)
+                    <li class="tag-neutral">{{ "automation-mail-{$mail->uuid}-opened" }}</li>
+                    <li class="tag-neutral">{{ "automation-mail-{$mail->uuid}-clicked" }}</li>
+                @endif
+                @if ($mail->add_subscriber_link_tags)
+                    @foreach ($tags as $tag)
+                        <li class="tag-neutral">{{ $tag }}</li>
+                    @endforeach
+                @endif
             </ul>
         </dd>
 

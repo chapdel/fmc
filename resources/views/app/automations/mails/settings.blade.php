@@ -20,6 +20,23 @@
         </div>
 
         <div class="form-field">
+            <label class="label">{{ __('mailcoach - Subscriber Tags') }}</label>
+            <div class="checkbox-group">
+                <x-mailcoach::checkbox-field :label="__('mailcoach - Add tags to subscribers for opens & clicks')" name="mail.add_subscriber_tags" wire:model="mail.add_subscriber_tags" />
+                <x-mailcoach::checkbox-field :label="__('mailcoach - Add individual link tags')" name="mail.add_subscriber_link_tags" wire:model="mail.add_subscriber_link_tags" />
+            </div>
+        </div>
+
+        <x-mailcoach::help>
+            <p class="text-sm mb-2">{{ __('mailcoach - When checked, the following tags will automatically get added to subscribers that open or click the automation mail:') }}</p>
+            <p>
+                <span class="tag-neutral">{{ "automation-mail-{$mail->uuid}-opened" }}</span>
+                <span class="tag-neutral">{{ "automation-mail-{$mail->uuid}-clicked" }}</span>
+            </p>
+            <p class="text-sm mt-2">{{ __('mailcoach - When "Add individual link tags" is checked, it will also add a unique tag per link') }}</p>
+        </x-mailcoach::help>
+
+        <div class="form-field">
             <label class="label">{{ __('mailcoach - UTM Tags') }}</label>
             <div class="checkbox-group">
                 <x-mailcoach::checkbox-field :label="__('mailcoach - Automatically add UTM tags')" name="mail.utm_tags" wire:model="mail.utm_tags" />

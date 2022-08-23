@@ -37,6 +37,8 @@ class Campaign extends Sendable implements Feedable
         'sent_to_number_of_subscribers' => 'integer',
         'scheduled_at' => 'datetime',
         'campaigns_feed_enabled' => 'boolean',
+        'add_subscriber_tags' => 'boolean',
+        'add_subscriber_link_tags' => 'boolean',
         'all_sends_created_at' => 'datetime',
         'all_sends_dispatched_at' => 'datetime',
         'summary_mail_sent_at' => 'datetime',

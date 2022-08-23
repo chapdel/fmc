@@ -202,6 +202,7 @@
 
         @php([$openTracking, $clickTracking] = $campaign->tracking())
         @if ($openTracking || $clickTracking || (is_null($openTracking) && is_null($clickTracking)))
+            @if ($campaign->add_subscriber_tags || $campaign->add_subscriber_link_tags)
             <dt>
                 <span class="inline-flex gap-2 items-center md:flex-row-reverse">
                     <x-mailcoach::rounded-icon type="neutral" icon="fas fa-tag"/>
@@ -221,13 +222,18 @@
                     </p>
                 @endif
                 <ul class="flex flex-wrap space-x-2">
-                    <li class="tag">{{ "campaign-{$campaign->id}-opened" }}</li>
-                    <li class="tag">{{ "campaign-{$campaign->id}-clicked" }}</li>
-                    @foreach ($tags as $tag)
-                        <li class="tag">{{ $tag }}</li>
-                    @endforeach
+                    @if ($campaign->add_subscriber_tags)
+                        <li class="tag-neutral">{{ "campaign-{$campaign->uuid}-opened" }}</li>
+                        <li class="tag-neutral">{{ "campaign-{$campaign->uuid}-clicked" }}</li>
+                    @endif
+                    @if ($campaign->add_subscriber_link_tags)
+                        @foreach ($tags as $tag)
+                            <li class="tag-neutral">{{ $tag }}</li>
+                        @endforeach
+                    @endif
                 </ul>
             </dd>
+            @endif
         @endif
 
         @if ($campaign->isReady())

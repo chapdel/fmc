@@ -24,6 +24,8 @@ class AutomationMailSettings extends Component
             'mail.name' => 'required',
             'mail.subject' => '',
             'mail.utm_tags' => 'bool',
+            'mail.add_subscriber_tags' => 'bool',
+            'mail.add_subscriber_link_tags' => 'bool',
         ];
     }
 

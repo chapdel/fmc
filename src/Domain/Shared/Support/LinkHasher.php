@@ -17,7 +17,7 @@ class LinkHasher
             static::getAutomationMailClass() => 'automation-mail',
         };
 
-        $sendablePart = "{$prefix}-{$sendable->id}-{$type}";
+        $sendablePart = "{$prefix}-{$sendable->uuid}-{$type}";
 
         $humanReadablePart = self::getHumanReadablePart($url);
 

@@ -142,8 +142,8 @@ return new class extends Migration
 
             $table->string('segment_description')->default(0);
 
-            $table->boolean('track_opens')->default(false);
-            $table->boolean('track_clicks')->default(false);
+            $table->boolean('add_subscriber_tags')->default(false);
+            $table->boolean('add_subscriber_link_tags')->default(false);
 
             $table->integer('open_count')->default(0);
             $table->integer('unique_open_count')->default(0);
@@ -216,9 +216,6 @@ return new class extends Migration
             $table->string('reply_to_email')->nullable();
             $table->string('reply_to_name')->nullable();
 
-            $table->boolean('track_opens')->default(false);
-            $table->boolean('track_clicks')->default(false);
-
             $table->string('subject')->nullable();
 
             $table->unsignedBigInteger('template_id')->nullable();
@@ -231,6 +228,8 @@ return new class extends Migration
             $table->json('mailable_arguments')->nullable();
 
             $table->boolean('utm_tags')->default(false);
+            $table->boolean('add_subscriber_tags')->default(false);
+            $table->boolean('add_subscriber_link_tags')->default(false);
 
             $table->integer('sent_to_number_of_subscribers')->default(0);
             $table->integer('open_count')->default(0);

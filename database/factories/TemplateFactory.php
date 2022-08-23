@@ -17,6 +17,7 @@ class TemplateFactory extends Factory
     public function definition()
     {
         return [
+            'uuid' => $this->faker->uuid,
             'name' => $this->faker->word,
             'html' => $this->faker->randomHtml(),
         ];

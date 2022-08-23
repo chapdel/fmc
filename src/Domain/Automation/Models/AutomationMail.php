@@ -18,6 +18,11 @@ class AutomationMail extends Sendable
 {
     public $table = 'mailcoach_automation_mails';
 
+    protected $casts = [
+        'add_subscriber_tags' => 'boolean',
+        'add_subscriber_link_tags' => 'boolean',
+    ];
+
     public function links(): HasMany
     {
         return $this->hasMany(static::getAutomationMailLinkClass(), 'automation_mail_id');

@@ -58,6 +58,23 @@
         </div>
 
         <div class="form-field">
+            <label class="label">{{ __('mailcoach - Subscriber Tags') }}</label>
+            <div class="checkbox-group">
+                <x-mailcoach::checkbox-field :label="__('mailcoach - Add tags to subscribers for opens & clicks')" name="campaign.add_subscriber_tags" wire:model="campaign.add_subscriber_tags" :disabled="!$campaign->isEditable()" />
+                <x-mailcoach::checkbox-field :label="__('mailcoach - Add individual link tags')" name="campaign.add_subscriber_link_tags" wire:model="campaign.add_subscriber_link_tags" :disabled="!$campaign->isEditable()" />
+            </div>
+        </div>
+
+        <x-mailcoach::help>
+            <p class="text-sm mb-2">{{ __('mailcoach - When checked, the following tags will automatically get added to subscribers that open or click the campaign:') }}</p>
+                <p>
+                    <span class="tag-neutral">{{ "campaign-{$campaign->uuid}-opened" }}</span>
+                    <span class="tag-neutral">{{ "campaign-{$campaign->uuid}-clicked" }}</span>
+                </p>
+            <p class="text-sm mt-2">{{ __('mailcoach - When "Add individual link tags" is checked, it will also add a unique tag per link') }}</p>
+        </x-mailcoach::help>
+
+        <div class="form-field">
             <label class="label">{{ __('mailcoach - UTM Tags') }}</label>
             <div class="checkbox-group">
                 <x-mailcoach::checkbox-field :label="__('mailcoach - Automatically add UTM tags')" name="utm_tags" wire:model="campaign.utm_tags" :disabled="!$campaign->isEditable()" />

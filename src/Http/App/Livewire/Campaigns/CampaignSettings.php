@@ -38,6 +38,8 @@ class CampaignSettings extends Component
             'campaign.subject' => '',
             'campaign.email_list_id' => Rule::exists(self::getEmailListTableName(), 'id'),
             'campaign.utm_tags' => 'bool',
+            'campaign.add_subscriber_tags' => 'bool',
+            'campaign.add_subscriber_link_tags' => 'bool',
             'campaign.segment_id' => ['required_if:segment,segment'],
             'segment' => [Rule::in(['entire_list', 'segment'])],
         ];
