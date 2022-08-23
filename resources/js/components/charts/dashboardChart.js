@@ -76,7 +76,7 @@ document.addEventListener('alpine:init', () => {
                             },
                         },
                         legend: {
-                            display: true,
+                            display: false,
                         },
                         tooltip: {
                             backgroundColor: 'rgba(37, 42, 63, 1)',
