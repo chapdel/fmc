@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.9.0 - 2022-08-23
+
+### What's Changed
+
+- Add filesystem configuration section to debug page by @AlexVanderbist in https://github.com/spatie/laravel-mailcoach/pull/1055
+- Change default filesystem disks to local by @AlexVanderbist in https://github.com/spatie/laravel-mailcoach/pull/1056
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.8.2...5.9.0
+
 ## 5.8.2 - 2022-08-15
 
 - Don't throttle the campaign job when the campaign is cancelled
