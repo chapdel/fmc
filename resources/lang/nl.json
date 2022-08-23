@@ -183,6 +183,7 @@
     "mailcoach - Export :total :subscriber": "Exporteer :total :subscriber",
     "mailcoach - Export all subscribers": "Exporteer alle abonnees",
     "mailcoach - Failed": "Mislukt",
+    "mailcoach - Filesystem configuration": "Filesystem configuratie",
     "mailcoach - Filter automations…": "Automatiseringen filteren…",
     "mailcoach - Filter campaigns…": "Campagnes filteren...",
     "mailcoach - Filter clicks…": "Clicks filteren...",
