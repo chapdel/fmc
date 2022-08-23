@@ -22,9 +22,13 @@ SHOW VARIABLES LIKE "max_connections"
 
 ## Uploads on Vapor
 
-To have image uploads work for the editors and have uploads work for subscriber imports, make sure to change these configurations:
+Due to the serverless nature of Vapor, file uploads should be stored in a cloud storage system, such as AWS S3 or Google Cloud Storage. You can read more about configuring cloud storage for Vapor [here](https://docs.vapor.build/1.0/resources/storage.html).
 
-Make sure you have an S3 disk configuration that contains `'visibility' => 'public'`, for example:
+For Mailcoach, this applies to subscriber imports and image uploads in the mail editors.
+
+### Image uploads in editors
+
+Make sure you have an S3 disk configuration that contains `'visibility' => 'public'`. For example:
 
 ```php
 // config/filesystems.php
@@ -55,7 +59,26 @@ Then, make sure to set the `disk_name` configuration value to the name of your d
 ],
 ```
 
-For subscriber imports, make sure to set the `mailcoach.audience.import_subscribers_disk` to an S3 filesystem as well:
+### Subscriber imports
+
+Make sure you have a private S3 disk configuration in your `filesystems.php` config file. For example:
+
+```php
+// config/filesystems.php
+
+'subscriber_imports' => [
+    'driver' => 's3',
+    'key' => env('AWS_ACCESS_KEY_ID'),
+    'secret' => env('AWS_SECRET_ACCESS_KEY'),
+    'region' => env('AWS_DEFAULT_REGION'),
+    'bucket' => env('AWS_BUCKET'),
+    'url' => env('AWS_URL'),
+    'endpoint' => env('AWS_ENDPOINT'),
+    'visibility' => 'private',
+],
+```
+
+Finally, set the `mailcoach.audience.import_subscribers_disk` configuration to use the same private filesystem as well:
 
 ```php
 // config/mailcoach.php
@@ -66,6 +89,6 @@ For subscriber imports, make sure to set the `mailcoach.audience.import_subscrib
     /*
      * This disk will be used to store files regarding importing subscribers.
      */
-    'import_subscribers_disk' => 'media',
+    'import_subscribers_disk' => 'subscriber_imports',
 ],
 ```
