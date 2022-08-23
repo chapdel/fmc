@@ -124,7 +124,7 @@
             </x-mailcoach::help>
         @endif
     @else
-        <x-mailcoach::success class="md:max-w-full">
+        <x-mailcoach::success class="md:max-w-full" full>
             <div>
                 {{ __('mailcoach - Campaign') }}
                 <a target="_blank" href="{{ $campaign->webviewUrl() }}"><strong>{{ $campaign->name }}</strong></a>

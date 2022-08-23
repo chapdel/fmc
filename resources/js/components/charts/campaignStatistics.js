@@ -19,7 +19,7 @@ document.addEventListener('alpine:init', () => {
             }
 
             const lineOptions = {
-                fill: true,
+                fill: false,
                 cubicInterpolationMode: 'monotone',
                 pointRadius: 1,
                 pointHoverRadius: 5,
@@ -34,6 +34,7 @@ document.addEventListener('alpine:init', () => {
                             ...lineOptions,
                             label: 'Opens',
                             borderColor: '#1d4ed8',
+                            backgroundColor: '#1d4ed8',
                             pointBackgroundColor: '#2563eb',
                             pointBorderColor: '#2563eb',
                             data: this.chartData.opens,
@@ -42,6 +43,7 @@ document.addEventListener('alpine:init', () => {
                             ...lineOptions,
                             label: 'Clicks',
                             borderColor: 'rgba(100, 220, 175, 1)',
+                            backgroundColor: 'rgba(100, 220, 175, 1)',
                             pointBackgroundColor: 'rgba(110, 231, 183, 1)',
                             pointBorderColor: 'rgba(110, 231, 183, 1)',
                             data: this.chartData.clicks,
@@ -70,7 +72,12 @@ document.addEventListener('alpine:init', () => {
                             },
                         },
                         legend: {
-                            display: false,
+                            display: true,
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 10,
+                                boxHeight: 10,
+                            },
                         },
                         tooltip: {
                             backgroundColor: 'rgba(37, 42, 63, 1)',

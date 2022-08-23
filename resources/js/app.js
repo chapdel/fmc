@@ -14,6 +14,7 @@ import {
     CategoryScale,
     LinearScale,
     Tooltip,
+    Legend,
 } from 'chart.js';
 import zoomPlugin from 'chartjs-plugin-zoom';
 
@@ -25,7 +26,8 @@ Chart.register(
     LineController,
     CategoryScale,
     LinearScale,
-    Tooltip
+    Tooltip,
+    Legend
 );
 import { each } from 'chart.js/helpers';
 
