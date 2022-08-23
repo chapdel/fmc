@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Domain\Shared\Actions;
 
 use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailStatisticsCalculatedEvent;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailLink;
+use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignStatisticsCalculatedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
@@ -56,6 +57,11 @@ class CalculateStatisticsAction
         [$clickCount, $uniqueClickCount, $clickRate] = $this->calculateClickMetrics($sendable, $sentToNumberOfSubscribers);
         [$unsubscribeCount, $unsubscribeRate] = $this->calculateUnsubscribeMetrics($sendable, $sentToNumberOfSubscribers);
         [$bounceCount, $bounceRate] = $this->calculateBounceMetrics($sendable, $sentToNumberOfSubscribers);
+
+        if ($sendable instanceof Campaign && $sendable->status === CampaignStatus::Sending) {
+            // The campaign is still sending, so don't update the subscriber send count.
+            $sentToNumberOfSubscribers = $sendable->sent_to_number_of_subscribers;
+        }
 
         $sendable->update([
             'sent_to_number_of_subscribers' => $sentToNumberOfSubscribers,

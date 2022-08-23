@@ -38,6 +38,61 @@ it('will recalculate statistics at the right time', function (
         : Queue::assertNotPushed(CalculateStatisticsJob::class);
 })->with('caseProvider');
 
+it('will not calculate statistics of campaigns that are not sent', function () {
+    Queue::fake();
+
+    $campaign = Campaign::factory()->create([
+        'status' => CampaignStatus::Sent,
+        'sent_at' => now()->subMinutes(2),
+        'all_sends_dispatched_at' => now()->subMinutes(2),
+        'all_sends_created_at' => now()->subMinutes(2),
+        'statistics_calculated_at' => now()->subMinute(),
+    ]);
+
+    Campaign::factory()->create([
+        'status' => CampaignStatus::Cancelled,
+        'sent_at' => now()->subMinutes(2),
+        'all_sends_dispatched_at' => now()->subMinutes(2),
+        'all_sends_created_at' => now()->subMinutes(2),
+        'statistics_calculated_at' => now()->subMinute(),
+    ]);
+
+    Send::factory()->create(['campaign_id' => $campaign->id]);
+
+    test()->artisan(CalculateStatisticsCommand::class)->assertExitCode(0);
+    $this->processQueuedJobs();
+
+    Queue::assertPushed(CalculateStatisticsJob::class, 1);
+});
+
+it('calculates statistics of sending campaigns but wont alter sent_to_number_of_subscribers', function () {
+    $campaign = Campaign::factory()->create([
+        'status' => CampaignStatus::Sent,
+        'sent_at' => now()->subMinutes(2),
+        'all_sends_dispatched_at' => now()->subMinutes(2),
+        'all_sends_created_at' => now()->subMinutes(2),
+        'statistics_calculated_at' => now()->subMinute(),
+        'sent_to_number_of_subscribers' => 2,
+    ]);
+
+    $campaign2 = Campaign::factory()->create([
+        'status' => CampaignStatus::Sending,
+        'sent_at' => now()->subMinutes(2),
+        'all_sends_dispatched_at' => now()->subMinutes(2),
+        'all_sends_created_at' => now()->subMinutes(2),
+        'statistics_calculated_at' => now()->subMinute(),
+        'sent_to_number_of_subscribers' => 10,
+    ]);
+
+    Send::factory()->create(['campaign_id' => $campaign->id]);
+    Send::factory()->create(['campaign_id' => $campaign2->id]);
+
+    test()->artisan(CalculateStatisticsCommand::class)->assertExitCode(0);
+
+    expect($campaign->fresh()->sent_to_number_of_subscribers)->toBe(1); // Updated
+    expect($campaign2->fresh()->sent_to_number_of_subscribers)->toBe(10);
+});
+
 it('can recalculate the statistics of a single campaign', function () {
     $campaign = Campaign::factory()->create([
         'sent_at' => now()->subYear(),

@@ -419,7 +419,7 @@ class Campaign extends Sendable implements Feedable
             return;
         }
 
-        if (! $this->isSent()) {
+        if (! $this->isSendingOrSent()) {
             return;
         }
 
