@@ -122,7 +122,6 @@ class SendCampaignAction
             ->undispatched()
             ->lazyById()
             ->each(function (Send $send) use ($stopExecutingAt, $simpleThrottle) {
-
                 // should horizon be used, and it is paused, stop dispatching jobs
                 if (! app(HorizonStatus::class)->is(HorizonStatus::STATUS_PAUSED)) {
                     $simpleThrottle->hit();
