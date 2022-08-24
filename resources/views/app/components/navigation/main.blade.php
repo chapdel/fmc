@@ -27,10 +27,13 @@
                         x-on:resize.window.debounce="resize"
                     @endif
                 >
-                    <a x-on:click="select" class="inline-flex items-center py-2 md:px-3 lg:px-6 md:h-12" href="{{ $item['url'] }}">
+                    <a x-on:click="select" class="relative -mb-px inline-flex items-center py-2 md:px-3 lg:px-6 md:h-12" href="{{ $item['url'] }}">
                         <h3 class="group-hover:text-white {{ $item['active'] ? 'text-white' : 'text-white/80' }} uppercase md:text-xs font-bold tracking-wider">
                             {{ $item['title'] }}
                         </h3>
+                        @if ($item['active'])
+                            <span class="absolute bottom-0 left-0 right-0 mx-3 -mb-2 block pointer-events-none h-2px bg-gradient-to-r from-blue-50 to-blue-50/80"></span>
+                        @endif
                     </a>
                     @if(count($item['children']) > 1)
                         <!-- md:block md:opacity-100 -->

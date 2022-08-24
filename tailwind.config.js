@@ -39,6 +39,9 @@ module.exports = {
             inset: {
                 full: '100%',
             },
+            height: {
+                '2px': '2px',
+            },
             minHeight: {
                 4: '1rem',
                 6: '1.5rem',
