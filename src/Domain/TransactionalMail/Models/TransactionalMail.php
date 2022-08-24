@@ -89,13 +89,6 @@ class TransactionalMail extends Model
             ->implode(', ');
     }
 
-    public function resolveRouteBinding($value, $field = null)
-    {
-        $field ??= $this->getRouteKeyName();
-
-        return self::getTransactionalMailClass()::where($field, $value)->firstOrFail();
-    }
-
     protected static function newFactory(): TransactionalMailFactory
     {
         return new TransactionalMailFactory();

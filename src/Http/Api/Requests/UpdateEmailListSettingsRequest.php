@@ -47,7 +47,7 @@ class UpdateEmailListSettingsRequest extends FormRequest
             'redirect_after_subscription_pending' => '',
             'redirect_after_unsubscribed' => '',
             'confirmation_mail' => Rule::in([static::CONFIRMATION_MAIL_DEFAULT, static::CONFIRMATION_MAIL_CUSTOM]),
-            'confirmation_mail_id' => 'required_if:custom_confirmation_mail,'.static::CONFIRMATION_MAIL_CUSTOM,
+            'confirmation_mail_uuid' => 'required_if:custom_confirmation_mail,'.static::CONFIRMATION_MAIL_CUSTOM,
         ];
     }
 

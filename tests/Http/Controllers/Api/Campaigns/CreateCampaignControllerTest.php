@@ -25,9 +25,10 @@ test('a campaign can be created using the api', function () {
 
     $campaign = Campaign::first();
 
-    foreach (Arr::except(test()->postAttributes, ['type']) as $attributeName => $attributeValue) {
+    foreach (Arr::except(test()->postAttributes, ['type', 'email_list_uuid']) as $attributeName => $attributeValue) {
         test()->assertEquals($attributeValue, $campaign->$attributeName);
     }
+    test()->assertEquals(test()->postAttributes['email_list_uuid'], $campaign->emailList->uuid);
 });
 
 it('can be created with a tagsegment', function () {
@@ -35,7 +36,7 @@ it('can be created with a tagsegment', function () {
 
     $this
         ->postJson(action([CampaignsController::class, 'store']), array_merge(test()->postAttributes, [
-            'segment_id' => $tagsegment->id,
+            'segment_uuid' => $tagsegment->uuid,
         ]))
         ->assertSuccessful();
 
@@ -59,7 +60,7 @@ function getPostAttributes(): array
     return [
         'name' => 'name',
         'type' => CampaignStatus::Draft,
-        'email_list_id' => EmailList::factory()->create()->id,
+        'email_list_uuid' => EmailList::factory()->create()->uuid,
         'html' => 'html',
     ];
 }

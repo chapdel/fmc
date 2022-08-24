@@ -378,23 +378,6 @@ class Subscriber extends Model implements CipherSweetEncrypted
         return $this->actions()->where('automation_id', $automation->id)->count() > 0;
     }
 
-    public function resolveRouteBinding($value, $field = null)
-    {
-        $field ??= $this->getRouteKeyName();
-
-        /** Can also bind uuid */
-        try {
-            $subscriber = self::getSubscriberClass()::where('uuid', $value)->first();
-
-            if ($subscriber) {
-                return $subscriber;
-            }
-        } catch (\Illuminate\Database\QueryException) {
-        }
-
-        return self::getSubscriberClass()::where($field, $value)->firstOrFail();
-    }
-
     protected static function newFactory(): SubscriberFactory
     {
         return new SubscriberFactory();

@@ -297,7 +297,7 @@ it('wont calculate statistics if it doesnt have any new sends', function () {
 it('will only dispatch a calculate statistics job if it is sent', function () {
     Queue::fake();
 
-    test()->campaign->update(['statistics_calculated_at' => now(), 'status' => CampaignStatus::Sending]);
+    test()->campaign->update(['statistics_calculated_at' => now(), 'status' => CampaignStatus::Cancelled]);
 
     test()->campaign->dispatchCalculateStatistics();
 

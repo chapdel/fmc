@@ -42,6 +42,20 @@
             </x-mailcoach::form-buttons>
         </form>
         </x-mailcoach::card>
+
+        <x-mailcoach::fieldset class="mt-6" card :legend="__('Usage in Mailcoach API')">
+            <div>
+                <x-mailcoach::help>
+                    {!! __('mailcoach - Whenever you need to specify a <code>:resourceName</code> in the Mailcoach API and want to use this :resource, you\'ll need to pass this value', [
+                    'resourceName' => 'subscriber uuid',
+                    'resource' => 'subscriber',
+                ]) !!}
+                    <p class="mt-4">
+                        <x-mailcoach::code-copy class="flex items-center justify-between max-w-md" :code="$subscriber->uuid"></x-mailcoach::code-copy>
+                    </p>
+                </x-mailcoach::help>
+            </div>
+        </x-mailcoach::fieldset>
     @endif
 
     @if ($tab === 'attributes')

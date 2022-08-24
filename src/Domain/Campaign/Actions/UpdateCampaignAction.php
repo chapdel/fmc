@@ -19,12 +19,22 @@ class UpdateCampaignAction
             ? TagSegment::find($attributes['segment_id'])
             : null;
 
+        if (! $segment) {
+            $segment = $attributes['segment_uuid'] ?? null
+                ? TagSegment::findByUuid($attributes['segment_uuid'])
+                : null;
+        }
+
         if (is_null($segment)) {
             $segmentClass = $attributes['segment_class'] ?? EverySubscriberSegment::class;
             $segmentDescription = (new $segmentClass)->description();
         } else {
             $segmentClass = $segment::class;
             $segmentDescription = $segment->description($campaign);
+        }
+
+        if (isset($attributes['email_list_uuid'])) {
+            $attributes['email_list_id'] = self::getEmailListClass()::findByUuid($attributes['email_list_uuid'])->id;
         }
 
         $campaign->fill([

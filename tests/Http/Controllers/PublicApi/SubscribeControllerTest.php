@@ -26,7 +26,7 @@ beforeEach(function () {
 
 it('can subscribe to an email list without double opt in', function () {
     $this
-        ->post(action([SubscribeController::class, 'store'], test()->emailList->uuid), payloadWithRedirects())
+        ->post(action([SubscribeController::class, 'store'], test()->emailList), payloadWithRedirects())
         ->assertRedirect(payloadWithRedirects()['redirect_after_subscribed']);
 
     test()->assertEquals(
@@ -233,6 +233,7 @@ test('clicking the link in the confirm subscription mail will redirect to the gi
     $this
         ->get(test()->confirmSubscriptionLink)
         ->assertRedirect(payloadWithRedirects()['redirect_after_subscribed']);
+
     expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::Subscribed);
 });
 

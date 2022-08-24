@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Http\Front\Controllers;
 
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Front\Requests\CreateSubscriptionRequest;
@@ -22,13 +23,13 @@ class SubscribeController
         $emailList = $request->emailList();
 
         if ($emailList->getSubscriptionStatus($request->email) === SubscriptionStatus::Subscribed) {
-            $subscriber = $this->getSubscriberClass()::findForEmail($request->email, $emailList);
+            $subscriber = self::getSubscriberClass()::findForEmail($request->email, $emailList);
             $subscriber->addTags($request->tags());
 
-            return $this->getAlreadySubscribedResponse($request);
+            return $this->getAlreadySubscribedResponse($request, $emailList);
         }
 
-        $subscriber = $this->getSubscriberClass()::createWithEmail($request->email)
+        $subscriber = self::getSubscriberClass()::createWithEmail($request->email)
             ->withAttributes($request->subscriberAttributes())
             ->redirectAfterSubscribed($request->redirect_after_subscribed ?? '')
             ->tags($request->tags())
@@ -40,43 +41,43 @@ class SubscribeController
         $subscriber->save();
 
         return $subscriber->isUnconfirmed()
-            ? $this->getSubscriptionPendingResponse($request, $subscriber)
-            : $this->getSubscribedResponse($request, $subscriber);
+            ? $this->getSubscriptionPendingResponse($request, $emailList, $subscriber)
+            : $this->getSubscribedResponse($request, $emailList, $subscriber);
     }
 
-    protected function getSubscriptionPendingResponse(CreateSubscriptionRequest $request, Subscriber $subscriber): Response
+    protected function getSubscriptionPendingResponse(CreateSubscriptionRequest $request, EmailList $emailList, Subscriber $subscriber): Response
     {
         if ($request->redirect_after_subscription_pending) {
             return redirect()->to($request->redirect_after_subscription_pending);
         }
 
-        if ($urlFromEmailList = $request->emailList()->redirect_after_subscription_pending) {
+        if ($urlFromEmailList = $emailList->redirect_after_subscription_pending) {
             return redirect()->to($urlFromEmailList);
         }
 
         return response()->view('mailcoach::landingPages.confirmSubscription', compact('subscriber'));
     }
 
-    protected function getSubscribedResponse(CreateSubscriptionRequest $request, Subscriber $subscriber): Response
+    protected function getSubscribedResponse(CreateSubscriptionRequest $request, EmailList $emailList, Subscriber $subscriber): Response
     {
         if ($request->redirect_after_subscribed) {
             return redirect()->to($request->redirect_after_subscribed);
         }
 
-        if ($urlFromEmailList = $request->emailList()->redirect_after_subscribed) {
+        if ($urlFromEmailList = $emailList->redirect_after_subscribed) {
             return redirect()->to($urlFromEmailList);
         }
 
         return response()->view('mailcoach::landingPages.subscribed', compact('subscriber'));
     }
 
-    public function getAlreadySubscribedResponse(CreateSubscriptionRequest $request): Response
+    protected function getAlreadySubscribedResponse(CreateSubscriptionRequest $request, EmailList $emailList): Response
     {
         if ($urlFromRequest = $request->redirect_after_already_subscribed) {
             return redirect()->to($urlFromRequest);
         }
 
-        if ($urlFromEmailList = $request->emailList()->redirect_after_already_subscribed) {
+        if ($urlFromEmailList = $emailList->redirect_after_already_subscribed) {
             return redirect()->to($urlFromEmailList);
         }
 

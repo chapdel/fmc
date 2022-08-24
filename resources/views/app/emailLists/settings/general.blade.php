@@ -52,6 +52,20 @@
         @endif
     </x-mailcoach::fieldset>
 
+    <x-mailcoach::fieldset card :legend="__('Usage in Mailcoach API')">
+        <div>
+            <x-mailcoach::help>
+                {!! __('mailcoach - Whenever you need to specify a <code>:resourceName</code> in the Mailcoach API and want to use this :resource, you\'ll need to pass this value', [
+                'resourceName' => 'emailList uuid',
+                'resource' => 'email list',
+            ]) !!}
+                <p class="mt-4">
+                    <x-mailcoach::code-copy class="flex items-center justify-between max-w-md" :code="$emailList->uuid"></x-mailcoach::code-copy>
+                </p>
+            </x-mailcoach::help>
+        </div>
+    </x-mailcoach::fieldset>
+
     <x-mailcoach::card buttons>
         <x-mailcoach::button :label="__('mailcoach - Save')"/>
     </x-mailcoach::card>

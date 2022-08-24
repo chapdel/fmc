@@ -37,7 +37,7 @@ class CampaignsController
     ) {
         $this->authorize('create', static::getCampaignClass());
 
-        $campaignClass = $this->getCampaignClass();
+        $campaignClass = self::getCampaignClass();
 
         $campaign = new $campaignClass;
 

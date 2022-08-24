@@ -31,7 +31,7 @@ it('throttles dispatching automation mail sends', function () {
     [$sendTime1, $sendTime2, $sendTime3] = $jobDispatchTimes;
 
     expect($sendTime1->diffInSeconds($sendTime2))->toEqual(0);
-    expect($sendTime2->diffInSeconds($sendTime3))->toEqual(3);
+    expect($sendTime2->diffInSeconds($sendTime3))->toBeGreaterThanOrEqual(3);
 });
 
 it('will throttle processing mail jobs', function () {

@@ -9,7 +9,6 @@ class CampaignOpenResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
             'uuid' => $this->uuid,
             'subscriber_uuid' => $this->subscriber_uuid,
             'subscriber_email_list_uuid' => (int) $this->subscriber_email_list_uuid,

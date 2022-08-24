@@ -28,7 +28,7 @@ Route::get('user', UserController::class);
 Route::apiResource('templates', TemplatesController::class);
 Route::apiResource('campaigns', CampaignsController::class);
 
-Route::prefix('campaigns/{campaign:uuid}')->group(function () {
+Route::prefix('campaigns/{campaign}')->group(function () {
     Route::post('send-test', SendTestEmailController::class);
     Route::post('send', SendCampaignController::class);
 
@@ -41,7 +41,7 @@ Route::apiResource('email-lists', EmailListsController::class);
 Route::apiResource('email-lists.subscribers', SubscribersController::class)->only(['index', 'store']);
 Route::apiResource('subscribers', SubscribersController::class)->except(['index', 'store']);
 
-Route::prefix('subscribers/{subscriber:uuid}')->group(function () {
+Route::prefix('subscribers/{subscriber}')->group(function () {
     Route::post('confirm', ConfirmSubscriberController::class);
     Route::post('unsubscribe', UnsubscribeController::class);
     Route::post('resend-confirmation', ResendConfirmationMailController::class);
@@ -49,7 +49,7 @@ Route::prefix('subscribers/{subscriber:uuid}')->group(function () {
 
 Route::apiResource('subscriber-imports', SubscriberImportsController::class);
 
-Route::prefix('subscriber-imports/{subscriberImport:uuid}')->group(function () {
+Route::prefix('subscriber-imports/{subscriberImport}')->group(function () {
     Route::post('append', AppendSubscriberImportController::class);
     Route::post('start', StartSubscriberImportController::class);
 });
@@ -57,10 +57,10 @@ Route::prefix('subscriber-imports/{subscriberImport:uuid}')->group(function () {
 Route::prefix('transactional-mails')->group(function () {
     Route::get('/', TransactionalMailsController::class);
     Route::post('send', SendTransactionalMailController::class);
-    Route::get('{transactionalMail:uuid}', ShowTransactionalMailController::class);
-    Route::post('{transactionalMail:uuid}/resend', ResendTransactionalMailController::class);
+    Route::get('{transactionalMail}', ShowTransactionalMailController::class);
+    Route::post('{transactionalMail}/resend', ResendTransactionalMailController::class);
 });
 
 Route::prefix('automations')->group(function () {
-    Route::post('{automation:uuid}/trigger', TriggerAutomationController::class);
+    Route::post('{automation}/trigger', TriggerAutomationController::class);
 });

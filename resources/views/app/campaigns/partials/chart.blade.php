@@ -6,9 +6,10 @@
             clicks: @js($stats->pluck('clicks')->values()->toArray()),
         })">
             <canvas id="chart" style="position: relative; max-height:300px; width:100%; max-width: 100%;"></canvas>
-        </div>
-        <div class="-mt-8 text-right">
-            <small class="text-gray-500">You can drag the chart to zoom.</small>
+            <div class="relative text-right -mb-8" style="top: -2rem">
+                <small class="text-gray-500 text-sm">{{ __('mailcoach - You can drag the chart to zoom.') }}</small>
+                <a x-show="zoomed" x-cloak class="text-gray-500 text-sm underline" href="#" x-on:click.prevent="resetZoom">Reset zoom</a>
+            </div>
         </div>
     @endif
 </div>
