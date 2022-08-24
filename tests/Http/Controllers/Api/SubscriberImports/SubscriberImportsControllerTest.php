@@ -38,7 +38,7 @@ it('can show a subscriber import', function () {
 it('can create a subscriber import', function () {
     $payload = [
         'subscribers_csv' => 'email'.PHP_EOL.'john@example.com',
-        'email_list_id' => test()->emailList->id,
+        'email_list_uuid' => test()->emailList->uuid,
     ];
 
     $this
@@ -47,7 +47,10 @@ it('can create a subscriber import', function () {
 
     $payload['status'] = SubscriberImportStatus::Draft;
 
-    test()->assertDatabaseHas('mailcoach_subscriber_imports', $payload);
+    test()->assertDatabaseHas('mailcoach_subscriber_imports', [
+        'subscribers_csv' => 'email'.PHP_EOL.'john@example.com',
+        'email_list_id' => test()->emailList->id,
+    ]);
 });
 
 it('can update a subscriber import', function () {
@@ -57,14 +60,17 @@ it('can update a subscriber import', function () {
 
     $payload = [
         'subscribers_csv' => 'email'.PHP_EOL.'john@example.com',
-        'email_list_id' => test()->emailList->id,
+        'email_list_uuid' => test()->emailList->uuid,
     ];
 
     $this
         ->putJson(action([SubscriberImportsController::class, 'update'], $subscriberImport->uuid), $payload)
         ->assertSuccessful();
 
-    test()->assertDatabaseHas('mailcoach_subscriber_imports', $payload);
+    test()->assertDatabaseHas('mailcoach_subscriber_imports', [
+        'subscribers_csv' => 'email'.PHP_EOL.'john@example.com',
+        'email_list_id' => test()->emailList->id,
+    ]);
 });
 
 it('can delete a subscriber import', function () {

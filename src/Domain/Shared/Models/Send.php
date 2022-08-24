@@ -416,13 +416,6 @@ class Send extends Model
         ]);
     }
 
-    public function resolveRouteBinding($value, $field = null)
-    {
-        $field ??= $this->getRouteKeyName();
-
-        return self::getSendClass()::where($field, $value)->firstOrFail();
-    }
-
     protected static function newFactory(): SendFactory
     {
         return new SendFactory();

@@ -16,7 +16,7 @@ test('a campaign can be updated using the api', function () {
 
     $attributes = [
         'name' => 'name',
-        'email_list_id' => EmailList::factory()->create()->id,
+        'email_list_uuid' => EmailList::factory()->create()->uuid,
         'html' => 'html',
         'schedule_at' => '2022-01-01 10:00:00',
     ];
@@ -30,6 +30,11 @@ test('a campaign can be updated using the api', function () {
     foreach ($attributes as $attributeName => $attributeValue) {
         if ($attributeName === 'schedule_at') {
             $attributeName = 'scheduled_at';
+        }
+
+        if ($attributeName === 'email_list_uuid') {
+            test()->assertEquals($attributeValue, $campaign->emailList->uuid);
+            continue;
         }
 
         test()->assertEquals($attributeValue, $campaign->$attributeName);

@@ -42,7 +42,7 @@ it('responds with 200', function () {
     $subscriber = test()->emailList->subscribe('john@doe.com');
 
     test()->postJson(action(TriggerAutomationController::class, [$automation]), [
-        'subscribers' => [$subscriber->id],
+        'subscribers' => [$subscriber->uuid],
     ])->assertStatus(200);
 });
 
@@ -62,7 +62,7 @@ it('needs an automation with a webhook trigger', function () {
     $subscriber = test()->emailList->subscribe('john@doe.com');
 
     test()->postJson(action(TriggerAutomationController::class, [$automation]), [
-        'subscribers' => [$subscriber->id],
+        'subscribers' => [$subscriber->uuid],
     ])->assertStatus(400)
       ->assertSee('This automation does not have a Webhook trigger.');
 });
@@ -82,7 +82,7 @@ it('only handles subscribers from the email list', function () {
     $subscriber2 = SubscriberFactory::new()->create();
 
     test()->postJson(action(TriggerAutomationController::class, [$automation]), [
-        'subscribers' => [$subscriber1->id, $subscriber2->id],
+        'subscribers' => [$subscriber1->uuid, $subscriber2->uuid],
     ])->assertSuccessful();
 
     expect($automation->actions()->first()->subscribers->count())->toEqual(1);
@@ -112,7 +112,7 @@ it('needs a subscribed subscriber', function () {
     $subscriber2->unsubscribe();
 
     test()->postJson(action(TriggerAutomationController::class, [$automation]), [
-        'subscribers' => [$subscriber1->id, $subscriber2->id],
+        'subscribers' => [$subscriber1->uuid, $subscriber2->uuid],
     ])->assertSuccessful();
 
     expect($automation->actions()->first()->subscribers->count())->toEqual(1);

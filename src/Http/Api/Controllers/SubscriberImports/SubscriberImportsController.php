@@ -35,9 +35,14 @@ class SubscriberImportsController
 
     public function store(SubscriberImportRequest $request)
     {
-        $this->authorize('update', self::getEmailListClass()::findOrFail($request->email_list_id));
+        $this->authorize('update', $emailList = self::getEmailListClass()::firstOrFailByUuid($request->email_list_uuid));
 
-        $attributes = array_merge($request->validated(), ['status' => SubscriberImportStatus::Draft]);
+        $attributes = array_merge($request->validated(), [
+            'status' => SubscriberImportStatus::Draft,
+            'email_list_id' => $emailList->id,
+        ]);
+
+        unset($attributes['email_list_uuid']);
 
         $subscriberImport = self::getSubscriberImportClass()::create($attributes);
 
@@ -52,7 +57,11 @@ class SubscriberImportsController
             abort(Response::HTTP_UNPROCESSABLE_ENTITY, 'Cannot update a non-draft import.');
         }
 
-        $subscriberImport->update($request->validated());
+        $attributes = $request->validated();
+        $attributes['email_list_id'] = self::getEmailListClass()::firstOrFailByUuid($attributes['email_list_uuid'])->id;
+        unset($attributes['email_list_uuid']);
+
+        $subscriberImport->update($attributes);
 
         return new SubscriberImportResource($subscriberImport);
     }

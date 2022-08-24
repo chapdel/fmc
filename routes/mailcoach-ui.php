@@ -38,7 +38,7 @@ Route::get('import', '\\'.Import::class)->name('import');
 Route::prefix('campaigns')->group(function () {
     Route::get('/', '\\'.Mailcoach::getLivewireClass('campaigns', Mailcoach::getLivewireClass('campaigns', \Spatie\Mailcoach\Http\App\Livewire\Campaigns\Campaigns::class)))->name('mailcoach.campaigns');
 
-    Route::prefix('{campaign:uuid}')->group(function () {
+    Route::prefix('{campaign}')->group(function () {
         Route::get('settings', Mailcoach::getLivewireClass('campaign-settings', \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignSettings::class))->name('mailcoach.campaigns.settings');
         Route::get('content', ['\\'.CampaignContentController::class, 'edit'])->name('mailcoach.campaigns.content');
         Route::get('delivery', Mailcoach::getLivewireClass('campaign-delivery', \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignDelivery::class))->name('mailcoach.campaigns.delivery');
@@ -58,13 +58,13 @@ Route::prefix('campaigns')->group(function () {
 Route::prefix('email-lists')->group(function () {
     Route::get('/', '\\'.Mailcoach::getLivewireClass('lists', \Spatie\Mailcoach\Http\App\Livewire\Audience\Lists::class))->name('mailcoach.emailLists');
 
-    Route::prefix('{emailList:uuid}')->group(function () {
+    Route::prefix('{emailList}')->group(function () {
         Route::get('summary', '\\'.Mailcoach::getLivewireClass('list-summary', \Spatie\Mailcoach\Http\App\Livewire\Audience\ListSummary::class))->name('mailcoach.emailLists.summary');
 
         Route::prefix('subscribers')->group(function () {
             Route::get('/', '\\'.Mailcoach::getLivewireClass('subscribers', \Spatie\Mailcoach\Http\App\Livewire\Audience\Subscribers::class))->name('mailcoach.emailLists.subscribers');
             Route::post('export', '\\'.SubscribersExportController::class)->name('mailcoach.emailLists.subscribers.export');
-            Route::get('{subscriber:uuid}', '\\'.Mailcoach::getLivewireClass('subscriber', \Spatie\Mailcoach\Http\App\Livewire\Audience\Subscriber::class))->name('mailcoach.emailLists.subscriber.details');
+            Route::get('{subscriber}', '\\'.Mailcoach::getLivewireClass('subscriber', \Spatie\Mailcoach\Http\App\Livewire\Audience\Subscriber::class))->name('mailcoach.emailLists.subscriber.details');
         });
 
         Route::get('import-subscribers', '\\'.Mailcoach::getLivewireClass('subscriber-imports', \Spatie\Mailcoach\Http\App\Livewire\Audience\SubscriberImports::class))->name('mailcoach.emailLists.import-subscribers');
@@ -75,12 +75,12 @@ Route::prefix('email-lists')->group(function () {
 
         Route::prefix('tags')->group(function () {
             Route::get('/', '\\'.Mailcoach::getLivewireClass('tags', \Spatie\Mailcoach\Http\App\Livewire\Audience\Tags::class))->name('mailcoach.emailLists.tags');
-            Route::get('{tag:uuid}', '\\'.Mailcoach::getLivewireClass('tag', \Spatie\Mailcoach\Http\App\Livewire\Audience\Tag::class))->name('mailcoach.emailLists.tags.edit');
+            Route::get('{tag}', '\\'.Mailcoach::getLivewireClass('tag', \Spatie\Mailcoach\Http\App\Livewire\Audience\Tag::class))->name('mailcoach.emailLists.tags.edit');
         });
 
         Route::prefix('segments')->group(function () {
             Route::get('/', '\\'.Mailcoach::getLivewireClass('segments', \Spatie\Mailcoach\Http\App\Livewire\Audience\Segments::class))->name('mailcoach.emailLists.segments');
-            Route::get('{segment:uuid}', '\\'.Mailcoach::getLivewireClass('segment', \Spatie\Mailcoach\Http\App\Livewire\Audience\Segment::class))->name('mailcoach.emailLists.segments.edit');
+            Route::get('{segment}', '\\'.Mailcoach::getLivewireClass('segment', \Spatie\Mailcoach\Http\App\Livewire\Audience\Segment::class))->name('mailcoach.emailLists.segments.edit');
         });
     });
 });
@@ -88,7 +88,7 @@ Route::prefix('email-lists')->group(function () {
 Route::prefix('automations')->group(function () {
     Route::get('/', '\\'.Mailcoach::getLivewireClass('automations', \Spatie\Mailcoach\Http\App\Livewire\Automations\Automations::class))->name('mailcoach.automations');
 
-    Route::prefix('{automation:uuid}')->group(function () {
+    Route::prefix('{automation}')->group(function () {
         Route::get('settings', '\\'.Mailcoach::getLivewireClass('automation-settings', \Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationSettings::class))->name('mailcoach.automations.settings');
         Route::get('run', '\\'.Mailcoach::getLivewireClass('automation-run', \Spatie\Mailcoach\Http\App\Livewire\Automations\RunAutomation::class))->name('mailcoach.automations.run');
         Route::get('actions', '\\'.Mailcoach::getLivewireClass('automation-actions', \Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationActions::class))->name('mailcoach.automations.actions');
@@ -98,7 +98,7 @@ Route::prefix('automations')->group(function () {
 Route::prefix('automation-emails')->group(function () {
     Route::get('/', '\\'.Mailcoach::getLivewireClass('automation-mails', \Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMails::class))->name('mailcoach.automations.mails');
 
-    Route::prefix('{automationMail:uuid}')->group(function () {
+    Route::prefix('{automationMail}')->group(function () {
         Route::get('summary', '\\'.Mailcoach::getLivewireClass('automation-mail-summary', \Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailSummary::class))->name('mailcoach.automations.mails.summary');
         Route::get('settings', '\\'.Mailcoach::getLivewireClass('automation-mail-settings', \Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailSettings::class))->name('mailcoach.automations.mails.settings');
         Route::get('delivery', '\\'.Mailcoach::getLivewireClass('automation-mail-delivery', \Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailDelivery::class))->name('mailcoach.automations.mails.delivery');
@@ -115,7 +115,7 @@ Route::prefix('automation-emails')->group(function () {
 Route::prefix('transactional-mail-log')->group(function () {
     Route::get('/', '\\'.Mailcoach::getLivewireClass('transactional-mails', \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMails::class))->name('mailcoach.transactionalMails');
 
-    Route::prefix('{transactionalMail:uuid}')->group(function () {
+    Route::prefix('{transactionalMail}')->group(function () {
         Route::get('content', '\\'.Mailcoach::getLivewireClass('transactional-mail-content', \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailContent::class))->name('mailcoach.transactionalMails.show');
         Route::get('performance', '\\'.Mailcoach::getLivewireClass('transactional-mail-performance', \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailPerformance::class))->name('mailcoach.transactionalMails.performance');
         Route::get('resend', '\\'.Mailcoach::getLivewireClass('transactional-mail-resend', \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailResend::class))->name('mailcoach.transactionalMails.resend');
@@ -125,7 +125,7 @@ Route::prefix('transactional-mail-log')->group(function () {
 Route::prefix('transactional-mail-templates')->group(function () {
     Route::get('/', '\\'.Mailcoach::getLivewireClass('transactional-mail-templates', \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplates::class))->name('mailcoach.transactionalMails.templates');
 
-    Route::prefix('{transactionalMailTemplate:uuid}')->group(function () {
+    Route::prefix('{transactionalMailTemplate}')->group(function () {
         Route::get('content', '\\'.Mailcoach::getLivewireClass('transactional-mail-template-content', \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateContent::class))->name('mailcoach.transactionalMails.templates.edit');
         Route::get('settings', '\\'.Mailcoach::getLivewireClass('transactional-mail-template-settings', \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateSettings::class))->name('mailcoach.transactionalMails.templates.settings');
 
@@ -135,7 +135,7 @@ Route::prefix('transactional-mail-templates')->group(function () {
 
 Route::prefix('templates')->group(function () {
     Route::get('/', '\\'.Mailcoach::getLivewireClass('templates', Templates::class))->name('mailcoach.templates');
-    Route::get('{template:uuid}', '\\'.Mailcoach::getLivewireClass('template', Template::class))->name('mailcoach.templates.edit');
+    Route::get('{template}', '\\'.Mailcoach::getLivewireClass('template', Template::class))->name('mailcoach.templates.edit');
 });
 
 Route::prefix('settings')
@@ -155,7 +155,7 @@ Route::prefix('settings')
 
         Route::prefix('mailers')->group(function () {
             Route::get('/', Mailers::class)->name('mailers');
-            Route::get('{mailer:uuid}', EditMailer::class)->name('mailers.edit');
+            Route::get('{mailer}', EditMailer::class)->name('mailers.edit');
         });
 
         Route::prefix('users')->group(function () {
@@ -167,7 +167,7 @@ Route::prefix('settings')
 
         Route::prefix('webhooks')->group(function () {
             Route::get('/', Webhooks::class)->name('webhooks');
-            Route::get('{webhook:uuid}', EditWebhook::class)->name('webhooks.edit');
+            Route::get('{webhook}', EditWebhook::class)->name('webhooks.edit');
         });
     });
 

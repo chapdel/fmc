@@ -63,13 +63,6 @@ class Template extends Model implements HasHtmlContent
         return $this->structured_html;
     }
 
-    public function resolveRouteBinding($value, $field = null)
-    {
-        $field ??= $this->getRouteKeyName();
-
-        return self::getTemplateClass()::where($field, $value)->firstOrFail();
-    }
-
     protected static function newFactory(): TemplateFactory
     {
         return new TemplateFactory();

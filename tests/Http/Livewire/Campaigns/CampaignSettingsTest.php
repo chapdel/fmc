@@ -15,6 +15,8 @@ it('can update the settings of a campaign', function () {
         ->set('campaign.name', 'updated name')
         ->set('campaign.subject', 'my subject')
         ->set('campaign.email_list_id', EmailList::factory()->create()->id)
+        ->set('campaign.add_subscriber_tags', true)
+        ->set('campaign.add_subscriber_link_tags', true)
         ->set('campaign.utm_tags', true)
         ->set('segment', 'entire_list')
         ->call('save')

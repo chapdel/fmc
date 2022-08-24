@@ -9,7 +9,6 @@ class SubscriberImportResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
             'uuid' => $this->uuid,
             'subscribers_csv' => $this->subscribers_csv,
             'status' => $this->status,

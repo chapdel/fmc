@@ -537,13 +537,6 @@ class Campaign extends Sendable implements Feedable
         return (new CssToInlineStyles())->convert($html);
     }
 
-    public function resolveRouteBinding($value, $field = null)
-    {
-        $field ??= $this->getRouteKeyName();
-
-        return self::getCampaignClass()::where($field, $value)->firstOrFail();
-    }
-
     public function allSendsCreated(): bool
     {
         return ! is_null($this->all_sends_created_at);

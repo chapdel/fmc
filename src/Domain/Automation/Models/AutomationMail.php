@@ -188,13 +188,6 @@ class AutomationMail extends Sendable
         return ! is_null($this->mailable_class);
     }
 
-    public function resolveRouteBinding($value, $field = null)
-    {
-        $field ??= $this->getRouteKeyName();
-
-        return self::getAutomationMailClass()::where($field, $value)->firstOrFail();
-    }
-
     public function fromEmail(Subscriber $subscriber): string
     {
         return $this->from_email ?? $subscriber->emailList->default_from_email ?? config('mail.from.address');

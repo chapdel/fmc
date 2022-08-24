@@ -19,7 +19,7 @@ it('can list all subscribers of an email list', function () {
     ]);
 
     $response = $this
-        ->getJson(action([SubscribersController::class, 'index'], test()->emailList->id))
+        ->getJson(action([SubscribersController::class, 'index'], test()->emailList))
         ->assertSuccessful()
         ->assertJsonCount(3, 'data');
 
@@ -34,7 +34,7 @@ it('can filter on email', function () {
     ]);
 
     $response = $this
-        ->getJson(action([SubscribersController::class, 'index'], test()->emailList->id).'?filter[email]='.$subscribers[0]->email)
+        ->getJson(action([SubscribersController::class, 'index'], test()->emailList).'?filter[email]='.$subscribers[0]->email)
         ->assertSuccessful()
         ->assertJsonCount(1, 'data');
 
@@ -47,7 +47,7 @@ it('can fuzzy filter on email', function () {
     ]);
 
     $response = $this
-        ->getJson(action([SubscribersController::class, 'index'], test()->emailList->id).'?filter[search]='.$subscribers[0]->email)
+        ->getJson(action([SubscribersController::class, 'index'], test()->emailList).'?filter[search]='.$subscribers[0]->email)
         ->assertSuccessful()
         ->assertJsonCount(1, 'data');
 
@@ -60,7 +60,7 @@ it('can filter on subscription status', function () {
         'email_list_id' => test()->emailList->id,
     ]);
 
-    $endpoint = action([SubscribersController::class, 'index'], test()->emailList->id).'?filter[status]=unsubscribed';
+    $endpoint = action([SubscribersController::class, 'index'], test()->emailList).'?filter[status]=unsubscribed';
 
     $this
         ->getJson($endpoint)

@@ -11,6 +11,8 @@ class CreateSubscriptionRequest extends FormRequest
 {
     use UsesMailcoachModels;
 
+    private ?EmailList $emailList = null;
+
     public function rules()
     {
         return [
@@ -67,9 +69,13 @@ class CreateSubscriptionRequest extends FormRequest
 
     public function emailList(): EmailList
     {
-        return $this->getEmailListClass()::query()
-            ->where('uuid', $this->route()->parameter('emailListUuid'))
-            ->where('allow_form_subscriptions', true)
-            ->firstOrFail();
+        if (! $this->emailList) {
+            $this->emailList = self::getEmailListClass()::query()
+                ->where('uuid', $this->route()->parameter('emailListUuid'))
+                ->where('allow_form_subscriptions', true)
+                ->firstOrFail();
+        }
+
+        return $this->emailList;
     }
 }

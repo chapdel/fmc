@@ -220,13 +220,6 @@ class Automation extends Model
         dispatch(new RunActionForActionSubscriberJob($actionSubscriber));
     }
 
-    public function resolveRouteBinding($value, $field = null)
-    {
-        $field ??= $this->getRouteKeyName();
-
-        return static::getAutomationClass()::where($field, $value)->firstOrFail();
-    }
-
     protected static function newFactory(): AutomationFactory
     {
         return new AutomationFactory();

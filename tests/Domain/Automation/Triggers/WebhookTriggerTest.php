@@ -50,7 +50,7 @@ it('triggers when a call is made to an endpoint', function () {
     test()->loginToApi();
 
     test()->post(action(TriggerAutomationController::class, [$automation]), [
-        'subscribers' => [$subscriber->id],
+        'subscribers' => [$subscriber->uuid],
     ])->assertSuccessful();
 
     Queue::assertPushed(

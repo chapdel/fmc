@@ -173,13 +173,6 @@ class TransactionalMailTemplate extends Model implements HasHtmlContent
         return implode(',', $this->bcc ?? []);
     }
 
-    public function resolveRouteBinding($value, $field = null)
-    {
-        $field ??= $this->getRouteKeyName();
-
-        return $this->getTransactionalMailTemplateClass()::where($field, $value)->firstOrFail();
-    }
-
     protected static function newFactory(): TransactionalMailTemplateFactory
     {
         return new TransactionalMailTemplateFactory();

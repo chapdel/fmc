@@ -7,6 +7,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Date;
@@ -358,17 +359,49 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootRoutes(): self
     {
+        // Audience
+        Route::model('emailList', self::getEmailListClass());
+        Route::model('subscriber', self::getSubscriberClass());
+        Route::model('subscriberImport', self::getSubscriberImportClass());
+        Route::model('tagSegment', self::getTagSegmentClass());
+        Route::model('action', self::getAutomationActionClass());
+
+        // Automation
+        Route::model('action', self::getAutomationActionClass());
+        Route::model('actionSubscriber', self::getActionSubscriberClass());
+        Route::model('automation', self::getAutomationClass());
+        Route::model('automationMail', self::getAutomationMailClass());
+        Route::model('automationMailClick', self::getAutomationMailClickClass());
+        Route::model('automationMailLink', self::getAutomationMailLinkClass());
+        Route::model('automationMailOpen', self::getAutomationMailOpenClass());
+        Route::model('automationMailUnsubscribe', self::getAutomationMailUnsubscribeClass());
+        Route::model('trigger', self::getAutomationTriggerClass());
+
+        // Campaign
+        Route::model('campaign', self::getCampaignClass());
+        Route::model('campaignClick', self::getCampaignClickClass());
+        Route::model('campaignLink', self::getCampaignLinkClass());
+        Route::model('campaignOpen', self::getCampaignOpenClass());
+        Route::model('campaignUnsubscribe', self::getCampaignUnsubscribeClass());
+        Route::model('template', self::getTemplateClass());
+
+        // Settings
+        Route::model('mailer', self::getMailerClass());
+        Route::model('personalAccessToken', self::getPersonalAccessTokenClass());
+        Route::model('setting', self::getSettingClass());
+        Route::model('user', self::getUserClass());
+        Route::model('webhookConfiguration', self::getWebhookConfigurationClass());
+
+        // Shared
+        Route::model('send', self::getSendClass());
+        Route::model('sendFeedbackItem', self::getSendFeedbackItemClass());
+        Route::model('upload', self::getUploadClass());
+
+        // Transactional
+        Route::model('transactionalMail', self::getTransactionalMailClass());
+        Route::model('transactionalMailClick', self::getTransactionalMailClickClass());
+        Route::model('transactionalMailOpen', self::getTransactionalMailOpenClass());
         Route::model('transactionalMailTemplate', self::getTransactionalMailTemplateClass());
-        Route::bind('template', fn (string $value) => self::getTemplateClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
-        Route::bind('campaign', fn (string $value) => self::getCampaignClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
-        Route::bind('automation', fn (string $value) => self::getAutomationClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
-        Route::bind('automation-mail', fn (string $value) => self::getAutomationMailClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
-        Route::bind('subscriber', fn (string $value) => self::getSubscriberClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
-        Route::bind('subscriber-import', fn (string $value) => self::getSubscriberImportClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
-        Route::bind('transactional-mail', fn (string $value) => self::getTransactionalMailClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
-        Route::bind('transactional-mail-template', fn (string $value) => self::getTransactionalMailTemplateClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
-        Route::bind('transactionalMailTemplate', fn (string $value) => self::getTransactionalMailTemplateClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
-        Route::bind('email-list', fn (string $value) => self::getEmailListClass()::query()->where('uuid', $value)->first() ?? self::getEmailListClass()::query()->find($value));
 
         Route::macro('mailcoach', function (string $url = '', bool $registerFeedback = true) {
             if ($registerFeedback) {
@@ -383,11 +416,10 @@ class MailcoachServiceProvider extends PackageServiceProvider
             Route::prefix($url)->group(function () {
                 Route::prefix('')
                     ->middleware('web')
-                    ->group(function () {
-                        require __DIR__.'/../routes/auth.php';
-                    });
+                    ->group(__DIR__.'/../routes/auth.php');
 
-                Route::prefix('')->group(__DIR__.'/../routes/mailcoach-public-api.php');
+                Route::prefix('')
+                    ->group(__DIR__.'/../routes/mailcoach-public-api.php');
 
                 Route::prefix('')
                     ->middleware(config('mailcoach.middleware')['web'])

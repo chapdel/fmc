@@ -61,7 +61,7 @@ class EmailList extends Model
         return $this->newHasMany(
             $query,
             $this,
-            $this->getSubscriberTableName().'.email_list_id',
+            self::getSubscriberTableName().'.email_list_id',
             'id'
         );
     }
@@ -210,13 +210,6 @@ class EmailList extends Model
                 ->where('unsubscribed_at', '>', $summaryStartDateTime->toDateTimeString())
                 ->count(),
         ];
-    }
-
-    public function resolveRouteBinding($value, $field = null)
-    {
-        $field ??= $this->getRouteKeyName();
-
-        return $this->getEmailListClass()::where($field, $value)->firstOrFail();
     }
 
     protected static function newFactory(): EmailListFactory

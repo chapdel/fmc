@@ -22,11 +22,4 @@ class InactiveSubscriber extends Model
     {
         return $this->belongsTo(self::getSubscriberClass(), 'subscriber_id');
     }
-
-    public function resolveRouteBinding($value, $field = null)
-    {
-        $field ??= $this->getRouteKeyName();
-
-        return self::getSubscriberClass()::where($field, $value)->firstOrFail();
-    }
 }

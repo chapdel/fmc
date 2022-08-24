@@ -18,8 +18,8 @@ class CampaignRequest extends FormRequest
         return [
             'name' => ['required'],
             'type' => ['nullable', Rule::in([CampaignStatus::Draft->value])],
-            'email_list_id' => ['required', Rule::exists(self::getEmailListTableName(), 'id')],
-            'segment_id' => ['nullable', Rule::exists((new TagSegment())->getTable(), 'id')],
+            'email_list_uuid' => ['required', Rule::exists(self::getEmailListTableName(), 'uuid')],
+            'segment_uuid' => ['nullable', Rule::exists(self::getTagSegmentTableName(), 'uuid')],
             'html' => '',
             'mailable_class' => '',
             'utm_tags' => 'boolean',
@@ -31,6 +31,6 @@ class CampaignRequest extends FormRequest
     {
         $templateClass = self::getTemplateClass();
 
-        return $templateClass::find($this->template_id) ?? new $templateClass();
+        return $templateClass::findByUuid($this->template_uuid) ?? new $templateClass();
     }
 }

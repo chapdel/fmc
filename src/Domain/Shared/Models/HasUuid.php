@@ -16,6 +16,11 @@ trait HasUuid
         });
     }
 
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
+
     public static function findByUuid($uuid): ?static
     {
         return static::where('uuid', $uuid)->first();

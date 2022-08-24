@@ -9,7 +9,6 @@ class CampaignClickResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
             'uuid' => $this->uuid,
             'url' => $this->url,
             'unique_click_count' => $this->unique_click_count,
