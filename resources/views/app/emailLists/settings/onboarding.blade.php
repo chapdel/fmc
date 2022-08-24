@@ -28,23 +28,29 @@
                         name="emailList.allow_form_subscriptions"
                         x-model="post"
                 />
-                <code class="markup-code-block text-xs ml-8">&lt;form method="POST"
-                    action="{{$emailList->incomingFormSubscriptionsUrl()}}"&gt;</code>
+
+                <div x-show="post" class="pl-8">
+                    <x-mailcoach::code-copy button-class="w-full text-right -mb-6" button-position="top" :code="$emailList->getSubscriptionFormHtml()"/>
+                </div>
             </div>
         </div>
 
         <div x-show="post" class="pl-8 max-w-xl">
             <x-mailcoach::tags-field
-                    :label="__('mailcoach - Optionally, allow following subscriber tags')"
-                    name="allowed_form_subscription_tags"
-                    :value="$allowed_form_subscription_tags"
-                    :tags="$emailList->tags->pluck('name')->unique()->toArray()"
+                :label="__('mailcoach - Optionally, allow following subscriber tags')"
+                name="allowed_form_subscription_tags"
+                :value="$allowed_form_subscription_tags"
+                :tags="$emailList->tags->pluck('name')->unique()->toArray()"
             />
         </div>
-        <x-mailcoach::text-field :label="__('mailcoach - Optionally, allow following subscriber extra Attributes')"
-                                 :placeholder="__('mailcoach - Attribute(s) comma separated: field1,field2')"
-                                 name="emailList.allowed_form_extra_attributes"
-                                 wire:model.lazy="emailList.allowed_form_extra_attributes"/>
+        <div x-show="post" class="pl-8 max-w-xl">
+            <x-mailcoach::text-field
+                :label="__('mailcoach - Optionally, allow following subscriber extra Attributes')"
+                :placeholder="__('mailcoach - Attribute(s) comma separated: field1,field2')"
+                name="emailList.allowed_form_extra_attributes"
+                wire:model.lazy="emailList.allowed_form_extra_attributes"
+            />
+        </div>
     </x-mailcoach::fieldset>
 
     <x-mailcoach::fieldset card :legend="__('mailcoach - Landing Pages')">

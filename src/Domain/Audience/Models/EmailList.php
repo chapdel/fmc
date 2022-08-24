@@ -226,4 +226,26 @@ class EmailList extends Model
             })
             ->get();
     }
+
+    public function getSubscriptionFormHtml(): string
+    {
+        $url = $this->incomingFormSubscriptionsUrl();
+
+        return <<<html
+        <form
+            action="{$url}"
+            method="post">
+
+            <input type="email" name="email" placeholder="Your email address" />
+
+            <!--
+                Optional: include any tags. Create them first on the "Tags" section.
+                And make sure to allow them in the email list settings
+            -->
+            <input type="hidden" name="tags" value="tag 1;tag 2" />
+
+            <input type="submit" value="Subscribe">
+        </form>
+        html;
+    }
 }
