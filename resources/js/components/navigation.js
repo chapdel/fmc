@@ -47,12 +47,10 @@ document.addEventListener('alpine:init', () => {
 
             dropdown.classList.remove('md:hidden');
 
-            setTimeout(() => {
-                if (!dropdown.classList.contains('md:hidden')) {
-                    dropdown.classList.remove('md:opacity-0');
-                    dropdown.classList.add('md:opacity-100');
-                }
-            }, 150);
+            if (!dropdown.classList.contains('md:hidden')) {
+                dropdown.classList.remove('md:opacity-0');
+                dropdown.classList.add('md:opacity-100');
+            }
 
             background.classList.remove('md:opacity-0');
             background.classList.add('md:opacity-100');
