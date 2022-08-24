@@ -21,7 +21,7 @@ class BootstrapNavigation
                     ->add(__('mailcoach - Automations'), route('mailcoach.automations'))
                     ->add(__('mailcoach - Emails'), route('mailcoach.automations.mails'));
             })
-            ->addIf($request->user()?->can('viewAny', self::getEmailListClass()), __('mailcoach - Audience'), route('mailcoach.emailLists'))
+            ->addIf($request->user()?->can('viewAny', self::getEmailListClass()), __('mailcoach - Lists'), route('mailcoach.emailLists'))
             ->addIf($request->user()?->can('viewAny', self::getTransactionalMailClass()), __('mailcoach - Transactional'), route('mailcoach.transactionalMails'), function (Section $section) {
                 $section
                     ->add(__('mailcoach - Log'), route('mailcoach.transactionalMails'))
