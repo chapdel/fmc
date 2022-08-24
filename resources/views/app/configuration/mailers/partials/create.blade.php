@@ -6,7 +6,7 @@
     <x-mailcoach::select-field
         wire:model="transport"
         name="transport"
-        :label="__('Transport')"
+        :label="__('Email service')"
         :options="$transports"
     />
 
