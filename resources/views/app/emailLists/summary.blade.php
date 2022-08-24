@@ -45,13 +45,13 @@
         <x-mailcoach::statistic :href="route('mailcoach.emailLists.subscribers', $emailList)" class="col-start-1"
                                 numClass="text-4xl font-semibold" :stat="number_format($totalSubscriptionsCount)" :label="__('mailcoach - Subscribers')"/>
         <x-mailcoach::statistic :href="route('mailcoach.emailLists.subscribers', $emailList)"
-                                numClass="text-4xl font-semibold" :stat="number_format($totalSubscriptionsCount - $startSubscriptionsCount)" :label="__('mailcoach - Subscribers (daterange)')"/>
+                                numClass="text-4xl font-semibold" :stat="number_format($totalSubscriptionsCount - $startSubscriptionsCount)" :label="__('mailcoach - Subscribers <small>(:daterange days)</small>', ['daterange' => \Illuminate\Support\Facades\Date::parse($start)->diffInDays($end) + 1])"/>
         <x-mailcoach::statistic :stat="$growthRate" :label="__('mailcoach - Growth Rate')" suffix="%"/>
         <div></div>
         <x-mailcoach::statistic :href="route('mailcoach.emailLists.subscribers', $emailList) . '?filter[status]=unsubscribed'" class="col-start-1"
                                 numClass="text-4xl font-semibold" :stat="number_format($totalUnsubscribeCount)" :label="__('mailcoach - Unsubscribes')"/>
         <x-mailcoach::statistic :href="route('mailcoach.emailLists.subscribers', $emailList)  . '?filter[status]=unsubscribed'"
-                                numClass="text-4xl font-semibold" :stat="number_format($startUnsubscribeCount)" :label="__('mailcoach - Unsubscribes (daterange)')"/>
+                                numClass="text-4xl font-semibold" :stat="number_format($startUnsubscribeCount)" :label="__('mailcoach - Unsubscribes <small>(:daterange days)</small>', ['daterange' => \Illuminate\Support\Facades\Date::parse($start)->diffInDays($end) + 1])"/>
         <x-mailcoach::statistic :stat="$churnRate" :label="__('mailcoach - Churn Rate')" suffix="%"/>
         <div></div>
         <x-mailcoach::statistic :stat="number_format($averageOpenRate, 2)" :label="__('mailcoach - Average Open Rate')" suffix="%"/>
