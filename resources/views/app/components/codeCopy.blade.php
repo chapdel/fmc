@@ -5,6 +5,6 @@
     <pre class="max-w-full code">{{ $code }}</pre>
 
     <div x-data>
-        <button class="text-sm link-dimmed" @click="$clipboard('{{ $code }}'); $el.innerText = 'Copied!'">Copy to clipboard</button>
+        <button type="button" class="text-sm link-dimmed" @click.prevent="$clipboard('{{ $code }}'); $el.innerText = 'Copied!'">{{ __('mailcoach - Copy') }}</button>
     </div>
 </div>
