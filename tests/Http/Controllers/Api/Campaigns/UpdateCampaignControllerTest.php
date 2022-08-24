@@ -34,6 +34,7 @@ test('a campaign can be updated using the api', function () {
 
         if ($attributeName === 'email_list_uuid') {
             test()->assertEquals($attributeValue, $campaign->emailList->uuid);
+
             continue;
         }
 

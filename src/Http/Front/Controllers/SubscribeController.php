@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Http\Front\Controllers;
 
-use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;

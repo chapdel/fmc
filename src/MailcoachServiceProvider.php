@@ -7,7 +7,6 @@ use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Date;
