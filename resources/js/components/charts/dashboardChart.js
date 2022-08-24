@@ -1,6 +1,16 @@
 document.addEventListener('alpine:init', () => {
     Alpine.data('dashboardChart', () => ({
         chartData: {},
+        chart: null,
+        zoomed: false,
+        resetZoom() {
+            if (!this.chart) {
+                return;
+            }
+
+            this.chart.resetZoom();
+            this.zoomed = false;
+        },
         renderChart: function(chartData) {
             const chart = document.getElementById('chart');
 
@@ -18,7 +28,7 @@ document.addEventListener('alpine:init', () => {
                 c.destroy();
             }
 
-            new Chart(chart.getContext('2d'), {
+            this.chart = new Chart(chart.getContext('2d'), {
                 type: 'bar',
                 data: {
                     labels: this.chartData.labels,
@@ -73,6 +83,7 @@ document.addEventListener('alpine:init', () => {
                                     enabled: true,
                                 },
                                 mode: 'x',
+                                onZoomComplete: () => (this.zoomed = true),
                             },
                         },
                         legend: {

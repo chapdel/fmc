@@ -29,9 +29,10 @@
         unsubscribes: @js($stats->pluck('unsubscribes')->values()->toArray()),
     })">
         <canvas id="chart" style="position: relative; max-height:300px; width:100%; max-width: 100%;"></canvas>
-    </div>
-    <div class="mt-4 text-right">
-        <small class="text-gray-500">You can drag the chart to zoom.</small>
+        <div class="mt-4 text-right">
+            <small class="text-gray-500 text-sm">{{ __('mailcoach - You can drag the chart to zoom.') }}</small>
+            <a x-show="zoomed" x-cloak class="text-gray-500 text-sm underline" href="#" x-on:click.prevent="resetZoom">Reset zoom</a>
+        </div>
     </div>
 </x-mailcoach::card>
 
