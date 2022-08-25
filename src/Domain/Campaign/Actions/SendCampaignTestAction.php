@@ -13,15 +13,20 @@ class SendCampaignTestAction
 {
     public function execute(Campaign $campaign, string $email): void
     {
-        $html = $campaign->htmlWithInlinedCss();
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareSubjectAction $prepareSubjectAction */
+        $prepareSubjectAction = Mailcoach::getCampaignActionClass('prepare_subject', PrepareSubjectAction::class);
+        $prepareSubjectAction->execute($campaign);
+
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareEmailHtmlAction $prepareEmailHtmlAction */
+        $prepareEmailHtmlAction = Mailcoach::getCampaignActionClass('prepare_email_html', PrepareEmailHtmlAction::class);
+        $prepareEmailHtmlAction->execute($campaign);
 
         $convertHtmlToTextAction = Mailcoach::getCampaignActionClass('convert_html_to_text', ConvertHtmlToTextAction::class);
-
-        $text = $convertHtmlToTextAction->execute($html);
+        $text = $convertHtmlToTextAction->execute($campaign->email_html);
 
         $campaignMailable = resolve(MailcoachMail::class)
             ->setSendable($campaign)
-            ->setHtmlContent($html)
+            ->setHtmlContent($campaign->email_html)
             ->setTextContent($text)
             ->subject("[Test] {$campaign->subject}")
             ->withSymfonyMessage(function (Email $message) {
