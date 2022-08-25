@@ -25,7 +25,7 @@ class MessageStreamStepComponent extends StepComponent
 
     public function mount()
     {
-        $this->streamId = $this->mailer()->get('streamId');
+        $this->streamId = $this->mailer()->get('streamId', '');
     }
 
     public function submit()
