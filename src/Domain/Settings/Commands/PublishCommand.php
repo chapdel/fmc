@@ -6,23 +6,23 @@ use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 
-class ExecuteComposerHookCommand extends Command
+class PublishCommand extends Command
 {
-    public $signature = 'mailcoach:execute-composer-hook';
+    public $signature = 'mailcoach:publish';
 
-    public $description = 'Perform tasks that should be executed on composer install / update';
+    public $description = 'Publish all assets needed by Mailcoach';
 
     public function handle()
     {
-        $this->info('Executing mailcoach composer hook...');
+        $this->info('Publishing Mailcoach assets...');
         $this->info('');
 
         $commands = [
             'horizon:publish',
-            'vendor:publish --tag mailcoach-ui-vendor-views --force',
-            'vendor:publish --tag mailcoach-assets --force',
-            'vendor:publish --tag mailcoach-monaco-assets --force',
-            'vendor:publish --tag mailcoach-editor-assets --force',
+            'vendor:publish --tag=mailcoach-ui-vendor-views --force',
+            'vendor:publish --tag=mailcoach-assets --force',
+            'vendor:publish --tag=mailcoach-markdown-editor-assets --force',
+            'vendor:publish --tag=livewire-assets --force',
         ];
 
         collect($commands)->each(function (string $command) {
