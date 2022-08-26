@@ -14,9 +14,18 @@ class ImportSubscriberAction
 
     public function execute(SubscriberImport $subscriberImport, array $values)
     {
+        $subscriberImport->increment('imported_subscribers_count');
+
         $row = new ImportSubscriberRow($subscriberImport->emailList, $values);
 
-        $subscriberImport->increment('imported_subscribers_count');
+        if (self::getSubscriberClass()::query()
+            ->where('email_list_id', $subscriberImport->emailList->id)
+            ->where('email', $row->getEmail())
+            ->where('imported_via_import_uuid', $subscriberImport->uuid)
+            ->exists()
+        ) {
+            return;
+        }
 
         if (! $row->hasValidEmail()) {
             $subscriberImport->addError(__('mailcoach - Does not have a valid email'), $row);

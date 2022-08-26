@@ -51,7 +51,10 @@ class ImportSubscribersAction
     protected function importSubscribers(): self
     {
         try {
-            $this->subscriberImport->update(['status' => SubscriberImportStatus::Importing]);
+            $this->subscriberImport->update([
+                'status' => SubscriberImportStatus::Importing,
+                'imported_subscribers_count' => 0,
+            ]);
 
             $localImportFile = $this->storeLocalImportFile();
 
@@ -62,11 +65,11 @@ class ImportSubscribersAction
                 $type = Type::XLSX;
             }
 
-            $totalRows = SimpleExcelReader::create($localImportFile, $type)->getRows()->count();
-
+            $totalRows = 0;
             SimpleExcelReader::create($localImportFile, $type)
                 ->getRows()
-                ->each(function (array $values) {
+                ->each(function (array $values) use (&$totalRows) {
+                    $totalRows++;
                     dispatch(new ImportSubscriberJob($this->subscriberImport, $values));
                 });
 

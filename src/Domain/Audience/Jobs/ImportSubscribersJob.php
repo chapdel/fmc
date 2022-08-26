@@ -38,7 +38,6 @@ class ImportSubscribersJob implements ShouldQueue
     {
         /** @var \Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\ImportSubscribersAction $importSubscribersAction */
         $importSubscribersAction = Mailcoach::getAudienceActionClass('import_subscribers', ImportSubscribersAction::class);
-
         $importSubscribersAction->execute($this->subscriberImport, $this->user);
     }
 }

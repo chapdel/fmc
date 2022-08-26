@@ -5,7 +5,9 @@ namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Livewire\WithFileUploads;
+use Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus;
 use Spatie\Mailcoach\Domain\Audience\Jobs\ImportSubscribersJob;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -128,6 +130,16 @@ class SubscriberImports extends DataTable
         $import->delete();
 
         $this->flash(__('mailcoach - Import was deleted.'));
+    }
+
+    public function restartImport(int $id)
+    {
+        $import = self::getSubscriberImportClass()::find($id);
+        $import->update(['status' => SubscriberImportStatus::Pending]);
+
+        dispatch(new ImportSubscribersJob($import, Auth::user()));
+
+        $this->flash(__('mailcoach - Import successfully restarted.'));
     }
 
     public function getTitle(): string

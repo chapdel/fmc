@@ -44,6 +44,14 @@
                 </li>
                 <li>
                     <x-mailcoach::confirm-button
+                        :confirm-text="__('mailcoach - Are you sure you want to restart this import?')"
+                        onConfirm="() => $wire.restartImport({{ $row->id }})"
+                    >
+                        <x-mailcoach::icon-label icon="fa-fw far fa-sync" :text="__('mailcoach - Restart')"/>
+                    </x-mailcoach::confirm-button>
+                </li>
+                <li>
+                    <x-mailcoach::confirm-button
                         :confirm-text="__('mailcoach - Are you sure you want to delete this import? Don\'t worry, it only deletes the import record and not subscribers.')"
                         onConfirm="() => $wire.deleteImport({{ $row->id }})"
                     >

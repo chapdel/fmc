@@ -23,7 +23,7 @@ it('can subscribe multiple emails in one go', function () {
 
     uploadStub('valid-and-invalid.csv');
 
-    expect(test()->emailList->subscribers)->toHaveCount(3);
+    expect(test()->emailList->subscribers()->count())->toBe(3);
 
     foreach (['freek@spatie.be', 'willem@spatie.be', 'rias@spatie.be'] as $email) {
         expect(test()->emailList->getSubscriptionStatus($email))->toEqual(SubscriptionStatus::Subscribed);
