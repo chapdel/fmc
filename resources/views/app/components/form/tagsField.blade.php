@@ -127,6 +127,16 @@
                     });
                 });
 
+                tagsInput.input.element.addEventListener('blur', function() {
+                    if (tagsInput.input.value) {
+                        tagsInput.setValue([tagsInput.input.value]);
+                        tagsInput.clearInput();
+
+                        $wire.emit('tags-updated', tagsInput.getValue(true));
+                        $wire.emit('tags-updated-{{ $name }}', tagsInput.getValue(true));
+                    }
+                });
+
                 @if ($multiple && $allowCreate)
                     document.querySelector('input.choices__input', this.$refs.select.parentNode).addEventListener('input', event => {
                         updateChoices(event.target.value);
