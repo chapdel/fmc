@@ -65,6 +65,6 @@ class CouldNotSendCampaign extends Exception
 
     public static function requirementsNotMet(Campaign $campaign): self
     {
-        return new static("The campaign with id `{$campaign->id}` can't be sent because its requirements have not been met: " . implode(', ', $campaign->validateRequirements()));
+        return new static("The campaign with id `{$campaign->id}` can't be sent because its requirements have not been met: ".implode(', ', $campaign->validateRequirements()));
     }
 }
