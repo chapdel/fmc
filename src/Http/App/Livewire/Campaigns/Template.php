@@ -25,6 +25,7 @@ class Template extends Component
     {
         return [
             'template.name' => 'required',
+            'template.html' => 'required',
         ];
     }
 

@@ -67,8 +67,9 @@ it('can validate a create user command with a non unique email', function () {
 
 it('can create a user with options', function () {
     $this->artisan('mailcoach:make-user --username=John --email=admin@mailcoach.app --password=password')
-        ->expectsOutput('User John created!')
-        ->assertExitCode(0);
+        //->expectsOutput('User John created!')
+        ->assertSuccessful();
+
 
     $this->assertEquals(1, User::count());
     tap(User::first(), function (User $user) {

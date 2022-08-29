@@ -47,7 +47,7 @@ class MakeUserCommand extends Command
                 $this->error($error);
             }
 
-            return 1;
+            return self::FAILURE;
         }
 
         User::create([
@@ -58,5 +58,7 @@ class MakeUserCommand extends Command
         ]);
 
         $this->info("User {$username} created!");
+
+        return self::SUCCESS;
     }
 }

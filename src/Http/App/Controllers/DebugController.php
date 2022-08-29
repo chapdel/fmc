@@ -28,6 +28,7 @@ class DebugController
         $lastScheduleRun = Cache::get('mailcoach-last-schedule-run');
         $usesVapor = InstalledVersions::isInstalled('laravel/vapor-core');
         $scheduledJobs = $this->getScheduledJobs();
+        $filesystems = $this->getFilesystems();
 
         return view('mailcoach::app.debug', compact(
             'versionInfo',
@@ -39,6 +40,7 @@ class DebugController
             'lastScheduleRun',
             'usesVapor',
             'scheduledJobs',
+            'filesystems',
         ));
     }
 
@@ -57,5 +59,23 @@ class DebugController
 
         return collect($schedule->events())
             ->filter(fn ($event) => Str::contains($event->command, 'mailcoach'));
+    }
+
+    private function getFilesystems(): array
+    {
+        $disks = [
+            'import_subscribers_disk' => config('mailcoach.audience.import_subscribers_disk'),
+            'import_disk' => config('mailcoach.import_disk'),
+            'export_disk' => config('mailcoach.export_disk'),
+            'tmp_disk' => config('mailcoach.tmp_disk'),
+        ];
+
+        return array_map(
+            fn ($disk) => [
+                'disk' => $disk,
+                'visibility' => config("filesystems.disks.{$disk}.visibility", 'private'),
+            ],
+            $disks
+        );
     }
 }

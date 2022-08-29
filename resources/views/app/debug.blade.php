@@ -128,7 +128,28 @@
         </dl>
     </x-mailcoach::fieldset>
 
-    <x-mailcoach::fieldset card :legend="__('mailcoach - Mailers')">
+    <x-mailcoach::fieldset :legend="__('mailcoach - Filesystem configuration')">
+        <dl class="dl">
+            @foreach($filesystems as $key => $filesystem)
+                @php($issueBody.="**{$key} disk**: " . $filesystem['disk'] . " (visibility: " . $filesystem['visibility'] . ")\n")
+                <dt>
+                    <x-mailcoach::health-label
+                        :test="$filesystem['disk'] !== 'public' && $filesystem['visibility'] !== 'public'"
+                        :label="$key"
+                    />
+                </dt>
+                <dd class="block">
+                    <code>
+                        {{ $filesystem['disk'] }}
+                    </code>
+                    (visibility: {{ $filesystem['visibility'] }})
+                </dd>
+            @endforeach
+        </dl>
+    </x-mailcoach::fieldset>
+
+    <x-mailcoach::fieldset :legend="__('mailcoach - Mailers')">
+
         <dl class="dl">
             @php($issueBody.="**Default mailer**: " . config('mail.default') . "\n")
             <dt>
