@@ -41,6 +41,7 @@
                         searchResultLimit: 10,
                         placeholder: '{{ $placeholder }}',
                         position: '{{ $position }}',
+                        shouldSort: false,
                         searchPlaceholderValue: '{{ __('mailcoach - Search…') }}',
                     })
 

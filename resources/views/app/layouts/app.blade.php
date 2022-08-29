@@ -65,7 +65,7 @@
                 <span x-text="confirmText"></span>
 
                 <x-mailcoach::form-buttons>
-                    <x-mailcoach::button type="button" x-on:click="onConfirm; $store.modals.close('confirm')" :label=" __('mailcoach - Confirm')" />
+                    <x-mailcoach::button data-confirm type="button" x-on:click="onConfirm; $store.modals.close('confirm')" :label=" __('mailcoach - Confirm')" />
                     <x-mailcoach::button-cancel  x-on:click="$store.modals.close('confirm')" :label=" __('mailcoach - Cancel')" />
                 </x-mailcoach::form-buttons>
             </x-mailcoach::modal>

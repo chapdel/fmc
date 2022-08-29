@@ -45,6 +45,7 @@ class CreateCampaign extends Component
             ->toArray();
 
         $this->email_list_id = array_key_first($this->emailListOptions);
+        $this->template_id = array_key_first($this->templateOptions);
     }
 
     public function saveCampaign()

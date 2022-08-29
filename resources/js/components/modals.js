@@ -17,7 +17,13 @@ document.addEventListener('alpine:init', () => {
             window.location.hash = id;
             Alpine.nextTick(() => {
                 const input = document.querySelector(`#modal-${id} input:not([type=hidden])`);
-                if (input) input.focus();
+                if (input) {
+                    input.focus();
+                    return;
+                }
+
+                const button = document.querySelector(`#modal-${id} [data-confirm]`);
+                if (button) button.focus();
             });
         },
         close(id) {

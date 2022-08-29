@@ -9,7 +9,7 @@
     label="Template"
     name="template_id"
     wire:model="templateId"
-    :clearable="true"
+    :clearable="$attributes->get('clearable', true )"
     :placeholder="__('mailcoach - No template')"
     :options="$templates"
 />
