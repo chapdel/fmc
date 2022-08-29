@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Storage;
 use Spatie\Mailcoach\Domain\Shared\Commands\DeleteOldExportsCommand;
 use Spatie\TestTime\TestTime;
 
-beforeEach(function() {
+beforeEach(function () {
     TestTime::unfreeze();
 
     Storage::fake(config('mailcoach.export_disk'));
@@ -12,7 +12,7 @@ beforeEach(function() {
     $this->disk = Storage::disk(config('mailcoach.export_disk'));
 });
 
-it('will delete old exports', function(int $subDays, bool $expectExists) {
+it('will delete old exports', function (int $subDays, bool $expectExists) {
     $this->disk->put('export.zip', 'zip contents');
     $fullPath = $this->disk->path('export.zip');
     touch($fullPath, now()->subDays($subDays)->startOfDay()->timestamp);
