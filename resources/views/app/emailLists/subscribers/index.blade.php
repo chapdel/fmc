@@ -26,7 +26,7 @@
     ]"
 >
     @slot('actions')
-        <div class=buttons>
+        <div class="buttons flex">
             <x-mailcoach::button type="button" x-on:click="$store.modals.open('create-subscriber')" :label="__('mailcoach - Add subscriber')"/>
 
             <x-mailcoach::modal :title="__('mailcoach - Create subscriber')" name="create-subscriber">
