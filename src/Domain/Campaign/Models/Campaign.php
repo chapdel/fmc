@@ -12,6 +12,7 @@ use Spatie\Feed\FeedItem;
 use Spatie\Mailcoach\Database\Factories\CampaignFactory;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Actions\ValidateCampaignRequirementsAction;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
@@ -214,7 +215,15 @@ class Campaign extends Sendable implements Feedable
             return false;
         }
 
-        return true;
+        return count($this->validateRequirements()) === 0;
+    }
+
+    public function validateRequirements(): array
+    {
+        /** @var ValidateCampaignRequirementsAction $action */
+        $action = Mailcoach::getCampaignActionClass('validate_campaign_requirements', ValidateCampaignRequirementsAction::class);
+
+        return $action->execute($this);
     }
 
     public function isPending(): bool
@@ -364,6 +373,10 @@ class Campaign extends Sendable implements Feedable
 
         if (empty($this->html)) {
             throw CouldNotSendCampaign::noContent($this);
+        }
+
+        if (count($this->validateRequirements()) > 0) {
+            throw CouldNotSendCampaign::requirementsNotMet($this);
         }
     }
 

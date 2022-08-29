@@ -236,6 +236,19 @@
             @endif
         @endif
 
+        @if (count($validateErrors = $campaign->validateRequirements()))
+            <dt>
+                <x-mailcoach::health-label reverse :test="false" :label="__('mailcoach - Requirements')"/>
+            </dt>
+            <dd>
+                <div class="grid grid-cols-1 gap-y-2 markup-code">
+                    @foreach ($validateErrors as $error)
+                        <div>{!! $error !!}</div>
+                    @endforeach
+                </div>
+            </dd>
+        @endif
+
         @if ($campaign->isReady())
             <dt>
                 <span class="inline-flex gap-2 items-center md:flex-row-reverse">

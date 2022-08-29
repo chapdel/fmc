@@ -55,6 +55,7 @@ return [
             'send_campaign_mails' => \Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignMailsAction::class,
             'send_mail' => \Spatie\Mailcoach\Domain\Campaign\Actions\SendMailAction::class,
             'send_test_mail' => \Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignTestAction::class,
+            'validate_campaign_requirements' => \Spatie\Mailcoach\Domain\Campaign\Actions\ValidateCampaignRequirementsAction::class,
         ],
 
         /*
