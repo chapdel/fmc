@@ -65,6 +65,7 @@ use Spatie\Mailcoach\Domain\Campaign\Listeners\SendCampaignSentEmail;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\SetWebhookCallProcessedAt;
 use Spatie\Mailcoach\Domain\Shared\Commands\CheckLicenseCommand;
 use Spatie\Mailcoach\Domain\Shared\Commands\CleanupProcessedFeedbackCommand;
+use Spatie\Mailcoach\Domain\Shared\Commands\DeleteOldExportsCommand;
 use Spatie\Mailcoach\Domain\Shared\Commands\RetryPendingSendsCommand;
 use Spatie\Mailcoach\Domain\Shared\Support\Throttling\SimpleThrottle;
 use Spatie\Mailcoach\Domain\Shared\Support\Throttling\SimpleThrottleCache;
@@ -110,6 +111,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
                 RunAutomationTriggersCommand::class,
                 CheckLicenseCommand::class,
                 RescueSendingCampaignsCommand::class,
+                DeleteOldExportsCommand::class,
             ]);
     }
 
