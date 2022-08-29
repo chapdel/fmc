@@ -1,6 +1,6 @@
 <div>
     <x-mailcoach::info>
-        {!! __('<a href=":link">Editor.js</a> is a beautiful block based wysiwyg editor. It also offers image uploads.', ['link' => 'https://editorjs.io']) !!}
+        {!! __('<a href=":link">Editor.js</a> is a beautiful block based <abbr title="What You See Is What You Get">WYSIWYG</abbr> editor. It also offers image uploads.', ['link' => 'https://editorjs.io']) !!}
     </x-mailcoach::info>
 
     <div class="mt-6">
