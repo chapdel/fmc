@@ -4,9 +4,11 @@
             <x-mailcoach::navigation-item wire:click.prevent="$set('tab', 'profile')" :active="$tab === 'profile'">
                 {{ __('mailcoach - Profile') }}
             </x-mailcoach::navigation-item>
+            @if ($subscriber->extra_attributes->count())
             <x-mailcoach::navigation-item wire:click.prevent="$set('tab', 'attributes')" :active="$tab === 'attributes'">
                 {{ __('mailcoach - Attributes') }}
             </x-mailcoach::navigation-item>
+            @endif
             <x-mailcoach::navigation-item wire:click.prevent="$set('tab', 'sends')" :active="$tab === 'sends'">
                 <x-mailcoach::icon-label :text="__('mailcoach - Received mails')" invers :count="$totalSendsCount" />
             </x-mailcoach::navigation-item>
