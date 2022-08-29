@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Shared\Jobs\Export\ExportAutomationMailsJob;
 use Spatie\Mailcoach\Domain\Shared\Jobs\Export\ExportAutomationsJob;
@@ -82,7 +83,7 @@ class Export extends Component
     {
         Cache::forget('export-status');
 
-        $path = Storage::disk(config('mailcoach.export_disk'))->path('export');
+        $path = Storage::disk(config('mailcoach.export_disk'))->path($this->obfuscatedExportDirectory());
 
         File::deleteDirectory($path);
         File::ensureDirectoryExists($path);
@@ -105,13 +106,14 @@ class Export extends Component
 
     public function download()
     {
-        return response()->download(Storage::disk(config('mailcoach.export_disk'))->path('export/mailcoach-export.zip'));
+        return response()->download(Storage::disk(config('mailcoach.export_disk'))->path("{$this->obfuscatedExportDirectory()}/mailcoach-export.zip"));
     }
 
     public function newExport()
     {
         Cache::forget('export-status');
-        File::deleteDirectory(Storage::disk(config('mailcoach.export_disk'))->path('export'));
+        $this->clearObfuscatedExportDirectory();
+        File::deleteDirectory(Storage::disk(config('mailcoach.export_disk'))->path("{$this->obfuscatedExportDirectory()}"));
         $this->exportStarted = false;
     }
 
@@ -119,8 +121,22 @@ class Export extends Component
     {
         $this->campaigns = self::getCampaignClass()::whereIn('email_list_id', $this->selectedEmailLists)->orWhereNull('email_list_id')->pluck('name', 'id');
         $this->automations = self::getAutomationClass()::whereIn('email_list_id', $this->selectedEmailLists)->orWhereNull('email_list_id')->pluck('name', 'id');
-        $exportExists = Storage::disk(config('mailcoach.export_disk'))->exists('export/mailcoach-export.zip');
+        $exportExists = Storage::disk(config('mailcoach.export_disk'))->exists("{$this->obfuscatedExportDirectory()}/mailcoach-export.zip");
 
         return view('mailcoach::app.export', compact('exportExists'))->layout('mailcoach::app.layouts.main');
+    }
+
+    public function obfuscatedExportDirectory(): string
+    {
+        if (Cache::has('mailcoach-unique-export-string')) {
+            return Cache::get('mailcoach-unique-export-string');
+        }
+
+        return Cache::rememberForever('mailcoach-obfuscated-export-string', fn () => "/mailcoach-exports/export-" . Str::random());
+    }
+
+    public function clearObfuscatedExportDirectory(): void
+    {
+        Cache::forget('mailcoach-obfuscated-export-string');
     }
 }
