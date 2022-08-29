@@ -70,7 +70,6 @@ it('can create a user with options', function () {
         //->expectsOutput('User John created!')
         ->assertSuccessful();
 
-
     $this->assertEquals(1, User::count());
     tap(User::first(), function (User $user) {
         $this->assertEquals('John', $user->name);
