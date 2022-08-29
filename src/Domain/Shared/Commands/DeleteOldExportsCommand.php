@@ -18,8 +18,6 @@ class DeleteOldExportsCommand extends Command
 
         collect($disk->allFiles('mailcoach-exports'))
             ->each(function (string $path) use ($disk) {
-
-
                 if ($path === '.gitignore') {
                     return;
                 }
