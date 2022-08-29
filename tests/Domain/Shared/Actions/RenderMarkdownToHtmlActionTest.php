@@ -5,7 +5,7 @@ use Spatie\Mailcoach\Domain\Shared\Actions\RenderMarkdownToHtmlAction;
 it('can render markdown to html', function () {
     $action = app(RenderMarkdownToHtmlAction::class);
 
-    expect($action->execute(<<<markdown
+    expect($action->execute(<<<'markdown'
     # Hi there!
 
     This is some **markdown**
@@ -15,7 +15,7 @@ it('can render markdown to html', function () {
 it('supports tables', function () {
     $action = app(RenderMarkdownToHtmlAction::class);
 
-    expect($action->execute(<<<markdown
+    expect($action->execute(<<<'markdown'
     | Syntax      | Description |
     | ----------- | ----------- |
     | Header      | Title       |
