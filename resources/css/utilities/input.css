@@ -42,7 +42,7 @@
 
 input[readonly],
 input:disabled {
-    @apply opacity-50;
+    @apply opacity-90;
     @apply cursor-not-allowed;
 }
 
