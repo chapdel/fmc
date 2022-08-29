@@ -460,6 +460,11 @@
 
 .choices-multiple .choices__input {
     @apply bg-transparent;
+    @apply w-px;
+}
+
+.choices-multiple .choices.is-focused .choices__input {
+    @apply bg-transparent;
     @apply w-full !important;
 }
 
