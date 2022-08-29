@@ -16,8 +16,10 @@ class DeleteOldExportsCommand extends Command
     {
         $disk = Storage::disk(config('mailcoach.export_disk'));
 
-        collect($disk->allFiles())
+        collect($disk->allFiles('mailcoach-exports'))
             ->each(function (string $path) use ($disk) {
+
+
                 if ($path === '.gitignore') {
                     return;
                 }
