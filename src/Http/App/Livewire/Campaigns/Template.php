@@ -17,12 +17,14 @@ class Template extends Component
 
     public TemplateModel $template;
 
+    protected $listeners = [
+        'editorSaved' => 'save',
+    ];
+
     protected function rules(): array
     {
         return [
             'template.name' => 'required',
-            'template.html' => 'required',
-            'template.structured_html' => 'nullable',
         ];
     }
 
@@ -35,9 +37,9 @@ class Template extends Component
 
     public function save()
     {
-        $this->validate();
+        $data = $this->validate();
 
-        $this->template->save();
+        $this->template->update(['name' => $data['template']['name']]);
 
         $this->flash(__('mailcoach - Template :template was updated.', ['template' => $this->template->name]));
     }

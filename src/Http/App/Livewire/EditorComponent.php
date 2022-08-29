@@ -31,6 +31,8 @@ abstract class EditorComponent extends Component
 
     public string $emails = '';
 
+    public bool $quiet = false;
+
     public function mount(HasHtmlContent $model)
     {
         $this->model = $model;
@@ -124,7 +126,9 @@ abstract class EditorComponent extends Component
     {
         $this->saveQuietly();
 
-        $this->flash(__('mailcoach - :name was updated.', ['name' => $this->model->name]));
+        if (! $this->quiet) {
+            $this->flash(__('mailcoach - :name was updated.', ['name' => $this->model->fresh()->name]));
+        }
 
         $this->emit('editorSaved');
     }
