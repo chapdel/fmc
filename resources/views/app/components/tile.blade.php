@@ -6,6 +6,7 @@
     'danger' => null,
     'warning' => null,
     'success' => null,
+    'target' => null,
 ])
 <!-- md:col-span-1 md:col-span-2 md:col-span-3 md:col-span-4 md:col-span-5 md:col-span-6 md:col-span-7 md:col-span-8 md:col-span-9 md:col-span-10 md:col-span-11 md:col-span-12 -->
 <!-- md:row-span-1 md:row-span-2 md:row-span-3 -->
@@ -16,7 +17,7 @@
     @endif
 
     @if ($link)
-        <a href='{{$link}}' class="z-1 absolute inset-0">
+        <a href='{{$link}}' @if ($target) target="{{ $target }}" @endif class="z-1 absolute inset-0">
         </a>
     @endif
 

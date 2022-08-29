@@ -1,6 +1,6 @@
     <x-mailcoach::help>
     <p>
-        Send an authenticated <code>POST</code> request to the following endpoint with an array of subscriber ids, make sure you've set up the <a href="https://mailcoach.app/docs/v4/mailcoach/using-the-api/introduction">Mailcoach API</a>.
+        Send an authenticated <code>POST</code> request to the following endpoint with an array of subscriber ids, make sure you've set up the <a href="https://mailcoach.app/docs/v4/mailcoach/using-the-api/introduction" target="_blank">Mailcoach API</a>.
     </p>
     <p class="markup-code-block"><code class="whitespace-nowrap">{{ action('\\' . \Spatie\Mailcoach\Http\Api\Controllers\Automations\TriggerAutomationController::class, [$this->automation]) }}</code></p>
     <p class="mt-4">Example POST request:</p>

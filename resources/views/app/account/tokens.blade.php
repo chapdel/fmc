@@ -2,7 +2,7 @@
 <x-mailcoach::card>
     <x-mailcoach::help>
         You can use tokens to authenticate with the Mailcoach API. You'll find more info in <a
-            href="https://mailcoach.app/docs">our docs</a>.
+            href="https://mailcoach.app/docs" target="_blank">our docs</a>.
     </x-mailcoach::help>
 
     <form
