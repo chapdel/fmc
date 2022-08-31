@@ -36,6 +36,7 @@ class SubscriberImportsController
     public function store(SubscriberImportRequest $request)
     {
         $this->authorize('update', $emailList = self::getEmailListClass()::firstOrFailByUuid($request->email_list_uuid));
+        $this->authorize('create', self::getSubscriberClass());
 
         $attributes = array_merge($request->validated(), [
             'status' => SubscriberImportStatus::Draft,
