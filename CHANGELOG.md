@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.10.1 - 2022-09-01
+
+- Remove Mailcoach overriding the Livewire upload limit
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.10.0...5.10.1
+
 ## 5.10.0 - 2022-08-29
 
 ### What's Changed
