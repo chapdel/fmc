@@ -77,7 +77,7 @@
 
                         @if (! $campaign->allSendsCreated() && $campaign->sends()->count() < $campaign->sent_to_number_of_subscribers)
                             <br>
-                            {{ __('mailcoach - is creating :sendsCount/:sentToNumberOfSubscribers :send for', [
+                            {{ __('mailcoach - is preparing :sendsCount/:sentToNumberOfSubscribers :send for', [
                                 'sendsCount' => number_format($campaign->sends()->count()),
                                 'sentToNumberOfSubscribers' => number_format($campaign->sent_to_number_of_subscribers),
                                 'send' => trans_choice(__('mailcoach - send|sends'), $campaign->sent_to_number_of_subscribers)
