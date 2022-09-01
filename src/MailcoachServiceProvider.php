@@ -353,10 +353,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::export', Export::class);
         Livewire::component('mailcoach::import', Import::class);
 
-        config()->set('livewire.temporary_file_upload.rules', [
-            'file|max:102400', // 100 MB max
-        ]);
-
         return $this;
     }
 
