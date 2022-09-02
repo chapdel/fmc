@@ -52,8 +52,12 @@ class CampaignStatistics extends Component
             }
         }
 
-        $end = $this->campaign->opens()->latest('created_at')->first('created_at')?->created_at
-            ?? $start->addHours(24);
+        $end = $this->campaign->opens()->latest('created_at')->first('created_at')?->created_at;
+        $limit = now()->addHours(24 * 3);
+
+        if (is_null($end) || $limit->isBefore($end)) {
+            $end = $limit;
+        }
 
         $campaignOpenTable = self::getCampaignOpenTableName();
         $campaignClickTable = self::getCampaignClickTableName();
