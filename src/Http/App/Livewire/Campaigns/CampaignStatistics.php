@@ -53,7 +53,7 @@ class CampaignStatistics extends Component
         }
 
         $end = $this->campaign->opens()->latest('created_at')->first('created_at')?->created_at;
-        $limit = now()->addHours(24 * 3);
+        $limit = $start->copy()->addHours(24 * 2);
 
         if (is_null($end) || $limit->isBefore($end)) {
             $end = $limit;
