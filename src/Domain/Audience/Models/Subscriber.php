@@ -354,7 +354,7 @@ class Subscriber extends Model implements CipherSweetEncrypted
             'email' => $this->email,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
-            'tags' => $this->tags()->where('type', TagType::Default)->pluck('name')->implode(';'),
+            'tags' => $this->tags->where('type', TagType::Default)->pluck('name')->implode(';'),
         ];
     }
 

@@ -20,12 +20,20 @@ class SubscribersExportController
 
         $subscriberCsv = SimpleExcelWriter::streamDownload("{$emailList->name} subscribers.csv");
 
-        $subscribersQuery->each(function (Subscriber $subscriber) use ($subscriberCsv) {
-            $this->resetMaximumExecutionTime();
-            $subscriberCsv->addRow($subscriber->toExportRow());
-        });
+        $subscribersQuery
+            ->with(['tags'])
+            ->select(['email', 'first_name', 'last_name'])
+            ->lazyById()
+            ->each(function (Subscriber $subscriber) use ($subscriberCsv) {
+                $this->resetMaximumExecutionTime();
+                $subscriberCsv->addRow($subscriber->toExportRow());
+            });
 
-        $subscriberCsv->toBrowser();
+        $subscriberCsv->close();
+
+        return response()->streamDownload(function () {
+            return ob_get_contents();
+        }, "{$emailList->name} subscribers.csv");
     }
 
     protected function resetMaximumExecutionTime(): void
