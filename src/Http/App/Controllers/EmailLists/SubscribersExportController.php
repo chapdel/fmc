@@ -16,7 +16,7 @@ class SubscribersExportController
     {
         $this->authorize('view', $emailList);
 
-        return response()->streamDownload(function() use ($emailList) {
+        return response()->streamDownload(function () use ($emailList) {
             $subscribersQuery = new EmailListSubscribersQuery($emailList);
 
             $subscriberCsv = SimpleExcelWriter::streamDownload("{$emailList->name} subscribers.csv");
