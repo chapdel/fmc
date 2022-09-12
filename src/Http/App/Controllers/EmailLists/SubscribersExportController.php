@@ -16,16 +16,27 @@ class SubscribersExportController
     {
         $this->authorize('view', $emailList);
 
-        $subscribersQuery = new EmailListSubscribersQuery($emailList);
+        return response()->streamDownload(function () use ($emailList) {
+            $subscribersQuery = new EmailListSubscribersQuery($emailList);
 
-        $subscriberCsv = SimpleExcelWriter::streamDownload("{$emailList->name} subscribers.csv");
+            $subscriberCsv = SimpleExcelWriter::streamDownload("{$emailList->name} subscribers.csv");
 
-        $subscribersQuery->each(function (Subscriber $subscriber) use ($subscriberCsv) {
-            $this->resetMaximumExecutionTime();
-            $subscriberCsv->addRow($subscriber->toExportRow());
-        });
+            $subscribersQuery
+                ->with(['tags'])
+                ->select(['email', 'first_name', 'last_name'])
+                ->each(function (Subscriber $subscriber) use ($subscriberCsv) {
+                    $this->resetMaximumExecutionTime();
+                    $subscriberCsv->addRow($subscriber->toExportRow());
 
-        $subscriberCsv->toBrowser();
+                    if ($subscriberCsv->getNumberOfRows() % 1_000 === 0) {
+                        flush();
+                    }
+                });
+
+            $subscriberCsv->close();
+        }, "{$emailList->name} subscribers.csv", [
+            'Content-Type' => 'text/csv',
+        ]);
     }
 
     protected function resetMaximumExecutionTime(): void

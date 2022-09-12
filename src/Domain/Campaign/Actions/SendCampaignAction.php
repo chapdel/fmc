@@ -102,7 +102,6 @@ class SendCampaignAction
             });
     }
 
-
     protected function haltWhenApproachingTimeLimit(?CarbonInterface $stopExecutingAt): void
     {
         if (is_null($stopExecutingAt)) {

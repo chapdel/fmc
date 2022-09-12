@@ -57,6 +57,7 @@ class SubscribersController
     public function store(StoreSubscriberRequest $request, EmailList $emailList)
     {
         $this->authorize('update', $emailList);
+        $this->authorize('create', self::getSubscriberClass());
 
         /** @var \Spatie\Mailcoach\Domain\Audience\Support\PendingSubscriber $pendingSubscriber */
         $pendingSubscriber = $this

@@ -615,7 +615,7 @@
     "mailcoach - deleted subscriber": "deleted subscriber",
     "mailcoach - has been sent to :sendsCount :subscriber": "has been sent to :sendsCount :subscriber",
     "mailcoach - has not been sent yet.": "has not been sent yet.",
-    "mailcoach - is creating :sendsCount/:sentToNumberOfSubscribers :send for": "is creating :sendsCount/:sentToNumberOfSubscribers :send for",
+    "mailcoach - is preparing :sendsCount/:sentToNumberOfSubscribers :send for": "is preparing :sendsCount/:sentToNumberOfSubscribers :send for",
     "mailcoach - is finishing up": "is finishing up",
     "mailcoach - is preparing to send to": "is preparing to send to",
     "mailcoach - is sending to :sendsCount/:sentToNumberOfSubscribers :subscriber of": "is sending to :sendsCount/:sentToNumberOfSubscribers :subscriber of",

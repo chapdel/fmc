@@ -20,8 +20,8 @@ it('will delete old exports', function (string $path, int $subDays, bool $expect
     $this->artisan(DeleteOldExportsCommand::class)->assertSuccessful();
 
     $expectExists
-        ?  $this->disk->assertExists($path)
-        :  $this->disk->assertMissing($path);
+        ? $this->disk->assertExists($path)
+        : $this->disk->assertMissing($path);
 })->with([
     // old files in mailcoach-exports will get deleted
     ['mailcoach-exports/export.zip', 2, true],

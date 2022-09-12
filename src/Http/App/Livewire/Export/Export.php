@@ -142,7 +142,7 @@ class Export extends Component
             return Cache::get('mailcoach-unique-export-string');
         }
 
-        return Cache::rememberForever('mailcoach-obfuscated-export-string', fn () => "/mailcoach-exports/export-" . Str::random());
+        return Cache::rememberForever('mailcoach-obfuscated-export-string', fn () => '/mailcoach-exports/export-'.Str::random());
     }
 
     public function clearObfuscatedExportDirectory(): void
