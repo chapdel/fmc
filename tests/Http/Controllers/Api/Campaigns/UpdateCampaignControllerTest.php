@@ -46,7 +46,7 @@ test('a campaign can be updated using the api', function () {
     }
 });
 
-it('can accept the values for a template when using a markdown editor', function() {
+it('can accept the values for a template when using a markdown editor', function () {
     config()->set('mailcoach.content_editor', MarkdownEditor::class);
 
     $campaign = Campaign::factory()->create();
@@ -62,7 +62,7 @@ it('can accept the values for a template when using a markdown editor', function
         'email_list_uuid' => EmailList::factory()->create()->uuid,
         'fields' => [
             'title' => 'This is my title',
-            'content' => '# This is some markdown'
+            'content' => '# This is some markdown',
         ],
         'template_uuid' => $template->uuid,
     ];
