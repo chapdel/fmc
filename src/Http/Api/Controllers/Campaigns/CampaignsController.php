@@ -55,7 +55,6 @@ class CampaignsController
         CampaignRequest $request,
         UpdateCampaignAction $updateCampaignAction
     ) {
-
         $this->authorize('update', $campaign);
 
         $campaign = $updateCampaignAction->execute(

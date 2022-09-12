@@ -32,21 +32,20 @@ class UpdateCampaignAction
         $html = $attributes['html'] ?? $template?->html;
 
         if ($template) {
-
             $fieldValues = [];
 
             foreach ($template->fields() as $field) {
-
                 if ($field['type'] !== 'editor') {
                     $fieldValues[$field['name']] = Arr::get($attributes, "fields.{$field['name']}");
+
                     continue;
                 }
 
                 if (config('mailcoach.content_editor') === MarkdownEditor::class) {
-                    $markdown =  Arr::get($attributes, "fields.{$field['name']}");
+                    $markdown = Arr::get($attributes, "fields.{$field['name']}");
 
                     $fieldValues[$field['name']]['markdown'] = $markdown;
-                    $fieldValues[$field['name']]['html'] = (string)app(RenderMarkdownToHtmlAction::class)->execute($markdown);
+                    $fieldValues[$field['name']]['html'] = (string) app(RenderMarkdownToHtmlAction::class)->execute($markdown);
                 }
             }
 

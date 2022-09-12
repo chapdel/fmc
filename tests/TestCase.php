@@ -200,7 +200,7 @@ abstract class TestCase extends Orchestra
 
     public function stub(string $path): string
     {
-        $path = __DIR__ . "/stubs/{$path}";
+        $path = __DIR__."/stubs/{$path}";
 
         return file_get_contents($path);
     }
