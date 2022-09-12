@@ -56,7 +56,7 @@ test('access is denied by custom authorization policy', function () {
         ->assertForbidden();
 });
 
-it('can accept the values for a template when creating a campaign and using a markdown editor', function() {
+it('can accept the values for a template when creating a campaign and using a markdown editor', function () {
     config()->set('mailcoach.content_editor', MarkdownEditor::class);
 
     $template = Template::create([
@@ -70,7 +70,7 @@ it('can accept the values for a template when creating a campaign and using a ma
         'email_list_uuid' => EmailList::factory()->create()->uuid,
         'fields' => [
             'title' => 'This is my title',
-            'content' => '# This is some markdown'
+            'content' => '# This is some markdown',
         ],
         'template_uuid' => $template->uuid,
     ];
