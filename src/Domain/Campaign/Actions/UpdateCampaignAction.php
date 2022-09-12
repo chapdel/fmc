@@ -31,7 +31,7 @@ class UpdateCampaignAction
 
         $html = $attributes['html'] ?? $template?->html;
 
-        if ($template) {
+        if ($template->exists) {
             $fieldValues = [];
 
             foreach ($template->fields() as $field) {
