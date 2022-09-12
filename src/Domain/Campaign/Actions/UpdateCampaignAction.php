@@ -2,12 +2,16 @@
 
 namespace Spatie\Mailcoach\Domain\Campaign\Actions;
 
+use Illuminate\Support\Arr;
 use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\EverySubscriberSegment;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
+use Spatie\Mailcoach\Domain\Shared\Actions\RenderMarkdownToHtmlAction;
+use Spatie\Mailcoach\Domain\Shared\Support\TemplateRenderer;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\MailcoachMarkdownEditor\Editor as MarkdownEditor;
 
 class UpdateCampaignAction
 {
@@ -23,6 +27,32 @@ class UpdateCampaignAction
             $segment = $attributes['segment_uuid'] ?? null
                 ? TagSegment::findByUuid($attributes['segment_uuid'])
                 : null;
+        }
+
+        $html = $attributes['html'] ?? $template?->html;
+
+        if ($template) {
+
+            $fieldValues = [];
+
+            foreach ($template->fields() as $field) {
+
+                if ($field['type'] !== 'editor') {
+                    $fieldValues[$field['name']] = Arr::get($attributes, "fields.{$field['name']}");
+                    continue;
+                }
+
+                if (config('mailcoach.content_editor') === MarkdownEditor::class) {
+                    $markdown =  Arr::get($attributes, "fields.{$field['name']}");
+
+                    $fieldValues[$field['name']]['markdown'] = $markdown;
+                    $fieldValues[$field['name']]['html'] = (string)app(RenderMarkdownToHtmlAction::class)->execute($markdown);
+                }
+            }
+
+            $campaign->setTemplateFieldValues($fieldValues);
+            $templateRenderer = (new TemplateRenderer($template->html ?? ''));
+            $html = $templateRenderer->render($fieldValues);
         }
 
         if (is_null($segment)) {
@@ -41,9 +71,8 @@ class UpdateCampaignAction
             'name' => $attributes['name'],
             'status' => CampaignStatus::Draft,
             'subject' => $attributes['subject'] ?? $attributes['name'],
-            'html' => $attributes['html'] ?? $template?->html,
+            'html' => $html,
             'template_id' => $template?->id,
-            'structured_html' => $attributes['structured_html'] ?? $template?->structured_html,
             'utm_tags' => $attributes['utm_tags'] ?? config('mailcoach.campaigns.default_settings.utm_tags', false),
             'last_modified_at' => now(),
             'email_list_id' => $attributes['email_list_id'] ?? self::getEmailListClass()::orderBy('name')->first()?->id,

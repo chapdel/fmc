@@ -197,4 +197,11 @@ abstract class TestCase extends Orchestra
             $job[0]['job']->handle();
         }
     }
+
+    public function stub(string $path): string
+    {
+        $path = __DIR__ . "/stubs/{$path}";
+
+        return file_get_contents($path);
+    }
 }

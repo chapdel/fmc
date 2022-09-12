@@ -20,6 +20,8 @@ class CampaignRequest extends FormRequest
             'email_list_uuid' => ['required', Rule::exists(self::getEmailListTableName(), 'uuid')],
             'segment_uuid' => ['nullable', Rule::exists(self::getTagSegmentTableName(), 'uuid')],
             'html' => '',
+            'fields' => [''],
+
             'mailable_class' => '',
             'utm_tags' => 'boolean',
             'schedule_at' => 'date_format:Y-m-d H:i:s',
