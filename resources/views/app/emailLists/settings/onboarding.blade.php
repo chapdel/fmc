@@ -139,7 +139,7 @@
     <x-mailcoach::fieldset card :legend="__('mailcoach - Welcome Mail')">
         <x-mailcoach::help>
             {!! __('mailcoach - Check out the <a href=":docsUrl" class="link">documentation</a> to learn how to set up a welcome automation.', [
-                'docsUrl' => '@todo: Link to docs'
+                'docsUrl' => 'https://mailcoach.app/docs/cloud/using-mailcoach/automations/creating-automation'
             ]) !!}
         </x-mailcoach::help>
     </x-mailcoach::fieldset>
