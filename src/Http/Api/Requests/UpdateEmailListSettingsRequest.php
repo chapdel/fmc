@@ -42,6 +42,7 @@ class UpdateEmailListSettingsRequest extends FormRequest
             'allowed_form_extra_attributes' => '',
             'requires_confirmation' => 'boolean',
             'allowed_form_subscription_tags' => 'array',
+            'honeypot_field' => ['nullable', 'string'],
             'redirect_after_subscribed' => '',
             'redirect_after_already_subscribed' => '',
             'redirect_after_subscription_pending' => '',

@@ -21,6 +21,7 @@ class EmailListResource extends JsonResource
             'default_reply_to_name' => $this->default_reply_to_name,
 
             'allow_form_subscriptions' => (bool) $this->allow_form_subscriptions,
+            'honeypot_field' => $this->honeypot_field,
 
             'redirect_after_subscribed' => $this->redirect_after_subscribed,
             'redirect_after_already_subscribed' => $this->redirect_after_already_subscribed,

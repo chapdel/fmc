@@ -35,6 +35,33 @@ it('can subscribe to an email list without double opt in', function () {
     );
 });
 
+it('can subscribe to an email list with a honeypot', function () {
+    test()->emailList->update(['honeypot_field' => 'username']);
+
+    $this
+        ->post(action([SubscribeController::class, 'store'], test()->emailList), payloadWithRedirects([
+            'username' => '',
+        ]))
+        ->assertRedirect(payloadWithRedirects()['redirect_after_subscribed']);
+
+    test()->assertEquals(
+        SubscriptionStatus::Subscribed,
+        test()->emailList->getSubscriptionStatus(test()->email)
+    );
+});
+
+it('will fake a successful response when the honeypot is filled in', function () {
+    test()->emailList->update(['honeypot_field' => 'username']);
+
+    $this
+        ->post(action([SubscribeController::class, 'store'], test()->emailList), payloadWithRedirects([
+            'username' => 'some-username',
+        ]))
+        ->assertRedirect(payloadWithRedirects()['redirect_after_subscribed']);
+
+    expect(Subscriber::findForEmail(test()->email, test()->emailList))->toBeNull();
+});
+
 test('when not specified on the form it will redirect to the redirect after subscribed url on the list', function () {
     $this
         ->post(action([SubscribeController::class, 'store'], test()->emailList->uuid), payload())

@@ -22,6 +22,11 @@ class SubscribeController
     {
         $emailList = $request->emailList();
 
+        if ($emailList->honeypot_field && $request->get($emailList->honeypot_field)) {
+            $subscriberClass = self::getSubscriberClass();
+            return $this->getSubscribedResponse($request, $emailList, new $subscriberClass);
+        }
+
         if ($emailList->getSubscriptionStatus($request->email) === SubscriptionStatus::Subscribed) {
             $subscriber = self::getSubscriberClass()::findForEmail($request->email, $emailList);
             $subscriber->addTags($request->tags());

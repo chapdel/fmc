@@ -36,6 +36,7 @@ class ListOnboarding extends Component
         return [
             'emailList.allow_form_subscriptions' => 'boolean',
             'emailList.allowed_form_extra_attributes' => '',
+            'emailList.honeypot_field' => ['nullable', 'string'],
             'emailList.requires_confirmation' => 'boolean',
             'allowed_form_subscription_tags' => 'array',
             'emailList.redirect_after_subscribed' => '',

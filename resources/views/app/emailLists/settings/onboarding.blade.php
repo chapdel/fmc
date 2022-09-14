@@ -51,6 +51,14 @@
                 wire:model.lazy="emailList.allowed_form_extra_attributes"
             />
         </div>
+        <div x-show="post" class="pl-8 max-w-xl">
+            <x-mailcoach::text-field
+                :label="__('mailcoach - Honeypot field')"
+                placeholder="honeypot"
+                name="emailList.honeypot_field"
+                wire:model.lazy="emailList.honeypot_field"
+            />
+        </div>
     </x-mailcoach::fieldset>
 
     <x-mailcoach::fieldset card :legend="__('mailcoach - Landing Pages')">
