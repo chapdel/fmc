@@ -24,6 +24,7 @@ class SubscribeController
 
         if ($emailList->honeypot_field && $request->get($emailList->honeypot_field)) {
             $subscriberClass = self::getSubscriberClass();
+
             return $this->getSubscribedResponse($request, $emailList, new $subscriberClass);
         }
 
