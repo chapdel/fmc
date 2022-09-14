@@ -231,10 +231,23 @@ class EmailList extends Model
     {
         $url = $this->incomingFormSubscriptionsUrl();
 
+        $honeyPot = $this->honeypot_field
+            ? <<<html
+            <!--
+                    This is the honeypot field, this should be invisible to users
+                    when filled in, the subscriber won't be created but will still
+                    receive a "successfully subscribed" page to fool spam bots.
+                -->
+                <input type="text" name="{$this->honeypot_field}" style="display: none; tab-index: -1;">
+            html
+            : '';
+
         return <<<html
         <form
             action="{$url}"
-            method="post">
+            method="post"
+        >
+            {$honeyPot}
 
             <input type="email" name="email" placeholder="Your email address" />
 
