@@ -38,9 +38,12 @@ class Template extends Component
 
     public function save()
     {
+        $this->template->fresh();
+
         $data = $this->validate();
 
-        $this->template->update(['name' => $data['template']['name']]);
+        $this->template->name = $data['template']['name'];
+        $this->template->save();
 
         $this->flash(__('mailcoach - Template :template was updated.', ['template' => $this->template->name]));
     }
