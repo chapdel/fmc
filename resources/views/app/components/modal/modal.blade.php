@@ -34,7 +34,7 @@
         <div
             x-show="$store.modals.isOpen(@js($name))" x-transition
             @if($dismissable)
-            x-on:click.prevent="if ($event.target !== $el) return; $store.modals.close(@js($name))"
+            x-on:click="if ($event.target !== $el) return; $store.modals.close(@js($name))"
             @else
             x-ref="overlay"
             x-on:click="
