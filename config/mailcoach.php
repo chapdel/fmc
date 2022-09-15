@@ -320,7 +320,7 @@ return [
         ],
         'api' => [
             'api',
-            'auth:api',
+            'auth:sanctum',
         ],
     ],
 
