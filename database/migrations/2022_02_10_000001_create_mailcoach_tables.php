@@ -56,8 +56,14 @@ return new class extends Migration
 
             $table->boolean('has_website')->default(false);
             $table->boolean('show_subscription_form_on_website')->default(true);
+            $table->string('website_slug');
+            $table->string('website_title');
+            $table->string('website_description');
+            $table->string('website_subscription_description');
 
-            $table->string('website_slug')->default('');
+
+
+
             $table->timestamps();
         });
 

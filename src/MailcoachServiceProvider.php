@@ -25,6 +25,7 @@ use Spatie\Mailcoach\Components\ReplacerHelpTextsComponent;
 use Spatie\Mailcoach\Domain\Audience\Commands\DeleteOldUnconfirmedSubscribersCommand;
 use Spatie\Mailcoach\Domain\Audience\Commands\SendEmailListSummaryMailCommand;
 use Spatie\Mailcoach\Domain\Audience\Livewire\EmailListStatistics;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Automation\Commands\CalculateAutomationMailStatisticsCommand;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationActionsCommand;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationTriggersCommand;
@@ -253,6 +254,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
             ->bootGate()
             ->bootFlash()
             ->bootRoutes()
+            ->bindRouteParameters()
             ->bootSupportMacros()
             ->bootTranslations()
             ->bootViews()
@@ -431,6 +433,18 @@ class MailcoachServiceProvider extends PackageServiceProvider
             });
 
             Route::mailcoachEditor('mailcoachEditor');
+        });
+
+        return $this;
+    }
+
+    protected function bindRouteParameters(): self
+    {
+        Route::bind('emailListWebsiteSlug', function(string $slug) {
+            return EmailList::query()
+                ->where('has_website', true)
+                ->where('website_slug', $slug)
+                ->firstOrFail();
         });
 
         return $this;
@@ -767,4 +781,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
         return $this;
     }
+
+
 }

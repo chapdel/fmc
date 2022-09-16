@@ -5,6 +5,7 @@ use Spatie\Mailcoach\Http\Front\Controllers\AutomationWebviewController;
 use Spatie\Mailcoach\Http\Front\Controllers\CampaignWebviewController;
 use Spatie\Mailcoach\Http\Front\Controllers\ConfirmSubscriberController;
 use Spatie\Mailcoach\Http\Front\Controllers\EmailListCampaignsFeedController;
+use Spatie\Mailcoach\Http\Front\Controllers\EmailListWebsiteController;
 use Spatie\Mailcoach\Http\Front\Controllers\MailcoachAssets;
 use Spatie\Mailcoach\Http\Front\Controllers\ManagePreferencesController;
 use Spatie\Mailcoach\Http\Front\Controllers\ReConfirmSubscriberController;
@@ -40,4 +41,9 @@ Route::post('subscribe/{emailListUuid}', ['\\'.SubscribeController::class, 'stor
 
 Route::prefix('landing')->group(function () {
     Route::view('/subscribed', 'mailcoach::landingPages.subscribed')->name('mailcoach.landingPages.example');
+});
+
+Route::prefix('campaigns')->group(function() {
+    Route::get('{emailListWebsiteSlug}', [EmailListWebsiteController::class, 'index']);
+    Route::get('{emailListWebsiteUrl}/{campaign}', [EmailListWebsiteController::class, 'show']);
 });

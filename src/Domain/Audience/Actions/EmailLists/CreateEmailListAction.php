@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Audience\Actions\EmailLists;
 
+use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Mailcoach;
 
@@ -18,6 +19,8 @@ class CreateEmailListAction
             'transactional_mailer' => $data['transactional_mailer'] ?? Mailcoach::defaultTransactionalMailer(),
             'requires_confirmation' => $data['requires_confirmation'] ?? true,
             'campaigns_feed_enabled' => false,
+            'website_title' => $data['name'],
+            'website_slug' => Str::slug($data['name']),
         ]);
 
         $emailList->save();
