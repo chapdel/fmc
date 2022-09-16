@@ -77,7 +77,7 @@ it('will not store mail when asked not to store mails', function () {
 
 it('can handle the fields of a transactional mail', function () {
     $template = Template::factory()->create([
-        'html' => '<html>title: [[[title]]], body: [[[body]]]</html>'
+        'html' => '<html>title: [[[title]]], body: [[[body]]]</html>',
     ]);
 
     TransactionalMailTemplate::factory()->create([
@@ -91,7 +91,7 @@ it('can handle the fields of a transactional mail', function () {
                     'theme' => 'nord',
                 ],
                 'title' => 'default title',
-            ]],
+            ], ],
     ]);
 
     $this

@@ -45,6 +45,6 @@ class SendTransactionalMailRequest extends FormRequest
             return true;
         }
 
-        return (bool)$this->store;
+        return (bool) $this->store;
     }
 }
