@@ -17,8 +17,7 @@ trait UsesMailcoachTemplate
         string $name,
         array $replacements = [],
         array $fields = [],
-    ): self
-    {
+    ): self {
         /** @var TransactionalMailTemplate $template */
         $template = self::getTransactionalMailTemplateClass()::firstWhere('name', $name);
 

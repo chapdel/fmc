@@ -60,7 +60,7 @@ it('tracks the transactional mails', function () {
     expect(TransactionalMailModel::first()->body)->toContain('My template body');
 });
 
-it('can handle the fields of a transactional mail', function() {
+it('can handle the fields of a transactional mail', function () {
     TransactionalMailTemplate::factory()->create([
         'name' => 'my-template-with-placeholders',
         'body' => 'title: [[[title]]], body: [[[body]]]',
@@ -81,5 +81,4 @@ it('can handle the fields of a transactional mail', function() {
         ->assertSuccessful();
 
     expect(TransactionalMailModel::first()->body)->toContain('title: my title, body: my body');
-
 });
