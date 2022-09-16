@@ -18,6 +18,8 @@ class TransactionalMail extends Mailable
 
     private array $replacements;
 
+    private array $fields;
+
     public function __construct(
         string $templateName,
         string $subject,
@@ -27,9 +29,11 @@ class TransactionalMail extends Mailable
         array $bcc = [],
         string $mailer = null,
         array $replacements = [],
+        array $fields = [],
     ) {
         $this->templateName = $templateName;
         $this->replacements = $replacements;
+        $this->fields = $fields;
 
         $this
             ->store()
@@ -44,6 +48,10 @@ class TransactionalMail extends Mailable
 
     public function build()
     {
-        $this->template($this->templateName, $this->replacements);
+        $this->template(
+            $this->templateName,
+            $this->replacements,
+            $this->fields,
+        );
     }
 }

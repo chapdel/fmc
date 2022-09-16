@@ -7,14 +7,24 @@ use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\File;
 use Illuminate\View\Factory;
+use Spatie\Mailcoach\Domain\Shared\Actions\RenderMarkdownToHtmlAction;
+use Spatie\Mailcoach\Domain\Shared\Support\TemplateRenderer;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 class RenderTemplateAction
 {
-    public function execute(TransactionalMailTemplate $template, Mailable $mailable, array $replacements = [])
+    public function execute(
+        TransactionalMailTemplate $template,
+        Mailable $mailable,
+        array $replacements = [],
+        array $fields = [],
+    )
     {
         $body = $this->renderTemplateBody($template, $mailable);
+
+        $body = $this->handleFields($body, $fields);
+
 
         $body = $this->handleReplacements($body, $replacements);
 
@@ -23,11 +33,13 @@ class RenderTemplateAction
         return $body;
     }
 
-    protected function renderTemplateBody(TransactionalMailTemplate $template, Mailable $mailable): string
-    {
+    protected function renderTemplateBody(
+        TransactionalMailTemplate $template,
+        Mailable $mailable,
+    ): string {
         return match ($template->type) {
             'blade' => Blade::render($template->body, $mailable->buildViewData()),
-            'markdown' => Markdown::parse($template->body),
+            'markdown' => (string) app(RenderMarkdownToHtmlAction::class)->execute($template->body),
             'blade-markdown' => $this->compileBladeMarkdown(
                 bladeString: $template->body,
                 data: $mailable->buildViewData(),
@@ -36,6 +48,26 @@ class RenderTemplateAction
 
             default => $template->body,
         };
+    }
+
+    protected function handleFields(string $body, array $fields): string
+    {
+        if (! count($fields)) {
+            return $body;
+        }
+
+        preg_match_all('/\[\[\[(.*?)\]\]\]/', $body, $matches);
+        $fieldNames = $matches[1];
+
+        foreach($fieldNames as $fieldName) {
+            $body = str_replace(
+                '[[['.$fieldName.']]]',
+                $fields[$fieldName] ?? '',
+                $body,
+            );
+        }
+
+        return $body;
     }
 
     protected function handleReplacements(string $body, array $replacements): string

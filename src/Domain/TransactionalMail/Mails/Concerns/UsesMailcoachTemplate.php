@@ -13,7 +13,11 @@ trait UsesMailcoachTemplate
     use StoresMail;
     use UsesMailcoachModels;
 
-    public function template(string $name, array $replacements = []): self
+    public function template(
+        string $name,
+        array $replacements = [],
+        array $fields = [],
+    ): self
     {
         /** @var TransactionalMailTemplate $template */
         $template = self::getTransactionalMailTemplateClass()::firstWhere('name', $name);
@@ -40,7 +44,7 @@ trait UsesMailcoachTemplate
             $this->bcc($bcc);
         }
 
-        $content = $template->render($this, $replacements);
+        $content = $template->render($this, $replacements, $fields);
 
         $this->view('mailcoach::mails.transactionalMails.template', compact('content'));
 

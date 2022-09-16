@@ -22,7 +22,7 @@ it('can send a transactional mail', function () {
     Mail::fake();
 
     $this
-        ->post(action(SendTransactionalMailController::class, [
+        ->postJson(action(SendTransactionalMailController::class, [
             'template' => 'my-template',
             'subject' => 'Some subject',
             'from' => 'rias@spatie.be',
@@ -58,4 +58,28 @@ it('tracks the transactional mails', function () {
 
     expect(TransactionalMailModel::count())->toBe(1);
     expect(TransactionalMailModel::first()->body)->toContain('My template body');
+});
+
+it('can handle the fields of a transactional mail', function() {
+    TransactionalMailTemplate::factory()->create([
+        'name' => 'my-template-with-placeholders',
+        'body' => 'title: [[[title]]], body: [[[body]]]',
+    ]);
+
+    $this
+        ->postJson(action(SendTransactionalMailController::class, [
+            'template' => 'my-template-with-placeholders',
+            'subject' => 'Some subject',
+            'from' => 'rias@spatie.be',
+            'to' => 'freek@spatie.be',
+            'fields' => [
+                'title' => 'my title',
+                'body' => 'my body',
+                'unused' => 'some value',
+            ],
+        ]))
+        ->assertSuccessful();
+
+    expect(TransactionalMailModel::first()->body)->toContain('title: my title, body: my body');
+
 });
