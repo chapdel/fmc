@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 
 use Illuminate\Contracts\View\View;
-use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
