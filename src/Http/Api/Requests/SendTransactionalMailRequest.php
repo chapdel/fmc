@@ -23,6 +23,7 @@ class SendTransactionalMailRequest extends FormRequest
             'to' => ['required', (new Delimited('email'))->min(1)],
             'cc' => ['nullable', (new Delimited('email'))->min(1)],
             'bcc' => ['nullable', (new Delimited('email'))->min(1)],
+            'store' => ['boolean'],
 
             'mailer' => ['string', new MailerConfigKeyNameRule()],
         ];
@@ -36,5 +37,10 @@ class SendTransactionalMailRequest extends FormRequest
     public function fields(): array
     {
         return $this->fields ?? [];
+    }
+
+    public function shouldStoreMail(): bool
+    {
+        return (bool)$this->store ?? true;
     }
 }

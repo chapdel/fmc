@@ -24,6 +24,7 @@ class SendTransactionalMailController
             mailer: $request->mailer,
             replacements: $request->replacements(),
             fields: $request->fields(),
+            store: $request->shouldStoreMail()
         );
 
         Mail::send($mail);

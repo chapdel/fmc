@@ -30,13 +30,16 @@ class TransactionalMail extends Mailable
         string $mailer = null,
         array $replacements = [],
         array $fields = [],
+        bool $store = true,
     ) {
         $this->templateName = $templateName;
         $this->replacements = $replacements;
         $this->fields = $fields;
 
         $this
-            ->store()
+            ->when($this->store, function(TransactionalMail $mail) {
+                $mail->store();
+            })
             ->from($from)
             ->to($to)
             ->cc($cc)
