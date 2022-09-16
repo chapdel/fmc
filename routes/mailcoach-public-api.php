@@ -43,7 +43,7 @@ Route::prefix('landing')->group(function () {
     Route::view('/subscribed', 'mailcoach::landingPages.subscribed')->name('mailcoach.landingPages.example');
 });
 
-Route::prefix('campaigns')->group(function() {
+Route::prefix('campaigns')->group(function () {
     Route::get('{emailListWebsiteSlug}', [EmailListWebsiteController::class, 'index']);
     Route::get('{emailListWebsiteUrl}/{campaign}', [EmailListWebsiteController::class, 'show']);
 });
