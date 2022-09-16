@@ -38,6 +38,7 @@ class EmailList extends Model
         'report_email_list_summary' => 'boolean',
         'email_list_summary_sent_at' => 'datetime',
         'campaigns_feed_enabled' => 'boolean',
+        'has_website' => 'boolean',
     ];
 
     public function subscribers(): HasMany
@@ -225,6 +226,11 @@ class EmailList extends Model
                 $query->where('email_list_id', $this->id);
             })
             ->get();
+    }
+
+    public function websiteUrl(): string
+    {
+        return (string)url('/' . $this->website_slug);
     }
 
     public function getSubscriptionFormHtml(): string

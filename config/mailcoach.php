@@ -570,6 +570,8 @@ return [
         'list-settings' => \Spatie\Mailcoach\Http\App\Livewire\Audience\ListSettings::class,
         'list-onboarding' => \Spatie\Mailcoach\Http\App\Livewire\Audience\ListOnboarding::class,
         'list-mailers' => \Spatie\Mailcoach\Http\App\Livewire\Audience\ListMailers::class,
+        'website-settings' => \Spatie\Mailcoach\Http\App\Livewire\Audience\Website::class,
+
         'create-segment' => \Spatie\Mailcoach\Http\App\Livewire\Audience\CreateSegment::class,
         'segments' => \Spatie\Mailcoach\Http\App\Livewire\Audience\Segments::class,
         'segment' => \Spatie\Mailcoach\Http\App\Livewire\Audience\Segment::class,

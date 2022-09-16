@@ -32,6 +32,9 @@
                 <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.mailers', $emailList)">
                     {{ __('mailcoach - Mailers') }}
                 </x-mailcoach::navigation-item>
+                <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.website', $emailList)">
+                    {{ __('mailcoach - Website') }}
+                </x-mailcoach::navigation-item>
             </x-mailcoach::navigation-group>
 
             @include('mailcoach::app.emailLists.layouts.partials.afterLastTab')

@@ -53,6 +53,9 @@ return new class extends Migration
             $table->timestamp('email_list_summary_sent_at')->nullable();
             $table->text('allowed_form_extra_attributes')->nullable();
             $table->string('honeypot_field')->nullable();
+
+            $table->boolean('has_website')->default(false);
+            $table->string('website_slug')->default('');
             $table->timestamps();
         });
 
