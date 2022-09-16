@@ -16,6 +16,8 @@ class TransactionalMail extends Mailable
 
     private string $templateName;
 
+    private array $replacements;
+
     public function __construct(
         string $templateName,
         string $subject,
