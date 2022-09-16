@@ -30,7 +30,6 @@ class RenderTemplateAction
             ));
         }
 
-
         $body = $this->renderTemplateBody($template, $body, $mailable);
 
         $body = $this->handleFields($body, $fields);
