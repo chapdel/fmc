@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\File;
 use Illuminate\View\Factory;
 use Spatie\Mailcoach\Domain\Shared\Actions\RenderMarkdownToHtmlAction;
+use Spatie\Mailcoach\Domain\Shared\Support\TemplateRenderer;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 
@@ -19,7 +20,18 @@ class RenderTemplateAction
         array $replacements = [],
         array $fields = [],
     ) {
-        $body = $this->renderTemplateBody($template, $mailable);
+        $body = $template->body;
+
+        if (count($fields)) {
+            $templateRenderer = (new TemplateRenderer($template->template?->html ?? $body));
+            $body = $templateRenderer->render(array_merge(
+                $template->getTemplateFieldValues(),
+                $fields,
+            ));
+        }
+
+
+        $body = $this->renderTemplateBody($template, $body, $mailable);
 
         $body = $this->handleFields($body, $fields);
 
@@ -32,18 +44,19 @@ class RenderTemplateAction
 
     protected function renderTemplateBody(
         TransactionalMailTemplate $template,
+        string $body,
         Mailable $mailable,
     ): string {
         return match ($template->type) {
-            'blade' => Blade::render($template->body, $mailable->buildViewData()),
-            'markdown' => (string) app(RenderMarkdownToHtmlAction::class)->execute($template->body),
+            'blade' => Blade::render($body, $mailable->buildViewData()),
+            'markdown' => (string) app(RenderMarkdownToHtmlAction::class)->execute($body),
             'blade-markdown' => $this->compileBladeMarkdown(
-                bladeString: $template->body,
+                bladeString: $body,
                 data: $mailable->buildViewData(),
                 theme: $mailable->theme
             ),
 
-            default => $template->body,
+            default => $body,
         };
     }
 

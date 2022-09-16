@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Mail;
+use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\TransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail as TransactionalMailModel;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
@@ -60,7 +61,7 @@ it('tracks the transactional mails', function () {
     expect(TransactionalMailModel::first()->body)->toContain('My template body');
 });
 
-it('will not store mail when asked not to store mails', function() {
+it('will not store mail when asked not to store mails', function () {
     $this
         ->post(action(SendTransactionalMailController::class, [
             'template' => 'my-template',
@@ -74,10 +75,23 @@ it('will not store mail when asked not to store mails', function() {
     expect(TransactionalMailModel::count())->toBe(0);
 });
 
-it('can handle the fields of a transactional mail', function() {
+it('can handle the fields of a transactional mail', function () {
+    $template = Template::factory()->create([
+        'html' => '<html>title: [[[title]]], body: [[[body]]]</html>'
+    ]);
+
     TransactionalMailTemplate::factory()->create([
+        'template_id' => $template->id,
         'name' => 'my-template-with-placeholders',
-        'body' => 'title: [[[title]]], body: [[[body]]]',
+        'structured_html' => [
+            'templateValues' => [
+                'content' => [
+                    'markdown' => 'default content',
+                    'html' => "<p>default content<\/p>\n",
+                    'theme' => 'nord',
+                ],
+                'title' => 'default title',
+            ]],
     ]);
 
     $this
@@ -87,12 +101,11 @@ it('can handle the fields of a transactional mail', function() {
             'from' => 'rias@spatie.be',
             'to' => 'freek@spatie.be',
             'fields' => [
-                'title' => 'my title',
-                'body' => 'my body',
+                'body' => 'overridden body',
                 'unused' => 'some value',
             ],
         ]))
         ->assertSuccessful();
 
-    expect(TransactionalMailModel::first()->body)->toContain('title: my title, body: my body');
+    expect(TransactionalMailModel::first()->body)->toContain('title: default title, body: overridden body');
 });

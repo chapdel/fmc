@@ -37,7 +37,7 @@ class TransactionalMail extends Mailable
         $this->fields = $fields;
 
         $this
-            ->when($this->store, function(TransactionalMail $mail) {
+            ->when($store, function(TransactionalMail $mail) {
                 $mail->store();
             })
             ->from($from)
