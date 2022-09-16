@@ -60,7 +60,7 @@ it('tracks the transactional mails', function () {
     expect(TransactionalMailModel::first()->body)->toContain('My template body');
 });
 
-it('will not store mail when asked not to store mails', function() {
+it('will not store mail when asked not to store mails', function () {
     $this
         ->post(action(SendTransactionalMailController::class, [
             'template' => 'my-template',
@@ -74,7 +74,7 @@ it('will not store mail when asked not to store mails', function() {
     expect(TransactionalMailModel::count())->toBe(0);
 });
 
-it('can handle the fields of a transactional mail', function() {
+it('can handle the fields of a transactional mail', function () {
     TransactionalMailTemplate::factory()->create([
         'name' => 'my-template-with-placeholders',
         'body' => 'title: [[[title]]], body: [[[body]]]',

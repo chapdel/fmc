@@ -41,6 +41,6 @@ class SendTransactionalMailRequest extends FormRequest
 
     public function shouldStoreMail(): bool
     {
-        return (bool)$this->store ?? true;
+        return (bool) $this->store ?? true;
     }
 }
