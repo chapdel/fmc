@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\File;
 use Illuminate\View\Factory;
 use Spatie\Mailcoach\Domain\Shared\Actions\RenderMarkdownToHtmlAction;
-use Spatie\Mailcoach\Domain\Shared\Support\TemplateRenderer;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 
@@ -19,12 +18,10 @@ class RenderTemplateAction
         Mailable $mailable,
         array $replacements = [],
         array $fields = [],
-    )
-    {
+    ) {
         $body = $this->renderTemplateBody($template, $mailable);
 
         $body = $this->handleFields($body, $fields);
-
 
         $body = $this->handleReplacements($body, $replacements);
 
@@ -59,7 +56,7 @@ class RenderTemplateAction
         preg_match_all('/\[\[\[(.*?)\]\]\]/', $body, $matches);
         $fieldNames = $matches[1];
 
-        foreach($fieldNames as $fieldName) {
+        foreach ($fieldNames as $fieldName) {
             $body = str_replace(
                 '[[['.$fieldName.']]]',
                 $fields[$fieldName] ?? '',
