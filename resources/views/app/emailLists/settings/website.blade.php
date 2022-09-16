@@ -34,6 +34,15 @@
             {{ __('You can choose a url where you website will be displayed.') }}
         </x-mailcoach::info>
 
+        <x-mailcoach::checkbox-field
+            :label="__('mailcoach - Allow subscriptions')"
+            name="emailList.show_subscription_form_on_website"
+            wire:model.lazy="emailList.show_subscription_form_on_website"
+        />
+
+        <x-mailcoach::info>
+            {{ __('mailcoach - When enabled, a subscription from will be displayed on the website.') }}
+        </x-mailcoach::info>
 
         <x-mailcoach::form-buttons>
             <x-mailcoach::button :label="__('mailcoach - Save')"/>

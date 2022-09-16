@@ -21,6 +21,7 @@ class Website extends Component
     {
         return [
             'emailList.has_website' => ['boolean'],
+            'emailList.show_subscription_form_on_website' => ['boolean'],
             'emailList.website_slug' => [''],
         ];
     }

@@ -55,6 +55,8 @@ return new class extends Migration
             $table->string('honeypot_field')->nullable();
 
             $table->boolean('has_website')->default(false);
+            $table->boolean('show_subscription_form_on_website')->default(true);
+
             $table->string('website_slug')->default('');
             $table->timestamps();
         });
