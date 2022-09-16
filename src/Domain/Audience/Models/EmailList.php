@@ -230,7 +230,7 @@ class EmailList extends Model
 
     public function websiteUrl(): string
     {
-        return (string)url('/' . $this->website_slug);
+        return (string) url('/'.$this->website_slug);
     }
 
     public function getSubscriptionFormHtml(): string
