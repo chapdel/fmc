@@ -107,5 +107,6 @@ it('can handle the fields of a transactional mail', function () {
         ]))
         ->assertSuccessful();
 
-    expect(TransactionalMailModel::first()->body)->toContain('title: default title, body: overridden body');
+    expect(TransactionalMailModel::first()->body)
+        ->toContain('title: default title, body: overridden body');
 });
