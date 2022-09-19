@@ -440,7 +440,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bindRouteParameters(): self
     {
-        Route::bind('emailListWebsiteSlug', function(string $slug) {
+        Route::bind('emailListWebsiteSlug', function (string $slug) {
             return EmailList::query()
                 ->where('has_website', true)
                 ->where('website_slug', $slug)
@@ -781,6 +781,4 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
         return $this;
     }
-
-
 }
