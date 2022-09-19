@@ -73,7 +73,7 @@ class Tags extends DataTable
 
         return [
             'emailList' => $this->emailList,
-            'tags' => $tagsQuery->paginate(),
+            'tags' => $tagsQuery->paginate($request->per_page),
             'totalTagsCount' => self::getTagClass()::query()->emailList($this->emailList)->count(),
             'totalDefault' => self::getTagClass()::query()->where('type', TagType::Default)->emailList($this->emailList)->count(),
             'totalMailcoach' => self::getTagClass()::query()->where('type', TagType::Mailcoach)->emailList($this->emailList)->count(),

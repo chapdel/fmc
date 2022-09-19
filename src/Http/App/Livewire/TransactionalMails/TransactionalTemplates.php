@@ -51,7 +51,7 @@ class TransactionalTemplates extends DataTable
         $this->authorize('viewAny', static::getTransactionalMailTemplateClass());
 
         return [
-            'templates' => (new TransactionalMailTemplateQuery($request))->paginate(),
+            'templates' => (new TransactionalMailTemplateQuery($request))->paginate($request->per_page),
             'templatesCount' => self::getTransactionalMailTemplateClass()::count(),
         ];
     }

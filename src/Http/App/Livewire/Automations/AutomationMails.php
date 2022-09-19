@@ -56,7 +56,7 @@ class AutomationMails extends DataTable
     public function getData(Request $request): array
     {
         return [
-            'automationMails' => (new AutomatedMailQuery($request))->paginate(),
+            'automationMails' => (new AutomatedMailQuery($request))->paginate($request->per_page),
             'totalAutomationMailsCount' => self::getAutomationMailClass()::count(),
         ];
     }

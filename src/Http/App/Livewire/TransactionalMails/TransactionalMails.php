@@ -38,7 +38,7 @@ class TransactionalMails extends DataTable
         $this->authorize('viewAny', static::getTransactionalMailClass());
 
         return [
-            'transactionalMails' => (new TransactionalMailQuery($request))->paginate(),
+            'transactionalMails' => (new TransactionalMailQuery($request))->paginate($request->per_page),
             'transactionalMailsCount' => self::getTransactionalMailClass()::count(),
         ];
     }

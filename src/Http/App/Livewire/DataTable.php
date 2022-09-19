@@ -22,6 +22,8 @@ abstract class DataTable extends Component
 
     public string $sort = 'name';
 
+    public int $perPage = 15;
+
     protected string $defaultSort;
 
     protected array $allowedFilters = [];
@@ -56,6 +58,7 @@ abstract class DataTable extends Component
         return array_merge([
             'search' => ['except' => ''],
             'page' => ['except' => 1],
+            'perPage' => ['except' => 15],
             'sort' => ['except' => $this->defaultSort],
         ], $this->allowedFilters);
     }
@@ -112,6 +115,7 @@ abstract class DataTable extends Component
     {
         $request = clone request();
         $request->query->set('sort', $this->sort);
+        $request->query->set('per_page', $this->perPage);
         $request->query->set(
             'filter',
             collect($this->allowedFilters)

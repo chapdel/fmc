@@ -73,7 +73,7 @@ class CampaignOutbox extends DataTable
 
         return [
             'campaign' => $this->campaign,
-            'sends' => $sendsQuery->paginate(),
+            'sends' => $sendsQuery->paginate($request->per_page),
             'totalSends' => $this->campaign->sends()->count(),
             'totalPending' => $this->campaign->sends()->pending()->count(),
             'totalSent' => $this->campaign->sends()->sent()->count(),

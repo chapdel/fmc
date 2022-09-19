@@ -171,7 +171,7 @@ class SubscriberImports extends DataTable
         $subscriberImportsQuery = new SubscriberImportsQuery($this->emailList, $request);
 
         return [
-            'subscriberImports' => $subscriberImportsQuery->paginate(),
+            'subscriberImports' => $subscriberImportsQuery->paginate($request->per_page),
             'allSubscriberImportsCount' => self::getSubscriberImportClass()::query()
                 ->where('email_list_id', $this->emailList->id)
                 ->count(),

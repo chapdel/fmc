@@ -47,7 +47,7 @@ class CampaignClicks extends DataTable
     {
         return [
             'campaign' => $this->campaign,
-            'links' => (new CampaignLinksQuery($this->campaign, $request))->paginate(),
+            'links' => (new CampaignLinksQuery($this->campaign, $request))->paginate($request->per_page),
             'totalLinksCount' => $this->campaign->links()->count(),
         ];
     }
