@@ -47,7 +47,7 @@ class AutomationMailClicks extends DataTable
     {
         return [
             'mail' => $this->mail,
-            'links' => (new AutomationMailLinksQuery($this->mail, $request))->paginate(),
+            'links' => (new AutomationMailLinksQuery($this->mail, $request))->paginate($request->per_page),
             'totalLinksCount' => $this->mail->links()->count(),
         ];
     }

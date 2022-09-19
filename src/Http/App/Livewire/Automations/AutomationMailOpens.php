@@ -49,7 +49,7 @@ class AutomationMailOpens extends DataTable
 
         return [
             'mail' => $this->mail,
-            'mailOpens' => $automationMailOpens->paginate(),
+            'mailOpens' => $automationMailOpens->paginate($request->per_page),
             'totalMailOpensCount' => $automationMailOpens->totalCount,
         ];
     }

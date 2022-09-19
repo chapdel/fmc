@@ -616,8 +616,8 @@ return [
 
         // Transactional
         'create-transactional-template' => \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\CreateTransactionalTemplate::class,
-        'transactional-mails' => \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMails::class,
-        'transactional-mail-templates' => \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplates::class,
+        'transactional-mails' => \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailLogItems::class,
+        'transactional-mail-templates' => \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMails::class,
         'transactional-mail-template-content' => \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateContent::class,
         'transactional-mail-template-settings' => \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateSettings::class,
         'transactional-mail-content' => \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailContent::class,

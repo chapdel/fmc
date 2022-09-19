@@ -49,7 +49,7 @@ class SubscriberSends extends DataTable
 
         return [
             'subscriber' => $this->subscriber,
-            'sends' => $sendQuery->paginate(),
+            'sends' => $sendQuery->paginate($request->per_page),
             'totalSendsCount' => self::getSendClass()::query()->where('subscriber_id', $this->subscriber->id)->count(),
         ];
     }

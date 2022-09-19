@@ -140,7 +140,7 @@ class Subscribers extends DataTable
         $subscribersQuery = new EmailListSubscribersQuery($this->emailList, $request);
 
         return [
-            'subscribers' => $subscribersQuery->paginate(),
+            'subscribers' => $subscribersQuery->paginate($request->per_page),
             'emailList' => $this->emailList,
             'allSubscriptionsCount' => $this->emailList->allSubscribers()->count(),
             'totalSubscriptionsCount' => $this->emailList->subscribers()->count(),

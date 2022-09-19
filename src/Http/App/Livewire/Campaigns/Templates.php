@@ -49,7 +49,7 @@ class Templates extends DataTable
     public function getData(Request $request): array
     {
         return [
-            'templates' => (new TemplatesQuery($request))->paginate(),
+            'templates' => (new TemplatesQuery($request))->paginate($request->per_page),
             'totalTemplatesCount' => self::getTemplateClass()::count(),
         ];
     }

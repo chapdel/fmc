@@ -73,7 +73,7 @@ class Campaigns extends DataTable
     public function getData(Request $request): array
     {
         return [
-            'campaigns' => (new CampaignsQuery($request))->paginate(),
+            'campaigns' => (new CampaignsQuery($request))->paginate($request->per_page),
             'totalCampaignsCount' => self::getCampaignClass()::count(),
             'totalListsCount' => static::getEmailListClass()::count(),
             'sentCampaignsCount' => static::getCampaignClass()::sendingOrSent()->count(),

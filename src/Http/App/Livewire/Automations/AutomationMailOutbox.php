@@ -55,7 +55,7 @@ class AutomationMailOutbox extends DataTable
 
         return [
             'mail' => $this->mail,
-            'sends' => $sendsQuery->paginate(),
+            'sends' => $sendsQuery->paginate($request->per_page),
             'totalSends' => $this->mail->sends()->count(),
             'totalPending' => $this->mail->sends()->pending()->count(),
             'totalSent' => $this->mail->sends()->sent()->count(),
