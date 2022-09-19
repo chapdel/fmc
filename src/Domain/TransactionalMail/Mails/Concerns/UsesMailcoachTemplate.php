@@ -15,8 +15,7 @@ trait UsesMailcoachTemplate
 
     public function template(
         string $name,
-        array $replacements = [],
-        array $fields = [],
+        array $replacements = []
     ): self {
         /** @var TransactionalMail $template */
         $template = self::getTransactionalMailClass()::firstWhere('name', $name);
@@ -43,7 +42,7 @@ trait UsesMailcoachTemplate
             $this->bcc($bcc);
         }
 
-        $content = $template->render($this, $replacements, $fields);
+        $content = $template->render($this, $replacements);
 
         $this->view('mailcoach::mails.transactionalMails.template', compact('content'));
 

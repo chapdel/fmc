@@ -84,15 +84,7 @@ it('can handle the fields of a transactional mail', function () {
     TransactionalMailModel::factory()->create([
         'template_id' => $template->id,
         'name' => 'my-template-with-placeholders',
-        'structured_html' => [
-            'templateValues' => [
-                'content' => [
-                    'markdown' => 'default content',
-                    'html' => "<p>default content<\/p>\n",
-                    'theme' => 'nord',
-                ],
-                'title' => 'default title',
-            ], ],
+        'body' => '<html>title: ::myTitle::</html>'
     ]);
 
     $this
@@ -101,13 +93,12 @@ it('can handle the fields of a transactional mail', function () {
             'subject' => 'Some subject',
             'from' => 'rias@spatie.be',
             'to' => 'freek@spatie.be',
-            'fields' => [
-                'body' => 'overridden body',
-                'unused' => 'some value',
-            ],
+            'replacements' => [
+                'myTitle' => 'replaced title'
+            ]
         ]))
         ->assertSuccessful();
 
     expect(TransactionalMailLogItem::first()->body)
-        ->toContain('title: default title, body: overridden body');
-})->skip('to rewrite');
+        ->toContain('title: replaced title');
+});

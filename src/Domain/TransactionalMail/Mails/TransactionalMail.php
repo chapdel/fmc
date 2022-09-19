@@ -29,12 +29,10 @@ class TransactionalMail extends Mailable
         array $bcc = [],
         string $mailer = null,
         array $replacements = [],
-        array $fields = [],
         bool $store = true,
     ) {
         $this->templateName = $templateName;
         $this->replacements = $replacements;
-        $this->fields = $fields;
 
         $this
             ->when($store, function (TransactionalMail $mail) {
@@ -54,7 +52,6 @@ class TransactionalMail extends Mailable
         $this->template(
             $this->templateName,
             $this->replacements,
-            $this->fields,
         );
     }
 }

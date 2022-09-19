@@ -18,21 +18,10 @@ class RenderTemplateAction
         TransactionalMail $template,
         Mailable          $mailable,
         array             $replacements = [],
-        array             $fields = [],
     ) {
         $body = $template->body;
 
-        if (count($fields)) {
-            $templateRenderer = (new TemplateRenderer($template->template?->html ?? $body));
-            $body = $templateRenderer->render(array_merge(
-                $template->getTemplateFieldValues(),
-                $fields,
-            ));
-        }
-
         $body = $this->renderTemplateBody($template, $body, $mailable);
-
-        $body = $this->handleFields($body, $fields);
 
         $body = $this->handleReplacements($body, $replacements);
 
@@ -59,26 +48,6 @@ class RenderTemplateAction
         };
     }
 
-    protected function handleFields(string $body, array $fields): string
-    {
-        if (! count($fields)) {
-            return $body;
-        }
-
-        preg_match_all('/\[\[\[(.*?)\]\]\]/', $body, $matches);
-        $fieldNames = $matches[1];
-
-        foreach ($fieldNames as $fieldName) {
-            $body = str_replace(
-                '[[['.$fieldName.']]]',
-                $fields[$fieldName] ?? '',
-                $body,
-            );
-        }
-
-        return $body;
-    }
-
     protected function handleReplacements(string $body, array $replacements): string
     {
         foreach ($replacements as $search => $replace) {
@@ -91,6 +60,7 @@ class RenderTemplateAction
     protected function executeReplacers(string $body, TransactionalMail $template, Mailable $mailable): string
     {
         foreach ($template->replacers() as $replacer) {
+
             $body = $replacer->replace($body, $mailable, $template);
         }
 

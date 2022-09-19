@@ -23,7 +23,6 @@ class SendTransactionalMailController
             bcc: $this->normalizeEmailAddresses($request->get('bcc')),
             mailer: $request->mailer,
             replacements: $request->replacements(),
-            fields: $request->fields(),
             store: $request->shouldStoreMail(),
         );
 
