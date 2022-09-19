@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Tests\Factories;
 
 use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailClick;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailOpen;
 
@@ -42,18 +42,18 @@ class TransactionalMailFactory
         return $this;
     }
 
-    public function create(array $attributes = []): TransactionalMail | Collection
+    public function create(array $attributes = []): TransactionalMailLogItem | Collection
     {
-        $transactionalMails = TransactionalMail::factory()
+        $transactionalMails = TransactionalMailLogItem::factory()
             ->count($this->count)
             ->create($attributes)
-            ->map(function (TransactionalMail $transactionalMail) {
+            ->map(function (TransactionalMailLogItem $transactionalMail) {
                 if (count($this->opens) === 0 && count($this->clicks) === 0) {
                     return $transactionalMail;
                 }
 
                 $send = Send::factory()->create([
-                    'transactional_mail_id' => $transactionalMail->id,
+                    'transactional_mail_log_item_id' => $transactionalMail->id,
                 ]);
 
                 foreach ($this->opens as $open) {

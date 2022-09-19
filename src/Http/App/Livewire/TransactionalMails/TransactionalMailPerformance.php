@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Http\App\Livewire\TransactionalMails;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
 use Spatie\Mailcoach\MainNavigation;
 
 class TransactionalMailPerformance extends Component
@@ -13,9 +13,9 @@ class TransactionalMailPerformance extends Component
     use UsesMailcoachModels;
     use AuthorizesRequests;
 
-    public TransactionalMail $transactionalMail;
+    public TransactionalMailLogItem $transactionalMail;
 
-    public function mount(TransactionalMail $transactionalMail)
+    public function mount(TransactionalMailLogItem $transactionalMail)
     {
         $this->transactionalMail = $transactionalMail;
 

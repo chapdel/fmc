@@ -11,7 +11,7 @@ use LivewireUI\Spotlight\SpotlightCommandDependency;
 use LivewireUI\Spotlight\SpotlightSearchResult;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 
 class ShowTransactionalTemplateCommand extends SpotlightCommand
 {
@@ -38,12 +38,12 @@ class ShowTransactionalTemplateCommand extends SpotlightCommand
 
     public function searchTemplate($query)
     {
-        return self::getTransactionalMailTemplateClass()::query()
+        return self::getTransactionalMailClass()::query()
             ->when($query, fn (Builder $builder) => $builder->where('name', 'like', "%$query%"))
             ->whereNotNull('name')
             ->limit(10)
             ->get()
-            ->map(function (TransactionalMailTemplate $template) {
+            ->map(function (TransactionalMail $template) {
                 return new SpotlightSearchResult(
                     $template->id,
                     $template->name,
@@ -54,7 +54,7 @@ class ShowTransactionalTemplateCommand extends SpotlightCommand
 
     public function shouldBeShown(Request $request): bool
     {
-        return $request->user()->can('view', self::getTransactionalMailTemplateClass());
+        return $request->user()->can('view', self::getTransactionalMailClass());
     }
 
     public function execute(Spotlight $spotlight, Template $template)

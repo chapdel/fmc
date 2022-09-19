@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns;
 use Illuminate\Mail\Mailable;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Exceptions\CouldNotFindTemplate;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 
 /** @mixin \Illuminate\Mail\Mailable */
 trait UsesMailcoachTemplate
@@ -18,8 +18,8 @@ trait UsesMailcoachTemplate
         array $replacements = [],
         array $fields = [],
     ): self {
-        /** @var TransactionalMailTemplate $template */
-        $template = self::getTransactionalMailTemplateClass()::firstWhere('name', $name);
+        /** @var TransactionalMail $template */
+        $template = self::getTransactionalMailClass()::firstWhere('name', $name);
 
         if (! $template) {
             throw CouldNotFindTemplate::make($name, $this);
@@ -51,9 +51,9 @@ trait UsesMailcoachTemplate
     }
 
     protected function executeReplacers(
-        string $text,
-        TransactionalMailTemplate $template,
-        Mailable $mailable
+        string            $text,
+        TransactionalMail $template,
+        Mailable          $mailable
     ): string {
         foreach ($template->replacers() as $replacer) {
             $text = $replacer->replace($text, $mailable, $template);
@@ -62,7 +62,7 @@ trait UsesMailcoachTemplate
         return $text;
     }
 
-    protected function setSubject(TransactionalMailTemplate $template, array $replacements): void
+    protected function setSubject(TransactionalMail $template, array $replacements): void
     {
         $subject = $template->subject ?? '';
 
@@ -76,7 +76,7 @@ trait UsesMailcoachTemplate
     protected static function testInstance(): self
     {
         $instance = new self();
-        $template = $instance::getTransactionalMailTemplateClass()::first();
+        $template = $instance::getTransactionalMailClass()::first();
         $instance->subject($instance->executeReplacers($template->subject, $template, $instance));
 
         return $instance;

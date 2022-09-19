@@ -2,13 +2,13 @@
 
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Actions\SendTestForTransactionalMailTemplateAction;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailableWithTemplate;
 
 it('can send a test for a transactional mail template', function () {
     Mail::fake();
 
-    $template = TransactionalMailTemplate::factory()->create([
+    $template = TransactionalMail::factory()->create([
         'name' => 'test-template',
         'body' => 'test html {{ $argument }}',
         'test_using_mailable' => TestMailableWithTemplate::class,
@@ -29,7 +29,7 @@ it('can send a test for a transactional mail template', function () {
 it('will not use cc or bcc when sending out a test', function () {
     Mail::fake();
 
-    $template = TransactionalMailTemplate::factory()->create([
+    $template = TransactionalMail::factory()->create([
         'name' => 'test-template',
         'cc' => ['jane@example.com'],
         'bcc' => ['tarzan@example.com'],

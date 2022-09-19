@@ -442,11 +442,11 @@ return [
         'template' => Spatie\Mailcoach\Domain\Campaign\Models\Template::class,
 
         /*
-         * The model you want to use as a TransactionalMail model. It needs to be or
-         * extend the `Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail::class`
+         * The model you want to use as a TransactionalMailLogItem model. It needs to be or
+         * extend the `Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem::class`
          * model.
          */
-        'transactional_mail' => \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail::class,
+        'transactional_mail_log_tem' => \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem::class,
 
         /*
          * The model you want to use as a TransactionalMailOpen model. It needs to be or
@@ -463,11 +463,11 @@ return [
         'transactional_mail_click' => \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailClick::class,
 
         /*
-         * The model you want to use as a TransactionalMailTemplate model. It needs to be or
-         * extend the `\Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate::class`
+         * The model you want to use as a TransactionalMail model. It needs to be or
+         * extend the `\Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail::class`
          * model.
          */
-        'transactional_mail_template' => \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate::class,
+        'transactional_mail' => \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail::class,
 
         /*
          * The model you want to use as an Automation model. It needs to be or

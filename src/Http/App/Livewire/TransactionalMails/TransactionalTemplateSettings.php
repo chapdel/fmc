@@ -6,7 +6,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 use Spatie\Mailcoach\MainNavigation;
 
@@ -16,7 +16,7 @@ class TransactionalTemplateSettings extends Component
     use LivewireFlash;
     use UsesMailcoachModels;
 
-    public TransactionalMailTemplate $template;
+    public TransactionalMail $template;
 
     protected function rules(): array
     {
@@ -27,7 +27,7 @@ class TransactionalTemplateSettings extends Component
         ];
     }
 
-    public function mount(TransactionalMailTemplate $transactionalMailTemplate)
+    public function mount(TransactionalMail $transactionalMailTemplate)
     {
         $this->authorize('update', $transactionalMailTemplate);
 

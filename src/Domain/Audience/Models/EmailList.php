@@ -85,7 +85,7 @@ class EmailList extends Model
 
     public function confirmationMail(): BelongsTo
     {
-        return $this->belongsTo(self::getTransactionalMailTemplateClass(), 'confirmation_mail_id');
+        return $this->belongsTo(self::getTransactionalMailClass(), 'confirmation_mail_id');
     }
 
     public function tags(): HasMany

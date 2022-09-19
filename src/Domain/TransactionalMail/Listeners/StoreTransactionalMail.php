@@ -23,7 +23,7 @@ class StoreTransactionalMail
             return;
         }
 
-        $transactionalMail = static::getTransactionalMailClass()::create([
+        $transactionalMail = static::getTransactionalMailLogItemClass()::create([
             'subject' => $message->getSubject(),
             'from' => $this->convertToNamedArray($message->getFrom()),
             'to' => $this->convertToNamedArray($message->getTo()),
@@ -35,7 +35,7 @@ class StoreTransactionalMail
         ]);
 
         $send = self::getSendClass()::create([
-            'transactional_mail_id' => $transactionalMail->id,
+            'transactional_mail_log_item_id' => $transactionalMail->id,
             'sent_at' => now(),
         ]);
 

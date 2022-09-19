@@ -12,7 +12,7 @@ class TransactionalMails extends DataTable
 
     public function deleteTransactionalMail(int $id)
     {
-        $transactionalMail = self::getTransactionalMailClass()::find($id);
+        $transactionalMail = self::getTransactionalMailLogItemClass()::find($id);
 
         $this->authorize('delete', $transactionalMail);
 
@@ -35,11 +35,11 @@ class TransactionalMails extends DataTable
 
     public function getData(Request $request): array
     {
-        $this->authorize('viewAny', static::getTransactionalMailClass());
+        $this->authorize('viewAny', static::getTransactionalMailLogItemClass());
 
         return [
             'transactionalMails' => (new TransactionalMailQuery($request))->paginate(),
-            'transactionalMailsCount' => self::getTransactionalMailClass()::count(),
+            'transactionalMailsCount' => self::getTransactionalMailLogItemClass()::count(),
         ];
     }
 }

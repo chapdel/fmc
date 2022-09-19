@@ -192,7 +192,7 @@ return new class extends Migration
             $table->nullableTimestamps();
         });
 
-        Schema::create('mailcoach_transactional_mails', function (Blueprint $table) {
+        Schema::create('mailcoach_transactional_mail_log_items', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->index();
 
@@ -272,9 +272,9 @@ return new class extends Migration
                 ->cascadeOnDelete();
 
             $table
-                ->foreignId('transactional_mail_id')
+                ->foreignId('transactional_mail_log_item_id')
                 ->nullable()
-                ->constrained('mailcoach_transactional_mails')
+                ->constrained('mailcoach_transactional_mail_log_items')
                 ->cascadeOnDelete();
 
             $table
@@ -292,7 +292,7 @@ return new class extends Migration
 
             $table->unique('transport_message_id');
             $table->index(['campaign_id', 'subscriber_id']);
-            $table->index(['transactional_mail_id']);
+            $table->index(['transactional_mail_log_item_id']);
             $table->index(['sending_job_dispatched_at', 'sent_at'], 'sent_index');
         });
 
@@ -681,7 +681,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('mailcoach_transactional_mail_templates', function (Blueprint $table) {
+        Schema::create('mailcoach_transactional_mails', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->index();
             $table->json('cc')->nullable();

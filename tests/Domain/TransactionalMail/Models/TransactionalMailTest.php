@@ -25,7 +25,7 @@ test('the click relation works', function () {
 });
 
 it('can group clicks per url', function () {
-    /** @var \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail $transactionalMail */
+    /** @var \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem $transactionalMail */
     $transactionalMail = TransactionalMailFactory::new()
         ->withClick(['url' => 'https://spatie.be'], 2)
         ->withClick(['url' => 'https://mailcoach.app'], 3)

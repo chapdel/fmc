@@ -398,10 +398,10 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Route::model('upload', self::getUploadClass());
 
         // Transactional
-        Route::model('transactionalMail', self::getTransactionalMailClass());
+        Route::model('transactionalMail', self::getTransactionalMailLogItemClass());
         Route::model('transactionalMailClick', self::getTransactionalMailClickClass());
         Route::model('transactionalMailOpen', self::getTransactionalMailOpenClass());
-        Route::model('transactionalMailTemplate', self::getTransactionalMailTemplateClass());
+        Route::model('transactionalMailTemplate', self::getTransactionalMailClass());
 
         Route::macro('mailcoach', function (string $url = '', bool $registerFeedback = true) {
             if ($registerFeedback) {

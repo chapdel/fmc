@@ -13,9 +13,9 @@ class TransactionalTemplates extends DataTable
 
     public function duplicateTemplate(int $id)
     {
-        $template = self::getTransactionalMailTemplateClass()::find($id);
+        $template = self::getTransactionalMailClass()::find($id);
 
-        $this->authorize('create', self::getTransactionalMailTemplateClass());
+        $this->authorize('create', self::getTransactionalMailClass());
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Template $duplicateTemplate */
         $duplicateTemplate = $template->replicate()->save();
@@ -27,7 +27,7 @@ class TransactionalTemplates extends DataTable
 
     public function deleteTemplate(int $id)
     {
-        $template = self::getTransactionalMailTemplateClass()::find($id);
+        $template = self::getTransactionalMailClass()::find($id);
 
         $this->authorize('delete', $template);
 
@@ -48,11 +48,11 @@ class TransactionalTemplates extends DataTable
 
     public function getData(Request $request): array
     {
-        $this->authorize('viewAny', static::getTransactionalMailTemplateClass());
+        $this->authorize('viewAny', static::getTransactionalMailClass());
 
         return [
             'templates' => (new TransactionalMailTemplateQuery($request))->paginate(),
-            'templatesCount' => self::getTransactionalMailTemplateClass()::count(),
+            'templatesCount' => self::getTransactionalMailClass()::count(),
         ];
     }
 }

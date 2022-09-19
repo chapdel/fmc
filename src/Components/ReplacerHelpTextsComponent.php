@@ -9,7 +9,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Replacers\ReplacerWithHelpText as
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\ReplacerWithHelpText as CampaignReplacerWithHelpText;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Support\Replacers\TransactionalMailReplacer;
 
 class ReplacerHelpTextsComponent extends Component
@@ -23,7 +23,7 @@ class ReplacerHelpTextsComponent extends Component
         return match (true) {
             $this->model instanceof Campaign => $this->campaignReplacerHelpTexts(),
             $this->model instanceof AutomationMail => $this->automationReplacerHelpTexts(),
-            $this->model instanceof TransactionalMailTemplate => $this->transactionalMailTemplateReplacerHelpTexts(),
+            $this->model instanceof TransactionalMail => $this->transactionalMailTemplateReplacerHelpTexts(),
             $this->model instanceof Template => $this->templateReplacerHelpTexts(),
             default => [],
         };
