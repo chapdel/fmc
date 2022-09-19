@@ -50,9 +50,9 @@ trait UsesMailcoachTemplate
     }
 
     protected function executeReplacers(
-        string            $text,
+        string $text,
         TransactionalMail $template,
-        Mailable          $mailable
+        Mailable $mailable
     ): string {
         foreach ($template->replacers() as $replacer) {
             $text = $replacer->replace($text, $mailable, $template);
