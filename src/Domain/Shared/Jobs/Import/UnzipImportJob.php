@@ -40,7 +40,7 @@ class UnzipImportJob extends ImportJob
         $zip = new ZipArchive();
         $result = $zip->open($this->tmpDisk->path('import.zip'));
 
-        if($result !== true ){
+        if ($result !== true) {
             $message = $errorCodes[$result] ?? 'Unknown error.';
 
             throw new \Exception("Could not open zip file: {$message}");
