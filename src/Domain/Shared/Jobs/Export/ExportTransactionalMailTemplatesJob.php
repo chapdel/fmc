@@ -21,7 +21,7 @@ class ExportTransactionalMailTemplatesJob extends ExportJob
 
     public function execute(): void
     {
-        $templates = DB::table(self::getTransactionalMailTemplateTableName())
+        $templates = DB::table(self::getTransactionalMailTableName())
             ->whereIn('id', $this->selectedTransactionalMailTemplates)
             ->get();
 

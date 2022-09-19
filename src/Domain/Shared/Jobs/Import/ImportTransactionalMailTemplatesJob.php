@@ -22,7 +22,7 @@ class ImportTransactionalMailTemplatesJob extends ImportJob
         $this->tmpDisk->writeStream('tmp/transactional_mail_templates.csv', $this->importDisk->readStream('import/transactional_mail_templates.csv'));
 
         $reader = SimpleExcelReader::create($this->tmpDisk->path('tmp/transactional_mail_templates.csv'));
-        $columns = Schema::getColumnListing(self::getTransactionalMailTemplateTableName());
+        $columns = Schema::getColumnListing(self::getTransactionalMailTableName());
 
         $total = $this->getMeta('transactional_mail_templates_count', 0);
         foreach ($reader->getRows() as $index => $row) {

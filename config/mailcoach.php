@@ -446,7 +446,7 @@ return [
          * extend the `Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem::class`
          * model.
          */
-        'transactional_mail_log_tem' => \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem::class,
+        'transactional_mail_log_item' => \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem::class,
 
         /*
          * The model you want to use as a TransactionalMailOpen model. It needs to be or

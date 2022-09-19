@@ -209,7 +209,7 @@ trait UsesMailcoachModels
         return $emailList->getTable();
     }
 
-    public static function getTransactionalMailTemplateTableName(): string
+    public static function getTransactionalMailTableName(): string
     {
         /** @var \Illuminate\Database\Eloquent\Model $template */
         $templateClass = self::getTransactionalMailClass();
