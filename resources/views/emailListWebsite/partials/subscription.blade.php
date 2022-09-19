@@ -1,13 +1,11 @@
 <header class="w-full mb-4 p-4 sm:p-6 md:px-8 md:py-7 bg-yellow-50 border-b-2 border-yellow-500 text-xs text-gray-700">
     <div class="max-w-lg mx-auto space-y-2">
-        <p>
-            Every month I send out a newsletter like this one, containing lots of interesting stuff for the modern
-            PHP
-            developer.
-        </p>
-        <p>
+        @if ($emailList->description)
+            {{ $emailList->website_description }}
+        @endif
+        <div>
             Subscribe to get the next edition in your mailbox.
-        </p>
+        </div>
         <form
             action="{{ $emailList->incomingFormSubscriptionsUrl() }}"
             method="post"
