@@ -21,15 +21,15 @@ class TransactionalMail extends Mailable
     private array $fields;
 
     public function __construct(
-        string       $mailName,
-        string       $subject,
+        string $mailName,
+        string $subject,
         array|string $from,
-        array        $to,
-        array        $cc = [],
-        array        $bcc = [],
-        string       $mailer = null,
-        array        $replacements = [],
-        bool         $store = true,
+        array $to,
+        array $cc = [],
+        array $bcc = [],
+        string $mailer = null,
+        array $replacements = [],
+        bool $store = true,
     ) {
         $this->mailName = $mailName;
         $this->replacements = $replacements;

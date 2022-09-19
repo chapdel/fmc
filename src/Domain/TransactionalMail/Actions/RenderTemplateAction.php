@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\File;
 use Illuminate\View\Factory;
 use Spatie\Mailcoach\Domain\Shared\Actions\RenderMarkdownToHtmlAction;
-use Spatie\Mailcoach\Domain\Shared\Support\TemplateRenderer;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 
@@ -16,8 +15,8 @@ class RenderTemplateAction
 {
     public function execute(
         TransactionalMail $template,
-        Mailable          $mailable,
-        array             $replacements = [],
+        Mailable $mailable,
+        array $replacements = [],
     ) {
         $body = $template->body;
 
@@ -32,8 +31,8 @@ class RenderTemplateAction
 
     protected function renderTemplateBody(
         TransactionalMail $template,
-        string            $body,
-        Mailable          $mailable,
+        string $body,
+        Mailable $mailable,
     ): string {
         return match ($template->type) {
             'blade' => Blade::render($body, $mailable->buildViewData()),
@@ -60,7 +59,6 @@ class RenderTemplateAction
     protected function executeReplacers(string $body, TransactionalMail $template, Mailable $mailable): string
     {
         foreach ($template->replacers() as $replacer) {
-
             $body = $replacer->replace($body, $mailable, $template);
         }
 
