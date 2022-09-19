@@ -49,7 +49,7 @@ class AutomationMailUnsubscribes extends DataTable
 
         return [
             'mail' => $this->mail,
-            'unsubscribes' => (new AutomationMailUnsubscribesQuery($this->mail, $request))->paginate(),
+            'unsubscribes' => (new AutomationMailUnsubscribesQuery($this->mail, $request))->paginate($request->per_page),
             'totalUnsubscribes' => $this->mail->unsubscribes()->count(),
         ];
     }

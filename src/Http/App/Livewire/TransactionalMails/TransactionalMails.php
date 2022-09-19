@@ -4,33 +4,46 @@ namespace Spatie\Mailcoach\Http\App\Livewire\TransactionalMails;
 
 use Illuminate\Http\Request;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
-use Spatie\Mailcoach\Http\App\Queries\TransactionalMailQuery;
+use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
+use Spatie\Mailcoach\Http\App\Queries\TransactionalMailTemplateQuery;
 
 class TransactionalMails extends DataTable
 {
-    public string $sort = '-created_at';
+    use LivewireFlash;
 
-    public function deleteTransactionalMail(int $id)
+    public function duplicateTemplate(int $id)
     {
-        $transactionalMail = self::getTransactionalMailClass()::find($id);
+        $template = self::getTransactionalMailClass()::find($id);
 
-        $this->authorize('delete', $transactionalMail);
+        $this->authorize('create', self::getTransactionalMailClass());
 
-        $transactionalMail->delete();
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Template $duplicateTemplate */
+        $duplicateTemplate = $template->replicate()->save();
 
-        $this->dispatchBrowserEvent('notify', [
-            'content' => __('mailcoach - The mail was removed from the log'),
-        ]);
+        flash()->success(__('mailcoach - Email :name was duplicated.', ['name' => $template->name]));
+
+        return redirect()->route('mailcoach.transactionalMails.templates.edit', $duplicateTemplate);
+    }
+
+    public function deleteTemplate(int $id)
+    {
+        $template = self::getTransactionalMailClass()::find($id);
+
+        $this->authorize('delete', $template);
+
+        $template->delete();
+
+        $this->flash(__('mailcoach - Email :name was deleted.', ['name' => $template->name]));
     }
 
     public function getTitle(): string
     {
-        return __('mailcoach - Log');
+        return __('mailcoach - Emails');
     }
 
     public function getView(): string
     {
-        return 'mailcoach::app.transactionalMails.index';
+        return 'mailcoach::app.transactionalMails.templates.index';
     }
 
     public function getData(Request $request): array
@@ -38,8 +51,8 @@ class TransactionalMails extends DataTable
         $this->authorize('viewAny', static::getTransactionalMailClass());
 
         return [
-            'transactionalMails' => (new TransactionalMailQuery($request))->paginate(),
-            'transactionalMailsCount' => self::getTransactionalMailClass()::count(),
+            'templates' => (new TransactionalMailTemplateQuery($request))->paginate($request->per_page),
+            'templatesCount' => self::getTransactionalMailClass()::count(),
         ];
     }
 }

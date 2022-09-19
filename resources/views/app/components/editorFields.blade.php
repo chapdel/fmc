@@ -12,6 +12,7 @@
         <x-mailcoach::text-field
             name="templateFieldValues.{{ $name }}"
             wire:model.lazy="templateFieldValues.{{ $name }}"
+            data-dirty-check
         />
     @else
         {!! $editor !!}

@@ -81,7 +81,7 @@ class Automations extends DataTable
     public function getData(Request $request): array
     {
         return [
-            'automations' => (new AutomationsQuery($request))->paginate(),
+            'automations' => (new AutomationsQuery($request))->paginate($request->per_page),
             'totalAutomationsCount' => self::getAutomationClass()::count(),
         ];
     }

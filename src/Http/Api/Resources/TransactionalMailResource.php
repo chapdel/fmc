@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Http\Api\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-/** @mixin \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail */
+/** @mixin \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem */
 class TransactionalMailResource extends JsonResource
 {
     public function toArray($request)

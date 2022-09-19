@@ -8,7 +8,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Actions\ConvertHtmlToTextAction;
 use Spatie\Mailcoach\Domain\Campaign\Mails\Concerns\ReplacesPlaceholders;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns\UsesMailcoachTemplate;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 
 class ConfirmSubscriberMail extends Mailable implements ShouldQueue
 {
@@ -21,7 +21,7 @@ class ConfirmSubscriberMail extends Mailable implements ShouldQueue
 
     public string $confirmationUrl;
 
-    public ?TransactionalMailTemplate $confirmationMailTemplate = null;
+    public ?TransactionalMail $confirmationMailTemplate = null;
 
     public function __construct(Subscriber $subscriber, string $redirectAfterConfirmedUrl = '')
     {

@@ -32,8 +32,8 @@ use Spatie\Mailcoach\Domain\Shared\Models\SendFeedbackItem;
 use Spatie\Mailcoach\Domain\Shared\Models\Upload;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailClick;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailOpen;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 
 trait UsesMailcoachModels
 {
@@ -151,10 +151,10 @@ trait UsesMailcoachModels
         return config('mailcoach.models.template', Template::class);
     }
 
-    /** @return class-string<TransactionalMail> */
-    public static function getTransactionalMailClass(): string
+    /** @return class-string<TransactionalMailLogItem> */
+    public static function getTransactionalMailLogItemClass(): string
     {
-        return config('mailcoach.models.transactional_mail', TransactionalMail::class);
+        return config('mailcoach.models.transactional_mail_log_item', TransactionalMailLogItem::class);
     }
 
     /** @return class-string<TransactionalMailOpen> */
@@ -169,10 +169,10 @@ trait UsesMailcoachModels
         return config('mailcoach.models.transactional_mail_click', TransactionalMailClick::class);
     }
 
-    /** @return class-string<TransactionalMailTemplate> */
-    public static function getTransactionalMailTemplateClass(): string
+    /** @return class-string<TransactionalMail> */
+    public static function getTransactionalMailClass(): string
     {
-        return config('mailcoach.models.transactional_mail_template', TransactionalMailTemplate::class);
+        return config('mailcoach.models.transactional_mail', TransactionalMail::class);
     }
 
     /** @return class-string<ActionSubscriber> */
@@ -212,7 +212,7 @@ trait UsesMailcoachModels
     public static function getTransactionalMailTemplateTableName(): string
     {
         /** @var \Illuminate\Database\Eloquent\Model $template */
-        $templateClass = self::getTransactionalMailTemplateClass();
+        $templateClass = self::getTransactionalMailClass();
 
         $template = new $templateClass;
 

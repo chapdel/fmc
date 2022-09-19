@@ -121,7 +121,27 @@
 
 
     @if ($rows->count())
-    <x-mailcoach::table-status :name="__('mailcoach - ' . $name)" :paginator="$rows" :total-count="$totalRowsCount" wire:click="clearFilters"></x-mailcoach::table-status>
+        <div class="flex items-center">
+            @if($rows->lastPage() > 1)
+                <div class="flex items-center">
+                    <span class="text-sm">{{ __('Show') }}</span>
+                    <div class="select ml-2 mr-4 w-[4.35rem]">
+                        <select wire:model="perPage">
+                            <option>15</option>
+                            <option>25</option>
+                            <option>50</option>
+                            <option>100</option>
+                        </select>
+                        <div class="select-arrow">
+                            <i class="fas fa-angle-down"></i>
+                        </div>
+                    </div>
+                </div>
+            @endif
+            <div class="w-full">
+                <x-mailcoach::table-status :name="__('mailcoach - ' . $name)" :paginator="$rows" :total-count="$totalRowsCount" wire:click="clearFilters"></x-mailcoach::table-status>
+            </div>
+        </div>
     @endif
 
 </div>

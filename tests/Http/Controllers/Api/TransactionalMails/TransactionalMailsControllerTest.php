@@ -1,6 +1,6 @@
 <?php
 
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
 use Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails\TransactionalMailsController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 
@@ -9,8 +9,8 @@ uses(RespondsToApiRequests::class);
 beforeEach(function () {
     test()->loginToApi();
 
-    TransactionalMail::factory()->count(2)->create(['subject' => 'foo']);
-    TransactionalMail::factory()->count(2)->create(['subject' => 'bar']);
+    TransactionalMailLogItem::factory()->count(2)->create(['subject' => 'foo']);
+    TransactionalMailLogItem::factory()->count(2)->create(['subject' => 'bar']);
 });
 
 it('can show all transactional mails', function () {

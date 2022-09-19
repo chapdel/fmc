@@ -57,7 +57,7 @@ class Send extends Model
 
     public function concernsTransactionalMail(): bool
     {
-        return ! is_null($this->transactional_mail_id);
+        return ! is_null($this->transactional_mail_log_item_id);
     }
 
     public static function findByTransportMessageId(string $transportMessageId): ?Model
@@ -80,9 +80,9 @@ class Send extends Model
         return $this->belongsTo(self::getAutomationMailClass(), 'automation_mail_id');
     }
 
-    public function transactionalMail(): BelongsTo
+    public function transactionalMailLogItem(): BelongsTo
     {
-        return $this->belongsTo(self::getTransactionalMailClass(), 'transactional_mail_id');
+        return $this->belongsTo(self::getTransactionalMailLogItemClass(), 'transactional_mail_log_item_id');
     }
 
     public function opens(): HasMany

@@ -26,7 +26,7 @@ class ImportTransactionalMailTemplatesJob extends ImportJob
 
         $total = $this->getMeta('transactional_mail_templates_count', 0);
         foreach ($reader->getRows() as $index => $row) {
-            self::getTransactionalMailTemplateClass()::firstOrCreate([
+            self::getTransactionalMailClass()::firstOrCreate([
                 'name' => $row['name'],
                 'subject' => $row['subject'],
                 'type' => $row['type'],

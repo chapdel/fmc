@@ -9,30 +9,19 @@ use Illuminate\Support\Facades\File;
 use Illuminate\View\Factory;
 use Spatie\Mailcoach\Domain\Shared\Actions\RenderMarkdownToHtmlAction;
 use Spatie\Mailcoach\Domain\Shared\Support\TemplateRenderer;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 class RenderTemplateAction
 {
     public function execute(
-        TransactionalMailTemplate $template,
-        Mailable $mailable,
-        array $replacements = [],
-        array $fields = [],
+        TransactionalMail $template,
+        Mailable          $mailable,
+        array             $replacements = [],
     ) {
         $body = $template->body;
 
-        if (count($fields)) {
-            $templateRenderer = (new TemplateRenderer($template->template?->html ?? $body));
-            $body = $templateRenderer->render(array_merge(
-                $template->getTemplateFieldValues(),
-                $fields,
-            ));
-        }
-
         $body = $this->renderTemplateBody($template, $body, $mailable);
-
-        $body = $this->handleFields($body, $fields);
 
         $body = $this->handleReplacements($body, $replacements);
 
@@ -42,9 +31,9 @@ class RenderTemplateAction
     }
 
     protected function renderTemplateBody(
-        TransactionalMailTemplate $template,
-        string $body,
-        Mailable $mailable,
+        TransactionalMail $template,
+        string            $body,
+        Mailable          $mailable,
     ): string {
         return match ($template->type) {
             'blade' => Blade::render($body, $mailable->buildViewData()),
@@ -59,26 +48,6 @@ class RenderTemplateAction
         };
     }
 
-    protected function handleFields(string $body, array $fields): string
-    {
-        if (! count($fields)) {
-            return $body;
-        }
-
-        preg_match_all('/\[\[\[(.*?)\]\]\]/', $body, $matches);
-        $fieldNames = $matches[1];
-
-        foreach ($fieldNames as $fieldName) {
-            $body = str_replace(
-                '[[['.$fieldName.']]]',
-                $fields[$fieldName] ?? '',
-                $body,
-            );
-        }
-
-        return $body;
-    }
-
     protected function handleReplacements(string $body, array $replacements): string
     {
         foreach ($replacements as $search => $replace) {
@@ -88,9 +57,10 @@ class RenderTemplateAction
         return $body;
     }
 
-    protected function executeReplacers(string $body, TransactionalMailTemplate $template, Mailable $mailable): string
+    protected function executeReplacers(string $body, TransactionalMail $template, Mailable $mailable): string
     {
         foreach ($template->replacers() as $replacer) {
+
             $body = $replacer->replace($body, $mailable, $template);
         }
 

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Mails\ConfirmSubscriberMail;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Tests\TestClasses\CustomConfirmSubscriberMail;
 
 beforeEach(function () {
@@ -44,7 +44,7 @@ test('the confirmation mail has a default subject', function () {
 test('the subject of the confirmation mail can be customized', function () {
     Mail::fake();
 
-    $template = TransactionalMailTemplate::factory()->create([
+    $template = TransactionalMail::factory()->create([
         'subject' => 'Hello ::subscriber.first_name::, welcome to ::list.name::',
     ]);
 
@@ -77,7 +77,7 @@ test('the confirmation mail can have custom content', function () {
 
     Subscriber::$fakeUuid = 'my-uuid';
 
-    $template = TransactionalMailTemplate::factory()->create([
+    $template = TransactionalMail::factory()->create([
         'body' => '<html><body><p>Hi ::subscriber.first_name::, press ::confirmUrl:: to subscribe to ::list.name::</p></body></html>',
     ]);
 

@@ -86,7 +86,7 @@ class Segments extends DataTable
         $segmentsQuery = new SegmentsQuery($this->emailList, $request);
 
         return [
-            'segments' => $segmentsQuery->paginate(),
+            'segments' => $segmentsQuery->paginate($request->per_page),
             'emailList' => $this->emailList,
             'totalSegmentsCount' => $this->emailList->segments()->count(),
         ];

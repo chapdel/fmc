@@ -442,11 +442,11 @@ return [
         'template' => Spatie\Mailcoach\Domain\Campaign\Models\Template::class,
 
         /*
-         * The model you want to use as a TransactionalMail model. It needs to be or
-         * extend the `Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail::class`
+         * The model you want to use as a TransactionalMailLogItem model. It needs to be or
+         * extend the `Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem::class`
          * model.
          */
-        'transactional_mail' => \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail::class,
+        'transactional_mail_log_tem' => \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem::class,
 
         /*
          * The model you want to use as a TransactionalMailOpen model. It needs to be or
@@ -463,11 +463,11 @@ return [
         'transactional_mail_click' => \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailClick::class,
 
         /*
-         * The model you want to use as a TransactionalMailTemplate model. It needs to be or
-         * extend the `\Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate::class`
+         * The model you want to use as a TransactionalMail model. It needs to be or
+         * extend the `\Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail::class`
          * model.
          */
-        'transactional_mail_template' => \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate::class,
+        'transactional_mail' => \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail::class,
 
         /*
          * The model you want to use as an Automation model. It needs to be or
@@ -616,8 +616,8 @@ return [
 
         // Transactional
         'create-transactional-template' => \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\CreateTransactionalTemplate::class,
-        'transactional-mails' => \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMails::class,
-        'transactional-mail-templates' => \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplates::class,
+        'transactional-mails' => \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailLogItems::class,
+        'transactional-mail-templates' => \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMails::class,
         'transactional-mail-template-content' => \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateContent::class,
         'transactional-mail-template-settings' => \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateSettings::class,
         'transactional-mail-content' => \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailContent::class,

@@ -52,7 +52,7 @@ class SegmentSubscribers extends DataTable
         return [
             'emailList' => $this->emailList,
             'segment' => $this->segment,
-            'subscribers' => $this->segment->getSubscribersQuery()->paginate(),
+            'subscribers' => $this->segment->getSubscribersQuery()->paginate($request->per_page),
             'subscribersCount' => $this->emailList->subscribers()->count(),
             'selectedSubscribersCount' => $this->segment->getSubscribersQuery()->count(),
         ];

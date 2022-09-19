@@ -5,14 +5,14 @@ namespace Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates;
 use Carbon\CarbonInterval;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Mail;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Http\App\Requests\TransactionalMails\SendTransactionalMailTestMailRequest;
 
 class SendTransactionalMailTestController
 {
     use AuthorizesRequests;
 
-    public function __invoke(TransactionalMailTemplate $template, SendTransactionalMailTestMailRequest $request)
+    public function __invoke(TransactionalMail $template, SendTransactionalMailTestMailRequest $request)
     {
         $this->authorize('view', $template);
 

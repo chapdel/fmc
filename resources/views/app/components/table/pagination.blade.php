@@ -25,13 +25,13 @@
         <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between sm:flex-wrap gap-x-6 gap-y-2">
             <div>
                 <p class="text-sm whitespace-nowrap">
-                    {!! __('mailcoach - Showing') !!}
+                    <span>{!! __('mailcoach - Showing') !!}</span>
                     <span class="font-medium">{{ $paginator->firstItem() }}</span>
-                    {!! __('mailcoach - to') !!}
+                    <span>{!! __('mailcoach - to') !!}</span>
                     <span class="font-medium">{{ $paginator->lastItem() }}</span>
-                    {!! __('mailcoach - of') !!}
+                    <span>{!! __('mailcoach - of') !!}</span>
                     <span class="font-medium">{{ number_format($paginator->total()) }}</span>
-                    {!! __('mailcoach - results') !!}
+                    <span>{!! __('mailcoach - results') !!}</span>
                 </p>
             </div>
 

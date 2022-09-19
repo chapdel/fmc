@@ -35,7 +35,7 @@ class Lists extends DataTable
         $this->authorize('viewAny', static::getEmailListClass());
 
         return [
-            'emailLists' => (new EmailListQuery($request))->paginate(),
+            'emailLists' => (new EmailListQuery($request))->paginate($request->per_page),
             'totalEmailListsCount' => static::getEmailListClass()::count(),
         ];
     }

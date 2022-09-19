@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\TransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail as TransactionalMailModel;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
 use Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails\SendTransactionalMailController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 
@@ -13,7 +13,7 @@ uses(RespondsToApiRequests::class);
 beforeEach(function () {
     test()->loginToApi();
 
-    TransactionalMailTemplate::factory()->create([
+    TransactionalMailModel::factory()->create([
         'name' => 'my-template',
         'body' => 'My template body',
     ]);
@@ -72,7 +72,7 @@ it('will not store mail when asked not to store mails', function () {
         ]))
         ->assertSuccessful();
 
-    expect(TransactionalMailModel::count())->toBe(0);
+    expect(TransactionalMailLogItem::count())->toBe(0);
 });
 
 it('can handle the fields of a transactional mail', function () {
@@ -80,33 +80,25 @@ it('can handle the fields of a transactional mail', function () {
         'html' => '<html>title: [[[title]]], body: [[[body]]]</html>',
     ]);
 
-    TransactionalMailTemplate::factory()->create([
+    /** TransactionalMail */
+    TransactionalMailModel::factory()->create([
         'template_id' => $template->id,
         'name' => 'my-template-with-placeholders',
-        'structured_html' => [
-            'templateValues' => [
-                'content' => [
-                    'markdown' => 'default content',
-                    'html' => "<p>default content<\/p>\n",
-                    'theme' => 'nord',
-                ],
-                'title' => 'default title',
-            ], ],
+        'body' => '<html>title: ::myTitle::</html>'
     ]);
 
     $this
         ->postJson(action(SendTransactionalMailController::class, [
-            'template' => 'my-template-with-placeholders',
+            'mail' => 'my-template-with-placeholders',
             'subject' => 'Some subject',
             'from' => 'rias@spatie.be',
             'to' => 'freek@spatie.be',
-            'fields' => [
-                'body' => 'overridden body',
-                'unused' => 'some value',
-            ],
+            'replacements' => [
+                'myTitle' => 'replaced title'
+            ]
         ]))
         ->assertSuccessful();
 
-    expect(TransactionalMailModel::first()->body)
-        ->toContain('title: default title, body: overridden body');
+    expect(TransactionalMailLogItem::first()->body)
+        ->toContain('title: replaced title');
 });

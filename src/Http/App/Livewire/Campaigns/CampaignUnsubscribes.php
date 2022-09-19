@@ -49,7 +49,7 @@ class CampaignUnsubscribes extends DataTable
 
         return [
             'campaign' => $this->campaign,
-            'unsubscribes' => (new CampaignUnsubscribesQuery($this->campaign, $request))->paginate(),
+            'unsubscribes' => (new CampaignUnsubscribesQuery($this->campaign, $request))->paginate($request->per_page),
             'totalUnsubscribes' => $this->campaign->unsubscribes()->count(),
         ];
     }

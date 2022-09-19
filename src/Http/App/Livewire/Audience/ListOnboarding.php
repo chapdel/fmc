@@ -82,7 +82,7 @@ class ListOnboarding extends Component
         }
 
         $this->allowed_form_subscription_tags = $this->emailList->allowedFormSubscriptionTags->pluck('name')->toArray();
-        $this->transactionalMailTemplates = self::getTransactionalMailTemplateClass()::pluck('name', 'id')->toArray();
+        $this->transactionalMailTemplates = self::getTransactionalMailClass()::pluck('name', 'id')->toArray();
 
         app(MainNavigation::class)->activeSection()->add($this->emailList->name, route('mailcoach.emailLists.onboarding', $this->emailList));
     }

@@ -15,7 +15,7 @@ class SendTransactionalMailController
     public function __invoke(SendTransactionalMailRequest $request)
     {
         $mail = new TransactionalMail(
-            templateName: $request->get('template'),
+            mailName: $request->get('mail'),
             subject: $request->get('subject'),
             from: $request->get('from'),
             to: $this->normalizeEmailAddresses($request->get('to')),
@@ -23,8 +23,7 @@ class SendTransactionalMailController
             bcc: $this->normalizeEmailAddresses($request->get('bcc')),
             mailer: $request->mailer,
             replacements: $request->replacements(),
-            fields: $request->fields(),
-            store: $request->shouldStoreMail()
+            store: $request->shouldStoreMail(),
         );
 
         Mail::send($mail);

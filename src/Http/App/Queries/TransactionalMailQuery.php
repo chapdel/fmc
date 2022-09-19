@@ -14,7 +14,7 @@ class TransactionalMailQuery extends QueryBuilder
 
     public function __construct(?Request $request = null)
     {
-        parent::__construct($this->getTransactionalMailClass()::query(), $request);
+        parent::__construct($this->getTransactionalMailLogItemClass()::query(), $request);
 
         $filterFields = array_map('trim', config('mailcoach.transactional.search_fields', ['subject']));
 

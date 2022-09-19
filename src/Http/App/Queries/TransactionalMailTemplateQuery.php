@@ -14,7 +14,7 @@ class TransactionalMailTemplateQuery extends QueryBuilder
 
     public function __construct(?Request $request = null)
     {
-        parent::__construct($this->getTransactionalMailTemplateClass()::query(), $request);
+        parent::__construct($this->getTransactionalMailClass()::query(), $request);
 
         $this
             ->defaultSort('-created_at', '-id')

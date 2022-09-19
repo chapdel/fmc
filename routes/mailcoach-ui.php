@@ -114,7 +114,7 @@ Route::prefix('automation-emails')->group(function () {
 });
 
 Route::prefix('transactional-mail-log')->group(function () {
-    Route::get('/', '\\'.Mailcoach::getLivewireClass('transactional-mails', \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMails::class))->name('mailcoach.transactionalMails');
+    Route::get('/', '\\'.Mailcoach::getLivewireClass('transactional-mails', \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailLogItems::class))->name('mailcoach.transactionalMails');
 
     Route::prefix('{transactionalMail}')->group(function () {
         Route::get('content', '\\'.Mailcoach::getLivewireClass('transactional-mail-content', \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailContent::class))->name('mailcoach.transactionalMails.show');
@@ -124,7 +124,7 @@ Route::prefix('transactional-mail-log')->group(function () {
 });
 
 Route::prefix('transactional-mail-templates')->group(function () {
-    Route::get('/', '\\'.Mailcoach::getLivewireClass('transactional-mail-templates', \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplates::class))->name('mailcoach.transactionalMails.templates');
+    Route::get('/', '\\'.Mailcoach::getLivewireClass('transactional-mail-templates', \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMails::class))->name('mailcoach.transactionalMails.templates');
 
     Route::prefix('{transactionalMailTemplate}')->group(function () {
         Route::get('content', '\\'.Mailcoach::getLivewireClass('transactional-mail-template-content', \Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateContent::class))->name('mailcoach.transactionalMails.templates.edit');

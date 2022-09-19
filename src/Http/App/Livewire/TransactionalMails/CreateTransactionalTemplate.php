@@ -26,7 +26,7 @@ class CreateTransactionalTemplate extends Component
 
     public function saveTemplate()
     {
-        $this->authorize('create', self::getTransactionalMailTemplateClass());
+        $this->authorize('create', self::getTransactionalMailClass());
 
         $template = resolve(CreateTemplateAction::class)->execute(
             $this->validate(),

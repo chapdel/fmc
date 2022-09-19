@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Domain\TransactionalMail\Mails;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns\StoresMail;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
 
 class ResendTransactionalMail extends Mailable
 {
@@ -13,7 +13,7 @@ class ResendTransactionalMail extends Mailable
     use StoresMail;
 
     public function __construct(
-        public TransactionalMail $originalMail
+        public TransactionalMailLogItem $originalMail
     ) {
         $this
             ->from($this->convertPersonsToMailableFormat($this->originalMail->from))

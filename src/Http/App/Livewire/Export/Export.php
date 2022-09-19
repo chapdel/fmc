@@ -56,7 +56,7 @@ class Export extends Component
         $this->emailLists = self::getEmailListClass()::pluck('name', 'id');
         $this->templates = self::getTemplateClass()::pluck('name', 'id');
         $this->automationMails = self::getAutomationMailClass()::pluck('name', 'id');
-        $this->transactionalMailTemplates = self::getTransactionalMailTemplateClass()::pluck('name', 'id');
+        $this->transactionalMailTemplates = self::getTransactionalMailClass()::pluck('name', 'id');
     }
 
     public function selectAllEmailLists()
