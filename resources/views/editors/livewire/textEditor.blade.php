@@ -7,6 +7,7 @@
         <x-mailcoach::editor-fields :name="$field['name']" :type="$field['type']">
             <x-slot name="editor">
                 <textarea
+                    data-dirty-check
                     class="input input-html"
                     rows="15"
                     wire:model.lazy="templateFieldValues.{{ $field['name'] }}"
