@@ -23,7 +23,7 @@ class UnzipImportJob extends ImportJob
             return;
         }
 
-        $this->tmpDisk->writeStream('import.zip', $this->importDisk->readStream($this->path));
+        $this->tmpDisk->put('import.zip', $this->importDisk->get($this->path));
 
         $errorCodes = [
             ZipArchive::ER_EXISTS => 'File already exists.',
