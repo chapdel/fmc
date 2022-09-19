@@ -61,9 +61,6 @@ return new class extends Migration
             $table->string('website_description');
             $table->string('website_subscription_description');
 
-
-
-
             $table->timestamps();
         });
 
