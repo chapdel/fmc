@@ -14,24 +14,24 @@ class TransactionalMail extends Mailable
     use StoresMail;
     use UsesMailcoachTemplate;
 
-    private string $templateName;
+    private string $mailName;
 
     private array $replacements;
 
     private array $fields;
 
     public function __construct(
-        string $templateName,
-        string $subject,
+        string       $mailName,
+        string       $subject,
         array|string $from,
-        array $to,
-        array $cc = [],
-        array $bcc = [],
-        string $mailer = null,
-        array $replacements = [],
-        bool $store = true,
+        array        $to,
+        array        $cc = [],
+        array        $bcc = [],
+        string       $mailer = null,
+        array        $replacements = [],
+        bool         $store = true,
     ) {
-        $this->templateName = $templateName;
+        $this->mailName = $mailName;
         $this->replacements = $replacements;
 
         $this
@@ -50,7 +50,7 @@ class TransactionalMail extends Mailable
     public function build()
     {
         $this->template(
-            $this->templateName,
+            $this->mailName,
             $this->replacements,
         );
     }
