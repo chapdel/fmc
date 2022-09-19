@@ -1,1 +1,1 @@
-You will find upgrade instructions [in our docs](https://spatie.be/docs/laravel-mailcoach/v4/upgrading).
+You will find upgrade instructions [in our docs](https://mailcoach.app/docs/self-hosted/v5/upgrading).
