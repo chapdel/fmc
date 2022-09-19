@@ -9,7 +9,7 @@ class TransactionalMailStored
 {
     public function __construct(
         public TransactionalMailLogItem $transactionalMail,
-        public MessageSending           $sending
+        public MessageSending $sending
     ) {
     }
 }

@@ -16,9 +16,9 @@ class RenderTemplateAction
 {
     public function execute(
         TransactionalMail $template,
-        Mailable          $mailable,
-        array             $replacements = [],
-        array             $fields = [],
+        Mailable $mailable,
+        array $replacements = [],
+        array $fields = [],
     ) {
         $body = $template->body;
 
@@ -43,8 +43,8 @@ class RenderTemplateAction
 
     protected function renderTemplateBody(
         TransactionalMail $template,
-        string            $body,
-        Mailable          $mailable,
+        string $body,
+        Mailable $mailable,
     ): string {
         return match ($template->type) {
             'blade' => Blade::render($body, $mailable->buildViewData()),

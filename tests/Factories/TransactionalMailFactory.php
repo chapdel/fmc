@@ -4,8 +4,8 @@ namespace Spatie\Mailcoach\Tests\Factories;
 
 use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailClick;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailOpen;
 
 class TransactionalMailFactory

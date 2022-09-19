@@ -30,10 +30,10 @@ use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Models\SendFeedbackItem;
 use Spatie\Mailcoach\Domain\Shared\Models\Upload;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailClick;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailOpen;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailClick;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailOpen;
 
 trait UsesMailcoachModels
 {
