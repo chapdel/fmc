@@ -79,6 +79,17 @@ abstract class Sendable extends Model implements HasHtmlContent
         return (new HtmlRule())->passes('html', $this->html);
     }
 
+    public function htmlError(): ?string
+    {
+        $rule = new HtmlRule();
+
+        if ($rule->passes('html', $this->html)) {
+            return null;
+        }
+
+        return $rule->message();
+    }
+
     public function getCasts()
     {
         return array_merge($this->baseCasts, $this->casts ?? []);

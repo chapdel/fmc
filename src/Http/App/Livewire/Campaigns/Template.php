@@ -38,9 +38,9 @@ class Template extends Component
 
     public function save()
     {
-        $this->template->refresh();
-
         $data = $this->validate();
+
+        $this->template->refresh();
 
         $this->template->name = $data['template']['name'];
         $this->template->save();

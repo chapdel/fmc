@@ -149,7 +149,8 @@
                 @if(empty($campaign->html))
                     {{ __('mailcoach - Content is missing') }}
                 @else
-                    {{ __('mailcoach - HTML is invalid') }}
+                    <p>{{ __('mailcoach - HTML is invalid') }}</p>
+                    <p>{!! $campaign->htmlError() !!}</p>
                 @endif
             @endif
 

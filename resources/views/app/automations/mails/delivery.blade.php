@@ -93,7 +93,8 @@
                 @if(empty($mail->html))
                     {{ __('mailcoach - Content is missing') }}
                 @else
-                    {{ __('mailcoach - HTML is invalid') }}
+                    <p>{{ __('mailcoach - HTML is invalid') }}</p>
+                    <p>{!! $mail->htmlError() !!}</p>
                 @endif
             @endif
 

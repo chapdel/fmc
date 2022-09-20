@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Domain\TransactionalMail\Policies;
 
 use Illuminate\Contracts\Auth\Access\Authorizable;
 
-class TransactionalMailTemplatePolicy
+class TransactionalMailLogItemPolicy
 {
     public function __call($method, $args): bool
     {

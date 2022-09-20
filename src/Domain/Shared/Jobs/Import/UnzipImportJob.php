@@ -23,10 +23,29 @@ class UnzipImportJob extends ImportJob
             return;
         }
 
-        $this->tmpDisk->writeStream('import.zip', $this->importDisk->readStream($this->path));
+        $this->tmpDisk->put('import.zip', $this->importDisk->get($this->path));
+
+        $errorCodes = [
+            ZipArchive::ER_EXISTS => 'File already exists.',
+            ZipArchive::ER_INCONS => 'Zip archive inconsistent.',
+            ZipArchive::ER_INVAL => 'Invalid argument.',
+            ZipArchive::ER_MEMORY => 'Malloc failure.',
+            ZipArchive::ER_NOENT => 'No such file.',
+            ZipArchive::ER_NOZIP => 'Not a zip archive.',
+            ZipArchive::ER_OPEN => "Can't open file.",
+            ZipArchive::ER_READ => 'Read error.',
+            ZipArchive::ER_SEEK => 'Seek error.',
+        ];
 
         $zip = new ZipArchive();
-        $zip->open($this->tmpDisk->path('import.zip'));
+        $result = $zip->open($this->tmpDisk->path('import.zip'));
+
+        if ($result !== true) {
+            $message = $errorCodes[$result] ?? 'Unknown error.';
+
+            throw new \Exception("Could not open zip file: {$message}");
+        }
+
         $zip->extractTo($this->tmpDisk->path('tmp/import'));
         $zip->close();
 

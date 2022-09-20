@@ -663,10 +663,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
         PostmarkSetupWizardComponent::registerLivewireComponents();
         MailgunSetupWizardComponent::registerLivewireComponents();
 
-        config()->set('livewire.temporary_file_upload.rules', [
-            'file|max:102400', // 100 MB max
-        ]);
-
         return $this;
     }
 

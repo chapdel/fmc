@@ -13,7 +13,7 @@
             <x-mailcoach::rounded-icon type=success minimal size="md" icon="fas fa-check"/>
         @endif
     </td>
-    <td class="td-numeric">{{ $row->subscriber_count }}</td>
+    <td class="td-numeric">{{ number_format($row->subscriber_count) }}</td>
     <td class="td-numeric hidden | xl:table-cell">{{ $row->updated_at->toMailcoachFormat() }}</td>
 
     <td class="td-action">

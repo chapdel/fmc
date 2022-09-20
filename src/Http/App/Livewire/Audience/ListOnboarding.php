@@ -47,7 +47,7 @@ class ListOnboarding extends Component
             'emailList.confirmation_mail_id' => [
                 'nullable',
                 'required_if:confirmation_mail,'.static::CONFIRMATION_MAIL_CUSTOM,
-                Rule::exists(self::getTransactionalMailTemplateTableName(), 'id'),
+                Rule::exists(self::getTransactionalMailTableName(), 'id'),
             ],
         ];
     }

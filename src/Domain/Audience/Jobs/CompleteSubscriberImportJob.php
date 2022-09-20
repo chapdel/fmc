@@ -55,8 +55,14 @@ class CompleteSubscriberImportJob implements ShouldQueue
             return;
         }
 
-        Mail::mailer(Mailcoach::defaultTransactionalMailer())
-            ->to($this->user->email)->send(new ImportSubscribersResultMail($this->subscriberImport));
+        try {
+            Mail::mailer(Mailcoach::defaultTransactionalMailer())
+                ->to($this->user->email)->send(new ImportSubscribersResultMail($this->subscriberImport));
+        } catch (Throwable $e) {
+            report($e);
+
+            return;
+        }
     }
 
     public function failed(Throwable $exception)

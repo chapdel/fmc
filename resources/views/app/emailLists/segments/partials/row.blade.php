@@ -5,7 +5,7 @@
         </a>
     </td>
     <td class="td-numeric">
-        {{ $row->getSubscribersQuery()->count() }}
+        {{ number_format($row->getSubscribersQuery()->count()) }}
     </td>
     <td class="td-numeric hidden | xl:table-cell">{{ $row->created_at->toMailcoachFormat() }}</td>
     <td class="td-action">
