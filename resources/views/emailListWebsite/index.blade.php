@@ -7,6 +7,10 @@
         {{ $emailList->website_description }}
     @endif
 
+    @if($emailList->show_subscription_form_on_website)
+        @include('mailcoach::emailListWebsite.partials.subscription')
+    @endif
+
     @if($campaigns->count() > 0)
         <div>
             <ul>

@@ -42,8 +42,3 @@ Route::post('subscribe/{emailListUuid}', ['\\'.SubscribeController::class, 'stor
 Route::prefix('landing')->group(function () {
     Route::view('/subscribed', 'mailcoach::landingPages.subscribed')->name('mailcoach.landingPages.example');
 });
-
-Route::prefix('website')->group(function () {
-    Route::get('{emailListWebsiteSlug}', [EmailListWebsiteController::class, 'index'])->name('website');
-    Route::get('{emailListWebsiteSlug}/{campaignUuid}', [EmailListWebsiteController::class, 'show'])->name('website.campaign');
-});
