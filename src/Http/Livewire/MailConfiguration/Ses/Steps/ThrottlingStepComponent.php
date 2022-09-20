@@ -12,6 +12,6 @@ class ThrottlingStepComponent extends AbstractThrottlingStepComponent
 
     public function render()
     {
-        return view('mailcoach::app.configuration.mailers.wizards.mailgun.throttling');
+        return view('mailcoach::app.configuration.mailers.wizards.ses.throttling');
     }
 }
