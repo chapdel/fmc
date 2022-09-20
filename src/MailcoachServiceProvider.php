@@ -425,13 +425,17 @@ class MailcoachServiceProvider extends PackageServiceProvider
                     ->middleware(config('mailcoach.middleware')['web'])
                     ->group(__DIR__.'/../routes/mailcoach-ui.php');
 
-                Route::prefix('')
-                    ->middleware('web')
-                    ->group(__DIR__.'/../routes/mailcoach-email-list-website.php');
-
                 Route::prefix('api')
                     ->middleware(config('mailcoach.middleware')['api'])
                     ->group(__DIR__.'/../routes/mailcoach-api.php');
+
+                /*
+                 * The website routes should be registered last, so that
+                 * they don't eat up other routes
+                 */
+                Route::prefix('')
+                    ->middleware('web')
+                    ->group(__DIR__.'/../routes/mailcoach-email-list-website.php');
             });
 
             Route::mailcoachEditor('mailcoachEditor');
