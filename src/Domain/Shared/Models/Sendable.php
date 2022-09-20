@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
@@ -77,6 +78,17 @@ abstract class Sendable extends Model implements HasHtmlContent
     public function hasValidHtml(): bool
     {
         return (new HtmlRule())->passes('html', $this->html);
+    }
+
+    public function htmlError(): ?string
+    {
+        $rule = new HtmlRule();
+
+        if ($rule->passes('html', $this->html)) {
+            return null;
+        }
+
+        return $rule->message();
     }
 
     public function getCasts()
