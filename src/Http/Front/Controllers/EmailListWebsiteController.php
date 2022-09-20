@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Http\Front\Controllers;
 
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 
 class EmailListWebsiteController
 {
@@ -17,7 +18,7 @@ class EmailListWebsiteController
             ->where('email_list_id', $emailList->id)
             ->orderByDesc('sent_at')
             ->sent()
-            ->simplePaginate(15);
+            ->simplePaginate(5);
 
         return view('mailcoach::emailListWebsite.index', [
             'campaigns' => $campaigns,
@@ -29,7 +30,7 @@ class EmailListWebsiteController
     {
         $emailList = $this->getEmailList($emailListWebsiteSlug);
 
-        /** @var $campaign \Spatie\Mailcoach\Domain\Campaign\Models\Campaign */
+        /** @var $campaign Campaign */
         if (! $campaign = static::getCampaignClass()::findByUuid($campaignUuid)) {
             abort(404);
         }

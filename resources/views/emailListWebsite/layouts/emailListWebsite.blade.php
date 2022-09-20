@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html class="h-full antialiased" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,8 +12,12 @@
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body>
-<div>
-    {{ $slot }}
+<div class="flex justify-center sm:px-8">
+    <div></div>
+    <div class="bg-white w-full max-w-7xl bg-white py-16 px-8">
+        {{ $slot }}
+    </div>
+    <div></div>
 </div>
 </body>
 </html>

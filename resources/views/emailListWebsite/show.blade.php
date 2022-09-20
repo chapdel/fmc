@@ -1,21 +1,12 @@
 <x-mailcoach::layout-website :email-list="$emailList">
-    <script>
-        window.customElements.define('campaign-webview', class NewsletterEmbed extends HTMLElement {
-            connectedCallback() {
-                const shadow = this.attachShadow({mode: 'closed'});
-                shadow.innerHTML = this.getAttribute('contents');
-            }
-        })
-    </script>
+    @include('mailcoach::emailListWebsite.partials.header')
 
-    <a href="{{ $emailList->websiteUrl() }}">View all editions</a>
+    <div class="mt-16 border-t">
+        <x-mailcoach::web-view :html="$webview"/>
+    </div>
 
-    @if($emailList->show_subscription_form_on_website)
-        @include('mailcoach::emailListWebsite.partials.subscription')
-    @endif
-
-    <div class="p-4">
-        <campaign-webview contents="{{ $webview }}"></campaign-webview>
+    <div class="mt-16 border-t text-sm text-gray-600 text-center pt-16">
+        This content was sent via <a class="underline" href="https://mailcoach.app">Mailcoach</a>
     </div>
 
 </x-mailcoach::layout-website>
