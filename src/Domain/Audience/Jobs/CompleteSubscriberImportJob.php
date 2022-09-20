@@ -23,6 +23,8 @@ class CompleteSubscriberImportJob implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
+    public $maxExceptions = 3;
+
     public function retryUntil(): CarbonInterface
     {
         return now()->addHours(4);
