@@ -1,6 +1,4 @@
-@extends('mailcoach::emailListWebsite.layouts.emailListWebsite', ['title' => $emailList->website_title])
-
-@section('content')
+<x-mailcoach::layout-website :email-list="$emailList">
     <h1>{{ $emailList->website_title }}</h1>
 
     @if ($emailList->description)
@@ -31,5 +29,4 @@
     @else
         No campaigns have been sent yet...
     @endif
-
-@endsection
+</x-mailcoach::layout-website>

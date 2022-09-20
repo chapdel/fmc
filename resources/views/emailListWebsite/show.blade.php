@@ -1,10 +1,8 @@
-@extends('mailcoach::emailListWebsite.layouts.emailListWebsite', ['title' => $emailList->website_title . ' | ' . $campaign->subject])
-
-@section('content')
+<x-mailcoach::layout-website :email-list="$emailList">
     <script>
         window.customElements.define('campaign-webview', class NewsletterEmbed extends HTMLElement {
             connectedCallback() {
-                const shadow = this.attachShadow({ mode: 'closed' });
+                const shadow = this.attachShadow({mode: 'closed'});
                 shadow.innerHTML = this.getAttribute('contents');
             }
         })
@@ -18,4 +16,4 @@
         <campaign-webview contents="{{ $webview }}"></campaign-webview>
     </div>
 
-@endsection
+</x-mailcoach::layout-website>

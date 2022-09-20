@@ -542,6 +542,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
         Blade::component('mailcoach::app.components.codeCopy', 'mailcoach::code-copy');
 
+        Blade::component('mailcoach::emailListWebsite.layouts.emailListWebsite', 'mailcoach::layout-website');
+
         return $this;
     }
 
