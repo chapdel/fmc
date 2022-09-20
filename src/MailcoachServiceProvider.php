@@ -25,7 +25,6 @@ use Spatie\Mailcoach\Components\ReplacerHelpTextsComponent;
 use Spatie\Mailcoach\Domain\Audience\Commands\DeleteOldUnconfirmedSubscribersCommand;
 use Spatie\Mailcoach\Domain\Audience\Commands\SendEmailListSummaryMailCommand;
 use Spatie\Mailcoach\Domain\Audience\Livewire\EmailListStatistics;
-use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Automation\Commands\CalculateAutomationMailStatisticsCommand;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationActionsCommand;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationTriggersCommand;
