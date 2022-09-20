@@ -1,4 +1,4 @@
-@extends('$mailcoach::emailListWebsite.layouts.emailListWebsite', ['title' => $emailList->website_title . ' | ' . $campaign->subject)
+@extends('mailcoach::emailListWebsite.layouts.emailListWebsite', ['title' => $emailList->website_title . ' | ' . $campaign->subject])
 
 @section('content')
 

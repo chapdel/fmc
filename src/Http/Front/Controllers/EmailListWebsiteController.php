@@ -3,15 +3,16 @@
 namespace Spatie\Mailcoach\Http\Front\Controllers;
 
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class EmailListWebsiteController
 {
     use UsesMailcoachModels;
 
-    public function index(EmailList $emailList)
+    public function index(string $emailListWebsiteSlug)
     {
+        $emailList = $this->getEmailList($emailListWebsiteSlug);
+
         $campaigns = $this->getCampaignClass()::query()
             ->where('email_list_id', $emailList->id)
             ->orderByDesc('sent_at')
@@ -24,8 +25,15 @@ class EmailListWebsiteController
         ]);
     }
 
-    public function show(EmailList $emailList, Campaign $campaign)
+    public function show(string $emailListWebsiteSlug, string $campaignUuid)
     {
+        $emailList = $this->getEmailList($emailListWebsiteSlug);
+
+        /** @var $campaign \Spatie\Mailcoach\Domain\Campaign\Models\Campaign */
+        if (! $campaign = static::getCampaignClass()::findByUuid($campaignUuid)) {
+            abort(404);
+        }
+
         if ($campaign->email_list_id !== $emailList->id) {
             abort(404);
         }
@@ -39,5 +47,13 @@ class EmailListWebsiteController
             'campaign' => $campaign,
             'webview' => view('mailcoach::campaign.webview', compact('campaign'))->render(),
         ]);
+    }
+
+    protected function getEmailList(string $emailListWebsiteSlug): EmailList
+    {
+        return $this->getEmailListClass()::query()
+            ->where('has_website', true)
+            ->where('website_slug', $emailListWebsiteSlug)
+            ->firstOrFail();
     }
 }

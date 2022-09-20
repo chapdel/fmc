@@ -254,7 +254,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
             ->bootGate()
             ->bootFlash()
             ->bootRoutes()
-            ->bindRouteParameters()
             ->bootSupportMacros()
             ->bootTranslations()
             ->bootViews()
@@ -433,18 +432,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
             });
 
             Route::mailcoachEditor('mailcoachEditor');
-        });
-
-        return $this;
-    }
-
-    protected function bindRouteParameters(): self
-    {
-        Route::bind('emailListWebsiteSlug', function (string $slug) {
-            return EmailList::query()
-                ->where('has_website', true)
-                ->where('website_slug', $slug)
-                ->firstOrFail();
         });
 
         return $this;
