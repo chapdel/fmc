@@ -5,7 +5,6 @@ use Spatie\Mailcoach\Http\Front\Controllers\AutomationWebviewController;
 use Spatie\Mailcoach\Http\Front\Controllers\CampaignWebviewController;
 use Spatie\Mailcoach\Http\Front\Controllers\ConfirmSubscriberController;
 use Spatie\Mailcoach\Http\Front\Controllers\EmailListCampaignsFeedController;
-use Spatie\Mailcoach\Http\Front\Controllers\EmailListWebsiteController;
 use Spatie\Mailcoach\Http\Front\Controllers\MailcoachAssets;
 use Spatie\Mailcoach\Http\Front\Controllers\ManagePreferencesController;
 use Spatie\Mailcoach\Http\Front\Controllers\ReConfirmSubscriberController;
