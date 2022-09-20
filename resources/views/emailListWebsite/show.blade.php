@@ -8,6 +8,8 @@
         })
     </script>
 
+    <a href="{{ $emailList->websiteUrl() }}">View all editions</a>
+
     @if($emailList->show_subscription_form_on_website)
         @include('mailcoach::emailListWebsite.partials.subscription')
     @endif
