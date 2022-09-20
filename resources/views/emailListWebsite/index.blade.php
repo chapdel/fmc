@@ -22,9 +22,15 @@
                         </a>
                     </li>
                 @endforeach
-                <ul>
+            </ul>
 
-            {{ $campaigns->links() }}
+            @if($campaigns->previousPageUrl())
+                <a href="{{ $campaigns->previousPageUrl() }}">Newer</a>
+            @endif
+
+            @if($campaigns->nextPageUrl())
+                <a href="{{ $campaigns->nextPageUrl() }}">Older</a>
+            @endif
         </div>
     @else
         No campaigns have been sent yet...

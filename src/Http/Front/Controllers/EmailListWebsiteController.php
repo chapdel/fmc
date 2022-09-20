@@ -17,7 +17,7 @@ class EmailListWebsiteController
             ->where('email_list_id', $emailList->id)
             ->orderByDesc('sent_at')
             ->sent()
-            ->paginate();
+            ->simplePaginate(15);
 
         return view('mailcoach::emailListWebsite.index', [
             'campaigns' => $campaigns,
