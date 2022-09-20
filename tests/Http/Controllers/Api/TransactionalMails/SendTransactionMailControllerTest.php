@@ -84,7 +84,7 @@ it('can handle the fields of a transactional mail', function () {
     TransactionalMailModel::factory()->create([
         'template_id' => $template->id,
         'name' => 'my-template-with-placeholders',
-        'body' => '<html>title: ::myTitle::</html>'
+        'body' => '<html>title: ::myTitle::</html>',
     ]);
 
     $this
@@ -94,8 +94,8 @@ it('can handle the fields of a transactional mail', function () {
             'from' => 'rias@spatie.be',
             'to' => 'freek@spatie.be',
             'replacements' => [
-                'myTitle' => 'replaced title'
-            ]
+                'myTitle' => 'replaced title',
+            ],
         ]))
         ->assertSuccessful();
 
