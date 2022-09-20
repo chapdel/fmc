@@ -60,6 +60,7 @@ class CompleteSubscriberImportJob implements ShouldQueue
                 ->to($this->user->email)->send(new ImportSubscribersResultMail($this->subscriberImport));
         } catch (Throwable $e) {
             report($e);
+
             return;
         }
     }
