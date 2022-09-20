@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Domain\Campaign\Rules;
 
 use Exception;
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Domain\Shared\Actions\CreateDomDocumentFromHtmlAction;
 
 class HtmlRule implements Rule
