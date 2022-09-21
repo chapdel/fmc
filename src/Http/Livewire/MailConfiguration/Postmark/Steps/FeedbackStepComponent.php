@@ -46,7 +46,7 @@ class FeedbackStepComponent extends StepComponent
             $events[] = PostMarkTrigger::Click;
         }
 
-        $secret = Str::random(20);
+        $secret = $this->mailer()->get('signing_secret', Str::random(20));
 
         $this->getPostmark()->configureWebhook(
             url: $endpoint,
