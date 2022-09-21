@@ -10,7 +10,6 @@
     }
 
     $linkDescriptions = collect($linkDescriptions)->join(', ', ' and ');
-    ray($linkDescriptions);
 @endphp
 
 <form
