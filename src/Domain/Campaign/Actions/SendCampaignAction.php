@@ -78,11 +78,11 @@ class SendCampaignAction
 
         $campaign->markAsAllSendsCreated();
 
-        if ($campaign->sendsCount() < $campaign->sent_to_number_of_subscribers) {
+        if ($campaign->sendsCount() < $campaign->sent_to_number_of_subscribers && $campaign->sendsCount() < $subscribersQuery->count()) {
             return;
         }
 
-        $campaign->markAsSent($campaign->sends()->count());
+        $campaign->markAsSent($campaign->sendsCount());
 
         event(new CampaignSentEvent($campaign));
     }
