@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Spatie\Mailcoach\Http\Auth\Controllers\ForgotPasswordController;
 use Spatie\Mailcoach\Http\Auth\Controllers\LoginController;
+use Spatie\Mailcoach\Http\Auth\Controllers\LogoutController;
 use Spatie\Mailcoach\Http\Auth\Controllers\ResetPasswordController;
 use Spatie\Mailcoach\Http\Auth\Controllers\WelcomeController;
 use Spatie\WelcomeNotification\WelcomesNewUsers;
@@ -19,4 +20,8 @@ Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('
 Route::group(['middleware' => ['web', WelcomesNewUsers::class]], function () {
     Route::get('welcome/{user}', [WelcomeController::class, 'showWelcomeForm'])->name('mailcoach.welcome');
     Route::post('welcome/{user}', [WelcomeController::class, 'savePassword']);
+});
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::post('logout', LogoutController::class)->name('mailcoach.logout');
 });

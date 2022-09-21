@@ -32,6 +32,11 @@
             <dd>
                 {{ $mailer->get('streamId') }}
             </dd>
+
+            <dt>Signing secret:</dt>
+            <dd>
+                {{ $mailer->get('signing_secret') }}
+            </dd>
         </dl>
     </x-mailcoach::fieldset>
 
