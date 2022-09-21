@@ -188,7 +188,7 @@ abstract class Sendable extends Model implements HasHtmlContent
         }
 
         collect($emails)->each(function (string $email) {
-            dispatch(new SendCampaignTestJob($this, $email));
+            dispatch_sync(new SendCampaignTestJob($this, $email));
         });
     }
 
