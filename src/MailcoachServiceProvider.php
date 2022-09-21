@@ -403,7 +403,10 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Route::model('transactionalMailOpen', self::getTransactionalMailOpenClass());
         Route::model('transactionalMailTemplate', self::getTransactionalMailClass());
 
-        Route::macro('mailcoach', function (string $url = '', bool $registerFeedback = true, bool $registerAuth = true) {
+        Route::macro('mailcoach', function (
+            string $url = '',
+            bool $registerFeedback = true,
+            bool $registerAuth = true) {
             if ($registerFeedback) {
                 Route::sesFeedback('ses-feedback');
                 Route::mailgunFeedback('mailgun-feedback');
@@ -434,7 +437,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
                  * they don't eat up other routes
                  */
 
-                Route::prefix('')
+                Route::prefix(config('mailcoach.email_list_website_prefix', 'archive'))
                     ->middleware('web')
                     ->group(__DIR__.'/../routes/mailcoach-email-list-website.php');
             });
