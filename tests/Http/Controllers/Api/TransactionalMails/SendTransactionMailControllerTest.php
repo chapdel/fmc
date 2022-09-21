@@ -24,7 +24,7 @@ it('can send a transactional mail', function () {
 
     $this
         ->postJson(action(SendTransactionalMailController::class, [
-            'template' => 'my-template',
+            'mail_name' => 'my-template',
             'subject' => 'Some subject',
             'from' => 'rias@spatie.be',
             'to' => 'freek@spatie.be',
@@ -47,7 +47,7 @@ it('can send a transactional mail', function () {
 it('tracks the transactional mails', function () {
     $this
         ->post(action(SendTransactionalMailController::class, [
-            'template' => 'my-template',
+            'mail_name' => 'my-template',
             'subject' => 'Some subject',
             'from' => 'rias@spatie.be',
             'to' => 'freek@spatie.be',
@@ -64,7 +64,7 @@ it('tracks the transactional mails', function () {
 it('will not store mail when asked not to store mails', function () {
     $this
         ->post(action(SendTransactionalMailController::class, [
-            'template' => 'my-template',
+            'mail_name' => 'my-template',
             'subject' => 'Some subject',
             'from' => 'rias@spatie.be',
             'to' => 'freek@spatie.be',
