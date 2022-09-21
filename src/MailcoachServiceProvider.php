@@ -433,6 +433,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
                  * The website routes should be registered last, so that
                  * they don't eat up other routes
                  */
+
                 Route::prefix('')
                     ->middleware('web')
                     ->group(__DIR__.'/../routes/mailcoach-email-list-website.php');
