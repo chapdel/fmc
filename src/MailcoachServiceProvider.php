@@ -411,8 +411,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
                 Route::postmarkFeedback('postmark-feedback');
             }
 
-            Route::get($url, '\\'.HomeController::class)->name('mailcoach.home');
-
             Route::prefix($url)->group(function () {
                 Route::prefix('')
                     ->middleware('web')
@@ -439,6 +437,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
             });
 
             Route::mailcoachEditor('mailcoachEditor');
+            Route::get($url, '\\'.HomeController::class)->name('mailcoach.home');
         });
 
         return $this;
