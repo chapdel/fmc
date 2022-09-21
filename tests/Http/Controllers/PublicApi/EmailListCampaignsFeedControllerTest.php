@@ -55,7 +55,7 @@ it('will only contain sent campaigns', function (CampaignStatus $status, bool $s
     [CampaignStatus::Cancelled, false],
 ]);
 
-it('will not display a campaign that should not be shown publicly', function() {
+it('will not display a campaign that should not be shown publicly', function () {
     $this
         ->get(route('mailcoach.feed', $this->emailList->uuid))
         ->assertSuccessful()
