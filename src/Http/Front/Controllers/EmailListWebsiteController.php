@@ -35,7 +35,7 @@ class EmailListWebsiteController
         ]);
     }
 
-    public function show(string $emailListWebsiteSlug = '/', string $campaignUuid)
+    public function show(string $emailListWebsiteSlug, string $campaignUuid)
     {
         $emailList = $this->getEmailList($emailListWebsiteSlug);
 
@@ -44,7 +44,7 @@ class EmailListWebsiteController
          * we'll redirect to the Mailcoach dashboard to
          * preserve the old functionality.
          */
-        if ($emailListWebsiteSlug ===  '/' && !$emailList) {
+        if ($emailListWebsiteSlug === '/' && ! $emailList) {
             return redirect()->route('mailcoach.dashboard');
         }
 
