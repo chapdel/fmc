@@ -2,6 +2,7 @@
 
 use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
+use Spatie\Mailcoach\Http\App\Livewire\Campaigns\Template as TemplateComponent;
 
 it('can update a template', function () {
     $this->authenticate();
@@ -13,7 +14,7 @@ it('can update a template', function () {
         'html' => 'template html',
     ];
 
-    Livewire::test(\Spatie\Mailcoach\Http\App\Livewire\Campaigns\Template::class, ['template' => $template])
+    Livewire::test(TemplateComponent::class, ['template' => $template])
         ->set('template.name', 'template name')
         ->set('template.html', 'template html')
         ->call('save')
@@ -21,5 +22,5 @@ it('can update a template', function () {
 
     $attributes['id'] = $template->id;
 
-    test()->assertDatabaseHas(static::getTemplateTableName(), $attributes);
+    $this->assertDatabaseHas(self::getTemplateTableName(), $attributes);
 })->skip('to update');

@@ -17,14 +17,3 @@ it('can detect the currently logged in user', function () {
             'email' => auth()->user()->email,
         ]);
 });
-
-it('can use the api via sanctum', function () {
-    $user = User::factory()->create();
-
-    Sanctum::actingAs($user, ['*'], 'api');
-
-    $this
-        ->getJson('mailcoach/api/user')
-        ->assertSuccessful()
-        ->assertJsonFragment(['email' => $user->email]);
-})->skip('to update');
