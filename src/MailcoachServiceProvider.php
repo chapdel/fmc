@@ -403,7 +403,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Route::model('transactionalMailOpen', self::getTransactionalMailOpenClass());
         Route::model('transactionalMailTemplate', self::getTransactionalMailClass());
 
-        Route::macro('mailcoach', function (string $url = '', bool $registerFeedback = true) {
+        Route::macro('mailcoach', function (string $url = '', bool $registerFeedback = true, bool $registerAuth = true) {
             if ($registerFeedback) {
                 Route::sesFeedback('ses-feedback');
                 Route::mailgunFeedback('mailgun-feedback');
@@ -411,10 +411,12 @@ class MailcoachServiceProvider extends PackageServiceProvider
                 Route::postmarkFeedback('postmark-feedback');
             }
 
-            Route::prefix($url)->group(function () {
-                Route::prefix('')
-                    ->middleware('web')
-                    ->group(__DIR__.'/../routes/auth.php');
+            Route::prefix($url)->group(function () use ($registerAuth) {
+                if ($registerAuth) {
+                    Route::prefix('')
+                        ->middleware('web')
+                        ->group(__DIR__.'/../routes/auth.php');
+                }
 
                 Route::prefix('')
                     ->group(__DIR__.'/../routes/mailcoach-public-api.php');

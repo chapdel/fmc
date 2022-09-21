@@ -13,7 +13,6 @@ use Spatie\Mailcoach\Http\App\Livewire\Export\Export;
 use Spatie\Mailcoach\Http\App\Livewire\Import\Import;
 use Spatie\Mailcoach\Http\App\Middleware\BootstrapSettingsNavigation;
 use Spatie\Mailcoach\Http\App\Middleware\EditableCampaign;
-use Spatie\Mailcoach\Http\Auth\Controllers\LogoutController;
 use Spatie\Mailcoach\Http\Livewire\EditMailer;
 use Spatie\Mailcoach\Http\Livewire\EditorSettings;
 use Spatie\Mailcoach\Http\Livewire\EditUser;
@@ -171,5 +170,3 @@ Route::prefix('settings')
             Route::get('{webhook}', EditWebhook::class)->name('webhooks.edit');
         });
     });
-
-Route::post('logout', LogoutController::class)->name('mailcoach.logout');
