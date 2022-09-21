@@ -9,9 +9,12 @@
                         <li class="pt-10">
                             <a href="{{ $campaign->websiteUrl() }}">
                                 <h2 class="hover:underline font-medium text-2xl">{{ $campaign->subject }}</h2>
-                                <div class="text-gray-400 mt-2">
-                                    Sent {{ $campaign->sent_at->diffForHumans() }}
-                                </div>
+
+                                @if($campaign->sent_at)
+                                    <div class="text-gray-400 mt-2">
+                                        Sent {{ $campaign->sent_at->diffForHumans() }}
+                                    </div>
+                                @endif
                             </a>
                         </li>
                     @endforeach
@@ -19,12 +22,11 @@
 
                 <div class="flex mt-8 justify-between">
                     @if($campaigns->previousPageUrl())
-                    <div class="cursor-pointer border px-4 py-2 rounded hover:bg-gray-100">
-                        @if($campaigns->previousPageUrl())
-                            <span class="text-gray-300 mr-1"><<</span> Newer
-
-                        @endif
-                    </div>
+                        <div class="cursor-pointer border px-4 py-2 rounded hover:bg-gray-100">
+                            @if($campaigns->previousPageUrl())
+                                <span class="text-gray-300 mr-1"><<</span> Newer
+                            @endif
+                        </div>
                     @else
                         <div></div>
                     @endif
@@ -47,6 +49,6 @@
     </div>
 
     <div class="mt-16 text-sm text-gray-600 text-center pt-16">
-       Powered by <a class="underline" href="https://mailcoach.app">Mailcoach</a>
+        Powered by <a class="underline" href="https://mailcoach.app">Mailcoach</a>
     </div>
 </x-mailcoach::layout-website>

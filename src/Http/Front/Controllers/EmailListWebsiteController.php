@@ -26,7 +26,7 @@ class EmailListWebsiteController
         $campaigns = self::getCampaignClass()::query()
             ->where('email_list_id', $emailList->id)
             ->orderByDesc('sent_at')
-            ->sent()
+            ->sendingOrSent()
             ->simplePaginate(15);
 
         return view('mailcoach::emailListWebsite.index', [

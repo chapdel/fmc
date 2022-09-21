@@ -13,7 +13,7 @@
         </div>
     </div>
 </a>
-@if ($emailList->description)
+@if ($emailList->website_intro)
     {{ $emailList->website_intro }}
 @endif
 
