@@ -15,7 +15,7 @@ class SendTransactionalMailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'template' => ['required', 'string', Rule::exists(self::getTransactionalMailTableName(), 'name')],
+            'mail_name' => ['required', 'string', Rule::exists(self::getTransactionalMailTableName(), 'name')],
             'subject' => ['required', 'string'],
             'replacements' => ['array'],
             'from' => ['required'],

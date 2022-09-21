@@ -89,7 +89,7 @@ it('can handle the fields of a transactional mail', function () {
 
     $this
         ->postJson(action(SendTransactionalMailController::class, [
-            'mail' => 'my-template-with-placeholders',
+            'mail_name' => 'my-template-with-placeholders',
             'subject' => 'Some subject',
             'from' => 'rias@spatie.be',
             'to' => 'freek@spatie.be',

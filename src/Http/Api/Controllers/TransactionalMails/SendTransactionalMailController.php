@@ -15,7 +15,7 @@ class SendTransactionalMailController
     public function __invoke(SendTransactionalMailRequest $request)
     {
         $mail = new TransactionalMail(
-            mailName: $request->get('mail'),
+            mailName: $request->get('mail_name'),
             subject: $request->get('subject'),
             from: $request->get('from'),
             to: $this->normalizeEmailAddresses($request->get('to')),
