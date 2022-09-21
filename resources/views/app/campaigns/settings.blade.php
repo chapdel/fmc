@@ -118,7 +118,7 @@
 
             <div class="form-field">
                 <div class="checkbox-group">
-                    <x-mailcoach::checkbox-field :label="__('mailcoach - Show publicly')" name="utm_tags" wire:model="campaign.show_publicly" :disabled="!$campaign->isEditable()" />
+                    <x-mailcoach::checkbox-field :label="__('mailcoach - Show publicly')" name="utm_tags" wire:model="campaign.show_publicly" />
                 </div>
             </div>
 
@@ -140,9 +140,9 @@
     </x-mailcoach::fieldset>
 
 
-@if ($campaign->isEditable())
+
         <x-mailcoach::card buttons>
             <x-mailcoach::button :label="__('mailcoach - Save settings')" />
         </x-mailcoach::card>
-    @endif
+
 </form>
