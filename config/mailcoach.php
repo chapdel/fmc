@@ -305,7 +305,7 @@ return [
     /*
      * Unauthorized users will get redirected to this route.
      */
-    'redirect_unauthorized_users_to_route' => 'login',
+    'redirect_unauthorized_users_to_route' => 'mailcoach.login',
 
     /*
      * Homepage will redirect to this route.

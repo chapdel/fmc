@@ -86,5 +86,5 @@ it('authorizes access with custom policy', function () {
     ]);
 
     \Livewire\Livewire::test(ListSettings::class, ['emailList' => $emailList])
-        ->isForbidden();
+        ->assertForbidden();
 });
