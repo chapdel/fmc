@@ -14,7 +14,7 @@
             'url' => route('mailcoach.manage-preferences', ['example', $tag->emailList->uuid]),
         ]) !!}</p>
     </x-mailcoach::help>
-    <x-mailcoach::checkbox-field :label="__('mailcoach - Visible on manage preferences page')" name="tag.visible_in_preferences" wire:model="tag.visible_in_preferences" required />
+    <x-mailcoach::checkbox-field :label="__('mailcoach - Visible on manage preferences page')" name="tag.visible_in_preferences" wire:model="tag.visible_in_preferences" />
 
     <x-mailcoach::form-buttons>
         <x-mailcoach::button :label="__('mailcoach - Save tag')" />

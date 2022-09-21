@@ -28,6 +28,7 @@
             :label="__('mailcoach - Slug')"
             name="emailList.website_slug"
             wire:model.lazy="emailList.website_slug"
+            placeholder="/"
         />
 
         <x-mailcoach::info>

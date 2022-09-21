@@ -14,12 +14,15 @@ class CreateSubscriberAction
 
     public function execute(PendingSubscriber $pendingSubscriber): Subscriber
     {
-        $subscriber = self::getSubscriberClass()::findForEmail($pendingSubscriber->email, $pendingSubscriber->emailList);
+        /** @var class-string<Subscriber> $subscriberClass */
+        $subscriberClass = self::getSubscriberClass();
 
-        $wasAlreadySubscribed = optional($subscriber)->isSubscribed();
+        $subscriber = $subscriberClass::findForEmail($pendingSubscriber->email, $pendingSubscriber->emailList);
+
+        $wasAlreadySubscribed = $subscriber?->isSubscribed();
 
         if (! $subscriber) {
-            $subscriber = self::getSubscriberClass()::make([
+            $subscriber = new $subscriberClass([
                 'email' => $pendingSubscriber->email,
                 'email_list_id' => $pendingSubscriber->emailList->id,
             ]);
@@ -33,12 +36,8 @@ class CreateSubscriberAction
 
         $subscriber->fill($pendingSubscriber->attributes);
 
-        if (! $wasAlreadySubscribed) {
-            if ($pendingSubscriber->emailList->requires_confirmation) {
-                if ($pendingSubscriber->respectDoubleOptIn) {
-                    $subscriber->subscribed_at = null;
-                }
-            }
+        if (! $wasAlreadySubscribed && $pendingSubscriber->emailList->requires_confirmation && $pendingSubscriber->respectDoubleOptIn) {
+            $subscriber->subscribed_at = null;
         }
 
         $subscriber->save();

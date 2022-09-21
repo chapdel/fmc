@@ -126,7 +126,7 @@
         </dt>
 
 
-        <dd class="grid gap-4">
+        <dd class="grid gap-4 max-w-full overflow-scroll">
             @if($campaign->html && $campaign->hasValidHtml())
                 @if ($campaign->htmlContainsUnsubscribeUrlPlaceHolder() && $campaign->sizeInKb() < 102)
                     <p class="markup-code">

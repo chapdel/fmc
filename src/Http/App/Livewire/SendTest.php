@@ -36,7 +36,14 @@ class SendTest extends Component
         $emails = array_map('trim', explode(',', $this->emails));
 
         if ($this->model instanceof Sendable) {
-            $this->model->sendTestMail($emails);
+            try {
+                $this->model->sendTestMail($emails);
+            } catch (\Throwable $e) {
+                $this->flashError($e->getMessage());
+                $this->dispatchBrowserEvent('modal-closed', ['modal' => 'send-test']);
+
+                return;
+            }
 
             if (count($emails) > 1) {
                 $this->flash(__('mailcoach - A test email was sent to :count addresses.', ['count' => count($emails)]));

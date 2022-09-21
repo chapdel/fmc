@@ -16,7 +16,7 @@
     <div class="navigation-dropdown md:hidden md:opacity-0">
         <a x-on:click="select" class="navigation-link" href="{{ route('account') }}">{{ __('Profile') }}</a>
         <a x-on:click="select" class="navigation-link" href="{{ route('general-settings') }}">{{ __('Configuration') }}</a>
-        <form class="navigation-link" method="post" action="{{ route('logout') }}">
+        <form class="navigation-link" method="post" action="{{ route('mailcoach.logout') }}">
             {{ csrf_field() }}
             <button type="submit" class="font-semibold">
                 <x-mailcoach::icon-label invers caution icon="fas fa-fw fa-power-off" :text="__('Log out')" />

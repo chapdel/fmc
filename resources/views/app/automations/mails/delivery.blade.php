@@ -70,7 +70,7 @@
             @endif
         </dt>
 
-        <dd class="grid gap-4">
+        <dd class="grid gap-4 max-w-full overflow-scroll">
             @if($mail->html && $mail->hasValidHtml())
                 @if ($mail->htmlContainsUnsubscribeUrlPlaceHolder() && $mail->sizeInKb() < 102)
                     <p class="markup-code">

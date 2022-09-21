@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Spatie\LaravelRay\Tests\TestClasses\TestMailable;
+use Illuminate\Mail\Mailable;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class TransactionalMailLogItemFactory extends Factory
@@ -25,7 +25,7 @@ class TransactionalMailLogItemFactory extends Factory
             'to' => [$this->person()],
             'cc' => [$this->person()],
             'bcc' => [$this->person()],
-            'mailable_class' => TestMailable::class,
+            'mailable_class' => Mailable::class,
         ];
     }
 

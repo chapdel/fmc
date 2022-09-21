@@ -157,7 +157,7 @@ class AutomationMail extends Sendable
         }
 
         collect($emails)->each(function (string $email) {
-            dispatch(new SendAutomationMailTestJob($this, $email));
+            dispatch_sync(new SendAutomationMailTestJob($this, $email));
         });
     }
 
