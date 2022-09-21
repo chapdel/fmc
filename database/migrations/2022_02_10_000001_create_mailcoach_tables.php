@@ -121,7 +121,7 @@ return new class extends Migration
 
             $table->string('subject')->nullable();
 
-            $table->boolean('show_on_email_list_website')->default(true);
+            $table->boolean('show_publicly')->default(true);
 
             $table
                 ->foreignId('email_list_id')

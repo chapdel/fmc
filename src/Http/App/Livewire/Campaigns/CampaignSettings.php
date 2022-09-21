@@ -41,7 +41,7 @@ class CampaignSettings extends Component
             'campaign.add_subscriber_tags' => 'bool',
             'campaign.add_subscriber_link_tags' => 'bool',
             'campaign.segment_id' => ['required_if:segment,segment'],
-            'campaign.show_on_email_list_website' => 'bool',
+            'campaign.show_publicly' => 'bool',
             'segment' => [Rule::in(['entire_list', 'segment'])],
         ];
     }

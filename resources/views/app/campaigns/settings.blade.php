@@ -1,3 +1,18 @@
+@php
+    $linkDescriptions = [];
+
+    if ($this->campaign->emailList->has_website) {
+        $linkDescriptions[] = '<a target=_blank href="' . $this->campaign->emailList->websiteUrl() . '">the public website</a>';
+    }
+
+    if ($this->campaign->emailList->campaigns_feed_enabled) {
+        $linkDescriptions[] = 'the RSS feed';
+    }
+
+    $linkDescriptions = collect($linkDescriptions)->join(', ', ' and ');
+    ray($linkDescriptions);
+@endphp
+
 <form
     class="card-grid"
     method="POST"
@@ -91,20 +106,19 @@
         </x-mailcoach::help>
     </x-mailcoach::fieldset>
 
-    @if($this->campaign->emailList->has_website)
 
-        <x-mailcoach::fieldset card :legend="__('Public website')">
+
+    @if($this->campaign->emailList->has_website || $this->campaign->emailList->campaigns_feed_enabled)
+        <x-mailcoach::fieldset card :legend="__('Publish campaign')">
             <div>
                 <x-mailcoach::help>
-                    {!! __('mailcoach - When this campaign has been sent, we can display the content on <a href=":url">the public website</a> for this email list.', [
-                    'url' => $this->campaign->emailList->websiteUrl(),
-                ]) !!}
+                    When this campaign has been sent, we can display the content on {!! $linkDescriptions !!} for this email list.
                 </x-mailcoach::help>
             </div>
 
             <div class="form-field">
                 <div class="checkbox-group">
-                    <x-mailcoach::checkbox-field :label="__('mailcoach - Show on public website')" name="utm_tags" wire:model="campaign.show_on_email_list_website" :disabled="!$campaign->isEditable()" />
+                    <x-mailcoach::checkbox-field :label="__('mailcoach - Show publicly')" name="utm_tags" wire:model="campaign.show_publicly" :disabled="!$campaign->isEditable()" />
                 </div>
             </div>
 

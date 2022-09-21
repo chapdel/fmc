@@ -112,7 +112,7 @@ it('will not display a campaign on the list that should not be displayed', funct
         ->assertSee($this->campaign->subject);
 
     $this->campaign->update([
-        'show_on_email_list_website' => false,
+        'show_publicly' => false,
     ]);
 
     $this
@@ -168,7 +168,7 @@ it('will not display a the content of campaign that should not be displayed', fu
         ->assertSuccessful();
 
     $this->campaign->update([
-        'show_on_email_list_website' => false,
+        'show_publicly' => false,
     ]);
 
     $this

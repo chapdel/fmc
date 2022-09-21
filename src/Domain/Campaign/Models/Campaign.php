@@ -44,7 +44,7 @@ class Campaign extends Sendable implements Feedable
         'all_sends_dispatched_at' => 'datetime',
         'summary_mail_sent_at' => 'datetime',
         'status' => CampaignStatus::class,
-        'show_on_email_list_website' => 'boolean',
+        'show_publicly' => 'boolean',
     ];
 
     public static function booted()
@@ -83,7 +83,7 @@ class Campaign extends Sendable implements Feedable
     {
         $query
             ->sendingOrSent()
-            ->where('show_on_email_list_website', true);
+            ->where('show_publicly', true);
     }
 
     public function scopeSending(Builder $query): void
