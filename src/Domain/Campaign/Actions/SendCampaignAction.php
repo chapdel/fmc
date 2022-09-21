@@ -94,6 +94,7 @@ class SendCampaignAction
     ): void {
         $subscribersQuery
             ->withoutSendsForCampaign($campaign)
+            ->select('id')
             ->lazyById()
             ->each(function (Subscriber $subscriber) use ($stopExecutingAt, $campaign) {
                 dispatch(new CreateCampaignSendJob($campaign, $subscriber));
