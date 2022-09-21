@@ -53,6 +53,8 @@ abstract class TestCase extends Orchestra
 
         Route::mailcoach('mailcoach');
 
+        app('router')->getRoutes()->refreshNameLookups();
+
         config()->set('auth.providers.users.model', User::class);
         config()->set('mailcoach.timezone', null);
 
