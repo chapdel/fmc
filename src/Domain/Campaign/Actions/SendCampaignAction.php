@@ -82,7 +82,7 @@ class SendCampaignAction
             return;
         }
 
-        $campaign->markAsSent($campaign->sends()->count());
+        $campaign->markAsSent($campaign->sendsCount());
 
         event(new CampaignSentEvent($campaign));
     }
