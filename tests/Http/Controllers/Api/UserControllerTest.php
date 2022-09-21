@@ -1,7 +1,5 @@
 <?php
 
-use Laravel\Sanctum\Sanctum;
-use Spatie\Mailcoach\Domain\Settings\Models\User;
 use Spatie\Mailcoach\Http\Api\Controllers\UserController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 
