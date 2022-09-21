@@ -283,6 +283,8 @@
     "mailcoach - Mailer": "Mailer",
     "mailcoach - Mailers": "Mailers",
     "mailcoach - Website": "Website",
+    "mailcoach - Show on public website": "Show on public website",
+    "mailcoach - When this campaign has been sent, we can display the content on <a href=\":url\">the public website</a> for this email list.": "When this campaign has been sent, we can display the content on <a href=\":url\">the public website</a> for this email list.",
     "mailcoach - Enable website": "Enable website",
     "mailcoach - Allow subscriptions": "Allow subscriptions",
     "mailcoach - Slug": "Slug",

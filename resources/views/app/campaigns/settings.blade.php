@@ -91,6 +91,26 @@
         </x-mailcoach::help>
     </x-mailcoach::fieldset>
 
+    @if($this->campaign->emailList->has_website)
+
+        <x-mailcoach::fieldset card :legend="__('Public website')">
+            <div>
+                <x-mailcoach::help>
+                    {!! __('mailcoach - When this campaign has been sent, we can display the content on <a href=":url">the public website</a> for this email list.', [
+                    'url' => $this->campaign->emailList->websiteUrl(),
+                ]) !!}
+                </x-mailcoach::help>
+            </div>
+
+            <div class="form-field">
+                <div class="checkbox-group">
+                    <x-mailcoach::checkbox-field :label="__('mailcoach - Show on public website')" name="utm_tags" wire:model="campaign.show_on_email_list_website" :disabled="!$campaign->isEditable()" />
+                </div>
+            </div>
+
+        </x-mailcoach::fieldset>
+    @endif
+
     <x-mailcoach::fieldset card :legend="__('Usage in Mailcoach API')">
         <div>
             <x-mailcoach::help>
