@@ -172,4 +172,4 @@ Route::prefix('settings')
         });
     });
 
-Route::post('logout', LogoutController::class)->name('logout');
+Route::post('logout', LogoutController::class)->name('mailcoach.logout');
