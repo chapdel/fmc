@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Audience\Jobs;
 
+use Carbon\CarbonInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,6 +19,13 @@ class UnsubscribeMissingFromImportJob implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
     use SerializesModels;
+
+    public $maxExceptions = 3;
+
+    public function retryUntil(): CarbonInterface
+    {
+        return now()->addHours(4);
+    }
 
     public function __construct(private SubscriberImport $subscriberImport)
     {
