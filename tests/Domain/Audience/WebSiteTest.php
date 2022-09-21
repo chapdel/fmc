@@ -106,7 +106,7 @@ it('will display sent campaigns on the list', function (CampaignStatus $status, 
     [CampaignStatus::Cancelled, false],
 ]);
 
-it('will not display a campaign on the list that should not be displayed', function() {
+it('will not display a campaign on the list that should not be displayed', function () {
     $this
         ->get($this->emailList->websiteUrl())
         ->assertSee($this->campaign->subject);
@@ -125,7 +125,7 @@ it('can generate the full url to a campaign page on the website', function () {
         ->toEqual("http://localhost/mailcoach/this-is-the-slug/{$this->campaign->uuid}");
 });
 
-it('can display a campaign if the email list has a website', function() {
+it('can display a campaign if the email list has a website', function () {
     $this->emailList->update([
         'has_website' => false,
     ]);
@@ -162,7 +162,7 @@ it('will display the content of sent campaigns', function (CampaignStatus $statu
     [CampaignStatus::Cancelled, false],
 ]);
 
-it('will not display a the content of campaign that should not be displayed', function() {
+it('will not display a the content of campaign that should not be displayed', function () {
     $this
         ->get($this->campaign->websiteUrl())
         ->assertSuccessful();
@@ -176,7 +176,7 @@ it('will not display a the content of campaign that should not be displayed', fu
         ->assertNotFound();
 });
 
-it('can display a subscription form on the list campaigns page', function() {
+it('can display a subscription form on the list campaigns page', function () {
     $this
         ->get($this->emailList->websiteUrl())
         ->assertSee('Subscribe');
@@ -190,7 +190,7 @@ it('can display a subscription form on the list campaigns page', function() {
         ->assertDontSee('Subscribe');
 });
 
-it('can display a subscription form on the campaign detail page', function() {
+it('can display a subscription form on the campaign detail page', function () {
     $this
         ->get($this->campaign->websiteUrl())
         ->assertSee('Subscribe');
