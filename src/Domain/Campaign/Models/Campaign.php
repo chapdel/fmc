@@ -79,7 +79,7 @@ class Campaign extends Sendable implements Feedable
         $query->whereIn('status', [CampaignStatus::Sending, CampaignStatus::Sent]);
     }
 
-    public function scopeShowOnEmailListWebsite(Builder $query): void
+    public function scopeShowPublicly(Builder $query): void
     {
         $query
             ->sendingOrSent()

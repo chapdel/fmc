@@ -22,7 +22,7 @@ beforeEach(function () {
 });
 
 it('it can generate the full url to the website', function () {
-    expect($this->emailList->websiteUrl())->toEqual('http://localhost/mailcoach/this-is-the-slug');
+    expect($this->emailList->websiteUrl())->toEqual('http://localhost/mailcoach/archive/this-is-the-slug');
 });
 
 it('it will only the website when it is enabled', function () {
@@ -122,7 +122,7 @@ it('will not display a campaign on the list that should not be displayed', funct
 
 it('can generate the full url to a campaign page on the website', function () {
     expect($this->campaign->websiteUrl())
-        ->toEqual("http://localhost/mailcoach/this-is-the-slug/{$this->campaign->uuid}");
+        ->toEqual("http://localhost/mailcoach/archive/this-is-the-slug/{$this->campaign->uuid}");
 });
 
 it('can display a campaign if the email list has a website', function () {
