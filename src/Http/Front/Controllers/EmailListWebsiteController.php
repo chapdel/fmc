@@ -26,7 +26,7 @@ class EmailListWebsiteController
         $campaigns = self::getCampaignClass()::query()
             ->where('email_list_id', $emailList->id)
             ->orderByDesc('sent_at')
-            ->sendingOrSent()
+            ->showOnEmailListWebsite()
             ->simplePaginate(15);
 
         return view('mailcoach::emailListWebsite.index', [
@@ -58,6 +58,7 @@ class EmailListWebsiteController
         }
 
         abort_unless($emailList->has_website, 404);
+        abort_unless($campaign->show_on_email_list_website, 404);
         abort_unless($campaign->isSendingOrSent(), 404);
 
         return view('mailcoach::emailListWebsite.show', [

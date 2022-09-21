@@ -106,7 +106,21 @@ it('will display sent campaigns on the list', function (CampaignStatus $status, 
     [CampaignStatus::Cancelled, false],
 ]);
 
-it('it can generate the full url to a campaign page on the website', function () {
+it('will not display a campaign on the list that should not be displayed', function() {
+    $this
+        ->get($this->emailList->websiteUrl())
+        ->assertSee($this->campaign->subject);
+
+    $this->campaign->update([
+        'show_on_email_list_website' => false,
+    ]);
+
+    $this
+        ->get($this->emailList->websiteUrl())
+        ->assertDontSee($this->campaign->subject);
+});
+
+it('can generate the full url to a campaign page on the website', function () {
     expect($this->campaign->websiteUrl())
         ->toEqual("http://localhost/mailcoach/this-is-the-slug/{$this->campaign->uuid}");
 });
@@ -129,7 +143,7 @@ it('can display a campaign if the email list has a website', function() {
         ->assertSuccessful();
 });
 
-it('will display the content sent campaigns', function (CampaignStatus $status, bool $shouldBeDisplayed) {
+it('will display the content of sent campaigns', function (CampaignStatus $status, bool $shouldBeDisplayed) {
     $assertionMethod = $shouldBeDisplayed
         ? 'assertSuccessful'
         : 'assertNotFound';
@@ -147,6 +161,20 @@ it('will display the content sent campaigns', function (CampaignStatus $status, 
     [CampaignStatus::Sent, true],
     [CampaignStatus::Cancelled, false],
 ]);
+
+it('will not display a the content of campaign that should not be displayed', function() {
+    $this
+        ->get($this->campaign->websiteUrl())
+        ->assertSuccessful();
+
+    $this->campaign->update([
+        'show_on_email_list_website' => false,
+    ]);
+
+    $this
+        ->get($this->campaign->websiteUrl())
+        ->assertNotFound();
+});
 
 it('can display a subscription form on the list campaigns page', function() {
     $this
