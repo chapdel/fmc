@@ -588,12 +588,8 @@ class Campaign extends Sendable implements Feedable
         return $this->fields?->get($fieldName) ?? '';
     }
 
-    public function websiteUrl(): ?string
+    public function websiteUrl(): string
     {
-        if (! $this->emailList->has_website) {
-            return null;
-        }
-
         return route('website.campaign', [$this->emailList->website_slug, $this->uuid]);
     }
 }

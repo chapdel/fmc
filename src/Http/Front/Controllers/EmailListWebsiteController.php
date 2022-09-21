@@ -39,6 +39,10 @@ class EmailListWebsiteController
     {
         $emailList = $this->getEmailList($emailListWebsiteSlug);
 
+        if (! $emailList) {
+            abort(404);
+        }
+
         /**
          * If there is no email list website at the root domain
          * we'll redirect to the Mailcoach dashboard to
