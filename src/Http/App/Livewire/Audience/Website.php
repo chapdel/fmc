@@ -53,7 +53,7 @@ class Website extends Component
         if ($this->image) {
             $path = $this->handleUpload();
 
-            if (!$path) {
+            if (! $path) {
                 $this->flashError('Upload failed. Please try again');
 
                 return;
@@ -66,8 +66,6 @@ class Website extends Component
         }
 
         $this->emailList->save();
-
-
 
         $this->flash(__('mailcoach - Website settings for list :emailList were updated', ['emailList' => $this->emailList->name]));
     }
@@ -85,7 +83,7 @@ class Website extends Component
     {
         $diskName = config('mailcoach.tmp_disk');
 
-        $relativePath =  $this->image->store('uploads', [
+        $relativePath = $this->image->store('uploads', [
             'disk' => $diskName,
         ]);
 
