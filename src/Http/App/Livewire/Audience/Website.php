@@ -3,7 +3,9 @@
 namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
@@ -13,16 +15,27 @@ class Website extends Component
 {
     use UsesMailcoachModels;
     use LivewireFlash;
+    use WithFileUploads;
+
+    /** @var \Illuminate\Http\UploadedFile */
+    public $image;
 
     public EmailList $emailList;
 
     protected function rules(): array
     {
-        return [
+        $rules = [
             'emailList.has_website' => ['boolean'],
             'emailList.show_subscription_form_on_website' => ['boolean'],
             'emailList.website_slug' => [''],
+            'emailList.website_intro' => [''],
         ];
+
+        if ($this->image) {
+            $rules['image'] = ['', 'image', 'max:2048'];
+        }
+
+        return $rules;
     }
 
     public function mount(EmailList $emailList)
@@ -37,7 +50,24 @@ class Website extends Component
     {
         $this->validate();
 
+        if ($this->image) {
+            $path = $this->handleUpload();
+
+            if (!$path) {
+                $this->flashError('Upload failed. Please try again');
+
+                return;
+            }
+
+            $this
+                ->emailList
+                ->addMedia($path)
+                ->toMediaLibrary('header', config('mailcoach.website_disk'));
+        }
+
         $this->emailList->save();
+
+
 
         $this->flash(__('mailcoach - Website settings for list :emailList were updated', ['emailList' => $this->emailList->name]));
     }
@@ -49,5 +79,20 @@ class Website extends Component
                 'title' => __('mailcoach - Website'),
                 'emailList' => $this->emailList,
             ]);
+    }
+
+    protected function handleUpload(): ?string
+    {
+        $diskName = config('mailcoach.tmp_disk');
+
+        $relativePath =  $this->image->store('uploads', [
+            'disk' => $diskName,
+        ]);
+
+        if (! $relativePath) {
+            return $relativePath;
+        }
+
+        return Storage::disk($diskName)->path($relativePath);
     }
 }

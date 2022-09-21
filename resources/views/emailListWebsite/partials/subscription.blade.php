@@ -1,7 +1,7 @@
 <header>
     <div class="max-w-lg mx-auto space-y-2">
         @if ($emailList->description)
-            {{ $emailList->website_description }}
+            {{ $emailList->website_intro }}
         @endif
         <div class="font-bold tracking-tight ">
             Subscribe to the newsletter

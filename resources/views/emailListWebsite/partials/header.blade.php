@@ -14,7 +14,13 @@
     </div>
 </a>
 @if ($emailList->description)
-    {{ $emailList->website_description }}
+    {{ $emailList->website_intro }}
+@endif
+
+@if ($imageUrl = $emailList->websiteHeaderImageUrl())
+    <div class="mt-8">
+        <img alt="header image" src="{{ $imageUrl }}" />
+    </div>
 @endif
 
 <div class="mt-20">

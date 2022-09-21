@@ -13,18 +13,23 @@ use Illuminate\Database\MySqlConnection;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Spatie\Image\Manipulations;
 use Spatie\Mailcoach\Database\Factories\EmailListFactory;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Mails\ConfirmSubscriberMail;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class EmailList extends Model
+class EmailList extends Model implements HasMedia
 {
     use HasUuid;
     use UsesMailcoachModels;
     use HasFactory;
+    use InteractsWithMedia;
 
     public $guarded = [];
 
@@ -232,6 +237,27 @@ class EmailList extends Model
     public function websiteUrl(): string
     {
         return route('website', $this->website_slug);
+    }
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this
+            ->addMediaConversion('header')
+            ->nonQueued()
+            ->fit(Manipulations::FIT_MAX, 2000, 1000)
+            ->sharpen(10);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this
+            ->addMediaCollection('header')
+            ->singleFile();
+    }
+
+    public function websiteHeaderImageUrl(): ?string
+    {
+        return $this->getFirstMediaUrl('header', 'header');
     }
 
     public function getSubscriptionFormHtml(): string

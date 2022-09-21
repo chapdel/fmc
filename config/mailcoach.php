@@ -260,6 +260,19 @@ return [
     'export_disk' => 'local',
 
     /*
+     * This disk will be used to store assets for the public archive
+     * of an email list. You should make sure that this disk is
+     * publicly reachable.
+     */
+    'website_disk' => 'public',
+
+    /*
+     * We will put all mailcoach files in this directory
+     * on the disk.
+     */
+    'website_disk_directory' => 'mailcoach-files',
+
+    /*
      * This disk will be used to store files temporarily for
      * unzipping & reading. Make sure this is on a local
      * filesystem.
