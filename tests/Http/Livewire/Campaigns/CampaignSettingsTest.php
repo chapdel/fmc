@@ -1,17 +1,24 @@
 <?php
 
+use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignSettings;
 
 it('can update the settings of a campaign', function () {
-    test()->withoutExceptionHandling();
+    $this->withoutExceptionHandling();
 
-    test()->authenticate();
+    $this->authenticate();
 
-    $campaign = Campaign::create(['name' => 'my campaign']);
+    $emailList = EmailList::factory()->create();
 
-    \Livewire\Livewire::test(CampaignSettings::class, ['campaign' => $campaign])
+    $campaign = Campaign::create([
+        'name' => 'my campaign',
+        'email_list_id' => $emailList->id,
+        'show_publicly' => true,
+    ]);
+
+    Livewire::test(CampaignSettings::class, ['campaign' => $campaign])
         ->set('campaign.name', 'updated name')
         ->set('campaign.subject', 'my subject')
         ->set('campaign.email_list_id', EmailList::factory()->create()->id)
@@ -22,7 +29,7 @@ it('can update the settings of a campaign', function () {
         ->call('save')
         ->assertHasNoErrors();
 
-    test()->assertDatabaseHas(static::getCampaignTableName(), [
+    $this->assertDatabaseHas(self::getCampaignTableName(), [
         'name' => 'updated name',
         'subject' => 'my subject',
         'utm_tags' => true,
