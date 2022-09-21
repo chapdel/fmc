@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 
 use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -12,6 +13,7 @@ use Spatie\ValidationRules\Rules\Delimited;
 
 class ListSettings extends Component
 {
+    use AuthorizesRequests;
     use UsesMailcoachModels;
     use LivewireFlash;
 
@@ -59,6 +61,8 @@ class ListSettings extends Component
 
     public function render(): View
     {
+        $this->authorize('update', $this->emailList);
+
         return view('mailcoach::app.emailLists.settings.general')
             ->layout('mailcoach::app.emailLists.layouts.emailList', [
                 'title' => __('mailcoach - General'),

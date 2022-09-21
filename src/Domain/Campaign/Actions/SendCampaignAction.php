@@ -66,6 +66,8 @@ class SendCampaignAction
 
         $segment->subscribersQuery($subscribersQuery);
 
+        $subscribersQueryCount = $subscribersQuery->count();
+
         if (is_null($campaign->sent_to_number_of_subscribers) || $campaign->sent_to_number_of_subscribers === 0) {
             $campaign->update(['sent_to_number_of_subscribers' => $subscribersQuery->count()]);
         }
@@ -78,7 +80,7 @@ class SendCampaignAction
 
         $campaign->markAsAllSendsCreated();
 
-        if ($campaign->sendsCount() < $campaign->sent_to_number_of_subscribers && $campaign->sendsCount() < $subscribersQuery->count()) {
+        if ($campaign->sendsCount() < $campaign->sent_to_number_of_subscribers && $campaign->sendsCount() < $subscribersQueryCount) {
             return;
         }
 

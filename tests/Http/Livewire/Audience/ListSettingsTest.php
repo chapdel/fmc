@@ -75,6 +75,8 @@ it('requires report recipients if reports are to be sent', function () {
 });
 
 it('authorizes access with custom policy', function () {
+    $this->withExceptionHandling();
+
     app()->bind(EmailListPolicy::class, CustomEmailListDenyAllPolicy::class);
 
     test()->authenticate();
