@@ -9,7 +9,12 @@
     <title>{{ $emailList->website_title }}</title>
 
     {!! \Spatie\Mailcoach\Mailcoach::styles() !!}
+
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    @if($emailList->campaigns_feed_enabled)
+        <link rel="alternate" type="application/atom+xml" href="{{ route('mailcoach.feed', $emailList) }}" title="{{ $emailList->website_title }}">
+    @endif
 </head>
 <body>
 <div class="flex justify-center sm:px-8">
