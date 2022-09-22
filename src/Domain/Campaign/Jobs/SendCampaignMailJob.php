@@ -28,6 +28,8 @@ class SendCampaignMailJob implements ShouldQueue, ShouldBeUnique
     /** @var string */
     public $queue;
 
+    public $uniqueFor = 45;
+
     public function uniqueId(): string
     {
         return "{$this->pendingSend->id}";
