@@ -157,7 +157,9 @@
             @if($campaign->html && $campaign->hasValidHtml())
                 <div>
                     <x-mailcoach::button-secondary x-on:click="$store.modals.open('preview')" :label="__('mailcoach - Preview')"/>
-                    <x-mailcoach::button-secondary x-on:click="$store.modals.open('send-test')" :label="__('mailcoach - Send Test')"/>
+                    @if ($campaign->getMailerKey())
+                        <x-mailcoach::button-secondary x-on:click="$store.modals.open('send-test')" :label="__('mailcoach - Send Test')"/>
+                    @endif
                 </div>
 
                 <x-mailcoach::preview-modal :title="__('mailcoach - Preview') . ' - ' . $campaign->subject" :html="$campaign->html" />
