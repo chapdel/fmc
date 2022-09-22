@@ -483,6 +483,28 @@ it('gets links', function () {
     expect($links->first())->toEqual('https://google.com');
 });
 
+it('ignores duplicates', function () {
+    $myHtml = '<html><a href="https://google.com">Test</a><a href="https://google.com">Test</a></html>';
+
+    $campaign = Campaign::factory()->create([
+        'html' => $myHtml,
+    ]);
+
+    $links = $campaign->htmlLinks();
+    expect($links->count())->toEqual(1);
+});
+
+it('ignores empty links', function () {
+    $myHtml = '<html><a href="https://google.com">Test</a><a></a></html>';
+
+    $campaign = Campaign::factory()->create([
+        'html' => $myHtml,
+    ]);
+
+    $links = $campaign->htmlLinks();
+    expect($links->count())->toEqual(1);
+});
+
 it('gets links with ampersands', function () {
     $myHtml = '<html><a href="https://google.com?foo=true&bar=false">Test</a></html>';
 
