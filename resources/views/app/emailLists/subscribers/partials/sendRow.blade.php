@@ -9,8 +9,8 @@
                 {{ $row->automationMail->name }}
             </a>
         @elseif ($row->concernsTransactionalMail())
-            <a class="break-words" href="{{ route('mailcoach.transactionalMail.show', $row->transactionalMail) }}">
-                {{ $row->transactionalMail->name }}
+            <a class="break-words" href="{{ route('mailcoach.transactionalMails.show', $row->transactionalMailLogItem) }}">
+                {{ $row->transactionalMailLogItem->name }}
             </a>
         @endif
     </td>
