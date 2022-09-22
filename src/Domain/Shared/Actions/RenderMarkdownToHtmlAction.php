@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Shared\Actions;
 
 use Illuminate\Support\HtmlString;
+use League\CommonMark\Extension\Autolink\AutolinkExtension;
 use League\CommonMark\Extension\Strikethrough\StrikethroughExtension;
 use League\CommonMark\Extension\Table\TableExtension;
 use Spatie\LaravelMarkdown\MarkdownRenderer;
@@ -29,6 +30,7 @@ class RenderMarkdownToHtmlAction
             ->disableAnchors()
             ->addExtension(new TableExtension())
             ->addExtension(new StrikethroughExtension())
+            ->addExtension(new AutolinkExtension())
             ->highlightTheme($theme ?? 'nord')
             ->toHtml($markdown));
     }
