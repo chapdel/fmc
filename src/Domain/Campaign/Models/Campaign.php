@@ -344,6 +344,16 @@ class Campaign extends Sendable implements Feedable
         return $this;
     }
 
+    public function cancel(): self
+    {
+        $this->campaign->update([
+            'status' => CampaignStatus::Cancelled,
+            'sent_at' => now(),
+        ]);
+
+        return $this;
+    }
+
     public function sendTo(EmailList $emailList): self
     {
         return $this->to($emailList)->send();
