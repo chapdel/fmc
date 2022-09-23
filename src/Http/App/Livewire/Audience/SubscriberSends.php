@@ -5,7 +5,6 @@ namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Campaign\Actions\RetrySendingFailedSendsAction;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\SendQuery;
