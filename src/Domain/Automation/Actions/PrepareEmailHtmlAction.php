@@ -51,7 +51,7 @@ class PrepareEmailHtmlAction
             ->reduce(fn (string $html, AutomationMailReplacer $replacer) => $replacer->replace($html, $automationMail), $automationMail->email_html);
     }
 
-    private function addUtmTags(AutomationMail $automationMail): void
+    protected function addUtmTags(AutomationMail $automationMail): void
     {
         $document = $this->createDomDocumentFromHtmlAction->execute($automationMail->email_html);
 
