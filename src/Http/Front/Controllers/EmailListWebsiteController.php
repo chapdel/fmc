@@ -78,7 +78,7 @@ class EmailListWebsiteController
                 $query
                     ->where('website_slug', Str::start($emailListWebsiteSlug, '/'))
                     ->orWhere('website_slug', Str::after(Str::start($emailListWebsiteSlug, '/'), '/'))
-                    ->when($emailListWebsiteSlug ===  '/', fn(Builder $query) => $query->orWhereNull('website_slug'));
+                    ->when($emailListWebsiteSlug === '/', fn (Builder $query) => $query->orWhereNull('website_slug'));
             })
             ->first();
     }
