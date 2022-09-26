@@ -646,5 +646,7 @@
     "mailcoach - was delivered to": "was delivered to",
     "mailcoach - Create mailer" : "Create mailer",
     "mailcoach - Create user" : "Create user",
-    "mailcoach - Create webhook": "Create webhook"
+    "mailcoach - Create webhook": "Create webhook",
+    "mailcoach - This URL will display the content of your campaign on your campaign\\'s website. You need to enable the website in the email list settings.": "This URL will display the content of your campaign on your campaign\\'s website. You need to enable the website in the email list settings.",
+    "mailcoach - This URL will display the website listing all of your campaign. You need to enable the website in the email list settings.": "This URL will display the website listing all of your campaign. You need to enable the website in the email list settings."
 }
