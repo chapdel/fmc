@@ -32,14 +32,14 @@ it('it can generate the full url to the website', function (string $slug) {
     '/this-is-the-slug'
 ]);
 
-it('it will only the website when it is enabled', function () {
+it('will only display the website when it is enabled', function () {
     $this->emailList->update([
         'has_website' => false,
     ]);
 
     $this
         ->get($this->emailList->websiteUrl())
-        ->assertNotFound();
+        ->assertRedirect();
 
     $this->emailList->update([
         'has_website' => true,

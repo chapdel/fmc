@@ -4,7 +4,7 @@ use Spatie\Mailcoach\Domain\Campaign\Actions\PrepareEmailHtmlAction;
 use Spatie\Mailcoach\Domain\Campaign\Actions\PrepareSubjectAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 
-test('campaignname should replaced in subject', function () {
+test('campaign name should replaced in subject', function () {
     /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign */
     $campaign = Campaign::factory()->create([
         'subject' => '::campaign.name::',
@@ -12,11 +12,11 @@ test('campaignname should replaced in subject', function () {
 
     app(PrepareSubjectAction::class)->execute($campaign);
     $campaign->refresh();
-    $replacedhtml = $campaign->subject;
-    expect($campaign->name)->toEqual($replacedhtml);
+    $replacedHtml = $campaign->subject;
+    expect($campaign->name)->toEqual($replacedHtml);
 });
 
-test('campaignname should replaced in email html', function () {
+test('campaign name should replaced in email html', function () {
     $campaignName = 'test1234';
 
     /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign */
@@ -30,7 +30,7 @@ test('campaignname should replaced in email html', function () {
     test()->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->email_html);
 });
 
-test('campaignname should replace in url encoded html', function () {
+test('campaign name should replace in url encoded html', function () {
     $campaignName = 'test1234';
 
     /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign */

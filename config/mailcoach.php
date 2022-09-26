@@ -13,6 +13,7 @@ return [
          * You can use a replacer to create placeholders.
          */
         'replacers' => [
+            \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\WebsiteUrlCampaignReplacer::class,
             \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\WebviewCampaignReplacer::class,
             \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\SubscriberReplacer::class,
             \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\EmailListCampaignReplacer::class,
