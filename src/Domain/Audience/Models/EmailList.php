@@ -304,7 +304,9 @@ class EmailList extends Model implements HasMedia
      * Use the Luminosity Contrast Algorithm to determine
      * if we want white or black as the contrasting text
      * color when using primary as background.
+     *
      * @see https://stackoverflow.com/a/42921358
+     *
      * @return string
      */
     public function getWebsiteContrastingTextColor(): string
