@@ -1,6 +1,7 @@
 @pushonce('endHead')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.css"/>
     <script src="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.js"></script>
+    <style>.clr-field button { margin-right: 1px; width: 2.75rem; border-top-right-radius: 2px; border-bottom-right-radius: 2px; }</style>
 @endpushonce
 
 <div class="form-field" wire:ignore>
