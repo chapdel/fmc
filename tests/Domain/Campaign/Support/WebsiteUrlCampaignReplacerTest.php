@@ -4,7 +4,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Actions\PrepareEmailHtmlAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 
-beforeEach(function() {
+beforeEach(function () {
     /** @var EmailList */
     $this->emailList = EmailList::factory()->create([
         'has_website' => true,
@@ -35,5 +35,4 @@ it('will replace the placeholder with an empty string if the email list does not
         ->not()->toContain($this->campaign->emailList->websiteUrl())
         ->and($this->campaign->refresh()->email_html)
         ->not()->toContain('::websiteUrl::');
-
 });
