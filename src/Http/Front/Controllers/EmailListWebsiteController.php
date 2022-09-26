@@ -2,6 +2,8 @@
 
 namespace Spatie\Mailcoach\Http\Front\Controllers;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -39,10 +41,6 @@ class EmailListWebsiteController
     {
         $emailList = $this->getEmailList($emailListWebsiteSlug);
 
-        if (! $emailList) {
-            abort(404);
-        }
-
         /**
          * If there is no email list website at the root domain
          * we'll redirect to the Mailcoach dashboard to
@@ -50,6 +48,10 @@ class EmailListWebsiteController
          */
         if ($emailListWebsiteSlug === '/' && ! $emailList) {
             return redirect()->route('mailcoach.dashboard');
+        }
+
+        if (! $emailList) {
+            abort(404);
         }
 
         /** @var $campaign Campaign */
@@ -72,7 +74,12 @@ class EmailListWebsiteController
     {
         return self::getEmailListClass()::query()
             ->where('has_website', true)
-            ->where('website_slug', $emailListWebsiteSlug)
+            ->where(function (Builder $query) use ($emailListWebsiteSlug) {
+                $query
+                    ->where('website_slug', Str::start($emailListWebsiteSlug, '/'))
+                    ->orWhere('website_slug', Str::after(Str::start($emailListWebsiteSlug, '/'), '/'))
+                    ->when($emailListWebsiteSlug === '/', fn (Builder $query) => $query->orWhereNull('website_slug'));
+            })
             ->first();
     }
 }

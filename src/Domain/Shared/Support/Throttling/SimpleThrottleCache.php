@@ -25,6 +25,15 @@ class SimpleThrottleCache
         return $this;
     }
 
+    public function forMailerCreates(?string $mailer = null): self
+    {
+        if (! is_null($mailer)) {
+            $this->currentPeriodHitCountKey = "simpleThrottle.currentPeriodHitCount.createSends.{$mailer}";
+        }
+
+        return $this;
+    }
+
     public function currentPeriodHitCount(): int
     {
         return $this->cache->get($this->currentPeriodHitCountKey) ?? 0;

@@ -20,7 +20,7 @@ class SendQuery extends QueryBuilder
             ->with([
                 'campaign',
                 'automationMail',
-                'transactionalMail',
+                'transactionalMailLogItem',
             ])
             ->where('subscriber_id', $subscriber->id);
 

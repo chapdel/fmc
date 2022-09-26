@@ -17,7 +17,7 @@ class TemplateRenderer
     {
         preg_match_all('/\[\[\[(.*?)\]\]\]/', $this->html, $matches);
 
-        return $matches[1];
+        return array_unique($matches[1]);
     }
 
     public function fields(): array

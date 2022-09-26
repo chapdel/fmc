@@ -12,8 +12,8 @@ use Spatie\Mailcoach\Domain\Shared\Actions\CreateDomDocumentFromHtmlAction;
 class PrepareEmailHtmlAction
 {
     public function __construct(
-        private CreateDomDocumentFromHtmlAction $createDomDocumentFromHtmlAction,
-        private AddUtmTagsToUrlAction $addUtmTagsToUrlAction,
+        protected CreateDomDocumentFromHtmlAction $createDomDocumentFromHtmlAction,
+        protected AddUtmTagsToUrlAction $addUtmTagsToUrlAction,
     ) {
     }
 

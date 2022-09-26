@@ -18,7 +18,7 @@
     ]"
     rowPartial="mailcoach::app.emailLists.tags.partials.row"
     :rowData="['emailList' => $emailList]"
-    :emptyText="__('mailcoach - There are no tags for this list. Everyone equal!')"
+    :emptyText="__('mailcoach - There are no tags for this list. Everyone is equal!')"
 >
     @slot('actions')
         @can('create', \Spatie\Mailcoach\Mailcoach::getTagClass())

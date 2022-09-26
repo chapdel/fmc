@@ -1,23 +1,8 @@
 <?php
 
-use Spatie\Mailcoach\Domain\Campaign\Actions\PrepareEmailHtmlAction;
-use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
+use Spatie\Mailcoach\Domain\Campaign\Actions\PrepareWebviewHtmlAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use function Spatie\Snapshots\assertMatchesHtmlSnapshot;
-
-it('throws on invalid html', function () {
-    $myHtml = '<h1>Hello<html><p>Hello world</p>';
-
-    $campaign = Campaign::factory()->create([
-        'html' => $myHtml,
-    ]);
-
-    test()->expectException(CouldNotSendCampaign::class);
-
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
-
-    $campaign->refresh();
-});
 
 it('will automatically add html tags', function () {
     $myHtml = '<h1>Hello</h1><p>Hello world</p>';
@@ -26,11 +11,11 @@ it('will automatically add html tags', function () {
         'html' => $myHtml,
     ]);
 
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
+    app(PrepareWebviewHtmlAction::class)->execute($campaign);
 
     $campaign->refresh();
 
-    assertMatchesHtmlSnapshot($campaign->email_html);
+    assertMatchesHtmlSnapshot($campaign->webview_html);
 });
 
 it('works with ampersands', function () {
@@ -40,11 +25,11 @@ it('works with ampersands', function () {
         'html' => $myHtml,
     ]);
 
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
+    app(PrepareWebviewHtmlAction::class)->execute($campaign);
 
     $campaign->refresh();
 
-    assertMatchesHtmlSnapshot($campaign->email_html);
+    assertMatchesHtmlSnapshot($campaign->webview_html);
 });
 
 it('will not double encode ampersands', function () {
@@ -56,11 +41,11 @@ it('will not double encode ampersands', function () {
         'name' => 'test',
     ]);
 
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
+    app(PrepareWebviewHtmlAction::class)->execute($campaign);
 
     $campaign->refresh();
 
-    expect($campaign->email_html)->toContain('-&gt;');
+    expect($campaign->webview_html)->toContain('-&gt;');
 });
 
 it('will not add html tags if they are already present', function () {
@@ -70,11 +55,11 @@ it('will not add html tags if they are already present', function () {
         'html' => $myHtml,
     ]);
 
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
+    app(PrepareWebviewHtmlAction::class)->execute($campaign);
 
     $campaign->refresh();
 
-    assertMatchesHtmlSnapshot($campaign->email_html);
+    assertMatchesHtmlSnapshot($campaign->webview_html);
 });
 
 it('will not add html tags before the doctype', function () {
@@ -84,11 +69,11 @@ it('will not add html tags before the doctype', function () {
         'html' => $myHtml,
     ]);
 
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
+    app(PrepareWebviewHtmlAction::class)->execute($campaign);
 
     $campaign->refresh();
 
-    assertMatchesHtmlSnapshot($campaign->email_html);
+    assertMatchesHtmlSnapshot($campaign->webview_html);
 });
 
 it('will not change the doctype', function () {
@@ -98,11 +83,11 @@ it('will not change the doctype', function () {
         'html' => $myHtml,
     ]);
 
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
+    app(PrepareWebviewHtmlAction::class)->execute($campaign);
 
     $campaign->refresh();
 
-    assertMatchesHtmlSnapshot($campaign->email_html);
+    assertMatchesHtmlSnapshot($campaign->webview_html);
 });
 
 it('will add utm tags', function () {
@@ -114,12 +99,12 @@ it('will add utm tags', function () {
         'name' => 'My Campaign',
     ]);
 
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
+    app(PrepareWebviewHtmlAction::class)->execute($campaign);
 
     $campaign->refresh();
 
-    expect($campaign->email_html)->toContain(htmlspecialchars('https://spatie.be?utm_source=newsletter&utm_medium=email&utm_campaign=my-campaign'));
-    assertMatchesHtmlSnapshot($campaign->email_html);
+    expect($campaign->webview_html)->toContain(htmlspecialchars('https://spatie.be?utm_source=newsletter&utm_medium=email&utm_campaign=my-campaign'));
+    assertMatchesHtmlSnapshot($campaign->webview_html);
 });
 
 it('will add utm tags to links that already have query parameters', function () {
@@ -131,12 +116,12 @@ it('will add utm tags to links that already have query parameters', function () 
         'name' => 'My Campaign',
     ]);
 
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
+    app(PrepareWebviewHtmlAction::class)->execute($campaign);
 
     $campaign->refresh();
 
-    expect($campaign->email_html)->toContain(htmlspecialchars('https://spatie.be?foo=bar&utm_source=newsletter&utm_medium=email&utm_campaign=my-campaign'));
-    assertMatchesHtmlSnapshot($campaign->email_html);
+    expect($campaign->webview_html)->toContain(htmlspecialchars('https://spatie.be?foo=bar&utm_source=newsletter&utm_medium=email&utm_campaign=my-campaign'));
+    assertMatchesHtmlSnapshot($campaign->webview_html);
 });
 
 it('will add utm tags to urls with paths correctly', function () {
@@ -148,12 +133,12 @@ it('will add utm tags to urls with paths correctly', function () {
         'name' => 'My Campaign',
     ]);
 
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
+    app(PrepareWebviewHtmlAction::class)->execute($campaign);
 
     $campaign->refresh();
 
-    expect($campaign->email_html)->toContain(htmlspecialchars('https://freek.dev/1234-my-blogpost?utm_source=newsletter&utm_medium=email&utm_campaign=my-campaign'));
-    assertMatchesHtmlSnapshot($campaign->email_html);
+    expect($campaign->webview_html)->toContain(htmlspecialchars('https://freek.dev/1234-my-blogpost?utm_source=newsletter&utm_medium=email&utm_campaign=my-campaign'));
+    assertMatchesHtmlSnapshot($campaign->webview_html);
 });
 
 it('will add utm tags to urls with paths correctly when the link is added twice', function () {
@@ -165,13 +150,13 @@ it('will add utm tags to urls with paths correctly when the link is added twice'
         'name' => 'My Campaign',
     ]);
 
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
+    app(PrepareWebviewHtmlAction::class)->execute($campaign);
 
     $campaign->refresh();
 
-    expect($campaign->email_html)->toContain(htmlspecialchars('https://freek.dev?utm_source=newsletter&utm_medium=email&utm_campaign=my-campaign'));
-    expect($campaign->email_html)->toContain(htmlspecialchars('https://freek.dev/1234-my-blogpost?utm_source=newsletter&utm_medium=email&utm_campaign=my-campaign'));
-    assertMatchesHtmlSnapshot($campaign->email_html);
+    expect($campaign->webview_html)->toContain(htmlspecialchars('https://freek.dev?utm_source=newsletter&utm_medium=email&utm_campaign=my-campaign'));
+    expect($campaign->webview_html)->toContain(htmlspecialchars('https://freek.dev/1234-my-blogpost?utm_source=newsletter&utm_medium=email&utm_campaign=my-campaign'));
+    assertMatchesHtmlSnapshot($campaign->webview_html);
 });
 
 it('uses replacers', function () {
@@ -182,9 +167,9 @@ it('uses replacers', function () {
         'name' => 'My Campaign',
     ]);
 
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
+    app(PrepareWebviewHtmlAction::class)->execute($campaign);
 
     $campaign->refresh();
 
-    expect($campaign->email_html)->toContain(htmlspecialchars($campaign->webviewUrl()));
+    expect($campaign->webview_html)->toContain(htmlspecialchars($campaign->webviewUrl()));
 });

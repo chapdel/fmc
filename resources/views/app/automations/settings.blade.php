@@ -2,6 +2,7 @@
     class="card-grid"
     wire:submit.prevent="save(new URLSearchParams(new FormData($event.target)).toString())"
     method="POST"
+    novalidate
 >
     <x-mailcoach::card>
         <x-mailcoach::text-field :label="__('mailcoach - Name')" name="automation.name" wire:model.lazy="automation.name" required />

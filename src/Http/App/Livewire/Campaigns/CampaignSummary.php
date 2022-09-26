@@ -29,10 +29,7 @@ class CampaignSummary extends Component
 
     public function cancelSending()
     {
-        $this->campaign->update([
-            'status' => CampaignStatus::Cancelled,
-            'sent_at' => now(),
-        ]);
+        $this->campaign->cancel();
 
         $this->flash(__('mailcoach - Sending successfully cancelled.'));
     }

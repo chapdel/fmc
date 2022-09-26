@@ -9,6 +9,7 @@ use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\SendCampaignTimeLimitApproaching;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\CreateCampaignSendJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Shared\Support\Throttling\SimpleThrottle;
 use Spatie\Mailcoach\Mailcoach;
 
 class SendCampaignAction
@@ -94,11 +95,16 @@ class SendCampaignAction
         Campaign $campaign,
         CarbonInterface $stopExecutingAt = null,
     ): void {
+        $simpleThrottle = app(SimpleThrottle::class)
+            ->forMailerCreates($campaign->getMailerKey());
+
         $subscribersQuery
             ->withoutSendsForCampaign($campaign)
             ->select('id')
             ->lazyById()
-            ->each(function (Subscriber $subscriber) use ($stopExecutingAt, $campaign) {
+            ->each(function (Subscriber $subscriber) use ($simpleThrottle, $stopExecutingAt, $campaign) {
+                $simpleThrottle->hit();
+
                 dispatch(new CreateCampaignSendJob($campaign, $subscriber));
 
                 $this->haltWhenApproachingTimeLimit($stopExecutingAt);

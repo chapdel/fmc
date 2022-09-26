@@ -124,12 +124,12 @@
         </dt>
 
         <dd>
+            @php($tags = [])
             @if (count($links))
                 <p class="markup-code">
                     {{ __("mailcoach - The following links were found in your mail, make sure they are valid.") }}
                 </p>
                 <ul class="grid gap-2">
-                    @php($tags = [])
                     @foreach ($links as $url)
                         <li>
                             <a target="_blank" class="link" href="{{ $url }}">{{ $url }}</a><br>

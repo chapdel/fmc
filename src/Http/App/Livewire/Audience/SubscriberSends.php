@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
 use Spatie\Mailcoach\Http\App\Livewire\DataTable;
 use Spatie\Mailcoach\Http\App\Queries\SendQuery;
 
@@ -52,5 +53,18 @@ class SubscriberSends extends DataTable
             'sends' => $sendQuery->paginate($request->per_page),
             'totalSendsCount' => self::getSendClass()::query()->where('subscriber_id', $this->subscriber->id)->count(),
         ];
+    }
+
+    public function retry(int $sendId): void
+    {
+        $send = self::getSendClass()::findOrFail($sendId);
+
+        $this->authorize('view', $send->subscriber->emailList);
+
+        $send->prepareRetryAfterFailedSend();
+
+        dispatch(new SendCampaignMailJob($send));
+
+        $this->flash(__('mailcoach - Retrying to send :failedSendsCount mails...', ['failedSendsCount' => 1]));
     }
 }

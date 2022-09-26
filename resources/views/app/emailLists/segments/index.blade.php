@@ -10,7 +10,7 @@
     ]"
     rowPartial="mailcoach::app.emailLists.segments.partials.row"
     :no-results-text="__('mailcoach - No segments found.')"
-    :emptyText="__('mailcoach - A segment is a group of tags that can be targetted by an email campaign. You can <a target=\'_blank\' href=\':docsUrl\'>learn more about segmentation & tags in our docs</a>', [
+    :emptyText="__('mailcoach - A segment is a group of tags that can be targeted by an email campaign. You can <a target=\'_blank\' href=\':docsUrl\'>learn more about segmentation & tags in our docs</a>', [
         'docsUrl' => 'https://mailcoach.app/docs/v6/using-mailcoach/email-lists/segmentation-tags',
     ])"
 >

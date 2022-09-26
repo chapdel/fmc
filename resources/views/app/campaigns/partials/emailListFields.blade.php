@@ -1,8 +1,4 @@
 <x-mailcoach::fieldset card :legend="__('mailcoach - Audience')">
-    @error($wiremodel . '.email_list_id')
-        <p class="form-error">{{ $message }}</p>
-    @enderror
-
     @if($emailLists->count())
         <x-mailcoach::select-field
             :label="__('mailcoach - List')"
