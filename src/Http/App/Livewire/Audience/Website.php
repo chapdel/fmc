@@ -27,9 +27,10 @@ class Website extends Component
         $rules = [
             'emailList.has_website' => ['boolean'],
             'emailList.show_subscription_form_on_website' => ['boolean'],
-            'emailList.website_slug' => [''],
-            'emailList.website_intro' => [''],
-            'emailList.website_primary_color' => [''],
+            'emailList.website_slug' => ['nullable'],
+            'emailList.website_title' => ['nullable'],
+            'emailList.website_intro' => ['nullable'],
+            'emailList.website_primary_color' => ['nullable'],
         ];
 
         if ($this->image) {

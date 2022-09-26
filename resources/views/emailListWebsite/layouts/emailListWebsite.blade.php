@@ -1,3 +1,4 @@
+<?php /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */ ?>
 <!DOCTYPE html>
 <html class="h-full antialiased" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -7,6 +8,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
 
     <title>{{ $emailList->website_title }}</title>
+    <meta name="theme-color" content="{{ $emailList->getWebsitePrimaryColor() }}">
+    <meta name="description" content="{{ $emailList->website_intro }}">
+
 
     {!! \Spatie\Mailcoach\Mailcoach::styles() !!}
 

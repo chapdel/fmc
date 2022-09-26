@@ -100,6 +100,12 @@
             @endif
         </div>
 
+        <x-mailcoach::text-field
+            :label="__('mailcoach - Website Title')"
+            wire:model.lazy="emailList.website_title"
+            name="emailList.website_title"
+        />
+
         <x-mailcoach::markdown-field
             :label="__('mailcoach - Intro')"
             name="emailList.website_intro"
