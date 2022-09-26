@@ -5,8 +5,23 @@
     @keydown.prevent.window.cmd.s="$wire.call('save')"
     @keydown.prevent.window.ctrl.s="$wire.call('save')"
 >
-    <x-mailcoach::fieldset card :legend="__('mailcoach - Sender')">
+    <x-mailcoach::fieldset card :legend="__('mailcoach - General')">
         <x-mailcoach::text-field :label="__('mailcoach - Name')" name="emailList.name" wire:model="emailList.name" required/>
+
+        <div class="form-field max-w-full">
+            <label class="label" for="emailList.campaigns_feed_enabled">{{ __('mailcoach - Publication') }}</label>
+            <x-mailcoach::checkbox-field :label="__('mailcoach - Make RSS feed publicly available')" name="emailList.campaigns_feed_enabled"
+                                         wire:model="emailList.campaigns_feed_enabled"/>
+            @if ($emailList->campaigns_feed_enabled)
+                <x-mailcoach::info class="mt-2" full>
+                    {{ __('mailcoach - Your public feed will be available at') }}
+                    <a class="text-sm link" target="_blank" href="{{$emailList->feedUrl()}}">{{$emailList->feedUrl()}}</a>
+                </x-mailcoach::info>
+            @endif
+        </div>
+    </x-mailcoach::fieldset>
+
+    <x-mailcoach::fieldset card :legend="__('mailcoach - Sender')">
 
         <x-mailcoach::text-field :label="__('mailcoach - From email')" name="emailList.default_from_email" wire:model.lazy="emailList.default_from_email"
                     type="email" required/>
@@ -17,19 +32,6 @@
                     type="email"/>
 
         <x-mailcoach::text-field :label="__('mailcoach - Reply-to name')" name="emailList.default_reply_to_name" wire:model.lazy="emailList.default_reply_to_name"/>
-    </x-mailcoach::fieldset>
-
-    <x-mailcoach::fieldset card :legend="__('mailcoach - Publication')">
-        <div class="form-field max-w-full">
-            <x-mailcoach::checkbox-field :label="__('mailcoach - Make RSS feed publicly available')" name="emailList.campaigns_feed_enabled"
-                            wire:model="emailList.campaigns_feed_enabled"/>
-            @if ($emailList->campaigns_feed_enabled)
-                <x-mailcoach::info class="mt-2" full>
-                    {{ __('mailcoach - Your public feed will be available at') }}
-                    <a class="text-sm link" target="_blank" href="{{$emailList->feedUrl()}}">{{$emailList->feedUrl()}}</a>
-                </x-mailcoach::info>
-            @endif
-        </div>
     </x-mailcoach::fieldset>
 
     <x-mailcoach::fieldset card :legend="__('mailcoach - Email Notifications')">
