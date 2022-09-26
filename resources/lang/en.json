@@ -286,7 +286,6 @@
     "mailcoach - Show publicly": "Show publicly",
     "mailcoach - When this campaign has been sent, we can display the content on <a href=\":url\">the public website</a> for this email list.": "When this campaign has been sent, we can display the content on <a href=\":url\">the public website</a> for this email list.",
     "mailcoach - Enable website": "Enable website",
-    "mailcoach - Allow subscriptions": "Allow subscriptions",
     "mailcoach - Slug": "Slug",
     "mailcoach - When enabled, a subscription from will be displayed on the website.": "When enabled, a subscription from will be displayed on the website.",
     "mailcoach - Website settings for list :emailList were updated": "Website settings for list :emailList were updated",
@@ -367,6 +366,7 @@
     "mailcoach - Press to add": "Press to add",
     "mailcoach - Press to select": "Press to select",
     "mailcoach - Preview": "Preview",
+    "mailcoach - Primary Color": "Primary Color",
     "mailcoach - Problem": "Problem",
     "mailcoach - Processed rows": "Processed rows",
     "mailcoach - Profile": "Profile",
@@ -442,6 +442,7 @@
     "mailcoach - Settings": "Settings",
     "mailcoach - Show :resource": "Show :resource",
     "mailcoach - Show all": "Show all",
+    "mailcoach - Show a subscription form": "Show a subscription form",
     "mailcoach - Showing": "Showing",
     "mailcoach - So where is everyone? This list is empty.": "So where is everyone? This list is empty.",
     "mailcoach - Someone subscribed": "Someone subscribed",
@@ -577,6 +578,7 @@
     "mailcoach - We could not find your subscription to this list.": "We could not find your subscription to this list.",
     "mailcoach - We've sent you an email to confirm your subscription.": "We've sent you an email to confirm your subscription.",
     "mailcoach - Webhooks": "Webhooks",
+    "mailcoach - Website URL": "Website URL",
     "mailcoach - Weekly summary on the subscriber growth of this list": "Weekly summary on the subscriber growth of this list",
     "mailcoach - Welcome Mail": "Welcome Mail",
     "mailcoach - What should happen with tags on existing subscribers?": "What should happen with tags on existing subscribers?",
@@ -648,5 +650,6 @@
     "mailcoach - Create user" : "Create user",
     "mailcoach - Create webhook": "Create webhook",
     "mailcoach - This URL will display the content of your campaign on your campaign\\'s website. You need to enable the website in the email list settings.": "This URL will display the content of your campaign on your campaign\\'s website. You need to enable the website in the email list settings.",
-    "mailcoach - This URL will display the website listing all of your campaign. You need to enable the website in the email list settings.": "This URL will display the website listing all of your campaign. You need to enable the website in the email list settings."
+    "mailcoach - This URL will display the website listing all of your campaign. You need to enable the website in the email list settings.": "This URL will display the website listing all of your campaign. You need to enable the website in the email list settings.",
+    "mailcoach - Customization" : "Customization"
 }

@@ -14,7 +14,7 @@
     </div>
 </a>
 @if ($emailList->website_intro)
-    {{ $emailList->website_intro }}
+    {{ app(\Spatie\Mailcoach\Domain\Shared\Actions\RenderMarkdownToHtmlAction::class)->execute($emailList->website_intro) }}
 @endif
 
 @if ($imageUrl = $emailList->websiteHeaderImageUrl())

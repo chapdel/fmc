@@ -29,6 +29,7 @@ class Website extends Component
             'emailList.show_subscription_form_on_website' => ['boolean'],
             'emailList.website_slug' => [''],
             'emailList.website_intro' => [''],
+            'emailList.website_primary_color' => [''],
         ];
 
         if ($this->image) {

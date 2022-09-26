@@ -482,6 +482,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.components.form.tagsField', 'mailcoach::tags-field');
         Blade::component('mailcoach::app.components.form.textField', 'mailcoach::text-field');
         Blade::component('mailcoach::app.components.form.htmlField', 'mailcoach::html-field');
+        Blade::component('mailcoach::app.components.form.markdownField', 'mailcoach::markdown-field');
+        Blade::component('mailcoach::app.components.form.colorField', 'mailcoach::color-field');
         Blade::component('mailcoach::app.components.form.textArea', 'mailcoach::textarea-field');
 
         Blade::component('mailcoach::app.components.form.templateChooser', 'mailcoach::template-chooser');

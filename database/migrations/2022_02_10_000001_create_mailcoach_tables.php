@@ -58,8 +58,9 @@ return new class extends Migration
             $table->boolean('show_subscription_form_on_website')->default(true);
             $table->string('website_slug')->nullable();
             $table->string('website_title')->nullable();
-            $table->string('website_intro')->nullable();
-            $table->string('website_subscription_description')->nullable();
+            $table->text('website_intro')->nullable();
+            $table->string('website_primary_color')->nullable();
+            $table->text('website_subscription_description')->nullable();
 
             $table->timestamps();
         });

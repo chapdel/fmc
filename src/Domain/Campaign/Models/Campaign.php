@@ -608,6 +608,6 @@ class Campaign extends Sendable implements Feedable
 
     public function websiteUrl(): string
     {
-        return route('website.campaign', [$this->emailList->website_slug, $this->uuid]);
+        return route('mailcoach.website.campaign', [$this->emailList->website_slug, $this->uuid]);
     }
 }
