@@ -1,20 +1,29 @@
+<?php /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */ ?>
 <x-mailcoach::layout-website :email-list="$emailList">
     @include('mailcoach::emailListWebsite.partials.header')
 
-    <div class="mt-8">
+    <div class="w-full max-w-7xl mx-auto py-16 px-8 mt-8">
         @if($campaigns->count() > 0)
             <div>
                 <ul class="space-y-8 divide-y divide-gray-200">
                     @foreach($campaigns as $campaign)
                         <li class="pt-10">
                             <a href="{{ $campaign->websiteUrl() }}">
-                                <h2 class="hover:underline font-medium text-2xl">{{ $campaign->subject }}</h2>
-
-                                @if($campaign->sent_at)
-                                    <div class="text-gray-400 mt-2">
-                                        Sent {{ $campaign->sent_at->diffForHumans() }}
+                                <div class="flex justify-between">
+                                    <div>
+                                        <span class="text-xs text-gray-600 uppercase">{{ $campaign->sent_at->toFormattedDateString() }}</span>
+                                        <h2 class="hover:underline font-medium text-2xl">{{ $campaign->subject }}</h2>
+                                        <div>
+                                            {!! $campaign->getSummary() !!}
+                                        </div>
                                     </div>
-                                @endif
+
+                                    @if ($src = $campaign->getSummaryImage())
+                                        <div class="w-1/5">
+                                            <img class="w-full h-auto" src="{{ $src }}" alt="">
+                                        </div>
+                                    @endif
+                                </div>
                             </a>
                         </li>
                     @endforeach

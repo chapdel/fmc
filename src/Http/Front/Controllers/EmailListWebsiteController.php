@@ -28,6 +28,7 @@ class EmailListWebsiteController
         $campaigns = self::getCampaignClass()::query()
             ->where('email_list_id', $emailList->id)
             ->orderByDesc('sent_at')
+            ->sent()
             ->showPublicly()
             ->simplePaginate(15);
 

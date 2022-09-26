@@ -17,12 +17,6 @@
     @endif
 </head>
 <body>
-<div class="flex justify-center sm:px-8">
-    <div></div>
-    <div class="bg-white w-full max-w-7xl bg-white py-16 px-8">
-        {{ $slot }}
-    </div>
-    <div></div>
-</div>
+{{ $slot }}
 </body>
 </html>

@@ -1,5 +1,6 @@
+<?php /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */ ?>
 <header>
-    <div class="max-w-lg mx-auto space-y-2">
+    <div class="max-w-lg space-y-2">
         @if ($emailList->description)
             {{ $emailList->website_intro }}
         @endif
@@ -32,7 +33,11 @@
                 name="submit"
                 id="submit"
                 value="Subscribe"
-                class="cursor-pointer hover:bg-gray-700 bg-black text-white py-2 px-4 rounded-md"
+                class="cursor-pointer hover:opacity-80 text-white py-2 px-4 rounded-md"
+                style="
+                    background: {{ $emailList->getWebsitePrimaryColor() }};
+                    color: {{ $emailList->getWebsiteContrastingTextColor() }}
+                "
             >
             </div>
         </form>

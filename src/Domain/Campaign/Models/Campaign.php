@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Support\Str;
+use League\HTMLToMarkdown\HtmlConverter;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
 use Spatie\Mailcoach\Database\Factories\CampaignFactory;
@@ -21,6 +23,7 @@ use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignTestJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\CanBeScheduled;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\SendsToSegment;
 use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
+use Spatie\Mailcoach\Domain\Shared\Actions\RenderMarkdownToHtmlAction;
 use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
@@ -566,6 +569,34 @@ class Campaign extends Sendable implements Feedable
         }
 
         return (new CssToInlineStyles())->convert($html);
+    }
+
+    public function getSummary(): string
+    {
+        $html = preg_replace('#<a.*?>(.*?)</a>#i', '\1', $this->webview_html);
+
+        $converter = new HtmlConverter([
+            'strip_tags' => true,
+            'suppress_errors' => false,
+            'remove_nodes' => 'head script style img code hr',
+        ]);
+
+        $text = $converter->convert($html);
+
+        $text = app(RenderMarkdownToHtmlAction::class)->execute($text);
+
+        $text = strip_tags($text, ['p', 'strong', 'em', 'b', 'i', 'br']);
+
+        $text = preg_replace('/=+/', '', $text);
+
+        return Str::limit($text, 300);
+    }
+
+    public function getSummaryImage(): ?string
+    {
+        preg_match('/<img.+src=[\'"](?P<src>.+?)[\'"].*>/i', $this->webview_html, $image);
+
+        return $image['src'] ?? null;
     }
 
     public function allSendsCreated(): bool
