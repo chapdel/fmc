@@ -21,9 +21,16 @@ beforeEach(function () {
     ]);
 });
 
-it('it can generate the full url to the website', function () {
+it('it can generate the full url to the website', function (string $slug) {
+    $this->emailList->update([
+        'website_slug' => $slug,
+    ]);
+
     expect($this->emailList->websiteUrl())->toEqual('http://localhost/mailcoach/archive/this-is-the-slug');
-});
+})->with([
+    'this-is-the-slug',
+    '/this-is-the-slug'
+]);
 
 it('it will only the website when it is enabled', function () {
     $this->emailList->update([
