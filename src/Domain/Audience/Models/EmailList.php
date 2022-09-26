@@ -310,7 +310,7 @@ class EmailList extends Model implements HasMedia
         $B1 = hexdec(substr($hexColor, 5, 2));
 
         // Black RGB
-        $blackColor = "#000000";
+        $blackColor = '#000000';
         $R2BlackColor = hexdec(substr($blackColor, 1, 2));
         $G2BlackColor = hexdec(substr($blackColor, 3, 2));
         $B2BlackColor = hexdec(substr($blackColor, 5, 2));
@@ -325,9 +325,9 @@ class EmailList extends Model implements HasMedia
             0.0722 * pow($B2BlackColor / 255, 2.2);
 
         if ($L1 > $L2) {
-            $contrastRatio = (int)(($L1 + 0.05) / ($L2 + 0.05));
+            $contrastRatio = (int) (($L1 + 0.05) / ($L2 + 0.05));
         } else {
-            $contrastRatio = (int)(($L2 + 0.05) / ($L1 + 0.05));
+            $contrastRatio = (int) (($L2 + 0.05) / ($L1 + 0.05));
         }
 
         // If contrast is more than 5, return black color
