@@ -46,6 +46,7 @@ class RunActionForActionSubscriberJob implements ShouldQueue, ShouldBeUnique
 
         if (! $subscriber) {
             $this->actionSubscriber->delete();
+
             return;
         }
 
