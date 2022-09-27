@@ -170,6 +170,7 @@ use Spatie\Mailcoach\Http\Livewire\GeneralSettings;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Mailgun\MailgunSetupWizardComponent;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Postmark\PostmarkSetupWizardComponent;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\SendGrid\SendGridSetupWizardComponent;
+use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Sendinblue\SendinblueSetupWizardComponent;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Ses\SesSetupWizardComponent;
 use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Smtp\SmtpSetupWizardComponent;
 use Spatie\Mailcoach\Http\Livewire\Mailers;
@@ -411,6 +412,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
                 Route::mailgunFeedback('mailgun-feedback');
                 Route::sendgridFeedback('sendgrid-feedback');
                 Route::postmarkFeedback('postmark-feedback');
+                Route::sendinblueFeedback('sendinblue-feedback');
             }
 
             Route::prefix($url)->group(function () use ($registerAuth) {
@@ -664,6 +666,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
         SesSetupWizardComponent::registerLivewireComponents();
         SendGridSetupWizardComponent::registerLivewireComponents();
+        SendinblueSetupWizardComponent::registerLivewireComponents();
         SmtpSetupWizardComponent::registerLivewireComponents();
         PostmarkSetupWizardComponent::registerLivewireComponents();
         MailgunSetupWizardComponent::registerLivewireComponents();

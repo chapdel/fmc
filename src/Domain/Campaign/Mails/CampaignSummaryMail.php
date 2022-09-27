@@ -31,7 +31,7 @@ class CampaignSummaryMail extends Mailable implements ShouldQueue
                 $this->campaign->emailList->default_from_email,
                 $this->campaign->emailList->default_from_name
             )
-            ->subject(__("mailcoach - A summary of the ':campaignName' campaign", ['campaignName' => $this->campaign->name]))
+            ->subject(__mc("A summary of the ':campaignName' campaign", ['campaignName' => $this->campaign->name]))
             ->markdown('mailcoach::mails.campaignSummary');
     }
 }

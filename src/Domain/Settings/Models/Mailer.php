@@ -78,6 +78,17 @@ class Mailer extends Model
                 config()->set('mailcoach.sendgrid_feedback.signing_secret', $this->get('signing_secret'));
 
                 break;
+            case MailerTransport::Sendinblue:
+                config()->set("mail.mailers.{$this->configName()}", [
+                    'transport' => 'sendinblue',
+                    'key' => $this->get('apiKey'),
+                    'timespan_in_seconds' => $this->get('timespan_in_seconds'),
+                    'mails_per_timespan' => $this->get('mails_per_timespan'),
+                ]);
+
+                config()->set('mailcoach.sendinblue_feedback.signing_secret', $this->get('signing_secret'));
+
+                break;
             case MailerTransport::Smtp:
                 config()->set("mail.mailers.{$this->configName()}", [
                     'transport' => 'smtp',
