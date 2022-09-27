@@ -129,14 +129,16 @@ class Export extends Component
 
     public function render()
     {
+        $directory = self::obfuscatedExportDirectory();
+
         $this->campaigns = self::getCampaignClass()::whereIn('email_list_id', $this->selectedEmailLists)->orWhereNull('email_list_id')->pluck('name', 'id');
         $this->automations = self::getAutomationClass()::whereIn('email_list_id', $this->selectedEmailLists)->orWhereNull('email_list_id')->pluck('name', 'id');
-        $exportExists = Storage::disk(config('mailcoach.export_disk'))->exists("{$this->obfuscatedExportDirectory()}/mailcoach-export.zip");
+        $exportExists = Storage::disk(config('mailcoach.export_disk'))->exists("{$directory}/mailcoach-export.zip");
 
         return view('mailcoach::app.export', compact('exportExists'))->layout('mailcoach::app.layouts.app', ['title' => 'Export']);
     }
 
-    public function obfuscatedExportDirectory(): string
+    public static function obfuscatedExportDirectory(): string
     {
         if (Cache::has('mailcoach-unique-export-string')) {
             return Cache::get('mailcoach-unique-export-string');

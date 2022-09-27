@@ -2,6 +2,26 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.10.2 - 2022-09-27
+
+- make methods protected by default
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.10.1...5.10.2
+
+## 5.10.1 - 2022-09-01
+
+- Remove Mailcoach overriding the Livewire upload limit
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.10.0...5.10.1
+
+## 5.10.0 - 2022-08-29
+
+### What's Changed
+
+- Improve security of exports by @freekmurze in https://github.com/spatie/laravel-mailcoach/pull/1058
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.9.0...5.10.0
+
 ## 5.9.0 - 2022-08-23
 
 ### What's Changed
