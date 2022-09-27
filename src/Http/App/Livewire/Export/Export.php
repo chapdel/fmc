@@ -126,7 +126,7 @@ class Export extends Component
         return view('mailcoach::app.export', compact('exportExists'))->layout('mailcoach::app.layouts.main');
     }
 
-    public function obfuscatedExportDirectory(): string
+    public static function obfuscatedExportDirectory(): string
     {
         if (Cache::has('mailcoach-unique-export-string')) {
             return Cache::get('mailcoach-unique-export-string');
