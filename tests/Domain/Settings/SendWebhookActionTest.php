@@ -43,10 +43,10 @@ it('will not send a webhook to a configuration that accepts webhooks for a speci
     Queue::assertPushed(CallWebhookJob::class);
 });
 
-it('will send a webhook when a user subscribed', function() {
+it('will send a webhook when a user subscribed', function () {
     event(new SubscribedEvent($this->subscriber));
 
-    Queue::assertPushed(CallWebhookJob::class, function(CallWebhookJob $event) {
+    Queue::assertPushed(CallWebhookJob::class, function (CallWebhookJob $event) {
         expect($event->payload['event'])->toBe('SubscribedEvent');
         expect($event->webhookUrl)->toBe($this->subscriber->emailList->webhookConfigurations()->first()->url);
 
