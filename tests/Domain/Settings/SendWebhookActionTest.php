@@ -14,7 +14,9 @@ beforeEach(function () {
 
     $this->subscriber = SubscriberFactory::new()->create();
 
-    $this->webhookConfiguration = WebhookConfiguration::factory()->create();
+    $this->webhookConfiguration = WebhookConfiguration::factory()->create([
+        'use_for_all_lists' => true,
+    ]);
 });
 
 it('will send a webhook to a configuration that is used for all lists', function () {
@@ -39,6 +41,17 @@ it('will not send a webhook to a configuration that accepts webhooks for a speci
     sendWebhook($this->subscriber);
 
     Queue::assertPushed(CallWebhookJob::class);
+});
+
+it('will send a webhook when a user subscribed', function() {
+    event(new SubscribedEvent($this->subscriber));
+
+    Queue::assertPushed(CallWebhookJob::class, function(CallWebhookJob $event) {
+        expect($event->payload['event'])->toBe('SubscribedEvent');
+        expect($event->webhookUrl)->toBe($this->subscriber->emailList->webhookConfigurations()->first()->url);
+
+        return true;
+    });
 });
 
 function sendWebhook(Subscriber $subscriber): void

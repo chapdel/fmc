@@ -10,6 +10,8 @@ class SendWebhookAction
 {
     public function execute(EmailList $emailList, array $payload, object $event): void
     {
+        $payload['event'] = class_basename($event);
+
         $emailList->webhookConfigurations()->each(
             fn (WebhookConfiguration $webhookConfiguration) => $this->sendWebhook(
                 $webhookConfiguration,
