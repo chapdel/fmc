@@ -45,6 +45,7 @@ class ImportCampaignsJob extends ImportJob
         foreach ($reader->getRows() as $row) {
             $row['email_list_id'] = $emailLists[$row['email_list_uuid']];
             $row['segment_id'] = self::getTagSegmentClass()::where('name', $row['segment_name'])->where('email_list_id', $row['email_list_id'])->first()?->id;
+            $row['all_sends_created_at'] ??= $row['status'] !== 'draft' ? now() : null;
 
             $campaign = self::getCampaignClass()::firstOrCreate(
                 ['uuid' => $row['uuid']],
