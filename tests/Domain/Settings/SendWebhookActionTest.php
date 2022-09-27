@@ -2,7 +2,10 @@
 
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Audience\Events\SubscribedEvent;
+use Spatie\Mailcoach\Domain\Audience\Events\UnsubscribedEvent;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Settings\Actions\SendWebhookAction;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 use Spatie\Mailcoach\Mailcoach;
@@ -48,6 +51,30 @@ it('will send a webhook when a user subscribed', function () {
 
     Queue::assertPushed(CallWebhookJob::class, function (CallWebhookJob $event) {
         expect($event->payload['event'])->toBe('SubscribedEvent');
+        expect($event->webhookUrl)->toBe($this->subscriber->emailList->webhookConfigurations()->first()->url);
+
+        return true;
+    });
+});
+
+it('will send a webhook when a user unsubscribed', function () {
+    event(new UnsubscribedEvent($this->subscriber));
+
+    Queue::assertPushed(CallWebhookJob::class, function (CallWebhookJob $event) {
+        expect($event->payload['event'])->toBe('UnsubscribedEvent');
+        expect($event->webhookUrl)->toBe($this->subscriber->emailList->webhookConfigurations()->first()->url);
+
+        return true;
+    });
+});
+
+it('will send a webhook when a campaign is sent', function () {
+    $campaign = Campaign::factory()->create();
+
+    event(new CampaignSentEvent($campaign));
+
+    Queue::assertPushed(CallWebhookJob::class, function (CallWebhookJob $event) {
+        expect($event->payload['event'])->toBe('CampaignSentEvent');
         expect($event->webhookUrl)->toBe($this->subscriber->emailList->webhookConfigurations()->first()->url);
 
         return true;
