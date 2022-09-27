@@ -11,7 +11,9 @@
                             <a href="{{ $campaign->websiteUrl() }}">
                                 <div class="flex justify-between">
                                     <div>
-                                        <span class="text-xs text-gray-600 uppercase">{{ $campaign->sent_at->toFormattedDateString() }}</span>
+                                        @if ($campaign->sent_at)
+                                            <span class="text-xs text-gray-600 uppercase">{{ $campaign->sent_at->toFormattedDateString() }}</span>
+                                        @endif
                                         <h2 class="hover:underline font-medium text-2xl">{{ $campaign->subject }}</h2>
                                         <div>
                                             {!! $campaign->getSummary() !!}

@@ -283,7 +283,7 @@ it('wont calculate statistics if it doesnt have any new sends', function () {
 
     test()->campaign->dispatchCalculateStatistics();
 
-    expect($queryCount)->toBe(4); // 3 queries to get events + 1 to update statistics calculated at
+    expect($queryCount)->toBe(6); // 5 queries to get events + 1 to update statistics calculated at
 
     \Spatie\Mailcoach\Domain\Shared\Models\Send::factory()->create([
         'campaign_id' => test()->campaign->id,
@@ -291,7 +291,7 @@ it('wont calculate statistics if it doesnt have any new sends', function () {
 
     test()->campaign->dispatchCalculateStatistics();
 
-    expect($queryCount)->toBe(22); // A lot of queries to calculate the statistics
+    expect($queryCount)->toBeGreaterThan(20); // A lot of queries to calculate the statistics
 });
 
 it('will only dispatch a calculate statistics job if it is sent', function () {

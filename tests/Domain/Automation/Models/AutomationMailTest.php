@@ -28,7 +28,7 @@ it('wont calculate statistics if it doesnt have any new sends', function () {
 
     $automationMail->dispatchCalculateStatistics();
 
-    expect($queryCount)->toBe(4); // 3 queries to get events + 1 to update statistics calculated at
+    expect($queryCount)->toBe(6); // 5 queries to get events + 1 to update statistics calculated at
 
     \Spatie\Mailcoach\Domain\Shared\Models\Send::factory()->create([
         'automation_mail_id' => $automationMail->id,
