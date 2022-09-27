@@ -21,6 +21,8 @@ class CalculateStatisticsAction
             $sendable->sends()->latest('id')->first()?->created_at,
             $sendable->opens()->latest('id')->first()?->created_at,
             $sendable->clicks()->latest('id')->first()?->created_at,
+            $sendable->unsubscribes()->latest('id')->first()?->created_at,
+            $sendable->bounces()->latest('id')->first()?->created_at,
         );
 
         if (! $latestEvent) {

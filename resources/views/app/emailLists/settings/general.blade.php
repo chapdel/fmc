@@ -5,7 +5,7 @@
     @keydown.prevent.window.cmd.s="$wire.call('save')"
     @keydown.prevent.window.ctrl.s="$wire.call('save')"
 >
-    <x-mailcoach::fieldset card :legend="__('mailcoach - General')">
+    <x-mailcoach::fieldset card :legend="__('mailcoach - Settings')">
         <x-mailcoach::text-field :label="__('mailcoach - Name')" name="emailList.name" wire:model="emailList.name" required/>
 
         <div class="form-field max-w-full">
