@@ -50,7 +50,7 @@
                         {{ __mc('It was sent to :sendsCount/:sentToNumberOfSubscribers :subscriber of', [
                             'sendsCount' => number_format($campaign->sendsCount()),
                             'sentToNumberOfSubscribers' => number_format($campaign->sent_to_number_of_subscribers),
-                            'subscriber' => trans_choice('mailcoach - subscriber|subscribers', $campaign->sent_to_number_of_subscribers)
+                            'subscriber' => __mc_choice('subscriber|subscribers', $campaign->sent_to_number_of_subscribers)
                         ]) }}
 
                         @if($campaign->emailList)
@@ -100,7 +100,7 @@
                             {{ __mc('is sending to :sendsCount/:sentToNumberOfSubscribers :subscriber of', [
                                 'sendsCount' => number_format($campaign->sendsCount()),
                                 'sentToNumberOfSubscribers' => number_format($campaign->sent_to_number_of_subscribers),
-                                'subscriber' => trans_choice('mailcoach - subscriber|subscribers', $campaign->sent_to_number_of_subscribers)
+                                'subscriber' => __mc_choice('subscriber|subscribers', $campaign->sent_to_number_of_subscribers)
                             ]) }}
 
                             @if($campaign->emailList)
@@ -129,7 +129,7 @@
                 {{ __mc('Campaign') }}
                 <a target="_blank" href="{{ $campaign->webviewUrl() }}"><strong>{{ $campaign->name }}</strong></a>
                 {{ __mc('was delivered successfully to') }}
-                <strong>{{ number_format($campaign->sent_to_number_of_subscribers - ($failedSendsCount ?? 0)) }} {{ trans_choice('mailcoach - subscriber|subscribers', $campaign->sent_to_number_of_subscribers) }}</strong>
+                <strong>{{ number_format($campaign->sent_to_number_of_subscribers - ($failedSendsCount ?? 0)) }} {{ __mc_choice('subscriber|subscribers', $campaign->sent_to_number_of_subscribers) }}</strong>
 
                 {{ __mc('of') }}
 
@@ -148,7 +148,7 @@
                     <i class="fas fa-times text-red-500"></i>
                 </div>
                 <div>
-                    {{ __mc('Delivery failed for') }} <strong>{{ number_format($failedSendsCount) }}</strong> {{ trans_choice('mailcoach - subscriber|subscribers', $failedSendsCount) }}.
+                    {{ __mc('Delivery failed for') }} <strong>{{ number_format($failedSendsCount) }}</strong> {{ __mc_choice('subscriber|subscribers', $failedSendsCount) }}.
                     <a class="underline" href="{{ route('mailcoach.campaigns.outbox', $campaign) . '?filter[type]=failed' }}">{{ __mc('Check the outbox') }}</a>.
                 </div>
             @endif

@@ -13,7 +13,7 @@
 
                                 {{ __mc('has been sent to :sendsCount :subscriber', [
                                     'sendsCount' => $mail->sendsCount(),
-                                    'subscriber' => trans_choice('mailcoach - subscriber|subscribers', $mail->sendsCount())
+                                    'subscriber' => __mc_choice('subscriber|subscribers', $mail->sendsCount())
                                 ]) }}.
                             </p>
                         </div>
@@ -32,7 +32,7 @@
 
                                 {{ __mc('has been sent to :sendsCount :subscriber', [
                                     'sendsCount' => $mail->sendsCount(),
-                                    'subscriber' => trans_choice('mailcoach - subscriber|subscribers', $mail->sendsCount())
+                                    'subscriber' => __mc_choice('subscriber|subscribers', $mail->sendsCount())
                                 ]) }}.
                             </p>
                         </div>
@@ -79,13 +79,13 @@
                 @else
                     @if (! $mail->htmlContainsUnsubscribeUrlPlaceHolder())
                         <p class="markup-code">
-                            {{ __("mailcoach - Without a way to unsubscribe, there's a high chance that your subscribers will complain.") }}
+                            {{ __mc("Without a way to unsubscribe, there's a high chance that your subscribers will complain.") }}
                             {!! __mc('Consider adding the <code>::unsubscribeUrl::</code> placeholder.') !!}
                         </p>
                     @endif
                     @if ($mail->sizeInKb() >= 102)
                         <p class="markup-code">
-                            {{ __("mailcoach - Your email's content size is larger than 102kb (:size). This could cause Gmail to clip your mail.", ['size' => "{$mail->sizeInKb()}kb"]) }}
+                            {{ __mc("Your email's content size is larger than 102kb (:size). This could cause Gmail to clip your mail.", ['size' => "{$mail->sizeInKb()}kb"]) }}
                         </p>
                     @endif
                 @endif
@@ -127,7 +127,7 @@
             @php($tags = [])
             @if (count($links))
                 <p class="markup-code">
-                    {{ __("mailcoach - The following links were found in your mail, make sure they are valid.") }}
+                    {{ __mc("The following links were found in your mail, make sure they are valid.") }}
                 </p>
                 <ul class="grid gap-2">
                     @foreach ($links as $url)
@@ -139,7 +139,7 @@
                 </ul>
             @else
                 <p class="markup-code">
-                    {{ __("mailcoach - No links were found in your mail.") }}
+                    {{ __mc("No links were found in your mail.") }}
                 </p>
             @endif
         </dd>
@@ -155,7 +155,7 @@
 
         <dd>
             <p class="markup-code">
-                {{ __("mailcoach - The following tags will be added to subscribers when they open or click the mail:") }}
+                {{ __mc("The following tags will be added to subscribers when they open or click the mail:") }}
             </p>
             <ul class="flex flex-wrap space-x-2">
                 @if ($mail->add_subscriber_tags)

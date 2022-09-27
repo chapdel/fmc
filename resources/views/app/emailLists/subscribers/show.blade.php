@@ -89,7 +89,7 @@
             </table>
         @else
             <x-mailcoach::info>
-                {{ __("mailcoach - This user doesn't have any attributes yet.") }}
+                {{ __mc("This user doesn't have any attributes yet.") }}
             </x-mailcoach::info>
         @endif
         </x-mailcoach::card>

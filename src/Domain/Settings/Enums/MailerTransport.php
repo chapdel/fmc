@@ -4,11 +4,12 @@ namespace Spatie\Mailcoach\Domain\Settings\Enums;
 
 enum MailerTransport: string
 {
-    case Ses = 'ses';
-    case SendGrid = 'sendGrid';
-    case Smtp = 'smtp';
-    case Postmark = 'postmark';
     case Mailgun = 'mailgun';
+    case Postmark = 'postmark';
+    case SendGrid = 'sendGrid';
+    case Sendinblue = 'sendinblue';
+    case Ses = 'ses';
+    case Smtp = 'smtp';
 
     public function label(): string
     {
@@ -18,6 +19,7 @@ enum MailerTransport: string
             self::Smtp => 'SMTP',
             self::Postmark => 'Postmark',
             self::Mailgun => 'Mailgun',
+            self::Sendinblue => 'Sendinblue',
         };
     }
 }

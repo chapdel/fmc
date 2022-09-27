@@ -57,6 +57,8 @@
         "spatie/laravel-mailcoach-monaco": "6.x-dev as 2.2",
         "spatie/laravel-mailcoach-postmark-feedback": "6.x-dev as 4.0.1",
         "spatie/laravel-mailcoach-postmark-setup": "6.x-dev as 4.0.1",
+        "spatie/laravel-mailcoach-sendinblue-feedback": "6.x-dev as 1.0.0",
+        "spatie/laravel-mailcoach-sendinblue-setup": "6.x-dev as 1.0.0",
         "spatie/laravel-mailcoach-sendgrid-feedback": "6.x-dev as 4.0.1",
         "spatie/laravel-mailcoach-sendgrid-setup": "6.x-dev as 4.0.1",
         "spatie/laravel-mailcoach-ses-feedback": "6.x-dev as 4.0.1",

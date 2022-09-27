@@ -79,7 +79,7 @@
                         <span class="ml-2 tag-neutral text-xs">
                             {{ $campaign->segmentSubscriberCount() }}
                             <span class="ml-1 font-normal">
-                                {{ trans_choice('mailcoach - subscriber|subscribers', $campaign->segmentSubscriberCount()) }}
+                                {{ __mc_choice('subscriber|subscribers', $campaign->segmentSubscriberCount()) }}
                             </span>
                         </span>
                     @elseif($campaign->emailList)
@@ -135,13 +135,13 @@
                 @else
                     @if (! $campaign->htmlContainsUnsubscribeUrlPlaceHolder())
                         <p class="markup-code">
-                            {{ __("mailcoach - Without a way to unsubscribe, there's a high chance that your subscribers will complain.") }}
+                            {{ __mc("Without a way to unsubscribe, there's a high chance that your subscribers will complain.") }}
                             {!! __mc('Consider adding the <code>::unsubscribeUrl::</code> placeholder.') !!}
                         </p>
                     @endif
                     @if ($campaign->sizeInKb() >= 102)
                         <p class="markup-code">
-                            {{ __("mailcoach - Your email's content size is larger than 102kb (:size). This could cause Gmail to clip your campaign.", ['size' => "{$campaign->sizeInKb()}kb"]) }}
+                            {{ __mc("Your email's content size is larger than 102kb (:size). This could cause Gmail to clip your campaign.", ['size' => "{$campaign->sizeInKb()}kb"]) }}
                         </p>
                     @endif
                 @endif
@@ -183,7 +183,7 @@
             @php($tags = [])
             @if (count($links))
                 <p class="markup-code">
-                    {{ __("mailcoach - The following links were found in your campaign, make sure they are valid.") }}
+                    {{ __mc("The following links were found in your campaign, make sure they are valid.") }}
                 </p>
                 <ul class="grid gap-2">
                     @foreach ($links as $url => $status)
@@ -198,7 +198,7 @@
                 </ul>
             @else
                 <p class="markup-code">
-                    {{ __("mailcoach - No links were found in your campaign.") }}
+                    {{ __mc("No links were found in your campaign.") }}
                 </p>
             @endif
         </dd>
@@ -217,7 +217,7 @@
 
             <dd>
                 <p class="markup-code">
-                    {{ __("mailcoach - The following tags will be added to subscribers when they open or click the campaign:") }}
+                    {{ __mc("The following tags will be added to subscribers when they open or click the campaign:") }}
                 </p>
                 @if (is_null($openTracking) && is_null($clickTracking))
                     <p class="markup-code">
@@ -344,13 +344,13 @@
                                 {{ __mc('sending is cancelled.', [
                                     'sendsCount' => $campaign->sendsCount(),
                                     'sentToNumberOfSubscribers' => $campaign->sent_to_number_of_subscribers,
-                                    'subscriber' => trans_choice('mailcoach - subscriber|subscribers', $campaign->sent_to_number_of_subscribers)
+                                    'subscriber' => __mc_choice('subscriber|subscribers', $campaign->sent_to_number_of_subscribers)
                                 ]) }}
 
                                 {{ __mc('It was sent to :sendsCount/:sentToNumberOfSubscribers :subscriber of', [
                                     'sendsCount' => $campaign->sendsCount(),
                                     'sentToNumberOfSubscribers' => $campaign->sent_to_number_of_subscribers,
-                                    'subscriber' => trans_choice('mailcoach - subscriber|subscribers', $campaign->sent_to_number_of_subscribers)
+                                    'subscriber' => __mc_choice('subscriber|subscribers', $campaign->sent_to_number_of_subscribers)
                                 ]) }}
 
                                 @if($campaign->emailList)
@@ -378,7 +378,7 @@
                                 {{ __mc('is sending to :sendsCount/:sentToNumberOfSubscribers :subscriber of', [
                                     'sendsCount' => $campaign->sendsCount(),
                                     'sentToNumberOfSubscribers' => $campaign->sent_to_number_of_subscribers,
-                                    'subscriber' => trans_choice('mailcoach - subscriber|subscribers', $campaign->sent_to_number_of_subscribers)
+                                    'subscriber' => __mc_choice('subscriber|subscribers', $campaign->sent_to_number_of_subscribers)
                                 ]) }}
 
                                 @if($campaign->emailList)

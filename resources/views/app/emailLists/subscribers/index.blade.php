@@ -48,7 +48,7 @@
                                 @if($allSubscriptionsCount === $subscribers->total())
                                     <x-mailcoach::icon-label icon="fa-fw far fa-file" :text="__mc('Export all subscribers')"/>
                                 @else
-                                    <x-mailcoach::icon-label icon="fa-fw far fa-file" :text="__mc('Export :total :subscriber', ['total' => $subscribers->total(), 'subscriber' => trans_choice('mailcoach - subscriber|subscribers', $subscribers->total())])"/>
+                                    <x-mailcoach::icon-label icon="fa-fw far fa-file" :text="__mc('Export :total :subscriber', ['total' => $subscribers->total(), 'subscriber' => __mc_choice('subscriber|subscribers', $subscribers->total())])"/>
                                 @endif
                             </x-mailcoach::form-button>
                         </li>
