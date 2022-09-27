@@ -33,6 +33,7 @@ use Spatie\MailcoachMailgunFeedback\MailcoachMailgunFeedbackServiceProvider;
 use Spatie\MailcoachMarkdownEditor\MailcoachMarkdownEditorServiceProvider;
 use Spatie\MailcoachPostmarkFeedback\MailcoachPostmarkFeedbackServiceProvider;
 use Spatie\MailcoachSendgridFeedback\MailcoachSendgridFeedbackServiceProvider;
+use Spatie\MailcoachSendinblueFeedback\MailcoachSendinblueFeedbackServiceProvider;
 use Spatie\MailcoachSesFeedback\MailcoachSesFeedbackServiceProvider;
 use Spatie\MailcoachUnlayer\MailcoachUnlayerServiceProvider;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
@@ -104,6 +105,7 @@ abstract class TestCase extends Orchestra
             MailcoachSesFeedbackServiceProvider::class,
             MailcoachMailgunFeedbackServiceProvider::class,
             MailcoachSendgridFeedbackServiceProvider::class,
+            MailcoachSendinblueFeedbackServiceProvider::class,
             MailcoachPostmarkFeedbackServiceProvider::class,
             MailcoachUnlayerServiceProvider::class,
             MailcoachEditorServiceProvider::class,
