@@ -1,19 +1,19 @@
 @if ($replacerHelpTexts())
     <div>
         <button class="link-dimmed" x-on:click.prevent="$store.modals.open('placeholders')">
-            {{__('mailcoach - Placeholder cheat sheet')}}
+            {{__mc('Placeholder cheat sheet')}}
         </button>
     </div>
 
-    <x-mailcoach::modal medium :dismissable="true" :title="__('mailcoach - Placeholder cheat sheet')" name="placeholders">
+    <x-mailcoach::modal medium :dismissable="true" :title="__mc('Placeholder cheat sheet')" name="placeholders">
         <x-mailcoach::info class="markup-code">
-            {{ __('mailcoach - You can use following placeholders in the subject and copy:') }}
+            {{ __mc('You can use following placeholders in the subject and copy:') }}
         </x-mailcoach::info>
             <dl class="mt-4 markup-dl markup-code">
                 @foreach($replacerHelpTexts as $replacerName => $replacerDescription)
                     <dt x-data="{ value: @js("::{$replacerName}::") }"><code @click="() => {
                         $clipboard(value);
-                        value = '{{ __('mailcoach - Copied!') }}';
+                        value = '{{ __mc('Copied!') }}';
                         setTimeout(() => {
                             value = '::{{ $replacerName }}::';
                         }, 2000);

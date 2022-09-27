@@ -5,7 +5,7 @@
     @keydown.prevent.window.ctrl.s="$wire.call('save')"
 >
 <x-mailcoach::card>
-    <x-mailcoach::text-field :label="__('mailcoach - Name')" name="tag.name" wire:model="tag.name" required />
+    <x-mailcoach::text-field :label="__mc('Name')" name="tag.name" wire:model="tag.name" required />
 
     <x-mailcoach::help>
         <p>{{ __('Whether the subscriber can choose to add or remove this tag on "Manage your preferences" page.') }}</p>
@@ -14,10 +14,10 @@
             'url' => route('mailcoach.manage-preferences', ['example', $tag->emailList->uuid]),
         ]) !!}</p>
     </x-mailcoach::help>
-    <x-mailcoach::checkbox-field :label="__('mailcoach - Visible on manage preferences page')" name="tag.visible_in_preferences" wire:model="tag.visible_in_preferences" />
+    <x-mailcoach::checkbox-field :label="__mc('Visible on manage preferences page')" name="tag.visible_in_preferences" wire:model="tag.visible_in_preferences" />
 
     <x-mailcoach::form-buttons>
-        <x-mailcoach::button :label="__('mailcoach - Save tag')" />
+        <x-mailcoach::button :label="__mc('Save tag')" />
     </x-mailcoach::form-buttons>
 </x-mailcoach::card>
 </form>

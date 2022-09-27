@@ -78,7 +78,7 @@ class Segment extends Component
 
         $mainNavigation->activeSection()
             ?->add($this->emailList->name, route('mailcoach.emailLists.summary', $this->emailList), function ($section) {
-                $section->add(__('mailcoach - Segments'), route('mailcoach.emailLists.segments', $this->emailList));
+                $section->add(__mc('Segments'), route('mailcoach.emailLists.segments', $this->emailList));
             });
     }
 
@@ -96,7 +96,7 @@ class Segment extends Component
             ->syncPositiveTags($this->positive_tags ?? [])
             ->syncNegativeTags($this->negative_tags ?? []);
 
-        $this->flash(__('mailcoach - The segment has been updated.'));
+        $this->flash(__mc('The segment has been updated.'));
     }
 
     public function render(): View

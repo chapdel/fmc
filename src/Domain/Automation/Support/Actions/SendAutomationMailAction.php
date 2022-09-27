@@ -39,7 +39,7 @@ class SendAutomationMailAction extends AutomationAction
 
     public static function getName(): string
     {
-        return (string) __('mailcoach - Send an email');
+        return (string) __mc('Send an email');
     }
 
     public function toArray(): array

@@ -27,7 +27,7 @@ class AutomationMailOutbox extends DataTable
 
     public function getTitle(): string
     {
-        return __('mailcoach - Outbox');
+        return __mc('Outbox');
     }
 
     public function getView(): string

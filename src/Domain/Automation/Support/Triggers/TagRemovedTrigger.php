@@ -17,7 +17,7 @@ class TagRemovedTrigger extends AutomationTrigger implements TriggeredByEvents
 
     public static function getName(): string
     {
-        return (string) __('mailcoach - When a tag gets removed from a subscriber');
+        return (string) __mc('When a tag gets removed from a subscriber');
     }
 
     public static function getComponent(): ?string

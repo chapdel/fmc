@@ -1,23 +1,23 @@
 @if ($paginator->hasPages())
-    <nav role="navigation" aria-label="{{ __('mailcoach - Pagination Navigation') }}" class="flex items-center justify-between">
+    <nav role="navigation" aria-label="{{ __mc('Pagination Navigation') }}" class="flex items-center justify-between">
         <div class="flex justify-between flex-1 sm:hidden">
             @if ($paginator->onFirstPage())
                 <span class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-300 cursor-default leading-5 rounded-md">
-                    {!! __('mailcoach - pagination.previous') !!}
+                    {!! __mc('pagination.previous') !!}
                 </span>
             @else
                 <a href="{{ $paginator->previousPageUrl() }}" wire:click.prevent="previousPage" wire:loading.attr="disabled" class="relative inline-flex items-center px-4 py-2 text-sm font-medium link leading-5 rounded-md focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:transition ease-in-out duration-150">
-                    {!! __('mailcoach - pagination.previous') !!}
+                    {!! __mc('pagination.previous') !!}
                 </a>
             @endif
 
             @if ($paginator->hasMorePages())
                 <a href="{{ $paginator->nextPageUrl() }}" wire:click.prevent="nextPage" wire:loading.attr="disabled" class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium link leading-5 rounded-md focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:transition ease-in-out duration-150">
-                    {!! __('mailcoach - pagination.next') !!}
+                    {!! __mc('pagination.next') !!}
                 </a>
             @else
                 <span class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-300 cursor-default leading-5 rounded-md">
-                    {!! __('mailcoach - pagination.next') !!}
+                    {!! __mc('pagination.next') !!}
                 </span>
             @endif
         </div>
@@ -25,13 +25,13 @@
         <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between sm:flex-wrap gap-x-6 gap-y-2">
             <div>
                 <p class="text-sm whitespace-nowrap">
-                    <span>{!! __('mailcoach - Showing') !!}</span>
+                    <span>{!! __mc('Showing') !!}</span>
                     <span class="font-medium">{{ $paginator->firstItem() }}</span>
-                    <span>{!! __('mailcoach - to') !!}</span>
+                    <span>{!! __mc('to') !!}</span>
                     <span class="font-medium">{{ $paginator->lastItem() }}</span>
-                    <span>{!! __('mailcoach - of') !!}</span>
+                    <span>{!! __mc('of') !!}</span>
                     <span class="font-medium">{{ number_format($paginator->total()) }}</span>
-                    <span>{!! __('mailcoach - results') !!}</span>
+                    <span>{!! __mc('results') !!}</span>
                 </p>
             </div>
 
@@ -39,13 +39,13 @@
                 <span class="relative z-0 inline-flex items-center gap-2">
                     {{-- Previous Page Link --}}
                     @if ($paginator->onFirstPage())
-                        <span aria-disabled="true" aria-label="{{ __('mailcoach - pagination.previous') }}">
+                        <span aria-disabled="true" aria-label="{{ __mc('pagination.previous') }}">
                             <span class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-300 cursor-default rounded-l-md leading-5" aria-hidden="true">
                                <i class="fas fa-arrow-left"></i>
                             </span>
                         </span>
                     @else
-                        <a href="{{ $paginator->previousPageUrl() }}" wire:click.prevent="previousPage" wire:loading.attr="disabled" rel="prev" class="relative inline-flex items-center px-2 py-2 text-sm font-medium rounded-l-md leading-5 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-300 transition ease-in-out duration-150" aria-label="{{ __('mailcoach - pagination.previous') }}">
+                        <a href="{{ $paginator->previousPageUrl() }}" wire:click.prevent="previousPage" wire:loading.attr="disabled" rel="prev" class="relative inline-flex items-center px-2 py-2 text-sm font-medium rounded-l-md leading-5 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-300 transition ease-in-out duration-150" aria-label="{{ __mc('pagination.previous') }}">
                             <i class="fas fa-arrow-left"></i>
                         </a>
                     @endif
@@ -67,7 +67,7 @@
                                         <span class="relative inline-flex items-center justify-center px-2 w-8 h-8 text-sm font-bold bg-indigo-900/10 rounded-full cursor-default leading-5">{{ $page }}</span>
                                     </span>
                                 @else
-                                    <a href="{{ $url }}" wire:click.prevent="gotoPage({{ $page }})" wire:loading.attr="disabled" class="relative inline-flex items-center justify-center px-2 w-8 h-8 text-sm font-medium hover:text-blue-700 leading-5 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:transition ease-in-out duration-150" aria-label="{{ __('mailcoach - Go to page :page', ['page' => $page]) }}">
+                                    <a href="{{ $url }}" wire:click.prevent="gotoPage({{ $page }})" wire:loading.attr="disabled" class="relative inline-flex items-center justify-center px-2 w-8 h-8 text-sm font-medium hover:text-blue-700 leading-5 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:transition ease-in-out duration-150" aria-label="{{ __mc('Go to page :page', ['page' => $page]) }}">
                                         {{ $page }}
                                     </a>
                                 @endif
@@ -77,11 +77,11 @@
 
                     {{-- Next Page Link --}}
                     @if ($paginator->hasMorePages())
-                        <a href="{{ $paginator->nextPageUrl() }}" wire:click.prevent="nextPage" wire:loading.attr="disabled" rel="next" class="relative inline-flex items-center px-2 py-2 text-sm font-medium rounded-r-md leading-5 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-300 transition ease-in-out duration-150" aria-label="{{ __('mailcoach - pagination.next') }}">
+                        <a href="{{ $paginator->nextPageUrl() }}" wire:click.prevent="nextPage" wire:loading.attr="disabled" rel="next" class="relative inline-flex items-center px-2 py-2 text-sm font-medium rounded-r-md leading-5 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:text-gray-300 transition ease-in-out duration-150" aria-label="{{ __mc('pagination.next') }}">
                             <i class="fas fa-arrow-right"></i>
                         </a>
                     @else
-                        <span aria-disabled="true" aria-label="{{ __('mailcoach - pagination.next') }}">
+                        <span aria-disabled="true" aria-label="{{ __mc('pagination.next') }}">
                             <span class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-300 cursor-default rounded-r-md leading-5" aria-hidden="true">
                                 <i class="fas fa-arrow-right"></i>
                             </span>

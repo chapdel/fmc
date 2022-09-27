@@ -10,15 +10,15 @@
             <ul>
                 <li>
                     <button wire:click.prevent="duplicateTemplate({{ $row->id }})">
-                        <x-mailcoach::icon-label icon="fas fa-random" :text="__('mailcoach - Duplicate')" />
+                        <x-mailcoach::icon-label icon="fas fa-random" :text="__mc('Duplicate')" />
                     </button>
                 </li>
                 <li>
                     <x-mailcoach::confirm-button
                         onConfirm="() => $wire.deleteTemplate({{ $row->id }})"
-                        :confirm-text="__('mailcoach - Are you sure you want to delete template :template?', ['template' => $row->name])"
+                        :confirm-text="__mc('Are you sure you want to delete template :template?', ['template' => $row->name])"
                     >
-                        <x-mailcoach::icon-label icon="far fa-trash-alt" :text="__('mailcoach - Delete')" :caution="true" />
+                        <x-mailcoach::icon-label icon="far fa-trash-alt" :text="__mc('Delete')" :caution="true" />
                     </x-mailcoach::confirm-button>
                 </li>
             </ul>

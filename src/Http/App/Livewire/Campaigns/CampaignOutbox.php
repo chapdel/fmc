@@ -33,19 +33,19 @@ class CampaignOutbox extends DataTable
         $failedSendsCount = $this->campaign->sends()->failed()->count();
 
         if ($failedSendsCount === 0) {
-            $this->flash(__('mailcoach - There are not failed mails to resend anymore.'), 'error');
+            $this->flash(__mc('There are not failed mails to resend anymore.'), 'error');
 
             return;
         }
 
         dispatch(new RetrySendingFailedSendsJob($this->campaign));
 
-        $this->flash(__('mailcoach - Retrying to send :failedSendsCount mails...', ['failedSendsCount' => $failedSendsCount]), 'warning');
+        $this->flash(__mc('Retrying to send :failedSendsCount mails...', ['failedSendsCount' => $failedSendsCount]), 'warning');
     }
 
     public function getTitle(): string
     {
-        return __('mailcoach - Outbox');
+        return __mc('Outbox');
     }
 
     public function getView(): string

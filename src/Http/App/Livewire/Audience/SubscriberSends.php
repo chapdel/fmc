@@ -65,6 +65,6 @@ class SubscriberSends extends DataTable
 
         dispatch(new SendCampaignMailJob($send));
 
-        $this->flash(__('mailcoach - Retrying to send :failedSendsCount mails...', ['failedSendsCount' => 1]));
+        $this->flash(__mc('Retrying to send :failedSendsCount mails...', ['failedSendsCount' => 1]));
     }
 }

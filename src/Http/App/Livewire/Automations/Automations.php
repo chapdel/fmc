@@ -21,7 +21,7 @@ class Automations extends DataTable
         ]);
 
         $this->dispatchBrowserEvent('notify', [
-            'content' => __('mailcoach - Automation :automation was :status.', ['automation' => $automation->name, 'status' => $automation->status->value]),
+            'content' => __mc('Automation :automation was :status.', ['automation' => $automation->name, 'status' => $automation->status->value]),
         ]);
     }
 
@@ -31,7 +31,7 @@ class Automations extends DataTable
 
         /** @var \Spatie\Mailcoach\Domain\Automation\Models\Automation $duplicateAutomation */
         $duplicateAutomation = self::getAutomationClass()::create([
-            'name' => __('mailcoach - Duplicate of').' '.$automation->name,
+            'name' => __mc('Duplicate of').' '.$automation->name,
         ]);
 
         $automation->actions->each(function (Action $action) use ($duplicateAutomation) {
@@ -52,7 +52,7 @@ class Automations extends DataTable
             }
         });
 
-        flash()->success(__('mailcoach - Automation :automation was duplicated.', ['automation' => $automation->name]));
+        flash()->success(__mc('Automation :automation was duplicated.', ['automation' => $automation->name]));
 
         return redirect()->route('mailcoach.automations.settings', $duplicateAutomation);
     }
@@ -65,12 +65,12 @@ class Automations extends DataTable
 
         $automation->delete();
 
-        $this->flash(__('mailcoach - Automation :automation was deleted.', ['automation' => $automation->name]));
+        $this->flash(__mc('Automation :automation was deleted.', ['automation' => $automation->name]));
     }
 
     public function getTitle(): string
     {
-        return __('mailcoach - Automations');
+        return __mc('Automations');
     }
 
     public function getView(): string

@@ -18,7 +18,7 @@ class DateTrigger extends AutomationTrigger implements TriggeredBySchedule
 
     public static function getName(): string
     {
-        return (string) __('mailcoach - On a date');
+        return (string) __mc('On a date');
     }
 
     public static function getComponent(): ?string

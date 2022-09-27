@@ -22,7 +22,7 @@
             </button>
         @endif
         @if ($deletable)
-            <button type="button" onclick="confirm('{{ __('mailcoach - Are you sure you want to delete this action?') }}') || event.stopImmediatePropagation()" wire:click="delete">
+            <button type="button" onclick="confirm('{{ __mc('Are you sure you want to delete this action?') }}') || event.stopImmediatePropagation()" wire:click="delete">
                 <i class="icon-button link-danger far fa-trash-alt"></i>
             </button>
         @endif

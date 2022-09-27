@@ -6,15 +6,15 @@
     method="POST"
 >
     <x-mailcoach::text-field
-        :label="__('mailcoach - Name')"
+        :label="__mc('Name')"
         name="name"
-        :placeholder="__('mailcoach - Newsletter template')"
+        :placeholder="__mc('Newsletter template')"
         wire:model.lazy="name"
         required
     />
 
     <x-mailcoach::form-buttons>
-        <x-mailcoach::button :label="__('mailcoach - Create template')" />
+        <x-mailcoach::button :label="__mc('Create template')" />
         <x-mailcoach::button-cancel  x-on:click="$store.modals.close('create-template')" />
     </x-mailcoach::form-buttons>
 </form>

@@ -74,7 +74,7 @@ class SubscriberImports extends DataTable
 
         dispatch(new ImportSubscribersJob($subscriberImport, $user instanceof User ? $user : null));
 
-        $this->flash(__('mailcoach - Your file has been uploaded. Follow the import status in the list below.'));
+        $this->flash(__mc('Your file has been uploaded. Follow the import status in the list below.'));
 
         $this->file = null;
         $this->showForm = false;
@@ -129,7 +129,7 @@ class SubscriberImports extends DataTable
 
         $import->delete();
 
-        $this->flash(__('mailcoach - Import was deleted.'));
+        $this->flash(__mc('Import was deleted.'));
     }
 
     public function restartImport(int $id)
@@ -139,12 +139,12 @@ class SubscriberImports extends DataTable
 
         dispatch(new ImportSubscribersJob($import, Auth::user()));
 
-        $this->flash(__('mailcoach - Import successfully restarted.'));
+        $this->flash(__mc('Import successfully restarted.'));
     }
 
     public function getTitle(): string
     {
-        return __('mailcoach - Import subscribers');
+        return __mc('Import subscribers');
     }
 
     public function getView(): string

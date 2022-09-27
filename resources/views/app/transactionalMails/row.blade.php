@@ -6,7 +6,7 @@
     <td class="td-numeric hidden | xl:table-cell">{{ $row->created_at->toMailcoachFormat() }}</td>
     <td class="td-action">
         <x-mailcoach::confirm-button
-            :confirm-text="__('mailcoach - Are you sure you want to delete this transactional mail from the log?')"
+            :confirm-text="__mc('Are you sure you want to delete this transactional mail from the log?')"
             onConfirm="() => $wire.deleteTransactionalMail({{ $row->id }})"
             class="icon-button text-red-500 hover:text-red-700"
         >

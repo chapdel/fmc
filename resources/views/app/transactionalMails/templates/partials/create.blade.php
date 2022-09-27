@@ -6,10 +6,10 @@
     method="POST"
 >
     <x-mailcoach::text-field
-        :label="__('mailcoach - Name')"
+        :label="__mc('Name')"
         name="name"
         wire:model.lazy="name"
-        :placeholder="__('mailcoach - Transactional email')"
+        :placeholder="__mc('Transactional email')"
         required
     />
 
@@ -18,7 +18,7 @@
         $editorName = (new ReflectionClass($editor))->getShortName();
     ?>
     <x-mailcoach::select-field
-        :label="__('mailcoach - Type')"
+        :label="__mc('Type')"
         name="type"
         wire:model.lazy="type"
         :options="[
@@ -30,7 +30,7 @@
     />
 
     <x-mailcoach::form-buttons>
-        <x-mailcoach::button :label="__('mailcoach - Create email')" />
+        <x-mailcoach::button :label="__mc('Create email')" />
         <x-mailcoach::button-cancel x-on:click="$store.modals.close('create-transactional-template')" />
     </x-mailcoach::form-buttons>
 </form>

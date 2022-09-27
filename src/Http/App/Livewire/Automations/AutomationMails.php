@@ -17,7 +17,7 @@ class AutomationMails extends DataTable
 
         /** @var AutomationMail $automationMail */
         $automationMail = self::getAutomationMailClass()::create([
-            'name' => __('mailcoach - Duplicate of').' '.$automationMail->name,
+            'name' => __mc('Duplicate of').' '.$automationMail->name,
             'subject' => $automationMail->subject,
             'template_id' => $automationMail->template_id,
             'html' => $automationMail->html,
@@ -27,7 +27,7 @@ class AutomationMails extends DataTable
             'last_modified_at' => now(),
         ]);
 
-        flash()->success(__('mailcoach - Email :name was duplicated.', ['name' => $automationMail->name]));
+        flash()->success(__mc('Email :name was duplicated.', ['name' => $automationMail->name]));
 
         return redirect()->route('mailcoach.automations.mails.settings', $automationMail);
     }
@@ -40,12 +40,12 @@ class AutomationMails extends DataTable
 
         $automationMail->delete();
 
-        $this->flash(__('mailcoach - Automation Email :automationMail was deleted.', ['automationMail' => $automationMail->name]));
+        $this->flash(__mc('Automation Email :automationMail was deleted.', ['automationMail' => $automationMail->name]));
     }
 
     public function getTitle(): string
     {
-        return __('mailcoach - Emails');
+        return __mc('Emails');
     }
 
     public function getView(): string

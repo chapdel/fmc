@@ -1,7 +1,7 @@
 @if ($totalListsCount ?? 0)
-    @php($emptyText = __('mailcoach - No campaigns yet. Go write something!'))
+    @php($emptyText = __mc('No campaigns yet. Go write something!'))
 @else
-    @php($emptyText = __('mailcoach - No campaigns yet, but you‘ll need a list first, go <a href=":emailListsLink">create one</a>!', ['emailListsLink' => route('mailcoach.emailLists')]))
+    @php($emptyText = __mc('No campaigns yet, but you‘ll need a list first, go <a href=":emailListsLink">create one</a>!', ['emailListsLink' => route('mailcoach.emailLists')]))
 @endif
 <x-mailcoach::data-table
     name="campaign"
@@ -9,22 +9,22 @@
     :totalRowsCount="$totalCampaignsCount ?? null"
     :model-class="\Spatie\Mailcoach\Mailcoach::getCampaignClass()"
     :filters="[
-        ['attribute' => 'status', 'value' => '', 'label' => __('mailcoach - All'), 'count' => $totalCampaignsCount ?? null],
-        ['attribute' => 'status', 'value' => 'sent', 'label' => __('mailcoach - Sent'), 'count' => $sentCampaignsCount ?? null],
-        ['attribute' => 'status', 'value' => 'scheduled', 'label' => __('mailcoach - Scheduled'), 'count' => $scheduledCampaignsCount ?? null],
-        ['attribute' => 'status', 'value' => 'draft', 'label' => __('mailcoach - Draft'), 'count' => $draftCampaignsCount ?? null],
+        ['attribute' => 'status', 'value' => '', 'label' => __mc('All'), 'count' => $totalCampaignsCount ?? null],
+        ['attribute' => 'status', 'value' => 'sent', 'label' => __mc('Sent'), 'count' => $sentCampaignsCount ?? null],
+        ['attribute' => 'status', 'value' => 'scheduled', 'label' => __mc('Scheduled'), 'count' => $scheduledCampaignsCount ?? null],
+        ['attribute' => 'status', 'value' => 'draft', 'label' => __mc('Draft'), 'count' => $draftCampaignsCount ?? null],
     ]"
     :columns="[
         ['class' => 'w-4'],
-        ['attribute' => 'name', 'label' => __('mailcoach - Name')],
-        ['attribute' => 'email_list_id', 'label' => __('mailcoach - List'), 'class' => 'w-48'],
-        ['attribute' => '-sent_to_number_of_subscribers', 'label' => __('mailcoach - Emails'), 'class' => 'w-24 th-numeric'],
-        ['attribute' => '-unique_open_count', 'label' => __('mailcoach - Opens'), 'class' => 'w-24 th-numeric hidden | xl:table-cell'],
-        ['attribute' => '-unique_click_count', 'label' => __('mailcoach - Clicks'), 'class' => 'w-24 th-numeric hidden | xl:table-cell'],
-        ['attribute' => '-sent', 'label' => __('mailcoach - Sent'), 'class' => 'w-48 th-numeric hidden | xl:table-cell'],
+        ['attribute' => 'name', 'label' => __mc('Name')],
+        ['attribute' => 'email_list_id', 'label' => __mc('List'), 'class' => 'w-48'],
+        ['attribute' => '-sent_to_number_of_subscribers', 'label' => __mc('Emails'), 'class' => 'w-24 th-numeric'],
+        ['attribute' => '-unique_open_count', 'label' => __mc('Opens'), 'class' => 'w-24 th-numeric hidden | xl:table-cell'],
+        ['attribute' => '-unique_click_count', 'label' => __mc('Clicks'), 'class' => 'w-24 th-numeric hidden | xl:table-cell'],
+        ['attribute' => '-sent', 'label' => __mc('Sent'), 'class' => 'w-48 th-numeric hidden | xl:table-cell'],
         ['class' => 'w-12'],
     ]"
     rowPartial="mailcoach::app.campaigns.partials.row"
     :emptyText="$emptyText"
-    :noResultsText="__('mailcoach - No campaigns found.')"
+    :noResultsText="__mc('No campaigns found.')"
 />

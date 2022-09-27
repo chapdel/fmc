@@ -44,10 +44,10 @@
                     allowHTML: true,
                     searchEnabled: this.options.length >= 10,
                     searchResultLimit: 10,
-                    searchPlaceholderValue: '{{ __('mailcoach - Search…') }}',
-                    noResultsText: '{{ $allowCreate ? __('mailcoach - Type to add tags') : __('mailcoach - No tags found') }}',
-                    noChoicesText: '{{ $allowCreate ? __('mailcoach - Type to add tags') : __('mailcoach - No tags to choose from') }}',
-                    itemSelectText: '{{ $allowCreate ? __('mailcoach - Press to add') : __('mailcoach - Press to select') }}',
+                    searchPlaceholderValue: '{{ __mc('Search…') }}',
+                    noResultsText: '{{ $allowCreate ? __mc('Type to add tags') : __mc('No tags found') }}',
+                    noChoicesText: '{{ $allowCreate ? __mc('Type to add tags') : __mc('No tags to choose from') }}',
+                    itemSelectText: '{{ $allowCreate ? __mc('Press to add') : __mc('Press to select') }}',
                     choices: createChoicesFromTags(),
                 });
 

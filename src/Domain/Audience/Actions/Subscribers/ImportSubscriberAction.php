@@ -28,13 +28,13 @@ class ImportSubscriberAction
         }
 
         if (! $row->hasValidEmail()) {
-            $subscriberImport->addError(__('mailcoach - Does not have a valid email'), $row);
+            $subscriberImport->addError(__mc('Does not have a valid email'), $row);
 
             return;
         }
 
         if (! $subscriberImport->subscribe_unsubscribed && $row->hasUnsubscribed()) {
-            $subscriberImport->addError(__('mailcoach - This email address was unsubscribed in the past.'), $row);
+            $subscriberImport->addError(__mc('This email address was unsubscribed in the past.'), $row);
 
             return;
         }

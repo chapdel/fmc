@@ -51,7 +51,7 @@ class CreateSubscriber extends Component
             ->skipConfirmation()
             ->subscribeTo($this->emailList);
 
-        flash()->success(__('mailcoach - Subscriber :subscriber was created.', ['subscriber' => $this->email]));
+        flash()->success(__mc('Subscriber :subscriber was created.', ['subscriber' => $this->email]));
 
         return redirect()->route('mailcoach.emailLists.subscribers', $this->emailList);
     }

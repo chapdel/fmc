@@ -9,14 +9,14 @@
             <x-mailcoach::help sync full>
                 <div class="flex justify-between items-center w-full">
                     <div>
-                        {{ __('mailcoach - Campaign') }}
+                        {{ __mc('Campaign') }}
                         <strong>{{ $campaign->name }}</strong>
-                        {{ __('mailcoach - is preparing to send to') }}
+                        {{ __mc('is preparing to send to') }}
 
                         @if($campaign->emailList)
                             <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
                         @else
-                            &lt;{{ __('mailcoach - deleted list') }}&gt;
+                            &lt;{{ __mc('deleted list') }}&gt;
                         @endif
 
                         @if($campaign->usesSegment())
@@ -28,7 +28,7 @@
                     <x-mailcoach::confirm-button
                         class="ml-auto text-red-500 underline"
                          onConfirm="() => $wire.cancelSending()"
-                         :confirm-text="__('mailcoach - Are you sure you want to cancel sending this campaign?')">
+                         :confirm-text="__mc('Are you sure you want to cancel sending this campaign?')">
                         Cancel
                     </x-mailcoach::confirm-button>
                 </div>
@@ -42,12 +42,12 @@
             <x-mailcoach::error full>
                 <div class="flex justify-between items-center w-full">
                     <p>
-                        <span class="inline-block">{{ __('mailcoach - Campaign') }}</span>
+                        <span class="inline-block">{{ __mc('Campaign') }}</span>
                         <strong>{{ $campaign->name }}</strong>
 
-                        {{ __('mailcoach - sending is cancelled.') }}
+                        {{ __mc('sending is cancelled.') }}
 
-                        {{ __('mailcoach - It was sent to :sendsCount/:sentToNumberOfSubscribers :subscriber of', [
+                        {{ __mc('It was sent to :sendsCount/:sentToNumberOfSubscribers :subscriber of', [
                             'sendsCount' => number_format($campaign->sendsCount()),
                             'sentToNumberOfSubscribers' => number_format($campaign->sent_to_number_of_subscribers),
                             'subscriber' => trans_choice('mailcoach - subscriber|subscribers', $campaign->sent_to_number_of_subscribers)
@@ -56,7 +56,7 @@
                         @if($campaign->emailList)
                             <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
                         @else
-                            &lt;{{ __('mailcoach - deleted list') }}&gt;
+                            &lt;{{ __mc('deleted list') }}&gt;
                         @endif
 
                         @if($campaign->usesSegment())
@@ -72,20 +72,20 @@
             <x-mailcoach::help sync full>
                 <div class="flex justify-between items-center w-full">
                     <span class="block">
-                        <span class="inline-block">{{ __('mailcoach - Campaign') }}</span>
+                        <span class="inline-block">{{ __mc('Campaign') }}</span>
                         <strong>{{ $campaign->name }}</strong>
 
                         @if (! $campaign->allSendsCreated() && $campaign->sends()->count() < $campaign->sent_to_number_of_subscribers)
                             <br>
-                            {{ __('mailcoach - is preparing :sendsCount/:sentToNumberOfSubscribers :send for', [
+                            {{ __mc('is preparing :sendsCount/:sentToNumberOfSubscribers :send for', [
                                 'sendsCount' => number_format($campaign->sends()->count()),
                                 'sentToNumberOfSubscribers' => number_format($campaign->sent_to_number_of_subscribers),
-                                'send' => trans_choice(__('mailcoach - send|sends'), $campaign->sent_to_number_of_subscribers)
+                                'send' => trans_choice(__mc('send|sends'), $campaign->sent_to_number_of_subscribers)
                             ]) }}
                             @if($campaign->emailList)
                                 <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
                             @else
-                                &lt;{{ __('mailcoach - deleted list') }}&gt;
+                                &lt;{{ __mc('deleted list') }}&gt;
                             @endif
                             @if($campaign->usesSegment())
                                 ({{ $campaign->segment_description }})
@@ -95,9 +95,9 @@
 
                         @php($sendsCount = $campaign->sendsCount())
                         @if ($sendsCount === $campaign->sent_to_number_of_subscribers)
-                            {{ __('mailcoach - is finishing up') }}
+                            {{ __mc('is finishing up') }}
                         @else
-                            {{ __('mailcoach - is sending to :sendsCount/:sentToNumberOfSubscribers :subscriber of', [
+                            {{ __mc('is sending to :sendsCount/:sentToNumberOfSubscribers :subscriber of', [
                                 'sendsCount' => number_format($campaign->sendsCount()),
                                 'sentToNumberOfSubscribers' => number_format($campaign->sent_to_number_of_subscribers),
                                 'subscriber' => trans_choice('mailcoach - subscriber|subscribers', $campaign->sent_to_number_of_subscribers)
@@ -106,7 +106,7 @@
                             @if($campaign->emailList)
                                 <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
                             @else
-                                &lt;{{ __('mailcoach - deleted list') }}&gt;
+                                &lt;{{ __mc('deleted list') }}&gt;
                             @endif
                             @if($campaign->usesSegment())
                                 ({{ $campaign->segment_description }})
@@ -117,7 +117,7 @@
                     <x-mailcoach::confirm-button
                         class="ml-auto text-red-500 underline"
                         onConfirm="() => $wire.cancelSending()"
-                        :confirm-text="__('mailcoach - Are you sure you want to cancel sending this campaign?')">
+                        :confirm-text="__mc('Are you sure you want to cancel sending this campaign?')">
                         Cancel
                     </x-mailcoach::confirm-button>
                 </div>
@@ -126,17 +126,17 @@
     @else
         <x-mailcoach::success class="md:max-w-full" full>
             <div>
-                {{ __('mailcoach - Campaign') }}
+                {{ __mc('Campaign') }}
                 <a target="_blank" href="{{ $campaign->webviewUrl() }}"><strong>{{ $campaign->name }}</strong></a>
-                {{ __('mailcoach - was delivered successfully to') }}
+                {{ __mc('was delivered successfully to') }}
                 <strong>{{ number_format($campaign->sent_to_number_of_subscribers - ($failedSendsCount ?? 0)) }} {{ trans_choice('mailcoach - subscriber|subscribers', $campaign->sent_to_number_of_subscribers) }}</strong>
 
-                {{ __('mailcoach - of') }}
+                {{ __mc('of') }}
 
                 @if($campaign->emailList)
                     <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
                 @else
-                    &lt;{{ __('mailcoach - deleted list') }}&gt;
+                    &lt;{{ __mc('deleted list') }}&gt;
                 @endif
                 @if($campaign->usesSegment())
                     ({{ $campaign->segment_description }})
@@ -148,8 +148,8 @@
                     <i class="fas fa-times text-red-500"></i>
                 </div>
                 <div>
-                    {{ __('mailcoach - Delivery failed for') }} <strong>{{ number_format($failedSendsCount) }}</strong> {{ trans_choice('mailcoach - subscriber|subscribers', $failedSendsCount) }}.
-                    <a class="underline" href="{{ route('mailcoach.campaigns.outbox', $campaign) . '?filter[type]=failed' }}">{{ __('mailcoach - Check the outbox') }}</a>.
+                    {{ __mc('Delivery failed for') }} <strong>{{ number_format($failedSendsCount) }}</strong> {{ trans_choice('mailcoach - subscriber|subscribers', $failedSendsCount) }}.
+                    <a class="underline" href="{{ route('mailcoach.campaigns.outbox', $campaign) . '?filter[type]=failed' }}">{{ __mc('Check the outbox') }}</a>.
                 </div>
             @endif
 
@@ -164,7 +164,7 @@
 
     <x-mailcoach::card>
         <h2 class="markup-h2 mb-0">
-            {{ __('mailcoach - Totals') }}
+            {{ __mc('Totals') }}
         </h2>
         @include('mailcoach::app.campaigns.partials.statistics')
     </x-mailcoach::card>

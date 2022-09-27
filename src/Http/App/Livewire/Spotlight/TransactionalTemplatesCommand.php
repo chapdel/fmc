@@ -9,7 +9,7 @@ class TransactionalTemplatesCommand extends SpotlightCommand
 {
     public function getName(): string
     {
-        return __('mailcoach - Transactional templates');
+        return __mc('Transactional templates');
     }
 
     public function execute(Spotlight $spotlight)

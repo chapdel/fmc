@@ -3,9 +3,9 @@
     :rows="$unsubscribes ?? null"
     :totalRowsCount="$totalUnsubscribes ?? null"
     rowPartial="mailcoach::app.campaigns.partials.unsubscribeRow"
-    :emptyText="__('mailcoach - No unsubscribes have been received yet.')"
+    :emptyText="__mc('No unsubscribes have been received yet.')"
     :columns="[
-        ['label' => __('mailcoach - Email')],
-        ['attribute' => '-created_at', 'label' => __('mailcoach - Date'), 'class' => 'w-48 th-numeric hidden | xl:table-cell'],
+        ['label' => __mc('Email')],
+        ['attribute' => '-created_at', 'label' => __mc('Date'), 'class' => 'w-48 th-numeric hidden | xl:table-cell'],
     ]"
 />

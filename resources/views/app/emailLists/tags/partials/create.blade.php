@@ -7,12 +7,12 @@
 >
     @csrf
 
-    <x-mailcoach::text-field :label="__('mailcoach - Name')" wire:model="name" name="name" required />
+    <x-mailcoach::text-field :label="__mc('Name')" wire:model="name" name="name" required />
 
     <x-mailcoach::form-buttons>
-        <x-mailcoach::button :label="__('mailcoach - Create tag')"/>
+        <x-mailcoach::button :label="__mc('Create tag')"/>
         <button type="button" class="button-cancel" x-on:click="$store.modals.close('create-tag')">
-            {{ __('mailcoach - Cancel') }}
+            {{ __mc('Cancel') }}
         </button>
     </x-mailcoach::form-buttons>
 </form>

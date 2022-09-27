@@ -21,7 +21,7 @@ class Dashboard extends Component
 
         return view('mailcoach::app.dashboard')
             ->layout('mailcoach::app.layouts.app', [
-                'originTitle' => __('mailcoach - Dashboard'),
+                'originTitle' => __mc('Dashboard'),
                 'hideCard' => true,
                 'hideBreadcrumbs' => true,
             ]);

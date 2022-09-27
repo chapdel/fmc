@@ -42,7 +42,7 @@
                         placeholder: '{{ $placeholder }}',
                         position: '{{ $position }}',
                         shouldSort: false,
-                        searchPlaceholderValue: '{{ __('mailcoach - Search…') }}',
+                        searchPlaceholderValue: '{{ __mc('Search…') }}',
                     })
 
                     let refreshChoices = () => {

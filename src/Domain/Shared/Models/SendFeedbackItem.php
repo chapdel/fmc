@@ -29,8 +29,8 @@ class SendFeedbackItem extends Model
     public function getFormattedTypeAttribute(): string
     {
         $formattedTypes = [
-            SendFeedbackType::Bounce->value => __('mailcoach - Bounced'),
-            SendFeedbackType::Complaint->value => __('mailcoach - Received complaint'),
+            SendFeedbackType::Bounce->value => __mc('Bounced'),
+            SendFeedbackType::Complaint->value => __mc('Received complaint'),
         ];
 
         return (string) ($formattedTypes[$this->type->value] ?? '');

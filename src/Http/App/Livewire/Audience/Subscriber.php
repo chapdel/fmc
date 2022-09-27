@@ -78,7 +78,7 @@ class Subscriber extends Component
             $data['tags'] ?? [],
         );
 
-        $this->flash(__('mailcoach - Subscriber :subscriber was updated.', ['subscriber' => $this->subscriber->email]));
+        $this->flash(__mc('Subscriber :subscriber was updated.', ['subscriber' => $this->subscriber->email]));
     }
 
     public function mount(EmailList $emailList, SubscriberModel $subscriber)
@@ -92,7 +92,7 @@ class Subscriber extends Component
 
         app(MainNavigation::class)->activeSection()
             ->add($this->emailList->name, route('mailcoach.emailLists.summary', $this->emailList), function ($section) {
-                $section->add(__('mailcoach - Subscribers'), route('mailcoach.emailLists.subscribers', $this->emailList));
+                $section->add(__mc('Subscribers'), route('mailcoach.emailLists.subscribers', $this->emailList));
             });
     }
 

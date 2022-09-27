@@ -1,6 +1,6 @@
 <x-mailcoach::automation-action :index="$index" :action="$action" :editing="$editing" :editable="$editable" :deletable="$deletable">
     <x-slot name="legend">
-        {{__('mailcoach - Add tags') }}
+        {{__mc('Add tags') }}
         <span class="form-legend-accent">
             {{ $tags }}
         </span>
@@ -10,7 +10,7 @@
         <div class="col-span-12 md:col-span-6">
             <x-mailcoach::text-field
                 id="tags"
-                :label="__('mailcoach - Tags to add')"
+                :label="__mc('Tags to add')"
                 :required="true"
                 name="tags"
                 wire:model="tags"

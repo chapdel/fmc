@@ -26,7 +26,7 @@ class TransactionalMailContent extends Component
     {
         return view('mailcoach::app.transactionalMails.content')
             ->layout('mailcoach::app.transactionalMails.layouts.transactional', [
-                'title' => __('mailcoach - Content'),
+                'title' => __mc('Content'),
                 'transactionalMail' => $this->transactionalMail,
             ]);
     }

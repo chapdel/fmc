@@ -31,7 +31,7 @@ class CampaignSummary extends Component
     {
         $this->campaign->cancel();
 
-        $this->flash(__('mailcoach - Sending successfully cancelled.'));
+        $this->flash(__mc('Sending successfully cancelled.'));
     }
 
     public function render()
@@ -42,7 +42,7 @@ class CampaignSummary extends Component
             'failedSendsCount' => $this->campaign->sends()->failed()->count(),
         ])->layout('mailcoach::app.campaigns.layouts.campaign', [
             'campaign' => $this->campaign,
-            'title' => __('mailcoach - Performance'),
+            'title' => __mc('Performance'),
         ]);
     }
 }

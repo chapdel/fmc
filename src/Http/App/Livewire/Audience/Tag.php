@@ -43,7 +43,7 @@ class Tag extends Component
 
         app(MainNavigation::class)->activeSection()
             ->add($this->emailList->name, route('mailcoach.emailLists.summary', $this->emailList), function ($section) {
-                $section->add(__('mailcoach - Tags'), route('mailcoach.emailLists.tags', $this->emailList));
+                $section->add(__mc('Tags'), route('mailcoach.emailLists.tags', $this->emailList));
             });
     }
 
@@ -53,7 +53,7 @@ class Tag extends Component
 
         $this->tag->save();
 
-        $this->flash(__('mailcoach - Tag :tag was updated', ['tag' => $this->tag->name]));
+        $this->flash(__mc('Tag :tag was updated', ['tag' => $this->tag->name]));
     }
 
     public function render(): View

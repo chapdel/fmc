@@ -58,7 +58,7 @@ class RunAutomation extends Component
 
         $this->automation->save();
 
-        $this->flash(__('mailcoach - Automation :automation was updated.', ['automation' => $this->automation->name]));
+        $this->flash(__mc('Automation :automation was updated.', ['automation' => $this->automation->name]));
     }
 
     public function render(): View
@@ -66,7 +66,7 @@ class RunAutomation extends Component
         return view('mailcoach::app.automations.run')
             ->layout('mailcoach::app.automations.layouts.automation', [
                 'automation' => $this->automation,
-                'title' => __('mailcoach - Run'),
+                'title' => __mc('Run'),
             ]);
     }
 }

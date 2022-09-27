@@ -10,7 +10,7 @@
     <x-mailcoach::card buttons>
             <div class="flex items-center gap-6">
             @if ($unsavedChanges)
-                <x-mailcoach::button :label="__('mailcoach - Save actions')" :disabled="count($editingActions) > 0" />
+                <x-mailcoach::button :label="__mc('Save actions')" :disabled="count($editingActions) > 0" />
             @endif
 
             @if (count($editingActions) > 0)

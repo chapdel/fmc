@@ -28,7 +28,7 @@ class Segments extends DataTable
 
         /** @var \Spatie\Mailcoach\Domain\Audience\Models\TagSegment $duplicateSegment */
         $duplicateSegment = self::getTagSegmentClass()::create([
-            'name' => __('mailcoach - Duplicate of').' '.$segment->name,
+            'name' => __mc('Duplicate of').' '.$segment->name,
             'email_list_id' => $segment->email_list_id,
         ]);
 
@@ -38,7 +38,7 @@ class Segments extends DataTable
         $negativeTagNames = $segment->negativeTags->map(fn (Tag $tag) => $tag->name)->toArray();
         $duplicateSegment->syncNegativeTags($negativeTagNames);
 
-        flash()->success(__('mailcoach - Segment :segment was duplicated.', ['segment' => $segment->name]));
+        flash()->success(__mc('Segment :segment was duplicated.', ['segment' => $segment->name]));
 
         return redirect()->route('mailcoach.emailLists.segments.edit', [
             $duplicateSegment->emailList,
@@ -54,12 +54,12 @@ class Segments extends DataTable
 
         $segment->delete();
 
-        $this->flash(__('mailcoach - Segment :segment was deleted.', ['segment' => $segment->name]));
+        $this->flash(__mc('Segment :segment was deleted.', ['segment' => $segment->name]));
     }
 
     public function getTitle(): string
     {
-        return __('mailcoach - Segments');
+        return __mc('Segments');
     }
 
     public function getView(): string

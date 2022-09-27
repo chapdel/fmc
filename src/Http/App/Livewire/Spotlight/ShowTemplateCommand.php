@@ -18,14 +18,14 @@ class ShowTemplateCommand extends SpotlightCommand
 
     public function getName(): string
     {
-        return __('mailcoach - Show :resource', ['resource' => 'template']);
+        return __mc('Show :resource', ['resource' => 'template']);
     }
 
     public function getSynonyms(): array
     {
         return [
-            __('mailcoach - View :resource', ['resource' => 'template']),
-            __('mailcoach - Go :resource', ['resource' => 'template']),
+            __mc('View :resource', ['resource' => 'template']),
+            __mc('Go :resource', ['resource' => 'template']),
         ];
     }
 

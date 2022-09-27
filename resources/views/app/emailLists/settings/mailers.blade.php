@@ -6,7 +6,7 @@
 >
 <x-mailcoach::card>
     <x-mailcoach::help>
-        {{ __('mailcoach - Select a mailer for each of the functionalities of Mailcoach. If you leave them empty, the default mailer or the mailer set in your configuration file will be used.') }}
+        {{ __mc('Select a mailer for each of the functionalities of Mailcoach. If you leave them empty, the default mailer or the mailer set in your configuration file will be used.') }}
     </x-mailcoach::help>
 
     @if(count(config('mail.mailers')) > 1)
@@ -16,7 +16,7 @@
             :placeholder="__('Select a mailer')"
             :clearable="true"
             wire:model="emailList.campaign_mailer"
-            :label="__('mailcoach - Campaign mailer')"
+            :label="__mc('Campaign mailer')"
         />
 
         <x-mailcoach::select-field
@@ -25,7 +25,7 @@
             :placeholder="__('Select a mailer')"
             :clearable="true"
             wire:model="emailList.automation_mailer"
-            :label="__('mailcoach - Automation mailer')"
+            :label="__mc('Automation mailer')"
         />
 
         <x-mailcoach::select-field
@@ -34,14 +34,14 @@
             :placeholder="__('Select a mailer')"
             :clearable="true"
             wire:model="emailList.transactional_mailer"
-            :label="__('mailcoach - Transactional mailer')"
+            :label="__mc('Transactional mailer')"
         />
     @else
-        <x-mailcoach::info>{{ __('mailcoach - No mailers set.') }}</x-mailcoach::info>
+        <x-mailcoach::info>{{ __mc('No mailers set.') }}</x-mailcoach::info>
     @endif
 
     <x-mailcoach::form-buttons>
-        <x-mailcoach::button :label="__('mailcoach - Save')"/>
+        <x-mailcoach::button :label="__mc('Save')"/>
     </x-mailcoach::form-buttons>
 </x-mailcoach::card>
 </form>

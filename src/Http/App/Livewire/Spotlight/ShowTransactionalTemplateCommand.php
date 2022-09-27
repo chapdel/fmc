@@ -19,14 +19,14 @@ class ShowTransactionalTemplateCommand extends SpotlightCommand
 
     public function getName(): string
     {
-        return __('mailcoach - Show :resource', ['resource' => 'transactional template']);
+        return __mc('Show :resource', ['resource' => 'transactional template']);
     }
 
     public function getSynonyms(): array
     {
         return [
-            __('mailcoach - View :resource', ['resource' => 'transactional template']),
-            __('mailcoach - Go :resource', ['resource' => 'transactional template']),
+            __mc('View :resource', ['resource' => 'transactional template']),
+            __mc('Go :resource', ['resource' => 'transactional template']),
         ];
     }
 

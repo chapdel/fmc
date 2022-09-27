@@ -16,7 +16,7 @@ class CreateTemplateCommand extends SpotlightCommand
 
     public function getName(): string
     {
-        return __('mailcoach - Create :resource', ['resource' => 'template']);
+        return __mc('Create :resource', ['resource' => 'template']);
     }
 
     public function dependencies(): ?SpotlightCommandDependencies
@@ -40,7 +40,7 @@ class CreateTemplateCommand extends SpotlightCommand
             'name' => $name,
         ]);
 
-        flash()->success(__('mailcoach - Template :template was created.', ['template' => $template->name]));
+        flash()->success(__mc('Template :template was created.', ['template' => $template->name]));
 
         $spotlight->redirect(route('mailcoach.templates.edit', $template));
     }

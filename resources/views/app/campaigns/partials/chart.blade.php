@@ -7,7 +7,7 @@
         })">
             <canvas id="chart" style="position: relative; max-height:300px; width:100%; max-width: 100%;"></canvas>
             <div class="relative text-right -mb-8" style="top: -2rem">
-                <small class="text-gray-500 text-sm">{{ __('mailcoach - You can drag the chart to zoom.') }}</small>
+                <small class="text-gray-500 text-sm">{{ __mc('You can drag the chart to zoom.') }}</small>
                 <a x-show="zoomed" x-cloak class="text-gray-500 text-sm underline" href="#" x-on:click.prevent="resetZoom">Reset zoom</a>
             </div>
         </div>

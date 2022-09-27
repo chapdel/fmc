@@ -1,5 +1,5 @@
 @props([
-    'confirmText' => __('mailcoach - Are you sure?'),
+    'confirmText' => __mc('Are you sure?'),
     'onConfirm' => '() => $refs.form.submit()',
     'action' => null,
     'method' => 'POST',

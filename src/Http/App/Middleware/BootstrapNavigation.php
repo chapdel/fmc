@@ -14,20 +14,20 @@ class BootstrapNavigation
     public function handle(Request $request, $next)
     {
         app(MainNavigation::class)
-            ->add(__('mailcoach - Dashboard'), route('mailcoach.dashboard'))
-            ->addIf($request->user()?->can('viewAny', self::getCampaignClass()), __('mailcoach - Campaigns'), route('mailcoach.campaigns'))
-            ->addIf($request->user()?->can('viewAny', self::getAutomationClass()), __('mailcoach - Automations'), route('mailcoach.automations'), function (Section $section) {
+            ->add(__mc('Dashboard'), route('mailcoach.dashboard'))
+            ->addIf($request->user()?->can('viewAny', self::getCampaignClass()), __mc('Campaigns'), route('mailcoach.campaigns'))
+            ->addIf($request->user()?->can('viewAny', self::getAutomationClass()), __mc('Automations'), route('mailcoach.automations'), function (Section $section) {
                 $section
-                    ->add(__('mailcoach - Automations'), route('mailcoach.automations'))
-                    ->add(__('mailcoach - Emails'), route('mailcoach.automations.mails'));
+                    ->add(__mc('Automations'), route('mailcoach.automations'))
+                    ->add(__mc('Emails'), route('mailcoach.automations.mails'));
             })
-            ->addIf($request->user()?->can('viewAny', self::getEmailListClass()), __('mailcoach - Lists'), route('mailcoach.emailLists'))
-            ->addIf($request->user()?->can('viewAny', self::getTransactionalMailLogItemClass()), __('mailcoach - Transactional'), route('mailcoach.transactionalMails'), function (Section $section) {
+            ->addIf($request->user()?->can('viewAny', self::getEmailListClass()), __mc('Lists'), route('mailcoach.emailLists'))
+            ->addIf($request->user()?->can('viewAny', self::getTransactionalMailLogItemClass()), __mc('Transactional'), route('mailcoach.transactionalMails'), function (Section $section) {
                 $section
-                    ->add(__('mailcoach - Log'), route('mailcoach.transactionalMails'))
-                    ->add(__('mailcoach - Emails'), route('mailcoach.transactionalMails.templates'));
+                    ->add(__mc('Log'), route('mailcoach.transactionalMails'))
+                    ->add(__mc('Emails'), route('mailcoach.transactionalMails.templates'));
             })
-            ->addIf($request->user()?->can('viewAny', self::getTemplateClass()), __('mailcoach - Templates'), route('mailcoach.templates'));
+            ->addIf($request->user()?->can('viewAny', self::getTemplateClass()), __mc('Templates'), route('mailcoach.templates'));
 
         return $next($request);
     }

@@ -24,7 +24,7 @@ class Tags extends DataTable
 
         app(MainNavigation::class)->activeSection()
             ->add($this->emailList->name, route('mailcoach.emailLists.summary', $this->emailList), function ($section) {
-                $section->add(__('mailcoach - Tags'), route('mailcoach.emailLists.tags', $this->emailList));
+                $section->add(__mc('Tags'), route('mailcoach.emailLists.tags', $this->emailList));
             });
     }
 
@@ -40,12 +40,12 @@ class Tags extends DataTable
 
         $tag->delete();
 
-        $this->flash(__('mailcoach - Tag :tag was deleted', ['tag' => $tag->name]));
+        $this->flash(__mc('Tag :tag was deleted', ['tag' => $tag->name]));
     }
 
     public function getTitle(): string
     {
-        return __('mailcoach - Tags');
+        return __mc('Tags');
     }
 
     public function getView(): string

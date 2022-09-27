@@ -17,12 +17,12 @@ class Lists extends DataTable
         self::getSubscriberClass()::where('email_list_id', $list->id)->delete();
         $list->delete();
 
-        $this->flash(__('mailcoach - List :list was deleted.', ['list' => $list->name]));
+        $this->flash(__mc('List :list was deleted.', ['list' => $list->name]));
     }
 
     public function getTitle(): string
     {
-        return __('mailcoach - Lists');
+        return __mc('Lists');
     }
 
     public function getView(): string

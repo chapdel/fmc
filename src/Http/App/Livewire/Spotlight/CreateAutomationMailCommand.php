@@ -16,7 +16,7 @@ class CreateAutomationMailCommand extends SpotlightCommand
 
     public function getName(): string
     {
-        return __('mailcoach - Create automation-mail');
+        return __mc('Create automation-mail');
     }
 
     public function dependencies(): ?SpotlightCommandDependencies
@@ -42,7 +42,7 @@ class CreateAutomationMailCommand extends SpotlightCommand
             'name' => $name,
         ]);
 
-        flash()->success(__('mailcoach - Email :name was created.', ['name' => $automationMail->name]));
+        flash()->success(__mc('Email :name was created.', ['name' => $automationMail->name]));
 
         $spotlight->redirect(route('mailcoach.automations.mails.settings', $automationMail));
     }

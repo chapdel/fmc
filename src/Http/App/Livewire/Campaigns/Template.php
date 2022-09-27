@@ -45,7 +45,7 @@ class Template extends Component
         $this->template->name = $data['template']['name'];
         $this->template->save();
 
-        $this->flash(__('mailcoach - Template :template was updated.', ['template' => $this->template->name]));
+        $this->flash(__mc('Template :template was updated.', ['template' => $this->template->name]));
     }
 
     public function render(): View

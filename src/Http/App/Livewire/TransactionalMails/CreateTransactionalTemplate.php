@@ -32,7 +32,7 @@ class CreateTransactionalTemplate extends Component
             $this->validate(),
         );
 
-        flash()->success(__('mailcoach - Email :name was created.', ['name' => $template->name]));
+        flash()->success(__mc('Email :name was created.', ['name' => $template->name]));
 
         return redirect()->route('mailcoach.transactionalMails.templates.edit', $template);
     }

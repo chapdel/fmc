@@ -18,8 +18,8 @@
         {{ $actions ?? '' }}
         @if ($modelClass)
             @can('create', $modelClass)
-            <x-mailcoach::button x-on:click="$store.modals.open('create-{{ $name }}')" :label="$createText ?? __('mailcoach - Create ' . $name)" />
-            <x-mailcoach::modal :title="$createText ?? __('mailcoach - Create ' . $name)" name="create-{{ $name }}">
+            <x-mailcoach::button x-on:click="$store.modals.open('create-{{ $name }}')" :label="$createText ?? __mc('Create ' . $name)" />
+            <x-mailcoach::modal :title="$createText ?? __mc('Create ' . $name)" name="create-{{ $name }}">
                 @livewire('mailcoach::create-' . $name)
             </x-mailcoach::modal>
             @endcan
@@ -39,7 +39,7 @@
             @endif
 
             @if($searchable)
-            <x-mailcoach::search wire:model.debounce.500ms="search" :placeholder="__('mailcoach - Search…')" />
+            <x-mailcoach::search wire:model.debounce.500ms="search" :placeholder="__mc('Search…')" />
             @endif
         </div>
     </div>
@@ -139,7 +139,7 @@
                 </div>
             @endif
             <div class="w-full">
-                <x-mailcoach::table-status :name="__('mailcoach - ' . $name)" :paginator="$rows" :total-count="$totalRowsCount" wire:click="clearFilters"></x-mailcoach::table-status>
+                <x-mailcoach::table-status :name="__mc('' . $name)" :paginator="$rows" :total-count="$totalRowsCount" wire:click="clearFilters"></x-mailcoach::table-status>
             </div>
         </div>
     @endif

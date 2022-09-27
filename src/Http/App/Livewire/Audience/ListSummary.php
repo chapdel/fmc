@@ -93,7 +93,7 @@ class ListSummary extends Component
             'averageUnsubscribeRate' => $this->averageUnsubscribeRate(),
             'averageBounceRate' => $this->averageBounceRate(),
         ])->layout('mailcoach::app.emailLists.layouts.emailList', [
-            'title' => __('mailcoach - Performance'),
+            'title' => __mc('Performance'),
             'emailList' => $this->emailList,
             'hideCard' => true,
         ]);

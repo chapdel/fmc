@@ -39,14 +39,14 @@ class ListMailers extends Component
 
         $this->emailList->save();
 
-        $this->flash(__('mailcoach - List :emailList was updated', ['emailList' => $this->emailList->name]));
+        $this->flash(__mc('List :emailList was updated', ['emailList' => $this->emailList->name]));
     }
 
     public function render(): View
     {
         return view('mailcoach::app.emailLists.settings.mailers')
             ->layout('mailcoach::app.emailLists.layouts.emailList', [
-                'title' => __('mailcoach - Mailers'),
+                'title' => __mc('Mailers'),
                 'emailList' => $this->emailList,
             ]);
     }

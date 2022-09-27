@@ -32,7 +32,7 @@ class AutomationMailDelivery extends Component
         return view('mailcoach::app.automations.mails.delivery', [
             'links' => $this->mail->htmlLinks(),
         ])->layout('mailcoach::app.automations.mails.layouts.automationMail', [
-            'title' => __('mailcoach - Delivery'),
+            'title' => __mc('Delivery'),
             'mail' => $this->mail,
         ]);
     }

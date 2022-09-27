@@ -254,7 +254,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
             ->bootFlash()
             ->bootRoutes()
             ->bootSupportMacros()
-            ->bootTranslations()
             ->bootViews()
             ->bootEvents()
             ->bootTriggers()
@@ -460,13 +459,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
         }
 
         $this->bootLivewireComponents();
-
-        return $this;
-    }
-
-    protected function bootTranslations(): self
-    {
-        $this->loadJSONTranslationsFrom(__DIR__.'/../resources/lang/');
 
         return $this;
     }

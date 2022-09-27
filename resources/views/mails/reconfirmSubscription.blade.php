@@ -1,12 +1,12 @@
 @component('mailcoach::mails.layout.message')
-{{ __('mailcoach - Hey') }},
+{{ __mc('Hey') }},
 
-{{ __('mailcoach - It seems like you haven’t read our emails in a while.') }}
+{{ __mc('It seems like you haven’t read our emails in a while.') }}
 
-{{ __('mailcoach - Do you want to stay subscribed to our email list **:emailListName**?', ['emailListName'=>$subscriber->emailList->name]) }}
+{{ __mc('Do you want to stay subscribed to our email list **:emailListName**?', ['emailListName'=>$subscriber->emailList->name]) }}
 
 @component('mailcoach::mails.layout.button', ['url' => $confirmationUrl])
-{{ __('mailcoach - Stay subscribed') }}
+{{ __mc('Stay subscribed') }}
 @endcomponent
 
 @endcomponent

@@ -91,7 +91,7 @@ class CampaignSettings extends Component
 
         $this->campaign->update(['segment_description' => $this->campaign->getSegment()->description()]);
 
-        $this->flash(__('mailcoach - Campaign :campaign was updated.', ['campaign' => $this->campaign->name]));
+        $this->flash(__mc('Campaign :campaign was updated.', ['campaign' => $this->campaign->name]));
     }
 
     public function render(): View
@@ -101,7 +101,7 @@ class CampaignSettings extends Component
         return view('mailcoach::app.campaigns.settings')
             ->layout('mailcoach::app.campaigns.layouts.campaign', [
                 'campaign' => $this->campaign,
-                'title' => __('mailcoach - Settings'),
+                'title' => __mc('Settings'),
             ]);
     }
 }

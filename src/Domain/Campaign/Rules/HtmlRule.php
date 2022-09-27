@@ -36,7 +36,7 @@ class HtmlRule implements Rule
         preg_match('/Tag (.*) invalid in Entity.*/', $this->exception->getMessage(), $match);
 
         if (isset($match[1])) {
-            return __('mailcoach - Your HTML contains a &lt;:tag&gt; tag which is not supported in a lot of mail clients.', [
+            return __mc('Your HTML contains a &lt;:tag&gt; tag which is not supported in a lot of mail clients.', [
                 'tag' => $match[1],
             ]);
         }

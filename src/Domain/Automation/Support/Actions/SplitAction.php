@@ -25,7 +25,7 @@ class SplitAction extends AutomationAction
 
     public static function getName(): string
     {
-        return (string) __('mailcoach - Branch out');
+        return (string) __mc('Branch out');
     }
 
     public static function getComponent(): ?string

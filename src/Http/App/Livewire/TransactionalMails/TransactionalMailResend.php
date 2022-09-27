@@ -28,14 +28,14 @@ class TransactionalMailResend extends Component
     {
         $this->transactionalMail->resend();
 
-        $this->flash(__('mailcoach - The mail has been resent!'));
+        $this->flash(__mc('The mail has been resent!'));
     }
 
     public function render()
     {
         return view('mailcoach::app.transactionalMails.resend')
             ->layout('mailcoach::app.transactionalMails.layouts.transactional', [
-                'title' => __('mailcoach - Resend'),
+                'title' => __mc('Resend'),
                 'transactionalMail' => $this->transactionalMail,
             ]);
     }

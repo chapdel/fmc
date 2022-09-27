@@ -19,7 +19,7 @@ class CreateCampaignCommand extends SpotlightCommand
 
     public function getName(): string
     {
-        return __('mailcoach - Create campaign');
+        return __mc('Create campaign');
     }
 
     public function dependencies(): ?SpotlightCommandDependencies
@@ -68,7 +68,7 @@ class CreateCampaignCommand extends SpotlightCommand
             'email_list_id' => $emailList->id,
         ]);
 
-        flash()->success(__('mailcoach - Campaign :campaign was created.', ['campaign' => $campaign->name]));
+        flash()->success(__mc('Campaign :campaign was created.', ['campaign' => $campaign->name]));
 
         $spotlight->redirect(route('mailcoach.campaigns.settings', $campaign));
     }

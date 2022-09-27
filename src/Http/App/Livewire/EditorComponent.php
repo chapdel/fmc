@@ -127,7 +127,7 @@ abstract class EditorComponent extends Component
         $this->saveQuietly();
 
         if (! $this->quiet) {
-            $this->flash(__('mailcoach - :name was updated.', ['name' => $this->model->fresh()->name]));
+            $this->flash(__mc(':name was updated.', ['name' => $this->model->fresh()->name]));
         }
 
         $this->emit('editorSaved');

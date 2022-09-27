@@ -1,5 +1,5 @@
 @extends('mailcoach::landingPages.layouts.landingPage', [
-    'title' => __('mailcoach - Manage preferences'),
+    'title' => __mc('Manage preferences'),
     'size' => 'max-w-lg'
 ])
 
@@ -8,12 +8,12 @@
 @section('landing')
     @if ($updated ?? false)
         <x-mailcoach::success>
-            {{ __('mailcoach - Preferences updated successfully!') }}
+            {{ __mc('Preferences updated successfully!') }}
         </x-mailcoach::success>
     @endif
 
     <p class="mt-4">
-        {!! __('mailcoach - Manage your preferences for <strong class="font-semibold">:emailListName</strong>', ['emailListName' => $subscriber->emailList->name]) !!}
+        {!! __mc('Manage your preferences for <strong class="font-semibold">:emailListName</strong>', ['emailListName' => $subscriber->emailList->name]) !!}
     </p>
 
     <div class="mt-4" x-data="{ unsubscribeFromAll: false }" x-init="$watch('unsubscribeFromAll', (value) => {
@@ -39,11 +39,11 @@
             <hr class="mt-6" />
 
             <div class="mt-6">
-                <x-mailcoach::checkbox-field class="mb-2" x-ref="all" x-model="unsubscribeFromAll" name="unsubscribe_from_all" :label="__('mailcoach - Unsubscribe from all')" :errors="$errors" />
+                <x-mailcoach::checkbox-field class="mb-2" x-ref="all" x-model="unsubscribeFromAll" name="unsubscribe_from_all" :label="__mc('Unsubscribe from all')" :errors="$errors" />
             </div>
 
             @csrf
-            <x-mailcoach::button class="mt-4" type="submit" :label="__('mailcoach - Save')" />
+            <x-mailcoach::button class="mt-4" type="submit" :label="__mc('Save')" />
         </form>
     </div>
 @endsection

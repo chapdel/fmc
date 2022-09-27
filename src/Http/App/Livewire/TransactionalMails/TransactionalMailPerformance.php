@@ -26,7 +26,7 @@ class TransactionalMailPerformance extends Component
     {
         return view('mailcoach::app.transactionalMails.performance')
             ->layout('mailcoach::app.transactionalMails.layouts.transactional', [
-                'title' => __('mailcoach - Performance'),
+                'title' => __mc('Performance'),
                 'transactionalMail' => $this->transactionalMail,
             ]);
     }

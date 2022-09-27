@@ -14,7 +14,7 @@ class HaltAction extends AutomationAction
 
     public static function getName(): string
     {
-        return (string) __('mailcoach - Halt the automation');
+        return (string) __mc('Halt the automation');
     }
 
     public function shouldHalt(ActionSubscriber $actionSubscriber): bool

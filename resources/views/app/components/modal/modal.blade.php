@@ -3,8 +3,8 @@
     'medium' => false,
     'large' => false,
     'title' => null,
-    'confirmText' => __('mailcoach - Confirm'),
-    'cancelText' =>  __('mailcoach - Cancel'),
+    'confirmText' => __mc('Confirm'),
+    'cancelText' =>  __mc('Cancel'),
     'open' => false,
     'dismissable' => false,
 ])

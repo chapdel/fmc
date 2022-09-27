@@ -18,14 +18,14 @@ class ShowListCommand extends SpotlightCommand
 
     public function getName(): string
     {
-        return __('mailcoach - Show :resource', ['resource' => 'email list']);
+        return __mc('Show :resource', ['resource' => 'email list']);
     }
 
     public function getSynonyms(): array
     {
         return [
-            __('mailcoach - View :resource', ['resource' => 'email list']),
-            __('mailcoach - Go :resource', ['resource' => 'email list']),
+            __mc('View :resource', ['resource' => 'email list']),
+            __mc('Go :resource', ['resource' => 'email list']),
         ];
     }
 

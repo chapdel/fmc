@@ -9,11 +9,11 @@
         <a class="inline-block truncate max-w-[6rem]" href="https://mailcoach.app">
             Mailcoach {{ $versionInfo->getCurrentVersion() }}
         </a>
-        <span>&nbsp;{{ __('mailcoach - by') }} <a class="" target="_blank" href="https://spatie.be">SPATIE</a></span>
+        <span>&nbsp;{{ __mc('by') }} <a class="" target="_blank" href="https://spatie.be">SPATIE</a></span>
 
         @if(Auth::check())
             <span class="mx-2">•</span>
-            <a class="" href="https://mailcoach.app/docs" target="_blank">{{ __('mailcoach - Documentation') }}</a>
+            <a class="" href="https://mailcoach.app/docs" target="_blank">{{ __mc('Documentation') }}</a>
 
             <span class="mx-2">•</span>
             <a class="inline-block" href="{{ route('debug') }}">
@@ -31,7 +31,7 @@
             @if(! $versionInfo->isLatest())
                 <a class="ml-4 inline-flex items-center" href="/">
                     <i class="fas fa-horse-head mr-1"></i>
-                    {{ __('mailcoach - Upgrade available') }}
+                    {{ __mc('Upgrade available') }}
                 </a>
             @endif
         @endif

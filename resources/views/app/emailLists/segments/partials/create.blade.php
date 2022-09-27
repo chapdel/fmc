@@ -6,13 +6,13 @@
     method="POST"
 >
     @csrf
-    <x-mailcoach::text-field :label="__('mailcoach - Name')" name="name" wire:model.lazy="name" required />
+    <x-mailcoach::text-field :label="__mc('Name')" name="name" wire:model.lazy="name" required />
 
     <x-mailcoach::form-buttons>
-        <x-mailcoach::button :label="__('mailcoach - Create segment')" />
+        <x-mailcoach::button :label="__mc('Create segment')" />
 
         <button type="button" class="button-cancel" x-on:click="$store.modals.close('create-segment')">
-            {{ __('mailcoach - Cancel') }}
+            {{ __mc('Cancel') }}
         </button>
     </x-mailcoach::form-buttons>
 </form>

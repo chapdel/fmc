@@ -79,7 +79,7 @@ class ConfirmSubscriberMail extends Mailable implements ShouldQueue
             return $this;
         }
 
-        $this->subject(__('mailcoach - Confirm your subscription to :emailListName', ['emailListName' => $this->subscriber->emailList->name]));
+        $this->subject(__mc('Confirm your subscription to :emailListName', ['emailListName' => $this->subscriber->emailList->name]));
 
         return $this;
     }

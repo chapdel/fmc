@@ -5,11 +5,11 @@
     :totalRowsCount="$totalAutomationsCount ?? null"
     :columns="[
         ['class' => 'w-4'],
-        ['attribute' => 'name', 'label' => __('mailcoach - Name')],
-        ['attribute' => '-updated_at', 'label' => __('mailcoach - Last updated'), 'class' => 'w-48 th-numeric'],
+        ['attribute' => 'name', 'label' => __mc('Name')],
+        ['attribute' => '-updated_at', 'label' => __mc('Last updated'), 'class' => 'w-48 th-numeric'],
         ['class' => 'w-12'],
     ]"
     rowPartial="mailcoach::app.automations.partials.row"
-    :emptyText="__('mailcoach - No automations yet. A welcome automation is a good start!')"
-    :noResultsText="__('mailcoach - No automations found.')"
+    :emptyText="__mc('No automations yet. A welcome automation is a good start!')"
+    :noResultsText="__mc('No automations found.')"
 />

@@ -62,7 +62,7 @@ class CreateCampaign extends Component
             self::getTemplateClass()::find($this->template_id),
         );
 
-        flash()->success(__('mailcoach - Campaign :campaign was created.', ['campaign' => $campaign->name]));
+        flash()->success(__mc('Campaign :campaign was created.', ['campaign' => $campaign->name]));
 
         return redirect()->route('mailcoach.campaigns.settings', $campaign);
     }

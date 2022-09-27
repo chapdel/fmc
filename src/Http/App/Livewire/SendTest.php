@@ -29,8 +29,8 @@ class SendTest extends Component
         $this->validate([
             'emails' => ['required', (new Delimited('email'))->min(1)->max(10)],
         ], [
-            'email.required' => __('mailcoach - You must specify at least one e-mail address.'),
-            'email.email' => __('mailcoach - Not all the given e-mails are valid.'),
+            'email.required' => __mc('You must specify at least one e-mail address.'),
+            'email.email' => __mc('Not all the given e-mails are valid.'),
         ]);
 
         $emails = array_map('trim', explode(',', $this->emails));
@@ -46,12 +46,12 @@ class SendTest extends Component
             }
 
             if (count($emails) > 1) {
-                $this->flash(__('mailcoach - A test email was sent to :count addresses.', ['count' => count($emails)]));
+                $this->flash(__mc('A test email was sent to :count addresses.', ['count' => count($emails)]));
             } else {
-                $this->flash(__('mailcoach - A test email was sent to :email.', ['email' => $emails[0]]));
+                $this->flash(__mc('A test email was sent to :email.', ['email' => $emails[0]]));
             }
         } else {
-            $this->flashError(__('mailcoach - Model :model does not support sending tests.', ['model' => $this->model::class]));
+            $this->flashError(__mc('Model :model does not support sending tests.', ['model' => $this->model::class]));
         }
 
         $this->dispatchBrowserEvent('modal-closed', ['modal' => 'send-test']);

@@ -9,7 +9,7 @@ class TemplatesCommand extends SpotlightCommand
 {
     public function getName(): string
     {
-        return __('mailcoach - Templates');
+        return __mc('Templates');
     }
 
     public function execute(Spotlight $spotlight)

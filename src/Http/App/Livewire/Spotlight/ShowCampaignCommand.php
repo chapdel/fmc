@@ -18,14 +18,14 @@ class ShowCampaignCommand extends SpotlightCommand
 
     public function getName(): string
     {
-        return __('mailcoach - Show :resource', ['resource' => 'campaign']);
+        return __mc('Show :resource', ['resource' => 'campaign']);
     }
 
     public function getSynonyms(): array
     {
         return [
-            __('mailcoach - View :resource', ['resource' => 'campaign']),
-            __('mailcoach - Go :resource', ['resource' => 'campaign']),
+            __mc('View :resource', ['resource' => 'campaign']),
+            __mc('Go :resource', ['resource' => 'campaign']),
         ];
     }
 

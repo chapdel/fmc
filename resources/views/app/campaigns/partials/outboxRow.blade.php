@@ -3,7 +3,7 @@
         @if ($row->subscriber)
             <a class="break-words" href="{{ route('mailcoach.emailLists.subscriber.details', [$row->subscriber->emailList, $row->subscriber]) }}">{{ $row->subscriber->email }}</a>
         @else
-            &lt;{{ __('mailcoach - deleted subscriber') }}&gt;
+            &lt;{{ __mc('deleted subscriber') }}&gt;
         @endif
     </td>
     <td>{{ $row->failure_reason }}{{optional($row->latestFeedback())->formatted_type }}</td>

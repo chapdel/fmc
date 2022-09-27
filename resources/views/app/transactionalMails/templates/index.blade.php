@@ -1,13 +1,13 @@
 <x-mailcoach::data-table
     name="transactional-template"
-    :createText="__('mailcoach - Create email')"
+    :createText="__mc('Create email')"
     :modelClass="\Spatie\Mailcoach\Mailcoach::getTransactionalMailClass()"
     :rows="$templates ?? null"
     :totalRowsCount="$templatesCount ?? null"
     :columns="[
-        ['attribute' => 'subject', 'label' => __('mailcoach - Name')],
+        ['attribute' => 'subject', 'label' => __mc('Name')],
         ['class' => 'w-12'],
     ]"
     rowPartial="mailcoach::app.transactionalMails.templates.partials.row"
-    :emptyText="__('mailcoach - You have not created any templates yet.')"
+    :emptyText="__mc('You have not created any templates yet.')"
 />

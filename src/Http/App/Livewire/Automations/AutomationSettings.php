@@ -107,7 +107,7 @@ class AutomationSettings extends Component
 
         $this->automation->update(['segment_description' => $this->automation->getSegment()->description()]);
 
-        $this->flash(__('mailcoach - Automation :automation was updated.', ['automation' => $this->automation->name]));
+        $this->flash(__mc('Automation :automation was updated.', ['automation' => $this->automation->name]));
     }
 
     public function render(): View
@@ -115,7 +115,7 @@ class AutomationSettings extends Component
         return view('mailcoach::app.automations.settings')
             ->layout('mailcoach::app.automations.layouts.automation', [
                 'automation' => $this->automation,
-                'title' => __('mailcoach - Settings'),
+                'title' => __mc('Settings'),
             ]);
     }
 }

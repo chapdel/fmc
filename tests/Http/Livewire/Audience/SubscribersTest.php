@@ -59,7 +59,7 @@ it('will confirm unconfirmed subscribers', function () {
     Livewire::test(Subscribers::class, ['emailList' => $this->emailList])
         ->call('confirm', $subscriber->id)
         ->assertDispatchedBrowserEvent('notify', [
-            'content' => __('mailcoach - Can only subscribe unconfirmed emails'),
+            'content' => __mc('Can only subscribe unconfirmed emails'),
             'type' => 'error',
         ]);
 });
@@ -86,7 +86,7 @@ it('will only resubscribe unsubscribed subscribers', function () {
     Livewire::test(Subscribers::class, ['emailList' => $this->emailList])
         ->call('resubscribe', $subscriber->id)
         ->assertDispatchedBrowserEvent('notify', [
-            'content' => __('mailcoach - Can only resubscribe unsubscribed subscribers'),
+            'content' => __mc('Can only resubscribe unsubscribed subscribers'),
             'type' => 'error',
         ]);
 });
@@ -114,7 +114,7 @@ it('will only unsubscribe subscribed subscribers', function () {
     Livewire::test(Subscribers::class, ['emailList' => $this->emailList])
         ->call('unsubscribe', $subscriber->id)
         ->assertDispatchedBrowserEvent('notify', [
-            'content' => __('mailcoach - Can only unsubscribe a subscribed subscriber'),
+            'content' => __mc('Can only unsubscribe a subscribed subscriber'),
             'type' => 'error',
         ]);
 });

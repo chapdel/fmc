@@ -6,22 +6,22 @@
         @keydown.prevent.window.cmd.s="$wire.call('save')"
         @keydown.prevent.window.ctrl.s="$wire.call('save')"
     >
-        <x-mailcoach::fieldset card :legend="__('mailcoach - Recipients')">
+        <x-mailcoach::fieldset card :legend="__mc('Recipients')">
             <x-mailcoach::info>
-                {{ __('mailcoach - These recipients will be merged with the ones when the mail is sent. You can specify multiple recipients comma separated.') }}
+                {{ __mc('These recipients will be merged with the ones when the mail is sent. You can specify multiple recipients comma separated.') }}
             </x-mailcoach::info>
-            <x-mailcoach::text-field placeholder="john@example.com, jane@example.com" :label="__('mailcoach - To')"
+            <x-mailcoach::text-field placeholder="john@example.com, jane@example.com" :label="__mc('To')"
                                      name="template.to" wire:model.lazy="template.to"/>
-            <x-mailcoach::text-field placeholder="john@example.com, jane@example.com" :label="__('mailcoach - Cc')"
+            <x-mailcoach::text-field placeholder="john@example.com, jane@example.com" :label="__mc('Cc')"
                                      name="template.cc" wire:model.lazy="template.cc"/>
-            <x-mailcoach::text-field placeholder="john@example.com, jane@example.com" :label="__('mailcoach - Bcc')"
+            <x-mailcoach::text-field placeholder="john@example.com, jane@example.com" :label="__mc('Bcc')"
                                      name="template.bcc" wire:model.lazy="template.bcc"/>
         </x-mailcoach::fieldset>
 
-        <x-mailcoach::fieldset card :legend="__('mailcoach - Email')">
+        <x-mailcoach::fieldset card :legend="__mc('Email')">
 
             <x-mailcoach::text-field
-                :label="__('mailcoach - Subject')"
+                :label="__mc('Subject')"
                 name="template.subject"
                 wire:model.lazy="template.subject"
                 required
@@ -47,7 +47,7 @@
     </form>
 
     @if($template->canBeTested())
-        <x-mailcoach::modal :title="__('mailcoach - Send Test')" name="send-test" :dismissable="true">
+        <x-mailcoach::modal :title="__mc('Send Test')" name="send-test" :dismissable="true">
             @include('mailcoach::app.transactionalMails.templates.partials.test')
         </x-mailcoach::modal>
     @endif

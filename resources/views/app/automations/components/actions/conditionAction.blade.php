@@ -25,7 +25,7 @@
             </button>
         @endif
         @if ($deletable && count($editingActions) === 0)
-            <button type="button" onclick="confirm('{{ __('mailcoach - Are you sure you want to delete this action?') }}') || event.stopImmediatePropagation()" wire:click="delete">
+            <button type="button" onclick="confirm('{{ __mc('Are you sure you want to delete this action?') }}') || event.stopImmediatePropagation()" wire:click="delete">
                 <i class="icon-button link-danger far fa-trash-alt"></i>
             </button>
         @endif
@@ -37,7 +37,7 @@
                     <div class="form-actions">
                         <div class="col-span-8 sm:col-span-4">
                             <x-mailcoach::text-field
-                                :label="__('mailcoach - Duration')"
+                                :label="__mc('Duration')"
                                 :required="true"
                                 name="length"
                                 wire:model="length"
@@ -46,7 +46,7 @@
                         </div>
                         <div class="col-span-4 sm:col-span-4">
                             <x-mailcoach::select-field
-                                :label="__('mailcoach - Unit')"
+                                :label="__mc('Unit')"
                                 :required="true"
                                 name="unit"
                                 wire:model="unit"
@@ -60,11 +60,11 @@
 
                         <div class="col-span-12 sm:col-span-4 sm:col-start-1">
                             <x-mailcoach::select-field
-                                :label="__('mailcoach - Condition')"
+                                :label="__mc('Condition')"
                                 :required="true"
                                 name="condition"
                                 wire:model="condition"
-                                :placeholder="__('mailcoach - Select a condition')"
+                                :placeholder="__mc('Select a condition')"
                                 :options="$conditionOptions"
                             />
                         </div>
@@ -73,7 +73,7 @@
                             @case (\Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasTagCondition::class)
                                 <div class="col-span-12 sm:col-span-4">
                                     <x-mailcoach::tags-field
-                                        :label="__('mailcoach - Tag')"
+                                        :label="__mc('Tag')"
                                         name="conditionData.tag"
                                         wire:model="conditionData.tag"
                                         :multiple="false"
@@ -85,10 +85,10 @@
                             @case (\Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasOpenedAutomationMail::class)
                                 <div class="col-span-12 sm:col-span-4">
                                     <x-mailcoach::select-field
-                                        :label="__('mailcoach - Automation mail')"
+                                        :label="__mc('Automation mail')"
                                         name="conditionData.automation_mail_id"
                                         wire:model="conditionData.automation_mail_id"
-                                        :placeholder="__('mailcoach - Select a mail')"
+                                        :placeholder="__mc('Select a mail')"
                                         :options="
                                             \Spatie\Mailcoach\Mailcoach::getAutomationMailClass()::query()->orderBy('name')->pluck('name', 'id')
                                         "
@@ -98,10 +98,10 @@
                             @case (\Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasClickedAutomationMail::class)
                                 <div class="col-span-12 sm:col-span-4">
                                     <x-mailcoach::select-field
-                                        :label="__('mailcoach - Automation mail')"
+                                        :label="__mc('Automation mail')"
                                         name="conditionData.automation_mail_id"
                                         wire:model="conditionData.automation_mail_id"
-                                        :placeholder="__('mailcoach - Select a mail')"
+                                        :placeholder="__mc('Select a mail')"
                                         :required="true"
                                         :options="
                                             \Spatie\Mailcoach\Mailcoach::getAutomationMailClass()::query()
@@ -114,13 +114,13 @@
                                 @if ($conditionData['automation_mail_id'])
                                     <div class="col-span-12 sm:col-span-4">
                                         <x-mailcoach::select-field
-                                            :label="__('mailcoach - Link')"
+                                            :label="__mc('Link')"
                                             name="conditionData.automation_mail_link_url"
                                             wire:model="conditionData.automation_mail_link_url"
-                                            :placeholder="__('mailcoach - Select a link')"
+                                            :placeholder="__mc('Select a link')"
                                             :required="false"
                                             :options="
-                                                ['' => __('mailcoach - Any link')] +
+                                                ['' => __mc('Any link')] +
                                                 \Spatie\Mailcoach\Mailcoach::getAutomationMailClass()::find($conditionData['automation_mail_id'])
                                                     ->htmlLinks()
                                                     ->mapWithKeys(fn ($url) => [$url => $url])

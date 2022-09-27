@@ -23,7 +23,7 @@ class CampaignOpens extends DataTable
 
     public function getTitle(): string
     {
-        return __('mailcoach - Opens');
+        return __mc('Opens');
     }
 
     public function getView(): string

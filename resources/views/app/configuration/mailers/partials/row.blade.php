@@ -32,7 +32,7 @@
                         :confirm-text="__('Are you sure you want to delete mailer: :mailer?', ['mailer' => $row->name])"
                         onConfirm="() => $wire.deleteMailer({{ $row->id }})"
                     >
-                        <x-mailcoach::icon-label icon="far fa-trash-alt" :caution="true" :text="__('mailcoach - Delete')" />
+                        <x-mailcoach::icon-label icon="far fa-trash-alt" :caution="true" :text="__mc('Delete')" />
                     </x-mailcoach::confirm-button>
                 </li>
             </ul>

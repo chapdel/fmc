@@ -66,12 +66,12 @@
         @elseif($campaign->isSending())
             {{ optional($campaign->updated_at)->toMailcoachFormat() }}
             <div class="td-secondary-line">
-                {{ __('mailcoach - In progress') }}
+                {{ __mc('In progress') }}
             </div>
         @elseif($campaign->isScheduled())
             {{ optional($campaign->scheduled_at)->toMailcoachFormat() }}
             <div class="td-secondary-line">
-                {{ __('mailcoach - Scheduled') }}
+                {{ __mc('Scheduled') }}
             </div>
         @else
             –
@@ -83,15 +83,15 @@
             <ul>
                 <li>
                     <button wire:click.prevent="duplicateCampaign({{ $campaign->id }})">
-                        <x-mailcoach::icon-label icon="fas fa-random" :text="__('mailcoach - Duplicate')" />
+                        <x-mailcoach::icon-label icon="fas fa-random" :text="__mc('Duplicate')" />
                     </button>
                 </li>
                 <li>
                     <x-mailcoach::confirm-button
-                        :confirm-text="__('mailcoach - Are you sure you want to delete campaign :campaignName?', ['campaignName' => $campaign->name])"
+                        :confirm-text="__mc('Are you sure you want to delete campaign :campaignName?', ['campaignName' => $campaign->name])"
                         onConfirm="() => $wire.deleteCampaign({{ $campaign->id }})"
                     >
-                        <x-mailcoach::icon-label icon="far fa-trash-alt" :text="__('mailcoach - Delete')" :caution="true" />
+                        <x-mailcoach::icon-label icon="far fa-trash-alt" :text="__mc('Delete')" :caution="true" />
                     </x-mailcoach::confirm-button>
                 </li>
             </ul>

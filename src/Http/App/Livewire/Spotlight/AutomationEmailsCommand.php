@@ -9,7 +9,7 @@ class AutomationEmailsCommand extends SpotlightCommand
 {
     public function getName(): string
     {
-        return __('mailcoach - Automation mails');
+        return __mc('Automation mails');
     }
 
     public function execute(Spotlight $spotlight)

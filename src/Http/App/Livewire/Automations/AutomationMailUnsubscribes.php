@@ -23,7 +23,7 @@ class AutomationMailUnsubscribes extends DataTable
 
     public function getTitle(): string
     {
-        return __('mailcoach - Unsubscribes');
+        return __mc('Unsubscribes');
     }
 
     public function getView(): string

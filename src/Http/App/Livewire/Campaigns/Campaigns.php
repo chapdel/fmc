@@ -27,7 +27,7 @@ class Campaigns extends DataTable
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $duplicateCampaign */
         $duplicateCampaign = self::getCampaignClass()::create([
-            'name' => __('mailcoach - Duplicate of').' '.$campaign->name,
+            'name' => __mc('Duplicate of').' '.$campaign->name,
             'subject' => $campaign->subject,
             'template_id' => $campaign->template_id,
             'email_list_id' => $campaign->email_list_id,
@@ -44,7 +44,7 @@ class Campaigns extends DataTable
             'segment_description' => $duplicateCampaign->getSegment()->description(),
         ]);
 
-        flash()->success(__('mailcoach - Campaign :campaign was duplicated.', ['campaign' => $campaign->name]));
+        flash()->success(__mc('Campaign :campaign was duplicated.', ['campaign' => $campaign->name]));
 
         return redirect()->route('mailcoach.campaigns.settings', $duplicateCampaign);
     }
@@ -57,12 +57,12 @@ class Campaigns extends DataTable
 
         $campaign->delete();
 
-        $this->flash(__('mailcoach - Campaign :campaign was deleted.', ['campaign' => $campaign->name]));
+        $this->flash(__mc('Campaign :campaign was deleted.', ['campaign' => $campaign->name]));
     }
 
     public function getTitle(): string
     {
-        return __('mailcoach - Campaigns');
+        return __mc('Campaigns');
     }
 
     public function getView(): string

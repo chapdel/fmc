@@ -1,10 +1,10 @@
 <div class="card-grid">
-<x-mailcoach::fieldset card :legend="__('mailcoach - Opens')">
+<x-mailcoach::fieldset card :legend="__mc('Opens')">
         @if($transactionalMail->opens->count())
     <table class="mt-0 table-styled">
         <thead>
             <tr>
-                <th>{{ __('mailcoach - Opened at') }}</th>
+                <th>{{ __mc('Opened at') }}</th>
             </tr>
         </thead>
         <tbody>
@@ -16,18 +16,18 @@
         </tbody>
     </table>
     @else
-        <x-mailcoach::info>{{ __('mailcoach - This mail hasn\'t been opened yet.') }}</x-mailcoach::info>
+        <x-mailcoach::info>{{ __mc('This mail hasn\'t been opened yet.') }}</x-mailcoach::info>
     @endif
 </x-mailcoach::fieldset>
 
-<x-mailcoach::fieldset card :legend="__('mailcoach - Clicks')">
+<x-mailcoach::fieldset card :legend="__mc('Clicks')">
     @if($transactionalMail->clicksPerUrl()->count())
         <table class="mt-0 table-styled">
             <thead>
                 <tr>
-                    <th>{{ __('mailcoach - URL') }}</th>
-                    <th class="th-numeric">{{ __('mailcoach - Click count') }}</th>
-                    <th class="th-numeric">{{ __('mailcoach - First clicked at') }}</th>
+                    <th>{{ __mc('URL') }}</th>
+                    <th class="th-numeric">{{ __mc('Click count') }}</th>
+                    <th class="th-numeric">{{ __mc('First clicked at') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -42,7 +42,7 @@
         </table>
     @else
         <x-mailcoach::info>
-            {{ __('mailcoach - No links in this mail have been clicked yet.') }}
+            {{ __mc('No links in this mail have been clicked yet.') }}
         </x-mailcoach::info>
     @endif
 </x-mailcoach::fieldset>

@@ -9,7 +9,7 @@ class HomeCommand extends SpotlightCommand
 {
     public function getName(): string
     {
-        return __('mailcoach - Home');
+        return __mc('Home');
     }
 
     public function execute(Spotlight $spotlight)

@@ -8,15 +8,15 @@
     @csrf
 
     <x-mailcoach::text-field
-        :label="__('mailcoach - Name')"
+        :label="__mc('Name')"
         name="name"
         wire:model.lazy="name"
-        :placeholder="__('mailcoach - Automation name')"
+        :placeholder="__mc('Automation name')"
         required
     />
 
     <x-mailcoach::form-buttons>
-        <x-mailcoach::button :label="__('mailcoach - Create automation')"/>
-        <x-mailcoach::button-cancel :label="__('mailcoach - Cancel')" x-on:click="$store.modals.close('create-automation')" />
+        <x-mailcoach::button :label="__mc('Create automation')"/>
+        <x-mailcoach::button-cancel :label="__mc('Cancel')" x-on:click="$store.modals.close('create-automation')" />
     </x-mailcoach::form-buttons>
 </form>

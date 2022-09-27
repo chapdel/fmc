@@ -7,13 +7,13 @@
      <x-slot name="nav">
         <x-mailcoach::navigation :title="$transactionalMail->subject">
             <x-mailcoach::navigation-item :href="route('mailcoach.transactionalMails.show', $transactionalMail)">
-                {{ __('mailcoach - Content') }}
+                {{ __mc('Content') }}
             </x-mailcoach::navigation-item>
             <x-mailcoach::navigation-item :href="route('mailcoach.transactionalMails.performance', $transactionalMail)">
-                {{ __('mailcoach - Performance') }}
+                {{ __mc('Performance') }}
             </x-mailcoach::navigation-item>
             <x-mailcoach::navigation-item :href="route('mailcoach.transactionalMails.resend', $transactionalMail)">
-                {{ __('mailcoach - Resend') }}
+                {{ __mc('Resend') }}
             </x-mailcoach::navigation-item>
         </x-mailcoach::navigation>
     </x-slot>

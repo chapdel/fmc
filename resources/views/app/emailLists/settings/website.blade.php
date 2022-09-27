@@ -12,23 +12,23 @@
         </p>
     </x-mailcoach::help>
 
-    <x-mailcoach::fieldset :legend="__('mailcoach - Settings')" card>
+    <x-mailcoach::fieldset :legend="__mc('Settings')" card>
 
         <x-mailcoach::checkbox-field
-            :label="__('mailcoach - Enable website')"
+            :label="__mc('Enable website')"
             name="emailList.has_website"
             wire:model.lazy="emailList.has_website"
         />
 
         @if ($emailList->has_website)
             <x-mailcoach::checkbox-field
-                :label="__('mailcoach - Show a subscription form')"
+                :label="__mc('Show a subscription form')"
                 name="emailList.show_subscription_form_on_website"
                 wire:model.lazy="emailList.show_subscription_form_on_website"
             />
 
             <div class="form-field">
-                <label class="label" for="emailList.website_slug">{{__('mailcoach - Website URL')}}</label>
+                <label class="label" for="emailList.website_slug">{{__mc('Website URL')}}</label>
                 <div class="flex items-center">
                     <span class="select-none px-3 h-10 flex items-center text-indigo-900/70 -mr-px rounded-l-sm bg-indigo-500/10 border border-r-none border-indigo-700/20 whitespace-nowrap">{{ route('mailcoach.website', '') }}</span>
                     <input id="emailList.website_slug" class="input rounded-r-none" placeholder="/" type="text" name="emailList.website_slug" wire:model.defer="emailList.website_slug" />
@@ -44,10 +44,10 @@
     </x-mailcoach::fieldset>
 
     @if ($emailList->has_website)
-    <x-mailcoach::fieldset card :legend="__('mailcoach - Customization')">
+    <x-mailcoach::fieldset card :legend="__mc('Customization')">
 
         <x-mailcoach::color-field
-            :label="__('mailcoach - Primary Color')"
+            :label="__mc('Primary Color')"
             name="emailList.website_primary_color"
             wire:model="emailList.website_primary_color"
         />
@@ -101,13 +101,13 @@
         </div>
 
         <x-mailcoach::text-field
-            :label="__('mailcoach - Website Title')"
+            :label="__mc('Website Title')"
             wire:model.lazy="emailList.website_title"
             name="emailList.website_title"
         />
 
         <x-mailcoach::markdown-field
-            :label="__('mailcoach - Intro')"
+            :label="__mc('Intro')"
             name="emailList.website_intro"
             wire:model.lazy="emailList.website_intro"
         />
@@ -118,7 +118,7 @@
     @endif
 
     <x-mailcoach::form-buttons>
-        <x-mailcoach::button :label="__('mailcoach - Save')"/>
+        <x-mailcoach::button :label="__mc('Save')"/>
     </x-mailcoach::form-buttons>
 </form>
 

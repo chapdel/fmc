@@ -19,13 +19,13 @@ class TransactionalMailLogItems extends DataTable
         $transactionalMail->delete();
 
         $this->dispatchBrowserEvent('notify', [
-            'content' => __('mailcoach - The mail was removed from the log'),
+            'content' => __mc('The mail was removed from the log'),
         ]);
     }
 
     public function getTitle(): string
     {
-        return __('mailcoach - Log');
+        return __mc('Log');
     }
 
     public function getView(): string

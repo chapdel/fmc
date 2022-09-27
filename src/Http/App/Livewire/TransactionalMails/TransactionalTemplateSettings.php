@@ -42,14 +42,14 @@ class TransactionalTemplateSettings extends Component
 
         $this->template->save();
 
-        $this->flash(__('mailcoach - Template :template was updated.', ['template' => $this->template->name]));
+        $this->flash(__mc('Template :template was updated.', ['template' => $this->template->name]));
     }
 
     public function render(): View
     {
         return view('mailcoach::app.transactionalMails.templates.settings')
             ->layout('mailcoach::app.transactionalMails.templates.layouts.template', [
-                'title' => __('mailcoach - Settings'),
+                'title' => __mc('Settings'),
                 'template' => $this->template,
             ]);
     }

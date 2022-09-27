@@ -1,12 +1,12 @@
-<x-mailcoach::layout :title="__('mailcoach - Debug')">
+<x-mailcoach::layout :title="__mc('Debug')">
 
 @php($issueBody = "## Describe your issue\n\n\n\n---\n## Health check:\n\n")
 <div class="card-grid form-fieldsets-no-max-w">
-    <x-mailcoach::fieldset card :legend="__('mailcoach - Health')">
+    <x-mailcoach::fieldset card :legend="__mc('Health')">
         <dl class="dl markup-links">
             @php($issueBody.='**Environment**: ' . app()->environment() . "\n")
             <dt>
-                <x-mailcoach::health-label reverse :test="!app()->environment('local')" warning="true" :label="__('mailcoach - Environment')" />
+                <x-mailcoach::health-label reverse :test="!app()->environment('local')" warning="true" :label="__mc('Environment')" />
             </dt>
             <dd>
                 <div>
@@ -16,7 +16,7 @@
 
             @php($issueBody.='**Debug**: ' . (config('app.debug') ? 'ON' : 'OFF') . "\n")
             <dt>
-                <x-mailcoach::health-label reverse :test="!config('app.debug')" warning="true" :label="__('mailcoach - Debug')" />
+                <x-mailcoach::health-label reverse :test="!config('app.debug')" warning="true" :label="__mc('Debug')" />
             </dt>
             <dd>
                 {{ config('app.debug') ? 'ON' : 'OFF' }}
@@ -25,28 +25,28 @@
             @if(! $usesVapor)
                 @php($issueBody.='**Horizon**: ' . ($horizonStatus->is(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::STATUS_ACTIVE) ? 'Active' : 'Inactive') . "\n")
                 <dt>
-                    <x-mailcoach::health-label reverse :test="$horizonStatus->is(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::STATUS_ACTIVE)" :label="__('mailcoach - Horizon')" />
+                    <x-mailcoach::health-label reverse :test="$horizonStatus->is(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::STATUS_ACTIVE)" :label="__mc('Horizon')" />
                 </dt>
                 <dd>
                     <p>
                     @if($horizonStatus->is(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::STATUS_ACTIVE))
-                        {{ __('mailcoach - Active') }}
+                        {{ __mc('Active') }}
                     @else
-                        {!! __('mailcoach - Horizon is inactive. <a target="_blank" href=":docsLink">Read the docs</a>.', ['docsLink' => 'https://mailcoach.app/docs']) !!}
+                        {!! __mc('Horizon is inactive. <a target="_blank" href=":docsLink">Read the docs</a>.', ['docsLink' => 'https://mailcoach.app/docs']) !!}
                     @endif
                     </p>
                 </dd>
 
                 @php($issueBody.='**Queue** connection: ' . ($hasQueueConnection ? 'OK' : 'Not OK') . "\n")
                 <dt>
-                    <x-mailcoach::health-label reverse :test="$hasQueueConnection"  :label="__('mailcoach - Queue connection')" />
+                    <x-mailcoach::health-label reverse :test="$hasQueueConnection"  :label="__mc('Queue connection')" />
                 </dt>
                 <dd>
                     <p>
                         @if($hasQueueConnection)
-                        {!! __('mailcoach - Queue connection settings for <code>mailcoach-redis</code> exist.') !!}
+                        {!! __mc('Queue connection settings for <code>mailcoach-redis</code> exist.') !!}
                         @else
-                            {!! __('mailcoach - No valid <strong>queue connection</strong> found. Configure a queue connection with the <strong>mailcoach-redis</strong> key. <a target="_blank" href=":docsLink">Read the docs</a>.', ['docsLink' => 'https://mailcoach.app/docs']) !!}
+                            {!! __mc('No valid <strong>queue connection</strong> found. Configure a queue connection with the <strong>mailcoach-redis</strong> key. <a target="_blank" href=":docsLink">Read the docs</a>.', ['docsLink' => 'https://mailcoach.app/docs']) !!}
                         @endif
                     </p>
                 </dd>
@@ -54,33 +54,33 @@
 
             @php($issueBody.='**Webhooks**: ' . $webhookTableCount . " unprocessed webhooks\n")
             <dt>
-                <x-mailcoach::health-label reverse :test="$webhookTableCount === 0"  :label="__('mailcoach - Webhooks')" />
+                <x-mailcoach::health-label reverse :test="$webhookTableCount === 0"  :label="__mc('Webhooks')" />
             </dt>
             <dd>
                 @if($webhookTableCount === 0)
-                    {{ __('mailcoach - All webhooks are processed.') }}
+                    {{ __mc('All webhooks are processed.') }}
                 @else
-                    {{ __('mailcoach - :count unprocessed webhooks.', ['count' => $webhookTableCount ]) }}
+                    {{ __mc(':count unprocessed webhooks.', ['count' => $webhookTableCount ]) }}
                 @endif
             </dd>
 
             <dt>
                 @if ($lastScheduleRun && now()->diffInMinutes($lastScheduleRun) < 10)
                     @php($issueBody.='**Schedule**: ran ' . now()->diffInMinutes($lastScheduleRun) . " minute(s) ago\n")
-                    <x-mailcoach::health-label reverse :test="true"  :label="__('mailcoach - Schedule')" />
+                    <x-mailcoach::health-label reverse :test="true"  :label="__mc('Schedule')" />
                 @elseif ($lastScheduleRun)
                     @php($issueBody.='**Schedule**: ran ' . now()->diffInMinutes($lastScheduleRun) . " minute(s) ago\n")
-                    <x-mailcoach::health-label reverse :test="false" warning="true" :label="__('mailcoach - Schedule')" />
+                    <x-mailcoach::health-label reverse :test="false" warning="true" :label="__mc('Schedule')" />
                 @else
                     @php($issueBody.="**Schedule**: hasn't run\n")
-                    <x-mailcoach::health-label reverse :test="false" :label="__('mailcoach - Schedule')" />
+                    <x-mailcoach::health-label reverse :test="false" :label="__mc('Schedule')" />
                 @endif
             </dt>
             <dd>
                 @if ($lastScheduleRun)
-                    {{ __('mailcoach - Ran :lastRun minute(s) ago.', ['lastRun' => now()->diffInMinutes($lastScheduleRun) ]) }}
+                    {{ __mc('Ran :lastRun minute(s) ago.', ['lastRun' => now()->diffInMinutes($lastScheduleRun) ]) }}
                 @else
-                     {{ __('mailcoach - Schedule hasn\'t run.') }}
+                     {{ __mc('Schedule hasn\'t run.') }}
                 @endif
             </dd>
             <dt>
@@ -128,7 +128,7 @@
         </dl>
     </x-mailcoach::fieldset>
 
-    <x-mailcoach::fieldset :legend="__('mailcoach - Filesystem configuration')">
+    <x-mailcoach::fieldset :legend="__mc('Filesystem configuration')">
         <dl class="dl">
             @foreach($filesystems as $key => $filesystem)
                 @php($issueBody.="**{$key} disk**: " . $filesystem['disk'] . " (visibility: " . $filesystem['visibility'] . ")\n")
@@ -148,12 +148,12 @@
         </dl>
     </x-mailcoach::fieldset>
 
-    <x-mailcoach::fieldset :legend="__('mailcoach - Mailers')">
+    <x-mailcoach::fieldset :legend="__mc('Mailers')">
 
         <dl class="dl">
             @php($issueBody.="**Default mailer**: " . config('mail.default') . "\n")
             <dt>
-                <x-mailcoach::health-label reverse :test="!in_array(config('mail.default'), ['log', 'array', null])" warning="true" :label="__('mailcoach - Default mailer')" />
+                <x-mailcoach::health-label reverse :test="!in_array(config('mail.default'), ['log', 'array', null])" warning="true" :label="__mc('Default mailer')" />
             </dt>
             <dd>
                 <code>{{ config('mail.default') }}</code>
@@ -161,7 +161,7 @@
 
             @php($issueBody.="**Mailcoach mailer**: " . (config('mailcoach.mailer') ?? 'null') . "\n")
             <dt>
-                <x-mailcoach::health-label reverse :test="!in_array(config('mailcoach.mailer'), ['log', 'array'])" warning="true" :label="__('mailcoach - Mailcoach mailer')" />
+                <x-mailcoach::health-label reverse :test="!in_array(config('mailcoach.mailer'), ['log', 'array'])" warning="true" :label="__mc('Mailcoach mailer')" />
             </dt>
             <dd>
                 <code>{{ config('mailcoach.mailer') ?? 'null' }}</code>
@@ -169,7 +169,7 @@
 
             @php($issueBody.="**Campaign mailer**: " . (config('mailcoach.campaigns.mailer') ?? 'null') . "\n")
             <dt>
-                <x-mailcoach::health-label reverse :test="!in_array(config('mailcoach.campaigns.mailer'), ['log', 'array'])" warning="true" :label="__('mailcoach - Campaign mailer')" />
+                <x-mailcoach::health-label reverse :test="!in_array(config('mailcoach.campaigns.mailer'), ['log', 'array'])" warning="true" :label="__mc('Campaign mailer')" />
             </dt>
             <dd>
                 <code>{{ config('mailcoach.campaigns.mailer') ?? 'null' }}</code>
@@ -177,7 +177,7 @@
 
             @php($issueBody.="**Transactional mailer**: " . (config('mailcoach.transactional.mailer') ?? 'null') . "\n")
             <dt>
-                <x-mailcoach::health-label reverse :test="!in_array(config('mailcoach.transactional.mailer'), ['log', 'array'])" warning="true" :label="__('mailcoach - Transactional mailer')" />
+                <x-mailcoach::health-label reverse :test="!in_array(config('mailcoach.transactional.mailer'), ['log', 'array'])" warning="true" :label="__mc('Transactional mailer')" />
             </dt>
             <dd>
                 <code>{{ config('mailcoach.transactional.mailer') ?? 'null' }}</code>
@@ -185,7 +185,7 @@
         </dl>
     </x-mailcoach::fieldset>
 
-    <x-mailcoach::fieldset card :legend="__('mailcoach - Technical Details')">
+    <x-mailcoach::fieldset card :legend="__mc('Technical Details')">
         @php($issueBody.="\n\n## Technical details\n\n")
         <dl class="dl">
                 @php($issueBody.="**App directory**: " . base_path() . "\n")
@@ -232,16 +232,16 @@
                         @if(! $versionInfo->isLatest('laravel-mailcoach'))
                             <span class="font-sans text-xs inline-flex items-center bg-gray-200 bg-opacity-50 text-gray-600 rounded-sm px-1 leading-relaxed">
                                 <i class="fas fa-horse-head opacity-75 mr-1"></i>
-                                {{ __('mailcoach - Upgrade available') }}
+                                {{ __mc('Upgrade available') }}
                             </span>
                         @endif
                     </div>
                 </dd>
     </x-mailcoach::fieldset>
 
-    <x-mailcoach::fieldset card  :legend="__('mailcoach - Having trouble?')">
+    <x-mailcoach::fieldset card  :legend="__mc('Having trouble?')">
         <a href="https://github.com/spatie/laravel-mailcoach/issues/new?body={{ urlencode($issueBody) }}" target="_blank">
-            <x-mailcoach::button :label="__('mailcoach - Create a support issue')"/>
+            <x-mailcoach::button :label="__mc('Create a support issue')"/>
         </a>
     </x-mailcoach::fieldset>
 </div>

@@ -67,7 +67,7 @@ class TransactionalTemplateContent extends Component
                 'structured_html' => $this->template->structured_html,
             ]);
 
-            $this->flash(__('mailcoach - Template :template was updated.', ['template' => $this->template->name]));
+            $this->flash(__mc('Template :template was updated.', ['template' => $this->template->name]));
         }
     }
 
@@ -79,7 +79,7 @@ class TransactionalTemplateContent extends Component
 
         return view('mailcoach::app.transactionalMails.templates.edit')
             ->layout('mailcoach::app.transactionalMails.templates.layouts.template', [
-                'title' => __('mailcoach - Details'),
+                'title' => __mc('Details'),
                 'template' => $this->template,
             ]);
     }

@@ -42,7 +42,7 @@ class AutomationMailSummary extends Component
 
         return view('mailcoach::app.automations.mails.summary')
             ->layout('mailcoach::app.automations.mails.layouts.automationMail', [
-                'title' => __('mailcoach - Performance'),
+                'title' => __mc('Performance'),
                 'mail' => $this->mail,
             ]);
     }

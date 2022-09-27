@@ -80,7 +80,7 @@ class AutomationActions extends Component
     {
         $this->automation->chain($this->actions);
 
-        $this->flash(__('mailcoach - Actions successfully saved to automation :automation.', [
+        $this->flash(__mc('Actions successfully saved to automation :automation.', [
             'automation' => $this->automation->name,
         ]));
     }
@@ -90,7 +90,7 @@ class AutomationActions extends Component
         return view('mailcoach::app.automations.actions')
             ->layout('mailcoach::app.automations.layouts.automation', [
                 'automation' => $this->automation,
-                'title' => __('mailcoach - Actions'),
+                'title' => __mc('Actions'),
             ]);
     }
 

@@ -1,16 +1,16 @@
 <x-mailcoach::card>
     <dl class="dl">
-        <dt>{{ __('mailcoach - Subject') }}</dt>
+        <dt>{{ __mc('Subject') }}</dt>
         <dd>{{ $transactionalMail->subject }}</dd>
 
-        <x-mailcoach::address-definition :label="__('mailcoach - From')" :addresses="$transactionalMail->from"/>
-        <x-mailcoach::address-definition :label="__('mailcoach - To')" :addresses="$transactionalMail->to"/>
-        <x-mailcoach::address-definition :label="__('mailcoach - Cc')" :addresses="$transactionalMail->cc"/>
-        <x-mailcoach::address-definition :label="__('mailcoach - Bcc')" :addresses="$transactionalMail->bcc"/>
+        <x-mailcoach::address-definition :label="__mc('From')" :addresses="$transactionalMail->from"/>
+        <x-mailcoach::address-definition :label="__mc('To')" :addresses="$transactionalMail->to"/>
+        <x-mailcoach::address-definition :label="__mc('Cc')" :addresses="$transactionalMail->cc"/>
+        <x-mailcoach::address-definition :label="__mc('Bcc')" :addresses="$transactionalMail->bcc"/>
 
         @if(collect($transactionalMail->attachments)->count() > 0)
             <dt>
-                {{ __('mailcoach - Attachments') }}
+                {{ __mc('Attachments') }}
             </dt>
             <dd>
                 <ul class="list-disc list-inside">
@@ -24,7 +24,7 @@
         @endif
 
         <dt class="flex items-start">
-            <div>{{ __('mailcoach - Body') }}</div>
+            <div>{{ __mc('Body') }}</div>
         </dt>
         <dd>
             <x-mailcoach::web-view :html="$transactionalMail->body" />

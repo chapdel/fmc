@@ -1,13 +1,13 @@
 <tr>
     <td class="markup-links">
         @if ($row->isUnconfirmed())
-            <x-mailcoach::rounded-icon minimal size="md" type="warning" icon="fas fa-question" title="{{ __('mailcoach - Unconfirmed') }}"/>
+            <x-mailcoach::rounded-icon minimal size="md" type="warning" icon="fas fa-question" title="{{ __mc('Unconfirmed') }}"/>
         @endif
         @if ($row->isSubscribed())
-            <x-mailcoach::rounded-icon minimal size="md" type="success" icon="far fa-check" title="{{ __('mailcoach - Subscribed') }}"/>
+            <x-mailcoach::rounded-icon minimal size="md" type="success" icon="far fa-check" title="{{ __mc('Subscribed') }}"/>
         @endif
         @if ($row->isUnsubscribed())
-            <x-mailcoach::rounded-icon minimal size="md" type="neutral" icon="far fa-ban" title="{{ __('mailcoach - Unsubscribed') }}"/>
+            <x-mailcoach::rounded-icon minimal size="md" type="neutral" icon="far fa-ban" title="{{ __mc('Unsubscribed') }}"/>
         @endif
     </td>
     <td class="markup-links leading-tight">
@@ -38,18 +38,18 @@
                     <li>
                         <x-mailcoach::confirm-button
                             onConfirm="() => $wire.resendConfirmation({{ $row->id }})"
-                            :confirm-text="__('mailcoach - Are you sure you want to resend the confirmation mail :email?', ['email' => $row->email])"
+                            :confirm-text="__mc('Are you sure you want to resend the confirmation mail :email?', ['email' => $row->email])"
                         >
                             <x-mailcoach::icon-label icon="fa-fw far fa-envelope"
-                                                     :text="__('mailcoach - Resend confirmation mail')"/>
+                                                     :text="__mc('Resend confirmation mail')"/>
                         </x-mailcoach::confirm-button>
                     </li>
                     <li>
                         <x-mailcoach::confirm-button
                             onConfirm="() => $wire.confirm({{ $row->id }})"
-                            :confirm-text="__('mailcoach - Are you sure you want to confirm :email?', ['email' => $row->email])"
+                            :confirm-text="__mc('Are you sure you want to confirm :email?', ['email' => $row->email])"
                         >
-                            <x-mailcoach::icon-label icon="fa-fw fas fa-check" :text="__('mailcoach - Confirm')"/>
+                            <x-mailcoach::icon-label icon="fa-fw fas fa-check" :text="__mc('Confirm')"/>
                         </x-mailcoach::confirm-button>
                     </li>
                 @endif
@@ -57,9 +57,9 @@
                     <li>
                         <x-mailcoach::confirm-button
                             onConfirm="() => $wire.unsubscribe({{ $row->id }})"
-                            :confirm-text="__('mailcoach - Are you sure you want to unsubscribe :email?', ['email' => $row->email])"
+                            :confirm-text="__mc('Are you sure you want to unsubscribe :email?', ['email' => $row->email])"
                         >
-                            <x-mailcoach::icon-label icon="fa-fw fas fa-ban" :text="__('mailcoach - Unsubscribe')"/>
+                            <x-mailcoach::icon-label icon="fa-fw fas fa-ban" :text="__mc('Unsubscribe')"/>
                         </x-mailcoach::confirm-button>
                     </li>
                 @endif
@@ -67,18 +67,18 @@
                     <li>
                         <x-mailcoach::confirm-button
                             onConfirm="() => $wire.resubscribe({{ $row->id }})"
-                            :confirm-text="__('mailcoach - Are you sure you want to resubscribe :email?', ['email' => $row->email])"
+                            :confirm-text="__mc('Are you sure you want to resubscribe :email?', ['email' => $row->email])"
                         >
-                            <x-mailcoach::icon-label icon="fa-fw fas fa-redo" :text="__('mailcoach - Resubscribe')"/>
+                            <x-mailcoach::icon-label icon="fa-fw fas fa-redo" :text="__mc('Resubscribe')"/>
                         </x-mailcoach::confirm-button>
                     </li>
                 @endif
                 <li>
                     <x-mailcoach::confirm-button
-                        :confirm-text="__('mailcoach - Are you sure you want to delete subscriber :email?', ['email' => $row->email])"
+                        :confirm-text="__mc('Are you sure you want to delete subscriber :email?', ['email' => $row->email])"
                         onConfirm="() => $wire.deleteSubscriber({{ $row->id }})"
                     >
-                        <x-mailcoach::icon-label icon="fa-fw far fa-trash-alt" :text="__('mailcoach - Delete')"
+                        <x-mailcoach::icon-label icon="fa-fw far fa-trash-alt" :text="__mc('Delete')"
                                                  :caution="true"/>
                     </x-mailcoach::confirm-button>
                 </li>

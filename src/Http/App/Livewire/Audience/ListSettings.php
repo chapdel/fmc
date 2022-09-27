@@ -56,7 +56,7 @@ class ListSettings extends Component
 
         $this->emailList->save();
 
-        $this->flash(__('mailcoach - List :emailList was updated', ['emailList' => $this->emailList->name]));
+        $this->flash(__mc('List :emailList was updated', ['emailList' => $this->emailList->name]));
     }
 
     public function render(): View
@@ -65,7 +65,7 @@ class ListSettings extends Component
 
         return view('mailcoach::app.emailLists.settings.general')
             ->layout('mailcoach::app.emailLists.layouts.emailList', [
-                'title' => __('mailcoach - General'),
+                'title' => __mc('General'),
                 'emailList' => $this->emailList,
             ]);
     }

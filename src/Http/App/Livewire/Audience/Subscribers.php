@@ -40,7 +40,7 @@ class Subscribers extends DataTable
 
         $deleteSubscriberAction->execute($subscriber);
 
-        $this->flash(__('mailcoach - Subscriber :subscriber was deleted.', ['subscriber' => $subscriber->email]));
+        $this->flash(__mc('Subscriber :subscriber was deleted.', ['subscriber' => $subscriber->email]));
     }
 
     public function resubscribe(int $id)
@@ -48,7 +48,7 @@ class Subscribers extends DataTable
         $subscriber = self::getSubscriberClass()::find($id);
 
         if (! $subscriber->isUnsubscribed()) {
-            $this->flash(__('mailcoach - Can only resubscribe unsubscribed subscribers'), 'error');
+            $this->flash(__mc('Can only resubscribe unsubscribed subscribers'), 'error');
 
             return;
         }
@@ -57,7 +57,7 @@ class Subscribers extends DataTable
             'unsubscribed_at' => null,
         ]);
 
-        $this->flash(__('mailcoach - :subscriber has been resubscribed.', ['subscriber' => $subscriber->email]));
+        $this->flash(__mc(':subscriber has been resubscribed.', ['subscriber' => $subscriber->email]));
     }
 
     public function unsubscribe(int $id)
@@ -65,14 +65,14 @@ class Subscribers extends DataTable
         $subscriber = self::getSubscriberClass()::find($id);
 
         if (! $subscriber->isSubscribed()) {
-            $this->flash(__('mailcoach - Can only unsubscribe a subscribed subscriber'), 'error');
+            $this->flash(__mc('Can only unsubscribe a subscribed subscriber'), 'error');
 
             return;
         }
 
         $subscriber->unsubscribe();
 
-        $this->flash(__('mailcoach - :subscriber has been unsubscribed.', ['subscriber' => $subscriber->email]));
+        $this->flash(__mc(':subscriber has been unsubscribed.', ['subscriber' => $subscriber->email]));
     }
 
     public function confirm(int $id)
@@ -80,7 +80,7 @@ class Subscribers extends DataTable
         $subscriber = self::getSubscriberClass()::find($id);
 
         if ($subscriber->status !== SubscriptionStatus::Unconfirmed) {
-            $this->flash(__('mailcoach - Can only subscribe unconfirmed emails'), 'error');
+            $this->flash(__mc('Can only subscribe unconfirmed emails'), 'error');
 
             return;
         }
@@ -90,7 +90,7 @@ class Subscribers extends DataTable
             'unsubscribed_at' => null,
         ]);
 
-        $this->flash(__('mailcoach - :subscriber has been confirmed.', ['subscriber' => $subscriber->email]));
+        $this->flash(__mc(':subscriber has been confirmed.', ['subscriber' => $subscriber->email]));
     }
 
     public function resendConfirmation(int $id)
@@ -99,7 +99,7 @@ class Subscribers extends DataTable
 
         resolve(SendConfirmSubscriberMailAction::class)->execute($subscriber);
 
-        $this->flash(__('mailcoach - A confirmation mail has been sent to :subscriber', ['subscriber' => $subscriber->email]));
+        $this->flash(__mc('A confirmation mail has been sent to :subscriber', ['subscriber' => $subscriber->email]));
     }
 
     public function deleteUnsubscribes()
@@ -108,12 +108,12 @@ class Subscribers extends DataTable
 
         $this->emailList->allSubscribersWithoutIndex()->unsubscribed()->delete();
 
-        $this->flash(__('mailcoach - All unsubscribers of the list have been deleted.'));
+        $this->flash(__mc('All unsubscribers of the list have been deleted.'));
     }
 
     public function getTitle(): string
     {
-        return __('mailcoach - Subscribers');
+        return __mc('Subscribers');
     }
 
     public function getView(): string

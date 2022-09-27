@@ -2,17 +2,17 @@
     <td>
         @switch($row->status)
             @case(\Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus::Pending)
-                <i title="{{ __('mailcoach - Scheduled') }}" class="far fa-clock text-orange-500`"></i>
+                <i title="{{ __mc('Scheduled') }}" class="far fa-clock text-orange-500`"></i>
                 @break
             @case(\Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus::Importing)
-                <i title="{{ __('mailcoach - Importing') }}"
+                <i title="{{ __mc('Importing') }}"
                    class="fas fa-sync fa-spin text-blue-500"></i>
                 @break
             @case(\Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus::Completed)
-                <i title="{{ __('mailcoach - Completed') }}" class="fas fa-check text-green-500"></i>
+                <i title="{{ __mc('Completed') }}" class="fas fa-check text-green-500"></i>
                 @break
             @case(\Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus::Failed)
-                <i title="{{ __('mailcoach - Failed') }}" class="fas fa-times text-red-500"></i>
+                <i title="{{ __mc('Failed') }}" class="fas fa-times text-red-500"></i>
             @break
         @endswitch
     </td>
@@ -30,7 +30,7 @@
                            wire:click.prevent="downloadAttatchment('{{ $row->id }}', 'errorReport')"
                            download>
                             <x-mailcoach::icon-label icon="far fa-times-circle"
-                                                     :text="__('mailcoach - Error report')"/>
+                                                     :text="__mc('Error report')"/>
                         </a>
                     </li>
                 @endif
@@ -39,23 +39,23 @@
                        wire:click.prevent="downloadAttatchment('{{ $row->id }}', 'importFile')"
                        download>
                         <x-mailcoach::icon-label icon="far fa-file"
-                                                 :text="__('mailcoach - Uploaded file')"/>
+                                                 :text="__mc('Uploaded file')"/>
                     </a>
                 </li>
                 <li>
                     <x-mailcoach::confirm-button
-                        :confirm-text="__('mailcoach - Are you sure you want to restart this import?')"
+                        :confirm-text="__mc('Are you sure you want to restart this import?')"
                         onConfirm="() => $wire.restartImport({{ $row->id }})"
                     >
-                        <x-mailcoach::icon-label icon="fa-fw far fa-sync" :text="__('mailcoach - Restart')"/>
+                        <x-mailcoach::icon-label icon="fa-fw far fa-sync" :text="__mc('Restart')"/>
                     </x-mailcoach::confirm-button>
                 </li>
                 <li>
                     <x-mailcoach::confirm-button
-                        :confirm-text="__('mailcoach - Are you sure you want to delete this import? Don\'t worry, it only deletes the import record and not subscribers.')"
+                        :confirm-text="__mc('Are you sure you want to delete this import? Don\'t worry, it only deletes the import record and not subscribers.')"
                         onConfirm="() => $wire.deleteImport({{ $row->id }})"
                     >
-                        <x-mailcoach::icon-label icon="fa-fw far fa-trash-alt" :text="__('mailcoach - Delete')"
+                        <x-mailcoach::icon-label icon="fa-fw far fa-trash-alt" :text="__mc('Delete')"
                                                  :caution="true"/>
                     </x-mailcoach::confirm-button>
                 </li>

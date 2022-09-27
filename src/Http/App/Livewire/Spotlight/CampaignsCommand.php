@@ -9,7 +9,7 @@ class CampaignsCommand extends SpotlightCommand
 {
     public function getName(): string
     {
-        return __('mailcoach - Campaigns');
+        return __mc('Campaigns');
     }
 
     public function execute(Spotlight $spotlight)

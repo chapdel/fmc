@@ -69,14 +69,14 @@ class Website extends Component
 
         $this->emailList->save();
 
-        $this->flash(__('mailcoach - Website settings for list :emailList were updated', ['emailList' => $this->emailList->name]));
+        $this->flash(__mc('Website settings for list :emailList were updated', ['emailList' => $this->emailList->name]));
     }
 
     public function render(): View
     {
         return view('mailcoach::app.emailLists.settings.website')
             ->layout('mailcoach::app.emailLists.layouts.emailList', [
-                'title' => __('mailcoach - Website'),
+                'title' => __mc('Website'),
                 'emailList' => $this->emailList,
             ]);
     }

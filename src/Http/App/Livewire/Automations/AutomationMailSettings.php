@@ -44,14 +44,14 @@ class AutomationMailSettings extends Component
 
         $this->mail->save();
 
-        $this->flash(__('mailcoach - Email :name was updated.', ['name' => $this->mail->name]));
+        $this->flash(__mc('Email :name was updated.', ['name' => $this->mail->name]));
     }
 
     public function render(): View
     {
         return view('mailcoach::app.automations.mails.settings')
             ->layout('mailcoach::app.automations.mails.layouts.automationMail', [
-                'title' => __('mailcoach - Settings'),
+                'title' => __mc('Settings'),
                 'mail' => $this->mail,
             ]);
     }

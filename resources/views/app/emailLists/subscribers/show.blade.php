@@ -2,15 +2,15 @@
     <nav class="tabs">
         <ul>
             <x-mailcoach::navigation-item wire:click.prevent="$set('tab', 'profile')" :active="$tab === 'profile'">
-                {{ __('mailcoach - Profile') }}
+                {{ __mc('Profile') }}
             </x-mailcoach::navigation-item>
             @if ($subscriber->extra_attributes->count())
             <x-mailcoach::navigation-item wire:click.prevent="$set('tab', 'attributes')" :active="$tab === 'attributes'">
-                {{ __('mailcoach - Attributes') }}
+                {{ __mc('Attributes') }}
             </x-mailcoach::navigation-item>
             @endif
             <x-mailcoach::navigation-item wire:click.prevent="$set('tab', 'sends')" :active="$tab === 'sends'">
-                <x-mailcoach::icon-label :text="__('mailcoach - Received mails')" invers :count="$totalSendsCount" />
+                <x-mailcoach::icon-label :text="__mc('Received mails')" invers :count="$totalSendsCount" />
             </x-mailcoach::navigation-item>
         </ul>
     </nav>
@@ -27,11 +27,11 @@
             @csrf
             @method('PUT')
 
-            <x-mailcoach::text-field :label="__('mailcoach - Email')" name="email" wire:model="subscriber.email" type="email" required />
-            <x-mailcoach::text-field :label="__('mailcoach - First name')" name="first_name" wire:model="subscriber.first_name" />
-            <x-mailcoach::text-field :label="__('mailcoach - Last name')" name="last_name" wire:model="subscriber.last_name" />
+            <x-mailcoach::text-field :label="__mc('Email')" name="email" wire:model="subscriber.email" type="email" required />
+            <x-mailcoach::text-field :label="__mc('First name')" name="first_name" wire:model="subscriber.first_name" />
+            <x-mailcoach::text-field :label="__mc('Last name')" name="last_name" wire:model="subscriber.last_name" />
             <x-mailcoach::tags-field
-                :label="__('mailcoach - Tags')"
+                :label="__mc('Tags')"
                 name="tags"
                 :value="$tags"
                 :tags="$subscriber->emailList->tags()->where('type', \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::Default)->pluck('name')->toArray()"
@@ -40,7 +40,7 @@
             />
 
             <x-mailcoach::form-buttons>
-                <x-mailcoach::button :label="__('mailcoach - Save subscriber')" />
+                <x-mailcoach::button :label="__mc('Save subscriber')" />
             </x-mailcoach::form-buttons>
         </form>
         </x-mailcoach::card>
@@ -48,7 +48,7 @@
         <x-mailcoach::fieldset class="mt-6" card :legend="__('Usage in Mailcoach API')">
             <div>
                 <x-mailcoach::help>
-                    {!! __('mailcoach - Whenever you need to specify a <code>:resourceName</code> in the Mailcoach API and want to use this :resource, you\'ll need to pass this value', [
+                    {!! __mc('Whenever you need to specify a <code>:resourceName</code> in the Mailcoach API and want to use this :resource, you\'ll need to pass this value', [
                     'resourceName' => 'subscriber uuid',
                     'resource' => 'subscriber',
                 ]) !!}
@@ -66,8 +66,8 @@
             <table class="table-styled">
                 <thead>
                 <tr>
-                    <th>{{ __('mailcoach - Key') }}</th>
-                    <th>{{ __('mailcoach - Value') }}</th>
+                    <th>{{ __mc('Key') }}</th>
+                    <th>{{ __mc('Value') }}</th>
                 </tr>
                 </thead>
                 <tbody>

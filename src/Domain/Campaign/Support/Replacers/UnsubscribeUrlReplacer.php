@@ -9,9 +9,9 @@ class UnsubscribeUrlReplacer implements PersonalizedReplacer
     public function helpText(): array
     {
         return [
-            'unsubscribeUrl' => __('mailcoach - The URL where users can unsubscribe'),
-            'unsubscribeTag::your tag' => __('mailcoach - The URL where users can be removed from a specific tag'),
-            'preferencesUrl' => __('mailcoach - The URL where users can manage their preferences'),
+            'unsubscribeUrl' => __mc('The URL where users can unsubscribe'),
+            'unsubscribeTag::your tag' => __mc('The URL where users can be removed from a specific tag'),
+            'preferencesUrl' => __mc('The URL where users can manage their preferences'),
         ];
     }
 

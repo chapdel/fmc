@@ -15,11 +15,11 @@
         <script type="text/javascript">
             window.__ = function (key) {
                 return {
-                    "Are you sure?": "{{ __('mailcoach - Are you sure?') }}",
-                    "Type to add tags": "{{ __('mailcoach - Type to add tags') }}",
-                    "No tags to choose from": "{{ __('mailcoach - No tags to choose from') }}",
-                    "Press to add": "{{ __('mailcoach - Press to add') }}",
-                    "Press to select": "{{ __('mailcoach - Press to select') }}",
+                    "Are you sure?": "{{ __mc('Are you sure?') }}",
+                    "Type to add tags": "{{ __mc('Type to add tags') }}",
+                    "No tags to choose from": "{{ __mc('No tags to choose from') }}",
+                    "Press to add": "{{ __mc('Press to add') }}",
+                    "Press to select": "{{ __mc('Press to select') }}",
                 }[key];
             };
         </script>
@@ -61,21 +61,21 @@
                 </section>
             </main>
 
-            <x-mailcoach::modal :title="__('mailcoach - Confirm')" name="confirm" :dismissable="true">
+            <x-mailcoach::modal :title="__mc('Confirm')" name="confirm" :dismissable="true">
                 <span x-text="confirmText"></span>
 
                 <x-mailcoach::form-buttons>
-                    <x-mailcoach::button data-confirm type="button" x-on:click="onConfirm; $store.modals.close('confirm')" :label=" __('mailcoach - Confirm')" />
-                    <x-mailcoach::button-cancel  x-on:click="$store.modals.close('confirm')" :label=" __('mailcoach - Cancel')" />
+                    <x-mailcoach::button data-confirm type="button" x-on:click="onConfirm; $store.modals.close('confirm')" :label=" __mc('Confirm')" />
+                    <x-mailcoach::button-cancel  x-on:click="$store.modals.close('confirm')" :label=" __mc('Cancel')" />
                 </x-mailcoach::form-buttons>
             </x-mailcoach::modal>
 
-            <x-mailcoach::modal :title="__('mailcoach - Confirm navigation')" name="dirty-warning">
-                {{ __('mailcoach - There are unsaved changes. Are you sure you want to continue?') }}
+            <x-mailcoach::modal :title="__mc('Confirm navigation')" name="dirty-warning">
+                {{ __mc('There are unsaved changes. Are you sure you want to continue?') }}
 
                 <x-mailcoach::form-buttons>
-                    <x-mailcoach::button type="button" x-on:click="$store.modals.onConfirm && $store.modals.onConfirm()" :label=" __('mailcoach - Confirm')" />
-                    <x-mailcoach::button-cancel  x-on:click="$store.modals.close('dirty-warning')" :label=" __('mailcoach - Cancel')" />
+                    <x-mailcoach::button type="button" x-on:click="$store.modals.onConfirm && $store.modals.onConfirm()" :label=" __mc('Confirm')" />
+                    <x-mailcoach::button-cancel  x-on:click="$store.modals.close('dirty-warning')" :label=" __mc('Cancel')" />
                 </x-mailcoach::form-buttons>
             </x-mailcoach::modal>
 

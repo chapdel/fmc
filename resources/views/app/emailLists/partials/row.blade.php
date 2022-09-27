@@ -5,7 +5,7 @@
                 {{ $row->name }}
             </a>
             @if ($row->has_website)
-                <a class="link text-xs ml-2" title="{{ __('mailcoach - Website') }}" href="{{ $row->websiteUrl() }}" target="_blank">
+                <a class="link text-xs ml-2" title="{{ __mc('Website') }}" href="{{ $row->websiteUrl() }}" target="_blank">
                     <i class="fas fa-external-link"></i>
                 </a>
             @endif
@@ -17,7 +17,7 @@
     </td>
     <td class="td-action">
         <x-mailcoach::confirm-button
-            :confirm-text="__('mailcoach - Are you sure you want to delete list :emailListName?', ['emailListName' => $row->name])"
+            :confirm-text="__mc('Are you sure you want to delete list :emailListName?', ['emailListName' => $row->name])"
             onConfirm="() => $wire.deleteList({{ $row->id }})"
             class="icon-button text-red-500 hover:text-red-700"
         >

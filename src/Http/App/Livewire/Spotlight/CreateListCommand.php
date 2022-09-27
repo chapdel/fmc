@@ -16,7 +16,7 @@ class CreateListCommand extends SpotlightCommand
 
     public function getName(): string
     {
-        return __('mailcoach - Create list');
+        return __mc('Create list');
     }
 
     public function dependencies(): ?SpotlightCommandDependencies
@@ -46,7 +46,7 @@ class CreateListCommand extends SpotlightCommand
             'default_from_name' => $fromName,
         ]);
 
-        flash()->success(__('mailcoach - List :emailList was created', ['emailList' => $list->name]));
+        flash()->success(__mc('List :emailList was created', ['emailList' => $list->name]));
 
         $spotlight->redirect(route('mailcoach.emailLists.general-settings', $list));
     }

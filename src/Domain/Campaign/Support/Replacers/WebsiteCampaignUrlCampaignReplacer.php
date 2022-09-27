@@ -9,7 +9,7 @@ class WebsiteCampaignUrlCampaignReplacer implements CampaignReplacer
     public function helpText(): array
     {
         return [
-            'websiteCampaignUrl' => __('mailcoach - This URL will display the content of your campaign on your campaign\'s website. You need to enable the website in the email list settings.'),
+            'websiteCampaignUrl' => __mc('This URL will display the content of your campaign on your campaign\'s website. You need to enable the website in the email list settings.'),
         ];
     }
 

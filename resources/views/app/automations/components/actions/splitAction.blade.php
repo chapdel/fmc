@@ -5,7 +5,7 @@
                 {{ $index + 1 }}
             </span>
             <span class="font-normal whitespace-nowrap">
-                {{ __('mailcoach - Branch out') }}
+                {{ __mc('Branch out') }}
             </span>
         </header>
     </x-slot>
@@ -22,7 +22,7 @@
             </button>
         @endif
         @if ($deletable && count($editingActions) === 0)
-            <button type="button" onclick="confirm('{{ __('mailcoach - Are you sure you want to delete this action?') }}') || event.stopImmediatePropagation()" wire:click="delete">
+            <button type="button" onclick="confirm('{{ __mc('Are you sure you want to delete this action?') }}') || event.stopImmediatePropagation()" wire:click="delete">
                 <i class="icon-button link-danger far fa-trash-alt"></i>
             </button>
         @endif
@@ -36,7 +36,7 @@
                             <div class="flex items-center">
                                 <h2 :class="{ 'rounded-br': !collapsed }" class="justify-self-start -ml-4 -my-px h-8 pl-2 pr-4 inline-flex items-center bg-blue-600 text-white space-x-2">
                                     <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">
-                                    <span class="font-normal">{{ __('mailcoach - Branch') }}</span>
+                                    <span class="font-normal">{{ __mc('Branch') }}</span>
                                     A
                                 </span>
                                 </h2>
@@ -56,7 +56,7 @@
                             <div class="flex items-center">
                                 <h2 :class="{ 'rounded-br': !collapsed }" class="justify-self-start -ml-4 -my-px h-8 pl-2 pr-4 inline-flex items-center bg-blue-600 text-white space-x-2">
                                     <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">
-                                    <span class="font-normal">{{ __('mailcoach - Branch') }}</span>
+                                    <span class="font-normal">{{ __mc('Branch') }}</span>
                                     B
                                 </span>
                                 </h2>
@@ -80,7 +80,7 @@
                                 <div class="flex items-center">
                                     <h2 :class="{ 'rounded-br': !collapsed }" class="justify-self-start -ml-4 -my-px h-8 pl-2 pr-4 inline-flex items-center bg-blue-600 text-white space-x-2">
                                         <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">
-                                            <span class="font-normal">{{ __('mailcoach - Branch') }}</span>
+                                            <span class="font-normal">{{ __mc('Branch') }}</span>
                                             A
                                         </span>
                                     </h2>
@@ -109,7 +109,7 @@
                                 <div class="flex items-center">
                                     <h2 :class="{ 'rounded-br': !collapsed }" class="justify-self-start -ml-4 -my-px h-8 pl-2 pr-4 inline-flex items-center bg-blue-600 text-white space-x-2">
                                         <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">
-                                        <span class="font-normal">{{ __('mailcoach - Branch') }}</span>
+                                        <span class="font-normal">{{ __mc('Branch') }}</span>
                                         B
                                     </span>
                                     </h2>

@@ -101,7 +101,10 @@
         "psr-4": {
             "Spatie\\Mailcoach\\": "src",
             "Spatie\\Mailcoach\\Database\\Factories\\": "database/factories"
-        }
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

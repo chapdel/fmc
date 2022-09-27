@@ -6,11 +6,11 @@
     <x-slot name="nav">
         <x-mailcoach::navigation :title="$template->name">
             <x-mailcoach::navigation-item :href="route('mailcoach.transactionalMails.templates.edit', $template)" data-dirty-warn>
-                {{ __('mailcoach - Content') }}
+                {{ __mc('Content') }}
             </x-mailcoach::navigation-item>
             <x-mailcoach::navigation-item :href="route('mailcoach.transactionalMails.templates.settings', $template)"
                                         data-dirty-warn>
-                {{ __('mailcoach - Settings') }}
+                {{ __mc('Settings') }}
             </x-mailcoach::navigation-item>
         </x-mailcoach::navigation>
     </x-slot>

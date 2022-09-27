@@ -16,7 +16,7 @@ class CreateTransactionalTemplateCommand extends SpotlightCommand
 
     public function getName(): string
     {
-        return __('mailcoach - Create transactional template');
+        return __mc('Create transactional template');
     }
 
     public function dependencies(): ?SpotlightCommandDependencies
@@ -40,7 +40,7 @@ class CreateTransactionalTemplateCommand extends SpotlightCommand
             'name' => $name,
         ]);
 
-        flash()->success(__('mailcoach - Template :template was created.', ['template' => $template->name]));
+        flash()->success(__mc('Template :template was created.', ['template' => $template->name]));
 
         $spotlight->redirect(route('mailcoach.templates.edit', $template));
     }

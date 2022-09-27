@@ -14,13 +14,13 @@
         :rows="$subscriberImports ?? null"
         :total-rows-count="$allSubscriberImportsCount ?? null"
         row-partial="mailcoach::app.emailLists.subscribers.partials.import-row"
-        :empty-text="__('mailcoach - No imports yet')"
+        :empty-text="__mc('No imports yet')"
         :searchable="false"
         :columns="[
-            ['class' => 'w-32', 'attribute' => 'status', 'label' => __('mailcoach - Status')],
-            ['class' => 'w-48 th-numeric', 'attribute' => 'created_at', 'label' => __('mailcoach - Started at')],
-            ['class' => 'th-numeric', 'attribute' => 'imported_subscribers_count', 'label' => __('mailcoach - Imported subscribers')],
-            ['class' => 'th-numeric', 'label' => __('mailcoach - Errors')],
+            ['class' => 'w-32', 'attribute' => 'status', 'label' => __mc('Status')],
+            ['class' => 'w-48 th-numeric', 'attribute' => 'created_at', 'label' => __mc('Started at')],
+            ['class' => 'th-numeric', 'attribute' => 'imported_subscribers_count', 'label' => __mc('Imported subscribers')],
+            ['class' => 'th-numeric', 'label' => __mc('Errors')],
             ['class' => 'w-12'],
         ]"
     />
@@ -37,7 +37,7 @@
 
                     <div class="flex">
                         <label class="label" for="tags_mode">
-                            {{ __('mailcoach - What should happen with tags on existing subscribers?') }}
+                            {{ __mc('What should happen with tags on existing subscribers?') }}
                         </label>
                     </div>
                     <div class="radio-group">
@@ -45,13 +45,13 @@
                             name="replace_tags"
                             wire:model="replaceTags"
                             option-value="append"
-                            :label="__('mailcoach - Append any new tags in the import')"
+                            :label="__mc('Append any new tags in the import')"
                         />
                         <x-mailcoach::radio-field
                             name="replace_tags"
                             wire:model="replaceTags"
                             option-value="replace"
-                            :label="__('mailcoach - Replace all tags by the tags in the import')"
+                            :label="__mc('Replace all tags by the tags in the import')"
                         />
                     </div>
                 </div>
@@ -65,14 +65,14 @@
                         <x-mailcoach::checkbox-field
                             name="subscribeUnsubscribed"
                             wire:model="subscribeUnsubscribed"
-                            :label="__('mailcoach - Re-subscribe unsubscribed emails')"
+                            :label="__mc('Re-subscribe unsubscribed emails')"
                         />
                     </div>
                 </div>
 
                 @if ($subscribeUnsubscribed)
                     <x-mailcoach::warning>
-                        {{ __('mailcoach - Make sure you have proper consent of the subscribers you\'re resubscribing.') }}
+                        {{ __mc('Make sure you have proper consent of the subscribers you\'re resubscribing.') }}
                     </x-mailcoach::warning>
                 @endif
 
@@ -85,14 +85,14 @@
                         <x-mailcoach::checkbox-field
                             name="unsubscribeMissing"
                             wire:model="unsubscribeMissing"
-                            :label="__('mailcoach - Unsubscribe missing emails')"
+                            :label="__mc('Unsubscribe missing emails')"
                         />
                     </div>
                 </div>
 
                 @if ($unsubscribeMissing)
                     <x-mailcoach::warning>
-                        {{ __('mailcoach - This is a dangerous operation, make sure you upload the correct import list') }}
+                        {{ __mc('This is a dangerous operation, make sure you upload the correct import list') }}
                     </x-mailcoach::warning>
                 @endif
 
@@ -107,7 +107,7 @@
                         <i class="far fa-arrow-right text-blue-300"></i>
                     </div>
                     <div class="flex items-center gap-4">
-                        <x-mailcoach::button wire:click.prevent="upload" :label="__('mailcoach - Import subscribers')" :disabled="!$file" />
+                        <x-mailcoach::button wire:click.prevent="upload" :label="__mc('Import subscribers')" :disabled="!$file" />
                         <div wire:loading.delay wire:target="file">
                             <style>
                                 @keyframes loadingpulse {
@@ -128,16 +128,16 @@
                 </div>
 
                 <x-mailcoach::info>
-                    {!! __('mailcoach - Upload a CSV or XLSX file with these columns: email, first_name, last_name, tags <a href=":link" target="_blank">(see documentation)</a>', ['link' => 'https://mailcoach.app/docs/v5/mailcoach/using-mailcoach/audience#content-importing-subscribers']) !!}
-                    &mdash; <a href="#" wire:click.prevent="downloadExample" class="link">{{ __('mailcoach - Download example') }}</a>
+                    {!! __mc('Upload a CSV or XLSX file with these columns: email, first_name, last_name, tags <a href=":link" target="_blank">(see documentation)</a>', ['link' => 'https://mailcoach.app/docs/v5/mailcoach/using-mailcoach/audience#content-importing-subscribers']) !!}
+                    &mdash; <a href="#" wire:click.prevent="downloadExample" class="link">{{ __mc('Download example') }}</a>
                 </x-mailcoach::info>
                 <x-mailcoach::info>
-                    {!! __('mailcoach - Mailcoach also supports the <a href=":url" target="_blank">Mailchimp CSV export</a> format for importing subscribers.', ['url' => 'https://mailchimp.com/help/view-export-contacts/#View_or_export_an_audience']) !!}
+                    {!! __mc('Mailcoach also supports the <a href=":url" target="_blank">Mailchimp CSV export</a> format for importing subscribers.', ['url' => 'https://mailchimp.com/help/view-export-contacts/#View_or_export_an_audience']) !!}
                 </x-mailcoach::info>
             </form>
         @else
             <div>
-                <x-mailcoach::button wire:click.prevent="$set('showForm', true)" :label="__('mailcoach - New import')" />
+                <x-mailcoach::button wire:click.prevent="$set('showForm', true)" :label="__mc('New import')" />
             </div>
         @endif
     </x-mailcoach::card>

@@ -32,7 +32,7 @@ class CreateAutomationMail extends Component
             $this->validate(),
         );
 
-        flash()->success(__('mailcoach - Email :name was created.', ['name' => $automationMail->name]));
+        flash()->success(__mc('Email :name was created.', ['name' => $automationMail->name]));
 
         return redirect()->route('mailcoach.automations.mails.settings', $automationMail);
     }

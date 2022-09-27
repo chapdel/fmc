@@ -9,7 +9,7 @@ class TransactionalLogCommand extends SpotlightCommand
 {
     public function getName(): string
     {
-        return __('mailcoach - Transactional log');
+        return __mc('Transactional log');
     }
 
     public function execute(Spotlight $spotlight)

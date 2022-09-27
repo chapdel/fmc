@@ -26,7 +26,7 @@ class WaitAction extends AutomationAction
 
     public static function getName(): string
     {
-        return (string) __('mailcoach - Wait for a duration');
+        return (string) __mc('Wait for a duration');
     }
 
     public static function getComponent(): ?string

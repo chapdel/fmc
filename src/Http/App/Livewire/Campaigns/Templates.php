@@ -15,12 +15,12 @@ class Templates extends DataTable
         $this->authorize('create', self::getTemplateClass());
 
         $duplicateTemplate = self::getTemplateClass()::create([
-            'name' => __('mailcoach - Duplicate of').' '.$template->name,
+            'name' => __mc('Duplicate of').' '.$template->name,
             'html' => $template->html,
             'structured_html' => $template->structured_html,
         ]);
 
-        flash()->success(__('mailcoach - Template :template was duplicated.', ['template' => $template->name]));
+        flash()->success(__mc('Template :template was duplicated.', ['template' => $template->name]));
 
         return redirect()->route('mailcoach.templates.edit', $duplicateTemplate);
     }
@@ -33,12 +33,12 @@ class Templates extends DataTable
 
         $template->delete();
 
-        $this->flash(__('mailcoach - Template :template was deleted.', ['template' => $template->name]));
+        $this->flash(__mc('Template :template was deleted.', ['template' => $template->name]));
     }
 
     public function getTitle(): string
     {
-        return __('mailcoach - Templates');
+        return __mc('Templates');
     }
 
     public function getView(): string

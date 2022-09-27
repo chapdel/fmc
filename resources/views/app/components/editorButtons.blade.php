@@ -7,18 +7,18 @@
         @keydown.prevent.window.cmd.s="$wire.call('save')"
         @keydown.prevent.window.ctrl.s="$wire.call('save')"
         wire:click.prevent="save"
-        :label="__('mailcoach - Save content')"
+        :label="__mc('Save content')"
     />
 
     @if (method_exists($model, 'sendTestMail') && (\Spatie\Mailcoach\Mailcoach::defaultCampaignMailer() || \Spatie\Mailcoach\Mailcoach::defaultAutomationMailer() || \Spatie\Mailcoach\Mailcoach::defaultTransactionalMailer()))
-        <x-mailcoach::button x-on:click.prevent="$wire.saveQuietly() && $store.modals.open('send-test')" :label="__('mailcoach - Save and send test')"/>
+        <x-mailcoach::button x-on:click.prevent="$wire.saveQuietly() && $store.modals.open('send-test')" :label="__mc('Save and send test')"/>
         <x-mailcoach::modal name="send-test" :dismissable="true">
             <livewire:mailcoach::send-test :model="$model" />
         </x-mailcoach::modal>
     @endif
 
-    <x-mailcoach::button-secondary x-on:click.prevent="$store.modals.open('preview')" :label="__('mailcoach - Preview')"/>
+    <x-mailcoach::button-secondary x-on:click.prevent="$store.modals.open('preview')" :label="__mc('Preview')"/>
     {{ $slot }}
 
-    <x-mailcoach::preview-modal name="preview" :html="$previewHtml" :title="__('mailcoach - Preview') . ($model->subject ? ' - ' . $model->subject : '')" />
+    <x-mailcoach::preview-modal name="preview" :html="$previewHtml" :title="__mc('Preview') . ($model->subject ? ' - ' . $model->subject : '')" />
 </x-mailcoach::form-buttons>

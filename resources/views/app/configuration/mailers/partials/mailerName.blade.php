@@ -1,7 +1,7 @@
 <x-mailcoach::fieldset card :legend="__('Usage in Mailcoach API')">
     <div>
         <x-mailcoach::help>
-            {!! __('mailcoach - Whenever you need to specify a <code>:resourceName</code> in the Mailcoach API and want to use this :resource, you\'ll need to pass this value', [
+            {!! __mc('Whenever you need to specify a <code>:resourceName</code> in the Mailcoach API and want to use this :resource, you\'ll need to pass this value', [
             'resourceName' => 'mailer',
             'resource' => 'mailer',
         ]) !!}

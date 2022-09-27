@@ -18,14 +18,14 @@ class ShowAutomationCommand extends SpotlightCommand
 
     public function getName(): string
     {
-        return __('mailcoach - Show :resource', ['resource' => 'automation']);
+        return __mc('Show :resource', ['resource' => 'automation']);
     }
 
     public function getSynonyms(): array
     {
         return [
-            __('mailcoach - View :resource', ['resource' => 'automation']),
-            __('mailcoach - Go :resource', ['resource' => 'automation']),
+            __mc('View :resource', ['resource' => 'automation']),
+            __mc('Go :resource', ['resource' => 'automation']),
         ];
     }
 

@@ -81,7 +81,7 @@ class CampaignDelivery extends Component
     {
         $this->campaign->markAsUnscheduled();
 
-        $this->flash(__('mailcoach - Campaign :campaign was unscheduled', ['campaign' => $this->campaign->name]));
+        $this->flash(__mc('Campaign :campaign was unscheduled', ['campaign' => $this->campaign->name]));
     }
 
     public function schedule()
@@ -89,27 +89,27 @@ class CampaignDelivery extends Component
         $this->validate();
 
         if (! $this->campaign->isPending()) {
-            $this->flash(__('mailcoach - Campaign :campaign could not be scheduled because it has already been sent.', ['campaign' => $this->campaign->name]), 'error');
+            $this->flash(__mc('Campaign :campaign could not be scheduled because it has already been sent.', ['campaign' => $this->campaign->name]), 'error');
 
             return;
         }
 
         $this->campaign->scheduleToBeSentAt($this->scheduled_at_date->setTimezone(config('mailcoach.timezone') ?? config('app.timezone')));
 
-        $this->flash(__('mailcoach - Campaign :campaign is scheduled for delivery.', ['campaign' => $this->campaign->name]));
+        $this->flash(__mc('Campaign :campaign is scheduled for delivery.', ['campaign' => $this->campaign->name]));
     }
 
     public function send()
     {
         if (! $this->campaign->isPending()) {
-            $this->flash(__('mailcoach - Campaign :campaign could not be sent because it has already been sent.', ['campaign' => $this->campaign->name]), 'error');
+            $this->flash(__mc('Campaign :campaign could not be sent because it has already been sent.', ['campaign' => $this->campaign->name]), 'error');
 
             return;
         }
 
         $this->campaign->send();
 
-        flash()->success(__('mailcoach - Campaign :campaign is being sent.', ['campaign' => $this->campaign->name]));
+        flash()->success(__mc('Campaign :campaign is being sent.', ['campaign' => $this->campaign->name]));
 
         return redirect()->route('mailcoach.campaigns.summary', $this->campaign);
     }
@@ -119,7 +119,7 @@ class CampaignDelivery extends Component
         return view('mailcoach::app.campaigns.delivery')
             ->layout('mailcoach::app.campaigns.layouts.campaign', [
                 'campaign' => $this->campaign,
-                'title' => __('mailcoach - Send'),
+                'title' => __mc('Send'),
             ]);
     }
 }
