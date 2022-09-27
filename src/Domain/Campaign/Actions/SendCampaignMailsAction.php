@@ -19,6 +19,10 @@ class SendCampaignMailsAction
         }
 
         if (! $campaign->sends()->undispatched()->count()) {
+            if ($campaign->allSendsCreated()) {
+                $campaign->markAsAllMailSendingJobsDispatched();
+            }
+
             return;
         }
 
