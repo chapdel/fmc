@@ -27,7 +27,7 @@ class WebhookConfiguration extends Model
     public function emailLists(): BelongsToMany
     {
         return $this->belongsToMany(
-            EmailList::class,
+            $this->getEmailListClass(),
             'mailcoach_webhook_configuration_email_lists',
             'webhook_configuration_id',
             'email_list_id',
