@@ -356,7 +356,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         return $this;
     }
 
-    private function bootEvents()
+    protected function bootEvents()
     {
         Event::listen(CampaignSentEvent::class, SendCampaignSentEmail::class);
         Event::listen(WebhookCallProcessedEvent::class, SetWebhookCallProcessedAt::class);
@@ -369,7 +369,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         return $this;
     }
 
-    private function bootTriggers(): self
+    protected function bootTriggers(): self
     {
         try {
             $triggers = cache()->rememberForever('automation-triggers', function () {
