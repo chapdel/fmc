@@ -108,7 +108,7 @@ it('will display sent campaigns on the list', function (CampaignStatus $status, 
         ->$assertionMethod($this->campaign->subject);
 })->with([
     [CampaignStatus::Draft, false],
-    [CampaignStatus::Sending, true],
+    [CampaignStatus::Sending, false],
     [CampaignStatus::Sent, true],
     [CampaignStatus::Cancelled, false],
 ]);

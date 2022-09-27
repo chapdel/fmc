@@ -14,12 +14,6 @@ class SendCampaignMailsAction
 {
     public function execute(Campaign $campaign, ?CarbonInterface $stopExecutingAt = null): void
     {
-        if ($campaign->wasAlreadySent() || ! $campaign->isSending()) {
-            $campaign->markAsAllMailSendingJobsDispatched();
-
-            return;
-        }
-
         if ($campaign->allMailSendingJobsDispatched()) {
             return;
         }
