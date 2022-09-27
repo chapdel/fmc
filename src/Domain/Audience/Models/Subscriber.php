@@ -355,6 +355,8 @@ class Subscriber extends Model implements CipherSweetEncrypted
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'tags' => $this->tags->where('type', TagType::Default)->pluck('name')->implode(';'),
+            'subscribed_at' => $this->subscribed_at?->format('Y-m-d H:i:s'),
+            'unsubscribed_at' => $this->unsubscribed_at?->format('Y-m-d H:i:s'),
         ];
     }
 
