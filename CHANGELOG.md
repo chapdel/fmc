@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.10.3 - 2022-09-27
+
+### What's Changed
+
+- Fixes an exception that occurs while exporting by @staninova in https://github.com/spatie/laravel-mailcoach/pull/1077
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.10.2...5.10.3
+
 ## 5.10.2 - 2022-09-27
 
 - make methods protected by default
