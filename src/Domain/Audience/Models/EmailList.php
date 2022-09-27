@@ -17,7 +17,6 @@ use Spatie\Image\Manipulations;
 use Spatie\Mailcoach\Database\Factories\EmailListFactory;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Mails\ConfirmSubscriberMail;
-use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\MediaLibrary\HasMedia;
