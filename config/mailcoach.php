@@ -221,6 +221,7 @@ return [
         'perform_on_queue' => [
             'schedule' => 'mailcoach-schedule',
             'calculate_statistics_job' => 'mailcoach',
+            'send_webhooks' => 'mailcoach',
         ],
 
         'actions' => [

@@ -23,7 +23,7 @@ class SendWebhookAction
     protected function sendWebhook(WebhookConfiguration $webhookConfiguration, array $payload)
     {
         WebhookCall::create()
-            ->onQueue('webhooks')
+            ->onQueue(config('mailcoach.shared.perform_on_queue.send_webhooks'))
             ->timeoutInSeconds(10)
             ->maximumTries(5)
             ->url($webhookConfiguration->url)
