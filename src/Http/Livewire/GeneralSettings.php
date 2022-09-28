@@ -45,8 +45,6 @@ class GeneralSettings extends Component
     {
         resolve(AppConfiguration::class)->put($this->validate());
 
-        ConfigCache::clear();
-
         if (InstalledVersions::isInstalled('laravel/horizon')) {
             dispatch(function () {
                 if (app()->runningInConsole()) {

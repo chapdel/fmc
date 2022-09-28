@@ -21,8 +21,6 @@ class AppConfiguration
         config()->set('app.url', $this->get('url', config('app.url')));
         config()->set('filesystems.disks.public.url', $this->get('url', config('app.url')).'/storage');
         config()->set('mail.from.address', $this->get('from_address', config('mail.from.address')));
-
-        ConfigCache::clear();
     }
 
     public function getKeyName(): string
