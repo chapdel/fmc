@@ -4,7 +4,6 @@ use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailLink;
 use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
-use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
 use Spatie\Mailcoach\Domain\Shared\Support\LinkHasher;
 
 it('adds a tag when a automation mail link is clicked', function () {
