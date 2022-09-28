@@ -11,8 +11,6 @@ class Mailcoach
 {
     use UsesMailcoachModels;
 
-    public static bool $runsMigrations = true;
-
     protected static $editorScripts = [];
 
     protected static $editorStyles = [];
@@ -89,13 +87,6 @@ class Mailcoach
         }
 
         return implode("\n", $scripts);
-    }
-
-    public static function ignoreMigrations(): static
-    {
-        static::$runsMigrations = false;
-
-        return new static;
     }
 
     public static function availableEditorScripts()
