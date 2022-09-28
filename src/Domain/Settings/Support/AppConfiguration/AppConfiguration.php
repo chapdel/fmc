@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Domain\Settings\Support\AppConfiguration;
 
 use Illuminate\Config\Repository;
 use Spatie\Mailcoach\Domain\Settings\Support\Concerns\UsesSettings;
-use Spatie\Mailcoach\Domain\Settings\Support\ConfigCache;
 
 class AppConfiguration
 {
