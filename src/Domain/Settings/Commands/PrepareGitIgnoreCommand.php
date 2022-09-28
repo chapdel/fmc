@@ -17,7 +17,6 @@ class PrepareGitIgnoreCommand extends Command
 
         $newContent = collect(file(base_path('.gitignore')))
             ->reject(fn (string $line) => Str::startsWith($line, 'composer.lock'))
-            ->reject(fn (string $line) => Str::startsWith($line, 'resources/views/vendor'))
             ->reject(fn (string $line) => Str::startsWith($line, 'public/vendor/mailcoach'))
             ->implode('');
 
