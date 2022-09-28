@@ -197,7 +197,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
                 '2022_02_10_000002_create_media_table',
                 '2022_02_10_000003_create_webhook_calls_table',
             ])
-            ->runsMigrations(Mailcoach::$runsMigrations)
             ->hasCommands([
                 CalculateStatisticsCommand::class,
                 CalculateAutomationMailStatisticsCommand::class,
