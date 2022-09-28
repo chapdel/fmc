@@ -23,7 +23,7 @@ class PublishCommand extends Command
             'vendor:publish --tag=mailcoach-ui-vendor-views --force',
             'vendor:publish --tag=mailcoach-assets --force',
             'vendor:publish --tag=mailcoach-markdown-editor-assets --force',
-            'vendor:publish --tag=livewire-assets --force',
+            'vendor:publish --tag=livewire:assets --force',
         ];
 
         collect($commands)->each(function (string $command) {
