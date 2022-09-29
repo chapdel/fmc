@@ -2,7 +2,7 @@
 @include('mailcoach::app.configuration.mailers.wizards.wizardNavigation')
 <x-mailcoach::card>
     <x-mailcoach::help>
-        Sendgrid can be configured track bounces and complaints. It will send webhooks to Mailcoach, that will be used to
+        Sendgrid can be configured to track bounces and complaints. It will send webhooks to Mailcoach, that will be used to
         automatically unsubscribe people.<br/><br/>Optionally, SendGrid can also send webhooks to inform Mailcoach of opens and
         clicks.
     </x-mailcoach::help>
