@@ -133,6 +133,7 @@ document.addEventListener('alpine:init', () => {
                         y1: {
                             ticks: {
                                 color: 'rgba(100, 116, 139, 1)',
+                                precision: 0,
                             },
                             position: 'right',
                             beginAtZero: false,
