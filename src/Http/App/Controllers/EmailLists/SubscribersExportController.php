@@ -23,7 +23,7 @@ class SubscribersExportController
 
             $subscribersQuery
                 ->with(['tags'])
-                ->select(['email', 'first_name', 'last_name', 'subscribed_at', 'unsubscribed_at'])
+                ->lazyById()
                 ->each(function (Subscriber $subscriber) use ($subscriberCsv) {
                     $this->resetMaximumExecutionTime();
                     $subscriberCsv->addRow($subscriber->toExportRow());
