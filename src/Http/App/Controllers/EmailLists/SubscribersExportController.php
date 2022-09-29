@@ -32,8 +32,9 @@ class SubscribersExportController
                         flush();
                     }
                 });
-
             $subscriberCsv->close();
+
+            flush();
         }, "{$emailList->name} subscribers.csv", [
             'Content-Type' => 'text/csv',
         ]);
