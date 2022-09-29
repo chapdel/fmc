@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire;
 
-use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Carbon\CarbonPeriod;
 use Illuminate\Database\MySqlConnection;
