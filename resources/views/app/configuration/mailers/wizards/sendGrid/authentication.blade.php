@@ -9,7 +9,7 @@
             You should first <a href="https://sendgrid.com" target="_blank">create an account</a> at SendGrid.
             </p>
                 <p>
-            Next, <a target="_blank" href="https://mailcoach.app/docs/v6/using-mailcoach/configuring-mail-providers/sendgrid#content-email-configuration">create and API key at SendGrid</a>. Make sure it has the "Mail Send" and "Tracking" permissions.
+            Next, <a target="_blank" href="https://mailcoach.app/docs/v6/using-mailcoach/configuring-mail-providers/sendgrid#content-email-configuration">create and API key at SendGrid</a>. Make sure it has the "Mail Send", "Mail Settings" and "Tracking" permissions.
             </p>
     </x-mailcoach::help>
 
