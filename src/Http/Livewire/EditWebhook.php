@@ -4,11 +4,13 @@ namespace Spatie\Mailcoach\Http\Livewire;
 
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 
 class EditWebhook extends Component
 {
     use LivewireFlash;
+    use UsesMailcoachModels;
 
     public WebhookConfiguration $webhook;
 
@@ -42,7 +44,16 @@ class EditWebhook extends Component
 
     public function render()
     {
-        return view('mailcoach::app.configuration.webhooks.edit')
-            ->layout('mailcoach::app.layouts.settings', ['title' => $this->webhook->name]);
+        $emailListNames = $this->getEmailListClass()::get()
+            ->pluck('name', 'id')
+            ->values()
+            ->toArray();
+
+        return view('mailcoach::app.configuration.webhooks.edit', [
+            'emailListNames' => $emailListNames,
+        ])
+            ->layout('mailcoach::app.layouts.settings', [
+                'title' => $this->webhook->name,
+            ]);
     }
 }

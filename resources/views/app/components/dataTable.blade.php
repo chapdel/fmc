@@ -14,110 +14,116 @@
 ])
 <div wire:init="loadRows" class="card-grid">
     @if (isset($actions) || $modelClass || count($filters) || $searchable)
-    <div class="table-actions">
-        {{ $actions ?? '' }}
-        @if ($modelClass)
-            @can('create', $modelClass)
-            <x-mailcoach::button x-on:click="$store.modals.open('create-{{ $name }}')" :label="$createText ?? __mc('Create ' . $name)" />
-            <x-mailcoach::modal :title="$createText ?? __mc('Create ' . $name)" name="create-{{ $name }}">
-                @livewire('mailcoach::create-' . $name)
-            </x-mailcoach::modal>
-            @endcan
-        @endif
-
-        <div class="table-filters">
-            @if (count($filters))
-            <x-mailcoach::filters>
-                @foreach ($filters as $filter)
-                @php($attribute = $filter['attribute'])
-                <x-mailcoach::filter :current="$this->$attribute" value="{{ $filter['value'] instanceof UnitEnum ? $filter['value']->value : $filter['value'] }}" attribute="{{ $filter['attribute'] }}">
-                    {{ $filter['label'] }}
-                    <span class="counter">{{ Illuminate\Support\Str::shortNumber($filter['count'] ?? 0) }}</span>
-                </x-mailcoach::filter>
-                @endforeach
-            </x-mailcoach::filters>
+        <div class="table-actions">
+            {{ $actions ?? '' }}
+            @if ($modelClass)
+                @can('create', $modelClass)
+                    <x-mailcoach::button x-on:click="$store.modals.open('create-{{ $name }}')"
+                                         :label="$createText ?? __mc('Create ' . $name)"/>
+                    <x-mailcoach::modal :title="$createText ?? __mc('Create ' . $name)" name="create-{{ $name }}">
+                        @livewire('mailcoach::create-' . $name)
+                    </x-mailcoach::modal>
+                @endcan
             @endif
 
-            @if($searchable)
-            <x-mailcoach::search wire:model.debounce.500ms="search" :placeholder="__mc('Search…')" />
-            @endif
+            <div class="table-filters">
+                @if (count($filters))
+                    <x-mailcoach::filters>
+                        @foreach ($filters as $filter)
+                            @php($attribute = $filter['attribute'])
+                            <x-mailcoach::filter :current="$this->$attribute"
+                                                 value="{{ $filter['value'] instanceof UnitEnum ? $filter['value']->value : $filter['value'] }}"
+                                                 attribute="{{ $filter['attribute'] }}">
+                                {{ $filter['label'] }}
+                                <span
+                                    class="counter">{{ Illuminate\Support\Str::shortNumber($filter['count'] ?? 0) }}</span>
+                            </x-mailcoach::filter>
+                        @endforeach
+                    </x-mailcoach::filters>
+                @endif
+
+                @if($searchable)
+                    <x-mailcoach::search wire:model.debounce.500ms="search" :placeholder="__mc('Search…')"/>
+                @endif
+            </div>
         </div>
-    </div>
     @endif
 
     <div class="card p-0 pb-24 md:pb-0 overflow-x-auto md:overflow-visible">
-            <div wire:loading.delay.longer wire:target="loadRows">
-                <table class="table-styled w-full">
-                    <thead>
-                        <tr>
-                            @foreach ($columns as $column)
-                            <x-mailcoach::th :class="$column['class'] ?? ''" :sort="$this->sort" :property="$column['attribute'] ?? null">
-                                {{ $column['label'] ?? '' }}
-                            </x-mailcoach::th>
-                            @endforeach
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (range(1, 5) as $i)
-                        <tr class="markup-links">
-                            @foreach ($columns as $column)
+        <div wire:loading.delay.longer wire:target="loadRows">
+            <table class="table-styled w-full">
+                <thead>
+                <tr>
+                    @foreach ($columns as $column)
+                        <x-mailcoach::th :class="$column['class'] ?? ''" :sort="$this->sort"
+                                         :property="$column['attribute'] ?? null">
+                            {{ $column['label'] ?? '' }}
+                        </x-mailcoach::th>
+                    @endforeach
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (range(1, 5) as $i)
+                    <tr class="markup-links">
+                        @foreach ($columns as $column)
                             @if ($loop->last)
-                            <td class="td-action"></td>
+                                <td class="td-action"></td>
                             @else
-                            <td class="{{ $column['class'] ?? '' }}">
-                                <div class="animate-pulse h-4 my-1 bg-gradient-to-r from-indigo-900/5"></div>
-                            </td>
+                                <td class="{{ $column['class'] ?? '' }}">
+                                    <div class="animate-pulse h-4 my-1 bg-gradient-to-r from-indigo-900/5"></div>
+                                </td>
                             @endif
-                            @endforeach
-                        </tr>
                         @endforeach
-                    </tbody>
-                </table>
-            </div>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
 
-            <div wire:loading.delay.longer.remove wire:target="loadRows">
-                <table class="table-styled w-full">
-                    <thead>
-                        <tr>
-                            @foreach ($columns as $column)
-                            <x-mailcoach::th :class="$column['class'] ?? ''" :sort="$this->sort" :property="$column['attribute'] ?? null">
-                                {{ $column['label'] ?? '' }}
-                            </x-mailcoach::th>
-                            @endforeach
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if ($rows->count())
-                        @if($rowPartial)
+        <div wire:loading.delay.longer.remove wire:target="loadRows">
+            <table class="table-styled w-full">
+                <thead>
+                <tr>
+                    @foreach ($columns as $column)
+                        <x-mailcoach::th :class="$column['class'] ?? ''" :sort="$this->sort"
+                                         :property="$column['attribute'] ?? null">
+                            {{ $column['label'] ?? '' }}
+                        </x-mailcoach::th>
+                    @endforeach
+                </tr>
+                </thead>
+                <tbody>
+                @if ($rows->count())
+                    @if($rowPartial)
                         @foreach ($rows as $index => $row)
-                        @include($rowPartial, $rowData)
+                            @include($rowPartial, $rowData)
                         @endforeach
-                        @endif
-                        {{ $tbody ?? '' }}
-                        @endif
-                    </tbody>
-                </table>
-            </div>
+                    @endif
+                    {{ $tbody ?? '' }}
+                @endif
+                </tbody>
+            </table>
+        </div>
 
-            @if(!$rows->count() && $this->readyToLoad)
+        @if(!$rows->count() && $this->readyToLoad)
             <div class="p-6 md:px-10">
                 @if(isset($empty))
-                {{ $empty }}
+                    {{ $empty }}
                 @else
-                @php($plural = \Illuminate\Support\Str::plural($name))
-                @if ($this->search ?? null)
-                <x-mailcoach::info>
-                    {{ $noResultsText ?? __mc("No {$plural} found.") }}
-                </x-mailcoach::info>
-                @else
-                <x-mailcoach::info>
-                    {!! $emptyText ?? __mc("No {$plural}.") !!}
-                </x-mailcoach::info>
-                @endif
+                    @php($plural = \Illuminate\Support\Str::plural($name))
+                    @if ($this->search ?? null)
+                        <x-mailcoach::info>
+                            {{ $noResultsText ?? __mc("No {$plural} found.") }}
+                        </x-mailcoach::info>
+                    @else
+                        <x-mailcoach::info>
+                            {!! $emptyText ?? __mc("No {$plural}.") !!}
+                        </x-mailcoach::info>
+                    @endif
                 @endif
             </div>
-            @endif
-        </div>
+        @endif
+    </div>
 
 
     @if ($rows->count())
@@ -139,7 +145,8 @@
                 </div>
             @endif
             <div class="w-full">
-                <x-mailcoach::table-status :name="__mc('' . $name)" :paginator="$rows" :total-count="$totalRowsCount" wire:click="clearFilters"></x-mailcoach::table-status>
+                <x-mailcoach::table-status :name="__mc('' . $name)" :paginator="$rows" :total-count="$totalRowsCount"
+                                           wire:click="clearFilters"></x-mailcoach::table-status>
             </div>
         </div>
     @endif

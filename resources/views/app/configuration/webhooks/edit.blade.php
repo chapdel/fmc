@@ -38,7 +38,7 @@
                     name="email_lists"
                     :multiple="true"
                     wire:model="email_lists"
-                    :options="\Spatie\Mailcoach\Domain\Audience\Models\EmailList::get()->pluck('name', 'id')->values()->toArray()"
+                    :options="$emailListNames"
                 />
             </div>
         @endif
