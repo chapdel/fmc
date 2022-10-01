@@ -30,7 +30,7 @@
                 />
 
                 <div x-show="post" class="pl-8 w-full max-w-full overflow-hidden">
-                    <x-mailcoach::code-copy button-class="w-full text-right -mb-6" button-position="top" :code="$emailList->getSubscriptionFormHtml()"/>
+                    <x-mailcoach::code-copy button-class="w-full text-right -mb-6" button-position="top" lang="html" :code="$emailList->getSubscriptionFormHtml()"/>
                 </div>
             </div>
         </div>
