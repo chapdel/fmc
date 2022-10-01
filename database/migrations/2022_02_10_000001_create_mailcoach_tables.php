@@ -130,9 +130,10 @@ return new class extends Migration
                 ->constrained('mailcoach_email_lists')
                 ->nullOnDelete();
 
+            $table->unsignedBigInteger('template_id')->nullable();
+
             $table->string('status');
 
-            $table->unsignedBigInteger('template_id')->nullable();
             $table->longText('html')->nullable();
             $table->longText('structured_html')->nullable();
             $table->longText('email_html')->nullable();

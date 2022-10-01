@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Settings\Support\AppConfiguration\AppConfiguration;
-use Spatie\Mailcoach\Domain\Settings\Support\ConfigCache;
 use Spatie\Mailcoach\Domain\Settings\Support\TimeZone;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 
@@ -44,8 +43,6 @@ class GeneralSettings extends Component
     public function save()
     {
         resolve(AppConfiguration::class)->put($this->validate());
-
-        ConfigCache::clear();
 
         if (InstalledVersions::isInstalled('laravel/horizon')) {
             dispatch(function () {

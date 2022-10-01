@@ -43,6 +43,13 @@ class RunActionForActionSubscriberJob implements ShouldQueue, ShouldBeUnique
         }
 
         $subscriber = $this->actionSubscriber->subscriber;
+
+        if (! $subscriber) {
+            $this->actionSubscriber->delete();
+
+            return;
+        }
+
         $subscriber->setRelation('pivot', $this->actionSubscriber);
 
         /** @var \Spatie\Mailcoach\Domain\Automation\Models\Automation $automation */

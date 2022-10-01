@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire;
 
-use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Carbon\CarbonPeriod;
 use Illuminate\Database\MySqlConnection;
@@ -26,8 +25,6 @@ class DashboardChart extends Component
     public Collection $stats;
 
     protected int $startSubscriptionsCount;
-
-    protected int $startUnsubscribeCount;
 
     public function mount(): void
     {
@@ -70,11 +67,6 @@ class DashboardChart extends Component
             ->where('subscribed_at', '<', $this->start)
             ->count();
 
-        $this->startUnsubscribeCount = self::getSubscriberClass()::query()
-            ->unsubscribed()
-            ->where('unsubscribed_at', '>', $this->start)
-            ->count();
-
         $this->stats = $this->createStats();
 
         return view('mailcoach::app.partials.dashboard-chart');
@@ -109,16 +101,19 @@ class DashboardChart extends Component
             ->get();
 
         $subscriberTotal = $this->startSubscriptionsCount;
-        $subscribers = collect($subscribes)->map(function ($result) use (&$subscriberTotal, $unsubscribes) {
-            $subscriberTotal += $result->subscribed_count;
-            $unsubscribeCount = $unsubscribes->where('unsubscribe_day', $result->subscribed_day)->first();
+        $period = CarbonPeriod::create($start, $end);
+
+        $subscribers = collect($period->toArray())->map(function ($date) use (&$subscriberTotal, $subscribes, $unsubscribes) {
+            $subscribeCount = $subscribes->where('subscribed_day', $date->format('Y-m-d'))->first();
+            $subscriberTotal += (optional($subscribeCount)->subscribed_count ?? 0);
+            $unsubscribeCount = $unsubscribes->where('unsubscribe_day', $date->format('Y-m-d'))->first();
             $subscriberTotal -= (optional($unsubscribeCount)->unsubscribe_count ?? 0);
 
             return [
-                'label' => Carbon::createFromFormat('Y-m-d', $result->subscribed_day)->startOfDay()->format('M d'),
+                'label' => $date->format('M d'),
                 'subscribers' => $subscriberTotal,
-                'subscribes' => $result->subscribed_count,
-                'unsubscribes' => optional($unsubscribeCount)->unsubscribe_count,
+                'subscribes' => optional($subscribeCount)->subscribed_count ?? 0,
+                'unsubscribes' => optional($unsubscribeCount)->unsubscribe_count ?? 0,
             ];
         });
 

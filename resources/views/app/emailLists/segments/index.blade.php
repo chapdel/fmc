@@ -11,7 +11,7 @@
     rowPartial="mailcoach::app.emailLists.segments.partials.row"
     :no-results-text="__mc('No segments found.')"
     :emptyText="__mc('A segment is a group of tags that can be targeted by an email campaign. You can <a target=\'_blank\' href=\':docsUrl\'>learn more about segmentation & tags in our docs</a>', [
-        'docsUrl' => 'https://mailcoach.app/docs/v6/using-mailcoach/email-lists/segmentation-tags',
+        'docsUrl' => 'https://mailcoach.app/docs/self-hosted/v6/using-mailcoach/email-lists/segmentation-tags',
     ])"
 >
     @slot('actions')

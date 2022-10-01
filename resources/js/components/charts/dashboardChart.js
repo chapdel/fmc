@@ -122,6 +122,7 @@ document.addEventListener('alpine:init', () => {
                     },
                     scales: {
                         y: {
+                            display: false,
                             ticks: {
                                 color: 'rgba(100, 116, 139, 1)',
                                 precision: 0,
@@ -133,8 +134,9 @@ document.addEventListener('alpine:init', () => {
                         y1: {
                             ticks: {
                                 color: 'rgba(100, 116, 139, 1)',
+                                precision: 0,
                             },
-                            position: 'right',
+                            position: 'left',
                             beginAtZero: false,
                             grid: {
                                 display: false,

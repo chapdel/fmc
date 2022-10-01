@@ -61,6 +61,7 @@ use Spatie\Mailcoach\Domain\Campaign\Listeners\AddCampaignOpenedTag;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\SendCampaignSentEmail;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\SetWebhookCallProcessedAt;
 use Spatie\Mailcoach\Domain\Settings\Commands\MakeUserCommand;
+use Spatie\Mailcoach\Domain\Settings\Commands\PrepareGitIgnoreCommand;
 use Spatie\Mailcoach\Domain\Settings\Commands\PublishCommand;
 use Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookEventSubscriber;
 use Spatie\Mailcoach\Domain\Settings\Policies\PersonalAccessTokenPolicy;
@@ -197,7 +198,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
                 '2022_02_10_000002_create_media_table',
                 '2022_02_10_000003_create_webhook_calls_table',
             ])
-            ->runsMigrations(Mailcoach::$runsMigrations)
             ->hasCommands([
                 CalculateStatisticsCommand::class,
                 CalculateAutomationMailStatisticsCommand::class,
@@ -215,6 +215,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
                 DeleteOldExportsCommand::class,
                 PublishCommand::class,
                 MakeUserCommand::class,
+                PrepareGitIgnoreCommand::class,
             ]);
     }
 

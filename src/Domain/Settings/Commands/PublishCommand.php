@@ -19,10 +19,11 @@ class PublishCommand extends Command
 
         $commands = [
             'horizon:publish',
+            'vendor:publish --tag=mailcoach-migrations',
             'vendor:publish --tag=mailcoach-ui-vendor-views --force',
             'vendor:publish --tag=mailcoach-assets --force',
             'vendor:publish --tag=mailcoach-markdown-editor-assets --force',
-            'vendor:publish --tag=livewire-assets --force',
+            'vendor:publish --tag=livewire:assets --force',
         ];
 
         collect($commands)->each(function (string $command) {

@@ -23,14 +23,11 @@ class SubscribersExportController
 
             $subscribersQuery
                 ->with(['tags'])
-                ->select(['email', 'first_name', 'last_name', 'subscribed_at', 'unsubscribed_at'])
                 ->each(function (Subscriber $subscriber) use ($subscriberCsv) {
                     $this->resetMaximumExecutionTime();
                     $subscriberCsv->addRow($subscriber->toExportRow());
 
-                    if ($subscriberCsv->getNumberOfRows() % 1_000 === 0) {
-                        flush();
-                    }
+                    flush();
                 });
 
             $subscriberCsv->close();
