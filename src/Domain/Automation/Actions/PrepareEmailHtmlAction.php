@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Actions;
 
-use Exception;
 use Spatie\Mailcoach\Domain\Automation\Exceptions\CouldNotSendAutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Replacers\AutomationMailReplacer;
