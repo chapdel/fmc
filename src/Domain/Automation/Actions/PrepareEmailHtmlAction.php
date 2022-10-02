@@ -8,6 +8,7 @@ use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Replacers\AutomationMailReplacer;
 use Spatie\Mailcoach\Domain\Shared\Actions\AddUtmTagsToUrlAction;
 use Spatie\Mailcoach\Domain\Shared\Actions\CreateDomDocumentFromHtmlAction;
+use Throwable;
 
 class PrepareEmailHtmlAction
 {
@@ -38,7 +39,7 @@ class PrepareEmailHtmlAction
             $this->createDomDocumentFromHtmlAction->execute($automationMail->html, false);
 
             return true;
-        } catch (Exception $exception) {
+        } catch (Throwable $exception) {
             throw CouldNotSendAutomationMail::invalidContent($automationMail, $exception);
         }
     }
