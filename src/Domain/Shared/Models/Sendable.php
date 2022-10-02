@@ -181,16 +181,7 @@ abstract class Sendable extends Model implements HasHtmlContent
         return $this->sends()->whereNotNull('sent_at')->where('subscriber_id', $subscriber->id)->exists();
     }
 
-    public function sendTestMail(string | array $emails): void
-    {
-        if ($this->hasCustomMailable()) {
-            $this->pullSubjectFromMailable();
-        }
-
-        collect($emails)->each(function (string $email) {
-            dispatch_sync(new SendCampaignTestJob($this, $email));
-        });
-    }
+    abstract public function sendTestMail(string | array $emails): void;
 
     abstract public function webviewUrl(): string;
 

@@ -430,7 +430,7 @@ class Campaign extends Sendable implements Feedable
         }
 
         collect($emails)->each(function (string $email) {
-            dispatch(new SendCampaignTestJob($this, $email));
+            dispatch_sync(new SendCampaignTestJob($this, $email));
         });
     }
 
