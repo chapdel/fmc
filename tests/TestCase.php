@@ -112,16 +112,19 @@ abstract class TestCase extends Orchestra
         ];
     }
 
+    protected function defineDatabaseMigrations()
+    {
+        $this->artisan('vendor:publish', ['--tag' => 'ciphersweet-migrations'])->run();
+        $this->artisan('migrate', ['--database' => 'testing'])->run();
+    }
+
     protected function refreshTestDatabase()
     {
         if (! RefreshDatabaseState::$migrated) {
             $this->artisan('migrate:fresh', $this->migrateFreshUsing());
 
-            $blindIndexes = include __DIR__.'/../vendor/spatie/laravel-ciphersweet/database/migrations/create_blind_indexes_table.php';
-            $blindIndexes->up();
-
-            $passwordResets = include __DIR__.'/../vendor/laravel/ui/stubs/migrations/2014_10_12_100000_create_password_resets_table.php';
-            $passwordResets->up();
+            $migration = include __DIR__ . '/../vendor/laravel/ui/stubs/migrations/2014_10_12_100000_create_password_resets_table.php';
+            $migration->up();
 
             $this->app[Kernel::class]->setArtisan(null);
 
