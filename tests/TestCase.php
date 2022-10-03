@@ -123,7 +123,7 @@ abstract class TestCase extends Orchestra
         if (! RefreshDatabaseState::$migrated) {
             $this->artisan('migrate:fresh', $this->migrateFreshUsing());
 
-            $migration = include __DIR__ . '/../vendor/laravel/ui/stubs/migrations/2014_10_12_100000_create_password_resets_table.php';
+            $migration = include __DIR__.'/../vendor/laravel/ui/stubs/migrations/2014_10_12_100000_create_password_resets_table.php';
             $migration->up();
 
             $this->app[Kernel::class]->setArtisan(null);
