@@ -112,15 +112,11 @@ abstract class TestCase extends Orchestra
         ];
     }
 
-    protected function defineDatabaseMigrations()
-    {
-        $this->artisan('vendor:publish', ['--tag' => 'ciphersweet-migrations'])->run();
-        $this->artisan('migrate', ['--database' => 'testing'])->run();
-    }
-
     protected function refreshTestDatabase()
     {
         if (! RefreshDatabaseState::$migrated) {
+            $this->artisan('vendor:publish', ['--tag' => 'ciphersweet-migrations', '--force' => true])->run();
+            $this->artisan('vendor:publish', ['--tag' => 'mailcoach-migrations', '--force' => true])->run();
             $this->artisan('migrate:fresh', $this->migrateFreshUsing());
 
             $migration = include __DIR__.'/../vendor/laravel/ui/stubs/migrations/2014_10_12_100000_create_password_resets_table.php';
