@@ -2,8 +2,6 @@
 
 namespace Spatie\Mailcoach\Tests;
 
-use CreatePersonalAccessTokensTable;
-use CreateUsersTable;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
