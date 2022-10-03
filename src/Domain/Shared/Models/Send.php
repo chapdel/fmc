@@ -176,6 +176,10 @@ class Send extends Model
 
     public function registerOpen(?DateTimeInterface $openedAt = null): CampaignOpen | AutomationMailOpen | TransactionalMailOpen | null
     {
+        if ($this->concernsTransactionalMail()) {
+            return $this->registerTransactionalMailOpen($openedAt);
+        }
+
         if (! $this->subscriber) {
             return null;
         }
@@ -186,10 +190,6 @@ class Send extends Model
 
         if ($this->concernsAutomationMail()) {
             return $this->registerAutomationMailOpen($openedAt);
-        }
-
-        if ($this->concernsTransactionalMail()) {
-            return $this->registerTransactionalMailOpen($openedAt);
         }
 
         return null;
@@ -262,11 +262,15 @@ class Send extends Model
 
     public function registerClick(string $url, ?DateTimeInterface $clickedAt = null): CampaignClick | AutomationMailClick | TransactionalMailClick | null
     {
+        $url = resolve(StripUtmTagsFromUrlAction::class)->execute($url);
+
+        if ($this->concernsTransactionalMail()) {
+            return $this->registerTransactionalMailClick($url, $clickedAt);
+        }
+
         if (! $this->subscriber) {
             return null;
         }
-
-        $url = resolve(StripUtmTagsFromUrlAction::class)->execute($url);
 
         if ($this->concernsCampaign()) {
             return $this->registerCampaignClick($url, $clickedAt);
@@ -274,10 +278,6 @@ class Send extends Model
 
         if ($this->concernsAutomationMail()) {
             return $this->registerAutomationMailClick($url, $clickedAt);
-        }
-
-        if ($this->concernsTransactionalMail()) {
-            return $this->registerTransactionalMailClick($url, $clickedAt);
         }
 
         return null;

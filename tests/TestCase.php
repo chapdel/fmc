@@ -119,23 +119,10 @@ abstract class TestCase extends Orchestra
         if (! RefreshDatabaseState::$migrated) {
             $this->artisan('migrate:fresh', $this->migrateFreshUsing());
 
-            //include_once __DIR__.'/database/migrations/create_users_table.php.stub';
-            //(new CreateUsersTable())->up();
-
             $blindIndexes = include __DIR__.'/../vendor/spatie/laravel-ciphersweet/database/migrations/create_blind_indexes_table.php';
             $blindIndexes->up();
 
-            /*
-            $migration = include_once __DIR__.'/../vendor/spatie/laravel-medialibrary/database/migrations/create_media_table.php.stub';
-            $migration->up();
-            */
-
-            /*
-            include_once __DIR__.'/../vendor/laravel/sanctum/database/migrations/2019_12_14_000001_create_personal_access_tokens_table.php';
-            (new CreatePersonalAccessTokensTable())->up();
-            */
-
-            $passwordResets = include_once __DIR__.'/../vendor/laravel/ui/stubs/migrations/2014_10_12_100000_create_password_resets_table.php';
+            $passwordResets = include __DIR__.'/../vendor/laravel/ui/stubs/migrations/2014_10_12_100000_create_password_resets_table.php';
             $passwordResets->up();
 
             $this->app[Kernel::class]->setArtisan(null);
