@@ -59,7 +59,7 @@ trait SendsToSegment
 
     public function segmentSubscriberCount(): int
     {
-        return cache()->remember("segmentSubscriberCount-{$this->id}", now()->addMinute(), function () {
+        return cache()->remember("segmentSubscriberCount-{$this->id}", now()->addSeconds(10), function () {
             if (! $this->emailList) {
                 return 0;
             }
