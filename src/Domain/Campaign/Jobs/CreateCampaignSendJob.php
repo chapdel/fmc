@@ -34,7 +34,7 @@ class CreateCampaignSendJob implements ShouldQueue, ShouldBeUnique
 
     public function uniqueId(): string
     {
-        return "{$this->campaign->id}{$this->subscriber->id}";
+        return "{$this->campaign->id}-{$this->subscriber->id}";
     }
 
     public function __construct(Campaign $campaign, Subscriber $subscriber)
