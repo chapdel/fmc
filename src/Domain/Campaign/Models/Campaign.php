@@ -260,6 +260,10 @@ class Campaign extends Sendable implements Feedable
             return false;
         }
 
+        if ($this->isCancelled()) {
+            return false;
+        }
+
         return true;
     }
 

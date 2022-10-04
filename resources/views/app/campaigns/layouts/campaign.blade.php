@@ -30,7 +30,7 @@
                 {{ __mc('Content') }}
             </x-mailcoach::navigation-item>
 
-            @if (! $campaign->isSendingOrSent())
+            @if (! $campaign->isSendingOrSent() && ! $campaign->isCancelled())
                 <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.delivery', $campaign)" data-dirty-warn>
                     {{ __mc('Send') }}
                 </x-mailcoach::navigation-item>
