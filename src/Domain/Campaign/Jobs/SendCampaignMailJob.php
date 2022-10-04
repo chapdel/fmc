@@ -70,7 +70,7 @@ class SendCampaignMailJob implements ShouldQueue, ShouldBeUnique
         }
 
         $rateLimitedMiddleware = (new RateLimited(useRedis: false))
-            ->key('mailer-throttle-' . config('mailcoach.campaigns.mailer') ?? config('mailcoach.mailer') ?? config('mail.default'))
+            ->key('mailer-throttle-' . (config('mailcoach.campaigns.mailer') ?? config('mailcoach.mailer') ?? config('mail.default')))
             ->allow(config('mailcoach.campaigns.throttling.allowed_number_of_jobs_in_timespan'))
             ->everySeconds(config('mailcoach.campaigns.throttling.timespan_in_seconds'))
             ->releaseAfterOneSecond();
