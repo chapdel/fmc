@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.10.4 - 2022-10-04
+
+### What's Changed
+
+- Update SendCampaignMailJob.php - fix incorrect use of ?? by @pokmot in https://github.com/spatie/laravel-mailcoach/pull/1094
+- Update CreateCampaignSendJob.php - fix so identifier is unique by @pokmot in https://github.com/spatie/laravel-mailcoach/pull/1093
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.10.3...5.10.4
+
 ## 5.10.3 - 2022-09-27
 
 ### What's Changed
