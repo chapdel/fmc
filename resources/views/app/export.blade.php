@@ -2,35 +2,38 @@
     @if ($exportStarted || $exportExists)
         <h1 class="markup-h2">Export</h1>
         <x-mailcoach::fieldset class="ml-2">
-        @forelse (Cache::get('export-status', []) as $name => $data)
-            <p class="flex items-center gap-2">
-                @if ($data['finished'])
-                    <x-mailcoach::rounded-icon size="md" type="success" icon="fas fa-check" />
-                    <strong class="font-semibold">{{ $name }}</strong>
-                @elseif ($data['error'])
-                    <x-mailcoach::rounded-icon size="md" type="error" icon="fas fa-times" />
-                    <strong class="font-semibold">{{ $name }}</strong>
-                    <span> &mdash; {{ $data['error'] }}</span>
-                    <x-mailcoach::button-secondary class="mt-8" wire:click.prevent="newExport" :label="__('Create new export')" />
-                @else
-                    <x-mailcoach::rounded-icon size="md" type="info" icon="fas fa-sync fa-spin" />
-                    <strong class="font-semibold">{{ $name }}</strong>
-                @endif
-            </p>
-        @empty
-            <p class="flex items-center gap-2">
-                <x-mailcoach::rounded-icon size="md" type="info" icon="fas fa-sync fa-spin" />
-                <strong class="font-semibold">Export started...</strong>
-            </p>
-        @endforelse
+            @forelse (Cache::get('export-status', []) as $name => $data)
+                <p class="flex items-center gap-2">
+                    @if ($data['finished'])
+                        <x-mailcoach::rounded-icon size="md" type="success" icon="fas fa-check"/>
+                        <strong class="font-semibold">{{ $name }}</strong>
+                    @elseif ($data['error'])
+                        <x-mailcoach::rounded-icon size="md" type="error" icon="fas fa-times"/>
+                        <strong class="font-semibold">{{ $name }}</strong>
+                        <span> &mdash; {{ $data['error'] }}</span>
+                        <x-mailcoach::button-secondary class="mt-8" wire:click.prevent="newExport"
+                                                       :label="__('Create new export')"/>
+                    @else
+                        <x-mailcoach::rounded-icon size="md" type="info" icon="fas fa-sync fa-spin"/>
+                        <strong class="font-semibold">{{ $name }}</strong>
+                    @endif
+                </p>
+            @empty
+                <p class="flex items-center gap-2">
+                    <x-mailcoach::rounded-icon size="md" type="info" icon="fas fa-sync fa-spin"/>
+                    <strong class="font-semibold">Export started...</strong>
+                </p>
+            @endforelse
         </x-mailcoach::fieldset>
 
         @if ($exportExists)
             <div class="my-4 flex items-center gap-4">
-                <x-mailcoach::button wire:click.prevent="download" :label="__('Download export')" />
-                <p class="text-sm">Created on {{ \Illuminate\Support\Facades\Date::createFromTimestamp(Storage::disk(config('mailcoach.export_disk'))->lastModified(Spatie\Mailcoach\Http\App\Livewire\Export\Export::obfuscatedExportDirectory().'/mailcoach-export.zip'))->format('Y-m-d H:i:s') }}</p>
+                <x-mailcoach::button wire:click.prevent="download" :label="__('Download export')"/>
+                <p class="text-sm">Created
+                    on {{ \Illuminate\Support\Facades\Date::createFromTimestamp(Storage::disk(config('mailcoach.export_disk'))->lastModified(Spatie\Mailcoach\Http\App\Livewire\Export\ExportComponent::obfuscatedExportDirectory().'/mailcoach-export.zip'))->format('Y-m-d H:i:s') }}</p>
             </div>
-            <x-mailcoach::button-secondary class="mt-8" wire:click.prevent="newExport" :label="__('Create new export')" />
+            <x-mailcoach::button-secondary class="mt-8" wire:click.prevent="newExport"
+                                           :label="__('Create new export')"/>
         @endif
     @else
         <h1 class="markup-h2">Choose which data you want to export</h1>
@@ -57,10 +60,10 @@
         <div class="flex flex-col gap-4 mb-6">
             @foreach($emailLists as $id => $name)
                 <x-mailcoach::checkbox-field
-                    name="selectedEmailList-{{ $id }}"
-                    value="{{ $id }}"
-                    :label="$name"
-                    wire:model="selectedEmailLists"
+                        name="selectedEmailList-{{ $id }}"
+                        value="{{ $id }}"
+                        :label="$name"
+                        wire:model="selectedEmailLists"
                 />
             @endforeach
         </div>
@@ -74,13 +77,14 @@
         <div class="flex flex-col gap-4 mb-6">
             @forelse($campaigns as $id => $name)
                 <x-mailcoach::checkbox-field
-                    name="selectedCampaign-{{ $id }}"
-                    value="{{ $id }}"
-                    :label="$name"
-                    wire:model="selectedCampaigns"
+                        name="selectedCampaign-{{ $id }}"
+                        value="{{ $id }}"
+                        :label="$name"
+                        wire:model="selectedCampaigns"
                 />
             @empty
-                <x-mailcoach::info>No campaigns found, campaigns require their email list to be exported as well.</x-mailcoach::info>
+                <x-mailcoach::info>No campaigns found, campaigns require their email list to be exported as well.
+                </x-mailcoach::info>
             @endforelse
         </div>
 
@@ -93,10 +97,10 @@
         <div class="flex flex-col gap-4 mb-6">
             @forelse($templates as $id => $name)
                 <x-mailcoach::checkbox-field
-                    name="selectedTemplate-{{ $id }}"
-                    value="{{ $id }}"
-                    :label="$name"
-                    wire:model="selectedTemplates"
+                        name="selectedTemplate-{{ $id }}"
+                        value="{{ $id }}"
+                        :label="$name"
+                        wire:model="selectedTemplates"
                 />
             @empty
                 <x-mailcoach::info>No templates found.</x-mailcoach::info>
@@ -111,32 +115,35 @@
         </div>
         <p class="mb-3">This includes triggers, actions & action-subscriber state</p>
 
-        <x-mailcoach::warning class="mb-3">"Send automation mail" actions will need manual adjustment to the correct Automation Mail.</x-mailcoach::warning>
+        <x-mailcoach::warning class="mb-3">"Send automation mail" actions will need manual adjustment to the correct
+            Automation Mail.
+        </x-mailcoach::warning>
 
         <div class="flex flex-col gap-4 mb-6">
             @forelse($automations as $id => $name)
                 <x-mailcoach::checkbox-field
-                    name="selectedAutomation-{{ $id }}"
-                    value="{{ $id }}"
-                    :label="$name"
-                    wire:model="selectedAutomations"
+                        name="selectedAutomation-{{ $id }}"
+                        value="{{ $id }}"
+                        :label="$name"
+                        wire:model="selectedAutomations"
                 />
             @empty
-                <x-mailcoach::info>No automations found, automations require their email list to be exported as well.</x-mailcoach::info>
+                <x-mailcoach::info>No automations found, automations require their email list to be exported as well.
+                </x-mailcoach::info>
             @endforelse
         </div>
 
         <div class="flex items-baseline gap-2 mb-2">
             <h2 class="form-legend">Automation Mails</h2>
-             <a class="text-blue-500 text-sm underline" href="#" wire:click.prevent="selectAllAutomationMails">All</a>
+            <a class="text-blue-500 text-sm underline" href="#" wire:click.prevent="selectAllAutomationMails">All</a>
         </div>
         <div class="flex flex-col gap-4 mb-6">
             @forelse($automationMails as $id => $name)
                 <x-mailcoach::checkbox-field
-                    name="selectedAutomationMail-{{ $id }}"
-                    value="{{ $id }}"
-                    :label="$name"
-                    wire:model="selectedAutomationMails"
+                        name="selectedAutomationMail-{{ $id }}"
+                        value="{{ $id }}"
+                        :label="$name"
+                        wire:model="selectedAutomationMails"
                 />
             @empty
                 <x-mailcoach::info>No automation mails found.</x-mailcoach::info>
@@ -146,15 +153,16 @@
         <div class="flex items-baseline gap-2 mb-2">
             <h2 class="form-legend">
                 Transactional Mail Templates</h2>
-             <a class="text-blue-500 text-sm underline" href="#" wire:click.prevent="selectAllTransactionalMailTemplates">All</a>
+            <a class="text-blue-500 text-sm underline" href="#"
+               wire:click.prevent="selectAllTransactionalMailTemplates">All</a>
         </div>
         <div class="flex flex-col gap-4 mb-6">
             @forelse($transactionalMailTemplates as $id => $name)
                 <x-mailcoach::checkbox-field
-                    name="selectedTransactionalMailTemplate-{{ $id }}"
-                    value="{{ $id }}"
-                    :label="$name"
-                    wire:model="selectedTransactionalMailTemplates"
+                        name="selectedTransactionalMailTemplate-{{ $id }}"
+                        value="{{ $id }}"
+                        :label="$name"
+                        wire:model="selectedTransactionalMailTemplates"
                 />
             @empty
                 <x-mailcoach::info>No transactional mail templates found.</x-mailcoach::info>
@@ -162,7 +170,7 @@
         </div>
 
         <x-mailcoach::form-buttons>
-            <x-mailcoach::button wire:click.prevent="export" wire:loading.attr="disabled" :label="__('Export')" />
+            <x-mailcoach::button wire:click.prevent="export" wire:loading.attr="disabled" :label="__('Export')"/>
         </x-mailcoach::form-buttons>
     @endif
 </div>

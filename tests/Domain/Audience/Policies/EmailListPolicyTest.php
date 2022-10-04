@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Gate;
 use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Policies\EmailListPolicy;
-use Spatie\Mailcoach\Http\App\Livewire\Audience\CreateList;
+use Spatie\Mailcoach\Http\App\Livewire\Audience\CreateListComponent;
 use Spatie\Mailcoach\Tests\TestClasses\CustomEmailListDenyAllPolicy;
 
 beforeEach(function () {
@@ -49,7 +49,7 @@ function postCreateList(Authorizable $asUser)
 {
     test()->actingAs($asUser);
 
-    return Livewire::test(CreateList::class)
+    return Livewire::test(CreateListComponent::class)
         ->set('name', 'new list')
         ->set('default_from_email', 'john@example.com')
         ->call('saveList');
