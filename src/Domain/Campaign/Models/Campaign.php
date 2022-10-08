@@ -28,6 +28,7 @@ use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Spatie\Mailcoach\Mailcoach;
+use Throwable;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 class Campaign extends Sendable implements Feedable
@@ -585,9 +586,12 @@ class Campaign extends Sendable implements Feedable
             'remove_nodes' => 'head script style img code hr',
         ]);
 
-        $text = $converter->convert($html);
-
-        $text = app(RenderMarkdownToHtmlAction::class)->execute($text);
+        try {
+            $text = $converter->convert($html);
+            $text = app(RenderMarkdownToHtmlAction::class)->execute($text);
+        } catch (Throwable) {
+            $text = $html;
+        }
 
         $text = strip_tags($text, ['p', 'strong', 'em', 'b', 'i', 'br']);
 
