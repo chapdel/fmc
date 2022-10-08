@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\Livewire;
 
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -23,7 +24,8 @@ class EditWebhookComponent extends Component
             'webhook.url' => ['required', 'url', 'starts_with:https'],
             'webhook.secret' => ['required'],
             'webhook.use_for_all_lists' => ['boolean'],
-            'email_lists' => [],
+            'email_lists' => ['nullable', 'array', 'required_if:webhook.use_for_all_lists,false'],
+            'email_lists.*' => [Rule::exists(self::getEmailListTableName(), 'id')],
         ];
     }
 
@@ -44,16 +46,15 @@ class EditWebhookComponent extends Component
 
     public function render()
     {
-        $emailListNames = $this->getEmailListClass()::get()
+        $emailListNames = self::getEmailListClass()::query()
             ->pluck('name', 'id')
             ->values()
             ->toArray();
 
         return view('mailcoach::app.configuration.webhooks.edit', [
             'emailListNames' => $emailListNames,
-        ])
-            ->layout('mailcoach::app.layouts.settings', [
-                'title' => $this->webhook->name,
-            ]);
+        ])->layout('mailcoach::app.layouts.settings', [
+            'title' => $this->webhook->name,
+        ]);
     }
 }
