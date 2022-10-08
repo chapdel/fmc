@@ -5,7 +5,42 @@
     :hideCard="isset($hideCard) ? true : false"
 >
     <x-slot name="nav">
-        <x-mailcoach::navigation :title="$emailList->name">
+        <x-mailcoach::navigation>
+            <x-slot:title>
+                <div class="mb-6 flex items-center justify-between">
+                    <h2 class="font-extrabold text-sm uppercase tracking-wider truncate">{{ $emailList->name }}</h2>
+                    @if (Auth::user()->can('create', \Spatie\Mailcoach\Mailcoach::getCampaignClass()) || Auth::user()->can('create', \Spatie\Mailcoach\Mailcoach::getAutomationClass()))
+                        <x-mailcoach::dropdown>
+                            <x-slot:trigger>
+                                <div class="button text-sm p-0 flex items-center justify-center w-6 h-6">
+                                    <i class="far fa-plus transition-all" :class="open ? 'rotate-90' : ''"></i>
+                                </div>
+                            </x-slot:trigger>
+
+                            @can('create', \Spatie\Mailcoach\Mailcoach::getCampaignClass())
+                                <a href="#" x-on:click.prevent="$store.modals.open('create-campaign')" class="text-sm flex items-center text-gray-600 hover:text-blue-700 gap-x-2 underline">
+                                    {!! str_replace(' ', '&nbsp;', __mc('Create campaign')) !!}
+                                </a>
+                                <x-mailcoach::modal :title="__mc('Create campaign')" name="create-campaign">
+                                    @livewire('mailcoach::create-campaign', [
+                                        'emailList' => $emailList,
+                                    ])
+                                </x-mailcoach::modal>
+                            @endcan
+                            @can('create', \Spatie\Mailcoach\Mailcoach::getAutomationClass())
+                                <a href="#" x-on:click.prevent="$store.modals.open('create-automation')" class="text-sm flex items-center text-gray-600 hover:text-blue-700 gap-x-2 underline">
+                                    {!! str_replace(' ', '&nbsp;', __mc('Create automation')) !!}
+                                </a>
+                                <x-mailcoach::modal :title="__mc('Create automation')" name="create-automation">
+                                    @livewire('mailcoach::create-automation', [
+                                        'emailList' => $emailList,
+                                    ])
+                                </x-mailcoach::modal>
+                            @endcan
+                        </x-mailcoach::dropdown>
+                    @endif
+                </div>
+            </x-slot:title>
             <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.summary', $emailList)">
                 {{__mc('Performance')}}
             </x-mailcoach::navigation-item>

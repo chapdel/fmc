@@ -33,7 +33,7 @@ class CreateCampaignComponent extends Component
         ];
     }
 
-    public function mount()
+    public function mount(?EmailList $emailList)
     {
         $this->emailListOptions = static::getEmailListClass()::orderBy('name')->get()
             ->mapWithKeys(fn (EmailList $list) => [$list->id => $list->name])
@@ -44,7 +44,7 @@ class CreateCampaignComponent extends Component
             ->prepend('-- None --', 0)
             ->toArray();
 
-        $this->email_list_id = array_key_first($this->emailListOptions);
+        $this->email_list_id = $emailList?->id ?? array_key_first($this->emailListOptions);
         $this->template_id = array_key_first($this->templateOptions);
     }
 

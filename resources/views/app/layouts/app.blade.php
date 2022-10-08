@@ -49,10 +49,11 @@
                         </nav>
                     @endunless
 
-                    <div class="flex-none flex">
-                        <h1 class="mt-1 markup-h1 truncate">
+                    <div class="flex-none flex items-center">
+                        <h1 class="mt-1 markup-h1">
                             {{ $title ?? '' }}
                         </h1>
+                        {{ $header ?? '' }}
                     </div>
 
                     <div>
