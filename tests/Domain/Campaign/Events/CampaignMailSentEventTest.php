@@ -9,6 +9,7 @@ it('will fire an event when the mail is sent', function () {
     Event::fake(CampaignMailSentEvent::class);
 
     $send = SendFactory::new()->create();
+    $send->subscriber->update(['email_list_id' => $send->campaign->email_list_id]);
 
     dispatch(new SendCampaignMailJob($send));
 

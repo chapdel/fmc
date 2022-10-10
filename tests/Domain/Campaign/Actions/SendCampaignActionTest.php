@@ -200,6 +200,49 @@ it('will set all sends created when they are', function () {
     Queue::assertPushed(SendCampaignMailJob::class, 1);
 });
 
+it('handles an unsubscribed user while sending', function () {
+    Queue::fake();
+
+    $emailList = EmailList::factory()->create();
+
+    $campaign = Campaign::factory()->create([
+        'email_list_id' => $emailList->id,
+    ]);
+
+    $subscriber = Subscriber::factory()->create([
+        'email_list_id' => $emailList->id,
+        'subscribed_at' => now(),
+    ]);
+
+    $subscriber2 = Subscriber::factory()->create([
+        'email_list_id' => $emailList->id,
+        'subscribed_at' => now(),
+    ]);
+
+    $campaign->send();
+    test()->action->execute($campaign);
+
+    expect($campaign->fresh()->allSendsCreated())->toBeFalse();
+
+    Queue::assertPushed(CreateCampaignSendJob::class, 2);
+    Queue::assertPushed(SendCampaignMailJob::class, 0);
+
+    $this->processQueuedJobs();
+
+    $subscriber2->unsubscribe();
+
+    expect(Send::count())->toBe(2);
+
+    test()->action->execute($campaign);
+
+    expect($campaign->fresh()->allSendsCreated())->toBeTrue();
+    Queue::assertPushed(SendCampaignMailJob::class, 2);
+
+    $this->processQueuedJobs();
+
+    expect(Send::count())->toBe(1);
+});
+
 it('will use the right subject', function () {
     Event::fake();
     Mail::fake();
