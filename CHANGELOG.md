@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.10.6 - 2022-10-10
+
+- Fix edge case where a subscriber that unsubscribes during campaign sending would not remove the send
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.10.5...5.10.6
+
 ## 5.10.5 - 2022-10-10
 
 - Fix an issue where the user agent wasn't available on the debug page
