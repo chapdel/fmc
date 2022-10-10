@@ -110,7 +110,7 @@
                     const data = new FormData();
                     data.append('file', file);
 
-                    fetch('{{ action(\Spatie\Mailcoach\Http\Api\Controllers\UploadsController::class) }}', {
+                    fetch('{{ $uploadUrl ?? action(\Spatie\Mailcoach\Http\Api\Controllers\UploadsController::class) }}', {
                         method: 'POST',
                         body: data,
                         credentials: 'same-origin',
