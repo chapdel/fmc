@@ -13,6 +13,7 @@ beforeEach(function () {
 
 it('can send a mail with the correct mailer', function () {
     $pendingSend = SendFactory::new()->create();
+    $pendingSend->subscriber->update(['email_list_id' => $pendingSend->campaign->emailList->id]);
     $pendingSend->campaign->emailList->update(['campaign_mailer' => 'some-mailer']);
 
     dispatch(new SendCampaignMailJob($pendingSend));
@@ -29,6 +30,7 @@ it('can send a mail with the correct mailer', function () {
 
 it('will not resend a mail that has already been sent', function () {
     $pendingSend = SendFactory::new()->create();
+    $pendingSend->subscriber->update(['email_list_id' => $pendingSend->campaign->emailList->id]);
 
     expect($pendingSend->wasAlreadySent())->toBeFalse();
 
@@ -46,12 +48,14 @@ test('the queue of the send mail job can be configured', function () {
     config()->set('mailcoach.campaigns.perform_on_queue.send_mail_job', 'custom-queue');
 
     $pendingSend = SendFactory::new()->create();
+    $pendingSend->subscriber->update(['email_list_id' => $pendingSend->campaign->emailList->id]);
     dispatch(new SendCampaignMailJob($pendingSend));
     Queue::assertPushedOn('custom-queue', SendCampaignMailJob::class);
 });
 
 it('can use a custom mailable', function () {
     $pendingSend = SendFactory::new()->create();
+    $pendingSend->subscriber->update(['email_list_id' => $pendingSend->campaign->emailList->id]);
 
     $pendingSend->campaign->useMailable(TestMailcoachMail::class);
 

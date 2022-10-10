@@ -194,10 +194,10 @@
                     <code>{{ base_path() }}</code>
                 </dd>
 
-                @php($issueBody.="**User agent**: " . $_SERVER['HTTP_USER_AGENT'] . "\n")
+                @php($issueBody.="**User agent**: " . request()->userAgent() . "\n")
                 <dt>User agent</dt>
                 <dd>
-                    <code>{{ $_SERVER['HTTP_USER_AGENT'] }}</code>
+                    <code>{{ request()->userAgent() }}</code>
                 </dd>
 
                 @php($issueBody.="**PHP version**: " . PHP_VERSION . "\n")

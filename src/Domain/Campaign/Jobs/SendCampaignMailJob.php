@@ -9,6 +9,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Actions\SendMailAction;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Mailcoach;
@@ -32,7 +34,7 @@ class SendCampaignMailJob implements ShouldQueue, ShouldBeUnique
 
     public function uniqueId(): string
     {
-        return "{$this->pendingSend->id}";
+        return $this->pendingSend->id;
     }
 
     public function retryUntil(): CarbonInterface
@@ -51,10 +53,28 @@ class SendCampaignMailJob implements ShouldQueue, ShouldBeUnique
 
     public function handle()
     {
-        if ($this->pendingSend->campaign->isCancelled()) {
+        $campaign = $this->pendingSend->campaign;
+
+        if ($campaign->isCancelled()) {
             if (! $this->pendingSend->wasAlreadySent()) {
                 $this->pendingSend->delete();
             }
+
+            return;
+        }
+
+        $subscriber = $this->pendingSend->subscriber;
+
+        if (! $campaign->getSegment()->shouldSend($subscriber)) {
+            $campaign->decrement('sent_to_number_of_subscribers');
+            $this->pendingSend->delete();
+
+            return;
+        }
+
+        if (! $this->isValidSubscriptionForEmailList($subscriber, $campaign->emailList)) {
+            $campaign->decrement('sent_to_number_of_subscribers');
+            $this->pendingSend->delete();
 
             return;
         }
@@ -80,5 +100,18 @@ class SendCampaignMailJob implements ShouldQueue, ShouldBeUnique
             ->releaseAfterOneSecond();
 
         return [$rateLimitedMiddleware];
+    }
+
+    protected function isValidSubscriptionForEmailList(Subscriber $subscriber, EmailList $emailList): bool
+    {
+        if (! $subscriber->isSubscribed()) {
+            return false;
+        }
+
+        if ((int)$subscriber->email_list_id !== (int)$emailList->id) {
+            return false;
+        }
+
+        return true;
     }
 }

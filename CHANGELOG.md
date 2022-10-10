@@ -2,6 +2,29 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.10.5 - 2022-10-10
+
+- Fix an issue where the user agent wasn't available on the debug page
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.10.4...5.10.5
+
+## 5.10.4 - 2022-10-04
+
+### What's Changed
+
+- Update SendCampaignMailJob.php - fix incorrect use of ?? by @pokmot in https://github.com/spatie/laravel-mailcoach/pull/1094
+- Update CreateCampaignSendJob.php - fix so identifier is unique by @pokmot in https://github.com/spatie/laravel-mailcoach/pull/1093
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.10.3...5.10.4
+
+## 5.10.3 - 2022-09-27
+
+### What's Changed
+
+- Fixes an exception that occurs while exporting by @staninova in https://github.com/spatie/laravel-mailcoach/pull/1077
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.10.2...5.10.3
+
 ## 5.10.2 - 2022-09-27
 
 - make methods protected by default

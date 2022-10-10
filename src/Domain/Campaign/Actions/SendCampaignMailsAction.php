@@ -40,7 +40,6 @@ class SendCampaignMailsAction
             $campaign
                 ->sends()
                 ->undispatched()
-                ->select('id')
                 ->lazyById()
                 ->each(function (Send $send) use ($stopExecutingAt, $simpleThrottle) {
                     // should horizon be used, and it is paused, stop dispatching jobs

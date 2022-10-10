@@ -100,7 +100,6 @@ class SendCampaignAction
 
         $subscribersQuery
             ->withoutSendsForCampaign($campaign)
-            ->select('id')
             ->lazyById()
             ->each(function (Subscriber $subscriber) use ($simpleThrottle, $stopExecutingAt, $campaign) {
                 $simpleThrottle->hit();

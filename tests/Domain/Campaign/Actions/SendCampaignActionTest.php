@@ -10,6 +10,7 @@ use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignAction;
+use Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignMailsAction;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
@@ -234,11 +235,57 @@ it('will set all sends created when they are', function () {
     ]);
 
     runAction($campaign);
-    (new \Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignMailsAction())->execute($campaign);
+    (new SendCampaignMailsAction())->execute($campaign);
 
     expect($campaign->fresh()->allSendsCreated())->toBeTrue();
     Queue::assertPushed(CreateCampaignSendJob::class, 1);
     Queue::assertPushed(SendCampaignMailJob::class, 1);
+});
+
+it('handles an unsubscribed user while sending', function () {
+    Queue::fake();
+
+    $emailList = EmailList::factory()->create();
+
+    $campaign = Campaign::factory()->create([
+        'email_list_id' => $emailList->id,
+    ]);
+
+    $subscriber = Subscriber::factory()->create([
+        'email_list_id' => $emailList->id,
+        'subscribed_at' => now(),
+    ]);
+
+    $subscriber2 = Subscriber::factory()->create([
+        'email_list_id' => $emailList->id,
+        'subscribed_at' => now(),
+    ]);
+
+    $campaign->send();
+    test()->action->execute($campaign);
+
+    expect($campaign->fresh()->allSendsCreated())->toBeFalse();
+
+    Queue::assertPushed(CreateCampaignSendJob::class, 2);
+    Queue::assertPushed(SendCampaignMailJob::class, 0);
+
+    $this->processQueuedJobs();
+
+    $subscriber2->unsubscribe();
+
+    expect(Send::count())->toBe(2);
+
+    test()->action->execute($campaign);
+
+    expect($campaign->fresh()->allSendsCreated())->toBeTrue();
+
+    app(SendCampaignMailsAction::class)->execute($campaign);
+
+    Queue::assertPushed(SendCampaignMailJob::class, 2);
+
+    $this->processQueuedJobs();
+
+    expect(Send::count())->toBe(1);
 });
 
 it('will use the right subject', function () {

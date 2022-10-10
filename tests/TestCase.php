@@ -181,8 +181,10 @@ abstract class TestCase extends Orchestra
 
     public function processQueuedJobs()
     {
-        foreach (Queue::pushedJobs() as $job) {
-            $job[0]['job']->handle();
+        foreach (Queue::pushedJobs() as $jobs) {
+            foreach ($jobs as $job) {
+                $job['job']->handle();
+            }
         }
     }
 
