@@ -34,6 +34,7 @@ it('handles special characters', function ($name, $expected) {
     expect($mailer->configName())->toBe($expected);
 })->with([
     ['Some @ name', 'mailcoach-some-at-name'],
+    ['Some & name', 'mailcoach-some-name'],
     ['With 📯 emoji', 'mailcoach-with-emoji'],
     ['Name', 'mailcoach-name'],
 ]);
