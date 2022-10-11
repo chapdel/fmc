@@ -26,3 +26,14 @@ it('sets config key name when creating and can find by config key name', functio
 
     expect(Mailer::findByConfigKeyName('mailcoach-some-name')->is($mailer))->toBeTrue();
 });
+
+it('handles special characters', function ($name, $expected) {
+    $mailer = Mailer::factory()->create(['name' => $name]);
+
+    expect($mailer->config_key_name)->toBe($expected);
+    expect($mailer->configName())->toBe($expected);
+})->with([
+    ['Some @ name', 'mailcoach-some-at-name'],
+    ['With 📯 emoji', 'mailcoach-with-emoji'],
+    ['Name', 'mailcoach-name'],
+]);

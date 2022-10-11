@@ -32,7 +32,7 @@ class Mailer extends Model
     {
         self::creating(function (Mailer $mailer) {
             $name = strtolower($mailer->name);
-            $mailer->config_key_name = Str::kebab("mailcoach-{$name}");
+            $mailer->config_key_name = Str::slug("mailcoach-{$name}");
         });
     }
 
