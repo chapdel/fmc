@@ -48,7 +48,6 @@ class EditWebhookComponent extends Component
     {
         $emailListNames = self::getEmailListClass()::query()
             ->pluck('name', 'id')
-            ->values()
             ->toArray();
 
         return view('mailcoach::app.configuration.webhooks.edit', [
