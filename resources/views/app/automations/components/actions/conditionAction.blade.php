@@ -195,7 +195,7 @@
                                 </div>
                                 <div class="grid gap-3" x-show="!collapsed">
                                     @foreach ($yesActions as $index => $action)
-                                        @livewire($action['class']::getComponent() ?: 'automation-action', array_merge([
+                                        @livewire($action['class']::getComponent() ?: 'mailcoach::automation-action', array_merge([
                                             'index' => $index,
                                             'uuid' => $action['uuid'],
                                             'action' => $action,
@@ -224,7 +224,7 @@
                                 </div>
                                 <div class="grid gap-3" x-show="!collapsed">
                                     @foreach ($noActions as $index => $action)
-                                        @livewire($action['class']::getComponent() ?: 'automation-action', array_merge([
+                                        @livewire($action['class']::getComponent() ?: 'mailcoach::automation-action', array_merge([
                                             'index' => $index,
                                             'uuid' => $action['uuid'],
                                             'action' => $action,
