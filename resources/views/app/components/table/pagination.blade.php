@@ -1,23 +1,23 @@
 @if ($paginator->hasPages())
     <nav role="navigation" aria-label="{{ __mc('Pagination Navigation') }}" class="flex items-center justify-between">
-        <div class="flex justify-between flex-1 sm:hidden">
+        <div class="flex justify-end flex-1 sm:hidden">
             @if ($paginator->onFirstPage())
                 <span class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-300 cursor-default leading-5 rounded-md">
-                    {!! __mc('pagination.previous') !!}
+                    {!! __mc('Previous') !!}
                 </span>
             @else
                 <a href="{{ $paginator->previousPageUrl() }}" wire:click.prevent="previousPage" wire:loading.attr="disabled" class="relative inline-flex items-center px-4 py-2 text-sm font-medium link leading-5 rounded-md focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:transition ease-in-out duration-150">
-                    {!! __mc('pagination.previous') !!}
+                    {!! __mc('Previous') !!}
                 </a>
             @endif
 
             @if ($paginator->hasMorePages())
                 <a href="{{ $paginator->nextPageUrl() }}" wire:click.prevent="nextPage" wire:loading.attr="disabled" class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium link leading-5 rounded-md focus:outline-none focus:ring ring-gray-300 focus:border-blue-300 active:bg-gray-100 active:transition ease-in-out duration-150">
-                    {!! __mc('pagination.next') !!}
+                    {!! __mc('Next') !!}
                 </a>
             @else
                 <span class="relative inline-flex items-center px-4 py-2 ml-3 text-sm font-medium text-gray-300 cursor-default leading-5 rounded-md">
-                    {!! __mc('pagination.next') !!}
+                    {!! __mc('Next') !!}
                 </span>
             @endif
         </div>
