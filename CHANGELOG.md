@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.10.7 - 2022-10-14
+
+### What's Changed
+
+- Update german translations by @StefanSchuechl in https://github.com/spatie/laravel-mailcoach/pull/1100
+- Fix script for retry pending sends by @Fabstilelook in https://github.com/spatie/laravel-mailcoach/pull/1099
+- Add maxexceptions https://github.com/spatie/laravel-mailcoach/commit/17daf8339949c068c554083363308f44aae4e0c4
+
+### New Contributors
+
+- @StefanSchuechl made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/1100
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.10.6...5.10.7
+
 ## 5.10.6 - 2022-10-10
 
 - Fix edge case where a subscriber that unsubscribes during campaign sending would not remove the send
