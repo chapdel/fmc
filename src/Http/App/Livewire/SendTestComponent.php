@@ -18,6 +18,7 @@ class SendTestComponent extends Component
     public Model $model;
 
     public string $emails = '';
+
     public string $from_email = '';
 
     public string $html = '';
@@ -35,7 +36,7 @@ class SendTestComponent extends Component
 
         $this->validate([
             'emails' => ['required', (new Delimited('email'))->min(1)->max(10)],
-            'from_email' => ['nullable', 'email', Rule::requiredIf($this->model instanceof $automationMailClass)]
+            'from_email' => ['nullable', 'email', Rule::requiredIf($this->model instanceof $automationMailClass)],
         ], [
             'email.required' => __mc('You must specify at least one e-mail address.'),
             'email.email' => __mc('Not all the given e-mails are valid.'),
