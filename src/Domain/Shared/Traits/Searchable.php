@@ -127,7 +127,7 @@ trait Searchable
         return DB::connection()->getSchemaBuilder()->getColumnListing($this->table);
     }
 
-    protected function getGroupBy(): array|false
+    protected function getGroupBy(): array|string|false
     {
         if (array_key_exists('groupBy', $this->getSearchableConfig())) {
             return $this->getSearchableConfig()['groupBy'];
