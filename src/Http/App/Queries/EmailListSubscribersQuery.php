@@ -8,6 +8,7 @@ use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Queries\Filters\FuzzyFilter;
+use Spatie\Mailcoach\Http\App\Queries\Filters\SearchFilter;
 use Spatie\Mailcoach\Http\App\Queries\Filters\SubscriberStatusFilter;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -19,7 +20,7 @@ class EmailListSubscribersQuery extends QueryBuilder
     public function __construct(EmailList $emailList, ?Request $request = null)
     {
         $subscribersQuery = self::getSubscriberClass()::query()
-            ->where('email_list_id', $emailList->id)
+            ->where(self::getSubscriberTableName() . '.email_list_id', $emailList->id)
             ->with('emailList', 'tags');
 
         parent::__construct($subscribersQuery, $request);
@@ -39,12 +40,7 @@ class EmailListSubscribersQuery extends QueryBuilder
 
                     return $query->where('email', $value);
                 }),
-                AllowedFilter::custom('search', new FuzzyFilter(
-                    'email',
-                    'first_name',
-                    'last_name',
-                    'tags.name',
-                )),
+                AllowedFilter::custom('search', new SearchFilter()),
                 AllowedFilter::custom('status', new SubscriberStatusFilter())
             );
 

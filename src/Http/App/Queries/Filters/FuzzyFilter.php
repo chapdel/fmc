@@ -41,42 +41,6 @@ class FuzzyFilter implements Filter
             ->reject(fn (string $field) => Str::contains($field, '.'))
             ->each(function (string $field) use ($query, $values) {
                 foreach ($values as $value) {
-                    $value = trim(str_replace('+', ' ', $value));
-
-                    if ($query->from === self::getSubscriberTableName() && config('mailcoach.encryption.enabled')) {
-                        if ($field === 'email') {
-                            if (str_contains($value, '@')) {
-                                $query->orWhere(function (Builder $builder) use ($value, $query) {
-                                    $builder->whereBlind('email', 'email_first_part', $value);
-                                    $builder->whereBlind('email', 'email_second_part', $value);
-
-                                    $query->getQuery()->joins = $builder->getQuery()->joins;
-                                });
-
-                                continue;
-                            }
-
-                            foreach (explode('@', $value) as $emailPart) {
-                                $query->orWhereBlind('email', 'email_first_part', Str::finish($emailPart, '@'));
-                                $query->orWhereBlind('email', 'email_second_part', Str::start($emailPart, '@'));
-                            }
-
-                            continue;
-                        }
-
-                        if ($field === 'first_name') {
-                            $query->orWhereBlind('first_name', 'first_name', $value);
-
-                            continue;
-                        }
-
-                        if ($field === 'last_name') {
-                            $query->orWhereBlind('last_name', 'last_name', $value);
-
-                            continue;
-                        }
-                    }
-
                     $query->orWhere($field, 'LIKE', "%{$value}%");
                 }
             });

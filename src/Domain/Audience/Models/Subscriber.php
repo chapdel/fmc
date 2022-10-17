@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Audience\Models;
 
+use Illuminate\Contracts\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -34,6 +35,7 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasExtraAttributes;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Traits\Searchable;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Mailcoach;
 
@@ -44,6 +46,7 @@ class Subscriber extends Model implements CipherSweetEncrypted
     use UsesMailcoachModels;
     use HasFactory;
     use UsesCipherSweet;
+    use Searchable;
 
     public $table = 'mailcoach_subscribers';
 
@@ -54,6 +57,22 @@ class Subscriber extends Model implements CipherSweetEncrypted
         'subscribed_at' => 'datetime',
         'unsubscribed_at' => 'datetime',
     ];
+
+    protected function getSearchableConfig(): array
+    {
+        return [
+            'columns' => [
+                self::getSubscriberTableName() . '.email' => 15,
+                self::getSubscriberTableName() . '.first_name' => 10,
+                self::getSubscriberTableName() . '.last_name' => 10,
+                self::getTagTableName() . '.name' => 5,
+            ],
+            'joins' => [
+                'mailcoach_email_list_subscriber_tags' => [self::getSubscriberTableName() . '.id', 'mailcoach_email_list_subscriber_tags.subscriber_id'],
+                self::getTagTableName() => ['mailcoach_email_list_subscriber_tags.tag_id', self::getTagTableName() . '.id'],
+            ],
+        ];
+    }
 
     protected static function bootUsesCipherSweet()
     {
