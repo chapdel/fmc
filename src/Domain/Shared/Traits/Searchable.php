@@ -43,6 +43,7 @@ trait Searchable
         bool $entireTextOnly = false
     ): Builder {
         $query = clone $q;
+        $query->setBindings([]);
         $query->select($this->getTable().'.*');
         $this->makeJoins($query);
 
