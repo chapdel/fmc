@@ -43,7 +43,7 @@ trait Searchable
         bool $entireTextOnly = false
     ): Builder {
         $query = clone $q;
-        $query->setBindings([]);
+        $query->withoutGlobalScopes();
         $query->select($this->getTable().'.*');
         $this->makeJoins($query);
 
@@ -260,7 +260,7 @@ trait Searchable
         // First create a new array merging bindings
         $mergedBindings = array_merge_recursive(
             $clone->getBindings(),
-            $original->getBindings()
+            $original->getBindings(),
         );
 
         // Then apply bindings WITHOUT global scopes which are already included. If not, there is a strange behaviour
