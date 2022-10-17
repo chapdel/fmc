@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Domain\Audience\Models;
 
-use Illuminate\Contracts\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -62,14 +61,14 @@ class Subscriber extends Model implements CipherSweetEncrypted
     {
         return [
             'columns' => [
-                self::getSubscriberTableName() . '.email' => 15,
-                self::getSubscriberTableName() . '.first_name' => 10,
-                self::getSubscriberTableName() . '.last_name' => 10,
-                self::getTagTableName() . '.name' => 5,
+                self::getSubscriberTableName().'.email' => 15,
+                self::getSubscriberTableName().'.first_name' => 10,
+                self::getSubscriberTableName().'.last_name' => 10,
+                self::getTagTableName().'.name' => 5,
             ],
             'joins' => [
-                'mailcoach_email_list_subscriber_tags' => [self::getSubscriberTableName() . '.id', 'mailcoach_email_list_subscriber_tags.subscriber_id'],
-                self::getTagTableName() => ['mailcoach_email_list_subscriber_tags.tag_id', self::getTagTableName() . '.id'],
+                'mailcoach_email_list_subscriber_tags' => [self::getSubscriberTableName().'.id', 'mailcoach_email_list_subscriber_tags.subscriber_id'],
+                self::getTagTableName() => ['mailcoach_email_list_subscriber_tags.tag_id', self::getTagTableName().'.id'],
             ],
         ];
     }

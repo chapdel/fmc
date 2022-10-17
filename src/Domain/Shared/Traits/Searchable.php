@@ -10,9 +10,12 @@ use Illuminate\Support\Facades\DB;
 /**
  * Trait Searchable
  * Adapted & simplified from Searchable Trait package
+ *
  * @see https://github.com/nicolaslopezj/searchable
+ *
  * @property string $table
  * @property string $primaryKey
+ *
  * @method string getTable()
  */
 trait Searchable
@@ -40,7 +43,7 @@ trait Searchable
         bool $entireTextOnly = false
     ): Builder {
         $query = clone $q;
-        $query->select($this->getTable() . '.*');
+        $query->select($this->getTable().'.*');
         $this->makeJoins($query);
 
         $search = mb_strtolower(trim($search));
@@ -60,7 +63,7 @@ trait Searchable
         foreach ($this->getColumns() as $column => $relevance) {
             $relevance_count += $relevance;
 
-            if (!$entireTextOnly) {
+            if (! $entireTextOnly) {
                 $queries = $this->getSearchQueriesForColumn($column, $relevance, $words);
             } else {
                 $queries = [];
@@ -72,7 +75,7 @@ trait Searchable
             }
 
             foreach ($queries as $select) {
-                if (!empty($select)) {
+                if (! empty($select)) {
                     $selects[] = $select;
                 }
             }
@@ -85,7 +88,7 @@ trait Searchable
             $threshold = $relevance_count / count($this->getColumns());
         }
 
-        if (!empty($selects)) {
+        if (! empty($selects)) {
             $this->filterQueryWithRelevance($query, $selects, $threshold);
         }
 
@@ -103,7 +106,8 @@ trait Searchable
     protected function getDatabaseDriver(): string
     {
         $key = $this->connection ?: Config::get('database.default');
-        return strtolower(Config::get('database.connections.' . $key . '.driver'));
+
+        return strtolower(Config::get('database.connections.'.$key.'.driver'));
     }
 
     protected function getColumns(): array
@@ -113,8 +117,9 @@ trait Searchable
             $prefix = Config::get("database.connections.$driver.prefix");
             $columns = [];
             foreach ($this->getSearchableConfig()['columns'] as $column => $priority) {
-                $columns[$prefix . $column] = $priority;
+                $columns[$prefix.$column] = $priority;
             }
+
             return $columns;
         }
 
@@ -141,7 +146,7 @@ trait Searchable
             $query->leftJoin($table, function ($join) use ($keys) {
                 $join->on($keys[0], '=', $keys[1]);
                 if (array_key_exists(2, $keys) && array_key_exists(3, $keys)) {
-                    $join->whereRaw($keys[2] . ' = "' . $keys[3] . '"');
+                    $join->whereRaw($keys[2].' = "'.$keys[3].'"');
                 }
             });
         }
@@ -152,7 +157,7 @@ trait Searchable
         if ($groupBy = $this->getGroupBy()) {
             $query->groupBy($groupBy);
         } else {
-            $columns = $this->getTable() . '.' . $this->primaryKey;
+            $columns = $this->getTable().'.'.$this->primaryKey;
 
             $query->groupBy($columns);
 
@@ -170,8 +175,8 @@ trait Searchable
 
     protected function addSelectsToQuery(Builder $query, array $selects): void
     {
-        if (!empty($selects)) {
-            $query->selectRaw('max(' . implode(' + ', $selects) . ') as ' . 'relevance',
+        if (! empty($selects)) {
+            $query->selectRaw('max('.implode(' + ', $selects).') as '.'relevance',
                 $this->search_bindings);
         }
     }
@@ -195,7 +200,7 @@ trait Searchable
         return [
             $this->getSearchQuery($column, $relevance, $words, 15),
             $this->getSearchQuery($column, $relevance, $words, 5, '', '%'),
-            $this->getSearchQuery($column, $relevance, $words, 1, '%', '%')
+            $this->getSearchQuery($column, $relevance, $words, 1, '%', '%'),
         ];
     }
 
@@ -212,7 +217,7 @@ trait Searchable
 
         foreach ($words as $word) {
             $cases[] = $this->getCaseCompare($column, $like_comparator, $relevance * $relevance_multiplier);
-            $this->search_bindings[] = $pre_word . $word . $post_word;
+            $this->search_bindings[] = $pre_word.$word.$post_word;
         }
 
         return implode(' + ', $cases);
@@ -231,18 +236,20 @@ trait Searchable
     protected function getCaseCompare(string $column, string $compare, float|int $relevance): string
     {
         if ($this->isPostgresqlDatabase()) {
-            $field = "LOWER(" . $column . ") " . $compare . " ?";
-            return '(case when ' . $field . ' then ' . $relevance . ' else 0 end)';
+            $field = 'LOWER('.$column.') '.$compare.' ?';
+
+            return '(case when '.$field.' then '.$relevance.' else 0 end)';
         }
 
         $column = str_replace('.', '`.`', $column);
-        $field = "LOWER(`" . $column . "`) " . $compare . " ?";
-        return '(case when ' . $field . ' then ' . $relevance . ' else 0 end)';
+        $field = 'LOWER(`'.$column.'`) '.$compare.' ?';
+
+        return '(case when '.$field.' then '.$relevance.' else 0 end)';
     }
 
     protected function mergeQueries(Builder $clone, Builder $original): void
     {
-        $tableName = DB::connection($this->connection)->getTablePrefix() . $this->getTable();
+        $tableName = DB::connection($this->connection)->getTablePrefix().$this->getTable();
         if ($this->isPostgresqlDatabase()) {
             $original->from(DB::connection($this->connection)->raw("({$clone->toSql()}) as {$tableName}"));
         } else {
