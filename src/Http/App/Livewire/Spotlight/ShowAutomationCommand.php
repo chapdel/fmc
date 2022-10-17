@@ -58,6 +58,6 @@ class ShowAutomationCommand extends SpotlightCommand
 
     public function execute(Spotlight $spotlight, Automation $automation)
     {
-        $spotlight->redirect(route('mailcoach.automations.edit', $automation));
+        $spotlight->redirect(route('mailcoach.automations.settings', $automation));
     }
 }
