@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.11.0 - 2022-10-19
+
+### What's new
+
+- Added a `Precedence: Bulk` header to prevent out of office replies
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.10.7...5.11.0
+
 ## 5.10.7 - 2022-10-14
 
 ### What's Changed
