@@ -1,14 +1,14 @@
 <tr>
     <td class="markup-links">
-        @if ($row->concernsCampaign())
+        @if ($row->concernsCampaign() && $row->campaign)
             <a class="break-words" href="{{ route('mailcoach.campaigns.summary', $row->campaign) }}">
                 {{ $row->campaign->name }}
             </a>
-        @elseif ($row->concernsAutomationMail())
+        @elseif ($row->concernsAutomationMail() && $row->automationMail)
             <a class="break-words" href="{{ route('mailcoach.automations.mails.summary', $row->automationMail) }}">
                 {{ $row->automationMail->name }}
             </a>
-        @elseif ($row->concernsTransactionalMail())
+        @elseif ($row->concernsTransactionalMail() && $row->transactionalMailLogItem)
             <a class="break-words" href="{{ route('mailcoach.transactionalMails.show', $row->transactionalMailLogItem) }}">
                 {{ $row->transactionalMailLogItem->name }}
             </a>
