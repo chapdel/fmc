@@ -59,6 +59,7 @@ class SendMailAction
             ->setTextView('mailcoach::mails.automation.automationText')
             ->withSymfonyMessage(function (Email $message) use ($pendingSend) {
                 $message->getHeaders()->addTextHeader('X-MAILCOACH', 'true');
+                $message->getHeaders()->addTextHeader('Precedence', 'Bulk');
 
                 /** Postmark specific header */
                 $message->getHeaders()->addTextHeader('X-PM-Metadata-send-uuid', $pendingSend->uuid);

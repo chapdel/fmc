@@ -3,45 +3,44 @@
 use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
-use Spatie\Mailcoach\Domain\Automation\Actions\SendMailAction;
-use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailSentEvent;
+use Spatie\Mailcoach\Domain\Campaign\Actions\SendMailAction;
+use Spatie\Mailcoach\Domain\Campaign\Events\CampaignMailSentEvent;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
 beforeEach(function () {
-    test()->action = resolve(SendMailAction::class);
+    $this->action = resolve(SendMailAction::class);
 
     /** @var Send $send */
-    test()->send = Send::factory()->create(['campaign_id' => null]);
+    $this->send = Send::factory()->create(['automation_mail_id' => null]);
 });
 
 it('sends a pending send', function () {
     Mail::fake();
     Event::fake();
 
-    test()->action->execute(test()->send);
+    $this->action->execute($this->send);
 
     Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) {
-        expect($mail->hasTo(test()->send->subscriber->email))->toBeTrue();
+        expect($mail->hasTo($this->send->subscriber->email))->toBeTrue();
 
         return true;
     });
 
-    Event::assertDispatched(AutomationMailSentEvent::class);
+    Event::assertDispatched(CampaignMailSentEvent::class);
 
-    expect(test()->send->wasAlreadySent())->toBeTrue();
+    expect($this->send->wasAlreadySent())->toBeTrue();
 });
 
 it('sets reply to', function () {
     Mail::fake();
-    Event::fake();
 
-    test()->send->automationMail->update([
+    $this->send->campaign->update([
         'reply_to_email' => 'foo@bar.com',
         'reply_to_name' => 'Foo',
     ]);
 
-    test()->action->execute(test()->send);
+    $this->action->execute($this->send);
 
     Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) {
         expect($mail->hasReplyTo('foo@bar.com', 'Foo'))->toBeTrue();
@@ -54,11 +53,11 @@ it('wont send again if the send was already sent', function () {
     Mail::fake();
     Event::fake();
 
-    test()->action->execute(test()->send);
-    test()->action->execute(test()->send);
+    $this->action->execute($this->send);
+    $this->action->execute($this->send);
 
     Mail::assertSent(MailcoachMail::class, 1);
-    Event::assertDispatched(AutomationMailSentEvent::class, 1);
+    Event::assertDispatched(CampaignMailSentEvent::class, 1);
 });
 
 it('sets message headers', function () {
