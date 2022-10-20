@@ -27,7 +27,7 @@
                     :confirm-text="__mc('Are you sure you want to resend :totalFailed mails?', ['totalFailed' => $totalFailed])"
                     class="mt-4 button"
                 >
-                    {{ __mc('Try resending :totalFailed :email', ['totalFailed' => $totalFailed, 'email' => trans_choice('mailcoach - email|emails', $totalFailed)]) }}
+                    {{ __mc('Try resending :totalFailed :email', ['totalFailed' => $totalFailed, 'email' => __mc_choice('email|emails', $totalFailed)]) }}
                 </x-mailcoach::confirm-button>
             </div>
         @endif
