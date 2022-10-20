@@ -66,7 +66,15 @@ class Automation extends Model
 
     public function getTrigger(): ?AutomationTrigger
     {
-        return $this->triggers->first()?->trigger;
+        /** @var ?\Spatie\Mailcoach\Domain\Automation\Models\Trigger $trigger */
+        $trigger = $this->triggers->first();
+
+        $automation = clone $this;
+        $automation->unsetRelation('triggers');
+
+        $trigger?->setRelation('automation', $automation);
+
+        return $trigger?->trigger;
     }
 
     public function triggerClass(): string
