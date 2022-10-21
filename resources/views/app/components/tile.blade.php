@@ -7,6 +7,7 @@
     'warning' => null,
     'success' => null,
     'target' => null,
+    'wrapperClass' => '',
 ])
 <!-- md:col-span-1 md:col-span-2 md:col-span-3 md:col-span-4 md:col-span-5 md:col-span-6 md:col-span-7 md:col-span-8 md:col-span-9 md:col-span-10 md:col-span-11 md:col-span-12 -->
 <!-- md:row-span-1 md:row-span-2 md:row-span-3 -->
@@ -22,7 +23,7 @@
     @endif
 
     <div class="pointer-events-none z-10 h-full w-full flex items-center">
-        <div class="w-full ">
+        <div class="w-full {{ $wrapperClass }}">
             {{ $slot }}
         </div>
     </div>
