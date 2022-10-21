@@ -14,6 +14,10 @@
                 Your SES account is currently in <a href="https://docs.aws.amazon.com/ses/latest/dg/request-production-access.html" class="link" target="_blank">sandbox mode</a>. This means that you can only send to emails that are verified with Amazon.
             </p>
         </x-mailcoach::warning>
+    @elseif($mailer->get('timespan_in_seconds') === 1 && $mailer->get('mails_per_timespan') === 1)
+        <x-mailcoach::warning>
+            Your account is not in sandbox mode but your throttling settings are set to 1 mail / second. You can find your sending limit in your SES Account Dashboard to update the throttling config for faster campaigns.
+        </x-mailcoach::warning>
     @endif
 
     <x-mailcoach::fieldset card :legend="__('Summary')">
