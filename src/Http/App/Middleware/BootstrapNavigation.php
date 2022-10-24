@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Http\App\Middleware;
 use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\MainNavigation;
+use Spatie\MailcoachUnlayer\UnlayerEditor;
 use Spatie\Navigation\Section;
 
 class BootstrapNavigation
@@ -27,7 +28,7 @@ class BootstrapNavigation
                     ->add(__mc('Log'), route('mailcoach.transactionalMails'))
                     ->add(__mc('Emails'), route('mailcoach.transactionalMails.templates'));
             })
-            ->addIf($request->user()?->can('viewAny', self::getTemplateClass()), __mc('Templates'), route('mailcoach.templates'));
+            ->addIf($request->user()?->can('viewAny', self::getTemplateClass()) && config('mailcoach.content_editor') !== UnlayerEditor::class, __mc('Templates'), route('mailcoach.templates'));
 
         return $next($request);
     }
