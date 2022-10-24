@@ -21,7 +21,7 @@
         required
     />
 
-    @if(count($templateOptions) > 1)
+    @if(count($templateOptions) > 1 && config('mailcoach.content_editor') !== \Spatie\MailcoachUnlayer\UnlayerEditor::class)
         <x-mailcoach::select-field
             :label="__mc('Template')"
             :options="$templateOptions"
