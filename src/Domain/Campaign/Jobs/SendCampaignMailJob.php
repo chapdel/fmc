@@ -97,7 +97,7 @@ class SendCampaignMailJob implements ShouldQueue, ShouldBeUnique
             ->key('mailer-throttle-'.$mailer)
             ->allow(config("mail.mailers.{$mailer}.mails_per_timespan", 10))
             ->everySeconds(config("mail.mailers.{$mailer}.timespan_in_seconds", 1))
-            ->releaseAfterOneSecond();
+            ->releaseAfterSeconds(config("mail.mailers.{$mailer}.timespan_in_seconds", 1) + 1);
 
         return [$rateLimitedMiddleware];
     }
