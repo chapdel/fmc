@@ -6,9 +6,9 @@ use Spatie\Mailcoach\Http\Livewire\MailConfiguration\AbstractThrottlingStepCompo
 
 class ThrottlingStepComponent extends AbstractThrottlingStepComponent
 {
-    public int $timespanInSeconds = 60 * 60; // 1 hour
+    public int $timespanInSeconds = 36;
 
-    public int $mailsPerTimeSpan = 20;
+    public int $mailsPerTimeSpan = 1;
 
     public function render()
     {
