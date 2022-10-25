@@ -95,6 +95,16 @@ class SendCampaignAction
         Campaign $campaign,
         CarbonInterface $stopExecutingAt = null,
     ): void {
+        $sendsPerSecond = config("mail.mailers.{$campaign->getMailerKey()}.mails_per_timespan", 10) / config("mail.mailers.{$campaign->getMailerKey()}.timespan_in_seconds", 1);
+
+        /**
+         * If we have 100 times as many pending sends as we can send per second
+         * don't put any new jobs on the queue as it will only grow the jobs
+         */
+        if ($campaign->sends()->pending()->count() > $sendsPerSecond * 100) {
+            return;
+        }
+
         $simpleThrottle = app(SimpleThrottle::class)
             ->forMailerCreates($campaign->getMailerKey());
 
