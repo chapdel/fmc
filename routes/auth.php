@@ -18,7 +18,7 @@ Route::get('reset-password', [ResetPasswordController::class, 'showResetForm'])-
 Route::post('reset-password', [ResetPasswordController::class, 'reset'])->name('mailcoach.password.update');
 
 Route::group(['middleware' => ['web', WelcomesNewUsers::class]], function () {
-    Route::get('welcome/{user}', [WelcomeController::class, 'showWelcomeForm'])->name('mailcoach.welcome');
+    Route::get('welcome/{user}', [WelcomeController::class, 'showWelcomeForm'])->name('welcome');
     Route::post('welcome/{user}', [WelcomeController::class, 'savePassword']);
 });
 
