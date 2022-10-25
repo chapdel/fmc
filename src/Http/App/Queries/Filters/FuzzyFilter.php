@@ -29,7 +29,7 @@ class FuzzyFilter implements Filter
                 ->addDirectFields($builder, $values)
                 ->addRelationShipFields($builder, $values);
 
-            $query->getQuery()->joins = $builder->getQuery()->joins;
+            $query->getQuery()->joins = array_merge($query->getQuery()->joins, $builder->getQuery()->joins ?? []);
         });
 
         return $query;
