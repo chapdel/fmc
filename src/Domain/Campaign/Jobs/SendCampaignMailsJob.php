@@ -24,11 +24,14 @@ class SendCampaignMailsJob implements ShouldQueue, ShouldBeUnique
     use SerializesModels;
     use UsesMailcoachModels;
 
-    public int $uniqueFor = 60;
-
     public function __construct()
     {
         $this->onQueue(config('mailcoach.shared.perform_on_queue.schedule'));
+    }
+
+    public function uniqueFor(): int
+    {
+        return max(60, config('mailcoach.campaigns.send_campaign_maximum_job_runtime_in_seconds'));
     }
 
     public function retryUntil(): CarbonInterface
