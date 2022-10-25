@@ -7,20 +7,25 @@
     </x-mailcoach::help>
 
         <form class="form-grid" wire:submit.prevent="submit">
-
-            <x-mailcoach::text-field
-                wire:model.defer="timespanInSeconds"
-                :label="__('Timespan in seconds')"
-                name="timespanInSeconds"
-                type="number"
-            />
-
-            <x-mailcoach::text-field
-                wire:model.defer="mailsPerTimeSpan"
-                :label="__('Mails per timespan')"
-                name="mailsPerTimeSpan"
-                type="number"
-            />
+            <div class="flex items-center gap-x-2">
+                <span>{{ __mc('Send') }}</span>
+                <x-mailcoach::text-field
+                    wrapper-class="w-32"
+                    wire:model.lazy="mailsPerTimeSpan"
+                    label=""
+                    name="mailsPerTimeSpan"
+                    type="number"
+                />
+                <span>{{ __mc('mails every') }}</span>
+                <x-mailcoach::text-field
+                    wrapper-class="w-32"
+                    wire:model.lazy="timespanInSeconds"
+                    label=""
+                    name="timespanInSeconds"
+                    type="number"
+                />
+                <span>{{ __mc_choice('second|seconds', $timespanInSeconds) }}</span>
+            </div>
 
             <x-mailcoach::form-buttons>
                 <x-mailcoach::button :label="__('Save')"/>

@@ -1,4 +1,4 @@
-<div class="form-field">
+<div class="form-field {{ $wrapperClass ?? '' }}">
     @if($label ?? null)
     <label class="{{ ($required ?? false) ? 'label label-required' : 'label' }}" for="{{ $name }}">
         {{ $label }}
