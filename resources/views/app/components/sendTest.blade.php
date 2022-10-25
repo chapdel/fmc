@@ -1,4 +1,6 @@
 <form action="" class="grid grid-cols-1 gap-6" wire:submit.prevent="sendTest">
+    <x-mailcoach::info class="text-base font-normal" full>{{ __mc('Placeholders won\'t be filled in test emails') }}</x-mailcoach::info>
+
     @php($automationMailClass = \Spatie\Mailcoach\Mailcoach::getAutomationMailClass())
     @if ($model instanceof $automationMailClass)
         <x-mailcoach::text-field
