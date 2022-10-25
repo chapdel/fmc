@@ -13,9 +13,9 @@
             before:bg-gradient-to-r
             before:from-blue-400
             before:to-indigo-500' : '' }}
-            {{ $step->isPrevious() ? 'hover:text-blue-800 cursor-pointer' : '' }}
+            {{ $step->isPrevious() || $this->mailer()->ready_for_use ? 'hover:text-blue-800 cursor-pointer' : '' }}
         "
-            @if ($step->isPrevious())
+            @if ($step->isPrevious() || $this->mailer()->ready_for_use)
                 wire:click="{{ $step->show() }}"
             @endif
         >

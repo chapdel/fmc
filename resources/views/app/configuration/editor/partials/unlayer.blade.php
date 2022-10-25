@@ -1,10 +1,10 @@
 <div>
     <x-mailcoach::warning>
-        <p>{{ __mc('Unlayer editor stores content in a structured way. When switching from or to Unlayer, content in existing draft campaigns might get lost.') }}</p>
+        <p>{{ __mc('The email builder stores content in a structured way. When switching from or to this builder, content in existing draft campaigns might get lost.') }}</p>
     </x-mailcoach::warning>
 
     <x-mailcoach::info class="mt-6">
-        <p>{!! __mc('<a href=":link">Unlayer</a> is a beautiful editor that allows you to edit html in a structured way. You don\'t need any HTML knowledge to compose a campaign. This editor also allows image uploads.', ['link' => 'https://unlayer.com']) !!}</p>
+        <p>{!! __mc('Our email builder is powered by <a href=":link" target="_blank">Unlayer</a>, a beautiful editor that allows you to edit html in a structured way. You don\'t need any HTML knowledge to compose a campaign.', ['link' => 'https://unlayer.com']) !!}</p>
         <p>{{ __mc('Using this editor disables template functionality within Mailcoach as it has its own templating functionality') }}</p>
     </x-mailcoach::info>
 
