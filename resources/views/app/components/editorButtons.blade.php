@@ -17,8 +17,11 @@
         </x-mailcoach::modal>
     @endif
 
+    @if (config('mailcoach.content_editor') !== \Spatie\MailcoachUnlayer\UnlayerEditor::class)
     <x-mailcoach::button-secondary x-on:click.prevent="$store.modals.open('preview')" :label="__mc('Preview')"/>
+    <x-mailcoach::preview-modal name="preview" :html="$previewHtml" :title="__mc('Preview') . ($model->subject ? ' - ' . $model->subject : '')" />
+    @endif
+
     {{ $slot }}
 
-    <x-mailcoach::preview-modal name="preview" :html="$previewHtml" :title="__mc('Preview') . ($model->subject ? ' - ' . $model->subject : '')" />
 </x-mailcoach::form-buttons>
