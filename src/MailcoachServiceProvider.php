@@ -264,7 +264,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
             ->bootSpotlight();
     }
 
-    protected function bootCarbon(): self
+    protected function bootCarbon(): static
     {
         $mailcoachFormat = config('mailcoach.date_format');
 
@@ -277,7 +277,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         return $this;
     }
 
-    protected function bootConfig(): self
+    protected function bootConfig(): static
     {
         try {
             self::getMailerClass()::registerAllConfigValues();
@@ -291,7 +291,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         return $this;
     }
 
-    protected function bootSupportMacros(): self
+    protected function bootSupportMacros(): static
     {
         if (! Collection::hasMacro('paginate')) {
             Collection::macro('paginate', function (int $perPage = 15, string $pageName = 'page', int $page = null, int $total = null, array $options = []): LengthAwarePaginator {
@@ -338,7 +338,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         return $this;
     }
 
-    protected function bootGate(): self
+    protected function bootGate(): static
     {
         Gate::define('viewMailcoach', fn (User $user) => true);
 
@@ -347,7 +347,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         return $this;
     }
 
-    protected function bootFlash(): self
+    protected function bootFlash(): static
     {
         Flash::levels([
             'success' => 'success',
@@ -358,7 +358,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         return $this;
     }
 
-    protected function bootRoutes(): self
+    protected function bootRoutes(): static
     {
         // Audience
         Route::model('emailList', self::getEmailListClass());
@@ -451,7 +451,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         return $this;
     }
 
-    protected function bootViews(): self
+    protected function bootViews(): static
     {
         View::composer('mailcoach::app.layouts.partials.footer', FooterComposer::class);
         View::composer('mailcoach::app.layouts.partials.health', HealthViewComposer::class);
@@ -466,7 +466,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         return $this;
     }
 
-    protected function bootBladeComponents(): self
+    protected function bootBladeComponents(): static
     {
         Blade::component('mailcoach::app.components.form.checkboxField', 'mailcoach::checkbox-field');
         Blade::component('mailcoach::app.components.form.radioField', 'mailcoach::radio-field');
@@ -554,7 +554,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         return $this;
     }
 
-    protected function bootLivewireComponents(): self
+    protected function bootLivewireComponents(): static
     {
         Livewire::component('mailcoach::text-area-editor', TextAreaEditorComponent::class);
 
@@ -690,7 +690,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         return $this;
     }
 
-    protected function bootTriggers(): self
+    protected function bootTriggers(): static
     {
         try {
             $triggers = cache()->rememberForever('automation-triggers', function () {
@@ -711,7 +711,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         return $this;
     }
 
-    protected function registerApiGuard(): self
+    protected function registerApiGuard(): static
     {
         if (config('auth.guards.api')) {
             return $this;
@@ -726,7 +726,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         return $this;
     }
 
-    protected function bootSpotlight(): self
+    protected function bootSpotlight(): static
     {
         // Index commands
         Spotlight::registerCommand(AutomationsCommand::class);
@@ -762,7 +762,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         return $this;
     }
 
-    protected function bootEncryption(): self
+    protected function bootEncryption(): static
     {
         if (! config('mailcoach.encryption.enabled')) {
             return $this;
