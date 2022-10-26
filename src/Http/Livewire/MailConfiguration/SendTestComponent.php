@@ -28,8 +28,8 @@ class SendTestComponent extends Component
     public function sendTest()
     {
         $this->validate([
-            'from_email' => ['required', 'email:rfc,dns'],
-            'to_email' => ['required', 'email:rfc,dns'],
+            'from_email' => ['required', 'email:rfc'],
+            'to_email' => ['required', 'email:rfc'],
         ]);
 
         try {
