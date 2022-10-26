@@ -49,7 +49,7 @@ abstract class EditorComponent extends Component
                 $this->templateFieldValues[$placeHolderName] ??= '';
             }
         } else {
-            $this->templateFieldValues['html'] ??= '';
+            $this->templateFieldValues['html'] ??= $this->template->getHtml() ?? '';
         }
 
         $this->renderFullHtml();
@@ -65,8 +65,12 @@ abstract class EditorComponent extends Component
 
         $this->template = self::getTemplateClass()::find($templateId);
 
-        if (! $this->template->containsPlaceHolders()) {
-            $this->templateFieldValues['html'] = $this->template->getHtml();
+        if ($this->template?->containsPlaceHolders()) {
+            foreach ($this->template->placeHolderNames() as $placeHolderName) {
+                $this->templateFieldValues[$placeHolderName] ??= '';
+            }
+        } else {
+            $this->templateFieldValues['html'] ??= $this->template->getHtml() ?? '';
         }
     }
 
