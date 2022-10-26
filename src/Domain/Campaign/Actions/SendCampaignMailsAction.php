@@ -57,6 +57,19 @@ class SendCampaignMailsAction
             $undispatchedCount = $campaign->sends()->undispatched()->count();
         }
 
+        /**
+         * Dispatch pending sends again that have
+         * not been processed in the last hour
+         */
+        $campaign->sends()
+            ->pending()
+            ->where('sending_job_dispatched_at', '<', now()->subHour())
+            ->each(function (Send $send) {
+                dispatch(new SendCampaignMailJob($send));
+
+                $send->markAsSendingJobDispatched();
+            });
+
         if (! $campaign->allSendsCreated()) {
             return;
         }
