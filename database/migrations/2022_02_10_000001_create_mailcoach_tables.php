@@ -20,7 +20,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_email_lists', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->index();
+            $table->uuid('uuid')->unique();
             $table->string('name');
             $table->string('campaigns_feed_enabled')->default(false);
 
@@ -67,7 +67,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_subscribers', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->index();
+            $table->uuid('uuid')->unique();
 
             $table
                 ->foreignId('email_list_id')
@@ -97,7 +97,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_segments', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->index();
+            $table->uuid('uuid')->unique();
             $table->string('name');
             $table->boolean('all_positive_tags_required')->default(false);
             $table->boolean('all_negative_tags_required')->default(false);
@@ -111,7 +111,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_campaigns', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->index();
+            $table->uuid('uuid')->unique();
             $table->string('name')->nullable();
 
             $table->string('from_email')->nullable();
@@ -187,7 +187,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_campaign_links', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->index();
+            $table->uuid('uuid')->unique();
             $table
                 ->foreignId('campaign_id')
                 ->constrained('mailcoach_campaigns')
@@ -201,7 +201,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_transactional_mail_log_items', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->index();
+            $table->uuid('uuid')->unique();
 
             $table->text('subject');
 
@@ -220,7 +220,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_automation_mails', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->index();
+            $table->uuid('uuid')->unique();
             $table->string('name')->nullable();
 
             $table->string('from_email')->nullable();
@@ -263,7 +263,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_sends', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->index();
+            $table->uuid('uuid')->unique();
             $table->string('transport_message_id')->nullable()->index();
 
             $table
@@ -305,7 +305,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_campaign_clicks', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->index();
+            $table->uuid('uuid')->unique();
 
             $table
                 ->foreignId('send_id')
@@ -328,7 +328,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_campaign_opens', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->index();
+            $table->uuid('uuid')->unique();
 
             $table
                 ->foreignId('send_id')
@@ -352,7 +352,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_campaign_unsubscribes', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->index();
+            $table->uuid('uuid')->unique();
 
             $table
                 ->foreignId('campaign_id')
@@ -369,7 +369,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_send_feedback_items', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->index();
+            $table->uuid('uuid')->unique();
             $table->string('type');
 
             $table
@@ -383,7 +383,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_templates', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->index();
+            $table->uuid('uuid')->unique();
             $table->string('name');
             $table->boolean('contains_placeholders')->default(false);
             $table->longText('html');
@@ -393,7 +393,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_subscriber_imports', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->index();
+            $table->uuid('uuid')->unique();
             $table->longText('subscribers_csv')->nullable();
             $table->string('status');
 
@@ -413,7 +413,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_tags', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->index();
+            $table->uuid('uuid')->unique();
             $table->string('name');
             $table->string('type')->default('default');
             $table->boolean('visible_in_preferences')->default(false);
@@ -497,7 +497,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_automations', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->index();
+            $table->uuid('uuid')->unique();
 
             $table
                 ->foreignId('email_list_id')
@@ -529,7 +529,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_automation_actions', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->index();
+            $table->uuid('uuid')->unique();
 
             $table
                 ->foreignId('automation_id')
@@ -551,7 +551,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_automation_triggers', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->index();
+            $table->uuid('uuid')->unique();
 
             $table
                 ->foreignId('automation_id')
@@ -565,7 +565,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_automation_action_subscriber', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->index();
+            $table->uuid('uuid')->unique();
             $table->unsignedBigInteger('action_id')->index();
             $table->unsignedBigInteger('subscriber_id')->index();
             $table->timestamp('run_at')->nullable();
@@ -587,7 +587,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_automation_mail_opens', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->index();
+            $table->uuid('uuid')->unique();
 
             $table->foreignId('send_id')
                 ->constrained('mailcoach_sends')
@@ -610,7 +610,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_automation_mail_links', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->index();
+            $table->uuid('uuid')->unique();
             $table
                 ->foreignId('automation_mail_id')
                 ->constrained('mailcoach_automation_mails')
@@ -624,7 +624,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_automation_mail_clicks', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->index();
+            $table->uuid('uuid')->unique();
 
             $table->foreignId('send_id')
                 ->constrained('mailcoach_sends')
@@ -645,7 +645,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_automation_mail_unsubscribes', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->index();
+            $table->uuid('uuid')->unique();
 
             $table->unsignedBigInteger('automation_mail_id');
 
@@ -664,7 +664,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_transactional_mail_opens', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->index();
+            $table->uuid('uuid')->unique();
 
             $table
                 ->foreignId('send_id')
@@ -676,7 +676,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_transactional_mail_clicks', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->index();
+            $table->uuid('uuid')->unique();
 
             $table
                 ->foreignId('send_id')
@@ -690,7 +690,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_transactional_mails', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->index();
+            $table->uuid('uuid')->unique();
             $table->json('cc')->nullable();
             $table->string('label')->nullable();
             $table->string('name');
@@ -710,7 +710,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_uploads', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->uuid('uuid')->index();
+            $table->uuid('uuid')->unique();
             $table->timestamps();
         });
 
@@ -725,7 +725,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_mailers', function (Blueprint $table) {
             $table->id();
-            $table->uuid()->index();
+            $table->uuid()->unique();
             $table->string('name');
             $table->string('config_key_name')->index();
             $table->string('transport');
@@ -737,7 +737,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_webhook_configurations', function (Blueprint $table) {
             $table->id();
-            $table->uuid()->index();
+            $table->uuid()->unique();
             $table->string('name');
             $table->text('url');
             $table->string('secret');
