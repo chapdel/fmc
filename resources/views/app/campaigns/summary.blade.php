@@ -70,8 +70,9 @@
             </x-mailcoach::error>
         @endif
         @if($campaign->isSending() && $campaign->sent_to_number_of_subscribers)
+            @php($total = $campaign->sent_to_number_of_subscribers * 2)
             <div class="progress-bar">
-                <div class="progress-bar-value" style="width:{{ ($campaign->sendsCount() / $campaign->sent_to_number_of_subscribers) * 100 }}%"></div>
+                <div class="progress-bar-value" style="width:{{ (($campaign->sends()->count() + $campaign->sendsCount()) / $total) * 100 }}%"></div>
             </div>
             <x-mailcoach::help sync full>
                 <div class="flex justify-between items-center w-full">
@@ -79,30 +80,10 @@
                         <span class="inline-block">{{ __mc('Campaign') }}</span>
                         <strong>{{ $campaign->name }}</strong>
 
-                        @if (! $campaign->allSendsCreated() && $campaign->sends()->count() < $campaign->sent_to_number_of_subscribers)
-                            <br>
-                            {{ __mc('is preparing :sendsCount/:sentToNumberOfSubscribers :send for', [
-                                'sendsCount' => number_format($campaign->sends()->count()),
-                                'sentToNumberOfSubscribers' => number_format($campaign->sent_to_number_of_subscribers),
-                                'send' => trans_choice(__mc('send|sends'), $campaign->sent_to_number_of_subscribers)
-                            ]) }}
-                            @if($campaign->emailList)
-                                <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
-                            @else
-                                &lt;{{ __mc('deleted list') }}&gt;
-                            @endif
-                            @if($campaign->usesSegment())
-                                ({{ $campaign->segment_description }})
-                            @endif
-                            <br>
-                        @endif
-
-                        @php($sendsCount = $campaign->sendsCount())
-                        @if ($sendsCount === $campaign->sent_to_number_of_subscribers)
+                        @if ($campaign->sendsCount() === $campaign->sent_to_number_of_subscribers)
                             {{ __mc('is finishing up') }}
                         @else
-                            {{ __mc('is sending to :sendsCount/:sentToNumberOfSubscribers :subscriber of', [
-                                'sendsCount' => number_format($campaign->sendsCount()),
+                            {{ __mc('is sending to :sentToNumberOfSubscribers :subscriber of', [
                                 'sentToNumberOfSubscribers' => number_format($campaign->sent_to_number_of_subscribers),
                                 'subscriber' => __mc_choice('subscriber|subscribers', $campaign->sent_to_number_of_subscribers)
                             ]) }}
