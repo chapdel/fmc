@@ -29,6 +29,10 @@ class PasswordComponent extends Component
         Auth::user()->update(['password' => Hash::make($this->password)]);
 
         $this->flash(__('Your password has been updated.'));
+
+        $this->current_password = '';
+        $this->password = '';
+        $this->password_confirmation = '';
     }
 
     public function render()
