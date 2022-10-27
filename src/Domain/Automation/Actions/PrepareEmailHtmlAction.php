@@ -45,9 +45,7 @@ class PrepareEmailHtmlAction
 
     protected function replacePlaceholders(AutomationMail $automationMail): void
     {
-        $automationMail->email_html = collect(config('mailcoach.automation.replacers'))
-            ->map(fn (string $className) => resolve($className))
-            ->filter(fn (object $class) => $class instanceof AutomationMailReplacer)
+        $automationMail->email_html = $automationMail->getReplacers()
             ->reduce(fn (string $html, AutomationMailReplacer $replacer) => $replacer->replace($html, $automationMail), $automationMail->email_html);
     }
 

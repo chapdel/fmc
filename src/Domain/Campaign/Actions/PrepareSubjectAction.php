@@ -16,9 +16,7 @@ class PrepareSubjectAction
 
     protected function replacePlaceholdersInSubject(Campaign $campaign): void
     {
-        $campaign->subject = collect(config('mailcoach.campaigns.replacers'))
-            ->map(fn (string $className) => resolve($className))
-            ->filter(fn (object $class) => $class instanceof CampaignReplacer)
+        $campaign->subject = $campaign->getReplacers()
             ->reduce(fn (string $subject, CampaignReplacer $replacer) => $replacer->replace($subject, $campaign), $campaign->subject);
     }
 }

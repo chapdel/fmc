@@ -30,9 +30,7 @@ class PrepareWebviewHtmlAction
 
     protected function replacePlaceholders(AutomationMail $automationMail): void
     {
-        $automationMail->webview_html = collect(config('mailcoach.automation.replacers'))
-            ->map(fn (string $className) => resolve($className))
-            ->filter(fn (object $class) => $class instanceof AutomationMailReplacer)
+        $automationMail->webview_html = $automationMail->getReplacers()
             ->reduce(fn (string $html, AutomationMailReplacer $replacer) => $replacer->replace($html, $automationMail), $automationMail->webview_html);
     }
 

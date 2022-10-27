@@ -16,9 +16,7 @@ class PrepareSubjectAction
 
     protected function replacePlaceholdersInSubject(AutomationMail $automationMail): void
     {
-        $automationMail->subject = collect(config('mailcoach.automation.replacers'))
-            ->map(fn (string $className) => resolve($className))
-            ->filter(fn (object $class) => $class instanceof AutomationMailReplacer)
+        $automationMail->subject = $automationMail->getReplacers()
             ->reduce(fn (string $subject, AutomationMailReplacer $replacer) => $replacer->replace($subject, $automationMail), $automationMail->subject);
     }
 }

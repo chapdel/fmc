@@ -10,8 +10,14 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
+use Spatie\Mailcoach\Domain\Automation\Support\Replacers\AutomationMailReplacer;
+use Spatie\Mailcoach\Domain\Automation\Support\Replacers\PersonalizedReplacer;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Campaign\Rules\HtmlRule;
+use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\CampaignReplacer;
+use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\PersonalizedReplacer as PersonalizedCampaignReplacer;
 use Spatie\Mailcoach\Domain\Shared\Actions\CreateDomDocumentFromHtmlAction;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -183,6 +189,32 @@ abstract class Sendable extends Model implements HasHtmlContent
     abstract public function sendTestMail(string | array $emails): void;
 
     abstract public function webviewUrl(): string;
+
+    public function getReplacers(): Collection
+    {
+        return match(true) {
+            $this instanceof Campaign => collect(config('mailcoach.campaigns.replacers'))
+                ->map(fn (string $className) => resolve($className))
+                ->filter(fn (object $class) => $class instanceof CampaignReplacer),
+            $this instanceof AutomationMail => collect(config('mailcoach.automation.replacers'))
+                ->map(fn (string $className) => resolve($className))
+                ->filter(fn (object $class) => $class instanceof AutomationMailReplacer),
+            default => collect(),
+        };
+    }
+
+    public function getPersonalizedReplacers(): Collection
+    {
+        return match(true) {
+            $this instanceof Campaign => collect(config('mailcoach.campaigns.replacers'))
+                ->map(fn (string $className) => resolve($className))
+                ->filter(fn (object $class) => $class instanceof PersonalizedCampaignReplacer),
+            $this instanceof AutomationMail => collect(config('mailcoach.automation.replacers'))
+                ->map(fn (string $className) => resolve($className))
+                ->filter(fn (object $class) => $class instanceof PersonalizedReplacer),
+            default => collect(),
+        };
+    }
 
     public function getMailable(): MailcoachMail
     {
