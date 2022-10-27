@@ -188,16 +188,6 @@ class AutomationMail extends Sendable
         return ! is_null($this->mailable_class);
     }
 
-    public function fromEmail(Subscriber $subscriber): string
-    {
-        return $this->from_email ?? $subscriber->emailList->default_from_email ?? config('mail.from.address');
-    }
-
-    public function fromName(Subscriber $subscriber): ?string
-    {
-        return $this->from_name ?? $subscriber->emailList->default_from_name ?? config('mail.from.name');
-    }
-
     public function replyToEmail(Subscriber $subscriber): ?string
     {
         return $this->reply_to_email ?? $subscriber->emailList->default_reply_to_email;

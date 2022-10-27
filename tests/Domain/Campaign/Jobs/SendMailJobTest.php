@@ -12,7 +12,7 @@ beforeEach(function () {
 });
 
 it('can send a mail with the correct mailer', function () {
-    $pendingSend = SendFactory::new()->create();
+    $pendingSend = SendFactory::new()->create(['automation_mail_id' => null]);
     $pendingSend->subscriber->update(['email_list_id' => $pendingSend->campaign->emailList->id]);
     $pendingSend->campaign->emailList->update(['campaign_mailer' => 'some-mailer']);
 

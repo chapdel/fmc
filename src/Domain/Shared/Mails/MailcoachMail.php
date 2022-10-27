@@ -4,6 +4,8 @@ namespace Spatie\Mailcoach\Domain\Shared\Mails;
 
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Symfony\Component\Mime\Email;
@@ -80,31 +82,30 @@ class MailcoachMail extends Mailable
         $this->sendable = $sendable;
 
         $this->setFrom(
-            $sendable->from_email
-            ?? $sendable->emailList->default_from_email
-            ?? optional($this->send)->subscriber->emailList->default_from_email,
-            $sendable->from_name
-            ?? $sendable->emailList->default_from_name
-            ?? optional($this->send)->subscriber->emailList->default_from_name
-            ?? null
+            $sendable->getFromEmail($this->send),
+            $sendable->getFromName($this->send),
         );
 
-        $replyTo = $this->sendable->reply_to_email
-            ?? $this->sendable->emailList->reply_to_email
-            ?? optional($this->send)->subscriber->emailList->reply_to_email
-            ?? null;
+        $replyTo = $sendable->getReplyToEmail($this->send);
 
         if ($replyTo) {
-            $replyToName = $this->sendable->reply_to_name
-                ?? $this->sendable->emailList->default_reply_to_name
-                ?? optional($this->send)->subscriber->emailList->default_reply_to_name
-                ?? null;
+            $replyToName = $sendable->getReplyToName($this->send);
             $this->setReplyTo($replyTo, $replyToName);
         }
 
+        $htmlView = match(true) {
+            $sendable instanceof AutomationMail => 'mailcoach::mails.automation.automationHtml',
+            $sendable instanceof Campaign => 'mailcoach::mails.campaignHtml',
+        };
+
+        $textView = match(true) {
+            $sendable instanceof AutomationMail => 'mailcoach::mails.automation.automationText',
+            $sendable instanceof Campaign => 'mailcoach::mails.campaignText',
+        };
+
         $this
-            ->setHtmlView('mailcoach::mails.campaignHtml')
-            ->setTextView('mailcoach::mails.campaignText');
+            ->setHtmlView($htmlView)
+            ->setTextView($textView);
 
         return $this;
     }

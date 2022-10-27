@@ -2,87 +2,8 @@
 
 namespace Spatie\Mailcoach\Domain\Campaign\Actions;
 
-use Exception;
-use Illuminate\Support\Facades\Mail;
-use Spatie\Mailcoach\Domain\Campaign\Events\CampaignMailSentEvent;
-use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
-use Spatie\Mailcoach\Domain\Shared\Models\Send;
-use Spatie\Mailcoach\Mailcoach;
-use Symfony\Component\Mime\Email;
+use Spatie\Mailcoach\Domain\Shared\Actions\SendMailAction as BaseSendMailAction;
 
-class SendMailAction
+class SendMailAction extends BaseSendMailAction
 {
-    public function execute(Send $pendingSend): void
-    {
-        try {
-            $this->sendMail($pendingSend);
-        } catch (Exception $exception) {
-            /**
-             * Postmark returns code 406 when you try to send
-             * to an email that has been marked as inactive
-             */
-            if (str_contains($exception->getMessage(), '(code 406)')) {
-                // Mark as bounced
-                $pendingSend->markAsSent();
-                $pendingSend->registerBounce();
-
-                return;
-            }
-
-            report($exception);
-
-            $pendingSend->markAsFailed($exception->getMessage());
-        }
-    }
-
-    protected function sendMail(Send $pendingSend): void
-    {
-        if ($pendingSend->wasAlreadySent()) {
-            return;
-        }
-
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeSubjectAction $personalizeSubjectAction */
-        $personalizeSubjectAction = Mailcoach::getCampaignActionClass('personalize_subject', PersonalizeSubjectAction::class);
-        $personalisedSubject = $personalizeSubjectAction->execute($pendingSend->campaign->subject, $pendingSend);
-
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeHtmlAction $personalizeHtmlAction */
-        $personalizeHtmlAction = Mailcoach::getCampaignActionClass('personalize_html', PersonalizeHtmlAction::class);
-        $personalisedHtml = $personalizeHtmlAction->execute(
-            $pendingSend->campaign->email_html,
-            $pendingSend,
-        );
-
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\ConvertHtmlToTextAction $convertHtmlToTextAction */
-        $convertHtmlToTextAction = Mailcoach::getCampaignActionClass('convert_html_to_text', ConvertHtmlToTextAction::class);
-        $personalisedText = $convertHtmlToTextAction->execute($personalisedHtml);
-
-        $mailcoachMail = resolve(MailcoachMail::class);
-
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */
-        $campaign = $pendingSend->campaign;
-
-        $mailcoachMail
-            ->setSend($pendingSend)
-            ->setSendable($campaign)
-            ->subject($personalisedSubject)
-            ->setHtmlContent($personalisedHtml)
-            ->setTextContent($personalisedText)
-            ->withSymfonyMessage(function (Email $message) use ($pendingSend) {
-                $message->getHeaders()->addTextHeader('X-MAILCOACH', 'true');
-                $message->getHeaders()->addTextHeader('Precedence', 'Bulk');
-
-                /** Postmark specific header */
-                $message->getHeaders()->addTextHeader('X-PM-Metadata-send-uuid', $pendingSend->uuid);
-            });
-
-        $mailer = $campaign->getMailerKey();
-
-        Mail::mailer($mailer)
-            ->to($pendingSend->subscriber->email)
-            ->send($mailcoachMail);
-
-        $pendingSend->markAsSent();
-
-        event(new CampaignMailSentEvent($pendingSend));
-    }
 }

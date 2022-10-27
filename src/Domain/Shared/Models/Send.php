@@ -28,6 +28,7 @@ use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailLinkClicke
 use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailOpenedEvent;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailClick;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailOpen;
+use Spatie\Mailcoach\Mailcoach;
 
 class Send extends Model
 {
@@ -71,6 +72,20 @@ class Send extends Model
         }
 
         return null;
+    }
+
+    public function getMailerKey(): ?string
+    {
+        if ($this->concernsAutomationMail()) {
+            return $this->subscriber->emailList->automation_mailer
+                ?? Mailcoach::defaultAutomationMailer();
+        }
+
+        if ($this->concernsCampaign()) {
+            return $this->campaign->getMailerKey();
+        }
+
+        return Mailcoach::defaultTransactionalMailer();
     }
 
     public static function findByTransportMessageId(string $transportMessageId): ?Model

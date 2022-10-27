@@ -20,10 +20,8 @@ class SendAutomationMailTestAction
 
         $text = $convertHtmlToTextAction->execute($html);
 
-        $subscriber = Subscriber::make();
-
         $mailable = resolve(MailcoachMail::class)
-            ->setFrom($mail->fromEmail($subscriber), $mail->fromName($subscriber))
+            ->setFrom($mail->getFromEmail(), $mail->getFromName())
             ->setHtmlContent($html)
             ->setTextContent($text)
             ->setHtmlView('mailcoach::mails.automation.automationHtml')
@@ -31,6 +29,7 @@ class SendAutomationMailTestAction
             ->subject("[Test] {$mail->subject}")
             ->withSymfonyMessage(function (Email $message) {
                 $message->getHeaders()->addTextHeader('X-MAILCOACH', 'true');
+                $message->getHeaders()->addTextHeader('Precedence', 'Bulk');
                 $message->getHeaders()->addTextHeader('X-Entity-Ref-ID', Str::uuid()->toString());
             });
 
