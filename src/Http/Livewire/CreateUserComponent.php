@@ -20,7 +20,7 @@ class CreateUserComponent extends Component
             'name' => 'required|string',
         ]);
 
-        $user = User::create(array_merge($validated, ['password' => Str::random(64)]));
+        $user = User::create(array_merge($validated, ['password' => bcrypt(Str::random(64))]));
 
         $expiresAt = now()->addDay();
 
@@ -30,7 +30,7 @@ class CreateUserComponent extends Component
             flash()->success(__('The user has been created. A mail with login instructions has been sent to :email', ['email' => $user->email]));
         } catch (\Throwable $e) {
             report($e);
-            flash()->warning(__('The user has been created. A mail with setup instructions could not be sent.'));
+            flash()->error(__('The user has been created. A mail with setup instructions could not be sent: ' . $e->getMessage()));
         }
 
         return redirect()->route('users');
