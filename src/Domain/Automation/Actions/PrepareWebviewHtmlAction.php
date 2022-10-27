@@ -6,12 +6,14 @@ use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Replacers\AutomationMailReplacer;
 use Spatie\Mailcoach\Domain\Shared\Actions\AddUtmTagsToUrlAction;
 use Spatie\Mailcoach\Domain\Shared\Actions\CreateDomDocumentFromHtmlAction;
+use Spatie\Mailcoach\Domain\Shared\Actions\ReplacePlaceholdersAction;
 
 class PrepareWebviewHtmlAction
 {
     public function __construct(
-        private CreateDomDocumentFromHtmlAction $createDomDocumentFromHtmlAction,
-        private AddUtmTagsToUrlAction $addUtmTagsToUrlAction,
+        protected ReplacePlaceholdersAction $replacePlaceholdersAction,
+        protected CreateDomDocumentFromHtmlAction $createDomDocumentFromHtmlAction,
+        protected AddUtmTagsToUrlAction $addUtmTagsToUrlAction,
     ) {
     }
 
@@ -30,8 +32,7 @@ class PrepareWebviewHtmlAction
 
     protected function replacePlaceholders(AutomationMail $automationMail): void
     {
-        $automationMail->webview_html = $automationMail->getReplacers()
-            ->reduce(fn (string $html, AutomationMailReplacer $replacer) => $replacer->replace($html, $automationMail), $automationMail->webview_html);
+        $automationMail->webview_html = $this->replacePlaceholdersAction->execute($automationMail->webview_html, $automationMail);
     }
 
     protected function addUtmTags(AutomationMail $automationMail): void

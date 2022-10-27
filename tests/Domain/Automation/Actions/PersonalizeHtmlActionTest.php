@@ -13,7 +13,7 @@ beforeEach(function () {
 
     test()->send->campaign->update(['name' => 'my campaign']);
 
-    test()->personalizeHtmlAction = new PersonalizeHtmlAction();
+    test()->personalizeHtmlAction = app(PersonalizeHtmlAction::class);
 });
 
 it('can replace an placeholder for a subscriber attribute', function () {
@@ -45,11 +45,11 @@ it('can replace unsubscribe tag url', function () {
 // Helpers
 function assertPersonalizeHtmlActionResult(string $inputHtml, $expectedOutputHtml)
 {
-    $actualOutputHtml = (new PersonalizeHtmlAction())->execute($inputHtml, test()->send);
+    $actualOutputHtml = app(PersonalizeHtmlAction::class)->execute($inputHtml, test()->send);
     test()->assertEquals($expectedOutputHtml, $actualOutputHtml, "The personalize action did not produce the expected result. Expected: `{$expectedOutputHtml}`, actual: `{$actualOutputHtml}`");
 
     $expectedOutputHtmlWithHtmlTags = "<html>{$expectedOutputHtml}</html>";
-    $actualOutputHtmlWithHtmlTags = (new PersonalizeHtmlAction())->execute("<html>{$inputHtml}</html>", test()->send);
+    $actualOutputHtmlWithHtmlTags = app(PersonalizeHtmlAction::class)->execute("<html>{$inputHtml}</html>", test()->send);
 
     test()->assertEquals($expectedOutputHtmlWithHtmlTags, $actualOutputHtmlWithHtmlTags, "The personalize action did not produce the expected result when wrapped in html tags. Expected: `{$expectedOutputHtmlWithHtmlTags}`, actual: `{$actualOutputHtmlWithHtmlTags}`");
 }

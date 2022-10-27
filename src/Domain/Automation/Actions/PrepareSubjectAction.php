@@ -4,19 +4,17 @@ namespace Spatie\Mailcoach\Domain\Automation\Actions;
 
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Replacers\AutomationMailReplacer;
+use Spatie\Mailcoach\Domain\Shared\Actions\ReplacePlaceholdersAction;
 
 class PrepareSubjectAction
 {
+    public function __construct(
+        protected ReplacePlaceholdersAction $replacePlaceholdersAction
+    ) {}
+
     public function execute(AutomationMail $automationMail): void
     {
-        $this->replacePlaceholdersInSubject($automationMail);
-
+        $automationMail->subject = $this->replacePlaceholdersAction->execute($automationMail->subject, $automationMail);
         $automationMail->save();
-    }
-
-    protected function replacePlaceholdersInSubject(AutomationMail $automationMail): void
-    {
-        $automationMail->subject = $automationMail->getReplacers()
-            ->reduce(fn (string $subject, AutomationMailReplacer $replacer) => $replacer->replace($subject, $automationMail), $automationMail->subject);
     }
 }

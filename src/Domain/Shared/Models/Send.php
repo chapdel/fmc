@@ -60,6 +60,19 @@ class Send extends Model
         return ! is_null($this->transactional_mail_log_item_id);
     }
 
+    public function getSendable(): ?Sendable
+    {
+        if ($this->concernsCampaign()) {
+            return $this->campaign;
+        }
+
+        if ($this->concernsAutomationMail()) {
+            return $this->automationMail;
+        }
+
+        return null;
+    }
+
     public static function findByTransportMessageId(string $transportMessageId): ?Model
     {
         return static::where('transport_message_id', $transportMessageId)->first();

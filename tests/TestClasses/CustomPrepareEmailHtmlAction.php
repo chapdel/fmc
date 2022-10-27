@@ -3,14 +3,14 @@
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
 use Spatie\Mailcoach\Domain\Campaign\Actions\PrepareEmailHtmlAction;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 
 class CustomPrepareEmailHtmlAction extends PrepareEmailHtmlAction
 {
-    public function execute(Campaign $campaign): void
+    public function execute(Sendable $sendable): void
     {
-        $campaign->emailList->subscribers->first()->update(['email' => 'overridden@example.com']);
+        $sendable->emailList->subscribers->first()->update(['email' => 'overridden@example.com']);
 
-        parent::execute($campaign);
+        parent::execute($sendable);
     }
 }

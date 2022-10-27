@@ -203,19 +203,6 @@ abstract class Sendable extends Model implements HasHtmlContent
         };
     }
 
-    public function getPersonalizedReplacers(): Collection
-    {
-        return match (true) {
-            $this instanceof Campaign => collect(config('mailcoach.campaigns.replacers'))
-                ->map(fn (string $className) => resolve($className))
-                ->filter(fn (object $class) => $class instanceof PersonalizedCampaignReplacer),
-            $this instanceof AutomationMail => collect(config('mailcoach.automation.replacers'))
-                ->map(fn (string $className) => resolve($className))
-                ->filter(fn (object $class) => $class instanceof PersonalizedReplacer),
-            default => collect(),
-        };
-    }
-
     public function getMailable(): MailcoachMail
     {
         $mailableClass = $this->mailable_class ?? MailcoachMail::class;
