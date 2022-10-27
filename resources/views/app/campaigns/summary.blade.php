@@ -4,10 +4,6 @@
 <div class="card-grid" id="campaign-summary" wire:poll.5s.keep-alive>
     <x-mailcoach::card>
         @if ($campaign->isPreparing())
-            <div class="progress-bar">
-                <div class="progress-bar-value" style="width:0"></div>
-            </div>
-
             <x-mailcoach::help sync full>
                 <div class="flex justify-between items-center w-full">
                     <div>
@@ -35,13 +31,11 @@
                     </x-mailcoach::confirm-button>
                 </div>
             </x-mailcoach::help>
+            <div class="progress-bar">
+                <div class="progress-bar-value" style="width:0"></div>
+            </div>
         @endif
         @if ($campaign->isCancelled())
-            @if($campaign->sent_to_number_of_subscribers)
-                <div class="progress-bar">
-                    <div class="progress-bar-value" style="width:{{ ($campaign->sendsCount() / $campaign->sent_to_number_of_subscribers) * 100 }}%"></div>
-                </div>
-            @endif
             <x-mailcoach::error full>
                 <div class="flex justify-between items-center w-full">
                     <p>
@@ -68,12 +62,14 @@
                     </p>
                 </div>
             </x-mailcoach::error>
+            @if($campaign->sent_to_number_of_subscribers)
+                <div class="progress-bar">
+                    <div class="progress-bar-value" style="width:{{ ($campaign->sendsCount() / $campaign->sent_to_number_of_subscribers) * 100 }}%"></div>
+                </div>
+            @endif
         @endif
         @if($campaign->isSending() && $campaign->sent_to_number_of_subscribers)
             @php($total = $campaign->sent_to_number_of_subscribers * 2)
-            <div class="progress-bar">
-                <div class="progress-bar-value" style="width:{{ (($campaign->sends()->count() + $campaign->sendsCount()) / $total) * 100 }}%"></div>
-            </div>
             <x-mailcoach::help sync full>
                 <div class="flex justify-between items-center w-full">
                     <span class="block">
@@ -107,6 +103,9 @@
                     </x-mailcoach::confirm-button>
                 </div>
             </x-mailcoach::help>
+            <div class="progress-bar">
+                <div class="progress-bar-value" style="width:{{ (($campaign->sends()->count() + $campaign->sendsCount()) / $total) * 100 }}%"></div>
+            </div>
         @endif
         @if($campaign->isSent())
             <x-mailcoach::success class="md:max-w-full" full>
