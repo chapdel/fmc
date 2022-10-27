@@ -4,14 +4,11 @@ namespace Spatie\Mailcoach\Domain\Automation\Models;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Database\Factories\AutomationMailFactory;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Exceptions\CouldNotSendAutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailTestJob;
 use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailToSubscriberJob;
-use Spatie\Mailcoach\Domain\Automation\Support\Replacers\AutomationMailReplacer;
-use Spatie\Mailcoach\Domain\Automation\Support\Replacers\PersonalizedReplacer;
 use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;

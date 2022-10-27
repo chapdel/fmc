@@ -192,7 +192,7 @@ abstract class Sendable extends Model implements HasHtmlContent
 
     public function getReplacers(): Collection
     {
-        return match(true) {
+        return match (true) {
             $this instanceof Campaign => collect(config('mailcoach.campaigns.replacers'))
                 ->map(fn (string $className) => resolve($className))
                 ->filter(fn (object $class) => $class instanceof CampaignReplacer),
@@ -205,7 +205,7 @@ abstract class Sendable extends Model implements HasHtmlContent
 
     public function getPersonalizedReplacers(): Collection
     {
-        return match(true) {
+        return match (true) {
             $this instanceof Campaign => collect(config('mailcoach.campaigns.replacers'))
                 ->map(fn (string $className) => resolve($className))
                 ->filter(fn (object $class) => $class instanceof PersonalizedCampaignReplacer),
