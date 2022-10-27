@@ -1,11 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Bus;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
-use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignDeliveryComponent;
-use Spatie\TestTime\TestTime;
 
 beforeEach(function () {
     $this->authenticate();
