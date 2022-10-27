@@ -272,11 +272,11 @@ class Send extends Model
             return null;
         }
 
-        if ($this->concernsCampaign()) {
+        if ($this->concernsCampaign() && $this->campaign) {
             return $this->registerCampaignClick($url, $clickedAt);
         }
 
-        if ($this->concernsAutomationMail()) {
+        if ($this->concernsAutomationMail() && $this->automationMail) {
             return $this->registerAutomationMailClick($url, $clickedAt);
         }
 
