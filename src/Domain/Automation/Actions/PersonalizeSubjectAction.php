@@ -9,7 +9,8 @@ class PersonalizeSubjectAction
 {
     public function __construct(
         protected PersonalizeTextAction $personalizeTextAction
-    ) {}
+    ) {
+    }
 
     public function execute(string $subject, Send $pendingSend): string
     {

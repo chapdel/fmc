@@ -9,7 +9,8 @@ class PersonalizeHtmlAction
 {
     public function __construct(
         protected PersonalizeTextAction $personalizeTextAction
-    ) {}
+    ) {
+    }
 
     public function execute($html, Send $pendingSend): string
     {
