@@ -20,6 +20,7 @@ class SimpleThrottleCache
     {
         if (! is_null($mailer)) {
             $this->currentPeriodHitCountKey = "simpleThrottle.currentPeriodHitCount.{$mailer}";
+            $this->currentPeriodEndsAtKey = "simpleThrottle.currentPeriodEndsAt.{$mailer}";
         }
 
         return $this;
@@ -29,6 +30,7 @@ class SimpleThrottleCache
     {
         if (! is_null($mailer)) {
             $this->currentPeriodHitCountKey = "simpleThrottle.currentPeriodHitCount.createSends.{$mailer}";
+            $this->currentPeriodEndsAtKey = "simpleThrottle.currentPeriodEndsAt.createSends.{$mailer}";
         }
 
         return $this;

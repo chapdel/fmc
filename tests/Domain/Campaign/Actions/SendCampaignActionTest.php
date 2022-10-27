@@ -87,11 +87,11 @@ it('will throttle sending mail', function () {
 
     [$sendTime1, $sendTime2, $sendTime3] = $jobDispatchTimes;
 
-    expect($sendTime1->diffInSeconds($sendTime2))->toBeLessThan(1);
+    expect($sendTime1->diffInSeconds($sendTime2))->toBeLessThanOrEqual(1);
     expect(round($sendTime2->diffInSeconds($sendTime3)))->toBeGreaterThanOrEqual(3);
 });
 
-it('will throttle creating sends to 3 times the send throttle', function () {
+it('will throttle creating sends to multiple times the send throttle', function () {
     $mailer = test()->campaign->emailList->campaign_mailer;
     config()->set("mail.mailers.{$mailer}.mails_per_timespan", 1);
     config()->set("mail.mailers.{$mailer}.timespan_in_seconds", 3);
@@ -114,9 +114,9 @@ it('will throttle creating sends to 3 times the send throttle', function () {
         })
         ->toArray();
 
-    [$createTime1,, $createTime3, $createTime4] = $jobCreateTimes;
+    [$createTime1, $createTime2, $createTime3, $createTime4] = $jobCreateTimes;
 
-    expect($createTime1->diffInSeconds($createTime3))->toBeLessThan(1);
+    expect($createTime1->diffInSeconds($createTime2))->toBeLessThanOrEqual(1);
     expect(round($createTime1->diffInSeconds($createTime4)))->toBeGreaterThanOrEqual(3);
 });
 

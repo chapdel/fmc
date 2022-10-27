@@ -14,6 +14,8 @@ class SendCampaignMailsAction
 {
     public function execute(Campaign $campaign, ?CarbonInterface $stopExecutingAt = null): void
     {
+        $this->retryDispatchForStuckSends($campaign);
+
         if ($campaign->allMailSendingJobsDispatched()) {
             return;
         }
@@ -29,6 +31,28 @@ class SendCampaignMailsAction
         $this->dispatchMailSendingJobs($campaign, $stopExecutingAt);
     }
 
+    /**
+     * Dispatch pending sends again that have
+     * not been processed in the 30 minutes
+     */
+    protected function retryDispatchForStuckSends(Campaign $campaign): void
+    {
+        $retryQuery = $campaign->sends()
+            ->pending()
+            ->where('sending_job_dispatched_at', '<', now()->subMinutes(30));
+
+        if ($retryQuery->count() === 0) {
+            return;
+        }
+
+        $campaign->update(['all_sends_dispatched_at' => null]);
+
+        $retryQuery->each(function (Send $send) {
+            dispatch(new SendCampaignMailJob($send));
+
+            $send->markAsSendingJobDispatched();
+        });
+    }
     protected function dispatchMailSendingJobs(Campaign $campaign, CarbonInterface $stopExecutingAt = null): void
     {
         $simpleThrottle = app(SimpleThrottle::class)
@@ -56,19 +80,6 @@ class SendCampaignMailsAction
 
             $undispatchedCount = $campaign->sends()->undispatched()->count();
         }
-
-        /**
-         * Dispatch pending sends again that have
-         * not been processed in the last hour
-         */
-        $campaign->sends()
-            ->pending()
-            ->where('sending_job_dispatched_at', '<', now()->subHour())
-            ->each(function (Send $send) {
-                dispatch(new SendCampaignMailJob($send));
-
-                $send->markAsSendingJobDispatched();
-            });
 
         if (! $campaign->allSendsCreated()) {
             return;

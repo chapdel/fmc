@@ -47,12 +47,9 @@ class SendCampaignMailsJob implements ShouldQueue, ShouldBeUnique
         $maxRuntimeInSeconds = max(60, config('mailcoach.campaigns.send_campaign_maximum_job_runtime_in_seconds'));
 
         self::getCampaignClass()::query()
-            ->where('status', '!=', CampaignStatus::Draft)
-            ->whereNull('all_sends_dispatched_at')
+            ->sending()
             ->each(function (Campaign $campaign) use ($sendCampaignMailsAction, $maxRuntimeInSeconds) {
                 $stopExecutingAt = now()->addSeconds($maxRuntimeInSeconds);
-
-                info("Dispatching sends for campaign `{$campaign->name}` ({$campaign->id})...");
 
                 try {
                     $sendCampaignMailsAction->execute($campaign, $stopExecutingAt);
