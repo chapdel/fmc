@@ -53,6 +53,7 @@ class SendCampaignMailsAction
             $send->markAsSendingJobDispatched();
         });
     }
+
     protected function dispatchMailSendingJobs(Campaign $campaign, CarbonInterface $stopExecutingAt = null): void
     {
         $simpleThrottle = app(SimpleThrottle::class)
