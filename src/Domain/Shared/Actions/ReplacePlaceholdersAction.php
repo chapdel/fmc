@@ -15,13 +15,9 @@ class ReplacePlaceholdersAction
         $text ??= '';
 
         return match (true) {
-            $sendable instanceof Campaign => collect(config('mailcoach.campaigns.replacers'))
-                ->map(fn (string $className) => resolve($className))
-                ->filter(fn (object $class) => $class instanceof CampaignReplacer)
+            $sendable instanceof Campaign => $sendable->getReplacers()
                 ->reduce(fn (string $text, CampaignReplacer $replacer) => $replacer->replace($text, $sendable), $text),
-            $sendable instanceof AutomationMail => collect(config('mailcoach.automation.replacers'))
-                ->map(fn (string $className) => resolve($className))
-                ->filter(fn (object $class) => $class instanceof AutomationMailReplacer)
+            $sendable instanceof AutomationMail => $sendable->getReplacers()
                 ->reduce(fn (string $text, AutomationMailReplacer $replacer) => $replacer->replace($text, $sendable), $text),
             default => $text,
         };
