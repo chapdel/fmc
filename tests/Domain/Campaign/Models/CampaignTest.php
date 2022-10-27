@@ -270,34 +270,10 @@ it('can dispatch a job to recalculate statistics', function () {
     Bus::assertDispatched(CalculateStatisticsJob::class, 1);
 });
 
-it('wont calculate statistics if it doesnt have any new sends', function () {
-    test()->campaign->update(['status' => CampaignStatus::Sent]);
-    test()->campaign->update(['statistics_calculated_at' => now()]);
-
-    $queryCount = 0;
-    DB::listen(function ($query) use (&$queryCount) {
-        $queryCount++;
-    });
-
-    expect($queryCount)->toBe(0);
-
-    test()->campaign->dispatchCalculateStatistics();
-
-    expect($queryCount)->toBe(6); // 5 queries to get events + 1 to update statistics calculated at
-
-    \Spatie\Mailcoach\Domain\Shared\Models\Send::factory()->create([
-        'campaign_id' => test()->campaign->id,
-    ]);
-
-    test()->campaign->dispatchCalculateStatistics();
-
-    expect($queryCount)->toBeGreaterThan(20); // A lot of queries to calculate the statistics
-});
-
-it('will only dispatch a calculate statistics job if it is sent', function () {
+it('will only dispatch a calculate statistics job if it is sent or cancelled', function () {
     Queue::fake();
 
-    test()->campaign->update(['statistics_calculated_at' => now(), 'status' => CampaignStatus::Cancelled]);
+    test()->campaign->update(['statistics_calculated_at' => now(), 'status' => CampaignStatus::Draft]);
 
     test()->campaign->dispatchCalculateStatistics();
 
@@ -310,6 +286,12 @@ it('will only dispatch a calculate statistics job if it is sent', function () {
     test()->campaign->update(['status' => CampaignStatus::Sent]);
 
     test()->campaign->dispatchCalculateStatistics();
+
+    Queue::assertPushed(CalculateStatisticsJob::class);
+
+    test()->campaign->update(['status' => CampaignStatus::Cancelled]);
+
+    \Illuminate\Support\Facades\Cache::flush();
 
     Queue::assertPushed(CalculateStatisticsJob::class);
 });

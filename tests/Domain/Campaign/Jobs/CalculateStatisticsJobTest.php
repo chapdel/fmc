@@ -66,8 +66,6 @@ it('will save the datetime when the statistics where calculated', function () {
 });
 
 it('can calculate statistics regarding unsubscribes', function () {
-    Subscriber::$fakeUuid = null;
-
     $campaign = (new CampaignFactory())->withSubscriberCount(5)->create();
     $automationMail = AutomationMail::factory()->create();
 

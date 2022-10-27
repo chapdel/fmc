@@ -38,7 +38,7 @@ it('will recalculate statistics at the right time', function (
         : Queue::assertNotPushed(CalculateStatisticsJob::class);
 })->with('caseProvider');
 
-it('will not calculate statistics of campaigns that are not sent', function () {
+it('will not calculate statistics of campaigns that are not sent or cancelled', function () {
     Queue::fake();
 
     $campaign = Campaign::factory()->create([
@@ -57,12 +57,20 @@ it('will not calculate statistics of campaigns that are not sent', function () {
         'statistics_calculated_at' => now()->subMinute(),
     ]);
 
+    Campaign::factory()->create([
+        'status' => CampaignStatus::Draft,
+        'sent_at' => now()->subMinutes(2),
+        'all_sends_dispatched_at' => now()->subMinutes(2),
+        'all_sends_created_at' => now()->subMinutes(2),
+        'statistics_calculated_at' => now()->subMinute(),
+    ]);
+
     Send::factory()->create(['campaign_id' => $campaign->id]);
 
     test()->artisan(CalculateStatisticsCommand::class)->assertExitCode(0);
     $this->processQueuedJobs();
 
-    Queue::assertPushed(CalculateStatisticsJob::class, 1);
+    Queue::assertPushed(CalculateStatisticsJob::class, 2);
 });
 
 it('calculates statistics of sending campaigns but wont alter sent_to_number_of_subscribers', function () {

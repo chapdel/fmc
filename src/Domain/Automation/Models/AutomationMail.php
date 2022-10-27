@@ -174,7 +174,7 @@ class AutomationMail extends Sendable
         return resolve($mailableClass, $mailableArguments);
     }
 
-    public function dispatchCalculateStatistics()
+    public function dispatchCalculateStatistics(): void
     {
         dispatch(new CalculateStatisticsJob($this));
     }
