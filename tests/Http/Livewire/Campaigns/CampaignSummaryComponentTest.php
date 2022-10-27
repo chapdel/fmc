@@ -66,7 +66,7 @@ it('shows progress while sending and creating sends', function () {
     ]);
 
     \Livewire\Livewire::test('mailcoach::campaign-summary', ['campaign' => $campaign])
-        ->assertSee('is preparing 1/100 sends');
+        ->assertSee('1%');
 });
 
 it('shows progress while sending and all sends are created sends', function () {
@@ -81,7 +81,7 @@ it('shows progress while sending and all sends are created sends', function () {
     ]);
 
     \Livewire\Livewire::test('mailcoach::campaign-summary', ['campaign' => $campaign])
-        ->assertSee('is sending to 0/1 subscriber');
+        ->assertSee('50%');
 });
 
 it('shows results when campaign is sent', function () {
