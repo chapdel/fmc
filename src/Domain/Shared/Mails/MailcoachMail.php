@@ -93,12 +93,12 @@ class MailcoachMail extends Mailable
             $this->setReplyTo($replyTo, $replyToName);
         }
 
-        $htmlView = match(true) {
+        $htmlView = match (true) {
             $sendable instanceof AutomationMail => 'mailcoach::mails.automation.automationHtml',
             $sendable instanceof Campaign => 'mailcoach::mails.campaignHtml',
         };
 
-        $textView = match(true) {
+        $textView = match (true) {
             $sendable instanceof AutomationMail => 'mailcoach::mails.automation.automationText',
             $sendable instanceof Campaign => 'mailcoach::mails.campaignText',
         };

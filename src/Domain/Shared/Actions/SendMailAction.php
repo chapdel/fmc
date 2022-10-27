@@ -3,14 +3,14 @@
 namespace Spatie\Mailcoach\Domain\Shared\Actions;
 
 use Illuminate\Support\Facades\Mail;
-use Spatie\Mailcoach\Domain\Automation\Actions\PersonalizeSubjectAction as AutomationMailPersonalizeSubjectAction;
-use Spatie\Mailcoach\Domain\Automation\Actions\PersonalizeHtmlAction as AutomationMailPersonalizeHtmlAction;
 use Spatie\Mailcoach\Domain\Automation\Actions\ConvertHtmlToTextAction as AutomationMailConvertHtmlToTextAction;
+use Spatie\Mailcoach\Domain\Automation\Actions\PersonalizeHtmlAction as AutomationMailPersonalizeHtmlAction;
+use Spatie\Mailcoach\Domain\Automation\Actions\PersonalizeSubjectAction as AutomationMailPersonalizeSubjectAction;
 use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailSentEvent;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
-use Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeSubjectAction as CampaignPersonalizeSubjectAction;
-use Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeHtmlAction as CampaignPersonalizeHtmlAction;
 use Spatie\Mailcoach\Domain\Campaign\Actions\ConvertHtmlToTextAction as CampaignConvertHtmlToTextAction;
+use Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeHtmlAction as CampaignPersonalizeHtmlAction;
+use Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeSubjectAction as CampaignPersonalizeSubjectAction;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignMailSentEvent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
@@ -54,11 +54,12 @@ class SendMailAction
 
         if (! $sendable) {
             $pendingSend->delete();
+
             return;
         }
 
         /** @var AutomationMailPersonalizeSubjectAction|CampaignPersonalizeSubjectAction $personalizeSubjectAction */
-        $personalizeSubjectAction = match(true) {
+        $personalizeSubjectAction = match (true) {
             $sendable instanceof AutomationMail => Mailcoach::getAutomationActionClass('personalize_subject', AutomationMailPersonalizeSubjectAction::class),
             $sendable instanceof Campaign => Mailcoach::getCampaignActionClass('personalize_subject', CampaignPersonalizeSubjectAction::class),
         };
@@ -66,7 +67,7 @@ class SendMailAction
         $personalisedSubject = $personalizeSubjectAction->execute($sendable->subject, $pendingSend);
 
         /** @var AutomationMailPersonalizeHtmlAction|CampaignPersonalizeHtmlAction $personalizeHtmlAction */
-        $personalizeHtmlAction = match(true) {
+        $personalizeHtmlAction = match (true) {
             $sendable instanceof AutomationMail => Mailcoach::getAutomationActionClass('personalize_html', AutomationMailPersonalizeHtmlAction::class),
             $sendable instanceof Campaign => Mailcoach::getCampaignActionClass('personalize_html', CampaignPersonalizeHtmlAction::class),
         };
@@ -77,7 +78,7 @@ class SendMailAction
         );
 
         /** @var AutomationMailConvertHtmlToTextAction|CampaignConvertHtmlToTextAction $convertHtmlToTextAction */
-        $convertHtmlToTextAction = match(true) {
+        $convertHtmlToTextAction = match (true) {
             $sendable instanceof AutomationMail => Mailcoach::getAutomationActionClass('convert_html_to_text', AutomationMailConvertHtmlToTextAction::class),
             $sendable instanceof Campaign => Mailcoach::getCampaignActionClass('convert_html_to_text', CampaignConvertHtmlToTextAction::class),
         };
@@ -106,7 +107,7 @@ class SendMailAction
 
         $pendingSend->markAsSent();
 
-        match(true) {
+        match (true) {
             $sendable instanceof AutomationMail => event(new AutomationMailSentEvent($pendingSend)),
             $sendable instanceof Campaign => event(new CampaignMailSentEvent($pendingSend)),
         };

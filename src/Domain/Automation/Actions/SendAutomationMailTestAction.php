@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Domain\Automation\Actions;
 
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Mailcoach;

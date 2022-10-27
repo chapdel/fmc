@@ -10,7 +10,8 @@ class AddUtmTagsToHtmlAction
     public function __construct(
         protected CreateDomDocumentFromHtmlAction $createDomDocumentFromHtmlAction,
         protected AddUtmTagsToUrlAction $addUtmTagsToUrlAction,
-    ) {}
+    ) {
+    }
 
     public function execute(string $html, string $name): string
     {
