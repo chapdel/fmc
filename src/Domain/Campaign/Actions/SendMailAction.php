@@ -17,8 +17,6 @@ class SendMailAction
         try {
             $this->sendMail($pendingSend);
         } catch (Exception $exception) {
-            report($exception);
-
             /**
              * Postmark returns code 406 when you try to send
              * to an email that has been marked as inactive
@@ -29,6 +27,8 @@ class SendMailAction
 
                 return;
             }
+
+            report($exception);
 
             $pendingSend->markAsFailed($exception->getMessage());
         }
