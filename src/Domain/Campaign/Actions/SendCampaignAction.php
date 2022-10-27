@@ -85,6 +85,10 @@ class SendCampaignAction
             return;
         }
 
+        if ($campaign->sends()->pending()->count()) {
+            return;
+        }
+
         $campaign->markAsSent($campaign->sendsCount());
 
         event(new CampaignSentEvent($campaign));
