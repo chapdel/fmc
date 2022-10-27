@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Domain\Shared\Actions;
 
 use Spatie\Mailcoach\Domain\Automation\Exceptions\CouldNotSendAutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
+use Spatie\Mailcoach\Domain\Campaign\Actions\AddUtmTagsToHtmlAction;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
@@ -13,8 +14,8 @@ class PrepareEmailHtmlAction
 {
     public function __construct(
         protected ReplacePlaceholdersAction $replacePlaceholdersAction,
+        protected AddUtmTagsToHtmlAction $addUtmTagsToHtmlAction,
         protected CreateDomDocumentFromHtmlAction $createDomDocumentFromHtmlAction,
-        protected AddUtmTagsToUrlAction $addUtmTagsToUrlAction,
     ) {
     }
 
@@ -27,7 +28,7 @@ class PrepareEmailHtmlAction
         $this->replacePlaceholders($sendable);
 
         if ($sendable->utm_tags) {
-            $this->addUtmTags($sendable);
+            $sendable->email_html = $this->addUtmTagsToHtmlAction->execute($sendable->email_html, $sendable->name);
         }
 
         $sendable->save();
@@ -55,18 +56,5 @@ class PrepareEmailHtmlAction
     protected function replacePlaceholders(Sendable $sendable): void
     {
         $sendable->email_html = $this->replacePlaceholdersAction->execute($sendable->email_html, $sendable);
-    }
-
-    protected function addUtmTags(Sendable $sendable): void
-    {
-        $document = $this->createDomDocumentFromHtmlAction->execute($sendable->email_html);
-
-        foreach ($document->getElementsByTagName('a') as $linkElement) {
-            $url = $linkElement->getAttribute('href');
-            $newUrl = $this->addUtmTagsToUrlAction->execute($url, $sendable->name);
-            $linkElement->setAttribute('href', $newUrl);
-        }
-
-        $sendable->email_html = $document->saveHTML();
     }
 }
