@@ -73,34 +73,6 @@ it('will not calculate statistics of campaigns that are not sent or cancelled', 
     Queue::assertPushed(CalculateStatisticsJob::class, 2);
 });
 
-it('calculates statistics of sending campaigns but wont alter sent_to_number_of_subscribers', function () {
-    $campaign = Campaign::factory()->create([
-        'status' => CampaignStatus::Sent,
-        'sent_at' => now()->subMinutes(2),
-        'all_sends_dispatched_at' => now()->subMinutes(2),
-        'all_sends_created_at' => now()->subMinutes(2),
-        'statistics_calculated_at' => now()->subMinute(),
-        'sent_to_number_of_subscribers' => 2,
-    ]);
-
-    $campaign2 = Campaign::factory()->create([
-        'status' => CampaignStatus::Sending,
-        'sent_at' => now()->subMinutes(2),
-        'all_sends_dispatched_at' => now()->subMinutes(2),
-        'all_sends_created_at' => now()->subMinutes(2),
-        'statistics_calculated_at' => now()->subMinute(),
-        'sent_to_number_of_subscribers' => 10,
-    ]);
-
-    Send::factory()->create(['campaign_id' => $campaign->id]);
-    Send::factory()->create(['campaign_id' => $campaign2->id]);
-
-    test()->artisan(CalculateStatisticsCommand::class)->assertExitCode(0);
-
-    expect($campaign->fresh()->sent_to_number_of_subscribers)->toBe(1); // Updated
-    expect($campaign2->fresh()->sent_to_number_of_subscribers)->toBe(10);
-});
-
 it('can recalculate the statistics of a single campaign', function () {
     $campaign = Campaign::factory()->create([
         'sent_at' => now()->subYear(),

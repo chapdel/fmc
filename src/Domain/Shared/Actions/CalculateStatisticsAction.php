@@ -40,13 +40,7 @@ class CalculateStatisticsAction
         [$unsubscribeCount, $unsubscribeRate] = $this->calculateUnsubscribeMetrics($sendable, $sentToNumberOfSubscribers);
         [$bounceCount, $bounceRate] = $this->calculateBounceMetrics($sendable, $sentToNumberOfSubscribers);
 
-        if ($sendable instanceof Campaign && $sendable->status === CampaignStatus::Sending) {
-            // The campaign is still sending, so don't update the subscriber send count.
-            $sentToNumberOfSubscribers = $sendable->sent_to_number_of_subscribers;
-        }
-
         $sendable->update([
-            'sent_to_number_of_subscribers' => $sentToNumberOfSubscribers,
             'open_count' => $openCount,
             'unique_open_count' => $uniqueOpenCount,
             'open_rate' => $openRate,

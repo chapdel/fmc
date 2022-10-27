@@ -16,7 +16,7 @@ class SendCampaignAction
 {
     public function execute(Campaign $campaign, ?CarbonInterface $stopExecutingAt = null): void
     {
-        if ($campaign->wasAlreadySent() || ! $campaign->isSending()) {
+        if (! $campaign->isSending()) {
             return;
         }
 
@@ -24,10 +24,11 @@ class SendCampaignAction
             ->prepareSubject($campaign)
             ->prepareEmailHtml($campaign)
             ->prepareWebviewHtml($campaign)
-            ->sendMailsForCampaign($campaign, $stopExecutingAt);
+            ->dispatchCreateSendJobs($campaign, $stopExecutingAt)
+            ->markCampaignAsSent($campaign);
     }
 
-    protected function prepareSubject(Campaign $campaign): self
+    protected function prepareSubject(Campaign $campaign): static
     {
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareSubjectAction $prepareSubjectAction */
         $prepareSubjectAction = Mailcoach::getCampaignActionClass('prepare_subject', PrepareSubjectAction::class);
@@ -37,7 +38,7 @@ class SendCampaignAction
         return $this;
     }
 
-    protected function prepareEmailHtml(Campaign $campaign): self
+    protected function prepareEmailHtml(Campaign $campaign): static
     {
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareEmailHtmlAction $prepareEmailHtmlAction */
         $prepareEmailHtmlAction = Mailcoach::getCampaignActionClass('prepare_email_html', PrepareEmailHtmlAction::class);
@@ -47,7 +48,7 @@ class SendCampaignAction
         return $this;
     }
 
-    protected function prepareWebviewHtml(Campaign $campaign): self
+    protected function prepareWebviewHtml(Campaign $campaign): static
     {
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareWebviewHtmlAction $prepareWebviewHtmlAction */
         $prepareWebviewHtmlAction = Mailcoach::getCampaignActionClass('prepare_webview_html', PrepareWebviewHtmlAction::class);
@@ -57,31 +58,11 @@ class SendCampaignAction
         return $this;
     }
 
-    protected function sendMailsForCampaign(Campaign $campaign, ?CarbonInterface $stopExecutingAt = null): void
+    protected function markCampaignAsSent(Campaign $campaign): void
     {
-        $campaign->update(['segment_description' => $campaign->getSegment()->description()]);
+        $subscribersQueryCount = $this->getSubscribersQuery($campaign)->count();
 
-        $subscribersQuery = $campaign->baseSubscribersQuery();
-
-        $segment = $campaign->getSegment();
-
-        $segment->subscribersQuery($subscribersQuery);
-
-        $subscribersQueryCount = $subscribersQuery->count();
-
-        if (is_null($campaign->sent_to_number_of_subscribers) || $campaign->sent_to_number_of_subscribers === 0) {
-            $campaign->update(['sent_to_number_of_subscribers' => $subscribersQuery->count()]);
-        }
-
-        $this->dispatchCreateSendJobs($subscribersQuery, $campaign, $stopExecutingAt);
-
-        if ($campaign->sends()->count() < $campaign->fresh()->sent_to_number_of_subscribers) {
-            return;
-        }
-
-        $campaign->markAsAllSendsCreated();
-
-        if ($campaign->sendsCount() < $campaign->sent_to_number_of_subscribers && $campaign->sendsCount() < $subscribersQueryCount) {
+        if ($campaign->sendsCount() < $subscribersQueryCount) {
             return;
         }
 
@@ -95,10 +76,21 @@ class SendCampaignAction
     }
 
     protected function dispatchCreateSendJobs(
-        Builder $subscribersQuery,
         Campaign $campaign,
         CarbonInterface $stopExecutingAt = null,
-    ): void {
+    ): static {
+        if ($campaign->allSendsCreated()) {
+            return $this;
+        }
+
+        $campaign->update(['segment_description' => $campaign->getSegment()->description()]);
+
+        $subscribersQuery = $this->getSubscribersQuery($campaign);
+
+        $subscribersQueryCount = $subscribersQuery->count();
+
+        $campaign->update(['sent_to_number_of_subscribers' => $subscribersQueryCount]);
+
         $simpleThrottle = app(SimpleThrottle::class)
             ->forMailerCreates($campaign->getMailerKey());
 
@@ -112,6 +104,14 @@ class SendCampaignAction
 
                 $this->haltWhenApproachingTimeLimit($stopExecutingAt);
             });
+
+        if ($campaign->sends()->count() < $subscribersQueryCount) {
+            return $this;
+        }
+
+        $campaign->markAsAllSendsCreated();
+
+        return $this;
     }
 
     protected function haltWhenApproachingTimeLimit(?CarbonInterface $stopExecutingAt): void
@@ -125,5 +125,16 @@ class SendCampaignAction
         }
 
         throw SendCampaignTimeLimitApproaching::make();
+    }
+
+    protected function getSubscribersQuery(Campaign $campaign): Builder
+    {
+        $subscribersQuery = $campaign->baseSubscribersQuery();
+
+        $segment = $campaign->getSegment();
+
+        $segment->subscribersQuery($subscribersQuery);
+
+        return $subscribersQuery;
     }
 }

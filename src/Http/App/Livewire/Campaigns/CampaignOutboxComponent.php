@@ -74,7 +74,7 @@ class CampaignOutboxComponent extends DataTableComponent
         return [
             'campaign' => $this->campaign,
             'sends' => $sendsQuery->paginate($request->per_page),
-            'totalSends' => $this->campaign->sends()->count(),
+            'totalSends' => $this->campaign->sendsWithoutInvalidated()->count(),
             'totalPending' => $this->campaign->sends()->pending()->count(),
             'totalSent' => $this->campaign->sends()->sent()->count(),
             'totalFailed' => $this->campaign->sends()->failed()->count(),

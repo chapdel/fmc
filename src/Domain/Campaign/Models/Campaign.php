@@ -318,28 +318,23 @@ class Campaign extends Sendable implements Feedable
 
         if (empty($this->from_email)) {
             $this->from_email = $this->emailList->default_from_email;
-            $this->save();
         }
 
         if (empty($this->from_name)) {
             $this->from_name = $this->emailList->default_from_name;
-            $this->save();
         }
 
         if (empty($this->reply_to_email)) {
             $this->reply_to_email = $this->emailList->default_reply_to_email;
-            $this->save();
         }
 
         if (empty($this->reply_to_name)) {
             $this->reply_to_name = $this->emailList->default_reply_to_name;
-            $this->save();
         }
 
-        $this->update([
-            'segment_description' => $this->getSegment()->description(),
-            'last_modified_at' => now(),
-        ]);
+        $this->segment_description = $this->getSegment()->description();
+        $this->last_modified_at = now();
+        $this->save();
 
         if ($this->hasCustomMailable()) {
             $this->pullSubjectFromMailable();
@@ -487,6 +482,11 @@ class Campaign extends Sendable implements Feedable
         return $this->sends()->whereNotNull('sent_at')->count();
     }
 
+    public function sendsWithoutInvalidated(): HasMany
+    {
+        return $this->sends()->whereNull('invalidated_at');
+    }
+
     public function sendsWithErrors(): HasMany
     {
         return $this->sends()->whereNotNull('failed_at');
@@ -528,6 +528,11 @@ class Campaign extends Sendable implements Feedable
     public function isDraft(): bool
     {
         return $this->status === CampaignStatus::Draft;
+    }
+
+    public function isPreparing(): bool
+    {
+        return $this->isSending() && ! $this->sent_to_number_of_subscribers;
     }
 
     public function isSending(): bool

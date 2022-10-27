@@ -1,7 +1,9 @@
-<div class="card-grid" id="campaign-summary" wire:poll.10s>
+<?php
+    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */
+?>
+<div class="card-grid" id="campaign-summary" wire:poll.5s.keep-alive>
     <x-mailcoach::card>
-    @if((! $campaign->isSent()) || (! $campaign->wasSentToAllSubscribers()))
-        @if (! $campaign->sent_to_number_of_subscribers && ! $campaign->isCancelled())
+        @if ($campaign->isPreparing())
             <div class="progress-bar">
                 <div class="progress-bar-value" style="width:0"></div>
             </div>
@@ -27,13 +29,14 @@
 
                     <x-mailcoach::confirm-button
                         class="ml-auto text-red-500 underline"
-                         onConfirm="() => $wire.cancelSending()"
-                         :confirm-text="__mc('Are you sure you want to cancel sending this campaign?')">
+                        onConfirm="() => $wire.cancelSending()"
+                        :confirm-text="__mc('Are you sure you want to cancel sending this campaign?')">
                         Cancel
                     </x-mailcoach::confirm-button>
                 </div>
             </x-mailcoach::help>
-        @elseif ($campaign->isCancelled())
+        @endif
+        @if ($campaign->isCancelled())
             @if($campaign->sent_to_number_of_subscribers)
                 <div class="progress-bar">
                     <div class="progress-bar-value" style="width:{{ ($campaign->sendsCount() / $campaign->sent_to_number_of_subscribers) * 100 }}%"></div>
@@ -65,7 +68,8 @@
                     </p>
                 </div>
             </x-mailcoach::error>
-        @else
+        @endif
+        @if($campaign->isSending() && $campaign->sent_to_number_of_subscribers)
             <div class="progress-bar">
                 <div class="progress-bar-value" style="width:{{ ($campaign->sendsCount() / $campaign->sent_to_number_of_subscribers) * 100 }}%"></div>
             </div>
@@ -123,43 +127,44 @@
                 </div>
             </x-mailcoach::help>
         @endif
-    @else
-        <x-mailcoach::success class="md:max-w-full" full>
-            <div>
-                {{ __mc('Campaign') }}
-                <a target="_blank" href="{{ $campaign->webviewUrl() }}"><strong>{{ $campaign->name }}</strong></a>
-                {{ __mc('was delivered successfully to') }}
-                <strong>{{ number_format($campaign->sent_to_number_of_subscribers - ($failedSendsCount ?? 0)) }} {{ __mc_choice('subscriber|subscribers', $campaign->sent_to_number_of_subscribers) }}</strong>
-
-                {{ __mc('of') }}
-
-                @if($campaign->emailList)
-                    <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
-                @else
-                    &lt;{{ __mc('deleted list') }}&gt;
-                @endif
-                @if($campaign->usesSegment())
-                    ({{ $campaign->segment_description }})
-                @endif
-            </div>
-
-            @if($failedSendsCount)
+        @if($campaign->isSent())
+            <x-mailcoach::success class="md:max-w-full" full>
+                @php($sendsCount = $campaign->sendsWithoutInvalidated()->count())
                 <div>
-                    <i class="fas fa-times text-red-500"></i>
-                </div>
-                <div>
-                    {{ __mc('Delivery failed for') }} <strong>{{ number_format($failedSendsCount) }}</strong> {{ __mc_choice('subscriber|subscribers', $failedSendsCount) }}.
-                    <a class="underline" href="{{ route('mailcoach.campaigns.outbox', $campaign) . '?filter[type]=failed' }}">{{ __mc('Check the outbox') }}</a>.
-                </div>
-            @endif
+                    {{ __mc('Campaign') }}
+                    <a target="_blank" href="{{ $campaign->webviewUrl() }}"><strong>{{ $campaign->name }}</strong></a>
+                    {{ __mc('was delivered successfully to') }}
+                    <strong>{{ number_format($sendsCount - ($failedSendsCount ?? 0)) }} {{ __mc_choice('subscriber|subscribers', $sendsCount) }}</strong>
 
-            <div class="text-sm">{{ $campaign->sent_at->toMailcoachFormat() }}</div>
-        </x-mailcoach::success>
+                    {{ __mc('of') }}
+
+                    @if($campaign->emailList)
+                        <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
+                    @else
+                        &lt;{{ __mc('deleted list') }}&gt;
+                    @endif
+                    @if($campaign->usesSegment())
+                        ({{ $campaign->segment_description }})
+                    @endif
+                </div>
+
+                @if($failedSendsCount)
+                    <div>
+                        <i class="fas fa-times text-red-500"></i>
+                    </div>
+                    <div>
+                        {{ __mc('Delivery failed for') }} <strong>{{ number_format($failedSendsCount) }}</strong> {{ __mc_choice('subscriber|subscribers', $failedSendsCount) }}.
+                        <a class="underline" href="{{ route('mailcoach.campaigns.outbox', $campaign) . '?filter[type]=failed' }}">{{ __mc('Check the outbox') }}</a>.
+                    </div>
+                @endif
+
+                <div class="text-sm">{{ $campaign->sent_at->toMailcoachFormat() }}</div>
+            </x-mailcoach::success>
+        @endif
 
         @if ($campaign->opens()->count() || $campaign->clicks()->count())
             <livewire:mailcoach::campaign-statistics :campaign="$campaign" />
         @endif
-    @endif
     </x-mailcoach::card>
 
     <x-mailcoach::card>

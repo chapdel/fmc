@@ -66,15 +66,13 @@ class SendCampaignMailJob implements ShouldQueue, ShouldBeUnique
         $subscriber = $this->pendingSend->subscriber;
 
         if (! $campaign->getSegment()->shouldSend($subscriber)) {
-            $campaign->decrement('sent_to_number_of_subscribers');
-            $this->pendingSend->delete();
+            $this->pendingSend->invalidate();
 
             return;
         }
 
         if (! $this->isValidSubscriptionForEmailList($subscriber, $campaign->emailList)) {
-            $campaign->decrement('sent_to_number_of_subscribers');
-            $this->pendingSend->delete();
+            $this->pendingSend->invalidate();
 
             return;
         }

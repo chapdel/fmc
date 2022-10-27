@@ -16,15 +16,16 @@ class CampaignSendsQuery extends QueryBuilder
 
     public function __construct(Campaign $campaign, Request $request)
     {
-        parent::__construct($this->getSendClass()::query(), $request);
+        parent::__construct(self::getSendClass()::query(), $request);
 
         $this
-            ->addSelect(['subscriber_email' => $this->getSubscriberClass()::select('email')
+            ->addSelect(['subscriber_email' => self::getSubscriberClass()::select('email')
                 ->whereColumn('subscriber_id', "{$this->getSubscriberTableName()}.id")
                 ->limit(1),
             ])
             ->with('feedback')
             ->where('campaign_id', $campaign->id)
+            ->whereNull('invalidated_at')
             ->defaultSort('created_at')
             ->with(['campaign', 'subscriber'])
             ->allowedSorts(

@@ -55,18 +55,6 @@ class CreateCampaignSendJob implements ShouldQueue, ShouldBeUnique
             return;
         }
 
-        if (! $this->campaign->getSegment()->shouldSend($this->subscriber)) {
-            $this->campaign->decrement('sent_to_number_of_subscribers');
-
-            return;
-        }
-
-        if (! $this->isValidSubscriptionForEmailList($this->subscriber, $this->campaign->emailList)) {
-            $this->campaign->decrement('sent_to_number_of_subscribers');
-
-            return;
-        }
-
         $pendingSend = $this->campaign->sends()
             ->where('subscriber_id', $this->subscriber->id)
             ->exists();
@@ -79,18 +67,5 @@ class CreateCampaignSendJob implements ShouldQueue, ShouldBeUnique
             'subscriber_id' => $this->subscriber->id,
             'uuid' => (string) Str::uuid(),
         ]);
-    }
-
-    protected function isValidSubscriptionForEmailList(Subscriber $subscriber, EmailList $emailList): bool
-    {
-        if (! $subscriber->isSubscribed()) {
-            return false;
-        }
-
-        if ((int) $subscriber->email_list_id !== (int) $emailList->id) {
-            return false;
-        }
-
-        return true;
     }
 }

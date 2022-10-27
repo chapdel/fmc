@@ -24,7 +24,7 @@ class CampaignSummaryComponent extends Component
             return redirect()->route('mailcoach.campaigns.delivery', $campaign);
         }
 
-        app(MainNavigation::class)->activeSection()->add($campaign->name, route('mailcoach.campaigns.summary', $campaign));
+        app(MainNavigation::class)->activeSection()?->add($campaign->name, route('mailcoach.campaigns.summary', $campaign));
     }
 
     public function cancelSending()

@@ -23,6 +23,7 @@ class SendMailAction
              */
             if (str_contains($exception->getMessage(), '(code 406)')) {
                 // Mark as bounced
+                $pendingSend->markAsSent();
                 $pendingSend->registerBounce();
 
                 return;

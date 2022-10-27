@@ -384,6 +384,11 @@ class Send extends Model
             ->whereNull('failed_at');
     }
 
+    public function scopeInvalidated(Builder $query): void
+    {
+        $query->whereNotNull('invalidated_at');
+    }
+
     public function scopeFailed(Builder $query): void
     {
         $query->whereNotNull('failed_at');
@@ -401,6 +406,16 @@ class Send extends Model
         $query->whereHas('feedback', function (Builder $query) {
             $query->where('type', SendFeedbackType::Complaint);
         });
+    }
+
+    public function invalidate(): self
+    {
+        $this->update([
+            'sent_at' => now(),
+            'invalidated_at' => now(),
+        ]);
+
+        return $this;
     }
 
     public function markAsFailed(string $failureReason): self

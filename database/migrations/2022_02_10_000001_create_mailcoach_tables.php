@@ -292,6 +292,7 @@ return new class extends Migration
 
             $table->timestamp('sending_job_dispatched_at')->nullable();
             $table->timestamp('sent_at')->nullable();
+            $table->timestamp('invalidated_at')->nullable();
             $table->timestamp('failed_at')->nullable();
             $table->text('failure_reason')->nullable();
 

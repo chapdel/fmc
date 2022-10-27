@@ -285,7 +285,9 @@ it('handles an unsubscribed user while sending', function () {
 
     $this->processQueuedJobs();
 
-    expect(Send::count())->toBe(1);
+    expect(Send::count())->toBe(2);
+    expect(Send::whereNull('invalidated_at')->count())->toBe(1);
+    expect(Send::whereNotNull('invalidated_at')->count())->toBe(1);
 });
 
 it('will use the right subject', function () {
