@@ -78,6 +78,8 @@ abstract class DataTableComponent extends Component
 
     public function setFilter(string $property, ?string $value = null)
     {
+        $this->page = 1;
+
         if (is_null($value)) {
             $this->$property = null;
 
