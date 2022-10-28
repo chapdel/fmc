@@ -78,6 +78,8 @@ class ImportSubscribersAction
 
             dispatch(new CompleteSubscriberImportJob($this->subscriberImport, $totalRows, $this->user));
         } catch (Exception $exception) {
+            report($exception);
+
             $this->subscriberImport->addError(
                 __(
                     "Couldn't finish importing subscribers. This error occurred: :error",
