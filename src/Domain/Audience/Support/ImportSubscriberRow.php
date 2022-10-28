@@ -91,8 +91,10 @@ class ImportSubscriberRow
 
         if (str_contains($tags, ',')) {
             $tags = explode(',', str_replace(['"', "'"], '', $tags));
-        } else {
+        } elseif (str_contains($tags, ';')) {
             $tags = explode(';', $tags);
+        } else {
+            $tags = explode('|', $tags);
         }
 
         $sanitizedTags = array_map('trim', $tags);

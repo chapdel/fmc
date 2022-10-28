@@ -75,6 +75,32 @@ it('will trim the subscriber row values', function () {
     expect($subscriber->extra_attributes->job_title)->toEqual('Developer');
 });
 
+it('can handle semicolon as separator', function () {
+    uploadStub('with-semicolon.csv');
+
+    $subscriber = Subscriber::findForEmail('john@example.com', test()->emailList);
+
+    test()->assertNotEmpty($subscriber);
+    expect($subscriber->first_name)->toEqual('John');
+    expect($subscriber->last_name)->toEqual('Doe');
+    expect($subscriber->extra_attributes->job_title)->toEqual('Developer');
+    expect($subscriber->hasTag('tag1'))->toBeTrue();
+    expect($subscriber->hasTag('tag2'))->toBeTrue();
+});
+
+it('can handle pipe as separator', function () {
+    uploadStub('with-pipe.csv');
+
+    $subscriber = Subscriber::findForEmail('john@example.com', test()->emailList);
+
+    test()->assertNotEmpty($subscriber);
+    expect($subscriber->first_name)->toEqual('John');
+    expect($subscriber->last_name)->toEqual('Doe');
+    expect($subscriber->extra_attributes->job_title)->toEqual('Developer');
+    expect($subscriber->hasTag('tag1'))->toBeTrue();
+    expect($subscriber->hasTag('tag2'))->toBeTrue();
+});
+
 it('will not import a subscriber that is already on the list', function () {
     Subscriber::createWithEmail('john@example.com')
         ->skipConfirmation()
