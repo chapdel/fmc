@@ -39,9 +39,9 @@ class ReplacerHelpTextsComponent extends Component
 
     public function automationReplacerHelpTexts(): array
     {
-        $automationClass = self::getAutomationClass();
+        $automationMailClass = self::getAutomationMailClass();
 
-        return (new $automationClass)
+        return (new $automationMailClass)
             ->getReplacers()
             ->flatMap(fn (AutomationReplacerWithHelpTextAlias $replacer) => $replacer->helpText())
             ->toArray();
