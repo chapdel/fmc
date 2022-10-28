@@ -19,7 +19,7 @@
         :columns="[
             ['class' => 'w-32', 'attribute' => 'status', 'label' => __mc('Status')],
             ['class' => 'w-48 th-numeric', 'attribute' => 'created_at', 'label' => __mc('Started at')],
-            ['class' => 'th-numeric', 'attribute' => 'imported_subscribers_count', 'label' => __mc('Imported subscribers')],
+            ['class' => 'th-numeric', 'attribute' => 'imported_subscribers_count', 'label' => __mc('Processed rows')],
             ['class' => 'th-numeric', 'label' => __mc('Errors')],
             ['class' => 'w-12'],
         ]"
