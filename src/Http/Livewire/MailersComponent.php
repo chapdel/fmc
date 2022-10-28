@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Http\Livewire;
 
 use Illuminate\Http\Request;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\DataTableComponent;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
@@ -54,9 +55,28 @@ class MailersComponent extends DataTableComponent
 
     public function deleteMailer(int $id)
     {
+        /** @var \Spatie\Mailcoach\Domain\Settings\Models\Mailer $mailer */
         $mailer = self::getMailerClass()::find($id);
 
+        $configName = $mailer->configName();
+
         $mailer->delete();
+
+        self::getEmailListClass()::each(function (EmailList $emailList) use ($configName) {
+            if ($emailList->campaign_mailer === $configName) {
+                $emailList->campaign_mailer = null;
+            }
+
+            if ($emailList->automation_mailer === $configName) {
+                $emailList->automation_mailer = null;
+            }
+
+            if ($emailList->transactional_mailer === $configName) {
+                $emailList->transactional_mailer = null;
+            }
+
+            $emailList->save();
+        });
 
         $this->flash(__('Mailer :mailer successfully deleted', ['mailer' => $mailer->name]));
     }
