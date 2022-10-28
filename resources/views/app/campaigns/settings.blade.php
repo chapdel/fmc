@@ -1,11 +1,11 @@
 @php
     $linkDescriptions = [];
 
-    if ($this->campaign->emailList->has_website) {
+    if ($this->campaign->emailList?->has_website) {
         $linkDescriptions[] = '<a target=_blank href="' . $this->campaign->emailList->websiteUrl() . '">the public website</a>';
     }
 
-    if ($this->campaign->emailList->campaigns_feed_enabled) {
+    if ($this->campaign->emailList?->campaigns_feed_enabled) {
         $linkDescriptions[] = 'the RSS feed';
     }
 
@@ -107,7 +107,7 @@
 
 
 
-    @if($this->campaign->emailList->has_website || $this->campaign->emailList->campaigns_feed_enabled)
+    @if($this->campaign->emailList?->has_website || $this->campaign->emailList?->campaigns_feed_enabled)
         <x-mailcoach::fieldset card :legend="__('Publish campaign')">
             <div>
                 <x-mailcoach::help>

@@ -221,7 +221,7 @@
                 </p>
                 @if (is_null($openTracking) && is_null($clickTracking))
                     <p class="markup-code">
-                        {!! __mc('Open & Click tracking are managed by your email provider, this campaign uses the <strong>:mailer</strong> mailer.', ['mailer' => $campaign->emailList->campaign_mailer]) !!}
+                        {!! __mc('Open & Click tracking are managed by your email provider, this campaign uses the <strong>:mailer</strong> mailer.', ['mailer' => $campaign->getMailerKey()]) !!}
                     </p>
                 @endif
                 <ul class="flex flex-wrap space-x-2">
