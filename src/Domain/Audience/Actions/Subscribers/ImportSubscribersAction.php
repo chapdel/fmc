@@ -131,13 +131,13 @@ class ImportSubscribersAction
     }
 
     /**
-     * @param string $filePath
-     * @param int $checkLines
+     * @param  string  $filePath
+     * @param  int  $checkLines
      * @return string
      */
     protected function getCsvDelimiter(string $filePath, int $checkLines = 3): string
     {
-        $delimiters = [",", ";", "\t", "|"];
+        $delimiters = [',', ';', "\t", '|'];
 
         $fileObject = new \SplFileObject($filePath);
         $results = [];
@@ -150,7 +150,7 @@ class ImportSubscribersAction
                 $fields = explode($delimiter, $line);
                 $totalFields = count($fields);
                 if ($totalFields > 1) {
-                    if (!empty($results[$delimiter])) {
+                    if (! empty($results[$delimiter])) {
                         $results[$delimiter] += $totalFields;
                     } else {
                         $results[$delimiter] = $totalFields;
@@ -160,7 +160,7 @@ class ImportSubscribersAction
             $counter++;
         }
 
-        if (!empty($results)) {
+        if (! empty($results)) {
             $results = array_keys($results, max($results));
 
             return $results[0];
