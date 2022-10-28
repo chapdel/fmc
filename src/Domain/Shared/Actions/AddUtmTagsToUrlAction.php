@@ -37,6 +37,8 @@ class AddUtmTagsToUrlAction
         $query = http_build_query($parsedQuery);
         $path = $parsedUrl['path'] ?? '';
 
-        return "{$parsedUrl['scheme']}://{$parsedUrl['host']}{$path}?{$query}";
+        $fragment = isset($parsedUrl['fragment']) ? "#{$parsedUrl['fragment']}": '';
+
+        return "{$parsedUrl['scheme']}://{$parsedUrl['host']}{$path}{$fragment}?{$query}";
     }
 }
