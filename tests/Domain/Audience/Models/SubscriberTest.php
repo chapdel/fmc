@@ -158,6 +158,14 @@ it('can sync tags', function () {
     expect(Tag::count())->toBe(2);
 });
 
+it('can sync tags with null', function () {
+    $subscriber = Subscriber::factory()->create();
+
+    $subscriber->syncTags(null);
+
+    expect(Tag::count())->toBe(0);
+});
+
 it('can sync preference tags', function () {
     $subscriber = Subscriber::factory()->create();
 
@@ -166,6 +174,18 @@ it('can sync preference tags', function () {
     Tag::where('name', 'two')->update(['visible_in_preferences' => true]);
 
     $subscriber->syncPreferenceTags([]);
+
+    expect($subscriber->fresh()->tags->count())->toBe(1);
+});
+
+it('can sync preference tags with null', function () {
+    $subscriber = Subscriber::factory()->create();
+
+    $subscriber->syncTags(['one', 'two']);
+
+    Tag::where('name', 'two')->update(['visible_in_preferences' => true]);
+
+    $subscriber->syncPreferenceTags(null);
 
     expect($subscriber->fresh()->tags->count())->toBe(1);
 });

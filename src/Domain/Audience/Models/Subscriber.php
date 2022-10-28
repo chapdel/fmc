@@ -341,8 +341,10 @@ class Subscriber extends Model implements CipherSweetEncrypted
         return $this;
     }
 
-    public function syncTags(array $names, string $type = 'default')
+    public function syncTags(?array $names, string $type = 'default')
     {
+        $names ??= [];
+
         $this->addTags($names);
 
         $this->tags()->where('type', $type)->whereNotIn('name', $names)->each(function ($tag) {
@@ -354,8 +356,10 @@ class Subscriber extends Model implements CipherSweetEncrypted
         return $this;
     }
 
-    public function syncPreferenceTags(array $names)
+    public function syncPreferenceTags(?array $names)
     {
+        $names ??= [];
+
         $this->addTags($names);
 
         $this->tags()->where('type', TagType::Default)->where('visible_in_preferences', true)->whereNotIn('name', $names)->each(function ($tag) {
