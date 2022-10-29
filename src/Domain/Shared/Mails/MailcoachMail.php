@@ -34,7 +34,7 @@ class MailcoachMail extends Mailable
 
     public $textView = null;
 
-    public function setSend(Send $send): self
+    public function setSend(Send $send): static
     {
         $this->send = $send;
 
@@ -43,7 +43,7 @@ class MailcoachMail extends Mailable
         return $this;
     }
 
-    public function setFrom(string $fromEmail, string $fromName = null): self
+    public function setFrom(string $fromEmail, string $fromName = null): static
     {
         $this->fromEmail = $fromEmail;
 
@@ -52,7 +52,7 @@ class MailcoachMail extends Mailable
         return $this;
     }
 
-    public function setReplyTo(string $replyToEmail, string $replyToName = null): self
+    public function setReplyTo(string $replyToEmail, string $replyToName = null): static
     {
         $this->replyToEmail = $replyToEmail;
 
@@ -63,21 +63,21 @@ class MailcoachMail extends Mailable
         return $this;
     }
 
-    public function setHtmlView(string $htmlView): self
+    public function setHtmlView(string $htmlView): static
     {
         $this->htmlView = $htmlView;
 
         return $this;
     }
 
-    public function setTextView(string $textView): self
+    public function setTextView(string $textView): static
     {
         $this->textView = $textView;
 
         return $this;
     }
 
-    public function setSendable(Sendable $sendable): self
+    public function setSendable(Sendable $sendable): static
     {
         $this->sendable = $sendable;
 
@@ -110,21 +110,21 @@ class MailcoachMail extends Mailable
         return $this;
     }
 
-    public function setHtmlContent(string $htmlContent = ''): self
+    public function setHtmlContent(string $htmlContent = ''): static
     {
         $this->htmlContent = $htmlContent;
 
         return $this;
     }
 
-    public function setTextContent(string $textContent): self
+    public function setTextContent(string $textContent): static
     {
         $this->textContent = $textContent;
 
         return $this;
     }
 
-    public function subject($subject): self
+    public function subject($subject): static
     {
         if (! empty($this->subject)) {
             return $this;
@@ -152,7 +152,7 @@ class MailcoachMail extends Mailable
         return $mail;
     }
 
-    protected function addUnsubscribeHeaders(): self
+    protected function addUnsubscribeHeaders(): static
     {
         if (is_null($this->send)) {
             return $this;
@@ -184,7 +184,7 @@ class MailcoachMail extends Mailable
         return $this;
     }
 
-    protected function storeTransportMessageId(): self
+    protected function storeTransportMessageId(): static
     {
         if (is_null($this->send)) {
             return $this;
