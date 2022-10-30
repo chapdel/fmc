@@ -109,8 +109,8 @@ class SplitAction extends AutomationAction
     public static function make(array $data): self
     {
         return new self(
-            $data['leftActions'],
-            $data['rightActions'],
+            $data['leftActions'] ?? [],
+            $data['rightActions'] ?? [],
         );
     }
 
