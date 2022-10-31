@@ -191,13 +191,15 @@ it('can unsubscribe any existing subscribers that were not part of the import', 
 });
 
 it('can handle an empty file', function () {
-    uploadStub('empty.csv');
+    uploadStub('empty.csv')
+        ->assertHasErrors('file');
 
     expect(test()->emailList->subscribers)->toHaveCount(0);
 });
 
 it('can handle an invalid file', function () {
-    uploadStub('invalid.csv');
+    uploadStub('invalid.csv')
+        ->assertHasErrors('file');
 
     expect(test()->emailList->subscribers)->toHaveCount(0);
 });
@@ -208,7 +210,7 @@ it('can handle an xlsx file', function () {
         [],
         'excel.xlsx',
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    );
+    )->assertHasNoErrors();
 
     expect(test()->emailList->subscribers)->toHaveCount(1);
 });
@@ -224,7 +226,7 @@ function uploadStub(string $stubName, array $parameters = [], string $asFilename
     $file = \Illuminate\Http\UploadedFile::fake()
         ->createWithContent($asFilename, file_get_contents($tempPath));
 
-    \Livewire\Livewire::test('mailcoach::subscriber-imports', ['emailList' => test()->emailList])
+    return \Livewire\Livewire::test('mailcoach::subscriber-imports', ['emailList' => test()->emailList])
         ->set('file', $file)
         ->set($parameters)
         ->call('upload');

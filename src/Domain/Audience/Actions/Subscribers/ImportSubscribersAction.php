@@ -29,6 +29,10 @@ class ImportSubscribersAction
 
     protected ?TemporaryDirectory $temporaryDirectory;
 
+    public function __construct(
+        protected CreateSimpleExcelReaderAction $createSimpleExcelReaderAction
+    ) {}
+
     public function execute(SubscriberImport $subscriberImport, ?User $user = null)
     {
         $this
@@ -58,16 +62,8 @@ class ImportSubscribersAction
 
             $localImportFile = $this->storeLocalImportFile();
 
-            $extension = strtolower(pathinfo($localImportFile, PATHINFO_EXTENSION));
-            $type = Type::CSV;
-
-            if ($extension === 'xlsx' || $extension === 'xls') {
-                $type = Type::XLSX;
-            }
-
-            $totalRows = 0;
-            SimpleExcelReader::create($localImportFile, $type)
-                ->useDelimiter($this->getCsvDelimiter($localImportFile))
+            $reader = $this->createSimpleExcelReaderAction->execute($localImportFile);
+            $reader
                 ->getRows()
                 ->each(function (array $values) use (&$totalRows) {
                     $totalRows++;
@@ -130,44 +126,5 @@ class ImportSubscribersAction
     {
         return $this->temporaryDirectory
             ??= new TemporaryDirectory(storage_path('temp'));
-    }
-
-    /**
-     * @param  string  $filePath
-     * @param  int  $checkLines
-     * @return string
-     */
-    protected function getCsvDelimiter(string $filePath, int $checkLines = 3): string
-    {
-        $delimiters = [',', ';', "\t", '|'];
-
-        $fileObject = new \SplFileObject($filePath);
-        $results = [];
-        $counter = 0;
-
-        while ($fileObject->valid() && $counter <= $checkLines) {
-            $line = $fileObject->fgets();
-
-            foreach ($delimiters as $delimiter) {
-                $fields = explode($delimiter, $line);
-                $totalFields = count($fields);
-                if ($totalFields > 1) {
-                    if (! empty($results[$delimiter])) {
-                        $results[$delimiter] += $totalFields;
-                    } else {
-                        $results[$delimiter] = $totalFields;
-                    }
-                }
-            }
-            $counter++;
-        }
-
-        if (! empty($results)) {
-            $results = array_keys($results, max($results));
-
-            return $results[0];
-        }
-
-        return ',';
     }
 }
