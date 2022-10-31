@@ -89,13 +89,17 @@ class ImportSubscriberRow
 
         $tags = $this->values['tags'];
 
-        if (str_contains($tags, ';')) {
-            $tags = explode(';', $tags);
-        } elseif (str_contains($tags, ',')) {
-            $tags = explode(',', str_replace(['"', "'"], '', $tags));
-        } else {
-            $tags = explode('|', $tags);
+        if (is_array($tags)) {
+            $tags = implode(';', $tags);
         }
+
+        $delimiters = [';', ',', '|'];
+
+        /** Support any of the delimiters */
+        $tags = str_replace($delimiters, $delimiters[0], $tags);
+        $tags = str_replace(['"', "'"], '', $tags);
+
+        $tags = explode(';', $tags);
 
         $sanitizedTags = array_map('trim', $tags);
 
