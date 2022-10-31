@@ -37,8 +37,7 @@ class ImportSubscribersAction
         $this
             ->initialize($subscriberImport, $user)
             ->importSubscribers()
-            ->unsubscribeMissing()
-            ->cleanupTemporaryFiles();
+            ->unsubscribeMissing();
     }
 
     protected function initialize(SubscriberImport $subscriberImport, ?User $user): self
@@ -59,9 +58,7 @@ class ImportSubscribersAction
                 'imported_subscribers_count' => 0,
             ]);
 
-            $localImportFile = $this->storeLocalImportFile();
-
-            $reader = $this->createSimpleExcelReaderAction->execute($localImportFile);
+            $reader = $this->createSimpleExcelReaderAction->execute($this->subscriberImport);
             $reader
                 ->getRows()
                 ->each(function (array $values) use (&$totalRows) {
@@ -97,33 +94,5 @@ class ImportSubscribersAction
         dispatch(new UnsubscribeMissingFromImportJob($this->subscriberImport));
 
         return $this;
-    }
-
-    protected function cleanupTemporaryFiles(): self
-    {
-        $this->getTemporaryDirectory()->delete();
-
-        return $this;
-    }
-
-    /**
-     * Store import file locally and return path to stored file.
-     *
-     * @return string
-     */
-    protected function storeLocalImportFile(): string
-    {
-        $localImportFile = $this->getTemporaryDirectory()
-            ->path("import-file-{$this->dateTime}.{$this->importFile->extension}");
-
-        file_put_contents($localImportFile, stream_get_contents($this->importFile->stream()));
-
-        return $localImportFile;
-    }
-
-    protected function getTemporaryDirectory(): TemporaryDirectory
-    {
-        return $this->temporaryDirectory
-            ??= new TemporaryDirectory(storage_path('temp'));
     }
 }

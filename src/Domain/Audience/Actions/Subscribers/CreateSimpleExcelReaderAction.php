@@ -3,22 +3,57 @@
 namespace Spatie\Mailcoach\Domain\Audience\Actions\Subscribers;
 
 use OpenSpout\Common\Type;
+use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
 use Spatie\SimpleExcel\SimpleExcelReader;
+use Spatie\TemporaryDirectory\TemporaryDirectory;
 use SplFileObject;
 
 class CreateSimpleExcelReaderAction
 {
-    public function execute(string $path): SimpleExcelReader
+    protected ?TemporaryDirectory $temporaryDirectory = null;
+
+    public function execute(SubscriberImport $subscriberImport): SimpleExcelReader
     {
-        $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+        $localImportFile = $this->storeLocalImportFile($subscriberImport);
+
+        $extension = strtolower(pathinfo($localImportFile, PATHINFO_EXTENSION));
         $type = Type::CSV;
 
         if ($extension === 'xlsx' || $extension === 'xls') {
             $type = Type::XLSX;
         }
 
-        return SimpleExcelReader::create($path, $type)
-            ->useDelimiter($this->getCsvDelimiter($path));
+        app()->terminating(function () {
+            $this->getTemporaryDirectory()->delete();
+        });
+
+        return SimpleExcelReader::create($localImportFile, $type)
+            ->useDelimiter($this->getCsvDelimiter($localImportFile));
+    }
+
+    /**
+     * Store import file locally and return path to stored file.
+     */
+    protected function storeLocalImportFile(SubscriberImport $subscriberImport): string
+    {
+        $file = $subscriberImport->getFirstMedia('importFile');
+
+        if (! $file) {
+            throw new \Exception("Subscriber Import {$subscriberImport->id} has no import file.");
+        }
+
+        $localImportFile = $this->getTemporaryDirectory()
+            ->path("import-file-{$subscriberImport->created_at->format('Y-m-d H:i:s')}.{$file->extension}");
+
+        file_put_contents($localImportFile, stream_get_contents($file->stream()));
+
+        return $localImportFile;
+    }
+
+    protected function getTemporaryDirectory(): TemporaryDirectory
+    {
+        return $this->temporaryDirectory
+            ??= new TemporaryDirectory(storage_path('temp'));
     }
 
     /**

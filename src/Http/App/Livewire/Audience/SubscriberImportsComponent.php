@@ -62,15 +62,6 @@ class SubscriberImportsComponent extends DataTableComponent
         $file = $this->file;
         $path = $file->store('subscriber-import');
 
-        $reader = app(CreateSimpleExcelReaderAction::class)->execute(Storage::disk($file->disk)->path($path));
-
-        if (! in_array('email', $reader->getHeaders() ?? [])) {
-            $this->addError('file', __mc('No header row found. Make sure your first row has at least 1 column with "email"'));
-            Storage::disk($file->disk)->delete($path);
-
-            return;
-        }
-
         /** @var \Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport $subscriberImport */
         $subscriberImport = self::getSubscriberImportClass()::create([
             'email_list_id' => $this->emailList->id,
@@ -80,6 +71,16 @@ class SubscriberImportsComponent extends DataTableComponent
         ]);
 
         $subscriberImport->addMediaFromDisk($path, $file->disk)->toMediaCollection('importFile');
+
+        $reader = app(CreateSimpleExcelReaderAction::class)->execute($subscriberImport);
+
+        if (! in_array('email', $reader->getHeaders() ?? [])) {
+            $subscriberImport->delete();
+            Storage::disk($file->disk)->delete($path);
+            $this->addError('file', __mc('No header row found. Make sure your first row has at least 1 column with "email"'));
+
+            return;
+        }
 
         $user = auth()->user();
 
