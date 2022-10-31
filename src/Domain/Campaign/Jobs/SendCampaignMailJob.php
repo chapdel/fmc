@@ -55,7 +55,7 @@ class SendCampaignMailJob implements ShouldQueue, ShouldBeUnique
     {
         $campaign = $this->pendingSend->campaign;
 
-        if ($campaign->isCancelled()) {
+        if (! $campaign || $campaign->isCancelled()) {
             if (! $this->pendingSend->wasAlreadySent()) {
                 $this->pendingSend->delete();
             }
@@ -85,6 +85,10 @@ class SendCampaignMailJob implements ShouldQueue, ShouldBeUnique
 
     public function middleware(): array
     {
+        if (! $this->pendingSend->campaign) {
+            return [];
+        }
+
         if ($this->pendingSend->campaign->isCancelled()) {
             return [];
         }
