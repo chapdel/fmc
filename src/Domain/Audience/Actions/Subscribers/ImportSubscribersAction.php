@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Domain\Audience\Actions\Subscribers;
 
 use Exception;
 use Illuminate\Foundation\Auth\User;
-use OpenSpout\Common\Type;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus;
 use Spatie\Mailcoach\Domain\Audience\Jobs\CompleteSubscriberImportJob;
 use Spatie\Mailcoach\Domain\Audience\Jobs\ImportSubscriberJob;
@@ -12,7 +11,6 @@ use Spatie\Mailcoach\Domain\Audience\Jobs\UnsubscribeMissingFromImportJob;
 use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Spatie\SimpleExcel\SimpleExcelReader;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 class ImportSubscribersAction
@@ -31,7 +29,8 @@ class ImportSubscribersAction
 
     public function __construct(
         protected CreateSimpleExcelReaderAction $createSimpleExcelReaderAction
-    ) {}
+    ) {
+    }
 
     public function execute(SubscriberImport $subscriberImport, ?User $user = null)
     {

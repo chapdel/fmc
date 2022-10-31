@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Domain\Audience\Actions\Subscribers;
 
 use OpenSpout\Common\Type;
-use OpenSpout\Reader\CSV\Reader as CsvReader;
 use Spatie\SimpleExcel\SimpleExcelReader;
 use SplFileObject;
 

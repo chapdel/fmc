@@ -8,17 +8,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
-use OpenSpout\Common\Type;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\CreateSimpleExcelReaderAction;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus;
-use Spatie\Mailcoach\Domain\Audience\Jobs\ImportSubscriberJob;
 use Spatie\Mailcoach\Domain\Audience\Jobs\ImportSubscribersJob;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\DataTableComponent;
 use Spatie\Mailcoach\Http\App\Queries\SubscriberImportsQuery;
 use Spatie\Mailcoach\MainNavigation;
-use Spatie\SimpleExcel\SimpleExcelReader;
 use Spatie\SimpleExcel\SimpleExcelWriter;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 
@@ -70,6 +67,7 @@ class SubscriberImportsComponent extends DataTableComponent
         if (! in_array('email', $reader->getHeaders() ?? [])) {
             $this->addError('file', __mc('No header row found. Make sure your first row has at least 1 column with "email"'));
             Storage::disk($file->disk)->delete($path);
+
             return;
         }
 
