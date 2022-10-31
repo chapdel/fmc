@@ -52,6 +52,8 @@ class SubscriberImportsComponent extends DataTableComponent
 
     public function upload()
     {
+        info($this->file->guessExtension());
+
         $this->validate([
             'file' => ['file', 'mimes:txt,csv,xls,xlsx'],
         ]);
