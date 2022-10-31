@@ -89,10 +89,10 @@ class ImportSubscriberRow
 
         $tags = $this->values['tags'];
 
-        if (str_contains($tags, ',')) {
-            $tags = explode(',', str_replace(['"', "'"], '', $tags));
-        } elseif (str_contains($tags, ';')) {
+        if (str_contains($tags, ';')) {
             $tags = explode(';', $tags);
+        } elseif (str_contains($tags, ',')) {
+            $tags = explode(',', str_replace(['"', "'"], '', $tags));
         } else {
             $tags = explode('|', $tags);
         }
