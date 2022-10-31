@@ -8,7 +8,7 @@
         ->count()
 ?>
 
-<div wire:poll.5s>
+<div @if(! $showForm) wire:poll.5s @endif>
     <x-mailcoach::data-table
         name="subscriberImports"
         :rows="$subscriberImports ?? null"
