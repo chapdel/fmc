@@ -163,6 +163,10 @@
     @isset($label)
         <label class="{{ $required ? 'label label-required' : 'label' }}" for="{{ $name }}">
             {{ $label }}
+
+            @if ($help ?? null)
+                <i class="ml-1 text-purple-500 opacity-75 cursor-pointer fas fa-question-circle" x-data x-tooltip="{{ $help }}"></i>
+            @endif
         </label>
     @endisset
     <select

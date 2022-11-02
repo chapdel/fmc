@@ -1,5 +1,6 @@
 @props([
     'label' => null,
+    'help' => null,
     'name' => null,
     'required' => false,
     'placeholder' => null,
@@ -13,11 +14,15 @@
 @php($wireModelAttribute = collect($attributes)->first(fn (string $value, string $attribute) => str_starts_with($attribute, 'wire:model')))
 
 <div class="form-field" x-cloak>
-    @isset($label)
+    @if($label)
         <label class="{{ $required ? 'label label-required' : 'label' }}" for="{{ $name }}">
             {{ $label }}
+
+            @if ($help)
+                <i class="ml-1 text-purple-500 opacity-75 cursor-pointer fas fa-question-circle" x-data x-tooltip="{{ $help }}"></i>
+            @endif
         </label>
-    @endisset
+    @endif
     <div
         wire:ignore
         x-data="{

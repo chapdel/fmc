@@ -8,6 +8,10 @@
     @if($label ?? null)
         <label class="{{ ($required ?? false) ? 'label label-required' : 'label' }}" for="color-{{ $name }}">
             {{ $label }}
+
+            @if ($help ?? null)
+                <i class="ml-1 text-purple-500 opacity-75 cursor-pointer fas fa-question-circle" x-data x-tooltip="{{ $help }}"></i>
+            @endif
         </label>
     @endif
 

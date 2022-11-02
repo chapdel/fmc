@@ -18,7 +18,8 @@
         <form class="form-grid" wire:submit.prevent="submit">
             <x-mailcoach::text-field
                 wire:model.lazy="apiKey"
-                :label="__('API Key')"
+                :label="__mc('API Key')"
+                :help="__mc('You can find it <a class=\'link\' href=\':url\'>in your API Security screen</a>', ['url' => 'https://app.mailgun.com/app/account/security/api_keys'])"
                 name="apiKey"
                 type="text"
                 autocomplete="off"
@@ -27,6 +28,7 @@
             <x-mailcoach::text-field
                 wire:model.lazy="domain"
                 :label="__('Domain')"
+                :help="__mc('Your sending domain without http(s)://', ['url' => 'https://app.mailgun.com/app/account/security/api_keys'])"
                 name="domain"
                 type="text"
                 autocomplete="off"
@@ -35,6 +37,7 @@
             <x-mailcoach::select-field
                 wire:model.lazy="baseUrl"
                 :label="__('Base URL')"
+                :help="__mc('If you have a EU flag in front of your domain, choose api.eu.mailgun.net')"
                 name="baseUrl"
                 :options="[
                     'api.mailgun.net' => 'api.mailgun.net',

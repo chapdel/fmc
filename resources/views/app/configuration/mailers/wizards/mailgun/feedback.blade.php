@@ -25,6 +25,7 @@
                 name="signingSecret"
                 wire:model.lazy="signingSecret"
                 :label="__('Webhook signing secret')"
+                :help="__mc('You can find it <a class=\'link\' href=\':url\'>in your API Security screen</a>', ['url' => 'https://app.mailgun.com/app/account/security/api_keys'])"
             />
 
             <x-mailcoach::form-buttons>

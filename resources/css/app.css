@@ -31,12 +31,12 @@
 @import './utilities/table.css';
 @import './utilities/tag.css';
 @import './utilities/toggle.css';
+@import './utilities/tooltip.css';
 @import './utilities/transitions.css';
 
 @import './vendor/flatpickr.css';
 @import './vendor/easy-mde-overrides.css';
 @import './vendor/choices.css';
-
 @import 'tailwindcss/utilities';
 
 @layer base {
