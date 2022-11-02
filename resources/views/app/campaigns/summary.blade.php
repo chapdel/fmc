@@ -108,13 +108,42 @@
             </div>
         @endif
         @if($campaign->isSent())
+            @if($pendingCount = $campaign->sends()->pending()->count())
+                <x-mailcoach::help sync full>
+                    <div class="flex justify-between items-center w-full">
+                    <span class="block">
+                        <span class="inline-block">{{ __mc('Campaign') }}</span>
+                        <strong>{{ $campaign->name }}</strong>
+
+                        {!! __mc('is retrying <strong>:sendsCount :sends</strong> to', [
+                            'sendsCount' => number_format($pendingCount),
+                            'sends' => __mc_choice('send|sends', $pendingCount)
+                        ]) !!}
+
+                        @if($campaign->emailList)
+                            <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}">{{ $campaign->emailList->name }}</a>
+                        @else
+                            &lt;{{ __mc('deleted list') }}&gt;
+                        @endif
+                        @if($campaign->usesSegment())
+                            ({{ $campaign->segment_description }})
+                        @endif
+                    </span>
+                    </div>
+                </x-mailcoach::help>
+                <div class="progress-bar">
+                    <div class="progress-bar-value" style="width:{{ (($campaign->sendsCount() - $pendingCount) / $campaign->sendsCount()) * 100 }}%"></div>
+                </div>
+            @endif
+
             <x-mailcoach::success class="md:max-w-full" full>
                 @php($sendsCount = $campaign->sendsWithoutInvalidated()->count())
+                @php($successfulSendsCount = $sendsCount - ($failedSendsCount ?? 0) - ($pendingCount ?? 0))
                 <div>
                     {{ __mc('Campaign') }}
                     <a target="_blank" href="{{ $campaign->webviewUrl() }}"><strong>{{ $campaign->name }}</strong></a>
                     {{ __mc('was delivered successfully to') }}
-                    <strong>{{ number_format($sendsCount - ($failedSendsCount ?? 0)) }} {{ __mc_choice('subscriber|subscribers', $sendsCount) }}</strong>
+                    <strong>{{ number_format($successfulSendsCount) }} {{ __mc_choice('subscriber|subscribers', $successfulSendsCount) }}</strong>
 
                     {{ __mc('of') }}
 

@@ -41,6 +41,8 @@ class CampaignOutboxComponent extends DataTableComponent
         dispatch(new RetrySendingFailedSendsJob($this->campaign));
 
         $this->flash(__mc('Retrying to send :failedSendsCount mails...', ['failedSendsCount' => $failedSendsCount]), 'warning');
+
+        return redirect()->route('mailcoach.campaigns.summary', $this->campaign);
     }
 
     public function getTitle(): string
