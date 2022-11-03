@@ -652,18 +652,18 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::create-webhook', CreateWebhookComponent::class);
         Livewire::component('mailcoach::edit-webhook', EditWebhookComponent::class);
 
-        Livewire::component('mailcoach::mailers', MailersComponent::class);
-        Livewire::component('mailcoach::create-mailer', CreateMailerComponent::class);
-        Livewire::component('mailcoach::create-user', CreateUserComponent::class);
-        Livewire::component('mailcoach::general-settings', GeneralSettingsComponent::class);
-        Livewire::component('mailcoach::editor-settings', EditorSettingsComponent::class);
-        Livewire::component('mailcoach::mailer-send-test', Http\Livewire\MailConfiguration\SendTestComponent::class);
-        Livewire::component('mailcoach::profile', ProfileComponent::class);
-        Livewire::component('mailcoach::password', PasswordComponent::class);
-        Livewire::component('mailcoach::users', UsersComponent::class);
-        Livewire::component('mailcoach::edit-user', EditUserComponent::class);
-        Livewire::component('mailcoach::edit-mailer', EditMailerComponent::class);
-        Livewire::component('mailcoach::tokens', TokensComponent::class);
+        Livewire::component('mailcoach::mailers', Mailcoach::getLivewireClass('mailers', MailersComponent::class));
+        Livewire::component('mailcoach::create-mailer', Mailcoach::getLivewireClass('create-mailer', CreateMailerComponent::class));
+        Livewire::component('mailcoach::create-user', Mailcoach::getLivewireClass('create-user', CreateUserComponent::class));
+        Livewire::component('mailcoach::general-settings', Mailcoach::getLivewireClass('general-settings', GeneralSettingsComponent::class));
+        Livewire::component('mailcoach::editor-settings', Mailcoach::getLivewireClass('editor-settings', EditorSettingsComponent::class));
+        Livewire::component('mailcoach::mailer-send-test', Mailcoach::getLivewireClass('mailer-send-test', Http\Livewire\MailConfiguration\SendTestComponent::class));
+        Livewire::component('mailcoach::profile', Mailcoach::getLivewireClass('profile', ProfileComponent::class));
+        Livewire::component('mailcoach::password', Mailcoach::getLivewireClass('password', PasswordComponent::class));
+        Livewire::component('mailcoach::users', Mailcoach::getLivewireClass('users', UsersComponent::class));
+        Livewire::component('mailcoach::edit-user', Mailcoach::getLivewireClass('edit-user', EditUserComponent::class));
+        Livewire::component('mailcoach::edit-mailer', Mailcoach::getLivewireClass('edit-mailer', EditMailerComponent::class));
+        Livewire::component('mailcoach::tokens', Mailcoach::getLivewireClass('tokens', TokensComponent::class));
 
         SesSetupWizardComponent::registerLivewireComponents();
         SendGridSetupWizardComponent::registerLivewireComponents();

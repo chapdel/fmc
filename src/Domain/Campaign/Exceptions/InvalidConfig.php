@@ -16,6 +16,6 @@ class InvalidConfig extends Exception
     {
         $componentClass = Component::class;
 
-        return new static("The class currently specified in the `mailcoach.livewire.components.{$componentName}` key '{$class}' should be or extend `{$componentClass}`.");
+        return new static("The class currently specified in the `mailcoach.livewire.{$componentName}` key '{$class}' should be or extend `{$componentClass}`.");
     }
 }

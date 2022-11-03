@@ -184,7 +184,7 @@ class Mailcoach
 
     public static function getLivewireClass(string $componentName, string $defaultClass): string
     {
-        $configuredClass = config("mailcoach.livewire.components.{$componentName}", $defaultClass);
+        $configuredClass = config("mailcoach.livewire.{$componentName}", $defaultClass);
 
         if (! is_subclass_of($configuredClass, Component::class)) {
             throw InvalidConfig::invalidLivewireComponent($componentName, $configuredClass);
