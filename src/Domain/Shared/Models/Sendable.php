@@ -12,10 +12,12 @@ use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Replacers\AutomationMailReplacer;
+use Spatie\Mailcoach\Domain\Automation\Support\Replacers\PersonalizedReplacer as PersonalizedAutomationReplacer;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Campaign\Rules\HtmlRule;
 use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\CampaignReplacer;
+use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\PersonalizedReplacer as PersonalizedCampaignReplacer;
 use Spatie\Mailcoach\Domain\Shared\Actions\CreateDomDocumentFromHtmlAction;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -225,10 +227,10 @@ abstract class Sendable extends Model implements HasHtmlContent
         return match (true) {
             $this instanceof Campaign => collect(config('mailcoach.campaigns.replacers'))
                 ->map(fn (string $className) => resolve($className))
-                ->filter(fn (object $class) => $class instanceof CampaignReplacer),
+                ->filter(fn (object $class) => $class instanceof CampaignReplacer || $class instanceof PersonalizedCampaignReplacer),
             $this instanceof AutomationMail => collect(config('mailcoach.automation.replacers'))
                 ->map(fn (string $className) => resolve($className))
-                ->filter(fn (object $class) => $class instanceof AutomationMailReplacer),
+                ->filter(fn (object $class) => $class instanceof AutomationMailReplacer || $class instanceof PersonalizedAutomationReplacer),
             default => collect(),
         };
     }
