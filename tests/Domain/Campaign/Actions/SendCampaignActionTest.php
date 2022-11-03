@@ -347,7 +347,7 @@ it('will prepare the webview', function () {
     test()->campaign->send();
     runAction();
 
-    test()->assertMatchesHtmlSnapshotWithoutWhitespace(test()->campaign->refresh()->webview_html);
+    test()->assertMatchesHtmlSnapshot(test()->campaign->refresh()->webview_html);
 });
 
 it('will not send invalid html', function () {

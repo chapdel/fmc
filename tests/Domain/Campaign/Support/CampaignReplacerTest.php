@@ -27,7 +27,7 @@ test('campaign name should replaced in email html', function () {
 
     app(PrepareEmailHtmlAction::class)->execute($campaign);
     $campaign->refresh();
-    test()->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->email_html);
+    test()->assertMatchesHtmlSnapshot($campaign->email_html);
 });
 
 test('campaign name should replace in url encoded html', function () {
@@ -41,5 +41,5 @@ test('campaign name should replace in url encoded html', function () {
 
     app(PrepareEmailHtmlAction::class)->execute($campaign);
     $campaign->refresh();
-    test()->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->email_html);
+    test()->assertMatchesHtmlSnapshot($campaign->email_html);
 });

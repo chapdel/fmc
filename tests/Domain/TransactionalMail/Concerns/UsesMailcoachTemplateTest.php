@@ -30,7 +30,7 @@ it('can render a template containing markdown and blade variables', function () 
 
     $mailable = $template->getMailable();
 
-    test()->assertMatchesHtmlSnapshotWithoutWhitespace($mailable->render());
+    test()->assertMatchesHtmlSnapshot($mailable->render());
 });
 
 it('will not compile blade if it is not allowed', function () {

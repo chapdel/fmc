@@ -393,7 +393,7 @@ it('can inline the styles of the html', function () {
         </html>',
     ]);
 
-    test()->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->htmlWithInlinedCss());
+    test()->assertMatchesHtmlSnapshot($campaign->htmlWithInlinedCss());
 });
 
 it('doesnt change the doctype', function () {
@@ -421,7 +421,7 @@ it('can inline the styles of the html with custom mailable', function () {
     $campaign = Campaign::factory()->create(['mailable_class' => TestMailcoachMailWithStaticHtml::class]);
     $campaign->content('');
 
-    test()->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->htmlWithInlinedCss());
+    test()->assertMatchesHtmlSnapshot($campaign->htmlWithInlinedCss());
 });
 
 it('can pull subject from custom mailable', function () {

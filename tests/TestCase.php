@@ -162,15 +162,6 @@ abstract class TestCase extends Orchestra
         $this->actingAs($user, $guard);
     }
 
-    public function assertMatchesHtmlSnapshotWithoutWhitespace(string $content)
-    {
-        $contentWithoutWhitespace = preg_replace('/\s/', '', $content);
-
-        $contentWithoutWhitespace = str_replace(PHP_EOL, '', $contentWithoutWhitespace);
-
-        assertMatchesHtmlSnapshot($contentWithoutWhitespace);
-    }
-
     public function refreshServiceProvider()
     {
         // We need to do this since the service provider loads from the database
