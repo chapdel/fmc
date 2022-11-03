@@ -2,6 +2,7 @@
     'code' => '',
     'buttonPosition' => 'bottom',
     'buttonClass' => '',
+    'codeClass' => '',
     'lang' => null,
 ])
 <div {{ $attributes->except(['code', 'lang', 'buttonClass'])->merge([
@@ -22,7 +23,7 @@
         ```
         markdown) !!}
     @else
-        <pre class="max-w-full code overflow-x-auto relative z-10">{{ $code }}</pre>
+        <pre class="max-w-full code overflow-x-auto relative z-10 {{ $codeClass }}">{{ $code }}</pre>
     @endif
 
     @if ($buttonPosition === 'bottom')

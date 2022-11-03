@@ -15,6 +15,7 @@
         lines="15"
         class="input {{ $inputClass ?? '' }}"
         placeholder="{{ $placeholder ?? '' }}"
+        {{ $attributes }}
     >
         {{ old($name, $value ?? '') }}
     </textarea>
