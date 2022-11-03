@@ -23,7 +23,7 @@ class SendAutomationMailToSubscriberAction
             ->createSend($automationMail, $actionSubscriber);
     }
 
-    protected function prepareSubject(AutomationMail $automationMail): self
+    protected function prepareSubject(AutomationMail $automationMail): static
     {
         /** @var \Spatie\Mailcoach\Domain\Automation\Actions\PrepareSubjectAction $prepareSubjectAction */
         $prepareSubjectAction = Mailcoach::getAutomationActionClass('prepare_subject', PrepareSubjectAction::class);
@@ -33,7 +33,7 @@ class SendAutomationMailToSubscriberAction
         return $this;
     }
 
-    protected function prepareEmailHtml(AutomationMail $automationMail): self
+    protected function prepareEmailHtml(AutomationMail $automationMail): static
     {
         /** @var \Spatie\Mailcoach\Domain\Automation\Actions\PrepareEmailHtmlAction $prepareEmailHtmlAction */
         $prepareEmailHtmlAction = Mailcoach::getAutomationActionClass('prepare_email_html', PrepareEmailHtmlAction::class);
@@ -43,7 +43,7 @@ class SendAutomationMailToSubscriberAction
         return $this;
     }
 
-    protected function prepareWebviewHtml(AutomationMail $automationMail): self
+    protected function prepareWebviewHtml(AutomationMail $automationMail): static
     {
         /** @var \Spatie\Mailcoach\Domain\Automation\Actions\PrepareWebviewHtmlAction $prepareWebviewHtmlAction */
         $prepareWebviewHtmlAction = Mailcoach::getAutomationActionClass('prepare_webview_html', PrepareWebviewHtmlAction::class);
