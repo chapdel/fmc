@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.11.1 - 2022-11-07
+
+### What's Changed
+
+- Fix command description by @mbardelmeijer in https://github.com/spatie/laravel-mailcoach/pull/1115
+- Add send uuid to transactional mail message headers
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.11.0...5.11.1
+
 ## 5.11.0 - 2022-10-19
 
 ### What's new
