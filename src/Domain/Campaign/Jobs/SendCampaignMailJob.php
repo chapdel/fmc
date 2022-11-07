@@ -24,7 +24,7 @@ class SendCampaignMailJob implements ShouldQueue, ShouldBeUnique
     use SerializesModels;
 
     public bool $deleteWhenMissingModels = true;
-    
+
     public int $maxExceptions = 3;
 
     public Send $pendingSend;
