@@ -31,7 +31,7 @@ class ImportSubscriberRow
 
     public function subscribedAt(): CarbonInterface
     {
-        $date = $this->values['subscribed_at'] ?? $this->values['optin_time'] ?? $this->values['confirm_time'] ?? null;
+        $date = $this->values['subscribed_at'] ?? $this->values['optin_time'] ?? $this->values['confirm_time'] ?? $this->values['created_at'] ?? null;
 
         if (! $date) {
             return now();
