@@ -39,9 +39,11 @@ class StoreTransactionalMail
             'sent_at' => now(),
         ]);
 
-        $messageId = $message->generateMessageId();
-        $message->getHeaders()->addIdHeader('Message-ID', $messageId);
+        $messageId = $sending->message->generateMessageId();
         $send->storeTransportMessageId($messageId);
+
+        $sending->message->getHeaders()->addIdHeader('Message-ID', $messageId);
+        $sending->message->getHeaders()->addTextHeader('mailcoach-send-uuid', $send->uuid);
 
         event(new TransactionalMailStored($transactionalMail, $sending));
     }

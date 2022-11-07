@@ -12,7 +12,7 @@ class DeleteOldUnconfirmedSubscribersCommand extends Command
 
     public $signature = 'mailcoach:delete-old-unconfirmed-subscribers';
 
-    public $description = 'Delete all unsubscribed subscribers';
+    public $description = 'Delete all old unconfirmed subscribers';
 
     public function handle()
     {
