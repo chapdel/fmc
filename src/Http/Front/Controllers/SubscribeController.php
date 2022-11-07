@@ -61,6 +61,8 @@ class SubscribeController
             return redirect()->to($urlFromEmailList);
         }
 
+        $subscriber->load('emailList');
+
         return response()->view('mailcoach::landingPages.confirmSubscription', compact('subscriber'));
     }
 
@@ -73,6 +75,8 @@ class SubscribeController
         if ($urlFromEmailList = $emailList->redirect_after_subscribed) {
             return redirect()->to($urlFromEmailList);
         }
+
+        $subscriber->load('emailList');
 
         return response()->view('mailcoach::landingPages.subscribed', compact('subscriber'));
     }
