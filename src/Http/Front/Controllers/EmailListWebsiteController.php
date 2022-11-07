@@ -27,6 +27,7 @@ class EmailListWebsiteController
 
         $campaigns = self::getCampaignClass()::query()
             ->where('email_list_id', $emailList->id)
+            ->with('emailList')
             ->orderByDesc('sent_at')
             ->sent()
             ->showPublicly()
