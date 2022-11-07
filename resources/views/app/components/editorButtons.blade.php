@@ -2,6 +2,13 @@
     'previewHtml' => '',
     'model' => null,
 ])
+@pushonce('endHead')
+<script>
+    document.addEventListener('livewire:load', function () {
+        setInterval(() => @this.saveQuietly(), 20000);
+    });
+</script>
+@endpushonce
 <x-mailcoach::form-buttons>
     <x-mailcoach::button
         @keydown.prevent.window.cmd.s="$wire.call('save')"
@@ -24,4 +31,5 @@
 
     {{ $slot }}
 
+    <p class="text-xs mt-3">{{ __mc("We autosave every 20 seconds") }} - {{ __mc('Last saved at') }} {{ $model->updated_at->toMailcoachFormat() }}</p>
 </x-mailcoach::form-buttons>
