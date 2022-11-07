@@ -90,6 +90,7 @@ function getPostAttributes(): array
 {
     return [
         'name' => 'name',
+        'subject' => 'subject',
         'type' => CampaignStatus::Draft,
         'email_list_uuid' => EmailList::factory()->create()->uuid,
         'html' => 'html',

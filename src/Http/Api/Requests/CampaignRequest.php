@@ -16,15 +16,16 @@ class CampaignRequest extends FormRequest
     {
         return [
             'name' => ['required'],
+            'subject' => ['nullable'],
             'type' => ['nullable', Rule::in([CampaignStatus::Draft->value])],
             'email_list_uuid' => ['required', Rule::exists(self::getEmailListTableName(), 'uuid')],
             'segment_uuid' => ['nullable', Rule::exists(self::getTagSegmentTableName(), 'uuid')],
-            'html' => '',
-            'fields' => [''],
+            'html' => ['nullable'],
+            'fields' => ['nullable'],
 
-            'mailable_class' => '',
-            'utm_tags' => 'boolean',
-            'schedule_at' => 'date_format:Y-m-d H:i:s',
+            'mailable_class' => ['nullable'],
+            'utm_tags' => ['nullable', 'boolean'],
+            'schedule_at' => ['date_format:Y-m-d H:i:s'],
         ];
     }
 
