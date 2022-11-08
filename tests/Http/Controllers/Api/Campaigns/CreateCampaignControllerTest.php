@@ -75,14 +75,18 @@ it('can accept the values for a template when creating a campaign and using a ma
         'template_uuid' => $template->uuid,
     ];
 
-    $this
-        ->postJson(action([CampaignsController::class, 'store']), $attributes)
-        ->assertSuccessful();
+    $response = $this
+        ->postJson(action([CampaignsController::class, 'store']), $attributes);
+
+    $response->assertSuccessful();
 
     $campaign = Campaign::first();
 
     $this->assertMatchesSnapshot($campaign->refresh()->structured_html);
     $this->assertMatchesSnapshot($campaign->refresh()->html);
+
+    expect($response->json('data.fields.title'))->toBe('This is my title');
+    expect($response->json('data.fields.content'))->toBe('# This is some markdown');
 });
 
 // Helpers

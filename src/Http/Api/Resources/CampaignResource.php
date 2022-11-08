@@ -4,10 +4,15 @@ namespace Spatie\Mailcoach\Http\Api\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/** @mixin \Spatie\Mailcoach\Domain\Campaign\Models\Campaign */
 class CampaignResource extends JsonResource
 {
     public function toArray($request)
     {
+        $fields = collect($this->getTemplateFieldValues())->map(function ($field) {
+            return $field['markdown'] ?? $field; // If we have markdown content, only return the markdown
+        })->toArray();
+
         return [
             'uuid' => $this->uuid,
             'name' => $this->name,
@@ -26,6 +31,8 @@ class CampaignResource extends JsonResource
             'structured_html' => $this->structured_html,
             'email_html' => $this->email_html,
             'webview_html' => $this->webview_html,
+
+            'fields' => $fields,
 
             'mailable_class' => $this->mailable_class,
 
