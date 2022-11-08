@@ -30,6 +30,7 @@ class RunAutomationComponent extends Component
     public function mount(Automation $automation)
     {
         $this->automation = $automation;
+        $this->automation->interval ??= '10 minutes';
 
         $this->authorize('update', $this->automation);
 

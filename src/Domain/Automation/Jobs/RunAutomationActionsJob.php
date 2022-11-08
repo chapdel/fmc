@@ -34,7 +34,7 @@ class RunAutomationActionsJob implements ShouldQueue, ShouldBeUnique
             ->where('status', AutomationStatus::Started)
             ->lazyById()
             ->each(function (Automation $automation) {
-                if (! is_null($automation->run_at) && $automation->run_at->add($automation->interval)->isFuture()) {
+                if (! is_null($automation->run_at) && $automation->run_at->add($automation->interval ?? '10 minutes')->isFuture()) {
                     return;
                 }
 
