@@ -37,19 +37,10 @@
                     <x-mailcoach::rounded-icon type="error" icon="fas fa-times" />
                 @endif
             </dd>
-        </dl>
-    </x-mailcoach::fieldset>
 
-    <x-mailcoach::fieldset card :legend="__('Throttling')">
-         <dl class="dl">
-            <dt>Timespan in seconds</dt>
+            <dt>Throttling</dt>
             <dd>
-                {{ $mailer->get('timespan_in_seconds') }}
-            </dd>
-
-            <dt>Mails per timespan</dt>
-            <dd>
-                {{ $mailer->get('mails_per_timespan') }}
+                <p><strong>{{ $mailer->get('mails_per_timespan') }}</strong> {{ __mc('mails every') }} <strong>{{ $mailer->get('timespan_in_seconds') }}</strong> {{ __mc_choice('second|seconds', $mailer->get('timespan_in_seconds')) }}</p>
             </dd>
         </dl>
     </x-mailcoach::fieldset>

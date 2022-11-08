@@ -29,24 +29,15 @@
                     <x-mailcoach::rounded-icon type="error" icon="fas fa-times" />
                 @endif
             </dd>
+
+            <dt>Throttling</dt>
+            <dd>
+                <p><strong>{{ $mailer->get('mails_per_timespan') }}</strong> {{ __mc('mails every') }} <strong>{{ $mailer->get('timespan_in_seconds') }}</strong> {{ __mc_choice('second|seconds', $mailer->get('timespan_in_seconds')) }}</p>
+            </dd>
         </dl>
     </x-mailcoach::fieldset>
 
     @include('mailcoach::app.configuration.mailers.partials.mailerName')
-
-    <x-mailcoach::fieldset card :legend="__('Throttling')">
-         <dl class="dl">
-            <dt>Timespan in seconds</dt>
-            <dd>
-                {{ $mailer->get('timespan_in_seconds') }}
-            </dd>
-
-            <dt>Mails per timespan</dt>
-            <dd>
-                {{ $mailer->get('mails_per_timespan') }}
-            </dd>
-        </dl>
-    </x-mailcoach::fieldset>
 
     <x-mailcoach::card buttons>
         <x-mailcoach::button :label="__('Send test email')" x-on:click.prevent="$store.modals.open('send-test')" />
