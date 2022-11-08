@@ -33,11 +33,14 @@ class SubscribersController
         );
 
         if ($request->has('filter.email') && config('mailcoach.encryption.enabled')) {
+            $subscriberClass = self::getSubscriberClass();
+            $perPage = (new $subscriberClass)->getPerPage();
+
             $subscribers = $subscribers->get()->filter(fn (Subscriber $subscriber) => $subscriber->email === request('filter.email'));
             $subscribers = new LengthAwarePaginator(
-                $subscribers->skip($request->get('per_page', 25) * ($request->get('page', 1) - 1))->take($request->get('per_page', 25)),
+                $subscribers->skip($request->get('per_page', $perPage) * ($request->get('page', 1) - 1))->take($request->get('per_page', $perPage)),
                 $subscribers->count(),
-                $request->get('per_page', 25),
+                $request->get('per_page', $perPage),
                 $request->get('page', 1),
             );
         } else {
