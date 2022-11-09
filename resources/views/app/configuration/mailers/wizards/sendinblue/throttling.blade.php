@@ -4,7 +4,7 @@
 
     <x-mailcoach::help>
         <p>In order not to overwhelm your provider with send requests, Mailcoach will throttle the amount of mails sent.</p>
-        <p>You can find more info about sending limits in <a href="https://docs.sendinblue.com/for-developers/sending-email/v3-mail-send-faq#are-there-limits-on-how-often-i-can-send-email-and-how-many-recipients-i-can-send-to" target="_blank">the SendGrid documentation</a></p>
+        <p>You can find more info about sending limits in <a href="https://help.sendinblue.com/hc/en-us/articles/360022153079-Are-there-any-sending-limits-emails-and-SMS-" target="_blank">the Sendinblue documentation</a></p>
     </x-mailcoach::help>
 
         <form class="form-grid" wire:submit.prevent="submit">
