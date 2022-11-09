@@ -78,7 +78,7 @@ abstract class DataTableComponent extends Component
 
     public function setFilter(string $property, ?string $value = null)
     {
-        $this->page = 1;
+        $this->resetPage();
 
         if (is_null($value)) {
             $this->$property = null;
@@ -91,11 +91,16 @@ abstract class DataTableComponent extends Component
 
     public function clearFilters()
     {
-        $this->page = 1;
+        $this->resetPage();
         $this->search = '';
         foreach ($this->allowedFilters as $filter => $options) {
             $this->$filter = $options['except'] ?? '';
         }
+    }
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
     }
 
     public function isFiltering(): bool
