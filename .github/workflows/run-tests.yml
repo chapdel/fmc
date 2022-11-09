@@ -38,6 +38,7 @@ jobs:
 
       - name: Install dependencies
         run: |
+          COMPOSER_ROOT_VERSION=dev-main
           composer update --prefer-dist --no-interaction --no-suggest
 
       - name: Execute tests
