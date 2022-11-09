@@ -16,14 +16,14 @@ class WebhookEventSubscriber
     public function subscribe(): array
     {
         return [
-            SubscribedEvent::class => 'handSubscribedEvent',
-            UnconfirmedSubscriberCreatedEvent::class => 'handeUnconfirmedSubscriberCreatedEvent',
-            UnsubscribedEvent::class => 'handUnsubscribedEvent',
+            SubscribedEvent::class => 'handleSubscribedEvent',
+            UnconfirmedSubscriberCreatedEvent::class => 'handleUnconfirmedSubscriberCreatedEvent',
+            UnsubscribedEvent::class => 'handleUnsubscribedEvent',
             CampaignSentEvent::class => 'handleCampaignSent',
         ];
     }
 
-    public function handSubscribedEvent(SubscribedEvent $event)
+    public function handleSubscribedEvent(SubscribedEvent $event)
     {
         $emailList = $event->subscriber->emailList;
 
@@ -33,7 +33,7 @@ class WebhookEventSubscriber
         $this->sendWebhookAction()->execute($emailList, $payload, $event);
     }
 
-    public function handUnsubscribedEvent(UnsubscribedEvent $event)
+    public function handleUnsubscribedEvent(UnsubscribedEvent $event)
     {
         $emailList = $event->subscriber->emailList;
 
@@ -43,7 +43,7 @@ class WebhookEventSubscriber
         $this->sendWebhookAction()->execute($emailList, $payload, $event);
     }
 
-    public function handeUnconfirmedSubscriberCreatedEvent(UnconfirmedSubscriberCreatedEvent $event)
+    public function handleUnconfirmedSubscriberCreatedEvent(UnconfirmedSubscriberCreatedEvent $event)
     {
         $emailList = $event->subscriber->emailList;
 
