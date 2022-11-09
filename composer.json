@@ -123,6 +123,9 @@
         }
     },
     "extra": {
+        "branch-alias": {
+            "dev-main": "6.x-dev"
+        },
         "laravel": {
             "providers": [
                 "Spatie\\Mailcoach\\MailcoachServiceProvider"
