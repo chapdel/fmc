@@ -1,12 +1,18 @@
-<form class="form-grid" action="{{ route('mailcoach.emailLists.segment.store', $emailList) }}" method="POST">
+<form
+    class="form-grid"
+    wire:submit.prevent="saveSegment"
+    @keydown.prevent.window.cmd.s="$wire.call('saveSegment')"
+    @keydown.prevent.window.ctrl.s="$wire.call('saveSegment')"
+    method="POST"
+>
     @csrf
-    <x-mailcoach::text-field :label="__('mailcoach - Name')" name="name" required />
+    <x-mailcoach::text-field :label="__mc('Name')" name="name" wire:model.lazy="name" required />
 
-    <div class="form-buttons">
-        <x-mailcoach::button :label="__('mailcoach - Create segment')" />
+    <x-mailcoach::form-buttons>
+        <x-mailcoach::button :label="__mc('Create segment')" />
 
-        <button type="button" class="button-cancel" data-modal-dismiss>
-            {{ __('mailcoach - Cancel') }}
+        <button type="button" class="button-cancel" x-on:click="$store.modals.close('create-segment')">
+            {{ __mc('Cancel') }}
         </button>
-    </div>
+    </x-mailcoach::form-buttons>
 </form>

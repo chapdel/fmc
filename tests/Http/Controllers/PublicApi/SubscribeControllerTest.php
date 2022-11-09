@@ -26,18 +26,45 @@ beforeEach(function () {
 
 it('can subscribe to an email list without double opt in', function () {
     $this
-        ->post(action(SubscribeController::class, test()->emailList->uuid), payloadWithRedirects())
+        ->post(action([SubscribeController::class, 'store'], test()->emailList), payloadWithRedirects())
         ->assertRedirect(payloadWithRedirects()['redirect_after_subscribed']);
 
     test()->assertEquals(
-        SubscriptionStatus::SUBSCRIBED,
+        SubscriptionStatus::Subscribed,
         test()->emailList->getSubscriptionStatus(test()->email)
     );
 });
 
+it('can subscribe to an email list with a honeypot', function () {
+    test()->emailList->update(['honeypot_field' => 'username']);
+
+    $this
+        ->post(action([SubscribeController::class, 'store'], test()->emailList), payloadWithRedirects([
+            'username' => '',
+        ]))
+        ->assertRedirect(payloadWithRedirects()['redirect_after_subscribed']);
+
+    test()->assertEquals(
+        SubscriptionStatus::Subscribed,
+        test()->emailList->getSubscriptionStatus(test()->email)
+    );
+});
+
+it('will fake a successful response when the honeypot is filled in', function () {
+    test()->emailList->update(['honeypot_field' => 'username']);
+
+    $this
+        ->post(action([SubscribeController::class, 'store'], test()->emailList), payloadWithRedirects([
+            'username' => 'some-username',
+        ]))
+        ->assertRedirect(payloadWithRedirects()['redirect_after_subscribed']);
+
+    expect(Subscriber::findForEmail(test()->email, test()->emailList))->toBeNull();
+});
+
 test('when not specified on the form it will redirect to the redirect after subscribed url on the list', function () {
     $this
-        ->post(action(SubscribeController::class, test()->emailList->uuid), payload())
+        ->post(action([SubscribeController::class, 'store'], test()->emailList->uuid), payload())
         ->assertRedirect(test()->emailList->redirect_after_subscribed);
 });
 
@@ -47,7 +74,7 @@ test('when no redirect after subscribed is specified on the request or email lis
     test()->emailList->update(['redirect_after_subscribed' => null]);
 
     $this
-        ->post(action(SubscribeController::class, test()->emailList->uuid), payload())
+        ->post(action([SubscribeController::class, 'store'], test()->emailList->uuid), payload())
         ->assertSuccessful()
         ->assertViewIs('mailcoach::landingPages.subscribed');
 });
@@ -56,19 +83,19 @@ it('will return a not found response for email list that do not allow form subsc
     test()->emailList->update(['allow_form_subscriptions' => false]);
 
     $this
-        ->post(action(SubscribeController::class, test()->emailList->uuid), payloadWithRedirects())
+        ->post(action([SubscribeController::class, 'store'], test()->emailList->uuid), payloadWithRedirects())
         ->assertStatus(404);
 });
 
 it('can accept a first and last name', function () {
     $this
-        ->post(action(SubscribeController::class, test()->emailList->uuid), payloadWithRedirects([
+        ->post(action([SubscribeController::class, 'store'], test()->emailList->uuid), payloadWithRedirects([
             'first_name' => 'John',
             'last_name' => 'Doe',
         ]))
         ->assertRedirect(payloadWithRedirects()['redirect_after_subscribed']);
 
-    $subscriber = Subscriber::where('email', payloadWithRedirects()['email'])->first();
+    $subscriber = Subscriber::findForEmail(payloadWithRedirects()['email'], test()->emailList);
 
     expect($subscriber->first_name)->toEqual('John');
     expect($subscriber->last_name)->toEqual('Doe');
@@ -81,7 +108,7 @@ it('can accept attributes', function () {
     test()->emailList->save();
 
     $this
-        ->post(action(SubscribeController::class, test()->emailList->uuid), payloadWithRedirects([
+        ->post(action([SubscribeController::class, 'store'], test()->emailList->uuid), payloadWithRedirects([
             'attributes' => [
                 'attribute1' => 'foo',
                 'attribute2' => 'bar',
@@ -90,7 +117,7 @@ it('can accept attributes', function () {
         ]))
         ->assertRedirect(payloadWithRedirects()['redirect_after_subscribed']);
 
-    $subscriber = Subscriber::where('email', payloadWithRedirects()['email'])->first();
+    $subscriber = Subscriber::findForEmail(payloadWithRedirects()['email'], test()->emailList);
 
     expect($subscriber->extra_attributes->attribute1)->toEqual('foo');
     expect($subscriber->extra_attributes->attribute3)->toBeEmpty();
@@ -106,7 +133,7 @@ it('can accept tags', function () {
 
     $this
         ->post(
-            action(SubscribeController::class, test()->emailList->uuid),
+            action([SubscribeController::class, 'store'], test()->emailList->uuid),
             payloadWithRedirects([
                 'first_name' => 'John',
                 'last_name' => 'Doe',
@@ -115,7 +142,7 @@ it('can accept tags', function () {
         );
 
     /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
-    $subscriber = Subscriber::where('email', payloadWithRedirects()['email'])->first();
+    $subscriber = Subscriber::findForEmail(payloadWithRedirects()['email'], test()->emailList);
 
     expect($subscriber->tags()->pluck('name')->toArray())->toEqual(['test1', 'test3']);
 });
@@ -124,7 +151,7 @@ it('will redirect to the correct url if the email address is already subscribed'
     test()->emailList->subscribe(payloadWithRedirects()['email']);
 
     $this
-        ->post(action(SubscribeController::class, test()->emailList->uuid), payloadWithRedirects())
+        ->post(action([SubscribeController::class, 'store'], test()->emailList->uuid), payloadWithRedirects())
         ->assertRedirect(payloadWithRedirects()['redirect_after_already_subscribed']);
 });
 
@@ -142,7 +169,7 @@ it('will add tags if the email address is already subscribed', function () {
     expect($subscriber->fresh()->tags()->count())->toEqual(2);
 
     $this
-        ->post(action(SubscribeController::class, test()->emailList->uuid), payloadWithRedirects([
+        ->post(action([SubscribeController::class, 'store'], test()->emailList->uuid), payloadWithRedirects([
             'tags' => 'test3',
         ]))
         ->assertRedirect(payloadWithRedirects()['redirect_after_already_subscribed']);
@@ -156,7 +183,7 @@ test('when not specified on the form it will redirect to the redirect after alre
     test()->emailList->subscribe(payload()['email']);
 
     $this
-        ->post(action(SubscribeController::class, test()->emailList->uuid), payload())
+        ->post(action([SubscribeController::class, 'store'], test()->emailList->uuid), payload())
         ->assertRedirect(test()->emailList->redirect_after_already_subscribed);
 });
 
@@ -166,7 +193,7 @@ test('when no redirect after already subscribed is specified on the request or e
     test()->emailList->update(['redirect_after_already_subscribed' => null]);
 
     $this
-        ->post(action(SubscribeController::class, test()->emailList->uuid), payload())
+        ->post(action([SubscribeController::class, 'store'], test()->emailList->uuid), payload())
         ->assertSuccessful()
         ->assertViewIs('mailcoach::landingPages.alreadySubscribed');
 });
@@ -179,7 +206,7 @@ it('will redirect to the correct url if the subscription is pending', function (
     $redirectUrl = 'https://mydomain/subscription-pending';
 
     $this
-        ->post(action(SubscribeController::class, test()->emailList->uuid), payloadWithRedirects(
+        ->post(action([SubscribeController::class, 'store'], test()->emailList->uuid), payloadWithRedirects(
             ['redirect_after_subscription_pending' => $redirectUrl]
         ))
         ->assertRedirect($redirectUrl);
@@ -190,7 +217,7 @@ test('when not specified on the form it will redirect to the redirect after subs
     test()->emailList->subscribe(payload()['email']);
 
     $this
-        ->post(action(SubscribeController::class, test()->emailList->uuid), payload())
+        ->post(action([SubscribeController::class, 'store'], test()->emailList->uuid), payload())
         ->assertRedirect(test()->emailList->redirect_after_subscription_pending);
 });
 
@@ -203,7 +230,7 @@ test('when no redirect after subscription pending is specified on the request or
     test()->emailList->update(['redirect_after_subscription_pending' => null]);
 
     $this
-        ->post(action(SubscribeController::class, test()->emailList->uuid), payload())
+        ->post(action([SubscribeController::class, 'store'], test()->emailList->uuid), payload())
         ->assertSuccessful()
         ->assertViewIs('mailcoach::landingPages.confirmSubscription');
 });
@@ -220,12 +247,12 @@ test('clicking the link in the confirm subscription mail will redirect to the gi
     });
 
     $this
-        ->post(action(SubscribeController::class, test()->emailList->uuid), payloadWithRedirects())
+        ->post(action([SubscribeController::class, 'store'], test()->emailList->uuid), payloadWithRedirects())
         ->assertRedirect(payloadWithRedirects()['redirect_after_subscription_pending']);
 
     /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
-    $subscriber = Subscriber::where('email', payloadWithRedirects()['email'])->first();
-    expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::UNCONFIRMED);
+    $subscriber = Subscriber::findForEmail(payloadWithRedirects()['email'], test()->emailList);
+    expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::Unconfirmed);
 
     /*
      * We'll pretend the user clicked the confirm subscription button by visiting the url
@@ -233,7 +260,8 @@ test('clicking the link in the confirm subscription mail will redirect to the gi
     $this
         ->get(test()->confirmSubscriptionLink)
         ->assertRedirect(payloadWithRedirects()['redirect_after_subscribed']);
-    expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
+
+    expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::Subscribed);
 });
 
 // Helpers

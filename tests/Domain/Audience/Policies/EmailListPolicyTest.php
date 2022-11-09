@@ -3,9 +3,10 @@
 use Illuminate\Contracts\Auth\Access\Authorizable;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Gate;
+use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Policies\EmailListPolicy;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\CreateEmailListController;
+use Spatie\Mailcoach\Http\App\Livewire\Audience\CreateListComponent;
 use Spatie\Mailcoach\Tests\TestClasses\CustomEmailListDenyAllPolicy;
 
 beforeEach(function () {
@@ -18,8 +19,8 @@ it('uses default policy', function () {
     $john = (new User())->forceFill(['email' => 'john@example.com']);
 
     expect(Gate::getPolicyFor(test()->emailList))->toBeInstanceOf(EmailListPolicy::class);
-    expect($jane->can("create", EmailList::class))->toBeTrue();
-    expect($john->can("create", EmailList::class))->toBeFalse();
+    expect($jane->can('create', EmailList::class))->toBeTrue();
+    expect($john->can('create', EmailList::class))->toBeFalse();
 });
 
 it('uses custom policy', function () {
@@ -29,11 +30,10 @@ it('uses custom policy', function () {
     app()->bind(EmailListPolicy::class, CustomEmailListDenyAllPolicy::class);
 
     expect(Gate::getPolicyFor(test()->emailList))->toBeInstanceOf(CustomEmailListDenyAllPolicy::class);
-    expect($jane->can("create", EmailList::class))->toBeFalse();
+    expect($jane->can('create', EmailList::class))->toBeFalse();
 
-    postCreateList($jane)
-        ->assertForbidden();
-});
+    postCreateList($jane);
+})->throws(\Illuminate\Auth\Access\AuthorizationException::class);
 
 it('authorizes relevant routes', function () {
     Gate::define('viewMailcoach', fn ($user) => $user->email === 'jane@example.com');
@@ -41,18 +41,16 @@ it('authorizes relevant routes', function () {
 
     app()->bind(EmailListPolicy::class, CustomEmailListDenyAllPolicy::class);
 
-    postCreateList($jane)
-        ->assertForbidden();
-});
+    postCreateList($jane);
+})->throws(\Illuminate\Auth\Access\AuthorizationException::class);
 
 // Helpers
 function postCreateList(Authorizable $asUser)
 {
-    return test()
-        ->withExceptionHandling()
-        ->actingAs($asUser)
-        ->post(action(CreateEmailListController::class), [
-            'name' => 'new list',
-            'default_from_email' => 'john@example.com',
-        ]);
+    test()->actingAs($asUser);
+
+    return Livewire::test(CreateListComponent::class)
+        ->set('name', 'new list')
+        ->set('default_from_email', 'john@example.com')
+        ->call('saveList');
 }

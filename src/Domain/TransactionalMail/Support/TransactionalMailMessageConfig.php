@@ -7,8 +7,11 @@ use Symfony\Component\Mime\Email;
 class TransactionalMailMessageConfig
 {
     public const HEADER_NAME_OPENS = 'mailcoach-transactional-mail-config-track-opens';
+
     public const HEADER_NAME_CLICKS = 'mailcoach-transactional-mail-config-track-clicks';
+
     public const HEADER_NAME_STORE = 'mailcoach-transactional-mail-config-store';
+
     public const HEADER_NAME_MAILABLE_CLASS = 'mailcoach-transactional-mail-config-mailable-class';
 
     public static function createForMessage(Email $message): self
@@ -21,26 +24,8 @@ class TransactionalMailMessageConfig
     ) {
     }
 
-    public function trackOpens(): bool
-    {
-        return $this->message->getHeaders()->has(static::HEADER_NAME_OPENS);
-    }
-
-    public function trackClicks(): bool
-    {
-        return $this->message->getHeaders()->has(static::HEADER_NAME_CLICKS);
-    }
-
     public function shouldStore(): bool
     {
-        if ($this->trackOpens()) {
-            return true;
-        }
-
-        if ($this->trackClicks()) {
-            return true;
-        }
-
         return $this->message->getHeaders()->has(static::HEADER_NAME_STORE);
     }
 

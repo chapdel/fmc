@@ -4,10 +4,12 @@ namespace Spatie\Mailcoach\Domain\Automation\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class AutomationMailUnsubscribe extends Model
 {
+    use HasUuid;
     use UsesMailcoachModels;
 
     public $table = 'mailcoach_automation_mail_unsubscribes';

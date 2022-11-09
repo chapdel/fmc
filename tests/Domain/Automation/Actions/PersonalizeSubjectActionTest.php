@@ -13,7 +13,7 @@ beforeEach(function () {
 
     test()->send->campaign->update(['name' => 'my campaign']);
 
-    test()->personalizeSubjectAction = new PersonalizeSubjectAction();
+    test()->personalizeSubjectAction = app(PersonalizeSubjectAction::class);
 });
 
 it('can replace an placeholder for a subscriber attribute', function () {
@@ -35,11 +35,11 @@ it('will not replace an placeholder for a non existing subscriber extra attribut
 // Helpers
 function assertPersonalizeSubjectActionResult(string $originalSubject, $expectedSubject)
 {
-    $actualOutputHtml = (new PersonalizeSubjectAction())->execute($originalSubject, test()->send);
+    $actualOutputHtml = app(PersonalizeSubjectAction::class)->execute($originalSubject, test()->send);
     test()->assertEquals($expectedSubject, $actualOutputHtml, "The personalize action did not produce the expected result. Expected: `{$expectedSubject}`, actual: `{$actualOutputHtml}`");
 
     $expectedOutputHtmlWithHtmlTags = "{$expectedSubject}";
-    $actualOutputHtmlWithHtmlTags = (new PersonalizeSubjectAction())->execute("$originalSubject", test()->send);
+    $actualOutputHtmlWithHtmlTags = app(PersonalizeSubjectAction::class)->execute("$originalSubject", test()->send);
 
     test()->assertEquals($expectedOutputHtmlWithHtmlTags, $actualOutputHtmlWithHtmlTags, "The personalize action did not produce the expected result when wrapped in html tags. Expected: `{$expectedOutputHtmlWithHtmlTags}`, actual: `{$actualOutputHtmlWithHtmlTags}`");
 }

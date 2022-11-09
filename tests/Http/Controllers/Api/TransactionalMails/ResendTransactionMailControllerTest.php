@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\ResendTransactionalMail;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
 use Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails\ResendTransactionalMailController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 
@@ -15,8 +15,8 @@ beforeEach(function () {
 it('can resend a mail', function () {
     Mail::fake();
 
-    /** @var TransactionalMail $transactionalMail */
-    $transactionalMail = TransactionalMail::factory()->create();
+    /** @var TransactionalMailLogItem $transactionalMail */
+    $transactionalMail = TransactionalMailLogItem::factory()->create();
 
     $this
         ->post(action(ResendTransactionalMailController::class, $transactionalMail))

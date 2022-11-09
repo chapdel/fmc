@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Automation\Actions\SendMailAction;
@@ -12,12 +13,12 @@ beforeEach(function () {
 
     /** @var Send $send */
     test()->send = Send::factory()->create(['campaign_id' => null]);
-
-    Mail::fake();
-    Event::fake();
 });
 
 it('sends a pending send', function () {
+    Mail::fake();
+    Event::fake();
+
     test()->action->execute(test()->send);
 
     Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) {
@@ -32,6 +33,9 @@ it('sends a pending send', function () {
 });
 
 it('sets reply to', function () {
+    Mail::fake();
+    Event::fake();
+
     test()->send->automationMail->update([
         'reply_to_email' => 'foo@bar.com',
         'reply_to_name' => 'Foo',
@@ -47,9 +51,31 @@ it('sets reply to', function () {
 });
 
 it('wont send again if the send was already sent', function () {
+    Mail::fake();
+    Event::fake();
+
     test()->action->execute(test()->send);
     test()->action->execute(test()->send);
 
     Mail::assertSent(MailcoachMail::class, 1);
     Event::assertDispatched(AutomationMailSentEvent::class, 1);
+});
+
+it('sets message headers', function () {
+    $assertionsPassed = false;
+
+    Event::listen(MessageSent::class, function (MessageSent $event) use (&$assertionsPassed) {
+        /** @var \Symfony\Component\Mime\Header\Headers $headers */
+        $headers = $event->message->getHeaders();
+
+        expect($headers->get('X-MAILCOACH')->getBody())->toBe('true');
+        expect($headers->get('Precedence')->getBody())->toBe('Bulk');
+        expect($headers->get('X-PM-Metadata-send-uuid')->getBody())->not()->toBeEmpty();
+
+        $assertionsPassed = true;
+    });
+
+    $this->action->execute($this->send);
+
+    expect($assertionsPassed)->toBeTrue();
 });

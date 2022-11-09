@@ -29,7 +29,7 @@ it('can search templates', function () {
     ]);
 
     $this
-        ->getJson(action([TemplatesController::class, 'index']) . '?filter[search]=two')
+        ->getJson(action([TemplatesController::class, 'index']).'?filter[search]=two')
         ->assertSuccessful()
         ->assertJsonCount(1, 'data')
         ->assertJsonFragment(['name' => 'two']);
@@ -39,7 +39,7 @@ test('the api can show a template', function () {
     $template = Template::factory()->create();
 
     $this
-        ->getJson(action([TemplatesController::class, 'show'], $template))
+        ->getJson(action([TemplatesController::class, 'show'], $template->uuid))
         ->assertSuccessful()
         ->assertJsonFragment(['name' => $template->name]);
 });
@@ -66,7 +66,7 @@ test('a template can be updated using the api', function () {
     ];
 
     $this
-        ->putJson(action([TemplatesController::class, 'update'], $template), $attributes)
+        ->putJson(action([TemplatesController::class, 'update'], $template->uuid), $attributes)
         ->assertSuccessful();
 
     $template = $template->refresh();
@@ -79,7 +79,7 @@ test('a template can be deleted using the api', function () {
     $template = Template::factory()->create();
 
     $this
-        ->deleteJson(action([TemplatesController::class, 'destroy'], $template))
+        ->deleteJson(action([TemplatesController::class, 'destroy'], $template->uuid))
         ->assertSuccessful();
 
     expect(Template::get())->toHaveCount(0);

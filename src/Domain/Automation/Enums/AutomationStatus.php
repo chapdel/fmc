@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Enums;
 
-class AutomationStatus
+enum AutomationStatus: string
 {
-    const PAUSED = 'paused';
-    const STARTED = 'started';
+    case Paused = 'paused';
+    case Started = 'started';
 }

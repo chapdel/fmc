@@ -1,5 +1,11 @@
+@props([
+    'active' => false,
+    'attribute' => false,
+    'value' => false,
+    'current' => '',
+])
 <li>
-    <a href="{{ $href }}" class="{{ $active() ? 'filter-active' : '' }}" data-turbo-preserve-scroll>
+    <a href="#" wire:click.prevent="setFilter('{{ $attribute }}', '{{ $value }}')" {{ $attributes->except('class') }} class="{{ $current === $value ? 'filter-active' : '' }} {{ $attributes->get('class') }} ">
         {{ $slot }}
     </a>
 </li>

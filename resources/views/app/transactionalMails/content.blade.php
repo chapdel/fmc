@@ -1,22 +1,33 @@
-<x-mailcoach::layout-transactional
-    :title="__('mailcoach - Content')"
-    :transactionalMail="$transactionalMail"
->
-        <dl class="dl contents-start">
-            <dt>Subject</dt>
-            <dd>{{ $transactionalMail->subject }}</dd>
+<x-mailcoach::card>
+    <dl class="dl">
+        <dt>{{ __mc('Subject') }}</dt>
+        <dd>{{ $transactionalMail->subject }}</dd>
 
-            <x-mailcoach::address-definition label="From" :addresses="$transactionalMail->from"/>
-            <x-mailcoach::address-definition label="To" :addresses="$transactionalMail->to"/>
-            <x-mailcoach::address-definition label="Cc" :addresses="$transactionalMail->cc"/>
-            <x-mailcoach::address-definition label="Bcc" :addresses="$transactionalMail->bcc"/>
+        <x-mailcoach::address-definition :label="__mc('From')" :addresses="$transactionalMail->from"/>
+        <x-mailcoach::address-definition :label="__mc('To')" :addresses="$transactionalMail->to"/>
+        <x-mailcoach::address-definition :label="__mc('Cc')" :addresses="$transactionalMail->cc"/>
+        <x-mailcoach::address-definition :label="__mc('Bcc')" :addresses="$transactionalMail->bcc"/>
 
-            <dt class="flex items-start">
-                <div>{{ __('mailcoach - Body') }}</div>
+        @if(collect($transactionalMail->attachments)->count() > 0)
+            <dt>
+                {{ __mc('Attachments') }}
             </dt>
             <dd>
-                <x-mailcoach::web-view src="{{ route('mailcoach.transactionalMail.body', $transactionalMail) }}"/>
+                <ul class="list-disc list-inside">
+                    @foreach(collect($transactionalMail->attachments) as $attachment)
+                            <li>
+                                {{ $attachment }}
+                            </li>
+                    @endforeach
+                </ul>
             </dd>
-        </dl>
+        @endif
 
-</x-mailcoach::layout-transactional>
+        <dt class="flex items-start">
+            <div>{{ __mc('Body') }}</div>
+        </dt>
+        <dd>
+            <x-mailcoach::web-view :html="$transactionalMail->body" />
+        </dd>
+    </dl>
+</x-mailcoach::card>

@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\DB;
 class ExportAutomationMailsJob extends ExportJob
 {
     /**
-     * @param string $path
-     * @param array<int> $selectedAutomationMails
+     * @param  string  $path
+     * @param  array<int>  $selectedAutomationMails
      */
     public function __construct(protected string $path, protected array $selectedAutomationMails)
     {

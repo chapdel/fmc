@@ -1,49 +1,22 @@
-<x-mailcoach::layout-campaign :title="__('mailcoach - Opens')" :campaign="$campaign">
-    @if($campaign->track_opens)
-        @if($campaign->open_count)
-            <div class="table-actions">
-                <div class="table-filters">
-                    <x-mailcoach::search :placeholder="__('mailcoach - Filter opens…')" />
-                </div>
-            </div>
-
-            <table class="table table-fixed">
-                <thead>
-                    <tr>
-                        <x-mailcoach::th sort-by="email">{{ __('mailcoach - Email') }}</x-mailcoach::th>
-                        <x-mailcoach::th sort-by="open_count" class="w-32 th-numeric">{{ __('mailcoach - Opens') }}</x-mailcoach::th>
-                        <x-mailcoach::th sort-by="-first_opened_at" sort-default class="w-48 th-numeric hidden | xl:table-cell">{{ __('mailcoach - First opened at') }}</x-mailcoach::th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($campaignOpens as $campaignOpen)
-                        <tr>
-                            <td class="markup-links">
-                                <a class="break-words" href="{{ route('mailcoach.emailLists.subscriber.details', [$campaignOpen->subscriber_email_list_id, $campaignOpen->subscriber_id]) }}">
-                                    {{ $campaignOpen->subscriber_email }}
-                                </a>
-                            </td>
-                            <td class="td-numeric">{{ $campaignOpen->open_count }}</td>
-                            <td class="td-numeric hidden | xl:table-cell">{{ $campaignOpen->first_opened_at->toMailcoachFormat() }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-
-            <x-mailcoach::table-status
-                :name="__('mailcoach - open|opens')"
-                :paginator="$campaignOpens"
-                :total-count="$totalCampaignOpensCount"
-                :show-all-url="route('mailcoach.campaigns.opens', $campaign)"
-            ></x-mailcoach::table-status>
-        @else
-            <x-mailcoach::help>
-                {{ __('mailcoach - No opens yet. Stay tuned.') }}
-            </x-mailcoach::help>
-        @endif
+<div>
+    @if($campaign->open_count)
+        <x-mailcoach::data-table
+            name="opens"
+            :rows="$mailOpens ?? null"
+            :totalRowsCount="$totalMailOpensCount ?? null"
+            :columns="[
+                ['attribute' => 'email', 'label' => __mc('Email')],
+                ['attribute' => 'open_count', 'label' => __mc('Opens'), 'class' => 'w-32 th-numeric'],
+                ['attribute' => '-first_opened_at', 'label' => __mc('First opened at'), 'class' => 'w-48 th-numeric hidden | xl:table-cell'],
+            ]"
+            rowPartial="mailcoach::app.campaigns.partials.openRow"
+            :emptyText="__mc('No opens yet. Stay tuned.')"
+        />
     @else
-        <x-mailcoach::help>
-            {{ __('mailcoach - Open tracking was not enabled for this campaign.') }}
-        </x-mailcoach::help>
+        <x-mailcoach::card>
+            <x-mailcoach::info>
+                {{ __mc('No opens tracked') }}
+            </x-mailcoach::info>
+        </x-mailcoach::card>
     @endif
-</x-mailcoach::layout-campaign>
+</div>

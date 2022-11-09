@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class SendFactory extends Factory

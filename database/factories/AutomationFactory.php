@@ -5,7 +5,6 @@ namespace Spatie\Mailcoach\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
-use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class AutomationFactory extends Factory
@@ -23,7 +22,7 @@ class AutomationFactory extends Factory
             'email_list_id' => EmailList::factory(),
             'name' => $this->faker->sentence,
             'interval' => '1 minute',
-            'status' => AutomationStatus::PAUSED,
+            'status' => AutomationStatus::Paused,
         ];
     }
 }

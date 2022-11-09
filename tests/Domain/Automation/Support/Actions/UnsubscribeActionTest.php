@@ -1,6 +1,7 @@
 <?php
 
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\UnsubscribeAction;
 
 it('unsubscribes the subscriber', function () {
@@ -11,7 +12,9 @@ it('unsubscribes the subscriber', function () {
 
     expect($subscriber->isSubscribed())->toBeTrue();
 
-    $action->run($subscriber);
+    $action->run(ActionSubscriber::factory()->create([
+        'subscriber_id' => $subscriber->id,
+    ]));
 
     expect($subscriber->fresh()->isSubscribed())->toBeFalse();
 });
@@ -19,11 +22,11 @@ it('unsubscribes the subscriber', function () {
 it('halts the automation', function () {
     $action = new UnsubscribeAction();
 
-    expect($action->shouldHalt(Subscriber::factory()->create()))->toBeTrue();
+    expect($action->shouldHalt(ActionSubscriber::factory()->create()))->toBeTrue();
 });
 
 it('wont continue', function () {
     $action = new UnsubscribeAction();
 
-    expect($action->shouldContinue(Subscriber::factory()->create()))->toBeFalse();
+    expect($action->shouldContinue(ActionSubscriber::factory()->create()))->toBeFalse();
 });

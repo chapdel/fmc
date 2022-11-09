@@ -9,8 +9,8 @@ use Spatie\Mailcoach\Domain\Shared\Support\Throttling\SimpleThrottle;
 use Spatie\TestTime\TestTime;
 
 it('throttles dispatching automation mail sends', function () {
-    config()->set('mailcoach.automation.throttling.allowed_number_of_jobs_in_timespan', 2);
-    config()->set('mailcoach.automation.throttling.timespan_in_seconds', 3);
+    config()->set('mail.mailers.log.mails_per_timespan', 2);
+    config()->set('mail.mailers.log.timespan_in_seconds', 3);
 
     Mail::fake();
     TestTime::unfreeze();
@@ -19,6 +19,8 @@ it('throttles dispatching automation mail sends', function () {
 
     $action = resolve(SendAutomationMailsAction::class);
     $action->execute();
+
+    Mail::assertSent(MailcoachMail::class, 3);
 
     $jobDispatchTimes = Send::get()
         ->map(function (Send $send) {
@@ -29,12 +31,12 @@ it('throttles dispatching automation mail sends', function () {
     [$sendTime1, $sendTime2, $sendTime3] = $jobDispatchTimes;
 
     expect($sendTime1->diffInSeconds($sendTime2))->toEqual(0);
-    expect($sendTime2->diffInSeconds($sendTime3))->toEqual(3);
+    expect($sendTime2->diffInSeconds($sendTime3))->toBeGreaterThanOrEqual(3);
 });
 
 it('will throttle processing mail jobs', function () {
-    config()->set('mailcoach.automation.throttling.allowed_number_of_jobs_in_timespan', 2);
-    config()->set('mailcoach.automation.throttling.timespan_in_seconds', 3);
+    config()->set('mail.mailers.log.mails_per_timespan', 2);
+    config()->set('mail.mailers.log.timespan_in_seconds', 3);
 
     // Fake the throttle not working
     $this->partialMock(SimpleThrottle::class)

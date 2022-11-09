@@ -1,12 +1,10 @@
-{{-- [data-turbo-permanent] is necessary to preserve the cursor state during focus --}}
-<div class="search">
-    <input type="search" required placeholder="{{ $placeholder }}" value="{{ $value }}"
-        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-        id="turbo-search-{{ Illuminate\Support\Str::slug($queryString->disable('filter[search]')) }}"
-        data-turbo-permanent
-        data-turbo-search
-        data-turbo-search-url="{{ url($queryString->filter('search', '%search%')) }}"
-        data-turbo-search-clear-url="{{ url($queryString->disable('filter[search]')) }}">
+@props([
+    'placeholder' => '',
+    'value' => '',
+])
+<div class="search {{ $class ?? '' }}">
+    <input type="search" {{ $attributes->except('class') }} required placeholder="{{ $placeholder }}" value="{{ $value }}"
+        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
     <div class="search-icon">
         <i class="fas fa-search"></i>
     </div>

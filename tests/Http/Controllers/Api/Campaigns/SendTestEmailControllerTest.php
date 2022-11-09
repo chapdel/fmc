@@ -16,7 +16,7 @@ beforeEach(function () {
     test()->loginToApi();
 
     test()->campaign = Campaign::factory()->create([
-        'status' => CampaignStatus::DRAFT,
+        'status' => CampaignStatus::Draft,
     ]);
 });
 
@@ -47,7 +47,7 @@ test('multiple test emails can be sent using the api', function () {
 it('will not send a test mail for a campaign that has already been sent', function () {
     test()->withExceptionHandling();
 
-    test()->campaign->update(['status' => CampaignStatus::SENT]);
+    test()->campaign->update(['status' => CampaignStatus::Sent]);
 
     $this
         ->postJson(action(SendTestEmailController::class, test()->campaign), ['email' => 'test@example.com'])

@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Shared\Jobs\Import;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Schema;
 use Spatie\SimpleExcel\SimpleExcelReader;
 
 class ImportCampaignsJob extends ImportJob
@@ -39,13 +40,17 @@ class ImportCampaignsJob extends ImportJob
 
         $emailLists = self::getEmailListClass()::pluck('id', 'uuid')->toArray();
 
+        $columns = Schema::getColumnListing(self::getCampaignTableName());
+
         foreach ($reader->getRows() as $row) {
             $row['email_list_id'] = $emailLists[$row['email_list_uuid']];
             $row['segment_id'] = self::getTagSegmentClass()::where('name', $row['segment_name'])->where('email_list_id', $row['email_list_id'])->first()?->id;
+            $row['all_sends_created_at'] ??= $row['status'] !== 'draft' ? now() : null;
+            $row['all_sends_dispatched_at'] ??= $row['status'] !== 'draft' ? now() : null;
 
             $campaign = self::getCampaignClass()::firstOrCreate(
                 ['uuid' => $row['uuid']],
-                array_filter(Arr::except($row, ['id', 'email_list_uuid', 'segment_name'])),
+                array_filter(Arr::except(Arr::only($row, $columns), ['id', 'email_list_uuid', 'segment_name'])),
             );
 
             $this->campaignMapping[$row['id']] = $campaign->id;

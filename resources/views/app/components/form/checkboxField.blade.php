@@ -4,7 +4,6 @@
     name="{{ $name }}"
     id="{{ $name }}"
     value="{{ $value ?? 1 }}"
-    @isset($dataConditional) data-conditional="{{ $dataConditional }}" @endisset
     @if(old($name, $checked ?? false)) checked @endif
     @if($disabled ?? false) disabled @endif
     {{ $attributes->class('checkbox') }}

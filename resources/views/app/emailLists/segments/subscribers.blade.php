@@ -1,51 +1,26 @@
-<x-mailcoach::layout-segment
-    :segment="$segment"
-    :selectedSubscribersCount="$selectedSubscribersCount"
->
-    @if($selectedSubscribersCount)
-
-        @if($subscribersCount = $segment->emailList->subscribers()->count())
-            <div class="alert alert-info mb-8">
-                {!! __('mailcoach - Population is <strong>:percentage%</strong> of list total of :subscribersCount.', ['percentage' => round($selectedSubscribersCount / $subscribersCount * 100 , 2), 'subscribersCount' => number_format($subscribersCount)]) !!}
-            </div>
+<div class="card-grid">
+<x-mailcoach::card class="py-4">
+    <x-mailcoach::info>
+        @if(($selectedSubscribersCount ?? null) && ($subscribersCount ?? null))
+            {!! __mc('Population is <strong>:percentage%</strong> of list total of :subscribersCount.', ['percentage' => round($selectedSubscribersCount / $subscribersCount * 100 , 2), 'subscribersCount' => number_format($subscribersCount)]) !!}
+        @else
+            {{ __mc('Loading') }}...
         @endif
-
-        <div class="table-overflow">
-            <table class="table table-fixed">
-                <thead>
-                <tr>
-                    <x-mailcoach::th sort-by="email">{{ __('mailcoach - Email') }}</x-mailcoach::th>
-                    <th>{{ __('mailcoach - Tags') }}</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($subscribers as $subscriber)
-                    <tr class="markup-links">
-                        <td>
-                            <a class="break-words" href="{{ route('mailcoach.emailLists.subscriber.details', [$emailList, $subscriber]) }}">
-                                {{ $subscriber->email }}
-                            </a>
-                            <div class="td-secondary-line">
-                                {{ $subscriber->first_name }} {{ $subscriber->last_name }}
-                            </div>
-                        </td>
-                        <td>
-                            @foreach($subscriber->tags->where('type', \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::DEFAULT) as $tag)
-                                @include('mailcoach::app.partials.tag')
-                            @endforeach
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
-
-        <x-mailcoach::table-status :name="__('mailcoach - subscriber|subscribers')" :paginator="$subscribers" :total-count="$selectedSubscribersCount"
-                        :show-all-url="route('mailcoach.emailLists.segment.subscribers', [$segment->emailList, $segment])">
-        </x-mailcoach::table-status>
-    @else
-        <x-mailcoach::help>
-            {{ __('mailcoach - This is a very exclusive segment. Nobody got selected.') }}
-        </x-mailcoach::help>
-    @endif
-</x-mailcoach::layout-segment>
+    </x-mailcoach::info>
+</x-mailcoach::card>
+<x-mailcoach::data-table
+    name="subscriber"
+    :rows="$subscribers ?? null"
+    :totalRowsCount="$selectedSubscribersCount ?? null"
+    :columns="[
+        ['attribute' => 'email', 'label' => __mc('Email')],
+        ['label' => __mc('Tags')],
+    ]"
+    rowPartial="mailcoach::app.emailLists.segments.partials.subscriberRow"
+    :rowData="[
+        'emailList' => $emailList,
+    ]"
+    :emptyText="__mc('This is a very exclusive segment. Nobody got selected.')"
+    :searchable="false"
+/>
+</div>

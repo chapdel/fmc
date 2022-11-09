@@ -28,13 +28,13 @@ beforeEach(function () {
 });
 
 it('can create a subscriber using the api', function () {
+    expect(test()->getSubscriberClass()::count())->toBe(0);
     $this
         ->postJson(action([SubscribersController::class, 'store'], test()->emailList), $this->attributes)
         ->assertSuccessful();
 
-    test()->assertDatabaseHas(test()->getSubscriberTableName(), $this->attributes);
-
-    expect(Subscriber::first()->status)->toEqual(SubscriptionStatus::UNCONFIRMED);
+    expect(test()->getSubscriberClass()::count())->toBe(1);
+    expect(Subscriber::first()->status)->toEqual(SubscriptionStatus::Unconfirmed);
 
     Mail::assertQueued(ConfirmSubscriberMail::class);
 });
@@ -48,7 +48,7 @@ it('can skip the confirmation while subscribing', function () {
         ->postJson(action([SubscribersController::class, 'store'], test()->emailList), $attributes)
         ->assertSuccessful();
 
-    expect(Subscriber::first()->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
+    expect(Subscriber::first()->status)->toEqual(SubscriptionStatus::Subscribed);
 
     Mail::assertNotQueued(ConfirmSubscriberMail::class);
 });

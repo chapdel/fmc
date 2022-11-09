@@ -1,3 +1,3 @@
 ---
-title: Mailcoach
+title: Self-hosted
 ---

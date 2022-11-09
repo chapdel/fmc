@@ -9,10 +9,9 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Str;
-use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Shared\Support\Config;
+use Spatie\Mailcoach\Mailcoach;
 
 class CreateCampaignSendJob implements ShouldQueue, ShouldBeUnique
 {
@@ -29,6 +28,8 @@ class CreateCampaignSendJob implements ShouldQueue, ShouldBeUnique
 
     public $tries = 1;
 
+    public $uniqueFor = 45;
+
     /** @var string */
     public $queue;
 
@@ -44,24 +45,12 @@ class CreateCampaignSendJob implements ShouldQueue, ShouldBeUnique
 
         $this->queue = config('mailcoach.campaigns.perform_on_queue.send_campaign_job');
 
-        $this->connection = $this->connection ?? Config::getQueueConnection();
+        $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
     }
 
     public function handle()
     {
         if ($this->campaign->isCancelled()) {
-            return;
-        }
-
-        if (! $this->campaign->getSegment()->shouldSend($this->subscriber)) {
-            $this->campaign->decrement('sent_to_number_of_subscribers');
-
-            return;
-        }
-
-        if (! $this->isValidSubscriptionForEmailList($this->subscriber, $this->campaign->emailList)) {
-            $this->campaign->decrement('sent_to_number_of_subscribers');
-
             return;
         }
 
@@ -77,18 +66,5 @@ class CreateCampaignSendJob implements ShouldQueue, ShouldBeUnique
             'subscriber_id' => $this->subscriber->id,
             'uuid' => (string) Str::uuid(),
         ]);
-    }
-
-    protected function isValidSubscriptionForEmailList(Subscriber $subscriber, EmailList $emailList): bool
-    {
-        if (! $subscriber->isSubscribed()) {
-            return false;
-        }
-
-        if ((int)$subscriber->email_list_id !== (int)$emailList->id) {
-            return false;
-        }
-
-        return true;
     }
 }

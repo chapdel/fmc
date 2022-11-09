@@ -32,13 +32,13 @@ test('a tag can be added', function () {
 });
 
 test('a tag can have a type', function () {
-    test()->subscriber->addTag('test1', TagType::MAILCOACH);
+    test()->subscriber->addTag('test1', TagType::Mailcoach);
 
     assertSubscriberHasTags(['test1']);
 
     $tag = Tag::first();
 
-    expect($tag->type)->toEqual(TagType::MAILCOACH);
+    expect($tag->type)->toEqual(TagType::Mailcoach);
 });
 
 test('multiple tags can be added in one go', function () {
@@ -146,6 +146,6 @@ function assertSubscriberHasTags(array $expectedTagNames)
     test()->assertEquals(
         $actualTags,
         $expectedTagNames,
-        'Subscriber did not have the expected tags. It currently has ' . implode(', ', $actualTags),
+        'Subscriber did not have the expected tags. It currently has '.implode(', ', $actualTags),
     );
 }

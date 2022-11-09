@@ -6,22 +6,27 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
-use Spatie\Mailcoach\Domain\Shared\Support\Config;
+use Spatie\Mailcoach\Mailcoach;
 use Symfony\Component\Mime\Email;
 
 class SendCampaignTestAction
 {
     public function execute(Campaign $campaign, string $email): void
     {
-        $html = $campaign->htmlWithInlinedCss();
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareSubjectAction $prepareSubjectAction */
+        $prepareSubjectAction = Mailcoach::getCampaignActionClass('prepare_subject', PrepareSubjectAction::class);
+        $prepareSubjectAction->execute($campaign);
 
-        $convertHtmlToTextAction = Config::getCampaignActionClass('convert_html_to_text', ConvertHtmlToTextAction::class);
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareEmailHtmlAction $prepareEmailHtmlAction */
+        $prepareEmailHtmlAction = Mailcoach::getCampaignActionClass('prepare_email_html', PrepareEmailHtmlAction::class);
+        $prepareEmailHtmlAction->execute($campaign);
 
-        $text = $convertHtmlToTextAction->execute($html);
+        $convertHtmlToTextAction = Mailcoach::getCampaignActionClass('convert_html_to_text', ConvertHtmlToTextAction::class);
+        $text = $convertHtmlToTextAction->execute($campaign->email_html);
 
         $campaignMailable = resolve(MailcoachMail::class)
             ->setSendable($campaign)
-            ->setHtmlContent($html)
+            ->setHtmlContent($campaign->email_html)
             ->setTextContent($text)
             ->subject("[Test] {$campaign->subject}")
             ->withSymfonyMessage(function (Email $message) {
@@ -29,12 +34,7 @@ class SendCampaignTestAction
                 $message->getHeaders()->addTextHeader('X-Entity-Ref-ID', Str::uuid()->toString());
             });
 
-        $mailer = $campaign->emailList->campaign_mailer
-            ?? config('mailcoach.campaigns.mailer')
-            ?? config('mailcoach.mailer')
-            ?? config('mail.default');
-
-        Mail::mailer($mailer)
+        Mail::mailer($campaign->getMailerKey())
             ->to($email)
             ->send($campaignMailable);
     }

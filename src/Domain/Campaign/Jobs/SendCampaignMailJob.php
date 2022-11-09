@@ -13,7 +13,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Actions\SendMailAction;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
-use Spatie\Mailcoach\Domain\Shared\Support\Config;
+use Spatie\Mailcoach\Mailcoach;
 use Spatie\RateLimitedMiddleware\RateLimited;
 
 class SendCampaignMailJob implements ShouldQueue, ShouldBeUnique
@@ -24,13 +24,15 @@ class SendCampaignMailJob implements ShouldQueue, ShouldBeUnique
     use SerializesModels;
 
     public bool $deleteWhenMissingModels = true;
-    
+
     public int $maxExceptions = 3;
 
     public Send $pendingSend;
 
     /** @var string */
     public $queue;
+
+    public $uniqueFor = 45;
 
     public function uniqueId(): string
     {
@@ -48,14 +50,14 @@ class SendCampaignMailJob implements ShouldQueue, ShouldBeUnique
 
         $this->queue = config('mailcoach.campaigns.perform_on_queue.send_mail_job');
 
-        $this->connection = $this->connection ?? Config::getQueueConnection();
+        $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
     }
 
     public function handle()
     {
         $campaign = $this->pendingSend->campaign;
 
-        if ($campaign->isCancelled()) {
+        if (! $campaign || $campaign->isCancelled()) {
             if (! $this->pendingSend->wasAlreadySent()) {
                 $this->pendingSend->delete();
             }
@@ -66,35 +68,40 @@ class SendCampaignMailJob implements ShouldQueue, ShouldBeUnique
         $subscriber = $this->pendingSend->subscriber;
 
         if (! $campaign->getSegment()->shouldSend($subscriber)) {
-            $campaign->decrement('sent_to_number_of_subscribers');
-            $this->pendingSend->delete();
+            $this->pendingSend->invalidate();
 
             return;
         }
 
         if (! $this->isValidSubscriptionForEmailList($subscriber, $campaign->emailList)) {
-            $campaign->decrement('sent_to_number_of_subscribers');
-            $this->pendingSend->delete();
+            $this->pendingSend->invalidate();
 
             return;
         }
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\SendMailAction $sendMailAction */
-        $sendMailAction = Config::getCampaignActionClass('send_mail', SendMailAction::class);
+        $sendMailAction = Mailcoach::getCampaignActionClass('send_mail', SendMailAction::class);
+
         $sendMailAction->execute($this->pendingSend);
     }
 
     public function middleware(): array
     {
+        if (! $this->pendingSend->campaign) {
+            return [];
+        }
+
         if ($this->pendingSend->campaign->isCancelled()) {
             return [];
         }
 
+        $mailer = $this->pendingSend->campaign->getMailerKey();
+
         $rateLimitedMiddleware = (new RateLimited(useRedis: false))
-            ->key('mailer-throttle-' . (config('mailcoach.campaigns.mailer') ?? config('mailcoach.mailer') ?? config('mail.default')))
-            ->allow(config('mailcoach.campaigns.throttling.allowed_number_of_jobs_in_timespan'))
-            ->everySeconds(config('mailcoach.campaigns.throttling.timespan_in_seconds'))
-            ->releaseAfterOneSecond();
+            ->key('mailer-throttle-'.$mailer)
+            ->allow(config("mail.mailers.{$mailer}.mails_per_timespan", 10))
+            ->everySeconds(config("mail.mailers.{$mailer}.timespan_in_seconds", 1))
+            ->releaseAfterSeconds(config("mail.mailers.{$mailer}.timespan_in_seconds", 1) + 1);
 
         return [$rateLimitedMiddleware];
     }
@@ -105,7 +112,7 @@ class SendCampaignMailJob implements ShouldQueue, ShouldBeUnique
             return false;
         }
 
-        if ((int)$subscriber->email_list_id !== (int)$emailList->id) {
+        if ((int) $subscriber->email_list_id !== (int) $emailList->id) {
             return false;
         }
 

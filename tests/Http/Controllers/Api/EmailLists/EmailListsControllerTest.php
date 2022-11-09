@@ -29,7 +29,7 @@ it('can search email lists', function () {
     ]);
 
     $this
-        ->getJson(action([EmailListsController::class, 'index']) . '?filter[search]=two')
+        ->getJson(action([EmailListsController::class, 'index']).'?filter[search]=two')
         ->assertSuccessful()
         ->assertJsonCount(1, 'data')
         ->assertJsonFragment(['name' => 'two']);

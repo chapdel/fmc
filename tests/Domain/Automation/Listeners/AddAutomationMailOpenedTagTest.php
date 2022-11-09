@@ -5,17 +5,30 @@ use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
-it('adds a tag when a automation mail is opened', function () {
+it('adds no tag when a automationMail is opened and setting is false', function () {
     /** @var Send $send */
-    $send = SendFactory::new()->create(['campaign_id' => null]);
-
-    $send->automationMail->update(['track_opens' => true]);
+    $send = SendFactory::new()->create();
+    $send->automationMail->update([
+        'add_subscriber_tags' => false,
+    ]);
 
     $send->registerOpen();
 
-    expect($send->subscriber->hasTag("automation-mail-{$send->automationMail->id}-opened"))->toBeTrue();
+    expect($send->subscriber->hasTag("automation-mail-{$send->automationMail->uuid}-opened"))->toBeFalse();
+});
+
+it('adds a tag when a automationMail is opened', function () {
+    /** @var Send $send */
+    $send = SendFactory::new()->create(['campaign_id' => null]);
+    $send->automationMail->update([
+        'add_subscriber_tags' => true,
+    ]);
+
+    $send->registerOpen();
+
+    expect($send->subscriber->hasTag("automation-mail-{$send->automationMail->uuid}-opened"))->toBeTrue();
 
     tap(Tag::first(), function (Tag $tag) {
-        expect($tag->type)->toEqual(TagType::MAILCOACH);
+        expect($tag->type)->toEqual(TagType::Mailcoach);
     });
 });

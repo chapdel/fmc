@@ -6,9 +6,10 @@ use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Mails\ConfirmSubscriberMail;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Campaign\Mails\WelcomeMail;
+use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
+use Spatie\Mailcoach\Http\App\Queries\Filters\SearchFilter;
 
 beforeEach(function () {
     test()->emailList = EmailList::factory()->create();
@@ -54,35 +55,6 @@ it('will send a confirmation mail if the list requires double optin', function (
     });
 });
 
-it('will send a welcome mail if the list has welcome mails', function () {
-    test()->emailList->update([
-        'send_welcome_mail' => true,
-    ]);
-
-    $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
-    expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
-
-    Mail::assertQueued(WelcomeMail::class, function (WelcomeMail $mail) use ($subscriber) {
-        expect($mail->subscriber->uuid)->toEqual($subscriber->uuid);
-
-        return true;
-    });
-});
-
-it('will only send a welcome mail once', function () {
-    test()->emailList->update([
-        'send_welcome_mail' => true,
-    ]);
-
-    Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
-    expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
-
-    Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
-    expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
-
-    Mail::assertQueued(WelcomeMail::class, 1);
-});
-
 it('can immediately subscribe someone and not send a mail even with double opt in enabled', function () {
     test()->emailList->update([
         'requires_confirmation' => true,
@@ -92,7 +64,7 @@ it('can immediately subscribe someone and not send a mail even with double opt i
         ->skipConfirmation()
         ->subscribeTo(test()->emailList);
 
-    expect($subscriber->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
+    expect($subscriber->status)->toEqual(SubscriptionStatus::Subscribed);
     expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
 
     Mail::assertNotQueued(ConfirmSubscriberMail::class);
@@ -100,11 +72,11 @@ it('can immediately subscribe someone and not send a mail even with double opt i
 
 test('no email will be sent when adding someone that was already subscribed', function () {
     $subscriber = Subscriber::factory()->create();
-    expect($subscriber->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
+    expect($subscriber->status)->toEqual(SubscriptionStatus::Subscribed);
     $subscriber->emailList->update(['requires_confirmation' => true]);
 
     $subscriber = Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
-    expect($subscriber->status)->toEqual(SubscriptionStatus::SUBSCRIBED);
+    expect($subscriber->status)->toEqual(SubscriptionStatus::Subscribed);
 
     Mail::assertNothingQueued();
 });
@@ -126,7 +98,6 @@ it('can get all sends', function () {
 it('can get all opens', function () {
     /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
     $send = SendFactory::new()->create();
-    $send->campaign->update(['track_opens' => true]);
 
     $send->registerOpen();
 
@@ -143,7 +114,7 @@ it('can get all opens', function () {
 it('can get all clicks', function () {
     /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
     $send = SendFactory::new()->create();
-    $send->campaign->update(['track_clicks' => true]);
+    $send->campaign->update();
 
     $send->registerClick('https://example.com');
     $send->registerClick('https://another-domain.com');
@@ -159,7 +130,7 @@ it('can get all clicks', function () {
     expect($uniqueClicks)->toHaveCount(2);
 
     test()->assertEquals(
-        ['https://example.com','https://another-domain.com'],
+        ['https://example.com', 'https://another-domain.com'],
         $uniqueClicks->pluck('link.url')->toArray()
     );
 });
@@ -177,4 +148,113 @@ it('can scope on campaign sends', function () {
     ]);
 
     expect(Subscriber::withoutSendsForCampaign($campaign)->count())->toBe(1);
+});
+
+it('can sync tags', function () {
+    $subscriber = Subscriber::factory()->create();
+
+    $subscriber->syncTags(['one', 'two']);
+
+    expect(Tag::count())->toBe(2);
+});
+
+it('can sync tags with null', function () {
+    $subscriber = Subscriber::factory()->create();
+
+    $subscriber->syncTags(null);
+
+    expect(Tag::count())->toBe(0);
+});
+
+it('can sync preference tags', function () {
+    $subscriber = Subscriber::factory()->create();
+
+    $subscriber->syncTags(['one', 'two']);
+
+    Tag::where('name', 'two')->update(['visible_in_preferences' => true]);
+
+    $subscriber->syncPreferenceTags([]);
+
+    expect($subscriber->fresh()->tags->count())->toBe(1);
+});
+
+it('can sync preference tags with null', function () {
+    $subscriber = Subscriber::factory()->create();
+
+    $subscriber->syncTags(['one', 'two']);
+
+    Tag::where('name', 'two')->update(['visible_in_preferences' => true]);
+
+    $subscriber->syncPreferenceTags(null);
+
+    expect($subscriber->fresh()->tags->count())->toBe(1);
+});
+
+it('can retrieve subscribers by extra attributes', function () {
+    Subscriber::factory()->create();
+    $subscriber = Subscriber::factory()->create();
+
+    $subscriber->extra_attributes->external_id = 12345;
+    $subscriber->save();
+
+    expect(Subscriber::query()->withExtraAttributes(['external_id' => 12345])->count())->toBe(1);
+});
+
+it('can search on email', function () {
+    Subscriber::factory()->create(['email' => 'john@doe.com']);
+    Subscriber::factory()->create(['email' => 'jane@doe.com']);
+
+    expect(Subscriber::search('john@doe.com')->count())->toBe(1);
+});
+
+it('can search on first name', function () {
+    Subscriber::factory()->create(['first_name' => 'John Doe']);
+    Subscriber::factory()->create(['first_name' => 'Jane Doe']);
+
+    expect(Subscriber::search('John')->count())->toBe(1);
+    expect(Subscriber::search('Doe')->count())->toBe(2);
+});
+
+it('can search on last name', function () {
+    Subscriber::factory()->create(['last_name' => 'John Doe']);
+    Subscriber::factory()->create(['last_name' => 'Jane Doe']);
+
+    expect(Subscriber::search('John')->count())->toBe(1);
+    expect(Subscriber::search('Doe')->count())->toBe(2);
+});
+
+it('can search on encrypted email', function () {
+    config()->set('mailcoach.encryption.enabled', true);
+    config()->set('ciphersweet.providers.string.key', 'd3cc14e44763208f95af769f16d97cabdc815ec6416700b0bee23545d8375188');
+
+    Subscriber::factory()->create(['email' => 'john@doe.com']);
+    Subscriber::factory()->create(['email' => 'jane@doe.com']);
+
+    $filter = new SearchFilter();
+
+    expect($filter(Subscriber::query(), 'john@doe.com', 'search')->count())->toBe(1);
+});
+
+it('can search on encrypted first name', function () {
+    config()->set('mailcoach.encryption.enabled', true);
+    config()->set('ciphersweet.providers.string.key', 'd3cc14e44763208f95af769f16d97cabdc815ec6416700b0bee23545d8375188');
+
+    Subscriber::factory()->create(['first_name' => 'John']);
+    Subscriber::factory()->create(['first_name' => 'Jane']);
+
+    $filter = new SearchFilter();
+
+    expect($filter(Subscriber::query(), 'John', 'search')->count())->toBe(1);
+});
+
+it('can search on encrypted last name', function () {
+    config()->set('mailcoach.encryption.enabled', true);
+    config()->set('ciphersweet.providers.string.key', 'd3cc14e44763208f95af769f16d97cabdc815ec6416700b0bee23545d8375188');
+
+    Subscriber::factory()->create(['last_name' => 'John Doe']);
+    Subscriber::factory()->create(['last_name' => 'Jane Doe']);
+
+    $filter = new SearchFilter();
+
+    expect($filter(Subscriber::query(), 'John Doe', 'search')->count())->toBe(1);
 });

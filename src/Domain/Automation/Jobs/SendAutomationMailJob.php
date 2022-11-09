@@ -11,7 +11,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\Automation\Actions\SendMailAction;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
-use Spatie\Mailcoach\Domain\Shared\Support\Config;
+use Spatie\Mailcoach\Mailcoach;
 use Spatie\RateLimitedMiddleware\RateLimited;
 
 class SendAutomationMailJob implements ShouldQueue, ShouldBeUnique
@@ -44,23 +44,25 @@ class SendAutomationMailJob implements ShouldQueue, ShouldBeUnique
 
         $this->queue = config('mailcoach.automation.perform_on_queue.send_automation_mail_job');
 
-        $this->connection = $this->connection ?? Config::getQueueConnection();
+        $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
     }
 
     public function handle()
     {
         /** @var \Spatie\Mailcoach\Domain\Automation\Actions\SendMailAction $sendMailAction */
-        $sendMailAction = Config::getAutomationActionClass('send_mail', SendMailAction::class);
+        $sendMailAction = Mailcoach::getAutomationActionClass('send_mail', SendMailAction::class);
 
         $sendMailAction->execute($this->pendingSend);
     }
 
     public function middleware(): array
     {
+        $mailer = $this->pendingSend->subscriber->emailList->automation_mailer ?? Mailcoach::defaultAutomationMailer();
+
         $rateLimitedMiddleware = (new RateLimited(useRedis: false))
-            ->key('automation-mailer-throttle-' . config('mailcoach.automation.mailer') ?? config('mailcoach.mailer') ?? config('mail.default'))
-            ->allow(config('mailcoach.automation.throttling.allowed_number_of_jobs_in_timespan'))
-            ->everySeconds(config('mailcoach.automation.throttling.timespan_in_seconds'))
+            ->key('mailer-throttle-'.$mailer)
+            ->allow(config("mail.mailers.{$mailer}.mails_per_timespan", 10))
+            ->everySeconds(config("mail.mailers.{$mailer}.timespan_in_seconds", 1))
             ->releaseAfterOneSecond();
 
         return [$rateLimitedMiddleware];

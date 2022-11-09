@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Campaign\Commands\SendScheduledCampaignsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
@@ -9,38 +9,41 @@ use Spatie\TestTime\TestTime;
 beforeEach(function () {
     TestTime::freeze();
 
-    Bus::fake();
+    Queue::fake();
 });
 
 it('will not send campaigns that are not scheduled', function () {
     $campaign = Campaign::factory()->create([
         'scheduled_at' => null,
-        'status' => CampaignStatus::DRAFT,
+        'status' => CampaignStatus::Draft,
     ]);
 
     test()->artisan(SendScheduledCampaignsCommand::class)->assertExitCode(0);
+    $this->processQueuedJobs();
 
-    expect($campaign->fresh()->status)->toEqual(CampaignStatus::DRAFT);
+    expect($campaign->fresh()->status)->toEqual(CampaignStatus::Draft);
 });
 
 it('will not send a campaign that has a scheduled at in the future', function () {
     $campaign = Campaign::factory()->create([
         'scheduled_at' => now()->addSecond(),
-        'status' => CampaignStatus::DRAFT,
+        'status' => CampaignStatus::Draft,
     ]);
 
     test()->artisan(SendScheduledCampaignsCommand::class)->assertExitCode(0);
+    $this->processQueuedJobs();
 
-    expect($campaign->fresh()->status)->toEqual(CampaignStatus::DRAFT);
+    expect($campaign->fresh()->status)->toEqual(CampaignStatus::Draft);
 });
 
 it('will send a campaign that has a scheduled at set to in the past', function () {
     $campaign = Campaign::factory()->create([
         'scheduled_at' => now()->subSecond(),
-        'status' => CampaignStatus::DRAFT,
+        'status' => CampaignStatus::Draft,
     ]);
 
     test()->artisan(SendScheduledCampaignsCommand::class)->assertExitCode(0);
+    $this->processQueuedJobs();
 
-    expect($campaign->fresh()->status)->toEqual(CampaignStatus::SENT);
+    expect($campaign->fresh()->status)->toEqual(CampaignStatus::Sent);
 });

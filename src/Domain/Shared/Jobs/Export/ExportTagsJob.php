@@ -8,8 +8,8 @@ use Illuminate\Support\Facades\DB;
 class ExportTagsJob extends ExportJob
 {
     /**
-     * @param string $path
-     * @param array<int> $selectedEmailLists
+     * @param  string  $path
+     * @param  array<int>  $selectedEmailLists
      */
     public function __construct(protected string $path, protected array $selectedEmailLists)
     {
@@ -41,10 +41,10 @@ class ExportTagsJob extends ExportJob
                 DB::raw(self::getEmailListTableName().'.uuid as email_list_uuid'),
             )
             ->orderBy('id')
-            ->join(self::getSubscriberTableName(), self::getSubscriberTableName() . '.id', 'mailcoach_email_list_subscriber_tags.subscriber_id')
-            ->join(self::getEmailListTableName(), self::getEmailListTableName() . '.id', self::getSubscriberTableName().'.email_list_id')
-            ->join(self::getTagTableName(), self::getTagTableName() . '.id', 'mailcoach_email_list_subscriber_tags.tag_id')
-            ->whereIn(self::getSubscriberTableName() . '.email_list_id', $this->selectedEmailLists)
+            ->join(self::getSubscriberTableName(), self::getSubscriberTableName().'.id', 'mailcoach_email_list_subscriber_tags.subscriber_id')
+            ->join(self::getEmailListTableName(), self::getEmailListTableName().'.id', self::getSubscriberTableName().'.email_list_id')
+            ->join(self::getTagTableName(), self::getTagTableName().'.id', 'mailcoach_email_list_subscriber_tags.tag_id')
+            ->whereIn(self::getSubscriberTableName().'.email_list_id', $this->selectedEmailLists)
             ->chunk(50_000, function (Collection $subscriberTags, $index) use (&$subscriberTagsCount) {
                 $subscriberTagsCount += $subscriberTags->count();
                 $this->writeFile("email_list_subscriber_tags-{$index}.csv", $subscriberTags);

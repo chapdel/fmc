@@ -88,7 +88,7 @@ it('uses the configured action', function () {
 
     expect($automation->actions()->first()->subscribers->count())->toEqual(0);
 
-    test()->expectExceptionMessage("CustomShouldAutomationRunForSubscriberAction was used");
+    test()->expectExceptionMessage('CustomShouldAutomationRunForSubscriberAction was used');
 
     (new RunAutomationForSubscriberJob($automation, $jane))->handle();
 });

@@ -11,8 +11,8 @@ beforeEach(function () {
     test()->loginToApi();
 
     test()->subscriberImport = SubscriberImport::factory()->create([
-        'status' => SubscriberImportStatus::DRAFT,
-        'subscribers_csv' => 'email' . PHP_EOL . 'john@example.com',
+        'status' => SubscriberImportStatus::Draft,
+        'subscribers_csv' => 'email'.PHP_EOL.'john@example.com',
     ]);
 });
 
@@ -25,5 +25,5 @@ test('the import can be started via the api', function () {
     $emailList = test()->subscriberImport->emailList;
 
     expect($emailList->isSubscribed('john@example.com'))->toBeTrue();
-    expect(test()->subscriberImport->refresh()->status)->toEqual(SubscriberImportStatus::COMPLETED);
+    expect(test()->subscriberImport->refresh()->status)->toEqual(SubscriberImportStatus::Completed);
 });

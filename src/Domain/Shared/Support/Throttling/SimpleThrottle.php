@@ -20,6 +20,21 @@ class SimpleThrottle
     {
         $this->cache->forMailer($mailer);
 
+        $this->allowedNumberInPeriod = config("mail.mailers.{$mailer}.mails_per_timespan", $this->allowedNumberInPeriod);
+        $this->periodLengthInSeconds = config("mail.mailers.{$mailer}.timespan_in_seconds", $this->periodLengthInSeconds);
+
+        return $this;
+    }
+
+    public function forMailerCreates(?string $mailer = null): self
+    {
+        $this->cache->forMailerCreates($mailer);
+
+        $mailsPerSecond = config("mail.mailers.{$mailer}.mails_per_timespan", $this->allowedNumberInPeriod) / config("mail.mailers.{$mailer}.timespan_in_seconds", $this->periodLengthInSeconds);
+
+        $this->allowedNumberInPeriod = ceil($mailsPerSecond * 2);
+        $this->periodLengthInSeconds = 1;
+
         return $this;
     }
 

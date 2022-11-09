@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class CampaignFactory extends Factory
@@ -24,12 +24,11 @@ class CampaignFactory extends Factory
             'from_email' => $this->faker->email,
             'from_name' => $this->faker->name,
             'html' => $this->faker->randomHtml(),
-            'track_opens' => $this->faker->boolean,
-            'track_clicks' => $this->faker->boolean,
-            'status' => CampaignStatus::DRAFT,
+            'status' => CampaignStatus::Draft,
             'uuid' => $this->faker->uuid,
             'last_modified_at' => now(),
             'email_list_id' => EmailList::factory(),
+            'template_id' => Template::factory(),
         ];
     }
 }

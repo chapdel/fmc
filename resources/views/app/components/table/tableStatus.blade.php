@@ -1,12 +1,15 @@
-<p class="table-status">
+<div class="flex flex-wrap items-center gap-x-6 gap-y-2">
     @if($paginator->total() !== $totalCount)
-        {{ __('mailcoach - Filtering :resource', [
-            'resource' => trans_choice($name, $totalCount)
-        ]) }}.
-        <a href="{{ $showAllUrl }}" class="link-dimmed" data-turbo="false">
-            {{ __('mailcoach - Show all') }}
-        </a>
+    <p class="table-status whitespace-nowrap">
+            {{ __mc('Filtering :resource', [
+                'resource' => \Illuminate\Support\Str::plural($name),
+            ]) }}.
+            <a href="#" {{ $attributes->wire('click') }} class="link-dimmed">
+                {{ __mc('Show all') }}
+            </a>
+        </p>
     @endif
-</p>
-
-{{ $paginator->appends(request()->input())->links('mailcoach::app.components.table.pagination') }}
+    <div class="flex-grow">
+        {{ $paginator->links('mailcoach::app.components.table.pagination') }}
+    </div>
+</div>

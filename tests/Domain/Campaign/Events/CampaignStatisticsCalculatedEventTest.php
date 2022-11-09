@@ -10,6 +10,8 @@ it('fires an event after campaign statistics have been calculated', function () 
 
     $campaign = Campaign::factory()->create();
 
+    \Spatie\Mailcoach\Domain\Shared\Models\Send::factory()->create(['campaign_id' => $campaign->id]);
+
     dispatch(new CalculateStatisticsJob($campaign));
 
     Event::assertDispatched(CampaignStatisticsCalculatedEvent::class, function (CampaignStatisticsCalculatedEvent $event) use ($campaign) {

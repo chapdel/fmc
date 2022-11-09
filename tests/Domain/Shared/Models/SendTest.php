@@ -36,7 +36,7 @@ it('will unsubscribe when there is a permanent bounce', function () {
 
     test()->assertDatabaseHas('mailcoach_send_feedback_items', [
         'send_id' => $send->id,
-        'type' => SendFeedbackType::BOUNCE,
+        'type' => SendFeedbackType::Bounce,
         'created_at' => $bouncedAt,
     ]);
 
@@ -64,7 +64,7 @@ it('can receive a complaint', function () {
 
     test()->assertDatabaseHas('mailcoach_send_feedback_items', [
         'send_id' => $send->id,
-        'type' => SendFeedbackType::COMPLAINT,
+        'type' => SendFeedbackType::Complaint,
         'created_at' => $complainedAt,
     ]);
 
@@ -76,7 +76,6 @@ it('will not register an open if it was recently opened', function () {
 
     /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
     $send = SendFactory::new()->create();
-    $send->campaign->update(['track_opens' => true]);
 
     $send->registerOpen();
     expect($send->opens()->get())->toHaveCount(1);
@@ -93,7 +92,7 @@ it('will not register an open if it was recently opened', function () {
 it('will register an open at a specific time', function () {
     /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
     $send = SendFactory::new()->create();
-    $send->campaign->update(['track_opens' => true]);
+    $send->campaign->update();
 
     $openedAt = now()->subHour()->setMicroseconds(0);
 
@@ -105,7 +104,6 @@ it('will register an open at a specific time', function () {
 it('will not register a click of an unsubscribe link', function () {
     /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
     $send = SendFactory::new()->create();
-    $send->campaign->update(['track_clicks' => true]);
 
     $unsubscribeUrl = $send->subscriber->unsubscribeUrl($send);
 
@@ -117,7 +115,6 @@ it('will not register a click of an unsubscribe link', function () {
 it('can register a click at a given time', function () {
     /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
     $send = SendFactory::new()->create();
-    $send->campaign->update(['track_clicks' => true]);
 
     $clickedAt = now()->subDay()->setMilliseconds(0);
     $send->registerClick('https://example.com', $clickedAt);
@@ -129,7 +126,6 @@ it('can register a click at a given time', function () {
 it('can register a click and strips utm tags', function () {
     /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
     $send = SendFactory::new()->create();
-    $send->campaign->update(['track_clicks' => true]);
 
     $clickedAt = now()->subDay()->setMilliseconds(0);
     $send->registerClick('https://example.com?utm_campaign=My+campaign', $clickedAt);
@@ -152,7 +148,6 @@ test('registering clicks will update the click count', function () {
     /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */
     $campaign = Campaign::factory()->create([
         'email_list_id' => $emailList->id,
-        'track_clicks' => true,
     ]);
 
     /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */

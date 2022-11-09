@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Mailcoach\Database\Factories\TriggerFactory;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\AutomationTrigger;
-use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
+use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class Trigger extends Model

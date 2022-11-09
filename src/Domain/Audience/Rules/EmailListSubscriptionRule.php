@@ -21,11 +21,11 @@ class EmailListSubscriptionRule implements Rule
     {
         $this->attribute = $attribute;
 
-        return $this->emailList->getSubscriptionStatus($value) !== SubscriptionStatus::SUBSCRIBED;
+        return $this->emailList->getSubscriptionStatus($value) !== SubscriptionStatus::Subscribed;
     }
 
     public function message()
     {
-        return (string)__('mailcoach - This email address is already subscribed.');
+        return (string) __mc('This email address is already subscribed.');
     }
 }

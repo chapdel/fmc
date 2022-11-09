@@ -4,18 +4,14 @@
     :title="$title ?? null"
 >
     <x-slot name="nav">
-        <x-mailcoach::navigation :title="$template->name" :backHref="route('mailcoach.transactionalMails.templates')"
-                                :backLabel="__('mailcoach - Templates')">
-            <x-mailcoach::navigation-group>
-                <x-mailcoach::navigation-item :href="route('mailcoach.transactionalMails.templates.edit', $template)"
-                                            data-dirty-warn>
-                    {{ __('mailcoach - Content') }}
-                </x-mailcoach::navigation-item>
-                <x-mailcoach::navigation-item :href="route('mailcoach.transactionalMails.templates.settings', $template)"
-                                            data-dirty-warn>
-                    {{ __('mailcoach - Settings') }}
-                </x-mailcoach::navigation-item>
-            </x-mailcoach::navigation-group>
+        <x-mailcoach::navigation :title="$template->name">
+            <x-mailcoach::navigation-item :href="route('mailcoach.transactionalMails.templates.edit', $template)" data-dirty-warn>
+                {{ __mc('Content') }}
+            </x-mailcoach::navigation-item>
+            <x-mailcoach::navigation-item :href="route('mailcoach.transactionalMails.templates.settings', $template)"
+                                        data-dirty-warn>
+                {{ __mc('Settings') }}
+            </x-mailcoach::navigation-item>
         </x-mailcoach::navigation>
     </x-slot>
 

@@ -50,7 +50,7 @@ it('can unsubscribe someone', function () {
     expect(test()->emailList->unsubscribe('john@example.com'))->toBeTrue();
     expect(test()->emailList->unsubscribe('non-existing-subscriber@example.com'))->toBeFalse();
 
-    expect(Subscriber::first()->status)->toEqual(SubscriptionStatus::UNSUBSCRIBED);
+    expect(Subscriber::first()->status)->toEqual(SubscriptionStatus::Unsubscribed);
 });
 
 it('can get all subscribers that are subscribed', function () {
@@ -89,7 +89,7 @@ it('can get the status of a subscription', function () {
 
     test()->emailList->subscribe('john@example.com');
 
-    expect(test()->emailList->getSubscriptionStatus('john@example.com'))->toEqual(SubscriptionStatus::SUBSCRIBED);
+    expect(test()->emailList->getSubscriptionStatus('john@example.com'))->toEqual(SubscriptionStatus::Subscribed);
 });
 
 it('can summarize an email list', function () {
@@ -152,8 +152,8 @@ it('can reference tags and segments when using a custom model', function () {
     Tag::factory(2)->create(['email_list_id' => test()->emailList->id]);
     TagSegment::create(['name' => 'testSegment', 'email_list_id' => test()->emailList->id]);
 
-    Config::set("mailcoach.models.email_list", CustomEmailList::class);
-    Config::set("mailcoach.models.subscriber", CustomSubscriber::class);
+    Config::set('mailcoach.models.email_list', CustomEmailList::class);
+    Config::set('mailcoach.models.subscriber', CustomSubscriber::class);
 
     $list = CustomEmailList::find(test()->emailList->id);
 

@@ -23,6 +23,7 @@ abstract class ImportJob implements ShouldQueue
     use UsesMailcoachModels;
 
     abstract public function name(): string;
+
     abstract public function execute(): void;
 
     private LazyCollection $metaRows;

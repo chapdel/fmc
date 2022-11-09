@@ -3,6 +3,7 @@ composer.lock
 vendor
 !resources/css/vendor
 resources/dist/monaco
+resources/hot
 coverage
 .php_cs.cache
 node_modules
@@ -12,3 +13,4 @@ auth.json
 .php-cs-fixer.cache
 phpstan.neon
 
+/.fleet

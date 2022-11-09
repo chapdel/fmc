@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\ResendTransactionalMail;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
 use Spatie\Mailcoach\Tests\Domain\TransactionalMail\Concerns\SendsTestTransactionalMail;
 use Spatie\Mailcoach\Tests\TestClasses\TestTransactionMail;
 
@@ -11,10 +11,10 @@ uses(SendsTestTransactionalMail::class);
 it('can resend a transactional mail', function () {
     $this->sendTestMail();
 
-    /** @var TransactionalMail $originalMail */
+    /** @var TransactionalMailLogItem $originalMail */
     $this->sendTestMail(function (TestTransactionMail $testTransactionMail) {
         $testTransactionMail
-            ->trackOpensAndClicks()
+            ->store()
             ->from('ringo@example.com', 'Ringo')
             ->to('john@example.com', 'John')
             ->cc('paul@example.com', 'Paul')
@@ -23,7 +23,7 @@ it('can resend a transactional mail', function () {
 
     Mail::fake();
 
-    $originalMail = TransactionalMail::first();
+    $originalMail = TransactionalMailLogItem::first();
 
     $originalMail->resend();
 
@@ -41,11 +41,11 @@ it('can resend a transactional mail', function () {
         }
     );
 
-    expect(TransactionalMail::get())->toHaveCount(2);
+    expect(TransactionalMailLogItem::get())->toHaveCount(2);
 });
 
 // Helpers
-function assertMatchingPersons(TransactionalMail $originalMail, ResendTransactionalMail $resentMail, string $field)
+function assertMatchingPersons(TransactionalMailLogItem $originalMail, ResendTransactionalMail $resentMail, string $field)
 {
     expect(count($resentMail->to))->toBeGreaterThan(0);
     foreach ($originalMail->$field as $person) {

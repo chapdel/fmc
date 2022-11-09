@@ -29,7 +29,7 @@ it('can search campaigns', function () {
     ]);
 
     $this
-        ->getJson(action([CampaignsController::class, 'index']) . '?filter[search]=two')
+        ->getJson(action([CampaignsController::class, 'index']).'?filter[search]=two')
         ->assertSuccessful()
         ->assertJsonCount(1, 'data')
         ->assertJsonFragment(['name' => 'two']);

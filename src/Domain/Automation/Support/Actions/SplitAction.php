@@ -20,17 +20,17 @@ class SplitAction extends AutomationAction
 
     public static function getCategory(): ActionCategoryEnum
     {
-        return ActionCategoryEnum::check();
+        return ActionCategoryEnum::Check;
     }
 
     public static function getName(): string
     {
-        return (string) __('mailcoach - Branch out');
+        return (string) __mc('Branch out');
     }
 
     public static function getComponent(): ?string
     {
-        return 'split-action';
+        return 'mailcoach::split-action';
     }
 
     public function duplicate(): static
@@ -109,8 +109,8 @@ class SplitAction extends AutomationAction
     public static function make(array $data): self
     {
         return new self(
-            $data['leftActions'],
-            $data['rightActions'],
+            $data['leftActions'] ?? [],
+            $data['rightActions'] ?? [],
         );
     }
 

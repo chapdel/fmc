@@ -1,14 +1,14 @@
-@extends('mailcoach::landingPages.layouts.landingPage', ['title' => __('mailcoach - Unsubscribed')])
+@extends('mailcoach::landingPages.layouts.landingPage', ['title' => __mc('Unsubscribed')])
 
 @section('landing')
     <p class="mt-4">
-        {!! __('mailcoach - Are you sure you want to unsubscribe from list <strong class="font-semibold">:emailListName</strong>?', ['emailListName' => $subscriber->emailList->name]) !!}
+        {!! __mc('Are you sure you want to unsubscribe from list <strong class="font-semibold">:emailListName</strong>?', ['emailListName' => $subscriber->emailList->name]) !!}
     </p>
 
     <div class="mt-4">
         <form method="POST">
             @csrf
-            <button class="button bg-red-400 shadow" id="confirmationButton" type="submit">{{__('mailcoach - Unsubscribe') }}</button>
+            <button class="button bg-red-400 shadow" id="confirmationButton" type="submit">{{__mc('Unsubscribe') }}</button>
         </form>
     </div>
 

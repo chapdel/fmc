@@ -26,10 +26,10 @@ it('validates', function () {
         ->set('unit', '')
         ->call('save')
         ->assertHasErrors([
-          'length' => 'required',
-          'unit' => 'required',
-          'condition' => 'required',
-          'conditionData' => 'required',
+            'length' => 'required',
+            'unit' => 'required',
+            'condition' => 'required',
+            'conditionData' => 'required',
         ]);
 });
 
@@ -60,7 +60,6 @@ it('shows custom conditions', function () {
         'uuid' => Str::uuid()->toString(),
         'editing' => true,
     ])
-        ->assertSee('A custom condition')
         ->set('editing', false)
         ->set('condition', CustomCondition::class)
         ->assertSee('Some description');
@@ -109,7 +108,7 @@ it('emits an event', function () {
         'automation' => test()->automation,
         'action' => test()->action,
         'uuid' => $uuid,
-    ])  ->set('length', '5')
+    ])->set('length', '5')
         ->set('unit', 'days')
         ->set('condition', HasTagCondition::class)
         ->set('conditionData.tag', 'some-tag')

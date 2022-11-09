@@ -22,15 +22,27 @@ use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignOpen;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignUnsubscribe;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
+use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
+use Spatie\Mailcoach\Domain\Settings\Models\PersonalAccessToken;
+use Spatie\Mailcoach\Domain\Settings\Models\Setting;
+use Spatie\Mailcoach\Domain\Settings\Models\User;
+use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Models\SendFeedbackItem;
+use Spatie\Mailcoach\Domain\Shared\Models\Upload;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailClick;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailOpen;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailTemplate;
 
 trait UsesMailcoachModels
 {
+    /** @return class-string<Upload> */
+    public static function getUploadClass(): string
+    {
+        return config('mailcoach.models.upload', Upload::class);
+    }
+
     /** @return class-string<Campaign> */
     public static function getCampaignClass(): string
     {
@@ -139,10 +151,10 @@ trait UsesMailcoachModels
         return config('mailcoach.models.template', Template::class);
     }
 
-    /** @return class-string<TransactionalMail> */
-    public static function getTransactionalMailClass(): string
+    /** @return class-string<TransactionalMailLogItem> */
+    public static function getTransactionalMailLogItemClass(): string
     {
-        return config('mailcoach.models.transactional_mail', TransactionalMail::class);
+        return config('mailcoach.models.transactional_mail_log_item', TransactionalMailLogItem::class);
     }
 
     /** @return class-string<TransactionalMailOpen> */
@@ -157,10 +169,10 @@ trait UsesMailcoachModels
         return config('mailcoach.models.transactional_mail_click', TransactionalMailClick::class);
     }
 
-    /** @return class-string<TransactionalMailTemplate> */
-    public static function getTransactionalMailTemplateClass(): string
+    /** @return class-string<TransactionalMail> */
+    public static function getTransactionalMailClass(): string
     {
-        return config('mailcoach.models.transactional_mail_template', TransactionalMailTemplate::class);
+        return config('mailcoach.models.transactional_mail', TransactionalMail::class);
     }
 
     /** @return class-string<ActionSubscriber> */
@@ -187,46 +199,6 @@ trait UsesMailcoachModels
         return config('mailcoach.models.subscriber_import', SubscriberImport::class);
     }
 
-    public static function getTagTableName(): string
-    {
-        /** @var \Illuminate\Database\Eloquent\Model $tag */
-        $tagClass = self::getTagClass();
-
-        $tag = new $tagClass;
-
-        return $tag->getTable();
-    }
-
-    public static function getTransactionalMailTemplateTableName(): string
-    {
-        /** @var \Illuminate\Database\Eloquent\Model $transactionalMailTemplate */
-        $transactionalMailTemplateClass = self::getTransactionalMailTemplateClass();
-
-        $transactionalMailTemplate = new $transactionalMailTemplateClass;
-
-        return $transactionalMailTemplate->getTable();
-    }
-
-    public static function getAutomationTableName(): string
-    {
-        /** @var \Illuminate\Database\Eloquent\Model $automation */
-        $automationClass = self::getAutomationClass();
-
-        $automation = new $automationClass;
-
-        return $automation->getTable();
-    }
-
-    public static function getTagSegmentTableName(): string
-    {
-        /** @var \Illuminate\Database\Eloquent\Model $tagSegment */
-        $tagSegmentClass = self::getTagSegmentClass();
-
-        $tagSegment = new $tagSegmentClass;
-
-        return $tagSegment->getTable();
-    }
-
     public static function getEmailListTableName(): string
     {
         /** @var \Illuminate\Database\Eloquent\Model $emailList */
@@ -235,6 +207,16 @@ trait UsesMailcoachModels
         $emailList = new $emailListClass;
 
         return $emailList->getTable();
+    }
+
+    public static function getTransactionalMailTableName(): string
+    {
+        /** @var \Illuminate\Database\Eloquent\Model $template */
+        $templateClass = self::getTransactionalMailClass();
+
+        $template = new $templateClass;
+
+        return $template->getTable();
     }
 
     public static function getSubscriberTableName(): string
@@ -255,6 +237,26 @@ trait UsesMailcoachModels
         $template = new $templateClass;
 
         return $template->getTable();
+    }
+
+    public static function getTagTableName(): string
+    {
+        $tagClass = self::getTagClass();
+
+        /** @var \Illuminate\Database\Eloquent\Model $tag */
+        $tag = new $tagClass;
+
+        return $tag->getTable();
+    }
+
+    public static function getTagSegmentTableName(): string
+    {
+        $tagSegmentClass = self::getTagSegmentClass();
+
+        /** @var \Illuminate\Database\Eloquent\Model $tag */
+        $tagSegment = new $tagSegmentClass;
+
+        return $tagSegment->getTable();
     }
 
     public static function getCampaignTableName(): string
@@ -285,6 +287,16 @@ trait UsesMailcoachModels
         $actionSubscriber = new $actionSubscriberClass;
 
         return $actionSubscriber->getTable();
+    }
+
+    public static function getAutomationTableName(): string
+    {
+        /** @var \Illuminate\Database\Eloquent\Model $action */
+        $automationClass = self::getAutomationClass();
+
+        $automation = new $automationClass;
+
+        return $automation->getTable();
     }
 
     public static function getAutomationActionTableName(): string
@@ -385,5 +397,35 @@ trait UsesMailcoachModels
         $class = new $className;
 
         return $class->getTable();
+    }
+
+    /** @return class-string<User> */
+    public static function getUserClass(): string
+    {
+        return config('mailcoach.models.user', User::class);
+    }
+
+    /** @return class-string<PersonalAccessToken> */
+    public static function getPersonalAccessTokenClass(): string
+    {
+        return config('mailcoach.models.personal_access_token', PersonalAccessToken::class);
+    }
+
+    /** @return class-string<Setting> */
+    public static function getSettingClass(): string
+    {
+        return config('mailcoach.models.setting', Setting::class);
+    }
+
+    /** @return class-string<Mailer> */
+    public static function getMailerClass(): string
+    {
+        return config('mailcoach.models.mailer', Mailer::class);
+    }
+
+    /** @return class-string<WebhookConfiguration> */
+    public static function getWebhookConfigurationClass(): string
+    {
+        return config('mailcoach.models.webhook_configuration', WebhookConfiguration::class);
     }
 }

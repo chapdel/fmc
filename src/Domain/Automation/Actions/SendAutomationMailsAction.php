@@ -9,26 +9,28 @@ use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus;
 use Spatie\Mailcoach\Domain\Shared\Support\Throttling\SimpleThrottle;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Mailcoach;
 
 class SendAutomationMailsAction
 {
     use UsesMailcoachModels;
 
+    public function __construct(private SimpleThrottle $throttle)
+    {
+    }
+
     public function execute(?CarbonInterface $stopExecutingAt = null)
     {
-        $simpleThrottle = app(SimpleThrottle::class)
-            ->forMailer(config('mailcoach.automation.mailer'))
-            ->allow(config('mailcoach.automation.throttling.allowed_number_of_jobs_in_timespan'))
-            ->inSeconds(config('mailcoach.automation.throttling.timespan_in_seconds'));
-
         self::getSendClass()::query()
             ->undispatched()
             ->whereNotNull('automation_mail_id')
             ->lazyById()
-            ->each(function (Send $send) use ($stopExecutingAt, $simpleThrottle) {
+            ->each(function (Send $send) use ($stopExecutingAt) {
+                $this->throttle->forMailer($send->subscriber->emailList->automation_mailer ?? Mailcoach::defaultAutomationMailer());
+
                 // should horizon be used, and it is paused, stop dispatching jobs
                 if (! app(HorizonStatus::class)->is(HorizonStatus::STATUS_PAUSED)) {
-                    $simpleThrottle->hit();
+                    $this->throttle->hit();
 
                     dispatch(new SendAutomationMailJob($send));
 

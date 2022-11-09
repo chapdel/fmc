@@ -19,7 +19,7 @@ it('can list all subscribers of an email list', function () {
     ]);
 
     $response = $this
-        ->getJson(action([SubscribersController::class, 'index'], test()->emailList->id))
+        ->getJson(action([SubscribersController::class, 'index'], test()->emailList))
         ->assertSuccessful()
         ->assertJsonCount(3, 'data');
 
@@ -34,7 +34,7 @@ it('can filter on email', function () {
     ]);
 
     $response = $this
-        ->getJson(action([SubscribersController::class, 'index'], test()->emailList->id) . '?filter[email]=' . $subscribers[0]->email)
+        ->getJson(action([SubscribersController::class, 'index'], test()->emailList).'?filter[email]='.$subscribers[0]->email)
         ->assertSuccessful()
         ->assertJsonCount(1, 'data');
 
@@ -47,7 +47,7 @@ it('can fuzzy filter on email', function () {
     ]);
 
     $response = $this
-        ->getJson(action([SubscribersController::class, 'index'], test()->emailList->id) . '?filter[search]=' . $subscribers[0]->email)
+        ->getJson(action([SubscribersController::class, 'index'], test()->emailList).'?filter[search]='.$subscribers[0]->email)
         ->assertSuccessful()
         ->assertJsonCount(1, 'data');
 
@@ -60,7 +60,7 @@ it('can filter on subscription status', function () {
         'email_list_id' => test()->emailList->id,
     ]);
 
-    $endpoint = action([SubscribersController::class, 'index'], test()->emailList->id) . '?filter[status]=unsubscribed';
+    $endpoint = action([SubscribersController::class, 'index'], test()->emailList).'?filter[status]=unsubscribed';
 
     $this
         ->getJson($endpoint)
@@ -80,7 +80,7 @@ it('can show a subscriber', function () {
     $subscriber = Subscriber::factory()->create();
 
     $this
-        ->getJson(action([SubscribersController::class, 'show'], $subscriber))
+        ->getJson(action([SubscribersController::class, 'show'], $subscriber->uuid))
         ->assertSuccessful()
         ->assertJsonFragment(['email' => $subscriber->email]);
 });
@@ -96,8 +96,6 @@ it('can show a subscriber by uuid', function () {
 });
 
 it('wont confuse id and uuid', function () {
-    Subscriber::$fakeUuid = null;
-
     /** @var Subscriber $subscriber1 */
     $subscriber1 = Subscriber::factory()->create([
         'uuid' => '150ecdda-14b8-49aa-b1a1-6a07d42c2a76',
@@ -119,7 +117,7 @@ it('can delete a subscriber', function () {
     $subscriber = Subscriber::factory()->create();
 
     $this
-        ->deleteJson(action([SubscribersController::class, 'destroy'], $subscriber))
+        ->deleteJson(action([SubscribersController::class, 'destroy'], $subscriber->uuid))
         ->assertSuccessful();
 
     expect(Subscriber::all())->toHaveCount(0);
@@ -138,7 +136,7 @@ it('can update a subscriber', function () {
         'tags' => ['test1', 'test2'],
     ];
     $this
-        ->patchJson(action([SubscribersController::class, 'update'], $subscriber), $attributes)
+        ->patchJson(action([SubscribersController::class, 'update'], $subscriber->uuid), $attributes)
         ->assertSuccessful();
 
     $subscriber->refresh();
@@ -161,7 +159,7 @@ it('can update a subscriber with extra attributes', function () {
     ];
 
     $this
-        ->patchJson(action([SubscribersController::class, 'update'], $subscriber), $attributes)
+        ->patchJson(action([SubscribersController::class, 'update'], $subscriber->uuid), $attributes)
         ->assertSuccessful();
     $subscriber->refresh();
     expect($subscriber->extra_attributes->foo)->toEqual($attributes['extra_attributes']['foo']);
@@ -180,7 +178,7 @@ it('can append tags when updating a subscriber', function () {
     ];
 
     $this
-        ->patchJson(action([SubscribersController::class, 'update'], $subscriber), $attributes)
+        ->patchJson(action([SubscribersController::class, 'update'], $subscriber->uuid), $attributes)
         ->assertSuccessful();
 
     $subscriber->refresh();

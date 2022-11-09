@@ -1,32 +1,36 @@
-<x-mailcoach::layout-automation-mail :title="__('mailcoach - Performance')" :mail="$mail">
-    <div>
-        <div class="grid grid-cols-auto-1fr gap-2 alert alert-success">
+<div class="card-grid">
+    <x-mailcoach::card>
+    @if ($mail->sent_to_number_of_subscribers)
+        <x-mailcoach::success full>
             <div>
-                <i class="fas fa-check text-green-500"></i>
-            </div>
-            <div>
-                {{ __('mailcoach - AutomationMail') }}
+                {{ __mc('AutomationMail') }}
                 <strong>{{ $mail->name }}</strong>
-                {{ __('mailcoach - was delivered to') }}
-                <strong>{{ number_format($mail->sent_to_number_of_subscribers - ($failedSendsCount ?? 0)) }} {{ trans_choice('mailcoach - subscriber|subscribers', $mail->sent_to_number_of_subscribers) }}</strong>
+                {{ __mc('was delivered to') }}
+                <strong>{{ number_format($mail->sent_to_number_of_subscribers - ($failedSendsCount ?? 0)) }} {{ __mc_choice('subscriber|subscribers', $mail->sent_to_number_of_subscribers) }}</strong>
             </div>
+        </x-mailcoach::success>
+    @else
+        <x-mailcoach::warning full>
+            <div>
+                {{ __mc('AutomationMail') }}
+                <strong>{{ $mail->name }}</strong>
+                {{ __mc('has not been sent yet.') }}
+            </div>
+        </x-mailcoach::warning>
+    @endif
 
-            @if($failedSendsCount)
-                <div>
-                    <i class="fas fa-times text-red-500"></i>
-                </div>
-                <div>
-                    {{ __('mailcoach - Delivery failed for') }}
-                    <strong>{{ $failedSendsCount }}</strong> {{ trans_choice('mailcoach - subscriber|subscribers', $failedSendsCount) }}
-                    .
-                    <a class="underline"
-                       href="{{ route('mailcoach.automations.mails.outbox', $mail) . '?filter[type]=failed' }}">{{ __('mailcoach - Check the outbox') }}</a>.
-                </div>
-            @endif
-
-            <div class="col-start-2 text-sm text-green-600">{{ $mail->created_at->toMailcoachFormat() }}</div>
-        </div>
+    @if($failedSendsCount)
+        <x-mailcoach::error full>
+            <div>
+                {{ __mc('Delivery failed for') }}
+                <strong>{{ $failedSendsCount }}</strong> {{ __mc_choice('subscriber|subscribers', $failedSendsCount) }}
+                .
+                <a class="underline"
+                   href="{{ route('mailcoach.automations.mails.outbox', $mail) . '?filter[type]=failed' }}">{{ __mc('Check the outbox') }}</a>.
+            </div>
+        </x-mailcoach::error>
+    @endif
 
         @include('mailcoach::app.automations.mails.partials.statistics')
-    </div>
-</x-mailcoach::layout-automation-mail>
+    </x-mailcoach::card>
+</div>

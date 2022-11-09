@@ -18,6 +18,7 @@ use Spatie\Mailcoach\Http\Api\Controllers\SubscriberImports\StartSubscriberImpor
 use Spatie\Mailcoach\Http\Api\Controllers\SubscriberImports\SubscriberImportsController;
 use Spatie\Mailcoach\Http\Api\Controllers\TemplatesController;
 use Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails\ResendTransactionalMailController;
+use Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails\SendTransactionalMailController;
 use Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails\ShowTransactionalMailController;
 use Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails\TransactionalMailsController;
 use Spatie\Mailcoach\Http\Api\Controllers\UserController;
@@ -25,8 +26,8 @@ use Spatie\Mailcoach\Http\Api\Controllers\UserController;
 Route::get('user', UserController::class);
 
 Route::apiResource('templates', TemplatesController::class);
-
 Route::apiResource('campaigns', CampaignsController::class);
+
 Route::prefix('campaigns/{campaign}')->group(function () {
     Route::post('send-test', SendTestEmailController::class);
     Route::post('send', SendCampaignController::class);
@@ -38,8 +39,8 @@ Route::prefix('campaigns/{campaign}')->group(function () {
 
 Route::apiResource('email-lists', EmailListsController::class);
 Route::apiResource('email-lists.subscribers', SubscribersController::class)->only(['index', 'store']);
-
 Route::apiResource('subscribers', SubscribersController::class)->except(['index', 'store']);
+
 Route::prefix('subscribers/{subscriber}')->group(function () {
     Route::post('confirm', ConfirmSubscriberController::class);
     Route::post('unsubscribe', UnsubscribeController::class);
@@ -47,6 +48,7 @@ Route::prefix('subscribers/{subscriber}')->group(function () {
 });
 
 Route::apiResource('subscriber-imports', SubscriberImportsController::class);
+
 Route::prefix('subscriber-imports/{subscriberImport}')->group(function () {
     Route::post('append', AppendSubscriberImportController::class);
     Route::post('start', StartSubscriberImportController::class);
@@ -54,6 +56,7 @@ Route::prefix('subscriber-imports/{subscriberImport}')->group(function () {
 
 Route::prefix('transactional-mails')->group(function () {
     Route::get('/', TransactionalMailsController::class);
+    Route::post('send', SendTransactionalMailController::class);
     Route::get('{transactionalMail}', ShowTransactionalMailController::class);
     Route::post('{transactionalMail}/resend', ResendTransactionalMailController::class);
 });

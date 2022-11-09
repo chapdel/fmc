@@ -1,6 +1,6 @@
 <?php
 
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
 use Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails\TransactionalMailsController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 
@@ -9,8 +9,8 @@ uses(RespondsToApiRequests::class);
 beforeEach(function () {
     test()->loginToApi();
 
-    TransactionalMail::factory()->count(2)->create(['subject' => 'foo']);
-    TransactionalMail::factory()->count(2)->create(['subject' => 'bar']);
+    TransactionalMailLogItem::factory()->count(2)->create(['subject' => 'foo']);
+    TransactionalMailLogItem::factory()->count(2)->create(['subject' => 'bar']);
 });
 
 it('can show all transactional mails', function () {
@@ -24,7 +24,7 @@ it('can show all transactional mails', function () {
 
 it('can search mails with a certain subject', function () {
     $transactionalMails = $this
-                ->get(action(TransactionalMailsController::class). '?filter[search]=ba')
+                ->get(action(TransactionalMailsController::class).'?filter[search]=ba')
                 ->assertSuccessful()
                 ->json('data');
 

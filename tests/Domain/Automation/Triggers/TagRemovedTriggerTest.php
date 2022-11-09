@@ -47,7 +47,7 @@ it('triggers when a tag is removed from a subscriber', function () {
 
     Queue::assertPushed(
         RunAutomationForSubscriberJob::class,
-        function (RunAutomationForSubscriberJob $job) use ($automation) {
+        function (RunAutomationForSubscriberJob $job) {
             expect($job->subscriber->email)->toBe('john@doe.com');
 
             return true;

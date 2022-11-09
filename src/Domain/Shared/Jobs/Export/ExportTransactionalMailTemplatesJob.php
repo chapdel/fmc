@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\DB;
 class ExportTransactionalMailTemplatesJob extends ExportJob
 {
     /**
-     * @param string $path
-     * @param array<int> $selectedTransactionalMailTemplates
+     * @param  string  $path
+     * @param  array<int>  $selectedTransactionalMailTemplates
      */
     public function __construct(protected string $path, protected array $selectedTransactionalMailTemplates)
     {
@@ -21,7 +21,7 @@ class ExportTransactionalMailTemplatesJob extends ExportJob
 
     public function execute(): void
     {
-        $templates = DB::table(self::getTransactionalMailTemplateTableName())
+        $templates = DB::table(self::getTransactionalMailTableName())
             ->whereIn('id', $this->selectedTransactionalMailTemplates)
             ->get();
 

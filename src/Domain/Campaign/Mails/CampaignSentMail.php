@@ -14,11 +14,14 @@ class CampaignSentMail extends Mailable implements ShouldQueue
 
     public string $summaryUrl;
 
+    public string $settingsUrl;
+
     public function __construct(Campaign $campaign)
     {
         $this->campaign = $campaign;
 
         $this->summaryUrl = route('mailcoach.campaigns.summary', $this->campaign);
+        $this->settingsUrl = route('mailcoach.emailLists.general-settings', $this->campaign->emailList);
     }
 
     public function build()
@@ -28,7 +31,7 @@ class CampaignSentMail extends Mailable implements ShouldQueue
                 $this->campaign->emailList->default_from_email,
                 $this->campaign->emailList->default_from_name
             )
-            ->subject(__("mailcoach - The campaign named ':campaignName' has been sent", ['campaignName' => $this->campaign->name]))
+            ->subject(__mc("The campaign named ':campaignName' has been sent", ['campaignName' => $this->campaign->name]))
             ->markdown('mailcoach::mails.campaignSent');
     }
 }

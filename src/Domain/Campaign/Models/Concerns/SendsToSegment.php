@@ -27,7 +27,7 @@ trait SendsToSegment
     }
 
     /**
-     * @param \Spatie\Mailcoach\Domain\Audience\Support\Segments\Segment|string $segmentClassOrObject
+     * @param  \Spatie\Mailcoach\Domain\Audience\Support\Segments\Segment|string  $segmentClassOrObject
      */
     public function segment($segmentClassOrObject): self
     {
@@ -59,7 +59,7 @@ trait SendsToSegment
 
     public function segmentSubscriberCount(): int
     {
-        return cache()->remember("segmentSubscriberCount-{$this->id}", now()->addMinute(), function () {
+        return cache()->remember("segmentSubscriberCount-{$this->id}", now()->addSeconds(10), function () {
             if (! $this->emailList) {
                 return 0;
             }

@@ -22,7 +22,7 @@ class ZipExportJob extends ExportJob
         $this->addMeta('version', InstalledVersions::getVersion('spatie/laravel-mailcoach'));
 
         $zipFile = new ZipArchive();
-        $zipFile->open($this->path . DIRECTORY_SEPARATOR . 'mailcoach-export.zip', ZipArchive::CREATE);
+        $zipFile->open($this->path.DIRECTORY_SEPARATOR.'mailcoach-export.zip', ZipArchive::CREATE);
 
         $files = Finder::create()
             ->in($this->path)

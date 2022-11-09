@@ -12,7 +12,7 @@ class EmailListCampaignReplacer implements CampaignReplacer
     public function helpText(): array
     {
         return [
-            'list.name' => __('mailcoach - The name of the email list this campaign is sent to'),
+            'list.name' => __mc('The name of the email list this campaign is sent to'),
         ];
     }
 

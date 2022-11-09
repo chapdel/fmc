@@ -12,7 +12,7 @@ beforeEach(function () {
     test()->action = Action::factory()->create();
     test()->action->subscribers()->attach(SubscriberFactory::new()->create());
 
-    test()->subscriber = test()->action->subscribers->first();
+    test()->actionSubscriber = ActionSubscriber::first();
 
     TestTime::freeze();
 });
@@ -20,21 +20,21 @@ beforeEach(function () {
 it('never halts the automation', function () {
     $action = new WaitAction(CarbonInterval::days(1));
 
-    expect($action->shouldHalt(test()->subscriber))->toBeFalse();
+    expect($action->shouldHalt(test()->actionSubscriber))->toBeFalse();
 
     TestTime::addDay();
 
-    expect($action->shouldHalt(test()->subscriber))->toBeFalse();
+    expect($action->shouldHalt(test()->actionSubscriber))->toBeFalse();
 });
 
 it('will only continue when time has passed', function () {
     $action = new WaitAction(CarbonInterval::days(1));
 
-    expect($action->shouldContinue(test()->subscriber))->toBeFalse();
+    expect($action->shouldContinue(test()->actionSubscriber))->toBeFalse();
 
     TestTime::addDay();
 
-    expect($action->shouldContinue(test()->subscriber))->toBeTrue();
+    expect($action->shouldContinue(test()->actionSubscriber))->toBeTrue();
 });
 
 it('will return the correct query to only run on subscribers that need to continue', function () {

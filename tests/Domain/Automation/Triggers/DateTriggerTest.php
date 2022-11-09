@@ -45,6 +45,7 @@ it('triggers on a specific date', function () {
     TestTime::addDay();
 
     Artisan::call(RunAutomationTriggersCommand::class);
+    $this->processQueuedJobs();
 
     Queue::assertPushed(
         RunAutomationForSubscriberJob::class,

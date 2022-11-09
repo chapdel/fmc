@@ -1,25 +1,36 @@
-import * as Turbo from '@hotwired/turbo';
 import { listen, $ } from '../util';
-import { showModal } from './modal';
 
 listen('input', '[data-dirty-check]', ({ target }) => {
     target.dirty = true;
 });
 
-listen('click', '[data-dirty-warn]', () => {
-    if (!$('[data-dirty-check]') || !$('[data-dirty-check]').dirty) {
-        return;
-    }
+Livewire.on('notify', function(params) {
+    const [message, level] = params;
 
-    function handleBeforeVisit(event) {
+    if (level === 'success' && $('[data-dirty-check]')) {
+        $('[data-dirty-check]').dirty = false;
+    }
+});
+
+document.addEventListener(
+    'click',
+    event => {
+        if (event.target.dataset.dirtyWarn === undefined) {
+            return;
+        }
+
+        if (!$('[data-dirty-check]') || !$('[data-dirty-check]').dirty) {
+            return;
+        }
+
+        event.stopImmediatePropagation();
         event.preventDefault();
 
-        showModal('dirty-warning', {
-            onConfirm() {
-                Turbo.visit(event.data.url);
-            },
-        });
-    }
-
-    document.addEventListener('turbo:before-visit', handleBeforeVisit, { once: true });
-});
+        Alpine.store('modals').open('dirty-warning');
+        Alpine.store('modals').onConfirm = () => {
+            Alpine.store('modals').close('dirty-warning');
+            window.location.href = event.target.href;
+        };
+    },
+    true
+);

@@ -1,36 +1,56 @@
-<x-mailcoach::layout-transactional-template title="Details" :template="$template">
+<div>
     <form
-        class="form-grid"
+        class="card-grid"
         method="POST"
+        wire:submit.prevent="save"
+        @keydown.prevent.window.cmd.s="$wire.call('save')"
+        @keydown.prevent.window.ctrl.s="$wire.call('save')"
     >
-        @csrf
-        @method('PUT')
-
-        <x-mailcoach::fieldset :legend="__('mailcoach - Recipients')">
-            <x-mailcoach::help>
-                {{ __('mailcoach - These recipients will be merged with the ones when the mail is sent. You can specify multiple recipients comma separated.') }}
-            </x-mailcoach::help>
-            <x-mailcoach::text-field placeholder="john@example.com, jane@example.com" :label="__('mailcoach - To')" name="to" :value="$template->toString()"/>
-            <x-mailcoach::text-field placeholder="john@example.com, jane@example.com" :label="__('mailcoach - Cc')" name="cc" :value="$template->ccString()"/>
-            <x-mailcoach::text-field placeholder="john@example.com, jane@example.com" :label="__('mailcoach - Bcc')" name="bcc" :value="$template->bccString()"/>
+        <x-mailcoach::fieldset card :legend="__mc('Recipients')">
+            <x-mailcoach::info>
+                {{ __mc('These recipients will be merged with the ones when the mail is sent. You can specify multiple recipients comma separated.') }}
+            </x-mailcoach::info>
+            <x-mailcoach::text-field placeholder="john@example.com, jane@example.com" :label="__mc('To')"
+                                     name="template.to" wire:model.lazy="template.to"/>
+            <x-mailcoach::text-field placeholder="john@example.com, jane@example.com" :label="__mc('Cc')"
+                                     name="template.cc" wire:model.lazy="template.cc"/>
+            <x-mailcoach::text-field placeholder="john@example.com, jane@example.com" :label="__mc('Bcc')"
+                                     name="template.bcc" wire:model.lazy="template.bcc"/>
         </x-mailcoach::fieldset>
 
-        <x-mailcoach::text-field :label="__('mailcoach - Subject')" name="subject" :value="$template->subject" required/>
+        <x-mailcoach::fieldset card :legend="__mc('Email')">
 
-        {!! app(config('mailcoach.transactional.editor'))->render($template) !!}
+            <x-mailcoach::text-field
+                :label="__mc('Subject')"
+                name="template.subject"
+                wire:model.lazy="template.subject"
+                required
+            />
+
+            @if ($template->type === 'html')
+                @livewire(\Livewire\Livewire::getAlias(config('mailcoach.content_editor')), ['model' => $template])
+            @else
+                <?php
+                $editor = config('mailcoach.content_editor', \Spatie\Mailcoach\Http\App\Livewire\TextAreaEditorComponent::class);
+                $editorName = (new ReflectionClass($editor))->getShortName();
+                ?>
+                <x-mailcoach::html-field label="{{ [
+                    'html' => 'HTML (' . $editorName . ')',
+                    'markdown' => 'Markdown',
+                    'blade' => 'Blade',
+                    'blade-markdown' => 'Blade with Markdown',
+                ][$template->type] }}" name="template.body" wire:model.lazy="template.body" />
+
+                <x-mailcoach::editor-buttons :model="$template" :preview-html="$template->body" />
+            @endif
+        </x-mailcoach::fieldset>
     </form>
 
-    <x-mailcoach::modal :title="__('mailcoach - Preview') . ' - ' . $template->subject" name="preview" large :open="Request::get('modal')">
-        <iframe class="absolute" width="100%" height="100%" data-html-preview-target></iframe>
-    </x-mailcoach::modal>
-
     @if($template->canBeTested())
-        <x-mailcoach::modal :title="__('mailcoach - Send Test')" name="send-test">
+        <x-mailcoach::modal :title="__mc('Send Test')" name="send-test" :dismissable="true">
             @include('mailcoach::app.transactionalMails.templates.partials.test')
         </x-mailcoach::modal>
     @endif
 
-    <x-mailcoach::transactional-mail-template-replacer-help-texts :template="$template"/>
-
-
-</x-mailcoach::layout-transactional-template>
+    <x-mailcoach::replacer-help-texts :model="$template" />
+</div>

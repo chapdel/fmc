@@ -2,14 +2,8 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Actions;
 
-use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
+use Spatie\Mailcoach\Domain\Shared\Actions\PrepareWebviewHtmlAction as BasePrepareWebviewHtmlAction;
 
-class PrepareWebviewHtmlAction
+class PrepareWebviewHtmlAction extends BasePrepareWebviewHtmlAction
 {
-    public function execute(AutomationMail $automationMail): void
-    {
-        $automationMail->webview_html = $automationMail->htmlWithInlinedCss();
-
-        $automationMail->save();
-    }
 }

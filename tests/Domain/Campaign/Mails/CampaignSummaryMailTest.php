@@ -88,9 +88,7 @@ test('the mail contains correct statistics', function () {
         'click_rate' => 1182,
         'unsubscribe_count' => 15,
         'unsubscribe_rate' => 19,
-        'track_clicks' => true,
-        'track_opens' => true,
-        ]);
+    ]);
 
     $mail = (new CampaignSummaryMail(test()->campaign));
     $html = $mail->render();

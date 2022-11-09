@@ -22,7 +22,7 @@ class HasClickedAutomationMail implements Condition
 
     public static function getName(): string
     {
-        return (string) __('mailcoach - Has clicked automation mail');
+        return (string) __mc('Has clicked automation mail');
     }
 
     public static function getDescription(array $data): string
@@ -33,11 +33,11 @@ class HasClickedAutomationMail implements Condition
 
         $mail = static::getAutomationMailClass()::find($data['automation_mail_id']);
 
-        return (string) __('mailcoach - :mail - :url', [
+        return (string) __mc(':mail - :url', [
             'mail' => $mail->name,
             'url' => isset($data['automation_mail_link_url']) && $data['automation_mail_link_url']
                 ? $data['automation_mail_link_url']
-                : __('mailcoach - Any link'),
+                : __mc('Any link'),
         ]);
     }
 

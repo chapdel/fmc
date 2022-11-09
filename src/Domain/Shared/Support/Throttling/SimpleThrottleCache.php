@@ -9,6 +9,7 @@ use Illuminate\Contracts\Cache\Repository;
 class SimpleThrottleCache
 {
     protected string $currentPeriodHitCountKey = 'simpleThrottle.currentPeriodHitCount';
+
     protected string $currentPeriodEndsAtKey = 'simpleThrottle.currentPeriodEndsAt';
 
     public function __construct(protected Repository $cache)
@@ -18,7 +19,18 @@ class SimpleThrottleCache
     public function forMailer(?string $mailer = null): self
     {
         if (! is_null($mailer)) {
-            $this->currentPeriodHitCountKey .= ".{$mailer}";
+            $this->currentPeriodHitCountKey = "simpleThrottle.currentPeriodHitCount.{$mailer}";
+            $this->currentPeriodEndsAtKey = "simpleThrottle.currentPeriodEndsAt.{$mailer}";
+        }
+
+        return $this;
+    }
+
+    public function forMailerCreates(?string $mailer = null): self
+    {
+        if (! is_null($mailer)) {
+            $this->currentPeriodHitCountKey = "simpleThrottle.currentPeriodHitCount.createSends.{$mailer}";
+            $this->currentPeriodEndsAtKey = "simpleThrottle.currentPeriodEndsAt.createSends.{$mailer}";
         }
 
         return $this;
@@ -26,7 +38,7 @@ class SimpleThrottleCache
 
     public function currentPeriodHitCount(): int
     {
-        return $this->cache->get($this->currentPeriodHitCountKey) ?? 0 ;
+        return $this->cache->get($this->currentPeriodHitCountKey) ?? 0;
     }
 
     public function setCurrentPeriodHitCount(int $hitCount): int

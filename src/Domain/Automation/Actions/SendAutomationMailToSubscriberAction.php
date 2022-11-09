@@ -3,16 +3,16 @@
 namespace Spatie\Mailcoach\Domain\Automation\Actions;
 
 use Illuminate\Support\Str;
-use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
-use Spatie\Mailcoach\Domain\Shared\Support\Config;
+use Spatie\Mailcoach\Mailcoach;
 
 class SendAutomationMailToSubscriberAction
 {
-    public function execute(AutomationMail $automationMail, Subscriber $subscriber): void
+    public function execute(AutomationMail $automationMail, ActionSubscriber $actionSubscriber): void
     {
-        if ($automationMail->wasAlreadySentToSubscriber($subscriber)) {
+        if (! $actionSubscriber->action->automation->repeat_enabled && $automationMail->wasAlreadySentToSubscriber($actionSubscriber->subscriber)) {
             return;
         }
 
@@ -20,53 +20,55 @@ class SendAutomationMailToSubscriberAction
             ->prepareSubject($automationMail)
             ->prepareEmailHtml($automationMail)
             ->prepareWebviewHtml($automationMail)
-            ->createSend($automationMail, $subscriber);
+            ->createSend($automationMail, $actionSubscriber);
     }
 
-    protected function prepareSubject(AutomationMail $automationMail): self
+    protected function prepareSubject(AutomationMail $automationMail): static
     {
         /** @var \Spatie\Mailcoach\Domain\Automation\Actions\PrepareSubjectAction $prepareSubjectAction */
-        $prepareSubjectAction = Config::getAutomationActionClass('prepare_subject', PrepareSubjectAction::class);
+        $prepareSubjectAction = Mailcoach::getAutomationActionClass('prepare_subject', PrepareSubjectAction::class);
 
         $prepareSubjectAction->execute($automationMail);
 
         return $this;
     }
 
-    protected function prepareEmailHtml(AutomationMail $automationMail): self
+    protected function prepareEmailHtml(AutomationMail $automationMail): static
     {
         /** @var \Spatie\Mailcoach\Domain\Automation\Actions\PrepareEmailHtmlAction $prepareEmailHtmlAction */
-        $prepareEmailHtmlAction = Config::getAutomationActionClass('prepare_email_html', PrepareEmailHtmlAction::class);
+        $prepareEmailHtmlAction = Mailcoach::getAutomationActionClass('prepare_email_html', PrepareEmailHtmlAction::class);
 
         $prepareEmailHtmlAction->execute($automationMail);
 
         return $this;
     }
 
-    protected function prepareWebviewHtml(AutomationMail $automationMail): self
+    protected function prepareWebviewHtml(AutomationMail $automationMail): static
     {
         /** @var \Spatie\Mailcoach\Domain\Automation\Actions\PrepareWebviewHtmlAction $prepareWebviewHtmlAction */
-        $prepareWebviewHtmlAction = Config::getAutomationActionClass('prepare_webview_html', PrepareWebviewHtmlAction::class);
+        $prepareWebviewHtmlAction = Mailcoach::getAutomationActionClass('prepare_webview_html', PrepareWebviewHtmlAction::class);
 
         $prepareWebviewHtmlAction->execute($automationMail);
 
         return $this;
     }
 
-    protected function createSend(AutomationMail $automationMail, Subscriber $subscriber): Send
+    protected function createSend(AutomationMail $automationMail, ActionSubscriber $actionSubscriber): Send
     {
-        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $pendingSend */
-        $pendingSend = $automationMail->sends()
-            ->where('subscriber_id', $subscriber->id)
-            ->first();
+        if (! $actionSubscriber->action->automation->repeat_enabled) {
+            /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $pendingSend */
+            $pendingSend = $automationMail->sends()
+                ->where('subscriber_id', $actionSubscriber->subscriber->id)
+                ->first();
 
-        if ($pendingSend) {
-            return $pendingSend;
+            if ($pendingSend) {
+                return $pendingSend;
+            }
         }
 
         return $automationMail->sends()->create([
-            'subscriber_id' => $subscriber->id,
-            'uuid' => (string)Str::uuid(),
+            'subscriber_id' => $actionSubscriber->subscriber->id,
+            'uuid' => (string) Str::uuid(),
         ]);
     }
 }

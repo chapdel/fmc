@@ -19,14 +19,14 @@ class CampaignsController
 
     public function index(CampaignsQuery $campaigns)
     {
-        $this->authorize("viewAny", static::getCampaignClass());
+        $this->authorize('viewAny', static::getCampaignClass());
 
-        return CampaignResource::collection($campaigns->paginate());
+        return CampaignResource::collection($campaigns->with('emailList')->paginate());
     }
 
     public function show(Campaign $campaign)
     {
-        $this->authorize("viewAny", static::getCampaignClass());
+        $this->authorize('viewAny', static::getCampaignClass());
 
         return new CampaignResource($campaign);
     }
@@ -35,9 +35,9 @@ class CampaignsController
         CampaignRequest $request,
         UpdateCampaignAction $updateCampaignAction
     ) {
-        $this->authorize("create", static::getCampaignClass());
+        $this->authorize('create', static::getCampaignClass());
 
-        $campaignClass = $this->getCampaignClass();
+        $campaignClass = self::getCampaignClass();
 
         $campaign = new $campaignClass;
 
@@ -55,11 +55,12 @@ class CampaignsController
         CampaignRequest $request,
         UpdateCampaignAction $updateCampaignAction
     ) {
-        $this->authorize("update", $campaign);
+        $this->authorize('update', $campaign);
 
         $campaign = $updateCampaignAction->execute(
             $campaign,
             $request->validated(),
+            $request->template(),
         );
 
         return new CampaignResource($campaign);
@@ -67,7 +68,7 @@ class CampaignsController
 
     public function destroy(Campaign $campaign)
     {
-        $this->authorize("delete", $campaign);
+        $this->authorize('delete', $campaign);
 
         $campaign->delete();
 

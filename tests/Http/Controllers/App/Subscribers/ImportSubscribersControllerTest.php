@@ -8,9 +8,6 @@ use Spatie\Mailcoach\Domain\Audience\Mails\ImportSubscribersResultMail;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
-use Spatie\Mailcoach\Domain\Campaign\Mails\WelcomeMail;
-use Spatie\Mailcoach\Http\App\Controllers\EmailLists\ImportSubscribersController;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 beforeEach(function () {
     test()->emailList = EmailList::factory()->create();
@@ -26,16 +23,17 @@ it('can subscribe multiple emails in one go', function () {
 
     uploadStub('valid-and-invalid.csv');
 
-    expect(test()->emailList->subscribers)->toHaveCount(3);
+    expect(test()->emailList->subscribers()->count())->toBe(3);
 
     foreach (['freek@spatie.be', 'willem@spatie.be', 'rias@spatie.be'] as $email) {
-        expect(test()->emailList->getSubscriptionStatus($email))->toEqual(SubscriptionStatus::SUBSCRIBED);
+        expect(test()->emailList->getSubscriptionStatus($email))->toEqual(SubscriptionStatus::Subscribed);
     }
 
     $subscriberImport = SubscriberImport::first();
 
-    expect($subscriberImport->imported_subscribers_count)->toEqual(3);
-    expect($subscriberImport->error_count)->toEqual(1);
+    expect($subscriberImport->imported_subscribers_count)->toEqual(4);
+    expect($subscriberImport->subscribers()->count())->toEqual(3);
+    expect(count($subscriberImport->errors))->toEqual(1);
 
     Mail::assertSent(ImportSubscribersResultMail::class, function (ImportSubscribersResultMail $mail) use ($subscriberImport) {
         expect($mail->hasTo(test()->user->email))->toBeTrue();
@@ -43,9 +41,6 @@ it('can subscribe multiple emails in one go', function () {
 
         return true;
     });
-
-    Mail::assertNotQueued(WelcomeMail::class);
-    Mail::assertNotSent(WelcomeMail::class);
 });
 
 it('will fill the correct attributes', function () {
@@ -80,10 +75,35 @@ it('will trim the subscriber row values', function () {
     expect($subscriber->extra_attributes->job_title)->toEqual('Developer');
 });
 
+it('can handle semicolon as separator', function () {
+    uploadStub('with-semicolon.csv');
+
+    $subscriber = Subscriber::findForEmail('john@example.com', test()->emailList);
+
+    test()->assertNotEmpty($subscriber);
+    expect($subscriber->first_name)->toEqual('John');
+    expect($subscriber->last_name)->toEqual('Doe');
+    expect($subscriber->extra_attributes->job_title)->toEqual('Developer');
+    expect($subscriber->hasTag('tag1'))->toBeTrue();
+    expect($subscriber->hasTag('tag2'))->toBeTrue();
+});
+
+it('can handle pipe as separator', function () {
+    uploadStub('with-pipe.csv');
+
+    $subscriber = Subscriber::findForEmail('john@example.com', test()->emailList);
+
+    test()->assertNotEmpty($subscriber);
+    expect($subscriber->first_name)->toEqual('John');
+    expect($subscriber->last_name)->toEqual('Doe');
+    expect($subscriber->extra_attributes->job_title)->toEqual('Developer');
+    expect($subscriber->hasTag('tag1'))->toBeTrue();
+    expect($subscriber->hasTag('tag2'))->toBeTrue();
+});
+
 it('will not import a subscriber that is already on the list', function () {
     Subscriber::createWithEmail('john@example.com')
         ->skipConfirmation()
-        ->doNotSendWelcomeMail()
         ->subscribeTo(test()->emailList);
 
     uploadStub('single.csv');
@@ -109,7 +129,7 @@ it('will remove existing tags if replace tags is enabled', function () {
     $subscriber->addTag('previousTag');
 
     uploadStub('single.csv', [
-        'replace_tags' => 'replace',
+        'replaceTags' => 'replace',
     ]);
 
     $subscriber = Subscriber::findForEmail('john@example.com', test()->emailList);
@@ -122,7 +142,7 @@ it('will not remove existing tags if replace tags is disabled', function () {
 
     $subscriber->addTag('previousTag');
 
-    // replace_tags is false by default.
+    // replaceTags is false by default.
     uploadStub('single.csv');
 
     $subscriber = Subscriber::findForEmail('john@example.com', test()->emailList);
@@ -138,14 +158,14 @@ test('by default it will not subscribe a subscriber that has unsubscribed to the
 
     expect(test()->emailList->isSubscribed('john@example.com'))->toBeFalse();
     expect(test()->emailList->subscribers)->toHaveCount(0);
-    expect(SubscriberImport::first()->error_count)->toEqual(1);
+    expect(count(SubscriberImport::first()->errors))->toEqual(1);
 });
 
 it('can subscribe subscribers that were unsubscribed before', function () {
     test()->emailList->subscribeSkippingConfirmation('john@example.com');
     test()->emailList->unsubscribe('john@example.com');
 
-    uploadStub('single.csv', ['subscribe_unsubscribed' => true]);
+    uploadStub('single.csv', ['subscribeUnsubscribed' => true]);
 
     expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
     expect(test()->emailList->subscribers)->toHaveCount(1);
@@ -164,20 +184,22 @@ test('by default it will not unsubscribe any existing subscribers', function () 
 it('can unsubscribe any existing subscribers that were not part of the import', function () {
     test()->emailList->subscribeSkippingConfirmation('paul@example.com');
 
-    uploadStub('single.csv', ['unsubscribe_others' => true]);
+    uploadStub('single.csv', ['unsubscribeMissing' => true]);
 
     expect(test()->emailList->isSubscribed('john@example.com'))->toBeTrue();
     expect(test()->emailList->isSubscribed('paul@example.com'))->toBeFalse();
 });
 
 it('can handle an empty file', function () {
-    uploadStub('empty.csv');
+    uploadStub('empty.csv')
+        ->assertHasErrors('file');
 
     expect(test()->emailList->subscribers)->toHaveCount(0);
 });
 
 it('can handle an invalid file', function () {
-    uploadStub('invalid.csv');
+    uploadStub('invalid.csv')
+        ->assertHasErrors('file');
 
     expect(test()->emailList->subscribers)->toHaveCount(0);
 });
@@ -188,7 +210,7 @@ it('can handle an xlsx file', function () {
         [],
         'excel.xlsx',
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    );
+    )->assertHasNoErrors();
 
     expect(test()->emailList->subscribers)->toHaveCount(1);
 });
@@ -201,28 +223,21 @@ function uploadStub(string $stubName, array $parameters = [], string $asFilename
 
     File::copy($stubPath, $tempPath);
 
-    $fileUpload = new UploadedFile(
-        $tempPath,
-        $asFilename,
-        $asMimetype,
-        filesize($stubPath)
-    );
+    $file = \Illuminate\Http\UploadedFile::fake()
+        ->createWithContent($asFilename, file_get_contents($tempPath));
 
-    test()->call(
-        'post',
-        action([ImportSubscribersController::class, 'import'], test()->emailList),
-        $parameters,
-        [],
-        ['file' => $fileUpload]
-    );
+    return \Livewire\Livewire::test('mailcoach::subscriber-imports', ['emailList' => test()->emailList])
+        ->set('file', $file)
+        ->set($parameters)
+        ->call('upload');
 }
 
 function getStubPath(string $name): string
 {
-    return __DIR__ . '/stubs/' . $name;
+    return __DIR__.'/stubs/'.$name;
 }
 
 function getTempPath(string $name): string
 {
-    return __DIR__ . '/temp/' . $name;
+    return __DIR__.'/temp/'.$name;
 }

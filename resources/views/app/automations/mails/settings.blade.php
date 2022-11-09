@@ -1,45 +1,73 @@
-<x-mailcoach::layout-automation-mail :title="__('mailcoach - Settings')" :mail="$mail">
-    <form
-        class="form-grid"
-        action="{{ route('mailcoach.automations.mails.settings', $mail) }}"
-        method="POST"
-        data-dirty-check
-    >
-        @csrf
-        @method('PUT')
+<form
+    class="card-grid"
+    wire:submit.prevent="save"
+    @keydown.prevent.window.cmd.s="$wire.call('save')"
+    @keydown.prevent.window.ctrl.s="$wire.call('save')"
+    method="POST"
+    data-dirty-check
+>
+<x-mailcoach::card>
+    <x-mailcoach::text-field :label="__mc('Name')" name="mail.name" wire:model.lazy="mail.name" required  />
 
-        <x-mailcoach::text-field :label="__('mailcoach - Name')" name="name" :value="$mail->name" required  />
+    <x-mailcoach::text-field :label="__mc('Subject')" name="mail.subject" wire:model.lazy="mail.subject"  />
+</x-mailcoach::card>
 
-        <x-mailcoach::text-field :label="__('mailcoach - Subject')" name="subject" :value="$mail->subject"  />
+    <x-mailcoach::fieldset card :legend="__mc('Tracking')">
+        <div class="form-field">
+            <x-mailcoach::info>
+                {!! __mc('Open & Click tracking are managed by your email provider.') !!}
+            </x-mailcoach::info>
+        </div>
 
-        <x-mailcoach::fieldset :legend="__('mailcoach - Tracking')">
-            <div class="form-field">
-                <label class="label">{{ __('mailcoach - Track when…') }}</label>
-                <div class="checkbox-group">
-                    <x-mailcoach::checkbox-field :label="__('mailcoach - Someone opens this email')" name="track_opens" :checked="$mail->track_opens" />
-                    <x-mailcoach::checkbox-field :label="__('mailcoach - Links in the email are clicked')" name="track_clicks" :checked="$mail->track_clicks" />
-                </div>
+        <div class="form-field">
+            <label class="label">{{ __mc('Subscriber Tags') }}</label>
+            <div class="checkbox-group">
+                <x-mailcoach::checkbox-field :label="__mc('Add tags to subscribers for opens & clicks')" name="mail.add_subscriber_tags" wire:model="mail.add_subscriber_tags" />
+                <x-mailcoach::checkbox-field :label="__mc('Add individual link tags')" name="mail.add_subscriber_link_tags" wire:model="mail.add_subscriber_link_tags" />
             </div>
+        </div>
 
-            <div class="form-field">
-                <label class="label">{{ __('mailcoach - UTM Tags') }}</label>
-                <div class="checkbox-group">
-                    <x-mailcoach::checkbox-field :label="__('mailcoach - Automatically add UTM tags')" name="utm_tags" :checked="$mail->utm_tags" />
-                </div>
+        <x-mailcoach::help>
+            <p class="text-sm mb-2">{{ __mc('When checked, the following tags will automatically get added to subscribers that open or click the automation mail:') }}</p>
+            <p>
+                <span class="tag-neutral">{{ "automation-mail-{$mail->uuid}-opened" }}</span>
+                <span class="tag-neutral">{{ "automation-mail-{$mail->uuid}-clicked" }}</span>
+            </p>
+            <p class="text-sm mt-2">{{ __mc('When "Add individual link tags" is checked, it will also add a unique tag per link') }}</p>
+        </x-mailcoach::help>
+
+        <div class="form-field">
+            <label class="label">{{ __mc('UTM Tags') }}</label>
+            <div class="checkbox-group">
+                <x-mailcoach::checkbox-field :label="__mc('Automatically add UTM tags')" name="mail.utm_tags" wire:model="mail.utm_tags" />
             </div>
+        </div>
 
+        <x-mailcoach::help>
+            <p class="text-sm mb-2">{{ __mc('When checked, the following UTM Tags will automatically get added to any links in your campaign:') }}</p>
+            <dl class="markup-dl">
+                <dt><strong>utm_source</strong></dt><dd>newsletter</dd>
+                <dt><strong>utm_medium</strong></dt><dd>email</dd>
+                <dt><strong>utm_campaign</strong></dt><dd>{{ \Illuminate\Support\Str::slug($mail->name) }}</dd>
+            </dl>
+        </x-mailcoach::help>
+    </x-mailcoach::fieldset>
+
+    <x-mailcoach::fieldset card :legend="__('Usage in Mailcoach API')">
+        <div>
             <x-mailcoach::help>
-                <p class="text-sm mb-2">{{ __('mailcoach - When checked, the following UTM Tags will automatically get added to any links in your campaign:') }}</p>
-                <ul>
-                    <li><strong>utm_source</strong>: newsletter</li>
-                    <li><strong>utm_medium</strong>: email</li>
-                    <li><strong>utm_campaign</strong>: {{ $mail->name }}</li>
-                </ul>
+                {!! __mc('Whenever you need to specify a <code>:resourceName</code> in the Mailcoach API and want to use this :resource, you\'ll need to pass this value', [
+                'resourceName' => 'automationMail uuid',
+                'resource' => 'automation email',
+            ]) !!}
+                <p class="mt-4">
+                    <x-mailcoach::code-copy class="flex items-center justify-between max-w-md" :code="$mail->uuid"></x-mailcoach::code-copy>
+                </p>
             </x-mailcoach::help>
-        </x-mailcoach::fieldset>
+        </div>
+    </x-mailcoach::fieldset>
 
-            <div class="form-buttons">
-                <x-mailcoach::button :label="__('mailcoach - Save settings')" />
-            </div>
-    </form>
-</x-mailcoach::layout-automation-mail>
+    <x-mailcoach::card  buttons>
+        <x-mailcoach::button :label="__mc('Save settings')" />
+    </x-mailcoach::card>
+</form>

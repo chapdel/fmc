@@ -1,6 +1,6 @@
 <?php
 
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
 use Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails\ShowTransactionalMailController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 
@@ -11,8 +11,8 @@ beforeEach(function () {
 });
 
 it('can show a transactional mail', function () {
-    /** @var TransactionalMail $transactionalMail */
-    $transactionalMail = TransactionalMail::factory()->create();
+    /** @var TransactionalMailLogItem $transactionalMail */
+    $transactionalMail = TransactionalMailLogItem::factory()->create();
 
     $this
         ->get(action(ShowTransactionalMailController::class, $transactionalMail))

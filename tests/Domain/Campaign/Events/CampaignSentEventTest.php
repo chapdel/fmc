@@ -18,6 +18,8 @@ it('fires an event after a campaign has been sent', function () {
 
     $campaign->send();
     Artisan::call('mailcoach:send-scheduled-campaigns');
+    Artisan::call('mailcoach:send-campaign-mails');
+    Artisan::call('mailcoach:send-scheduled-campaigns');
 
     Event::assertDispatched(CampaignSentEvent::class, function (CampaignSentEvent $event) use ($campaign) {
         expect($event->campaign->id)->toEqual($campaign->id);

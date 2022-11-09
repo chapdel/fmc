@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 beforeEach(function () {
     Route::get('login')->name('login');
+    app('router')->getRoutes()->refreshNameLookups();
 
     test()->withExceptionHandling();
 });

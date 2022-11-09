@@ -1,9 +1,13 @@
-<x-mailcoach::automation-action :index="$index" :action="$action" :editing="$editing" :editable="$editable" :deletable="$deletable">
+<x-mailcoach::automation-action :index="$index" :action="$action" :editing="$editing" :editable="$editable"
+                                :deletable="$deletable">
     <x-slot name="legend">
-        {{__('mailcoach - Send email') }}
-        <span class="legend-accent">
+        {{__mc('Send email') }}
+        <span class="form-legend-accent">
             @if ($automation_mail_id)
-                {{ optional(\Spatie\Mailcoach\Domain\Shared\Support\Config::getAutomationMailClass()::find($automation_mail_id))->name }}
+                @php($automationMail = \Spatie\Mailcoach\Mailcoach::getAutomationMailClass()::find($automation_mail_id))
+                @if ($automationMail)
+                    <a target="_blank" href="{{ route('mailcoach.automations.mails.content', $automationMail) }}">{{ optional($automationMail)->name }} <i class="text-xs fas fa-external-link-alt"></i></a>
+                @endif
             @endif
         </span>
     </x-slot>
@@ -11,7 +15,7 @@
     <x-slot name="form">
         <div class="col-span-12 md:col-span-6">
             <x-mailcoach::select-field
-                :label="__('mailcoach - Email')"
+                :label="__mc('Email')"
                 name="automation_mail_id"
                 wire:model="automation_mail_id"
                 :options="['' => 'Select an email'] + $campaignOptions"

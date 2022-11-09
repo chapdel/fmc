@@ -2,9 +2,6 @@
 
 namespace Spatie\Mailcoach\Tests;
 
-use CreateMailcoachTables;
-use CreateUsersTable;
-use CreateWebhookCallsTable;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
@@ -14,21 +11,34 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
+use Laravel\Sanctum\SanctumServiceProvider;
 use Livewire\LivewireServiceProvider;
+use LivewireUI\Spotlight\SpotlightServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\Feed\FeedServiceProvider;
+use Spatie\Flash\Flash;
+use Spatie\LaravelCipherSweet\LaravelCipherSweetServiceProvider;
 use Spatie\LaravelRay\RayServiceProvider;
 use Spatie\Mailcoach\Database\Factories\UserFactory;
+use Spatie\Mailcoach\Domain\Settings\Models\User;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Front\Controllers\UnsubscribeController;
 use Spatie\Mailcoach\MailcoachServiceProvider;
+use Spatie\MailcoachEditor\MailcoachEditorServiceProvider;
+use Spatie\MailcoachMailgunFeedback\MailcoachMailgunFeedbackServiceProvider;
+use Spatie\MailcoachMarkdownEditor\MailcoachMarkdownEditorServiceProvider;
+use Spatie\MailcoachPostmarkFeedback\MailcoachPostmarkFeedbackServiceProvider;
+use Spatie\MailcoachSendgridFeedback\MailcoachSendgridFeedbackServiceProvider;
+use Spatie\MailcoachSendinblueFeedback\MailcoachSendinblueFeedbackServiceProvider;
+use Spatie\MailcoachSesFeedback\MailcoachSesFeedbackServiceProvider;
+use Spatie\MailcoachUnlayer\MailcoachUnlayerServiceProvider;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
+use Spatie\Navigation\NavigationServiceProvider;
 use Spatie\QueryBuilder\QueryBuilderServiceProvider;
-use function Spatie\Snapshots\assertMatchesHtmlSnapshot;
 use Spatie\TestTime\TestTime;
+use Spatie\WebhookServer\WebhookServerServiceProvider;
 
 abstract class TestCase extends Orchestra
 {
@@ -41,6 +51,11 @@ abstract class TestCase extends Orchestra
 
         Route::mailcoach('mailcoach');
 
+        app('router')->getRoutes()->refreshNameLookups();
+
+        config()->set('auth.providers.users.model', User::class);
+        config()->set('mailcoach.timezone', null);
+
         $this->withoutExceptionHandling();
 
         Redis::flushAll();
@@ -50,10 +65,16 @@ abstract class TestCase extends Orchestra
         TestTime::freeze();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Spatie\\Mailcoach\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
+            fn (string $modelName) => 'Spatie\\Mailcoach\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
 
-        View::addLocation(__DIR__ . '/views');
+        View::addLocation(__DIR__.'/views');
+
+        Flash::levels([
+            'success' => 'success',
+            'warning' => 'warning',
+            'error' => 'error',
+        ]);
     }
 
     protected function tearDown(): void
@@ -66,30 +87,39 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
+            LaravelCipherSweetServiceProvider::class,
+            SpotlightServiceProvider::class,
+            RayServiceProvider::class,
+            LivewireServiceProvider::class,
             MailcoachServiceProvider::class,
             FeedServiceProvider::class,
             MediaLibraryServiceProvider::class,
             QueryBuilderServiceProvider::class,
-            RayServiceProvider::class,
-            LivewireServiceProvider::class,
+            NavigationServiceProvider::class,
+            SanctumServiceProvider::class,
+            FeedServiceProvider::class,
+
+            MailcoachSesFeedbackServiceProvider::class,
+            MailcoachMailgunFeedbackServiceProvider::class,
+            MailcoachSendgridFeedbackServiceProvider::class,
+            MailcoachSendinblueFeedbackServiceProvider::class,
+            MailcoachPostmarkFeedbackServiceProvider::class,
+            MailcoachUnlayerServiceProvider::class,
+            MailcoachEditorServiceProvider::class,
+            MailcoachMarkdownEditorServiceProvider::class,
+            WebhookServerServiceProvider::class,
         ];
     }
 
     protected function refreshTestDatabase()
     {
-        if (! Schema::hasTable(static::getCampaignTableName())) {
-            Schema::dropAllTables();
+        if (! RefreshDatabaseState::$migrated) {
+            $this->artisan('vendor:publish', ['--tag' => 'ciphersweet-migrations', '--force' => true])->run();
+            $this->artisan('vendor:publish', ['--tag' => 'mailcoach-migrations', '--force' => true])->run();
+            $this->artisan('migrate:fresh', $this->migrateFreshUsing());
 
-            include_once __DIR__.'/../database/migrations/create_mailcoach_tables.php.stub';
-            (new CreateMailcoachTables())->up();
-
-            (include __DIR__.'/../vendor/spatie/laravel-medialibrary/database/migrations/create_media_table.php.stub')->up();
-
-            include_once __DIR__.'/database/migrations/create_users_table.php.stub';
-            (new CreateUsersTable())->up();
-
-            include_once __DIR__.'/../database/migrations/create_webhook_calls_table.php.stub';
-            (new CreateWebhookCallsTable())->up();
+            $migration = include __DIR__.'/../vendor/laravel/ui/stubs/migrations/2014_10_12_100000_create_password_resets_table.php';
+            $migration->up();
 
             $this->app[Kernel::class]->setArtisan(null);
 
@@ -126,16 +156,9 @@ abstract class TestCase extends Orchestra
     {
         $user = UserFactory::new()->create();
 
+        $user->createToken('test');
+
         $this->actingAs($user, $guard);
-    }
-
-    public function assertMatchesHtmlSnapshotWithoutWhitespace(string $content)
-    {
-        $contentWithoutWhitespace = preg_replace('/\s/', '', $content);
-
-        $contentWithoutWhitespace = str_replace(PHP_EOL, '', $contentWithoutWhitespace);
-
-        assertMatchesHtmlSnapshot($contentWithoutWhitespace);
     }
 
     public function refreshServiceProvider()
@@ -153,5 +176,12 @@ abstract class TestCase extends Orchestra
                 $job['job']->handle();
             }
         }
+    }
+
+    public function stub(string $path): string
+    {
+        $path = __DIR__."/stubs/{$path}";
+
+        return file_get_contents($path);
     }
 }

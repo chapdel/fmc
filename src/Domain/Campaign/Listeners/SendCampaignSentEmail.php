@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Domain\Campaign\Listeners;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Domain\Campaign\Mails\CampaignSentMail;
+use Spatie\Mailcoach\Mailcoach;
 
 class SendCampaignSentEmail
 {
@@ -16,7 +17,7 @@ class SendCampaignSentEmail
             return;
         }
 
-        Mail::mailer(config('mailcoach.mailer') ?? config('mail.default'))
+        Mail::mailer(Mailcoach::defaultTransactionalMailer())
             ->to($campaign->emailList->campaignReportRecipients())
             ->queue(new CampaignSentMail($campaign));
     }

@@ -9,6 +9,7 @@ use Spatie\SimpleExcel\SimpleExcelReader;
 class ImportAutomationsJob extends ImportJob
 {
     private int $index = 0;
+
     private int $total = 0;
 
     /** @var array<string, int> */
@@ -48,7 +49,7 @@ class ImportAutomationsJob extends ImportJob
         foreach ($reader->getRows() as $row) {
             $row['email_list_id'] = $this->emailLists[$row['email_list_uuid']];
             $row['segment_id'] = self::getTagSegmentClass()::where('name', $row['segment_name'])->where('email_list_id', $row['email_list_id'])->first()?->id;
-            $row['status'] = AutomationStatus::PAUSED;
+            $row['status'] = AutomationStatus::Paused;
 
             $automation = self::getAutomationClass()::firstOrCreate(
                 ['uuid' => $row['uuid']],

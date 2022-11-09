@@ -5,8 +5,8 @@ namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
 use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder;
-use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
+use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum;
 
 class WaitAction extends AutomationAction
@@ -21,17 +21,17 @@ class WaitAction extends AutomationAction
 
     public static function getCategory(): ActionCategoryEnum
     {
-        return ActionCategoryEnum::pause();
+        return ActionCategoryEnum::Pause;
     }
 
     public static function getName(): string
     {
-        return (string) __('mailcoach - Wait for a duration');
+        return (string) __mc('Wait for a duration');
     }
 
     public static function getComponent(): ?string
     {
-        return 'wait-action';
+        return 'mailcoach::wait-action';
     }
 
     public static function make(array $data): self
@@ -66,9 +66,9 @@ class WaitAction extends AutomationAction
         ];
     }
 
-    public function shouldContinue(Subscriber $subscriber): bool
+    public function shouldContinue(ActionSubscriber $actionSubscriber): bool
     {
-        if ($subscriber->pivot->created_at <= now()->sub($this->interval)) {
+        if ($actionSubscriber->created_at <= now()->sub($this->interval)) {
             return true;
         }
 

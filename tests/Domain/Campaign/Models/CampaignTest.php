@@ -11,7 +11,6 @@ use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignTestJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
-use Spatie\Mailcoach\Domain\Shared\Support\CalculateStatisticsLock;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestClasses\TestCustomInstanciatedQueryOnlyShouldSendToJohn;
 use Spatie\Mailcoach\Tests\TestClasses\TestCustomQueryOnlyShouldSendToJohn;
@@ -20,13 +19,11 @@ use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithArguments;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithStaticHtml;
 
 beforeEach(function () {
-    Queue::fake();
-
     test()->campaign = Campaign::create()->refresh();
 });
 
 test('the default status is draft', function () {
-    expect(test()->campaign->status)->toEqual(CampaignStatus::DRAFT);
+    expect(test()->campaign->status)->toEqual(CampaignStatus::Draft);
 });
 
 it('can set a from email', function () {
@@ -40,22 +37,6 @@ it('can set both a from email and a from name', function () {
 
     expect(test()->campaign->from_email)->toEqual('sender@example.com');
     expect(test()->campaign->from_name)->toEqual('Sender name');
-});
-
-it('can be marked to track opens', function () {
-    expect(test()->campaign->track_opens)->toBeFalse();
-
-    test()->campaign->trackOpens();
-
-    expect(test()->campaign->refresh()->track_opens)->toBeTrue();
-});
-
-it('can be marked to track clicks', function () {
-    expect(test()->campaign->track_clicks)->toBeFalse();
-
-    test()->campaign->trackClicks();
-
-    expect(test()->campaign->refresh()->track_clicks)->toBeTrue();
 });
 
 it('can add a subject', function () {
@@ -84,7 +65,7 @@ it('can be sent', function () {
         ->to($list)
         ->send();
 
-    expect($campaign->status)->toEqual(CampaignStatus::SENDING);
+    expect($campaign->status)->toEqual(CampaignStatus::Sending);
 });
 
 it('has a shorthand to set the list and send it in one go', function () {
@@ -97,7 +78,7 @@ it('has a shorthand to set the list and send it in one go', function () {
         ->sendTo($list);
 
     expect($campaign->refresh()->email_list_id)->toEqual($list->id);
-    expect($campaign->status)->toEqual(CampaignStatus::SENDING);
+    expect($campaign->status)->toEqual(CampaignStatus::Sending);
 });
 
 test('a mailable can be set', function () {
@@ -158,7 +139,7 @@ test('html and content are not required when sending a mailable', function () {
         ->subject('test')
         ->sendTo($list);
 
-    expect($campaign->status)->toEqual(CampaignStatus::SENDING);
+    expect($campaign->status)->toEqual(CampaignStatus::Sending);
 });
 
 it('can use the default from email and name set on the email list', function () {
@@ -174,7 +155,7 @@ it('can use the default from email and name set on the email list', function () 
         ->subject('test')
         ->sendTo($list);
 
-    expect($campaign->status)->toEqual(CampaignStatus::SENDING);
+    expect($campaign->status)->toEqual(CampaignStatus::Sending);
     expect($campaign->from_email)->toEqual('defaultEmailList@example.com');
     expect($campaign->from_name)->toEqual('List name');
 });
@@ -192,7 +173,7 @@ it('can use the default reply to email and name set on the email list', function
         ->subject('test')
         ->sendTo($list);
 
-    expect($campaign->status)->toEqual(CampaignStatus::SENDING);
+    expect($campaign->status)->toEqual(CampaignStatus::Sending);
     expect($campaign->reply_to_email)->toEqual('defaultEmailList@example.com');
     expect($campaign->reply_to_name)->toEqual('List name');
 });
@@ -211,7 +192,7 @@ it('will prefer the email and from name from the campaign over the defaults set 
         ->from('campaign@example.com', 'campaign from name')
         ->sendTo($list);
 
-    expect($campaign->status)->toEqual(CampaignStatus::SENDING);
+    expect($campaign->status)->toEqual(CampaignStatus::Sending);
     expect($campaign->from_email)->toEqual('campaign@example.com');
     expect($campaign->from_name)->toEqual('campaign from name');
 });
@@ -231,7 +212,7 @@ it('will prefer the email and reply to name from the campaign over the defaults 
         ->replyTo('replyToCampaign@example.com', 'reply to from campaign')
         ->sendTo($list);
 
-    expect($campaign->status)->toEqual(CampaignStatus::SENDING);
+    expect($campaign->status)->toEqual(CampaignStatus::Sending);
     expect($campaign->reply_to_email)->toEqual('replyToCampaign@example.com');
     expect($campaign->reply_to_name)->toEqual('reply to from campaign');
 });
@@ -281,18 +262,17 @@ it('can send out multiple test emails at once', function () {
 it('can dispatch a job to recalculate statistics', function () {
     Bus::fake();
 
-    test()->campaign->update(['status' => CampaignStatus::SENT]);
+    test()->campaign->update(['status' => CampaignStatus::Sent]);
 
     test()->campaign->dispatchCalculateStatistics();
 
     Bus::assertDispatched(CalculateStatisticsJob::class, 1);
 });
 
-it('wont dispatch a calculate statistics job if it doesnt have any new sends', function () {
+it('will only dispatch a calculate statistics job if it is sent or cancelled', function () {
     Queue::fake();
 
-    test()->campaign->update(['status' => CampaignStatus::SENT]);
-    test()->campaign->update(['statistics_calculated_at' => now()]);
+    test()->campaign->update(['statistics_calculated_at' => now(), 'status' => CampaignStatus::Draft]);
 
     test()->campaign->dispatchCalculateStatistics();
 
@@ -302,33 +282,15 @@ it('wont dispatch a calculate statistics job if it doesnt have any new sends', f
         'campaign_id' => test()->campaign->id,
     ]);
 
-    $lock = new CalculateStatisticsLock(test()->campaign);
-    $lock->release();
+    test()->campaign->update(['status' => CampaignStatus::Sent]);
 
     test()->campaign->dispatchCalculateStatistics();
 
     Queue::assertPushed(CalculateStatisticsJob::class);
-});
 
-it('will only dispatch a calculate statistics job if it is sent', function () {
-    Queue::fake();
+    test()->campaign->update(['status' => CampaignStatus::Cancelled]);
 
-    test()->campaign->update(['statistics_calculated_at' => now(), 'status' => CampaignStatus::SENDING]);
-
-    test()->campaign->dispatchCalculateStatistics();
-
-    Queue::assertNotPushed(CalculateStatisticsJob::class);
-
-    \Spatie\Mailcoach\Domain\Shared\Models\Send::factory()->create([
-        'campaign_id' => test()->campaign->id,
-    ]);
-
-    $lock = new CalculateStatisticsLock(test()->campaign);
-    $lock->release();
-
-    test()->campaign->update(['status' => CampaignStatus::SENT]);
-
-    test()->campaign->dispatchCalculateStatistics();
+    \Illuminate\Support\Facades\Cache::flush();
 
     Queue::assertPushed(CalculateStatisticsJob::class);
 });
@@ -336,7 +298,7 @@ it('will only dispatch a calculate statistics job if it is sent', function () {
 it('will not dispatch the recalculation job twice', function () {
     Bus::fake();
 
-    test()->campaign->update(['status' => CampaignStatus::SENT]);
+    test()->campaign->update(['status' => CampaignStatus::Sent]);
 
     test()->campaign->dispatchCalculateStatistics();
     test()->campaign->dispatchCalculateStatistics();
@@ -347,7 +309,7 @@ it('will not dispatch the recalculation job twice', function () {
 it('can dispatch the recalculation job again after the previous job has run', function () {
     Bus::fake();
 
-    test()->campaign->update(['status' => CampaignStatus::SENT]);
+    test()->campaign->update(['status' => CampaignStatus::Sent]);
 
     test()->campaign->dispatchCalculateStatistics();
 
@@ -356,6 +318,10 @@ it('can dispatch the recalculation job again after the previous job has run', fu
     \Spatie\Mailcoach\Domain\Shared\Models\Send::factory()->create([
         'campaign_id' => test()->campaign->id,
     ]);
+
+    cache()->lock(
+        'laravel_unique_job:'.CalculateStatisticsJob::class.test()->campaign->uuid
+    )->forceRelease(); // Lock released
 
     test()->campaign->dispatchCalculateStatistics();
 
@@ -366,30 +332,30 @@ it('has scopes to get campaigns in various states', function () {
     Campaign::all()->each->delete();
 
     $draftCampaign = Campaign::factory()->create([
-        'status' => CampaignStatus::DRAFT,
+        'status' => CampaignStatus::Draft,
     ]);
 
     $scheduledInThePastCampaign = Campaign::factory()->create([
-        'status' => CampaignStatus::DRAFT,
+        'status' => CampaignStatus::Draft,
         'scheduled_at' => now()->subSecond(),
     ]);
 
     $scheduledNowCampaign = Campaign::factory()->create([
-        'status' => CampaignStatus::DRAFT,
+        'status' => CampaignStatus::Draft,
         'scheduled_at' => now(),
     ]);
 
     $scheduledInFutureCampaign = Campaign::factory()->create([
-        'status' => CampaignStatus::DRAFT,
+        'status' => CampaignStatus::Draft,
         'scheduled_at' => now()->addSecond(),
     ]);
 
     $sendingCampaign = Campaign::factory()->create([
-        'status' => CampaignStatus::SENDING,
+        'status' => CampaignStatus::Sending,
     ]);
 
     $sentCampaign = Campaign::factory()->create([
-        'status' => CampaignStatus::SENT,
+        'status' => CampaignStatus::Sent,
     ]);
 
     assertModels([
@@ -427,7 +393,7 @@ it('can inline the styles of the html', function () {
         </html>',
     ]);
 
-    test()->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->htmlWithInlinedCss());
+    test()->assertMatchesHtmlSnapshot($campaign->htmlWithInlinedCss());
 });
 
 it('doesnt change the doctype', function () {
@@ -455,7 +421,7 @@ it('can inline the styles of the html with custom mailable', function () {
     $campaign = Campaign::factory()->create(['mailable_class' => TestMailcoachMailWithStaticHtml::class]);
     $campaign->content('');
 
-    test()->assertMatchesHtmlSnapshotWithoutWhitespace($campaign->htmlWithInlinedCss());
+    test()->assertMatchesHtmlSnapshot($campaign->htmlWithInlinedCss());
 });
 
 it('can pull subject from custom mailable', function () {
@@ -490,7 +456,6 @@ it('gets links', function () {
     $myHtml = '<html><a href="https://google.com">Test</a></html>';
 
     $campaign = Campaign::factory()->create([
-        'track_clicks' => true,
         'html' => $myHtml,
     ]);
 
@@ -499,11 +464,32 @@ it('gets links', function () {
     expect($links->first())->toEqual('https://google.com');
 });
 
+it('ignores duplicates', function () {
+    $myHtml = '<html><a href="https://google.com">Test</a><a href="https://google.com">Test</a></html>';
+
+    $campaign = Campaign::factory()->create([
+        'html' => $myHtml,
+    ]);
+
+    $links = $campaign->htmlLinks();
+    expect($links->count())->toEqual(1);
+});
+
+it('ignores empty links', function () {
+    $myHtml = '<html><a href="https://google.com">Test</a><a></a></html>';
+
+    $campaign = Campaign::factory()->create([
+        'html' => $myHtml,
+    ]);
+
+    $links = $campaign->htmlLinks();
+    expect($links->count())->toEqual(1);
+});
+
 it('gets links with ampersands', function () {
     $myHtml = '<html><a href="https://google.com?foo=true&bar=false">Test</a></html>';
 
     $campaign = Campaign::factory()->create([
-        'track_clicks' => true,
         'html' => $myHtml,
     ]);
 

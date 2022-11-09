@@ -23,18 +23,19 @@ abstract class ExportJob implements ShouldQueue
     use UsesMailcoachModels;
 
     abstract public function name(): string;
+
     abstract public function execute(): void;
 
     protected function writeFile(string $name, Collection $data): void
     {
-        $writer = SimpleExcelWriter::create($this->path . DIRECTORY_SEPARATOR . $name);
-        $writer->addRows($data->map(fn (object $data) => (array)$data));
+        $writer = SimpleExcelWriter::create($this->path.DIRECTORY_SEPARATOR.$name);
+        $writer->addRows($data->map(fn (object $data) => (array) $data));
         $writer->close();
     }
 
     protected function addMeta(string $key, mixed $value): void
     {
-        $jsonPath = $this->path . DIRECTORY_SEPARATOR . 'meta.json';
+        $jsonPath = $this->path.DIRECTORY_SEPARATOR.'meta.json';
 
         $meta = [];
         if (File::exists($jsonPath)) {

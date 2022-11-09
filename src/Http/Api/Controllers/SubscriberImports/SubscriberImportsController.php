@@ -19,47 +19,57 @@ class SubscriberImportsController
 
     public function index()
     {
-        $this->authorize("viewAny", self::getEmailListClass());
+        $this->authorize('viewAny', self::getEmailListClass());
 
-        $subscribersImport = SubscriberImport::query()->paginate();
+        $subscribersImport = self::getSubscriberImportClass()::query()->with(['emailList'])->paginate();
 
         return SubscriberImportResource::collection($subscribersImport);
     }
 
     public function show(SubscriberImport $subscriberImport)
     {
-        $this->authorize("view", $subscriberImport->emailList);
+        $this->authorize('view', $subscriberImport->emailList);
 
         return new SubscriberImportResource($subscriberImport);
     }
 
     public function store(SubscriberImportRequest $request)
     {
-        $this->authorize("update", self::getEmailListClass()::findOrFail($request->email_list_id));
+        $this->authorize('update', $emailList = self::getEmailListClass()::firstOrFailByUuid($request->email_list_uuid));
+        $this->authorize('create', self::getSubscriberClass());
 
-        $attributes = array_merge($request->validated(), ['status' => SubscriberImportStatus::DRAFT]);
+        $attributes = array_merge($request->validated(), [
+            'status' => SubscriberImportStatus::Draft,
+            'email_list_id' => $emailList->id,
+        ]);
 
-        $subscriberImport = SubscriberImport::create($attributes);
+        unset($attributes['email_list_uuid']);
+
+        $subscriberImport = self::getSubscriberImportClass()::create($attributes);
 
         return new SubscriberImportResource($subscriberImport);
     }
 
     public function update(SubscriberImportRequest $request, SubscriberImport $subscriberImport)
     {
-        $this->authorize("update", $subscriberImport->emailList);
+        $this->authorize('update', $subscriberImport->emailList);
 
-        if ($subscriberImport->status !== SubscriberImportStatus::DRAFT) {
+        if ($subscriberImport->status !== SubscriberImportStatus::Draft) {
             abort(Response::HTTP_UNPROCESSABLE_ENTITY, 'Cannot update a non-draft import.');
         }
 
-        $subscriberImport->update($request->validated());
+        $attributes = $request->validated();
+        $attributes['email_list_id'] = self::getEmailListClass()::firstOrFailByUuid($attributes['email_list_uuid'])->id;
+        unset($attributes['email_list_uuid']);
+
+        $subscriberImport->update($attributes);
 
         return new SubscriberImportResource($subscriberImport);
     }
 
     public function destroy(SubscriberImport $subscriberImport)
     {
-        $this->authorize("update", $subscriberImport->emailList);
+        $this->authorize('update', $subscriberImport->emailList);
 
         $subscriberImport->delete();
 

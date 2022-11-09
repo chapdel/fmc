@@ -2,8 +2,7 @@
     method="POST"
     action="{{ $action }}"
     {{ $attributes->except('class') }}
-    @isset($dataConfirm) data-confirm="true" @endisset
-    @isset($dataConfirmText) data-confirm-text="{{ $dataConfirmText }}" @endisset
+    @isset($dataConfirm) x-on:click="$store.modals.open('confirm', '{{ $dataConfirmText ?? '' }}')" @endisset
 >
     @csrf
     @method($method ?? 'POST')

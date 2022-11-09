@@ -20,13 +20,13 @@ class DebugController
         $versionInfo = resolve(Version::class);
         $hasQueueConnection = config('queue.connections.mailcoach-redis') && ! empty(config('queue.connections.mailcoach-redis'));
         $mysqlVersion = $this->mysqlVersion();
-        $horizonVersion = InstalledVersions::getVersion("laravel/horizon");
+        $horizonVersion = InstalledVersions::getVersion('laravel/horizon');
         $webhookTableCount = DB::table('webhook_calls')
             ->where('name', 'like', '%-feedback')
             ->whereNull('processed_at')
             ->count();
         $lastScheduleRun = Cache::get('mailcoach-last-schedule-run');
-        $usesVapor = InstalledVersions::isInstalled("laravel/vapor-core");
+        $usesVapor = InstalledVersions::isInstalled('laravel/vapor-core');
         $scheduledJobs = $this->getScheduledJobs();
         $filesystems = $this->getFilesystems();
 

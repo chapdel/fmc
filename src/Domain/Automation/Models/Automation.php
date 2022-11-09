@@ -16,8 +16,8 @@ use Spatie\Mailcoach\Domain\Automation\Exceptions\CouldNotStartAutomation;
 use Spatie\Mailcoach\Domain\Automation\Jobs\RunActionForActionSubscriberJob;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\AutomationAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\AutomationTrigger;
-use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasUuid;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\SendsToSegment;
+use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class Automation extends Model
@@ -34,14 +34,16 @@ class Automation extends Model
     protected $casts = [
         'run_at' => 'datetime',
         'last_ran_at' => 'datetime',
-
+        'status' => AutomationStatus::class,
+        'repeat_enabled' => 'boolean',
+        'repeat_only_after_halt' => 'boolean',
     ];
 
     public static function booted()
     {
         static::creating(function (Automation $automation) {
             if (! $automation->status) {
-                $automation->status = AutomationStatus::PAUSED;
+                $automation->status = AutomationStatus::Paused;
             }
         });
 
@@ -50,7 +52,7 @@ class Automation extends Model
         });
     }
 
-    public function name(string $name): self
+    public function name(string $name): static
     {
         $this->update(compact('name'));
 
@@ -64,7 +66,15 @@ class Automation extends Model
 
     public function getTrigger(): ?AutomationTrigger
     {
-        return $this->triggers->first()?->trigger;
+        /** @var ?\Spatie\Mailcoach\Domain\Automation\Models\Trigger $trigger */
+        $trigger = $this->triggers->first();
+
+        $automation = clone $this;
+        $automation->unsetRelation('triggers');
+
+        $trigger?->setRelation('automation', $automation);
+
+        return $trigger?->trigger;
     }
 
     public function triggerClass(): string
@@ -76,11 +86,20 @@ class Automation extends Model
         return '';
     }
 
-    public function triggerOn(AutomationTrigger $automationTrigger): self
+    public function triggerOn(AutomationTrigger $automationTrigger): static
     {
         $trigger = $this->triggers()->firstOrCreate([]);
         $trigger->trigger = $automationTrigger;
         $trigger->save();
+
+        return $this;
+    }
+
+    public function repeat(bool $repeatEnabled = true, bool $onlyAfterHalt = true): static
+    {
+        $this->repeat_enabled = $repeatEnabled;
+        $this->repeat_only_after_halt = $onlyAfterHalt;
+        $this->save();
 
         return $this;
     }
@@ -109,21 +128,21 @@ class Automation extends Model
         return $subscribersQuery;
     }
 
-    public function to(EmailList $emailList): self
+    public function to(EmailList $emailList): static
     {
         $this->update(['email_list_id' => $emailList->id]);
 
         return $this;
     }
 
-    public function runEvery(CarbonInterval $interval): self
+    public function runEvery(CarbonInterval $interval): static
     {
         $this->update(['interval' => $interval]);
 
         return $this;
     }
 
-    public function chain(array $chain): self
+    public function chain(array $chain): static
     {
         $newActions = collect($chain);
 
@@ -146,21 +165,21 @@ class Automation extends Model
 
         $this->fresh('actions');
 
-        if ($this->status === AutomationStatus::STARTED && $this->actions->count() === 0) {
+        if ($this->status === AutomationStatus::Started && $this->actions->count() === 0) {
             $this->pause();
         }
 
         return $this;
     }
 
-    public function pause(): self
+    public function pause(): static
     {
-        $this->update(['status' => AutomationStatus::PAUSED]);
+        $this->update(['status' => AutomationStatus::Paused]);
 
         return $this;
     }
 
-    public function start(): self
+    public function start(): static
     {
         if (! $this->interval) {
             throw CouldNotStartAutomation::noInterval($this);
@@ -178,11 +197,11 @@ class Automation extends Model
             throw CouldNotStartAutomation::noActions($this);
         }
 
-        if ($this->status === AutomationStatus::STARTED) {
+        if ($this->status === AutomationStatus::Started) {
             throw CouldNotStartAutomation::started($this);
         }
 
-        $this->update(['status' => AutomationStatus::STARTED]);
+        $this->update(['status' => AutomationStatus::Started]);
 
         return $this;
     }
@@ -198,7 +217,7 @@ class Automation extends Model
             return;
         }
 
-        $actionSubscriber = ActionSubscriber::create([
+        $actionSubscriber = self::getActionSubscriberClass()::create([
             'job_dispatched_at' => now(),
             'action_id' => $firstAction->id,
             'subscriber_id' => $subscriber->id,
@@ -207,13 +226,6 @@ class Automation extends Model
         $this->update(['last_ran_at' => now()]);
 
         dispatch(new RunActionForActionSubscriberJob($actionSubscriber));
-    }
-
-    public function resolveRouteBinding($value, $field = null)
-    {
-        $field ??= $this->getRouteKeyName();
-
-        return static::getAutomationClass()::where($field, $value)->firstOrFail();
     }
 
     protected static function newFactory(): AutomationFactory

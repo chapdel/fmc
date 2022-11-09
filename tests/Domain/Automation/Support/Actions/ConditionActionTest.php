@@ -4,6 +4,7 @@ use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Carbon;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
+use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\ConditionAction;
@@ -38,30 +39,31 @@ beforeEach(function () {
     test()->actionModel = test()->automation->actions->first();
     test()->actionModel->subscribers()->attach(test()->subscriber);
     test()->subscriber = test()->actionModel->subscribers->first();
+    test()->actionSubscriber = ActionSubscriber::where('subscriber_id', test()->subscriber->id)->first();
 });
 
 it('doesnt continue while checking and the subscriber doesnt have the tag', function () {
-    expect(test()->actionModel->action->shouldContinue(test()->subscriber))->toBeFalse();
+    expect(test()->actionModel->action->shouldContinue(test()->actionSubscriber->fresh()))->toBeFalse();
 
     TestTime::addDay();
 
-    expect(test()->actionModel->action->shouldContinue(test()->subscriber))->toBeFalse();
+    expect(test()->actionModel->action->shouldContinue(test()->actionSubscriber->fresh()))->toBeFalse();
 
     TestTime::addSecond();
 
-    expect(test()->actionModel->action->shouldContinue(test()->subscriber))->toBeTrue();
+    expect(test()->actionModel->action->shouldContinue(test()->actionSubscriber->fresh()))->toBeTrue();
 });
 
 it('continues as soon as the subscriber has the tag', function () {
-    expect(test()->actionModel->action->shouldContinue(test()->subscriber))->toBeFalse();
+    expect(test()->actionModel->action->shouldContinue(test()->actionSubscriber->fresh()))->toBeFalse();
 
     test()->subscriber->addTag('some-tag');
 
-    expect(test()->actionModel->action->shouldContinue(test()->subscriber))->toBeTrue();
+    expect(test()->actionModel->action->shouldContinue(test()->actionSubscriber->fresh()))->toBeTrue();
 });
 
 it('doesnt halt', function () {
-    expect(test()->actionModel->action->shouldHalt(test()->subscriber))->toBeFalse();
+    expect(test()->actionModel->action->shouldHalt(test()->actionSubscriber))->toBeFalse();
 });
 
 it('determines the correct next action', function () {
@@ -78,8 +80,6 @@ it('can store actions and preserves uuids', function () {
     $originalActionUuid = test()->actionModel->action->uuid;
     $originalYesUuid = test()->actionModel->action->toArray()['yesActions'][0]['uuid'];
     $originalNoUuid = test()->actionModel->action->toArray()['noActions'][0]['uuid'];
-
-    dump([$originalActionUuid, $originalYesUuid, $originalNoUuid]);
 
     expect(Action::count())->toBe(3);
     expect(Action::where('uuid', $originalActionUuid)->count())->toBe(1);

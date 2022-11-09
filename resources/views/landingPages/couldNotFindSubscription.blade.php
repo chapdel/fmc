@@ -1,10 +1,10 @@
-@extends('mailcoach::landingPages.layouts.landingPage', ['title' => __('mailcoach - Could not find subscription')])
+@extends('mailcoach::landingPages.layouts.landingPage', ['title' => __mc('Could not find subscription')])
 
 @section('landing')
     <p>
-        {{ __('mailcoach - We could not find your subscription to this list.') }}
+        {{ __mc('We could not find your subscription to this list.') }}
     </p>
     <p class="mt-4">
-        {{ __('mailcoach - The link you used seems invalid.') }}
+        {{ __mc('The link you used seems invalid.') }}
     </p>
 @endsection

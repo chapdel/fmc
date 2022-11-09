@@ -6,11 +6,11 @@ use Spatie\Mailcoach\Domain\Campaign\Events\CampaignLinkClickedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
 
 it('will fire an event when a link gets clicked', function () {
-    Event::fake();
+    Event::fake(CampaignLinkClickedEvent::class);
 
     /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
     $send = SendFactory::new()->create();
-    $send->campaign->update(['track_clicks' => true]);
+    $send->campaign->update();
 
     $send->registerClick('https://spatie.be');
 
@@ -30,21 +30,6 @@ it('will fire an event when a link gets clicked', function () {
     Event::assertDispatched(CampaignLinkClickedEvent::class, function (CampaignLinkClickedEvent $event) use ($send) {
         expect($event->campaignClick->send->uuid)->toEqual($send->uuid);
 
-
         return true;
     });
-});
-
-it('will not fire an event when a link gets clicked and click tracking is not enable', function () {
-    Event::fake();
-
-    /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
-    $send = SendFactory::new()->create();
-    $send->campaign->update(['track_clicks' => false]);
-
-    $send->registerClick('https://spatie.be');
-
-    expect(CampaignLink::get())->toHaveCount(0);
-
-    Event::assertNotDispatched(CampaignLinkClickedEvent::class);
 });

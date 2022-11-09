@@ -15,7 +15,7 @@ it('can zip an export', function () {
 });
 
 it('can unzip an uploaded export', function () {
-    $this->disk->put('import/mailcoach-export.zip', File::get(__DIR__ . '/stubs/mailcoach-export.zip'));
+    $this->disk->put('import/mailcoach-export.zip', File::get(__DIR__.'/stubs/mailcoach-export.zip'));
 
     (new UnzipImportJob('import/mailcoach-export.zip'))->handle();
 

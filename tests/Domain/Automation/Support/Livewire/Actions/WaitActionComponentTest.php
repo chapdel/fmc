@@ -19,8 +19,8 @@ it('requires length and unit', function () {
       ->set('unit', '')
       ->call('save')
       ->assertHasErrors([
-        'length' => ['required'],
-        'unit' => 'required',
+          'length' => ['required'],
+          'unit' => 'required',
       ]);
 });
 
@@ -70,7 +70,7 @@ it('emits correct data', function () {
     Livewire::test(WaitActionComponent::class, [
         'action' => test()->action,
         'uuid' => $uuid,
-    ])  ->set('length', '5')
+    ])->set('length', '5')
         ->set('unit', 'days')
         ->call('save')
         ->assertHasNoErrors()
