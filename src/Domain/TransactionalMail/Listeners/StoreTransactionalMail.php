@@ -45,6 +45,12 @@ class StoreTransactionalMail
         $sending->message->getHeaders()->addIdHeader('Message-ID', $messageId);
         $sending->message->getHeaders()->addTextHeader('mailcoach-send-uuid', $send->uuid);
 
+        // Add Sendgrid header
+        $sending->message->getHeaders()->addTextHeader(
+            'X-SMTPAPI',
+            json_encode(['unique_args' => ['send_uuid' => $send->uuid]])
+        );
+
         event(new TransactionalMailStored($transactionalMail, $sending));
     }
 
