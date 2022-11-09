@@ -28,7 +28,9 @@
             />
 
             @if ($template->type === 'html')
-                @livewire(\Livewire\Livewire::getAlias(config('mailcoach.content_editor')), ['model' => $template])
+                <div class="mt-6">
+                    @livewire(\Livewire\Livewire::getAlias(config('mailcoach.content_editor')), ['model' => $template])
+                </div>
             @else
                 <?php
                 $editor = config('mailcoach.content_editor', \Spatie\Mailcoach\Http\App\Livewire\TextAreaEditorComponent::class);
