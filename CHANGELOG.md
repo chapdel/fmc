@@ -2,6 +2,28 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.0.0 - 2022-11-09
+
+### Mailcoach v6 is here!
+
+Some notable features:
+
+- Completely new design with improved UX
+- Add & manage multiple mailers with different providers with automatic setup
+- Show a website archive of your email list's campaigns
+- A full-featured template system
+- A new & improved Markdown editor
+- Send outgoing webhooks
+- Improved list insights & charts
+- A new "Manage preferences" screen where subscribers can manage the (public) tags attached to them
+- A command palette
+- Automations can be configured to run more than once for a subscriber
+- The ability to override, replace and extend every page of Mailcoach
+
+Check out our [upgrade guide](https://mailcoach.app/docs/self-hosted/v6/upgrading) for more details.
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.11.2...6.0.0
+
 ## 5.11.2 - 2022-11-09
 
 - Add the Sendgrid SMTP header when a transactional mail gets stored
