@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.11.2 - 2022-11-09
+
+- Add the Sendgrid SMTP header when a transactional mail gets stored
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.11.1...5.11.2
+
 ## 5.11.1 - 2022-11-07
 
 ### What's Changed
