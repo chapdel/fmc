@@ -23,6 +23,7 @@ use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignTestJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\CanBeScheduled;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\SendsToSegment;
 use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
+use Spatie\Mailcoach\Domain\Shared\Actions\CreateDomDocumentFromHtmlAction;
 use Spatie\Mailcoach\Domain\Shared\Actions\RenderMarkdownToHtmlAction;
 use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
@@ -599,13 +600,6 @@ class Campaign extends Sendable implements Feedable
         return Str::limit($text, 300);
     }
 
-    public function getSummaryImage(): ?string
-    {
-        preg_match('/<img.+src=[\'"](?P<src>.+?)[\'"].*>/i', $this->webview_html, $image);
-
-        return $image['src'] ?? null;
-    }
-
     public function allSendsCreated(): bool
     {
         return ! is_null($this->all_sends_created_at);
@@ -647,5 +641,22 @@ class Campaign extends Sendable implements Feedable
     public function websiteUrl(): string
     {
         return route('mailcoach.website.campaign', [$this->emailList->website_slug, $this->uuid]);
+    }
+
+    public function websiteSummary(): ?string
+    {
+        if (! $this->webview_html) {
+            return null;
+        }
+
+        $document = app(CreateDomDocumentFromHtmlAction::class)->execute($this->webview_html);
+
+        $preheader = $document->getElementById('preheader');
+
+        if (! $preheader) {
+            return null;
+        }
+
+        return $preheader->textContent;
     }
 }

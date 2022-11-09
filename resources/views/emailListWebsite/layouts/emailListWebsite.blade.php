@@ -5,22 +5,29 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-
-    <title>{{ $emailList->website_title }}</title>
-    <meta name="theme-color" content="{{ $emailList->getWebsitePrimaryColor() }}">
+    @isset($title)
+        <title>{{ $title }} | {{ $emailList->website_title }}</title>
+    @else
+        <title>{{ $emailList->website_title }}</title>
+    @endisset
+    <meta name="theme-color" content="{{ $emailList->website_primary_color }}">
     <meta name="description" content="{{ $emailList->website_intro }}">
 
-
-    {!! \Spatie\Mailcoach\Mailcoach::styles() !!}
-
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    @if($favicon = $emailList->getFirstMediaUrl('header', 'favicon'))
+        <link rel="icon" href="{{ $favicon }}">
+    @endif
 
     @if($emailList->campaigns_feed_enabled)
         <link rel="alternate" type="application/atom+xml" href="{{ route('mailcoach.feed', $emailList) }}" title="{{ $emailList->website_title }}">
     @endif
+
+    @include('mailcoach::emailListWebsite.partials.style')
 </head>
 <body>
-{{ $slot }}
+    <div class="layout">
+        @include('mailcoach::emailListWebsite.partials.header')
+        {{ $slot }}
+        @include('mailcoach::emailListWebsite.partials.footer')
+    </div>
 </body>
 </html>

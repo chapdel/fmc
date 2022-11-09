@@ -160,6 +160,7 @@ use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateC
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateSettingsComponent;
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\HealthViewComposer;
+use Spatie\Mailcoach\Http\App\ViewComposers\WebsiteStyleComposer;
 use Spatie\Mailcoach\Http\Livewire\CreateMailerComponent;
 use Spatie\Mailcoach\Http\Livewire\CreateUserComponent;
 use Spatie\Mailcoach\Http\Livewire\CreateWebhookComponent;
@@ -456,6 +457,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         View::composer('mailcoach::app.layouts.partials.footer', FooterComposer::class);
         View::composer('mailcoach::app.layouts.partials.health', HealthViewComposer::class);
         View::composer('mailcoach::app.layouts.partials.health-tiles', HealthViewComposer::class);
+        View::composer('mailcoach::emailListWebsite.partials.style', WebsiteStyleComposer::class);
 
         if (config('mailcoach.views.use_blade_components', true)) {
             $this->bootBladeComponents();

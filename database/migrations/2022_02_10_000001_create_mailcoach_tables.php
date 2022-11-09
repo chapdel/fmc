@@ -59,7 +59,8 @@ return new class extends Migration
             $table->string('website_slug')->nullable();
             $table->string('website_title')->nullable();
             $table->text('website_intro')->nullable();
-            $table->string('website_primary_color')->nullable();
+            $table->string('website_primary_color')->default('hsl(0, 0%, 0%)');
+            $table->string('website_theme')->default('default');
             $table->text('website_subscription_description')->nullable();
 
             $table->timestamps();

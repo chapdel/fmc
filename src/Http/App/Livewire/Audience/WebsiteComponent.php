@@ -31,6 +31,7 @@ class WebsiteComponent extends Component
             'emailList.website_title' => ['nullable'],
             'emailList.website_intro' => ['nullable'],
             'emailList.website_primary_color' => ['nullable'],
+            'emailList.website_theme' => ['nullable'],
         ];
 
         if ($this->image) {
@@ -65,6 +66,11 @@ class WebsiteComponent extends Component
                 ->emailList
                 ->addMedia($path)
                 ->toMediaLibrary('header', config('mailcoach.website_disk'));
+        }
+
+        /** Make sure to enable form subscriptions when form is shown on website */
+        if ($this->emailList->show_subscription_form_on_website) {
+            $this->emailList->allow_form_subscriptions = true;
         }
 
         $this->emailList->save();
