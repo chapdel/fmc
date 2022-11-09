@@ -229,6 +229,10 @@ class Send extends Model
             return null;
         }
 
+        if (! $this->campaign) {
+            return null;
+        }
+
         $campaignOpen = static::getCampaignOpenClass()::create([
             'send_id' => $this->id,
             'campaign_id' => $this->campaign->id,
@@ -246,6 +250,10 @@ class Send extends Model
     public function registerAutomationMailOpen(?DateTimeInterface $openedAt = null): ?AutomationMailOpen
     {
         if ($this->wasOpenedInTheLastSeconds($this->automationMailOpens(), 5)) {
+            return null;
+        }
+
+        if (! $this->automationMail) {
             return null;
         }
 
