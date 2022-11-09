@@ -32,7 +32,7 @@
                     type="email"
                     id="email"
                     name="email"
-                    placeholder="Your e-mail…"
+                    placeholder="{{ __mc('Your email…') }}"
                     aria-label="E-mail"
                     required
                 >
@@ -40,7 +40,7 @@
                     type="submit"
                     name="submit"
                     id="submit"
-                    value="Subscribe"
+                    value="{{ __mc('Subscribe') }}"
                 >
             </fieldset>
             @error('email')

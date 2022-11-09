@@ -10,6 +10,8 @@ beforeEach(function () {
     /** @var EmailList emailList */
     $this->emailList = EmailList::factory()->create([
         'website_slug' => 'this-is-the-slug',
+        'allow_form_subscriptions' => true,
+        'show_subscription_form_on_website' => true,
         'has_website' => true,
     ]);
 
@@ -18,6 +20,7 @@ beforeEach(function () {
         'subject' => 'This is the subject of the campaign',
         'email_list_id' => $this->emailList->id,
         'status' => CampaignStatus::Sent,
+        'sent_at' => now(),
     ]);
 });
 

@@ -3,7 +3,7 @@
     :email-list="$emailList"
 >
     <section class="index">
-        @foreach($campaigns as $campaign)
+        @forelse($campaigns as $campaign)
             <a href="{{ $campaign->websiteUrl() }}" class="card">
                 <article class="card-contents">
                     <h2>
@@ -17,7 +17,15 @@
                     @endif
                 </article>
             </a>
-        @endforeach
+        @empty
+            <a href="#" class="card">
+                <article class="card-contents">
+                    <h2>
+                        {{ __mc('No campaigns have been sent.') }}
+                    </h2>
+                </article>
+            </a>
+        @endforelse
     </section>
     <nav class="pagination">
         @if($campaigns->previousPageUrl())
