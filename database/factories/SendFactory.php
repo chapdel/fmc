@@ -24,7 +24,6 @@ class SendFactory extends Factory
             'uuid' => $this->faker->uuid,
             'campaign_id' => Campaign::factory(),
             'automation_mail_id' => AutomationMail::factory(),
-            'transactional_mail_log_item_id' => TransactionalMailLogItem::factory(),
             'subscriber_id' => Subscriber::factory(),
         ];
     }

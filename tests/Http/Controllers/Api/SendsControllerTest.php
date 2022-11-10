@@ -1,6 +1,7 @@
 <?php
 
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
 use Spatie\Mailcoach\Http\Api\Controllers\SendsController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 
@@ -47,7 +48,9 @@ it('can filter by automationMail uuid', function () {
 });
 
 it('can filter by transactionalMailLogItem uuid', function () {
-    $sends = Send::factory(3)->create();
+    $sends = Send::factory(3)->create([
+        'transactional_mail_log_item_id' => TransactionalMailLogItem::factory(),
+    ]);
 
     $this
         ->getJson(action([SendsController::class, 'index']).'?filter[transactional_mail_log_item_uuid]='.$sends->first()->transactionalMailLogItem->uuid)
