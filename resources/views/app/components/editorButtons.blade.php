@@ -2,12 +2,14 @@
     'previewHtml' => '',
     'model' => null,
 ])
+@if($model instanceof \Spatie\Mailcoach\Domain\Shared\Models\Sendable)
 @pushonce('endHead')
 <script>
     document.addEventListener('livewire:load', function () {
         setInterval(() => @this.saveQuietly(), 20000);
     });
 </script>
+@endif
 @endpushonce
 <x-mailcoach::form-buttons>
     <x-mailcoach::button
@@ -31,5 +33,7 @@
 
     {{ $slot }}
 
+    @if ($model instanceof \Spatie\Mailcoach\Domain\Shared\Models\Sendable)
     <p class="text-xs mt-3">{{ __mc("We autosave every 20 seconds") }} - {{ __mc('Last saved at') }} {{ $model->updated_at->toMailcoachFormat() }}</p>
+    @endif
 </x-mailcoach::form-buttons>
