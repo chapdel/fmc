@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.1.0 - 2022-11-10
+
+### What's new
+
+- Added API endpoints for retrieving sends
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.0.1...6.1.0
+
 ## 6.0.1 - 2022-11-10
 
 - Only enable autosave on Sendable models
