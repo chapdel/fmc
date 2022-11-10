@@ -23,7 +23,7 @@ it('can filter by subscriber_uuid', function () {
     $sends = Send::factory(3)->create();
 
     $this
-        ->getJson(action([SendsController::class, 'index']) . '?filter[subscriber_uuid]=' . $sends->first()->subscriber->uuid)
+        ->getJson(action([SendsController::class, 'index']).'?filter[subscriber_uuid]='.$sends->first()->subscriber->uuid)
         ->assertSuccessful()
         ->assertJsonCount(1, 'data');
 });
@@ -32,7 +32,7 @@ it('can filter by campaign uuid', function () {
     $sends = Send::factory(3)->create();
 
     $this
-        ->getJson(action([SendsController::class, 'index']) . '?filter[campaign_uuid]=' . $sends->first()->campaign->uuid)
+        ->getJson(action([SendsController::class, 'index']).'?filter[campaign_uuid]='.$sends->first()->campaign->uuid)
         ->assertSuccessful()
         ->assertJsonCount(1, 'data');
 });
@@ -41,7 +41,7 @@ it('can filter by automationMail uuid', function () {
     $sends = Send::factory(3)->create();
 
     $this
-        ->getJson(action([SendsController::class, 'index']) . '?filter[automation_mail_uuid]=' . $sends->first()->automationMail->uuid)
+        ->getJson(action([SendsController::class, 'index']).'?filter[automation_mail_uuid]='.$sends->first()->automationMail->uuid)
         ->assertSuccessful()
         ->assertJsonCount(1, 'data');
 });
@@ -50,7 +50,7 @@ it('can filter by transactionalMailLogItem uuid', function () {
     $sends = Send::factory(3)->create();
 
     $this
-        ->getJson(action([SendsController::class, 'index']) . '?filter[transactional_mail_log_item_uuid]=' . $sends->first()->transactionalMailLogItem->uuid)
+        ->getJson(action([SendsController::class, 'index']).'?filter[transactional_mail_log_item_uuid]='.$sends->first()->transactionalMailLogItem->uuid)
         ->assertSuccessful()
         ->assertJsonCount(1, 'data');
 });
