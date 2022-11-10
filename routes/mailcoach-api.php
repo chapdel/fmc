@@ -13,6 +13,7 @@ use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\ConfirmSubscrib
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\ResendConfirmationMailController;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\SubscribersController;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\UnsubscribeController;
+use Spatie\Mailcoach\Http\Api\Controllers\SendsController;
 use Spatie\Mailcoach\Http\Api\Controllers\SubscriberImports\AppendSubscriberImportController;
 use Spatie\Mailcoach\Http\Api\Controllers\SubscriberImports\StartSubscriberImportController;
 use Spatie\Mailcoach\Http\Api\Controllers\SubscriberImports\SubscriberImportsController;
@@ -26,6 +27,7 @@ use Spatie\Mailcoach\Http\Api\Controllers\UserController;
 Route::get('user', UserController::class);
 
 Route::apiResource('templates', TemplatesController::class);
+Route::apiResource('sends', SendsController::class)->except(['store', 'update']);
 Route::apiResource('campaigns', CampaignsController::class);
 
 Route::prefix('campaigns/{campaign}')->group(function () {
