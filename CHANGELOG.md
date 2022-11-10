@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.0.1 - 2022-11-10
+
+- Only enable autosave on Sendable models
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.0.0...6.0.1
+
 ## 6.0.0 - 2022-11-09
 
 ### Mailcoach v6 is here!
