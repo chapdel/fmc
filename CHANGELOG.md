@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.1.1 - 2022-11-11
+
+- Update migrations so they don't get published again when upgrading from a v5 project
+- Improve the upgrading documentation
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.1.0...6.1.1
+
 ## 6.1.0 - 2022-11-10
 
 ### What's new
