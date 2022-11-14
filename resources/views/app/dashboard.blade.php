@@ -14,27 +14,27 @@
 
         <x-mailcoach::tile cols="3" icon="users" link="{{ route('mailcoach.emailLists') }}">
             <h2 class="dashboard-title">
-                New subscribers
+                {{ __mc('New subscribers') }}
             </h2>
             <div class="flex flex-col">
                 <span class="dashboard-value">{{ $this->abbreviateNumber($recentSubscribers) }}</span>
-                <span class="dashboard-label">Last 30 days</span>
+                <span class="dashboard-label">{{ __mc('Last 30 days') }}</span>
             </div>
         </x-mailcoach::tile>
 
         <x-mailcoach::tile class="" cols="3" icon="envelope-open-text" link="{{ route('mailcoach.campaigns') }}">
             <h2 class="dashboard-title">
                 @if ($totalCount = $this->getCampaignClass()::count())
-                    {{ $this->abbreviateNumber($totalCount) }} Campaigns
+                    {{ $this->abbreviateNumber($totalCount) }} {{ __mc('Campaigns') }}
                 @else
-                    Create your first campaign
+                    {{ __mc('Create your first campaign') }}
                 @endif
             </h2>
             <div class="flex justify-between">
                 @if ($draftCount = $this->getCampaignClass()::draft()->count())
                     <a href="{{ route('mailcoach.campaigns') }}?status=draft" class="dashboard-link">
                         <span class="dashboard-value">{{ $this->abbreviateNumber($draftCount) }}</span>
-                        <span class="dashboard-label">Draft</span>
+                        <span class="dashboard-label">{{ __mc('Draft') }}</span>
                     </a>
                 @endif
 

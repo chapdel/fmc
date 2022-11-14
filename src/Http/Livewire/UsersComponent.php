@@ -15,7 +15,7 @@ class UsersComponent extends DataTableComponent
 
     public function getTitle(): string
     {
-        return __('Users');
+        return __mc('Users');
     }
 
     public function getView(): string
@@ -31,14 +31,14 @@ class UsersComponent extends DataTableComponent
     public function getLayoutData(): array
     {
         return [
-            'title' => __('Users'),
+            'title' => __mc('Users'),
         ];
     }
 
     public function deleteUser(int $id)
     {
         if ($id === Auth::user()->id) {
-            $this->flashError(__('You cannot delete yourself!'));
+            $this->flashError(__mc('You cannot delete yourself!'));
 
             return;
         }
@@ -46,7 +46,7 @@ class UsersComponent extends DataTableComponent
         $user = User::find($id);
         $user->delete();
 
-        $this->flash(__('The user has been deleted.'));
+        $this->flash(__mc('The user has been deleted.'));
     }
 
     public function getData(Request $request): array

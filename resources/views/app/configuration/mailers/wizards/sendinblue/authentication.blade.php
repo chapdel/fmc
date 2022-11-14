@@ -16,14 +16,14 @@
     <form class="form-grid" wire:submit.prevent="submit">
         <x-mailcoach::text-field
             wire:model.defer="apiKey"
-            :label="__('API Key')"
+            :label="__mc('API Key')"
             name="apiKey"
             type="text"
             autocomplete="off"
         />
 
         <x-mailcoach::form-buttons>
-            <x-mailcoach::button :label="__('Verify')"/>
+            <x-mailcoach::button :label="__mc('Verify')"/>
         </x-mailcoach::form-buttons>
     </form>
 </x-mailcoach::card>

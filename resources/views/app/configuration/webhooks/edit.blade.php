@@ -20,16 +20,16 @@
                 href="https://mailcoach.app/docs" target="_blank">in our docs</a>.
         </x-mailcoach::help>
 
-        <x-mailcoach::text-field :label="__('Name')" name="webhook.name" wire:model.lazy="webhook.name" required />
+        <x-mailcoach::text-field :label="__mc('Name')" name="webhook.name" wire:model.lazy="webhook.name" required />
 
-        <x-mailcoach::text-field :label="__('URL')" name="webhook.url" wire:model.lazy="webhook.url" required />
+        <x-mailcoach::text-field :label="__mc('URL')" name="webhook.url" wire:model.lazy="webhook.url" required />
 
         <div class="flex items-center gap-x-2" x-data="{ type: 'password' }">
-            <x-mailcoach::text-field x-bind:type="type" :label="__('Secret ')" name="webhook.secret" wire:model.lazy="webhook.secret" required />
+            <x-mailcoach::text-field x-bind:type="type" :label="__mc('Secret ')" name="webhook.secret" wire:model.lazy="webhook.secret" required />
             <x-mailcoach::rounded-icon x-on:click="type = type === 'password' ? 'text' : 'password'" class="cursor-pointer mt-6" icon="" x-bind:class="type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash'" size="md" type="info" />
         </div>
 
-        <x-mailcoach::checkbox-field :label="__('Use for all lists')" name="webhook.use_for_all_lists" wire:model="webhook.use_for_all_lists" />
+        <x-mailcoach::checkbox-field :label="__mc('Use for all lists')" name="webhook.use_for_all_lists" wire:model="webhook.use_for_all_lists" />
 
         @if (!$webhook->use_for_all_lists)
             <div class="form-field">
@@ -44,7 +44,7 @@
         @endif
 
         <x-mailcoach::form-buttons>
-            <x-mailcoach::button :label="__('Save webhook')" />
+            <x-mailcoach::button :label="__mc('Save webhook')" />
         </x-mailcoach::form-buttons>
 </x-mailcoach::card>
 </form>

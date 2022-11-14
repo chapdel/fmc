@@ -28,7 +28,7 @@ class PasswordComponent extends Component
 
         Auth::user()->update(['password' => Hash::make($this->password)]);
 
-        $this->flash(__('Your password has been updated.'));
+        $this->flash(__mc('Your password has been updated.'));
 
         $this->current_password = '';
         $this->password = '';
@@ -38,6 +38,6 @@ class PasswordComponent extends Component
     public function render()
     {
         return view('mailcoach::app.account.password')
-            ->layout('mailcoach::app.layouts.settings', ['title' => __('Password')]);
+            ->layout('mailcoach::app.layouts.settings', ['title' => __mc('Password')]);
     }
 }

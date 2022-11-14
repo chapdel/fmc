@@ -26,7 +26,7 @@ class TestMail extends Mailable
     public function build()
     {
         return $this
-            ->subject(__('Mailcoach testmail'))
+            ->subject(__mc('Mailcoach testmail'))
             ->to($this->toEmail)
             ->from($this->fromEmail)
             ->markdown('mailcoach::mails.test');

@@ -10,13 +10,13 @@
 
         <form class="form-grid" wire:submit.prevent="configureMailgun">
             <x-mailcoach::checkbox-field
-                :label="__('Enable open tracking')"
+                :label="__mc('Enable open tracking')"
                 name="trackOpens"
                 wire:model.defer="trackOpens"
             />
 
             <x-mailcoach::checkbox-field
-                :label="__('Enable click tracking')"
+                :label="__mc('Enable click tracking')"
                 name="trackClicks"
                 wire:model.defer="trackClicks"
             />
@@ -24,12 +24,12 @@
             <x-mailcoach::text-field
                 name="signingSecret"
                 wire:model.lazy="signingSecret"
-                :label="__('Webhook signing secret')"
+                :label="__mc('Webhook signing secret')"
                 :help="__mc('You can find it <a class=\'link\' href=\':url\'>in your API Security screen</a>', ['url' => 'https://app.mailgun.com/app/account/security/api_keys'])"
             />
 
             <x-mailcoach::form-buttons>
-                <x-mailcoach::button :label="__('Configure Mailgun')"/>
+                <x-mailcoach::button :label="__mc('Configure Mailgun')"/>
             </x-mailcoach::form-buttons>
         </form>
 </x-mailcoach::card>

@@ -19,7 +19,7 @@
             <ul>
                 <li>
                     <x-mailcoach::confirm-button
-                        :confirm-text="__('Are you sure you want to delete webhook: :webhook?', ['webhook' => $row->name])"
+                        :confirm-text="__mc('Are you sure you want to delete webhook: :webhook?', ['webhook' => $row->name])"
                         onConfirm="() => $wire.deleteWebhook({{ $row->id }})"
                     >
                         <x-mailcoach::icon-label icon="far fa-trash-alt" :caution="true" :text="__mc('Delete')" />

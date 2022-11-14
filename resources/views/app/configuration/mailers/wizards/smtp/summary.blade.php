@@ -8,7 +8,7 @@
         </p>
     </x-mailcoach::success>
 
-    <x-mailcoach::fieldset card :legend="__('Summary')">
+    <x-mailcoach::fieldset card :legend="__mc('Summary')">
         <dl class="dl">
             <dt>Host</dt>
             <dd>
@@ -40,6 +40,6 @@
     @include('mailcoach::app.configuration.mailers.partials.mailerName')
 
     <x-mailcoach::card buttons>
-    <x-mailcoach::button class="mt-4" :label="__('Send test email')" x-on:click.prevent="$store.modals.open('send-test')" />
+    <x-mailcoach::button class="mt-4" :label="__mc('Send test email')" x-on:click.prevent="$store.modals.open('send-test')" />
     </x-mailcoach::card>
 </div>

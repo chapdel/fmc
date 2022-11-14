@@ -8,9 +8,9 @@
     <x-mailcoach::text-field :label="__mc('Name')" name="tag.name" wire:model="tag.name" required />
 
     <x-mailcoach::help>
-        <p>{{ __('Whether the subscriber can choose to add or remove this tag on "Manage your preferences" page.') }}</p>
-        <p>{!! __('This page can be linked to by using the <code>::preferencesUrl::</code> placeholder in your emails.') !!}</p>
-        <p>{!! __('You can view an example of your page with all the currently enabled tags <a href=":url">here</a>', [
+        <p>{{ __mc('Whether the subscriber can choose to add or remove this tag on "Manage your preferences" page.') }}</p>
+        <p>{!! __mc('This page can be linked to by using the <code>::preferencesUrl::</code> placeholder in your emails.') !!}</p>
+        <p>{!! __mc('You can view an example of your page with all the currently enabled tags <a href=":url">here</a>', [
             'url' => route('mailcoach.manage-preferences', ['example', $tag->emailList->uuid]),
         ]) !!}</p>
     </x-mailcoach::help>

@@ -24,12 +24,12 @@
             <ul>
                 <li>
                     <button wire:click.prevent="markMailerDefault({{ $row->id }})">
-                        <x-mailcoach::icon-label icon="fas fa-check" :text="__('Mark as default')" />
+                        <x-mailcoach::icon-label icon="fas fa-check" :text="__mc('Mark as default')" />
                     </button>
                 </li>
                 <li>
                     <x-mailcoach::confirm-button
-                        :confirm-text="__('Are you sure you want to delete mailer: :mailer?', ['mailer' => $row->name])"
+                        :confirm-text="__mc('Are you sure you want to delete mailer: :mailer?', ['mailer' => $row->name])"
                         onConfirm="() => $wire.deleteMailer({{ $row->id }})"
                     >
                         <x-mailcoach::icon-label icon="far fa-trash-alt" :caution="true" :text="__mc('Delete')" />

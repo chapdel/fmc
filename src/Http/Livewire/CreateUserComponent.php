@@ -27,10 +27,10 @@ class CreateUserComponent extends Component
         try {
             $user->sendWelcomeNotification($expiresAt);
 
-            flash()->success(__('The user has been created. A mail with login instructions has been sent to :email', ['email' => $user->email]));
+            flash()->success(__mc('The user has been created. A mail with login instructions has been sent to :email', ['email' => $user->email]));
         } catch (\Throwable $e) {
             report($e);
-            flash()->error(__('The user has been created. A mail with setup instructions could not be sent: '.$e->getMessage()));
+            flash()->error(__mc('The user has been created. A mail with setup instructions could not be sent: '.$e->getMessage()));
         }
 
         return redirect()->route('users');

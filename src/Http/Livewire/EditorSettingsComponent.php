@@ -70,7 +70,7 @@ class EditorSettingsComponent extends Component
 
         resolve(EditorConfiguration::class)->put($data);
 
-        flash()->success(__('The editor has been updated.'));
+        flash()->success(__mc('The editor has been updated.'));
 
         return redirect(request()->header('Referer'));
     }
@@ -91,6 +91,6 @@ class EditorSettingsComponent extends Component
         $this->editorSettings = array_merge($this->editorSettings, $currentValues);
 
         return view('mailcoach::app.configuration.editor.edit')
-            ->layout('mailcoach::app.layouts.settings', ['title' => __('Editor')]);
+            ->layout('mailcoach::app.layouts.settings', ['title' => __mc('Editor')]);
     }
 }

@@ -13,7 +13,7 @@
         <x-mailcoach::select-field
             name="campaign_mailer"
             :options="array_combine(array_keys(config('mail.mailers')), array_keys(config('mail.mailers')))"
-            :placeholder="__('Select a mailer')"
+            :placeholder="__mc('Select a mailer')"
             :clearable="true"
             wire:model="emailList.campaign_mailer"
             :label="__mc('Campaign mailer')"
@@ -22,7 +22,7 @@
         <x-mailcoach::select-field
             name="automation_mailer"
             :options="array_combine(array_keys(config('mail.mailers')), array_keys(config('mail.mailers')))"
-            :placeholder="__('Select a mailer')"
+            :placeholder="__mc('Select a mailer')"
             :clearable="true"
             wire:model="emailList.automation_mailer"
             :label="__mc('Automation mailer')"
@@ -31,7 +31,7 @@
         <x-mailcoach::select-field
             name="transactional_mailer"
             :options="array_combine(array_keys(config('mail.mailers')), array_keys(config('mail.mailers')))"
-            :placeholder="__('Select a mailer')"
+            :placeholder="__mc('Select a mailer')"
             :clearable="true"
             wire:model="emailList.transactional_mailer"
             :label="__mc('Transactional mailer')"

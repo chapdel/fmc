@@ -28,7 +28,7 @@ class TokensComponent extends Component
 
         $this->newToken = $token->plainTextToken;
 
-        $this->flash(__('The token has been created.'));
+        $this->flash(__mc('The token has been created.'));
 
         $this->name = '';
     }
@@ -41,13 +41,13 @@ class TokensComponent extends Component
 
         $token->delete();
 
-        $this->flash(__('The token has been deleted.'));
+        $this->flash(__mc('The token has been deleted.'));
     }
 
     public function render()
     {
         return view('mailcoach::app.account.tokens', [
             'tokens' => Auth::user()->tokens ?? [],
-        ])->layout('mailcoach::app.layouts.settings', ['title' => __('API Tokens')]);
+        ])->layout('mailcoach::app.layouts.settings', ['title' => __mc('API Tokens')]);
     }
 }

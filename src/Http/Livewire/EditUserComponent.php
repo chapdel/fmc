@@ -30,7 +30,7 @@ class EditUserComponent extends Component
     {
         $this->user->update($this->validate());
 
-        $this->flash(__('The user has been updated.'));
+        $this->flash(__mc('The user has been updated.'));
     }
 
     public function render()

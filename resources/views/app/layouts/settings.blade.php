@@ -1,5 +1,5 @@
 <x-mailcoach::layout
-    :originTitle="$originTitle ?? __('Settings')"
+    :originTitle="$originTitle ?? __mc('Settings')"
     :originHref="$originHref ?? null"
     :title="$title ?? null"
     breadcrumbsNavigationClass="{{ \Spatie\Mailcoach\Domain\Settings\SettingsNavigation::class }}"

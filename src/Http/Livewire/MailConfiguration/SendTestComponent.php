@@ -46,7 +46,7 @@ class SendTestComponent extends Component
             return;
         }
 
-        $this->flash(__('A test mail has been sent to :email. Please check if it arrived.', ['email' => $this->to_email]));
+        $this->flash(__mc('A test mail has been sent to :email. Please check if it arrived.', ['email' => $this->to_email]));
 
         $this->dispatchBrowserEvent('modal-closed', ['modal' => 'send-test']);
     }

@@ -12,10 +12,10 @@ enum ActionCategoryEnum: string
     public function label(): string
     {
         return match ($this) {
-            self::Tags => __('Tags'),
-            self::Check => __('Check'),
-            self::Pause => __('Pause'),
-            self::React => __('React'),
+            self::Tags => __mc('Tags'),
+            self::Check => __mc('Check'),
+            self::Pause => __mc('Pause'),
+            self::React => __mc('React'),
         };
     }
 

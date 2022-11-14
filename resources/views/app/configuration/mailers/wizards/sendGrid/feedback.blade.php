@@ -9,19 +9,19 @@
 
     <form class="form-grid" wire:submit.prevent="configureSendGrid">
         <x-mailcoach::checkbox-field
-            :label="__('Enable open tracking')"
+            :label="__mc('Enable open tracking')"
             name="trackOpens"
             wire:model.defer="trackOpens"
         />
 
         <x-mailcoach::checkbox-field
-            :label="__('Enable click tracking')"
+            :label="__mc('Enable click tracking')"
             name="trackClicks"
             wire:model.defer="trackClicks"
         />
 
         <x-mailcoach::form-buttons>
-            <x-mailcoach::button :label="__('Configure SendGrid')"/>
+            <x-mailcoach::button :label="__mc('Configure SendGrid')"/>
         </x-mailcoach::form-buttons>
     </form>
 </x-mailcoach::card>
