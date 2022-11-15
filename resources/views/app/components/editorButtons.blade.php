@@ -6,7 +6,7 @@
 @pushonce('endHead')
 <script>
     document.addEventListener('livewire:load', function () {
-        setInterval(() => @this.saveQuietly(), 20000);
+        setInterval(() => @this.autosave(), 20000);
     });
 </script>
 @endif
@@ -34,6 +34,12 @@
     {{ $slot }}
 
     @if ($model instanceof \Spatie\Mailcoach\Domain\Shared\Models\Sendable)
-    <p class="text-xs mt-3">{{ __mc("We autosave every 20 seconds") }} - {{ __mc('Last saved at') }} {{ $model->updated_at->toMailcoachFormat() }}</p>
+        @if ($this->autosaveConflict)
+            <x-mailcoach::warning class="mt-4">
+                {{ __mc('Autosave disabled, the content was saved somewhere else. Refresh the page to get the latest content or save manually to override.') }}
+            </x-mailcoach::warning>
+        @else
+            <p class="text-xs mt-3">{{ __mc("We autosave every 20 seconds") }} - {{ __mc('Last saved at') }} {{ $model->updated_at->toMailcoachFormat() }}</p>
+        @endif
     @endif
 </x-mailcoach::form-buttons>

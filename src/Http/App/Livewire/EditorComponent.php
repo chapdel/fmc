@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire;
 
+use Carbon\CarbonInterface;
 use Illuminate\Support\Arr;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
@@ -33,9 +34,14 @@ abstract class EditorComponent extends Component
 
     public bool $quiet = false;
 
+    public ?CarbonInterface $lastSavedAt = null;
+
+    public bool $autosaveConflict = false;
+
     public function mount(HasHtmlContent $model)
     {
         $this->model = $model;
+        $this->lastSavedAt = $model->updated_at;
 
         $this->templateFieldValues = $model->getTemplateFieldValues();
 
@@ -105,6 +111,16 @@ abstract class EditorComponent extends Component
         })->toArray();
     }
 
+    public function autosave()
+    {
+        if ($this->lastSavedAt && $this->lastSavedAt->timestamp !== $this->model->fresh()->updated_at->timestamp) {
+            $this->autosaveConflict = true;
+            return;
+        }
+
+        $this->saveQuietly();
+    }
+
     public function saveQuietly()
     {
         $fieldValues = $this->filterNeededFields($this->templateFieldValues, $this->template);
@@ -124,6 +140,8 @@ abstract class EditorComponent extends Component
         $this->model->setHtml($this->fullHtml);
         $this->model->setTemplateFieldValues($fieldValues);
         $this->model->save();
+        $this->lastSavedAt = $this->model->updated_at;
+        $this->autosaveConflict = false;
     }
 
     public function save()
