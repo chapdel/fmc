@@ -76,7 +76,7 @@ class SubscriberImportsComponent extends DataTableComponent
 
         $reader = app(CreateSimpleExcelReaderAction::class)->execute($subscriberImport);
 
-        if (! in_array('email', $reader->getHeaders() ?? [])) {
+        if (! in_array('email', $reader->getHeaders() ?? []) && ! in_array('Email Address', $reader->getHeaders() ?? [])) {
             $subscriberImport->delete();
             Storage::disk($file->disk)->delete($path);
             $this->addError('file', __mc('No header row found. Make sure your first row has at least 1 column with "email"'));
