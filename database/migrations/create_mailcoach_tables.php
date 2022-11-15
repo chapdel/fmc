@@ -722,7 +722,7 @@ return new class extends Migration
 
         Schema::create('mailcoach_settings', function (Blueprint $table) {
             $table->string('key')->index();
-            $table->text('value')->nullable();
+            $table->longText('value')->nullable();
         });
 
         Schema::create('mailcoach_mailers', function (Blueprint $table) {
