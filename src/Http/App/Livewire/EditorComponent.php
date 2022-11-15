@@ -115,6 +115,7 @@ abstract class EditorComponent extends Component
     {
         if ($this->lastSavedAt && $this->lastSavedAt->timestamp !== $this->model->fresh()->updated_at->timestamp) {
             $this->autosaveConflict = true;
+
             return;
         }
 
