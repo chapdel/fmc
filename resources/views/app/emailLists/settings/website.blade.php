@@ -7,8 +7,7 @@
 >
     <x-mailcoach::help>
         <p>
-            Mailcoach can create a website that displays the content of each mail you send to this list. This way,
-            people not subscribed to your list can still read your content.
+            {{ __mc('Mailcoach can create a website that displays the content of each mail you send to this list. This way, people not subscribed to your list can still read your content.') }}
         </p>
     </x-mailcoach::help>
     <x-mailcoach::fieldset :legend="__mc('Settings')" card>
@@ -76,7 +75,7 @@
                     Header Image
                 </label>
                 <x-mailcoach::help full class="my-4">
-                    This image will be displayed at the top of your website. Only .jpg and .png are allowed, the maximum size is 2MB.
+                    {{ __mc('This image will be displayed at the top of your website. Only .jpg and .png are allowed, the maximum size is 2MB.') }}
                 </x-mailcoach::help>
             </div>
             <div class="mt-2 max-w-sm">
@@ -107,7 +106,7 @@
                                 @include('mailcoach::app.layouts.partials.logoSvg')
                             </span>
                         </span>
-                    <span class="ml-1 text-gray-700">Uploading...</span>
+                    <span class="ml-1 text-gray-700">{{ __mc('Uploading...') }}</span>
                 </div>
             </div>
         </div>
@@ -129,7 +128,7 @@
             wire:model.lazy="emailList.website_intro"
         />
         <x-mailcoach::info class="-mt-12">
-            {{ __('This text will be displayed at the top of the page.') }}
+            {{ __mc('This text will be displayed at the top of the page.') }}
         </x-mailcoach::info>
     </x-mailcoach::fieldset>
     <x-mailcoach::form-buttons>

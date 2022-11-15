@@ -26,7 +26,7 @@ class TransactionalTestMail extends Mailable
     public function build()
     {
         return $this
-            ->subject(__('Mailcoach transactional testmail'))
+            ->subject(__mc('Mailcoach transactional testmail'))
             ->to($this->toEmail)
             ->from($this->fromEmail)
             ->markdown('mailcoach::mails.test');

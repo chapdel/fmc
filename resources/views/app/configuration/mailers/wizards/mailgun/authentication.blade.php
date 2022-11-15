@@ -27,7 +27,7 @@
 
             <x-mailcoach::text-field
                 wire:model.lazy="domain"
-                :label="__('Domain')"
+                :label="__mc('Domain')"
                 :help="__mc('Your sending domain without http(s)://', ['url' => 'https://app.mailgun.com/app/account/security/api_keys'])"
                 name="domain"
                 type="text"
@@ -36,7 +36,7 @@
 
             <x-mailcoach::select-field
                 wire:model.lazy="baseUrl"
-                :label="__('Base URL')"
+                :label="__mc('Base URL')"
                 :help="__mc('If you have a EU flag in front of your domain, choose api.eu.mailgun.net')"
                 name="baseUrl"
                 :options="[
@@ -46,7 +46,7 @@
             />
 
             <x-mailcoach::form-buttons>
-                <x-mailcoach::button :label="__('Verify')"/>
+                <x-mailcoach::button :label="__mc('Verify')"/>
             </x-mailcoach::form-buttons>
         </form>
 

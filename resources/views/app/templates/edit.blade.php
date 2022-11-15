@@ -22,7 +22,7 @@
         </form>
     </x-mailcoach::card>
 
-    <x-mailcoach::fieldset class="mt-6" card :legend="__('Usage in Mailcoach API')">
+    <x-mailcoach::fieldset class="mt-6" card :legend="__mc('Usage in Mailcoach API')">
         <div>
             <x-mailcoach::help>
                 {!! __mc('Whenever you need to specify a <code>:resourceName</code> in the Mailcoach API and want to use this :resource, you\'ll need to pass this value', [

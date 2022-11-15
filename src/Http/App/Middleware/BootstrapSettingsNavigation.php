@@ -14,16 +14,16 @@ class BootstrapSettingsNavigation
     public function handle(Request $request, $next)
     {
         resolve(SettingsNavigation::class)
-            ->add(__('Profile'), route('account'))
-            ->add(__('Password'), route('password'))
-            ->add(__('Users'), route('users'))
-            ->add(__('Configuration'), route('general-settings'), function (Section $section) {
+            ->add(__mc('Profile'), route('account'))
+            ->add(__mc('Password'), route('password'))
+            ->add(__mc('Users'), route('users'))
+            ->add(__mc('Configuration'), route('general-settings'), function (Section $section) {
                 $section
-                    ->add(__('General'), route('general-settings'))
-                    ->add(__('Mailers'), route('mailers'))
-                    ->add(__('Editor'), route('editor'))
-                    ->add(__('API Tokens'), route('tokens'))
-                    ->add(__('Webhooks'), route('webhooks'));
+                    ->add(__mc('General'), route('general-settings'))
+                    ->add(__mc('Mailers'), route('mailers'))
+                    ->add(__mc('Editor'), route('editor'))
+                    ->add(__mc('API Tokens'), route('tokens'))
+                    ->add(__mc('Webhooks'), route('webhooks'));
             });
 
         return $next($request);

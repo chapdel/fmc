@@ -43,7 +43,7 @@ class FeedbackStepComponent extends StepComponent
         try {
             $this->getSendinblue()->setupWebhook($endpoint);
         } catch (Exception $e) {
-            $this->flashError(__('Something went wrong while setting up the Sendinblue webhook'));
+            $this->flashError(__mc('Something went wrong while setting up the Sendinblue webhook'));
             report($e);
 
             return;

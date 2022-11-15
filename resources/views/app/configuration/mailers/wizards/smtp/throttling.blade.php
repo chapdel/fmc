@@ -28,7 +28,7 @@
             </div>
 
             <x-mailcoach::form-buttons>
-                <x-mailcoach::button :label="__('Save')"/>
+                <x-mailcoach::button :label="__mc('Save')"/>
         </x-mailcoach::form-buttons>
         </form>
     </x-mailcoach::card>

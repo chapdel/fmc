@@ -56,7 +56,7 @@
         </div>
         </x-mailcoach::fieldset>
 
-        <x-mailcoach::button wire:click.prevent="clear" :label="__('Start new import')" />
+        <x-mailcoach::button wire:click.prevent="clear" :label="__mc('Start new import')" />
     @else
         <div class="flex gap-6">
             <div>
@@ -69,7 +69,7 @@
                 <i class="far fa-arrow-right text-blue-300"></i>
             </div>
             <div class="flex items-center gap-4">
-                <x-mailcoach::button wire:click.prevent="import" :label="__('Import')" :disabled="!$file" />
+                <x-mailcoach::button wire:click.prevent="import" :label="__mc('Import')" :disabled="!$file" />
                 <div wire:loading wire:target="file">
                     <style>
                         @keyframes loadingpulse {

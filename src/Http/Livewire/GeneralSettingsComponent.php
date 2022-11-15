@@ -52,7 +52,7 @@ class GeneralSettingsComponent extends Component
             });
         }
 
-        $this->flash(__('The app configuration was saved.'));
+        $this->flash(__mc('The app configuration was saved.'));
     }
 
     public function render()
@@ -60,6 +60,6 @@ class GeneralSettingsComponent extends Component
         $timeZones = TimeZone::all();
 
         return view('mailcoach::app.configuration.app.edit', compact('timeZones'))
-            ->layout('mailcoach::app.layouts.settings', ['title' => __('General')]);
+            ->layout('mailcoach::app.layouts.settings', ['title' => __mc('General')]);
     }
 }

@@ -18,7 +18,7 @@
         <form class="form-grid" wire:submit.prevent="submit">
             <x-mailcoach::text-field
                 wire:model.defer="key"
-                :label="__('Key')"
+                :label="__mc('Key')"
                 name="key"
                 type="text"
                 autocomplete="off"
@@ -26,7 +26,7 @@
 
             <x-mailcoach::text-field
                 wire:model.defer="secret"
-                :label="__('Secret')"
+                :label="__mc('Secret')"
                 name="secret"
                 type="password"
                 autocomplete="off"
@@ -34,14 +34,14 @@
 
             <x-mailcoach::select-field
                 wire:model.defer="region"
-                :label="__('Region')"
+                :label="__mc('Region')"
                 name="region"
                 :options="$regions"
                 placeholder="Choose a region"
             />
 
             <x-mailcoach::form-buttons>
-                <x-mailcoach::button :label="__('Verify')"/>
+                <x-mailcoach::button :label="__mc('Verify')"/>
             </x-mailcoach::form-buttons>
         </form>
 </x-mailcoach::card>

@@ -12,7 +12,7 @@
                         <strong class="font-semibold">{{ $name }}</strong>
                         <span> &mdash; {{ $data['error'] }}</span>
                         <x-mailcoach::button-secondary class="mt-8" wire:click.prevent="newExport"
-                                                       :label="__('Create new export')"/>
+                                                       :label="__mc('Create new export')"/>
                     @else
                         <x-mailcoach::rounded-icon size="md" type="info" icon="fas fa-sync fa-spin"/>
                         <strong class="font-semibold">{{ $name }}</strong>
@@ -21,19 +21,19 @@
             @empty
                 <p class="flex items-center gap-2">
                     <x-mailcoach::rounded-icon size="md" type="info" icon="fas fa-sync fa-spin"/>
-                    <strong class="font-semibold">Export started...</strong>
+                    <strong class="font-semibold">{{ __mc('Export started...') }}</strong>
                 </p>
             @endforelse
         </x-mailcoach::fieldset>
 
         @if ($exportExists)
             <div class="my-4 flex items-center gap-4">
-                <x-mailcoach::button wire:click.prevent="download" :label="__('Download export')"/>
+                <x-mailcoach::button wire:click.prevent="download" :label="__mc('Download export')"/>
                 <p class="text-sm">Created
                     on {{ \Illuminate\Support\Facades\Date::createFromTimestamp(Storage::disk(config('mailcoach.export_disk'))->lastModified(Spatie\Mailcoach\Http\App\Livewire\Export\ExportComponent::obfuscatedExportDirectory().'/mailcoach-export.zip'))->format('Y-m-d H:i:s') }}</p>
             </div>
             <x-mailcoach::button-secondary class="mt-8" wire:click.prevent="newExport"
-                                           :label="__('Create new export')"/>
+                                           :label="__mc('Create new export')"/>
         @endif
     @else
         <h1 class="markup-h2">Choose which data you want to export</h1>
@@ -170,7 +170,7 @@
         </div>
 
         <x-mailcoach::form-buttons>
-            <x-mailcoach::button wire:click.prevent="export" wire:loading.attr="disabled" :label="__('Export')"/>
+            <x-mailcoach::button wire:click.prevent="export" wire:loading.attr="disabled" :label="__mc('Export')"/>
         </x-mailcoach::form-buttons>
     @endif
 </div>

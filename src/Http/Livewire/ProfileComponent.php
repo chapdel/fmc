@@ -33,12 +33,12 @@ class ProfileComponent extends Component
     {
         Auth::user()->update($this->validate());
 
-        $this->flash(__('Your account has been updated.'));
+        $this->flash(__mc('Your account has been updated.'));
     }
 
     public function render()
     {
         return view('mailcoach::app.account.index')
-            ->layout('mailcoach::app.layouts.settings', ['title' => __('Profile')]);
+            ->layout('mailcoach::app.layouts.settings', ['title' => __mc('Profile')]);
     }
 }

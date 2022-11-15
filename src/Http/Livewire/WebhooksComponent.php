@@ -15,7 +15,7 @@ class WebhooksComponent extends DataTableComponent
 
     public function getTitle(): string
     {
-        return __('Webhooks');
+        return __mc('Webhooks');
     }
 
     public function getView(): string
@@ -31,7 +31,7 @@ class WebhooksComponent extends DataTableComponent
     public function getLayoutData(): array
     {
         return [
-            'title' => __('Webhooks'),
+            'title' => __mc('Webhooks'),
         ];
     }
 
@@ -41,7 +41,7 @@ class WebhooksComponent extends DataTableComponent
 
         $webhook->delete();
 
-        $this->flash(__('Webhook :webhook successfully deleted', ['webhook' => $webhook->name]));
+        $this->flash(__mc('Webhook :webhook successfully deleted', ['webhook' => $webhook->name]));
     }
 
     public function getData(Request $request): array

@@ -9,12 +9,12 @@
     @method('PUT')
 
     <x-mailcoach::card>
-        <x-mailcoach::text-field type="email" :label="__('Email')" name="user.email" wire:model.lazy="user.email" required />
+        <x-mailcoach::text-field type="email" :label="__mc('Email')" name="user.email" wire:model.lazy="user.email" required />
 
-        <x-mailcoach::text-field :label="__('Name')" name="user.name" wire:model.lazy="user.name" required />
+        <x-mailcoach::text-field :label="__mc('Name')" name="user.name" wire:model.lazy="user.name" required />
 
         <x-mailcoach::form-buttons>
-            <x-mailcoach::button :label="__('Save user')" />
+            <x-mailcoach::button :label="__mc('Save user')" />
         </x-mailcoach::form-buttons>
 </x-mailcoach::card>
 </form>

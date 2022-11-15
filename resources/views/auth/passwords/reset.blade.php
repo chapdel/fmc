@@ -1,5 +1,5 @@
-<x-mailcoach::layout-auth :title="__('Reset Password')">
-    <h1 class="markup-h2">{{ __('Reset Password') }}</h1>
+<x-mailcoach::layout-auth :title="__mc('Reset Password')">
+    <h1 class="markup-h2">{{ __mc('Reset Password') }}</h1>
 
     <form class="form-grid" method="POST" action="{{ route('mailcoach.password.update') }}">
         @csrf
@@ -7,7 +7,7 @@
         <input type="hidden" name="token" value="{{ $token }}">
 
         <div class="form-field">
-            <label for="email" class="label">{{ __('Email') }}</label>
+            <label for="email" class="label">{{ __mc('Email') }}</label>
 
             <div>
                 {{ $email ?? old('email') }}
@@ -24,7 +24,7 @@
                 </p>
             @enderror
 
-            <label for="password" class="label">{{ __('Password') }}</label>
+            <label for="password" class="label">{{ __mc('Password') }}</label>
 
             <div class="col-md-6">
                 <input id="password" type="password" class="input @error('password') is-invalid @enderror"
@@ -35,7 +35,7 @@
 
         <div class="form-field">
             <label for="password-confirm"
-                    class="label">{{ __('Confirm password') }}</label>
+                    class="label">{{ __mc('Confirm password') }}</label>
 
             <input id="password-confirm" type="password" class="input" name="password_confirmation"
                         required
@@ -43,7 +43,7 @@
         </div>
 
         <x-mailcoach::form-buttons>
-            <x-mailcoach::button :label="__('Reset Password')" />
+            <x-mailcoach::button :label="__mc('Reset Password')" />
         </x-mailcoach::form-buttons>
     </form>
 </x-mailcoach::layout-auth>

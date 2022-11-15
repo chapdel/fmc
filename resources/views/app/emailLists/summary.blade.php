@@ -7,7 +7,7 @@
             position="auto"
             name="start"
             wire:model="start"
-            label="From"
+            label="{{ __mc('From') }}"
             class="flex-row gap-0"
             inputClass="w-32"
         />
@@ -17,7 +17,7 @@
             position="auto"
             name="end"
             wire:model="end"
-            label="To"
+            label="{{ __mc('To') }}"
             class="flex-row gap-0"
             inputClass="w-32"
         />

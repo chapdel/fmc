@@ -1,12 +1,12 @@
-<x-mailcoach::layout-auth :title="__('Log in')">
-    <h1 class="markup-h2">{{ __('Log in') }}</h1>
+<x-mailcoach::layout-auth :title="__mc('Log in')">
+    <h1 class="markup-h2">{{ __mc('Log in') }}</h1>
 
     <form class="form-grid" method="POST" action="{{ route('mailcoach.login') }}">
         @csrf
 
         <p>
             <a class="link" href="{{ route('mailcoach.forgot-password') }}">
-                {{ __('Forgot password?') }}
+                {{ __mc('Forgot password?') }}
             </a>
         </p>
 
@@ -17,7 +17,7 @@
                 </p>
             @enderror
 
-            <label for="email" class="label">{{ __('Email') }}</label>
+            <label for="email" class="label">{{ __mc('Email') }}</label>
 
             <input id="email" type="email" class="input @error('email') is-invalid @enderror" name="email"
                     value="{{ old('email') }}" required autocomplete="email" autofocus>
@@ -30,7 +30,7 @@
                 </p>
             @enderror
 
-            <label for="password" class="label">{{ __('Password') }}</label>
+            <label for="password" class="label">{{ __mc('Password') }}</label>
 
             <input id="password" type="password" class="input @error('password') is-invalid @enderror"
                 name="password" required autocomplete="current-password">
@@ -41,16 +41,16 @@
                 <input class="checkbox" type="checkbox" name="remember" id="remember"
                     {{ old('remember') ? 'checked' : '' }}>
 
-                    {{ __('Remember me next time') }}
+                    {{ __mc('Remember me next time') }}
             </label>
         </div>
 
         <x-mailcoach::form-buttons>
-            <x-mailcoach::button :label="__('Log in')" />
+            <x-mailcoach::button :label="__mc('Log in')" />
 
             @if (Route::has('mailcoach.forgot-password'))
             <a class="link" href="{{ route('mailcoach.forgot-password') }}">
-                {{ __('Forgot Your Password?') }}
+                {{ __mc('Forgot Your Password?') }}
             </a>
             @endif
         </x-mailcoach::form-buttons>

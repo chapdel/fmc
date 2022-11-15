@@ -4,10 +4,10 @@
     :rows="$users ?? null"
     :totalRowsCount="$totalUsersCount ?? null"
     :columns="[
-        ['attribute' => 'email', 'label' => __('Email')],
-        ['attribute' => 'name', 'label' => __('Name')],
+        ['attribute' => 'email', 'label' => __mc('Email')],
+        ['attribute' => 'name', 'label' => __mc('Name')],
         ['class' => 'w-12'],
     ]"
     rowPartial="mailcoach::app.configuration.users.partials.row"
-    :emptyText="__('No users')"
+    :emptyText="__mc('No users')"
 />

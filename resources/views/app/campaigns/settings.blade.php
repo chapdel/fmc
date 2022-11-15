@@ -108,7 +108,7 @@
 
 
     @if($this->campaign->emailList?->has_website || $this->campaign->emailList?->campaigns_feed_enabled)
-        <x-mailcoach::fieldset card :legend="__('Publish campaign')">
+        <x-mailcoach::fieldset card :legend="__mc('Publish campaign')">
             <div>
                 <x-mailcoach::help>
                     When this campaign has been sent, we can display the content on {!! $linkDescriptions !!} for this email list.
@@ -124,7 +124,7 @@
         </x-mailcoach::fieldset>
     @endif
 
-    <x-mailcoach::fieldset card :legend="__('Usage in Mailcoach API')">
+    <x-mailcoach::fieldset card :legend="__mc('Usage in Mailcoach API')">
         <div>
             <x-mailcoach::help>
                 {!! __mc('Whenever you need to specify a <code>:resourceName</code> in the Mailcoach API and want to use this :resource, you\'ll need to pass this value', [

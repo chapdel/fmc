@@ -45,9 +45,9 @@ class AuthenticationStepComponent extends StepComponent
         }
 
         if (! $validApiKey) {
-            $this->addError('apiKey', __('These credentials are not valid.'));
-            $this->addError('domain', __('These credentials are not valid.'));
-            $this->addError('baseUrl', __('These credentials are not valid.'));
+            $this->addError('apiKey', __mc('These credentials are not valid.'));
+            $this->addError('domain', __mc('These credentials are not valid.'));
+            $this->addError('baseUrl', __mc('These credentials are not valid.'));
 
             return;
         }

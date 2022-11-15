@@ -16,7 +16,7 @@ class MailersComponent extends DataTableComponent
 
     public function getTitle(): string
     {
-        return __('Mailers');
+        return __mc('Mailers');
     }
 
     public function getView(): string
@@ -32,7 +32,7 @@ class MailersComponent extends DataTableComponent
     public function getLayoutData(): array
     {
         return [
-            'title' => __('Mailers'),
+            'title' => __mc('Mailers'),
         ];
     }
 
@@ -43,14 +43,14 @@ class MailersComponent extends DataTableComponent
         $mailer = self::getMailerClass()::find($id);
 
         if (! $mailer->ready_for_use) {
-            $this->flashError(__('Mailer :mailer is not ready for use', ['mailer' => $mailer->name]));
+            $this->flashError(__mc('Mailer :mailer is not ready for use', ['mailer' => $mailer->name]));
 
             return;
         }
 
         $mailer->update(['default' => true]);
 
-        $this->flash(__('Mailer :mailer marked as default', ['mailer' => $mailer->name]));
+        $this->flash(__mc('Mailer :mailer marked as default', ['mailer' => $mailer->name]));
     }
 
     public function deleteMailer(int $id)
@@ -78,7 +78,7 @@ class MailersComponent extends DataTableComponent
             $emailList->save();
         });
 
-        $this->flash(__('Mailer :mailer successfully deleted', ['mailer' => $mailer->name]));
+        $this->flash(__mc('Mailer :mailer successfully deleted', ['mailer' => $mailer->name]));
     }
 
     public function getData(Request $request): array

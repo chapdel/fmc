@@ -15,7 +15,7 @@ class LogoutController extends LoginController
 
         session()->flush();
 
-        flash()->success(__('You have been logged out.'));
+        flash()->success(__mc('You have been logged out.'));
 
         return redirect()->action([LoginController::class, 'showLoginForm']);
     }

@@ -7,7 +7,7 @@
     x-cloak
 >
     @csrf
-    <x-mailcoach::fieldset card :legend="__('1. Pick an editor to compose campaigns & emails')">
+    <x-mailcoach::fieldset card :legend="__mc('1. Pick an editor to compose campaigns & emails')">
         <x-mailcoach::select-field
             name="contentEditor"
             wire:model="contentEditor"
@@ -23,7 +23,7 @@
         @endforeach
     </x-mailcoach::fieldset>
 
-    <x-mailcoach::fieldset card :legend="__('2. Pick an editor to set up templates')">
+    <x-mailcoach::fieldset card :legend="__mc('2. Pick an editor to set up templates')">
         <x-mailcoach::select-field
             name="templateEditor"
             wire:model="templateEditor"
@@ -34,7 +34,7 @@
                 <div wire:key="{{ $editor }}">
                     @if($templateEditor === $contentEditor)
                         <x-mailcoach::info>
-                            {{ __('Uses same settings as the content editor.') }}
+                            {{ __mc('Uses same settings as the content editor.') }}
                         </x-mailcoach::info>
                     @else
                     <div class="form-grid">
@@ -47,6 +47,6 @@
     </x-mailcoach::fieldset>
 
     <x-mailcoach::card buttons>
-        <x-mailcoach::button :label="__('Save')" />
+        <x-mailcoach::button :label="__mc('Save')" />
     </x-mailcoach::card>
 </form>

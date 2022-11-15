@@ -1,5 +1,5 @@
-<x-mailcoach::layout-auth :title="__('Welcome')">
-    <h1 class="markup-h2">{{ __('Welcome') }}</h1>
+<x-mailcoach::layout-auth :title="__mc('Welcome')">
+    <h1 class="markup-h2">{{ __mc('Welcome') }}</h1>
 
     <form class="form-grid" method="POST">
         @csrf
@@ -13,7 +13,7 @@
             </p>
             @enderror
 
-            <label for="password" class="label">{{ __('Password') }}</label>
+            <label for="password" class="label">{{ __mc('Password') }}</label>
 
             <input id="password" type="password" class="input @error('password') is-invalid @enderror"
                    name="password" required autocomplete="new-password">
@@ -26,14 +26,14 @@
             </p>
             @enderror
 
-            <label for="password_confirmation" class="label">{{ __('Confirm Password') }}</label>
+            <label for="password_confirmation" class="label">{{ __mc('Confirm Password') }}</label>
 
             <input id="password_confirmation" type="password" class="input @error('password_confirmation') is-invalid @enderror"
                    name="password_confirmation" required autocomplete="new-password">
         </div>
 
         <x-mailcoach::form-buttons>
-            <x-mailcoach::button :label="__('Save password and login')" />
+            <x-mailcoach::button :label="__mc('Save password and login')" />
         </x-mailcoach::form-buttons>
     </form>
 </x-mailcoach::layout-app>
