@@ -24,7 +24,7 @@
         <div class="form-field">
             <label class="label" for="emailList.website_slug">{{__mc('Website URL')}}</label>
             <div class="flex items-center">
-                <span class="select-none px-3 h-10 flex items-center text-indigo-900/70 -mr-px rounded-l-sm bg-indigo-500/10 border border-r-none border-indigo-700/20 whitespace-nowrap">{{ route('mailcoach.website', '') }}</span>
+                <span class="select-none px-3 h-10 flex items-center text-indigo-900/70 -mr-px rounded-l-sm bg-indigo-500/10 border border-r-none border-indigo-700/20 whitespace-nowrap">{{ route('mailcoach.website', '') }}/</span>
                 <input id="emailList.website_slug" class="input rounded-r-none" placeholder="/" type="text" name="emailList.website_slug" wire:model.defer="emailList.website_slug" />
                 <a class="link ml-2" href="{{ $emailList->websiteUrl() }}" target="_blank">
                     <i class="fas fa-external-link"></i>
