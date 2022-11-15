@@ -2,6 +2,22 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.1.2 - 2022-11-15
+
+### What's Changed
+
+- Include missing website_theme column in upgrade docs by @flashadvocate in https://github.com/spatie/laravel-mailcoach/pull/1127
+- Fixing the incorrect URL to view the purchases on the spatie website by @abishekrsrikaanth in https://github.com/spatie/laravel-mailcoach/pull/1128
+- Add missing __mc() translation function calls and german translation by @StefanSchuechl in https://github.com/spatie/laravel-mailcoach/pull/1132
+- Adding a trailing slash to the input group by @abishekrsrikaanth in https://github.com/spatie/laravel-mailcoach/pull/1129
+- Disable autosave when the model was saved somewhere else
+
+### New Contributors
+
+- @flashadvocate made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/1127
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.1.1...6.1.2
+
 ## 6.1.1 - 2022-11-11
 
 - Update migrations so they don't get published again when upgrading from a v5 project
