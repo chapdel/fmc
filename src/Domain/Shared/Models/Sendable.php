@@ -153,16 +153,16 @@ abstract class Sendable extends Model implements HasHtmlContent
     public function getReplyToEmail(?Send $send = null): ?string
     {
         return $this->reply_to_email
-            ?? $this->emailList?->reply_to_email
-            ?? $send?->subscriber->emailList->reply_to_email
+            ?? $this->emailList?->default_reply_to_email
+            ?? $send?->subscriber->emailList->default_reply_to_email
             ?? null;
     }
 
     public function getReplyToName(?Send $send = null): ?string
     {
         return $this->reply_to_name
-            ?? $this->emailList?->reply_to_name
-            ?? $send?->subscriber->emailList->reply_to_name
+            ?? $this->emailList?->default_reply_to_name
+            ?? $send?->subscriber->emailList->default_reply_to_name
             ?? null;
     }
 
