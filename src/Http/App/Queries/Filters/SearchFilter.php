@@ -36,6 +36,7 @@ class SearchFilter implements Filter
         }
 
         $query->search($value);
+        $query->distinct();
 
         return $query;
     }
