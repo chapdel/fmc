@@ -13,6 +13,8 @@ class SendCampaignTestAction
 {
     public function execute(Campaign $campaign, string $email): void
     {
+        $originalUpdatedAt = $campaign->updated_at;
+
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareSubjectAction $prepareSubjectAction */
         $prepareSubjectAction = Mailcoach::getCampaignActionClass('prepare_subject', PrepareSubjectAction::class);
         $prepareSubjectAction->execute($campaign);
@@ -31,11 +33,14 @@ class SendCampaignTestAction
             ->subject("[Test] {$campaign->subject}")
             ->withSymfonyMessage(function (Email $message) {
                 $message->getHeaders()->addTextHeader('X-MAILCOACH', 'true');
+                $message->getHeaders()->addTextHeader('Precedence', 'Bulk');
                 $message->getHeaders()->addTextHeader('X-Entity-Ref-ID', Str::uuid()->toString());
             });
 
         Mail::mailer($campaign->getMailerKey())
             ->to($email)
             ->send($campaignMailable);
+
+        $campaign->update(['updated_at' => $originalUpdatedAt]);
     }
 }
