@@ -53,8 +53,8 @@ class Mailer extends Model
             return;
         }
 
-        switch ($this->transport) {
-            case MailerTransport::Ses:
+        switch ($this->transport->value) {
+            case MailerTransport::Ses->value:
                 config()->set("mail.mailers.{$this->configName()}", [
                     'transport' => 'ses',
                     'key' => $this->get('ses_key'),
@@ -67,7 +67,7 @@ class Mailer extends Model
                 config()->set('mailcoach.ses_feedback.configuration_set', $this->get('ses_configuration_set'));
 
                 break;
-            case MailerTransport::SendGrid:
+            case MailerTransport::SendGrid->value:
                 config()->set("mail.mailers.{$this->configName()}", [
                     'transport' => 'sendgrid',
                     'key' => $this->get('apiKey'),
@@ -78,7 +78,7 @@ class Mailer extends Model
                 config()->set('mailcoach.sendgrid_feedback.signing_secret', $this->get('signing_secret'));
 
                 break;
-            case MailerTransport::Sendinblue:
+            case MailerTransport::Sendinblue->value:
                 config()->set("mail.mailers.{$this->configName()}", [
                     'transport' => 'sendinblue',
                     'key' => $this->get('apiKey'),
@@ -89,7 +89,7 @@ class Mailer extends Model
                 config()->set('mailcoach.sendinblue_feedback.signing_secret', $this->get('signing_secret'));
 
                 break;
-            case MailerTransport::Smtp:
+            case MailerTransport::Smtp->value:
                 config()->set("mail.mailers.{$this->configName()}", [
                     'transport' => 'smtp',
                     'host' => $this->get('host'),
@@ -102,7 +102,7 @@ class Mailer extends Model
                 ]);
 
                 break;
-            case MailerTransport::Postmark:
+            case MailerTransport::Postmark->value:
                 config()->set("mail.mailers.{$this->configName()}", [
                     'transport' => 'postmark',
                     'token' => $this->get('apiKey'),
@@ -114,7 +114,7 @@ class Mailer extends Model
                 config()->set('mailcoach.postmark_feedback.signing_secret', $this->get('signing_secret'));
 
                 break;
-            case MailerTransport::Mailgun:
+            case MailerTransport::Mailgun->value:
                 config()->set("mail.mailers.{$this->configName()}", [
                     'transport' => 'mailgun',
                     'domain' => $this->get('domain'),
