@@ -23,6 +23,10 @@ class AutomationMailSettingsComponent extends Component
         return [
             'mail.name' => 'required',
             'mail.subject' => '',
+            'mail.from_email' => ['nullable', 'email:rfc'],
+            'mail.from_name' => 'nullable',
+            'mail.reply_to_email' => ['nullable', 'email:rfc'],
+            'mail.reply_to_name' => 'nullable',
             'mail.utm_tags' => 'bool',
             'mail.add_subscriber_tags' => 'bool',
             'mail.add_subscriber_link_tags' => 'bool',

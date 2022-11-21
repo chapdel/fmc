@@ -23,15 +23,17 @@
 
     <x-mailcoach::fieldset card :legend="__mc('Sender')">
 
-        <x-mailcoach::text-field :label="__mc('From email')" name="emailList.default_from_email" wire:model.lazy="emailList.default_from_email"
-                    type="email" required/>
+        <div class="grid grid-cols-2 gap-6">
+            <x-mailcoach::text-field :label="__mc('From email')" name="emailList.default_from_email" wire:model.lazy="emailList.default_from_email"
+                        type="email" required/>
 
-        <x-mailcoach::text-field :label="__mc('From name')" name="emailList.default_from_name" wire:model.lazy="emailList.default_from_name"/>
+            <x-mailcoach::text-field :label="__mc('From name')" name="emailList.default_from_name" wire:model.lazy="emailList.default_from_name"/>
 
-        <x-mailcoach::text-field :label="__mc('Reply-to email')" name="emailList.default_reply_to_email" wire:model.lazy="emailList.default_reply_to_email"
-                    type="email"/>
+            <x-mailcoach::text-field :label="__mc('Reply-to email')" name="emailList.default_reply_to_email" wire:model.lazy="emailList.default_reply_to_email"
+                        type="email"/>
 
-        <x-mailcoach::text-field :label="__mc('Reply-to name')" name="emailList.default_reply_to_name" wire:model.lazy="emailList.default_reply_to_name"/>
+            <x-mailcoach::text-field :label="__mc('Reply-to name')" name="emailList.default_reply_to_name" wire:model.lazy="emailList.default_reply_to_name"/>
+        </div>
     </x-mailcoach::fieldset>
 
     <x-mailcoach::fieldset card :legend="__mc('Email Notifications')">

@@ -42,6 +42,22 @@
         </x-mailcoach::fieldset>
     @endif
 
+    <x-mailcoach::fieldset card :legend="__mc('Sender')">
+        @if ($campaign->isEditable())
+        <x-mailcoach::info class="-mt-4">{!! __mc('Leave empty to use your <a href=":url">email list defaults</a>', ['url' => $campaign->emailList ? route('mailcoach.emailLists.general-settings', $campaign->emailList) : '']) !!}</x-mailcoach::info>
+        @endif
+        <div class="grid grid-cols-2 gap-6">
+            <x-mailcoach::text-field :label="__mc('From email')" name="campaign.from_email" wire:model.lazy="campaign.from_email"
+                                     type="email" :disabled="!$campaign->isEditable()" />
+
+            <x-mailcoach::text-field :label="__mc('From name')" name="campaign.from_name" wire:model.lazy="campaign.from_name" :disabled="!$campaign->isEditable()"/>
+
+            <x-mailcoach::text-field :label="__mc('Reply-to email')" name="campaign.reply_to_email" wire:model.lazy="campaign.reply_to_email"
+                                     type="email" :disabled="!$campaign->isEditable()" />
+
+            <x-mailcoach::text-field :label="__mc('Reply-to name')" name="campaign.reply_to_name" wire:model.lazy="campaign.reply_to_name" :disabled="!$campaign->isEditable()" />
+        </div>
+    </x-mailcoach::fieldset>
 
     <x-mailcoach::fieldset card :legend="__mc('Tracking')">
         <div class="form-field">

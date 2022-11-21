@@ -12,6 +12,21 @@
     <x-mailcoach::text-field :label="__mc('Subject')" name="mail.subject" wire:model.lazy="mail.subject"  />
 </x-mailcoach::card>
 
+    <x-mailcoach::fieldset card :legend="__mc('Sender')">
+        <x-mailcoach::info class="-mt-4">{!! __mc('Leave empty to use the defaults from the automation\'s email list. These will also be set the first time the automation mail is sent.') !!}</x-mailcoach::info>
+        <div class="grid grid-cols-2 gap-6">
+            <x-mailcoach::text-field :label="__mc('From email')" name="mail.from_email" wire:model.lazy="mail.from_email"
+                                     type="email" />
+
+            <x-mailcoach::text-field :label="__mc('From name')" name="mail.from_name" wire:model.lazy="mail.from_name" />
+
+            <x-mailcoach::text-field :label="__mc('Reply-to email')" name="mail.reply_to_email" wire:model.lazy="mail.reply_to_email"
+                                     type="email"/>
+
+            <x-mailcoach::text-field :label="__mc('Reply-to name')" name="mail.reply_to_name" wire:model.lazy="mail.reply_to_name"/>
+        </div>
+    </x-mailcoach::fieldset>
+
     <x-mailcoach::fieldset card :legend="__mc('Tracking')">
         <div class="form-field">
             <x-mailcoach::info>

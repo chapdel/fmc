@@ -36,6 +36,10 @@ class CampaignSettingsComponent extends Component
         return [
             'campaign.name' => 'required',
             'campaign.subject' => '',
+            'campaign.from_email' => ['nullable', 'email:rfc'],
+            'campaign.from_name' => 'nullable',
+            'campaign.reply_to_email' => ['nullable', 'email:rfc'],
+            'campaign.reply_to_name' => 'nullable',
             'campaign.email_list_id' => Rule::exists(self::getEmailListTableName(), 'id'),
             'campaign.utm_tags' => 'bool',
             'campaign.add_subscriber_tags' => 'bool',
