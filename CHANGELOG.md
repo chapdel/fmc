@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.2.0 - 2022-11-21
+
+### What's new
+
+- Add a way to change Campaign & Automation Mail sender fields from the UI
+
+### What's fixed
+
+- Fix an issue with the subscriber search query #1142
+- Fix an issue where the reply to was being set twice
+- Fix an issue when importing Mailchimp CSVs
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.1.2...6.2.0
+
 ## 6.1.2 - 2022-11-15
 
 ### What's Changed
