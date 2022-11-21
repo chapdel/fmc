@@ -25,18 +25,3 @@ it('sends a test mail', function () {
         return true;
     });
 });
-
-it('sets reply to', function () {
-    test()->automationMail->update([
-        'reply_to_email' => 'foo@bar.com',
-        'reply_to_name' => 'Foo',
-    ]);
-
-    test()->action->execute(test()->automationMail, 'john@doe.com');
-
-    Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) {
-        expect($mail->hasReplyTo('foo@bar.com', 'Foo'))->toBeTrue();
-
-        return true;
-    });
-});
