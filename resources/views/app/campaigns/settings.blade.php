@@ -48,14 +48,14 @@
         @endif
         <div class="grid grid-cols-2 gap-6">
             <x-mailcoach::text-field :label="__mc('From email')" name="campaign.from_email" wire:model.lazy="campaign.from_email"
-                                     type="email" :disabled="!$campaign->isEditable()" />
+                                     type="email" :placeholder="$campaign->emailList?->default_from_email" :disabled="!$campaign->isEditable()" />
 
-            <x-mailcoach::text-field :label="__mc('From name')" name="campaign.from_name" wire:model.lazy="campaign.from_name" :disabled="!$campaign->isEditable()"/>
+            <x-mailcoach::text-field :label="__mc('From name')" name="campaign.from_name" wire:model.lazy="campaign.from_name" :placeholder="$campaign->emailList?->default_from_name" :disabled="!$campaign->isEditable()"/>
 
             <x-mailcoach::text-field :label="__mc('Reply-to email')" name="campaign.reply_to_email" wire:model.lazy="campaign.reply_to_email"
-                                     type="email" :disabled="!$campaign->isEditable()" />
+                                     type="email" :placeholder="$campaign->emailList?->default_reply_to_email" :disabled="!$campaign->isEditable()" />
 
-            <x-mailcoach::text-field :label="__mc('Reply-to name')" name="campaign.reply_to_name" wire:model.lazy="campaign.reply_to_name" :disabled="!$campaign->isEditable()" />
+            <x-mailcoach::text-field :label="__mc('Reply-to name')" name="campaign.reply_to_name" wire:model.lazy="campaign.reply_to_name" :placeholder="$campaign->emailList?->default_reply_to_name" :disabled="!$campaign->isEditable()" />
         </div>
     </x-mailcoach::fieldset>
 
