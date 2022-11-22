@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.2.1 - 2022-11-22
+
+- Use model from config in campaign content controller
+- Add email list defaults as placeholder to the new "Sender" fields
+- Add precedence bulk header to test mail
+- Query & load time improvements with very large lists
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.2.0...6.2.1
+
 ## 6.2.0 - 2022-11-21
 
 ### What's new
