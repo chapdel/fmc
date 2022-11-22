@@ -4,10 +4,8 @@ namespace Spatie\Mailcoach\Http\App\Livewire;
 
 use Carbon\CarbonInterface;
 use Carbon\CarbonPeriod;
-use Illuminate\Database\MySqlConnection;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
-use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
