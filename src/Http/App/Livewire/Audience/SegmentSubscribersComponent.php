@@ -41,7 +41,7 @@ class SegmentSubscribersComponent extends DataTableComponent
         return [
             'emailList' => $this->emailList,
             'segment' => $this->segment,
-            'selectedSubscribersCount' => $this->segment->getSubscribersQuery()->count(),
+            'selectedSubscribersCount' => $this->segment->getSubscribersCount(),
         ];
     }
 
@@ -52,9 +52,9 @@ class SegmentSubscribersComponent extends DataTableComponent
         return [
             'emailList' => $this->emailList,
             'segment' => $this->segment,
-            'subscribers' => $this->segment->getSubscribersQuery()->paginate($request->per_page),
+            'subscribers' => $this->segment->getSubscribersQuery()->with(['tags'])->paginate($request->per_page),
             'subscribersCount' => $this->emailList->subscribers()->count(),
-            'selectedSubscribersCount' => $this->segment->getSubscribersQuery()->count(),
+            'selectedSubscribersCount' => $this->segment->getSubscribersCount(),
         ];
     }
 }

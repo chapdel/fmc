@@ -38,7 +38,9 @@ class ListSummaryComponent extends Component
     public int $startUnsubscribeCount;
 
     // Chart
-    public Collection $stats;
+    public ?Collection $stats = null;
+
+    public bool $readyToLoad = false;
 
     public function mount(EmailList $emailList)
     {
@@ -71,6 +73,11 @@ class ListSummaryComponent extends Component
         }
     }
 
+    public function loadData()
+    {
+        $this->readyToLoad = true;
+    }
+
     public function render(): View
     {
         $this->startSubscriptionsCount = $this->emailList->subscribers()
@@ -82,7 +89,9 @@ class ListSummaryComponent extends Component
             ->where('unsubscribed_at', '>', $this->start)
             ->count();
 
-        $this->stats = $this->createStats();
+        if ($this->readyToLoad) {
+            $this->stats = $this->createStats();
+        }
 
         return view('mailcoach::app.emailLists.summary', [
             'totalSubscriptionsCount' => $this->totalSubscriptionsCount(),

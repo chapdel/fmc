@@ -10,13 +10,23 @@ class DashboardComponent extends Component
 {
     use UsesMailcoachModels;
 
-    public int $recentSubscribers = 0;
+    public ?int $recentSubscribers = null;
 
     public ?Campaign $latestCampaign;
 
+    public bool $readyToLoad = false;
+
+    public function loadData()
+    {
+        $this->readyToLoad = true;
+    }
+
     public function render()
     {
-        $this->recentSubscribers = self::getSubscriberClass()::subscribed()->whereBetween('subscribed_at', [now()->subMonth(), now()])->count();
+        if ($this->readyToLoad) {
+            $this->recentSubscribers = self::getSubscriberClass()::subscribed()->whereBetween('subscribed_at', [now()->subMonth(), now()])->count();
+        }
+
         $this->latestCampaign = self::getCampaignClass()::sent()->latest()->first();
 
         return view('mailcoach::app.dashboard')

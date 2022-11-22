@@ -1,4 +1,4 @@
-<div>
+<div wire:init="loadData">
     <h1 class="text-xl text-gray-600 -mt-6 mb-4">
         Hi, <strong>{{ str(Auth::user()->name)->ucfirst() }}</strong>
     </h1>
@@ -17,7 +17,7 @@
                 {{ __mc('New subscribers') }}
             </h2>
             <div class="flex flex-col">
-                <span class="dashboard-value">{{ $this->abbreviateNumber($recentSubscribers) }}</span>
+                <span class="dashboard-value">{{ !is_null($recentSubscribers) ? $this->abbreviateNumber($recentSubscribers) : '...' }}</span>
                 <span class="dashboard-label">{{ __mc('Last 30 days') }}</span>
             </div>
         </x-mailcoach::tile>

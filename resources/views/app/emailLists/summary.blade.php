@@ -1,4 +1,4 @@
-<div class="card-grid">
+<div class="card-grid" wire:init="loadData">
 <x-mailcoach::card>
     <div class="flex gap-4 items-center mb-8">
         <x-mailcoach::date-field
@@ -22,18 +22,24 @@
             inputClass="w-32"
         />
     </div>
-    <div x-data="emailListStatisticsChart" x-init="renderChart({
-        labels: @js($stats->pluck('label')->values()->toArray()),
-        subscribers: @js($stats->pluck('subscribers')->values()->toArray()),
-        subscribes: @js($stats->pluck('subscribes')->values()->toArray()),
-        unsubscribes: @js($stats->pluck('unsubscribes')->values()->toArray()),
-    })">
-        <canvas id="chart" style="position: relative; max-height:300px; width:100%; max-width: 100%;"></canvas>
-        <div class="mt-4 text-right">
-            <small class="text-gray-500 text-sm">{{ __mc('You can drag the chart to zoom.') }}</small>
-            <a x-show="zoomed" x-cloak class="text-gray-500 text-sm underline" href="#" x-on:click.prevent="resetZoom">Reset zoom</a>
+    @if ($readyToLoad)
+        <div x-data="emailListStatisticsChart" x-init="renderChart({
+            labels: @js($stats->pluck('label')->values()->toArray()),
+            subscribers: @js($stats->pluck('subscribers')->values()->toArray()),
+            subscribes: @js($stats->pluck('subscribes')->values()->toArray()),
+            unsubscribes: @js($stats->pluck('unsubscribes')->values()->toArray()),
+        })">
+            <canvas id="chart" style="position: relative; max-height:300px; width:100%; max-width: 100%;"></canvas>
+            <div class="mt-4 text-right">
+                <small class="text-gray-500 text-sm">{{ __mc('You can drag the chart to zoom.') }}</small>
+                <a x-show="zoomed" x-cloak class="text-gray-500 text-sm underline" href="#" x-on:click.prevent="resetZoom">Reset zoom</a>
+            </div>
         </div>
-    </div>
+    @else
+        <div>
+            {{ __mc('Loading...') }}
+        </div>
+    @endif
 </x-mailcoach::card>
 
 <x-mailcoach::card>

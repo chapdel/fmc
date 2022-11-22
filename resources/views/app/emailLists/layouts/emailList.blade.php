@@ -47,7 +47,7 @@
             <x-mailcoach::navigation-item :active="Route::is('mailcoach.emailLists.subscriber*')" :href="route('mailcoach.emailLists.subscribers', $emailList)">
                 <span class="flex items-center">
                     {{ __mc('Subscribers')}}
-                    <span class="counter mx-2">{{ number_format($emailList->subscribers()->count() ?? 0) }}</span>
+                    <span class="counter mx-2">{{ number_format($emailList->subscribers()->count()) }}</span>
                 </span>
             </x-mailcoach::navigation-item>
             <x-mailcoach::navigation-item :active="Route::is('mailcoach.emailLists.tags.*')" :href="route('mailcoach.emailLists.tags', $emailList) . '?type=default'">

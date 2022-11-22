@@ -101,7 +101,7 @@ class SegmentComponent extends Component
 
     public function render(): View
     {
-        $selectedSubscribersCount = $this->segment->getSubscribersQuery()->count();
+        $selectedSubscribersCount = $this->segment->getSubscribersCount();
 
         return view('mailcoach::app.emailLists.segments.show', [
             'selectedSubscribersCount' => $selectedSubscribersCount,

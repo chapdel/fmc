@@ -74,13 +74,10 @@ class DashboardChart extends Component
 
     protected function createStats(): Collection
     {
-        $prefix = DB::getTablePrefix();
-        $subscriberTable = $prefix.self::getSubscriberTableName().(DB::connection() instanceof MySqlConnection ? ' USE INDEX (email_list_subscribed_index)' : '');
-
         $start = Date::parse($this->start)->startOfDay();
         $end = Date::parse($this->end)->endOfDay();
 
-        $subscribes = DB::table(DB::raw($subscriberTable))
+        $subscribes = self::getSubscriberClass()::query()
             ->selectRaw('count(*) as subscribed_count, DATE_FORMAT(subscribed_at, "%Y-%m-%d") as subscribed_day')
             ->whereBetween('subscribed_at', [$start, $end])
             ->whereNull('unsubscribed_at')
@@ -92,7 +89,7 @@ class DashboardChart extends Component
             return collect();
         }
 
-        $unsubscribes = DB::table(DB::raw($subscriberTable))
+        $unsubscribes = self::getSubscriberClass()::query()
             ->selectRaw('count(*) as unsubscribe_count, DATE_FORMAT(unsubscribed_at, "%Y-%m-%d") as unsubscribe_day')
             ->whereBetween('unsubscribed_at', [$start, $end])
             ->whereNotNull('unsubscribed_at')

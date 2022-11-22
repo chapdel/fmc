@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 use Spatie\Mailcoach\Database\Factories\TagSegmentFactory;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
@@ -80,6 +81,13 @@ class TagSegment extends Model
         return $query;
     }
 
+    public function getSubscribersCount(): int
+    {
+        return once(function () {
+            return $this->getSubscribersQuery()->count();
+        });
+    }
+
     public function scopeOnTags(Builder $subscribersQuery): void
     {
         $this->buildPositiveTagsQuery($subscribersQuery);
@@ -100,16 +108,21 @@ class TagSegment extends Model
 
         if ($this->all_positive_tags_required) {
             $subscribersQuery
-                ->whereHas('tags', function (Builder $query) {
-                    $query->whereIn('mailcoach_tags.id', $this->positiveTags()->pluck('tag_id'));
-                }, '>=', $this->positiveTags()->count());
+                ->where(
+                    DB::table('mailcoach_email_list_subscriber_tags')
+                        ->selectRaw('count(*)')
+                        ->where('mailcoach_subscribers.id', DB::raw('mailcoach_email_list_subscriber_tags.subscriber_id'))
+                        ->whereIn('mailcoach_email_list_subscriber_tags.tag_id', $this->positiveTags()->pluck('mailcoach_tags.id')->toArray()),
+                    '>=', $this->positiveTags()->count()
+                );
 
             return;
         }
 
-        $subscribersQuery->whereHas('tags', function (Builder $query) {
-            $query->whereIn('mailcoach_tags.id', $this->positiveTags()->pluck('mailcoach_tags.id')->toArray());
-        });
+        $subscribersQuery->addWhereExistsQuery(DB::table('mailcoach_email_list_subscriber_tags')
+            ->where('mailcoach_subscribers.id', DB::raw('mailcoach_email_list_subscriber_tags.subscriber_id'))
+            ->whereIn('mailcoach_email_list_subscriber_tags.tag_id', $this->positiveTags()->pluck('mailcoach_tags.id')->toArray())
+        );
     }
 
     protected function buildNegativeTagsQuery(Builder $subscribersQuery): void
@@ -120,16 +133,22 @@ class TagSegment extends Model
 
         if ($this->all_negative_tags_required) {
             $subscribersQuery
-                ->whereHas('tags', function (Builder $query) {
-                    $query->whereIn('mailcoach_tags.id', $this->negativeTags()->pluck('tag_id'));
-                }, '<', $this->negativeTags()->count());
+                ->where(
+                    DB::table('mailcoach_email_list_subscriber_tags')
+                        ->selectRaw('count(*)')
+                        ->where('mailcoach_subscribers.id', DB::raw('mailcoach_email_list_subscriber_tags.subscriber_id'))
+                        ->whereIn('mailcoach_email_list_subscriber_tags.tag_id', $this->negativeTags()->pluck('mailcoach_tags.id')->toArray()),
+                    '<', $this->negativeTags()->count()
+                );
 
             return;
         }
 
-        $subscribersQuery->whereDoesntHave('tags', function (Builder $query) {
-            $query->whereIn('mailcoach_tags.id', $this->negativeTags()->pluck('mailcoach_tags.id')->toArray());
-        });
+        $subscribersQuery->addWhereExistsQuery(DB::table('mailcoach_email_list_subscriber_tags')
+            ->where('mailcoach_subscribers.id', DB::raw('mailcoach_email_list_subscriber_tags.subscriber_id'))
+            ->whereIn('mailcoach_email_list_subscriber_tags.tag_id', $this->negativeTags()->pluck('mailcoach_tags.id')->toArray()),
+            not: true
+        );
     }
 
     protected static function newFactory(): TagSegmentFactory
