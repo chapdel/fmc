@@ -39,7 +39,7 @@
                     setTimeout(() => this.remove(this.notification), 500)
                 },
                 startTimeout() {
-                    this.timer = setTimeout(() => this.transitionOut(), 3000)
+                    this.timer = setTimeout(() => this.transitionOut(), notification.type === 'error' ? 20000 : 3000)
                     this.$refs.countdown.classList.remove('alert-countdown--paused');
                 },
                 stopTimeout() {
