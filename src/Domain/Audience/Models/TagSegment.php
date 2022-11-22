@@ -136,8 +136,8 @@ class TagSegment extends Model
                 ->where(
                     DB::table('mailcoach_email_list_subscriber_tags')
                         ->selectRaw('count(*)')
-                        ->where('mailcoach_subscribers.id', DB::raw('mailcoach_email_list_subscriber_tags.subscriber_id'))
-                        ->whereIn('mailcoach_email_list_subscriber_tags.tag_id', $this->negativeTags()->pluck('mailcoach_tags.id')->toArray()),
+                        ->where(self::getSubscriberTableName() . '.id', DB::raw('mailcoach_email_list_subscriber_tags.subscriber_id'))
+                        ->whereIn('mailcoach_email_list_subscriber_tags.tag_id', $this->negativeTags()->pluck(self::getTagTableName() . '.id')->toArray()),
                     '<', $this->negativeTags()->count()
                 );
 
@@ -145,8 +145,8 @@ class TagSegment extends Model
         }
 
         $subscribersQuery->addWhereExistsQuery(DB::table('mailcoach_email_list_subscriber_tags')
-            ->where('mailcoach_subscribers.id', DB::raw('mailcoach_email_list_subscriber_tags.subscriber_id'))
-            ->whereIn('mailcoach_email_list_subscriber_tags.tag_id', $this->negativeTags()->pluck('mailcoach_tags.id')->toArray()),
+            ->where(self::getSubscriberTableName() . '.id', DB::raw('mailcoach_email_list_subscriber_tags.subscriber_id'))
+            ->whereIn('mailcoach_email_list_subscriber_tags.tag_id', $this->negativeTags()->pluck(self::getTagTableName() . '.id')->toArray()),
             not: true
         );
     }
