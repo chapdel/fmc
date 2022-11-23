@@ -36,6 +36,17 @@ trait StoresMail
         return $this;
     }
 
+    protected function setTransactionalHeader(): self
+    {
+        $this->withSymfonyMessage(function (Email $message) {
+            $message->getHeaders()->remove(TransactionalMailMessageConfig::HEADER_NAME_TRANSACTIONAL);
+
+            $this->addMailcoachHeader($message, TransactionalMailMessageConfig::HEADER_NAME_TRANSACTIONAL, true);
+        });
+
+        return $this;
+    }
+
     protected function setMailableClassHeader(string $className): self
     {
         $this->withSymfonyMessage(function (Email $message) use ($className) {

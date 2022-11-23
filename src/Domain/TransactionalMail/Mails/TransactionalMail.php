@@ -34,6 +34,8 @@ class TransactionalMail extends Mailable
         $this->mailName = $mailName;
         $this->replacements = $replacements;
 
+        $this->setTransactionalHeader();
+
         $this
             ->when($store, function (TransactionalMail $mail) {
                 $mail->store();
