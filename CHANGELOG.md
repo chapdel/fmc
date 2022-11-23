@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.2.2 - 2022-11-23
+
+- Fix an issue with multiple root elements on the email list onboarding page
+- Longer timeout for hiding a notification when the notification is an error
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.2.1...6.2.2
+
 ## 6.2.1 - 2022-11-22
 
 - Use model from config in campaign content controller
