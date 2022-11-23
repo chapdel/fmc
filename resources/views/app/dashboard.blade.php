@@ -1,6 +1,6 @@
 <div wire:init="loadData">
     <h1 class="text-xl text-gray-600 -mt-6 mb-4">
-        Hi, <strong>{{ str(Auth::user()->name)->ucfirst() }}</strong>
+        Hi, <strong>{{ str(Auth::guard(config('mailcoach.guard'))->user()->name)->ucfirst() }}</strong>
     </h1>
     <div class="grid md:grid-cols-12 gap-6">
         @if ((new Spatie\Mailcoach\Domain\Shared\Support\License\License())->hasExpired())

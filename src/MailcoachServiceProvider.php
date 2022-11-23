@@ -3,8 +3,8 @@
 namespace Spatie\Mailcoach;
 
 use Exception;
+use Illuminate\Contracts\Auth\Access\Authorizable;
 use Illuminate\Database\QueryException;
-use Illuminate\Foundation\Auth\User;
 use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
@@ -341,7 +341,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootGate(): static
     {
-        Gate::define('viewMailcoach', fn (User $user) => true);
+        Gate::define('viewMailcoach', fn (Authorizable $user) => true);
 
         Gate::policy(self::getPersonalAccessTokenClass(), PersonalAccessTokenPolicy::class);
 

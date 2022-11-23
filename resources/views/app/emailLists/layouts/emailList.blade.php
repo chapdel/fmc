@@ -9,7 +9,7 @@
             <x-slot:title>
                 <div class="mb-6 flex items-center justify-between">
                     <h2 class="font-extrabold text-sm uppercase tracking-wider truncate">{{ $emailList->name }}</h2>
-                    @if (Auth::user()->can('create', \Spatie\Mailcoach\Mailcoach::getCampaignClass()) || Auth::user()->can('create', \Spatie\Mailcoach\Mailcoach::getAutomationClass()))
+                    @if (Auth::guard(config('mailcoach.guard'))->user()->can('create', \Spatie\Mailcoach\Mailcoach::getCampaignClass()) || Auth::user()->can('create', \Spatie\Mailcoach\Mailcoach::getAutomationClass()))
                         <x-mailcoach::dropdown>
                             <x-slot:trigger>
                                 <div class="button text-sm p-0 flex items-center justify-center w-6 h-6">

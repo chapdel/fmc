@@ -11,7 +11,7 @@
         </a>
         <span>&nbsp;{{ __mc('by') }} <a class="" target="_blank" href="https://spatie.be">SPATIE</a></span>
 
-        @if(Auth::check())
+        @if(Auth::guard(config('mailcoach.guard'))->check())
             <span class="mx-2">•</span>
             <a class="" href="https://mailcoach.app/docs" target="_blank">{{ __mc('Documentation') }}</a>
 

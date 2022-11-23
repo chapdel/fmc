@@ -2,7 +2,7 @@
     {{-- Start test dialog --}}
     <x-mailcoach::text-field
         :label="__mc('From')"
-        :placeholder="Auth::user()->email"
+        :placeholder="Auth::guard(config('mailcoach.guard'))->user()->email"
         name="from_email"
         :required="true"
         type="email"
@@ -10,7 +10,7 @@
     />
     <x-mailcoach::text-field
         :label="__mc('To')"
-        :placeholder="Auth::user()->email"
+        :placeholder="Auth::guard(config('mailcoach.guard'))->user()->email"
         name="to_email"
         :required="true"
         type="email"

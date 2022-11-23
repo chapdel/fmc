@@ -1,12 +1,12 @@
 <tr>
     <td class="markup-links">
-        <a href="{{ $row->id === auth()->user()->id ? route('account') : route('users.edit', $row) }}">
+        <a href="{{ $row->id === auth()->guard(config('mailcoach.guard'))->user()->id ? route('account') : route('users.edit', $row) }}">
             {{ $row->email }}
         </a>
     </td>
     <td>{{ $row->name }}</td>
     <td class="td-action">
-        @if ($row->id !== auth()->user()->id)
+        @if ($row->id !== auth()->guard(config('mailcoach.guard'))->user()->id)
             <x-mailcoach::confirm-button
                 :confirm-text="__mc('Are you sure you want to delete user: :user?', ['user' => $row->name])"
                 onConfirm="() => $wire.deleteUser({{ $row->id }})"
