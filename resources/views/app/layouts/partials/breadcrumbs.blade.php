@@ -10,7 +10,7 @@
         @php($previousBreadcrumb = $breadcrumb)
     @endforeach
 
-    @if (isset($title) && $title !== ($breadcrumb['title'] ?? ''))
+    @if (isset($title) && (string) $title !== ($breadcrumb['title'] ?? ''))
         <i class="fa fa-angle-right text-gray-400"></i>
         <span class="font-semibold min-w-0 truncate">{{ $title }}</span>
     @endif
