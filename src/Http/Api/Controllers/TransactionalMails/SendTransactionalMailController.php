@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\TransactionalMail;
