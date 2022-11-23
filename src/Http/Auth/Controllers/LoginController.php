@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController
 {
@@ -24,5 +25,10 @@ class LoginController
     public function showLoginForm()
     {
         return view('mailcoach::auth.login');
+    }
+
+    public function guard()
+    {
+        return Auth::guard(config('mailcoach.guard'));
     }
 }
