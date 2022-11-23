@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.2.3 - 2022-11-23
+
+- Use the configured guard when checking auth
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.2.2...6.2.3
+
 ## 6.2.2 - 2022-11-23
 
 - Fix an issue with multiple root elements on the email list onboarding page
