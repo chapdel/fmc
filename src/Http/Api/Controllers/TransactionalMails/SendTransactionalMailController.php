@@ -2,7 +2,10 @@
 
 namespace Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\TransactionalMail;
 use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Http\Api\Requests\SendTransactionalMailRequest;
@@ -11,9 +14,13 @@ use Symfony\Component\Mime\Address;
 class SendTransactionalMailController
 {
     use RespondsToApiRequests;
+    use AuthorizesRequests;
+    use UsesMailcoachModels;
 
     public function __invoke(SendTransactionalMailRequest $request)
     {
+        $this->authorize('create', static::getSendClass());
+
         $mail = new TransactionalMail(
             mailName: $request->get('mail_name'),
             subject: $request->get('subject'),
