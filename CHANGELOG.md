@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.2.4 - 2022-11-25
+
+- Set the default guard to the Mailcoach guard in Mailcoach middleware + add it to persistent Livewire middleware
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.2.3...6.2.4
+
 ## 6.2.3 - 2022-11-23
 
 - Use the configured guard when checking auth
