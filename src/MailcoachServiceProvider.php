@@ -158,6 +158,7 @@ use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailResen
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailsComponent;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateContentComponent;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateSettingsComponent;
+use Spatie\Mailcoach\Http\App\Middleware\SetMailcoachDefaults;
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\HealthViewComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\WebsiteStyleComposer;
@@ -558,6 +559,10 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootLivewireComponents(): static
     {
+        Livewire::addPersistentMiddleware([
+            SetMailcoachDefaults::class,
+        ]);
+
         Livewire::component('mailcoach::text-area-editor', TextAreaEditorComponent::class);
 
         Livewire::component('mailcoach::automation-builder', AutomationBuilder::class);

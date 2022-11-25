@@ -14,6 +14,10 @@ class SetMailcoachDefaults
             'error' => 'error',
         ]);
 
+        if (config('mailcoach.guard')) {
+            config()->set('auth.defaults.guard', config('mailcoach.guard'));
+        }
+
         return $next($request);
     }
 }
