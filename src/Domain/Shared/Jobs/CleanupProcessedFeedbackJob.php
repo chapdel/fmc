@@ -30,7 +30,7 @@ class CleanupProcessedFeedbackJob implements ShouldQueue, ShouldBeUnique
     {
         WebhookCall::query()
             ->where('processed_at', '<', now()->subHours($this->hours))
-            ->whereIn('name', ['ses-feedback', 'sendgrid-feedback', 'mailgun-feedback', 'postmark-feedback'])
+            ->whereIn('name', ['ses-feedback', 'sendgrid-feedback', 'mailgun-feedback', 'postmark-feedback', 'sendinblue-feedback'])
             ->delete();
     }
 }
