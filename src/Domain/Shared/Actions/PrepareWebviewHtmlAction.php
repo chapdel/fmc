@@ -22,6 +22,8 @@ class PrepareWebviewHtmlAction
             $sendable->webview_html = $this->addUtmTagsToHtmlAction->execute($sendable->webview_html, $sendable->name);
         }
 
+        $sendable->webview_html = mb_convert_encoding($sendable->webview_html, 'UTF-8');
+
         $sendable->save();
     }
 }
