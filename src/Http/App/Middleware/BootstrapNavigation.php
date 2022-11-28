@@ -5,7 +5,6 @@ namespace Spatie\Mailcoach\Http\App\Middleware;
 use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\MainNavigation;
-use Spatie\MailcoachUnlayer\UnlayerEditor;
 use Spatie\Navigation\Section;
 
 class BootstrapNavigation
