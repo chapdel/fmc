@@ -28,7 +28,7 @@ class BootstrapNavigation
                     ->add(__mc('Log'), route('mailcoach.transactionalMails'))
                     ->add(__mc('Emails'), route('mailcoach.transactionalMails.templates'));
             })
-            ->addIf($request->user()?->can('viewAny', self::getTemplateClass()) && config('mailcoach.content_editor') !== UnlayerEditor::class, __mc('Templates'), route('mailcoach.templates'));
+            ->addIf($request->user()?->can('viewAny', self::getTemplateClass()), __mc('Templates'), route('mailcoach.templates'));
 
         return $next($request);
     }

@@ -71,6 +71,7 @@ class UpdateCampaignAction
             'status' => CampaignStatus::Draft,
             'subject' => $attributes['subject'] ?? $attributes['name'],
             'html' => $html,
+            'structured_html' => $template?->getStructuredHtml(),
             'template_id' => $template?->id,
             'utm_tags' => $attributes['utm_tags'] ?? config('mailcoach.campaigns.default_settings.utm_tags', false),
             'last_modified_at' => now(),
