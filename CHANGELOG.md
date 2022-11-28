@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.2.5 - 2022-11-28
+
+- Clean sendinblue-feedback webhooks
+- Make sure campaigns use UTF-8 encoding
+- Retain subject & from when sending a transactional mail through the API
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.2.4...6.2.5
+
 ## 6.2.4 - 2022-11-25
 
 - Set the default guard to the Mailcoach guard in Mailcoach middleware + add it to persistent Livewire middleware
