@@ -5,7 +5,6 @@
 
     <x-mailcoach::info class="mt-6">
         <p>{!! __mc('Our email builder is powered by <a href=":link" target="_blank">Unlayer</a>, a beautiful editor that allows you to edit html in a structured way. You don\'t need any HTML knowledge to compose a campaign.', ['link' => 'https://unlayer.com']) !!}</p>
-        <p>{{ __mc('Using this editor disables template functionality within Mailcoach as it has its own templating functionality') }}</p>
     </x-mailcoach::info>
 
     <x-mailcoach::fieldset>
