@@ -26,7 +26,7 @@ trait UsesMailcoachTemplate
 
         $this->setSubject($template, $replacements);
 
-        if ($template->from) {
+        if (empty($this->from) && $template->from) {
             $this->from($template->from);
         }
 
@@ -63,7 +63,7 @@ trait UsesMailcoachTemplate
 
     protected function setSubject(TransactionalMail $template, array $replacements): void
     {
-        $subject = $template->subject ?? '';
+        $subject = $this->subject ?: $template->subject;
 
         foreach ($replacements as $search => $replace) {
             $subject = str_replace("::{$search}::", $replace, $subject);
