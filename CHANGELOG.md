@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.3.0 - 2022-11-28
+
+- Re-enable Unlayer as a template editor
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.2.5...6.3.0
+
 ## 6.2.5 - 2022-11-28
 
 - Clean sendinblue-feedback webhooks
