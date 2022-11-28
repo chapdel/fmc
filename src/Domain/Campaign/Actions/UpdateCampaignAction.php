@@ -52,6 +52,8 @@ class UpdateCampaignAction
             $campaign->setTemplateFieldValues($fieldValues);
             $templateRenderer = (new TemplateRenderer($template->html ?? ''));
             $html = $templateRenderer->render($fieldValues);
+        } elseif ($template && $template->exists) {
+            $campaign->structured_html = $template?->getStructuredHtml();
         }
 
         if (is_null($segment)) {
@@ -71,7 +73,6 @@ class UpdateCampaignAction
             'status' => CampaignStatus::Draft,
             'subject' => $attributes['subject'] ?? $attributes['name'],
             'html' => $html,
-            'structured_html' => $template?->getStructuredHtml(),
             'template_id' => $template?->id,
             'utm_tags' => $attributes['utm_tags'] ?? config('mailcoach.campaigns.default_settings.utm_tags', false),
             'last_modified_at' => now(),
