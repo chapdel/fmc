@@ -8,6 +8,7 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\TransactionalMail;
 use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Http\Api\Requests\SendTransactionalMailRequest;
+use Spatie\Mailcoach\Mailcoach;
 use Symfony\Component\Mime\Address;
 
 class SendTransactionalMailController
@@ -27,12 +28,12 @@ class SendTransactionalMailController
             to: $this->normalizeEmailAddresses($request->get('to')),
             cc: $this->normalizeEmailAddresses($request->get('cc')),
             bcc: $this->normalizeEmailAddresses($request->get('bcc')),
-            mailer: $request->mailer,
+            mailer: $request->get('mailer'),
             replacements: $request->replacements(),
             store: $request->shouldStoreMail(),
         );
 
-        Mail::send($mail);
+        Mail::mailer($request->get('mailer', Mailcoach::defaultTransactionalMailer()))->send($mail);
 
         return $this->respondOk();
     }
