@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.4.0 - 2022-11-28
+
+### What's Changed
+
+- Spanish translation by @chargoy in https://github.com/spatie/laravel-mailcoach/pull/1159
+
+### New Contributors
+
+- @chargoy made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/1159
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.3.0...6.4.0
+
 ## 6.3.0 - 2022-11-28
 
 - Re-enable Unlayer as a template editor
