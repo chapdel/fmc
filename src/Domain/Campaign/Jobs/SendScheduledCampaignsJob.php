@@ -25,6 +25,8 @@ class SendScheduledCampaignsJob implements ShouldQueue, ShouldBeUnique
 
     public int $uniqueFor = 60;
 
+    public int $maxExceptions = 5;
+
     public function __construct()
     {
         $this->onQueue(config('mailcoach.shared.perform_on_queue.schedule'));
