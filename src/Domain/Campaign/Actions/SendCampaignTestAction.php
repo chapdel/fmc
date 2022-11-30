@@ -2,18 +2,24 @@
 
 namespace Spatie\Mailcoach\Domain\Campaign\Actions;
 
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Mailcoach;
-use Symfony\Component\Mime\Email;
 
 class SendCampaignTestAction
 {
+    use UsesMailcoachModels;
+
+    public function __construct(
+        private SendMailAction $sendMailAction
+    ) {}
+
     public function execute(Campaign $campaign, string $email): void
     {
         $originalUpdatedAt = $campaign->updated_at;
+        $originalSubject = $campaign->subject;
+        $campaign->subject = "[Test] {$originalSubject}";
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareSubjectAction $prepareSubjectAction */
         $prepareSubjectAction = Mailcoach::getCampaignActionClass('prepare_subject', PrepareSubjectAction::class);
@@ -26,21 +32,27 @@ class SendCampaignTestAction
         $convertHtmlToTextAction = Mailcoach::getCampaignActionClass('convert_html_to_text', ConvertHtmlToTextAction::class);
         $text = $convertHtmlToTextAction->execute($campaign->email_html);
 
-        $campaignMailable = resolve(MailcoachMail::class)
-            ->setSendable($campaign)
-            ->setHtmlContent($campaign->email_html)
-            ->setTextContent($text)
-            ->subject("[Test] {$campaign->subject}")
-            ->withSymfonyMessage(function (Email $message) {
-                $message->getHeaders()->addTextHeader('X-MAILCOACH', 'true');
-                $message->getHeaders()->addTextHeader('Precedence', 'Bulk');
-                $message->getHeaders()->addTextHeader('X-Entity-Ref-ID', Str::uuid()->toString());
-            });
+        if(! $subscriber = self::getSubscriberClass()::where('email', $email)->where('email_list_id', $campaign->email_list_id)->first()) {
+            $subscriber = self::getSubscriberClass()::make([
+                'uuid' => Str::uuid()->toString(),
+                'email' => $email,
+            ]);
+        }
 
-        Mail::mailer($campaign->getMailerKey())
-            ->to($email)
-            ->send($campaignMailable);
+        $send = self::getSendClass()::make([
+            'uuid' => Str::uuid()->toString(),
+            'subscriber_id' => $subscriber->id,
+            'campaign_id' => $campaign->id,
+        ]);
+        $send->setRelation('subscriber', $subscriber);
+        $send->setRelation('campaign', $campaign);
 
-        $campaign->update(['updated_at' => $originalUpdatedAt]);
+        $this->sendMailAction->execute($send);
+
+        $campaign->update([
+            'subject' => $originalSubject,
+            'updated_at' => $originalUpdatedAt
+        ]);
+        $send->delete();
     }
 }

@@ -18,7 +18,7 @@
                             </p>
                         </div>
                     @endif
-                    {!! __mc('Automation mail <strong>:mail</strong> can be sent, but you might want to check your content.', ['mail' => $mail->name]) !!}
+                    <p>{!! __mc('Automation mail <strong>:automationMail</strong> can be sent, but you might want to check your content.', ['automationMail' => $mail->name]) !!}</p>
                 </x-mailcoach::warning>
             @else
                 @if ($mail->isReady() && $mail->sendsCount() > 0)
