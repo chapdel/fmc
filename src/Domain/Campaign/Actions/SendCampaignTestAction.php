@@ -13,7 +13,8 @@ class SendCampaignTestAction
 
     public function __construct(
         private SendMailAction $sendMailAction
-    ) {}
+    ) {
+    }
 
     public function execute(Campaign $campaign, string $email): void
     {
@@ -32,7 +33,7 @@ class SendCampaignTestAction
         $convertHtmlToTextAction = Mailcoach::getCampaignActionClass('convert_html_to_text', ConvertHtmlToTextAction::class);
         $text = $convertHtmlToTextAction->execute($campaign->email_html);
 
-        if(! $subscriber = self::getSubscriberClass()::where('email', $email)->where('email_list_id', $campaign->email_list_id)->first()) {
+        if (! $subscriber = self::getSubscriberClass()::where('email', $email)->where('email_list_id', $campaign->email_list_id)->first()) {
             $subscriber = self::getSubscriberClass()::make([
                 'uuid' => Str::uuid()->toString(),
                 'email' => $email,
@@ -51,7 +52,7 @@ class SendCampaignTestAction
 
         $campaign->update([
             'subject' => $originalSubject,
-            'updated_at' => $originalUpdatedAt
+            'updated_at' => $originalUpdatedAt,
         ]);
         $send->delete();
     }

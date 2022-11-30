@@ -13,7 +13,8 @@ class SendAutomationMailTestAction
 
     public function __construct(
         private SendMailAction $sendMailAction
-    ) {}
+    ) {
+    }
 
     public function execute(AutomationMail $mail, string $email): void
     {
@@ -33,7 +34,7 @@ class SendAutomationMailTestAction
 
         $mail->subject = "[Test] {$subject}";
 
-        if(! $subscriber = self::getSubscriberClass()::where('email', $email)->first()) {
+        if (! $subscriber = self::getSubscriberClass()::where('email', $email)->first()) {
             $subscriber = self::getSubscriberClass()::make([
                 'uuid' => Str::uuid()->toString(),
                 'email' => $email,
