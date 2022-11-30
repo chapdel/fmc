@@ -49,7 +49,7 @@ abstract class Sendable extends Model implements HasHtmlContent
 
     abstract public function clicks(): HasManyThrough;
 
-    abstract public function opens(): HasManyThrough | HasMany;
+    abstract public function opens(): HasManyThrough|HasMany;
 
     abstract public function sends(): HasMany;
 
@@ -218,7 +218,7 @@ abstract class Sendable extends Model implements HasHtmlContent
         return $this->sends()->whereNotNull('sent_at')->where('subscriber_id', $subscriber->id)->exists();
     }
 
-    abstract public function sendTestMail(string | array $emails): void;
+    abstract public function sendTestMail(string|array $emails): void;
 
     abstract public function webviewUrl(): string;
 

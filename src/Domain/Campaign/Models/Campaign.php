@@ -424,7 +424,7 @@ class Campaign extends Sendable implements Feedable
         return $this->sends()->whereNotNull('sent_at')->where('subscriber_id', $subscriber->id)->exists();
     }
 
-    public function sendTestMail(string | array $emails): void
+    public function sendTestMail(string|array $emails): void
     {
         if ($this->hasCustomMailable()) {
             $this->pullSubjectFromMailable();

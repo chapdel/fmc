@@ -126,7 +126,7 @@ class SplitAction extends AutomationAction
         ];
     }
 
-    private function actionToArray(array | AutomationAction $action): array
+    private function actionToArray(array|AutomationAction $action): array
     {
         $actionClass = static::getAutomationActionClass();
         $actionModel = $actionClass::query()

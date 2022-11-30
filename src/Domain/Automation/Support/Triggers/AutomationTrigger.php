@@ -30,7 +30,7 @@ abstract class AutomationTrigger extends AutomationStep
         return [];
     }
 
-    public function runAutomation(Subscriber | Collection | QueryBuilder | EloquentBuilder | array $subscribers): void
+    public function runAutomation(Subscriber|Collection|QueryBuilder|EloquentBuilder|array $subscribers): void
     {
         if ($subscribers instanceof EloquentBuilder || $subscribers instanceof QueryBuilder) {
             $subscribers = $subscribers->lazyById();

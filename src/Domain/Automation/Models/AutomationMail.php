@@ -150,7 +150,7 @@ class AutomationMail extends Sendable
             ->exists();
     }
 
-    public function sendTestMail(string | array $emails): void
+    public function sendTestMail(string|array $emails): void
     {
         if ($this->hasCustomMailable()) {
             $this->pullSubjectFromMailable();

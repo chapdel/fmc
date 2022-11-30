@@ -42,7 +42,7 @@ class TransactionalMailFactory
         return $this;
     }
 
-    public function create(array $attributes = []): TransactionalMailLogItem | Collection
+    public function create(array $attributes = []): TransactionalMailLogItem|Collection
     {
         $transactionalMails = TransactionalMailLogItem::factory()
             ->count($this->count)

@@ -202,7 +202,7 @@ class Send extends Model
         return $this;
     }
 
-    public function registerOpen(?DateTimeInterface $openedAt = null): CampaignOpen | AutomationMailOpen | TransactionalMailOpen | null
+    public function registerOpen(?DateTimeInterface $openedAt = null): CampaignOpen|AutomationMailOpen|TransactionalMailOpen|null
     {
         if ($this->concernsTransactionalMail()) {
             return $this->registerTransactionalMailOpen($openedAt);
@@ -296,7 +296,7 @@ class Send extends Model
         return $latestOpen->created_at->diffInSeconds() < $seconds;
     }
 
-    public function registerClick(string $url, ?DateTimeInterface $clickedAt = null): CampaignClick | AutomationMailClick | TransactionalMailClick | null
+    public function registerClick(string $url, ?DateTimeInterface $clickedAt = null): CampaignClick|AutomationMailClick|TransactionalMailClick|null
     {
         $url = resolve(StripUtmTagsFromUrlAction::class)->execute($url);
 

@@ -275,7 +275,7 @@ class Subscriber extends Model implements CipherSweetEncrypted
         });
     }
 
-    public function addTag(string | iterable $name, ?TagType $type = null): self
+    public function addTag(string|iterable $name, ?TagType $type = null): self
     {
         $names = Arr::wrap($name);
 
@@ -314,7 +314,7 @@ class Subscriber extends Model implements CipherSweetEncrypted
             ->count() > 0;
     }
 
-    public function removeTag(string | array $name): self
+    public function removeTag(string|array $name): self
     {
         $names = Arr::wrap($name);
 

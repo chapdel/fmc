@@ -9,7 +9,7 @@ use Spatie\Mailcoach\Mailcoach;
 
 class UpdateEmailListAction
 {
-    public function execute(EmailList $emailList, UpdateEmailListGeneralSettingsRequest | UpdateEmailListSettingsRequest $request): EmailList
+    public function execute(EmailList $emailList, UpdateEmailListGeneralSettingsRequest|UpdateEmailListSettingsRequest $request): EmailList
     {
         $emailList->fill([
             'name' => $request->name,

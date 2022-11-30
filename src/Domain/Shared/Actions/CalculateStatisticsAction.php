@@ -61,7 +61,7 @@ class CalculateStatisticsAction
 
     protected function calculateLinkStatistics(Sendable $sendable): self
     {
-        $sendable->links()->each(function (CampaignLink | AutomationMailLink $link) {
+        $sendable->links()->each(function (CampaignLink|AutomationMailLink $link) {
             $tableName = $link instanceof CampaignLink
                 ? static::getCampaignClickTableName()
                 : static::getAutomationMailClickTableName();
