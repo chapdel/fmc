@@ -48,12 +48,14 @@ class SendCampaignTestAction
         $send->setRelation('subscriber', $subscriber);
         $send->setRelation('campaign', $campaign);
 
-        $this->sendMailAction->execute($send);
-
-        $campaign->update([
-            'subject' => $originalSubject,
-            'updated_at' => $originalUpdatedAt,
-        ]);
-        $send->delete();
+        try {
+            $this->sendMailAction->execute($send);
+        } finally {
+            $campaign->update([
+                'subject' => $originalSubject,
+                'updated_at' => $originalUpdatedAt,
+            ]);
+            $send->delete();
+        }
     }
 }

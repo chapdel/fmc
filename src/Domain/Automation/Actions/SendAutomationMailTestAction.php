@@ -49,9 +49,11 @@ class SendAutomationMailTestAction
         $send->setRelation('subscriber', $subscriber);
         $send->setRelation('automationMail', $mail);
 
-        $this->sendMailAction->execute($send);
-
-        $mail->update(['subject' => $subject]);
-        $send->delete();
+        try {
+            $this->sendMailAction->execute($send);
+        } finally {
+            $mail->update(['subject' => $subject]);
+            $send->delete();
+        }
     }
 }
