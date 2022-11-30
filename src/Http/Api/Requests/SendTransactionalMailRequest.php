@@ -24,12 +24,22 @@ class SendTransactionalMailRequest extends FormRequest
             'bcc' => ['nullable', (new Delimited('email'))->min(1)],
             'store' => ['boolean'],
             'mailer' => ['string', new MailerConfigKeyNameRule()],
+            'attachments' => ['array', 'nullable'],
+            'attachments.*.name' => ['required', 'string'],
+            'attachments.*.content' => ['required', 'string'],
+            'attachments.*.content_type' => ['required', 'string'],
+            'attachments.*.content_id' => ['nullable', 'string'],
         ];
     }
 
     public function replacements(): array
     {
-        return $this->replacements ?? [];
+        return $this->get('replacements', []);
+    }
+
+    public function attachments(): array
+    {
+        return $this->get('attachments', []);
     }
 
     public function shouldStoreMail(): bool

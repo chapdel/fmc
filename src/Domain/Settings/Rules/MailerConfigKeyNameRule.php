@@ -12,13 +12,14 @@ class MailerConfigKeyNameRule implements Rule
 
     public function passes($attribute, $value)
     {
-        return self::getMailerClass()::where('config_key_name', $value)->exists();
+        return self::getMailerClass()::where('config_key_name', $value)->exists() || array_key_exists($value, config('mail.mailers'));
     }
 
     public function message()
     {
         $mailerConfigNames = self::getMailerClass()::all()
             ->map(fn (Mailer $mailer) => "`{$mailer->config_key_name}`")
+            ->push(...array_keys(config('mail.mailers')))
             ->join(', ', ' and ');
 
         return "You must pass a valid mailer key. Valid values are: {$mailerConfigNames}.";

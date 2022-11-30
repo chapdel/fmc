@@ -126,3 +126,37 @@ it('can handle the fields of a transactional mail', function () {
     expect(TransactionalMailLogItem::first()->body)
         ->toContain('title: replaced title');
 });
+
+it('can accept attachments', function () {
+    $this->originalMailer = Mail::getFacadeRoot();
+
+    $this
+        ->postJson(action(SendTransactionalMailController::class, [
+            'mail_name' => 'my-template',
+            'mailer' => 'array',
+            'subject' => 'Some subject',
+            'from' => 'rias@spatie.be',
+            'to' => 'freek@spatie.be',
+            'cc' => 'rias+cc@spatie.be',
+            'bcc' => 'rias+bcc@spatie.be',
+            'attachments' => [
+                ['content' => '1234', 'name' => 'embedded.jpg', 'content_type' => 'image/jpg', 'content_id' => 'cid:embedded.jpg'],
+                ['content' => '1234', 'name' => 'file.txt', 'content_type' => 'text/plain'],
+            ]
+        ]))
+        ->assertSuccessful();
+
+    /** @var \Symfony\Component\Mailer\SentMessage $email */
+    $email = Mail::mailer('array')->getSymfonyTransport()->messages()->first();
+    /** @var \Symfony\Component\Mime\Email $message */
+    $message = $email->getOriginalMessage();
+
+    expect($message->getAttachments())->not()->toBeEmpty();
+    expect($message->getAttachments()[0]->getBody())->toBe('1234');
+    expect($message->getAttachments()[0]->getName())->toBe('embedded.jpg');
+    expect($message->getAttachments()[0]->getContentType())->toBe('image/jpg');
+
+    expect($message->getAttachments()[1]->getBody())->toBe('1234');
+    expect($message->getAttachments()[1]->getName())->toBe('file.txt');
+    expect($message->getAttachments()[1]->getContentType())->toBe('text/plain');
+});
