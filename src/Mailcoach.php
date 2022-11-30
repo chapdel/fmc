@@ -115,7 +115,7 @@ class Mailcoach
 
     public static function defaultCampaignMailer(): ?string
     {
-        return config('mailcoach.campaign.mailer')
+        return config('mailcoach.campaigns.mailer')
             ?? config('mailcoach.mailer')
             ?? config('mail.default');
     }
