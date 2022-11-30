@@ -42,7 +42,7 @@ class TransactionalMail extends Mailable
 
         $this->setTransactionalHeader();
 
-        $this->embeddedAttachments = array_filter($attachments, fn ($attachment) => !is_null($attachment['content_id'] ?? null));
+        $this->embeddedAttachments = array_filter($attachments, fn ($attachment) => ! is_null($attachment['content_id'] ?? null));
         $this->attachedAttachments = array_filter($attachments, fn ($attachment) => is_null($attachment['content_id'] ?? null));
 
         $this

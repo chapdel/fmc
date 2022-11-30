@@ -142,7 +142,7 @@ it('can accept attachments', function () {
             'attachments' => [
                 ['content' => '1234', 'name' => 'embedded.jpg', 'content_type' => 'image/jpg', 'content_id' => 'cid:embedded.jpg'],
                 ['content' => '1234', 'name' => 'file.txt', 'content_type' => 'text/plain'],
-            ]
+            ],
         ]))
         ->assertSuccessful();
 
