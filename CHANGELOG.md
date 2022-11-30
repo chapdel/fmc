@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.4.2 - 2022-11-30
+
+- Use the correct config key for campaign mailer
+- The transactional mail api endpoint can now accept attachments
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.4.1...6.4.2
+
 ## 6.4.1 - 2022-11-30
 
 - Sending a test now tries to find a matching subscriber, or creates a temporary in-memory subscriber to handle replacements. It also uses the exact same SendMailAction now that the non-test mails will use.
