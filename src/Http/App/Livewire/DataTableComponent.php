@@ -135,8 +135,9 @@ abstract class DataTableComponent extends Component
     {
         $this->selectedRows = [];
 
-        if ($this->selectedAll && !$withoutPagination) {
+        if ($this->selectedAll && ! $withoutPagination) {
             $this->selectedAll = false;
+
             return;
         }
 
@@ -167,6 +168,7 @@ abstract class DataTableComponent extends Component
 
         if (in_array($row, $this->selectedRows)) {
             array_splice($this->selectedRows, array_search($row, $this->selectedRows));
+
             return;
         }
 

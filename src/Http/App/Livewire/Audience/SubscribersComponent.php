@@ -161,7 +161,7 @@ class SubscribersComponent extends DataTableComponent
 
     public function getQuery(Request $request): QueryBuilder
     {
-        return (new EmailListSubscribersQuery($this->emailList, $request));
+        return new EmailListSubscribersQuery($this->emailList, $request);
     }
 
     public function getData(Request $request): array
