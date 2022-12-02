@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.5.0 - 2022-12-02
+
+### What's new
+
+- Bulk actions! The subscribers table now has selectable rows and bulk actions for deleting and unsubscribing
+
+![image](https://user-images.githubusercontent.com/3626559/205249805-a12e0240-7469-44d0-bd1f-bea9d272cb46.png)
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.4.2...6.5.0
+
 ## 6.4.2 - 2022-11-30
 
 - Use the correct config key for campaign mailer
