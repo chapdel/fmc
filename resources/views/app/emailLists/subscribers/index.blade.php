@@ -24,6 +24,11 @@
             : ['attribute' => '-subscribed_at', 'label' => __mc('Subscribed at'), 'class' => 'w-48 th-numeric hidden | xl:table-cell'],
         ['class' => 'w-12'],
     ]"
+    :bulkActions="[
+        ['label' => __mc('Delete :count subscriber|Delete :count subscribers'), 'method' => 'deleteSubscribers'],
+        ['label' => __mc('Unsubscribe :count subscriber|Unsubscribe :count subscribers'), 'method' => 'unsubscribeSubscribers'],
+    ]"
+    selectable
 >
     @slot('actions')
         <div class="buttons flex">

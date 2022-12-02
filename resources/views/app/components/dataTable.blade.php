@@ -11,6 +11,8 @@
 'createText' => null,
 'noResultsText' => null,
 'searchable' => true,
+'selectable' => false,
+'bulkActions' => [],
 ])
 <div wire:init="loadRows" class="card-grid">
     @if (isset($actions) || $modelClass || count($filters) || $searchable)
@@ -84,6 +86,11 @@
             <table class="table-styled w-full">
                 <thead>
                 <tr>
+                    @if ($selectable)
+                        <x-mailcoach::th class="w-4">
+                            <x-mailcoach::checkbox-field type="checkbox" name="selectAll" label="" :checked="$this->selectedAll" wire:change="selectAll" />
+                        </x-mailcoach::th>
+                    @endif
                     @foreach ($columns as $column)
                         <x-mailcoach::th :class="$column['class'] ?? ''" :sort="$this->sort"
                                          :property="$column['attribute'] ?? null">
@@ -93,6 +100,42 @@
                 </tr>
                 </thead>
                 <tbody>
+                @if ($selectable && $rows->count() && count($this->selectedRows))
+                    <tr>
+                        <td colspan="{{ count($columns) + 1 }}" class="bg-gradient-to-r from-orange-50/60 to-orange-50/40">
+                            <div class="flex justify-between items-center">
+                                <x-mailcoach::info>
+                                    Selected {{ count($this->selectedRows) }} {{ __mc_choice('row|rows', count($this->selectedRows)) }}@if($this->selectedAll && count($this->selectedRows) < $rows->total()), <a href="#" wire:click="selectAll(true)">select all {{ $rows->total() }} rows</a>@endif
+                                </x-mailcoach::info>
+
+                                @if (count($bulkActions))
+                                    <div class="flex items-center text-sm">
+                                        <div class="w-56">
+                                            <div class="flex items-center">
+                                                <div class="select mr-1">
+                                                    <select class="!rounded-lg" wire:model="bulkAction">
+                                                        <option value="" disabled>{{ __mc('Select an action') }}</option>
+                                                        @foreach ($bulkActions as $action)
+                                                            <option value="{{ $action['method'] }}">
+                                                                {{ trans_choice($action['label'], count($this->selectedRows), ['count' => count($this->selectedRows)]) }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    <div class="select-arrow">
+                                                        <i class="fas fa-angle-down"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <x-mailcoach::confirm-button class="button" :disabled="!$this->bulkAction" on-confirm="() => $wire.{{ $this->bulkAction }}()">
+                                            {{ __mc('Apply') }}
+                                        </x-mailcoach::confirm-button>
+                                    </div>
+                                @endif
+                            </div>
+                        </td>
+                    </tr>
+                @endif
                 @if ($rows->count())
                     @if($rowPartial)
                         @foreach ($rows as $index => $row)

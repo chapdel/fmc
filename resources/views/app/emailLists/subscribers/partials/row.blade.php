@@ -1,4 +1,9 @@
 <tr>
+    @if ($selectable)
+        <td class="text-xs !pt-4">
+            <x-mailcoach::checkbox-field name="select-{{ $row->id }}" label="" :checked="in_array($row->id, $this->selectedRows)" wire:change="select('{{ $row->id }}')" />
+        </td>
+    @endif
     <td class="markup-links">
         @if ($row->isUnconfirmed())
             <x-mailcoach::rounded-icon minimal size="md" type="warning" icon="fas fa-question" title="{{ __mc('Unconfirmed') }}"/>

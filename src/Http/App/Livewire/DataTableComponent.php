@@ -4,10 +4,12 @@ namespace Spatie\Mailcoach\Http\App\Livewire;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\QueryBuilder\QueryBuilder;
 
 abstract class DataTableComponent extends Component
 {
@@ -24,6 +26,12 @@ abstract class DataTableComponent extends Component
 
     public int $perPage = 15;
 
+    public array $selectedRows = [];
+
+    public bool $selectedAll = false;
+
+    public string $bulkAction = '';
+
     protected string $defaultSort;
 
     protected array $allowedFilters = [];
@@ -33,6 +41,11 @@ abstract class DataTableComponent extends Component
     abstract public function getView(): string;
 
     abstract public function getData(Request $request): array;
+
+    public function getQuery(Request $request): ?QueryBuilder
+    {
+        return null;
+    }
 
     public function getLayout(): string
     {
@@ -118,7 +131,56 @@ abstract class DataTableComponent extends Component
         $this->readyToLoad = true;
     }
 
-    public function render()
+    public function selectAll(bool $withoutPagination = false): void
+    {
+        $this->selectedRows = [];
+
+        if ($this->selectedAll && !$withoutPagination) {
+            $this->selectedAll = false;
+            return;
+        }
+
+        /** @var ?\Spatie\QueryBuilder\QueryBuilder $query */
+        $query = $this->getQuery($this->buildRequest());
+
+        if (! $query) {
+            return;
+        }
+
+        $this->selectedAll = true;
+
+        if ($withoutPagination) {
+            $this->selectedRows = $query
+                ->reorder('id')
+                ->pluck('id')
+                ->toArray();
+
+            return;
+        }
+
+        $this->selectedRows = Arr::pluck($query->paginate()->items(), 'id');
+    }
+
+    public function select(string|int $row): void
+    {
+        $this->selectedAll = false;
+
+        if (in_array($row, $this->selectedRows)) {
+            array_splice($this->selectedRows, array_search($row, $this->selectedRows));
+            return;
+        }
+
+        $this->selectedRows[] = $row;
+    }
+
+    public function resetSelect(): void
+    {
+        $this->selectedRows = [];
+        $this->bulkAction = '';
+        $this->selectedAll = false;
+    }
+
+    protected function buildRequest(): Request
     {
         $request = clone request();
         $request->query->set('sort', $this->sort);
@@ -132,11 +194,14 @@ abstract class DataTableComponent extends Component
                 ->filter(fn ($value) => ! empty($value))
         );
 
+        return $request;
+    }
+
+    public function render()
+    {
         return view(
             $this->getView(),
-            $this->readyToLoad
-            ? $this->getData($request)
-            : []
+            $this->readyToLoad ? $this->getData($this->buildRequest()) : []
         )->layout($this->getLayout(), array_merge([
             'title' => $this->getTitle(),
             'hideBreadcrumbs' => true,

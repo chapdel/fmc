@@ -7,10 +7,12 @@ use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\DeleteSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\SendConfirmSubscriberMailAction;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Http\App\Livewire\DataTableComponent;
 use Spatie\Mailcoach\Http\App\Queries\EmailListSubscribersQuery;
 use Spatie\Mailcoach\Mailcoach;
 use Spatie\Mailcoach\MainNavigation;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class SubscribersComponent extends DataTableComponent
 {
@@ -133,14 +135,41 @@ class SubscribersComponent extends DataTableComponent
         ];
     }
 
+    public function deleteSubscribers(): void
+    {
+        $count = self::getSubscriberClass()::whereIn('id', $this->selectedRows)->delete();
+
+        $this->flash(__mc("Successfully deleted {$count} subscribers."));
+
+        $this->resetSelect();
+    }
+
+    public function unsubscribeSubscribers(): void
+    {
+        $query = self::getSubscriberClass()::whereIn('id', $this->selectedRows);
+
+        $count = $query->count();
+
+        $query->each(function (Subscriber $subscriber) {
+            $subscriber->unsubscribe();
+        });
+
+        $this->flash(__mc("Successfully unsubscribed {$count} subscribers."));
+
+        $this->resetSelect();
+    }
+
+    public function getQuery(Request $request): QueryBuilder
+    {
+        return (new EmailListSubscribersQuery($this->emailList, $request));
+    }
+
     public function getData(Request $request): array
     {
         $this->authorize('view', $this->emailList);
 
-        $subscribersQuery = new EmailListSubscribersQuery($this->emailList, $request);
-
         return [
-            'subscribers' => $subscribersQuery->paginate($request->per_page),
+            'subscribers' => $this->getQuery($request)->paginate($request->per_page),
             'emailList' => $this->emailList,
             'allSubscriptionsCount' => $this->emailList->allSubscribers()->count(),
             'totalSubscriptionsCount' => $this->emailList->subscribers()->count(),

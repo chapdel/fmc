@@ -4,6 +4,7 @@
     'action' => null,
     'method' => 'POST',
     'class' => '',
+    'disabled' => false,
 ])
 <form
     method="POST"
@@ -22,6 +23,7 @@
         "
         type="submit"
         class="{{ $class ?? '' }}"
+        @if($disabled) disabled @endif
     >
         {{ $slot }}
     </button>
