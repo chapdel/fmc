@@ -41,7 +41,7 @@ it('can send a transactional mail', function () {
         $mail->build();
 
         expect($mail->subject)->toBe('Some subject');
-        expect($mail->from)->toBe([['name' => null, 'address' => 'rias@spatie.be']]);
+        expect($mail->from)->toBe([['name' => '', 'address' => 'rias@spatie.be']]);
         expect($mail->to)->toContain(['name' => '', 'address' => 'freek@spatie.be']);
         expect($mail->cc)->toContain(['name' => '', 'address' => 'rias+cc@spatie.be']);
         expect($mail->bcc)->toContain(['name' => '', 'address' => 'rias+bcc@spatie.be']);
@@ -152,11 +152,11 @@ it('can accept attachments', function () {
     $message = $email->getOriginalMessage();
 
     expect($message->getAttachments())->not()->toBeEmpty();
-    expect($message->getAttachments()[0]->getBody())->toBe('1234');
+    expect($message->getAttachments()[0]->getBody())->toBe(base64_decode('1234'));
     expect($message->getAttachments()[0]->getName())->toBe('embedded.jpg');
     expect($message->getAttachments()[0]->getContentType())->toBe('image/jpg');
 
-    expect($message->getAttachments()[1]->getBody())->toBe('1234');
+    expect($message->getAttachments()[1]->getBody())->toBe(base64_decode('1234'));
     expect($message->getAttachments()[1]->getName())->toBe('file.txt');
     expect($message->getAttachments()[1]->getContentType())->toBe('text/plain');
 });
