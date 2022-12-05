@@ -28,10 +28,12 @@ class SendTransactionalMailController
             to: $this->normalizeEmailAddresses($request->get('to')),
             cc: $this->normalizeEmailAddresses($request->get('cc')),
             bcc: $this->normalizeEmailAddresses($request->get('bcc')),
+            replyTo: $this->normalizeEmailAddresses($request->get('reply_to')),
             mailer: $request->get('mailer'),
             replacements: $request->replacements(),
             attachments: $request->attachments(),
             store: $request->shouldStoreMail(),
+            html: $request->html,
         );
 
         Mail::mailer($request->get('mailer', Mailcoach::defaultTransactionalMailer()))->send($mail);

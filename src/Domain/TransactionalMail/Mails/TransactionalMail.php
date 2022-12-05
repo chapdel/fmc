@@ -15,7 +15,7 @@ class TransactionalMail extends Mailable
     use StoresMail;
     use UsesMailcoachTemplate;
 
-    private string $mailName;
+    private ?string $mailName;
 
     private array $replacements;
 
@@ -26,39 +26,34 @@ class TransactionalMail extends Mailable
     private array $fields;
 
     public function __construct(
-        string $mailName,
+        ?string $mailName,
         string $subject,
         array|string $from,
         array $to,
         array $cc = [],
         array $bcc = [],
+        array $replyTo = [],
         string $mailer = null,
         array $replacements = [],
         array $attachments = [],
         bool $store = true,
+        ?string $html = null,
     ) {
         $this->mailName = $mailName;
         $this->replacements = $replacements;
 
-        $this->setTransactionalHeader();
-
-        $this->embeddedAttachments = array_filter(
-            $attachments,
-            fn ($attachment) => ! is_null($attachment['content_id'] ?? null),
-        );
-
-        $this->attachedAttachments = array_filter(
-            $attachments, fn ($attachment) => is_null($attachment['content_id'] ?? null),
-        );
+        $this
+            ->setTransactionalHeader()
+            ->prepareAttachment($attachments)
+            ->prepareHtml($html);
 
         $this
-            ->when($store, function (TransactionalMail $mail) {
-                $mail->store();
-            })
+            ->when($store, fn(TransactionalMail $mail) => $mail->store())
             ->from($from)
             ->to($to)
             ->cc($cc)
             ->bcc($bcc)
+            ->replyTo($replyTo)
             ->subject($subject)
             ->mailer($mailer ?? Mailcoach::defaultTransactionalMailer())
             ->view('mailcoach::mails.transactionalMails.mail');
@@ -66,6 +61,10 @@ class TransactionalMail extends Mailable
 
     public function build()
     {
+        if ($this->html) {
+            return;
+        }
+
         $this->template(
             $this->mailName,
             $this->replacements,
@@ -88,5 +87,33 @@ class TransactionalMail extends Mailable
                 );
             }
         });
+    }
+
+    protected function prepareAttachment(array $attachments): self
+    {
+        $this->embeddedAttachments = array_filter(
+            $attachments,
+            fn($attachment) => !is_null($attachment['content_id'] ?? null),
+        );
+
+        $this->attachedAttachments = array_filter(
+            $attachments,
+            fn($attachment) => is_null($attachment['content_id'] ?? null),
+        );
+
+        return $this;
+    }
+
+    protected function prepareHtml(?string $html): self
+    {
+        if ($html) {
+            if (! str_contains($html, '<html')) {
+                $html = "<html><body>{$html}</body></html>";
+            }
+
+            $this->html = $html;
+        }
+
+        return $this;
     }
 }
