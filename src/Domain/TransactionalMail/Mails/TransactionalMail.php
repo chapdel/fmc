@@ -49,7 +49,7 @@ class TransactionalMail extends Mailable
             ->prepareHtml($html);
 
         $this
-            ->when($store, fn(TransactionalMail $mail) => $mail->store())
+            ->when($store, fn (TransactionalMail $mail) => $mail->store())
             ->from($from)
             ->to($to)
             ->cc($cc)
@@ -95,12 +95,12 @@ class TransactionalMail extends Mailable
     {
         $this->embeddedAttachments = array_filter(
             $attachments,
-            fn($attachment) => !is_null($attachment['content_id'] ?? null),
+            fn ($attachment) => ! is_null($attachment['content_id'] ?? null),
         );
 
         $this->attachedAttachments = array_filter(
             $attachments,
-            fn($attachment) => is_null($attachment['content_id'] ?? null),
+            fn ($attachment) => is_null($attachment['content_id'] ?? null),
         );
 
         return $this;
