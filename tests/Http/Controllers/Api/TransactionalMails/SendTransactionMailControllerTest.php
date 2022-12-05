@@ -159,7 +159,7 @@ it('can accept attachments', function () {
     expect($message->getAttachments()[1]->getContentType())->toBe('text/plain');
 });
 
-it('can send a mail without a template', function() {
+it('can send a mail without a template', function () {
     $this
         ->postJson(action(SendTransactionalMailController::class, [
             'html' => '<html><body>my html</body></html>',
@@ -175,7 +175,7 @@ it('can send a mail without a template', function() {
     expect($message->getBody()->bodyToString())->toBe('<html><body>my html</body></html>');
 });
 
-it('will add html tags when not present on the input', function() {
+it('will add html tags when not present on the input', function () {
     $this
         ->postJson(action(SendTransactionalMailController::class, [
             'html' => 'my html',
@@ -196,5 +196,5 @@ function getSentMessage(): ?Email
     /** @var \Symfony\Component\Mailer\SentMessage $email */
     $email = Mail::mailer('array')->getSymfonyTransport()->messages()->first();
 
-   return $email->getOriginalMessage();
+    return $email->getOriginalMessage();
 }
