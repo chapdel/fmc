@@ -8,7 +8,6 @@ use Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns\StoresMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns\UsesMailcoachTemplate;
 use Spatie\Mailcoach\Mailcoach;
 use Symfony\Component\Mime\Email;
-use Symfony\Component\Mime\Part\TextPart;
 
 class TransactionalMail extends Mailable
 {
@@ -67,13 +66,10 @@ class TransactionalMail extends Mailable
                 $this->mailName,
                 $this->replacements,
             );
-
         }
-
 
         $this->withSymfonyMessage(function (Email $email) {
             foreach ($this->embeddedAttachments as $embeddedAttachment) {
-
                 $email->embed(
                     body: base64_decode($embeddedAttachment['content']),
                     name: $embeddedAttachment['name'],
