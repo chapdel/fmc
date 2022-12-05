@@ -34,7 +34,7 @@ it('can normalize a multiple addresses', function () {
         ->getName()->toBe('');
 });
 
-it('can normalize a string with email and name', function() {
+it('can normalize a string with email and name', function () {
     $fullString = '"John Doe" <john@example.com>';
 
     $results = $this->normalizer->normalize($fullString);
@@ -47,7 +47,7 @@ it('can normalize a string with email and name', function() {
         ->getName()->toBe('John Doe');
 });
 
-it('can normalize string with multiple combos of  email and name', function() {
+it('can normalize string with multiple combos of  email and name', function () {
     $fullString = '"John Doe" <john@example.com>, "Jane Doe" <jane@example.com>';
 
     $results = $this->normalizer->normalize($fullString);
