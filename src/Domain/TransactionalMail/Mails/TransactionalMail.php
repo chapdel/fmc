@@ -25,22 +25,26 @@ class TransactionalMail extends Mailable
 
     private array $fields;
 
+    private ?string $originalHtml;
+
     public function __construct(
-        ?string $mailName,
-        string $subject,
+        ?string      $mailName,
+        string       $subject,
         array|string $from,
-        array $to,
-        array $cc = [],
-        array $bcc = [],
-        array $replyTo = [],
-        string $mailer = null,
-        array $replacements = [],
-        array $attachments = [],
-        bool $store = true,
-        ?string $html = null,
-    ) {
+        array        $to,
+        array        $cc = [],
+        array        $bcc = [],
+        array        $replyTo = [],
+        string       $mailer = null,
+        array        $replacements = [],
+        array        $attachments = [],
+        bool         $store = true,
+        ?string      $html = null,
+    )
+    {
         $this->mailName = $mailName;
         $this->replacements = $replacements;
+        $this->originalHtml = $html;
 
         $this
             ->setTransactionalHeader()
@@ -48,7 +52,7 @@ class TransactionalMail extends Mailable
             ->prepareHtml($html);
 
         $this
-            ->when($store, fn (TransactionalMail $mail) => $mail->store())
+            ->when($store, fn(TransactionalMail $mail) => $mail->store())
             ->from($from)
             ->to($to)
             ->cc($cc)
@@ -62,10 +66,14 @@ class TransactionalMail extends Mailable
     public function build()
     {
         if ($this->shouldUseMailcoachTemplate()) {
+            $this->html = null;
+
             $this->template(
                 $this->mailName,
                 $this->replacements,
             );
+        } else {
+            $this->view('mailcoach::mails.transactionalMails.template', ['content' => $this->html]);
         }
 
         $this->withSymfonyMessage(function (Email $email) {
@@ -91,12 +99,12 @@ class TransactionalMail extends Mailable
     {
         $this->embeddedAttachments = array_filter(
             $attachments,
-            fn ($attachment) => ! is_null($attachment['content_id'] ?? null),
+            fn($attachment) => !is_null($attachment['content_id'] ?? null),
         );
 
         $this->attachedAttachments = array_filter(
             $attachments,
-            fn ($attachment) => is_null($attachment['content_id'] ?? null),
+            fn($attachment) => is_null($attachment['content_id'] ?? null),
         );
 
         return $this;
@@ -108,23 +116,26 @@ class TransactionalMail extends Mailable
             return $this;
         }
 
-        if ($html) {
-            if (! str_contains($html, '<html')) {
-                $html = "<html><body>{$html}</body></html>";
-            }
+        $this->html = $html;
 
-            $this->html = $html;
+        if (!str_contains($html, '<html')) {
+            $this->html = "<html><body>{$this->html}</body></html>";
         }
+
 
         return $this;
     }
 
     protected function shouldUseMailcoachTemplate(): bool
     {
-        if (! $this->html) {
+        if ($this->originalHtml === 'use-mailcoach-mail') {
             return true;
         }
 
-        return $this->html === 'use-mailcoach-mail';
+        if (!$this->originalHtml) {
+            return true;
+        }
+
+        return false;
     }
 }

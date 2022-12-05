@@ -9,6 +9,7 @@ use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
 use Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails\SendTransactionalMailController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestClasses\CustomSendDenyAllPolicy;
+use Symfony\Component\Mime\Email;
 
 uses(RespondsToApiRequests::class);
 
@@ -146,10 +147,7 @@ it('can accept attachments', function () {
         ]))
         ->assertSuccessful();
 
-    /** @var \Symfony\Component\Mailer\SentMessage $email */
-    $email = Mail::mailer('array')->getSymfonyTransport()->messages()->first();
-    /** @var \Symfony\Component\Mime\Email $message */
-    $message = $email->getOriginalMessage();
+    $message = getSentMessage();
 
     expect($message->getAttachments())->not()->toBeEmpty();
     expect($message->getAttachments()[0]->getBody())->toBe(base64_decode('1234'));
@@ -160,3 +158,43 @@ it('can accept attachments', function () {
     expect($message->getAttachments()[1]->getName())->toBe('file.txt');
     expect($message->getAttachments()[1]->getContentType())->toBe('text/plain');
 });
+
+it('can send a mail without a template', function() {
+    $this
+        ->postJson(action(SendTransactionalMailController::class, [
+            'html' => '<html><body>my html</body></html>',
+            'mailer' => 'array',
+            'subject' => 'Some subject',
+            'from' => 'rias@spatie.be',
+            'to' => 'freek@spatie.be',
+        ]))
+        ->assertSuccessful();
+
+    $message = getSentMessage();
+
+    expect($message->getBody()->bodyToString())->toBe('<html><body>my html</body></html>');
+});
+
+it('will add html tags when not present on the input', function() {
+    $this
+        ->postJson(action(SendTransactionalMailController::class, [
+            'html' => 'my html',
+            'mailer' => 'array',
+            'subject' => 'Some subject',
+            'from' => 'rias@spatie.be',
+            'to' => 'freek@spatie.be',
+        ]))
+        ->assertSuccessful();
+
+    $message = getSentMessage();
+
+    expect($message->getBody()->bodyToString())->toBe('<html><body>my html</body></html>');
+});
+
+function getSentMessage(): ?Email
+{
+    /** @var \Symfony\Component\Mailer\SentMessage $email */
+    $email = Mail::mailer('array')->getSymfonyTransport()->messages()->first();
+
+   return $email->getOriginalMessage();
+}
