@@ -10,7 +10,6 @@ use Spatie\Mailcoach\Domain\TransactionalMail\Support\AddressNormalizer;
 use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Http\Api\Requests\SendTransactionalMailRequest;
 use Spatie\Mailcoach\Mailcoach;
-use Symfony\Component\Mime\Address;
 
 class SendTransactionalMailController
 {
