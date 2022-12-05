@@ -61,7 +61,7 @@ class TransactionalMail extends Mailable
 
     public function build()
     {
-        if (! $this->html) {
+        if ($this->shouldUseMailcoachTemplate()) {
             $this->template(
                 $this->mailName,
                 $this->replacements,
@@ -104,6 +104,10 @@ class TransactionalMail extends Mailable
 
     protected function prepareHtml(?string $html): self
     {
+        if ($this->shouldUseMailcoachTemplate()) {
+            return $this;
+        }
+
         if ($html) {
             if (! str_contains($html, '<html')) {
                 $html = "<html><body>{$html}</body></html>";
@@ -113,5 +117,14 @@ class TransactionalMail extends Mailable
         }
 
         return $this;
+    }
+
+    protected function shouldUseMailcoachTemplate(): bool
+    {
+        if (! $this->html) {
+            return true;
+        }
+
+        return $this->html === 'use-mailcoach-mail';
     }
 }
