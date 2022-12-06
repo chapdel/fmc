@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.6.0 - 2022-12-06
+
+Add support for sending transactional mails using the new [spatie/mailcoach-mailer](https://github.com/spatie/mailcoach-mailer) and [spatie/laravel-mailcoach-mailer](https://spatie/laravel-mailcoach-mailer) packages.
+
 ## 6.5.0 - 2022-12-02
 
 ### What's new
