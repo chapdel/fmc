@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Spatie\Mailcoach\Domain\Settings\Rules\MailerConfigKeyNameRule;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\TransactionalMail\Support\AddressNormalizer;
 use Spatie\ValidationRules\Rules\Delimited;
 
 class SendTransactionalMailRequest extends FormRequest
@@ -51,5 +52,12 @@ class SendTransactionalMailRequest extends FormRequest
         }
 
         return (bool) $this->store;
+    }
+
+    public function getFromEmail(): string
+    {
+        $address = (new AddressNormalizer())->normalize($this->from)[0];
+
+        return $address->getAddress();
     }
 }
