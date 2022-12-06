@@ -54,9 +54,13 @@ class SendTransactionalMailRequest extends FormRequest
         return (bool) $this->store;
     }
 
-    public function getFromEmail(): string
+    public function getFromEmail(): ?string
     {
-        $address = (new AddressNormalizer())->normalize($this->from)[0];
+        $address = (new AddressNormalizer())->normalize($this->from)[0] ?? null;
+
+        if (! $address) {
+            return null;
+        }
 
         return $address->getAddress();
     }
