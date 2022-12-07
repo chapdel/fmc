@@ -50,7 +50,7 @@ class SendAutomationMailTestAction
         $send->setRelation('automationMail', $mail);
 
         try {
-            $this->sendMailAction->execute($send);
+            $this->sendMailAction->execute($send, isTest: true);
         } finally {
             $mail->update(['subject' => $subject]);
             $send->delete();

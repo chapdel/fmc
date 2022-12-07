@@ -47,7 +47,7 @@ class SendCampaignTestAction
         $send->setRelation('campaign', $campaign);
 
         try {
-            $this->sendMailAction->execute($send);
+            $this->sendMailAction->execute($send, isTest: true);
         } finally {
             $campaign->update([
                 'subject' => $originalSubject,
