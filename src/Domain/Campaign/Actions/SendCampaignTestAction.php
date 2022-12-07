@@ -30,12 +30,10 @@ class SendCampaignTestAction
         $prepareEmailHtmlAction = Mailcoach::getCampaignActionClass('prepare_email_html', PrepareEmailHtmlAction::class);
         $prepareEmailHtmlAction->execute($campaign);
 
-        $convertHtmlToTextAction = Mailcoach::getCampaignActionClass('convert_html_to_text', ConvertHtmlToTextAction::class);
-        $text = $convertHtmlToTextAction->execute($campaign->email_html);
-
         if (! $subscriber = self::getSubscriberClass()::where('email', $email)->where('email_list_id', $campaign->email_list_id)->first()) {
             $subscriber = self::getSubscriberClass()::make([
                 'uuid' => Str::uuid()->toString(),
+                'email_list_id' => $campaign->email_list_id,
                 'email' => $email,
             ]);
         }
