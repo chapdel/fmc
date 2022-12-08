@@ -27,6 +27,6 @@ class ResetPasswordController
     {
         flash()->success(trans($response));
 
-        return route(config('mailcoach.redirect_home'));
+        return redirect()->route(config('mailcoach.redirect_home'));
     }
 }
