@@ -10,6 +10,11 @@ use Spatie\Mailcoach\Domain\Audience\Policies\EmailListPolicy;
 
 class CustomSendDenyAllPolicy extends EmailListPolicy
 {
+    public function send(Authorizable $user): bool
+    {
+        return false;
+    }
+
     public function create(Authorizable $user): bool
     {
         return false;
