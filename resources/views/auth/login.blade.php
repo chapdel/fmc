@@ -4,12 +4,6 @@
     <form class="form-grid" method="POST" action="{{ route('mailcoach.login') }}">
         @csrf
 
-        <p>
-            <a class="link" href="{{ route('mailcoach.forgot-password') }}">
-                {{ __mc('Forgot password?') }}
-            </a>
-        </p>
-
         <div class="form-field">
             @error('email')
                 <p class="form-error" role="alert">
@@ -49,7 +43,7 @@
             <x-mailcoach::button :label="__mc('Log in')" />
 
             @if (Route::has('mailcoach.forgot-password'))
-            <a class="link" href="{{ route('mailcoach.forgot-password') }}">
+            <a class="link ml-2" href="{{ route('mailcoach.forgot-password') }}">
                 {{ __mc('Forgot Your Password?') }}
             </a>
             @endif
