@@ -5,6 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="preconnect" href="https://fonts.gstatic.com">
+        @if (isset($noIndex) && $noIndex === true)
+        <meta name="robots" content="noindex">
+        @endif
 
         <title>{{ isset($title) ? "{$title} | Mailcoach" : 'Mailcoach' }}</title>
 
@@ -31,7 +34,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <footer class="mx-auto w-full max-w-layout p-6 flex justify-center text-sm text-gray-500">
                 <a href="https://mailcoach.app">
                     Powered by Mailcoach
