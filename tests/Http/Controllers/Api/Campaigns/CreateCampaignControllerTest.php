@@ -122,7 +122,6 @@ it('will not fail when fields are missing when creating a campaign', function ()
     expect($response->json('data.fields.content'))->toBe('');
 });
 
-
 function getPostAttributes(): array
 {
     return [
