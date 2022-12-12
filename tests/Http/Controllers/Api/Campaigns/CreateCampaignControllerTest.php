@@ -89,7 +89,40 @@ it('can accept the values for a template when creating a campaign and using a ma
     expect($response->json('data.fields.content'))->toBe('# This is some markdown');
 });
 
-// Helpers
+it('will not fail when fields are missing when creating a campaign', function () {
+    config()->set('mailcoach.content_editor', MarkdownEditor::class);
+
+    $template = Template::create([
+        'html' => $this->stub('TemplateHtml/default.html'),
+        'contains_placeholders' => true,
+        'name' => 'Default',
+    ]);
+
+    $attributes = [
+        'name' => 'name',
+        'email_list_uuid' => EmailList::factory()->create()->uuid,
+        'fields' => [
+            'title' => 'This is my title',
+            // 'content' => '# This is some markdown',  // provide no content
+        ],
+        'template_uuid' => $template->uuid,
+    ];
+
+    $response = $this
+        ->postJson(action([CampaignsController::class, 'store']), $attributes);
+
+    $response->assertSuccessful();
+
+    $campaign = Campaign::first();
+
+    $this->assertMatchesSnapshot($campaign->refresh()->structured_html);
+    $this->assertMatchesSnapshot($campaign->refresh()->html);
+
+    expect($response->json('data.fields.title'))->toBe('This is my title');
+    expect($response->json('data.fields.content'))->toBe('');
+});
+
+
 function getPostAttributes(): array
 {
     return [
