@@ -323,7 +323,7 @@ class Subscriber extends Model implements CipherSweetEncrypted
 
     public function removeTags(array $names)
     {
-        $tags = $this->tags()->whereIn('name', $names)->get();
+        $tags = $this->tags->whereIn('name', $names);
 
         if ($tags->isEmpty()) {
             return $this;
