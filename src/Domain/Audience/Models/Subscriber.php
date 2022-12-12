@@ -308,7 +308,7 @@ class Subscriber extends Model implements CipherSweetEncrypted
 
     public function hasTag(string $name): bool
     {
-        return $this->tags
+        return $this->tags()
             ->where('name', $name)
             ->where('email_list_id', $this->emailList->id)
             ->count() > 0;
@@ -323,7 +323,7 @@ class Subscriber extends Model implements CipherSweetEncrypted
 
     public function removeTags(array $names)
     {
-        $tags = $this->tags->whereIn('name', $names);
+        $tags = $this->tags()->whereIn('name', $names)->get();
 
         if ($tags->isEmpty()) {
             return $this;
