@@ -129,7 +129,7 @@ class SubscriberImportsComponent extends DataTableComponent
         });
 
         return response()->download(
-            SimpleExcelWriter::create($temporaryDirectory->path('subscribers-example.csv'), 'csv')
+            SimpleExcelWriter::create($temporaryDirectory->path('subscribers-example.csv'))
                 ->addRow(['email' => 'john@doe.com', 'first_name' => 'John', 'last_name' => 'Doe', 'tags' => 'one;two'])
                 ->getPath()
         );
