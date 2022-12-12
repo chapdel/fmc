@@ -24,13 +24,13 @@ class ForgotPasswordController
     {
         flash()->success(trans($response));
 
-        return back();
+        return redirect()->back();
     }
 
     protected function sendResetLinkFailedResponse(Request $request, $response)
     {
         flash()->error(trans($response));
 
-        return back();
+        return redirect()->back();
     }
 }

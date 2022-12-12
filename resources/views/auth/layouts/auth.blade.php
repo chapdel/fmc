@@ -6,6 +6,7 @@
 
     <title>{{ isset($title) ? "{$title} | Mailcoach" : 'Mailcoach' }}</title>
 
+    @livewireStyles
     {!! \Spatie\Mailcoach\Mailcoach::styles() !!}
 
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
@@ -39,6 +40,7 @@
             @include('mailcoach::app.layouts.partials.footer')
     </div>
 
+    @livewireScripts
     {!! \Spatie\Mailcoach\Mailcoach::scripts() !!}
 </body>
 </html>

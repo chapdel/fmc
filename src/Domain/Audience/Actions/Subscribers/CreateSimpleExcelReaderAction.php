@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Domain\Audience\Actions\Subscribers;
 
-use OpenSpout\Common\Type;
 use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
 use Spatie\SimpleExcel\SimpleExcelReader;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
@@ -17,10 +16,10 @@ class CreateSimpleExcelReaderAction
         $localImportFile = $this->storeLocalImportFile($subscriberImport);
 
         $extension = strtolower(pathinfo($localImportFile, PATHINFO_EXTENSION));
-        $type = Type::CSV;
+        $type = 'csv';
 
         if ($extension === 'xlsx' || $extension === 'xls') {
-            $type = Type::XLSX;
+            $type = 'xlsx';
         }
 
         app()->terminating(function () {

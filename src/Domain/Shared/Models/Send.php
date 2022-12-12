@@ -456,6 +456,10 @@ class Send extends Model
 
     public function markAsFailed(string $failureReason): self
     {
+        if (! $this->exists) {
+            return $this;
+        }
+
         $this->update([
             'sent_at' => now(),
             'failed_at' => now(),

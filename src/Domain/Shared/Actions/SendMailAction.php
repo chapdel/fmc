@@ -21,30 +21,31 @@ use Throwable;
 
 class SendMailAction
 {
-    public function execute(Send $pendingSend): void
+    public function execute(Send $pendingSend, bool $isTest = false): void
     {
         try {
-            $this->sendMail($pendingSend);
+            $this->sendMail($pendingSend, $isTest);
         } catch (Throwable $exception) {
-            /**
-             * Postmark returns code 406 when you try to send
-             * to an email that has been marked as inactive
-             */
-            if (str_contains($exception->getMessage(), '(code 406)')) {
-                // Mark as bounced
-                $pendingSend->markAsSent();
-                $pendingSend->registerBounce();
+            if (! $isTest) {
+                /**
+                 * Postmark returns code 406 when you try to send
+                 * to an email that has been marked as inactive
+                 */
+                if (str_contains($exception->getMessage(), '(code 406)')) {
+                    // Mark as bounced
+                    $pendingSend->markAsSent();
+                    $pendingSend->registerBounce();
 
-                return;
+                    return;
+                }
+                report($exception);
+
+                $pendingSend->markAsFailed($exception->getMessage());
             }
-
-            report($exception);
-
-            $pendingSend->markAsFailed($exception->getMessage());
         }
     }
 
-    protected function sendMail(Send $pendingSend): void
+    protected function sendMail(Send $pendingSend, bool $isTest = false): void
     {
         if ($pendingSend->wasAlreadySent()) {
             return;
@@ -107,9 +108,11 @@ class SendMailAction
 
         $pendingSend->markAsSent();
 
-        match (true) {
-            $sendable instanceof AutomationMail => event(new AutomationMailSentEvent($pendingSend)),
-            $sendable instanceof Campaign => event(new CampaignMailSentEvent($pendingSend)),
-        };
+        if (! $isTest) {
+            match (true) {
+                $sendable instanceof AutomationMail => event(new AutomationMailSentEvent($pendingSend)),
+                $sendable instanceof Campaign => event(new CampaignMailSentEvent($pendingSend)),
+            };
+        }
     }
 }

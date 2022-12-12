@@ -2,6 +2,30 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.7.0 - 2022-12-12
+
+### What's Changed
+
+- Add support for PHP 8.2 by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1178
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.6.2...6.7.0
+
+## 6.6.2 - 2022-12-09
+
+- Fix double password forgot link on login screen
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.6.1...6.6.2
+
+## 6.6.1 - 2022-12-08
+
+- Fix an issue where the SendTransactionalEmail API endpoint would not call the correct policy method
+- Don't mark sends as failed when it's a "Send test" mail
+- Add the email list id when sending a campaign test
+- Set Mailcoach defaults in all of Mailcoach's routes
+- Fixes the default password reset flow that Mailcoach provides
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.6.0...6.6.1
+
 ## 6.6.0 - 2022-12-06
 
 Add support for sending transactional mails using the new [spatie/mailcoach-mailer](https://github.com/spatie/mailcoach-mailer) and [spatie/laravel-mailcoach-mailer](https://spatie/laravel-mailcoach-mailer) packages.

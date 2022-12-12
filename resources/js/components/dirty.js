@@ -4,13 +4,15 @@ listen('input', '[data-dirty-check]', ({ target }) => {
     target.dirty = true;
 });
 
-Livewire.on('notify', function(params) {
-    const [message, level] = params;
+if (Livewire) {
+    Livewire.on('notify', function(params) {
+        const [message, level] = params;
 
-    if (level === 'success' && $('[data-dirty-check]')) {
-        $('[data-dirty-check]').dirty = false;
-    }
-});
+        if (level === 'success' && $('[data-dirty-check]')) {
+            $('[data-dirty-check]').dirty = false;
+        }
+    });
+}
 
 document.addEventListener(
     'click',

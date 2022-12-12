@@ -418,7 +418,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
                 Route::sendinblueFeedback('sendinblue-feedback');
             }
 
-            Route::prefix($url)->group(function () use ($registerAuth) {
+            Route::prefix($url)->middleware([SetMailcoachDefaults::class])->group(function () use ($registerAuth) {
                 if ($registerAuth) {
                     Route::prefix('')
                         ->middleware('web')
