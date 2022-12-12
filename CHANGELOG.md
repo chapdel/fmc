@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.7.0 - 2022-12-12
+
+### What's Changed
+
+- Add support for PHP 8.2 by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1178
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.6.2...6.7.0
+
 ## 6.6.2 - 2022-12-09
 
 - Fix double password forgot link on login screen
