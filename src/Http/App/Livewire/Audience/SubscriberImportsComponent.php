@@ -43,7 +43,7 @@ class SubscriberImportsComponent extends DataTableComponent
     {
         $this->emailList = $emailList;
 
-        app(MainNavigation::class)->activeSection()?->add($this->emailList->name, route('mailcoach.emailLists.subscribers', $this->emailList));
+        app(MainNavigation::class)->activeSection()?->add($this->emailList->name, route('mailcoach.emailLists'));
 
         $this->showForm = self::getSubscriberImportClass()::query()
             ->where('email_list_id', $this->emailList->id)
