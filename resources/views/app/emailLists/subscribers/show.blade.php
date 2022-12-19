@@ -71,7 +71,7 @@
                             <x-mailcoach::text-field wrapper-class="w-full" x-model="attribute.key" name="key" :label="__mc('Key')">
                             </x-mailcoach::text-field>
                             <button type="button" tabindex="-1" class="absolute right-0 mt-6 mr-2 text-sm ml-1 text-gray-500" @click.prevent="
-                                $clipboard('::subscriber.extra_attributes.' + attribute.key + '::');
+                                $clipboard('@{{ subscriber.extra_attributes.' + attribute.key + ' }}');
                                 $el.innerHTML = '<span>Copied!</span>'
                                 setTimeout(() => {
                                     $el.innerHTML = '<i class=\'fas fa-copy\'></i>';
