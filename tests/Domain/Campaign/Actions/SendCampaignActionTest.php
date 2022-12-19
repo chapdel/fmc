@@ -493,8 +493,8 @@ test('custom replacers can provide context', function () {
     $messages = app(MailManager::class)->mailer('array')->getSymfonyTransport()->messages();
 
     test()->assertTrue($messages->filter(function (SentMessage $message) {
-            return $message->getOriginalMessage()->getSubject() === 'The custom replacer works';
-        })->count() > 0);
+        return $message->getOriginalMessage()->getSubject() === 'The custom replacer works';
+    })->count() > 0);
 });
 
 test('custom replacers work with subject from custom mailable', function () {
