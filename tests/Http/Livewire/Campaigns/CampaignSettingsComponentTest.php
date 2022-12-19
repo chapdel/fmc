@@ -20,7 +20,6 @@ it('can update the settings of a campaign', function () {
 
     Livewire::test(CampaignSettingsComponent::class, ['campaign' => $campaign])
         ->set('campaign.name', 'updated name')
-        ->set('campaign.subject', 'my subject')
         ->set('campaign.email_list_id', EmailList::factory()->create()->id)
         ->set('campaign.add_subscriber_tags', true)
         ->set('campaign.add_subscriber_link_tags', true)
@@ -31,7 +30,6 @@ it('can update the settings of a campaign', function () {
 
     $this->assertDatabaseHas(self::getCampaignTableName(), [
         'name' => 'updated name',
-        'subject' => 'my subject',
         'utm_tags' => true,
     ]);
 });
