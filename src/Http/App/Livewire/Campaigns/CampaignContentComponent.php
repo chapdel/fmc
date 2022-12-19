@@ -4,12 +4,7 @@ namespace Spatie\Mailcoach\Http\App\Livewire\Campaigns;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Collection;
-use Illuminate\Validation\Rule;
 use Livewire\Component;
-use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Domain\Audience\Support\Segments\EverySubscriberSegment;
-use Spatie\Mailcoach\Domain\Audience\Support\Segments\SubscribersWithTagsSegment;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
@@ -53,6 +48,7 @@ class CampaignContentComponent extends Component
     {
         if (! $this->campaign->isEditable()) {
             $this->redirectRoute('mailcoach.campaigns.summary', $this->campaign);
+
             return;
         }
 
