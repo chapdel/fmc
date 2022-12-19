@@ -70,7 +70,7 @@
                         <div class="relative w-full flex items-center">
                             <x-mailcoach::text-field wrapper-class="w-full" x-model="attribute.key" name="key" :label="__mc('Key')">
                             </x-mailcoach::text-field>
-                            <button type="button" class="absolute right-0 mt-6 mr-2 text-sm ml-1 text-gray-500" @click.prevent="
+                            <button type="button" tabindex="-1" class="absolute right-0 mt-6 mr-2 text-sm ml-1 text-gray-500" @click.prevent="
                                 $clipboard('::subscriber.extra_attributes.' + attribute.key + '::');
                                 $el.innerHTML = '<span>Copied!</span>'
                                 setTimeout(() => {
