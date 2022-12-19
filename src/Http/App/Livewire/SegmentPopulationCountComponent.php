@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Http\App\Livewire;
 
 use Livewire\Component;
-use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
 
 class SegmentPopulationCountComponent extends Component
