@@ -8,7 +8,8 @@ class AddUtmTagsToUrlAction
 {
     public function execute(string $url, string $campaignName): string
     {
-        if (str_starts_with($url, '::')) {
+        /** @todo: Remove :: in next major version */
+        if (str_starts_with($url, '::') || str_starts_with($url, '{{')) {
             return $url;
         }
 

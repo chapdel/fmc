@@ -235,6 +235,10 @@ class EmailList extends Model implements HasMedia
 
     public function websiteUrl(): string
     {
+        if (! $this->has_website) {
+            return '';
+        }
+
         return route('mailcoach.website', ltrim($this->website_slug, '/'));
     }
 

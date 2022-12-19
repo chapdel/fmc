@@ -42,6 +42,18 @@ it('can replace unsubscribe tag url', function () {
     assertPersonalizeCampaignHtmlActionResult('::unsubscribeTag::some tag::', test()->send->subscriber->unsubscribeTagUrl('some tag', test()->send));
 });
 
+it('can use twig templating for replacers', function () {
+    assertPersonalizeCampaignHtmlActionResult('{{subscriber.uuid}}', 'my-uuid');
+    assertPersonalizeCampaignHtmlActionResult('{{subscriber.first_name}}', 'John');
+    assertPersonalizeCampaignHtmlActionResult('{{subscriber.extra_attributes.first_name}}', 'John');
+    assertPersonalizeCampaignHtmlActionResult('{{subscriber.last_name}}', 'Doe');
+    assertPersonalizeCampaignHtmlActionResult('{{subscriber.coupon}}', '');
+    assertPersonalizeCampaignHtmlActionResult('{{ this_does_not_exist }}', '');
+    assertPersonalizeCampaignHtmlActionResult('{{campaign.name}}', 'my campaign');
+    assertPersonalizeCampaignHtmlActionResult('{% if subscriber.first_name %}Hello {{subscriber.first_name}}{% endif %}', 'Hello John');
+    assertPersonalizeCampaignHtmlActionResult('{%if not subscriber.coupon %}No coupon{% endif %}', 'No coupon');
+});
+
 // Helpers
 function assertPersonalizeCampaignHtmlActionResult(string $inputHtml, $expectedOutputHtml)
 {

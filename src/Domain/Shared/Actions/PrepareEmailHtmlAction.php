@@ -13,7 +13,6 @@ use Throwable;
 class PrepareEmailHtmlAction
 {
     public function __construct(
-        protected ReplacePlaceholdersAction $replacePlaceholdersAction,
         protected AddUtmTagsToHtmlAction $addUtmTagsToHtmlAction,
         protected CreateDomDocumentFromHtmlAction $createDomDocumentFromHtmlAction,
     ) {
@@ -24,8 +23,6 @@ class PrepareEmailHtmlAction
         $this->ensureValidHtml($sendable);
 
         $sendable->email_html = $sendable->htmlWithInlinedCss();
-
-        $this->replacePlaceholders($sendable);
 
         if ($sendable->utm_tags) {
             $sendable->email_html = $this->addUtmTagsToHtmlAction->execute($sendable->email_html, $sendable->name);
@@ -53,10 +50,5 @@ class PrepareEmailHtmlAction
 
             throw $exception;
         }
-    }
-
-    protected function replacePlaceholders(Sendable $sendable): void
-    {
-        $sendable->email_html = $this->replacePlaceholdersAction->execute($sendable->email_html, $sendable);
     }
 }

@@ -30,6 +30,8 @@ class SubscriberComponent extends Component
 
     public array $tags = [];
 
+    public array $extraAttributes = [];
+
     public string $tab = 'profile';
 
     protected $queryString = [
@@ -89,11 +91,33 @@ class SubscriberComponent extends Component
         $this->subscriber = $subscriber;
         $this->totalSendsCount = $subscriber->sends()->count();
         $this->tags = $subscriber->tags()->where('type', TagType::Default)->pluck('name')->toArray();
+        $this->extraAttributes = $subscriber->extra_attributes->map(function ($value, $key) {
+            return [
+                'key' => $key,
+                'value' => $value,
+            ];
+        })->where('key', '!=', '')->values()->toArray();
 
         app(MainNavigation::class)->activeSection()
             ->add($this->emailList->name, route('mailcoach.emailLists.summary', $this->emailList), function ($section) {
                 $section->add(__mc('Subscribers'), route('mailcoach.emailLists.subscribers', $this->emailList));
             });
+    }
+
+    public function addAttribute()
+    {
+        $this->extraAttributes[] = [];
+    }
+
+    public function saveAttributes()
+    {
+        $this->subscriber->extra_attributes = null;
+        foreach ($this->extraAttributes as $extraAttribute) {
+            $this->subscriber->extra_attributes[$extraAttribute['key']] = $extraAttribute['value'];
+        }
+        $this->subscriber->save();
+
+        $this->flash(__mc('Subscriber :subscriber was updated.', ['subscriber' => $this->subscriber->email]));
     }
 
     public function render(): View

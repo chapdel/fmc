@@ -10,9 +10,18 @@ use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 
 class ReplacePlaceholdersAction
 {
+    public function __construct(
+        protected RenderTwigAction $renderTwigAction,
+        protected GetReplaceContextForSendableAction $getReplaceContextForSendableAction,
+    ) {
+    }
+
     public function execute(?string $text, Sendable $sendable): string
     {
-        $text ??= '';
+        $text = $this->renderTwigAction->execute(
+            $text ?? '',
+            $this->getReplaceContextForSendableAction->execute($sendable)
+        );
 
         return match (true) {
             $sendable instanceof Campaign => $sendable->getReplacers()

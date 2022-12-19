@@ -18,18 +18,22 @@ beforeEach(function () {
 
 it('can replace an placeholder for a subscriber attribute', function () {
     assertPersonalizeSubjectActionResult('::subscriber.uuid::', 'my-uuid');
+    assertPersonalizeSubjectActionResult('{{ subscriber.uuid }}', 'my-uuid');
 });
 
 it('will not replace a non existing attribute', function () {
-    assertPersonalizeSubjectActionResult('::subscriber.non-existing::', '::subscriber.non-existing::');
+    assertPersonalizeSubjectActionResult('::subscriber.non_existing::', '');
+    assertPersonalizeSubjectActionResult('{{ subscriber.non_existing }}', '');
 });
 
 it('can replace an placeholder for a subscriber extra attribute', function () {
     assertPersonalizeSubjectActionResult('::subscriber.extra_attributes.first_name::', 'John');
+    assertPersonalizeSubjectActionResult('{{ subscriber.extra_attributes.first_name }}', 'John');
 });
 
 it('will not replace an placeholder for a non existing subscriber extra attribute', function () {
-    assertPersonalizeSubjectActionResult('::subscriber.extra_attributes.non-existing::', '::subscriber.extra_attributes.non-existing::');
+    assertPersonalizeSubjectActionResult('::subscriber.extra_attributes.non_existing::', '');
+    assertPersonalizeSubjectActionResult('{{ subscriber.extra_attributes.non_existing }}', '');
 });
 
 // Helpers

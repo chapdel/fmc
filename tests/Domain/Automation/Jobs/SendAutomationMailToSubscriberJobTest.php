@@ -205,6 +205,24 @@ test('personalized placeholders in the subject will be replaced', function () {
     });
 });
 
+test('personalized placeholders in the subject will be replaced when using twig', function () {
+    Mail::fake();
+
+    test()->automationMail->update([
+        'subject' => 'This is a mail sent to {{ subscriber.email }}',
+    ]);
+
+    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, $this->actionSubscriber));
+
+    Artisan::call(SendAutomationMailsCommand::class);
+
+    Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) {
+        expect($mail->subject)->toEqual("This is a mail sent to {$this->actionSubscriber->subscriber->email}");
+
+        return true;
+    });
+});
+
 test('custom mailable sends', function () {
     test()->automationMail->useMailable(TestMailcoachMail::class);
 

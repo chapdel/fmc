@@ -5,7 +5,7 @@
                 {{ __mc('Segment details') }}
             </x-mailcoach::navigation-item>
             <x-mailcoach::navigation-item wire:click.prevent="$set('tab', 'population')" :active="$tab === 'population'">
-                <x-mailcoach::icon-label :text="__mc('Population')" invers :count="$selectedSubscribersCount" />
+                <x-mailcoach::icon-label :text="__mc('Population')" invers :count="Str::shortNumber($selectedSubscribersCount)" />
             </x-mailcoach::navigation-item>
         </ul>
     </nav>
