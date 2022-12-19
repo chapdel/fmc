@@ -5,7 +5,7 @@
         </a>
     </td>
     <td class="td-numeric">
-        <livewire:mailcoach::segment-population-count wire:key="$row->id" :segment="$row" />
+        <livewire:mailcoach::segment-population-count wire:key="{{ $row->id }}" :segment="$row" />
     </td>
     <td class="td-numeric hidden | xl:table-cell">{{ $row->created_at->toMailcoachFormat() }}</td>
     <td class="td-action">
