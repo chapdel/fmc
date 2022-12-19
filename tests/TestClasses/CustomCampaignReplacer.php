@@ -18,4 +18,11 @@ class CustomCampaignReplacer implements CampaignReplacer
     {
         return str_ireplace('::customreplacer::', 'The custom replacer works', $html);
     }
+
+    public function context(): array
+    {
+        return [
+            'customreplacer' => 'The custom replacer works',
+        ];
+    }
 }

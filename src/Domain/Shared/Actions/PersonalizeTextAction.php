@@ -27,9 +27,19 @@ class PersonalizeTextAction
         $text = str_ireplace('::sendUuid::', $pendingSend->uuid, $text);
         $text = str_ireplace('::subscriber.uuid::', $subscriber->uuid, $text);
 
-        $text = $this->renderTwigAction->execute($text, $this->getReplaceContextForSendAction->execute($pendingSend));
+        $context = $this->getReplaceContextForSendAction->execute($pendingSend);
 
-        if (! $sendable = $pendingSend->getSendable()) {
+        if ($sendable = $pendingSend->getSendable()) {
+            foreach ($sendable->getReplacers() as $replacer) {
+                if (method_exists($replacer, 'context')) {
+                    $context = array_merge($context, $replacer->context());
+                }
+            }
+        }
+
+        $text = $this->renderTwigAction->execute($text, $context);
+
+        if (! $sendable) {
             return $text;
         }
 

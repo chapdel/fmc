@@ -471,6 +471,32 @@ test('custom replacers work with campaign subject', function () {
     })->count() > 0);
 });
 
+test('custom replacers can provide context', function () {
+    $campaign = (new CampaignFactory())
+        ->mailable(TestMailcoachMailWithNoSubject::class)
+        ->create([
+            'subject' => '{{ customreplacer }}',
+            'email_html' => '{{ customreplacer }}',
+        ]);
+
+    Subscriber::createWithEmail('john@example.com')
+        ->skipConfirmation()
+        ->subscribeTo($campaign->emailList);
+
+    config()->set('mailcoach.campaigns.replacers', array_merge(config('mailcoach.campaigns.replacers'), [CustomCampaignReplacer::class]));
+
+    $campaign->emailList->update(['campaign_mailer' => 'array']);
+
+    $campaign->send();
+    runAction($campaign);
+
+    $messages = app(MailManager::class)->mailer('array')->getSymfonyTransport()->messages();
+
+    test()->assertTrue($messages->filter(function (SentMessage $message) {
+            return $message->getOriginalMessage()->getSubject() === 'The custom replacer works';
+        })->count() > 0);
+});
+
 test('custom replacers work with subject from custom mailable', function () {
     $campaign = (new CampaignFactory())
         ->mailable(TestMailcoachMailWithSubjectReplacer::class)
