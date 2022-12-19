@@ -24,8 +24,6 @@
 
     <x-mailcoach::card>
         <x-mailcoach::text-field :label="__mc('Name')" name="name" wire:model.lazy="campaign.name" required :disabled="!$campaign->isEditable()" />
-
-        <x-mailcoach::text-field :label="__mc('Subject')" name="subject" wire:model.lazy="campaign.subject" :disabled="!$campaign->isEditable()" />
     </x-mailcoach::card>
 
     @if ($campaign->isEditable())

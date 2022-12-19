@@ -2,8 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use Spatie\Mailcoach\Http\Api\Controllers\UploadsController;
-use Spatie\Mailcoach\Http\App\Controllers\Automations\AutomationMails\AutomationMailContentController;
-use Spatie\Mailcoach\Http\App\Controllers\Campaigns\Draft\CampaignContentController;
 use Spatie\Mailcoach\Http\App\Controllers\DebugController;
 use Spatie\Mailcoach\Http\App\Controllers\EmailLists\SubscribersExportController;
 use Spatie\Mailcoach\Http\App\Controllers\TransactionalMails\Templates\SendTransactionalMailTestController;
@@ -12,7 +10,6 @@ use Spatie\Mailcoach\Http\App\Livewire\Campaigns\TemplatesComponent;
 use Spatie\Mailcoach\Http\App\Livewire\Export\ExportComponent;
 use Spatie\Mailcoach\Http\App\Livewire\Import\ImportComponent;
 use Spatie\Mailcoach\Http\App\Middleware\BootstrapSettingsNavigation;
-use Spatie\Mailcoach\Http\App\Middleware\EditableCampaign;
 use Spatie\Mailcoach\Http\Livewire\EditMailerComponent;
 use Spatie\Mailcoach\Http\Livewire\EditorSettingsComponent;
 use Spatie\Mailcoach\Http\Livewire\EditUserComponent;
@@ -39,12 +36,8 @@ Route::prefix('campaigns')->group(function () {
 
     Route::prefix('{campaign}')->group(function () {
         Route::get('settings', Mailcoach::getLivewireClass('campaign-settings', \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignSettingsComponent::class))->name('mailcoach.campaigns.settings');
-        Route::get('content', ['\\'.CampaignContentController::class, 'edit'])->name('mailcoach.campaigns.content');
+        Route::get('content', Mailcoach::getLivewireClass('campaign-content', \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignContentComponent::class))->name('mailcoach.campaigns.content');
         Route::get('delivery', Mailcoach::getLivewireClass('campaign-delivery', \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignDeliveryComponent::class))->name('mailcoach.campaigns.delivery');
-
-        Route::middleware('\\'.EditableCampaign::class)->group(function () {
-            Route::put('content', ['\\'.CampaignContentController::class, 'update'])->name('mailcoach.campaigns.updateContent');
-        });
 
         Route::get('summary', '\\'.Mailcoach::getLivewireClass('campaign-summary', \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignSummaryComponent::class))->name('mailcoach.campaigns.summary');
         Route::get('opens', '\\'.Mailcoach::getLivewireClass('campaign-opens', \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignOpensComponent::class))->name('mailcoach.campaigns.opens');
@@ -101,14 +94,13 @@ Route::prefix('automation-emails')->group(function () {
     Route::prefix('{automationMail}')->group(function () {
         Route::get('summary', '\\'.Mailcoach::getLivewireClass('automation-mail-summary', \Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailSummaryComponent::class))->name('mailcoach.automations.mails.summary');
         Route::get('settings', '\\'.Mailcoach::getLivewireClass('automation-mail-settings', \Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailSettingsComponent::class))->name('mailcoach.automations.mails.settings');
+        Route::get('content', '\\'.Mailcoach::getLivewireClass('automation-mail-content', \Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailContentComponent::class))->name('mailcoach.automations.mails.content');
         Route::get('delivery', '\\'.Mailcoach::getLivewireClass('automation-mail-delivery', \Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailDeliveryComponent::class))->name('mailcoach.automations.mails.delivery');
 
         Route::get('opens', '\\'.Mailcoach::getLivewireClass('automation-mail-opens', \Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailOpensComponent::class))->name('mailcoach.automations.mails.opens');
         Route::get('clicks', '\\'.Mailcoach::getLivewireClass('automation-mail-clicks', \Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailClicksComponent::class))->name('mailcoach.automations.mails.clicks');
         Route::get('unsubscribes', '\\'.Mailcoach::getLivewireClass('automation-mail-unsubscribes', \Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailUnsubscribesComponent::class))->name('mailcoach.automations.mails.unsubscribes');
         Route::get('outbox', '\\'.Mailcoach::getLivewireClass('automation-mail-outbox', \Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailOutboxComponent::class))->name('mailcoach.automations.mails.outbox');
-
-        Route::get('content', [AutomationMailContentController::class, 'edit'])->name('mailcoach.automations.mails.content');
     });
 });
 
