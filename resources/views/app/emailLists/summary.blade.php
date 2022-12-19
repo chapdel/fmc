@@ -36,7 +36,7 @@
             </div>
         </div>
     @else
-        <div>
+        <div class="min-h-[21rem] flex items-center justify-center">
             {{ __mc('Loading...') }}
         </div>
     @endif
