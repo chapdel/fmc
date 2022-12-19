@@ -60,8 +60,8 @@
 
     @if ($tab === 'attributes')
         <x-mailcoach::card>
-            <x-mailcoach::info full>
-                {!! __mc('You can add and remove attributes which can then be used in your campaigns or automations using &#123;&#123;&nbsp;subscriber.extra_attributes.&lt;key&gt;&nbsp;&#125;&#125;') !!}<br>
+            <x-mailcoach::info class="markup-code" full>
+                {!! __mc('You can add and remove attributes which can then be used in your campaigns or automations using <br><code>&#123;&#123;&nbsp;subscriber.extra_attributes.&lt;key&gt;&nbsp;&#125;&#125;</code>') !!}<br>
             </x-mailcoach::info>
 
             <div x-data="{ attributes: @entangle('extraAttributes').defer }">
