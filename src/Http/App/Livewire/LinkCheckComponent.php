@@ -28,6 +28,10 @@ class LinkCheckComponent extends Component
                 return [false, $e->getMessage()];
             }
         });
+
+        if ($this->status === false) {
+            cache()->forget("link-check-{$this->url}");
+        }
     }
 
     public function render(): string
