@@ -29,11 +29,10 @@ class AutomationMailDeliveryComponent extends Component
 
     public function render(): View
     {
-        return view('mailcoach::app.automations.mails.delivery', [
-            'links' => $this->mail->htmlLinks(),
-        ])->layout('mailcoach::app.automations.mails.layouts.automationMail', [
-            'title' => __mc('Delivery'),
-            'mail' => $this->mail,
-        ]);
+        return view('mailcoach::app.automations.mails.delivery')
+            ->layout('mailcoach::app.automations.mails.layouts.automationMail', [
+                'title' => __mc('Delivery'),
+                'mail' => $this->mail,
+            ]);
     }
 }
