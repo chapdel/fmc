@@ -11,7 +11,6 @@ class RenderTwigAction
     {
         $twig = new Environment(new ArrayLoader(), [
             'autoescape' => 'html',
-            'cache' => sys_get_temp_dir().'/mailcoach-twig',
         ]);
 
         return $twig->createTemplate(urldecode($html))->render($context);
