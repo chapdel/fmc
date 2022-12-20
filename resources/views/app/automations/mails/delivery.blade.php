@@ -133,7 +133,7 @@
                 <ul class="grid gap-2">
                     @foreach ($links as $link)
                         <li>
-                            <livewire:mailcoach::link-check :url="$link" />
+                            <livewire:mailcoach::link-check :url="$link" wire:key="{{ $link }}" />
                             @php($tags[] = \Spatie\Mailcoach\Domain\Shared\Support\LinkHasher::hash($mail, $link))
                         </li>
                     @endforeach
