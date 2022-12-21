@@ -63,15 +63,15 @@ class GetReplaceContextForSendAction
             'unsubscribeUrl' => $subscriber->unsubscribeUrl($send),
             'preferencesUrl' => $subscriber->preferencesUrl($send),
             'subscriber' => array_merge(
+                $subscriber->extra_attributes->toArray(),
                 [
                     'uuid' => $subscriber->uuid,
                     'first_name' => $subscriber->first_name,
                     'last_name' => $subscriber->last_name,
                     'email' => $subscriber->email,
                     'subscribed_at' => $subscriber->subscribed_at,
+                    'extra_attributes' => $subscriber->extra_attributes->toArray()
                 ],
-                $subscriber->extra_attributes->toArray(),
-                ['extra_attributes' => $subscriber->extra_attributes->toArray()],
             ),
         ];
 
