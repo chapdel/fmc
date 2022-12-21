@@ -47,7 +47,9 @@
             <x-mailcoach::navigation-item :active="Route::is('mailcoach.emailLists.subscriber*')" :href="route('mailcoach.emailLists.subscribers', $emailList)">
                 <span class="flex items-center">
                     {{ __mc('Subscribers')}}
-                    <span class="counter mx-2">{{ number_format($emailList->subscribers()->count()) }}</span>
+                    <span class="counter mx-2">
+                        <livewire:mailcoach::email-list-count :email-list="$emailList"/>
+                    </span>
                 </span>
             </x-mailcoach::navigation-item>
             <x-mailcoach::navigation-item :active="Route::is('mailcoach.emailLists.tags.*')" :href="route('mailcoach.emailLists.tags', $emailList) . '?type=default'">
@@ -76,7 +78,7 @@
         </x-mailcoach::navigation>
     </x-slot>
 
-    @if ($emailList->subscribers()->count() === 0 && !Route::is('mailcoach.emailLists.subscriber*'))
+    @if (!Route::is('mailcoach.emailLists.subscriber*') && $emailList->subscribers()->count() === 0)
         <x-mailcoach::help class="mb-4">
             {!! __mc('This list is empty. <a href=":url">Add some subscribers</a>', ['url' => route('mailcoach.emailLists.subscribers', $emailList)]) !!}
         </x-mailcoach::help>

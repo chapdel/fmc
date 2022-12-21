@@ -49,9 +49,6 @@ class ListSummaryComponent extends Component
         $this->start ??= now()->subDays(29)->format('Y-m-d');
         $this->end ??= now()->format('Y-m-d');
 
-        $this->totalSubscriptionsCount = $this->emailList->subscribers()->count();
-        $this->totalUnsubscribeCount = $this->emailList->allSubscribers()->unsubscribed()->count();
-
         app(MainNavigation::class)->activeSection()->add($this->emailList->name, route('mailcoach.emailLists.summary', $this->emailList));
     }
 
@@ -80,32 +77,40 @@ class ListSummaryComponent extends Component
 
     public function render(): View
     {
-        $this->startSubscriptionsCount = $this->emailList->subscribers()
-            ->where('subscribed_at', '<', $this->start)
-            ->count();
-
-        $this->startUnsubscribeCount = $this->emailList->allSubscribers()
-            ->unsubscribed()
-            ->where('unsubscribed_at', '>', $this->start)
-            ->count();
+        $data = [];
 
         if ($this->readyToLoad) {
+            $this->totalSubscriptionsCount = $this->emailList->subscribers()->count();
+            $this->totalUnsubscribeCount = $this->emailList->allSubscribers()->unsubscribed()->count();
+
+            $this->startSubscriptionsCount = $this->emailList->subscribers()
+                ->where('subscribed_at', '<', $this->start)
+                ->count();
+
+            $this->startUnsubscribeCount = $this->emailList->allSubscribers()
+                ->unsubscribed()
+                ->where('unsubscribed_at', '>', $this->start)
+                ->count();
+
             $this->stats = $this->createStats();
+
+            $data = [
+                'totalSubscriptionsCount' => $this->totalSubscriptionsCount(),
+                'growthRate' => $this->growthRate(),
+                'churnRate' => $this->churnRate(),
+                'averageOpenRate' => $this->averageOpenRate(),
+                'averageClickRate' => $this->averageClickRate(),
+                'averageUnsubscribeRate' => $this->averageUnsubscribeRate(),
+                'averageBounceRate' => $this->averageBounceRate(),
+            ];
         }
 
-        return view('mailcoach::app.emailLists.summary', [
-            'totalSubscriptionsCount' => $this->totalSubscriptionsCount(),
-            'growthRate' => $this->growthRate(),
-            'churnRate' => $this->churnRate(),
-            'averageOpenRate' => $this->averageOpenRate(),
-            'averageClickRate' => $this->averageClickRate(),
-            'averageUnsubscribeRate' => $this->averageUnsubscribeRate(),
-            'averageBounceRate' => $this->averageBounceRate(),
-        ])->layout('mailcoach::app.emailLists.layouts.emailList', [
-            'title' => __mc('Performance'),
-            'emailList' => $this->emailList,
-            'hideCard' => true,
-        ]);
+        return view('mailcoach::app.emailLists.summary', $data)
+            ->layout('mailcoach::app.emailLists.layouts.emailList', [
+                'title' => __mc('Performance'),
+                'emailList' => $this->emailList,
+                'hideCard' => true,
+            ]);
     }
 
     protected function createStats(): Collection

@@ -3,18 +3,14 @@
 namespace Spatie\Mailcoach\Domain\Campaign\Actions;
 
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Shared\Actions\ReplacePlaceholdersAction;
 
+/**
+ * @deprecated
+ */
 class PrepareSubjectAction
 {
-    public function __construct(
-        protected ReplacePlaceholdersAction $replacePlaceholdersAction
-    ) {
-    }
-
     public function execute(Campaign $campaign): void
     {
-        $campaign->subject = $this->replacePlaceholdersAction->execute($campaign->subject, $campaign);
-        $campaign->save();
+        // Deprecated. By default we don't do anything here anymore
     }
 }

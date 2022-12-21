@@ -4,14 +4,14 @@ use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Automation\Actions\PersonalizeHtmlAction;
 
 beforeEach(function () {
-    test()->send = SendFactory::new()->create();
+    test()->send = SendFactory::new()->create(['campaign_id' => null]);
 
     $subscriber = test()->send->subscriber;
     $subscriber->uuid = 'my-uuid';
     $subscriber->extra_attributes = ['first_name' => 'John', 'last_name' => 'Doe'];
     $subscriber->save();
 
-    test()->send->campaign->update(['name' => 'my campaign']);
+    test()->send->automationMail->update(['name' => 'automation mail']);
 
     test()->personalizeHtmlAction = app(PersonalizeHtmlAction::class);
 });
@@ -40,6 +40,18 @@ it('can replace unsubscribe tag url', function () {
     test()->send->subscriber->addTag('some tag');
 
     assertPersonalizeHtmlActionResult('::unsubscribeTag::some tag::', test()->send->subscriber->unsubscribeTagUrl('some tag', test()->send));
+});
+
+it('can use twig templating for replacers', function () {
+    assertPersonalizeHtmlActionResult('{{subscriber.uuid}}', 'my-uuid');
+    assertPersonalizeHtmlActionResult('{{subscriber.first_name}}', 'John');
+    assertPersonalizeHtmlActionResult('{{subscriber.extra_attributes.first_name}}', 'John');
+    assertPersonalizeHtmlActionResult('{{subscriber.last_name}}', 'Doe');
+    assertPersonalizeHtmlActionResult('{{subscriber.coupon}}', '');
+    assertPersonalizeHtmlActionResult('{{ this_does_not_exist }}', '');
+    assertPersonalizeHtmlActionResult('{{automation_mail.name}}', 'automation mail');
+    assertPersonalizeHtmlActionResult('{% if subscriber.first_name %}Hello {{subscriber.first_name}}{% endif %}', 'Hello John');
+    assertPersonalizeHtmlActionResult('{%if not subscriber.coupon %}No coupon{% endif %}', 'No coupon');
 });
 
 // Helpers

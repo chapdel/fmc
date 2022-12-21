@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.7.1 - 2022-12-12
+
+### What's Changed
+
+- Refactor removeTags method by @Fabstilelook in https://github.com/spatie/laravel-mailcoach/pull/1110
+- Make fields optional when creating / updating a campaign with a template via the API (by @freekmurze)
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.7.0...6.7.1
+
 ## 6.7.0 - 2022-12-12
 
 ### What's Changed

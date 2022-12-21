@@ -15,6 +15,7 @@ class SubscriberReplacer implements PersonalizedReplacer
             'subscriber.first_name' => __mc('The first name of the subscriber'),
             'subscriber.last_name' => __mc('The last name of the subscriber'),
             'subscriber.email' => __mc('The email of the subscriber'),
+            'subscriber.<key>' => __mc('Any extra attribute of the subscriber'),
         ];
     }
 

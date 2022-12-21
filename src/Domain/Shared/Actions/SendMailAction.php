@@ -26,22 +26,24 @@ class SendMailAction
         try {
             $this->sendMail($pendingSend, $isTest);
         } catch (Throwable $exception) {
-            if (! $isTest) {
-                /**
-                 * Postmark returns code 406 when you try to send
-                 * to an email that has been marked as inactive
-                 */
-                if (str_contains($exception->getMessage(), '(code 406)')) {
-                    // Mark as bounced
-                    $pendingSend->markAsSent();
-                    $pendingSend->registerBounce();
-
-                    return;
-                }
-                report($exception);
-
-                $pendingSend->markAsFailed($exception->getMessage());
+            if ($isTest) {
+                throw $exception;
             }
+
+            /**
+             * Postmark returns code 406 when you try to send
+             * to an email that has been marked as inactive
+             */
+            if (str_contains($exception->getMessage(), '(code 406)')) {
+                // Mark as bounced
+                $pendingSend->markAsSent();
+                $pendingSend->registerBounce();
+
+                return;
+            }
+            report($exception);
+
+            $pendingSend->markAsFailed($exception->getMessage());
         }
     }
 

@@ -11,11 +11,11 @@
         </x-mailcoach::info>
             <dl class="mt-4 markup-dl markup-code">
                 @foreach($replacerHelpTexts as $replacerName => $replacerDescription)
-                    <dt x-data="{ value: @js("::{$replacerName}::") }"><code @click="() => {
+                    <dt x-data="{ value: '@{{ ' + @js($replacerName) + ' }}' }"><code @click="() => {
                         $clipboard(value);
                         value = '{{ __mc('Copied!') }}';
                         setTimeout(() => {
-                            value = '::{{ $replacerName }}::';
+                            value = '@{{ ' + @js($replacerName) + ' }}';
                         }, 2000);
                     }" x-text="value"></code></dt>
                     <dd>{{ $replacerDescription }}</dd>

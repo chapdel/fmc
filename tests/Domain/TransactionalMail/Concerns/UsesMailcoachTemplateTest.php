@@ -30,7 +30,9 @@ it('can render a template containing markdown and blade variables', function () 
 
     $mailable = $template->getMailable();
 
-    test()->assertMatchesHtmlSnapshot($mailable->render());
+    $mailable
+        ->assertSeeInHtml('Title</h1>')
+        ->assertSeeInHtml('Hi all!');
 });
 
 it('will not compile blade if it is not allowed', function () {

@@ -42,7 +42,7 @@ it('will only display the website when it is enabled', function () {
 
     $this
         ->get($this->emailList->websiteUrl())
-        ->assertRedirect();
+        ->assertNotFound();
 
     $this->emailList->update([
         'has_website' => true,

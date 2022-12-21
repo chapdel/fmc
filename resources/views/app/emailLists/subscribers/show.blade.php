@@ -4,11 +4,9 @@
             <x-mailcoach::navigation-item wire:click.prevent="$set('tab', 'profile')" :active="$tab === 'profile'">
                 {{ __mc('Profile') }}
             </x-mailcoach::navigation-item>
-            @if ($subscriber->extra_attributes->count())
             <x-mailcoach::navigation-item wire:click.prevent="$set('tab', 'attributes')" :active="$tab === 'attributes'">
                 {{ __mc('Attributes') }}
             </x-mailcoach::navigation-item>
-            @endif
             <x-mailcoach::navigation-item wire:click.prevent="$set('tab', 'sends')" :active="$tab === 'sends'">
                 <x-mailcoach::icon-label :text="__mc('Received mails')" invers :count="$totalSendsCount" />
             </x-mailcoach::navigation-item>
@@ -61,37 +59,52 @@
     @endif
 
     @if ($tab === 'attributes')
-    <x-mailcoach::card>
-        @if($subscriber->extra_attributes->count())
-            <table class="table-styled">
-                <thead>
-                <tr>
-                    <th>{{ __mc('Key') }}</th>
-                    <th>{{ __mc('Value') }}</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($subscriber->extra_attributes->all() as $key => $attribute)
-                    <tr>
-                        <td class="markup-links">
-                            {{ $key }}
-                        </td>
-                        <td class="td-secondary-line">
-                            @if(is_array($attribute))
-                                <pre>{{ json_encode($attribute, JSON_PRETTY_PRINT) }}</pre>
-                            @else
-                                {{ $attribute }}
-                            @endif
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
-        @else
-            <x-mailcoach::info>
-                {{ __mc("This user doesn't have any attributes yet.") }}
+        <x-mailcoach::card>
+            <x-mailcoach::info class="markup-code" full>
+                {!! __mc('You can add and remove attributes which can then be used in your campaigns or automations using <br><code>&#123;&#123;&nbsp;subscriber.&lt;key&gt;&nbsp;&#125;&#125;</code>') !!}<br>
             </x-mailcoach::info>
-        @endif
+
+            <div x-data="{ attributes: @entangle('extraAttributes').defer }">
+                <template x-for="(attribute, index) in attributes" x-bind:key="index">
+                    <div class="my-4 flex items-center w-full gap-x-2">
+                        <div class="relative w-full flex items-center">
+                            <x-mailcoach::text-field wrapper-class="w-full" x-model="attribute.key" name="key" :label="__mc('Key')">
+                            </x-mailcoach::text-field>
+                            <button type="button" tabindex="-1" class="absolute right-0 mt-6 mr-2 text-sm ml-1 text-gray-500" @click.prevent="
+                                $clipboard('@{{ subscriber.' + attribute.key + ' }}');
+                                $el.innerHTML = '<span>Copied!</span>'
+                                setTimeout(() => {
+                                    $el.innerHTML = '<i class=\'fas fa-copy\'></i>';
+                                }, 2000)
+                            ">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <x-mailcoach::text-field wrapper-class="w-full" x-model="attribute.value" name="value" :label="__mc('Value')"></x-mailcoach::text-field>
+                        <button
+                            x-on:click.prevent="
+                                $store.modals.open('confirm');
+                                confirmText = @js(__mc('Are you sure you want to delete this attribute?'));
+                                onConfirm = () => attributes.splice(index, 1);
+                            "
+                            class="mt-auto mb-2 pb-px icon-button text-red-500 hover:text-red-700 cursor-pointer"
+                        >
+                            <i class="far fa-trash-alt"></i>
+                        </button>
+                    </div>
+                </template>
+                <div>
+                    <x-mailcoach::button-secondary x-on:click.prevent="attributes.push({ key: '', value: '' })">
+                        <x-slot:label>
+                            <i class="fas fa-plus"></i> {{ __mc('Add attribute') }}
+                        </x-slot:label>
+                    </x-mailcoach::button-secondary>
+                </div>
+            </div>
+
+            <x-mailcoach::form-buttons>
+                <x-mailcoach::button wire:click.prevent="saveAttributes" :label="__mc('Save subscriber')" />
+            </x-mailcoach::form-buttons>
         </x-mailcoach::card>
     @endif
 

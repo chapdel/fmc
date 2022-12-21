@@ -99,6 +99,7 @@ use Spatie\Mailcoach\Http\App\Livewire\Audience\TagsComponent;
 use Spatie\Mailcoach\Http\App\Livewire\Audience\WebsiteComponent;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationActionsComponent;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailClicksComponent;
+use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailContentComponent;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailOpensComponent;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailOutboxComponent;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailsComponent;
@@ -111,6 +112,7 @@ use Spatie\Mailcoach\Http\App\Livewire\Automations\CreateAutomationComponent;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\CreateAutomationMailComponent;
 use Spatie\Mailcoach\Http\App\Livewire\Automations\RunAutomationComponent;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignClicksComponent;
+use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignContentComponent;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignDeliveryComponent;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignOpensComponent;
 use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignOutboxComponent;
@@ -126,8 +128,11 @@ use Spatie\Mailcoach\Http\App\Livewire\Campaigns\TemplatesComponent;
 use Spatie\Mailcoach\Http\App\Livewire\DashboardChart;
 use Spatie\Mailcoach\Http\App\Livewire\DashboardComponent;
 use Spatie\Mailcoach\Http\App\Livewire\DataTableComponent;
+use Spatie\Mailcoach\Http\App\Livewire\EmailListCountComponent;
 use Spatie\Mailcoach\Http\App\Livewire\Export\ExportComponent;
 use Spatie\Mailcoach\Http\App\Livewire\Import\ImportComponent;
+use Spatie\Mailcoach\Http\App\Livewire\LinkCheckComponent;
+use Spatie\Mailcoach\Http\App\Livewire\SegmentPopulationCountComponent;
 use Spatie\Mailcoach\Http\App\Livewire\SendTestComponent;
 use Spatie\Mailcoach\Http\App\Livewire\Spotlight\AutomationEmailsCommand;
 use Spatie\Mailcoach\Http\App\Livewire\Spotlight\AutomationsCommand;
@@ -563,7 +568,10 @@ class MailcoachServiceProvider extends PackageServiceProvider
             SetMailcoachDefaults::class,
         ]);
 
+        Livewire::component('mailcoach::email-list-count', EmailListCountComponent::class);
+        Livewire::component('mailcoach::segment-population-count', SegmentPopulationCountComponent::class);
         Livewire::component('mailcoach::text-area-editor', TextAreaEditorComponent::class);
+        Livewire::component('mailcoach::link-check', LinkCheckComponent::class);
 
         Livewire::component('mailcoach::automation-builder', AutomationBuilder::class);
 
@@ -622,6 +630,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::automation-mails', Mailcoach::getLivewireClass('automation-mails', AutomationMailsComponent::class));
         Livewire::component('mailcoach::automation-mail-summary', Mailcoach::getLivewireClass('automation-mail-summary', AutomationMailSummaryComponent::class));
         Livewire::component('mailcoach::automation-mail-settings', Mailcoach::getLivewireClass('automation-mail-settings', AutomationMailSettingsComponent::class));
+        Livewire::component('mailcoach::automation-mail-content', Mailcoach::getLivewireClass('automation-mail-content', AutomationMailContentComponent::class));
         Livewire::component('mailcoach::automation-mail-clicks', Mailcoach::getLivewireClass('automation-mail-clicks', AutomationMailClicksComponent::class));
         Livewire::component('mailcoach::automation-mail-opens', Mailcoach::getLivewireClass('automation-mail-opens', AutomationMailOpensComponent::class));
         Livewire::component('mailcoach::automation-mail-unsubscribes', Mailcoach::getLivewireClass('automation-mail-unsubscribes', AutomationMailUnsubscribesComponent::class));
@@ -633,6 +642,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::create-template', Mailcoach::getLivewireClass('create-template', CreateTemplateComponent::class));
         Livewire::component('mailcoach::templates', Mailcoach::getLivewireClass('templates', TemplatesComponent::class));
         Livewire::component('mailcoach::template', Mailcoach::getLivewireClass('template', TemplateComponent::class));
+        Livewire::component('mailcoach::campaign-content', Mailcoach::getLivewireClass('campaign-content', CampaignContentComponent::class));
         Livewire::component('mailcoach::campaign-settings', Mailcoach::getLivewireClass('campaign-settings', CampaignSettingsComponent::class));
         Livewire::component('mailcoach::campaign-delivery', Mailcoach::getLivewireClass('campaign-delivery', CampaignDeliveryComponent::class));
         Livewire::component('mailcoach::campaign-summary', Mailcoach::getLivewireClass('campaign-summary', CampaignSummaryComponent::class));

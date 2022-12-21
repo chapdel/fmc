@@ -3,6 +3,8 @@
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Actions\PrepareEmailHtmlAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Shared\Actions\PersonalizeTextAction;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
 beforeEach(function () {
     /** @var EmailList */
@@ -16,12 +18,16 @@ beforeEach(function () {
         'email_list_id' => $this->emailList->id,
         'html' => '::websiteUrl::',
     ]);
+
+    $this->send = Send::factory()
+        ->create(['campaign_id' => $this->campaign->id]);
 });
 
 it('replaces the placeholder with the URL of the website', function () {
     app(PrepareEmailHtmlAction::class)->execute($this->campaign);
+    $result = app(PersonalizeTextAction::class)->execute($this->campaign->email_html, $this->send);
 
-    expect($this->campaign->refresh()->email_html)->toContain($this->campaign->emailList->websiteUrl());
+    expect($result)->toContain($this->campaign->emailList->websiteUrl());
 });
 
 it('will replace the placeholder with an empty string if the email list does not have a website', function () {
@@ -30,9 +36,10 @@ it('will replace the placeholder with an empty string if the email list does not
     ]);
 
     app(PrepareEmailHtmlAction::class)->execute($this->campaign);
+    $result = app(PersonalizeTextAction::class)->execute($this->campaign->email_html, $this->send);
 
-    expect($this->campaign->refresh()->email_html)
-        ->not()->toContain($this->campaign->emailList->websiteUrl())
-        ->and($this->campaign->refresh()->email_html)
+    expect($result)
+        ->not()->toContain(route('mailcoach.website', ltrim($this->emailList->website_slug, '/')))
+        ->and($result)
         ->not()->toContain('::websiteUrl::');
 });

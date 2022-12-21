@@ -477,7 +477,7 @@ it('handles nested conditions correctly', function () {
 
     // Only 3 mails were sent in total
     expect(Send::count())->toEqual(3);
-})->;
+});
 
 test('the automation mail can use custom mailable', function () {
     $manager = new QueueManager($this->app);

@@ -94,6 +94,7 @@ return new class extends Migration
                 'email_list_subscribed_index');
 
             $table->index(['email_list_id', 'created_at'], 'email_list_id_created_at');
+            $table->index(['email_list_id', 'email']);
         });
 
         Schema::create('mailcoach_segments', function (Blueprint $table) {

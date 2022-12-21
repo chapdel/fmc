@@ -77,6 +77,7 @@
         "symfony/http-client": "^6.0",
         "symfony/sendgrid-mailer": "^6.1",
         "tijsverkoyen/css-to-inline-styles": "^2.2",
+        "twig/twig": "^3.4",
         "wire-elements/spotlight": "dev-master#48d7833c4e2a79ea81e79978899c25c635f3fbac"
     },
     "require-dev": {

@@ -137,13 +137,11 @@
             @endif
 
             <x-mailcoach::success class="md:max-w-full" full>
-                @php($sendsCount = $campaign->sendsWithoutInvalidated()->count())
-                @php($successfulSendsCount = $sendsCount - ($failedSendsCount ?? 0) - ($pendingCount ?? 0))
                 <div>
                     {{ __mc('Campaign') }}
                     <a target="_blank" href="{{ $campaign->webviewUrl() }}"><strong>{{ $campaign->name }}</strong></a>
                     {{ __mc('was delivered successfully to') }}
-                    <strong>{{ number_format($successfulSendsCount) }} {{ __mc_choice('subscriber|subscribers', $successfulSendsCount) }}</strong>
+                    <strong>{{ number_format($campaign->sent_to_number_of_subscribers) }} {{ __mc_choice('subscriber|subscribers', $campaign->sent_to_number_of_subscribers) }}</strong>
 
                     {{ __mc('of') }}
 

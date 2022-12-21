@@ -8,8 +8,6 @@
 >
 <x-mailcoach::card>
     <x-mailcoach::text-field :label="__mc('Name')" name="mail.name" wire:model.lazy="mail.name" required  />
-
-    <x-mailcoach::text-field :label="__mc('Subject')" name="mail.subject" wire:model.lazy="mail.subject"  />
 </x-mailcoach::card>
 
     <x-mailcoach::fieldset card :legend="__mc('Sender')">

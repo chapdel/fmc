@@ -1,8 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Domain\Campaign\Actions\PrepareEmailHtmlAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Shared\Actions\SendMailAction;
+use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 
 beforeEach(function () {
     /** @var EmailList */
@@ -15,13 +17,27 @@ beforeEach(function () {
     $this->campaign = Campaign::factory()->create([
         'email_list_id' => $this->emailList->id,
         'html' => '::websiteCampaignUrl::',
+        'email_html' => '::websiteCampaignUrl::',
+    ]);
+
+    $this->send = \Spatie\Mailcoach\Domain\Shared\Models\Send::factory()->create([
+        'campaign_id' => $this->campaign->id,
     ]);
 });
 
 it('replaces the placeholder with the URL of the campaign on the website', function () {
-    app(PrepareEmailHtmlAction::class)->execute($this->campaign);
+    $mailerOriginal = Mail::getFacadeRoot();
+    Mail::fake();
 
-    expect($this->campaign->refresh()->email_html)->toContain($this->campaign->websiteUrl());
+    app(SendMailAction::class)->execute($this->send);
+
+    Mail::assertSent(function (MailcoachMail $mail) use ($mailerOriginal) {
+        Mail::swap($mailerOriginal);
+
+        $mail->assertSeeInHtml($this->campaign->websiteUrl());
+
+        return true;
+    });
 });
 
 it('will replace the placeholder with an empty string if the email list does not have a website', function () {
@@ -29,10 +45,16 @@ it('will replace the placeholder with an empty string if the email list does not
         'has_website' => false,
     ]);
 
-    app(PrepareEmailHtmlAction::class)->execute($this->campaign);
+    $mailerOriginal = Mail::getFacadeRoot();
+    Mail::fake();
 
-    expect($this->campaign->refresh()->email_html)
-        ->not()->toContain($this->campaign->websiteUrl())
-        ->and($this->campaign->refresh()->email_html)
-        ->not()->toContain('::websiteCampaignUrl::');
+    app(SendMailAction::class)->execute($this->send);
+
+    Mail::assertSent(function (MailcoachMail $mail) use ($mailerOriginal) {
+        Mail::swap($mailerOriginal);
+
+        $mail->assertDontSeeInHtml($this->campaign->websiteUrl());
+
+        return true;
+    });
 });

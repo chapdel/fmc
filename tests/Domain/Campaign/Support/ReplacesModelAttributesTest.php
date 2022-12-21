@@ -25,6 +25,30 @@ it('can replace model attributes', function () {
     expect($output)->toEqual('This is John');
 });
 
+it('can replace extra attributes', function () {
+    $subscriber = Subscriber::factory()->create([
+        'extra_attributes' => [
+            'coupon' => 'COUPON123',
+        ],
+    ]);
+
+    $output = test()->classWithTrait->replaceModelAttributes(
+        'This is your coupon ::subscriber.extra_attributes.coupon::',
+        'subscriber',
+        $subscriber
+    );
+
+    expect($output)->toEqual('This is your coupon COUPON123');
+
+    $output = test()->classWithTrait->replaceModelAttributes(
+        'This is your coupon ::subscriber.coupon::',
+        'subscriber',
+        $subscriber
+    );
+
+    expect($output)->toEqual('This is your coupon COUPON123');
+});
+
 it('will not thrown an exception when trying to replace an attribute with a null value', function () {
     $subscriber = Subscriber::factory()->create();
 

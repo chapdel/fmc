@@ -125,15 +125,16 @@
 
         <dd>
             @php($tags = [])
+            @php($links = $mail->htmlLinks())
             @if (count($links))
                 <p class="markup-code">
                     {{ __mc("The following links were found in your mail, make sure they are valid.") }}
                 </p>
                 <ul class="grid gap-2">
-                    @foreach ($links as $url)
+                    @foreach ($links as $link)
                         <li>
-                            <a target="_blank" class="link" href="{{ $url }}">{{ $url }}</a><br>
-                            @php($tags[] = \Spatie\Mailcoach\Domain\Shared\Support\LinkHasher::hash($mail, $url))
+                            <livewire:mailcoach::link-check :url="$link" wire:key="{{ $link }}" />
+                            @php($tags[] = \Spatie\Mailcoach\Domain\Shared\Support\LinkHasher::hash($mail, $link))
                         </li>
                     @endforeach
                 </ul>

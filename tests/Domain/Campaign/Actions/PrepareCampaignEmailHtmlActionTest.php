@@ -173,18 +173,3 @@ it('will add utm tags to urls with paths correctly when the link is added twice'
     expect($campaign->email_html)->toContain(htmlspecialchars('https://freek.dev/1234-my-blogpost?utm_source=newsletter&utm_medium=email&utm_campaign=my-campaign'));
     assertMatchesHtmlSnapshot($campaign->email_html);
 });
-
-it('uses replacers', function () {
-    $myHtml = '<html><body><h1>Hello</h1>::webviewUrl::</body></html>';
-
-    $campaign = Campaign::factory()->create([
-        'html' => $myHtml,
-        'name' => 'My Campaign',
-    ]);
-
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
-
-    $campaign->refresh();
-
-    expect($campaign->email_html)->toContain(htmlspecialchars($campaign->webviewUrl()));
-});

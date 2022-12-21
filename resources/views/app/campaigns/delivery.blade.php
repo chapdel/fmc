@@ -1,4 +1,4 @@
-<x-mailcoach::card wire:init="checkLinks">
+<x-mailcoach::card>
     @if ($campaign->isEditable())
         <div class="grid gap-2">
             @if($campaign->isReady())
@@ -37,9 +37,7 @@
         </div>
     @endif
 
-    <dl
-        class="mt-8 dl"
-    >
+    <dl class="mt-8 dl max-w-full overflow-hidden">
         @if ($campaign->emailList)
             <dt>
                 <x-mailcoach::health-label reverse :test="true" :label="__mc('From')"/>
@@ -181,18 +179,16 @@
 
         <dd>
             @php($tags = [])
+            @php($links = $campaign->htmlLinks())
             @if (count($links))
                 <p class="markup-code">
                     {{ __mc("The following links were found in your campaign, make sure they are valid.") }}
                 </p>
                 <ul class="grid gap-2">
-                    @foreach ($links as $url => $status)
-                        <li class="flex items-center gap-x-1">
-                            <a target="_blank" class="link" href="{{ $url }}">{{ $url }}</a>
-                            @if (!is_null($status))
-                                <x-mailcoach::health-label reverse warning :test="$status" />
-                            @endif
-                            @php($tags[] = \Spatie\Mailcoach\Domain\Shared\Support\LinkHasher::hash($campaign, $url))
+                    @foreach ($links as $link)
+                        <li>
+                            <livewire:mailcoach::link-check :url="$link" wire:key="{{ $link }}" />
+                            @php($tags[] = \Spatie\Mailcoach\Domain\Shared\Support\LinkHasher::hash($campaign, $link))
                         </li>
                     @endforeach
                 </ul>
