@@ -141,7 +141,8 @@
                     {{ __mc('Campaign') }}
                     <a target="_blank" href="{{ $campaign->webviewUrl() }}"><strong>{{ $campaign->name }}</strong></a>
                     {{ __mc('was delivered successfully to') }}
-                    <strong>{{ number_format($campaign->sent_to_number_of_subscribers) }} {{ __mc_choice('subscriber|subscribers', $campaign->sent_to_number_of_subscribers) }}</strong>
+                    @php($count = $campaign->sent_to_number_of_subscribers - $campaign->sends()->whereNotNull('invalidated_at')->count())
+                    <strong>{{ number_format($count) }} {{ __mc_choice('subscriber|subscribers', $count) }}</strong>
 
                     {{ __mc('of') }}
 
