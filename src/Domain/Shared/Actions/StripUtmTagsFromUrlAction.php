@@ -12,6 +12,10 @@ class StripUtmTagsFromUrlAction
             return $url;
         }
 
+        if (! isset($parsedUrl['host'])) {
+            return $url;
+        }
+
         parse_str($parsedUrl['query'], $query);
 
         unset($query['utm_source']);
