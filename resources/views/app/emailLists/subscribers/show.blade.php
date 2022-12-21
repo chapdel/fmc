@@ -61,7 +61,7 @@
     @if ($tab === 'attributes')
         <x-mailcoach::card>
             <x-mailcoach::info class="markup-code" full>
-                {!! __mc('You can add and remove attributes which can then be used in your campaigns or automations using <br><code>&#123;&#123;&nbsp;subscriber.extra_attributes.&lt;key&gt;&nbsp;&#125;&#125;</code>') !!}<br>
+                {!! __mc('You can add and remove attributes which can then be used in your campaigns or automations using <br><code>&#123;&#123;&nbsp;subscriber.&lt;key&gt;&nbsp;&#125;&#125;</code>') !!}<br>
             </x-mailcoach::info>
 
             <div x-data="{ attributes: @entangle('extraAttributes').defer }">
@@ -71,7 +71,7 @@
                             <x-mailcoach::text-field wrapper-class="w-full" x-model="attribute.key" name="key" :label="__mc('Key')">
                             </x-mailcoach::text-field>
                             <button type="button" tabindex="-1" class="absolute right-0 mt-6 mr-2 text-sm ml-1 text-gray-500" @click.prevent="
-                                $clipboard('@{{ subscriber.extra_attributes.' + attribute.key + ' }}');
+                                $clipboard('@{{ subscriber.' + attribute.key + ' }}');
                                 $el.innerHTML = '<span>Copied!</span>'
                                 setTimeout(() => {
                                     $el.innerHTML = '<i class=\'fas fa-copy\'></i>';
