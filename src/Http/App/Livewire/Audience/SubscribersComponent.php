@@ -168,8 +168,28 @@ class SubscribersComponent extends DataTableComponent
     {
         $this->authorize('view', $this->emailList);
 
+        $results = null;
+
+        if ($search = ($request->get('filter')['search'] ?? null)) {
+            /** Try a fast lookup by exact email first */
+            $request->filter['search'] = null;
+            $request->filter['email'] = $search;
+            $exactResult = $this->getQuery($request)->paginate($request->per_page);
+
+            /** Reset the request values */
+            $request->filter['search'] = $search;
+            $request->filter['email'] = null;
+
+            /** If we have a result, use this instead of doing the expensive search below */
+            if ($exactResult->total() > 0) {
+                $results = $exactResult;
+            }
+        }
+
+        $results ??= $this->getQuery($request)->paginate($request->per_page);
+
         return [
-            'subscribers' => $this->getQuery($request)->paginate($request->per_page),
+            'subscribers' => $results,
             'emailList' => $this->emailList,
             'allSubscriptionsCount' => $this->emailList->allSubscribers()->count(),
             'totalSubscriptionsCount' => $this->emailList->subscribers()->count(),
