@@ -70,7 +70,7 @@ class GetReplaceContextForSendAction
                     'last_name' => $subscriber->last_name,
                     'email' => $subscriber->email,
                     'subscribed_at' => $subscriber->subscribed_at,
-                    'extra_attributes' => $subscriber->extra_attributes->toArray()
+                    'extra_attributes' => $subscriber->extra_attributes->toArray(),
                 ],
             ),
         ];
