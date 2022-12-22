@@ -64,14 +64,14 @@ class GetReplaceContextForSendAction
             'preferencesUrl' => $subscriber->preferencesUrl($send),
             'subscriber' => array_merge(
                 $subscriber->extra_attributes->toArray(),
-                [
+                array_filter([
                     'uuid' => $subscriber->uuid,
                     'first_name' => $subscriber->first_name,
                     'last_name' => $subscriber->last_name,
                     'email' => $subscriber->email,
                     'subscribed_at' => $subscriber->subscribed_at,
                     'extra_attributes' => $subscriber->extra_attributes->toArray(),
-                ],
+                ]),
             ),
         ];
 

@@ -10,6 +10,7 @@
     'clearable' => false,
     'position' => 'auto',
     'multiple' => false,
+    'sort' => true,
 ])
 @php($wireModelAttribute = collect($attributes)->first(fn (string $value, string $attribute) => str_starts_with($attribute, 'wire:model')))
 
@@ -34,7 +35,7 @@
             @endif
             options: @js(collect($options)
                 ->map(fn ($label, $value) => ['value' => $value, 'label' => $label])
-                ->sortBy('label')
+                ->when($sort, fn ($collection) => $collection->sortBy('label'))
                 ->values()
                 ->toArray()),
             init() {
