@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions;
 
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Spatie\Mailcoach\Domain\Automation\Support\Conditions\AttributeCondition;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\Condition;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasClickedAutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasOpenedAutomationMail;
@@ -70,6 +71,7 @@ class ConditionActionComponent extends AutomationActionComponent
     public function mount()
     {
         $defaultConditions = collect([
+            AttributeCondition::class,
             HasTagCondition::class,
             HasOpenedAutomationMail::class,
             HasClickedAutomationMail::class,
@@ -142,7 +144,7 @@ class ConditionActionComponent extends AutomationActionComponent
             return $rules;
         }
 
-        $conditionRules = collect($this->condition ? $this->condition::rules() : [])->mapWithKeys(function ($rules, $key) {
+        $conditionRules = collect($this->condition ? $this->condition::rules($this->conditionData) : [])->mapWithKeys(function ($rules, $key) {
             return ["conditionData.{$key}" => $rules];
         })->toArray();
 

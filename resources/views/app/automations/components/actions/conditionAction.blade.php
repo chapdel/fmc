@@ -82,6 +82,33 @@
                                     />
                                 </div>
                             @break
+                            @case (\Spatie\Mailcoach\Domain\Automation\Support\Conditions\AttributeCondition::class)
+                                <div class="col-span-12 flex items-start gap-x-2">
+                                    <x-mailcoach::text-field
+                                        :label="__mc('Attribute')"
+                                        name="conditionData.attribute"
+                                        wire:model="conditionData.attribute"
+                                    />
+                                    <div class="mt-7">
+                                        <x-mailcoach::select-field
+                                            name="conditionData.comparison"
+                                            wire:model="conditionData.comparison"
+                                            :placeholder="__mc('Select a comparison')"
+                                            :sort="false"
+                                            :options="\Spatie\Mailcoach\Domain\Automation\Support\Conditions\AttributeCondition::getComparisons()"
+                                        />
+                                    </div>
+                                    @if (! in_array($conditionData['comparison'], ['empty', 'not_empty']))
+                                        <x-mailcoach::text-field
+                                            :label="__mc('Value')"
+                                            name="conditionData.value"
+                                            wire:model="conditionData.value"
+                                        />
+                                    @else
+                                        @php($this->conditionData['value'] = null)
+                                    @endif
+                                </div>
+                            @break
                             @case (\Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasOpenedAutomationMail::class)
                                 <div class="col-span-12 sm:col-span-4">
                                     <x-mailcoach::select-field
