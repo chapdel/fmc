@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.8.0 - 2022-12-22
+
+### What's Changed
+
+- Attributes and twig by @riasvdv in https://github.com/spatie/laravel-mailcoach/pull/1186
+- Attribute condition by @riasvdv in https://github.com/spatie/laravel-mailcoach/pull/1188
+- Fix link checker when a campaign has a lot of links
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.7.1...6.8.0
+
 ## 6.7.1 - 2022-12-12
 
 ### What's Changed
