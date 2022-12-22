@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.8.1 - 2022-12-22
+
+- update link to webhook docs
+
 ## 6.8.0 - 2022-12-22
 
 ### What's Changed
