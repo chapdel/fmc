@@ -17,7 +17,7 @@
                 <li>A campaign was sent</li>
             </ul>
             You can view more information on the sent payload and security recommendations <a
-                href="https://mailcoach.app/docs" target="_blank">in our docs</a>.
+                href="https://mailcoach.app/docs/webhooks" target="_blank">in our docs</a>.
         </x-mailcoach::help>
 
         <x-mailcoach::text-field :label="__mc('Name')" name="webhook.name" wire:model.lazy="webhook.name" required />
