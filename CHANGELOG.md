@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.8.2 - 2022-12-23
+
+- Fix an issue with the AttributeCondition validation
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.8.1...6.8.2
+
 ## 6.8.1 - 2022-12-22
 
 - update link to webhook docs
