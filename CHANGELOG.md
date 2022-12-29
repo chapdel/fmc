@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.8.3 - 2022-12-29
+
+- make event subscribers configurable
+
 ## 6.8.2 - 2022-12-23
 
 - Fix an issue with the AttributeCondition validation
