@@ -658,5 +658,5 @@ return [
 
     'event_subscribers' => [
         'webhooks' => \Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookEventSubscriber::class,
-    ]
+    ],
 ];

@@ -63,7 +63,6 @@ use Spatie\Mailcoach\Domain\Campaign\Listeners\SetWebhookCallProcessedAt;
 use Spatie\Mailcoach\Domain\Settings\Commands\MakeUserCommand;
 use Spatie\Mailcoach\Domain\Settings\Commands\PrepareGitIgnoreCommand;
 use Spatie\Mailcoach\Domain\Settings\Commands\PublishCommand;
-use Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookEventSubscriber;
 use Spatie\Mailcoach\Domain\Settings\Policies\PersonalAccessTokenPolicy;
 use Spatie\Mailcoach\Domain\Settings\SettingsNavigation;
 use Spatie\Mailcoach\Domain\Settings\Support\AppConfiguration\AppConfiguration;
@@ -701,7 +700,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Event::listen(CampaignLinkClickedEvent::class, AddCampaignClickedTag::class);
         Event::listen(AutomationMailOpenedEvent::class, AddAutomationMailOpenedTag::class);
         Event::listen(AutomationMailLinkClickedEvent::class, AddAutomationMailClickedTag::class);
-        
+
         Event::subscribe(config('mailcoach.event_subscribers.webhooks'));
 
         return $this;
