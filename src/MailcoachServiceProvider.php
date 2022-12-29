@@ -701,8 +701,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Event::listen(CampaignLinkClickedEvent::class, AddCampaignClickedTag::class);
         Event::listen(AutomationMailOpenedEvent::class, AddAutomationMailOpenedTag::class);
         Event::listen(AutomationMailLinkClickedEvent::class, AddAutomationMailClickedTag::class);
-
-        Event::subscribe(WebhookEventSubscriber::class);
+        
+        Event::subscribe(config('mailcoach.event_subscribers.webhooks'));
 
         return $this;
     }

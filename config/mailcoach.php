@@ -655,4 +655,8 @@ return [
         \Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\TextareaEditorConfigurationDriver::class,
         \Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\UnlayerEditorConfigurationDriver::class,
     ],
+
+    'event_subscribers' => [
+        'webhooks' => \Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookEventSubscriber::class,
+    ]
 ];
