@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.8.4 - 2022-12-29
+
+- make event subscribers configurable (now for real)
+
 ## 6.8.3 - 2022-12-29
 
 - make event subscribers configurable
