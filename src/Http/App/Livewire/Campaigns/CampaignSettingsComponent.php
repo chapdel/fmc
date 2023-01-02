@@ -35,6 +35,7 @@ class CampaignSettingsComponent extends Component
     {
         return [
             'campaign.name' => 'required',
+            'campaign.subject' => ['nullable'],
             'campaign.from_email' => ['nullable', 'email:rfc'],
             'campaign.from_name' => 'nullable',
             'campaign.reply_to_email' => ['nullable', 'email:rfc'],
