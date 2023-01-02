@@ -152,7 +152,7 @@ Route::prefix('settings')
 
         Route::prefix('users')->group(function () {
             Route::get('/', UsersComponent::class)->name('users');
-            Route::get('{user}', EditUserComponent::class)->name('users.edit');
+            Route::get('{mailcoachUser}', EditUserComponent::class)->name('users.edit');
         });
 
         Route::get('editor', EditorSettingsComponent::class)->name('editor');

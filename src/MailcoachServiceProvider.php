@@ -396,7 +396,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Route::model('mailer', self::getMailerClass());
         Route::model('personalAccessToken', self::getPersonalAccessTokenClass());
         Route::model('setting', self::getSettingClass());
-        Route::model('user', self::getUserClass());
+        Route::model('mailcoachUser', self::getUserClass());
         Route::model('webhookConfiguration', self::getWebhookConfigurationClass());
 
         // Shared
