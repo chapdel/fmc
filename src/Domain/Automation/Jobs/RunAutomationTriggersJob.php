@@ -46,8 +46,6 @@ class RunAutomationTriggersJob implements ShouldQueue, ShouldBeUnique
                     return;
                 }
 
-                info("Triggering automation id `{$trigger->automation->id}`");
-
                 $automationTrigger
                     ->setAutomation($trigger->automation)
                     ->trigger();

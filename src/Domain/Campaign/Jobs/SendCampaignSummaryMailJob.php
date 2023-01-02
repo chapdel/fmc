@@ -40,7 +40,6 @@ class SendCampaignSummaryMailJob implements ShouldQueue, ShouldBeUnique
                     ->to($campaign->emailList->campaignReportRecipients())
                     ->send(new CampaignSummaryMail($campaign));
 
-                info("Summary mail sent for campaign `{$campaign->name}`");
                 $campaign->update(['summary_mail_sent_at' => now()]);
             });
     }

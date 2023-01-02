@@ -38,8 +38,6 @@ class RunAutomationActionsJob implements ShouldQueue, ShouldBeUnique
                     return;
                 }
 
-                info("Dispatching jobs for all actions for automation id `{$automation->id}`");
-
                 $automation->allActions()->each(function (Action $action) {
                     return dispatch(new RunAutomationActionJob($action));
                 });

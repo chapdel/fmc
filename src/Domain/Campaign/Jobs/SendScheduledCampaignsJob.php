@@ -47,8 +47,6 @@ class SendScheduledCampaignsJob implements ShouldQueue, ShouldBeUnique
     {
         self::getCampaignClass()::shouldBeSentNow()
             ->each(function (Campaign $campaign) {
-                info("Sending campaign `{$campaign->name}` ({$campaign->id})...");
-
                 $campaign->update(['scheduled_at' => null]);
                 $campaign->send();
             });
@@ -64,8 +62,6 @@ class SendScheduledCampaignsJob implements ShouldQueue, ShouldBeUnique
         self::getCampaignClass()::sending()
             ->each(function (Campaign $campaign) use ($sendCampaignAction, $maxRuntimeInSeconds) {
                 $stopExecutingAt = now()->addSeconds($maxRuntimeInSeconds);
-
-                info("Creating sends & dispatching sends for campaign `{$campaign->name}` ({$campaign->id})...");
 
                 try {
                     $sendCampaignAction->execute($campaign, $stopExecutingAt);
