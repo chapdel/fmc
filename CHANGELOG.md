@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.8.6 - 2023-01-02
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.8.5...6.8.6
+
 ## 6.8.5 - 2023-01-02
 
 ### What's fixed
