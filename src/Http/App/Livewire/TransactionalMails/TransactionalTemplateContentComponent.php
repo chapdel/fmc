@@ -90,6 +90,6 @@ class TransactionalTemplateContentComponent extends Component
             return [];
         }
 
-        return array_map('trim', explode(',', $value));
+        return array_filter(array_map('trim', explode(',', $value)));
     }
 }
