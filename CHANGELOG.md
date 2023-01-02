@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.8.5 - 2023-01-02
+
+### What's fixed
+
+- Bind to {mailcoachUser} instead of {user} - see #1191
+- Fix saving of delimited addresses - see #1191
+- Remove log statements - see #1191
+- Keep validation for subject - fix #1198
+- Fix display & default of date trigger for automations
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.8.4...6.8.5
+
 ## 6.8.4 - 2022-12-29
 
 - make event subscribers configurable (now for real)
