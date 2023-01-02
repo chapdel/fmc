@@ -10,11 +10,13 @@ class DateTriggerComponent extends AutomationTriggerComponent
 
     public function mount()
     {
-        $this->date ??= [
-            'date' => now()->format('Y-m-d'),
-            'hours' => (int) now()->addHour()->format('H'),
-            'minutes' => 0,
-        ];
+        if ($this->automation->getTrigger()->date) {
+            $this->date ??= [
+                'date' =>  $this->automation->getTrigger()->date->format('Y-m-d'),
+                'hours' => (int) $this->automation->getTrigger()->date->format('H'),
+                'minutes' => (int) $this->automation->getTrigger()->date->format('i'),
+            ];
+        }
     }
 
     public function render()
