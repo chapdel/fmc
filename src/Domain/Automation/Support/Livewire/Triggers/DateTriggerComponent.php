@@ -12,7 +12,7 @@ class DateTriggerComponent extends AutomationTriggerComponent
     {
         if ($this->automation->getTrigger()->date) {
             $this->date ??= [
-                'date' =>  $this->automation->getTrigger()->date->format('Y-m-d'),
+                'date' => $this->automation->getTrigger()->date->format('Y-m-d'),
                 'hours' => (int) $this->automation->getTrigger()->date->format('H'),
                 'minutes' => (int) $this->automation->getTrigger()->date->format('i'),
             ];
