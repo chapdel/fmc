@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.8.7 - 2023-01-03
+
+- Use a cache lock in CreateSubscriberAction
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.8.6...6.8.7
+
 ## 6.8.6 - 2023-01-02
 
 **Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.8.5...6.8.6
