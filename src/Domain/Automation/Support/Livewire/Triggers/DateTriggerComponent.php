@@ -15,6 +15,13 @@ class DateTriggerComponent extends AutomationTriggerComponent
 
     public function mount()
     {
+        $default = now()->setTimezone(config('mailcoach.timezone')
+            ?? config('app.timezone'))->addHour()->startOfHour();
+
+        $this->date['date'] ??= $default->format('Y-m-d');
+        $this->date['hours'] ??= (int) $default->format('H');
+        $this->date['minutes'] ??= (int) $default->format('i');
+
         if (! $trigger = $this->automation->getTrigger()) {
             return;
         }
@@ -23,9 +30,9 @@ class DateTriggerComponent extends AutomationTriggerComponent
             return;
         }
 
-        $this->date['date'] ??= $trigger->date->format('Y-m-d');
-        $this->date['hours'] ??= (int) $trigger->date->format('H');
-        $this->date['minutes'] ??= (int) $trigger->date->format('i');
+        $this->date['date'] = $trigger->date->format('Y-m-d');
+        $this->date['hours'] = (int) $trigger->date->format('H');
+        $this->date['minutes'] = (int) $trigger->date->format('i');
     }
 
     public function render()
