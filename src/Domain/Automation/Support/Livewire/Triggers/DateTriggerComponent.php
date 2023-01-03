@@ -10,7 +10,7 @@ class DateTriggerComponent extends AutomationTriggerComponent
 
     public function mount()
     {
-        if ($this->automation->getTrigger()->date) {
+        if ($this->automation->getTrigger()?->date) {
             $this->date ??= [
                 'date' => $this->automation->getTrigger()->date->format('Y-m-d'),
                 'hours' => (int) $this->automation->getTrigger()->date->format('H'),
