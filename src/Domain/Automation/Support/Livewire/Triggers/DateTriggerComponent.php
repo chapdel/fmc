@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers;
 
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationTriggerComponent;
+use Spatie\Mailcoach\Domain\Automation\Support\Triggers\DateTrigger;
 
 class DateTriggerComponent extends AutomationTriggerComponent
 {
@@ -10,13 +11,19 @@ class DateTriggerComponent extends AutomationTriggerComponent
 
     public function mount()
     {
-        if ($this->automation->getTrigger()?->date) {
-            $this->date ??= [
-                'date' => $this->automation->getTrigger()->date->format('Y-m-d'),
-                'hours' => (int) $this->automation->getTrigger()->date->format('H'),
-                'minutes' => (int) $this->automation->getTrigger()->date->format('i'),
-            ];
+        if (! $trigger = $this->automation->getTrigger()) {
+            return;
         }
+
+        if (! $trigger instanceof DateTrigger) {
+            return;
+        }
+
+        $this->date ??= [
+            'date' => $trigger->date->format('Y-m-d'),
+            'hours' => (int) $trigger->date->format('H'),
+            'minutes' => (int) $trigger->date->format('i'),
+        ];
     }
 
     public function render()
