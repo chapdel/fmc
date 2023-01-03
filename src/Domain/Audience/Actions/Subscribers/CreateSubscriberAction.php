@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Domain\Audience\Actions\Subscribers;
 
-use Illuminate\Contracts\Cache\LockTimeoutException;
 use Illuminate\Support\Facades\Cache;
 use Spatie\Mailcoach\Domain\Audience\Events\SubscribedEvent;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
