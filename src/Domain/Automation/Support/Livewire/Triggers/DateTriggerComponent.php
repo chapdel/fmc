@@ -7,7 +7,11 @@ use Spatie\Mailcoach\Domain\Automation\Support\Triggers\DateTrigger;
 
 class DateTriggerComponent extends AutomationTriggerComponent
 {
-    public ?array $date = null;
+    public array $date = [
+        'date' => null,
+        'hours' => null,
+        'minutes' => null,
+    ];
 
     public function mount()
     {
@@ -19,11 +23,9 @@ class DateTriggerComponent extends AutomationTriggerComponent
             return;
         }
 
-        $this->date ??= [
-            'date' => $trigger->date->format('Y-m-d'),
-            'hours' => (int) $trigger->date->format('H'),
-            'minutes' => (int) $trigger->date->format('i'),
-        ];
+        $this->date['date'] ??= $trigger->date->format('Y-m-d');
+        $this->date['hours'] ??= (int) $trigger->date->format('H');
+        $this->date['minutes'] ??= (int) $trigger->date->format('i');
     }
 
     public function render()
