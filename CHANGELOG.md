@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.8.8 - 2023-01-04
+
+- Fix an issue where setting the segment through an API call would not save correctly
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.8.7...6.8.8
+
 ## 6.8.7 - 2023-01-03
 
 - Use a cache lock in CreateSubscriberAction
