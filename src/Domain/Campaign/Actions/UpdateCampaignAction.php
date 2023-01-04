@@ -19,11 +19,15 @@ class UpdateCampaignAction
 
     public function execute(Campaign $campaign, array $attributes, Template $template = null): Campaign
     {
-        $segment = $attributes['segment_id'] ?? null
-            ? TagSegment::find($attributes['segment_id'])
-            : null;
+        $segment = null;
 
-        if (! $segment) {
+        if ($attributes['segment_id'] ?? null) {
+            $segment = $attributes['segment_id'] ?? null
+                ? TagSegment::find($attributes['segment_id'])
+                : null;
+        }
+
+        if ($attributes['segment_uuid'] ?? null) {
             $segment = $attributes['segment_uuid'] ?? null
                 ? TagSegment::findByUuid($attributes['segment_uuid'])
                 : null;
@@ -77,6 +81,7 @@ class UpdateCampaignAction
             'utm_tags' => $attributes['utm_tags'] ?? config('mailcoach.campaigns.default_settings.utm_tags', false),
             'last_modified_at' => now(),
             'email_list_id' => $attributes['email_list_id'] ?? self::getEmailListClass()::orderBy('name')->first()?->id,
+            'segment_id' => $segment?->id,
             'segment_class' => $segmentClass,
             'segment_description' => $segmentDescription,
             'scheduled_at' => $attributes['schedule_at'] ?? null,

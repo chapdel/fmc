@@ -45,6 +45,7 @@ it('can be created with a tagsegment', function () {
     $campaign = Campaign::first();
 
     test()->assertEquals(TagSegment::class, $campaign->segment_class);
+    test()->assertEquals($tagsegment->id, $campaign->segment_id);
 });
 
 test('access is denied by custom authorization policy', function () {
