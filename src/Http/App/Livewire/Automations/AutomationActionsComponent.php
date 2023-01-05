@@ -101,5 +101,6 @@ class AutomationActionsComponent extends Component
         }
 
         $this->actions = $data['actions'];
+        $this->unsavedChanges = true;
     }
 }
