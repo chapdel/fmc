@@ -37,6 +37,7 @@ class RunAutomationTriggersJob implements ShouldQueue, ShouldBeUnique
                     ->whereHas('actions')
                     ->where('status', AutomationStatus::Started);
             })
+            ->with('automation')
             ->lazyById()
             ->each(function (Trigger $trigger) {
                 /** @var \Spatie\Mailcoach\Domain\Automation\Support\Triggers\AutomationTrigger $automationTrigger */

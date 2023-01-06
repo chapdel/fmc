@@ -42,18 +42,27 @@ it('triggers on a specific date', function () {
 
     expect($automation->actions->first()->subscribers)->toBeEmpty();
 
-    TestTime::addDay();
+    TestTime::addDay()->addSeconds(2);
 
     Artisan::call(RunAutomationTriggersCommand::class);
     $this->processQueuedJobs();
 
+    Queue::assertPushed(RunAutomationForSubscriberJob::class, 1);
     Queue::assertPushed(
         RunAutomationForSubscriberJob::class,
         function (RunAutomationForSubscriberJob $job) use ($automation) {
             expect($job->subscriber->email)->toBe('john@doe.com');
             expect($job->automation->id)->toBe($automation->id);
 
+            $job->handle();
             return true;
         }
     );
+
+    Artisan::call(RunAutomationTriggersCommand::class);
+
+    $this->processQueuedJobs();
+
+    // It triggers only once
+    Queue::assertPushed(RunAutomationForSubscriberJob::class, 1);
 });

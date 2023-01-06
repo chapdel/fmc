@@ -40,7 +40,11 @@ class DateTrigger extends AutomationTrigger implements TriggeredBySchedule
 
     public function trigger(): void
     {
-        if (! now()->startOfMinute()->equalTo($this->date->startOfMinute())) {
+        if (now()->setTimezone($this->date->timezone)->lt($this->date)) {
+            return;
+        }
+
+        if ($this->automation->last_ran_at && $this->automation->last_ran_at->gt($this->date)) {
             return;
         }
 
