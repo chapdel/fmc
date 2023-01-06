@@ -61,6 +61,12 @@ class SendMailAction
             return;
         }
 
+        if (! $pendingSend->subscriber) {
+            $pendingSend->delete();
+
+            return;
+        }
+
         /** @var AutomationMailPersonalizeSubjectAction|CampaignPersonalizeSubjectAction $personalizeSubjectAction */
         $personalizeSubjectAction = match (true) {
             $sendable instanceof AutomationMail => Mailcoach::getAutomationActionClass('personalize_subject', AutomationMailPersonalizeSubjectAction::class),
