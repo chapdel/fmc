@@ -55,6 +55,7 @@ it('triggers on a specific date', function () {
             expect($job->automation->id)->toBe($automation->id);
 
             $job->handle();
+
             return true;
         }
     );
