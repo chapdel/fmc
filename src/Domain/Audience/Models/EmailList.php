@@ -124,7 +124,7 @@ class EmailList extends Model implements HasMedia
 
     public function allowedFormExtraAttributes(): array
     {
-        return explode(',', $this->allowed_form_extra_attributes);
+        return array_filter(array_map('trim', explode(',', trim($this->allowed_form_extra_attributes))));
     }
 
     public function subscribe(string $email, array $attributes = []): Subscriber
@@ -275,30 +275,51 @@ class EmailList extends Model implements HasMedia
 
         $honeyPot = $this->honeypot_field
             ? <<<html
-            <!--
+
+                <!--
                     This is the honeypot field, this should be invisible to users
                     when filled in, the subscriber won't be created but will still
                     receive a "successfully subscribed" page to fool spam bots.
                 -->
                 <input type="text" name="{$this->honeypot_field}" style="display: none; tab-index: -1;">
+
             html
             : '';
+
+        $attributes = '';
+
+        foreach ($this->allowedFormExtraAttributes() as $attribute) {
+            $attributes .= <<<html
+                <input type="hidden" name="attributes[{$attribute}]" value="your-value" />
+
+            html;
+        }
+
+        if ($attributes) {
+            $comment = <<<html
+                <!--
+                    You can add extra attributes that you have allowed in the
+                    onboarding settings of your email list by adding hidden
+                    inputs with the correct attributes[attributeName] name
+                -->
+            html;
+
+            $attributes = "\n\n" . $comment . "\n" . $attributes;
+        }
 
         return <<<html
         <form
             action="{$url}"
             method="post"
         >
-            {$honeyPot}
-
             <input type="email" name="email" placeholder="Your email address" />
-
+            {$honeyPot}
             <!--
                 Optional: include any tags. Create them first on the "Tags" section.
                 And make sure to allow them in the email list settings
             -->
             <input type="hidden" name="tags" value="tag 1;tag 2" />
-
+            {$attributes}
             <input type="submit" value="Subscribe">
         </form>
         html;
