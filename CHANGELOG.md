@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 5.12.0 - 2023-01-09
+
+### What's Changed
+
+- 8.2 support by @riasvdv in https://github.com/spatie/laravel-mailcoach/pull/1205
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/5.11.2...5.12.0
+
 ## 6.8.8 - 2023-01-04
 
 - Fix an issue where setting the segment through an API call would not save correctly
