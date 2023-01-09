@@ -296,7 +296,7 @@ class EmailList extends Model implements HasMedia
         }
 
         if ($attributes) {
-            $comment = <<<html
+            $comment = <<<'html'
                 <!--
                     You can add extra attributes that you have allowed in the
                     onboarding settings of your email list by adding hidden
@@ -304,7 +304,7 @@ class EmailList extends Model implements HasMedia
                 -->
             html;
 
-            $attributes = "\n\n" . $comment . "\n" . $attributes;
+            $attributes = "\n\n".$comment."\n".$attributes;
         }
 
         return <<<html
