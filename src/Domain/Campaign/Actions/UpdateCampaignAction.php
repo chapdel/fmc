@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Domain\Campaign\Actions;
 use Illuminate\Support\Arr;
 use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\EverySubscriberSegment;
+use Spatie\Mailcoach\Domain\Audience\Support\Segments\SubscribersWithTagsSegment;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
@@ -23,13 +24,13 @@ class UpdateCampaignAction
 
         if ($attributes['segment_id'] ?? null) {
             $segment = $attributes['segment_id'] ?? null
-                ? TagSegment::find($attributes['segment_id'])
+                ? self::getTagSegmentClass()::find($attributes['segment_id'])
                 : null;
         }
 
         if ($attributes['segment_uuid'] ?? null) {
             $segment = $attributes['segment_uuid'] ?? null
-                ? TagSegment::findByUuid($attributes['segment_uuid'])
+                ? self::getTagSegmentClass()::findByUuid($attributes['segment_uuid'])
                 : null;
         }
 
@@ -60,11 +61,12 @@ class UpdateCampaignAction
             $campaign->structured_html = $template?->getStructuredHtml();
         }
 
+        /** @var TagSegment $segment */
         if (is_null($segment)) {
             $segmentClass = $attributes['segment_class'] ?? EverySubscriberSegment::class;
             $segmentDescription = (new $segmentClass)->description();
         } else {
-            $segmentClass = $segment::class;
+            $segmentClass = SubscribersWithTagsSegment::class;
             $segmentDescription = $segment->description($campaign);
         }
 
