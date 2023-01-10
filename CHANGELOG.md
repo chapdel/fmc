@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.8.9 - 2023-01-10
+
+- Unsaved changes should trigger on any builder update
+- Delete pending send when the subscriber was deleted
+- Improve reliability of date trigger
+- Add attributes to code snippet
+- Fix segment class when setting a segment through the API
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.8.8...6.8.9
+
 ## 6.8.8 - 2023-01-04
 
 - Fix an issue where setting the segment through an API call would not save correctly
