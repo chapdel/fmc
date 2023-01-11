@@ -51,6 +51,9 @@ class StoreTransactionalMail
             json_encode(['unique_args' => ['send_uuid' => $send->uuid]])
         );
 
+        /** Postmark specific header */
+        $sending->message->getHeaders()->addTextHeader('X-PM-Metadata-send-uuid', $send->uuid);
+
         event(new TransactionalMailStored($transactionalMail, $sending));
     }
 
