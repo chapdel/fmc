@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.8.10 - 2023-01-12
+
+- Add postmark header to transactional sends
+- Optimize the SendAutomationMailAction so it only runs for subscribers that need to be run when there is no next action
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.8.9...6.8.10
+
 ## 6.8.9 - 2023-01-10
 
 - Unsaved changes should trigger on any builder update
