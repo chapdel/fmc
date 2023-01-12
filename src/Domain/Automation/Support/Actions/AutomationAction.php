@@ -85,7 +85,7 @@ abstract class AutomationAction extends AutomationStep
             return [$action->automation->actions->where('order', '>', $action->order)->first()];
         }
 
-        if ($action->key && $nextAction = $action->parent->children->where('key', $action->key)->where('order', '>', $action->order)->first()) {
+        if ($action->key && $nextAction = $action->parent?->children->where('key', $action->key)->where('order', '>', $action->order)->first()) {
             return [$nextAction];
         }
 
