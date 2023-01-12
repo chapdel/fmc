@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Domain\Automation\Actions;
 
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class CreateAutomationAction
