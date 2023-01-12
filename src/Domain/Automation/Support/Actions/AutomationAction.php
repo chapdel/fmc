@@ -76,7 +76,7 @@ abstract class AutomationAction extends AutomationStep
             return [$action->children->first()];
         }
 
-        return $this->getNextActionNested($action);
+        return array_filter($this->getNextActionNested($action));
     }
 
     public function getNextActionNested(Action $action): array

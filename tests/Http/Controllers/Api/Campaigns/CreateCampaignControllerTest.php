@@ -3,6 +3,7 @@
 use Illuminate\Support\Arr;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
+use Spatie\Mailcoach\Domain\Audience\Support\Segments\SubscribersWithTagsSegment;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
@@ -44,7 +45,7 @@ it('can be created with a tagsegment', function () {
 
     $campaign = Campaign::first();
 
-    test()->assertEquals(TagSegment::class, $campaign->segment_class);
+    test()->assertEquals(SubscribersWithTagsSegment::class, $campaign->segment_class);
     test()->assertEquals($tagsegment->id, $campaign->segment_id);
 });
 

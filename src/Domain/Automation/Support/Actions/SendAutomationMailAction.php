@@ -2,7 +2,10 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
 
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Queue\SerializesModels;
+use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum;
@@ -52,5 +55,16 @@ class SendAutomationMailAction extends AutomationAction
     public function run(ActionSubscriber $actionSubscriber): void
     {
         $this->automationMail->send($actionSubscriber);
+    }
+
+    public function getActionSubscribersQuery(Action $action): Builder|\Illuminate\Database\Eloquent\Builder|Relation
+    {
+        $hasNextActions = count($this->nextActionsForAction($action));
+
+        if (! $hasNextActions) {
+            return $action->pendingActionSubscribers()->whereNull('run_at');
+        }
+
+        return $action->pendingActionSubscribers();
     }
 }

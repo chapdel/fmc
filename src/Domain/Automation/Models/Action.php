@@ -61,7 +61,7 @@ class Action extends Model
     {
         return $this->belongsToMany(static::getSubscriberClass(), static::getActionSubscriberTableName())
             ->withPivot(['completed_at', 'halted_at', 'run_at'])
-            ->using($this->getActionSubscriberClass())
+            ->using(self::getActionSubscriberClass())
             ->withTimestamps();
     }
 
