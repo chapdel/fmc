@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Automation\Actions;
 
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class CreateAutomationAction
@@ -11,10 +12,12 @@ class CreateAutomationAction
 
     public function execute(array $attributes): Automation
     {
-        return $this->getAutomationClass()::create([
+        return self::getAutomationClass()::create([
             'name' => $attributes['name'],
             'email_list_id' => $attributes['email_list_id'] ?? null,
             'interval' => '10 minutes',
+        ])->chain([
+            new HaltAction(),
         ]);
     }
 }
