@@ -6,9 +6,12 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Settings\Models\User;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class CreateUserComponent extends Component
 {
+    use UsesMailcoachModels;
+
     public string $email = '';
 
     public string $name = '';
@@ -20,7 +23,8 @@ class CreateUserComponent extends Component
             'name' => 'required|string',
         ]);
 
-        $user = User::create(array_merge($validated, ['password' => bcrypt(Str::random(64))]));
+        /** @var User $user */
+        $user = self::getUserClass()::create(array_merge($validated, ['password' => bcrypt(Str::random(64))]));
 
         $expiresAt = now()->addDay();
 

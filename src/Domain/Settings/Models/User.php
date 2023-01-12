@@ -2,11 +2,13 @@
 
 namespace Spatie\Mailcoach\Domain\Settings\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Mailcoach\Domain\Settings\Notifications\WelcomeNotification;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\WelcomeNotification\ReceivesWelcomeNotification;
 
@@ -48,5 +50,10 @@ class User extends Authenticatable
     public function personalAccessTokens(): MorphMany
     {
         return $this->morphMany(self::getPersonalAccessTokenClass(), 'tokenable');
+    }
+
+    public function sendWelcomeNotification(Carbon $validUntil)
+    {
+        $this->notify(new WelcomeNotification($validUntil));
     }
 }
