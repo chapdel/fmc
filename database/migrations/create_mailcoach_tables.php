@@ -404,7 +404,7 @@ return new class extends Migration
                 ->foreignId('email_list_id')
                 ->nullable()
                 ->constrained('mailcoach_email_lists')
-                ->nullOnDelete();
+                ->cascadeOnDelete();
 
             $table->boolean('subscribe_unsubscribed')->default(false);
             $table->boolean('unsubscribe_others')->default(false);
@@ -425,7 +425,7 @@ return new class extends Migration
                 ->foreignId('email_list_id')
                 ->nullable()
                 ->constrained('mailcoach_email_lists')
-                ->nullOnDelete();
+                ->cascadeOnDelete();
 
             $table->timestamps();
         });
@@ -437,13 +437,13 @@ return new class extends Migration
                 ->foreignId('subscriber_id')
                 ->nullable()
                 ->constrained('mailcoach_subscribers')
-                ->nullOnDelete();
+                ->cascadeOnDelete();
 
             $table
                 ->foreignId('tag_id')
                 ->nullable()
                 ->constrained('mailcoach_tags')
-                ->nullOnDelete();
+                ->cascadeOnDelete();
 
             $table->index(['subscriber_id', 'tag_id'], 'subscriber_id_tag_id_index');
         });
@@ -456,14 +456,14 @@ return new class extends Migration
                 ->nullable()
                 ->constrained('mailcoach_email_lists')
                 ->index('tags_email_list_id')
-                ->nullOnDelete();
+                ->cascadeOnDelete();
 
             $table
                 ->foreignId('tag_id')
                 ->nullable()
                 ->constrained('mailcoach_tags')
                 ->index('tags_tag_id')
-                ->nullOnDelete();
+                ->cascadeOnDelete();
         });
 
         Schema::create('mailcoach_positive_segment_tags', function (Blueprint $table) {
@@ -473,13 +473,13 @@ return new class extends Migration
                 ->foreignId('segment_id')
                 ->nullable()
                 ->constrained('mailcoach_segments')
-                ->nullOnDelete();
+                ->cascadeOnDelete();
 
             $table
                 ->foreignId('tag_id')
                 ->nullable()
                 ->constrained('mailcoach_tags')
-                ->nullOnDelete();
+                ->cascadeOnDelete();
         });
 
         Schema::create('mailcoach_negative_segment_tags', function (Blueprint $table) {
@@ -489,13 +489,13 @@ return new class extends Migration
                 ->foreignId('segment_id')
                 ->nullable()
                 ->constrained('mailcoach_segments')
-                ->nullOnDelete();
+                ->cascadeOnDelete();
 
             $table
                 ->foreignId('tag_id')
                 ->nullable()
                 ->constrained('mailcoach_tags')
-                ->nullOnDelete();
+                ->cascadeOnDelete();
         });
 
         Schema::create('mailcoach_automations', function (Blueprint $table) {
