@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.8.11 - 2023-01-12
+
+- Fix the welcome notification using the wrong route parameter
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.8.10...6.8.11
+
 ## 6.8.10 - 2023-01-12
 
 - Add postmark header to transactional sends
