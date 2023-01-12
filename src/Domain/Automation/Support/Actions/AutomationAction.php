@@ -81,11 +81,11 @@ abstract class AutomationAction extends AutomationStep
 
     public function getNextActionNested(Action $action): array
     {
-        if (! $action->parent_id) {
+        if (! $action->parent) {
             return [$action->automation->actions->where('order', '>', $action->order)->first()];
         }
 
-        if ($action->key && $nextAction = $action->parent?->children->where('key', $action->key)->where('order', '>', $action->order)->first()) {
+        if ($action->key && $nextAction = $action->parent->children->where('key', $action->key)->where('order', '>', $action->order)->first()) {
             return [$nextAction];
         }
 
