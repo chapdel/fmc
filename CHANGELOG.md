@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.9.0 - 2023-01-16
+
+- Don't throw or prevent sending on invalid HTML - but show warnings instead
+- Return fields in template API endpoint
+- Update migrations to use cascading deletes instead of set null
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.8.11...6.9.0
+
 ## 6.8.11 - 2023-01-12
 
 - Fix the welcome notification using the wrong route parameter
