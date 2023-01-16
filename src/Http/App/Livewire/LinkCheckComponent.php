@@ -39,8 +39,8 @@ class LinkCheckComponent extends Component
         $this->url = app(StripUtmTagsFromUrlAction::class)->execute($this->url);
 
         return <<<'blade'
-            <span class="flex items-center gap-x-1" wire:init="check">
-                <span class="inline-flex w-4">
+            <span class="flex items-center" wire:init="check">
+                <span class="inline-flex w-4 mr-1">
                     @if (!is_null($status))
                         <x-mailcoach::health-label title="{{ $error }}" class="-ml-2" reverse warning :test="$status" />
                     @else

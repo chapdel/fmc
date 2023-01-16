@@ -125,34 +125,33 @@
 
 
         <dd class="grid gap-4 max-w-full overflow-scroll">
-            @if($campaign->html && $campaign->hasValidHtml())
-                @if ($campaign->htmlContainsUnsubscribeUrlPlaceHolder() && $campaign->sizeInKb() < 102)
-                    <p class="markup-code">
-                        {{ __mc('No problems detected!') }}
-                    </p>
-                @else
-                    @if (! $campaign->htmlContainsUnsubscribeUrlPlaceHolder())
-                        <p class="markup-code">
-                            {{ __mc("Without a way to unsubscribe, there's a high chance that your subscribers will complain.") }}
-                            {!! __mc('Consider adding the <code>::unsubscribeUrl::</code> placeholder.') !!}
-                        </p>
-                    @endif
-                    @if ($campaign->sizeInKb() >= 102)
-                        <p class="markup-code">
-                            {{ __mc("Your email's content size is larger than 102kb (:size). This could cause Gmail to clip your campaign.", ['size' => "{$campaign->sizeInKb()}kb"]) }}
-                        </p>
-                    @endif
-                @endif
-            @else
-                @if(empty($campaign->html))
-                    {{ __mc('Content is missing') }}
-                @else
+            @if($campaign->html)
+                @if (! $campaign->hasValidHtml())
                     <p>{{ __mc('HTML is invalid') }}</p>
                     <p>{!! $campaign->htmlError() !!}</p>
                 @endif
+                @if (! $campaign->htmlContainsUnsubscribeUrlPlaceHolder())
+                    <p class="markup-code">
+                        {{ __mc("Without a way to unsubscribe, there's a high chance that your subscribers will complain.") }}
+                        {!! __mc('Consider adding the <code>::unsubscribeUrl::</code> placeholder.') !!}
+                    </p>
+                @endif
+                @if ($campaign->sizeInKb() >= 102)
+                    <p class="markup-code">
+                        {{ __mc("Your email's content size is larger than 102kb (:size). This could cause Gmail to clip your campaign.", ['size' => "{$campaign->sizeInKb()}kb"]) }}
+                    </p>
+                @endif
+
+                @if ($campaign->hasValidHtml() && $campaign->htmlContainsUnsubscribeUrlPlaceHolder() && $campaign->sizeInKb() < 102)
+                    <p class="markup-code">
+                        {{ __mc('No problems detected!') }}
+                    </p>
+                @endif
+            @else
+                {{ __mc('Content is missing') }}
             @endif
 
-            @if($campaign->html && $campaign->hasValidHtml())
+            @if($campaign->html)
                 <div>
                     <x-mailcoach::button-secondary x-on:click="$store.modals.open('preview')" :label="__mc('Preview')"/>
                     @if ($campaign->getMailerKey())
@@ -391,6 +390,12 @@
                 @endif
 
                 @if ($campaign->isEditable())
+                    @if (! $campaign->hasValidHtml())
+                        <x-mailcoach::error>
+                            {!! __mc('Your campaign HTML is invalid according to <a href=":url" target="_blank">the guidelines</a>, please make sure it displays correctly in the email clients you need.', ['url' => 'https://www.caniemail.com/']) !!}
+                        </x-mailcoach::error>
+                    @endif
+
                     <div
                         x-show="schedule === 'now'"
                     >

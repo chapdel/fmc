@@ -350,20 +350,6 @@ it('will prepare the webview', function () {
     test()->assertMatchesHtmlSnapshot(test()->campaign->refresh()->webview_html);
 });
 
-it('will not send invalid html', function () {
-    Event::fake();
-    Mail::fake();
-
-    test()->campaign->update([
-        'html' => '<qsdfqlsmdkjm><<>><<',
-    ]);
-
-    test()->expectException(CouldNotSendCampaign::class);
-
-    test()->campaign->send();
-    runAction();
-});
-
 test('regular placeholders in the subject will be replaced', function () {
     Mail::fake();
 

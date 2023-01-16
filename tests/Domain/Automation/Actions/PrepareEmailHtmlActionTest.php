@@ -5,20 +5,6 @@ use Spatie\Mailcoach\Domain\Automation\Exceptions\CouldNotSendAutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use function Spatie\Snapshots\assertMatchesHtmlSnapshot;
 
-it('throws on invalid html', function () {
-    $myHtml = '<h1>Hello<html><p>Hello world</p>';
-
-    $campaign = AutomationMail::factory()->create([
-        'html' => $myHtml,
-    ]);
-
-    test()->expectException(CouldNotSendAutomationMail::class);
-
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
-
-    $campaign->refresh();
-});
-
 it('will automatically add html tags', function () {
     $myHtml = '<h1>Hello</h1><p>Hello world</p>';
 

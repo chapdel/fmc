@@ -208,10 +208,6 @@ class Campaign extends Sendable implements Feedable
             return false;
         }
 
-        if (! $this->hasValidHtml()) {
-            return false;
-        }
-
         if (! $this->subject) {
             return false;
         }

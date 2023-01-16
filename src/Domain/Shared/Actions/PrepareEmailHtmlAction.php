@@ -20,8 +20,6 @@ class PrepareEmailHtmlAction
 
     public function execute(Sendable $sendable): void
     {
-        $this->ensureValidHtml($sendable);
-
         $sendable->email_html = $sendable->htmlWithInlinedCss();
 
         if ($sendable->utm_tags) {
@@ -31,24 +29,5 @@ class PrepareEmailHtmlAction
         $sendable->email_html = mb_convert_encoding($sendable->email_html, 'UTF-8');
 
         $sendable->save();
-    }
-
-    protected function ensureValidHtml(Sendable $sendable)
-    {
-        try {
-            $this->createDomDocumentFromHtmlAction->execute($sendable->html, false);
-
-            return true;
-        } catch (Throwable $exception) {
-            if ($sendable instanceof Campaign) {
-                throw CouldNotSendCampaign::invalidContent($sendable, $exception);
-            }
-
-            if ($sendable instanceof AutomationMail) {
-                throw CouldNotSendAutomationMail::invalidContent($sendable, $exception);
-            }
-
-            throw $exception;
-        }
     }
 }

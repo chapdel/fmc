@@ -37,9 +37,13 @@
                             </p>
                         </div>
                     </x-mailcoach::success>
+                @elseif (! $mail->hasValidHtml())
+                    <x-mailcoach::error>
+                        {!! __mc('Your campaign HTML is invalid according to <a href=":url" target="_blank">the guidelines</a>, please make sure it displays correctly in the email clients you need.', ['url' => 'https://www.caniemail.com/']) !!}
+                    </x-mailcoach::error>
                 @else
                     <x-mailcoach::success>
-                        {!! __mc('Automation mail <strong>:mail</strong> is ready to be sent.', ['mail' => $mail->name]) !!}
+                        {!! __mc('Automation mail <strong>:automationMail</strong> is ready to be sent.', ['automationMail' => $mail->name]) !!}
                     </x-mailcoach::success>
                 @endif
             @endif

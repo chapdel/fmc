@@ -80,10 +80,6 @@ class AutomationMail extends Sendable
             return false;
         }
 
-        if (! $this->hasValidHtml()) {
-            return false;
-        }
-
         if (! $this->subject) {
             return false;
         }

@@ -160,19 +160,6 @@ it('will prepare the webview', function () {
     assertMatchesHtmlSnapshot(test()->automationMail->refresh()->webview_html);
 });
 
-it('will not send invalid html', function () {
-    Event::fake();
-    Mail::fake();
-
-    test()->automationMail->update([
-        'html' => '<qsdfqlsmdkjm><<>><<',
-    ]);
-
-    test()->expectException(CouldNotSendAutomationMail::class);
-
-    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->actionSubscriber));
-});
-
 test('the queue of the send automation mail job can be configured', function () {
     Event::fake();
     Mail::fake();

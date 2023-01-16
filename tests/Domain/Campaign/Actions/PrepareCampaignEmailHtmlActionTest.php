@@ -5,20 +5,6 @@ use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use function Spatie\Snapshots\assertMatchesHtmlSnapshot;
 
-it('throws on invalid html', function () {
-    $myHtml = '<h1>Hello<html><p>Hello world</p>';
-
-    $campaign = Campaign::factory()->create([
-        'html' => $myHtml,
-    ]);
-
-    test()->expectException(CouldNotSendCampaign::class);
-
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
-
-    $campaign->refresh();
-});
-
 it('will automatically add html tags', function () {
     $myHtml = '<h1>Hello</h1><p>Hello world</p>';
 
