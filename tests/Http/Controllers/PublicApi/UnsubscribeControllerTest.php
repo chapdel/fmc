@@ -1,7 +1,6 @@
 <?php
 
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Http\Front\Controllers\UnsubscribeController;
 
 beforeEach(function () {
