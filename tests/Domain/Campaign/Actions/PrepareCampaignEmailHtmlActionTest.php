@@ -1,7 +1,6 @@
 <?php
 
 use Spatie\Mailcoach\Domain\Campaign\Actions\PrepareEmailHtmlAction;
-use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use function Spatie\Snapshots\assertMatchesHtmlSnapshot;
 

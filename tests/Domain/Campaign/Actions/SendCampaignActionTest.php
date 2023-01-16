@@ -13,7 +13,6 @@ use Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignAction;
 use Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignMailsAction;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
-use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\CreateCampaignSendJob;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;

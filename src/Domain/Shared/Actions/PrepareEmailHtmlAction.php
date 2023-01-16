@@ -2,13 +2,8 @@
 
 namespace Spatie\Mailcoach\Domain\Shared\Actions;
 
-use Spatie\Mailcoach\Domain\Automation\Exceptions\CouldNotSendAutomationMail;
-use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Campaign\Actions\AddUtmTagsToHtmlAction;
-use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
-use Throwable;
 
 class PrepareEmailHtmlAction
 {

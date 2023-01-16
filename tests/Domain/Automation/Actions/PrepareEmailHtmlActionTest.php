@@ -1,7 +1,6 @@
 <?php
 
 use Spatie\Mailcoach\Domain\Automation\Actions\PrepareEmailHtmlAction;
-use Spatie\Mailcoach\Domain\Automation\Exceptions\CouldNotSendAutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use function Spatie\Snapshots\assertMatchesHtmlSnapshot;
 
