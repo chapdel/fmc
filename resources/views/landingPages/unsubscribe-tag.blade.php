@@ -11,10 +11,4 @@
             <button class="button bg-red-400 shadow" id="confirmationButton" type="submit">{{__mc('Unsubscribe') }}</button>
         </form>
     </div>
-
-    @if (is_null($send) || $send->created_at->isBefore(now()->subMinutes(5)))
-        <script>
-            document.getElementById("confirmationButton").click();
-        </script>
-    @endif
 @endsection
