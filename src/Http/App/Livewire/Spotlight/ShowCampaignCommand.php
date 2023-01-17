@@ -48,7 +48,7 @@ class ShowCampaignCommand extends SpotlightCommand
                 return new SpotlightSearchResult(
                     $campaign->id,
                     $campaign->name,
-                    "{$emailList} - {$campaign->status}"
+                    "{$emailList} - {$campaign->status->value}"
                 );
             });
     }
