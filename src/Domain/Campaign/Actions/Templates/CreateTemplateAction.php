@@ -32,8 +32,6 @@ class CreateTemplateAction
                 <div style="text-align: center;">
                     <a href="::webviewUrl::">Online version</a>
                     •
-                    <a href="::preferencesUrl::">My preferences</a>
-                    •
                     <a href="::unsubscribeUrl::">Unsubscribe</a>
                 </div>
             </body>
