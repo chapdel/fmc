@@ -29,6 +29,16 @@
         ]"
     />
 
+    @if ($type === 'html' && count($templateOptions) > 1)
+        <x-mailcoach::select-field
+            :label="__mc('Template')"
+            :options="$templateOptions"
+            wire:model.lazy="template_id"
+            position="top"
+            name="template_id"
+        />
+    @endif
+
     <x-mailcoach::form-buttons>
         <x-mailcoach::button :label="__mc('Create email')" />
         <x-mailcoach::button-cancel x-on:click="$store.modals.close('create-transactional-template')" />
