@@ -2,6 +2,8 @@
 
 namespace Spatie\Mailcoach\Domain\Shared\Support;
 
+use Spatie\Mailcoach\Domain\Shared\Actions\RenderTwigAction;
+
 class TemplateRenderer
 {
     public function __construct(protected string $html)
@@ -50,7 +52,7 @@ class TemplateRenderer
                 return $html['html'] ?? '';
             }
 
-            return $html;
+            return app(RenderTwigAction::class)->execute($html);
         }
 
         foreach ($this->fields() as $field) {
@@ -72,6 +74,6 @@ class TemplateRenderer
             );
         }
 
-        return $html;
+        return app(RenderTwigAction::class)->execute($html, $values);
     }
 }
