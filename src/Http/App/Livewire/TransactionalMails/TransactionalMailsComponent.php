@@ -18,7 +18,9 @@ class TransactionalMailsComponent extends DataTableComponent
         $this->authorize('create', self::getTransactionalMailClass());
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Template $duplicateTemplate */
-        $duplicateTemplate = $template->replicate()->save();
+        $duplicateTemplate = $template->replicate();
+        $duplicateTemplate->name .= '-copy';
+        $duplicateTemplate->save();
 
         flash()->success(__mc('Email :name was duplicated.', ['name' => $template->name]));
 
