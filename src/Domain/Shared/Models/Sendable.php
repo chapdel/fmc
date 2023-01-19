@@ -287,7 +287,7 @@ abstract class Sendable extends Model implements HasHtmlContent
             ->map(function (DOMElement $link) {
                 return $link->getAttribute('href');
             })->reject(function (string $url) {
-                return str_contains($url, '::');
+                return str_contains($url, '::') || str_contains($url, '{{');
             })
             ->reject(fn (string $url) => empty($url))
             ->unique();
