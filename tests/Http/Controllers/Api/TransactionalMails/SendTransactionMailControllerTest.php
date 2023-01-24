@@ -163,6 +163,53 @@ it('can render twig', function () {
         ->toBe('Hi!');
 });
 
+it('can render twig inside the template', function () {
+    /** TransactionalMail */
+    TransactionalMailModel::factory()->create([
+        'type' => 'html',
+        'body' => '<html>{% if myTitle %} {{ myTitle }} {% endif %}</html>',
+        'name' => 'my-template-with-placeholders',
+    ]);
+
+    $this
+        ->postJson(action(SendTransactionalMailController::class, [
+            'mail_name' => 'my-template-with-placeholders',
+            'subject' => 'Some subject',
+            'from' => 'rias@spatie.be',
+            'to' => 'freek@spatie.be',
+            'replacements' => [
+                'myTitle' => 'replaced title',
+            ],
+        ]))
+        ->assertSuccessful();
+
+    expect(TransactionalMailLogItem::first()->body)
+        ->toContain('replaced title');
+});
+
+it('can render twig inside the template with if tags', function () {
+    /** TransactionalMail */
+    TransactionalMailModel::factory()->create([
+        'type' => 'html',
+        'body' => '<html>{% if myTitle %} {{ myTitle }} {% endif %}</html>',
+        'name' => 'my-template-with-placeholders',
+    ]);
+
+    $this
+        ->postJson(action(SendTransactionalMailController::class, [
+            'mail_name' => 'my-template-with-placeholders',
+            'subject' => 'Some subject',
+            'from' => 'rias@spatie.be',
+            'to' => 'freek@spatie.be',
+            'replacements' => [
+            ],
+        ]))
+        ->assertSuccessful();
+
+    expect(TransactionalMailLogItem::first()->body)
+        ->toBe("<html></html>\n");
+});
+
 it('can accept attachments', function () {
     $this->originalMailer = Mail::getFacadeRoot();
 
