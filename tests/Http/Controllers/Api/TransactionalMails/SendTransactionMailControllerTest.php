@@ -30,7 +30,6 @@ it('can send a transactional mail', function () {
     $this
         ->postJson(action(SendTransactionalMailController::class, [
             'mail_name' => 'my-template',
-            'subject' => 'Some subject',
             'from' => 'rias@spatie.be',
             'to' => 'freek@spatie.be',
             'cc' => 'rias+cc@spatie.be',
@@ -41,7 +40,6 @@ it('can send a transactional mail', function () {
     Mail::assertSent(TransactionalMail::class, function (TransactionalMail $mail) {
         $mail->build();
 
-        expect($mail->subject)->toBe('Some subject');
         expect($mail->from)->toBe([['name' => '', 'address' => 'rias@spatie.be']]);
         expect($mail->to)->toContain(['name' => '', 'address' => 'freek@spatie.be']);
         expect($mail->cc)->toContain(['name' => '', 'address' => 'rias+cc@spatie.be']);
@@ -110,6 +108,7 @@ it('can handle the fields of a transactional mail', function () {
         'template_id' => $template->id,
         'name' => 'my-template-with-placeholders',
         'body' => '<html>title: ::myTitle::</html>',
+        'subject' => '{{ greeting }}',
     ]);
 
     $this
@@ -120,12 +119,15 @@ it('can handle the fields of a transactional mail', function () {
             'to' => 'freek@spatie.be',
             'replacements' => [
                 'myTitle' => 'replaced title',
+                'greeting' => 'Hi!',
             ],
         ]))
         ->assertSuccessful();
 
     expect(TransactionalMailLogItem::first()->body)
         ->toContain('title: replaced title');
+    expect(TransactionalMailLogItem::first()->subject)
+        ->toBe('Hi!');
 });
 
 it('can accept attachments', function () {

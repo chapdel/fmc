@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns;
 
 use Illuminate\Mail\Mailable;
+use Spatie\Mailcoach\Domain\Shared\Actions\RenderTwigAction;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Exceptions\CouldNotFindTemplate;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
@@ -63,11 +64,13 @@ trait UsesMailcoachTemplate
 
     protected function setSubject(TransactionalMail $template, array $replacements): void
     {
-        $subject = $this->subject ?: $template->subject;
+        $subject = $template->subject;
 
         foreach ($replacements as $search => $replace) {
             $subject = str_replace("::{$search}::", $replace, $subject);
         }
+
+        $subject = app(RenderTwigAction::class)->execute($subject, array_merge($replacements, $template->replacers()->toArray()));
 
         $this->subject($this->executeReplacers($subject, $template, $this));
     }
