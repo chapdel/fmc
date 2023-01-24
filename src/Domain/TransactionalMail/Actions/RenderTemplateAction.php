@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\File;
 use Illuminate\View\Factory;
 use Spatie\Mailcoach\Domain\Shared\Actions\RenderMarkdownToHtmlAction;
+use Spatie\Mailcoach\Domain\Shared\Actions\RenderTwigAction;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 
@@ -25,6 +26,14 @@ class RenderTemplateAction
         $body = $this->handleReplacements($body, $replacements);
 
         $body = $this->executeReplacers($body, $template, $mailable);
+
+        if ($template->type === 'html') {
+            try {
+                $body = app(RenderTwigAction::class)->execute($body, $replacements);
+            } catch (\Throwable) {
+                // Do nothing, Twig failed
+            }
+        }
 
         return $body;
     }

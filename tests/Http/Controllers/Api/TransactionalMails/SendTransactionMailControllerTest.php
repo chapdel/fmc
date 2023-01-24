@@ -130,6 +130,39 @@ it('can handle the fields of a transactional mail', function () {
         ->toBe('Hi!');
 });
 
+it('can render twig', function () {
+    $template = Template::factory()->create([
+        'html' => '<html>title: [[[title]]], body: [[[body]]]</html>',
+    ]);
+
+    /** TransactionalMail */
+    TransactionalMailModel::factory()->create([
+        'template_id' => $template->id,
+        'type' => 'html',
+        'name' => 'my-template-with-placeholders',
+        'body' => '<html>title: {{ myTitle }}</html>',
+        'subject' => '{{ greeting }}',
+    ]);
+
+    $this
+        ->postJson(action(SendTransactionalMailController::class, [
+            'mail_name' => 'my-template-with-placeholders',
+            'subject' => 'Some subject',
+            'from' => 'rias@spatie.be',
+            'to' => 'freek@spatie.be',
+            'replacements' => [
+                'myTitle' => 'replaced title',
+                'greeting' => 'Hi!',
+            ],
+        ]))
+        ->assertSuccessful();
+
+    expect(TransactionalMailLogItem::first()->body)
+        ->toContain('title: replaced title');
+    expect(TransactionalMailLogItem::first()->subject)
+        ->toBe('Hi!');
+});
+
 it('can accept attachments', function () {
     $this->originalMailer = Mail::getFacadeRoot();
 
