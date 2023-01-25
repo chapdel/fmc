@@ -2,8 +2,11 @@
 
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Audience\Events\SubscribedEvent;
+use Spatie\Mailcoach\Domain\Audience\Events\TagAddedEvent;
+use Spatie\Mailcoach\Domain\Audience\Events\TagRemovedEvent;
 use Spatie\Mailcoach\Domain\Audience\Events\UnconfirmedSubscriberCreatedEvent;
 use Spatie\Mailcoach\Domain\Audience\Events\UnsubscribedEvent;
+use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
@@ -40,6 +43,22 @@ it('will send a webhook when a campaign is sent', function () {
     $campaign = Campaign::factory()->create();
 
     event(new CampaignSentEvent($campaign));
+
+    Queue::assertPushed(CallWebhookJob::class);
+});
+
+it('will send a webhook when a tag is added to a subscriber', function () {
+    $tag = Tag::factory()->create();
+
+    event(new TagAddedEvent($this->subscriber, $tag));
+
+    Queue::assertPushed(CallWebhookJob::class);
+});
+
+it('will send a webhook when a tag is removed from a subscriber', function () {
+    $tag = Tag::factory()->create();
+
+    event(new TagRemovedEvent($this->subscriber, $tag));
 
     Queue::assertPushed(CallWebhookJob::class);
 });

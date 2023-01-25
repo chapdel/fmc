@@ -2,8 +2,11 @@
 
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Audience\Events\SubscribedEvent;
+use Spatie\Mailcoach\Domain\Audience\Events\TagAddedEvent;
+use Spatie\Mailcoach\Domain\Audience\Events\TagRemovedEvent;
 use Spatie\Mailcoach\Domain\Audience\Events\UnsubscribedEvent;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Settings\Actions\SendWebhookAction;
@@ -75,6 +78,34 @@ it('will send a webhook when a campaign is sent', function () {
 
     Queue::assertPushed(CallWebhookJob::class, function (CallWebhookJob $event) {
         expect($event->payload['event'])->toBe('CampaignSentEvent');
+        expect($event->webhookUrl)->toBe($this->subscriber->emailList->webhookConfigurations()->first()->url);
+
+        return true;
+    });
+});
+
+it('will send a webhook when a tag is added to a subscriber', function () {
+    $tag = Tag::factory()->create();
+
+    event(new TagAddedEvent($this->subscriber, $tag));
+
+    Queue::assertPushed(CallWebhookJob::class, function (CallWebhookJob $event) use ($tag) {
+        expect($event->payload['event'])->toBe('TagAddedEvent');
+        expect($event->payload['added_tag'])->toBe($tag->name);
+        expect($event->webhookUrl)->toBe($this->subscriber->emailList->webhookConfigurations()->first()->url);
+
+        return true;
+    });
+});
+
+it('will send a webhook when a tag is removed from a subscriber', function () {
+    $tag = Tag::factory()->create();
+
+    event(new TagRemovedEvent($this->subscriber, $tag));
+
+    Queue::assertPushed(CallWebhookJob::class, function (CallWebhookJob $event) use ($tag) {
+        expect($event->payload['event'])->toBe('TagRemovedEvent');
+        expect($event->payload['removed_tag'])->toBe($tag->name);
         expect($event->webhookUrl)->toBe($this->subscriber->emailList->webhookConfigurations()->first()->url);
 
         return true;

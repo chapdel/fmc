@@ -3,6 +3,8 @@
 namespace Spatie\Mailcoach\Domain\Settings\EventSubscribers;
 
 use Spatie\Mailcoach\Domain\Audience\Events\SubscribedEvent;
+use Spatie\Mailcoach\Domain\Audience\Events\TagAddedEvent;
+use Spatie\Mailcoach\Domain\Audience\Events\TagRemovedEvent;
 use Spatie\Mailcoach\Domain\Audience\Events\UnconfirmedSubscriberCreatedEvent;
 use Spatie\Mailcoach\Domain\Audience\Events\UnsubscribedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
@@ -20,6 +22,8 @@ class WebhookEventSubscriber
             UnconfirmedSubscriberCreatedEvent::class => 'handleUnconfirmedSubscriberCreatedEvent',
             UnsubscribedEvent::class => 'handleUnsubscribedEvent',
             CampaignSentEvent::class => 'handleCampaignSent',
+            TagAddedEvent::class => 'handleTagAddedEvent',
+            TagRemovedEvent::class => 'handleTagRemovedEvent',
         ];
     }
 
@@ -58,6 +62,32 @@ class WebhookEventSubscriber
         $emailList = $event->campaign->emailList;
 
         $payload = CampaignResource::make($event->campaign)->toArray(request());
+
+        $this->sendWebhookAction()->execute($emailList, $payload, $event);
+    }
+    
+    public function handleTagAddedEvent(TagAddedEvent $event)
+    {
+        $emailList = $event->subscriber->emailList;
+        $tag = $event->tag;
+
+        $payload = array_merge(
+            SubscriberResource::make($event->subscriber)->toArray(request()),
+            ['added_tag' => $tag->name]
+        );
+
+        $this->sendWebhookAction()->execute($emailList, $payload, $event);
+    }
+
+    public function handleTagRemovedEvent(TagRemovedEvent $event)
+    {
+        $emailList = $event->subscriber->emailList;
+        $tag = $event->tag;
+
+        $payload = array_merge(
+            SubscriberResource::make($event->subscriber)->toArray(request()),
+            ['removed_tag' => $tag->name]
+        );
 
         $this->sendWebhookAction()->execute($emailList, $payload, $event);
     }
