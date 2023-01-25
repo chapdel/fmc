@@ -65,7 +65,7 @@ class WebhookEventSubscriber
 
         $this->sendWebhookAction()->execute($emailList, $payload, $event);
     }
-    
+
     public function handleTagAddedEvent(TagAddedEvent $event)
     {
         $emailList = $event->subscriber->emailList;
