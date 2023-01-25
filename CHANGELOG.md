@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.10.1 - 2023-01-25
+
+- Campaign Jobs should not be unique for only 45 seconds
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.10.0...6.10.1
+
 ## 6.10.0 - 2023-01-25
 
 ### What's Changed
