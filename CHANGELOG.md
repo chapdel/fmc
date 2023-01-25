@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.10.0 - 2023-01-25
+
+### What's Changed
+
+- Add TagAddedEvent & TagRemovedEvent to webhook by @AlexisSerneels in https://github.com/spatie/laravel-mailcoach/pull/1227
+- Don't automatically submit the unsubscribe form anymore
+- Render Twig for transactional emails
+- Fix an issue where duplicating a transactional email would have the same name
+
+### New Contributors
+
+- @AlexisSerneels made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/1227
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.9.0...6.10.0
+
 ## 6.9.0 - 2023-01-16
 
 - Don't throw or prevent sending on invalid HTML - but show warnings instead
