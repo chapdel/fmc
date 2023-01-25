@@ -32,7 +32,7 @@ class SendCampaignMailJob implements ShouldQueue, ShouldBeUnique
     /** @var string */
     public $queue;
 
-    public $uniqueFor = 45;
+    public $uniqueFor = 10800; // 3 hours
 
     public function uniqueId(): string
     {

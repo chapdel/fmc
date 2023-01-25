@@ -28,7 +28,7 @@ class CreateCampaignSendJob implements ShouldQueue, ShouldBeUnique
 
     public $tries = 1;
 
-    public $uniqueFor = 45;
+    public $uniqueFor = 10800; // 3 hours
 
     /** @var string */
     public $queue;
