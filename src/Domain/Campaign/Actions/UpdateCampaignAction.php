@@ -59,6 +59,10 @@ class UpdateCampaignAction
             $html = $templateRenderer->render($fieldValues);
         } elseif ($template && $template->exists) {
             $campaign->structured_html = $template?->getStructuredHtml();
+        } else {
+            $campaign->setTemplateFieldValues([
+                'html' => $html,
+            ]);
         }
 
         /** @var TagSegment $segment */
