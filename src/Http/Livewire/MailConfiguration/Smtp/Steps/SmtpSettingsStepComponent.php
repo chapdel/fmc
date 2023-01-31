@@ -15,17 +15,17 @@ class SmtpSettingsStepComponent extends StepComponent
 
     public ?int $port;
 
-    public string $username = '';
+    public ?string $username = '';
 
-    public string $password = '';
+    public ?string $password = '';
 
     public string $encryption = '';
 
     public $rules = [
         'host' => 'required',
         'port' => 'required',
-        'username' => 'required',
-        'password' => 'required',
+        'username' => ['nullable', 'string'],
+        'password' => ['nullable', 'string'],
         'encryption' => '',
     ];
 
