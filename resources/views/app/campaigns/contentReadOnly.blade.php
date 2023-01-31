@@ -10,6 +10,10 @@
         </ul>
     </nav>
 
+    <x-mailcoach::card>
+        <x-mailcoach::text-field :label="__mc('Subject')" name="subject" :value="$campaign->subject" :disabled="true" />
+    </x-mailcoach::card>
+
     <x-mailcoach::card x-show="show === 'content'">
         <x-mailcoach::web-view src="{{ $campaign->webviewUrl() }}"/>
     </x-mailcoach::card>
