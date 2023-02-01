@@ -19,7 +19,10 @@ class SendTransactionalMailController
 
     public function __invoke(SendTransactionalMailRequest $request)
     {
-        $this->authorize('send', [static::getSendClass(), $request->getFromEmail()]);
+        $this->authorize(
+            'send',
+            [static::getSendClass(), $request->getFromEmail(), $request->getToEmails()],
+        );
 
         $normalizer = new AddressNormalizer();
 

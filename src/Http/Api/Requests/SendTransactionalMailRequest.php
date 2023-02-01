@@ -8,6 +8,7 @@ use Spatie\Mailcoach\Domain\Settings\Rules\MailerConfigKeyNameRule;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Support\AddressNormalizer;
 use Spatie\ValidationRules\Rules\Delimited;
+use Symfony\Component\Mime\Address;
 
 class SendTransactionalMailRequest extends FormRequest
 {
@@ -63,5 +64,12 @@ class SendTransactionalMailRequest extends FormRequest
         }
 
         return $address->getAddress();
+    }
+
+    public function getToEmails(): array
+    {
+        $addresses = (new AddressNormalizer())->normalize($this->to);
+
+        return array_map(fn (Address $address) => $address->getAddress(), $addresses);
     }
 }
