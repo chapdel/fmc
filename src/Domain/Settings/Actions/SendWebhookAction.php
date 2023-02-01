@@ -29,6 +29,7 @@ class SendWebhookAction
             ->url($webhookConfiguration->url)
             ->payload($payload)
             ->useSecret($webhookConfiguration->secret)
+            ->throwExceptionOnFailure()
             ->dispatch();
     }
 }
