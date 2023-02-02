@@ -1,5 +1,5 @@
 <x-mailcoach::info>
-    {!! __mc('The Markdown editor uses <a href=":link">EasyMDE</a> under the hood. It also offers image uploads.', ['link' => 'https://easy-markdown-editor.tk']) !!}
+    {!! __mc('The Markdown editor uses <a href=":link">EasyMDE</a> under the hood. It also offers image uploads.', ['link' => 'https://github.com/Ionaru/easy-markdown-editor']) !!}
 </x-mailcoach::info>
 
 <x-mailcoach::warning>
