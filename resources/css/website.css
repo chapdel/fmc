@@ -74,9 +74,9 @@ i {
     margin: 0 auto;
 }
 
-.header img {
-    max-width: 8rem;
-    max-height: 8rem;
+.header-image {
+    max-height: 10rem;
+    max-width: 100%;
     margin-bottom: 1rem;
 }
 
@@ -98,8 +98,12 @@ i {
     }
 }
 
-.header p {
+.header-intro p {
     margin-bottom: 0.5rem;
+}
+
+.header-intro img {
+    max-height: none;
 }
 
 .header form {
@@ -238,6 +242,10 @@ i {
 
 .webview {
     overflow: scroll;
+}
+
+.webview-padded {
+    padding: 0 calc(var(--padding) / 2);
 }
 
 .footer {
