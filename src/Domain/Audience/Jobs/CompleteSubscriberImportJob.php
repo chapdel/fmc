@@ -32,6 +32,7 @@ class CompleteSubscriberImportJob implements ShouldQueue
         private SubscriberImport $subscriberImport,
         private int $totalRows,
         private ?User $user,
+        private bool $sendNotification = true,
     ) {
     }
 
@@ -55,13 +56,15 @@ class CompleteSubscriberImportJob implements ShouldQueue
             return;
         }
 
-        try {
-            Mail::mailer(Mailcoach::defaultTransactionalMailer())
-                ->to($this->user->email)->send(new ImportSubscribersResultMail($this->subscriberImport));
-        } catch (Throwable $e) {
-            report($e);
+        if ($this->sendNotification) {
+            try {
+                Mail::mailer(Mailcoach::defaultTransactionalMailer())
+                    ->to($this->user->email)->send(new ImportSubscribersResultMail($this->subscriberImport));
+            } catch (Throwable $e) {
+                report($e);
 
-            return;
+                return;
+            }
         }
     }
 

@@ -37,6 +37,8 @@ class SubscriberImportsComponent extends DataTableComponent
 
     public bool $showForm = true;
 
+    public bool $sendNotification = true;
+
     public $file;
 
     public function mount(EmailList $emailList)
@@ -84,7 +86,7 @@ class SubscriberImportsComponent extends DataTableComponent
 
         $user = auth()->user();
 
-        dispatch(new ImportSubscribersJob($subscriberImport, $user instanceof User ? $user : null));
+        dispatch(new ImportSubscribersJob($subscriberImport, $user instanceof User ? $user : null, $this->sendNotification));
 
         $this->flash(__mc('Your file has been uploaded. Follow the import status in the list below.'));
 

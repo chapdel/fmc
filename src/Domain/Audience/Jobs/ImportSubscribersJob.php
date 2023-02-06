@@ -23,11 +23,15 @@ class ImportSubscribersJob implements ShouldQueue
 
     public ?User $user;
 
-    public function __construct(SubscriberImport $subscriberImport, User $user = null)
+    public bool $sendNotification;
+
+    public function __construct(SubscriberImport $subscriberImport, User $user = null, bool $sendNotification = true)
     {
         $this->subscriberImport = $subscriberImport;
 
         $this->user = $user;
+
+        $this->sendNotification = $sendNotification;
 
         $this->queue = config('mailcoach.campaigns.perform_on_queue.import_subscribers_job');
 
@@ -38,6 +42,6 @@ class ImportSubscribersJob implements ShouldQueue
     {
         /** @var \Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\ImportSubscribersAction $importSubscribersAction */
         $importSubscribersAction = Mailcoach::getAudienceActionClass('import_subscribers', ImportSubscribersAction::class);
-        $importSubscribersAction->execute($this->subscriberImport, $this->user);
+        $importSubscribersAction->execute($this->subscriberImport, $this->user, $this->sendNotification);
     }
 }

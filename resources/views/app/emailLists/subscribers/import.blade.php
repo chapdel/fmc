@@ -96,6 +96,20 @@
                     </x-mailcoach::warning>
                 @endif
 
+                <div class="form-field">
+                    @error('sendNotification')
+                    <p class="form-error">{{ $message }}</p>
+                    @enderror
+
+                    <div class="radio-group">
+                        <x-mailcoach::checkbox-field
+                            name="sendNotification"
+                            wire:model="sendNotification"
+                            :label="__mc('Send email notification on completion of import')"
+                        />
+                    </div>
+                </div>
+
                 <div class="flex gap-6">
                     <div>
                         <input accept=".csv,.txt,.xlsx" type="file" wire:model="file" />

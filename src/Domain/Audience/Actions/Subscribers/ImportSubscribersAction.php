@@ -19,6 +19,8 @@ class ImportSubscribersAction
 
     protected ?User $user;
 
+    protected bool $sendNotification = true;
+
     protected string $dateTime;
 
     protected ?Media $importFile;
@@ -32,20 +34,21 @@ class ImportSubscribersAction
     ) {
     }
 
-    public function execute(SubscriberImport $subscriberImport, ?User $user = null)
+    public function execute(SubscriberImport $subscriberImport, ?User $user = null, bool $sendNotification = true)
     {
         $this
-            ->initialize($subscriberImport, $user)
+            ->initialize($subscriberImport, $user, $sendNotification)
             ->importSubscribers()
             ->unsubscribeMissing();
     }
 
-    protected function initialize(SubscriberImport $subscriberImport, ?User $user): self
+    protected function initialize(SubscriberImport $subscriberImport, ?User $user, bool $sendNotification = true): self
     {
         $this->subscriberImport = $subscriberImport;
         $this->user = $user;
         $this->dateTime = $subscriberImport->created_at->format('Y-m-d H:i:s');
         $this->importFile = $subscriberImport->getFirstMedia('importFile');
+        $this->sendNotification = $sendNotification;
 
         return $this;
     }
@@ -68,7 +71,7 @@ class ImportSubscribersAction
 
             $this->subscriberImport->update(['status' => SubscriberImportStatus::Importing]);
 
-            dispatch(new CompleteSubscriberImportJob($this->subscriberImport, $totalRows, $this->user));
+            dispatch(new CompleteSubscriberImportJob($this->subscriberImport, $totalRows, $this->user, $this->sendNotification));
         } catch (Exception $exception) {
             report($exception);
 
