@@ -240,6 +240,10 @@ i {
     overflow: scroll;
 }
 
+.webview-padded {
+    padding: 0 calc(var(--padding) / 2);
+}
+
 .footer {
     margin-top: auto;
     font-size: 0.8rem;
