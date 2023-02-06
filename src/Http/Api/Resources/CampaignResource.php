@@ -18,10 +18,14 @@ class CampaignResource extends JsonResource
             'name' => $this->name,
 
             'email_list_uuid' => $this->emailList->uuid,
-            'email_list' => new EmailListResource($this->whenLoaded('emailList')),
+            'email_list' => $this->whenLoaded('emailList', function () {
+                return new EmailListResource($this->emailList);
+            }),
 
             'template_uuid' => $this->template?->uuid,
-            'template' => new TemplateResource($this->whenLoaded('template')),
+            'template' => $this->template_id ? $this->whenLoaded('template', function () {
+                return new TemplateResource($this->template);
+            }) : null,
 
             'from_email' => $this->from_email,
             'from_name' => $this->subject,
