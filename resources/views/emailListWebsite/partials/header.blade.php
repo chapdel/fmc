@@ -2,7 +2,7 @@
 <header class="header">
     @if ($imageUrl = $emailList->websiteHeaderImageUrl())
         <a href="{{ $emailList->websiteUrl() }}">
-            <img alt="Header image" src="{{ $imageUrl }}" />
+            <img alt="Header image" src="{{ $imageUrl }}" class="header-image" />
         </a>
     @endif
     <h1>
@@ -11,7 +11,7 @@
         </a>
     </h1>
     @if($emailList->website_intro)
-        <div>
+        <div class="header-intro">
             {{ app(\Spatie\Mailcoach\Domain\Shared\Actions\RenderMarkdownToHtmlAction::class)->execute($emailList->website_intro) }}
         </div>
     @endif
