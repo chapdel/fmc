@@ -26,7 +26,7 @@
         @endif
         name="search-{{ $name }}"
         id="search-{{ $name }}"
-        class="input {{ $inputClass ?? '' }}"
+        class="input font-mono text-sm {{ $inputClass ?? '' }}"
         placeholder="{{ $placeholder ?? '' }}"
         value="{{ old($name, $value ?? '') }}"
         {{ ($required ?? false) ? 'required' : '' }}
