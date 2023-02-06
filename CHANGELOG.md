@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.10.3 - 2023-02-06
+
+- allow Laravel 10
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.10.2...6.10.3
+
 ## 6.10.2 - 2023-02-01
 
 ### What's Changed
