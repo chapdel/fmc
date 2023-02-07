@@ -104,6 +104,7 @@ i {
 
 .header-intro img {
     max-height: none;
+    max-width: 100%;
 }
 
 .header form {
