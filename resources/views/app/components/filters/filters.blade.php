@@ -1,3 +1,3 @@
-<ul class="filters">
+<ul class="filters {{ $class ?? '' }}">
     {{ $slot }}
 </ul>

@@ -64,11 +64,6 @@ class Subscriber extends Model implements CipherSweetEncrypted
                 self::getSubscriberTableName().'.email' => 15,
                 self::getSubscriberTableName().'.first_name' => 10,
                 self::getSubscriberTableName().'.last_name' => 10,
-                self::getTagTableName().'.name' => 5,
-            ],
-            'joins' => [
-                'mailcoach_email_list_subscriber_tags' => [self::getSubscriberTableName().'.id', 'mailcoach_email_list_subscriber_tags.subscriber_id'],
-                self::getTagTableName() => ['mailcoach_email_list_subscriber_tags.tag_id', self::getTagTableName().'.id'],
             ],
         ];
     }

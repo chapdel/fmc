@@ -14,7 +14,7 @@
 ])
 @php($wireModelAttribute = collect($attributes)->first(fn (string $value, string $attribute) => str_starts_with($attribute, 'wire:model')))
 
-<div class="form-field" x-cloak>
+<div class="form-field {{ $multiple ? 'choices-multiple' : '' }}" x-cloak>
     @if($label)
         <label class="{{ $required ? 'label label-required' : 'label' }}" for="{{ $name }}">
             {{ $label }}

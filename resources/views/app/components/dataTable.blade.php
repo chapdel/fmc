@@ -13,8 +13,9 @@
 'searchable' => true,
 'selectable' => false,
 'bulkActions' => [],
+'showFilters' => false,
 ])
-<div wire:init="loadRows" class="card-grid">
+<div wire:init="loadRows" class="card-grid" x-data="{showFilters: @js($showFilters)}">
     @if (isset($actions) || $modelClass || count($filters) || $searchable)
         <div class="table-actions">
             {{ $actions ?? '' }}
@@ -47,7 +48,18 @@
                 @if($searchable)
                     <x-mailcoach::search wire:model.debounce.500ms="search" :placeholder="__mc('Search…')"/>
                 @endif
+
+                @if ($filterSlot ?? null)
+                    <button class="h-full -ml-2" :class="showFilters ? 'text-blue-500' : ''" x-on:click="showFilters = !showFilters" x-cloak>
+                        <i class="fas fa-filter"></i>
+                    </button>
+                @endif
             </div>
+
+        </div>
+
+        <div x-show="showFilters">
+            {{ $filterSlot ?? '' }}
         </div>
     @endif
 

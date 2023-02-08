@@ -20,6 +20,8 @@ class SubscribersComponent extends DataTableComponent
 
     protected array $allowedFilters = [
         'status' => ['except' => ''],
+        'tags' => ['except' => ''],
+        'tagType' => ['except' => 'any'],
     ];
 
     public EmailList $emailList;
@@ -29,6 +31,26 @@ class SubscribersComponent extends DataTableComponent
         $this->emailList = $emailList;
 
         app(MainNavigation::class)->activeSection()?->add($this->emailList->name.' ', route('mailcoach.emailLists'));
+    }
+
+    public function addTagFilter(string $uuid): void
+    {
+        $currentTags = array_filter(explode(',', $this->tags));
+
+        $currentTags[] = $uuid;
+
+        $newTags = array_unique($currentTags);
+
+        $this->tags = implode(',', $newTags);
+    }
+
+    public function removeTagFilter(string $uuid): void
+    {
+        $currentTags = array_filter(explode(',', $this->tags));
+
+        $newTags = array_filter($currentTags, fn (string $tag) => $tag !== $uuid);
+
+        $this->tags = implode(',', $newTags);
     }
 
     public function deleteSubscriber(int $id)
