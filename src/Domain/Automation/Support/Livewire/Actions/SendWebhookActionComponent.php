@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions;
 
-use Illuminate\Validation\Rule;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationActionComponent;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
