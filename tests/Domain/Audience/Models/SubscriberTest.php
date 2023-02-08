@@ -212,7 +212,7 @@ it('can search on first name', function () {
     Subscriber::factory()->create(['first_name' => 'Jane Doe']);
 
     expect(Subscriber::search('John')->count())->toBe(1);
-    expect(Subscriber::search('Doe')->count())->toBe(2);
+    expect(Subscriber::search('Doe', 10)->count())->toBe(2);
 });
 
 it('can search on last name', function () {
@@ -220,7 +220,7 @@ it('can search on last name', function () {
     Subscriber::factory()->create(['last_name' => 'Jane Doe']);
 
     expect(Subscriber::search('John')->count())->toBe(1);
-    expect(Subscriber::search('Doe')->count())->toBe(2);
+    expect(Subscriber::search('Doe', 10)->count())->toBe(2);
 });
 
 it('can search on encrypted email', function () {

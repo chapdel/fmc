@@ -65,6 +65,10 @@ class Subscriber extends Model implements CipherSweetEncrypted
                 self::getSubscriberTableName().'.first_name' => 10,
                 self::getSubscriberTableName().'.last_name' => 10,
             ],
+            'groupBy' => [
+                self::getSubscriberTableName().'.id',
+                self::getSubscriberTableName().'.uuid',
+            ]
         ];
     }
 
