@@ -126,6 +126,7 @@ return [
                 \Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction::class,
                 \Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction::class,
                 \Spatie\Mailcoach\Domain\Automation\Support\Actions\UnsubscribeAction::class,
+                \Spatie\Mailcoach\Domain\Automation\Support\Actions\SendWebhookAction::class,
             ],
 
             /**
