@@ -269,7 +269,7 @@ it('can be converted to an export row', function () {
         'extra_attributes' => [
             'foo' => 'bar',
             'baz' => 'bad',
-        ]
+        ],
     ]);
 
     $subscriber->syncTags(['one', 'two']);
