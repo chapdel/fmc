@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.11.0 - 2023-02-08
+
+### What's new
+
+- Added a new `SendWebhookAction` to the automation actions
+
+### What's fixed
+
+- Fix the fallback for the `AddTagsAction`
+- Images on email list websites now have a max width of 100%
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.10.3...6.11.0
+
 ## 6.10.3 - 2023-02-06
 
 - allow Laravel 10
