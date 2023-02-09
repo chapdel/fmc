@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.12.0 - 2023-02-09
+
+- add resubscribe endpoint
+
 ## 6.11.0 - 2023-02-08
 
 ### What's new
