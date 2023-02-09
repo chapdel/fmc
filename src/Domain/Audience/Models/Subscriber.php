@@ -23,6 +23,7 @@ use Spatie\Mailcoach\Domain\Audience\Encryption\Transformation\EmailFirstPart;
 use Spatie\Mailcoach\Domain\Audience\Encryption\Transformation\EmailSecondPart;
 use Spatie\Mailcoach\Domain\Audience\Encryption\Transformation\Lowercase;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
+use Spatie\Mailcoach\Domain\Audience\Events\ResubscribedEvent;
 use Spatie\Mailcoach\Domain\Audience\Events\TagAddedEvent;
 use Spatie\Mailcoach\Domain\Audience\Events\TagRemovedEvent;
 use Spatie\Mailcoach\Domain\Audience\Events\UnsubscribedEvent;
@@ -204,6 +205,15 @@ class Subscriber extends Model implements CipherSweetEncrypted
         }
 
         event(new UnsubscribedEvent($this, $send));
+
+        return $this;
+    }
+
+    public function resubscribe()
+    {
+        $this->update(['unsubscribed_at' => null]);
+
+        event(new ResubscribedEvent($this));
 
         return $this;
     }

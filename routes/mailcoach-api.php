@@ -11,6 +11,7 @@ use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\SendTestEmailController;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\EmailListsController;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\ConfirmSubscriberController;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\ResendConfirmationMailController;
+use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\ResubscribeController;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\SubscribersController;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\UnsubscribeController;
 use Spatie\Mailcoach\Http\Api\Controllers\SendsController;
@@ -46,6 +47,8 @@ Route::apiResource('subscribers', SubscribersController::class)->except(['index'
 Route::prefix('subscribers/{subscriber}')->group(function () {
     Route::post('confirm', ConfirmSubscriberController::class);
     Route::post('unsubscribe', UnsubscribeController::class);
+    Route::post('resubscribe', ResubscribeController::class);
+
     Route::post('resend-confirmation', ResendConfirmationMailController::class);
 });
 

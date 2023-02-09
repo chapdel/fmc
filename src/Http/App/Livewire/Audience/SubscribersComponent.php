@@ -77,9 +77,7 @@ class SubscribersComponent extends DataTableComponent
             return;
         }
 
-        $subscriber->update([
-            'unsubscribed_at' => null,
-        ]);
+        $subscriber->resubscribe();
 
         $this->flash(__mc(':subscriber has been resubscribed.', ['subscriber' => $subscriber->email]));
     }
