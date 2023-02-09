@@ -72,6 +72,18 @@ test('the confirmation mail has default content', function () {
     $mailable->assertSeeInText('confirm')->assertDontSeeInText('<html');
 });
 
+test('the confirmation mail has no-tracking attributes on the link', function () {
+    test()->emailList->update(['transactional_mailer' => 'log']);
+
+    $subscriber = Subscriber::createWithEmail('john@example.com', ['first_name' => 'John'])->subscribeTo(test()->emailList);
+
+    $mailable = (new ConfirmSubscriberMail($subscriber));
+
+    $mailable->assertSeeInHtml('data-pm-no-track');
+    $mailable->assertSeeInHtml('clicktracking="off"');
+    $mailable->assertSeeInHtml('ses:no-track');
+});
+
 test('the confirmation mail can have custom content', function () {
     test()->emailList->update(['transactional_mailer' => 'log']);
 

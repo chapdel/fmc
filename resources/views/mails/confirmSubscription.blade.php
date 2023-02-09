@@ -5,7 +5,7 @@
 
 {{ __mc('Prove it is really you by pressing the button below') }}.
 
-@component('mailcoach::mails.layout.button', ['url' => $confirmationUrl])
+@component('mailcoach::mails.layout.button', ['url' => $confirmationUrl, 'attributes' => 'ses:no-track data-pm-no-track clicktracking="off"'])
 {{ __mc('Confirm subscription') }}
 @endcomponent
 
