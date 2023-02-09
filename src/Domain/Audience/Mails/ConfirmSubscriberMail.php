@@ -9,6 +9,7 @@ use Spatie\Mailcoach\Domain\Campaign\Actions\ConvertHtmlToTextAction;
 use Spatie\Mailcoach\Domain\Campaign\Mails\Concerns\ReplacesPlaceholders;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns\UsesMailcoachTemplate;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
+use Symfony\Component\Mime\Email;
 
 class ConfirmSubscriberMail extends Mailable implements ShouldQueue
 {
@@ -69,6 +70,10 @@ class ConfirmSubscriberMail extends Mailable implements ShouldQueue
                 $this->subscriber->emailList->default_reply_to_name
             );
         }
+
+        $mail->withSymfonyMessage(function (Email $email) {
+            $email->getHeaders()->addTextHeader('X-Mailgun-Track', 'no');
+        });
 
         return $mail;
     }

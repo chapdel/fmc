@@ -212,7 +212,7 @@ it('can search on first name', function () {
     Subscriber::factory()->create(['first_name' => 'Jane Doe']);
 
     expect(Subscriber::search('John')->count())->toBe(1);
-    expect(Subscriber::search('Doe')->count())->toBe(2);
+    expect(Subscriber::search('Doe', 10)->count())->toBe(2);
 });
 
 it('can search on last name', function () {
@@ -220,7 +220,7 @@ it('can search on last name', function () {
     Subscriber::factory()->create(['last_name' => 'Jane Doe']);
 
     expect(Subscriber::search('John')->count())->toBe(1);
-    expect(Subscriber::search('Doe')->count())->toBe(2);
+    expect(Subscriber::search('Doe', 10)->count())->toBe(2);
 });
 
 it('can search on encrypted email', function () {
@@ -257,4 +257,42 @@ it('can search on encrypted last name', function () {
     $filter = new SearchFilter();
 
     expect($filter(Subscriber::query(), 'John Doe', 'search')->count())->toBe(1);
+});
+
+it('can be converted to an export row', function () {
+    $subscriber = Subscriber::factory()->create([
+        'email' => 'john@doe.com',
+        'first_name' => 'John',
+        'last_name' => 'Doe',
+        'subscribed_at' => now(),
+        'unsubscribed_at' => now(),
+        'extra_attributes' => [
+            'foo' => 'bar',
+            'baz' => 'bad',
+        ],
+    ]);
+
+    $subscriber->syncTags(['one', 'two']);
+
+    expect($subscriber->toExportRow())->toBe([
+        'email' => 'john@doe.com',
+        'first_name' => 'John',
+        'last_name' => 'Doe',
+        'tags' => 'one;two',
+        'subscribed_at' => now()->format('Y-m-d H:i:s'),
+        'unsubscribed_at' => now()->format('Y-m-d H:i:s'),
+        'foo' => 'bar',
+        'baz' => 'bad',
+    ]);
+
+    $subscriber->update(['extra_attributes' => null]);
+
+    expect($subscriber->toExportRow())->toBe([
+        'email' => 'john@doe.com',
+        'first_name' => 'John',
+        'last_name' => 'Doe',
+        'tags' => 'one;two',
+        'subscribed_at' => now()->format('Y-m-d H:i:s'),
+        'unsubscribed_at' => now()->format('Y-m-d H:i:s'),
+    ]);
 });

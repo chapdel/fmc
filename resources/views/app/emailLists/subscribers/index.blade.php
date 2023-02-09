@@ -73,7 +73,7 @@
 
     @slot('filterSlot')
         <div class="flex items-center h-full gap-x-2">
-            @php($allTags = $emailList->tags()->where('type', \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::Default)->sortBy('name')->get())
+            @php($allTags = $emailList->tags()->where('type', \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::Default)->orderBy('name')->get())
             @php($currentFilteredTags = array_filter(explode(',', $tags)))
 
             @if (count($currentFilteredTags) > 0)

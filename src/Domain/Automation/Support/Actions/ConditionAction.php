@@ -151,27 +151,24 @@ class ConditionAction extends AutomationAction
             'unit' => $this->unit,
             'condition' => $this->condition,
             'conditionData' => $this->conditionData,
-            'yesActions' => collect($this->yesActions)->map(function ($action) {
-                return $this->actionToArray($action);
+            'yesActions' => collect($this->yesActions)->map(function ($action, $order) {
+                return $this->actionToArray($action, 'yesActions', $order);
             })->toArray(),
-            'noActions' => collect($this->noActions)->map(function ($action) {
-                return $this->actionToArray($action);
+            'noActions' => collect($this->noActions)->map(function ($action, $order) {
+                return $this->actionToArray($action, 'noActions', $order);
             })->toArray(),
         ];
     }
 
-    private function actionToArray(array|AutomationAction $action): array
+    private function actionToArray(array|AutomationAction $action, string $key, int $order): array
     {
         $actionClass = static::getAutomationActionClass();
 
-        $actionModel = $actionClass::query()
-            ->where(
-                'uuid',
-                is_array($action)
-                ? $action['uuid']
-                : $action->uuid,
-            )
-            ->withCount(['completedSubscribers', 'activeSubscribers'])
+        $parentModel = $actionClass::query()->where('uuid', $this->uuid)->first();
+        $actionModel = $parentModel->children()
+            ->where('key', $key)
+            ->where('order', $order)
+            ->withCount(['completedSubscribers', 'activeSubscribers', 'haltedSubscribers'])
             ->first();
 
         if (! $action instanceof AutomationAction) {
@@ -187,6 +184,7 @@ class ConditionAction extends AutomationAction
             'data' => $action->toArray(),
             'active' => (int) ($actionModel->active_subscribers_count ?? 0),
             'completed' => (int) ($actionModel->completed_subscribers_count ?? 0),
+            'halted' => (int) ($actionModel->halted_subscribers_count ?? 0),
         ];
     }
 
