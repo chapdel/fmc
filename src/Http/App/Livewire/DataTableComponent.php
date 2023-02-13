@@ -111,6 +111,40 @@ abstract class DataTableComponent extends Component
         }
     }
 
+    public function replaceFilter(string $key, string|int $value): void
+    {
+        if (! array_key_exists($key, $this->allowedFilters)) {
+            return;
+        }
+
+        $this->$key = $value;
+    }
+
+    public function addFilter(string $key, string|int $value): void
+    {
+        if (! array_key_exists($key, $this->allowedFilters)) {
+            return;
+        }
+
+        $currentFilters = array_filter(explode(',', $this->$key));
+        $currentFilters[] = $value;
+        $newFilters = array_unique($currentFilters);
+
+        $this->$key = implode(',', $newFilters);
+    }
+
+    public function removeFilter(string $key, $value): void
+    {
+        if (! array_key_exists($key, $this->allowedFilters)) {
+            return;
+        }
+
+        $currentFilters = array_filter(explode(',', $this->$key));
+        $newFilters = array_filter($currentFilters, fn (string $filter) => $filter !== $value);
+
+        $this->$key = implode(',', $newFilters);
+    }
+
     public function updatingSearch()
     {
         $this->resetPage();

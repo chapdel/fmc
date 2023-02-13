@@ -9,6 +9,17 @@ use Spatie\Mailcoach\Http\App\Queries\AutomatedMailQuery;
 
 class AutomationMailsComponent extends DataTableComponent
 {
+    public ?string $automation_uuid;
+
+    protected array $allowedFilters = [
+        'automation_uuid' => ['except' => '']
+    ];
+
+    public function updatedAutomationMailUuid()
+    {
+        $this->replaceFilter('automation_uuid', $this->automation_uuid ?? '');
+    }
+
     public function duplicateAutomationMail(int $id)
     {
         $automationMail = self::getAutomationMailClass()::find($id);

@@ -93,7 +93,7 @@
                     <span class="tag-neutral inline-flex items-center gap-x-1 m-0">
                         <span>tag: {{ $allTags->firstWhere('uuid', $tag)->name  }}</span>
 
-                        <a href="#" wire:click.prevent="removeTagFilter('{{ $tag }}')"><i class="fas fa-times"></i></a>
+                        <a href="#" wire:click.prevent="removeFilter('tags', '{{ $tag }}')"><i class="fas fa-times"></i></a>
                     </span>
                 @endforeach
             </div>
@@ -113,7 +113,7 @@
                     <ul class="overflow-y-scroll w-[max-content] max-w-[20rem]">
                         @foreach ($availableTags as $tag)
                             <li>
-                                <a href="#" wire:click.prevent="addTagFilter('{{ $tag->uuid }}')">{{ $tag->name }}</a>
+                                <a href="#" wire:click.prevent="addFilter('tags', '{{ $tag->uuid }}')">{{ $tag->name }}</a>
                             </li>
                         @endforeach
                     </ul>

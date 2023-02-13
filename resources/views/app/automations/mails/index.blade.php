@@ -14,4 +14,15 @@
     ]"
     rowPartial="mailcoach::app.automations.mails.partials.row"
     :emptyText="__mc('No automated mails yet.')"
-/>
+    :show-filters="!empty($this->automation_uuid)"
+>
+    @slot('filterSlot')
+        <x-mailcoach::select-field
+            :label="__mc('Automation')"
+            :placeholder="__mc('Filter by automation')"
+            :options="\Spatie\Mailcoach\Mailcoach::getAutomationClass()::query()->orderBy('name')->pluck('name', 'uuid')"
+            wire:model="automation_uuid"
+            :clearable="true"
+        />
+    @endslot
+</x-mailcoach::data-table>
