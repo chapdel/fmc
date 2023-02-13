@@ -12,7 +12,7 @@ class AutomationMailsComponent extends DataTableComponent
     public ?string $automation_uuid;
 
     protected array $allowedFilters = [
-        'automation_uuid' => ['except' => '']
+        'automation_uuid' => ['except' => ''],
     ];
 
     public function updatedAutomationMailUuid()

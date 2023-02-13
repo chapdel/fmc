@@ -4,13 +4,10 @@ namespace Spatie\Mailcoach\Http\App\Queries;
 
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use ReflectionClass;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Domain\Automation\Support\Actions\AutomationAction;
-use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Queries\Filters\FuzzyFilter;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -39,8 +36,8 @@ class AutomatedMailQuery extends QueryBuilder
                     $shortname = (new ReflectionClass(new $class))->getShortName();
 
                     $automationMailIds = self::getAutomationActionClass()::query()
-                        ->whereHas('automation', fn(Builder $query) => $query->where('uuid', $value))
-                        ->whereRaw('FROM_BASE64(action) like \'%'. $shortname . '%\'')
+                        ->whereHas('automation', fn (Builder $query) => $query->where('uuid', $value))
+                        ->whereRaw('FROM_BASE64(action) like \'%'.$shortname.'%\'')
                         ->get()
                         ->map(function (Action $action) use ($shortname) {
                             /**
@@ -49,7 +46,7 @@ class AutomatedMailQuery extends QueryBuilder
                              * string of the action to get the model identifier.
                              */
                             $rawAction = base64_decode($action->getRawOriginal('action'));
-                            $idPart = Str::after($rawAction, $shortname . '";s:2:"id";i:');
+                            $idPart = Str::after($rawAction, $shortname.'";s:2:"id";i:');
                             $id = Str::before($idPart, ';');
 
                             return (int) $id;
