@@ -36,7 +36,7 @@ class FeedbackStepComponent extends StepComponent
 
         $endpoint = action(SendinblueWebhookController::class, $this->mailer()->configName());
 
-        $secret = Str::random(20);
+        $secret = $this->mailer()->get('signing_secret', Str::random(20));
 
         $endpoint .= "?secret={$secret}";
 

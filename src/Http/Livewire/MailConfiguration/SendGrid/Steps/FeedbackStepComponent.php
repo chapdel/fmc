@@ -46,7 +46,7 @@ class FeedbackStepComponent extends StepComponent
             $events[] = EventType::Click;
         }
 
-        $secret = Str::random(20);
+        $secret = $this->mailer()->get('signing_secret', Str::random(20));
 
         $endpoint .= "?secret={$secret}";
 
