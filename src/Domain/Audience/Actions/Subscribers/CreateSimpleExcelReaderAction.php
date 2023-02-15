@@ -55,11 +55,6 @@ class CreateSimpleExcelReaderAction
             ??= new TemporaryDirectory(storage_path('temp'));
     }
 
-    /**
-     * @param  string  $filePath
-     * @param  int  $checkLines
-     * @return string
-     */
     protected function getCsvDelimiter(string $filePath, int $checkLines = 3): string
     {
         $delimiters = [',', ';', "\t", '|'];

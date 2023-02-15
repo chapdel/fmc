@@ -7,7 +7,6 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 
 class EmailListFactory
 {
-    /** @var int */
     protected int $subscriberCount = 0;
 
     public function withSubscriberCount(int $subscriberCount)

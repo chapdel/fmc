@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 class ExportTransactionalMailTemplatesJob extends ExportJob
 {
     /**
-     * @param  string  $path
      * @param  array<int>  $selectedTransactionalMailTemplates
      */
     public function __construct(protected string $path, protected array $selectedTransactionalMailTemplates)

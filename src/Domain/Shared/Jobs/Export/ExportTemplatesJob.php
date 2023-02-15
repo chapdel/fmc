@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 class ExportTemplatesJob extends ExportJob
 {
     /**
-     * @param  string  $path
      * @param  array<int>  $selectedTemplates
      */
     public function __construct(protected string $path, protected array $selectedTemplates)

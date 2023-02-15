@@ -8,7 +8,6 @@ use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 
 class CampaignFactory
 {
-    /** @var int */
     protected int $subscriberCount = 0;
 
     protected string $mailable = MailcoachMail::class;

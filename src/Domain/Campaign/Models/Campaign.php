@@ -164,8 +164,6 @@ class Campaign extends Sendable implements Feedable
 
     /**
      * Returns a tuple with open & click tracking values
-     *
-     * @return array
      */
     public function tracking(): array
     {

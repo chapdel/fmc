@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 class ExportCampaignsJob extends ExportJob
 {
     /**
-     * @param  string  $path
      * @param  array<int>  $selectedCampaigns
      */
     public function __construct(protected string $path, protected array $selectedCampaigns)
