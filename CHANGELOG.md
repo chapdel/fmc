@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.12.1 - 2023-02-16
+
+- Fix enum throwing an exception
+- Update the spotlight package
+- Add a check on subscriber which can be null sometimes
+- Fix the format of the tag replacer
+- Added the ability to filter automation emails on the automation they're used in
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.12.0...6.12.1
+
 ## 6.12.0 - 2023-02-09
 
 - add resubscribe endpoint
