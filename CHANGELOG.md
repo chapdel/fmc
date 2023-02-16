@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.12.2 - 2023-02-16
+
+- Revert the enum fix
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.12.1...6.12.2
+
 ## 6.12.1 - 2023-02-16
 
 - Fix enum throwing an exception
