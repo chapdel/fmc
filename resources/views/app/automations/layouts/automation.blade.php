@@ -12,12 +12,11 @@
                 {{ __mc('Actions') }}
             </x-mailcoach::navigation-item>
             <x-mailcoach::navigation-item
-                    x-data="{ running: {{ $automation->status === \Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus::Started->value ? 'true' : 'false' }} }"
+                    x-data="{ running: {{ $automation->status === \Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus::Started ? 'true' : 'false' }} }"
                     @automation-started.window="running = true"
                     @automation-paused.window="running = false"
                     :href="route('mailcoach.automations.run', $automation)"
                     data-dirty-warn
-
             >
                 <span class="flex items-baseline gap-2">
                 <span>{{ __mc('Run')}} </span>
