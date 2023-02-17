@@ -187,7 +187,7 @@
                 <div class="flex items-center">
                     <span class="text-sm">{{ __mc('Show') }}</span>
                     <div class="select ml-2 mr-4 w-[4.35rem]">
-                        <select wire:model="perPage">
+                        <select x-data="{ perPage: $persist(@entangle('perPage')).as('per-page-{{ $name }}')}" x-model="perPage">
                             <option>15</option>
                             <option>25</option>
                             <option>50</option>

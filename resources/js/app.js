@@ -1,6 +1,7 @@
 import flatpickr from 'flatpickr';
 import Alpine from 'alpinejs';
 import focus from '@alpinejs/focus';
+import persist from '@alpinejs/persist';
 import Clipboard from '@ryangjchandler/alpine-clipboard';
 import Choices from 'choices.js';
 
@@ -49,6 +50,7 @@ import './components/modals.js';
 import './components/tooltip.js';
 
 Alpine.plugin(focus);
+Alpine.plugin(persist);
 Alpine.plugin(Clipboard);
 
 window.Alpine = Alpine;
