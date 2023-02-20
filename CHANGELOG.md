@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.12.4 - 2023-02-20
+
+- Inline html in transactional emails - fix #1223
+- Fix search on subscribers with strict mysql
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.12.3...6.12.4
+
 ## 6.12.3 - 2023-02-20
 
 - Fix an issue with welcome email links resulting in a 404
