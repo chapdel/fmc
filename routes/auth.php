@@ -6,7 +6,7 @@ use Spatie\Mailcoach\Http\Auth\Controllers\LoginController;
 use Spatie\Mailcoach\Http\Auth\Controllers\LogoutController;
 use Spatie\Mailcoach\Http\Auth\Controllers\ResetPasswordController;
 use Spatie\Mailcoach\Http\Auth\Controllers\WelcomeController;
-use Spatie\WelcomeNotification\WelcomesNewUsers;
+use Spatie\Mailcoach\Http\Auth\Middleware\WelcomesNewUsers;
 
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('mailcoach.login');
 Route::post('login', [LoginController::class, 'login']);

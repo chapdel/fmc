@@ -9,11 +9,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class WelcomeController extends BaseWelcomeController
 {
-    public function showWelcomeForm(Request $request, User $user)
+    public function showWelcomeForm(Request $request, User $mailcoachUser)
     {
         return view('mailcoach::auth.welcome')->with([
             'email' => $request->email,
-            'user' => $user,
+            'user' => $mailcoachUser,
         ]);
     }
 
