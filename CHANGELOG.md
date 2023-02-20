@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.12.3 - 2023-02-20
+
+- Fix an issue with welcome email links resulting in a 404
+- Fix an issue where user fields were empty when editing a user
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.12.2...6.12.3
+
 ## 6.12.2 - 2023-02-16
 
 - Revert the enum fix
