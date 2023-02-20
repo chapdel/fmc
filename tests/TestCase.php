@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Illuminate\Foundation\Testing\RefreshDatabaseState;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Redis;
@@ -59,6 +60,7 @@ abstract class TestCase extends Orchestra
         $this->withoutExceptionHandling();
 
         Redis::flushAll();
+        Cache::clear();
 
         Gate::define('viewMailcoach', fn () => true);
 
