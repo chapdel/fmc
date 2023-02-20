@@ -21,9 +21,9 @@ class EditUserComponent extends Component
         ];
     }
 
-    public function mount(User $user)
+    public function mount(User $mailcoachUser)
     {
-        $this->user = $user;
+        $this->user = $mailcoachUser;
     }
 
     public function save()
