@@ -40,10 +40,10 @@ class Send extends Model
 
     public $guarded = [];
 
-    public $dates = [
-        'sending_job_dispatched_at',
-        'sent_at',
-        'failed_at',
+    public $casts = [
+        'sending_job_dispatched_at' => 'datetime',
+        'sent_at' => 'datetime',
+        'failed_at' => 'datetime',
     ];
 
     public function concernsCampaign(): bool

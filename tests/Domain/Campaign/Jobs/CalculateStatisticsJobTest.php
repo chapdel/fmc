@@ -75,7 +75,7 @@ it('can calculate statistics regarding unsubscribes', function () {
     ]);
     $campaign->send();
     Artisan::call('mailcoach:send-scheduled-campaigns');
-    dispatch_now(new SendAutomationMailJob($send));
+    dispatch_sync(new SendAutomationMailJob($send));
 
     test()->assertDatabaseHas(static::getCampaignTableName(), [
         'id' => $campaign->id,
@@ -91,10 +91,10 @@ it('can calculate statistics regarding unsubscribes', function () {
 
     $sends = $campaign->sends()->take(1)->get();
     test()->simulateUnsubscribes($sends);
-    dispatch_now(new CalculateStatisticsJob($campaign));
+    dispatch_sync(new CalculateStatisticsJob($campaign));
 
     test()->simulateUnsubscribes(collect([$send]));
-    dispatch_now(new CalculateStatisticsJob($automationMail));
+    dispatch_sync(new CalculateStatisticsJob($automationMail));
 
     test()->assertDatabaseHas(static::getCampaignTableName(), [
         'id' => $campaign->id,
@@ -178,8 +178,8 @@ it('can calculate statistics regarding clicks', function () {
     simulateClick($automationMail, 'https://spatie.be', $send->subscriber);
     simulateClick($automationMail, 'https://spatie.be', $send->subscriber);
 
-    dispatch_now(new CalculateStatisticsJob($campaign));
-    dispatch_now(new CalculateStatisticsJob($automationMail));
+    dispatch_sync(new CalculateStatisticsJob($campaign));
+    dispatch_sync(new CalculateStatisticsJob($automationMail));
 
     test()->assertDatabaseHas(static::getCampaignTableName(), [
         'id' => $campaign->id,
@@ -226,8 +226,8 @@ it('can calculate statistics regarding clicks on individual links', function () 
 
     simulateClick($automationMail, $url, $send->subscriber);
 
-    dispatch_now(new CalculateStatisticsJob($campaign));
-    dispatch_now(new CalculateStatisticsJob($automationMail));
+    dispatch_sync(new CalculateStatisticsJob($campaign));
+    dispatch_sync(new CalculateStatisticsJob($automationMail));
 
     $campaignLink = CampaignLink::where('url', $url)->first();
     $automationMailLink = AutomationMailLink::where('url', $url)->first();
@@ -259,8 +259,8 @@ it('can calculate statistics regarding bounces', function () {
     $campaign->sends()->first()->registerBounce();
     $automationMail->sends()->first()->registerBounce();
 
-    dispatch_now(new CalculateStatisticsJob($campaign));
-    dispatch_now(new CalculateStatisticsJob($automationMail));
+    (new CalculateStatisticsJob($campaign))->handle();
+    (new CalculateStatisticsJob($automationMail))->handle();
 
     expect($campaign->bounce_count)->toEqual(1);
     expect($campaign->bounce_rate)->toEqual(3333);

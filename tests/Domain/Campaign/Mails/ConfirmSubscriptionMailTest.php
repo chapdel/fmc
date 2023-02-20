@@ -79,9 +79,9 @@ test('the confirmation mail has no-tracking attributes on the link', function ()
 
     $mailable = (new ConfirmSubscriberMail($subscriber));
 
-    $mailable->assertSeeInHtml('data-pm-no-track');
-    $mailable->assertSeeInHtml('clicktracking="off"');
-    $mailable->assertSeeInHtml('ses:no-track');
+    $mailable->assertSeeInHtml('data-pm-no-track', escape: false);
+    $mailable->assertSeeInHtml('clicktracking="off"', escape: false);
+    $mailable->assertSeeInHtml('ses:no-track', escape: false);
 });
 
 test('the confirmation mail can have custom content', function () {

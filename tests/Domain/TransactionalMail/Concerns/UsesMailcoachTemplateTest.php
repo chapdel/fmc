@@ -31,7 +31,7 @@ it('can render a template containing markdown and blade variables', function () 
     $mailable = $template->getMailable();
 
     $mailable
-        ->assertSeeInHtml('Title</h1>')
+        ->assertSeeInHtml('Title</h1>', escape: false)
         ->assertSeeInHtml('Hi all!');
 });
 

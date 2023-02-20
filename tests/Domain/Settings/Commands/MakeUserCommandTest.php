@@ -42,8 +42,8 @@ it('it can validate a create user command', function () {
         ->expectsQuestion('What is the email address?', 'FreekAtSpatie')
         ->expectsQuestion('What is the password?', 'secret')
         ->expectsOutput('User not created. See error messages below:')
-        ->expectsOutput('The email must be a valid email address.')
-        ->expectsOutput('The password must be at least 8 characters.')
+        ->expectsOutput('The email field must be a valid email address.')
+        ->expectsOutput('The password field must be at least 8 characters.')
         ->assertExitCode(1);
 
     $this->assertEquals(0, User::count());

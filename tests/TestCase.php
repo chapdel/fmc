@@ -121,6 +121,9 @@ abstract class TestCase extends Orchestra
             $migration = include __DIR__.'/../vendor/laravel/ui/stubs/migrations/2014_10_12_100000_create_password_resets_table.php';
             $migration->up();
 
+            $migration = include __DIR__.'/../vendor/orchestra/testbench-core/laravel/migrations/2014_10_12_100000_testbench_create_password_reset_tokens_table.php';
+            $migration->up();
+
             $this->app[Kernel::class]->setArtisan(null);
 
             RefreshDatabaseState::$migrated = true;
