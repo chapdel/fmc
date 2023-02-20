@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\Queries\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\QueryBuilder\Filters\Filter;
@@ -35,8 +36,8 @@ class SearchFilter implements Filter
             return $query;
         }
 
-        $query->search($value);
-        $query->distinct();
+        $clone = clone $query;
+        $query->whereIn(self::getSubscriberTableName().'.id', $clone->search($value)->select(self::getSubscriberTableName().'.id'));
 
         return $query;
     }

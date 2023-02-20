@@ -44,7 +44,7 @@ trait Searchable
     ): Builder {
         $query = clone $q;
         $query->withoutGlobalScopes();
-        $query->select($this->getTable().'.*');
+        $query->select($this->getTable().'.id');
         $this->makeJoins($query);
 
         $search = mb_strtolower(trim($search));
