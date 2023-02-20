@@ -11,6 +11,7 @@ use Spatie\Mailcoach\Domain\Shared\Actions\RenderMarkdownToHtmlAction;
 use Spatie\Mailcoach\Domain\Shared\Actions\RenderTwigAction;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
+use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 class RenderTemplateAction
 {
@@ -35,7 +36,7 @@ class RenderTemplateAction
             }
         }
 
-        return $body;
+        return (new CssToInlineStyles())->convert($body);
     }
 
     protected function renderTemplateBody(
