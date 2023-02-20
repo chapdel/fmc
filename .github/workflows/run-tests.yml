@@ -35,9 +35,13 @@ jobs:
             sudo /etc/init.d/mysql start
             mysql  -u root -proot -e 'CREATE DATABASE IF NOT EXISTS mailcoach_tests;'
 
-      - name: Install dependencies
-        run: |
-          COMPOSER_ROOT_VERSION=dev-main composer update --prefer-dist --no-interaction
+      - name: Install composer dependencies
+        uses: ramsey/composer-install@v2
+        env:
+          COMPOSER_ROOT_VERSION=dev-main
+
+        with:
+          composer-options: "--prefer-dist --no-interaction"
 
       - name: Execute tests
         run: composer test
