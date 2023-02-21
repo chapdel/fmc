@@ -17,7 +17,7 @@
                 <li>A campaign was sent</li>
             </ul>
             You can view more information on the sent payload and security recommendations <a
-                href="https://mailcoach.app/docs/webhooks" target="_blank">in our docs</a>.
+                href="https://mailcoach.app/docs/cloud/using-mailcoach/webhooks/webhook-payloads" target="_blank">in our docs</a>.
         </x-mailcoach::help>
 
         <x-mailcoach::text-field :label="__mc('Name')" name="webhook.name" wire:model.lazy="webhook.name" required />
@@ -33,7 +33,7 @@
 
         @if (!$webhook->use_for_all_lists)
             <div class="form-field">
-                <label class=label>Only for these email lists</label>
+                <label class=label>{{__mc('Only for these email lists')}}</label>
                 <x-mailcoach::select-field
                     name="email_lists"
                     :multiple="true"
@@ -41,6 +41,21 @@
                     :options="$emailListNames"
                 />
             </div>
+        @endif
+
+        @if(config('mailcoach.webhooks.selectable_event_types_enabled', false))
+            <x-mailcoach::checkbox-field
+                name="webhook.use_for_all_events"
+                :label="__mc('Use for all events')"
+                wire:model="webhook.use_for_all_events"
+            />
+            @if (!$this->webhook->use_for_all_events)
+                <div class="ml-2">
+                    @foreach($event_options as $event)
+                        <x-mailcoach::checkbox-field :name="$event" :value="$event" :label="$event" wire:model="selected_events" />
+                    @endforeach
+                </div>
+            @endif
         @endif
 
         <x-mailcoach::form-buttons>

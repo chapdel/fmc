@@ -14,6 +14,15 @@
             <x-mailcoach::rounded-icon type="error" icon="fas fa-times" />
         @endif
     </td>
+    @if(config('mailcoach.webhooks.selectable_event_types_enabled', false))
+    <td>
+       @if ($row->use_for_all_events || $row->events->count() === 6)
+            All
+       @else
+            {{ $row->events->count() }} / 6
+       @endif
+    </td>
+    @endif
     <td class="td-action">
         <x-mailcoach::dropdown direction="left">
             <ul>
