@@ -7,6 +7,10 @@
         ['attribute' => 'name', 'label' => __mc('Name'), 'class' => 'w-64'],
         ['attribute' => 'url', 'label' => __mc('URL'), 'class' => 'w-64'],
         ['attribute' => 'use_for_all_lists', 'label' => __mc('Use for all lists'), 'class' => 'w-48'],
+        [
+            'label' => config('mailcoach.webhooks.selectable_event_types_enabled', false) ? __mc('Events') : null,
+            'class' => 'w-48'
+        ],
         ['class' => 'w-12'],
     ]"
     rowPartial="mailcoach::app.configuration.webhooks.partials.row"
