@@ -38,13 +38,12 @@ test('a transactional mail will be stored in the db', function () {
     expect(Send::first())->transactionalMailLogItem->toBeInstanceOf(TransactionalMailLogItem::class);
 });
 
-it('can store a mailable that uses envelope and content methods', function() {
+it('can store a mailable that uses envelope and content methods', function () {
     Mail::to('john@example.com')->send(new TestTransactionEnvelopeStyleMail());
 
     $transactionalMail = TransactionalMailLogItem::first();
 
     expect($transactionalMail->subject)->toEqual('Test mail envelope style');
-
 });
 
 it('can store the various recipients', function () {

@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
-use Closure;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
