@@ -1,12 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailLinkClickedEvent;
 use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailOpenedEvent;
 use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailStored;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
 use Spatie\Mailcoach\Tests\Domain\TransactionalMail\Concerns\SendsTestTransactionalMail;
+use Spatie\Mailcoach\Tests\TestClasses\TestTransactionEnvelopeStyleMail;
 use Spatie\Mailcoach\Tests\TestClasses\TestTransactionMail;
 
 uses(SendsTestTransactionalMail::class);
@@ -34,6 +36,15 @@ test('a transactional mail will be stored in the db', function () {
     expect($transactionalMail->mailable_class)->toEqual(TestTransactionMail::class);
     expect($transactionalMail->send)->toBeInstanceOf(Send::class);
     expect(Send::first())->transactionalMailLogItem->toBeInstanceOf(TransactionalMailLogItem::class);
+});
+
+it('can store a mailable that uses envelope and content methods', function() {
+    Mail::to('john@example.com')->send(new TestTransactionEnvelopeStyleMail());
+
+    $transactionalMail = TransactionalMailLogItem::first();
+
+    expect($transactionalMail->subject)->toEqual('Test mail envelope style');
+
 });
 
 it('can store the various recipients', function () {
