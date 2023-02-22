@@ -5,16 +5,12 @@ namespace Spatie\Mailcoach\Http\Api\Controllers\EmailLists;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag;
-use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
 use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
-use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Http\Api\Requests\TagRequest;
-use Spatie\Mailcoach\Http\Api\Resources\SegmentResource;
 use Spatie\Mailcoach\Http\Api\Resources\TagResource;
 use Spatie\Mailcoach\Http\App\Queries\EmailListTagsQuery;
-use Spatie\Mailcoach\Http\App\Queries\SegmentsQuery;
 
 class TagsController
 {
