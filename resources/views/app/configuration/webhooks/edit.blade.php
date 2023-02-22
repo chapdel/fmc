@@ -50,9 +50,11 @@
                 wire:model="webhook.use_for_all_events"
             />
             @if (!$this->webhook->use_for_all_events)
-                <div class="ml-2">
+                <div class="ml-6">
                     @foreach($event_options as $event)
-                        <x-mailcoach::checkbox-field :name="$event" :value="$event" :label="$event" wire:model="selected_events" />
+                        <div class="mb-4">
+                            <x-mailcoach::checkbox-field :name="$event" :value="$event" :label="$event" wire:model="selected_events" />
+                        </div>
                     @endforeach
                 </div>
             @endif
@@ -61,5 +63,5 @@
         <x-mailcoach::form-buttons>
             <x-mailcoach::button :label="__mc('Save webhook')" />
         </x-mailcoach::form-buttons>
-</x-mailcoach::card>
+    </x-mailcoach::card>
 </form>
