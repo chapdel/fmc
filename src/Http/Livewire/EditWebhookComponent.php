@@ -79,7 +79,7 @@ class EditWebhookComponent extends Component
         ]);
     }
 
-    public function syncSelectedEvents(): void
+    protected function syncSelectedEvents(): void
     {
         if (! config('mailcoach.webhooks.selectable_event_types_enabled', false)) {
             return;
