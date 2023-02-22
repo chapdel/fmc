@@ -22,7 +22,7 @@ class WebhookConfiguration extends Model
     public $casts = [
         'use_for_all_lists' => 'boolean',
         'secret' => 'encrypted',
-        'use_for_all_events' => 'boolean',
+        'use_for_all_events' => 'boolean'
     ];
 
     public function emailLists(): BelongsToMany

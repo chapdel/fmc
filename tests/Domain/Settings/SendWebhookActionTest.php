@@ -11,6 +11,7 @@ use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Settings\Actions\SendWebhookAction;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
+use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfigurationEvent;
 use Spatie\Mailcoach\Mailcoach;
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\WebhookServer\CallWebhookJob;
@@ -110,6 +111,25 @@ it('will send a webhook when a tag is removed from a subscriber', function () {
 
         return true;
     });
+});
+
+it('should only send a webhook for events that are enabled', function () {
+    config()->set('mailcoach.webhooks.selectable_event_types_enabled', true);
+
+    $this->webhookConfiguration->update([
+        'use_for_all_events' => false
+    ]);
+
+    WebhookConfigurationEvent::create([
+        'webhook_configuration_id' => $this->webhookConfiguration->id,
+        'name' => 'TagRemovedEvent'
+    ]);
+
+    event(new SubscribedEvent($this->subscriber));
+    Queue::assertNotPushed(CallWebhookJob::class);
+
+    event(new TagRemovedEvent($this->subscriber, Tag::factory()->create()));
+    Queue::assertPushed(CallWebhookJob::class);
 });
 
 function sendWebhook(Subscriber $subscriber): void
