@@ -117,12 +117,12 @@ it('should only send a webhook for events that are enabled', function () {
     config()->set('mailcoach.webhooks.selectable_event_types_enabled', true);
 
     $this->webhookConfiguration->update([
-        'use_for_all_events' => false
+        'use_for_all_events' => false,
     ]);
 
     WebhookConfigurationEvent::create([
         'webhook_configuration_id' => $this->webhookConfiguration->id,
-        'name' => 'TagRemovedEvent'
+        'name' => 'TagRemovedEvent',
     ]);
 
     event(new SubscribedEvent($this->subscriber));

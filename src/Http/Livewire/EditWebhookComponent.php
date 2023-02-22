@@ -17,15 +17,18 @@ class EditWebhookComponent extends Component
     public WebhookConfiguration $webhook;
 
     public array $email_lists;
+
     public array $event_options = [
         'SubscribedEvent',
         'UnconfirmedSubscriberCreatedEvent',
         'UnsubscribedEvent',
         'CampaignSentEvent',
         'TagAddedEvent',
-        'TagRemovedEvent'
+        'TagRemovedEvent',
     ];
+
     public array $selected_events = [];
+
     public bool $use_for_all_events = false;
 
     public function rules(): array
@@ -94,7 +97,7 @@ class EditWebhookComponent extends Component
         foreach ($this->selected_events as $selectedEvent) {
             WebhookConfigurationEvent::updateOrCreate([
                 'webhook_configuration_id' => $this->webhook->id,
-                'name' => $selectedEvent
+                'name' => $selectedEvent,
             ]);
         }
     }
