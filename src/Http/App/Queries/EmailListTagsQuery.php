@@ -13,7 +13,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class EmailListTagsQuery extends QueryBuilder
 {
-    public function __construct(EmailList $emailList, ?Request $request)
+    public function __construct(EmailList $emailList, ?Request $request = null)
     {
         $query = Tag::query()
             ->addSelect(['subscriber_count' => function (Builder $query) {
@@ -30,6 +30,7 @@ class EmailListTagsQuery extends QueryBuilder
             ->where('email_list_id', $emailList->id)
             ->defaultSort('name')
             ->allowedSorts('name', 'updated_at', 'subscriber_count', 'visible_in_preferences')
+            ->allowedIncludes(['emailList'])
             ->allowedFilters(
                 AllowedFilter::custom('search', new FuzzyFilter(
                     'name'
