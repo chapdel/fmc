@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Domain\Settings\Actions;
 
-use Illuminate\Support\Facades\Schema;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 use Spatie\WebhookServer\WebhookCall;
@@ -28,7 +27,7 @@ class SendWebhookAction
         }
     }
 
-    protected function isWebhookEnabledForEvent(WebhookConfiguration $webhookConfiguration, string $event) : bool
+    protected function isWebhookEnabledForEvent(WebhookConfiguration $webhookConfiguration, string $event): bool
     {
         if (! config('mailcoach.webhooks.selectable_event_types_enabled', false)) {
             return true;

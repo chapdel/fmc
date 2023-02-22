@@ -28,7 +28,7 @@ it('can select the events to use for the webhook if the setting is enabled', fun
 it('should sync the selected events on saving', function () {
     WebhookConfigurationEvent::create([
         'webhook_configuration_id' => $this->webhook->id,
-        'name' => 'TagRemovedEvent'
+        'name' => 'TagRemovedEvent',
     ]);
 
     \Livewire\Livewire::test('mailcoach::edit-webhook', ['webhook' => $this->webhook])
