@@ -282,8 +282,8 @@ it('can be converted to an export row', function () {
         'tags' => 'one;two',
         'subscribed_at' => now()->format('Y-m-d H:i:s'),
         'unsubscribed_at' => now()->format('Y-m-d H:i:s'),
-        'foo' => 'bar',
         'baz' => 'bad',
+        'foo' => 'bar',
     ]);
 
     $subscriber->update(['extra_attributes' => null]);
