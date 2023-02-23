@@ -20,6 +20,7 @@ class SegmentsQuery extends QueryBuilder
             ->defaultSort('name')
             ->allowedFilters(
                 AllowedFilter::custom('search', new FuzzyFilter('name'))
-            );
+            )
+            ->allowedIncludes(['emailList']);
     }
 }

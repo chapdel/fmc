@@ -208,6 +208,7 @@ it('can search on email', function () {
 });
 
 it('can search on first name', function () {
+    Subscriber::all()->each->delete();
     Subscriber::factory()->create(['first_name' => 'John Doe']);
     Subscriber::factory()->create(['first_name' => 'Jane Doe']);
 
