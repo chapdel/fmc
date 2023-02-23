@@ -42,10 +42,15 @@ class WebhookConfiguration extends Model
 
     public function useForAllEvents()
     {
-        if (config('mailcoach.webhooks.selectable_event_types_enabled', false)) {
+        if ($this->selectableEventsEnabled()) {
             return $this->use_for_all_events;
         }
 
         return true;
+    }
+
+    public function selectableEventsEnabled()
+    {
+        return config('mailcoach.webhooks.selectable_event_types_enabled', false);
     }
 }

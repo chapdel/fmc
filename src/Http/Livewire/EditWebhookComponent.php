@@ -5,7 +5,6 @@ namespace Spatie\Mailcoach\Http\Livewire;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
-use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfigurationEvent;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 
@@ -16,9 +15,9 @@ class EditWebhookComponent extends Component
 
     public WebhookConfiguration $webhook;
 
-    public array $email_lists;
+    public array $emailLists;
 
-    public array $event_options = [
+    public array $eventOptions = [
         'SubscribedEvent',
         'UnconfirmedSubscriberCreatedEvent',
         'UnsubscribedEvent',
@@ -27,7 +26,7 @@ class EditWebhookComponent extends Component
         'TagRemovedEvent',
     ];
 
-    public bool $use_for_all_events = false;
+    public bool $useForAllEvents = false;
 
     public function rules(): array
     {
@@ -36,8 +35,8 @@ class EditWebhookComponent extends Component
             'webhook.url' => ['required', 'url', 'starts_with:https'],
             'webhook.secret' => ['required'],
             'webhook.use_for_all_lists' => ['boolean'],
-            'email_lists' => ['nullable', 'array', 'required_if:webhook.use_for_all_lists,false'],
-            'email_lists.*' => [Rule::exists(self::getEmailListTableName(), 'id')],
+            'emailLists' => ['nullable', 'array', 'required_if:webhook.use_for_all_lists,false'],
+            'emailLists.*' => [Rule::exists(self::getEmailListTableName(), 'id')],
         ];
 
         if (config('mailcoach.webhooks.selectable_event_types_enabled', false)) {
@@ -52,13 +51,13 @@ class EditWebhookComponent extends Component
     {
         $this->webhook = $webhook;
 
-        $this->email_lists = $webhook->emailLists->pluck('id')->values()->toArray();
+        $this->emailLists = $webhook->emailLists->pluck('id')->values()->toArray();
     }
 
     public function save()
     {
         $this->webhook->update($this->validate()['webhook']);
-        $this->webhook->emailLists()->sync($this->email_lists);
+        $this->webhook->emailLists()->sync($this->emailLists);
 
         $this->flash(__mc('The webhook has been updated.'));
     }
