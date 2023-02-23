@@ -22,25 +22,24 @@ class SubscribersExportController
             $subscriberCsv = SimpleExcelWriter::streamDownload("{$emailList->name} subscribers.csv");
 
             $header = [
-                'email',
-                'first_name',
-                'last_name',
-                'tags',
-                'subscribed_at',
-                'unsubscribed_at',
+                'email' => null,
+                'first_name' => null,
+                'last_name' => null,
+                'tags' => null,
+                'subscribed_at' => null,
+                'unsubscribed_at' => null,
             ];
 
             $attributesQuery = clone $subscribersQuery;
             $attributesQuery->each(function (Subscriber $subscriber) use (&$header) {
                 $attributes = array_keys($subscriber->extra_attributes->toArray());
-                sort($attributes);
+                $attributes = collect($attributes)->mapWithKeys(fn ($key) => [$key => null])->toArray();
+                ksort($attributes);
 
                 $header = array_merge($header, $attributes);
             });
 
-            $subscriberCsv->addHeader($header);
-
-            $header = collect($header)->mapWithKeys(fn ($key) => [$key => null])->toArray();
+            $subscriberCsv->addHeader(array_keys($header));
 
             $subscribersQuery
                 ->with(['tags'])
