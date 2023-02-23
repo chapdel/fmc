@@ -10,7 +10,7 @@ beforeEach(function () {
     test()->loginToApi();
 });
 
-it('can list campaign', function () {
+it('can list campaigns', function () {
     $templates = Campaign::factory(3)->create();
 
     $this
