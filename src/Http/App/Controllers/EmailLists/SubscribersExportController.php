@@ -39,7 +39,7 @@ class SubscribersExportController
                 $header = array_merge($header, $attributes);
             });
 
-            $subscriberCsv->addHeader(array_keys($header));
+            $subscriberCsv->addHeader(array_unique(array_keys($header)));
 
             $subscribersQuery
                 ->with(['tags'])
