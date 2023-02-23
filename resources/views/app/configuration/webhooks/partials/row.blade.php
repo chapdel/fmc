@@ -14,10 +14,10 @@
             <x-mailcoach::rounded-icon type="error" icon="fas fa-times" />
         @endif
     </td>
-    @if(config('mailcoach.webhooks.selectable_event_types_enabled', false))
+    @if($row->selectableEventsEnabled())
     <td>
        @if ($row->use_for_all_events || $row->events->count() === 6)
-            All
+            {{__mc('All')}}
        @else
             {{ $row->events->count() }} / 6
        @endif

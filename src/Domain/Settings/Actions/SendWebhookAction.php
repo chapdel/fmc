@@ -22,12 +22,12 @@ class SendWebhookAction
 
     protected function sendWebhookIfNeeded(WebhookConfiguration $webhookConfiguration, array $payload): void
     {
-        if ($this->isWebhookEnabledForEvent($webhookConfiguration, $payload['event'])) {
+        if ($this->webhookEnabledForEvent($webhookConfiguration, $payload['event'])) {
             $this->sendWebhook($webhookConfiguration, $payload);
         }
     }
 
-    protected function isWebhookEnabledForEvent(WebhookConfiguration $webhookConfiguration, string $event): bool
+    protected function webhookEnabledForEvent(WebhookConfiguration $webhookConfiguration, string $event): bool
     {
         if (! config('mailcoach.webhooks.selectable_event_types_enabled', false)) {
             return true;

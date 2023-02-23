@@ -35,9 +35,9 @@
             <div class="form-field">
                 <label class=label>{{__mc('Only for these email lists')}}</label>
                 <x-mailcoach::select-field
-                    name="email_lists"
+                    name="emailLists"
                     :multiple="true"
-                    wire:model="email_lists"
+                    wire:model="emailLists"
                     :options="$emailListNames"
                 />
             </div>
@@ -51,7 +51,7 @@
             />
             @if (!$this->webhook->use_for_all_events)
                 <div class="ml-6">
-                    @foreach($event_options as $event)
+                    @foreach($eventOptions as $event)
                         <div class="mb-4">
                             <x-mailcoach::checkbox-field
                                 :name="$event"
