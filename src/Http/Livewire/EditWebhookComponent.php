@@ -27,8 +27,6 @@ class EditWebhookComponent extends Component
         'TagRemovedEvent',
     ];
 
-    public array $selected_events = [];
-
     public bool $use_for_all_events = false;
 
     public function rules(): array
@@ -44,6 +42,7 @@ class EditWebhookComponent extends Component
 
         if (config('mailcoach.webhooks.selectable_event_types_enabled', false)) {
             $rules['webhook.use_for_all_events'] = ['boolean'];
+            $rules['webhook.events'] = ['nullable', 'array'];
         }
 
         return $rules;
@@ -54,17 +53,12 @@ class EditWebhookComponent extends Component
         $this->webhook = $webhook;
 
         $this->email_lists = $webhook->emailLists->pluck('id')->values()->toArray();
-
-        if (config('mailcoach.webhooks.selectable_event_types_enabled', false)) {
-            $this->selected_events = $webhook->events->pluck('name')->values()->toArray();
-        }
     }
 
     public function save()
     {
         $this->webhook->update($this->validate()['webhook']);
         $this->webhook->emailLists()->sync($this->email_lists);
-        $this->syncSelectedEvents();
 
         $this->flash(__mc('The webhook has been updated.'));
     }
@@ -80,25 +74,5 @@ class EditWebhookComponent extends Component
         ])->layout('mailcoach::app.layouts.settings', [
             'title' => $this->webhook->name,
         ]);
-    }
-
-    protected function syncSelectedEvents(): void
-    {
-        if (! config('mailcoach.webhooks.selectable_event_types_enabled', false)) {
-            return;
-        }
-
-        // Remove events on the webhook configuration that are not in the selected events
-        $this->webhook->events()
-            ->whereNotIn('name', $this->selected_events)
-            ->delete();
-
-        // Add the events that are in selected events but not on the webhook configuration
-        foreach ($this->selected_events as $selectedEvent) {
-            WebhookConfigurationEvent::updateOrCreate([
-                'webhook_configuration_id' => $this->webhook->id,
-                'name' => $selectedEvent,
-            ]);
-        }
     }
 }

@@ -118,11 +118,7 @@ it('should only send a webhook for events that are enabled', function () {
 
     $this->webhookConfiguration->update([
         'use_for_all_events' => false,
-    ]);
-
-    WebhookConfigurationEvent::create([
-        'webhook_configuration_id' => $this->webhookConfiguration->id,
-        'name' => 'TagRemovedEvent',
+        'events' => ['TagRemovedEvent']
     ]);
 
     event(new SubscribedEvent($this->subscriber));

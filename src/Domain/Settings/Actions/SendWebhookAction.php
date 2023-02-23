@@ -33,7 +33,7 @@ class SendWebhookAction
             return true;
         }
 
-        if ($webhookConfiguration->events->pluck('name')->contains($event)) {
+        if ($webhookConfiguration->events->contains($event)) {
             return true;
         }
 
