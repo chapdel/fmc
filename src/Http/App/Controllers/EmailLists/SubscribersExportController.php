@@ -21,11 +21,33 @@ class SubscribersExportController
 
             $subscriberCsv = SimpleExcelWriter::streamDownload("{$emailList->name} subscribers.csv");
 
+            $header = [
+                'email',
+                'first_name',
+                'last_name',
+                'tags',
+                'subscribed_at',
+                'unsubscribed_at',
+            ];
+
+            $attributesQuery = clone $subscribersQuery;
+            $attributesQuery->each(function (Subscriber $subscriber) use (&$header) {
+                $attributes = array_keys($subscriber->extra_attributes->toArray());
+                sort($attributes);
+
+                $header = array_merge($header, $attributes);
+            });
+
+            $subscriberCsv->addHeader($header);
+
+            $header = collect($header)->mapWithKeys(fn ($key) => [$key => null])->toArray();
+
             $subscribersQuery
                 ->with(['tags'])
-                ->each(function (Subscriber $subscriber) use ($subscriberCsv) {
+                ->each(function (Subscriber $subscriber) use ($subscriberCsv, $header) {
                     $this->resetMaximumExecutionTime();
-                    $subscriberCsv->addRow($subscriber->toExportRow());
+
+                    $subscriberCsv->addRow(array_merge($header, $subscriber->toExportRow()));
 
                     flush();
                 });
