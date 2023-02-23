@@ -4,6 +4,12 @@ namespace Spatie\Mailcoach\Http\Livewire;
 
 use Illuminate\Validation\Rule;
 use Livewire\Component;
+use Spatie\Mailcoach\Domain\Audience\Events\SubscribedEvent;
+use Spatie\Mailcoach\Domain\Audience\Events\TagAddedEvent;
+use Spatie\Mailcoach\Domain\Audience\Events\TagRemovedEvent;
+use Spatie\Mailcoach\Domain\Audience\Events\UnconfirmedSubscriberCreatedEvent;
+use Spatie\Mailcoach\Domain\Audience\Events\UnsubscribedEvent;
+use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
@@ -18,12 +24,12 @@ class EditWebhookComponent extends Component
     public array $emailLists;
 
     public array $eventOptions = [
-        'SubscribedEvent',
-        'UnconfirmedSubscriberCreatedEvent',
-        'UnsubscribedEvent',
-        'CampaignSentEvent',
-        'TagAddedEvent',
-        'TagRemovedEvent',
+        SubscribedEvent::class => 'Subscribed',
+        UnconfirmedSubscriberCreatedEvent::class => 'Unconfirmed subscriber created',
+        UnsubscribedEvent::class => 'Unsubscribed',
+        CampaignSentEvent::class => 'Campaign sent',
+        TagAddedEvent::class => 'Tag added',
+        TagRemovedEvent::class => 'Tag removed',
     ];
 
     public bool $useForAllEvents = false;

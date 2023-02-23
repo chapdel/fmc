@@ -51,12 +51,12 @@
             />
             @if (!$this->webhook->use_for_all_events)
                 <div class="ml-6">
-                    @foreach($eventOptions as $event)
+                    @foreach($eventOptions as $event => $name)
                         <div class="mb-4">
                             <x-mailcoach::checkbox-field
                                 :name="$event"
                                 :value="$event"
-                                :label="$event"
+                                :label="__mc($name)"
                                 wire:model="webhook.events"
                             />
                         </div>
