@@ -26,13 +26,8 @@ it('can select the events to use for the webhook if the setting is enabled', fun
 });
 
 it('should sync the selected events on saving', function () {
-    WebhookConfigurationEvent::create([
-        'webhook_configuration_id' => $this->webhook->id,
-        'name' => 'TagRemovedEvent',
-    ]);
-
     \Livewire\Livewire::test('mailcoach::edit-webhook', ['webhook' => $this->webhook])
-        ->set('selected_events', ['SubscribedEvent', 'UnsubscribedEvent'])
+        ->set('webhook.events', ['SubscribedEvent', 'UnsubscribedEvent'])
         ->set('webhook.url', 'https://example.com/webhook')
         ->set('webhook.use_for_all_events', false)
         ->call('save')
@@ -40,13 +35,13 @@ it('should sync the selected events on saving', function () {
 
     $this->assertEquals(
         ['SubscribedEvent', 'UnsubscribedEvent'],
-        $this->webhook->fresh()->events->pluck('name')->toArray()
+        $this->webhook->fresh()->events->toArray()
     );
 });
 
 it('should update the use_for_all_events flag', function () {
     \Livewire\Livewire::test('mailcoach::edit-webhook', ['webhook' => $this->webhook])
-        ->set('selected_events', ['SubscribedEvent', 'UnsubscribedEvent'])
+        ->set('webhook.events', ['SubscribedEvent', 'UnsubscribedEvent'])
         ->set('webhook.url', 'https://example.com/webhook')
         ->set('webhook.use_for_all_events', true)
         ->call('save')

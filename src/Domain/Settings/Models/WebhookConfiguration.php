@@ -23,6 +23,11 @@ class WebhookConfiguration extends Model
         'use_for_all_lists' => 'boolean',
         'secret' => 'encrypted',
         'use_for_all_events' => 'boolean',
+        'events' => 'collection',
+    ];
+
+    protected $attributes = [
+        'events' => '[]',
     ];
 
     public function emailLists(): BelongsToMany
@@ -35,12 +40,12 @@ class WebhookConfiguration extends Model
         );
     }
 
-    public function events(): HasMany
+    public function useForAllEvents()
     {
-        return $this->hasMany(
-            WebhookConfigurationEvent::class,
-            'webhook_configuration_id',
-            'id',
-        );
+        if (config('mailcoach.webhooks.selectable_event_types_enabled', false)) {
+            return $this->use_for_all_events;
+        }
+
+        return true;
     }
 }

@@ -53,7 +53,12 @@
                 <div class="ml-6">
                     @foreach($event_options as $event)
                         <div class="mb-4">
-                            <x-mailcoach::checkbox-field :name="$event" :value="$event" :label="$event" wire:model="selected_events" />
+                            <x-mailcoach::checkbox-field
+                                :name="$event"
+                                :value="$event"
+                                :label="$event"
+                                wire:model="webhook.events"
+                            />
                         </div>
                     @endforeach
                 </div>
