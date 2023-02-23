@@ -2,7 +2,6 @@
 
 use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
-use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfigurationEvent;
 
 beforeEach(function () {
     $this->authenticate();
