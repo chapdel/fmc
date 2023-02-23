@@ -11,7 +11,6 @@ use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Settings\Actions\SendWebhookAction;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
-use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfigurationEvent;
 use Spatie\Mailcoach\Mailcoach;
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\WebhookServer\CallWebhookJob;
@@ -118,7 +117,7 @@ it('should only send a webhook for events that are enabled', function () {
 
     $this->webhookConfiguration->update([
         'use_for_all_events' => false,
-        'events' => ['TagRemovedEvent']
+        'events' => ['TagRemovedEvent'],
     ]);
 
     event(new SubscribedEvent($this->subscriber));
