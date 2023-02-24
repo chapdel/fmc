@@ -2,7 +2,9 @@
 
 namespace Spatie\Mailcoach\Http\Api\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Spatie\Mailcoach\Domain\Settings\Rules\MailerConfigKeyNameRule;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -34,6 +36,16 @@ class SendTransactionalMailRequest extends FormRequest
             'attachments.*.content_type' => ['required', 'string'],
             'attachments.*.content_id' => ['nullable', 'string'],
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        Log::debug("Sending transactional mail validation failed.", [
+            'errors' => $validator->errors(),
+            'input' => $this->all(),
+        ]);
+
+        parent::failedValidation($validator);
     }
 
     public function replacements(): array
