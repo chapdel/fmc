@@ -40,7 +40,7 @@ class SendTransactionalMailRequest extends FormRequest
 
     protected function failedValidation(Validator $validator)
     {
-        Log::debug("Sending transactional mail validation failed.", [
+        Log::debug('Sending transactional mail validation failed.', [
             'errors' => $validator->errors(),
             'input' => $this->all(),
         ]);
