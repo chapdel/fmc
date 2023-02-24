@@ -60,15 +60,16 @@
     @apply flex;
     @apply flex-col;
     @apply h-full;
+    overflow-y: scroll;
 }
 
 @screen md {
     .modal {
-        max-height: calc(100vh - 2rem);
+        max-height: calc(90vh - 2rem);
     }
 
     .modal-wrapper-lg .modal {
-        height: calc(100vh - 4rem);
+        height: calc(90vh - 4rem);
         max-height: none;
     }
 }
