@@ -560,6 +560,7 @@ return [
         'setting' => \Spatie\Mailcoach\Domain\Settings\Models\Setting::class,
         'mailer' => \Spatie\Mailcoach\Domain\Settings\Models\Mailer::class,
         'webhook_configuration' => \Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration::class,
+        'webhook_log' => \Spatie\Mailcoach\Domain\Settings\Models\WebhookLog::class,
     ],
 
     'views' => [
@@ -658,6 +659,7 @@ return [
     ],
 
     'event_subscribers' => [
-        'webhooks' => \Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookEventSubscriber::class,
+        'webhook_logs' => \Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookLogEventSubscriber::class,
+        'webhooks' => \Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookEventSubscriber::class
     ],
 ];

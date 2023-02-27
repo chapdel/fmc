@@ -7,6 +7,7 @@
         ['attribute' => 'name', 'label' => __mc('Name'), 'class' => 'w-64'],
         ['attribute' => 'url', 'label' => __mc('URL'), 'class' => 'w-64'],
         ['attribute' => 'use_for_all_lists', 'label' => __mc('Use for all lists'), 'class' => 'w-48'],
+        ['attribute' => 'logs', 'label' => __mc('Logs'), 'class' => 'w-64'],
         ['class' => 'w-12'],
     ]"
     rowPartial="mailcoach::app.configuration.webhooks.partials.row"

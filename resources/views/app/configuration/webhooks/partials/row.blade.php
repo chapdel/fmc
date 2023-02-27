@@ -14,6 +14,11 @@
             <x-mailcoach::rounded-icon type="error" icon="fas fa-times" />
         @endif
     </td>
+    <td class="markup-links">
+        <a href="{{ route('webhooks.logs.index', $row) }}">
+            {{ __mc('View logs') }}
+        </a>
+    </td>
     <td class="td-action">
         <x-mailcoach::dropdown direction="left">
             <ul>

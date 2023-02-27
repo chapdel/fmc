@@ -30,6 +30,9 @@ class SendWebhookAction
             ->payload($payload)
             ->useSecret($webhookConfiguration->secret)
             ->throwExceptionOnFailure()
+            ->meta([
+                'webhook_configuration_uuid' => $webhookConfiguration->uuid,
+            ])
             ->dispatch();
     }
 }
