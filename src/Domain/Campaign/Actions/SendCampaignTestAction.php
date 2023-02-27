@@ -5,16 +5,12 @@ namespace Spatie\Mailcoach\Domain\Campaign\Actions;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Shared\Actions\SendMailAction;
 use Spatie\Mailcoach\Mailcoach;
 
 class SendCampaignTestAction
 {
     use UsesMailcoachModels;
-
-    public function __construct(
-        private SendMailAction $sendMailAction
-    ) {
-    }
 
     public function execute(Campaign $campaign, string $email): void
     {
@@ -47,7 +43,9 @@ class SendCampaignTestAction
         $send->setRelation('campaign', $campaign);
 
         try {
-            $this->sendMailAction->execute($send, isTest: true);
+            /** @var \Spatie\Mailcoach\Domain\Shared\Actions\SendMailAction $sendMailAction */
+            $sendMailAction = Mailcoach::getCampaignActionClass('send_mail', SendMailAction::class);
+            $sendMailAction->execute($send, isTest: true);
         } finally {
             $campaign->update([
                 'subject' => $originalSubject,
