@@ -2,14 +2,11 @@
 
 namespace Spatie\Mailcoach\Http\Livewire;
 
-use Illuminate\Http\Request;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookLog;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Http\App\Livewire\DataTableComponent;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
-use Spatie\Mailcoach\Http\App\Queries\WebhookLogsQuery;
 use Spatie\WebhookServer\WebhookCall;
 
 class WebhookLogComponent extends Component
@@ -18,6 +15,7 @@ class WebhookLogComponent extends Component
     use UsesMailcoachModels;
 
     public WebhookConfiguration $webhook;
+
     public WebhookLog $webhookLog;
 
     public function mount(WebhookConfiguration $webhook, WebhookLog $webhookLog)
@@ -26,7 +24,8 @@ class WebhookLogComponent extends Component
         $this->webhookLog = $webhookLog;
     }
 
-    public function render() {
+    public function render()
+    {
         return view('mailcoach::app.configuration.webhooks.logs.show', [
             'webhookLog' => $this->webhookLog,
         ])->layout('mailcoach::app.layouts.settings', [
@@ -54,6 +53,5 @@ class WebhookLogComponent extends Component
                 'webhook_configuration_uuid' => $this->webhook->uuid,
             ])
             ->dispatchSync();
-
     }
 }
