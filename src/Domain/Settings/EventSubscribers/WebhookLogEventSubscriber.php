@@ -15,27 +15,32 @@ class WebhookLogEventSubscriber
     {
         return [
             WebhookCallSucceededEvent::class => 'handleWebhookEvent',
-            WebhookCallFailedEvent::class => 'handleWebhookEvent',
-            FinalWebhookCallFailedEvent::class => 'handleWebhookEvent',
+            WebhookCallFailedEvent::class => 'handleWebhookEvent'
         ];
     }
 
     public function handleWebhookEvent(WebhookCallEvent $event)
     {
         $body = $event->response?->getBody()?->getContents();
+        $decodedBody = json_decode($body);
 
         $webhookConfiguration = WebhookConfiguration::findByUuid($event->meta['webhook_configuration_uuid']);
 
-        WebhookLog::create([
-            'webhook_call_uuid' => $event->uuid,
+        $data = [
+            'webhook_call_uuid' => $event->meta['webhook_call_uuid'],
             'webhook_configuration_id' => $webhookConfiguration->id,
             'webhook_event_type' => get_class($event),
             'event_type' => $event->payload['event'],
-            'attempt' => $event->attempt,
             'webhook_url' => $event->webhookUrl,
-            'payload' => json_encode($event->payload),
-            'response' => json_encode($body),
+            'payload' => $event->payload,
+            'response' => $decodedBody ?? $body,
             'status_code' => $event->response?->getStatusCode(),
-        ]);
+        ];
+
+        if (!isset($event->meta['manual']) || $event->meta['manual'] !== 'true') {
+            $data['attempt'] = $event->attempt;
+        }
+
+        WebhookLog::create($data);
     }
 }

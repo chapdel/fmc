@@ -1,13 +1,20 @@
 <x-mailcoach::card>
     <dl class="mt-8 dl max-w-full overflow-hidden">
         <dt>
+            {{__mc('Sent at')}}
+        </dt>
+        <dd>
+            {{ $webhookLog->created_at }}
+        </dd>
+
+        <dt>
             {{__mc('Status Code')}}
         </dt>
         <dd>
             <span class="inline-flex items-center">
                 <x-mailcoach::rounded-icon
-                    :type="$webhookLog->wasSuccesful ? 'success' : 'error'"
-                    :icon="$webhookLog->wasSuccesful ? 'fa-fw fas fa-check' : 'fas fa-times'"
+                    :type="$webhookLog->wasSuccessful() ? 'success' : 'error'"
+                    :icon="$webhookLog->wasSuccessful() ? 'fa-fw fas fa-check' : 'fas fa-times'"
                 />
                 <span class="pl-2">{{ $webhookLog->status_code }}</span>
             </span>
@@ -28,13 +35,6 @@
         </dd>
 
         <dt>
-            {{__mc('Sent at')}}
-        </dt>
-        <dd>
-            {{ $webhookLog->created_at }}
-        </dd>
-
-        <dt>
             {{__mc('URL')}}
         </dt>
         <dd>
@@ -52,7 +52,7 @@
             {{__mc('Response')}}
         </dt>
         <dd>
-            <pre class="bg-gray-200 p-4 rounded">{{ json_encode($webhookLog->response, JSON_PRETTY_PRINT) }}</pre>
+            <pre class="bg-gray-200 p-4 rounded overflow-x-scroll">{{ $this->getPrintableResponse() }}</pre>
         </dd>
 
         <dt></dt>

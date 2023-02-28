@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Settings\Actions;
 
+use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 use Spatie\WebhookServer\WebhookCall;
@@ -32,6 +33,7 @@ class SendWebhookAction
             ->throwExceptionOnFailure()
             ->meta([
                 'webhook_configuration_uuid' => $webhookConfiguration->uuid,
+                'webhook_call_uuid' => Str::uuid(),
             ])
             ->dispatch();
     }

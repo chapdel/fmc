@@ -3,10 +3,14 @@
 namespace Spatie\Mailcoach\Http\Livewire;
 
 use Illuminate\Http\Request;
+use Spatie\Mailcoach\Domain\Settings\Actions\ResendWebhookCallAction;
+use Spatie\Mailcoach\Domain\Settings\Actions\SendWebhookAction;
+use Spatie\Mailcoach\Domain\Settings\Models\WebhookLog;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\DataTableComponent;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 use Spatie\Mailcoach\Http\App\Queries\WebhookLogsQuery;
+use Spatie\Mailcoach\Mailcoach;
 
 class WebhookLogsComponent extends DataTableComponent
 {
@@ -43,5 +47,23 @@ class WebhookLogsComponent extends DataTableComponent
             'webhookLogs' => (new WebhookLogsQuery($request))->paginate(),
             'totalWebhookLogsCount' => self::getWebhookLogClass()::count(),
         ];
+    }
+
+    public function resend(WebhookLog $webhookLog)
+    {
+        ray('RESEND');
+        $this->resendWebhookAction()->execute($webhookLog);
+
+        return redirect()->route('webhooks.logs.index', [
+            'webhook' => $webhookLog->webhookConfiguration,
+        ]);
+    }
+
+    protected function resendWebhookAction(): ResendWebhookCallAction
+    {
+        /** @var $action ResendWebhookCallAction */
+        $action = Mailcoach::getSharedActionClass('resend_webhook', ResendWebhookCallAction::class);
+
+        return $action;
     }
 }

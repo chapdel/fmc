@@ -12,7 +12,6 @@ class WebhookLogsQuery extends QueryBuilder
 
     public function __construct(?Request $request = null)
     {
-        ray('WebhookLogsQuery');
         parent::__construct(self::getWebhookLogClass()::query(), $request);
 
         $this->defaultSort(['created_at', 'desc'])

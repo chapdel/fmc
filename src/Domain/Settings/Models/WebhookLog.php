@@ -19,7 +19,7 @@ class WebhookLog extends Model
 
     protected $casts = [
         'payload' => 'array',
-        'response' => 'json',
+        'response' => 'array',
     ];
 
     public function webhookConfiguration()

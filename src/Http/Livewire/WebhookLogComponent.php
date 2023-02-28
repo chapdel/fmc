@@ -2,14 +2,11 @@
 
 namespace Spatie\Mailcoach\Http\Livewire;
 
-use Illuminate\Http\Request;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookLog;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Http\App\Livewire\DataTableComponent;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
-use Spatie\Mailcoach\Http\App\Queries\WebhookLogsQuery;
 use Spatie\WebhookServer\WebhookCall;
 
 class WebhookLogComponent extends Component
@@ -34,10 +31,20 @@ class WebhookLogComponent extends Component
         ]);
     }
 
+    public function getPrintableResponse()
+    {
+        $response = $this->webhookLog->response;
+
+        // If the response is a string (likely a HTML response), we can show it as is.
+        if(is_string($response)) {
+            return $response;
+        }
+
+        return json_encode($response, JSON_PRETTY_PRINT);
+    }
+
     public function resend()
     {
-//        $this->webhookLog->resend();
-//
 //        $this->flashSuccess(__mc('webhook_log.resend_success'));
 
         ray($this->webhookLog->payload);
@@ -54,6 +61,5 @@ class WebhookLogComponent extends Component
                 'webhook_configuration_uuid' => $this->webhook->uuid,
             ])
             ->dispatchSync();
-
     }
 }
