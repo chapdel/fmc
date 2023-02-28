@@ -17,9 +17,9 @@ class CampaignResource extends JsonResource
             'uuid' => $this->uuid,
             'name' => $this->name,
 
-            'email_list_uuid' => $this->emailList->uuid,
+            'email_list_uuid' => $this->emailList?->uuid,
             'email_list' => $this->whenLoaded('emailList', function () {
-                return new EmailListResource($this->emailList);
+                return $this->emailList ? new EmailListResource($this->emailList) : null;
             }),
 
             'template_uuid' => $this->template?->uuid,

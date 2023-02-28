@@ -45,14 +45,22 @@ class EmailListSubscribersQuery extends QueryBuilder
                 AllowedFilter::callback('tagType', function (Builder $query, $value) {
                     // Nothing
                 }),
-                AllowedFilter::callback('tags', function (Builder $query, $value) use ($request) {
+                AllowedFilter::callback('tags', function (Builder $query, $value) use ($emailList, $request) {
                     $value = Arr::wrap($value);
 
-                    $tagIds = self::getTagClass()::whereIn('uuid', $value)->pluck('id');
+                    $tagIds = self::getTagClass()::query()
+                        ->where('email_list_id', $emailList->id)
+                        ->where(function (Builder $query) use ($value) {
+                            $query->whereIn('uuid', $value)
+                                ->orWhereIn('name', $value);
+                        })
+                        ->pluck('id');
 
                     if (! $tagIds->count()) {
                         return;
                     }
+
+                    $request ??= request();
 
                     if (($request->get('filter')['tagType'] ?? 'any') === 'all') {
                         $query->where(

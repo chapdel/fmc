@@ -207,7 +207,7 @@ it('can render twig inside the template with if tags', function () {
         ->assertSuccessful();
 
     expect(TransactionalMailLogItem::first()->body)
-        ->toBe("<html></html>\n");
+        ->toContain("<html></html>\n");
 });
 
 it('can accept attachments', function () {

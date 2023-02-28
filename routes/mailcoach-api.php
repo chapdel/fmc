@@ -9,11 +9,13 @@ use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignUnsubscribesControll
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\SendCampaignController;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\SendTestEmailController;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\EmailListsController;
+use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\SegmentsController;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\ConfirmSubscriberController;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\ResendConfirmationMailController;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\ResubscribeController;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\SubscribersController;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\UnsubscribeController;
+use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\TagsController;
 use Spatie\Mailcoach\Http\Api\Controllers\SendsController;
 use Spatie\Mailcoach\Http\Api\Controllers\SubscriberImports\AppendSubscriberImportController;
 use Spatie\Mailcoach\Http\Api\Controllers\SubscriberImports\StartSubscriberImportController;
@@ -42,6 +44,8 @@ Route::prefix('campaigns/{campaign}')->group(function () {
 
 Route::apiResource('email-lists', EmailListsController::class);
 Route::apiResource('email-lists.subscribers', SubscribersController::class)->only(['index', 'store']);
+Route::apiResource('email-lists.tags', TagsController::class);
+Route::apiResource('email-lists.segments', SegmentsController::class);
 Route::apiResource('subscribers', SubscribersController::class)->except(['index', 'store']);
 
 Route::prefix('subscribers/{subscriber}')->group(function () {

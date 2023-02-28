@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.13.1 - 2023-02-24
+
+- Fix an issue with large modals overflowing
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.13.0...6.13.1
+
+## 6.13.0 - 2023-02-23
+
+### What's new
+
+- Added API endpoints for tags & segments
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.12.4...6.13.0
+
 ## 6.12.4 - 2023-02-20
 
 - Inline html in transactional emails - fix #1223
