@@ -13,6 +13,10 @@ class WebhookLogEventSubscriber
 {
     public function subscribe(): array
     {
+        if (config('mailcoach.webhooks.logs') === false) {
+            return [];
+        }
+
         return [
             WebhookCallSucceededEvent::class => 'handleWebhookEvent',
             WebhookCallFailedEvent::class => 'handleWebhookEvent'

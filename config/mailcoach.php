@@ -663,4 +663,12 @@ return [
         'webhook_logs' => \Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookLogEventSubscriber::class,
         'webhooks' => \Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookEventSubscriber::class,
     ],
+
+    'webhooks' => [
+        /**
+         * Store and view logs of all webhook calls.
+         * Make sure you publish and run the `create_webhook_logs_table` migration when enabling this feature.
+         */
+        'logs' => false,
+    ],
 ];

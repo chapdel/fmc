@@ -15,9 +15,11 @@
         @endif
     </td>
     <td class="markup-links">
-        <a href="{{ route('webhooks.logs.index', $row) }}">
-            {{ __mc('View logs') }}
-        </a>
+        @if (config('mailcoach.webhooks.logs', false))
+            <a href="{{ route('webhooks.logs.index', $row) }}">
+                {{ __mc('View logs') }}
+            </a>
+        @endif
     </td>
     <td class="td-action">
         <x-mailcoach::dropdown direction="left">
