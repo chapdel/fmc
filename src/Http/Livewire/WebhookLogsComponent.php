@@ -54,10 +54,7 @@ class WebhookLogsComponent extends DataTableComponent
     public function resend(WebhookLog $webhookLog)
     {
         $this->resendWebhookAction()->execute($webhookLog);
-
-        return redirect()->route('webhooks.logs.index', [
-            'webhook' => $webhookLog->webhookConfiguration,
-        ]);
+        $this->resetPage();
     }
 
     protected function resendWebhookAction(): ResendWebhookCallAction
