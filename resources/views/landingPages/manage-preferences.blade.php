@@ -31,16 +31,38 @@
             $refs.all.disabled = false;
         }
     })">
-        <form method="POST">
-            @foreach ($tags as $tag)
-                <x-mailcoach::checkbox-field class="mb-2" name="tags[{{ $tag->name }}]" :label="$tag->name" :checked="$subscriber->hasTag($tag->name)" :errors="$errors" />
-            @endforeach
+        <form method="POST" class="flex flex-col gap-y-4">
+            <x-mailcoach::text-field
+                class="mb-2"
+                label="{{ __mc('First name') }}"
+                name="first_name"
+                value="{{ $subscriber->first_name }}"
+                :errors="$errors"
+            />
 
-            <hr class="mt-6" />
+            <x-mailcoach::text-field
+                class="mb-2"
+                label="{{ __mc('Last name') }}"
+                name="last_name"
+                value="{{ $subscriber->last_name }}"
+                :errors="$errors"
+            />
 
-            <div class="mt-6">
-                <x-mailcoach::checkbox-field class="mb-2" x-ref="all" x-model="unsubscribeFromAll" name="unsubscribe_from_all" :label="__mc('Unsubscribe from all')" :errors="$errors" />
-            </div>
+            @if (count($tags))
+                <label class="label" for="tags">
+                    {{ __mc('Preferences') }}
+                </label>
+
+                @foreach ($tags as $tag)
+                    <x-mailcoach::checkbox-field name="tags[{{ $tag->name }}]" :label="$tag->name" :checked="$subscriber->hasTag($tag->name)" :errors="$errors" />
+                @endforeach
+
+                <hr />
+
+                <x-mailcoach::checkbox-field x-ref="all" x-model="unsubscribeFromAll" name="unsubscribe_from_all" :label="__mc('Unsubscribe from all')" :errors="$errors" />
+            @else
+                <x-mailcoach::checkbox-field x-ref="all" x-model="unsubscribeFromAll" name="unsubscribe_from_all" :label="__mc('Unsubscribe')" :errors="$errors" />
+            @endif
 
             @csrf
             <x-mailcoach::button class="mt-4" type="submit" :label="__mc('Save')" />

@@ -44,10 +44,6 @@ class ManagePreferencesController
 
         $tags = $emailList->tags()->where('type', TagType::Default)->where('visible_in_preferences', true)->get();
 
-        if (! $tags->count()) {
-            return view('mailcoach::landingPages.unsubscribe', compact('emailList', 'subscriber', 'send'));
-        }
-
         return view('mailcoach::landingPages.manage-preferences', compact('emailList', 'subscriber', 'send', 'tags', 'updated'));
     }
 
@@ -66,9 +62,8 @@ class ManagePreferencesController
 
         /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
         $send = self::getSendClass()::findByUuid($sendUuid ?? '');
-        $tags = $emailList->tags()->where('type', TagType::Default)->where('visible_in_preferences', true)->get();
 
-        if ($request->get('unsubscribe_from_all') || ! $tags->count()) {
+        if ($request->get('unsubscribe_from_all')) {
             $subscriber->unsubscribe($send);
 
             $emailList = $subscriber->emailList;
@@ -79,6 +74,10 @@ class ManagePreferencesController
         }
 
         $subscriber->syncPreferenceTags(array_keys($request->get('tags', [])));
+        $subscriber->update([
+            'first_name' => $request->get('first_name'),
+            'last_name' => $request->get('last_name'),
+        ]);
 
         cache()->put('updated-'.$subscriberUuid, true);
 
