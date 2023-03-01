@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Domain\Settings\EventSubscribers;
 
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookLog;
-use Spatie\WebhookServer\Events\FinalWebhookCallFailedEvent;
 use Spatie\WebhookServer\Events\WebhookCallEvent;
 use Spatie\WebhookServer\Events\WebhookCallFailedEvent;
 use Spatie\WebhookServer\Events\WebhookCallSucceededEvent;
@@ -19,7 +18,7 @@ class WebhookLogEventSubscriber
 
         return [
             WebhookCallSucceededEvent::class => 'handleWebhookEvent',
-            WebhookCallFailedEvent::class => 'handleWebhookEvent'
+            WebhookCallFailedEvent::class => 'handleWebhookEvent',
         ];
     }
 
@@ -43,7 +42,7 @@ class WebhookLogEventSubscriber
             'status_code' => $event->response?->getStatusCode(),
         ];
 
-        if (!isset($event->meta['manual']) || $event->meta['manual'] !== 'true') {
+        if (! isset($event->meta['manual']) || $event->meta['manual'] !== 'true') {
             $data['attempt'] = $event->attempt;
         }
 

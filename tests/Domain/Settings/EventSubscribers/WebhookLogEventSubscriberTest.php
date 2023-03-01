@@ -10,25 +10,26 @@ beforeEach(function () {
     $this->subscriber = resolve(WebhookLogEventSubscriber::class);
 });
 
-function createEvent($eventClass, $callUuid) {
+function createEvent($eventClass, $callUuid)
+{
     $webhookConfiguration = WebhookConfigurationFactory::new()->create();
 
     return new $eventClass(
         'post',
         'https://example.com',
         [
-            "tags" => [],
-            "uuid" => "51e5b73f-b94d-4db3-bf5e-0796860206d5",
-            "email" => "tim+36@spatie.be",
-            "event" => "SubscribedEvent",
-            "last_name" => null,
-            "created_at" => "2023-02-28T10:47:31.000000Z",
-            "first_name" => null,
-            "updated_at" => "2023-02-28T10:47:31.000000Z",
-            "subscribed_at" => "2023-02-28T10:47:31.000000Z",
-            "email_list_uuid" => "3d90fd11-ca98-3719-ae82-1ffb65a59e01",
-            "unsubscribed_at" => null,
-            "extra_attributes" => [],
+            'tags' => [],
+            'uuid' => '51e5b73f-b94d-4db3-bf5e-0796860206d5',
+            'email' => 'tim+36@spatie.be',
+            'event' => 'SubscribedEvent',
+            'last_name' => null,
+            'created_at' => '2023-02-28T10:47:31.000000Z',
+            'first_name' => null,
+            'updated_at' => '2023-02-28T10:47:31.000000Z',
+            'subscribed_at' => '2023-02-28T10:47:31.000000Z',
+            'email_list_uuid' => '3d90fd11-ca98-3719-ae82-1ffb65a59e01',
+            'unsubscribed_at' => null,
+            'extra_attributes' => [],
         ],
         [],
         [

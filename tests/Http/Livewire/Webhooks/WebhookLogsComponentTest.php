@@ -15,7 +15,7 @@ beforeEach(function () {
 
 it('should render an overview of webhook call logs', function () {
     Livewire::test('mailcoach::webhook-logs', [
-        'webhook' => $this->webhook
+        'webhook' => $this->webhook,
     ])->assertHasNoErrors();
 });
 
