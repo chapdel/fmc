@@ -19,14 +19,14 @@ class WebhookLogFactory extends Factory
             'webhook_configuration_id' => WebhookConfiguration::factory(),
             'webhook_event_type' => $this->faker->randomElement([
                 WebhookCallFailedEvent::class,
-                WebhookCallSucceededEvent::class
+                WebhookCallSucceededEvent::class,
             ]),
             'event_type' => $this->faker->randomElement([
                 'SubscribedEvent',
                 'UnsubscribedEvent',
                 'CampaignSentEvent',
                 'TagAddedEvent',
-                'TagRemovedEvent'
+                'TagRemovedEvent',
             ]),
             'webhook_call_uuid' => $this->faker->uuid,
             'attempt' => $this->faker->numberBetween(0, 5),

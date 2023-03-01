@@ -12,6 +12,6 @@ it('should render an overview of webhook call logs', function () {
         ->create();
 
     Livewire::test('mailcoach::webhook-logs', [
-        'webhook' => $webhook
+        'webhook' => $webhook,
     ])->assertHasNoErrors();
 });

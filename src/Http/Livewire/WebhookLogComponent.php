@@ -38,7 +38,7 @@ class WebhookLogComponent extends Component
         $response = $this->webhookLog->response;
 
         // If the response is a string (likely a HTML response), we can show it as is.
-        if(is_string($response)) {
+        if (is_string($response)) {
             return $response;
         }
 

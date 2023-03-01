@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Domain\Settings\Actions;
 
-use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookLog;
 use Spatie\WebhookServer\WebhookCall;
 
