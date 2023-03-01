@@ -8,7 +8,7 @@
     <div class="mt-4">
         <form method="POST">
             @csrf
-            <button class="button bg-red-400 shadow" id="confirmationButton" type="submit">{{__mc('Unsubscribe') }}</button>
+            <button class="button shadow" id="confirmationButton" type="submit">{{__mc('Unsubscribe') }}</button>
         </form>
     </div>
 @endsection
