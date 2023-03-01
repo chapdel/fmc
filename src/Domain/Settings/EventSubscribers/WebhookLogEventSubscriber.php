@@ -21,6 +21,8 @@ class WebhookLogEventSubscriber
 
     public function handleWebhookEvent(WebhookCallEvent $event)
     {
+        ray($event);
+
         $body = $event->response?->getBody()?->getContents();
         $decodedBody = json_decode($body);
 

@@ -12,4 +12,5 @@
     ]"
     rowPartial="mailcoach::app.configuration.webhooks.logs.partials.row"
     :emptyText="__mc('No webhooks logs.')"
+    :searchable="false"
 />

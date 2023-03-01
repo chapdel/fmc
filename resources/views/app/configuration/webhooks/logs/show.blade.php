@@ -28,10 +28,10 @@
         </dd>
 
         <dt>
-            {{__mc('Attempt #')}}
+            {{__mc('Attempt')}}
         </dt>
         <dd>
-            {{ $webhookLog->attempt }}
+            {{ $webhookLog->attempt ?? __mc('Manual') }}
         </dd>
 
         <dt>
@@ -53,13 +53,6 @@
         </dt>
         <dd>
             <pre class="bg-gray-200 p-4 rounded overflow-x-scroll">{{ $this->getPrintableResponse() }}</pre>
-        </dd>
-
-        <dt></dt>
-        <dd>
-            <div>
-                <x-mailcoach::button wire:click.prevent="resend" :label="__mc('Resend')"/>
-            </div>
         </dd>
     </dl>
 </x-mailcoach::card>

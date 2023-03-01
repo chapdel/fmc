@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Http\Livewire;
 
 use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Settings\Actions\ResendWebhookCallAction;
-use Spatie\Mailcoach\Domain\Settings\Actions\SendWebhookAction;
+use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookLog;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\DataTableComponent;
@@ -18,6 +18,8 @@ class WebhookLogsComponent extends DataTableComponent
     use UsesMailcoachModels;
 
     public string $sort = '-created_at';
+
+    public WebhookConfiguration $webhook;
 
     public function getTitle(): string
     {
@@ -44,14 +46,13 @@ class WebhookLogsComponent extends DataTableComponent
     public function getData(Request $request): array
     {
         return [
-            'webhookLogs' => (new WebhookLogsQuery($request))->paginate(),
+            'webhookLogs' => (new WebhookLogsQuery($this->webhook, $request))->paginate(),
             'totalWebhookLogsCount' => self::getWebhookLogClass()::count(),
         ];
     }
 
     public function resend(WebhookLog $webhookLog)
     {
-        ray('RESEND');
         $this->resendWebhookAction()->execute($webhookLog);
 
         return redirect()->route('webhooks.logs.index', [

@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('webhook_logs', function (Blueprint $table) {
+        Schema::create('mailcoach_webhook_logs', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
             $table->unsignedBigInteger('webhook_configuration_id');
