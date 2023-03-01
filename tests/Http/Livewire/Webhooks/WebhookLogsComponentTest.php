@@ -29,6 +29,6 @@ it('should be able to resend a webhook call', function () {
     });
 
     Livewire::test('mailcoach::webhook-logs', [
-        'webhook' => $this->webhook
+        'webhook' => $this->webhook,
     ])->call('resend', $log);
 });
