@@ -15,6 +15,7 @@ class WebhookLogComponent extends Component
     use UsesMailcoachModels;
 
     public WebhookConfiguration $webhook;
+
     public WebhookLog $webhookLog;
 
     public function mount(WebhookConfiguration $webhook, WebhookLog $webhookLog): void
