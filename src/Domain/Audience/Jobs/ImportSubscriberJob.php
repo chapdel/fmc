@@ -27,6 +27,8 @@ class ImportSubscriberJob implements ShouldQueue
 
     public $maxAttempts = 3;
 
+    public bool $deleteWhenMissingModels = true;
+
     public function __construct(SubscriberImport $subscriberImport, array $values)
     {
         $this->subscriberImport = $subscriberImport;
