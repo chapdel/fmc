@@ -4,8 +4,8 @@ namespace Spatie\Mailcoach\Domain\Automation\Actions;
 
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
-use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\Shared\Actions\SendMailAction;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Mailcoach;
 
 class SendAutomationMailTestAction
