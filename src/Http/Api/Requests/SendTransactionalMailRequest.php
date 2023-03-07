@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Http\Api\Requests;
 
-use Egulias\EmailValidator\EmailValidator;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Log;
@@ -35,7 +34,7 @@ class SendTransactionalMailRequest extends FormRequest
                     } catch (RfcComplianceException $exception) {
                         $fail($exception->getMessage());
                     }
-                }
+                },
             ],
             'cc' => [
                 'nullable',
@@ -46,7 +45,7 @@ class SendTransactionalMailRequest extends FormRequest
                     } catch (RfcComplianceException $exception) {
                         $fail($exception->getMessage());
                     }
-                }
+                },
             ],
             'bcc' => [
                 'nullable',
@@ -57,7 +56,7 @@ class SendTransactionalMailRequest extends FormRequest
                     } catch (RfcComplianceException $exception) {
                         $fail($exception->getMessage());
                     }
-                }
+                },
             ],
             'reply_to' => [
                 'nullable',
@@ -68,7 +67,7 @@ class SendTransactionalMailRequest extends FormRequest
                     } catch (RfcComplianceException $exception) {
                         $fail($exception->getMessage());
                     }
-                }
+                },
             ],
             'store' => ['boolean'],
             'mailer' => ['string', new MailerConfigKeyNameRule()],
