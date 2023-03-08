@@ -1,6 +1,7 @@
 <?php
 
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\EmailListsController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 
@@ -12,11 +13,13 @@ beforeEach(function () {
 
 it('can list all email lists', function () {
     $emailLists = EmailList::factory(3)->create();
+    Subscriber::factory()->create(['email_list_id' => $emailLists->first()->id]);
 
     $this
         ->getJson(action([EmailListsController::class, 'index']))
         ->assertSuccessful()
-        ->assertSeeText($emailLists->first()->name);
+        ->assertSeeText($emailLists->first()->name)
+        ->assertJsonFragment(['active_subscribers_count' => 1]);
 });
 
 it('can search email lists', function () {
