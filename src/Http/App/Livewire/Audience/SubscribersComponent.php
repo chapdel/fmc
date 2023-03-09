@@ -108,7 +108,7 @@ class SubscribersComponent extends DataTableComponent
     {
         $this->authorize('update', $this->emailList);
 
-        $this->emailList->allSubscribersWithoutIndex()->unsubscribed()->delete();
+        $this->emailList->allSubscribers()->unsubscribed()->delete();
 
         $this->flash(__mc('All unsubscribers of the list have been deleted.'));
     }

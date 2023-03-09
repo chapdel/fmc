@@ -115,9 +115,6 @@ class ListSummaryComponent extends Component
 
     protected function createStats(): Collection
     {
-        $prefix = DB::getTablePrefix();
-        $subscriberTable = $prefix.$this->getSubscriberTableName().(DB::connection() instanceof MySqlConnection ? ' USE INDEX (email_list_subscribed_index)' : '');
-
         $start = Date::parse($this->start);
         $end = Date::parse($this->end);
 
@@ -135,7 +132,7 @@ class ListSummaryComponent extends Component
             'day' => '%Y-%m-%d',
         };
 
-        $subscribes = DB::table(DB::raw($subscriberTable))
+        $subscribes = DB::table(self::getSubscriberTableName())
             ->selectRaw("count(*) as subscribed_count, DATE_FORMAT(subscribed_at, \"{$dateFormat}\") as subscribed_day")
             ->where('email_list_id', $this->emailList->id)
             ->whereBetween('subscribed_at', [$start, $end])
@@ -144,7 +141,7 @@ class ListSummaryComponent extends Component
             ->groupBy('subscribed_day')
             ->get();
 
-        $unsubscribes = DB::table(DB::raw($subscriberTable))
+        $unsubscribes = DB::table(self::getSubscriberTableName())
             ->selectRaw("count(*) as unsubscribe_count, DATE_FORMAT(unsubscribed_at, \"{$dateFormat}\") as unsubscribe_day")
             ->where('email_list_id', $this->emailList->id)
             ->whereBetween('unsubscribed_at', [$start, $end])

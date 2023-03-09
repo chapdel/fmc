@@ -53,27 +53,6 @@ class EmailList extends Model implements HasMedia
 
     public function allSubscribers(): HasMany
     {
-        if (! (DB::connection() instanceof MySqlConnection)) {
-            return $this->allSubscribersWithoutIndex();
-        }
-
-        $query = $this->hasMany(config('mailcoach.models.subscriber'), 'email_list_id')
-            ->getQuery();
-
-        $prefix = DB::getTablePrefix();
-
-        $query = $query->from(DB::raw($prefix.$query->getQuery()->from.' USE INDEX (email_list_subscribed_index)'));
-
-        return $this->newHasMany(
-            $query,
-            $this,
-            self::getSubscriberTableName().'.email_list_id',
-            'id'
-        );
-    }
-
-    public function allSubscribersWithoutIndex(): HasMany
-    {
         return $this->hasMany(self::getSubscriberClass(), 'email_list_id');
     }
 
