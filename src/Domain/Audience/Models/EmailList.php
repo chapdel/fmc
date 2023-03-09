@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Image\Manipulations;
 use Spatie\Mailcoach\Database\Factories\EmailListFactory;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
@@ -183,7 +184,7 @@ class EmailList extends Model implements HasMedia
     public function summarize(CarbonInterface $summaryStartDateTime): array
     {
         return [
-            'total_number_of_subscribers' => $this->subscribers()->count(),
+            'total_number_of_subscribers' => $this->totalSubscriptionsCount(),
             'total_number_of_subscribers_gained' => $this
                 ->allSubscribers()
                 ->where('subscribed_at', '>', $summaryStartDateTime->toDateTimeString())
@@ -193,6 +194,26 @@ class EmailList extends Model implements HasMedia
                 ->where('unsubscribed_at', '>', $summaryStartDateTime->toDateTimeString())
                 ->count(),
         ];
+    }
+
+    public function totalSubscriptionsCount(): int
+    {
+        return Cache::remember(self::class . 'totalSubscriptionsCount' . $this->id, now()->addSeconds(30), fn () => $this->subscribers()->count());
+    }
+
+    public function allSubscriptionsCount(): int
+    {
+        return Cache::remember(self::class . 'allSubscriptionsCount' . $this->id, now()->addSeconds(30), fn () => $this->allSubscribers()->count());
+    }
+
+    public function unconfirmedCount(): int
+    {
+        return Cache::remember(self::class . 'unconfirmedCount' . $this->id, now()->addSeconds(30), fn () => $this->allSubscribers()->unconfirmed()->count());
+    }
+
+    public function unsubscribedCount(): int
+    {
+        return Cache::remember(self::class . 'unsubscribedCount' . $this->id, now()->addSeconds(30), fn () => $this->allSubscribers()->unsubscribed()->count());
     }
 
     protected static function newFactory(): EmailListFactory

@@ -469,7 +469,7 @@ class Campaign extends Sendable implements Feedable
             return 0;
         }
 
-        return $this->emailList->subscribers()->count();
+        return $this->emailList->totalSubscriptionsCount();
     }
 
     public function sendsCount(): int

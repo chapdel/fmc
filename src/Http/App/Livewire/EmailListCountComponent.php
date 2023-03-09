@@ -26,7 +26,7 @@ class EmailListCountComponent extends Component
     public function render()
     {
         if ($this->readyToLoad) {
-            $this->result = $this->emailList->subscribers()->count();
+            $this->result = $this->emailList->totalSubscriptionsCount();
         }
 
         return <<<'blade'

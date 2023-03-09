@@ -53,7 +53,7 @@ class SegmentSubscribersComponent extends DataTableComponent
             'emailList' => $this->emailList,
             'segment' => $this->segment,
             'subscribers' => $this->segment->getSubscribersQuery()->with(['tags'])->paginate($request->per_page),
-            'subscribersCount' => $this->emailList->subscribers()->count(),
+            'subscribersCount' => $this->emailList->totalSubscriptionsCount(),
             'selectedSubscribersCount' => $this->segment->getSubscribersCount(),
         ];
     }

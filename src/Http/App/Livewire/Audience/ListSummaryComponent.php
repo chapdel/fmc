@@ -79,8 +79,8 @@ class ListSummaryComponent extends Component
         $data = [];
 
         if ($this->readyToLoad) {
-            $this->totalSubscriptionsCount = $this->emailList->subscribers()->count();
-            $this->totalUnsubscribeCount = $this->emailList->allSubscribers()->unsubscribed()->count();
+            $this->totalSubscriptionsCount = $this->emailList->totalSubscriptionsCount();
+            $this->totalUnsubscribeCount = $this->emailList->unsubscribedCount();
 
             $this->startSubscriptionsCount = $this->emailList->subscribers()
                 ->where('subscribed_at', '<', $this->start)
