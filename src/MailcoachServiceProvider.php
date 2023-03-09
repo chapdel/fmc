@@ -154,6 +154,7 @@ use Spatie\Mailcoach\Http\App\Livewire\Spotlight\ShowTransactionalTemplateComman
 use Spatie\Mailcoach\Http\App\Livewire\Spotlight\TemplatesCommand;
 use Spatie\Mailcoach\Http\App\Livewire\Spotlight\TransactionalLogCommand;
 use Spatie\Mailcoach\Http\App\Livewire\Spotlight\TransactionalTemplatesCommand;
+use Spatie\Mailcoach\Http\App\Livewire\TagPopulationCountComponent;
 use Spatie\Mailcoach\Http\App\Livewire\TextAreaEditorComponent;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\CreateTransactionalTemplateComponent;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailContentComponent;
@@ -570,6 +571,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
         Livewire::component('mailcoach::email-list-count', EmailListCountComponent::class);
         Livewire::component('mailcoach::segment-population-count', SegmentPopulationCountComponent::class);
+        Livewire::component('mailcoach::tag-population-count', TagPopulationCountComponent::class);
         Livewire::component('mailcoach::text-area-editor', TextAreaEditorComponent::class);
         Livewire::component('mailcoach::link-check', LinkCheckComponent::class);
 

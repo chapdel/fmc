@@ -6,6 +6,7 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Queries\Filters\FuzzyFilter;
 use Spatie\Mailcoach\Http\App\Queries\Filters\TagTypeFilter;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -13,17 +14,11 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class EmailListTagsQuery extends QueryBuilder
 {
+    use UsesMailcoachModels;
+
     public function __construct(EmailList $emailList, ?Request $request = null)
     {
-        $query = Tag::query()
-            ->addSelect(['subscriber_count' => function (Builder $query) {
-                $query
-                    ->selectRaw('count(id)')
-                    ->from('mailcoach_email_list_subscriber_tags')
-                    ->whereColumn('mailcoach_email_list_subscriber_tags.tag_id', 'mailcoach_tags.id');
-            }]);
-
-        parent::__construct($query, $request);
+        parent::__construct(self::getTagClass()::query(), $request);
 
         $this
 
