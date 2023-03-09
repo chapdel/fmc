@@ -198,22 +198,22 @@ class EmailList extends Model implements HasMedia
 
     public function totalSubscriptionsCount(): int
     {
-        return Cache::remember(self::class.'totalSubscriptionsCount'.$this->id, now()->addSeconds(30), fn () => $this->subscribers()->count());
+        return Cache::remember('email-list-totalSubscriptionsCount'.$this->id, now()->addSeconds(30), fn () => $this->subscribers()->count());
     }
 
     public function allSubscriptionsCount(): int
     {
-        return Cache::remember(self::class.'allSubscriptionsCount'.$this->id, now()->addSeconds(30), fn () => $this->allSubscribers()->count());
+        return Cache::remember('email-list-allSubscriptionsCount'.$this->id, now()->addSeconds(30), fn () => $this->allSubscribers()->count());
     }
 
     public function unconfirmedCount(): int
     {
-        return Cache::remember(self::class.'unconfirmedCount'.$this->id, now()->addSeconds(30), fn () => $this->allSubscribers()->unconfirmed()->count());
+        return Cache::remember('email-list-unconfirmedCount'.$this->id, now()->addSeconds(30), fn () => $this->allSubscribers()->unconfirmed()->count());
     }
 
     public function unsubscribedCount(): int
     {
-        return Cache::remember(self::class.'unsubscribedCount'.$this->id, now()->addSeconds(30), fn () => $this->allSubscribers()->unsubscribed()->count());
+        return Cache::remember('email-list-unsubscribedCount'.$this->id, now()->addSeconds(30), fn () => $this->allSubscribers()->unsubscribed()->count());
     }
 
     protected static function newFactory(): EmailListFactory
