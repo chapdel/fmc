@@ -69,6 +69,15 @@ class ImportSubscribersAction
                     dispatch(new ImportSubscriberJob($this->subscriberImport, $values));
                 });
 
+            if (is_null($totalRows)) {
+                $this->subscriberImport->addError(__mc('Could not import subscribers. Check the formatting of the uploaded file.'));
+                $this->subscriberImport->update([
+                    'status' => SubscriberImportStatus::Failed,
+                ]);
+
+                return $this;
+            }
+
             $this->subscriberImport->update(['status' => SubscriberImportStatus::Importing]);
 
             dispatch(new CompleteSubscriberImportJob($this->subscriberImport, $totalRows, $this->user, $this->sendNotification));
