@@ -40,9 +40,11 @@ class CreateSubscriberAction
                 'unsubscribed_at' => null,
             ]);
 
-            $extraAttributes = array_merge($pendingSubscriber->attributes['extra_attributes'], $subscriber->extra_attributes->all());
+            if (isset($pendingSubscriber->attributes['extra_attributes'])) {
+                $extraAttributes = array_merge($subscriber->extra_attributes->all(), $pendingSubscriber->attributes['extra_attributes']);
 
-            $pendingSubscriber->attributes['extra_attributes'] = $extraAttributes;
+                $pendingSubscriber->attributes['extra_attributes'] = $extraAttributes;
+            }
 
             $subscriber->fill($pendingSubscriber->attributes);
 
