@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Http\App\Livewire;
 
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag;
-use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
 
 class TagPopulationCountComponent extends Component
 {
