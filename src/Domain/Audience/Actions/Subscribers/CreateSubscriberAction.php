@@ -40,6 +40,12 @@ class CreateSubscriberAction
                 'unsubscribed_at' => null,
             ]);
 
+            if (isset($pendingSubscriber->attributes['extra_attributes'])) {
+                $extraAttributes = array_merge($subscriber->extra_attributes->all(), $pendingSubscriber->attributes['extra_attributes']);
+
+                $pendingSubscriber->attributes['extra_attributes'] = $extraAttributes;
+            }
+
             $subscriber->fill($pendingSubscriber->attributes);
 
             if (! $wasAlreadySubscribed && $pendingSubscriber->emailList->requires_confirmation && $pendingSubscriber->respectDoubleOptIn) {
