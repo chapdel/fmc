@@ -16,10 +16,10 @@
     </td>
     @if($row->selectableEventsEnabled())
     <td>
-       @if ($row->use_for_all_events || $row->events->count() === 6)
+       @if ($row->useForAllEvents() || $row->events->count() === $row->countSelectableEventTypes())
             {{__mc('All')}}
        @else
-            {{ $row->events->count() }} / 6
+            {{ $row->events->count() }} / {{ $row->countSelectableEventTypes() }}
        @endif
     </td>
     @endif

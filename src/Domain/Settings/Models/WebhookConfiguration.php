@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Domain\Settings\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Spatie\Mailcoach\Domain\Settings\Enums\WebhookEventTypes;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
@@ -39,7 +40,7 @@ class WebhookConfiguration extends Model
         );
     }
 
-    public function useForAllEvents()
+    public function useForAllEvents(): bool
     {
         if ($this->selectableEventsEnabled()) {
             return $this->use_for_all_events;
@@ -48,8 +49,13 @@ class WebhookConfiguration extends Model
         return true;
     }
 
-    public function selectableEventsEnabled()
+    public function selectableEventsEnabled(): bool
     {
         return config('mailcoach.webhooks.selectable_event_types_enabled', false);
+    }
+
+    public function countSelectableEventTypes(): int
+    {
+        return count(WebhookEventTypes::cases());
     }
 }

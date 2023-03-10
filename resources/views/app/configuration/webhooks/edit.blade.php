@@ -49,7 +49,7 @@
                 :label="__mc('Use for all events')"
                 wire:model="webhook.use_for_all_events"
             />
-            @if (!$this->webhook->use_for_all_events)
+            @if (!$this->webhook->useForAllEvents())
                 <div class="ml-6">
                     @foreach($eventOptions as $event => $name)
                         <div class="mb-4">

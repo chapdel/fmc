@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Http\Livewire;
 
 use Illuminate\Http\Request;
+use Spatie\Mailcoach\Domain\Settings\Enums\WebhookEventTypes;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\DataTableComponent;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
