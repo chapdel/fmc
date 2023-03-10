@@ -25,7 +25,7 @@ class CompleteSubscriberImportJob implements ShouldQueue
 
     public function retryUntil(): CarbonInterface
     {
-        return now()->addHours(4);
+        return now()->addHours(12);
     }
 
     public function __construct(
@@ -39,7 +39,7 @@ class CompleteSubscriberImportJob implements ShouldQueue
     public function handle()
     {
         if ($this->totalRows > $this->subscriberImport->imported_subscribers_count) {
-            $this->release(30); // Try again in 30 seconds
+            $this->release(60); // Try again in 1 minute
 
             return;
         }

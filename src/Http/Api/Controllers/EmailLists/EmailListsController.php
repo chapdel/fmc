@@ -21,6 +21,13 @@ class EmailListsController
     {
         $this->authorize('viewAny', static::getEmailListClass());
 
+        $emailLists->addSelect([
+            'active_subscribers_count' => self::getSubscriberClass()::query()
+                ->selectRaw('count(id)')
+                ->subscribed()
+                ->whereColumn("{$this->getSubscriberTableName()}.email_list_id", static::getEmailListTableName().'.id'),
+        ]);
+
         return EmailListResource::collection($emailLists->paginate());
     }
 

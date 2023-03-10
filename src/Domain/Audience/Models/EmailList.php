@@ -9,10 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\MySqlConnection;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Image\Manipulations;
 use Spatie\Mailcoach\Database\Factories\EmailListFactory;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
@@ -52,27 +51,6 @@ class EmailList extends Model implements HasMedia
     }
 
     public function allSubscribers(): HasMany
-    {
-        if (! (DB::connection() instanceof MySqlConnection)) {
-            return $this->allSubscribersWithoutIndex();
-        }
-
-        $query = $this->hasMany(config('mailcoach.models.subscriber'), 'email_list_id')
-            ->getQuery();
-
-        $prefix = DB::getTablePrefix();
-
-        $query = $query->from(DB::raw($prefix.$query->getQuery()->from.' USE INDEX (email_list_subscribed_index)'));
-
-        return $this->newHasMany(
-            $query,
-            $this,
-            self::getSubscriberTableName().'.email_list_id',
-            'id'
-        );
-    }
-
-    public function allSubscribersWithoutIndex(): HasMany
     {
         return $this->hasMany(self::getSubscriberClass(), 'email_list_id');
     }
@@ -206,7 +184,7 @@ class EmailList extends Model implements HasMedia
     public function summarize(CarbonInterface $summaryStartDateTime): array
     {
         return [
-            'total_number_of_subscribers' => $this->subscribers()->count(),
+            'total_number_of_subscribers' => $this->totalSubscriptionsCount(),
             'total_number_of_subscribers_gained' => $this
                 ->allSubscribers()
                 ->where('subscribed_at', '>', $summaryStartDateTime->toDateTimeString())
@@ -216,6 +194,26 @@ class EmailList extends Model implements HasMedia
                 ->where('unsubscribed_at', '>', $summaryStartDateTime->toDateTimeString())
                 ->count(),
         ];
+    }
+
+    public function totalSubscriptionsCount(): int
+    {
+        return Cache::remember('email-list-totalSubscriptionsCount'.$this->id, now()->addSeconds(30), fn () => $this->subscribers()->count());
+    }
+
+    public function allSubscriptionsCount(): int
+    {
+        return Cache::remember('email-list-allSubscriptionsCount'.$this->id, now()->addSeconds(30), fn () => $this->allSubscribers()->count());
+    }
+
+    public function unconfirmedCount(): int
+    {
+        return Cache::remember('email-list-unconfirmedCount'.$this->id, now()->addSeconds(30), fn () => $this->allSubscribers()->unconfirmed()->count());
+    }
+
+    public function unsubscribedCount(): int
+    {
+        return Cache::remember('email-list-unsubscribedCount'.$this->id, now()->addSeconds(30), fn () => $this->allSubscribers()->unsubscribed()->count());
     }
 
     protected static function newFactory(): EmailListFactory

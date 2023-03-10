@@ -3,19 +3,23 @@
 namespace Spatie\Mailcoach\Http\App\Livewire;
 
 use Livewire\Component;
-use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 
-class EmailListCountComponent extends Component
+class TagPopulationCountComponent extends Component
 {
     public ?string $result = null;
 
     public bool $readyToLoad = false;
 
-    public EmailList $emailList;
+    public Tag $tag;
 
-    public function mount(EmailList $emailList)
+    protected $listeners = [
+        'segmentUpdated' => '$refresh',
+    ];
+
+    public function mount(Tag $tag)
     {
-        $this->emailList = $emailList;
+        $this->tag = $tag;
     }
 
     public function load()
@@ -26,7 +30,7 @@ class EmailListCountComponent extends Component
     public function render()
     {
         if ($this->readyToLoad) {
-            $this->result = $this->emailList->totalSubscriptionsCount();
+            $this->result = $this->tag->subscribers()->subscribed()->count();
         }
 
         return <<<'blade'

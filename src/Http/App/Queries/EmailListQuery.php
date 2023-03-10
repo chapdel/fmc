@@ -14,15 +14,7 @@ class EmailListQuery extends QueryBuilder
 
     public function __construct(?Request $request = null)
     {
-        $query = $this->getEmailListClass()::query()
-            ->addSelect([
-                'active_subscribers_count' => $this->getSubscriberClass()::query()
-                    ->selectRaw('count(id)')
-                    ->subscribed()
-                    ->whereColumn("{$this->getSubscriberTableName()}.email_list_id", static::getEmailListTableName().'.id'),
-            ]);
-
-        parent::__construct($query, $request);
+        parent::__construct(self::getEmailListClass()::query(), $request);
 
         $this
             ->defaultSort('name')
