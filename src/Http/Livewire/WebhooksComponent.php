@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Http\Livewire;
 
 use Illuminate\Http\Request;
-use Spatie\Mailcoach\Domain\Settings\Enums\WebhookEventTypes;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\DataTableComponent;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
@@ -64,12 +63,12 @@ class WebhooksComponent extends DataTableComponent
         if (config('mailcoach.webhooks.selectable_event_types_enabled', false)) {
             $columns[] = [
                 'label' => config('mailcoach.webhooks.selectable_event_types_enabled', false) ? __mc('Events') : null,
-                'class' => 'w-48'
+                'class' => 'w-48',
             ];
 
-            $columns[] =[
+            $columns[] = [
                 'label' => config('mailcoach.webhooks.selectable_event_types_enabled', false) ? __mc('Enabled') : null,
-                'class' => 'w-48'
+                'class' => 'w-48',
             ];
         }
 
