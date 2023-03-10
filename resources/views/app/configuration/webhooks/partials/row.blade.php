@@ -1,11 +1,18 @@
 <tr>
     <td class="markup-links">
-        <a href="{{ route('webhooks.edit', $row) }}">
+        @if ($row->enabled)
+            <x-mailcoach::rounded-icon type="success" icon="fas fa-check" />
+        @else
+            <x-mailcoach::rounded-icon type="error" icon="fas fa-times" />
+        @endif
+
+        <a href="{{ route('webhooks.edit', $row) }}" class="ml-2">
             {{ $row->name }}
         </a>
-    </td>
-    <td>
-        {{ $row->url }}
+
+        <div class="text-gray-400 mt-2 text-sm">
+            {{ $row->url }}
+        </div>
     </td>
     <td>
         @if ($row->use_for_all_lists)
@@ -22,27 +29,17 @@
             {{ $row->events->count() }} / {{ $row->countSelectableEventTypes() }}
        @endif
     </td>
-    <td>
-        @if ($row->enabled)
-            <x-mailcoach::rounded-icon type="success" icon="fas fa-check" />
-        @else
-            <x-mailcoach::rounded-icon type="error" icon="fas fa-times" />
-        @endif
-    </td>
-    @endif
-    @if($row->logsEnabled())
-    <td class="markup-links">
-        @if (config('mailcoach.webhooks.logs', false))
-            <a href="{{ route('webhooks.logs.index', $row) }}">
-                {{ __mc('View logs') }}
-            </a>
-        @endif
-    </td>
     @endif
     <td class="td-action">
         <x-mailcoach::dropdown direction="left">
             <ul>
                 <li>
+                    @if (config('mailcoach.webhooks.logs', false))
+                        <a href="{{ route('webhooks.logs.index', $row) }}">
+                            <x-mailcoach::icon-label icon="far fa-scroll" :text="__mc('View logs')" />
+                        </a>
+                    @endif
+
                     <x-mailcoach::confirm-button
                         :confirm-text="__mc('Are you sure you want to delete webhook: :webhook?', ['webhook' => $row->name])"
                         onConfirm="() => $wire.deleteWebhook({{ $row->id }})"
