@@ -26,9 +26,11 @@ class SendWebhookAction
             return;
         }
 
-        if ($this->webhookEnabledForEvent($webhookConfiguration, $payload['event'])) {
-            $this->sendWebhook($webhookConfiguration, $payload);
+        if (!$this->webhookEnabledForEvent($webhookConfiguration, $payload['event'])) {
+            return;
         }
+
+        $this->sendWebhook($webhookConfiguration, $payload);
     }
 
     protected function webhookEnabledForEvent(WebhookConfiguration $webhookConfiguration, string $event): bool
