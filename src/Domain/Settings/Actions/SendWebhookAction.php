@@ -26,7 +26,7 @@ class SendWebhookAction
             return;
         }
 
-        if (!$this->webhookEnabledForEvent($webhookConfiguration, $payload['event'])) {
+        if (! $this->webhookEnabledForEvent($webhookConfiguration, $payload['event'])) {
             return;
         }
 

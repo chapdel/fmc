@@ -4,12 +4,6 @@ namespace Spatie\Mailcoach\Http\Livewire;
 
 use Illuminate\Validation\Rule;
 use Livewire\Component;
-use Spatie\Mailcoach\Domain\Audience\Events\SubscribedEvent;
-use Spatie\Mailcoach\Domain\Audience\Events\TagAddedEvent;
-use Spatie\Mailcoach\Domain\Audience\Events\TagRemovedEvent;
-use Spatie\Mailcoach\Domain\Audience\Events\UnconfirmedSubscriberCreatedEvent;
-use Spatie\Mailcoach\Domain\Audience\Events\UnsubscribedEvent;
-use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Domain\Settings\Enums\WebhookEventTypes;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
