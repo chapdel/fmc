@@ -24,9 +24,9 @@
     @if($row->selectableEventsEnabled())
     <td>
        @if ($row->useForAllEvents() || $row->events->count() === $row->countSelectableEventTypes())
-            {{__mc('All')}}
+            <x-mailcoach::rounded-icon type="success" icon="fas fa-check" />
        @else
-            {{ $row->events->count() }} / {{ $row->countSelectableEventTypes() }}
+            <x-mailcoach::rounded-icon type="error" icon="fas fa-times" />
        @endif
     </td>
     @endif
