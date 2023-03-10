@@ -22,6 +22,10 @@ class SendWebhookAction
 
     protected function sendWebhookIfNeeded(WebhookConfiguration $webhookConfiguration, array $payload): void
     {
+        if (! $webhookConfiguration->enabled) {
+            return;
+        }
+
         if ($this->webhookEnabledForEvent($webhookConfiguration, $payload['event'])) {
             $this->sendWebhook($webhookConfiguration, $payload);
         }

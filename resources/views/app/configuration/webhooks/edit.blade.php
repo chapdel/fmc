@@ -20,6 +20,10 @@
                 href="https://mailcoach.app/docs/cloud/using-mailcoach/webhooks/webhook-payloads" target="_blank">in our docs</a>.
         </x-mailcoach::help>
 
+        @if(config('mailcoach.webhooks.selectable_event_types_enabled', false))
+        <x-mailcoach::checkbox-field :label="__mc('Enabled')" name="webhook.enabled" wire:model="webhook.enabled" />
+        @endif
+
         <x-mailcoach::text-field :label="__mc('Name')" name="webhook.name" wire:model.lazy="webhook.name" required />
 
         <x-mailcoach::text-field :label="__mc('URL')" name="webhook.url" wire:model.lazy="webhook.url" required />
