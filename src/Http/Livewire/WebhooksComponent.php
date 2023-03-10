@@ -74,7 +74,7 @@ class WebhooksComponent extends DataTableComponent
 
         if (config('mailcoach.webhooks.logs', false)) {
             $columns[] = [
-                'attribute' => 'logs', 'label' => __mc('Logs'), 'class' => 'w-64'
+                'attribute' => 'logs', 'label' => __mc('Logs'), 'class' => 'w-64',
             ];
         }
 
