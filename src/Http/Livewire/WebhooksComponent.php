@@ -52,4 +52,29 @@ class WebhooksComponent extends DataTableComponent
             'totalWebhooksCount' => self::getWebhookConfigurationClass()::count(),
         ];
     }
+
+    public function getColumns(): array
+    {
+        $columns = [
+            ['attribute' => 'name', 'label' => __mc('Name'), 'class' => 'w-64'],
+            ['attribute' => 'url', 'label' => __mc('URL'), 'class' => 'w-64'],
+            ['attribute' => 'use_for_all_lists', 'label' => __mc('Use for all lists'), 'class' => 'w-48'],
+        ];
+
+        if (config('mailcoach.webhooks.selectable_event_types_enabled', false)) {
+            $columns[] = [
+                'label' => config('mailcoach.webhooks.selectable_event_types_enabled', false) ? __mc('Events') : null,
+                'class' => 'w-48'
+            ];
+
+            $columns[] =[
+                'label' => config('mailcoach.webhooks.selectable_event_types_enabled', false) ? __mc('Enabled') : null,
+                'class' => 'w-48'
+            ];
+        }
+
+        $columns[] = ['class' => 'w-12'];
+
+        return $columns;
+    }
 }

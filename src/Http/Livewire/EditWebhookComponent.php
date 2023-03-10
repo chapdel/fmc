@@ -41,6 +41,7 @@ class EditWebhookComponent extends Component
         ];
 
         if (config('mailcoach.webhooks.selectable_event_types_enabled', false)) {
+            $rules['webhook.enabled'] = ['boolean'];
             $rules['webhook.use_for_all_events'] = ['boolean'];
             $rules['webhook.events'] = ['nullable', 'array'];
         }

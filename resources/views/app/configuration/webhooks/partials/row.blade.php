@@ -22,6 +22,13 @@
             {{ $row->events->count() }} / {{ $row->countSelectableEventTypes() }}
        @endif
     </td>
+    <td>
+        @if ($row->enabled)
+            <x-mailcoach::rounded-icon type="success" icon="fas fa-check" />
+        @else
+            <x-mailcoach::rounded-icon type="error" icon="fas fa-times" />
+        @endif
+    </td>
     @endif
     <td class="td-action">
         <x-mailcoach::dropdown direction="left">
