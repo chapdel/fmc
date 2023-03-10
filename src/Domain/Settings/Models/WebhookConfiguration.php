@@ -54,6 +54,11 @@ class WebhookConfiguration extends Model
         return config('mailcoach.webhooks.selectable_event_types_enabled', false);
     }
 
+    public function logsEnabled(): bool
+    {
+        return config('mailcoach.webhooks.logs', false);
+    }
+
     public function countSelectableEventTypes(): int
     {
         return count(WebhookEventTypes::cases());

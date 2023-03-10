@@ -228,6 +228,7 @@ return [
         'actions' => [
             'calculate_statistics' => \Spatie\Mailcoach\Domain\Shared\Actions\CalculateStatisticsAction::class,
             'send_webhook' => \Spatie\Mailcoach\Domain\Settings\Actions\SendWebhookAction::class,
+            'resend_webhook' => \Spatie\Mailcoach\Domain\Settings\Actions\ResendWebhookCallAction::class,
         ],
     ],
 
@@ -560,6 +561,7 @@ return [
         'setting' => \Spatie\Mailcoach\Domain\Settings\Models\Setting::class,
         'mailer' => \Spatie\Mailcoach\Domain\Settings\Models\Mailer::class,
         'webhook_configuration' => \Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration::class,
+        'webhook_log' => \Spatie\Mailcoach\Domain\Settings\Models\WebhookLog::class,
     ],
 
     'views' => [
@@ -658,10 +660,17 @@ return [
     ],
 
     'event_subscribers' => [
+        'webhook_logs' => \Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookLogEventSubscriber::class,
         'webhooks' => \Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookEventSubscriber::class,
     ],
 
     'webhooks' => [
+        /**
+         * Store and view logs of all webhook calls.
+         * Make sure you publish and run the `create_webhook_logs_table` migration when enabling this feature.
+         */
+        'logs' => false,
+
         /**
          * Allows you to configure which event types you want to send to a webhook.
          * Make sure to publish and run the migrations for Mailcoach when enabling this feature.

@@ -187,6 +187,8 @@ use Spatie\Mailcoach\Http\Livewire\PasswordComponent;
 use Spatie\Mailcoach\Http\Livewire\ProfileComponent;
 use Spatie\Mailcoach\Http\Livewire\TokensComponent;
 use Spatie\Mailcoach\Http\Livewire\UsersComponent;
+use Spatie\Mailcoach\Http\Livewire\WebhookLogComponent;
+use Spatie\Mailcoach\Http\Livewire\WebhookLogsComponent;
 use Spatie\Mailcoach\Http\Livewire\WebhooksComponent;
 use Spatie\Navigation\Helpers\ActiveUrlChecker;
 
@@ -205,6 +207,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
                 'create_mailcoach_tables',
                 'create_media_table',
                 'create_webhook_calls_table',
+                'create_webhook_logs_table',
                 'add_event_types_to_webhook_configuration_table',
             ])
             ->hasCommands([
@@ -672,6 +675,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::webhooks', WebhooksComponent::class);
         Livewire::component('mailcoach::create-webhook', CreateWebhookComponent::class);
         Livewire::component('mailcoach::edit-webhook', EditWebhookComponent::class);
+        Livewire::component('mailcoach::webhook-logs', WebhookLogsComponent::class);
+        Livewire::component('mailcoach::webhook-log', WebhookLogComponent::class);
 
         Livewire::component('mailcoach::mailers', Mailcoach::getLivewireClass('mailers', MailersComponent::class));
         Livewire::component('mailcoach::create-mailer', Mailcoach::getLivewireClass('create-mailer', CreateMailerComponent::class));
@@ -707,6 +712,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Event::listen(AutomationMailLinkClickedEvent::class, AddAutomationMailClickedTag::class);
 
         Event::subscribe(config('mailcoach.event_subscribers.webhooks'));
+        Event::subscribe(config('mailcoach.event_subscribers.webhook_logs'));
 
         return $this;
     }
