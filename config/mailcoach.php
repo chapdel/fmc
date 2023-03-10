@@ -660,4 +660,12 @@ return [
     'event_subscribers' => [
         'webhooks' => \Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookEventSubscriber::class,
     ],
+
+    'webhooks' => [
+        /**
+         * Allows you to configure which event types you want to send to a webhook.
+         * Make sure to publish and run the migrations for Mailcoach when enabling this feature.
+         */
+        'selectable_event_types_enabled' => false,
+    ],
 ];

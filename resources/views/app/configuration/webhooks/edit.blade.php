@@ -17,8 +17,12 @@
                 <li>A campaign was sent</li>
             </ul>
             You can view more information on the sent payload and security recommendations <a
-                href="https://mailcoach.app/docs/webhooks" target="_blank">in our docs</a>.
+                href="https://mailcoach.app/docs/cloud/using-mailcoach/webhooks/webhook-payloads" target="_blank">in our docs</a>.
         </x-mailcoach::help>
+
+        @if(config('mailcoach.webhooks.selectable_event_types_enabled', false))
+        <x-mailcoach::checkbox-field :label="__mc('Enabled')" name="webhook.enabled" wire:model="webhook.enabled" />
+        @endif
 
         <x-mailcoach::text-field :label="__mc('Name')" name="webhook.name" wire:model.lazy="webhook.name" required />
 
@@ -33,18 +37,40 @@
 
         @if (!$webhook->use_for_all_lists)
             <div class="form-field">
-                <label class=label>Only for these email lists</label>
+                <label class=label>{{__mc('Only for these email lists')}}</label>
                 <x-mailcoach::select-field
-                    name="email_lists"
+                    name="emailLists"
                     :multiple="true"
-                    wire:model="email_lists"
+                    wire:model="emailLists"
                     :options="$emailListNames"
                 />
             </div>
         @endif
 
+        @if(config('mailcoach.webhooks.selectable_event_types_enabled', false))
+            <x-mailcoach::checkbox-field
+                name="webhook.use_for_all_events"
+                :label="__mc('Use for all events')"
+                wire:model="webhook.use_for_all_events"
+            />
+            @if (!$this->webhook->useForAllEvents())
+                <div class="ml-6">
+                    @foreach($eventOptions as $event => $name)
+                        <div class="mb-4">
+                            <x-mailcoach::checkbox-field
+                                :name="$event"
+                                :value="$event"
+                                :label="__mc($name)"
+                                wire:model="webhook.events"
+                            />
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+        @endif
+
         <x-mailcoach::form-buttons>
             <x-mailcoach::button :label="__mc('Save webhook')" />
         </x-mailcoach::form-buttons>
-</x-mailcoach::card>
+    </x-mailcoach::card>
 </form>

@@ -205,6 +205,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
                 'create_mailcoach_tables',
                 'create_media_table',
                 'create_webhook_calls_table',
+                'add_event_types_to_webhook_configuration_table',
             ])
             ->hasCommands([
                 CalculateStatisticsCommand::class,

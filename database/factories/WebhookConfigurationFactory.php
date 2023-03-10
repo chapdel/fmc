@@ -16,6 +16,8 @@ class WebhookConfigurationFactory extends Factory
             'url' => $this->faker->url,
             'secret' => $this->faker->word,
             'use_for_all_lists' => true,
+            'use_for_all_events' => true,
+            'enabled' => true,
         ];
     }
 }
