@@ -112,6 +112,29 @@ it('will send a webhook when a tag is removed from a subscriber', function () {
     });
 });
 
+it('should not send a call for a disabled webhook', function () {
+    $this->webhookConfiguration->update(['enabled' => false]);
+
+    event(new SubscribedEvent($this->subscriber));
+
+    Queue::assertNotPushed(CallWebhookJob::class);
+});
+
+it('should only send a webhook for events that are enabled', function () {
+    config()->set('mailcoach.webhooks.selectable_event_types_enabled', true);
+
+    $this->webhookConfiguration->update([
+        'use_for_all_events' => false,
+        'events' => ['TagRemovedEvent'],
+    ]);
+
+    event(new SubscribedEvent($this->subscriber));
+    Queue::assertNotPushed(CallWebhookJob::class);
+
+    event(new TagRemovedEvent($this->subscriber, Tag::factory()->create()));
+    Queue::assertPushed(CallWebhookJob::class);
+});
+
 function sendWebhook(Subscriber $subscriber): void
 {
     /** @var SendWebhookAction $sendWebhook */

@@ -14,6 +14,23 @@
             <x-mailcoach::rounded-icon type="error" icon="fas fa-times" />
         @endif
     </td>
+    @if($row->selectableEventsEnabled())
+    <td>
+       @if ($row->useForAllEvents() || $row->events->count() === $row->countSelectableEventTypes())
+            {{__mc('All')}}
+       @else
+            {{ $row->events->count() }} / {{ $row->countSelectableEventTypes() }}
+       @endif
+    </td>
+    <td>
+        @if ($row->enabled)
+            <x-mailcoach::rounded-icon type="success" icon="fas fa-check" />
+        @else
+            <x-mailcoach::rounded-icon type="error" icon="fas fa-times" />
+        @endif
+    </td>
+    @endif
+    @if($row->logsEnabled())
     <td class="markup-links">
         @if (config('mailcoach.webhooks.logs', false))
             <a href="{{ route('webhooks.logs.index', $row) }}">
@@ -21,6 +38,7 @@
             </a>
         @endif
     </td>
+    @endif
     <td class="td-action">
         <x-mailcoach::dropdown direction="left">
             <ul>

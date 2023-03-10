@@ -670,5 +670,11 @@ return [
          * Make sure you publish and run the `create_webhook_logs_table` migration when enabling this feature.
          */
         'logs' => false,
+
+        /**
+         * Allows you to configure which event types you want to send to a webhook.
+         * Make sure to publish and run the migrations for Mailcoach when enabling this feature.
+         */
+        'selectable_event_types_enabled' => false,
     ],
 ];
