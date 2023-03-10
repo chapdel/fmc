@@ -29,6 +29,10 @@ class WebhookLog extends Model
 
     public function wasSuccessful(): bool
     {
-        return $this->status_code >= 200 && $this->status_code < 300;
+        if ($this->status_code >= 400) {
+            return false;
+        }
+
+        return true;
     }
 }

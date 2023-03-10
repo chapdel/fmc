@@ -4,7 +4,7 @@
             'webhook' => $row->webhookConfiguration,
             'webhookLog' => $row,
         ])}}">
-            {{$row->created_at}}
+            {{  $row->created_at }}
         </a>
     </td>
     <td>
@@ -17,14 +17,14 @@
         </span>
     </td>
     <td>
-        {{$row->event_type}}
+        {{  $row->event_type }}
     </td>
     <td>
-        {{$row->attempt ?? __mc('Manual')}}
+        {{  $row->attempt ?? __mc('Manual') }}
     </td>
     <td class="markup-links">
-        <a href="#" wire:click.prevent="resend('{{$row->uuid}}')">
-            {{__mc('Resend')}}
+        <a href="#" wire:click.prevent="resend('{{  $row->uuid }}')">
+            {{  __mc('Resend') }}
         </a>
     </td>
 </tr>
