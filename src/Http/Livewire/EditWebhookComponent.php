@@ -10,6 +10,7 @@ use Spatie\Mailcoach\Domain\Audience\Events\TagRemovedEvent;
 use Spatie\Mailcoach\Domain\Audience\Events\UnconfirmedSubscriberCreatedEvent;
 use Spatie\Mailcoach\Domain\Audience\Events\UnsubscribedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
+use Spatie\Mailcoach\Domain\Settings\Enums\WebhookEventTypes;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
@@ -24,12 +25,6 @@ class EditWebhookComponent extends Component
     public array $emailLists;
 
     public array $eventOptions = [
-        SubscribedEvent::class => 'Subscribed',
-        UnconfirmedSubscriberCreatedEvent::class => 'Unconfirmed subscriber created',
-        UnsubscribedEvent::class => 'Unsubscribed',
-        CampaignSentEvent::class => 'Campaign sent',
-        TagAddedEvent::class => 'Tag added',
-        TagRemovedEvent::class => 'Tag removed',
     ];
 
     public bool $useForAllEvents = false;
@@ -58,6 +53,10 @@ class EditWebhookComponent extends Component
         $this->webhook = $webhook;
 
         $this->emailLists = $webhook->emailLists->pluck('id')->values()->toArray();
+
+        foreach (WebhookEventTypes::cases() as $eventType) {
+            $this->eventOptions[$eventType->value()] = $eventType->label();
+        }
     }
 
     public function save()
