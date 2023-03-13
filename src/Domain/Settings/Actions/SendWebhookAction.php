@@ -40,7 +40,7 @@ class SendWebhookAction
             return true;
         }
 
-        if ($webhookConfiguration->use_for_all_events) {
+        if ($webhookConfiguration->events === null) {
             return true;
         }
 

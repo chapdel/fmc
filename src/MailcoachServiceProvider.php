@@ -64,7 +64,6 @@ use Spatie\Mailcoach\Domain\Campaign\Listeners\SetWebhookCallProcessedAt;
 use Spatie\Mailcoach\Domain\Settings\Commands\MakeUserCommand;
 use Spatie\Mailcoach\Domain\Settings\Commands\PrepareGitIgnoreCommand;
 use Spatie\Mailcoach\Domain\Settings\Commands\PublishCommand;
-use Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookLogEventSubscriber;
 use Spatie\Mailcoach\Domain\Settings\Policies\PersonalAccessTokenPolicy;
 use Spatie\Mailcoach\Domain\Settings\SettingsNavigation;
 use Spatie\Mailcoach\Domain\Settings\Support\AppConfiguration\AppConfiguration;

@@ -2,14 +2,15 @@
 
 namespace Spatie\Mailcoach\Domain\Settings\EventSubscribers;
 
-use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
-use Spatie\Mailcoach\Domain\Settings\Models\WebhookLog;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\WebhookServer\Events\WebhookCallEvent;
 use Spatie\WebhookServer\Events\WebhookCallFailedEvent;
 use Spatie\WebhookServer\Events\WebhookCallSucceededEvent;
 
 class WebhookLogEventSubscriber
 {
+    use UsesMailcoachModels;
+
     public function subscribe(): array
     {
         if (config('mailcoach.webhooks.logs') === false) {
@@ -27,7 +28,7 @@ class WebhookLogEventSubscriber
         $body = $event->response?->getBody()?->getContents();
         $decodedBody = json_decode($body);
 
-        $webhookConfiguration = WebhookConfiguration::findByUuid($event->meta['webhook_configuration_uuid']);
+        $webhookConfiguration = self::getWebhookConfigurationClass()::findByUuid($event->meta['webhook_configuration_uuid']);
 
         $data = [
             'webhook_call_uuid' => $event->meta['webhook_call_uuid'],
@@ -44,6 +45,6 @@ class WebhookLogEventSubscriber
             $data['attempt'] = $event->attempt;
         }
 
-        WebhookLog::create($data);
+        self::getWebhookLogClass()::create($data);
     }
 }
