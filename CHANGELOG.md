@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.14.2 - 2023-03-13
+
+- handle webhooks events being `null`
+
 ## 6.14.1 - 2023-03-10
 
 - Add check to improve compatibility with older configs;
