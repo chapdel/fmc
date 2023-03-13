@@ -73,7 +73,9 @@
 
     @slot('filterSlot')
         <div class="flex items-center h-full gap-x-2">
-            @php($allTags = $emailList->tags()->where('type', \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::Default)->orderBy('name')->get())
+            @php($defaultTags = $emailList->tags()->where('type', \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::Default)->orderBy('name')->get())
+            @php($mailcoachTags = $emailList->tags()->where('type', \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::Mailcoach)->orderBy('name')->get())
+
             @php($currentFilteredTags = array_filter(explode(',', $tags)))
 
             @if (count($currentFilteredTags) > 0)
@@ -91,34 +93,57 @@
             <div>
                 @foreach ($currentFilteredTags as $tag)
                     <span class="tag-neutral inline-flex items-center gap-x-1 m-0">
-                        <span>tag: {{ $allTags->firstWhere('uuid', $tag)->name  }}</span>
+                        <span>tag: {{ $defaultTags->firstWhere('uuid', $tag)?->name ?? $mailcoachTags->firstWhere('uuid', $tag)?->name  }}</span>
 
                         <a href="#" wire:click.prevent="removeFilter('tags', '{{ $tag }}')"><i class="fas fa-times"></i></a>
                     </span>
                 @endforeach
             </div>
 
-            @php($availableTags = $allTags->filter(fn ($tag) => !in_array($tag->uuid, $currentFilteredTags)))
+            @php($availableTags = $defaultTags->filter(fn ($tag) => !in_array($tag->uuid, $currentFilteredTags)))
+            @php($availableMailcoachTags = $mailcoachTags->filter(fn ($tag) => !in_array($tag->uuid, $currentFilteredTags)))
 
-            @if (count($availableTags))
-                <x-mailcoach::dropdown>
-                    <x-slot:trigger>
-                        @if (count ($currentFilteredTags) > 0)
-                            + {{ __mc('Add tag') }}
-                        @else
-                            + {{ __mc('Filter on tags') }}
-                        @endif
-                    </x-slot:trigger>
+            <div class="flex items-center gap-x-4">
+                @if (count($availableTags))
+                    <x-mailcoach::dropdown>
+                        <x-slot:trigger>
+                            @if (count ($currentFilteredTags) > 0)
+                                + {{ __mc('Add tag') }}
+                            @else
+                                + {{ __mc('Filter on tags') }}
+                            @endif
+                        </x-slot:trigger>
 
-                    <ul class="overflow-y-scroll w-[max-content] max-w-[20rem]">
-                        @foreach ($availableTags as $tag)
-                            <li>
-                                <a href="#" wire:click.prevent="addFilter('tags', '{{ $tag->uuid }}')">{{ $tag->name }}</a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </x-mailcoach::dropdown>
-            @endif
+                        <ul class="overflow-y-scroll w-[max-content] max-w-[20rem]">
+                            @foreach ($availableTags as $tag)
+                                <li>
+                                    <a href="#" wire:click.prevent="addFilter('tags', '{{ $tag->uuid }}')">{{ $tag->name }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </x-mailcoach::dropdown>
+                @endif
+
+                @if (count($mailcoachTags))
+                    <x-mailcoach::dropdown>
+                        <x-slot:trigger>
+                            @if (count ($currentFilteredTags) > 0)
+                                + {{ __mc('Add automatic tag') }}
+                            @else
+                                + {{ __mc('Filter on automatic tags') }}
+                            @endif
+                        </x-slot:trigger>
+
+                        <ul class="overflow-y-scroll w-[max-content] max-w-[20rem]">
+                            @foreach ($availableMailcoachTags as $tag)
+                                <li>
+                                    <a href="#" wire:click.prevent="addFilter('tags', '{{ $tag->uuid }}')">{{ $tag->name }}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </x-mailcoach::dropdown>
+                @endif
+            </div>
         </div>
     @endslot
 </x-mailcoach::data-table>
