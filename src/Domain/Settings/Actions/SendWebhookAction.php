@@ -40,6 +40,10 @@ class SendWebhookAction
             return true;
         }
 
+        if ($webhookConfiguration->use_for_all_events) {
+            return true;
+        }
+
         if ($webhookConfiguration->events->contains($event)) {
             return true;
         }

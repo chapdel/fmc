@@ -36,7 +36,7 @@ class WebhookLogEventSubscriber
             'event_type' => $event->payload['event'],
             'webhook_url' => $event->webhookUrl,
             'payload' => $event->payload,
-            'response' => $decodedBody ?? $body,
+            'response' => $decodedBody ?? $body ?? '',
             'status_code' => $event->response?->getStatusCode(),
         ];
 
