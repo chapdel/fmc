@@ -20,6 +20,8 @@ use Spatie\Mailcoach\Http\Livewire\PasswordComponent;
 use Spatie\Mailcoach\Http\Livewire\ProfileComponent;
 use Spatie\Mailcoach\Http\Livewire\TokensComponent;
 use Spatie\Mailcoach\Http\Livewire\UsersComponent;
+use Spatie\Mailcoach\Http\Livewire\WebhookLogComponent;
+use Spatie\Mailcoach\Http\Livewire\WebhookLogsComponent;
 use Spatie\Mailcoach\Http\Livewire\WebhooksComponent;
 use Spatie\Mailcoach\Mailcoach;
 
@@ -160,5 +162,7 @@ Route::prefix('settings')
         Route::prefix('webhooks')->group(function () {
             Route::get('/', WebhooksComponent::class)->name('webhooks');
             Route::get('{webhook}', EditWebhookComponent::class)->name('webhooks.edit');
+            Route::get('{webhook}/logs', WebhookLogsComponent::class)->name('webhooks.logs.index');
+            Route::get('{webhook}/logs/{webhookLog}', WebhookLogComponent::class)->name('webhooks.logs.show');
         });
     });

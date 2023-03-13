@@ -49,6 +49,48 @@ it('can send a transactional mail', function () {
     });
 });
 
+it('can send a transactional mail to formatted emails', function () {
+    Mail::fake();
+
+    $this
+        ->postJson(action(SendTransactionalMailController::class, [
+            'mail_name' => 'my-template',
+            'from' => 'rias@spatie.be',
+            'to' => '"Freek" <freek@spatie.be>',
+            'cc' => '"Rias" <rias+cc@spatie.be>',
+            'bcc' => '"Rias" <rias+bcc@spatie.be>',
+            'reply_to' => '"Rias" <rias+replyto@spatie.be>',
+        ]))
+        ->assertSuccessful();
+
+    Mail::assertSent(TransactionalMail::class, function (TransactionalMail $mail) {
+        $mail->build();
+
+        expect($mail->from)->toBe([['name' => '', 'address' => 'rias@spatie.be']]);
+        expect($mail->to)->toContain(['name' => 'Freek', 'address' => 'freek@spatie.be']);
+        expect($mail->cc)->toContain(['name' => 'Rias', 'address' => 'rias+cc@spatie.be']);
+        expect($mail->bcc)->toContain(['name' => 'Rias', 'address' => 'rias+bcc@spatie.be']);
+        expect($mail->replyTo)->toContain(['name' => 'Rias', 'address' => 'rias+replyto@spatie.be']);
+
+        return true;
+    });
+});
+
+it('validates email addresses', function () {
+    Mail::fake();
+    $this->withExceptionHandling();
+
+    $this
+        ->postJson(action(SendTransactionalMailController::class, [
+            'mail_name' => 'my-template',
+            'from' => 'rias@spatie.be',
+            'to' => '"Freek" <not-anemail>',
+            'cc' => '"Rias" <rias+cc@spatie.be>',
+            'bcc' => '"Rias" <rias+bcc@spatie.be>',
+        ]))
+        ->assertJsonValidationErrorFor('to');
+});
+
 it('tracks the transactional mails', function () {
     $this
         ->post(action(SendTransactionalMailController::class, [

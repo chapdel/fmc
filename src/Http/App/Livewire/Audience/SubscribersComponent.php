@@ -108,7 +108,7 @@ class SubscribersComponent extends DataTableComponent
     {
         $this->authorize('update', $this->emailList);
 
-        $this->emailList->allSubscribersWithoutIndex()->unsubscribed()->delete();
+        $this->emailList->allSubscribers()->unsubscribed()->delete();
 
         $this->flash(__mc('All unsubscribers of the list have been deleted.'));
     }
@@ -191,10 +191,10 @@ class SubscribersComponent extends DataTableComponent
         return [
             'subscribers' => $results,
             'emailList' => $this->emailList,
-            'allSubscriptionsCount' => $this->emailList->allSubscribers()->count(),
-            'totalSubscriptionsCount' => $this->emailList->subscribers()->count(),
-            'unconfirmedCount' => $this->emailList->allSubscribers()->unconfirmed()->count(),
-            'unsubscribedCount' => $this->emailList->allSubscribers()->unsubscribed()->count(),
+            'allSubscriptionsCount' => $this->emailList->allSubscriptionsCount(),
+            'totalSubscriptionsCount' => $this->emailList->totalSubscriptionsCount(),
+            'unconfirmedCount' => $this->emailList->unconfirmedCount(),
+            'unsubscribedCount' => $this->emailList->unsubscribedCount(),
         ];
     }
 }

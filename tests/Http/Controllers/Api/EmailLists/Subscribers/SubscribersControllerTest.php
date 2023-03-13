@@ -184,3 +184,18 @@ it('can append tags when updating a subscriber', function () {
     $subscriber->refresh();
     expect($subscriber->tags->pluck('name')->toArray())->toEqual(['test1', 'test2', 'test3', 'test4']);
 });
+
+it('can filter on tags', function () {
+    $subscribers = Subscriber::factory(3)->create([
+        'email_list_id' => test()->emailList->id,
+    ]);
+
+    $subscribers->first()->addTag('some tag');
+
+    $response = $this
+        ->getJson(action([SubscribersController::class, 'index'], test()->emailList).'?filter[tags]=some+tag')
+        ->assertSuccessful()
+        ->assertJsonCount(1, 'data');
+
+    $response->assertJsonFragment(['email' => $subscribers->first()->email]);
+});

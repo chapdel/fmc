@@ -2,13 +2,16 @@
 
 namespace Spatie\Mailcoach\Http\Api\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Spatie\Mailcoach\Domain\Settings\Rules\MailerConfigKeyNameRule;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Support\AddressNormalizer;
 use Spatie\ValidationRules\Rules\Delimited;
 use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Exception\RfcComplianceException;
 
 class SendTransactionalMailRequest extends FormRequest
 {
@@ -22,10 +25,50 @@ class SendTransactionalMailRequest extends FormRequest
             'html' => ['string'],
             'replacements' => ['array'],
             'from' => ['required'],
-            'to' => ['required', (new Delimited('email'))->min(1)],
-            'cc' => ['nullable', (new Delimited('email'))->min(1)],
-            'bcc' => ['nullable', (new Delimited('email'))->min(1)],
-            'reply_to' => ['nullable', (new Delimited('email'))->min(1)],
+            'to' => [
+                'required',
+                (new Delimited('string'))->min(1),
+                function (string $attribute, $value, $fail) {
+                    try {
+                        (new AddressNormalizer())->normalize($value);
+                    } catch (RfcComplianceException $exception) {
+                        $fail($exception->getMessage());
+                    }
+                },
+            ],
+            'cc' => [
+                'nullable',
+                (new Delimited('string'))->min(1),
+                function (string $attribute, $value, $fail) {
+                    try {
+                        (new AddressNormalizer())->normalize($value);
+                    } catch (RfcComplianceException $exception) {
+                        $fail($exception->getMessage());
+                    }
+                },
+            ],
+            'bcc' => [
+                'nullable',
+                (new Delimited('string'))->min(1),
+                function (string $attribute, $value, $fail) {
+                    try {
+                        (new AddressNormalizer())->normalize($value);
+                    } catch (RfcComplianceException $exception) {
+                        $fail($exception->getMessage());
+                    }
+                },
+            ],
+            'reply_to' => [
+                'nullable',
+                (new Delimited('string'))->min(1),
+                function (string $attribute, $value, $fail) {
+                    try {
+                        (new AddressNormalizer())->normalize($value);
+                    } catch (RfcComplianceException $exception) {
+                        $fail($exception->getMessage());
+                    }
+                },
+            ],
             'store' => ['boolean'],
             'mailer' => ['string', new MailerConfigKeyNameRule()],
             'attachments' => ['array', 'nullable'],
@@ -34,6 +77,16 @@ class SendTransactionalMailRequest extends FormRequest
             'attachments.*.content_type' => ['required', 'string'],
             'attachments.*.content_id' => ['nullable', 'string'],
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        Log::debug('Sending transactional mail validation failed.', [
+            'errors' => $validator->errors(),
+            'input' => $this->all(),
+        ]);
+
+        parent::failedValidation($validator);
     }
 
     public function replacements(): array

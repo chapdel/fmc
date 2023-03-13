@@ -154,6 +154,7 @@ use Spatie\Mailcoach\Http\App\Livewire\Spotlight\ShowTransactionalTemplateComman
 use Spatie\Mailcoach\Http\App\Livewire\Spotlight\TemplatesCommand;
 use Spatie\Mailcoach\Http\App\Livewire\Spotlight\TransactionalLogCommand;
 use Spatie\Mailcoach\Http\App\Livewire\Spotlight\TransactionalTemplatesCommand;
+use Spatie\Mailcoach\Http\App\Livewire\TagPopulationCountComponent;
 use Spatie\Mailcoach\Http\App\Livewire\TextAreaEditorComponent;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\CreateTransactionalTemplateComponent;
 use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailContentComponent;
@@ -186,6 +187,8 @@ use Spatie\Mailcoach\Http\Livewire\PasswordComponent;
 use Spatie\Mailcoach\Http\Livewire\ProfileComponent;
 use Spatie\Mailcoach\Http\Livewire\TokensComponent;
 use Spatie\Mailcoach\Http\Livewire\UsersComponent;
+use Spatie\Mailcoach\Http\Livewire\WebhookLogComponent;
+use Spatie\Mailcoach\Http\Livewire\WebhookLogsComponent;
 use Spatie\Mailcoach\Http\Livewire\WebhooksComponent;
 use Spatie\Navigation\Helpers\ActiveUrlChecker;
 
@@ -204,6 +207,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
                 'create_mailcoach_tables',
                 'create_media_table',
                 'create_webhook_calls_table',
+                'create_webhook_logs_table',
+                'add_event_types_to_webhook_configuration_table',
             ])
             ->hasCommands([
                 CalculateStatisticsCommand::class,
@@ -570,6 +575,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
         Livewire::component('mailcoach::email-list-count', EmailListCountComponent::class);
         Livewire::component('mailcoach::segment-population-count', SegmentPopulationCountComponent::class);
+        Livewire::component('mailcoach::tag-population-count', TagPopulationCountComponent::class);
         Livewire::component('mailcoach::text-area-editor', TextAreaEditorComponent::class);
         Livewire::component('mailcoach::link-check', LinkCheckComponent::class);
 
@@ -669,6 +675,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::webhooks', WebhooksComponent::class);
         Livewire::component('mailcoach::create-webhook', CreateWebhookComponent::class);
         Livewire::component('mailcoach::edit-webhook', EditWebhookComponent::class);
+        Livewire::component('mailcoach::webhook-logs', WebhookLogsComponent::class);
+        Livewire::component('mailcoach::webhook-log', WebhookLogComponent::class);
 
         Livewire::component('mailcoach::mailers', Mailcoach::getLivewireClass('mailers', MailersComponent::class));
         Livewire::component('mailcoach::create-mailer', Mailcoach::getLivewireClass('create-mailer', CreateMailerComponent::class));
@@ -704,6 +712,10 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Event::listen(AutomationMailLinkClickedEvent::class, AddAutomationMailClickedTag::class);
 
         Event::subscribe(config('mailcoach.event_subscribers.webhooks'));
+
+        if (config('mailcoach.webhooks.logs')) {
+            Event::subscribe(config('mailcoach.event_subscribers.webhook_logs'));
+        }
 
         return $this;
     }

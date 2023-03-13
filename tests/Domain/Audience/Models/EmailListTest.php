@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
@@ -105,6 +106,8 @@ it('can summarize an email list', function () {
         ->skipConfirmation()
         ->subscribeTo(test()->emailList);
 
+    Cache::clear();
+
     test()->assertEquals([
         'total_number_of_subscribers' => 1,
         'total_number_of_subscribers_gained' => 1,
@@ -112,6 +115,8 @@ it('can summarize an email list', function () {
     ], test()->emailList->summarize(now()->subWeek()));
 
     $subscriber->unsubscribe();
+
+    Cache::clear();
 
     test()->assertEquals([
         'total_number_of_subscribers' => 0,
@@ -122,6 +127,8 @@ it('can summarize an email list', function () {
     Subscriber::createWithEmail('jane@example.com')
         ->skipConfirmation()
         ->subscribeTo(test()->emailList);
+
+    Cache::clear();
 
     test()->assertEquals([
         'total_number_of_subscribers' => 1,
@@ -140,6 +147,8 @@ it('can summarize an email list', function () {
     Subscriber::createWithEmail('paul@example.com')
         ->skipConfirmation()
         ->subscribeTo(test()->emailList);
+
+    Cache::clear();
 
     test()->assertEquals([
         'total_number_of_subscribers' => 2,

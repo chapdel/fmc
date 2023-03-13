@@ -2,6 +2,39 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.14.1 - 2023-03-10
+
+- Add check to improve compatibility with older configs;
+- Small documentation fix;
+
+## 6.14.0 - 2023-03-10
+
+### What's Changed
+
+- Enable webhooks by type by @timvandijck in https://github.com/spatie/laravel-mailcoach/pull/1251
+- Merge extra_attributes if already subscribed by @Fabstilelook in https://github.com/spatie/laravel-mailcoach/pull/1263
+- Webhook logs by @timvandijck in https://github.com/spatie/laravel-mailcoach/pull/1260
+
+### New Contributors
+
+- @timvandijck made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/1251
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.13.1...6.14.0
+
+## 6.13.1 - 2023-02-24
+
+- Fix an issue with large modals overflowing
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.13.0...6.13.1
+
+## 6.13.0 - 2023-02-23
+
+### What's new
+
+- Added API endpoints for tags & segments
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.12.4...6.13.0
+
 ## 6.12.4 - 2023-02-20
 
 - Inline html in transactional emails - fix #1223

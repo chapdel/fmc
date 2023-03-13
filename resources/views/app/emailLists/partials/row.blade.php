@@ -11,7 +11,9 @@
             @endif
         </div>
     </td>
-    <td class="td-numeric">{{ number_format($row->active_subscribers_count) }}</td>
+    <td class="td-numeric">
+        <livewire:mailcoach::email-list-count wire:key="{{ $row->id }}" :email-list="$row" />
+    </td>
     <td class="td-numeric hidden | xl:table-cell">
         {{ $row->created_at->toMailcoachFormat() }}
     </td>

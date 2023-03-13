@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Domain\Settings\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Spatie\Mailcoach\Domain\Settings\Enums\WebhookEventTypes;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
@@ -21,6 +22,12 @@ class WebhookConfiguration extends Model
     public $casts = [
         'use_for_all_lists' => 'boolean',
         'secret' => 'encrypted',
+        'use_for_all_events' => 'boolean',
+        'events' => 'collection',
+    ];
+
+    protected $attributes = [
+        'events' => '[]',
     ];
 
     public function emailLists(): BelongsToMany
@@ -31,5 +38,29 @@ class WebhookConfiguration extends Model
             'webhook_configuration_id',
             'email_list_id',
         );
+    }
+
+    public function useForAllEvents(): bool
+    {
+        if ($this->selectableEventsEnabled()) {
+            return $this->use_for_all_events;
+        }
+
+        return true;
+    }
+
+    public function selectableEventsEnabled(): bool
+    {
+        return config('mailcoach.webhooks.selectable_event_types_enabled', false);
+    }
+
+    public function logsEnabled(): bool
+    {
+        return config('mailcoach.webhooks.logs', false);
+    }
+
+    public function countSelectableEventTypes(): int
+    {
+        return count(WebhookEventTypes::cases());
     }
 }

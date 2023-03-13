@@ -377,6 +377,9 @@ class Subscriber extends Model implements CipherSweetEncrypted
 
     public function toExportRow(): array
     {
+        $attributes = $this->extra_attributes->toArray();
+        ksort($attributes);
+
         return array_merge([
             'email' => $this->email,
             'first_name' => $this->first_name,
@@ -384,7 +387,7 @@ class Subscriber extends Model implements CipherSweetEncrypted
             'tags' => $this->tags->where('type', TagType::Default)->pluck('name')->unique()->implode(';'),
             'subscribed_at' => $this->subscribed_at?->format('Y-m-d H:i:s'),
             'unsubscribed_at' => $this->unsubscribed_at?->format('Y-m-d H:i:s'),
-        ], $this->extra_attributes->toArray());
+        ], $attributes);
     }
 
     public function isUnconfirmed(): bool

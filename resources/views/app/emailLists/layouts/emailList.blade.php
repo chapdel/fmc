@@ -78,7 +78,7 @@
         </x-mailcoach::navigation>
     </x-slot>
 
-    @if (!Route::is('mailcoach.emailLists.subscriber*') && $emailList->subscribers()->count() === 0)
+    @if (!Route::is('mailcoach.emailLists.subscriber*') && $emailList->allSubscriptionsCount() === 0)
         <x-mailcoach::help class="mb-4">
             {!! __mc('This list is empty. <a href=":url">Add some subscribers</a>', ['url' => route('mailcoach.emailLists.subscribers', $emailList)]) !!}
         </x-mailcoach::help>

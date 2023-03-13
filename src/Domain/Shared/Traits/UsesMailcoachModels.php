@@ -27,6 +27,7 @@ use Spatie\Mailcoach\Domain\Settings\Models\PersonalAccessToken;
 use Spatie\Mailcoach\Domain\Settings\Models\Setting;
 use Spatie\Mailcoach\Domain\Settings\Models\User;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
+use Spatie\Mailcoach\Domain\Settings\Models\WebhookLog;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Models\SendFeedbackItem;
 use Spatie\Mailcoach\Domain\Shared\Models\Upload;
@@ -427,5 +428,11 @@ trait UsesMailcoachModels
     public static function getWebhookConfigurationClass(): string
     {
         return config('mailcoach.models.webhook_configuration', WebhookConfiguration::class);
+    }
+
+    /** @return class-string<WebhookLog> */
+    public static function getWebhookLogClass(): string
+    {
+        return config('mailcoach.models.webhook_log', WebhookLog::class);
     }
 }
