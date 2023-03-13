@@ -2,8 +2,6 @@
 
 namespace Spatie\Mailcoach\Domain\Settings\EventSubscribers;
 
-use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
-use Spatie\Mailcoach\Domain\Settings\Models\WebhookLog;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\WebhookServer\Events\WebhookCallEvent;
 use Spatie\WebhookServer\Events\WebhookCallFailedEvent;
