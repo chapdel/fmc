@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.14.3 - 2023-03-13
+
+- Fixes a small layout issue on the webhook logs overview.
+- Handle empty response bodies when storing a webhook log.
+
 ## 6.14.2 - 2023-03-13
 
 - handle webhooks events being `null`
