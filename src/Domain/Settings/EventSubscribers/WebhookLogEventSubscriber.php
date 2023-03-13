@@ -30,7 +30,7 @@ class WebhookLogEventSubscriber
         $body = $event->response?->getBody()?->getContents();
         $decodedBody = json_decode($body);
 
-        $webhookConfiguration = WebhookConfiguration::findByUuid($event->meta['webhook_configuration_uuid']);
+        $webhookConfiguration = self::getWebhookConfigurationClass()::findByUuid($event->meta['webhook_configuration_uuid']);
 
         $data = [
             'webhook_call_uuid' => $event->meta['webhook_call_uuid'],
