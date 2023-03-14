@@ -20,7 +20,6 @@ it('can replace an placeholder for a subscriber attribute', function () {
     assertPersonalizeSubjectActionResult('::subscriber.uuid::', 'my-uuid');
     assertPersonalizeSubjectActionResult('{{ subscriber.uuid }}', 'my-uuid');
     assertPersonalizeSubjectActionResult('{{subscriber.uuid}}', 'my-uuid');
-
 });
 
 it('will not replace a non existing attribute', function () {
