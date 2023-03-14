@@ -133,7 +133,7 @@
                 @if (! $campaign->htmlContainsUnsubscribeUrlPlaceHolder())
                     <p class="markup-code">
                         {{ __mc("Without a way to unsubscribe, there's a high chance that your subscribers will complain.") }}
-                        {!! __mc('Consider adding the <code>::unsubscribeUrl::</code> placeholder.') !!}
+                        {!! __mc('Consider adding the <code>{{ unsubscribeUrl }}</code> placeholder.') !!}
                     </p>
                 @endif
                 @if ($campaign->sizeInKb() >= 102)

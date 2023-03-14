@@ -91,7 +91,7 @@ return [
     'Confirm' => 'Onayla',
     'Confirmation mail' => 'Onaylama postası',
     'Confirmation when a campaign gets sent to this list' => 'Bu listeye bir kampanya gönderildiğinde onay',
-    'Consider adding the <code>::unsubscribeUrl::</code> placeholder.' => '<code>::unsubscribeUrl::</code> yer tutucusunu eklemeyi ihmal etmeyin.',
+    'Consider adding the <code>{{ unsubscribeUrl }}</code> placeholder.' => '<code>{{ unsubscribeUrl }}</code> yer tutucusunu eklemeyi ihmal etmeyin.',
     'Content is missing' => 'İçerik eksik',
     'Content seems fine.' => 'İçerik iyi görünüyor',
     'Content' => 'İçerik',

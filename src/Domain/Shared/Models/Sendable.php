@@ -105,7 +105,9 @@ abstract class Sendable extends Model implements HasHtmlContent
         return Str::contains($this->html, '::unsubscribeUrl::')
             || Str::contains($this->html, '::preferencesUrl::')
             || Str::contains($this->html, '{{ unsubscribeUrl }}')
-            || Str::contains($this->html, '{{ preferencesUrl }}');
+            || Str::contains($this->html, '{{ preferencesUrl }}')
+            || Str::contains($this->html, '{{unsubscribeUrl}}')
+            || Str::contains($this->html, '{{preferencesUrl}}');
     }
 
     public function from(string $email, string $name = null)
