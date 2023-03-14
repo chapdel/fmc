@@ -103,7 +103,7 @@ class CampaignDeliveryComponent extends Component
                 'fromEmail' => $this->from_email ?? $this->campaign->emailList->default_from_email,
                 'fromName' => $this->from_name ?? $this->campaign->emailList->default_from_name,
                 'replyToEmail' => $this->reply_to_email ?? $this->campaign->emailList->default_reply_to_email ?? null,
-                'replyToName' => $this->reply_to_name ?? $this->campaign->emailList->default_reply_to_name
+                'replyToName' => $this->reply_to_name ?? $this->campaign->emailList->default_reply_to_name,
             ]);
     }
 }
