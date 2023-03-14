@@ -4,7 +4,13 @@
         <span class="form-legend-accent">
             @php
             try {
-                echo ($length && $unit && $interval = \Carbon\CarbonInterval::$unit($length)) ? $interval->cascade()->forHumans() : '…';
+                if ($length <= 30) {
+                    echo $length . ' ' . $unit;
+                }
+                else {
+                   echo ($length && $unit && $interval = \Carbon\CarbonInterval::$unit($length)) ? $interval->cascade()->forHumans() : '…';
+                }
+
             } catch (Exception) {
                 echo '…';
             }
