@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.14.7 - 2023-03-14
+
+- fix wording of interval
+
 ## 6.14.6 - 2023-03-14
 
 - improve check if unsubscribe url is present
