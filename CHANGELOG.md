@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.14.5 - 2023-03-14
+
+- fix RSS feed when campaigns are being sent
+
 ## 6.14.4 - 2023-03-14
 
 - display overriden email and reply to on campaign delivery screen
