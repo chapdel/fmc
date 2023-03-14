@@ -17,7 +17,7 @@
         </span>
     </td>
     <td>
-        {{  $row->event_type }}
+        {{ Str::remove('Event', $row->event_type) }}
     </td>
     <td>
         {{  $row->attempt ?? __mc('Manual') }}
