@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Http\Api\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Spatie\Mailcoach\Domain\Shared\Models\Upload;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class UploadsController
@@ -18,12 +17,11 @@ class UploadsController
             'url' => ['nullable', 'url', 'required_without:file'],
         ]);
 
-
         if (isset($data['file'])) {
             $upload = self::getUploadClass()::create();
             $media = $upload
                 ->addMediaFromRequest('file')
-                ->sanitizingFileName(fn(string $fileName) => Str::slug($fileName))
+                ->sanitizingFileName(fn (string $fileName) => Str::slug($fileName))
                 ->toMediaCollection(
                     config('mailcoach.uploads.collection_name', 'default'),
                     config('mailcoach.uploads.disk_name'),
