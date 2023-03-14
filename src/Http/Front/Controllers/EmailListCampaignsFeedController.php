@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Http\Front\Controllers;
 
 use Spatie\Feed\Feed;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class EmailListCampaignsFeedController
@@ -21,6 +22,7 @@ class EmailListCampaignsFeedController
 
         $campaigns = $emailList->campaigns()
             ->showPublicly()
+            ->whereNotNull('sent_at')
             ->orderByDesc('sent_at')
             ->take(50)
             ->get();
