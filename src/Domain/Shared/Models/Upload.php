@@ -19,7 +19,8 @@ class Upload extends Model implements HasMedia
 
     public function registerMediaConversions(Media $media = null): void
     {
-        $this->addMediaConversion('image')
+        $this
+            ->addMediaConversion('image')
             ->keepOriginalImageFormat()
             ->fit(
                 Manipulations::FIT_MAX,
