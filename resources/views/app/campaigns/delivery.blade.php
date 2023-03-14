@@ -45,19 +45,19 @@
 
             <dd>
                 <span>
-                    {{ $campaign->emailList->default_from_email }} {{ $campaign->emailList->default_from_name ? "({$campaign->emailList->default_from_name})" : '' }}
+                    {{ $fromEmail }} @if ($fromName) ({{ $fromName }}) @endif
                     <a href="{{ route('mailcoach.emailLists.general-settings', $campaign->emailList) }}" class="link">{{ strtolower(__mc('Edit')) }}</a>
                 </span>
             </dd>
 
-            @if ($campaign->emailList->default_reply_to_email)
+            @if ($replyToEmail)
                 <dt>
                     <x-mailcoach::health-label reverse :test="true" :label="__mc('Reply-to')"/>
                 </dt>
 
                 <dd>
                     <span>
-                        {{ $campaign->emailList->default_reply_to_email }} {{ $campaign->emailList->default_reply_to_name ? "({$campaign->emailList->default_reply_to_name})" : '' }}
+                        {{ $replyToEmail }} @if ($replyToName) ({{ $replyToName }}) @endif
                         <a href="{{ route('mailcoach.emailLists.general-settings', $campaign->emailList) }}" class="link">{{ strtolower(__mc('Edit')) }}</a>
                     </span>
                 </dd>
