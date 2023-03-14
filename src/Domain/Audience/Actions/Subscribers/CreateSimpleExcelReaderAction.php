@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Audience\Actions\Subscribers;
 
+use Exception;
 use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
 use Spatie\SimpleExcel\SimpleExcelReader;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
@@ -38,7 +39,7 @@ class CreateSimpleExcelReaderAction
         $file = $subscriberImport->getFirstMedia('importFile');
 
         if (! $file) {
-            throw new \Exception("Subscriber Import {$subscriberImport->id} has no import file.");
+            throw new Exception("Subscriber Import {$subscriberImport->id} has no import file.");
         }
 
         $localImportFile = $this->getTemporaryDirectory()
