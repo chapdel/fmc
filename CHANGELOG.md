@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.14.8 - 2023-03-14
+
+- sanitise file names of uploads so they are more likely to work in all email clients
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.14.7...6.14.8
+
 ## 6.14.7 - 2023-03-14
 
 - fix wording of interval
