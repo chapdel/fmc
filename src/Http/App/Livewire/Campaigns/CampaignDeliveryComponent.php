@@ -100,10 +100,10 @@ class CampaignDeliveryComponent extends Component
             ->layout('mailcoach::app.campaigns.layouts.campaign', [
                 'campaign' => $this->campaign,
                 'title' => __mc('Send'),
-                'fromEmail' => $this->from_email ?? $this->campaign->emailList->default_from_email,
-                'fromName' => $this->from_name ?? $this->campaign->emailList->default_from_name,
-                'replyToEmail' => $this->reply_to_email ?? $this->campaign->emailList->default_reply_to_email ?? null,
-                'replyToName' => $this->reply_to_name ?? $this->campaign->emailList->default_reply_to_name,
+                'fromEmail' => $this->campaign->from_email ?? $this->campaign->emailList->default_from_email,
+                'fromName' => $this->campaign->from_name ?? $this->campaign->emailList->default_from_name,
+                'replyToEmail' => $this->campaign->reply_to_email ?? $this->campaign->emailList->default_reply_to_email ?? null,
+                'replyToName' => $this->campaign->reply_to_name ?? $this->campaign->emailList->default_reply_to_name,
             ]);
     }
 }
