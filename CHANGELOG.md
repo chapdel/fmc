@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.14.4 - 2023-03-14
+
+- display overriden email and reply to on campaign delivery screen
+
 ## 6.14.3 - 2023-03-13
 
 - Fixes a small layout issue on the webhook logs overview.
