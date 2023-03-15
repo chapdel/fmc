@@ -1,6 +1,5 @@
 <?php
 
-
 use Spatie\Mailcoach\Domain\Shared\Actions\RenderTwigAction;
 
 it('decodes characters to work', function () {
