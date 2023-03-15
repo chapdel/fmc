@@ -13,6 +13,6 @@ class RenderTwigAction
             'autoescape' => 'html',
         ]);
 
-        return $twig->createTemplate(urldecode($html))->render($context);
+        return $twig->createTemplate(rawurldecode($html))->render($context);
     }
 }
