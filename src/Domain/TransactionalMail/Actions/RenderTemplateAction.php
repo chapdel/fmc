@@ -11,6 +11,7 @@ use Spatie\Mailcoach\Domain\Shared\Actions\RenderMarkdownToHtmlAction;
 use Spatie\Mailcoach\Domain\Shared\Actions\RenderTwigAction;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
+use Throwable;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 class RenderTemplateAction
@@ -31,7 +32,7 @@ class RenderTemplateAction
         if ($template->type === 'html') {
             try {
                 $body = app(RenderTwigAction::class)->execute($body, $replacements);
-            } catch (\Throwable) {
+            } catch (Throwable) {
                 // Do nothing, Twig failed
             }
         }
