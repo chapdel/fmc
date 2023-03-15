@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.14.9 - 2023-03-15
+
+- Fix a conflict with Blade & alpine using `@`
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.14.8...6.14.9
+
 ## 6.14.8 - 2023-03-14
 
 - sanitise file names of uploads so they are more likely to work in all email clients
