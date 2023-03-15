@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.14.10 - 2023-03-15
+
+- allow special characters in twig powered templates
+
 ## 6.14.9 - 2023-03-15
 
 - Fix a conflict with Blade & alpine using `@`
