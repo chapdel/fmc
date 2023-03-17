@@ -34,6 +34,10 @@ class WebhookLogEventSubscriber
 
         $webhookConfiguration = self::getWebhookConfigurationClass()::findByUuid($event->meta['webhook_configuration_uuid']);
 
+        if (! $webhookConfiguration) {
+            return;
+        }
+
         $data = [
             'webhook_call_uuid' => $event->meta['webhook_call_uuid'],
             'webhook_configuration_id' => $webhookConfiguration->id,
