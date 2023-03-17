@@ -2,9 +2,6 @@
 
 namespace Spatie\Mailcoach\Domain\Shared\Actions;
 
-use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
 class GetReplaceContextForSendAction
