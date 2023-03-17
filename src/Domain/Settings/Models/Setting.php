@@ -23,10 +23,6 @@ class Setting extends Model
             'value' => $value,
         ]);
 
-        $setting = static::where('key', $key)->first();
-
-        Cache::forget($setting->cacheName());
-
         return static::where('key', $key)->first();
     }
 
@@ -37,13 +33,6 @@ class Setting extends Model
 
     public function allValues(): array
     {
-        return Cache::rememberForever($this->cacheName(), function () {
-            return json_decode(Crypt::decryptString($this->value), true) ?? [];
-        });
-    }
-
-    public function cacheName(): string
-    {
-        return "{$this->key}-values";
+        return json_decode(Crypt::decryptString($this->value), true) ?? [];
     }
 }
