@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.14.12 - 2023-03-17
+
+- Cache the full settings model instead of just values to prevent a query on every request
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.14.11...6.14.12
+
 ## 6.14.11 - 2023-03-17
 
 ### What's Changed
