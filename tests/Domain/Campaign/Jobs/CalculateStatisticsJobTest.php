@@ -257,6 +257,8 @@ it('can calculate statistics regarding bounces', function () {
     dispatch(new SendAutomationMailJob($send));
 
     $campaign->sends()->first()->registerBounce();
+    // A duplicate will only count once
+    $campaign->sends()->first()->registerBounce();
     $automationMail->sends()->first()->registerBounce();
 
     (new CalculateStatisticsJob($campaign))->handle();

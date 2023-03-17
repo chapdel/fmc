@@ -111,7 +111,7 @@ class CalculateStatisticsAction
 
     protected function calculateBounceMetrics(Sendable $sendable, int $sendToNumberOfSubscribers): array
     {
-        $bounceCount = $sendable->bounces()->count();
+        $bounceCount = $sendable->bounces()->distinct('send_id')->count();
         $bounceRate = round($bounceCount / $sendToNumberOfSubscribers, 4) * 10000;
 
         return [$bounceCount, $bounceRate];
