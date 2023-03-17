@@ -4,9 +4,12 @@ namespace Spatie\Mailcoach\Domain\Audience\Mails;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Support\Arr;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Actions\ConvertHtmlToTextAction;
 use Spatie\Mailcoach\Domain\Campaign\Mails\Concerns\ReplacesPlaceholders;
+use Spatie\Mailcoach\Domain\Shared\Actions\GetReplaceContextForSubscriberAction;
+use Spatie\Mailcoach\Domain\Shared\Actions\RenderTwigAction;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns\UsesMailcoachTemplate;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Symfony\Component\Mime\Email;
@@ -54,13 +57,20 @@ class ConfirmSubscriberMail extends Mailable implements ShouldQueue
         $mail->subject($this->replacePlaceholders($mail->subject));
 
         if ($this->confirmationMailTemplate) {
-            $html = $this->confirmationMailTemplate->render($this);
+            $replacements = Arr::dot(array_merge(app(GetReplaceContextForSubscriberAction::class)->execute($this->subscriber), [
+                'confirmUrl' => $this->confirmationUrl,
+            ]));
+
+            $html = $this->confirmationMailTemplate->render($this, $replacements);
+
             $html = str_ireplace('::confirmUrl::', $this->confirmationUrl, $html);
-            $content = $this->replacePlaceholders($html);
-            $plaintext = app(ConvertHtmlToTextAction::class)->execute($content);
+
+            $html = $this->replacePlaceholders($html);
+
+            $plaintext = app(ConvertHtmlToTextAction::class)->execute($html);
 
             $this
-                ->html($content)
+                ->html($html)
                 ->text('mailcoach::mails.transactionalMails.template', ['content' => $plaintext]);
         }
 
