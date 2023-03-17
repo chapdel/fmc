@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.15.0 - 2023-03-17
+
+- We now render twig in the confirmation mail template when a custom transactional mail is chosen and its type is "html"
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.14.12...6.15.0
+
 ## 6.14.12 - 2023-03-17
 
 - Cache the full settings model instead of just values to prevent a query on every request
