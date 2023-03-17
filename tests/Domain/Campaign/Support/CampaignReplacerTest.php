@@ -103,6 +103,22 @@ test('campaign name should replace in url encoded html', function () {
     test()->assertMatchesHtmlSnapshot($result);
 });
 
+test('campaign name should replace in raw url encoded html with twig', function () {
+    $campaign = Campaign::factory()->create([
+        'name' => 'test1234',
+        'html' => rawurlencode('{{ campaign.name }}'),
+    ]);
+
+    $send = Send::factory()->create([
+        'campaign_id' => $campaign->id,
+    ]);
+
+    app(PrepareEmailHtmlAction::class)->execute($campaign);
+
+    $result = app(PersonalizeTextAction::class)->execute($campaign->email_html, $send);
+    $this->assertStringContainsString('test1234', $result);
+});
+
 test('campaign name should replace in url encoded html with twig', function () {
     $campaign = Campaign::factory()->create([
         'name' => 'test1234',
