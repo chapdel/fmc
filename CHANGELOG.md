@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.14.11 - 2023-03-17
+
+### What's Changed
+
+- Error on spanish translation by @chargoy in https://github.com/spatie/laravel-mailcoach/pull/1272
+- Count distinct bounces instead of all bounces in case of a duplicate webhook send
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.14.10...6.14.11
+
 ## 6.14.10 - 2023-03-15
 
 - allow special characters in twig powered templates
