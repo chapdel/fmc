@@ -528,7 +528,7 @@ return [
     'Whenever you need to specify a <code>:resourceName</code> in the Mailcoach API and want to use this :resource, you\'ll need to pass this value' => 'Siempre que necesite especificar un <code>:resourceName</code> en la API de Mailcoach y desee utilizar este :resource, deberá pasar este valor',
     "Without a way to unsubscribe, there's a high chance that your subscribers will complain." => 'Sin una forma de darse de baja, puede haber una alta probabilidad de que los suscriptores reclamen',
     'You are a real fan!' => '¡Eres un fan real!',
-    'You are almost subscribed to the list **:emailListName**.' => 'Estás a punto de darte de baja de la lista **:emailListName**.',
+    'You are almost subscribed to the list **:emailListName**.' => 'Estás a punto de suscribirte a la lista **:emailListName**.',
     'You are now subscribed to list :emailListName' => 'Te suscribiste a la lista :emailListName.',
     'You are now subscribed to the list <strong class="font-semibold">:emailListName</strong>.' => 'Te suscribiste a la lista <strong class="font-semibold">:emailListName</strong>.',
     'You are now subscribed to the list <strong class="font-semibold">our dummy mailing list</strong>.' => 'Estás suscrito a la lista <strong class="font-semibold">lista de correos de prueba</strong>.',
