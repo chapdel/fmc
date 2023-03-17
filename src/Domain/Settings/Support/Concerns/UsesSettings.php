@@ -61,7 +61,7 @@ trait UsesSettings
 
     public function getCacheKey(): string
     {
-        return self::getSettingClass() . $this->getKeyName();
+        return self::getSettingClass().$this->getKeyName();
     }
 
     public function getSettings(): ?Setting
