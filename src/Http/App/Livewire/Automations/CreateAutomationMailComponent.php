@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Http\App\Livewire\Automations;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Automation\Actions\UpdateAutomationMailAction;
+use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class CreateAutomationMailComponent extends Component
@@ -12,13 +13,27 @@ class CreateAutomationMailComponent extends Component
     use UsesMailcoachModels;
     use AuthorizesRequests;
 
+    public array $templateOptions;
+
     public ?string $name = null;
+
+    public int|string|null $template_id = null;
 
     protected function rules()
     {
         return [
             'name' => ['required'],
         ];
+    }
+
+    public function mount()
+    {
+        $this->templateOptions = static::getTemplateClass()::orderBy('name')->get()
+            ->mapWithKeys(fn (Template $template) => [$template->id => $template->name])
+            ->prepend('-- None --', 0)
+            ->toArray();
+
+        $this->template_id = array_key_first($this->templateOptions);
     }
 
     public function saveAutomationMail()
@@ -30,6 +45,7 @@ class CreateAutomationMailComponent extends Component
         $automationMail = resolve(UpdateAutomationMailAction::class)->execute(
             new $automationMailClass,
             $this->validate(),
+            self::getTemplateClass()::find($this->template_id),
         );
 
         flash()->success(__mc('Email :name was created.', ['name' => $automationMail->name]));
