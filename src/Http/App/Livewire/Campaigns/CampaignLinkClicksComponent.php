@@ -3,11 +3,9 @@
 namespace Spatie\Mailcoach\Http\App\Livewire\Campaigns;
 
 use Illuminate\Http\Request;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
 use Spatie\Mailcoach\Http\App\Livewire\DataTableComponent;
 use Spatie\Mailcoach\Http\App\Queries\CampaignLinkClicksQuery;
-use Spatie\Mailcoach\Http\App\Queries\CampaignLinksQuery;
 use Spatie\Mailcoach\MainNavigation;
 
 class CampaignLinkClicksComponent extends DataTableComponent
@@ -27,7 +25,7 @@ class CampaignLinkClicksComponent extends DataTableComponent
 
     public function getTitle(): string
     {
-        return $this->campaignLink->url . ' ' . __mc('Clicks');
+        return $this->campaignLink->url.' '.__mc('Clicks');
     }
 
     public function getView(): string

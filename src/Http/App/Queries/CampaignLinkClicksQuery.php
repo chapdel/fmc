@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Http\App\Queries;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Queries\Filters\FuzzyFilter;
