@@ -25,7 +25,7 @@ class CampaignLinkClicksComponent extends DataTableComponent
 
     public function getTitle(): string
     {
-        return $this->campaignLink->url.' '.__mc('Clicks');
+        return $this->campaignLink->url . ' ' . __mc('clicks');
     }
 
     public function getView(): string
