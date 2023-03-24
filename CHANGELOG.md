@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.16.1 - 2023-03-24
+
+- Fix an extra level being shown in the navigation
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.16.0...6.16.1
+
 ## 6.16.0 - 2023-03-24
 
 - You can now view which subscribers clicked on a certain link
