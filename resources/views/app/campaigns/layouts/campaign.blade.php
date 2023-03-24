@@ -10,7 +10,7 @@
                     <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.opens', $campaign)" data-dirty-warn>
                         {{ __mc('Opens') }}
                     </x-mailcoach::navigation-item>
-                    <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.clicks', $campaign)" data-dirty-warn>
+                    <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.clicks', $campaign)" :active="Route::is('mailcoach.campaigns.clicks') || Route::is('mailcoach.campaigns.link-clicks')" data-dirty-warn>
                         {{ __mc('Clicks') }}
                     </x-mailcoach::navigation-item>
                     <x-mailcoach::navigation-item :href="route('mailcoach.campaigns.unsubscribes', $campaign)" data-dirty-warn>

@@ -44,6 +44,7 @@ Route::prefix('campaigns')->group(function () {
         Route::get('summary', '\\'.Mailcoach::getLivewireClass('campaign-summary', \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignSummaryComponent::class))->name('mailcoach.campaigns.summary');
         Route::get('opens', '\\'.Mailcoach::getLivewireClass('campaign-opens', \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignOpensComponent::class))->name('mailcoach.campaigns.opens');
         Route::get('clicks', '\\'.Mailcoach::getLivewireClass('campaign-links', \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignClicksComponent::class))->name('mailcoach.campaigns.clicks');
+        Route::get('clicks/{campaignLink}', '\\'.Mailcoach::getLivewireClass('campaign-link-clicks', \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignLinkClicksComponent::class))->name('mailcoach.campaigns.link-clicks');
         Route::get('unsubscribes', '\\'.Mailcoach::getLivewireClass('campaign-unsubscribes', \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignUnsubscribesComponent::class))->name('mailcoach.campaigns.unsubscribes');
         Route::get('outbox', '\\'.Mailcoach::getLivewireClass('campaign-outbox', \Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignOutboxComponent::class))->name('mailcoach.campaigns.outbox');
     });

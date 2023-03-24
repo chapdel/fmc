@@ -1,5 +1,5 @@
 <tr>
-    <td class="markup-links"><a class="break-words" href="{{ $row->url }}">{{ $row->url }}</a></td>
+    <td class="markup-links"><a class="break-words" href="{{ route('mailcoach.campaigns.link-clicks', ['campaign' => $row->campaign, 'campaignLink' => $row]) }}">{{ $row->url }}</a></td>
     @if ($campaign->add_subscriber_link_tags)
         <td>
             <span class="tag-neutral">{{ \Spatie\Mailcoach\Domain\Shared\Support\LinkHasher::hash($campaign, $row->url) }}</span>
