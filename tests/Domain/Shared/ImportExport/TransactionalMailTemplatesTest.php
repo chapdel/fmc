@@ -11,7 +11,7 @@ beforeEach(function () {
 it('can export and import transactional mail templates', function () {
     $templates = TransactionalMail::factory(10)->create();
 
-    (new ExportTransactionalMailTemplatesJob($this->disk->path('import'), $templates->pluck('id')->toArray()))->handle();
+    (new ExportTransactionalMailTemplatesJob('import', $templates->pluck('id')->toArray()))->handle();
 
     expect($this->disk->exists('import/transactional_mail_templates.csv'))->toBeTrue();
 

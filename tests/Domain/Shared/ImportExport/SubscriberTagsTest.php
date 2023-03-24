@@ -19,7 +19,7 @@ it('can export and import subscriber tags', function () {
     $subscriber = Subscriber::factory()->create(['email_list_id' => $emailList->id]);
     $subscriber->addTag($tag->name);
 
-    (new ExportTagsJob($this->disk->path('import'), [$emailList->id]))->handle();
+    (new ExportTagsJob('import', [$emailList->id]))->handle();
 
     expect($this->disk->exists('import/email_list_subscriber_tags-1.csv'))->toBeTrue();
 

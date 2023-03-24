@@ -13,7 +13,7 @@ it('can export and import campaigns', function () {
     $campaigns = Campaign::factory(10)->create();
     CampaignLink::factory()->create(['campaign_id' => $campaigns->first()->id]);
 
-    (new ExportCampaignsJob($this->disk->path('import'), $campaigns->pluck('id')->toArray()))->handle();
+    (new ExportCampaignsJob('import', $campaigns->pluck('id')->toArray()))->handle();
 
     expect($this->disk->exists('import/campaigns.csv'))->toBeTrue();
     expect($this->disk->exists('import/campaign_links.csv'))->toBeTrue();

@@ -9,7 +9,7 @@ beforeEach(function () {
 });
 
 it('can zip an export', function () {
-    (new ZipExportJob($this->disk->path('import')))->handle();
+    (new ZipExportJob('import'))->handle();
 
     expect($this->disk->exists('import/mailcoach-export.zip'))->toBeTrue();
 });

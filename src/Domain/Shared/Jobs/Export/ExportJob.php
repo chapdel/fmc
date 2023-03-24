@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Shared\Jobs\Export;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -10,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\SimpleExcel\SimpleExcelWriter;
 use Throwable;
@@ -22,15 +24,23 @@ abstract class ExportJob implements ShouldQueue
     use SerializesModels;
     use UsesMailcoachModels;
 
+    protected Filesystem $exportDisk;
+
+    protected Filesystem $tmpDisk;
+
     abstract public function name(): string;
 
     abstract public function execute(): void;
 
     protected function writeFile(string $name, Collection $data): void
     {
-        $writer = SimpleExcelWriter::create($this->path.DIRECTORY_SEPARATOR.$name);
+        $filePath = $this->path.DIRECTORY_SEPARATOR.$name;
+
+        $writer = SimpleExcelWriter::create($this->tmpDisk->path($filePath));
         $writer->addRows($data->map(fn (object $data) => (array) $data));
         $writer->close();
+
+        $this->exportDisk->put($filePath, $this->tmpDisk->get($filePath));
     }
 
     protected function addMeta(string $key, mixed $value): void
@@ -38,13 +48,13 @@ abstract class ExportJob implements ShouldQueue
         $jsonPath = $this->path.DIRECTORY_SEPARATOR.'meta.json';
 
         $meta = [];
-        if (File::exists($jsonPath)) {
-            $meta = json_decode(File::get($jsonPath), true);
+        if ($this->exportDisk->exists($jsonPath)) {
+            $meta = json_decode($this->exportDisk->get($jsonPath), true);
         }
 
         $meta[$key] = $value;
 
-        File::put($jsonPath, json_encode($meta));
+        $this->exportDisk->put($jsonPath, json_encode($meta));
     }
 
     protected function jobStarted(): void
@@ -80,6 +90,9 @@ abstract class ExportJob implements ShouldQueue
 
     public function handle(): void
     {
+        $this->exportDisk = Storage::disk(config('mailcoach.export_disk'));
+        $this->tmpDisk = Storage::disk(config('mailcoach.tmp_disk'));
+
         $this->jobStarted();
 
         $this->execute();

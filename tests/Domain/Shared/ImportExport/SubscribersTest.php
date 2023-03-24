@@ -15,7 +15,7 @@ it('can export and import subscribers', function () {
         'email_list_id' => $emailList->id,
     ]);
 
-    (new ExportSubscribersJob($this->disk->path('import'), [$emailList->id]))->handle();
+    (new ExportSubscribersJob('import', [$emailList->id]))->handle();
 
     expect($this->disk->exists('import/subscribers-1.csv'))->toBeTrue();
 
