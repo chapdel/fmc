@@ -33,6 +33,8 @@ abstract class ExportJob implements ShouldQueue
 
     protected function writeFile(string $name, Collection $data): void
     {
+        $this->tmpDisk->makeDirectory($this->path);
+
         $filePath = $this->path.DIRECTORY_SEPARATOR.$name;
 
         $writer = SimpleExcelWriter::create($this->tmpDisk->path($filePath));
