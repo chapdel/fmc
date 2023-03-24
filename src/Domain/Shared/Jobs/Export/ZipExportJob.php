@@ -26,10 +26,10 @@ class ZipExportJob extends ExportJob
             $this->tmpDisk->put($file, $this->exportDisk->get($file));
         }
 
-        $zipFilePath = $this->path.DIRECTORY_SEPARATOR.'mailcoach-export.zip');
+        $zipFilePath = $this->path.DIRECTORY_SEPARATOR.'mailcoach-export.zip';
 
         $zipFile = new ZipArchive();
-        $zipFile->open($this->tmpDisk->path($zipFilePath, ZipArchive::CREATE);
+        $zipFile->open($this->tmpDisk->path($zipFilePath, ZipArchive::CREATE));
 
         $files = Finder::create()
             ->in($this->tmpDisk->path($this->path))
