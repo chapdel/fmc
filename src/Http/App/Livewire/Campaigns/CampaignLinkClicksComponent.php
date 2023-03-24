@@ -19,8 +19,7 @@ class CampaignLinkClicksComponent extends DataTableComponent
         $this->campaignLink = $campaignLink;
 
         app(MainNavigation::class)->activeSection()
-            ?->add($this->campaignLink->campaign->name, route('mailcoach.campaigns'))
-            ?->add('Clicks', route('mailcoach.campaigns.clicks', $this->campaignLink->campaign));
+            ?->add($this->campaignLink->campaign->name, route('mailcoach.campaigns'));
     }
 
     public function getTitle(): string
