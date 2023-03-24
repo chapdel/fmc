@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.16.2 - 2023-03-24
+
+- Exports didn't work with external disks like s3 while using a queue for the exports. Now they do
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.16.1...6.16.2
+
 ## 6.16.1 - 2023-03-24
 
 - Fix an extra level being shown in the navigation
