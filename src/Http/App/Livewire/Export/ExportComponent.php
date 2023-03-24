@@ -116,7 +116,10 @@ class ExportComponent extends Component
 
     public function download()
     {
-        return response()->download(Storage::disk(config('mailcoach.export_disk'))->path(self::obfuscatedExportDirectory().'/mailcoach-export.zip'));
+        return response(Storage::disk(config('mailcoach.export_disk'))
+            ->get(self::obfuscatedExportDirectory().'/mailcoach-export.zip'), 200)
+            ->header('Content-Type', 'application/zip, application/octet-stream')
+            ->header('Content-Disposition', 'inline');
     }
 
     public function newExport()
