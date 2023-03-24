@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.16.0 - 2023-03-24
+
+- You can now view which subscribers clicked on a certain link
+- Stuck sends for automation mails will now be retried just like campaign emails
+- You can now choose a template when creating an automation mail
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.15.1...6.16.0
+
 ## 6.15.1 - 2023-03-21
 
 - Fix an issue with Carbon serialization
