@@ -126,7 +126,9 @@ class ExportComponent extends Component
     {
         Cache::forget('export-status');
         $this->clearObfuscatedExportDirectory();
-        File::deleteDirectory(Storage::disk(config('mailcoach.export_disk'))->path(self::obfuscatedExportDirectory()));
+
+        Storage::disk(config('mailcoach.export_disk'))->deleteDirectory(self::obfuscatedExportDirectory());
+
         $this->exportStarted = false;
     }
 
