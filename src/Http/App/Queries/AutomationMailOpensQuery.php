@@ -21,17 +21,20 @@ class AutomationMailOpensQuery extends QueryBuilder
         $prefix = DB::getTablePrefix();
 
         $automationMailOpenTable = static::getAutomationMailOpenTableName();
+        $subscriberTableName = static::getSubscriberTableName();
+        $emailListTableName = static::getEmailListTableName();
 
         $query = static::getAutomationMailOpenClass()::query()
             ->selectRaw("
-                {$prefix}{$automationMailOpenTable}.subscriber_id as subscriber_id,
-                {$prefix}{$this->getSubscriberTableName()}.email_list_id as subscriber_email_list_id,
-                {$prefix}{$this->getSubscriberTableName()}.email as subscriber_email,
+                {$prefix}{$subscriberTableName}.uuid as subscriber_uuid,
+                {$prefix}{$emailListTableName}.uuid as subscriber_email_list_uuid,
+                {$prefix}{$subscriberTableName}.email as subscriber_email,
                 count({$prefix}{$automationMailOpenTable}.subscriber_id) as open_count,
                 min({$prefix}{$automationMailOpenTable}.created_at) AS first_opened_at
             ")
             ->join(static::getAutomationMailTableName(), static::getAutomationMailTableName().'.id', '=', "{$automationMailOpenTable}.automation_mail_id")
-            ->join($this->getSubscriberTableName(), "{$this->getSubscriberTableName()}.id", '=', "{$automationMailOpenTable}.subscriber_id")
+            ->join($subscriberTableName, "{$subscriberTableName}.id", '=', "{$automationMailOpenTable}.subscriber_id")
+            ->join($emailListTableName, "{$subscriberTableName}.email_list_id", '=', "{$emailListTableName}.id")
             ->where(static::getAutomationMailTableName().'.id', $mail->id);
 
         $this->totalCount = $query->count();
@@ -41,7 +44,7 @@ class AutomationMailOpensQuery extends QueryBuilder
         $this
             ->defaultSort('-first_opened_at')
             ->allowedSorts('email', 'open_count', 'first_opened_at')
-            ->groupBy("{$automationMailOpenTable}.subscriber_id", "{$this->getSubscriberTableName()}.email_list_id", "{$this->getSubscriberTableName()}.email")
+            ->groupBy("subscriber_uuid", "subscriber_email_list_uuid", "subscriber_email")
             ->allowedFilters(
                 AllowedFilter::custom(
                     'search',
