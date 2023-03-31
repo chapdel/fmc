@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.17.1 - 2023-03-31
+
+- Fix a duplicate uuid issue when duplicating a transactional mail
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.17.0...6.17.1
+
 ## 6.17.0 - 2023-03-31
 
 - Allow setting storage url separate from app url
