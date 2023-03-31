@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.17.0 - 2023-03-31
+
+- Allow setting storage url separate from app url
+- Fix link to automation mail open subscribers
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.16.2...6.17.0
+
 ## 6.16.2 - 2023-03-24
 
 - Exports didn't work with external disks like s3 while using a queue for the exports. Now they do
