@@ -19,6 +19,10 @@ class Upload extends Model implements HasMedia
 
     public function registerMediaConversions(Media $media = null): void
     {
+        if ($media && $media->extension === Manipulations::FORMAT_GIF) {
+            return;
+        }
+
         $this
             ->addMediaConversion('image')
             ->keepOriginalImageFormat()

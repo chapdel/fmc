@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Http\Api\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Spatie\Image\Manipulations;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class UploadsController
@@ -18,10 +19,16 @@ class UploadsController
         ]);
 
         if (isset($data['file'])) {
+            /** @var \Spatie\Mailcoach\Domain\Shared\Models\Upload $upload */
             $upload = self::getUploadClass()::create();
             $media = $upload
                 ->addMediaFromRequest('file')
-                ->sanitizingFileName(fn (string $fileName) => Str::slug($fileName))
+                ->sanitizingFileName(function (string $fileName) {
+                    $parts = explode('.', $fileName);
+                    $extension = array_pop($parts);
+
+                    return Str::slug(implode($parts)) . '.' . $extension;
+                })
                 ->toMediaCollection(
                     config('mailcoach.uploads.collection_name', 'default'),
                     config('mailcoach.uploads.disk_name'),
@@ -29,6 +36,7 @@ class UploadsController
         }
 
         if (isset($data['url'])) {
+            /** @var \Spatie\Mailcoach\Domain\Shared\Models\Upload $upload */
             $upload = self::getUploadClass()::create();
             $media = $upload
                 ->addMediaFromUrl($data['url'])
@@ -47,7 +55,9 @@ class UploadsController
         return response()->json([
             'success' => 1,
             'file' => [
-                'url' => $media->getFullUrl('image'),
+                'url' => $media->extension === Manipulations::FORMAT_GIF
+                    ? $media->getFullUrl()
+                    : $media->getFullUrl('image'),
             ],
         ]);
     }
