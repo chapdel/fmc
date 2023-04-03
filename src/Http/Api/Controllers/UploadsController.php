@@ -27,7 +27,7 @@ class UploadsController
                     $parts = explode('.', $fileName);
                     $extension = array_pop($parts);
 
-                    return Str::slug(implode($parts)) . '.' . $extension;
+                    return Str::slug(implode($parts)).'.'.$extension;
                 })
                 ->toMediaCollection(
                     config('mailcoach.uploads.collection_name', 'default'),
