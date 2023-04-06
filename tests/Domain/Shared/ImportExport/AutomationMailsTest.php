@@ -13,7 +13,7 @@ it('can export and import automation mails', function () {
     $automationMails = AutomationMail::factory(10)->create();
     AutomationMailLink::factory()->create(['automation_mail_id' => $automationMails->first()->id]);
 
-    (new ExportAutomationMailsJob($this->disk->path('import'), $automationMails->pluck('id')->toArray()))->handle();
+    (new ExportAutomationMailsJob('import', $automationMails->pluck('id')->toArray()))->handle();
 
     expect($this->disk->exists('import/automation_mails.csv'))->toBeTrue();
     expect($this->disk->exists('import/automation_mail_links.csv'))->toBeTrue();

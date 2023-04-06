@@ -22,7 +22,7 @@ it('can export and import segments', function () {
     $segment->syncPositiveTags([$positiveTag->name]);
     $segment->syncNegativeTags([$negativeTag->name]);
 
-    (new ExportSegmentsJob($this->disk->path('import'), [$emailList->id]))->handle();
+    (new ExportSegmentsJob('import', [$emailList->id]))->handle();
 
     expect($this->disk->exists('import/segments.csv'))->toBeTrue();
     expect($this->disk->exists('import/positive_segment_tags.csv'))->toBeTrue();

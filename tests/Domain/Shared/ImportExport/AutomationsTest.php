@@ -29,7 +29,7 @@ it('can export and import automations', function () {
         ])
         ->start();
 
-    (new ExportAutomationsJob($this->disk->path('import'), [$automation->id]))->handle();
+    (new ExportAutomationsJob('import', [$automation->id]))->handle();
 
     expect($this->disk->exists('import/automations.csv'))->toBeTrue();
     expect($this->disk->exists('import/automation_triggers.csv'))->toBeTrue();

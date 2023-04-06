@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Domain\TransactionalMail\Actions;
 
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Markdown;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\File;
 use Illuminate\View\Factory;
@@ -31,7 +32,7 @@ class RenderTemplateAction
 
         if ($template->type === 'html') {
             try {
-                $body = app(RenderTwigAction::class)->execute($body, $replacements);
+                $body = app(RenderTwigAction::class)->execute($body, Arr::undot($replacements));
             } catch (Throwable) {
                 // Do nothing, Twig failed
             }
@@ -61,6 +62,10 @@ class RenderTemplateAction
     protected function handleReplacements(string $body, array $replacements): string
     {
         foreach ($replacements as $search => $replace) {
+            if (is_array($replace)) {
+                continue;
+            }
+
             $body = str_replace("::{$search}::", $replace, $body);
         }
 

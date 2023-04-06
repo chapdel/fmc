@@ -15,7 +15,7 @@ it('can export and import email lists', function () {
     $emailList = EmailList::factory()->create();
     $emailList2 = EmailList::factory()->create();
 
-    (new ExportEmailListsJob($this->disk->path('import'), [$emailList->id]))->handle();
+    (new ExportEmailListsJob('import', [$emailList->id]))->handle();
 
     expect(EmailList::count())->toBe(2);
     expect($this->disk->exists('import/email_lists.csv'))->toBeTrue();
@@ -37,8 +37,8 @@ it('also exports and imports form subscription tags', function () {
 
     expect($emailList->allowedFormSubscriptionTags()->count())->toBe(1);
 
-    (new ExportTagsJob($this->disk->path('import'), [$emailList->id]))->handle();
-    (new ExportEmailListsJob($this->disk->path('import'), [$emailList->id]))->handle();
+    (new ExportTagsJob('import', [$emailList->id]))->handle();
+    (new ExportEmailListsJob('import', [$emailList->id]))->handle();
 
     expect($this->disk->exists('import/email_list_allow_form_subscription_tags.csv'))->toBeTrue();
     expect($this->disk->exists('import/tags.csv'))->toBeTrue();

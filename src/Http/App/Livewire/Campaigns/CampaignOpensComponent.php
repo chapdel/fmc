@@ -45,12 +45,12 @@ class CampaignOpensComponent extends DataTableComponent
 
     public function getData(Request $request): array
     {
-        $campaignOpens = (new CampaignOpensQuery($this->campaign, $request));
+        $campaignOpens = (new CampaignOpensQuery($this->campaign, $request))->paginate($request->per_page);
 
         return [
             'campaign' => $this->campaign,
-            'mailOpens' => $campaignOpens->paginate($request->per_page),
-            'totalMailOpensCount' => $campaignOpens->paginate($request->per_page)->total(),
+            'mailOpens' => $campaignOpens,
+            'totalMailOpensCount' => $campaignOpens->total(),
         ];
     }
 }

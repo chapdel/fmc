@@ -3,6 +3,8 @@
 namespace Spatie\Mailcoach\Domain\Settings\Support\Concerns;
 
 use Exception;
+use Illuminate\Support\Facades\Cache;
+use Spatie\Mailcoach\Domain\Settings\Models\Setting;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 trait UsesSettings
@@ -13,6 +15,8 @@ trait UsesSettings
     {
         self::getSettingClass()::setValues($this->getKeyName(), $values);
 
+        Cache::forget($this->getCacheKey());
+
         return $this;
     }
 
@@ -22,17 +26,21 @@ trait UsesSettings
 
         self::getSettingClass()::setValues($this->getKeyName(), $allValues);
 
+        Cache::forget($this->getCacheKey());
+
         return $this;
     }
 
     public function all(): array
     {
-        return self::getSettingClass()::where('key', $this->getKeyName())->first()?->allValues() ?? [];
+        return $this->getSettings()?->allValues() ?? [];
     }
 
     public function empty(): self
     {
         self::getSettingClass()::where('key')->delete();
+
+        Cache::forget($this->getCacheKey());
 
         return $this;
     }
@@ -45,10 +53,22 @@ trait UsesSettings
     public function get(string $property, mixed $default = null): mixed
     {
         try {
-            return self::getSettingClass()::where('key', $this->getKeyName())->first()?->getValue($property) ?? $default;
+            return $this->getSettings()?->getValue($property) ?? $default;
         } catch (Exception) {
             return $default;
         }
+    }
+
+    public function getCacheKey(): string
+    {
+        return self::getSettingClass().$this->getKeyName();
+    }
+
+    public function getSettings(): ?Setting
+    {
+        return Cache::rememberForever($this->getCacheKey(), function () {
+            return self::getSettingClass()::where('key', $this->getKeyName())->first();
+        });
     }
 
     abstract public function getKeyName(): string;

@@ -15,7 +15,6 @@ it('updates an automation mail', function () {
         'name' => 'My Automation mail',
         'subject' => 'A subject',
         'html' => '<html></html>',
-        'structured_html' => '',
         'utm_tags' => false,
         'last_modified_at' => now()->startOfSecond(),
     ]);
@@ -24,14 +23,12 @@ it('updates an automation mail', function () {
         'name' => 'My Automation mail',
         'subject' => 'A subject',
         'html' => '<html></html>',
-        'structured_html' => '',
         'utm_tags' => false,
         'last_modified_at' => now()->startOfSecond(),
     ], [
         'name' => $automationMail->name,
         'subject' => $automationMail->subject,
         'html' => $automationMail->html,
-        'structured_html' => $automationMail->structured_html,
         'utm_tags' => $automationMail->utm_tags,
         'last_modified_at' => $automationMail->last_modified_at,
     ]);

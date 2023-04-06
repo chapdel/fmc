@@ -2,6 +2,57 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.17.1 - 2023-03-31
+
+- Fix a duplicate uuid issue when duplicating a transactional mail
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.17.0...6.17.1
+
+## 6.17.0 - 2023-03-31
+
+- Allow setting storage url separate from app url
+- Fix link to automation mail open subscribers
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.16.2...6.17.0
+
+## 6.16.2 - 2023-03-24
+
+- Exports didn't work with external disks like s3 while using a queue for the exports. Now they do
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.16.1...6.16.2
+
+## 6.16.1 - 2023-03-24
+
+- Fix an extra level being shown in the navigation
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.16.0...6.16.1
+
+## 6.16.0 - 2023-03-24
+
+- You can now view which subscribers clicked on a certain link
+- Stuck sends for automation mails will now be retried just like campaign emails
+- You can now choose a template when creating an automation mail
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.15.1...6.16.0
+
+## 6.15.1 - 2023-03-21
+
+- Fix an issue with Carbon serialization
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.15.0...6.15.1
+
+## 6.15.0 - 2023-03-17
+
+- We now render twig in the confirmation mail template when a custom transactional mail is chosen and its type is "html"
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.14.12...6.15.0
+
+## 6.14.12 - 2023-03-17
+
+- Cache the full settings model instead of just values to prevent a query on every request
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.14.11...6.14.12
+
 ## 6.14.11 - 2023-03-17
 
 ### What's Changed

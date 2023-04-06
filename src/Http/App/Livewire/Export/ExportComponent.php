@@ -5,7 +5,6 @@ namespace Spatie\Mailcoach\Http\App\Livewire\Export;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Livewire\Component;
@@ -93,10 +92,10 @@ class ExportComponent extends Component
     {
         Cache::forget('export-status');
 
-        $path = Storage::disk(config('mailcoach.export_disk'))->path($this->obfuscatedExportDirectory());
+        $path = self::obfuscatedExportDirectory();
 
-        File::deleteDirectory($path);
-        File::ensureDirectoryExists($path);
+        Storage::disk(config('mailcoach.export_disk'))->deleteDirectory($path);
+        Storage::disk(config('mailcoach.export_disk'))->makeDirectory($path);
 
         Bus::chain([
             new ExportEmailListsJob($path, $this->selectedEmailLists),
@@ -116,14 +115,16 @@ class ExportComponent extends Component
 
     public function download()
     {
-        return response()->download(Storage::disk(config('mailcoach.export_disk'))->path("{$this->obfuscatedExportDirectory()}/mailcoach-export.zip"));
+        return Storage::disk(config('mailcoach.export_disk'))->download(self::obfuscatedExportDirectory().'/mailcoach-export.zip');
     }
 
     public function newExport()
     {
         Cache::forget('export-status');
         $this->clearObfuscatedExportDirectory();
-        File::deleteDirectory(Storage::disk(config('mailcoach.export_disk'))->path("{$this->obfuscatedExportDirectory()}"));
+
+        Storage::disk(config('mailcoach.export_disk'))->deleteDirectory(self::obfuscatedExportDirectory());
+
         $this->exportStarted = false;
     }
 

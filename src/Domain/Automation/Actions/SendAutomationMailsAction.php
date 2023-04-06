@@ -21,6 +21,8 @@ class SendAutomationMailsAction
 
     public function execute(?CarbonInterface $stopExecutingAt = null)
     {
+        $this->retryDispatchForStuckSends();
+
         self::getSendClass()::query()
             ->undispatched()
             ->whereNotNull('automation_mail_id')
@@ -39,6 +41,28 @@ class SendAutomationMailsAction
 
                 $this->haltWhenApproachingTimeLimit($stopExecutingAt);
             });
+    }
+
+    /**
+     * Dispatch pending sends again that have
+     * not been processed in the 30 minutes
+     */
+    protected function retryDispatchForStuckSends(): void
+    {
+        $retryQuery = self::getSendClass()::query()
+            ->whereNotNull('automation_mail_id')
+            ->pending()
+            ->where('sending_job_dispatched_at', '<', now()->subMinutes(30));
+
+        if ($retryQuery->count() === 0) {
+            return;
+        }
+
+        $retryQuery->each(function (Send $send) {
+            dispatch(new SendAutomationMailJob($send));
+
+            $send->markAsSendingJobDispatched();
+        });
     }
 
     protected function haltWhenApproachingTimeLimit(?CarbonInterface $stopExecutingAt): void

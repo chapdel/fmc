@@ -33,7 +33,7 @@ it('can export and import automation action subscribers', function () {
 
     expect(ActionSubscriber::count())->toBe(1);
 
-    (new ExportAutomationsJob($this->disk->path('import'), [$automation->id]))->handle();
+    (new ExportAutomationsJob('import', [$automation->id]))->handle();
 
     expect($this->disk->exists('import/automation_action_subscribers-1.csv'))->toBeTrue();
 

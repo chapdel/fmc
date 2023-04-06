@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailsAction;
+use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailJob;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
@@ -66,4 +68,26 @@ it('will throttle processing mail jobs', function () {
 
     expect($sendTime1->diffInSeconds($sendTime2))->toEqual(0);
     expect($sendTime2->diffInSeconds($sendTime3))->toBeGreaterThanOrEqual(3);
+});
+
+it('will retry stuck pending sends', function () {
+    Queue::fake();
+
+    $action = app(SendAutomationMailsAction::class);
+
+    $automationMail = AutomationMail::factory()->create();
+
+    Send::factory()->create([
+        'automation_mail_id' => $automationMail->id,
+        'sending_job_dispatched_at' => now()->subMinutes(35),
+    ]);
+
+    Send::factory()->create([
+        'automation_mail_id' => $automationMail->id,
+        'sending_job_dispatched_at' => now()->subMinutes(25),
+    ]);
+
+    $action->execute();
+
+    Queue::assertPushed(SendAutomationMailJob::class, 1);
 });

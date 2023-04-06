@@ -104,6 +104,27 @@ test('the confirmation mail can have custom content', function () {
     $mailable->assertDontSeeInText('<html');
 });
 
+test('the confirmation mail can have custom content with twig', function () {
+    test()->emailList->update(['transactional_mailer' => 'log']);
+
+    $template = TransactionalMail::factory()->create([
+        'type' => 'html',
+        'body' => '<html><body><p>Hi {{ subscriber.first_name }}, press {{ confirmUrl }} to subscribe to {{ list.name }}</p></body></html>',
+    ]);
+
+    test()->emailList->update(['confirmation_mail_id' => $template->id]);
+
+    $subscriber = Subscriber::createWithEmail('john@example.com', ['first_name' => 'John'])->subscribeTo(test()->emailList);
+
+    $mailable = (new ConfirmSubscriberMail($subscriber));
+
+    $uuid = $subscriber->uuid;
+
+    $mailable->assertSeeInHtml('Hi John, press http://localhost/mailcoach/confirm-subscription/'.$uuid.' to subscribe to my newsletter');
+    $mailable->assertSeeInText('Hi John, press http://localhost/mailcoach/confirm-subscription/'.$uuid.' to subscribe to my newsletter');
+    $mailable->assertDontSeeInText('<html');
+});
+
 it('can use custom welcome mailable', function () {
     Mail::fake();
 
@@ -112,4 +133,25 @@ it('can use custom welcome mailable', function () {
     Subscriber::createWithEmail('john@example.com')->subscribeTo(test()->emailList);
 
     Mail::assertQueued(CustomConfirmSubscriberMail::class);
+});
+
+test('the confirmation mail can have custom content with twig conditionals', function () {
+    test()->emailList->update(['transactional_mailer' => 'log']);
+
+    $template = TransactionalMail::factory()->create([
+        'type' => 'html',
+        'body' => '<html><body><p>Hi, this is a twig test {%if subscriber.locale == "nl" %}NL{% else %}FR{% endif %}</p></body></html>',
+    ]);
+
+    test()->emailList->update(['confirmation_mail_id' => $template->id]);
+
+    $subscriber = Subscriber::createWithEmail('john@example.com', ['first_name' => 'John', 'extra_attributes' => ['locale' => 'nl']])->subscribeTo(test()->emailList);
+
+    $mailable = (new ConfirmSubscriberMail($subscriber));
+
+    $uuid = $subscriber->uuid;
+
+    $mailable->assertSeeInHtml('Hi, this is a twig test NL');
+    $mailable->assertSeeInText('Hi, this is a twig test NL');
+    $mailable->assertDontSeeInText('<html');
 });

@@ -20,6 +20,8 @@ class GeneralSettingsComponent extends Component
 
     public string $url = '';
 
+    public string $storage_url = '';
+
     public string $from_address = '';
 
     public function rules()
@@ -28,6 +30,7 @@ class GeneralSettingsComponent extends Component
             'name' => ['required'],
             'timezone' => ['required', Rule::in(TimeZone::all())],
             'url' => ['required', 'url'],
+            'storage_url' => ['required', 'url'],
             'from_address' => ['required', 'email:rfc,dns'],
         ];
     }
@@ -37,6 +40,7 @@ class GeneralSettingsComponent extends Component
         $this->name = $appConfiguration->name ?? config('app.name');
         $this->timezone = $appConfiguration->timezone ?? config('mailcoach.timezone') ?? config('app.timezone');
         $this->url = $appConfiguration->url ?? config('app.url');
+        $this->storage_url = $appConfiguration->storage_url ?? config('filesystems.disks.public.url');
         $this->from_address = $appConfiguration->from_address ?? config('mail.from.address') ?? '';
     }
 

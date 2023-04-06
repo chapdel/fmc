@@ -17,8 +17,8 @@ it('can export and import tags', function () {
         'email_list_id' => $emailList->id,
     ]);
 
-    (new ExportEmailListsJob($this->disk->path('import'), [$emailList->id]))->handle();
-    (new ExportTagsJob($this->disk->path('import'), [$emailList->id]))->handle();
+    (new ExportEmailListsJob('import', [$emailList->id]))->handle();
+    (new ExportTagsJob('import', [$emailList->id]))->handle();
 
     expect($this->disk->exists('import/tags.csv'))->toBeTrue();
 

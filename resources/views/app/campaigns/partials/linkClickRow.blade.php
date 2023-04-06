@@ -12,6 +12,6 @@
             @endif
         </a>
     </td>
-    <td class="td-numeric">{{ $row->open_count }}</td>
-    <td class="td-numeric hidden | xl:table-cell">{{ $row->first_opened_at->toMailcoachFormat() }}</td>
+    <td class="td-numeric">{{ $row->click_count }}</td>
+    <td class="td-numeric hidden | xl:table-cell">{{ $row->first_clicked_at->toMailcoachFormat() }}</td>
 </tr>

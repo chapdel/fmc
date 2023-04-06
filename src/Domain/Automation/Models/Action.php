@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 use Spatie\Mailcoach\Database\Factories\ActionFactory;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Jobs\RunActionForActionSubscriberJob;
@@ -35,6 +36,8 @@ class Action extends Model
 
     public function getActionAttribute(string $value): AutomationAction
     {
+        Carbon::useStrictMode(false);
+
         /** @var AutomationAction $action */
         if (base64_encode(base64_decode($value, true)) === $value) {
             $action = unserialize(base64_decode($value));

@@ -21,6 +21,7 @@ beforeEach(function () {
         'email_list_id' => $this->emailList->id,
         'status' => CampaignStatus::Sent,
         'sent_at' => now(),
+        'webview_html' => 'some html',
     ]);
 });
 

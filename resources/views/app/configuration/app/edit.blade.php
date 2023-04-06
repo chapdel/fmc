@@ -12,6 +12,7 @@
     <x-mailcoach::card>
     <x-mailcoach::text-field name="name" id="name" wire:model="name" :label="__mc('App name')" />
     <x-mailcoach::text-field name="url" id="url" wire:model="url" :label="__mc('App url')" />
+    <x-mailcoach::text-field name="storage_url" id="storage_url" wire:model="storage_url" :label="__mc('Storage url')" />
 
     <x-mailcoach::select-field
         :label="__mc('Timezone')"

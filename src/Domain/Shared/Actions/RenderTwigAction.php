@@ -13,6 +13,11 @@ class RenderTwigAction
             'autoescape' => 'html',
         ]);
 
-        return $twig->createTemplate(rawurldecode($html))->render($context);
+        $html = rawurldecode($html);
+
+        /** This is in case an editor urlencodes {{ variable }} to {{+variable+}} */
+        $html = str_replace(['{{+', '+}}'], ['{{ ', ' }}'], $html);
+
+        return $twig->createTemplate($html)->render($context);
     }
 }

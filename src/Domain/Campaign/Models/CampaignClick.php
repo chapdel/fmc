@@ -19,6 +19,10 @@ class CampaignClick extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'first_clicked_at' => 'datetime',
+    ];
+
     public function send(): BelongsTo
     {
         return $this->belongsTo(self::getSendClass(), 'send_id');

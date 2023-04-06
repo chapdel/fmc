@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\Livewire\TransactionalMails;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Spatie\Mailcoach\Http\App\Livewire\DataTableComponent;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 use Spatie\Mailcoach\Http\App\Queries\TransactionalMailTemplateQuery;
@@ -19,6 +20,7 @@ class TransactionalMailsComponent extends DataTableComponent
 
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Template $duplicateTemplate */
         $duplicateTemplate = $template->replicate();
+        $duplicateTemplate->uuid = Str::uuid();
         $duplicateTemplate->name .= '-copy';
         $duplicateTemplate->save();
 
