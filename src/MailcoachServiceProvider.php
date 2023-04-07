@@ -378,6 +378,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Route::model('subscriber', self::getSubscriberClass());
         Route::model('subscriberImport', self::getSubscriberImportClass());
         Route::model('tagSegment', self::getTagSegmentClass());
+        Route::model('segment', self::getTagSegmentClass());
         Route::model('action', self::getAutomationActionClass());
 
         // Automation
