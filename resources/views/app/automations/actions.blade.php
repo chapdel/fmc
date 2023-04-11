@@ -16,7 +16,7 @@
             @if (count($editingActions) > 0)
                 <span class="inline-flex gap-1.5 items-center text-gray-500">
                     <x-mailcoach::rounded-icon type="info" />
-                    <span class="text-sm">@lang('Save your individual actions first')</span>
+                    <span class="text-sm">{{ __mc('Save your individual actions first') }}</span>
                 </span>
             @endif
 

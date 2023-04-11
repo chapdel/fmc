@@ -167,7 +167,7 @@
                             <div class="flex items-center">
                                 <h2 :class="{ 'rounded-br': !collapsed }" class="justify-self-start -ml-4 -my-px h-8 pl-2 pr-4 inline-flex items-center bg-green-600 text-white space-x-2">
                                     <i class="far fa-thumbs-up"></i>
-                                    <span class="markup-h4">@lang('If')</span>
+                                    <span class="markup-h4">{{ __mc('If') }}</span>
                                 </h2>
                                 <span x-show="collapsed" class="text-gray-600 text-sm ml-4">{{ count($yesActions) }} {{ __mc_choice('action|actions', count($yesActions)) }}</span>
                                 <button class="ml-auto -mr-3 text-sm" type="button">
@@ -185,7 +185,7 @@
                             <div class="flex items-center">
                                 <h2 :class="{ 'rounded-br': !collapsed }" class="justify-self-start -ml-4 -my-px h-8 pl-2 pr-4 inline-flex items-center bg-red-600 text-white space-x-2">
                                     <i class="far fa-thumbs-down"></i>
-                                    <span class="markup-h4">@lang('Else')</span>
+                                    <span class="markup-h4">{{ __mc('Else') }}</span>
                                 </h2>
                                 <span x-show="collapsed" class="text-gray-600 text-sm ml-4">{{ count($noActions) }} {{ __mc_choice('action|actions', count($noActions)) }}</span>
                                 <button class="ml-auto -mr-3 text-sm" type="button">
@@ -209,7 +209,7 @@
                                         <i class="far fa-thumbs-up"></i>
                                          @if ($condition)
                                             <span class="markup-h4 whitespace-nowrap overflow-ellipsis max-w-xs truncate">
-                                                <span class="font-normal">@lang('If') {{ $condition::getName() }}</span>
+                                                <span class="font-normal">{{ __mc('If') }} {{ $condition::getName() }}</span>
                                                 <span class="font-semibold tracking-normal normal-case">{{ $condition::getDescription($conditionData) }}</span>?
                                             </span>
                                         @endif
@@ -240,7 +240,7 @@
                                     <h2 :class="{ 'rounded-br': !collapsed }" class="justify-self-start -ml-4 -my-px h-8 pl-2 pr-4 inline-flex items-center bg-red-600 text-white space-x-2">
                                         <i class="far fa-thumbs-down"></i>
                                         <span class="markup-h4">
-                                            <span class="font-normal">@lang('Else')</span>
+                                            <span class="font-normal">{{ __mc('Else') }}</span>
                                         </span>
                                     </h2>
                                     <span x-show="collapsed" class="text-gray-600 text-sm ml-4">{{ count($noActions) }} {{ __mc_choice('action|actions', count($noActions)) }}</span>
