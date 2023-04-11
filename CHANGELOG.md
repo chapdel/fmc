@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.17.2 - 2023-04-11
+
+- #1285 - Fix subscriber export not using tag filter
+- Don't create conversions for gifs
+- Bind segment to configured class
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.17.1...6.17.2
+
 ## 6.17.1 - 2023-03-31
 
 - Fix a duplicate uuid issue when duplicating a transactional mail
