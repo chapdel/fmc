@@ -29,7 +29,7 @@
         <x-mailcoach::text-field :label="__mc('URL')" name="webhook.url" wire:model.lazy="webhook.url" required />
 
         <div class="flex items-center gap-x-2" x-data="{ type: 'password' }">
-            <x-mailcoach::text-field x-bind:type="type" :label="__mc('Secret ')" name="webhook.secret" wire:model.lazy="webhook.secret" required />
+            <x-mailcoach::text-field x-bind:type="type" :label="__mc('Secret')" name="webhook.secret" wire:model.lazy="webhook.secret" required />
             <x-mailcoach::rounded-icon x-on:click="type = type === 'password' ? 'text' : 'password'" class="cursor-pointer mt-6" icon="" x-bind:class="type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash'" size="md" type="info" />
         </div>
 
