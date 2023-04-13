@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.17.4 - 2023-04-13
+
+### What's Changed
+
+- Dutch translations V6 by @mbardelmeijer in https://github.com/spatie/laravel-mailcoach/pull/1288
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.17.3...6.17.4
+
 ## 6.17.3 - 2023-04-11
 
 ### What's Changed
