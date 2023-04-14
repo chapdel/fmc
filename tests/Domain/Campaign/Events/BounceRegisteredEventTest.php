@@ -18,12 +18,12 @@ it('will send an event after a bounce has been registered', function () {
 });
 
 it('will send an event after a soft bounce has been registered', function () {
-    Event::fake(BounceRegisteredEvent::class);
+    Event::fake(SoftBounceRegisteredEvent::class);
 
     /** @var Send $send */
     $send = SendFactory::new()->create();
 
-    $send->registerBounce(now(), true);
+    $send->registerBounce(now(), softBounce: true);
 
     Event::assertDispatched(SoftBounceRegisteredEvent::class);
 });

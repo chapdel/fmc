@@ -5,6 +5,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Models\SendFeedbackItem;
 use Spatie\TestTime\TestTime;
 
 it('can be found by its transport message id', function () {
@@ -62,11 +63,13 @@ it('will not unsubscribe when there is a soft bounce', function () {
     $bouncedAt = now()->subHour();
     $send->registerBounce($bouncedAt, softBounce: true);
 
-    test()->assertDatabaseMissing('mailcoach_send_feedback_items', [
+    test()->assertDatabaseHas(SendFeedbackItem::class, [
         'send_id' => $send->id,
+        'type' => SendFeedbackType::SoftBounce,
+        'created_at' => $bouncedAt,
     ]);
 
-    expect($emailList->isSubscribed($subscriber->email))->toBeFalse();
+    expect($emailList->isSubscribed($subscriber->email))->toBeTrue();
 });
 
 it('can receive a complaint', function () {
