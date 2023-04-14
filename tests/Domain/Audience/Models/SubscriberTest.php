@@ -217,8 +217,8 @@ it('can search on first name', function () {
 });
 
 it('can search on last name', function () {
-    Subscriber::factory()->create(['last_name' => 'John Doe']);
-    Subscriber::factory()->create(['last_name' => 'Jane Doe']);
+    Subscriber::factory()->create(['last_name' => 'John Doe', 'email' => 'irrelevant']);
+    Subscriber::factory()->create(['last_name' => 'Jane Doe', 'email' => 'irrelevant']);
 
     expect(Subscriber::search('John')->count())->toBe(1);
     expect(Subscriber::search('Doe', 10)->count())->toBe(2);
