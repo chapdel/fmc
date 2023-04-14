@@ -381,7 +381,7 @@ class Send extends Model
             'created_at' => $bouncedAt ?? now(),
         ]);
 
-        optional($this->subscriber)->unsubscribe($this);
+        optional($this->subscriber)->update(['unsubscribed_at' => now()]);
 
         event(new BounceRegisteredEvent($this));
 
