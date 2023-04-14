@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.18.0 - 2023-04-14
+
+### What's Changed
+
+- Add soft bounces by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1289
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.17.4...6.18.0
+
 ## 6.17.4 - 2023-04-13
 
 ### What's Changed
