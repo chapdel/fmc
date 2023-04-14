@@ -8,7 +8,7 @@
         </x-mailcoach::help>
 
         <x-mailcoach::warning>
-            When your account is in probation, the maximum amount of emails you can send is 100 / hour. Once your account is out of probation make sure to update the throttling config, a sensible limit is 50 emails per second
+            When your Mailgun account is in probation, the maximum amount of emails you can send through them is 100 / hour. Once your Mailgun account is out of probation, make sure to update the throttling config, a sensible limit is 50 emails per second
         </x-mailcoach::warning>
 
         <form class="form-grid" wire:submit.prevent="submit">
