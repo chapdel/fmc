@@ -373,15 +373,17 @@ class Send extends Model
         return $transactionalMailClick;
     }
 
-    public function registerBounce(?DateTimeInterface $bouncedAt = null)
+    public function registerBounce(?DateTimeInterface $bouncedAt = null, bool $softBounce = false)
     {
         $this->feedback()->create([
-            'type' => SendFeedbackType::Bounce,
+            'type' => $softBounce ? SendFeedbackType::SoftBounce : SendFeedbackType::Bounce,
             'uuid' => Str::uuid(),
             'created_at' => $bouncedAt ?? now(),
         ]);
 
-        optional($this->subscriber)->update(['unsubscribed_at' => now()]);
+        if (! $softBounce) {
+            optional($this->subscriber)->update(['unsubscribed_at' => now()]);
+        }
 
         event(new BounceRegisteredEvent($this));
 
