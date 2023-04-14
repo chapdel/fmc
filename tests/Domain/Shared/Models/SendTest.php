@@ -5,6 +5,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Models\SendFeedbackItem;
 use Spatie\TestTime\TestTime;
 
 it('can be found by its transport message id', function () {
@@ -41,6 +42,62 @@ it('will unsubscribe when there is a permanent bounce', function () {
     ]);
 
     expect($emailList->isSubscribed($subscriber->email))->toBeFalse();
+});
+
+it('will not unsubscribe when there is a soft bounce', function () {
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
+    $subscriber = Subscriber::factory()->create();
+
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
+    $emailList = $subscriber->emailList;
+
+    $campaign = Campaign::factory()->create([
+        'email_list_id' => $emailList->id,
+    ]);
+
+    $send = SendFactory::new()->create([
+        'campaign_id' => $campaign->id,
+        'subscriber_id' => $subscriber->id,
+    ]);
+
+    $bouncedAt = now()->subHour();
+    $send->registerBounce($bouncedAt, softBounce: true);
+
+    test()->assertDatabaseHas(SendFeedbackItem::class, [
+        'send_id' => $send->id,
+        'type' => SendFeedbackType::SoftBounce,
+        'created_at' => $bouncedAt,
+    ]);
+
+    expect($emailList->isSubscribed($subscriber->email))->toBeTrue();
+});
+
+it('will not unsubscribe when there is a soft bounce with explicit method', function () {
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
+    $subscriber = Subscriber::factory()->create();
+
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
+    $emailList = $subscriber->emailList;
+
+    $campaign = Campaign::factory()->create([
+        'email_list_id' => $emailList->id,
+    ]);
+
+    $send = SendFactory::new()->create([
+        'campaign_id' => $campaign->id,
+        'subscriber_id' => $subscriber->id,
+    ]);
+
+    $bouncedAt = now()->subHour();
+    $send->registerSoftBounce($bouncedAt);
+
+    test()->assertDatabaseHas(SendFeedbackItem::class, [
+        'send_id' => $send->id,
+        'type' => SendFeedbackType::SoftBounce,
+        'created_at' => $bouncedAt,
+    ]);
+
+    expect($emailList->isSubscribed($subscriber->email))->toBeTrue();
 });
 
 it('can receive a complaint', function () {

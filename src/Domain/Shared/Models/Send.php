@@ -20,6 +20,7 @@ use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Domain\Campaign\Events\BounceRegisteredEvent;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignLinkClickedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignOpenedEvent;
+use Spatie\Mailcoach\Domain\Campaign\Events\SoftBounceRegisteredEvent;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignClick;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignOpen;
 use Spatie\Mailcoach\Domain\Shared\Actions\StripUtmTagsFromUrlAction;
@@ -373,17 +374,28 @@ class Send extends Model
         return $transactionalMailClick;
     }
 
-    public function registerBounce(?DateTimeInterface $bouncedAt = null)
+    public function registerSoftBounce(?DateTimeInterface $bouncedAt = null)
+    {
+        return $this->registerBounce($bouncedAt, true);
+    }
+
+    public function registerBounce(?DateTimeInterface $bouncedAt = null, bool $softBounce = false)
     {
         $this->feedback()->create([
-            'type' => SendFeedbackType::Bounce,
+            'type' => $softBounce ? SendFeedbackType::SoftBounce : SendFeedbackType::Bounce,
             'uuid' => Str::uuid(),
             'created_at' => $bouncedAt ?? now(),
         ]);
 
-        optional($this->subscriber)->update(['unsubscribed_at' => now()]);
+        if ($softBounce) {
+            event(new SoftBounceRegisteredEvent($this));
+        }
 
-        event(new BounceRegisteredEvent($this));
+        if (! $softBounce) {
+            optional($this->subscriber)->update(['unsubscribed_at' => now()]);
+
+            event(new BounceRegisteredEvent($this));
+        }
 
         return $this;
     }
