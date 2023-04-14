@@ -374,10 +374,13 @@ class Send extends Model
         return $transactionalMailClick;
     }
 
+    public function registerSoftBounce(?DateTimeInterface $bouncedAt = null)
+    {
+        return $this->registerBounce($bouncedAt, true);
+    }
+
     public function registerBounce(?DateTimeInterface $bouncedAt = null, bool $softBounce = false)
     {
-        // @todo do we also want an explicit registerSoftBounce method?
-
         $this->feedback()->create([
             'type' => $softBounce ? SendFeedbackType::SoftBounce : SendFeedbackType::Bounce,
             'uuid' => Str::uuid(),
