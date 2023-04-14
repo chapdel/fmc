@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Campaign\Events\BounceRegisteredEvent;
+use Spatie\Mailcoach\Domain\Campaign\Events\SoftBounceRegisteredEvent;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
 it('will send an event after a bounce has been registered', function () {
@@ -24,5 +25,5 @@ it('will send an event after a soft bounce has been registered', function () {
 
     $send->registerBounce(now(), true);
 
-    Event::assertDispatched(BounceRegisteredEvent::class);
+    Event::assertDispatched(SoftBounceRegisteredEvent::class);
 });
