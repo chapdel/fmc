@@ -43,6 +43,32 @@ it('will unsubscribe when there is a permanent bounce', function () {
     expect($emailList->isSubscribed($subscriber->email))->toBeFalse();
 });
 
+it('will not unsubscribe when there is a soft bounce', function () {
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
+    $subscriber = Subscriber::factory()->create();
+
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
+    $emailList = $subscriber->emailList;
+
+    $campaign = Campaign::factory()->create([
+        'email_list_id' => $emailList->id,
+    ]);
+
+    $send = SendFactory::new()->create([
+        'campaign_id' => $campaign->id,
+        'subscriber_id' => $subscriber->id,
+    ]);
+
+    $bouncedAt = now()->subHour();
+    $send->registerBounce($bouncedAt, softBounce: true);
+
+    test()->assertDatabaseMissing('mailcoach_send_feedback_items', [
+        'send_id' => $send->id,
+    ]);
+
+    expect($emailList->isSubscribed($subscriber->email))->toBeFalse();
+});
+
 it('can receive a complaint', function () {
     /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
     $subscriber = Subscriber::factory()->create();
