@@ -10,7 +10,9 @@
     <div class="show">
         <article class="card">
             <header class="card-header">
+                @if ($campaign->sent_at)
                 <time datetime="{{ $campaign->sent_at }}">{{ $campaign->sent_at->format('F j, Y') }}</time>
+                @endif
                 <h2>{{ $campaign->subject }}</h2>
             </header>
             <div class="webview">
