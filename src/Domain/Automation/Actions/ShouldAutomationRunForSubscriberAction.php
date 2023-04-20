@@ -22,8 +22,8 @@ class ShouldAutomationRunForSubscriberAction
 
             if ($automation->repeat_only_after_halt) {
                 return $currentActions->count() === $currentActions
-                        ->filter(fn (Action $action) => $action->pivot->halted_at)
-                        ->count();
+                    ->filter(fn (Action $action) => $action->pivot->halted_at)
+                    ->count();
             }
         }
 

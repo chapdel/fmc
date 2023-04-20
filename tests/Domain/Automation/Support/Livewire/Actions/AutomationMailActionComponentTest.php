@@ -17,10 +17,10 @@ it('requires automation mail id', function () {
         'action' => test()->action,
         'uuid' => Str::uuid()->toString(),
     ])->set('automation_mail_id', '')
-      ->call('save')
-      ->assertHasErrors([
-          'automation_mail_id' => ['required'],
-      ]);
+        ->call('save')
+        ->assertHasErrors([
+            'automation_mail_id' => ['required'],
+        ]);
 });
 
 it('loads options on mount', function () {

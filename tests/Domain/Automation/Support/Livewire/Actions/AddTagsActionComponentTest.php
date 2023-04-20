@@ -16,10 +16,10 @@ it('requires tags', function () {
         'action' => test()->action,
         'uuid' => Str::uuid()->toString(),
     ])->set('tags', '')
-      ->call('save')
-      ->assertHasErrors([
-          'tags' => ['required'],
-      ]);
+        ->call('save')
+        ->assertHasErrors([
+            'tags' => ['required'],
+        ]);
 });
 
 it('emits correct data', function () {

@@ -64,7 +64,7 @@ it('needs an automation with a webhook trigger', function () {
     test()->postJson(action(TriggerAutomationController::class, [$automation]), [
         'subscribers' => [$subscriber->uuid],
     ])->assertStatus(400)
-      ->assertSee('This automation does not have a Webhook trigger.');
+        ->assertSee('This automation does not have a Webhook trigger.');
 });
 
 it('only handles subscribers from the email list', function () {

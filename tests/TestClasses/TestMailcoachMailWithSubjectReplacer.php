@@ -19,6 +19,6 @@ class TestMailcoachMailWithSubjectReplacer extends MailcoachMail
     public function build()
     {
         return $this->html($this->viewHtml)
-                            ->subject('Custom Subject: ::customreplacer::');
+            ->subject('Custom Subject: ::customreplacer::');
     }
 }

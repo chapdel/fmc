@@ -19,6 +19,6 @@ class TestMailcoachMail extends MailcoachMail
     public function build()
     {
         return $this->html($this->viewHtml)
-                            ->subject('This is the subject from the custom mailable.');
+            ->subject('This is the subject from the custom mailable.');
     }
 }

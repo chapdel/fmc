@@ -16,12 +16,12 @@ it('requires length and unit', function () {
         'action' => test()->action,
         'uuid' => Str::uuid()->toString(),
     ])->set('length', '')
-      ->set('unit', '')
-      ->call('save')
-      ->assertHasErrors([
-          'length' => ['required'],
-          'unit' => 'required',
-      ]);
+        ->set('unit', '')
+        ->call('save')
+        ->assertHasErrors([
+            'length' => ['required'],
+            'unit' => 'required',
+        ]);
 });
 
 test('length must be an integer', function () {

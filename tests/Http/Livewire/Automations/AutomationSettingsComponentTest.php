@@ -20,9 +20,9 @@ it('can change automation settings', function () {
     Livewire::test(AutomationSettingsComponent::class, [
         'automation' => $automation,
     ])->assertViewHas('triggerOptions')
-    ->assertViewHas('emailLists')
-    ->assertViewHas('segmentsData')
-    ->assertViewHas('selectedTrigger', SubscribedTrigger::class)
-    ->set('selectedTrigger', WebhookTrigger::class)
-    ->assertViewHas('selectedTrigger', WebhookTrigger::class);
+        ->assertViewHas('emailLists')
+        ->assertViewHas('segmentsData')
+        ->assertViewHas('selectedTrigger', SubscribedTrigger::class)
+        ->set('selectedTrigger', WebhookTrigger::class)
+        ->assertViewHas('selectedTrigger', WebhookTrigger::class);
 });
