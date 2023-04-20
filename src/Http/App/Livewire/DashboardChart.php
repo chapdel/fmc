@@ -6,6 +6,7 @@ use Carbon\CarbonInterface;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
@@ -75,7 +76,7 @@ class DashboardChart extends Component
         $start = Date::parse($this->start)->startOfDay();
         $end = Date::parse($this->end)->endOfDay();
 
-        $subscribes = self::getSubscriberClass()::query()
+        $subscribes = DB::table(self::getSubscriberTableName())
             ->selectRaw('count(*) as subscribed_count, DATE_FORMAT(subscribed_at, "%Y-%m-%d") as subscribed_day')
             ->whereBetween('subscribed_at', [$start, $end])
             ->whereNull('unsubscribed_at')
@@ -87,7 +88,7 @@ class DashboardChart extends Component
             return collect();
         }
 
-        $unsubscribes = self::getSubscriberClass()::query()
+        $unsubscribes = DB::table(self::getSubscriberTableName())
             ->selectRaw('count(*) as unsubscribe_count, DATE_FORMAT(unsubscribed_at, "%Y-%m-%d") as unsubscribe_day')
             ->whereBetween('unsubscribed_at', [$start, $end])
             ->whereNotNull('unsubscribed_at')
