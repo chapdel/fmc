@@ -153,18 +153,23 @@ class ConditionAction extends AutomationAction
             'conditionData' => $this->conditionData,
             'yesActions' => collect($this->yesActions)->map(function ($action, $order) {
                 return $this->actionToArray($action, 'yesActions', $order);
-            })->toArray(),
+            })->filter()->toArray(),
             'noActions' => collect($this->noActions)->map(function ($action, $order) {
                 return $this->actionToArray($action, 'noActions', $order);
-            })->toArray(),
+            })->filter()->toArray(),
         ];
     }
 
-    private function actionToArray(array|AutomationAction $action, string $key, int $order): array
+    private function actionToArray(array|AutomationAction $action, string $key, int $order): ?array
     {
         $actionClass = static::getAutomationActionClass();
 
         $parentModel = $actionClass::query()->where('uuid', $this->uuid)->first();
+
+        if (! $parentModel) {
+            return null;
+        }
+
         $actionModel = $parentModel->children()
             ->where('key', $key)
             ->where('order', $order)
