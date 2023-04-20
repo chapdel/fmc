@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.18.1 - 2023-04-20
+
+- Don't load Subscriber eloquent models for the dashboard chart
+- Check that a campaign is actually sent before using the sent_at on the list website
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.18.0...6.18.1
+
 ## 6.18.0 - 2023-04-14
 
 ### What's Changed
