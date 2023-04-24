@@ -2,10 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
 
-use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Queue\SerializesModels;
-use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
