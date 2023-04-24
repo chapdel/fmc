@@ -80,5 +80,7 @@ it('only runs when needed and not when there is no next action', function () {
         'order' => 2,
     ]);
 
+    $actionModel->refresh();
+
     expect($action->getActionSubscribersQuery($actionModel)->count())->toBe(2);
 });

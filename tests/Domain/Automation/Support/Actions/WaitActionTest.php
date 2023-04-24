@@ -4,6 +4,7 @@ use Carbon\CarbonInterval;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
+use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 use Spatie\TestTime\TestTime;
@@ -59,4 +60,40 @@ it('will return the correct query to only run on subscribers that need to contin
     ]);
 
     expect($action->getActionSubscribersQuery($actionModel)->count())->toBe(1);
+});
+
+it('only runs when needed and not when there is no next action', function () {
+    $action = new WaitAction(CarbonInterval::days(1));
+    $actionModel = Action::factory()->create([
+        'action' => $action,
+    ]);
+
+    $subscriber1 = Subscriber::factory()->create();
+    $subscriber2 = Subscriber::factory()->create();
+
+    ActionSubscriber::create([
+        'action_id' => $actionModel->id,
+        'subscriber_id' => $subscriber1->id,
+        'created_at' => now(),
+    ]);
+
+    ActionSubscriber::create([
+        'action_id' => $actionModel->id,
+        'subscriber_id' => $subscriber2->id,
+        'created_at' => now()->subDays(2),
+        'run_at' => now()->subDay(),
+    ]);
+
+    expect($action->getActionSubscribersQuery($actionModel)->count())->toBe(1);
+
+    $action = new HaltAction();
+    Action::factory()->create([
+        'automation_id' => $actionModel->automation_id,
+        'action' => $action,
+        'order' => 2,
+    ]);
+
+    $actionModel->refresh();
+
+    expect($action->getActionSubscribersQuery($actionModel)->count())->toBe(2);
 });

@@ -75,15 +75,4 @@ class SendWebhookAction extends AutomationAction
             ->throwExceptionOnFailure()
             ->dispatch();
     }
-
-    public function getActionSubscribersQuery(Action $action): Builder|\Illuminate\Database\Eloquent\Builder|Relation
-    {
-        $hasNextActions = count($this->nextActionsForAction($action));
-
-        if (! $hasNextActions) {
-            return $action->pendingActionSubscribers()->whereNull('run_at');
-        }
-
-        return $action->pendingActionSubscribers();
-    }
 }
