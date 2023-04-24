@@ -6,7 +6,6 @@ use Spatie\Mailcoach\Domain\Automation\Actions\DuplicateAutomationAction;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\ConditionAction;
-use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SplitAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
@@ -62,7 +61,7 @@ it('can duplicate an automation with nested actions', function () {
                 rightActions: [
                     new WaitAction(CarbonInterval::day()),
                 ],
-            )
+            ),
         ])
         ->start();
 
@@ -92,12 +91,12 @@ it('can duplicate an automation with deeply nested actions', function () {
                         noActions: [
                             new WaitAction(CarbonInterval::day()),
                         ]
-                    )
+                    ),
                 ],
                 noActions: [
                     new WaitAction(CarbonInterval::day()),
                 ],
-            )
+            ),
         ])
         ->start();
 

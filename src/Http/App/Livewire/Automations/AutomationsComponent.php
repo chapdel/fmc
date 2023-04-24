@@ -5,7 +5,6 @@ namespace Spatie\Mailcoach\Http\App\Livewire\Automations;
 use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Automation\Actions\DuplicateAutomationAction;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
-use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Http\App\Livewire\DataTableComponent;
 use Spatie\Mailcoach\Http\App\Queries\AutomationsQuery;
 use Spatie\Mailcoach\Mailcoach;
