@@ -2,6 +2,13 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.18.2 - 2023-04-24
+
+- Fix duplicating automations
+- Only run automation actions when there is a next one
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.18.1...6.18.2
+
 ## 6.18.1 - 2023-04-20
 
 - Don't load Subscriber eloquent models for the dashboard chart
