@@ -43,19 +43,23 @@ class ConditionAction extends AutomationAction
     {
         $clone = parent::duplicate();
 
-        $clone->yesActions = array_map(function (array $action) {
+        $clone->yesActions = collect($clone->yesActions)->map(function (array|AutomationAction $action, int $order) {
+            $action = $this->actionToArray($action, 'yesActions', $order);
+
             $class = $action['class'];
             $action = $class::make($action['data']);
 
             return $action->duplicate();
-        }, $clone->yesActions);
+        })->all();
 
-        $clone->noActions = array_map(function (array $action) {
+        $clone->noActions = collect($clone->noActions)->map(function (array|AutomationAction $action, int $order) {
+            $action = $this->actionToArray($action, 'noActions', $order);
+
             $class = $action['class'];
             $action = $class::make($action['data']);
 
             return $action->duplicate();
-        }, $clone->noActions);
+        })->all();
 
         return $clone;
     }
@@ -160,19 +164,16 @@ class ConditionAction extends AutomationAction
         ];
     }
 
-    private function actionToArray(array|AutomationAction $action, string $key, int $order): ?array
+    private function actionToArray(array|AutomationAction $action, string $key, int $order): array
     {
         $actionClass = static::getAutomationActionClass();
-
-        $parentModel = $actionClass::query()->where('uuid', $this->uuid)->first();
-
-        if (! $parentModel) {
-            return null;
-        }
-
-        $actionModel = $parentModel->children()
-            ->where('key', $key)
-            ->where('order', $order)
+        $actionModel = $actionClass::query()
+            ->where(
+                'uuid',
+                is_array($action)
+                    ? $action['uuid']
+                    : $action->uuid,
+            )
             ->withCount(['completedSubscribers', 'activeSubscribers', 'haltedSubscribers'])
             ->first();
 

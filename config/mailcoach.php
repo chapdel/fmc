@@ -89,6 +89,7 @@ return [
         'send_automation_mails_maximum_job_runtime_in_seconds' => 60 * 10,
 
         'actions' => [
+            'duplicate_automation' => \Spatie\Mailcoach\Domain\Automation\Actions\DuplicateAutomationAction::class,
             'send_mail' => \Spatie\Mailcoach\Domain\Automation\Actions\SendMailAction::class,
             'send_automation_mail_to_subscriber' => \Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailToSubscriberAction::class,
             'send_automation_mails_action' => \Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailsAction::class,

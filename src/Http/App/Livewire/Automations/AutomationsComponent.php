@@ -3,10 +3,12 @@
 namespace Spatie\Mailcoach\Http\App\Livewire\Automations;
 
 use Illuminate\Http\Request;
+use Spatie\Mailcoach\Domain\Automation\Actions\DuplicateAutomationAction;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Http\App\Livewire\DataTableComponent;
 use Spatie\Mailcoach\Http\App\Queries\AutomationsQuery;
+use Spatie\Mailcoach\Mailcoach;
 
 class AutomationsComponent extends DataTableComponent
 {
@@ -29,28 +31,9 @@ class AutomationsComponent extends DataTableComponent
     {
         $automation = self::getAutomationClass()::find($id);
 
-        /** @var \Spatie\Mailcoach\Domain\Automation\Models\Automation $duplicateAutomation */
-        $duplicateAutomation = self::getAutomationClass()::create([
-            'name' => __mc('Duplicate of').' '.$automation->name,
-        ]);
-
-        $automation->actions->each(function (Action $action) use ($duplicateAutomation) {
-            $actionClass = static::getAutomationActionClass();
-            $newAction = $duplicateAutomation->actions()->save($actionClass::make([
-                'action' => $action->action->duplicate(),
-                'key' => $action->key,
-                'order' => $action->order,
-            ]));
-
-            foreach ($action->children as $child) {
-                $duplicateAutomation->actions()->save($actionClass::make([
-                    'parent_id' => $newAction->id,
-                    'action' => $child->action->duplicate(),
-                    'key' => $child->key,
-                    'order' => $child->order,
-                ]));
-            }
-        });
+        /** @var DuplicateAutomationAction $action */
+        $action = Mailcoach::getAutomationActionClass('duplicate_automation', DuplicateAutomationAction::class);
+        $duplicateAutomation = $action->execute($automation);
 
         flash()->success(__mc('Automation :automation was duplicated.', ['automation' => $automation->name]));
 
