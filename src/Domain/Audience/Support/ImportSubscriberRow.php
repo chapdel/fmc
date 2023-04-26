@@ -54,14 +54,14 @@ class ImportSubscriberRow
 
     public function getEmail(): string
     {
-        return $this->values['email'] ?? $this->values['email address'] ?? '';
+        return trim($this->values['email'] ?? $this->values['email address'] ?? '');
     }
 
     public function getAttributes(): array
     {
         return [
-            'first_name' => $this->values['first_name'] ?? $this->values['first name'] ?? '',
-            'last_name' => $this->values['last_name'] ?? $this->values['last name'] ?? '',
+            'first_name' => trim($this->values['first_name'] ?? $this->values['first name'] ?? ''),
+            'last_name' => trim($this->values['last_name'] ?? $this->values['last name'] ?? ''),
         ];
     }
 
