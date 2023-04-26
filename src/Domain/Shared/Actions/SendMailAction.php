@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Shared\Actions;
 
+use Exception;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Automation\Actions\ConvertHtmlToTextAction as AutomationMailConvertHtmlToTextAction;
 use Spatie\Mailcoach\Domain\Automation\Actions\PersonalizeHtmlAction as AutomationMailPersonalizeHtmlAction;
@@ -25,7 +26,7 @@ class SendMailAction
     {
         try {
             $this->sendMail($pendingSend, $isTest);
-        } catch (Throwable $exception) {
+        } catch (Throwable|Exception $exception) {
             if ($isTest) {
                 throw $exception;
             }
