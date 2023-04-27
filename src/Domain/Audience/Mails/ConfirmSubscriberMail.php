@@ -30,7 +30,7 @@ class ConfirmSubscriberMail extends Mailable implements ShouldQueue
     {
         $this->subscriber = $subscriber;
 
-        $this->confirmationUrl = url(route('mailcoach.confirm', $subscriber->uuid));
+        $this->confirmationUrl = $subscriber->emailList->redirect_after_subscription_pending ?? url(route('mailcoach.confirm', $subscriber->uuid));
 
         if ($redirectAfterConfirmedUrl !== '') {
             $this->confirmationUrl .= "?redirect={$redirectAfterConfirmedUrl}";
