@@ -12,6 +12,11 @@ class RenderMarkdownToHtmlAction
 {
     public function __construct(private MarkdownRenderer $renderer)
     {
+        $this->renderer
+            ->disableAnchors()
+            ->addExtension(new TableExtension())
+            ->addExtension(new StrikethroughExtension())
+            ->addExtension(new AutolinkExtension());
     }
 
     public function execute(string $markdown, string $theme = null): HtmlString
@@ -26,12 +31,21 @@ class RenderMarkdownToHtmlAction
                 ->addExtension(new \Spatie\SidecarShiki\Commonmark\HighlightCodeExtension($theme ?? 'nord'));
         }
 
-        return new HtmlString($this->renderer
-            ->disableAnchors()
-            ->addExtension(new TableExtension())
-            ->addExtension(new StrikethroughExtension())
-            ->addExtension(new AutolinkExtension())
+        $replacements = [
+            '{{ ' => '@'.urlencode('{{ '),
+            '{{' => '@'.urlencode('{{'),
+            ' }}' => '@'.urlencode(' }}'),
+            '}}' => '@'.urlencode('}}'),
+        ];
+
+        $markdown = str_replace(array_keys($replacements), array_values($replacements), $markdown);
+
+        $html = $this->renderer
             ->highlightTheme($theme ?? 'nord')
-            ->toHtml($markdown));
+            ->toHtml($markdown);
+
+        $html = str_replace(array_values($replacements), array_keys($replacements), $html);
+
+        return new HtmlString($html);
     }
 }

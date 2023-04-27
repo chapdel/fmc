@@ -22,3 +22,15 @@ it('supports tables', function () {
     | Paragraph   | Text        |
     markdown)->toHtml())->toMatchHtmlSnapshot();
 });
+
+it('can render links with placeholders', function () {
+    $action = app(RenderMarkdownToHtmlAction::class);
+
+    expect($action->execute(<<<'markdown'
+    This is a [link]({{ unsubscribeUrl }})
+    markdown)->toHtml())->toMatchSnapshot();
+
+    expect($action->execute(<<<'markdown'
+    This is a [link](::unsubscribeUrl::)
+    markdown)->toHtml())->toMatchHtmlSnapshot();
+});
