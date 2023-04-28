@@ -590,7 +590,7 @@ return [
         'list-settings' => \Spatie\Mailcoach\Http\App\Livewire\Audience\ListSettingsComponent::class,
         'list-onboarding' => \Spatie\Mailcoach\Http\App\Livewire\Audience\ListOnboardingComponent::class,
         'list-mailers' => \Spatie\Mailcoach\Http\App\Livewire\Audience\ListMailersComponent::class,
-        'website-settings' => \Spatie\Mailcoach\Http\App\Livewire\Audience\WebsiteComponent::class,
+        'list-website' => \Spatie\Mailcoach\Http\App\Livewire\Audience\WebsiteComponent::class,
 
         'create-segment' => \Spatie\Mailcoach\Http\App\Livewire\Audience\CreateSegmentComponent::class,
         'segments' => \Spatie\Mailcoach\Http\App\Livewire\Audience\SegmentsComponent::class,

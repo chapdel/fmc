@@ -615,7 +615,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::list-onboarding', Mailcoach::getLivewireClass('list-onboarding', ListOnboardingComponent::class));
         Livewire::component('mailcoach::list-mailers', Mailcoach::getLivewireClass('list-mailers', ListMailersComponent::class));
         Livewire::component('mailcoach::list-mailers', Mailcoach::getLivewireClass('list-mailers', ListMailersComponent::class));
-        Livewire::component('mailcoach::website', Mailcoach::getLivewireClass('website', WebsiteComponent::class));
+        Livewire::component('mailcoach::website', Mailcoach::getLivewireClass('list-website', WebsiteComponent::class));
         Livewire::component('mailcoach::create-segment', Mailcoach::getLivewireClass('create-segment', CreateSegmentComponent::class));
         Livewire::component('mailcoach::segments', Mailcoach::getLivewireClass('segments', SegmentsComponent::class));
         Livewire::component('mailcoach::segment', Mailcoach::getLivewireClass('segment', SegmentComponent::class));
