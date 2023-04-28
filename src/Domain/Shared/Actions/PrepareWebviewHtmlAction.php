@@ -41,7 +41,7 @@ class PrepareWebviewHtmlAction
 
         $matches = [];
 
-        foreach($parts as $part) {
+        foreach ($parts as $part) {
             $matches[] = trim(explode($endTag, $part)[0]);
         }
 
