@@ -22,8 +22,33 @@ class PrepareWebviewHtmlAction
             $sendable->webview_html = $this->addUtmTagsToHtmlAction->execute($sendable->webview_html, $sendable->name);
         }
 
-        $sendable->webview_html = mb_convert_encoding($sendable->webview_html, 'UTF-8');
+        $webviewHtml = mb_convert_encoding($sendable->webview_html, 'UTF-8');
 
+        $webviewHtml = $this->removeHiddenTextFromWebview('<!-- webview:hide -->', '<!-- /webview:hide -->', $webviewHtml);
+        $webviewHtml = $this->removeHiddenTextFromWebview('<!--webview:hide-->', '<!--/webview:hide-->', $webviewHtml);
+
+        $sendable->webview_html = $webviewHtml;
         $sendable->save();
+    }
+
+    protected function removeHiddenTextFromWebview(string $beginTag, string $endTag, string $html): string
+    {
+        if (! str_contains($html, $beginTag)) {
+            return $html;
+        }
+
+        $parts = explode($beginTag, $html);
+
+        $matches = [];
+
+        foreach($parts as $part) {
+            $matches[] = trim(explode($endTag, $part)[0]);
+        }
+
+        $matches = array_filter($matches);
+        array_shift($matches);
+
+        // Remove all hide comments
+        return str_replace(array_merge([$beginTag, $endTag], $matches), '', $html);
     }
 }

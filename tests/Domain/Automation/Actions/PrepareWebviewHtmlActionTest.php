@@ -174,3 +174,34 @@ it('will not change img source', function () {
     expect($automationMail->webview_html)->toContain('<img src="https://freek.dev">');
     assertMatchesHtmlSnapshot($automationMail->webview_html);
 });
+
+it('can remove parts from the webview', function () {
+    $myHtml = '<html><body><h1>Hello</h1><!-- webview:hide --><p>This is hidden</p><!-- /webview:hide --></html>';
+
+    $automationMail = AutomationMail::factory()->create([
+        'html' => $myHtml,
+        'utm_tags' => true,
+        'name' => 'My AutomationMail',
+    ]);
+
+    app(PrepareWebviewHtmlAction::class)->execute($automationMail);
+
+    expect($automationMail->webview_html)->not()->toContain('<p>This is hidden</p>');
+});
+
+it('can remove multiple parts from the webview', function () {
+    $myHtml = '<html><body><!--webview:hide--><p>This is also hidden</p><!--/webview:hide--><h1>Hello</h1><!-- webview:hide --><p>This is hidden</p><!-- /webview:hide --></html>';
+
+    $automationMail = AutomationMail::factory()->create([
+        'html' => $myHtml,
+        'utm_tags' => true,
+        'name' => 'My AutomationMail',
+    ]);
+
+    app(PrepareWebviewHtmlAction::class)->execute($automationMail);
+
+    expect($automationMail->webview_html)->not()->toContain('<p>This is also hidden</p>');
+    expect($automationMail->webview_html)->not()->toContain('<p>This is hidden</p>');
+    expect($automationMail->webview_html)->not()->toContain('<!-- webview:hide -->');
+    expect($automationMail->webview_html)->not()->toContain('<!-- /webview:hide -->');
+});
