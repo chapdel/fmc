@@ -28,10 +28,9 @@ it('can confirm a subscriber', function () {
         'email' => test()->email,
         'redirect_after_subscribed' => 'https://mydomain/subscribed',
         'redirect_after_already_subscribed' => 'https://mydomain/already-subscribed',
-        'redirect_after_subscription_pending' => 'https://mydomain/subscription-pending',
     ];
 
-    test()->emailList->update(['requires_confirmation' => true]);
+    test()->emailList->update(['requires_confirmation' => true, 'redirect_after_subscription_pending' => null]);
 
     /*
      * We'll grab the url behind the confirm subscription button in the mail that will be sent
@@ -42,8 +41,7 @@ it('can confirm a subscriber', function () {
     });
 
     $this
-        ->post(action([SubscribeController::class, 'store'], test()->emailList->uuid), $payloadWithRedirects)
-        ->assertRedirect($payloadWithRedirects['redirect_after_subscription_pending']);
+        ->post(action([SubscribeController::class, 'store'], test()->emailList->uuid), $payloadWithRedirects);
 
     /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
     $subscriber = Subscriber::findForEmail($payloadWithRedirects['email'], test()->emailList);

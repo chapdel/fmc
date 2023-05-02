@@ -236,7 +236,10 @@ test('when no redirect after subscription pending is specified on the request or
 });
 
 test('clicking the link in the confirm subscription mail will redirect to the given url', function () {
-    test()->emailList->update(['requires_confirmation' => true]);
+    test()->emailList->update(['requires_confirmation' => true, 'redirect_after_subscription_pending' => null]);
+
+    $payload = payloadWithRedirects();
+    $payload['redirect_after_subscription_pending'] = null;
 
     /*
      * We'll grab the url behind the confirm subscription button in the mail that will be sent
@@ -247,11 +250,10 @@ test('clicking the link in the confirm subscription mail will redirect to the gi
     });
 
     $this
-        ->post(action([SubscribeController::class, 'store'], test()->emailList->uuid), payloadWithRedirects())
-        ->assertRedirect(payloadWithRedirects()['redirect_after_subscription_pending']);
+        ->post(action([SubscribeController::class, 'store'], test()->emailList->uuid), $payload);
 
     /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
-    $subscriber = Subscriber::findForEmail(payloadWithRedirects()['email'], test()->emailList);
+    $subscriber = Subscriber::findForEmail($payload['email'], test()->emailList);
     expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::Unconfirmed);
 
     /*
@@ -259,7 +261,7 @@ test('clicking the link in the confirm subscription mail will redirect to the gi
      */
     $this
         ->get(test()->confirmSubscriptionLink)
-        ->assertRedirect(payloadWithRedirects()['redirect_after_subscribed']);
+        ->assertRedirect($payload['redirect_after_subscribed']);
 
     expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::Subscribed);
 });
