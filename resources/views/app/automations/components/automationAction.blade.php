@@ -33,7 +33,7 @@
             {{ $form ?? '' }}
         </div>
     @else
-        @if($content ?? false)
+        @if(! empty(trim($content ?? '')))
             <div>
                 {{ $content }}
             </div>

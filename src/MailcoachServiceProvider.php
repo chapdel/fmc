@@ -40,6 +40,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\ConditionActionC
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\RemoveTagsActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\SendWebhookActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\SplitActionComponent;
+use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\SubscribeToEmailListActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\WaitActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationActionComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationBuilder;
@@ -591,6 +592,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::condition-action', ConditionActionComponent::class);
         Livewire::component('mailcoach::split-action', SplitActionComponent::class);
         Livewire::component('mailcoach::send-webhook-action', SendWebhookActionComponent::class);
+        Livewire::component('mailcoach::email-list-action', SubscribeToEmailListActionComponent::class);
 
         Livewire::component('mailcoach::date-trigger', DateTriggerComponent::class);
         Livewire::component('mailcoach::tag-added-trigger', TagAddedTriggerComponent::class);
