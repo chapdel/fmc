@@ -12,14 +12,14 @@ class SendCampaignRequest extends FormRequest
         return [];
     }
 
-    protected function getValidatorInstance()
+    protected function withValidator(Validator $validator)
     {
-        return parent::getValidatorInstance()->after(function ($validator) {
-            $this->after($validator);
+        $validator->after(function ($validator) {
+            $this->addCampaignCheck($validator);
         });
     }
 
-    public function after(Validator $validator)
+    public function addCampaignCheck(Validator $validator)
     {
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */
         $campaign = $this->route('campaign');

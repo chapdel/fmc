@@ -26,7 +26,7 @@ class SendAutomationMailTestRequest extends SendCampaignTestRequest
         });
     }
 
-    public function after(Validator $validator)
+    public function addCampaignCheck(Validator $validator)
     {
         // override logic in parent
     }
