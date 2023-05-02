@@ -158,7 +158,7 @@ class Send extends Model
     {
         return $this
             ->hasMany(self::getSendFeedbackItemClass())
-            ->where('type', SendFeedbackType::Bounce);
+            ->whereIn('type', [SendFeedbackType::Bounce, SendFeedbackType::SoftBounce]);
     }
 
     public function complaints(): HasMany
@@ -445,7 +445,7 @@ class Send extends Model
     public function scopeBounced(Builder $query): void
     {
         $query->whereHas('feedback', function (Builder $query) {
-            $query->where('type', SendFeedbackType::Bounce);
+            $query->whereIn('type', [SendFeedbackType::Bounce, SendFeedbackType::SoftBounce]);
         });
     }
 

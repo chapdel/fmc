@@ -64,7 +64,7 @@ class AutomationMail extends Sendable
     {
         return $this
             ->hasManyThrough(self::getSendFeedbackItemClass(), self::getSendClass(), 'automation_mail_id')
-            ->where('type', SendFeedbackType::Bounce);
+            ->whereIn('type', [SendFeedbackType::Bounce, SendFeedbackType::SoftBounce]);
     }
 
     public function complaints(): HasManyThrough

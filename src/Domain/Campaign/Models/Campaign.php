@@ -152,7 +152,7 @@ class Campaign extends Sendable implements Feedable
     {
         return $this
             ->hasManyThrough(self::getSendFeedbackItemClass(), self::getSendClass(), 'campaign_id')
-            ->where('type', SendFeedbackType::Bounce);
+            ->whereIn('type', [SendFeedbackType::Bounce, SendFeedbackType::SoftBounce]);
     }
 
     public function complaints(): HasManyThrough

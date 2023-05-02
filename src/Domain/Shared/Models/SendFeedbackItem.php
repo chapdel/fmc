@@ -30,6 +30,7 @@ class SendFeedbackItem extends Model
     {
         $formattedTypes = [
             SendFeedbackType::Bounce->value => __mc('Bounced'),
+            SendFeedbackType::SoftBounce->value => __mc('Soft bounced'),
             SendFeedbackType::Complaint->value => __mc('Received complaint'),
         ];
 
