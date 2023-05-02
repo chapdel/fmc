@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.19.3 - 2023-05-02
+
+- Fix issues with FormRequest
+- Add a "Subscribe to email list" automation action
+- Add support for hiding parts from the webview
+- Fix bug with placeholders inside markdown links
+- Trim whitespace on imported values
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.18.2...6.19.3
+
 ## 6.18.2 - 2023-04-24
 
 - Fix duplicating automations
