@@ -46,7 +46,7 @@ class WebhookLogsComponent extends DataTableComponent
     public function getData(Request $request): array
     {
         return [
-            'webhookLogs' => (new WebhookLogsQuery($this->webhook, $request))->paginate(),
+            'webhookLogs' => WebhookLog::query()->whereIn('id', (new WebhookLogsQuery($this->webhook, $request))->select('id')->pluck('id'))->paginate(),
             'totalWebhookLogsCount' => self::getWebhookLogClass()::count(),
         ];
     }
