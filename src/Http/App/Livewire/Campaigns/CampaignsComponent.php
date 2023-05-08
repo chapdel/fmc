@@ -33,7 +33,6 @@ class CampaignsComponent extends DataTableComponent
             'email_list_id' => $campaign->email_list_id,
             'html' => $campaign->html,
             'structured_html' => $campaign->structured_html,
-            'webview_html' => $campaign->webview_html,
             'utm_tags' => $campaign->utm_tags,
             'last_modified_at' => now(),
             'segment_class' => $campaign->segment_class,
