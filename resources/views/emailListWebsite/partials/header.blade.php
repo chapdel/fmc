@@ -25,8 +25,9 @@
             @csrf
             {{-- Honeypot field --}}
             @if ($emailList->honeypot_field)
-                <div style="position: absolute; left: -5000px;" aria-hidden="true">
-                    <input type="text" name="{{ $emailList->honeypot_field }}" tabindex="-1" value="" autocomplete="off">
+                <div style="position: absolute; left: -9999px">
+                    <label for="website-{{ $emailList->honeypot_field }}">Your {{ $emailList->honeypot_field }}</label>
+                    <input type="text" id="website-{{ $emailList->honeypot_field }}" name="{{ $emailList->honeypot_field }}" tabindex="-1" autocomplete="nope" />
                 </div>
             @endif
             <fieldset>

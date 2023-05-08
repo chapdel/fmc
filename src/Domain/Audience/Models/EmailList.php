@@ -279,8 +279,10 @@ class EmailList extends Model implements HasMedia
                     when filled in, the subscriber won't be created but will still
                     receive a "successfully subscribed" page to fool spam bots.
                 -->
-                <input type="text" name="{$this->honeypot_field}" style="display: none; tab-index: -1;">
-
+                <div style="position: absolute; left: -9999px">
+                    <label for="website-{$this->honeypot_field}">Your {$this->honeypot_field}</label>
+                    <input type="text" id="website-{$this->honeypot_field}" name="{$this->honeypot_field}" tabindex="-1" autocomplete="nope" />
+                </div>
             html
             : '';
 
