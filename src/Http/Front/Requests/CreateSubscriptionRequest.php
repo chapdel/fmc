@@ -103,7 +103,7 @@ class CreateSubscriptionRequest extends FormRequest
                 }
 
                 $success = Http::post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
-                    'secret' => config('services.turnstile.secret'),
+                    'secret' => config('mailcoach.turnstile_secret'),
                     'response' => $value,
                     'remoteip' => $this->ip(),
                 ])->json('success');
