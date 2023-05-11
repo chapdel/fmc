@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.20.0 - 2023-05-11
+
+### What's Changed
+
+- Fix missing connections attributes in construct method in some jobs by @Dendreo-Tech-Team in https://github.com/spatie/laravel-mailcoach/pull/1303
+- Add turnstile support by @riasvdv in https://github.com/spatie/laravel-mailcoach/pull/1304
+
+### New Contributors
+
+- @Dendreo-Tech-Team made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/1303
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.19.3...6.20.0
+
 ## 6.19.3 - 2023-05-02
 
 - Fix issues with FormRequest
