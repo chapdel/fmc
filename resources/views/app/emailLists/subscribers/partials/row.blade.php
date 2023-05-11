@@ -32,10 +32,15 @@
             ])
         @endforeach
     </td>
-    <td class="td-numeric hidden | xl:table-cell">{{
-    $row->isUnsubscribed()
-    ? $row->unsubscribed_at?->toMailcoachFormat()
-    : $row->subscribed_at?->toMailcoachFormat() }}</td>
+    <td class="td-numeric hidden | xl:table-cell">
+        @if ($row->isUnsubscribed())
+            {{ $row->unsubscribed_at?->toMailcoachFormat() }}
+        @elseif ($row->isUnconfirmed() && $status === \Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus::Unconfirmed->value)
+            {{ $row->created_at->toMailcoachFormat() }}
+        @else
+            {{ $row->subscribed_at?->toMailcoachFormat() }}
+        @endif
+    </td>
     <td class="td-action">
         <x-mailcoach::dropdown direction="left">
             <ul>

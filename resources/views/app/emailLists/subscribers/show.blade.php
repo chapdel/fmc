@@ -43,6 +43,27 @@
         </form>
         </x-mailcoach::card>
 
+        <x-mailcoach::card class="mt-6">
+            <div class="form-field">
+                <label class="label">{{ __mc('Created at') }}</label>
+                <p class="input py-2 border-transparent hover:border-transparent">{{ $subscriber->created_at->toMailcoachFormat() }}</p>
+            </div>
+
+            @if ($subscriber->subscribed_at)
+                <div class="form-field">
+                    <label class="label">{{ __mc('Subscribed at') }}</label>
+                    <p class="input py-2 border-transparent hover:border-transparent">{{ $subscriber->subscribed_at->toMailcoachFormat() }}</p>
+                </div>
+            @endif
+
+            @if ($subscriber->unsubscribed_at)
+                <div class="form-field">
+                    <label class="label">{{ __mc('Unubscribed at') }}</label>
+                    <p class="input py-2 border-transparent hover:border-transparent">{{ $subscriber->unsubscribed_at->toMailcoachFormat() }}</p>
+                </div>
+            @endif
+        </x-mailcoach::card>
+
         <x-mailcoach::fieldset class="mt-6" card :legend="__mc('Usage in Mailcoach API')">
             <div>
                 <x-mailcoach::help>

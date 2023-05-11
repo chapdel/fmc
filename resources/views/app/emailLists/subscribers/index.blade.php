@@ -5,6 +5,9 @@
     :rows="$subscribers"
     :totalRowsCount="$allSubscriptionsCount"
     rowPartial="mailcoach::app.emailLists.subscribers.partials.row"
+    :row-data="[
+        'status' => $status ?? '',
+    ]"
     :emptyText="__mc('So where is everyone? This list is empty.')"
     :no-results-text="config('mailcoach.encryption.enabled')
         ? __mc('No subscribers found. Encryption is enabled, so only searches on exact matches before and after the \'@\' symbol are supported. For example: john, doe.com or john@doe.com')
@@ -19,9 +22,11 @@
         ['class' => 'w-4'],
         ['attribute' => 'email', 'label' => __mc('Email')],
         ['label' => __mc('Tags'), 'class' => 'hidden | xl:table-cell'],
-        request()->input('filter.status') === \Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus::Unsubscribed
-            ? ['attribute' => '-unsubscribed_at', 'label' => __mc('Unsubscribed at'), 'class' => 'w-48 th-numeric hidden | xl:table-cell']
-            : ['attribute' => '-subscribed_at', 'label' => __mc('Subscribed at'), 'class' => 'w-48 th-numeric hidden | xl:table-cell'],
+        match ($status) {
+            \Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus::Unsubscribed->value => ['attribute' => '-unsubscribed_at', 'label' => __mc('Unsubscribed at'), 'class' => 'w-48 th-numeric hidden | xl:table-cell'],
+            \Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus::Unconfirmed->value => ['attribute' => '-created_at', 'label' => __mc('Created at'), 'class' => 'w-48 th-numeric hidden | xl:table-cell'],
+            default => ['attribute' => '-subscribed_at', 'label' => __mc('Subscribed at'), 'class' => 'w-48 th-numeric hidden | xl:table-cell'],
+        },
         ['class' => 'w-12'],
     ]"
     :bulkActions="[
