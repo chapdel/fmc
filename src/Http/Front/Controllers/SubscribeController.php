@@ -24,7 +24,7 @@ class SubscribeController
     {
         $emailList = $request->emailList();
 
-        if ($request->requiresTurnstile() && !$request->hasTurnstileResponse()) {
+        if ($request->requiresTurnstile() && ! $request->hasTurnstileResponse()) {
             return $this->renderTurnstilePage($request->emailList(), $request->all());
         }
 

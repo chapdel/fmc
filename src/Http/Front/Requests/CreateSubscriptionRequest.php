@@ -84,7 +84,7 @@ class CreateSubscriptionRequest extends FormRequest
 
     public function requiresTurnstile(): bool
     {
-        return !empty(config('mailcoach.turnstile_secret'));
+        return ! empty(config('mailcoach.turnstile_secret'));
     }
 
     public function hasTurnstileResponse(): bool
@@ -111,7 +111,7 @@ class CreateSubscriptionRequest extends FormRequest
                 if (! $success) {
                     $fail(__mc('The turnstile validation failed.'));
                 }
-            }]
+            }],
         ])->validate();
     }
 }
