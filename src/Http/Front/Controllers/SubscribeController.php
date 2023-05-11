@@ -2,6 +2,8 @@
 
 namespace Spatie\Mailcoach\Http\Front\Controllers;
 
+use Illuminate\Contracts\View\View;
+use Illuminate\Validation\ValidationException;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
@@ -21,6 +23,18 @@ class SubscribeController
     public function store(CreateSubscriptionRequest $request)
     {
         $emailList = $request->emailList();
+
+        if ($request->requiresTurnstile() && ! $request->hasTurnstileResponse()) {
+            return $this->renderTurnstilePage($request->emailList(), $request->all());
+        }
+
+        if ($request->requiresTurnstile()) {
+            try {
+                $request->validateTurnstile();
+            } catch (ValidationException $exception) {
+                return $this->renderTurnstilePage($request->emailList(), $request->all(), $exception->errors());
+            }
+        }
 
         if ($emailList->honeypot_field && $request->get($emailList->honeypot_field)) {
             $subscriberClass = self::getSubscriberClass();
@@ -49,6 +63,15 @@ class SubscribeController
         return $subscriber->isUnconfirmed()
             ? $this->getSubscriptionPendingResponse($request, $emailList, $subscriber)
             : $this->getSubscribedResponse($request, $emailList, $subscriber);
+    }
+
+    protected function renderTurnstilePage(EmailList $emailList, array $data, array $errors = []): View
+    {
+        return view('mailcoach::landingPages.turnstile', [
+            'emailListUuid' => $emailList->uuid,
+            'data' => $data,
+            'errors' => $errors,
+        ]);
     }
 
     protected function getSubscriptionPendingResponse(CreateSubscriptionRequest $request, EmailList $emailList, Subscriber $subscriber): Response
