@@ -16,7 +16,7 @@
             <input type="hidden" name="{{ $key }}" value="{{ $value }}">
         @endforeach
 
-        <div class="cf-turnstile flex justify-center" data-sitekey="{{ config('mailcoach.turnstile_key', '0x4AAAAAAAChSUIweDq3b14B') }}" data-callback="turnstileCallback"></div>
+        <div class="cf-turnstile flex justify-center" data-sitekey="{{ config('mailcoach.turnstile_key') }}" data-callback="turnstileCallback"></div>
         <div class="mx-auto" style="width: 300px;">
             @foreach ($errors as $field => $errorMessages)
                 @foreach ($errorMessages as $errorMessage)

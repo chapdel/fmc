@@ -319,6 +319,14 @@ return [
      */
     'redirect_home' => 'mailcoach.dashboard',
 
+    /**
+     * You can enable Cloudflare Turnstile spam protection
+     * by providing a site key & secret here. Make sure
+     * you have configured the domain correctly.
+     */
+    'turnstile_key' => '',
+    'turnstile_secret' => '',
+
     /*
      *  This configuration option defines the authentication guard that will
      *  be used to protect your the Mailcoach UI. This option should match one
