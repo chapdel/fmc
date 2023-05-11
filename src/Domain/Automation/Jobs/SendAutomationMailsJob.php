@@ -25,6 +25,7 @@ class SendAutomationMailsJob implements ShouldQueue, ShouldBeUnique
     {
         $this->uniqueFor = max(60, config('mailcoach.automation.send_automation_mails_maximum_job_runtime_in_seconds'));
         $this->onQueue(config('mailcoach.shared.perform_on_queue.schedule'));
+        $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
     }
 
     public function handle()

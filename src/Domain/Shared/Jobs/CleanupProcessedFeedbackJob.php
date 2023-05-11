@@ -9,6 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Mailcoach;
 use Spatie\WebhookClient\Models\WebhookCall;
 
 class CleanupProcessedFeedbackJob implements ShouldQueue, ShouldBeUnique
@@ -24,6 +25,7 @@ class CleanupProcessedFeedbackJob implements ShouldQueue, ShouldBeUnique
     public function __construct(protected int $hours)
     {
         $this->onQueue(config('mailcoach.shared.perform_on_queue.schedule'));
+        $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
     }
 
     public function handle()

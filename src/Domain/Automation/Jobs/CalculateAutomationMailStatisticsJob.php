@@ -16,6 +16,7 @@ use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Mailcoach;
 
 class CalculateAutomationMailStatisticsJob implements ShouldQueue, ShouldBeUnique
 {
@@ -30,6 +31,7 @@ class CalculateAutomationMailStatisticsJob implements ShouldQueue, ShouldBeUniqu
     public function __construct(protected ?int $automationMailId = null)
     {
         $this->onQueue(config('mailcoach.shared.perform_on_queue.schedule'));
+        $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
     }
 
     public function handle()

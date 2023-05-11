@@ -13,6 +13,7 @@ use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
 use Spatie\Mailcoach\Domain\Automation\Models\Trigger;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\TriggeredBySchedule;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Mailcoach;
 
 class RunAutomationTriggersJob implements ShouldQueue, ShouldBeUnique
 {
@@ -27,6 +28,7 @@ class RunAutomationTriggersJob implements ShouldQueue, ShouldBeUnique
     public function __construct()
     {
         $this->onQueue(config('mailcoach.shared.perform_on_queue.schedule'));
+        $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
     }
 
     public function handle()
