@@ -3,7 +3,7 @@
     'model' => null,
 ])
 @if($model instanceof \Spatie\Mailcoach\Domain\Shared\Models\Sendable)
-@pushonce('endHead')
+@pushonce('scripts')
 <script>
     document.addEventListener('livewire:load', function () {
         setInterval(() => @this.autosave(), 20000);

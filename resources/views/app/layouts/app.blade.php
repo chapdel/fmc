@@ -102,5 +102,6 @@
         {!! \Livewire\Livewire::scripts() !!}
         @livewire('livewire-ui-spotlight')
         {!! \Spatie\Mailcoach\Mailcoach::scripts() !!}
+        @stack('scripts')
     </body>
 </html>
