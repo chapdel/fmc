@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.20.1 - 2023-05-16
+
+- Change the timeout of the SendCampaignMailJob to 3 hours (same as unique for)
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.20.0...6.20.1
+
 ## 6.20.0 - 2023-05-11
 
 ### What's Changed
