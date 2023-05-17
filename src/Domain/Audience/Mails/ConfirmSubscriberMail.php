@@ -43,10 +43,14 @@ class ConfirmSubscriberMail extends Mailable implements ShouldQueue
 
     public function build()
     {
+        $replacements = Arr::dot(array_filter(array_merge(app(GetReplaceContextForSubscriberAction::class)->execute($this->subscriber), [
+            'confirmUrl' => $this->confirmationUrl,
+        ])));
+
         $this->confirmationMailTemplate = $this->subscriber->emailList->confirmationMail;
 
         if ($this->confirmationMailTemplate) {
-            $this->template($this->confirmationMailTemplate->name);
+            $this->template($this->confirmationMailTemplate->name, $replacements);
         }
 
         $mail = $this
@@ -60,10 +64,6 @@ class ConfirmSubscriberMail extends Mailable implements ShouldQueue
         $mail->subject($this->replacePlaceholders($mail->subject));
 
         if ($this->confirmationMailTemplate) {
-            $replacements = Arr::dot(array_merge(app(GetReplaceContextForSubscriberAction::class)->execute($this->subscriber), [
-                'confirmUrl' => $this->confirmationUrl,
-            ]));
-
             $html = $this->confirmationMailTemplate->render($this, $replacements);
 
             $html = str_ireplace('::confirmUrl::', $this->confirmationUrl, $html);
