@@ -197,7 +197,7 @@ return [
     'Confirmation when a campaign gets sent to this list' => 'Bevestiging wanneer een campagne naar deze lijst wordt gestuurd',
     'Confirmation when a campaign has finished sending to this list' => 'Bevestiging wanneer een campagne naar deze lijst is verzonden',
     'Confirmation when campaign has been sent to this list' => 'Bevestiging wanneer campagne naar deze lijst is verzonden',
-    'Consider adding the <code>{{ unsubscribeUrl }}</code> placeholder.' => 'Overweeg om de code <code>{{ unsubscribeUrl }}</code> toe te voegen.',
+    'Consider adding the <code>&#123;&#123; unsubscribeUrl &#125;&#125;</code> placeholder.' => 'Overweeg om de code <code>&#123;&#123; unsubscribeUrl &#125;&#125;</code> toe te voegen.',
     'Content' => 'Inhoud',
     'Content is missing' => 'Inhoud ontbreekt',
     'Content seems fine.' => 'Inhoud lijkt prima.',

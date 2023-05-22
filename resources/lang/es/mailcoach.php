@@ -122,7 +122,7 @@ return [
     'Confirmation mail' => 'Mail de confirmación',
     'Confirmation when a campaign gets sent to this list' => 'Confirmación cuando una campaña es mandada a esta lista',
     'Confirmation when a campaign has finished sending to this list' => 'Confirmación cuando una campaña ha terminado de enviar esta lista',
-    'Consider adding the <code>{{ unsubscribeUrl }}</code> placeholder.' => 'Considera añadir el marcador <code>{{ unsubscribeUrl }}</code> .',
+    'Consider adding the <code>&#123;&#123; unsubscribeUrl &#125;&#125;</code> placeholder.' => 'Considera añadir el marcador <code>&#123;&#123; unsubscribeUrl &#125;&#125;</code> .',
     'Content is missing' => 'No hay contenido',
     'Content seems fine.' => 'El contenido parece correcto.',
     'Content' => 'Contenido',
