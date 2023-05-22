@@ -58,7 +58,7 @@
 
             @if ($subscriber->unsubscribed_at)
                 <div class="form-field">
-                    <label class="label">{{ __mc('Unubscribed at') }}</label>
+                    <label class="label">{{ __mc('Unsubscribed at') }}</label>
                     <p class="input py-2 border-transparent hover:border-transparent">{{ $subscriber->unsubscribed_at->toMailcoachFormat() }}</p>
                 </div>
             @endif
