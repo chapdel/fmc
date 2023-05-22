@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.20.3 - 2023-05-22
+
+### What's Changed
+
+- Escape brackets in translation file by @mbardelmeijer in https://github.com/spatie/laravel-mailcoach/pull/1313
+- Added translation keys + add to Dutch translation file by @mbardelmeijer in https://github.com/spatie/laravel-mailcoach/pull/1311
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.20.2...6.20.3
+
 ## 6.20.2 - 2023-05-17
 
 - Fix attributes not being replaced in confirmation mails that use a template
