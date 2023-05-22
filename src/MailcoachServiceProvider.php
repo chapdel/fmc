@@ -454,9 +454,11 @@ class MailcoachServiceProvider extends PackageServiceProvider
                  * they don't eat up other routes
                  */
 
-                Route::prefix(config('mailcoach.email_list_website_prefix', 'archive'))
-                    ->middleware('web')
-                    ->group(__DIR__.'/../routes/mailcoach-email-list-website.php');
+                if (config('mailcoach.audience.website', true)) {
+                    Route::prefix(config('mailcoach.email_list_website_prefix', 'archive'))
+                        ->middleware('web')
+                        ->group(__DIR__.'/../routes/mailcoach-email-list-website.php');
+                }
             });
 
             Route::mailcoachEditor('mailcoachEditor');

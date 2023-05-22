@@ -4,7 +4,7 @@
             <a class="break-words" href="{{ route('mailcoach.emailLists.summary', $row) }}">
                 {{ $row->name }}
             </a>
-            @if ($row->has_website)
+            @if ($row->websiteEnabled())
                 <a class="link text-xs ml-2" title="{{ __mc('Website') }}" href="{{ $row->websiteUrl() }}" target="_blank">
                     <i class="fas fa-external-link"></i>
                 </a>

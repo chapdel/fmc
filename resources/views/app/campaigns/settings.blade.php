@@ -1,7 +1,7 @@
 @php
     $linkDescriptions = [];
 
-    if ($this->campaign->emailList?->has_website) {
+    if ($this->campaign->emailList?->websiteEnabled()) {
         $linkDescriptions[] = '<a target=_blank href="' . $this->campaign->emailList->websiteUrl() . '">the public website</a>';
     }
 

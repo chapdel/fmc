@@ -61,7 +61,7 @@ class EmailListWebsiteController
             abort(404);
         }
 
-        abort_unless($emailList->has_website, 404);
+        abort_unless($emailList->websiteEnabled(), 404);
         abort_unless($campaign->show_publicly, 404);
         abort_unless($campaign->isSendingOrSent(), 404);
         abort_unless($campaign->webview_html, 404);

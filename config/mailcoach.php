@@ -186,6 +186,11 @@ return [
          * This disk will be used to store files regarding importing subscribers.
          */
         'import_subscribers_disk' => 'local',
+
+        /**
+         * Whether if the website feature is enabled.
+         */
+        'website' => true,
     ],
 
     'transactional' => [

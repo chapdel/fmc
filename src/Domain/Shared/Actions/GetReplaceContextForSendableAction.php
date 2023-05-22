@@ -19,7 +19,7 @@ class GetReplaceContextForSendableAction
         return array_merge($context, match (true) {
             $sendable instanceof Campaign => [
                 'campaign' => $sendable->toArray(),
-                'websiteCampaignUrl' => $sendable->emailList->has_website
+                'websiteCampaignUrl' => $sendable->emailList->websiteEnabled()
                     ? $sendable->websiteUrl()
                     : '',
                 'webviewUrl' => $sendable->webviewUrl(),

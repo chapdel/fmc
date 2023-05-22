@@ -231,9 +231,14 @@ class EmailList extends Model implements HasMedia
             ->get();
     }
 
+    public function websiteEnabled(): bool
+    {
+        return $this->has_website && config('mailcoach.audience.website', true);
+    }
+
     public function websiteUrl(): string
     {
-        if (! $this->has_website) {
+        if (! $this->websiteEnabled()) {
             return '';
         }
 
