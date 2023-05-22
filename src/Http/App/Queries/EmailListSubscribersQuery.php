@@ -31,7 +31,7 @@ class EmailListSubscribersQuery extends QueryBuilder
             ->allowedSorts('created_at', 'updated_at', 'subscribed_at', 'unsubscribed_at', 'email', 'first_name', 'last_name', 'id')
             ->allowedFilters(
                 AllowedFilter::callback('email', function (Builder $query, $value) {
-                    $value = trim($value);
+                    $value = trim($value ?? '');
 
                     if (config('mailcoach.encryption.enabled')) {
                         return $query->where(function (Builder $query) use ($value) {
