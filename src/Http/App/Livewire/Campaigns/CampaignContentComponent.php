@@ -22,6 +22,7 @@ class CampaignContentComponent extends Component
 
     protected $listeners = [
         'editorSaved' => 'save',
+        'editorSavedQuietly' => 'save',
     ];
 
     protected function rules(): array

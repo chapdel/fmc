@@ -143,6 +143,7 @@ abstract class EditorComponent extends Component
         $this->model->save();
         $this->lastSavedAt = $this->model->updated_at;
         $this->autosaveConflict = false;
+        $this->emit('editorSavedQuietly');
     }
 
     public function save()
