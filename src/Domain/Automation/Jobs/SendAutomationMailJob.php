@@ -23,6 +23,8 @@ class SendAutomationMailJob implements ShouldQueue, ShouldBeUnique
 
     public bool $deleteWhenMissingModels = true;
 
+    public int $maxExceptions = 3;
+
     public Send $pendingSend;
 
     /** @var string */
@@ -35,7 +37,7 @@ class SendAutomationMailJob implements ShouldQueue, ShouldBeUnique
 
     public function retryUntil(): CarbonInterface
     {
-        return now()->addHour();
+        return now()->addHours(3);
     }
 
     public function __construct(Send $pendingSend)
