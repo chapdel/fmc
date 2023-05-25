@@ -9,6 +9,7 @@ use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 use Spatie\Mailcoach\MainNavigation;
+use Spatie\ValidationRules\Rules\Delimited;
 
 class AutomationMailSettingsComponent extends Component
 {
@@ -25,8 +26,8 @@ class AutomationMailSettingsComponent extends Component
             'mail.subject' => '',
             'mail.from_email' => ['nullable', 'email:rfc'],
             'mail.from_name' => 'nullable',
-            'mail.reply_to_email' => ['nullable', 'email:rfc'],
-            'mail.reply_to_name' => 'nullable',
+            'mail.reply_to_email' => ['nullable', new Delimited('email:rfc')],
+            'mail.reply_to_name' => ['nullable', new Delimited('string')],
             'mail.utm_tags' => 'bool',
             'mail.add_subscriber_tags' => 'bool',
             'mail.add_subscriber_link_tags' => 'bool',

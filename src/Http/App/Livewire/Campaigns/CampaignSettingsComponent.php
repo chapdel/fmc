@@ -14,6 +14,7 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 use Spatie\Mailcoach\MainNavigation;
+use Spatie\ValidationRules\Rules\Delimited;
 
 class CampaignSettingsComponent extends Component
 {
@@ -38,8 +39,8 @@ class CampaignSettingsComponent extends Component
             'campaign.subject' => ['nullable'],
             'campaign.from_email' => ['nullable', 'email:rfc'],
             'campaign.from_name' => 'nullable',
-            'campaign.reply_to_email' => ['nullable', 'email:rfc'],
-            'campaign.reply_to_name' => 'nullable',
+            'campaign.reply_to_email' => ['nullable', new Delimited('email:rfc')],
+            'campaign.reply_to_name' => ['nullable', new Delimited('string')],
             'campaign.email_list_id' => Rule::exists(self::getEmailListTableName(), 'id'),
             'campaign.utm_tags' => 'bool',
             'campaign.add_subscriber_tags' => 'bool',
