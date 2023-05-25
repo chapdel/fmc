@@ -25,7 +25,7 @@ class ListSettingsComponent extends Component
             'emailList.name' => 'required',
             'emailList.default_from_email' => 'required|email:rfc',
             'emailList.default_from_name' => 'nullable',
-            'emailList.default_reply_to_email' => 'nullable|email:rfc',
+            'emailList.default_reply_to_email' => new Delimited('email'),
             'emailList.default_reply_to_name' => 'nullable',
 
             'emailList.campaigns_feed_enabled' => 'boolean',

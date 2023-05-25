@@ -78,10 +78,9 @@ class ConfirmSubscriberMail extends Mailable implements ShouldQueue
         }
 
         if (! empty($this->subscriber->emailList->default_reply_to_email)) {
-            $mail->replyTo(
-                $this->subscriber->emailList->default_reply_to_email,
-                $this->subscriber->emailList->default_reply_to_name
-            );
+            foreach ($this->subscriber->emailList->defaultReplyTo() as $user) {
+                $mail->replyTo($user['email'], $user['name']);
+            }
         }
 
         $mail->withSymfonyMessage(function (Email $email) {

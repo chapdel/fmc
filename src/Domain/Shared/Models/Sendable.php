@@ -18,6 +18,7 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Campaign\Rules\HtmlRule;
 use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\CampaignReplacer;
 use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\PersonalizedReplacer as PersonalizedCampaignReplacer;
+use Spatie\Mailcoach\Domain\Shared\Actions\CommaSeparatedEmailsToArrayAction;
 use Spatie\Mailcoach\Domain\Shared\Actions\CreateDomDocumentFromHtmlAction;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -157,6 +158,7 @@ abstract class Sendable extends Model implements HasHtmlContent
 
     public function getReplyToEmail(?Send $send = null): ?string
     {
+        // make internal in v7?
         return $this->reply_to_email
             ?? $this->emailList?->default_reply_to_email
             ?? $send?->subscriber->emailList->default_reply_to_email
@@ -165,10 +167,18 @@ abstract class Sendable extends Model implements HasHtmlContent
 
     public function getReplyToName(?Send $send = null): ?string
     {
+        // make internal in v7?
         return $this->reply_to_name
             ?? $this->emailList?->default_reply_to_name
             ?? $send?->subscriber->emailList->default_reply_to_name
             ?? null;
+    }
+
+    /** @return array{email: string, name: ?string} */
+    public function getReplyToAddresses(?Send $send = null): array
+    {
+        return resolve(CommaSeparatedEmailsToArrayAction::class)
+            ->execute($this->getReplyToEmail($send), $this->getReplyToName($send));
     }
 
     public function utmTags(bool $bool = true): self

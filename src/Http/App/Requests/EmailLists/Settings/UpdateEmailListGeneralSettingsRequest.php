@@ -13,7 +13,7 @@ class UpdateEmailListGeneralSettingsRequest extends FormRequest
             'name' => 'required',
             'default_from_email' => 'required|email:rfc',
             'default_from_name' => '',
-            'default_reply_to_email' => 'nullable|email:rfc',
+            'default_reply_to_email' => new Delimited('email'),
             'default_reply_to_name' => '',
 
             'campaigns_feed_enabled' => 'boolean',

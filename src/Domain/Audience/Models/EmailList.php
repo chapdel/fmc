@@ -16,12 +16,17 @@ use Spatie\Image\Manipulations;
 use Spatie\Mailcoach\Database\Factories\EmailListFactory;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Mails\ConfirmSubscriberMail;
+use Spatie\Mailcoach\Domain\Shared\Actions\CommaSeparatedEmailsToArrayAction;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
+/**
+ * @property ?string default_reply_to_email
+ * @property ?string default_reply_to_name
+ */
 class EmailList extends Model implements HasMedia
 {
     use HasUuid;
@@ -265,6 +270,15 @@ class EmailList extends Model implements HasMedia
         $this
             ->addMediaCollection('header')
             ->singleFile();
+    }
+
+    /**
+     * @return array{email: string, name: ?string}
+     */
+    public function defaultReplyTo(): array
+    {
+        return resolve(CommaSeparatedEmailsToArrayAction::class)
+            ->execute($this->default_reply_to_email, $this->default_reply_to_name);
     }
 
     public function websiteHeaderImageUrl(): ?string

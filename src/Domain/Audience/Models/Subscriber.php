@@ -39,6 +39,9 @@ use Spatie\Mailcoach\Domain\Shared\Traits\Searchable;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Mailcoach;
 
+/**
+ * @property EmailList emailList
+ */
 class Subscriber extends Model implements CipherSweetEncrypted
 {
     use HasUuid;

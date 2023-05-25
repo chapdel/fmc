@@ -29,8 +29,12 @@
 
             <x-mailcoach::text-field :label="__mc('From name')" name="emailList.default_from_name" wire:model.lazy="emailList.default_from_name"/>
 
-            <x-mailcoach::text-field :label="__mc('Reply-to email')" name="emailList.default_reply_to_email" wire:model.lazy="emailList.default_reply_to_email"
-                        type="email"/>
+            <x-mailcoach::text-field
+                :label="__mc('Reply-to email')"
+                name="emailList.default_reply_to_email"
+                :help="__mc('Use a comma separated list to send replies to multiple email addresses.')"
+                wire:model.lazy="emailList.default_reply_to_email"
+            />
 
             <x-mailcoach::text-field :label="__mc('Reply-to name')" name="emailList.default_reply_to_name" wire:model.lazy="emailList.default_reply_to_name"/>
         </div>

@@ -26,9 +26,14 @@ class MailcoachMail extends Mailable
 
     public ?string $fromName = null;
 
+    /** @deprecated will be removed in v7 */
     public ?string $replyToEmail = null;
 
+    /** @deprecated will be removed in v7 */
     public ?string $replyToName = null;
+
+    /** @var array{email: string, name: ?string} */
+    public array $replyToAll = [];
 
     public $htmlView = null;
 
@@ -83,6 +88,8 @@ class MailcoachMail extends Mailable
             $sendable->getFromEmail($this->send),
             $sendable->getFromName($this->send),
         );
+
+        $this->replyToAll = $sendable->getReplyToAddresses($this->send);
 
         $replyTo = $sendable->getReplyToEmail($this->send);
 
@@ -143,7 +150,11 @@ class MailcoachMail extends Mailable
             ->addUnsubscribeHeaders()
             ->storeTransportMessageId();
 
-        if ($this->replyToEmail) {
+        if ($this->replyToAll !== []) {
+            foreach ($this->replyToAll as $replyTo) {
+                $mail->replyTo($replyTo['email'], $replyTo['name']);
+            }
+        } elseif ($this->replyToEmail) {
             $mail->replyTo($this->replyToEmail, $this->replyToName);
         }
 

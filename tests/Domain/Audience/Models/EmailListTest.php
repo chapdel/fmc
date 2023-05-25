@@ -169,3 +169,40 @@ it('can reference tags and segments when using a custom model', function () {
     expect($list->tags()->count())->toEqual(2);
     expect($list->segments()->count())->toEqual(1);
 });
+
+it('can get all defaultReplyTo emails from a comma separated list', function () {
+    test()->emailList->update([
+        'default_reply_to_email' => 'example@spatie.be,example2@spatie.be, example3@spatie.be,example4@spatie.be',
+        'default_reply_to_name' => 'example,, second',
+    ]);
+
+    expect(test()->emailList->defaultReplyTo())->toEqual([
+        [
+            'email' => 'example@spatie.be',
+            'name' => 'example',
+        ],
+        [
+            'email' => 'example2@spatie.be',
+            'name' => null,
+        ],
+        [
+            'email' => 'example3@spatie.be',
+            'name' => 'second',
+        ],
+        [
+            'email' => 'example4@spatie.be',
+            'name' => null,
+        ],
+    ]);
+
+    test()->emailList->update([
+        'default_reply_to_email' => 'example@spatie.be',
+    ]);
+
+    expect(test()->emailList->defaultReplyTo())->toEqual([
+        [
+            'email' => 'example@spatie.be',
+            'name' => 'example',
+        ],
+    ]);
+});
