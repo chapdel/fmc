@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.22.0 - 2023-05-25
+
+### What's Changed
+
+- Feature/multiple reply to by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1309
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.21.0...6.22.0
+
 ## 6.21.0 - 2023-05-22
 
 ### What's Changed
