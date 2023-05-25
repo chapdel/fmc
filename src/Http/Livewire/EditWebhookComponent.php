@@ -56,7 +56,13 @@ class EditWebhookComponent extends Component
 
     public function save()
     {
-        $this->webhook->update($this->validate()['webhook']);
+        $validated = $this->validate()['webhook'];
+
+        if (isset($validated['enabled']) && $validated['enabled'] === true) {
+            $validated['failed_attempts'] = 0;
+        }
+
+        $this->webhook->update($validated);
         $this->webhook->emailLists()->sync($this->emailLists);
 
         $this->flash(__mc('The webhook has been updated.'));

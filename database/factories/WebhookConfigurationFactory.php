@@ -18,6 +18,7 @@ class WebhookConfigurationFactory extends Factory
             'use_for_all_lists' => true,
             'use_for_all_events' => true,
             'enabled' => true,
+            'failed_attempts' => 0,
         ];
     }
 }

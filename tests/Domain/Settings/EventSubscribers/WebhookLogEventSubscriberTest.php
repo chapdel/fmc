@@ -1,8 +1,10 @@
 <?php
 
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Database\Factories\WebhookConfigurationFactory;
 use Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookLogEventSubscriber;
+use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 use Spatie\WebhookServer\Events\WebhookCallFailedEvent;
 use Spatie\WebhookServer\Events\WebhookCallSucceededEvent;
 
@@ -10,9 +12,9 @@ beforeEach(function () {
     $this->subscriber = resolve(WebhookLogEventSubscriber::class);
 });
 
-function createEvent($eventClass, $callUuid)
+function createEvent($eventClass, $callUuid, ?WebhookConfiguration $webhookConfiguration = null)
 {
-    $webhookConfiguration = WebhookConfigurationFactory::new()->create();
+    $webhookConfiguration = $webhookConfiguration ?? WebhookConfigurationFactory::new()->create();
 
     return new $eventClass(
         'post',
@@ -38,7 +40,7 @@ function createEvent($eventClass, $callUuid)
         ],
         [],
         2,
-        new \GuzzleHttp\Psr7\Response(200, [], 'body'),
+        new Response(200, [], 'body'),
         null,
         null,
         Str::uuid(),

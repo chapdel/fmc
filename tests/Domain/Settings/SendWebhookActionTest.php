@@ -135,6 +135,30 @@ it('should only send a webhook for events that are enabled', function () {
     Queue::assertPushed(CallWebhookJob::class);
 });
 
+it('should only send a webhook when maximum amount of failed attempts did not exceed', function () {
+    config()->set('mailcoach.webhooks.maximum_attempts', 2);
+    config()->set('mailcoach.opt_in_features.disable_failed_webhooks', true);
+
+    $this->webhookConfiguration->update([
+        'failed_attempts' => 2,
+    ]);
+
+    event(new SubscribedEvent($this->subscriber));
+    Queue::assertNotPushed(CallWebhookJob::class);
+});
+
+it('should not disable when feature flag disabled', function () {
+    config()->set('mailcoach.webhooks.maximum_attempts', 2);
+    config()->set('mailcoach.opt_in_features.disable_failed_webhooks', false);
+
+    $this->webhookConfiguration->update([
+        'failed_attempts' => 2,
+    ]);
+
+    event(new SubscribedEvent($this->subscriber));
+    Queue::assertPushed(CallWebhookJob::class);
+});
+
 function sendWebhook(Subscriber $subscriber): void
 {
     /** @var SendWebhookAction $sendWebhook */

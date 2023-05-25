@@ -31,7 +31,24 @@ class SendWebhookAction
             return;
         }
 
+        if ($this->webhookExceededMaximumTries($webhookConfiguration)) {
+            return;
+        }
+
         $this->sendWebhook($webhookConfiguration, $payload);
+    }
+
+    protected function webhookExceededMaximumTries(WebhookConfiguration $webhookConfiguration): bool
+    {
+        if (! config('mailcoach.opt_in_features.disable_failed_webhooks', false)) {
+            return false;
+        }
+
+        if ($webhookConfiguration->maximumAttempts() === null) {
+            return false;
+        }
+
+        return $webhookConfiguration->failed_attempts >= $webhookConfiguration->maximumAttempts();
     }
 
     protected function webhookEnabledForEvent(WebhookConfiguration $webhookConfiguration, string $event): bool

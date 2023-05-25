@@ -677,6 +677,7 @@ return [
     'event_subscribers' => [
         'webhook_logs' => \Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookLogEventSubscriber::class,
         'webhooks' => \Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookEventSubscriber::class,
+        'webhook_failed_attempts' => \Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookFailedAttemptsSubscriber::class,
     ],
 
     'webhooks' => [
@@ -691,5 +692,22 @@ return [
          * Make sure to publish and run the migrations for Mailcoach when enabling this feature.
          */
         'selectable_event_types_enabled' => false,
+
+        /**
+         * The amount of times a webhook call should be retried before giving up.
+         */
+        'maximum_attempts' => 5,
+
+        /**
+         * The email addresses which will be used to send a notification when a webhook is auto disabled.
+         */
+        'notified_emails' => null,
+    ],
+
+    /**
+     * In case of breaking changes, you can disable features that are not yet compatible with your setup.
+     */
+    'opt_in_features' => [
+        'disable_failed_webhooks' => false,
     ],
 ];

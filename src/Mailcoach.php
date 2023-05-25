@@ -134,6 +134,11 @@ class Mailcoach
             ?? config('mail.default');
     }
 
+    public static function defaultSystemMailer(): ?string
+    {
+        return config('mailcoach.mailer') ?? config('mail.default');
+    }
+
     public static function getCampaignActionClass(string $actionName, string $actionClass): object
     {
         $configuredClass = config("mailcoach.campaigns.actions.{$actionName}");
