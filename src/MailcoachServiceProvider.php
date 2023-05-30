@@ -725,6 +725,10 @@ class MailcoachServiceProvider extends PackageServiceProvider
             Event::subscribe(config('mailcoach.event_subscribers.webhook_logs'));
         }
 
+        if (config('mailcoach.opt_in_features.disable_failed_webhooks')) {
+            Event::subscribe(config('mailcoach.event_subscribers.webhook_failed_attempts'));
+        }
+
         return $this;
     }
 
