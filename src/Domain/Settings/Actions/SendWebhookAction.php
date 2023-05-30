@@ -57,7 +57,7 @@ class SendWebhookAction
             return true;
         }
 
-        if ($webhookConfiguration->events === null) {
+        if ($webhookConfiguration->events === null || count($webhookConfiguration->events) === 0) {
             return true;
         }
 
