@@ -32,10 +32,10 @@ class PrepareEmailHtmlAction
         $replacements = [
             '/(\n|^)(\x20+|\t)/' => "\n",
             '/(\n|^)\/\/(.*?)(\n|$)/' => "\n",
-            '/\n/' => " ",
-            '/(\x20+|\t)/' => " ", # Delete multispace (Without \n)
-            '/\>\s+\</' => "><", # strip whitespaces between tags
-            '/(\"|\')\s+\>/' => "$1>", # strip whitespaces between quotation ("') and end tags
+            '/\n/' => ' ',
+            '/(\x20+|\t)/' => ' ', // Delete multispace (Without \n)
+            '/\>\s+\</' => '><', // strip whitespaces between tags
+            '/(\"|\')\s+\>/' => '$1>', // strip whitespaces between quotation ("') and end tags
         ];
 
         return preg_replace(array_keys($replacements), array_values($replacements), $html);
