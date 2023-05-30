@@ -18,6 +18,20 @@ it('will automatically add html tags', function () {
     assertMatchesHtmlSnapshot($campaign->email_html);
 });
 
+it('minifies the html but keeps comments', function () {
+    $myHtml = "<html ''  ><h1>Hello</h1>\n\n\n<p>Hello world</p><!--[if mso]><span>Hello</span><![endif]-->    </html>";
+
+    $campaign = AutomationMail::factory()->create([
+        'html' => $myHtml,
+    ]);
+
+    app(PrepareEmailHtmlAction::class)->execute($campaign);
+
+    $campaign->refresh();
+
+    expect($campaign->email_html)->toBe('<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd"><html><body><h1>Hello</h1><p>Hello world</p><!--[if mso]><span>Hello</span><![endif]--></body></html>');
+});
+
 it('works with ampersands', function () {
     $myHtml = '<html><a href="https://google.com?foo=true&bar=false">Test</a></html>';
 

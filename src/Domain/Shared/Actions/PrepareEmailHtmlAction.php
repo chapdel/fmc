@@ -22,7 +22,22 @@ class PrepareEmailHtmlAction
         }
 
         $sendable->email_html = mb_convert_encoding($sendable->email_html, 'UTF-8');
+        $sendable->email_html = $this->minifyHtml($sendable->email_html);
 
         $sendable->save();
+    }
+
+    protected function minifyHtml(string $html): string
+    {
+        $replacements = [
+            '/(\n|^)(\x20+|\t)/' => "\n",
+            '/(\n|^)\/\/(.*?)(\n|$)/' => "\n",
+            '/\n/' => " ",
+            '/(\x20+|\t)/' => " ", # Delete multispace (Without \n)
+            '/\>\s+\</' => "><", # strip whitespaces between tags
+            '/(\"|\')\s+\>/' => "$1>", # strip whitespaces between quotation ("') and end tags
+        ];
+
+        return preg_replace(array_keys($replacements), array_values($replacements), $html);
     }
 }
