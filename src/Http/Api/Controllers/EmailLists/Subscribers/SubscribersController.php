@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
+use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\DeleteSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\UpdateSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
@@ -84,7 +85,7 @@ class SubscribersController
     {
         $this->authorize('update', $subscriber->emailList);
 
-        $subscriber->delete();
+        app(DeleteSubscriberAction::class)->execute($subscriber);
 
         return $this->respondOk();
     }
