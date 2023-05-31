@@ -8,7 +8,7 @@ function updateHtmlPreview() {
         return;
     }
 
-    target.src = `data:text/html;base64,${btoa(unescape(encodeURIComponent(source.value)))}`;
+    target.src = `data:text/html;charset=utf-8;base64,${btoa(unescape(encodeURIComponent(source.value)))}`;
 }
 
 listen('input', '[data-html-preview-source]', updateHtmlPreview);
