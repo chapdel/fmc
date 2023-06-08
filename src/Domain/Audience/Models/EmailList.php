@@ -24,8 +24,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
- * @property ?string default_reply_to_email
- * @property ?string default_reply_to_name
+ * @method static Builder|static query()
  */
 class EmailList extends Model implements HasMedia
 {

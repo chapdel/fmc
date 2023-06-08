@@ -38,10 +38,11 @@ class Action extends Model
     {
         Carbon::useStrictMode(false);
 
-        /** @var AutomationAction $action */
         if (base64_encode(base64_decode($value, true)) === $value) {
+            /** @var AutomationAction $action */
             $action = unserialize(base64_decode($value));
         } else {
+            /** @var AutomationAction $action */
             $action = unserialize($value);
         }
 

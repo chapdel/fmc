@@ -127,6 +127,7 @@ class SendCampaignAction
         throw SendCampaignTimeLimitApproaching::make();
     }
 
+    /** @return Builder<Subscriber> */
     protected function getSubscribersQuery(Campaign $campaign): Builder
     {
         $subscribersQuery = $campaign->baseSubscribersQuery();

@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Domain\Campaign\Models\Concerns;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\EverySubscriberSegment;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\Segment;
@@ -70,6 +71,7 @@ trait SendsToSegment
         });
     }
 
+    /** @return Builder<Subscriber> */
     public function baseSubscribersQuery(): Builder
     {
         return $this

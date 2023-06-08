@@ -94,7 +94,7 @@ class WebhookEventSubscriber
 
     protected function sendWebhookAction(): SendWebhookAction
     {
-        /** @var $action SendWebhookAction */
+        /** @var SendWebhookAction $action */
         $action = Mailcoach::getSharedActionClass('send_webhook', SendWebhookAction::class);
 
         return $action;

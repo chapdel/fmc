@@ -30,7 +30,9 @@ class ManagePreferencesController
         }
 
         /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
-        if (! $subscriber = self::getSubscriberClass()::findByUuid($subscriberUuid)) {
+        $subscriber = self::getSubscriberClass()::findByUuid($subscriberUuid);
+
+        if (! $subscriber) {
             return view('mailcoach::landingPages.couldNotFindSubscription');
         }
 
@@ -50,7 +52,9 @@ class ManagePreferencesController
     public function confirm(Request $request, string $subscriberUuid, string $sendUuid = null)
     {
         /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
-        if (! $subscriber = self::getSubscriberClass()::findByUuid($subscriberUuid)) {
+        $subscriber = self::getSubscriberClass()::findByUuid($subscriberUuid);
+
+        if (! $subscriber) {
             return view('mailcoach::landingPages.couldNotFindSubscription');
         }
 

@@ -119,6 +119,7 @@ class Automation extends Model
         return $this->belongsTo($this->getEmailListClass());
     }
 
+    /** @return Builder<Subscriber> */
     public function newSubscribersQuery(): Builder
     {
         $subscribersQuery = $this->baseSubscribersQuery();

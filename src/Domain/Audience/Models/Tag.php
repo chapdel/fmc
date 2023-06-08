@@ -11,6 +11,9 @@ use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
+/**
+ * @method static Builder|static query()
+ */
 class Tag extends Model
 {
     use HasUuid;

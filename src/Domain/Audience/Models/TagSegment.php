@@ -14,6 +14,9 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
+/**
+ * @method static Builder|static query()
+ */
 class TagSegment extends Model
 {
     use HasUuid;
@@ -72,6 +75,7 @@ class TagSegment extends Model
         return $this->refresh();
     }
 
+    /** @return Builder<Subscriber> */
     public function getSubscribersQuery(): Builder
     {
         $query = $this->emailList->subscribers()->getQuery();

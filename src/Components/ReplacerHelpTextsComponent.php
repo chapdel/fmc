@@ -59,7 +59,10 @@ class ReplacerHelpTextsComponent extends Component
 
     public function transactionalMailTemplateReplacerHelpTexts(): array
     {
-        return collect($this->model->replacers)
+        /** @var TransactionalMail $model */
+        $model = $this->model;
+
+        return collect($model->replacers)
             ->map(fn (string $replacerKeyInConfig) => config("mailcoach.transactional.replacers.{$replacerKeyInConfig}"))
             ->filter()
             ->filter(fn (string $className) => class_exists($className))

@@ -9,6 +9,9 @@ use Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns\UsesMailcoachTempla
 use Spatie\Mailcoach\Mailcoach;
 use Symfony\Component\Mime\Email;
 
+/**
+ * @property array|null $replacers
+ */
 class TransactionalMail extends Mailable
 {
     use SerializesModels;

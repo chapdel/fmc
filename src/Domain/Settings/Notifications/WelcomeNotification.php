@@ -17,7 +17,7 @@ class WelcomeNotification extends \Spatie\WelcomeNotification\WelcomeNotificatio
         $this->showWelcomeFormUrl = URL::temporarySignedRoute(
             'welcome',
             $this->validUntil,
-            ['mailcoachUser' => $user->welcomeNotificationKeyValue()]
+            ['mailcoachUser' => $user->welcomeNotificationKeyValue()] // @todo method does not exist?
         );
     }
 }

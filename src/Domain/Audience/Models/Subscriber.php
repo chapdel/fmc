@@ -40,7 +40,7 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Mailcoach;
 
 /**
- * @property EmailList emailList
+ * @method static Builder|static query()
  */
 class Subscriber extends Model implements CipherSweetEncrypted
 {

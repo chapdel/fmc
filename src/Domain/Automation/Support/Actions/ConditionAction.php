@@ -199,8 +199,9 @@ class ConditionAction extends AutomationAction
         $actionClass = static::getAutomationActionClass();
         $action = $actionClass::findByUuid($this->uuid);
 
-        /** @var \Spatie\Mailcoach\Domain\Automation\Support\Conditions\Condition $condition */
         $conditionClass = $this->condition;
+
+        /** @var \Spatie\Mailcoach\Domain\Automation\Support\Conditions\Condition $condition */
         $condition = new $conditionClass($action->automation, $actionSubscriber->subscriber, $this->conditionData);
 
         if ($condition->check()) {
@@ -219,8 +220,9 @@ class ConditionAction extends AutomationAction
 
         $action = $actionClass::findByUuid($this->uuid);
 
-        /** @var \Spatie\Mailcoach\Domain\Automation\Support\Conditions\Condition $condition */
         $conditionClass = $this->condition;
+
+        /** @var \Spatie\Mailcoach\Domain\Automation\Support\Conditions\Condition $condition */
         $condition = new $conditionClass($action->automation, $subscriber, $this->conditionData);
         $nextAction = [];
 

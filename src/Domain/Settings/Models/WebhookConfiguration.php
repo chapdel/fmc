@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Domain\Settings\Actions\SendWebhookDisabledMailAction;
 use Spatie\Mailcoach\Domain\Settings\Enums\WebhookEventTypes;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
@@ -15,6 +16,8 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
  * @property string $name
  * @property string $url
  * @property bool $enabled
+ * @property int $failed_attempts
+ * @property Collection $events
  */
 class WebhookConfiguration extends Model
 {

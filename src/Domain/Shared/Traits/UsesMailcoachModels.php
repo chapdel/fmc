@@ -202,9 +202,9 @@ trait UsesMailcoachModels
 
     public static function getEmailListTableName(): string
     {
-        /** @var \Illuminate\Database\Eloquent\Model $emailList */
         $emailListClass = self::getEmailListClass();
 
+        /** @var \Illuminate\Database\Eloquent\Model $emailList */
         $emailList = new $emailListClass;
 
         return $emailList->getTable();
@@ -212,9 +212,9 @@ trait UsesMailcoachModels
 
     public static function getTransactionalMailTableName(): string
     {
-        /** @var \Illuminate\Database\Eloquent\Model $template */
         $templateClass = self::getTransactionalMailClass();
 
+        /** @var \Illuminate\Database\Eloquent\Model $template */
         $template = new $templateClass;
 
         return $template->getTable();
@@ -222,9 +222,9 @@ trait UsesMailcoachModels
 
     public static function getSubscriberTableName(): string
     {
-        /** @var \Illuminate\Database\Eloquent\Model $subscriber */
         $subscriberClass = self::getSubscriberClass();
 
+        /** @var \Illuminate\Database\Eloquent\Model $subscriber */
         $subscriber = new $subscriberClass;
 
         return $subscriber->getTable();
@@ -254,7 +254,7 @@ trait UsesMailcoachModels
     {
         $tagSegmentClass = self::getTagSegmentClass();
 
-        /** @var \Illuminate\Database\Eloquent\Model $tag */
+        /** @var \Illuminate\Database\Eloquent\Model $tagSegment */
         $tagSegment = new $tagSegmentClass;
 
         return $tagSegment->getTable();
@@ -282,9 +282,9 @@ trait UsesMailcoachModels
 
     public static function getActionSubscriberTableName(): string
     {
-        /** @var \Illuminate\Database\Eloquent\Model $actionSubscriber */
         $actionSubscriberClass = self::getActionSubscriberClass();
 
+        /** @var \Illuminate\Database\Eloquent\Model $actionSubscriber */
         $actionSubscriber = new $actionSubscriberClass;
 
         return $actionSubscriber->getTable();
@@ -292,9 +292,9 @@ trait UsesMailcoachModels
 
     public static function getAutomationTableName(): string
     {
-        /** @var \Illuminate\Database\Eloquent\Model $action */
         $automationClass = self::getAutomationClass();
 
+        /** @var \Illuminate\Database\Eloquent\Model $automation */
         $automation = new $automationClass;
 
         return $automation->getTable();
@@ -312,9 +312,9 @@ trait UsesMailcoachModels
 
     public static function getAutomationTriggerTableName(): string
     {
-        /** @var \Illuminate\Database\Eloquent\Model $action */
         $className = self::getAutomationTriggerClass();
 
+        /** @var \Illuminate\Database\Eloquent\Model $class */
         $class = new $className;
 
         return $class->getTable();

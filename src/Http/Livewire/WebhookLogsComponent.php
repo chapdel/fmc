@@ -59,7 +59,7 @@ class WebhookLogsComponent extends DataTableComponent
 
     protected function resendWebhookAction(): ResendWebhookCallAction
     {
-        /** @var $action ResendWebhookCallAction */
+        /** @var ResendWebhookCallAction $action */
         $action = Mailcoach::getSharedActionClass('resend_webhook', ResendWebhookCallAction::class);
 
         return $action;
