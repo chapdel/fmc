@@ -9,7 +9,7 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 /**
  * @property ?Template $template
  * @property int|string|null $template_id
- * @property CarbonInterface $updated_at
+ * @property ?CarbonInterface $updated_at
  * @property CarbonInterface $last_modified_at
  *
  * @mixin Model
