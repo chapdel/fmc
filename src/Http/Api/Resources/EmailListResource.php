@@ -3,7 +3,9 @@
 namespace Spatie\Mailcoach\Http\Api\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 
+/** @mixin EmailList */
 class EmailListResource extends JsonResource
 {
     public function toArray($request)
@@ -29,8 +31,8 @@ class EmailListResource extends JsonResource
             'redirect_after_unsubscribed' => $this->redirect_after_unsubscribed,
 
             'requires_confirmation' => (bool) $this->requires_confirmation,
-            'confirmation_mail_subject' => $this->confirmation_mail_subject,
-            'confirmation_mail_content' => $this->confirmation_mail_content,
+            'confirmation_mail_subject' => $this->confirmation_mail_subject, // @todo does not exist ?
+            'confirmation_mail_content' => $this->confirmation_mail_content, // @todo does not exist ?
             'confirmation_mailable_class' => $this->confirmation_mailable_class,
 
             'campaign_mailer' => $this->campaign_mailer,

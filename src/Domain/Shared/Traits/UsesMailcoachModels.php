@@ -302,9 +302,9 @@ trait UsesMailcoachModels
 
     public static function getAutomationActionTableName(): string
     {
-        /** @var \Illuminate\Database\Eloquent\Model $action */
         $actionClass = self::getAutomationActionClass();
 
+        /** @var \Illuminate\Database\Eloquent\Model $action */
         $action = new $actionClass;
 
         return $action->getTable();

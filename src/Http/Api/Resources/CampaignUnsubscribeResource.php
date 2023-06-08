@@ -3,7 +3,9 @@
 namespace Spatie\Mailcoach\Http\Api\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\Mailcoach\Domain\Campaign\Models\CampaignUnsubscribe;
 
+/** @mixin CampaignUnsubscribe */
 class CampaignUnsubscribeResource extends JsonResource
 {
     public function toArray($request)

@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
@@ -24,6 +25,8 @@ class CalculateCampaignStatisticsJob implements ShouldQueue, ShouldBeUnique
     use UsesMailcoachModels;
 
     public int $uniqueFor = 60;
+
+    private Carbon $now;
 
     public function __construct()
     {

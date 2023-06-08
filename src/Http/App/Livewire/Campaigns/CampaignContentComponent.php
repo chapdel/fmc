@@ -20,6 +20,8 @@ class CampaignContentComponent extends Component
 
     public array $templateOptions;
 
+    public ?string $mailer;
+
     protected $listeners = [
         'editorSaved' => 'save',
         'editorSavedQuietly' => 'save',

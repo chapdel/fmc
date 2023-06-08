@@ -627,6 +627,7 @@ class Campaign extends Sendable implements Feedable
         return new CampaignFactory();
     }
 
+    /** @todo can this be safely deleted? fields does not seem to exist */
     public function getFieldContent(string $fieldName): string
     {
         return $this->fields?->get($fieldName) ?? '';

@@ -1,0 +1,203 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Class Spatie\\\\Mailcoach\\\\Domain\\\\Audience\\\\Mails\\\\ConfirmSubscriberMail constructor invoked with 0 parameters, 1\\-2 required\\.$#"
+			count: 1
+			path: src/Domain/Audience/Mails/ConfirmSubscriberMail.php
+
+		-
+			message: """
+				#^Class Spatie\\\\Mailcoach\\\\Domain\\\\Audience\\\\Rules\\\\EmailListSubscriptionRule implements deprecated interface Illuminate\\\\Contracts\\\\Validation\\\\Rule\\:
+				see ValidationRule$#
+			"""
+			count: 1
+			path: src/Domain/Audience/Rules/EmailListSubscriptionRule.php
+
+		-
+			message: "#^Fetching class constant class of deprecated class Spatie\\\\Mailcoach\\\\Domain\\\\Automation\\\\Actions\\\\PrepareSubjectAction\\.$#"
+			count: 1
+			path: src/Domain/Automation/Actions/SendAutomationMailTestAction.php
+
+		-
+			message: "#^Fetching class constant class of deprecated class Spatie\\\\Mailcoach\\\\Domain\\\\Automation\\\\Actions\\\\PrepareSubjectAction\\.$#"
+			count: 1
+			path: src/Domain/Automation/Actions/SendAutomationMailToSubscriberAction.php
+
+		-
+			message: """
+				#^Call to deprecated method useStrictMode\\(\\) of class Carbon\\\\Carbon\\:
+				To avoid conflict between different third\\-party libraries, static setters should not be used\\.
+				            You should rather use the \\-\\>settings\\(\\) method\\.$#
+			"""
+			count: 1
+			path: src/Domain/Automation/Models/Action.php
+
+		-
+			message: "#^Fetching class constant class of deprecated class Spatie\\\\Mailcoach\\\\Domain\\\\Campaign\\\\Actions\\\\PrepareSubjectAction\\.$#"
+			count: 1
+			path: src/Domain/Campaign/Actions/SendCampaignAction.php
+
+		-
+			message: "#^Fetching class constant class of deprecated class Spatie\\\\Mailcoach\\\\Domain\\\\Campaign\\\\Actions\\\\PrepareSubjectAction\\.$#"
+			count: 1
+			path: src/Domain/Campaign/Actions/SendCampaignTestAction.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Campaign\\\\Models\\\\Campaign\\:\\:\\$fields\\.$#"
+			count: 1
+			path: src/Domain/Campaign/Models/Campaign.php
+
+		-
+			message: """
+				#^Class Spatie\\\\Mailcoach\\\\Domain\\\\Campaign\\\\Rules\\\\DateTimeFieldRule implements deprecated interface Illuminate\\\\Contracts\\\\Validation\\\\Rule\\:
+				see ValidationRule$#
+			"""
+			count: 1
+			path: src/Domain/Campaign/Rules/DateTimeFieldRule.php
+
+		-
+			message: """
+				#^Class Spatie\\\\Mailcoach\\\\Domain\\\\Campaign\\\\Rules\\\\HtmlRule implements deprecated interface Illuminate\\\\Contracts\\\\Validation\\\\Rule\\:
+				see ValidationRule$#
+			"""
+			count: 1
+			path: src/Domain/Campaign/Rules/HtmlRule.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Settings\\\\Models\\\\WebhookConfiguration\\:\\:\\$failed_attempts\\.$#"
+			count: 2
+			path: src/Domain/Settings/Models/WebhookConfiguration.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Settings\\\\Models\\\\WebhookConfiguration\\:\\:\\$use_for_all_events\\.$#"
+			count: 1
+			path: src/Domain/Settings/Models/WebhookConfiguration.php
+
+		-
+			message: """
+				#^Class Spatie\\\\Mailcoach\\\\Domain\\\\Settings\\\\Rules\\\\MailerConfigKeyNameRule implements deprecated interface Illuminate\\\\Contracts\\\\Validation\\\\Rule\\:
+				see ValidationRule$#
+			"""
+			count: 1
+			path: src/Domain/Settings/Rules/MailerConfigKeyNameRule.php
+
+		-
+			message: "#^Class Spatie\\\\SidecarShiki\\\\Functions\\\\HighlightFunction not found\\.$#"
+			count: 1
+			path: src/Domain/Shared/Actions/RenderMarkdownToHtmlAction.php
+
+		-
+			message: "#^Instantiated class Spatie\\\\SidecarShiki\\\\Commonmark\\\\HighlightCodeExtension not found\\.$#"
+			count: 1
+			path: src/Domain/Shared/Actions/RenderMarkdownToHtmlAction.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Shared\\\\Jobs\\\\Export\\\\ExportJob\\:\\:\\$path\\.$#"
+			count: 3
+			path: src/Domain/Shared/Jobs/Export/ExportJob.php
+
+		-
+			message: """
+				#^Access to deprecated property \\$replyToEmail of class Spatie\\\\Mailcoach\\\\Domain\\\\Shared\\\\Mails\\\\MailcoachMail\\:
+				will be removed in v7$#
+			"""
+			count: 3
+			path: src/Domain/Shared/Mails/MailcoachMail.php
+
+		-
+			message: """
+				#^Access to deprecated property \\$replyToName of class Spatie\\\\Mailcoach\\\\Domain\\\\Shared\\\\Mails\\\\MailcoachMail\\:
+				will be removed in v7$#
+			"""
+			count: 2
+			path: src/Domain/Shared/Mails/MailcoachMail.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Shared\\\\Models\\\\Sendable\\:\\:\\$structured_html\\.$#"
+			count: 1
+			path: src/Domain/Shared/Models/Sendable.php
+
+		-
+			message: "#^Class Spatie\\\\Mailcoach\\\\Domain\\\\TransactionalMail\\\\Mails\\\\TransactionalMail constructor invoked with 0 parameters, 4\\-12 required\\.$#"
+			count: 1
+			path: src/Domain/TransactionalMail/Mails/TransactionalMail.php
+
+		-
+			message: "#^Call to an undefined method Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Requests\\\\SendAutomationMailTestRequest\\:\\:after\\(\\)\\.$#"
+			count: 1
+			path: src/Http/Api/Requests/SendAutomationMailTestRequest.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignClickResource\\:\\:\\$click_count\\.$#"
+			count: 1
+			path: src/Http/Api/Resources/CampaignClickResource.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignClickResource\\:\\:\\$unique_click_count\\.$#"
+			count: 1
+			path: src/Http/Api/Resources/CampaignClickResource.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignClickResource\\:\\:\\$url\\.$#"
+			count: 1
+			path: src/Http/Api/Resources/CampaignClickResource.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignOpenResource\\:\\:\\$first_opened_at\\.$#"
+			count: 1
+			path: src/Http/Api/Resources/CampaignOpenResource.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignOpenResource\\:\\:\\$open_count\\.$#"
+			count: 1
+			path: src/Http/Api/Resources/CampaignOpenResource.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignOpenResource\\:\\:\\$subscriber_email\\.$#"
+			count: 1
+			path: src/Http/Api/Resources/CampaignOpenResource.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignOpenResource\\:\\:\\$subscriber_email_list_uuid\\.$#"
+			count: 1
+			path: src/Http/Api/Resources/CampaignOpenResource.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignOpenResource\\:\\:\\$subscriber_uuid\\.$#"
+			count: 1
+			path: src/Http/Api/Resources/CampaignOpenResource.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\EmailListResource\\:\\:\\$active_subscribers_count\\.$#"
+			count: 1
+			path: src/Http/Api/Resources/EmailListResource.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\EmailListResource\\:\\:\\$confirmation_mail_content\\.$#"
+			count: 1
+			path: src/Http/Api/Resources/EmailListResource.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\EmailListResource\\:\\:\\$confirmation_mail_subject\\.$#"
+			count: 1
+			path: src/Http/Api/Resources/EmailListResource.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\SendResource\\:\\:\\$click_count\\.$#"
+			count: 1
+			path: src/Http/Api/Resources/SendResource.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\SendResource\\:\\:\\$open_count\\.$#"
+			count: 1
+			path: src/Http/Api/Resources/SendResource.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\SubscriberImportResource\\:\\:\\$error_count\\.$#"
+			count: 1
+			path: src/Http/Api/Resources/SubscriberImportResource.php
+
+		-
+			message: "#^Static method Spatie\\\\Mailcoach\\\\Mailcoach\\:\\:getAutomationActionClass\\(\\) invoked with 0 parameters, 2 required\\.$#"
+			count: 1
+			path: src/Mailcoach.php

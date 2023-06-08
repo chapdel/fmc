@@ -24,6 +24,10 @@ use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
+/**
+ * @property string $html
+ * @property string $mailable_class
+ */
 abstract class Sendable extends Model implements HasHtmlContent
 {
     use HasUuid;
