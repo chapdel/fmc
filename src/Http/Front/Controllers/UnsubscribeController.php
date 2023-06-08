@@ -12,7 +12,9 @@ class UnsubscribeController
     public function show(string $subscriberUuid, string $sendUuid = null)
     {
         /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
-        if (! $subscriber = $this->getSubscriberClass()::findByUuid($subscriberUuid)) {
+        $subscriber = $this->getSubscriberClass()::findByUuid($subscriberUuid);
+
+        if (! $subscriber) {
             return view('mailcoach::landingPages.couldNotFindSubscription');
         }
 
@@ -30,7 +32,9 @@ class UnsubscribeController
     public function confirm(string $subscriberUuid, string $sendUuid = null)
     {
         /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
-        if (! $subscriber = $this->getSubscriberClass()::findByUuid($subscriberUuid)) {
+        $subscriber = $this->getSubscriberClass()::findByUuid($subscriberUuid);
+
+        if (! $subscriber) {
             return view('mailcoach::landingPages.couldNotFindSubscription');
         }
 

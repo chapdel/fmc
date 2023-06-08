@@ -31,6 +31,9 @@ use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailClick;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailOpen;
 use Spatie\Mailcoach\Mailcoach;
 
+/**
+ * @method static Builder|static query()
+ */
 class Send extends Model
 {
     use HasUuid;
@@ -45,6 +48,7 @@ class Send extends Model
         'sending_job_dispatched_at' => 'datetime',
         'sent_at' => 'datetime',
         'failed_at' => 'datetime',
+        'created_at' => 'datetime',
     ];
 
     public function concernsCampaign(): bool
@@ -288,6 +292,7 @@ class Send extends Model
 
     protected function wasOpenedInTheLastSeconds(HasMany $relation, int $seconds): bool
     {
+        /** @var Send $latestOpen */
         $latestOpen = $relation->latest()->first();
 
         if (! $latestOpen) {

@@ -25,8 +25,14 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 /**
+ * @property ?string $name
  * @property string $html
+ * @property ?string $email_html
+ * @property ?string $webview_html
  * @property string $mailable_class
+ * @property bool $utm_tags
+ * @property ?string $subject
+ * @property int $sent_to_number_of_subscribers
  */
 abstract class Sendable extends Model implements HasHtmlContent
 {

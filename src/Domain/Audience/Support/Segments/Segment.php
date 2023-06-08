@@ -10,6 +10,7 @@ abstract class Segment
 {
     protected Model $segmentable;
 
+    /** @todo change Model typehint to SendsToSegment */
     public function setSegmentable(Model $segmentable): self
     {
         $this->segmentable = $segmentable;

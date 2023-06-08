@@ -6,12 +6,22 @@ parameters:
 			path: src/Domain/Audience/Mails/ConfirmSubscriberMail.php
 
 		-
+			message: "#^Call to an undefined method Spatie\\\\Image\\\\Manipulations\\:\\:keepOriginalImageFormat\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Audience/Models/EmailList.php
+
+		-
 			message: """
 				#^Class Spatie\\\\Mailcoach\\\\Domain\\\\Audience\\\\Rules\\\\EmailListSubscriptionRule implements deprecated interface Illuminate\\\\Contracts\\\\Validation\\\\Rule\\:
 				see ValidationRule$#
 			"""
 			count: 1
 			path: src/Domain/Audience/Rules/EmailListSubscriptionRule.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$segment_id\\.$#"
+			count: 1
+			path: src/Domain/Audience/Support/Segments/SubscribersWithTagsSegment.php
 
 		-
 			message: "#^Fetching class constant class of deprecated class Spatie\\\\Mailcoach\\\\Domain\\\\Automation\\\\Actions\\\\PrepareSubjectAction\\.$#"
@@ -24,6 +34,31 @@ parameters:
 			path: src/Domain/Automation/Actions/SendAutomationMailToSubscriberAction.php
 
 		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Automation\\\\Models\\\\Action\\:\\:\\$pivot\\.$#"
+			count: 1
+			path: src/Domain/Automation/Actions/ShouldAutomationRunForSubscriberAction.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Automation\\\\Support\\\\Actions\\\\AutomationAction\\:\\:\\$automationMail\\.$#"
+			count: 1
+			path: src/Domain/Automation/Jobs/CalculateAutomationMailStatisticsJob.php
+
+		-
+			message: "#^Cannot access property \\$add_subscriber_link_tags on Illuminate\\\\Database\\\\Eloquent\\\\Model\\|null\\.$#"
+			count: 1
+			path: src/Domain/Automation/Listeners/AddAutomationMailClickedTag.php
+
+		-
+			message: "#^Cannot access property \\$add_subscriber_tags on Illuminate\\\\Database\\\\Eloquent\\\\Model\\|null\\.$#"
+			count: 1
+			path: src/Domain/Automation/Listeners/AddAutomationMailClickedTag.php
+
+		-
+			message: "#^Cannot access property \\$uuid on Illuminate\\\\Database\\\\Eloquent\\\\Model\\|null\\.$#"
+			count: 1
+			path: src/Domain/Automation/Listeners/AddAutomationMailClickedTag.php
+
+		-
 			message: """
 				#^Call to deprecated method useStrictMode\\(\\) of class Carbon\\\\Carbon\\:
 				To avoid conflict between different third\\-party libraries, static setters should not be used\\.
@@ -31,6 +66,21 @@ parameters:
 			"""
 			count: 1
 			path: src/Domain/Automation/Models/Action.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasMany\\:\\:subscribed\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Automation/Models/Automation.php
+
+		-
+			message: "#^Static call to instance method stdClass\\:\\:rules\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Automation/Support/Livewire/Actions/ConditionActionComponent.php
+
+		-
+			message: "#^Variable \\$condition in PHPDoc tag @var does not match any variable in the foreach loop\\: \\$key$#"
+			count: 1
+			path: src/Domain/Automation/Support/Livewire/Actions/ConditionActionComponent.php
 
 		-
 			message: "#^Fetching class constant class of deprecated class Spatie\\\\Mailcoach\\\\Domain\\\\Campaign\\\\Actions\\\\PrepareSubjectAction\\.$#"
@@ -48,12 +98,32 @@ parameters:
 			path: src/Domain/Campaign/Models/Campaign.php
 
 		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:scheduled\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Campaign/Models/Campaign.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:sendingOrSent\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Campaign/Models/Campaign.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasMany\\:\\:subscribed\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Campaign/Models/Campaign.php
+
+		-
 			message: """
 				#^Class Spatie\\\\Mailcoach\\\\Domain\\\\Campaign\\\\Rules\\\\DateTimeFieldRule implements deprecated interface Illuminate\\\\Contracts\\\\Validation\\\\Rule\\:
 				see ValidationRule$#
 			"""
 			count: 1
 			path: src/Domain/Campaign/Rules/DateTimeFieldRule.php
+
+		-
+			message: "#^Binary operation \"\\-\" between non\\-falsy\\-string and 1 results in an error\\.$#"
+			count: 1
+			path: src/Domain/Campaign/Rules/HtmlRule.php
 
 		-
 			message: """
@@ -64,14 +134,14 @@ parameters:
 			path: src/Domain/Campaign/Rules/HtmlRule.php
 
 		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Settings\\\\Models\\\\WebhookConfiguration\\:\\:\\$failed_attempts\\.$#"
-			count: 2
-			path: src/Domain/Settings/Models/WebhookConfiguration.php
-
-		-
 			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Settings\\\\Models\\\\WebhookConfiguration\\:\\:\\$use_for_all_events\\.$#"
 			count: 1
 			path: src/Domain/Settings/Models/WebhookConfiguration.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Foundation\\\\Auth\\\\User\\:\\:welcomeNotificationKeyValue\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Settings/Notifications/WelcomeNotification.php
 
 		-
 			message: """
@@ -82,6 +152,16 @@ parameters:
 			path: src/Domain/Settings/Rules/MailerConfigKeyNameRule.php
 
 		-
+			message: "#^Call to protected static method setValues\\(\\) of class Spatie\\\\Mailcoach\\\\Domain\\\\Settings\\\\Models\\\\Setting\\.$#"
+			count: 2
+			path: src/Domain/Settings/Support/AppConfiguration/AppConfiguration.php
+
+		-
+			message: "#^Call to protected static method setValues\\(\\) of class Spatie\\\\Mailcoach\\\\Domain\\\\Settings\\\\Models\\\\Setting\\.$#"
+			count: 2
+			path: src/Domain/Settings/Support/EditorConfiguration/EditorConfiguration.php
+
+		-
 			message: "#^Class Spatie\\\\SidecarShiki\\\\Functions\\\\HighlightFunction not found\\.$#"
 			count: 1
 			path: src/Domain/Shared/Actions/RenderMarkdownToHtmlAction.php
@@ -90,6 +170,11 @@ parameters:
 			message: "#^Instantiated class Spatie\\\\SidecarShiki\\\\Commonmark\\\\HighlightCodeExtension not found\\.$#"
 			count: 1
 			path: src/Domain/Shared/Actions/RenderMarkdownToHtmlAction.php
+
+		-
+			message: "#^PHPDoc tag @param has invalid value \\(array\\{string\\: \\{finished\\: bool, progress\\: float, index\\: int, total\\: int, failed\\: bool, message\\: string\\}\\} \\$steps\\)\\: Unexpected token \"\\:\", expected '\\}' at offset 30$#"
+			count: 1
+			path: src/Domain/Shared/Events/ImportFinishedEvent.php
 
 		-
 			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Shared\\\\Jobs\\\\Export\\\\ExportJob\\:\\:\\$path\\.$#"
@@ -118,6 +203,11 @@ parameters:
 			path: src/Domain/Shared/Models/Sendable.php
 
 		-
+			message: "#^Call to an undefined method Spatie\\\\Image\\\\Manipulations\\:\\:nonQueued\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Shared/Models/Upload.php
+
+		-
 			message: "#^Class Spatie\\\\Mailcoach\\\\Domain\\\\TransactionalMail\\\\Mails\\\\TransactionalMail constructor invoked with 0 parameters, 4\\-12 required\\.$#"
 			count: 1
 			path: src/Domain/TransactionalMail/Mails/TransactionalMail.php
@@ -126,6 +216,11 @@ parameters:
 			message: "#^Call to an undefined method Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Requests\\\\SendAutomationMailTestRequest\\:\\:after\\(\\)\\.$#"
 			count: 1
 			path: src/Http/Api/Requests/SendAutomationMailTestRequest.php
+
+		-
+			message: "#^Cannot call method tags\\(\\) on object\\|string\\|null\\.$#"
+			count: 1
+			path: src/Http/Api/Requests/TagSegmentRequest.php
 
 		-
 			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignClickResource\\:\\:\\$click_count\\.$#"
@@ -196,6 +291,196 @@ parameters:
 			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\SubscriberImportResource\\:\\:\\$error_count\\.$#"
 			count: 1
 			path: src/Http/Api/Resources/SubscriberImportResource.php
+
+		-
+			message: "#^Access to an undefined property Livewire\\\\TemporaryUploadedFile\\:\\:\\$disk\\.$#"
+			count: 2
+			path: src/Http/App/Livewire/Audience/SubscriberImportsComponent.php
+
+		-
+			message: "#^Cannot access property \\$subscribers on Spatie\\\\Mailcoach\\\\Domain\\\\Audience\\\\Models\\\\Tag\\|null\\.$#"
+			count: 1
+			path: src/Http/App/Livewire/Audience/TagsComponent.php
+
+		-
+			message: "#^Method Spatie\\\\Mailcoach\\\\Domain\\\\Audience\\\\Models\\\\Tag\\:\\:emailList\\(\\) invoked with 1 parameter, 0 required\\.$#"
+			count: 3
+			path: src/Http/App/Livewire/Audience/TagsComponent.php
+
+		-
+			message: "#^Cannot call static method make\\(\\) on string\\|null\\.$#"
+			count: 1
+			path: src/Http/App/Livewire/Automations/AutomationSettingsComponent.php
+
+		-
+			message: "#^Cannot call static method rules\\(\\) on string\\|null\\.$#"
+			count: 1
+			path: src/Http/App/Livewire/Automations/AutomationSettingsComponent.php
+
+		-
+			message: "#^Cannot access property \\$name on Illuminate\\\\Database\\\\Eloquent\\\\Model\\|null\\.$#"
+			count: 1
+			path: src/Http/App/Livewire/EditorComponent.php
+
+		-
+			message: "#^Cannot access property \\$updated_at on Illuminate\\\\Database\\\\Eloquent\\\\Model\\|null\\.$#"
+			count: 1
+			path: src/Http/App/Livewire/EditorComponent.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Query\\\\Builder\\:\\:withCount\\(\\)\\.$#"
+			count: 1
+			path: src/Http/App/Livewire/Spotlight/ShowListCommand.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:allowedFilters\\(\\)\\.$#"
+			count: 1
+			path: src/Http/App/Queries/AutomationMailOpensQuery.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:defaultSort\\(\\)\\.$#"
+			count: 1
+			path: src/Http/App/Queries/AutomationMailSendsQuery.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:allowedFilters\\(\\)\\.$#"
+			count: 1
+			path: src/Http/App/Queries/CampaignLinkClicksQuery.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:allowedFilters\\(\\)\\.$#"
+			count: 1
+			path: src/Http/App/Queries/CampaignOpensQuery.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:defaultSort\\(\\)\\.$#"
+			count: 1
+			path: src/Http/App/Queries/CampaignProblemsQuery.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:defaultSort\\(\\)\\.$#"
+			count: 1
+			path: src/Http/App/Queries/CampaignSendsQuery.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Query\\\\Builder\\:\\:whereBlind\\(\\)\\.$#"
+			count: 1
+			path: src/Http/App/Queries/EmailListSubscribersQuery.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:defaultSort\\(\\)\\.$#"
+			count: 1
+			path: src/Http/App/Queries/EmailListTagsQuery.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:draft\\(\\)\\.$#"
+			count: 1
+			path: src/Http/App/Queries/Filters/CampaignStatusFilter.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:scheduled\\(\\)\\.$#"
+			count: 1
+			path: src/Http/App/Queries/Filters/CampaignStatusFilter.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:sendingOrSent\\(\\)\\.$#"
+			count: 1
+			path: src/Http/App/Queries/Filters/CampaignStatusFilter.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:\\$from\\.$#"
+			count: 1
+			path: src/Http/App/Queries/Filters/SearchFilter.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:orWhereBlind\\(\\)\\.$#"
+			count: 4
+			path: src/Http/App/Queries/Filters/SearchFilter.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:search\\(\\)\\.$#"
+			count: 1
+			path: src/Http/App/Queries/Filters/SearchFilter.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:bounced\\(\\)\\.$#"
+			count: 1
+			path: src/Http/App/Queries/Filters/SendTypeFilter.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:complained\\(\\)\\.$#"
+			count: 1
+			path: src/Http/App/Queries/Filters/SendTypeFilter.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:failed\\(\\)\\.$#"
+			count: 1
+			path: src/Http/App/Queries/Filters/SendTypeFilter.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:pending\\(\\)\\.$#"
+			count: 1
+			path: src/Http/App/Queries/Filters/SendTypeFilter.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:sent\\(\\)\\.$#"
+			count: 1
+			path: src/Http/App/Queries/Filters/SendTypeFilter.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:subscribed\\(\\)\\.$#"
+			count: 1
+			path: src/Http/App/Queries/Filters/SubscriberStatusFilter.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:unconfirmed\\(\\)\\.$#"
+			count: 1
+			path: src/Http/App/Queries/Filters/SubscriberStatusFilter.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:unsubscribed\\(\\)\\.$#"
+			count: 1
+			path: src/Http/App/Queries/Filters/SubscriberStatusFilter.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:defaultSort\\(\\)\\.$#"
+			count: 1
+			path: src/Http/App/Queries/SentMailsQuery.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:defaultSort\\(\\)\\.$#"
+			count: 1
+			path: src/Http/App/Queries/WebhookLogsQuery.php
+
+		-
+			message: "#^Cannot access property \\$template on object\\|string\\.$#"
+			count: 1
+			path: src/Http/App/Requests/Campaigns/UpdateCampaignContentRequest.php
+
+		-
+			message: "#^Cannot access property \\$emailList on object\\|null\\.$#"
+			count: 1
+			path: src/Http/App/Requests/EmailLists/Subscribers/UpdateSubscriberRequest.php
+
+		-
+			message: "#^Cannot access property \\$id on object\\|null\\.$#"
+			count: 1
+			path: src/Http/App/Requests/EmailLists/Subscribers/UpdateSubscriberRequest.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\View\\\\View\\:\\:\\$emailList\\.$#"
+			count: 1
+			path: src/Http/App/ViewComposers/WebsiteStyleComposer.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Settings\\\\Models\\\\PersonalAccessToken\\:\\:\\$tokenable_id\\.$#"
+			count: 1
+			path: src/Http/Livewire/TokensComponent.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Foundation\\\\Auth\\\\User\\:\\:createToken\\(\\)\\.$#"
+			count: 1
+			path: src/Http/Livewire/TokensComponent.php
 
 		-
 			message: "#^Static method Spatie\\\\Mailcoach\\\\Mailcoach\\:\\:getAutomationActionClass\\(\\) invoked with 0 parameters, 2 required\\.$#"

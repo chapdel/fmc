@@ -5,6 +5,11 @@ namespace Spatie\Mailcoach\Domain\Shared\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
+/**
+ * @mixin Model
+ *
+ * @property string $uuid
+ */
 trait HasUuid
 {
     public static $fakeUuid = null;
@@ -12,6 +17,7 @@ trait HasUuid
     public static function bootHasUuid(): void
     {
         static::creating(function (Model $model): void {
+            /** @phpstan-ignore-next-line */
             $model->uuid = static::$fakeUuid ?? $model->uuid ?? (string) Str::uuid();
         });
     }

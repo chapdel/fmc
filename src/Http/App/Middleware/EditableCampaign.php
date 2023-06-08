@@ -12,7 +12,9 @@ class EditableCampaign
     public function handle(Request $request, $next)
     {
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign|null $campaign */
-        if (! $campaign = $request->route()->parameter('campaign')) {
+        $campaign = $request->route()->parameter('campaign');
+
+        if (! $campaign) {
             return $next($request);
         }
 
@@ -20,7 +22,7 @@ class EditableCampaign
             $campaign = self::getCampaignClass()::find($campaign);
         }
 
-        return $campaign->isEditable()
+        return $campaign?->isEditable()
             ? $next($request)
             : redirect()->route('mailcoach.campaigns.summary', $campaign);
     }

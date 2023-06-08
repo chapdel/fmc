@@ -24,7 +24,7 @@ class TokensComponent extends Component
         $this->validate();
 
         /** @var \Laravel\Sanctum\NewAccessToken $token */
-        $token = Auth::user()->createToken($this->name);
+        $token = Auth::user()?->createToken($this->name);
 
         $this->newToken = $token->plainTextToken;
 
@@ -37,7 +37,7 @@ class TokensComponent extends Component
     {
         $token = PersonalAccessToken::find($id);
 
-        abort_unless($token->tokenable_id === Auth::id(), 403);
+        abort_unless($token?->tokenable_id === Auth::id(), 403);
 
         $token->delete();
 

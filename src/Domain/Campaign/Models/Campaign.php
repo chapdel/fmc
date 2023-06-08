@@ -32,6 +32,9 @@ use Spatie\Mailcoach\Mailcoach;
 use Throwable;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
+/**
+ * @method static Builder|static query()
+ */
 class Campaign extends Sendable implements Feedable
 {
     use CanBeScheduled;
