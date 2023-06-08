@@ -16,6 +16,9 @@ parameters:
     checkNullables: true
     editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
 
+    databaseMigrationsPath:
+        - database/migrations
+
     ignoreErrors:
         - '#Unsafe usage of new static#'
         - '#Call to an undefined method Illuminate\\Support\\HigherOrder#'

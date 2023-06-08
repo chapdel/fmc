@@ -64,6 +64,16 @@ parameters:
 			path: src/Domain/Campaign/Rules/HtmlRule.php
 
 		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Settings\\\\Models\\\\WebhookConfiguration\\:\\:\\$failed_attempts\\.$#"
+			count: 2
+			path: src/Domain/Settings/Models/WebhookConfiguration.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Settings\\\\Models\\\\WebhookConfiguration\\:\\:\\$use_for_all_events\\.$#"
+			count: 1
+			path: src/Domain/Settings/Models/WebhookConfiguration.php
+
+		-
 			message: """
 				#^Class Spatie\\\\Mailcoach\\\\Domain\\\\Settings\\\\Rules\\\\MailerConfigKeyNameRule implements deprecated interface Illuminate\\\\Contracts\\\\Validation\\\\Rule\\:
 				see ValidationRule$#
