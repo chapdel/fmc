@@ -3,7 +3,9 @@
 namespace Spatie\Mailcoach\Http\Api\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 
+/** @mixin Automation */
 class AutomationResource extends JsonResource
 {
     public function toArray($request)

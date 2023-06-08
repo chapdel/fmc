@@ -3,7 +3,9 @@
 namespace Spatie\Mailcoach\Http\Api\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
 
+/** @mixin SubscriberImport */
 class SubscriberImportResource extends JsonResource
 {
     public function toArray($request)

@@ -45,7 +45,7 @@ class CampaignResource extends JsonResource
 
             'sent_to_number_of_subscribers' => $this->sent_to_number_of_subscribers,
 
-            'segment_class' => $this->segment_cass,
+            'segment_class' => $this->segment_class,
             'segment_description' => $this->segment_description,
             'open_count' => $this->open_count,
 
