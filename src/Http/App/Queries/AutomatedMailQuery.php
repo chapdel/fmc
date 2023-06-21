@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use ReflectionClass;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
-use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Queries\Filters\FuzzyFilter;
 use Spatie\QueryBuilder\AllowedFilter;
