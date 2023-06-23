@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Domain\Shared\Jobs;
 
-use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\Shared\Actions\CalculateStatisticsAction;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Spatie\Mailcoach\Mailcoach;
+use Throwable;
 
 class CalculateStatisticsJob implements ShouldQueue, ShouldBeUnique
 {
@@ -21,8 +21,6 @@ class CalculateStatisticsJob implements ShouldQueue, ShouldBeUnique
     use SerializesModels;
 
     public Sendable $sendable;
-
-    public $queue;
 
     public int $uniqueFor = 60;
 
@@ -40,14 +38,14 @@ class CalculateStatisticsJob implements ShouldQueue, ShouldBeUnique
         return $this->sendable->uuid;
     }
 
-    public function handle()
+    public function handle(): void
     {
         try {
             /** @var \Spatie\Mailcoach\Domain\Shared\Actions\CalculateStatisticsAction $calculateStatistics */
             $calculateStatistics = Mailcoach::getSharedActionClass('calculate_statistics', CalculateStatisticsAction::class);
 
             $calculateStatistics->execute($this->sendable);
-        } catch (Exception $exception) {
+        } catch (Throwable $exception) {
             report($exception);
         }
     }
