@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Domain\Shared\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Mailcoach\Database\Factories\SendFeedbackItemFactory;
 use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
@@ -35,5 +36,10 @@ class SendFeedbackItem extends Model
         ];
 
         return (string) ($formattedTypes[$this->type->value] ?? '');
+    }
+
+    protected static function newFactory(): SendFeedbackItemFactory
+    {
+        return SendFeedbackItemFactory::new();
     }
 }

@@ -400,6 +400,26 @@ trait UsesMailcoachModels
         return $class->getTable();
     }
 
+    public static function getSendFeedbackItemTableName(): string
+    {
+        $className = self::getSendFeedbackItemClass();
+
+        /** @var \Illuminate\Database\Eloquent\Model $class */
+        $class = new $className;
+
+        return $class->getTable();
+    }
+
+    public static function getSendTableName(): string
+    {
+        $className = self::getSendClass();
+
+        /** @var \Illuminate\Database\Eloquent\Model $class */
+        $class = new $className;
+
+        return $class->getTable();
+    }
+
     /** @return class-string<User> */
     public static function getUserClass(): string
     {

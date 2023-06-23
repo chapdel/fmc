@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Spatie\Mailcoach\Http\Api\Controllers\Automations\TriggerAutomationController;
+use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignBouncesController;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignClicksController;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignOpensController;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignsController;
@@ -40,6 +41,7 @@ Route::prefix('campaigns/{campaign}')->group(function () {
     Route::get('opens', CampaignOpensController::class);
     Route::get('clicks', CampaignClicksController::class);
     Route::get('unsubscribes', CampaignUnsubscribesController::class);
+    Route::get('bounces', CampaignBouncesController::class);
 });
 
 Route::apiResource('email-lists', EmailListsController::class);

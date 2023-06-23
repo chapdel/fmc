@@ -223,6 +223,36 @@ parameters:
 			path: src/Http/Api/Requests/TagSegmentRequest.php
 
 		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignBounceResource\\:\\:\\$bounce_count\\.$#"
+			count: 1
+			path: src/Http/Api/Resources/CampaignBounceResource.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignBounceResource\\:\\:\\$created_at\\.$#"
+			count: 1
+			path: src/Http/Api/Resources/CampaignBounceResource.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignBounceResource\\:\\:\\$subscriber_email\\.$#"
+			count: 1
+			path: src/Http/Api/Resources/CampaignBounceResource.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignBounceResource\\:\\:\\$subscriber_email_list_uuid\\.$#"
+			count: 1
+			path: src/Http/Api/Resources/CampaignBounceResource.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignBounceResource\\:\\:\\$subscriber_uuid\\.$#"
+			count: 1
+			path: src/Http/Api/Resources/CampaignBounceResource.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignBounceResource\\:\\:\\$type\\.$#"
+			count: 1
+			path: src/Http/Api/Resources/CampaignBounceResource.php
+
+		-
 			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignClickResource\\:\\:\\$click_count\\.$#"
 			count: 1
 			path: src/Http/Api/Resources/CampaignClickResource.php
@@ -341,6 +371,11 @@ parameters:
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:defaultSort\\(\\)\\.$#"
 			count: 1
 			path: src/Http/App/Queries/AutomationMailSendsQuery.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:allowedFilters\\(\\)\\.$#"
+			count: 1
+			path: src/Http/App/Queries/CampaignBouncesQuery.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:allowedFilters\\(\\)\\.$#"
