@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.24.0 - 2023-06-23
+
+### What's Changed
+
+- get code sniffer back working by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1317
+- replace code sniffer with laravel/pint by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1318
+- Phpstan by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1319
+- Phpstan by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1320
+- Add endpoint for fetching all subscribers with bounces of a campaign by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1323
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.23.0...6.24.0
+
 ## 6.23.0 - 2023-05-31
 
 ### What's Changed
