@@ -19,6 +19,8 @@ class SendsQuery extends QueryBuilder
                 'campaign',
                 'automationMail',
                 'transactionalMailLogItem',
+                'opens',
+                'clicks',
             ]);
 
         parent::__construct($query, $request);

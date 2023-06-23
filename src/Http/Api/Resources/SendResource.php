@@ -19,8 +19,8 @@ class SendResource extends JsonResource
             'sent_at' => $this->sent_at,
             'failed_at' => $this->failed_at,
             'failure_reason' => $this->failure_reason,
-            'open_count' => $this->open_count,
-            'click_count' => $this->click_count,
+            'open_count' => $this->opens->count(),
+            'click_count' => $this->clicks->count(),
 
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
