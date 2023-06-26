@@ -8,6 +8,7 @@ use Livewire\Component;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\Campaign\Rules\HtmlRule;
+use Spatie\Mailcoach\Domain\Shared\Actions\RenderTwigAction;
 use Spatie\Mailcoach\Domain\Shared\Support\TemplateRenderer;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
@@ -33,6 +34,8 @@ abstract class EditorComponent extends Component
     public string $emails = '';
 
     public bool $quiet = false;
+
+    public bool $hasError = false;
 
     public ?CarbonInterface $lastSavedAt = null;
 
@@ -138,6 +141,19 @@ abstract class EditorComponent extends Component
             $this->validate($this->rules());
         }
 
+        $this->hasError = false;
+
+        if (! $this->quiet) {
+            try {
+                app(RenderTwigAction::class)->execute($this->fullHtml);
+            } catch (\Throwable $e) {
+                $this->flashError($e->getMessage());
+                $this->hasError = true;
+
+                return;
+            }
+        }
+
         $this->model->setHtml($this->fullHtml);
         $this->model->setTemplateFieldValues($fieldValues);
         $this->model->save();
@@ -150,7 +166,7 @@ abstract class EditorComponent extends Component
     {
         $this->saveQuietly();
 
-        if (! $this->quiet) {
+        if (! $this->quiet && ! $this->hasError) {
             $this->flash(__mc(':name was updated.', ['name' => $this->model->fresh()->name]));
         }
 
