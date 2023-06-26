@@ -17,6 +17,12 @@ class PrepareEmailHtmlAction
     {
         $sendable->email_html = $sendable->htmlWithInlinedCss();
 
+        if (empty($sendable->email_html)) {
+            $sendable->save();
+
+            return;
+        }
+
         if ($sendable->utm_tags) {
             $sendable->email_html = $this->addUtmTagsToHtmlAction->execute($sendable->email_html, $sendable->name);
         }

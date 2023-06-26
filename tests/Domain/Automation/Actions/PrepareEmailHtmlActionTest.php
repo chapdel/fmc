@@ -188,3 +188,17 @@ it('will not change img source', function () {
     expect($automationMail->email_html)->toContain('<img src="https://freek.dev">');
     assertMatchesHtmlSnapshot($automationMail->email_html);
 });
+
+it('doesnt crash on empty html', function () {
+    $myHtml = '';
+
+    $automationMail = AutomationMail::factory()->create([
+        'html' => $myHtml,
+        'utm_tags' => true,
+        'name' => 'My AutomationMail',
+    ]);
+
+    app(PrepareEmailHtmlAction::class)->execute($automationMail);
+
+    $this->expectNotToPerformAssertions();
+});
