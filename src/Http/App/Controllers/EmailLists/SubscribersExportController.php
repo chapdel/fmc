@@ -16,6 +16,8 @@ class SubscribersExportController
     {
         $this->authorize('view', $emailList);
 
+        ini_set('max_execution_time', '0');
+
         return response()->streamDownload(function () use ($emailList) {
             $subscribersQuery = new EmailListSubscribersQuery($emailList);
 
