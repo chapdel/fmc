@@ -53,6 +53,10 @@ class AutomationActionComponent extends AutomationComponent
     {
         $actionModel = self::getAutomationActionClass()::findByUuid($this->action['uuid']);
 
+        if (! $actionModel) {
+            return;
+        }
+
         $this->action['active'] = $actionModel->activeSubscribers()->count();
         $this->action['completed'] = $actionModel->completedSubscribers()->count();
         $this->action['halted'] = $actionModel->haltedSubscribers()->count();
