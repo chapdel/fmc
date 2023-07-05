@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.24.2 - 2023-07-05
+
+- Automation actions now load their statistics after loading the page, which should speed up the UI for automations with a lot of recipients
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.24.1...6.24.2
+
 ## 6.24.1 - 2023-07-05
 
 - Don't count "Production" as a valid value in the debug screen
