@@ -6,7 +6,7 @@
         <dl class="dl markup-links">
             @php($issueBody.='**Environment**: ' . app()->environment() . "\n")
             <dt>
-                <x-mailcoach::health-label reverse :test="!app()->environment('local')" warning="true" :label="__mc('Environment')" />
+                <x-mailcoach::health-label reverse :test="app()->environment('production')" warning="true" :label="__mc('Environment')" />
             </dt>
             <dd>
                 <div>
