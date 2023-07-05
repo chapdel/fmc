@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.24.1 - 2023-07-05
+
+- Don't count "Production" as a valid value in the debug screen
+- Fix open & click counts in the API
+- Try parsing twig before saving content, to prevent exceptions when sending the email
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.24.0...6.24.1
+
 ## 6.24.0 - 2023-06-23
 
 ### What's Changed
