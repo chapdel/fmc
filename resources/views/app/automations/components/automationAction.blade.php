@@ -1,4 +1,4 @@
-<x-mailcoach::fieldset card class="md:p-6" :focus="$editing">
+<x-mailcoach::fieldset card class="md:p-6" :focus="$editing" wire:init="loadData">
     <x-slot name="legend">
         <header class="flex items-center space-x-2">
             <span class="w-6 h-6 rounded-full inline-flex items-center justify-center text-xs leading-none font-semibold counter-automation">
@@ -42,17 +42,20 @@
         <dl class="-mb-6 -mx-6 px-6 py-2 flex items-center justify-end text-xs bg-indigo-300/10 border-t border-indigo-700/10">
             <span>
                 Active
-                <span class="font-semibold variant-numeric-tabular">{{ number_format($action['active'] ?? 0) }}</span>
+                <span wire:loading.remove wire:target="loadData" class="font-semibold variant-numeric-tabular">{{ isset($action['active']) ? number_format($action['active']) : '...' }}</span>
+                <span wire:loading wire:target="loadData" class="font-semibold variant-numeric-tabular">&hellip;</span>
             </span>
             <span class="text-gray-400 px-2">•</span>
             <span>
                 Completed
-                <span class="font-semibold variant-numeric-tabular">{{ number_format($action['completed'] ?? 0) }}</span>
+                <span wire:loading.remove wire:target="loadData" class="font-semibold variant-numeric-tabular">{{ isset($action['completed']) ? number_format($action['completed']) : '...' }}</span>
+                <span wire:loading wire:target="loadData" class="font-semibold variant-numeric-tabular">&hellip;</span>
             </span>
             <span>
                 <span class="text-gray-400 px-2">•</span>
                 Halted
-                <span class="font-semibold variant-numeric-tabular">{{ number_format($action['halted'] ?? 0) }}</span>
+                <span wire:loading.remove wire:target="loadData" class="font-semibold variant-numeric-tabular">{{ isset($action['halted']) ? number_format($action['halted']) : '...' }}</span>
+                <span wire:loading wire:target="loadData" class="font-semibold variant-numeric-tabular">&hellip;</span>
             </span>
         </dl>
     @endif

@@ -49,6 +49,15 @@ class AutomationActionComponent extends AutomationComponent
         return [];
     }
 
+    public function loadData(): void
+    {
+        $actionModel = self::getAutomationActionClass()::findByUuid($this->action['uuid']);
+
+        $this->action['active'] = $actionModel->activeSubscribers()->count();
+        $this->action['completed'] = $actionModel->completedSubscribers()->count();
+        $this->action['halted'] = $actionModel->haltedSubscribers()->count();
+    }
+
     public function render()
     {
         return view('mailcoach::app.automations.components.automationAction');
