@@ -126,13 +126,11 @@ class ListSummaryComponent extends Component
         $start = $start->startOf($interval === 'hour' ? 'day' : $interval);
         $end = $end->endOf($interval === 'hour' ? 'day' : $interval);
 
-        $dateFormat = match ($interval) {
-            'hour' => '%Y-%m-%d %H:%I',
-            'day' => '%Y-%m-%d',
-        };
+
+        $subscribedAtDateFormat = database_date_format_function('subscribed_at');
 
         $subscribes = DB::table(self::getSubscriberTableName())
-            ->selectRaw("count(*) as subscribed_count, DATE_FORMAT(subscribed_at, \"{$dateFormat}\") as subscribed_day")
+            ->selectRaw("count(*) as subscribed_count, {$subscribedAtDateFormat['interval']} as subscribed_day")
             ->where('email_list_id', $this->emailList->id)
             ->whereBetween('subscribed_at', [$start, $end])
             ->whereNull('unsubscribed_at')
@@ -140,8 +138,10 @@ class ListSummaryComponent extends Component
             ->groupBy('subscribed_day')
             ->get();
 
+        $unsubscribedAtDateFormat = database_date_format_function('unsubscribed_at');
+
         $unsubscribes = DB::table(self::getSubscriberTableName())
-            ->selectRaw("count(*) as unsubscribe_count, DATE_FORMAT(unsubscribed_at, \"{$dateFormat}\") as unsubscribe_day")
+            ->selectRaw("count(*) as unsubscribe_count, {$unsubscribedAtDateFormat['interval']} as unsubscribe_day")
             ->where('email_list_id', $this->emailList->id)
             ->whereBetween('unsubscribed_at', [$start, $end])
             ->whereNotNull('unsubscribed_at')
