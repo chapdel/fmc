@@ -18,6 +18,12 @@ class PrepareWebviewHtmlAction
         $sendable->webview_html = $sendable->htmlWithInlinedCss();
         $sendable->webview_html = $this->replacePlaceholdersAction->execute($sendable->webview_html, $sendable);
 
+        if (empty(trim($sendable->webview_html))) {
+            $sendable->save();
+
+            return;
+        }
+
         if ($sendable->utm_tags) {
             $sendable->webview_html = $this->addUtmTagsToHtmlAction->execute($sendable->webview_html, $sendable->name);
         }
