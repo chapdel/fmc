@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.24.3 - 2023-07-07
+
+### What's Changed
+
+- fix date format code so mailcoach can work with postgres by @abhishekbhardwaj in https://github.com/spatie/laravel-mailcoach/pull/1330
+
+### New Contributors
+
+- @abhishekbhardwaj made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/1330
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.24.2...6.24.3
+
 ## 6.24.2 - 2023-07-05
 
 - Automation actions now load their statistics after loading the page, which should speed up the UI for automations with a lot of recipients
