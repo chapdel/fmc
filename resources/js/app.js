@@ -1,7 +1,4 @@
 import flatpickr from 'flatpickr';
-import Alpine from 'alpinejs';
-import focus from '@alpinejs/focus';
-import persist from '@alpinejs/persist';
 import Clipboard from '@ryangjchandler/alpine-clipboard';
 import Choices from 'choices.js';
 
@@ -39,7 +36,7 @@ window.Chart.helpers = {};
 window.Chart.helpers.each = each;
 window.Choices = Choices;
 
-import '../../vendor/wire-elements/spotlight/resources/js/spotlight.js';
+//import '../../vendor/wire-elements/spotlight/resources/js/spotlight.js';
 import './components/dirty.js';
 import './components/htmlPreview.js';
 import './components/charts/emailListStatistics.js';
@@ -49,10 +46,6 @@ import './components/navigation.js';
 import './components/modals.js';
 import './components/tooltip.js';
 
-Alpine.plugin(focus);
-Alpine.plugin(persist);
-Alpine.plugin(Clipboard);
-
-window.Alpine = Alpine;
-
-Alpine.start();
+document.addEventListener('alpine:init', () => {
+    Alpine.plugin(Clipboard);
+});

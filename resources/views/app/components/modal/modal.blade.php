@@ -8,6 +8,8 @@
     'open' => false,
     'dismissable' => false,
 ])
+{{--
+@todo: Fix modals
 @push('modals')
     <!-- {{ $name }} Modal -->
     <div
@@ -66,3 +68,4 @@
         </div>
     </div>
 @endpush
+--}}

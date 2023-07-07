@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\Middleware;
 
 use Illuminate\Auth\Notifications\ResetPassword;
+use Livewire\Mechanisms\FrontendAssets\FrontendAssets;
 use Spatie\Flash\Flash;
 
 class SetMailcoachDefaults
@@ -25,6 +26,8 @@ class SetMailcoachDefaults
                 'email' => $notifiable->getEmailForPasswordReset(),
             ], false));
         });
+
+        app(FrontendAssets::class)->scriptTagAttributes = ['defer' => 'defer'];
 
         return $next($request);
     }

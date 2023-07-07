@@ -1,5 +1,5 @@
 document.addEventListener('alpine:init', () => {
-    window.Alpine.data('navigation', () => ({
+    Alpine.data('navigation', () => ({
         show: true,
         hasOpened: false,
 

@@ -97,7 +97,7 @@ class SegmentComponent extends Component
             ->syncNegativeTags($this->negative_tags ?? []);
 
         $this->flash(__mc('The segment has been updated.'));
-        $this->emit('segmentUpdated');
+        $this->dispatch('segmentUpdated');
     }
 
     public function render(): View

@@ -9,8 +9,8 @@
         add(e) {
             this.notifications.push({
                 id: e.timeStamp,
-                type: e.detail.type || 'success',
-                content: e.detail.content,
+                type: e.detail[0].type || 'success',
+                content: e.detail[0].content,
             })
         },
         remove(notification) {

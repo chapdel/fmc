@@ -159,7 +159,7 @@ abstract class EditorComponent extends Component
         $this->model->save();
         $this->lastSavedAt = $this->model->updated_at;
         $this->autosaveConflict = false;
-        $this->emit('editorSavedQuietly');
+        $this->dispatch('editorSavedQuietly');
     }
 
     public function save()
@@ -170,7 +170,7 @@ abstract class EditorComponent extends Component
             $this->flash(__mc(':name was updated.', ['name' => $this->model->fresh()->name]));
         }
 
-        $this->emit('editorSaved');
+        $this->dispatch('editorSaved');
     }
 
     protected function filterNeededFields(array $fields, ?Template $template): array

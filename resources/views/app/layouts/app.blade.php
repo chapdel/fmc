@@ -11,7 +11,6 @@
 
         {!! \Spatie\Mailcoach\Mailcoach::styles() !!}
 
-        {!! \Livewire\Livewire::styles() !!}
         <script type="text/javascript">
             window.__ = function (key) {
                 return {
@@ -99,8 +98,6 @@
             @include('mailcoach::app.layouts.partials.flash')
         </aside>
 
-        {!! \Livewire\Livewire::scripts() !!}
-        @livewire('livewire-ui-spotlight')
         {!! \Spatie\Mailcoach\Mailcoach::scripts() !!}
         @stack('scripts')
     </body>
