@@ -76,8 +76,9 @@ class DashboardChart extends Component
         $start = Date::parse($this->start)->startOfDay();
         $end = Date::parse($this->end)->endOfDay();
 
+        $subscribedAtDateFormat = database_date_format_function('subscribed_at', '%Y-%m-%d');
         $subscribes = DB::table(self::getSubscriberTableName())
-            ->selectRaw('count(*) as subscribed_count, DATE_FORMAT(subscribed_at, "%Y-%m-%d") as subscribed_day')
+            ->selectRaw("count(*) as subscribed_count, {$subscribedAtDateFormat} as subscribed_day")
             ->whereBetween('subscribed_at', [$start, $end])
             ->whereNull('unsubscribed_at')
             ->orderBy('subscribed_day')
@@ -88,8 +89,9 @@ class DashboardChart extends Component
             return collect();
         }
 
+        $unsubscribedAtDateFormat = database_date_format_function('unsubscribed_at', '%Y-%m-%d');
         $unsubscribes = DB::table(self::getSubscriberTableName())
-            ->selectRaw('count(*) as unsubscribe_count, DATE_FORMAT(unsubscribed_at, "%Y-%m-%d") as unsubscribe_day')
+            ->selectRaw("count(*) as unsubscribe_count, {$unsubscribedAtDateFormat} as unsubscribe_day")
             ->whereBetween('unsubscribed_at', [$start, $end])
             ->whereNotNull('unsubscribed_at')
             ->orderBy('unsubscribe_day')
