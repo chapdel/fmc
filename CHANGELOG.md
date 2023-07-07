@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.24.4 - 2023-07-07
+
+- Fix a typo causing invalid dates with the date format helper
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.24.3...6.24.4
+
 ## 6.24.3 - 2023-07-07
 
 ### What's Changed
