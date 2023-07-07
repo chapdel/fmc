@@ -22,8 +22,8 @@ function database_date_format_function(string $column, string $format): string
             '%Y-%m-%d' => 'YYYY-MM-DD',
         };
 
-        return "TO_CHAR('{$column}', '{$format}')";
+        return "TO_CHAR({$column}, '{$format}')";
     }
 
-    return "DATE_FORMAT('{$column}', '{$format}')";
+    return "DATE_FORMAT({$column}, '{$format}')";
 }
