@@ -63,7 +63,7 @@ class CampaignStatisticsComponent extends Component
         $campaignClickTable = self::getCampaignClickTableName();
         $campaignLinkTable = self::getCampaignLinkTableName();
 
-        $createdAtDateFormat = database_date_format_function('created_at')['hour'];
+        $createdAtDateFormat = database_date_format_function('created_at', '%Y-%m-%d %H:%I');
 
         $opensPerMinute = DB::table($campaignOpenTable)
             ->where('campaign_id', $this->campaign->id)
@@ -71,7 +71,7 @@ class CampaignStatisticsComponent extends Component
             ->groupBy('minute')
             ->get();
 
-        $campaignClickTableCreatedAtDateFormat = database_date_format_function("{$campaignClickTable}.created_at")['hour'];
+        $campaignClickTableCreatedAtDateFormat = database_date_format_function("{$campaignClickTable}.created_at", '%Y-%m-%d %H:%I');
 
         $clicksPerMinute = DB::table($campaignClickTable)
             ->join($campaignLinkTable, 'campaign_link_id', '=', $campaignLinkTable.'.id')
