@@ -266,6 +266,28 @@ test('clicking the link in the confirm subscription mail will redirect to the gi
     expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::Subscribed);
 });
 
+it('will render turnstile when required', function () {
+    config()->set('mailcoach.turnstile_secret', 'some-secret');
+
+    $response = $this
+        ->post(action([SubscribeController::class, 'store'], test()->emailList), payloadWithRedirects());
+
+    $response->assertSee('challenges.cloudflare.com');
+});
+
+it('wont render turnstile when it\'s a json request', function () {
+    config()->set('mailcoach.turnstile_secret', 'some-secret');
+
+    $this
+        ->postJson(action([SubscribeController::class, 'store'], test()->emailList), payloadWithRedirects())
+        ->assertRedirect(payloadWithRedirects()['redirect_after_subscribed']);
+
+    test()->assertEquals(
+        SubscriptionStatus::Subscribed,
+        test()->emailList->getSubscriptionStatus(test()->email)
+    );
+});
+
 // Helpers
 function payload(array $extraAttributes = [])
 {

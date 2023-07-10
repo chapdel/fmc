@@ -24,11 +24,11 @@ class SubscribeController
     {
         $emailList = $request->emailList();
 
-        if ($request->requiresTurnstile() && ! $request->hasTurnstileResponse()) {
+        if ($request->requiresTurnstile() && ! $request->hasTurnstileResponse() && ! $request->expectsJson()) {
             return $this->renderTurnstilePage($request->emailList(), $request->all());
         }
 
-        if ($request->requiresTurnstile()) {
+        if ($request->requiresTurnstile() && ! $request->expectsJson()) {
             try {
                 $request->validateTurnstile();
             } catch (ValidationException $exception) {
