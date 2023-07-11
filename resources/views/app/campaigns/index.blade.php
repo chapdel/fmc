@@ -1,8 +1,3 @@
-@if ($totalListsCount ?? 0)
-    @php($emptyText = __mc('No campaigns yet. Go write something!'))
-@else
-    @php($emptyText = __mc('No campaigns yet, but you‘ll need a list first, go <a href=":emailListsLink">create one</a>!', ['emailListsLink' => route('mailcoach.emailLists')]))
-@endif
 <x-mailcoach::data-table
     name="campaign"
     :rows="$campaigns ?? null"
@@ -25,6 +20,13 @@
         ['class' => 'w-12'],
     ]"
     rowPartial="mailcoach::app.campaigns.partials.row"
-    :emptyText="$emptyText"
     :noResultsText="__mc('No campaigns found.')"
-/>
+>
+    <x-slot:empty-text>
+        @if ($totalListsCount ?? 0)
+            {{ __mc('No campaigns yet. Go write something!') }}
+        @else
+            {{ __mc('No campaigns yet, but you‘ll need a list first, go <a href=":emailListsLink">create one</a>!', ['emailListsLink' => route('mailcoach.emailLists')]) }}
+        @endif
+    </x-slot:empty-text>
+</x-mailcoach::data-table>

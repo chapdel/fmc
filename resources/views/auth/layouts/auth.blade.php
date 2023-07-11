@@ -3,21 +3,14 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="always">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
 
     <title>{{ isset($title) ? "{$title} | Mailcoach" : 'Mailcoach' }}</title>
 
     @livewireStyles
     {!! \Spatie\Mailcoach\Mailcoach::styles() !!}
-
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
-    <link rel="manifest" href="{{ asset('site.webmanifest') }}">
-    <meta name="msapplication-TileColor" content="#1288ff">
-    <meta name="theme-color" content="#ffffff">
-
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body class="text-gray-800 bg-indigo-900/5 ">
     <div id="app" class="min-h-screen flex flex-col p-10 gap-10">
@@ -40,7 +33,7 @@
             @include('mailcoach::app.layouts.partials.footer')
     </div>
 
-    @livewireScripts
+    @livewireScriptConfig
     {!! \Spatie\Mailcoach\Mailcoach::scripts() !!}
 </body>
 </html>

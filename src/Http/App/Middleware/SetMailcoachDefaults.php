@@ -27,8 +27,6 @@ class SetMailcoachDefaults
             ], false));
         });
 
-        app(FrontendAssets::class)->scriptTagAttributes = ['defer' => 'defer'];
-
         return $next($request);
     }
 }

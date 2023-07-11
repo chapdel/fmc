@@ -26,8 +26,11 @@
             {{ $actions ?? '' }}
             @if ($modelClass)
                 @can('create', $modelClass)
-                    <x-mailcoach::button x-on:click="$store.modals.open('create-{{ $name }}')"
-                                         :label="$createText ?? __mc('Create ' . $name)"/>
+                    <x-mailcoach::button
+                        x-on:click="$store.modals.open('create-{{ $name }}')"
+                        :label="$createText ?? __mc('Create ' . $name)"
+                    />
+
                     <x-mailcoach::modal :title="$createText ?? __mc('Create ' . $name)" name="create-{{ $name }}">
                         @livewire('mailcoach::create-' . $name)
                     </x-mailcoach::modal>
@@ -51,7 +54,7 @@
                 @endif
 
                 @if($searchable)
-                    <x-mailcoach::search wire:model.debounce.500ms="search" :placeholder="__mc('Search…')"/>
+                    <x-mailcoach::search wire:model.live.debounce.500ms="search" :placeholder="__mc('Search…')"/>
                 @endif
 
                 @if ($filterSlot ?? null)
@@ -82,7 +85,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach (range(1, 5) as $i)
+                @foreach (range(1, $this->perPage) as $i)
                     <tr class="markup-links">
                         @foreach ($columns as $column)
                             @if ($loop->last)
@@ -194,27 +197,28 @@
 
     @if ($rows->count())
         <div class="flex items-center">
-            @if($rows->lastPage() > 1)
-                <div class="flex items-center">
-                    <span class="text-sm">{{ __mc('Show') }}</span>
-                    <div class="select ml-2 mr-4 w-[4.35rem]">
-                        <select x-data="{ perPage: $persist(@entangle('perPage')).as('per-page-{{ $name }}')}" x-model="perPage">
-                            <option>15</option>
-                            <option>25</option>
-                            <option>50</option>
-                            <option>100</option>
-                        </select>
-                        <div class="select-arrow">
-                            <i class="fas fa-angle-down"></i>
-                        </div>
+            <div class="flex items-center">
+                <span class="text-sm">{{ __mc('Show') }}</span>
+                <div class="select ml-2 mr-4 w-[4.35rem]">
+                    <select x-data="{ perPage: $persist(@entangle('perPage').live).as('per-page-{{ $name }}')}" x-model="perPage">
+                        <option>15</option>
+                        <option>25</option>
+                        <option>50</option>
+                        <option>100</option>
+                    </select>
+                    <div class="select-arrow">
+                        <i class="fas fa-angle-down"></i>
                     </div>
                 </div>
-            @endif
+            </div>
             <div class="w-full">
-                <x-mailcoach::table-status :name="__mc('' . $name)" :paginator="$rows" :total-count="$totalRowsCount"
-                                           wire:click="clearFilters"></x-mailcoach::table-status>
+                <x-mailcoach::table-status
+                    :name="__mc('' . $name)"
+                    :paginator="$rows"
+                    :total-count="$totalRowsCount"
+                    wire:click="clearFilters"
+                ></x-mailcoach::table-status>
             </div>
         </div>
     @endif
-
 </div>

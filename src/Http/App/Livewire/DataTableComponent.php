@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -70,13 +71,13 @@ abstract class DataTableComponent extends Component
         }
     }
 
-    public function getQueryString()
+    public function queryString(): array
     {
         return array_merge([
-            'search' => ['except' => ''],
-            'page' => ['except' => 1],
-            'perPage' => ['except' => 15],
-            'sort' => ['except' => $this->defaultSort],
+            'search',
+            'page',
+            'perPage',
+            'sort',
         ], $this->allowedFilters);
     }
 

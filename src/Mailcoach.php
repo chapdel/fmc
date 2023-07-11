@@ -70,7 +70,8 @@ class Mailcoach
             }
 
             foreach ($editorScripts as $script) {
-                $scripts[] = "<script type=\"text/javascript\" src=\"{$script}\" defer></script>";
+                // @todo: Re-enable when monaco is fixed
+                //$scripts[] = "<script type=\"text/javascript\" src=\"{$script}\"></script>";
             }
         }
 
@@ -81,7 +82,7 @@ class Mailcoach
             $scripts[] = sprintf('<script type="module" src="%s" defer></script>', "{$url}/@vite/client");
         } else {
             $scripts[] = <<<HTML
-                <script src="{$fullAssetPath}" defer></script>
+                <script src="{$fullAssetPath}" data-navigate-once defer></script>
             HTML;
         }
 

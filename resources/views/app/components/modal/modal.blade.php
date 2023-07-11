@@ -8,9 +8,9 @@
     'open' => false,
     'dismissable' => false,
 ])
-{{--
-@todo: Fix modals
-@push('modals')
+<div>
+
+@teleport('body')
     <!-- {{ $name }} Modal -->
     <div
         x-data
@@ -67,5 +67,5 @@
             </div>
         </div>
     </div>
-@endpush
---}}
+@endteleport
+</div>

@@ -20,8 +20,8 @@
     "prefer-stable": true,
     "repositories": [
         {
-            "type": "vcs",
-            "url": "git@github.com:spatie/livewire-next.git"
+            "type": "path",
+            "url": "../livewire-next"
         }
     ],
     "require": {
@@ -42,7 +42,7 @@
         "laravel/sanctum": "^3.0",
         "laravel/ui": "^4.0",
         "league/html-to-markdown": "^4.10|^5.0",
-        "livewire/livewire": "dev-main as v2.99.9",
+        "livewire/livewire": "*",
         "nesbot/carbon": "^2.37",
         "paragonie/ciphersweet": "^4.0",
         "spatie/laravel-ciphersweet": "^1.0",

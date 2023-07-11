@@ -49,4 +49,4 @@
             @endif
         </x-mailcoach::form-buttons>
     </form>
-</x-mailcoach::layout-app>
+</x-mailcoach::layout-auth>
