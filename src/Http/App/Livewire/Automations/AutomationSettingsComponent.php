@@ -24,34 +24,51 @@ class AutomationSettingsComponent extends Component
 
     public Automation $automation;
 
+    public string $name;
+
+    public int $email_list_id;
+
+    public ?int $segment_id;
+
+    public bool $repeat_enabled;
+
+    public bool $repeat_only_after_halt;
+
+    public string $segment;
+
+    public string $selectedTrigger;
+
     public Collection $triggerOptions;
 
     public Collection $emailLists;
 
     public Collection $segmentsData;
 
-    public string $segment;
-
-    public ?string $selectedTrigger = null;
-
     protected function rules(): array
     {
         return [
-            'automation.name' => ['required'],
-            'automation.email_list_id' => [Rule::exists(self::getEmailListTableName(), 'id')],
+            'name' => ['required'],
+            'email_list_id' => [Rule::exists(self::getEmailListTableName(), 'id')],
+            'segment_id' => ['required_if:segment,segment'],
+            'repeat_enabled' => ['nullable', 'boolean'],
+            'repeat_only_after_halt' => ['nullable', 'boolean'],
             'segment' => [Rule::in(['entire_list', 'segment'])],
-            'automation.segment_id' => ['required_if:segment,segment'],
             'selectedTrigger' => ['required', Rule::in(config('mailcoach.automation.flows.triggers'))],
-            'automation.repeat_enabled' => ['nullable', 'boolean'],
-            'automation.repeat_only_after_halt' => ['nullable', 'boolean'],
         ];
     }
 
     public function mount(Automation $automation)
     {
-        $this->automation = $automation;
+        $this->authorize('update', $automation);
 
-        $this->authorize('update', $this->automation);
+        $this->automation = $automation;
+        $this->fill($automation->only(
+            'name',
+            'email_list_id',
+            'segment_id',
+            'repeat_enabled',
+            'repeat_only_after_halt',
+        ));
 
         $this->triggerOptions = collect(config('mailcoach.automation.flows.triggers'))
             ->mapWithKeys(function (string $trigger) {
@@ -69,11 +86,11 @@ class AutomationSettingsComponent extends Component
             ];
         });
 
-        $this->segment = $this->automation->notSegmenting() ? 'entire_list' : 'segment';
+        $this->segment = $automation->notSegmenting() ? 'entire_list' : 'segment';
 
-        $this->selectedTrigger = $this->automation->triggerClass();
+        $this->selectedTrigger = $automation->triggerClass();
 
-        app(MainNavigation::class)->activeSection()?->add($this->automation->name, route('mailcoach.automations'));
+        app(MainNavigation::class)->activeSection()?->add($automation->name, route('mailcoach.automations'));
     }
 
     public function save(string $formData)
@@ -84,6 +101,13 @@ class AutomationSettingsComponent extends Component
 
         $validator = Validator::make($data, $this->selectedTrigger::rules());
         $triggerData = $validator->validate();
+
+        $this->automation->fill([
+            'name' => $this->name,
+            'email_list_id' => $this->email_list_id,
+            'repeat_enabled' => $this->repeat_enabled,
+            'repeat_only_after_halt' => $this->repeat_only_after_halt,
+        ]);
 
         $segmentClass = SubscribersWithTagsSegment::class;
 

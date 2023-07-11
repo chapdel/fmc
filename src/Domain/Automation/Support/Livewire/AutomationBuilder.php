@@ -17,7 +17,7 @@ class AutomationBuilder extends AutomationActionComponent
         'saveActions',
     ];
 
-    public function actionSaved(string $uuid, array $actionData)
+    public function actionSaved(string $uuid, array $actionData): void
     {
         $index = collect($this->actions)->search(function ($action) use ($uuid) {
             return $action['uuid'] === $uuid;
@@ -29,10 +29,10 @@ class AutomationBuilder extends AutomationActionComponent
 
         $this->actions[$index]['data'] = $actionData;
 
-        $this->emitUp('automationBuilderUpdated', $this->getData());
+        $this->dispatch('automationBuilderUpdated', $this->getData());
     }
 
-    public function actionDeleted(string $uuid)
+    public function actionDeleted(string $uuid): void
     {
         $index = collect($this->actions)->search(function ($action) use ($uuid) {
             return $action['uuid'] === $uuid;
@@ -46,7 +46,7 @@ class AutomationBuilder extends AutomationActionComponent
 
         $this->actions = array_values($this->actions);
 
-        $this->emitUp('automationBuilderUpdated', $this->getData());
+        $this->dispatch('automationBuilderUpdated', $this->getData());
     }
 
     public function addAction(string $actionClass, int $index): void
@@ -66,10 +66,10 @@ class AutomationBuilder extends AutomationActionComponent
         ]]);
 
         if ($editable) {
-            $this->emitUp('editAction', $uuid);
+            $this->dispatch('editAction', $uuid);
         }
 
-        $this->emitUp('automationBuilderUpdated', $this->getData());
+        $this->dispatch('automationBuilderUpdated', $this->getData());
     }
 
     public function getData(): array
@@ -95,6 +95,6 @@ class AutomationBuilder extends AutomationActionComponent
     {
         $this->resetValidation($fieldName);
 
-        $this->emitUp('automationBuilderUpdated', $this->getData());
+        $this->dispatch('automationBuilderUpdated', $this->getData());
     }
 }

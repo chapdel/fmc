@@ -18,36 +18,38 @@ class RunAutomationComponent extends Component
 
     public Automation $automation;
 
+    public string $interval;
+
     public string $error;
 
     protected function rules(): array
     {
         return [
-            'automation.interval' => ['required'],
+            'interval' => ['required'],
         ];
     }
 
     public function mount(Automation $automation)
     {
+        $this->authorize('update', $automation);
+
         $this->automation = $automation;
-        $this->automation->interval ??= '10 minutes';
+        $this->interval = $automation->interval ?? '10 minutes';
 
-        $this->authorize('update', $this->automation);
-
-        app(MainNavigation::class)->activeSection()?->add($this->automation->name, route('mailcoach.automations'));
+        app(MainNavigation::class)->activeSection()?->add($automation->name, route('mailcoach.automations'));
     }
 
     public function pause(): void
     {
         $this->automation->pause();
-        $this->dispatchBrowserEvent('automation-paused');
+        $this->dispatch('automation-paused');
     }
 
     public function start(): void
     {
         try {
             $this->automation->start();
-            $this->dispatchBrowserEvent('automation-started');
+            $this->dispatch('automation-started');
         } catch (\Exception $e) {
             $this->error = $e->getMessage();
         }
@@ -57,6 +59,7 @@ class RunAutomationComponent extends Component
     {
         $this->validate();
 
+        $this->automation->interval = $this->interval;
         $this->automation->save();
 
         $this->flash(__mc('Automation :automation was updated.', ['automation' => $this->automation->name]));

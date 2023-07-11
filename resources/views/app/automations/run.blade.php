@@ -14,16 +14,18 @@
         <div class="flex items-end">
 
             <x-mailcoach::select-field
-                    name="automation.interval"
-                    wire:model="automation.interval"
-                    :options="[
+                class="w-48"
+                name="interval"
+                wire:model="interval"
+                :sort="false"
+                :options="[
                     '1 minute' => 'Every minute',
                     '10 minutes' => 'Every 10 minutes',
                     '1 hour' => 'Hourly',
                     '1 day' => 'Daily',
                     '1 week' => 'Weekly',
                 ]"
-                    required
+                required
             />
 
             <x-mailcoach::button
@@ -49,20 +51,18 @@
         @endif
         <div>
             @if ($automation->status === \Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus::Started)
-                <button class="button button-orange" type="button"
-                        wire:click.prevent="pause">
-                <span class="flex items-center">
-                    <i class="fas fa-pause text-sm"></i>
-                    <span class="ml-2">{{ __mc('Pause') }}</span>
-                </span>
+                <button wire:key="pause" class="button button-orange" type="button" wire:click.prevent="pause">
+                    <span class="flex items-center">
+                        <i class="fas fa-pause text-sm"></i>
+                        <span class="ml-2">{{ __mc('Pause') }}</span>
+                    </span>
                 </button>
             @else
-                <button class="button button-green" type="button"
-                        wire:click.prevent="start">
-                <span class="flex items-center">
-                    <i class="fas fa-play text-sm"></i>
-                    <span class="ml-2">{{ __mc('Start') }}</span>
-                </span>
+                <button wire:key="start" class="button button-green" type="button" wire:click.prevent="start">
+                    <span class="flex items-center">
+                        <i class="fas fa-play text-sm"></i>
+                        <span class="ml-2">{{ __mc('Start') }}</span>
+                    </span>
                 </button>
             @endif
         </div>

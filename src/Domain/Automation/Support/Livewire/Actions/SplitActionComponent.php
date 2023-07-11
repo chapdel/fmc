@@ -37,7 +37,7 @@ class SplitActionComponent extends AutomationActionComponent
             $this->rightActions = $data['actions'];
         }
 
-        $this->emitUp('actionUpdated', $this->getData());
+        $this->dispatch('actionUpdated', $this->getData());
     }
 
     public function editAction(string $uuid)

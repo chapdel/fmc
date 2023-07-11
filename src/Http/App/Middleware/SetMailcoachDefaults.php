@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Http\App\Middleware;
 
 use Illuminate\Auth\Notifications\ResetPassword;
-use Livewire\Mechanisms\FrontendAssets\FrontendAssets;
 use Spatie\Flash\Flash;
 
 class SetMailcoachDefaults

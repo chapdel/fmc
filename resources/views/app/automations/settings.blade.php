@@ -5,24 +5,24 @@
     novalidate
 >
     <x-mailcoach::card>
-        <x-mailcoach::text-field :label="__mc('Name')" name="automation.name" wire:model.lazy="automation.name" required />
+        <x-mailcoach::text-field :label="__mc('Name')" name="name" wire:model.lazy="name" required />
 
         <div class="form-field gap-y-4 flex flex-col">
-            <label class="label" for="automation.repeat_enabled">
+            <label class="label" for="repeat_enabled">
                 {{ __mc('Repeat') }}
             </label>
 
             <x-mailcoach::checkbox-field
                 :label="__mc('Allow for subscribers to go through the automation more than once')"
-                name="automation.repeat_enabled"
-                wire:model.lazy="automation.repeat_enabled"
+                name="repeat_enabled"
+                wire:model.lazy="repeat_enabled"
             />
 
-            @if ($automation->repeat_enabled)
+            @if ($repeat_enabled)
                 <x-mailcoach::checkbox-field
                     :label="__mc('Repeat only when subscriber was halted')"
-                    name="automation.repeat_only_after_halt"
-                    wire:model.lazy="automation.repeat_only_after_halt"
+                    name="repeat_only_after_halt"
+                    wire:model.lazy="repeat_only_after_halt"
                 />
             @endif
         </div>
@@ -33,7 +33,7 @@
             :options="$triggerOptions"
             placeholder="Select a trigger"
             required
-            wire:model="selectedTrigger"
+            wire:model.live="selectedTrigger"
         />
 
         <div>
@@ -45,7 +45,7 @@
             @endif
         </div>
     </x-mailcoach::card>
-    @include('mailcoach::app.campaigns.partials.emailListFields', ['segmentable' => $automation, 'wiremodel' => 'automation'])
+    @include('mailcoach::app.campaigns.partials.emailListFields', ['segmentable' => $automation])
 
     <x-mailcoach::fieldset card :legend="__mc('Usage in Mailcoach API')">
         <div>

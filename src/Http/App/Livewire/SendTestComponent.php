@@ -53,7 +53,7 @@ class SendTestComponent extends Component
                 $this->model->sendTestMail($emails);
             } catch (\Throwable $e) {
                 $this->flashError($e->getMessage());
-                $this->dispatchBrowserEvent('modal-closed', ['modal' => 'send-test']);
+                $this->dispatch('modal-closed', ['modal' => 'send-test']);
 
                 return;
             }
@@ -67,7 +67,7 @@ class SendTestComponent extends Component
             $this->flashError(__mc('Model :model does not support sending tests.', ['model' => $this->model::class]));
         }
 
-        $this->dispatchBrowserEvent('modal-closed', ['modal' => 'send-test']);
+        $this->dispatch('modal-closed', ['modal' => 'send-test']);
     }
 
     public function render()

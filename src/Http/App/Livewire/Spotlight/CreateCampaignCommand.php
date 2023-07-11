@@ -53,7 +53,7 @@ class CreateCampaignCommand extends SpotlightCommand
     public function execute(Spotlight $spotlight, string $name, ?EmailList $emailList, UpdateCampaignAction $updateCampaignAction)
     {
         if (! $name || ! $emailList) {
-            $spotlight->dispatchBrowserEvent('notify', [
+            $spotlight->dispatch('notify', [
                 'content' => 'Name & email list is required',
                 'type' => 'error',
             ]);

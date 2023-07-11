@@ -1,9 +1,10 @@
+@props(['wiremodel' => null])
 <x-mailcoach::fieldset card :legend="__mc('Audience')">
     @if($emailLists->count())
         <x-mailcoach::select-field
             :label="__mc('List')"
-            name="{{ $wiremodel }}.email_list_id"
-            wire:model="{{ $wiremodel }}.email_list_id"
+            name="{{ $wiremodel ? $wiremodel . '.' : '' }}email_list_id"
+            wire:model.live="{{ $wiremodel ? $wiremodel . '.' : '' }}email_list_id"
             :options="$emailLists->pluck('name', 'id')"
             required
         />
@@ -24,14 +25,14 @@
                     <x-mailcoach::radio-field
                         name="segment"
                         option-value="entire_list"
-                        wire:model="segment"
+                        wire:model.live="segment"
                         :label="__mc('Entire list')"
                     />
                     <div class="flex items-center w-full">
                         <div class="flex-shrink-0">
                             <x-mailcoach::radio-field
                                 name="segment"
-                                wire:model="segment"
+                                wire:model.live="segment"
                                 option-value="segment"
                                 :label="__mc('Use segment')"
                             />
@@ -42,12 +43,12 @@
                                 @if (count($list['segments']))
                                     <div class="ml-4 -my-2">
                                         <x-mailcoach::select-field
-                                            name="{{ $wiremodel }}.segment_id"
-                                            wire:model="{{ $wiremodel }}.segment_id"
+                                            name="{{ $wiremodel ? $wiremodel . '.' : '' }}segment_id"
+                                            wire:model="{{ $wiremodel ? $wiremodel . '.' : '' }}segment_id"
                                             :options="$list['segments']"
                                             :placeholder="__mc('Select a segment')"
                                         />
-                                        @error($wiremodel .'.segment_id')
+                                        @error(($wiremodel ? $wiremodel . '.' : '') . 'segment_id')
                                         <p class="form-error">{{ $message }}</p>
                                         @enderror
                                     </div>

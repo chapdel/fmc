@@ -41,14 +41,14 @@ class SendTestComponent extends Component
             Mail::mailer($this->mailer)->send($mail);
         } catch (\Throwable $e) {
             $this->flashError($e->getMessage());
-            $this->dispatchBrowserEvent('modal-closed', ['modal' => 'send-test']);
+            $this->dispatch('modal-closed', ['modal' => 'send-test']);
 
             return;
         }
 
         $this->flash(__mc('A test mail has been sent to :email. Please check if it arrived.', ['email' => $this->to_email]));
 
-        $this->dispatchBrowserEvent('modal-closed', ['modal' => 'send-test']);
+        $this->dispatch('modal-closed', ['modal' => 'send-test']);
     }
 
     public function render()

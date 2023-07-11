@@ -53,7 +53,7 @@ class CreateAutomationCommand extends SpotlightCommand
     public function execute(Spotlight $spotlight, string $name, ?EmailList $emailList)
     {
         if (! $name || ! $emailList) {
-            $spotlight->dispatchBrowserEvent('notify', [
+            $spotlight->dispatch('notify', [
                 'content' => 'Name & email list is required',
                 'type' => 'error',
             ]);

@@ -103,7 +103,7 @@ class ConditionActionComponent extends AutomationActionComponent
             $this->noActions = $data['actions'];
         }
 
-        $this->emitUp('actionUpdated', $this->getData());
+        $this->dispatch('actionUpdated', $this->getData());
     }
 
     public function editAction(string $uuid)

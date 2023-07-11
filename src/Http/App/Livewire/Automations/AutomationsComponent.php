@@ -21,7 +21,7 @@ class AutomationsComponent extends DataTableComponent
                 : AutomationStatus::Paused,
         ]);
 
-        $this->dispatchBrowserEvent('notify', [
+        $this->dispatch('notify', [
             'content' => __mc('Automation :automation was :status.', ['automation' => $automation->name, 'status' => $automation->status->value]),
         ]);
     }

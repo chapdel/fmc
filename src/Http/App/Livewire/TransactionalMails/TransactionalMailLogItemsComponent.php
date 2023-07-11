@@ -18,7 +18,7 @@ class TransactionalMailLogItemsComponent extends DataTableComponent
 
         $transactionalMail->delete();
 
-        $this->dispatchBrowserEvent('notify', [
+        $this->dispatch('notify', [
             'content' => __mc('The mail was removed from the log'),
         ]);
     }

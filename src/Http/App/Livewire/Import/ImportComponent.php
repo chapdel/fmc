@@ -75,7 +75,7 @@ class ImportComponent extends Component
     {
         cache()->forget('import-status');
         $this->importStarted = false;
-        $this->emitSelf('$refresh');
+        $this->call('$refresh');
     }
 
     public function render()

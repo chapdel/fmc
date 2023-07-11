@@ -12,17 +12,17 @@
 
     <div class="flex items-center absolute top-4 right-6 gap-4 z-10">
         @if ($editing)
-            <button type="button" wire:click="save" class="hover:text-green-500">
+            <button type="button" wire:key="save-{{ $index }}" wire:click="save" class="hover:text-green-500">
                 <i class="icon-button fas fa-check"></i>
                 Save
             </button>
         @elseif ($editable)
-            <button type="button" wire:click="edit">
+            <button type="button" wire:key="edit-{{ $index }}" wire:click="edit">
                 <i class="icon-button far fa-edit"></i>
             </button>
         @endif
         @if ($deletable)
-            <button type="button" onclick="confirm('{{ __mc('Are you sure you want to delete this action?') }}') || event.stopImmediatePropagation()" wire:click="delete">
+            <button type="button" wire:key="delete-{{ $index }}" onclick="confirm('{{ __mc('Are you sure you want to delete this action?') }}') || event.stopImmediatePropagation()" wire:click="delete">
                 <i class="icon-button link-danger far fa-trash-alt"></i>
             </button>
         @endif

@@ -25,7 +25,7 @@ class AutomationActionComponent extends AutomationComponent
     {
         $this->editing = true;
 
-        $this->emitUp('editAction', $this->uuid);
+        $this->dispatch('editAction', $this->uuid);
     }
 
     public function save()
@@ -34,14 +34,14 @@ class AutomationActionComponent extends AutomationComponent
             $this->validate();
         }
 
-        $this->emitUp('actionSaved', $this->uuid, $this->getData());
+        $this->dispatch('actionSaved', $this->uuid, $this->getData());
 
         $this->editing = false;
     }
 
     public function delete()
     {
-        $this->emitUp('actionDeleted', $this->uuid);
+        $this->dispatch('actionDeleted', $this->uuid);
     }
 
     public function getData(): array

@@ -50,13 +50,13 @@ class AutomationActionsComponent extends Component
         app(MainNavigation::class)->activeSection()?->add($this->automation->name, route('mailcoach.automations'));
     }
 
-    public function editAction(string $uuid)
+    public function editAction(string $uuid): void
     {
         $this->editingActions[] = $uuid;
         $this->unsavedChanges = true;
     }
 
-    public function actionSaved(string $uuid)
+    public function actionSaved(string $uuid): void
     {
         $actions = array_filter($this->editingActions, function ($actionUuid) use ($uuid) {
             return $actionUuid !== $uuid;
@@ -65,7 +65,7 @@ class AutomationActionsComponent extends Component
         $this->editingActions = $actions;
     }
 
-    public function actionDeleted(string $uuid)
+    public function actionDeleted(string $uuid): void
     {
         $actions = array_filter($this->editingActions, function ($actionUuid) use ($uuid) {
             return $actionUuid !== $uuid;
@@ -75,7 +75,7 @@ class AutomationActionsComponent extends Component
         $this->unsavedChanges = true;
     }
 
-    public function save()
+    public function save(): void
     {
         $this->automation->chain($this->actions);
 
@@ -93,7 +93,7 @@ class AutomationActionsComponent extends Component
             ]);
     }
 
-    public function automationBuilderUpdated($data)
+    public function automationBuilderUpdated($data): void
     {
         if ($data['name'] !== 'default') {
             return;
