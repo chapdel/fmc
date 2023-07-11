@@ -17,11 +17,15 @@ class LinkCheckComponent extends Component
 
     public bool $check = false;
 
-    public function check(): void
+    public string $strippedUrl;
+
+    public function mount()
     {
-        [$this->status, $this->error] = cache()->remember("link-check-{$this->url}", now()->addHour(), function (): array {
+        $this->strippedUrl = app(StripUtmTagsFromUrlAction::class)->execute($this->url);
+
+        [$this->status, $this->error] = cache()->remember("link-check-{$this->strippedUrl}", now()->addHour(), function (): array {
             try {
-                $response = Http::timeout(10)->get($this->url);
+                $response = Http::timeout(10)->get($this->strippedUrl);
 
                 return [$response->successful(), $response->reason()];
             } catch (Throwable $e) {
@@ -30,24 +34,32 @@ class LinkCheckComponent extends Component
         });
 
         if ($this->status === false) {
-            cache()->forget("link-check-{$this->url}");
+            cache()->forget("link-check-{$this->strippedUrl}");
         }
+    }
+
+    public function placeholder(): string
+    {
+        $url = app(StripUtmTagsFromUrlAction::class)->execute($this->url);
+
+        return <<<"html"
+        <span class="flex items-center">
+            <span class="inline-flex w-4 mr-1">
+                <i class="fas fa-spin fa-sync text-sm text-gray-400"></i>
+            </span>
+            <a target="_blank" class="link break-words" href="$url">$url</a>
+        </span>
+        html;
     }
 
     public function render(): string
     {
-        $this->url = app(StripUtmTagsFromUrlAction::class)->execute($this->url);
-
         return <<<'blade'
-            <span class="flex items-center" wire:init="check">
+            <span class="flex items-center">
                 <span class="inline-flex w-4 mr-1">
-                    @if (!is_null($status))
-                        <x-mailcoach::health-label title="{{ $error }}" class="-ml-2" reverse warning :test="$status" />
-                    @else
-                        <i class="fas fa-spin fa-sync text-sm text-gray-400"></i>
-                    @endif
+                    <x-mailcoach::health-label title="{{ $error }}" class="-ml-2" reverse warning :test="$status" />
                 </span>
-                <a target="_blank" class="link break-words" href="{{ $url }}">{{ $url }}</a>
+                <a target="_blank" class="link break-words" href="{{ $strippedUrl }}">{{ $strippedUrl }}</a>
             </span>
         blade;
     }

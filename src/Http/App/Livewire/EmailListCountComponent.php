@@ -7,35 +7,25 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 
 class EmailListCountComponent extends Component
 {
-    public ?string $result = null;
-
-    public bool $readyToLoad = false;
-
-    public EmailList $emailList;
+    public int $result;
 
     public function mount(EmailList $emailList)
     {
-        $this->emailList = $emailList;
+        $this->result = $emailList->totalSubscriptionsCount();
     }
 
-    public function load()
+    public function placeholder(): string
     {
-        $this->readyToLoad = true;
+        return <<<'HTML'
+        <span>…</span>
+        HTML;
     }
 
-    public function render()
+    public function render(): string
     {
-        if ($this->readyToLoad) {
-            $this->result = $this->emailList->totalSubscriptionsCount();
-        }
-
         return <<<'blade'
-            <span wire:init="load" title="{{ number_format($result) }}">
-                @if ($readyToLoad)
+            <span title="{{ number_format($result) }}">
                 {{ Str::shortNumber($result) }}
-                @else
-                ...
-                @endif
             </span>
         blade;
     }
