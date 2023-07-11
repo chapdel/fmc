@@ -288,7 +288,7 @@
 
                     <form
                         method="POST"
-                        wire:submit.prevent="schedule"
+                        wire:submit="schedule"
                         x-show="schedule === 'future'"
                     >
                         @csrf
