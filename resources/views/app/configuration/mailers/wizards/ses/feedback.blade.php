@@ -23,7 +23,7 @@
                 {!! __mc('You must set a webhook to: <code class="markup-code">:webhookUrl</code>', ['webhookUrl' => url(action(\Spatie\MailcoachSesFeedback\SesWebhookController::class, $mailer->configName()))]) !!}
             </x-mailcoach::info>
 
-            <form class="form-grid" wire:submit.prevent="setupFeedbackManually">
+            <form class="form-grid" wire:submit="setupFeedbackManually">
                 <x-mailcoach::text-field
                     wire:model.defer="configurationName"
                     :label="__mc('Configuration name')"
@@ -40,7 +40,7 @@
                 We will automatically set up SES and SNS for you.
             </x-mailcoach::info>
 
-            <form class="form-grid" wire:submit.prevent="setupFeedbackAutomatically">
+            <form class="form-grid" wire:submit="setupFeedbackAutomatically">
                 <x-mailcoach::text-field
                     wire:model.defer="configurationName"
                     :label="__mc('Configuration name')"

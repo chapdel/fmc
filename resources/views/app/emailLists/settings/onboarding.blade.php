@@ -5,7 +5,7 @@
         confirmationMail: @entangle('confirmation_mail'),
     }"
         method="POST"
-        wire:submit.prevent="save"
+        wire:submit="save"
         @keydown.prevent.window.cmd.s="$wire.call('save')"
         @keydown.prevent.window.ctrl.s="$wire.call('save')"
 >

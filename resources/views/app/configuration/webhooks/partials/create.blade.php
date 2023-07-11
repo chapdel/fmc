@@ -1,4 +1,4 @@
-<form class="form-grid" wire:submit.prevent="saveWebhook" method="POST">
+<form class="form-grid" wire:submit="saveWebhook" method="POST">
     @csrf
 
     <x-mailcoach::text-field type="name" :label="__mc('Name')" wire:model.lazy="name" name="name" required />

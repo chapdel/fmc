@@ -1,6 +1,6 @@
 <form
     class="form-grid"
-    wire:submit.prevent="saveSegment"
+    wire:submit="saveSegment"
     @keydown.prevent.window.cmd.s="$wire.call('saveSegment')"
     @keydown.prevent.window.ctrl.s="$wire.call('saveSegment')"
     method="POST"

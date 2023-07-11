@@ -7,7 +7,7 @@
         clicks.
     </x-mailcoach::help>
 
-    <form class="form-grid" wire:submit.prevent="configureSendGrid">
+    <form class="form-grid" wire:submit="configureSendGrid">
         <x-mailcoach::checkbox-field
             :label="__mc('Enable open tracking')"
             name="trackOpens"

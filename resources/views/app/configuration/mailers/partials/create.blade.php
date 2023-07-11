@@ -1,4 +1,4 @@
-<form class="form-grid" wire:submit.prevent="saveMailer" method="POST">
+<form class="form-grid" wire:submit="saveMailer" method="POST">
     @csrf
 
     <x-mailcoach::text-field type="name" :label="__mc('Name')" wire:model.lazy="name" name="name" required />

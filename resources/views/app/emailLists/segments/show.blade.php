@@ -19,7 +19,7 @@
 
     @if ($tab === 'details')
         <form
-            wire:submit.prevent="save"
+            wire:submit="save"
             @keydown.prevent.window.cmd.s="$wire.call('save')"
             @keydown.prevent.window.ctrl.s="$wire.call('save')"
             method="POST"

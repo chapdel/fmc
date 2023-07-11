@@ -7,7 +7,7 @@
     </x-mailcoach::help>
 
     <form
-      wire:submit.prevent="save"
+      wire:submit="save"
       method="POST"
     >
         @csrf

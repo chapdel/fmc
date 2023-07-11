@@ -1,5 +1,5 @@
 <form class="form-grid w-64"
-      wire:submit.prevent="saveAutomationMail"
+      wire:submit="saveAutomationMail"
       @keydown.prevent.window.cmd.s="$wire.call('saveAutomationMail')"
       @keydown.prevent.window.ctrl.s="$wire.call('saveAutomationMail')"
       method="POST"

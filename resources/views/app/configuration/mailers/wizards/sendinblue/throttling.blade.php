@@ -7,7 +7,7 @@
         <p>You can find more info about sending limits in <a href="https://help.sendinblue.com/hc/en-us/articles/360022153079-Are-there-any-sending-limits-emails-and-SMS-" target="_blank">the Sendinblue documentation</a></p>
     </x-mailcoach::help>
 
-        <form class="form-grid" wire:submit.prevent="submit">
+        <form class="form-grid" wire:submit="submit">
 
             <div class="flex items-center gap-x-2">
                 <span>{{ __mc('Send') }}</span>

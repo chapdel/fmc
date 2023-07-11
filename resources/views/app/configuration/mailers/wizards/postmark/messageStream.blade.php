@@ -2,7 +2,7 @@
     @include('mailcoach::app.configuration.mailers.wizards.wizardNavigation')
 
     <x-mailcoach::card>
-        <form class="form-grid" wire:submit.prevent="submit">
+        <form class="form-grid" wire:submit="submit">
             @if ($streamsLoaded)
                 <x-mailcoach::select-field
                     wire:model="streamId"

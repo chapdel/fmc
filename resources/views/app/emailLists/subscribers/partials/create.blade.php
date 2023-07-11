@@ -1,6 +1,6 @@
 <form
     class="form-grid"
-    wire:submit.prevent="saveSubscriber"
+    wire:submit="saveSubscriber"
     @keydown.prevent.window.cmd.s="$wire.call('saveSubscriber')"
     @keydown.prevent.window.ctrl.s="$wire.call('saveSubscriber')"
     method="POST"

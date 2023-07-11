@@ -6,7 +6,7 @@
         In order not to overwhelm your provider with send requests, Mailcoach can throttle the amount of mails sent.
     </x-mailcoach::help>
 
-        <form class="form-grid" wire:submit.prevent="submit">
+        <form class="form-grid" wire:submit="submit">
             <div class="flex items-center gap-x-2">
                 <span>{{ __mc('Send') }}</span>
                 <x-mailcoach::text-field

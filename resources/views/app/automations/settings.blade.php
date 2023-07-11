@@ -1,6 +1,6 @@
 <form
     class="card-grid"
-    wire:submit.prevent="save(new URLSearchParams(new FormData($event.target)).toString())"
+    wire:submit="save(new URLSearchParams(new FormData($event.target)).toString())"
     method="POST"
     novalidate
 >

@@ -11,7 +11,7 @@
         When your account is in sandbox mode, the maximum amount of emails you can send is 1 / second, once your account is out of sandbox mode make sure to update the throttling config, you'll find the limit in your SES Account Dashboard
     </x-mailcoach::warning>
 
-        <form class="form-grid" wire:submit.prevent="submit">
+        <form class="form-grid" wire:submit="submit">
 
             <div class="flex items-center gap-x-2">
                 <span>{{ __mc('Send') }}</span>

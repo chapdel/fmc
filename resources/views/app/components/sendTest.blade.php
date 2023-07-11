@@ -1,4 +1,4 @@
-<form action="" class="grid grid-cols-1 gap-6" wire:submit.prevent="sendTest">
+<form action="" class="grid grid-cols-1 gap-6" wire:submit="sendTest">
     @php($automationMailClass = \Spatie\Mailcoach\Mailcoach::getAutomationMailClass())
     @if ($model instanceof $automationMailClass)
         <x-mailcoach::text-field
