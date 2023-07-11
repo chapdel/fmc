@@ -586,6 +586,8 @@ return new class extends Migration
                 ->foreign('subscriber_id')
                 ->references('id')->on('mailcoach_subscribers')
                 ->onDelete('cascade');
+
+            $table->index(['action_id', 'job_dispatched_at'], 'pending_action_subscribers');
         });
 
         Schema::create('mailcoach_automation_mail_opens', function (Blueprint $table) {
