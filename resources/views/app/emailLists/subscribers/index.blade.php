@@ -22,7 +22,7 @@
         ['class' => 'w-4'],
         ['attribute' => 'email', 'label' => __mc('Email')],
         ['label' => __mc('Tags'), 'class' => 'hidden | xl:table-cell'],
-        match ($status) {
+        match ($status ?? '') {
             \Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus::Unsubscribed->value => ['attribute' => '-unsubscribed_at', 'label' => __mc('Unsubscribed at'), 'class' => 'w-48 th-numeric hidden | xl:table-cell'],
             \Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus::Unconfirmed->value => ['attribute' => '-created_at', 'label' => __mc('Created at'), 'class' => 'w-48 th-numeric hidden | xl:table-cell'],
             default => ['attribute' => '-subscribed_at', 'label' => __mc('Subscribed at'), 'class' => 'w-48 th-numeric hidden | xl:table-cell'],
@@ -79,7 +79,7 @@
             @php($defaultTags = $emailList->tags()->where('type', \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::Default)->orderBy('name')->get())
             @php($mailcoachTags = $emailList->tags()->where('type', \Spatie\Mailcoach\Domain\Campaign\Enums\TagType::Mailcoach)->orderBy('name')->get())
 
-            @php($currentFilteredTags = array_filter(explode(',', $tags)))
+            @php($currentFilteredTags = array_filter(explode(',', $tags ?? '')))
 
             @if (count($currentFilteredTags) > 0)
                 <x-mailcoach::filters class="gap-x-1">

@@ -197,20 +197,22 @@
 
     @if ($rows->count())
         <div class="flex items-center">
-            <div class="flex items-center">
-                <span class="text-sm">{{ __mc('Show') }}</span>
-                <div class="select ml-2 mr-4 w-[4.35rem]">
-                    <select x-data="{ perPage: $persist(@entangle('perPage').live).as('per-page-{{ $name }}')}" x-model="perPage">
-                        <option>15</option>
-                        <option>25</option>
-                        <option>50</option>
-                        <option>100</option>
-                    </select>
-                    <div class="select-arrow">
-                        <i class="fas fa-angle-down"></i>
+            @if($rows->lastPage() > 1 || $rows->perPage() > 15)
+                <div class="flex items-center">
+                    <span class="text-sm">{{ __mc('Show') }}</span>
+                    <div class="select ml-2 mr-4 w-[4.35rem]">
+                        <select x-data="{ perPage: $persist(@entangle('perPage').live).as('per-page-{{ $name }}')}" x-model="perPage">
+                            <option>15</option>
+                            <option>25</option>
+                            <option>50</option>
+                            <option>100</option>
+                        </select>
+                        <div class="select-arrow">
+                            <i class="fas fa-angle-down"></i>
+                        </div>
                     </div>
                 </div>
-            </div>
+            @endif
             <div class="w-full">
                 <x-mailcoach::table-status
                     :name="__mc('' . $name)"

@@ -73,10 +73,10 @@ abstract class DataTableComponent extends Component
     public function queryString(): array
     {
         return array_merge([
-            'search',
-            'page',
-            'perPage',
-            'sort',
+            'search' => [],
+            'page' => [],
+            'perPage' => [],
+            'sort' => [],
         ], $this->allowedFilters);
     }
 

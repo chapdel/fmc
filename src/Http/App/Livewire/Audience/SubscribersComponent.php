@@ -19,9 +19,9 @@ class SubscribersComponent extends DataTableComponent
     public string $sort = '-created_at';
 
     protected array $allowedFilters = [
-        'status' => ['except' => ''],
-        'tags' => ['except' => ''],
-        'tagType' => ['except' => 'any'],
+        'status' => [],
+        'tags' => [],
+        'tagType' => [],
     ];
 
     public EmailList $emailList;
