@@ -18,6 +18,7 @@ class SegmentsQuery extends QueryBuilder
 
         $this
             ->defaultSort('name')
+            ->allowedSorts(['name', 'created_at'])
             ->allowedFilters(
                 AllowedFilter::custom('search', new FuzzyFilter('name'))
             )
