@@ -12,8 +12,8 @@ class RetrieveInactiveSubscribersAction
 {
     public function execute(
         EmailList $emailList,
-        ?int $didNotOpenPastNumberOfCampaigns = null,
-        ?int $didNotClickPastNumberOfCampaigns = null,
+        int $didNotOpenPastNumberOfCampaigns = null,
+        int $didNotClickPastNumberOfCampaigns = null,
     ): HasMany {
         $query = $emailList->subscribers();
 

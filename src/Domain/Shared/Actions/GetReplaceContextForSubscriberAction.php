@@ -13,7 +13,7 @@ class GetReplaceContextForSubscriberAction
     ) {
     }
 
-    public function execute(?Subscriber $subscriber, ?Send $send = null): array
+    public function execute(?Subscriber $subscriber, Send $send = null): array
     {
         if (! $subscriber) {
             return [];
@@ -49,7 +49,7 @@ class GetReplaceContextForSubscriberAction
         ];
     }
 
-    protected function getContextForSubscriber(Subscriber $subscriber, ?Send $send = null): array
+    protected function getContextForSubscriber(Subscriber $subscriber, Send $send = null): array
     {
         $context = [
             'unsubscribeUrl' => $subscriber->unsubscribeUrl($send),

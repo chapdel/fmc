@@ -207,7 +207,7 @@ class Send extends Model
         return $this;
     }
 
-    public function registerOpen(?DateTimeInterface $openedAt = null): CampaignOpen|AutomationMailOpen|TransactionalMailOpen|null
+    public function registerOpen(DateTimeInterface $openedAt = null): CampaignOpen|AutomationMailOpen|TransactionalMailOpen|null
     {
         if ($this->concernsTransactionalMail()) {
             return $this->registerTransactionalMailOpen($openedAt);
@@ -228,7 +228,7 @@ class Send extends Model
         return null;
     }
 
-    public function registerCampaignOpen(?DateTimeInterface $openedAt = null): ?CampaignOpen
+    public function registerCampaignOpen(DateTimeInterface $openedAt = null): ?CampaignOpen
     {
         if ($this->wasOpenedInTheLastSeconds($this->opens(), 5)) {
             return null;
@@ -252,7 +252,7 @@ class Send extends Model
         return $campaignOpen;
     }
 
-    public function registerAutomationMailOpen(?DateTimeInterface $openedAt = null): ?AutomationMailOpen
+    public function registerAutomationMailOpen(DateTimeInterface $openedAt = null): ?AutomationMailOpen
     {
         if ($this->wasOpenedInTheLastSeconds($this->automationMailOpens(), 5)) {
             return null;
@@ -274,7 +274,7 @@ class Send extends Model
         return $automationMailOpen;
     }
 
-    public function registerTransactionalMailOpen(?DateTimeInterface $openedAt = null): ?TransactionalMailOpen
+    public function registerTransactionalMailOpen(DateTimeInterface $openedAt = null): ?TransactionalMailOpen
     {
         if ($this->wasOpenedInTheLastSeconds($this->transactionalMailOpens(), 5)) {
             return null;
@@ -302,7 +302,7 @@ class Send extends Model
         return $latestOpen->created_at->diffInSeconds() < $seconds;
     }
 
-    public function registerClick(string $url, ?DateTimeInterface $clickedAt = null): CampaignClick|AutomationMailClick|TransactionalMailClick|null
+    public function registerClick(string $url, DateTimeInterface $clickedAt = null): CampaignClick|AutomationMailClick|TransactionalMailClick|null
     {
         $url = resolve(StripUtmTagsFromUrlAction::class)->execute($url);
 
@@ -325,7 +325,7 @@ class Send extends Model
         return null;
     }
 
-    protected function registerCampaignClick(string $url, ?DateTimeInterface $clickedAt = null): ?CampaignClick
+    protected function registerCampaignClick(string $url, DateTimeInterface $clickedAt = null): ?CampaignClick
     {
         if (Str::startsWith($url, route('mailcoach.unsubscribe', ''))) {
             return null;
@@ -345,7 +345,7 @@ class Send extends Model
         return $campaignClick;
     }
 
-    protected function registerAutomationMailClick(string $url, ?DateTimeInterface $clickedAt = null): ?AutomationMailClick
+    protected function registerAutomationMailClick(string $url, DateTimeInterface $clickedAt = null): ?AutomationMailClick
     {
         if (Str::startsWith($url, route('mailcoach.unsubscribe', ''))) {
             return null;
@@ -366,7 +366,7 @@ class Send extends Model
         return $automationMailLink;
     }
 
-    protected function registerTransactionalMailClick(string $url, ?DateTimeInterface $clickedAt = null): ?TransactionalMailClick
+    protected function registerTransactionalMailClick(string $url, DateTimeInterface $clickedAt = null): ?TransactionalMailClick
     {
         $transactionalMailClick = self::getTransactionalMailClickClass()::create([
             'send_id' => $this->id,
@@ -379,12 +379,12 @@ class Send extends Model
         return $transactionalMailClick;
     }
 
-    public function registerSoftBounce(?DateTimeInterface $bouncedAt = null)
+    public function registerSoftBounce(DateTimeInterface $bouncedAt = null)
     {
         return $this->registerBounce($bouncedAt, true);
     }
 
-    public function registerBounce(?DateTimeInterface $bouncedAt = null, bool $softBounce = false)
+    public function registerBounce(DateTimeInterface $bouncedAt = null, bool $softBounce = false)
     {
         $this->feedback()->create([
             'type' => $softBounce ? SendFeedbackType::SoftBounce : SendFeedbackType::Bounce,
@@ -405,7 +405,7 @@ class Send extends Model
         return $this;
     }
 
-    public function registerComplaint(?DateTimeInterface $complainedAt = null)
+    public function registerComplaint(DateTimeInterface $complainedAt = null)
     {
         $this->feedback()->create([
             'type' => SendFeedbackType::Complaint,

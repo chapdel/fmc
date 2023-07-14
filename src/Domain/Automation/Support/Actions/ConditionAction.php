@@ -19,7 +19,7 @@ class ConditionAction extends AutomationAction
         protected array $noActions = [],
         protected string $condition = '',
         protected array $conditionData = [],
-        ?string $uuid = null,
+        string $uuid = null,
     ) {
         parent::__construct($uuid);
     }
@@ -64,7 +64,7 @@ class ConditionAction extends AutomationAction
         return $clone;
     }
 
-    public function store(string $uuid, Automation $automation, ?int $order = null, ?int $parent_id = null, ?string $key = null): Action
+    public function store(string $uuid, Automation $automation, int $order = null, int $parent_id = null, string $key = null): Action
     {
         $parent = parent::store($uuid, $automation, $order, $parent_id, $key);
 

@@ -10,7 +10,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class UsersQuery extends QueryBuilder
 {
-    public function __construct(?Request $request = null)
+    public function __construct(Request $request = null)
     {
         parent::__construct(User::query(), $request);
 

@@ -42,7 +42,7 @@ class TransactionalMail extends Mailable
         array $replacements = [],
         array $attachments = [],
         bool $store = true,
-        ?string $html = null,
+        string $html = null,
     ) {
         $this->mailName = $mailName;
         $this->replacements = $replacements;

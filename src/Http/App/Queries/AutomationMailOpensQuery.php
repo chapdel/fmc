@@ -16,7 +16,7 @@ class AutomationMailOpensQuery extends QueryBuilder
 
     public int $totalCount;
 
-    public function __construct(AutomationMail $mail, ?Request $request = null)
+    public function __construct(AutomationMail $mail, Request $request = null)
     {
         $prefix = DB::getTablePrefix();
 

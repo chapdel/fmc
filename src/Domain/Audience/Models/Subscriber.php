@@ -283,14 +283,14 @@ class Subscriber extends Model implements CipherSweetEncrypted
         });
     }
 
-    public function addTag(string|iterable $name, ?TagType $type = null): self
+    public function addTag(string|iterable $name, TagType $type = null): self
     {
         $names = Arr::wrap($name);
 
         return $this->addTags($names, $type);
     }
 
-    public function addTags(array $names, ?TagType $type = null)
+    public function addTags(array $names, TagType $type = null)
     {
         foreach ($names as $name) {
             if ($this->hasTag($name)) {

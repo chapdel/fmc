@@ -14,7 +14,7 @@ use Spatie\Mailcoach\Mailcoach;
 
 class SendCampaignAction
 {
-    public function execute(Campaign $campaign, ?CarbonInterface $stopExecutingAt = null): void
+    public function execute(Campaign $campaign, CarbonInterface $stopExecutingAt = null): void
     {
         if (! $campaign->isSending()) {
             return;

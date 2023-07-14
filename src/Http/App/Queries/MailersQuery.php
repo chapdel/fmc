@@ -12,7 +12,7 @@ class MailersQuery extends QueryBuilder
 {
     use UsesMailcoachModels;
 
-    public function __construct(?Request $request = null)
+    public function __construct(Request $request = null)
     {
         parent::__construct(self::getMailerClass()::query(), $request);
 

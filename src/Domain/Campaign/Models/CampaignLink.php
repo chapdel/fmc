@@ -38,7 +38,7 @@ class CampaignLink extends Model
         return $this->hasMany(self::getCampaignClickClass());
     }
 
-    public function registerClick(Send $send, ?DateTimeInterface $clickedAt = null): CampaignClick
+    public function registerClick(Send $send, DateTimeInterface $clickedAt = null): CampaignClick
     {
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\CampaignClick $campaignClick */
         $campaignClick = $this->clicks()->create([

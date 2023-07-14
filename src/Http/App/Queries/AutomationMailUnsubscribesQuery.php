@@ -10,7 +10,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class AutomationMailUnsubscribesQuery extends QueryBuilder
 {
-    public function __construct(AutomationMail $automationMail, ?Request $request = null)
+    public function __construct(AutomationMail $automationMail, Request $request = null)
     {
         parent::__construct($automationMail->unsubscribes()->getQuery(), $request);
 

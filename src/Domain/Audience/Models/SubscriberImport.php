@@ -44,7 +44,7 @@ class SubscriberImport extends Model implements HasMedia
         });
     }
 
-    public function addError(string $message, ?ImportSubscriberRow $row = null): void
+    public function addError(string $message, ImportSubscriberRow $row = null): void
     {
         $values = $row?->getAllValues() ?? [];
 

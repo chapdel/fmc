@@ -11,7 +11,7 @@ class WebhookLogsQuery extends QueryBuilder
 {
     use UsesMailcoachModels;
 
-    public function __construct(WebhookConfiguration $webhookConfiguration, ?Request $request = null)
+    public function __construct(WebhookConfiguration $webhookConfiguration, Request $request = null)
     {
         parent::__construct(self::getWebhookLogClass()::query(), $request);
 

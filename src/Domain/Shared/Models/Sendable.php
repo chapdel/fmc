@@ -150,7 +150,7 @@ abstract class Sendable extends Model implements HasHtmlContent
         return $this;
     }
 
-    public function getFromEmail(?Send $send = null): string
+    public function getFromEmail(Send $send = null): string
     {
         return $this->from_email
             ?? $this->emailList?->default_from_email
@@ -158,7 +158,7 @@ abstract class Sendable extends Model implements HasHtmlContent
             ?? config('mail.from.address');
     }
 
-    public function getFromName(?Send $send = null): ?string
+    public function getFromName(Send $send = null): ?string
     {
         return $this->from_name
             ?? $this->emailList?->default_from_name
@@ -166,7 +166,7 @@ abstract class Sendable extends Model implements HasHtmlContent
             ?? config('mail.from.name');
     }
 
-    public function getReplyToEmail(?Send $send = null): ?string
+    public function getReplyToEmail(Send $send = null): ?string
     {
         // make internal in v7?
         return $this->reply_to_email
@@ -175,7 +175,7 @@ abstract class Sendable extends Model implements HasHtmlContent
             ?? null;
     }
 
-    public function getReplyToName(?Send $send = null): ?string
+    public function getReplyToName(Send $send = null): ?string
     {
         // make internal in v7?
         return $this->reply_to_name
@@ -185,7 +185,7 @@ abstract class Sendable extends Model implements HasHtmlContent
     }
 
     /** @return array{email: string, name: ?string} */
-    public function getReplyToAddresses(?Send $send = null): array
+    public function getReplyToAddresses(Send $send = null): array
     {
         return resolve(CommaSeparatedEmailsToArrayAction::class)
             ->execute($this->getReplyToEmail($send), $this->getReplyToName($send));

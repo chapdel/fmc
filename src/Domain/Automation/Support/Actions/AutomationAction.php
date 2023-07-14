@@ -52,7 +52,7 @@ abstract class AutomationAction extends AutomationStep
         return $action->pendingActionSubscribers();
     }
 
-    public function store(string $uuid, Automation $automation, ?int $order = null, ?int $parent_id = null, ?string $key = null): Action
+    public function store(string $uuid, Automation $automation, int $order = null, int $parent_id = null, string $key = null): Action
     {
         $actionClass = static::getAutomationActionClass();
 

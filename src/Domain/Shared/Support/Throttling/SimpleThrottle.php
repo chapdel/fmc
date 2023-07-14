@@ -16,7 +16,7 @@ class SimpleThrottle
     ) {
     }
 
-    public function forMailer(?string $mailer = null): self
+    public function forMailer(string $mailer = null): self
     {
         $this->cache->forMailer($mailer);
 
@@ -26,7 +26,7 @@ class SimpleThrottle
         return $this;
     }
 
-    public function forMailerCreates(?string $mailer = null): self
+    public function forMailerCreates(string $mailer = null): self
     {
         $this->cache->forMailerCreates($mailer);
 

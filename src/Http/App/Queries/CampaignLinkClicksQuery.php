@@ -16,7 +16,7 @@ class CampaignLinkClicksQuery extends QueryBuilder
 
     public int $totalCount;
 
-    public function __construct(CampaignLink $campaignLink, ?Request $request = null)
+    public function __construct(CampaignLink $campaignLink, Request $request = null)
     {
         $prefix = DB::getTablePrefix();
 

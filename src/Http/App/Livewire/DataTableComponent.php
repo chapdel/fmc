@@ -89,7 +89,7 @@ abstract class DataTableComponent extends Component
         $this->sort = $sort;
     }
 
-    public function setFilter(string $property, ?string $value = null)
+    public function setFilter(string $property, string $value = null)
     {
         $this->resetPage();
 

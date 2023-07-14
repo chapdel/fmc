@@ -8,7 +8,7 @@ class TagRemovedTrigger extends AutomationTrigger implements TriggeredByEvents
 {
     public string $tag = '';
 
-    public function __construct(string $tag, ?string $uuid = null)
+    public function __construct(string $tag, string $uuid = null)
     {
         parent::__construct($uuid);
 

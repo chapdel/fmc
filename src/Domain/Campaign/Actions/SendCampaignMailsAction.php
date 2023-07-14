@@ -12,7 +12,7 @@ use Spatie\Mailcoach\Domain\Shared\Support\Throttling\SimpleThrottle;
 
 class SendCampaignMailsAction
 {
-    public function execute(Campaign $campaign, ?CarbonInterface $stopExecutingAt = null): void
+    public function execute(Campaign $campaign, CarbonInterface $stopExecutingAt = null): void
     {
         $this->retryDispatchForStuckSends($campaign);
 

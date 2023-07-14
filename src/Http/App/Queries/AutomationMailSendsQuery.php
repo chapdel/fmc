@@ -14,7 +14,7 @@ class AutomationMailSendsQuery extends QueryBuilder
 {
     use UsesMailcoachModels;
 
-    public function __construct(AutomationMail $automationMail, ?Request $request = null)
+    public function __construct(AutomationMail $automationMail, Request $request = null)
     {
         parent::__construct(self::getSendClass()::query(), $request);
 

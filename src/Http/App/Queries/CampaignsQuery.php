@@ -15,7 +15,7 @@ class CampaignsQuery extends QueryBuilder
 {
     use UsesMailcoachModels;
 
-    public function __construct(?Request $request = null)
+    public function __construct(Request $request = null)
     {
         parent::__construct(self::getCampaignClass()::query()->with('emailList')->withCount('sendsWithErrors'), $request);
 

@@ -16,7 +16,7 @@ class SimpleThrottleCache
     {
     }
 
-    public function forMailer(?string $mailer = null): self
+    public function forMailer(string $mailer = null): self
     {
         if (! is_null($mailer)) {
             $this->currentPeriodHitCountKey = "simpleThrottle.currentPeriodHitCount.{$mailer}";
@@ -26,7 +26,7 @@ class SimpleThrottleCache
         return $this;
     }
 
-    public function forMailerCreates(?string $mailer = null): self
+    public function forMailerCreates(string $mailer = null): self
     {
         if (! is_null($mailer)) {
             $this->currentPeriodHitCountKey = "simpleThrottle.currentPeriodHitCount.createSends.{$mailer}";

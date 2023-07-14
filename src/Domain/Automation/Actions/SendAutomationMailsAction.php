@@ -19,7 +19,7 @@ class SendAutomationMailsAction
     {
     }
 
-    public function execute(?CarbonInterface $stopExecutingAt = null)
+    public function execute(CarbonInterface $stopExecutingAt = null)
     {
         $this->retryDispatchForStuckSends();
 

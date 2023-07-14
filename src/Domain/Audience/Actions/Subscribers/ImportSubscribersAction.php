@@ -34,7 +34,7 @@ class ImportSubscribersAction
     ) {
     }
 
-    public function execute(SubscriberImport $subscriberImport, ?User $user = null, bool $sendNotification = true)
+    public function execute(SubscriberImport $subscriberImport, User $user = null, bool $sendNotification = true)
     {
         $this
             ->initialize($subscriberImport, $user, $sendNotification)

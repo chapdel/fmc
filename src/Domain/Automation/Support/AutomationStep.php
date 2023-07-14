@@ -8,7 +8,7 @@ abstract class AutomationStep
 {
     public string $uuid;
 
-    public function __construct(?string $uuid = null)
+    public function __construct(string $uuid = null)
     {
         if (is_null($uuid)) {
             $this->uuid = Str::uuid()->toString();
