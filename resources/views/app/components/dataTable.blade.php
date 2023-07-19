@@ -14,7 +14,12 @@
 'selectable' => false,
 'bulkActions' => [],
 'showFilters' => false,
+'exportable' => false,
 ])
+@if ($exportable)
+    @php($selectable = true)
+    @php($bulkActions[] = ['label' => __mc('Export :count row|Export :count rows'), 'method' => 'export', 'confirm' => false])
+@endif
 <div wire:init="loadRows" class="card-grid" x-data="{showFilters: @js($showFilters)}">
     @if (isset($actions) || $modelClass || count($filters) || $searchable)
         <div class="table-actions">
@@ -139,9 +144,15 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <x-mailcoach::confirm-button class="button" :disabled="!$this->bulkAction" on-confirm="() => $wire.{{ $this->bulkAction }}()">
-                                            {{ __mc('Apply') }}
-                                        </x-mailcoach::confirm-button>
+                                        @if (collect($bulkActions)->firstWhere('method', $this->bulkAction)['confirm'] ?? true)
+                                            <x-mailcoach::confirm-button class="button" :disabled="!$this->bulkAction" on-confirm="() => $wire.{{ $this->bulkAction }}()">
+                                                {{ __mc('Apply') }}
+                                            </x-mailcoach::confirm-button>
+                                        @else
+                                            <x-mailcoach::button class="button" :disabled="!$this->bulkAction" wire:click.prevent="{{ $this->bulkAction }}()">
+                                                {{ __mc('Apply') }}
+                                            </x-mailcoach::button>
+                                        @endif
                                     </div>
                                 @endif
                             </div>

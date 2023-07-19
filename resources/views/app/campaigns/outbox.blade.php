@@ -16,6 +16,7 @@
         ['attribute' => '-sent_at', 'label' => __mc('Sent at'), 'class' => 'w-48 th-numeric hidden | xl:table-cell'],
     ]"
     rowPartial="mailcoach::app.campaigns.partials.outboxRow"
+    :exportable="true"
 >
     @slot('actions')
         @if (($totalFailed = $this->campaign->sends()->failed()->count()) > 0)

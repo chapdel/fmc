@@ -2,12 +2,15 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire\Campaigns;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\RetrySendingFailedSendsJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Http\App\Livewire\DataTableComponent;
 use Spatie\Mailcoach\Http\App\Queries\CampaignSendsQuery;
 use Spatie\Mailcoach\MainNavigation;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class CampaignOutboxComponent extends DataTableComponent
 {
@@ -67,11 +70,26 @@ class CampaignOutboxComponent extends DataTableComponent
         ];
     }
 
+    /** @var Send */
+    public function formatExportRow(Model $model): array
+    {
+        return [
+            'email' => $model->subscriber->email,
+            'problem' => $model->failure_reason.optional($model->latestFeedback())->formatted_type,
+            'sent_at' => optional($model->sent_at)->toMailcoachFormat() ?? '-',
+        ];
+    }
+
+    public function getQuery(Request $request): QueryBuilder
+    {
+        return new CampaignSendsQuery($this->campaign, $request);
+    }
+
     public function getData(Request $request): array
     {
         $this->authorize('view', $this->campaign);
 
-        $sendsQuery = (new CampaignSendsQuery($this->campaign, $request));
+        $sendsQuery = $this->getQuery($request);
 
         return [
             'campaign' => $this->campaign,

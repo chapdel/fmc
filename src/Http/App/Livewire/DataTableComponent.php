@@ -2,6 +2,8 @@
 
 namespace Spatie\Mailcoach\Http\App\Livewire;
 
+use Exception;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -10,6 +12,8 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\SimpleExcel\SimpleExcelWriter;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 abstract class DataTableComponent extends Component
 {
@@ -214,6 +218,46 @@ abstract class DataTableComponent extends Component
         $this->selectedRows = [];
         $this->bulkAction = '';
         $this->selectedAll = false;
+    }
+
+    public function formatExportRow(Model $model): array
+    {
+        if (method_exists($model, 'toExportRow')) {
+            return $model->toExportRow();
+        }
+
+        return $model->toArray();
+    }
+
+    public function export(): StreamedResponse
+    {
+        $query = $this->getQuery($this->buildRequest());
+
+        if (! $query) {
+            throw new Exception('You must implement getQuery to use export.');
+        }
+
+        if ($this->selectedRows) {
+            $query->whereIn('id', $this->selectedRows);
+        }
+
+        return response()->streamDownload(function () use ($query) {
+            $csv = SimpleExcelWriter::streamDownload($this->getTitle().' export.csv');
+
+            // Get the first query result to determine header
+            $header = array_keys($this->formatExportRow($query->first()));
+            $csv->addHeader($header);
+
+            $query->each(function (Model $model) use ($csv) {
+                $csv->addRow($this->formatExportRow($model));
+
+                flush();
+            });
+
+            $csv->close();
+        }, ($this->getTitle().' export.csv'), [
+            'Content-Type' => 'text/csv',
+        ]);
     }
 
     protected function buildRequest(): Request

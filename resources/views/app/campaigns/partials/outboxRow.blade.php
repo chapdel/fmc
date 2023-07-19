@@ -1,4 +1,9 @@
 <tr class="markup-links">
+    @if ($selectable)
+        <td class="text-xs !pt-4">
+            <x-mailcoach::checkbox-field name="select-{{ $row->id }}" label="" :checked="in_array($row->id, $this->selectedRows)" wire:change="select('{{ $row->id }}')" />
+        </td>
+    @endif
     <td>
         @if ($row->subscriber)
             <a class="break-words" href="{{ route('mailcoach.emailLists.subscriber.details', [$row->subscriber->emailList, $row->subscriber]) }}">{{ $row->subscriber->email }}</a>
