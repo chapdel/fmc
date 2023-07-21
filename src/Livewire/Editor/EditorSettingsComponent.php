@@ -7,6 +7,7 @@ use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\EditorConfiguration;
 use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\EditorConfigurationDriverRepository;
+use Spatie\Mailcoach\Livewire\LivewireFlash;
 
 class EditorSettingsComponent extends Component
 {

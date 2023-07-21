@@ -114,7 +114,7 @@ it('emits an event', function () {
         ->set('conditionData.tag', 'some-tag')
         ->call('save')
         ->assertHasNoErrors()
-        ->assertEmitted('actionSaved', function ($event, $params) use ($uuid) {
+        ->assertDispatched('actionSaved', function ($event, $params) use ($uuid) {
             expect($params[0])->toBe($uuid);
             test()->assertSame([
                 'length' => 5,

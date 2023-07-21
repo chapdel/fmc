@@ -93,7 +93,7 @@ it('doesnt update when other builders get updated', function () {
         'automation' => $automation,
     ])->assertSee(json_encode([
         $automation->actions->first()->toLivewireArray(),
-    ]))->emit('automationBuilderUpdated', [
+    ]))->dispatch('automationBuilderUpdated', [
         'name' => 'some-other',
         'actions' => [],
     ])->assertViewHas('actions', [

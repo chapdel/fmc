@@ -8,6 +8,8 @@ use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookLog;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Queries\WebhookLogsQuery;
+use Spatie\Mailcoach\Livewire\DataTableComponent;
+use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\Mailcoach;
 
 class WebhookLogsComponent extends DataTableComponent

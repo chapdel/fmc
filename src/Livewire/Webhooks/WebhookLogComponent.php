@@ -7,6 +7,7 @@ use Livewire\Component;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookLog;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Livewire\LivewireFlash;
 
 class WebhookLogComponent extends Component
 {
@@ -25,11 +26,10 @@ class WebhookLogComponent extends Component
 
     public function render(): View
     {
-        return view('mailcoach::app.configuration.webhooks.logs.show', [
-            'webhookLog' => $this->webhookLog,
-        ])->layout('mailcoach::app.layouts.settings', [
-            'title' => __mc('Webhook Log Details'),
-        ]);
+        return view('mailcoach::app.configuration.webhooks.logs.show')
+            ->layout('mailcoach::app.layouts.settings', [
+                'title' => __mc('Webhook Log Details'),
+            ]);
     }
 
     public function getPrintableResponse(): string

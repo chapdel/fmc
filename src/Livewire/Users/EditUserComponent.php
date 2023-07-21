@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Livewire\Users;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Settings\Models\User;
+use Spatie\Mailcoach\Livewire\LivewireFlash;
 
 class EditUserComponent extends Component
 {

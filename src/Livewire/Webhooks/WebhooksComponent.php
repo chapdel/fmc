@@ -5,6 +5,8 @@ namespace Spatie\Mailcoach\Livewire\Webhooks;
 use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Queries\WebhooksQuery;
+use Spatie\Mailcoach\Livewire\DataTableComponent;
+use Spatie\Mailcoach\Livewire\LivewireFlash;
 
 class WebhooksComponent extends DataTableComponent
 {

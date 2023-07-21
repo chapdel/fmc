@@ -74,7 +74,7 @@ it('emits correct data', function () {
         ->set('unit', 'days')
         ->call('save')
         ->assertHasNoErrors()
-        ->assertEmitted('actionSaved', $uuid, [
+        ->assertDispatched('actionSaved', $uuid, [
             'seconds' => 432000,
             'unit' => 'days',
             'length' => '5',

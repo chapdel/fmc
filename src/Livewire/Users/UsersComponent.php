@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Mailcoach\Domain\Settings\Models\User;
 use Spatie\Mailcoach\Http\App\Queries\UsersQuery;
+use Spatie\Mailcoach\Livewire\DataTableComponent;
+use Spatie\Mailcoach\Livewire\LivewireFlash;
 
 class UsersComponent extends DataTableComponent
 {

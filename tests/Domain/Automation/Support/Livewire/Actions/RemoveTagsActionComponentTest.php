@@ -31,7 +31,7 @@ it('emits correct data', function () {
     ])->set('tags', 'some,tags')
         ->call('save')
         ->assertHasNoErrors()
-        ->assertEmitted('actionSaved', $uuid, [
+        ->assertDispatched('actionSaved', $uuid, [
             'tags' => 'some,tags',
         ]);
 });

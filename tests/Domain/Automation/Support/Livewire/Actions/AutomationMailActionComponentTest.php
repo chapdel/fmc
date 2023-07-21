@@ -54,7 +54,7 @@ it('emits correct data', function () {
     ])->set('automation_mail_id', $mail->id)
         ->call('save')
         ->assertHasNoErrors()
-        ->assertEmitted('actionSaved', $uuid, [
+        ->assertDispatched('actionSaved', $uuid, [
             'automation_mail_id' => $mail->id,
         ]);
 });

@@ -30,9 +30,9 @@ class AutomationSettingsComponent extends Component
 
     public ?int $segment_id;
 
-    public bool $repeat_enabled;
+    public ?bool $repeat_enabled;
 
-    public bool $repeat_only_after_halt;
+    public ?bool $repeat_only_after_halt;
 
     public string $segment;
 

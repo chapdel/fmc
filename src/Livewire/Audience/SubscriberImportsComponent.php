@@ -6,7 +6,6 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Livewire\WithFileUploads;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\CreateSimpleExcelReaderAction;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus;
@@ -60,7 +59,7 @@ class SubscriberImportsComponent extends DataTableComponent
 
         $this->authorize('update', $this->emailList);
 
-        /** @var \Livewire\TemporaryUploadedFile $file */
+        /** @var \Livewire\Features\SupportFileUploads\TemporaryUploadedFile $file */
         $file = $this->file;
         $path = $file->store('subscriber-import');
 
@@ -72,13 +71,13 @@ class SubscriberImportsComponent extends DataTableComponent
             'replace_tags' => $this->replaceTags === 'replace',
         ]);
 
-        $subscriberImport->addMediaFromDisk($path, $file->disk)->toMediaCollection('importFile');
+        $subscriberImport->addMedia($file)->toMediaCollection('importFile');
 
         $reader = app(CreateSimpleExcelReaderAction::class)->execute($subscriberImport);
 
         if (! in_array('email', $reader->getHeaders() ?? []) && ! in_array('Email Address', $reader->getHeaders() ?? [])) {
             $subscriberImport->delete();
-            Storage::disk($file->disk)->delete($path);
+            $file->delete();
             $this->addError('file', __mc('No header row found. Make sure your first row has at least 1 column with "email"'));
 
             return;

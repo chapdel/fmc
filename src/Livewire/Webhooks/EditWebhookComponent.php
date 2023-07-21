@@ -7,6 +7,7 @@ use Livewire\Component;
 use Spatie\Mailcoach\Domain\Settings\Enums\WebhookEventTypes;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Livewire\LivewireFlash;
 
 class EditWebhookComponent extends Component
 {
