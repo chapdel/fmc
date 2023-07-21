@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Livewire;
+namespace Spatie\Mailcoach\Livewire\Webhooks;
 
 use Illuminate\Support\Str;
 use Livewire\Component;

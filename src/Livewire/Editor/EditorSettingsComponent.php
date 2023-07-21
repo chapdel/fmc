@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Livewire;
+namespace Spatie\Mailcoach\Livewire\Editor;
 
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;

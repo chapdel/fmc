@@ -3,7 +3,7 @@
 use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignSettingsComponent;
+use Spatie\Mailcoach\Livewire\Campaigns\CampaignSettingsComponent;
 
 it('can update the settings of a campaign', function () {
     $this->withoutExceptionHandling();

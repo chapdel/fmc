@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\Livewire\MailConfiguration\Concerns;
+namespace Spatie\Mailcoach\Livewire\MailConfiguration\Concerns;
 
 use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;

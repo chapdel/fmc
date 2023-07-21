@@ -1,12 +1,12 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\Livewire\MailConfiguration\Sendinblue\Steps;
+namespace Spatie\Mailcoach\Livewire\MailConfiguration\Sendinblue\Steps;
 
 use Exception;
 use Illuminate\Support\Str;
 use Spatie\LivewireWizard\Components\StepComponent;
-use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Concerns\UsesMailer;
+use Spatie\Mailcoach\Livewire\LivewireFlash;
+use Spatie\Mailcoach\Livewire\MailConfiguration\Concerns\UsesMailer;
 use Spatie\MailcoachSendinblueFeedback\SendinblueWebhookController;
 use Spatie\MailcoachSendinblueSetup\Sendinblue;
 

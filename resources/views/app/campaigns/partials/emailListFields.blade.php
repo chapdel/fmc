@@ -1,4 +1,6 @@
-@props(['wiremodel' => null])
+@props([
+    'wiremodel' => null,
+])
 <x-mailcoach::fieldset card :legend="__mc('Audience')">
     @if($emailLists->count())
         <x-mailcoach::select-field

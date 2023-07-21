@@ -2,7 +2,7 @@
 
 use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
-use Spatie\Mailcoach\Http\App\Livewire\Campaigns\TemplatesComponent;
+use Spatie\Mailcoach\Livewire\Templates\TemplatesComponent;
 
 it('can delete a template', function () {
     $this->authenticate();

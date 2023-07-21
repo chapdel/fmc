@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Livewire;
+namespace Spatie\Mailcoach\Livewire\Users;
 
 use Illuminate\Validation\Rule;
 use Livewire\Component;

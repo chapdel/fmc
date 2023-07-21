@@ -5,7 +5,7 @@ use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\UnsubscribeAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\WebhookTrigger;
-use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationSettingsComponent;
+use Spatie\Mailcoach\Livewire\Automations\AutomationSettingsComponent;
 
 it('can change automation settings', function () {
     $this->authenticate();

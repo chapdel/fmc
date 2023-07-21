@@ -1,14 +1,14 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\Livewire\MailConfiguration\Sendinblue;
+namespace Spatie\Mailcoach\Livewire\MailConfiguration\Sendinblue;
 
 use Livewire\Livewire;
 use Spatie\LivewireWizard\Components\WizardComponent;
 use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Sendinblue\Steps\AuthenticationStepComponent;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Sendinblue\Steps\FeedbackStepComponent;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Sendinblue\Steps\SummaryStepComponent;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Sendinblue\Steps\ThrottlingStepComponent;
+use Spatie\Mailcoach\Livewire\MailConfiguration\Sendinblue\Steps\AuthenticationStepComponent;
+use Spatie\Mailcoach\Livewire\MailConfiguration\Sendinblue\Steps\FeedbackStepComponent;
+use Spatie\Mailcoach\Livewire\MailConfiguration\Sendinblue\Steps\SummaryStepComponent;
+use Spatie\Mailcoach\Livewire\MailConfiguration\Sendinblue\Steps\ThrottlingStepComponent;
 
 class SendinblueSetupWizardComponent extends WizardComponent
 {

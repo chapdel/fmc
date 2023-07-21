@@ -23,11 +23,11 @@
     @csrf
 
     <x-mailcoach::card>
-        <x-mailcoach::text-field :label="__mc('Name')" name="name" wire:model.lazy="campaign.name" required :disabled="!$campaign->isEditable()" />
+        <x-mailcoach::text-field :label="__mc('Name')" name="form.name" wire:model="form.name" required :disabled="!$campaign->isEditable()" />
     </x-mailcoach::card>
 
     @if ($campaign->isEditable())
-        @include('mailcoach::app.campaigns.partials.emailListFields', ['segmentable' => $campaign, 'wiremodel' => 'campaign'])
+        @include('mailcoach::app.campaigns.partials.emailListFields', ['segmentable' => $campaign, 'wiremodel' => 'form'])
     @else
         <x-mailcoach::fieldset card legend="Audience">
             <div>
@@ -45,15 +45,15 @@
         <x-mailcoach::info class="-mt-4">{!! __mc('Leave empty to use your <a href=":url">email list defaults</a>', ['url' => $campaign->emailList ? route('mailcoach.emailLists.general-settings', $campaign->emailList) : '']) !!}</x-mailcoach::info>
         @endif
         <div class="grid grid-cols-2 gap-6">
-            <x-mailcoach::text-field :label="__mc('From email')" name="campaign.from_email" wire:model.lazy="campaign.from_email"
+            <x-mailcoach::text-field :label="__mc('From email')" name="form.from_email" wire:model="form.from_email"
                                      type="email" :placeholder="$campaign->emailList?->default_from_email" :disabled="!$campaign->isEditable()" />
 
-            <x-mailcoach::text-field :label="__mc('From name')" name="campaign.from_name" wire:model.lazy="campaign.from_name" :placeholder="$campaign->emailList?->default_from_name" :disabled="!$campaign->isEditable()"/>
+            <x-mailcoach::text-field :label="__mc('From name')" name="form.from_name" wire:model="form.from_name" :placeholder="$campaign->emailList?->default_from_name" :disabled="!$campaign->isEditable()"/>
 
             <x-mailcoach::text-field
                 :label="__mc('Reply-to email')"
-                name="campaign.reply_to_email"
-                wire:model.lazy="campaign.reply_to_email"
+                name="form.reply_to_email"
+                wire:model="form.reply_to_email"
                 :help="__mc('Use a comma separated list to send replies to multiple email addresses.')"
                 :placeholder="$campaign->emailList?->default_reply_to_email"
                 :disabled="!$campaign->isEditable()"
@@ -61,8 +61,8 @@
 
             <x-mailcoach::text-field
                 :label="__mc('Reply-to name')"
-                name="campaign.reply_to_name"
-                wire:model.lazy="campaign.reply_to_name"
+                name="form.reply_to_name"
+                wire:model="form.reply_to_name"
                 :placeholder="$campaign->emailList?->default_reply_to_name"
                 :help="__mc('Use a comma separated list to send replies to multiple email addresses.')"
                 :disabled="!$campaign->isEditable()"
@@ -101,8 +101,8 @@
         <div class="form-field">
             <label class="label">{{ __mc('Subscriber Tags') }}</label>
             <div class="checkbox-group">
-                <x-mailcoach::checkbox-field :label="__mc('Add tags to subscribers for opens & clicks')" name="campaign.add_subscriber_tags" wire:model="campaign.add_subscriber_tags" :disabled="!$campaign->isEditable()" />
-                <x-mailcoach::checkbox-field :label="__mc('Add individual link tags')" name="campaign.add_subscriber_link_tags" wire:model="campaign.add_subscriber_link_tags" :disabled="!$campaign->isEditable()" />
+                <x-mailcoach::checkbox-field :label="__mc('Add tags to subscribers for opens & clicks')" name="form.add_subscriber_tags" wire:model="form.add_subscriber_tags" :disabled="!$campaign->isEditable()" />
+                <x-mailcoach::checkbox-field :label="__mc('Add individual link tags')" name="form.add_subscriber_link_tags" wire:model="form.add_subscriber_link_tags" :disabled="!$campaign->isEditable()" />
             </div>
         </div>
 
@@ -118,7 +118,7 @@
         <div class="form-field">
             <label class="label">{{ __mc('UTM Tags') }}</label>
             <div class="checkbox-group">
-                <x-mailcoach::checkbox-field :label="__mc('Automatically add UTM tags')" name="utm_tags" wire:model="campaign.utm_tags" :disabled="!$campaign->isEditable()" />
+                <x-mailcoach::checkbox-field :label="__mc('Automatically add UTM tags')" name="form.utm_tags" wire:model="form.utm_tags" :disabled="!$campaign->isEditable()" />
             </div>
         </div>
 
@@ -132,8 +132,6 @@
         </x-mailcoach::help>
     </x-mailcoach::fieldset>
 
-
-
     @if($this->campaign->emailList?->has_website || $this->campaign->emailList?->campaigns_feed_enabled)
         <x-mailcoach::fieldset card :legend="__mc('Publish campaign')">
             <div>
@@ -144,7 +142,7 @@
 
             <div class="form-field">
                 <div class="checkbox-group">
-                    <x-mailcoach::checkbox-field :label="__mc('Show publicly')" name="utm_tags" wire:model="campaign.show_publicly" />
+                    <x-mailcoach::checkbox-field :label="__mc('Show publicly')" name="form.utm_tags" wire:model="form.show_publicly" />
                 </div>
             </div>
 
@@ -165,10 +163,7 @@
         </div>
     </x-mailcoach::fieldset>
 
-
-
-        <x-mailcoach::card buttons>
-            <x-mailcoach::button :label="__mc('Save settings')" />
-        </x-mailcoach::card>
-
+    <x-mailcoach::card buttons>
+        <x-mailcoach::button :label="__mc('Save settings')" />
+    </x-mailcoach::card>
 </form>

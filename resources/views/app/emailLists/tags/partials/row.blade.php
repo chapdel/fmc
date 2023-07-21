@@ -14,7 +14,7 @@
         @endif
     </td>
     <td class="td-numeric">
-        <livewire:mailcoach::tag-population-count wire:key="{{ $row->uuid }}" :tag="$row" />
+        <livewire:mailcoach::tag-population-count lazy wire:key="{{ $row->uuid }}" :tag="$row" />
     </td>
     <td class="td-numeric hidden | xl:table-cell">{{ $row->updated_at->toMailcoachFormat() }}</td>
 

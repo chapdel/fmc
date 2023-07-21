@@ -1,15 +1,15 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\Livewire\MailConfiguration\Postmark;
+namespace Spatie\Mailcoach\Livewire\MailConfiguration\Postmark;
 
 use Livewire\Livewire;
 use Spatie\LivewireWizard\Components\WizardComponent;
 use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Postmark\Steps\AuthenticationStepComponent;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Postmark\Steps\FeedbackStepComponent;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Postmark\Steps\MessageStreamStepComponent;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Postmark\Steps\SummaryStepComponent;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Postmark\Steps\ThrottlingStepComponent;
+use Spatie\Mailcoach\Livewire\MailConfiguration\Postmark\Steps\AuthenticationStepComponent;
+use Spatie\Mailcoach\Livewire\MailConfiguration\Postmark\Steps\FeedbackStepComponent;
+use Spatie\Mailcoach\Livewire\MailConfiguration\Postmark\Steps\MessageStreamStepComponent;
+use Spatie\Mailcoach\Livewire\MailConfiguration\Postmark\Steps\SummaryStepComponent;
+use Spatie\Mailcoach\Livewire\MailConfiguration\Postmark\Steps\ThrottlingStepComponent;
 
 class PostmarkSetupWizardComponent extends WizardComponent
 {

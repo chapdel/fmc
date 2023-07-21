@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors;
 
-use Spatie\Mailcoach\Http\App\Livewire\TextAreaEditorComponent;
+use Spatie\Mailcoach\Livewire\Editor\TextAreaEditorComponent;
 
 class TextareaEditorConfigurationDriver extends EditorConfigurationDriver
 {

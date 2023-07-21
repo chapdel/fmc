@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\Livewire\MailConfiguration\Ses\Steps;
+namespace Spatie\Mailcoach\Livewire\MailConfiguration\Ses\Steps;
 
 use Spatie\LivewireWizard\Components\StepComponent;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Concerns\UsesMailer;
+use Spatie\Mailcoach\Livewire\MailConfiguration\Concerns\UsesMailer;
 use Spatie\MailcoachSesSetup\MailcoachSes;
 use Spatie\MailcoachSesSetup\MailcoachSesConfig;
 

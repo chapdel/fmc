@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Livewire;
+namespace Spatie\Mailcoach\Livewire\Dashboard;
 
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;

@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\Livewire\MailConfiguration\Mailgun\Steps;
+namespace Spatie\Mailcoach\Livewire\MailConfiguration\Mailgun\Steps;
 
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\AbstractThrottlingStepComponent;
+use Spatie\Mailcoach\Livewire\MailConfiguration\AbstractThrottlingStepComponent;
 
 class ThrottlingStepComponent extends AbstractThrottlingStepComponent
 {

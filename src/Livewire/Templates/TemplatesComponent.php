@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Livewire\Campaigns;
+namespace Spatie\Mailcoach\Livewire\Templates;
 
 use Illuminate\Http\Request;
 use Spatie\Mailcoach\Http\App\Queries\TemplatesQuery;

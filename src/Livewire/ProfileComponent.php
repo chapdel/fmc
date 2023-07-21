@@ -1,11 +1,10 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\Livewire;
+namespace Spatie\Mailcoach\Livewire;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
-use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 
 class ProfileComponent extends Component
 {

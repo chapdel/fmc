@@ -1,5 +1,3 @@
-<x-mailcoach::layout :title="__mc('Debug')">
-
 @php($issueBody = "## Describe your issue\n\n\n\n---\n## Health check:\n\n")
 <div class="card-grid form-fieldsets-no-max-w">
     <x-mailcoach::fieldset card :legend="__mc('Health')">
@@ -128,7 +126,7 @@
         </dl>
     </x-mailcoach::fieldset>
 
-    <x-mailcoach::fieldset :legend="__mc('Filesystem configuration')">
+    <x-mailcoach::fieldset card :legend="__mc('Filesystem configuration')">
         <dl class="dl">
             @foreach($filesystems as $key => $filesystem)
                 @php($issueBody.="**{$key} disk**: " . $filesystem['disk'] . " (visibility: " . $filesystem['visibility'] . ")\n")
@@ -148,8 +146,7 @@
         </dl>
     </x-mailcoach::fieldset>
 
-    <x-mailcoach::fieldset :legend="__mc('Mailers')">
-
+    <x-mailcoach::fieldset card :legend="__mc('Mailers')">
         <dl class="dl">
             @php($issueBody.="**Default mailer**: " . config('mail.default') . "\n")
             <dt>
@@ -188,55 +185,56 @@
     <x-mailcoach::fieldset card :legend="__mc('Technical Details')">
         @php($issueBody.="\n\n## Technical details\n\n")
         <dl class="dl">
-                @php($issueBody.="**App directory**: " . base_path() . "\n")
-                <dt>App directory</dt>
-                <dd>
-                    <code>{{ base_path() }}</code>
-                </dd>
+            @php($issueBody.="**App directory**: " . base_path() . "\n")
+            <dt>App directory</dt>
+            <dd>
+                <code>{{ base_path() }}</code>
+            </dd>
 
-                @php($issueBody.="**User agent**: " . request()->userAgent() . "\n")
-                <dt>User agent</dt>
-                <dd>
-                    <code>{{ request()->userAgent() }}</code>
-                </dd>
+            @php($issueBody.="**User agent**: " . request()->userAgent() . "\n")
+            <dt>User agent</dt>
+            <dd>
+                <code>{{ request()->userAgent() }}</code>
+            </dd>
 
-                @php($issueBody.="**PHP version**: " . PHP_VERSION . "\n")
-                <dt>PHP</dt>
-                <dd>
-                    <code>{{ PHP_VERSION }}</code>
-                </dd>
+            @php($issueBody.="**PHP version**: " . PHP_VERSION . "\n")
+            <dt>PHP</dt>
+            <dd>
+                <code>{{ PHP_VERSION }}</code>
+            </dd>
 
-                @php($issueBody.="**" . config('database.default') . " version**: " . $mysqlVersion . "\n")
-                <dt>{{ config('database.default') }}</dt>
-                <dd>
-                    <code>{{ $mysqlVersion }}</code>
-                </dd>
+            @php($issueBody.="**" . config('database.default') . " version**: " . $mysqlVersion . "\n")
+            <dt>{{ config('database.default') }}</dt>
+            <dd>
+                <code>{{ $mysqlVersion }}</code>
+            </dd>
 
-                @php($issueBody.="**Laravel version**: " . app()->version() . "\n")
-                <dt>Laravel</dt>
-                <dd>
-                    <code>{{ app()->version() }}</code>
-                </dd>
+            @php($issueBody.="**Laravel version**: " . app()->version() . "\n")
+            <dt>Laravel</dt>
+            <dd>
+                <code>{{ app()->version() }}</code>
+            </dd>
 
-                @php($issueBody.="**Horizon version**: " . $horizonVersion . "\n")
-                <dt>Horizon</dt>
-                <dd>
-                    <code>{{ $horizonVersion }}</code>
-                </dd>
+            @php($issueBody.="**Horizon version**: " . $horizonVersion . "\n")
+            <dt>Horizon</dt>
+            <dd>
+                <code>{{ $horizonVersion }}</code>
+            </dd>
 
-                @php($issueBody.="**laravel-mailcoach version**: " . $versionInfo->getCurrentVersion('laravel-mailcoach') . "\n")
-                <dt>laravel-mailcoach</dt>
-                <dd>
-                    <div class="flex items-center space-x-2">
-                        <code>{{ $versionInfo->getCurrentVersion('laravel-mailcoach') }}</code>
-                        @if(! $versionInfo->isLatest('laravel-mailcoach'))
-                            <span class="font-sans text-xs inline-flex items-center bg-gray-200 bg-opacity-50 text-gray-600 rounded-sm px-1 leading-relaxed">
-                                <i class="fas fa-horse-head opacity-75 mr-1"></i>
-                                {{ __mc('Upgrade available') }}
-                            </span>
-                        @endif
-                    </div>
-                </dd>
+            @php($issueBody.="**laravel-mailcoach version**: " . $versionInfo->getCurrentVersion('laravel-mailcoach') . "\n")
+            <dt>laravel-mailcoach</dt>
+            <dd>
+                <div class="flex items-center space-x-2">
+                    <code>{{ $versionInfo->getCurrentVersion('laravel-mailcoach') }}</code>
+                    @if(! $versionInfo->isLatest('laravel-mailcoach'))
+                        <span class="font-sans text-xs inline-flex items-center bg-gray-200 bg-opacity-50 text-gray-600 rounded-sm px-1 leading-relaxed">
+                            <i class="fas fa-horse-head opacity-75 mr-1"></i>
+                            {{ __mc('Upgrade available') }}
+                        </span>
+                    @endif
+                </div>
+            </dd>
+        </dl>
     </x-mailcoach::fieldset>
 
     <x-mailcoach::fieldset card  :legend="__mc('Having trouble?')">
@@ -245,4 +243,3 @@
         </a>
     </x-mailcoach::fieldset>
 </div>
-</x-mailcoach::layout>

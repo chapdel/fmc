@@ -1,14 +1,14 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\Livewire\MailConfiguration\Ses;
+namespace Spatie\Mailcoach\Livewire\MailConfiguration\Ses;
 
 use Livewire\Livewire;
 use Spatie\LivewireWizard\Components\WizardComponent;
 use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Ses\Steps\AuthenticationStepComponent;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Ses\Steps\FeedbackStepComponent;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Ses\Steps\SummaryStepComponent;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Ses\Steps\ThrottlingStepComponent;
+use Spatie\Mailcoach\Livewire\MailConfiguration\Ses\Steps\AuthenticationStepComponent;
+use Spatie\Mailcoach\Livewire\MailConfiguration\Ses\Steps\FeedbackStepComponent;
+use Spatie\Mailcoach\Livewire\MailConfiguration\Ses\Steps\SummaryStepComponent;
+use Spatie\Mailcoach\Livewire\MailConfiguration\Ses\Steps\ThrottlingStepComponent;
 
 class SesSetupWizardComponent extends WizardComponent
 {

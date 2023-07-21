@@ -1,6 +1,6 @@
 <?php
 
-use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CreateTemplateComponent;
+use Spatie\Mailcoach\Livewire\Templates\CreateTemplateComponent;
 
 it('can create a template', function () {
     $this->authenticate();

@@ -1,11 +1,10 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\Livewire;
+namespace Spatie\Mailcoach\Livewire;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
-use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 
 class PasswordComponent extends Component
 {

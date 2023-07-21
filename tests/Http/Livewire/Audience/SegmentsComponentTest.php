@@ -3,7 +3,7 @@
 use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
-use Spatie\Mailcoach\Http\App\Livewire\Audience\SegmentsComponent;
+use Spatie\Mailcoach\Livewire\Audience\SegmentsComponent;
 
 it('can duplicate a segment', function () {
     test()->authenticate();

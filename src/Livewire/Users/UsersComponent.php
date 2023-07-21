@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Livewire;
+namespace Spatie\Mailcoach\Livewire\Users;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

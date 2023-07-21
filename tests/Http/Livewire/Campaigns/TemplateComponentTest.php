@@ -4,7 +4,7 @@ use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
-use Spatie\Mailcoach\Http\App\Livewire\Campaigns\TemplateComponent;
+use Spatie\Mailcoach\Livewire\Templates\TemplateComponent;
 
 it('can save a template', function () {
     $this->authenticate();

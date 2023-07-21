@@ -1,13 +1,13 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\Livewire\MailConfiguration\Smtp;
+namespace Spatie\Mailcoach\Livewire\MailConfiguration\Smtp;
 
 use Livewire\Livewire;
 use Spatie\LivewireWizard\Components\WizardComponent;
 use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Smtp\Steps\SmtpSettingsStepComponent;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Smtp\Steps\SummaryStepComponent;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Smtp\Steps\ThrottlingStepComponent;
+use Spatie\Mailcoach\Livewire\MailConfiguration\Smtp\Steps\SmtpSettingsStepComponent;
+use Spatie\Mailcoach\Livewire\MailConfiguration\Smtp\Steps\SummaryStepComponent;
+use Spatie\Mailcoach\Livewire\MailConfiguration\Smtp\Steps\ThrottlingStepComponent;
 
 class SmtpSetupWizardComponent extends WizardComponent
 {

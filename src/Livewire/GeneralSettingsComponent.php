@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\Livewire;
+namespace Spatie\Mailcoach\Livewire;
 
 use Composer\InstalledVersions;
 use Illuminate\Support\Facades\Artisan;
@@ -8,7 +8,6 @@ use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Settings\Support\AppConfiguration\AppConfiguration;
 use Spatie\Mailcoach\Domain\Settings\Support\TimeZone;
-use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 
 class GeneralSettingsComponent extends Component
 {

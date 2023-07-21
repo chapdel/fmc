@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Livewire\Campaigns;
+namespace Spatie\Mailcoach\Livewire;
 
 use Illuminate\Support\Facades\Http;
 use Livewire\Component;

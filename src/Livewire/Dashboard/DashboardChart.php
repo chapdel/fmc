@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Livewire;
+namespace Spatie\Mailcoach\Livewire\Dashboard;
 
 use Carbon\CarbonInterface;
 use Carbon\CarbonPeriod;

@@ -2,7 +2,7 @@
 
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Policies\EmailListPolicy;
-use Spatie\Mailcoach\Http\App\Livewire\Audience\ListSettingsComponent;
+use Spatie\Mailcoach\Livewire\Audience\ListSettingsComponent;
 use Spatie\Mailcoach\Tests\TestClasses\CustomEmailListDenyAllPolicy;
 
 it('can update the settings of an email list', function () {

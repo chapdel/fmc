@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Livewire;
+namespace Spatie\Mailcoach\Livewire\Audience;
 
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag;

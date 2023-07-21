@@ -70,8 +70,12 @@ class Mailcoach
             }
 
             foreach ($editorScripts as $script) {
-                // @todo: Re-enable when monaco is fixed
-                //$scripts[] = "<script type=\"text/javascript\" src=\"{$script}\"></script>";
+                // @todo: Re-enable after conflict is fixed
+                if (str_contains($script, 'monaco')) {
+                    continue;
+                }
+
+                $scripts[] = "<script type=\"text/javascript\" src=\"{$script}\"></script>";
             }
         }
 

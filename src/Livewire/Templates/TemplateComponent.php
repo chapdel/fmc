@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Livewire\Campaigns;
+namespace Spatie\Mailcoach\Livewire\Templates;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;

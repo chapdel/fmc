@@ -3,7 +3,7 @@
 use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Http\App\Livewire\Audience\CreateSubscriberComponent;
+use Spatie\Mailcoach\Livewire\Audience\CreateSubscriberComponent;
 
 it('can create a subscriber', function () {
     test()->authenticate();

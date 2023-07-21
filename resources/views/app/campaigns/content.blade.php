@@ -9,10 +9,10 @@
     >
         @csrf
 
-        <x-mailcoach::text-field :label="__mc('Subject')" name="subject" wire:model.lazy="campaign.subject" :disabled="!$campaign->isEditable()" />
+        <x-mailcoach::text-field :label="__mc('Subject')" name="subject" wire:model="subject" :disabled="!$campaign->isEditable()" />
     </form>
 
-    @livewire(Livewire::getAlias(config('mailcoach.content_editor')), [
+    @livewire(config('mailcoach.content_editor'), [
         'model' => $campaign,
     ])
 </x-mailcoach::card>

@@ -30,7 +30,7 @@
             <div class="my-4 flex items-center gap-4">
                 <x-mailcoach::button wire:click.prevent="download" :label="__mc('Download export')"/>
                 <p class="text-sm">Created
-                    on {{ \Illuminate\Support\Facades\Date::createFromTimestamp(Storage::disk(config('mailcoach.export_disk'))->lastModified(Spatie\Mailcoach\Http\App\Livewire\Export\ExportComponent::obfuscatedExportDirectory().'/mailcoach-export.zip'))->format('Y-m-d H:i:s') }}</p>
+                    on {{ \Illuminate\Support\Facades\Date::createFromTimestamp(Storage::disk(config('mailcoach.export_disk'))->lastModified(Spatie\Mailcoach\Livewire\Export\ExportComponent::obfuscatedExportDirectory().'/mailcoach-export.zip'))->format('Y-m-d H:i:s') }}</p>
             </div>
             <x-mailcoach::button-secondary class="mt-8" wire:click.prevent="newExport"
                                            :label="__mc('Create new export')"/>

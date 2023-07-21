@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\Livewire\MailConfiguration;
+namespace Spatie\Mailcoach\Livewire\MailConfiguration;
 
 use Spatie\LivewireWizard\Components\StepComponent;
-use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Concerns\UsesMailer;
+use Spatie\Mailcoach\Livewire\LivewireFlash;
+use Spatie\Mailcoach\Livewire\MailConfiguration\Concerns\UsesMailer;
 
 abstract class AbstractThrottlingStepComponent extends StepComponent
 {

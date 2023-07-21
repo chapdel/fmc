@@ -1,11 +1,10 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\Livewire;
+namespace Spatie\Mailcoach\Livewire;
 
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Settings\Models\PersonalAccessToken;
-use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 
 class TokensComponent extends Component
 {

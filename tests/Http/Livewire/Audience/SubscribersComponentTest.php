@@ -6,7 +6,7 @@ use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Mails\ConfirmSubscriberMail;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Http\App\Livewire\Audience\SubscribersComponent;
+use Spatie\Mailcoach\Livewire\Audience\SubscribersComponent;
 
 beforeEach(function () {
     $this->emailList = EmailList::factory()->create();

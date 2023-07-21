@@ -2,7 +2,7 @@
 
 use function Pest\Livewire\livewire;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignsComponent;
+use Spatie\Mailcoach\Livewire\Campaigns\CampaignsComponent;
 
 beforeEach(function () {
     $this->campaign = Campaign::factory()->create();

@@ -5,7 +5,7 @@ use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\UnsubscribeAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
-use Spatie\Mailcoach\Http\App\Livewire\Automations\RunAutomationComponent;
+use Spatie\Mailcoach\Livewire\Automations\RunAutomationComponent;
 
 it('can start and pause an automation', function () {
     $this->authenticate();

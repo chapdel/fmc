@@ -9,7 +9,6 @@
     'dismissable' => false,
 ])
 <div>
-
 @teleport('body')
     <!-- {{ $name }} Modal -->
     <div

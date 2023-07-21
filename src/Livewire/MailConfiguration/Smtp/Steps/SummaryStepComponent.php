@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\Livewire\MailConfiguration\Smtp\Steps;
+namespace Spatie\Mailcoach\Livewire\MailConfiguration\Smtp\Steps;
 
 use Spatie\LivewireWizard\Components\StepComponent;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Concerns\UsesMailer;
+use Spatie\Mailcoach\Livewire\MailConfiguration\Concerns\UsesMailer;
 
 class SummaryStepComponent extends StepComponent
 {

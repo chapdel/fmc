@@ -18,6 +18,8 @@ class CampaignContentComponent extends Component
 
     public Campaign $campaign;
 
+    public ?string $subject;
+
     public array $templateOptions;
 
     public ?string $mailer;
@@ -30,13 +32,14 @@ class CampaignContentComponent extends Component
     protected function rules(): array
     {
         return [
-            'campaign.subject' => ['nullable', 'string'],
+            'subject' => ['nullable', 'string'],
         ];
     }
 
     public function mount(Campaign $campaign): void
     {
         $this->campaign = $campaign;
+        $this->subject = $campaign->subject;
 
         $this->authorize('update', $this->campaign);
 
@@ -57,6 +60,7 @@ class CampaignContentComponent extends Component
 
         $this->validate();
 
+        $this->campaign->subject = $this->subject;
         $this->campaign->save();
     }
 
