@@ -25,9 +25,9 @@
             @csrf
             @method('PUT')
 
-            <x-mailcoach::text-field :label="__mc('Email')" name="email" wire:model="subscriber.email" type="email" required />
-            <x-mailcoach::text-field :label="__mc('First name')" name="first_name" wire:model="subscriber.first_name" />
-            <x-mailcoach::text-field :label="__mc('Last name')" name="last_name" wire:model="subscriber.last_name" />
+            <x-mailcoach::text-field :label="__mc('Email')" name="email" wire:model="email" type="email" required />
+            <x-mailcoach::text-field :label="__mc('First name')" name="first_name" wire:model="first_name" />
+            <x-mailcoach::text-field :label="__mc('Last name')" name="last_name" wire:model="last_name" />
             <x-mailcoach::tags-field
                 :label="__mc('Tags')"
                 name="tags"
@@ -85,7 +85,7 @@
                 {!! __mc('You can add and remove attributes which can then be used in your campaigns or automations using <br><code>&#123;&#123;&nbsp;subscriber.&lt;key&gt;&nbsp;&#125;&#125;</code>') !!}<br>
             </x-mailcoach::info>
 
-            <div x-data="{ attributes: @entangle('extraAttributes').defer }">
+            <div x-data="{ attributes: @entangle('extra_attributes').defer }">
                 <template x-for="(attribute, index) in attributes" x-bind:key="index">
                     <div class="my-4 flex items-center w-full gap-x-2">
                         <div class="relative w-full flex items-center">

@@ -53,12 +53,12 @@ class SegmentComponent extends Component
         ];
     }
 
-    public function updatePositiveTags(array|string $tags)
+    public function updatePositiveTags(array|string ...$tags)
     {
         $this->positive_tags = Arr::wrap($tags);
     }
 
-    public function updateNegativeTags(array|string $tags)
+    public function updateNegativeTags(array|string ...$tags)
     {
         $this->negative_tags = Arr::wrap($tags);
     }

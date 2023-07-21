@@ -6,10 +6,11 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\UpdateSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Domain\Audience\Models\Subscriber as SubscriberModel;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Livewire\LivewireFlash;
@@ -22,21 +23,24 @@ class SubscriberComponent extends Component
     use UsesMailcoachModels;
     use LivewireFlash;
 
-    public SubscriberModel $subscriber;
+    public Subscriber $subscriber;
+
+    public string $email;
+
+    public string $first_name = '';
+
+    public string $last_name = '';
+
+    public array $tags = [];
+
+    public array $extra_attributes = [];
 
     public EmailList $emailList;
 
     public int $totalSendsCount;
 
-    public array $tags = [];
-
-    public array $extraAttributes = [];
-
+    #[Url]
     public string $tab = 'profile';
-
-    protected $queryString = [
-        'tab' => ['except' => 'profile'],
-    ];
 
     protected $listeners = [
         'tags-updated' => 'updateTags',
@@ -45,47 +49,49 @@ class SubscriberComponent extends Component
     protected function rules(): array
     {
         return [
-            'subscriber.email' => [
+            'email' => [
                 'email:rfc',
                 Rule::unique(self::getSubscriberTableName(), 'email')
                     ->where('email_list_id', $this->emailList->id)
                     ->ignore($this->subscriber->id),
             ],
-            'subscriber.first_name' => 'nullable|string',
-            'subscriber.last_name' => 'nullable|string',
+            'first_name' => ['nullable', 'string'],
+            'last_name' => ['nullable', 'string'],
             'tags' => 'array',
-            'subscriber.extra_attributes' => ['nullable', 'array'],
+            'extra_attributes' => ['nullable', 'array'],
         ];
     }
 
-    public function updateTags(array|string $tags)
+    public function updateTags(array|string ...$tags)
     {
         $this->tags = Arr::wrap($tags);
     }
 
     public function save()
     {
-        $data = $this->validate();
+        $this->validate();
 
+        /** @var UpdateSubscriberAction $updateSubscriberAction */
         $updateSubscriberAction = Mailcoach::getAudienceActionClass('update_subscriber', UpdateSubscriberAction::class);
-
         $updateSubscriberAction->execute(
-            $this->subscriber,
-            [
-                'email' => $data['subscriber']['email'],
-                'first_name' => $data['subscriber']['first_name'],
-                'last_name' => $data['subscriber']['last_name'],
-                'extra_attributes' => $data['subscriber']['extra_attributes'],
+            subscriber: $this->subscriber,
+            attributes: [
+                'email' => $this->email,
+                'first_name' => $this->first_name,
+                'last_name' => $this->last_name,
+                'extra_attributes' => $this->extra_attributes,
             ],
-            $data['tags'] ?? [],
+            tags: $this->tags ?? [],
         );
 
         $this->flash(__mc('Subscriber :subscriber was updated.', ['subscriber' => $this->subscriber->email]));
     }
 
-    public function mount(EmailList $emailList, SubscriberModel $subscriber)
+    public function mount(EmailList $emailList, Subscriber $subscriber)
     {
         $this->authorize('update', $subscriber);
+
+        $this->fill($subscriber->toArray());
 
         $this->emailList = $emailList;
         $this->subscriber = $subscriber;
@@ -122,11 +128,10 @@ class SubscriberComponent extends Component
 
     public function render(): View
     {
-        return view('mailcoach::app.emailLists.subscribers.show', [
-
-        ])->layout('mailcoach::app.emailLists.layouts.emailList', [
-            'emailList' => $this->emailList,
-            'title' => $this->subscriber->email,
-        ]);
+        return view('mailcoach::app.emailLists.subscribers.show')
+            ->layout('mailcoach::app.emailLists.layouts.emailList', [
+                'emailList' => $this->emailList,
+                'title' => $this->subscriber->email,
+            ]);
     }
 }

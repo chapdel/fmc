@@ -61,7 +61,7 @@ class ListOnboardingComponent extends Component
         ];
     }
 
-    public function updateAllowedFormSubscriptionTags(array $tags)
+    public function updateAllowedFormSubscriptionTags(array ...$tags)
     {
         $this->allowed_form_subscription_tags = $tags;
     }
