@@ -17,7 +17,7 @@ class EmailListQuery extends QueryBuilder
     {
         $query = self::getEmailListClass()::query();
 
-        if (str_contains($request->get('sort'), 'active_subscribers_count')) {
+        if ($request && str_contains($request->get('sort'), 'active_subscribers_count')) {
             $query->join(self::getSubscriberTableName(), self::getSubscriberTableName().'.email_list_id', self::getEmailListTableName().'.id')
                 ->addSelect(DB::raw('count('.self::getSubscriberTableName().'.id) as active_subscribers_count'))
                 ->addSelect(self::getEmailListTableName().'.*')

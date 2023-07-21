@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Queries;
 
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -16,7 +17,18 @@ class EmailListTagsQuery extends QueryBuilder
 
     public function __construct(EmailList $emailList, Request $request = null)
     {
-        parent::__construct(self::getTagClass()::query(), $request);
+        $query = self::getTagClass()::query();
+
+        if ($request && str_contains($request->get('sort'), 'subscriber_count')) {
+            $query->addSelect(['subscriber_count' => function (Builder $query) {
+                $query
+                    ->selectRaw('count(id)')
+                    ->from('mailcoach_email_list_subscriber_tags')
+                    ->whereColumn('mailcoach_email_list_subscriber_tags.tag_id', self::getTagTableName().'.id');
+            }]);
+        }
+
+        parent::__construct($query, $request);
 
         $this
 
