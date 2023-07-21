@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\Queries;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Queries\Filters\FuzzyFilter;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -14,7 +15,16 @@ class EmailListQuery extends QueryBuilder
 
     public function __construct(Request $request = null)
     {
-        parent::__construct(self::getEmailListClass()::query(), $request);
+        $query = self::getEmailListClass()::query();
+
+        if (str_contains($request->get('sort'), 'active_subscribers_count')) {
+            $query->join(self::getSubscriberTableName(), self::getSubscriberTableName().'.email_list_id', self::getEmailListTableName().'.id')
+                ->addSelect(DB::raw('count('.self::getSubscriberTableName().'.id) as active_subscribers_count'))
+                ->addSelect(self::getEmailListTableName().'.*')
+                ->groupBy(self::getEmailListTableName().'.id');
+        }
+
+        parent::__construct($query, $request);
 
         $this
             ->defaultSort('name')
