@@ -13,7 +13,13 @@
 
     <form id="captcha" action="{{ route('mailcoach.subscribe', $emailListUuid) }}" method="POST">
         @foreach ($data as $key => $value)
-            <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+            @if (is_iterable($value))
+                @foreach ($value as $formKey => $formValue)
+                    <input type="hidden" name="{{ $key }}[{{ $formKey }}]" value="{{ $formValue }}">
+                @endforeach
+            @else
+                <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+            @endif
         @endforeach
 
         <div class="cf-turnstile flex justify-center" data-sitekey="{{ config('mailcoach.turnstile_key') }}" data-callback="turnstileCallback"></div>
