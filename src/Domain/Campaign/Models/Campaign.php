@@ -477,7 +477,12 @@ class Campaign extends Sendable implements Feedable
 
     public function sendsCount(): int
     {
-        return $this->sends()->whereNotNull('sent_at')->count();
+        return $this->sentSends()->count();
+    }
+
+    public function sentSends(): HasMany
+    {
+        return $this->sends()->whereNotNull('sent_at');
     }
 
     public function sendsWithoutInvalidated(): HasMany

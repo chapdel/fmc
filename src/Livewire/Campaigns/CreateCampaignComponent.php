@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Livewire\Campaigns;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
+use Livewire\Features\SupportPagination\HandlesPagination;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Actions\UpdateCampaignAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
@@ -14,6 +15,7 @@ class CreateCampaignComponent extends Component
 {
     use UsesMailcoachModels;
     use AuthorizesRequests;
+    use HandlesPagination;
 
     public array $emailListOptions;
 

@@ -3,6 +3,8 @@ import flatpickr from 'flatpickr';
 import Clipboard from '@ryangjchandler/alpine-clipboard';
 import Choices from 'choices.js';
 
+import '../../vendor/filament/support/dist/index.js';
+
 import {
     Chart,
     LineElement,
@@ -37,7 +39,7 @@ window.Chart.helpers = {};
 window.Chart.helpers.each = each;
 window.Choices = Choices;
 
-import '../../vendor/wire-elements/spotlight/resources/js/spotlight.js';
+//import '../../vendor/wire-elements/spotlight/resources/js/spotlight.js';
 import './components/dirty.js';
 import './components/htmlPreview.js';
 import './components/charts/emailListStatistics.js';

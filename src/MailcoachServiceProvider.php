@@ -770,6 +770,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootSpotlight(): static
     {
+        return $this;
+
         // Index commands
         Spotlight::registerCommand(AutomationsCommand::class);
         Spotlight::registerCommand(AutomationEmailsCommand::class);

@@ -83,7 +83,7 @@ trait SendsToSegment
 
     public function usesSegment(): bool
     {
-        return $this->segment_class !== EverySubscriberSegment::class;
+        return $this->segment_class && $this->segment_class !== EverySubscriberSegment::class;
     }
 
     public function segmentingOnSubscriberTags(): bool

@@ -1,3 +1,18 @@
+<div>
+    @can('create', \Spatie\Mailcoach\Mailcoach::getCampaignClass())
+        <x-mailcoach::button
+            x-on:click="$store.modals.open('create-campaign')"
+            :label="$createText ?? __mc('Create campaign')"
+        />
+
+        <x-mailcoach::modal :title="$createText ?? __mc('Create campaign')" name="create-campaign">
+            <livewire:mailcoach::create-campaign />
+        </x-mailcoach::modal>
+    @endcan
+
+    {{ $this->table }}
+</div>
+{{--
 <x-mailcoach::data-table
     name="campaign"
     :rows="$campaigns ?? null"
@@ -30,3 +45,4 @@
         @endif
     </x-slot:empty-text>
 </x-mailcoach::data-table>
+--}}

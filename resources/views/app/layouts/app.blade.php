@@ -21,6 +21,8 @@
             };
         </script>
 
+        <style>[x-cloak] { display: none !important; }</style>
+        @filamentStyles
         @livewireStyles
         {!! \Spatie\Mailcoach\Mailcoach::styles() !!}
         @include('mailcoach::app.layouts.partials.endHead')
@@ -132,8 +134,10 @@
                 });
             });
         </script>
+        @filamentScripts
         @livewireScriptConfig
         {!! \Spatie\Mailcoach\Mailcoach::scripts() !!}
         @stack('scripts')
+        @livewire('notifications')
     </body>
 </html>
