@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.24.5 - 2023-07-25
+
+- Fix turnstile page erroring when using attributes
+- Json requests do not render turnstile
+- Add missing allowed sorts on segments
+- Add export to outbox rows
+- Allow sorting on active subscriber count
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.24.4...6.24.5
+
 ## 6.24.4 - 2023-07-07
 
 - Fix a typo causing invalid dates with the date format helper
