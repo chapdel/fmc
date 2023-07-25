@@ -29,7 +29,7 @@
     </section>
     <nav class="pagination">
         @if($campaigns->previousPageUrl())
-            <a href="{{ $campaigns->previousPageUrl() }}">
+            <a href="{{ $campaigns->currentPage() === 2 ? str_replace('?page=1', '', $campaigns->previousPageUrl()) : $campaigns->previousPageUrl() }}">
                 Newer
             </a>
         @endif
