@@ -1,0 +1,167 @@
+.fi-ta .fi-ta-ctn {
+    @apply card;
+    @apply p-0;
+    @apply mt-8;
+}
+
+.fi-dropdown-panel {
+    @apply card;
+    @apply p-0;
+}
+
+.fi-ta-cell:not(:first-of-type) {
+    @apply px-1 !important;
+}
+
+.fi-ta-cell:has(label > .fi-checkbox-input) {
+    width: 1em;
+    padding-right: 0;
+    margin: 0 !important;
+}
+
+.flex:has(> .fi-checkbox-input) {
+    width: 1em;
+    margin: 0 !important;
+}
+
+.fi-checkbox-input {
+    @apply checkbox;
+    width: 1em;
+    height: 1em;
+}
+
+.fi-checkbox-input:before {
+    width: 1em;
+    height: 1em;
+}
+
+.fi-checkbox-input:after {
+    font-size: 0.65em;
+    padding-top: 2px;
+    padding-left: 2px;
+}
+
+.fi-ta-header-toolbar {
+    @apply h-16 !important;
+}
+
+.fi-checkbox-input:checked:hover,
+.fi-checkbox-input:checked {
+    @apply bg-transparent;
+    @apply bg-none;
+}
+
+.fi-ta .fi-ta-search-field {
+    @apply input;
+    @apply rounded-md;
+    @apply px-0;
+    @apply w-auto;
+}
+
+.fi-ta .fi-ta-search-field input:focus {
+    @apply outline-none;
+    @apply border-none;
+    @apply ring-offset-0;
+    @apply ring-transparent;
+}
+
+.fi-ta .fi-select-input {
+    @apply input;
+}
+
+.fi-ta-selection-indicator button.font-medium {
+    @apply font-normal;
+}
+
+.fi-ta .fi-ta-search-field .fi-fo-affixes {
+    @apply bg-transparent;
+    @apply border-none;
+    @apply shadow-none;
+}
+
+.fi-ta .fi-ta-pagination-ctn {
+    @apply bg-white;
+    @apply shadow;
+    @apply rounded-bl;
+    @apply rounded-br;
+}
+
+.fi-ta thead tr {
+    @apply bg-white;
+    @apply bg-gradient-to-b;
+    @apply from-indigo-500/5;
+    @apply to-indigo-500/10;
+    @apply border-b;
+    @apply border-indigo-500/20;
+}
+
+.fi-ta thead tr td {
+    @apply py-2;
+}
+
+.fi-ta thead tr td,
+.fi-ta thead tr th {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.fi-ta thead tr span {
+    @apply text-left;
+    @apply font-semibold;
+    @apply whitespace-nowrap;
+    @apply uppercase;
+    @apply text-xs;
+    @apply tracking-wider;
+}
+
+.fi-ta .fi-ta-actions-cell {
+    @apply px-1 py-0;
+}
+
+.fi-ta .px-3.py-3\.5 {
+    @apply py-2.5;
+}
+
+.fi-ta .fi-ta-icon {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.fi-ta .fi-ta-icon svg {
+    @apply w-5;
+    @apply h-5;
+}
+
+.fi-ta .fi-ta-actions-cell .fi-dropdown-trigger button {
+    @apply text-blue-600;
+}
+
+.fi-ta .fi-ta-pagination-item.bg-primary-500\/10 {
+    @apply bg-blue-500/10;
+    @apply focus:bg-blue-500/10;
+    @apply text-blue-500;
+}
+
+.fi-ta .fi-ta-pagination-item.bg-primary-500\/10:focus {
+    @apply bg-blue-500/10;
+    @apply text-blue-500;
+}
+
+.fi-modal-window {
+    @apply card;
+    @apply p-0;
+}
+
+.fi-btn-color-danger {
+    @apply button;
+    @apply h-9;
+    @apply py-1;
+    @apply from-red-400;
+    @apply to-red-700;
+    @apply border-none;
+    @apply font-bold !important;
+}
+
+.tippy-content {
+    @apply text-black;
+}

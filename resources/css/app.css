@@ -1,6 +1,11 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 
+@import './vendor/flatpickr.css';
+@import './vendor/easy-mde-overrides.css';
+@import './vendor/choices.css';
+@import './vendor/filament.css';
+
 @import './utilities/alert.css';
 @import './utilities/button.css';
 @import './utilities/card.css';
@@ -34,9 +39,6 @@
 @import './utilities/tooltip.css';
 @import './utilities/transitions.css';
 
-@import './vendor/flatpickr.css';
-@import './vendor/easy-mde-overrides.css';
-@import './vendor/choices.css';
 @import 'tailwindcss/utilities';
 
 @layer base {

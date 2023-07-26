@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Middleware;
 
+use Filament\Tables\Table;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Spatie\Flash\Flash;
 
@@ -24,6 +25,12 @@ class SetMailcoachDefaults
                 'token' => $token,
                 'email' => $notifiable->getEmailForPasswordReset(),
             ], false));
+        });
+
+        Table::configureUsing(function (Table $table): void {
+            $table
+                ->paginationPageOptions([10, 25, 50, 100])
+                ->deferLoading();
         });
 
         return $next($request);

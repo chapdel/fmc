@@ -3,8 +3,6 @@ import flatpickr from 'flatpickr';
 import Clipboard from '@ryangjchandler/alpine-clipboard';
 import Choices from 'choices.js';
 
-import '../../vendor/filament/support/dist/index.js';
-
 import {
     Chart,
     LineElement,

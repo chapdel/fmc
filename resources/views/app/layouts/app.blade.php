@@ -50,11 +50,28 @@
                         </nav>
                     @endunless
 
-                    <div class="flex-none flex items-center">
-                        <h1 class="mt-1 markup-h1">
-                            {{ $title ?? '' }}
-                        </h1>
-                        {{ $header ?? '' }}
+                    <div class="flex-none flex items-center justify-between w-full">
+                        <div class="flex-items-center">
+                            <h1 class="markup-h1 p-0 m-0">
+                                {{ $title ?? '' }}
+                            </h1>
+
+                            {{ $header ?? '' }}
+                        </div>
+
+                        @if ($create ?? false)
+                            <div>
+                                <x-mailcoach::button
+                                    x-on:click="$store.modals.open('create-{{ $create }}')"
+                                    :label="$createText ?? __mc('Create ' . $create)"
+                                    class="mb-0"
+                                />
+
+                                <x-mailcoach::modal :title="$createText ?? __mc('Create ' . $create)" name="create-{{ $create }}">
+                                    @livewire('mailcoach::create-' . $create)
+                                </x-mailcoach::modal>
+                            </div>
+                        @endif
                     </div>
 
                     <div>
