@@ -35,7 +35,7 @@ class SendMailAction
              * Postmark returns code 406 when you try to send
              * to an email that has been marked as inactive
              */
-            if (str_contains($exception->getMessage(), '(code 406)')) {
+            if (str_contains($exception->getMessage(), '(code 406)') || str_contains($exception->getMessage(), "Invalid 'To' address")) {
                 // Mark as bounced
                 $pendingSend->markAsSent();
                 $pendingSend->registerBounce();
