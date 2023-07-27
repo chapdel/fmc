@@ -1,5 +1,10 @@
 .link {
-    @apply text-blue-700;
+    @apply text-blue-700 !important;
+    @apply underline;
+}
+
+.link div {
+    @apply text-blue-700 !important;
     @apply underline;
 }
 

@@ -3,7 +3,25 @@
     :originHref="$originHref ?? null"
     :title="$title ?? null"
     :hideCard="isset($hideCard) ? true : false"
+    :create="$create ?? null"
+    :create-text="$createText ?? null"
+    :create-data="$createData ?? []"
 >
+    <x-slot:afterCreate>
+        @if (\Illuminate\Support\Facades\Route::is('mailcoach.emailLists.subscribers'))
+        <div class="buttons flex">
+            <x-mailcoach::dropdown direction="right" triggerClass="-ml-2 rounded-l-none button">
+                <ul>
+                    <li>
+                        <a href="{{route('mailcoach.emailLists.import-subscribers', $emailList)}}">
+                            <x-mailcoach::icon-label icon="fa-fw far fa-cloud-upload-alt" :text="__mc('Import subscribers')"/>
+                        </a>
+                    </li>
+                </ul>
+            </x-mailcoach::dropdown>
+        </div>
+        @endif
+    </x-slot:afterCreate>
     <x-slot name="nav">
         <x-mailcoach::navigation>
             <x-slot:title>

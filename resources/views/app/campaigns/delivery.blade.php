@@ -88,6 +88,17 @@
                     <a href="{{ route('mailcoach.campaigns.settings', $campaign) }}" class="link">{{ strtolower(__mc('Edit')) }}</a>
                 </div>
             </dd>
+        @else
+            <dt>
+                <x-mailcoach::health-label reverse :test="false" :label="__mc('Email list')"/>
+            </dt>
+
+            <dd>
+                <span>
+                    {{ __mc('No email list') }}
+                    <a href="{{ route('mailcoach.campaigns.settings', $campaign) }}" class="link">{{ strtolower(__mc('Edit')) }}</a>
+                </span>
+            </dd>
         @endif
 
         <dt>

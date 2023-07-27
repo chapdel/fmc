@@ -2,28 +2,124 @@
 
 namespace Spatie\Mailcoach\Livewire\Automations;
 
-use Illuminate\Http\Request;
+use Closure;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use ReflectionClass;
+use Spatie\Mailcoach\Domain\Automation\Models\Action as ActionModel;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
-use Spatie\Mailcoach\Http\App\Queries\AutomatedMailQuery;
-use Spatie\Mailcoach\Livewire\DataTableComponent;
+use Spatie\Mailcoach\Livewire\FilamentDataTableComponent;
 
-class AutomationMailsComponent extends DataTableComponent
+class AutomationMailsComponent extends FilamentDataTableComponent
 {
-    public ?string $automation_uuid;
-
-    protected array $allowedFilters = [
-        'automation_uuid' => ['except' => ''],
-    ];
-
-    public function updatedAutomationMailUuid()
+    protected function getTableQuery(): Builder
     {
-        $this->replaceFilter('automation_uuid', $this->automation_uuid ?? '');
+        return self::getAutomationMailClass()::query();
     }
 
-    public function duplicateAutomationMail(int $id)
+    protected function getTableColumns(): array
     {
-        $automationMail = self::getAutomationMailClass()::find($id);
+        return [
+            TextColumn::make('name')
+                ->sortable()
+                ->searchable()
+                ->label(__mc('Name'))
+                ->extraAttributes(['class' => 'link']),
+            TextColumn::make('sent_to_number_of_subscribers')
+                ->sortable()
+                ->label(__mc('Emails'))
+                ->numeric()
+                ->getStateUsing(fn (AutomationMail $automationMail) => number_format($automationMail->sent_to_number_of_subscribers) ?: '–'),
+            TextColumn::make('unique_open_count')
+                ->sortable()
+                ->label(__mc('Opens'))
+                ->numeric()
+                ->view('mailcoach::app.automations.mails.columns.opens'),
+            TextColumn::make('unique_click_count')
+                ->sortable()
+                ->label(__mc('Clicks'))
+                ->numeric()
+                ->view('mailcoach::app.automations.mails.columns.clicks'),
+            TextColumn::make('created_at')
+                ->sortable()
+                ->label(__mc('Created'))
+                ->date(config('mailcoach.date_format')),
+        ];
+    }
 
+    protected function getTableFilters(): array
+    {
+        return [
+            SelectFilter::make('automation_uuid')
+                ->label(__mc('Automation'))
+                ->options(function () {
+                    return self::getAutomationClass()::pluck('name', 'uuid');
+                })
+                ->multiple()
+                ->query(function (Builder $query, array $data) {
+                    if (! $data['values']) {
+                        return;
+                    }
+
+                    $class = self::getAutomationMailClass();
+                    $shortname = (new ReflectionClass(new $class))->getShortName();
+
+                    $automationMailIds = self::getAutomationActionClass()::query()
+                        ->whereHas('automation', fn (Builder $query) => $query->whereIn('uuid', $data['values']))
+                        ->whereRaw('FROM_BASE64(action) like \'%'.$shortname.'%\'')
+                        ->get()
+                        ->map(function (ActionModel $action) use ($shortname) {
+                            /**
+                             * We want to get any action that has an automation email
+                             * referenced. Therefore, we need to parse serialized
+                             * string of the action to get the model identifier.
+                             */
+                            $rawAction = base64_decode($action->getRawOriginal('action'));
+                            $idPart = Str::after($rawAction, $shortname.'";s:2:"id";i:');
+                            $id = Str::before($idPart, ';');
+
+                            return (int) $id;
+                        });
+
+                    $query->whereIn('id', $automationMailIds);
+                }),
+        ];
+    }
+
+    protected function getTableActions(): array
+    {
+        return [
+            ActionGroup::make([
+                Action::make('Duplicate')
+                    ->action(fn (AutomationMail $record) => $this->duplicateAutomationMail($record))
+                    ->icon('heroicon-o-clipboard')
+                    ->label(__mc('Duplicate'))
+                    ->hidden(fn (AutomationMail $automationMail) => ! Auth::user()->can('create', self::getAutomationMailClass())),
+                Action::make('Delete')
+                    ->action(fn (AutomationMail $record) => $record->delete())
+                    ->requiresConfirmation()
+                    ->label(__mc('Delete'))
+                    ->icon('heroicon-o-trash')
+                    ->color('danger')
+                    ->hidden(fn (AutomationMail $automationMail) => ! Auth::user()->can('delete', self::getAutomationMailClass())),
+            ]),
+        ];
+    }
+
+    protected function getTableRecordUrlUsing(): ?Closure
+    {
+        return function (AutomationMail $automationMail) {
+            return route('mailcoach.automations.mails.summary', $automationMail);
+        };
+    }
+
+    public function duplicateAutomationMail(AutomationMail $automationMail)
+    {
         $this->authorize('create', $automationMail);
 
         /** @var AutomationMail $automationMail */
@@ -43,32 +139,8 @@ class AutomationMailsComponent extends DataTableComponent
         return redirect()->route('mailcoach.automations.mails.settings', $automationMail);
     }
 
-    public function deleteAutomationMail(int $id)
-    {
-        $automationMail = self::getAutomationMailClass()::find($id);
-
-        $this->authorize('delete', $automationMail);
-
-        $automationMail->delete();
-
-        $this->flash(__mc('Automation Email :automationMail was deleted.', ['automationMail' => $automationMail->name]));
-    }
-
     public function getTitle(): string
     {
         return __mc('Emails');
-    }
-
-    public function getView(): string
-    {
-        return 'mailcoach::app.automations.mails.index';
-    }
-
-    public function getData(Request $request): array
-    {
-        return [
-            'automationMails' => (new AutomatedMailQuery($request))->paginate($request->per_page),
-            'totalAutomationMailsCount' => self::getAutomationMailClass()::count(),
-        ];
     }
 }

@@ -2,15 +2,12 @@
     @apply card;
     @apply p-0;
     @apply mt-8;
+    @apply overflow-visible;
 }
 
 .fi-dropdown-panel {
     @apply card;
     @apply p-0;
-}
-
-.fi-ta-cell:not(:first-of-type) {
-    @apply px-1 !important;
 }
 
 .fi-ta-cell:has(label > .fi-checkbox-input) {
@@ -99,12 +96,6 @@
     @apply py-2;
 }
 
-.fi-ta thead tr td,
-.fi-ta thead tr th {
-    padding-left: 0;
-    padding-right: 0;
-}
-
 .fi-ta thead tr span {
     @apply text-left;
     @apply font-semibold;
@@ -112,19 +103,6 @@
     @apply uppercase;
     @apply text-xs;
     @apply tracking-wider;
-}
-
-.fi-ta .fi-ta-actions-cell {
-    @apply px-1 py-0;
-}
-
-.fi-ta .px-3.py-3\.5 {
-    @apply py-2.5;
-}
-
-.fi-ta .fi-ta-icon {
-    padding-left: 0;
-    padding-right: 0;
 }
 
 .fi-ta .fi-ta-icon svg {

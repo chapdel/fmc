@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use Spatie\Mailcoach\Http\Api\Controllers\UploadsController;
-use Spatie\Mailcoach\Http\App\Controllers\SubscribersExportController;
 use Spatie\Mailcoach\Http\App\Middleware\BootstrapSettingsNavigation;
 use Spatie\Mailcoach\Livewire\Editor\EditorSettingsComponent;
 use Spatie\Mailcoach\Livewire\Export\ExportComponent;
@@ -52,7 +51,6 @@ Route::prefix('email-lists')->group(function () {
 
         Route::prefix('subscribers')->group(function () {
             Route::get('/', '\\'.Mailcoach::getLivewireClass('subscribers', \Spatie\Mailcoach\Livewire\Audience\SubscribersComponent::class))->name('mailcoach.emailLists.subscribers');
-            Route::post('export', '\\'.SubscribersExportController::class)->name('mailcoach.emailLists.subscribers.export');
             Route::get('{subscriber}', '\\'.Mailcoach::getLivewireClass('subscriber', \Spatie\Mailcoach\Livewire\Audience\SubscriberComponent::class))->name('mailcoach.emailLists.subscriber.details');
         });
 

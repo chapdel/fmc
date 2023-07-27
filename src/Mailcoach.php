@@ -75,18 +75,18 @@ class Mailcoach
                     continue;
                 }
 
-                $scripts[] = "<script type=\"text/javascript\" src=\"{$script}\"></script>";
+                $scripts[] = "<script type=\"text/javascript\" src=\"{$script}\" data-navigate-track></script>";
             }
         }
 
         if (is_file(__DIR__.'/../resources/hot')) {
             $url = rtrim(file_get_contents(__DIR__.'/../resources/hot'));
 
-            $scripts[] = sprintf('<script type="module" src="%s" defer></script>', "{$url}/resources/js/app.js");
-            $scripts[] = sprintf('<script type="module" src="%s" defer></script>', "{$url}/@vite/client");
+            $scripts[] = sprintf('<script type="module" src="%s" defer data-navigate-track></script>', "{$url}/resources/js/app.js");
+            $scripts[] = sprintf('<script type="module" src="%s" defer data-navigate-track></script>', "{$url}/@vite/client");
         } else {
             $scripts[] = <<<HTML
-                <script src="{$fullAssetPath}" data-navigate-once defer></script>
+                <script src="{$fullAssetPath}" data-navigate-once defer data-navigate-track></script>
             HTML;
         }
 

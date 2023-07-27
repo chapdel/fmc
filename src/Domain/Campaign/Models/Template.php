@@ -23,6 +23,7 @@ class Template extends Model implements HasHtmlContent
 
     protected $casts = [
         'json' => 'json',
+        'contains_placeholders' => 'bool',
     ];
 
     public function getTemplateFieldValues(): array

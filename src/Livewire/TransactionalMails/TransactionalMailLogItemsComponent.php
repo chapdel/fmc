@@ -2,44 +2,77 @@
 
 namespace Spatie\Mailcoach\Livewire\TransactionalMails;
 
-use Illuminate\Http\Request;
-use Spatie\Mailcoach\Http\App\Queries\TransactionalMailQuery;
-use Spatie\Mailcoach\Livewire\DataTableComponent;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\BulkAction;
+use Filament\Tables\Columns\TextColumn;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
+use Spatie\Mailcoach\Livewire\FilamentDataTableComponent;
 
-class TransactionalMailLogItemsComponent extends DataTableComponent
+class TransactionalMailLogItemsComponent extends FilamentDataTableComponent
 {
-    public string $sort = '-created_at';
-
-    public function deleteTransactionalMail(int $id)
+    protected function getDefaultTableSortColumn(): ?string
     {
-        $transactionalMail = self::getTransactionalMailLogItemClass()::find($id);
+        return 'created_at';
+    }
 
-        $this->authorize('delete', $transactionalMail);
+    protected function getDefaultTableSortDirection(): ?string
+    {
+        return 'desc';
+    }
 
-        $transactionalMail->delete();
+    protected function getTableQuery(): Builder
+    {
+        return self::getTransactionalMailLogItemClass()::query()
+            ->withCount(['opens', 'clicks']);
+    }
 
-        $this->dispatch('notify', [
-            'content' => __mc('The mail was removed from the log'),
-        ]);
+    protected function getTableColumns(): array
+    {
+        return [
+            TextColumn::make('subject')
+                ->label(__mc('Subject'))
+                ->extraAttributes(['class' => 'link'])
+                ->searchable(),
+            TextColumn::make('to')
+                ->getStateUsing(fn (TransactionalMailLogItem $item) => $item->toString())
+                ->searchable(),
+            TextColumn::make('opens_count')->label(__mc('Opens'))->numeric(),
+            TextColumn::make('clicks_count')->label(__mc('Clicks'))->numeric(),
+            TextColumn::make('created_at')
+                ->label(__mc('Sent'))
+                ->sortable()
+                ->date(config('mailcoach.date_format')),
+        ];
+    }
+
+    protected function getTableActions(): array
+    {
+        return [
+            Action::make('Delete')
+                ->action(fn (TransactionalMailLogItem $record) => $record->delete())
+                ->requiresConfirmation()
+                ->label(' ')
+                ->icon('heroicon-o-trash')
+                ->color('danger'),
+        ];
+    }
+
+    protected function getTableBulkActions(): array
+    {
+        return [
+            BulkAction::make('delete')
+                ->requiresConfirmation()
+                ->icon('heroicon-o-trash')
+                ->color('danger')
+                ->deselectRecordsAfterCompletion()
+                ->action(fn (Collection $records) => $records->each->delete()),
+        ];
     }
 
     public function getTitle(): string
     {
         return __mc('Log');
-    }
-
-    public function getView(): string
-    {
-        return 'mailcoach::app.transactionalMails.index';
-    }
-
-    public function getData(Request $request): array
-    {
-        $this->authorize('viewAny', static::getTransactionalMailLogItemClass());
-
-        return [
-            'transactionalMails' => (new TransactionalMailQuery($request))->paginate($request->per_page),
-            'transactionalMailsCount' => self::getTransactionalMailLogItemClass()::count(),
-        ];
     }
 }

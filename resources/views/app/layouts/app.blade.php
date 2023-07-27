@@ -22,7 +22,7 @@
         </script>
 
         <style>[x-cloak] { display: none !important; }</style>
-        @filamentStyles
+        @filamentStyles(['tables'])
         @livewireStyles
         {!! \Spatie\Mailcoach\Mailcoach::styles() !!}
         @include('mailcoach::app.layouts.partials.endHead')
@@ -60,7 +60,7 @@
                         </div>
 
                         @if ($create ?? false)
-                            <div>
+                            <div class="buttons flex">
                                 <x-mailcoach::button
                                     x-on:click="$store.modals.open('create-{{ $create }}')"
                                     :label="$createText ?? __mc('Create ' . $create)"
@@ -68,8 +68,10 @@
                                 />
 
                                 <x-mailcoach::modal :title="$createText ?? __mc('Create ' . $create)" name="create-{{ $create }}">
-                                    @livewire('mailcoach::create-' . $create)
+                                    @livewire('mailcoach::create-' . $create, $createData ?? [])
                                 </x-mailcoach::modal>
+
+                                {{ $afterCreate ?? '' }}
                             </div>
                         @endif
                     </div>

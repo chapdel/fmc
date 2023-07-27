@@ -2,17 +2,27 @@
 
 namespace Spatie\Mailcoach\Livewire\Campaigns;
 
-use Illuminate\Http\Request;
+use Filament\Tables\Columns\TextColumn;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Http\App\Queries\CampaignLinksQuery;
-use Spatie\Mailcoach\Livewire\DataTableComponent;
+use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
+use Spatie\Mailcoach\Domain\Shared\Support\LinkHasher;
+use Spatie\Mailcoach\Livewire\FilamentDataTableComponent;
 use Spatie\Mailcoach\MainNavigation;
 
-class CampaignClicksComponent extends DataTableComponent
+class CampaignClicksComponent extends FilamentDataTableComponent
 {
-    public string $sort = '-unique_click_count';
-
     public Campaign $campaign;
+
+    protected function getDefaultTableSortColumn(): ?string
+    {
+        return 'unique_click_count';
+    }
+
+    protected function getDefaultTableSortDirection(): ?string
+    {
+        return 'desc';
+    }
 
     public function mount(Campaign $campaign)
     {
@@ -24,11 +34,6 @@ class CampaignClicksComponent extends DataTableComponent
     public function getTitle(): string
     {
         return __mc('Clicks');
-    }
-
-    public function getView(): string
-    {
-        return 'mailcoach::app.campaigns.clicks';
     }
 
     public function getLayout(): string
@@ -43,12 +48,46 @@ class CampaignClicksComponent extends DataTableComponent
         ];
     }
 
-    public function getData(Request $request): array
+    protected function getTableQuery(): Builder
     {
-        return [
-            'campaign' => $this->campaign,
-            'links' => (new CampaignLinksQuery($this->campaign, $request))->paginate($request->per_page),
-            'totalLinksCount' => $this->campaign->links()->count(),
-        ];
+        return $this->campaign->links()->getQuery();
+    }
+
+    protected function getTableEmptyStateDescription(): ?string
+    {
+        if (! is_null($this->campaign->click_count)) {
+            return __mc('No clicks yet. Stay tuned.');
+        }
+
+        return __mc('No clicks tracked');
+    }
+
+    protected function getTableColumns(): array
+    {
+        return array_filter([
+            TextColumn::make('url')
+                ->label(__mc('Link'))
+                ->sortable()
+                ->searchable()
+                ->url(fn (CampaignLink $link) => $link->url)
+                ->extraAttributes(['class' => 'link'])
+                ->openUrlInNewTab(),
+            $this->campaign->add_subscriber_link_tags
+                ? TextColumn::make('tag')
+                    ->label(__mc('Tag'))
+                    ->getStateUsing(fn (CampaignLink $link) => '<span class="tag-neutral">'.LinkHasher::hash($this->campaign, $link->url).'</span>')
+                    ->html()
+                : null,
+            TextColumn::make('unique_click_count')
+                ->label(__mc('Unique clicks'))
+                ->sortable()
+                ->alignRight()
+                ->numeric(),
+            TextColumn::make('click_count')
+                ->label(__mc('Clicks'))
+                ->sortable()
+                ->alignRight()
+                ->numeric(),
+        ]);
     }
 }

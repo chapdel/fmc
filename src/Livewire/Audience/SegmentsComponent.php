@@ -2,14 +2,20 @@
 
 namespace Spatie\Mailcoach\Livewire\Audience;
 
-use Illuminate\Http\Request;
+use Closure;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Columns\TextColumn;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag;
-use Spatie\Mailcoach\Http\App\Queries\SegmentsQuery;
-use Spatie\Mailcoach\Livewire\DataTableComponent;
+use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
+use Spatie\Mailcoach\Livewire\FilamentDataTableComponent;
 use Spatie\Mailcoach\MainNavigation;
 
-class SegmentsComponent extends DataTableComponent
+class SegmentsComponent extends FilamentDataTableComponent
 {
     public EmailList $emailList;
 
@@ -20,15 +26,83 @@ class SegmentsComponent extends DataTableComponent
         app(MainNavigation::class)->activeSection()?->add($this->emailList->name, route('mailcoach.emailLists.segments', $this->emailList));
     }
 
-    public function duplicateSegment(int $id)
+    protected function getTableQuery(): Builder
+    {
+        return $this->emailList->segments()->getQuery();
+    }
+
+    protected function getDefaultTableSortColumn(): ?string
+    {
+        return 'name';
+    }
+
+    protected function getTableEmptyStateDescription(): ?string
+    {
+        return __mc('A segment is a group of tags that can be targeted by an email campaign. You can learn more about segmentation & tags in our docs');
+    }
+
+    protected function getTableEmptyStateActions(): array
+    {
+        return [
+            Action::make(__mc('Learn more'))
+                ->url('https://mailcoach.app/docs/self-hosted/v6/using-mailcoach/email-lists/segmentation-tags')
+                ->link()
+                ->extraAttributes(['class' => 'link'])
+                ->openUrlInNewTab(),
+        ];
+    }
+
+    protected function getTableColumns(): array
+    {
+        return [
+            TextColumn::make('name')
+                ->label(__mc('Name'))
+                ->sortable()
+                ->searchable()
+                ->extraAttributes(['class' => 'link']),
+            TextColumn::make('population')
+                ->name(__mc('Population'))
+                ->getStateUsing(fn (TagSegment $segment) => Str::shortNumber($segment->getSubscribersQuery()->count()))
+                ->alignRight(),
+            TextColumn::make('created_at')
+                ->date(config('mailcoach.date_format'))
+                ->alignRight()
+                ->sortable(),
+        ];
+    }
+
+    protected function getTableActions(): array
+    {
+        return [
+            ActionGroup::make([
+                Action::make('Duplicate')
+                    ->action(fn (TagSegment $record) => $this->duplicateSegment($record))
+                    ->icon('heroicon-o-clipboard')
+                    ->label(__mc('Duplicate')),
+                Action::make('Delete')
+                    ->action(fn (TagSegment $record) => $record->delete())
+                    ->requiresConfirmation()
+                    ->label(__mc('Delete'))
+                    ->icon('heroicon-o-trash')
+                    ->color('danger'),
+            ]),
+        ];
+    }
+
+    protected function getTableRecordUrlUsing(): ?Closure
+    {
+        return function (TagSegment $segment) {
+            return route('mailcoach.emailLists.segments.edit', [$this->emailList, $segment]);
+        };
+    }
+
+    public function duplicateSegment(TagSegment $segment)
     {
         $this->authorize('update', $this->emailList);
 
-        $segment = self::getTagSegmentClass()::find($id);
-
         /** @var \Spatie\Mailcoach\Domain\Audience\Models\TagSegment $duplicateSegment */
         $duplicateSegment = self::getTagSegmentClass()::create([
-            'name' => __mc('Duplicate of').' '.$segment->name,
+            'name' => "{$segment->name} - ".__mc('copy'),
             'email_list_id' => $segment->email_list_id,
         ]);
 
@@ -46,25 +120,9 @@ class SegmentsComponent extends DataTableComponent
         ]);
     }
 
-    public function deleteSegment(int $id)
-    {
-        $segment = self::getTagSegmentClass()::find($id);
-
-        $this->authorize('delete', $segment);
-
-        $segment->delete();
-
-        $this->flash(__mc('Segment :segment was deleted.', ['segment' => $segment->name]));
-    }
-
     public function getTitle(): string
     {
         return __mc('Segments');
-    }
-
-    public function getView(): string
-    {
-        return 'mailcoach::app.emailLists.segments.index';
     }
 
     public function getLayout(): string
@@ -74,21 +132,17 @@ class SegmentsComponent extends DataTableComponent
 
     public function getLayoutData(): array
     {
-        return [
+        $data = [
             'emailList' => $this->emailList,
         ];
-    }
 
-    public function getData(Request $request): array
-    {
-        $this->authorize('view', $this->emailList);
+        if (Auth::user()->can('create', self::getTagSegmentClass())) {
+            $data['create'] = 'segment';
+            $data['createData'] = [
+                'emailList' => $this->emailList,
+            ];
+        }
 
-        $segmentsQuery = new SegmentsQuery($this->emailList, $request);
-
-        return [
-            'segments' => $segmentsQuery->paginate($request->per_page),
-            'emailList' => $this->emailList,
-            'totalSegmentsCount' => $this->emailList->segments()->count(),
-        ];
+        return $data;
     }
 }

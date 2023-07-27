@@ -29,7 +29,7 @@ class CampaignSettingsForm extends Form
 
     public ?string $reply_to_name;
 
-    public int $email_list_id;
+    public ?int $email_list_id;
 
     public bool $utm_tags;
 

@@ -2,22 +2,69 @@
 
 namespace Spatie\Mailcoach\Livewire\Audience;
 
-use Illuminate\Http\Request;
-use Spatie\Mailcoach\Http\App\Queries\EmailListQuery;
-use Spatie\Mailcoach\Livewire\DataTableComponent;
+use Closure;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Columns\TextColumn;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Livewire\FilamentDataTableComponent;
 
-class ListsComponent extends DataTableComponent
+class ListsComponent extends FilamentDataTableComponent
 {
-    public function deleteList(int $id)
+    protected function getTableColumns(): array
     {
-        $list = self::getEmailListClass()::find($id);
+        return [
+            TextColumn::make('name')
+                ->label(__mc('Name'))
+                ->sortable()
+                ->searchable()
+                ->view('mailcoach::app.emailLists.columns.name')
+                ->extraAttributes(['class' => 'link']),
+            TextColumn::make('active_subscribers_count')
+                ->label(__mc('Active'))
+                ->sortable()
+                ->numeric()
+                ->view('mailcoach::app.emailLists.columns.activeSubscribersCount'),
+            TextColumn::make('created_at')
+                ->label(__mc('Created'))
+                ->sortable()
+                ->date(config('mailcoach.date_format')),
+        ];
+    }
 
-        $this->authorize('delete', $list);
+    protected function getTableActions(): array
+    {
+        return [
+            Action::make('Delete')
+                ->action(fn (EmailList $record) => $record->delete())
+                ->requiresConfirmation()
+                ->label(' ')
+                ->icon('heroicon-o-trash')
+                ->color('danger'),
+        ];
+    }
 
-        self::getSubscriberClass()::where('email_list_id', $list->id)->delete();
-        $list->delete();
+    protected function getTableRecordUrlUsing(): ?Closure
+    {
+        return function (EmailList $emailList) {
+            return route('mailcoach.emailLists.summary', $emailList);
+        };
+    }
 
-        $this->flash(__mc('List :list was deleted.', ['list' => $list->name]));
+    protected function getDefaultTableSortColumn(): ?string
+    {
+        return 'name';
+    }
+
+    public function mount(): void
+    {
+        $this->authorize('viewAny', static::getEmailListClass());
+    }
+
+    protected function getTableQuery(): Builder
+    {
+        return self::getEmailListClass()::query();
     }
 
     public function getTitle(): string
@@ -25,18 +72,14 @@ class ListsComponent extends DataTableComponent
         return __mc('Lists');
     }
 
-    public function getView(): string
+    public function getLayoutData(): array
     {
-        return 'mailcoach::app.emailLists.index';
-    }
-
-    public function getData(Request $request): array
-    {
-        $this->authorize('viewAny', static::getEmailListClass());
+        if (! Auth::user()->can('create', self::getEmailListClass())) {
+            return [];
+        }
 
         return [
-            'emailLists' => (new EmailListQuery($request))->paginate($request->per_page),
-            'totalEmailListsCount' => static::getEmailListClass()::count(),
+            'create' => 'list',
         ];
     }
 }
