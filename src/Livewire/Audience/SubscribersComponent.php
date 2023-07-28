@@ -91,6 +91,9 @@ class SubscribersComponent extends FilamentDataTableComponent
                 ->searchable(),
             TextColumn::make('date')
                 ->label(__mc('Date'))
+                ->sortable(query: function (Builder $query) {
+                    $query->orderBy(DB::raw('unsubscribed_at, subscribed_at, created_at'), $this->tableSortDirection);
+                })
                 ->getStateUsing(fn (Subscriber $subscriber) => match (true) {
                     $subscriber->isUnsubscribed() => $subscriber->unsubscribed_at?->toMailcoachFormat(),
                     $subscriber->isUnconfirmed() => $subscriber->created_at->toMailcoachFormat(),
@@ -251,7 +254,26 @@ class SubscribersComponent extends FilamentDataTableComponent
                     Select::make('tags')
                         ->label(__mc('Tags'))
                         ->multiple()
-                        ->options(self::getTagClass()::where('type', TagType::Default)->pluck('name', 'uuid'))
+                        ->options(self::getTagClass()::where('type', TagType::Default)->orderBy('name')->pluck('name', 'uuid'))
+                        ->required(),
+                ]),
+            BulkAction::make('Remove tags')
+                ->label(__mc('Remove tags'))
+                ->icon('heroicon-o-minus-circle')
+                ->action(function (Collection $subscribers, array $data) {
+                    $tags = self::getTagClass()::whereIn('uuid', $data['tags'])->pluck('name')->toArray();
+
+                    $subscribers->each(function (Subscriber $subscriber) use ($tags) {
+                        $subscriber->removeTags($tags);
+                    });
+
+                    $this->flash(__mc('Removed tags from :count subscribers', ['count' => $subscribers->count()]));
+                })
+                ->form([
+                    Select::make('tags')
+                        ->label(__mc('Tags'))
+                        ->multiple()
+                        ->options(self::getTagClass()::where('type', TagType::Default)->orderBy('name')->pluck('name', 'uuid'))
                         ->required(),
                 ]),
             BulkAction::make('export')

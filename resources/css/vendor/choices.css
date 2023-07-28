@@ -452,10 +452,16 @@
     @apply shadow-md;
     @apply shadow-blue-300/10;
     @apply placeholder:text-indigo-900/50;
+    @apply border-none;
+}
+
+[data-type='select-multiple'] .choices__input {
+    @apply bg-transparent;
 }
 
 .choices__input:focus {
     outline: 0;
+    --tw-ring-color: transparent;
 }
 
 .choices-multiple .choices__input {
