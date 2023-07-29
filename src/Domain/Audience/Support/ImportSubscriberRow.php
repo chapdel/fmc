@@ -30,7 +30,7 @@ class ImportSubscriberRow
 
     public function hasValidEmail(): bool
     {
-        $validator = Validator::make(['email' => $this->getEmail()], ['email' => 'required|email']);
+        $validator = Validator::make(['email' => $this->getEmail()], ['email' => ['required', 'email:rfc,strict']]);
 
         return ! $validator->fails();
     }

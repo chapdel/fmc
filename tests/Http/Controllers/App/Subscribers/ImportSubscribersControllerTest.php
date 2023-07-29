@@ -31,9 +31,9 @@ it('can subscribe multiple emails in one go', function () {
 
     $subscriberImport = SubscriberImport::first();
 
-    expect($subscriberImport->imported_subscribers_count)->toEqual(4);
+    expect($subscriberImport->imported_subscribers_count)->toEqual(5);
     expect($subscriberImport->subscribers()->count())->toEqual(3);
-    expect(count($subscriberImport->errors))->toEqual(1);
+    expect(count($subscriberImport->errors))->toEqual(2);
 
     Mail::assertSent(ImportSubscribersResultMail::class, function (ImportSubscribersResultMail $mail) use ($subscriberImport) {
         expect($mail->hasTo(test()->user->email))->toBeTrue();

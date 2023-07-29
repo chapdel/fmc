@@ -91,6 +91,31 @@ it('validates email addresses', function () {
         ->assertJsonValidationErrorFor('to');
 });
 
+it('validates email addresses without tld', function () {
+    Mail::fake();
+    $this->withExceptionHandling();
+
+    $this
+        ->postJson(action(SendTransactionalMailController::class, [
+            'mail_name' => 'my-template',
+            'from' => 'rias@spatie.be',
+            'to' => 'rias@gmail',
+            'cc' => '"Rias" <rias+cc@spatie.be>',
+            'bcc' => '"Rias" <rias+bcc@spatie.be>',
+        ]))
+        ->assertJsonValidationErrorFor('to');
+
+    $this
+        ->postJson(action(SendTransactionalMailController::class, [
+            'mail_name' => 'my-template',
+            'from' => 'rias@spatie.be',
+            'to' => '"Rias" <rias@gmail>',
+            'cc' => '"Rias" <rias+cc@spatie.be>',
+            'bcc' => '"Rias" <rias+bcc@spatie.be>',
+        ]))
+        ->assertJsonValidationErrorFor('to');
+});
+
 it('tracks the transactional mails', function () {
     $this
         ->post(action(SendTransactionalMailController::class, [

@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Http\Api\Requests;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Concerns\ValidatesAttributes;
 use Illuminate\Validation\Rule;
 use Spatie\Mailcoach\Domain\Settings\Rules\MailerConfigKeyNameRule;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -16,6 +17,7 @@ use Symfony\Component\Mime\Exception\RfcComplianceException;
 class SendTransactionalMailRequest extends FormRequest
 {
     use UsesMailcoachModels;
+    use ValidatesAttributes;
 
     public function rules(): array
     {
@@ -30,9 +32,16 @@ class SendTransactionalMailRequest extends FormRequest
                 (new Delimited('string'))->min(1),
                 function (string $attribute, $value, $fail) {
                     try {
-                        (new AddressNormalizer())->normalize($value);
+                        /** @var Address[] $address */
+                        $addresses = (new AddressNormalizer())->normalize($value);
+
+                        foreach ($addresses as $address) {
+                            if (! $this->validateEmail('to', $address->getAddress(), ['rfc', 'strict'])) {
+                                return $fail(__mc("{$address->getAddress()} is not a valid email."));
+                            }
+                        }
                     } catch (RfcComplianceException $exception) {
-                        $fail($exception->getMessage());
+                        return $fail($exception->getMessage());
                     }
                 },
             ],
