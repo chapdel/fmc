@@ -2,15 +2,19 @@
 
 namespace Spatie\Mailcoach\Livewire;
 
+use Closure;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Collection;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\SimpleExcel\SimpleExcelWriter;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 abstract class FilamentDataTableComponent extends Component implements HasTable, HasForms
 {
@@ -76,6 +80,29 @@ abstract class FilamentDataTableComponent extends Component implements HasTable,
     public function getLayoutData(): array
     {
         return [];
+    }
+
+    public function export(array $header, Collection $rows, Closure $formatRow, string $title = ''): StreamedResponse
+    {
+        ini_set('max_execution_time', '0');
+
+        $filename = trim("{$title} export.csv");
+
+        return response()->streamDownload(function () use ($header, $filename, $rows, $formatRow) {
+            $csv = SimpleExcelWriter::streamDownload($filename);
+
+            $csv->addHeader($header);
+
+            $rows->each(function ($row) use ($csv, $formatRow) {
+                $csv->addRow($formatRow($row));
+
+                flush();
+            });
+
+            $csv->close();
+        }, $filename, [
+            'Content-Type' => 'text/csv',
+        ]);
     }
 
     public function render()

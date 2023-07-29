@@ -4,10 +4,12 @@ namespace Spatie\Mailcoach\Livewire\Campaigns;
 
 use Closure;
 use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\RetrySendingFailedSendsJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
@@ -52,8 +54,6 @@ class CampaignOutboxComponent extends FilamentDataTableComponent
 
     protected function getTableQuery(): Builder
     {
-        $subscriberTableName = self::getSubscriberTableName();
-
         return self::getSendClass()::query()
             ->with(['feedback', 'campaign', 'subscriber'])
             ->where('campaign_id', $this->campaign->id)
@@ -99,6 +99,35 @@ class CampaignOutboxComponent extends FilamentDataTableComponent
                         'complained' => $query->complained(),
                         default => $query,
                     };
+                }),
+        ];
+    }
+
+    protected function getTableBulkActions(): array
+    {
+        return [
+            BulkAction::make('export')
+                ->label(__mc('Export selected'))
+                ->icon('heroicon-o-cloud-arrow-down')
+                ->action(function (Collection $rows) {
+                    $header = [
+                        'email',
+                        'problem',
+                        'sent',
+                    ];
+
+                    return $this->export(
+                        header: $header,
+                        rows: $rows,
+                        formatRow: function (Send $send) {
+                            return [
+                                'email' => $send->subscriber?->email ?? '<deleted subscriber>',
+                                'problem' => "{$send->failure_reason}{$send->latestFeedback()?->formatted_type}",
+                                'sent' => $send->sent_at->toMailcoachFormat(),
+                            ];
+                        },
+                        title: "{$this->campaign->name} outbox",
+                    );
                 }),
         ];
     }

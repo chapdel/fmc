@@ -27,7 +27,6 @@ use Spatie\Mailcoach\Livewire\FilamentDataTableComponent;
 use Spatie\Mailcoach\Mailcoach;
 use Spatie\Mailcoach\MainNavigation;
 use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\SimpleExcel\SimpleExcelWriter;
 
 class SubscribersComponent extends FilamentDataTableComponent
 {
@@ -280,40 +279,31 @@ class SubscribersComponent extends FilamentDataTableComponent
                 ->label(__mc('Export selected'))
                 ->icon('heroicon-o-cloud-arrow-down')
                 ->action(function (Collection $subscribers) {
-                    ini_set('max_execution_time', '0');
+                    $header = [
+                        'email' => null,
+                        'first_name' => null,
+                        'last_name' => null,
+                        'tags' => null,
+                        'subscribed_at' => null,
+                        'unsubscribed_at' => null,
+                    ];
 
-                    return response()->streamDownload(function () use ($subscribers) {
-                        $subscriberCsv = SimpleExcelWriter::streamDownload("{$this->emailList->name} subscribers.csv");
+                    $subscribers->each(function (Subscriber $subscriber) use (&$header) {
+                        $attributes = array_keys($subscriber->extra_attributes->toArray());
+                        $attributes = collect($attributes)->mapWithKeys(fn ($key) => [$key => null])->toArray();
+                        ksort($attributes);
 
-                        $header = [
-                            'email' => null,
-                            'first_name' => null,
-                            'last_name' => null,
-                            'tags' => null,
-                            'subscribed_at' => null,
-                            'unsubscribed_at' => null,
-                        ];
+                        $header = array_merge($header, $attributes);
+                    });
 
-                        $subscribers->each(function (Subscriber $subscriber) use (&$header) {
-                            $attributes = array_keys($subscriber->extra_attributes->toArray());
-                            $attributes = collect($attributes)->mapWithKeys(fn ($key) => [$key => null])->toArray();
-                            ksort($attributes);
-
-                            $header = array_merge($header, $attributes);
-                        });
-
-                        $subscriberCsv->addHeader(array_unique(array_keys($header)));
-
-                        $subscribers->each(function (Subscriber $subscriber) use ($subscriberCsv, $header) {
-                            $subscriberCsv->addRow(array_merge($header, $subscriber->toExportRow()));
-
-                            flush();
-                        });
-
-                        $subscriberCsv->close();
-                    }, "{$this->emailList->name} subscribers.csv", [
-                        'Content-Type' => 'text/csv',
-                    ]);
+                    return $this->export(
+                        header: array_unique(array_keys($header)),
+                        rows: $subscribers,
+                        formatRow: function (Subscriber $subscriber) use ($header) {
+                            return array_merge($header, $subscriber->toExportRow());
+                        },
+                        title: "{$this->emailList->name} subscribers",
+                    );
                 }),
             BulkAction::make('Unsubscribe')
                 ->label(__mc('Unsubscribe'))
