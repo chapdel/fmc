@@ -292,6 +292,8 @@ class Subscriber extends Model implements CipherSweetEncrypted
 
     public function addTags(array $names, TagType $type = null)
     {
+        $this->load('tags');
+
         foreach ($names as $name) {
             if ($this->hasTag($name)) {
                 continue;
@@ -316,7 +318,7 @@ class Subscriber extends Model implements CipherSweetEncrypted
 
     public function hasTag(string $name): bool
     {
-        return $this->tags()
+        return $this->tags
             ->where('name', $name)
             ->where('email_list_id', $this->emailList->id)
             ->count() > 0;

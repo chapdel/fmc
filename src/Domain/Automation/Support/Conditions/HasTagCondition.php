@@ -33,6 +33,8 @@ class HasTagCondition implements Condition
 
     public function check(): bool
     {
+        $this->subscriber->load('tags');
+
         return $this->subscriber->hasTag($this->data['tag']);
     }
 }
