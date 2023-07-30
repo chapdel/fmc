@@ -58,6 +58,6 @@ class CreateSubscriberComponent extends Component
 
     public function render()
     {
-        return view('mailcoach::app.emailLists.subscribers.partials.create');
+        return view('mailcoach::app.emailLists.subscribers.create');
     }
 }

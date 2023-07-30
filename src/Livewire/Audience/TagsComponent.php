@@ -2,20 +2,19 @@
 
 namespace Spatie\Mailcoach\Livewire\Audience;
 
-use Illuminate\Http\Request;
+use Closure;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Spatie\Mailcoach\Domain\Audience\Events\TagRemovedEvent;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
-use Spatie\Mailcoach\Http\App\Queries\EmailListTagsQuery;
-use Spatie\Mailcoach\Livewire\DataTableComponent;
+use Spatie\Mailcoach\Domain\Audience\Models\Tag;
+use Spatie\Mailcoach\Livewire\TableComponent;
 use Spatie\Mailcoach\MainNavigation;
 
-class TagsComponent extends DataTableComponent
+class TagsComponent extends TableComponent
 {
-    protected array $allowedFilters = [
-        'type' => ['except' => ''],
-    ];
-
     public EmailList $emailList;
 
     public function mount(EmailList $emailList)
@@ -28,10 +27,8 @@ class TagsComponent extends DataTableComponent
             });
     }
 
-    public function deleteTag(int $id)
+    public function deleteTag(Tag $tag)
     {
-        $tag = self::getTagClass()::find($id);
-
         $this->authorize('delete', $tag);
 
         $tag->subscribers->each(function ($subscriber) use ($tag) {
@@ -48,11 +45,6 @@ class TagsComponent extends DataTableComponent
         return __mc('Tags');
     }
 
-    public function getView(): string
-    {
-        return 'mailcoach::app.emailLists.tags.index';
-    }
-
     public function getLayout(): string
     {
         return 'mailcoach::app.emailLists.layouts.emailList';
@@ -65,18 +57,78 @@ class TagsComponent extends DataTableComponent
         ];
     }
 
-    public function getData(Request $request): array
+    protected function getTableQuery(): Builder
     {
-        $this->authorize('view', $this->emailList);
+        return $this->emailList->tags()->getQuery();
+    }
 
-        $tagsQuery = new EmailListTagsQuery($this->emailList, $request);
+    protected function getDefaultTableSortColumn(): ?string
+    {
+        return 'name';
+    }
 
+    protected function getTableColumns(): array
+    {
         return [
-            'emailList' => $this->emailList,
-            'tags' => $tagsQuery->paginate($request->per_page),
-            'totalTagsCount' => self::getTagClass()::query()->emailList($this->emailList)->count(),
-            'totalDefault' => self::getTagClass()::query()->where('type', TagType::Default)->emailList($this->emailList)->count(),
-            'totalMailcoach' => self::getTagClass()::query()->where('type', TagType::Mailcoach)->emailList($this->emailList)->count(),
+            TextColumn::make('name')
+                ->label(__mc('Name'))
+                ->extraAttributes(['class' => 'link'])
+                ->sortable()
+                ->searchable(),
+            IconColumn::make('visible_in_preferences')
+                ->label(__mc('Visible'))
+                ->alignCenter()
+                ->sortable()
+                ->boolean(),
+            TextColumn::make('subscriber_count')
+                ->label(__mc('Subscribers'))
+                ->numeric()
+                ->view('mailcoach::app.emailLists.tags.columns.subscriber_count')
+                ->sortable(query: function ($query) {
+                    $query->addSelect(['subscriber_count' => function ($query) {
+                        $query
+                            ->selectRaw('count(id)')
+                            ->from('mailcoach_email_list_subscriber_tags')
+                            ->whereColumn('mailcoach_email_list_subscriber_tags.tag_id', self::getTagTableName().'.id');
+                    }])->orderBy('subscriber_count', $this->getTableSortDirection());
+                })
+                ->alignRight(),
+            TextColumn::make('updated_at')
+                ->label(__mc('Updated at'))
+                ->dateTime(config('mailcoach.date_format'))
+                ->sortable()
+                ->alignRight(),
         ];
+    }
+
+    protected function getTableActions(): array
+    {
+        return [
+            Action::make('delete')
+                ->label('')
+                ->tooltip(__mc('Delete'))
+                ->modalHeading('Delete')
+                ->icon('heroicon-o-trash')
+                ->color('danger')
+                ->action(fn (Tag $tag) => $this->deleteTag($tag))
+                ->requiresConfirmation(),
+        ];
+    }
+
+    protected function getTableEmptyStateDescription(): ?string
+    {
+        return __mc('There are no tags for this list. Everyone is equal!');
+    }
+
+    protected function getTableEmptyStateIcon(): ?string
+    {
+        return 'heroicon-o-tag';
+    }
+
+    protected function getTableRecordUrlUsing(): ?Closure
+    {
+        return function (Tag $tag) {
+            return route('mailcoach.emailLists.tags.edit', [$this->emailList, $tag]);
+        };
     }
 }

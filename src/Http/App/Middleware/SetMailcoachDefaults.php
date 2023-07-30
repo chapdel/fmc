@@ -2,6 +2,8 @@
 
 namespace Spatie\Mailcoach\Http\App\Middleware;
 
+use Filament\Support\Colors\Color;
+use Filament\Support\Facades\FilamentColor;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Spatie\Flash\Flash;
 
@@ -25,6 +27,15 @@ class SetMailcoachDefaults
                 'email' => $notifiable->getEmailForPasswordReset(),
             ], false));
         });
+
+        FilamentColor::register([
+            'danger' => Color::Red,
+            'gray' => Color::Zinc,
+            'info' => Color::Blue,
+            'primary' => Color::Blue,
+            'success' => Color::Green,
+            'warning' => Color::Amber,
+        ]);
 
         return $next($request);
     }

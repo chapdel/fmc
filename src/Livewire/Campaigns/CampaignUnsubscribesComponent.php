@@ -3,14 +3,16 @@
 namespace Spatie\Mailcoach\Livewire\Campaigns;
 
 use Closure;
+use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignUnsubscribe;
-use Spatie\Mailcoach\Livewire\FilamentDataTableComponent;
+use Spatie\Mailcoach\Livewire\TableComponent;
 use Spatie\Mailcoach\MainNavigation;
 
-class CampaignUnsubscribesComponent extends FilamentDataTableComponent
+class CampaignUnsubscribesComponent extends TableComponent
 {
     public Campaign $campaign;
 
@@ -81,5 +83,36 @@ class CampaignUnsubscribesComponent extends FilamentDataTableComponent
         return function (CampaignUnsubscribe $unsubscribe) {
             return route('mailcoach.emailLists.subscriber.details', [$this->campaign->emailList, $unsubscribe->subscriber]);
         };
+    }
+
+    protected function getTableBulkActions(): array
+    {
+        return [
+            BulkAction::make('export')
+                ->label(__mc('Export selected'))
+                ->icon('heroicon-o-cloud-arrow-down')
+                ->action(function (Collection $rows) {
+                    $header = [
+                        'email',
+                        'first_name',
+                        'last_name',
+                        'unsubscribed_at',
+                    ];
+
+                    return $this->export(
+                        header: $header,
+                        rows: $rows,
+                        formatRow: function (CampaignUnsubscribe $unsubscribe) {
+                            return [
+                                'email' => $unsubscribe->subscriber?->email ?? '<deleted subscriber>',
+                                'first_name' => $unsubscribe->subscriber ? $unsubscribe->subscriber->first_name : '<deleted subscriber>',
+                                'last_name' => $unsubscribe->subscriber ? $unsubscribe->subscriber->last_name : '<deleted subscriber>',
+                                'unsubscribed_at' => $unsubscribe->created_at->toMailcoachFormat(),
+                            ];
+                        },
+                        title: "{$this->campaign->name} unsubscribes",
+                    );
+                }),
+        ];
     }
 }

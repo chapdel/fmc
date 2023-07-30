@@ -2,33 +2,29 @@
 
 namespace Spatie\Mailcoach\Livewire\Webhooks;
 
-use Illuminate\Http\Request;
+use Closure;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Columns\TextColumn;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Settings\Actions\ResendWebhookCallAction;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookLog;
-use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Http\App\Queries\WebhookLogsQuery;
-use Spatie\Mailcoach\Livewire\DataTableComponent;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
+use Spatie\Mailcoach\Livewire\TableComponent;
 use Spatie\Mailcoach\Mailcoach;
 
-class WebhookLogsComponent extends DataTableComponent
+class WebhookLogsComponent extends TableComponent
 {
-    use LivewireFlash;
-    use UsesMailcoachModels;
-
-    public string $sort = '-created_at';
-
     public WebhookConfiguration $webhook;
 
-    public function getTitle(): string
+    protected function getDefaultTableSortColumn(): ?string
     {
-        return __mc('Webhook Logs');
+        return 'created_at';
     }
 
-    public function getView(): string
+    protected function getDefaultTableSortDirection(): ?string
     {
-        return 'mailcoach::app.configuration.webhooks.logs.index';
+        return 'desc';
     }
 
     public function getLayout(): string
@@ -39,16 +35,53 @@ class WebhookLogsComponent extends DataTableComponent
     public function getLayoutData(): array
     {
         return [
-            'title' => __mc('Webhook Logs'),
+            'title' => $this->webhook->name,
         ];
     }
 
-    public function getData(Request $request): array
+    protected function getTableQuery(): Builder
+    {
+        return self::getWebhookLogClass()::query();
+    }
+
+    protected function getTableColumns(): array
     {
         return [
-            'webhookLogs' => WebhookLog::query()->whereIn('id', (new WebhookLogsQuery($this->webhook, $request))->select('id')->pluck('id'))->paginate(),
-            'totalWebhookLogsCount' => self::getWebhookLogClass()::count(),
+            TextColumn::make('created_at')
+                ->sortable()
+                ->dateTime(config('mailcoach.date_format'))
+                ->extraAttributes(['class' => 'link']),
+            TextColumn::make('status_code')
+                ->sortable()
+                ->label(__mc('Status code'))
+                ->color(fn (WebhookLog $log) => match (true) {
+                    $log->status_code >= 200 && $log->status_code < 300 => 'success',
+                    default => '',
+                }),
+            TextColumn::make('event_type')
+                ->label(__mc('Event type'))
+                ->getStateUsing(fn (WebhookLog $log) => Str::remove('Event', $log->event_type))
+                ->searchable(),
+            TextColumn::make('attempt')
+                ->label(__mc('Attempt'))
+                ->default(__mc('Manual'))
+                ->numeric(),
         ];
+    }
+
+    protected function getTableActions(): array
+    {
+        return [
+            Action::make('resend')
+                ->label(__mc('Resend'))
+                ->action(fn (WebhookLog $log) => $this->resend($log))
+                ->requiresConfirmation(),
+        ];
+    }
+
+    protected function getTableRecordUrlUsing(): ?Closure
+    {
+        return fn (WebhookLog $log) => route('webhooks.logs.show', [$this->webhook, $log]);
     }
 
     public function resend(WebhookLog $webhookLog)

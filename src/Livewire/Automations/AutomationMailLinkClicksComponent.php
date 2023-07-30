@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Livewire\Campaigns;
+namespace Spatie\Mailcoach\Livewire\Automations;
 
 use Closure;
 use Filament\Tables\Actions\BulkAction;
@@ -8,14 +8,14 @@ use Filament\Tables\Columns\TextColumn;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailLink;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignClick;
-use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
 use Spatie\Mailcoach\Livewire\TableComponent;
 use Spatie\Mailcoach\MainNavigation;
 
-class CampaignLinkClicksComponent extends TableComponent
+class AutomationMailLinkClicksComponent extends TableComponent
 {
-    public CampaignLink $campaignLink;
+    public AutomationMailLink $automationMailLink;
 
     protected function getDefaultTableSortColumn(): ?string
     {
@@ -27,28 +27,28 @@ class CampaignLinkClicksComponent extends TableComponent
         return 'desc';
     }
 
-    public function mount(CampaignLink $campaignLink)
+    public function mount(AutomationMailLink $automationMailLink)
     {
-        $this->campaignLink = $campaignLink;
+        $this->automationMailLink = $automationMailLink;
 
         app(MainNavigation::class)->activeSection()
-            ?->add($this->campaignLink->campaign->name, route('mailcoach.campaigns'));
+            ?->add($this->automationMailLink->automationMail->name, route('mailcoach.automations.mails.clicks', $this->automationMailLink->automationMail));
     }
 
     public function getTitle(): string
     {
-        return str_replace(['https://', 'http://'], '', $this->campaignLink->url).' '.__mc('clicks');
+        return str_replace(['https://', 'http://'], '', $this->automationMailLink->url).' '.__mc('clicks');
     }
 
     public function getLayout(): string
     {
-        return 'mailcoach::app.campaigns.layouts.campaign';
+        return 'mailcoach::app.automations.mails.layouts.automationMail';
     }
 
     public function getLayoutData(): array
     {
         return [
-            'campaign' => $this->campaignLink->campaign,
+            'mail' => $this->automationMailLink->automationMail,
         ];
     }
 
@@ -68,10 +68,10 @@ class CampaignLinkClicksComponent extends TableComponent
                 count({$prefix}{$campaignClickTable}.subscriber_id) as click_count,
                 min({$prefix}{$campaignClickTable}.created_at) AS first_clicked_at
             ")
-            ->join(static::getCampaignLinkTableName(), static::getCampaignLinkTableName().'.id', '=', "{$campaignClickTable}.campaign_link_id")
+            ->join(static::getAutomationMailLinkTableName(), static::getAutomationMailLinkTableName().'.id', '=', "{$campaignClickTable}.campaign_link_id")
             ->join($subscriberTableName, "{$subscriberTableName}.id", '=', "{$campaignClickTable}.subscriber_id")
             ->join($emailListTableName, "{$subscriberTableName}.email_list_id", '=', "{$emailListTableName}.id")
-            ->where(static::getCampaignLinkTableName().'.id', $this->campaignLink->id)
+            ->where(static::getAutomationMailLinkTableName().'.id', $this->automationMailLink->id)
             ->groupBy("{$prefix}{$subscriberTableName}.uuid", "{$prefix}{$emailListTableName}.uuid", "{$prefix}{$subscriberTableName}.email");
     }
 

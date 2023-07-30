@@ -5,7 +5,6 @@ namespace Spatie\Mailcoach\Livewire\Mailers;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Settings\Enums\MailerTransport;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use function Spatie\Mailcoach\Livewire\array_key_first;
 
 class CreateMailerComponent extends Component
 {

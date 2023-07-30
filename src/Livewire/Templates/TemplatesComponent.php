@@ -9,9 +9,9 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
-use Spatie\Mailcoach\Livewire\FilamentDataTableComponent;
+use Spatie\Mailcoach\Livewire\TableComponent;
 
-class TemplatesComponent extends FilamentDataTableComponent
+class TemplatesComponent extends TableComponent
 {
     protected function getTableQuery(): Builder
     {

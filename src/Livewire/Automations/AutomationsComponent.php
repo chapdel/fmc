@@ -11,10 +11,10 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Mailcoach\Domain\Automation\Actions\DuplicateAutomationAction;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Livewire\FilamentDataTableComponent;
+use Spatie\Mailcoach\Livewire\TableComponent;
 use Spatie\Mailcoach\Mailcoach;
 
-class AutomationsComponent extends FilamentDataTableComponent
+class AutomationsComponent extends TableComponent
 {
     protected function getTableQuery(): Builder
     {
@@ -25,7 +25,7 @@ class AutomationsComponent extends FilamentDataTableComponent
     {
         return [
             TextColumn::make('status')
-                ->label('')
+                ->label(__mc('Run'))
                 ->sortable()
                 ->view('mailcoach::app.automations.columns.status'),
             TextColumn::make('name')

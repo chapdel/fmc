@@ -3,16 +3,18 @@
 namespace Spatie\Mailcoach\Livewire\Campaigns;
 
 use Closure;
+use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Livewire\FilamentDataTableComponent;
+use Spatie\Mailcoach\Domain\Campaign\Models\CampaignOpen;
+use Spatie\Mailcoach\Livewire\TableComponent;
 use Spatie\Mailcoach\MainNavigation;
 
-class CampaignOpensComponent extends FilamentDataTableComponent
+class CampaignOpensComponent extends TableComponent
 {
     public Campaign $campaign;
 
@@ -107,6 +109,40 @@ class CampaignOpensComponent extends FilamentDataTableComponent
         return function ($record) {
             return route('mailcoach.emailLists.subscriber.details', [$record->subscriber_email_list_uuid, $record->subscriber_uuid]);
         };
+    }
+
+    protected function getTableBulkActions(): array
+    {
+        $prefix = DB::getTablePrefix();
+        $subscriberTableName = static::getSubscriberTableName();
+
+        return [
+            BulkAction::make('export')
+                ->label(__mc('Export selected'))
+                ->icon('heroicon-o-cloud-arrow-down')
+                ->action(function () use ($prefix, $subscriberTableName) {
+                    $header = [
+                        'email',
+                        'opens',
+                        'first_opened_at',
+                    ];
+
+                    $rows = $this->getTableQuery()->whereIn("{$prefix}{$subscriberTableName}.uuid", $this->selectedTableRecords)->get();
+
+                    return $this->export(
+                        header: $header,
+                        rows: $rows,
+                        formatRow: function (CampaignOpen $row) {
+                            return [
+                                'email' => $row->subscriber_email,
+                                'opens' => $row->open_count,
+                                'first_opened_at' => $row->first_opened_at->toMailcoachFormat(),
+                            ];
+                        },
+                        title: $this->getTitle(),
+                    );
+                }),
+        ];
     }
 
     public function mount(Campaign $campaign)

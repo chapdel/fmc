@@ -13,9 +13,9 @@ use Illuminate\Support\Str;
 use ReflectionClass;
 use Spatie\Mailcoach\Domain\Automation\Models\Action as ActionModel;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
-use Spatie\Mailcoach\Livewire\FilamentDataTableComponent;
+use Spatie\Mailcoach\Livewire\TableComponent;
 
-class AutomationMailsComponent extends FilamentDataTableComponent
+class AutomationMailsComponent extends TableComponent
 {
     protected function getTableQuery(): Builder
     {

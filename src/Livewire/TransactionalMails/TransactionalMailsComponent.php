@@ -11,10 +11,10 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
-use Spatie\Mailcoach\Livewire\FilamentDataTableComponent;
 use Spatie\Mailcoach\Livewire\LivewireFlash;
+use Spatie\Mailcoach\Livewire\TableComponent;
 
-class TransactionalMailsComponent extends FilamentDataTableComponent
+class TransactionalMailsComponent extends TableComponent
 {
     use LivewireFlash;
 

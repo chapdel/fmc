@@ -2,14 +2,19 @@
 
 namespace Spatie\Mailcoach\Livewire\Mailers;
 
-use Illuminate\Http\Request;
+use Closure;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
+use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Http\App\Queries\MailersQuery;
-use Spatie\Mailcoach\Livewire\DataTableComponent;
 use Spatie\Mailcoach\Livewire\LivewireFlash;
+use Spatie\Mailcoach\Livewire\TableComponent;
 
-class MailersComponent extends DataTableComponent
+class MailersComponent extends TableComponent
 {
     use LivewireFlash;
     use UsesMailcoachModels;
@@ -17,11 +22,6 @@ class MailersComponent extends DataTableComponent
     public function getTitle(): string
     {
         return __mc('Mailers');
-    }
-
-    public function getView(): string
-    {
-        return 'mailcoach::app.configuration.mailers.index';
     }
 
     public function getLayout(): string
@@ -33,31 +33,72 @@ class MailersComponent extends DataTableComponent
     {
         return [
             'title' => __mc('Mailers'),
+            'create' => 'mailer',
         ];
     }
 
-    public function markMailerDefault(int $id)
+    protected function getDefaultTableSortColumn(): ?string
     {
-        self::getMailerClass()::query()->update(['default' => false]);
+        return 'name';
+    }
 
-        $mailer = self::getMailerClass()::find($id);
+    protected function getTableColumns(): array
+    {
+        return [
+            TextColumn::make('name')
+                ->label(__mc('Name'))
+                ->extraAttributes(['class' => 'link'])
+                ->sortable(),
+            TextColumn::make('transport')
+                ->label(__mc('Transport'))
+                ->sortable(),
+            IconColumn::make('ready_for_use')->boolean(),
+            IconColumn::make('default')->boolean(),
+        ];
+    }
 
+    protected function getTableRecordUrlUsing(): ?Closure
+    {
+        return fn (Mailer $mailer) => route('mailers.edit', $mailer);
+    }
+
+    protected function getTableActions(): array
+    {
+        return [
+            ActionGroup::make([
+                Action::make('make-default')
+                    ->label(__mc('Make default'))
+                    ->icon('heroicon-o-check-circle')
+                    ->requiresConfirmation()
+                    ->hidden(fn (Mailer $mailer) => $mailer->default)
+                    ->action(fn (Mailer $mailer) => $this->markMailerDefault($mailer)),
+                Action::make('delete')
+                    ->label(__mc('Delete'))
+                    ->icon('heroicon-o-trash')
+                    ->color('danger')
+                    ->requiresConfirmation()
+                    ->action(fn (Mailer $mailer) => $this->deleteMailer($mailer)),
+            ]),
+        ];
+    }
+
+    public function markMailerDefault(Mailer $mailer)
+    {
         if (! $mailer->ready_for_use) {
             $this->flashError(__mc('Mailer :mailer is not ready for use', ['mailer' => $mailer->name]));
 
             return;
         }
 
+        self::getMailerClass()::query()->update(['default' => false]);
+
         $mailer->update(['default' => true]);
 
         $this->flash(__mc('Mailer :mailer marked as default', ['mailer' => $mailer->name]));
     }
 
-    public function deleteMailer(int $id)
+    public function deleteMailer(Mailer $mailer): void
     {
-        /** @var \Spatie\Mailcoach\Domain\Settings\Models\Mailer $mailer */
-        $mailer = self::getMailerClass()::find($id);
-
         $configName = $mailer->configName();
 
         $mailer->delete();
@@ -81,11 +122,8 @@ class MailersComponent extends DataTableComponent
         $this->flash(__mc('Mailer :mailer successfully deleted', ['mailer' => $mailer->name]));
     }
 
-    public function getData(Request $request): array
+    protected function getTableQuery(): Builder
     {
-        return [
-            'mailers' => (new MailersQuery($request))->paginate(),
-            'totalMailersCount' => self::getMailerClass()::count(),
-        ];
+        return self::getMailerClass()::query();
     }
 }

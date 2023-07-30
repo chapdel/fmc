@@ -16,7 +16,7 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\SimpleExcel\SimpleExcelWriter;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-abstract class FilamentDataTableComponent extends Component implements HasTable, HasForms
+abstract class TableComponent extends Component implements HasTable, HasForms
 {
     use LivewireFlash;
     use UsesMailcoachModels;

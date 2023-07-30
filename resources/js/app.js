@@ -45,7 +45,6 @@ import './components/charts/campaignStatistics.js';
 import './components/charts/dashboardChart.js';
 import './components/navigation.js';
 import './components/modals.js';
-import './components/tooltip.js';
 
 Alpine.plugin(Clipboard);
 

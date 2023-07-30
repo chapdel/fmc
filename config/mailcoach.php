@@ -631,6 +631,7 @@ return [
         'automation-mail-content' => \Spatie\Mailcoach\Livewire\Automations\AutomationMailContentComponent::class,
         'automation-mail-settings' => \Spatie\Mailcoach\Livewire\Automations\AutomationMailSettingsComponent::class,
         'automation-mail-clicks' => \Spatie\Mailcoach\Livewire\Automations\AutomationMailClicksComponent::class,
+        'automation-mail-link-clicks' => \Spatie\Mailcoach\Livewire\Automations\AutomationMailLinkClicksComponent::class,
         'automation-mail-opens' => \Spatie\Mailcoach\Livewire\Automations\AutomationMailOpensComponent::class,
         'automation-mail-unsubscribes' => \Spatie\Mailcoach\Livewire\Automations\AutomationMailUnsubscribesComponent::class,
         'automation-mail-outbox' => \Spatie\Mailcoach\Livewire\Automations\AutomationMailOutboxComponent::class,
@@ -686,12 +687,6 @@ return [
          * Make sure you publish and run the `create_webhook_logs_table` migration when enabling this feature.
          */
         'logs' => false,
-
-        /**
-         * Allows you to configure which event types you want to send to a webhook.
-         * Make sure to publish and run the migrations for Mailcoach when enabling this feature.
-         */
-        'selectable_event_types_enabled' => false,
 
         /**
          * The amount of times a webhook call should be retried before giving up.

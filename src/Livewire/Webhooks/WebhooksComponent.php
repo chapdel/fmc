@@ -2,25 +2,20 @@
 
 namespace Spatie\Mailcoach\Livewire\Webhooks;
 
-use Illuminate\Http\Request;
-use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Http\App\Queries\WebhooksQuery;
-use Spatie\Mailcoach\Livewire\DataTableComponent;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
+use Closure;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
+use Spatie\Mailcoach\Livewire\TableComponent;
 
-class WebhooksComponent extends DataTableComponent
+class WebhooksComponent extends TableComponent
 {
-    use LivewireFlash;
-    use UsesMailcoachModels;
-
     public function getTitle(): string
     {
         return __mc('Webhooks');
-    }
-
-    public function getView(): string
-    {
-        return 'mailcoach::app.configuration.webhooks.index';
     }
 
     public function getLayout(): string
@@ -32,42 +27,84 @@ class WebhooksComponent extends DataTableComponent
     {
         return [
             'title' => __mc('Webhooks'),
+            'create' => 'webhook',
         ];
     }
 
-    public function deleteWebhook(int $id)
+    protected function getTableQuery(): Builder
     {
-        $webhook = self::getWebhookConfigurationClass()::find($id);
+        return self::getWebhookConfigurationClass()::query();
+    }
 
+    protected function getTableEmptyStateDescription(): ?string
+    {
+        return __mc('No webhooks configurations. You can use webhooks to get notified immediately when certain events (such as subscriptions) occur.');
+    }
+
+    protected function getTableEmptyStateIcon(): ?string
+    {
+        return 'heroicon-o-arrow-top-right-on-square';
+    }
+
+    public function deleteWebhook(WebhookConfiguration $webhook)
+    {
         $webhook->delete();
 
         $this->flash(__mc('Webhook :webhook successfully deleted', ['webhook' => $webhook->name]));
     }
 
-    public function getData(Request $request): array
+    protected function getTableColumns(): array
     {
         return [
-            'webhooks' => (new WebhooksQuery($request))->paginate(),
-            'totalWebhooksCount' => self::getWebhookConfigurationClass()::count(),
+            TextColumn::make('name')
+                ->label(__mc('Name'))
+                ->searchable()
+                ->extraAttributes(['class' => 'link'])
+                ->sortable(),
+            IconColumn::make('enabled')
+                ->label(__mc('Enabled'))
+                ->boolean()
+                ->sortable(),
+            IconColumn::make('use_for_all_lists')
+                ->label(__mc('All lists'))
+                ->boolean()
+                ->sortable(),
+            TextColumn::make('events')
+                ->label(__mc('Events')),
+            TextColumn::make('failed_attempts')
+                ->label(__mc('Failed attempts'))
+                ->numeric(),
         ];
     }
 
-    public function getColumns(): array
+    protected function getTableActions(): array
     {
-        $columns = [
-            ['attribute' => 'name', 'label' => __mc('Name'), 'class' => 'w-64'],
-            ['attribute' => 'use_for_all_lists', 'label' => __mc('All lists'), 'class' => 'w-12'],
+        return [
+            ActionGroup::make([
+                Action::make('disable')
+                    ->label(__mc('Disable'))
+                    ->hidden(fn (WebhookConfiguration $configuration) => ! $configuration->enabled)
+                    ->color('warning')
+                    ->icon('heroicon-o-x-circle')
+                    ->action(fn (WebhookConfiguration $configuration) => $configuration->update(['enabled' => false])),
+                Action::make('enable')
+                    ->label(__mc('Enable'))
+                    ->hidden(fn (WebhookConfiguration $configuration) => $configuration->enabled)
+                    ->color('success')
+                    ->icon('heroicon-o-check-circle')
+                    ->action(fn (WebhookConfiguration $configuration) => $configuration->update(['enabled' => true])),
+                Action::make('delete')
+                    ->icon('heroicon-o-trash')
+                    ->color('danger')
+                    ->label(__mc('Delete'))
+                    ->requiresConfirmation()
+                    ->action(fn (WebhookConfiguration $configuration) => $this->deleteWebhook($configuration)),
+            ]),
         ];
+    }
 
-        if (config('mailcoach.webhooks.selectable_event_types_enabled', false)) {
-            $columns[] = [
-                'label' => __mc('Events'),
-                'class' => 'w-12',
-            ];
-        }
-
-        $columns[] = ['class' => 'w-12'];
-
-        return $columns;
+    protected function getTableRecordUrlUsing(): ?Closure
+    {
+        return fn (WebhookConfiguration $webhook) => route('webhooks.edit', $webhook);
     }
 }

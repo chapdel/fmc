@@ -1,4 +1,4 @@
-<div>
+<div class="mt-6">
     <nav class="tabs">
         <ul>
             <x-mailcoach::navigation-item wire:click.prevent="$set('tab', 'details')" :active="$tab === 'details'">

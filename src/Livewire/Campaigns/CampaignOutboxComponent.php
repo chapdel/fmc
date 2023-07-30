@@ -8,16 +8,14 @@ use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Contracts\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\RetrySendingFailedSendsJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
-use Spatie\Mailcoach\Http\App\Queries\CampaignSendsQuery;
-use Spatie\Mailcoach\Livewire\FilamentDataTableComponent;
+use Spatie\Mailcoach\Livewire\TableComponent;
 use Spatie\Mailcoach\MainNavigation;
 
-class CampaignOutboxComponent extends FilamentDataTableComponent
+class CampaignOutboxComponent extends TableComponent
 {
     public Campaign $campaign;
 
@@ -176,24 +174,6 @@ class CampaignOutboxComponent extends FilamentDataTableComponent
     {
         return [
             'campaign' => $this->campaign,
-        ];
-    }
-
-    public function getData(Request $request): array
-    {
-        $this->authorize('view', $this->campaign);
-
-        $sendsQuery = (new CampaignSendsQuery($this->campaign, $request));
-
-        return [
-            'campaign' => $this->campaign,
-            'sends' => $sendsQuery->paginate($request->per_page),
-            'totalSends' => $this->campaign->sendsWithoutInvalidated()->count(),
-            'totalPending' => $this->campaign->sends()->pending()->count(),
-            'totalSent' => $this->campaign->sends()->sent()->count(),
-            'totalFailed' => $this->campaign->sends()->failed()->count(),
-            'totalBounces' => $this->campaign->sends()->bounced()->count(),
-            'totalComplaints' => $this->campaign->sends()->complained()->count(),
         ];
     }
 }

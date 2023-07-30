@@ -2,15 +2,16 @@
 
 namespace Spatie\Mailcoach\Livewire\Campaigns;
 
+use Closure;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
 use Spatie\Mailcoach\Domain\Shared\Support\LinkHasher;
-use Spatie\Mailcoach\Livewire\FilamentDataTableComponent;
+use Spatie\Mailcoach\Livewire\TableComponent;
 use Spatie\Mailcoach\MainNavigation;
 
-class CampaignClicksComponent extends FilamentDataTableComponent
+class CampaignClicksComponent extends TableComponent
 {
     public Campaign $campaign;
 
@@ -68,10 +69,8 @@ class CampaignClicksComponent extends FilamentDataTableComponent
             TextColumn::make('url')
                 ->label(__mc('Link'))
                 ->sortable()
-                ->searchable()
-                ->url(fn (CampaignLink $link) => $link->url)
                 ->extraAttributes(['class' => 'link'])
-                ->openUrlInNewTab(),
+                ->searchable(),
             $this->campaign->add_subscriber_link_tags
                 ? TextColumn::make('tag')
                     ->label(__mc('Tag'))
@@ -89,5 +88,12 @@ class CampaignClicksComponent extends FilamentDataTableComponent
                 ->alignRight()
                 ->numeric(),
         ]);
+    }
+
+    protected function getTableRecordUrlUsing(): ?Closure
+    {
+        return function (CampaignLink $link) {
+            return route('mailcoach.campaigns.link-clicks', [$this->campaign, $link]);
+        };
     }
 }

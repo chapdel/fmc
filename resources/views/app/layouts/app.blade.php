@@ -22,7 +22,8 @@
         </script>
 
         <style>[x-cloak] { display: none !important; }</style>
-        @filamentStyles(['tables'])
+        <!-- Filament styles -->
+        @filamentStyles
         @livewireStyles
         {!! \Spatie\Mailcoach\Mailcoach::styles() !!}
         @include('mailcoach::app.layouts.partials.endHead')
@@ -51,8 +52,8 @@
                     @endunless
 
                     <div class="flex-none flex items-center justify-between w-full">
-                        <div class="flex-items-center">
-                            <h1 class="markup-h1 p-0 m-0">
+                        <div class="flex-items-center w-full">
+                            <h1 class="markup-h1 p-0 m-0 mb-4 truncate">
                                 {{ $title ?? '' }}
                             </h1>
 

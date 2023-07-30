@@ -42,6 +42,6 @@ class CreateUserComponent extends Component
 
     public function render()
     {
-        return view('mailcoach::app.configuration.users.partials.create');
+        return view('mailcoach::app.configuration.users.create');
     }
 }

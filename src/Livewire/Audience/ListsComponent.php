@@ -8,9 +8,9 @@ use Filament\Tables\Columns\TextColumn;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Livewire\FilamentDataTableComponent;
+use Spatie\Mailcoach\Livewire\TableComponent;
 
-class ListsComponent extends FilamentDataTableComponent
+class ListsComponent extends TableComponent
 {
     protected function getTableColumns(): array
     {

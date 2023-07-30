@@ -12,10 +12,10 @@ use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
-use Spatie\Mailcoach\Livewire\FilamentDataTableComponent;
+use Spatie\Mailcoach\Livewire\TableComponent;
 use Spatie\Mailcoach\MainNavigation;
 
-class SegmentsComponent extends FilamentDataTableComponent
+class SegmentsComponent extends TableComponent
 {
     public EmailList $emailList;
 
@@ -94,6 +94,11 @@ class SegmentsComponent extends FilamentDataTableComponent
         return function (TagSegment $segment) {
             return route('mailcoach.emailLists.segments.edit', [$this->emailList, $segment]);
         };
+    }
+
+    protected function getTableEmptyStateIcon(): ?string
+    {
+        return 'heroicon-o-user-group';
     }
 
     public function duplicateSegment(TagSegment $segment)

@@ -2,33 +2,40 @@
 
 namespace Spatie\Mailcoach\Livewire\Automations;
 
-use Illuminate\Http\Request;
+use Closure;
+use Filament\Tables\Actions\BulkAction;
+use Filament\Tables\Columns\TextColumn;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
-use Spatie\Mailcoach\Http\App\Queries\AutomationMailUnsubscribesQuery;
-use Spatie\Mailcoach\Livewire\DataTableComponent;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailUnsubscribe;
+use Spatie\Mailcoach\Livewire\TableComponent;
 use Spatie\Mailcoach\MainNavigation;
 
-class AutomationMailUnsubscribesComponent extends DataTableComponent
+class AutomationMailUnsubscribesComponent extends TableComponent
 {
-    public string $sort = '-created_at';
+    public AutomationMail $automationMail;
 
-    public AutomationMail $mail;
+    protected function getDefaultTableSortColumn(): ?string
+    {
+        return 'created_at';
+    }
+
+    protected function getDefaultTableSortDirection(): ?string
+    {
+        return 'desc';
+    }
 
     public function mount(AutomationMail $automationMail)
     {
-        $this->mail = $automationMail;
+        $this->automationMail = $automationMail;
 
-        app(MainNavigation::class)->activeSection()?->add($this->mail->name, route('mailcoach.automations.mails'));
+        app(MainNavigation::class)->activeSection()?->add($this->automationMail->name, route('mailcoach.automations.mails'));
     }
 
     public function getTitle(): string
     {
         return __mc('Unsubscribes');
-    }
-
-    public function getView(): string
-    {
-        return 'mailcoach::app.automations.mails.unsubscribes';
     }
 
     public function getLayout(): string
@@ -39,18 +46,73 @@ class AutomationMailUnsubscribesComponent extends DataTableComponent
     public function getLayoutData(): array
     {
         return [
-            'mail' => $this->mail,
+            'mail' => $this->automationMail,
         ];
     }
 
-    public function getData(Request $request): array
+    protected function getTableQuery(): Builder
     {
-        $this->authorize('view', $this->mail);
+        return $this->automationMail->unsubscribes()->with(['subscriber'])->getQuery();
+    }
 
+    protected function getTableColumns(): array
+    {
         return [
-            'mail' => $this->mail,
-            'unsubscribes' => (new AutomationMailUnsubscribesQuery($this->mail, $request))->paginate($request->per_page),
-            'totalUnsubscribes' => $this->mail->unsubscribes()->count(),
+            TextColumn::make('subscriber.email')
+                ->label(__mc('Email'))
+                ->sortable()
+                ->searchable()
+                ->extraAttributes(['class' => 'link']),
+            TextColumn::make('subscriber.first_name')
+                ->label(__mc('First name'))
+                ->sortable()
+                ->searchable(),
+            TextColumn::make('subscriber.last_name')
+                ->label(__mc('Last name'))
+                ->sortable()
+                ->searchable(),
+            TextColumn::make('created_at')
+                ->label(__mc('Date'))
+                ->sortable()
+                ->alignRight(),
+        ];
+    }
+
+    protected function getTableRecordUrlUsing(): ?Closure
+    {
+        return function (AutomationMailUnsubscribe $unsubscribe) {
+            return route('mailcoach.emailLists.subscriber.details', [$unsubscribe->subscriber->emailList, $unsubscribe->subscriber]);
+        };
+    }
+
+    protected function getTableBulkActions(): array
+    {
+        return [
+            BulkAction::make('export')
+                ->label(__mc('Export selected'))
+                ->icon('heroicon-o-cloud-arrow-down')
+                ->action(function (Collection $rows) {
+                    $header = [
+                        'email',
+                        'first_name',
+                        'last_name',
+                        'unsubscribed_at',
+                    ];
+
+                    return $this->export(
+                        header: $header,
+                        rows: $rows,
+                        formatRow: function (AutomationMailUnsubscribe $unsubscribe) {
+                            return [
+                                'email' => $unsubscribe->subscriber?->email ?? '<deleted subscriber>',
+                                'first_name' => $unsubscribe->subscriber ? $unsubscribe->subscriber->first_name : '<deleted subscriber>',
+                                'last_name' => $unsubscribe->subscriber ? $unsubscribe->subscriber->last_name : '<deleted subscriber>',
+                                'unsubscribed_at' => $unsubscribe->created_at->toMailcoachFormat(),
+                            ];
+                        },
+                        title: "{$this->automationMail->name} unsubscribes",
+                    );
+                }),
         ];
     }
 }

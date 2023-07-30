@@ -9,15 +9,17 @@ use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Grouping\Group;
+use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Livewire\FilamentDataTableComponent;
+use Spatie\Mailcoach\Livewire\TableComponent;
 
-class CampaignsComponent extends FilamentDataTableComponent
+class CampaignsComponent extends TableComponent
 {
     public function getTableQuery(): Builder
     {
@@ -34,6 +36,24 @@ class CampaignsComponent extends FilamentDataTableComponent
             SQL));
     }
 
+    public function getTableGrouping(): ?Group
+    {
+        return Group::make('status')
+            ->label('');
+    }
+
+    public function getTable(): Table
+    {
+        return parent::getTable()
+            ->poll(function () {
+                if ($this->getTableRecords()->where('status', CampaignStatus::Sending)->count() > 0) {
+                    return '10s';
+                }
+
+                return null;
+            });
+    }
+
     protected function getTableColumns(): array
     {
         return [
@@ -47,9 +67,16 @@ class CampaignsComponent extends FilamentDataTableComponent
                     $campaign->isScheduled() => 'heroicon-o-clock',
                     $campaign->status === CampaignStatus::Draft => 'heroicon-o-pencil-square',
                     $campaign->status === CampaignStatus::Sent => 'heroicon-o-check-circle',
-                    $campaign->status === CampaignStatus::Sending => 'heroicon-o-play',
+                    $campaign->status === CampaignStatus::Sending => 'heroicon-o-arrow-path',
                     $campaign->status === CampaignStatus::Cancelled => 'heroicon-o-x-circle',
                     default => '',
+                })
+                ->extraAttributes(function (Campaign $campaign) {
+                    if ($campaign->status === CampaignStatus::Sending) {
+                        return ['class' => 'fa-spin'];
+                    }
+
+                    return [];
                 })
                 ->tooltip(fn (Campaign $campaign) => match (true) {
                     $campaign->isScheduled() => __mc('Scheduled'),
@@ -111,12 +138,14 @@ class CampaignsComponent extends FilamentDataTableComponent
                 ->options([
                     'sent' => 'Sent',
                     'scheduled' => 'Scheduled',
+                    'sending' => 'Sending',
                     'draft' => 'Draft',
                 ])
                 ->query(function (Builder $query, array $data) {
                     return match ($data['value']) {
                         'sent' => $query->sent(),
                         'scheduled' => $query->scheduled(),
+                        'sending' => $query->sending(),
                         'draft' => $query->draft(),
                         default => $query,
                     };

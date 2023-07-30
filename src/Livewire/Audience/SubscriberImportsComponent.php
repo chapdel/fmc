@@ -2,30 +2,26 @@
 
 namespace Spatie\Mailcoach\Livewire\Audience;
 
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\ActionGroup;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Livewire\WithFileUploads;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\CreateSimpleExcelReaderAction;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus;
 use Spatie\Mailcoach\Domain\Audience\Jobs\ImportSubscribersJob;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Http\App\Queries\SubscriberImportsQuery;
-use Spatie\Mailcoach\Livewire\DataTableComponent;
+use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
+use Spatie\Mailcoach\Livewire\TableComponent;
 use Spatie\Mailcoach\MainNavigation;
 use Spatie\SimpleExcel\SimpleExcelWriter;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 
-class SubscriberImportsComponent extends DataTableComponent
+class SubscriberImportsComponent extends TableComponent
 {
-    use WithFileUploads;
-    use AuthorizesRequests;
-    use UsesMailcoachModels;
-
-    public string $sort = '-created_at';
-
     public EmailList $emailList;
 
     public string $replaceTags = 'append';
@@ -51,7 +47,17 @@ class SubscriberImportsComponent extends DataTableComponent
             ->count() === 0;
     }
 
-    public function upload()
+    protected function getDefaultTableSortColumn(): ?string
+    {
+        return 'created_at';
+    }
+
+    protected function getDefaultTableSortDirection(): ?string
+    {
+        return 'desc';
+    }
+
+    public function startImport(): void
     {
         $this->validate([
             'file' => ['file', 'mimes:txt,csv,xls,xlsx'],
@@ -93,10 +99,8 @@ class SubscriberImportsComponent extends DataTableComponent
         $this->showForm = false;
     }
 
-    public function downloadAttatchment(int $subscriberImport, string $collection)
+    public function downloadAttatchment(SubscriberImport $subscriberImport, string $collection)
     {
-        $subscriberImport = self::getSubscriberImportClass()::find($subscriberImport);
-
         if ($collection === 'errorReport') {
             $temporaryDirectory = TemporaryDirectory::make();
 
@@ -134,10 +138,8 @@ class SubscriberImportsComponent extends DataTableComponent
         );
     }
 
-    public function deleteImport(int $id)
+    public function deleteImport(SubscriberImport $import)
     {
-        $import = self::getSubscriberImportClass()::find($id);
-
         $this->authorize('delete', $import);
 
         $import->delete();
@@ -145,9 +147,8 @@ class SubscriberImportsComponent extends DataTableComponent
         $this->flash(__mc('Import was deleted.'));
     }
 
-    public function restartImport(int $id)
+    public function restartImport(SubscriberImport $import): void
     {
-        $import = self::getSubscriberImportClass()::find($id);
         $import->update(['status' => SubscriberImportStatus::Pending]);
 
         dispatch(new ImportSubscribersJob($import, Auth::user()));
@@ -160,9 +161,9 @@ class SubscriberImportsComponent extends DataTableComponent
         return __mc('Import subscribers');
     }
 
-    public function getView(): string
+    public function getView(): View
     {
-        return 'mailcoach::app.emailLists.subscribers.import';
+        return view('mailcoach::app.emailLists.subscribers.import');
     }
 
     public function getLayout(): string
@@ -177,18 +178,90 @@ class SubscriberImportsComponent extends DataTableComponent
         ];
     }
 
-    public function getData(Request $request): array
+    protected function getTableQuery(): Builder
     {
-        $this->authorize('view', $this->emailList);
+        return self::getSubscriberImportClass()::query()
+            ->where('email_list_id', $this->emailList->id)
+            ->with('emailList');
+    }
 
-        $subscriberImportsQuery = new SubscriberImportsQuery($this->emailList, $request);
-
+    protected function getTableColumns(): array
+    {
         return [
-            'subscriberImports' => $subscriberImportsQuery->paginate($request->per_page),
-            'allSubscriberImportsCount' => self::getSubscriberImportClass()::query()
-                ->where('email_list_id', $this->emailList->id)
-                ->count(),
-            'emailList' => $this->emailList,
+            IconColumn::make('status')
+                ->icon(fn (SubscriberImport $import) => match (true) {
+                    $import->status === SubscriberImportStatus::Importing => 'heroicon-o-arrow-path',
+                    $import->status === SubscriberImportStatus::Pending => 'heroicon-o-clock',
+                    $import->status === SubscriberImportStatus::Draft => 'heroicon-o-pencil-square',
+                    $import->status === SubscriberImportStatus::Completed => 'heroicon-o-check-circle',
+                    $import->status === SubscriberImportStatus::Failed => 'heroicon-o-exclamation-circle',
+                })
+                ->tooltip(fn (SubscriberImport $import) => match (true) {
+                    $import->status === SubscriberImportStatus::Importing => __mc('Importing'),
+                    $import->status === SubscriberImportStatus::Pending => __mc('Pending'),
+                    $import->status === SubscriberImportStatus::Draft => __mc('Draft'),
+                    $import->status === SubscriberImportStatus::Completed => __mc('Completed'),
+                    $import->status === SubscriberImportStatus::Failed => __mc('Failed'),
+                })
+                ->color(fn (SubscriberImport $import) => match (true) {
+                    $import->status === SubscriberImportStatus::Importing => 'warning',
+                    $import->status === SubscriberImportStatus::Pending => 'warning',
+                    $import->status === SubscriberImportStatus::Draft => '',
+                    $import->status === SubscriberImportStatus::Completed => 'success',
+                    $import->status === SubscriberImportStatus::Failed => 'danger',
+                })
+                ->extraAttributes(fn (SubscriberImport $import) => match (true) {
+                    $import->status === SubscriberImportStatus::Importing => ['class' => 'fa-spin'],
+                    $import->status === SubscriberImportStatus::Pending => ['class' => 'fa-spin'],
+                    default => [],
+                })
+                ->sortable(),
+            TextColumn::make('created_at')
+                ->label(__mc('Started at'))
+                ->sortable()
+                ->dateTime(config('mailcoach.date_format')),
+            TextColumn::make('imported_subscribers_count')
+                ->sortable()
+                ->label(__mc('Processed rows'))
+                ->numeric(),
+            TextColumn::make('errors')
+                ->getStateUsing(fn (SubscriberImport $import) => count($import->errors ?? []))
+                ->numeric()
+                ->label(__mc('Errors')),
+        ];
+    }
+
+    protected function getTablePollingInterval(): ?string
+    {
+        return '5s';
+    }
+
+    protected function getTableActions(): array
+    {
+        return [
+            ActionGroup::make([
+                Action::make('download-errors')
+                    ->label(__mc('Error report'))
+                    ->icon('heroicon-o-exclamation-circle')
+                    ->hidden(fn (SubscriberImport $import) => count($import->errors ?? []) === 0)
+                    ->action(fn (SubscriberImport $import) => $this->downloadAttatchment($import, 'errorReport')),
+                Action::make('download-uploaded-file')
+                    ->label(__mc('Uploaded file'))
+                    ->icon('heroicon-o-document-text')
+                    ->action(fn (SubscriberImport $import) => $this->downloadAttatchment($import, 'importFile')),
+                Action::make('restart')
+                    ->label(__mc('Restart'))
+                    ->requiresConfirmation()
+                    ->icon('heroicon-o-arrow-path')
+                    ->action(fn (SubscriberImport $import) => $this->restartImport($import)),
+                Action::make('delete')
+                    ->label(__mc('Delete'))
+                    ->icon('heroicon-o-trash')
+                    ->color('danger')
+                    ->requiresConfirmation()
+                    ->action(fn (SubscriberImport $import) => $this->deleteImport($import))
+                    ->authorize('delete', self::getSubscriberImportClass()),
+            ]),
         ];
     }
 }

@@ -132,7 +132,6 @@ use Spatie\Mailcoach\Livewire\Campaigns\CampaignUnsubscribesComponent;
 use Spatie\Mailcoach\Livewire\Campaigns\CreateCampaignComponent;
 use Spatie\Mailcoach\Livewire\Dashboard\DashboardChart;
 use Spatie\Mailcoach\Livewire\Dashboard\DashboardComponent;
-use Spatie\Mailcoach\Livewire\DataTableComponent;
 use Spatie\Mailcoach\Livewire\Editor\EditorSettingsComponent;
 use Spatie\Mailcoach\Livewire\Editor\TextAreaEditorComponent;
 use Spatie\Mailcoach\Livewire\Export\ExportComponent;
@@ -608,7 +607,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::campaign-statistics', CampaignStatisticsComponent::class);
 
         Livewire::component('mailcoach::send-test', SendTestComponent::class);
-        Livewire::component('mailcoach::data-table', DataTableComponent::class);
 
         Livewire::component('mailcoach::dashboard', Mailcoach::getLivewireClass('dashboard', DashboardComponent::class));
         Livewire::component('mailcoach::dashboard-chart', DashboardChart::class);
@@ -720,14 +718,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Event::listen(AutomationMailLinkClickedEvent::class, AddAutomationMailClickedTag::class);
 
         Event::subscribe(config('mailcoach.event_subscribers.webhooks'));
-
-        if (config('mailcoach.webhooks.logs')) {
-            Event::subscribe(config('mailcoach.event_subscribers.webhook_logs'));
-        }
-
-        if (config('mailcoach.opt_in_features.disable_failed_webhooks')) {
-            Event::subscribe(config('mailcoach.event_subscribers.webhook_failed_attempts'));
-        }
+        Event::subscribe(config('mailcoach.event_subscribers.webhook_logs'));
+        Event::subscribe(config('mailcoach.event_subscribers.webhook_failed_attempts'));
 
         return $this;
     }

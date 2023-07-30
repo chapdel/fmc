@@ -2,25 +2,19 @@
 
 namespace Spatie\Mailcoach\Livewire\Users;
 
-use Illuminate\Http\Request;
+use Closure;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Columns\TextColumn;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Mailcoach\Domain\Settings\Models\User;
-use Spatie\Mailcoach\Http\App\Queries\UsersQuery;
-use Spatie\Mailcoach\Livewire\DataTableComponent;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
+use Spatie\Mailcoach\Livewire\TableComponent;
 
-class UsersComponent extends DataTableComponent
+class UsersComponent extends TableComponent
 {
-    use LivewireFlash;
-
     public function getTitle(): string
     {
         return __mc('Users');
-    }
-
-    public function getView(): string
-    {
-        return 'mailcoach::app.configuration.users.index';
     }
 
     public function getLayout(): string
@@ -32,28 +26,65 @@ class UsersComponent extends DataTableComponent
     {
         return [
             'title' => __mc('Users'),
+            'create' => 'user',
         ];
     }
 
-    public function deleteUser(int $id)
+    public function deleteUser(User $user)
     {
-        if ($id === Auth::user()->id) {
+        if ($user->id === Auth::user()->id) {
             $this->flashError(__mc('You cannot delete yourself!'));
 
             return;
         }
 
-        $user = User::find($id);
         $user->delete();
 
         $this->flash(__mc('The user has been deleted.'));
     }
 
-    public function getData(Request $request): array
+    protected function getTableQuery(): Builder
+    {
+        return self::getUserClass()::query();
+    }
+
+    protected function getDefaultTableSortColumn(): ?string
+    {
+        return 'email';
+    }
+
+    protected function getTableColumns(): array
     {
         return [
-            'users' => (new UsersQuery($request))->paginate(),
-            'totalUsersCount' => User::count(),
+            TextColumn::make('email')
+                ->label(__mc('Email'))
+                ->extraAttributes(['class' => 'link'])
+                ->sortable()
+                ->searchable(),
+            TextColumn::make('name')
+                ->label(__mc('Name'))
+                ->sortable()
+                ->searchable(),
         ];
+    }
+
+    protected function getTableActions(): array
+    {
+        return [
+            Action::make('delete')
+                ->icon('heroicon-o-trash')
+                ->color('danger')
+                ->label('')
+                ->tooltip(__mc('Delete'))
+                ->modalHeading(__mc('Delete'))
+                ->requiresConfirmation()
+                ->hidden(fn (User $user) => $user->id === Auth::user()->id)
+                ->action(fn (User $user) => $this->deleteUser($user)),
+        ];
+    }
+
+    protected function getTableRecordUrlUsing(): ?Closure
+    {
+        return fn (User $user) => route('users.edit', $user);
     }
 }

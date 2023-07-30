@@ -43,6 +43,6 @@ class CreateSegmentComponent extends Component
 
     public function render()
     {
-        return view('mailcoach::app.emailLists.segments.partials.create');
+        return view('mailcoach::app.emailLists.segments.create');
     }
 }

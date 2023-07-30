@@ -2,17 +2,20 @@
 
 namespace Spatie\Mailcoach\Livewire\Audience;
 
-use Illuminate\Http\Request;
+use Closure;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Grouping\Group;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
-use Spatie\Mailcoach\Http\App\Queries\SendQuery;
-use Spatie\Mailcoach\Livewire\DataTableComponent;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
+use Spatie\Mailcoach\Livewire\TableComponent;
 
-class SubscriberSendsComponent extends DataTableComponent
+class SubscriberSendsComponent extends TableComponent
 {
-    public string $sort = '-sent_at';
-
     public EmailList $emailList;
 
     public Subscriber $subscriber;
@@ -23,14 +26,28 @@ class SubscriberSendsComponent extends DataTableComponent
         $this->subscriber = $subscriber;
     }
 
+    protected function getDefaultTableSortColumn(): ?string
+    {
+        return 'sent_at';
+    }
+
+    protected function getDefaultTableSortDirection(): ?string
+    {
+        return 'desc';
+    }
+
     public function getTitle(): string
     {
+        if ($this->subscriber->first_name || $this->subscriber->last_name) {
+            return trim("{$this->subscriber->first_name} {$this->subscriber->last_name}");
+        }
+
         return $this->subscriber->email;
     }
 
-    public function getView(): string
+    public function getLayout(): string
     {
-        return 'mailcoach::app.emailLists.subscribers.sends';
+        return 'mailcoach::app.emailLists.layouts.emailList';
     }
 
     public function getLayoutData(): array
@@ -42,17 +59,90 @@ class SubscriberSendsComponent extends DataTableComponent
         ];
     }
 
-    public function getData(Request $request): array
+    protected function getTableQuery(): Builder
     {
-        $this->authorize('view', $this->emailList);
+        return self::getSendClass()::query()
+            ->withCount(['opens', 'clicks'])
+            ->with([
+                'campaign',
+                'automationMail',
+            ])
+            ->addSelect(DB::raw(<<<'SQL'
+                CASE
+                    WHEN campaign_id is not null THEN 'campaign'
+                    WHEN automation_mail_id IS NOT NULL THEN 'automation'
+                    ELSE ''
+                END as 'type'
+            SQL))
+            ->where('subscriber_id', $this->subscriber->id);
+    }
 
-        $sendQuery = new SendQuery($this->subscriber, $request);
-
+    protected function getTableColumns(): array
+    {
         return [
-            'subscriber' => $this->subscriber,
-            'sends' => $sendQuery->paginate($request->per_page),
-            'totalSendsCount' => self::getSendClass()::query()->where('subscriber_id', $this->subscriber->id)->count(),
+            TextColumn::make('name')
+                ->label(__mc('Name'))
+                ->getStateUsing(fn (Send $send) => match (true) {
+                    $send->concernsCampaign() => $send->campaign->name,
+                    $send->concernsAutomationMail() => $send->automationMail->name,
+                    default => '',
+                })
+                ->extraAttributes(['class' => 'link']),
+            TextColumn::make('opens_count')
+                ->label(__mc('Opens'))
+                ->numeric()
+                ->alignRight()
+                ->sortable(),
+            TextColumn::make('clicks_count')
+                ->label(__mc('Clicks'))
+                ->numeric()
+                ->alignRight()
+                ->sortable(),
+            TextColumn::make('sent_at')
+                ->label(__mc('Sent at'))
+                ->dateTime(config('mailcoach.date_format'))
+                ->alignRight()
+                ->sortable(),
         ];
+    }
+
+    public function getTableGrouping(): ?Group
+    {
+        return Group::make('type')
+            ->getTitleFromRecordUsing(fn (Send $send) => match ($send->type) {
+                'campaign' => __mc('Campaigns'),
+                'automation' => __mc('Automation mails'),
+                default => '',
+            })
+            ->label('');
+    }
+
+    protected function getTableFilters(): array
+    {
+        return [
+            SelectFilter::make('type')
+                ->label(__mc('Type'))
+                ->options([
+                    'campaign' => __mc('Campaigns'),
+                    'automation' => __mc('Automation mails'),
+                ])
+                ->query(function (Builder $query, $data) {
+                    return match ($data['value']) {
+                        'campaign' => $query->whereNotNull('campaign_id'),
+                        'automation' => $query->whereNotNull('automation_mail_id'),
+                        default => $query,
+                    };
+                }),
+        ];
+    }
+
+    protected function getTableRecordUrlUsing(): ?Closure
+    {
+        return fn (Send $send) => match (true) {
+            $send->concernsCampaign() => route('mailcoach.campaigns.summary', $send->campaign),
+            $send->concernsAutomationMail() => route('mailcoach.automations.mails.summary', $send->automationMail),
+            default => '',
+        };
     }
 
     public function retry(int $sendId): void

@@ -97,6 +97,7 @@ Route::prefix('automation-emails')->group(function () {
 
         Route::get('opens', '\\'.Mailcoach::getLivewireClass('automation-mail-opens', \Spatie\Mailcoach\Livewire\Automations\AutomationMailOpensComponent::class))->name('mailcoach.automations.mails.opens');
         Route::get('clicks', '\\'.Mailcoach::getLivewireClass('automation-mail-clicks', \Spatie\Mailcoach\Livewire\Automations\AutomationMailClicksComponent::class))->name('mailcoach.automations.mails.clicks');
+        Route::get('clicks/{automationMailLink}', '\\'.Mailcoach::getLivewireClass('automation-mail-link-clicks', \Spatie\Mailcoach\Livewire\Automations\AutomationMailLinkClicksComponent::class))->name('mailcoach.automations.mails.link-clicks');
         Route::get('unsubscribes', '\\'.Mailcoach::getLivewireClass('automation-mail-unsubscribes', \Spatie\Mailcoach\Livewire\Automations\AutomationMailUnsubscribesComponent::class))->name('mailcoach.automations.mails.unsubscribes');
         Route::get('outbox', '\\'.Mailcoach::getLivewireClass('automation-mail-outbox', \Spatie\Mailcoach\Livewire\Automations\AutomationMailOutboxComponent::class))->name('mailcoach.automations.mails.outbox');
     });
@@ -156,7 +157,6 @@ Route::prefix('settings')
         Route::prefix('webhooks')->group(function () {
             Route::get('/', '\\'.Mailcoach::getLivewireClass('webhooks', \Spatie\Mailcoach\Livewire\Webhooks\WebhooksComponent::class))->name('webhooks');
             Route::get('{webhook}', '\\'.Mailcoach::getLivewireClass('edit-webhook', \Spatie\Mailcoach\Livewire\Webhooks\EditWebhookComponent::class))->name('webhooks.edit');
-            Route::get('{webhook}/logs', '\\'.Mailcoach::getLivewireClass('webhook-logs', \Spatie\Mailcoach\Livewire\Webhooks\WebhookLogsComponent::class))->name('webhooks.logs.index');
             Route::get('{webhook}/logs/{webhookLog}', '\\'.Mailcoach::getLivewireClass('webhook-log', \Spatie\Mailcoach\Livewire\Webhooks\WebhookLogComponent::class))->name('webhooks.logs.show');
         });
     });

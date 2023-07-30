@@ -23,12 +23,12 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Http\App\Queries\EmailListSubscribersQuery;
-use Spatie\Mailcoach\Livewire\FilamentDataTableComponent;
+use Spatie\Mailcoach\Livewire\TableComponent;
 use Spatie\Mailcoach\Mailcoach;
 use Spatie\Mailcoach\MainNavigation;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class SubscribersComponent extends FilamentDataTableComponent
+class SubscribersComponent extends TableComponent
 {
     public EmailList $emailList;
 

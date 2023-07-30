@@ -2,21 +2,22 @@
 
 namespace Spatie\Mailcoach\Livewire\Audience;
 
-use Illuminate\Http\Request;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
-use Spatie\Mailcoach\Livewire\DataTableComponent;
 
-class SegmentSubscribersComponent extends DataTableComponent
+class SegmentSubscribersComponent extends SubscribersComponent
 {
-    public string $sort = 'email';
-
     public EmailList $emailList;
 
     public TagSegment $segment;
 
-    public function mount(EmailList $emailList, TagSegment $segment)
+    public function mount(EmailList $emailList, TagSegment $segment = null)
     {
+        if (! $segment) {
+            abort(404);
+        }
+
         $this->emailList = $emailList;
         $this->segment = $segment;
     }
@@ -26,14 +27,14 @@ class SegmentSubscribersComponent extends DataTableComponent
         return $this->segment->name;
     }
 
-    public function getView(): string
+    protected function getTableQuery(): Builder
     {
-        return 'mailcoach::app.emailLists.segments.subscribers';
+        return $this->segment->getSubscribersQuery();
     }
 
-    public function getLayout(): string
+    protected function getTableFilters(): array
     {
-        return 'mailcoach::app.emailLists.segments.layouts.segment';
+        return [];
     }
 
     public function getLayoutData(): array
@@ -41,19 +42,6 @@ class SegmentSubscribersComponent extends DataTableComponent
         return [
             'emailList' => $this->emailList,
             'segment' => $this->segment,
-            'selectedSubscribersCount' => $this->segment->getSubscribersCount(),
-        ];
-    }
-
-    public function getData(Request $request): array
-    {
-        $this->authorize('view', $this->emailList);
-
-        return [
-            'emailList' => $this->emailList,
-            'segment' => $this->segment,
-            'subscribers' => $this->segment->getSubscribersQuery()->with(['tags'])->paginate($request->per_page),
-            'subscribersCount' => $this->emailList->totalSubscriptionsCount(),
             'selectedSubscribersCount' => $this->segment->getSubscribersCount(),
         ];
     }

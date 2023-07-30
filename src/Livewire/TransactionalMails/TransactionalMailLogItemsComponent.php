@@ -8,9 +8,9 @@ use Filament\Tables\Columns\TextColumn;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
-use Spatie\Mailcoach\Livewire\FilamentDataTableComponent;
+use Spatie\Mailcoach\Livewire\TableComponent;
 
-class TransactionalMailLogItemsComponent extends FilamentDataTableComponent
+class TransactionalMailLogItemsComponent extends TableComponent
 {
     protected function getDefaultTableSortColumn(): ?string
     {
