@@ -61,6 +61,10 @@
     @apply shadow-blue-400/20;
 }
 
+.checkbox:checked {
+    color: transparent;
+}
+
 .checkbox:checked:after {
     transform: scale(1);
 }

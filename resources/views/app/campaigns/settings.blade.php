@@ -101,35 +101,47 @@
         <div class="form-field">
             <label class="label">{{ __mc('Subscriber Tags') }}</label>
             <div class="checkbox-group">
-                <x-mailcoach::checkbox-field :label="__mc('Add tags to subscribers for opens & clicks')" name="form.add_subscriber_tags" wire:model="form.add_subscriber_tags" :disabled="!$campaign->isEditable()" />
-                <x-mailcoach::checkbox-field :label="__mc('Add individual link tags')" name="form.add_subscriber_link_tags" wire:model="form.add_subscriber_link_tags" :disabled="!$campaign->isEditable()" />
+                <x-mailcoach::checkbox-field :label="__mc('Add tags to subscribers for opens & clicks')" name="form.add_subscriber_tags" wire:model.live="form.add_subscriber_tags" :disabled="!$campaign->isEditable()" />
+                <x-mailcoach::checkbox-field :label="__mc('Add individual link tags')" name="form.add_subscriber_link_tags" wire:model.live="form.add_subscriber_link_tags" :disabled="!$campaign->isEditable()" />
             </div>
         </div>
 
-        <x-mailcoach::help>
-            <p class="text-sm mb-2">{{ __mc('When checked, the following tags will automatically get added to subscribers that open or click the campaign:') }}</p>
-                <p>
-                    <span class="tag-neutral">{{ "campaign-{$campaign->uuid}-opened" }}</span>
-                    <span class="tag-neutral">{{ "campaign-{$campaign->uuid}-clicked" }}</span>
-                </p>
-            <p class="text-sm mt-2">{{ __mc('When "Add individual link tags" is checked, it will also add a unique tag per link') }}</p>
-        </x-mailcoach::help>
+        @if ($form->add_subscriber_tags || $form->add_subscriber_link_tags)
+            <x-mailcoach::help max-width="2xl">
+                @if ($form->add_subscriber_tags)
+                    <p class="text-sm mb-2">{{ __mc('The following tags will automatically get added to subscribers that open or click the campaign:') }}</p>
+                    <p x-data="{}">
+                        <x-mailcoach::code-copy class="flex gap-x-2 mb-1" code='{{ "campaign-{$campaign->uuid}-opened" }}' />
+                        <x-mailcoach::code-copy class="flex gap-x-2" code='{{ "campaign-{$campaign->uuid}-clicked" }}' />
+                    </p>
+                @endif
+                @if ($form->add_subscriber_link_tags)
+                    <p class="text-sm">{{ __mc('Subscribers will receive a unique tag per link clicked.') }}</p>
+                @endif
+            </x-mailcoach::help>
+        @endif
 
         <div class="form-field">
-            <label class="label">{{ __mc('UTM Tags') }}</label>
+            <label class="label">
+                {{ __mc('UTM Tags') }}
+
+                <i class="ml-1 text-purple-500 opacity-75 cursor-pointer fas fa-question-circle" x-data x-tooltip="@js(__mc('Automatically add UTM tags to any links'))"></i>
+            </label>
             <div class="checkbox-group">
-                <x-mailcoach::checkbox-field :label="__mc('Automatically add UTM tags')" name="form.utm_tags" wire:model="form.utm_tags" :disabled="!$campaign->isEditable()" />
+                <x-mailcoach::checkbox-field :label="__mc('Automatically add UTM tags')" name="form.utm_tags" wire:model.live="form.utm_tags" :disabled="!$campaign->isEditable()" />
             </div>
         </div>
 
-        <x-mailcoach::help>
-            <p class="text-sm mb-2">{{ __mc('When checked, the following UTM Tags will automatically get added to any links in your campaign:') }}</p>
-            <dl class="markup-dl">
-                <dt><strong>utm_source</strong></dt><dd>newsletter</dd>
-                <dt><strong>utm_medium</strong></dt><dd>email</dd>
-                <dt><strong>utm_campaign</strong></dt><dd>{{ \Illuminate\Support\Str::slug($campaign->name) }}</dd>
-            </dl>
-        </x-mailcoach::help>
+        @if ($form->utm_tags)
+            <x-mailcoach::help>
+                <p class="text-sm mb-2">{{ __mc('The following UTM Tags will automatically get added to any links in your campaign:') }}</p>
+                <dl class="markup-dl">
+                    <dt><strong>utm_source</strong></dt><dd>newsletter</dd>
+                    <dt><strong>utm_medium</strong></dt><dd>email</dd>
+                    <dt><strong>utm_campaign</strong></dt><dd>{{ \Illuminate\Support\Str::slug($campaign->name) }}</dd>
+                </dl>
+            </x-mailcoach::help>
+        @endif
     </x-mailcoach::fieldset>
 
     @if($this->campaign->emailList?->has_website || $this->campaign->emailList?->campaigns_feed_enabled)

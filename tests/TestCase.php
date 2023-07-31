@@ -90,7 +90,7 @@ abstract class TestCase extends Orchestra
     {
         return [
             LaravelCipherSweetServiceProvider::class,
-            SpotlightServiceProvider::class,
+            //SpotlightServiceProvider::class,
             RayServiceProvider::class,
             LivewireServiceProvider::class,
             MailcoachServiceProvider::class,

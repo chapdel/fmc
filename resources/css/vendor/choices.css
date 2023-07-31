@@ -499,4 +499,18 @@
     transform: rotate(180deg);
 }
 
+.choices__inner {
+    background-image: none;
+}
+
+.choices__list--dropdown,
+.choices__list[aria-expanded] {
+    @apply input;
+    @apply bg-white;
+}
+
+.choices__list--dropdown .choices__item--selectable.is-highlighted {
+    @apply rounded-sm;
+}
+
 /*=====  End of Choices  ======*/
