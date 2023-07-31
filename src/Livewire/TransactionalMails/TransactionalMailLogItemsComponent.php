@@ -33,7 +33,6 @@ class TransactionalMailLogItemsComponent extends TableComponent
         return [
             TextColumn::make('subject')
                 ->label(__mc('Subject'))
-                ->extraAttributes(['class' => 'link'])
                 ->searchable(),
             TextColumn::make('to')
                 ->getStateUsing(fn (TransactionalMailLogItem $item) => $item->toString())

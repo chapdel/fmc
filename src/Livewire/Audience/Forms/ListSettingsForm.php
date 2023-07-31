@@ -20,7 +20,7 @@ class ListSettingsForm extends Form
     public ?string $default_from_name;
 
     #[Rule([new Delimited('email')])]
-    public string $default_reply_to_email;
+    public ?string $default_reply_to_email;
 
     #[Rule(['nullable'])]
     public ?string $default_reply_to_name;
@@ -43,7 +43,7 @@ class ListSettingsForm extends Form
         'required_if:emailList.report_campaign_sent,true',
         'required_if:emailList.report_campaign_summary,true',
     ])]
-    public string $report_recipients;
+    public ?string $report_recipients;
 
     public EmailList $emailList;
 
