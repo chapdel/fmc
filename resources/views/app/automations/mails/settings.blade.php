@@ -7,28 +7,28 @@
     data-dirty-check
 >
 <x-mailcoach::card>
-    <x-mailcoach::text-field :label="__mc('Name')" name="mail.name" wire:model.lazy="mail.name" required  />
+    <x-mailcoach::text-field :label="__mc('Name')" name="name" wire:model.lazy="name" required  />
 </x-mailcoach::card>
 
     <x-mailcoach::fieldset card :legend="__mc('Sender')">
         <x-mailcoach::info class="-mt-4">{!! __mc('Leave empty to use the defaults from the automation\'s email list. These will also be set the first time the automation mail is sent.') !!}</x-mailcoach::info>
         <div class="grid grid-cols-2 gap-6">
-            <x-mailcoach::text-field :label="__mc('From email')" name="mail.from_email" wire:model.lazy="mail.from_email"
+            <x-mailcoach::text-field :label="__mc('From email')" name="from_email" wire:model.lazy="from_email"
                                      type="email" />
 
-            <x-mailcoach::text-field :label="__mc('From name')" name="mail.from_name" wire:model.lazy="mail.from_name" />
+            <x-mailcoach::text-field :label="__mc('From name')" name="from_name" wire:model.lazy="from_name" />
 
             <x-mailcoach::text-field
                 :label="__mc('Reply-to email')"
-                name="mail.reply_to_email"
-                wire:model.lazy="mail.reply_to_email"
+                name="reply_to_email"
+                wire:model.lazy="reply_to_email"
                 :help="__mc('Use a comma separated list to send replies to multiple email addresses.')"
             />
 
             <x-mailcoach::text-field
                 :label="__mc('Reply-to name')"
-                name="mail.reply_to_name"
-                wire:model.lazy="mail.reply_to_name"
+                name="reply_to_name"
+                wire:model.lazy="reply_to_name"
                 :help="__mc('Use a comma separated list to send replies to multiple email addresses.')"
             />
         </div>
@@ -44,35 +44,43 @@
         <div class="form-field">
             <label class="label">{{ __mc('Subscriber Tags') }}</label>
             <div class="checkbox-group">
-                <x-mailcoach::checkbox-field :label="__mc('Add tags to subscribers for opens & clicks')" name="mail.add_subscriber_tags" wire:model="mail.add_subscriber_tags" />
-                <x-mailcoach::checkbox-field :label="__mc('Add individual link tags')" name="mail.add_subscriber_link_tags" wire:model="mail.add_subscriber_link_tags" />
+                <x-mailcoach::checkbox-field :label="__mc('Add tags to subscribers for opens & clicks')" name="add_subscriber_tags" wire:model.live="add_subscriber_tags" />
+                <x-mailcoach::checkbox-field :label="__mc('Add individual link tags')" name="add_subscriber_link_tags" wire:model.live="add_subscriber_link_tags" />
             </div>
         </div>
 
-        <x-mailcoach::help>
-            <p class="text-sm mb-2">{{ __mc('When checked, the following tags will automatically get added to subscribers that open or click the automation mail:') }}</p>
-            <p>
-                <span class="tag-neutral">{{ "automation-mail-{$mail->uuid}-opened" }}</span>
-                <span class="tag-neutral">{{ "automation-mail-{$mail->uuid}-clicked" }}</span>
-            </p>
-            <p class="text-sm mt-2">{{ __mc('When "Add individual link tags" is checked, it will also add a unique tag per link') }}</p>
-        </x-mailcoach::help>
+        @if ($add_subscriber_tags || $add_subscriber_link_tags)
+            <x-mailcoach::help max-width="2xl">
+                @if ($add_subscriber_tags)
+                    <p class="text-sm mb-2">{{ __mc('The following tags will automatically get added to subscribers that open or click the automation mail:') }}</p>
+                    <p x-data="{}">
+                        <x-mailcoach::code-copy class="flex gap-x-2 mb-1" code='{{ "automation-mail-{$mail->uuid}-opened" }}' />
+                        <x-mailcoach::code-copy class="flex gap-x-2" code='{{ "automation-mail-{$mail->uuid}-clicked" }}' />
+                    </p>
+                @endif
+                @if ($add_subscriber_link_tags)
+                    <p class="text-sm">{{ __mc('Subscribers will receive a unique tag per link clicked.') }}</p>
+                @endif
+            </x-mailcoach::help>
+        @endif
 
         <div class="form-field">
             <label class="label">{{ __mc('UTM Tags') }}</label>
             <div class="checkbox-group">
-                <x-mailcoach::checkbox-field :label="__mc('Automatically add UTM tags')" name="mail.utm_tags" wire:model="mail.utm_tags" />
+                <x-mailcoach::checkbox-field :label="__mc('Automatically add UTM tags')" name="utm_tags" wire:model.live="utm_tags" />
             </div>
         </div>
 
+        @if ($utm_tags)
         <x-mailcoach::help>
-            <p class="text-sm mb-2">{{ __mc('When checked, the following UTM Tags will automatically get added to any links in your campaign:') }}</p>
+            <p class="text-sm mb-2">{{ __mc('When checked, the following UTM Tags will automatically get added to any links in your automation mail:') }}</p>
             <dl class="markup-dl">
                 <dt><strong>utm_source</strong></dt><dd>newsletter</dd>
                 <dt><strong>utm_medium</strong></dt><dd>email</dd>
                 <dt><strong>utm_campaign</strong></dt><dd>{{ \Illuminate\Support\Str::slug($mail->name) }}</dd>
             </dl>
         </x-mailcoach::help>
+        @endif
     </x-mailcoach::fieldset>
 
     <x-mailcoach::fieldset card :legend="__mc('Usage in Mailcoach API')">

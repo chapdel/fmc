@@ -4,6 +4,8 @@ namespace Spatie\Mailcoach\Livewire\Automations;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Arr;
+use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -19,24 +21,37 @@ class AutomationMailSettingsComponent extends Component
 
     public AutomationMail $mail;
 
-    protected function rules(): array
-    {
-        return [
-            'mail.name' => 'required',
-            'mail.subject' => '',
-            'mail.from_email' => ['nullable', 'email:rfc'],
-            'mail.from_name' => 'nullable',
-            'mail.reply_to_email' => ['nullable', new Delimited('email:rfc')],
-            'mail.reply_to_name' => ['nullable', new Delimited('string')],
-            'mail.utm_tags' => 'bool',
-            'mail.add_subscriber_tags' => 'bool',
-            'mail.add_subscriber_link_tags' => 'bool',
-        ];
-    }
+    #[Rule('required')]
+    public string $name;
+
+    #[Rule(['nullable'])]
+    public ?string $subject = null;
+
+    #[Rule(['nullable', 'email:rfc'])]
+    public ?string $from_email;
+
+    #[Rule(['nullable'])]
+    public ?string $from_name;
+
+    #[Rule(['nullable', new Delimited('email:rfc')])]
+    public ?string $reply_to_email;
+
+    #[Rule(['nullable', new Delimited('string')])]
+    public ?string $reply_to_name;
+
+    #[Rule('bool')]
+    public bool $utm_tags;
+
+    #[Rule('bool')]
+    public bool $add_subscriber_tags;
+
+    #[Rule('bool')]
+    public bool $add_subscriber_link_tags;
 
     public function mount(AutomationMail $automationMail)
     {
         $this->mail = $automationMail;
+        $this->fill($automationMail->toArray());
 
         $this->authorize('update', $automationMail);
 
@@ -47,6 +62,7 @@ class AutomationMailSettingsComponent extends Component
     {
         $this->validate();
 
+        $this->mail->fill(Arr::except($this->all(), ['mail']));
         $this->mail->save();
 
         $this->flash(__mc('Email :name was updated.', ['name' => $this->mail->name]));

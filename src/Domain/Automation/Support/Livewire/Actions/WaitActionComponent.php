@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions;
 
 use Carbon\CarbonInterval;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationActionComponent;
 
@@ -24,6 +25,7 @@ class WaitActionComponent extends AutomationActionComponent
     {
         $this->length ??= '1';
         $this->unit ??= 'days';
+        $this->unit = Str::plural($this->unit);
     }
 
     public function getData(): array
