@@ -137,6 +137,6 @@ class TransactionalMail extends Mailable
             return true;
         }
 
-        return false;
+        return ! empty($this->mailName);
     }
 }

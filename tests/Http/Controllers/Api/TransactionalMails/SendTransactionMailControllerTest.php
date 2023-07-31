@@ -49,6 +49,29 @@ it('can send a transactional mail', function () {
     });
 });
 
+test('not everything is required', function () {
+    Mail::fake();
+
+    $this
+        ->postJson(action(SendTransactionalMailController::class, [
+            'mail_name' => 'my-template',
+            'from' => 'rias@spatie.be',
+            'to' => 'freek@spatie.be',
+            'cc' => null,
+            'bcc' => '',
+        ]))
+        ->assertSuccessful();
+
+    Mail::assertSent(TransactionalMail::class, function (TransactionalMail $mail) {
+        $mail->build();
+
+        expect($mail->from)->toBe([['name' => '', 'address' => 'rias@spatie.be']]);
+        expect($mail->to)->toContain(['name' => '', 'address' => 'freek@spatie.be']);
+
+        return true;
+    });
+});
+
 it('can send a transactional mail to formatted emails', function () {
     Mail::fake();
 
