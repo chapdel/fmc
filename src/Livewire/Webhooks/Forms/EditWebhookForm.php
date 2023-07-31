@@ -45,7 +45,7 @@ class EditWebhookForm extends Form
         ];
     }
 
-    public function setWebhook(WebhookConfiguration $webhook)
+    public function setWebhook(WebhookConfiguration $webhook): void
     {
         $this->webhook = $webhook;
 

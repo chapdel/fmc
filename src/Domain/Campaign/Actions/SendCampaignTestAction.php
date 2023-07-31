@@ -18,10 +18,6 @@ class SendCampaignTestAction
         $originalSubject = $campaign->subject;
         $campaign->subject = "[Test] {$originalSubject}";
 
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareSubjectAction $prepareSubjectAction */
-        $prepareSubjectAction = Mailcoach::getCampaignActionClass('prepare_subject', PrepareSubjectAction::class);
-        $prepareSubjectAction->execute($campaign);
-
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareEmailHtmlAction $prepareEmailHtmlAction */
         $prepareEmailHtmlAction = Mailcoach::getCampaignActionClass('prepare_email_html', PrepareEmailHtmlAction::class);
         $prepareEmailHtmlAction->execute($campaign);

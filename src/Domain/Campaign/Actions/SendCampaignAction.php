@@ -21,21 +21,10 @@ class SendCampaignAction
         }
 
         $this
-            ->prepareSubject($campaign)
             ->prepareEmailHtml($campaign)
             ->prepareWebviewHtml($campaign)
             ->dispatchCreateSendJobs($campaign, $stopExecutingAt)
             ->markCampaignAsSent($campaign);
-    }
-
-    protected function prepareSubject(Campaign $campaign): static
-    {
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareSubjectAction $prepareSubjectAction */
-        $prepareSubjectAction = Mailcoach::getCampaignActionClass('prepare_subject', PrepareSubjectAction::class);
-
-        $prepareSubjectAction->execute($campaign);
-
-        return $this;
     }
 
     protected function prepareEmailHtml(Campaign $campaign): static

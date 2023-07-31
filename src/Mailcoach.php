@@ -11,9 +11,9 @@ class Mailcoach
 {
     use UsesMailcoachModels;
 
-    protected static $editorScripts = [];
+    protected static array $editorScripts = [];
 
-    protected static $editorStyles = [];
+    protected static array $editorStyles = [];
 
     public static function styles(): string
     {
@@ -93,24 +93,24 @@ class Mailcoach
         return implode("\n", $scripts);
     }
 
-    public static function availableEditorScripts()
+    public static function availableEditorScripts(): array
     {
         return static::$editorScripts;
     }
 
-    public static function editorScript(string $editor, string $url)
+    public static function editorScript(string $editor, string $url): static
     {
         static::$editorScripts[$editor][] = $url;
 
         return new static;
     }
 
-    public static function availableEditorStyles()
+    public static function availableEditorStyles(): array
     {
         return static::$editorStyles;
     }
 
-    public static function editorStyle(string $editor, string $url)
+    public static function editorStyle(string $editor, string $url): static
     {
         static::$editorStyles[$editor][] = $url;
 
@@ -204,6 +204,6 @@ class Mailcoach
 
     public static function getQueueConnection(): ?string
     {
-        return config('mailcoach.queue_connection') ?? env('QUEUE_CONNECTION');
+        return config('mailcoach.queue_connection') ?? config('queue.default');
     }
 }

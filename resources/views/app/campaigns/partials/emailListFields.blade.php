@@ -1,14 +1,15 @@
+@php use Illuminate\Support\Arr; @endphp
 @props([
     'wiremodel' => null,
 ])
 <x-mailcoach::fieldset card :legend="__mc('Audience')">
     @if($emailLists->count())
         <x-mailcoach::select-field
-            :label="__mc('List')"
-            name="{{ $wiremodel ? $wiremodel . '.' : '' }}email_list_id"
-            wire:model.live="{{ $wiremodel ? $wiremodel . '.' : '' }}email_list_id"
-            :options="$emailLists->pluck('name', 'id')"
-            required
+                :label="__mc('List')"
+                name="{{ $wiremodel ? $wiremodel . '.' : '' }}email_list_id"
+                wire:model.live="{{ $wiremodel ? $wiremodel . '.' : '' }}email_list_id"
+                :options="$emailLists->pluck('name', 'id')"
+                required
         />
 
         @if($segmentable->usingCustomSegment())
@@ -25,30 +26,30 @@
                 </label>
                 <div class="radio-group">
                     <x-mailcoach::radio-field
-                        name="segment"
-                        option-value="entire_list"
-                        wire:model.live="segment"
-                        :label="__mc('Entire list')"
+                            name="segment"
+                            option-value="entire_list"
+                            wire:model.live="segment"
+                            :label="__mc('Entire list')"
                     />
                     <div class="flex items-center w-full">
                         <div class="flex-shrink-0">
                             <x-mailcoach::radio-field
-                                name="segment"
-                                wire:model.live="segment"
-                                option-value="segment"
-                                :label="__mc('Use segment')"
+                                    name="segment"
+                                    wire:model.live="segment"
+                                    option-value="segment"
+                                    :label="__mc('Use segment')"
                             />
                         </div>
                         @if ($segment !== 'entire_list')
                             <div class="w-full">
-                                @php($list = \Illuminate\Support\Arr::first($segmentsData, fn(array $list) => (int) $list['id'] === (int) $segmentable->email_list_id, $segmentsData[0]))
+                                @php($list = Arr::first($segmentsData, fn(array $list) => (int) $list['id'] === (int) $segmentable->email_list_id, $segmentsData[0]))
                                 @if (count($list['segments']))
                                     <div class="ml-4 -my-2">
                                         <x-mailcoach::select-field
-                                            name="{{ $wiremodel ? $wiremodel . '.' : '' }}segment_id"
-                                            wire:model="{{ $wiremodel ? $wiremodel . '.' : '' }}segment_id"
-                                            :options="$list['segments']"
-                                            :placeholder="__mc('Select a segment')"
+                                                name="{{ $wiremodel ? $wiremodel . '.' : '' }}segment_id"
+                                                wire:model="{{ $wiremodel ? $wiremodel . '.' : '' }}segment_id"
+                                                :options="$list['segments']"
+                                                :placeholder="__mc('Select a segment')"
                                         />
                                         @error(($wiremodel ? $wiremodel . '.' : '') . 'segment_id')
                                         <p class="form-error">{{ $message }}</p>
@@ -56,7 +57,8 @@
                                     </div>
                                 @else
                                     <div class="ml-4">
-                                        <a class="link" href="{{ $list['createSegmentUrl'] }}">{{ __mc('Create a segment first') }}</a>
+                                        <a class="link"
+                                           href="{{ $list['createSegmentUrl'] }}">{{ __mc('Create a segment first') }}</a>
                                     </div>
                                 @endif
                             </div>
