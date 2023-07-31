@@ -9,10 +9,10 @@
     >
         @csrf
 
-        <x-mailcoach::text-field :label="__mc('Subject')" name="subject" wire:model.lazy="mail.subject" />
+        <x-mailcoach::text-field :label="__mc('Subject')" name="subject" wire:model="subject" />
     </form>
 
-    @livewire(\Livewire\Livewire::getAlias(config('mailcoach.content_editor')), [
+    @livewire(config('mailcoach.content_editor'), [
         'model' => $mail,
     ])
 </x-mailcoach::card>
