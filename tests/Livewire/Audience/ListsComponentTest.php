@@ -21,7 +21,7 @@ it('can delete an email list', function () {
     expect(Subscriber::count())->toBe(1);
 
     Livewire::test(ListsComponent::class)
-        ->call('deleteList', $this->emailList->id);
+        ->call('deleteList', $this->emailList);
 
     expect(Subscriber::count())->toBe(0);
     expect(EmailList::count())->toBe(0);

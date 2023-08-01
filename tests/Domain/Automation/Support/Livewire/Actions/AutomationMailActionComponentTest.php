@@ -29,7 +29,7 @@ it('loads options on mount', function () {
     Livewire::test(AutomationMailActionComponent::class, [
         'action' => test()->action,
         'uuid' => Str::uuid()->toString(),
-    ])->assertViewHas('campaignOptions', AutomationMail::pluck('name', 'id')->toArray());
+    ])->assertSet('campaignOptions', AutomationMail::pluck('name', 'id')->toArray());
 });
 
 it('requires a valid automation mail id', function () {

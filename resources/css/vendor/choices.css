@@ -169,6 +169,7 @@
     @apply border-indigo-700/20;
     @apply hover:border-indigo-700/30;
     @apply placeholder:text-indigo-900/50;
+    @apply py-0;
 }
 
 /* SPATIE: changed */
@@ -446,7 +447,6 @@
 .choices__input {
     @apply w-full;
     @apply max-w-full;
-    @apply min-h-10;
     @apply px-2.5;
     @apply bg-white;
     @apply shadow-md;

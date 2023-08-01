@@ -2,6 +2,11 @@
 
 namespace Spatie\Mailcoach\Tests;
 
+use Filament\Actions\ActionsServiceProvider;
+use Filament\Forms\FormsServiceProvider;
+use Filament\Notifications\NotificationsServiceProvider;
+use Filament\Support\SupportServiceProvider;
+use Filament\Tables\TablesServiceProvider;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
@@ -100,6 +105,13 @@ abstract class TestCase extends Orchestra
             NavigationServiceProvider::class,
             SanctumServiceProvider::class,
             FeedServiceProvider::class,
+
+            // Filament
+            ActionsServiceProvider::class,
+            FormsServiceProvider::class,
+            NotificationsServiceProvider::class,
+            SupportServiceProvider::class,
+            TablesServiceProvider::class,
 
             MailcoachSesFeedbackServiceProvider::class,
             MailcoachMailgunFeedbackServiceProvider::class,

@@ -14,7 +14,7 @@ class ListSettingsForm extends Form
     public string $name;
 
     #[Rule(['required', 'email:rfc'])]
-    public string $default_from_email;
+    public ?string $default_from_email;
 
     #[Rule(['nullable'])]
     public ?string $default_from_name;
@@ -26,22 +26,22 @@ class ListSettingsForm extends Form
     public ?string $default_reply_to_name;
 
     #[Rule(['boolean'])]
-    public bool $campaigns_feed_enabled;
+    public ?bool $campaigns_feed_enabled = false;
 
     #[Rule(['boolean'])]
-    public bool $report_campaign_sent;
+    public ?bool $report_campaign_sent = false;
 
     #[Rule(['boolean'])]
-    public bool $report_campaign_summary;
+    public ?bool $report_campaign_summary = false;
 
     #[Rule(['boolean'])]
-    public bool $report_email_list_summary;
+    public ?bool $report_email_list_summary = false;
 
     #[Rule([
         new Delimited('email'),
-        'required_if:emailList.report_email_list_summary,true',
-        'required_if:emailList.report_campaign_sent,true',
-        'required_if:emailList.report_campaign_summary,true',
+        'required_if:form.report_email_list_summary,true',
+        'required_if:form.report_campaign_sent,true',
+        'required_if:form.report_campaign_summary,true',
     ])]
     public ?string $report_recipients;
 

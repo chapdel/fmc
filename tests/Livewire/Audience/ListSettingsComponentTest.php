@@ -21,15 +21,15 @@ it('can update the settings of an email list', function () {
     ];
 
     \Livewire\Livewire::test(ListSettingsComponent::class, ['emailList' => $emailList])
-        ->set('emailList.name', 'updated name')
-        ->set('emailList.default_from_email', 'jane@example.com')
-        ->set('emailList.default_from_name', 'Jane Doe')
-        ->set('emailList.default_reply_to_email', 'jane@example.com')
-        ->set('emailList.default_reply_to_name', 'Jane Doe')
-        ->set('emailList.campaigns_feed_enabled', false)
-        ->set('emailList.report_campaign_sent', false)
-        ->set('emailList.report_campaign_summary', false)
-        ->set('emailList.report_email_list_summary', false)
+        ->set('form.name', 'updated name')
+        ->set('form.default_from_email', 'jane@example.com')
+        ->set('form.default_from_name', 'Jane Doe')
+        ->set('form.default_reply_to_email', 'jane@example.com')
+        ->set('form.default_reply_to_name', 'Jane Doe')
+        ->set('form.campaigns_feed_enabled', false)
+        ->set('form.report_campaign_sent', false)
+        ->set('form.report_campaign_summary', false)
+        ->set('form.report_email_list_summary', false)
         ->call('save')
         ->assertHasNoErrors();
 
@@ -46,23 +46,23 @@ it('requires report recipients if reports are to be sent', function () {
     ]);
 
     $reportFields = [
-        'emailList.report_campaign_sent',
-        'emailList.report_campaign_summary',
-        'emailList.report_email_list_summary',
+        'form.report_campaign_sent',
+        'form.report_campaign_summary',
+        'form.report_email_list_summary',
     ];
 
     foreach ($reportFields as $field) {
         $attributes = array_merge([
-            'emailList.name' => 'updated name',
-            'emailList.default_from_email' => 'jane@example.com',
-            'emailList.default_from_name' => 'Jane Doe',
-            'emailList.default_reply_to_email' => 'jane@example.com',
-            'emailList.default_reply_to_name' => 'Jane Doe',
-            'emailList.campaigns_feed_enabled' => false,
-            'emailList.report_campaign_sent' => false,
-            'emailList.report_campaign_summary' => false,
-            'emailList.report_email_list_summary' => false,
-            'emailList.report_recipients' => '',
+            'form.name' => 'updated name',
+            'form.default_from_email' => 'jane@example.com',
+            'form.default_from_name' => 'Jane Doe',
+            'form.default_reply_to_email' => 'jane@example.com',
+            'form.default_reply_to_name' => 'Jane Doe',
+            'form.campaigns_feed_enabled' => false,
+            'form.report_campaign_sent' => false,
+            'form.report_campaign_summary' => false,
+            'form.report_email_list_summary' => false,
+            'form.report_recipients' => '',
         ], [
             $field => true,
         ]);
@@ -70,7 +70,7 @@ it('requires report recipients if reports are to be sent', function () {
         \Livewire\Livewire::test(ListSettingsComponent::class, ['emailList' => $emailList])
             ->fill($attributes)
             ->call('save')
-            ->assertHasErrors('emailList.report_recipients');
+            ->assertHasErrors('form.report_recipients');
     }
 });
 

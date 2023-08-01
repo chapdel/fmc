@@ -22,7 +22,7 @@ class TagsComponent extends TableComponent
         $this->emailList = $emailList;
 
         app(MainNavigation::class)->activeSection()
-            ->add($this->emailList->name, route('mailcoach.emailLists.summary', $this->emailList), function ($section) {
+            ?->add($this->emailList->name, route('mailcoach.emailLists.summary', $this->emailList), function ($section) {
                 $section->add(__mc('Tags'), route('mailcoach.emailLists.tags', $this->emailList));
             });
     }
