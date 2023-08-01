@@ -78,6 +78,15 @@ use Spatie\Mailcoach\Domain\Shared\Support\Throttling\SimpleThrottleCache;
 use Spatie\Mailcoach\Domain\Shared\Support\Version;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Listeners\StoreTransactionalMail;
+use Spatie\Mailcoach\Http\App\Livewire\ConditionBuilder\ConditionBuilderComponent;
+use Spatie\Mailcoach\Http\App\Livewire\ConditionBuilder\Conditions\Subscribers\SubscriberAttributesConditionComponent;
+use Spatie\Mailcoach\Http\App\Livewire\ConditionBuilder\Conditions\Subscribers\SubscriberClickedAutomationMailLinkConditionComponent;
+use Spatie\Mailcoach\Http\App\Livewire\ConditionBuilder\Conditions\Subscribers\SubscriberClickedCampaignLinkConditionComponent;
+use Spatie\Mailcoach\Http\App\Livewire\ConditionBuilder\Conditions\Subscribers\SubscriberEmailQueryConditionComponent;
+use Spatie\Mailcoach\Http\App\Livewire\ConditionBuilder\Conditions\Subscribers\SubscriberOpenedAutomationMailConditionComponent;
+use Spatie\Mailcoach\Http\App\Livewire\ConditionBuilder\Conditions\Subscribers\SubscriberOpenedCampaignConditionComponent;
+use Spatie\Mailcoach\Http\App\Livewire\ConditionBuilder\Conditions\Subscribers\SubscriberSubscribedAtConditionComponent;
+use Spatie\Mailcoach\Http\App\Livewire\ConditionBuilder\Conditions\Subscribers\SubscriberTagsConditionComponent;
 use Spatie\Mailcoach\Http\App\Middleware\SetMailcoachDefaults;
 use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
 use Spatie\Mailcoach\Http\App\ViewComposers\HealthViewComposer;
@@ -562,6 +571,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.automations.mails.layouts.automationMail', 'mailcoach::layout-automation-mail');
 
         Blade::component('mailcoach::app.automations.components.automationAction', 'mailcoach::automation-action');
+        Blade::component('mailcoach::app.conditionBuilder.conditions.condition', 'mailcoach::condition');
 
         Blade::component('mailcoach::auth.layouts.auth', 'mailcoach::layout-auth');
         Blade::component('mailcoach::app.layouts.settings', 'mailcoach::layout-settings');
@@ -696,6 +706,17 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::edit-user', Mailcoach::getLivewireClass('edit-user', EditUserComponent::class));
         Livewire::component('mailcoach::edit-mailer', Mailcoach::getLivewireClass('edit-mailer', EditMailerComponent::class));
         Livewire::component('mailcoach::tokens', Mailcoach::getLivewireClass('tokens', TokensComponent::class));
+
+        // Condition builder
+        Livewire::component('mailcoach::condition-builder', Mailcoach::getLivewireClass('condition-builder', ConditionBuilderComponent::class));
+        Livewire::component('mailcoach::subscriber-tags-condition', Mailcoach::getLivewireClass('subscriber-tags-condition', SubscriberTagsConditionComponent::class));
+        Livewire::component('mailcoach::subscriber-subscribed-at-condition', Mailcoach::getLivewireClass('subscriber-subscribed-at-condition', SubscriberSubscribedAtConditionComponent::class));
+        Livewire::component('mailcoach::subscriber-attributes-condition', Mailcoach::getLivewireClass('subscriber-attributes-condition', SubscriberAttributesConditionComponent::class));
+        Livewire::component('mailcoach::subscriber-opened-campaign-condition', Mailcoach::getLivewireClass('subscriber-opened-campaign-condition', SubscriberOpenedCampaignConditionComponent::class));
+        Livewire::component('mailcoach::subscriber-opened-automation-mail-condition', Mailcoach::getLivewireClass('subscriber-opened-automation-mail-condition', SubscriberOpenedAutomationMailConditionComponent::class));
+        Livewire::component('mailcoach::subscriber-clicked-automation-mail-link-condition', Mailcoach::getLivewireClass('subscriber-clicked-automation-mail-link-condition', SubscriberClickedAutomationMailLinkConditionComponent::class));
+        Livewire::component('mailcoach::subscriber-clicked-campaign-link-condition', Mailcoach::getLivewireClass('subscriber-clicked-campaign-link-condition', SubscriberClickedCampaignLinkConditionComponent::class));
+        Livewire::component('mailcoach::subscriber-email-condition', Mailcoach::getLivewireClass('subscriber-email-condition', SubscriberEmailQueryConditionComponent::class));
 
         SesSetupWizardComponent::registerLivewireComponents();
         SendGridSetupWizardComponent::registerLivewireComponents();

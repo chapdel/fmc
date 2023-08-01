@@ -55,6 +55,10 @@
                     let refreshChoices = () => {
                         let selection = this.multiple ? this.value : [this.value]
 
+                        if (this.multiple && !Array.isArray(selection)) {
+                            selection = [selection];
+                        }
+
                         choices.clearStore()
                         choices.setChoices(this.options.map(({ value, label }) => ({
                             value,

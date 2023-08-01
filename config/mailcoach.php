@@ -260,6 +260,14 @@ return [
      */
     'template_editor' => \Spatie\Mailcoach\Livewire\Editor\TextAreaEditorComponent::class,
 
+    /**
+     * Here you can configure which condition builder Mailcoach uses.
+     */
+    'condition_builder' => \Spatie\Mailcoach\Http\App\Livewire\ConditionBuilder\ConditionBuilderComponent::class,
+    'condition_builder_conditions' => [
+        ...\Spatie\Mailcoach\Domain\ConditionBuilder\Collections\ConditionCollection::$defaultClasses,
+    ],
+
     /*
      * This disk will be used to store files regarding importing.
      */

@@ -8,14 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\DB;
 use Spatie\Mailcoach\Database\Factories\TagSegmentFactory;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\ConditionBuilder\Actions\ApplyConditionBuilderOnBuilderAction;
+use Spatie\Mailcoach\Domain\ConditionBuilder\Collections\StoredConditionCollection;
+use Spatie\Mailcoach\Domain\ConditionBuilder\Conditions\Subscribers\SubscriberTagsQueryCondition;
+use Spatie\Mailcoach\Domain\ConditionBuilder\Enums\ComparisonOperator;
+use Spatie\Mailcoach\Domain\ConditionBuilder\ValueObjects\StoredCondition;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 /**
  * @method static Builder|static query()
+ *
+ * @property StoredConditionCollection $conditions
  */
 class TagSegment extends Model
 {
@@ -28,6 +34,7 @@ class TagSegment extends Model
     public $casts = [
         'all_positive_tags_required' => 'boolean',
         'all_negative_tags_required' => 'boolean',
+        'stored_conditions' => StoredConditionCollection::class,
     ];
 
     public $guarded = [];
@@ -56,14 +63,46 @@ class TagSegment extends Model
             ->orderBy('name');
     }
 
-    public function syncPositiveTags(array $tagNames): self
+    public function syncPositiveTags(array $tagNames, ?ComparisonOperator $operator = null): self
     {
         return $this->syncTags($tagNames, $this->positiveTags());
+
+        $tagIds = self::getTagClass()::query()
+            ->whereIn('name', $tagNames)
+            ->where('email_list_id', $this->email_list_id)
+            ->pluck('id')
+            ->toArray();
+
+        $this->stored_conditions->add(
+            StoredCondition::make(
+                key: SubscriberTagsQueryCondition::KEY,
+                comparisonOperator: $operator?->value ?? ComparisonOperator::In->value,
+                value: $tagIds,
+            )
+        );
+
+        return $this;
     }
 
-    public function syncNegativeTags(array $tagNames): self
+    public function syncNegativeTags(array $tagNames, ?ComparisonOperator $operator = null): self
     {
         return $this->syncTags($tagNames, $this->negativeTags());
+
+        $tagIds = self::getTagClass()::query()
+            ->whereIn('name', $tagNames)
+            ->where('email_list_id', $this->email_list_id)
+            ->pluck('id')
+            ->toArray();
+
+        $this->stored_conditions->add(
+            StoredCondition::make(
+                key: SubscriberTagsQueryCondition::KEY,
+                comparisonOperator: $operator?->value ?? ComparisonOperator::NotIn->value,
+                value: $tagIds,
+            )
+        );
+
+        return $this;
     }
 
     protected function syncTags(array $tagNames, BelongsToMany $tagsRelation)
@@ -80,7 +119,7 @@ class TagSegment extends Model
     {
         $query = $this->emailList->subscribers()->getQuery();
 
-        $this->scopeOnTags($query);
+        $this->applyConditionBuilder($query);
 
         return $query;
     }
@@ -92,67 +131,14 @@ class TagSegment extends Model
         });
     }
 
-    public function scopeOnTags(Builder $subscribersQuery): void
+    public function applyConditionBuilder(Builder $subscribersQuery): void
     {
-        $this->buildPositiveTagsQuery($subscribersQuery);
-
-        $this->buildNegativeTagsQuery($subscribersQuery);
+        app(ApplyConditionBuilderOnBuilderAction::class)->execute($subscribersQuery, $this->stored_conditions);
     }
 
     public function description(Campaign $campaign): string
     {
         return $this->name;
-    }
-
-    protected function buildPositiveTagsQuery(Builder $subscribersQuery): void
-    {
-        if (! $this->positiveTags()->count()) {
-            return;
-        }
-
-        if ($this->all_positive_tags_required) {
-            $subscribersQuery
-                ->where(
-                    DB::table('mailcoach_email_list_subscriber_tags')
-                        ->selectRaw('count(*)')
-                        ->where('mailcoach_subscribers.id', DB::raw('mailcoach_email_list_subscriber_tags.subscriber_id'))
-                        ->whereIn('mailcoach_email_list_subscriber_tags.tag_id', $this->positiveTags()->pluck('mailcoach_tags.id')->toArray()),
-                    '>=', $this->positiveTags()->count()
-                );
-
-            return;
-        }
-
-        $subscribersQuery->addWhereExistsQuery(DB::table('mailcoach_email_list_subscriber_tags')
-            ->where('mailcoach_subscribers.id', DB::raw('mailcoach_email_list_subscriber_tags.subscriber_id'))
-            ->whereIn('mailcoach_email_list_subscriber_tags.tag_id', $this->positiveTags()->pluck('mailcoach_tags.id')->toArray())
-        );
-    }
-
-    protected function buildNegativeTagsQuery(Builder $subscribersQuery): void
-    {
-        if (! $this->negativeTags()->count()) {
-            return;
-        }
-
-        if ($this->all_negative_tags_required) {
-            $subscribersQuery
-                ->where(
-                    DB::table('mailcoach_email_list_subscriber_tags')
-                        ->selectRaw('count(*)')
-                        ->where(self::getSubscriberTableName().'.id', DB::raw('mailcoach_email_list_subscriber_tags.subscriber_id'))
-                        ->whereIn('mailcoach_email_list_subscriber_tags.tag_id', $this->negativeTags()->pluck(self::getTagTableName().'.id')->toArray()),
-                    '<', $this->negativeTags()->count()
-                );
-
-            return;
-        }
-
-        $subscribersQuery->addWhereExistsQuery(DB::table('mailcoach_email_list_subscriber_tags')
-            ->where(self::getSubscriberTableName().'.id', DB::raw('mailcoach_email_list_subscriber_tags.subscriber_id'))
-            ->whereIn('mailcoach_email_list_subscriber_tags.tag_id', $this->negativeTags()->pluck(self::getTagTableName().'.id')->toArray()),
-            not: true
-        );
     }
 
     protected static function newFactory(): TagSegmentFactory

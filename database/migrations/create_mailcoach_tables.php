@@ -101,12 +101,13 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             $table->string('name');
-            $table->boolean('all_positive_tags_required')->default(false);
-            $table->boolean('all_negative_tags_required')->default(false);
+            $table->boolean('all_positive_tags_required')->default(false); // @todo remove
+            $table->boolean('all_negative_tags_required')->default(false); // @todo remove
             $table
                 ->foreignId('email_list_id')
                 ->constrained('mailcoach_email_lists')
                 ->cascadeOnDelete();
+            $table->json('stored_conditions')->nullable();
 
             $table->timestamps();
         });

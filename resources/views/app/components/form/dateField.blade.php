@@ -43,6 +43,7 @@
         {{ $label }}
     </label>
     @endif
+
     <input
         x-ref="picker"
         type="text"

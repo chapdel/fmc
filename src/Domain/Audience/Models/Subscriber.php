@@ -160,6 +160,11 @@ class Subscriber extends Model implements CipherSweetEncrypted
             ->withTimestamps();
     }
 
+    public function automationMailOpens(): HasMany
+    {
+        return $this->hasMany(self::getAutomationMailOpenClass(), 'subscriber_id');
+    }
+
     public function currentAction(Automation $automation): ?Action
     {
         return $this->currentActions($automation)->first();
@@ -418,5 +423,14 @@ class Subscriber extends Model implements CipherSweetEncrypted
     protected static function newFactory(): SubscriberFactory
     {
         return new SubscriberFactory();
+    }
+
+    public static function attributesFields(): array
+    {
+        return [
+            'first_name' => __('First name'),
+            'last_name' => __('Last name'),
+            'email' => __('Email address'),
+        ];
     }
 }

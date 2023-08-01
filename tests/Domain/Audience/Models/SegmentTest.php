@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
+use Spatie\Mailcoach\Domain\ConditionBuilder\Enums\ComparisonOperator;
 
 beforeEach(function () {
     test()->emailList = EmailList::factory()->create();
@@ -15,10 +16,17 @@ it('can build a query to get subscribers with certain tags', function () {
     $subscriberWithOneTag = createSubscriberWithTags('oneTag@example.com', ['tagA']);
     $subscriberWithManyTags = createSubscriberWithTags('multipleTags@example.com', ['tagA', 'tagB']);
 
-    $subscribers = (TagSegment::create(['name' => 'testSegment', 'email_list_id' => test()->emailList->id])
-        ->syncPositiveTags(['tagA'])
+    /** @var TagSegment $segment */
+    $segment = TagSegment::create(['name' => 'testSegment', 'email_list_id' => test()->emailList->id]);
+
+    $segment->stored_conditions
+        ->addSubscriberTags($subscriberWithOneTag->tags->first()->id);
+
+    $segment->save();
+
+    $subscribers = $segment
         ->getSubscribersQuery()
-        ->get());
+        ->get();
 
     assertArrayContainsSubscribers([
         $subscriberWithOneTag,
@@ -32,10 +40,17 @@ it('can segment on subscribers having any of multiple tags', function () {
     $subscriberWithManyTags = createSubscriberWithTags('multipleTags@example.com', ['tagA', 'tagB']);
     $subscriberWithAllTags = createSubscriberWithTags('allTags@example.com', ['tagA', 'tagB', 'tagC']);
 
-    $subscribers = (TagSegment::create(['name' => 'testSegment', 'email_list_id' => test()->emailList->id])
-        ->syncPositiveTags(['tagA', 'tagC'])
+    /** @var TagSegment $segment */
+    $segment = TagSegment::create(['name' => 'testSegment', 'email_list_id' => test()->emailList->id]);
+
+    $segment->stored_conditions->addSubscriberTags([
+        $subscriberWithOneTag->tags->first()->id,
+        $subscriberWithAllTags->tags->last()->id,
+    ]);
+
+    $subscribers = $segment
         ->getSubscribersQuery()
-        ->get());
+        ->get();
 
     assertArrayContainsSubscribers([
         $subscriberWithOneTag,
@@ -53,14 +68,22 @@ it('can segment on subscribers having all of the given multiple tags', function 
     $subscriberWithTagAAndB = createSubscriberWithTags('tagAAndB@example.com', ['tagA', 'tagB']);
     $subscriberWithAllTags = createSubscriberWithTags('allTags@example.com', ['tagA', 'tagB', 'tagC']);
 
-    $subscribers = (TagSegment::create([
-        'name' => 'testSegment',
-        'email_list_id' => test()->emailList->id,
-        'all_positive_tags_required' => true,
-    ])
-        ->syncPositiveTags(['tagA', 'tagC'])
+    /** @var TagSegment $segment */
+    $segment = TagSegment::create(
+        [
+            'name' => 'testSegment',
+            'email_list_id' => test()->emailList->id,
+        ]
+    );
+
+    $segment->stored_conditions->addSubscriberTags([
+        $subscriberWithTagA->tags->first()->id,
+        $subscriberWithAllTags->tags->last()->id,
+    ], ComparisonOperator::All);
+
+    $subscribers = $segment
         ->getSubscribersQuery()
-        ->get());
+        ->get();
 
     assertArrayContainsSubscribers([
         $subscriberWithAllTags,
@@ -73,13 +96,18 @@ it('can segment on subscribers not having a tag', function () {
     $subscriberWithTagB = createSubscriberWithTags('tagB@example.com', ['tagB']);
     $subscriberWithManyTags = createSubscriberWithTags('tagAandTagB@example.com', ['tagA', 'tagB']);
 
-    $subscribers = (TagSegment::create([
+    /** @var TagSegment $segment */
+    $segment = TagSegment::create([
         'name' => 'testSegment',
         'email_list_id' => test()->emailList->id,
-    ])
-        ->syncNegativeTags(['tagB'])
+    ]);
+
+    $segment->stored_conditions
+        ->addSubscriberTags($subscriberWithTagB->tags->first()->id, ComparisonOperator::NotIn);
+
+    $subscribers = $segment
         ->getSubscribersQuery()
-        ->get());
+        ->get();
 
     assertArrayContainsSubscribers([
         $subscriberWithoutTag,
@@ -93,13 +121,20 @@ it('can segment on subscribers not having multiple tags', function () {
     $subscriberWithTagB = createSubscriberWithTags('tagB@example.com', ['tagB']);
     $subscriberWithManyTags = createSubscriberWithTags('tagAandTagB@example.com', ['tagA', 'tagB']);
 
-    $subscribers = (TagSegment::create([
+    /** @var TagSegment $segment */
+    $segment = TagSegment::create([
         'name' => 'testSegment',
         'email_list_id' => test()->emailList->id,
-    ])
-        ->syncNegativeTags(['tagA', 'tagB'])
+    ]);
+
+    $segment->stored_conditions->addSubscriberTags([
+        $subscriberWithTagA->tags->first()->id,
+        $subscriberWithTagB->tags->first()->id,
+    ], ComparisonOperator::NotIn);
+
+    $subscribers = $segment
         ->getSubscribersQuery()
-        ->get());
+        ->get();
 
     assertArrayContainsSubscribers([
         $subscriberWithoutTag,
@@ -112,14 +147,20 @@ it('can segment on subscribers not having all given tags', function () {
     $subscriberWithTagB = createSubscriberWithTags('tagB@example.com', ['tagB']);
     $subscriberWithManyTags = createSubscriberWithTags('tagAandTagB@example.com', ['tagA', 'tagB']);
 
-    $subscribers = (TagSegment::create([
+    /** @var TagSegment $segment */
+    $segment = TagSegment::create([
         'name' => 'testSegment',
         'email_list_id' => test()->emailList->id,
-        'all_negative_tags_required' => true,
-    ])
-        ->syncNegativeTags(['tagA', 'tagB'])
+    ]);
+
+    $segment->stored_conditions->addSubscriberTags([
+        $subscriberWithTagA->tags->first()->id,
+        $subscriberWithTagB->tags->first()->id,
+    ], ComparisonOperator::None);
+
+    $subscribers = $segment
         ->getSubscribersQuery()
-        ->get());
+        ->get();
 
     assertArrayContainsSubscribers([
         $subscriberWithoutTag,
@@ -134,14 +175,30 @@ it('can segment on positive and negative segments in one go', function () {
     $subscriberWithTagB = createSubscriberWithTags('tagB@example.com', ['tagB']);
     $subscriberWithManyTags = createSubscriberWithTags('tagAandTagB@example.com', ['tagA', 'tagB', 'tagC']);
 
-    $subscribers = (TagSegment::create([
+    /** @var TagSegment $segment */
+    $segment = TagSegment::create([
         'name' => 'testSegment',
         'email_list_id' => test()->emailList->id,
-    ])
-        ->syncPositiveTags(['tagA', 'tagB'])
-        ->syncNegativeTags(['tagC'])
+    ]);
+
+    $segment->stored_conditions
+        ->addSubscriberTags(
+            [
+                $subscriberWithTagA->tags->first()->id,
+                $subscriberWithTagB->tags->first()->id,
+            ],
+            ComparisonOperator::In
+        )
+        ->addSubscriberTags(
+            [
+                $subscriberWithManyTags->tags->last()->id,
+            ],
+            ComparisonOperator::NotIn
+        );
+
+    $subscribers = $segment
         ->getSubscribersQuery()
-        ->get());
+        ->get();
 
     assertArrayContainsSubscribers([
         $subscriberWithTagA,
@@ -156,16 +213,19 @@ it('can segment on positive and negative segments all required in one go', funct
     $subscriber4 = createSubscriberWithTags('tagABC@example.com', ['tagA', 'tagB', 'tagC']);
     $subscriber5 = createSubscriberWithTags('tagABCD@example.com', ['tagA', 'tagB', 'tagC', 'tagD']);
 
-    $subscribers = (TagSegment::create([
+    /** @var TagSegment $segment */
+    $segment = TagSegment::create([
         'name' => 'testSegment',
         'email_list_id' => test()->emailList->id,
-        'all_positive_tags_required' => true,
-        'all_negative_tags_required' => true,
-    ])
-        ->syncPositiveTags(['tagA', 'tagB'])
-        ->syncNegativeTags(['tagC', 'tagD'])
+    ]);
+
+    $segment->stored_conditions
+        ->addSubscriberTags($subscriber3->tags->pluck('id')->toArray(), ComparisonOperator::All)
+        ->addSubscriberTags($subscriber5->tags->reverse()->slice(0, 2)->pluck('id')->toArray(), ComparisonOperator::None);
+
+    $subscribers = $segment
         ->getSubscribersQuery()
-        ->get());
+        ->get();
 
     assertArrayContainsSubscribers([
         $subscriber3,
@@ -195,7 +255,7 @@ function assertArrayContainsSubscribers(array $expectedSubscribers, Collection $
         test()->assertContains(
             $expectedSubscriber->id,
             $actualSubscribers->pluck('id')->toArray(),
-            "Expected subscriber {$expectedSubscriber->email} not found in actual subscribers)"
+            "Expected subscriber {$expectedSubscriber->email} not found in actual subscribers."
         );
     });
 
@@ -203,7 +263,7 @@ function assertArrayContainsSubscribers(array $expectedSubscribers, Collection $
         test()->assertContains(
             $actualSubscriber->id,
             $expectedSubscribers->pluck('id')->toArray(),
-            "Actual subscriber {$actualSubscriber->email} not found in expected subscribers)"
+            "Actual subscriber {$actualSubscriber->email} not found in expected subscribers."
         );
     });
 }

@@ -10,7 +10,7 @@ class TagSegmentFactory extends Factory
 {
     protected $model = TagSegment::class;
 
-    public function definition()
+    public function definition(): array
     {
         return [
             'name' => $this->faker->word,
