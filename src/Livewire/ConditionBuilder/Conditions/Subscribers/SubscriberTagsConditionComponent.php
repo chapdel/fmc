@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\App\Livewire\ConditionBuilder\Conditions\Subscribers;
+namespace Spatie\Mailcoach\Livewire\ConditionBuilder\Conditions\Subscribers;
 
-use Spatie\Mailcoach\Http\App\Livewire\ConditionBuilder\ConditionComponent;
+use Spatie\Mailcoach\Livewire\ConditionBuilder\ConditionComponent;
 
 class SubscriberTagsConditionComponent extends ConditionComponent
 {

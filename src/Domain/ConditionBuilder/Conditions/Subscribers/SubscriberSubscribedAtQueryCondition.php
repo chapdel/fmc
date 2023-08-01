@@ -43,7 +43,7 @@ class SubscriberSubscribedAtQueryCondition extends QueryCondition
             return $this->applyBetweenOperator($baseQuery, $value);
         }
 
-        $date = CarbonImmutable::make($value);
+        $date = CarbonImmutable::parse($value);
 
         if ($date === null) {
             throw new RuntimeException('Invalid date format.');
@@ -55,8 +55,8 @@ class SubscriberSubscribedAtQueryCondition extends QueryCondition
 
     protected function applyBetweenOperator(Builder $baseQuery, mixed $value): Builder
     {
-        $startDate = CarbonImmutable::make($value[0]);
-        $endDate = CarbonImmutable::make($value[1]);
+        $startDate = CarbonImmutable::parse($value[0]);
+        $endDate = CarbonImmutable::parse($value[1]);
 
         if ($startDate === null || $endDate === null) {
             throw new RuntimeException('Invalid date format.');

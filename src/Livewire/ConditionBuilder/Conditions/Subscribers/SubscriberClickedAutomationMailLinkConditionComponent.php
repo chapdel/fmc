@@ -1,21 +1,19 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\App\Livewire\ConditionBuilder\Conditions\Subscribers;
+namespace Spatie\Mailcoach\Livewire\ConditionBuilder\Conditions\Subscribers;
 
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Http\App\Livewire\ConditionBuilder\ConditionComponent;
+use Spatie\Mailcoach\Livewire\ConditionBuilder\ConditionComponent;
 
-class SubscriberClickedCampaignLinkConditionComponent extends ConditionComponent
+class SubscriberClickedAutomationMailLinkConditionComponent extends ConditionComponent
 {
     use UsesMailcoachModels;
 
-    public ?int $campaignId = null;
+    public ?int $automationMailId = null;
 
-    public array $campaigns = [];
+    public array $automationMails = [];
 
     public array $options = [];
-
-    public array $comparisonOptions;
 
     public function mount(): void
     {
@@ -23,7 +21,7 @@ class SubscriberClickedCampaignLinkConditionComponent extends ConditionComponent
 
         $this->changeLabels();
 
-        $this->campaigns = self::getCampaignClass()::query()
+        $this->automationMails = self::getAutomationMailClass()::query()
             ->has('links')
             ->pluck('id', 'name')
             ->mapWithKeys(function (string $id, string $name) {
@@ -47,14 +45,14 @@ class SubscriberClickedCampaignLinkConditionComponent extends ConditionComponent
 
     public function render()
     {
-        $this->options = self::getCampaignLinkClass()::query()
-            ->where('campaign_id', $this->campaignId)
+        $this->options = self::getAutomationMailLinkClass()::query()
+            ->where('automation_mail_id', $this->automationMailId)
             ->distinct()
             ->pluck('url')
             ->mapWithKeys(function (string $url) {
                 return [$url => $url];
             })->toArray();
 
-        return view('mailcoach::app.conditionBuilder.conditions.subscribers.subscriberClickedCampaignLinkCondition');
+        return view('mailcoach::app.conditionBuilder.conditions.subscribers.subscriberClickedAutomationMailLinkCondition');
     }
 }

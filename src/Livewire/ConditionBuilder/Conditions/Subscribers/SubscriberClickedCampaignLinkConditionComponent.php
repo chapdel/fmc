@@ -1,19 +1,21 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\App\Livewire\ConditionBuilder\Conditions\Subscribers;
+namespace Spatie\Mailcoach\Livewire\ConditionBuilder\Conditions\Subscribers;
 
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Http\App\Livewire\ConditionBuilder\ConditionComponent;
+use Spatie\Mailcoach\Livewire\ConditionBuilder\ConditionComponent;
 
-class SubscriberClickedAutomationMailLinkConditionComponent extends ConditionComponent
+class SubscriberClickedCampaignLinkConditionComponent extends ConditionComponent
 {
     use UsesMailcoachModels;
 
-    public ?int $automationMailId = null;
+    public ?int $campaignId = null;
 
-    public array $automationMails = [];
+    public array $campaigns = [];
 
     public array $options = [];
+
+    public array $comparisonOptions;
 
     public function mount(): void
     {
@@ -21,7 +23,7 @@ class SubscriberClickedAutomationMailLinkConditionComponent extends ConditionCom
 
         $this->changeLabels();
 
-        $this->automationMails = self::getAutomationMailClass()::query()
+        $this->campaigns = self::getCampaignClass()::query()
             ->has('links')
             ->pluck('id', 'name')
             ->mapWithKeys(function (string $id, string $name) {
@@ -45,14 +47,14 @@ class SubscriberClickedAutomationMailLinkConditionComponent extends ConditionCom
 
     public function render()
     {
-        $this->options = self::getAutomationMailLinkClass()::query()
-            ->where('automation_mail_id', $this->automationMailId)
+        $this->options = self::getCampaignLinkClass()::query()
+            ->where('campaign_id', $this->campaignId)
             ->distinct()
             ->pluck('url')
             ->mapWithKeys(function (string $url) {
                 return [$url => $url];
             })->toArray();
 
-        return view('mailcoach::app.conditionBuilder.conditions.subscribers.subscriberClickedAutomationMailLinkCondition');
+        return view('mailcoach::app.conditionBuilder.conditions.subscribers.subscriberClickedCampaignLinkCondition');
     }
 }

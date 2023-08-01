@@ -28,7 +28,7 @@
             @csrf
             @method('PUT')
 
-            <x-mailcoach::text-field wrapper-class="md:max-w-3xl" :label="__mc('Name')" name="segment.name" wire:model.lazy="segment.name" type="name" required />
+            <x-mailcoach::text-field wrapper-class="md:max-w-3xl" :label="__mc('Name')" name="name" wire:model="name" type="name" required />
 
             <div class="form-field md:max-w-3xl">
                 <label class="label label-required">

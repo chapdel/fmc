@@ -1,14 +1,12 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\App\Livewire\ConditionBuilder\Conditions\Subscribers;
+namespace Spatie\Mailcoach\Livewire\ConditionBuilder\Conditions\Subscribers;
 
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Http\App\Livewire\ConditionBuilder\ConditionComponent;
+use Spatie\Mailcoach\Livewire\ConditionBuilder\ConditionComponent;
 
 class SubscriberAttributesConditionComponent extends ConditionComponent
 {
-    public array $attributes = [];
-
     public array $options = [];
 
     public function mount(): void

@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\App\Livewire\ConditionBuilder;
+namespace Spatie\Mailcoach\Livewire\ConditionBuilder;
 
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Actions\CreateConditionFromKeyAction;
@@ -25,11 +25,11 @@ abstract class ConditionComponent extends Component
 
     public function updated(): void
     {
-        $this->emit('storedConditionUpdated', $this->index, $this->storedCondition);
+        $this->dispatch('storedConditionUpdated', $this->index, $this->storedCondition);
     }
 
     public function delete(): void
     {
-        $this->emit('storedConditionDeleted', $this->index);
+        $this->dispatch('storedConditionDeleted', $this->index);
     }
 }

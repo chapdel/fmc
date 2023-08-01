@@ -101,8 +101,6 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             $table->string('name');
-            $table->boolean('all_positive_tags_required')->default(false); // @todo remove
-            $table->boolean('all_negative_tags_required')->default(false); // @todo remove
             $table
                 ->foreignId('email_list_id')
                 ->constrained('mailcoach_email_lists')
@@ -466,38 +464,6 @@ return new class extends Migration
                 ->nullable()
                 ->constrained('mailcoach_tags')
                 ->index('tags_tag_id')
-                ->cascadeOnDelete();
-        });
-
-        Schema::create('mailcoach_positive_segment_tags', function (Blueprint $table) {
-            $table->id();
-
-            $table
-                ->foreignId('segment_id')
-                ->nullable()
-                ->constrained('mailcoach_segments')
-                ->cascadeOnDelete();
-
-            $table
-                ->foreignId('tag_id')
-                ->nullable()
-                ->constrained('mailcoach_tags')
-                ->cascadeOnDelete();
-        });
-
-        Schema::create('mailcoach_negative_segment_tags', function (Blueprint $table) {
-            $table->id();
-
-            $table
-                ->foreignId('segment_id')
-                ->nullable()
-                ->constrained('mailcoach_segments')
-                ->cascadeOnDelete();
-
-            $table
-                ->foreignId('tag_id')
-                ->nullable()
-                ->constrained('mailcoach_tags')
                 ->cascadeOnDelete();
         });
 

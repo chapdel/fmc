@@ -4,8 +4,6 @@ namespace Spatie\Mailcoach\Livewire\Audience;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Arr;
-use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
@@ -25,19 +23,11 @@ class SegmentComponent extends Component
 
     public TagSegment $segment;
 
-    public string $positive_tags_operator;
-
-    public array $positive_tags;
-
-    public string $negative_tags_operator;
-
-    public array $negative_tags;
-
     public array $storedConditions;
 
+    public string $name;
+
     protected $listeners = [
-        'tags-updated-positive_tags' => 'updatePositiveTags',
-        'tags-updated-negative_tags' => 'updateNegativeTags',
         'storedConditionsUpdated' => 'updateStoredConditions',
     ];
 
@@ -47,27 +37,11 @@ class SegmentComponent extends Component
 
     protected function rules(): array
     {
-        $emailListTagNames = $this->emailList->tags()->pluck('name')->toArray();
-
         return [
-            'segment.name' => 'required',
-            'positive_tags_operator' => [Rule::in(['any', 'all'])],
-            'positive_tags.*' => [Rule::in($emailListTagNames)],
-            'negative_tags_operator' => [Rule::in(['any', 'all'])],
-            'negative_tags.*' => [Rule::in($emailListTagNames)],
+            'name' => 'required',
             'storedConditions' => ['array'],
             //'storedConditions.*' => [new StoredConditionRule()], // @todo issue with interface not found
         ];
-    }
-
-    public function updatePositiveTags(array|string ...$tags)
-    {
-        $this->positive_tags = Arr::wrap($tags);
-    }
-
-    public function updateNegativeTags(array|string ...$tags)
-    {
-        $this->negative_tags = Arr::wrap($tags);
     }
 
     public function mount(EmailList $emailList, TagSegment $segment, MainNavigation $mainNavigation)
@@ -78,10 +52,7 @@ class SegmentComponent extends Component
         $this->emailList = $emailList;
         $this->segment = $segment;
 
-        $this->positive_tags = $segment->positiveTags()->pluck('name')->toArray();
-        $this->negative_tags = $segment->negativeTags()->pluck('name')->toArray();
-        $this->positive_tags_operator = $segment->all_positive_tags_required ? 'all' : 'any';
-        $this->negative_tags_operator = $segment->all_negative_tags_required ? 'all' : 'any';
+        $this->name = $segment->name;
         $this->storedConditions = $segment->stored_conditions->castToArray();
 
         $mainNavigation->activeSection()
@@ -96,14 +67,8 @@ class SegmentComponent extends Component
 
         $this->segment->update([
             'name' => $this->segment->name,
-            'all_positive_tags_required' => $this->positive_tags_operator === 'all',
-            'all_negative_tags_required' => $this->negative_tags_operator === 'all',
             'stored_conditions' => StoredConditionCollection::fromRequest($this->storedConditions),
         ]);
-
-        $this->segment
-            ->syncPositiveTags($this->positive_tags ?? [])
-            ->syncNegativeTags($this->negative_tags ?? []);
 
         $this->flash(__mc('The segment has been updated.'));
         $this->dispatch('segmentUpdated');

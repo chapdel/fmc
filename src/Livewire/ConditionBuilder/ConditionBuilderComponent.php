@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Http\App\Livewire\ConditionBuilder;
+namespace Spatie\Mailcoach\Livewire\ConditionBuilder;
 
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Actions\CreateConditionFromKeyAction;
@@ -31,7 +31,7 @@ class ConditionBuilderComponent extends Component
     {
         $this->storedConditions[$index] = $data;
 
-        $this->emit('storedConditionsUpdated', $this->storedConditions);
+        $this->dispatch('storedConditionsUpdated', $this->storedConditions);
     }
 
     public function deleteStoredCondition($index): void
@@ -39,7 +39,7 @@ class ConditionBuilderComponent extends Component
         unset($this->storedConditions[$index]);
         $this->storedConditions = array_values($this->storedConditions);
 
-        $this->emit('storedConditionsUpdated', $this->storedConditions);
+        $this->dispatch('storedConditionsUpdated', $this->storedConditions);
     }
 
     public function add(string $key): void
@@ -48,7 +48,7 @@ class ConditionBuilderComponent extends Component
 
         $this->storedConditions[] = StoredCondition::blueprint($condition);
 
-        $this->emit('storedConditionsUpdated', $this->storedConditions);
+        $this->dispatch('storedConditionsUpdated', $this->storedConditions);
     }
 
     public function render()
