@@ -6,6 +6,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns\StoresMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns\UsesMailcoachTemplate;
+use Spatie\Mailcoach\Domain\TransactionalMail\Support\AddressNormalizer;
 use Spatie\Mailcoach\Mailcoach;
 use Symfony\Component\Mime\Email;
 
@@ -95,6 +96,24 @@ class TransactionalMail extends Mailable
                 );
             }
         });
+    }
+
+    public function toEmail(): Email
+    {
+        $normalizer = new AddressNormalizer();
+
+        $from = is_array($this->from) ? array_map(fn ($user) => $user['address'], $this->from) : $this->from;
+        $to = is_array($this->to) ? array_map(fn ($user) => $user['address'], $this->to) : $this->to;
+        $cc = is_array($this->cc) ? array_map(fn ($user) => $user['address'], $this->cc) : $this->cc;
+        $bcc = is_array($this->bcc) ? array_map(fn ($user) => $user['address'], $this->bcc) : $this->bcc;
+
+        return (new Email())
+            ->subject($this->subject)
+            ->from(...$normalizer->normalize(...$from))
+            ->to(...$normalizer->normalize(...$to))
+            ->cc(...$normalizer->normalize(...$cc))
+            ->bcc(...$normalizer->normalize(...$bcc))
+            ->html($this->html);
     }
 
     protected function prepareAttachment(array $attachments): self

@@ -2,8 +2,10 @@
 
 namespace Spatie\Mailcoach\Livewire\TransactionalMails;
 
+use Closure;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\BulkAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
@@ -31,7 +33,13 @@ class TransactionalMailLogItemsComponent extends TableComponent
     protected function getTableColumns(): array
     {
         return [
+            IconColumn::make('fake')
+                ->label('')
+                ->icon(fn (TransactionalMailLogItem $item) => $item->fake ? 'heroicon-o-command-line' : 'heroicon-o-envelope')
+                ->tooltip(fn (TransactionalMailLogItem $item) => $item->fake ? __mc('Fake send') : __mc('Sent'))
+                ->color(fn (TransactionalMailLogItem $item) => $item->fake ? 'primary' : 'success'),
             TextColumn::make('subject')
+                ->extraAttributes(['class' => 'link'])
                 ->label(__mc('Subject'))
                 ->searchable(),
             TextColumn::make('to')
@@ -68,6 +76,11 @@ class TransactionalMailLogItemsComponent extends TableComponent
                 ->deselectRecordsAfterCompletion()
                 ->action(fn (Collection $records) => $records->each->delete()),
         ];
+    }
+
+    protected function getTableRecordUrlUsing(): ?Closure
+    {
+        return fn (TransactionalMailLogItem $item) => route('mailcoach.transactionalMails.show', $item);
     }
 
     public function getTitle(): string

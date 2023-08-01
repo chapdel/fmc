@@ -217,6 +217,8 @@ return new class extends Migration
 
             $table->string('mailable_class');
 
+            $table->boolean('fake')->default(false);
+
             $table->timestamps();
         });
 

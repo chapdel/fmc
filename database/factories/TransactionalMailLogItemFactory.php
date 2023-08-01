@@ -26,6 +26,7 @@ class TransactionalMailLogItemFactory extends Factory
             'cc' => [$this->person()],
             'bcc' => [$this->person()],
             'mailable_class' => Mailable::class,
+            'fake' => false,
         ];
     }
 

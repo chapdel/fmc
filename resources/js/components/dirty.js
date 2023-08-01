@@ -5,7 +5,7 @@ listen('input', '[data-dirty-check]', ({ target }) => {
 });
 
 document.addEventListener('livewire:init', () => {
-    Livewire.on('notify', function(params) {
+    Livewire.on('notify', function (params) {
         const [message, level] = params;
 
         if (level === 'success' && $('[data-dirty-check]')) {
@@ -16,7 +16,7 @@ document.addEventListener('livewire:init', () => {
 
 document.addEventListener(
     'click',
-    event => {
+    (event) => {
         if (event.target.dataset.dirtyWarn === undefined) {
             return;
         }

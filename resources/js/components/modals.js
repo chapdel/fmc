@@ -25,7 +25,7 @@ document.addEventListener('alpine:init', () => {
             });
         },
         close(id) {
-            this.openModals = this.openModals.filter(modal => modal !== id);
+            this.openModals = this.openModals.filter((modal) => modal !== id);
             history.pushState('', document.title, window.location.pathname + window.location.search);
         },
     });

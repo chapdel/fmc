@@ -29,6 +29,7 @@ class TransactionalMailLogItem extends Model
         'cc' => 'array',
         'bcc' => 'array',
         'attachments' => 'array',
+        'fake' => 'boolean',
     ];
 
     public function send(): HasOne
@@ -75,7 +76,9 @@ class TransactionalMailLogItem extends Model
 
     public function resend(): self
     {
-        Mail::send(new ResendTransactionalMail($this));
+        if (! $this->fake) {
+            Mail::send(new ResendTransactionalMail($this));
+        }
 
         return $this;
     }

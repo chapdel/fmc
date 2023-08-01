@@ -3,10 +3,13 @@
 namespace Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\TransactionalMail\Listeners\StoreTransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\TransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Support\AddressNormalizer;
+use Spatie\Mailcoach\Domain\TransactionalMail\Support\TransactionalMailMessageConfig;
 use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Http\Api\Requests\SendTransactionalMailRequest;
 use Spatie\Mailcoach\Mailcoach;
@@ -26,7 +29,7 @@ class SendTransactionalMailController
 
         $normalizer = new AddressNormalizer();
 
-        $mail = new TransactionalMail(
+        $transactionalMail = new TransactionalMail(
             mailName: $request->get('mail_name'),
             subject: $request->get('subject', ''),
             from: $normalizer->normalize($request->get('from')),
@@ -41,7 +44,21 @@ class SendTransactionalMailController
             html: $request->html,
         );
 
-        Mail::mailer($request->get('mailer', Mailcoach::defaultTransactionalMailer()))->send($mail);
+        if ($request->fake) {
+            $emailMock = $transactionalMail->toEmail();
+            $emailMock->getHeaders()
+                ->addTextHeader(TransactionalMailMessageConfig::HEADER_NAME_STORE, true)
+                ->addTextHeader(TransactionalMailMessageConfig::HEADER_NAME_MAILABLE_CLASS, TransactionalMail::class);
+
+            (new StoreTransactionalMail())
+                ->handle(new MessageSending(($emailMock), ['fake' => true]));
+
+            return $this->respondOk();
+        }
+
+        $name = $request->get('mailer', Mailcoach::defaultTransactionalMailer());
+
+        Mail::mailer($name)->send($transactionalMail, ['fake' => $request->fake]);
 
         return $this->respondOk();
     }
