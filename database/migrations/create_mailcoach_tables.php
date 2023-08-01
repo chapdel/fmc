@@ -745,11 +745,15 @@ return new class extends Migration
 
         Schema::create('mailcoach_webhook_configurations', function (Blueprint $table) {
             $table->id();
+            $table->boolean('enabled')->default(true);
             $table->uuid()->unique();
             $table->string('name');
             $table->text('url');
             $table->string('secret');
             $table->boolean('use_for_all_lists')->default(true);
+            $table->boolean('use_for_all_events')->default(true);
+            $table->integer('failed_attempts')->default(0);
+            $table->json('events')->nullable();
             $table->timestamps();
         });
 
