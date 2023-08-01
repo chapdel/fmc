@@ -13,9 +13,9 @@
             @keydown.prevent.window.ctrl.s="$wire.call('save')"
             method="POST"
         >
-            <x-mailcoach::text-field :label="__mc('Name')" name="template.name" wire:model="template.name" required />
+            <x-mailcoach::text-field :label="__mc('Name')" name="name" wire:model="name" required />
 
-            @livewire(\Livewire\Livewire::getAlias(config('mailcoach.template_editor')), [
+            @livewire(config('mailcoach.template_editor'), [
                 'model' => $template,
                 'quiet' => true,
             ])

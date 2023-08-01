@@ -188,7 +188,7 @@ class SubscribersComponent extends TableComponent
                     'subscribed' => $query->subscribed(),
                     'unsubscribed' => $query->unsubscribed(),
                     'unconfirmed' => $query->unconfirmed(),
-                    null => $query,
+                    default => $query,
                 }),
             SelectFilter::make('tags')
                 ->label(__mc('Tags'))

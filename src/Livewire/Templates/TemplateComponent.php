@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Livewire\Templates;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
@@ -22,32 +23,32 @@ class TemplateComponent extends Component
 
     public TemplateModel $template;
 
+    #[Rule('required')]
+    public ?string $name;
+
+    #[Rule('required')]
+    public ?string $html;
+
     protected $listeners = [
         'editorSaved' => 'save',
     ];
-
-    protected function rules(): array
-    {
-        return [
-            'template.name' => 'required',
-            'template.html' => 'required',
-        ];
-    }
 
     public function mount(TemplateModel $template)
     {
         $this->authorize('update', $template);
 
         $this->template = $template;
+        $this->name = $template->name;
+        $this->html = $template->getHtml();
     }
 
     public function save()
     {
-        $data = $this->validate();
+        $this->validate();
 
         $this->template->refresh();
 
-        $this->template->name = $data['template']['name'];
+        $this->template->name = $this->name;
         $this->template->save();
 
         $this->reRenderEmailsUsingTemplate();

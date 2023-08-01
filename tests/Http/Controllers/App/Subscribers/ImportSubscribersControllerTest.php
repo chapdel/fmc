@@ -229,7 +229,7 @@ function uploadStub(string $stubName, array $parameters = [], string $asFilename
     return \Livewire\Livewire::test('mailcoach::subscriber-imports', ['emailList' => test()->emailList])
         ->set('file', $file)
         ->set($parameters)
-        ->call('upload');
+        ->call('startImport');
 }
 
 function getStubPath(string $name): string

@@ -215,7 +215,7 @@ class CampaignsComponent extends TableComponent
             'email_list_id' => $campaign->email_list_id,
             'html' => $campaign->html,
             'structured_html' => $campaign->structured_html,
-            'utm_tags' => $campaign->utm_tags,
+            'utm_tags' => (bool) $campaign->utm_tags,
             'last_modified_at' => now(),
             'segment_class' => $campaign->segment_class,
             'segment_id' => $campaign->segment_id,

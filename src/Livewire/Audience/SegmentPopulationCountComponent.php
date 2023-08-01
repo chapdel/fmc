@@ -14,32 +14,34 @@ class SegmentPopulationCountComponent extends Component
     public TagSegment $segment;
 
     protected $listeners = [
-        'segmentUpdated' => '$refresh',
+        'segmentUpdated' => 'refreshResult',
     ];
 
     public function mount(TagSegment $segment)
     {
         $this->segment = $segment;
+        $this->refreshResult();
     }
 
-    public function load()
+    public function refreshResult(): void
     {
-        $this->readyToLoad = true;
+        $this->result = $this->segment->getSubscribersQuery()->count();
     }
 
-    public function render()
+    public function placeholder(): string
     {
-        if ($this->readyToLoad) {
-            $this->result = $this->segment->getSubscribersQuery()->count();
-        }
-
         return <<<'blade'
-            <span wire:init="load" title="{{ number_format($result) }}">
-                @if ($readyToLoad)
-                {{ Str::shortNumber($result) }}
-                @else
+            <span>
                 ...
-                @endif
+            </span>
+        blade;
+    }
+
+    public function render(): string
+    {
+        return <<<'blade'
+            <span title="{{ number_format($result) }}">
+                {{ Str::shortNumber($result) }}
             </span>
         blade;
     }

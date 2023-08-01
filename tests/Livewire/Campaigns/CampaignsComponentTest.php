@@ -1,6 +1,6 @@
 <?php
 
-use function Pest\Livewire\livewire;
+use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Livewire\Campaigns\CampaignsComponent;
 
@@ -8,20 +8,11 @@ beforeEach(function () {
     $this->campaign = Campaign::factory()->create();
 });
 
-it('can delete a campaign', function () {
-    test()->authenticate();
-
-    livewire(CampaignsComponent::class)
-        ->call('deleteCampaign', $this->campaign->id);
-
-    expect(Campaign::count())->toBe(0);
-});
-
 it('can duplicate a campaign', function () {
     test()->authenticate();
 
-    livewire(CampaignsComponent::class)
-        ->call('duplicateCampaign', $this->campaign->id)
+    Livewire::test(CampaignsComponent::class)
+        ->call('duplicateCampaign', $this->campaign)
         ->assertRedirect(route('mailcoach.campaigns.settings', Campaign::orderByDesc('id')->first()));
 
     expect(Campaign::count())->toBe(2);

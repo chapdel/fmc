@@ -67,7 +67,6 @@ class SubscriberImportsComponent extends TableComponent
 
         /** @var \Livewire\Features\SupportFileUploads\TemporaryUploadedFile $file */
         $file = $this->file;
-        $path = $file->store('subscriber-import');
 
         /** @var \Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport $subscriberImport */
         $subscriberImport = self::getSubscriberImportClass()::create([

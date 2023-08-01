@@ -37,7 +37,11 @@ class ListsComponent extends TableComponent
     {
         return [
             Action::make('Delete')
-                ->action(fn (EmailList $record) => $record->delete())
+                ->action(function (EmailList $record) {
+                    $this->authorize('delete', $record);
+
+                    return $record->delete();
+                })
                 ->requiresConfirmation()
                 ->label(' ')
                 ->icon('heroicon-o-trash')

@@ -24,6 +24,8 @@ it('will not delete a personal access token belonging to another user', function
 
     $anotherUser->createToken('test');
 
+    $this->expectException(\Symfony\Component\HttpKernel\Exception\HttpException::class);
+
     \Livewire\Livewire::test('mailcoach::tokens')
         ->call('delete', $anotherUser->personalAccessTokens()->first()->id)
         ->assertForbidden();

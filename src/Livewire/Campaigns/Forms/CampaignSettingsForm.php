@@ -31,22 +31,22 @@ class CampaignSettingsForm extends Form
 
     public ?int $email_list_id;
 
-    public bool $utm_tags;
+    public ?bool $utm_tags;
 
-    public bool $add_subscriber_tags;
+    public ?bool $add_subscriber_tags;
 
-    public bool $add_subscriber_link_tags;
+    public ?bool $add_subscriber_link_tags;
 
     public ?int $segment_id;
 
-    public bool $show_publicly;
+    public ?bool $show_publicly;
 
     public function setCampaign(Campaign $campaign)
     {
         $this->campaign = $campaign;
 
         $this->name = $campaign->name;
-        $this->subject = $campaign->subject;
+        $this->subject = $campaign->getAttributes()['subject'] ?? null;
         $this->from_email = $campaign->from_email;
         $this->from_name = $campaign->from_name;
         $this->reply_to_email = $campaign->reply_to_email;

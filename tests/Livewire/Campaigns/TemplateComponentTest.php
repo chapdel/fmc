@@ -10,7 +10,7 @@ it('can save a template', function () {
     $this->authenticate();
 
     Livewire::test(TemplateComponent::class, ['template' => Template::factory()->create(['name' => 'old'])])
-        ->set('template.name', 'new')
+        ->set('name', 'new')
         ->call('save');
 
     $this->assertDatabaseHas(static::getTemplateTableName(), ['name' => 'new']);

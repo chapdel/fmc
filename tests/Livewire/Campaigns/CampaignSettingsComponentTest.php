@@ -19,11 +19,11 @@ it('can update the settings of a campaign', function () {
     ]);
 
     Livewire::test(CampaignSettingsComponent::class, ['campaign' => $campaign])
-        ->set('campaign.name', 'updated name')
-        ->set('campaign.email_list_id', EmailList::factory()->create()->id)
-        ->set('campaign.add_subscriber_tags', true)
-        ->set('campaign.add_subscriber_link_tags', true)
-        ->set('campaign.utm_tags', true)
+        ->set('form.name', 'updated name')
+        ->set('form.email_list_id', EmailList::factory()->create()->id)
+        ->set('form.add_subscriber_tags', true)
+        ->set('form.add_subscriber_link_tags', true)
+        ->set('form.utm_tags', true)
         ->set('segment', 'entire_list')
         ->call('save')
         ->assertHasNoErrors();

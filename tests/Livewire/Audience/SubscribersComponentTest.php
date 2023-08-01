@@ -10,10 +10,10 @@ use Spatie\Mailcoach\Livewire\Audience\SubscribersComponent;
 
 beforeEach(function () {
     $this->emailList = EmailList::factory()->create();
+    test()->authenticate();
 });
 
 it('can resend the confirmation mail with the correct mailer', function () {
-    test()->authenticate();
     Mail::fake();
 
     $emailList = EmailList::factory()->create([
@@ -30,7 +30,7 @@ it('can resend the confirmation mail with the correct mailer', function () {
     });
 
     Livewire::test(SubscribersComponent::class, ['emailList' => $this->emailList])
-        ->call('resendConfirmation', $subscriber->id);
+        ->call('resendConfirmation', $subscriber);
 
     Mail::assertQueued(ConfirmSubscriberMail::class, 2);
 });
@@ -43,7 +43,7 @@ it('can confirm a subscriber', function () {
     expect($subscriber->status)->toEqual(SubscriptionStatus::Unconfirmed);
 
     Livewire::test(SubscribersComponent::class, ['emailList' => $this->emailList])
-        ->call('confirm', $subscriber->id);
+        ->call('confirm', $subscriber);
 
     expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::Subscribed);
 });
@@ -57,8 +57,8 @@ it('will confirm unconfirmed subscribers', function () {
     expect($subscriber->status)->toEqual(SubscriptionStatus::Unsubscribed);
 
     Livewire::test(SubscribersComponent::class, ['emailList' => $this->emailList])
-        ->call('confirm', $subscriber->id)
-        ->assertDispatchedBrowserEvent('notify', [
+        ->call('confirm', $subscriber)
+        ->assertDispatched('notify', [
             'content' => __mc('Can only subscribe unconfirmed emails'),
             'type' => 'error',
         ]);
@@ -73,7 +73,7 @@ it('can resubscribe a subscriber', function () {
     expect($subscriber->status)->toEqual(SubscriptionStatus::Unsubscribed);
 
     Livewire::test(SubscribersComponent::class, ['emailList' => $this->emailList])
-        ->call('resubscribe', $subscriber->id);
+        ->call('resubscribe', $subscriber);
 
     expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::Subscribed);
 });
@@ -84,8 +84,8 @@ it('will only resubscribe unsubscribed subscribers', function () {
     expect($subscriber->status)->toEqual(SubscriptionStatus::Subscribed);
 
     Livewire::test(SubscribersComponent::class, ['emailList' => $this->emailList])
-        ->call('resubscribe', $subscriber->id)
-        ->assertDispatchedBrowserEvent('notify', [
+        ->call('resubscribe', $subscriber)
+        ->assertDispatched('notify', [
             'content' => __mc('Can only resubscribe unsubscribed subscribers'),
             'type' => 'error',
         ]);
@@ -99,7 +99,7 @@ it('can unsubscribe a subscriber', function () {
     expect($subscriber->status)->toEqual(SubscriptionStatus::Subscribed);
 
     Livewire::test(SubscribersComponent::class, ['emailList' => $this->emailList])
-        ->call('unsubscribe', $subscriber->id);
+        ->call('unsubscribe', $subscriber);
 
     expect($subscriber->refresh()->status)->toEqual(SubscriptionStatus::Unsubscribed);
 });
@@ -112,8 +112,8 @@ it('will only unsubscribe subscribed subscribers', function () {
     expect($subscriber->status)->toEqual(SubscriptionStatus::Unsubscribed);
 
     Livewire::test(SubscribersComponent::class, ['emailList' => $this->emailList])
-        ->call('unsubscribe', $subscriber->id)
-        ->assertDispatchedBrowserEvent('notify', [
+        ->call('unsubscribe', $subscriber)
+        ->assertDispatched('notify', [
             'content' => __mc('Can only unsubscribe a subscribed subscriber'),
             'type' => 'error',
         ]);
@@ -125,7 +125,7 @@ it('can delete a subscriber', function () {
     $subscriber = Subscriber::factory()->create();
 
     Livewire::test(SubscribersComponent::class, ['emailList' => $this->emailList])
-        ->call('deleteSubscriber', $subscriber->id);
+        ->call('deleteSubscriber', $subscriber);
 
     expect(Subscriber::count())->toBe(0);
 });

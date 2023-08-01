@@ -32,10 +32,8 @@ class TokensComponent extends Component
         $this->name = '';
     }
 
-    public function delete(int $id)
+    public function delete(PersonalAccessToken $token)
     {
-        $token = PersonalAccessToken::find($id);
-
         abort_unless($token?->tokenable_id === Auth::id(), 403);
 
         $token->delete();

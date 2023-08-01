@@ -7,7 +7,7 @@
             <x-mailcoach::navigation-item wire:click.prevent="$set('tab', 'population')" :active="$tab === 'population'">
                 <x-mailcoach::icon-label invers>
                     <x-slot:count>
-                        <livewire:mailcoach::segment-population-count :segment="$segment" />
+                        <livewire:mailcoach::segment-population-count lazy :segment="$segment" />
                     </x-slot:count>
                     <x-slot:text>
                         {{ __mc('Population') }}

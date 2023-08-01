@@ -7,10 +7,11 @@ use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Livewire\Features\SupportRedirects\Redirector;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
 use Spatie\Mailcoach\Livewire\TableComponent;
 use Spatie\Mailcoach\MainNavigation;
@@ -101,7 +102,7 @@ class SegmentsComponent extends TableComponent
         return 'heroicon-o-user-group';
     }
 
-    public function duplicateSegment(TagSegment $segment)
+    public function duplicateSegment(TagSegment $segment): RedirectResponse|Redirector
     {
         $this->authorize('update', $this->emailList);
 
@@ -110,12 +111,6 @@ class SegmentsComponent extends TableComponent
             'name' => "{$segment->name} - ".__mc('copy'),
             'email_list_id' => $segment->email_list_id,
         ]);
-
-        $positiveTagNames = $segment->positiveTags->map(fn (Tag $tag) => $tag->name)->toArray();
-        $duplicateSegment->syncPositiveTags($positiveTagNames);
-
-        $negativeTagNames = $segment->negativeTags->map(fn (Tag $tag) => $tag->name)->toArray();
-        $duplicateSegment->syncNegativeTags($negativeTagNames);
 
         flash()->success(__mc('Segment :segment was duplicated.', ['segment' => $segment->name]));
 
