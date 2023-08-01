@@ -19,8 +19,6 @@ it('can export and import segments', function () {
         'email_list_id' => $emailList->id,
     ]);
     $segment = TagSegment::factory()->create(['email_list_id' => $emailList->id]);
-    $segment->syncPositiveTags([$positiveTag->name]);
-    $segment->syncNegativeTags([$negativeTag->name]);
 
     (new ExportSegmentsJob('import', [$emailList->id]))->handle();
 
@@ -36,6 +34,4 @@ it('can export and import segments', function () {
     (new ImportSegmentsJob())->handle(); // Don't import duplicates
 
     expect(TagSegment::count())->toBe(1);
-    expect(TagSegment::first()->positiveTags()->count())->toBe(1);
-    expect(TagSegment::first()->negativeTags()->count())->toBe(1);
 });

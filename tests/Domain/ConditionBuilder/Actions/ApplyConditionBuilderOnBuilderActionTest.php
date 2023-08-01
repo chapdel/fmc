@@ -28,7 +28,6 @@ it('can build a query from a stored condition collection', function () {
 
     /** @var TagSegment $segment */
     $segment = TagSegmentFactory::new()->create();
-    $segment->positiveTags()->attach($tag1);
 
     test()->assertFalse($builder->exists());
 
@@ -40,7 +39,6 @@ it('can build a query from a stored condition collection', function () {
 
     /** @var TagSegment $segment */
     $segment = TagSegmentFactory::new()->create();
-    $segment->positiveTags()->attach($tag2);
 
     $builder = $action->execute(Subscriber::query(), $collection);
 

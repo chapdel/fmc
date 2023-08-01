@@ -19,13 +19,13 @@ it('listens to edit and saved events to disable the save button', function () {
     Livewire::test(AutomationActionsComponent::class, [
         'automation' => $automation,
     ])->assertDontSee('disabled')
-        ->emit('editAction', $someActionUuid)
+        ->dispatch('editAction', $someActionUuid)
         ->assertSee('disabled')
-        ->emit('actionSaved', $someActionUuid, [])
+        ->dispatch('actionSaved', $someActionUuid, [])
         ->assertDontSee('disabled')
-        ->emit('editAction', $someActionUuid)
+        ->dispatch('editAction', $someActionUuid)
         ->assertSee('disabled')
-        ->emit('actionDeleted', $someActionUuid)
+        ->dispatch('actionDeleted', $someActionUuid)
         ->assertDontSee('disabled');
 });
 
@@ -54,7 +54,7 @@ it('updates actions when the default builder is updated', function () {
         'automation' => $automation,
     ])->assertSee(json_encode([
         $automation->actions->first()->toLivewireArray(),
-    ]))->emit('automationBuilderUpdated', [
+    ]))->dispatch('automationBuilderUpdated', [
         'name' => 'default',
         'actions' => [
             [
@@ -68,7 +68,7 @@ it('updates actions when the default builder is updated', function () {
                 'completed' => 0,
             ],
         ],
-    ])->assertViewHas('actions', [
+    ])->assertSet('actions', [
         [
             'uuid' => '486b38a0-1421-43c9-ab3f-debd0e959650',
             'class' => WaitAction::class,
@@ -96,7 +96,7 @@ it('doesnt update when other builders get updated', function () {
     ]))->dispatch('automationBuilderUpdated', [
         'name' => 'some-other',
         'actions' => [],
-    ])->assertViewHas('actions', [
+    ])->assertSet('actions', [
         $automation->actions->first()->toLivewireArray(),
     ]);
 });

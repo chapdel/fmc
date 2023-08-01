@@ -1,7 +1,7 @@
 <div>
     <input type="hidden" name="actions" value="{{ json_encode($actions) }}">
 
-    @if(count($actions) == 0)
+    @if(count($actions) === 0)
         <x-mailcoach::card class="md:p-6 card-top-level">
             @include('mailcoach::app.automations.components.actionCategories')
         </x-mailcoach::card>

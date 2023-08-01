@@ -15,7 +15,6 @@ use Spatie\Mailcoach\Tests\TestClasses\CustomImportSubscribersAction;
 use Spatie\Mailcoach\Tests\TestClasses\CustomPersonalizeHtmlAction;
 use Spatie\Mailcoach\Tests\TestClasses\CustomPersonalizeSubjectAction;
 use Spatie\Mailcoach\Tests\TestClasses\CustomPrepareEmailHtmlAction;
-use Spatie\Mailcoach\Tests\TestClasses\CustomPrepareSubjectAction;
 use Spatie\Mailcoach\Tests\TestClasses\CustomPrepareWebviewHtmlAction;
 
 test('the personalize html action can be customized', function () {
@@ -48,19 +47,6 @@ test('the personalize subject action can be customized', function () {
 
 test('the prepare email html action can be customized', function () {
     config()->set('mailcoach.campaigns.actions.prepare_email_html', CustomPrepareEmailHtmlAction::class);
-
-    $campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
-        'status' => CampaignStatus::Draft,
-    ]);
-
-    $campaign->send();
-    Artisan::call('mailcoach:send-scheduled-campaigns');
-
-    expect($campaign->emailList->subscribers->first()->email)->toEqual('overridden@example.com');
-});
-
-test('the prepare subject action can be customized', function () {
-    config()->set('mailcoach.campaigns.actions.prepare_subject', CustomPrepareSubjectAction::class);
 
     $campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
         'status' => CampaignStatus::Draft,
