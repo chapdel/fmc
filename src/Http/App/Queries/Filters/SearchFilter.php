@@ -16,6 +16,10 @@ class SearchFilter implements Filter
 
     public function __invoke(Builder $query, $value, string $property): Builder
     {
+        if (is_array($value)) {
+            $value = implode(',', $value);
+        }
+
         if ($query->from === self::getSubscriberTableName() && config('mailcoach.encryption.enabled')) {
             if (str_contains($value, '@')) {
                 $query->orWhere(function (Builder $builder) use ($value, $query) {
