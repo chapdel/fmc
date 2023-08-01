@@ -64,6 +64,7 @@
 
 .fi-ta .fi-select-input {
     @apply input;
+    @apply pr-8;
 }
 
 .fi-ta-selection-indicator button.font-medium {
@@ -142,4 +143,25 @@
 
 .tippy-content {
     @apply text-black;
+}
+
+ol.bg-white.shadow-sm:has(li > button.fi-pagination-item) {
+    @apply border border-indigo-700/20;
+    @apply rounded-md;
+    @apply shadow-blue-600/5;
+}
+
+ol.bg-white.shadow-sm:has(li > button.fi-pagination-item) > li {
+    @apply border-blue-600/5;
+}
+
+.fi-fo-affixes {
+    @apply border border-indigo-700/20;
+    @apply rounded-md;
+    @apply shadow-blue-600/5;
+}
+
+.fi-fo-affixes .fi-select-input {
+    @apply py-1.5;
+    min-height: 0;
 }
