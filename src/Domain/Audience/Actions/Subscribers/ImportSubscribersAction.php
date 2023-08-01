@@ -62,6 +62,16 @@ class ImportSubscribersAction
             ]);
 
             $reader = $this->createSimpleExcelReaderAction->execute($this->subscriberImport);
+
+            if (! in_array('email', $reader->getHeaders() ?? []) && ! in_array('Email Address', $reader->getHeaders() ?? [])) {
+                $this->subscriberImport->addError(__mc('No header row found. Make sure your first row has at least 1 column with "email"'));
+                $this->subscriberImport->update([
+                    'status' => SubscriberImportStatus::Failed,
+                ]);
+
+                return $this;
+            }
+
             $reader
                 ->getRows()
                 ->each(function (array $values) use (&$totalRows) {
