@@ -63,7 +63,7 @@ class TagSegment extends Model
             ->orderBy('name');
     }
 
-    public function syncPositiveTags(array $tagNames, ?ComparisonOperator $operator = null): self
+    public function syncPositiveTags(array $tagNames, ComparisonOperator $operator = null): self
     {
         return $this->syncTags($tagNames, $this->positiveTags());
 
@@ -84,7 +84,7 @@ class TagSegment extends Model
         return $this;
     }
 
-    public function syncNegativeTags(array $tagNames, ?ComparisonOperator $operator = null): self
+    public function syncNegativeTags(array $tagNames, ComparisonOperator $operator = null): self
     {
         return $this->syncTags($tagNames, $this->negativeTags());
 
