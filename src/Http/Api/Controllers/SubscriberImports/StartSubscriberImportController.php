@@ -30,6 +30,8 @@ class StartSubscriberImportController
             ->usingFileName('subscribers.csv')
             ->toMediaCollection('importFile');
 
+        $subscriberImport->update(['subscribers_csv' => null]);
+
         dispatch(new ImportSubscribersJob($subscriberImport, $user instanceof User ? $user : null, request('sendNotification', true)));
 
         return $this->respondOk();
