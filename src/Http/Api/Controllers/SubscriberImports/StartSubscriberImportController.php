@@ -19,6 +19,7 @@ class StartSubscriberImportController
     public function __invoke(SubscriberImport $subscriberImport)
     {
         $this->authorize('update', $subscriberImport->emailList);
+        $this->authorize('start', $subscriberImport);
 
         if ($subscriberImport->status !== SubscriberImportStatus::Draft) {
             abort(Response::HTTP_UNPROCESSABLE_ENTITY, 'Cannot start a non-draft import.');
