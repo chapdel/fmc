@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Livewire\Export;
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Cache;
@@ -57,8 +56,6 @@ class ExportComponent extends Component
         $this->templates = self::getTemplateClass()::pluck('name', 'id');
         $this->automationMails = self::getAutomationMailClass()::pluck('name', 'id');
         $this->transactionalMailTemplates = self::getTransactionalMailClass()::pluck('name', 'id');
-
-        $this->selectedEmailLists = Arr::wrap(request('email_lists', []));
     }
 
     public function selectAllEmailLists()

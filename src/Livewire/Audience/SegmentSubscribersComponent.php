@@ -27,7 +27,7 @@ class SegmentSubscribersComponent extends SubscribersComponent
         return $this->segment->name;
     }
 
-    protected function getTableQuery(): Builder
+    public function getTableQuery(): Builder
     {
         return $this->segment->getSubscribersQuery();
     }

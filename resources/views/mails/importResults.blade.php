@@ -9,8 +9,8 @@
 {{ __mc_choice('There was 1 error.|There were :count errors.', count($subscriberImport->errors ?? [])) }}
 @endif
 
-@component('mailcoach::mails.layout.button', ['url' => action([\Spatie\Mailcoach\Http\Api\Controllers\SubscriberImports\SubscriberImportsController::class, 'index'], $subscriberImport->emailList)])
-{{ __mc('View list') }}
+@component('mailcoach::mails.layout.button', ['url' => route('mailcoach.emailLists.import-subscribers', $subscriberImport->emailList)])
+{{ __mc('View imports') }}
 @endcomponent
 
 @endcomponent

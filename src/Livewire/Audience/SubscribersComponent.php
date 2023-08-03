@@ -17,10 +17,10 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Livewire\Attributes\Computed;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\DeleteSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\SendConfirmSubscriberMailAction;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
+use Spatie\Mailcoach\Domain\Audience\Jobs\ExportSubscribersJob;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
@@ -53,7 +53,7 @@ class SubscribersComponent extends TableComponent
         return 'desc';
     }
 
-    protected function getTableQuery(): Builder
+    public function getTableQuery(): Builder
     {
         return self::getSubscriberClass()::query()
             ->where(self::getSubscriberTableName().'.email_list_id', $this->emailList->id)
@@ -307,10 +307,6 @@ class SubscribersComponent extends TableComponent
                         title: "{$this->emailList->name} subscribers",
                     );
                 }),
-            BulkAction::make('export_all')
-                ->label(__mc('Export all'))
-                ->icon('heroicon-o-cloud-arrow-down')
-                ->action(fn () => redirect()->route('export', ['email_lists' => $this->emailList->id])),
             BulkAction::make('Unsubscribe')
                 ->label(__mc('Unsubscribe'))
                 ->icon('heroicon-o-x-circle')
@@ -346,17 +342,46 @@ class SubscribersComponent extends TableComponent
         ];
     }
 
-    #[Computed]
+    protected function getTableHeaderActions(): array
+    {
+        return [
+            Action::make('export_subscribers')
+                ->label(function () {
+                    return __mc('Export :count subscribers', ['count' => Str::shortNumber($this->getAllTableRecordsCount())]);
+                })
+                ->requiresConfirmation()
+                ->color('gray')
+                ->icon('heroicon-o-cloud-arrow-down')
+                ->action(function () {
+                    $export = self::getSubscriberExportClass()::create([
+                        'email_list_id' => $this->emailList->id,
+                        'filters' => $this->tableFilters,
+                    ]);
+
+                    dispatch(new ExportSubscribersJob(
+                        subscriberExport: $export,
+                        user: Auth::user(),
+                    ));
+
+                    $this->flash(__mc('Subscriber export successfully queued.'));
+
+                    return redirect()->route('mailcoach.emailLists.subscriber-exports', [$this->emailList]);
+                }),
+        ];
+    }
+
     public function subscribersCount(): int
     {
-        return $this->emailList->allSubscribers()->count();
+        return once(function () {
+            return $this->emailList->allSubscribers()->count();
+        });
     }
 
     public function getTable(): Table
     {
         $table = parent::getTable();
 
-        if ($this->subscribersCount >= 10_000) {
+        if ($this->subscribersCount() >= 10_000) {
             $table->selectCurrentPageOnly();
         }
 

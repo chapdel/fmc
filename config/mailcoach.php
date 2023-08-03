@@ -32,6 +32,7 @@ return [
             'send_test_mail_job' => 'mailcoach',
             'process_feedback_job' => 'mailcoach-feedback',
             'import_subscribers_job' => 'mailcoach',
+            'export_subscribers_job' => 'mailcoach',
         ],
 
         /*
@@ -184,6 +185,11 @@ return [
          * This disk will be used to store files regarding importing subscribers.
          */
         'import_subscribers_disk' => 'local',
+
+        /*
+         * This disk will be used to store files regarding exporting subscribers.
+         */
+        'export_subscribers_disk' => 'local',
 
         /**
          * Whether if the website feature is enabled.
@@ -460,6 +466,13 @@ return [
         'subscriber_import' => \Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport::class,
 
         /*
+         * The model you want to use as a SubscriberExport model. It needs to be or
+         * extend the `Spatie\Mailcoach\Domain\Audience\Models\SubscriberExport::class`
+         * model.
+         */
+        'subscriber_export' => \Spatie\Mailcoach\Domain\Audience\Models\SubscriberExport::class,
+
+        /*
          * The model you want to use as a Tag model. It needs to be or
          * extend the `Spatie\Mailcoach\Domain\Audience\Models\Tag::class`
          * model.
@@ -620,6 +633,7 @@ return [
         'subscribers' => \Spatie\Mailcoach\Livewire\Audience\SubscribersComponent::class,
         'subscriber' => \Spatie\Mailcoach\Livewire\Audience\SubscriberComponent::class,
         'subscriber-imports' => \Spatie\Mailcoach\Livewire\Audience\SubscriberImportsComponent::class,
+        'subscriber-exports' => \Spatie\Mailcoach\Livewire\Audience\SubscriberExportsComponent::class,
         'subscriber-sends' => \Spatie\Mailcoach\Livewire\Audience\SubscriberSendsComponent::class,
         'create-tag' => \Spatie\Mailcoach\Livewire\Audience\CreateTagComponent::class,
         'tags' => \Spatie\Mailcoach\Livewire\Audience\TagsComponent::class,

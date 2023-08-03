@@ -97,6 +97,7 @@ use Spatie\Mailcoach\Livewire\Audience\SegmentPopulationCountComponent;
 use Spatie\Mailcoach\Livewire\Audience\SegmentsComponent;
 use Spatie\Mailcoach\Livewire\Audience\SegmentSubscribersComponent;
 use Spatie\Mailcoach\Livewire\Audience\SubscriberComponent;
+use Spatie\Mailcoach\Livewire\Audience\SubscriberExportsComponent;
 use Spatie\Mailcoach\Livewire\Audience\SubscriberImportsComponent;
 use Spatie\Mailcoach\Livewire\Audience\SubscribersComponent;
 use Spatie\Mailcoach\Livewire\Audience\SubscriberSendsComponent;
@@ -638,6 +639,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::subscriber', Mailcoach::getLivewireClass('subscriber', SubscriberComponent::class));
         Livewire::component('mailcoach::subscriber-sends', Mailcoach::getLivewireClass('subscriber-sends', SubscriberSendsComponent::class));
         Livewire::component('mailcoach::subscriber-imports', Mailcoach::getLivewireClass('subscriber-imports', SubscriberImportsComponent::class));
+        Livewire::component('mailcoach::subscriber-exports', Mailcoach::getLivewireClass('subscriber-exports', SubscriberExportsComponent::class));
         Livewire::component('mailcoach::create-tag', Mailcoach::getLivewireClass('create-tag', CreateTagComponent::class));
         Livewire::component('mailcoach::tags', Mailcoach::getLivewireClass('tags', TagsComponent::class));
         Livewire::component('mailcoach::tag', Mailcoach::getLivewireClass('tag', TagComponent::class));

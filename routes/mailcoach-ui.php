@@ -55,6 +55,7 @@ Route::prefix('email-lists')->group(function () {
         });
 
         Route::get('import-subscribers', '\\'.Mailcoach::getLivewireClass('subscriber-imports', \Spatie\Mailcoach\Livewire\Audience\SubscriberImportsComponent::class))->name('mailcoach.emailLists.import-subscribers');
+        Route::get('subscriber-exports', '\\'.Mailcoach::getLivewireClass('subscriber-exports', \Spatie\Mailcoach\Livewire\Audience\SubscriberExportsComponent::class))->name('mailcoach.emailLists.subscriber-exports');
 
         Route::get('settings', '\\'.Mailcoach::getLivewireClass('list-settings', \Spatie\Mailcoach\Livewire\Audience\ListSettingsComponent::class))->name('mailcoach.emailLists.general-settings');
         Route::get('onboarding', '\\'.Mailcoach::getLivewireClass('list-onboarding', \Spatie\Mailcoach\Livewire\Audience\ListOnboardingComponent::class))->name('mailcoach.emailLists.onboarding');

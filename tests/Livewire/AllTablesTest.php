@@ -21,6 +21,7 @@ test('all tables render', function ($class) {
     'SubscribersComponent' => \Spatie\Mailcoach\Livewire\Audience\SubscribersComponent::class,
     'SubscriberSendsComponent' => \Spatie\Mailcoach\Livewire\Audience\SubscriberSendsComponent::class,
     'SubscriberImportsComponent' => \Spatie\Mailcoach\Livewire\Audience\SubscriberImportsComponent::class,
+    'SubscriberExportsComponent' => \Spatie\Mailcoach\Livewire\Audience\SubscriberExportsComponent::class,
     'TagsComponent' => \Spatie\Mailcoach\Livewire\Audience\TagsComponent::class,
     'AutomationsComponent' => \Spatie\Mailcoach\Livewire\Automations\AutomationsComponent::class,
     'AutomationMailsComponent' => \Spatie\Mailcoach\Livewire\Automations\AutomationMailsComponent::class,

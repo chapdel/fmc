@@ -415,6 +415,23 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::create('mailcoach_subscriber_exports', function (Blueprint $table) {
+            $table->id();
+            $table->uuid('uuid')->unique();
+            $table->string('status');
+
+            $table
+                ->foreignId('email_list_id')
+                ->nullable()
+                ->constrained('mailcoach_email_lists')
+                ->cascadeOnDelete();
+
+            $table->json('filters')->nullable();
+            $table->integer('exported_subscribers_count')->default(0);
+            $table->text('errors')->nullable();
+            $table->timestamps();
+        });
+
         Schema::create('mailcoach_tags', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();

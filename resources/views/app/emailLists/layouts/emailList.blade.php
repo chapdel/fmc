@@ -17,6 +17,11 @@
                             <x-mailcoach::icon-label icon="fa-fw far fa-cloud-upload-alt" :text="__mc('Import subscribers')"/>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{route('mailcoach.emailLists.subscriber-exports', $emailList)}}">
+                            <x-mailcoach::icon-label icon="fa-fw far fa-cloud-download-alt" :text="__mc('Subscriber exports')"/>
+                        </a>
+                    </li>
                 </ul>
             </x-mailcoach::dropdown>
         </div>

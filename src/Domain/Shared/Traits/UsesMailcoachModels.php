@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Domain\Shared\Traits;
 
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Audience\Models\SubscriberExport;
 use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
@@ -198,6 +199,12 @@ trait UsesMailcoachModels
     public static function getSubscriberImportClass(): string
     {
         return config('mailcoach.models.subscriber_import', SubscriberImport::class);
+    }
+
+    /** @return class-string<SubscriberExport> */
+    public static function getSubscriberExportClass(): string
+    {
+        return config('mailcoach.models.subscriber_export', SubscriberExport::class);
     }
 
     public static function getEmailListTableName(): string
