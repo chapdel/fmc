@@ -11,7 +11,7 @@ class AddressNormalizer
      */
     public function normalize(?string $adresses): array
     {
-        if (is_null($adresses)) {
+        if (empty($adresses)) {
             return [];
         }
 
