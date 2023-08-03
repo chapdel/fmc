@@ -98,6 +98,7 @@ class ExportSubscribersAction
 
             $writer->close();
 
+            config()->set('media-library.max_file_size', 1024 * 1024 * 500); // 500MB
             $this->subscriberExport->addMedia($localExportFile)->toMediaCollection('file');
 
             $this->subscriberExport->update(['status' => SubscriberExportStatus::Completed]);

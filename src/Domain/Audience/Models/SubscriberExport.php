@@ -2,11 +2,9 @@
 
 namespace Spatie\Mailcoach\Domain\Audience\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\MassPrunable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Spatie\Mailcoach\Database\Factories\SubscriberExportFactory;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriberExportStatus;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -17,7 +15,6 @@ class SubscriberExport extends Model implements HasMedia
 {
     use InteractsWithMedia;
     use HasUuid;
-    use HasFactory;
     use MassPrunable;
     use UsesMailcoachModels;
 
@@ -60,11 +57,6 @@ class SubscriberExport extends Model implements HasMedia
             ->addMediaCollection('file')
             ->useDisk(config('mailcoach.audience.export_subscribers_disk'))
             ->singleFile();
-    }
-
-    protected static function newFactory(): SubscriberExportFactory
-    {
-        return new SubscriberExportFactory();
     }
 
     public function prunable()

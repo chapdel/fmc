@@ -19,7 +19,9 @@ class ExportSubscribersJob implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public $timeout = 60 * 60; // 1 hour
+    public bool $deleteWhenMissingModels = true;
+
+    public int $timeout = 60 * 60; // 1 hour
 
     public function __construct(
         public SubscriberExport $subscriberExport,
