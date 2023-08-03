@@ -10,12 +10,14 @@ use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Table;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Livewire\Attributes\Computed;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\DeleteSubscriberAction;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\SendConfirmSubscriberMailAction;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
@@ -305,6 +307,10 @@ class SubscribersComponent extends TableComponent
                         title: "{$this->emailList->name} subscribers",
                     );
                 }),
+            BulkAction::make('export_all')
+                ->label(__mc('Export all'))
+                ->icon('heroicon-o-cloud-arrow-down')
+                ->action(fn () => redirect()->route('export', ['email_lists' => $this->emailList->id])),
             BulkAction::make('Unsubscribe')
                 ->label(__mc('Unsubscribe'))
                 ->icon('heroicon-o-x-circle')
@@ -338,6 +344,23 @@ class SubscribersComponent extends TableComponent
                     $this->flash(__mc('Deleted :count subscribers', ['count' => $count]));
                 }),
         ];
+    }
+
+    #[Computed]
+    public function subscribersCount(): int
+    {
+        return $this->emailList->allSubscribers()->count();
+    }
+
+    public function getTable(): Table
+    {
+        $table = parent::getTable();
+
+        if ($this->subscribersCount >= 10_000) {
+            $table->selectCurrentPageOnly();
+        }
+
+        return $table;
     }
 
     public function deleteSubscriber(Subscriber $subscriber)

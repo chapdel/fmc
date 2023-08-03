@@ -60,6 +60,11 @@ class DashboardChart extends Component
         }
     }
 
+    public function placeholder()
+    {
+        return view('mailcoach::app.partials.dashboard-chart', ['placeholder' => true]);
+    }
+
     public function render()
     {
         $this->startSubscriptionsCount = self::getSubscriberClass()::subscribed()

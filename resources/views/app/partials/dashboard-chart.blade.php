@@ -1,5 +1,6 @@
+@php($placeholder ??= false)
 {{-- The @if statement formatting here is specifically to make empty:hidden work --}}
-<div class="empty:hidden card">@if ($stats->count())
+<div class="empty:opacity-0 card">@if (!$placeholder && $stats->count())
     <a href="#" class="mb-4 flex items-center gap-2 hover:text-blue-700">
         <h2 class="markup-h2 mb-0">
             {{ __mc('Audience Growth') }}

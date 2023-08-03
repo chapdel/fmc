@@ -85,7 +85,7 @@
         @include('mailcoach::app.layouts.partials.beforeDashboardGraph')
 
         <div class="md:col-span-12">
-            <livewire:mailcoach::dashboard-chart />
+            <livewire:mailcoach::dashboard-chart lazy />
         </div>
 
         @include('mailcoach::app.layouts.partials.afterDashboardGraph')
