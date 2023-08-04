@@ -45,6 +45,7 @@ class SendTransactionalMailController
         );
 
         if ($request->fake) {
+            $transactionalMail->build();
             $emailMock = $transactionalMail->toEmail();
             $emailMock->getHeaders()
                 ->addTextHeader(TransactionalMailMessageConfig::HEADER_NAME_STORE, true)

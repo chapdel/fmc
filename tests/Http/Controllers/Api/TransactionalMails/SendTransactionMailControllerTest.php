@@ -369,7 +369,6 @@ it('will not actually sent a mail when a fake parameter is passed', function () 
     $this
         ->postJson(action(SendTransactionalMailController::class, [
             'subject' => 'Some subject',
-            'mail_name' => 'my-template',
             'from' => 'rias@spatie.be',
             'to' => 'freek@spatie.be',
             'cc' => 'rias+cc@spatie.be',

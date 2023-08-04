@@ -9,7 +9,7 @@
     'dismissable' => false,
 ])
 <div>
-    @teleport('body')
+    <template x-teleport="body">
         <!-- {{ $name }} Modal -->
         <div
             x-data
@@ -66,5 +66,5 @@
                 </div>
             </div>
         </div>
-    @endteleport
+    </template>
 </div>
