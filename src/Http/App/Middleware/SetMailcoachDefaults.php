@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Middleware;
 
+use Filament\Notifications\Notification;
 use Filament\Support\Colors\Color;
 use Filament\Support\Facades\FilamentColor;
 use Illuminate\Auth\Notifications\ResetPassword;
@@ -36,6 +37,10 @@ class SetMailcoachDefaults
             'success' => Color::Green,
             'warning' => Color::Amber,
         ]);
+
+        Notification::configureUsing(function (Notification $notification): void {
+            $notification->view('mailcoach::app.layouts.partials.flash');
+        });
 
         return $next($request);
     }

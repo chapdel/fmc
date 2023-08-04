@@ -11,19 +11,19 @@
                 {{ __mc('These recipients will be merged with the ones when the mail is sent. You can specify multiple recipients comma separated.') }}
             </x-mailcoach::info>
             <x-mailcoach::text-field placeholder="john@example.com, jane@example.com" :label="__mc('To')"
-                                     name="template.to" wire:model.lazy="template.to"/>
+                                     name="to" wire:model.lazy="to"/>
             <x-mailcoach::text-field placeholder="john@example.com, jane@example.com" :label="__mc('Cc')"
-                                     name="template.cc" wire:model.lazy="template.cc"/>
+                                     name="cc" wire:model.lazy="cc"/>
             <x-mailcoach::text-field placeholder="john@example.com, jane@example.com" :label="__mc('Bcc')"
-                                     name="template.bcc" wire:model.lazy="template.bcc"/>
+                                     name="bcc" wire:model.lazy="bcc"/>
         </x-mailcoach::fieldset>
 
         <x-mailcoach::fieldset card :legend="__mc('Email')">
 
             <x-mailcoach::text-field
                     :label="__mc('Subject')"
-                    name="template.subject"
-                    wire:model.lazy="template.subject"
+                    name="subject"
+                    wire:model.lazy="subject"
                     required
             />
 
@@ -42,7 +42,7 @@
                     'markdown' => 'Markdown',
                     'blade' => 'Blade',
                     'blade-markdown' => 'Blade with Markdown',
-                ][$template->type] }}" name="template.body" wire:model.lazy="template.body"/>
+                ][$template->type] }}" name="body" wire:model.lazy="body"/>
 
                 <x-mailcoach::editor-buttons :model="$template" :preview-html="$template->body"/>
             @endif

@@ -10,13 +10,13 @@
 
     <title>{{ isset($title) ? "{$title} | Mailcoach" : 'Mailcoach' }}</title>
 
+    @filamentStyles
     @livewireStyles
     {!! Mailcoach::styles() !!}
 </head>
 <body class="text-gray-800 bg-indigo-900/5 ">
 <div id="app" class="min-h-screen flex flex-col p-10 gap-10">
     <div class="flex-grow flex items-center justify-center">
-        @include('mailcoach::app.layouts.partials.flash')
         <div class="card w-full max-w-md !p-0">
             <header class="navigation-main !relative !px-6 md:!px-10 !py-4 !rounded-b-none !rounded-t-md">
                 <a href="{{ route('mailcoach.login') }}" class="flex items-center group gap-2">
@@ -33,7 +33,7 @@
     </div>
     @include('mailcoach::app.layouts.partials.footer')
 </div>
-
+@filamentScripts
 @livewireScriptConfig
 {!! Mailcoach::scripts() !!}
 </body>

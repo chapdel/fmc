@@ -124,8 +124,6 @@
                 your license</a> and benefit from fixes and new features.
         </div>
     @endif
-
-    @include('mailcoach::app.layouts.partials.flash')
 </aside>
 
 <script>
