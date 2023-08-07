@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\App\Queries;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\App\Queries\Filters\FuzzyFilter;
@@ -14,7 +15,7 @@ class TransactionalMailQuery extends QueryBuilder
 
     public function __construct(Request $request = null)
     {
-        parent::__construct($this->getTransactionalMailLogItemClass()::query(), $request);
+        parent::__construct(self::getTransactionalMailLogItemClass()::query(), $request);
 
         $filterFields = array_map('trim', config('mailcoach.transactional.search_fields', ['subject']));
 
@@ -26,6 +27,11 @@ class TransactionalMailQuery extends QueryBuilder
                 'id',
             )
             ->allowedFilters(
+                AllowedFilter::callback('transport_message_id', function (Builder $query, $value) {
+                    $query->whereHas('send', function (Builder $query) use ($value) {
+                        $query->where('transport_message_id', $value);
+                    });
+                }),
                 AllowedFilter::custom('search', new FuzzyFilter(...$filterFields)),
             );
     }
