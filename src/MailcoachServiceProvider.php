@@ -531,9 +531,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
     {
         Livewire::setUpdateRoute(function ($handle) {
             return Route::post('/mailcoach/livewire/update', $handle)
-                ->middleware([
-                    BootstrapMailcoach::class,
-                ]);
+                ->middleware(config('mailcoach.middleware.web'));
         });
 
         Livewire::component('mailcoach::email-list-count', Mailcoach::getLivewireClass(EmailListCountComponent::class));
