@@ -10,6 +10,6 @@ trait RespondsToApiRequests
     {
         $user = UserFactory::new()->create();
 
-        $this->actingAs($user, 'sanctum');
+        $this->actingAs($user);
     }
 }

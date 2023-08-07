@@ -30,9 +30,9 @@ class UpdateSubscriberRequest extends FormRequest
 
     protected function getUniqueRule(): Unique
     {
-        $emailList = $this->route('emailList');
+        $emailList = $this->route('mc_emailList');
 
-        $subscriber = $this->route('subscriber');
+        $subscriber = $this->route('mc_subscriber');
 
         if (is_string($subscriber)) {
             $subscriber = self::getSubscriberClass()::findOrFail($subscriber);
@@ -42,7 +42,7 @@ class UpdateSubscriberRequest extends FormRequest
             $emailList = $subscriber->emailList;
         }
 
-        $rule = Rule::unique($this->getSubscriberTableName(), 'email')->where('email_list_id', $emailList->id);
+        $rule = Rule::unique(self::getSubscriberTableName(), 'email')->where('email_list_id', $emailList->id);
 
         $rule->ignore($subscriber->id);
 

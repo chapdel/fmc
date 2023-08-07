@@ -18,12 +18,10 @@ use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
-use Laravel\Sanctum\SanctumServiceProvider;
 use Livewire\LivewireServiceProvider;
 use LivewireUI\Spotlight\SpotlightServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\Feed\FeedServiceProvider;
-use Spatie\Flash\Flash;
 use Spatie\LaravelCipherSweet\LaravelCipherSweetServiceProvider;
 use Spatie\LaravelRay\RayServiceProvider;
 use Spatie\Mailcoach\Database\Factories\UserFactory;
@@ -74,12 +72,6 @@ abstract class TestCase extends Orchestra
         );
 
         View::addLocation(__DIR__.'/views');
-
-        Flash::levels([
-            'success' => 'success',
-            'warning' => 'warning',
-            'error' => 'error',
-        ]);
     }
 
     protected function tearDown(): void
@@ -101,7 +93,6 @@ abstract class TestCase extends Orchestra
             MediaLibraryServiceProvider::class,
             QueryBuilderServiceProvider::class,
             NavigationServiceProvider::class,
-            SanctumServiceProvider::class,
             FeedServiceProvider::class,
 
             // Filament
@@ -167,13 +158,11 @@ abstract class TestCase extends Orchestra
         });
     }
 
-    public function authenticate(string $guard = null)
+    public function authenticate()
     {
         $user = UserFactory::new()->create();
 
-        $user->createToken('test');
-
-        $this->actingAs($user, $guard);
+        $this->actingAs($user);
     }
 
     public function refreshServiceProvider()

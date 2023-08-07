@@ -39,7 +39,6 @@ test('all tables render', function ($class) {
     'TransactionalMailLogItemsComponent' => \Spatie\Mailcoach\Livewire\TransactionalMails\TransactionalMailLogItemsComponent::class,
     'TransactionalMailsComponent' => \Spatie\Mailcoach\Livewire\TransactionalMails\TransactionalMailsComponent::class,
     'MailersComponent' => \Spatie\Mailcoach\Livewire\Mailers\MailersComponent::class,
-    'UsersComponent' => \Spatie\Mailcoach\Livewire\Users\UsersComponent::class,
     'AutomationMailLinkClicksComponent' => \Spatie\Mailcoach\Livewire\Automations\AutomationMailLinkClicksComponent::class,
     'WebhooksComponent' => \Spatie\Mailcoach\Livewire\Webhooks\WebhooksComponent::class,
 ]);

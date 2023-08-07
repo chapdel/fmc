@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Campaigns;
 
-use Illuminate\Auth\AuthenticationException;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Database\Factories\SendFeedbackItemFactory;
 use Spatie\Mailcoach\Database\Factories\SubscriberFactory;
@@ -75,10 +74,4 @@ it('can filter by type', function () {
             'type' => 'complaint',
             'bounce_count' => 1,
         ]);
-});
-
-it('cannot be accessed by a user without permissions', function () {
-    $this->expectException(AuthenticationException::class);
-
-    $this->getJson(action(CampaignBouncesController::class, 1));
 });

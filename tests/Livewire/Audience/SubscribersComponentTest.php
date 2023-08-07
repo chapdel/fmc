@@ -58,10 +58,7 @@ it('will confirm unconfirmed subscribers', function () {
 
     Livewire::test(SubscribersComponent::class, ['emailList' => $this->emailList])
         ->call('confirm', $subscriber)
-        ->assertDispatched('notify', [
-            'content' => __mc('Can only subscribe unconfirmed emails'),
-            'type' => 'error',
-        ]);
+        ->assertSessionHas('filament.notifications');
 });
 
 it('can resubscribe a subscriber', function () {
@@ -85,10 +82,7 @@ it('will only resubscribe unsubscribed subscribers', function () {
 
     Livewire::test(SubscribersComponent::class, ['emailList' => $this->emailList])
         ->call('resubscribe', $subscriber)
-        ->assertDispatched('notify', [
-            'content' => __mc('Can only resubscribe unsubscribed subscribers'),
-            'type' => 'error',
-        ]);
+        ->assertSessionHas('filament.notifications');
 });
 
 it('can unsubscribe a subscriber', function () {
@@ -113,10 +107,7 @@ it('will only unsubscribe subscribed subscribers', function () {
 
     Livewire::test(SubscribersComponent::class, ['emailList' => $this->emailList])
         ->call('unsubscribe', $subscriber)
-        ->assertDispatched('notify', [
-            'content' => __mc('Can only unsubscribe a subscribed subscriber'),
-            'type' => 'error',
-        ]);
+        ->assertSessionHas('filament.notifications');
 });
 
 it('can delete a subscriber', function () {

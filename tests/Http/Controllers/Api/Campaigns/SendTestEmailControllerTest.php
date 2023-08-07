@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Bus;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
-use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignJob;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignTestJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\SendTestEmailController;
@@ -53,5 +52,5 @@ it('will not send a test mail for a campaign that has already been sent', functi
         ->postJson(action(SendTestEmailController::class, test()->campaign), ['email' => 'test@example.com'])
         ->assertJsonValidationErrors('campaign');
 
-    Bus::assertNotDispatched(SendCampaignJob::class);
+    Bus::assertNotDispatched(SendCampaignTestJob::class);
 });

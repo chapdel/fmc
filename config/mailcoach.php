@@ -327,11 +327,6 @@ return [
     'queue_connection' => '',
 
     /*
-     * Unauthorized users will get redirected to this route.
-     */
-    'redirect_unauthorized_users_to_route' => 'mailcoach.login',
-
-    /*
      * Homepage will redirect to this route.
      */
     'redirect_home' => 'mailcoach.dashboard',
@@ -588,7 +583,6 @@ return [
          */
         'upload' => \Spatie\Mailcoach\Domain\Shared\Models\Upload::class,
 
-        'personal_access_token' => \Spatie\Mailcoach\Domain\Settings\Models\PersonalAccessToken::class,
         'setting' => \Spatie\Mailcoach\Domain\Settings\Models\Setting::class,
         'mailer' => \Spatie\Mailcoach\Domain\Settings\Models\Mailer::class,
         'webhook_configuration' => \Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration::class,
@@ -714,12 +708,5 @@ return [
          * The email addresses which will be used to send a notification when a webhook is auto disabled.
          */
         'notified_emails' => null,
-    ],
-
-    /**
-     * In case of breaking changes, you can disable features that are not yet compatible with your setup.
-     */
-    'opt_in_features' => [
-        'disable_failed_webhooks' => false,
     ],
 ];
