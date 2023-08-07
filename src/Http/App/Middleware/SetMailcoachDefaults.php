@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Http\App\Middleware;
 
 use Illuminate\Auth\Notifications\ResetPassword;
 use Spatie\Flash\Flash;
+use Spatie\Mailcoach\Domain\Shared\Events\ServingMailcoach;
 
 class SetMailcoachDefaults
 {
@@ -25,6 +26,8 @@ class SetMailcoachDefaults
                 'email' => $notifiable->getEmailForPasswordReset(),
             ], false));
         });
+
+        ServingMailcoach::dispatch();
 
         return $next($request);
     }
