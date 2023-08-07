@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.24.6 - 2023-08-07
+
+### What's Changed
+
+- Update docs by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1342
+- Fix canonical url for email list websites
+- Catch invalid "to" address exception
+- Stricter validation on emails
+- Don't run a query for each hasTag check
+- Subscriber import improvements
+- Fix an issue with the schedule dropdown being overflow hidden
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.24.5...6.24.6
+
 ## 6.24.5 - 2023-07-25
 
 - Fix turnstile page erroring when using attributes
