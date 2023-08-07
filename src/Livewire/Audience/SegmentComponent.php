@@ -50,8 +50,8 @@ class SegmentComponent extends Component
         $this->emailList = $emailList;
         $this->segment = $segment;
 
-        $this->name = $segment->name;
-        $this->storedConditions = $segment->stored_conditions->castToArray();
+        $this->name = $this->segment->name;
+        $this->storedConditions = $this->segment->stored_conditions->castToArray();
 
         $mainNavigation->activeSection()
             ?->add($this->emailList->name, route('mailcoach.emailLists.summary', $this->emailList), function ($section) {

@@ -27,7 +27,7 @@ class AutomationMailSummaryComponent extends Component
     {
         $this->mail = $automationMail;
 
-        $this->authorize('view', $automationMail);
+        $this->authorize('view', $this->mail);
 
         app(MainNavigation::class)->activeSection()?->add($this->mail->name, route('mailcoach.automations.mails'));
     }

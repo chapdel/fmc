@@ -89,13 +89,13 @@ class SubscriberComponent extends Component
     {
         $this->authorize('update', $subscriber);
 
-        $this->fill($subscriber->toArray());
-
         $this->emailList = $emailList;
         $this->subscriber = $subscriber;
-        $this->totalSendsCount = $subscriber->sends()->count();
-        $this->tags = $subscriber->tags()->where('type', TagType::Default)->pluck('name')->toArray();
-        $this->extraAttributes = $subscriber->extra_attributes->map(function ($value, $key) {
+        $this->fill($this->subscriber->toArray());
+
+        $this->totalSendsCount = $this->subscriber->sends()->count();
+        $this->tags = $this->subscriber->tags()->where('type', TagType::Default)->pluck('name')->toArray();
+        $this->extraAttributes = $this->subscriber->extra_attributes->map(function ($value, $key) {
             return [
                 'key' => $key,
                 'value' => $value,

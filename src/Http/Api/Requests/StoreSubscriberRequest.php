@@ -22,7 +22,7 @@ class StoreSubscriberRequest extends FormRequest
 
     public function emailList(): EmailList
     {
-        return request()->route()->parameter('mc_emailList');
+        return request()->route()->parameter('emailList');
     }
 
     public function subscriberAttributes(): array

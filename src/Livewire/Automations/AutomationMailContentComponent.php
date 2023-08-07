@@ -30,9 +30,9 @@ class AutomationMailContentComponent extends Component
     public function mount(AutomationMail $automationMail)
     {
         $this->mail = $automationMail;
-        $this->subject = $automationMail->subject;
+        $this->subject = $this->mail->subject;
 
-        $this->authorize('update', $automationMail);
+        $this->authorize('update', $this->mail);
 
         $this->templateOptions = self::getTemplateClass()::all()
             ->pluck('name', 'id')

@@ -60,7 +60,7 @@ class AutomationSettingsComponent extends Component
         $this->authorize('update', $automation);
 
         $this->automation = $automation;
-        $this->fill($automation->only(
+        $this->fill($this->automation->only(
             'name',
             'email_list_id',
             'segment_id',

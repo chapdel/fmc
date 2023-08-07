@@ -61,7 +61,7 @@ class UpdateEmailListSettingsRequest extends FormRequest
         }
 
         /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
-        $emailList = $this->route()->parameter('mc_emailList');
+        $emailList = $this->route()->parameter('emailList');
 
         return $emailList->tags()->whereIn('name', $allowedTagNames)->get();
     }

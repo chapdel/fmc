@@ -12,7 +12,7 @@ class TagSegmentRequest extends FormRequest
 
     public function rules()
     {
-        $emailListTagNames = $this->route('mc_emailList')->tags()->pluck('name')->toArray();
+        $emailListTagNames = $this->route('emailList')->tags()->pluck('name')->toArray();
 
         return [
             'name' => ['required'],

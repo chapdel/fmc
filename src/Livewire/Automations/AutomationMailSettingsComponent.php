@@ -49,9 +49,10 @@ class AutomationMailSettingsComponent extends Component
     public function mount(AutomationMail $automationMail)
     {
         $this->mail = $automationMail;
-        $this->fill($automationMail->toArray());
 
-        $this->authorize('update', $automationMail);
+        $this->authorize('update', $this->mail);
+
+        $this->fill($this->mail->toArray());
 
         app(MainNavigation::class)->activeSection()?->add($this->mail->name, route('mailcoach.automations.mails'));
     }

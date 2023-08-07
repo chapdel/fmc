@@ -589,88 +589,14 @@ return [
         'webhook_log' => \Spatie\Mailcoach\Domain\Settings\Models\WebhookLog::class,
     ],
 
-    'views' => [
-        /*
-         * The service provider registers several Blade components that are
-         * used in Mailcoach's views. If you are using the default Mailcoach
-         * views, leave this as true so they work as expected. If you have
-         * your own views and don't need/want Mailcoach to register these
-         * blade components (e.g., because of naming conflicts), you can
-         * change this setting to false and they won't be registered.
-         *
-         * If you change this setting, be sure to run `php artisan view:clear`
-         * so Laravel can recompile your views.
-         */
-        'use_blade_components' => true,
-    ],
-
+    /**
+     * You can override any Livewire component used by Mailcoach by
+     * referencing the FQCN of the component as the key and adding
+     * your replacement class as the value. Your component must
+     * be a Livewire component and extend \Livewire\Component
+     */
     'livewire' => [
-        'dashboard' => \Spatie\Mailcoach\Livewire\Dashboard\DashboardComponent::class,
-
-        // Audience
-        'create-list' => \Spatie\Mailcoach\Livewire\Audience\CreateListComponent::class,
-        'lists' => \Spatie\Mailcoach\Livewire\Audience\ListsComponent::class,
-        'list-summary' => \Spatie\Mailcoach\Livewire\Audience\ListSummaryComponent::class,
-        'list-settings' => \Spatie\Mailcoach\Livewire\Audience\ListSettingsComponent::class,
-        'list-onboarding' => \Spatie\Mailcoach\Livewire\Audience\ListOnboardingComponent::class,
-        'list-mailers' => \Spatie\Mailcoach\Livewire\Audience\ListMailersComponent::class,
-        'list-website' => \Spatie\Mailcoach\Livewire\Audience\WebsiteComponent::class,
-
-        'create-segment' => \Spatie\Mailcoach\Livewire\Audience\CreateSegmentComponent::class,
-        'segments' => \Spatie\Mailcoach\Livewire\Audience\SegmentsComponent::class,
-        'segment' => \Spatie\Mailcoach\Livewire\Audience\SegmentComponent::class,
-        'segment-subscribers' => \Spatie\Mailcoach\Livewire\Audience\SegmentSubscribersComponent::class,
-        'create-subscriber' => \Spatie\Mailcoach\Livewire\Audience\CreateSubscriberComponent::class,
-        'subscribers' => \Spatie\Mailcoach\Livewire\Audience\SubscribersComponent::class,
-        'subscriber' => \Spatie\Mailcoach\Livewire\Audience\SubscriberComponent::class,
-        'subscriber-imports' => \Spatie\Mailcoach\Livewire\Audience\SubscriberImportsComponent::class,
-        'subscriber-exports' => \Spatie\Mailcoach\Livewire\Audience\SubscriberExportsComponent::class,
-        'subscriber-sends' => \Spatie\Mailcoach\Livewire\Audience\SubscriberSendsComponent::class,
-        'create-tag' => \Spatie\Mailcoach\Livewire\Audience\CreateTagComponent::class,
-        'tags' => \Spatie\Mailcoach\Livewire\Audience\TagsComponent::class,
-        'tag' => \Spatie\Mailcoach\Livewire\Audience\TagComponent::class,
-
-        // Automations
-        'create-automation' => \Spatie\Mailcoach\Livewire\Automations\CreateAutomationComponent::class,
-        'automations' => \Spatie\Mailcoach\Livewire\Automations\AutomationsComponent::class,
-        'automation-settings' => \Spatie\Mailcoach\Livewire\Automations\AutomationSettingsComponent::class,
-        'automation-actions' => \Spatie\Mailcoach\Livewire\Automations\AutomationActionsComponent::class,
-        'automation-run' => \Spatie\Mailcoach\Livewire\Automations\RunAutomationComponent::class,
-        'create-automation-mail' => \Spatie\Mailcoach\Livewire\Automations\CreateAutomationMailComponent::class,
-        'automation-mails' => \Spatie\Mailcoach\Livewire\Automations\AutomationMailsComponent::class,
-        'automation-mail-summary' => \Spatie\Mailcoach\Livewire\Automations\AutomationMailSummaryComponent::class,
-        'automation-mail-content' => \Spatie\Mailcoach\Livewire\Automations\AutomationMailContentComponent::class,
-        'automation-mail-settings' => \Spatie\Mailcoach\Livewire\Automations\AutomationMailSettingsComponent::class,
-        'automation-mail-clicks' => \Spatie\Mailcoach\Livewire\Automations\AutomationMailClicksComponent::class,
-        'automation-mail-link-clicks' => \Spatie\Mailcoach\Livewire\Automations\AutomationMailLinkClicksComponent::class,
-        'automation-mail-opens' => \Spatie\Mailcoach\Livewire\Automations\AutomationMailOpensComponent::class,
-        'automation-mail-unsubscribes' => \Spatie\Mailcoach\Livewire\Automations\AutomationMailUnsubscribesComponent::class,
-        'automation-mail-outbox' => \Spatie\Mailcoach\Livewire\Automations\AutomationMailOutboxComponent::class,
-
-        // Campaigns
-        'create-campaign' => \Spatie\Mailcoach\Livewire\Campaigns\CreateCampaignComponent::class,
-        'campaigns' => \Spatie\Mailcoach\Livewire\Campaigns\CampaignsComponent::class,
-        'create-template' => \Spatie\Mailcoach\Livewire\Templates\CreateTemplateComponent::class,
-        'templates' => \Spatie\Mailcoach\Livewire\Templates\TemplatesComponent::class,
-        'template' => \Spatie\Mailcoach\Livewire\Templates\TemplateComponent::class,
-        'campaign-settings' => \Spatie\Mailcoach\Livewire\Campaigns\CampaignSettingsComponent::class,
-        'campaign-content' => \Spatie\Mailcoach\Livewire\Campaigns\CampaignContentComponent::class,
-        'campaign-delivery' => \Spatie\Mailcoach\Livewire\Campaigns\CampaignDeliveryComponent::class,
-        'campaign-summary' => \Spatie\Mailcoach\Livewire\Campaigns\CampaignSummaryComponent::class,
-        'campaign-clicks' => \Spatie\Mailcoach\Livewire\Campaigns\CampaignClicksComponent::class,
-        'campaign-opens' => \Spatie\Mailcoach\Livewire\Campaigns\CampaignOpensComponent::class,
-        'campaign-unsubscribes' => \Spatie\Mailcoach\Livewire\Campaigns\CampaignUnsubscribesComponent::class,
-        'campaign-outbox' => \Spatie\Mailcoach\Livewire\Campaigns\CampaignOutboxComponent::class,
-
-        // Transactional
-        'create-transactional-template' => \Spatie\Mailcoach\Livewire\TransactionalMails\CreateTransactionalTemplateComponent::class,
-        'transactional-mails' => \Spatie\Mailcoach\Livewire\TransactionalMails\TransactionalMailLogItemsComponent::class,
-        'transactional-mail-templates' => \Spatie\Mailcoach\Livewire\TransactionalMails\TransactionalMailsComponent::class,
-        'transactional-mail-template-content' => \Spatie\Mailcoach\Livewire\TransactionalMails\TransactionalTemplateContentComponent::class,
-        'transactional-mail-template-settings' => \Spatie\Mailcoach\Livewire\TransactionalMails\TransactionalTemplateSettingsComponent::class,
-        'transactional-mail-content' => \Spatie\Mailcoach\Livewire\TransactionalMails\TransactionalMailContentComponent::class,
-        'transactional-mail-performance' => \Spatie\Mailcoach\Livewire\TransactionalMails\TransactionalMailPerformanceComponent::class,
-        'transactional-mail-resend' => \Spatie\Mailcoach\Livewire\TransactionalMails\TransactionalMailResendComponent::class,
+        // \Spatie\Mailcoach\Livewire\Campaigns\CreateCampaignComponent::class => \App\Livewire\CustomCreateCampaignComponent::class
     ],
 
     /**

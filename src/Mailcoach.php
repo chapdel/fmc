@@ -201,12 +201,12 @@ class Mailcoach
         return resolve($configuredClass);
     }
 
-    public static function getLivewireClass(string $componentName, string $defaultClass): string
+    public static function getLivewireClass(string $defaultClass): string
     {
-        $configuredClass = config("mailcoach.livewire.{$componentName}", $defaultClass);
+        $configuredClass = config("mailcoach.livewire.{$defaultClass}", $defaultClass);
 
         if (! is_subclass_of($configuredClass, Component::class)) {
-            throw InvalidConfig::invalidLivewireComponent($componentName, $configuredClass);
+            throw InvalidConfig::invalidLivewireComponent($defaultClass, $configuredClass);
         }
 
         return $configuredClass;

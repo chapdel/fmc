@@ -30,9 +30,9 @@ class UpdateSubscriberRequest extends FormRequest
 
     protected function getUniqueRule(): Unique
     {
-        $emailList = $this->route('mc_emailList');
+        $emailList = $this->route('emailList');
 
-        $subscriber = $this->route('mc_subscriber');
+        $subscriber = $this->route('subscriber');
 
         if (is_string($subscriber)) {
             $subscriber = self::getSubscriberClass()::findOrFail($subscriber);

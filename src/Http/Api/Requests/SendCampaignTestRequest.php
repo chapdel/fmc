@@ -30,7 +30,7 @@ class SendCampaignTestRequest extends FormRequest
     public function addCampaignCheck(Validator $validator)
     {
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */
-        $campaign = $this->route('mc_campaign');
+        $campaign = $this->route('campaign');
 
         if (! $campaign->isDraft()) {
             $validator->errors()->add('campaign', 'You cannot send a test mail for a campaign that already was sent.');

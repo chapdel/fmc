@@ -32,9 +32,9 @@ class RunAutomationComponent extends Component
         $this->authorize('update', $automation);
 
         $this->automation = $automation;
-        $this->interval = $automation->interval ?? '10 minutes';
+        $this->interval = $this->automation->interval ?? '10 minutes';
 
-        app(MainNavigation::class)->activeSection()?->add($automation->name, route('mailcoach.automations'));
+        app(MainNavigation::class)->activeSection()?->add($this->automation->name, route('mailcoach.automations'));
     }
 
     public function pause(): void
