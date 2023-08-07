@@ -37,7 +37,7 @@
         </div>
     @endif
 
-    <dl class="mt-8 dl max-w-full overflow-hidden">
+    <dl class="mt-8 dl max-w-full">
         @if ($campaign->emailList)
             <dt>
                 <x-mailcoach::health-label reverse :test="true" :label="__mc('From')"/>
