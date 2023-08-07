@@ -8,14 +8,12 @@ use Illuminate\Support\Arr;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\MainNavigation;
 use Spatie\ValidationRules\Rules\Delimited;
 
 class TransactionalTemplateContentComponent extends Component
 {
     use AuthorizesRequests;
-    use LivewireFlash;
     use UsesMailcoachModels;
 
     public TransactionalMail $template;
@@ -88,7 +86,7 @@ class TransactionalTemplateContentComponent extends Component
                 'structured_html' => $this->structured_html,
             ]);
 
-            $this->flash(__mc('Template :template was updated.', ['template' => $this->template->name]));
+            notify(__mc('Template :template was updated.', ['template' => $this->template->name]));
         }
     }
 

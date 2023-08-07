@@ -46,7 +46,7 @@ class CreateListCommand extends SpotlightCommand
             'default_from_name' => $fromName,
         ]);
 
-        flash()->success(__mc('List :emailList was created', ['emailList' => $list->name]));
+        notify(__mc('List :emailList was created', ['emailList' => $list->name]));
 
         $spotlight->redirect(route('mailcoach.emailLists.general-settings', $list));
     }

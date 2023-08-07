@@ -4,13 +4,11 @@ namespace Spatie\Mailcoach\Livewire\MailConfiguration\Sendinblue\Steps;
 
 use Exception;
 use Spatie\LivewireWizard\Components\StepComponent;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\Livewire\MailConfiguration\Concerns\UsesMailer;
 use Spatie\MailcoachSendinblueSetup\Sendinblue;
 
 class AuthenticationStepComponent extends StepComponent
 {
-    use LivewireFlash;
     use UsesMailer;
 
     public string $apiKey = '';
@@ -31,7 +29,7 @@ class AuthenticationStepComponent extends StepComponent
         try {
             $validApiKey = (new Sendinblue($this->apiKey))->isValidApiKey();
         } catch (Exception) {
-            $this->flashError(__mc('Something went wrong communicating with Sendinblue.'));
+            notifyError(__mc('Something went wrong communicating with Sendinblue.'));
 
             return;
         }
@@ -42,7 +40,7 @@ class AuthenticationStepComponent extends StepComponent
             return;
         }
 
-        $this->flash(__mc('The API key is correct.'));
+        notify(__mc('The API key is correct.'));
 
         $this->mailer()->merge([
             'apiKey' => $this->apiKey,

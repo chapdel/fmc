@@ -29,7 +29,7 @@ class CreateTemplateComponent extends Component
             $this->validate(),
         );
 
-        flash()->success(__mc('Template :template was created.', ['template' => $template->name]));
+        notify(__mc('Template :template was created.', ['template' => $template->name]));
 
         return redirect()->route('mailcoach.templates.edit', $template);
     }

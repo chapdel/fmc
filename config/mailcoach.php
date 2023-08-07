@@ -358,14 +358,12 @@ return [
     'middleware' => [
         'web' => [
             'web',
-            Spatie\Mailcoach\Http\App\Middleware\Authenticate::class,
             Spatie\Mailcoach\Http\App\Middleware\Authorize::class,
-            Spatie\Mailcoach\Http\App\Middleware\SetMailcoachDefaults::class,
+            Spatie\Mailcoach\Http\App\Middleware\BootstrapMailcoach::class,
             Spatie\Mailcoach\Http\App\Middleware\BootstrapNavigation::class,
         ],
         'api' => [
             'api',
-            'auth:sanctum',
         ],
     ],
 
@@ -590,7 +588,6 @@ return [
          */
         'upload' => \Spatie\Mailcoach\Domain\Shared\Models\Upload::class,
 
-        'user' => \Spatie\Mailcoach\Domain\Settings\Models\User::class,
         'personal_access_token' => \Spatie\Mailcoach\Domain\Settings\Models\PersonalAccessToken::class,
         'setting' => \Spatie\Mailcoach\Domain\Settings\Models\Setting::class,
         'mailer' => \Spatie\Mailcoach\Domain\Settings\Models\Mailer::class,

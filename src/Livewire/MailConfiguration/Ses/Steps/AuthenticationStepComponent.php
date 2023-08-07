@@ -5,7 +5,6 @@ namespace Spatie\Mailcoach\Livewire\MailConfiguration\Ses\Steps;
 use Exception;
 use Illuminate\Validation\Rule;
 use Spatie\LivewireWizard\Components\StepComponent;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\Livewire\MailConfiguration\Concerns\UsesMailer;
 use Spatie\MailcoachSesSetup\Exception\InvalidAwsCredentials;
 use Spatie\MailcoachSesSetup\MailcoachSes;
@@ -13,7 +12,6 @@ use Spatie\MailcoachSesSetup\MailcoachSesConfig;
 
 class AuthenticationStepComponent extends StepComponent
 {
-    use LivewireFlash;
     use UsesMailer;
 
     public string $key = '';
@@ -55,7 +53,7 @@ class AuthenticationStepComponent extends StepComponent
             $this->addError('key', 'Something went wrong communicating with AWS: '.$e->getMessage());
         }
 
-        $this->flash('Your credentials were correct.');
+        notify('Your credentials were correct.');
 
         $this->mailer()->merge([
             'driver' => 'ses',

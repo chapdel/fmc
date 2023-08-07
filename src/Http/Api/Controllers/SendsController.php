@@ -6,8 +6,8 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
+use Spatie\Mailcoach\Http\Api\Queries\SendsQuery;
 use Spatie\Mailcoach\Http\Api\Resources\SendResource;
-use Spatie\Mailcoach\Http\App\Queries\SendsQuery;
 
 class SendsController
 {

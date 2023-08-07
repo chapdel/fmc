@@ -7,13 +7,11 @@ use Livewire\Component;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\MainNavigation;
 
 class AutomationActionsComponent extends Component
 {
     use UsesMailcoachModels;
-    use LivewireFlash;
 
     protected $listeners = [
         'automationBuilderUpdated',
@@ -79,7 +77,7 @@ class AutomationActionsComponent extends Component
     {
         $this->automation->chain($this->actions);
 
-        $this->flash(__mc('Actions successfully saved to automation :automation.', [
+        notify(__mc('Actions successfully saved to automation :automation.', [
             'automation' => $this->automation->name,
         ]));
     }

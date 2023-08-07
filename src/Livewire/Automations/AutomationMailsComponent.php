@@ -134,7 +134,7 @@ class AutomationMailsComponent extends TableComponent
             'last_modified_at' => now(),
         ]);
 
-        flash()->success(__mc('Email :name was duplicated.', ['name' => $automationMail->name]));
+        notify(__mc('Email :name was duplicated.', ['name' => $automationMail->name]));
 
         return redirect()->route('mailcoach.automations.mails.settings', $automationMail);
     }

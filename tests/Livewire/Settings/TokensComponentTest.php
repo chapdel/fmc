@@ -1,6 +1,6 @@
 <?php
 
-use Spatie\Mailcoach\Domain\Settings\Models\User;
+use Illuminate\Foundation\Auth\User;
 
 beforeEach(function () {
     $this->authenticate();

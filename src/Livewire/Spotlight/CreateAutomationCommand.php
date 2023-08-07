@@ -66,7 +66,7 @@ class CreateAutomationCommand extends SpotlightCommand
             'email_list_id' => $emailList->id,
         ]);
 
-        flash()->success(__mc('Automation :automation was created.', ['automation' => $automation->name]));
+        notify(__mc('Automation :automation was created.', ['automation' => $automation->name]));
 
         $spotlight->redirect(route('mailcoach.automations.settings', $automation));
     }

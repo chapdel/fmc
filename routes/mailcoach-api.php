@@ -26,15 +26,12 @@ use Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails\ResendTransactional
 use Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails\SendTransactionalMailController;
 use Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails\ShowTransactionalMailController;
 use Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails\TransactionalMailsController;
-use Spatie\Mailcoach\Http\Api\Controllers\UserController;
 
-Route::get('user', UserController::class);
+Route::apiResource('templates', TemplatesController::class)->parameter('templates', 'mc_template');
+Route::apiResource('sends', SendsController::class)->except(['store', 'update'])->parameter('sends', 'mc_send');
+Route::apiResource('campaigns', CampaignsController::class)->parameter('campaigns', 'mc_campaign');
 
-Route::apiResource('templates', TemplatesController::class);
-Route::apiResource('sends', SendsController::class)->except(['store', 'update']);
-Route::apiResource('campaigns', CampaignsController::class);
-
-Route::prefix('campaigns/{campaign}')->group(function () {
+Route::prefix('campaigns/{mc_campaign}')->group(function () {
     Route::post('send-test', SendTestEmailController::class);
     Route::post('send', SendCampaignController::class);
 
@@ -44,13 +41,20 @@ Route::prefix('campaigns/{campaign}')->group(function () {
     Route::get('bounces', CampaignBouncesController::class);
 });
 
-Route::apiResource('email-lists', EmailListsController::class);
-Route::apiResource('email-lists.subscribers', SubscribersController::class)->only(['index', 'store']);
-Route::apiResource('email-lists.tags', TagsController::class);
-Route::apiResource('email-lists.segments', SegmentsController::class);
-Route::apiResource('subscribers', SubscribersController::class)->except(['index', 'store']);
+Route::apiResource('email-lists', EmailListsController::class)->parameter('email-lists', 'mc_emailList');
+Route::apiResource('email-lists.subscribers', SubscribersController::class)->only(['index', 'store'])->parameter('email-lists', 'mc_emailList');
+Route::apiResource('email-lists.tags', TagsController::class)->parameters([
+    'email-lists' => 'mc_emailList',
+    'tags' => 'mc_tag',
+]);
+// @todo: Enable segments
+//Route::apiResource('email-lists.segments', SegmentsController::class)->parameters([
+//    'email-lists' => 'mc_emailList',
+//    'segments' => 'mc_segment',
+//]);
+Route::apiResource('subscribers', SubscribersController::class)->except(['index', 'store'])->parameter('subscribers', 'mc_subscriber');
 
-Route::prefix('subscribers/{subscriber}')->group(function () {
+Route::prefix('subscribers/{mc_subscriber}')->group(function () {
     Route::post('confirm', ConfirmSubscriberController::class);
     Route::post('unsubscribe', UnsubscribeController::class);
     Route::post('resubscribe', ResubscribeController::class);
@@ -58,9 +62,9 @@ Route::prefix('subscribers/{subscriber}')->group(function () {
     Route::post('resend-confirmation', ResendConfirmationMailController::class);
 });
 
-Route::apiResource('subscriber-imports', SubscriberImportsController::class);
+Route::apiResource('subscriber-imports', SubscriberImportsController::class)->parameter('subscriber-imports', 'mc_subscriberImport');
 
-Route::prefix('subscriber-imports/{subscriberImport}')->group(function () {
+Route::prefix('subscriber-imports/{mc_subscriberImport}')->group(function () {
     Route::post('append', AppendSubscriberImportController::class);
     Route::post('start', StartSubscriberImportController::class);
 });
@@ -68,10 +72,10 @@ Route::prefix('subscriber-imports/{subscriberImport}')->group(function () {
 Route::prefix('transactional-mails')->group(function () {
     Route::get('/', TransactionalMailsController::class);
     Route::post('send', SendTransactionalMailController::class);
-    Route::get('{transactionalMail}', ShowTransactionalMailController::class);
-    Route::post('{transactionalMail}/resend', ResendTransactionalMailController::class);
+    Route::get('{mc_transactionalMail}', ShowTransactionalMailController::class);
+    Route::post('{mc_transactionalMail}/resend', ResendTransactionalMailController::class);
 });
 
 Route::prefix('automations')->group(function () {
-    Route::post('{automation}/trigger', TriggerAutomationController::class);
+    Route::post('{mc_automation}/trigger', TriggerAutomationController::class);
 });

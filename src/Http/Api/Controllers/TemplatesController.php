@@ -8,9 +8,9 @@ use Spatie\Mailcoach\Domain\Campaign\Actions\Templates\UpdateTemplateAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
+use Spatie\Mailcoach\Http\Api\Queries\TemplatesQuery;
+use Spatie\Mailcoach\Http\Api\Requests\TemplateRequest;
 use Spatie\Mailcoach\Http\Api\Resources\TemplateResource;
-use Spatie\Mailcoach\Http\App\Queries\TemplatesQuery;
-use Spatie\Mailcoach\Http\App\Requests\TemplateRequest;
 
 class TemplatesController
 {

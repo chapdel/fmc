@@ -4,13 +4,11 @@ namespace Spatie\Mailcoach\Livewire\MailConfiguration\Mailgun\Steps;
 
 use Exception;
 use Spatie\LivewireWizard\Components\StepComponent;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\Livewire\MailConfiguration\Concerns\UsesMailer;
 use Spatie\MailcoachMailgunSetup\Mailgun;
 
 class AuthenticationStepComponent extends StepComponent
 {
-    use LivewireFlash;
     use UsesMailer;
 
     public string $apiKey = '';
@@ -39,7 +37,7 @@ class AuthenticationStepComponent extends StepComponent
         try {
             $validApiKey = (new Mailgun($this->apiKey, $this->domain, $this->baseUrl))->isValidApiKey();
         } catch (Exception) {
-            $this->flash('Something went wrong communicating with Mailgun.', 'error');
+            notify('Something went wrong communicating with Mailgun.', 'error');
 
             return;
         }
@@ -52,7 +50,7 @@ class AuthenticationStepComponent extends StepComponent
             return;
         }
 
-        $this->flash('The credentials are correct.');
+        notify('The credentials are correct.');
 
         $this->mailer()->merge([
             'apiKey' => $this->apiKey,

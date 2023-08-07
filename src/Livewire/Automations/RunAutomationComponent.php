@@ -7,13 +7,11 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\MainNavigation;
 
 class RunAutomationComponent extends Component
 {
     use AuthorizesRequests;
-    use LivewireFlash;
     use UsesMailcoachModels;
 
     public Automation $automation;
@@ -62,7 +60,7 @@ class RunAutomationComponent extends Component
         $this->automation->interval = $this->interval;
         $this->automation->save();
 
-        $this->flash(__mc('Automation :automation was updated.', ['automation' => $this->automation->name]));
+        notify(__mc('Automation :automation was updated.', ['automation' => $this->automation->name]));
     }
 
     public function render(): View

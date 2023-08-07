@@ -31,7 +31,7 @@ class CreateMailerComponent extends Component
             'transport' => $this->transport,
         ]);
 
-        flash()->success(__mc('The mailer has been created.'));
+        notify(__mc('The mailer has been created.'));
 
         return redirect()->route('mailers.edit', $mailer);
     }

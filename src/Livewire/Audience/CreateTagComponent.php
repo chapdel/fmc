@@ -40,7 +40,7 @@ class CreateTagComponent extends Component
             'type' => TagType::Default,
         ]);
 
-        flash()->success(__mc('Tag :tag was created', ['tag' => $tag->name]));
+        notify(__mc('Tag :tag was created', ['tag' => $tag->name]));
 
         return redirect()->route('mailcoach.emailLists.tags', $this->emailList);
     }

@@ -7,14 +7,12 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\MainNavigation;
 
 class CampaignContentComponent extends Component
 {
     use AuthorizesRequests;
     use UsesMailcoachModels;
-    use LivewireFlash;
 
     public Campaign $campaign;
 

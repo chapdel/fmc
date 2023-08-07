@@ -9,13 +9,11 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Collections\StoredConditionCollection;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Rules\StoredConditionRule;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\MainNavigation;
 
 class SegmentComponent extends Component
 {
     use AuthorizesRequests;
-    use LivewireFlash;
 
     public string $tab = 'details';
 
@@ -70,7 +68,7 @@ class SegmentComponent extends Component
             'stored_conditions' => StoredConditionCollection::fromRequest($this->storedConditions),
         ]);
 
-        $this->flash(__mc('The segment has been updated.'));
+        notify(__mc('The segment has been updated.'));
         $this->dispatch('segmentUpdated');
     }
 

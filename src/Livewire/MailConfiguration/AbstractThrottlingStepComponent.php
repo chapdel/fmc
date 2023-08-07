@@ -3,12 +3,10 @@
 namespace Spatie\Mailcoach\Livewire\MailConfiguration;
 
 use Spatie\LivewireWizard\Components\StepComponent;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\Livewire\MailConfiguration\Concerns\UsesMailer;
 
 abstract class AbstractThrottlingStepComponent extends StepComponent
 {
-    use LivewireFlash;
     use UsesMailer;
 
     public int $timespanInSeconds = 1;
@@ -35,7 +33,7 @@ abstract class AbstractThrottlingStepComponent extends StepComponent
             'mails_per_timespan' => $this->mailsPerTimeSpan,
         ]);
 
-        $this->flash('The throttling settings were saved.');
+        notify('The throttling settings were saved.');
 
         $this->nextStep();
     }

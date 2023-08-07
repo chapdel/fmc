@@ -3,12 +3,10 @@
 namespace Spatie\Mailcoach\Livewire\MailConfiguration\Smtp\Steps;
 
 use Spatie\LivewireWizard\Components\StepComponent;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\Livewire\MailConfiguration\Concerns\UsesMailer;
 
 class SmtpSettingsStepComponent extends StepComponent
 {
-    use LivewireFlash;
     use UsesMailer;
 
     public string $host = '';
@@ -42,7 +40,7 @@ class SmtpSettingsStepComponent extends StepComponent
     {
         $this->validate();
 
-        $this->flash('Your credentials were correct.');
+        notify('Your credentials were correct.');
 
         $this->mailer()->merge([
             'driver' => 'smtp',
@@ -53,7 +51,7 @@ class SmtpSettingsStepComponent extends StepComponent
             'encryption' => $this->encryption,
         ]);
 
-        $this->flash('Settings saved');
+        notify('Settings saved');
 
         $this->nextStep();
     }

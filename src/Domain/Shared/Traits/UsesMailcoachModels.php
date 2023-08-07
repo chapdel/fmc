@@ -26,7 +26,6 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
 use Spatie\Mailcoach\Domain\Settings\Models\PersonalAccessToken;
 use Spatie\Mailcoach\Domain\Settings\Models\Setting;
-use Spatie\Mailcoach\Domain\Settings\Models\User;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookLog;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
@@ -420,23 +419,6 @@ trait UsesMailcoachModels
     public static function getSendTableName(): string
     {
         $className = self::getSendClass();
-
-        /** @var \Illuminate\Database\Eloquent\Model $class */
-        $class = new $className;
-
-        return $class->getTable();
-    }
-
-    /** @return class-string<User> */
-    public static function getUserClass(): string
-    {
-        return config('mailcoach.models.user', User::class);
-    }
-
-    /** @return class-string<User> */
-    public static function getUserTableName(): string
-    {
-        $className = self::getUserClass();
 
         /** @var \Illuminate\Database\Eloquent\Model $class */
         $class = new $className;

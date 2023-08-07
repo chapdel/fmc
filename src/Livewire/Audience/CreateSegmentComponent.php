@@ -36,7 +36,7 @@ class CreateSegmentComponent extends Component
 
         $segment = $this->emailList->segments()->create(['name' => $this->validate()['name']]);
 
-        flash()->success(__mc('Segment :segment has been created.', ['segment' => $segment->name]));
+        notify(__mc('Segment :segment has been created.', ['segment' => $segment->name]));
 
         return redirect()->route('mailcoach.emailLists.segments.edit', [$this->emailList, $segment]);
     }

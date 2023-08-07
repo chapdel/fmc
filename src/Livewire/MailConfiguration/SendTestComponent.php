@@ -5,13 +5,10 @@ namespace Spatie\Mailcoach\Livewire\MailConfiguration;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Settings\Mail\TestMail;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Symfony\Component\Mime\Email;
 
 class SendTestComponent extends Component
 {
-    use LivewireFlash;
-
     public string $mailer = '';
 
     public string $from_email = '';
@@ -40,13 +37,13 @@ class SendTestComponent extends Component
 
             Mail::mailer($this->mailer)->send($mail);
         } catch (\Throwable $e) {
-            $this->flashError($e->getMessage());
+            notifyError($e->getMessage());
             $this->dispatch('modal-closed', ['modal' => 'send-test']);
 
             return;
         }
 
-        $this->flash(__mc('A test mail has been sent to :email. Please check if it arrived.', ['email' => $this->to_email]));
+        notify(__mc('A test mail has been sent to :email. Please check if it arrived.', ['email' => $this->to_email]));
 
         $this->dispatch('modal-closed', ['modal' => 'send-test']);
     }

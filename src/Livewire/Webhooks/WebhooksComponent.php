@@ -50,7 +50,7 @@ class WebhooksComponent extends TableComponent
     {
         $webhook->delete();
 
-        $this->flash(__mc('Webhook :webhook successfully deleted', ['webhook' => $webhook->name]));
+        notify(__mc('Webhook :webhook successfully deleted', ['webhook' => $webhook->name]));
     }
 
     protected function getTableColumns(): array

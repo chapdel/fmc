@@ -48,7 +48,7 @@ class CreateAutomationMailComponent extends Component
             self::getTemplateClass()::find($this->template_id),
         );
 
-        flash()->success(__mc('Email :name was created.', ['name' => $automationMail->name]));
+        notify(__mc('Email :name was created.', ['name' => $automationMail->name]));
 
         return redirect()->route('mailcoach.automations.mails.settings', $automationMail);
     }

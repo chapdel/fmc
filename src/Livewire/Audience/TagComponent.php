@@ -8,13 +8,11 @@ use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag as TagModel;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\MainNavigation;
 
 class TagComponent extends Component
 {
     use AuthorizesRequests;
-    use LivewireFlash;
 
     public EmailList $emailList;
 
@@ -53,7 +51,7 @@ class TagComponent extends Component
 
         $this->tag->save();
 
-        $this->flash(__mc('Tag :tag was updated', ['tag' => $this->tag->name]));
+        notify(__mc('Tag :tag was updated', ['tag' => $this->tag->name]));
     }
 
     public function render(): View

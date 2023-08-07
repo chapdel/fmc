@@ -7,11 +7,9 @@ use Livewire\Component;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookLog;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 
 class WebhookLogComponent extends Component
 {
-    use LivewireFlash;
     use UsesMailcoachModels;
 
     public WebhookConfiguration $webhook;

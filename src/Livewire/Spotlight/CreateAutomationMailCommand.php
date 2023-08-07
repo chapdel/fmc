@@ -42,7 +42,7 @@ class CreateAutomationMailCommand extends SpotlightCommand
             'name' => $name,
         ]);
 
-        flash()->success(__mc('Email :name was created.', ['name' => $automationMail->name]));
+        notify(__mc('Email :name was created.', ['name' => $automationMail->name]));
 
         $spotlight->redirect(route('mailcoach.automations.mails.settings', $automationMail));
     }

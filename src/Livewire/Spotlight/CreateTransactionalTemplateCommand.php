@@ -40,7 +40,7 @@ class CreateTransactionalTemplateCommand extends SpotlightCommand
             'name' => $name,
         ]);
 
-        flash()->success(__mc('Template :template was created.', ['template' => $template->name]));
+        notify(__mc('Template :template was created.', ['template' => $template->name]));
 
         $spotlight->redirect(route('mailcoach.templates.edit', $template));
     }

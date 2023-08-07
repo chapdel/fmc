@@ -8,13 +8,11 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\MainNavigation;
 
 class WebsiteComponent extends Component
 {
     use UsesMailcoachModels;
-    use LivewireFlash;
     use WithFileUploads;
 
     /** @var \Illuminate\Http\UploadedFile */
@@ -57,7 +55,7 @@ class WebsiteComponent extends Component
             $path = $this->handleUpload();
 
             if (! $path) {
-                $this->flashError('Upload failed. Please try again');
+                notifyError('Upload failed. Please try again');
 
                 return;
             }
@@ -75,7 +73,7 @@ class WebsiteComponent extends Component
 
         $this->emailList->save();
 
-        $this->flash(__mc('Website settings for list :emailList were updated', ['emailList' => $this->emailList->name]));
+        notify(__mc('Website settings for list :emailList were updated', ['emailList' => $this->emailList->name]));
     }
 
     public function render(): View

@@ -1,3 +1,5 @@
+@php ($versionInfo = app(\Spatie\Mailcoach\Domain\Shared\Support\Version::class))
+
 <div class="mx-auto w-full max-w-layout px-6 py-16 md:px-16 flex flex-col gap-y-4 lg:flex-row lg:gap-x-16">
     <div class="text-sm text-gray-500 flex items-center" x-cloak x-data="{ key: 'CMD' }" x-init="platform = window.navigator.platform.indexOf('Mac') ? 'CMD' : 'CTRL' ">
         <x-mailcoach::icon-label icon="far fa-lightbulb" />

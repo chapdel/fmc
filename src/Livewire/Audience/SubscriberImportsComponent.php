@@ -92,7 +92,7 @@ class SubscriberImportsComponent extends TableComponent
 
         dispatch(new ImportSubscribersJob($subscriberImport, $user instanceof User ? $user : null, $this->sendNotification));
 
-        $this->flash(__mc('Your file has been uploaded. Follow the import status in the list below.'));
+        notify(__mc('Your file has been uploaded. Follow the import status in the list below.'));
 
         $this->file = null;
         $this->showForm = false;
@@ -143,7 +143,7 @@ class SubscriberImportsComponent extends TableComponent
 
         $import->delete();
 
-        $this->flash(__mc('Import was deleted.'));
+        notify(__mc('Import was deleted.'));
     }
 
     public function restartImport(SubscriberImport $import): void
@@ -152,7 +152,7 @@ class SubscriberImportsComponent extends TableComponent
 
         dispatch(new ImportSubscribersJob($import, Auth::user()));
 
-        $this->flash(__mc('Import successfully restarted.'));
+        notify(__mc('Import successfully restarted.'));
     }
 
     public function getTitle(): string

@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Livewire\MailConfiguration\Mailgun\Steps;
 
 use Spatie\LivewireWizard\Components\StepComponent;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\Livewire\MailConfiguration\Concerns\UsesMailer;
 use Spatie\MailcoachMailgunFeedback\MailgunWebhookController;
 use Spatie\MailcoachMailgunSetup\EventType;
@@ -12,7 +11,6 @@ use Spatie\MailcoachMailgunSetup\Mailgun;
 
 class FeedbackStepComponent extends StepComponent
 {
-    use LivewireFlash;
     use UsesMailer;
 
     public bool $trackOpens = false;
@@ -53,7 +51,7 @@ class FeedbackStepComponent extends StepComponent
         try {
             $this->getMailgun()->setupWebhook($endpoint, $events);
         } catch (CouldNotAccessAccountSetting $exception) {
-            $this->flashError($exception->getMessage());
+            notifyError($exception->getMessage());
 
             return;
         }
@@ -66,7 +64,7 @@ class FeedbackStepComponent extends StepComponent
 
         $this->mailer()->markAsReadyForUse();
 
-        $this->flash('Your account has been configured to handle feedback.');
+        notify('Your account has been configured to handle feedback.');
 
         $this->nextStep();
     }

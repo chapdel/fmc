@@ -11,8 +11,6 @@ use Spatie\Mailcoach\Domain\Settings\Support\TimeZone;
 
 class GeneralSettingsComponent extends Component
 {
-    use LivewireFlash;
-
     public string $name = '';
 
     public string $timezone = '';
@@ -55,7 +53,7 @@ class GeneralSettingsComponent extends Component
             });
         }
 
-        $this->flash(__mc('The app configuration was saved.'));
+        notify(__mc('The app configuration was saved.'));
     }
 
     public function render()

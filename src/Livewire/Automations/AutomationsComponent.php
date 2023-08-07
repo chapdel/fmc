@@ -90,7 +90,7 @@ class AutomationsComponent extends TableComponent
         $action = Mailcoach::getAutomationActionClass('duplicate_automation', DuplicateAutomationAction::class);
         $duplicateAutomation = $action->execute($automation);
 
-        flash()->success(__mc('Automation :automation was duplicated.', ['automation' => $automation->name]));
+        notify(__mc('Automation :automation was duplicated.', ['automation' => $automation->name]));
 
         return redirect()->route('mailcoach.automations.settings', $duplicateAutomation);
     }

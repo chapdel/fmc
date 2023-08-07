@@ -6,12 +6,10 @@ use Livewire\Component;
 use Spatie\Mailcoach\Domain\Settings\Enums\WebhookEventTypes;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\Livewire\Webhooks\Forms\EditWebhookForm;
 
 class EditWebhookComponent extends Component
 {
-    use LivewireFlash;
     use UsesMailcoachModels;
 
     public WebhookConfiguration $webhook;
@@ -37,7 +35,7 @@ class EditWebhookComponent extends Component
     {
         $this->form->store();
 
-        $this->flash(__mc('The webhook has been updated.'));
+        notify(__mc('The webhook has been updated.'));
     }
 
     public function render()

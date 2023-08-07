@@ -3,14 +3,12 @@
 namespace Spatie\Mailcoach\Livewire\MailConfiguration\Postmark\Steps;
 
 use Spatie\LivewireWizard\Components\StepComponent;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\Livewire\MailConfiguration\Concerns\UsesMailer;
 use Spatie\MailcoachPostmarkSetup\MessageStream;
 use Spatie\MailcoachPostmarkSetup\Postmark;
 
 class MessageStreamStepComponent extends StepComponent
 {
-    use LivewireFlash;
     use UsesMailer;
 
     public string $streamId = '';

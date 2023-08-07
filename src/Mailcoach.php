@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach;
 
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\InvalidConfig;
+use Spatie\Mailcoach\Domain\Settings\Support\MenuItem;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Front\Controllers\MailcoachAssets;
 
@@ -14,6 +15,15 @@ class Mailcoach
     protected static array $editorScripts = [];
 
     protected static array $editorStyles = [];
+
+    /** @var MenuItem[] */
+    public static array $mainMenuItems = [];
+
+    /** @var MenuItem[] */
+    public static array $userMenuItems = [];
+
+    /** @var MenuItem[] */
+    public static array $settingsMenuItems = [];
 
     public static function styles(): string
     {
@@ -205,5 +215,26 @@ class Mailcoach
     public static function getQueueConnection(): ?string
     {
         return config('mailcoach.queue_connection') ?? config('queue.default');
+    }
+
+    public static function addMainMenuItems(MenuItem ...$items): void
+    {
+        foreach ($items as $item) {
+            self::$mainMenuItems[] = $item;
+        }
+    }
+
+    public static function addUserMenuItems(MenuItem ...$items): void
+    {
+        foreach ($items as $item) {
+            self::$userMenuItems[] = $item;
+        }
+    }
+
+    public static function addSettingsMenuItems(MenuItem ...$items): void
+    {
+        foreach ($items as $item) {
+            self::$settingsMenuItems[] = $item;
+        }
     }
 }

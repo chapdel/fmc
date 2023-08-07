@@ -11,13 +11,10 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\Livewire\TableComponent;
 
 class TransactionalMailsComponent extends TableComponent
 {
-    use LivewireFlash;
-
     public function mount()
     {
         $this->authorize('viewAny', static::getTransactionalMailClass());
@@ -105,7 +102,7 @@ class TransactionalMailsComponent extends TableComponent
         $duplicateTemplate->name .= '-copy';
         $duplicateTemplate->save();
 
-        flash()->success(__mc('Email :name was duplicated.', ['name' => $transactionalMail->name]));
+        notify(__mc('Email :name was duplicated.', ['name' => $transactionalMail->name]));
 
         return redirect()->route('mailcoach.transactionalMails.templates.edit', $duplicateTemplate);
     }

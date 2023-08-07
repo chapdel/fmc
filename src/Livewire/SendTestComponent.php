@@ -12,7 +12,6 @@ use Spatie\ValidationRules\Rules\Delimited;
 
 class SendTestComponent extends Component
 {
-    use LivewireFlash;
     use UsesMailcoachModels;
 
     public Model $model;
@@ -52,19 +51,19 @@ class SendTestComponent extends Component
             try {
                 $this->model->sendTestMail($emails);
             } catch (\Throwable $e) {
-                $this->flashError($e->getMessage());
+                notifyError($e->getMessage());
                 $this->dispatch('modal-closed', ['modal' => 'send-test']);
 
                 return;
             }
 
             if (count($emails) > 1) {
-                $this->flash(__mc('A test email was sent to :count addresses.', ['count' => count($emails)]));
+                notify(__mc('A test email was sent to :count addresses.', ['count' => count($emails)]));
             } else {
-                $this->flash(__mc('A test email was sent to :email.', ['email' => $emails[0]]));
+                notify(__mc('A test email was sent to :email.', ['email' => $emails[0]]));
             }
         } else {
-            $this->flashError(__mc('Model :model does not support sending tests.', ['model' => $this->model::class]));
+            notifyError(__mc('Model :model does not support sending tests.', ['model' => $this->model::class]));
         }
 
         $this->dispatch('modal-closed', ['modal' => 'send-test']);

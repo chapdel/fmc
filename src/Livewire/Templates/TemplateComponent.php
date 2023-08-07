@@ -13,12 +13,10 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Template as TemplateModel;
 use Spatie\Mailcoach\Domain\Shared\Support\TemplateRenderer;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 
 class TemplateComponent extends Component
 {
     use AuthorizesRequests;
-    use LivewireFlash;
     use UsesMailcoachModels;
 
     public TemplateModel $template;
@@ -53,7 +51,7 @@ class TemplateComponent extends Component
 
         $this->reRenderEmailsUsingTemplate();
 
-        $this->flash(__mc('Template :template was updated.', ['template' => $this->template->name]));
+        notify(__mc('Template :template was updated.', ['template' => $this->template->name]));
     }
 
     private function reRenderEmailsUsingTemplate(): void

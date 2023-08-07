@@ -4,8 +4,8 @@ namespace Spatie\Mailcoach\Http\Api\Controllers\Campaigns;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Http\Api\Queries\CampaignOpensQuery;
 use Spatie\Mailcoach\Http\Api\Resources\CampaignOpenResource;
-use Spatie\Mailcoach\Http\App\Queries\CampaignOpensQuery;
 
 class CampaignOpensController
 {

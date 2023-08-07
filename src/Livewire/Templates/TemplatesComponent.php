@@ -86,7 +86,7 @@ class TemplatesComponent extends TableComponent
             'structured_html' => $template->structured_html,
         ]);
 
-        $this->flash(__mc('Template :template was duplicated.', ['template' => $template->name]));
+        notify(__mc('Template :template was duplicated.', ['template' => $template->name]));
 
         return redirect()->route('mailcoach.templates.edit', $duplicateTemplate);
     }

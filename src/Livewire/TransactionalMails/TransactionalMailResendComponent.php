@@ -6,14 +6,12 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\MainNavigation;
 
 class TransactionalMailResendComponent extends Component
 {
     use UsesMailcoachModels;
     use AuthorizesRequests;
-    use LivewireFlash;
 
     public TransactionalMailLogItem $transactionalMail;
 
@@ -28,7 +26,7 @@ class TransactionalMailResendComponent extends Component
     {
         $this->transactionalMail->resend();
 
-        $this->flash(__mc('The mail has been resent!'));
+        notify(__mc('The mail has been resent!'));
     }
 
     public function render()

@@ -9,14 +9,12 @@ use Livewire\Component;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Rules\DateTimeFieldRule;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\MainNavigation;
 
 class CampaignDeliveryComponent extends Component
 {
     use AuthorizesRequests;
     use UsesMailcoachModels;
-    use LivewireFlash;
 
     public Campaign $campaign;
 
@@ -61,7 +59,7 @@ class CampaignDeliveryComponent extends Component
     {
         $this->campaign->markAsUnscheduled();
 
-        $this->flash(__mc('Campaign :campaign was unscheduled', ['campaign' => $this->campaign->name]));
+        notify(__mc('Campaign :campaign was unscheduled', ['campaign' => $this->campaign->name]));
     }
 
     public function schedule()
@@ -69,27 +67,27 @@ class CampaignDeliveryComponent extends Component
         $this->validate();
 
         if (! $this->campaign->isPending()) {
-            $this->flash(__mc('Campaign :campaign could not be scheduled because it has already been sent.', ['campaign' => $this->campaign->name]), 'error');
+            notify(__mc('Campaign :campaign could not be scheduled because it has already been sent.', ['campaign' => $this->campaign->name]), 'error');
 
             return;
         }
 
         $this->campaign->scheduleToBeSentAt($this->scheduled_at_date->setTimezone(config('mailcoach.timezone') ?? config('app.timezone')));
 
-        $this->flash(__mc('Campaign :campaign is scheduled for delivery.', ['campaign' => $this->campaign->name]));
+        notify(__mc('Campaign :campaign is scheduled for delivery.', ['campaign' => $this->campaign->name]));
     }
 
     public function send()
     {
         if (! $this->campaign->isPending()) {
-            $this->flash(__mc('Campaign :campaign could not be sent because it has already been sent.', ['campaign' => $this->campaign->name]), 'error');
+            notify(__mc('Campaign :campaign could not be sent because it has already been sent.', ['campaign' => $this->campaign->name]), 'error');
 
             return;
         }
 
         $this->campaign->send();
 
-        flash()->success(__mc('Campaign :campaign is being sent.', ['campaign' => $this->campaign->name]));
+        notify(__mc('Campaign :campaign is being sent.', ['campaign' => $this->campaign->name]));
 
         return redirect()->route('mailcoach.campaigns.summary', $this->campaign);
     }

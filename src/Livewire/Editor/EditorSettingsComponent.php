@@ -7,12 +7,9 @@ use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\EditorConfiguration;
 use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\EditorConfigurationDriverRepository;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 
 class EditorSettingsComponent extends Component
 {
-    use LivewireFlash;
-
     public string $contentEditor;
 
     public string $templateEditor;
@@ -70,7 +67,7 @@ class EditorSettingsComponent extends Component
 
         resolve(EditorConfiguration::class)->put($data);
 
-        $this->flash(__mc('The editor has been updated.'));
+        notify(__mc('The editor has been updated.'));
 
         return redirect(request()->header('Referer'));
     }

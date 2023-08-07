@@ -18,7 +18,6 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 abstract class TableComponent extends Component implements HasTable, HasForms
 {
-    use LivewireFlash;
     use UsesMailcoachModels;
     use InteractsWithTable;
     use InteractsWithForms;

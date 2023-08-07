@@ -9,7 +9,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
-use Spatie\Mailcoach\Http\App\Queries\Filters\SearchFilter;
+use Spatie\Mailcoach\Http\Api\Queries\Filters\SearchFilter;
 
 beforeEach(function () {
     test()->emailList = EmailList::factory()->create();

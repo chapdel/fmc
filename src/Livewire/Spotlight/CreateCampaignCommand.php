@@ -68,7 +68,7 @@ class CreateCampaignCommand extends SpotlightCommand
             'email_list_id' => $emailList->id,
         ]);
 
-        flash()->success(__mc('Campaign :campaign was created.', ['campaign' => $campaign->name]));
+        notify(__mc('Campaign :campaign was created.', ['campaign' => $campaign->name]));
 
         $spotlight->redirect(route('mailcoach.campaigns.settings', $campaign));
     }

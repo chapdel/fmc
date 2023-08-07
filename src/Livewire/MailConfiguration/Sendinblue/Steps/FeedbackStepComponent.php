@@ -5,14 +5,12 @@ namespace Spatie\Mailcoach\Livewire\MailConfiguration\Sendinblue\Steps;
 use Exception;
 use Illuminate\Support\Str;
 use Spatie\LivewireWizard\Components\StepComponent;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\Livewire\MailConfiguration\Concerns\UsesMailer;
 use Spatie\MailcoachSendinblueFeedback\SendinblueWebhookController;
 use Spatie\MailcoachSendinblueSetup\Sendinblue;
 
 class FeedbackStepComponent extends StepComponent
 {
-    use LivewireFlash;
     use UsesMailer;
 
     public bool $trackOpens = true;
@@ -43,7 +41,7 @@ class FeedbackStepComponent extends StepComponent
         try {
             $this->getSendinblue()->setupWebhook($endpoint);
         } catch (Exception $e) {
-            $this->flashError(__mc('Something went wrong while setting up the Sendinblue webhook'));
+            notifyError(__mc('Something went wrong while setting up the Sendinblue webhook'));
             report($e);
 
             return;
@@ -57,7 +55,7 @@ class FeedbackStepComponent extends StepComponent
 
         $this->mailer()->markAsReadyForUse();
 
-        $this->flash('Your account has been configured to handle feedback.');
+        notify('Your account has been configured to handle feedback.');
 
         $this->nextStep();
     }

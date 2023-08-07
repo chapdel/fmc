@@ -37,7 +37,7 @@ class TagsComponent extends TableComponent
 
         $tag->delete();
 
-        $this->flash(__mc('Tag :tag was deleted', ['tag' => $tag->name]));
+        notify(__mc('Tag :tag was deleted', ['tag' => $tag->name]));
     }
 
     public function getTitle(): string

@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Livewire\MailConfiguration\SendGrid\Steps;
 
 use Illuminate\Support\Str;
 use Spatie\LivewireWizard\Components\StepComponent;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\Livewire\MailConfiguration\Concerns\UsesMailer;
 use Spatie\MailcoachSendgridFeedback\SendgridWebhookController;
 use Spatie\MailcoachSendgridSetup\EventType;
@@ -12,7 +11,6 @@ use Spatie\MailcoachSendgridSetup\Sendgrid;
 
 class FeedbackStepComponent extends StepComponent
 {
-    use LivewireFlash;
     use UsesMailer;
 
     public bool $trackOpens = false;
@@ -60,7 +58,7 @@ class FeedbackStepComponent extends StepComponent
 
         $this->mailer()->markAsReadyForUse();
 
-        $this->flash('Your account has been configured to handle feedback.');
+        notify('Your account has been configured to handle feedback.');
 
         $this->nextStep();
     }

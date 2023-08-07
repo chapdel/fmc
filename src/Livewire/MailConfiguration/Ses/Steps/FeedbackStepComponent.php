@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Livewire\MailConfiguration\Ses\Steps;
 
 use Exception;
 use Spatie\LivewireWizard\Components\StepComponent;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\Livewire\MailConfiguration\Concerns\UsesMailer;
 use Spatie\MailcoachSesFeedback\SesWebhookController;
 use Spatie\MailcoachSesSetup\MailcoachSes;
@@ -12,7 +11,6 @@ use Spatie\MailcoachSesSetup\MailcoachSesConfig;
 
 class FeedbackStepComponent extends StepComponent
 {
-    use LivewireFlash;
     use UsesMailer;
 
     public string $configurationType = 'automatic';
@@ -49,7 +47,7 @@ class FeedbackStepComponent extends StepComponent
                 ->createSnsSubscription()
                 ->addSnsSubscriptionToSesTopic();
         } catch (Exception $e) {
-            $this->flashError('Something went wrong while setting up SES feedback');
+            notifyError('Something went wrong while setting up SES feedback');
             $this->addError('configurationName', $e->getMessage());
 
             return;
@@ -63,7 +61,7 @@ class FeedbackStepComponent extends StepComponent
 
         $this->mailer()->markAsReadyForUse();
 
-        $this->flash('Your account has been configured to handle feedback.');
+        notify('Your account has been configured to handle feedback.');
 
         $this->nextStep();
     }
@@ -78,7 +76,7 @@ class FeedbackStepComponent extends StepComponent
 
         $this->mailer()->markAsReadyForUse();
 
-        $this->flash('The settings have been saved.');
+        notify('The settings have been saved.');
 
         $this->nextStep();
     }

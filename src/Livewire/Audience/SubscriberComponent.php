@@ -13,7 +13,6 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\Mailcoach;
 use Spatie\Mailcoach\MainNavigation;
 
@@ -21,7 +20,6 @@ class SubscriberComponent extends Component
 {
     use AuthorizesRequests;
     use UsesMailcoachModels;
-    use LivewireFlash;
 
     public Subscriber $subscriber;
 
@@ -84,7 +82,7 @@ class SubscriberComponent extends Component
             tags: $this->tags ?? [],
         );
 
-        $this->flash(__mc('Subscriber :subscriber was updated.', ['subscriber' => $this->subscriber->email]));
+        notify(__mc('Subscriber :subscriber was updated.', ['subscriber' => $this->subscriber->email]));
     }
 
     public function mount(EmailList $emailList, Subscriber $subscriber)
@@ -123,7 +121,7 @@ class SubscriberComponent extends Component
         }
         $this->subscriber->save();
 
-        $this->flash(__mc('Subscriber :subscriber was updated.', ['subscriber' => $this->subscriber->email]));
+        notify(__mc('Subscriber :subscriber was updated.', ['subscriber' => $this->subscriber->email]));
     }
 
     public function render(): View

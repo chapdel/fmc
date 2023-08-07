@@ -112,7 +112,7 @@ class SegmentsComponent extends TableComponent
             'email_list_id' => $segment->email_list_id,
         ]);
 
-        flash()->success(__mc('Segment :segment was duplicated.', ['segment' => $segment->name]));
+        notify(__mc('Segment :segment was duplicated.', ['segment' => $segment->name]));
 
         return redirect()->route('mailcoach.emailLists.segments.edit', [
             $duplicateSegment->emailList,

@@ -155,6 +155,6 @@ class SubscriberSendsComponent extends TableComponent
 
         dispatch(new SendCampaignMailJob($send));
 
-        $this->flash(__mc('Retrying to send :failedSendsCount mails...', ['failedSendsCount' => 1]));
+        notify(__mc('Retrying to send :failedSendsCount mails...', ['failedSendsCount' => 1]));
     }
 }

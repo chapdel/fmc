@@ -7,13 +7,11 @@ use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\MainNavigation;
 
 class ListMailersComponent extends Component
 {
     use UsesMailcoachModels;
-    use LivewireFlash;
 
     public EmailList $emailList;
 
@@ -39,7 +37,7 @@ class ListMailersComponent extends Component
 
         $this->emailList->save();
 
-        $this->flash(__mc('List :emailList was updated', ['emailList' => $this->emailList->name]));
+        notify(__mc('List :emailList was updated', ['emailList' => $this->emailList->name]));
     }
 
     public function render(): View

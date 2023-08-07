@@ -225,7 +225,7 @@ class CampaignsComponent extends TableComponent
             'segment_description' => $duplicateCampaign->getSegment()->description(),
         ]);
 
-        flash()->success(__mc('Campaign :campaign was duplicated.', ['campaign' => $campaign->name]));
+        notify(__mc('Campaign :campaign was duplicated.', ['campaign' => $campaign->name]));
 
         return redirect()->route('mailcoach.campaigns.settings', $duplicateCampaign);
     }

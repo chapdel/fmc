@@ -11,12 +11,10 @@ use Spatie\Mailcoach\Domain\Campaign\Rules\HtmlRule;
 use Spatie\Mailcoach\Domain\Shared\Actions\RenderTwigAction;
 use Spatie\Mailcoach\Domain\Shared\Support\TemplateRenderer;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 
 abstract class EditorComponent extends Component
 {
     use UsesMailcoachModels;
-    use LivewireFlash;
 
     public static bool $supportsTemplates = true;
 
@@ -148,7 +146,7 @@ abstract class EditorComponent extends Component
             try {
                 app(RenderTwigAction::class)->execute($this->fullHtml);
             } catch (\Throwable $e) {
-                $this->flashError($e->getMessage());
+                notifyError($e->getMessage());
                 $this->hasError = true;
 
                 return;
@@ -168,7 +166,7 @@ abstract class EditorComponent extends Component
         $this->saveQuietly();
 
         if (! $this->quiet && ! $this->hasError) {
-            $this->flash(__mc(':name was updated.', ['name' => $this->model->fresh()->name]));
+            notify(__mc(':name was updated.', ['name' => $this->model->fresh()->name]));
         }
 
         $this->dispatch('editorSaved');

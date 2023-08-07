@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Spatie\Mailcoach\Domain\Settings\Models\User;
+use Illuminate\Foundation\Auth\User;
 
 class UserFactory extends Factory
 {

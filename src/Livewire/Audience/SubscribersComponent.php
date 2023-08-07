@@ -24,7 +24,7 @@ use Spatie\Mailcoach\Domain\Audience\Jobs\ExportSubscribersJob;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
-use Spatie\Mailcoach\Http\App\Queries\EmailListSubscribersQuery;
+use Spatie\Mailcoach\Http\Api\Queries\EmailListSubscribersQuery;
 use Spatie\Mailcoach\Livewire\TableComponent;
 use Spatie\Mailcoach\Mailcoach;
 use Spatie\Mailcoach\MainNavigation;
@@ -249,7 +249,7 @@ class SubscribersComponent extends TableComponent
                         $subscriber->addTags($tags);
                     });
 
-                    $this->flash(__mc('Added tags to :count subscribers', ['count' => $subscribers->count()]));
+                    notify(__mc('Added tags to :count subscribers', ['count' => $subscribers->count()]));
                 })
                 ->form([
                     Select::make('tags')
@@ -268,7 +268,7 @@ class SubscribersComponent extends TableComponent
                         $subscriber->removeTags($tags);
                     });
 
-                    $this->flash(__mc('Removed tags from :count subscribers', ['count' => $subscribers->count()]));
+                    notify(__mc('Removed tags from :count subscribers', ['count' => $subscribers->count()]));
                 })
                 ->form([
                     Select::make('tags')
@@ -320,7 +320,7 @@ class SubscribersComponent extends TableComponent
                         $subscriber->unsubscribe();
                     });
 
-                    $this->flash(__mc("Successfully unsubscribed {$count} subscribers."));
+                    notify(__mc("Successfully unsubscribed {$count} subscribers."));
                 }),
             BulkAction::make('Delete')
                 ->label(__mc('Delete'))
@@ -337,7 +337,7 @@ class SubscribersComponent extends TableComponent
                         $deleteSubscriberAction->execute($subscriber);
                     });
 
-                    $this->flash(__mc('Deleted :count subscribers', ['count' => $count]));
+                    notify(__mc('Deleted :count subscribers', ['count' => $count]));
                 }),
         ];
     }
@@ -363,7 +363,7 @@ class SubscribersComponent extends TableComponent
                         user: Auth::user(),
                     ));
 
-                    $this->flash(__mc('Subscriber export successfully queued.'));
+                    notify(__mc('Subscriber export successfully queued.'));
 
                     return redirect()->route('mailcoach.emailLists.subscriber-exports', [$this->emailList]);
                 }),
@@ -397,39 +397,39 @@ class SubscribersComponent extends TableComponent
 
         $deleteSubscriberAction->execute($subscriber);
 
-        $this->flash(__mc('Subscriber :subscriber was deleted.', ['subscriber' => $subscriber->email]));
+        notify(__mc('Subscriber :subscriber was deleted.', ['subscriber' => $subscriber->email]));
     }
 
     public function resubscribe(Subscriber $subscriber)
     {
         if (! $subscriber->isUnsubscribed()) {
-            $this->flash(__mc('Can only resubscribe unsubscribed subscribers'), 'error');
+            notify(__mc('Can only resubscribe unsubscribed subscribers'), 'error');
 
             return;
         }
 
         $subscriber->resubscribe();
 
-        $this->flash(__mc(':subscriber has been resubscribed.', ['subscriber' => $subscriber->email]));
+        notify(__mc(':subscriber has been resubscribed.', ['subscriber' => $subscriber->email]));
     }
 
     public function unsubscribe(Subscriber $subscriber)
     {
         if (! $subscriber->isSubscribed()) {
-            $this->flash(__mc('Can only unsubscribe a subscribed subscriber'), 'error');
+            notify(__mc('Can only unsubscribe a subscribed subscriber'), 'error');
 
             return;
         }
 
         $subscriber->unsubscribe();
 
-        $this->flash(__mc(':subscriber has been unsubscribed.', ['subscriber' => $subscriber->email]));
+        notify(__mc(':subscriber has been unsubscribed.', ['subscriber' => $subscriber->email]));
     }
 
     public function confirm(Subscriber $subscriber)
     {
         if ($subscriber->status !== SubscriptionStatus::Unconfirmed) {
-            $this->flash(__mc('Can only subscribe unconfirmed emails'), 'error');
+            notify(__mc('Can only subscribe unconfirmed emails'), 'error');
 
             return;
         }
@@ -439,14 +439,14 @@ class SubscribersComponent extends TableComponent
             'unsubscribed_at' => null,
         ]);
 
-        $this->flash(__mc(':subscriber has been confirmed.', ['subscriber' => $subscriber->email]));
+        notify(__mc(':subscriber has been confirmed.', ['subscriber' => $subscriber->email]));
     }
 
     public function resendConfirmation(Subscriber $subscriber)
     {
         resolve(SendConfirmSubscriberMailAction::class)->execute($subscriber);
 
-        $this->flash(__mc('A confirmation mail has been sent to :subscriber', ['subscriber' => $subscriber->email]));
+        notify(__mc('A confirmation mail has been sent to :subscriber', ['subscriber' => $subscriber->email]));
     }
 
     public function deleteUnsubscribes()
@@ -455,7 +455,7 @@ class SubscribersComponent extends TableComponent
 
         $this->emailList->allSubscribers()->unsubscribed()->delete();
 
-        $this->flash(__mc('All unsubscribers of the list have been deleted.'));
+        notify(__mc('All unsubscribers of the list have been deleted.'));
     }
 
     public function getTitle(): string

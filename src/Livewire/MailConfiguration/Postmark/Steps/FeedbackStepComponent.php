@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Livewire\MailConfiguration\Postmark\Steps;
 
 use Illuminate\Support\Str;
 use Spatie\LivewireWizard\Components\StepComponent;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\Livewire\MailConfiguration\Concerns\UsesMailer;
 use Spatie\MailcoachPostmarkFeedback\PostmarkWebhookController;
 use Spatie\MailcoachPostmarkSetup\Enums\PostMarkTrigger;
@@ -12,7 +11,6 @@ use Spatie\MailcoachPostmarkSetup\Postmark;
 
 class FeedbackStepComponent extends StepComponent
 {
-    use LivewireFlash;
     use UsesMailer;
 
     public bool $trackOpens = false;
@@ -63,7 +61,7 @@ class FeedbackStepComponent extends StepComponent
 
         $this->mailer()->markAsReadyForUse();
 
-        $this->flash('Your account has been configured to handle feedback.');
+        notify('Your account has been configured to handle feedback.');
 
         $this->nextStep();
     }

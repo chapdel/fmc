@@ -9,7 +9,6 @@ use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\MainNavigation;
 use Spatie\ValidationRules\Rules\Delimited;
 
@@ -17,7 +16,6 @@ class AutomationMailSettingsComponent extends Component
 {
     use AuthorizesRequests;
     use UsesMailcoachModels;
-    use LivewireFlash;
 
     public AutomationMail $mail;
 
@@ -65,7 +63,7 @@ class AutomationMailSettingsComponent extends Component
         $this->mail->fill(Arr::except($this->all(), ['mail']));
         $this->mail->save();
 
-        $this->flash(__mc('Email :name was updated.', ['name' => $this->mail->name]));
+        notify(__mc('Email :name was updated.', ['name' => $this->mail->name]));
     }
 
     public function render(): View

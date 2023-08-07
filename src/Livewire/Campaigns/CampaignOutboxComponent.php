@@ -148,14 +148,14 @@ class CampaignOutboxComponent extends TableComponent
         $failedSendsCount = $this->campaign->sends()->failed()->count();
 
         if ($failedSendsCount === 0) {
-            $this->flash(__mc('There are no failed mails to resend anymore.'), 'error');
+            notify(__mc('There are no failed mails to resend anymore.'), 'error');
 
             return;
         }
 
         dispatch(new RetrySendingFailedSendsJob($this->campaign));
 
-        $this->flash(__mc('Retrying to send :failedSendsCount mails...', ['failedSendsCount' => $failedSendsCount]), 'warning');
+        notify(__mc('Retrying to send :failedSendsCount mails...', ['failedSendsCount' => $failedSendsCount]), 'warning');
 
         return redirect()->route('mailcoach.campaigns.summary', $this->campaign);
     }

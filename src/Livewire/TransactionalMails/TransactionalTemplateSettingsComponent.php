@@ -7,13 +7,11 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\MainNavigation;
 
 class TransactionalTemplateSettingsComponent extends Component
 {
     use AuthorizesRequests;
-    use LivewireFlash;
     use UsesMailcoachModels;
 
     public TransactionalMail $template;
@@ -52,7 +50,7 @@ class TransactionalTemplateSettingsComponent extends Component
         $this->template->store_mail = $this->store_mail;
         $this->template->save();
 
-        $this->flash(__mc('Template :template was updated.', ['template' => $this->template->name]));
+        notify(__mc('Template :template was updated.', ['template' => $this->template->name]));
     }
 
     public function render(): View

@@ -13,13 +13,11 @@ use Spatie\Mailcoach\Domain\Audience\Support\Segments\EverySubscriberSegment;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\SubscribersWithTagsSegment;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\MainNavigation;
 
 class AutomationSettingsComponent extends Component
 {
     use AuthorizesRequests;
-    use LivewireFlash;
     use UsesMailcoachModels;
 
     public Automation $automation;
@@ -131,7 +129,7 @@ class AutomationSettingsComponent extends Component
 
         $this->automation->update(['segment_description' => $this->automation->getSegment()->description()]);
 
-        $this->flash(__mc('Automation :automation was updated.', ['automation' => $this->automation->name]));
+        notify(__mc('Automation :automation was updated.', ['automation' => $this->automation->name]));
     }
 
     public function render(): View

@@ -1,6 +1,6 @@
 <?php
 
-use Spatie\Mailcoach\Domain\Settings\Models\User;
+use Illuminate\Foundation\Auth\User;
 
 it('can change the password of the authenticated user', function () {
     $currentPassword = 'current-password';

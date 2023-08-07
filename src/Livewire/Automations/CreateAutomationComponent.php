@@ -43,7 +43,7 @@ class CreateAutomationComponent extends Component
             $this->validate(),
         );
 
-        flash()->success(__mc('Automation :automation was created.', ['automation' => $automation->name]));
+        notify(__mc('Automation :automation was created.', ['automation' => $automation->name]));
 
         return redirect()->route('mailcoach.automations.settings', $automation);
     }

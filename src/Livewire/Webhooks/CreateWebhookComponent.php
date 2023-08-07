@@ -27,7 +27,7 @@ class CreateWebhookComponent extends Component
             'secret' => Str::random(),
         ]);
 
-        flash()->success(__mc('The webhook has been created.'));
+        notify(__mc('The webhook has been created.'));
 
         return redirect()->route('webhooks.edit', $mailer);
     }

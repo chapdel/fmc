@@ -10,14 +10,12 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Livewire\Campaigns\Forms\CampaignSettingsForm;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\MainNavigation;
 
 class CampaignSettingsComponent extends Component
 {
     use AuthorizesRequests;
     use UsesMailcoachModels;
-    use LivewireFlash;
 
     public Campaign $campaign;
 
@@ -55,7 +53,7 @@ class CampaignSettingsComponent extends Component
     {
         $this->form->save($this->segment);
 
-        $this->flash(__mc('Campaign :campaign was updated.', ['campaign' => $this->form->name]));
+        notify(__mc('Campaign :campaign was updated.', ['campaign' => $this->form->name]));
     }
 
     public function render(): View

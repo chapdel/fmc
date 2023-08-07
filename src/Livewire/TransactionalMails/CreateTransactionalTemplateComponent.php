@@ -46,7 +46,7 @@ class CreateTransactionalTemplateComponent extends Component
             $this->type === 'html' ? self::getTemplateClass()::find($this->template_id) : null,
         );
 
-        flash()->success(__mc('Email :name was created.', ['name' => $template->name]));
+        notify(__mc('Email :name was created.', ['name' => $template->name]));
 
         return redirect()->route('mailcoach.transactionalMails.templates.edit', $template);
     }

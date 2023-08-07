@@ -11,12 +11,10 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\Livewire\TableComponent;
 
 class MailersComponent extends TableComponent
 {
-    use LivewireFlash;
     use UsesMailcoachModels;
 
     public function getTitle(): string
@@ -85,7 +83,7 @@ class MailersComponent extends TableComponent
     public function markMailerDefault(Mailer $mailer)
     {
         if (! $mailer->ready_for_use) {
-            $this->flashError(__mc('Mailer :mailer is not ready for use', ['mailer' => $mailer->name]));
+            notifyError(__mc('Mailer :mailer is not ready for use', ['mailer' => $mailer->name]));
 
             return;
         }
@@ -94,7 +92,7 @@ class MailersComponent extends TableComponent
 
         $mailer->update(['default' => true]);
 
-        $this->flash(__mc('Mailer :mailer marked as default', ['mailer' => $mailer->name]));
+        notify(__mc('Mailer :mailer marked as default', ['mailer' => $mailer->name]));
     }
 
     public function deleteMailer(Mailer $mailer): void
@@ -119,7 +117,7 @@ class MailersComponent extends TableComponent
             $emailList->save();
         });
 
-        $this->flash(__mc('Mailer :mailer successfully deleted', ['mailer' => $mailer->name]));
+        notify(__mc('Mailer :mailer successfully deleted', ['mailer' => $mailer->name]));
     }
 
     protected function getTableQuery(): Builder

@@ -27,7 +27,6 @@ use Spatie\Flash\Flash;
 use Spatie\LaravelCipherSweet\LaravelCipherSweetServiceProvider;
 use Spatie\LaravelRay\RayServiceProvider;
 use Spatie\Mailcoach\Database\Factories\UserFactory;
-use Spatie\Mailcoach\Domain\Settings\Models\User;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Front\Controllers\UnsubscribeController;
@@ -59,7 +58,6 @@ abstract class TestCase extends Orchestra
 
         app('router')->getRoutes()->refreshNameLookups();
 
-        config()->set('auth.providers.users.model', User::class);
         config()->set('mailcoach.timezone', null);
 
         $this->withoutExceptionHandling();

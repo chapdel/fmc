@@ -7,13 +7,11 @@ use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\MainNavigation;
 
 class ListOnboardingComponent extends Component
 {
     use UsesMailcoachModels;
-    use LivewireFlash;
 
     public const CONFIRMATION_MAIL_DEFAULT = 'send_default_confirmation_mail';
 
@@ -94,7 +92,7 @@ class ListOnboardingComponent extends Component
         $this->emailList->save();
         $this->emailList->allowedFormSubscriptionTags()->sync(self::getTagClass()::whereIn('name', $this->allowed_form_subscription_tags)->pluck('id'));
 
-        $this->flash(__mc('List :emailList was updated', ['emailList' => $this->emailList->name]));
+        notify(__mc('List :emailList was updated', ['emailList' => $this->emailList->name]));
     }
 
     public function render(): View

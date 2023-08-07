@@ -4,13 +4,11 @@ namespace Spatie\Mailcoach\Livewire\MailConfiguration\SendGrid\Steps;
 
 use Exception;
 use Spatie\LivewireWizard\Components\StepComponent;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\Livewire\MailConfiguration\Concerns\UsesMailer;
 use Spatie\MailcoachSendgridSetup\Sendgrid;
 
 class AuthenticationStepComponent extends StepComponent
 {
-    use LivewireFlash;
     use UsesMailer;
 
     public string $apiKey = '';
@@ -31,7 +29,7 @@ class AuthenticationStepComponent extends StepComponent
         try {
             $validApiKey = (new Sendgrid($this->apiKey))->isValidApiKey();
         } catch (Exception) {
-            $this->flash('Something went wrong communicating with SendGrid.', 'error');
+            notify('Something went wrong communicating with SendGrid.', 'error');
 
             return;
         }
@@ -42,7 +40,7 @@ class AuthenticationStepComponent extends StepComponent
             return;
         }
 
-        $this->flash('The API key is correct.');
+        notify('The API key is correct.');
 
         $this->mailer()->merge([
             'apiKey' => $this->apiKey,

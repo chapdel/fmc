@@ -49,7 +49,7 @@ class SubscriberExportsComponent extends TableComponent
 
         $export->delete();
 
-        $this->flash(__mc('Export was deleted.'));
+        notify(__mc('Export was deleted.'));
     }
 
     public function restartExport(SubscriberExport $export): void
@@ -61,7 +61,7 @@ class SubscriberExportsComponent extends TableComponent
 
         dispatch(new ExportSubscribersJob($export, Auth::user()));
 
-        $this->flash(__mc('Export successfully restarted.'));
+        notify(__mc('Export successfully restarted.'));
     }
 
     public function getTitle(): string

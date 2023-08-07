@@ -6,13 +6,11 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Livewire\LivewireFlash;
 use Spatie\Mailcoach\MainNavigation;
 
 class CampaignSummaryComponent extends Component
 {
     use AuthorizesRequests;
-    use LivewireFlash;
 
     public Campaign $campaign;
 
@@ -31,7 +29,7 @@ class CampaignSummaryComponent extends Component
     {
         $this->campaign->cancel();
 
-        $this->flash(__mc('Sending successfully cancelled.'));
+        notify(__mc('Sending successfully cancelled.'));
     }
 
     public function render()

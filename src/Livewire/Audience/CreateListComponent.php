@@ -45,7 +45,7 @@ class CreateListComponent extends Component
             $this->validate(),
         );
 
-        flash()->success(__mc('List :emailList was created', ['emailList' => $emailList->name]));
+        notify(__mc('List :emailList was created', ['emailList' => $emailList->name]));
 
         return redirect()->route('mailcoach.emailLists.general-settings', $emailList);
     }
