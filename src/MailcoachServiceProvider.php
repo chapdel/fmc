@@ -529,9 +529,12 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootLivewireComponents(): static
     {
-        Livewire::addPersistentMiddleware([
-            BootstrapMailcoach::class,
-        ]);
+        Livewire::setUpdateRoute(function ($handle) {
+            return Route::post('/mailcoach/livewire/update', $handle)
+                ->middleware([
+                    BootstrapMailcoach::class,
+                ]);
+        });
 
         Livewire::component('mailcoach::email-list-count', Mailcoach::getLivewireClass(EmailListCountComponent::class));
         Livewire::component('mailcoach::segment-population-count', Mailcoach::getLivewireClass(SegmentPopulationCountComponent::class));
