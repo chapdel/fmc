@@ -4,7 +4,6 @@
     @keydown.prevent.window.cmd.s="$wire.call('save')"
     @keydown.prevent.window.ctrl.s="$wire.call('save')"
     method="POST"
-    x-cloak
 >
     @csrf
     <x-mailcoach::fieldset card :legend="__mc('1. Pick an editor to compose campaigns & emails')">

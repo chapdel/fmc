@@ -70,7 +70,7 @@ class EditorSettingsComponent extends Component
 
         resolve(EditorConfiguration::class)->put($data);
 
-        flash()->success(__mc('The editor has been updated.'));
+        $this->flash(__mc('The editor has been updated.'));
 
         return redirect(request()->header('Referer'));
     }

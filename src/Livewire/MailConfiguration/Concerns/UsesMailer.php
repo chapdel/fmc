@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Livewire\MailConfiguration\Concerns;
 
 use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Livewire\MailConfiguration\Smtp\Steps\SummaryStepComponent;
 
 trait UsesMailer
 {
@@ -17,17 +18,10 @@ trait UsesMailer
             return $this->mailer;
         }
 
-        $summaryStepName = $this->summaryStepName();
-
-        $mailerId = $this->state()->forStep($summaryStepName)['mailerId'];
+        $mailerId = $this->state()->forStep(SummaryStepComponent::class)['mailerId'];
 
         $this->mailer = self::getMailerClass()::find($mailerId);
 
         return $this->mailer;
-    }
-
-    public function summaryStepName(): string
-    {
-        return collect($this->allStepNames)->last();
     }
 }

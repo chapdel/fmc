@@ -433,6 +433,17 @@ trait UsesMailcoachModels
         return config('mailcoach.models.user', User::class);
     }
 
+    /** @return class-string<User> */
+    public static function getUserTableName(): string
+    {
+        $className = self::getUserClass();
+
+        /** @var \Illuminate\Database\Eloquent\Model $class */
+        $class = new $className;
+
+        return $class->getTable();
+    }
+
     /** @return class-string<PersonalAccessToken> */
     public static function getPersonalAccessTokenClass(): string
     {
