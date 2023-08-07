@@ -395,7 +395,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
                 Route::sendinblueFeedback('sendinblue-feedback');
             }
 
-            Route::prefix($url)->middleware([BootstrapMailcoach::class])->group(function () {
+            Route::prefix($url)->namespace(null)->middleware([BootstrapMailcoach::class])->group(function () {
                 Route::prefix('')
                     ->group(__DIR__.'/../routes/mailcoach-public-api.php');
 
