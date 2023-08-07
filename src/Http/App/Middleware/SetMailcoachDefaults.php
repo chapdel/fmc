@@ -7,6 +7,7 @@ use Filament\Support\Colors\Color;
 use Filament\Support\Facades\FilamentColor;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Spatie\Flash\Flash;
+use Spatie\Mailcoach\Domain\Shared\Events\ServingMailcoach;
 
 class SetMailcoachDefaults
 {
@@ -41,6 +42,8 @@ class SetMailcoachDefaults
         Notification::configureUsing(function (Notification $notification): void {
             $notification->view('mailcoach::app.layouts.partials.flash');
         });
+
+        ServingMailcoach::dispatch();
 
         return $next($request);
     }

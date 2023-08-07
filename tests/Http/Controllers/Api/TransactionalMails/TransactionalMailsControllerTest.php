@@ -1,5 +1,6 @@
 <?php
 
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
 use Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails\TransactionalMailsController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
@@ -31,4 +32,19 @@ it('can search mails with a certain subject', function () {
     expect($transactionalMails)->toHaveCount(2);
 
     expect($transactionalMails[0]['subject'])->toEqual('bar');
+});
+
+it('can search mails by their send\'s transport_message_id', function () {
+    $item = TransactionalMailLogItem::factory()->create();
+    Send::factory()->create([
+        'transactional_mail_log_item_id' => $item->id,
+        'transport_message_id' => 'uuid-1234',
+    ]);
+
+    $transactionalMails = $this
+        ->get(action(TransactionalMailsController::class).'?filter[transport_message_id]=uuid-1234')
+        ->assertSuccessful()
+        ->json('data');
+
+    expect($transactionalMails)->toHaveCount(1);
 });
