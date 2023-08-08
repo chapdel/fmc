@@ -614,18 +614,12 @@ return [
 
     'webhooks' => [
         /**
-         * Store and view logs of all webhook calls.
-         * Make sure you publish and run the `create_webhook_logs_table` migration when enabling this feature.
-         */
-        'logs' => false,
-
-        /**
          * The amount of times a webhook call should be retried before giving up.
          */
         'maximum_attempts' => 5,
 
         /**
-         * The email addresses which will be used to send a notification when a webhook is auto disabled.
+         * The email addresses which will be notified when a webhook is auto disabled.
          */
         'notified_emails' => null,
     ],
