@@ -273,7 +273,7 @@ it('can calculate statistics regarding bounces', function () {
 
 test('the queue of the calculate statistics job can be configured', function () {
     Queue::fake();
-    config()->set('mailcoach.shared.perform_on_queue.calculate_statistics_job', 'custom-queue');
+    config()->set('mailcoach.perform_on_queue.calculate_statistics_job', 'custom-queue');
 
     $campaign = Campaign::factory()->create();
     dispatch(new CalculateStatisticsJob($campaign));

@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
 
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
@@ -100,5 +101,21 @@ abstract class AutomationAction extends AutomationStep
         }
 
         return $this->getNextActionNested($action->parent);
+    }
+
+    public static function defaultActions(): Collection
+    {
+        return collect([
+            \Spatie\Mailcoach\Domain\Automation\Support\Actions\AddTagsAction::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\Actions\ConditionAction::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\Actions\SplitAction::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\Actions\RemoveTagsAction::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\Actions\UnsubscribeAction::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\Actions\SendWebhookAction::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\Actions\SubscribeToEmailListAction::class,
+        ]);
     }
 }

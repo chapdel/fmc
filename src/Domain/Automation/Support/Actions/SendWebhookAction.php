@@ -63,7 +63,7 @@ class SendWebhookAction extends AutomationAction
         ];
 
         WebhookCall::create()
-            ->onQueue(config('mailcoach.shared.perform_on_queue.send_webhooks'))
+            ->onQueue(config('mailcoach.perform_on_queue.send_webhooks'))
             ->timeoutInSeconds(10)
             ->maximumTries(5)
             ->url($this->url)

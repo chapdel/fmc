@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach;
 
+use Illuminate\Support\Collection;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\InvalidConfig;
 use Spatie\Mailcoach\Domain\Settings\Support\MenuItem;
@@ -98,8 +99,10 @@ class Mailcoach
         if (is_file(__DIR__.'/../resources/hot')) {
             $url = rtrim(file_get_contents(__DIR__.'/../resources/hot'));
 
-            $scripts[] = sprintf('<script type="module" src="%s" defer data-navigate-track></script>', "{$url}/resources/js/app.js");
-            $scripts[] = sprintf('<script type="module" src="%s" defer data-navigate-track></script>', "{$url}/@vite/client");
+            $scripts[] = sprintf('<script type="module" src="%s" defer data-navigate-track></script>',
+                "{$url}/resources/js/app.js");
+            $scripts[] = sprintf('<script type="module" src="%s" defer data-navigate-track></script>',
+                "{$url}/@vite/client");
         } else {
             $scripts[] = <<<HTML
                 <script src="{$fullAssetPath}" data-navigate-once defer data-navigate-track></script>
@@ -168,7 +171,7 @@ class Mailcoach
 
     public static function getSharedActionClass(string $actionName, string $actionClass): object
     {
-        $configuredClass = config("mailcoach.shared.actions.{$actionName}");
+        $configuredClass = config("mailcoach.actions.{$actionName}");
 
         return self::getActionClass($configuredClass, $actionName, $actionClass);
     }
@@ -258,5 +261,54 @@ class Mailcoach
         foreach ($items as $item) {
             self::$settingsMenuItems['after'][] = $item;
         }
+    }
+
+    public static function defaultModels(): Collection
+    {
+        return collect([
+            'campaign' => \Spatie\Mailcoach\Domain\Campaign\Models\Campaign::class,
+            'campaign_link' => \Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink::class,
+            'campaign_click' => \Spatie\Mailcoach\Domain\Campaign\Models\CampaignClick::class,
+            'campaign_open' => \Spatie\Mailcoach\Domain\Campaign\Models\CampaignOpen::class,
+            'campaign_unsubscribe' => \Spatie\Mailcoach\Domain\Campaign\Models\CampaignUnsubscribe::class,
+            'email_list' => \Spatie\Mailcoach\Domain\Audience\Models\EmailList::class,
+            'send' => \Spatie\Mailcoach\Domain\Shared\Models\Send::class,
+            'send_feedback_item' => \Spatie\Mailcoach\Domain\Shared\Models\SendFeedbackItem::class,
+            'subscriber' => \Spatie\Mailcoach\Domain\Audience\Models\Subscriber::class,
+            'subscriber_import' => \Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport::class,
+            'subscriber_export' => \Spatie\Mailcoach\Domain\Audience\Models\SubscriberExport::class,
+            'tag' => \Spatie\Mailcoach\Domain\Audience\Models\Tag::class,
+            'tag_segment' => \Spatie\Mailcoach\Domain\Audience\Models\TagSegment::class,
+            'template' => \Spatie\Mailcoach\Domain\Campaign\Models\Template::class,
+            'transactional_mail_log_item' => \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem::class,
+            'transactional_mail_open' => \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailOpen::class,
+            'transactional_mail_click' => \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailClick::class,
+            'transactional_mail' => \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail::class,
+            'automation' => \Spatie\Mailcoach\Domain\Automation\Models\Automation::class,
+            'automation_action' => \Spatie\Mailcoach\Domain\Automation\Models\Action::class,
+            'automation_trigger' => \Spatie\Mailcoach\Domain\Automation\Models\Trigger::class,
+            'automation_mail' => \Spatie\Mailcoach\Domain\Automation\Models\AutomationMail::class,
+            'automation_mail_link' => \Spatie\Mailcoach\Domain\Automation\Models\AutomationMailLink::class,
+            'automation_mail_click' => \Spatie\Mailcoach\Domain\Automation\Models\AutomationMailClick::class,
+            'automation_mail_open' => \Spatie\Mailcoach\Domain\Automation\Models\AutomationMailOpen::class,
+            'automation_mail_unsubscribe' => \Spatie\Mailcoach\Domain\Automation\Models\AutomationMailUnsubscribe::class,
+            'action_subscriber' => \Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber::class,
+            'upload' => \Spatie\Mailcoach\Domain\Shared\Models\Upload::class,
+            'setting' => \Spatie\Mailcoach\Domain\Settings\Models\Setting::class,
+            'mailer' => \Spatie\Mailcoach\Domain\Settings\Models\Mailer::class,
+            'webhook_configuration' => \Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration::class,
+            'webhook_log' => \Spatie\Mailcoach\Domain\Settings\Models\WebhookLog::class,
+        ]);
+    }
+
+    public static function defaultEditors(): Collection
+    {
+        return collect([
+            \Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\EditorJsEditorConfigurationDriver::class,
+            \Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\MarkdownEditorConfigurationDriver::class,
+            \Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\MonacoEditorConfigurationDriver::class,
+            \Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\TextareaEditorConfigurationDriver::class,
+            \Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\UnlayerEditorConfigurationDriver::class,
+        ]);
     }
 }

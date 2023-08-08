@@ -14,21 +14,24 @@ use Spatie\Mailcoach\Domain\ConditionBuilder\Conditions\Subscribers\SubscriberTa
 
 class ConditionCollection extends Collection
 {
-    public static array $defaultClasses = [
-        //SubscriberAttributesQueryCondition::class,
-        SubscriberClickedAutomationMailLinkQueryCondition::class,
-        SubscriberClickedCampaignLinkQueryCondition::class,
-        SubscriberEmailQueryCondition::class,
-        SubscriberOpenedAutomationMailQueryCondition::class,
-        SubscriberOpenedCampaignQueryCondition::class,
-        SubscriberSubscribedAtQueryCondition::class,
-        SubscriberTagsQueryCondition::class,
-    ];
+    public static function defaultConditions(): Collection
+    {
+        return collect([
+            //SubscriberAttributesQueryCondition::class,
+            SubscriberClickedAutomationMailLinkQueryCondition::class,
+            SubscriberClickedCampaignLinkQueryCondition::class,
+            SubscriberEmailQueryCondition::class,
+            SubscriberOpenedAutomationMailQueryCondition::class,
+            SubscriberOpenedCampaignQueryCondition::class,
+            SubscriberSubscribedAtQueryCondition::class,
+            SubscriberTagsQueryCondition::class,
+        ]);
+    }
 
     public static function allConditions(): self
     {
         return new self(
-            array_map(fn (string $class) => new $class(), config('mailcoach.condition_builder_conditions'))
+            array_map(fn (string $class) => new $class(), config('mailcoach.audience.condition_builder_conditions'))
         );
     }
 

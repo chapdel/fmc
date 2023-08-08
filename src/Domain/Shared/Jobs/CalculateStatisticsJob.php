@@ -28,7 +28,7 @@ class CalculateStatisticsJob implements ShouldQueue, ShouldBeUnique
     {
         $this->sendable = $sendable;
 
-        $this->queue = config('mailcoach.shared.perform_on_queue.calculate_statistics_job');
+        $this->queue = config('mailcoach.perform_on_queue.calculate_statistics_job');
 
         $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
     }
