@@ -56,12 +56,16 @@
             @endunless
 
             <div class="flex-none flex items-center justify-between w-full">
-                <div class="flex-items-center w-full">
-                    <h1 class="markup-h1 p-0 m-0 mb-4 pb-2 truncate">
+                <div class="flex items-center w-full">
+                    <h1 class="markup-h1 p-0 m-0 pb-2 truncate">
                         {{ $title ?? '' }}
                     </h1>
 
-                    {{ $header ?? '' }}
+                    @if ($header ?? false)
+                    <div class="pb-2">
+                        {{ $header }}
+                    </div>
+                    @endif
                 </div>
 
                 @if (($create ?? false) || ($createComponent ?? false))
