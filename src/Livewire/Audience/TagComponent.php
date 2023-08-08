@@ -18,16 +18,20 @@ class TagComponent extends Component
 
     public TagModel $tag;
 
+    public ?string $name;
+
+    public bool $visible_in_preferences = false;
+
     protected function rules()
     {
         return [
-            'tag.name' => [
+            'name' => [
                 'required',
                 Rule::unique('mailcoach_tags', 'name')
                     ->where('email_list_id', $this->emailList->id)
                     ->ignore($this->tag->id),
             ],
-            'tag.visible_in_preferences' => ['required', 'bool'],
+            'visible_in_preferences' => ['required', 'bool'],
         ];
     }
 
@@ -38,6 +42,7 @@ class TagComponent extends Component
 
         $this->emailList = $emailList;
         $this->tag = $tag;
+        $this->fill($this->tag->toArray());
 
         app(MainNavigation::class)->activeSection()
             ->add($this->emailList->name, route('mailcoach.emailLists.summary', $this->emailList), function ($section) {
@@ -49,6 +54,7 @@ class TagComponent extends Component
     {
         $this->validate();
 
+        $this->tag->fill($this->only(['name', 'visible_in_preferences']));
         $this->tag->save();
 
         notify(__mc('Tag :tag was updated', ['tag' => $this->tag->name]));
