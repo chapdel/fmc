@@ -1,8 +1,8 @@
 <form
         x-data="{
-        post: @entangle('emailList.allow_form_subscriptions'),
-        confirmation: @entangle('emailList.requires_confirmation'),
-        confirmationMail: @entangle('confirmation_mail'),
+        post: @entangle('form.allow_form_subscriptions').live,
+        confirmation: @entangle('form.requires_confirmation').live,
+        confirmationMail: @entangle('form.confirmation_mail').live,
     }"
         method="POST"
         wire:submit="save"
@@ -18,15 +18,15 @@
             <div class="form-field max-w-full">
                 <div class="checkbox-group">
                     <x-mailcoach::checkbox-field
-                            :label="__mc('Require confirmation')"
-                            name="emailList.requires_confirmation"
-                            x-model="confirmation"
+                        :label="__mc('Require confirmation')"
+                        name="form.requires_confirmation"
+                        x-model="confirmation"
                     />
 
                     <x-mailcoach::checkbox-field
-                            :label="__mc('Allow POST from an external form')"
-                            name="emailList.allow_form_subscriptions"
-                            x-model="post"
+                        :label="__mc('Allow POST from an external form')"
+                        name="form.allow_form_subscriptions"
+                        x-model="post"
                     />
 
                     <div x-show="post" class="pl-8 w-full max-w-full overflow-hidden">
@@ -39,7 +39,7 @@
                 <x-mailcoach::tags-field
                     :label="__mc('Optionally, allow following subscriber tags')"
                     name="allowed_form_subscription_tags"
-                    :value="$allowed_form_subscription_tags"
+                    :value="$form->allowed_form_subscription_tags"
                     :tags="$emailList->tags->pluck('name')->unique()->toArray()"
                 />
             </div>
@@ -47,16 +47,16 @@
                 <x-mailcoach::text-field
                     :label="__mc('Optionally, allow following subscriber extra Attributes')"
                     :placeholder="__mc('Attribute(s) comma separated: field1,field2')"
-                    name="emailList.allowed_form_extra_attributes"
-                    wire:model.lazy="emailList.allowed_form_extra_attributes"
+                    name="form.allowed_form_extra_attributes"
+                    wire:model.lazy="form.allowed_form_extra_attributes"
                 />
             </div>
             <div x-show="post" class="pl-8 max-w-xl">
                 <x-mailcoach::text-field
                     :label="__mc('Honeypot field')"
                     placeholder="honeypot"
-                    name="emailList.honeypot_field"
-                    wire:model.lazy="emailList.honeypot_field"
+                    name="form.honeypot_field"
+                    wire:model.lazy="form.honeypot_field"
                 />
             </div>
         </x-mailcoach::fieldset>
@@ -68,19 +68,19 @@
 
             <div x-show="confirmation">
                 <x-mailcoach::text-field :label="__mc('Confirm subscription')" placeholder="https://"
-                                         name="emailList.redirect_after_subscription_pending"
-                                         wire:model.lazy="emailList.redirect_after_subscription_pending" type="text"/>
+                                         name="form.redirect_after_subscription_pending"
+                                         wire:model.lazy="form.redirect_after_subscription_pending" type="text"/>
             </div>
             <x-mailcoach::text-field :label="__mc('Someone subscribed')" placeholder="https://"
-                                     name="emailList.redirect_after_subscribed"
-                                     wire:model.lazy="emailList.redirect_after_subscribed" type="text"/>
+                                     name="form.redirect_after_subscribed"
+                                     wire:model.lazy="form.redirect_after_subscribed" type="text"/>
             <x-mailcoach::text-field :label="__mc('Email was already subscribed')" placeholder="https://"
-                                     name="emailList.redirect_after_already_subscribed"
-                                     wire:model.lazy="emailList.redirect_after_already_subscribed"
+                                     name="form.redirect_after_already_subscribed"
+                                     wire:model.lazy="form.redirect_after_already_subscribed"
                                      type="text"/>
             <x-mailcoach::text-field :label="__mc('Someone unsubscribed')" placeholder="https://"
-                                     name="emailList.redirect_after_unsubscribed"
-                                     wire:model.lazy="emailList.redirect_after_unsubscribed" type="text"/>
+                                     name="form.redirect_after_unsubscribed"
+                                     wire:model.lazy="form.redirect_after_unsubscribed" type="text"/>
         </x-mailcoach::fieldset>
 
         <div x-show="confirmation">
@@ -106,8 +106,8 @@
                             <div class="flex items-center gap-x-2 max-w-sm">
                                 <div class="w-full">
                                     <x-mailcoach::select-field
-                                        wire:model="emailList.confirmation_mail_id"
-                                        name="emailList.confirmation_mail_id"
+                                        wire:model="form.confirmation_mail_id"
+                                        name="form.confirmation_mail_id"
                                         :options="$transactionalMailTemplates"
                                         :placeholder="__mc('Select a transactional mail template')"
                                     />
