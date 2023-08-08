@@ -154,7 +154,7 @@
 
             <div class="form-field">
                 <div class="checkbox-group">
-                    <x-mailcoach::checkbox-field :label="__mc('Show publicly')" name="form.utm_tags" wire:model="form.show_publicly" />
+                    <x-mailcoach::checkbox-field :label="__mc('Show publicly')" name="form.show_publicly" wire:model="form.show_publicly" />
                 </div>
             </div>
 
