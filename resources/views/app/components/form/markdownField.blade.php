@@ -6,6 +6,14 @@
 @endpush
 <div class="form-grid">
     <style>
+        /* Override the styles set by Filament for EasyMDE */
+        .EasyMDEContainer .editor-toolbar button:before {
+            -webkit-mask-image: none !important;
+            mask-image: none !important;
+            display: none;
+            content: '';
+        }
+
         .cm-s-easymde .cm-header-1 {
             font-size: 1.875rem
         }
@@ -141,7 +149,7 @@
             {{ $label }}
 
             @if ($help ?? null)
-                <i class="ml-1 text-purple-500 opacity-75 cursor-pointer fas fa-question-circle" x-data x-tooltip="{{ $help }}"></i>
+                <i class="ml-1 text-purple-500 opacity-75 cursor-pointer fas fa-question-circle" x-data x-tooltip="'{{ $help }}'"></i>
             @endif
         </label>
     @endif

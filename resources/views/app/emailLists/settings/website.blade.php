@@ -14,19 +14,19 @@
         <x-mailcoach::checkbox-field
             :label="__mc('Enable website')"
             name="has_website"
-            wire:model.lazy="has_website"
+            wire:model="has_website"
         />
         <x-mailcoach::checkbox-field
             :label="__mc('Show a subscription form')"
             name="show_subscription_form_on_website"
-            wire:model.lazy="show_subscription_form_on_website"
+            wire:model="show_subscription_form_on_website"
         />
         <div class="form-field">
             <label class="label" for="website_slug">{{__mc('Website URL')}}</label>
             <div class="flex items-center">
                 <span class="select-none px-3 h-10 flex items-center text-indigo-900/70 -mr-px rounded-l-sm bg-indigo-500/10 border border-r-none border-indigo-700/20 whitespace-nowrap">{{ route('mailcoach.website', '') }}/</span>
                 <input id="website_slug" class="input rounded-r-none" placeholder="/" type="text" name="website_slug" wire:model.defer="website_slug" />
-                <a class="link ml-2" href="{{ $emailList->websiteUrl() }}" target="_blank">
+                <a class="link ml-2" x-data x-tooltip="'{{ __mc('View website') }}'" href="{{ $emailList->websiteUrl() }}" target="_blank">
                     <i class="fas fa-external-link"></i>
                 </a>
             </div>
@@ -119,17 +119,15 @@
         </div>
         <x-mailcoach::text-field
             :label="__mc('Website Title')"
-            wire:model.lazy="website_title"
+            wire:model="website_title"
             name="website_title"
         />
         <x-mailcoach::markdown-field
             :label="__mc('Intro')"
             name="website_intro"
-            wire:model.lazy="website_intro"
+            wire:model="website_intro"
+            :help="__mc('This text will be displayed at the top of the page.')"
         />
-        <x-mailcoach::info class="-mt-12">
-            {{ __mc('This text will be displayed at the top of the page.') }}
-        </x-mailcoach::info>
     </x-mailcoach::fieldset>
     <x-mailcoach::form-buttons>
         <x-mailcoach::button :label="__mc('Save')"/>
