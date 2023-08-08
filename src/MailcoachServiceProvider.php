@@ -59,6 +59,9 @@ use Spatie\Mailcoach\Domain\Campaign\Listeners\AddCampaignOpenedTag;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\SendCampaignSentEmail;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\SetWebhookCallProcessedAt;
 use Spatie\Mailcoach\Domain\Settings\Commands\PublishCommand;
+use Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookEventSubscriber;
+use Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookFailedAttemptsSubscriber;
+use Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookLogEventSubscriber;
 use Spatie\Mailcoach\Domain\Settings\Models\MailcoachUser;
 use Spatie\Mailcoach\Domain\Settings\Policies\PersonalAccessTokenPolicy;
 use Spatie\Mailcoach\Domain\Settings\SettingsNavigation;
@@ -336,63 +339,18 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootRoutes(): static
     {
-        // Audience
-        Route::model('emailList', self::getEmailListClass());
-        Route::model('subscriber', self::getSubscriberClass());
-        Route::model('subscriberImport', self::getSubscriberImportClass());
-        Route::model('tag', self::getTagClass());
-        Route::model('tagSegment', self::getTagSegmentClass());
-        Route::model('segment', self::getTagSegmentClass());
-        Route::model('action', self::getAutomationActionClass());
-
-        // Automation
-        Route::model('action', self::getAutomationActionClass());
-        Route::model('actionSubscriber', self::getActionSubscriberClass());
-        Route::model('automation', self::getAutomationClass());
-        Route::model('automationMail', self::getAutomationMailClass());
-        Route::model('automationMailClick', self::getAutomationMailClickClass());
-        Route::model('automationMailLink', self::getAutomationMailLinkClass());
-        Route::model('automationMailOpen', self::getAutomationMailOpenClass());
-        Route::model('automationMailUnsubscribe', self::getAutomationMailUnsubscribeClass());
-        Route::model('trigger', self::getAutomationTriggerClass());
-
-        // Campaign
-        Route::model('campaign', self::getCampaignClass());
-        Route::model('campaignClick', self::getCampaignClickClass());
-        Route::model('campaignLink', self::getCampaignLinkClass());
-        Route::model('campaignOpen', self::getCampaignOpenClass());
-        Route::model('campaignUnsubscribe', self::getCampaignUnsubscribeClass());
-        Route::model('template', self::getTemplateClass());
-
-        // Settings
-        Route::model('mailer', self::getMailerClass());
-        Route::model('personalAccessToken', self::getPersonalAccessTokenClass());
-        Route::model('setting', self::getSettingClass());
-        Route::model('webhookConfiguration', self::getWebhookConfigurationClass());
-
-        // Shared
-        Route::model('send', self::getSendClass());
-        Route::model('sendFeedbackItem', self::getSendFeedbackItemClass());
-        Route::model('upload', self::getUploadClass());
-        Route::model('webhook', self::getWebhookConfigurationClass());
-        Route::model('webhookLog', self::getWebhookLogClass());
-
-        // Transactional
-        Route::model('transactionalMail', self::getTransactionalMailLogItemClass());
-        Route::model('transactionalMailClick', self::getTransactionalMailClickClass());
-        Route::model('transactionalMailOpen', self::getTransactionalMailOpenClass());
-        Route::model('transactionalMailTemplate', self::getTransactionalMailClass());
-
         Route::macro('mailcoach', function (
             string $url = '',
             bool $registerFeedback = true,
         ) {
             if ($registerFeedback) {
-                Route::sesFeedback('ses-feedback');
-                Route::mailgunFeedback('mailgun-feedback');
-                Route::sendgridFeedback('sendgrid-feedback');
-                Route::postmarkFeedback('postmark-feedback');
-                Route::sendinblueFeedback('sendinblue-feedback');
+                Route::namespace(null)->middleware([BootstrapMailcoach::class])->group(function () {
+                    Route::sesFeedback('ses-feedback');
+                    Route::mailgunFeedback('mailgun-feedback');
+                    Route::sendgridFeedback('sendgrid-feedback');
+                    Route::postmarkFeedback('postmark-feedback');
+                    Route::sendinblueFeedback('sendinblue-feedback');
+                });
             }
 
             Route::prefix($url)->namespace(null)->middleware([BootstrapMailcoach::class])->group(function () {
@@ -411,12 +369,9 @@ class MailcoachServiceProvider extends PackageServiceProvider
                  * The website routes should be registered last, so that
                  * they don't eat up other routes
                  */
-
-                if (config('mailcoach.audience.website', true)) {
-                    Route::prefix(config('mailcoach.email_list_website_prefix', 'archive'))
-                        ->middleware('web')
-                        ->group(__DIR__.'/../routes/mailcoach-email-list-website.php');
-                }
+                Route::prefix(config('mailcoach.website_prefix', 'archive'))
+                    ->middleware('web')
+                    ->group(__DIR__.'/../routes/mailcoach-email-list-website.php');
             });
 
             Route::mailcoachEditor('mailcoachEditor');
@@ -678,9 +633,9 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Event::listen(AutomationMailOpenedEvent::class, AddAutomationMailOpenedTag::class);
         Event::listen(AutomationMailLinkClickedEvent::class, AddAutomationMailClickedTag::class);
 
-        Event::subscribe(config('mailcoach.event_subscribers.webhooks'));
-        Event::subscribe(config('mailcoach.event_subscribers.webhook_logs'));
-        Event::subscribe(config('mailcoach.event_subscribers.webhook_failed_attempts'));
+        Event::subscribe(WebhookEventSubscriber::class);
+        Event::subscribe(WebhookLogEventSubscriber::class);
+        Event::subscribe(WebhookFailedAttemptsSubscriber::class);
 
         return $this;
     }

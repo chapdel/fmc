@@ -612,12 +612,6 @@ return [
         \Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\UnlayerEditorConfigurationDriver::class,
     ],
 
-    'event_subscribers' => [
-        'webhook_logs' => \Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookLogEventSubscriber::class,
-        'webhooks' => \Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookEventSubscriber::class,
-        'webhook_failed_attempts' => \Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookFailedAttemptsSubscriber::class,
-    ],
-
     'webhooks' => [
         /**
          * Store and view logs of all webhook calls.
