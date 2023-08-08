@@ -32,11 +32,11 @@ class TemplatesComponent extends TableComponent
                 ->extraAttributes(['class' => 'link']),
             IconColumn::make('contains_placeholders')
                 ->label(__mc('Placeholders'))
-                ->icons([
-                    'heroicon-o-check-circle' => true,
-                    'heroicon-o-x-circle' => false,
-                ])
-                ->color(fn (Template $template) => match ($template->contains_placeholders) {
+                ->icon(fn (Template $template) => match ($template->containsPlaceHolders()) {
+                    true => 'heroicon-o-check-circle',
+                    false => 'heroicon-o-x-circle',
+                })
+                ->color(fn (Template $template) => match ($template->containsPlaceHolders()) {
                     true => 'success',
                     false => '',
                 })->alignCenter(),
