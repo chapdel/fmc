@@ -15,7 +15,6 @@
         {!! \Spatie\Mailcoach\Mailcoach::styles() !!}
     </head>
     <body class="text-gray-800 bg-indigo-900/5">
-    <img style="mix-blend-mode: multiply;" class="fixed w-full bottom-0 opacity-10" src="{{ asset('vendor/mailcoach/images/auth-footer.jpg') }}">
 
     <div id="app">
         <div class="min-h-screen flex flex-col">
