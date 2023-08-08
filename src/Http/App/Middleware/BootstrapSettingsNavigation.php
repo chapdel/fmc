@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Http\App\Middleware;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Mailcoach\Domain\Settings\SettingsNavigation;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Mailcoach;
@@ -20,7 +21,7 @@ class BootstrapSettingsNavigation
             $this->addItem($navigation, $item);
         }
 
-        $navigation->add(__mc('Configuration'), route('general-settings'), function (Section $section) {
+        $navigation->addIf(Auth::user()->can('viewMailcoach'), __mc('Configuration'), route('general-settings'), function (Section $section) {
             $section
                 ->add(__mc('General'), route('general-settings'))
                 ->add(__mc('Mailers'), route('mailers'))

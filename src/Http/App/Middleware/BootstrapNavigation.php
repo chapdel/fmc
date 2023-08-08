@@ -16,7 +16,7 @@ class BootstrapNavigation
     {
         $navigation = app(MainNavigation::class);
 
-        $navigation->add(__mc('Dashboard'), route('mailcoach.dashboard'))
+        $navigation->addIf($request->user()?->can('viewMailcoach'), __mc('Dashboard'), route('mailcoach.dashboard'))
             ->addIf($request->user()?->can('viewAny', self::getCampaignClass()), __mc('Campaigns'), route('mailcoach.campaigns'))
             ->addIf($request->user()?->can('viewAny', self::getAutomationClass()), __mc('Automations'), route('mailcoach.automations'), function (Section $section) {
                 $section

@@ -17,9 +17,11 @@
         @foreach (\Spatie\Mailcoach\Mailcoach::$userMenuItems['before'] as $item)
             @include('mailcoach::app.layouts.partials.menuItem')
         @endforeach
+        @can ('viewMailcoach')
         <a x-on:click="select" class="navigation-link" wire:navigate href="{{ route('general-settings') }}">
             <x-mailcoach::icon-label icon="fas fa-fw fa-cog" :text="__mc('Configuration')" />
         </a>
+        @endcan
         @foreach (\Spatie\Mailcoach\Mailcoach::$userMenuItems['after'] as $item)
             @include('mailcoach::app.layouts.partials.menuItem')
         @endforeach
