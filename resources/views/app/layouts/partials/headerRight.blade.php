@@ -14,30 +14,14 @@
         </div>
     </div>
     <div class="navigation-dropdown md:hidden md:opacity-0">
+        @foreach (\Spatie\Mailcoach\Mailcoach::$userMenuItems['before'] as $item)
+            @include('mailcoach::app.layouts.partials.menuItem')
+        @endforeach
         <a x-on:click="select" class="navigation-link" wire:navigate href="{{ route('general-settings') }}">
             <x-mailcoach::icon-label icon="fas fa-fw fa-cog" :text="__mc('Configuration')" />
         </a>
-        @foreach (\Spatie\Mailcoach\Mailcoach::$userMenuItems as $item)
-            @if ($item->isForm)
-                <form class="navigation-link" method="post" action="{{ $item->url }}">
-                    {{ csrf_field() }}
-                    <button type="submit" class="font-semibold">
-                        @if ($item->icon)
-                            <x-mailcoach::icon-label icon="fas fa-fw {{ $item->icon }}" :text="$item->label" />
-                        @else
-                            {{ $item->label }}
-                        @endif
-                    </button>
-                </form>
-            @else
-                <a x-on:click="select" class="navigation-link" wire:navigate href="{{ route('general-settings') }}">
-                    @if ($item->icon)
-                        <x-mailcoach::icon-label x-on:click="select" icon="fas fa-fw {{ $item->icon }}" :text="$item->label" />
-                    @else
-                        <a x-on:click="select" class="navigation-link" href="{{ $item->url }}">{{ $item->label }}</a>
-                    @endif
-                </a>
-            @endif
+        @foreach (\Spatie\Mailcoach\Mailcoach::$userMenuItems['after'] as $item)
+            @include('mailcoach::app.layouts.partials.menuItem')
         @endforeach
     </div>
 </div>

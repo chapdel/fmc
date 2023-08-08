@@ -7,6 +7,7 @@
     :create="$create ?? null"
     :create-text="$createText ?? null"
     :create-data="$createData ?? []"
+    :create-component="$createComponent ?? null"
 >
     <x-slot name="nav">
         <x-mailcoach::navigation>

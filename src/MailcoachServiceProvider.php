@@ -472,7 +472,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.automations.components.automationAction', 'mailcoach::automation-action');
         Blade::component('mailcoach::app.conditionBuilder.conditions.condition', 'mailcoach::condition');
 
-        Blade::component('mailcoach::auth.layouts.auth', 'mailcoach::layout-auth');
         Blade::component('mailcoach::app.layouts.settings', 'mailcoach::layout-settings');
 
         Blade::component('mailcoach::app.components.codeCopy', 'mailcoach::code-copy');

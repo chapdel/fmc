@@ -64,7 +64,7 @@
                     {{ $header ?? '' }}
                 </div>
 
-                @if ($create ?? false)
+                @if (($create ?? false) || ($createComponent ?? false))
                     <div class="buttons flex">
                         <x-mailcoach::button
                             x-on:click="$store.modals.open('create-{{ $create }}')"
@@ -74,7 +74,11 @@
 
                         <x-mailcoach::modal :title="$createText ?? __mc('Create ' . $create)"
                                             name="create-{{ $create }}">
-                            @livewire('mailcoach::create-' . $create, $createData ?? [])
+                            @if ($createComponent ?? '')
+                                @livewire($createComponent, $createData ?? [])
+                            @else
+                                @livewire('mailcoach::create-' . $create, $createData ?? [])
+                            @endif
                         </x-mailcoach::modal>
 
                         {{ $afterCreate ?? '' }}

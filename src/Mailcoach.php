@@ -20,10 +20,16 @@ class Mailcoach
     public static array $mainMenuItems = [];
 
     /** @var MenuItem[] */
-    public static array $userMenuItems = [];
+    public static array $userMenuItems = [
+        'before' => [],
+        'after' => [],
+    ];
 
     /** @var MenuItem[] */
-    public static array $settingsMenuItems = [];
+    public static array $settingsMenuItems = [
+        'before' => [],
+        'after' => [],
+    ];
 
     public static function styles(): string
     {
@@ -224,17 +230,33 @@ class Mailcoach
         }
     }
 
-    public static function addUserMenuItems(MenuItem ...$items): void
+    public static function addUserMenuItemsBefore(MenuItem ...$items): void
     {
         foreach ($items as $item) {
-            self::$userMenuItems[] = $item;
+            self::$userMenuItems['before'][] = $item;
         }
     }
 
-    public static function addSettingsMenuItems(MenuItem ...$items): void
+    public static function addUserMenuItemsAfter(MenuItem ...$items): void
     {
         foreach ($items as $item) {
-            self::$settingsMenuItems[] = $item;
+            self::$userMenuItems['after'][] = $item;
+        }
+    }
+
+    /** @var MenuItem[] */
+    public static function addSettingsMenuItemsBefore(MenuItem ...$items): void
+    {
+        foreach ($items as $item) {
+            self::$settingsMenuItems['before'][] = $item;
+        }
+    }
+
+    /** @var MenuItem[] */
+    public static function addSettingsMenuItemsAfter(MenuItem ...$items): void
+    {
+        foreach ($items as $item) {
+            self::$settingsMenuItems['after'][] = $item;
         }
     }
 }
