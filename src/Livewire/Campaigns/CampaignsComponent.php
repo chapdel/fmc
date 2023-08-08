@@ -28,7 +28,7 @@ class CampaignsComponent extends TableComponent
             ->withCount(['sendsWithErrors', 'sentSends'])
             ->addSelect(DB::raw(<<<'SQL'
                 CASE
-                    WHEN status = 'draft' AND scheduled_at IS NULL THEN 0
+                    WHEN status = 'draft' AND scheduled_at IS NULL THEN CONCAT(999999999, id)
                     WHEN scheduled_at IS NOT NULL THEN scheduled_at
                     WHEN sent_at IS NOT NULL THEN sent_at
                     ELSE last_modified_at
@@ -201,6 +201,11 @@ class CampaignsComponent extends TableComponent
     protected function getDefaultTableSortColumn(): ?string
     {
         return 'sent_sort';
+    }
+
+    protected function getDefaultTableSortDirection(): ?string
+    {
+        return 'desc';
     }
 
     public function duplicateCampaign(Campaign $campaign)
