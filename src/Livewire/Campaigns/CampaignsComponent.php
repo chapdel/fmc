@@ -112,20 +112,24 @@ class CampaignsComponent extends TableComponent
             TextColumn::make('sent_sends_count')
                 ->label(__mc('Emails'))
                 ->sortable()
+                ->alignRight()
                 ->numeric()
                 ->view('mailcoach::app.campaigns.columns.sends'),
             TextColumn::make('unique_open_count')
                 ->label(__mc('Opens'))
                 ->sortable()
+                ->alignRight()
                 ->numeric()
                 ->view('mailcoach::app.campaigns.columns.opens'),
             TextColumn::make('unique_click_count')
                 ->sortable()
+                ->alignRight()
                 ->numeric()
                 ->label(__mc('Clicks'))
                 ->view('mailcoach::app.campaigns.columns.clicks'),
             TextColumn::make('sent_sort')
                 ->label(__mc('Sent'))
+                ->alignRight()
                 ->sortable()
                 ->view('mailcoach::app.campaigns.columns.sent'),
         ];
