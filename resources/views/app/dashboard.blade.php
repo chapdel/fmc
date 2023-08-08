@@ -1,6 +1,14 @@
+<?php
+$usesVapor = \Composer\InstalledVersions::isInstalled('laravel/vapor-core');
+$hasQueueConnection = config('queue.connections.mailcoach-redis') && ! empty(config('queue.connections.mailcoach-redis'));
+$horizonStatus = app(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::class);
+?>
 <div wire:init="loadData">
     <h1 class="text-xl text-gray-600 -mt-6 mb-4">
-        {{ __mc('Hi') }}, <strong>{{ str(Auth::guard(config('mailcoach.guard'))->user()->name)->ucfirst() }}</strong>
+        {{ __mc('Hi') }}
+        @if (array_key_exists('name', $attributes = Auth::user()->attributesToArray()))
+            , <strong>{{ str($attributes['name'])->ucfirst() }}</strong>
+        @endif
     </h1>
     <div class="grid md:grid-cols-12 gap-6">
         @if ((new Spatie\Mailcoach\Domain\Shared\Support\License\License())->hasExpired())
@@ -11,6 +19,24 @@
         @endif
 
         @include('mailcoach::app.layouts.partials.beforeDashboardTiles')
+
+        @if (!$usesVapor && ! $horizonStatus->is(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::STATUS_ACTIVE))
+            <x-mailcoach::tile danger cols="2" icon="database" link="https://mailcoach.app/docs" target="_blank">
+                {!! __mc('<h2 class="dashboard-title">Horizon</h2> <p>is not active on your server</p>') !!}
+            </x-mailcoach::tile>
+        @endif
+
+        @if (\Spatie\Mailcoach\MailcoachServiceProvider::getMailerClass()::count() === 0)
+            <x-mailcoach::tile danger cols="2" icon="server" link="{{ route('mailers') }}">
+                {!! __mc('<h2 class="dashboard-title">Mailer missing</h2> <p>You need to add at least 1 mailer.</p>') !!}
+            </x-mailcoach::tile>
+        @endif
+
+        @if (! $hasQueueConnection)
+            <x-mailcoach::tile danger cols="2" icon="database" link="https://mailcoach.app/docs" target="_blank">
+                {!! __mc('<h2 class="dashboard-title">Queue error</h2> <p>No connection found. Configure a queue connection with the <code>mailcoach-redis</code> key.</p>') !!}
+            </x-mailcoach::tile>
+        @endif
 
         <x-mailcoach::tile cols="3" icon="users" link="{{ route('mailcoach.emailLists') }}">
             <h2 class="dashboard-title">
