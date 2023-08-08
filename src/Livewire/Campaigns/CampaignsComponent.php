@@ -158,11 +158,17 @@ class CampaignsComponent extends TableComponent
         return [
             ActionGroup::make([
                 Action::make('Duplicate')
-                    ->action(fn (Campaign $record) => $this->duplicateCampaign($record))
+                    ->action(function (Campaign $record) {
+                        $this->duplicateCampaign($record);
+                        notify(__mc('Campaign :campaign was duplicated.', ['campaign' => $record->name]));
+                    })
                     ->icon('heroicon-o-clipboard')
                     ->label(__mc('Duplicate')),
                 Action::make('Delete')
-                    ->action(fn (Campaign $record) => $record->delete())
+                    ->action(function (Campaign $record) {
+                        $record->delete();
+                        notify(__mc('Campaign :campaign was deleted.', ['campaign' => $record->name]));
+                    })
                     ->requiresConfirmation()
                     ->label(__mc('Delete'))
                     ->icon('heroicon-o-trash')
@@ -179,7 +185,10 @@ class CampaignsComponent extends TableComponent
                 ->icon('heroicon-o-trash')
                 ->color('danger')
                 ->deselectRecordsAfterCompletion()
-                ->action(fn (Collection $records) => $records->each->delete()),
+                ->action(function (Collection $records) {
+                    $records->each->delete();
+                    notify(__mc('Campaigns successfully deleted.'));
+                }),
         ];
     }
 
