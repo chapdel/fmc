@@ -5,10 +5,7 @@ $horizonStatus = app(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::clas
 ?>
 <div wire:init="loadData">
     <h1 class="text-xl text-gray-600 -mt-6 mb-4">
-        {{ __mc('Hi') }}
-        @if (array_key_exists('name', $attributes = Auth::user()->attributesToArray()))
-            , <strong>{{ str($attributes['name'])->ucfirst() }}</strong>
-        @endif
+        {{ __mc('Hi') }}@if (array_key_exists('name', $attributes = Auth::user()->attributesToArray())), <strong>{{ str($attributes['name'])->ucfirst() }}</strong>@endif
     </h1>
     <div class="grid md:grid-cols-12 gap-6">
         @if ((new Spatie\Mailcoach\Domain\Shared\Support\License\License())->hasExpired())
