@@ -106,6 +106,7 @@ class AutomationsComponent extends TableComponent
             'create' => Auth::user()->can('create', self::getAutomationClass())
                 ? 'automation'
                 : null,
+            'hideBreadcrumbs' => true,
         ];
     }
 }

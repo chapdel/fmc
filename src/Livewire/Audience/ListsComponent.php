@@ -79,11 +79,14 @@ class ListsComponent extends TableComponent
     public function getLayoutData(): array
     {
         if (! Auth::user()->can('create', self::getEmailListClass())) {
-            return [];
+            return [
+                'hideBreadcrumbs' => true,
+            ];
         }
 
         return [
             'create' => 'list',
+            'hideBreadcrumbs' => true,
         ];
     }
 }

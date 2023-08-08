@@ -95,4 +95,11 @@ class TemplatesComponent extends TableComponent
     {
         return __mc('Templates');
     }
+
+    public function getLayoutData(): array
+    {
+        return [
+            'hideBreadcrumbs' => true,
+        ];
+    }
 }
