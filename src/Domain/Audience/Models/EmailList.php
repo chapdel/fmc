@@ -227,7 +227,7 @@ class EmailList extends Model implements HasMedia
 
     public function webhookConfigurations(): Collection
     {
-        return $this->getWebhookConfigurationClass()::query()
+        return self::getWebhookConfigurationClass()::query()
             ->where('use_for_all_lists', true)
             ->orWhereHas('emailLists', function (EloquentBuilder $query) {
                 $query->where('email_list_id', $this->id);
@@ -237,7 +237,7 @@ class EmailList extends Model implements HasMedia
 
     public function websiteEnabled(): bool
     {
-        return $this->has_website && config('mailcoach.audience.website', true);
+        return $this->has_website;
     }
 
     public function websiteUrl(): string

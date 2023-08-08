@@ -190,11 +190,6 @@ return [
          * This disk will be used to store files regarding exporting subscribers.
          */
         'export_subscribers_disk' => 'local',
-
-        /**
-         * Whether if the website feature is enabled.
-         */
-        'website' => true,
     ],
 
     'transactional' => [
@@ -295,6 +290,11 @@ return [
      * on the disk.
      */
     'website_disk_directory' => 'mailcoach-files',
+
+    /**
+     * The prefix in the URL we use for email list websites
+     */
+    'website_prefix' => 'archive',
 
     /*
      * This disk will be used to store files temporarily for

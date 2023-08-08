@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Livewire\Audience;
 
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -20,16 +21,30 @@ class WebsiteComponent extends Component
 
     public EmailList $emailList;
 
+    public bool $has_website = false;
+
+    public bool $show_subscription_form_on_website = false;
+
+    public ?string $website_slug;
+
+    public ?string $website_title;
+
+    public ?string $website_intro;
+
+    public ?string $website_primary_color;
+
+    public ?string $website_theme;
+
     protected function rules(): array
     {
         $rules = [
-            'emailList.has_website' => ['boolean'],
-            'emailList.show_subscription_form_on_website' => ['boolean'],
-            'emailList.website_slug' => ['nullable'],
-            'emailList.website_title' => ['nullable'],
-            'emailList.website_intro' => ['nullable'],
-            'emailList.website_primary_color' => ['nullable'],
-            'emailList.website_theme' => ['nullable'],
+            'has_website' => ['boolean'],
+            'show_subscription_form_on_website' => ['boolean'],
+            'website_slug' => ['nullable'],
+            'website_title' => ['nullable'],
+            'website_intro' => ['nullable'],
+            'website_primary_color' => ['nullable'],
+            'website_theme' => ['nullable'],
         ];
 
         if ($this->image) {
@@ -42,6 +57,7 @@ class WebsiteComponent extends Component
     public function mount(EmailList $emailList)
     {
         $this->emailList = $emailList;
+        $this->fill($emailList->toArray());
 
         app(MainNavigation::class)->activeSection()
             ->add($this->emailList->name, route('mailcoach.emailLists.website', $this->emailList));
@@ -67,9 +83,11 @@ class WebsiteComponent extends Component
         }
 
         /** Make sure to enable form subscriptions when form is shown on website */
-        if ($this->emailList->show_subscription_form_on_website) {
+        if ($this->show_subscription_form_on_website) {
             $this->emailList->allow_form_subscriptions = true;
         }
+
+        $this->emailList->fill(Arr::except($this->all(), ['emailList', 'image']));
 
         $this->emailList->save();
 
