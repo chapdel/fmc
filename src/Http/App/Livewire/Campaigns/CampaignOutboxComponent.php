@@ -70,7 +70,9 @@ class CampaignOutboxComponent extends DataTableComponent
         ];
     }
 
-    /** @var Send */
+    /**
+     * @param  Send  $model
+     */
     public function formatExportRow(Model $model): array
     {
         return [
