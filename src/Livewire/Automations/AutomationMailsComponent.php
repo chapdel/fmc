@@ -143,4 +143,12 @@ class AutomationMailsComponent extends TableComponent
     {
         return __mc('Emails');
     }
+
+    public function getLayoutData(): array
+    {
+        return [
+            'create' => 'automation-mail',
+            'createText' => __mc('Create automation mail'),
+        ];
+    }
 }

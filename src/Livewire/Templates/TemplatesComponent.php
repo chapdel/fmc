@@ -100,6 +100,7 @@ class TemplatesComponent extends TableComponent
     {
         return [
             'hideBreadcrumbs' => true,
+            'create' => 'template',
         ];
     }
 }

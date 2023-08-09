@@ -13,6 +13,7 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -60,6 +61,11 @@ class SubscribersComponent extends TableComponent
         return self::getSubscriberClass()::query()
             ->where(self::getSubscriberTableName().'.email_list_id', $this->emailList->id)
             ->with('emailList', 'tags');
+    }
+
+    protected function paginateTableQuery(Builder $query): Paginator
+    {
+        return $query->fastPaginate($this->getTableRecordsPerPage())->onEachSide(1);
     }
 
     protected function getTableColumns(): array
