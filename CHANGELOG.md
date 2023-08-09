@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.25.2 - 2023-08-09
+
+- Fix a query issue in MySQL caused by the previous Postgres fix
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.25.1...6.25.2
+
 ## 6.25.1 - 2023-08-09
 
 ### What's Changed
