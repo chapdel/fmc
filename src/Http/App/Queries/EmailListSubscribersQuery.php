@@ -21,8 +21,9 @@ class EmailListSubscribersQuery extends QueryBuilder
     public function __construct(EmailList $emailList, Request $request = null)
     {
         $subscribersQuery = self::getSubscriberClass()::query()
-            ->where(self::getSubscriberTableName().'.email_list_id', $emailList->id)
-            ->distinct([self::getSubscriberTableName().'.id'])
+            ->fromSub(self::getSubscriberClass()::query()
+                ->where(self::getSubscriberTableName().'.email_list_id', $emailList->id)
+                ->distinct([self::getSubscriberTableName().'.id']), self::getSubscriberTableName())
             ->with('emailList', 'tags');
 
         parent::__construct($subscribersQuery, $request);
