@@ -449,8 +449,7 @@
     @apply max-w-full;
     @apply px-2.5;
     @apply bg-white;
-    @apply shadow-md;
-    @apply shadow-blue-300/10;
+
     @apply placeholder:text-indigo-900/50;
     @apply border-none;
 }

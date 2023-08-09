@@ -55,6 +55,10 @@
     @apply w-auto;
 }
 
+.fi-ta .fi-input-wrapper {
+    @apply shadow-none;
+}
+
 .fi-ta .fi-ta-search-field input:focus {
     @apply outline-none;
     @apply border-none;
@@ -65,6 +69,11 @@
 .fi-ta .fi-select-input {
     @apply input;
     @apply pr-8;
+    @apply h-full;
+    @apply min-h-0;
+    @apply border !important;
+    border-style: solid;
+    border-radius: 0.125rem !important;
 }
 
 .fi-ta-selection-indicator button.font-medium {
