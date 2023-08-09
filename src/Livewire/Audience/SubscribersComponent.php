@@ -9,6 +9,7 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Database\Eloquent\Builder;
@@ -23,6 +24,7 @@ use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Jobs\ExportSubscribersJob;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Http\Api\Queries\EmailListSubscribersQuery;
 use Spatie\Mailcoach\Livewire\TableComponent;
@@ -191,7 +193,8 @@ class SubscribersComponent extends TableComponent
                     'unsubscribed' => $query->unsubscribed(),
                     'unconfirmed' => $query->unconfirmed(),
                     default => $query,
-                }),
+                })
+                ->columnspan(2),
             SelectFilter::make('tags')
                 ->label(__mc('Tags'))
                 ->multiple()
@@ -202,6 +205,82 @@ class SubscribersComponent extends TableComponent
                 ->multiple()
                 ->options(fn () => $this->emailList->tags()->where('type', TagType::Mailcoach)->pluck('name', 'uuid'))
                 ->query(fn (Builder $query, array $data) => $this->applyTagsQuery($query, $data['values'])),
+            SelectFilter::make('opened_campaign')
+                ->label(__mc('Opened campaign'))
+                ->multiple()
+                ->placeholder('')
+                ->options(fn () => $this->emailList->campaigns()->where('status', CampaignStatus::Sent)->pluck('name', 'uuid'))
+                ->query(function (Builder $query, array $data) {
+                    if (! $data['values']) {
+                        return $query;
+                    }
+
+                    return $query->whereHas('opens', function (Builder $query) use ($data) {
+                        $query->whereIn('campaign_id',
+                            self::getCampaignClass()::whereIn('uuid', $data['values'])->select('id'));
+                    });
+                }),
+            SelectFilter::make('opened_automation_mail')
+                ->label(__mc('Opened automation mail'))
+                ->multiple()
+                ->placeholder('')
+                ->options(fn () => self::getAutomationMailClass()::query()->pluck('name', 'uuid'))
+                ->query(function (Builder $query, array $data) {
+                    if (! $data['values']) {
+                        return $query;
+                    }
+
+                    return $query->whereHas('automationMailOpens', function (Builder $query) use ($data) {
+                        $query->whereIn('automation_mail_id',
+                            self::getAutomationMailClass()::whereIn('uuid', $data['values'])->select('id'));
+                    });
+                }),
+            SelectFilter::make('clicked_campaign')
+                ->label(__mc('Clicked campaign'))
+                ->multiple()
+                ->placeholder('')
+                ->options(fn () => $this->emailList->campaigns()->where('status', CampaignStatus::Sent)->pluck('name', 'uuid'))
+                ->query(function (Builder $query, array $data) {
+                    if (! $data['values']) {
+                        return $query;
+                    }
+
+                    return $query->whereHas('clicks', function (Builder $query) use ($data) {
+                        $query->whereHas('link', function (Builder $query) use ($data) {
+                            $query->whereIn('campaign_id', self::getCampaignClass()::whereIn('uuid', $data['values'])->select('id'));
+                        });
+                    });
+                }),
+            SelectFilter::make('clicked_automation_mail')
+                ->label(__mc('Clicked automation mail'))
+                ->multiple()
+                ->placeholder('')
+                ->options(fn () => self::getAutomationMailClass()::query()->pluck('name', 'uuid'))
+                ->query(function (Builder $query, array $data) {
+                    if (! $data['values']) {
+                        return $query;
+                    }
+
+                    return $query->whereHas('automationMailClicks', function (Builder $query) use ($data) {
+                        $query->whereHas('link', function (Builder $query) use ($data) {
+                            $query->whereIn('automation_mail_id', self::getAutomationMailClass()::whereIn('uuid', $data['values'])->select('id'));
+                        });
+                    });
+                }),
+            Filter::make('opens')
+                ->label(__mc('Has opened any email'))
+                ->toggle()
+                ->query(fn (Builder $query) => $query->where(function (Builder $query) {
+                    $query->whereHas('opens')
+                        ->orWhereHas('automationMailOpens');
+                })),
+            Filter::make('clicks')
+                ->label(__mc('Has clicked any email'))
+                ->toggle()
+                ->query(fn (Builder $query) => $query->where(function (Builder $query) {
+                    $query->whereHas('clicks')
+                        ->orWhereHas('automationMailClicks');
+                })),
         ];
     }
 
@@ -384,6 +463,8 @@ class SubscribersComponent extends TableComponent
         if ($this->subscribersCount() >= 10_000) {
             $table->selectCurrentPageOnly();
         }
+
+        $table->filtersFormColumns(2);
 
         return $table;
     }

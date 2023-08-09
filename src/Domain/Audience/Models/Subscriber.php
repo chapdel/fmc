@@ -165,6 +165,11 @@ class Subscriber extends Model implements CipherSweetEncrypted
         return $this->hasMany(self::getAutomationMailOpenClass(), 'subscriber_id');
     }
 
+    public function automationMailClicks(): HasMany
+    {
+        return $this->hasMany(self::getAutomationMailClickClass(), 'subscriber_id');
+    }
+
     public function currentAction(Automation $automation): ?Action
     {
         return $this->currentActions($automation)->first();
