@@ -23,7 +23,7 @@
         />
     </div>
     @if ($readyToLoad)
-        <div wire:loading.class="opacity-50" wire:target="start,end" x-data="emailListStatisticsChart" x-init="renderChart({
+        <div wire:loading.class.delay.long="opacity-50" wire:target="start,end" x-data="emailListStatisticsChart" x-init="renderChart({
             labels: @js($stats->pluck('label')->values()->toArray()),
             subscribers: @js($stats->pluck('subscribers')->values()->toArray()),
             subscribes: @js($stats->pluck('subscribes')->values()->toArray()),
@@ -43,7 +43,7 @@
 </x-mailcoach::card>
 
 @if ($readyToLoad)
-    <x-mailcoach::card wire:loading.class="opacity-50" wire:target="start,end">
+    <x-mailcoach::card wire:loading.class.delay.long="opacity-50" wire:target="start,end">
         <h2 class="markup-h2 mb-0">
             {{ __mc('Totals') }}
         </h2>
