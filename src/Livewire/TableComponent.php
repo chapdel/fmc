@@ -8,6 +8,7 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Tables\Concerns\InteractsWithTable;
 use Filament\Tables\Contracts\HasTable;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Url;
@@ -59,6 +60,11 @@ abstract class TableComponent extends Component implements HasTable, HasForms
     protected function getTableRecordsPerPageSelectOptions(): ?array
     {
         return [10, 25, 50, 100];
+    }
+
+    protected function paginateTableQuery(Builder $query): Paginator
+    {
+        return $query->fastPaginate($this->getTableRecordsPerPage())->onEachSide(1);
     }
 
     public function getView(): View
