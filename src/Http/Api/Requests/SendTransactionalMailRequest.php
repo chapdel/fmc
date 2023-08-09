@@ -32,7 +32,7 @@ class SendTransactionalMailRequest extends FormRequest
                 (new Delimited('string'))->min(1),
                 function (string $attribute, $value, $fail) {
                     try {
-                        /** @var Address[] $address */
+                        /** @var Address[] $addresses */
                         $addresses = (new AddressNormalizer())->normalize($value);
 
                         foreach ($addresses as $address) {
