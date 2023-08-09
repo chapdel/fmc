@@ -144,7 +144,7 @@ abstract class EditorComponent extends Component
 
         if (! $this->quiet) {
             try {
-                app(RenderTwigAction::class)->execute($this->fullHtml);
+                app(RenderTwigAction::class)->execute(htmlspecialchars_decode($this->fullHtml));
             } catch (\Throwable $e) {
                 notifyError($e->getMessage());
                 $this->hasError = true;

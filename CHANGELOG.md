@@ -2,6 +2,27 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.25.1 - 2023-08-09
+
+### What's Changed
+
+- Move DISTINCT ON query to a subquery for Postgres support. by @dannydinges in https://github.com/spatie/laravel-mailcoach/pull/1347
+- Fix a bug where Twig was being rendered with escaped quotes (") and subsequently crashing
+
+### New Contributors
+
+- @dannydinges made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/1347
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.25.0...6.25.1
+
+## 6.25.0 - 2023-08-07
+
+### What's new
+
+- We now dispatch a `ServingMailcoach` event which allows you to add behaviour only when serving Mailcoach pages
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.24.6...6.25.0
+
 ## 6.24.6 - 2023-08-07
 
 ### What's Changed
