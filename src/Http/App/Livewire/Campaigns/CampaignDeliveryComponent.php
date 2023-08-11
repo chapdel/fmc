@@ -24,6 +24,8 @@ class CampaignDeliveryComponent extends Component
 
     public array $scheduled_at;
 
+    public bool $readyToLoad = false;
+
     protected $listeners = [
         'send-campaign' => 'send',
     ];
@@ -94,10 +96,18 @@ class CampaignDeliveryComponent extends Component
         return redirect()->route('mailcoach.campaigns.summary', $this->campaign);
     }
 
+    public function loadData()
+    {
+        $this->readyToLoad = true;
+    }
+
     public function render(): View
     {
         return view('mailcoach::app.campaigns.delivery',
             [
+                'subscribersCount' => $this->readyToLoad
+                    ? $this->campaign->segmentSubscriberCount()
+                    : null,
                 'fromEmail' => $this->campaign->from_email ?? $this->campaign->emailList->default_from_email,
                 'fromName' => $this->campaign->from_name ?? $this->campaign->emailList->default_from_name,
                 'replyToEmail' => $this->campaign->reply_to_email ?? $this->campaign->emailList->default_reply_to_email ?? null,
@@ -106,7 +116,6 @@ class CampaignDeliveryComponent extends Component
             ->layout('mailcoach::app.campaigns.layouts.campaign', [
                 'campaign' => $this->campaign,
                 'title' => __mc('Send'),
-
             ]);
     }
 }
