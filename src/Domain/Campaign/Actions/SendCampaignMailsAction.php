@@ -14,7 +14,7 @@ class SendCampaignMailsAction
 {
     public function execute(Campaign $campaign, CarbonInterface $stopExecutingAt = null): void
     {
-        $this->retryDispatchForStuckSends($campaign);
+        $this->retryDispatchForStuckSends($campaign, $stopExecutingAt);
 
         if ($campaign->allMailSendingJobsDispatched()) {
             return;
@@ -35,13 +35,13 @@ class SendCampaignMailsAction
      * Dispatch pending sends again that have
      * not been processed in a realistic time
      */
-    protected function retryDispatchForStuckSends(Campaign $campaign): void
+    protected function retryDispatchForStuckSends(Campaign $campaign, CarbonInterface $stopExecutingAt = null): void
     {
         $realisticTimeInMinutes = round($campaign->sent_to_number_of_subscribers / 10 / 60);
 
         $retryQuery = $campaign->sends()
             ->pending()
-            ->where('sending_job_dispatched_at', '<', now()->subMinutes($realisticTimeInMinutes * 2));
+            ->where('sending_job_dispatched_at', '<', now()->subMinutes($realisticTimeInMinutes + 15));
 
         if ($retryQuery->count() === 0) {
             return;
@@ -49,10 +49,17 @@ class SendCampaignMailsAction
 
         $campaign->update(['all_sends_dispatched_at' => null]);
 
-        $retryQuery->each(function (Send $send) {
+        $simpleThrottle = app(SimpleThrottle::class)
+            ->forMailer($campaign->getMailerKey());
+
+        $retryQuery->each(function (Send $send) use ($stopExecutingAt, $simpleThrottle) {
+            $simpleThrottle->hit();
+
             dispatch(new SendCampaignMailJob($send));
 
             $send->markAsSendingJobDispatched();
+
+            $this->haltWhenApproachingTimeLimit($stopExecutingAt);
         });
     }
 
