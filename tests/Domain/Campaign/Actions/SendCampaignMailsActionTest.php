@@ -12,6 +12,7 @@ it('will retry stuck pending sends', function () {
     $action = app(SendCampaignMailsAction::class);
 
     $campaign = Campaign::factory()->create([
+        'sent_to_number_of_subscribers' => 10_000,
         'all_sends_dispatched_at' => now()->subMinutes(20),
     ]);
 

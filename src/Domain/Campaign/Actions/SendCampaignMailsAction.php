@@ -33,13 +33,15 @@ class SendCampaignMailsAction
 
     /**
      * Dispatch pending sends again that have
-     * not been processed in the 30 minutes
+     * not been processed in a realistic time
      */
     protected function retryDispatchForStuckSends(Campaign $campaign): void
     {
+        $realisticTimeInMinutes = round($campaign->sent_to_number_of_subscribers / 10 / 60);
+
         $retryQuery = $campaign->sends()
             ->pending()
-            ->where('sending_job_dispatched_at', '<', now()->subMinutes(30));
+            ->where('sending_job_dispatched_at', '<', now()->subMinutes($realisticTimeInMinutes * 2));
 
         if ($retryQuery->count() === 0) {
             return;
