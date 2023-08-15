@@ -16,12 +16,8 @@ class SendCampaignMailsAction
     {
         $this->retryDispatchForStuckSends($campaign, $stopExecutingAt);
 
-        if ($campaign->allMailSendingJobsDispatched()) {
-            return;
-        }
-
         if (! $campaign->sends()->undispatched()->count()) {
-            if ($campaign->allSendsCreated()) {
+            if ($campaign->allSendsCreated() && ! $campaign->allMailSendingJobsDispatched()) {
                 $campaign->markAsAllMailSendingJobsDispatched();
             }
 
