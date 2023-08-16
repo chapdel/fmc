@@ -19,8 +19,10 @@ class RetrySendingFailedSendsAction
             'sending_job_dispatched_at' => now(),
         ]);
 
-        $campaign->sends()->getQuery()->whereIn('id', $sendIds)->each(function (Send $pendingSend) {
-            dispatch(new SendCampaignMailJob($pendingSend));
+        $sendIds->chunk(10_000)->each(function ($sendIds) use ($campaign) {
+            $campaign->sends()->getQuery()->whereIn('id', $sendIds)->each(function (Send $pendingSend) {
+                dispatch(new SendCampaignMailJob($pendingSend));
+            });
         });
 
         return $failedSendsCount;
