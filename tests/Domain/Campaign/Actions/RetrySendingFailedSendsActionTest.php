@@ -15,4 +15,5 @@ it('updates failed sends to pending again and dispatches new jobs', function () 
 
     expect($send->fresh()->failed_at)->toBeNull();
     expect($send->campaign->sends()->pending()->count())->toBe(1);
+    expect($send->campaign->sends()->undispatched()->count())->toBe(1);
 });

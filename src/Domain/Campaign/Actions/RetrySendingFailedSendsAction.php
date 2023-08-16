@@ -12,7 +12,6 @@ class RetrySendingFailedSendsAction
             'sent_at' => null,
             'failed_at' => null,
             'failure_reason' => null,
-            'sending_job_dispatched_at' => now(),
         ]);
     }
 }
