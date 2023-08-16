@@ -2,6 +2,7 @@
 
 use Spatie\Mailcoach\Domain\Campaign\Actions\PrepareWebviewHtmlAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+
 use function Spatie\Snapshots\assertMatchesHtmlSnapshot;
 
 it('will automatically add html tags', function () {

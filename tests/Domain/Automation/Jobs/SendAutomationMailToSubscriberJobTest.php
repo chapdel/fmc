@@ -22,8 +22,9 @@ use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithBodyReplacer;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithNoSubject;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMailWithSubjectReplacer;
-use function Spatie\Snapshots\assertMatchesHtmlSnapshot;
 use Symfony\Component\Mailer\SentMessage;
+
+use function Spatie\Snapshots\assertMatchesHtmlSnapshot;
 
 beforeEach(function () {
     test()->automationMail = (new AutomationMailFactory())
