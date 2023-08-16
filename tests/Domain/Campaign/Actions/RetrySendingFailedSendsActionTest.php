@@ -1,20 +1,18 @@
 <?php
 
-use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Campaign\Actions\RetrySendingFailedSendsAction;
-use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
-it('updates failed sends and dispatches new jobs', function () {
-    Queue::fake();
-
+it('updates failed sends to pending again and dispatches new jobs', function () {
     $send = Send::factory()->create([
         'failed_at' => now(),
+        'sent_at' => now(),
     ]);
+
+    expect($send->campaign->sends()->pending()->count())->toBe(0);
 
     app(RetrySendingFailedSendsAction::class)->execute($send->campaign);
 
     expect($send->fresh()->failed_at)->toBeNull();
-
-    Queue::assertPushed(SendCampaignMailJob::class);
+    expect($send->campaign->sends()->pending()->count())->toBe(1);
 });
