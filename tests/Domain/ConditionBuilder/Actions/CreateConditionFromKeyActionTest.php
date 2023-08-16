@@ -2,10 +2,11 @@
 
 namespace Spatie\Mailcoach\Tests\Domain\ConditionBuilder\Actions;
 
-use function PHPUnit\Framework\assertInstanceOf;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Actions\CreateConditionFromKeyAction;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Conditions\Condition;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Exceptions\ConditionException;
+
+use function PHPUnit\Framework\assertInstanceOf;
 
 it('can create a condition from a string', function () {
     $action = new CreateConditionFromKeyAction();

@@ -2,8 +2,9 @@
 
 namespace Spatie\Mailcoach\Tests\Domain\ConditionBuilder\Collections;
 
-use function PHPUnit\Framework\assertInstanceOf;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Collections\StoredConditionCollection;
+
+use function PHPUnit\Framework\assertInstanceOf;
 
 it('can create a collection', function () {
     $collection = StoredConditionCollection::fromRequest([
