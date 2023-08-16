@@ -1,4 +1,4 @@
-<x-mailcoach::card>
+<x-mailcoach::card wire:init="loadData">
     @if ($campaign->isEditable())
         <div class="grid gap-2">
             @if($campaign->isReady())
@@ -64,7 +64,11 @@
             @endif
 
             <dt>
-                <x-mailcoach::health-label reverse :test="$campaign->segmentSubscriberCount()" :label="__mc('To')"/>
+                @if (! is_null($subscribersCount))
+                    <x-mailcoach::health-label reverse :test="$subscribersCount" :label="__mc('To')"/>
+                @else
+                    ...
+                @endif
             </dt>
 
             <dd>
@@ -75,10 +79,12 @@
                             ({{ $campaign->getSegment()->description() }})
                         @endif
                         <span class="ml-2 tag-neutral text-xs">
-                            {{ $campaign->segmentSubscriberCount() }}
+                            {{ $subscribersCount ?? '...' }}
+                            @if (!is_null($subscribersCount))
                             <span class="ml-1 font-normal">
-                                {{ __mc_choice('subscriber|subscribers', $campaign->segmentSubscriberCount()) }}
+                                {{ __mc_choice('subscriber|subscribers', $subscribersCount) }}
                             </span>
+                            @endif
                         </span>
                     @elseif($campaign->emailList)
                         {{ __mc('Selected list has no subscribers') }}
@@ -417,8 +423,10 @@
                             <p class="text-lg">
                                 {{ __mc('Are you sure you want to send this campaign to') }}
                                 <strong class="font-semibold">
-                                    {{ number_format($campaign->segmentSubscriberCount()) }}
-                                    {{ $campaign->segmentSubscriberCount() === 1 ? __mc('subscriber') : __mc('subscribers') }}
+                                    @if ($subscribersCount)
+                                        {{ number_format($subscribersCount) }}
+                                        {{ $subscribersCount === 1 ? __mc('subscriber') : __mc('subscribers') }}
+                                    @endif
                                 </strong>?
                             </p>
 

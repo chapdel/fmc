@@ -14,14 +14,10 @@ class SendCampaignMailsAction
 {
     public function execute(Campaign $campaign, CarbonInterface $stopExecutingAt = null): void
     {
-        $this->retryDispatchForStuckSends($campaign);
-
-        if ($campaign->allMailSendingJobsDispatched()) {
-            return;
-        }
+        $this->retryDispatchForStuckSends($campaign, $stopExecutingAt);
 
         if (! $campaign->sends()->undispatched()->count()) {
-            if ($campaign->allSendsCreated()) {
+            if ($campaign->allSendsCreated() && ! $campaign->allMailSendingJobsDispatched()) {
                 $campaign->markAsAllMailSendingJobsDispatched();
             }
 
@@ -33,13 +29,20 @@ class SendCampaignMailsAction
 
     /**
      * Dispatch pending sends again that have
-     * not been processed in the 30 minutes
+     * not been processed in a realistic time
      */
-    protected function retryDispatchForStuckSends(Campaign $campaign): void
+    protected function retryDispatchForStuckSends(Campaign $campaign, CarbonInterface $stopExecutingAt = null): void
     {
+        $mailer = $campaign->getMailerKey();
+        $mailsPerTimespan = config("mail.mailers.{$mailer}.mails_per_timespan", 10);
+        $timespan = config("mail.mailers.{$mailer}.timespan_in_seconds", 1);
+        $mailsPerSecond = $mailsPerTimespan / $timespan;
+
+        $realisticTimeInMinutes = round($campaign->sent_to_number_of_subscribers / $mailsPerSecond / 60);
+
         $retryQuery = $campaign->sends()
             ->pending()
-            ->where('sending_job_dispatched_at', '<', now()->subMinutes(30));
+            ->where('sending_job_dispatched_at', '<', now()->subMinutes($realisticTimeInMinutes + 15));
 
         if ($retryQuery->count() === 0) {
             return;
@@ -47,10 +50,17 @@ class SendCampaignMailsAction
 
         $campaign->update(['all_sends_dispatched_at' => null]);
 
-        $retryQuery->each(function (Send $send) {
+        $simpleThrottle = app(SimpleThrottle::class)
+            ->forMailer($campaign->getMailerKey());
+
+        $retryQuery->each(function (Send $send) use ($stopExecutingAt, $simpleThrottle) {
+            $simpleThrottle->hit();
+
             dispatch(new SendCampaignMailJob($send));
 
             $send->markAsSendingJobDispatched();
+
+            $this->haltWhenApproachingTimeLimit($stopExecutingAt);
         });
     }
 

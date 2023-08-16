@@ -273,6 +273,11 @@ abstract class Sendable extends Model implements HasHtmlContent
         return $this->sends()->whereNotNull('sent_at')->count();
     }
 
+    public function sendsWithErrors(): HasMany
+    {
+        return $this->sends()->whereNotNull('failed_at');
+    }
+
     protected function ensureUpdatable(): void
     {
     }

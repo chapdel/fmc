@@ -23,7 +23,7 @@ class SendScheduledCampaignsJob implements ShouldQueue, ShouldBeUnique
     use SerializesModels;
     use UsesMailcoachModels;
 
-    public int $uniqueFor = 60;
+    public int $uniqueFor = 90;
 
     public int $maxExceptions = 5;
 

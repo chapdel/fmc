@@ -2,6 +2,7 @@
 
 use Spatie\Mailcoach\Domain\Automation\Actions\PrepareEmailHtmlAction;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
+
 use function Spatie\Snapshots\assertMatchesHtmlSnapshot;
 
 it('will automatically add html tags', function () {

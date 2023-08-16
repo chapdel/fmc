@@ -1,6 +1,6 @@
 @php($campaign = $getRecord())
-<div class="link fi-ta-text-item inline-flex items-center gap-1.5 text-sm">
-    <span>{{ $campaign->name }}</span>
+<div class="fi-ta-text-item gap-1.5 text-sm">
+    <span class="link">{{ $campaign->name }}</span>
     @if ($campaign->sends_with_errors_count)
         <div class="flex items-center text-orange-500 text-xs mt-1">
             <x-mailcoach::rounded-icon type="warning" icon="fas fa-info" class="mr-1" />

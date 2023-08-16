@@ -13,6 +13,7 @@ export default {
         '../mailcoach-ui/resources/**/*.blade.php',
         '../mailcoach-packages/packages/*/resources/**/*.blade.php',
         './vendor/filament/**/*.blade.php',
+        './src/Livewire/**/*.php',
     ],
     theme: {
         colors: {
