@@ -135,6 +135,7 @@ use Spatie\Mailcoach\Http\App\Livewire\Export\ExportComponent;
 use Spatie\Mailcoach\Http\App\Livewire\Import\ImportComponent;
 use Spatie\Mailcoach\Http\App\Livewire\LinkCheckComponent;
 use Spatie\Mailcoach\Http\App\Livewire\SegmentPopulationCountComponent;
+use Spatie\Mailcoach\Http\App\Livewire\SendsWithErrorsCountComponent;
 use Spatie\Mailcoach\Http\App\Livewire\SendTestComponent;
 use Spatie\Mailcoach\Http\App\Livewire\Spotlight\AutomationEmailsCommand;
 use Spatie\Mailcoach\Http\App\Livewire\Spotlight\AutomationsCommand;
@@ -579,6 +580,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
             SetMailcoachDefaults::class,
         ]);
 
+        Livewire::component('mailcoach::sends-with-errors-count', SendsWithErrorsCountComponent::class);
         Livewire::component('mailcoach::email-list-count', EmailListCountComponent::class);
         Livewire::component('mailcoach::segment-population-count', SegmentPopulationCountComponent::class);
         Livewire::component('mailcoach::tag-population-count', TagPopulationCountComponent::class);

@@ -485,11 +485,6 @@ class Campaign extends Sendable implements Feedable
         return $this->sends()->whereNull('invalidated_at');
     }
 
-    public function sendsWithErrors(): HasMany
-    {
-        return $this->sends()->whereNotNull('failed_at');
-    }
-
     public function wasSentToAllSubscribers(): bool
     {
         if (! $this->isSent()) {
