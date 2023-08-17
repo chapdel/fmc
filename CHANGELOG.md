@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.25.3 - 2023-08-17
+
+- Retrying stuck sends now first calculates how long sends should have been in the queue
+- Retrying failed sends from the UI now works with large amount of failed sends
+- Lowercase the extension of uploads
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.25.2...6.25.3
+
 ## 6.25.2 - 2023-08-09
 
 - Fix a query issue in MySQL caused by the previous Postgres fix
