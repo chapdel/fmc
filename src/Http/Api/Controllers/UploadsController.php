@@ -25,7 +25,7 @@ class UploadsController
                 ->addMediaFromRequest('file')
                 ->sanitizingFileName(function (string $fileName) {
                     $parts = explode('.', $fileName);
-                    $extension = array_pop($parts);
+                    $extension = strtolower(array_pop($parts));
 
                     return Str::slug(implode($parts)).'.'.$extension;
                 })
