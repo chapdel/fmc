@@ -34,12 +34,19 @@ class Mailer extends Model
             $name = strtolower($mailer->name);
             $mailer->config_key_name = Str::slug("mailcoach-{$name}");
         });
+
+        self::saved(function () {
+            cache()->forget('ready-mailers');
+            static::registerAllConfigValues();
+        });
     }
 
     public static function registerAllConfigValues(): void
     {
         /** @var \Illuminate\Support\Collection<\Spatie\Mailcoach\Domain\Settings\Models\Mailer> $mailers */
-        $mailers = self::getMailerClass()::all()->where('ready_for_use', true);
+        $mailers = cache()->rememberForever('ready-mailers', function () {
+            return self::getMailerClass()::all()->where('ready_for_use', true);
+        });
 
         $mailers->each(fn (Mailer $mailer) => $mailer->registerConfigValues());
         $defaultMailer = $mailers->where('default', true)->first() ?? $mailers->first();
