@@ -17,7 +17,7 @@
                 {{ $campaign->name }}
             </a>
         @endif
-        <livewire:mailcoach::sends-with-errors-count :sendable="$campaign" />
+        <livewire:mailcoach::sends-with-errors-count wire:key="errors-{{ $campaign->id }}" :sendable="$campaign" />
     </td>
     <td class="markup-links table-cell">
         @if ($campaign->emailList)
