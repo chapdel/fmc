@@ -126,6 +126,7 @@ it('will throttle processing mail jobs', function () {
 
     // Fake the throttle not working
     $this->partialMock(SimpleThrottle::class)
+        ->shouldReceive('sleepSeconds')->andReturn(0)
         ->shouldReceive('forMailer')->andReturnSelf()
         ->shouldReceive('forMailerCreates')->andReturnSelf()
         ->shouldReceive('hit')

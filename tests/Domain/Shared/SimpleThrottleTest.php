@@ -16,18 +16,23 @@ it('can throttle hits', function () {
         ->inSeconds(3)
         ->allow(2);
 
+    expect($this->simpleThrottle->sleepSeconds())->toBe(0);
     $this->simpleThrottle->hit();
     expect($this->startedAt)->timePassedInSeconds(0);
 
+    expect($this->simpleThrottle->sleepSeconds())->toBe(0);
     $this->simpleThrottle->hit();
     expect($this->startedAt)->timePassedInSeconds(0);
 
+    expect($this->simpleThrottle->sleepSeconds())->toBe(3);
     $this->simpleThrottle->hit();
     expect($this->startedAt)->timePassedInSeconds(3);
 
+    expect($this->simpleThrottle->sleepSeconds())->toBe(0);
     $this->simpleThrottle->hit();
     expect($this->startedAt)->timePassedInSeconds(3);
 
+    expect($this->simpleThrottle->sleepSeconds())->toBe(3);
     $this->simpleThrottle->hit();
     expect($this->startedAt)->timePassedInSeconds(6);
 });

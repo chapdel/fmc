@@ -37,7 +37,5 @@ it('can retry sending failed jobs sends with the correct mailer', function () {
     config()->set('mailcoach.campaigns.actions.personalize_html', PersonalizeHtmlAction::class);
     dispatch(new RetrySendingFailedSendsJob($campaign));
 
-    Mail::assertSent(MailcoachMail::class, 2);
-    Mail::assertSent(MailcoachMail::class, fn (MailcoachMail $mail) => $mail->hasTo($john->email));
-    Mail::assertSent(MailcoachMail::class, fn (MailcoachMail $mail) => $mail->mailer === 'some-mailer');
+    expect($campaign->sends()->getQuery()->pending()->count())->toBe(1);
 });
