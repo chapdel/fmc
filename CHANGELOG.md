@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.25.5 - 2023-08-17
+
+- Add missing wire:key to campaign row
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.25.4...6.25.5
+
 ## 6.25.4 - 2023-08-17
 
 - Make sure uploads are images
