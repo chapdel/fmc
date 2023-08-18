@@ -3,8 +3,10 @@
 namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions;
 
 use Carbon\CarbonInterval;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationActionComponent;
+use Throwable;
 
 class WaitActionComponent extends AutomationActionComponent
 {
@@ -36,6 +38,25 @@ class WaitActionComponent extends AutomationActionComponent
             'unit' => $this->unit,
             'length' => $this->length,
         ];
+    }
+
+    public function getDescriptionProperty(): string
+    {
+        if (! $this->length || ! $this->unit) {
+            return '…';
+        }
+
+        if ($this->length <= 30) {
+            return $this->length.' '.Str::plural(Str::singular($this->unit), $this->length);
+        }
+
+        try {
+            $interval = CarbonInterval::{$this->unit}($this->length);
+
+            return $interval?->cascade()->forHumans() ?? '…';
+        } catch (Throwable) {
+            return '…';
+        }
     }
 
     public function rules(): array

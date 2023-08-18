@@ -2,19 +2,7 @@
     <x-slot name="legend">
         {{__mc('Wait for') }}
         <span class="form-legend-accent">
-            @php
-            try {
-                if ($length <= 30) {
-                    echo $length . ' ' . $unit;
-                }
-                else {
-                   echo ($length && $unit && $interval = \Carbon\CarbonInterval::$unit($length)) ? $interval->cascade()->forHumans() : '…';
-                }
-
-            } catch (Exception) {
-                echo '…';
-            }
-            @endphp
+            {{ $this->description }}
         </span>
     </x-slot>
 
