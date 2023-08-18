@@ -63,7 +63,6 @@ use Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookEventSubscriber;
 use Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookFailedAttemptsSubscriber;
 use Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookLogEventSubscriber;
 use Spatie\Mailcoach\Domain\Settings\Models\MailcoachUser;
-use Spatie\Mailcoach\Domain\Settings\Policies\PersonalAccessTokenPolicy;
 use Spatie\Mailcoach\Domain\Settings\SettingsNavigation;
 use Spatie\Mailcoach\Domain\Settings\Support\AppConfiguration\AppConfiguration;
 use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\EditorConfiguration;
@@ -266,7 +265,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
             ->bootViews()
             ->bootEvents()
             ->bootTriggers()
-            ->registerApiGuard()
             ->bootEncryption()
             ->bootSpotlight();
     }
@@ -331,8 +329,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
     {
         Gate::define('viewMailcoach', fn (MailcoachUser $user) => $user->canViewMailcoach());
 
-        Gate::policy(self::getPersonalAccessTokenClass(), PersonalAccessTokenPolicy::class);
-
         return $this;
     }
 
@@ -342,41 +338,43 @@ class MailcoachServiceProvider extends PackageServiceProvider
             string $url = '',
             bool $registerFeedback = true,
         ) {
-            if ($registerFeedback) {
-                Route::namespace(null)->middleware([BootstrapMailcoach::class])->group(function () {
-                    Route::sesFeedback('ses-feedback');
-                    Route::mailgunFeedback('mailgun-feedback');
-                    Route::sendgridFeedback('sendgrid-feedback');
-                    Route::postmarkFeedback('postmark-feedback');
-                    Route::sendinblueFeedback('sendinblue-feedback');
+            Route::middleware([BootstrapMailcoach::class])->group(function () use ($url, $registerFeedback) {
+                if ($registerFeedback) {
+                    Route::namespace(null)->group(function () {
+                        Route::sesFeedback('ses-feedback');
+                        Route::mailgunFeedback('mailgun-feedback');
+                        Route::sendgridFeedback('sendgrid-feedback');
+                        Route::postmarkFeedback('postmark-feedback');
+                        Route::sendinblueFeedback('sendinblue-feedback');
+                    });
+                }
+
+                Route::prefix($url)->namespace(null)->group(function () {
+                    Route::prefix('')
+                        ->group(__DIR__.'/../routes/mailcoach-public-api.php');
+
+                    Route::prefix('')
+                        ->middleware(config('mailcoach.middleware')['web'])
+                        ->group(__DIR__.'/../routes/mailcoach-ui.php');
+
+                    Route::prefix('api')
+                        ->middleware(config('mailcoach.middleware')['api'])
+                        ->group(__DIR__.'/../routes/mailcoach-api.php');
+
+                    /*
+                     * The website routes should be registered last, so that
+                     * they don't eat up other routes
+                     */
+                    Route::prefix(config('mailcoach.website_prefix', 'archive'))
+                        ->middleware('web')
+                        ->group(__DIR__.'/../routes/mailcoach-email-list-website.php');
                 });
-            }
 
-            Route::prefix($url)->namespace(null)->middleware([BootstrapMailcoach::class])->group(function () {
-                Route::prefix('')
-                    ->group(__DIR__.'/../routes/mailcoach-public-api.php');
-
-                Route::prefix('')
-                    ->middleware(config('mailcoach.middleware')['web'])
-                    ->group(__DIR__.'/../routes/mailcoach-ui.php');
-
-                Route::prefix('api')
-                    ->middleware(config('mailcoach.middleware')['api'])
-                    ->group(__DIR__.'/../routes/mailcoach-api.php');
-
-                /*
-                 * The website routes should be registered last, so that
-                 * they don't eat up other routes
-                 */
-                Route::prefix(config('mailcoach.website_prefix', 'archive'))
-                    ->middleware('web')
-                    ->group(__DIR__.'/../routes/mailcoach-email-list-website.php');
+                Route::mailcoachEditor('mailcoachEditor');
+                Route::get($url, function () {
+                    return redirect()->route(config('mailcoach.redirect_home', 'mailcoach.dashboard'));
+                })->name('mailcoach.home');
             });
-
-            Route::mailcoachEditor('mailcoachEditor');
-            Route::get($url, function () {
-                return redirect()->route(config('mailcoach.redirect_home', 'mailcoach.dashboard'));
-            })->name('mailcoach.home');
         });
 
         return $this;
@@ -621,7 +619,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         return $this;
     }
 
-    protected function bootEvents()
+    protected function bootEvents(): static
     {
         Event::listen(CampaignSentEvent::class, SendCampaignSentEmail::class);
         Event::listen(WebhookCallProcessedEvent::class, SetWebhookCallProcessedAt::class);
@@ -655,21 +653,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
         } catch (Exception) {
             // Do nothing as the database is probably not set up yet.
         }
-
-        return $this;
-    }
-
-    protected function registerApiGuard(): static
-    {
-        if (config('auth.guards.api')) {
-            return $this;
-        }
-
-        config()->set('auth.guards.api', [
-            'driver' => 'token',
-            'provider' => 'users',
-            'hash' => false,
-        ]);
 
         return $this;
     }

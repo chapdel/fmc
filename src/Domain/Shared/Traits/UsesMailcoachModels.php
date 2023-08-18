@@ -24,7 +24,6 @@ use Spatie\Mailcoach\Domain\Campaign\Models\CampaignOpen;
 use Spatie\Mailcoach\Domain\Campaign\Models\CampaignUnsubscribe;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
-use Spatie\Mailcoach\Domain\Settings\Models\PersonalAccessToken;
 use Spatie\Mailcoach\Domain\Settings\Models\Setting;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookLog;
@@ -424,12 +423,6 @@ trait UsesMailcoachModels
         $class = new $className;
 
         return $class->getTable();
-    }
-
-    /** @return class-string<PersonalAccessToken> */
-    public static function getPersonalAccessTokenClass(): string
-    {
-        return config('mailcoach.models.personal_access_token', PersonalAccessToken::class);
     }
 
     /** @return class-string<Setting> */
