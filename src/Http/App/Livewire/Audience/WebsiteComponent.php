@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Http\App\Livewire\Audience;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
@@ -27,7 +28,7 @@ class WebsiteComponent extends Component
         $rules = [
             'emailList.has_website' => ['boolean'],
             'emailList.show_subscription_form_on_website' => ['boolean'],
-            'emailList.website_slug' => ['nullable'],
+            'emailList.website_slug' => ['nullable', Rule::unique(self::getEmailListTableName(), 'website_slug')->ignore($this->emailList->id)],
             'emailList.website_title' => ['nullable'],
             'emailList.website_intro' => ['nullable'],
             'emailList.website_primary_color' => ['nullable'],
