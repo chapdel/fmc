@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.26.0 - 2023-08-18
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.25.6...6.26.0
+
 ## 6.25.6 - 2023-08-17
 
 - Cache ready to use mailers when registering config values
