@@ -60,12 +60,6 @@
                     <h1 class="markup-h1 p-0 m-0 pb-2 truncate">
                         {{ $title ?? '' }}
                     </h1>
-
-                    @if ($header ?? false)
-                    <div class="pb-2">
-                        {{ $header }}
-                    </div>
-                    @endif
                 </div>
 
                 @if (($create ?? false) || ($createComponent ?? false))
