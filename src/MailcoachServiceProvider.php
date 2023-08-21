@@ -284,6 +284,10 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootConfig(): static
     {
+        if (! config('mailcoach.boot_config', true)) {
+            return $this;
+        }
+
         try {
             self::getMailerClass()::registerAllConfigValues();
         } catch (QueryException) {
@@ -638,6 +642,10 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootTriggers(): static
     {
+        if (! config('mailcoach.boot_triggers', true)) {
+            return $this;
+        }
+
         try {
             $triggers = cache()->rememberForever('automation-triggers', function () {
                 return static::getAutomationTriggerClass()::with(['automation'])->has('automation')->get();

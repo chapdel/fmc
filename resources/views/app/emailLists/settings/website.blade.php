@@ -30,7 +30,7 @@
                     <i class="fas fa-external-link"></i>
                 </a>
             </div>
-            @error('website_slug')
+            @error('emailList.website_slug')
                 <p class="form-error" role="alert">{{ $message }}</p>
             @enderror
         </div>

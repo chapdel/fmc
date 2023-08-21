@@ -87,11 +87,11 @@ class SendCampaignAction
             ->withoutSendsForCampaign($campaign)
             ->lazyById()
             ->each(function (Subscriber $subscriber) use ($simpleThrottle, $stopExecutingAt, $campaign) {
+                $this->haltWhenApproachingTimeLimit($stopExecutingAt, $simpleThrottle->sleepSeconds());
+
                 $simpleThrottle->hit();
 
                 dispatch(new CreateCampaignSendJob($campaign, $subscriber));
-
-                $this->haltWhenApproachingTimeLimit($stopExecutingAt);
             });
 
         if ($campaign->sends()->count() < $subscribersQueryCount) {
@@ -103,13 +103,13 @@ class SendCampaignAction
         return $this;
     }
 
-    protected function haltWhenApproachingTimeLimit(?CarbonInterface $stopExecutingAt): void
+    protected function haltWhenApproachingTimeLimit(?CarbonInterface $stopExecutingAt, int $sleepSeconds = 0): void
     {
         if (is_null($stopExecutingAt)) {
             return;
         }
 
-        if ($stopExecutingAt->diffInSeconds() > 30) {
+        if ($stopExecutingAt->diffInSeconds() - $sleepSeconds > 10) {
             return;
         }
 

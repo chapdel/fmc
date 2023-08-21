@@ -69,15 +69,26 @@ class SimpleThrottle
         return $this;
     }
 
+    public function sleepSeconds(): int
+    {
+        if (! $this->cache->periodEndsAt()?->isFuture()) {
+            return 0;
+        }
+
+        if ($this->cache->currentPeriodHitCount() < $this->allowedNumberInPeriod) {
+            return 0;
+        }
+
+        return $this->cache->periodEndsAt()->diffInSeconds() + 1;
+    }
+
     protected function sleepUntilEndOfTimeSpan(): self
     {
         if (! $this->cache->periodEndsAt()->isFuture()) {
             return $this;
         }
 
-        $sleepSeconds = $this->cache->periodEndsAt()->diffInSeconds() + 1;
-
-        sleep($sleepSeconds);
+        sleep($this->sleepSeconds());
 
         return $this;
     }

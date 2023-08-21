@@ -38,7 +38,10 @@ class SendCampaignMailsAction
         $timespan = config("mail.mailers.{$mailer}.timespan_in_seconds", 1);
         $mailsPerSecond = $mailsPerTimespan / $timespan;
 
-        $realisticTimeInMinutes = round($campaign->sent_to_number_of_subscribers / $mailsPerSecond / 60);
+        $realisticTimeInMinutes = min(
+            60 * 3, // SendCampaignMailJob only has 3 hours retryUntil()
+            round($campaign->sent_to_number_of_subscribers / $mailsPerSecond / 60),
+        );
 
         $retryQuery = $campaign->sends()
             ->pending()
@@ -54,13 +57,13 @@ class SendCampaignMailsAction
             ->forMailer($campaign->getMailerKey());
 
         $retryQuery->each(function (Send $send) use ($stopExecutingAt, $simpleThrottle) {
+            $this->haltWhenApproachingTimeLimit($stopExecutingAt, $simpleThrottle->sleepSeconds());
+
             $simpleThrottle->hit();
 
             dispatch(new SendCampaignMailJob($send));
 
             $send->markAsSendingJobDispatched();
-
-            $this->haltWhenApproachingTimeLimit($stopExecutingAt);
         });
     }
 
@@ -77,6 +80,8 @@ class SendCampaignMailsAction
                 ->undispatched()
                 ->lazyById()
                 ->each(function (Send $send) use ($stopExecutingAt, $simpleThrottle) {
+                    $this->haltWhenApproachingTimeLimit($stopExecutingAt, $simpleThrottle->sleepSeconds());
+
                     // should horizon be used, and it is paused, stop dispatching jobs
                     if (! app(HorizonStatus::class)->is(HorizonStatus::STATUS_PAUSED)) {
                         $simpleThrottle->hit();
@@ -85,8 +90,6 @@ class SendCampaignMailsAction
 
                         $send->markAsSendingJobDispatched();
                     }
-
-                    $this->haltWhenApproachingTimeLimit($stopExecutingAt);
                 });
 
             $undispatchedCount = $campaign->sends()->undispatched()->count();
@@ -99,13 +102,13 @@ class SendCampaignMailsAction
         $campaign->markAsAllMailSendingJobsDispatched();
     }
 
-    protected function haltWhenApproachingTimeLimit(?CarbonInterface $stopExecutingAt): void
+    protected function haltWhenApproachingTimeLimit(?CarbonInterface $stopExecutingAt, int $sleepSeconds = 0): void
     {
         if (is_null($stopExecutingAt)) {
             return;
         }
 
-        if ($stopExecutingAt->diffInSeconds() > 30) {
+        if ($stopExecutingAt->diffInSeconds() - $sleepSeconds > 10) {
             return;
         }
 

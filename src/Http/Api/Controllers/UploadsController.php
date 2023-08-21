@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Http\Api\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 use Spatie\Image\Manipulations;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
@@ -13,10 +14,17 @@ class UploadsController
 
     public function __invoke(Request $request)
     {
-        $data = $request->validate([
-            'file' => ['nullable', 'required_without:url'],
-            'url' => ['nullable', 'url', 'required_without:file'],
-        ]);
+        try {
+            $data = $request->validate([
+                'file' => ['nullable', 'required_without:url', 'image'],
+                'url' => ['nullable', 'url', 'required_without:file'],
+            ]);
+        } catch (ValidationException $e) {
+            return response()->json([
+                'success' => 0,
+                'errors' => $e->errors(),
+            ], 422);
+        }
 
         if (isset($data['file'])) {
             /** @var \Spatie\Mailcoach\Domain\Shared\Models\Upload $upload */
@@ -25,7 +33,7 @@ class UploadsController
                 ->addMediaFromRequest('file')
                 ->sanitizingFileName(function (string $fileName) {
                     $parts = explode('.', $fileName);
-                    $extension = array_pop($parts);
+                    $extension = strtolower(array_pop($parts));
 
                     return Str::slug(implode($parts)).'.'.$extension;
                 })

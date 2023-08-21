@@ -2,6 +2,36 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.26.0 - 2023-08-18
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.25.6...6.26.0
+
+## 6.25.6 - 2023-08-17
+
+- Cache ready to use mailers when registering config values
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.25.5...6.25.6
+
+## 6.25.5 - 2023-08-17
+
+- Add missing wire:key to campaign row
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.25.4...6.25.5
+
+## 6.25.4 - 2023-08-17
+
+- Make sure uploads are images
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.25.3...6.25.4
+
+## 6.25.3 - 2023-08-17
+
+- Retrying stuck sends now first calculates how long sends should have been in the queue
+- Retrying failed sends from the UI now works with large amount of failed sends
+- Lowercase the extension of uploads
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.25.2...6.25.3
+
 ## 6.25.2 - 2023-08-09
 
 - Fix a query issue in MySQL caused by the previous Postgres fix
