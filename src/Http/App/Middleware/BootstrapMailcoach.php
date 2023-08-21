@@ -79,7 +79,6 @@ class BootstrapMailcoach
 
         // Settings
         Route::model('mailer', self::getMailerClass());
-        Route::model('personalAccessToken', self::getPersonalAccessTokenClass());
         Route::model('setting', self::getSettingClass());
         Route::model('webhookConfiguration', self::getWebhookConfigurationClass());
 

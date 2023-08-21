@@ -31,15 +31,15 @@ class CampaignSettingsForm extends Form
 
     public ?int $email_list_id;
 
-    public ?bool $utm_tags;
+    public ?bool $utm_tags = false;
 
-    public ?bool $add_subscriber_tags;
+    public ?bool $add_subscriber_tags = false;
 
-    public ?bool $add_subscriber_link_tags;
+    public ?bool $add_subscriber_link_tags = false;
 
-    public ?int $segment_id;
+    public ?int $segment_id = null;
 
-    public ?bool $show_publicly;
+    public ?bool $show_publicly = true;
 
     public function setCampaign(Campaign $campaign)
     {
