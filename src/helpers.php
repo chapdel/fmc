@@ -49,3 +49,9 @@ function notifyError(string $message): void
 {
     notify($message, 'error');
 }
+
+// @todo move to dedicated package
+function containsMjml(string $html): bool
+{
+    return str_contains($html, '<mjml');
+}
