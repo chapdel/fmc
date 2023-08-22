@@ -16,6 +16,12 @@
         </x-mailcoach::editor-fields>
     @endforeach
 
+        @if(! preg_match_all('/\[\[\[(.*?)\]\]\]/', $fullHtml, $matches))
+            <x-mailcoach::info>
+                {!! __mc('We found no slots in this template. You can add slots by adding the name in triple brackets, for example: <code>[[[content]]]</code>.') !!}
+            </x-mailcoach::info>
+        @endif
+
     <x-mailcoach::replacer-help-texts :model="$model" />
 
     <x-mailcoach::editor-buttons :preview-html="$fullHtml" :model="$model" />
