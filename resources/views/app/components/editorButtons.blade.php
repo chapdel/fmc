@@ -33,6 +33,12 @@
 
     {{ $slot }}
 
+    @if(! preg_match_all('/\[\[\[(.*?)\]\]\]/', $fullHtml, $matches))
+        <x-mailcoach::info>
+            {!! __mc('We found no slots in this template. You can add slots by adding the name in triple brackets, for example: <code>[[[content]]]</code>.') !!}
+        </x-mailcoach::info>
+    @endif
+
     @if ($model instanceof \Spatie\Mailcoach\Domain\Shared\Models\Sendable)
         @if ($this->autosaveConflict)
             <x-mailcoach::warning class="mt-4">
