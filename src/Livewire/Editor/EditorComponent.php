@@ -101,7 +101,7 @@ abstract class EditorComponent extends Component
             return;
         }
 
-        if (containsMjml($this->template->html ?? '')) {
+        if (containsMjml($this->template->html)) {
             $this->fullHtml = Mjml::new()->toHtml($this->template->html);
 
             return;
