@@ -11,6 +11,7 @@ use Spatie\Mailcoach\Domain\Campaign\Rules\HtmlRule;
 use Spatie\Mailcoach\Domain\Shared\Actions\RenderTwigAction;
 use Spatie\Mailcoach\Domain\Shared\Support\TemplateRenderer;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mjml\Mjml;
 
 abstract class EditorComponent extends Component
 {
@@ -96,6 +97,12 @@ abstract class EditorComponent extends Component
             }
 
             $this->fullHtml = $html;
+
+            return;
+        }
+
+        if (containsMjml($this->template->html ?? '')) {
+            $this->fullHtml = Mjml::new()->toHtml($this->template->html);
 
             return;
         }
