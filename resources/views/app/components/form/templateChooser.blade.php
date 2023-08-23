@@ -9,7 +9,7 @@
             class="{{ $attributes->get('class') }}"
             label="Template"
             name="template_id"
-            wire:model="templateId"
+            wire:model.live="templateId"
             :clearable="$attributes->get('clearable', true )"
             :placeholder="__mc('No template')"
             :options="$templates"

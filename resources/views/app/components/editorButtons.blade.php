@@ -3,14 +3,14 @@
     'model' => null,
 ])
 @if($model instanceof \Spatie\Mailcoach\Domain\Shared\Models\Sendable)
-@pushonce('scripts')
-<script>
-    document.addEventListener('livewire:load', function () {
-        setInterval(() => @this.autosave(), 20000);
-    });
-</script>
+    @pushonce('scripts')
+    <script>
+        document.addEventListener('livewire:load', function () {
+            setInterval(() => @this.autosave(), 20000);
+        });
+    </script>
+    @endpushonce
 @endif
-@endpushonce
 <x-mailcoach::form-buttons>
     <div class="flex gap-x-2">
         <x-mailcoach::button
@@ -20,12 +20,15 @@
             :label="__mc('Save content')"
         />
 
+        {{--
+        @todo: Weird livewire problem that breaks template selection when this is present
         @if (method_exists($model, 'sendTestMail') && (\Spatie\Mailcoach\Mailcoach::defaultCampaignMailer() || \Spatie\Mailcoach\Mailcoach::defaultAutomationMailer() || \Spatie\Mailcoach\Mailcoach::defaultTransactionalMailer()))
             <x-mailcoach::button x-on:click.prevent="$wire.saveQuietly() && $store.modals.open('send-test')" :label="__mc('Save and send test')"/>
             <x-mailcoach::modal name="send-test" :dismissable="true">
                 <livewire:mailcoach::send-test :model="$model" />
             </x-mailcoach::modal>
         @endif
+        --}}
 
         @if (config('mailcoach.content_editor') !== \Spatie\MailcoachUnlayer\UnlayerEditor::class)
         <x-mailcoach::button-secondary x-on:click.prevent="$store.modals.open('preview')" :label="__mc('Preview')"/>
