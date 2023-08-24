@@ -78,18 +78,7 @@ it('can create a component with an Mgml format template', function () {
 it('can save a component with a template placeholder', function () {
     test()->authenticate();
 
-    $campaign = Campaign::factory()->make([
-        'html' => $html = 'My Campaign Header',
-        'structured_html' => json_encode([
-            'templateValues' => [
-                'html' => $html,
-                'header' => $html, // @todo how does this work in the editor?
-            ],
-        ], JSON_THROW_ON_ERROR),
-        'template_id' => null,
-    ]);
-
-    $campaign->save();
+    $campaign = Campaign::factory()->emptyDraft()->create();
 
     $template = TemplateFactory::new()->create([
         'name' => 'My template',
@@ -97,9 +86,12 @@ it('can save a component with a template placeholder', function () {
     ]);
 
     Livewire::test(TextAreaEditorComponent::class, ['model' => $campaign])
-        ->assertSet('fullHtml', 'My Campaign Header')
+        // Select the template
         ->set('templateId', $template->id)
-
+        // Fill in content
+        ->set('templateFieldValues.header', 'My Campaign Header')
+        ->assertSet('fullHtml', '<html lang="en"><body><h1>My Campaign Header</h1></body></html>')
+        // Save the campaign
         ->call('save')
         ->assertSet('lastSavedAt', $campaign->fresh()->updated_at)
         ->assertSet('hasError', false)
@@ -109,9 +101,24 @@ it('can save a component with a template placeholder', function () {
     $this->assertDatabaseHas(Campaign::getCampaignTableName(), [
         'id' => $campaign->id,
         'template_id' => $template->id,
+        'html' => '<html lang="en"><body><h1>My Campaign Header</h1></body></html>',
+        'structured_html' => '{"templateValues":{"header":"My Campaign Header"}}',
     ]);
 });
 
 it('can save a component with mgml format template', function () {
+    test()->authenticate();
 
+    $campaign = Campaign::factory()->emptyDraft()->create();
+
+    $template = TemplateFactory::new()->create([
+        'name' => 'My template',
+        'html' => '<mjml><mj-body><mj-section><mj-column><mj-text>[[[column1]]]</mj-text></mj-column></mj-section></mj-body></mjml>',
+    ]);
+
+    $livewire = Livewire::test(TextAreaEditorComponent::class, ['model' => $campaign])
+        ->set('templateId', $template->id)
+        ->set('templateFieldValues.column1', 'My Campaign Header');
+
+    expect($livewire->fullHtml)->toMatchSnapshot();
 });
