@@ -13,7 +13,7 @@ jobs:
           - 6379:6379
         options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         php: [8.2, 8.1]
         laravel: [^9.0, ^10.0]
