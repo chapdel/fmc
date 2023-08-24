@@ -122,3 +122,21 @@ it('can save a component with mgml format template', function () {
 
     expect($livewire->fullHtml)->toMatchSnapshot();
 });
+
+it('cannot explicitly save invalid mgml content', function () {
+    test()->authenticate();
+
+    $campaign = Campaign::factory()->emptyDraft()->create();
+
+    $template = TemplateFactory::new()->create([
+        'name' => 'My template',
+        'html' => '<mjml><mj-body><mj-section><mj-column><mj-text>[[[column1]]]</mj-text></mj-column></mj-section></mj-body></mjml>',
+    ]);
+
+    Livewire::test(TextAreaEditorComponent::class, ['model' => $campaign])
+        ->set('templateId', $template->id)
+        ->set('templateFieldValues.column1', '<mjml-body><mjml-body>')
+        ->call('save')
+        ->assertNotDispatched('editorSavedQuietly')
+        ->assertNotDispatched('editorSaved');
+});

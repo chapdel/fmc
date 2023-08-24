@@ -93,7 +93,7 @@ abstract class EditorComponent extends Component
         if (! $this->template) {
             $html = $this->templateFieldValues['html'] ?? '';
 
-            if (str_starts_with($html, '<mjml>')) {
+            if ($this->containsMjml($html)) {
                 $this->fullHtml = Mjml::new()->toHtml($html);
 
                 return;
@@ -111,7 +111,7 @@ abstract class EditorComponent extends Component
         $templateRenderer = (new TemplateRenderer($this->template?->html ?? ''));
         $this->fullHtml = $templateRenderer->render($this->templateFieldValues);
 
-        if (str_starts_with($this->template->html, '<mjml>')) {
+        if ($this->containsMjml($this->template->html)) {
             $this->fullHtml = Mjml::new()->toHtml($this->fullHtml);
         }
     }
@@ -175,6 +175,10 @@ abstract class EditorComponent extends Component
 
     public function save()
     {
+        if (! $this->isAllowedToSave()) {
+            return;
+        }
+
         $this->saveQuietly();
 
         if (! $this->quiet && ! $this->hasError) {
@@ -195,6 +199,20 @@ abstract class EditorComponent extends Component
         }
 
         return Arr::only($fields, Arr::pluck($template->fields(), 'name'));
+    }
+
+    protected function isAllowedToSave(): bool
+    {
+        if ($this->containsMjml($this->template->getHtml())) {
+            return Mjml::new()->canConvert($this->fullHtml);
+        }
+
+        return true;
+    }
+
+    protected function containsMjml(string $html): bool
+    {
+        return str_starts_with($html, '<mjml>') && str_ends_with($html, '</mjml>');
     }
 
     abstract public function render();
