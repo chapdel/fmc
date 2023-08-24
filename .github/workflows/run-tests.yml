@@ -43,16 +43,10 @@ jobs:
             sudo /etc/init.d/mysql start
             mysql  -u root -proot -e 'CREATE DATABASE IF NOT EXISTS mailcoach_tests;'
 
-      - name: Set Laravel version
+      - name: Install dependencies
         run: |
-            sed -i 's/^10.0/${{ matrix.laravel }}/g' composer.json
-
-      - name: Install composer dependencies
-        uses: ramsey/composer-install@v2
-        env:
-          COMPOSER_ROOT_VERSION: dev-main
-        with:
-          composer-options: "--prefer-dist --no-interaction"
+            composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" "nesbot/carbon:${{ matrix.carbon }}" --no-interaction --no-update
+            composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
       - name: Execute tests
         run: composer test
