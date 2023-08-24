@@ -17,10 +17,6 @@
         }
     ],
     "repositories": [
-        {
-            "type": "path",
-            "url": "../laravel-livewire-wizard"
-        }
     ],
     "minimum-stability": "dev",
     "prefer-stable": true,
