@@ -27,7 +27,7 @@ it('can create a component', function () {
 it('can create a component with template', function () {
     test()->authenticate();
 
-    $campaign = Campaign::factory()->create();
+    $campaign = Campaign::factory()->emptyDraft()->create();
 
     $template = TemplateFactory::new()->create([
         'name' => 'My template',
@@ -52,7 +52,7 @@ it('can create a component with template', function () {
 it('can create a component with an Mgml format template', function () {
     test()->authenticate();
 
-    $campaign = Campaign::factory()->create();
+    $campaign = Campaign::factory()->emptyDraft()->create();
 
     $template = TemplateFactory::new()->create([
         'name' => 'My template',
