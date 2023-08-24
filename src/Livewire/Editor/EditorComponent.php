@@ -203,8 +203,19 @@ abstract class EditorComponent extends Component
 
     protected function isAllowedToSave(): bool
     {
-        if ($this->containsMjml($this->template->getHtml())) {
-            return Mjml::new()->canConvert($this->fullHtml);
+        if ($this->template && ! $this->containsMjml($this->template->getHtml())) {
+            return true;
+        }
+
+        $mjml = Mjml::new();
+
+        if (! $mjml->canConvert($this->fullHtml)) {
+            return false;
+        }
+
+        if ($mjml->canConvertWithoutErrors($this->fullHtml)) {
+            // @todo show errors
+            return true;
         }
 
         return true;
