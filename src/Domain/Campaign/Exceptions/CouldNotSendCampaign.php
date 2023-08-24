@@ -67,4 +67,9 @@ class CouldNotSendCampaign extends Exception
     {
         return new static("The campaign with id `{$campaign->id}` can't be sent because its requirements have not been met: ".implode(', ', $campaign->validateRequirements()));
     }
+
+    public static function invalidMjml(Campaign $campaign): self
+    {
+        return new static("The campaign with id `{$campaign->id}` contains invalid Mjml. Please check if the template and content are valid.");
+    }
 }

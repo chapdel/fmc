@@ -30,6 +30,7 @@ use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Spatie\Mailcoach\Mailcoach;
+use Spatie\Mjml\Mjml;
 use Throwable;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
@@ -397,6 +398,12 @@ class Campaign extends Sendable implements Feedable
 
         if (count($this->validateRequirements()) > 0) {
             throw CouldNotSendCampaign::requirementsNotMet($this);
+        }
+
+        if (containsMjml($this->html)) {
+            if (! Mjml::new()->canConvert($this->html)) {
+                throw CouldNotSendCampaign::invalidMjml($this);
+            }
         }
     }
 
