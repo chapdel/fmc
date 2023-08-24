@@ -12,5 +12,5 @@ auth.json
 .phpunit.result.cache
 .php-cs-fixer.cache
 phpstan.neon
-
+dump.rdb
 /.fleet
