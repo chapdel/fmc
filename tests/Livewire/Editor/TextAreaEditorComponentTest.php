@@ -74,3 +74,44 @@ it('can create a component with an Mgml format template', function () {
 
     expect($livewire->fullHtml)->toMatchSnapshot();
 });
+
+it('can save a component with a template placeholder', function () {
+    test()->authenticate();
+
+    $campaign = Campaign::factory()->make([
+        'html' => $html = 'My Campaign Header',
+        'structured_html' => json_encode([
+            'templateValues' => [
+                'html' => $html,
+                'header' => $html, // @todo how does this work in the editor?
+            ],
+        ], JSON_THROW_ON_ERROR),
+        'template_id' => null,
+    ]);
+
+    $campaign->save();
+
+    $template = TemplateFactory::new()->create([
+        'name' => 'My template',
+        'html' => '<html lang="en"><body><h1>[[[header]]]</h1></body></html>',
+    ]);
+
+    Livewire::test(TextAreaEditorComponent::class, ['model' => $campaign])
+        ->assertSet('fullHtml', 'My Campaign Header')
+        ->set('templateId', $template->id)
+
+        ->call('save')
+        ->assertSet('lastSavedAt', $campaign->fresh()->updated_at)
+        ->assertSet('hasError', false)
+        ->assertSet('autosaveConflict', false)
+        ->assertSet('fullHtml', '<html lang="en"><body><h1>My Campaign Header</h1></body></html>');
+
+    $this->assertDatabaseHas(Campaign::getCampaignTableName(), [
+        'id' => $campaign->id,
+        'template_id' => $template->id,
+    ]);
+});
+
+it('can save a component with mgml format template', function () {
+
+});

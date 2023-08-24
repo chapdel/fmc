@@ -91,13 +91,14 @@ abstract class EditorComponent extends Component
     public function renderFullHtml()
     {
         if (! $this->template) {
-            if (str_starts_with($this->template->html, '<mjml>')) {
-                $this->fullHtml = Mjml::new()->toHtml($this->template->html);
+            $html = $this->templateFieldValues['html'] ?? '';
+
+            if (str_starts_with($html, '<mjml>')) {
+                $this->fullHtml = Mjml::new()->toHtml($html);
 
                 return;
             }
 
-            $html = $this->templateFieldValues['html'] ?? '';
             if (is_array($html)) {
                 $html = $html['html'] ?? '';
             }
