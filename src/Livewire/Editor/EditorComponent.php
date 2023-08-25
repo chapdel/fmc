@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Livewire\Editor;
 
 use Carbon\CarbonInterface;
 use Illuminate\Support\Arr;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
@@ -11,6 +12,7 @@ use Spatie\Mailcoach\Domain\Campaign\Rules\HtmlRule;
 use Spatie\Mailcoach\Domain\Shared\Actions\RenderTwigAction;
 use Spatie\Mailcoach\Domain\Shared\Support\TemplateRenderer;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mjml\Exceptions\CouldNotConvertMjml;
 use Spatie\Mjml\Mjml;
 
 abstract class EditorComponent extends Component
@@ -90,30 +92,41 @@ abstract class EditorComponent extends Component
 
     public function renderFullHtml()
     {
-        if (! $this->template) {
-            $html = $this->templateFieldValues['html'] ?? '';
+        if ($this->template) {
+            $templateRenderer = (new TemplateRenderer($this->template?->html ?? ''));
+            $this->fullHtml = $templateRenderer->render($this->templateFieldValues);
 
-            if (containsMjml($html)) {
-                $this->fullHtml = Mjml::new()->toHtml($html);
-
-                return;
+            if (containsMjml($this->fullHtml)) {
+                $this->fullHtml = Mjml::new()->toHtml($this->fullHtml);
             }
-
-            if (is_array($html)) {
-                $html = $html['html'] ?? '';
-            }
-
-            $this->fullHtml = $html;
 
             return;
         }
 
-        $templateRenderer = (new TemplateRenderer($this->template?->html ?? ''));
-        $this->fullHtml = $templateRenderer->render($this->templateFieldValues);
+        $html = $this->templateFieldValues['html'] ?? '';
 
-        if (containsMjml($this->template->html)) {
-            $this->fullHtml = Mjml::new()->toHtml($this->fullHtml);
+        if (is_array($html)) {
+            $html = $html['html'] ?? '';
         }
+
+        $this->fullHtml = $html;
+
+    }
+
+    #[Computed]
+    public function previewHtml(): string
+    {
+        $html = $this->fullHtml;
+
+        if (containsMjml($html)) {
+            try {
+                $html = Mjml::new()->toHtml($html);
+            } catch (CouldNotConvertMjml) {
+                // Do nothing in preview
+            }
+        }
+
+        return $html;
     }
 
     public function rules(): array
@@ -203,19 +216,24 @@ abstract class EditorComponent extends Component
 
     protected function isAllowedToSave(): bool
     {
-        if ($this->template && ! containsMjml($this->template->getHtml())) {
+        if ($this->template && ! containsMjml($this->fullHtml)) {
             return true;
         }
 
         $mjml = Mjml::new();
 
-        if (! $mjml->canConvert($this->fullHtml)) {
+        try {
+            $result = $mjml->convert($this->fullHtml);
+        } catch (CouldNotConvertMjml $e) {
+            notifyError($e->getMessage());
+
             return false;
         }
 
-        if ($mjml->canConvertWithoutErrors($this->fullHtml)) {
-            // @todo show errors
-            return true;
+        if ($result->hasErrors()) {
+            notifyError(implode("\n", $result->errors()));
+
+            return false;
         }
 
         return true;
