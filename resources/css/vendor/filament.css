@@ -66,14 +66,17 @@
     @apply ring-transparent;
 }
 
+.fi-ta .fi-input-wrp {
+    @apply border !important;
+    border-style: solid;
+    @apply rounded-lg !important;
+}
+
 .fi-ta .fi-select-input {
     @apply input;
     @apply pr-8;
     @apply h-full;
     @apply min-h-0;
-    @apply border !important;
-    border-style: solid;
-    border-radius: 0.125rem !important;
 }
 
 .fi-ta-selection-indicator button.font-medium {
@@ -122,6 +125,10 @@
 
 .fi-ta .fi-ta-actions-cell .fi-dropdown-trigger button {
     @apply text-blue-600;
+}
+
+.fi-ta .fi-pagination-items {
+    @apply border;
 }
 
 .fi-ta .fi-ta-pagination-item.bg-primary-500\/10 {
