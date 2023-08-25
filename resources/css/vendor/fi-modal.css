@@ -1,0 +1,10 @@
+.fi-modal-window {
+    @apply rounded-md !important;
+}
+
+.fi-modal-header {
+    @apply bg-indigo-700/5;
+    @apply py-4 !important;
+    @apply pb-4;
+    @apply font-semibold;
+}

@@ -104,7 +104,7 @@
                         <x-mailcoach::text-field wrapper-class="w-full" x-model="attribute.value" name="value" :label="__mc('Value')"></x-mailcoach::text-field>
                         <button
                             x-on:click.prevent="
-                                $store.modals.open('confirm');
+                                $dispatch('open-modal', { id: 'confirm' });
                                 confirmText = @js(__mc('Are you sure you want to delete this attribute?'));
                                 onConfirm = () => attributes.splice(index, 1);
                             "

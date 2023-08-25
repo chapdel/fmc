@@ -17,7 +17,7 @@
     @method($method)
     <button
         x-on:click.prevent="
-            $store.modals.open('confirm');
+            $dispatch('open-modal', { id: 'confirm' });
             confirmText = @js($confirmText);
             onConfirm = {{ $onConfirm }};
         "

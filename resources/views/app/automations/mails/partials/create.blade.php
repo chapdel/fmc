@@ -25,6 +25,6 @@
 
     <x-mailcoach::form-buttons>
         <x-mailcoach::button :label="__mc('Create email')" />
-        <x-mailcoach::button-cancel  x-on:click="$store.modals.close('create-automation-mail')" />
+        <x-mailcoach::button-cancel  x-on:click="$dispatch('close-modal', { id: 'create-automation-mail' })" />
     </x-mailcoach::form-buttons>
 </form>

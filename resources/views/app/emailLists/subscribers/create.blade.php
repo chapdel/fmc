@@ -12,7 +12,7 @@
 
     <x-mailcoach::form-buttons>
         <x-mailcoach::button :label="__mc('Add subscriber')" />
-        <button type="button" class="button-cancel" x-on:click="$store.modals.close('create-subscriber')">
+        <button type="button" class="button-cancel" x-on:click="$dispatch('close-modal', { id: 'create-subscriber' })">
             {{ __mc('Cancel') }}
         </button>
     </x-mailcoach::form-buttons>

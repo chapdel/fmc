@@ -41,7 +41,7 @@
                             </x-slot:trigger>
 
                             @can('create', \Spatie\Mailcoach\Mailcoach::getCampaignClass())
-                                <a href="#" x-on:click.prevent="$store.modals.open('create-campaign')" class="text-sm flex items-center text-gray-600 hover:text-blue-700 gap-x-2 underline">
+                                <a href="#" x-on:click.prevent="$dispatch('open-modal', { id: 'create-campaign' })" class="text-sm flex items-center text-gray-600 hover:text-blue-700 gap-x-2 underline">
                                     {!! str_replace(' ', '&nbsp;', __mc('Create campaign')) !!}
                                 </a>
                                 <x-mailcoach::modal :title="__mc('Create campaign')" name="create-campaign">
@@ -51,7 +51,7 @@
                                 </x-mailcoach::modal>
                             @endcan
                             @can('create', \Spatie\Mailcoach\Mailcoach::getAutomationClass())
-                                <a href="#" x-on:click.prevent="$store.modals.open('create-automation')" class="text-sm flex items-center text-gray-600 hover:text-blue-700 gap-x-2 underline">
+                                <a href="#" x-on:click.prevent="$dispatch('open-modal', { id: 'create-automation' })" class="text-sm flex items-center text-gray-600 hover:text-blue-700 gap-x-2 underline">
                                     {!! str_replace(' ', '&nbsp;', __mc('Create automation')) !!}
                                 </a>
                                 <x-mailcoach::modal :title="__mc('Create automation')" name="create-automation">

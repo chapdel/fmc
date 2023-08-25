@@ -11,7 +11,7 @@
     <x-mailcoach::form-buttons>
         <x-mailcoach::button :label="__mc('Create segment')" />
 
-        <button type="button" class="button-cancel" x-on:click="$store.modals.close('create-segment')">
+        <button type="button" class="button-cancel" x-on:click="$dispatch('close-modal', { id: 'create-segment' })">
             {{ __mc('Cancel') }}
         </button>
     </x-mailcoach::form-buttons>

@@ -170,9 +170,9 @@
 
             @if($campaign->html)
                 <div>
-                    <x-mailcoach::button-secondary x-on:click="$store.modals.open('preview')" :label="__mc('Preview')"/>
+                    <x-mailcoach::button-secondary x-on:click="$dispatch('open-modal', { id: 'preview' })" :label="__mc('Preview')"/>
                     @if ($campaign->getMailerKey())
-                        <x-mailcoach::button-secondary x-on:click="$store.modals.open('send-test')" :label="__mc('Send Test')"/>
+                        <x-mailcoach::button-secondary x-on:click="$dispatch('open-modal', { id: 'send-test' })" :label="__mc('Send Test')"/>
                     @endif
                 </div>
 
@@ -416,9 +416,9 @@
                     <div
                         x-show="schedule === 'now'"
                     >
-                        <x-mailcoach::button x-on:click="$store.modals.open('send-campaign')" :label="__mc('Send now')"/>
+                        <x-mailcoach::button x-on:click="$dispatch('open-modal', { id: 'send-campaign' })" :label="__mc('Send now')"/>
                     </div>
-                    <x-mailcoach::modal name="send-campaign" :dismissable="true" x-data>
+                    <x-mailcoach::modal name="send-campaign" :dismissable="true">
                         <div class="grid gap-8 p-6">
                             <p class="text-lg">
                                 {{ __mc('Are you sure you want to send this campaign to') }}
@@ -431,7 +431,7 @@
                             </p>
 
                             <x-mailcoach::button
-                                x-on:click.prevent="Livewire.emit('send-campaign')"
+                                x-on:click.prevent="$dispatch('send-campaign')"
                                 class="button button-red"
                                 :label="__mc('Yes, send now!')"
                             />

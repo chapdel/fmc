@@ -23,7 +23,7 @@
         {{--
         @todo: Weird livewire problem that breaks template selection when this is present
         @if (method_exists($model, 'sendTestMail') && (\Spatie\Mailcoach\Mailcoach::defaultCampaignMailer() || \Spatie\Mailcoach\Mailcoach::defaultAutomationMailer() || \Spatie\Mailcoach\Mailcoach::defaultTransactionalMailer()))
-            <x-mailcoach::button x-on:click.prevent="$wire.saveQuietly() && $store.modals.open('send-test')" :label="__mc('Save and send test')"/>
+            <x-mailcoach::button x-on:click.prevent="$wire.saveQuietly() && $dispatch('open-modal', { id: 'send-test' })" :label="__mc('Save and send test')"/>
             <x-mailcoach::modal name="send-test" :dismissable="true">
                 <livewire:mailcoach::send-test :model="$model" />
             </x-mailcoach::modal>
@@ -31,7 +31,7 @@
         --}}
 
         @if (config('mailcoach.content_editor') !== \Spatie\MailcoachUnlayer\UnlayerEditor::class)
-        <x-mailcoach::button-secondary x-on:click.prevent="$store.modals.open('preview')" :label="__mc('Preview')"/>
+        <x-mailcoach::button-secondary x-on:click.prevent="$dispatch('open-modal', { id: 'preview' })" :label="__mc('Preview')"/>
         <x-mailcoach::preview-modal name="preview" :html="$previewHtml" :title="__mc('Preview') . ($model->subject ? ' - ' . $model->subject : '')" />
         @endif
     </div>

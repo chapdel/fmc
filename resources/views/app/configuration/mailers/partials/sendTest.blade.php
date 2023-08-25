@@ -18,6 +18,6 @@
     />
     <div class="flex items-center justify-between">
         <x-mailcoach::button :label="__mc('Send test')"/>
-        <x-mailcoach::button-cancel x-on:click.prevent="$store.modals.close('send-test')" />
+        <x-mailcoach::button-cancel x-on:click.prevent="$dispatch('close-modal', { id: 'send-test' })" />
     </div>
 </form>

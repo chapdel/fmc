@@ -65,7 +65,7 @@
                 @if (($create ?? false) || ($createComponent ?? false))
                     <div class="buttons flex">
                         <x-mailcoach::button
-                            x-on:click="$store.modals.open('create-{{ $create }}')"
+                            x-on:click="$dispatch('open-modal', { id: 'create-{{ $create }}' })"
                             :label="$createText ?? __mc('Create ' . $create)"
                             class="mb-0"
                         />
@@ -94,9 +94,9 @@
         <span x-text="confirmText"></span>
 
         <x-mailcoach::form-buttons>
-            <x-mailcoach::button data-confirm type="button" x-on:click="onConfirm; $store.modals.close('confirm')"
+            <x-mailcoach::button data-confirm type="button" x-on:click="onConfirm; $dispatch('close-modal', { id: 'confirm' })"
                                  :label=" __mc('Confirm')"/>
-            <x-mailcoach::button-cancel x-on:click="$store.modals.close('confirm')" :label=" __mc('Cancel')"/>
+            <x-mailcoach::button-cancel x-on:click="$dispatch('close-modal', { id: 'confirm' })" :label=" __mc('Cancel')"/>
         </x-mailcoach::form-buttons>
     </x-mailcoach::modal>
 
@@ -106,7 +106,7 @@
         <x-mailcoach::form-buttons>
             <x-mailcoach::button type="button" x-on:click="$store.modals.onConfirm && $store.modals.onConfirm()"
                                  :label=" __mc('Confirm')"/>
-            <x-mailcoach::button-cancel x-on:click="$store.modals.close('dirty-warning')" :label=" __mc('Cancel')"/>
+            <x-mailcoach::button-cancel x-on:click="$dispatch('close-modal', { id: 'dirty-warning' })" :label=" __mc('Cancel')"/>
         </x-mailcoach::form-buttons>
     </x-mailcoach::modal>
 

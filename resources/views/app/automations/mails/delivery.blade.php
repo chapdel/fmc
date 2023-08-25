@@ -104,8 +104,8 @@
 
             @if($mail->html && $mail->hasValidHtml())
                 <div>
-                    <x-mailcoach::button-secondary x-on:click="$store.modals.open('preview')" :label="__mc('Preview')"/>
-                    <x-mailcoach::button-secondary x-on:click="$store.modals.open('send-test')" :label="__mc('Send Test')"/>
+                    <x-mailcoach::button-secondary x-on:click="$dispatch('open-modal', { id: 'preview' })" :label="__mc('Preview')"/>
+                    <x-mailcoach::button-secondary x-on:click="$dispatch('open-modal', { id: 'send-test' })" :label="__mc('Send Test')"/>
                 </div>
 
                 <x-mailcoach::preview-modal :title="__mc('Preview') . ' - ' . $mail->subject" :html="$mail->html" />
@@ -113,8 +113,6 @@
                 <x-mailcoach::modal name="send-test" :dismissable="true">
                     <livewire:mailcoach::send-test :model="$mail" />
                 </x-mailcoach::modal>
-                <div class="mr-auto">
-                </div>
             @endif
         </dd>
 

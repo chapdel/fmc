@@ -5,6 +5,7 @@
 @import './vendor/easy-mde-overrides.css';
 @import './vendor/choices.css';
 @import './vendor/filament.css';
+@import './vendor/fi-modal.css';
 
 @import './utilities/alert.css';
 @import './utilities/button.css';
@@ -24,7 +25,6 @@
 @import './utilities/label.css';
 @import './utilities/link.css';
 @import './utilities/markup.css';
-@import './utilities/modal.css';
 @import './utilities/navigation.css';
 @import './utilities/pagination.css';
 @import './utilities/place.css';

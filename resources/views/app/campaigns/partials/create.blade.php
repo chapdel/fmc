@@ -33,14 +33,14 @@
 
         <x-mailcoach::form-buttons>
             <x-mailcoach::button :label="__mc('Create campaign')" />
-            <x-mailcoach::button-cancel x-on:click="$store.modals.close('create-campaign')" />
+            <x-mailcoach::button-cancel x-on:click="$dispatch('close-modal', { id: 'create-campaign' })" />
         </x-mailcoach::form-buttons>
     @else
         <p>{!! __mc('You\'ll need to create a list first. <a class="link" href=":url">Create one here</a>', [
     'url' => route('mailcoach.emailLists') . '#create-list'
 ]) !!}</p>
         <x-mailcoach::form-buttons>
-            <x-mailcoach::button-cancel x-on:click="$store.modals.close('create-campaign')" />
+            <x-mailcoach::button-cancel x-on:click="$dispatch('close-modal', { id: 'create-campaign' })" />
         </x-mailcoach::form-buttons>
     @endif
 </form>

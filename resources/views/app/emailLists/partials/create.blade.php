@@ -11,7 +11,7 @@
 
     <x-mailcoach::form-buttons>
         <x-mailcoach::button :label="__mc('Create list')" />
-        <button type="button" class="button-cancel"  x-on:click="$store.modals.close('create-list')">
+        <button type="button" class="button-cancel"  x-on:click="$dispatch('close-modal', { id: 'create-list' })">
             {{ __mc('Cancel') }}
         </button>
     </x-mailcoach::form-buttons>

@@ -15,6 +15,6 @@
 
     <x-mailcoach::form-buttons>
         <x-mailcoach::button :label="__mc('Create template')" />
-        <x-mailcoach::button-cancel  x-on:click="$store.modals.close('create-template')" />
+        <x-mailcoach::button-cancel  x-on:click="$dispatch('close-modal', { id: 'create-template' })" />
     </x-mailcoach::form-buttons>
 </form>

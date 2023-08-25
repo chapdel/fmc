@@ -7,7 +7,7 @@
     <x-mailcoach::form-buttons>
         <x-mailcoach::button :label="__mc('Create new webhook')" />
 
-        <button type="button" class="button-cancel" x-on:click="$store.modals.close('create-webhook')">
+        <button type="button" class="button-cancel" x-on:click="$dispatch('close-modal', { id: 'create-webhook' })">
             {{ __mc('Cancel') }}
         </button>
     </x-mailcoach::form-buttons>

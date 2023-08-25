@@ -48,6 +48,6 @@
     @include('mailcoach::app.configuration.mailers.partials.mailerName')
 
     <x-mailcoach::card buttons>
-        <x-mailcoach::button :label="__mc('Send test email')" x-on:click.prevent="$store.modals.open('send-test')" />
+        <x-mailcoach::button :label="__mc('Send test email')" x-on:click.prevent="$dispatch('open-modal', { id: 'send-test' })" />
     </x-mailcoach::card>
 </div>
