@@ -400,10 +400,8 @@ class Campaign extends Sendable implements Feedable
             throw CouldNotSendCampaign::requirementsNotMet($this);
         }
 
-        if (containsMjml($this->html)) {
-            if (! Mjml::new()->canConvert($this->html)) {
-                throw CouldNotSendCampaign::invalidMjml($this);
-            }
+        if (containsMjml($this->html) && ! Mjml::new()->canConvert($this->html)) {
+            throw CouldNotSendCampaign::invalidMjml($this);
         }
     }
 
