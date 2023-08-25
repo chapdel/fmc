@@ -50,7 +50,7 @@ function notifyError(string $message): void
     notify($message, 'error');
 }
 
-function containsMjml(string $html): bool
+function containsMjml(?string $html): bool
 {
-    return str_starts_with($html, '<mjml>') && str_ends_with($html, '</mjml>');
+    return str_starts_with(trim($html), '<mjml>') && str_ends_with(trim($html), '</mjml>');
 }
