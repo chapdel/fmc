@@ -9,8 +9,8 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class CreateTemplateComponent extends Component
 {
-    use UsesMailcoachModels;
     use AuthorizesRequests;
+    use UsesMailcoachModels;
 
     public ?string $name = null;
 

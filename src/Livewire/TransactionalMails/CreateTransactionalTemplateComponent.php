@@ -10,8 +10,8 @@ use Spatie\Mailcoach\Domain\TransactionalMail\Actions\CreateTemplateAction;
 
 class CreateTransactionalTemplateComponent extends Component
 {
-    use UsesMailcoachModels;
     use AuthorizesRequests;
+    use UsesMailcoachModels;
 
     public ?string $name = null;
 

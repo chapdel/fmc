@@ -10,8 +10,8 @@ use Spatie\Mailcoach\MainNavigation;
 
 class TransactionalMailPerformanceComponent extends Component
 {
-    use UsesMailcoachModels;
     use AuthorizesRequests;
+    use UsesMailcoachModels;
 
     public TransactionalMailLogItem $transactionalMail;
 

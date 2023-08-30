@@ -12,7 +12,7 @@ use Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailsAction;
 use Spatie\Mailcoach\Domain\Automation\Exceptions\SendAutomationMailsTimeLimitApproaching;
 use Spatie\Mailcoach\Mailcoach;
 
-class SendAutomationMailsJob implements ShouldQueue, ShouldBeUnique
+class SendAutomationMailsJob implements ShouldBeUnique, ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;

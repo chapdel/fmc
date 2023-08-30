@@ -14,8 +14,8 @@ use Spatie\Mailcoach\Http\Api\Resources\CampaignResource;
 class CampaignsController
 {
     use AuthorizesRequests;
-    use UsesMailcoachModels;
     use RespondsToApiRequests;
+    use UsesMailcoachModels;
 
     public function index(CampaignsQuery $campaigns)
     {

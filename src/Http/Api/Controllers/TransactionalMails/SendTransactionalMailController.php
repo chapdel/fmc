@@ -16,8 +16,8 @@ use Spatie\Mailcoach\Mailcoach;
 
 class SendTransactionalMailController
 {
-    use RespondsToApiRequests;
     use AuthorizesRequests;
+    use RespondsToApiRequests;
     use UsesMailcoachModels;
 
     public function __invoke(SendTransactionalMailRequest $request)

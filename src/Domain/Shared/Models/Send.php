@@ -36,8 +36,8 @@ use Spatie\Mailcoach\Mailcoach;
  */
 class Send extends Model
 {
-    use HasUuid;
     use HasFactory;
+    use HasUuid;
     use UsesMailcoachModels;
 
     public $table = 'mailcoach_sends';

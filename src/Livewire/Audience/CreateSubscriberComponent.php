@@ -10,8 +10,8 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class CreateSubscriberComponent extends Component
 {
-    use UsesMailcoachModels;
     use AuthorizesRequests;
+    use UsesMailcoachModels;
 
     public ?string $email = null;
 

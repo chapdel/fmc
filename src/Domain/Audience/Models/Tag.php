@@ -16,8 +16,8 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
  */
 class Tag extends Model
 {
-    use HasUuid;
     use HasFactory;
+    use HasUuid;
     use UsesMailcoachModels;
 
     public $table = 'mailcoach_tags';

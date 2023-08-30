@@ -13,7 +13,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Actions\AutomationAction;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Mailcoach;
 
-class RunActionForActionSubscriberJob implements ShouldQueue, ShouldBeUnique
+class RunActionForActionSubscriberJob implements ShouldBeUnique, ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;

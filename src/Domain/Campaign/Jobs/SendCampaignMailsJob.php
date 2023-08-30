@@ -15,7 +15,7 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Mailcoach;
 
-class SendCampaignMailsJob implements ShouldQueue, ShouldBeUnique
+class SendCampaignMailsJob implements ShouldBeUnique, ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;

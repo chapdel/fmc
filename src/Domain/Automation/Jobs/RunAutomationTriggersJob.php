@@ -15,7 +15,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Triggers\TriggeredBySchedule;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Mailcoach;
 
-class RunAutomationTriggersJob implements ShouldQueue, ShouldBeUnique
+class RunAutomationTriggersJob implements ShouldBeUnique, ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;

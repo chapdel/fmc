@@ -13,8 +13,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class SubscriberExport extends Model implements HasMedia
 {
-    use InteractsWithMedia;
     use HasUuid;
+    use InteractsWithMedia;
     use MassPrunable;
     use UsesMailcoachModels;
 

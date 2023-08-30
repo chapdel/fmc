@@ -12,7 +12,7 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Mailcoach;
 use Spatie\WebhookClient\Models\WebhookCall;
 
-class CleanupProcessedFeedbackJob implements ShouldQueue, ShouldBeUnique
+class CleanupProcessedFeedbackJob implements ShouldBeUnique, ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;

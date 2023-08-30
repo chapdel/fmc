@@ -22,8 +22,8 @@ class TransactionalMail extends Model implements HasHtmlContent
 {
     public $table = 'mailcoach_transactional_mails';
 
-    use HasUuid;
     use HasFactory;
+    use HasUuid;
     use UsesMailcoachModels;
 
     public $guarded = [];

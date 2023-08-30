@@ -16,11 +16,11 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\SimpleExcel\SimpleExcelWriter;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-abstract class TableComponent extends Component implements HasTable, HasForms
+abstract class TableComponent extends Component implements HasForms, HasTable
 {
-    use UsesMailcoachModels;
-    use InteractsWithTable;
     use InteractsWithForms;
+    use InteractsWithTable;
+    use UsesMailcoachModels;
 
     #[Url]
     public bool $isTableReordering = false;

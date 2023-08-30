@@ -21,8 +21,8 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
  */
 class TagSegment extends Model
 {
-    use HasUuid;
     use HasFactory;
+    use HasUuid;
     use UsesMailcoachModels;
 
     public $table = 'mailcoach_segments';

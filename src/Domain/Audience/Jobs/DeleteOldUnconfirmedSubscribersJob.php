@@ -13,7 +13,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Mailcoach;
 
-class DeleteOldUnconfirmedSubscribersJob implements ShouldQueue, ShouldBeUnique
+class DeleteOldUnconfirmedSubscribersJob implements ShouldBeUnique, ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;
