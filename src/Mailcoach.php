@@ -298,6 +298,7 @@ class Mailcoach
             'mailer' => \Spatie\Mailcoach\Domain\Settings\Models\Mailer::class,
             'webhook_configuration' => \Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration::class,
             'webhook_log' => \Spatie\Mailcoach\Domain\Settings\Models\WebhookLog::class,
+            'suppression' => \Spatie\Mailcoach\Domain\Audience\Models\Suppression::class,
         ]);
     }
 

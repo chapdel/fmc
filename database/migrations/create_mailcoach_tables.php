@@ -776,5 +776,15 @@ return new class extends Migration
                 ->references('id')->on('mailcoach_webhook_configurations')
                 ->cascadeOnDelete();
         });
+
+        Schema::create('mailcoach_suppressions', function (Blueprint $table) {
+            $table->id();
+            $table->uuid('uuid')->unique();
+            $table->string('email')->unique();
+            $table->string('stream')->nullable();
+            $table->string('reason')->nullable();
+            $table->string('origin')->nullable();
+            $table->timestamps();
+        });
     }
 };

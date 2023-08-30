@@ -6,6 +6,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Models\SubscriberExport;
 use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
+use Spatie\Mailcoach\Domain\Audience\Models\Suppression;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
@@ -447,5 +448,11 @@ trait UsesMailcoachModels
     public static function getWebhookLogClass(): string
     {
         return config('mailcoach.models.webhook_log', WebhookLog::class);
+    }
+
+    /** @return class-string<Suppression> */
+    public static function getSuppressionClass(): string
+    {
+        return config('mailcoach.models.suppression', Suppression::class);
     }
 }
