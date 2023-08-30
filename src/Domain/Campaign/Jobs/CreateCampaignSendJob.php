@@ -22,10 +22,6 @@ class CreateCampaignSendJob implements ShouldBeUnique, ShouldQueue
 
     public bool $deleteWhenMissingModels = true;
 
-    protected Campaign $campaign;
-
-    protected Subscriber $subscriber;
-
     public $tries = 1;
 
     public $uniqueFor = 10800; // 3 hours
@@ -38,11 +34,8 @@ class CreateCampaignSendJob implements ShouldBeUnique, ShouldQueue
         return "{$this->campaign->id}-{$this->subscriber->id}";
     }
 
-    public function __construct(Campaign $campaign, Subscriber $subscriber)
+    public function __construct(protected Campaign $campaign, protected Subscriber $subscriber)
     {
-        $this->campaign = $campaign;
-        $this->subscriber = $subscriber;
-
         $this->queue = config('mailcoach.campaigns.perform_on_queue.send_campaign_job');
 
         $this->connection = $this->connection ?? Mailcoach::getQueueConnection();

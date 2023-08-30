@@ -25,8 +25,6 @@ class SendAutomationMailJob implements ShouldBeUnique, ShouldQueue
 
     public int $maxExceptions = 3;
 
-    public Send $pendingSend;
-
     /** @var string */
     public $queue;
 
@@ -40,10 +38,8 @@ class SendAutomationMailJob implements ShouldBeUnique, ShouldQueue
         return now()->addHours(3);
     }
 
-    public function __construct(Send $pendingSend)
+    public function __construct(public Send $pendingSend)
     {
-        $this->pendingSend = $pendingSend;
-
         $this->queue = config('mailcoach.automation.perform_on_queue.send_automation_mail_job');
 
         $this->connection = $this->connection ?? Mailcoach::getQueueConnection();

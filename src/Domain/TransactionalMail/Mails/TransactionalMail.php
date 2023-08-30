@@ -19,20 +19,14 @@ class TransactionalMail extends Mailable
     use StoresMail;
     use UsesMailcoachTemplate;
 
-    private ?string $mailName;
-
-    private array $replacements;
-
     private array $embeddedAttachments;
 
     private array $attachedAttachments;
 
     private array $fields;
 
-    private ?string $originalHtml;
-
     public function __construct(
-        ?string $mailName,
+        private ?string $mailName,
         string $subject,
         array|string $from,
         array $to,
@@ -40,19 +34,15 @@ class TransactionalMail extends Mailable
         array $bcc = [],
         array $replyTo = [],
         string $mailer = null,
-        array $replacements = [],
+        private array $replacements = [],
         array $attachments = [],
         bool $store = true,
-        string $html = null,
+        private ?string $originalHtml = null,
     ) {
-        $this->mailName = $mailName;
-        $this->replacements = $replacements;
-        $this->originalHtml = $html;
-
         $this
             ->setTransactionalHeader()
             ->prepareAttachment($attachments)
-            ->prepareHtml($html);
+            ->prepareHtml($originalHtml);
 
         $this
             ->when($store, fn (TransactionalMail $mail) => $mail->store())

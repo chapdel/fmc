@@ -17,15 +17,11 @@ class RetrySendingFailedSendsJob
     use Queueable;
     use SerializesModels;
 
-    public Campaign $campaign;
-
     /** @var string */
     public $queue;
 
-    public function __construct(Campaign $campaign)
+    public function __construct(public Campaign $campaign)
     {
-        $this->campaign = $campaign;
-
         $this->queue = config('mailcoach.campaigns.perform_on_queue.send_campaign_job');
 
         $this->connection = $this->connection ?? Mailcoach::getQueueConnection();

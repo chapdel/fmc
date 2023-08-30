@@ -13,8 +13,6 @@ class SendAutomationMailAction extends AutomationAction
     use SerializesModels;
     use UsesMailcoachModels;
 
-    public AutomationMail $automationMail;
-
     public static function getCategory(): ActionCategoryEnum
     {
         return ActionCategoryEnum::React;
@@ -25,11 +23,9 @@ class SendAutomationMailAction extends AutomationAction
         return new self(self::getAutomationMailClass()::findOrFail($data['automation_mail_id']));
     }
 
-    public function __construct(AutomationMail $automationMail)
+    public function __construct(public AutomationMail $automationMail)
     {
         parent::__construct();
-
-        $this->automationMail = $automationMail;
     }
 
     public static function getComponent(): ?string

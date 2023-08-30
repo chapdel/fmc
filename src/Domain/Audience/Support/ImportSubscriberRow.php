@@ -11,14 +11,10 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 
 class ImportSubscriberRow
 {
-    protected EmailList $emailList;
-
     protected array $values;
 
-    public function __construct(EmailList $emailList, array $values)
+    public function __construct(protected EmailList $emailList, array $values)
     {
-        $this->emailList = $emailList;
-
         $this->values = array_map(function ($value) {
             if (is_string($value)) {
                 return trim($value);

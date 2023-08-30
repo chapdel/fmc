@@ -14,11 +14,8 @@ class ExportSubscribersResultMail extends Mailable
 
     public $theme = 'mailcoach::mails.layout.mailcoach';
 
-    public SubscriberExport $subscriberExport;
-
-    public function __construct(SubscriberExport $subscriberExport)
+    public function __construct(public SubscriberExport $subscriberExport)
     {
-        $this->subscriberExport = $subscriberExport;
     }
 
     public function build()

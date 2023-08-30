@@ -21,20 +21,12 @@ class ImportSubscriberJob implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public SubscriberImport $subscriberImport;
-
-    public array $values;
-
     public $maxAttempts = 3;
 
     public bool $deleteWhenMissingModels = true;
 
-    public function __construct(SubscriberImport $subscriberImport, array $values)
+    public function __construct(public SubscriberImport $subscriberImport, public array $values)
     {
-        $this->subscriberImport = $subscriberImport;
-
-        $this->values = $values;
-
         $this->queue = config('mailcoach.campaigns.perform_on_queue.import_subscribers_job');
 
         $this->connection = $this->connection ?? Mailcoach::getQueueConnection();

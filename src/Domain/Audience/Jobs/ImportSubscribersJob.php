@@ -19,20 +19,8 @@ class ImportSubscribersJob implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public SubscriberImport $subscriberImport;
-
-    public ?User $user;
-
-    public bool $sendNotification;
-
-    public function __construct(SubscriberImport $subscriberImport, User $user = null, bool $sendNotification = true)
+    public function __construct(public SubscriberImport $subscriberImport, public ?User $user = null, public bool $sendNotification = true)
     {
-        $this->subscriberImport = $subscriberImport;
-
-        $this->user = $user;
-
-        $this->sendNotification = $sendNotification;
-
         $this->queue = config('mailcoach.campaigns.perform_on_queue.import_subscribers_job');
 
         $this->connection = $this->connection ?? Mailcoach::getQueueConnection();

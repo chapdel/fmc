@@ -14,11 +14,8 @@ class ImportSubscribersResultMail extends Mailable
 
     public $theme = 'mailcoach::mails.layout.mailcoach';
 
-    public SubscriberImport $subscriberImport;
-
-    public function __construct(SubscriberImport $subscriberImport)
+    public function __construct(public SubscriberImport $subscriberImport)
     {
-        $this->subscriberImport = $subscriberImport;
     }
 
     public function build()

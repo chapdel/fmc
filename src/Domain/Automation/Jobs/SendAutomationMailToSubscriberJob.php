@@ -19,19 +19,11 @@ class SendAutomationMailToSubscriberJob implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public AutomationMail $automationMail;
-
-    public ActionSubscriber $actionSubscriber;
-
     /** @var string */
     public $queue;
 
-    public function __construct(AutomationMail $automationMail, ActionSubscriber $actionSubscriber)
+    public function __construct(public AutomationMail $automationMail, public ActionSubscriber $actionSubscriber)
     {
-        $this->automationMail = $automationMail;
-
-        $this->actionSubscriber = $actionSubscriber;
-
         $this->queue = config('mailcoach.automation.perform_on_queue.send_automation_mail_to_subscriber_job');
 
         $this->connection = $this->connection ?? Mailcoach::getQueueConnection();

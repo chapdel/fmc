@@ -18,19 +18,11 @@ class SendAutomationMailTestJob implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public AutomationMail $mail;
-
-    public string $email;
-
     /** @var string */
     public $queue;
 
-    public function __construct(AutomationMail $mail, string $email)
+    public function __construct(public AutomationMail $mail, public string $email)
     {
-        $this->mail = $mail;
-
-        $this->email = $email;
-
         $this->queue = config('mailcoach.automation.perform_on_queue.send_test_mail_job');
 
         $this->connection = $this->connection ?? Mailcoach::getQueueConnection();

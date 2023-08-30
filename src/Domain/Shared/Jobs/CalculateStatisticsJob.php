@@ -20,14 +20,10 @@ class CalculateStatisticsJob implements ShouldBeUnique, ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public Sendable $sendable;
-
     public int $uniqueFor = 60;
 
-    public function __construct(Sendable $sendable)
+    public function __construct(public Sendable $sendable)
     {
-        $this->sendable = $sendable;
-
         $this->queue = config('mailcoach.perform_on_queue.calculate_statistics_job');
 
         $this->connection = $this->connection ?? Mailcoach::getQueueConnection();

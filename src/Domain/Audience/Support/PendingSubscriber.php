@@ -11,10 +11,6 @@ use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 
 class PendingSubscriber
 {
-    public string $email;
-
-    public array $attributes = [];
-
     public bool $respectDoubleOptIn = true;
 
     public EmailList $emailList;
@@ -27,15 +23,11 @@ class PendingSubscriber
 
     public ?CarbonInterface $subscribedAt = null;
 
-    public function __construct(string $email, array $attributes = [])
+    public function __construct(public string $email, public array $attributes = [])
     {
-        $this->email = $email;
-
         if (Validator::make(compact('email'), ['email' => 'email'])->fails()) {
             throw CouldNotSubscribe::invalidEmail($email);
         }
-
-        $this->attributes = $attributes;
     }
 
     public function withAttributes(array $attributes): self

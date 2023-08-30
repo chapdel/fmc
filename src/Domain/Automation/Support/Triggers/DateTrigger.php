@@ -7,13 +7,9 @@ use Spatie\Mailcoach\Domain\Campaign\Rules\DateTimeFieldRule;
 
 class DateTrigger extends AutomationTrigger implements TriggeredBySchedule
 {
-    public CarbonInterface $date;
-
-    public function __construct(CarbonInterface $date)
+    public function __construct(public CarbonInterface $date)
     {
         parent::__construct();
-
-        $this->date = $date;
     }
 
     public static function getName(): string

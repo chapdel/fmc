@@ -18,19 +18,11 @@ class SendCampaignTestJob implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public Campaign $campaign;
-
-    public string $email;
-
     /** @var string */
     public $queue;
 
-    public function __construct(Campaign $campaign, string $email)
+    public function __construct(public Campaign $campaign, public string $email)
     {
-        $this->campaign = $campaign;
-
-        $this->email = $email;
-
         $this->queue = config('mailcoach.campaigns.perform_on_queue.send_test_mail_job');
 
         $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
