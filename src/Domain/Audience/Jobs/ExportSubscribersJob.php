@@ -29,7 +29,7 @@ class ExportSubscribersJob implements ShouldQueue
         public bool $sendNotification = true
     ) {
         $this->queue = config('mailcoach.audience.perform_on_queue.export_subscribers_job');
-        $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
+        $this->connection ??= Mailcoach::getQueueConnection();
     }
 
     public function handle()

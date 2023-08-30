@@ -37,7 +37,7 @@ class RunAutomationForSubscriberJob implements ShouldQueue
         $this->queue = config('mailcoach.automation.perform_on_queue.run_automation_for_subscriber_job');
         $this->action = resolve(config('mailcoach.automation.actions.should_run_for_subscriber', ShouldAutomationRunForSubscriberAction::class));
 
-        $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
+        $this->connection ??= Mailcoach::getQueueConnection();
     }
 
     public function handle()

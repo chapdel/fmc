@@ -25,7 +25,7 @@ class RunActionForActionSubscriberJob implements ShouldBeUnique, ShouldQueue
     {
         $this->queue = config('mailcoach.automation.perform_on_queue.run_action_for_subscriber_job');
 
-        $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
+        $this->connection ??= Mailcoach::getQueueConnection();
     }
 
     public function uniqueId()

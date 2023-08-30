@@ -26,7 +26,7 @@ class RunAutomationActionJob implements ShouldQueue
     {
         $this->queue = config('mailcoach.automation.perform_on_queue.run_automation_action_job');
 
-        $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
+        $this->connection ??= Mailcoach::getQueueConnection();
     }
 
     public function handle()

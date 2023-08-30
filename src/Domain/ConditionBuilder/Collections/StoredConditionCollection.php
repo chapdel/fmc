@@ -33,7 +33,7 @@ class StoredConditionCollection extends Collection implements Castable
 
     public function addSubscriberTags(mixed $value, ComparisonOperator $operator = null): self
     {
-        $operator = $operator ?? ComparisonOperator::In;
+        $operator ??= ComparisonOperator::In;
 
         $storedCondition = StoredCondition::make(
             key: SubscriberTagsQueryCondition::KEY,

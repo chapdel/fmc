@@ -25,7 +25,7 @@ class SendCampaignTestJob implements ShouldQueue
     {
         $this->queue = config('mailcoach.campaigns.perform_on_queue.send_test_mail_job');
 
-        $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
+        $this->connection ??= Mailcoach::getQueueConnection();
     }
 
     public function handle()

@@ -26,7 +26,7 @@ class CalculateStatisticsJob implements ShouldBeUnique, ShouldQueue
     {
         $this->queue = config('mailcoach.perform_on_queue.calculate_statistics_job');
 
-        $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
+        $this->connection ??= Mailcoach::getQueueConnection();
     }
 
     public function uniqueId()

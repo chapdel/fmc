@@ -34,7 +34,7 @@ class CalculateAutomationMailStatisticsJob implements ShouldBeUnique, ShouldQueu
     public function __construct(protected ?int $automationMailId = null)
     {
         $this->onQueue(config('mailcoach.perform_on_queue.schedule'));
-        $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
+        $this->connection ??= Mailcoach::getQueueConnection();
     }
 
     public function handle()

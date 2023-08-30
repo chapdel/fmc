@@ -26,7 +26,7 @@ class SendCampaignMailsJob implements ShouldBeUnique, ShouldQueue
     public function __construct()
     {
         $this->onQueue(config('mailcoach.perform_on_queue.schedule'));
-        $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
+        $this->connection ??= Mailcoach::getQueueConnection();
     }
 
     public function uniqueFor(): int
