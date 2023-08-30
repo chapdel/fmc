@@ -49,6 +49,7 @@ use Spatie\Mailcoach\Livewire\GeneralSettingsComponent;
 use Spatie\Mailcoach\Livewire\Import\ImportComponent;
 use Spatie\Mailcoach\Livewire\Mailers\EditMailerComponent;
 use Spatie\Mailcoach\Livewire\Mailers\MailersComponent;
+use Spatie\Mailcoach\Livewire\Mails\MailsComponent;
 use Spatie\Mailcoach\Livewire\Templates\TemplateComponent;
 use Spatie\Mailcoach\Livewire\Templates\TemplatesComponent;
 use Spatie\Mailcoach\Livewire\TransactionalMails\TransactionalMailContentComponent;
@@ -181,6 +182,10 @@ Route::prefix('settings')
         Route::prefix('mailers')->group(function () {
             Route::get('/', MailersComponent::class)->name('mailers');
             Route::get('{mailer}', EditMailerComponent::class)->name('mailers.edit');
+        });
+
+        Route::prefix('mails')->group(function () {
+            Route::get('/', MailsComponent::class)->name('mails');
         });
 
         Route::get('editor', EditorSettingsComponent::class)->name('editor');

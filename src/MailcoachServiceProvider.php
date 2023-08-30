@@ -152,6 +152,8 @@ use Spatie\Mailcoach\Livewire\MailConfiguration\Smtp\SmtpSetupWizardComponent;
 use Spatie\Mailcoach\Livewire\Mailers\CreateMailerComponent;
 use Spatie\Mailcoach\Livewire\Mailers\EditMailerComponent;
 use Spatie\Mailcoach\Livewire\Mailers\MailersComponent;
+use Spatie\Mailcoach\Livewire\Mails\MailsComponent;
+use Spatie\Mailcoach\Livewire\Mails\SuppressionListComponent;
 use Spatie\Mailcoach\Livewire\SendTestComponent;
 use Spatie\Mailcoach\Livewire\Spotlight\AutomationEmailsCommand;
 use Spatie\Mailcoach\Livewire\Spotlight\AutomationsCommand;
@@ -601,6 +603,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::editor-settings', Mailcoach::getLivewireClass(EditorSettingsComponent::class));
         Livewire::component('mailcoach::mailer-send-test', Mailcoach::getLivewireClass(\Spatie\Mailcoach\Livewire\MailConfiguration\SendTestComponent::class));
         Livewire::component('mailcoach::edit-mailer', Mailcoach::getLivewireClass(EditMailerComponent::class));
+        Livewire::component('mailcoach::mails', Mailcoach::getLivewireClass(MailsComponent::class));
+        Livewire::component('mailcoach::suppression-list', Mailcoach::getLivewireClass(SuppressionListComponent::class));
 
         // Condition builder
         Livewire::component('mailcoach::condition-builder', Mailcoach::getLivewireClass(ConditionBuilderComponent::class));
