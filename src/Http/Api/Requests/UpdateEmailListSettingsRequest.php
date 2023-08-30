@@ -9,9 +9,9 @@ use Spatie\ValidationRules\Rules\Delimited;
 
 class UpdateEmailListSettingsRequest extends FormRequest
 {
-    const CONFIRMATION_MAIL_DEFAULT = 'send_default_confirmation_mail';
+    public const CONFIRMATION_MAIL_DEFAULT = 'send_default_confirmation_mail';
 
-    const CONFIRMATION_MAIL_CUSTOM = 'send_custom_confirmation_mail';
+    public const CONFIRMATION_MAIL_CUSTOM = 'send_custom_confirmation_mail';
 
     public function rules(): array
     {
@@ -56,7 +56,7 @@ class UpdateEmailListSettingsRequest extends FormRequest
     {
         $allowedTagNames = $this->allowed_form_subscription_tags ?? [];
 
-        if (count($allowedTagNames) === 0) {
+        if ((is_countable($allowedTagNames) ? count($allowedTagNames) : 0) === 0) {
             return collect();
         }
 

@@ -55,6 +55,6 @@ class PrepareWebviewHtmlAction
         array_shift($matches);
 
         // Remove all hide comments
-        return str_replace(array_merge([$beginTag, $endTag], $matches), '', $html);
+        return str_replace([$beginTag, $endTag, ...$matches], '', $html);
     }
 }

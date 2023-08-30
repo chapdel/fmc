@@ -33,7 +33,7 @@ class HorizonStatus
     {
         try {
             $masters = $this->masterSupervisorRepository->all();
-        } catch (RedisException|InvalidArgumentException $exception) {
+        } catch (RedisException|InvalidArgumentException) {
             $masters = false;
         }
 

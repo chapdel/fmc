@@ -30,7 +30,7 @@ trait StoresMail
                 $this->addMailcoachHeader($message, TransactionalMailMessageConfig::HEADER_NAME_STORE);
             }
 
-            $this->addMailcoachHeader($message, TransactionalMailMessageConfig::HEADER_NAME_MAILABLE_CLASS, get_class($this));
+            $this->addMailcoachHeader($message, TransactionalMailMessageConfig::HEADER_NAME_MAILABLE_CLASS, $this::class);
         });
 
         return $this;

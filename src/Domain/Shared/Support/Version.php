@@ -46,7 +46,7 @@ class Version
                 $latestVersionInfo = Cache::remember("mailcoach-latest-version-{$packageName}", (int) CarbonInterval::day()->totalSeconds, function () use ($packageName) {
                     return Http::asJson()->get(static::$versionEndpoint."?package={$packageName}")->json();
                 });
-            } catch (Exception $exception) {
+            } catch (Exception) {
                 Cache::put("mailcoach-latest-version-attempt-failed-{$packageName}", 1, (int) CarbonInterval::day()->totalSeconds);
             }
         }

@@ -148,7 +148,7 @@ class ConditionActionComponent extends AutomationActionComponent
             return ["conditionData.{$key}" => $rules];
         })->toArray();
 
-        return array_merge($rules, $conditionRules);
+        return [...$rules, ...$conditionRules];
     }
 
     public function render()

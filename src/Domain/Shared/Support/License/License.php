@@ -13,15 +13,15 @@ use Throwable;
 
 class License
 {
-    const STATUS_NOT_FOUND = 'not found';
+    public const STATUS_NOT_FOUND = 'not found';
 
-    const STATUS_ACTIVE = 'active';
+    public const STATUS_ACTIVE = 'active';
 
-    const STATUS_EXPIRED = 'expired';
+    public const STATUS_EXPIRED = 'expired';
 
-    const STATUS_INVALID = 'invalid';
+    public const STATUS_INVALID = 'invalid';
 
-    const STATUS_UNKNOWN = 'unknown';
+    public const STATUS_UNKNOWN = 'unknown';
 
     protected string $cacheKey = 'mailcoach-license-status';
 

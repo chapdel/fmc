@@ -42,17 +42,17 @@ class DashboardComponent extends Component
         if ($number >= 0 && $number < 1000) {
             $format = floor($number);
             $suffix = '';
-        } elseif ($number >= 1000 && $number < 1000000) {
+        } elseif ($number >= 1000 && $number < 1_000_000) {
             $format = floor($number / 1000);
             $suffix = 'K+';
-        } elseif ($number >= 1000000 && $number < 1000000000) {
-            $format = floor($number / 1000000);
+        } elseif ($number >= 1_000_000 && $number < 1_000_000_000) {
+            $format = floor($number / 1_000_000);
             $suffix = 'M+';
-        } elseif ($number >= 1000000000 && $number < 1000000000000) {
-            $format = floor($number / 1000000000);
+        } elseif ($number >= 1_000_000_000 && $number < 1_000_000_000_000) {
+            $format = floor($number / 1_000_000_000);
             $suffix = 'B+';
         } else {
-            $format = floor($number / 1000000000000);
+            $format = floor($number / 1_000_000_000_000);
             $suffix = 'T+';
         }
 
