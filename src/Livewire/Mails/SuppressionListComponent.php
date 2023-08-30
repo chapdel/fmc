@@ -2,13 +2,17 @@
 
 namespace Spatie\Mailcoach\Livewire\Mails;
 
-use Livewire\Component;
+use Illuminate\Database\Eloquent\Builder;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Livewire\TableComponent;
 
-class SuppressionListComponent extends Component
+class SuppressionListComponent extends TableComponent
 {
-    public function mount()
+    use UsesMailcoachModels;
+
+    public function getTableQuery(): Builder
     {
-        dd('is it found?');
+        return self::getSubscriberClass()::query();
     }
 
     public function render()

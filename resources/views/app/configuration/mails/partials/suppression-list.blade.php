@@ -11,6 +11,7 @@
         ['class' => 'w-48'],
     ]"
     rowPartial="livewire.suppressionRow"
+    :searchable="false"
     :emptyText="__mc('No suppressions found.')"
 >
 </x-mailcoach::data-table>

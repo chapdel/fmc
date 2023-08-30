@@ -10,11 +10,7 @@
     @csrf
 
     <x-mailcoach::card>
-        <x-mailcoach::suppression-list />
-
-        <x-mailcoach::form-buttons>
-            <x-mailcoach::button :label="__mc('Save')"/>
-        </x-mailcoach::form-buttons>
+        <livewire:mailcoach::suppression-list  />
     </x-mailcoach::card>
 
 
