@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Mailcoach\Database\Factories\SuppressionFactory;
+use Spatie\Mailcoach\Domain\Audience\Enums\SuppressionOrigin;
 use Spatie\Mailcoach\Domain\Audience\Enums\SuppressionReason;
-use Spatie\Mailcoach\Domain\Audience\Enums\SuppressionStream;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\Searchable;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -28,7 +28,7 @@ class Suppression extends Model
 
     public $casts = [
         'reason' => SuppressionReason::class,
-        'stream' => SuppressionStream::class,
+        'stream' => SuppressionOrigin::class,
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
@@ -40,6 +40,26 @@ class Suppression extends Model
                 self::getSuppressionClass().'.email' => 15,
             ],
         ];
+    }
+
+    public static function fromClient(string $email, SuppressionReason $reason): self
+    {
+        return static::firstOrCreate([
+            'email' => $email,
+        ], [
+            'reason' => $reason,
+            'origin' => SuppressionOrigin::Client,
+        ]);
+    }
+
+    public static function fromAdmin(string $email): self
+    {
+        return static::create([
+            'email' => $email,
+        ], [
+            'reason' => SuppressionReason::manual,
+            'origin' => SuppressionOrigin::Admin,
+        ]);
     }
 
     protected static function newFactory(): SuppressionFactory

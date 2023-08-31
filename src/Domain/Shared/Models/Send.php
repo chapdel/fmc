@@ -10,7 +10,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
+use Spatie\Mailcoach\Domain\Audience\Enums\SuppressionReason;
 use Spatie\Mailcoach\Domain\Audience\Events\ComplaintRegisteredEvent;
+use Spatie\Mailcoach\Domain\Audience\Models\Suppression;
 use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailLinkClickedEvent;
 use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailOpenedEvent;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailClick;
@@ -398,6 +400,11 @@ class Send extends Model
 
         if (! $softBounce) {
             optional($this->subscriber)->update(['unsubscribed_at' => now()]);
+
+            Suppression::fromClient(
+                email: $this->subscriber->email,
+                reason: SuppressionReason::hardBounce
+            );
 
             event(new BounceRegisteredEvent($this));
         }

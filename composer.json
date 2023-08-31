@@ -50,7 +50,7 @@
         "spatie/laravel-mailcoach-editor": "dev-main",
         "spatie/laravel-mailcoach-mailgun-feedback": "dev-main",
         "spatie/laravel-mailcoach-mailgun-setup": "^1.0",
-        "spatie/laravel-mailcoach-markdown-editor": "^2.0",
+        "spatie/laravel-mailcoach-markdown-editor": "dev-main",
         "spatie/laravel-mailcoach-monaco": "^3.0",
         "spatie/laravel-mailcoach-postmark-feedback": "^5.0",
         "spatie/laravel-mailcoach-postmark-setup": "^1.0",
