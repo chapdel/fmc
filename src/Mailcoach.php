@@ -247,7 +247,6 @@ class Mailcoach
         }
     }
 
-    /** @var MenuItem[] */
     public static function addSettingsMenuItemsBefore(MenuItem ...$items): void
     {
         foreach ($items as $item) {
@@ -255,7 +254,6 @@ class Mailcoach
         }
     }
 
-    /** @var MenuItem[] */
     public static function addSettingsMenuItemsAfter(MenuItem ...$items): void
     {
         foreach ($items as $item) {

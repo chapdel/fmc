@@ -29,7 +29,7 @@ class TemplateRenderer
         }
 
         return collect($this->placeHolderNames())
-            ->map(function (string $name) {
+            ->map(function (string $name): array {
                 $parts = explode(':', $name);
 
                 return [

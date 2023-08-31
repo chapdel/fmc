@@ -315,9 +315,9 @@ abstract class Sendable extends Model implements HasHtmlContent
         $dom = app(CreateDomDocumentFromHtmlAction::class)->execute($this->getHtml());
 
         return collect($dom->getElementsByTagName('a'))
-            ->map(function (DOMElement $link) {
+            ->map(function (DOMElement $link): string {
                 return $link->getAttribute('href');
-            })->reject(function (string $url) {
+            })->reject(function (string $url): bool {
                 return str_contains($url, '::') || str_contains($url, '{{');
             })
             ->reject(fn (string $url) => empty($url))
