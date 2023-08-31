@@ -2,7 +2,10 @@
 
 namespace Spatie\Mailcoach\Livewire\Mails;
 
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
+use Spatie\Mailcoach\Domain\Audience\Models\Suppression;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Livewire\TableComponent;
 
@@ -15,19 +18,53 @@ class SuppressionListComponent extends TableComponent
         return self::getSuppressionClass()::query();
     }
 
-    /**public function render()
+    public function getTitle(): string
     {
-        $suppressions = [
-            [
-                'email' => 'niels@spatire.com',
-                'stream' => 'transactional',
-                'Reason' => 'Unknown',
-            ],
-        ];
+        return __mc('Suppression List'); // @todo why is this not showing up?
+    }
 
-        return view('mailcoach::app.configuration.mails.partials.suppression-list', [
-            'suppressions' => $suppressions,
-            'totalSuppressionsCount' => 1,
-        ])->layout('mailcoach::app.layouts.settings', ['title' => __mc('Suppression List')]);
-    }*/
+    protected function getTableColumns(): array
+    {
+        return [
+            TextColumn::make('email')
+                ->label(__mc('Email'))
+                ->sortable()
+                ->searchable(),
+            //->view('mailcoach::app.tableField'),
+            TextColumn::make('stream')
+                ->label(__mc('Stream'))
+                ->sortable()
+                ->searchable(),
+            //->view('mailcoach::app.tableField'),
+            TextColumn::make('reason')
+                ->label(__mc('Reason'))
+                ->sortable()
+                ->searchable(),
+        ];
+    }
+
+    protected function getTableActions(): array
+    {
+        return [
+            Action::make('Reactivate')
+                ->button()
+                ->action(fn (Suppression $record) => $this->reactivate($record))
+                ->label(__mc('Reactivate')),
+        ];
+    }
+
+    protected function getDefaultTableSortColumn(): ?string
+    {
+        return 'created_at';
+    }
+
+    protected function getDefaultTableSortDirection(): ?string
+    {
+        return 'desc';
+    }
+
+    protected function reactivate(Suppression $suppression): void
+    {
+        // @todo
+    }
 }

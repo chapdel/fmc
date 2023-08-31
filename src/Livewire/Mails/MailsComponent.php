@@ -12,6 +12,6 @@ class MailsComponent extends Component
         $timeZones = TimeZone::all();
 
         return view('mailcoach::app.configuration.mails.edit', compact('timeZones'))
-            ->layout('mailcoach::app.layouts.settings', ['title' => __mc('General')]);
+            ->layout('mailcoach::app.layouts.settings', ['title' => __mc('Mails')]);
     }
 }

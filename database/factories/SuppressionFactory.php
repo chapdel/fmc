@@ -3,6 +3,8 @@
 namespace Spatie\Mailcoach\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Spatie\Mailcoach\Domain\Audience\Enums\SuppressionReason;
+use Spatie\Mailcoach\Domain\Audience\Enums\SuppressionStream;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class SuppressionFactory extends Factory
@@ -19,9 +21,9 @@ class SuppressionFactory extends Factory
         return [
             'email' => $this->faker->email,
             'uuid' => $this->faker->uuid,
-            'reason' => 'HardBounce',
+            'reason' => $this->faker->randomElement(SuppressionReason::cases()),
             'origin' => $this->faker->randomElement(['recipient', 'admin']),
-            'stream' => $this->faker->randomElement(['outbound', 'broadcast', 'transactional']),
+            'stream' => $this->faker->randomElement(SuppressionStream::cases()),
         ];
     }
 }
