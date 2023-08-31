@@ -781,9 +781,8 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             $table->string('email')->unique();
-            $table->string('stream')->nullable();
-            $table->string('reason')->nullable();
-            $table->string('origin')->nullable();
+            $table->string('reason');
+            $table->string('origin');
             $table->timestamps();
         });
     }
