@@ -12,10 +12,10 @@ class SuppressionListComponent extends TableComponent
 
     public function getTableQuery(): Builder
     {
-        return self::getSubscriberClass()::query();
+        return self::getSuppressionClass()::query();
     }
 
-    public function render()
+    /**public function render()
     {
         $suppressions = [
             [
@@ -29,5 +29,5 @@ class SuppressionListComponent extends TableComponent
             'suppressions' => $suppressions,
             'totalSuppressionsCount' => 1,
         ])->layout('mailcoach::app.layouts.settings', ['title' => __mc('Suppression List')]);
-    }
+    }*/
 }
