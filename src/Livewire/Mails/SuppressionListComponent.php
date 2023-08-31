@@ -2,8 +2,10 @@
 
 namespace Spatie\Mailcoach\Livewire\Mails;
 
+use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\CreateAction;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\Mailcoach\Domain\Audience\Models\Suppression;
@@ -32,15 +34,15 @@ class SuppressionListComponent extends TableComponent
                 ->sortable()
                 ->searchable(),
             //->view('mailcoach::app.tableField'),
-            TextColumn::make('stream')
-                ->label(__mc('Stream'))
-                ->sortable()
-                ->searchable(),
-            //->view('mailcoach::app.tableField'),
             TextColumn::make('reason')
                 ->label(__mc('Reason'))
                 ->sortable()
                 ->searchable(),
+            TextColumn::make('origin')
+                ->label(__mc('Origin'))
+                ->sortable()
+                ->searchable(),
+            //->view('mailcoach::app.tableField'),
         ];
     }
 
@@ -52,6 +54,24 @@ class SuppressionListComponent extends TableComponent
                 ->action(fn (Suppression $record) => $this->reactivate($record))
                 ->requiresConfirmation()
                 ->label(__mc('Reactivate')),
+        ];
+    }
+
+    protected function getTableHeaderActions(): array
+    {
+        return [
+            CreateAction::make()
+                ->model(Suppression::class)
+                ->form([
+                    TextInput::make('email')
+                        ->required()
+                        ->email(),
+                ])->createAnother(false)
+                ->action(function (array $data) {
+                    Suppression::fromAdmin($data['email']);
+
+                    notify(__mc("Added `{$data['email']}` to the suppression list successfully"));
+                }),
         ];
     }
 

@@ -28,7 +28,7 @@ class Suppression extends Model
 
     public $casts = [
         'reason' => SuppressionReason::class,
-        'stream' => SuppressionOrigin::class,
+        'origin' => SuppressionOrigin::class,
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
@@ -54,7 +54,7 @@ class Suppression extends Model
 
     public static function fromAdmin(string $email): self
     {
-        return static::create([
+        return static::firstOrCreate([
             'email' => $email,
         ], [
             'reason' => SuppressionReason::manual,
