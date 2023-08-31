@@ -58,7 +58,7 @@
         "spatie/laravel-mailcoach-sendgrid-setup": "^1.0",
         "spatie/laravel-mailcoach-sendinblue-feedback": "^1.0",
         "spatie/laravel-mailcoach-sendinblue-setup": "^1.0",
-        "spatie/laravel-mailcoach-ses-feedback": "^5.0",
+        "spatie/laravel-mailcoach-ses-feedback": "dev-main",
         "spatie/laravel-mailcoach-ses-setup": "^1.0",
         "spatie/laravel-mailcoach-unlayer": "^3.0",
         "spatie/laravel-markdown": "^2.2",
