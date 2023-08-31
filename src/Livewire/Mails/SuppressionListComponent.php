@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Livewire\Mails;
 
+use Filament\Notifications\Notification;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
@@ -49,6 +50,7 @@ class SuppressionListComponent extends TableComponent
             Action::make('Reactivate')
                 ->button()
                 ->action(fn (Suppression $record) => $this->reactivate($record))
+                ->requiresConfirmation()
                 ->label(__mc('Reactivate')),
         ];
     }
@@ -65,6 +67,11 @@ class SuppressionListComponent extends TableComponent
 
     protected function reactivate(Suppression $suppression): void
     {
-        // @todo
+        $suppression->delete();
+
+        Notification::make()
+            ->title("Reactivated `{$suppression->email}` successfully")
+            ->success()
+            ->send();
     }
 }
