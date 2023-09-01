@@ -5,6 +5,15 @@
 
 <div>
     @if(count($templates))
+        <x-mailcoach::combo-box-field
+            class="{{ $attributes->get('class') }}"
+            label="Template"
+            name="template_id"
+            wire:model.live="templateId"
+            :clearable="$attributes->get('clearable', true )"
+            :placeholder="__mc('No template')"
+            :options="$templates"
+        />
         <x-mailcoach::select-field
             class="{{ $attributes->get('class') }}"
             label="Template"
