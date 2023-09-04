@@ -54,6 +54,9 @@ jobs:
         with:
           composer-options: "--prefer-dist --no-interaction"
 
+      - name: Install mjml
+        run: npm install mjml
+
       - name: Execute tests
         run: composer test
         env:
