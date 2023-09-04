@@ -106,7 +106,7 @@ it('can save a component with a template placeholder', function () {
     ]);
 });
 
-it('can save a component with mgml format template', function () {
+it('can save a component with mjml format template', function () {
     test()->authenticate();
 
     $campaign = Campaign::factory()->emptyDraft()->create();
@@ -123,7 +123,7 @@ it('can save a component with mgml format template', function () {
     expect($livewire->fullHtml)->toMatchSnapshot();
 });
 
-it('cannot explicitly save invalid mgml content with a template', function () {
+it('cannot explicitly save invalid mjml content with a template', function () {
     test()->authenticate();
 
     $campaign = Campaign::factory()->emptyDraft()->create();
@@ -141,7 +141,7 @@ it('cannot explicitly save invalid mgml content with a template', function () {
         ->assertNotDispatched('editorSaved');
 });
 
-it('cannot explicitly save invalid mgml content without a template', function () {
+it('cannot explicitly save invalid mjml content without a template', function () {
     test()->authenticate();
 
     $template = TemplateFactory::new()->create([
