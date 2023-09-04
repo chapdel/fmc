@@ -17,9 +17,9 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class SubscriberImport extends Model implements HasMedia
 {
-    use InteractsWithMedia;
-    use HasUuid;
     use HasFactory;
+    use HasUuid;
+    use InteractsWithMedia;
     use MassPrunable;
     use UsesMailcoachModels;
 

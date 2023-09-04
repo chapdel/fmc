@@ -14,8 +14,8 @@ use Spatie\ValidationRules\Rules\Delimited;
 class AutomationMailSettingsComponent extends Component
 {
     use AuthorizesRequests;
-    use UsesMailcoachModels;
     use LivewireFlash;
+    use UsesMailcoachModels;
 
     public AutomationMail $mail;
 

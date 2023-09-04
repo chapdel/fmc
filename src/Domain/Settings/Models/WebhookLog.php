@@ -12,10 +12,10 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class WebhookLog extends Model
 {
-    use HasUuid;
-    use UsesMailcoachModels;
     use HasFactory;
+    use HasUuid;
     use MassPrunable;
+    use UsesMailcoachModels;
 
     public $table = 'mailcoach_webhook_logs';
 

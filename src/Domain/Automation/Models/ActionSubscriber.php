@@ -10,9 +10,9 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class ActionSubscriber extends Pivot
 {
+    use HasFactory;
     use HasUuid;
     use UsesMailcoachModels;
-    use HasFactory;
 
     public $table = 'mailcoach_automation_action_subscriber';
 

@@ -14,7 +14,7 @@ use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Mailcoach;
 use Spatie\RateLimitedMiddleware\RateLimited;
 
-class SendAutomationMailJob implements ShouldQueue, ShouldBeUnique
+class SendAutomationMailJob implements ShouldBeUnique, ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;

@@ -28,10 +28,10 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
  */
 class EmailList extends Model implements HasMedia
 {
-    use HasUuid;
-    use UsesMailcoachModels;
     use HasFactory;
+    use HasUuid;
     use InteractsWithMedia;
+    use UsesMailcoachModels;
 
     public $guarded = [];
 

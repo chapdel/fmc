@@ -10,8 +10,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Upload extends Model implements HasMedia
 {
-    use InteractsWithMedia;
     use HasUuid;
+    use InteractsWithMedia;
 
     public $table = 'mailcoach_uploads';
 

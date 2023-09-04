@@ -13,7 +13,7 @@ use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Spatie\Mailcoach\Mailcoach;
 use Throwable;
 
-class CalculateStatisticsJob implements ShouldQueue, ShouldBeUnique
+class CalculateStatisticsJob implements ShouldBeUnique, ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;

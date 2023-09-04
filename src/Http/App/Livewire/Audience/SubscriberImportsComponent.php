@@ -21,9 +21,9 @@ use Spatie\TemporaryDirectory\TemporaryDirectory;
 
 class SubscriberImportsComponent extends DataTableComponent
 {
-    use WithFileUploads;
     use AuthorizesRequests;
     use UsesMailcoachModels;
+    use WithFileUploads;
 
     public string $sort = '-created_at';
 

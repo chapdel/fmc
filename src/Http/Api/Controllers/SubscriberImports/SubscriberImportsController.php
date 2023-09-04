@@ -14,8 +14,8 @@ use Spatie\Mailcoach\Http\Api\Resources\SubscriberImportResource;
 class SubscriberImportsController
 {
     use AuthorizesRequests;
-    use UsesMailcoachModels;
     use RespondsToApiRequests;
+    use UsesMailcoachModels;
 
     public function index()
     {

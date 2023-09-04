@@ -17,8 +17,8 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class Action extends Model
 {
-    use HasUuid;
     use HasFactory;
+    use HasUuid;
     use UsesMailcoachModels;
 
     public $table = 'mailcoach_automation_actions';

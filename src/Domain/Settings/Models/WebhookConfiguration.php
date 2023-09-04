@@ -21,9 +21,9 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
  */
 class WebhookConfiguration extends Model
 {
+    use HasFactory;
     use HasUuid;
     use UsesMailcoachModels;
-    use HasFactory;
 
     public $guarded = [];
 

@@ -13,8 +13,8 @@ use Spatie\Mailcoach\MainNavigation;
 class AutomationMailContentComponent extends Component
 {
     use AuthorizesRequests;
-    use UsesMailcoachModels;
     use LivewireFlash;
+    use UsesMailcoachModels;
 
     public AutomationMail $mail;
 

@@ -14,8 +14,8 @@ use Spatie\ValidationRules\Rules\Delimited;
 class ListSettingsComponent extends Component
 {
     use AuthorizesRequests;
-    use UsesMailcoachModels;
     use LivewireFlash;
+    use UsesMailcoachModels;
 
     public EmailList $emailList;
 

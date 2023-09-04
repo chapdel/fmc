@@ -19,8 +19,8 @@ use Spatie\ValidationRules\Rules\Delimited;
 class CampaignSettingsComponent extends Component
 {
     use AuthorizesRequests;
-    use UsesMailcoachModels;
     use LivewireFlash;
+    use UsesMailcoachModels;
 
     public Campaign $campaign;
 

@@ -19,8 +19,8 @@ use Spatie\Mailcoach\MainNavigation;
 class SubscriberComponent extends Component
 {
     use AuthorizesRequests;
-    use UsesMailcoachModels;
     use LivewireFlash;
+    use UsesMailcoachModels;
 
     public SubscriberModel $subscriber;
 

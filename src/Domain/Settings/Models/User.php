@@ -14,10 +14,10 @@ use Spatie\WelcomeNotification\ReceivesWelcomeNotification;
 
 class User extends Authenticatable
 {
-    use Notifiable;
-    use ReceivesWelcomeNotification;
     use HasApiTokens;
     use HasFactory;
+    use Notifiable;
+    use ReceivesWelcomeNotification;
     use UsesMailcoachModels;
 
     /**

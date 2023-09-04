@@ -11,8 +11,8 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class TransactionalMailOpen extends Model
 {
-    use HasUuid;
     use HasFactory;
+    use HasUuid;
     use UsesMailcoachModels;
 
     public $table = 'mailcoach_transactional_mail_opens';

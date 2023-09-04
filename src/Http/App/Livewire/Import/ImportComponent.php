@@ -23,8 +23,8 @@ use Spatie\Mailcoach\Http\App\Livewire\LivewireFlash;
 
 class ImportComponent extends Component
 {
-    use WithFileUploads;
     use LivewireFlash;
+    use WithFileUploads;
 
     /** @var \Illuminate\Http\UploadedFile */
     public $file;

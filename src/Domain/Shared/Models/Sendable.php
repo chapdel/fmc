@@ -36,10 +36,10 @@ use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
  */
 abstract class Sendable extends Model implements HasHtmlContent
 {
-    use HasUuid;
     use HasFactory;
-    use UsesMailcoachModels;
     use HasTemplate;
+    use HasUuid;
+    use UsesMailcoachModels;
 
     protected $guarded = [];
 

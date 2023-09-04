@@ -44,12 +44,12 @@ use Spatie\Mailcoach\Mailcoach;
  */
 class Subscriber extends Model implements CipherSweetEncrypted
 {
-    use HasUuid;
     use HasExtraAttributes;
-    use UsesMailcoachModels;
     use HasFactory;
-    use UsesCipherSweet;
+    use HasUuid;
     use Searchable;
+    use UsesCipherSweet;
+    use UsesMailcoachModels;
 
     public $table = 'mailcoach_subscribers';
 

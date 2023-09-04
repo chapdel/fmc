@@ -12,8 +12,8 @@ use Spatie\Mailcoach\MainNavigation;
 
 class AutomationActionsComponent extends Component
 {
-    use UsesMailcoachModels;
     use LivewireFlash;
+    use UsesMailcoachModels;
 
     protected $listeners = [
         'automationBuilderUpdated',

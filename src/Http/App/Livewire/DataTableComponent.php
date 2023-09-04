@@ -17,8 +17,8 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 abstract class DataTableComponent extends Component
 {
-    use LivewireFlash;
     use AuthorizesRequests;
+    use LivewireFlash;
     use UsesMailcoachModels;
     use WithPagination;
 

@@ -31,7 +31,11 @@
     @else
         <x-mailcoach::fieldset card legend="Audience">
             <div>
-            Sent to list <strong>{{ $campaign->emailList?->name ?? __mc('deleted list') }}</strong>
+                @if($campaign->emailList)
+                    Sent to list <a href="{{ route('mailcoach.emailLists.subscribers', $campaign->emailList) }}"><strong>{{ $campaign->emailList->name }}</strong></a>
+                @else
+                    Sent to list <strong>{{ __mc('deleted list') }}</strong>
+                @endif
 
             @if($campaign->tagSegment)
                 , used segment <strong>{{ $campaign->tagSegment->name }}</strong>

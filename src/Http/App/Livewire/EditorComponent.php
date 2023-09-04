@@ -14,8 +14,8 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 abstract class EditorComponent extends Component
 {
-    use UsesMailcoachModels;
     use LivewireFlash;
+    use UsesMailcoachModels;
 
     public static bool $supportsTemplates = true;
 

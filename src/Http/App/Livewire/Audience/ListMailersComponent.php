@@ -12,8 +12,8 @@ use Spatie\Mailcoach\MainNavigation;
 
 class ListMailersComponent extends Component
 {
-    use UsesMailcoachModels;
     use LivewireFlash;
+    use UsesMailcoachModels;
 
     public EmailList $emailList;
 

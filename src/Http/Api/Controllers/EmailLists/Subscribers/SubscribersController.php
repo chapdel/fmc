@@ -20,8 +20,8 @@ use Spatie\Mailcoach\Http\App\Requests\EmailLists\Subscribers\UpdateSubscriberRe
 class SubscribersController
 {
     use AuthorizesRequests;
-    use UsesMailcoachModels;
     use RespondsToApiRequests;
+    use UsesMailcoachModels;
 
     public function index(EmailList $emailList, Request $request)
     {

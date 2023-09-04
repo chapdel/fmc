@@ -14,8 +14,8 @@ use Spatie\Mailcoach\MainNavigation;
 
 class WebsiteComponent extends Component
 {
-    use UsesMailcoachModels;
     use LivewireFlash;
+    use UsesMailcoachModels;
     use WithFileUploads;
 
     /** @var \Illuminate\Http\UploadedFile */

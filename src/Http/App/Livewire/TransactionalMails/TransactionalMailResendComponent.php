@@ -11,9 +11,9 @@ use Spatie\Mailcoach\MainNavigation;
 
 class TransactionalMailResendComponent extends Component
 {
-    use UsesMailcoachModels;
     use AuthorizesRequests;
     use LivewireFlash;
+    use UsesMailcoachModels;
 
     public TransactionalMailLogItem $transactionalMail;
 

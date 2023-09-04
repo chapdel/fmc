@@ -13,7 +13,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Mailcoach;
 
-class CreateCampaignSendJob implements ShouldQueue, ShouldBeUnique
+class CreateCampaignSendJob implements ShouldBeUnique, ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;

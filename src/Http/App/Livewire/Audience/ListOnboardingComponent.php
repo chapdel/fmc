@@ -12,8 +12,8 @@ use Spatie\Mailcoach\MainNavigation;
 
 class ListOnboardingComponent extends Component
 {
-    use UsesMailcoachModels;
     use LivewireFlash;
+    use UsesMailcoachModels;
 
     public const CONFIRMATION_MAIL_DEFAULT = 'send_default_confirmation_mail';
 
