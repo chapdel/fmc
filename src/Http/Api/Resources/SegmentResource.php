@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Http\Api\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/** @todo can be removed ? */
 /** @mixin \Spatie\Mailcoach\Domain\Audience\Models\TagSegment */
 class SegmentResource extends JsonResource
 {

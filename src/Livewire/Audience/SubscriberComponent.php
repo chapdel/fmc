@@ -60,12 +60,12 @@ class SubscriberComponent extends Component
         ];
     }
 
-    public function updateTags(array|string ...$tags)
+    public function updateTags(array|string ...$tags): void
     {
         $this->tags = Arr::wrap($tags);
     }
 
-    public function save()
+    public function save(): void
     {
         $this->validate();
 
@@ -85,7 +85,7 @@ class SubscriberComponent extends Component
         notify(__mc('Subscriber :subscriber was updated.', ['subscriber' => $this->subscriber->email]));
     }
 
-    public function mount(EmailList $emailList, Subscriber $subscriber)
+    public function mount(EmailList $emailList, Subscriber $subscriber): void
     {
         $this->authorize('update', $subscriber);
 
@@ -95,7 +95,7 @@ class SubscriberComponent extends Component
 
         $this->totalSendsCount = $this->subscriber->sends()->count();
         $this->tags = $this->subscriber->tags()->where('type', TagType::Default)->pluck('name')->toArray();
-        $this->extraAttributes = $this->subscriber->extra_attributes->map(function ($value, $key) {
+        $this->extra_attributes = $this->subscriber->extra_attributes->map(function ($value, $key) {
             return [
                 'key' => $key,
                 'value' => $value,
@@ -108,15 +108,15 @@ class SubscriberComponent extends Component
             });
     }
 
-    public function addAttribute()
+    public function addAttribute(): void
     {
-        $this->extraAttributes[] = [];
+        $this->extra_attributes[] = [];
     }
 
-    public function saveAttributes()
+    public function saveAttributes(): void
     {
         $this->subscriber->extra_attributes = null;
-        foreach ($this->extraAttributes as $extraAttribute) {
+        foreach ($this->extra_attributes as $extraAttribute) {
             $this->subscriber->extra_attributes[$extraAttribute['key']] = $extraAttribute['value'];
         }
         $this->subscriber->save();

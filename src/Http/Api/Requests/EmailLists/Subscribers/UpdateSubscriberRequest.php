@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Unique;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class UpdateSubscriberRequest extends FormRequest
@@ -32,9 +33,11 @@ class UpdateSubscriberRequest extends FormRequest
     {
         $emailList = $this->route('emailList');
 
+        /** @var string $subscriber */
         $subscriber = $this->route('subscriber');
 
         if (is_string($subscriber)) {
+            /** @var Subscriber $subscriber */
             $subscriber = self::getSubscriberClass()::findOrFail($subscriber);
         }
 
