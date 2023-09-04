@@ -100,6 +100,8 @@ abstract class EditorComponent extends Component
                 $this->fullHtml = Mjml::new()->toHtml($this->fullHtml);
             }
 
+            unset($this->previewHtml);
+
             return;
         }
 
@@ -111,6 +113,7 @@ abstract class EditorComponent extends Component
 
         $this->fullHtml = $html;
 
+        unset($this->previewHtml);
     }
 
     #[Computed]
@@ -216,7 +219,7 @@ abstract class EditorComponent extends Component
 
     protected function isAllowedToSave(): bool
     {
-        if ($this->template && ! containsMjml($this->fullHtml)) {
+        if (! containsMjml($this->fullHtml)) {
             return true;
         }
 
