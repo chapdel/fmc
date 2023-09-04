@@ -9,9 +9,11 @@ use Livewire\Component;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\Campaign\Rules\HtmlRule;
+use Spatie\Mailcoach\Domain\Shared\Actions\InitializeMjmlAction;
 use Spatie\Mailcoach\Domain\Shared\Actions\RenderTwigAction;
 use Spatie\Mailcoach\Domain\Shared\Support\TemplateRenderer;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Mailcoach;
 use Spatie\Mjml\Exceptions\CouldNotConvertMjml;
 use Spatie\Mjml\Mjml;
 
@@ -42,6 +44,13 @@ abstract class EditorComponent extends Component
     public ?CarbonInterface $lastSavedAt = null;
 
     public bool $autosaveConflict = false;
+
+    private Mjml $mjml;
+
+    public function __construct()
+    {
+        $this->mjml = Mailcoach::getSharedActionClass('initialize_mjml', InitializeMjmlAction::class)->execute();
+    }
 
     public function mount(HasHtmlContent $model)
     {
@@ -97,7 +106,7 @@ abstract class EditorComponent extends Component
             $this->fullHtml = $templateRenderer->render($this->templateFieldValues);
 
             if (containsMjml($this->fullHtml)) {
-                $this->fullHtml = Mjml::new()->toHtml($this->fullHtml);
+                $this->fullHtml = $this->mjml->toHtml($this->fullHtml);
             }
 
             unset($this->previewHtml);
@@ -123,7 +132,7 @@ abstract class EditorComponent extends Component
 
         if (containsMjml($html)) {
             try {
-                $html = Mjml::new()->toHtml($html);
+                $html = $this->mjml->toHtml($html);
             } catch (CouldNotConvertMjml) {
                 // Do nothing in preview
             }
@@ -223,10 +232,8 @@ abstract class EditorComponent extends Component
             return true;
         }
 
-        $mjml = Mjml::new();
-
         try {
-            $result = $mjml->convert($this->fullHtml);
+            $result = $this->mjml->convert($this->fullHtml);
         } catch (CouldNotConvertMjml $e) {
             notifyError($e->getMessage());
 

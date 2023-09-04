@@ -25,12 +25,12 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\CanBeScheduled;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\SendsToSegment;
 use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
 use Spatie\Mailcoach\Domain\Shared\Actions\CreateDomDocumentFromHtmlAction;
+use Spatie\Mailcoach\Domain\Shared\Actions\InitializeMjmlAction;
 use Spatie\Mailcoach\Domain\Shared\Actions\RenderMarkdownToHtmlAction;
 use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Spatie\Mailcoach\Mailcoach;
-use Spatie\Mjml\Mjml;
 use Throwable;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
@@ -400,7 +400,7 @@ class Campaign extends Sendable implements Feedable
             throw CouldNotSendCampaign::requirementsNotMet($this);
         }
 
-        if (containsMjml($this->html) && ! Mjml::new()->canConvert($this->html)) {
+        if (containsMjml($this->html) && ! Mailcoach::getSharedActionClass('initialize_mjml', InitializeMjmlAction::class)->execute()->canConvert($this->html)) {
             throw CouldNotSendCampaign::invalidMjml($this);
         }
     }

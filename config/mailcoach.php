@@ -207,6 +207,7 @@ return [
         'calculate_statistics' => \Spatie\Mailcoach\Domain\Shared\Actions\CalculateStatisticsAction::class,
         'send_webhook' => \Spatie\Mailcoach\Domain\Settings\Actions\SendWebhookAction::class,
         'resend_webhook' => \Spatie\Mailcoach\Domain\Settings\Actions\ResendWebhookCallAction::class,
+        'initialize_mjml' => \Spatie\Mailcoach\Domain\Shared\Actions\InitializeMjmlAction::class,
     ],
 
     /*
