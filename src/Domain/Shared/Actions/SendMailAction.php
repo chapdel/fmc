@@ -16,12 +16,15 @@ use Spatie\Mailcoach\Domain\Campaign\Events\CampaignMailSentEvent;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Mailcoach;
 use Symfony\Component\Mime\Email;
 use Throwable;
 
 class SendMailAction
 {
+    use UsesMailcoachModels;
+
     public function execute(Send $pendingSend, bool $isTest = false): void
     {
         try {
@@ -29,6 +32,15 @@ class SendMailAction
         } catch (Throwable|Exception $exception) {
             if ($isTest) {
                 throw $exception;
+            }
+
+            // If on suppression list
+            // Register suppressed
+            if (self::getSuppressionClass()::where('email', $pendingSend->subscriber->email)->exists()) {
+                $pendingSend->markAsSent();
+                $pendingSend->registerSuppressed();
+
+                return;
             }
 
             /**
