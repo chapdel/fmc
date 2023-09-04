@@ -11,17 +11,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use ParagonIE\CipherSweet\BlindIndex;
-use ParagonIE\CipherSweet\CipherSweet as CipherSweetEngine;
-use ParagonIE\CipherSweet\EncryptedRow;
-use Spatie\LaravelCipherSweet\Concerns\UsesCipherSweet;
-use Spatie\LaravelCipherSweet\Contracts\CipherSweetEncrypted;
-use Spatie\LaravelCipherSweet\Observers\ModelObserver;
 use Spatie\Mailcoach\Database\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\ConfirmSubscriberAction;
-use Spatie\Mailcoach\Domain\Audience\Encryption\Transformation\EmailFirstPart;
-use Spatie\Mailcoach\Domain\Audience\Encryption\Transformation\EmailSecondPart;
-use Spatie\Mailcoach\Domain\Audience\Encryption\Transformation\Lowercase;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Events\ResubscribedEvent;
 use Spatie\Mailcoach\Domain\Audience\Events\TagAddedEvent;
@@ -42,13 +33,12 @@ use Spatie\Mailcoach\Mailcoach;
 /**
  * @method static Builder|static query()
  */
-class Subscriber extends Model implements CipherSweetEncrypted
+class Subscriber extends Model
 {
     use HasExtraAttributes;
     use HasFactory;
     use HasUuid;
     use Searchable;
-    use UsesCipherSweet;
     use UsesMailcoachModels;
 
     public $table = 'mailcoach_subscribers';
@@ -72,36 +62,6 @@ class Subscriber extends Model implements CipherSweetEncrypted
         ];
     }
 
-    protected static function bootUsesCipherSweet()
-    {
-        if (! config('mailcoach.encryption.enabled')) {
-            return;
-        }
-
-        static::observe(ModelObserver::class);
-
-        static::$cipherSweetEncryptedRow = new EncryptedRow(
-            app(CipherSweetEngine::class),
-            (new static())->getTable()
-        );
-
-        static::configureCipherSweet(static::$cipherSweetEncryptedRow);
-    }
-
-    public static function configureCipherSweet(EncryptedRow $encryptedRow): void
-    {
-        $encryptedRow
-            ->addTextField('email')
-            ->addTextField('first_name')
-            ->addTextField('last_name');
-
-        $encryptedRow->addBlindIndex('email', new BlindIndex('email_first_part', [new EmailFirstPart()]));
-        $encryptedRow->addBlindIndex('email', new BlindIndex('email_second_part', [new EmailSecondPart()]));
-
-        $encryptedRow->addBlindIndex('first_name', new BlindIndex('first_name', [new Lowercase()]));
-        $encryptedRow->addBlindIndex('last_name', new BlindIndex('last_name', [new Lowercase()]));
-    }
-
     public static function createWithEmail(string $email, array $attributes = []): PendingSubscriber
     {
         return new PendingSubscriber($email, $attributes);
@@ -109,16 +69,10 @@ class Subscriber extends Model implements CipherSweetEncrypted
 
     public static function findForEmail(string $email, EmailList $emailList): ?Subscriber
     {
-        $query = static::query()->where('email_list_id', $emailList->id);
-
-        if (config('mailcoach.encryption.enabled')) {
-            return $query
-                ->whereBlind('email', 'email_first_part', $email)
-                ->whereBlind('email', 'email_second_part', $email)
-                ->first();
-        }
-
-        return $query->where('email', $email)->first();
+        return static::query()
+            ->where('email_list_id', $emailList->id)
+            ->where('email', $email)
+            ->first();
     }
 
     public function emailList(): BelongsTo

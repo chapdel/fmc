@@ -8,6 +8,7 @@ enum CampaignStatus: string implements HasLabel
 {
     case Draft = 'draft';
     case Sending = 'sending';
+    case Paused = 'paused';
     case Sent = 'sent';
     case Cancelled = 'cancelled';
 

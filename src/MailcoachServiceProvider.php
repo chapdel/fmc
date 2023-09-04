@@ -267,7 +267,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
             ->bootViews()
             ->bootEvents()
             ->bootTriggers()
-            ->bootEncryption()
             ->bootSpotlight();
     }
 
@@ -704,23 +703,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
         config()->set('livewire-ui-spotlight.shortcuts', ['slash']);
         config()->set('livewire-ui-spotlight.include_js', false);
         config()->set('livewire-ui-spotlight.include_css', false);
-
-        return $this;
-    }
-
-    protected function bootEncryption(): static
-    {
-        if (! config('mailcoach.encryption.enabled')) {
-            return $this;
-        }
-
-        $encryptionKey = config('mailcoach.encryption.key');
-
-        if (Str::startsWith($encryptionKey, $prefix = 'base64:')) {
-            $encryptionKey = base64_decode(Str::after($encryptionKey, $prefix));
-        }
-
-        config()->set('ciphersweet.providers.string.key', $encryptionKey);
 
         return $this;
     }

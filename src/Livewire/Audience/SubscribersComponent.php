@@ -154,25 +154,6 @@ class SubscribersComponent extends TableComponent
     {
         $search = trim(strtolower($this->getTableSearch()));
 
-        if (config('mailcoach.encryption.enabled')) {
-            if (str_contains($search, '@')) {
-                $query->orWhere(function (\Illuminate\Database\Eloquent\Builder $builder) use ($search, $query) {
-                    $builder->whereBlind('email', 'email_first_part', $search);
-                    $builder->whereBlind('email', 'email_second_part', $search);
-
-                    $query->getQuery()->joins = $builder->getQuery()->joins;
-                });
-            } else {
-                $query->orWhereBlind('email', 'email_first_part', Str::finish($search, '@'));
-                $query->orWhereBlind('email', 'email_second_part', Str::start($search, '@'));
-            }
-
-            $query->orWhereBlind('first_name', 'first_name', $search);
-            $query->orWhereBlind('last_name', 'last_name', $search);
-
-            return parent::applyGlobalSearchToTableQuery($query);
-        }
-
         if (str_contains($search, '@')) {
             $clone = clone $query;
 

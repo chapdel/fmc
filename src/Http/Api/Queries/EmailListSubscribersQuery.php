@@ -40,13 +40,6 @@ class EmailListSubscribersQuery extends QueryBuilder
 
                     $value = trim($value ?? '');
 
-                    if (config('mailcoach.encryption.enabled')) {
-                        return $query->where(function (Builder $query) use ($value) {
-                            $query->whereBlind('email', 'email_first_part', $value)
-                                ->orWhereBlind('email', 'email_second_part', $value);
-                        });
-                    }
-
                     return $query->where('email', $value);
                 }),
                 AllowedFilter::callback('tagType', function (Builder $query, $value) {

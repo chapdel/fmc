@@ -9,7 +9,6 @@ use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
-use Spatie\Mailcoach\Http\Api\Queries\Filters\SearchFilter;
 
 beforeEach(function () {
     test()->emailList = EmailList::factory()->create();
@@ -222,42 +221,6 @@ it('can search on last name', function () {
 
     expect(Subscriber::search('John')->count())->toBe(1);
     expect(Subscriber::search('Doe', 10)->count())->toBe(2);
-});
-
-it('can search on encrypted email', function () {
-    config()->set('mailcoach.encryption.enabled', true);
-    config()->set('ciphersweet.providers.string.key', 'd3cc14e44763208f95af769f16d97cabdc815ec6416700b0bee23545d8375188');
-
-    Subscriber::factory()->create(['email' => 'john@doe.com']);
-    Subscriber::factory()->create(['email' => 'jane@doe.com']);
-
-    $filter = new SearchFilter();
-
-    expect($filter(Subscriber::query(), 'john@doe.com', 'search')->count())->toBe(1);
-});
-
-it('can search on encrypted first name', function () {
-    config()->set('mailcoach.encryption.enabled', true);
-    config()->set('ciphersweet.providers.string.key', 'd3cc14e44763208f95af769f16d97cabdc815ec6416700b0bee23545d8375188');
-
-    Subscriber::factory()->create(['first_name' => 'John']);
-    Subscriber::factory()->create(['first_name' => 'Jane']);
-
-    $filter = new SearchFilter();
-
-    expect($filter(Subscriber::query(), 'John', 'search')->count())->toBe(1);
-});
-
-it('can search on encrypted last name', function () {
-    config()->set('mailcoach.encryption.enabled', true);
-    config()->set('ciphersweet.providers.string.key', 'd3cc14e44763208f95af769f16d97cabdc815ec6416700b0bee23545d8375188');
-
-    Subscriber::factory()->create(['last_name' => 'John Doe']);
-    Subscriber::factory()->create(['last_name' => 'Jane Doe']);
-
-    $filter = new SearchFilter();
-
-    expect($filter(Subscriber::query(), 'John Doe', 'search')->count())->toBe(1);
 });
 
 it('can be converted to an export row', function () {

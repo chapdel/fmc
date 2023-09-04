@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Domain\Shared\Jobs\Export;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class ExportSubscribersJob extends ExportJob
@@ -35,34 +34,9 @@ class ExportSubscribersJob extends ExportJob
             ->chunk(10_000, function (Collection $subscribers, $index) use (&$subscribersCount) {
                 $subscribersCount += $subscribers->count();
 
-                if (config('mailcoach.encryption.enabled')) {
-                    $subscribers = $subscribers->map(function ($subscriber) {
-                        $class = self::getSubscriberClass();
-                        $subscriberModel = (new $class((array) $subscriber));
-                        $subscriberModel->decryptRow();
-
-                        $subscriber->email = $subscriberModel->email;
-                        $subscriber->first_name = $subscriberModel->first_name;
-                        $subscriber->last_name = $subscriberModel->last_name;
-
-                        return $subscriber;
-                    });
-                }
-
                 $this->writeFile("subscribers-{$index}.csv", $subscribers);
             });
 
         $this->addMeta('subscribers_count', $subscribersCount);
-    }
-
-    private function parseKey(string $key): string
-    {
-        $key = trim($key);
-
-        if (Str::startsWith($key, $prefix = 'base64:')) {
-            $key = base64_decode(Str::after($key, $prefix));
-        }
-
-        return $key;
     }
 }

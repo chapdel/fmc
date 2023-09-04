@@ -77,17 +77,7 @@ class AutomationMailOpensComponent extends TableComponent
 
         return [
             TextColumn::make("{$prefix}{$subscriberTableName}.email")
-                ->getStateUsing(function ($record) {
-                    if (config('mailcoach.encryption.enabled')) {
-                        $subscriberClass = self::getSubscriberClass();
-                        $subscriber = (new $subscriberClass(['email' => $record->subscriber_email, 'first_name' => null, 'last_name' => null]));
-                        $subscriber->decryptRow();
-
-                        return $subscriber->email;
-                    }
-
-                    return $record->subscriber_email;
-                })
+                ->getStateUsing(fn ($record) => $record->subscriber_email)
                 ->label(__mc('Email'))
                 ->sortable()
                 ->searchable()

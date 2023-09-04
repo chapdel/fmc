@@ -209,16 +209,6 @@ return [
         'resend_webhook' => \Spatie\Mailcoach\Domain\Settings\Actions\ResendWebhookCallAction::class,
     ],
 
-    /**
-     * Whether Mailcoach should encrypt personal information.
-     * This will encrypt the email address, first_name,
-     * last_name and extra attributes of subscribers.
-     */
-    'encryption' => [
-        'enabled' => false,
-        'key' => env('MAILCOACH_ENCRYPTION_KEY', env('APP_KEY')),
-    ],
-
     /*
      * Here you can configure which content editor Mailcoach uses.
      * By default this is a text editor that highlights HTML.

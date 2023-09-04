@@ -9,12 +9,6 @@ class TestSegmentQueryOnlyJohn extends Segment
 {
     public function subscribersQuery(Builder $subscribersQuery): void
     {
-        if (config('mailcoach.encryption.enabled')) {
-            $subscribersQuery->whereBlind('email', 'email_first_part', 'john@example.com');
-
-            return;
-        }
-
         $subscribersQuery->where('email', 'john@example.com');
     }
 

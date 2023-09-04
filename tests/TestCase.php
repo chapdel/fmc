@@ -22,7 +22,6 @@ use Livewire\LivewireServiceProvider;
 use LivewireUI\Spotlight\SpotlightServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\Feed\FeedServiceProvider;
-use Spatie\LaravelCipherSweet\LaravelCipherSweetServiceProvider;
 use Spatie\LaravelRay\RayServiceProvider;
 use Spatie\Mailcoach\Database\Factories\UserFactory;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
@@ -84,7 +83,6 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
-            LaravelCipherSweetServiceProvider::class,
             //SpotlightServiceProvider::class,
             RayServiceProvider::class,
             LivewireServiceProvider::class,
@@ -117,7 +115,6 @@ abstract class TestCase extends Orchestra
     protected function refreshTestDatabase()
     {
         if (! RefreshDatabaseState::$migrated) {
-            $this->artisan('vendor:publish', ['--tag' => 'ciphersweet-migrations', '--force' => true])->run();
             $this->artisan('vendor:publish', ['--tag' => 'mailcoach-migrations', '--force' => true])->run();
             $this->artisan('migrate:fresh', $this->migrateFreshUsing());
 
