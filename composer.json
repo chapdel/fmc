@@ -80,14 +80,15 @@
         "symfony/http-client": "^6.0",
         "symfony/sendgrid-mailer": "^6.1",
         "tijsverkoyen/css-to-inline-styles": "^2.2",
-        "twig/twig": "^3.4"
+        "twig/twig": "^3.4",
+        "wire-elements/spotlight": "^2.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9",
         "laravel/framework": "^10.0",
         "laravel/pint": "^1.10",
         "nunomaduro/collision": "^6.0",
-        "nunomaduro/larastan": "^2.0",
+        "nunomaduro/larastan": "^2.6",
         "orchestra/testbench": "^8.8",
         "pestphp/pest": "^1.21",
         "phpstan/extension-installer": "^1.1",
