@@ -12,7 +12,6 @@ use Illuminate\Support\Str;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Audience\Enums\SuppressionReason;
 use Spatie\Mailcoach\Domain\Audience\Events\ComplaintRegisteredEvent;
-use Spatie\Mailcoach\Domain\Audience\Models\Suppression;
 use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailLinkClickedEvent;
 use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailOpenedEvent;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailClick;
@@ -386,6 +385,11 @@ class Send extends Model
         return $this->registerBounce($bouncedAt, true);
     }
 
+    public function registerSuppressed()
+    {
+        // TODO
+    }
+
     public function registerBounce(DateTimeInterface $bouncedAt = null, bool $softBounce = false)
     {
         $this->feedback()->create([
@@ -401,7 +405,7 @@ class Send extends Model
         if (! $softBounce) {
             optional($this->subscriber)->update(['unsubscribed_at' => now()]);
 
-            Suppression::fromClient(
+            self::getSuppressionClass()::fromClient(
                 email: $this->subscriber->email,
                 reason: SuppressionReason::hardBounce
             );
