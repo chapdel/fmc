@@ -37,12 +37,12 @@ class TransactionalMail extends Mailable
         private array $replacements = [],
         array $attachments = [],
         bool $store = true,
-        private ?string $originalHtml = null,
+        $html = null,
     ) {
         $this
             ->setTransactionalHeader()
             ->prepareAttachment($attachments)
-            ->prepareHtml($originalHtml);
+            ->prepareHtml($html);
 
         $this
             ->when($store, fn (TransactionalMail $mail) => $mail->store())
@@ -138,11 +138,11 @@ class TransactionalMail extends Mailable
 
     protected function shouldUseMailcoachTemplate(): bool
     {
-        if ($this->originalHtml === 'use-mailcoach-mail') {
+        if ($this->html === 'use-mailcoach-mail') {
             return true;
         }
 
-        if (! $this->originalHtml) {
+        if (! $this->html) {
             return true;
         }
 
