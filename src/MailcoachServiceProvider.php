@@ -403,7 +403,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.components.form.formButtons', 'mailcoach::form-buttons');
         Blade::component('mailcoach::app.components.form.confirmButton', 'mailcoach::confirm-button');
         Blade::component('mailcoach::app.components.form.selectField', 'mailcoach::select-field');
-        Blade::component('mailcoach::app.components.form.comboBoxField', 'mailcoach::combo-box-field');
         Blade::component('mailcoach::app.components.form.tagsField', 'mailcoach::tags-field');
         Blade::component('mailcoach::app.components.form.textField', 'mailcoach::text-field');
         Blade::component('mailcoach::app.components.form.htmlField', 'mailcoach::html-field');
