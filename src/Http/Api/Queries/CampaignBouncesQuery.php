@@ -27,7 +27,7 @@ class CampaignBouncesQuery extends QueryBuilder
         $sendTable = static::getSendTableName();
         $feedBackTable = static::getSendFeedbackItemTableName();
 
-        /** @var Builder $query */
+        /** @var Builder<Campaign> $query */
         $query = static::getCampaignClass()::query()
             ->selectRaw("
                 {$prefix}{$subscriberTableName}.uuid as subscriber_uuid,
