@@ -25,7 +25,7 @@ class BootstrapSettingsNavigation
             $section
                 ->add(__mc('General'), route('general-settings'))
                 ->add(__mc('Mailers'), route('mailers'))
-                ->add(__mc('Mails'), route('mails'))
+                ->add(__mc('Suppressions'), route('suppressions'))
                 ->add(__mc('Editor'), route('editor'))
                 ->add(__mc('Webhooks'), route('webhooks'));
         });

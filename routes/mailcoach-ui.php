@@ -49,7 +49,7 @@ use Spatie\Mailcoach\Livewire\GeneralSettingsComponent;
 use Spatie\Mailcoach\Livewire\Import\ImportComponent;
 use Spatie\Mailcoach\Livewire\Mailers\EditMailerComponent;
 use Spatie\Mailcoach\Livewire\Mailers\MailersComponent;
-use Spatie\Mailcoach\Livewire\Mails\MailsComponent;
+use Spatie\Mailcoach\Livewire\Mails\SuppressionListComponent;
 use Spatie\Mailcoach\Livewire\Templates\TemplateComponent;
 use Spatie\Mailcoach\Livewire\Templates\TemplatesComponent;
 use Spatie\Mailcoach\Livewire\TransactionalMails\TransactionalMailContentComponent;
@@ -184,10 +184,7 @@ Route::prefix('settings')
             Route::get('{mailer}', EditMailerComponent::class)->name('mailers.edit');
         });
 
-        Route::prefix('mails')->group(function () {
-            Route::get('/', MailsComponent::class)->name('mails');
-        });
-
+        Route::get('suppressions', Mailcoach::getLivewireClass(SuppressionListComponent::class))->name('suppressions');
         Route::get('editor', EditorSettingsComponent::class)->name('editor');
 
         Route::prefix('webhooks')->group(function () {
