@@ -142,6 +142,11 @@ parameters:
 			path: src/Domain/Settings/Support/EditorConfiguration/EditorConfiguration.php
 
 		-
+			message: "#^Class Spatie\\\\MjmlSidecar\\\\MjmlFunction not found\\.$#"
+			count: 1
+			path: src/Domain/Shared/Actions/InitializeMjmlAction.php
+
+		-
 			message: "#^Class Spatie\\\\SidecarShiki\\\\Functions\\\\HighlightFunction not found\\.$#"
 			count: 1
 			path: src/Domain/Shared/Actions/RenderMarkdownToHtmlAction.php
