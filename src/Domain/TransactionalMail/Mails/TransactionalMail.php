@@ -37,7 +37,7 @@ class TransactionalMail extends Mailable
         private array $replacements = [],
         array $attachments = [],
         bool $store = true,
-        $html = null,
+        protected $html = null,
     ) {
         $this
             ->setTransactionalHeader()
