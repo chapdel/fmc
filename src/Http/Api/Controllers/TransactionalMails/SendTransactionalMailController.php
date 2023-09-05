@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Support\Facades\Mail;
+use Spatie\Mailcoach\Domain\Shared\Actions\IsEmailOnSuppressionListAction;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Listeners\StoreTransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\TransactionalMail;
@@ -55,6 +56,18 @@ class SendTransactionalMailController
                 ->handle(new MessageSending(($emailMock), ['fake' => true]));
 
             return $this->respondOk();
+        }
+
+        $action = Mailcoach::getSharedActionClass('is_on_suppression_list', IsEmailOnSuppressionListAction::class);
+
+        // @todo what about cc & bcc?
+        // @todo bulk check for less queries but disallowing all if one is invalid ?
+        foreach ($transactionalMail->to as $email) {
+            if ($action->execute($email['address'])) {
+                // @todo what to do here?
+
+                return $this->respondOk();
+            }
         }
 
         $name = $request->get('mailer', Mailcoach::defaultTransactionalMailer());

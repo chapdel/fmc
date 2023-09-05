@@ -8,6 +8,7 @@ use Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns\StoresMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns\UsesMailcoachTemplate;
 use Spatie\Mailcoach\Domain\TransactionalMail\Support\AddressNormalizer;
 use Spatie\Mailcoach\Mailcoach;
+use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
 
 /**
@@ -29,6 +30,7 @@ class TransactionalMail extends Mailable
         private ?string $mailName,
         string $subject,
         array|string $from,
+        /** @param  array<int, Address>  $to */
         array $to,
         array $cc = [],
         array $bcc = [],
