@@ -28,19 +28,17 @@ class SendMailAction
     public function execute(Send $pendingSend, bool $isTest = false): void
     {
         try {
-            $this->sendMail($pendingSend, $isTest);
-        } catch (Throwable|Exception $exception) {
-            if ($isTest) {
-                throw $exception;
-            }
-
-            // If on suppression list
-            // Register suppressed
             if (self::getSuppressionClass()::where('email', $pendingSend->subscriber->email)->exists()) {
                 $pendingSend->markAsSent();
                 $pendingSend->registerSuppressed();
 
                 return;
+            }
+
+            $this->sendMail($pendingSend, $isTest);
+        } catch (Throwable|Exception $exception) {
+            if ($isTest) {
+                throw $exception;
             }
 
             /**
