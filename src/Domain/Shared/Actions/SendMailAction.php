@@ -25,10 +25,14 @@ class SendMailAction
 {
     use UsesMailcoachModels;
 
+    public function __construct(protected IsEmailOnSuppressionListAction $onSuppressionListAction)
+    {
+    }
+
     public function execute(Send $pendingSend, bool $isTest = false): void
     {
         try {
-            if (self::getSuppressionClass()::where('email', $pendingSend->subscriber->email)->exists()) {
+            if ($this->onSuppressionListAction->execute($pendingSend->subscriber->email)) {
                 $pendingSend->markAsSent();
                 $pendingSend->registerSuppressed();
 

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Mail;
+use Spatie\Mailcoach\Domain\Audience\Models\Suppression;
 use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\Shared\Policies\SendPolicy;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\TransactionalMail;
@@ -365,6 +366,44 @@ it('will add html tags when not present on the input', function () {
 
 it('will not actually sent a mail when a fake parameter is passed', function () {
     Mail::fake();
+
+    $this
+        ->postJson(action(SendTransactionalMailController::class, [
+            'subject' => 'Some subject',
+            'from' => 'rias@spatie.be',
+            'to' => 'freek@spatie.be',
+            'cc' => 'rias+cc@spatie.be',
+            'bcc' => 'rias+bcc@spatie.be',
+            'html' => 'this is the html',
+            'fake' => true,
+        ]))->assertSuccessful();
+
+    Mail::assertNothingSent();
+
+    expect(TransactionalMailLogItem::count())->toBe(1);
+
+    /** @var TransactionalMailLogItem $transactionMailLogItem */
+    $transactionMailLogItem = TransactionalMailLogItem::first();
+
+    expect($transactionMailLogItem->fake)->toBeTrue();
+    expect($transactionMailLogItem->subject)->toBe('Some subject');
+    expect($transactionMailLogItem->from)->toBe([['name' => '', 'email' => 'rias@spatie.be']]);
+    expect($transactionMailLogItem->to)->toBe([['name' => '', 'email' => 'freek@spatie.be']]);
+    expect($transactionMailLogItem->cc)->toBe([['name' => '', 'email' => 'rias+cc@spatie.be']]);
+    expect($transactionMailLogItem->bcc)->toBe([['name' => '', 'email' => 'rias+bcc@spatie.be']]);
+    expect($transactionMailLogItem->body)->toBe('<html><body>this is the html</body></html>');
+});
+
+it('will not sent when the email is listed as suppressed', function () {
+    Mail::fake();
+
+    $suppressed = Suppression::factory()->create(['email' => 'invalid@example.com']);
+    $subscriber = Subscriber::factory()->create(['email' => $suppressed->email]);
+
+    $this->send = Send::factory()->create([
+        'automation_mail_id' => null,
+        'subscriber_id' => $subscriber->id,
+    ]);
 
     $this
         ->postJson(action(SendTransactionalMailController::class, [
