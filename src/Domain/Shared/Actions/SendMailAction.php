@@ -28,7 +28,7 @@ class SendMailAction
     public function execute(Send $pendingSend, bool $isTest = false): void
     {
         try {
-            $action = Mailcoach::getSharedActionClass('is_on_suppression_list', IsEmailOnSuppressionListAction::class);
+            $action = Mailcoach::getSharedActionClass('is_on_suppression_list', EnsureEmailsNotOnSuppressionListAction::class);
 
             if ($action->execute($pendingSend->subscriber->email)) {
                 $pendingSend->markAsSent();

@@ -407,7 +407,8 @@ it('will not sent when the email is listed as suppressed', function () {
             'cc' => 'rias+cc@spatie.be',
             'bcc' => 'rias+bcc@spatie.be',
         ]))
-        ->assertSuccessful();
+        ->assertStatus(406)
+        ->assertContent('The email `niels@spatie.be` is on the suppression list.');
 
     Mail::assertNothingSent();
 });

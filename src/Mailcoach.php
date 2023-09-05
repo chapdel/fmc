@@ -356,7 +356,7 @@ class Mailcoach
             'resend_webhook' => \Spatie\Mailcoach\Domain\Settings\Actions\ResendWebhookCallAction::class,
             'initialize_mjml' => \Spatie\Mailcoach\Domain\Shared\Actions\InitializeMjmlAction::class,
             'render_twig' => \Spatie\Mailcoach\Domain\Shared\Actions\RenderTwigAction::class,
-            'is_email_on_suppression_list' => \Spatie\Mailcoach\Domain\Shared\Actions\IsEmailOnSuppressionListAction::class,
+            'is_email_on_suppression_list' => \Spatie\Mailcoach\Domain\Shared\Actions\EnsureEmailsNotOnSuppressionListAction::class,
         ]);
     }
 }
