@@ -49,11 +49,6 @@ class SuppressionListComponent extends TableComponent
                 ->label(__mc('Reason'))
                 ->sortable()
                 ->searchable(),
-            TextColumn::make('origin')
-                ->label(__mc('Origin'))
-                ->sortable()
-                ->searchable(),
-            //->view('mailcoach::app.tableField'),
         ];
     }
 
