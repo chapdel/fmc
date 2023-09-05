@@ -7,6 +7,7 @@ use Spatie\Mailcoach\Domain\Shared\Actions\RenderTwigAction;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Exceptions\CouldNotFindTemplate;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
+use Spatie\Mailcoach\Mailcoach;
 
 /** @mixin \Illuminate\Mail\Mailable */
 trait UsesMailcoachTemplate
@@ -70,7 +71,7 @@ trait UsesMailcoachTemplate
             $subject = str_replace("::{$search}::", $replace, $subject);
         }
 
-        $subject = app(RenderTwigAction::class)->execute($subject, array_merge($replacements, $template->replacers()->toArray()));
+        $subject = Mailcoach::getSharedActionClass('render_twig', RenderTwigAction::class)->execute($subject, array_merge($replacements, $template->replacers()->toArray()));
 
         $this->subject($this->executeReplacers($subject, $template, $this));
     }

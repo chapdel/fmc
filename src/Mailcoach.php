@@ -162,6 +162,12 @@ class Mailcoach
         return config('mailcoach.mailer') ?? config('mail.default');
     }
 
+    /**
+     * @template T
+     *
+     * @param  class-string<T>  $actionClass
+     * @return T
+     */
     public static function getCampaignActionClass(string $actionName, string $actionClass): object
     {
         $configuredClass = config("mailcoach.campaigns.actions.{$actionName}");
@@ -169,6 +175,12 @@ class Mailcoach
         return self::getActionClass($configuredClass, $actionName, $actionClass);
     }
 
+    /**
+     * @template T
+     *
+     * @param  class-string<T>  $actionClass
+     * @return T
+     */
     public static function getSharedActionClass(string $actionName, string $actionClass): object
     {
         $configuredClass = config("mailcoach.actions.{$actionName}");
@@ -176,6 +188,12 @@ class Mailcoach
         return self::getActionClass($configuredClass, $actionName, $actionClass);
     }
 
+    /**
+     * @template T
+     *
+     * @param  class-string<T>  $actionClass
+     * @return T
+     */
     public static function getAutomationActionClass(string $actionName, string $actionClass): object
     {
         $configuredClass = config("mailcoach.automation.actions.{$actionName}");
@@ -183,6 +201,12 @@ class Mailcoach
         return self::getActionClass($configuredClass, $actionName, $actionClass);
     }
 
+    /**
+     * @template T
+     *
+     * @param  class-string<T>  $actionClass
+     * @return T
+     */
     public static function getAudienceActionClass(string $actionName, string $actionClass): object
     {
         $configuredClass = config("mailcoach.audience.actions.{$actionName}");
@@ -190,6 +214,12 @@ class Mailcoach
         return self::getActionClass($configuredClass, $actionName, $actionClass);
     }
 
+    /**
+     * @template T
+     *
+     * @param  class-string<T>  $actionClass
+     * @return T
+     */
     public static function getTransactionalActionClass(string $actionName, string $actionClass): object
     {
         $configuredClass = config("mailcoach.transactional.actions.{$actionName}");
@@ -197,6 +227,12 @@ class Mailcoach
         return self::getActionClass($configuredClass, $actionName, $actionClass);
     }
 
+    /**
+     * @template T
+     *
+     * @param  class-string<T>  $actionClass
+     * @return T
+     */
     protected static function getActionClass(?string $configuredClass, string $actionName, string $actionClass): object
     {
         if (is_null($configuredClass)) {
@@ -309,6 +345,17 @@ class Mailcoach
             \Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\MonacoEditorConfigurationDriver::class,
             \Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\TextareaEditorConfigurationDriver::class,
             \Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\UnlayerEditorConfigurationDriver::class,
+        ]);
+    }
+
+    public static function defaultActions(): Collection
+    {
+        return collect([
+            'calculate_statistics' => \Spatie\Mailcoach\Domain\Shared\Actions\CalculateStatisticsAction::class,
+            'send_webhook' => \Spatie\Mailcoach\Domain\Settings\Actions\SendWebhookAction::class,
+            'resend_webhook' => \Spatie\Mailcoach\Domain\Settings\Actions\ResendWebhookCallAction::class,
+            'initialize_mjml' => \Spatie\Mailcoach\Domain\Shared\Actions\InitializeMjmlAction::class,
+            'render_twig' => \Spatie\Mailcoach\Domain\Shared\Actions\RenderTwigAction::class,
         ]);
     }
 }

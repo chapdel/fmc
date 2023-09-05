@@ -203,12 +203,9 @@ return [
         'send_webhooks' => 'mailcoach',
     ],
 
-    'actions' => [
-        'calculate_statistics' => \Spatie\Mailcoach\Domain\Shared\Actions\CalculateStatisticsAction::class,
-        'send_webhook' => \Spatie\Mailcoach\Domain\Settings\Actions\SendWebhookAction::class,
-        'resend_webhook' => \Spatie\Mailcoach\Domain\Settings\Actions\ResendWebhookCallAction::class,
-        'initialize_mjml' => \Spatie\Mailcoach\Domain\Shared\Actions\InitializeMjmlAction::class,
-    ],
+    'actions' => Mailcoach::defaultActions()->merge([
+        // 'send_webhook' => App\Mailcoach\Actions\SendWebhookAction::class,
+    ])->toArray(),
 
     /*
      * Here you can configure which content editor Mailcoach uses.

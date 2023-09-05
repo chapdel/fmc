@@ -8,13 +8,16 @@ use Spatie\Mailcoach\Domain\Automation\Support\Replacers\PersonalizedReplacer as
 use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\CampaignReplacer;
 use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\PersonalizedReplacer as CampaignPersonalizedReplacer;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
+use Spatie\Mailcoach\Mailcoach;
 
 class PersonalizeTextAction
 {
+    protected RenderTwigAction $renderTwigAction;
+
     public function __construct(
-        protected RenderTwigAction $renderTwigAction,
         protected GetReplaceContextForSendAction $getReplaceContextForSendAction,
     ) {
+        $this->renderTwigAction = Mailcoach::getSharedActionClass('render_twig', RenderTwigAction::class);
     }
 
     public function execute(?string $text, Send $pendingSend): string

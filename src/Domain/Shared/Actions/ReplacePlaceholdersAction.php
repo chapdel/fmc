@@ -7,13 +7,16 @@ use Spatie\Mailcoach\Domain\Automation\Support\Replacers\AutomationMailReplacer;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\CampaignReplacer;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
+use Spatie\Mailcoach\Mailcoach;
 
 class ReplacePlaceholdersAction
 {
+    protected RenderTwigAction $renderTwigAction;
+
     public function __construct(
-        protected RenderTwigAction $renderTwigAction,
         protected GetReplaceContextForSendableAction $getReplaceContextForSendableAction,
     ) {
+        $this->renderTwigAction = Mailcoach::getSharedActionClass('render_twig', RenderTwigAction::class);
     }
 
     public function execute(?string $text, Sendable $sendable): string
