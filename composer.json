@@ -44,7 +44,7 @@
         "nesbot/carbon": "^2.37",
         "spatie/laravel-collection-macros": "^7.11",
         "spatie/laravel-feed": "^4.0",
-        "spatie/laravel-livewire-wizard": "dev-livewire-3 as 1.2.0",
+        "spatie/laravel-livewire-wizard": "^2.0",
         "spatie/laravel-mailcoach-codemirror": "v7.x-dev as 1.0",
         "spatie/laravel-mailcoach-editor": "^2.1",
         "spatie/laravel-mailcoach-mailgun-feedback": "^5.1",
