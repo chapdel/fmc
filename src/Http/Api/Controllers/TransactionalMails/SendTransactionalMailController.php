@@ -62,12 +62,16 @@ class SendTransactionalMailController
 
         // @todo what about cc & bcc?
         // @todo bulk check for less queries but disallowing all if one is invalid ?
-        foreach ($transactionalMail->to as $email) {
+        foreach ($transactionalMail->to as $key => $email) {
             if ($action->execute($email['address'])) {
-                // @todo what to do here?
+                unset($transactionalMail->to[$key]);
 
-                return $this->respondOk();
+                $transactionalMail->to = array_values($transactionalMail->to);
             }
+        }
+
+        if ($transactionalMail->to === []) {
+            return $this->respondOk();
         }
 
         $name = $request->get('mailer', Mailcoach::defaultTransactionalMailer());
