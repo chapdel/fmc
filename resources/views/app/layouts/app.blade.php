@@ -31,6 +31,10 @@
     {!! Mailcoach::styles() !!}
     @include('mailcoach::app.layouts.partials.endHead')
     @stack('endHead')
+    @if (config('mailcoach.content_editor') !== \Spatie\MailcoachMarkdownEditor\Editor::class)
+        <script src="{{ asset('vendor/mailcoach-markdown-editor/editor.js') }}"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+    @endif
 </head>
 <body class="flex flex-col min-h-screen text-gray-800 bg-indigo-900/5" x-data="{ confirmText: '', onConfirm: null }">
 <script>/**/</script><!-- Empty script to prevent FOUC in Firefox -->
