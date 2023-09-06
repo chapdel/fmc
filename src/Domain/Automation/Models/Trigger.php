@@ -39,7 +39,7 @@ class Trigger extends Model
 
     public function getTriggerAttribute(string $value): AutomationTrigger
     {
-        if (base64_encode(base64_decode($value, true)) === $value) {
+        if ($value === base64_encode(base64_decode($value, true))) {
             /** @var AutomationTrigger $trigger */
             $trigger = unserialize(base64_decode($value));
         } else {

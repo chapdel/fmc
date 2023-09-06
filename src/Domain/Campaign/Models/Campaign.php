@@ -202,7 +202,7 @@ class Campaign extends Sendable implements Feedable
             return null;
         }
 
-        return $mailerClass::all()->first(fn ($mailerModel) => $mailerModel->configName() === $mailerKey);
+        return $mailerClass::all()->first(fn ($mailerModel) => $mailerKey === $mailerModel->configName());
     }
 
     public function isReady(): bool

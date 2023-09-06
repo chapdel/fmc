@@ -303,7 +303,7 @@ class Send extends Model
             return false;
         }
 
-        return $latestOpen->created_at->diffInSeconds() < $seconds;
+        return $seconds > $latestOpen->created_at->diffInSeconds();
     }
 
     public function registerClick(string $url, DateTimeInterface $clickedAt = null): CampaignClick|AutomationMailClick|TransactionalMailClick|null

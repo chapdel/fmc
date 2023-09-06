@@ -56,7 +56,7 @@ class AutomationMailSummaryComponent extends Component
     {
         $start = $this->mail->created_at->toImmutable();
 
-        if ($this->mail->opens()->count() > 0 && $this->mail->opens()->first()->created_at < $start) {
+        if ($this->mail->opens()->count() > 0 && $start > $this->mail->opens()->first()->created_at) {
             $start = $this->mail->opens()->first()->created_at->toImmutable();
         }
 

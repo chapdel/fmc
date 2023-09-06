@@ -12,7 +12,7 @@ class CreateConditionFromKeyAction
     {
         $result = collect(ConditionCollection::allConditions())
             ->first(function (Condition $condition) use ($key) {
-                return $condition->key() === $key;
+                return $key === $condition->key();
             });
 
         if (! $result) {

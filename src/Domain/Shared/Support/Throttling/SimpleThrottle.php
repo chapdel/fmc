@@ -58,7 +58,7 @@ class SimpleThrottle
             $this->resetPeriod();
         }
 
-        if ($this->cache->currentPeriodHitCount() >= $this->allowedNumberInPeriod) {
+        if ($this->allowedNumberInPeriod <= $this->cache->currentPeriodHitCount()) {
             $this
                 ->sleepUntilEndOfTimeSpan()
                 ->resetPeriod();
@@ -75,7 +75,7 @@ class SimpleThrottle
             return 0;
         }
 
-        if ($this->cache->currentPeriodHitCount() < $this->allowedNumberInPeriod) {
+        if ($this->allowedNumberInPeriod > $this->cache->currentPeriodHitCount()) {
             return 0;
         }
 

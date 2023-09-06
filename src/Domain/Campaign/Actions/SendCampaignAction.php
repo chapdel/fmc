@@ -51,7 +51,7 @@ class SendCampaignAction
     {
         $subscribersQueryCount = $this->getSubscribersQuery($campaign)->count();
 
-        if ($campaign->sendsCount() < $subscribersQueryCount) {
+        if ($subscribersQueryCount > $campaign->sendsCount()) {
             return;
         }
 
@@ -94,7 +94,7 @@ class SendCampaignAction
                 dispatch(new CreateCampaignSendJob($campaign, $subscriber));
             });
 
-        if ($campaign->sends()->count() < $subscribersQueryCount) {
+        if ($subscribersQueryCount > $campaign->sends()->count()) {
             return $this;
         }
 

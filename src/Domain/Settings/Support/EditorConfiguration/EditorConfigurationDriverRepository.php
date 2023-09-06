@@ -21,7 +21,7 @@ class EditorConfigurationDriverRepository
     public function getForEditor(string $editorLabel): EditorConfigurationDriver
     {
         $configuredEditor = $this->getSupportedEditors()
-            ->first(fn (EditorConfigurationDriver $editor) => $editor->label() === $editorLabel);
+            ->first(fn (EditorConfigurationDriver $editor) => $editorLabel === $editor->label());
 
         return $configuredEditor ?? app(TextareaEditorConfigurationDriver::class);
     }
@@ -29,7 +29,7 @@ class EditorConfigurationDriverRepository
     public function getForClass(string $class): EditorConfigurationDriver
     {
         $configuredEditor = $this->getSupportedEditors()
-            ->first(fn (EditorConfigurationDriver $editor) => $editor->getClass() === $class);
+            ->first(fn (EditorConfigurationDriver $editor) => $class === $editor->getClass());
 
         return $configuredEditor ?? app(TextareaEditorConfigurationDriver::class);
     }
