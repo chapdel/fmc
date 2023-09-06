@@ -66,7 +66,7 @@ abstract class EditorComponent extends Component
 
         if ($this->template?->containsPlaceHolders()) {
             foreach ($this->template->placeHolderNames() as $placeHolderName) {
-                $this->templateFieldValues[$placeHolderName] ??= '';
+                $this->templateFieldValues[explode(':', $placeHolderName)[0]] ??= '';
             }
         } else {
             $this->templateFieldValues['html'] ??= $this->template?->getHtml() ?? '';

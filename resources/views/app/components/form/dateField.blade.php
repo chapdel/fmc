@@ -1,7 +1,6 @@
 @props([
-    'minDate' => 'today',
+    'minDate' => now()->format('Y-m-d'),
     'maxDate' => null,
-    'position' => 'above',
     'label' => null,
     'required' => false,
     'name' => null,
@@ -12,30 +11,6 @@
     'disabled' => false,
 ])
 <div
-    x-data="{
-        value: @js($value),
-        init() {
-            let picker;
-
-            let refreshPicker = () => {
-                if (picker) {
-                    picker.destroy();
-                }
-
-                picker = flatpickr(this.$refs.picker, {
-                    dateFormat: 'Y-m-d',
-                    defaultDate: this.value,
-                    @if($minDate) minDate: '{{ $minDate }}', @endif
-                    @if($maxDate) maxDate: '{{ $maxDate }}', @endif
-                    position: '{{ $position }}',
-                })
-            }
-
-            refreshPicker()
-
-            this.$watch('value', () => refreshPicker())
-        },
-    }"
     class="form-field {{ $class }}"
 >
     @if($label)
@@ -45,18 +20,19 @@
     @endif
 
     <input
-        x-ref="picker"
-        type="text"
+        type="date"
         name="{{ $name }}"
         id="{{ $name }}"
         class="input max-w-xs {{ $inputClass }}"
-        style="opacity: 1;"
         value="{{ old($name, $value) }}"
+        @if ($minDate) min="{{ $minDate }}" @endif
+        @if ($maxDate) max="{{ $maxDate }}" @endif
         placeholder="{{ $placeholder }}"
         {{ $required ? 'required' : '' }}
         {!! $attributes ?? '' !!}
-        @if($disabled) disabled @endif
+        @disabled($disabled)
     >
+
     @error($name)
         <p class="form-error" role="alert">{{ $message }}</p>
     @enderror

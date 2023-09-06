@@ -434,6 +434,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.components.iconLabel', 'mailcoach::icon-label');
         Blade::component('mailcoach::app.components.healthLabel', 'mailcoach::health-label');
         Blade::component('mailcoach::app.components.roundedIcon', 'mailcoach::rounded-icon');
+        Blade::component('mailcoach::app.components.imageUpload', 'mailcoach::image-upload');
 
         Blade::component('mailcoach::app.components.navigation.main', 'mailcoach::main-navigation');
         Blade::component('mailcoach::app.components.navigation.root', 'mailcoach::navigation');

@@ -1,5 +1,4 @@
 import { Livewire, Alpine } from '../../vendor/livewire/livewire/dist/livewire.esm';
-import flatpickr from 'flatpickr';
 import Clipboard from '@ryangjchandler/alpine-clipboard';
 
 import '../../vendor/wire-elements/spotlight/resources/js/spotlight.js';
