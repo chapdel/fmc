@@ -37,7 +37,7 @@ window.Chart.helpers = {};
 window.Chart.helpers.each = each;
 window.Choices = Choices;
 
-//import '../../vendor/wire-elements/spotlight/resources/js/spotlight.js';
+import '../../vendor/wire-elements/spotlight/resources/js/spotlight.js';
 import './components/dirty.js';
 import './components/htmlPreview.js';
 import './components/charts/emailListStatistics.js';
