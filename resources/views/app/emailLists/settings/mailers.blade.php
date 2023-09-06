@@ -15,7 +15,7 @@
             :options="array_combine(array_keys(config('mail.mailers')), array_keys(config('mail.mailers')))"
             :placeholder="__mc('Select a mailer')"
             :clearable="true"
-            wire:model="emailList.campaign_mailer"
+            wire:model="campaign_mailer"
             :label="__mc('Campaign mailer')"
         />
 
@@ -24,7 +24,7 @@
             :options="array_combine(array_keys(config('mail.mailers')), array_keys(config('mail.mailers')))"
             :placeholder="__mc('Select a mailer')"
             :clearable="true"
-            wire:model="emailList.automation_mailer"
+            wire:model="automation_mailer"
             :label="__mc('Automation mailer')"
         />
 
@@ -33,7 +33,7 @@
             :options="array_combine(array_keys(config('mail.mailers')), array_keys(config('mail.mailers')))"
             :placeholder="__mc('Select a mailer')"
             :clearable="true"
-            wire:model="emailList.transactional_mailer"
+            wire:model="transactional_mailer"
             :label="__mc('Transactional mailer')"
         />
     @else

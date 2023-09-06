@@ -403,7 +403,6 @@
     @apply absolute;
     @apply right-0;
     @apply mr-6;
-    @apply mt-1;
 }
 
 .choices__list--multiple .choices__button {

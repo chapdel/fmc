@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Livewire\Audience;
 
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
@@ -15,18 +16,25 @@ class ListMailersComponent extends Component
 
     public EmailList $emailList;
 
+    public ?string $campaign_mailer;
+
+    public ?string $automation_mailer;
+
+    public ?string $transactional_mailer;
+
     protected function rules(): array
     {
         return [
-            'emailList.campaign_mailer' => ['nullable', Rule::in(array_keys(config('mail.mailers')))],
-            'emailList.automation_mailer' => ['nullable', Rule::in(array_keys(config('mail.mailers')))],
-            'emailList.transactional_mailer' => ['nullable', Rule::in(array_keys(config('mail.mailers')))],
+            'campaign_mailer' => ['nullable', Rule::in(array_keys(config('mail.mailers')))],
+            'automation_mailer' => ['nullable', Rule::in(array_keys(config('mail.mailers')))],
+            'transactional_mailer' => ['nullable', Rule::in(array_keys(config('mail.mailers')))],
         ];
     }
 
     public function mount(EmailList $emailList)
     {
         $this->emailList = $emailList;
+        $this->fill($emailList->toArray());
 
         app(MainNavigation::class)->activeSection()->add($this->emailList->name, route('mailcoach.emailLists.mailers', $this->emailList));
     }
@@ -35,6 +43,7 @@ class ListMailersComponent extends Component
     {
         $this->validate();
 
+        $this->emailList->fill(Arr::except($this->all(), 'emailList'));
         $this->emailList->save();
 
         notify(__mc('List :emailList was updated', ['emailList' => $this->emailList->name]));
