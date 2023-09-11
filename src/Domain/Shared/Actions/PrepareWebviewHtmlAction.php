@@ -15,6 +15,13 @@ class PrepareWebviewHtmlAction
 
     public function execute(Sendable $sendable): void
     {
+        if ($sendable->disable_webview) {
+            $sendable->webview_html = null;
+            $sendable->save();
+
+            return;
+        }
+
         $sendable->webview_html = $sendable->htmlWithInlinedCss();
         $sendable->webview_html = $this->replacePlaceholdersAction->execute($sendable->webview_html, $sendable);
 

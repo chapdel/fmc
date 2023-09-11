@@ -112,7 +112,7 @@ abstract class TestCase extends Orchestra
         ];
     }
 
-    protected function refreshTestDatabase()
+    protected function refreshTestDatabase(): void
     {
         if (! RefreshDatabaseState::$migrated) {
             $this->artisan('vendor:publish', ['--tag' => 'mailcoach-migrations', '--force' => true])->run();
