@@ -148,8 +148,8 @@
         @endif
     </x-mailcoach::fieldset>
 
-    @if($this->campaign->emailList?->has_website || $this->campaign->emailList?->campaigns_feed_enabled)
-        <x-mailcoach::fieldset card :legend="__mc('Publish campaign')">
+    <x-mailcoach::fieldset card :legend="__mc('Publish campaign')">
+        @if($this->campaign->emailList?->has_website || $this->campaign->emailList?->campaigns_feed_enabled)
             <div>
                 <x-mailcoach::help>
                     When this campaign has been sent, we can display the content on {!! $linkDescriptions !!} for this email list.
@@ -161,9 +161,18 @@
                     <x-mailcoach::checkbox-field :label="__mc('Show publicly')" name="form.show_publicly" wire:model="form.show_publicly" />
                 </div>
             </div>
+        @endif
 
-        </x-mailcoach::fieldset>
-    @endif
+            <x-mailcoach::info>
+                {!! __mc('Webview allows users to view the content of the email in a browser.') !!}
+            </x-mailcoach::info>
+
+        <div class="form-field">
+            <div class="checkbox-group">
+                <x-mailcoach::checkbox-field :label="__mc('Disable Webview')" name="form.disable_webview" wire:model="form.disable_webview" />
+            </div>
+        </div>
+    </x-mailcoach::fieldset>
 
     <x-mailcoach::fieldset card :legend="__mc('Usage in Mailcoach API')">
         <div>

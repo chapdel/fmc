@@ -55,6 +55,7 @@ class Campaign extends Sendable implements Feedable
         'summary_mail_sent_at' => 'datetime',
         'status' => CampaignStatus::class,
         'show_publicly' => 'boolean',
+        'disable_webview' => 'boolean',
     ];
 
     public static function booted()
