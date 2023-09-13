@@ -217,7 +217,7 @@ class Subscriber extends Model
     {
         $action = Mailcoach::getAudienceActionClass('confirm_subscriber', ConfirmSubscriberAction::class);
 
-        return $action->execute($this);
+        $action->execute($this);
     }
 
     public function scopeUnconfirmed(Builder $query)

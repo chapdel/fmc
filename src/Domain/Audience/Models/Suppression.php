@@ -13,6 +13,8 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 /**
  * @method static Builder|static query()
+ *
+ * @property-read string $email
  */
 class Suppression extends Model
 {

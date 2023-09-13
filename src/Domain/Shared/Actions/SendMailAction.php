@@ -17,6 +17,7 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\TransactionalMail\Exceptions\SuppressedEmail;
 use Spatie\Mailcoach\Mailcoach;
 use Symfony\Component\Mime\Email;
 use Throwable;
@@ -30,14 +31,14 @@ class SendMailAction
         try {
             $action = Mailcoach::getSharedActionClass('is_on_suppression_list', EnsureEmailsNotOnSuppressionListAction::class);
 
-            if ($action->execute($pendingSend->subscriber->email)) {
-                $pendingSend->markAsSent();
-                $pendingSend->registerSuppressed();
-
-                return;
-            }
+            $action->execute($pendingSend->subscriber->email);
 
             $this->sendMail($pendingSend, $isTest);
+        } catch (SuppressedEmail) {
+            $pendingSend->markAsSent();
+            $pendingSend->registerSuppressed();
+
+            return;
         } catch (Throwable|Exception $exception) {
             if ($isTest) {
                 throw $exception;

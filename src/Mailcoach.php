@@ -163,7 +163,7 @@ class Mailcoach
     }
 
     /**
-     * @template T
+     * @template T of object
      *
      * @param  class-string<T>  $actionClass
      * @return T
@@ -176,7 +176,7 @@ class Mailcoach
     }
 
     /**
-     * @template T
+     * @template T of object
      *
      * @param  class-string<T>  $actionClass
      * @return T
@@ -189,7 +189,7 @@ class Mailcoach
     }
 
     /**
-     * @template T
+     * @template T of object
      *
      * @param  class-string<T>  $actionClass
      * @return T
@@ -202,7 +202,7 @@ class Mailcoach
     }
 
     /**
-     * @template T
+     * @template T of object
      *
      * @param  class-string<T>  $actionClass
      * @return T
@@ -215,7 +215,7 @@ class Mailcoach
     }
 
     /**
-     * @template T
+     * @template T of object
      *
      * @param  class-string<T>  $actionClass
      * @return T
@@ -228,7 +228,7 @@ class Mailcoach
     }
 
     /**
-     * @template T
+     * @template T of object
      *
      * @param  class-string<T>  $actionClass
      * @return T
