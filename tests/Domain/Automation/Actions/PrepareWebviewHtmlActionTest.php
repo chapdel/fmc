@@ -2,6 +2,7 @@
 
 use Spatie\Mailcoach\Domain\Automation\Actions\PrepareWebviewHtmlAction;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 
 use function Spatie\Snapshots\assertMatchesHtmlSnapshot;
 
@@ -210,7 +211,7 @@ it('can remove multiple parts from the webview', function () {
 it('will not generate a webview when disabled in campaign settings', function () {
     $myHtml = '<h1>Hello</h1><p>Hello world</p>';
 
-    $campaign = AutomationMail::factory()->create([
+    $campaign = Campaign::factory()->create([
         'html' => $myHtml,
         'disable_webview' => true,
     ]);
