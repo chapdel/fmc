@@ -23,8 +23,8 @@ jobs:
 
       - name: Install composer dependencies
         uses: ramsey/composer-install@v2
-        #env:
-          #COMPOSER_ROOT_VERSION: 6.27.1
+        env:
+          COMPOSER_ROOT_VERSION: 7.x-dev
         with:
           composer-options: "--prefer-dist --no-interaction"
 
