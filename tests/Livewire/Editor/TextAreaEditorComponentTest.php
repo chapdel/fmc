@@ -49,7 +49,7 @@ it('can create a component with template', function () {
         ->assertSet('lastSavedAt', $template->updated_at);
 });
 
-it('can create a component with an Mgml format template', function () {
+it('can create a component with an Mjml format template', function () {
     test()->authenticate();
 
     $campaign = Campaign::factory()->emptyDraft()->create();
@@ -135,18 +135,18 @@ it('cannot explicitly save invalid mjml content with a template', function () {
 
     Livewire::test(TextAreaEditorComponent::class, ['model' => $campaign])
         ->set('templateId', $template->id)
-        ->set('templateFieldValues.column1', '<mjml-body><mjml-body>')
+        ->set('templateFieldValues.column1', '<mjml><mjml>')
         ->call('save')
         ->assertNotDispatched('editorSavedQuietly')
         ->assertNotDispatched('editorSaved');
 });
 
-it('cannot explicitly save invalid mjml content without a template', function () {
+it('cannot explicitly save invalid mjml content on a template', function () {
     test()->authenticate();
 
     $template = TemplateFactory::new()->create([
         'name' => 'My template',
-        'html' => '<mjml><mj-body><mj-section><mj-column><mj-text>[[[column1]]]</mj-text></mj-column></mj-section></mj-body></mjml>',
+        'html' => '<mjml><m-body><mj-section><mj-column><mj-text>[[[column1]]]</mj-text></mj-column></mj-section></m-body></mjml>',
     ]);
 
     Livewire::test(TextAreaEditorComponent::class, ['model' => $template])

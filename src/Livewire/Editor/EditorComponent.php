@@ -200,8 +200,10 @@ abstract class EditorComponent extends Component
 
     public function save()
     {
-        if (! $this->isAllowedToSave()) {
-            return;
+        foreach ($this->templateFieldValues as $html) {
+            if (! $this->isAllowedToSave($html)) {
+                return;
+            }
         }
 
         $this->saveQuietly();
@@ -226,14 +228,14 @@ abstract class EditorComponent extends Component
         return Arr::only($fields, Arr::pluck($template->fields(), 'name'));
     }
 
-    protected function isAllowedToSave(): bool
+    protected function isAllowedToSave(string $html): bool
     {
-        if (! containsMjml($this->fullHtml)) {
+        if (! containsMjml($html)) {
             return true;
         }
 
         try {
-            $result = $this->mjml->convert($this->fullHtml);
+            $result = $this->mjml->convert($html);
         } catch (CouldNotConvertMjml $e) {
             notifyError($e->getMessage());
 
