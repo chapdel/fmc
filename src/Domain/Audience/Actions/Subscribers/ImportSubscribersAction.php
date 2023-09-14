@@ -30,7 +30,8 @@ class ImportSubscribersAction
     protected ?TemporaryDirectory $temporaryDirectory;
 
     public function __construct(
-        protected CreateSimpleExcelReaderAction $createSimpleExcelReaderAction
+        protected CreateSimpleExcelReaderAction $createSimpleExcelReaderAction,
+        protected ImportHasEmailHeaderAction $importHasEmailHeaderAction,
     ) {
     }
 
@@ -63,7 +64,7 @@ class ImportSubscribersAction
 
             $reader = $this->createSimpleExcelReaderAction->execute($this->subscriberImport);
 
-            if (! in_array('email', $reader->getHeaders() ?? []) && ! in_array('Email Address', $reader->getHeaders() ?? [])) {
+            if (! $this->importHasEmailHeaderAction->execute($reader->getHeaders() ?? [])) {
                 $this->subscriberImport->addError(__mc('No header row found. Make sure your first row has at least 1 column with "email"'));
                 $this->subscriberImport->update([
                     'status' => SubscriberImportStatus::Failed,

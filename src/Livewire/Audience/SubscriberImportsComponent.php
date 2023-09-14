@@ -11,6 +11,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\CreateSimpleExcelReaderAction;
+use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\ImportHasEmailHeaderAction;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus;
 use Spatie\Mailcoach\Domain\Audience\Jobs\ImportSubscribersJob;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
@@ -80,7 +81,7 @@ class SubscriberImportsComponent extends TableComponent
 
         $reader = app(CreateSimpleExcelReaderAction::class)->execute($subscriberImport);
 
-        if (! in_array('email', $reader->getHeaders() ?? []) && ! in_array('Email Address', $reader->getHeaders() ?? [])) {
+        if (! resolve(ImportHasEmailHeaderAction::class)->execute($reader->getHeaders())) {
             $subscriberImport->delete();
             $file->delete();
             $this->addError('file', __mc('No header row found. Make sure your first row has at least 1 column with "email"'));

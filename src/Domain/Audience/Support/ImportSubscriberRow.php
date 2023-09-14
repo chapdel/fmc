@@ -56,7 +56,13 @@ class ImportSubscriberRow
 
     public function getEmail(): string
     {
-        return trim($this->values['email'] ?? $this->values['email address'] ?? '');
+        foreach ($this->potentialEmailKeys() as $key) {
+            if (array_key_exists($key, $this->values)) {
+                return trim($this->values[$key]);
+            }
+        }
+
+        return '';
     }
 
     public function getAttributes(): array
@@ -106,5 +112,10 @@ class ImportSubscriberRow
         $sanitizedTags = array_map('trim', $tags);
 
         return array_filter($sanitizedTags);
+    }
+
+    protected function potentialEmailKeys(): array
+    {
+        return config('mailcoach.audience.imports.keys.emails', ['email', 'email address', 'Email']);
     }
 }
