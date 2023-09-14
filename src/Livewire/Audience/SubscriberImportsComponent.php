@@ -81,7 +81,7 @@ class SubscriberImportsComponent extends TableComponent
 
         $reader = app(CreateSimpleExcelReaderAction::class)->execute($subscriberImport);
 
-        if (! resolve(ImportHasEmailHeaderAction::class)->execute($reader->getHeaders())) {
+        if (! resolve(ImportHasEmailHeaderAction::class)->execute($reader->getHeaders() ?? [])) {
             $subscriberImport->delete();
             $file->delete();
             $this->addError('file', __mc('No header row found. Make sure your first row has at least 1 column with "email"'));
