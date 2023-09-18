@@ -2,6 +2,8 @@
 
 namespace Spatie\Mailcoach\Domain\Audience\Actions\Subscribers;
 
+use Spatie\Mailcoach\Domain\Audience\Enums\ImportEmailHeader;
+
 class ImportHasEmailHeaderAction
 {
     public function execute(array $headers): bool
@@ -17,6 +19,6 @@ class ImportHasEmailHeaderAction
 
     protected function potentialEmailKeys(): array
     {
-        return config('mailcoach.audience.imports.keys.emails', ['email', 'email address', 'Email']);
+        return ImportEmailHeader::values();
     }
 }

@@ -163,19 +163,6 @@ return [
         'condition_builder_conditions' => ConditionCollection::defaultConditions()->merge([
             // Add extra conditions here
         ])->toArray(),
-
-        'imports' => [
-            /**
-             * Here you can configure which fields of the subscribers export you want to search in.
-             */
-            'keys' => [
-                'emails' => [
-                    'email',
-                    'Email', // Substack
-                    'Email Address', // Mailchimp
-                ],
-            ],
-        ],
     ],
 
     'transactional' => [
