@@ -1,6 +1,7 @@
 <?php
 
 use Spatie\Mailcoach\Database\Factories\SendFactory;
+use Spatie\Mailcoach\Domain\Audience\Enums\SuppressionReason;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
@@ -253,4 +254,58 @@ test('registering clicks will update the click count', function () {
     $send->registerClick($linkB);
     expect($campaignLinkB->refresh()->click_count)->toEqual(2);
     expect($campaignLinkB->refresh()->unique_click_count)->toEqual(1);
+});
+
+it('will create a suppression record for a hard bounce', function () {
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
+    $subscriber = Subscriber::factory()->create();
+
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
+    $emailList = $subscriber->emailList;
+
+    $campaign = Campaign::factory()->create([
+        'email_list_id' => $emailList->id,
+    ]);
+
+    $send = SendFactory::new()->create([
+        'campaign_id' => $campaign->id,
+        'subscriber_id' => $subscriber->id,
+    ]);
+
+    $bouncedAt = now()->subHour();
+    $send->registerBounce($bouncedAt);
+
+    test()->assertDatabaseHas('mailcoach_suppressions', [
+        'email' => $subscriber->email,
+        'reason' => SuppressionReason::hardBounce,
+    ]);
+
+    expect($emailList->isSubscribed($subscriber->email))->toBeFalse();
+});
+
+it('will create a suppression record for a spam complaint', function () {
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
+    $subscriber = Subscriber::factory()->create();
+
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList $emailList */
+    $emailList = $subscriber->emailList;
+
+    $campaign = Campaign::factory()->create([
+        'email_list_id' => $emailList->id,
+    ]);
+
+    $send = SendFactory::new()->create([
+        'campaign_id' => $campaign->id,
+        'subscriber_id' => $subscriber->id,
+    ]);
+
+    $bouncedAt = now()->subHour();
+    $send->registerComplaint($bouncedAt);
+
+    test()->assertDatabaseHas('mailcoach_suppressions', [
+        'email' => $subscriber->email,
+        'reason' => SuppressionReason::spamComplaint,
+    ]);
+
+    expect($emailList->isSubscribed($subscriber->email))->toBeFalse();
 });

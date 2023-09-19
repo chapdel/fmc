@@ -42,7 +42,7 @@ class Suppression extends Model
         ];
     }
 
-    public static function fromClient(string $email, SuppressionReason $reason = null): self
+    public static function for(string $email, SuppressionReason $reason = null): self
     {
         return static::firstOrCreate([
             'email' => $email,
