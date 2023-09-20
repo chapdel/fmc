@@ -21,10 +21,7 @@ trait Conditionable
             'key' => $this->key(),
             'label' => $this->label(),
             'comparison_operators' => $this->comparisonOperatorOptions(),
-            'data' => [
-                [
-                ],
-            ],
+            'data' => [],
         ];
     }
 
