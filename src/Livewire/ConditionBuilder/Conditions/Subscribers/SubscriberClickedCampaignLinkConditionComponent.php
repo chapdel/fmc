@@ -31,6 +31,14 @@ class SubscriberClickedCampaignLinkConditionComponent extends ConditionComponent
             })->toArray();
     }
 
+    public function getValue(): mixed
+    {
+        return [
+            'campaignId' => $this->campaignId,
+            'url' => $this->value, // ??
+        ];
+    }
+
     public function changeLabels(): void
     {
         foreach ($this->storedCondition['condition']['comparison_operators'] as $operator => $label) {

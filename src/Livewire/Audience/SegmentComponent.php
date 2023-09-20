@@ -38,7 +38,7 @@ class SegmentComponent extends Component
         return [
             'name' => 'required',
             'storedConditions' => ['array'],
-            //'storedConditions.*' => [new StoredConditionRule()], // @todo issue with interface not found
+            'storedConditions.*' => [new StoredConditionRule()],
         ];
     }
 

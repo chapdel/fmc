@@ -6,7 +6,7 @@
                 name="automationMail-{{ $index }}"
                 :options="$automationMails"
                 :sort="false"
-                wire:model="automationMailId"
+                wire:model="storedCondition.value.automation_mail_id"
                 required
             />
         </div>

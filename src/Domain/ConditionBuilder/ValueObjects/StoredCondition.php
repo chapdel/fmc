@@ -9,7 +9,7 @@ use Spatie\Mailcoach\Domain\ConditionBuilder\Enums\ComparisonOperator;
 
 class StoredCondition
 {
-    private function __construct(
+    protected function __construct(
         public readonly Condition $condition,
         public readonly ComparisonOperator $comparisonOperator,
         public readonly mixed $value
@@ -51,7 +51,7 @@ class StoredCondition
         return [
             'condition' => $condition->toArray(),
             'comparison_operator' => null,
-            'value' => null,
+            'value' => [],
         ];
     }
 

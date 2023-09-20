@@ -11,6 +11,8 @@ class SubscriberClickedAutomationMailLinkConditionComponent extends ConditionCom
 
     public ?int $automationMailId = null;
 
+    public ?string $url = null;
+
     public array $automationMails = [];
 
     public array $options = [];
@@ -41,6 +43,14 @@ class SubscriberClickedAutomationMailLinkConditionComponent extends ConditionCom
 
             $this->storedCondition['condition']['comparison_operators'][$operator] = $newLabel;
         }
+    }
+
+    public function getValue(): mixed
+    {
+        return [
+            'automation_mail_id' => $this->automationMailId,
+            'url' => $this->url,
+        ];
     }
 
     public function render()
