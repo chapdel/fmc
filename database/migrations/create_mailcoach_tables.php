@@ -124,6 +124,7 @@ return new class extends Migration
             $table->string('subject')->nullable();
 
             $table->boolean('show_publicly')->default(true);
+            $table->boolean('disable_webview')->default(false);
 
             $table
                 ->foreignId('email_list_id')

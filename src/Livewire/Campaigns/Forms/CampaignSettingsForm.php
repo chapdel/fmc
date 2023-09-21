@@ -41,6 +41,8 @@ class CampaignSettingsForm extends Form
 
     public ?bool $show_publicly = true;
 
+    public ?bool $disable_webview = false;
+
     public function setCampaign(Campaign $campaign)
     {
         $this->campaign = $campaign;
@@ -57,6 +59,7 @@ class CampaignSettingsForm extends Form
         $this->add_subscriber_link_tags = $campaign->add_subscriber_link_tags;
         $this->segment_id = $campaign->segment_id;
         $this->show_publicly = $campaign->show_publicly;
+        $this->disable_webview = $campaign->disable_webview;
     }
 
     public function rules(): array
@@ -74,6 +77,7 @@ class CampaignSettingsForm extends Form
             'add_subscriber_link_tags' => 'bool',
             'segment_id' => ['required_if:segment,segment'],
             'show_publicly' => ['nullable', 'bool'],
+            'disable_webview' => ['nullable', 'bool'],
         ];
     }
 

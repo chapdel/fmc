@@ -16,6 +16,7 @@ it('can update the settings of a campaign', function () {
         'name' => 'my campaign',
         'email_list_id' => $emailList->id,
         'show_publicly' => true,
+        'disable_webview' => false,
     ]);
 
     Livewire::test(CampaignSettingsComponent::class, ['campaign' => $campaign])
@@ -23,6 +24,7 @@ it('can update the settings of a campaign', function () {
         ->set('form.email_list_id', EmailList::factory()->create()->id)
         ->set('form.add_subscriber_tags', true)
         ->set('form.add_subscriber_link_tags', true)
+        ->set('form.disable_webview', true)
         ->set('form.utm_tags', true)
         ->set('segment', 'entire_list')
         ->call('save')
@@ -31,5 +33,6 @@ it('can update the settings of a campaign', function () {
     $this->assertDatabaseHas(self::getCampaignTableName(), [
         'name' => 'updated name',
         'utm_tags' => true,
+        'disable_webview' => true,
     ]);
 });

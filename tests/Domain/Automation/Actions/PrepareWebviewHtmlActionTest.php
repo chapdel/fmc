@@ -2,6 +2,7 @@
 
 use Spatie\Mailcoach\Domain\Automation\Actions\PrepareWebviewHtmlAction;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 
 use function Spatie\Snapshots\assertMatchesHtmlSnapshot;
 
@@ -205,4 +206,19 @@ it('can remove multiple parts from the webview', function () {
     expect($automationMail->webview_html)->not()->toContain('<p>This is hidden</p>');
     expect($automationMail->webview_html)->not()->toContain('<!-- webview:hide -->');
     expect($automationMail->webview_html)->not()->toContain('<!-- /webview:hide -->');
+});
+
+it('will not generate a webview when disabled in campaign settings', function () {
+    $myHtml = '<h1>Hello</h1><p>Hello world</p>';
+
+    $campaign = Campaign::factory()->create([
+        'html' => $myHtml,
+        'disable_webview' => true,
+    ]);
+
+    app(PrepareWebviewHtmlAction::class)->execute($campaign);
+
+    $campaign->refresh();
+
+    expect($campaign->webview_html)->toBeNull();
 });
