@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Audience\Support;
 
 use Carbon\CarbonInterface;
+use DateTimeImmutable;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -100,6 +101,10 @@ class ImportSubscriberRow
         }
 
         $delimiters = [';', ',', '|'];
+
+        if ($tags instanceof DateTimeImmutable) {
+            $tags = $tags->format('Y-m-d H:i:s');
+        }
 
         /** Support any of the delimiters */
         $tags = str_replace($delimiters, $delimiters[0], $tags);
