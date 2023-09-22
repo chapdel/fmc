@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Response;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\CreateSimpleExcelReaderAction;
+use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\ImportHasEmailHeaderAction;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus;
 use Spatie\Mailcoach\Domain\Audience\Jobs\ImportSubscribersJob;
 use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
@@ -16,8 +17,10 @@ class StartSubscriberImportController
     use AuthorizesRequests;
     use RespondsToApiRequests;
 
-    public function __invoke(SubscriberImport $subscriberImport)
-    {
+    public function __invoke(
+        SubscriberImport $subscriberImport,
+        ImportHasEmailHeaderAction $importHasEmailHeaderAction,
+    ) {
         $this->authorize('update', $subscriberImport->emailList);
         $this->authorize('start', $subscriberImport);
 
@@ -34,7 +37,7 @@ class StartSubscriberImportController
 
         $reader = app(CreateSimpleExcelReaderAction::class)->execute($subscriberImport);
 
-        if (! in_array('email', $reader->getHeaders() ?? []) && ! in_array('Email Address', $reader->getHeaders() ?? [])) {
+        if (! $importHasEmailHeaderAction->execute($reader->getHeaders() ?? [])) {
             $subscriberImport->delete();
 
             return response()->json([

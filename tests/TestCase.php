@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests;
 
+use AllowDynamicProperties;
 use Filament\Actions\ActionsServiceProvider;
 use Filament\Forms\FormsServiceProvider;
 use Filament\Notifications\NotificationsServiceProvider;
@@ -42,6 +43,7 @@ use Spatie\QueryBuilder\QueryBuilderServiceProvider;
 use Spatie\TestTime\TestTime;
 use Spatie\WebhookServer\WebhookServerServiceProvider;
 
+#[AllowDynamicProperties]
 abstract class TestCase extends Orchestra
 {
     use LazilyRefreshDatabase;

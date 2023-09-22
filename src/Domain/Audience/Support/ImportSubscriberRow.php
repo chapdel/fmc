@@ -6,6 +6,7 @@ use Carbon\CarbonInterface;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Spatie\Mailcoach\Domain\Audience\Enums\ImportEmailHeader;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 
@@ -56,7 +57,13 @@ class ImportSubscriberRow
 
     public function getEmail(): string
     {
-        return trim($this->values['email'] ?? $this->values['email address'] ?? '');
+        foreach (ImportEmailHeader::values() as $key) {
+            if (array_key_exists($key, $this->values)) {
+                return trim($this->values[$key]);
+            }
+        }
+
+        return '';
     }
 
     public function getAttributes(): array
