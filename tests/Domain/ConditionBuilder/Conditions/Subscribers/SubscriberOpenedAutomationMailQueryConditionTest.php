@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Tests\Domain\ConditionBuilder\Conditions\Subscribers;
 
-use Spatie\Mailcoach\Database\Factories\CampaignFactory;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Conditions\Subscribers\SubscriberOpenedAutomationMailQueryCondition;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Enums\ComparisonOperator;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
@@ -22,13 +22,18 @@ it('can compare with an equals to operator', function () {
 
     $subscriberA = Subscriber::factory()->create();
 
-    $campaign = CampaignFactory::new()
+    $automationMail = AutomationMail::factory()
         ->state(['name' => 'campaign name'])
-        ->has(Send::factory()->state(['subscriber_id' => $subscriberA->id]))
         ->create();
 
-    $subscriberA->automationMailOpens()->create([
-        'send_id' => $campaign->sends->first()->id,
+    $send = Send::factory()->create([
+        'content_item_id' => $automationMail->contentItem->id,
+        'subscriber_id' => $subscriberA->id,
+    ]);
+
+    $subscriberA->opens()->create([
+        'content_item_id' => $automationMail->contentItem->id,
+        'send_id' => $send->id,
     ]);
 
     $subscriberB = Subscriber::factory()->create();
@@ -36,7 +41,7 @@ it('can compare with an equals to operator', function () {
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::Equals,
-        value: $campaign->name,
+        value: $automationMail->name,
     );
 
     assertTrue($query->pluck('id')->contains($subscriberA->id));
@@ -57,13 +62,18 @@ it('can compare with an non equals to operator', function () {
 
     $subscriberA = Subscriber::factory()->create();
 
-    $campaign = CampaignFactory::new()
+    $automationMail = AutomationMail::factory()
         ->state(['name' => 'campaign name'])
-        ->has(Send::factory()->state(['subscriber_id' => $subscriberA->id]))
         ->create();
 
-    $subscriberA->automationMailOpens()->create([
-        'send_id' => $campaign->sends->first()->id,
+    $send = Send::factory()->create([
+        'content_item_id' => $automationMail->contentItem->id,
+        'subscriber_id' => $subscriberA->id,
+    ]);
+
+    $subscriberA->opens()->create([
+        'content_item_id' => $automationMail->contentItem->id,
+        'send_id' => $send->id,
     ]);
 
     $subscriberB = Subscriber::factory()->create();
@@ -71,7 +81,7 @@ it('can compare with an non equals to operator', function () {
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::NotEquals,
-        value: $campaign->name,
+        value: $automationMail->name,
     );
 
     assertTrue($query->pluck('id')->doesntContain($subscriberA->id));
@@ -92,13 +102,18 @@ it('can compare with an any operator', function () {
 
     $subscriberA = Subscriber::factory()->create();
 
-    $campaign = CampaignFactory::new()
+    $automationMail = AutomationMail::factory()
         ->state(['name' => 'campaign name'])
-        ->has(Send::factory()->state(['subscriber_id' => $subscriberA->id]))
         ->create();
 
-    $subscriberA->automationMailOpens()->create([
-        'send_id' => $campaign->sends->first()->id,
+    $send = Send::factory()->create([
+        'content_item_id' => $automationMail->contentItem->id,
+        'subscriber_id' => $subscriberA->id,
+    ]);
+
+    $subscriberA->opens()->create([
+        'content_item_id' => $automationMail->contentItem->id,
+        'send_id' => $send->id,
     ]);
 
     $subscriberB = Subscriber::factory()->create();
@@ -106,7 +121,7 @@ it('can compare with an any operator', function () {
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::Any,
-        value: $campaign->name,
+        value: $automationMail->name,
     );
 
     assertTrue($query->pluck('id')->contains($subscriberA->id));
@@ -127,13 +142,18 @@ it('can compare with a none operator', function () {
 
     $subscriberA = Subscriber::factory()->create();
 
-    $campaign = CampaignFactory::new()
+    $automationMail = AutomationMail::factory()
         ->state(['name' => 'campaign name'])
-        ->has(Send::factory()->state(['subscriber_id' => $subscriberA->id]))
         ->create();
 
-    $subscriberA->automationMailOpens()->create([
-        'send_id' => $campaign->sends->first()->id,
+    $send = Send::factory()->create([
+        'content_item_id' => $automationMail->contentItem->id,
+        'subscriber_id' => $subscriberA->id,
+    ]);
+
+    $subscriberA->opens()->create([
+        'content_item_id' => $automationMail->contentItem->id,
+        'send_id' => $send->id,
     ]);
 
     $subscriberB = Subscriber::factory()->create();
@@ -141,7 +161,7 @@ it('can compare with a none operator', function () {
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::None,
-        value: $campaign->name,
+        value: $automationMail->name,
     );
 
     assertTrue($query->pluck('id')->doesntContain($subscriberA->id));

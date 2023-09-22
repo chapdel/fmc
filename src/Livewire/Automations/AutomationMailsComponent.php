@@ -34,7 +34,7 @@ class AutomationMailsComponent extends TableComponent
                 ->sortable()
                 ->label(__mc('Emails'))
                 ->numeric()
-                ->getStateUsing(fn (AutomationMail $automationMail) => number_format($automationMail->sent_to_number_of_subscribers) ?: '–'),
+                ->getStateUsing(fn (AutomationMail $automationMail) => number_format($automationMail->contentItem->sent_to_number_of_subscribers) ?: '–'),
             TextColumn::make('unique_open_count')
                 ->sortable()
                 ->label(__mc('Opens'))
@@ -125,13 +125,15 @@ class AutomationMailsComponent extends TableComponent
         /** @var AutomationMail $automationMail */
         $automationMail = self::getAutomationMailClass()::create([
             'name' => __mc('Duplicate of').' '.$automationMail->name,
-            'subject' => $automationMail->subject,
-            'template_id' => $automationMail->template_id,
-            'html' => $automationMail->html,
-            'structured_html' => $automationMail->structured_html,
-            'webview_html' => $automationMail->webview_html,
-            'utm_tags' => $automationMail->utm_tags,
-            'last_modified_at' => now(),
+        ]);
+
+        $automationMail->contentItem->update([
+            'subject' => $automationMail->contentItem->subject,
+            'template_id' => $automationMail->contentItem->template_id,
+            'html' => $automationMail->contentItem->html,
+            'structured_html' => $automationMail->contentItem->structured_html,
+            'webview_html' => $automationMail->contentItem->webview_html,
+            'utm_tags' => $automationMail->contentItem->utm_tags,
         ]);
 
         notify(__mc('Email :name was duplicated.', ['name' => $automationMail->name]));

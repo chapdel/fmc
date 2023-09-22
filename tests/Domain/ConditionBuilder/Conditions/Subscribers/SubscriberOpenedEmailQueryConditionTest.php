@@ -4,9 +4,9 @@ namespace Spatie\Mailcoach\Tests\Domain\ConditionBuilder\Conditions\Subscribers;
 
 use Spatie\Mailcoach\Database\Factories\CampaignFactory;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Campaign\Models\CampaignOpen;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Conditions\Subscribers\SubscriberOpenedCampaignQueryCondition;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Enums\ComparisonOperator;
+use Spatie\Mailcoach\Domain\Content\Models\Open;
 
 use function PHPUnit\Framework\assertTrue;
 
@@ -24,8 +24,12 @@ it('can compare with an equals to operator', function () {
 
     $campaign = CampaignFactory::new()
         ->state(['name' => 'campaign name'])
-        ->has(CampaignOpen::factory()->state(['subscriber_id' => $subscriberA->id]), 'opens')
         ->create();
+
+    Open::factory()->create([
+        'content_item_id' => $campaign->contentItem->id,
+        'subscriber_id' => $subscriberA->id,
+    ]);
 
     $subscriberB = Subscriber::factory()->create();
 
@@ -55,8 +59,12 @@ it('can compare with an non equals to operator', function () {
 
     $campaign = CampaignFactory::new()
         ->state(['name' => 'campaign name'])
-        ->has(CampaignOpen::factory()->state(['subscriber_id' => $subscriberA->id]), 'opens')
         ->create();
+
+    Open::factory()->create([
+        'content_item_id' => $campaign->contentItem->id,
+        'subscriber_id' => $subscriberA->id,
+    ]);
 
     $subscriberB = Subscriber::factory()->create();
 
@@ -86,8 +94,12 @@ it('can compare with an any operator', function () {
 
     $campaign = CampaignFactory::new()
         ->state(['name' => 'campaign name'])
-        ->has(CampaignOpen::factory()->state(['subscriber_id' => $subscriberA->id]), 'opens')
         ->create();
+
+    Open::factory()->create([
+        'content_item_id' => $campaign->contentItem->id,
+        'subscriber_id' => $subscriberA->id,
+    ]);
 
     $subscriberB = Subscriber::factory()->create();
 
@@ -117,8 +129,12 @@ it('can compare with a none operator', function () {
 
     $campaign = CampaignFactory::new()
         ->state(['name' => 'campaign name'])
-        ->has(CampaignOpen::factory()->state(['subscriber_id' => $subscriberA->id]), 'opens')
         ->create();
+
+    Open::factory()->create([
+        'content_item_id' => $campaign->contentItem->id,
+        'subscriber_id' => $subscriberA->id,
+    ]);
 
     $subscriberB = Subscriber::factory()->create();
 

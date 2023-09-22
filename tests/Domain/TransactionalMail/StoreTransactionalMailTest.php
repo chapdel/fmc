@@ -30,12 +30,12 @@ test('a transactional mail will be stored in the db', function () {
         [['email' => config('mail.from.address'), 'name' => config('mail.from.name')]],
         $transactionalMail->from,
     );
-    expect($transactionalMail->subject)->toEqual('This is the subject');
-    expect($transactionalMail->body)->toContain('This is the content for John Doe');
+    expect($transactionalMail->contentItem->subject)->toEqual('This is the subject');
+    expect($transactionalMail->contentItem->html)->toContain('This is the content for John Doe');
     expect($transactionalMail->attachments)->toContain('example.pdf');
     expect($transactionalMail->mailable_class)->toEqual(TestTransactionMail::class);
     expect($transactionalMail->send)->toBeInstanceOf(Send::class);
-    expect(Send::first())->transactionalMailLogItem->toBeInstanceOf(TransactionalMailLogItem::class);
+    expect(Send::first())->contentItem->model->toBeInstanceOf(TransactionalMailLogItem::class);
 });
 
 it('can store a mailable that uses envelope and content methods', function () {
@@ -43,7 +43,7 @@ it('can store a mailable that uses envelope and content methods', function () {
 
     $transactionalMail = TransactionalMailLogItem::first();
 
-    expect($transactionalMail->subject)->toEqual('Test mail envelope style');
+    expect($transactionalMail->contentItem->subject)->toEqual('Test mail envelope style');
 });
 
 it('can store the various recipients', function () {
@@ -109,7 +109,7 @@ test('a send for a transactional mail can be marked as opened', function () {
 
     $send->registerOpen();
 
-    expect($send->transactionalMailOpens)->toHaveCount(1);
+    expect($send->opens)->toHaveCount(1);
 
     Event::assertDispatched(TransactionalMailOpenedEvent::class);
 });
@@ -124,7 +124,7 @@ test('a send for a transactional mail can be marked as clicked', function () {
 
     $send->registerClick('https://spatie.be');
 
-    expect($send->transactionalMailClicks)->toHaveCount(1);
+    expect($send->clicks)->toHaveCount(1);
 
     Event::assertDispatched(TransactionalMailLinkClickedEvent::class);
 });

@@ -3,8 +3,8 @@
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
-use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailOpen;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasOpenedAutomationMail;
+use Spatie\Mailcoach\Domain\Content\Models\Open;
 
 it('checks correctly that a user opened an automation mail', function () {
     $automation = Automation::factory()->create();
@@ -17,9 +17,9 @@ it('checks correctly that a user opened an automation mail', function () {
 
     expect($condition->check())->toBeFalse();
 
-    AutomationMailOpen::factory()->create([
+    Open::factory()->create([
         'subscriber_id' => $subscriber->id,
-        'automation_mail_id' => $automationMail->id,
+        'content_item_id' => $automationMail->contentItem->id,
     ]);
 
     expect($condition->check())->toBeTrue();

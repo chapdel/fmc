@@ -29,7 +29,7 @@
 
             @if ($template->type === 'html')
                 <div class="mt-6">
-                    @livewire(\Livewire\Livewire::getAlias(config('mailcoach.content_editor')), ['model' => $template])
+                    @livewire(\Livewire\Livewire::getAlias(config('mailcoach.content_editor')), ['model' => $template->contentItem])
                 </div>
             @else
                     <?php
@@ -42,7 +42,7 @@
                     'markdown' => 'Markdown',
                     'blade' => 'Blade',
                     'blade-markdown' => 'Blade with Markdown',
-                ][$template->type] }}" name="body" wire:model.lazy="body"/>
+                ][$template->type] }}" name="html" wire:model.lazy="html"/>
 
                 <x-mailcoach::editor-buttons :model="$template" :preview-html="$template->body"/>
             @endif

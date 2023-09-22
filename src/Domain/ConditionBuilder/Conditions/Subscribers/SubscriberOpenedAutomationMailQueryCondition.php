@@ -41,12 +41,19 @@ class SubscriberOpenedAutomationMailQueryCondition extends QueryCondition
     {
         $this->ensureOperatorIsSupported($operator);
 
+        $automationMailClass = self::getAutomationMailClass();
+        $automationMailMorphClass = (new $automationMailClass)->getMorphClass();
+
         if ($operator === ComparisonOperator::Any) {
-            return $baseQuery->whereHas('automationMailOpens');
+            return $baseQuery->whereHas('opens.contentItem', function (Builder $query) use ($automationMailMorphClass) {
+                $query->where('model_type', $automationMailMorphClass);
+            });
         }
 
         if ($operator === ComparisonOperator::None) {
-            return $baseQuery->whereDoesntHave('automationMailOpens');
+            return $baseQuery->whereDoesntHave('opens.contentItem', function (Builder $query) use ($automationMailMorphClass) {
+                $query->where('model_type', $automationMailMorphClass);
+            });
         }
 
         if (! is_string($value)) {
@@ -55,13 +62,21 @@ class SubscriberOpenedAutomationMailQueryCondition extends QueryCondition
 
         if ($operator === ComparisonOperator::NotEquals) {
             return $baseQuery
-                ->whereHas('automationMailOpens.send.campaign', function (Builder $query) use ($value) {
-                    $query->whereNot('name', $value);
-                })->orWhereDoesntHave('automationMailOpens');
+                ->whereHas('opens.contentItem', function (Builder $query) use ($automationMailMorphClass, $value) {
+                    $query->where('model_type', $automationMailMorphClass)
+                        ->whereHas('model', function (Builder $query) use ($value) {
+                            $query->whereNot('name', $value);
+                        });
+                })->orWhereDoesntHave('opens.contentItem', function (Builder $query) use ($automationMailMorphClass) {
+                    $query->where('model_type', $automationMailMorphClass);
+                });
         }
 
-        return $baseQuery->whereHas('automationMailOpens.send.campaign', function (Builder $query) use ($operator, $value) {
-            $query->where('name', $operator->toSymbol(), $value);
+        return $baseQuery->whereHas('opens.contentItem', function (Builder $query) use ($automationMailMorphClass, $operator, $value) {
+            $query->where('model_type', $automationMailMorphClass)
+                ->whereHas('model', function (Builder $query) use ($operator, $value) {
+                    $query->where('name', $operator->toSymbol(), $value);
+                });
         });
     }
 }

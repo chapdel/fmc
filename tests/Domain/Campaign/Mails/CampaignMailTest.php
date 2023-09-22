@@ -11,7 +11,7 @@ it('will set transport id', function () {
     $send = SendFactory::new()->create();
 
     $campaignMailable = (new MailcoachMail())
-        ->setSendable($send->campaign)
+        ->setContentItem($send->contentItem)
         ->setSend($send)
         ->setHtmlContent('dummy content')
         ->subject('test mail');
@@ -35,12 +35,12 @@ it('can send to multiple reply-to users', function () {
     ]);
 
     /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
-    $send = SendFactory::new()->create();
-
-    $send->campaign()->associate($campaign)->save();
+    $send = SendFactory::new()->create([
+        'content_item_id' => $campaign->contentItem->id,
+    ]);
 
     $campaignMailable = (new MailcoachMail())
-        ->setSendable($send->campaign)
+        ->setContentItem($send->contentItem)
         ->setSend($send)
         ->setHtmlContent('dummy content')
         ->subject('test mail')

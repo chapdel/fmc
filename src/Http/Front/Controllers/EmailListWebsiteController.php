@@ -64,7 +64,7 @@ class EmailListWebsiteController
         abort_unless($emailList->websiteEnabled(), 404);
         abort_unless($campaign->show_publicly, 404);
         abort_unless($campaign->isSendingOrSent(), 404);
-        abort_unless($campaign->webview_html, 404);
+        abort_unless($campaign->contentItem->webview_html, 404);
 
         return view('mailcoach::emailListWebsite.show', [
             'emailList' => $emailList,

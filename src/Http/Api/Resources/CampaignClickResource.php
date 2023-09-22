@@ -3,9 +3,9 @@
 namespace Spatie\Mailcoach\Http\Api\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Spatie\Mailcoach\Domain\Campaign\Models\CampaignClick;
+use Spatie\Mailcoach\Domain\Content\Models\Click;
 
-/** @mixin CampaignClick */
+/** @mixin Click */
 class CampaignClickResource extends JsonResource
 {
     public function toArray($request)

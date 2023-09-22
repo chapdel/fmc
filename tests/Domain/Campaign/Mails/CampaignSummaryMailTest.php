@@ -78,7 +78,7 @@ test('the content of the campaign summary mail is valid', function () {
 });
 
 test('the mail contains correct statistics', function () {
-    test()->campaign->update([
+    test()->campaign->contentItem->update([
         'sent_to_number_of_subscribers' => 8018,
         'open_count' => 5516,
         'unique_open_count' => 3192,

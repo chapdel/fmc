@@ -1,5 +1,5 @@
 <?php
-    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */
+/** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */
 ?>
 <div class="card-grid" id="campaign-summary" wire:poll.5s.keep-alive>
     <x-mailcoach::card>
@@ -46,8 +46,8 @@
 
                         {{ __mc('It was sent to :sendsCount/:sentToNumberOfSubscribers :subscriber of', [
                             'sendsCount' => number_format($campaign->sendsCount()),
-                            'sentToNumberOfSubscribers' => number_format($campaign->sent_to_number_of_subscribers),
-                            'subscriber' => __mc_choice('subscriber|subscribers', $campaign->sent_to_number_of_subscribers)
+                            'sentToNumberOfSubscribers' => number_format($campaign->contentItem->sent_to_number_of_subscribers),
+                            'subscriber' => __mc_choice('subscriber|subscribers', $campaign->contentItem->sent_to_number_of_subscribers)
                         ]) }}
 
                         @if($campaign->emailList)
@@ -62,26 +62,26 @@
                     </p>
                 </div>
             </x-mailcoach::error>
-            @if($campaign->sent_to_number_of_subscribers)
+            @if($campaign->contentItem->sent_to_number_of_subscribers)
                 <div class="progress-bar">
-                    <div class="progress-bar-value" style="width:{{ ($campaign->sendsCount() / $campaign->sent_to_number_of_subscribers) * 100 }}%"></div>
+                    <div class="progress-bar-value" style="width:{{ ($campaign->sendsCount() / $campaign->contentItem->sent_to_number_of_subscribers) * 100 }}%"></div>
                 </div>
             @endif
         @endif
-        @if($campaign->isSending() && $campaign->sent_to_number_of_subscribers)
-            @php($total = $campaign->sent_to_number_of_subscribers * 2)
+        @if($campaign->isSending() && $campaign->contentItem->sent_to_number_of_subscribers)
+            @php($total = $campaign->contentItem->sent_to_number_of_subscribers * 2)
             <x-mailcoach::help sync full>
                 <div class="flex justify-between items-center w-full">
                     <span class="block">
                         <span class="inline-block">{{ __mc('Campaign') }}</span>
                         <strong>{{ $campaign->name }}</strong>
 
-                        @if ($campaign->sendsCount() === $campaign->sent_to_number_of_subscribers)
+                        @if ($campaign->sendsCount() === $campaign->contentItem->sent_to_number_of_subscribers)
                             {{ __mc('is finishing up') }}
                         @else
                             {{ __mc('is sending to :sentToNumberOfSubscribers :subscriber of', [
-                                'sentToNumberOfSubscribers' => number_format($campaign->sent_to_number_of_subscribers),
-                                'subscriber' => __mc_choice('subscriber|subscribers', $campaign->sent_to_number_of_subscribers)
+                                'sentToNumberOfSubscribers' => number_format($campaign->contentItem->sent_to_number_of_subscribers),
+                                'subscriber' => __mc_choice('subscriber|subscribers', $campaign->contentItem->sent_to_number_of_subscribers)
                             ]) }}
 
                             @if($campaign->emailList)
@@ -104,11 +104,11 @@
                 </div>
             </x-mailcoach::help>
             <div class="progress-bar">
-                <div class="progress-bar-value" style="width:{{ (($campaign->sends()->count() + $campaign->sendsCount()) / $total) * 100 }}%"></div>
+                <div class="progress-bar-value" style="width:{{ (($campaign->contentItem->sends()->count() + $campaign->sendsCount()) / $total) * 100 }}%"></div>
             </div>
         @endif
         @if($campaign->isSent())
-            @if($pendingCount = $campaign->sends()->pending()->count())
+            @if($pendingCount = $campaign->contentItem->sends()->pending()->count())
                 <x-mailcoach::help sync full>
                     <div class="flex justify-between items-center w-full">
                     <span class="block">
@@ -141,7 +141,7 @@
                     {{ __mc('Campaign') }}
                     <a target="_blank" href="{{ $campaign->webviewUrl() }}"><strong>{{ $campaign->name }}</strong></a>
                     {{ __mc('was delivered successfully to') }}
-                    @php($count = $campaign->sent_to_number_of_subscribers - $campaign->sends()->whereNotNull('invalidated_at')->count())
+                    @php($count = $campaign->contentItem->sent_to_number_of_subscribers - $campaign->contentItem->sends()->whereNotNull('invalidated_at')->count())
                     <strong>{{ number_format($count) }} {{ __mc_choice('subscriber|subscribers', $count) }}</strong>
 
                     {{ __mc('of') }}
@@ -170,7 +170,7 @@
             </x-mailcoach::success>
         @endif
 
-        @if ($campaign->opens()->count() || $campaign->clicks()->count())
+        @if ($campaign->contentItem->opens()->count() || $campaign->contentItem->clicks()->count())
             <livewire:mailcoach::campaign-statistics :campaign="$campaign" />
         @endif
     </x-mailcoach::card>

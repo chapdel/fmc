@@ -3,15 +3,15 @@
 namespace Spatie\Mailcoach\Http\Api\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use Spatie\Mailcoach\Domain\Campaign\Models\CampaignUnsubscribe;
+use Spatie\Mailcoach\Domain\Content\Models\Unsubscribe;
 
-/** @mixin CampaignUnsubscribe */
+/** @mixin Unsubscribe */
 class CampaignUnsubscribeResource extends JsonResource
 {
     public function toArray($request)
     {
         return [
-            'campaign_uuid' => $this->campaign->uuid,
+            'campaign_uuid' => $this->contentItem->model->uuid,
             'campaign' => new CampaignResource($this->whenLoaded('campaign')),
 
             'subscriber_uuid' => $this->subscriber->uuid,

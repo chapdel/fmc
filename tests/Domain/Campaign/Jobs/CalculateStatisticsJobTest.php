@@ -7,10 +7,9 @@ use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailJob;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
-use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailLink;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
-use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
+use Spatie\Mailcoach\Domain\Content\Jobs\CalculateStatisticsJob;
+use Spatie\Mailcoach\Domain\Content\Models\Link;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
@@ -19,10 +18,10 @@ use Spatie\TestTime\TestTime;
 test('a campaign with no subscribers will get all zeroes', function () {
     $campaign = Campaign::factory()->create();
 
-    dispatch(new CalculateStatisticsJob($campaign));
+    dispatch(new CalculateStatisticsJob($campaign->contentItem));
 
-    test()->assertDatabaseHas(static::getCampaignTableName(), [
-        'id' => $campaign->id,
+    test()->assertDatabaseHas(static::getContentItemTableName(), [
+        'id' => $campaign->contentItem->id,
         'sent_to_number_of_subscribers' => 0,
         'open_count' => 0,
         'unique_open_count' => 0,
@@ -36,10 +35,10 @@ test('a campaign with no subscribers will get all zeroes', function () {
 test('an automation mail with no subscribers will get all zeroes', function () {
     $automationMail = AutomationMail::factory()->create();
 
-    dispatch(new CalculateStatisticsJob($automationMail));
+    dispatch(new CalculateStatisticsJob($automationMail->contentItem));
 
-    test()->assertDatabaseHas(static::getAutomationMailTableName(), [
-        'id' => $automationMail->id,
+    test()->assertDatabaseHas(static::getContentItemTableName(), [
+        'id' => $automationMail->contentItem->id,
         'sent_to_number_of_subscribers' => 0,
         'open_count' => 0,
         'unique_open_count' => 0,
@@ -59,10 +58,10 @@ it('will save the datetime when the statistics where calculated', function () {
     $automationMail = AutomationMail::factory()->create();
     expect($automationMail->statistics_calculated_at)->toBeNull();
 
-    dispatch(new CalculateStatisticsJob($campaign));
-    dispatch(new CalculateStatisticsJob($automationMail));
-    expect($campaign->fresh()->statistics_calculated_at)->toEqual(now()->format('Y-m-d H:i:s'));
-    expect($automationMail->fresh()->statistics_calculated_at)->toEqual(now()->format('Y-m-d H:i:s'));
+    dispatch(new CalculateStatisticsJob($campaign->contentItem));
+    dispatch(new CalculateStatisticsJob($automationMail->contentItem));
+    expect($campaign->fresh()->contentItem->statistics_calculated_at)->toEqual(now()->format('Y-m-d H:i:s'));
+    expect($automationMail->fresh()->contentItem->statistics_calculated_at)->toEqual(now()->format('Y-m-d H:i:s'));
 });
 
 it('can calculate statistics regarding unsubscribes', function () {
@@ -70,40 +69,39 @@ it('can calculate statistics regarding unsubscribes', function () {
     $automationMail = AutomationMail::factory()->create();
 
     $send = Send::factory()->create([
-        'automation_mail_id' => $automationMail->id,
-        'campaign_id' => null,
+        'content_item_id' => $automationMail->contentItem->id,
     ]);
     $campaign->send();
     Artisan::call('mailcoach:send-scheduled-campaigns');
     dispatch_sync(new SendAutomationMailJob($send));
 
-    test()->assertDatabaseHas(static::getCampaignTableName(), [
-        'id' => $campaign->id,
+    test()->assertDatabaseHas(static::getContentItemTableName(), [
+        'id' => $campaign->contentItem->id,
         'unsubscribe_count' => 0,
         'unsubscribe_rate' => 0,
     ]);
 
-    test()->assertDatabaseHas(static::getAutomationMailTableName(), [
-        'id' => $automationMail->id,
+    test()->assertDatabaseHas(static::getContentItemTableName(), [
+        'id' => $automationMail->contentItem->id,
         'unsubscribe_count' => 0,
         'unsubscribe_rate' => 0,
     ]);
 
-    $sends = $campaign->sends()->take(1)->get();
+    $sends = $campaign->contentItem->sends()->take(1)->get();
     test()->simulateUnsubscribes($sends);
-    dispatch_sync(new CalculateStatisticsJob($campaign));
+    dispatch_sync(new CalculateStatisticsJob($campaign->contentItem));
 
     test()->simulateUnsubscribes(collect([$send]));
-    dispatch_sync(new CalculateStatisticsJob($automationMail));
+    dispatch_sync(new CalculateStatisticsJob($automationMail->contentItem));
 
-    test()->assertDatabaseHas(static::getCampaignTableName(), [
-        'id' => $campaign->id,
+    test()->assertDatabaseHas(static::getContentItemTableName(), [
+        'id' => $campaign->contentItem->id,
         'unsubscribe_count' => 1,
         'unsubscribe_rate' => 2000,
     ]);
 
-    test()->assertDatabaseHas(static::getAutomationMailTableName(), [
-        'id' => $automationMail->id,
+    test()->assertDatabaseHas(static::getContentItemTableName(), [
+        'id' => $automationMail->contentItem->id,
         'unsubscribe_count' => 1,
         'unsubscribe_rate' => 10000,
     ]);
@@ -116,32 +114,31 @@ it('can calculate statistics regarding opens', function () {
 
     $automationMail = AutomationMail::factory()->create();
     dispatch(new SendAutomationMailJob(Send::factory()->create([
-        'automation_mail_id' => $automationMail->id,
-        'campaign_id' => null,
+        'content_item_id' => $automationMail->contentItem->id,
     ])));
 
-    $sends = $campaign->sends()->take(3)->get();
+    $sends = $campaign->contentItem->sends()->take(3)->get();
 
     simulateOpen($sends);
     simulateOpen($sends->take(1));
 
-    $sends = $automationMail->sends()->take(1)->get();
+    $sends = $automationMail->contentItem->sends()->take(1)->get();
 
     simulateOpen($sends);
     simulateOpen($sends->take(1));
 
-    dispatch(new CalculateStatisticsJob($campaign));
-    dispatch(new CalculateStatisticsJob($automationMail));
+    dispatch(new CalculateStatisticsJob($campaign->contentItem));
+    dispatch(new CalculateStatisticsJob($automationMail->contentItem));
 
-    test()->assertDatabaseHas(static::getCampaignTableName(), [
-        'id' => $campaign->id,
+    test()->assertDatabaseHas(static::getContentItemTableName(), [
+        'id' => $campaign->contentItem->id,
         'open_count' => 4,
         'unique_open_count' => 3,
         'open_rate' => 6000,
     ]);
 
-    test()->assertDatabaseHas(static::getAutomationMailTableName(), [
-        'id' => $automationMail->id,
+    test()->assertDatabaseHas(static::getContentItemTableName(), [
+        'id' => $automationMail->contentItem->id,
         'open_count' => 2,
         'unique_open_count' => 1,
         'open_rate' => 10000,
@@ -155,12 +152,12 @@ it('can calculate statistics regarding clicks', function () {
     $campaign->send();
     Artisan::call('mailcoach:send-scheduled-campaigns');
 
-    $automationMail = AutomationMail::factory()->create([
+    $automationMail = AutomationMail::factory()->create();
+    $automationMail->contentItem->update([
         'html' => '<a href="https://spatie.be">Spatie</a><a href="https://flareapp.io">Flare</a><a href="https://docs.spatie.be">Docs</a>',
     ]);
     $send = Send::factory()->create([
-        'automation_mail_id' => $automationMail->id,
-        'campaign_id' => null,
+        'content_item_id' => $automationMail->contentItem->id,
     ]);
     dispatch(new SendAutomationMailJob($send));
 
@@ -178,19 +175,19 @@ it('can calculate statistics regarding clicks', function () {
     simulateClick($automationMail, 'https://spatie.be', $send->subscriber);
     simulateClick($automationMail, 'https://spatie.be', $send->subscriber);
 
-    dispatch_sync(new CalculateStatisticsJob($campaign));
-    dispatch_sync(new CalculateStatisticsJob($automationMail));
+    dispatch_sync(new CalculateStatisticsJob($campaign->contentItem));
+    dispatch_sync(new CalculateStatisticsJob($automationMail->contentItem));
 
-    test()->assertDatabaseHas(static::getCampaignTableName(), [
-        'id' => $campaign->id,
+    test()->assertDatabaseHas(static::getContentItemTableName(), [
+        'id' => $campaign->contentItem->id,
         'sent_to_number_of_subscribers' => 5,
         'click_count' => 7,
         'unique_click_count' => 3,
         'click_rate' => 6000,
     ]);
 
-    test()->assertDatabaseHas(static::getAutomationMailTableName(), [
-        'id' => $automationMail->id,
+    test()->assertDatabaseHas(static::getContentItemTableName(), [
+        'id' => $automationMail->contentItem->id,
         'sent_to_number_of_subscribers' => 1,
         'click_count' => 2,
         'unique_click_count' => 1,
@@ -205,12 +202,12 @@ it('can calculate statistics regarding clicks on individual links', function () 
     $campaign->send();
     Artisan::call('mailcoach:send-scheduled-campaigns');
 
-    $automationMail = AutomationMail::factory()->create([
+    $automationMail = AutomationMail::factory()->create();
+    $automationMail->contentItem->update([
         'html' => '<a href="https://spatie.be">Spatie</a><a href="https://flareapp.io">Flare</a><a href="https://docs.spatie.be">Docs</a>',
     ]);
     $send = Send::factory()->create([
-        'automation_mail_id' => $automationMail->id,
-        'campaign_id' => null,
+        'content_item_id' => $automationMail->contentItem->id,
     ]);
     dispatch(new SendAutomationMailJob($send));
 
@@ -226,11 +223,11 @@ it('can calculate statistics regarding clicks on individual links', function () 
 
     simulateClick($automationMail, $url, $send->subscriber);
 
-    dispatch_sync(new CalculateStatisticsJob($campaign));
-    dispatch_sync(new CalculateStatisticsJob($automationMail));
+    dispatch_sync(new CalculateStatisticsJob($campaign->contentItem));
+    dispatch_sync(new CalculateStatisticsJob($automationMail->contentItem));
 
-    $campaignLink = CampaignLink::where('url', $url)->first();
-    $automationMailLink = AutomationMailLink::where('url', $url)->first();
+    $campaignLink = Link::where('url', $url)->where('content_item_id', $campaign->contentItem->id)->first();
+    $automationMailLink = Link::where('url', $url)->where('content_item_id', $automationMail->contentItem->id)->first();
 
     expect($campaignLink->click_count)->toEqual(3);
     expect($campaignLink->unique_click_count)->toEqual(2);
@@ -244,31 +241,31 @@ it('can calculate statistics regarding bounces', function () {
         'html' => '<a href="https://spatie.be">Spatie</a>',
     ]);
 
-    $automationMail = AutomationMail::factory()->create([
+    $automationMail = AutomationMail::factory()->create();
+    $automationMail->contentItem->update([
         'html' => '<a href="https://spatie.be">Spatie</a>',
     ]);
     $send = Send::factory()->create([
-        'automation_mail_id' => $automationMail->id,
-        'campaign_id' => null,
+        'content_item_id' => $automationMail->contentItem->id,
     ]);
 
     $campaign->send();
     Artisan::call('mailcoach:send-scheduled-campaigns');
     dispatch(new SendAutomationMailJob($send));
 
-    $campaign->sends()->first()->registerBounce();
+    $campaign->contentItem->sends()->first()->registerBounce();
     // A duplicate will only count once
-    $campaign->sends()->first()->registerBounce();
-    $automationMail->sends()->first()->registerBounce();
+    $campaign->contentItem->sends()->first()->registerBounce();
+    $automationMail->contentItem->sends()->first()->registerBounce();
 
-    (new CalculateStatisticsJob($campaign))->handle();
-    (new CalculateStatisticsJob($automationMail))->handle();
+    (new CalculateStatisticsJob($campaign->contentItem))->handle();
+    (new CalculateStatisticsJob($automationMail->contentItem))->handle();
 
-    expect($campaign->bounce_count)->toEqual(1);
-    expect($campaign->bounce_rate)->toEqual(3333);
+    expect($campaign->contentItem->bounce_count)->toEqual(1);
+    expect($campaign->contentItem->bounce_rate)->toEqual(3333);
 
-    expect($automationMail->bounce_count)->toEqual(1);
-    expect($automationMail->bounce_rate)->toEqual(10000);
+    expect($automationMail->contentItem->bounce_count)->toEqual(1);
+    expect($automationMail->contentItem->bounce_rate)->toEqual(10000);
 });
 
 test('the queue of the calculate statistics job can be configured', function () {
@@ -276,7 +273,7 @@ test('the queue of the calculate statistics job can be configured', function () 
     config()->set('mailcoach.perform_on_queue.calculate_statistics_job', 'custom-queue');
 
     $campaign = Campaign::factory()->create();
-    dispatch(new CalculateStatisticsJob($campaign));
+    dispatch(new CalculateStatisticsJob($campaign->contentItem));
     Queue::assertPushed(CalculateStatisticsJob::class);
 });
 
@@ -297,12 +294,7 @@ function simulateClick(Sendable $sendable, string $url, $subscribers)
 
     collect($subscribers)->each(function (Subscriber $subscriber) use ($sendable, $url) {
         Send::query()
-            ->when($sendable::class === Campaign::class, function ($query) use ($sendable) {
-                $query->where('campaign_id', $sendable->id);
-            })
-            ->when($sendable::class === AutomationMail::class, function ($query) use ($sendable) {
-                $query->where('automation_mail_id', $sendable->id);
-            })
+            ->where('content_item_id', $sendable->contentItem->id)
             ->where('subscriber_id', $subscriber->id)
             ->first()
             ->registerClick($url);

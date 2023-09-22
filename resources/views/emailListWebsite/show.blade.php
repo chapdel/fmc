@@ -1,5 +1,5 @@
 <x-mailcoach::layout-website
-    :title="$campaign->subject"
+    :title="$campaign->contentItem->subject"
     :email-list="$emailList"
 >
     <nav class="back">
@@ -13,7 +13,7 @@
                 @if ($campaign->sent_at)
                 <time datetime="{{ $campaign->sent_at }}">{{ $campaign->sent_at->format('F j, Y') }}</time>
                 @endif
-                <h2>{{ $campaign->subject }}</h2>
+                <h2>{{ $campaign->contentItem->subject }}</h2>
             </header>
             <div class="webview">
                 <x-mailcoach::web-view :html="$webview"/>

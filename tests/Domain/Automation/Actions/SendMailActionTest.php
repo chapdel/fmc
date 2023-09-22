@@ -3,8 +3,9 @@
 use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
-use Spatie\Mailcoach\Domain\Automation\Actions\SendMailAction;
 use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailSentEvent;
+use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
+use Spatie\Mailcoach\Domain\Shared\Actions\SendMailAction;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
@@ -12,7 +13,9 @@ beforeEach(function () {
     test()->action = resolve(SendMailAction::class);
 
     /** @var Send $send */
-    test()->send = Send::factory()->create(['campaign_id' => null]);
+    test()->send = Send::factory()->create([
+        'content_item_id' => ContentItem::factory()->automationMail()->create()->id,
+    ]);
 });
 
 it('sends a pending send', function () {

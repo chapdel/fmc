@@ -26,6 +26,10 @@ it('will use default tracking settings', function () {
 
     $this->assertDatabaseHas(static::getCampaignTableName(), [
         'name' => 'my campaign',
+    ]);
+
+    $this->assertDatabaseHas(self::getContentItemTableName(), [
+        'model_id' => Campaign::query()->latest('id')->first()->id,
         'utm_tags' => 1,
     ]);
 
@@ -37,6 +41,10 @@ it('will use default tracking settings', function () {
 
     $this->assertDatabaseHas(static::getCampaignTableName(), [
         'name' => 'another campaign',
+    ]);
+
+    $this->assertDatabaseHas(self::getContentItemTableName(), [
+        'model_id' => Campaign::query()->latest('id')->first()->id,
         'utm_tags' => 0,
     ]);
 });

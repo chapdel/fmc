@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\TransactionalMail\Actions;
 
-use Spatie\Mailcoach\Domain\Campaign\Models\Template;
+use Spatie\Mailcoach\Domain\Content\Models\Template;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class CreateTemplateAction

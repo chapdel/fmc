@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Domain\Campaign\Actions;
 
+use Spatie\Mailcoach\Domain\Content\Actions\CreateDomDocumentFromHtmlAction;
 use Spatie\Mailcoach\Domain\Shared\Actions\AddUtmTagsToUrlAction;
-use Spatie\Mailcoach\Domain\Shared\Actions\CreateDomDocumentFromHtmlAction;
 
 class AddUtmTagsToHtmlAction
 {

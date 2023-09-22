@@ -239,17 +239,9 @@ class Automation extends Model
     {
         return collect([
             'duplicate_automation' => \Spatie\Mailcoach\Domain\Automation\Actions\DuplicateAutomationAction::class,
-            'send_mail' => \Spatie\Mailcoach\Domain\Automation\Actions\SendMailAction::class,
             'send_automation_mail_to_subscriber' => \Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailToSubscriberAction::class,
             'send_automation_mails_action' => \Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailsAction::class,
-            'prepare_webview_html' => \Spatie\Mailcoach\Domain\Automation\Actions\PrepareWebviewHtmlAction::class,
-
-            'convert_html_to_text' => \Spatie\Mailcoach\Domain\Automation\Actions\ConvertHtmlToTextAction::class,
-            'prepare_email_html' => \Spatie\Mailcoach\Domain\Automation\Actions\PrepareEmailHtmlAction::class,
-            'personalize_html' => \Spatie\Mailcoach\Domain\Automation\Actions\PersonalizeHtmlAction::class,
-            'personalize_subject' => \Spatie\Mailcoach\Domain\Automation\Actions\PersonalizeSubjectAction::class,
             'send_test_mail' => \Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailTestAction::class,
-
             'should_run_for_subscriber' => \Spatie\Mailcoach\Domain\Automation\Actions\ShouldAutomationRunForSubscriberAction::class,
         ]);
     }

@@ -1,6 +1,6 @@
 <div class="card-grid">
 <x-mailcoach::fieldset card :legend="__mc('Opens')">
-        @if($transactionalMail->opens->count())
+        @if($transactionalMail->contentItem->opens->count())
     <table class="mt-0 table-styled">
         <thead>
             <tr>
@@ -8,7 +8,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($transactionalMail->opens as $open)
+            @foreach($transactionalMail->contentItem->opens as $open)
                 <tr>
                     <td>{{ $open->created_at }}</td>
                 </tr>

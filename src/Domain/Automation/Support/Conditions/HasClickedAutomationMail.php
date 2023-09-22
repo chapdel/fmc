@@ -57,17 +57,18 @@ class HasClickedAutomationMail implements Condition
 
     public function check(): bool
     {
-        $query = static::getAutomationMailClickClass()::query()
+        $mail = self::getAutomationMailClass()::find($this->data['automation_mail_id']);
+
+        $query = static::getClickClass()::query()
             ->where('subscriber_id', $this->subscriber->id)
-            ->whereHas('send', function (Builder $query) {
-                $query->where('automation_mail_id', $this->data['automation_mail_id']);
+            ->whereHas('send', function (Builder $query) use ($mail) {
+                $query->where('content_item_id', $mail->contentItem->id);
             });
 
         if ($this->data['automation_mail_link_url'] ?? false) {
-            $mail = static::getAutomationMailClass()::find($this->data['automation_mail_id']);
             $url = $this->data['automation_mail_link_url'];
 
-            if ($mail->utm_tags) {
+            if ($mail->contentItem->utm_tags) {
                 $url = app(AddUtmTagsToUrlAction::class)->execute($url, $mail->name);
             }
 

@@ -8,7 +8,7 @@ class RetrySendingFailedSendsAction
 {
     public function execute(Campaign $campaign): int
     {
-        return $campaign->sends()->getQuery()->failed()->update([
+        return $campaign->contentItem->sends()->getQuery()->failed()->update([
             'sent_at' => null,
             'failed_at' => null,
             'failure_reason' => null,

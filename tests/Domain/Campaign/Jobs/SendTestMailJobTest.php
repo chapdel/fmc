@@ -11,7 +11,8 @@ use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
 it('can send a test email', function () {
     Mail::fake();
 
-    $campaign = Campaign::factory()->create([
+    $campaign = Campaign::factory()->create();
+    $campaign->contentItem->update([
         'html' => 'my html',
         'subject' => 'my subject',
     ]);

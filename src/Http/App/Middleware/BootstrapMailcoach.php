@@ -63,18 +63,16 @@ class BootstrapMailcoach
         Route::model('actionSubscriber', self::getActionSubscriberClass());
         Route::model('automation', self::getAutomationClass());
         Route::model('automationMail', self::getAutomationMailClass());
-        Route::model('automationMailClick', self::getAutomationMailClickClass());
-        Route::model('automationMailLink', self::getAutomationMailLinkClass());
-        Route::model('automationMailOpen', self::getAutomationMailOpenClass());
-        Route::model('automationMailUnsubscribe', self::getAutomationMailUnsubscribeClass());
         Route::model('trigger', self::getAutomationTriggerClass());
 
         // Campaign
         Route::model('campaign', self::getCampaignClass());
-        Route::model('campaignClick', self::getCampaignClickClass());
-        Route::model('campaignLink', self::getCampaignLinkClass());
-        Route::model('campaignOpen', self::getCampaignOpenClass());
-        Route::model('campaignUnsubscribe', self::getCampaignUnsubscribeClass());
+
+        // Content
+        Route::model('click', self::getClickClass());
+        Route::model('link', self::getLinkClass());
+        Route::model('open', self::getOpenClass());
+        Route::model('unsubscribe', self::getUnsubscribeClass());
         Route::model('template', self::getTemplateClass());
 
         // Settings
@@ -91,8 +89,6 @@ class BootstrapMailcoach
 
         // Transactional
         Route::model('transactionalMail', self::getTransactionalMailLogItemClass());
-        Route::model('transactionalMailClick', self::getTransactionalMailClickClass());
-        Route::model('transactionalMailOpen', self::getTransactionalMailOpenClass());
         Route::model('transactionalMailTemplate', self::getTransactionalMailClass());
     }
 }

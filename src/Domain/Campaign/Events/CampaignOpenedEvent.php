@@ -2,12 +2,12 @@
 
 namespace Spatie\Mailcoach\Domain\Campaign\Events;
 
-use Spatie\Mailcoach\Domain\Campaign\Models\CampaignOpen;
+use Spatie\Mailcoach\Domain\Content\Models\Open;
 
 class CampaignOpenedEvent
 {
     public function __construct(
-        public CampaignOpen $campaignOpen
+        public Open $campaignOpen
     ) {
     }
 }

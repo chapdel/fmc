@@ -5,11 +5,10 @@ namespace Spatie\Mailcoach\Domain\TransactionalMail\Models;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Mail\Mailable;
 use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Database\Factories\TransactionalMailFactory;
-use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Actions\RenderTemplateAction;
@@ -18,7 +17,7 @@ use Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns\UsesMailcoachTempla
 use Spatie\Mailcoach\Domain\TransactionalMail\Support\Replacers\TransactionalMailReplacer;
 use Spatie\Mailcoach\Mailcoach;
 
-class TransactionalMail extends Model implements HasHtmlContent
+class TransactionalMail extends Model
 {
     public $table = 'mailcoach_transactional_mails';
 
@@ -37,27 +36,23 @@ class TransactionalMail extends Model implements HasHtmlContent
         'replacers' => 'array',
     ];
 
-    public function template(): BelongsTo
+    public static function booted()
     {
-        return $this->belongsTo(self::getTemplateClass());
+        static::created(function (self $transactionalMail) {
+            if (! $transactionalMail->contentItem) {
+                $contentItem = $transactionalMail->contentItem()->firstOrCreate();
+                $transactionalMail->setRelation('contentItem', $contentItem);
+            }
+        });
+
+        static::deleting(function (self $transactionalMail) {
+            $transactionalMail->contentItem->delete();
+        });
     }
 
-    public function getTemplateFieldValues(): array
+    public function contentItem(): MorphOne
     {
-        $structuredHtml = json_decode($this->getStructuredHtml(), true) ?? [];
-
-        return $structuredHtml['templateValues'] ?? [];
-    }
-
-    public function setTemplateFieldValues(array $fieldValues = []): self
-    {
-        $structuredHtml = json_decode($this->getStructuredHtml(), true) ?? [];
-
-        $structuredHtml['templateValues'] = $fieldValues;
-
-        $this->structured_html = json_encode($structuredHtml);
-
-        return $this;
+        return $this->morphOne(self::getContentItemClass(), 'model');
     }
 
     public function isValid(): bool
@@ -121,26 +116,6 @@ class TransactionalMail extends Model implements HasHtmlContent
         $action = Mailcoach::getTransactionalActionClass('render_template', RenderTemplateAction::class);
 
         return $action->execute($this, $mailable, $replacements);
-    }
-
-    public function getHtml(): ?string
-    {
-        return $this->body;
-    }
-
-    public function setHtml(string $html): void
-    {
-        $this->body = $html;
-    }
-
-    public function getStructuredHtml(): ?string
-    {
-        return $this->structured_html;
-    }
-
-    public function hasTemplates(): bool
-    {
-        return true;
     }
 
     public function toString(): string

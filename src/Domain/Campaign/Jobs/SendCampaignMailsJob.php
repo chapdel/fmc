@@ -49,7 +49,7 @@ class SendCampaignMailsJob implements ShouldBeUnique, ShouldQueue
         self::getCampaignClass()::query()
             ->sendingOrSent()
             ->each(function (Campaign $campaign) use ($sendCampaignMailsAction, $maxRuntimeInSeconds) {
-                if (! $campaign->sends()->pending()->count()) {
+                if (! $campaign->contentItem->sends()->pending()->count()) {
                     return;
                 }
 

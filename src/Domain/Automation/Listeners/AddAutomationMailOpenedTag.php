@@ -9,14 +9,14 @@ class AddAutomationMailOpenedTag
 {
     public function handle(AutomationMailOpenedEvent $event)
     {
-        $automationMail = $event->automationMailOpen->send->automationMail;
+        $contentItem = $event->automationMailOpen->contentItem;
 
-        if (! $automationMail->add_subscriber_tags) {
+        if (! $contentItem->add_subscriber_tags) {
             return;
         }
 
         $subscriber = $event->automationMailOpen->send->subscriber;
 
-        $subscriber->addTag("automation-mail-{$automationMail->uuid}-opened", TagType::Mailcoach);
+        $subscriber->addTag("automation-mail-{$contentItem->model->uuid}-opened", TagType::Mailcoach);
     }
 }

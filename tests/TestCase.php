@@ -63,6 +63,9 @@ abstract class TestCase extends Orchestra
         Cache::clear();
 
         Gate::define('viewMailcoach', fn () => true);
+        Gate::after(function () {
+            return true;
+        });
 
         TestTime::freeze();
 

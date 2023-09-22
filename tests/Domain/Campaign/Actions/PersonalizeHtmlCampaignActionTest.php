@@ -1,7 +1,7 @@
 <?php
 
 use Spatie\Mailcoach\Database\Factories\SendFactory;
-use Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeHtmlAction;
+use Spatie\Mailcoach\Domain\Content\Actions\PersonalizeTextAction;
 
 beforeEach(function () {
     test()->send = SendFactory::new()->create();
@@ -11,9 +11,9 @@ beforeEach(function () {
     $subscriber->extra_attributes = ['first_name' => 'John', 'last_name' => 'Doe'];
     $subscriber->save();
 
-    test()->send->campaign->update(['name' => 'my campaign']);
+    test()->send->contentItem->model->update(['name' => 'my campaign']);
 
-    test()->personalizeHtmlAction = app(PersonalizeHtmlAction::class);
+    test()->personalizeHtmlAction = app(PersonalizeTextAction::class);
 });
 
 it('can replace an placeholder for a subscriber attribute', function () {
@@ -57,11 +57,11 @@ it('can use twig templating for replacers', function () {
 // Helpers
 function assertPersonalizeCampaignHtmlActionResult(string $inputHtml, $expectedOutputHtml)
 {
-    $actualOutputHtml = app(PersonalizeHtmlAction::class)->execute($inputHtml, test()->send);
+    $actualOutputHtml = app(PersonalizeTextAction::class)->execute($inputHtml, test()->send);
     test()->assertEquals($expectedOutputHtml, $actualOutputHtml, "The personalize action did not produce the expected result. Expected: `{$expectedOutputHtml}`, actual: `{$actualOutputHtml}`");
 
     $expectedOutputHtmlWithHtmlTags = "<html>{$expectedOutputHtml}</html>";
-    $actualOutputHtmlWithHtmlTags = app(PersonalizeHtmlAction::class)->execute("<html>{$inputHtml}</html>", test()->send);
+    $actualOutputHtmlWithHtmlTags = app(PersonalizeTextAction::class)->execute("<html>{$inputHtml}</html>", test()->send);
 
     test()->assertEquals($expectedOutputHtmlWithHtmlTags, $actualOutputHtmlWithHtmlTags, "The personalize action did not produce the expected result when wrapped in html tags. Expected: `{$expectedOutputHtmlWithHtmlTags}`, actual: `{$actualOutputHtmlWithHtmlTags}`");
 }

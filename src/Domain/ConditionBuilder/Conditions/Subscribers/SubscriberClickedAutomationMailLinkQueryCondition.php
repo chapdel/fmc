@@ -41,13 +41,20 @@ class SubscriberClickedAutomationMailLinkQueryCondition extends QueryCondition
     {
         $this->ensureOperatorIsSupported($operator);
 
+        $automationMailClass = self::getAutomationMailClass();
+        $automationMailMorphClass = (new $automationMailClass)->getMorphClass();
+
         // @todo performance issues ?
         if ($operator === ComparisonOperator::Any) {
-            return $baseQuery->whereHas('sends.automationMail.links');
+            return $baseQuery->whereHas('clicks.link.contentItem', function (Builder $query) use ($automationMailMorphClass) {
+                $query->where('model_type', $automationMailMorphClass);
+            });
         }
 
         if ($operator === ComparisonOperator::None) {
-            return $baseQuery->whereDoesntHave('sends.automationMail.links');
+            return $baseQuery->whereDoesntHave('clicks.link.contentItem', function (Builder $query) use ($automationMailMorphClass) {
+                $query->where('model_type', $automationMailMorphClass);
+            });
         }
 
         if (! is_string($value)) {
@@ -56,21 +63,23 @@ class SubscriberClickedAutomationMailLinkQueryCondition extends QueryCondition
 
         if ($operator === ComparisonOperator::NotEquals) {
             return $baseQuery
-                ->whereHas('sends.automationMail.links', function (Builder $query) use ($value) {
+                ->whereHas('clicks.link', function (Builder $query) use ($automationMailMorphClass, $value) {
                     $query->whereNot('url', $value);
-                })->orWhereDoesntHave('sends.automationMail.links');
+                    $query->whereHas('contentItem', function (Builder $query) use ($automationMailMorphClass) {
+                        $query->where('model_type', $automationMailMorphClass);
+                    });
+                })
+                ->orWhereDoesntHave('clicks.link.contentItem', function (Builder $query) use ($automationMailMorphClass) {
+                    $query->where('model_type', $automationMailMorphClass);
+                });
         }
 
-        return $baseQuery->whereHas('sends.automationMail.links', function (Builder $query) use ($operator, $value) {
-            $query->where('url', $operator->toSymbol(), $value);
-        });
-
-        $this->ensureOperatorIsSupported($operator);
-
-        if (! is_numeric($value) && ! is_bool($value)) {
-            throw ConditionException::unsupportedValue($value);
-        }
-
-        return $value ? $baseQuery->has('clicks') : $baseQuery->doesntHave('clicks');
+        return $baseQuery
+            ->whereHas('clicks.link', function (Builder $query) use ($operator, $automationMailMorphClass, $value) {
+                $query->where('url', $operator->toSymbol(), $value);
+                $query->whereHas('contentItem', function (Builder $query) use ($automationMailMorphClass) {
+                    $query->where('model_type', $automationMailMorphClass);
+                });
+            });
     }
 }

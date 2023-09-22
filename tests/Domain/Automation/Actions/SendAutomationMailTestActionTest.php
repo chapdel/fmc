@@ -11,6 +11,7 @@ beforeEach(function () {
 
     /** @var AutomationMail $automationMail */
     test()->automationMail = AutomationMail::factory()->create();
+    test()->automationMail->contentItem->update(['subject' => 'A subject']);
 
     Mail::fake();
     Event::fake();

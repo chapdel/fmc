@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
-use Spatie\Mailcoach\Domain\Campaign\Actions\PrepareWebviewHtmlAction;
+use Spatie\Mailcoach\Domain\Content\Actions\PrepareWebviewHtmlAction;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 
 class CustomPrepareWebviewHtmlAction extends PrepareWebviewHtmlAction

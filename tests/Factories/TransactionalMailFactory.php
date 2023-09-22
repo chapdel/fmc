@@ -3,10 +3,9 @@
 namespace Spatie\Mailcoach\Tests\Factories;
 
 use Illuminate\Support\Collection;
+use Spatie\Mailcoach\Domain\Content\Models\Open;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailClick;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailOpen;
 
 class TransactionalMailFactory
 {
@@ -53,17 +52,19 @@ class TransactionalMailFactory
                 }
 
                 $send = Send::factory()->create([
-                    'transactional_mail_log_item_id' => $transactionalMail->id,
+                    'content_item_id' => $transactionalMail->contentItem->id,
                 ]);
 
                 foreach ($this->opens as $open) {
                     $openAttributes = array_merge($open['attributes'], ['send_id' => $send->id]);
-                    TransactionalMailOpen::factory()->count($open['numberOfOpens'])->create($openAttributes);
+                    Open::factory()->count($open['numberOfOpens'])->create($openAttributes);
                 }
 
                 foreach ($this->clicks as $click) {
                     $clickAttributes = array_merge($click['attributes'], ['send_id' => $send->id]);
-                    TransactionalMailClick::factory()->count($click['numberOfClicks'])->create($clickAttributes);
+                    foreach (range(1, $click['numberOfClicks']) as $i) {
+                        $send->registerClick($clickAttributes['url']);
+                    }
                 }
 
                 return $transactionalMail->refresh();

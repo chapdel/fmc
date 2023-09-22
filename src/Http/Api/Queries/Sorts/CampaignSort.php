@@ -21,7 +21,7 @@ class CampaignSort implements Sort
             CASE
                 WHEN scheduled_at IS NOT NULL THEN scheduled_at
                 WHEN sent_at IS NOT NULL THEN sent_at
-                ELSE last_modified_at
+                ELSE updated_at
             END $sortDirection
         SQL;
 

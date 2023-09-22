@@ -1,1 +1,1 @@
-{!! $originalMail->body !!}
+{!! $originalMail->contentItem->html !!}

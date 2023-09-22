@@ -7,8 +7,8 @@ use Illuminate\Support\Arr;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
-use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\Campaign\Rules\HtmlRule;
+use Spatie\Mailcoach\Domain\Content\Models\Template;
 use Spatie\Mailcoach\Domain\Shared\Actions\InitializeMjmlAction;
 use Spatie\Mailcoach\Domain\Shared\Actions\RenderTwigAction;
 use Spatie\Mailcoach\Domain\Shared\Support\TemplateRenderer;
@@ -167,10 +167,6 @@ abstract class EditorComponent extends Component
 
         if ($this->model->hasTemplates()) {
             $this->model->template_id = $this->template?->id;
-
-            if (isset($this->model->attributes['last_modified_at'])) {
-                $this->model->last_modified_at = now();
-            }
         }
 
         if (! empty($this->rules)) {
@@ -209,7 +205,9 @@ abstract class EditorComponent extends Component
         $this->saveQuietly();
 
         if (! $this->quiet && ! $this->hasError) {
-            notify(__mc(':name was updated.', ['name' => $this->model->fresh()->name]));
+            $contentItem = $this->model;
+
+            notify(__mc(':name was updated.', ['name' => $contentItem->getModel()->fresh()->name]));
         }
 
         $this->dispatch('editorSaved');

@@ -27,7 +27,7 @@ use Symfony\Component\Mailer\SentMessage;
 use function Spatie\Snapshots\assertMatchesHtmlSnapshot;
 
 beforeEach(function () {
-    test()->automationMail = (new AutomationMailFactory())
+    $this->automationMail = (new AutomationMailFactory())
         ->create();
 
     $this->emailList = EmailList::factory()->create([
@@ -36,7 +36,7 @@ beforeEach(function () {
 
     $subscriber = $this->emailList->subscribe('john@doe.com');
 
-    test()->actionSubscriber = ActionSubscriber::create([
+    $this->actionSubscriber = ActionSubscriber::create([
         'action_id' => Action::factory()->create()->id,
         'subscriber_id' => $subscriber->id,
     ]);
@@ -50,7 +50,7 @@ it('can send a automation mail with the mailer from the db', function () {
     Event::fake();
     Mail::fake();
 
-    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->actionSubscriber));
+    dispatch(new SendAutomationMailToSubscriberJob($this->automationMail, $this->actionSubscriber));
 
     Artisan::call(SendAutomationMailsCommand::class);
 
@@ -58,7 +58,7 @@ it('can send a automation mail with the mailer from the db', function () {
     Mail::assertSent(MailcoachMail::class, fn (MailcoachMail $mail) => $mail->mailer === 'db-mailer');
 
     Event::assertDispatched(AutomationMailSentEvent::class, function (AutomationMailSentEvent $event) {
-        expect($event->send->automationMail->id)->toEqual(test()->automationMail->id);
+        expect($event->send->contentItem->model->id)->toEqual($this->automationMail->id);
 
         return true;
     });
@@ -70,7 +70,7 @@ it('can send a automation mail with the mailer from the config', function () {
 
     config()->set('mailcoach.automation.mailer', 'config-mailer');
 
-    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->actionSubscriber));
+    dispatch(new SendAutomationMailToSubscriberJob($this->automationMail, $this->actionSubscriber));
 
     Artisan::call(SendAutomationMailsCommand::class);
 
@@ -78,7 +78,7 @@ it('can send a automation mail with the mailer from the config', function () {
     Mail::assertSent(MailcoachMail::class, fn (MailcoachMail $mail) => $mail->mailer === 'config-mailer');
 
     Event::assertDispatched(AutomationMailSentEvent::class, function (AutomationMailSentEvent $event) {
-        expect($event->send->automationMail->id)->toEqual(test()->automationMail->id);
+        expect($event->send->contentItem->model_id)->toEqual($this->automationMail->id);
 
         return true;
     });
@@ -89,11 +89,11 @@ it('will not create mailcoach sends if they already have been created if repeat 
     Mail::fake();
 
     SendFactory::new()->create([
-        'subscriber_id' => test()->actionSubscriber->subscriber->id,
-        'automation_mail_id' => test()->automationMail->id,
+        'subscriber_id' => $this->actionSubscriber->subscriber->id,
+        'content_item_id' => $this->automationMail->contentItem->id,
     ]);
 
-    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->actionSubscriber));
+    dispatch(new SendAutomationMailToSubscriberJob($this->automationMail, $this->actionSubscriber));
 
     expect(Send::all())->toHaveCount(1);
 });
@@ -103,13 +103,13 @@ it('will create mailcoach sends if they already have been created if repeat is e
     Mail::fake();
 
     SendFactory::new()->create([
-        'subscriber_id' => test()->actionSubscriber->subscriber->id,
-        'automation_mail_id' => test()->automationMail->id,
+        'subscriber_id' => $this->actionSubscriber->subscriber->id,
+        'content_item_id' => $this->automationMail->contentItem->id,
     ]);
 
-    test()->actionSubscriber->action->automation->update(['repeat_enabled' => true]);
+    $this->actionSubscriber->action->automation->update(['repeat_enabled' => true]);
 
-    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->actionSubscriber));
+    dispatch(new SendAutomationMailToSubscriberJob($this->automationMail, $this->actionSubscriber));
 
     expect(Send::all())->toHaveCount(2);
 });
@@ -118,9 +118,9 @@ it('will use the right subject', function () {
     Event::fake();
     Mail::fake();
 
-    test()->automationMail->subject('my subject');
+    $this->automationMail->contentItem->setSubject('my subject');
 
-    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->actionSubscriber));
+    dispatch(new SendAutomationMailToSubscriberJob($this->automationMail, $this->actionSubscriber));
 
     Artisan::call(SendAutomationMailsCommand::class);
 
@@ -135,9 +135,9 @@ it('will use the reply to fields', function () {
     Event::fake();
     Mail::fake();
 
-    test()->automationMail->replyTo('replyto@example.com', 'Reply to John Doe');
+    $this->automationMail->replyTo('replyto@example.com', 'Reply to John Doe');
 
-    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->actionSubscriber));
+    dispatch(new SendAutomationMailToSubscriberJob($this->automationMail, $this->actionSubscriber));
 
     Artisan::call(SendAutomationMailsCommand::class);
 
@@ -150,14 +150,14 @@ it('will prepare the webview', function () {
     Event::fake();
     Mail::fake();
 
-    test()->automationMail->update([
+    $this->automationMail->contentItem->update([
         'html' => 'my html',
         'webview_html' => null,
     ]);
 
-    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, test()->actionSubscriber));
+    dispatch(new SendAutomationMailToSubscriberJob($this->automationMail, $this->actionSubscriber));
 
-    assertMatchesHtmlSnapshot(test()->automationMail->refresh()->webview_html);
+    assertMatchesHtmlSnapshot($this->automationMail->refresh()->contentItem->webview_html);
 });
 
 test('the queue of the send automation mail job can be configured', function () {
@@ -169,7 +169,7 @@ test('the queue of the send automation mail job can be configured', function () 
     config()->set('mailcoach.automation.perform_on_queue.send_automation_mail_to_subscriber_job', 'custom-queue');
 
     $automationMail = AutomationMail::factory()->create();
-    dispatch(new SendAutomationMailToSubscriberJob($automationMail, test()->actionSubscriber));
+    dispatch(new SendAutomationMailToSubscriberJob($automationMail, $this->actionSubscriber));
 
     Queue::assertPushedOn('custom-queue', SendAutomationMailToSubscriberJob::class);
 });
@@ -177,11 +177,11 @@ test('the queue of the send automation mail job can be configured', function () 
 test('personalized placeholders in the subject will be replaced', function () {
     Mail::fake();
 
-    test()->automationMail->update([
+    $this->automationMail->contentItem->update([
         'subject' => 'This is a mail sent to ::subscriber.email::',
     ]);
 
-    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, $this->actionSubscriber));
+    dispatch(new SendAutomationMailToSubscriberJob($this->automationMail, $this->actionSubscriber));
 
     Artisan::call(SendAutomationMailsCommand::class);
 
@@ -195,11 +195,11 @@ test('personalized placeholders in the subject will be replaced', function () {
 test('personalized placeholders in the subject will be replaced when using twig', function () {
     Mail::fake();
 
-    test()->automationMail->update([
+    $this->automationMail->contentItem->update([
         'subject' => 'This is a mail sent to {{ subscriber.email }}',
     ]);
 
-    dispatch(new SendAutomationMailToSubscriberJob(test()->automationMail, $this->actionSubscriber));
+    dispatch(new SendAutomationMailToSubscriberJob($this->automationMail, $this->actionSubscriber));
 
     Artisan::call(SendAutomationMailsCommand::class);
 
@@ -211,29 +211,29 @@ test('personalized placeholders in the subject will be replaced when using twig'
 });
 
 test('custom mailable sends', function () {
-    test()->automationMail->useMailable(TestMailcoachMail::class);
+    $this->automationMail->useMailable(TestMailcoachMail::class);
 
     config()->set('mailcoach.automation.mailer', 'array');
 
-    test()->automationMail->send(test()->actionSubscriber);
+    $this->automationMail->send($this->actionSubscriber);
 
     Artisan::call(SendAutomationMailsCommand::class);
 
     $messages = app(MailManager::class)->mailer('array')->getSymfonyTransport()->messages();
 
-    test()->assertTrue($messages->filter(function (SentMessage $message) {
+    $this->assertTrue($messages->filter(function (SentMessage $message) {
         return $message->getOriginalMessage()->getSubject() === 'This is the subject from the custom mailable.';
     })->count() > 0);
 });
 
 test('custom mailable subject overrides automation mail subject', function () {
-    test()->automationMail->useMailable(TestMailcoachMail::class);
-    test()->automationMail->update([
+    $this->automationMail->useMailable(TestMailcoachMail::class);
+    $this->automationMail->contentItem->update([
         'subject' => 'This subject comes from the automationMail',
     ]);
     config()->set('mailcoach.automation.mailer', 'array');
 
-    test()->automationMail->send(test()->actionSubscriber);
+    $this->automationMail->send($this->actionSubscriber);
 
     Artisan::call(SendAutomationMailsCommand::class);
 
@@ -245,16 +245,16 @@ test('custom mailable subject overrides automation mail subject', function () {
 });
 
 test('custom replacers work with automation mail subject', function () {
-    test()->automationMail->update([
+    $this->automationMail->contentItem->update([
         'subject' => '::customreplacer::',
         'email_html' => '::customreplacer::',
     ]);
-    test()->automationMail->useMailable(TestMailcoachMailWithNoSubject::class);
+    $this->automationMail->useMailable(TestMailcoachMailWithNoSubject::class);
 
     config()->set('mailcoach.automation.replacers', array_merge(config('mailcoach.automation.replacers'), [CustomAutomationMailReplacer::class]));
     config()->set('mailcoach.automation.mailer', 'array');
 
-    test()->automationMail->send(test()->actionSubscriber);
+    $this->automationMail->send($this->actionSubscriber);
 
     Artisan::call(SendAutomationMailsCommand::class);
 
@@ -266,35 +266,35 @@ test('custom replacers work with automation mail subject', function () {
 });
 
 test('custom replacers work with subject from custom mailable', function () {
-    test()->automationMail->useMailable(TestMailcoachMailWithSubjectReplacer::class);
+    $this->automationMail->useMailable(TestMailcoachMailWithSubjectReplacer::class);
 
     config()->set('mailcoach.automation.replacers', array_merge(config('mailcoach.automation.replacers'), [CustomAutomationMailReplacer::class]));
     config()->set('mailcoach.automation.mailer', 'array');
 
-    test()->automationMail->send(test()->actionSubscriber);
+    $this->automationMail->send($this->actionSubscriber);
 
     Artisan::call(SendAutomationMailsCommand::class);
 
     $messages = app(MailManager::class)->mailer('array')->getSymfonyTransport()->messages();
 
-    test()->assertTrue($messages->filter(function (SentMessage $message) {
+    $this->assertTrue($messages->filter(function (SentMessage $message) {
         return $message->getOriginalMessage()->getSubject() === 'Custom Subject: The custom replacer works';
     })->count() > 0);
 });
 
 test('custom replacers work in body from custom mailable', function () {
-    test()->automationMail->useMailable(TestMailcoachMailWithBodyReplacer::class);
+    $this->automationMail->useMailable(TestMailcoachMailWithBodyReplacer::class);
 
     config()->set('mailcoach.automation.replacers', array_merge(config('mailcoach.automation.replacers'), [CustomAutomationMailReplacer::class]));
     config()->set('mailcoach.automation.mailer', 'array');
 
-    test()->automationMail->send(test()->actionSubscriber);
+    $this->automationMail->send($this->actionSubscriber);
 
     Artisan::call(SendAutomationMailsCommand::class);
 
     $messages = app(MailManager::class)->mailer('array')->getSymfonyTransport()->messages();
 
-    test()->assertTrue($messages->filter(function (SentMessage $message) {
+    $this->assertTrue($messages->filter(function (SentMessage $message) {
         return Str::contains($message->getOriginalMessage()->toString(), 'The custom replacer works');
     })->count() > 0);
 });

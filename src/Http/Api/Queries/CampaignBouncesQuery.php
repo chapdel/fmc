@@ -26,9 +26,10 @@ class CampaignBouncesQuery extends QueryBuilder
         $emailListTableName = static::getEmailListTableName();
         $sendTable = static::getSendTableName();
         $feedBackTable = static::getSendFeedbackItemTableName();
+        $contentItemTable = static::getContentItemTableName();
 
         /** @var Builder<Campaign> $query */
-        $query = static::getCampaignClass()::query()
+        $query = static::getContentItemClass()::query()
             ->selectRaw("
                 {$prefix}{$subscriberTableName}.uuid as subscriber_uuid,
                 {$prefix}{$emailListTableName}.uuid as subscriber_email_list_uuid,
@@ -37,11 +38,11 @@ class CampaignBouncesQuery extends QueryBuilder
                 min({$prefix}{$feedBackTable}.created_at) AS created_at,
                 {$prefix}{$feedBackTable}.type as type
             ")
-            ->join($sendTable, $campaignTable.'.id', '=', "{$sendTable}.campaign_id")
+            ->join($sendTable, $contentItemTable.'.id', '=', "{$sendTable}.content_item_id")
             ->join($feedBackTable, $sendTable.'.id', '=', "{$feedBackTable}.send_id")
             ->join($subscriberTableName, "{$subscriberTableName}.id", '=', "{$sendTable}.subscriber_id")
             ->join($emailListTableName, "{$subscriberTableName}.email_list_id", '=', "{$emailListTableName}.id")
-            ->where(static::getCampaignTableName().'.id', $campaign->id);
+            ->where("{$contentItemTable}.id", '=', $campaign->contentItem->id);
 
         $this->totalCount = $query->count();
 

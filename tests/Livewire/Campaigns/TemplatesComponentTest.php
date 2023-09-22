@@ -1,7 +1,7 @@
 <?php
 
 use Livewire\Livewire;
-use Spatie\Mailcoach\Domain\Campaign\Models\Template;
+use Spatie\Mailcoach\Domain\Content\Models\Template;
 use Spatie\Mailcoach\Livewire\Templates\TemplatesComponent;
 
 it('can duplicate a template', function () {

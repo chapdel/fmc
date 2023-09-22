@@ -10,8 +10,11 @@ it('can send a test for a transactional mail template', function () {
 
     $template = TransactionalMail::factory()->create([
         'name' => 'test-template',
-        'body' => 'test html {{ $argument }}',
         'test_using_mailable' => TestMailableWithTemplate::class,
+    ]);
+
+    $template->contentItem->update([
+        'html' => 'test html {{ $argument }}',
     ]);
 
     (new SendTestForTransactionalMailTemplateAction())->execute(
@@ -21,6 +24,7 @@ it('can send a test for a transactional mail template', function () {
 
     Mail::assertSent(function (TestMailableWithTemplate $mail) {
         expect($mail->hasTo('john@example.com'))->toBeTrue();
+        $mail->assertSeeInHtml('test html');
 
         return true;
     });

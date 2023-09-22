@@ -18,12 +18,7 @@ class AutomationMailFactory extends Factory
     {
         return [
             'name' => $this->faker->sentence,
-            'subject' => $this->faker->sentence,
-            'from_email' => $this->faker->email,
-            'from_name' => $this->faker->name,
-            'html' => $this->faker->randomHtml(),
             'uuid' => $this->faker->uuid,
-            'last_modified_at' => now(),
         ];
     }
 }

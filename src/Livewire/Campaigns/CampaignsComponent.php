@@ -24,14 +24,16 @@ class CampaignsComponent extends TableComponent
     public function getTableQuery(): Builder
     {
         return self::getCampaignClass()::query()
-            ->with('emailList')
-            ->withCount(['sendsWithErrors', 'sentSends'])
+            ->select(self::getCampaignTableName().'.*')
+            ->with(['emailList', 'contentItem' => function ($query) {
+                $query->withCount('sentSends');
+            }])
             ->addSelect(DB::raw(<<<'SQL'
                 CASE
                     WHEN status = 'draft' AND scheduled_at IS NULL THEN CONCAT(999999999, id)
                     WHEN scheduled_at IS NOT NULL THEN scheduled_at
                     WHEN sent_at IS NOT NULL THEN sent_at
-                    ELSE last_modified_at
+                    ELSE updated_at
                 END as 'sent_sort'
             SQL));
     }
@@ -228,15 +230,17 @@ class CampaignsComponent extends TableComponent
         /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $duplicateCampaign */
         $duplicateCampaign = self::getCampaignClass()::create([
             'name' => __mc('Duplicate of').' '.$campaign->name,
-            'subject' => $campaign->subject,
-            'template_id' => $campaign->template_id,
             'email_list_id' => $campaign->email_list_id,
-            'html' => $campaign->html,
-            'structured_html' => $campaign->structured_html,
-            'utm_tags' => (bool) $campaign->utm_tags,
-            'last_modified_at' => now(),
             'segment_class' => $campaign->segment_class,
             'segment_id' => $campaign->segment_id,
+        ]);
+
+        $duplicateCampaign->contentItem->update([
+            'subject' => $campaign->contentItem->subject,
+            'template_id' => $campaign->contentItem->template_id,
+            'html' => $campaign->contentItem->html,
+            'structured_html' => $campaign->contentItem->structured_html,
+            'utm_tags' => (bool) $campaign->contentItem->utm_tags,
         ]);
 
         $duplicateCampaign->update([

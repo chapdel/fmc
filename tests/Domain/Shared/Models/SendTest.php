@@ -29,7 +29,7 @@ it('will unsubscribe when there is a permanent bounce', function () {
     ]);
 
     $send = SendFactory::new()->create([
-        'campaign_id' => $campaign->id,
+        'content_item_id' => $campaign->contentItem->id,
         'subscriber_id' => $subscriber->id,
     ]);
 
@@ -57,7 +57,7 @@ it('will not unsubscribe when there is a soft bounce', function () {
     ]);
 
     $send = SendFactory::new()->create([
-        'campaign_id' => $campaign->id,
+        'content_item_id' => $campaign->contentItem->id,
         'subscriber_id' => $subscriber->id,
     ]);
 
@@ -85,7 +85,7 @@ it('will not unsubscribe when there is a soft bounce with explicit method', func
     ]);
 
     $send = SendFactory::new()->create([
-        'campaign_id' => $campaign->id,
+        'content_item_id' => $campaign->contentItem->id,
         'subscriber_id' => $subscriber->id,
     ]);
 
@@ -113,7 +113,7 @@ it('can receive a complaint', function () {
     ]);
 
     $send = SendFactory::new()->create([
-        'campaign_id' => $campaign->id,
+        'content_item_id' => $campaign->contentItem->id,
         'subscriber_id' => $subscriber->id,
     ]);
 
@@ -150,7 +150,6 @@ it('will not register an open if it was recently opened', function () {
 it('will register an open at a specific time', function () {
     /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
     $send = SendFactory::new()->create();
-    $send->campaign->update();
 
     $openedAt = now()->subHour()->setMicroseconds(0);
 
@@ -210,13 +209,13 @@ test('registering clicks will update the click count', function () {
 
     /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
     $send = SendFactory::new()->create([
-        'campaign_id' => $campaign->id,
+        'content_item_id' => $campaign->contentItem->id,
         'subscriber_id' => $subscriber->id,
     ]);
 
     /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $anotherSend */
     $anotherSend = SendFactory::new()->create([
-        'campaign_id' => $campaign->id,
+        'content_item_id' => $campaign->contentItem->id,
         'subscriber_id' => $anotherSubscriber->id,
     ]);
 
@@ -225,7 +224,7 @@ test('registering clicks will update the click count', function () {
 
     $campaignClick = $send->registerClick($linkA);
 
-    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink $campaignLinkA */
+    /** @var \Spatie\Mailcoach\Domain\Content\Models\Link $campaignLinkA */
     $campaignLinkA = $campaignClick->link;
 
     expect($campaignLinkA->click_count)->toEqual(1);
@@ -245,7 +244,7 @@ test('registering clicks will update the click count', function () {
 
     $campaignClick = $send->registerClick($linkB);
 
-    /** @var \Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink $campaignLinkA */
+    /** @var \Spatie\Mailcoach\Domain\Content\Models\Link $campaignLinkA */
     $campaignLinkB = $campaignClick->link;
 
     expect($campaignLinkB->click_count)->toEqual(1);
@@ -268,7 +267,7 @@ it('will create a suppression record for a hard bounce', function () {
     ]);
 
     $send = SendFactory::new()->create([
-        'campaign_id' => $campaign->id,
+        'content_item_id' => $campaign->contentItem->id,
         'subscriber_id' => $subscriber->id,
     ]);
 
@@ -295,7 +294,7 @@ it('will create a suppression record for a spam complaint', function () {
     ]);
 
     $send = SendFactory::new()->create([
-        'campaign_id' => $campaign->id,
+        'content_item_id' => $campaign->contentItem->id,
         'subscriber_id' => $subscriber->id,
     ]);
 

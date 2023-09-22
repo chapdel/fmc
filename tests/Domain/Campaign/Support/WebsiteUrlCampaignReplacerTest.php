@@ -1,10 +1,11 @@
 <?php
 
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Domain\Campaign\Actions\PrepareEmailHtmlAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Shared\Actions\PersonalizeTextAction;
+use Spatie\Mailcoach\Domain\Content\Actions\PersonalizeTextAction;
+use Spatie\Mailcoach\Domain\Content\Actions\PrepareEmailHtmlAction;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
+use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 
 beforeEach(function () {
     /** @var EmailList */
@@ -14,18 +15,18 @@ beforeEach(function () {
     ]);
 
     /** @var Campaign */
-    $this->campaign = Campaign::factory()->create([
+    $this->campaign = CampaignFactory::new()->create([
         'email_list_id' => $this->emailList->id,
         'html' => '::websiteUrl::',
     ]);
 
     $this->send = Send::factory()
-        ->create(['campaign_id' => $this->campaign->id]);
+        ->create(['content_item_id' => $this->campaign->contentItem->id]);
 });
 
 it('replaces the placeholder with the URL of the website', function () {
     app(PrepareEmailHtmlAction::class)->execute($this->campaign);
-    $result = app(PersonalizeTextAction::class)->execute($this->campaign->email_html, $this->send);
+    $result = app(PersonalizeTextAction::class)->execute($this->campaign->contentItem->email_html, $this->send);
 
     expect($result)->toContain($this->campaign->emailList->websiteUrl());
 });

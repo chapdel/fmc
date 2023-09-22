@@ -1,19 +1,20 @@
 <?php
 
 use Spatie\Mailcoach\Database\Factories\SendFactory;
-use Spatie\Mailcoach\Domain\Automation\Actions\PersonalizeHtmlAction;
+use Spatie\Mailcoach\Domain\Content\Actions\PersonalizeTextAction;
+use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 
 beforeEach(function () {
-    test()->send = SendFactory::new()->create(['campaign_id' => null]);
+    test()->send = SendFactory::new()->create(['content_item_id' => ContentItem::factory()->automationMail()->create()->id]);
 
     $subscriber = test()->send->subscriber;
     $subscriber->uuid = 'my-uuid';
     $subscriber->extra_attributes = ['first_name' => 'John', 'last_name' => 'Doe'];
     $subscriber->save();
 
-    test()->send->automationMail->update(['name' => 'automation mail']);
+    test()->send->contentItem->model->update(['name' => 'automation mail']);
 
-    test()->personalizeHtmlAction = app(PersonalizeHtmlAction::class);
+    test()->personalizeHtmlAction = app(PersonalizeTextAction::class);
 });
 
 it('can replace an placeholder for a subscriber attribute', function () {
@@ -57,11 +58,11 @@ it('can use twig templating for replacers', function () {
 // Helpers
 function assertPersonalizeHtmlActionResult(string $inputHtml, $expectedOutputHtml)
 {
-    $actualOutputHtml = app(PersonalizeHtmlAction::class)->execute($inputHtml, test()->send);
+    $actualOutputHtml = app(PersonalizeTextAction::class)->execute($inputHtml, test()->send);
     test()->assertEquals($expectedOutputHtml, $actualOutputHtml, "The personalize action did not produce the expected result. Expected: `{$expectedOutputHtml}`, actual: `{$actualOutputHtml}`");
 
     $expectedOutputHtmlWithHtmlTags = "<html>{$expectedOutputHtml}</html>";
-    $actualOutputHtmlWithHtmlTags = app(PersonalizeHtmlAction::class)->execute("<html>{$inputHtml}</html>", test()->send);
+    $actualOutputHtmlWithHtmlTags = app(PersonalizeTextAction::class)->execute("<html>{$inputHtml}</html>", test()->send);
 
     test()->assertEquals($expectedOutputHtmlWithHtmlTags, $actualOutputHtmlWithHtmlTags, "The personalize action did not produce the expected result when wrapped in html tags. Expected: `{$expectedOutputHtmlWithHtmlTags}`, actual: `{$actualOutputHtmlWithHtmlTags}`");
 }

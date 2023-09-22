@@ -113,7 +113,6 @@ it('can get all opens', function () {
 it('can get all clicks', function () {
     /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
     $send = SendFactory::new()->create();
-    $send->campaign->update();
 
     $send->registerClick('https://example.com');
     $send->registerClick('https://another-domain.com');
@@ -142,7 +141,7 @@ it('can scope on campaign sends', function () {
     expect(Subscriber::withoutSendsForCampaign($campaign)->count())->toBe(2);
 
     Send::factory()->create([
-        'campaign_id' => $campaign->id,
+        'content_item_id' => $campaign->contentItem->id,
         'subscriber_id' => $subscriber1,
     ]);
 

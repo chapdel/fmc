@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Events\SubscriberSuppressedEvent;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Models\Suppression;
-use Spatie\Mailcoach\Domain\Campaign\Actions\SendMailAction;
 use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignMailSentEvent;
+use Spatie\Mailcoach\Domain\Shared\Actions\SendMailAction;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Models\SendFeedbackItem;
@@ -17,7 +17,7 @@ beforeEach(function () {
     $this->action = resolve(SendMailAction::class);
 
     /** @var Send $send */
-    $this->send = Send::factory()->create(['automation_mail_id' => null]);
+    $this->send = Send::factory()->create();
 });
 
 it('sends a pending send', function () {
@@ -75,7 +75,6 @@ it('will not sent to subscribers registered as suppressed', function () {
     $subscriber = Subscriber::factory()->create(['email' => $suppressed->email]);
 
     $this->send = Send::factory()->create([
-        'automation_mail_id' => null,
         'subscriber_id' => $subscriber->id,
     ]);
 

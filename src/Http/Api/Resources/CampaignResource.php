@@ -9,7 +9,7 @@ class CampaignResource extends JsonResource
 {
     public function toArray($request)
     {
-        $fields = collect($this->getTemplateFieldValues())->map(function ($field) {
+        $fields = collect($this->contentItem->getTemplateFieldValues())->map(function ($field) {
             return $field['markdown'] ?? $field; // If we have markdown content, only return the markdown
         })->toArray();
 
@@ -22,48 +22,46 @@ class CampaignResource extends JsonResource
                 return $this->emailList ? new EmailListResource($this->emailList) : null;
             }),
 
-            'template_uuid' => $this->template?->uuid,
-            'template' => $this->template_id ? $this->whenLoaded('template', function () {
-                return new TemplateResource($this->template);
+            'template_uuid' => $this->contentItem->template?->uuid,
+            'template' => $this->contentItem->template_id ? $this->whenLoaded('template', function () {
+                return new TemplateResource($this->contentItem->template);
             }) : null,
 
-            'from_email' => $this->from_email,
-            'from_name' => $this->subject,
+            'from_email' => $this->contentItem->from_email,
+            'from_name' => $this->contentItem->subject,
 
             'status' => $this->status,
 
-            'html' => $this->html,
-            'structured_html' => $this->structured_html,
-            'email_html' => $this->email_html,
-            'webview_html' => $this->webview_html,
+            'html' => $this->contentItem->html,
+            'structured_html' => $this->contentItem->structured_html,
+            'email_html' => $this->contentItem->email_html,
+            'webview_html' => $this->contentItem->webview_html,
 
             'fields' => $fields,
 
-            'mailable_class' => $this->mailable_class,
+            'mailable_class' => $this->contentItem->mailable_class,
 
-            'utm_tags' => $this->utm_tags,
+            'utm_tags' => $this->contentItem->utm_tags,
 
-            'sent_to_number_of_subscribers' => $this->sent_to_number_of_subscribers,
+            'sent_to_number_of_subscribers' => $this->contentItem->sent_to_number_of_subscribers,
 
             'segment_class' => $this->segment_class,
             'segment_description' => $this->segment_description,
-            'open_count' => $this->open_count,
 
-            'unique_open_count' => $this->unique_open_count,
-            'open_rate' => $this->open_rate,
-            'click_count' => $this->click_count,
-            'unique_click_count' => $this->unique_click_count,
-            'click_rate' => $this->click_rate,
-            'unsubscribe_count' => $this->unsubscribe_count,
-            'unsubscribe_rate' => $this->unsubscribe_rate,
-            'bounce_count' => $this->bounce_count,
-            'bounce_rate' => $this->bounce_rate,
+            'open_count' => $this->contentItem->open_count,
+            'unique_open_count' => $this->contentItem->unique_open_count,
+            'open_rate' => $this->contentItem->open_rate,
+            'click_count' => $this->contentItem->click_count,
+            'unique_click_count' => $this->contentItem->unique_click_count,
+            'click_rate' => $this->contentItem->click_rate,
+            'unsubscribe_count' => $this->contentItem->unsubscribe_count,
+            'unsubscribe_rate' => $this->contentItem->unsubscribe_rate,
+            'bounce_count' => $this->contentItem->bounce_count,
+            'bounce_rate' => $this->contentItem->bounce_rate,
 
             'sent_at' => $this->sent_at,
-            'statistics_calculated_at' => $this->statistics_calculated_at,
+            'statistics_calculated_at' => $this->contentItem->statistics_calculated_at,
             'scheduled_at' => $this->scheduled_at,
-
-            'last_modified_at' => $this->last_modified_at,
 
             'summary_mail_sent_at' => $this->summary_mail_sent_at,
 

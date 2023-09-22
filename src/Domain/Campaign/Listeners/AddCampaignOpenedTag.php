@@ -9,13 +9,13 @@ class AddCampaignOpenedTag
 {
     public function handle(CampaignOpenedEvent $event)
     {
-        $campaign = $event->campaignOpen->campaign;
+        $contentItem = $event->campaignOpen->contentItem;
 
-        if (! $campaign->add_subscriber_tags) {
+        if (! $contentItem->add_subscriber_tags) {
             return;
         }
 
         $subscriber = $event->campaignOpen->subscriber;
-        $subscriber->addTag("campaign-{$campaign->uuid}-opened", TagType::Mailcoach);
+        $subscriber->addTag("campaign-{$contentItem->model->uuid}-opened", TagType::Mailcoach);
     }
 }

@@ -27,10 +27,10 @@ class ReplacePlaceholdersAction
         );
 
         return match (true) {
-            $sendable instanceof Campaign => $sendable->getReplacers()
+            $sendable instanceof Campaign => $sendable->contentItem->getReplacers()
                 ->filter(fn ($replacer) => $replacer instanceof CampaignReplacer)
                 ->reduce(fn (string $text, CampaignReplacer $replacer) => $replacer->replace($text, $sendable), $text),
-            $sendable instanceof AutomationMail => $sendable->getReplacers()
+            $sendable instanceof AutomationMail => $sendable->contentItem->getReplacers()
                 ->filter(fn ($replacer) => $replacer instanceof AutomationMailReplacer)
                 ->reduce(fn (string $text, AutomationMailReplacer $replacer) => $replacer->replace($text, $sendable), $text),
             default => $text,

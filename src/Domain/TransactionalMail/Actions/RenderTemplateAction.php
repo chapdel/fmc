@@ -23,23 +23,27 @@ class RenderTemplateAction
         Mailable $mailable,
         array $replacements = [],
     ) {
-        $body = $template->body;
+        $html = $template->contentItem->html ?? '';
 
-        $body = $this->renderTemplateBody($template, $body, $mailable);
+        $html = $this->renderTemplateBody($template, $html, $mailable);
 
-        $body = $this->handleReplacements($body, $replacements);
+        $html = $this->handleReplacements($html, $replacements);
 
-        $body = $this->executeReplacers($body, $template, $mailable);
+        $html = $this->executeReplacers($html, $template, $mailable);
 
         if ($template->type === 'html') {
             try {
-                $body = Mailcoach::getSharedActionClass('render_twig', RenderTwigAction::class)->execute($body, Arr::undot($replacements));
+                $html = Mailcoach::getSharedActionClass('render_twig', RenderTwigAction::class)->execute($html, Arr::undot($replacements));
             } catch (Throwable) {
                 // Do nothing, Twig failed
             }
         }
 
-        return (new CssToInlineStyles())->convert($body);
+        if (empty($html)) {
+            return '';
+        }
+
+        return (new CssToInlineStyles())->convert($html);
     }
 
     protected function renderTemplateBody(

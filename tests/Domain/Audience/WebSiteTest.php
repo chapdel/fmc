@@ -3,6 +3,7 @@
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 
 beforeEach(function () {
     $this->withExceptionHandling();
@@ -16,13 +17,13 @@ beforeEach(function () {
     ]);
 
     /** @var Campaign campaign */
-    $this->campaign = Campaign::factory()->create([
+    $this->campaign = (new CampaignFactory)->create([
         'subject' => 'This is the subject of the campaign',
         'email_list_id' => $this->emailList->id,
-        'status' => CampaignStatus::Sent,
         'sent_at' => now(),
         'webview_html' => 'some html',
     ]);
+    $this->campaign->update(['status' => CampaignStatus::Sent]);
 });
 
 it('it can generate the full url to the website', function (string $slug) {
@@ -109,7 +110,7 @@ it('will display sent campaigns on the list', function (CampaignStatus $status, 
     $this
         ->get($this->emailList->websiteUrl())
         ->assertSuccessful()
-        ->$assertionMethod($this->campaign->subject);
+        ->$assertionMethod($this->campaign->contentItem->subject);
 })->with([
     [CampaignStatus::Draft, false],
     [CampaignStatus::Sending, false],
@@ -120,7 +121,7 @@ it('will display sent campaigns on the list', function (CampaignStatus $status, 
 it('will not display a campaign on the list that should not be displayed', function () {
     $this
         ->get($this->emailList->websiteUrl())
-        ->assertSee($this->campaign->subject);
+        ->assertSee($this->campaign->contentItem->subject);
 
     $this->campaign->update([
         'show_publicly' => false,
@@ -128,7 +129,7 @@ it('will not display a campaign on the list that should not be displayed', funct
 
     $this
         ->get($this->emailList->websiteUrl())
-        ->assertDontSee($this->campaign->subject);
+        ->assertDontSee($this->campaign->contentItem->subject);
 });
 
 it('can generate the full url to a campaign page on the website', function () {

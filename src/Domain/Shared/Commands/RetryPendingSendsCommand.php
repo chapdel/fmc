@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Shared\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailJob;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
@@ -22,16 +23,23 @@ class RetryPendingSendsCommand extends Command
 
         $this->comment("Dispatching jobs for {$pendingSendCount} pending Sends");
 
+        $campaignClass = self::getCampaignClass();
+        $automationMailClass = self::getAutomationMailClass();
+
         self::getSendClass()::query()
             ->whereNull('sent_at')
-            ->whereNotNull('campaign_id')
+            ->whereHas('contentItem', function (Builder $query) use ($campaignClass) {
+                $query->where('model_type', (new $campaignClass)->getMorphClass());
+            })
             ->each(function (Send $send) {
                 dispatch(new SendCampaignMailJob($send));
             });
 
         self::getSendClass()::query()
             ->whereNull('sent_at')
-            ->whereNotNull('automation_mail_id')
+            ->whereHas('contentItem', function (Builder $query) use ($automationMailClass) {
+                $query->where('model_type', (new $automationMailClass)->getMorphClass());
+            })
             ->each(function (Send $send) {
                 dispatch(new SendAutomationMailJob($send));
             });

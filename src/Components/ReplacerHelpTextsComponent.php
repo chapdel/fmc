@@ -7,8 +7,8 @@ use Illuminate\View\Component;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Replacers\ReplacerWithHelpText as AutomationReplacerWithHelpTextAlias;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\ReplacerWithHelpText as CampaignReplacerWithHelpText;
+use Spatie\Mailcoach\Domain\Content\Models\Template;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Support\Replacers\TransactionalMailReplacer;
@@ -39,9 +39,7 @@ class ReplacerHelpTextsComponent extends Component
 
     public function automationReplacerHelpTexts(): array
     {
-        $automationMailClass = self::getAutomationMailClass();
-
-        return (new $automationMailClass)
+        return (new (self::getContentItemClass()))
             ->getReplacers()
             ->flatMap(fn (AutomationReplacerWithHelpTextAlias $replacer) => $replacer->helpText())
             ->toArray();
@@ -49,9 +47,7 @@ class ReplacerHelpTextsComponent extends Component
 
     public function campaignReplacerHelpTexts(): array
     {
-        $campaignClass = self::getCampaignClass();
-
-        return (new $campaignClass)
+        return (new (self::getContentItemClass()))
             ->getReplacers()
             ->flatMap(fn (CampaignReplacerWithHelpText $replacer) => $replacer->helpText())
             ->toArray();

@@ -27,7 +27,9 @@ class TransactionalMailLogItemsComponent extends TableComponent
     protected function getTableQuery(): Builder
     {
         return self::getTransactionalMailLogItemClass()::query()
-            ->withCount(['opens', 'clicks']);
+            ->with(['contentItem' => function (Builder $query) {
+                $query->withCount(['opens', 'clicks']);
+            }]);
     }
 
     protected function getTableColumns(): array
@@ -38,15 +40,15 @@ class TransactionalMailLogItemsComponent extends TableComponent
                 ->icon(fn (TransactionalMailLogItem $item) => $item->fake ? 'heroicon-o-command-line' : 'heroicon-o-envelope')
                 ->tooltip(fn (TransactionalMailLogItem $item) => $item->fake ? __mc('Fake send') : __mc('Sent'))
                 ->color(fn (TransactionalMailLogItem $item) => $item->fake ? 'primary' : 'success'),
-            TextColumn::make('subject')
+            TextColumn::make('contentItem.subject')
                 ->extraAttributes(['class' => 'link'])
                 ->label(__mc('Subject'))
                 ->searchable(),
             TextColumn::make('to')
                 ->getStateUsing(fn (TransactionalMailLogItem $item) => $item->toString())
                 ->searchable(),
-            TextColumn::make('opens_count')->label(__mc('Opens'))->numeric(),
-            TextColumn::make('clicks_count')->label(__mc('Clicks'))->numeric(),
+            TextColumn::make('contentItem.opens_count')->label(__mc('Opens'))->numeric(),
+            TextColumn::make('contentItem.clicks_count')->label(__mc('Clicks'))->numeric(),
             TextColumn::make('created_at')
                 ->label(__mc('Sent'))
                 ->sortable()

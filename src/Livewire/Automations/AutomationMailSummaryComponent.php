@@ -38,7 +38,7 @@ class AutomationMailSummaryComponent extends Component
 
         $this->limit = (ceil(max($this->stats->max('opens'), $this->stats->max('clicks')) * 1.1 / 10) * 10) ?: 1;
 
-        $this->failedSendsCount = $this->mail->sends()->failed()->count();
+        $this->failedSendsCount = $this->mail->contentItem->sends()->failed()->count();
 
         return view('mailcoach::app.automations.mails.summary')
             ->layout('mailcoach::app.automations.mails.layouts.automationMail', [
@@ -56,20 +56,22 @@ class AutomationMailSummaryComponent extends Component
     {
         $start = $this->mail->created_at->toImmutable();
 
-        if ($this->mail->opens()->count() > 0 && $start > $this->mail->opens()->first()->created_at) {
-            $start = $this->mail->opens()->first()->created_at->toImmutable();
+        $contentItem = $this->mail->contentItem;
+
+        if ($contentItem->opens()->count() > 0 && $start > $contentItem->opens()->first()->created_at) {
+            $start = $contentItem->opens()->first()->created_at->toImmutable();
         }
 
-        $automationMailOpenTable = static::getAutomationMailOpenTableName();
-        $automationMailClickTable = static::getAutomationMailClickTableName();
+        $openTable = static::getOpenTableName();
+        $clickTable = static::getClickTableName();
 
-        return Collection::times(24)->map(function (int $number) use ($start, $automationMailOpenTable, $automationMailClickTable) {
+        return Collection::times(24)->map(function (int $number) use ($start, $openTable, $clickTable) {
             $datetime = $start->addHours($number - 1);
 
             return [
                 'label' => $datetime->format('H:i'),
-                'opens' => $this->mail->opens()->whereBetween("{$automationMailOpenTable}.created_at", [$datetime, $datetime->addHour()])->count(),
-                'clicks' => $this->mail->clicks()->whereBetween("{$automationMailClickTable}.created_at", [$datetime, $datetime->addHour()])->count(),
+                'opens' => $this->mail->contentItem->opens()->whereBetween("{$openTable}.created_at", [$datetime, $datetime->addHour()])->count(),
+                'clicks' => $this->mail->contentItem->clicks()->whereBetween("{$clickTable}.created_at", [$datetime, $datetime->addHour()])->count(),
             ];
         });
     }

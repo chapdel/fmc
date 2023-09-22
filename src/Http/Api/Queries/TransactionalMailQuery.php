@@ -17,7 +17,7 @@ class TransactionalMailQuery extends QueryBuilder
     {
         parent::__construct(self::getTransactionalMailLogItemClass()::query(), $request);
 
-        $filterFields = array_map('trim', config('mailcoach.transactional.search_fields', ['subject']));
+        $filterFields = array_map('trim', config('mailcoach.transactional.search_fields', ['contentItem.subject']));
 
         $this
             ->defaultSort('-created_at', '-id')
@@ -28,7 +28,7 @@ class TransactionalMailQuery extends QueryBuilder
             )
             ->allowedFilters(
                 AllowedFilter::callback('transport_message_id', function (Builder $query, $value) {
-                    $query->whereHas('send', function (Builder $query) use ($value) {
+                    $query->whereHas('contentItem.sends', function (Builder $query) use ($value) {
                         $query->where('transport_message_id', $value);
                     });
                 }),

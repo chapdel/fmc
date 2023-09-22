@@ -30,7 +30,7 @@ class TransactionalTemplateContentComponent extends Component
 
     public ?string $bcc = null;
 
-    public ?string $body = null;
+    public ?string $html = null;
 
     public ?string $structured_html = null;
 
@@ -47,7 +47,7 @@ class TransactionalTemplateContentComponent extends Component
             'to' => new Delimited('email'),
             'cc' => new Delimited('email'),
             'bcc' => new Delimited('email'),
-            'body' => '',
+            'html' => '',
             'structured_html' => '',
         ];
     }
@@ -61,6 +61,9 @@ class TransactionalTemplateContentComponent extends Component
         $this->to = $this->template->toString();
         $this->cc = $this->template->ccString();
         $this->bcc = $this->template->bccString();
+        $this->subject = $this->template->contentItem->subject;
+        $this->html = $this->template->contentItem->html;
+        $this->structured_html = $this->template->contentItem->structured_html;
 
         app(MainNavigation::class)->activeSection()?->add($this->template->name, route('mailcoach.transactionalMails.templates'));
     }
@@ -72,7 +75,6 @@ class TransactionalTemplateContentComponent extends Component
         $attributes = [
             'name' => $this->name,
             'type' => $this->type,
-            'subject' => $this->subject,
             'to' => $this->delimitedToArray($this->to),
             'cc' => $this->delimitedToArray($this->cc),
             'bcc' => $this->delimitedToArray($this->bcc),
@@ -80,9 +82,13 @@ class TransactionalTemplateContentComponent extends Component
 
         $this->template->fresh()->update($attributes);
 
+        $this->template->contentItem->update([
+            'subject' => $this->subject,
+        ]);
+
         if ($this->template->type !== 'html') {
-            $this->template->update([
-                'body' => $this->body,
+            $this->template->contentItem->update([
+                'html' => $this->html,
                 'structured_html' => $this->structured_html,
             ]);
 

@@ -5,6 +5,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Actions\SendMailAction;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
 beforeEach(function () {
     /** @var EmailList */
@@ -16,12 +17,15 @@ beforeEach(function () {
     /** @var Campaign */
     $this->campaign = Campaign::factory()->create([
         'email_list_id' => $this->emailList->id,
+    ]);
+
+    $this->campaign->contentItem->update([
         'html' => '::websiteCampaignUrl::',
         'email_html' => '::websiteCampaignUrl::',
     ]);
 
-    $this->send = \Spatie\Mailcoach\Domain\Shared\Models\Send::factory()->create([
-        'campaign_id' => $this->campaign->id,
+    $this->send = Send::factory()->create([
+        'content_item_id' => $this->campaign->contentItem->id,
     ]);
 });
 

@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Livewire\Campaigns\Forms;
 
-use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 use Livewire\Form;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\EverySubscriberSegment;
@@ -19,15 +18,13 @@ class CampaignSettingsForm extends Form
 
     public string $name;
 
-    public ?string $subject;
+    public ?string $from_email = null;
 
-    public ?string $from_email;
+    public ?string $from_name = null;
 
-    public ?string $from_name;
+    public ?string $reply_to_email = null;
 
-    public ?string $reply_to_email;
-
-    public ?string $reply_to_name;
+    public ?string $reply_to_name = null;
 
     public ?int $email_list_id;
 
@@ -48,18 +45,18 @@ class CampaignSettingsForm extends Form
         $this->campaign = $campaign;
 
         $this->name = $campaign->name;
-        $this->subject = $campaign->getAttributes()['subject'] ?? null;
-        $this->from_email = $campaign->from_email;
-        $this->from_name = $campaign->from_name;
-        $this->reply_to_email = $campaign->reply_to_email;
-        $this->reply_to_name = $campaign->reply_to_name;
-        $this->email_list_id = $campaign->email_list_id;
-        $this->utm_tags = $campaign->utm_tags;
-        $this->add_subscriber_tags = $campaign->add_subscriber_tags;
-        $this->add_subscriber_link_tags = $campaign->add_subscriber_link_tags;
         $this->segment_id = $campaign->segment_id;
         $this->show_publicly = $campaign->show_publicly;
+        $this->email_list_id = $campaign->email_list_id;
         $this->disable_webview = $campaign->disable_webview;
+
+        $this->from_email = $campaign->contentItem->from_email;
+        $this->from_name = $campaign->contentItem->from_name;
+        $this->reply_to_email = $campaign->contentItem->reply_to_email;
+        $this->reply_to_name = $campaign->contentItem->reply_to_name;
+        $this->utm_tags = $campaign->contentItem->utm_tags ?? false;
+        $this->add_subscriber_tags = $campaign->contentItem->add_subscriber_tags ?? false;
+        $this->add_subscriber_link_tags = $campaign->contentItem->add_subscriber_link_tags ?? false;
     }
 
     public function rules(): array
@@ -85,9 +82,23 @@ class CampaignSettingsForm extends Form
     {
         $this->validate();
 
-        $this->campaign->fill(
-            Arr::except($this->all(), ['campaign'])
-        );
+        $this->campaign->fill([
+            'name' => $this->name,
+            'segment_id' => $this->segment_id,
+            'show_publicly' => $this->show_publicly,
+            'email_list_id' => $this->email_list_id,
+            'disable_webview' => $this->disable_webview,
+        ]);
+
+        $this->campaign->contentItem->fill([
+            'from_email' => $this->from_email,
+            'from_name' => $this->from_name,
+            'reply_to_email' => $this->reply_to_email,
+            'reply_to_name' => $this->reply_to_name,
+            'utm_tags' => $this->utm_tags,
+            'add_subscriber_tags' => $this->add_subscriber_tags,
+            'add_subscriber_link_tags' => $this->add_subscriber_link_tags,
+        ]);
 
         $segmentClass = SubscribersWithTagsSegment::class;
 
@@ -100,7 +111,6 @@ class CampaignSettingsForm extends Form
         }
 
         $this->campaign->fill([
-            'last_modified_at' => now(),
             'segment_class' => $segmentClass,
             'segment_id' => $segmentClass === EverySubscriberSegment::class
                 ? null
@@ -108,6 +118,7 @@ class CampaignSettingsForm extends Form
         ]);
 
         $this->campaign->save();
+        $this->campaign->contentItem->save();
 
         $this->campaign->update(['segment_description' => $this->campaign->getSegment()->description()]);
     }

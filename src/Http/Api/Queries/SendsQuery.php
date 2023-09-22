@@ -16,15 +16,9 @@ class SendsQuery extends QueryBuilder
     {
         $query = self::getSendClass()::query()
             ->with([
-                'campaign',
-                'automationMail',
-                'transactionalMailLogItem',
+                'contentItem.model',
                 'opens',
                 'clicks',
-                'transactionalMailOpens',
-                'transactionalMailClicks',
-                'automationMailOpens',
-                'automationMailClicks',
             ]);
 
         parent::__construct($query, $request);
@@ -39,18 +33,27 @@ class SendsQuery extends QueryBuilder
                     });
                 }),
                 AllowedFilter::callback('campaign_uuid', function (Builder $query, string $uuid) {
-                    return $query->whereHas('campaign', function (Builder $query) use ($uuid) {
-                        return $query->where('uuid', $uuid);
+                    return $query->whereHas('contentItem', function (Builder $query) use ($uuid) {
+                        $query->where('model_type', (new (self::getCampaignClass()))->getMorphClass())
+                            ->whereHas('model', function (Builder $query) use ($uuid) {
+                                return $query->where('uuid', $uuid);
+                            });
                     });
                 }),
                 AllowedFilter::callback('automation_mail_uuid', function (Builder $query, string $uuid) {
-                    return $query->whereHas('automationMail', function (Builder $query) use ($uuid) {
-                        return $query->where('uuid', $uuid);
+                    return $query->whereHas('contentItem', function (Builder $query) use ($uuid) {
+                        $query->where('model_type', (new (self::getAutomationMailClass()))->getMorphClass())
+                            ->whereHas('model', function (Builder $query) use ($uuid) {
+                                return $query->where('uuid', $uuid);
+                            });
                     });
                 }),
                 AllowedFilter::callback('transactional_mail_log_item_uuid', function (Builder $query, string $uuid) {
-                    return $query->whereHas('transactionalMailLogItem', function (Builder $query) use ($uuid) {
-                        return $query->where('uuid', $uuid);
+                    return $query->whereHas('contentItem', function (Builder $query) use ($uuid) {
+                        $query->where('model_type', (new (self::getTransactionalMailLogItemClass()))->getMorphClass())
+                            ->whereHas('model', function (Builder $query) use ($uuid) {
+                                return $query->where('uuid', $uuid);
+                            });
                     });
                 })
             );

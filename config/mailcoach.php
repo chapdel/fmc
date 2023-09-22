@@ -190,7 +190,7 @@ return [
          * from the Transactional Log section in the view. The value is an array of fields.
          * For relations fields, you can use the dot notation.
          */
-        'search_fields' => ['subject'],
+        'search_fields' => ['contentItem.subject'],
     ],
 
     /*

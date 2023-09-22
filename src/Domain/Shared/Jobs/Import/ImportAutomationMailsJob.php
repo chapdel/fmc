@@ -9,7 +9,7 @@ use Spatie\SimpleExcel\SimpleExcelReader;
 class ImportAutomationMailsJob extends ImportJob
 {
     /** @var array<int, int> */
-    private array $automationMailMapping = [];
+    private array $contentItemMapping = [];
 
     private int $total = 0;
 
@@ -38,6 +38,7 @@ class ImportAutomationMailsJob extends ImportJob
 
         $reader = SimpleExcelReader::create($this->tmpDisk->path('tmp/automation_mails.csv'));
         $columns = Schema::getColumnListing(self::getAutomationMailTableName());
+        $contentItemColumns = Schema::getColumnListing(self::getContentItemTableName());
 
         foreach ($reader->getRows() as $row) {
             $automationMail = self::getAutomationMailClass()::firstOrCreate(
@@ -45,7 +46,11 @@ class ImportAutomationMailsJob extends ImportJob
                 array_filter(Arr::except(Arr::only($row, $columns), ['id'])),
             );
 
-            $this->automationMailMapping[$row['id']] = $automationMail->id;
+            $contentAttributes = array_filter(Arr::except(Arr::only($row, $contentItemColumns), ['id', 'model_id']));
+            $contentAttributes['uuid'] = $row['content_item_uuid'] ?? $automationMail->contentItem->uuid;
+            $automationMail->contentItem->update($contentAttributes);
+
+            $this->contentItemMapping[$row['content_item_id']] = $automationMail->contentItem->id;
 
             $this->index++;
             $this->updateJobProgress($this->index, $this->total);
@@ -64,10 +69,10 @@ class ImportAutomationMailsJob extends ImportJob
 
         $reader = SimpleExcelReader::create($this->tmpDisk->path('tmp/automation_mail_links.csv'));
         foreach ($reader->getRows() as $row) {
-            $row['automation_mail_id'] = $this->automationMailMapping[$row['automation_mail_id']];
+            $row['content_item_id'] = $this->contentItemMapping[$row['content_item_id']];
 
-            self::getAutomationMailLinkClass()::firstOrCreate(
-                ['automation_mail_id' => $row['automation_mail_id'], 'url' => $row['url']],
+            self::getLinkClass()::firstOrCreate(
+                ['content_item_id' => $row['content_item_id'], 'url' => $row['url']],
                 array_filter(Arr::except($row, ['id'])),
             );
 

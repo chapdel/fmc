@@ -47,7 +47,7 @@ class SubscriberClickedCampaignLinkConditionComponent extends ConditionComponent
 
     public function render()
     {
-        $this->options = self::getCampaignLinkClass()::query()
+        $this->options = self::getLinkClass()::query()
             ->where('campaign_id', $this->campaignId)
             ->distinct()
             ->pluck('url')

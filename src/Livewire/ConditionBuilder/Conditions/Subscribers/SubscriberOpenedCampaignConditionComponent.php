@@ -14,8 +14,8 @@ class SubscriberOpenedCampaignConditionComponent extends ConditionComponent
 
         $this->changeLabels();
 
-        $this->options = self::getAutomationMailOpenClass()::query()
-            ->join(self::getAutomationMailTableName(), self::getAutomationMailTableName().'.id', '=', self::getAutomationMailOpenTableName().'.automation_mail_id')
+        $this->options = self::getOpenClass()::query()
+            ->join(self::getAutomationMailTableName(), self::getAutomationMailTableName().'.id', '=', self::getOpenTableName().'.automation_mail_id')
             ->where('subscriber_id', auth()->user()->id)
             ->pluck('name')
             ->mapWithKeys(function (string $name) {

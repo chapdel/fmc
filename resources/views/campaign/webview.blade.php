@@ -1,1 +1,1 @@
-{!! $campaign->webview_html !!}
+{!! $campaign->contentItem->webview_html !!}

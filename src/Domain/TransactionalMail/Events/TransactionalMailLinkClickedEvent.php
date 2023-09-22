@@ -2,12 +2,12 @@
 
 namespace Spatie\Mailcoach\Domain\TransactionalMail\Events;
 
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailClick;
+use Spatie\Mailcoach\Domain\Content\Models\Click;
 
 class TransactionalMailLinkClickedEvent
 {
     public function __construct(
-        public TransactionalMailClick $campaignClick,
+        public Click $click,
     ) {
     }
 }

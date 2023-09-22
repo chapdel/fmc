@@ -87,17 +87,17 @@ class Subscriber extends Model
 
     public function opens(): HasMany
     {
-        return $this->hasMany(self::getCampaignOpenClass(), 'subscriber_id');
+        return $this->hasMany(self::getOpenClass(), 'subscriber_id');
     }
 
     public function clicks(): HasMany
     {
-        return $this->hasMany(self::getCampaignClickClass(), 'subscriber_id');
+        return $this->hasMany(self::getClickClass(), 'subscriber_id');
     }
 
     public function uniqueClicks(): HasMany
     {
-        return $this->clicks()->groupBy('campaign_link_id')->addSelect('campaign_link_id');
+        return $this->clicks()->groupBy('link_id')->addSelect('link_id');
     }
 
     public function tags(): BelongsToMany
@@ -112,16 +112,6 @@ class Subscriber extends Model
         return $this->belongsToMany(self::getAutomationActionClass(), self::getActionSubscriberTableName())
             ->withPivot(['completed_at', 'halted_at', 'run_at'])
             ->withTimestamps();
-    }
-
-    public function automationMailOpens(): HasMany
-    {
-        return $this->hasMany(self::getAutomationMailOpenClass(), 'subscriber_id');
-    }
-
-    public function automationMailClicks(): HasMany
-    {
-        return $this->hasMany(self::getAutomationMailClickClass(), 'subscriber_id');
     }
 
     public function currentAction(Automation $automation): ?Action
@@ -151,24 +141,13 @@ class Subscriber extends Model
     {
         $this->update(['unsubscribed_at' => now()]);
 
-        if ($send) {
-            if ($send->campaign_id) {
-                static::getCampaignUnsubscribeClass()::firstOrCreate([
-                    'campaign_id' => $send->campaign->id,
-                    'subscriber_id' => $send->subscriber->id,
-                ], ['uuid' => Str::uuid()]);
+        if ($send && $send->contentItem) {
+            static::getUnsubscribeClass()::firstOrCreate([
+                'content_item_id' => $send->contentItem->id,
+                'subscriber_id' => $send->subscriber->id,
+            ], ['uuid' => Str::uuid()]);
 
-                $send->campaign->dispatchCalculateStatistics();
-            }
-
-            if ($send->automation_mail_id) {
-                static::getAutomationMailUnsubscribeClass()::firstOrCreate([
-                    'automation_mail_id' => $send->automationMail->id,
-                    'subscriber_id' => $send->subscriber->id,
-                ], ['uuid' => Str::uuid()]);
-
-                $send->automationMail->dispatchCalculateStatistics();
-            }
+            $send->contentItem->dispatchCalculateStatistics();
         }
 
         event(new UnsubscribedEvent($this, $send));
@@ -243,7 +222,7 @@ class Subscriber extends Model
     public function scopeWithoutSendsForCampaign(Builder $query, Campaign $campaign)
     {
         return $query->whereDoesntHave('sends', function (Builder $query) use ($campaign) {
-            $query->where('campaign_id', $campaign->id);
+            $query->where('content_item_id', $campaign->contentItem->id);
         });
     }
 

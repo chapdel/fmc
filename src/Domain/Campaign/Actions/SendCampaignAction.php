@@ -9,6 +9,8 @@ use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\SendCampaignTimeLimitApproaching;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\CreateCampaignSendJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Content\Actions\PrepareEmailHtmlAction;
+use Spatie\Mailcoach\Domain\Content\Actions\PrepareWebviewHtmlAction;
 use Spatie\Mailcoach\Domain\Shared\Support\Throttling\SimpleThrottle;
 use Spatie\Mailcoach\Mailcoach;
 
@@ -29,8 +31,8 @@ class SendCampaignAction
 
     protected function prepareEmailHtml(Campaign $campaign): static
     {
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareEmailHtmlAction $prepareEmailHtmlAction */
-        $prepareEmailHtmlAction = Mailcoach::getCampaignActionClass('prepare_email_html', PrepareEmailHtmlAction::class);
+        /** @var \Spatie\Mailcoach\Domain\Content\Actions\PrepareEmailHtmlAction $prepareEmailHtmlAction */
+        $prepareEmailHtmlAction = Mailcoach::getSharedActionClass('prepare_email_html', PrepareEmailHtmlAction::class);
 
         $prepareEmailHtmlAction->execute($campaign);
 
@@ -39,8 +41,8 @@ class SendCampaignAction
 
     protected function prepareWebviewHtml(Campaign $campaign): static
     {
-        /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\PrepareWebviewHtmlAction $prepareWebviewHtmlAction */
-        $prepareWebviewHtmlAction = Mailcoach::getCampaignActionClass('prepare_webview_html', PrepareWebviewHtmlAction::class);
+        /** @var \Spatie\Mailcoach\Domain\Content\Actions\PrepareWebviewHtmlAction $prepareWebviewHtmlAction */
+        $prepareWebviewHtmlAction = Mailcoach::getSharedActionClass('prepare_webview_html', PrepareWebviewHtmlAction::class);
 
         $prepareWebviewHtmlAction->execute($campaign);
 
@@ -55,7 +57,7 @@ class SendCampaignAction
             return;
         }
 
-        if ($campaign->sends()->pending()->count()) {
+        if ($campaign->contentItem->sends()->pending()->count()) {
             return;
         }
 
@@ -78,7 +80,7 @@ class SendCampaignAction
 
         $subscribersQueryCount = $subscribersQuery->count();
 
-        $campaign->update(['sent_to_number_of_subscribers' => $subscribersQueryCount]);
+        $campaign->contentItem->update(['sent_to_number_of_subscribers' => $subscribersQueryCount]);
 
         $simpleThrottle = app(SimpleThrottle::class)
             ->forMailerCreates($campaign->getMailerKey());
@@ -94,7 +96,7 @@ class SendCampaignAction
                 dispatch(new CreateCampaignSendJob($campaign, $subscriber));
             });
 
-        if ($subscribersQueryCount > $campaign->sends()->count()) {
+        if ($subscribersQueryCount > $campaign->contentItem->sends()->count()) {
             return $this;
         }
 

@@ -4,12 +4,13 @@ use Illuminate\Support\Facades\Bus;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Livewire\Campaigns\CampaignDeliveryComponent;
+use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\TestTime\TestTime;
 
 beforeEach(function () {
     $this->authenticate();
 
-    $this->campaign = Campaign::factory()->create([
+    $this->campaign = CampaignFactory::new()->create([
         'status' => CampaignStatus::Draft,
     ]);
 

@@ -45,7 +45,7 @@ class SubscriberClickedAutomationMailLinkConditionComponent extends ConditionCom
 
     public function render()
     {
-        $this->options = self::getAutomationMailLinkClass()::query()
+        $this->options = self::getLinkClass()::query()
             ->where('automation_mail_id', $this->automationMailId)
             ->distinct()
             ->pluck('url')

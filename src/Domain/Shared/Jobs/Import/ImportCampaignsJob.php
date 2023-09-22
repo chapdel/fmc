@@ -9,7 +9,7 @@ use Spatie\SimpleExcel\SimpleExcelReader;
 class ImportCampaignsJob extends ImportJob
 {
     /** @var array<int, int> */
-    private array $campaignMapping = [];
+    private array $contentItemMapping = [];
 
     private int $total = 0;
 
@@ -41,6 +41,7 @@ class ImportCampaignsJob extends ImportJob
         $emailLists = self::getEmailListClass()::pluck('id', 'uuid')->toArray();
 
         $columns = Schema::getColumnListing(self::getCampaignTableName());
+        $contentItemColumns = Schema::getColumnListing(self::getContentItemTableName());
 
         foreach ($reader->getRows() as $row) {
             $row['email_list_id'] = $emailLists[$row['email_list_uuid']];
@@ -53,7 +54,11 @@ class ImportCampaignsJob extends ImportJob
                 array_filter(Arr::except(Arr::only($row, $columns), ['id', 'email_list_uuid', 'segment_name'])),
             );
 
-            $this->campaignMapping[$row['id']] = $campaign->id;
+            $contentAttributes = array_filter(Arr::except(Arr::only($row, $contentItemColumns), ['id', 'model_id']));
+            $contentAttributes['uuid'] = $row['content_item_uuid'] ?? $campaign->contentItem->uuid;
+            $campaign->contentItem->update($contentAttributes);
+
+            $this->contentItemMapping[$row['content_item_id']] = $campaign->contentItem->id;
 
             $this->index++;
             $this->updateJobProgress($this->index, $this->total);
@@ -73,10 +78,10 @@ class ImportCampaignsJob extends ImportJob
         $reader = SimpleExcelReader::create($this->tmpDisk->path('tmp/campaign_links.csv'));
 
         foreach ($reader->getRows() as $campaignLinkData) {
-            $campaignLinkData['campaign_id'] = $this->campaignMapping[$campaignLinkData['campaign_id']];
+            $campaignLinkData['content_item_id'] = $this->contentItemMapping[$campaignLinkData['content_item_id']];
 
-            self::getCampaignLinkClass()::firstOrCreate(
-                ['campaign_id' => $campaignLinkData['campaign_id'], 'url' => $campaignLinkData['url']],
+            self::getLinkClass()::firstOrCreate(
+                ['content_item_id' => $campaignLinkData['content_item_id'], 'url' => $campaignLinkData['url']],
                 array_filter(Arr::except($campaignLinkData, ['id'])),
             );
 

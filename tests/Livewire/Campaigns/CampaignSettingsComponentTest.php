@@ -32,7 +32,10 @@ it('can update the settings of a campaign', function () {
 
     $this->assertDatabaseHas(self::getCampaignTableName(), [
         'name' => 'updated name',
-        'utm_tags' => true,
         'disable_webview' => true,
+    ]);
+    $this->assertDatabaseHas(self::getContentItemTableName(), [
+        'model_id' => $campaign->id,
+        'utm_tags' => true,
     ]);
 });

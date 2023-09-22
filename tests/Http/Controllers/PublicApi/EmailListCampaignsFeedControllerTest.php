@@ -2,8 +2,8 @@
 
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\Front\Controllers\EmailListCampaignsFeedController;
+use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 
 beforeEach(function () {
     $this->withExceptionHandling();
@@ -12,7 +12,7 @@ beforeEach(function () {
         'campaigns_feed_enabled' => true,
     ]);
 
-    $this->campaign = Campaign::factory()->create([
+    $this->campaign = CampaignFactory::new()->create([
         'email_list_id' => $this->emailList->id,
         'sent_at' => now(),
         'status' => CampaignStatus::Sent,
@@ -47,7 +47,7 @@ it('will only contain sent campaigns', function (CampaignStatus $status, bool $s
     $this
         ->get(route('mailcoach.feed', $this->emailList->uuid))
         ->assertSuccessful()
-        ->$assertionMethod($this->campaign->subject);
+        ->$assertionMethod($this->campaign->contentItem->subject);
 })->with([
     [CampaignStatus::Draft, false],
     [CampaignStatus::Sending, true],
@@ -56,10 +56,12 @@ it('will only contain sent campaigns', function (CampaignStatus $status, bool $s
 ]);
 
 it('will not display a campaign that should not be shown publicly', function () {
+    $this->withoutExceptionHandling();
+
     $this
         ->get(route('mailcoach.feed', $this->emailList->uuid))
         ->assertSuccessful()
-        ->assertSee($this->campaign->subject);
+        ->assertSee($this->campaign->contentItem->subject);
 
     $this->campaign->update([
         'show_publicly' => false,
@@ -68,5 +70,5 @@ it('will not display a campaign that should not be shown publicly', function () 
     $this
         ->get(route('mailcoach.feed', $this->emailList->uuid))
         ->assertSuccessful()
-        ->assertDontSee($this->campaign->subject);
+        ->assertDontSee($this->campaign->contentItem->subject);
 });

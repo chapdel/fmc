@@ -83,22 +83,22 @@ $horizonStatus = app(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::clas
 
                 <div class="flex justify-between">
                     <a href="{{ route('mailcoach.campaigns.opens', $latestCampaign) }}" class="dashboard-link">
-                        <span class="dashboard-value">{{ $this->abbreviateNumber($latestCampaign->unique_open_count) }}</span>
+                        <span class="dashboard-value">{{ $this->abbreviateNumber($latestCampaign->contentItem->unique_open_count) }}</span>
                         <span class="dashboard-label">{{ __mc('Opens') }}</span>
                     </a>
 
                     <a href="{{ route('mailcoach.campaigns.clicks', $latestCampaign) }}" class="dashboard-link">
-                        <span class="dashboard-value">{{ $this->abbreviateNumber($latestCampaign->unique_click_count) }}</span>
+                        <span class="dashboard-value">{{ $this->abbreviateNumber($latestCampaign->contentItem->unique_click_count) }}</span>
                         <span class="dashboard-label">{{ __mc('Clicks') }}</span>
                     </a>
 
                     <a href="{{ route('mailcoach.campaigns.unsubscribes', $latestCampaign) }}" class="dashboard-link">
-                        <span class="dashboard-value">{{ $this->abbreviateNumber($latestCampaign->unsubscribe_count) }}</span>
+                        <span class="dashboard-value">{{ $this->abbreviateNumber($latestCampaign->contentItem->unsubscribe_count) }}</span>
                         <span class="dashboard-label">{{ __mc('Unsubscribes') }}</span>
                     </a>
 
                     <a href="{{ route('mailcoach.campaigns.outbox', $latestCampaign) }}" class="dashboard-link">
-                        <span class="dashboard-value">{{ $this->abbreviateNumber($latestCampaign->bounce_count) }}</span>
+                        <span class="dashboard-value">{{ $this->abbreviateNumber($latestCampaign->contentItem->bounce_count) }}</span>
                         <span class="dashboard-label">{{ __mc('Bounces') }}</span>
                     </a>
                 </div>

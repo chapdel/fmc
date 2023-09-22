@@ -2,7 +2,7 @@
     @if ($campaign->isEditable())
         <div class="grid gap-2">
             @if($campaign->isReady())
-                @if (! $campaign->htmlContainsUnsubscribeUrlPlaceHolder() || $campaign->sizeInKb() > 102)
+                @if (! $campaign->contentItem->htmlContainsUnsubscribeUrlPlaceHolder() || $campaign->contentItem->sizeInKb() > 102)
                     <x-mailcoach::warning>
                         {!! __mc('Campaign <strong>:campaign</strong> can be sent, but you might want to check your content.', ['campaign' => $campaign->name]) !!}
 
@@ -108,12 +108,12 @@
         @endif
 
         <dt>
-            <x-mailcoach::health-label reverse :test="$campaign->subject" :label="__mc('Subject')"/>
+            <x-mailcoach::health-label reverse :test="$campaign->contentItem->subject" :label="__mc('Subject')"/>
         </dt>
 
         <dd>
             <span>
-                {{ $campaign->subject ?? __mc('Subject is empty') }}
+                {{ $campaign->contentItem->subject ?? __mc('Subject is empty') }}
                 <a href="{{ route('mailcoach.campaigns.settings', $campaign) }}" class="link">{{ strtolower(__mc('Edit')) }}</a>
             </span>
         </dd>
@@ -130,9 +130,9 @@
         @endif
 
         <dt>
-            @if($campaign->html && $campaign->hasValidHtml())
+            @if($campaign->contentItem->html && $campaign->contentItem->hasValidHtml())
                 <x-mailcoach::health-label reverse
-                    :test="$campaign->htmlContainsUnsubscribeUrlPlaceHolder() && $campaign->sizeInKb() < 102"
+                    :test="$campaign->contentItem->htmlContainsUnsubscribeUrlPlaceHolder() && $campaign->contentItem->sizeInKb() < 102"
                     warning="true"
                     :label="__mc('Content')"/>
             @else
@@ -142,24 +142,24 @@
 
 
         <dd class="grid gap-4 max-w-full overflow-scroll">
-            @if($campaign->html)
-                @if (! $campaign->hasValidHtml())
+            @if($campaign->contentItem->html)
+                @if (! $campaign->contentItem->hasValidHtml())
                     <p>{{ __mc('HTML is invalid') }}</p>
-                    <p>{!! $campaign->htmlError() !!}</p>
+                    <p>{!! $campaign->contentItem->htmlError() !!}</p>
                 @endif
-                @if (! $campaign->htmlContainsUnsubscribeUrlPlaceHolder())
+                @if (! $campaign->contentItem->htmlContainsUnsubscribeUrlPlaceHolder())
                     <p class="markup-code">
                         {{ __mc("Without a way to unsubscribe, there's a high chance that your subscribers will complain.") }}
                         {!! __mc('Consider adding the <code>&#123;&#123; unsubscribeUrl &#125;&#125;</code> placeholder.') !!}
                     </p>
                 @endif
-                @if ($campaign->sizeInKb() >= 102)
+                @if ($campaign->contentItem->sizeInKb() >= 102)
                     <p class="markup-code">
                         {{ __mc("Your email's content size is larger than 102kb (:size). This could cause Gmail to clip your campaign.", ['size' => "{$campaign->sizeInKb()}kb"]) }}
                     </p>
                 @endif
 
-                @if ($campaign->hasValidHtml() && $campaign->htmlContainsUnsubscribeUrlPlaceHolder() && $campaign->sizeInKb() < 102)
+                @if ($campaign->contentItem->hasValidHtml() && $campaign->contentItem->htmlContainsUnsubscribeUrlPlaceHolder() && $campaign->contentItem->sizeInKb() < 102)
                     <p class="markup-code">
                         {{ __mc('No problems detected!') }}
                     </p>
@@ -168,7 +168,7 @@
                 {{ __mc('Content is missing') }}
             @endif
 
-            @if($campaign->html)
+            @if($campaign->contentItem->html)
                 <div>
                     <x-mailcoach::button-secondary x-on:click="$dispatch('open-modal', { id: 'preview' })" :label="__mc('Preview')"/>
                     @if ($campaign->getMailerKey())
@@ -176,7 +176,7 @@
                     @endif
                 </div>
 
-                <x-mailcoach::preview-modal :title="__mc('Preview') . ' - ' . $campaign->subject" :html="$campaign->html" />
+                <x-mailcoach::preview-modal :title="__mc('Preview') . ' - ' . $campaign->contentItem->subject" :html="$campaign->contentItem->html" />
 
                 <x-mailcoach::modal :title="__mc('Send Test')" name="send-test" :dismissable="true">
                     <livewire:mailcoach::send-test :model="$campaign" />
@@ -195,7 +195,7 @@
 
         <dd>
             @php($tags = [])
-            @php($links = $campaign->htmlLinks())
+            @php($links = $campaign->contentItem->htmlLinks())
             @if (count($links))
                 <p class="markup-code">
                     {{ __mc("The following links were found in your campaign, make sure they are valid.") }}
@@ -407,7 +407,7 @@
                 @endif
 
                 @if ($campaign->isEditable())
-                    @if (! $campaign->hasValidHtml())
+                    @if (! $campaign->contentItem->hasValidHtml())
                         <x-mailcoach::error>
                             {!! __mc('Your campaign HTML is invalid according to <a href=":url" target="_blank">the guidelines</a>, please make sure it displays correctly in the email clients you need.', ['url' => 'https://www.caniemail.com/']) !!}
                         </x-mailcoach::error>

@@ -47,7 +47,7 @@ class CreateCampaignSendJob implements ShouldBeUnique, ShouldQueue
             return;
         }
 
-        $pendingSend = $this->campaign->sends()
+        $pendingSend = $this->campaign->contentItem->sends()
             ->where('subscriber_id', $this->subscriber->id)
             ->exists();
 
@@ -55,7 +55,7 @@ class CreateCampaignSendJob implements ShouldBeUnique, ShouldQueue
             return;
         }
 
-        $this->campaign->sends()->create([
+        $this->campaign->contentItem->sends()->create([
             'subscriber_id' => $this->subscriber->id,
             'uuid' => (string) Str::uuid(),
         ]);

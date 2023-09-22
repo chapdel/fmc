@@ -17,7 +17,6 @@ use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailToSubscriberJob;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
-use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailClick;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\ConditionAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\HaltAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
@@ -27,6 +26,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasClickedAutomationMa
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasTagCondition;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\NoTrigger;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
+use Spatie\Mailcoach\Domain\Content\Models\Click;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Tests\TestClasses\AddRandomTagAction;
@@ -36,7 +36,7 @@ use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
 use Spatie\TestTime\TestTime;
 
 beforeEach(function () {
-    test()->automationMail = AutomationMail::factory()->create(['subject' => 'Welcome']);
+    test()->automationMail = AutomationMail::factory()->create();
 });
 
 test('the default status is paused', function () {
@@ -450,7 +450,7 @@ it('handles nested conditions correctly', function () {
 
     // And has received automationmail 1
     expect($subscriber1->sends()->count())->toBe(1);
-    expect($subscriber1->sends->first()->automationMail->id)->toBe($automatedMail1->id);
+    expect($subscriber1->sends->first()->contentItem->model->id)->toBe($automatedMail1->id);
 
     expect($subscriber2->currentActions($automation)->first()->action->toArray()['conditionData']['tag'])->toEqual('yes-tag-2');
     expect($subscriber3->currentActions($automation)->first()->action->toArray()['conditionData']['tag'])->toEqual('yes-tag-1');
@@ -465,7 +465,7 @@ it('handles nested conditions correctly', function () {
 
     // And received automationmail 2
     expect($subscriber2->sends()->count())->toBe(1);
-    expect($subscriber2->sends->first()->automationMail->id)->toBe($automatedMail2->id);
+    expect($subscriber2->sends->first()->contentItem->model->id)->toBe($automatedMail2->id);
 
     // Subscriber 3 went through the first no
     expect($subscriber3->currentActions($automation)->first()->action::class)->toEqual(WaitAction::class);
@@ -473,7 +473,7 @@ it('handles nested conditions correctly', function () {
 
     // And received automationmail 3
     expect($subscriber3->sends()->count())->toBe(1);
-    expect($subscriber3->sends->first()->automationMail->id)->toBe($automatedMail3->id);
+    expect($subscriber3->sends->first()->contentItem->model->id)->toBe($automatedMail3->id);
 
     // Only 3 mails were sent in total
     expect(Send::count())->toEqual(3);
@@ -528,7 +528,7 @@ it('can run a split automation', function () {
 
     $emailList = EmailList::factory()->create();
 
-    $automationMail2 = AutomationMail::factory()->create(['subject' => 'Welcome 2']);
+    $automationMail2 = AutomationMail::factory()->create();
 
     /** @var Automation $automation */
     $automation = Automation::create()
@@ -679,7 +679,7 @@ it('can run a split automation twice', function () {
 
     $emailList = EmailList::factory()->create();
 
-    $automationMail2 = AutomationMail::factory()->create(['subject' => 'Welcome 2']);
+    $automationMail2 = AutomationMail::factory()->create();
 
     /** @var Automation $automation */
     $automation = Automation::create()
@@ -793,7 +793,7 @@ it('handles nested conditions correctly when running twice', function () {
 
     // And has received automationmail 1
     expect($subscriber1->sends()->count())->toBe(1);
-    expect($subscriber1->sends->first()->automationMail->id)->toBe($automatedMail1->id);
+    expect($subscriber1->sends->first()->contentItem->model->id)->toBe($automatedMail1->id);
 
     expect($subscriber2->currentActions($automation)->first()->action->toArray()['conditionData']['tag'])->toEqual('yes-tag-2');
     expect($subscriber3->currentActions($automation)->first()->action->toArray()['conditionData']['tag'])->toEqual('yes-tag-1');
@@ -808,7 +808,7 @@ it('handles nested conditions correctly when running twice', function () {
 
     // And received automationmail 2
     expect($subscriber2->sends()->count())->toBe(1);
-    expect($subscriber2->sends->first()->automationMail->id)->toBe($automatedMail2->id);
+    expect($subscriber2->sends->first()->contentItem->model->id)->toBe($automatedMail2->id);
 
     // Subscriber 3 went through the first no
     expect($subscriber3->currentActions($automation)->first()->action::class)->toEqual(WaitAction::class);
@@ -816,7 +816,7 @@ it('handles nested conditions correctly when running twice', function () {
 
     // And received automationmail 3 twice
     expect($subscriber3->sends()->count())->toBe(2);
-    expect($subscriber3->sends->first()->automationMail->id)->toBe($automatedMail3->id);
+    expect($subscriber3->sends->first()->contentItem->model->id)->toBe($automatedMail3->id);
 
     // 4 mails were sent in total
     expect(Send::count())->toEqual(4);
@@ -873,7 +873,7 @@ it('can run automations twice when repeat is enabled after a subscriber is halte
     TestTime::addMinute();
     Artisan::call(RunAutomationActionsCommand::class);
 
-    expect($mail->sends()->count())->toBe(2);
+    expect($mail->contentItem->sends()->count())->toBe(2);
 });
 
 it('can run automations twice when repeat is enabled and only when halt is disabled', function () {
@@ -920,15 +920,19 @@ it('handles deeply nested conditions', function () {
     /** @var EmailList $emailList */
     $emailList = EmailList::factory()->create();
 
-    $automationMail1 = AutomationMail::factory()->create([
+    $automationMail1 = AutomationMail::factory()->create();
+    $automationMail1->contentItem->update([
         'html' => '<p><a href="https://example.com"></a></p>',
     ]);
+
     $automationMail2 = AutomationMail::factory()->create();
-    $automationMail3 = AutomationMail::factory()->create([
+    $automationMail3 = AutomationMail::factory()->create();
+    $automationMail3->contentItem->update([
         'html' => '<p><a href="https://example.com"></a></p>',
     ]);
     $automationMail4 = AutomationMail::factory()->create();
-    $automationMail5 = AutomationMail::factory()->create([
+    $automationMail5 = AutomationMail::factory()->create();
+    $automationMail5->contentItem->update([
         'html' => '<p><a href="https://example.com"></a></p>',
     ]);
 
@@ -1105,9 +1109,9 @@ it('handles deeply nested conditions', function () {
     TestTime::addMinutes(2);
     Artisan::call(RunAutomationActionsCommand::class);
 
-    expect($subscriber1->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail1->id);
-    expect($subscriber2->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail1->id);
-    expect($subscriber3->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail1->id);
+    expect($subscriber1->sends()->orderByDesc('id')->first()->contentItem->model->id)->toBe($automationMail1->id);
+    expect($subscriber2->sends()->orderByDesc('id')->first()->contentItem->model->id)->toBe($automationMail1->id);
+    expect($subscriber3->sends()->orderByDesc('id')->first()->contentItem->model->id)->toBe($automationMail1->id);
 
     $this->assertEquals(SendAutomationMailAction::class, $subscriber4->currentActionClass($automation));
     $this->assertEquals(SendAutomationMailAction::class, $subscriber5->currentActionClass($automation));
@@ -1120,11 +1124,11 @@ it('handles deeply nested conditions', function () {
     TestTime::addSeconds(32);
     Artisan::call(RunAutomationActionsCommand::class);
 
-    expect($subscriber4->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail3->id);
-    expect($subscriber5->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail3->id);
-    expect($subscriber6->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail3->id);
-    expect($subscriber7->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail3->id);
-    expect($subscriber8->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail3->id);
+    expect($subscriber4->sends()->orderByDesc('id')->first()->contentItem->model->id)->toBe($automationMail3->id);
+    expect($subscriber5->sends()->orderByDesc('id')->first()->contentItem->model->id)->toBe($automationMail3->id);
+    expect($subscriber6->sends()->orderByDesc('id')->first()->contentItem->model->id)->toBe($automationMail3->id);
+    expect($subscriber7->sends()->orderByDesc('id')->first()->contentItem->model->id)->toBe($automationMail3->id);
+    expect($subscriber8->sends()->orderByDesc('id')->first()->contentItem->model->id)->toBe($automationMail3->id);
 
     // Checking for click
     $this->assertEquals(ConditionAction::class, $subscriber1->currentActionClass($automation));
@@ -1142,7 +1146,7 @@ it('handles deeply nested conditions', function () {
     $subscriber1->sends()->orderByDesc('id')->first()->registerClick('https://example.com', now());
     $subscriber4->sends()->orderByDesc('id')->first()->registerClick('https://example.com', now());
     $subscriber5->sends()->orderByDesc('id')->first()->registerClick('https://example.com', now());
-    $this->assertEquals(3, AutomationMailClick::count());
+    $this->assertEquals(3, Click::count());
 
     TestTime::addSeconds(32);
     Artisan::call(RunAutomationActionsCommand::class);
@@ -1174,7 +1178,7 @@ it('handles deeply nested conditions', function () {
     $this->assertEquals(ConditionAction::class, $subscriber3->currentActionClass($automation));
 
     // Subscriber 5 gets promo code mail & is halted after
-    expect($subscriber5->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail4->id);
+    expect($subscriber5->sends()->orderByDesc('id')->first()->contentItem->model->id)->toBe($automationMail4->id);
     $this->assertEquals(HaltAction::class, $subscriber5->currentActionClass($automation));
 
     // Subscriber 6 didn't click
@@ -1198,7 +1202,7 @@ it('handles deeply nested conditions', function () {
     $this->assertEquals(HaltAction::class, $subscriber2->currentActionClass($automation));
 
     // Subscriber 3 gets extra mail
-    expect($subscriber3->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail2->id);
+    expect($subscriber3->sends()->orderByDesc('id')->first()->contentItem->model->id)->toBe($automationMail2->id);
     $this->assertEquals(HaltAction::class, $subscriber3->currentActionClass($automation));
 
     // Subscriber 6 & 7 are in second condition action
@@ -1214,10 +1218,10 @@ it('handles deeply nested conditions', function () {
     TestTime::addSeconds(32); // Need this on slower computers?
     Artisan::call(RunAutomationActionsCommand::class);
 
-    expect($subscriber8->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail5->id);
+    expect($subscriber8->sends()->orderByDesc('id')->first()->contentItem->model->id)->toBe($automationMail5->id);
 
     // Subscriber 7 gets feedback mail
-    expect($subscriber7->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail2->id);
+    expect($subscriber7->sends()->orderByDesc('id')->first()->contentItem->model->id)->toBe($automationMail2->id);
     $this->assertEquals(HaltAction::class, $subscriber7->currentActionClass($automation));
 
     // Subscriber 6 & 7 are halted
@@ -1253,7 +1257,7 @@ it('handles deeply nested conditions', function () {
     TestTime::addMinutes(5);
     Artisan::call(RunAutomationActionsCommand::class);
 
-    expect($subscriber9->sends()->orderByDesc('id')->first()->automationMail->id)->toBe($automationMail4->id);
+    expect($subscriber9->sends()->orderByDesc('id')->first()->contentItem->model->id)->toBe($automationMail4->id);
     $this->assertEquals(HaltAction::class, $subscriber9->currentActionClass($automation));
 
     TestTime::addWeek();

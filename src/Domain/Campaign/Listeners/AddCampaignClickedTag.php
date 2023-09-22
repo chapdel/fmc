@@ -10,16 +10,16 @@ class AddCampaignClickedTag
 {
     public function handle(CampaignLinkClickedEvent $event)
     {
-        $campaign = $event->campaignClick->link->campaign;
+        $contentItem = $event->campaignClick->link->contentItem;
         $subscriber = $event->campaignClick->subscriber;
 
-        if ($campaign->add_subscriber_tags) {
-            $subscriber->addTag("campaign-{$campaign->uuid}-clicked", TagType::Mailcoach);
+        if ($contentItem->add_subscriber_tags) {
+            $subscriber->addTag("campaign-{$contentItem->model->uuid}-clicked", TagType::Mailcoach);
         }
 
-        if ($campaign->add_subscriber_link_tags) {
+        if ($contentItem->add_subscriber_link_tags) {
             $hash = LinkHasher::hash(
-                sendable: $event->campaignClick->send->campaign,
+                sendable: $contentItem->model,
                 url: $event->campaignClick->link->url,
             );
 

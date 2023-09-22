@@ -7,10 +7,11 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Grouping\Group;
 use Illuminate\Contracts\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Livewire\TableComponent;
 
@@ -62,38 +63,28 @@ class SubscriberSendsComponent extends TableComponent
     protected function getTableQuery(): Builder
     {
         return self::getSendClass()::query()
-            ->withCount(['opens', 'clicks'])
             ->with([
-                'campaign',
-                'automationMail',
+                'contentItem' => function (Builder $query) {
+                    $query
+                        ->with('model')
+                        ->withCount(['opens', 'clicks']);
+                },
             ])
-            ->addSelect(DB::raw(<<<'SQL'
-                CASE
-                    WHEN campaign_id is not null THEN 'campaign'
-                    WHEN automation_mail_id IS NOT NULL THEN 'automation'
-                    ELSE ''
-                END as 'type'
-            SQL))
             ->where('subscriber_id', $this->subscriber->id);
     }
 
     protected function getTableColumns(): array
     {
         return [
-            TextColumn::make('name')
+            TextColumn::make('contentItem.model.name')
                 ->label(__mc('Name'))
-                ->getStateUsing(fn (Send $send) => match (true) {
-                    $send->concernsCampaign() => $send->campaign->name,
-                    $send->concernsAutomationMail() => $send->automationMail->name,
-                    default => '',
-                })
                 ->extraAttributes(['class' => 'link']),
-            TextColumn::make('opens_count')
+            TextColumn::make('contentItem.opens_count')
                 ->label(__mc('Opens'))
                 ->numeric()
                 ->alignRight()
                 ->sortable(),
-            TextColumn::make('clicks_count')
+            TextColumn::make('contentItem.clicks_count')
                 ->label(__mc('Clicks'))
                 ->numeric()
                 ->alignRight()
@@ -108,10 +99,10 @@ class SubscriberSendsComponent extends TableComponent
 
     public function getTableGrouping(): ?Group
     {
-        return Group::make('type')
-            ->getTitleFromRecordUsing(fn (Send $send) => match ($send->feedback->type) {
+        return Group::make('contentItem.model_type')
+            ->getTitleFromRecordUsing(fn (Send $send) => match ($send->contentItem->model_type) {
                 'campaign' => __mc('Campaigns'),
-                'automation' => __mc('Automation mails'),
+                'automation_mail' => __mc('Automation mails'),
                 default => '',
             })
             ->label('');
@@ -139,8 +130,8 @@ class SubscriberSendsComponent extends TableComponent
     protected function getTableRecordUrlUsing(): ?Closure
     {
         return fn (Send $send) => match (true) {
-            $send->concernsCampaign() => route('mailcoach.campaigns.summary', $send->campaign),
-            $send->concernsAutomationMail() => route('mailcoach.automations.mails.summary', $send->automationMail),
+            $send->contentItem->model instanceof Campaign => route('mailcoach.campaigns.summary', $send->contentItem->model),
+            $send->contentItem->model instanceof AutomationMail => route('mailcoach.automations.mails.summary', $send->contentItem->model),
             default => '',
         };
     }

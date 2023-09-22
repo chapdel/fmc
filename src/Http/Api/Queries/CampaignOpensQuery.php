@@ -20,11 +20,11 @@ class CampaignOpensQuery extends QueryBuilder
     {
         $prefix = DB::getTablePrefix();
 
-        $campaignOpenTable = static::getCampaignOpenTableName();
+        $campaignOpenTable = static::getOpenTableName();
         $subscriberTableName = static::getSubscriberTableName();
         $emailListTableName = static::getEmailListTableName();
 
-        $query = static::getCampaignOpenClass()::query()
+        $query = static::getOpenClass()::query()
             ->selectRaw("
                 {$prefix}{$subscriberTableName}.uuid as subscriber_uuid,
                 {$prefix}{$emailListTableName}.uuid as subscriber_email_list_uuid,
@@ -32,10 +32,11 @@ class CampaignOpensQuery extends QueryBuilder
                 count({$prefix}{$campaignOpenTable}.subscriber_id) as open_count,
                 min({$prefix}{$campaignOpenTable}.created_at) AS first_opened_at
             ")
-            ->join(static::getCampaignTableName(), static::getCampaignTableName().'.id', '=', "{$campaignOpenTable}.campaign_id")
+            ->join(static::getContentItemTableName(), static::getContentItemTableName().'.id', '=', "{$campaignOpenTable}.content_item_id")
             ->join($subscriberTableName, "{$subscriberTableName}.id", '=', "{$campaignOpenTable}.subscriber_id")
             ->join($emailListTableName, "{$subscriberTableName}.email_list_id", '=', "{$emailListTableName}.id")
-            ->where(static::getCampaignTableName().'.id', $campaign->id);
+            ->where(static::getContentItemTableName().'.model_id', $campaign->id)
+            ->where(static::getContentItemTableName().'.model_type', (new (self::getCampaignClass()))->getMorphClass());
 
         $this->totalCount = $query->count();
 

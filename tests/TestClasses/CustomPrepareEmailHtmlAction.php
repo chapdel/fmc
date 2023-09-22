@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
-use Spatie\Mailcoach\Domain\Campaign\Actions\PrepareEmailHtmlAction;
+use Spatie\Mailcoach\Domain\Content\Actions\PrepareEmailHtmlAction;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 
 class CustomPrepareEmailHtmlAction extends PrepareEmailHtmlAction

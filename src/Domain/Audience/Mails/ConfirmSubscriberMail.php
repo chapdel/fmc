@@ -6,11 +6,12 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Support\Arr;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Campaign\Actions\ConvertHtmlToTextAction;
 use Spatie\Mailcoach\Domain\Campaign\Mails\Concerns\ReplacesPlaceholders;
+use Spatie\Mailcoach\Domain\Content\Actions\ConvertHtmlToTextAction;
 use Spatie\Mailcoach\Domain\Shared\Actions\GetReplaceContextForSubscriberAction;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns\UsesMailcoachTemplate;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
+use Spatie\Mailcoach\Mailcoach;
 use Symfony\Component\Mime\Email;
 
 class ConfirmSubscriberMail extends Mailable implements ShouldQueue
@@ -70,7 +71,7 @@ class ConfirmSubscriberMail extends Mailable implements ShouldQueue
 
             $html = $this->replacePlaceholders($html);
 
-            $plaintext = app(ConvertHtmlToTextAction::class)->execute($html);
+            $plaintext = Mailcoach::getSharedActionClass('convert_html_to_text', ConvertHtmlToTextAction::class)->execute($html);
 
             $this
                 ->html($html)

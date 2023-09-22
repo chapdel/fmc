@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Bus;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\SendCampaignController;
+use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 
 uses(RespondsToApiRequests::class);
@@ -13,7 +13,7 @@ beforeEach(function () {
 
     test()->loginToApi();
 
-    test()->campaign = Campaign::factory()->create([
+    test()->campaign = CampaignFactory::new()->create([
         'status' => CampaignStatus::Draft,
     ]);
 });

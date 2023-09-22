@@ -16,8 +16,6 @@
             "role": "Developer"
         }
     ],
-    "repositories": [
-    ],
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
@@ -131,7 +129,7 @@
     },
     "extra": {
         "branch-alias": {
-            "7.x-dev": "v6.x-dev"
+            "dev-main": "v6.x-dev"
         },
         "laravel": {
             "providers": [

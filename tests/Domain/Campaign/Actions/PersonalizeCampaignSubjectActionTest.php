@@ -1,7 +1,7 @@
 <?php
 
 use Spatie\Mailcoach\Database\Factories\SendFactory;
-use Spatie\Mailcoach\Domain\Campaign\Actions\PersonalizeSubjectAction;
+use Spatie\Mailcoach\Domain\Content\Actions\PersonalizeTextAction;
 
 beforeEach(function () {
     test()->send = SendFactory::new()->create();
@@ -11,9 +11,9 @@ beforeEach(function () {
     $subscriber->extra_attributes = ['first_name' => 'John', 'last_name' => 'Doe'];
     $subscriber->save();
 
-    test()->send->campaign->update(['name' => 'my campaign']);
+    test()->send->contentItem->model->update(['name' => 'my campaign']);
 
-    test()->personalizeSubjectAction = app(PersonalizeSubjectAction::class);
+    test()->personalizeSubjectAction = app(PersonalizeTextAction::class);
 });
 
 it('can replace an placeholder for a subscriber attribute', function () {
@@ -35,11 +35,11 @@ it('will not replace an placeholder for a non existing subscriber extra attribut
 // Helpers
 function assertPersonalizeCampaignSubjectActionResult(string $originalSubject, $expectedSubject)
 {
-    $actualOutputHtml = app(PersonalizeSubjectAction::class)->execute($originalSubject, test()->send);
+    $actualOutputHtml = app(PersonalizeTextAction::class)->execute($originalSubject, test()->send);
     test()->assertEquals($expectedSubject, $actualOutputHtml, "The personalize action did not produce the expected result. Expected: `{$expectedSubject}`, actual: `{$actualOutputHtml}`");
 
     $expectedOutputHtmlWithHtmlTags = "{$expectedSubject}";
-    $actualOutputHtmlWithHtmlTags = app(PersonalizeSubjectAction::class)->execute("$originalSubject", test()->send);
+    $actualOutputHtmlWithHtmlTags = app(PersonalizeTextAction::class)->execute("$originalSubject", test()->send);
 
     test()->assertEquals($expectedOutputHtmlWithHtmlTags, $actualOutputHtmlWithHtmlTags, "The personalize action did not produce the expected result when wrapped in html tags. Expected: `{$expectedOutputHtmlWithHtmlTags}`, actual: `{$actualOutputHtmlWithHtmlTags}`");
 }

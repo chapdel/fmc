@@ -4,18 +4,19 @@ namespace Spatie\Mailcoach\Domain\Campaign\Models\Concerns;
 
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Mailcoach\Domain\Campaign\Models\Template;
+use Spatie\Mailcoach\Domain\Content\Models\Template;
 
 /**
  * @property ?Template $template
  * @property int|string|null $template_id
  * @property ?CarbonInterface $updated_at
- * @property CarbonInterface $last_modified_at
  *
  * @mixin Model
  */
 interface HasHtmlContent
 {
+    public function getModel(): Model;
+
     public function hasTemplates(): bool;
 
     public function getHtml(): ?string;

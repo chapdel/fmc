@@ -7,7 +7,7 @@
             <a href="{{ $campaign->websiteUrl() }}" class="card">
                 <article class="card-contents">
                     <h2>
-                        {{ $campaign->subject }}
+                        {{ $campaign->contentItem->subject }}
                     </h2>
                     <time datetime="{{ $campaign->sent_at }}">
                         {{ $campaign->sent_at->format('F j, Y') }}

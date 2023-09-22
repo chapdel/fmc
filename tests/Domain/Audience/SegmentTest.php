@@ -1,11 +1,13 @@
 <?php
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
+use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestClasses\TestCustomQueryOnlyShouldSendToJohn;
 use Spatie\Mailcoach\Tests\TestClasses\TestSegmentAllSubscribers;
 use Spatie\Mailcoach\Tests\TestClasses\TestSegmentQueryOnlyJohn;
@@ -13,7 +15,7 @@ use Spatie\Mailcoach\Tests\TestClasses\TestSegmentQueryOnlyJohn;
 beforeEach(function () {
     Mail::fake();
 
-    test()->campaign = Campaign::factory()->create();
+    test()->campaign = (new CampaignFactory())->create();
 
     test()->emailList = EmailList::factory()->create();
 });
@@ -45,6 +47,8 @@ it('can segment a test by using a query', function () {
 });
 
 it('can segment a test by using should send', function () {
+    test()->campaign->contentItem->update(Arr::except(ContentItem::factory()->make()->toArray(), ['model_id']));
+
     test()->emailList->subscribe('john@example.com');
     test()->emailList->subscribe('jane@example.com');
     test()->campaign

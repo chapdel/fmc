@@ -19,20 +19,23 @@ it('can duplicate a campaign', function () {
 
     $duplicatedCampaign = Campaign::orderByDesc('id')->first();
 
-    test()->assertEquals(
-        "Duplicate of {$this->campaign->name}",
-        $duplicatedCampaign->name
-    );
+    expect($duplicatedCampaign->name)->toBe("Duplicate of {$this->campaign->name}");
+    expect($duplicatedCampaign->contentItem->id)->not()->toBe($this->campaign->contentItem->id);
+
+    foreach ([
+        'email_list_id',
+        'segment_class',
+        'segment_id',
+    ] as $attribute) {
+        expect($duplicatedCampaign->$attribute)->toBe($this->campaign->$attribute);
+    }
 
     foreach ([
         'subject',
         'template_id',
-        'email_list_id',
         'html',
         'webview_html',
-        'segment_class',
-        'segment_id',
     ] as $attribute) {
-        test()->assertEquals($duplicatedCampaign->$attribute, $this->campaign->$attribute);
+        expect($duplicatedCampaign->contentItem->$attribute)->toBe($this->campaign->contentItem->$attribute);
     }
 });

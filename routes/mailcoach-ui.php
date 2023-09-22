@@ -18,29 +18,23 @@ use Spatie\Mailcoach\Livewire\Audience\TagComponent;
 use Spatie\Mailcoach\Livewire\Audience\TagsComponent;
 use Spatie\Mailcoach\Livewire\Audience\WebsiteComponent;
 use Spatie\Mailcoach\Livewire\Automations\AutomationActionsComponent;
-use Spatie\Mailcoach\Livewire\Automations\AutomationMailClicksComponent;
-use Spatie\Mailcoach\Livewire\Automations\AutomationMailContentComponent;
 use Spatie\Mailcoach\Livewire\Automations\AutomationMailDeliveryComponent;
-use Spatie\Mailcoach\Livewire\Automations\AutomationMailLinkClicksComponent;
-use Spatie\Mailcoach\Livewire\Automations\AutomationMailOpensComponent;
-use Spatie\Mailcoach\Livewire\Automations\AutomationMailOutboxComponent;
 use Spatie\Mailcoach\Livewire\Automations\AutomationMailsComponent;
 use Spatie\Mailcoach\Livewire\Automations\AutomationMailSettingsComponent;
 use Spatie\Mailcoach\Livewire\Automations\AutomationMailSummaryComponent;
-use Spatie\Mailcoach\Livewire\Automations\AutomationMailUnsubscribesComponent;
 use Spatie\Mailcoach\Livewire\Automations\AutomationsComponent;
 use Spatie\Mailcoach\Livewire\Automations\AutomationSettingsComponent;
 use Spatie\Mailcoach\Livewire\Automations\RunAutomationComponent;
-use Spatie\Mailcoach\Livewire\Campaigns\CampaignClicksComponent;
-use Spatie\Mailcoach\Livewire\Campaigns\CampaignContentComponent;
 use Spatie\Mailcoach\Livewire\Campaigns\CampaignDeliveryComponent;
-use Spatie\Mailcoach\Livewire\Campaigns\CampaignLinkClicksComponent;
-use Spatie\Mailcoach\Livewire\Campaigns\CampaignOpensComponent;
-use Spatie\Mailcoach\Livewire\Campaigns\CampaignOutboxComponent;
 use Spatie\Mailcoach\Livewire\Campaigns\CampaignsComponent;
 use Spatie\Mailcoach\Livewire\Campaigns\CampaignSettingsComponent;
 use Spatie\Mailcoach\Livewire\Campaigns\CampaignSummaryComponent;
-use Spatie\Mailcoach\Livewire\Campaigns\CampaignUnsubscribesComponent;
+use Spatie\Mailcoach\Livewire\Campaigns\OutboxComponent;
+use Spatie\Mailcoach\Livewire\Content\ClicksComponent;
+use Spatie\Mailcoach\Livewire\Content\EditContentComponent;
+use Spatie\Mailcoach\Livewire\Content\LinkClicksComponent;
+use Spatie\Mailcoach\Livewire\Content\OpensComponent;
+use Spatie\Mailcoach\Livewire\Content\UnsubscribesComponent;
 use Spatie\Mailcoach\Livewire\Dashboard\DashboardComponent;
 use Spatie\Mailcoach\Livewire\DebugComponent;
 use Spatie\Mailcoach\Livewire\Editor\EditorSettingsComponent;
@@ -77,15 +71,15 @@ Route::prefix('campaigns')->group(function () {
 
     Route::prefix('{campaign}')->name('mailcoach.campaigns.')->group(function () {
         Route::get('settings', Mailcoach::getLivewireClass(CampaignSettingsComponent::class))->name('settings');
-        Route::get('content', Mailcoach::getLivewireClass(CampaignContentComponent::class))->name('content');
+        Route::get('content', Mailcoach::getLivewireClass(EditContentComponent::class))->name('content');
         Route::get('delivery', Mailcoach::getLivewireClass(CampaignDeliveryComponent::class))->name('delivery');
 
         Route::get('summary', Mailcoach::getLivewireClass(CampaignSummaryComponent::class))->name('summary');
-        Route::get('opens', Mailcoach::getLivewireClass(CampaignOpensComponent::class))->name('opens');
-        Route::get('clicks', Mailcoach::getLivewireClass(CampaignClicksComponent::class))->name('clicks');
-        Route::get('clicks/{campaignLink}', Mailcoach::getLivewireClass(CampaignLinkClicksComponent::class))->name('link-clicks');
-        Route::get('unsubscribes', Mailcoach::getLivewireClass(CampaignUnsubscribesComponent::class))->name('unsubscribes');
-        Route::get('outbox', Mailcoach::getLivewireClass(CampaignOutboxComponent::class))->name('outbox');
+        Route::get('opens', Mailcoach::getLivewireClass(OpensComponent::class))->name('opens');
+        Route::get('clicks', Mailcoach::getLivewireClass(ClicksComponent::class))->name('clicks');
+        Route::get('clicks/{link}', Mailcoach::getLivewireClass(LinkClicksComponent::class))->name('link-clicks');
+        Route::get('unsubscribes', Mailcoach::getLivewireClass(UnsubscribesComponent::class))->name('unsubscribes');
+        Route::get('outbox', Mailcoach::getLivewireClass(OutboxComponent::class))->name('outbox');
     });
 });
 
@@ -139,14 +133,14 @@ Route::prefix('automation-emails')->group(function () {
     Route::prefix('{automationMail}')->name('mailcoach.automations.mails.')->group(function () {
         Route::get('summary', Mailcoach::getLivewireClass(AutomationMailSummaryComponent::class))->name('summary');
         Route::get('settings', Mailcoach::getLivewireClass(AutomationMailSettingsComponent::class))->name('settings');
-        Route::get('content', Mailcoach::getLivewireClass(AutomationMailContentComponent::class))->name('content');
+        Route::get('content', Mailcoach::getLivewireClass(EditContentComponent::class))->name('content');
         Route::get('delivery', Mailcoach::getLivewireClass(AutomationMailDeliveryComponent::class))->name('delivery');
 
-        Route::get('opens', Mailcoach::getLivewireClass(AutomationMailOpensComponent::class))->name('opens');
-        Route::get('clicks', Mailcoach::getLivewireClass(AutomationMailClicksComponent::class))->name('clicks');
-        Route::get('clicks/{automationMailLink}', Mailcoach::getLivewireClass(AutomationMailLinkClicksComponent::class))->name('link-clicks');
-        Route::get('unsubscribes', Mailcoach::getLivewireClass(AutomationMailUnsubscribesComponent::class))->name('unsubscribes');
-        Route::get('outbox', Mailcoach::getLivewireClass(AutomationMailOutboxComponent::class))->name('outbox');
+        Route::get('opens', Mailcoach::getLivewireClass(OpensComponent::class))->name('opens');
+        Route::get('clicks', Mailcoach::getLivewireClass(ClicksComponent::class))->name('clicks');
+        Route::get('clicks/{Link}', Mailcoach::getLivewireClass(LinkClicksComponent::class))->name('link-clicks');
+        Route::get('unsubscribes', Mailcoach::getLivewireClass(UnsubscribesComponent::class))->name('unsubscribes');
+        Route::get('outbox', Mailcoach::getLivewireClass(OutboxComponent::class))->name('outbox');
     });
 });
 

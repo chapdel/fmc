@@ -13,6 +13,7 @@ class CampaignLinksQuery extends QueryBuilder
     public function __construct(Campaign $campaign, Request $request = null)
     {
         $query = $campaign
+            ->contentItem
             ->links()
             ->getQuery();
 

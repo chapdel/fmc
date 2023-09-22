@@ -4,12 +4,12 @@ namespace Spatie\Mailcoach\Domain\TransactionalMail\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Database\Factories\TransactionalMailLogItemFactory;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\ResendTransactionalMail;
 
@@ -32,37 +32,36 @@ class TransactionalMailLogItem extends Model
         'fake' => 'boolean',
     ];
 
-    public function send(): HasOne
+    public static function booted()
     {
-        return $this->hasOne(self::getSendClass(), 'transactional_mail_log_item_id');
+        static::created(function (self $transactionalMailLogItem) {
+            if (! $transactionalMailLogItem->contentItem) {
+                $contentItem = $transactionalMailLogItem->contentItem()->firstOrCreate();
+                $transactionalMailLogItem->setRelation('contentItem', $contentItem);
+            }
+        });
     }
 
-    public function opens(): HasManyThrough
+    public function contentItem(): MorphOne
     {
-        return $this
-            ->hasManyThrough(
-                self::getTransactionalMailOpenClass(),
-                self::getSendClass(),
-                'transactional_mail_log_item_id'
-            )
-            ->orderBy('created_at');
+        return $this->morphOne(self::getContentItemClass(), 'model');
     }
 
-    public function clicks(): HasManyThrough
+    public function getSend(): ?Send
     {
-        return $this
-            ->hasManyThrough(
-                self::getTransactionalMailClickClass(),
-                self::getSendClass(),
-                'transactional_mail_log_item_id'
-            )
-            ->orderBy('created_at');
+        return $this->contentItem->sends->first();
+    }
+
+    public function getSendAttribute(): ?Send
+    {
+        return $this->getSend();
     }
 
     public function clicksPerUrl(): Collection
     {
-        return $this->clicks
-            ->groupBy('url')
+        return $this->contentItem
+            ->clicks
+            ->groupBy('link.url')
             ->map(function ($group, $url) {
                 return [
                     'url' => $url,

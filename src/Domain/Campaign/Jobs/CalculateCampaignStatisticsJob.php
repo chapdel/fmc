@@ -52,7 +52,11 @@ class CalculateCampaignStatisticsJob implements ShouldBeUnique, ShouldQueue
             $this
                 ->findCampaignsWithStatisticsToRecalculate($startInterval, $endInterval, $recalculateThreshold)
                 ->each(function (Campaign $campaign) {
-                    $campaign->dispatchCalculateStatistics();
+                    if (! $campaign->isSendingOrSent() && ! $campaign->isCancelled()) {
+                        return;
+                    }
+
+                    $campaign->contentItem->dispatchCalculateStatistics();
                 });
         });
     }
@@ -72,13 +76,13 @@ class CalculateCampaignStatisticsJob implements ShouldBeUnique, ShouldQueue
             ->orWhere('status', CampaignStatus::Sending)
             ->get()
             ->filter(function (Campaign $campaign) use ($recalculateThreshold) {
-                if (is_null($campaign->statistics_calculated_at)) {
+                if (is_null($campaign->contentItem->statistics_calculated_at)) {
                     return true;
                 }
 
                 $threshold = $this->now->copy()->subtract($recalculateThreshold);
 
-                return $campaign->statistics_calculated_at->isBefore($threshold);
+                return $campaign->contentItem->statistics_calculated_at->isBefore($threshold);
             });
     }
 }

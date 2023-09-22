@@ -13,7 +13,6 @@ class AllowDuplicateSendAutomationMailToSubscriberAction extends SendAutomationM
     public function execute(AutomationMail $automationMail, ActionSubscriber $actionSubscriber): void
     {
         $this
-            ->prepareSubject($automationMail)
             ->prepareEmailHtml($automationMail)
             ->prepareWebviewHtml($automationMail)
             ->createSend($automationMail, $actionSubscriber);
@@ -21,7 +20,7 @@ class AllowDuplicateSendAutomationMailToSubscriberAction extends SendAutomationM
 
     protected function createSend(AutomationMail $automationMail, ActionSubscriber $actionSubscriber): Send
     {
-        return $automationMail->sends()->create([
+        return $automationMail->contentItem->sends()->create([
             'subscriber_id' => $actionSubscriber->subscriber_id,
             'uuid' => (string) Str::uuid(),
         ]);

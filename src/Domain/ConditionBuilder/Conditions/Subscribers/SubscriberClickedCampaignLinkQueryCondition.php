@@ -41,12 +41,20 @@ class SubscriberClickedCampaignLinkQueryCondition extends QueryCondition
     {
         $this->ensureOperatorIsSupported($operator);
 
+        $campaignClass = self::getCampaignClass();
+        $campaignMorphClass = (new $campaignClass)->getMorphClass();
+
+        // @todo performance issues ?
         if ($operator === ComparisonOperator::Any) {
-            return $baseQuery->whereHas('clicks.link');
+            return $baseQuery->whereHas('clicks.link.contentItem', function (Builder $query) use ($campaignMorphClass) {
+                $query->where('model_type', $campaignMorphClass);
+            });
         }
 
         if ($operator === ComparisonOperator::None) {
-            return $baseQuery->whereDoesntHave('clicks.link');
+            return $baseQuery->whereDoesntHave('clicks.link.contentItem', function (Builder $query) use ($campaignMorphClass) {
+                $query->where('model_type', $campaignMorphClass);
+            });
         }
 
         if (! is_string($value)) {
@@ -55,13 +63,23 @@ class SubscriberClickedCampaignLinkQueryCondition extends QueryCondition
 
         if ($operator === ComparisonOperator::NotEquals) {
             return $baseQuery
-                ->whereHas('clicks.link', function (Builder $query) use ($value) {
+                ->whereHas('clicks.link', function (Builder $query) use ($campaignMorphClass, $value) {
                     $query->whereNot('url', $value);
-                })->orWhereDoesntHave('clicks.link');
+                    $query->whereHas('contentItem', function (Builder $query) use ($campaignMorphClass) {
+                        $query->where('model_type', $campaignMorphClass);
+                    });
+                })
+                ->orWhereDoesntHave('clicks.link.contentItem', function (Builder $query) use ($campaignMorphClass) {
+                    $query->where('model_type', $campaignMorphClass);
+                });
         }
 
-        return $baseQuery->whereHas('clicks.link', function (Builder $query) use ($operator, $value) {
-            $query->where('url', $operator->toSymbol(), $value);
-        });
+        return $baseQuery
+            ->whereHas('clicks.link', function (Builder $query) use ($operator, $campaignMorphClass, $value) {
+                $query->where('url', $operator->toSymbol(), $value);
+                $query->whereHas('contentItem', function (Builder $query) use ($campaignMorphClass) {
+                    $query->where('model_type', $campaignMorphClass);
+                });
+            });
     }
 }

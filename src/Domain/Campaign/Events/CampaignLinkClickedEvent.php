@@ -2,12 +2,12 @@
 
 namespace Spatie\Mailcoach\Domain\Campaign\Events;
 
-use Spatie\Mailcoach\Domain\Campaign\Models\CampaignClick;
+use Spatie\Mailcoach\Domain\Content\Models\Click;
 
 class CampaignLinkClickedEvent
 {
     public function __construct(
-        public CampaignClick $campaignClick
+        public Click $campaignClick
     ) {
     }
 }

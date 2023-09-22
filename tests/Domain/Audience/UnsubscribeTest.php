@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
-use Spatie\Mailcoach\Domain\Campaign\Models\CampaignUnsubscribe;
+use Spatie\Mailcoach\Domain\Content\Models\Unsubscribe;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Http\Front\Controllers\UnsubscribeController;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
@@ -46,11 +46,11 @@ it('can unsubscribe from a list', function () {
 
     expect(test()->subscriber->refresh()->status)->toEqual(SubscriptionStatus::Unsubscribed);
 
-    expect(CampaignUnsubscribe::all())->toHaveCount(1);
-    $campaignUnsubscribe = CampaignUnsubscribe::first();
+    expect(Unsubscribe::all())->toHaveCount(1);
+    $unsubscribe = Unsubscribe::first();
 
-    expect($campaignUnsubscribe->subscriber->uuid)->toEqual(test()->subscriber->uuid);
-    expect($campaignUnsubscribe->campaign->uuid)->toEqual(test()->campaign->uuid);
+    expect($unsubscribe->subscriber->uuid)->toEqual(test()->subscriber->uuid);
+    expect($unsubscribe->content_item_id)->toEqual(test()->campaign->contentItem->id);
 
     $subscription = test()->emailList->allSubscribers()->first();
     expect($subscription->status)->toEqual(SubscriptionStatus::Unsubscribed);
@@ -82,7 +82,7 @@ it('will only store a single unsubscribe even if the unsubscribe link is used mu
     test()->post(test()->mailedUnsubscribeLink)->assertSuccessful();
     $response = test()->get(test()->mailedUnsubscribeLink)->assertSuccessful()->baseResponse->content();
 
-    expect(CampaignUnsubscribe::all())->toHaveCount(1);
+    expect(Unsubscribe::all())->toHaveCount(1);
 
     expect($response)->toContain('already unsubscribed');
 });

@@ -16,7 +16,7 @@ class SendCampaignMailsAction
     {
         $this->retryDispatchForStuckSends($campaign, $stopExecutingAt);
 
-        if (! $campaign->sends()->undispatched()->count()) {
+        if (! $campaign->contentItem->sends()->undispatched()->count()) {
             if ($campaign->allSendsCreated() && ! $campaign->allMailSendingJobsDispatched()) {
                 $campaign->markAsAllMailSendingJobsDispatched();
             }
@@ -40,10 +40,11 @@ class SendCampaignMailsAction
 
         $realisticTimeInMinutes = min(
             60 * 3, // SendCampaignMailJob only has 3 hours retryUntil()
-            round($campaign->sent_to_number_of_subscribers / $mailsPerSecond / 60),
+            round($campaign->contentItem->sent_to_number_of_subscribers / $mailsPerSecond / 60),
         );
 
-        $retryQuery = $campaign->sends()
+        $retryQuery = $campaign->contentItem
+            ->sends()
             ->pending()
             ->where('sending_job_dispatched_at', '<', now()->subMinutes($realisticTimeInMinutes + 15));
 
@@ -72,10 +73,11 @@ class SendCampaignMailsAction
         $simpleThrottle = app(SimpleThrottle::class)
             ->forMailer($campaign->getMailerKey());
 
-        $undispatchedCount = $campaign->sends()->undispatched()->count();
+        $undispatchedCount = $campaign->contentItem->sends()->undispatched()->count();
 
         while ($undispatchedCount > 0) {
             $campaign
+                ->contentItem
                 ->sends()
                 ->undispatched()
                 ->lazyById()
@@ -92,7 +94,7 @@ class SendCampaignMailsAction
                     }
                 });
 
-            $undispatchedCount = $campaign->sends()->undispatched()->count();
+            $undispatchedCount = $campaign->contentItem->sends()->undispatched()->count();
         }
 
         if (! $campaign->allSendsCreated()) {

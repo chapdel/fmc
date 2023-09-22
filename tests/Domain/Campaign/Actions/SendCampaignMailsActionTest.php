@@ -13,17 +13,20 @@ it('will retry stuck pending sends', function () {
     $action = app(SendCampaignMailsAction::class);
 
     $campaign = Campaign::factory()->create([
-        'sent_to_number_of_subscribers' => 10_000,
         'all_sends_dispatched_at' => now()->subMinutes(20),
     ]);
 
+    $campaign->contentItem->update([
+        'sent_to_number_of_subscribers' => 10_000,
+    ]);
+
     Send::factory()->create([
-        'campaign_id' => $campaign->id,
+        'content_item_id' => $campaign->contentItem->id,
         'sending_job_dispatched_at' => now()->subMinutes(35),
     ]);
 
     Send::factory()->create([
-        'campaign_id' => $campaign->id,
+        'content_item_id' => $campaign->contentItem->id,
         'sending_job_dispatched_at' => now()->subMinutes(25),
     ]);
 
@@ -37,20 +40,23 @@ it('will halt when running out of time', function () {
     $action = app(SendCampaignMailsAction::class);
 
     $campaign = Campaign::factory()->create([
-        'sent_to_number_of_subscribers' => 10_000,
         'all_sends_dispatched_at' => now()->subMinutes(20),
+    ]);
+
+    $campaign->contentItem->update([
+        'sent_to_number_of_subscribers' => 10_000,
     ]);
 
     config()->set("mail.mailers.{$campaign->getMailerKey()}.mails_per_timespan", 1);
     config()->set("mail.mailers.{$campaign->getMailerKey()}.timespan_in_seconds", 120);
 
     Send::factory()->create([
-        'campaign_id' => $campaign->id,
+        'content_item_id' => $campaign->contentItem->id,
         'sending_job_dispatched_at' => now()->subHours(4),
     ]);
 
     Send::factory()->create([
-        'campaign_id' => $campaign->id,
+        'content_item_id' => $campaign->contentItem->id,
         'sending_job_dispatched_at' => now()->subHours(4),
     ]);
 

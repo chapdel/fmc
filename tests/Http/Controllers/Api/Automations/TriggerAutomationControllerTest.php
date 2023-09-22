@@ -19,9 +19,7 @@ uses(RespondsToApiRequests::class);
 beforeEach(function () {
     test()->loginToApi();
 
-    test()->automationMail = AutomationMail::factory()->create([
-        'subject' => 'Welcome',
-    ]);
+    test()->automationMail = AutomationMail::factory()->create();
 
     test()->emailList = EmailList::factory()->create();
 });

@@ -13,7 +13,7 @@ class CampaignUnsubscribesQuery extends QueryBuilder
     public function __construct(Campaign $campaign, Request $request = null)
     {
         parent::__construct(
-            $campaign->unsubscribes()->getQuery(),
+            $campaign->contentItem->unsubscribes()->getQuery(),
             $request,
         );
 

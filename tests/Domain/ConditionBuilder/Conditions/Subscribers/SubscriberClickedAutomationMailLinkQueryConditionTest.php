@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Tests\Domain\ConditionBuilder\Conditions\Subscribers;
 
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
-use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailLink;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Conditions\Subscribers\SubscriberClickedAutomationMailLinkQueryCondition;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Enums\ComparisonOperator;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
@@ -21,20 +20,20 @@ it('has a key', function () {
 it('can compare with an equals to operator', function () {
     $condition = new SubscriberClickedAutomationMailLinkQueryCondition();
 
-    $automationMail = AutomationMail::factory()
-        ->has(AutomationMailLink::factory()->state(['url' => 'https://spatie.be']), 'links')
-        ->create();
+    $automationMail = AutomationMail::factory()->create();
 
     $subscriberA = Subscriber::factory()
-        ->has(Send::factory()->state(['automation_mail_id' => $automationMail->id]), 'sends')
+        ->has(Send::factory()->state(['content_item_id' => $automationMail->contentItem->id]), 'sends')
         ->create();
+
+    $subscriberA->sends->first()->registerClick('https://spatie.be');
 
     $subscriberB = Subscriber::factory()->create();
 
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::Equals,
-        value: $automationMail->links()->first()->url,
+        value: $automationMail->contentItem->links()->first()->url,
     );
 
     assertTrue($query->pluck('id')->contains($subscriberA->id));
@@ -54,19 +53,20 @@ it('can compare with an non equals to operator', function () {
     $condition = new SubscriberClickedAutomationMailLinkQueryCondition();
 
     $automationMail = AutomationMail::factory()
-        ->has(AutomationMailLink::factory()->state(['url' => 'https://spatie.be']), 'links')
         ->create();
 
     $subscriberA = Subscriber::factory()
-        ->has(Send::factory()->state(['automation_mail_id' => $automationMail->id]), 'sends')
+        ->has(Send::factory()->state(['content_item_id' => $automationMail->contentItem->id]), 'sends')
         ->create();
+
+    $subscriberA->sends->first()->registerClick('https://spatie.be');
 
     $subscriberB = Subscriber::factory()->create();
 
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::NotEquals,
-        value: $automationMail->links()->first()->url,
+        value: $automationMail->contentItem->links()->first()->url,
     );
 
     assertTrue($query->pluck('id')->doesntContain($subscriberA->id));
@@ -86,12 +86,13 @@ it('can compare with an any operator', function () {
     $condition = new SubscriberClickedAutomationMailLinkQueryCondition();
 
     $automationMail = AutomationMail::factory()
-        ->has(AutomationMailLink::factory()->state(['url' => 'https://spatie.be']), 'links')
         ->create();
 
     $subscriberA = Subscriber::factory()
-        ->has(Send::factory()->state(['automation_mail_id' => $automationMail->id]), 'sends')
+        ->has(Send::factory()->state(['content_item_id' => $automationMail->contentItem->id]), 'sends')
         ->create();
+
+    $subscriberA->sends->first()->registerClick('https://spatie.be');
 
     $subscriberB = Subscriber::factory()->create();
 
@@ -118,12 +119,13 @@ it('can compare with a none operator', function () {
     $condition = new SubscriberClickedAutomationMailLinkQueryCondition();
 
     $automationMail = AutomationMail::factory()
-        ->has(AutomationMailLink::factory()->state(['url' => 'https://spatie.be']), 'links')
         ->create();
 
     $subscriberA = Subscriber::factory()
-        ->has(Send::factory()->state(['automation_mail_id' => $automationMail->id]), 'sends')
+        ->has(Send::factory()->state(['content_item_id' => $automationMail->contentItem->id]), 'sends')
         ->create();
+
+    $subscriberA->sends->first()->registerClick('https://spatie.be');
 
     $subscriberB = Subscriber::factory()->create();
 

@@ -6,8 +6,8 @@ use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\SubscribersWithTagsSegment;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\Campaign\Policies\CampaignPolicy;
+use Spatie\Mailcoach\Domain\Content\Models\Template;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignsController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestClasses\CustomCampaignDenyAllPolicy;
@@ -28,9 +28,14 @@ test('a campaign can be created using the api', function () {
 
     $campaign = Campaign::first();
 
-    foreach (Arr::except(test()->postAttributes, ['type', 'email_list_uuid']) as $attributeName => $attributeValue) {
+    foreach (Arr::except(test()->postAttributes, ['type', 'email_list_uuid', 'subject', 'html']) as $attributeName => $attributeValue) {
         test()->assertEquals($attributeValue, $campaign->$attributeName);
     }
+
+    foreach (Arr::only(test()->postAttributes, ['subject', 'html']) as $attributeName => $attributeValue) {
+        test()->assertEquals($attributeValue, $campaign->contentItem->$attributeName);
+    }
+
     test()->assertEquals(test()->postAttributes['email_list_uuid'], $campaign->emailList->uuid);
 });
 

@@ -301,10 +301,11 @@ class Mailcoach
     {
         return collect([
             'campaign' => \Spatie\Mailcoach\Domain\Campaign\Models\Campaign::class,
-            'campaign_link' => \Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink::class,
-            'campaign_click' => \Spatie\Mailcoach\Domain\Campaign\Models\CampaignClick::class,
-            'campaign_open' => \Spatie\Mailcoach\Domain\Campaign\Models\CampaignOpen::class,
-            'campaign_unsubscribe' => \Spatie\Mailcoach\Domain\Campaign\Models\CampaignUnsubscribe::class,
+            'content_item' => \Spatie\Mailcoach\Domain\Content\Models\ContentItem::class,
+            'link' => \Spatie\Mailcoach\Domain\Content\Models\Link::class,
+            'click' => \Spatie\Mailcoach\Domain\Content\Models\Click::class,
+            'open' => \Spatie\Mailcoach\Domain\Content\Models\Open::class,
+            'unsubscribe' => \Spatie\Mailcoach\Domain\Content\Models\Unsubscribe::class,
             'email_list' => \Spatie\Mailcoach\Domain\Audience\Models\EmailList::class,
             'send' => \Spatie\Mailcoach\Domain\Shared\Models\Send::class,
             'send_feedback_item' => \Spatie\Mailcoach\Domain\Shared\Models\SendFeedbackItem::class,
@@ -313,19 +314,13 @@ class Mailcoach
             'subscriber_export' => \Spatie\Mailcoach\Domain\Audience\Models\SubscriberExport::class,
             'tag' => \Spatie\Mailcoach\Domain\Audience\Models\Tag::class,
             'tag_segment' => \Spatie\Mailcoach\Domain\Audience\Models\TagSegment::class,
-            'template' => \Spatie\Mailcoach\Domain\Campaign\Models\Template::class,
+            'template' => \Spatie\Mailcoach\Domain\Content\Models\Template::class,
             'transactional_mail_log_item' => \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem::class,
-            'transactional_mail_open' => \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailOpen::class,
-            'transactional_mail_click' => \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailClick::class,
             'transactional_mail' => \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail::class,
             'automation' => \Spatie\Mailcoach\Domain\Automation\Models\Automation::class,
             'automation_action' => \Spatie\Mailcoach\Domain\Automation\Models\Action::class,
             'automation_trigger' => \Spatie\Mailcoach\Domain\Automation\Models\Trigger::class,
             'automation_mail' => \Spatie\Mailcoach\Domain\Automation\Models\AutomationMail::class,
-            'automation_mail_link' => \Spatie\Mailcoach\Domain\Automation\Models\AutomationMailLink::class,
-            'automation_mail_click' => \Spatie\Mailcoach\Domain\Automation\Models\AutomationMailClick::class,
-            'automation_mail_open' => \Spatie\Mailcoach\Domain\Automation\Models\AutomationMailOpen::class,
-            'automation_mail_unsubscribe' => \Spatie\Mailcoach\Domain\Automation\Models\AutomationMailUnsubscribe::class,
             'action_subscriber' => \Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber::class,
             'upload' => \Spatie\Mailcoach\Domain\Shared\Models\Upload::class,
             'setting' => \Spatie\Mailcoach\Domain\Settings\Models\Setting::class,
@@ -351,12 +346,17 @@ class Mailcoach
     public static function defaultActions(): Collection
     {
         return collect([
-            'calculate_statistics' => \Spatie\Mailcoach\Domain\Shared\Actions\CalculateStatisticsAction::class,
+            'calculate_statistics' => \Spatie\Mailcoach\Domain\Content\Actions\CalculateStatisticsAction::class,
             'send_webhook' => \Spatie\Mailcoach\Domain\Settings\Actions\SendWebhookAction::class,
             'resend_webhook' => \Spatie\Mailcoach\Domain\Settings\Actions\ResendWebhookCallAction::class,
             'initialize_mjml' => \Spatie\Mailcoach\Domain\Shared\Actions\InitializeMjmlAction::class,
             'render_twig' => \Spatie\Mailcoach\Domain\Shared\Actions\RenderTwigAction::class,
             'is_email_on_suppression_list' => \Spatie\Mailcoach\Domain\Shared\Actions\EnsureEmailsNotOnSuppressionListAction::class,
+            'personalize_text' => \Spatie\Mailcoach\Domain\Content\Actions\PersonalizeTextAction::class,
+            'convert_html_to_text' => \Spatie\Mailcoach\Domain\Content\Actions\ConvertHtmlToTextAction::class,
+            'prepare_email_html' => \Spatie\Mailcoach\Domain\Content\Actions\PrepareEmailHtmlAction::class,
+            'prepare_webview_html' => \Spatie\Mailcoach\Domain\Content\Actions\PrepareWebviewHtmlAction::class,
+            'send_mail' => \Spatie\Mailcoach\Domain\Shared\Actions\SendMailAction::class,
         ]);
     }
 }

@@ -63,7 +63,7 @@ it('can send a campaign with the correct mailer', function () {
 
     test()->campaign->refresh();
     expect(test()->campaign->status)->toEqual(CampaignStatus::Sent);
-    expect(test()->campaign->sent_to_number_of_subscribers)->toEqual(3);
+    expect(test()->campaign->contentItem->sent_to_number_of_subscribers)->toEqual(3);
 });
 
 it('will throttle sending mail', function () {
@@ -158,7 +158,7 @@ it('will not create mailcoach sends if they already have been created', function
 
     $emailList = EmailList::factory()->create();
 
-    $campaign = Campaign::factory()->create([
+    $campaign = (new CampaignFactory())->create([
         'email_list_id' => $emailList->id,
     ]);
 
@@ -169,7 +169,7 @@ it('will not create mailcoach sends if they already have been created', function
 
     SendFactory::new()->create([
         'subscriber_id' => $subscriber->id,
-        'campaign_id' => $campaign->id,
+        'content_item_id' => $campaign->contentItem->id,
     ]);
 
     $campaign->send();
@@ -183,7 +183,7 @@ it('will dispatch create jobs and not dispatch twice', function () {
 
     $emailList = EmailList::factory()->create();
 
-    $campaign = Campaign::factory()->create([
+    $campaign = (new CampaignFactory())->create([
         'email_list_id' => $emailList->id,
     ]);
 
@@ -210,7 +210,7 @@ it('will set all sends created when they are', function () {
 
     $emailList = EmailList::factory()->create();
 
-    $campaign = Campaign::factory()->create([
+    $campaign = (new CampaignFactory())->create([
         'email_list_id' => $emailList->id,
     ]);
 
@@ -230,7 +230,7 @@ it('will set all sends created when they are', function () {
     runAction($campaign);
 
     Send::factory()->create([
-        'campaign_id' => $campaign->id,
+        'content_item_id' => $campaign->contentItem->id,
         'subscriber_id' => $subscriber->id,
     ]);
 
@@ -247,7 +247,7 @@ it('handles an unsubscribed user while sending', function () {
 
     $emailList = EmailList::factory()->create();
 
-    $campaign = Campaign::factory()->create([
+    $campaign = (new CampaignFactory())->create([
         'email_list_id' => $emailList->id,
     ]);
 
@@ -339,7 +339,7 @@ it('will prepare the webview', function () {
     Event::fake();
     Mail::fake();
 
-    test()->campaign->update([
+    test()->campaign->contentItem->update([
         'html' => 'my html',
         'webview_html' => null,
     ]);
@@ -347,7 +347,7 @@ it('will prepare the webview', function () {
     test()->campaign->send();
     runAction();
 
-    test()->assertMatchesHtmlSnapshot(test()->campaign->refresh()->webview_html);
+    test()->assertMatchesHtmlSnapshot(test()->campaign->refresh()->contentItem->webview_html);
 });
 
 test('regular placeholders in the subject will be replaced', function () {

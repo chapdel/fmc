@@ -4,17 +4,15 @@ namespace Spatie\Mailcoach\Domain\Shared\Mails;
 
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
-use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Symfony\Component\Mime\Email;
 
 class MailcoachMail extends Mailable
 {
     use SerializesModels;
 
-    public ?Sendable $sendable = null;
+    public ?ContentItem $contentItem = null;
 
     public ?Send $send = null;
 
@@ -43,7 +41,7 @@ class MailcoachMail extends Mailable
     {
         $this->send = $send;
 
-        $this->sendable = $send->campaign;
+        $this->contentItem = $send->contentItem;
 
         return $this;
     }
@@ -80,37 +78,27 @@ class MailcoachMail extends Mailable
         return $this;
     }
 
-    public function setSendable(Sendable $sendable): static
+    public function setContentItem(ContentItem $contentItem): static
     {
-        $this->sendable = $sendable;
+        $this->contentItem = $contentItem;
 
         $this->setFrom(
-            $sendable->getFromEmail($this->send),
-            $sendable->getFromName($this->send),
+            $contentItem->getFromEmail($this->send),
+            $contentItem->getFromName($this->send),
         );
 
-        $this->replyToAll = $sendable->getReplyToAddresses($this->send);
+        $this->replyToAll = $contentItem->getReplyToAddresses($this->send);
 
-        $replyTo = $sendable->getReplyToEmail($this->send);
+        $replyTo = $contentItem->getReplyToEmail($this->send);
 
         if ($replyTo) {
-            $replyToName = $sendable->getReplyToName($this->send);
+            $replyToName = $contentItem->getReplyToName($this->send);
             $this->setReplyTo($replyTo, $replyToName);
         }
 
-        $htmlView = match (true) {
-            $sendable instanceof AutomationMail => 'mailcoach::mails.automation.automationHtml',
-            $sendable instanceof Campaign => 'mailcoach::mails.campaignHtml',
-        };
-
-        $textView = match (true) {
-            $sendable instanceof AutomationMail => 'mailcoach::mails.automation.automationText',
-            $sendable instanceof Campaign => 'mailcoach::mails.campaignText',
-        };
-
         $this
-            ->setHtmlView($htmlView)
-            ->setTextView($textView);
+            ->setHtmlView('mailcoach::mails.html')
+            ->setTextView('mailcoach::mails.text');
 
         return $this;
     }

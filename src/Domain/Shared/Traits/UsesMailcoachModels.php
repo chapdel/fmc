@@ -13,17 +13,14 @@ use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
-use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailClick;
-use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailLink;
-use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailOpen;
-use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailUnsubscribe;
 use Spatie\Mailcoach\Domain\Automation\Models\Trigger;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Campaign\Models\CampaignClick;
-use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
-use Spatie\Mailcoach\Domain\Campaign\Models\CampaignOpen;
-use Spatie\Mailcoach\Domain\Campaign\Models\CampaignUnsubscribe;
-use Spatie\Mailcoach\Domain\Campaign\Models\Template;
+use Spatie\Mailcoach\Domain\Content\Models\Click;
+use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
+use Spatie\Mailcoach\Domain\Content\Models\Link;
+use Spatie\Mailcoach\Domain\Content\Models\Open;
+use Spatie\Mailcoach\Domain\Content\Models\Template;
+use Spatie\Mailcoach\Domain\Content\Models\Unsubscribe;
 use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
 use Spatie\Mailcoach\Domain\Settings\Models\Setting;
 use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
@@ -32,9 +29,7 @@ use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Models\SendFeedbackItem;
 use Spatie\Mailcoach\Domain\Shared\Models\Upload;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailClick;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailOpen;
 
 trait UsesMailcoachModels
 {
@@ -50,28 +45,45 @@ trait UsesMailcoachModels
         return config('mailcoach.models.campaign', Campaign::class);
     }
 
-    /** @return class-string<CampaignLink> */
-    public static function getCampaignLinkClass(): string
+    /** @return class-string<ContentItem> */
+    public static function getContentItemClass(): string
     {
-        return config('mailcoach.models.campaign_link', CampaignLink::class);
+        return config('mailcoach.models.content_item', ContentItem::class);
     }
 
-    /** @return class-string<CampaignClick> */
-    public static function getCampaignClickClass(): string
+    /** @return string **/
+    public static function getContentItemTableName(): string
     {
-        return config('mailcoach.models.campaign_click', CampaignClick::class);
+        $class = self::getContentItemClass();
+
+        /** @var \Illuminate\Database\Eloquent\Model $contentItem */
+        $contentItem = new $class;
+
+        return $contentItem->getTable();
     }
 
-    /** @return class-string<CampaignOpen> */
-    public static function getCampaignOpenClass(): string
+    /** @return class-string<Link> */
+    public static function getLinkClass(): string
     {
-        return config('mailcoach.models.campaign_open', CampaignOpen::class);
+        return config('mailcoach.models.campaign_link', Link::class);
     }
 
-    /** @return class-string<CampaignUnsubscribe> */
-    public static function getCampaignUnsubscribeClass(): string
+    /** @return class-string<Click> */
+    public static function getClickClass(): string
     {
-        return config('mailcoach.models.campaign_unsubscribe', CampaignUnsubscribe::class);
+        return config('mailcoach.models.campaign_click', Click::class);
+    }
+
+    /** @return class-string<Open> */
+    public static function getOpenClass(): string
+    {
+        return config('mailcoach.models.open', Open::class);
+    }
+
+    /** @return class-string<Unsubscribe> */
+    public static function getUnsubscribeClass(): string
+    {
+        return config('mailcoach.models.campaign_unsubscribe', Unsubscribe::class);
     }
 
     /** @return class-string<EmailList> */
@@ -116,30 +128,6 @@ trait UsesMailcoachModels
         return config('mailcoach.models.automation_mail', AutomationMail::class);
     }
 
-    /** @return class-string<AutomationMailLink> */
-    public static function getAutomationMailLinkClass(): string
-    {
-        return config('mailcoach.models.automation_mail_link', AutomationMailLink::class);
-    }
-
-    /** @return class-string<AutomationMailClick> */
-    public static function getAutomationMailClickClass(): string
-    {
-        return config('mailcoach.models.automation_mail_click', AutomationMailClick::class);
-    }
-
-    /** @return class-string<AutomationMailOpen> */
-    public static function getAutomationMailOpenClass(): string
-    {
-        return config('mailcoach.models.automation_mail_open', AutomationMailOpen::class);
-    }
-
-    /** @return class-string<AutomationMailUnsubscribe> */
-    public static function getAutomationMailUnsubscribeClass(): string
-    {
-        return config('mailcoach.models.automation_mail_unsubscribe', AutomationMailUnsubscribe::class);
-    }
-
     /** @return class-string<Subscriber> */
     public static function getSubscriberClass(): string
     {
@@ -156,18 +144,6 @@ trait UsesMailcoachModels
     public static function getTransactionalMailLogItemClass(): string
     {
         return config('mailcoach.models.transactional_mail_log_item', TransactionalMailLogItem::class);
-    }
-
-    /** @return class-string<TransactionalMailOpen> */
-    public static function getTransactionalMailOpenClass(): string
-    {
-        return config('mailcoach.models.transactional_mail_open', TransactionalMailOpen::class);
-    }
-
-    /** @return class-string<TransactionalMailClick> */
-    public static function getTransactionalMailClickClass(): string
-    {
-        return config('mailcoach.models.transactional_mail_click', TransactionalMailClick::class);
     }
 
     /** @return class-string<TransactionalMail> */
@@ -326,9 +302,9 @@ trait UsesMailcoachModels
         return $class->getTable();
     }
 
-    public static function getCampaignLinkTableName(): string
+    public static function getLinkTableName(): string
     {
-        $className = self::getCampaignLinkClass();
+        $className = self::getLinkClass();
 
         /** @var \Illuminate\Database\Eloquent\Model $class */
         $class = new $className;
@@ -336,9 +312,9 @@ trait UsesMailcoachModels
         return $class->getTable();
     }
 
-    public static function getCampaignClickTableName(): string
+    public static function getClickTableName(): string
     {
-        $className = self::getCampaignClickClass();
+        $className = self::getClickClass();
 
         /** @var \Illuminate\Database\Eloquent\Model $class */
         $class = new $className;
@@ -346,9 +322,9 @@ trait UsesMailcoachModels
         return $class->getTable();
     }
 
-    public static function getCampaignOpenTableName(): string
+    public static function getOpenTableName(): string
     {
-        $className = self::getCampaignOpenClass();
+        $className = self::getOpenClass();
 
         /** @var \Illuminate\Database\Eloquent\Model $class */
         $class = new $className;
@@ -356,49 +332,9 @@ trait UsesMailcoachModels
         return $class->getTable();
     }
 
-    public static function getCampaignUnsubscribeTableName(): string
+    public static function getUnsubscribeTableName(): string
     {
-        $className = self::getCampaignUnsubscribeClass();
-
-        /** @var \Illuminate\Database\Eloquent\Model $class */
-        $class = new $className;
-
-        return $class->getTable();
-    }
-
-    public static function getAutomationMailLinkTableName(): string
-    {
-        $className = self::getAutomationMailLinkClass();
-
-        /** @var \Illuminate\Database\Eloquent\Model $class */
-        $class = new $className;
-
-        return $class->getTable();
-    }
-
-    public static function getAutomationMailClickTableName(): string
-    {
-        $className = self::getAutomationMailClickClass();
-
-        /** @var \Illuminate\Database\Eloquent\Model $class */
-        $class = new $className;
-
-        return $class->getTable();
-    }
-
-    public static function getAutomationMailOpenTableName(): string
-    {
-        $className = self::getAutomationMailOpenClass();
-
-        /** @var \Illuminate\Database\Eloquent\Model $class */
-        $class = new $className;
-
-        return $class->getTable();
-    }
-
-    public static function getAutomationUnsubscribeTableName(): string
-    {
-        $className = self::getAutomationMailUnsubscribeClass();
+        $className = self::getUnsubscribeClass();
 
         /** @var \Illuminate\Database\Eloquent\Model $class */
         $class = new $className;

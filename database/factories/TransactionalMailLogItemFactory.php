@@ -19,8 +19,6 @@ class TransactionalMailLogItemFactory extends Factory
     {
         return [
             'uuid' => $this->faker->uuid,
-            'subject' => $this->faker->sentence,
-            'body' => $this->faker->randomHtml(),
             'from' => [$this->person()],
             'to' => [$this->person()],
             'cc' => [$this->person()],

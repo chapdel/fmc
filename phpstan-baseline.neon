@@ -24,16 +24,6 @@ parameters:
 			path: src/Domain/Audience/Support/Segments/SubscribersWithTagsSegment.php
 
 		-
-			message: "#^Fetching class constant class of deprecated class Spatie\\\\Mailcoach\\\\Domain\\\\Automation\\\\Actions\\\\PrepareSubjectAction\\.$#"
-			count: 1
-			path: src/Domain/Automation/Actions/SendAutomationMailTestAction.php
-
-		-
-			message: "#^Fetching class constant class of deprecated class Spatie\\\\Mailcoach\\\\Domain\\\\Automation\\\\Actions\\\\PrepareSubjectAction\\.$#"
-			count: 1
-			path: src/Domain/Automation/Actions/SendAutomationMailToSubscriberAction.php
-
-		-
 			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Automation\\\\Models\\\\Action\\:\\:\\$pivot\\.$#"
 			count: 1
 			path: src/Domain/Automation/Actions/ShouldAutomationRunForSubscriberAction.php
@@ -42,21 +32,6 @@ parameters:
 			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Automation\\\\Support\\\\Actions\\\\AutomationAction\\:\\:\\$automationMail\\.$#"
 			count: 1
 			path: src/Domain/Automation/Jobs/CalculateAutomationMailStatisticsJob.php
-
-		-
-			message: "#^Cannot access property \\$add_subscriber_link_tags on Illuminate\\\\Database\\\\Eloquent\\\\Model\\|null\\.$#"
-			count: 1
-			path: src/Domain/Automation/Listeners/AddAutomationMailClickedTag.php
-
-		-
-			message: "#^Cannot access property \\$add_subscriber_tags on Illuminate\\\\Database\\\\Eloquent\\\\Model\\|null\\.$#"
-			count: 1
-			path: src/Domain/Automation/Listeners/AddAutomationMailClickedTag.php
-
-		-
-			message: "#^Cannot access property \\$uuid on Illuminate\\\\Database\\\\Eloquent\\\\Model\\|null\\.$#"
-			count: 1
-			path: src/Domain/Automation/Listeners/AddAutomationMailClickedTag.php
 
 		-
 			message: """
@@ -81,11 +56,6 @@ parameters:
 			message: "#^Variable \\$condition in PHPDoc tag @var does not match any variable in the foreach loop\\: \\$key$#"
 			count: 1
 			path: src/Domain/Automation/Support/Livewire/Actions/ConditionActionComponent.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Campaign\\\\Models\\\\Campaign\\:\\:\\$fields\\.$#"
-			count: 1
-			path: src/Domain/Campaign/Models/Campaign.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:scheduled\\(\\)\\.$#"
@@ -181,11 +151,6 @@ parameters:
 			"""
 			count: 2
 			path: src/Domain/Shared/Mails/MailcoachMail.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Shared\\\\Models\\\\Sendable\\:\\:\\$structured_html\\.$#"
-			count: 1
-			path: src/Domain/Shared/Models/Sendable.php
 
 		-
 			message: "#^Call to an undefined method Spatie\\\\Image\\\\Manipulations\\:\\:nonQueued\\(\\)\\.$#"
@@ -348,11 +313,6 @@ parameters:
 			path: src/Http/App/ViewComposers/WebsiteStyleComposer.php
 
 		-
-			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Collection\\<int, Spatie\\\\Mailcoach\\\\Domain\\\\Shared\\\\Models\\\\SendFeedbackItem\\>\\:\\:\\$type\\.$#"
-			count: 1
-			path: src/Livewire/Audience/SubscriberSendsComponent.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:subscribed\\(\\)\\.$#"
 			count: 1
 			path: src/Livewire/Audience/SubscribersComponent.php
@@ -371,141 +331,6 @@ parameters:
 			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Audience\\\\Models\\\\Tag\\:\\:\\$subscribers\\.$#"
 			count: 1
 			path: src/Livewire/Audience/TagsComponent.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$subscriber_uuid\\.$#"
-			count: 1
-			path: src/Livewire/Automations/AutomationMailLinkClicksComponent.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Campaign\\\\Models\\\\CampaignClick\\:\\:\\$click_count\\.$#"
-			count: 1
-			path: src/Livewire/Automations/AutomationMailLinkClicksComponent.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Campaign\\\\Models\\\\CampaignClick\\:\\:\\$first_clicked_at\\.$#"
-			count: 1
-			path: src/Livewire/Automations/AutomationMailLinkClicksComponent.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Campaign\\\\Models\\\\CampaignClick\\:\\:\\$subscriber_email\\.$#"
-			count: 1
-			path: src/Livewire/Automations/AutomationMailLinkClicksComponent.php
-
-		-
-			message: "#^Cannot access property \\$name on Illuminate\\\\Database\\\\Eloquent\\\\Model\\|null\\.$#"
-			count: 1
-			path: src/Livewire/Automations/AutomationMailLinkClicksComponent.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$subscriber_uuid\\.$#"
-			count: 1
-			path: src/Livewire/Automations/AutomationMailOpensComponent.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Automation\\\\Models\\\\AutomationMailOpen\\:\\:\\$first_opened_at\\.$#"
-			count: 1
-			path: src/Livewire/Automations/AutomationMailOpensComponent.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Automation\\\\Models\\\\AutomationMailOpen\\:\\:\\$open_count\\.$#"
-			count: 1
-			path: src/Livewire/Automations/AutomationMailOpensComponent.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Automation\\\\Models\\\\AutomationMailOpen\\:\\:\\$subscriber_email\\.$#"
-			count: 1
-			path: src/Livewire/Automations/AutomationMailOpensComponent.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:bounced\\(\\)\\.$#"
-			count: 1
-			path: src/Livewire/Automations/AutomationMailOutboxComponent.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:complained\\(\\)\\.$#"
-			count: 1
-			path: src/Livewire/Automations/AutomationMailOutboxComponent.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:failed\\(\\)\\.$#"
-			count: 1
-			path: src/Livewire/Automations/AutomationMailOutboxComponent.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:pending\\(\\)\\.$#"
-			count: 1
-			path: src/Livewire/Automations/AutomationMailOutboxComponent.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:sent\\(\\)\\.$#"
-			count: 1
-			path: src/Livewire/Automations/AutomationMailOutboxComponent.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$subscriber_uuid\\.$#"
-			count: 1
-			path: src/Livewire/Campaigns/CampaignLinkClicksComponent.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Campaign\\\\Models\\\\CampaignClick\\:\\:\\$click_count\\.$#"
-			count: 1
-			path: src/Livewire/Campaigns/CampaignLinkClicksComponent.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Campaign\\\\Models\\\\CampaignClick\\:\\:\\$first_clicked_at\\.$#"
-			count: 1
-			path: src/Livewire/Campaigns/CampaignLinkClicksComponent.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Campaign\\\\Models\\\\CampaignClick\\:\\:\\$subscriber_email\\.$#"
-			count: 1
-			path: src/Livewire/Campaigns/CampaignLinkClicksComponent.php
-
-		-
-			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$subscriber_uuid\\.$#"
-			count: 1
-			path: src/Livewire/Campaigns/CampaignOpensComponent.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Campaign\\\\Models\\\\CampaignOpen\\:\\:\\$first_opened_at\\.$#"
-			count: 1
-			path: src/Livewire/Campaigns/CampaignOpensComponent.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Campaign\\\\Models\\\\CampaignOpen\\:\\:\\$open_count\\.$#"
-			count: 1
-			path: src/Livewire/Campaigns/CampaignOpensComponent.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Campaign\\\\Models\\\\CampaignOpen\\:\\:\\$subscriber_email\\.$#"
-			count: 1
-			path: src/Livewire/Campaigns/CampaignOpensComponent.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:bounced\\(\\)\\.$#"
-			count: 1
-			path: src/Livewire/Campaigns/CampaignOutboxComponent.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:complained\\(\\)\\.$#"
-			count: 1
-			path: src/Livewire/Campaigns/CampaignOutboxComponent.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:failed\\(\\)\\.$#"
-			count: 1
-			path: src/Livewire/Campaigns/CampaignOutboxComponent.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:pending\\(\\)\\.$#"
-			count: 1
-			path: src/Livewire/Campaigns/CampaignOutboxComponent.php
-
-		-
-			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:sent\\(\\)\\.$#"
-			count: 1
-			path: src/Livewire/Campaigns/CampaignOutboxComponent.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:draft\\(\\)\\.$#"
@@ -528,9 +353,69 @@ parameters:
 			path: src/Livewire/Campaigns/CampaignsComponent.php
 
 		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Campaign\\\\Models\\\\Concerns\\\\HasHtmlContent\\:\\:\\$last_modified_at\\.$#"
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:bounced\\(\\)\\.$#"
 			count: 1
-			path: src/Livewire/Editor/EditorComponent.php
+			path: src/Livewire/Campaigns/OutboxComponent.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:complained\\(\\)\\.$#"
+			count: 1
+			path: src/Livewire/Campaigns/OutboxComponent.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:failed\\(\\)\\.$#"
+			count: 1
+			path: src/Livewire/Campaigns/OutboxComponent.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:pending\\(\\)\\.$#"
+			count: 1
+			path: src/Livewire/Campaigns/OutboxComponent.php
+
+		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:sent\\(\\)\\.$#"
+			count: 1
+			path: src/Livewire/Campaigns/OutboxComponent.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$subscriber_uuid\\.$#"
+			count: 1
+			path: src/Livewire/Content/LinkClicksComponent.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Content\\\\Models\\\\Click\\:\\:\\$click_count\\.$#"
+			count: 1
+			path: src/Livewire/Content/LinkClicksComponent.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Content\\\\Models\\\\Click\\:\\:\\$first_clicked_at\\.$#"
+			count: 1
+			path: src/Livewire/Content/LinkClicksComponent.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Content\\\\Models\\\\Click\\:\\:\\$subscriber_email\\.$#"
+			count: 1
+			path: src/Livewire/Content/LinkClicksComponent.php
+
+		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$subscriber_uuid\\.$#"
+			count: 1
+			path: src/Livewire/Content/OpensComponent.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Content\\\\Models\\\\Open\\:\\:\\$first_opened_at\\.$#"
+			count: 1
+			path: src/Livewire/Content/OpensComponent.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Content\\\\Models\\\\Open\\:\\:\\$open_count\\.$#"
+			count: 1
+			path: src/Livewire/Content/OpensComponent.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Content\\\\Models\\\\Open\\:\\:\\$subscriber_email\\.$#"
+			count: 1
+			path: src/Livewire/Content/OpensComponent.php
 
 		-
 			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Campaign\\\\Models\\\\Concerns\\\\HasHtmlContent\\:\\:\\$template\\.$#"
@@ -561,36 +446,6 @@ parameters:
 			message: "#^Call to an undefined method Spatie\\\\Mailcoach\\\\Livewire\\\\Import\\\\ImportComponent\\:\\:call\\(\\)\\.$#"
 			count: 1
 			path: src/Livewire/Import/ImportComponent.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Livewire\\\\MailConfiguration\\\\Mailgun\\\\MailgunSetupWizardComponent\\:\\:\\$currentStepName\\.$#"
-			count: 1
-			path: src/Livewire/MailConfiguration/Mailgun/MailgunSetupWizardComponent.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Livewire\\\\MailConfiguration\\\\Postmark\\\\PostmarkSetupWizardComponent\\:\\:\\$currentStepName\\.$#"
-			count: 1
-			path: src/Livewire/MailConfiguration/Postmark/PostmarkSetupWizardComponent.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Livewire\\\\MailConfiguration\\\\SendGrid\\\\SendGridSetupWizardComponent\\:\\:\\$currentStepName\\.$#"
-			count: 1
-			path: src/Livewire/MailConfiguration/SendGrid/SendGridSetupWizardComponent.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Livewire\\\\MailConfiguration\\\\Sendinblue\\\\SendinblueSetupWizardComponent\\:\\:\\$currentStepName\\.$#"
-			count: 1
-			path: src/Livewire/MailConfiguration/Sendinblue/SendinblueSetupWizardComponent.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Livewire\\\\MailConfiguration\\\\Ses\\\\SesSetupWizardComponent\\:\\:\\$currentStepName\\.$#"
-			count: 1
-			path: src/Livewire/MailConfiguration/Ses/SesSetupWizardComponent.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Livewire\\\\MailConfiguration\\\\Smtp\\\\SmtpSetupWizardComponent\\:\\:\\$currentStepName\\.$#"
-			count: 1
-			path: src/Livewire/MailConfiguration/Smtp/SmtpSetupWizardComponent.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Query\\\\Builder\\:\\:withCount\\(\\)\\.$#"

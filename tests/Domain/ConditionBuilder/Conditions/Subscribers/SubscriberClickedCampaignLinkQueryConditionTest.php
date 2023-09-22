@@ -5,9 +5,9 @@ namespace Spatie\Mailcoach\Tests\Domain\ConditionBuilder\Conditions\Subscribers;
 use Spatie\Mailcoach\Database\Factories\CampaignFactory;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Campaign\Models\CampaignClick;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Conditions\Subscribers\SubscriberClickedCampaignLinkQueryCondition;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Enums\ComparisonOperator;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
 use function PHPUnit\Framework\assertTrue;
 
@@ -23,18 +23,19 @@ it('can compare with an equals to operator', function () {
 
     /** @var Campaign $campaign */
     $campaign = CampaignFactory::new()->create();
-    $campaign->links()->create(['url' => 'https://spatie.be']);
 
     $subscriberA = Subscriber::factory()
-        ->has(CampaignClick::factory()->state(['campaign_link_id' => $campaign->links->first()->id]), 'clicks')
+        ->has(Send::factory()->state(['content_item_id' => $campaign->contentItem->id]), 'sends')
         ->create();
+
+    $subscriberA->sends->first()->registerClick('https://spatie.be');
 
     $subscriberB = Subscriber::factory()->create();
 
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::Equals,
-        value: $campaign->links->first()->url,
+        value: 'https://spatie.be',
     );
 
     assertTrue($query->pluck('id')->contains($subscriberA->id));
@@ -55,18 +56,19 @@ it('can compare with an non equals to operator', function () {
 
     /** @var Campaign $campaign */
     $campaign = CampaignFactory::new()->create();
-    $campaign->links()->create(['url' => 'https://spatie.be']);
 
     $subscriberA = Subscriber::factory()
-        ->has(CampaignClick::factory()->state(['campaign_link_id' => $campaign->links->first()->id]), 'clicks')
+        ->has(Send::factory()->state(['content_item_id' => $campaign->contentItem->id]), 'sends')
         ->create();
+
+    $subscriberA->sends->first()->registerClick('https://spatie.be');
 
     $subscriberB = Subscriber::factory()->create();
 
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::NotEquals,
-        value: $campaign->links->first()->url,
+        value: 'https://spatie.be',
     );
 
     assertTrue($query->pluck('id')->doesntContain($subscriberA->id));
@@ -87,11 +89,12 @@ it('can compare with an any operator', function () {
 
     /** @var Campaign $campaign */
     $campaign = CampaignFactory::new()->create();
-    $campaign->links()->create(['url' => 'https://spatie.be']);
 
     $subscriberA = Subscriber::factory()
-        ->has(CampaignClick::factory()->state(['campaign_link_id' => $campaign->links->first()->id]), 'clicks')
+        ->has(Send::factory()->state(['content_item_id' => $campaign->contentItem->id]), 'sends')
         ->create();
+
+    $subscriberA->sends->first()->registerClick('https://spatie.be');
 
     $subscriberB = Subscriber::factory()->create();
 
@@ -119,11 +122,12 @@ it('can compare with a none operator', function () {
 
     /** @var Campaign $campaign */
     $campaign = CampaignFactory::new()->create();
-    $campaign->links()->create(['url' => 'https://spatie.be']);
 
     $subscriberA = Subscriber::factory()
-        ->has(CampaignClick::factory()->state(['campaign_link_id' => $campaign->links->first()->id]), 'clicks')
+        ->has(Send::factory()->state(['content_item_id' => $campaign->contentItem->id]), 'sends')
         ->create();
+
+    $subscriberA->sends->first()->registerClick('https://spatie.be');
 
     $subscriberB = Subscriber::factory()->create();
 

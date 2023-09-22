@@ -19,7 +19,7 @@ class TransactionalMailPerformanceComponent extends Component
     {
         $this->transactionalMail = $transactionalMail;
 
-        app(MainNavigation::class)->activeSection()?->add($this->transactionalMail->subject, route('mailcoach.transactionalMails'));
+        app(MainNavigation::class)->activeSection()?->add($this->transactionalMail->contentItem->subject, route('mailcoach.transactionalMails'));
     }
 
     public function render()

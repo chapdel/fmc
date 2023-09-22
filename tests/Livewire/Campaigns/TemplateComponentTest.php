@@ -2,9 +2,9 @@
 
 use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Campaign\Models\Template;
+use Spatie\Mailcoach\Domain\Content\Models\Template;
 use Spatie\Mailcoach\Livewire\Templates\TemplateComponent;
+use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 
 it('can save a template', function () {
     $this->authenticate();
@@ -24,7 +24,7 @@ it('re-renders emails using the template', function () {
         'html' => '<h1>[[[title:text]]]</h1><p>A new addition</p>',
     ]);
 
-    $campaign = Campaign::factory()->create([
+    $campaign = CampaignFactory::new()->create([
         'template_id' => $template->id,
         'status' => CampaignStatus::Draft,
         'html' => '<h1>Title</h1>',
@@ -34,5 +34,5 @@ it('re-renders emails using the template', function () {
     Livewire::test(TemplateComponent::class, ['template' => $template])
         ->call('save');
 
-    expect($campaign->fresh()->html)->toBe('<h1>Title</h1><p>A new addition</p>');
+    expect($campaign->fresh()->contentItem->html)->toBe('<h1>Title</h1><p>A new addition</p>');
 });

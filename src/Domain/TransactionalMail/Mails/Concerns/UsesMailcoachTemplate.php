@@ -65,7 +65,7 @@ trait UsesMailcoachTemplate
 
     protected function setSubject(TransactionalMail $template, array $replacements): void
     {
-        $subject = $template->subject ?? '';
+        $subject = $template->contentItem->subject ?? '';
 
         foreach ($replacements as $search => $replace) {
             $subject = str_replace("::{$search}::", $replace, $subject);
@@ -80,7 +80,7 @@ trait UsesMailcoachTemplate
     {
         $instance = new self();
         $template = $instance::getTransactionalMailClass()::first();
-        $instance->subject($instance->executeReplacers($template->subject, $template, $instance));
+        $instance->subject($instance->executeReplacers($template->contentItem->subject, $template, $instance));
 
         return $instance;
     }

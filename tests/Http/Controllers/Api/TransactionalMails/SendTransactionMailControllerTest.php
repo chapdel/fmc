@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Models\Suppression;
-use Spatie\Mailcoach\Domain\Campaign\Models\Template;
+use Spatie\Mailcoach\Domain\Content\Models\Template;
 use Spatie\Mailcoach\Domain\Shared\Policies\SendPolicy;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\TransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail as TransactionalMailModel;
@@ -17,11 +17,14 @@ uses(RespondsToApiRequests::class);
 beforeEach(function () {
     test()->loginToApi();
 
-    TransactionalMailModel::factory()->create([
+    $transactionalMail = TransactionalMailModel::factory()->create([
         'name' => 'my-template',
         'from' => 'john@doe.com',
+    ]);
+
+    $transactionalMail->contentItem->update([
         'subject' => 'An other subject',
-        'body' => 'My template body',
+        'html' => 'My template body',
     ]);
 });
 
@@ -154,7 +157,7 @@ it('tracks the transactional mails', function () {
         ->assertSuccessful();
 
     expect(TransactionalMailModel::count())->toBe(1);
-    expect(TransactionalMailModel::first()->body)->toContain('My template body');
+    expect(TransactionalMailModel::first()->contentItem->html)->toContain('My template body');
 });
 
 it('authorizes with policies', function () {
@@ -196,10 +199,11 @@ it('can handle the fields of a transactional mail', function () {
 
     /** TransactionalMail */
     TransactionalMailModel::factory()->create([
-        'template_id' => $template->id,
         'name' => 'my-template-with-placeholders',
-        'body' => '<html>title: ::myTitle::</html>',
+    ])->contentItem->update([
+        'template_id' => $template->id,
         'subject' => '{{ greeting }}',
+        'html' => '<html>title: ::myTitle::</html>',
     ]);
 
     $this
@@ -215,9 +219,9 @@ it('can handle the fields of a transactional mail', function () {
         ]))
         ->assertSuccessful();
 
-    expect(TransactionalMailLogItem::first()->body)
+    expect(TransactionalMailLogItem::first()->contentItem->html)
         ->toContain('title: replaced title');
-    expect(TransactionalMailLogItem::first()->subject)
+    expect(TransactionalMailLogItem::first()->contentItem->subject)
         ->toBe('Hi!');
 });
 
@@ -228,10 +232,11 @@ it('can render twig', function () {
 
     /** TransactionalMail */
     TransactionalMailModel::factory()->create([
-        'template_id' => $template->id,
         'type' => 'html',
         'name' => 'my-template-with-placeholders',
-        'body' => '<html>title: {{ myTitle }}</html>',
+    ])->contentItem->update([
+        'template_id' => $template->id,
+        'html' => '<html>title: {{ myTitle }}</html>',
         'subject' => '{{ greeting }}',
     ]);
 
@@ -248,9 +253,9 @@ it('can render twig', function () {
         ]))
         ->assertSuccessful();
 
-    expect(TransactionalMailLogItem::first()->body)
+    expect(TransactionalMailLogItem::first()->contentItem->html)
         ->toContain('title: replaced title');
-    expect(TransactionalMailLogItem::first()->subject)
+    expect(TransactionalMailLogItem::first()->contentItem->subject)
         ->toBe('Hi!');
 });
 
@@ -258,8 +263,9 @@ it('can render twig inside the template', function () {
     /** TransactionalMail */
     TransactionalMailModel::factory()->create([
         'type' => 'html',
-        'body' => '<html>{% if myTitle %} {{ myTitle }} {% endif %}</html>',
         'name' => 'my-template-with-placeholders',
+    ])->contentItem->update([
+        'html' => '<html>{% if myTitle %} {{ myTitle }} {% endif %}</html>',
     ]);
 
     $this
@@ -274,7 +280,7 @@ it('can render twig inside the template', function () {
         ]))
         ->assertSuccessful();
 
-    expect(TransactionalMailLogItem::first()->body)
+    expect(TransactionalMailLogItem::first()->contentItem->html)
         ->toContain('replaced title');
 });
 
@@ -282,8 +288,9 @@ it('can render twig inside the template with if tags', function () {
     /** TransactionalMail */
     TransactionalMailModel::factory()->create([
         'type' => 'html',
-        'body' => '<html>{% if myTitle %} {{ myTitle }} {% endif %}</html>',
         'name' => 'my-template-with-placeholders',
+    ])->contentItem->update([
+        'html' => '<html>{% if myTitle %} {{ myTitle }} {% endif %}</html>',
     ]);
 
     $this
@@ -297,7 +304,7 @@ it('can render twig inside the template with if tags', function () {
         ]))
         ->assertSuccessful();
 
-    expect(TransactionalMailLogItem::first()->body)
+    expect(TransactionalMailLogItem::first()->contentItem->html)
         ->toContain("<html></html>\n");
 });
 
@@ -386,12 +393,12 @@ it('will not actually sent a mail when a fake parameter is passed', function () 
     $transactionMailLogItem = TransactionalMailLogItem::first();
 
     expect($transactionMailLogItem->fake)->toBeTrue();
-    expect($transactionMailLogItem->subject)->toBe('Some subject');
     expect($transactionMailLogItem->from)->toBe([['name' => '', 'email' => 'rias@spatie.be']]);
     expect($transactionMailLogItem->to)->toBe([['name' => '', 'email' => 'freek@spatie.be']]);
     expect($transactionMailLogItem->cc)->toBe([['name' => '', 'email' => 'rias+cc@spatie.be']]);
     expect($transactionMailLogItem->bcc)->toBe([['name' => '', 'email' => 'rias+bcc@spatie.be']]);
-    expect($transactionMailLogItem->body)->toBe('<html><body>this is the html</body></html>');
+    expect($transactionMailLogItem->contentItem->subject)->toBe('Some subject');
+    expect($transactionMailLogItem->contentItem->html)->toBe('<html><body>this is the html</body></html>');
 });
 
 it('will not sent when the email is listed as suppressed', function () {

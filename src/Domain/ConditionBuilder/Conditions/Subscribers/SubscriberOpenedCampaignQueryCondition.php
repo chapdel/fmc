@@ -41,12 +41,19 @@ class SubscriberOpenedCampaignQueryCondition extends QueryCondition
     {
         $this->ensureOperatorIsSupported($operator);
 
+        $campaignClass = self::getCampaignClass();
+        $campaignMorphClass = (new $campaignClass)->getMorphClass();
+
         if ($operator === ComparisonOperator::Any) {
-            return $baseQuery->whereHas('opens.campaign');
+            return $baseQuery->whereHas('opens.contentItem', function (Builder $query) use ($campaignMorphClass) {
+                $query->where('model_type', $campaignMorphClass);
+            });
         }
 
         if ($operator === ComparisonOperator::None) {
-            return $baseQuery->whereDoesntHave('opens.campaign');
+            return $baseQuery->whereDoesntHave('opens.contentItem', function (Builder $query) use ($campaignMorphClass) {
+                $query->where('model_type', $campaignMorphClass);
+            });
         }
 
         if (! is_string($value)) {
@@ -55,13 +62,21 @@ class SubscriberOpenedCampaignQueryCondition extends QueryCondition
 
         if ($operator === ComparisonOperator::NotEquals) {
             return $baseQuery
-                ->whereHas('opens.campaign', function (Builder $query) use ($value) {
-                    $query->whereNot('name', $value);
-                })->orWhereDoesntHave('opens.campaign');
+                ->whereHas('opens.contentItem', function (Builder $query) use ($campaignMorphClass, $value) {
+                    $query->where('model_type', $campaignMorphClass)
+                        ->whereHas('model', function (Builder $query) use ($value) {
+                            $query->whereNot('name', $value);
+                        });
+                })->orWhereDoesntHave('opens.contentItem', function (Builder $query) use ($campaignMorphClass) {
+                    $query->where('model_type', $campaignMorphClass);
+                });
         }
 
-        return $baseQuery->whereHas('opens.campaign', function (Builder $query) use ($operator, $value) {
-            $query->where('name', $operator->toSymbol(), $value);
+        return $baseQuery->whereHas('opens.contentItem', function (Builder $query) use ($campaignMorphClass, $operator, $value) {
+            $query->where('model_type', $campaignMorphClass)
+                ->whereHas('model', function (Builder $query) use ($operator, $value) {
+                    $query->where('name', $operator->toSymbol(), $value);
+                });
         });
     }
 }
