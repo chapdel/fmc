@@ -198,22 +198,34 @@ class ListSummaryComponent extends Component
 
     public function averageOpenRate(): float
     {
-        return $this->emailList->campaigns()->average('open_rate') / 100;
+        return DB::table(self::getContentItemTableName())
+            ->where('model_type', (new (self::getCampaignClass()))->getMorphClass())
+            ->whereIn('model_id', $this->emailList->campaigns()->select('id'))
+            ->average('open_rate') / 100;
     }
 
     public function averageClickRate(): float
     {
-        return $this->emailList->campaigns()->average('click_rate') / 100;
+        return DB::table(self::getContentItemTableName())
+            ->where('model_type', (new (self::getCampaignClass()))->getMorphClass())
+            ->whereIn('model_id', $this->emailList->campaigns()->select('id'))
+            ->average('click_rate') / 100;
     }
 
     public function averageUnsubscribeRate(): float
     {
-        return $this->emailList->campaigns()->average('unsubscribe_rate') / 100;
+        return DB::table(self::getContentItemTableName())
+            ->where('model_type', (new (self::getCampaignClass()))->getMorphClass())
+            ->whereIn('model_id', $this->emailList->campaigns()->select('id'))
+            ->average('unsubscribe_rate') / 100;
     }
 
     public function averageBounceRate(): float
     {
-        return $this->emailList->campaigns()->average('bounce_rate') / 100;
+        return DB::table(self::getContentItemTableName())
+            ->where('model_type', (new (self::getCampaignClass()))->getMorphClass())
+            ->whereIn('model_id', $this->emailList->campaigns()->select('id'))
+            ->average('bounce_rate') / 100;
     }
 
     public function growthRate(): float
