@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Illuminate\Mail\MailManager;
 use Illuminate\Queue\Connectors\SyncConnector;
@@ -12,6 +13,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationActionsCommand;
 use Spatie\Mailcoach\Domain\Automation\Commands\SendAutomationMailsCommand;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
+use Spatie\Mailcoach\Domain\Automation\Enums\WaitUnit;
 use Spatie\Mailcoach\Domain\Automation\Jobs\RunAutomationForSubscriberJob;
 use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailToSubscriberJob;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
@@ -521,6 +523,59 @@ test('the automation mail can use custom mailable', function () {
     test()->assertTrue($messages->filter(function (Symfony\Component\Mailer\SentMessage $message) {
         return $message->getOriginalMessage()->getSubject() === 'This is the subject from the custom mailable.';
     })->count() > 0);
+});
+
+it('can wait and only send on weekdays', function () {
+    Mail::fake();
+
+    TestTime::freeze(Carbon::parse('2023-09-13'));
+    expect(now()->englishDayOfWeek)->toBe('Wednesday');
+
+    $emailList = EmailList::factory()->create();
+
+    $automation = Automation::create()
+        ->name('Welcome email')
+        ->runEvery(CarbonInterval::minute())
+        ->to($emailList)
+        ->triggerOn(new SubscribedTrigger)
+        ->chain([
+            WaitAction::make([
+                'length' => 3,
+                'unit' => WaitUnit::Weekdays->value,
+            ]),
+            new SendAutomationMailAction(test()->automationMail),
+        ])
+        ->start();
+
+    test()->refreshServiceProvider();
+
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
+    $subscriber = $emailList->subscribe('john@doe.com');
+
+    Artisan::call(RunAutomationActionsCommand::class);
+    Artisan::call(SendAutomationMailsCommand::class);
+    Mail::assertNothingSent();
+
+    TestTime::addDays(4);
+    expect(now()->englishDayOfWeek)->toBe('Sunday');
+
+    Artisan::call(RunAutomationActionsCommand::class);
+    Artisan::call(SendAutomationMailsCommand::class);
+    Mail::assertNothingSent();
+
+    TestTime::addDay();
+    expect(now()->englishDayOfWeek)->toBe('Monday');
+
+    Artisan::call(RunAutomationActionsCommand::class);
+    Artisan::call(SendAutomationMailsCommand::class);
+    Mail::assertSent(MailcoachMail::class, function (MailcoachMail $mail) {
+        expect($mail->hasTo('john@doe.com'))->toBeTrue();
+
+        return true;
+    });
+
+    expect($automation->actions->first()->subscribers()->count())->toEqual(1);
+    expect($automation->actions->last()->subscribers()->count())->toEqual(1);
 });
 
 it('can run a split automation', function () {

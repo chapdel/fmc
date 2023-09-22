@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Models;
 
+use Carbon\CarbonInterface;
 use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,6 +22,9 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\SendsToSegment;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
+/**
+ * @property-read CarbonInterface $run_at
+ */
 class Automation extends Model
 {
     use HasFactory;

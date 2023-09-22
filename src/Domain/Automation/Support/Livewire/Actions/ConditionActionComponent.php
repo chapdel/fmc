@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions;
 
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Spatie\Mailcoach\Domain\Automation\Enums\WaitUnit;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\AttributeCondition;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\Condition;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasClickedAutomationMail;
@@ -15,15 +16,9 @@ class ConditionActionComponent extends AutomationActionComponent
 {
     public string $length = '1';
 
-    public string $unit = 'days';
+    public string $unit;
 
-    public array $units = [
-        'minutes' => 'Minute',
-        'hours' => 'Hour',
-        'days' => 'Day',
-        'weeks' => 'Week',
-        'months' => 'Month',
-    ];
+    public array $units = [];
 
     public array $editingActions = [];
 
@@ -70,6 +65,9 @@ class ConditionActionComponent extends AutomationActionComponent
 
     public function mount()
     {
+        $this->units = WaitUnit::options();
+        $this->unit = WaitUnit::Days->value;
+
         $defaultConditions = collect([
             AttributeCondition::class,
             HasTagCondition::class,
