@@ -27,9 +27,7 @@
                             </span>
                         </a>
                     </div>
-                    <div class="card text-xl">
-                        @yield('landing')
-                    </div>
+                    @yield('landing')
                 </div>
             </div>
 

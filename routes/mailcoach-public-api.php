@@ -26,7 +26,8 @@ Route::get('/unsubscribe-tag/{subscriberUuid}/{tag}/{sendUuid?}', [UnsubscribeTa
 Route::post('/unsubscribe/{subscriberUuid}/{sendUuid?}', [UnsubscribeController::class, 'confirm']);
 
 Route::get('/manage-preferences/{subscriberUuid}/{sendUuid?}', [ManagePreferencesController::class, 'show'])->name('mailcoach.manage-preferences');
-Route::post('/manage-preferences/{subscriberUuid}/{sendUuid?}', [ManagePreferencesController::class, 'confirm']);
+Route::post('/manage-preferences/info/{subscriberUuid}', [ManagePreferencesController::class, 'updatePersonalInfo']);
+Route::post('/manage-preferences/subscriptions/{subscriberUuid}/{sendUuid?}', [ManagePreferencesController::class, 'updateSubscriptions']);
 
 Route::post('/unsubscribe-tag/{subscriberUuid}/{tag}/{sendUuid?}', [UnsubscribeTagController::class, 'confirm']);
 
