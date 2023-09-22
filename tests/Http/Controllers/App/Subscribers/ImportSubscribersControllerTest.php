@@ -217,10 +217,10 @@ it('can handle an xlsx file', function () {
     expect($this->emailList->subscribers)->toHaveCount(1);
 });
 
-it('can handle a sendstack export file', function () {
+it('can handle a substack export file', function () {
     test()->withoutExceptionHandling();
 
-    uploadStub('sendstack.csv');
+    uploadStub('substack.csv');
 
     $this->emailList->refresh();
 
