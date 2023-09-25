@@ -242,3 +242,18 @@ it('will not generate a webview when disabled in campaign settings', function ()
 
     expect($campaign->webview_html)->toBeNull();
 });
+
+it('uses replacers', function () {
+    $myHtml = '<html><body><h1>Hello</h1>::webviewUrl::</body></html>';
+
+    $campaign = (new CampaignFactory())->create([
+        'html' => $myHtml,
+        'name' => 'My Campaign',
+    ]);
+
+    app(PrepareWebviewHtmlAction::class)->execute($campaign);
+
+    $campaign->refresh();
+
+    expect($campaign->contentItem->webview_html)->toContain(htmlspecialchars($campaign->webviewUrl()));
+});
