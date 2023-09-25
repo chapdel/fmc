@@ -25,7 +25,6 @@ use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\Feed\FeedServiceProvider;
 use Spatie\LaravelRay\RayServiceProvider;
 use Spatie\Mailcoach\Database\Factories\UserFactory;
-use Spatie\Mailcoach\Domain\Editor\Unlayer\MailcoachUnlayerServiceProvider;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Front\Controllers\UnsubscribeController;
@@ -110,7 +109,6 @@ abstract class TestCase extends Orchestra
             MailcoachSendgridFeedbackServiceProvider::class,
             MailcoachSendinblueFeedbackServiceProvider::class,
             MailcoachPostmarkFeedbackServiceProvider::class,
-            MailcoachUnlayerServiceProvider::class,
             MailcoachEditorServiceProvider::class,
             MailcoachMarkdownEditorServiceProvider::class,
             WebhookServerServiceProvider::class,
