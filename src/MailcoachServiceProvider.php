@@ -38,6 +38,7 @@ use Spatie\Mailcoach\Domain\Campaign\Listeners\SendCampaignSentEmail;
 use Spatie\Mailcoach\Domain\Content\Events\ContentOpenedEvent;
 use Spatie\Mailcoach\Domain\Content\Events\LinkClickedEvent;
 use Spatie\Mailcoach\Domain\Content\Listeners\AddOpenedTag;
+use Spatie\Mailcoach\Domain\Editor\Codemirror\Editor;
 use Spatie\Mailcoach\Domain\Settings\Commands\PublishCommand;
 use Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookEventSubscriber;
 use Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookFailedAttemptsSubscriber;
@@ -218,6 +219,11 @@ class MailcoachServiceProvider extends PackageServiceProvider
                 DeleteOldExportsCommand::class,
                 PublishCommand::class,
             ]);
+    }
+
+    public function bootingPackage(): void
+    {
+        Mailcoach::editorScript(Editor::class, asset('vendor/mailcoach-codemirror/editor.js'));
     }
 
     public function packageRegistered(): void
@@ -602,6 +608,9 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::edit-mailer', Mailcoach::getLivewireClass(EditMailerComponent::class));
         Livewire::component('mailcoach::suppression-list', Mailcoach::getLivewireClass(SuppressionListComponent::class));
         Livewire::component('mailcoach::create-suppression', Mailcoach::getLivewireClass(CreateSuppressionComponent::class));
+
+        // Editors
+        Livewire::component('mailcoach-codemirror::editor', Editor::class);
 
         // Condition builder
         Livewire::component('mailcoach::condition-builder', Mailcoach::getLivewireClass(ConditionBuilderComponent::class));

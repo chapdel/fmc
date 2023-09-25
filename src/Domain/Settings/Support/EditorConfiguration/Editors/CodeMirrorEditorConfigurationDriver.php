@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors;
 
-use Spatie\MailcoachCodeMirror\Editor;
+use Spatie\Mailcoach\Domain\Editor\Codemirror\Editor;
 
 class CodeMirrorEditorConfigurationDriver extends EditorConfigurationDriver
 {
