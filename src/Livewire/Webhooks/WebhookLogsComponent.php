@@ -81,7 +81,7 @@ class WebhookLogsComponent extends TableComponent
 
     protected function getTableRecordUrlUsing(): ?Closure
     {
-        return fn (WebhookLog $log) => route('webhooks.logs.show', [$this->webhook, $log]);
+        return fn (WebhookLog $record) => route('webhooks.logs.show', [$this->webhook, $record]);
     }
 
     public function resend(WebhookLog $webhookLog)

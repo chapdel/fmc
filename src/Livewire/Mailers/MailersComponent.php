@@ -57,7 +57,7 @@ class MailersComponent extends TableComponent
 
     protected function getTableRecordUrlUsing(): ?Closure
     {
-        return fn (Mailer $mailer) => route('mailers.edit', $mailer);
+        return fn (Mailer $record) => route('mailers.edit', $record);
     }
 
     protected function getTableActions(): array

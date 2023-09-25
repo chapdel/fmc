@@ -92,11 +92,9 @@
                 <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.mailers', $emailList)">
                     {{ __mc('Mailers') }}
                 </x-mailcoach::navigation-item>
-                @if (config('mailcoach.audience.website', true))
-                    <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.website', $emailList)">
-                        {{ __mc('Website') }}
-                    </x-mailcoach::navigation-item>
-                @endif
+                <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.website', $emailList)">
+                    {{ __mc('Website') }}
+                </x-mailcoach::navigation-item>
             </x-mailcoach::navigation-group>
 
             @include('mailcoach::app.emailLists.layouts.partials.afterLastTab')

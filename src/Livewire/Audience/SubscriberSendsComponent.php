@@ -129,9 +129,9 @@ class SubscriberSendsComponent extends TableComponent
 
     protected function getTableRecordUrlUsing(): ?Closure
     {
-        return fn (Send $send) => match (true) {
-            $send->contentItem->model instanceof Campaign => route('mailcoach.campaigns.summary', $send->contentItem->model),
-            $send->contentItem->model instanceof AutomationMail => route('mailcoach.automations.mails.summary', $send->contentItem->model),
+        return fn (Send $record) => match (true) {
+            $record->contentItem->model instanceof Campaign => route('mailcoach.campaigns.summary', $record->contentItem->model),
+            $record->contentItem->model instanceof AutomationMail => route('mailcoach.automations.mails.summary', $record->contentItem->model),
             default => '',
         };
     }

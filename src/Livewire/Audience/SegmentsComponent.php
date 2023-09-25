@@ -92,8 +92,8 @@ class SegmentsComponent extends TableComponent
 
     protected function getTableRecordUrlUsing(): ?Closure
     {
-        return function (TagSegment $segment) {
-            return route('mailcoach.emailLists.segments.edit', [$this->emailList, $segment]);
+        return function (TagSegment $record) {
+            return route('mailcoach.emailLists.segments.edit', [$this->emailList, $record]);
         };
     }
 

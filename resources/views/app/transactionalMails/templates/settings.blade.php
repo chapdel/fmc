@@ -10,7 +10,7 @@
     <x-mailcoach::fieldset card :legend="__mc('General')">
         <x-mailcoach::text-field :label="__mc('Name')" name="name" wire:model.lazy="name" required/>
         <x-mailcoach::info>
-            {{ __mc('This name is used by the application to retrieve this  Do not change it without updating the code of your app.') }}
+            {{ __mc('This name is used by the application to retrieve this template. Do not change it without updating the code of your app.') }}
         </x-mailcoach::info>
 
         <?php

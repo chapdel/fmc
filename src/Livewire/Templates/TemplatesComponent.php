@@ -53,8 +53,8 @@ class TemplatesComponent extends TableComponent
 
     protected function getTableRecordUrlUsing(): ?Closure
     {
-        return function (Template $template) {
-            return route('mailcoach.templates.edit', $template);
+        return function (Template $record) {
+            return route('mailcoach.templates.edit', $record);
         };
     }
 

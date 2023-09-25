@@ -69,8 +69,8 @@ class TransactionalMailsComponent extends TableComponent
 
     protected function getTableRecordUrlUsing(): ?Closure
     {
-        return function (TransactionalMail $transactionalMail) {
-            return route('mailcoach.transactionalMails.templates.edit', $transactionalMail);
+        return function (TransactionalMail $record) {
+            return route('mailcoach.transactionalMails.templates.edit', $record);
         };
     }
 

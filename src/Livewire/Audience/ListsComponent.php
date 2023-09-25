@@ -51,8 +51,8 @@ class ListsComponent extends TableComponent
 
     protected function getTableRecordUrlUsing(): ?Closure
     {
-        return function (EmailList $emailList) {
-            return route('mailcoach.emailLists.summary', $emailList);
+        return function (EmailList $record) {
+            return route('mailcoach.emailLists.summary', $record);
         };
     }
 

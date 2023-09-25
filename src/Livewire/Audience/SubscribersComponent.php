@@ -305,8 +305,8 @@ class SubscribersComponent extends TableComponent
 
     protected function getTableRecordUrlUsing(): ?Closure
     {
-        return function (Subscriber $subscriber) {
-            return route('mailcoach.emailLists.subscriber.details', [$this->emailList, $subscriber]);
+        return function (Subscriber $record) {
+            return route('mailcoach.emailLists.subscriber.details', [$this->emailList, $record]);
         };
     }
 

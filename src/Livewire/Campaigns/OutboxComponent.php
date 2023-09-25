@@ -121,9 +121,9 @@ class OutboxComponent extends ContentItemTable
 
     protected function getTableRecordUrlUsing(): ?Closure
     {
-        return function (Send $send) {
-            if ($send->subscriber) {
-                return route('mailcoach.emailLists.subscriber.details', [$send->subscriber->emailList, $send->subscriber]);
+        return function (Send $record) {
+            if ($record->subscriber) {
+                return route('mailcoach.emailLists.subscriber.details', [$record->subscriber->emailList, $record->subscriber]);
             }
 
             return null;

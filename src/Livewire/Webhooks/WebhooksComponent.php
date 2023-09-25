@@ -105,6 +105,6 @@ class WebhooksComponent extends TableComponent
 
     protected function getTableRecordUrlUsing(): ?Closure
     {
-        return fn (WebhookConfiguration $webhook) => route('webhooks.edit', $webhook);
+        return fn (WebhookConfiguration $record) => route('webhooks.edit', $record);
     }
 }

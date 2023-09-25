@@ -56,8 +56,8 @@ class UnsubscribesComponent extends ContentItemTable
 
     protected function getTableRecordUrlUsing(): ?Closure
     {
-        return function (Unsubscribe $unsubscribe) {
-            return route('mailcoach.emailLists.subscriber.details', [$unsubscribe->subscriber->emailList, $unsubscribe->subscriber]);
+        return function (Unsubscribe $record) {
+            return route('mailcoach.emailLists.subscriber.details', [$record->subscriber->emailList, $record->subscriber]);
         };
     }
 

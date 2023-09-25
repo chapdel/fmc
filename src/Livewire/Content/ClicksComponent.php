@@ -70,10 +70,10 @@ class ClicksComponent extends ContentItemTable
 
     protected function getTableRecordUrlUsing(): ?Closure
     {
-        return function (Link $link) {
+        return function (Link $record) {
             return match (true) {
-                $this->contentItem->model instanceof Campaign => route('mailcoach.campaigns.link-clicks', [$this->contentItem->model, $link]),
-                $this->contentItem->model instanceof AutomationMail => route('mailcoach.automations.mails.link-clicks', [$this->contentItem->model, $link]),
+                $this->contentItem->model instanceof Campaign => route('mailcoach.campaigns.link-clicks', [$this->contentItem->model, $record]),
+                $this->contentItem->model instanceof AutomationMail => route('mailcoach.automations.mails.link-clicks', [$this->contentItem->model, $record]),
             };
         };
     }

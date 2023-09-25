@@ -59,8 +59,8 @@ class AutomationsComponent extends TableComponent
 
     protected function getTableRecordUrlUsing(): ?Closure
     {
-        return function (Automation $automation) {
-            return route('mailcoach.automations.settings', $automation);
+        return function (Automation $record) {
+            return route('mailcoach.automations.settings', $record);
         };
     }
 

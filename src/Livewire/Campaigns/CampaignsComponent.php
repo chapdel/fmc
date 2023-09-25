@@ -200,16 +200,16 @@ class CampaignsComponent extends TableComponent
 
     protected function getTableRecordUrlUsing(): ?Closure
     {
-        return function (Campaign $campaign) {
-            if ($campaign->isSent() || $campaign->isSending() || $campaign->isCancelled()) {
-                return route('mailcoach.campaigns.summary', $campaign);
+        return function (Campaign $record) {
+            if ($record->isSent() || $record->isSending() || $record->isCancelled()) {
+                return route('mailcoach.campaigns.summary', $record);
             }
 
-            if ($campaign->isScheduled()) {
-                return route('mailcoach.campaigns.delivery', $campaign);
+            if ($record->isScheduled()) {
+                return route('mailcoach.campaigns.delivery', $record);
             }
 
-            return route('mailcoach.campaigns.content', $campaign);
+            return route('mailcoach.campaigns.content', $record);
         };
     }
 

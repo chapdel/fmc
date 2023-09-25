@@ -82,7 +82,7 @@ class TransactionalMailLogItemsComponent extends TableComponent
 
     protected function getTableRecordUrlUsing(): ?Closure
     {
-        return fn (TransactionalMailLogItem $item) => route('mailcoach.transactionalMails.show', $item);
+        return fn (TransactionalMailLogItem $record) => route('mailcoach.transactionalMails.show', $record);
     }
 
     public function getTitle(): string

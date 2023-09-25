@@ -127,8 +127,8 @@ class TagsComponent extends TableComponent
 
     protected function getTableRecordUrlUsing(): ?Closure
     {
-        return function (Tag $tag) {
-            return route('mailcoach.emailLists.tags.edit', [$this->emailList, $tag]);
+        return function (Tag $record) {
+            return route('mailcoach.emailLists.tags.edit', [$this->emailList, $record]);
         };
     }
 }
