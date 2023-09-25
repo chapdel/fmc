@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Domain\Content\Models\Concerns;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
@@ -10,14 +9,14 @@ trait InteractsWithContentItems
 {
     public static function bootInteractsWithContentItems(): void
     {
-        static::created(function (Model $model) {
+        static::created(function (HasContentItems $model) {
             if (! $model->contentItem) {
                 $contentItem = $model->contentItem()->firstOrCreate();
                 $model->setRelation('contentItem', $contentItem);
             }
         });
 
-        static::deleting(function (Model $model) {
+        static::deleting(function (HasContentItems $model) {
             $model->contentItem->delete();
         });
     }

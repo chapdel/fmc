@@ -48,16 +48,6 @@ parameters:
 			path: src/Domain/Automation/Models/Automation.php
 
 		-
-			message: "#^Static call to instance method stdClass\\:\\:rules\\(\\)\\.$#"
-			count: 1
-			path: src/Domain/Automation/Support/Livewire/Actions/ConditionActionComponent.php
-
-		-
-			message: "#^Variable \\$condition in PHPDoc tag @var does not match any variable in the foreach loop\\: \\$key$#"
-			count: 1
-			path: src/Domain/Automation/Support/Livewire/Actions/ConditionActionComponent.php
-
-		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:scheduled\\(\\)\\.$#"
 			count: 1
 			path: src/Domain/Campaign/Models/Campaign.php
@@ -73,25 +63,25 @@ parameters:
 			path: src/Domain/Campaign/Models/Campaign.php
 
 		-
-			message: """
-				#^Class Spatie\\\\Mailcoach\\\\Domain\\\\Campaign\\\\Rules\\\\DateTimeFieldRule implements deprecated interface Illuminate\\\\Contracts\\\\Validation\\\\Rule\\:
-				see ValidationRule$#
-			"""
-			count: 1
-			path: src/Domain/Campaign/Rules/DateTimeFieldRule.php
-
-		-
 			message: "#^Binary operation \"\\-\" between non\\-falsy\\-string and 1 results in an error\\.$#"
 			count: 1
 			path: src/Domain/Campaign/Rules/HtmlRule.php
 
 		-
 			message: """
-				#^Class Spatie\\\\Mailcoach\\\\Domain\\\\Campaign\\\\Rules\\\\HtmlRule implements deprecated interface Illuminate\\\\Contracts\\\\Validation\\\\Rule\\:
-				see ValidationRule$#
+				#^Access to deprecated property \\$replyToEmail of class Spatie\\\\Mailcoach\\\\Domain\\\\Content\\\\Mails\\\\MailcoachMail\\:
+				will be removed in v7$#
 			"""
-			count: 1
-			path: src/Domain/Campaign/Rules/HtmlRule.php
+			count: 3
+			path: src/Domain/Content/Mails/MailcoachMail.php
+
+		-
+			message: """
+				#^Access to deprecated property \\$replyToName of class Spatie\\\\Mailcoach\\\\Domain\\\\Content\\\\Mails\\\\MailcoachMail\\:
+				will be removed in v7$#
+			"""
+			count: 2
+			path: src/Domain/Content/Mails/MailcoachMail.php
 
 		-
 			message: """
@@ -137,20 +127,9 @@ parameters:
 			path: src/Domain/Shared/Jobs/Export/ExportJob.php
 
 		-
-			message: """
-				#^Access to deprecated property \\$replyToEmail of class Spatie\\\\Mailcoach\\\\Domain\\\\Shared\\\\Mails\\\\MailcoachMail\\:
-				will be removed in v7$#
-			"""
-			count: 3
-			path: src/Domain/Shared/Mails/MailcoachMail.php
-
-		-
-			message: """
-				#^Access to deprecated property \\$replyToName of class Spatie\\\\Mailcoach\\\\Domain\\\\Shared\\\\Mails\\\\MailcoachMail\\:
-				will be removed in v7$#
-			"""
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Content\\\\Models\\\\Concerns\\\\HasContentItems\\:\\:\\$contentItem\\.$#"
 			count: 2
-			path: src/Domain/Shared/Mails/MailcoachMail.php
+			path: src/Domain/Shared/Models/Sendable.php
 
 		-
 			message: "#^Call to an undefined method Spatie\\\\Image\\\\Manipulations\\:\\:nonQueued\\(\\)\\.$#"
@@ -161,6 +140,16 @@ parameters:
 			message: "#^Class Spatie\\\\Mailcoach\\\\Domain\\\\TransactionalMail\\\\Mails\\\\TransactionalMail constructor invoked with 0 parameters, 4\\-12 required\\.$#"
 			count: 1
 			path: src/Domain/TransactionalMail/Mails/TransactionalMail.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Content\\\\Models\\\\Concerns\\\\HasContentItems\\:\\:\\$contentItem\\.$#"
+			count: 2
+			path: src/Domain/TransactionalMail/Models/TransactionalMail.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Content\\\\Models\\\\Concerns\\\\HasContentItems\\:\\:\\$contentItem\\.$#"
+			count: 2
+			path: src/Domain/TransactionalMail/Models/TransactionalMailLogItem.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:allowedFilters\\(\\)\\.$#"
@@ -333,6 +322,16 @@ parameters:
 			path: src/Livewire/Audience/TagsComponent.php
 
 		-
+			message: "#^Static call to instance method stdClass\\:\\:rules\\(\\)\\.$#"
+			count: 1
+			path: src/Livewire/Automations/Actions/ConditionActionComponent.php
+
+		-
+			message: "#^Variable \\$condition in PHPDoc tag @var does not match any variable in the foreach loop\\: \\$key$#"
+			count: 1
+			path: src/Livewire/Automations/Actions/ConditionActionComponent.php
+
+		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:draft\\(\\)\\.$#"
 			count: 1
 			path: src/Livewire/Campaigns/CampaignsComponent.php
@@ -418,17 +417,17 @@ parameters:
 			path: src/Livewire/Content/OpensComponent.php
 
 		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Campaign\\\\Models\\\\Concerns\\\\HasHtmlContent\\:\\:\\$template\\.$#"
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Content\\\\Models\\\\Concerns\\\\HasHtmlContent\\:\\:\\$template\\.$#"
 			count: 2
 			path: src/Livewire/Editor/EditorComponent.php
 
 		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Campaign\\\\Models\\\\Concerns\\\\HasHtmlContent\\:\\:\\$template_id\\.$#"
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Content\\\\Models\\\\Concerns\\\\HasHtmlContent\\:\\:\\$template_id\\.$#"
 			count: 1
 			path: src/Livewire/Editor/EditorComponent.php
 
 		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Campaign\\\\Models\\\\Concerns\\\\HasHtmlContent\\:\\:\\$updated_at\\.$#"
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Content\\\\Models\\\\Concerns\\\\HasHtmlContent\\:\\:\\$updated_at\\.$#"
 			count: 2
 			path: src/Livewire/Editor/EditorComponent.php
 
