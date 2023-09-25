@@ -10,8 +10,8 @@ use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Content\Models\Template;
 use Spatie\Mailcoach\Domain\Shared\Actions\RenderMarkdownToHtmlAction;
-use Spatie\Mailcoach\Domain\Shared\Support\TemplateRenderer;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Template\Support\TemplateRenderer;
 use Spatie\MailcoachMarkdownEditor\Editor as MarkdownEditor;
 
 class UpdateCampaignAction

@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Mailcoach\Database\Factories\TemplateFactory;
-use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
+use Spatie\Mailcoach\Domain\Content\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
-use Spatie\Mailcoach\Domain\Shared\Support\TemplateRenderer;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Template\Support\TemplateRenderer;
 
 class Template extends Model implements HasHtmlContent
 {

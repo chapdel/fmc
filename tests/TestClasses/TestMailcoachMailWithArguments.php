@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Tests\TestClasses;
 
-use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
+use Spatie\Mailcoach\Domain\Content\Mails\MailcoachMail;
 
 class TestMailcoachMailWithArguments extends MailcoachMail
 {

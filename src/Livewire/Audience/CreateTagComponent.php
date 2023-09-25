@@ -4,8 +4,8 @@ namespace Spatie\Mailcoach\Livewire\Audience;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
+use Spatie\Mailcoach\Domain\Audience\Enums\TagType;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class CreateTagComponent extends Component

@@ -8,7 +8,7 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Content\Models\Link;
-use Spatie\Mailcoach\Domain\Shared\Support\LinkHasher;
+use Spatie\Mailcoach\Domain\Content\Support\LinkHasher;
 
 class ClicksComponent extends ContentItemTable
 {

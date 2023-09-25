@@ -18,12 +18,12 @@ use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotUpdateCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignTestJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\CanBeScheduled;
-use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\SendsToSegment;
 use Spatie\Mailcoach\Domain\Content\Actions\CreateDomDocumentFromHtmlAction;
+use Spatie\Mailcoach\Domain\Content\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
 use Spatie\Mailcoach\Domain\Shared\Actions\InitializeMjmlAction;
 use Spatie\Mailcoach\Domain\Shared\Actions\RenderMarkdownToHtmlAction;
-use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
+use Spatie\Mailcoach\Domain\Shared\Models\Concerns\SendsToSegment;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Spatie\Mailcoach\Mailcoach;
 use Throwable;
@@ -58,17 +58,6 @@ class Campaign extends Sendable implements Feedable
             if (! $campaign->status) {
                 $campaign->status = CampaignStatus::Draft;
             }
-        });
-
-        static::created(function (Campaign $campaign) {
-            if (! $campaign->contentItem) {
-                $contentItem = $campaign->contentItem()->firstOrCreate();
-                $campaign->setRelation('contentItem', $contentItem);
-            }
-        });
-
-        static::deleting(function (Campaign $campaign) {
-            $campaign->contentItem->delete();
         });
     }
 

@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Http\Front\Controllers;
 
 use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
-use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
+use Spatie\Mailcoach\Domain\Audience\Enums\TagType;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class ManagePreferencesController

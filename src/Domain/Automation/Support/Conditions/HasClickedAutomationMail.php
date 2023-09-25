@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\Rule;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Domain\Shared\Actions\AddUtmTagsToUrlAction;
+use Spatie\Mailcoach\Domain\Content\Actions\AddUtmTagsToUrlAction;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class HasClickedAutomationMail implements Condition

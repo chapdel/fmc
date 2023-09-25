@@ -7,8 +7,8 @@ use LivewireUI\Spotlight\Spotlight;
 use LivewireUI\Spotlight\SpotlightCommand;
 use LivewireUI\Spotlight\SpotlightCommandDependencies;
 use LivewireUI\Spotlight\SpotlightCommandDependency;
-use Spatie\Mailcoach\Domain\Campaign\Actions\Templates\CreateTemplateAction;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Template\Actions\CreateTemplateAction;
 
 class CreateTransactionalTemplateCommand extends SpotlightCommand
 {

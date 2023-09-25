@@ -1,6 +1,6 @@
 <?php
 
-use Spatie\Mailcoach\Domain\Shared\Actions\AddUtmTagsToUrlAction;
+use Spatie\Mailcoach\Domain\Content\Actions\AddUtmTagsToUrlAction;
 
 beforeEach(function () {
     test()->action = resolve(AddUtmTagsToUrlAction::class);

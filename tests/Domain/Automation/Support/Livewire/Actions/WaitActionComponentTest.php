@@ -5,7 +5,7 @@ use Illuminate\Support\Str;
 use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Automation\Enums\WaitUnit;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\WaitActionComponent;
+use Spatie\Mailcoach\Livewire\Automations\Actions\WaitActionComponent;
 use Spatie\TestTime\TestTime;
 
 beforeEach(function () {

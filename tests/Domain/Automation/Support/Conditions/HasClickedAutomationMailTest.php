@@ -4,9 +4,9 @@ use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasClickedAutomationMail;
+use Spatie\Mailcoach\Domain\Content\Actions\AddUtmTagsToUrlAction;
 use Spatie\Mailcoach\Domain\Content\Models\Click;
 use Spatie\Mailcoach\Domain\Content\Models\Link;
-use Spatie\Mailcoach\Domain\Shared\Actions\AddUtmTagsToUrlAction;
 
 it('checks correctly that a user clicked an automation mail', function () {
     $automation = Automation::factory()->create();

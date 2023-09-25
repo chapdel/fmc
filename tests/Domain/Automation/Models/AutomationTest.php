@@ -28,8 +28,8 @@ use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasClickedAutomationMa
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasTagCondition;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\NoTrigger;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
+use Spatie\Mailcoach\Domain\Content\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Content\Models\Click;
-use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Tests\TestClasses\AddRandomTagAction;
 use Spatie\Mailcoach\Tests\TestClasses\AllowDuplicateSendAutomationMailToSubscriberAction;

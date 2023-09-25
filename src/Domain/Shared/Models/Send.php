@@ -14,22 +14,15 @@ use Spatie\Mailcoach\Domain\Audience\Enums\SuppressionReason;
 use Spatie\Mailcoach\Domain\Audience\Events\ComplaintRegisteredEvent;
 use Spatie\Mailcoach\Domain\Audience\Events\SubscriberSuppressedEvent;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailLinkClickedEvent;
-use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailOpenedEvent;
-use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
-use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
-use Spatie\Mailcoach\Domain\Campaign\Events\BounceRegisteredEvent;
-use Spatie\Mailcoach\Domain\Campaign\Events\CampaignLinkClickedEvent;
-use Spatie\Mailcoach\Domain\Campaign\Events\CampaignOpenedEvent;
-use Spatie\Mailcoach\Domain\Campaign\Events\SoftBounceRegisteredEvent;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Content\Actions\StripUtmTagsFromUrlAction;
+use Spatie\Mailcoach\Domain\Content\Events\ContentOpenedEvent;
+use Spatie\Mailcoach\Domain\Content\Events\LinkClickedEvent;
 use Spatie\Mailcoach\Domain\Content\Models\Click;
 use Spatie\Mailcoach\Domain\Content\Models\Open;
-use Spatie\Mailcoach\Domain\Shared\Actions\StripUtmTagsFromUrlAction;
+use Spatie\Mailcoach\Domain\Shared\Enums\SendFeedbackType;
+use Spatie\Mailcoach\Domain\Shared\Events\BounceRegisteredEvent;
+use Spatie\Mailcoach\Domain\Shared\Events\SoftBounceRegisteredEvent;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailLinkClickedEvent;
-use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailOpenedEvent;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
 
 /**
  * @method static Builder|static query()
@@ -160,17 +153,7 @@ class Send extends Model
             'created_at' => $openedAt ?? now(),
         ]);
 
-        if ($this->contentItem->model instanceof Campaign) {
-            event(new CampaignOpenedEvent($open));
-        }
-
-        if ($this->contentItem->model instanceof AutomationMail) {
-            event(new AutomationMailOpenedEvent($open));
-        }
-
-        if ($this->contentItem->model instanceof TransactionalMailLogItem) {
-            event(new TransactionalMailOpenedEvent($open));
-        }
+        event(new ContentOpenedEvent($open));
 
         $this->contentItem->dispatchCalculateStatistics();
 
@@ -204,17 +187,7 @@ class Send extends Model
 
         $click = $link->registerClick($this, $clickedAt);
 
-        if ($this->contentItem->model instanceof Campaign) {
-            event(new CampaignLinkClickedEvent($click));
-        }
-
-        if ($this->contentItem->model instanceof AutomationMail) {
-            event(new AutomationMailLinkClickedEvent($click));
-        }
-
-        if ($this->contentItem->model instanceof TransactionalMailLogItem) {
-            event(new TransactionalMailLinkClickedEvent($click));
-        }
+        event(new LinkClickedEvent($click));
 
         $this->contentItem->dispatchCalculateStatistics();
 

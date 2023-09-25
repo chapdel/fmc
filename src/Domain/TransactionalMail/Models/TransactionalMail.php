@@ -5,24 +5,26 @@ namespace Spatie\Mailcoach\Domain\TransactionalMail\Models;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Mail\Mailable;
 use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Database\Factories\TransactionalMailFactory;
+use Spatie\Mailcoach\Domain\Content\Models\Concerns\HasContentItems;
+use Spatie\Mailcoach\Domain\Content\Models\Concerns\InteractsWithContentItems;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Actions\RenderTemplateAction;
-use Spatie\Mailcoach\Domain\TransactionalMail\Exceptions\InvalidTemplate;
+use Spatie\Mailcoach\Domain\TransactionalMail\Exceptions\InvalidTransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns\UsesMailcoachTemplate;
 use Spatie\Mailcoach\Domain\TransactionalMail\Support\Replacers\TransactionalMailReplacer;
 use Spatie\Mailcoach\Mailcoach;
 
-class TransactionalMail extends Model
+class TransactionalMail extends Model implements HasContentItems
 {
     public $table = 'mailcoach_transactional_mails';
 
     use HasFactory;
     use HasUuid;
+    use InteractsWithContentItems;
     use UsesMailcoachModels;
 
     public $guarded = [];
@@ -35,25 +37,6 @@ class TransactionalMail extends Model
         'bcc' => 'array',
         'replacers' => 'array',
     ];
-
-    public static function booted()
-    {
-        static::created(function (self $transactionalMail) {
-            if (! $transactionalMail->contentItem) {
-                $contentItem = $transactionalMail->contentItem()->firstOrCreate();
-                $transactionalMail->setRelation('contentItem', $contentItem);
-            }
-        });
-
-        static::deleting(function (self $transactionalMail) {
-            $transactionalMail->contentItem->delete();
-        });
-    }
-
-    public function contentItem(): MorphOne
-    {
-        return $this->morphOne(self::getContentItemClass(), 'model');
-    }
 
     public function isValid(): bool
     {
@@ -78,13 +61,13 @@ class TransactionalMail extends Model
         $mailableClass = $this->test_using_mailable;
 
         if (! class_exists($mailableClass)) {
-            throw InvalidTemplate::mailableClassNotFound($this);
+            throw InvalidTransactionalMail::mailableClassNotFound($this);
         }
 
         $traits = class_uses_recursive($mailableClass);
 
         if (! in_array(UsesMailcoachTemplate::class, $traits)) {
-            throw InvalidTemplate::mailableClassNotValid($this);
+            throw InvalidTransactionalMail::mailableClassNotValid($this);
         }
 
         return $mailableClass::testInstance();
@@ -97,11 +80,11 @@ class TransactionalMail extends Model
                 $replacerClass = config("mailcoach.transactional.replacers.{$replacerName}");
 
                 if (is_null($replacerClass)) {
-                    throw InvalidTemplate::replacerNotFound($this, $replacerName);
+                    throw InvalidTransactionalMail::replacerNotFound($this, $replacerName);
                 }
 
                 if (! is_a($replacerClass, TransactionalMailReplacer::class, true)) {
-                    throw InvalidTemplate::invalidReplacer($this, $replacerName, $replacerClass);
+                    throw InvalidTransactionalMail::invalidReplacer($this, $replacerName, $replacerClass);
                 }
 
                 return resolve($replacerClass);

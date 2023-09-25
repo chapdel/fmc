@@ -3,7 +3,7 @@
 use Illuminate\Support\Str;
 use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\AddTagsAction;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\AddTagsActionComponent;
+use Spatie\Mailcoach\Livewire\Automations\Actions\AddTagsActionComponent;
 
 beforeEach(function () {
     test()->action = [

@@ -3,8 +3,8 @@
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Content\Actions\PersonalizeTextAction;
 use Spatie\Mailcoach\Domain\Content\Actions\PrepareEmailHtmlAction;
+use Spatie\Mailcoach\Domain\Content\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Actions\SendMailAction;
-use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 

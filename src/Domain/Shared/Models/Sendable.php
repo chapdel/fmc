@@ -4,10 +4,11 @@ namespace Spatie\Mailcoach\Domain\Shared\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Collection;
+use Spatie\Mailcoach\Domain\Content\Models\Concerns\HasContentItems;
+use Spatie\Mailcoach\Domain\Content\Models\Concerns\InteractsWithContentItems;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Template\Models\Concerns\HasTemplate;
 
 /**
  * @property ?string $name
@@ -21,11 +22,12 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
  * @property ?bool $disable_webview
  * @property ?\Spatie\Mailcoach\Domain\Content\Models\ContentItem $contentItem
  */
-abstract class Sendable extends Model
+abstract class Sendable extends Model implements HasContentItems
 {
     use HasFactory;
     use HasTemplate;
     use HasUuid;
+    use InteractsWithContentItems;
     use UsesMailcoachModels;
 
     protected $guarded = [];
@@ -41,16 +43,6 @@ abstract class Sendable extends Model
         'scheduled_at' => 'datetime',
         'mailable_arguments' => 'array',
     ];
-
-    public function contentItem(): MorphOne
-    {
-        return $this->morphOne(self::getContentItemClass(), 'model');
-    }
-
-    public function contentItems(): MorphMany
-    {
-        return $this->morphMany(self::getContentItemClass(), 'model');
-    }
 
     public function useMailable(string $mailableClass, array $mailableArguments = []): self
     {

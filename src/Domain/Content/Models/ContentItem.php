@@ -17,21 +17,21 @@ use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Replacers\AutomationMailReplacer;
 use Spatie\Mailcoach\Domain\Automation\Support\Replacers\PersonalizedReplacer as PersonalizedAutomationReplacer;
-use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Campaign\Rules\HtmlRule;
 use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\CampaignReplacer;
 use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\PersonalizedReplacer as PersonalizedCampaignReplacer;
 use Spatie\Mailcoach\Domain\Content\Actions\CreateDomDocumentFromHtmlAction;
 use Spatie\Mailcoach\Domain\Content\Exceptions\CouldNotSendMail;
 use Spatie\Mailcoach\Domain\Content\Jobs\CalculateStatisticsJob;
+use Spatie\Mailcoach\Domain\Content\Mails\MailcoachMail;
+use Spatie\Mailcoach\Domain\Content\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Shared\Actions\CommaSeparatedEmailsToArrayAction;
-use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
-use Spatie\Mailcoach\Domain\Shared\Models\HasTemplate;
+use Spatie\Mailcoach\Domain\Shared\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Template\Models\Concerns\HasTemplate;
 use Spatie\Mailcoach\Mailcoach;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
@@ -152,18 +152,25 @@ class ContentItem extends Model implements HasHtmlContent
 
     public function hasValidHtml(): bool
     {
-        return (new HtmlRule())->passes('html', $this->html);
+        $valid = true;
+
+        (new HtmlRule())->validate('html', $this->html, function (&$valid) {
+            $valid = false;
+        });
+
+        return $valid;
     }
 
     public function htmlError(): ?string
     {
         $rule = new HtmlRule();
+        $errorMessage = null;
 
-        if ($rule->passes('html', $this->html)) {
-            return null;
-        }
+        $rule->validate('html', $this->html, function ($message) use (&$errorMessage) {
+            $errorMessage = $message;
+        });
 
-        return $rule->message();
+        return $errorMessage;
     }
 
     public function htmlContainsUnsubscribeUrlPlaceHolder(): bool

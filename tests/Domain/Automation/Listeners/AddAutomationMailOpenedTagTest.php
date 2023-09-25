@@ -1,7 +1,7 @@
 <?php
 
+use Spatie\Mailcoach\Domain\Audience\Enums\TagType;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag;
-use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
 it('adds no tag when a automationMail is opened and setting is false', function () {

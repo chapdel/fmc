@@ -3,8 +3,8 @@
 namespace Spatie\Mailcoach\Domain\Content\Exceptions;
 
 use Exception;
+use Spatie\Mailcoach\Domain\Content\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
-use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 
 class CouldNotSendMail extends Exception
 {

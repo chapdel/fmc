@@ -5,7 +5,7 @@ use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\ConditionAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasTagCondition;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\ConditionActionComponent;
+use Spatie\Mailcoach\Livewire\Automations\Actions\ConditionActionComponent;
 use Spatie\Mailcoach\Tests\TestClasses\CustomCondition;
 
 beforeEach(function () {

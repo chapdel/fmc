@@ -1,6 +1,6 @@
 <?php
 
-use Spatie\Mailcoach\Domain\Shared\Actions\StripUtmTagsFromUrlAction;
+use Spatie\Mailcoach\Domain\Content\Actions\StripUtmTagsFromUrlAction;
 
 beforeEach(function () {
     test()->action = resolve(StripUtmTagsFromUrlAction::class);

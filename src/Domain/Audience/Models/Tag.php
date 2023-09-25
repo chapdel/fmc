@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\Mailcoach\Database\Factories\TagFactory;
-use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
+use Spatie\Mailcoach\Domain\Audience\Enums\TagType;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 

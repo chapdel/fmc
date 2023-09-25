@@ -4,8 +4,8 @@ namespace Spatie\Mailcoach\Livewire\Templates;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
-use Spatie\Mailcoach\Domain\Campaign\Actions\Templates\CreateTemplateAction;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Template\Actions\CreateTemplateAction;
 
 class CreateTemplateComponent extends Component
 {

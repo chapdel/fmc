@@ -10,7 +10,7 @@ class DeleteOldExportsCommand extends Command
 {
     public $signature = 'mailcoach:delete-old-exports';
 
-    public $description = 'Delete all export older than a couple of days';
+    public $description = 'Delete all exports older than a couple of days';
 
     public function handle()
     {

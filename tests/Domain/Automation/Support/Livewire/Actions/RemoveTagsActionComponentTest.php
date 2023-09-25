@@ -3,7 +3,7 @@
 use Illuminate\Support\Str;
 use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\RemoveTagsAction;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\RemoveTagsActionComponent;
+use Spatie\Mailcoach\Livewire\Automations\Actions\RemoveTagsActionComponent;
 
 beforeEach(function () {
     test()->action = [

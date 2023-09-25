@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Http\Api\Queries\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
-use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
+use Spatie\Mailcoach\Domain\Audience\Enums\TagType;
 use Spatie\QueryBuilder\Filters\Filter;
 
 class TagTypeFilter implements Filter

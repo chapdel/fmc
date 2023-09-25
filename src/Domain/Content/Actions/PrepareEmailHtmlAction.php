@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Domain\Content\Actions;
 
-use Spatie\Mailcoach\Domain\Campaign\Actions\AddUtmTagsToHtmlAction;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 
 class PrepareEmailHtmlAction

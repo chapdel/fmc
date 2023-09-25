@@ -45,8 +45,11 @@
 
             <dd>
                 <span>
-                    {{ $fromEmail }} @if ($fromName) ({{ $fromName }}) @endif
-                    <a href="{{ route('mailcoach.emailLists.general-settings', $campaign->emailList) }}" class="link">{{ strtolower(__mc('Edit')) }}</a>
+                    {{ $fromEmail }} @if ($fromName)
+                        ({{ $fromName }})
+                    @endif
+                    <a href="{{ route('mailcoach.emailLists.general-settings', $campaign->emailList) }}"
+                       class="link">{{ strtolower(__mc('Edit')) }}</a>
                 </span>
             </dd>
 
@@ -57,8 +60,11 @@
 
                 <dd>
                     <span>
-                        {{ $replyToEmail }} @if ($replyToName) ({{ $replyToName }}) @endif
-                        <a href="{{ route('mailcoach.emailLists.general-settings', $campaign->emailList) }}" class="link">{{ strtolower(__mc('Edit')) }}</a>
+                        {{ $replyToEmail }} @if ($replyToName)
+                            ({{ $replyToName }})
+                        @endif
+                        <a href="{{ route('mailcoach.emailLists.general-settings', $campaign->emailList) }}"
+                           class="link">{{ strtolower(__mc('Edit')) }}</a>
                     </span>
                 </dd>
             @endif
@@ -81,7 +87,7 @@
                         <span class="ml-2 tag-neutral text-xs">
                             {{ $subscribersCount ?? '...' }}
                             @if (!is_null($subscribersCount))
-                            <span class="ml-1 font-normal">
+                                <span class="ml-1 font-normal">
                                 {{ __mc_choice('subscriber|subscribers', $subscribersCount) }}
                             </span>
                             @endif
@@ -91,7 +97,8 @@
                     @else
                         {{ __mc('No list selected') }}
                     @endif
-                    <a href="{{ route('mailcoach.campaigns.settings', $campaign) }}" class="link">{{ strtolower(__mc('Edit')) }}</a>
+                    <a href="{{ route('mailcoach.campaigns.settings', $campaign) }}"
+                       class="link">{{ strtolower(__mc('Edit')) }}</a>
                 </div>
             </dd>
         @else
@@ -102,7 +109,8 @@
             <dd>
                 <span>
                     {{ __mc('No email list') }}
-                    <a href="{{ route('mailcoach.campaigns.settings', $campaign) }}" class="link">{{ strtolower(__mc('Edit')) }}</a>
+                    <a href="{{ route('mailcoach.campaigns.settings', $campaign) }}"
+                       class="link">{{ strtolower(__mc('Edit')) }}</a>
                 </span>
             </dd>
         @endif
@@ -114,17 +122,22 @@
         <dd>
             <span>
                 {{ $campaign->contentItem->subject ?? __mc('Subject is empty') }}
-                <a href="{{ route('mailcoach.campaigns.settings', $campaign) }}" class="link">{{ strtolower(__mc('Edit')) }}</a>
+                <a href="{{ route('mailcoach.campaigns.settings', $campaign) }}"
+                   class="link">{{ strtolower(__mc('Edit')) }}</a>
             </span>
         </dd>
 
         @if ($campaign->emailList)
             <dt>
-                <x-mailcoach::health-label reverse warning :test="$campaign->getMailerKey() && $campaign->getMailerKey() !== 'log'" :label="__mc('Mailer')"/>
+                <x-mailcoach::health-label reverse warning
+                                           :test="$campaign->getMailerKey() && $campaign->getMailerKey() !== 'log'"
+                                           :label="__mc('Mailer')"/>
             </dt>
             <dd>
                 <div>
-                    {{ $campaign->getMailer()?->name ?? $campaign->emailList->campaign_mailer }} <a href="{{ route('mailcoach.emailLists.mailers', $campaign->emailList) }}" class="link">{{ strtolower(__mc('Edit')) }}</a>
+                    {{ $campaign->getMailer()?->name ?? $campaign->emailList->campaign_mailer }} <a
+                            href="{{ route('mailcoach.emailLists.mailers', $campaign->emailList) }}"
+                            class="link">{{ strtolower(__mc('Edit')) }}</a>
                 </div>
             </dd>
         @endif
@@ -132,9 +145,9 @@
         <dt>
             @if($campaign->contentItem->html && $campaign->contentItem->hasValidHtml())
                 <x-mailcoach::health-label reverse
-                    :test="$campaign->contentItem->htmlContainsUnsubscribeUrlPlaceHolder() && $campaign->contentItem->sizeInKb() < 102"
-                    warning="true"
-                    :label="__mc('Content')"/>
+                                           :test="$campaign->contentItem->htmlContainsUnsubscribeUrlPlaceHolder() && $campaign->contentItem->sizeInKb() < 102"
+                                           warning="true"
+                                           :label="__mc('Content')"/>
             @else
                 <x-mailcoach::health-label reverse :test="false" :label="__mc('Content')"/>
             @endif
@@ -170,16 +183,19 @@
 
             @if($campaign->contentItem->html)
                 <div>
-                    <x-mailcoach::button-secondary x-on:click="$dispatch('open-modal', { id: 'preview' })" :label="__mc('Preview')"/>
+                    <x-mailcoach::button-secondary x-on:click="$dispatch('open-modal', { id: 'preview' })"
+                                                   :label="__mc('Preview')"/>
                     @if ($campaign->getMailerKey())
-                        <x-mailcoach::button-secondary x-on:click="$dispatch('open-modal', { id: 'send-test' })" :label="__mc('Send Test')"/>
+                        <x-mailcoach::button-secondary x-on:click="$dispatch('open-modal', { id: 'send-test' })"
+                                                       :label="__mc('Send Test')"/>
                     @endif
                 </div>
 
-                <x-mailcoach::preview-modal :title="__mc('Preview') . ' - ' . $campaign->contentItem->subject" :html="$campaign->contentItem->html" />
+                <x-mailcoach::preview-modal :title="__mc('Preview') . ' - ' . $campaign->contentItem->subject"
+                                            :html="$campaign->contentItem->html"/>
 
                 <x-mailcoach::modal :title="__mc('Send Test')" name="send-test" :dismissable="true">
-                    <livewire:mailcoach::send-test :model="$campaign" />
+                    <livewire:mailcoach::send-test :model="$campaign"/>
                 </x-mailcoach::modal>
             @endif
         </dd>
@@ -203,8 +219,8 @@
                 <ul class="grid gap-2">
                     @foreach ($links as $link)
                         <li>
-                            <livewire:mailcoach::link-check lazy :url="$link" wire:key="{{ $link }}" />
-                            @php($tags[] = \Spatie\Mailcoach\Domain\Shared\Support\LinkHasher::hash($campaign, $link))
+                            <livewire:mailcoach::link-check lazy :url="$link" wire:key="{{ $link }}"/>
+                            @php($tags[] = \Spatie\Mailcoach\Domain\Content\Support\LinkHasher::hash($campaign, $link))
                         </li>
                     @endforeach
                 </ul>
@@ -218,36 +234,36 @@
         @php([$openTracking, $clickTracking] = $campaign->tracking())
         @if ($openTracking || $clickTracking || (is_null($openTracking) && is_null($clickTracking)))
             @if ($campaign->add_subscriber_tags || $campaign->add_subscriber_link_tags)
-            <dt>
+                <dt>
                 <span class="inline-flex gap-2 items-center md:flex-row-reverse">
                     <x-mailcoach::rounded-icon type="neutral" icon="fas fa-tag"/>
                     <span>
                         {{ __mc('Tags') }}
                     </span>
                 </span>
-            </dt>
+                </dt>
 
-            <dd>
-                <p class="markup-code">
-                    {{ __mc("The following tags will be added to subscribers when they open or click the campaign:") }}
-                </p>
-                @if (is_null($openTracking) && is_null($clickTracking))
+                <dd>
                     <p class="markup-code">
-                        {!! __mc('Open & Click tracking are managed by your email provider, this campaign uses the <strong>:mailer</strong> mailer.', ['mailer' => $campaign->getMailerKey()]) !!}
+                        {{ __mc("The following tags will be added to subscribers when they open or click the campaign:") }}
                     </p>
-                @endif
-                <ul class="flex flex-wrap space-x-2">
-                    @if ($campaign->add_subscriber_tags)
-                        <li class="tag-neutral">{{ "campaign-{$campaign->uuid}-opened" }}</li>
-                        <li class="tag-neutral">{{ "campaign-{$campaign->uuid}-clicked" }}</li>
+                    @if (is_null($openTracking) && is_null($clickTracking))
+                        <p class="markup-code">
+                            {!! __mc('Open & Click tracking are managed by your email provider, this campaign uses the <strong>:mailer</strong> mailer.', ['mailer' => $campaign->getMailerKey()]) !!}
+                        </p>
                     @endif
-                    @if ($campaign->add_subscriber_link_tags)
-                        @foreach ($tags as $tag)
-                            <li class="tag-neutral">{{ $tag }}</li>
-                        @endforeach
-                    @endif
-                </ul>
-            </dd>
+                    <ul class="flex flex-wrap space-x-2">
+                        @if ($campaign->add_subscriber_tags)
+                            <li class="tag-neutral">{{ "campaign-{$campaign->uuid}-opened" }}</li>
+                            <li class="tag-neutral">{{ "campaign-{$campaign->uuid}-clicked" }}</li>
+                        @endif
+                        @if ($campaign->add_subscriber_link_tags)
+                            @foreach ($tags as $tag)
+                                <li class="tag-neutral">{{ $tag }}</li>
+                            @endforeach
+                        @endif
+                    </ul>
+                </dd>
             @endif
         @endif
 
@@ -275,7 +291,8 @@
                 </span>
             </dt>
 
-            <dd x-init="schedule = '{{ $campaign->scheduled_at || $errors->first('scheduled_at') ? 'future' : 'now' }}'" x-data="{ schedule: '' }" x-cloak>
+            <dd x-init="schedule = '{{ $campaign->scheduled_at || $errors->first('scheduled_at') ? 'future' : 'now' }}'"
+                x-data="{ schedule: '' }" x-cloak>
                 @if($campaign->scheduled_at)
                     <div>
                         <p class="mb-3">
@@ -290,30 +307,30 @@
                 @elseif ($campaign->isEditable())
                     <div class="radio-group">
                         <x-mailcoach::radio-field
-                            name="schedule"
-                            option-value="now"
-                            :label="__mc('Send immediately')"
-                            x-model="schedule"
+                                name="schedule"
+                                option-value="now"
+                                :label="__mc('Send immediately')"
+                                x-model="schedule"
                         />
                         <x-mailcoach::radio-field
-                            name="schedule"
-                            option-value="future"
-                            :label="__mc('Schedule for delivery in the future')"
-                            x-model="schedule"
+                                name="schedule"
+                                option-value="future"
+                                :label="__mc('Schedule for delivery in the future')"
+                                x-model="schedule"
                         />
                     </div>
 
                     <form
-                        method="POST"
-                        wire:submit="schedule"
-                        x-show="schedule === 'future'"
+                            method="POST"
+                            wire:submit="schedule"
+                            x-show="schedule === 'future'"
                     >
                         @csrf
                         <div class="flex items-end">
                             <x-mailcoach::date-time-field
-                                name="scheduled_at"
-                                :value="$scheduled_at_date"
-                                required
+                                    name="scheduled_at"
+                                    :value="$scheduled_at_date"
+                                    required
                             />
 
                             <button type="submit" class="ml-6 button">
@@ -414,9 +431,10 @@
                     @endif
 
                     <div
-                        x-show="schedule === 'now'"
+                            x-show="schedule === 'now'"
                     >
-                        <x-mailcoach::button x-on:click="$dispatch('open-modal', { id: 'send-campaign' })" :label="__mc('Send now')"/>
+                        <x-mailcoach::button x-on:click="$dispatch('open-modal', { id: 'send-campaign' })"
+                                             :label="__mc('Send now')"/>
                     </div>
                     <x-mailcoach::modal name="send-campaign" :dismissable="true">
                         <div class="grid gap-8 p-6">
@@ -431,9 +449,9 @@
                             </p>
 
                             <x-mailcoach::button
-                                x-on:click.prevent="$dispatch('send-campaign')"
-                                class="button button-red"
-                                :label="__mc('Yes, send now!')"
+                                    x-on:click.prevent="$dispatch('send-campaign')"
+                                    class="button button-red"
+                                    :label="__mc('Yes, send now!')"
                             />
                         </div>
                     </x-mailcoach::modal>

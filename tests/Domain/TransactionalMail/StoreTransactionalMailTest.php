@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
+use Spatie\Mailcoach\Domain\Content\Events\ContentOpenedEvent;
+use Spatie\Mailcoach\Domain\Content\Events\LinkClickedEvent;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
-use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailLinkClickedEvent;
-use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailOpenedEvent;
 use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailStored;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
 use Spatie\Mailcoach\Tests\Domain\TransactionalMail\Concerns\SendsTestTransactionalMail;
@@ -100,7 +100,7 @@ test('by default it will not store any mails', function () {
 });
 
 test('a send for a transactional mail can be marked as opened', function () {
-    Event::fake([TransactionalMailOpenedEvent::class]);
+    Event::fake([ContentOpenedEvent::class]);
 
     test()->sendTestMail();
 
@@ -111,11 +111,11 @@ test('a send for a transactional mail can be marked as opened', function () {
 
     expect($send->opens)->toHaveCount(1);
 
-    Event::assertDispatched(TransactionalMailOpenedEvent::class);
+    Event::assertDispatched(ContentOpenedEvent::class);
 });
 
 test('a send for a transactional mail can be marked as clicked', function () {
-    Event::fake([TransactionalMailLinkClickedEvent::class]);
+    Event::fake([LinkClickedEvent::class]);
 
     test()->sendTestMail();
 
@@ -126,5 +126,5 @@ test('a send for a transactional mail can be marked as clicked', function () {
 
     expect($send->clicks)->toHaveCount(1);
 
-    Event::assertDispatched(TransactionalMailLinkClickedEvent::class);
+    Event::assertDispatched(LinkClickedEvent::class);
 });

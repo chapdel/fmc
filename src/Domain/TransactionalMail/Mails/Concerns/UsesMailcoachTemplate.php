@@ -5,7 +5,7 @@ namespace Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns;
 use Illuminate\Mail\Mailable;
 use Spatie\Mailcoach\Domain\Shared\Actions\RenderTwigAction;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Domain\TransactionalMail\Exceptions\CouldNotFindTemplate;
+use Spatie\Mailcoach\Domain\TransactionalMail\Exceptions\CouldNotFindTransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Mailcoach;
 
@@ -23,7 +23,7 @@ trait UsesMailcoachTemplate
         $template = self::getTransactionalMailClass()::firstWhere('name', $name);
 
         if (! $template) {
-            throw CouldNotFindTemplate::make($name, $this);
+            throw CouldNotFindTransactionalMail::make($name, $this);
         }
 
         $this->setSubject($template, $replacements);

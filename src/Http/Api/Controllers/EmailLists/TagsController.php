@@ -3,9 +3,9 @@
 namespace Spatie\Mailcoach\Http\Api\Controllers\EmailLists;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Spatie\Mailcoach\Domain\Audience\Enums\TagType;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag;
-use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Http\Api\Queries\EmailListTagsQuery;

@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Livewire;
 
 use Illuminate\Support\Facades\Http;
 use Livewire\Component;
-use Spatie\Mailcoach\Domain\Shared\Actions\StripUtmTagsFromUrlAction;
+use Spatie\Mailcoach\Domain\Content\Actions\StripUtmTagsFromUrlAction;
 use Throwable;
 
 class LinkCheckComponent extends Component

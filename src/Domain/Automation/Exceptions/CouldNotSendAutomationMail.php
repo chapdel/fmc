@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Exceptions;
 
 use Exception;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
-use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
+use Spatie\Mailcoach\Domain\Content\Mails\MailcoachMail;
 
 class CouldNotSendAutomationMail extends Exception
 {

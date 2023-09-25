@@ -9,7 +9,7 @@
                             <p>
                                 {{ __mc('Automation mail') }}
                                 <a class="font-semibold" target="_blank"
-                                href="{{ $mail->webviewUrl() }}">{{ $mail->name }}</a>
+                                   href="{{ $mail->webviewUrl() }}">{{ $mail->name }}</a>
 
                                 {{ __mc('has been sent to :sendsCount :subscriber', [
                                     'sendsCount' => $mail->sendsCount(),
@@ -28,7 +28,7 @@
                             <p>
                                 {{ __mc('Automation mail') }}
                                 <a class="font-semibold" target="_blank"
-                                href="{{ $mail->webviewUrl() }}">{{ $mail->name }}</a>
+                                   href="{{ $mail->webviewUrl() }}">{{ $mail->name }}</a>
 
                                 {{ __mc('has been sent to :sendsCount :subscriber', [
                                     'sendsCount' => $mail->sendsCount(),
@@ -66,9 +66,9 @@
         <dt>
             @if($mail->html && $mail->hasValidHtml())
                 <x-mailcoach::health-label reverse
-                    :test="$mail->htmlContainsUnsubscribeUrlPlaceHolder() && $mail->sizeInKb() < 102"
-                    warning="true"
-                    :label="__mc('Content')"/>
+                                           :test="$mail->htmlContainsUnsubscribeUrlPlaceHolder() && $mail->sizeInKb() < 102"
+                                           warning="true"
+                                           :label="__mc('Content')"/>
             @else
                 <x-mailcoach::health-label reverse :test="false" :label="__mc('Content')"/>
             @endif
@@ -104,14 +104,16 @@
 
             @if($mail->html && $mail->hasValidHtml())
                 <div>
-                    <x-mailcoach::button-secondary x-on:click="$dispatch('open-modal', { id: 'preview' })" :label="__mc('Preview')"/>
-                    <x-mailcoach::button-secondary x-on:click="$dispatch('open-modal', { id: 'send-test' })" :label="__mc('Send Test')"/>
+                    <x-mailcoach::button-secondary x-on:click="$dispatch('open-modal', { id: 'preview' })"
+                                                   :label="__mc('Preview')"/>
+                    <x-mailcoach::button-secondary x-on:click="$dispatch('open-modal', { id: 'send-test' })"
+                                                   :label="__mc('Send Test')"/>
                 </div>
 
-                <x-mailcoach::preview-modal :title="__mc('Preview') . ' - ' . $mail->subject" :html="$mail->html" />
+                <x-mailcoach::preview-modal :title="__mc('Preview') . ' - ' . $mail->subject" :html="$mail->html"/>
 
                 <x-mailcoach::modal name="send-test" :dismissable="true">
-                    <livewire:mailcoach::send-test :model="$mail" />
+                    <livewire:mailcoach::send-test :model="$mail"/>
                 </x-mailcoach::modal>
             @endif
         </dd>
@@ -135,8 +137,8 @@
                 <ul class="grid gap-2">
                     @foreach ($links as $link)
                         <li>
-                            <livewire:mailcoach::link-check lazy :url="$link" wire:key="{{ $link }}" />
-                            @php($tags[] = \Spatie\Mailcoach\Domain\Shared\Support\LinkHasher::hash($mail, $link))
+                            <livewire:mailcoach::link-check lazy :url="$link" wire:key="{{ $link }}"/>
+                            @php($tags[] = \Spatie\Mailcoach\Domain\Content\Support\LinkHasher::hash($mail, $link))
                         </li>
                     @endforeach
                 </ul>

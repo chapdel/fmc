@@ -1,10 +1,10 @@
 <?php
 
 use Spatie\Mailcoach\Database\Factories\SendFactory;
+use Spatie\Mailcoach\Domain\Audience\Enums\TagType;
 use Spatie\Mailcoach\Domain\Audience\Models\Tag;
-use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Domain\Content\Models\Link;
-use Spatie\Mailcoach\Domain\Shared\Support\LinkHasher;
+use Spatie\Mailcoach\Domain\Content\Support\LinkHasher;
 
 it('adds no tag when a campaign link is clicked and setting is off', function () {
     /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */

@@ -15,5 +15,10 @@ it('passes with ampersands', function () {
 // Helpers
 function rulePasses(string $html)
 {
-    return (new HtmlRule())->passes('html', $html);
+    $passed = true;
+    (new HtmlRule())->validate('html', $html, function () use (&$passed) {
+        $passed = false;
+    });
+
+    return $passed;
 }

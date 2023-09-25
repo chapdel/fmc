@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
-use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
+use Spatie\Mailcoach\Domain\Content\Mails\MailcoachMail;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 
 it('will set transport id', function () {

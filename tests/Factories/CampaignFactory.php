@@ -6,8 +6,8 @@ use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Content\Mails\MailcoachMail;
 use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
-use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 
 class CampaignFactory
 {

@@ -3,52 +3,46 @@
 namespace Spatie\Mailcoach\Domain\Campaign\Rules;
 
 use Carbon\CarbonInterface;
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Support\Facades\Date;
 use InvalidArgumentException;
 
-class DateTimeFieldRule implements Rule
+class DateTimeFieldRule implements ValidationRule
 {
-    private string $message;
-
-    public function passes($attribute, $value)
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $this->message = (string) __mc('Invalid date time provided.');
-
         if (! is_array($value)) {
-            return false;
+            $fail(__mc('Invalid date time provided.'));
+
+            return;
         }
 
         foreach (['date', 'hours', 'minutes'] as $requiredKey) {
             if (! array_key_exists($requiredKey, $value)) {
-                $this->message = [
+                $message = [
                     'date' => __mc('Date key is missing'),
                     'hours' => __mc('Hours key is missing'),
                     'minutes' => __mc('Minutes key is missing'),
                 ][$requiredKey];
 
-                return false;
+                $fail($message);
+
+                return;
             }
         }
 
         $dateTime = $this->parseDateTime($value);
 
         if (! $dateTime) {
-            return false;
+            $fail(__mc('Invalid date time provided.'));
+
+            return;
         }
 
         if (! $dateTime->isFuture()) {
-            $this->message = __mc('Date time must be in the future.');
-
-            return false;
+            $fail(__mc('Date time must be in the future.'));
         }
-
-        return true;
-    }
-
-    public function message()
-    {
-        return $this->message;
     }
 
     public function parseDateTime(array $value): ?CarbonInterface

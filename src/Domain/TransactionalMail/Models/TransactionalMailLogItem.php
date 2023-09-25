@@ -4,19 +4,21 @@ namespace Spatie\Mailcoach\Domain\TransactionalMail\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Database\Factories\TransactionalMailLogItemFactory;
+use Spatie\Mailcoach\Domain\Content\Models\Concerns\HasContentItems;
+use Spatie\Mailcoach\Domain\Content\Models\Concerns\InteractsWithContentItems;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\ResendTransactionalMail;
 
-class TransactionalMailLogItem extends Model
+class TransactionalMailLogItem extends Model implements HasContentItems
 {
     use HasFactory;
     use HasUuid;
+    use InteractsWithContentItems;
     use UsesMailcoachModels;
 
     public $table = 'mailcoach_transactional_mail_log_items';
@@ -31,21 +33,6 @@ class TransactionalMailLogItem extends Model
         'attachments' => 'array',
         'fake' => 'boolean',
     ];
-
-    public static function booted()
-    {
-        static::created(function (self $transactionalMailLogItem) {
-            if (! $transactionalMailLogItem->contentItem) {
-                $contentItem = $transactionalMailLogItem->contentItem()->firstOrCreate();
-                $transactionalMailLogItem->setRelation('contentItem', $contentItem);
-            }
-        });
-    }
-
-    public function contentItem(): MorphOne
-    {
-        return $this->morphOne(self::getContentItemClass(), 'model');
-    }
 
     public function getSend(): ?Send
     {
