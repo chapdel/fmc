@@ -60,7 +60,7 @@ class WebhookLogsComponent extends TableComponent
                 }),
             TextColumn::make('event_type')
                 ->label(__mc('Event type'))
-                ->getStateUsing(fn (WebhookLog $log) => Str::remove('Event', $log->event_type))
+                ->getStateUsing(fn (WebhookLog $record) => Str::remove('Event', $record->event_type))
                 ->searchable(),
             TextColumn::make('attempt')
                 ->label(__mc('Attempt'))

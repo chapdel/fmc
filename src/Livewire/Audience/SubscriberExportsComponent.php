@@ -125,7 +125,7 @@ class SubscriberExportsComponent extends TableComponent
                 ->label(__mc('Exported subscribers'))
                 ->numeric(),
             TextColumn::make('errors')
-                ->getStateUsing(fn (SubscriberExport $export) => implode('<br/>', $export->errors ?? []))
+                ->getStateUsing(fn (SubscriberExport $record) => implode('<br/>', $record->errors ?? []))
                 ->html()
                 ->numeric()
                 ->label(__mc('Errors')),

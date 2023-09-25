@@ -64,36 +64,36 @@ class CampaignsComponent extends TableComponent
                 ->extraAttributes([
                     'class' => 'px-1 py-2',
                 ])
-                ->getStateUsing(fn (Campaign $campaign) => $campaign->status->value)
-                ->icon(fn (Campaign $campaign) => match (true) {
-                    $campaign->isScheduled() => 'heroicon-o-clock',
-                    $campaign->status === CampaignStatus::Draft => 'heroicon-o-pencil-square',
-                    $campaign->status === CampaignStatus::Sent => 'heroicon-o-check-circle',
-                    $campaign->status === CampaignStatus::Sending => 'heroicon-o-arrow-path',
-                    $campaign->status === CampaignStatus::Cancelled => 'heroicon-o-x-circle',
+                ->getStateUsing(fn (Campaign $record) => $record->status->value)
+                ->icon(fn (Campaign $record) => match (true) {
+                    $record->isScheduled() => 'heroicon-o-clock',
+                    $record->status === CampaignStatus::Draft => 'heroicon-o-pencil-square',
+                    $record->status === CampaignStatus::Sent => 'heroicon-o-check-circle',
+                    $record->status === CampaignStatus::Sending => 'heroicon-o-arrow-path',
+                    $record->status === CampaignStatus::Cancelled => 'heroicon-o-x-circle',
                     default => '',
                 })
-                ->extraAttributes(function (Campaign $campaign) {
-                    if ($campaign->status === CampaignStatus::Sending) {
+                ->extraAttributes(function (Campaign $record) {
+                    if ($record->status === CampaignStatus::Sending) {
                         return ['class' => 'fa-spin'];
                     }
 
                     return [];
                 })
-                ->tooltip(fn (Campaign $campaign) => match (true) {
-                    $campaign->isScheduled() => __mc('Scheduled'),
-                    $campaign->status === CampaignStatus::Sent => __mc('Sent'),
-                    $campaign->status === CampaignStatus::Draft => __mc('Draft'),
-                    $campaign->status === CampaignStatus::Sending => __mc('Sending'),
-                    $campaign->status === CampaignStatus::Cancelled => __mc('Cancelled'),
+                ->tooltip(fn (Campaign $record) => match (true) {
+                    $record->isScheduled() => __mc('Scheduled'),
+                    $record->status === CampaignStatus::Sent => __mc('Sent'),
+                    $record->status === CampaignStatus::Draft => __mc('Draft'),
+                    $record->status === CampaignStatus::Sending => __mc('Sending'),
+                    $record->status === CampaignStatus::Cancelled => __mc('Cancelled'),
                     default => '',
                 })
-                ->color(fn (Campaign $campaign) => match (true) {
-                    $campaign->isScheduled() => 'warning',
-                    $campaign->status === CampaignStatus::Draft => '',
-                    $campaign->status === CampaignStatus::Sent => 'success',
-                    $campaign->status === CampaignStatus::Sending => 'warning',
-                    $campaign->status === CampaignStatus::Cancelled => 'danger',
+                ->color(fn (Campaign $record) => match (true) {
+                    $record->isScheduled() => 'warning',
+                    $record->status === CampaignStatus::Draft => '',
+                    $record->status === CampaignStatus::Sent => 'success',
+                    $record->status === CampaignStatus::Sending => 'warning',
+                    $record->status === CampaignStatus::Cancelled => 'danger',
                     default => '',
                 })
                 ->alignCenter(),
@@ -106,8 +106,8 @@ class CampaignsComponent extends TableComponent
                     $query->join(self::getEmailListTableName(), self::getEmailListTableName().'.id', '=', self::getCampaignTableName().'.email_list_id')
                         ->orderBy(self::getEmailListTableName().'.name', $direction);
                 })
-                ->url(fn (Campaign $campaign) => $campaign->emailList
-                    ? route('mailcoach.emailLists.summary', $campaign->emailList)
+                ->url(fn (Campaign $record) => $record->emailList
+                    ? route('mailcoach.emailLists.summary', $record->emailList)
                     : null
                 )
                 ->view('mailcoach::app.campaigns.columns.email_list'),

@@ -225,7 +225,7 @@ class SubscriberImportsComponent extends TableComponent
                 ->label(__mc('Processed rows'))
                 ->numeric(),
             TextColumn::make('errors')
-                ->getStateUsing(fn (SubscriberImport $import) => count($import->errors ?? []))
+                ->getStateUsing(fn (SubscriberImport $record) => count($record->errors ?? []))
                 ->numeric()
                 ->label(__mc('Errors')),
         ];

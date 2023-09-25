@@ -103,10 +103,10 @@ class SubscribersComponent extends TableComponent
                 ->sortable(query: function (Builder $query) {
                     $query->orderBy(DB::raw('unsubscribed_at, subscribed_at, created_at'), $this->tableSortDirection);
                 })
-                ->getStateUsing(fn (Subscriber $subscriber) => match (true) {
-                    $subscriber->isUnsubscribed() => $subscriber->unsubscribed_at?->toMailcoachFormat(),
-                    $subscriber->isUnconfirmed() => $subscriber->created_at->toMailcoachFormat(),
-                    default => $subscriber->subscribed_at?->toMailcoachFormat(),
+                ->getStateUsing(fn (Subscriber $record) => match (true) {
+                    $record->isUnsubscribed() => $record->unsubscribed_at?->toMailcoachFormat(),
+                    $record->isUnconfirmed() => $record->created_at->toMailcoachFormat(),
+                    default => $record->subscribed_at?->toMailcoachFormat(),
                 }),
         ];
     }

@@ -52,7 +52,7 @@ class ClicksComponent extends ContentItemTable
             $this->contentItem->add_subscriber_link_tags
                 ? TextColumn::make('tag')
                     ->label(__mc('Tag'))
-                    ->getStateUsing(fn (Link $link) => '<span class="tag-neutral">'.LinkHasher::hash($this->contentItem->model, $link->url).'</span>')
+                    ->getStateUsing(fn (Link $record) => '<span class="tag-neutral">'.LinkHasher::hash($this->contentItem->model, $record->url).'</span>')
                     ->html()
                 : null,
             TextColumn::make('unique_click_count')

@@ -34,7 +34,7 @@ class AutomationMailsComponent extends TableComponent
                 ->sortable()
                 ->label(__mc('Emails'))
                 ->numeric()
-                ->getStateUsing(fn (AutomationMail $automationMail) => number_format($automationMail->contentItem->sent_to_number_of_subscribers) ?: '–'),
+                ->getStateUsing(fn (AutomationMail $record) => number_format($record->contentItem->sent_to_number_of_subscribers) ?: '–'),
             TextColumn::make('unique_open_count')
                 ->sortable()
                 ->label(__mc('Opens'))

@@ -55,10 +55,10 @@ class OutboxComponent extends ContentItemTable
                 ->extraAttributes(['class' => 'link'])
                 ->searchable()
                 ->sortable()
-                ->getStateUsing(fn (Send $send) => $send->subscriber?->email ?? '<'.__mc('deleted subscriber').'>'),
+                ->getStateUsing(fn (Send $record) => $record->subscriber?->email ?? '<'.__mc('deleted subscriber').'>'),
             TextColumn::make('failure_reason')
                 ->label(__mc('Problem'))
-                ->getStateUsing(fn (Send $send) => "{$send->failure_reason}{$send->latestFeedback()?->formatted_type}"),
+                ->getStateUsing(fn (Send $record) => "{$record->failure_reason}{$record->latestFeedback()?->formatted_type}"),
             TextColumn::make('sent_at')
                 ->label(__mc('Sent'))
                 ->sortable()

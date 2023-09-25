@@ -45,7 +45,7 @@ class TransactionalMailLogItemsComponent extends TableComponent
                 ->label(__mc('Subject'))
                 ->searchable(),
             TextColumn::make('to')
-                ->getStateUsing(fn (TransactionalMailLogItem $item) => $item->toString())
+                ->getStateUsing(fn (TransactionalMailLogItem $record) => $record->toString())
                 ->searchable(),
             TextColumn::make('contentItem.opens_count')->label(__mc('Opens'))->numeric(),
             TextColumn::make('contentItem.clicks_count')->label(__mc('Clicks'))->numeric(),
