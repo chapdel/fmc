@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors;
 
 use Illuminate\Contracts\Config\Repository;
-use Spatie\MailcoachUnlayer\UnlayerEditor;
+use Spatie\Mailcoach\Domain\Editor\Unlayer\UnlayerEditor;
 
 class UnlayerEditorConfigurationDriver extends EditorConfigurationDriver
 {

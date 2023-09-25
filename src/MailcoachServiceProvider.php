@@ -39,6 +39,7 @@ use Spatie\Mailcoach\Domain\Content\Events\ContentOpenedEvent;
 use Spatie\Mailcoach\Domain\Content\Events\LinkClickedEvent;
 use Spatie\Mailcoach\Domain\Content\Listeners\AddOpenedTag;
 use Spatie\Mailcoach\Domain\Editor\Codemirror\Editor;
+use Spatie\Mailcoach\Domain\Editor\Unlayer\UnlayerEditor;
 use Spatie\Mailcoach\Domain\Settings\Commands\PublishCommand;
 use Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookEventSubscriber;
 use Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookFailedAttemptsSubscriber;
@@ -224,6 +225,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
     public function bootingPackage(): void
     {
         Mailcoach::editorScript(Editor::class, asset('vendor/mailcoach-codemirror/editor.js'));
+        Mailcoach::editorScript(UnlayerEditor::class, 'https://editor.unlayer.com/embed.js');
     }
 
     public function packageRegistered(): void
@@ -262,6 +264,10 @@ class MailcoachServiceProvider extends PackageServiceProvider
                 $this->package->basePath('/../resources/dist') => public_path("vendor/{$this->package->shortName()}"),
                 $this->package->basePath('/../resources/images') => public_path("vendor/{$this->package->shortName()}/images"),
             ], "{$this->package->shortName()}-assets");
+
+            $this->publishes([
+                __DIR__.'/../resources/views' => base_path('resources/views/vendor/mailcoach-unlayer'),
+            ], 'mailcoach-unlayer-views');
         }
 
         $this
@@ -611,6 +617,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
         // Editors
         Livewire::component('mailcoach-codemirror::editor', Editor::class);
+        Livewire::component('mailcoach-unlayer::editor', UnlayerEditor::class);
 
         // Condition builder
         Livewire::component('mailcoach::condition-builder', Mailcoach::getLivewireClass(ConditionBuilderComponent::class));
