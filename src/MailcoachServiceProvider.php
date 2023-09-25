@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
 use LivewireUI\Spotlight\Spotlight;
@@ -224,7 +225,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     public function bootingPackage(): void
     {
-        Mailcoach::editorScript(Editor::class, asset('vendor/mailcoach-codemirror/editor.js'));
+        Mailcoach::editorScript(Editor::class, asset('js/editors/codemirror/editor.js'));
         Mailcoach::editorScript(UnlayerEditor::class, 'https://editor.unlayer.com/embed.js');
     }
 

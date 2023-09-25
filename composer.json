@@ -56,7 +56,6 @@
         "spatie/laravel-mailcoach-sendinblue-setup": "v7.x-dev",
         "spatie/laravel-mailcoach-ses-feedback": "v7.x-dev",
         "spatie/laravel-mailcoach-ses-setup": "v7.x-dev",
-        "spatie/laravel-mailcoach-unlayer": "v7.x-dev",
         "spatie/laravel-markdown": "^2.2",
         "spatie/laravel-medialibrary": "^10.0.1",
         "spatie/laravel-navigation": "^1.1",
@@ -129,7 +128,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "v6.x-dev"
+            "dev-main": "v7.x-dev"
         },
         "laravel": {
             "providers": [
