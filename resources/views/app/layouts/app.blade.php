@@ -31,7 +31,7 @@
     {!! Mailcoach::styles() !!}
     @include('mailcoach::app.layouts.partials.endHead')
     @stack('endHead')
-    @if (config('mailcoach.content_editor') !== \Spatie\MailcoachMarkdownEditor\Editor::class)
+    @if (config('mailcoach.content_editor') !== \Spatie\Mailcoach\Domain\Editor\Markdown\Editor::class)
         <script src="{{ asset('vendor/mailcoach-markdown-editor/editor.js') }}"></script>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
     @endif
@@ -98,9 +98,11 @@
         <span x-text="confirmText"></span>
 
         <x-mailcoach::form-buttons>
-            <x-mailcoach::button data-confirm type="button" x-on:click="onConfirm; $dispatch('close-modal', { id: 'confirm' })"
+            <x-mailcoach::button data-confirm type="button"
+                                 x-on:click="onConfirm; $dispatch('close-modal', { id: 'confirm' })"
                                  :label=" __mc('Confirm')"/>
-            <x-mailcoach::button-cancel x-on:click="$dispatch('close-modal', { id: 'confirm' })" :label=" __mc('Cancel')"/>
+            <x-mailcoach::button-cancel x-on:click="$dispatch('close-modal', { id: 'confirm' })"
+                                        :label=" __mc('Cancel')"/>
         </x-mailcoach::form-buttons>
     </x-mailcoach::modal>
 
@@ -110,7 +112,8 @@
         <x-mailcoach::form-buttons>
             <x-mailcoach::button type="button" x-on:click="$store.modals.onConfirm && $store.modals.onConfirm()"
                                  :label=" __mc('Confirm')"/>
-            <x-mailcoach::button-cancel x-on:click="$dispatch('close-modal', { id: 'dirty-warning' })" :label=" __mc('Cancel')"/>
+            <x-mailcoach::button-cancel x-on:click="$dispatch('close-modal', { id: 'dirty-warning' })"
+                                        :label=" __mc('Cancel')"/>
         </x-mailcoach::form-buttons>
     </x-mailcoach::modal>
 

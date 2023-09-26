@@ -10,6 +10,7 @@ use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignUnsubscribesControll
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\SendCampaignController;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\SendTestEmailController;
 use Spatie\Mailcoach\Http\Api\Controllers\Editors\EditorJs\RenderEditorController;
+use Spatie\Mailcoach\Http\Api\Controllers\Editors\Markdown\RenderMarkdownController;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\EmailListsController;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\SegmentsController;
 use Spatie\Mailcoach\Http\Api\Controllers\EmailLists\Subscribers\ConfirmSubscriberController;
@@ -82,3 +83,4 @@ Route::prefix('automations')->group(function () {
 });
 
 Route::post('render', '\\'.RenderEditorController::class);
+Route::post('render-markdown', '\\'.RenderMarkdownController::class)->name('mailcoach-markdown-editor.render-markdown');

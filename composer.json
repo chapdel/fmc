@@ -45,7 +45,6 @@
         "spatie/laravel-livewire-wizard": "^2.0",
         "spatie/laravel-mailcoach-mailgun-feedback": "v7.x-dev",
         "spatie/laravel-mailcoach-mailgun-setup": "v7.x-dev",
-        "spatie/laravel-mailcoach-markdown-editor": "v7.x-dev",
         "spatie/laravel-mailcoach-monaco": "v7.x-dev",
         "spatie/laravel-mailcoach-postmark-feedback": "v7.x-dev",
         "spatie/laravel-mailcoach-postmark-setup": "v7.x-dev",

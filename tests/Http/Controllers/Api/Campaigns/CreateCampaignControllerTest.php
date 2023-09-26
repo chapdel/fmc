@@ -7,11 +7,15 @@ use Spatie\Mailcoach\Domain\Audience\Support\Segments\SubscribersWithTagsSegment
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Policies\CampaignPolicy;
+<<<<<<< HEAD
 use Spatie\Mailcoach\Domain\Template\Models\Template;
+=======
+use Spatie\Mailcoach\Domain\Content\Models\Template;
+use Spatie\Mailcoach\Domain\Editor\Markdown\Editor as MarkdownEditor;
+>>>>>>> 623784cd7 (move markdown package into this)
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignsController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestClasses\CustomCampaignDenyAllPolicy;
-use Spatie\MailcoachMarkdownEditor\Editor as MarkdownEditor;
 
 uses(RespondsToApiRequests::class);
 

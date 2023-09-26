@@ -235,6 +235,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/code@latest');
         Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/inline-code@latest');
         Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/editorjs-button@1.0.4');
+        Mailcoach::editorScript(Domain\Editor\Markdown\Editor::class, asset('js/editors/markdown/editor.js'));
+        Mailcoach::editorStyle(Domain\Editor\Markdown\Editor::class, 'https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css');
         Mailcoach::editorScript(UnlayerEditor::class, 'https://editor.unlayer.com/embed.js');
     }
 
@@ -629,6 +631,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach-codemirror::editor', Domain\Editor\Codemirror\Editor::class);
         Livewire::component('mailcoach-unlayer::editor', UnlayerEditor::class);
         Livewire::component('mailcoach-editor::editor', Domain\Editor\EditorJs\Editor::class);
+        Livewire::component('mailcoach-markdown-editor::editor', Domain\Editor\Markdown\Editor::class);
 
         // Condition builder
         Livewire::component('mailcoach::condition-builder', Mailcoach::getLivewireClass(ConditionBuilderComponent::class));

@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors;
 
-use Spatie\MailcoachMarkdownEditor\Editor;
+use Spatie\Mailcoach\Domain\Editor\Markdown\Editor;
 
 class MarkdownEditorConfigurationDriver extends EditorConfigurationDriver
 {
