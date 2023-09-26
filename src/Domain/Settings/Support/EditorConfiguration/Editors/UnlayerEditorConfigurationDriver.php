@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors;
 
 use Illuminate\Contracts\Config\Repository;
-use Spatie\Mailcoach\Domain\Editor\Unlayer\UnlayerEditor;
+use Spatie\Mailcoach\Domain\Editor\Unlayer\Editor;
 
 class UnlayerEditorConfigurationDriver extends EditorConfigurationDriver
 {
@@ -14,7 +14,7 @@ class UnlayerEditorConfigurationDriver extends EditorConfigurationDriver
 
     public function getClass(): string
     {
-        return UnlayerEditor::class;
+        return Editor::class;
     }
 
     public function validationRules(): array

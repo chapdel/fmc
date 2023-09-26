@@ -12,10 +12,10 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Campaign\Rules\HtmlRule;
 use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\ReplacerWithHelpText as CampaignReplacerWithHelpText;
 use Spatie\Mailcoach\Domain\Content\Models\Concerns\HasHtmlContent;
-use Spatie\Mailcoach\Domain\Content\Models\Template;
+use Spatie\Mailcoach\Domain\Template\Models\Template;
 use Spatie\Mailcoach\Livewire\Editor\EditorComponent;
 
-class UnlayerEditor extends EditorComponent
+class Editor extends EditorComponent
 {
     public function mount(HasHtmlContent $model): void
     {
@@ -62,7 +62,7 @@ class UnlayerEditor extends EditorComponent
             'specialLinks' => $this->getSpecialLinks($this->model),
         ], config('mailcoach.unlayer.options', []));
 
-        return view('mailcoach-unlayer::unlayer', [
+        return view('mailcoach::editor-unlayer', [
             'replacers' => $replacers,
             'options' => $options,
         ]);

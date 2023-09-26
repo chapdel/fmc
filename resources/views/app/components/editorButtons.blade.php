@@ -32,7 +32,7 @@
         @endif
         --}}
 
-        @if (config('mailcoach.content_editor') !== \Spatie\Mailcoach\Domain\Editor\Unlayer\UnlayerEditor::class)
+        @if (config('mailcoach.content_editor') !== \Spatie\Mailcoach\Domain\Editor\Unlayer\Editor::class)
             <x-mailcoach::button-secondary x-on:click.prevent="$dispatch('open-modal', { id: 'preview' })"
                                            :label="__mc('Preview')"/>
             <x-mailcoach::preview-modal name="preview" :html="$previewHtml"
