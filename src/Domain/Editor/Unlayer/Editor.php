@@ -62,7 +62,7 @@ class Editor extends EditorComponent
             'specialLinks' => $this->getSpecialLinks($this->model),
         ], config('mailcoach.unlayer.options', []));
 
-        return view('mailcoach::editor-unlayer', [
+        return view('mailcoach::editors.unlayer.unlayer', [
             'replacers' => $replacers,
             'options' => $options,
         ]);
