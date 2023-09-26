@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Editor\EditorJs;
 
 use Illuminate\Contracts\View\View;
+use Spatie\Mailcoach\Domain\Editor\EditorJs\Renderer\Renderer;
 use Spatie\Mailcoach\Domain\Template\Support\TemplateRenderer;
 use Spatie\Mailcoach\Livewire\Editor\EditorComponent;
 

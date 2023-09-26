@@ -20,17 +20,14 @@ use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Livewire\LivewireServiceProvider;
-use LivewireUI\Spotlight\SpotlightServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Spatie\Feed\FeedServiceProvider;
 use Spatie\LaravelRay\RayServiceProvider;
 use Spatie\Mailcoach\Database\Factories\UserFactory;
-use Spatie\Mailcoach\Domain\Editor\Markdown\MailcoachMarkdownEditorServiceProvider;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Front\Controllers\UnsubscribeController;
 use Spatie\Mailcoach\MailcoachServiceProvider;
-use Spatie\MailcoachEditor\MailcoachEditorServiceProvider;
 use Spatie\MailcoachMailgunFeedback\MailcoachMailgunFeedbackServiceProvider;
 use Spatie\MailcoachPostmarkFeedback\MailcoachPostmarkFeedbackServiceProvider;
 use Spatie\MailcoachSendgridFeedback\MailcoachSendgridFeedbackServiceProvider;
@@ -109,8 +106,6 @@ abstract class TestCase extends Orchestra
             MailcoachSendgridFeedbackServiceProvider::class,
             MailcoachSendinblueFeedbackServiceProvider::class,
             MailcoachPostmarkFeedbackServiceProvider::class,
-            MailcoachEditorServiceProvider::class,
-            MailcoachMarkdownEditorServiceProvider::class,
             WebhookServerServiceProvider::class,
         ];
     }

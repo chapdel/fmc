@@ -3,7 +3,7 @@
 namespace Spatie\Mailcoach\Http\Api\Controllers\Editors\EditorJs;
 
 use Illuminate\Http\Request;
-use Spatie\MailcoachEditor\Editor;
+use Spatie\Mailcoach\Domain\Editor\EditorJs\Editor;
 
 class RenderEditorController
 {

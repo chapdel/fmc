@@ -40,6 +40,7 @@
         "league/html-to-markdown": "^4.10|^5.0",
         "livewire/livewire": "^v3.0",
         "nesbot/carbon": "^2.37",
+        "scrivo/highlight.php": "v9.18.1.10",
         "spatie/laravel-collection-macros": "^7.11",
         "spatie/laravel-feed": "^4.0",
         "spatie/laravel-livewire-wizard": "^2.0",

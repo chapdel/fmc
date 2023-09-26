@@ -399,7 +399,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
                         ->group(__DIR__.'/../routes/mailcoach-email-list-website.php');
                 });
 
-                Route::mailcoachEditor('mailcoachEditor');
                 Route::get($url, function () {
                     return redirect()->route(config('mailcoach.redirect_home', 'mailcoach.dashboard'));
                 })->name('mailcoach.home');
