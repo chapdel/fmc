@@ -42,10 +42,10 @@ class Editor extends EditorComponent
             $this->templateFieldValues['html']['json'] ??= '';
         }
 
-        return view('mailcoach-editor::editor');
+        return view('mailcoach::editors.editorjs.editor');
     }
 
-    public function renderFullHtml()
+    public function renderFullHtml(): void
     {
         if (! $this->template) {
             $this->fullHtml = $this->templateFieldValues['html']['html'] ?? '';

@@ -622,9 +622,9 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::create-suppression', Mailcoach::getLivewireClass(CreateSuppressionComponent::class));
 
         // Editors
-        Livewire::component('mailcoach-codemirror::editor', Domain\Editor\Codemirror\Editor::class);
+        Livewire::component('mailcoach::editor-codemirror', Domain\Editor\Codemirror\Editor::class);
         Livewire::component('mailcoach::editor-unlayer', Domain\Editor\Unlayer\Editor::class);
-        Livewire::component('mailcoach-editor::editor', Domain\Editor\EditorJs\Editor::class);
+        Livewire::component('mailcoach::editor-editorjs', Domain\Editor\EditorJs\Editor::class);
         Livewire::component('mailcoach::editor-markdown', Domain\Editor\Markdown\Editor::class);
 
         // Condition builder
