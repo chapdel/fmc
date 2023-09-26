@@ -625,7 +625,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach-codemirror::editor', Domain\Editor\Codemirror\Editor::class);
         Livewire::component('mailcoach::editor-unlayer', Domain\Editor\Unlayer\Editor::class);
         Livewire::component('mailcoach-editor::editor', Domain\Editor\EditorJs\Editor::class);
-        Livewire::component('mailcoach-markdown-editor::editor', Domain\Editor\Markdown\Editor::class);
+        Livewire::component('mailcoach::editor-markdown', Domain\Editor\Markdown\Editor::class);
 
         // Condition builder
         Livewire::component('mailcoach::condition-builder', Mailcoach::getLivewireClass(ConditionBuilderComponent::class));

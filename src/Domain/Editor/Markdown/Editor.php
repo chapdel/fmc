@@ -43,7 +43,7 @@ class Editor extends EditorComponent
             $this->templateFieldValues['html']['theme'] ??= 'nord';
         }
 
-        return view('mailcoach-markdown-editor::editor');
+        return view('mailcoach::editors.markdown.editor');
     }
 
     public function renderFullHtml(): void
