@@ -1,0 +1,17 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-6c622afc.css",
+    "isEntry": true,
+    "src": "resources/css/app.css"
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-d2e7937a.js",
+    "isEntry": true,
+    "src": "resources/js/app.js"
+  },
+  "resources/js/editors/codemirror/editor.js": {
+    "file": "assets/editor-3c15f22d.js",
+    "isEntry": true,
+    "src": "resources/js/editors/codemirror/editor.js"
+  }
+}

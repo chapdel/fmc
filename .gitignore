@@ -14,5 +14,3 @@ auth.json
 phpstan.neon
 dump.rdb
 /.fleet
-dump.rdb
-resources/dist
