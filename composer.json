@@ -43,7 +43,6 @@
         "spatie/laravel-collection-macros": "^7.11",
         "spatie/laravel-feed": "^4.0",
         "spatie/laravel-livewire-wizard": "^2.0",
-        "spatie/laravel-mailcoach-editor": "v7.x-dev",
         "spatie/laravel-mailcoach-mailgun-feedback": "v7.x-dev",
         "spatie/laravel-mailcoach-mailgun-setup": "v7.x-dev",
         "spatie/laravel-mailcoach-markdown-editor": "v7.x-dev",

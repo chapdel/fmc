@@ -226,6 +226,17 @@ class MailcoachServiceProvider extends PackageServiceProvider
     {
         Mailcoach::editorScript(Editor::class, asset('js/editors/codemirror/editor.js'));
         Mailcoach::editorScript(UnlayerEditor::class, 'https://editor.unlayer.com/embed.js');
+        Mailcoach::editorScript(Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest');
+        Mailcoach::editorScript(Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/header@latest');
+        Mailcoach::editorScript(Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/list@latest');
+        Mailcoach::editorScript(Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/image@latest');
+        Mailcoach::editorScript(Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/quote@latest');
+        Mailcoach::editorScript(Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/delimiter@latest');
+        Mailcoach::editorScript(Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/raw@latest');
+        Mailcoach::editorScript(Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/table@latest');
+        Mailcoach::editorScript(Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/code@latest');
+        Mailcoach::editorScript(Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/inline-code@latest');
+        Mailcoach::editorScript(Editor::class, 'https://cdn.jsdelivr.net/npm/editorjs-button@1.0.4');
     }
 
     public function packageRegistered(): void
@@ -616,8 +627,9 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::create-suppression', Mailcoach::getLivewireClass(CreateSuppressionComponent::class));
 
         // Editors
-        Livewire::component('mailcoach-codemirror::editor', Editor::class);
+        Livewire::component('mailcoach-codemirror::editor', Domain\Editor\Codemirror\Editor::class);
         Livewire::component('mailcoach-unlayer::editor', UnlayerEditor::class);
+        Livewire::component('mailcoach-editor::editor', Domain\Editor\EditorJs\Editor::class);
 
         // Condition builder
         Livewire::component('mailcoach::condition-builder', Mailcoach::getLivewireClass(ConditionBuilderComponent::class));
