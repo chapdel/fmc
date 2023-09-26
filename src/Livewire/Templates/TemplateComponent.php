@@ -10,8 +10,8 @@ use Livewire\Component;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Content\Models\Template as TemplateModel;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Template\Models\Template as TemplateModel;
 use Spatie\Mailcoach\Domain\Template\Support\TemplateRenderer;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 

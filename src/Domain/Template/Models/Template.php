@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Content\Models;
+namespace Spatie\Mailcoach\Domain\Template\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

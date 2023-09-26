@@ -1,6 +1,6 @@
 <?php
 
-use Spatie\Mailcoach\Domain\Content\Models\Template;
+use Spatie\Mailcoach\Domain\Template\Models\Template;
 use Spatie\Mailcoach\Http\Api\Controllers\TemplatesController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 

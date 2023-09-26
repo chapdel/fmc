@@ -2,7 +2,7 @@
 
 use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
-use Spatie\Mailcoach\Domain\Content\Models\Template;
+use Spatie\Mailcoach\Domain\Template\Models\Template;
 use Spatie\Mailcoach\Livewire\Templates\TemplateComponent;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 

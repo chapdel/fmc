@@ -4,8 +4,8 @@ namespace Spatie\Mailcoach\Livewire\TransactionalMails;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
-use Spatie\Mailcoach\Domain\Content\Models\Template;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Template\Models\Template;
 use Spatie\Mailcoach\Domain\TransactionalMail\Actions\CreateTemplateAction;
 
 class CreateTransactionalTemplateComponent extends Component

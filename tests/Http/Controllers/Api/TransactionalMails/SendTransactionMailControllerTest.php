@@ -2,8 +2,8 @@
 
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Models\Suppression;
-use Spatie\Mailcoach\Domain\Content\Models\Template;
 use Spatie\Mailcoach\Domain\Shared\Policies\SendPolicy;
+use Spatie\Mailcoach\Domain\Template\Models\Template;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\TransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail as TransactionalMailModel;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;

@@ -5,8 +5,8 @@ namespace Spatie\Mailcoach\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Content\Models\Template;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Template\Models\Template;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
 
 class ContentItemFactory extends Factory

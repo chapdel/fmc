@@ -8,8 +8,8 @@ use Livewire\Component;
 use Livewire\Features\SupportPagination\HandlesPagination;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Actions\UpdateCampaignAction;
-use Spatie\Mailcoach\Domain\Content\Models\Template;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Template\Models\Template;
 
 class CreateCampaignComponent extends Component
 {

@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Domain\Content\Models\Concerns;
 
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\Mailcoach\Domain\Content\Models\Template;
+use Spatie\Mailcoach\Domain\Template\Models\Template;
 
 /**
  * @property ?Template $template

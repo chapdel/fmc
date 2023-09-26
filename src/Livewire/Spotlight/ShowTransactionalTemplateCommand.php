@@ -9,8 +9,8 @@ use LivewireUI\Spotlight\SpotlightCommand;
 use LivewireUI\Spotlight\SpotlightCommandDependencies;
 use LivewireUI\Spotlight\SpotlightCommandDependency;
 use LivewireUI\Spotlight\SpotlightSearchResult;
-use Spatie\Mailcoach\Domain\Content\Models\Template;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Template\Models\Template;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 
 class ShowTransactionalTemplateCommand extends SpotlightCommand

@@ -3,10 +3,10 @@
 namespace Spatie\Mailcoach\Http\Api\Controllers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Spatie\Mailcoach\Domain\Content\Models\Template;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\Template\Actions\CreateTemplateAction;
 use Spatie\Mailcoach\Domain\Template\Actions\UpdateTemplateAction;
+use Spatie\Mailcoach\Domain\Template\Models\Template;
 use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Http\Api\Queries\TemplatesQuery;
 use Spatie\Mailcoach\Http\Api\Requests\TemplateRequest;

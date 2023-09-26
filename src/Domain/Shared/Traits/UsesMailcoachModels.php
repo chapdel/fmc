@@ -19,7 +19,6 @@ use Spatie\Mailcoach\Domain\Content\Models\Click;
 use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 use Spatie\Mailcoach\Domain\Content\Models\Link;
 use Spatie\Mailcoach\Domain\Content\Models\Open;
-use Spatie\Mailcoach\Domain\Content\Models\Template;
 use Spatie\Mailcoach\Domain\Content\Models\Unsubscribe;
 use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
 use Spatie\Mailcoach\Domain\Settings\Models\Setting;
@@ -28,6 +27,7 @@ use Spatie\Mailcoach\Domain\Settings\Models\WebhookLog;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Models\SendFeedbackItem;
 use Spatie\Mailcoach\Domain\Shared\Models\Upload;
+use Spatie\Mailcoach\Domain\Template\Models\Template;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
 
