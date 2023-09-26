@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors;
 
-use Spatie\MailcoachEditor\Editor;
+use Spatie\Mailcoach\Domain\Editor\EditorJs\Editor;
 
 class EditorJsEditorConfigurationDriver extends EditorConfigurationDriver
 {

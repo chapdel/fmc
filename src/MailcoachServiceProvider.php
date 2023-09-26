@@ -38,7 +38,6 @@ use Spatie\Mailcoach\Domain\Campaign\Listeners\SendCampaignSentEmail;
 use Spatie\Mailcoach\Domain\Content\Events\ContentOpenedEvent;
 use Spatie\Mailcoach\Domain\Content\Events\LinkClickedEvent;
 use Spatie\Mailcoach\Domain\Content\Listeners\AddOpenedTag;
-use Spatie\Mailcoach\Domain\Editor\Codemirror\Editor;
 use Spatie\Mailcoach\Domain\Editor\Unlayer\UnlayerEditor;
 use Spatie\Mailcoach\Domain\Settings\Commands\PublishCommand;
 use Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookEventSubscriber;
@@ -224,19 +223,19 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     public function bootingPackage(): void
     {
-        Mailcoach::editorScript(Editor::class, asset('js/editors/codemirror/editor.js'));
+        Mailcoach::editorScript(Domain\Editor\Codemirror\Editor::class, asset('js/editors/codemirror/editor.js'));
+        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest');
+        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/header@latest');
+        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/list@latest');
+        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/image@latest');
+        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/quote@latest');
+        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/delimiter@latest');
+        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/raw@latest');
+        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/table@latest');
+        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/code@latest');
+        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/inline-code@latest');
+        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/editorjs-button@1.0.4');
         Mailcoach::editorScript(UnlayerEditor::class, 'https://editor.unlayer.com/embed.js');
-        Mailcoach::editorScript(Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest');
-        Mailcoach::editorScript(Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/header@latest');
-        Mailcoach::editorScript(Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/list@latest');
-        Mailcoach::editorScript(Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/image@latest');
-        Mailcoach::editorScript(Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/quote@latest');
-        Mailcoach::editorScript(Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/delimiter@latest');
-        Mailcoach::editorScript(Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/raw@latest');
-        Mailcoach::editorScript(Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/table@latest');
-        Mailcoach::editorScript(Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/code@latest');
-        Mailcoach::editorScript(Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/inline-code@latest');
-        Mailcoach::editorScript(Editor::class, 'https://cdn.jsdelivr.net/npm/editorjs-button@1.0.4');
     }
 
     public function packageRegistered(): void
