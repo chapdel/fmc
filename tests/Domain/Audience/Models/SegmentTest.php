@@ -247,7 +247,7 @@ function createSubscriberWithTags(string $email, array $tags = []): Subscriber
     return $subscriber->refresh();
 }
 
-function assertArrayContainsSubscribers(array $expectedSubscribers, Collection $actualSubscribers)
+function assertArrayContainsSubscribers(array $expectedSubscribers, Collection $actualSubscribers): void
 {
     $expectedSubscribers = collect($expectedSubscribers);
 

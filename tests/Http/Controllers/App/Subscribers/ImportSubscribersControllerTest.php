@@ -71,7 +71,7 @@ it('will trim the subscriber row values', function () {
 
     $subscriber = Subscriber::findForEmail('john@example.com', $this->emailList);
 
-    test()->assertNotEmpty($subscriber);
+    expect($subscriber)->not->toBeEmpty();
     expect($subscriber->first_name)->toEqual('John');
     expect($subscriber->last_name)->toEqual('Doe');
     expect($subscriber->extra_attributes->job_title)->toEqual('Developer');
@@ -82,7 +82,7 @@ it('can handle semicolon as separator', function () {
 
     $subscriber = Subscriber::findForEmail('john@example.com', $this->emailList);
 
-    test()->assertNotEmpty($subscriber);
+    expect($subscriber)->not->toBeEmpty();
     expect($subscriber->first_name)->toEqual('John');
     expect($subscriber->last_name)->toEqual('Doe');
     expect($subscriber->extra_attributes->job_title)->toEqual('Developer');
@@ -95,7 +95,7 @@ it('can handle pipe as separator', function () {
 
     $subscriber = Subscriber::findForEmail('john@example.com', $this->emailList);
 
-    test()->assertNotEmpty($subscriber);
+    expect($subscriber)->not->toBeEmpty();
     expect($subscriber->first_name)->toEqual('John');
     expect($subscriber->last_name)->toEqual('Doe');
     expect($subscriber->extra_attributes->job_title)->toEqual('Developer');

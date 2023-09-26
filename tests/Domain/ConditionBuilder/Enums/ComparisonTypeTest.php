@@ -1,8 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\ConditionBuilder\Enums;
-
-use RuntimeException;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Enums\ComparisonOperator;
 
 it('can be created from a name', function () {

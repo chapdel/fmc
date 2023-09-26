@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\ConditionBuilder\Conditions\Subscribers;
-
 use Spatie\Mailcoach\Database\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Database\Factories\TagFactory;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;

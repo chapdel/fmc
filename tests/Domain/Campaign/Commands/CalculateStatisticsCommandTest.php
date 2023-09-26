@@ -83,7 +83,7 @@ it('can recalculate the statistics of a single campaign', function () {
 
     test()->artisan(CalculateStatisticsCommand::class, ['campaignId' => $campaign->id])->assertExitCode(0);
 
-    test()->assertNotNull($campaign->refresh()->contentItem->statistics_calculated_at);
+    expect($campaign->refresh()->contentItem->statistics_calculated_at)->not->toBeNull();
 });
 
 // Datasets

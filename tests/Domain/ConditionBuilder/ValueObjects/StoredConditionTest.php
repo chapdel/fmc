@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\ConditionBuilder\ValueObjects;
-
 use Spatie\Mailcoach\Database\Factories\TagSegmentFactory;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Collections\StoredConditionCollection;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Conditions\Condition;

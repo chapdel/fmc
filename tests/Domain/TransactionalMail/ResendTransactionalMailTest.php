@@ -49,6 +49,6 @@ function assertMatchingPersons(TransactionalMailLogItem $originalMail, ResendTra
 {
     expect(count($resentMail->to))->toBeGreaterThan(0);
     foreach ($originalMail->$field as $person) {
-        test()->assertTrue(in_array($person['email'], collect($resentMail->$field)->pluck('address')->toArray()));
+        expect(in_array($person['email'], collect($resentMail->$field)->pluck('address')->toArray()))->toBeTrue();
     }
 }

@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\ConditionBuilder\Conditions\Subscribers;
-
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Conditions\Subscribers\SubscriberOpenedAutomationMailQueryCondition;

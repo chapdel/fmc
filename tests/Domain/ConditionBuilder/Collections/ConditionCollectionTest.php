@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\ConditionBuilder\Collections;
-
 use Spatie\Mailcoach\Domain\ConditionBuilder\Collections\ConditionCollection;
 
 it('can get options', function () {

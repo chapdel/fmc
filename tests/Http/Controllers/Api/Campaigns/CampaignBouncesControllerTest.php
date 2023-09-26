@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Campaigns;
-
 use Spatie\Mailcoach\Database\Factories\SendFeedbackItemFactory;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;

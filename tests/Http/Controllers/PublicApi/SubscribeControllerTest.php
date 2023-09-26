@@ -29,10 +29,7 @@ it('can subscribe to an email list without double opt in', function () {
         ->post(action([SubscribeController::class, 'store'], test()->emailList), payloadWithRedirects())
         ->assertRedirect(payloadWithRedirects()['redirect_after_subscribed']);
 
-    test()->assertEquals(
-        SubscriptionStatus::Subscribed,
-        test()->emailList->getSubscriptionStatus(test()->email)
-    );
+    expect(test()->emailList->getSubscriptionStatus(test()->email))->toEqual(SubscriptionStatus::Subscribed);
 });
 
 it('can subscribe to an email list with a honeypot', function () {
@@ -44,10 +41,7 @@ it('can subscribe to an email list with a honeypot', function () {
         ]))
         ->assertRedirect(payloadWithRedirects()['redirect_after_subscribed']);
 
-    test()->assertEquals(
-        SubscriptionStatus::Subscribed,
-        test()->emailList->getSubscriptionStatus(test()->email)
-    );
+    expect(test()->emailList->getSubscriptionStatus(test()->email))->toEqual(SubscriptionStatus::Subscribed);
 });
 
 it('will fake a successful response when the honeypot is filled in', function () {
@@ -282,10 +276,7 @@ it('wont render turnstile when it\'s a json request', function () {
         ->postJson(action([SubscribeController::class, 'store'], test()->emailList), payloadWithRedirects())
         ->assertRedirect(payloadWithRedirects()['redirect_after_subscribed']);
 
-    test()->assertEquals(
-        SubscriptionStatus::Subscribed,
-        test()->emailList->getSubscriptionStatus(test()->email)
-    );
+    expect(test()->emailList->getSubscriptionStatus(test()->email))->toEqual(SubscriptionStatus::Subscribed);
 });
 
 // Helpers

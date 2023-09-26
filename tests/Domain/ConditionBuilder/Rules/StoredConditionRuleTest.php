@@ -1,8 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\ConditionBuilder\Rules;
-
-use Exception;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Rules\StoredConditionRule;
 use Spatie\Mailcoach\Domain\ConditionBuilder\ValueObjects\StoredCondition;

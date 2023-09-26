@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\ConditionBuilder\Actions;
-
 use Spatie\Mailcoach\Database\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Database\Factories\TagFactory;
 use Spatie\Mailcoach\Database\Factories\TagSegmentFactory;
@@ -24,12 +22,12 @@ it('can build a query from a stored condition collection', function () {
 
     $builder = $action->execute(Subscriber::query(), $collection);
 
-    test()->assertFalse($builder->exists());
+    expect($builder->exists())->toBeFalse();
 
     /** @var TagSegment $segment */
     $segment = TagSegmentFactory::new()->create();
 
-    test()->assertFalse($builder->exists());
+    expect($builder->exists())->toBeFalse();
 
     $segment->delete();
 
@@ -42,5 +40,5 @@ it('can build a query from a stored condition collection', function () {
 
     $builder = $action->execute(Subscriber::query(), $collection);
 
-    test()->assertTrue($builder->exists());
+    expect($builder->exists())->toBeTrue();
 });

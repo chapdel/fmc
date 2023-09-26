@@ -20,10 +20,7 @@ it('will set transport id', function () {
 
     $domain = '@'.Str::after($campaignMailable->from[0]['address'], '@');
 
-    test()->assertStringEndsWith(
-        $domain,
-        $send->refresh()->transport_message_id
-    );
+    expect($send->refresh()->transport_message_id)->toEndWith($domain);
 });
 
 it('can send to multiple reply-to users', function () {
@@ -46,7 +43,7 @@ it('can send to multiple reply-to users', function () {
         ->subject('test mail')
         ->build();
 
-    test()->assertSame([
+    expect($campaignMailable->replyTo)->toBe([
         [
             'name' => 'Jan',
             'address' => 'jan@example.com',
@@ -55,5 +52,5 @@ it('can send to multiple reply-to users', function () {
             'name' => 'Piet',
             'address' => 'piet@example.com',
         ],
-    ], $campaignMailable->replyTo);
+    ]);
 });

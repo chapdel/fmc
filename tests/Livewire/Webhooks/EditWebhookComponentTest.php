@@ -26,10 +26,7 @@ it('should sync the selected events on saving', function () {
         ->call('save')
         ->assertHasNoErrors();
 
-    $this->assertEquals(
-        ['SubscribedEvent', 'UnsubscribedEvent'],
-        $this->webhook->fresh()->events->toArray()
-    );
+    expect($this->webhook->fresh()->events->toArray())->toEqual(['SubscribedEvent', 'UnsubscribedEvent']);
 });
 
 it('should update the use_for_all_events flag', function () {
@@ -40,5 +37,5 @@ it('should update the use_for_all_events flag', function () {
         ->call('save')
         ->assertHasNoErrors();
 
-    $this->assertEquals($this->webhook->fresh()->use_for_all_events, true);
+    expect(true)->toEqual($this->webhook->fresh()->use_for_all_events);
 });

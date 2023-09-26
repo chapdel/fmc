@@ -26,10 +26,7 @@ test('a transactional mail will be stored in the db', function () {
 
     $transactionalMail = TransactionalMailLogItem::first();
 
-    test()->assertEquals(
-        [['email' => config('mail.from.address'), 'name' => config('mail.from.name')]],
-        $transactionalMail->from,
-    );
+    expect($transactionalMail->from)->toEqual([['email' => config('mail.from.address'), 'name' => config('mail.from.name')]]);
     expect($transactionalMail->contentItem->subject)->toEqual('This is the subject');
     expect($transactionalMail->contentItem->html)->toContain('This is the content for John Doe');
     expect($transactionalMail->attachments)->toContain('example.pdf');
@@ -57,25 +54,13 @@ it('can store the various recipients', function () {
 
     $transactionalMail = TransactionalMailLogItem::first();
 
-    test()->assertEquals(
-        [['email' => 'ringo@example.com', 'name' => 'Ringo']],
-        $transactionalMail->from,
-    );
+    expect($transactionalMail->from)->toEqual([['email' => 'ringo@example.com', 'name' => 'Ringo']]);
 
-    test()->assertEquals(
-        [['email' => 'john@example.com', 'name' => '']],
-        $transactionalMail->to,
-    );
+    expect($transactionalMail->to)->toEqual([['email' => 'john@example.com', 'name' => '']]);
 
-    test()->assertEquals(
-        [['email' => 'paul@example.com', 'name' => 'Paul']],
-        $transactionalMail->cc,
-    );
+    expect($transactionalMail->cc)->toEqual([['email' => 'paul@example.com', 'name' => 'Paul']]);
 
-    test()->assertEquals(
-        [['email' => 'george@example.com', 'name' => 'George']],
-        $transactionalMail->bcc,
-    );
+    expect($transactionalMail->bcc)->toEqual([['email' => 'george@example.com', 'name' => 'George']]);
 });
 
 test('storing a transactional mail dispatches an event', function () {
@@ -86,7 +71,7 @@ test('storing a transactional mail dispatches an event', function () {
     });
 
     Event::assertDispatched(TransactionalMailStored::class, function (TransactionalMailStored $event) {
-        test()->assertNotNull($event->transactionalMail->id);
+        expect($event->transactionalMail->id)->not->toBeNull();
 
         return $event;
     });

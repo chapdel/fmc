@@ -43,5 +43,5 @@ it('can recalculate the statistics of a single automation mail', function () {
     test()->artisan(CalculateAutomationMailStatisticsCommand::class, ['automationMailId' => $automationMail->id])
         ->assertExitCode(0);
 
-    test()->assertNotNull($automationMail->refresh()->contentItem->statistics_calculated_at);
+    expect($automationMail->refresh()->contentItem->statistics_calculated_at)->not->toBeNull();
 });

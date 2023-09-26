@@ -101,11 +101,11 @@ test('the unsubscribe header is added to the email', function () {
     Event::listen(MessageSent::class, function (MessageSent $event) {
         $subscription = test()->emailList->allSubscribers()->first();
 
-        test()->assertNotNull($event->message->getHeaders()->get('List-Unsubscribe'));
+        expect($event->message->getHeaders()->get('List-Unsubscribe'))->not->toBeNull();
 
         expect($event->message->getHeaders()->get('List-Unsubscribe')->getValue())->toEqual('<'.url(action(UnsubscribeController::class, [$subscription->uuid, Send::first()->uuid])).'>');
 
-        test()->assertNotNull($event->message->getHeaders()->get('List-Unsubscribe-Post'));
+        expect($event->message->getHeaders()->get('List-Unsubscribe-Post'))->not->toBeNull();
 
         expect($event->message->getHeaders()->get('List-Unsubscribe-Post')->getValue())->toEqual('List-Unsubscribe=One-Click');
     });

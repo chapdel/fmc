@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Automation\Support\Actions;
-
 use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\GetIntervalAction;

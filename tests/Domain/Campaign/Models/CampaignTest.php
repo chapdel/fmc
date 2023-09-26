@@ -228,10 +228,7 @@ it('has a scope that can get campaigns sent in a certain period', function () {
         Carbon::createFromFormat('Y-m-d H:i:s', '2019-01-01 17:30:00'),
     )->get();
 
-    test()->assertEquals(
-        [$sentAt1430->id, $sentAt1530->id, $sentAt1630->id],
-        $campaigns->pluck('id')->values()->toArray(),
-    );
+    expect($campaigns->pluck('id')->values()->toArray())->toEqual([$sentAt1430->id, $sentAt1530->id, $sentAt1630->id]);
 });
 
 it('can send out a test email', function () {
@@ -343,10 +340,7 @@ it('doesnt change the doctype', function () {
         </html>',
     ]);
 
-    test()->assertEquals(
-        '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">',
-        explode("\n", $campaign->htmlWithInlinedCss())[0]
-    );
+    expect(explode("\n", $campaign->htmlWithInlinedCss())[0])->toEqual('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">');
 });
 
 it('can inline the styles of the html with custom mailable', function () {

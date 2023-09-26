@@ -143,9 +143,5 @@ test('subscribers can be retrieved by tag', function () {
 function assertSubscriberHasTags(array $expectedTagNames)
 {
     $actualTags = test()->subscriber->refresh()->tags()->pluck('name')->toArray();
-    test()->assertEquals(
-        $actualTags,
-        $expectedTagNames,
-        'Subscriber did not have the expected tags. It currently has '.implode(', ', $actualTags),
-    );
+    expect($expectedTagNames)->toEqual($actualTags, 'Subscriber did not have the expected tags. It currently has '.implode(', ', $actualTags));
 }

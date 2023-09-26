@@ -18,15 +18,15 @@ it('updates an automation mail', function () {
         'utm_tags' => false,
     ]);
 
-    test()->assertEquals([
-        'name' => 'My Automation mail',
-        'subject' => 'A subject',
-        'html' => '<html></html>',
-        'utm_tags' => false,
-    ], [
+    expect([
         'name' => $automationMail->name,
         'subject' => $automationMail->contentItem->subject,
         'html' => $automationMail->contentItem->html,
         'utm_tags' => $automationMail->contentItem->utm_tags,
+    ])->toEqual([
+        'name' => 'My Automation mail',
+        'subject' => 'A subject',
+        'html' => '<html></html>',
+        'utm_tags' => false,
     ]);
 });

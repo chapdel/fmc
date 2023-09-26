@@ -127,10 +127,7 @@ it('can get all clicks', function () {
     $uniqueClicks = $subscriber->uniqueClicks;
     expect($uniqueClicks)->toHaveCount(2);
 
-    test()->assertEquals(
-        ['https://example.com', 'https://another-domain.com'],
-        $uniqueClicks->pluck('link.url')->toArray()
-    );
+    expect($uniqueClicks->pluck('link.url')->toArray())->toEqual(['https://example.com', 'https://another-domain.com']);
 });
 
 it('can scope on campaign sends', function () {

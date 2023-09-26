@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\ConditionBuilder\Collections;
-
 use Spatie\Mailcoach\Domain\ConditionBuilder\Collections\StoredConditionCollection;
 
 use function PHPUnit\Framework\assertInstanceOf;

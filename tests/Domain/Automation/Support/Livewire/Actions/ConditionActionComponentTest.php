@@ -116,7 +116,7 @@ it('emits an event', function () {
         ->assertHasNoErrors()
         ->assertDispatched('actionSaved', function ($event, $params) use ($uuid) {
             expect($params[0])->toBe($uuid);
-            test()->assertSame([
+            expect($params[1])->toBe([
                 'length' => 5,
                 'unit' => 'days',
                 'condition' => HasTagCondition::class,
@@ -125,7 +125,7 @@ it('emits an event', function () {
                 ],
                 'yesActions' => [],
                 'noActions' => [],
-            ], $params[1]);
+            ]);
 
             return true;
         });

@@ -56,10 +56,10 @@ it('can use twig templating for replacers', function () {
 function assertResult(string $inputHtml, $expectedOutputHtml)
 {
     $actualOutputHtml = app(PersonalizeTextAction::class)->execute($inputHtml, test()->send);
-    test()->assertEquals($expectedOutputHtml, $actualOutputHtml, "The personalize action did not produce the expected result. Expected: `{$expectedOutputHtml}`, actual: `{$actualOutputHtml}`");
+    expect($actualOutputHtml)->toEqual($expectedOutputHtml, "The personalize action did not produce the expected result. Expected: `{$expectedOutputHtml}`, actual: `{$actualOutputHtml}`");
 
     $expectedOutputHtmlWithHtmlTags = "<html>{$expectedOutputHtml}</html>";
     $actualOutputHtmlWithHtmlTags = app(PersonalizeTextAction::class)->execute("<html>{$inputHtml}</html>", test()->send);
 
-    test()->assertEquals($expectedOutputHtmlWithHtmlTags, $actualOutputHtmlWithHtmlTags, "The personalize action did not produce the expected result when wrapped in html tags. Expected: `{$expectedOutputHtmlWithHtmlTags}`, actual: `{$actualOutputHtmlWithHtmlTags}`");
+    expect($actualOutputHtmlWithHtmlTags)->toEqual($expectedOutputHtmlWithHtmlTags, "The personalize action did not produce the expected result when wrapped in html tags. Expected: `{$expectedOutputHtmlWithHtmlTags}`, actual: `{$actualOutputHtmlWithHtmlTags}`");
 }

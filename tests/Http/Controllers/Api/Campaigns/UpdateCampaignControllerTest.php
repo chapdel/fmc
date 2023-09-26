@@ -38,18 +38,18 @@ test('a campaign can be updated using the api', function () {
         }
 
         if ($attributeName === 'email_list_uuid') {
-            test()->assertEquals($attributeValue, $campaign->emailList->uuid);
+            expect($campaign->emailList->uuid)->toEqual($attributeValue);
 
             continue;
         }
 
         if (in_array($attributeName, ['html', 'subject'])) {
-            test()->assertEquals($attributeValue, $campaign->contentItem->$attributeName);
+            expect($campaign->contentItem->$attributeName)->toEqual($attributeValue);
 
             continue;
         }
 
-        test()->assertEquals($attributeValue, $campaign->$attributeName);
+        expect($campaign->$attributeName)->toEqual($attributeValue);
     }
 });
 

@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\ConditionBuilder\Actions;
-
 use Spatie\Mailcoach\Domain\ConditionBuilder\Actions\CreateConditionFromKeyAction;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Conditions\Condition;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Exceptions\ConditionException;

@@ -13,25 +13,25 @@ beforeEach(function () {
 
 test('the configured campaign model extends package model', function () {
     $class = test()->email_list->getCampaignClass();
-    test()->assertInstanceOf(Campaign::class, new $class);
+    expect(new $class)->toBeInstanceOf(Campaign::class);
 });
 
 test('the configured email list model extends package model', function () {
     $class = test()->email_list->getEmailListClass();
-    test()->assertInstanceOf(EmailList::class, new $class);
+    expect(new $class)->toBeInstanceOf(EmailList::class);
 });
 
 test('the configured subscriber model extends package model', function () {
     $class = test()->email_list->getSubscriberClass();
-    test()->assertInstanceOf(Subscriber::class, new $class);
+    expect(new $class)->toBeInstanceOf(Subscriber::class);
 });
 
 test('the configured template model extends package model', function () {
     $class = test()->email_list->getTemplateClass();
-    test()->assertInstanceOf(Template::class, new $class);
+    expect(new $class)->toBeInstanceOf(Template::class);
 });
 
 test('the configured send model extends package model', function () {
     $class = test()->email_list->getSendClass();
-    test()->assertInstanceOf(Send::class, new $class);
+    expect(new $class)->toBeInstanceOf(Send::class);
 });

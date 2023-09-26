@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Audience\Models;
-
 use Spatie\Mailcoach\Domain\Audience\Enums\SuppressionReason;
 use Spatie\Mailcoach\Domain\Audience\Models\Suppression;
 

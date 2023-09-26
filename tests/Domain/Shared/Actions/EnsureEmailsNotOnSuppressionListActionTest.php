@@ -1,7 +1,5 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Domain\Shared\Actions;
-
 use Spatie\Mailcoach\Domain\Audience\Models\Suppression;
 use Spatie\Mailcoach\Domain\Shared\Actions\EnsureEmailsNotOnSuppressionListAction;
 use Spatie\Mailcoach\Domain\TransactionalMail\Exceptions\SuppressedEmail;
