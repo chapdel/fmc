@@ -247,6 +247,10 @@ class MailcoachServiceProvider extends PackageServiceProvider
             'transactional_mail' => self::getTransactionalMailClass(),
             'content_item' => self::getContentItemClass(),
         ]);
+
+        foreach (Mailcoach::defaultModels() as $key => $defaultModelClass) {
+            app()->bind($defaultModelClass, config("mailcoach.models.{$key}"));
+        }
     }
 
     public function packageBooted(): void
